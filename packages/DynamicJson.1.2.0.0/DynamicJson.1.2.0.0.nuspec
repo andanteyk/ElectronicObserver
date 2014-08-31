@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>DynamicJson</id>
+    <version>1.2.0.0</version>
+    <title>DynamicJson</title>
+    <authors>neuecc</authors>
+    <owners>neuecc</owners>
+    <licenseUrl>http://dynamicjson.codeplex.com/license</licenseUrl>
+    <projectUrl>http://dynamicjson.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>dynamic json structure for C# 4.0. This provides only single .cs file.</description>
+    <summary>dynamic json structure for C# 4.0. This provides only single .cs file.</summary>
+    <tags>json dynamic</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
