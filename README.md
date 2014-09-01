@@ -1,14 +1,13 @@
 ﻿
-## 七四式電子観測儀 / Electronic Observer
+## 七四式電子観測儀 / Type-74 Electronic Observer
 ---
 
-*開発中です*  
-*テスト中*
+現在鋭意開発中の艦これ用ブラウザです。  
 
 ### 使用しているライブラリ
 ---
 
-* [DynamicJson](http://dynamicjson.codeplex.com/)
+* [DynamicJson](http://dynamicjson.codeplex.com/) 
 * [DockPanel Suite](http://dockpanelsuite.com/)
 * [FiddlerCore](http://www.telerik.com/fiddler/fiddlercore)
 
