@@ -10,26 +10,32 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 装備のマスターデータを保持します。
 	/// </summary>
-	public class EquipmentDataMaster : IResponseLoader {
+	public class EquipmentDataMaster : IIdentifiable, IResponseLoader {
 
-		public int EquipmentID { get; set; }
-		public int SortID { get; set; }
-		public string Name { get; set; }
+		public int EquipmentID { get; private set; }
+		public int SortID { get; private set; }
+		public string Name { get; private set; }
 
 		public int[] EquipmentType;
 
-		public ParameterBase Param { get; set; }
+		public ParameterBase Param { get; private set; }
 
-		public EquipmentRarity Rarity { get; set; }
+		public EquipmentRarity Rarity { get; private set; }
 		
 		public int[] Material;
 		
-		public string Message { get; set; }
+		public string Message { get; private set; }
 
 
-		public bool LoadFromResponse( dynamic data ) {
+		public int ID {
+			get { return EquipmentID; }
+		}
+
+		public bool LoadFromResponse( string apiname, dynamic data ) {
 			throw new NotImplementedException();
 		}
+
+		
 	}
 
 }

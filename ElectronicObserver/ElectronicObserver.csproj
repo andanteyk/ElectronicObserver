@@ -57,15 +57,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\AdmiralData.cs" />
     <Compile Include="Data\Constants.cs" />
-    <Compile Include="Data\Database.cs" />
     <Compile Include="Data\EquipmentData.cs" />
     <Compile Include="Data\EquipmentDataMaster.cs" />
+    <Compile Include="Data\EquipmentType.cs" />
+    <Compile Include="Data\IDDictionary.cs" />
+    <Compile Include="Data\IIdentifiable.cs" />
     <Compile Include="Data\IRequestLoader.cs" />
     <Compile Include="Data\IResponseLoader.cs" />
+    <Compile Include="Data\KCDatabase.cs" />
     <Compile Include="Data\ParameterBase.cs" />
     <Compile Include="Data\ShipData.cs" />
     <Compile Include="Data\ShipDataMaster.cs" />
+    <Compile Include="Data\ShipType.cs" />
     <Compile Include="DynamicJson.cs" />
     <Compile Include="Form\FormMain.cs">
       <SubType>Form</SubType>
@@ -101,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\kcsapi\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

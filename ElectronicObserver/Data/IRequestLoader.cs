@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data {
 
-
+	/// <summary>
+	/// Requestを傍受し、データを更新できることを示します。
+	/// </summary>
 	public interface IRequestLoader {
-		bool LoadFromRequest( string data );
+		bool LoadFromRequest( string apiname, Dictionary<string, string> data );
 	}
 
 }

@@ -9,13 +9,25 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 個別の装備データを保持します。
 	/// </summary>
-	class EquipmentData : IResponseLoader {
+	public class EquipmentData : IIdentifiable, IResponseLoader {
 
-		public int MasterID { get; set; }
-		public int EquipmentID { get; set; }
+		/// <summary>
+		/// 装備を一意に識別するID
+		/// </summary>
+		public int MasterID { get; private set; }
+
+		/// <summary>
+		/// 装備ID
+		/// </summary>
+		public int EquipmentID { get; private set; }
 
 
-		public bool LoadFromResponse( dynamic data ) {
+
+		public int ID {
+			get { return MasterID; }
+		}
+
+		public bool LoadFromResponse( string apiname, dynamic data ) {
 			throw new NotImplementedException();
 		}
 	}

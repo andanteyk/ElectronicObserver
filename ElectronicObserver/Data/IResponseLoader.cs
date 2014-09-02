@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Data {
 	
 
+	/// <summary>
+	/// Responseを傍受し、データを更新できることを示します。
+	/// </summary>
 	public interface IResponseLoader {
-		bool LoadFromResponse( dynamic data );
+		bool LoadFromResponse( string apiname, dynamic data );
 	}
 
 

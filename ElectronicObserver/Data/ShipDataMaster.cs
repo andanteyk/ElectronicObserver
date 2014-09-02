@@ -10,59 +10,134 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 艦船のマスターデータを保持します。
 	/// </summary>
-	public class ShipDataMaster : IResponseLoader {
+	public class ShipDataMaster : IIdentifiable, IResponseLoader {
 
-		public int ShipID { get; set; }
+		/// <summary>
+		/// 艦船ID
+		/// </summary>
+		public int ShipID { get; private set; }
 
-		public int SortID { get; set; }
+		/// <summary>
+		/// 並べ替え順
+		/// </summary>
+		public int SortID { get; private set; }
 
-		public string Name { get; set; }
+		/// <summary>
+		/// 名前
+		/// </summary>
+		public string Name { get; private set; }
 
-		public string NameReading { get; set; }
+		/// <summary>
+		/// 読み
+		/// </summary>
+		public string NameReading { get; private set; }
 
 		//TODO:shiptype
 
-		public int RemodelAfterLevel { get; set; }
+		/// <summary>
+		/// 改装Lv.
+		/// </summary>
+		public int RemodelAfterLevel { get; private set; }
 
 		//参照にしてもいいかも
-		public int RemodelAfterShipID { get; set; }
+		/// <summary>
+		/// 改装後の艦船ID
+		/// </summary>
+		public int RemodelAfterShipID { get; private set; }
 
-		public int RemodelBeforeShipID { get; set; }
+		/// <summary>
+		/// 改装前の艦船ID
+		/// </summary>
+		public int RemodelBeforeShipID { get; private set; }
 
-		public int RemodelAmmo { get; set; }
-		public int RemodelSteel { get; set; }
+		/// <summary>
+		/// 改装に必要な燃料
+		/// </summary>
+		public int RemodelAmmo { get; private set; }
 
-		public ParameterBase Param { get; set; }
+		/// <summary>
+		/// 改装に必要な鋼材
+		/// </summary>
+		public int RemodelSteel { get; private set; }
 
-		public ShipSpeed Speed { get; set; }
+		/// <summary>
+		/// パラメータ
+		/// </summary>
+		public ParameterBase Param { get; private set; }
 
-		public int SlotSize { get; set; }
+		/// <summary>
+		/// 速力
+		/// </summary>
+		public ShipSpeed Speed { get; private set; }
+
+		/// <summary>
+		/// 装備スロットの数
+		/// </summary>
+		public int SlotSize { get; private set; }
 
 		//TODO:propertize
+		/// <summary>
+		/// 各スロットの航空機搭載数
+		/// </summary>
 		public int[] Aircraft;
 
-		//TODO:Default Equipments
+		/// <summary>
+		/// 初期装備のID
+		/// </summary>
+		public int[] DefaultSlot;
 
-		public int BuildingTime { get; set; }
+		/// <summary>
+		/// 建造時間(分)
+		/// </summary>
+		public int BuildingTime { get; private set; }
 
 		//TODO:propertize
+		/// <summary>
+		/// 解体資材
+		/// </summary>
 		public int[] Material;
 
+		/// <summary>
+		/// 近代化改修の素材にしたとき上昇するパラメータの量
+		/// </summary>
 		public int[] PowerUp;
 
-		public ShipRarity Rarity { get; set; }
+		/// <summary>
+		/// レアリティ
+		/// </summary>
+		public ShipRarity Rarity { get; private set; }
 
-		public string MessageGet { get; set; }
+		/// <summary>
+		/// ドロップ/ログイン時のメッセージ
+		/// </summary>
+		public string MessageGet { get; private set; }
 
-		public string MessageDict { get; set; }
+		/// <summary>
+		/// 艦船名鑑でのメッセージ
+		/// </summary>
+		public string MessageDict { get; private set; }
 
-		public int Fuel { get; set; }
-		public int Ammo { get; set; }
+		/// <summary>
+		/// 搭載燃料
+		/// </summary>
+		public int Fuel { get; private set; }
+		
+		/// <summary>
+		/// 搭載弾薬
+		/// </summary>
+		public int Ammo { get; private set; }
 
 
-		public bool LoadFromResponse( dynamic data ) {
+
+		public int ID {
+			get { return ShipID; }
+		}
+
+		public bool LoadFromResponse( string apiname, dynamic data ) {
 			throw new NotImplementedException();
 		}
+
+		
 	}
 
 

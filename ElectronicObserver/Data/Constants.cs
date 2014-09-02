@@ -44,6 +44,9 @@ namespace ElectronicObserver.Data {
 	}
 
 
+	/// <summary>
+	/// 装備のレアリティ
+	/// </summary>
 	public enum EquipmentRarity {
 		Common,
 		Rare,
@@ -52,4 +55,21 @@ namespace ElectronicObserver.Data {
 		RainbowSS,
 		RainbowEx,
 	}
+
+
+	/// <summary>
+	/// 提督の階級
+	/// </summary>
+	public enum HQRank {
+		MarshalAdmiral = 1,
+		Admiral,
+		ViceAdmiral,
+		RearAdmiral,
+		Captain,
+		Commander,
+		LieutenantCommander,
+		MiddleCommander,
+		NoviceCommander,
+	}
+
 }

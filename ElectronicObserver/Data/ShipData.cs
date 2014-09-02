@@ -9,55 +9,113 @@ namespace ElectronicObserver.Data {
 
 
 	/// <summary>
-	/// 個別の艦船データを保持します。
+	/// 個別の艦娘データを保持します。
 	/// </summary>
-	public class ShipData : IResponseLoader {
+	public class ShipData : IIdentifiable, IResponseLoader {
 
 		//マスターデータか何かに定義しておくといいかも
 		//public static const int SlotMax = 5;
 
 
-		public int MasterID { get; set; }
+		/// <summary>
+		/// 艦娘を一意に識別するID
+		/// </summary>
+		public int MasterID { get; private set; }
 
-		public int SortID { get; set; }
+		/// <summary>
+		/// 並べ替えの順番
+		/// </summary>
+		public int SortID { get; private set; }
 
-		public int ShipID { get; set; }
+		/// <summary>
+		/// 艦船ID
+		/// </summary>
+		public int ShipID { get; private set; }
 
-		public int Level { get; set; }
+		/// <summary>
+		/// レベル
+		/// </summary>
+		public int Level { get; private set; }
 
-		public int ExpTotal { get; set; }
+		/// <summary>
+		/// 累積経験値
+		/// </summary>
+		public int ExpTotal { get; private set; }
 
-		public int ExpNext { get; set; }
+		/// <summary>
+		/// 次のレベルに達するために必要な経験値
+		/// </summary>
+		public int ExpNext { get; private set; }
 
-		public ParameterBase Param { get; set; }
-
-		//TODO: slotitem
+		/// <summary>
+		/// パラメータ
+		/// </summary>
+		public ParameterBase Param { get; private set; }
 
 		//TODO: propertize
+		/// <summary>
+		/// 装備スロット
+		/// </summary>
+		public EquipmentData[] Slot;
+
+		//TODO: propertize
+		/// <summary>
+		/// 各スロットの航空機搭載量
+		/// </summary>
 		public Fraction[] Aircraft;
 
-		public Fraction Fuel { get; set; }
+		/// <summary>
+		/// 搭載燃料
+		/// </summary>
+		public Fraction Fuel { get; private set; }
 
-		public Fraction Ammo { get; set; }
+		/// <summary>
+		/// 搭載弾薬
+		/// </summary>
+		public Fraction Ammo { get; private set; }
 
-		public int RepairTime { get; set; }
+		/// <summary>
+		/// 入渠にかかる時間
+		/// </summary>
+		public int RepairTime { get; private set; }
 
-		public int RepairSteel { get; set; }
+		/// <summary>
+		/// 入渠にかかる鋼材
+		/// </summary>
+		public int RepairSteel { get; private set; }
 		
-		public int RepairFuel { get; set; }
+		/// <summary>
+		/// 入渠にかかる燃料
+		/// </summary>
+		public int RepairFuel { get; private set; }
 
-		public int Condition { get; set; }
+		/// <summary>
+		/// コンディション
+		/// </summary>
+		public int Condition { get; private set; }
 
-		public bool IsLocked { get; set; }
+		/// <summary>
+		/// 保護ロックの有無
+		/// </summary>
+		public bool IsLocked { get; private set; }
 
-		public int SallyArea { get; set; }
+		/// <summary>
+		/// 出撃海域
+		/// 備考：2014/09/02現在、この値は削除されています
+		/// </summary>
+		public int SallyArea { get; private set; }
 
 
 
+		public int ID {
+			get { return MasterID; }
+		}
 
-		public bool LoadFromResponse( dynamic data ) {
+		public bool LoadFromResponse( string apiname, dynamic data ) {
 			throw new NotImplementedException();
 		}
+
+		
 	}
 
 
