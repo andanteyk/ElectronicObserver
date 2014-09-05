@@ -38,6 +38,10 @@ namespace ElectronicObserver.Utility.Mathematics {
 			p_num = p_den = 0;
 		}
 
+		public Fraction( int value ) {
+			p_num = p_den = value;
+		}
+
 		public Fraction( int numerator, int denominator ) {
 			p_num = numerator;
 			p_den = denominator;

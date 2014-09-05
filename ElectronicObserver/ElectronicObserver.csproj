@@ -67,6 +67,11 @@
     <Compile Include="Data\IRequestLoader.cs" />
     <Compile Include="Data\IResponseLoader.cs" />
     <Compile Include="Data\KCDatabase.cs" />
+    <Compile Include="Data\UseItem.cs" />
+    <Compile Include="Data\UseItemMaster.cs" />
+    <Compile Include="Observer\APIObserver.cs" />
+    <Compile Include="Observer\kcsapi\api_start2.cs" />
+    <Compile Include="Observer\ResponseReceivedEventArgs.cs" />
     <Compile Include="Data\ParameterBase.cs" />
     <Compile Include="Data\ShipData.cs" />
     <Compile Include="Data\ShipDataMaster.cs" />
@@ -107,9 +112,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\kcsapi\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

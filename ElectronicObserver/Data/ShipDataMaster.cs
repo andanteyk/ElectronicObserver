@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,11 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public string NameReading { get; private set; }
 
-		//TODO:shiptype
+		/// <summary>
+		/// 艦種
+		/// </summary>
+		public int ShipType { get; private set; }
+
 
 		/// <summary>
 		/// 改装Lv.
@@ -61,6 +66,12 @@ namespace ElectronicObserver.Data {
 		public int RemodelSteel { get; private set; }
 
 		/// <summary>
+		/// 改装に改装設計図が必要かどうか
+		/// </summary>
+		public int NeedBlueprint { get; private set; }
+
+
+		/// <summary>
 		/// パラメータ
 		/// </summary>
 		public ParameterBase Param { get; private set; }
@@ -75,32 +86,44 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int SlotSize { get; private set; }
 
-		//TODO:propertize
+		private List<int> _aircraft;
 		/// <summary>
 		/// 各スロットの航空機搭載数
 		/// </summary>
-		public int[] Aircraft;
+		public ReadOnlyCollection<int> Aircraft {
+			get { return _aircraft.AsReadOnly(); }
+		}
 
+		private List<int> _defaultSlot;
 		/// <summary>
 		/// 初期装備のID
 		/// </summary>
-		public int[] DefaultSlot;
+		public ReadOnlyCollection<int> DefaultSlot {
+			get { return _defaultSlot.AsReadOnly(); }
+		}
+
 
 		/// <summary>
 		/// 建造時間(分)
 		/// </summary>
 		public int BuildingTime { get; private set; }
 
-		//TODO:propertize
+
+		private List<int> _material;
 		/// <summary>
 		/// 解体資材
 		/// </summary>
-		public int[] Material;
+		public ReadOnlyCollection<int> Material {
+			get { return _material.AsReadOnly(); }
+		}
 
+		private List<int> _powerup;
 		/// <summary>
 		/// 近代化改修の素材にしたとき上昇するパラメータの量
 		/// </summary>
-		public int[] PowerUp;
+		public ReadOnlyCollection<int> PowerUp {
+			get { return _powerup.AsReadOnly(); }
+		}
 
 		/// <summary>
 		/// レアリティ
@@ -129,12 +152,72 @@ namespace ElectronicObserver.Data {
 
 
 
+		public ShipDataMaster()
+			: this( 0 ) {
+		}
+
+		public ShipDataMaster( int id ) {
+			ShipID = id;
+		}
+
+
 		public int ID {
 			get { return ShipID; }
 		}
 
+
 		public bool LoadFromResponse( string apiname, dynamic data ) {
-			throw new NotImplementedException();
+
+			ShipID = data.api_id;
+			SortID = data.api_sortno;
+			Name = data.api_name;
+			NameReading = data.api_yomi;
+			ShipType = data.api_stype;
+			
+			RemodelAfterLevel = data.api_afterlv;
+			RemodelAfterShipID = int.Parse( data.api_aftershipid );
+
+			Param.HP.Value = data.api_taik[0];
+			Param.HP.Max = data.api_taik[1];
+			Param.Armor.Value = data.api_souk[0];
+			Param.Armor.Max = data.api_souk[1];
+			Param.Firepower.Value = data.api_houg[0];
+			Param.Firepower.Max = data.api_houg[1];
+			Param.Torpedo.Value = data.api_raig[0];
+			Param.Torpedo.Max = data.api_raig[1];
+			Param.AA.Value = data.api_tyku[0];
+			Param.AA.Max = data.api_tyku[1];
+			Param.ASW.Value = data.api_tais[0];
+			Param.ASW.Max = data.api_tais[1];
+			Param.Evasion.Value = data.api_kaih[0];
+			Param.Evasion.Max = data.api_kaih[1];
+			Param.LOS.Value = data.api_saku[0];
+			Param.LOS.Max = data.api_saku[1];
+			Param.Luck.Value = data.api_luck[0];
+			Param.Luck.Max = data.api_luck[1];
+			Speed = (ShipSpeed)( (int)data.api_sokuh );
+			Param.Range = (ShipRange)( (int)data.api_leng );
+
+			SlotSize = data.api_slot_num;
+			_aircraft = new List<int>( (int[])data.api_maxeq );
+			_defaultSlot = new List<int>( (int[])data.api_defeq );
+
+			BuildingTime = data.api_buildtime;
+			_material = new List<int>( (int[])data.api_broken );
+			_powerup = new List<int>( (int[])data.api_powup );
+
+			Rarity = (ShipRarity)( (int)data.api_backs );
+
+			MessageGet = data.api_getmes;
+			MessageDict = data.api_sinfo;
+
+			RemodelSteel = data.api_afterfuel;
+			RemodelAmmo = data.api_afterbull;
+
+			Fuel = data.api_fuel_max;
+			Ammo = data.api_bull_max;
+
+			return true;
 		}
 
 		
