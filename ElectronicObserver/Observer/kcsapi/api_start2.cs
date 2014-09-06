@@ -39,6 +39,15 @@ namespace ElectronicObserver.Observer.kcsapi {
 				db.ShipTypes[stype.api_id].LoadFromResponse( apiName, stype );
 			}
 
+			//api_mst_slotitem
+			foreach ( var item in data.api_mst_slotitem ) {
+				if ( db.MasterEquipments[item.api_id] == null )
+					db.MasterEquipments.Add( new EquipmentDataMaster( item.api_id ) );
+
+				db.MasterEquipments[item.api_id].LoadFromResponse( apiName, item );
+			}
+
+
 		}
 	}
 
