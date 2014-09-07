@@ -247,7 +247,7 @@ api_start2	：艦娘・装備固有データその他
 		api_return_flag	：遠征中止可否
 	
 	api_mst_const		：母港サイズ
-		api_boko_max_ships	：
+		api_boko_max_ships		：
 			api_string_value	：
 			api_int_value		：母港サイズ
 			
@@ -365,7 +365,7 @@ api_get_member/slot_item	：装備品情報
 
 
 api_get_member/unsetslot	：未装備武器のカテゴリ分け？
-	api_slottype<id>	:id=装備カテゴリID
+	api_slottype<id>		：id=装備カテゴリ
 		装備固有ID？
 
 
@@ -380,6 +380,48 @@ api_get_member/useitem		：アイテム情報
 	api_price			：(0)
 	api_count			：所有個数
 
+
+api_get_member/kdock		：工廠ドック
+	api_member_id			：
+	api_id					：ドック番号
+	api_state				：状態 -1=ロック, 0=空, 2=建造中, 3=完成
+	api_created_ship_id		：建造艦ID
+	api_complete_time		：建造完了時間 0=空き|完了済み
+	api_complete_time_str	：建造完了日時
+	api_item1				：投入燃料
+	api_item2				：投入弾薬
+	api_item3				：投入鋼材
+	api_item4				：投入ボーキサイト
+	api_item5				：投入開発資材
+
+Request.api_req_kousyou/createship	：建造開始
+	api_kdock_id		：工廠ドックID
+	api_highspeed		：高速建造フラグ
+	api_large_flag		：大型艦建造フラグ
+	api_item1			：投入燃料
+	api_item2			：投入弾薬
+	api_item3			：投入鋼材
+	api_item4			：投入ボーキサイト
+	api_item5			：投入開発資材
+
+api_req_kousyou/createship			：建造開始
+	(情報なし)
+
+Request.api_req_kousyou/createship_speedchage	：高速建造材使用
+	api_highspeed		：使用フラグ？
+	api_kdock_id		：工廠ドックID
+
+api_req_kousyou/createship_speedchage			：高速建造材使用
+	(情報なし)
+
+api_req_kousyou/getship		：建造した艦娘を受け取る
+	api_id				：艦船固有ID
+	api_ship_id			：艦船ID
+	api_kdock			：工廠データ　kdock参照
+	api_ship			：建造艦データ　構成は port.api_ship と同じ
+	api_slotitem		：初期装備のデータ
+		api_id			：装備固有ID
+		api_slotitem_id	：装備ID
 
 Request.api_req_kousyou/createitem	：装備開発
 	api_item1			：投入燃料
@@ -404,44 +446,6 @@ api_req_kousyou/createitem	：装備開発(失敗)
 	api_material		：各種資源量
 
 
-getship		：艦娘建造？
-	api_id				：艦船固有ID
-	api_ship_id			：艦船ID
-	api_kdock			：工廠データ　kdock参照
-	api_ship			：艦船データ　構成は port.api_ship と同じ
-	api_slotitem		：初期装備のデータ
-		api_id			：装備固有ID
-		api_slotitem_id	：装備ID
-
-
-Request.api_req_kousyou/createship	：建造開始
-	api_kdock_id		：工廠ドックID
-	api_highspeed		：高速建造フラグ
-	api_large_flag		：大型艦建造フラグ
-	api_item1			：投入燃料
-	api_item2			：投入弾薬
-	api_item3			：投入鋼材
-	api_item4			：投入ボーキサイト
-	api_item5			：投入開発資材
-
-api_req_kousyou/createship			：建造開始
-	(情報なし)
-
-
-api_get_member/kdock		：工廠ドック
-	api_member_id			：
-	api_id					：ドック番号
-	api_state				：状態 -1=ロック, 0=空, 2=建造中, 3=完成
-	api_created_ship_id		：建造艦ID
-	api_complete_time		：建造完了時間 0=空き|完了済み
-	api_complete_time_str	：建造完了日時
-	api_item1				：投入燃料
-	api_item2				：投入弾薬
-	api_item3				：投入鋼材
-	api_item4				：投入ボーキサイト
-	api_item5				：投入開発資材
-
-
 api_get_member/ndock		：入渠ドック
 	api_member_id			：
 	api_id					：ドック番号
@@ -453,6 +457,21 @@ api_get_member/ndock		：入渠ドック
 	api_item2				：消費弾薬(0)
 	api_item3				：消費鋼材
 	api_item4				：消費ボーキサイト(0)
+
+Request.api_req_nyukyo/start	：入渠開始
+	api_highspeed		：高速修復フラグ
+	api_ship_id			：対象艦船ID
+	api_ndock_id		：入渠ドックID
+
+api_req_nyukyo/start			：入渠開始
+	(情報なし)	
+
+Request.api_req_nyukyo/speedchange	：バケツ使用
+	api_ndock_id		：入渠ドックID
+
+api_req_nyukyo/speedchange			：バケツ使用
+	(情報なし)
+
 
 api_get_member/mission	：遠征達成状況
 	api_mission_id		：遠征ID
@@ -600,7 +619,7 @@ api_req_hokyu/charge	：補給
 		api_bull		：弾薬の現在値
 		api_onslot		：艦載機搭載数
 	api_material		：現在の各資源量
-	api_use_bou			：ボーキサイト消費フラグ？
+	api_use_bou			：ボーキサイト消費量
 
 
 Request.api_req_mission/start	：遠征開始
@@ -609,7 +628,7 @@ Request.api_req_mission/start	：遠征開始
 	api_mission			：
 
 api_req_mission/start	：遠征開始
-	api_complatetime	：帰投時間
+	api_complatetime	：帰投時間　スペルに注意
 	api_complatetime_str：帰投日時
 
 
@@ -618,19 +637,9 @@ api_get_member/deck		：艦隊情報
 	api_id				：艦隊番号
 	api_name			：艦隊名
 	api_name_id			：
-	api_mission			：遠征状況
-							[0]={0=未出撃, 1=遠征中, 2=遠征帰投, 3=強制帰投中}, [1]=遠征先ID, [2]=帰投時間, [3]=0
+	api_mission			：遠征状況	[0]={0=未出撃, 1=遠征中, 2=遠征帰投, 3=強制帰投中}, [1]=遠征先ID, [2]=帰投時間, [3]=0
 	api_flagship		：
 	api_ship			：所属艦船ID　空きは-1
-
-
-Request.api_req_nyukyo/start	：入渠開始
-	api_highspeed		：高速修復フラグ
-	api_ship_id			：対象艦船ID
-	api_ndock_id		：入渠ドックID
-
-api_req_nyukyo/start			：入渠開始
-	(情報なし)	
 
 
 Request.api_req_hensei/change		：艦隊編成変更
@@ -780,7 +789,7 @@ api_req_practice/battle	：演習　＊通常戦闘とほぼ同じ、この項�
 	api_raigeki		：雷撃戦　開幕雷撃戦に同じ
 
 api_req_practice/midnight_battle		：演習夜戦　＊
-	api_deck_id			：こちらの出撃艦隊ID 文字列
+	api_deck_id			：こちらの出撃艦隊ID
 	api_nowhps			：味方/敵艦船の現在HP -1から始まる
 	api_ship_ke			：敵艦船ID -1から始まる
 	api_ship_lv			：敵艦船Lv.
@@ -827,16 +836,20 @@ Request.api_req_kaisou/slotset	：装備換装
 api_req_kaisou/slotset			：装備換装
 	(情報なし)
 
-
 Request.api_req_kaisou/unsetslot_all	：装備全解除
 	api_id				：艦船ID
 	
 api_req_kaisou/unsetslot_all			：装備全解除
 	(情報なし)
 
+Request.api_req_kaisou/remodeling	：改装
+	api_id				：艦船ID
+
+api_req_kaisou/remodeling			：改装
+	(情報なし)
 
 api_get_member/ship3	：装備換装時に呼ばれる
-	api_ship_data		：portと同等
+	api_ship_data		：対象艦のデータ　portと同等
 	api_deck_data		：deckと同等
 	api_slot_data		：unsetslotと同等
 
@@ -847,15 +860,15 @@ api_get_member/mapcell		：マップデータ
 
 
 api_req_map/start		：出撃
-	api_rashin_flg		：
-	api_rashin_id		：2=桃の髪飾り
-	api_maparea_id		：海域ID
-	api_mapinfo_no		：〃
-	api_no				：
-	api_color_no		：次のセルの色?　4=赤
+	api_rashin_flg		：羅針盤を表示するかどうか
+	api_rashin_id		：妖精さん　1=眠そう, 2=桃の髪飾り, 3=ひよこ, 4=魔法使い
+	api_maparea_id		：海域カテゴリID
+	api_mapinfo_no		：海域カテゴリ内番号
+	api_no				：次に向かうセルのID
+	api_color_no		：次のセルの色　api_mst_mapcell参照
 	api_event_id		：イベント　api_mst_mapcell参照
-	api_event_kind		：イベント種別?　1=戦闘
-	api_next			：次に向かうセル
+	api_event_kind		：イベント種別?　0=資源? 1=戦闘
+	api_next			：? 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？
 	api_eventmap		：イベント海域ゲージ情報
@@ -869,15 +882,15 @@ api_req_map/start		：出撃
 
 
 api_req_map/next		：進撃
-	api_rashin_flg		：羅針盤が出るかどうか
-	api_rashin_id		：
+	api_rashin_flg		：羅針盤を表示するかどうか
+	api_rashin_id		：妖精さん　1=眠そう, 2=桃の髪飾り, 3=ひよこ, 4=魔法使い
 	api_maparea_id		：海域カテゴリID(2-3でいう2)
 	api_mapinfo_no		：海域カテゴリ内番号(2-3でいう3)
-	api_no				：現在地？
+	api_no				：次に向かうセルのID
 	api_color_no		：次のセルの色?　4=赤
 	api_event_id		：イベント　api_mst_mapcell参照
-	api_event_kind		：イベント種別?　0=気のせいだった, 1=戦闘
-	api_next			：次に向かうセル？0になることあり
+	api_event_kind		：イベント種別?　0=資源?, 1=戦闘, 2=資源?
+	api_next			：? 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？
 	api_comment_kind	：
@@ -889,8 +902,13 @@ api_req_map/next		：進撃
 	api_enemy			：次が戦闘マスのときのみ存在
 		api_enemy_id	：敵艦隊ID？
 		api_result		：
-		api_result_str	：start war
-
+		api_result_str	："start war"
+	api_itemget			：次が資源マスのときのみ存在
+		api_usemst		：4
+		api_id			：1=燃料, 2=弾薬
+		api_getcount	：入手資源量
+		api_name		：""
+		api_icon_id		：1=燃料, 2=弾薬
 
 api_req_sortie/battle	：戦闘(昼戦)
 	api_dock_id			：こちらの出撃艦隊ID
@@ -927,19 +945,37 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_erai_flag	：敵被雷撃フラグ
 			api_fbak_flag	：味方被爆撃フラグ
 			api_ebak_flag	：敵被爆撃フラグ
-			api_fcl_flag	：味方クリティカルフラグ? 0=爆撃命中?, 1=命中
+			api_fcl_flag	：味方クリティカルフラグ? 0=命中?, 1=クリティカル?
 			api_ecl_flag	：敵クリティカルフラグ? 攻撃側にフラグが立つ
 			api_fdam		：味方被ダメージ　庇われると+0.1
 			api_edam		：敵被ダメージ
-	api_support_flag	：支援艦隊フラグ　0=到着せず, 1=空撃?, 2=砲撃, 3=雷撃?
+	api_support_flag	：支援艦隊フラグ　0=到着せず, 1=空撃, 2=砲撃, 3=雷撃
 	api_support_info	：支援艦隊情報
-		api_support_airattack	：空撃情報?
+		api_support_airattack	：空撃情報
+			api_deck_id			：艦隊ID
+			api_ship_id			：艦船固有ID
+			api_undressing_flag	：中破グラフィックフラグ 0=通常, 1=中破 なお適用はバナーのみで、旗艦グラフィックは変わらない
+			api_stage_flag		：>航空戦
+			api_plane_from		：艦載機を飛ばせる艦(敵のみ, 7-12)
+			api_stage1			：航空戦stage1に同じ
+				api_f_count		：
+				api_f_lostcount	：
+				api_e_count		：
+				api_e_lostcount	：
+			api_stage2			：航空戦stage2に同じ
+				api_f_count		：
+				api_f_lostcount	：
+			api_stage3			：航空戦stage3に同じ
+				api_erai_flag	：
+				api_ebak_flag	：
+				api_ecl_flag	：0=爆撃通常(ミス|命中), 1=爆撃クリティカル
+				api_edam		：
 		api_support_hourai		：砲雷撃情報
 			api_deck_id			：艦隊ID
 			api_ship_id			：艦船固有ID
-			api_undressing_flag	：中破フラグ？
-			api_cl_list			：クリティカル判定?　0=砲撃通常, 1=砲撃クリティカル|雷撃通常, 2=雷撃クリティカル?
-			api_damage			：敵被ダメージ
+			api_undressing_flag	：中破グラフィックフラグ
+			api_cl_list			：クリティカル判定?　0=砲撃通常, 1=砲撃クリティカル|雷撃命中, 2=雷撃クリティカル　-1から
+			api_damage			：敵被ダメージ　-1から
 	api_opening_flag	：開幕雷撃フラグ
 	api_opening_atack	：開幕雷撃戦 *スペルミスあり、注意
 		api_frai		：雷撃ターゲット
@@ -948,16 +984,16 @@ api_req_sortie/battle	：戦闘(昼戦)
 		api_edam		：
 		api_fydam		：与ダメージ
 		api_eydam		：
-		api_fcl			：クリティカルヒット？0=ミス?, 1=命中? 2=クリティカル?
+		api_fcl			：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
 		api_ecl			：攻撃側に記述される
 	api_hourai_flag	：砲雷撃戦フラグ
 	api_hougeki1	：砲撃戦1巡目　api_hourai_flag[0]=0だとnull
 		api_at_list		：行動順
-		api_at_type		：弾着観測砲撃　0=通常, 2=連撃, 6=徹甲弾カットイン
+		api_at_type		：特殊砲撃　0=通常, 2=連撃, 6=徹甲弾カットイン
 		api_df_list		：防御側ID　-1から始まる　連撃は2個
-		api_si_list		：表示装備ID　カットインだと[0]=偵察機, [1]=砲, [2]=砲|電探|その他, 連撃だと[0]=装備1, [1]=装備2, 通常砲撃は[0]=装備1 非表示は-1
+		api_si_list		：表示装備ID　カットインだと[0]=偵察機, [1]=砲, [2]=砲|電探|その他, 連撃だと[0]=装備1, [1]=装備2, 通常砲撃は[0]=装備1, etc. 非表示は-1
 							注：爆雷や艦載機など、本来表示されない装備が含まれていることがある
-		api_cl_list		：クリティカルフラグ? 0=ミス, 1=命中, 2=クリティカル
+		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
 		api_damage		：ダメージ(実ダメージ)
 	api_hougeki2	：砲撃戦2巡目　上に同じ
 	api_hougeki3	：(null)
@@ -965,7 +1001,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 
 
 api_req_battle_midnight/battle		：戦闘(夜戦)
-	api_deck_id			：こちらの出撃艦隊ID 文字列
+	api_deck_id			：こちらの出撃艦隊ID "deck"と文字列型であることに注意
 	api_nowhps			：味方/敵艦船の現在HP -1から始まる
 	api_ship_ke			：敵艦船ID -1から始まる
 	api_ship_lv			：敵艦船Lv. -1から
@@ -981,7 +1017,7 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 		api_df_list		：防御側ID　-1から始まる　連撃は2個
 		api_si_list		：表示装備ID 昼戦のそれに準ずる 非表示は-1
 		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
-		api_sp_list		：昼戦のapi_at_typeにあたる？夜戦攻撃種別？
+		api_sp_list		：夜戦攻撃種別 1=連撃?
 		api_damage		：ダメージ(実ダメージ)
 
 
@@ -996,7 +1032,7 @@ api_req_sortie/battleresult	：戦闘結果
 	api_get_ship_exp		：各艦の獲得経験値
 	api_get_exp_lvup		：各艦の[0]獲得前経験値, [1]次のレベルの経験値, (レベルアップしたなら)[2]その次のレベルの経験値, ...
 	api_dests				：敵艦撃沈数？
-	api_destsf				：旗艦撃沈？
+	api_destsf				：旗艦撃沈フラグ？
 	api_lost_flag			：味方艦撃沈フラグ？
 	api_quest_name			：出撃海域名
 	api_quest_level			：難易度？
@@ -1059,7 +1095,7 @@ api_req_combined_battle/airbattle	：連合艦隊-機動部隊 航空戦
 	api_maxhps			：〃最大HP
 	api_nowhps_combined	：味方随伴護衛艦隊の現在HP
 	api_maxhps_combined	：〃最大HP
-	api_midnight_flag	：開幕夜戦？1
+	api_midnight_flag	：夜戦可否フラグ
 	api_eSlot			：敵艦船装備スロット　空欄は-1, 艦がいれば[5], いなければ[4]
 	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
 	api_fParam			：味方艦船基礎ステータス
@@ -1114,7 +1150,7 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊 戦闘
 	api_maxhps			：〃最大HP
 	api_nowhps_combined	：味方随伴護衛艦隊の現在HP
 	api_maxhps_combined	：〃最大HP
-	api_midnight_flag	：夜戦可能フラグ？
+	api_midnight_flag	：夜戦可否フラグ
 	api_eSlot			：敵艦船装備スロット　空欄は-1, 艦がいれば[5], いなければ[4]
 	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
 	api_fParam			：味方艦船基礎ステータス
@@ -1293,3 +1329,90 @@ Request.api_req_member/payitemuse	：課金アイテム使用
 	api_force_flag			：
 
 
+
+
+
+◇APIが呼ばれる順番
+
+《出撃》
+[出撃選択]
+api_get_member/mapinfo
+[出撃]
+api_get_member/mapcell
+api_req_map/start
+[戦闘-昼戦]
+api_req_sortie/battle
+[夜戦]
+api_req_battle_midnight/battle
+[戦闘終了]
+api_req_sortie/battleresult
+[進撃]
+api_get_member/ship2
+api_req_map/next
+[帰投]
+api_get_member/slot_item
+api_get_member/unsetslot
+api_get_member/useitem
+api_port/port
+
+
+《遠征》
+[出撃]
+api_get_member/mission
+api_req_mission/start
+api_get_member/deck
+[帰投]
+api_req_mission/result
+api_port/port
+api_get_member/useitem
+
+
+《改装》
+api_req_kaisou/remodeling
+api_get_member/ship3
+api_get_member/slot_item
+api_get_member/material
+
+
+《装備換装》
+[換装]
+api_req_kaisou/slotset
+api_get_member/ship3
+[装備全解除]
+api_req_kaisou/unsetslot_all
+api_get_member/ship3
+
+
+《任務報酬受領》
+api_req_quest/clearitemget
+api_get_member/material		(資源獲得時)
+api_get_member/usetitem		(アイテム獲得時)
+api_get_member/questlist
+
+
+
+◇未検証情報
+api_at_type		昼戦特殊攻撃
+0	通常砲撃
+1	レーザー攻撃
+2	弾着観測　連撃
+3	弾着観測　カットイン(主砲/副砲)
+4	弾着観測　カットイン(主砲/電探)
+5	弾着観測　カットイン(主砲/徹甲)
+6	弾着観測　カットイン(主砲/主砲)
+(7)	航空攻撃(対潜含む)
+(8)	爆雷攻撃
+
+api_sp_list		夜戦特殊攻撃
+0	通常砲撃
+1	連撃
+2	カットイン　主砲/魚雷
+3	カットイン　魚雷/魚雷
+4	カットイン　主砲/主砲/副砲
+5	カットイン　主砲/主砲/主砲
+6
+(7)	航空攻撃(対潜含む)
+(8)	爆雷攻撃
+(9)	通常雷撃
+
+()内は=0っぽい？
