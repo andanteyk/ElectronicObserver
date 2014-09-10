@@ -9,29 +9,23 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 装備の種別
 	/// </summary>
-	public class EquipmentType : IIdentifiable, IResponseLoader {
+	public class EquipmentType : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
 		/// 装備の種別
 		/// </summary>
-		public int TypeID { get; private set; }
+		public int TypeID {
+			get { return RawData.api_id; }
+		}
 
 		/// <summary>
 		/// 名前
 		/// </summary>
-		public string Name { get; private set; }
+		public string Name {
+			get { return RawData.api_name; }
+		}
 
 		//show_flg
-
-
-		public EquipmentType()
-			: this( 0 ) { 
-		}
-
-		public EquipmentType( int id ) {
-			TypeID = id;
-		}
-
 
 
 		public int ID {
@@ -39,13 +33,6 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		public bool LoadFromResponse( string apiname, dynamic data ) {
-
-			TypeID = data.api_id;
-			Name = data.api_name;
-
-			return true;
-		}
 	}
 
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Data {
 
 
-
+	[Obsolete( "開発初期の名残です", false )]
 	public class ParameterBase {
 
 		/// <summary>

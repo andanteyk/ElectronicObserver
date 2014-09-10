@@ -67,6 +67,7 @@
     <Compile Include="Data\IRequestLoader.cs" />
     <Compile Include="Data\IResponseLoader.cs" />
     <Compile Include="Data\KCDatabase.cs" />
+    <Compile Include="Data\ResponseWrapper.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Observer\APIObserver.cs" />

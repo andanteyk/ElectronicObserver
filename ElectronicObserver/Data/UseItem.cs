@@ -9,17 +9,21 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 消費アイテムのデータを保持します。
 	/// </summary>
-	public class UseItem : IIdentifiable {
+	public class UseItem : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
 		/// アイテムID
 		/// </summary>
-		public int ItemID { get; private set; }
+		public int ItemID {
+			get { return RawData.api_id; }
+		}
 		
 		/// <summary>
 		/// 個数
 		/// </summary>
-		public int Count { get; private set; }
+		public int Count {
+			get { return RawData.api_count; }
+		}
 
 
 

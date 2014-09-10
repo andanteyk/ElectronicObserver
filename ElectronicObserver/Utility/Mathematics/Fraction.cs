@@ -47,6 +47,12 @@ namespace ElectronicObserver.Utility.Mathematics {
 			p_den = denominator;
 		}
 
+		public Fraction( int[] value ) {
+			if ( value.Length < 2 )
+				throw new ArgumentException( "配列の長さが足りません。" );
+			p_num = value[0];
+			p_den = value[1];
+		}
 
 		public double GetPercentage() {
 			if ( p_den == 0 )

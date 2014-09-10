@@ -11,99 +11,150 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 装備のマスターデータを保持します。
 	/// </summary>
-	public class EquipmentDataMaster : IIdentifiable, IResponseLoader {
+	public class EquipmentDataMaster : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
 		/// 装備ID
 		/// </summary>
-		public int EquipmentID { get; private set; }
+		public int EquipmentID {
+			get { return RawData.api_id; }
+		}
 		
 		/// <summary>
 		/// 並べ替え順
 		/// </summary>
-		public int SortID { get; private set; }
+		public int SortID {
+			get { return RawData.api_sortno; }
+		}
 		
 		/// <summary>
 		/// 名前
 		/// </summary>
-		public string Name { get; private set; }
+		public string Name {
+			get { return RawData.api_name; }
+		}
 
 
-		private List<int> _equipmentType;
 		/// <summary>
 		/// 装備種別
 		/// </summary>
 		public ReadOnlyCollection<int> EquipmentType {
-			get { return _equipmentType.AsReadOnly(); }
+			get { return Array.AsReadOnly<int>( (int[])RawData.api_type ); }
+		}
+
+
+
+		#region Parameters
+
+		/// <summary>
+		/// 装甲
+		/// </summary>
+		public int Armor {
+			get { return RawData.api_souk; }
 		}
 
 		/// <summary>
-		/// パラメータ
+		/// 火力
 		/// </summary>
-		public ParameterBase Param { get; private set; }
+		public int Firepower {
+			get { return RawData.api_houg; }
+		}
+
+		/// <summary>
+		/// 雷装
+		/// </summary>
+		public int Torpedo {
+			get { return RawData.api_raig; }
+		}
+
+		/// <summary>
+		/// 爆装
+		/// </summary>
+		public int Bomber {
+			get { return RawData.api_baku; }
+		}
+
+		/// <summary>
+		/// 対空
+		/// </summary>
+		public int AA {
+			get { return RawData.api_tyku; }
+		}
+
+		/// <summary>
+		/// 対潜
+		/// </summary>
+		public int ASW {
+			get { return RawData.api_tais; }
+		}
+
+		/// <summary>
+		/// 命中
+		/// </summary>
+		public int Accuracy {
+			get { return RawData.api_houm; }
+		}
+
+		/// <summary>
+		/// 回避
+		/// </summary>
+		public int Evasion {
+			get { return RawData.api_houk; }
+		}
+
+		/// <summary>
+		/// 索敵
+		/// </summary>
+		public int LOS {
+			get { return RawData.api_saku; }
+		}
+
+		/// <summary>
+		/// 運
+		/// </summary>
+		public int Luck {
+			get { return RawData.api_luck; }
+		}
+
+		/// <summary>
+		/// 射程
+		/// </summary>
+		public int Range {
+			get { return RawData.api_leng; }
+		}
+
+		#endregion
+
 
 		/// <summary>
 		/// レアリティ
 		/// </summary>
-		public EquipmentRarity Rarity { get; private set; }
+		public int Rarity {
+			get { return RawData.api_rare; }
+		}
 		
-		private List<int> _material;
 		/// <summary>
 		/// 廃棄資材
 		/// </summary>
 		public ReadOnlyCollection<int> Material {
-			get { return _material.AsReadOnly(); }
+			get { return Array.AsReadOnly<int>((int[])RawData.api_broken); }
 		}
 		
 		/// <summary>
 		/// 図鑑説明
 		/// </summary>
-		public string Message { get; private set; }
-
-
-
-		public EquipmentDataMaster()
-			: this( 0 ) {
+		public string Message {
+			get { return RawData.api_info; }
 		}
 
-		public EquipmentDataMaster( int id ) {
-			EquipmentID = id;
-		}
+
+
 
 
 		public int ID {
 			get { return EquipmentID; }
 		}
 
-		public bool LoadFromResponse( string apiname, dynamic data ) {
-
-			EquipmentID = data.api_id;
-			SortID = data.api_sortno;
-			Name = data.api_name;
-			_equipmentType = new List<int>( (int[])data.api_type );
-
-			Param.HP.Value = data.api_taik;
-			Param.Armor.Value = data.api_souk;
-			Param.Firepower.Value = data.api_houg;
-			Param.Torpedo.Value = data.api_raig;
-			//speed
-			Param.Bomber.Value = data.api_baku;
-			Param.AA.Value = data.api_tyku;
-			Param.ASW.Value = data.api_tais;
-			Param.Accuracy.Value = data.api_houm;
-			Param.Evasion.Value = data.api_houk;
-			Param.LOS.Value = data.api_saku;
-			Param.Luck.Value = data.api_luck;
-			Param.Range = data.api_leng;
-
-			Rarity = (EquipmentRarity)( (int)data.api_rare );
-			_material = new List<int>( (int[])data.api_broken );
-			Message = data.api_info;
-
-			return true;
-		}
-
-		
 	}
 
 }

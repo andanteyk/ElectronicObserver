@@ -9,65 +9,51 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 艦種
 	/// </summary>
-	public class ShipType : IIdentifiable, IResponseLoader {
+	public class ShipType : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
 		/// 艦種
 		/// </summary>
-		public int TypeID { get; private set; }
+		public int TypeID {
+			get { return RawData.api_id; }
+		}
 
 		/// <summary>
 		/// 並べ替え順
 		/// </summary>
-		public int SortID { get; private set; }
+		public int SortID {
+			get { return RawData.api_sortno; }
+		}
 		
 		/// <summary>
 		/// 艦種名
 		/// </summary>
-		public string Name { get; private set; }
+		public string Name {
+			get { return RawData.api_name; }
+		}
 		
 		/// <summary>
 		/// 入渠時間係数
 		/// </summary>
-		public int RepairTime { get; private set; }
+		public int RepairTime {
+			get { return RawData.api_scnt; }
+		}
 
 		//TODO: api_kcnt
 
+		//TODO:外部から書き換えられないように
 		/// <summary>
 		/// 装備可否フラグ
 		/// </summary>
 		public Dictionary<int, bool> EquipmentType;
 
 
-		public ShipType()
-			: this( 0 ) {
-		}
-
-		public ShipType( int id ) {
-			TypeID = id;
-		}
-
 
 		public int ID {
 			get { return TypeID; }
 		}
 
-		public bool LoadFromResponse( string apiname, dynamic data ) {
-
-			TypeID = data.api_id;
-			SortID = data.api_sortno;
-			Name = data.api_name;
-			RepairTime = data.api_scnt;
-			//kcnt
-			EquipmentType = new Dictionary<int, bool>();
-			foreach ( KeyValuePair<string, dynamic> t in data.api_equip_type ) {
-				EquipmentType.Add( int.Parse( t.Key ), t.Value != 0 );
-			}
-
-			return true;
-		}
 
 	}
-
 
 }

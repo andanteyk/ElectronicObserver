@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data {
 
+	/*
+	 * ぶっちゃけconstが*非常に*面倒なので、使わない可能性が…？
+	 */
+
+
 
 	/// <summary>
 	/// 速力

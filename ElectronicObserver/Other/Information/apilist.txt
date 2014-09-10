@@ -16,7 +16,7 @@ api_start2	：艦娘・装備固有データその他
 		api_cnum		：艦番
 		api_enqflg		：
 		api_afterlv		：改装Lv
-		api_aftershipid	：改装後ID
+		api_aftershipid	：改装後ID 文字列
 		api_taik		：耐久
 		api_souk		：装甲
 		api_tous		：搭載？
@@ -75,6 +75,8 @@ api_start2	：艦娘・装備固有データその他
 		api_scnt		：入渠時間係数
 		api_kcnt		：
 		api_equip_type	：装備可能カテゴリのフラグ
+							＊データと直接的関係はないが、このオブジェクトの子は"1"といった数字から始まる名前を持っている。
+							　この名前は規約違反であるため、正規のjsonパーサでは読み込むことができないので注意すること。
 	
 	api_mst_slotitem	：装備データ
 		api_id			：装備ID
@@ -541,6 +543,33 @@ api_get_member/questlist	：任務
 		api_bonus_flag		：
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成?
 	api_exec_count			：受領任務数
+	api_exec_type			：？
+
+
+Request.api_req_quest/start	：任務開始
+	api_quest_id			：任務ID
+
+api_req_quest/start			：任務開始
+	(情報なし)
+
+Request.api_req_quest/stop	：任務中止
+	api_quest_id			：任務ID
+
+api_req_quest/stop			：任務中止
+	(情報なし)
+
+
+Request.api_req_quest/clearitemget：任務達成
+	api_quest		：
+	api_quest_id	：任務ID
+	
+api_req_quest/clearitemget		：任務達成
+	api_material	：獲得資源量
+	api_bonus_count	：アイテム取得個数(カテゴリの)
+	api_bonus		：アイテム
+		api_type	：アイテムID
+		api_count	：取得個数
+		api_item	：
 
 
 api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ送られてくるので注意
@@ -687,19 +716,6 @@ api_req_ranking/getlist	：ランキング
 		api_flag		：
 		api_nickname_id	：
 		api_comment_id	：
-
-
-Request.api_req_quest/clearitemget：任務達成
-	api_quest		：
-	api_quest_id	：任務ID
-	
-api_req_quest/clearitemget		：任務達成
-	api_material	：獲得資源量
-	api_bonus_count	：アイテム取得個数(カテゴリの)
-	api_bonus		：アイテム
-		api_type	：アイテムID
-		api_count	：取得個数
-		api_item	：
 
 
 api_get_member/practice		：演習ロビー
@@ -897,13 +913,13 @@ api_req_map/start		：出撃
 
 api_req_map/next		：進撃
 	api_rashin_flg		：羅針盤を表示するかどうか
-	api_rashin_id		：妖精さん　1=眠そう, 2=桃の髪飾り, 3=ひよこ, 4=魔法使い
+	api_rashin_id		：妖精さん　0=なし, 1=眠そう, 2=桃の髪飾り, 3=ひよこ, 4=魔法使い
 	api_maparea_id		：海域カテゴリID(2-3でいう2)
 	api_mapinfo_no		：海域カテゴリ内番号(2-3でいう3)
 	api_no				：次に向かうセルのID
-	api_color_no		：次のセルの色?　4=赤
+	api_color_no		：次のセルの色?　3=青, 4=赤
 	api_event_id		：イベント　api_mst_mapcell参照
-	api_event_kind		：イベント種別?　0=資源?, 1=戦闘, 2=資源?
+	api_event_kind		：イベント種別?　0=資源?|渦潮, 1=戦闘, 2=資源?
 	api_next			：? 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？
@@ -918,11 +934,18 @@ api_req_map/next		：進撃
 		api_result		：
 		api_result_str	："start war"
 	api_itemget			：次が資源マスのときのみ存在
-		api_usemst		：4
-		api_id			：1=燃料, 2=弾薬
+		api_usemst		：4=資源, 11=家具箱(中), 12=家具箱(大) 
+		api_id			：1=燃料, 2=弾薬, 11=家具箱(中), 12=家具箱(大)
 		api_getcount	：入手資源量
-		api_name		：""
-		api_icon_id		：1=燃料, 2=弾薬
+		api_name		：アイテム名(家具箱のみ?燃料等の資源は"")
+		api_icon_id		：1=燃料, 2=弾薬, 11=家具箱(中), 12=家具箱(大)
+	api_happening		：次が渦潮マスのときのみ存在
+		api_type		：1
+		api_count		：落とした資源の量
+		api_usemst		：4
+		api_mst_id		：落とした資源の種類　2=弾薬
+		api_icon_id		：表示アイコンID？　2=弾薬
+		api_dentan		：電探による被害軽減フラグ(1=軽減)
 
 api_req_sortie/battle	：戦闘(昼戦)
 	api_dock_id			：こちらの出撃艦隊ID
@@ -959,8 +982,8 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_erai_flag	：敵被雷撃フラグ
 			api_fbak_flag	：味方被爆撃フラグ
 			api_ebak_flag	：敵被爆撃フラグ
-			api_fcl_flag	：味方クリティカルフラグ? 0=命中?, 1=クリティカル?
-			api_ecl_flag	：敵クリティカルフラグ? 攻撃側にフラグが立つ
+			api_fcl_flag	：味方クリティカルフラグ 0=通常(爆撃/雷撃問わず、命中|ミス), 1=(爆撃)クリティカル
+			api_ecl_flag	：敵クリティカルフラグ　当然ながら防御側にフラグが立つ
 			api_fdam		：味方被ダメージ　庇われると+0.1
 			api_edam		：敵被ダメージ
 	api_support_flag	：支援艦隊フラグ　0=到着せず, 1=空撃, 2=砲撃, 3=雷撃
@@ -1003,11 +1026,11 @@ api_req_sortie/battle	：戦闘(昼戦)
 	api_hourai_flag	：砲雷撃戦フラグ
 	api_hougeki1	：砲撃戦1巡目　api_hourai_flag[0]=0だとnull
 		api_at_list		：行動順
-		api_at_type		：特殊砲撃　0=通常, 2=連撃, 6=徹甲弾カットイン
+		api_at_type		：特殊砲撃　0=通常, 2=連撃, 3=カットイン(主砲/副砲), 4=カットイン(主砲/電探), 5=カットイン(主砲/徹甲), 6=カットイン(主砲/主砲)
 		api_df_list		：防御側ID　-1から始まる　連撃は2個
-		api_si_list		：表示装備ID　カットインだと[0]=偵察機, [1]=砲, [2]=砲|電探|その他, 連撃だと[0]=装備1, [1]=装備2, 通常砲撃は[0]=装備1, etc. 非表示は-1
+		api_si_list		：表示装備ID　カットインだと[0]=偵察機, [1]=主砲, [2]=砲|電探|徹甲弾|その他, 連撃だと[0]=砲1, [1]=砲2, 通常砲撃は[0]=装備1, etc. 非表示は-1
 							注：爆雷や艦載機など、本来表示されない装備が含まれていることがある
-		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
+		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル　連撃時は1でも外すことがある？
 		api_damage		：ダメージ(実ダメージ)
 	api_hougeki2	：砲撃戦2巡目　上に同じ
 	api_hougeki3	：(null)
@@ -1026,12 +1049,12 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 	api_eParam			：敵艦船基礎ステータス
 	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵
 	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵
-	api_hougeki			：夜間砲撃戦
+	api_hougeki			：夜間砲雷撃戦
 		api_at_list		：行動順
-		api_df_list		：防御側ID　-1から始まる　連撃は2個
+		api_df_list		：防御側ID　-1から始まる　連撃は2個, カットイン(主砲/(副砲|主砲))は3個(但し[1], [2]=-1)
 		api_si_list		：表示装備ID 昼戦のそれに準ずる 非表示は-1
 		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
-		api_sp_list		：夜戦攻撃種別 1=連撃?
+		api_sp_list		：夜戦攻撃種別 0=通常攻撃, 1=連撃, 4=カットイン(主砲/副砲), 5=カットイン(主砲/主砲)
 		api_damage		：ダメージ(実ダメージ)
 
 
@@ -1056,12 +1079,12 @@ api_req_sortie/battleresult	：戦闘結果
 		api_deck_name		：敵艦隊名
 	api_first_clear			：初回クリアフラグ
 	api_get_flag			：入手フラグ
-	api_get_ship			：ドロップ艦情報　api_get_flag[1]=1のときのみ存在?
+	api_get_ship			：ドロップ艦情報　api_get_flag[1]=1のときのみ存在
 		api_ship_id			：艦船ID
 		api_ship_type		：艦種
 		api_ship_name		：艦船名
 		api_ship_getmes		：メッセージ
-	api_get_eventitem		：海域攻略報酬
+	api_get_eventitem		：海域攻略報酬　特殊海域突破時のみ存在
 		api_type			：報酬種別 1=アイテム, 2=艦娘, 3=装備
 		api_id				：ID
 		api_value			：個数？

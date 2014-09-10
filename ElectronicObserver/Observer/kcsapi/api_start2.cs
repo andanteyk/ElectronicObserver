@@ -10,49 +10,64 @@ namespace ElectronicObserver.Observer.kcsapi {
 	public class api_start2 {
 
 
-		public static void LoadFromResponse( string apiName, dynamic data ) {
+		public static void LoadFromResponse( string apiname, dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 			
 			//under construction
 			//api_mst_ship
-			foreach ( var ship in data.api_mst_ship ) {
-				if ( db.MasterShips[ship.api_id] == null )
-					db.MasterShips.Add( new ShipDataMaster( ship.api_id ) );
-				
-				db.MasterShips[ship.api_id].LoadFromResponse( apiName, ship );
+			foreach ( var elem in data.api_mst_ship ) {
+				if ( db.MasterShips[elem.api_id] == null ) {
+					var ship = new ShipDataMaster();
+					ship.LoadFromResponse( apiname, elem );
+					db.MasterShips.Add( ship );
+				} else {
+					db.MasterShips[elem.api_id].LoadFromResponse( apiname, elem );
+				}
 			}
 
 			//api_mst_slotitem_equiptype
-			foreach ( var eqtype in data.api_mst_slotitem_equiptype ) {
-				if ( db.EquipmentTypes[eqtype.api_id] == null )
-					db.EquipmentTypes.Add( new EquipmentType( eqtype.api_id ) );
-
-				db.EquipmentTypes[eqtype.api_id].LoadFromResponse( apiName, eqtype );
+			foreach ( var elem in data.api_mst_slotitem_equiptype ) {
+				if ( db.EquipmentTypes[elem.api_id] == null ) {
+					var eqt = new EquipmentType();
+					eqt.LoadFromResponse( apiname, elem );
+					db.EquipmentTypes.Add( eqt );
+				} else {
+					db.EquipmentTypes[elem.api_id].LoadFromResponse( apiname, elem );
+				}
 			}
 
 			//api_mst_stype
-			foreach ( var stype in data.api_mst_stype ) {
-				if ( db.ShipTypes[stype.api_id] == null )
-					db.ShipTypes.Add( new ShipType( stype.api_id ) );
-
-				db.ShipTypes[stype.api_id].LoadFromResponse( apiName, stype );
+			foreach ( var elem in data.api_mst_stype ) {
+				if ( db.ShipTypes[elem.api_id] == null ) {
+					var spt = new ShipType();
+					spt.LoadFromResponse( apiname, elem );
+					db.ShipTypes.Add( spt );
+				} else {
+					db.ShipTypes[elem.api_id].LoadFromResponse( apiname, elem );
+				}
 			}
 
 			//api_mst_slotitem
-			foreach ( var item in data.api_mst_slotitem ) {
-				if ( db.MasterEquipments[item.api_id] == null )
-					db.MasterEquipments.Add( new EquipmentDataMaster( item.api_id ) );
-
-				db.MasterEquipments[item.api_id].LoadFromResponse( apiName, item );
+			foreach ( var elem in data.api_mst_slotitem ) {
+				if ( db.MasterEquipments[elem.api_id] == null ) {
+					var eq = new EquipmentDataMaster();
+					eq.LoadFromResponse( apiname, elem );
+					db.MasterEquipments.Add( eq );
+				} else {
+					db.MasterEquipments[elem.api_id].LoadFromResponse( apiname, elem );
+				}
 			}
 
 			//api_mst_useitem
-			foreach ( var item in data.api_mst_useitem ) {
-				if ( db.MasterUseItems[item.api_id] == null )
-					db.MasterUseItems.Add( new UseItemMaster( item.api_id ) );
-
-				db.MasterUseItems[item.api_id].LoadFromResponse( apiName, item );
+			foreach ( var elem in data.api_mst_useitem ) {
+				if ( db.MasterUseItems[elem.api_id] == null ) {
+					var item = new UseItemMaster();
+					item.LoadFromResponse( apiname, elem );
+					db.MasterUseItems.Add( item );
+				} else {
+					db.MasterUseItems[elem.api_id].LoadFromResponse( apiname, elem );
+				}
 			}
 		}
 	}
