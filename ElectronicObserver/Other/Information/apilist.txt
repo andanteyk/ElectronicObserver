@@ -27,7 +27,7 @@ api_start2	：艦娘・装備固有データその他
 		api_atap		：
 		api_tais		：対潜
 		api_houm		：砲撃命中(0)
-		api_raim		：雷撃命中(0)
+		api_raim		：雷撃命中(0)	8月イベント中のオンメンテで消滅
 		api_kaih		：回避
 		api_houk		：砲撃回避(0)
 		api_raik		：雷撃回避(0)
@@ -174,9 +174,23 @@ api_start2	：艦娘・装備固有データその他
 	api_mst_slotitemgraph	：装備画像URL？
 	
 	api_mst_furniture	：家具データ
-	
+		api_id			：家具ID
+		api_type		：カテゴリ 0=床, 1=壁紙, 2=窓, 3=壁掛け, 4=家具, 5=机
+		api_no			：カテゴリ内通し番号 0から始まる
+		api_title		：家具名
+		api_description	：説明
+		api_rarity		：レアリティ
+		api_price		：価格
+		api_saleflg		：販売中?
+		api_season		：
+
 	api_mst_furnituregraph	：可動家具プロパティ
-	
+		api_id			：家具ID
+		api_type		：カテゴリ
+		api_no			：カテゴリ内通し番号
+		api_filename	：
+		aoi_version		：
+
 	api_mst_useitem		：アイテムデータ
 		api_id			：アイテムID
 		api_usetype		：使用形態　0=使用不可, 1=高速修復材, 2=高速建造材, 3=開発資材, 4=使用可能, etc.
@@ -819,8 +833,8 @@ api_req_practice/battle_result			：演習結果 ＊
 	api_mvp				：MVP
 	api_get_ship_exp	：各艦の獲得経験値
 	api_get_exp_lvup	：各艦の[0]=獲得前経験値, [1]=次のレベルの経験値, (レベルアップした場合)[2]その次のレベルの経験値, ...
-	api_dests			：2
-	api_destsf			：1
+	api_dests			：
+	api_destsf			：
 	api_enemy_info		：敵艦隊情報
 		api_user_name	：空
 		api_level		：艦隊司令部Lv.
@@ -974,7 +988,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_deck_id			：艦隊ID
 			api_ship_id			：艦船固有ID
 			api_undressing_flag	：中破グラフィックフラグ
-			api_cl_list			：クリティカル判定?　0=砲撃通常, 1=砲撃クリティカル|雷撃命中, 2=雷撃クリティカル　-1から
+			api_cl_list			：クリティカル判定　0=ミス, 1=命中, 2=クリティカル　-1から
 			api_damage			：敵被ダメージ　-1から
 	api_opening_flag	：開幕雷撃フラグ
 	api_opening_atack	：開幕雷撃戦 *スペルミスあり、注意

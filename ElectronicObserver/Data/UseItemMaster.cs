@@ -9,7 +9,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 消費アイテムのマスターデータを保持します。
 	/// </summary>
-	public class UseItemMaster : IIdentifiable {
+	public class UseItemMaster : IIdentifiable, IResponseLoader {
 
 		/// <summary>
 		/// アイテムID
@@ -40,11 +40,24 @@ namespace ElectronicObserver.Data {
 		//description[1]=家具コインの内容量　省略します
 
 
+		public UseItemMaster()
+			: this( 0 ) { }
+
+		public UseItemMaster( int id ) {
+			ItemID = id;
+		}
+
 
 		public int ID {
 			get { return ItemID; }
 		}
 
+
+		bool LoadFromResponse( string apiname, dynamic data ) {
+
+			return true;
+
+		}
 	}
 
 }
