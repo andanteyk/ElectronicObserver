@@ -61,17 +61,27 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 耐久現在値
+		/// </summary>
 		public int HPCurrent {
 			get { return RawData.api_nowhp; }
 		}
 
+		/// <summary>
+		/// 耐久最大値
+		/// </summary>
 		public int HPMax {
 			get { return RawData.api_maxhp; }
 		}
 
+		/// <summary>
+		/// 射程
+		/// </summary>
 		public int Range {
 			get { return RawData.api_leng; }
 		}
+
 
 		/// <summary>
 		/// 装備スロット
@@ -88,22 +98,37 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 火力上昇値
+		/// </summary>
 		public int FirepowerModernized {
 			get { return RawData.api_kyouka[0]; }
 		}
 
+		/// <summary>
+		/// 雷装上昇値
+		/// </summary>
 		public int TorpedoModernized {
 			get { return RawData.api_kyouka[1]; }
 		}
 
+		/// <summary>
+		/// 対空上昇値
+		/// </summary>
 		public int AAModernized {
 			get { return RawData.api_kyouka[2]; }
 		}
 
+		/// <summary>
+		/// 装甲上昇値
+		/// </summary>
 		public int ArmorModernized {
 			get { return RawData.api_kyouka[3]; }
 		}
 
+		/// <summary>
+		/// 運上昇値
+		/// </summary>
 		public int LuckModernized {
 			get { return RawData.api_kyouka[4]; }
 		}
@@ -151,34 +176,59 @@ namespace ElectronicObserver.Data {
 			get { return RawData.api_cond; }
 		}
 
+
+		/// <summary>
+		/// 火力総合値
+		/// </summary>
 		public int FirepowerTotal {
 			get { return RawData.api_karyoku[0]; }
 		}
-
+		
+		/// <summary>
+		/// 雷装総合値
+		/// </summary>
 		public int TorpedoTotal {
 			get { return RawData.api_raisou[0]; }
 		}
 
+		/// <summary>
+		/// 対空総合値
+		/// </summary>
 		public int AATotal {
 			get { return RawData.api_taiku[0]; }
 		}
 
+		/// <summary>
+		/// 装甲総合値
+		/// </summary>
 		public int ArmorTotal {
 			get { return RawData.api_soukou[0]; }
 		}
 
+		/// <summary>
+		/// 回避総合値
+		/// </summary>
 		public int EvasionTotal {
 			get { return RawData.api_kaihi[0]; }
 		}
 
+		/// <summary>
+		/// 対潜総合値
+		/// </summary>
 		public int ASWTotal {
 			get { return RawData.api_taisen[0]; }
 		}
 
+		/// <summary>
+		/// 索敵総合値
+		/// </summary>
 		public int LOSTotal {
 			get { return RawData.api_sakuteki[0]; }
 		}
 
+		/// <summary>
+		/// 運総合値
+		/// </summary>
 		public int LuckyTotal {
 			get { return RawData.api_lucky[0]; }
 		}

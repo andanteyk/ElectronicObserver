@@ -92,82 +92,142 @@ namespace ElectronicObserver.Data {
 
 		#region Parameters
 		
+		/// <summary>
+		/// 耐久初期値
+		/// </summary>
 		public int HPMin {
 			get { return RawData.api_taik[0]; }
 		}
 
+		/// <summary>
+		/// 耐久最大値
+		/// </summary>
 		public int HPMax {
 			get { return RawData.api_taik[1]; }
 		}
 
+		/// <summary>
+		/// 装甲初期値
+		/// </summary>
 		public int ArmorMin {
 			get { return RawData.api_souk[0]; }
 		}
 
+		/// <summary>
+		/// 装甲最大値
+		/// </summary>
 		public int ArmorMax {
 			get { return RawData.api_souk[1]; }
 		}
 
+		/// <summary>
+		/// 火力初期値
+		/// </summary>
 		public int FirepowerMin {
 			get { return RawData.api_houg[0]; }
 		}
 
+		/// <summary>
+		/// 火力最大値
+		/// </summary>
 		public int FirepowerMax {
 			get { return RawData.api_houg[1]; }
 		}
 
+		/// <summary>
+		/// 雷装初期値
+		/// </summary>
 		public int TorpedoMin {
 			get { return RawData.api_raig[0]; }
 		}
 
+		/// <summary>
+		/// 雷装最大値
+		/// </summary>
 		public int TorpedoMax {
 			get { return RawData.api_raig[1]; }
 		}
 
+		/// <summary>
+		/// 対空初期値
+		/// </summary>
 		public int AAMin {
 			get { return RawData.api_tyku[0]; }
 		}
 
+		/// <summary>
+		/// 対空最大値
+		/// </summary>
 		public int AAMax {
 			get { return RawData.api_tyku[1]; }
 		}
 
+		/// <summary>
+		/// 対潜初期値
+		/// </summary>
 		public int ASWMin {
 			get { return RawData.api_tais[0]; }
 		}
 
+		/// <summary>
+		/// 対潜最大値
+		/// </summary>
 		public int ASWMax {
 			get { return RawData.api_tais[1]; }
 		}
 
+		/// <summary>
+		/// 回避初期値
+		/// </summary>
 		public int EvasionMin {
 			get { return RawData.api_kaih[0]; }
 		}
 
+		/// <summary>
+		/// 回避最大値
+		/// </summary>
 		public int EvasionMax {
 			get { return RawData.api_kaih[1]; }
 		}
 
+		/// <summary>
+		/// 索敵初期値
+		/// </summary>
 		public int LOSMin {
 			get { return RawData.api_saku[0]; }
 		}
 
+		/// <summary>
+		/// 索敵最大値
+		/// </summary>
 		public int LOSMax {
 			get { return RawData.api_saku[1]; }
 		}
 
+		/// <summary>
+		/// 運初期値
+		/// </summary>
 		public int LuckMin {
 			get { return RawData.api_luck[0]; }
 		}
 
+		/// <summary>
+		/// 運最大値
+		/// </summary>
 		public int LuckMax {
 			get { return RawData.api_luck[1]; }
 		}
 
+		/// <summary>
+		/// 速力
+		/// </summary>
 		public int Speed {
 			get { return RawData.api_sokuh; }
 		}
 
+		/// <summary>
+		/// 射程
+		/// </summary>
 		public int Range {
 			get { return RawData.api_leng; }
 		}
