@@ -14,9 +14,7 @@ namespace ElectronicObserver.Data {
 	/// </summary>
 	public class ShipData : ResponseWrapper, IIdentifiable {
 
-		//マスターデータか何かに定義しておくといいかも
-		//public static const int SlotMax = 5;
-
+		
 
 		/// <summary>
 		/// 艦娘を一意に識別するID
@@ -99,35 +97,35 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 火力上昇値
+		/// 火力強化値
 		/// </summary>
 		public int FirepowerModernized {
 			get { return RawData.api_kyouka[0]; }
 		}
 
 		/// <summary>
-		/// 雷装上昇値
+		/// 雷装強化値
 		/// </summary>
 		public int TorpedoModernized {
 			get { return RawData.api_kyouka[1]; }
 		}
 
 		/// <summary>
-		/// 対空上昇値
+		/// 対空強化値
 		/// </summary>
 		public int AAModernized {
 			get { return RawData.api_kyouka[2]; }
 		}
 
 		/// <summary>
-		/// 装甲上昇値
+		/// 装甲強化値
 		/// </summary>
 		public int ArmorModernized {
 			get { return RawData.api_kyouka[3]; }
 		}
 
 		/// <summary>
-		/// 運上昇値
+		/// 運強化値
 		/// </summary>
 		public int LuckModernized {
 			get { return RawData.api_kyouka[4]; }
@@ -175,6 +173,15 @@ namespace ElectronicObserver.Data {
 		public int Condition {
 			get { return RawData.api_cond; }
 		}
+
+
+		#region Parameters
+
+		/********************************************************
+		 * 強化値：近代化改修・レベルアップによって上昇した数値
+		 * 総合値：装備込みでのパラメータ
+		 * 基本値：装備なしでのパラメータ(初期値+強化値)
+		 ********************************************************/
 
 
 		/// <summary>
@@ -232,6 +239,85 @@ namespace ElectronicObserver.Data {
 		public int LuckyTotal {
 			get { return RawData.api_lucky[0]; }
 		}
+
+
+		/// <summary>
+		/// 火力基本値
+		/// </summary>
+		public int FirepowerBase {
+			get {	//FIXME: ロードエラーその他でmaster[id]==nullの場合落ちるので注意
+				return KCDatabase.Instance.MasterShips[ShipID].FirepowerMin + FirepowerModernized;
+			}
+		}
+
+		/// <summary>
+		/// 雷装基本値
+		/// </summary>
+		public int TorpedoBase {
+			get {
+				return KCDatabase.Instance.MasterShips[ShipID].TorpedoMin + TorpedoModernized;
+			}
+		}
+
+		/// <summary>
+		/// 対空基本値
+		/// </summary>
+		public int AABase {
+			get {
+				return KCDatabase.Instance.MasterShips[ShipID].AAMin + AAModernized;
+			}
+		}
+
+		/// <summary>
+		/// 装甲基本値
+		/// </summary>
+		public int ArmorBase {
+			get {
+				return KCDatabase.Instance.MasterShips[ShipID].ArmorMin + ArmorModernized;
+			}
+		}
+
+		/// <summary>
+		/// 回避基本値
+		/// </summary>
+		public int EvasionBase {
+			get {
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
+				return ship.EvasionMin + ( ship.EvasionMax - ship.EvasionMin ) * Level / 99;
+			}
+		}
+
+		/// <summary>
+		/// 対潜基本値
+		/// </summary>
+		public int ASWBase {
+			get {
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
+				return ship.ASWMin + ( ship.ASWMax - ship.ASWMin ) * Level / 99;
+			}
+		}
+
+		/// <summary>
+		/// 索敵基本値
+		/// </summary>
+		public int LOSBase {
+			get {
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
+				return ship.LOSMin + ( ship.LOSMax - ship.LOSMin ) * Level / 99;
+			}
+		}
+
+		/// <summary>
+		/// 運基本値
+		/// </summary>
+		public int LuckBase {
+			get {
+				return KCDatabase.Instance.MasterShips[ShipID].LuckMin + LuckModernized;
+			}
+		}
+
+		#endregion
+
 
 		/// <summary>
 		/// 保護ロックの有無

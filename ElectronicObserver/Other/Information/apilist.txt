@@ -4,6 +4,7 @@ kcsapi list
 未記入は不明か使いどころなし
 推測・噂で書いてある点も多々ある、信じすぎないこと
 基本的に戦闘APIはapi_req_sortie/battleを参照すること。他の戦闘系APIの説明は情報が古い可能性がある、差分だけチェックすること
+githubで閲覧する際はURL末尾に ?ts=4 と入れると見やすい
 
 api_start2	：艦娘・装備固有データその他
 	
@@ -267,7 +268,6 @@ api_start2	：艦娘・装備固有データその他
 		api_boko_max_ships		：
 			api_string_value	：
 			api_int_value		：母港サイズ
-			
 	
 	api_mst_shipupgrade	：改装設計図
 		api_id					：艦船ID
@@ -276,6 +276,10 @@ api_start2	：艦娘・装備固有データその他
 		api_upgrade_level		：改装回数
 		api_drawing_count		：要改装設計図
 		api_sortno				：並べ替え順
+
+	api_mst_bgm			：母港BGMデータ？
+		api_id			：音楽ID？
+		api_name		：曲名
 
 
 api_req_member/get_incentive	：褒賞関連
@@ -292,7 +296,7 @@ api_get_member/basic		：艦隊司令部情報
 	api_nickname			：提督名
 	api_nickname_id			：
 	api_active_flag			：
-	api_starttime			：着任日時？
+	api_starttime			：起動日時(≠着任日時, 今回のログイン時の時間)
 	api_level				：艦隊司令部Lv.
 	api_rank				：階級
 	api_experience			：提督経験値
@@ -353,13 +357,13 @@ api_port/port		：母港情報
 		api_srate			：改装☆？
 		api_cond			：コンディション
 		api_karyoku			：火力　[0]=現在値(装備込み), [1]=最大値
-		api_raisou			：雷装　なお、最大値はLv99時点の素ステータス
+		api_raisou			：雷装　なお、最大値は基本的にLv99時点の素ステータス
 		api_taiku			：対空
 		api_soukou			：装甲
 		api_kaihi			：回避
 		api_taisen			：対潜
 		api_sakuteki		：索敵
-		api_lucky			：運
+		api_lucky			：運　　[1]=最大値
 		api_locked			：保護ロック有無
 		api_locked_equip	：
 		api_sally_area		：出撃海域（夏イベ用フラグ）2014/09現在消滅
@@ -368,11 +372,12 @@ api_port/port		：母港情報
 	
 	api_log					：母港下の通知欄
 		api_no				：通し番号
-		api_type			：通知タイプ
+		api_type			：通知タイプ　文字列　1から 入渠, 工廠, 遠征, 支給?, 演習, 勲章?, 出撃, 任務?, 申請?, 昇格?, 図鑑, 達成?, 改造?
 		api_state			：
 		api_message			：メッセージ
 	
 	api_combined_flag		：連合艦隊フラグ 0=未結成, 1=結成済み
+	api_p_bgm_id			：母港BGMのID
 
 
 api_get_member/slot_item	：装備品情報
@@ -463,6 +468,20 @@ api_req_kousyou/createitem	：装備開発(失敗)
 	api_material		：各種資源量
 
 
+Request.api_req_kousyou/destroyship	：艦船解体
+	api_ship_id			：解体艦船のID
+
+api_req_kousyou/destroyship			：艦船解体
+	api_material		：各種資源の現在値
+
+
+Request.api_req_kousyou/destroyitem2	：装備廃棄
+	api_slotitem_ids		：廃棄した装備のID
+
+api_req_kousyou/destroyitem2	：装備廃棄
+	api_get_material		：入手した各種資源
+
+
 api_get_member/ndock		：入渠ドック
 	api_member_id			：
 	api_id					：ドック番号
@@ -533,7 +552,7 @@ api_get_member/questlist	：任務
 	api_count				：任務数
 	api_page_count			：ページ数
 	api_disp_page			：現在表示しているページ
-	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる
+	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂時はnull
 		api_no				：任務ID
 		api_category		：任務カテゴリ　1=編成, 2=出撃, 3=演習, 4=遠征, 5=補給/入渠, 6=工廠, 7=改装, 8=その他?
 		api_type			：任務出現タイプ？　1=一回限り, 2=デイリー, 3=ウィークリー
@@ -626,13 +645,6 @@ api_req_kaisou/powerup			：近代化改修
 	api_powerup_flag	：改修成功/失敗
 	api_ship			：改修艦のデータ　port.api_shipに準じる
 	api_deck			：艦隊のデータ　port.api_deck_portに準じる
-
-
-Request.api_req_kousyou/destroyship	：艦船解体
-	api_ship_id			：解体艦船のID
-
-api_req_kousyou/destroyship			：艦船解体
-	api_material		：各種資源の現在値
 
 
 api_req_mission/result		：遠征帰投
@@ -987,7 +999,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_ecl_flag	：敵クリティカルフラグ　当然ながら防御側にフラグが立つ
 			api_fdam		：味方被ダメージ　庇われると+0.1
 			api_edam		：敵被ダメージ
-	api_support_flag	：支援艦隊フラグ　0=到着せず, 1=空撃, 2=砲撃, 3=雷撃
+	api_support_flag	：支援艦隊フラグ　0=なし, 1=空撃, 2=砲撃, 3=雷撃
 	api_support_info	：支援艦隊情報
 		api_support_airattack	：空撃情報
 			api_deck_id			：艦隊ID
@@ -999,7 +1011,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 				api_f_count		：
 				api_f_lostcount	：
 				api_e_count		：
-				api_e_lostcount	：
+				api_e_lostcount	：注：wikiの記述とは異なり、敵艦載機は撃墜可能。ただし割合撃墜のみのため意味はないかも。
 			api_stage2			：航空戦stage2に同じ
 				api_f_count		：
 				api_f_lostcount	：
@@ -1052,10 +1064,10 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵
 	api_hougeki			：夜間砲雷撃戦
 		api_at_list		：行動順
-		api_df_list		：防御側ID　-1から始まる　連撃は2個, カットイン(主砲/(副砲|主砲))は3個(但し[1], [2]=-1)
+		api_df_list		：防御側ID　-1から始まる　連撃とカットイン(主砲/魚雷)は2個, カットイン(主砲/(副砲|主砲))は3個(但し[1], [2]=-1)
 		api_si_list		：表示装備ID 昼戦のそれに準ずる 非表示は-1
 		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
-		api_sp_list		：夜戦攻撃種別 0=通常攻撃, 1=連撃, 4=カットイン(主砲/副砲), 5=カットイン(主砲/主砲)
+		api_sp_list		：夜戦攻撃種別 0=通常攻撃, 1=連撃, 2=カットイン(主砲/魚雷), 3=カットイン(魚雷/魚雷)?, 4=カットイン(主砲/副砲), 5=カットイン(主砲/主砲)
 		api_damage		：ダメージ(実ダメージ)
 
 
@@ -1342,13 +1354,6 @@ api_req_mission.return_instruction				：遠征中止/帰還命令
 							[0]={0=未出撃, 1=遠征中, 2=遠征帰投, 3=強制帰還中}, [1]=遠征先ID, [2]=帰投時間, [3]=0
 
 
-Request.api_req_kousyou/destroyitem2	：装備廃棄
-	api_slotitem_ids		：廃棄した装備のID
-
-api_req_kousyou/destroyitem2	：装備廃棄
-	api_get_material		：入手した各種資源
-
-
 api_req_kaisou/marriage		：ケッコンカッコカリ
 	api_data				：port.api_shipと同じ　該当艦のみ
 
@@ -1365,6 +1370,25 @@ api_get_member/payitem		：課金アイテム購入？
 Request.api_req_member/payitemuse	：課金アイテム使用
 	api_payitem_id			：使用したアイテムのID
 	api_force_flag			：
+
+
+api_req_furniture/music_list	：ジュークボックスメニュー
+	api_id			：リスト内通し番号
+	api_name		：曲名
+	api_description	：説明文
+	api_bgm_id		：BGMID？
+	api_use_coin	：必要な家具コイン量
+	api_bgm_flag	：現在の母港BGMかどうか
+
+api_req_furniture/music_play	：ジュークボックス再生
+	api_coin		：現在の家具コイン
+
+Request.api_req_furniture/set_portbgm	：母港BGM設定
+	api_music_id	：BGMID
+
+api_req_furniture/set_portbgm	：母港BGM設定
+	(情報なし)
+
 
 
 
@@ -1427,30 +1451,3 @@ api_get_member/material		(資源獲得時)
 api_get_member/usetitem		(アイテム獲得時)
 api_get_member/questlist
 
-
-
-◇未検証情報
-api_at_type		昼戦特殊攻撃
-0	通常砲撃
-1	レーザー攻撃
-2	弾着観測　連撃
-3	弾着観測　カットイン(主砲/副砲)
-4	弾着観測　カットイン(主砲/電探)
-5	弾着観測　カットイン(主砲/徹甲)
-6	弾着観測　カットイン(主砲/主砲)
-(7)	航空攻撃(対潜含む)
-(8)	爆雷攻撃
-
-api_sp_list		夜戦特殊攻撃
-0	通常砲撃
-1	連撃
-2	カットイン　主砲/魚雷
-3	カットイン　魚雷/魚雷
-4	カットイン　主砲/主砲/副砲
-5	カットイン　主砲/主砲/主砲
-6
-(7)	航空攻撃(対潜含む)
-(8)	爆雷攻撃
-(9)	通常雷撃
-
-()内は=0っぽい？
