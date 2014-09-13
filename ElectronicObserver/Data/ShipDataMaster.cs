@@ -68,7 +68,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 改装前の艦船ID
 		/// </summary>
-		public int RemodelBeforeShipID { get; private set; }
+		public int RemodelBeforeShipID { get; internal set; }
 
 		/// <summary>
 		/// 改装に必要な燃料
@@ -87,7 +87,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 改装に改装設計図が必要かどうか
 		/// </summary>
-		public int NeedBlueprint { get; private set; }
+		public int NeedBlueprint { get; internal set; }
 
 
 		#region Parameters
@@ -311,6 +311,12 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int Ammo {
 			get { return RawData.api_bull_max; }
+		}
+
+
+
+		public ShipDataMaster() {
+			RemodelBeforeShipID = 0;
 		}
 
 

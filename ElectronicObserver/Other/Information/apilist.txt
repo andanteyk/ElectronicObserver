@@ -18,7 +18,7 @@ api_start2	：艦娘・装備固有データその他
 		api_cnum		：艦番
 		api_enqflg		：
 		api_afterlv		：改装Lv
-		api_aftershipid	：改装後ID 文字列
+		api_aftershipid	：改装後ID 文字列 "0"=なし
 		api_taik		：耐久
 		api_souk		：装甲
 		api_tous		：搭載？
@@ -75,10 +75,10 @@ api_start2	：艦娘・装備固有データその他
 		api_sortno		：並べ替え順
 		api_name		：艦種名
 		api_scnt		：入渠時間係数
-		api_kcnt		：
+		api_kcnt		：建造時のシルエット？
 		api_equip_type	：装備可能カテゴリのフラグ
 							＊データと直接的関係はないが、このオブジェクトの子は"1"といった数字から始まる名前を持っている。
-							　この名前は規約違反であるため、正規のjsonパーサでは読み込むことができないので注意すること。
+							　この名前は規約違反であるため、正規のjsonパーサでは正常に読み込むことができないので注意すること。
 	
 	api_mst_slotitem	：装備データ
 		api_id			：装備ID
@@ -286,8 +286,8 @@ api_req_member/get_incentive	：褒賞関連
 	api_count			：情報の個数
 	api_item			：もらえるアイテム?　api_count=0だと存在しない
 		api_mode		：3=月次褒賞
-		api_type		：2=月次褒賞
-		api_mst_id		：アイテムID？
+		api_type		：2=月次褒賞 褒賞のカテゴリ？
+		api_mst_id		：アイテムID
 		api_getmes		：獲得時メッセージ
 
 
@@ -975,7 +975,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 	api_formation		：陣形/交戦形態　[0]=味方, [1]=敵, [2]=交戦形態
 							[0|1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣
 							[2]：1=同航戦, 2=反航戦, 3=T字有利, 4=T字不利?
-	api_stage_flag		：航空戦フラグ？
+	api_stage_flag		：航空戦フラグ　[n]=0のときapi_stage<n>=nullになる(航空戦力なし, 艦戦のみなど)
 	api_kouku			：航空戦情報
 		api_plane_from	：艦載機を飛ばせる艦　[0]=味方, [1]=敵　いなければ[0]=-1
 		api_stage1		：航空戦1　空対空戦闘
@@ -1011,7 +1011,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 				api_f_count		：
 				api_f_lostcount	：
 				api_e_count		：
-				api_e_lostcount	：注：wikiの記述とは異なり、敵艦載機は撃墜可能。ただし割合撃墜のみのため意味はないかも。
+				api_e_lostcount	：注：wikiの記述とは異なり、敵艦載機は撃墜可能。
 			api_stage2			：航空戦stage2に同じ
 				api_f_count		：
 				api_f_lostcount	：
@@ -1036,7 +1036,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 		api_eydam		：
 		api_fcl			：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
 		api_ecl			：攻撃側に記述される
-	api_hourai_flag	：砲雷撃戦フラグ
+	api_hourai_flag	：砲雷撃戦フラグ　[n]=0のときapi_hougeki<n>及びapi_raigeki=nullになる
 	api_hougeki1	：砲撃戦1巡目　api_hourai_flag[0]=0だとnull
 		api_at_list		：行動順
 		api_at_type		：特殊砲撃　0=通常, 2=連撃, 3=カットイン(主砲/副砲), 4=カットイン(主砲/電探), 5=カットイン(主砲/徹甲), 6=カットイン(主砲/主砲)
@@ -1358,8 +1358,8 @@ api_req_kaisou/marriage		：ケッコンカッコカリ
 	api_data				：port.api_shipと同じ　該当艦のみ
 
 
-api_get_member/payitem		：課金アイテム購入？
-	api_payitem_id			：アイテムID
+api_get_member/payitem		：保有課金アイテム(取り出す前のアイテム)
+	api_payitem_id			：アイテムID　文字列　指輪=20
 	api_type				：
 	api_name				：名前
 	api_description			：説明
@@ -1450,4 +1450,10 @@ api_req_quest/clearitemget
 api_get_member/material		(資源獲得時)
 api_get_member/usetitem		(アイテム獲得時)
 api_get_member/questlist
+
+
+《ケッコンカッコカリ》
+api_req_kaisou/marriage
+api_get_member/ship2
+api_get_member/useitem
 

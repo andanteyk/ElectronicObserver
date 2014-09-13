@@ -1,4 +1,4 @@
-﻿namespace ElectronicObserver {
+﻿namespace ElectronicObserver.Window {
 	partial class FormMain {
 		/// <summary>
 		/// 必要なデザイナー変数です。
@@ -124,6 +124,7 @@
 			this.MainMenuStrip = this.StripMenu;
 			this.Name = "FormMain";
 			this.Text = "ElectronicObserver";
+			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

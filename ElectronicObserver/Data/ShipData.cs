@@ -96,41 +96,6 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		/// <summary>
-		/// 火力強化値
-		/// </summary>
-		public int FirepowerModernized {
-			get { return RawData.api_kyouka[0]; }
-		}
-
-		/// <summary>
-		/// 雷装強化値
-		/// </summary>
-		public int TorpedoModernized {
-			get { return RawData.api_kyouka[1]; }
-		}
-
-		/// <summary>
-		/// 対空強化値
-		/// </summary>
-		public int AAModernized {
-			get { return RawData.api_kyouka[2]; }
-		}
-
-		/// <summary>
-		/// 装甲強化値
-		/// </summary>
-		public int ArmorModernized {
-			get { return RawData.api_kyouka[3]; }
-		}
-
-		/// <summary>
-		/// 運強化値
-		/// </summary>
-		public int LuckModernized {
-			get { return RawData.api_kyouka[4]; }
-		}
-
 
 		/// <summary>
 		/// 搭載燃料
@@ -182,6 +147,41 @@ namespace ElectronicObserver.Data {
 		 * 総合値：装備込みでのパラメータ
 		 * 基本値：装備なしでのパラメータ(初期値+強化値)
 		 ********************************************************/
+
+		/// <summary>
+		/// 火力強化値
+		/// </summary>
+		public int FirepowerModernized {
+			get { return RawData.api_kyouka[0]; }
+		}
+
+		/// <summary>
+		/// 雷装強化値
+		/// </summary>
+		public int TorpedoModernized {
+			get { return RawData.api_kyouka[1]; }
+		}
+
+		/// <summary>
+		/// 対空強化値
+		/// </summary>
+		public int AAModernized {
+			get { return RawData.api_kyouka[2]; }
+		}
+
+		/// <summary>
+		/// 装甲強化値
+		/// </summary>
+		public int ArmorModernized {
+			get { return RawData.api_kyouka[3]; }
+		}
+
+		/// <summary>
+		/// 運強化値
+		/// </summary>
+		public int LuckModernized {
+			get { return RawData.api_kyouka[4]; }
+		}
 
 
 		/// <summary>

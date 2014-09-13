@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Data {
 
 
-	public sealed class KCDatabase : IResponseLoader {
+	public sealed class KCDatabase {
 
 
 		#region Singleton
@@ -73,6 +73,7 @@ namespace ElectronicObserver.Data {
 
 
 		private KCDatabase() {
+
 			MasterShips = new IDDictionary<ShipDataMaster>();
 			ShipTypes = new IDDictionary<ShipType>();
 			MasterEquipments = new IDDictionary<EquipmentDataMaster>();
@@ -82,12 +83,10 @@ namespace ElectronicObserver.Data {
 			Admiral = new AdmiralData();
 			MasterUseItems = new IDDictionary<UseItemMaster>();
 			UseItems = new IDDictionary<UseItem>();
+		
 		}
 
 
-		public bool LoadFromResponse( string apiname, dynamic data ) {
-			throw new NotImplementedException();
-		}
 	}
 
 
