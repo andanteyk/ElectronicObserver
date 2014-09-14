@@ -41,14 +41,17 @@
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
 			this.StripMenu = new System.Windows.Forms.MenuStrip();
 			this.StripStatus = new System.Windows.Forms.StatusStrip();
+			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MainDockPanel
 			// 
 			this.MainDockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MainDockPanel.Location = new System.Drawing.Point(0, 24);
+			this.MainDockPanel.Location = new System.Drawing.Point(0, 26);
 			this.MainDockPanel.Name = "MainDockPanel";
-			this.MainDockPanel.Size = new System.Drawing.Size(284, 216);
+			this.MainDockPanel.Size = new System.Drawing.Size(284, 214);
 			dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
 			dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
 			autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
@@ -99,9 +102,11 @@
 			// 
 			// StripMenu
 			// 
+			this.StripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripMenu_Debug});
 			this.StripMenu.Location = new System.Drawing.Point(0, 0);
 			this.StripMenu.Name = "StripMenu";
-			this.StripMenu.Size = new System.Drawing.Size(284, 24);
+			this.StripMenu.Size = new System.Drawing.Size(284, 26);
 			this.StripMenu.TabIndex = 2;
 			this.StripMenu.Text = "menuStrip1";
 			// 
@@ -112,6 +117,21 @@
 			this.StripStatus.Size = new System.Drawing.Size(284, 22);
 			this.StripStatus.SizingGrip = false;
 			this.StripStatus.TabIndex = 3;
+			// 
+			// StripMenu_Debug
+			// 
+			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripMenu_Debug_LoadAPIFromFile});
+			this.StripMenu_Debug.Name = "StripMenu_Debug";
+			this.StripMenu_Debug.Size = new System.Drawing.Size(87, 22);
+			this.StripMenu_Debug.Text = "デバッグ(D)";
+			// 
+			// StripMenu_Debug_LoadAPIFromFile
+			// 
+			this.StripMenu_Debug_LoadAPIFromFile.Name = "StripMenu_Debug_LoadAPIFromFile";
+			this.StripMenu_Debug_LoadAPIFromFile.Size = new System.Drawing.Size(245, 22);
+			this.StripMenu_Debug_LoadAPIFromFile.Text = "ファイルからAPIをロード(L)...";
+			this.StripMenu_Debug_LoadAPIFromFile.Click += new System.EventHandler(this.StripMenu_Debug_LoadAPIFromFile_Click);
 			// 
 			// FormMain
 			// 
@@ -125,6 +145,8 @@
 			this.Name = "FormMain";
 			this.Text = "ElectronicObserver";
 			this.Load += new System.EventHandler(this.FormMain_Load);
+			this.StripMenu.ResumeLayout(false);
+			this.StripMenu.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -135,6 +157,8 @@
 		private WeifenLuo.WinFormsUI.Docking.DockPanel MainDockPanel;
 		private System.Windows.Forms.MenuStrip StripMenu;
 		private System.Windows.Forms.StatusStrip StripStatus;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadAPIFromFile;
 	}
 }
 

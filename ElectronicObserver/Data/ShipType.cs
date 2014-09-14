@@ -69,8 +69,9 @@ namespace ElectronicObserver.Data {
 		}
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );			//FIXME: そのままだとエラーを吐くため。もっとスマートな代替案があれば
+			base.LoadFromResponse( apiname, (object)data );
 
+			//注：jsonの命名規則に違反するkeyを持っていて読み込めないので、決め打ちで読み込む
 			if ( IsAvailable ) {
 				int i = 1;
 				_equipmentType = new Dictionary<int, bool>();

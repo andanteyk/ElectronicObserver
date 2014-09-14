@@ -35,6 +35,10 @@ namespace ElectronicObserver.Data {
 			dict.Remove( id );
 		}
 
+		internal void Clear() {
+			dict.Clear();
+		}
+
 
 		public bool ContainsKey( int key ) {
 			return dict.ContainsKey( key );

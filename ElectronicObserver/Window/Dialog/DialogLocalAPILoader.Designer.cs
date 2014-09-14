@@ -27,14 +27,14 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.APIList = new System.Windows.Forms.ComboBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.label2 = new System.Windows.Forms.Label();
-			this.TextFilePath = new System.Windows.Forms.TextBox();
-			this.ButtonSearchFilePath = new System.Windows.Forms.Button();
-			this.ButtonOpen = new System.Windows.Forms.Button();
-			this.label3 = new System.Windows.Forms.Label();
-			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.FileOpener = new System.Windows.Forms.OpenFileDialog();
 			this.APICategory = new System.Windows.Forms.ComboBox();
+			this.ButtonCancel = new System.Windows.Forms.Button();
+			this.label3 = new System.Windows.Forms.Label();
+			this.ButtonOpen = new System.Windows.Forms.Button();
+			this.ButtonSearchFilePath = new System.Windows.Forms.Button();
+			this.TextFilePath = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.FileOpener = new System.Windows.Forms.OpenFileDialog();
 			((System.ComponentModel.ISupportInitialize)(this.PictureWarning)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
@@ -54,16 +54,18 @@
 			this.label1.Location = new System.Drawing.Point(51, 13);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(289, 30);
-			this.label1.TabIndex = 1;
+			this.label1.TabIndex = 0;
 			this.label1.Text = "必ずオフラインの状態で操作してください。\r\nこの機能はデバッグ専用であるため、動作は保証できません。";
 			// 
 			// APIList
 			// 
+			this.APIList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.APIList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.APIList.FormattingEnabled = true;
 			this.APIList.Location = new System.Drawing.Point(142, 3);
 			this.APIList.Name = "APIList";
-			this.APIList.Size = new System.Drawing.Size(230, 20);
+			this.APIList.Size = new System.Drawing.Size(430, 20);
 			this.APIList.TabIndex = 2;
 			// 
 			// panel1
@@ -81,75 +83,8 @@
 			this.panel1.Controls.Add(this.APIList);
 			this.panel1.Location = new System.Drawing.Point(0, 61);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(384, 101);
+			this.panel1.Size = new System.Drawing.Size(584, 101);
 			this.panel1.TabIndex = 3;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Meiryo UI", 9F);
-			this.label2.Location = new System.Drawing.Point(12, 6);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(32, 15);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "API:";
-			// 
-			// TextFilePath
-			// 
-			this.TextFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.TextFilePath.Location = new System.Drawing.Point(56, 31);
-			this.TextFilePath.Name = "TextFilePath";
-			this.TextFilePath.Size = new System.Drawing.Size(287, 19);
-			this.TextFilePath.TabIndex = 4;
-			// 
-			// ButtonSearchFilePath
-			// 
-			this.ButtonSearchFilePath.Location = new System.Drawing.Point(349, 29);
-			this.ButtonSearchFilePath.Name = "ButtonSearchFilePath";
-			this.ButtonSearchFilePath.Size = new System.Drawing.Size(23, 23);
-			this.ButtonSearchFilePath.TabIndex = 5;
-			this.ButtonSearchFilePath.Text = "...";
-			this.ButtonSearchFilePath.UseVisualStyleBackColor = true;
-			this.ButtonSearchFilePath.Click += new System.EventHandler(this.ButtonSearchFilePath_Click);
-			// 
-			// ButtonOpen
-			// 
-			this.ButtonOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonOpen.Location = new System.Drawing.Point(216, 66);
-			this.ButtonOpen.Name = "ButtonOpen";
-			this.ButtonOpen.Size = new System.Drawing.Size(75, 23);
-			this.ButtonOpen.TabIndex = 6;
-			this.ButtonOpen.Text = "開く";
-			this.ButtonOpen.UseVisualStyleBackColor = true;
-			this.ButtonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Font = new System.Drawing.Font("Meiryo UI", 9F);
-			this.label3.Location = new System.Drawing.Point(12, 32);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(38, 15);
-			this.label3.TabIndex = 7;
-			this.label3.Text = "Path:";
-			// 
-			// ButtonCancel
-			// 
-			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.ButtonCancel.Location = new System.Drawing.Point(297, 66);
-			this.ButtonCancel.Name = "ButtonCancel";
-			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
-			this.ButtonCancel.TabIndex = 8;
-			this.ButtonCancel.Text = "キャンセル";
-			this.ButtonCancel.UseVisualStyleBackColor = true;
-			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
-			// 
-			// FileOpener
-			// 
-			this.FileOpener.Filter = "JSON|*.json;*.js|File|*";
-			this.FileOpener.Title = "ファイルを開く";
 			// 
 			// APICategory
 			// 
@@ -161,8 +96,77 @@
 			this.APICategory.Location = new System.Drawing.Point(56, 3);
 			this.APICategory.Name = "APICategory";
 			this.APICategory.Size = new System.Drawing.Size(80, 20);
-			this.APICategory.TabIndex = 9;
+			this.APICategory.TabIndex = 1;
 			this.APICategory.SelectedIndexChanged += new System.EventHandler(this.APICategory_SelectedIndexChanged);
+			// 
+			// ButtonCancel
+			// 
+			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.ButtonCancel.Location = new System.Drawing.Point(497, 66);
+			this.ButtonCancel.Name = "ButtonCancel";
+			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
+			this.ButtonCancel.TabIndex = 7;
+			this.ButtonCancel.Text = "キャンセル";
+			this.ButtonCancel.UseVisualStyleBackColor = true;
+			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Font = new System.Drawing.Font("Meiryo UI", 9F);
+			this.label3.Location = new System.Drawing.Point(12, 32);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(38, 15);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "Path:";
+			// 
+			// ButtonOpen
+			// 
+			this.ButtonOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonOpen.Location = new System.Drawing.Point(416, 66);
+			this.ButtonOpen.Name = "ButtonOpen";
+			this.ButtonOpen.Size = new System.Drawing.Size(75, 23);
+			this.ButtonOpen.TabIndex = 6;
+			this.ButtonOpen.Text = "開く";
+			this.ButtonOpen.UseVisualStyleBackColor = true;
+			this.ButtonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
+			// 
+			// ButtonSearchFilePath
+			// 
+			this.ButtonSearchFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonSearchFilePath.Location = new System.Drawing.Point(549, 29);
+			this.ButtonSearchFilePath.Name = "ButtonSearchFilePath";
+			this.ButtonSearchFilePath.Size = new System.Drawing.Size(23, 23);
+			this.ButtonSearchFilePath.TabIndex = 5;
+			this.ButtonSearchFilePath.Text = "...";
+			this.ButtonSearchFilePath.UseVisualStyleBackColor = true;
+			this.ButtonSearchFilePath.Click += new System.EventHandler(this.ButtonSearchFilePath_Click);
+			// 
+			// TextFilePath
+			// 
+			this.TextFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TextFilePath.Location = new System.Drawing.Point(56, 31);
+			this.TextFilePath.Name = "TextFilePath";
+			this.TextFilePath.Size = new System.Drawing.Size(487, 19);
+			this.TextFilePath.TabIndex = 4;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Meiryo UI", 9F);
+			this.label2.Location = new System.Drawing.Point(12, 6);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(32, 15);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "API:";
+			// 
+			// FileOpener
+			// 
+			this.FileOpener.Filter = "JSON|*.json;*.js|File|*";
+			this.FileOpener.Title = "ファイルを開く";
 			// 
 			// DialogLocalAPILoader
 			// 
@@ -170,7 +174,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.ButtonCancel;
-			this.ClientSize = new System.Drawing.Size(384, 162);
+			this.ClientSize = new System.Drawing.Size(584, 162);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.PictureWarning);
@@ -178,6 +182,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DialogLocalAPILoader";
+			this.ShowInTaskbar = false;
 			this.Text = "ファイルからAPIをロード";
 			this.Load += new System.EventHandler(this.DialogLocalAPILoader_Load);
 			((System.ComponentModel.ISupportInitialize)(this.PictureWarning)).EndInit();

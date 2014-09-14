@@ -118,11 +118,20 @@ namespace ElectronicObserver.Observer {
 				json = json.api_data;
 
 
-				//ゆるして
-				switch ( path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 ) ) {
+				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
+				switch ( shortpath ) {
 
 					case "api_start2":
-						api_start2.LoadFromResponse( "api_start2", json ); break;		//糞設計っぽい？改修求む
+						kcsapi.api_start2.LoadFromResponse( shortpath, json ); break;		//糞設計っぽい？改修求む
+
+					case "api_get_member/basic":
+						kcsapi.api_get_member.basic.LoadFromResponse( shortpath, json ); break;
+
+					case "api_get_member/slot_item":
+						kcsapi.api_get_member.slot_item.LoadFromResponse( shortpath, json ); break;
+
+					case "api_get_member/useitem":
+						kcsapi.api_get_member.useitem.LoadFromResponse( shortpath, json ); break;
 
 				}
 

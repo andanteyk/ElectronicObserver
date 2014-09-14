@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 消費アイテムのデータを保持します。
 	/// </summary>
+	[DebuggerDisplay( "{KCDatabase.Instance.MasterUseItems[ItemID].Name} x {Count}" )]
 	public class UseItem : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
