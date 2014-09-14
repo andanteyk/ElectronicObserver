@@ -15,14 +15,14 @@ namespace ElectronicObserver.Data {
 		/// 装備を一意に識別するID
 		/// </summary>
 		public int MasterID {
-			get { return RawData.api_id; }
+			get { return (int)RawData.api_id; }
 		}
 
 		/// <summary>
 		/// 装備ID
 		/// </summary>
 		public int EquipmentID {
-			get { return RawData.api_slotitem_id; }
+			get { return (int)RawData.api_slotitem_id; }
 		}
 
 

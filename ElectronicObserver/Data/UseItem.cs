@@ -15,14 +15,14 @@ namespace ElectronicObserver.Data {
 		/// アイテムID
 		/// </summary>
 		public int ItemID {
-			get { return RawData.api_id; }
+			get { return (int)RawData.api_id; }
 		}
 		
 		/// <summary>
 		/// 個数
 		/// </summary>
 		public int Count {
-			get { return RawData.api_count; }
+			get { return (int)RawData.api_count; }
 		}
 
 

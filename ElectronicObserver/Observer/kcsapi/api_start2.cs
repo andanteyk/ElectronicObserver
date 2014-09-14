@@ -18,7 +18,7 @@ namespace ElectronicObserver.Observer.kcsapi {
 			//api_mst_ship
 			foreach ( var elem in data.api_mst_ship ) {
 
-				int id = elem.api_id;
+				int id = (int)elem.api_id;
 				if ( db.MasterShips[id] == null ) {
 					var ship = new ShipDataMaster();
 					ship.LoadFromResponse( apiname, elem );
@@ -41,7 +41,7 @@ namespace ElectronicObserver.Observer.kcsapi {
 			//api_mst_slotitem_equiptype
 			foreach ( var elem in data.api_mst_slotitem_equiptype ) {
 
-				int id = elem.api_id;
+				int id = (int)elem.api_id;
 				if ( db.EquipmentTypes[id] == null ) {
 					var eqt = new EquipmentType();
 					eqt.LoadFromResponse( apiname, elem );
@@ -55,13 +55,13 @@ namespace ElectronicObserver.Observer.kcsapi {
 			//api_mst_stype
 			foreach ( var elem in data.api_mst_stype ) {
 
-				int id = elem.api_id;
+				int id = (int)elem.api_id;
 				if ( db.ShipTypes[id] == null ) {
 					var spt = new ShipType();
 					spt.LoadFromResponse( apiname, elem );
 					db.ShipTypes.Add( spt );
 				} else {
-					db.ShipTypes[elem.api_id].LoadFromResponse( apiname, elem );
+					db.ShipTypes[id].LoadFromResponse( apiname, elem );
 				}
 			}
 
@@ -69,7 +69,7 @@ namespace ElectronicObserver.Observer.kcsapi {
 			//api_mst_slotitem
 			foreach ( var elem in data.api_mst_slotitem ) {
 
-				int id = elem.api_id;
+				int id = (int)elem.api_id;
 				if ( db.MasterEquipments[id] == null ) {
 					var eq = new EquipmentDataMaster();
 					eq.LoadFromResponse( apiname, elem );
@@ -83,7 +83,7 @@ namespace ElectronicObserver.Observer.kcsapi {
 			//api_mst_useitem
 			foreach ( var elem in data.api_mst_useitem ) {
 
-				int id = elem.api_id;
+				int id = (int)elem.api_id;
 				if ( db.MasterUseItems[id] == null ) {
 					var item = new UseItemMaster();
 					item.LoadFromResponse( apiname, elem );
@@ -100,7 +100,7 @@ namespace ElectronicObserver.Observer.kcsapi {
 				if ( elem.api_drawing_count > 0 ) {
 					int id = db.MasterShips[(int)elem.api_id].RemodelBeforeShipID;
 					if ( id != 0 ) {
-						db.MasterShips[id].NeedBlueprint = elem.api_drawing_count;
+						db.MasterShips[id].NeedBlueprint = (int)elem.api_drawing_count;
 					}
 				}
 			}

@@ -22,10 +22,8 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		/// <param name="apiname">読み込むAPIの名前。</param>
 		/// <param name="data">受信したデータ。</param>
-		public void LoadFromResponse( string apiname, dynamic data ) {
-			if ( data.api_result != 1 )
-				throw new ArgumentException();
-			RawData = data.api_data;
+		public virtual void LoadFromResponse( string apiname, dynamic data ) {
+			RawData = data;
 		}
 
 		/// <summary>

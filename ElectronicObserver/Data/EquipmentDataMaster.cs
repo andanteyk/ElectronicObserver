@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,20 +12,21 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 装備のマスターデータを保持します。
 	/// </summary>
+	[DebuggerDisplay( "[{ID}] : {Name}" )]
 	public class EquipmentDataMaster : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
 		/// 装備ID
 		/// </summary>
 		public int EquipmentID {
-			get { return RawData.api_id; }
+			get { return (int)RawData.api_id; }
 		}
 		
 		/// <summary>
 		/// 並べ替え順
 		/// </summary>
 		public int SortID {
-			get { return RawData.api_sortno; }
+			get { return (int)RawData.api_sortno; }
 		}
 		
 		/// <summary>
@@ -50,77 +52,77 @@ namespace ElectronicObserver.Data {
 		/// 装甲
 		/// </summary>
 		public int Armor {
-			get { return RawData.api_souk; }
+			get { return (int)RawData.api_souk; }
 		}
 
 		/// <summary>
 		/// 火力
 		/// </summary>
 		public int Firepower {
-			get { return RawData.api_houg; }
+			get { return (int)RawData.api_houg; }
 		}
 
 		/// <summary>
 		/// 雷装
 		/// </summary>
 		public int Torpedo {
-			get { return RawData.api_raig; }
+			get { return (int)RawData.api_raig; }
 		}
 
 		/// <summary>
 		/// 爆装
 		/// </summary>
 		public int Bomber {
-			get { return RawData.api_baku; }
+			get { return (int)RawData.api_baku; }
 		}
 
 		/// <summary>
 		/// 対空
 		/// </summary>
 		public int AA {
-			get { return RawData.api_tyku; }
+			get { return (int)RawData.api_tyku; }
 		}
 
 		/// <summary>
 		/// 対潜
 		/// </summary>
 		public int ASW {
-			get { return RawData.api_tais; }
+			get { return (int)RawData.api_tais; }
 		}
 
 		/// <summary>
 		/// 命中
 		/// </summary>
 		public int Accuracy {
-			get { return RawData.api_houm; }
+			get { return (int)RawData.api_houm; }
 		}
 
 		/// <summary>
 		/// 回避
 		/// </summary>
 		public int Evasion {
-			get { return RawData.api_houk; }
+			get { return (int)RawData.api_houk; }
 		}
 
 		/// <summary>
 		/// 索敵
 		/// </summary>
 		public int LOS {
-			get { return RawData.api_saku; }
+			get { return (int)RawData.api_saku; }
 		}
 
 		/// <summary>
 		/// 運
 		/// </summary>
 		public int Luck {
-			get { return RawData.api_luck; }
+			get { return (int)RawData.api_luck; }
 		}
 
 		/// <summary>
 		/// 射程
 		/// </summary>
 		public int Range {
-			get { return RawData.api_leng; }
+			get { return (int)RawData.api_leng; }
 		}
 
 		#endregion
@@ -130,7 +132,7 @@ namespace ElectronicObserver.Data {
 		/// レアリティ
 		/// </summary>
 		public int Rarity {
-			get { return RawData.api_rare; }
+			get { return (int)RawData.api_rare; }
 		}
 		
 		/// <summary>
@@ -144,7 +146,7 @@ namespace ElectronicObserver.Data {
 		/// 図鑑説明
 		/// </summary>
 		public string Message {
-			get { return RawData.api_info; }
+			get { return ( (string)RawData.api_info ).Replace( "<br>", "\n" ); }
 		}
 
 
