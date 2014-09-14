@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Data {
 
 
+	/// <summary>
+	/// 艦これのデータを扱う中核です。
+	/// </summary>
 	public sealed class KCDatabase {
 
 

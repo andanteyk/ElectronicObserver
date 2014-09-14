@@ -770,106 +770,33 @@ api_req_member/get_practice_enemyinfo		：演習詳細
 			api_star	：改装☆
 
 
-api_req_practice/battle	：演習　＊通常戦闘とほぼ同じ、この項はいずれ削除する
-							差は支援艦隊用のパラメータがないだけ
-	api_dock_id			：こちらの出撃艦隊ID
-	api_ship_ke			：敵艦船ID -1から始まる, 空きは-1
-	api_ship_lv			：敵艦船Lv. -1から始まる
-	api_nowhps			：味方/敵艦船の現在HP -1から始まる
-	api_maxhps			：〃最大HP
-	api_midnight_flag	：夜戦突入可否 昼戦で全滅させた場合0
-	api_eSlot			：敵艦船装備スロット　空欄は-1, 艦がいれば[5], いなければ[4]
-	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
-	api_fParam			：味方艦船基礎ステータス
-	api_eParam			：敵艦船基礎ステータス
-	api_search			：索敵　[0]=味方, [1]=敵	1=成功, 2=失敗?
-	api_formation		：陣形/交戦形態?　[0]=味方, [1]=敵, [2]=交戦形態
-							[0|1]：1=単縦陣
-							[2]：2=反航戦？
-	api_stage_flag		：
-	api_kouku			：航空戦情報
-		api_plane_from	：艦載機を飛ばせる艦　[0]=味方, [1]=敵
-		api_stage1		：航空戦1　空対空戦闘
-			api_f_count		：味方艦載機数
-			api_f_lostcount	：〃喪失数
-			api_e_count		：敵〃
-			api_e_lostcount	：
-			api_disp_seiku	：制空権表示	1=制空権確保, 4=制空権喪失
-			api_touch_plane	：触接装備ID　[0]=味方, [1]=敵?　-1=なし
-		api_stage2		：航空戦2　対空砲火?
-			api_f_count		：味方艦載機数(艦攻/艦爆数)
-			api_f_lostcount	：〃喪失数?
-			api_e_count		：敵〃
-			api_e_lostcount	：
-		api_stage3		：航空攻撃
-			api_frai_flag	：味方被雷撃フラグ
-			api_erai_flag	：敵被雷撃フラグ
-			api_fbak_flag	：味方被爆撃フラグ
-			api_ebak_flag	：敵被爆撃フラグ
-			api_fcl_flag	：味方クリティカルフラグ? 0=爆撃命中? 1=命中 攻撃側にフラグが立つ
-			api_ecl_flag	：敵クリティカルフラグ?
-			api_fdam		：味方被ダメージ　庇われると+0.1
-			api_edam		：敵被ダメージ
-	api_opening_flag	：開幕雷撃フラグ?
-	api_opening_attack	：開幕雷撃戦
-		api_frai		：雷撃ターゲット
-		api_erai		：
-		api_fdam		：被ダメージ
-		api_edam		：
-		api_fydam		：与ダメージ
-		api_eydam		：
-		api_fcl			：クリティカルヒット？ 1=命中
-		api_ecl			：
-	api_hourai_flag	：砲雷撃戦フラグ
-	api_hougeki1	：砲撃戦1巡目?　api_hourai_flag[0]=0だとnull
-		api_at_list		：行動順?
-		api_at_type		：弾着観測砲撃?　0=通常, 2=連撃, 6=徹甲弾カットイン
-		api_df_list		：防御側ID　-1から始まる　連撃は2個
-		api_si_list		：表示装備ID　カットインだと[0]=偵察機, [1]=砲, [2]=砲|電探|その他, 連撃だと[0]=装備1, [1]=装備2, 通常砲撃は[0]=装備1 非表示は-1
-		api_cl_list		：クリティカルフラグ? 0=ミス, 1=命中, 2=クリティカル
-		api_damage		：ダメージ(実ダメージ)
-	api_hougeki2	：砲撃戦2巡目　上に同じ
-	api_hougeki3	：
-	api_raigeki		：雷撃戦　開幕雷撃戦に同じ
+api_req_practice/battle	：演習
+	(api_req_sortie/battleとほぼ同じ)
+	api_support_flag	：(存在せず)
+	api_support_info	：(存在せず)
+	
 
-api_req_practice/midnight_battle		：演習夜戦　＊
-	api_deck_id			：こちらの出撃艦隊ID
-	api_nowhps			：味方/敵艦船の現在HP -1から始まる
-	api_ship_ke			：敵艦船ID -1から始まる
-	api_ship_lv			：敵艦船Lv.
-	api_maxhps			：〃最大HP
-	api_eSlot			：敵艦船装備スロット　空欄は-1, 艦がいれば[5], いなければ[4]
-	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
-	api_fParam			：味方艦船基礎ステータス
-	api_eParam			：敵艦船基礎ステータス
-	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵
-	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵
-	api_hougeki			：夜間砲撃戦
-		api_at_list		：行動順?
-		api_df_list		：防御側ID　-1から始まる　連撃は2個
-		api_si_list		：表示装備ID　連撃だと[0]=装備1, [1]=装備2, 通常砲撃は[0]=装備1 非表示は-1
-		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
-		api_sp_list		：
-		api_damage		：ダメージ(実ダメージ)
+api_req_practice/midnight_battle		：演習夜戦
+	(api_req_battle_midnight/battleとほぼ同じ)
+	api_deck_id			：数値型
 
 
-api_req_practice/battle_result			：演習結果 ＊
-	api_ship_id			：敵艦船ID -1から始まる
-	api_win_rank		：勝利ランク
-	api_get_exp			：獲得提督経験値？
-	api_member_lv		：艦隊司令部Lv.
-	api_member_exp		：提督経験値
-	api_get_base_exp	：獲得基本経験値
-	api_mvp				：MVP
-	api_get_ship_exp	：各艦の獲得経験値
-	api_get_exp_lvup	：各艦の[0]=獲得前経験値, [1]=次のレベルの経験値, (レベルアップした場合)[2]その次のレベルの経験値, ...
-	api_dests			：
-	api_destsf			：
-	api_enemy_info		：敵艦隊情報
-		api_user_name	：空
-		api_level		：艦隊司令部Lv.
-		api_rank		：階級
-		api_deck_name	：艦隊名
+api_req_practice/battle_result			：演習結果
+	(api_req_sortie/battleresultとほぼ同じ)
+	api_lost_flag			：(存在せず)
+	api_quest_name			：(存在せず)
+	api_quest_level			：(存在せず)
+	api_enemy_info			：敵艦隊情報
+		api_user_name		：""
+		api_level			：敵艦隊司令部Lv.
+		api_rank			：敵階級　文字列
+		api_deck_name		：敵艦隊名
+	api_first_clear			：(存在せず)
+	api_get_flag			：(存在せず)
+	api_get_ship			：(存在せず)
+	api_get_eventflag		：(存在せず)
+	api_get_exmap_rate		：(存在せず)
+	api_get_exmap_useitem_id：(存在せず)
 
 
 Request.api_req_kaisou/slotset	：装備換装
@@ -903,7 +830,7 @@ api_get_member/mapcell		：マップデータ
 	api_passed	：通行済み　初期地点は常に0
 
 
-api_req_map/start		：出撃
+api_req_map/start		：出撃　同じメンバはnextのほうが情報が新しいのでそちらを参照
 	api_rashin_flg		：羅針盤を表示するかどうか
 	api_rashin_id		：妖精さん　1=眠そう, 2=桃の髪飾り, 3=ひよこ, 4=魔法使い
 	api_maparea_id		：海域カテゴリID
@@ -984,7 +911,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_f_lostcount	：〃撃墜数
 			api_e_count		：敵〃
 			api_e_lostcount	：
-			api_disp_seiku	：制空権表示	1=制空権確保, 2=航空優勢, 3=表示なし(制空均衡/航空劣勢)?, 4=制空権喪失
+			api_disp_seiku	：制空権表示　0=制空均衡, 1=制空権確保, 2=航空優勢, 3=航空劣勢, 4=制空権喪失
 			api_touch_plane	：触接装備ID　[0]=味方, [1]=敵
 		api_stage2		：航空戦2　対空砲火
 			api_f_count		：味方艦載機数(艦攻/艦爆数)
@@ -1070,6 +997,11 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
 		api_sp_list		：夜戦攻撃種別 0=通常攻撃, 1=連撃, 2=カットイン(主砲/魚雷), 3=カットイン(魚雷/魚雷)?, 4=カットイン(主砲/副砲), 5=カットイン(主砲/主砲)
 		api_damage		：ダメージ(実ダメージ)
+
+
+???/sp_midnight		：開幕夜戦
+	(全メンバが api_req_battle_midnight/battle を継承)
+	api_formation		：陣形　昼戦のそれと同じ　api_eParamとapi_touch_planeの間
 
 
 api_req_sortie/battleresult	：戦闘結果
@@ -1296,6 +1228,11 @@ api_req_combined_battle/midnight_battle		：連合艦隊-機動部隊 夜戦
 		api_damage		：ダメージ(実ダメージ)
 
 
+api_req_combined_battle/sp_midnight		：連合艦隊 開幕夜戦
+	(全メンバを api_req_combined_battle/midnight_battle から継承)
+	api_formation		：陣形　昼戦のそれと同じ(但し味方陣形は文字列型)
+
+
 api_req_combined_battle/battleresult	：連合艦隊 戦闘結果
 	api_ship_id					：敵艦船ID
 	api_win_rank				：勝利ランク
@@ -1460,7 +1397,7 @@ api_get_member/ship3
 《任務報酬受領》
 api_req_quest/clearitemget
 api_get_member/material		(資源獲得時)
-api_get_member/usetitem		(アイテム獲得時)
+api_get_member/useitem		(アイテム獲得時)
 api_get_member/questlist
 
 
