@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,10 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 着任日時
+		/// 起動日時
 		/// </summary>
 		public DateTime StartTime {
-			get { return new DateTime( (long)RawData.api_starttime ); }
+			get { return DateConverter.FromAPITime( (long)RawData.api_starttime ); }
 		}
 
 		/// <summary>

@@ -70,6 +70,28 @@ namespace ElectronicObserver.Data {
 		public IDDictionary<UseItem> UseItems { get; private set; }
 
 
+		/// <summary>
+		/// 工廠ドックデータ
+		/// </summary>
+		public IDDictionary<ArsenalData> Arsenals { get; private set; }
+
+		/// <summary>
+		/// 入渠ドックデータ
+		/// </summary>
+		public IDDictionary<DockData> Docks { get; private set; }
+
+
+		/// <summary>
+		/// 艦隊データ
+		/// </summary>
+		public IDDictionary<FleetData> Fleets { get; private set; }
+
+		//todo: 連合艦隊を扱えるデータ構造にする
+
+		/// <summary>
+		/// 資源データ
+		/// </summary>
+		public MaterialData Material { get; private set; }
 
 
 		private KCDatabase() {
@@ -83,7 +105,11 @@ namespace ElectronicObserver.Data {
 			Admiral = new AdmiralData();
 			MasterUseItems = new IDDictionary<UseItemMaster>();
 			UseItems = new IDDictionary<UseItem>();
-		
+			Arsenals = new IDDictionary<ArsenalData>();
+			Docks = new IDDictionary<DockData>();
+			Fleets = new IDDictionary<FleetData>();
+			Material = new MaterialData();
+
 		}
 
 

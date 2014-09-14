@@ -58,7 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AdmiralData.cs" />
+    <Compile Include="Data\ArsenalData.cs" />
     <Compile Include="Data\Constants.cs" />
+    <Compile Include="Data\DockData.cs" />
     <Compile Include="Data\EquipmentData.cs" />
     <Compile Include="Data\EquipmentDataMaster.cs" />
     <Compile Include="Data\EquipmentType.cs" />
@@ -67,12 +69,17 @@
     <Compile Include="Data\IRequestLoader.cs" />
     <Compile Include="Data\IResponseLoader.cs" />
     <Compile Include="Data\KCDatabase.cs" />
+    <Compile Include="Data\FleetData.cs" />
+    <Compile Include="Data\MaterialData.cs" />
     <Compile Include="Data\ResponseWrapper.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\basic.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\kdock.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\slot_item.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\useitem.cs" />
+    <Compile Include="Observer\kcsapi\api_port\port.cs" />
+    <Compile Include="Utility\Mathematics\DateConverter.cs" />
     <Compile Include="Window\Dialog\DialogLocalAPILoader.cs">
       <SubType>Form</SubType>
     </Compile>

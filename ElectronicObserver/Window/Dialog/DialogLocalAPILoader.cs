@@ -83,6 +83,8 @@ namespace ElectronicObserver.Window.Dialog {
 				APIList.Items.Add( "api_get_member/basic" );
 				APIList.Items.Add( "api_get_member/slot_item" );
 				APIList.Items.Add( "api_get_member/useitem" );
+				APIList.Items.Add( "api_get_member/kdock" );
+				APIList.Items.Add( "api_port/port" );
 
 			}
 			APIList.SelectedIndex = 0;

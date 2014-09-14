@@ -133,6 +133,12 @@ namespace ElectronicObserver.Observer {
 					case "api_get_member/useitem":
 						kcsapi.api_get_member.useitem.LoadFromResponse( shortpath, json ); break;
 
+					case "api_get_member/kdock":
+						kcsapi.api_get_member.kdock.LoadFromResponse( shortpath, json ); break;
+
+					case "api_port/port":
+						kcsapi.api_port.port.LoadFromResponse( shortpath, json ); break;
+
 				}
 
 
