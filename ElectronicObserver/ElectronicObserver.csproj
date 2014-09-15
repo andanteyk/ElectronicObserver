@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,7 @@
     <Compile Include="Data\EquipmentData.cs" />
     <Compile Include="Data\EquipmentDataMaster.cs" />
     <Compile Include="Data\EquipmentType.cs" />
+    <Compile Include="Data\FleetManager.cs" />
     <Compile Include="Data\IDDictionary.cs" />
     <Compile Include="Data\IIdentifiable.cs" />
     <Compile Include="Data\IRequestLoader.cs" />
@@ -71,14 +73,20 @@
     <Compile Include="Data\KCDatabase.cs" />
     <Compile Include="Data\FleetData.cs" />
     <Compile Include="Data\MaterialData.cs" />
+    <Compile Include="Data\QuestData.cs" />
+    <Compile Include="Data\QuestManager.cs" />
+    <Compile Include="Data\APIWrapper.cs" />
     <Compile Include="Data\ResponseWrapper.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\basic.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\kdock.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\questlist.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\ship2.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\slot_item.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\useitem.cs" />
     <Compile Include="Observer\kcsapi\api_port\port.cs" />
+    <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
     <Compile Include="Utility\Mathematics\DateConverter.cs" />
     <Compile Include="Window\Dialog\DialogLocalAPILoader.cs">
       <SubType>Form</SubType>

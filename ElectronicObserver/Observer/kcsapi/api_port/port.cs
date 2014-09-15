@@ -17,6 +17,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 			db.Material.LoadFromResponse( apiname, data.api_material );
 
 			//api_deck_port
+			/*
 			foreach ( var elem in data.api_deck_port ) {
 
 				int id = (int)elem.api_id;
@@ -30,6 +31,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 					db.Fleets[id].LoadFromResponse( apiname, elem );
 				}
 			}
+			*/
+			db.Fleet.LoadFromResponse( apiname, data.api_deck_port );
+			db.Fleet.CombinedFlag = (int)data.api_combined_flag;			//fixme:きたない
 
 			//api_ndock
 			foreach ( var elem in data.api_ndock ) {

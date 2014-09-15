@@ -581,16 +581,18 @@ api_req_quest/stop			：任務中止
 
 
 Request.api_req_quest/clearitemget：任務達成
-	api_quest		：
-	api_quest_id	：任務ID
+	api_quest			：
+	api_quest_id		：任務ID
 	
 api_req_quest/clearitemget		：任務達成
-	api_material	：獲得資源量
-	api_bonus_count	：アイテム取得個数(カテゴリの)
-	api_bonus		：アイテム
-		api_type	：アイテムID
-		api_count	：取得個数
-		api_item	：
+	api_material		：獲得資源量
+	api_bonus_count		：アイテム取得個数(カテゴリの)
+	api_bonus			：アイテム
+		api_type		：アイテムID
+		api_count		：取得個数
+		api_item		：アイテム追加情報 一般アイテムはnull
+			api_id		：0?
+			api_name	：アイテム名 家具箱系で確認
 
 
 api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ送られてくるので注意

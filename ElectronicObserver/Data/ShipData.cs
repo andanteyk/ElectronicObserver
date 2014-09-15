@@ -238,7 +238,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 運総合値
 		/// </summary>
-		public int LuckyTotal {
+		public int LuckTotal {
 			get { return (int)RawData.api_lucky[0]; }
 		}
 
@@ -325,7 +325,7 @@ namespace ElectronicObserver.Data {
 		/// 保護ロックの有無
 		/// </summary>
 		public bool IsLocked {
-			get { return RawData.api_locked != 0; }
+			get { return (int)RawData.api_locked != 0; }
 		}
 
 		//*/

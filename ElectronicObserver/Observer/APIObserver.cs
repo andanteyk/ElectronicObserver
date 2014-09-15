@@ -102,7 +102,24 @@ namespace ElectronicObserver.Observer {
 
 
 		public void LoadRequest( string path, string data ) {
+
+			try {
+
+				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
+				switch ( shortpath ) {
+
+					case "api_req_quest/clearitemget":
+						kcsapi.api_req_quest.clearitemget.LoadFromRequest( shortpath, data ); break;
+
+				}
+
+			} catch ( Exception e ) {
+				
+				System.Diagnostics.Debug.WriteLine( e.Message );
+			}
+
 		}
+
 
 		public void LoadResponse( string path, string data ) {
 
@@ -115,29 +132,34 @@ namespace ElectronicObserver.Observer {
 					//TODO: cats came here
 				}
 
-				json = json.api_data;
-
+				
 
 				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
 				switch ( shortpath ) {
 
 					case "api_start2":
-						kcsapi.api_start2.LoadFromResponse( shortpath, json ); break;		//糞設計っぽい？改修求む
+						kcsapi.api_start2.LoadFromResponse( shortpath, json.api_data ); break;		//糞設計っぽい？改修求む
 
 					case "api_get_member/basic":
-						kcsapi.api_get_member.basic.LoadFromResponse( shortpath, json ); break;
+						kcsapi.api_get_member.basic.LoadFromResponse( shortpath, json.api_data ); break;
 
 					case "api_get_member/slot_item":
-						kcsapi.api_get_member.slot_item.LoadFromResponse( shortpath, json ); break;
+						kcsapi.api_get_member.slot_item.LoadFromResponse( shortpath, json.api_data ); break;
 
 					case "api_get_member/useitem":
-						kcsapi.api_get_member.useitem.LoadFromResponse( shortpath, json ); break;
+						kcsapi.api_get_member.useitem.LoadFromResponse( shortpath, json.api_data ); break;
 
 					case "api_get_member/kdock":
-						kcsapi.api_get_member.kdock.LoadFromResponse( shortpath, json ); break;
+						kcsapi.api_get_member.kdock.LoadFromResponse( shortpath, json.api_data ); break;
 
 					case "api_port/port":
-						kcsapi.api_port.port.LoadFromResponse( shortpath, json ); break;
+						kcsapi.api_port.port.LoadFromResponse( shortpath, json.api_data ); break;
+
+					case "api_get_member/ship2":
+						kcsapi.api_get_member.ship2.LoadFromResponse( shortpath, json ); break;
+
+					case "api_get_member/questlist":
+						kcsapi.api_get_member.questlist.LoadFromResponse( shortpath, json.api_data ); break;
 
 				}
 

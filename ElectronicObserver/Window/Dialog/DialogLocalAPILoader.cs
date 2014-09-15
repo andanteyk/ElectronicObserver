@@ -75,7 +75,8 @@ namespace ElectronicObserver.Window.Dialog {
 			APIList.Items.Clear();
 			if ( APICategory.SelectedIndex == 0 ) {
 				//request
-				APIList.Items.Add( "none" );
+				APIList.Items.Add( "api_req_quest/clearitemget" );
+
 			} else {
 				//response
 
@@ -85,7 +86,9 @@ namespace ElectronicObserver.Window.Dialog {
 				APIList.Items.Add( "api_get_member/useitem" );
 				APIList.Items.Add( "api_get_member/kdock" );
 				APIList.Items.Add( "api_port/port" );
-
+				APIList.Items.Add( "api_get_member/ship2" );
+				APIList.Items.Add( "api_get_member/questlist" );
+				
 			}
 			APIList.SelectedIndex = 0;
 

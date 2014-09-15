@@ -87,7 +87,8 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 艦隊データ
 		/// </summary>
-		public IDDictionary<FleetData> Fleets { get; private set; }
+		//public IDDictionary<FleetData> Fleets { get; private set; }
+		public FleetManager Fleet { get; private set; }
 
 		//todo: 連合艦隊を扱えるデータ構造にする
 
@@ -97,6 +98,7 @@ namespace ElectronicObserver.Data {
 		public MaterialData Material { get; private set; }
 
 
+		public QuestManager Quest { get; private set; }
 		private KCDatabase() {
 
 			MasterShips = new IDDictionary<ShipDataMaster>();
@@ -110,8 +112,9 @@ namespace ElectronicObserver.Data {
 			UseItems = new IDDictionary<UseItem>();
 			Arsenals = new IDDictionary<ArsenalData>();
 			Docks = new IDDictionary<DockData>();
-			Fleets = new IDDictionary<FleetData>();
+			Fleet = new FleetManager();
 			Material = new MaterialData();
+			Quest = new QuestManager();
 
 		}
 
