@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Observer;
 using ElectronicObserver.Window.Dialog;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,16 @@ using System.Windows.Forms;
 
 namespace ElectronicObserver.Window {
 	public partial class FormMain : Form {
-		
+
+		#region Forms
+
+		public FormFleet[] fFleet;
+
+		#endregion
+
+
+
+
 		public FormMain() {
 			InitializeComponent();
 		}
@@ -24,6 +34,14 @@ namespace ElectronicObserver.Window {
 			//APIObserver.Instance.Start( 40620 );
 
 
+			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
+
+			//form init
+			fFleet = new FormFleet[4];
+			for ( int i = 0; i < fFleet.Length; i++ ) {
+				fFleet[i] = new FormFleet( i + 1 );
+				fFleet[i].Show( MainDockPanel );
+			}
 			
 		}
 

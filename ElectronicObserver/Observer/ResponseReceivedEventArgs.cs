@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer {
 
-
+	[Obsolete( "開発初期の名残です, 今となっては何に使うものやら覚えていません", false )]
 	public class ResponseReceivedEventArgs : EventArgs {
 
 		public string Name { get; private set; }

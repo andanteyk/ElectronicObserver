@@ -24,12 +24,6 @@ namespace ElectronicObserver.Observer {
 
 
 
-		public delegate void ResponseReceivedEventHandler( ResponseReceivedEventArgs e );
-
-
-
-		public event ResponseReceivedEventHandler RaiseResponseReceivedEvent = delegate { };		//null避け
-
 
 		private APIObserver() {
 

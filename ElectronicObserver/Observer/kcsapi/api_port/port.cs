@@ -16,39 +16,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 			//api_material
 			db.Material.LoadFromResponse( apiname, data.api_material );
 
-			//api_deck_port
-			/*
-			foreach ( var elem in data.api_deck_port ) {
-
-				int id = (int)elem.api_id;
-
-				if ( !db.Fleets.ContainsKey( id ) ) {
-					var a = new FleetData();
-					a.LoadFromResponse( apiname, elem );
-					db.Fleets.Add( a );
-
-				} else {
-					db.Fleets[id].LoadFromResponse( apiname, elem );
-				}
-			}
-			*/
-			db.Fleet.LoadFromResponse( apiname, data.api_deck_port );
-			db.Fleet.CombinedFlag = (int)data.api_combined_flag;			//fixme:きたない
-
-			//api_ndock
-			foreach ( var elem in data.api_ndock ) {
-
-				int id = (int)elem.api_id;
-
-				if ( !db.Docks.ContainsKey( id ) ) {
-					var a = new DockData();
-					a.LoadFromResponse( apiname, elem );
-					db.Docks.Add( a );
-
-				} else {
-					db.Docks[id].LoadFromResponse( apiname, elem );
-				}
-			}
+			//api_basic
+			db.Admiral.LoadFromResponse( apiname, data.api_basic );
 
 			//api_ship
 			foreach ( var elem in data.api_ship ) {
@@ -65,9 +34,33 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 				}
 			}
 
-			//api_basic
-			db.Admiral.LoadFromResponse( apiname, data.api_basic );
+			//api_ndock
+			foreach ( var elem in data.api_ndock ) {
 
+				int id = (int)elem.api_id;
+
+				if ( !db.Docks.ContainsKey( id ) ) {
+					var a = new DockData();
+					a.LoadFromResponse( apiname, elem );
+					db.Docks.Add( a );
+
+				} else {
+					db.Docks[id].LoadFromResponse( apiname, elem );
+				}
+			}
+
+			//api_deck_port
+			db.Fleet.LoadFromResponse( apiname, data.api_deck_port );
+			db.Fleet.CombinedFlag = (int)data.api_combined_flag;			//fixme:きたない
+
+
+
+			db.OnMaterialUpdated();
+			db.OnAdmiralUpdated();
+			db.OnShipsUpdated();
+			db.OnDocksUpdated();
+			db.OnFleetUpdated();
+			
 		}
 
 	}
