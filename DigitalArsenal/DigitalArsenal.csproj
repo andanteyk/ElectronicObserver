@@ -44,11 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Control\ShipStatusHP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\ShipStatusHP.Designer.cs">
+      <DependentUpon>ShipStatusHP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Control\ShipStatusLevel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Control\ShipStatusLevel.Designer.cs">
       <DependentUpon>ShipStatusLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\StatusBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\StatusBar.Designer.cs">
+      <DependentUpon>StatusBar.cs</DependentUpon>
     </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
@@ -58,8 +70,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Control\ShipStatusHP.resx">
+      <DependentUpon>ShipStatusHP.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Control\ShipStatusLevel.resx">
       <DependentUpon>ShipStatusLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\StatusBar.resx">
+      <DependentUpon>StatusBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
