@@ -1,4 +1,4 @@
-﻿namespace DigitalArsenal.Control {
+﻿namespace ElectronicObserver.Window.Control {
 	partial class ShipStatusHP {
 		/// <summary> 
 		/// 必要なデザイナー変数です。
@@ -23,7 +23,7 @@
 		/// コード エディターで変更しないでください。
 		/// </summary>
 		private void InitializeComponent() {
-			this._HPBar = new DigitalArsenal.Control.StatusBar();
+			this._HPBar = new ElectronicObserver.Window.Control.StatusBar();
 			this.SuspendLayout();
 			// 
 			// _HPBar
@@ -43,7 +43,8 @@
 			// 
 			// ShipStatusHP
 			// 
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._HPBar);
 			this.DoubleBuffered = true;
 			this.Name = "ShipStatusHP";

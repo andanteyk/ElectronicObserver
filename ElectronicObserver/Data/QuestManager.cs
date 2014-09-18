@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Codeplex.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,21 +21,25 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			foreach ( dynamic elem in RawData.api_list ) {
+			if ( !( RawData.api_list is double ) ) {	//任務完遂時 -1 になる
 
-				if ( elem.IsObject ) {		//空欄は -1 になるため。
+				foreach ( dynamic elem in RawData.api_list ) {
 
-					int id = (int)elem.api_no;
-					if ( !Quests.ContainsKey( id ) ) {
-						var q = new QuestData();
-						q.LoadFromResponse( apiname, elem );
-						Quests.Add( q );
+					if ( !( elem is double ) ) {		//空欄は -1 になるため。
 
-					} else {
-						Quests[id].LoadFromResponse( apiname, elem );
+						int id = (int)elem.api_no;
+						if ( !Quests.ContainsKey( id ) ) {
+							var q = new QuestData();
+							q.LoadFromResponse( apiname, elem );
+							Quests.Add( q );
+
+						} else {
+							Quests[id].LoadFromResponse( apiname, elem );
+						}
+
 					}
-
 				}
+
 			}
 
 		}

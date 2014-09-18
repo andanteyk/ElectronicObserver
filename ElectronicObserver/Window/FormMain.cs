@@ -31,7 +31,7 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_Load( object sender, EventArgs e ) {
 
-			//APIObserver.Instance.Start( 40620 );
+			APIObserver.Instance.Start( 40620 );
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DigitalArsenal.Control {
+namespace ElectronicObserver.Window.Control {
 
 	public partial class ShipStatusLevel : UserControl {
 
@@ -124,7 +124,7 @@ namespace DigitalArsenal.Control {
 
 
 		private int InnerHorizontalMargin {
-			get { return 2; }
+			get { return 4; }
 		}
 		#endregion
 

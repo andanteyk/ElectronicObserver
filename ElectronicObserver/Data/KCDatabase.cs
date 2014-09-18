@@ -28,6 +28,8 @@ namespace ElectronicObserver.Data {
 
 		public delegate void DatabaseUpdatedEventHandler( DatabaseUpdatedEventArgs e );
 
+		//private DatabaseUpdatedEventHandler _fleetUpdated = delegate { };
+
 		public event DatabaseUpdatedEventHandler MasterDataUpdated = delegate { };
 		public event DatabaseUpdatedEventHandler ShipsUpdated = delegate { };
 		public event DatabaseUpdatedEventHandler EquipmentsUpdated = delegate { };
@@ -36,6 +38,7 @@ namespace ElectronicObserver.Data {
 		public event DatabaseUpdatedEventHandler ArsenalsUpdated = delegate { };
 		public event DatabaseUpdatedEventHandler DocksUpdated = delegate { };
 		public event DatabaseUpdatedEventHandler FleetUpdated = delegate { };
+		
 		public event DatabaseUpdatedEventHandler MaterialUpdated = delegate { };
 		public event DatabaseUpdatedEventHandler QuestUpdated = delegate { };
 

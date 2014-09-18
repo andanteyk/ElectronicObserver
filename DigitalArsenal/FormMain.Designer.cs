@@ -28,8 +28,10 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.TableTest = new System.Windows.Forms.TableLayoutPanel();
-			this.shipStatusHP1 = new DigitalArsenal.Control.ShipStatusHP();
+			this.shipStatusHP2 = new DigitalArsenal.Control.ShipStatusHP();
+			this.shipStatusLevel2 = new DigitalArsenal.Control.ShipStatusLevel();
 			this.shipStatusLevel1 = new DigitalArsenal.Control.ShipStatusLevel();
+			this.shipStatusHP1 = new DigitalArsenal.Control.ShipStatusHP();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
@@ -48,8 +50,10 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.shipStatusHP1);
+			this.tabPage1.Controls.Add(this.shipStatusHP2);
+			this.tabPage1.Controls.Add(this.shipStatusLevel2);
 			this.tabPage1.Controls.Add(this.shipStatusLevel1);
+			this.tabPage1.Controls.Add(this.shipStatusHP1);
 			this.tabPage1.Controls.Add(this.label1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
@@ -97,6 +101,48 @@
 			this.TableTest.TabIndex = 0;
 			this.TableTest.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableTest_CellPaint);
 			// 
+			// shipStatusHP2
+			// 
+			this.shipStatusHP2.Location = new System.Drawing.Point(435, 191);
+			this.shipStatusHP2.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.shipStatusHP2.Name = "shipStatusHP2";
+			this.shipStatusHP2.PrevValue = 66;
+			this.shipStatusHP2.Size = new System.Drawing.Size(80, 20);
+			this.shipStatusHP2.TabIndex = 5;
+			this.shipStatusHP2.Text = "MP:";
+			this.shipStatusHP2.UsePrevValue = false;
+			this.shipStatusHP2.Value = 22;
+			// 
+			// shipStatusLevel2
+			// 
+			this.shipStatusLevel2.AutoSize = true;
+			this.shipStatusLevel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.shipStatusLevel2.Location = new System.Drawing.Point(381, 68);
+			this.shipStatusLevel2.MainFont = new System.Drawing.Font("Meiryo UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.shipStatusLevel2.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.shipStatusLevel2.Name = "shipStatusLevel2";
+			this.shipStatusLevel2.Size = new System.Drawing.Size(161, 30);
+			this.shipStatusLevel2.SubFont = new System.Drawing.Font("Meiryo UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.shipStatusLevel2.TabIndex = 4;
+			this.shipStatusLevel2.Text = "HQ Level.";
+			this.shipStatusLevel2.TextNext = "next...";
+			this.shipStatusLevel2.Value = 134;
+			this.shipStatusLevel2.ValueNext = 23396;
+			// 
+			// shipStatusLevel1
+			// 
+			this.shipStatusLevel1.AutoSize = true;
+			this.shipStatusLevel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.shipStatusLevel1.Location = new System.Drawing.Point(182, 235);
+			this.shipStatusLevel1.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.shipStatusLevel1.MaximumValue = 150;
+			this.shipStatusLevel1.Name = "shipStatusLevel1";
+			this.shipStatusLevel1.Size = new System.Drawing.Size(78, 20);
+			this.shipStatusLevel1.TabIndex = 3;
+			this.shipStatusLevel1.TextNext = "Next:";
+			this.shipStatusLevel1.Value = 89;
+			this.shipStatusLevel1.ValueNext = 162534;
+			// 
 			// shipStatusHP1
 			// 
 			this.shipStatusHP1.BackColor = System.Drawing.Color.MistyRose;
@@ -104,22 +150,12 @@
 			this.shipStatusHP1.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.shipStatusHP1.Name = "shipStatusHP1";
 			this.shipStatusHP1.PrevValue = 66;
-			this.shipStatusHP1.RepairTime = new System.DateTime(2014, 9, 17, 20, 0, 0, 0);
+			this.shipStatusHP1.RepairTime = new System.DateTime(2014, 9, 19, 0, 0, 0, 0);
 			this.shipStatusHP1.Size = new System.Drawing.Size(80, 20);
 			this.shipStatusHP1.SubFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.shipStatusHP1.TabIndex = 2;
+			this.shipStatusHP1.UsePrevValue = false;
 			this.shipStatusHP1.Value = 88;
-			// 
-			// shipStatusLevel1
-			// 
-			this.shipStatusLevel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.shipStatusLevel1.Location = new System.Drawing.Point(215, 235);
-			this.shipStatusLevel1.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.shipStatusLevel1.MaximumValue = 150;
-			this.shipStatusLevel1.Name = "shipStatusLevel1";
-			this.shipStatusLevel1.Size = new System.Drawing.Size(60, 20);
-			this.shipStatusLevel1.TabIndex = 1;
-			this.shipStatusLevel1.Value = 79;
 			// 
 			// FormMain
 			// 
@@ -132,6 +168,7 @@
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
+			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
 			this.ResumeLayout(false);
@@ -145,8 +182,10 @@
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.TableLayoutPanel TableTest;
 		private System.Windows.Forms.Label label1;
-		private Control.ShipStatusLevel shipStatusLevel1;
 		private Control.ShipStatusHP shipStatusHP1;
+		private Control.ShipStatusLevel shipStatusLevel1;
+		private Control.ShipStatusLevel shipStatusLevel2;
+		private Control.ShipStatusHP shipStatusHP2;
 
 	}
 }

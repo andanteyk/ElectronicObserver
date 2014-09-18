@@ -67,8 +67,11 @@ namespace DigitalArsenal {
 						newLabel.MainFontColor = colorMain;
 						newLabel.SubFontColor = colorSub;
 						newLabel.Text = "Lv.";
+						newLabel.ValueNext = rnd.Next( 150000 );
+						//newLabel.TextNext = "remodel:";
 						//newLabel.BorderStyle = BorderStyle.FixedSingle;
-						newLabel.Padding = padding;
+						newLabel.BackColor = Color.MistyRose;
+						newLabel.Padding = new Padding( 0 );
 						newLabel.Margin = margin;
 						newLabel.AutoSize = true;
 						TableTest.Controls.Add( newLabel, 1, i );
@@ -86,6 +89,7 @@ namespace DigitalArsenal {
 						newLabel.Text = "HP:";
 	
 						//newLabel.BorderStyle = BorderStyle.FixedSingle;
+						newLabel.BackColor = Color.MistyRose;
 						newLabel.Padding = padding;
 						newLabel.Margin = margin;
 						newLabel.Size = new Size( 40, 20 );

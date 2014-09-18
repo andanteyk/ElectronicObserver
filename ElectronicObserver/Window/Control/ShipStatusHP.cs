@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DigitalArsenal.Control {
+namespace ElectronicObserver.Window.Control {
 	public partial class ShipStatusHP : UserControl {
 
 
@@ -160,14 +160,10 @@ namespace DigitalArsenal.Control {
 			}
 		}
 
-		[Browsable( true )]
-		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
+
 		public StatusBar HPBar {
 			get { return _HPBar; }
-			set { 
-				_HPBar = value;
-				Refresh();
-			}
+			set { _HPBar = value; }
 		}
 		
 		#endregion
@@ -264,7 +260,6 @@ namespace DigitalArsenal.Control {
 
 			}
 
-			_HPBar.Refresh();
 		}
 
 
@@ -293,7 +288,5 @@ namespace DigitalArsenal.Control {
 			return Color.FromArgb( unchecked( (int)color ) );
 		}
 
-
-	
 	}
 }
