@@ -49,6 +49,7 @@
 			this.DoubleBuffered = true;
 			this.Name = "ShipStatusHP";
 			this.Size = new System.Drawing.Size(80, 20);
+			this.SizeChanged += new System.EventHandler(this.ShipStatusHP_SizeChanged);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.ShipStatusHP_Paint);
 			this.ResumeLayout(false);
 

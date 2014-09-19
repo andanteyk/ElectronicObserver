@@ -89,6 +89,12 @@
     <Compile Include="Observer\kcsapi\api_port\port.cs" />
     <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
     <Compile Include="Utility\Mathematics\DateConverter.cs" />
+    <Compile Include="Window\Control\ImageLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Control\ImageLabel.Designer.cs">
+      <DependentUpon>ImageLabel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Control\ShipStatusHP.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -140,6 +146,9 @@
     <Compile Include="Window\Support\CustomFloatWindowFactory.cs">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="Window\Control\ImageLabel.resx">
+      <DependentUpon>ImageLabel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ShipStatusHP.resx">
       <DependentUpon>ShipStatusHP.cs</DependentUpon>
     </EmbeddedResource>

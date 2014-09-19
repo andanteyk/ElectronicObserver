@@ -31,11 +31,12 @@
 			// 
 			this.TableMember.AutoSize = true;
 			this.TableMember.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableMember.ColumnCount = 3;
+			this.TableMember.ColumnCount = 4;
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableMember.Location = new System.Drawing.Point(0, 29);
+			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableMember.Location = new System.Drawing.Point(0, 24);
 			this.TableMember.Name = "TableMember";
 			this.TableMember.RowCount = 1;
 			this.TableMember.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
@@ -47,7 +48,6 @@
 			// 
 			this.TableFleet.AutoSize = true;
 			this.TableFleet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableFleet.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
 			this.TableFleet.ColumnCount = 1;
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -56,7 +56,7 @@
 			this.TableFleet.Name = "TableFleet";
 			this.TableFleet.RowCount = 1;
 			this.TableFleet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-			this.TableFleet.Size = new System.Drawing.Size(2, 23);
+			this.TableFleet.Size = new System.Drawing.Size(0, 21);
 			this.TableFleet.TabIndex = 2;
 			// 
 			// FormFleet

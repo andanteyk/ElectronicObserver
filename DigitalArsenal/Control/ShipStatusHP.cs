@@ -283,6 +283,8 @@ namespace DigitalArsenal.Control {
 			sz_slash.Width -= (int)( SubFont.Size / 2.0 );
 			sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );
 
+
+			//checkme
 			return new Size( sz_text.Width + sz_hpnow.Width + sz_slash.Width + sz_hpmax.Width + Padding.Horizontal,
 				Math.Max( sz_text.Height, sz_hpnow.Height ) + _HPBar.Height );
 		}

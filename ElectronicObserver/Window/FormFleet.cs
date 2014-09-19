@@ -69,6 +69,7 @@ namespace ElectronicObserver.Window {
 			public Label Name;
 			public ShipStatusLevel Level;
 			public ShipStatusHP HP;
+			public ImageLabel Condition;		//FIXME: 暫定的
 
 			public TableMemberControl( FormFleet parent ) {
 
@@ -108,13 +109,20 @@ namespace ElectronicObserver.Window {
 				HP.SubFont = parent.SubFont;
 				HP.MainFontColor = parent.MainFontColor;
 				HP.SubFontColor = parent.SubFontColor;
-				HP.BackColor = Color.MistyRose;
-				HP.Padding = new Padding( 0, 1, 0, 1 );
-				HP.Margin = new Padding( 2, 0, 2, 0 );
+				HP.Padding = new Padding( 0, 0, 0, 0 );
+				HP.Margin = new Padding( 2, 1, 2, 2 );
 				HP.AutoSize = true;
-				//HP.HPBar.Size = new Size( HP.Width, HP.HPBar.Height );
-				//HP.HPBar.Location = new Point( 0, HP.Bottom - HP.HPBar.Height );
 				HP.Visible = false;
+
+				Condition = new ImageLabel();
+				Condition.Label.Text = "*";
+				Condition.Anchor = AnchorStyles.Right;
+				Condition.Label.Font = parent.MainFont;
+				Condition.Label.ForeColor = parent.MainFontColor;
+				Condition.Padding = new Padding( 0, 1, 0, 1 );
+				Condition.Margin = new Padding( 2, 0, 2, 0 );
+				Condition.AutoSize = true;
+				Condition.Visible = false;
 
 				#endregion
 
@@ -131,7 +139,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( Name, 0, row );
 				table.Controls.Add( Level, 1, row );
 				table.Controls.Add( HP, 2, row );
-				
+				table.Controls.Add( Condition, 3, row );
 
 				#region set RowStyle
 				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
@@ -159,6 +167,20 @@ namespace ElectronicObserver.Window {
 					HP.Value = ship.HPCurrent;
 					HP.MaximumValue = ship.HPMax;
 					HP.RepairTime = null;
+					Condition.Label.Text = ship.Condition.ToString();
+
+					if ( ship.Condition < 20 ) {
+						Condition.BackColor = Color.FromArgb( 0xFF, 0xCC, 0xCC );
+					} else if ( ship.Condition < 30 ) {
+						Condition.BackColor = Color.FromArgb( 0xFF, 0xEE, 0xCC );
+					} else if ( ship.Condition < 40 ) {
+						Condition.BackColor = Color.FromArgb( 0xFF, 0xFF, 0xCC );
+					} else if ( ship.Condition < 50 ) {
+						Condition.BackColor = Color.Transparent;
+					} else {
+						Condition.BackColor = Color.FromArgb( 0xFF, 0xFF, 0xFF );
+					}
+
 
 					foreach ( var dock in db.Docks ) {
 						if ( dock.Value.ShipID == shipMasterID ) {
@@ -170,7 +192,8 @@ namespace ElectronicObserver.Window {
 
 				Name.Visible =
 				Level.Visible =
-				HP.Visible = shipMasterID != -1;
+				HP.Visible = 
+				Condition.Visible = shipMasterID != -1;
 
 			}
 		}

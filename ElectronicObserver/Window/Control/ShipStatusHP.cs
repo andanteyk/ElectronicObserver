@@ -161,6 +161,8 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 
+		[Browsable( true )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
 		public StatusBar HPBar {
 			get { return _HPBar; }
 			set { _HPBar = value; }
@@ -260,6 +262,7 @@ namespace ElectronicObserver.Window.Control {
 
 			}
 
+			_HPBar.Refresh();
 		}
 
 
@@ -279,13 +282,24 @@ namespace ElectronicObserver.Window.Control {
 			sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );
 
 			return new Size( sz_text.Width + sz_hpnow.Width + sz_slash.Width + sz_hpmax.Width + Padding.Horizontal,
-				Math.Max( sz_text.Height, sz_hpnow.Height ) + _HPBar.Height );
+				Math.Max( sz_text.Height, sz_hpnow.Height ) + _HPBar.Height + Padding.Vertical );
 		}
 
 
 
 		private Color FromArgb( uint color ) {
 			return Color.FromArgb( unchecked( (int)color ) );
+		}
+
+
+
+
+		private void ShipStatusHP_SizeChanged( object sender, EventArgs e ) {
+
+			//anchorで自動設定できないらしいので、手動でサイズ調整
+
+			_HPBar.Size = new Size( Width - Padding.Horizontal, _HPBar.Height );
+			_HPBar.Location = new Point( Padding.Left, Height - Padding.Bottom - _HPBar.Height );
 		}
 
 	}
