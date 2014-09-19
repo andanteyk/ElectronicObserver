@@ -25,7 +25,6 @@
 		private void InitializeComponent() {
 			this.TableMember = new System.Windows.Forms.TableLayoutPanel();
 			this.TableFleet = new System.Windows.Forms.TableLayoutPanel();
-			this.shipStatusHP1 = new ElectronicObserver.Window.Control.ShipStatusHP();
 			this.SuspendLayout();
 			// 
 			// TableMember
@@ -60,26 +59,11 @@
 			this.TableFleet.Size = new System.Drawing.Size(2, 23);
 			this.TableFleet.TabIndex = 2;
 			// 
-			// shipStatusHP1
-			// 
-			this.shipStatusHP1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.shipStatusHP1.Location = new System.Drawing.Point(12, 132);
-			this.shipStatusHP1.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.shipStatusHP1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
-			this.shipStatusHP1.Name = "shipStatusHP1";
-			this.shipStatusHP1.PrevValue = 66;
-			this.shipStatusHP1.Size = new System.Drawing.Size(276, 49);
-			this.shipStatusHP1.TabIndex = 3;
-			this.shipStatusHP1.Text = "shipStatusHP1";
-			this.shipStatusHP1.UsePrevValue = false;
-			// 
 			// FormFleet
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(300, 200);
-			this.Controls.Add(this.shipStatusHP1);
 			this.Controls.Add(this.TableFleet);
 			this.Controls.Add(this.TableMember);
 			this.Font = new System.Drawing.Font("Meiryo UI", 9F);
@@ -98,6 +82,5 @@
 
 		private System.Windows.Forms.TableLayoutPanel TableMember;
 		private System.Windows.Forms.TableLayoutPanel TableFleet;
-		private Control.ShipStatusHP shipStatusHP1;
 	}
 }

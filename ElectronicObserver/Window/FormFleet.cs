@@ -108,6 +108,7 @@ namespace ElectronicObserver.Window {
 				HP.SubFont = parent.SubFont;
 				HP.MainFontColor = parent.MainFontColor;
 				HP.SubFontColor = parent.SubFontColor;
+				HP.BackColor = Color.MistyRose;
 				HP.Padding = new Padding( 0, 1, 0, 1 );
 				HP.Margin = new Padding( 2, 0, 2, 0 );
 				HP.AutoSize = true;
@@ -130,6 +131,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( Name, 0, row );
 				table.Controls.Add( Level, 1, row );
 				table.Controls.Add( HP, 2, row );
+				
 
 				#region set RowStyle
 				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );

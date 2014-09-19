@@ -57,5 +57,7 @@
 
 		private StatusBar _HPBar;
 
+
+
 	}
 }
