@@ -130,6 +130,10 @@ namespace DigitalArsenal {
 			return Color.FromArgb( unchecked( (int)color ) );
 		}
 
+		private void FormMain_Load( object sender, EventArgs e ) {
+
+		}
+
 
 
 	}
