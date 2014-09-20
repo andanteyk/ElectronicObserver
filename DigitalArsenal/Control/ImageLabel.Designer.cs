@@ -29,10 +29,13 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoSize = true;
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.Name = "ImageLabel";
+			this.Size = new System.Drawing.Size(0, 0);
+			this.SizeChanged += new System.EventHandler(this.ImageLabel_SizeChanged);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.ImageLabel_Paint);
 			this.ResumeLayout(false);
 

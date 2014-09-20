@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Design;
 
 namespace DigitalArsenal.Control {
 	public partial class ImageLabel : UserControl {
@@ -22,7 +23,7 @@ namespace DigitalArsenal.Control {
 			get { return _font; }
 			set {
 				_font = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -32,22 +33,25 @@ namespace DigitalArsenal.Control {
 		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
 		[EditorBrowsable( EditorBrowsableState.Always )]
 		[Bindable( BindableSupport.Default )]
+		[Editor( "System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof( System.Drawing.Design.UITypeEditor ) )]
 		public override string Text {
 			get { return _text; }
 			set {
 				_text = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
 		private ContentAlignment _textAlign;
 		[Browsable( true )]
 		[DefaultValue( typeof( ContentAlignment ), "MiddleLeft" )]
+		[Description( "ラベル内のテキストの位置を決定します。" )]
+		[Category( "表示" )]
 		public ContentAlignment TextAlign {
 			get { return _textAlign; }
 			set {
 				_textAlign = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -55,6 +59,8 @@ namespace DigitalArsenal.Control {
 		private Image _image;
 		[Browsable( true )]
 		[DefaultValue( null )]
+		[Description( "コントロールに表示されるイメージです。" )]
+		[Category( "表示" )]
 		public Image Image {
 			get {
 				if ( _imageList != null ) {
@@ -70,18 +76,20 @@ namespace DigitalArsenal.Control {
 			}
 			set {
 				_image = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
 		private ContentAlignment _imageAlign;
 		[Browsable( true )]
 		[DefaultValue( typeof( ContentAlignment ), "MiddleLeft" )]
+		[Description( "コントロールに表示されるイメージの配置です。" )]
+		[Category( "表示" )]
 		public ContentAlignment ImageAlign {
 			get { return _imageAlign; }
 			set {
 				_imageAlign = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -89,11 +97,13 @@ namespace DigitalArsenal.Control {
 		private ImageList _imageList;
 		[Browsable( true )]
 		[DefaultValue( null )]
+		[Description( "コントロールに表示するイメージを取得するための ImageList です。" )]
+		[Category( "表示" )]
 		public ImageList ImageList {
 			get { return _imageList; }
 			set {
 				_imageList = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -101,11 +111,15 @@ namespace DigitalArsenal.Control {
 		[Browsable( true )]
 		[DefaultValue( null )]
 		[RefreshProperties( System.ComponentModel.RefreshProperties.Repaint )]
+		[Editor( "System.Windows.Forms.Design.ImageIndexEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof( UITypeEditor ) )]
+		[TypeConverter( typeof( ImageKeyConverter ) )]
+		[Description( "コントロールに表示される ImageList の中のイメージのインデックスです。" )]
+		[Category( "表示" )]
 		public string ImageKey {
 			get { return _imageKey; }
 			set {
-				_imageKey = value;		//todo: update image data;
-				Refresh();
+				_imageKey = value;
+				PropertyChanged();
 			}
 		}
 
@@ -113,36 +127,78 @@ namespace DigitalArsenal.Control {
 		[Browsable( true )]
 		[DefaultValue( -1 )]
 		[RefreshProperties( System.ComponentModel.RefreshProperties.Repaint )]
+		[Editor( "System.Windows.Forms.Design.ImageIndexEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof( UITypeEditor ) )]
+		[TypeConverter( typeof( ImageIndexConverter ) )]
+		[Description( "コントロールに表示される ImageList の中のイメージのインデックスです。" )]
+		[Category( "表示" )]
 		public int ImageIndex {
 			get { return _imageIndex; }
 			set {
-				_imageIndex = value;		//todo: update image data;
-				Refresh();
+				_imageIndex = value;
+				PropertyChanged();
 			}
 		}
 
 		private int _imageMargin;
 		[Browsable( true )]
 		[DefaultValue( 0 )]
+		[Description( "イメージとラベルの間のスペースを指定します。" )]
+		[Category( "表示" )]
 		public int ImageMargin {
 			get { return _imageMargin; }
 			set {
 				_imageMargin = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
-		//勝手に変わらないので注意
+		
 		private Size _imageSize;
 		[Browsable( true )]
-		[DefaultValue( typeof( Size ), "0, 0" )]
+		[DefaultValue( typeof( Size ), "16, 16" )]
+		[Description( "イメージのサイズを指定します。" )]
+		[Category( "表示" )]
 		public Size ImageSize {
-			get { return _imageSize; }
+			get {
+				if ( Image != null )
+					return Image.Size;
+				else
+					return _imageSize;
+			}
 			set {
 				_imageSize = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
+
+
+		private bool _autoWrap;
+		[Browsable( true )]
+		[DefaultValue( false )]
+		[Description( "ラベル コントロールの幅を超えるテキストの自動処理を有効にします。" )]
+		[Category( "動作" )]
+		public bool AutoWrap {
+			get { return _autoWrap; }
+			set {
+				_autoWrap = value;
+				PropertyChanged();
+			}
+		}
+
+
+		private bool _autoEllipsis;
+		[Browsable( true )]
+		[DefaultValue( false )]
+		[Description( "ラベル コントロールの幅を超えるテキストの自動処理を有効にします。" )]
+		[Category( "動作" )]
+		public bool AutoEllipsis {
+			get { return _autoEllipsis; }
+			set {
+				_autoEllipsis = value;
+				PropertyChanged();
+			}
+		}
+
 		
 
 		#endregion
@@ -161,6 +217,8 @@ namespace DigitalArsenal.Control {
 			_imageKey = null;
 			_imageIndex = -1;
 			_imageMargin = 0;
+			_imageSize = new Size( 16, 16 );
+			_autoWrap = false;
 
 		}
 
@@ -170,10 +228,6 @@ namespace DigitalArsenal.Control {
 
 
 		private void ImageLabel_Paint( object sender, PaintEventArgs e ) {
-
-			//ImageAlign…？　いえ、知らない子ですね…
-
-			Size maxsize = new Size( int.MaxValue, int.MaxValue );
 
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
 			//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
@@ -229,10 +283,9 @@ namespace DigitalArsenal.Control {
 
 			
 			//text
-			TextFormatFlags textformat = GetTextFormat( TextAlign );
+			TextFormatFlags textformat = GetTextFormat( TextAlign, AutoWrap, AutoEllipsis );
 
 
-			//Rectangle textarea = new Rectangle( imagearea.Right + ImageMargin, Padding.Top, basearea.Width - imagearea.Width - ImageMargin * 2, Height - Padding.Vertical );
 			Rectangle textarea = ModifyTextArea( basearea, imagearea, ImageMargin, ImageAlign );	
 			
 			TextRenderer.DrawText( e.Graphics, Text, Font, textarea, ForeColor, textformat );
@@ -246,7 +299,7 @@ namespace DigitalArsenal.Control {
 
 			Size ret = new Size( Padding.Horizontal, Padding.Vertical );
 
-			TextFormatFlags textformat = GetTextFormat( TextAlign );
+			TextFormatFlags textformat = GetTextFormat( TextAlign, AutoWrap, AutoEllipsis );
 			Size sz_text = TextRenderer.MeasureText( Text, Font, new Size( int.MaxValue, int.MaxValue ), textformat );
 
 			sz_text.Width -= (int)( Font.Size / 2 );
@@ -280,9 +333,15 @@ namespace DigitalArsenal.Control {
 
 
 
-		private static TextFormatFlags GetTextFormat( ContentAlignment align ) {
+		private static TextFormatFlags GetTextFormat( ContentAlignment align, bool autowrap, bool autoellipsis ) {
 
 			TextFormatFlags textformat = TextFormatFlags.NoPadding;
+
+			if ( autowrap )
+				textformat |= TextFormatFlags.WordBreak;
+			if ( autoellipsis )
+				textformat |= TextFormatFlags.WordEllipsis;
+
 			switch ( align ) {
 				case ContentAlignment.TopLeft:
 					textformat |= TextFormatFlags.Top | TextFormatFlags.Left; break;
@@ -340,5 +399,16 @@ namespace DigitalArsenal.Control {
 		}
 
 
+		private void PropertyChanged() {
+			if ( AutoSize )
+				Size = GetPreferredSize( Size );
+			
+			Refresh();
+		}
+
+
+		private void ImageLabel_SizeChanged( object sender, EventArgs e ) {
+			Refresh();
+		}
 	}
 }
