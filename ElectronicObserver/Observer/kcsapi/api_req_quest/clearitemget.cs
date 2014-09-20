@@ -15,6 +15,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_quest {
 
 			db.Quest.LoadFromRequest( apiname, data );
 
+
+			db.OnQuestUpdated();
 		}
 
 	}

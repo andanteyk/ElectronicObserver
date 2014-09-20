@@ -23,6 +23,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			}
 
+			db.OnUseItemsUpdated();
 		}
 	
 	}

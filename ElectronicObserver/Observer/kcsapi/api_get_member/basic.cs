@@ -15,6 +15,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			db.Admiral.LoadFromResponse( apiname, data );
 
+			db.OnAdmiralUpdated();
 		}
 
 	}

@@ -49,6 +49,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			db.Fleet.LoadFromResponse( apiname, data.api_data_deck );
 
+
+			db.OnShipsUpdated();
+			db.OnFleetUpdated();
 		}
 
 	}

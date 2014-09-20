@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Window.Control;
 using System;
 using System.Collections.Generic;
@@ -70,12 +71,14 @@ namespace ElectronicObserver.Window {
 			public ShipStatusLevel Level;
 			public ShipStatusHP HP;
 			public ImageLabel Condition;
+			public ShipStatusResource ShipResource;
 
 			public TableMemberControl( FormFleet parent ) {
 
 				#region Initialize
 
 				Name = new Label();
+				Name.SuspendLayout();
 				Name.Text = "*nothing*";
 				Name.Anchor = AnchorStyles.Left;
 				Name.Font = parent.MainFont;
@@ -84,8 +87,10 @@ namespace ElectronicObserver.Window {
 				Name.Margin = new Padding( 2, 0, 2, 0 );
 				Name.AutoSize = true;
 				Name.Visible = false;
+				Name.ResumeLayout();
 
 				Level = new ShipStatusLevel();
+				Level.SuspendLayout();
 				Level.Anchor = AnchorStyles.Left;
 				Level.Value = 0;
 				Level.MaximumValue = 150;
@@ -99,8 +104,10 @@ namespace ElectronicObserver.Window {
 				Level.Margin = new Padding( 2, 0, 2, 0 );
 				Level.AutoSize = true;
 				Level.Visible = false;
+				Name.ResumeLayout();
 
 				HP = new ShipStatusHP();
+				HP.SuspendLayout();
 				HP.Anchor = AnchorStyles.Left;
 				HP.Value = 0;
 				HP.MaximumValue = 0;
@@ -113,19 +120,36 @@ namespace ElectronicObserver.Window {
 				HP.Margin = new Padding( 2, 1, 2, 2 );
 				HP.AutoSize = true;
 				HP.Visible = false;
+				HP.ResumeLayout();
 
 				Condition = new ImageLabel();
+				Condition.SuspendLayout();
 				Condition.Text = "*";
 				Condition.Anchor = AnchorStyles.Right;
 				Condition.Font = parent.MainFont;
-				Condition.TextAlign = ContentAlignment.BottomLeft;
 				Condition.ForeColor = parent.MainFontColor;
+				Condition.TextAlign = ContentAlignment.BottomLeft;
+				Condition.ImageList = ResourceManager.Instance.Icons;
 				Condition.Padding = new Padding( 2, 2, 2, 2 );
 				Condition.Margin = new Padding( 2, 0, 2, 0 );
 				Condition.Size = new Size( 40, 20 );
-				Condition.AutoSizeMode = AutoSizeMode.GrowOnly;
 				Condition.AutoSize = true;
 				Condition.Visible = false;
+				Condition.ResumeLayout();
+
+				ShipResource = new ShipStatusResource();
+				ShipResource.SuspendLayout();
+				ShipResource.FuelCurrent = 0;
+				ShipResource.FuelMax = 0;
+				ShipResource.AmmoCurrent = 0;
+				ShipResource.AmmoMax = 0;
+				ShipResource.Anchor = AnchorStyles.Left;
+				ShipResource.Padding = new Padding( 0, 2, 0, 1 );
+				ShipResource.Margin = new Padding( 2, 0, 2, 0 );
+				ShipResource.Size = new Size( 60, 20 );
+				ShipResource.AutoSize = false;
+				ShipResource.Visible = false;
+				ShipResource.ResumeLayout();
 
 				#endregion
 
@@ -143,6 +167,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( Level, 1, row );
 				table.Controls.Add( HP, 2, row );
 				table.Controls.Add( Condition, 3, row );
+				table.Controls.Add( ShipResource, 4, row );
 
 				#region set RowStyle
 				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
@@ -164,39 +189,48 @@ namespace ElectronicObserver.Window {
 					ShipData ship = db.Ships[shipMasterID];
 					ShipDataMaster shipmaster = db.MasterShips[ship.ShipID];
 
+
 					Name.Text = shipmaster.Name;
+					
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
+					
 					HP.Value = ship.HPCurrent;
 					HP.MaximumValue = ship.HPMax;
 					HP.RepairTime = null;
-					Condition.Text = ship.Condition.ToString();
-
-					if ( ship.Condition < 20 ) {
-						Condition.BackColor = Color.FromArgb( 0xFF, 0xCC, 0xCC );
-					} else if ( ship.Condition < 30 ) {
-						Condition.BackColor = Color.FromArgb( 0xFF, 0xEE, 0xCC );
-					} else if ( ship.Condition < 40 ) {
-						Condition.BackColor = Color.FromArgb( 0xFF, 0xFF, 0xCC );
-					} else if ( ship.Condition < 50 ) {
-						Condition.BackColor = Color.Transparent;
-					} else {
-						Condition.BackColor = Color.FromArgb( 0xFF, 0xFF, 0xFF );
-					}
-
-
 					foreach ( var dock in db.Docks ) {
 						if ( dock.Value.ShipID == shipMasterID ) {
 							HP.RepairTime = dock.Value.CompletionTime;
 							break;
 						}
 					}
+					
+					Condition.Text = ship.Condition.ToString();
+					if ( ship.Condition < 20 ) {
+						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionVeryTired );
+					} else if ( ship.Condition < 30 ) {
+						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionTired );
+					} else if ( ship.Condition < 40 ) {
+						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionLittleTired );
+					} else if ( ship.Condition < 50 ) {
+						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.Nothing );
+					} else {
+						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionSparkle );
+					}
+
+					ShipResource.FuelCurrent = ship.Fuel;
+					ShipResource.FuelMax = shipmaster.Fuel;
+					ShipResource.AmmoCurrent = ship.Ammo;
+					ShipResource.AmmoMax = shipmaster.Ammo;
+					
 				}
+
 
 				Name.Visible =
 				Level.Visible =
 				HP.Visible = 
-				Condition.Visible = shipMasterID != -1;
+				Condition.Visible = 
+				ShipResource.Visible = shipMasterID != -1;
 
 			}
 		}
@@ -260,7 +294,9 @@ namespace ElectronicObserver.Window {
 			Text = string.Format( "[{0}]", FleetID );
 			
 
-			Database.FleetUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( (Action<DatabaseUpdatedEventArgs>)( ( DatabaseUpdatedEventArgs e2 ) => Database_FleetUpdated( e2 ) ), e1 );
+			Database.FleetUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
+			Database.ShipsUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
+			Database.DocksUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
 			
 		}
 

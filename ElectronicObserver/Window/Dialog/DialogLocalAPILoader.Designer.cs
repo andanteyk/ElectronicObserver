@@ -50,7 +50,6 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label1.Location = new System.Drawing.Point(51, 13);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(289, 30);
@@ -65,7 +64,7 @@
 			this.APIList.FormattingEnabled = true;
 			this.APIList.Location = new System.Drawing.Point(142, 3);
 			this.APIList.Name = "APIList";
-			this.APIList.Size = new System.Drawing.Size(430, 20);
+			this.APIList.Size = new System.Drawing.Size(430, 23);
 			this.APIList.TabIndex = 2;
 			// 
 			// panel1
@@ -95,7 +94,7 @@
             "Response"});
 			this.APICategory.Location = new System.Drawing.Point(56, 3);
 			this.APICategory.Name = "APICategory";
-			this.APICategory.Size = new System.Drawing.Size(80, 20);
+			this.APICategory.Size = new System.Drawing.Size(80, 23);
 			this.APICategory.TabIndex = 1;
 			this.APICategory.SelectedIndexChanged += new System.EventHandler(this.APICategory_SelectedIndexChanged);
 			// 
@@ -136,9 +135,9 @@
 			// 
 			this.ButtonSearchFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonSearchFilePath.Location = new System.Drawing.Point(549, 29);
+			this.ButtonSearchFilePath.Location = new System.Drawing.Point(542, 32);
 			this.ButtonSearchFilePath.Name = "ButtonSearchFilePath";
-			this.ButtonSearchFilePath.Size = new System.Drawing.Size(23, 23);
+			this.ButtonSearchFilePath.Size = new System.Drawing.Size(30, 23);
 			this.ButtonSearchFilePath.TabIndex = 5;
 			this.ButtonSearchFilePath.Text = "...";
 			this.ButtonSearchFilePath.UseVisualStyleBackColor = true;
@@ -148,9 +147,9 @@
 			// 
 			this.TextFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.TextFilePath.Location = new System.Drawing.Point(56, 31);
+			this.TextFilePath.Location = new System.Drawing.Point(56, 32);
 			this.TextFilePath.Name = "TextFilePath";
-			this.TextFilePath.Size = new System.Drawing.Size(487, 19);
+			this.TextFilePath.Size = new System.Drawing.Size(480, 23);
 			this.TextFilePath.TabIndex = 4;
 			// 
 			// label2
@@ -171,13 +170,13 @@
 			// DialogLocalAPILoader
 			// 
 			this.AcceptButton = this.ButtonOpen;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CancelButton = this.ButtonCancel;
 			this.ClientSize = new System.Drawing.Size(584, 162);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.PictureWarning);
+			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

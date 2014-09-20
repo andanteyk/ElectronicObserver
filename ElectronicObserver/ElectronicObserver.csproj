@@ -108,6 +108,12 @@
     <Compile Include="Window\Control\ShipStatusLevel.Designer.cs">
       <DependentUpon>ShipStatusLevel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Control\ShipStatusResource.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Control\ShipStatusResource.Designer.cs">
+      <DependentUpon>ShipStatusResource.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Control\StatusBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ShipStatusLevel.resx">
       <DependentUpon>ShipStatusLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Control\ShipStatusResource.resx">
+      <DependentUpon>ShipStatusResource.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\StatusBar.resx">
       <DependentUpon>StatusBar.cs</DependentUpon>

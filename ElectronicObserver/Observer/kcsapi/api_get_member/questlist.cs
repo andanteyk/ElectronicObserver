@@ -14,6 +14,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 			KCDatabase db = KCDatabase.Instance;
 
 			db.Quest.LoadFromResponse( apiname, data );
+
+			db.OnQuestUpdated();
 		}
 		
 	}

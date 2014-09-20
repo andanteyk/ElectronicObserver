@@ -105,6 +105,9 @@ namespace ElectronicObserver.Observer.kcsapi {
 				}
 			}
 
+
+			db.OnMasterDataUpdated();
+
 		}
 	}
 

@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Support;
 using System;
@@ -30,6 +31,9 @@ namespace ElectronicObserver.Window {
 
 
 		private void FormMain_Load( object sender, EventArgs e ) {
+
+			ResourceManager.Instance.Load();
+
 
 			APIObserver.Instance.Start( 40620 );
 

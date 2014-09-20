@@ -30,7 +30,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.DoubleBuffered = true;
 			this.Name = "StatusBar";
-			this.Size = new System.Drawing.Size(80, 20);
+			this.Size = new System.Drawing.Size(80, 5);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.StatusBar_Paint);
 			this.ResumeLayout(false);
 

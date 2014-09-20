@@ -100,7 +100,7 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( File.Exists( TextFilePath.Text ) )
 				FileOpener.FileName = TextFilePath.Text;
 
-			FileOpener.Filter = APIList.SelectedItem.ToString() + "|*" + APIList.SelectedItem.ToString().Replace( '/', '@' ) + "*.json|JSON|*.json;*.js|File|*";
+			FileOpener.Filter = APIList.SelectedItem.ToString() + "|*" + ( APICategory.SelectedIndex == 0 ? "Q" : "S" ) + "@" + APIList.SelectedItem.ToString().Replace( '/', '@' ) + ".json|JSON|*.json;*.js|File|*";
 
 			if ( FileOpener.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 				TextFilePath.Text = FileOpener.FileName;
