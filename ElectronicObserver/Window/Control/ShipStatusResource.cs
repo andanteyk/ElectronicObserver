@@ -16,22 +16,34 @@ namespace ElectronicObserver.Window.Control {
 
 		public int FuelCurrent {
 			get { return BarFuel.Value; }
-			set { BarFuel.Value = value; }
+			set { 
+				BarFuel.Value = value;
+				PropertyChanged();
+			}
 		}
 
 		public int FuelMax {
 			get { return BarFuel.MaximumValue; }
-			set { BarFuel.MaximumValue = value; }
+			set { 
+				BarFuel.MaximumValue = value;
+				PropertyChanged();
+			}
 		}
 
 		public int AmmoCurrent {
 			get { return BarAmmo.Value; }
-			set { BarAmmo.Value = value; }
+			set { 
+				BarAmmo.Value = value;
+				PropertyChanged();
+			}
 		}
 
 		public int AmmoMax {
 			get { return BarAmmo.MaximumValue; }
-			set { BarAmmo.MaximumValue = value; }
+			set { 
+				BarAmmo.MaximumValue = value;
+				PropertyChanged();
+			}
 		}
 
 		#endregion
@@ -40,9 +52,19 @@ namespace ElectronicObserver.Window.Control {
 		public ShipStatusResource() {
 			InitializeComponent();
 
-
 		}
 
 
+		
+		private void PropertyChanged() {
+			/*
+			string tiptext = string.Format( "燃: {0}/{1}\n弾: {2}/{3}", FuelCurrent, FuelMax, AmmoCurrent, AmmoMax );
+			ResourceTip.SetToolTip( this, tiptext );
+			ResourceTip.SetToolTip( BarFuel, tiptext );
+			ResourceTip.SetToolTip( BarAmmo, tiptext );
+			*/
+		}
+		
+		
 	}
 }

@@ -15,6 +15,17 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window {
 	public partial class FormMain : Form {
 
+		#region Properties
+		#endregion
+
+
+		#region Events
+
+		public event EventHandler UpdateTimerTick = delegate { };
+
+		#endregion
+
+
 		#region Forms
 
 		public FormFleet[] fFleet;
@@ -43,10 +54,13 @@ namespace ElectronicObserver.Window {
 			//form init
 			fFleet = new FormFleet[4];
 			for ( int i = 0; i < fFleet.Length; i++ ) {
-				fFleet[i] = new FormFleet( i + 1 );
+				fFleet[i] = new FormFleet( this, i + 1 );
 				fFleet[i].Show( MainDockPanel );
 			}
-			
+
+
+			UIUpdateTimer.Start();
+
 		}
 
 
@@ -68,6 +82,19 @@ namespace ElectronicObserver.Window {
 
 			}
 
+		}
+
+
+
+		private void UIUpdateTimer_Tick( object sender, EventArgs e ) {
+
+			UpdateTimerTick( this, new EventArgs() );
+
+
+			{
+				DateTime now = DateTime.Now;
+				StripStatus_Clock.Text = string.Format( "{0:D2}:{1:D2}:{2:D2}", now.Hour, now.Minute, now.Second );
+			}
 		}
 
 

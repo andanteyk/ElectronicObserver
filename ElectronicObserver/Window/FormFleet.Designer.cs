@@ -23,8 +23,10 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.TableMember = new System.Windows.Forms.TableLayoutPanel();
 			this.TableFleet = new System.Windows.Forms.TableLayoutPanel();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.SuspendLayout();
 			// 
 			// TableMember
@@ -60,6 +62,13 @@
 			this.TableFleet.Size = new System.Drawing.Size(0, 21);
 			this.TableFleet.TabIndex = 2;
 			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 60000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
 			// FormFleet
 			// 
 			this.AutoHidePortion = 150D;
@@ -83,5 +92,6 @@
 
 		private System.Windows.Forms.TableLayoutPanel TableMember;
 		private System.Windows.Forms.TableLayoutPanel TableFleet;
+		private System.Windows.Forms.ToolTip ToolTipInfo;
 	}
 }

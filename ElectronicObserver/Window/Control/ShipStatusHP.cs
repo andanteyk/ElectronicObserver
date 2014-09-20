@@ -107,6 +107,19 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+		private Color _repairFontColor;
+		[Browsable( true )]
+		[DefaultValue( typeof( Color ), "0, 0, 136" )]
+		public Color RepairFontColor {
+			get {
+				return _repairFontColor;
+			}
+			set {
+				_repairFontColor = value;
+				Refresh();
+			}
+		}
+
 
 		private Font _mainFont;
 		[Browsable( true )]
@@ -191,7 +204,8 @@ namespace ElectronicObserver.Window.Control {
 			
 			_subFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
 			_subFontColor = FromArgb( 0xFF888888 );
-			
+
+			_repairFontColor = FromArgb( 0xFF000088 );
 			_text = "HP:";
 		
 		}
@@ -222,7 +236,7 @@ namespace ElectronicObserver.Window.Control {
 
 				Size sz_time = TextRenderer.MeasureText( timestr, MainFont, maxsize, TextFormatTime );
 
-				TextRenderer.DrawText( g, timestr, MainFont, new Rectangle( basearea.X, basearea.Y, basearea.Width, basearea.Height - _HPBar.Height ), MainFontColor, TextFormatTime );
+				TextRenderer.DrawText( g, timestr, MainFont, new Rectangle( basearea.X, basearea.Y, basearea.Width, basearea.Height - _HPBar.Height ), RepairFontColor, TextFormatTime );
 
 				/*/
 				g.DrawRectangle( Pens.Magenta, new Rectangle( basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - BarThickness - BarBackgroundOffset - 1 ) );

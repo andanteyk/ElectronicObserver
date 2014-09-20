@@ -72,6 +72,7 @@ namespace ElectronicObserver.Window {
 			public ShipStatusHP HP;
 			public ImageLabel Condition;
 			public ShipStatusResource ShipResource;
+			private ToolTip ToolTipInfo;
 
 			public TableMemberControl( FormFleet parent ) {
 
@@ -151,6 +152,8 @@ namespace ElectronicObserver.Window {
 				ShipResource.Visible = false;
 				ShipResource.ResumeLayout();
 
+				ToolTipInfo = parent.ToolTipInfo;
+
 				#endregion
 
 			}
@@ -222,7 +225,9 @@ namespace ElectronicObserver.Window {
 					ShipResource.FuelMax = shipmaster.Fuel;
 					ShipResource.AmmoCurrent = ship.Ammo;
 					ShipResource.AmmoMax = shipmaster.Ammo;
-					
+					ToolTipInfo.SetToolTip( ShipResource, string.Format( "燃: {0}/{1}\r\n弾: {2}/{3}", 
+						ShipResource.FuelCurrent, ShipResource.FuelMax, ShipResource.AmmoCurrent, ShipResource.AmmoMax ) );
+
 				}
 
 
@@ -251,14 +256,16 @@ namespace ElectronicObserver.Window {
 		private TableMemberControl[] ControlMember;
 		
 
+		[Obsolete( "！ぬるぽ！" )]
 		public FormFleet()
-			: this( 0 ) {
+			: this( null, 0 ) {
 		}
 
-		public FormFleet( int fleetID ) {
+		public FormFleet( FormMain parent, int fleetID ) {
 			InitializeComponent();
 
 			FleetID = fleetID;
+			parent.UpdateTimerTick += parent_UpdateTimerTick;
 
 			//todo: 後々外部から設定できるように
 			MainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
@@ -285,7 +292,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-
+		
 
 		private void FormFleet_Load( object sender, EventArgs e ) {
 
@@ -314,6 +321,14 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+		void parent_UpdateTimerTick( object sender, EventArgs e ) {
+
+			for ( int i = 0; i < ControlMember.Length; i++ ) {
+				ControlMember[i].HP.Refresh();
+			}
+
+		}
 
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
