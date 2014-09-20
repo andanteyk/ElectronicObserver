@@ -69,7 +69,7 @@ namespace ElectronicObserver.Window {
 			public Label Name;
 			public ShipStatusLevel Level;
 			public ShipStatusHP HP;
-			public ImageLabel Condition;		//FIXME: 暫定的
+			public ImageLabel Condition;
 
 			public TableMemberControl( FormFleet parent ) {
 
@@ -115,12 +115,15 @@ namespace ElectronicObserver.Window {
 				HP.Visible = false;
 
 				Condition = new ImageLabel();
-				Condition.Label.Text = "*";
+				Condition.Text = "*";
 				Condition.Anchor = AnchorStyles.Right;
-				Condition.Label.Font = parent.MainFont;
-				Condition.Label.ForeColor = parent.MainFontColor;
-				Condition.Padding = new Padding( 0, 1, 0, 1 );
+				Condition.Font = parent.MainFont;
+				Condition.TextAlign = ContentAlignment.BottomLeft;
+				Condition.ForeColor = parent.MainFontColor;
+				Condition.Padding = new Padding( 2, 2, 2, 2 );
 				Condition.Margin = new Padding( 2, 0, 2, 0 );
+				Condition.Size = new Size( 40, 20 );
+				Condition.AutoSizeMode = AutoSizeMode.GrowOnly;
 				Condition.AutoSize = true;
 				Condition.Visible = false;
 
@@ -167,7 +170,7 @@ namespace ElectronicObserver.Window {
 					HP.Value = ship.HPCurrent;
 					HP.MaximumValue = ship.HPMax;
 					HP.RepairTime = null;
-					Condition.Label.Text = ship.Condition.ToString();
+					Condition.Text = ship.Condition.ToString();
 
 					if ( ship.Condition < 20 ) {
 						Condition.BackColor = Color.FromArgb( 0xFF, 0xCC, 0xCC );

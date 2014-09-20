@@ -88,6 +88,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\useitem.cs" />
     <Compile Include="Observer\kcsapi\api_port\port.cs" />
     <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
+    <Compile Include="Resource\ResourceManager.cs" />
     <Compile Include="Utility\Mathematics\DateConverter.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>

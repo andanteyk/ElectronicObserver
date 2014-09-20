@@ -156,7 +156,6 @@ namespace ElectronicObserver.Data {
 
 		}
 
-
 	}
 
 
