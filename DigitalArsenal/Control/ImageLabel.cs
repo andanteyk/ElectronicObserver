@@ -16,18 +16,42 @@ namespace DigitalArsenal.Control {
 		#region Properties
 
 
-		private Font _font;
+		#region DefaultValues
+
+		[DefaultValue( true )]
+		public override bool AutoSize {
+			get {
+				return base.AutoSize;
+			}
+			set {
+				base.AutoSize = value;
+			}
+		}
+
+		
+		[DefaultValue( typeof( AutoSizeMode ), "GrowAndShrink" )]
+		public new AutoSizeMode AutoSizeMode {
+			get {
+				return base.AutoSizeMode;
+			}
+			set {
+				base.AutoSizeMode = value;
+			}
+		}
+		
+		#endregion
+
+
 		[Browsable( true )]
 		[DefaultValue( typeof( Font ), "Meiryo UI, 12px" )]
 		public override Font Font {		//checkme
-			get { return _font; }
+			get { return base.Font; }
 			set {
-				_font = value;
+				base.Font = value;
 				PropertyChanged();
 			}
 		}
 
-		private string _text;
 		[Browsable( true )]
 		[DefaultValue( "" )]
 		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
@@ -35,9 +59,9 @@ namespace DigitalArsenal.Control {
 		[Bindable( BindableSupport.Default )]
 		[Editor( "System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof( System.Drawing.Design.UITypeEditor ) )]
 		public override string Text {
-			get { return _text; }
+			get { return base.Text; }
 			set {
-				_text = value;
+				base.Text = value;
 				PropertyChanged();
 			}
 		}
@@ -208,8 +232,8 @@ namespace DigitalArsenal.Control {
 		public ImageLabel() {
 			InitializeComponent();
 
-			_text = "";
-			_font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+			Text = "";
+			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 			_textAlign = ContentAlignment.MiddleLeft;
 			_imageAlign = ContentAlignment.MiddleLeft;
 			_image = null;
@@ -219,6 +243,7 @@ namespace DigitalArsenal.Control {
 			_imageMargin = 0;
 			_imageSize = new Size( 16, 16 );
 			_autoWrap = false;
+			_autoEllipsis = false;
 
 		}
 
@@ -236,21 +261,16 @@ namespace DigitalArsenal.Control {
 
 			switch ( ImageAlign ) {
 				case ContentAlignment.TopLeft:
-					imagearea.X += ImageMargin;
-					imagearea.Y += ImageMargin;
 					break;
 				case ContentAlignment.MiddleLeft:
-					imagearea.X += ImageMargin;
 					imagearea.Y += basearea.Height / 2 - imagearea.Height / 2;
 					break;
 				case ContentAlignment.BottomLeft:
-					imagearea.X += ImageMargin;
-					imagearea.Y = basearea.Bottom - ( imagearea.Height + ImageMargin );
+					imagearea.Y = basearea.Bottom - imagearea.Height;
 					break;
 
 				case ContentAlignment.TopCenter:
 					imagearea.X += basearea.Width / 2 - imagearea.Width / 2;
-					imagearea.Y += ImageMargin;
 					break;
 				case ContentAlignment.MiddleCenter:
 					imagearea.X += basearea.Width / 2 - imagearea.Width / 2;
@@ -258,20 +278,19 @@ namespace DigitalArsenal.Control {
 					break;
 				case ContentAlignment.BottomCenter:
 					imagearea.X += basearea.Width / 2 - imagearea.Width / 2;
-					imagearea.Y = basearea.Bottom - ( imagearea.Height + ImageMargin );
+					imagearea.Y = basearea.Bottom - imagearea.Height;
 					break;		
 
 				case ContentAlignment.TopRight:
-					imagearea.X = basearea.Right - ( imagearea.Width + ImageMargin );
-					imagearea.Y += ImageMargin;
+					imagearea.X = basearea.Right - imagearea.Width;
 					break;
 				case ContentAlignment.MiddleRight:
-					imagearea.X = basearea.Right - ( imagearea.Width + ImageMargin );
+					imagearea.X = basearea.Right - imagearea.Width;
 					imagearea.Y += basearea.Height / 2 - imagearea.Height / 2;
 					break;
 				case ContentAlignment.BottomRight:
-					imagearea.X = basearea.Right - ( imagearea.Width + ImageMargin );
-					imagearea.Y = basearea.Bottom - ( imagearea.Height + ImageMargin );
+					imagearea.X = basearea.Right - imagearea.Width;
+					imagearea.Y = basearea.Bottom - imagearea.Height;
 					break;
 			}
 
@@ -311,19 +330,19 @@ namespace DigitalArsenal.Control {
 				case ContentAlignment.TopRight:
 				case ContentAlignment.MiddleRight:
 				case ContentAlignment.BottomRight:
-					ret.Width += ImageSize.Width + ImageMargin * 2 + sz_text.Width;
-					ret.Height += Math.Max( ImageSize.Height + ImageMargin * 2, sz_text.Height );
+					ret.Width += ImageSize.Width + ImageMargin + sz_text.Width;
+					ret.Height += Math.Max( ImageSize.Height, sz_text.Height );
 					break;
 
 				case ContentAlignment.TopCenter:
 				case ContentAlignment.BottomCenter:
-					ret.Width += Math.Max( ImageSize.Width + ImageMargin * 2, sz_text.Width );
-					ret.Height += ImageSize.Height + ImageMargin * 2 + sz_text.Height;
+					ret.Width += Math.Max( ImageSize.Width, sz_text.Width );
+					ret.Height += ImageSize.Height + ImageMargin + sz_text.Height;
 					break;
 
 				case ContentAlignment.MiddleCenter:
-					ret.Width += Math.Max( ImageSize.Width + ImageMargin * 2, sz_text.Width );
-					ret.Height += Math.Max( ImageSize.Height + ImageMargin * 2, sz_text.Height );
+					ret.Width += Math.Max( ImageSize.Width, sz_text.Width );
+					ret.Height += Math.Max( ImageSize.Height, sz_text.Height );
 					break;
 
 			}
@@ -373,22 +392,22 @@ namespace DigitalArsenal.Control {
 				case ContentAlignment.TopLeft:
 				case ContentAlignment.MiddleLeft:
 				case ContentAlignment.BottomLeft:
-					textarea.X += imagearea.Width + imageMargin * 2;
-					textarea.Width -= imagearea.Width + imageMargin * 2;
+					textarea.X += imagearea.Width + imageMargin;
+					textarea.Width -= imagearea.Width + imageMargin;
 					break;
 
 				case ContentAlignment.TopRight:
 				case ContentAlignment.MiddleRight:
 				case ContentAlignment.BottomRight:
-					textarea.Width -= imagearea.Width + imageMargin * 2;
+					textarea.Width -= imagearea.Width + imageMargin;
 					break;
 
 				case ContentAlignment.TopCenter:
-					textarea.Y += imagearea.Height + imageMargin * 2;
-					textarea.Height -= imagearea.Height + imageMargin * 2;
+					textarea.Y += imagearea.Height + imageMargin;
+					textarea.Height -= imagearea.Height + imageMargin;
 					break;
 				case ContentAlignment.BottomCenter:
-					textarea.Height -= imagearea.Height + imageMargin * 2;
+					textarea.Height -= imagearea.Height + imageMargin;
 					break;
 
 				case ContentAlignment.MiddleCenter:
@@ -410,5 +429,7 @@ namespace DigitalArsenal.Control {
 		private void ImageLabel_SizeChanged( object sender, EventArgs e ) {
 			Refresh();
 		}
+
+
 	}
 }

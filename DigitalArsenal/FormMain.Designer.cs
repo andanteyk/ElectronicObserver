@@ -30,9 +30,7 @@
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.TableTest = new System.Windows.Forms.TableLayoutPanel();
-			this.imageLabel1 = new DigitalArsenal.Control.ImageLabel();
 			this.tabControl1.SuspendLayout();
-			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -49,7 +47,6 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.imageLabel1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -95,21 +92,6 @@
 			this.TableTest.TabIndex = 0;
 			this.TableTest.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableTest_CellPaint);
 			// 
-			// imageLabel1
-			// 
-			this.imageLabel1.AutoSize = true;
-			this.imageLabel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.imageLabel1.BackColor = System.Drawing.Color.Transparent;
-			this.imageLabel1.Image = ((System.Drawing.Image)(resources.GetObject("imageLabel1.Image")));
-			this.imageLabel1.ImageIndex = 3;
-			this.imageLabel1.ImageList = this.imageList1;
-			this.imageLabel1.ImageMargin = 3;
-			this.imageLabel1.Location = new System.Drawing.Point(78, 91);
-			this.imageLabel1.Name = "imageLabel1";
-			this.imageLabel1.Size = new System.Drawing.Size(97, 22);
-			this.imageLabel1.TabIndex = 0;
-			this.imageLabel1.Text = "imageLabel1";
-			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -120,8 +102,6 @@
 			this.Text = "DigitalArsenal";
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.tabControl1.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
 			this.ResumeLayout(false);
@@ -135,7 +115,6 @@
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.TableLayoutPanel TableTest;
 		private System.Windows.Forms.ImageList imageList1;
-		private Control.ImageLabel imageLabel1;
 
 	}
 }
