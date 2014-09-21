@@ -98,5 +98,33 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
+
+
+		#region フォーム表示
+		
+		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
+			fFleet[0].Show( MainDockPanel );
+		}
+
+
+		private void StripMenu_View_Fleet_2_Click( object sender, EventArgs e ) {
+			fFleet[1].Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Fleet_3_Click( object sender, EventArgs e ) {
+			fFleet[2].Show( MainDockPanel ); 
+		}
+
+		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
+			fFleet[3].Show( MainDockPanel );
+		}
+
+		#endregion
+
+		
+
+		
+
 	}
 }

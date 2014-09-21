@@ -72,7 +72,7 @@ namespace ElectronicObserver.Window {
 			public ShipStatusHP HP;
 			public ImageLabel Condition;
 			public ShipStatusResource ShipResource;
-			private ToolTip ToolTipInfo;
+			
 
 			public TableMemberControl( FormFleet parent ) {
 
@@ -138,7 +138,7 @@ namespace ElectronicObserver.Window {
 				Condition.Visible = false;
 				Condition.ResumeLayout();
 
-				ShipResource = new ShipStatusResource();
+				ShipResource = new ShipStatusResource( parent.ToolTipInfo );
 				ShipResource.SuspendLayout();
 				ShipResource.FuelCurrent = 0;
 				ShipResource.FuelMax = 0;
@@ -147,12 +147,10 @@ namespace ElectronicObserver.Window {
 				ShipResource.Anchor = AnchorStyles.Left;
 				ShipResource.Padding = new Padding( 0, 2, 0, 1 );
 				ShipResource.Margin = new Padding( 2, 0, 2, 0 );
-				ShipResource.Size = new Size( 60, 20 );
+				ShipResource.Size = new Size( 40, 20 );
 				ShipResource.AutoSize = false;
 				ShipResource.Visible = false;
 				ShipResource.ResumeLayout();
-
-				ToolTipInfo = parent.ToolTipInfo;
 
 				#endregion
 
@@ -225,9 +223,7 @@ namespace ElectronicObserver.Window {
 					ShipResource.FuelMax = shipmaster.Fuel;
 					ShipResource.AmmoCurrent = ship.Ammo;
 					ShipResource.AmmoMax = shipmaster.Ammo;
-					ToolTipInfo.SetToolTip( ShipResource, string.Format( "燃: {0}/{1}\r\n弾: {2}/{3}", 
-						ShipResource.FuelCurrent, ShipResource.FuelMax, ShipResource.AmmoCurrent, ShipResource.AmmoMax ) );
-
+					
 				}
 
 
@@ -256,11 +252,7 @@ namespace ElectronicObserver.Window {
 		private TableMemberControl[] ControlMember;
 		
 
-		[Obsolete( "！ぬるぽ！" )]
-		public FormFleet()
-			: this( null, 0 ) {
-		}
-
+		
 		public FormFleet( FormMain parent, int fleetID ) {
 			InitializeComponent();
 
@@ -277,6 +269,7 @@ namespace ElectronicObserver.Window {
 			//ui init
 
 			TableFleet.SuspendLayout();
+			TableFleet.BorderStyle = BorderStyle.FixedSingle;
 			//TableFleet.RowStyles.Clear();
 			ControlFleet = new TableFleetControl( this, TableFleet );
 			TableFleet.ResumeLayout();
@@ -298,7 +291,7 @@ namespace ElectronicObserver.Window {
 
 			KCDatabase Database = KCDatabase.Instance;
 
-			Text = string.Format( "[{0}]", FleetID );
+			Text = string.Format( "#{0}", FleetID );
 			
 
 			Database.FleetUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
@@ -313,20 +306,26 @@ namespace ElectronicObserver.Window {
 			KCDatabase db = KCDatabase.Instance;
 			FleetData fleet = db.Fleet.Fleets[FleetID];
 
-
+			TableFleet.SuspendLayout();
 			ControlFleet.Update( fleet );
+			TableFleet.ResumeLayout();
+
+			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i].Update( fleet.FleetMember[i] );
 			}
+			TableMember.ResumeLayout();
 
 		}
 
 
 		void parent_UpdateTimerTick( object sender, EventArgs e ) {
 
+			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i].HP.Refresh();
 			}
+			TableMember.ResumeLayout();
 
 		}
 
