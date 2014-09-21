@@ -47,9 +47,6 @@ namespace ElectronicObserver.Window.Control {
 				PropertyChanged();
 			}
 		}
-
-
-
 		
 		#endregion
 
@@ -64,6 +61,8 @@ namespace ElectronicObserver.Window.Control {
 		
 		private void PropertyChanged() {
 			
+			//FIXME: サブウィンドウ状態のときToolTipが出現しない不具合を確認。
+
 			string tiptext = string.Format( "燃: {0}/{1} ({2}%)\r\n弾: {3}/{4} ({5}%)",
 				FuelCurrent, FuelMax, (int)Math.Ceiling( 100.0 * FuelCurrent / FuelMax ), 
 				AmmoCurrent, AmmoMax, (int)Math.Ceiling( 100.0 * AmmoCurrent / AmmoMax ) );
@@ -73,7 +72,24 @@ namespace ElectronicObserver.Window.Control {
 			ResourceTip.SetToolTip( BarAmmo, tiptext );
 			
 		}
-		
-		
+
+
+		/// <summary>
+		/// 資源を一度に設定します。
+		/// </summary>
+		/// <param name="fuelCurrent">燃料の現在値。</param>
+		/// <param name="fuelMax">燃料の最大値。</param>
+		/// <param name="ammoCurrent">弾薬の現在値。</param>
+		/// <param name="ammoMax">燃料の最大値。</param>
+		public void SetResources( int fuelCurrent, int fuelMax, int ammoCurrent, int ammoMax ) {
+			
+			BarFuel.Value = fuelCurrent;
+			BarFuel.MaximumValue = fuelMax;
+			BarAmmo.Value = ammoCurrent;
+			BarAmmo.MaximumValue = ammoMax;
+
+			PropertyChanged();
+		}
+
 	}
 }

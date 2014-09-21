@@ -219,11 +219,8 @@ namespace ElectronicObserver.Window {
 						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionSparkle );
 					}
 
-					ShipResource.FuelCurrent = ship.Fuel;
-					ShipResource.FuelMax = shipmaster.Fuel;
-					ShipResource.AmmoCurrent = ship.Ammo;
-					ShipResource.AmmoMax = shipmaster.Ammo;
-					
+					ShipResource.SetResources( ship.Fuel, shipmaster.Fuel, ship.Ammo, shipmaster.Ammo );
+				
 				}
 
 
@@ -270,13 +267,11 @@ namespace ElectronicObserver.Window {
 
 			TableFleet.SuspendLayout();
 			TableFleet.BorderStyle = BorderStyle.FixedSingle;
-			//TableFleet.RowStyles.Clear();
 			ControlFleet = new TableFleetControl( this, TableFleet );
 			TableFleet.ResumeLayout();
 
 
 			TableMember.SuspendLayout();
-			//TableMember.RowStyles.Clear();
 			ControlMember = new TableMemberControl[6];
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i] = new TableMemberControl( this, TableMember, i );
