@@ -55,6 +55,7 @@
 			this.HideOnClose = true;
 			this.Name = "FormDock";
 			this.Text = "入渠";
+			this.Load += new System.EventHandler(this.FormDock_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
