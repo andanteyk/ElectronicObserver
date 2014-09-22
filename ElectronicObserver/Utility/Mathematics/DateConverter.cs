@@ -24,6 +24,20 @@ namespace ElectronicObserver.Utility.Mathematics {
 		public static DateTime FromAPITime( long time ) {
 			return new DateTime( time * 10000 + origin.Ticks );
 		}
+
+
+		/// <summary>
+		/// 残り時間を標準的書式の文字列に変換します。
+		/// </summary>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		public static string ToTimeRemainString( DateTime time ) {
+			var span = time - DateTime.Now;
+			if ( span.Ticks < 0 )
+				return "00:00:00";
+			else
+				return string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)span.TotalHours, span.Minutes, span.Seconds );
+		}
 	}
 
 }

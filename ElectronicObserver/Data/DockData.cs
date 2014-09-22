@@ -21,6 +21,7 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// 入渠状態
+		/// -1=ロック, 0=空き, 1=入渠中
 		/// </summary>
 		public int State {
 			get { return (int)RawData.api_state; }

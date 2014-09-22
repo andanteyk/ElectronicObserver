@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ElectronicObserver.Utility.Mathematics;
 
 namespace ElectronicObserver.Window.Control {
 	public partial class ShipStatusHP : UserControl {
@@ -226,14 +227,8 @@ namespace ElectronicObserver.Window.Control {
 
 
 			if ( RepairTime != null ) {
-				string timestr;
-				TimeSpan rest = (DateTime)RepairTime - DateTime.Now;
-
-				if ( rest.Ticks < 0 )
-					timestr = "00:00:00";
-				else
-					timestr = string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)rest.TotalHours, rest.Minutes, rest.Seconds );
-
+				string timestr = DateConverter.ToTimeRemainString( (DateTime)RepairTime );
+				
 				Size sz_time = TextRenderer.MeasureText( timestr, MainFont, maxsize, TextFormatTime );
 
 				TextRenderer.DrawText( g, timestr, MainFont, new Rectangle( basearea.X, basearea.Y, basearea.Width, basearea.Height - _HPBar.Height ), RepairFontColor, TextFormatTime );

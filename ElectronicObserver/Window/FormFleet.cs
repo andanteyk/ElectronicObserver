@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace ElectronicObserver.Window {
 
 		private class TableFleetControl {
 			public Label Name;
+			public ImageLabel StateMain;
 
 			public TableFleetControl( FormFleet parent ) {
 
@@ -33,6 +35,15 @@ namespace ElectronicObserver.Window {
 				Name.AutoSize = true;
 				//Name.Visible = false;
 
+				StateMain = new ImageLabel();
+				StateMain.Anchor = AnchorStyles.Left;
+				StateMain.Font = parent.MainFont;
+				StateMain.ForeColor = parent.MainFontColor;
+				StateMain.ImageList = ResourceManager.Instance.Icons;
+				StateMain.Padding = new Padding( 2, 2, 2, 2 );
+				StateMain.Margin = new Padding( 2, 0, 2, 0 );
+				StateMain.AutoSize = true;
+
 				#endregion
 
 			}
@@ -45,6 +56,7 @@ namespace ElectronicObserver.Window {
 			public void AddToTable( TableLayoutPanel table ) {
 
 				table.Controls.Add( Name, 0, 0 );
+				table.Controls.Add( StateMain, 1, 0 );
 
 				int row = 0;
 				#region set RowStyle
@@ -61,6 +73,94 @@ namespace ElectronicObserver.Window {
 			public void Update( FleetData fleet ) {
 
 				Name.Text = fleet.Name;
+
+				#region set StateMain
+
+				//memo: [大破出撃中>出撃中|遠征中|入渠中>大破艦あり>未補給>疲労>中破艦あり>泊地修理中>出撃可能]
+				//fixme:　あまりにきたないので書き直しを要請する
+
+				var ships = KCDatabase.Instance.Ships;
+				
+				//大破出撃中
+				if ( fleet.FleetMember.Count(
+						( int id ) => {
+							if ( id == -1 ) return false;
+							else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
+						}
+					) > 0 ) {
+					
+					StateMain.Text = "大破艦あり！";
+				
+
+				}
+				//undone: 出撃中
+				else if ( false ) {
+				
+				
+				}
+				//遠征中
+				else if ( fleet.ExpeditionState != 0 ) {
+
+					StateMain.Text = "遠征中 " + DateConverter.ToTimeRemainString( fleet.ExpeditionTime );
+					
+				}
+				//入渠艦あり
+				else {
+
+					long ntime = KCDatabase.Instance.Docks.Max(
+						( KeyValuePair<int, DockData> dock ) => {
+							if ( dock.Value.State < 1 ) return 0;
+							else if ( fleet.FleetMember.Count( ( int id ) => id == dock.Value.ShipID ) > 0 )
+								return dock.Value.CompletionTime.ToBinary();
+							else return 0;
+						}
+						);
+
+					if ( ntime > 0 ) {
+						StateMain.Text = "入渠中 " + DateConverter.ToTimeRemainString( DateTime.FromBinary( ntime ) );
+
+					} else if ( fleet.FleetMember.Count(
+					   ( int id ) => {
+						   if ( id == -1 ) return false;
+						   else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
+					   }
+					) > 0 ) {
+
+						StateMain.Text = "大破艦あり！";
+
+
+					} else if ( fleet.FleetMember.Count(
+						( int id ) => {
+							if ( id == -1 ) return false;
+							else return ships[id].Fuel < KCDatabase.Instance.MasterShips[ships[id].ShipID].Fuel ||
+								ships[id].Ammo < KCDatabase.Instance.MasterShips[ships[id].ShipID].Ammo;
+						}
+					) > 0 ) {
+
+						StateMain.Text = "未補給";
+
+
+					} else if ( fleet.FleetMember.Count(
+						( int id ) => {
+							if ( id == -1 ) return false;
+							else return ships[id].Condition < 40;
+						}
+					) > 0 ) {
+
+						StateMain.Text = "疲労";
+
+
+					//undone: 泊地修理中
+					} else if ( false ) {
+
+					} else {
+
+						StateMain.Text = "出撃可能！";
+					}
+
+				}
+				
+				#endregion
 
 			}
 
@@ -302,7 +402,7 @@ namespace ElectronicObserver.Window {
 			FleetData fleet = db.Fleet.Fleets[FleetID];
 
 			TableFleet.SuspendLayout();
-			ControlFleet.Update( fleet );
+			ControlFleet.Update( fleet );		//fixme:わざわざデータを再読み込みする必要はないのでは？タイマだけ保持しておけばいい感
 			TableFleet.ResumeLayout();
 
 			TableMember.SuspendLayout();
@@ -315,6 +415,14 @@ namespace ElectronicObserver.Window {
 
 
 		void parent_UpdateTimerTick( object sender, EventArgs e ) {
+
+			TableFleet.SuspendLayout();
+			{
+				FleetData fleet = KCDatabase.Instance.Fleet.Fleets[FleetID];
+				if ( fleet != null )
+					ControlFleet.Update( fleet );
+			}
+			TableFleet.ResumeLayout();
 
 			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {

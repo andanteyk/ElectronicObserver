@@ -51,10 +51,9 @@
 			// 
 			this.TableFleet.AutoSize = true;
 			this.TableFleet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableFleet.ColumnCount = 1;
+			this.TableFleet.ColumnCount = 2;
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableFleet.Location = new System.Drawing.Point(0, 0);
 			this.TableFleet.Name = "TableFleet";
 			this.TableFleet.RowCount = 1;
@@ -76,7 +75,8 @@
 			this.ClientSize = new System.Drawing.Size(300, 200);
 			this.Controls.Add(this.TableFleet);
 			this.Controls.Add(this.TableMember);
-			this.Font = new System.Drawing.Font("Meiryo UI", 9F);
+			this.DoubleBuffered = true;
+			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
