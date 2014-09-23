@@ -68,8 +68,6 @@
     <Compile Include="Data\FleetManager.cs" />
     <Compile Include="Data\IDDictionary.cs" />
     <Compile Include="Data\IIdentifiable.cs" />
-    <Compile Include="Data\IRequestLoader.cs" />
-    <Compile Include="Data\IResponseLoader.cs" />
     <Compile Include="Data\KCDatabase.cs" />
     <Compile Include="Data\FleetData.cs" />
     <Compile Include="Data\MaterialData.cs" />
@@ -82,11 +80,13 @@
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\basic.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\kdock.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\ndock.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\questlist.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship2.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\slot_item.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\useitem.cs" />
     <Compile Include="Observer\kcsapi\api_port\port.cs" />
+    <Compile Include="Observer\kcsapi\api_req_nyukyo\start.cs" />
     <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
     <Compile Include="Resource\ResourceManager.cs" />
     <Compile Include="Utility\Mathematics\DateConverter.cs" />

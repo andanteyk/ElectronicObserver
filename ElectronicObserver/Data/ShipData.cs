@@ -352,6 +352,25 @@ namespace ElectronicObserver.Data {
 
 
 
+		/// <summary>
+		/// HPを回復します。
+		/// 入渠・泊地修理で使用します。
+		/// </summary>
+		/// <param name="healAmount">回復量。-1で全回復。</param>
+		internal void Heal( int healAmount = -1 ) {
+
+			if ( healAmount < 0 ) {
+			
+				RawData.api_nowhp = RawData.api_maxhp;
+
+			} else {
+
+				RawData.api_nowhp = Math.Min( RawData.api_nowhp + healAmount, RawData.api_maxhp );
+
+			}
+
+		}
+
 	}
 
 }

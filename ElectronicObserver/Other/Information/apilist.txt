@@ -1379,6 +1379,8 @@ api_req_mission/result
 api_port/port
 api_get_member/useitem
 
+《入渠完了》
+api_get_member/ndock	(「入渠」画面で入渠完了時間に達すると自動的に呼ばれる)
 
 《改装》
 api_req_kaisou/remodeling

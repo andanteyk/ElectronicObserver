@@ -45,7 +45,7 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		public override void LoadFromRequest( string apiname, string data ) {
+		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
 			base.LoadFromRequest( apiname, data );
 
 			//api_req_quest/clearitemget

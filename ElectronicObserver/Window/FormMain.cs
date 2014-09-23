@@ -29,6 +29,7 @@ namespace ElectronicObserver.Window {
 		#region Forms
 
 		public FormFleet[] fFleet;
+		public FormDock fDock;
 
 		#endregion
 
@@ -55,9 +56,9 @@ namespace ElectronicObserver.Window {
 			fFleet = new FormFleet[4];
 			for ( int i = 0; i < fFleet.Length; i++ ) {
 				fFleet[i] = new FormFleet( this, i + 1 );
-				fFleet[i].Show( MainDockPanel );
+				//fFleet[i].Show( MainDockPanel );
 			}
-
+			fDock = new FormDock( this );
 
 			UIUpdateTimer.Start();
 
@@ -120,8 +121,13 @@ namespace ElectronicObserver.Window {
 			fFleet[3].Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_Dock_Click( object sender, EventArgs e ) {
+			fDock.Show( MainDockPanel );
+		}
+
 		#endregion
 
+		
 		
 
 		

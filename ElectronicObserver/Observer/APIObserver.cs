@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ElectronicObserver.Observer {
 	
@@ -61,7 +62,7 @@ namespace ElectronicObserver.Observer {
 
 			if ( oSession.fullUrl.Contains( "kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {	//このあたりの条件も後々変わる可能性があるので注意
 
-
+				//debug
 				System.Diagnostics.Debug.WriteLine( "Response Received : " + oSession.fullUrl );
 
 
@@ -76,20 +77,12 @@ namespace ElectronicObserver.Observer {
 
 			if ( oSession.fullUrl.Contains( "kcsapi/" ) ) {
 
+				//debug
 				System.Diagnostics.Debug.WriteLine( "Request Received : " + oSession.fullUrl );
 
 
-				/*
-				//ゆるして
-				switch ( oSession.fullUrl.Substring( oSession.fullUrl.LastIndexOf( "kcsapi/" + 7 ) ) ) {
+				LoadRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
 
-					case "api_req_koushou/destroyship":
-						break;
-
-				}
-				*/
-
-				
 			}
 		}
 
@@ -100,10 +93,20 @@ namespace ElectronicObserver.Observer {
 			try {
 
 				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
+
+				var parsedData = new Dictionary<string,string>();
+				data = HttpUtility.UrlDecode( data );
+
+				foreach ( string unit in data.Split( "&".ToCharArray() ) ) {
+					string[] pair = unit.Split( "=".ToCharArray() );
+					parsedData.Add( pair[0], pair[1] );
+				}
+
+
 				switch ( shortpath ) {
 
 					case "api_req_quest/clearitemget":
-						kcsapi.api_req_quest.clearitemget.LoadFromRequest( shortpath, data ); break;
+						kcsapi.api_req_quest.clearitemget.LoadFromRequest( shortpath, parsedData ); break;
 
 				}
 
@@ -154,6 +157,9 @@ namespace ElectronicObserver.Observer {
 
 					case "api_get_member/questlist":
 						kcsapi.api_get_member.questlist.LoadFromResponse( shortpath, json.api_data ); break;
+
+					case "api_get_member/ndock":
+						kcsapi.api_get_member.ndock.LoadFromResponse( shortpath, json.api_data ); break;
 
 				}
 

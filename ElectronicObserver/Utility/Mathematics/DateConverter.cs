@@ -16,21 +16,31 @@ namespace ElectronicObserver.Utility.Mathematics {
 		/// </summary>
 		private static readonly DateTime origin = new DateTime( 1970, 1, 1, 9, 0, 0 );
 
+
 		/// <summary>
 		/// APIに含まれている日時データから<see cref="System.DateTime"/>を生成します。
 		/// </summary>
-		/// <param name="time">日時データ</param>
+		/// <param name="time">日時データ。</param>
 		/// <returns>変換された<see cref="DateTime"/>。</returns>
 		public static DateTime FromAPITime( long time ) {
 			return new DateTime( time * 10000 + origin.Ticks );
+		}
+
+		/// <summary>
+		/// <see cref="System.DateTime"/>からAPIに含まれている日時データを生成します。
+		/// </summary>
+		/// <param name="time">日時データ。</param>
+		/// <returns>変換された日時のAPIデータ。</returns>
+		public static long ToAPITime( DateTime time ) {
+			return ( time.Ticks - origin.Ticks ) / 10000;
 		}
 
 
 		/// <summary>
 		/// 残り時間を標準的書式の文字列に変換します。
 		/// </summary>
-		/// <param name="time"></param>
-		/// <returns></returns>
+		/// <param name="time">完了時刻。</param>
+		/// <returns>書式に則った時間を表す文字列。</returns>
 		public static string ToTimeRemainString( DateTime time ) {
 			var span = time - DateTime.Now;
 			if ( span.Ticks < 0 )

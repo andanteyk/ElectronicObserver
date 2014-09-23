@@ -9,7 +9,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_quest {
 	
 	public static class clearitemget {
 
-		public static void LoadFromRequest( string apiname, string data ) {
+		public static void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 

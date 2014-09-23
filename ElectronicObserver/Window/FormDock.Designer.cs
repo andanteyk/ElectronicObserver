@@ -42,6 +42,7 @@
 			this.TableDock.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableDock.Size = new System.Drawing.Size(0, 21);
 			this.TableDock.TabIndex = 2;
+			this.TableDock.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableDock_CellPaint);
 			// 
 			// FormDock
 			// 

@@ -32,20 +32,22 @@ namespace ElectronicObserver.Window {
 				Name.ForeColor = parent.ForeColor;
 				Name.Padding = new Padding( 0, 1, 0, 1 );
 				Name.Margin = new Padding( 2, 0, 2, 0 );
-				Name.MaximumSize = new Size( 60, 20 );
+				Name.MaximumSize = new Size( 80, 20 );
 				Name.AutoEllipsis = true;
 				Name.AutoSize = true;
-				Name.Visible = false;
+				Name.Visible = true;
 
 				RepairTime = new Label();
-				RepairTime.Text = "*nothing*";
+				RepairTime.Text = "";
 				RepairTime.Anchor = AnchorStyles.Left;
 				RepairTime.Font = parent.Font;
 				RepairTime.ForeColor = parent.ForeColor;
+				RepairTime.Tag = null;
 				RepairTime.Padding = new Padding( 0, 1, 0, 1 );
 				RepairTime.Margin = new Padding( 2, 0, 2, 0 );
+				RepairTime.MinimumSize = new Size( 60, 20 );
 				RepairTime.AutoSize = true;
-				RepairTime.Visible = false;
+				RepairTime.Visible = true;
 				
 				
 				#endregion
@@ -56,7 +58,7 @@ namespace ElectronicObserver.Window {
 			public TableDockControl( FormDock parent, TableLayoutPanel table, int row )
 				: this( parent ) {
 
-
+				AddToTable( table, row );
 			}
 
 			public void AddToTable( TableLayoutPanel table, int row ) {
@@ -77,6 +79,7 @@ namespace ElectronicObserver.Window {
 			}
 
 
+			//データ更新時
 			public void Update( int dockID ) {
 
 				KCDatabase db = KCDatabase.Instance;
@@ -87,18 +90,29 @@ namespace ElectronicObserver.Window {
 					//locked
 					Name.Text = "";
 					RepairTime.Text = "";
+					RepairTime.Tag = null;
 
 				} else if ( dock.State == 0 ) {
 					//empty
 					Name.Text = "----";
 					RepairTime.Text = "";
+					RepairTime.Tag = null;
 
 				} else {
 					//repairing
 					Name.Text = db.MasterShips[db.Ships[dock.ShipID].ShipID].Name;
 					RepairTime.Text = DateConverter.ToTimeRemainString( dock.CompletionTime );
+					RepairTime.Tag = dock.CompletionTime;
 
 				}
+
+			}
+
+			//タイマー更新時
+			public void Refresh( int dockID ) {
+
+				if ( RepairTime.Tag != null )
+					RepairTime.Text = DateConverter.ToTimeRemainString( (DateTime)RepairTime.Tag );
 
 			}
 
@@ -114,16 +128,18 @@ namespace ElectronicObserver.Window {
 		public FormDock( FormMain parent ) {
 			InitializeComponent();
 
+			parent.UpdateTimerTick += parent_UpdateTimerTick;
+
 			TableDock.SuspendLayout();
 			ControlDock = new TableDockControl[4];
 			for ( int i = 0; i < ControlDock.Length; i++ ) {
-				ControlDock[i] = new TableDockControl( this );
+				ControlDock[i] = new TableDockControl( this, TableDock, i );
 			}
 			TableDock.ResumeLayout();
 
 		}
 
-
+		
 		private void FormDock_Load( object sender, EventArgs e ) {
 
 			KCDatabase Database = KCDatabase.Instance;
@@ -142,7 +158,23 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		//undone:timerupdate, cellpaint
+		void parent_UpdateTimerTick( object sender, EventArgs e ) {
+
+			TableDock.SuspendLayout();
+			for ( int i = 0; i < ControlDock.Length; i++ )
+				ControlDock[i].Refresh( i + 1 );
+			TableDock.ResumeLayout();
+
+		}
+
+
+
+		private void TableDock_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
+			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		}
+
+
+
 	}
 
 }

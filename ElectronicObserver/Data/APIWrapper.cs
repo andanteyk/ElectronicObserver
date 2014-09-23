@@ -23,8 +23,10 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		public virtual void LoadFromRequest( string apiname, string data ) {
+		public virtual void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
 
+			/*
+			// data is string:
 			data = HttpUtility.UrlDecode( data );
 
 			RequestData.Clear();
@@ -32,6 +34,9 @@ namespace ElectronicObserver.Data {
 				string[] pair = unit.Split( "=".ToCharArray() );
 				RequestData.Add( pair[0], pair[1] );
 			}
+			*/
+
+			RequestData = data;
 		}
 
 	}
