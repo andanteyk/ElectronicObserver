@@ -89,6 +89,7 @@
     <Compile Include="Observer\kcsapi\api_req_nyukyo\start.cs" />
     <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
     <Compile Include="Resource\ResourceManager.cs" />
+    <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Mathematics\DateConverter.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>

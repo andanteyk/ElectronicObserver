@@ -60,11 +60,7 @@ namespace ElectronicObserver.Observer {
 
 		private void FiddlerApplication_AfterSessionComplete( Fiddler.Session oSession ) {
 
-			if ( oSession.fullUrl.Contains( "kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {	//このあたりの条件も後々変わる可能性があるので注意
-
-				//debug
-				System.Diagnostics.Debug.WriteLine( "Response Received : " + oSession.fullUrl );
-
+			if ( oSession.fullUrl.Contains( "kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {	//checkme: このあたりの条件も後々変わる可能性があるので注意
 
 				LoadResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
 
@@ -77,10 +73,6 @@ namespace ElectronicObserver.Observer {
 
 			if ( oSession.fullUrl.Contains( "kcsapi/" ) ) {
 
-				//debug
-				System.Diagnostics.Debug.WriteLine( "Request Received : " + oSession.fullUrl );
-
-
 				LoadRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
 
 			}
@@ -89,6 +81,8 @@ namespace ElectronicObserver.Observer {
 
 
 		public void LoadRequest( string path, string data ) {
+
+			Utility.Logger.Add( 1, "Requestを受信しました : " + path );
 
 			try {
 
@@ -123,6 +117,9 @@ namespace ElectronicObserver.Observer {
 
 		public void LoadResponse( string path, string data ) {
 
+			Utility.Logger.Add( 1, "Responseを受信しました : " + path );
+
+				
 			try {
 
 

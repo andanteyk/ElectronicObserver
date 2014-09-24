@@ -388,7 +388,7 @@ namespace ElectronicObserver.Window {
 
 			Text = string.Format( "#{0}", FleetID );
 			
-
+			//todo: invokeがフォーム非表示時に呼ばれない可能性があるので注意！
 			Database.FleetUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
 			Database.ShipsUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
 			Database.DocksUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
@@ -402,7 +402,7 @@ namespace ElectronicObserver.Window {
 			FleetData fleet = db.Fleet.Fleets[FleetID];
 
 			TableFleet.SuspendLayout();
-			ControlFleet.Update( fleet );		//fixme:わざわざデータを再読み込みする必要はないのでは？タイマだけ保持しておけばいい感
+			ControlFleet.Update( fleet );
 			TableFleet.ResumeLayout();
 
 			TableMember.SuspendLayout();
@@ -420,7 +420,7 @@ namespace ElectronicObserver.Window {
 			{
 				FleetData fleet = KCDatabase.Instance.Fleet.Fleets[FleetID];
 				if ( fleet != null )
-					ControlFleet.Update( fleet );
+					ControlFleet.Update( fleet );		//fixme:わざわざデータを再読み込みする必要はないのでは？タイマだけ保持しておけばいい感
 			}
 			TableFleet.ResumeLayout();
 
@@ -437,6 +437,8 @@ namespace ElectronicObserver.Window {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
+
+		
 
 	}
 

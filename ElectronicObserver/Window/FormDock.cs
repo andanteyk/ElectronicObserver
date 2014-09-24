@@ -45,7 +45,7 @@ namespace ElectronicObserver.Window {
 				RepairTime.Tag = null;
 				RepairTime.Padding = new Padding( 0, 1, 0, 1 );
 				RepairTime.Margin = new Padding( 2, 0, 2, 0 );
-				RepairTime.MinimumSize = new Size( 60, 20 );
+				RepairTime.MinimumSize = new Size( 60, 10 );
 				RepairTime.AutoSize = true;
 				RepairTime.Visible = true;
 				

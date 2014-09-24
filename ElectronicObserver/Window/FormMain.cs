@@ -44,6 +44,8 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_Load( object sender, EventArgs e ) {
 
+			Utility.Logger.Add( 1, "ElectronicObserver System is preparing." );
+
 			ResourceManager.Instance.Load();
 
 
@@ -53,12 +55,15 @@ namespace ElectronicObserver.Window {
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
 
 			//form init
+			//注：一度全てshowしないとイベントを受け取れないので注意
 			fFleet = new FormFleet[4];
 			for ( int i = 0; i < fFleet.Length; i++ ) {
 				fFleet[i] = new FormFleet( this, i + 1 );
-				//fFleet[i].Show( MainDockPanel );
+				fFleet[i].Show( MainDockPanel );
 			}
 			fDock = new FormDock( this );
+			fDock.Show( MainDockPanel );
+
 
 			UIUpdateTimer.Start();
 
