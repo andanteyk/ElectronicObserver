@@ -23,27 +23,37 @@ namespace ElectronicObserver.Data {
 		/// 入渠状態
 		/// -1=ロック, 0=空き, 1=入渠中
 		/// </summary>
-		public int State {
-			get { return (int)RawData.api_state; }
-		}
+		public int State { get; internal set; }
 
 		/// <summary>
 		/// 入渠中の艦船のID
 		/// </summary>
-		public int ShipID {
-			get { return (int)RawData.api_ship_id; }
-		}
+		public int ShipID { get; internal set; }
 
 		/// <summary>
 		/// 入渠完了日時
 		/// </summary>
-		public DateTime CompletionTime {
-			get { return DateConverter.FromAPITime( (long)RawData.api_complete_time ); }
-		}
+		public DateTime CompletionTime { get; internal set; }
 
 
 		public int ID {
 			get { return DockID; }
+		}
+
+
+		public override void LoadFromResponse( string apiname, dynamic data ) {
+			base.LoadFromResponse( apiname, (object)data );
+
+			int newstate = (int)RawData.api_state;
+
+			if ( State == 1 && newstate == 0 && ShipID != 0 ) {
+				KCDatabase.Instance.Ships[ShipID].Repair();
+			}
+
+			State = newstate;
+			ShipID = (int)RawData.api_ship_id;
+			CompletionTime = DateConverter.FromAPITime( (long)RawData.api_complete_time );
+
 		}
 
 

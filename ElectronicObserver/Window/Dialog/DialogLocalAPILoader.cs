@@ -76,6 +76,7 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( APICategory.SelectedIndex == 0 ) {
 				//request
 				APIList.Items.Add( "api_req_quest/clearitemget" );
+				APIList.Items.Add( "api_req_nyukyo/start" );
 
 			} else {
 				//response

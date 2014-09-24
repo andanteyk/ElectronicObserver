@@ -64,9 +64,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 耐久現在値
 		/// </summary>
-		public int HPCurrent {
-			get { return (int)RawData.api_nowhp; }
-		}
+		public int HPCurrent { get; internal set; }
 
 		/// <summary>
 		/// 耐久最大値
@@ -102,16 +100,12 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 搭載燃料
 		/// </summary>
-		public int Fuel {
-			get { return (int)RawData.api_fuel; }
-		}
+		public int Fuel { get; internal set; }
 
 		/// <summary>
 		/// 搭載弾薬
 		/// </summary>
-		public int Ammo {
-			get { return (int)RawData.api_bull; }
-		}
+		public int Ammo { get; internal set; }
 
 		/// <summary>
 		/// 入渠にかかる時間
@@ -137,9 +131,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// コンディション
 		/// </summary>
-		public int Condition {
-			get { return (int)RawData.api_cond; }
-		}
+		public int Condition { get; internal set; }
 
 
 		#region Parameters
@@ -351,23 +343,24 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		public override void LoadFromResponse( string apiname, dynamic data ) {
+			base.LoadFromResponse( apiname, (object)data );
+
+			HPCurrent = (int)RawData.api_nowhp;
+			Fuel = (int)RawData.api_fuel;
+			Ammo = (int)RawData.api_bull;
+			Condition = (int)RawData.api_cond;
+
+		}
+
 
 		/// <summary>
-		/// HPを回復します。
-		/// 入渠・泊地修理で使用します。
+		/// 入渠完了時の処理を行います。
 		/// </summary>
-		/// <param name="healAmount">回復量。-1で全回復。</param>
-		internal void Heal( int healAmount = -1 ) {
+		internal void Repair() {
 
-			if ( healAmount < 0 ) {
-			
-				RawData.api_nowhp = RawData.api_maxhp;
-
-			} else {
-
-				RawData.api_nowhp = Math.Min( RawData.api_nowhp + healAmount, RawData.api_maxhp );
-
-			}
+			HPCurrent = HPMax;
+			Condition = Math.Max( Condition, 40 );
 
 		}
 
