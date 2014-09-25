@@ -78,6 +78,7 @@ namespace ElectronicObserver.Window {
 
 				//memo: [大破出撃中>出撃中|遠征中|入渠中>大破艦あり>未補給>疲労>中破艦あり>泊地修理中>出撃可能]
 				//fixme:　あまりにきたないので書き直しを要請する
+				//todo: 入渠/遠征：完了時間のツールチップ
 
 				var ships = KCDatabase.Instance.Ships;
 				
@@ -313,15 +314,15 @@ namespace ElectronicObserver.Window {
 					
 					Condition.Text = ship.Condition.ToString();
 					if ( ship.Condition < 20 ) {
-						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionVeryTired );
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
 					} else if ( ship.Condition < 30 ) {
-						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionTired );
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
 					} else if ( ship.Condition < 40 ) {
-						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionLittleTired );
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
 					} else if ( ship.Condition < 50 ) {
-						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.Nothing );
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
 					} else {
-						Condition.ImageIndex = ResourceManager.GetIconIndex( ResourceManager.IconContent.ConditionSparkle );
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 					}
 
 					ShipResource.SetResources( ship.Fuel, shipmaster.Fuel, ship.Ammo, shipmaster.Ammo );

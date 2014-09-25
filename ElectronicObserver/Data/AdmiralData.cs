@@ -140,6 +140,40 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 階級を表す文字列を取得します。
+		/// </summary>
+		/// <returns>階級。</returns>
+		public string GetRankString() {
+
+			switch ( Rank ) {
+				case 1:
+					return "元帥";
+				case 2:
+					return "大将";
+				case 3:
+					return "中将";
+				case 4:
+					return "少将";
+				case 5:
+					return "大佐";
+				case 6:
+					return "中佐";
+				case 7:
+					return "新米中佐";
+				case 8:
+					return "少佐";
+				case 9:
+					return "中堅少佐";
+				case 10:
+					return "新米少佐";
+
+				default:
+					return "提督";
+			}
+
+		}
+
 	}
 
 

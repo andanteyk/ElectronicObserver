@@ -31,6 +31,8 @@ namespace ElectronicObserver.Window {
 		public FormFleet[] fFleet;
 		public FormDock fDock;
 		public FormArsenal fArsenal;
+		public FormHeadquarters fHeadquarters;
+
 		#endregion
 
 
@@ -67,6 +69,9 @@ namespace ElectronicObserver.Window {
 
 			fArsenal = new FormArsenal( this );
 			fArsenal.Show( MainDockPanel );
+
+			fHeadquarters = new FormHeadquarters( this );
+			fHeadquarters.Show( MainDockPanel );
 
 
 
@@ -139,7 +144,13 @@ namespace ElectronicObserver.Window {
 			fArsenal.Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_Headquarters_Click( object sender, EventArgs e ) {
+			fHeadquarters.Show( MainDockPanel );
+		}
+
 		#endregion
+
+		
 
 		
 		

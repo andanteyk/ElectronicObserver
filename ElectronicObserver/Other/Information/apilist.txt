@@ -299,7 +299,7 @@ api_get_member/basic		：艦隊司令部情報
 	api_active_flag			：
 	api_starttime			：起動日時(≠着任日時, 今回のログイン時の時間)
 	api_level				：艦隊司令部Lv.
-	api_rank				：階級
+	api_rank				：階級 
 	api_experience			：提督経験値
 	api_fleetname			：
 	api_comment				：提督コメント
@@ -653,7 +653,7 @@ api_req_kaisou/powerup			：近代化改修
 api_req_mission/result		：遠征帰投
 	api_ship_id				：艦船ID　(末尾-1のパーティリスト)の逆？
 	api_clear_result		：0=失敗, 1=成功, 2=大成功
-	api_get_exp				：入手経験値
+	api_get_exp				：獲得提督経験値
 	api_member_lv			：艦隊司令部Lv.
 	api_member_exp			：提督経験値
 	api_get_ship_exp		：各艦船の取得経験値

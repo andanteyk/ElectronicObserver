@@ -19,7 +19,7 @@ namespace ElectronicObserver.Window {
 
 			public Label ShipName;
 			public Label CompletionTime;
-
+			private ToolTip tooltip;
 
 			public TableArsenalControl( FormArsenal parent ) {
 
@@ -50,7 +50,9 @@ namespace ElectronicObserver.Window {
 				CompletionTime.MinimumSize = new Size( 60, 10 );
 				CompletionTime.AutoSize = true;
 				CompletionTime.Visible = true;
-				
+
+
+				tooltip = parent.ToolTipInfo;
 				#endregion
 
 			}
@@ -91,24 +93,28 @@ namespace ElectronicObserver.Window {
 					ShipName.Text = "";
 					CompletionTime.Text = "";
 					CompletionTime.Tag = null;
-				
+					tooltip.SetToolTip( CompletionTime, null );
+
 				} else if ( arsenal.State == 0 ) {
 					//empty
 					ShipName.Text = "----";
 					CompletionTime.Text = "";
 					CompletionTime.Tag = null;
+					tooltip.SetToolTip( CompletionTime, null );
 
 				} else if ( arsenal.State == 2 ) {
 					//building
 					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
 					CompletionTime.Text = DateConverter.ToTimeRemainString( arsenal.CompletionTime );
 					CompletionTime.Tag = arsenal.CompletionTime;
+					tooltip.SetToolTip( CompletionTime, "建造完了 : " + arsenal.CompletionTime.ToString() );
 
 				} else if ( arsenal.State == 3 ) {
 					//complete!
 					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
-					CompletionTime.Text = "完成!";
+					CompletionTime.Text = "完成！";
 					CompletionTime.Tag = null;
+					tooltip.SetToolTip( CompletionTime, null );
 
 				}
 

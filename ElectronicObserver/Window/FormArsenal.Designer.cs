@@ -23,7 +23,9 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.TableArsenal = new System.Windows.Forms.TableLayoutPanel();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.SuspendLayout();
 			// 
 			// TableArsenal
@@ -43,6 +45,13 @@
 			this.TableArsenal.Size = new System.Drawing.Size(0, 21);
 			this.TableArsenal.TabIndex = 3;
 			this.TableArsenal.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableArsenal_CellPaint);
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// FormArsenal
 			// 
@@ -65,5 +74,6 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel TableArsenal;
+		private System.Windows.Forms.ToolTip ToolTipInfo;
 	}
 }

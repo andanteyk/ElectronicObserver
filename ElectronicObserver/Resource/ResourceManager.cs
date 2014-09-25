@@ -42,9 +42,16 @@ namespace ElectronicObserver.Resource {
 			ResourceSteel,
 			ResourceBauxite,
 			ConditionSparkle,
+			ConditionNormal,
 			ConditionLittleTired,
 			ConditionTired,
 			ConditionVeryTired,
+			ItemInstantRepair,
+			ItemInstantConstruction,
+			ItemDevelopmentMaterial,
+			ItemFurnitureCoin,
+			HQShip,
+			HQEquipment,
 		}
 
 
@@ -61,14 +68,21 @@ namespace ElectronicObserver.Resource {
 		public void Load() {
 			const string masterpath = @"assets\";
 
-			Icons.Images.Add( "Fuel", LoadImage( masterpath + @"fuel.png" ) );
-			Icons.Images.Add( "Ammo", LoadImage( masterpath + @"ammo.png" ) );
-			Icons.Images.Add( "Steel", LoadImage( masterpath + @"steel.png" ) );
-			Icons.Images.Add( "Bauxite", LoadImage( masterpath + @"bauxite.png" ) );
-			Icons.Images.Add( "Cond_Sparkle", LoadImage( masterpath + @"cond_sparkle.png" ) );
-			Icons.Images.Add( "Cond_LittleTired", LoadImage( masterpath + @"cond_littletired.png" ) );
-			Icons.Images.Add( "Cond_Tired", LoadImage( masterpath + @"cond_tired.png" ) );
-			Icons.Images.Add( "Cond_VeryTired", LoadImage( masterpath + @"cond_verytired.png" ) );
+			Icons.Images.Add( "Fuel", LoadImage( masterpath + @"Resource\fuel.png" ) );
+			Icons.Images.Add( "Ammo", LoadImage( masterpath + @"Resource\ammo.png" ) );
+			Icons.Images.Add( "Steel", LoadImage( masterpath + @"Resource\steel.png" ) );
+			Icons.Images.Add( "Bauxite", LoadImage( masterpath + @"Resource\bauxite.png" ) );
+			Icons.Images.Add( "Cond_Sparkle", LoadImage( masterpath + @"Condition\sparkle.png" ) );
+			Icons.Images.Add( "Cond_Normal", LoadImage( masterpath + @"Condition\normal.png" ) );
+			Icons.Images.Add( "Cond_LittleTired", LoadImage( masterpath + @"Condition\littletired.png" ) );
+			Icons.Images.Add( "Cond_Tired", LoadImage( masterpath + @"Condition\tired.png" ) );
+			Icons.Images.Add( "Cond_VeryTired", LoadImage( masterpath + @"Condition\verytired.png" ) );
+			Icons.Images.Add( "Item_InstantRepair", LoadImage( masterpath + @"Item\instantRepair.png" ) );
+			Icons.Images.Add( "Item_InstantConstruction", LoadImage( masterpath + @"Item\instantConstruction.png" ) );
+			Icons.Images.Add( "Item_DevelopmentMaterial", LoadImage( masterpath + @"Item\developmentMaterial.png" ) );
+			Icons.Images.Add( "Item_FurnitureCoin", LoadImage( masterpath + @"Item\furnitureCoin.png" ) );
+			Icons.Images.Add( "HQ_Ship", LoadImage( masterpath + @"Ship.png" ) );
+			Icons.Images.Add( "HQ_Equipment", LoadImage( masterpath + @"Equipment.png" ) );
 
 		}
 
@@ -87,9 +101,7 @@ namespace ElectronicObserver.Resource {
 			return null;
 		}
 
-		public static int GetIconIndex( IconContent icon ) {
-			return (int)icon;
-		}
+		
 
 	}
 
