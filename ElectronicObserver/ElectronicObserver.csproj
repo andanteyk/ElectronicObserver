@@ -88,6 +88,7 @@
     <Compile Include="Observer\kcsapi\api_port\port.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship_speedchange.cs" />
+    <Compile Include="Observer\kcsapi\api_req_kousyou\getship.cs" />
     <Compile Include="Observer\kcsapi\api_req_nyukyo\start.cs" />
     <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
     <Compile Include="Resource\ResourceManager.cs" />

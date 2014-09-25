@@ -108,6 +108,9 @@ namespace ElectronicObserver.Observer {
 					case "api_req_kousyou/createship_speedchange":
 						kcsapi.api_req_kousyou.createship_speedchange.LoadFromRequest( shortpath, parsedData ); break;
 			
+					default:
+						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
+
 				}
 
 			} catch ( Exception e ) {
@@ -128,8 +131,8 @@ namespace ElectronicObserver.Observer {
 
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
 
-				if ( json.api_result != 1 ) {
-					//TODO: cats came here
+				if ( (int)json.api_result != 1 ) {
+					Utility.Logger.Add( 3, "APIの受信に失敗しました。" );
 				}
 
 				
@@ -163,6 +166,12 @@ namespace ElectronicObserver.Observer {
 
 					case "api_get_member/ndock":
 						kcsapi.api_get_member.ndock.LoadFromResponse( shortpath, json.api_data ); break;
+
+					case "api_req_kousyou/getship":
+						kcsapi.api_req_kousyou.getship.LoadFromResponse( shortpath, json.api_data ); break;
+
+					default:
+						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
 
 				}
 
