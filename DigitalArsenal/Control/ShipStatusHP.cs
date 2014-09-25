@@ -286,7 +286,7 @@ namespace DigitalArsenal.Control {
 
 			//checkme
 			return new Size( sz_text.Width + sz_hpnow.Width + sz_slash.Width + sz_hpmax.Width + Padding.Horizontal,
-				Math.Max( sz_text.Height, sz_hpnow.Height ) + _HPBar.Height );
+				Math.Max( sz_text.Height, sz_hpnow.Height ) + _HPBar.Height + Padding.Vertical );
 		}
 
 

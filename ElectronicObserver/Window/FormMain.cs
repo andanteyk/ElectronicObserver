@@ -30,7 +30,7 @@ namespace ElectronicObserver.Window {
 
 		public FormFleet[] fFleet;
 		public FormDock fDock;
-
+		public FormArsenal fArsenal;
 		#endregion
 
 
@@ -61,8 +61,13 @@ namespace ElectronicObserver.Window {
 				fFleet[i] = new FormFleet( this, i + 1 );
 				fFleet[i].Show( MainDockPanel );
 			}
+	
 			fDock = new FormDock( this );
 			fDock.Show( MainDockPanel );
+
+			fArsenal = new FormArsenal( this );
+			fArsenal.Show( MainDockPanel );
+
 
 
 			UIUpdateTimer.Start();
@@ -130,8 +135,13 @@ namespace ElectronicObserver.Window {
 			fDock.Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_Arsenal_Click( object sender, EventArgs e ) {
+			fArsenal.Show( MainDockPanel );
+		}
+
 		#endregion
 
+		
 		
 		
 

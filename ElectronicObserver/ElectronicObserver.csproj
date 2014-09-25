@@ -135,6 +135,12 @@
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
     <Compile Include="DynamicJson.cs" />
+    <Compile Include="Window\FormArsenal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormArsenal.Designer.cs">
+      <DependentUpon>FormArsenal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormDock.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormArsenal.resx">
+      <DependentUpon>FormArsenal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormDock.resx">
       <DependentUpon>FormDock.cs</DependentUpon>

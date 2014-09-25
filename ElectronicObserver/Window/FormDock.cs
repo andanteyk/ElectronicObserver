@@ -17,7 +17,7 @@ namespace ElectronicObserver.Window {
 
 		private class TableDockControl {
 
-			public Label Name;
+			public Label ShipName;
 			public Label RepairTime;
 
 
@@ -25,17 +25,18 @@ namespace ElectronicObserver.Window {
 
 				#region Initialize
 
-				Name = new Label();
-				Name.Text = "*nothing*";
-				Name.Anchor = AnchorStyles.Left;
-				Name.Font = parent.Font;
-				Name.ForeColor = parent.ForeColor;
-				Name.Padding = new Padding( 0, 1, 0, 1 );
-				Name.Margin = new Padding( 2, 0, 2, 0 );
-				Name.MaximumSize = new Size( 80, 20 );
-				Name.AutoEllipsis = true;
-				Name.AutoSize = true;
-				Name.Visible = true;
+				ShipName = new Label();
+				ShipName.Text = "???";
+				ShipName.Anchor = AnchorStyles.Left;
+				ShipName.Font = parent.Font;
+				ShipName.ForeColor = parent.ForeColor;
+				ShipName.TextAlign = ContentAlignment.MiddleLeft;
+				ShipName.Padding = new Padding( 0, 1, 0, 1 );
+				ShipName.Margin = new Padding( 2, 0, 2, 0 );
+				ShipName.MaximumSize = new Size( 60, 20 );
+				ShipName.AutoEllipsis = true;
+				ShipName.AutoSize = true;
+				ShipName.Visible = true;
 
 				RepairTime = new Label();
 				RepairTime.Text = "";
@@ -43,6 +44,7 @@ namespace ElectronicObserver.Window {
 				RepairTime.Font = parent.Font;
 				RepairTime.ForeColor = parent.ForeColor;
 				RepairTime.Tag = null;
+				RepairTime.TextAlign = ContentAlignment.MiddleLeft;
 				RepairTime.Padding = new Padding( 0, 1, 0, 1 );
 				RepairTime.Margin = new Padding( 2, 0, 2, 0 );
 				RepairTime.MinimumSize = new Size( 60, 10 );
@@ -63,7 +65,7 @@ namespace ElectronicObserver.Window {
 
 			public void AddToTable( TableLayoutPanel table, int row ) {
 
-				table.Controls.Add( Name, 0, row );
+				table.Controls.Add( ShipName, 0, row );
 				table.Controls.Add( RepairTime, 1, row );
 
 				#region set RowStyle
@@ -88,19 +90,19 @@ namespace ElectronicObserver.Window {
 
 				if ( dock == null || dock.State == -1 ) {
 					//locked
-					Name.Text = "";
+					ShipName.Text = "";
 					RepairTime.Text = "";
 					RepairTime.Tag = null;
 
 				} else if ( dock.State == 0 ) {
 					//empty
-					Name.Text = "----";
+					ShipName.Text = "----";
 					RepairTime.Text = "";
 					RepairTime.Tag = null;
 
 				} else {
 					//repairing
-					Name.Text = db.MasterShips[db.Ships[dock.ShipID].ShipID].Name;
+					ShipName.Text = db.MasterShips[db.Ships[dock.ShipID].ShipID].Name;
 					RepairTime.Text = DateConverter.ToTimeRemainString( dock.CompletionTime );
 					RepairTime.Tag = dock.CompletionTime;
 

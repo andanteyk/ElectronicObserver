@@ -164,6 +164,11 @@ namespace ElectronicObserver.Window {
 
 			}
 
+
+			public void Refresh() {
+
+			}
+
 		}
 
 		private class TableMemberControl {
