@@ -1388,7 +1388,6 @@ api_get_member/ship3
 api_get_member/slot_item
 api_get_member/material
 
-
 《装備換装》
 [換装]
 api_req_kaisou/slotset
@@ -1397,6 +1396,10 @@ api_get_member/ship3
 api_req_kaisou/unsetslot_all
 api_get_member/ship3
 
+《艦船建造》
+api_req_kousyou/createship
+api_get_member/kdock
+api_get_member/material
 
 《任務報酬受領》
 api_req_quest/clearitemget

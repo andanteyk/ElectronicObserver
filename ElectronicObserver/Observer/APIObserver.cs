@@ -105,6 +105,9 @@ namespace ElectronicObserver.Observer {
 					case "api_req_nyukyo/start":
 						kcsapi.api_req_nyukyo.start.LoadFromRequest( shortpath, parsedData ); break;
 
+					case "api_req_kousyou/createship_speedchange":
+						kcsapi.api_req_kousyou.createship_speedchange.LoadFromRequest( shortpath, parsedData ); break;
+			
 				}
 
 			} catch ( Exception e ) {

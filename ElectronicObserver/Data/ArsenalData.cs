@@ -24,9 +24,7 @@ namespace ElectronicObserver.Data {
 		/// 状態
 		/// -1=ロック, 0=空き, 2=建造中, 3=完成
 		/// </summary>
-		public int State {
-			get { return (int)RawData.api_state; }
-		}
+		public int State { get; internal set; }
 
 		/// <summary>
 		/// 艦船ID
@@ -41,6 +39,7 @@ namespace ElectronicObserver.Data {
 		public DateTime CompletionTime {
 			get { return DateConverter.FromAPITime( (long)RawData.api_complete_time ); }
 		}
+
 
 		/// <summary>
 		/// 投入燃料
@@ -82,6 +81,14 @@ namespace ElectronicObserver.Data {
 			get { return ArsenalID; }
 		}
 
+
+
+		public override void LoadFromResponse( string apiname, dynamic data ) {
+			base.LoadFromResponse( apiname, (object)data );
+
+			State = (int)RawData.api_state;
+
+		}
 
 
 		public override string ToString() {

@@ -77,6 +77,7 @@ namespace ElectronicObserver.Window.Dialog {
 				//request
 				APIList.Items.Add( "api_req_quest/clearitemget" );
 				APIList.Items.Add( "api_req_nyukyo/start" );
+				APIList.Items.Add( "api_req_kousyou/createship_speedchange" );
 
 			} else {
 				//response
