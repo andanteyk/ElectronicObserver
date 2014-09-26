@@ -56,16 +56,27 @@ namespace ElectronicObserver.Data {
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );
+			base.LoadFromResponse( apiname, (object)data );			//何か基幹とするデータ構造があった場合、switch分のなかに移動すること
 
-			Fuel = (int)RawData[0].api_value;
-			Ammo = (int)RawData[1].api_value;
-			Steel = (int)RawData[2].api_value;
-			Bauxite = (int)RawData[3].api_value;
-			InstantConstruction = (int)RawData[4].api_value;
-			InstantRepair = (int)RawData[5].api_value;
-			DevelopmentMaterial = (int)RawData[6].api_value;
+			switch ( apiname ) {
+				case "api_port/port":
+					Fuel = (int)RawData[0].api_value;
+					Ammo = (int)RawData[1].api_value;
+					Steel = (int)RawData[2].api_value;
+					Bauxite = (int)RawData[3].api_value;
+					InstantConstruction = (int)RawData[4].api_value;
+					InstantRepair = (int)RawData[5].api_value;
+					DevelopmentMaterial = (int)RawData[6].api_value;
+					break;
 
+				case "api_req_hokyu/charge":
+					Fuel = (int)RawData[0];
+					Ammo = (int)RawData[1];
+					Steel = (int)RawData[2];
+					Bauxite = (int)RawData[3];
+					break;
+
+			}
 		}
 
 	}

@@ -51,6 +51,9 @@ namespace ElectronicObserver.Window {
 			Database.MaterialUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_Updated ), e1 );
 			Database.AdmiralUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_Updated ), e1 );
 
+			//こうしないとフォントがなぜかデフォルトにされる
+			AdmiralName.Font = this.Font;
+			AdmiralComment.Font = this.Font;
 
 			FlowPanelMaster.Visible = false;
 

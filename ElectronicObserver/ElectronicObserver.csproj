@@ -86,6 +86,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\slot_item.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\useitem.cs" />
     <Compile Include="Observer\kcsapi\api_port\port.cs" />
+    <Compile Include="Observer\kcsapi\api_req_hokyu\charge.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship_speedchange.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\getship.cs" />
@@ -132,7 +133,6 @@
     </Compile>
     <Compile Include="Observer\APIObserver.cs" />
     <Compile Include="Observer\kcsapi\api_start2.cs" />
-    <Compile Include="Observer\ResponseReceivedEventArgs.cs" />
     <Compile Include="Data\ParameterBase.cs" />
     <Compile Include="Data\ShipData.cs" />
     <Compile Include="Data\ShipDataMaster.cs" />

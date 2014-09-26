@@ -105,8 +105,10 @@ namespace ElectronicObserver.Window {
 				#region set StateMain
 
 				//memo: [大破出撃中>出撃中|遠征中|入渠中>大破艦あり>未補給>疲労>中破艦あり>泊地修理中>出撃可能]
+				//memo: 泊地修理は工作艦が中破しているとできない、忘れないよう
 				//fixme:　あまりにきたないので書き直しを要請する
 				//todo: 入渠/遠征：完了時間のツールチップ
+
 
 				var ships = KCDatabase.Instance.Ships;
 
@@ -502,7 +504,6 @@ namespace ElectronicObserver.Window {
 
 			Text = string.Format( "#{0}", FleetID );
 			
-			//todo: invokeがフォーム非表示時に呼ばれない可能性があるので注意！
 			Database.FleetUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
 			Database.ShipsUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
 			Database.DocksUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );

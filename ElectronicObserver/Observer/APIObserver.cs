@@ -170,6 +170,9 @@ namespace ElectronicObserver.Observer {
 					case "api_req_kousyou/getship":
 						kcsapi.api_req_kousyou.getship.LoadFromResponse( shortpath, json.api_data ); break;
 
+					case "api_req_hokyu/charge":
+						kcsapi.api_req_hokyu.charge.LoadFromResponse( shortpath, json.api_data ); break;
+
 					default:
 						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
 

@@ -81,18 +81,20 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		private int[] _slot;
 		/// <summary>
 		/// 装備スロット
 		/// </summary>
 		public ReadOnlyCollection<int> Slot {
-			get { return Array.AsReadOnly<int>( (int[])RawData.api_slot ); }
+			get { return Array.AsReadOnly<int>( _slot ); }
 		}
-		
+
+		private int[] _aircraft;
 		/// <summary>
 		/// 各スロットの航空機搭載量
 		/// </summary>
 		public ReadOnlyCollection<int> Aircraft {
-			get { return Array.AsReadOnly<int>( (int[])RawData.api_onslot ); }
+			get { return Array.AsReadOnly<int>( _aircraft ); }
 		}
 
 
@@ -344,12 +346,25 @@ namespace ElectronicObserver.Data {
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );
+			
+			switch ( apiname ) { 
+				case "api_port/port":
+					base.LoadFromResponse( apiname, (object)data );
 
-			HPCurrent = (int)RawData.api_nowhp;
-			Fuel = (int)RawData.api_fuel;
-			Ammo = (int)RawData.api_bull;
-			Condition = (int)RawData.api_cond;
+					HPCurrent = (int)RawData.api_nowhp;
+					Fuel = (int)RawData.api_fuel;
+					Ammo = (int)RawData.api_bull;
+					Condition = (int)RawData.api_cond;
+					_slot = (int[])RawData.api_slot;
+					_aircraft = (int[])RawData.api_onslot;
+					break;
+
+				case "api_req_hokyu/charge":
+					Fuel = (int)RawData.api_fuel;
+					Ammo = (int)RawData.api_bull;
+					_aircraft = (int[])RawData.api_onslot;
+					break;
+			}
 
 		}
 

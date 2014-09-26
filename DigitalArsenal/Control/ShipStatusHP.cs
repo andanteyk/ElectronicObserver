@@ -204,7 +204,7 @@ namespace DigitalArsenal.Control {
 
 		private void ShipStatusHP_Paint( object sender, PaintEventArgs e ) {
 
-			Size maxsize = new Size( 99999, 99999 );
+			Size maxsize = new Size( int.MaxValue, int.MaxValue );
 
 
 			Graphics g = e.Graphics;
@@ -271,7 +271,7 @@ namespace DigitalArsenal.Control {
 
 		public override Size GetPreferredSize( Size proposedSize ) {
 
-			Size maxsize = new Size( 99999, 99999 );
+			Size maxsize = new Size( int.MaxValue, int.MaxValue );
 
 			Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
 			Size sz_hpmax = TextRenderer.MeasureText( Math.Max( MaximumValue, MaximumDigit ).ToString(), SubFont, maxsize, TextFormatHP );
