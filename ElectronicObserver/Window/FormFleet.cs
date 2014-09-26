@@ -20,6 +20,8 @@ namespace ElectronicObserver.Window {
 		private class TableFleetControl {
 			public Label Name;
 			public ImageLabel StateMain;
+			public ImageLabel AirSuperiority;
+			public ImageLabel SearchingAbility;
 
 			public TableFleetControl( FormFleet parent ) {
 
@@ -44,6 +46,26 @@ namespace ElectronicObserver.Window {
 				StateMain.Margin = new Padding( 2, 0, 2, 0 );
 				StateMain.AutoSize = true;
 
+				AirSuperiority = new ImageLabel();
+				AirSuperiority.Anchor = AnchorStyles.Left;
+				AirSuperiority.Font = parent.MainFont;
+				AirSuperiority.ForeColor = parent.MainFontColor;
+				AirSuperiority.ImageList = ResourceManager.Instance.Equipments;
+				AirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
+				AirSuperiority.Padding = new Padding( 2, 2, 2, 2 );
+				AirSuperiority.Margin = new Padding( 2, 0, 2, 0 );
+				AirSuperiority.AutoSize = true;
+
+				SearchingAbility = new ImageLabel();
+				SearchingAbility.Anchor = AnchorStyles.Left;
+				SearchingAbility.Font = parent.MainFont;
+				SearchingAbility.ForeColor = parent.MainFontColor;
+				SearchingAbility.ImageList = ResourceManager.Instance.Equipments;
+				SearchingAbility.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedRecon;
+				SearchingAbility.Padding = new Padding( 2, 2, 2, 2 );
+				SearchingAbility.Margin = new Padding( 2, 0, 2, 0 );
+				SearchingAbility.AutoSize = true;
+
 				#endregion
 
 			}
@@ -57,6 +79,8 @@ namespace ElectronicObserver.Window {
 
 				table.Controls.Add( Name, 0, 0 );
 				table.Controls.Add( StateMain, 1, 0 );
+				table.Controls.Add( AirSuperiority, 2, 0 );
+				table.Controls.Add( SearchingAbility, 3, 0 );
 
 				int row = 0;
 				#region set RowStyle
@@ -72,7 +96,11 @@ namespace ElectronicObserver.Window {
 
 			public void Update( FleetData fleet ) {
 
+				KCDatabase db = KCDatabase.Instance;
+					
 				Name.Text = fleet.Name;
+
+
 
 				#region set StateMain
 
@@ -81,7 +109,7 @@ namespace ElectronicObserver.Window {
 				//todo: 入渠/遠征：完了時間のツールチップ
 
 				var ships = KCDatabase.Instance.Ships;
-				
+
 				//大破出撃中
 				if ( fleet.FleetMember.Count(
 						( int id ) => {
@@ -89,23 +117,23 @@ namespace ElectronicObserver.Window {
 							else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
 						}
 					) > 0 ) {
-					
+
 					StateMain.Text = "大破艦あり！";
-				
+
 
 				}
-				//undone: 出撃中
+					//undone: 出撃中
 				else if ( false ) {
-				
-				
+
+
 				}
-				//遠征中
+					//遠征中
 				else if ( fleet.ExpeditionState != 0 ) {
 
 					StateMain.Text = "遠征中 " + DateConverter.ToTimeRemainString( fleet.ExpeditionTime );
-					
+
 				}
-				//入渠艦あり
+					//入渠艦あり
 				else {
 
 					long ntime = KCDatabase.Instance.Docks.Max(
@@ -151,7 +179,7 @@ namespace ElectronicObserver.Window {
 						StateMain.Text = "疲労";
 
 
-					//undone: 泊地修理中
+						//undone: 泊地修理中
 					} else if ( false ) {
 
 					} else {
@@ -160,8 +188,88 @@ namespace ElectronicObserver.Window {
 					}
 
 				}
-				
+
 				#endregion
+
+
+				//制空戦力計算
+				{
+					int airSuperiority = 0;
+
+					for ( int i = 0; i < fleet.FleetMember.Count; i++ ) {
+
+						if ( fleet.FleetMember[i] == -1 )
+							continue;
+
+						ShipData ship = db.Ships[fleet.FleetMember[i]];
+						for ( int j = 0; j < ship.Slot.Count; j++ ) {
+
+							if ( ship.Slot[j] == -1 )
+								continue;
+
+							EquipmentDataMaster eq = db.MasterEquipments[db.Equipments[ship.Slot[j]].EquipmentID];
+
+							switch ( eq.EquipmentType[2] ) {
+								case 6:		//艦戦
+								case 7:		//艦爆
+								case 8:		//艦攻
+								case 11:	//水爆
+									airSuperiority += (int)( eq.AA * Math.Sqrt( ship.Aircraft[j] ) );
+									break;
+							}
+						}
+					}
+
+					AirSuperiority.Text = airSuperiority.ToString();
+				}
+
+
+				//索敵能力計算　(水偵|艦偵)*2 + 電探 + √(その他)　とする
+				//この式は正確ではないらしいので参考までに
+				{
+					int los_reconplane = 0;
+					int los_radar = 0;
+					int los_other = 0;
+
+					for ( int i = 0; i < fleet.FleetMember.Count; i++ ) {
+
+						if ( fleet.FleetMember[i] == -1 )
+							continue;
+
+						ShipData ship = db.Ships[fleet.FleetMember[i]];
+
+						los_other += ship.LOSBase;
+
+						for ( int j = 0; j < ship.Slot.Count; j++ ) {
+
+							if ( ship.Slot[j] == -1 )
+								continue;
+
+							EquipmentDataMaster eq = db.MasterEquipments[db.Equipments[ship.Slot[j]].EquipmentID];
+
+							switch ( eq.EquipmentType[2] ) {
+								case 9:		//艦偵
+								case 10:	//水偵
+								case 11:	//水爆
+									if ( ship.Aircraft[j] > 0 )
+										los_reconplane += eq.LOS * 2;
+									break;
+
+								case 12:	//小型電探
+								case 13:	//大型電探
+									los_radar += eq.LOS;
+									break;
+
+								default:
+									los_other += eq.LOS;
+									break;
+							}
+						}
+					}
+
+					SearchingAbility.Text = ( (int)Math.Sqrt( los_other ) + los_radar + los_reconplane ).ToString();
+
+				}
 
 			}
 
