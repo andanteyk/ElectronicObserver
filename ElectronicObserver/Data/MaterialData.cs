@@ -9,7 +9,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 各種資源量を保持します。
 	/// </summary>
-	public class MaterialData : ResponseWrapper {
+	public class MaterialData : APIWrapper {
 
 		/// <summary>
 		/// 燃料
@@ -56,7 +56,7 @@ namespace ElectronicObserver.Data {
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );			//何か基幹とするデータ構造があった場合、switch分のなかに移動すること
+			base.LoadFromResponse( apiname, (object)data );			//何か基幹とするデータ構造があった場合、switch文のなかに移動すること
 
 			switch ( apiname ) {
 				case "api_port/port":
@@ -70,15 +70,29 @@ namespace ElectronicObserver.Data {
 					break;
 
 				case "api_req_hokyu/charge":
-					Fuel = (int)RawData[0];
-					Ammo = (int)RawData[1];
-					Steel = (int)RawData[2];
-					Bauxite = (int)RawData[3];
+					Fuel = (int)data[0];
+					Ammo = (int)data[1];
+					Steel = (int)data[2];
+					Bauxite = (int)data[3];
 					break;
 
 			}
 		}
 
+
+		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+			base.LoadFromRequest( apiname, data );
+
+			switch ( apiname ) {
+				case "api_req_kousyou/createship":
+					Fuel -= int.Parse( data["api_item1"] );
+					Ammo -= int.Parse( data["api_item2"] );
+					Steel -= int.Parse( data["api_item3"] );
+					Bauxite -= int.Parse( data["api_item4"] );
+					DevelopmentMaterial -= int.Parse( data["api_item5"] );
+					break;
+			}
+		}
 	}
 
 }

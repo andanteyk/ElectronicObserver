@@ -62,7 +62,7 @@ namespace ElectronicObserver.Window {
 				SearchingAbility.ForeColor = parent.MainFontColor;
 				SearchingAbility.ImageList = ResourceManager.Instance.Equipments;
 				SearchingAbility.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedRecon;
-				SearchingAbility.Padding = new Padding( 2, 2, 2, 2 );
+				SearchingAbility.Padding = new Padding( 2, 2, 2, 2 );	//fixme:paddingか何かでアイコンが欠けるバグがあるので要修正
 				SearchingAbility.Margin = new Padding( 2, 0, 2, 0 );
 				SearchingAbility.AutoSize = true;
 
@@ -480,6 +480,12 @@ namespace ElectronicObserver.Window {
 
 
 			//ui init
+
+			//doublebuffered
+			System.Reflection.PropertyInfo prop = typeof( TableLayoutPanel ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
+			prop.SetValue( TableFleet, true, null );
+			prop.SetValue( TableMember, true, null );
+
 
 			TableFleet.SuspendLayout();
 			TableFleet.BorderStyle = BorderStyle.FixedSingle;

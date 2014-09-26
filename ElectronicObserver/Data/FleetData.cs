@@ -13,7 +13,7 @@ namespace ElectronicObserver.Data {
 	/// 艦隊の情報を保持します。
 	/// </summary>
 	[DebuggerDisplay( "[{ID}] : {Name}" )]
-	public class FleetData : ResponseWrapper, IIdentifiable {
+	public class FleetData : APIWrapper, IIdentifiable {
 
 		/// <summary>
 		/// 艦隊ID
@@ -51,16 +51,62 @@ namespace ElectronicObserver.Data {
 			get { return DateConverter.FromAPITime( (long)RawData.api_mission[2] ); }
 		}
 
+
+		private int[] _fleetMember;
 		/// <summary>
 		/// 艦隊メンバー
 		/// </summary>
 		public ReadOnlyCollection<int> FleetMember {
-			get { return Array.AsReadOnly<int>( (int[])RawData.api_ship ); }
+			get { return Array.AsReadOnly<int>( _fleetMember ); }
 		}
 
 
 		public int ID {
 			get { return FleetID; }
+		}
+
+
+
+		public override void LoadFromResponse( string apiname, dynamic data ) {
+			base.LoadFromResponse( apiname, (object)data );
+
+			//api_port/port
+
+			_fleetMember = (int[])RawData.api_ship;
+
+		}
+
+
+		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+			base.LoadFromRequest( apiname, data );
+
+			switch ( apiname ) {
+				case "api_req_hensei/change": {
+						int index = int.Parse( data["api_ship_idx"] );
+						int shipID = int.Parse( data["api_ship_id"] );
+
+						if ( index == -1 ) {	//旗艦以外全解除
+							for ( int i = 1; i < _fleetMember.Length; i++ )
+								_fleetMember[i] = -1;
+
+						} else {
+							if ( shipID == -1 ) {	//はずす
+								for ( int i = index + 1; i < _fleetMember.Length; i++ )			//checkme
+									_fleetMember[i - 1] = _fleetMember[i];
+
+								_fleetMember[_fleetMember.Length - 1] = -1;
+
+							} else {	//入れ替え
+
+								_fleetMember[index] = shipID;
+
+							}
+						}
+					}
+					break;
+
+			}
+
 		}
 	}
 

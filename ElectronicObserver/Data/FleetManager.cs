@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data {
 
-	public class FleetManager : ResponseWrapper {
+	public class FleetManager : APIWrapper {
 	
 		public IDDictionary<FleetData> Fleets { get; private set; }
 
@@ -19,10 +19,11 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-
+			//api_port/port
 			foreach ( var elem in data ) {
 
 				int id = (int)elem.api_id;
@@ -35,6 +36,20 @@ namespace ElectronicObserver.Data {
 				} else {
 					Fleets[id].LoadFromResponse( apiname, elem );
 				}
+			}
+
+		}
+
+
+
+		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+			base.LoadFromRequest( apiname, data );
+
+			switch ( apiname ) {
+				case "api_req_hensei/change":
+					Fleets[int.Parse( data["api_id"] )].LoadFromRequest( apiname, data );
+					break;
+
 			}
 
 		}

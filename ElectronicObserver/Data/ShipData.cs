@@ -360,9 +360,9 @@ namespace ElectronicObserver.Data {
 					break;
 
 				case "api_req_hokyu/charge":
-					Fuel = (int)RawData.api_fuel;
-					Ammo = (int)RawData.api_bull;
-					_aircraft = (int[])RawData.api_onslot;
+					Fuel = (int)data.api_fuel;
+					Ammo = (int)data.api_bull;
+					_aircraft = (int[])data.api_onslot;
 					break;
 			}
 

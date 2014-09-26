@@ -66,7 +66,7 @@ namespace ElectronicObserver.Window {
 			
 			FlowPanelMaster.SuspendLayout();
 
-			//admiral
+			//Admiral
 			AdmiralName.Text = db.Admiral.AdmiralName + " " + db.Admiral.GetRankString();
 			AdmiralComment.Text = db.Admiral.Comment;
 

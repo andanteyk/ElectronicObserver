@@ -16,12 +16,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 			int arsenalID = int.Parse( data["api_kdock_id"] );
 			ArsenalData arsenal = db.Arsenals[arsenalID];
 
-			//checkme: このAPI値が高速建造材消費量であると仮定; 間違っていたら修正すること
-			//資源がないので今すぐはテストできない;;
-			int instantConstruction = int.Parse( data["api_highspeed"] );
-
 			arsenal.State = 3;
-			db.Material.InstantConstruction -= instantConstruction;
+			db.Material.InstantConstruction -= arsenal.Fuel >= 1000 ? 10 : 1;
 
 
 			db.OnMaterialUpdated();

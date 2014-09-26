@@ -707,7 +707,7 @@ Request.api_req_hensei/change		：艦隊編成変更
 	api_ship_id			：艦船ID　-1=はずす, -2=旗艦以外全解除
 
 api_req_hensei/change				：艦隊編成変更
-	(情報なし)
+	api_change_count	：旗艦以外全解除時のみ存在　除隊した艦船数
 
 
 Request.api_req_member/updatedeckname	：艦隊名変更

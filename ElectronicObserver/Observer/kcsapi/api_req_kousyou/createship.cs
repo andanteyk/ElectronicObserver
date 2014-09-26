@@ -13,11 +13,18 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 			KCDatabase db = KCDatabase.Instance;
 
+			/*
 			int arsenalID = int.Parse( data["api_kdock_id"] );
 			ArsenalData arsenal = db.Arsenals[arsenalID];
+			*/
 
 			//undone: このAPIが呼ばれた後 api_get_member/kdock が呼ばれ情報自体は更新されるので、建造ログのために使用？
-			//APIObserver その他にも登録していないので、実装の際はそちらも更新すること
+
+
+			db.Material.LoadFromRequest( apiname, data );
+
+
+			db.OnMaterialUpdated();
 
 		}
 

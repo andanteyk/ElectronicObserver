@@ -105,8 +105,14 @@ namespace ElectronicObserver.Observer {
 					case "api_req_nyukyo/start":
 						kcsapi.api_req_nyukyo.start.LoadFromRequest( shortpath, parsedData ); break;
 
+					case "api_req_kousyou/createship":
+						kcsapi.api_req_kousyou.createship.LoadFromRequest( shortpath, parsedData ); break;
+
 					case "api_req_kousyou/createship_speedchange":
 						kcsapi.api_req_kousyou.createship_speedchange.LoadFromRequest( shortpath, parsedData ); break;
+
+					case "api_req_hensei/change":
+						kcsapi.api_req_hensei.change.LoadFromRequest( shortpath, parsedData ); break;
 			
 					default:
 						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
