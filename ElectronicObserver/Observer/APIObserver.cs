@@ -117,6 +117,9 @@ namespace ElectronicObserver.Observer {
 					case "api_req_kousyou/destroyship":
 						kcsapi.api_req_kousyou.destroyship.LoadFromRequest( shortpath, parsedData ); break;
 
+					case "api_req_kousyou/destroyitem2":
+						kcsapi.api_req_kousyou.destroyitem2.LoadFromRequest( shortpath, parsedData ); break;
+
 					default:
 						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
 
@@ -142,7 +145,8 @@ namespace ElectronicObserver.Observer {
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
 
 				if ( (int)json.api_result != 1 ) {
-					Utility.Logger.Add( 3, "APIの受信に失敗しました。" );
+					Utility.Logger.Add( 3, "エラーコードを含むメッセージを受信しました。" );
+					throw new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
 				}
 
 				
@@ -185,6 +189,9 @@ namespace ElectronicObserver.Observer {
 
 					case "api_req_kousyou/destroyship":
 						kcsapi.api_req_kousyou.destroyship.LoadFromResponse( shortpath, json.api_data ); break;
+
+					case "api_req_kousyou/destroyitem2":
+						kcsapi.api_req_kousyou.destroyitem2.LoadFromResponse( shortpath, json.api_data ); break;
 
 					default:
 						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;

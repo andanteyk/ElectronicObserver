@@ -90,6 +90,7 @@
     <Compile Include="Observer\kcsapi\api_req_hokyu\charge.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship_speedchange.cs" />
+    <Compile Include="Observer\kcsapi\api_req_kousyou\destroyitem2.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\destroyship.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\getship.cs" />
     <Compile Include="Observer\kcsapi\api_req_nyukyo\start.cs" />

@@ -486,7 +486,7 @@ namespace ElectronicObserver.Window {
 			prop.SetValue( TableFleet, true, null );
 			prop.SetValue( TableMember, true, null );
 
-
+			TableFleet.Visible = false;
 			TableFleet.SuspendLayout();
 			TableFleet.BorderStyle = BorderStyle.FixedSingle;
 			ControlFleet = new TableFleetControl( this, TableFleet );
@@ -524,6 +524,7 @@ namespace ElectronicObserver.Window {
 
 			TableFleet.SuspendLayout();
 			ControlFleet.Update( fleet );
+			TableFleet.Visible = true;
 			TableFleet.ResumeLayout();
 
 			TableMember.SuspendLayout();

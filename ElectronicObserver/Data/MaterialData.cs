@@ -77,6 +77,12 @@ namespace ElectronicObserver.Data {
 					Bauxite = (int)data[3];
 					break;
 
+				case "api_req_kousyou/destroyitem2":
+					Fuel += (int)data.api_get_material[0];
+					Ammo += (int)data.api_get_material[1];
+					Steel += (int)data.api_get_material[2];
+					Bauxite += (int)data.api_get_material[3];
+					break;
 			}
 		}
 

@@ -81,6 +81,7 @@ namespace ElectronicObserver.Window.Dialog {
 				APIList.Items.Add( "api_req_kousyou/createship_speedchange" );
 				APIList.Items.Add( "api_req_hensei/change" );
 				APIList.Items.Add( "api_req_kousyou/destroyship" );
+				APIList.Items.Add( "api_req_kousyou/destroyitem2" );
 
 			} else {
 				//response
@@ -97,6 +98,7 @@ namespace ElectronicObserver.Window.Dialog {
 				APIList.Items.Add( "api_req_kousyou/getship" );
 				APIList.Items.Add( "api_req_hokyu/charge" );
 				APIList.Items.Add( "api_req_kousyou/destroyship" );
+				APIList.Items.Add( "api_req_kousyou/destroyitem2" );
 
 			}
 			
