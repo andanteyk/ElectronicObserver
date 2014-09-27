@@ -165,8 +165,10 @@ namespace ElectronicObserver.Window.Control {
 
 
 			sz_value.Width -= (int)( MainFont.Size / 2.0 );
-			sz_text.Width -= (int)( SubFont.Size / 2.0 );
-			sz_textnext.Width -= (int)( SubFont.Size / 2.0 );
+			if ( Text.Length > 0 )
+				sz_text.Width -= (int)( SubFont.Size / 2.0 );
+			if ( TextNext.Length > 0 )
+				sz_textnext.Width -= (int)( SubFont.Size / 2.0 );
 			sz_valuenext.Width -= (int)( SubFont.Size / 2.0 );
 
 			//*/
@@ -233,8 +235,10 @@ namespace ElectronicObserver.Window.Control {
 
 
 			sz_value.Width -= (int)( MainFont.Size / 2.0 );
-			sz_text.Width -= (int)( SubFont.Size / 2.0 );
-			sz_textnext.Width -= (int)( SubFont.Size / 2.0 );
+			if ( Text.Length > 0 )
+				sz_text.Width -= (int)( SubFont.Size / 2.0 );
+			if ( TextNext.Length > 0 )
+				sz_textnext.Width -= (int)( SubFont.Size / 2.0 );
 			sz_valuenext.Width -= (int)( SubFont.Size / 2.0 );
 
 

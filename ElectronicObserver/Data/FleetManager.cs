@@ -50,6 +50,11 @@ namespace ElectronicObserver.Data {
 					Fleets[int.Parse( data["api_id"] )].LoadFromRequest( apiname, data );
 					break;
 
+				case "api_req_kousyou/destroyship":
+					foreach ( int i in Fleets.Keys )
+						Fleets[i].LoadFromRequest( apiname, data );
+					break;
+
 			}
 
 		}

@@ -82,7 +82,7 @@ namespace ElectronicObserver.Observer {
 
 		public void LoadRequest( string path, string data ) {
 
-			Utility.Logger.Add( 1, "Requestを受信しました : " + path );
+			Utility.Logger.Add( 1, "Request を受信しました : " + path );
 
 			try {
 
@@ -114,13 +114,17 @@ namespace ElectronicObserver.Observer {
 					case "api_req_hensei/change":
 						kcsapi.api_req_hensei.change.LoadFromRequest( shortpath, parsedData ); break;
 			
+					case "api_req_kousyou/destroyship":
+						kcsapi.api_req_kousyou.destroyship.LoadFromRequest( shortpath, parsedData ); break;
+
 					default:
 						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
 
 				}
 
 			} catch ( Exception e ) {
-				
+
+				Utility.Logger.Add( 3, "Request の受信中にエラーが発生しました。\r\n" + e.Message );
 				System.Diagnostics.Debug.WriteLine( e.Message );
 			}
 
@@ -179,6 +183,9 @@ namespace ElectronicObserver.Observer {
 					case "api_req_hokyu/charge":
 						kcsapi.api_req_hokyu.charge.LoadFromResponse( shortpath, json.api_data ); break;
 
+					case "api_req_kousyou/destroyship":
+						kcsapi.api_req_kousyou.destroyship.LoadFromResponse( shortpath, json.api_data ); break;
+
 					default:
 						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
 
@@ -187,6 +194,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception e ) {
 
+				Utility.Logger.Add( 3, "Responseの受信中にエラーが発生しました。\r\n" + e.Message );
 				System.Diagnostics.Debug.WriteLine( e.Message );
 			}
 

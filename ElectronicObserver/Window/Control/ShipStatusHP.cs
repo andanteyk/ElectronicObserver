@@ -245,7 +245,8 @@ namespace ElectronicObserver.Window.Control {
 				Size sz_slash = TextRenderer.MeasureText( " / ", SubFont, maxsize, TextFormatHP );
 				Size sz_hpnow = TextRenderer.MeasureText( Math.Max( Value, MaximumDigit ).ToString(), MainFont, maxsize, TextFormatHP );
 
-				sz_text.Width -= (int)( SubFont.Size / 2.0 );
+				if ( Text.Length > 0 )
+					sz_text.Width -= (int)( SubFont.Size / 2.0 );
 				sz_hpmax.Width -= (int)( SubFont.Size / 2.0 );
 				sz_slash.Width -= (int)( SubFont.Size / 2.0 );
 				sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );
@@ -285,7 +286,8 @@ namespace ElectronicObserver.Window.Control {
 			Size sz_slash = TextRenderer.MeasureText( " / ", SubFont, maxsize, TextFormatHP );
 			Size sz_hpnow = TextRenderer.MeasureText( Math.Max( Value, MaximumDigit ).ToString(), MainFont, maxsize, TextFormatHP );
 
-			sz_text.Width -= (int)( SubFont.Size / 2.0 );
+			if ( Text.Length > 0 )
+				sz_text.Width -= (int)( SubFont.Size / 2.0 );
 			sz_hpmax.Width -= (int)( SubFont.Size / 2.0 );
 			sz_slash.Width -= (int)( SubFont.Size / 2.0 );
 			sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );

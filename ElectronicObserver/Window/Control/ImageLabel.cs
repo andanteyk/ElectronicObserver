@@ -321,7 +321,8 @@ namespace ElectronicObserver.Window.Control {
 			TextFormatFlags textformat = GetTextFormat( TextAlign, AutoWrap, AutoEllipsis );
 			Size sz_text = TextRenderer.MeasureText( Text, Font, new Size( int.MaxValue, int.MaxValue ), textformat );
 
-			sz_text.Width -= (int)( Font.Size / 2 );
+			if ( Text.Length > 0 )
+				sz_text.Width -= (int)( Font.Size / 2 );
 
 			switch ( ImageAlign ) { 
 				case ContentAlignment.TopLeft:

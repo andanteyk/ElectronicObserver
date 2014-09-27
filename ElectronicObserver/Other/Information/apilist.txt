@@ -250,7 +250,7 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：海域セルユニークID(全海域の通し番号)
 		api_no			：海域セルID(同海域内限定)
 		api_color_no	：セルの状態
-							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった?2014/09/14現在該当セル存在せず), 7=連合艦隊航空戦
+							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった? 2014/09/14現在該当セル存在せず), 7=連合艦隊航空戦
 
 	api_mst_mission		：遠征データ
 		api_id			：遠征ID
@@ -330,7 +330,7 @@ api_get_member/basic		：艦隊司令部情報
 api_port/port		：母港情報
 	api_material			：資源情報
 		api_member_id		：
-		api_id				：資源ID　1=燃料, 2=弾薬, 3=鋼材, 4=ボーキサイト, 5=高速建造材, 6=高速修復材, 7=開発資材
+		api_id				：資源ID　1=燃料, 2=弾薬, 3=鋼材, 4=ボーキサイト, 5=高速建造材, 6=高速修復材, 7=開発資材, 8=???
 		api_value			：保有数
 	
 	api_deck_port			：艦隊情報　deck を参照
@@ -1310,6 +1310,20 @@ api_get_member/payitem		：保有課金アイテム(取り出す前のアイテ�
 Request.api_req_member/payitemuse	：課金アイテム使用
 	api_payitem_id			：使用したアイテムのID
 	api_force_flag			：
+
+
+Request.api_req_member/itemuse		：アイテム使用
+	api_exchange_type		：勲章のみ存在？　1=設計図と交換
+	api_useitem_id			：使用したアイテムのID
+	api_force_flag			：
+
+api_req_member/itemuse				：アイテム使用
+	api_caution_flag	：
+	api_flag			：
+	api_getitem			：入手アイテム
+		api_usemst		：? 設計図=6
+		api_mst_id		：ID
+		api_getcount	：入手個数
 
 
 api_req_furniture/music_list	：ジュークボックスメニュー

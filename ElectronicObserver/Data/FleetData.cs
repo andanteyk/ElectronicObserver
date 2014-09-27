@@ -91,10 +91,8 @@ namespace ElectronicObserver.Data {
 
 						} else {
 							if ( shipID == -1 ) {	//はずす
-								for ( int i = index + 1; i < _fleetMember.Length; i++ )			//checkme
-									_fleetMember[i - 1] = _fleetMember[i];
 
-								_fleetMember[_fleetMember.Length - 1] = -1;
+								RemoveShip( index );
 
 							} else {	//入れ替え
 
@@ -102,12 +100,33 @@ namespace ElectronicObserver.Data {
 
 							}
 						}
-					}
-					break;
+					} break;
 
+				case "api_req_kousyou/destroyship": {
+						int shipID = int.Parse( data["api_ship_id"] );
+
+						for ( int i = 0; i < _fleetMember.Length; i++ ) {
+							if ( _fleetMember[i] == shipID ) {
+								RemoveShip( i );
+								break;
+							}
+						}
+					} break;
 			}
 
 		}
+
+
+		private void RemoveShip( int index ) {
+
+			for ( int i = index + 1; i < _fleetMember.Length; i++ )
+				_fleetMember[i - 1] = _fleetMember[i];
+
+			_fleetMember[_fleetMember.Length - 1] = -1;
+
+		}
+
+
 	}
 
 }

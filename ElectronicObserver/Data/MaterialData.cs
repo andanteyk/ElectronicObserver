@@ -60,16 +60,17 @@ namespace ElectronicObserver.Data {
 
 			switch ( apiname ) {
 				case "api_port/port":
-					Fuel = (int)RawData[0].api_value;
-					Ammo = (int)RawData[1].api_value;
-					Steel = (int)RawData[2].api_value;
-					Bauxite = (int)RawData[3].api_value;
-					InstantConstruction = (int)RawData[4].api_value;
-					InstantRepair = (int)RawData[5].api_value;
-					DevelopmentMaterial = (int)RawData[6].api_value;
+					Fuel = (int)data[0].api_value;
+					Ammo = (int)data[1].api_value;
+					Steel = (int)data[2].api_value;
+					Bauxite = (int)data[3].api_value;
+					InstantConstruction = (int)data[4].api_value;
+					InstantRepair = (int)data[5].api_value;
+					DevelopmentMaterial = (int)data[6].api_value;
 					break;
 
 				case "api_req_hokyu/charge":
+				case "api_req_kousyou/destroyship":
 					Fuel = (int)data[0];
 					Ammo = (int)data[1];
 					Steel = (int)data[2];

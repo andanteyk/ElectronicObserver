@@ -14,7 +14,7 @@ namespace ElectronicObserver.Data {
 	/// 個別の艦娘データを保持します。
 	/// </summary>
 	[DebuggerDisplay( "[{ID}] : {KCDatabase.Instance.MasterShips[ShipID].Name} Lv. {Level}" )]
-	public class ShipData : ResponseWrapper, IIdentifiable {
+	public class ShipData : APIWrapper, IIdentifiable {
 
 		
 
@@ -366,6 +366,23 @@ namespace ElectronicObserver.Data {
 					break;
 			}
 
+		}
+
+
+		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+			base.LoadFromRequest( apiname, data );
+
+			KCDatabase db = KCDatabase.Instance;
+
+			switch ( apiname ) {
+				case "api_req_kousyou/destroyship": {
+
+						for ( int i = 0; i < _slot.Length; i++ ) {
+							if ( _slot[i] == -1 ) continue;
+							db.Equipments.Remove( _slot[i] );
+						}
+					} break;
+			}
 		}
 
 
