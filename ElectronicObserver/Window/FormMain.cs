@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace ElectronicObserver.Window {
 	public partial class FormMain : Form {
@@ -46,7 +48,7 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_Load( object sender, EventArgs e ) {
 
-			Utility.Logger.Add( 1, "ElectronicObserver System is preparing." );
+			Utility.Logger.Add( 1, "七四式電子観測儀 を起動しています…" );
 
 			ResourceManager.Instance.Load();
 
@@ -57,26 +59,26 @@ namespace ElectronicObserver.Window {
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
 
 			//form init
-			//注：一度全てshowしないとイベントを受け取れないので注意
+			//注：一度全てshowしないとイベントを受け取れないので注意	
 			fFleet = new FormFleet[4];
 			for ( int i = 0; i < fFleet.Length; i++ ) {
 				fFleet[i] = new FormFleet( this, i + 1 );
-				fFleet[i].Show( MainDockPanel );
 			}
 	
 			fDock = new FormDock( this );
-			fDock.Show( MainDockPanel );
-
+			
 			fArsenal = new FormArsenal( this );
-			fArsenal.Show( MainDockPanel );
-
+			
 			fHeadquarters = new FormHeadquarters( this );
-			fHeadquarters.Show( MainDockPanel );
+			
 
+			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
+			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
 
 
 			UIUpdateTimer.Start();
 
+			Utility.Logger.Add( 1, "起動処理が完了しました。" );
 		}
 
 
@@ -85,6 +87,7 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_Debug_LoadAPIFromFile_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogLocalAPILoader() ) {
+
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
 					if ( dialog.IsResponse ) {
@@ -114,6 +117,98 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void FormMain_FormClosing( object sender, FormClosingEventArgs e ) {
+			//todo: 後々「終了しますか？」表示をつける
+
+
+			Utility.Logger.Add( 1, "七四式電子観測儀 を終了しています…" );
+
+			WindowPlacementManager.SaveWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
+			SaveSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
+
+		}
+
+		private void FormMain_FormClosed( object sender, FormClosedEventArgs e ) {
+
+			APIObserver.Instance.Stop();
+
+			Utility.Logger.Add( 1, "終了処理が完了しました。" );
+		}
+
+
+
+		private IDockContent GetDockContentFromPersistString( string persistString ) {
+
+			switch ( persistString ) {
+				case "Fleet #1":
+					return fFleet[0];
+				case "Fleet #2":
+					return fFleet[1];
+				case "Fleet #3":
+					return fFleet[2];
+				case "Fleet #4":
+					return fFleet[3];
+				case "Dock":
+					return fDock;
+				case "Arsenal":
+					return fArsenal;
+				case "HeadQuarters":
+					return fHeadquarters;
+
+				default:
+					return null;
+			}
+		}
+
+
+		private void LoadSubWindowsLayout( string path ) {
+
+			try {
+
+				if ( File.Exists( path ) ) {
+					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
+
+					//一度全ウィンドウを読み込むことでフォームを初期化する
+					foreach ( var x in MainDockPanel.Contents ) {
+						if ( x.DockHandler.DockState != DockState.Hidden )
+							x.DockHandler.Activate();
+						else {
+							x.DockHandler.Activate();
+							x.DockHandler.Hide();
+						}
+					}
+
+					if ( MainDockPanel.Contents.First() != null )
+						MainDockPanel.Contents.First().DockHandler.Activate();
+
+				}
+
+			} catch ( Exception e ) {
+
+				Utility.Logger.Add( 3, "サブウィンドウ レイアウトの復元に失敗しました。\r\n" + e.Message );
+
+			}
+
+		}
+
+
+		private void SaveSubWindowsLayout( string path ) {
+
+			try {
+
+				string parent = Directory.GetParent( path ).FullName;
+				if ( !Directory.Exists( parent ) ) {
+					Directory.CreateDirectory( parent );
+				}
+
+				MainDockPanel.SaveAsXml( path );
+
+			} catch ( Exception e ) {
+				
+				Utility.Logger.Add( 3, "サブウィンドウ レイアウトの保存に失敗しました。\r\n" + e.Message );
+			}
+
+		}
 
 
 
@@ -150,11 +245,9 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
 
-		
-		
-		
+
+	
 
 		
 
