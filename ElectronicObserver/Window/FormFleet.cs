@@ -560,7 +560,10 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		
+
+		protected override string GetPersistString() {
+			return "Fleet #" + FleetID.ToString();
+		}
 
 	}
 

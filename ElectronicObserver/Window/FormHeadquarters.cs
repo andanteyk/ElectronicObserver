@@ -101,6 +101,10 @@ namespace ElectronicObserver.Window {
 
 
 
+		protected override string GetPersistString() {
+			return "HeadQuarters";
+		}
+
 	}
 
 }
