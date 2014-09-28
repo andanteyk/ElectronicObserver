@@ -18,6 +18,8 @@ namespace ElectronicObserver.Window {
 		public FormHeadquarters( FormMain parent ) {
 			InitializeComponent();
 
+
+
 			ImageList icons = ResourceManager.Instance.Icons;
 			
 			ShipCount.ImageList = icons;
@@ -52,6 +54,7 @@ namespace ElectronicObserver.Window {
 			Database.AdmiralUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_Updated ), e1 );
 
 			//こうしないとフォントがなぜかデフォルトにされる
+			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 			AdmiralName.Font = this.Font;
 			AdmiralComment.Font = this.Font;
 

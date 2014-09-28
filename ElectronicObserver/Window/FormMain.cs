@@ -166,19 +166,33 @@ namespace ElectronicObserver.Window {
 			try {
 
 				if ( File.Exists( path ) ) {
+
+					for ( int i = 0; i < fFleet.Length; i++ ) {
+						fFleet[i].Show( MainDockPanel, DockState.Document );
+						fFleet[i].DockPanel = null;
+					}
+					fDock.Show( MainDockPanel, DockState.Document );
+					fDock.DockPanel = null;
+					fArsenal.Show( MainDockPanel, DockState.Document );
+					fArsenal.DockPanel = null;
+					fHeadquarters.Show( MainDockPanel, DockState.Document );
+					fHeadquarters.DockPanel = null;
+					
+
 					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
 					//一度全ウィンドウを読み込むことでフォームを初期化する
 					foreach ( var x in MainDockPanel.Contents ) {
-						if ( x.DockHandler.DockState != DockState.Hidden )
-							x.DockHandler.Activate();
-						else {
-							x.DockHandler.Activate();
+						if ( x.DockHandler.DockState == DockState.Hidden ) {
+							x.DockHandler.Show( MainDockPanel );
 							x.DockHandler.Hide();
+						} else {
+							x.DockHandler.Activate();
 						}
+						
 					}
 
-					if ( MainDockPanel.Contents.First() != null )
+					if ( MainDockPanel.Contents.Count > 0 )
 						MainDockPanel.Contents.First().DockHandler.Activate();
 
 
