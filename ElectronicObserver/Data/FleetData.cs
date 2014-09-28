@@ -82,24 +82,30 @@ namespace ElectronicObserver.Data {
 
 			switch ( apiname ) {
 				case "api_req_hensei/change": {
+						int fleetID = int.Parse( data["api_id"] );
 						int index = int.Parse( data["api_ship_idx"] );
 						int shipID = int.Parse( data["api_ship_id"] );
+						int replacedID = int.Parse( data["replaced_id"] );
 
-						if ( index == -1 ) {	//旗艦以外全解除
+						if ( fleetID == FleetID && index == -1 ) {
+							//旗艦以外全解除
 							for ( int i = 1; i < _fleetMember.Length; i++ )
 								_fleetMember[i] = -1;
 
+						} else if ( fleetID == FleetID && shipID == -1 ) {
+							//はずす
+							RemoveShip( index );
+
 						} else {
-							if ( shipID == -1 ) {	//はずす
 
-								RemoveShip( index );
-
-							} else {	//入れ替え
-
-								_fleetMember[index] = shipID;
-
+							for ( int i = 0; i < _fleetMember.Length; i++ ) {
+								if ( _fleetMember[i] == shipID )
+									_fleetMember[i] = replacedID;
+								else if ( _fleetMember[i] == replacedID )
+									_fleetMember[i] = shipID;
 							}
 						}
+
 					} break;
 
 				case "api_req_kousyou/destroyship": {

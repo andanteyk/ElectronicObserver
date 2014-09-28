@@ -84,6 +84,7 @@ namespace ElectronicObserver.Resource {
 			CommandFacility,
 			MaintenanceTeam,
 			Locked,
+			Unknown,
 		}
 
 
@@ -153,6 +154,8 @@ namespace ElectronicObserver.Resource {
 			Equipments.Images.Add( "CommandFacility", LoadImage( masterpath + @"Equipment\commandfacility.png" ) );
 			Equipments.Images.Add( "MaintenanceTeam", LoadImage( masterpath + @"Equipment\maintenanceteam.png" ) );
 			Equipments.Images.Add( "Locked", LoadImage( masterpath + @"Equipment\locked.png" ) );
+			Equipments.Images.Add( "Unknown", LoadImage( masterpath + @"Equipment\unknown.png" ) );
+			
 			#endregion
 
 		}

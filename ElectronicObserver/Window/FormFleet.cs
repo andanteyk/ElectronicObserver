@@ -288,7 +288,7 @@ namespace ElectronicObserver.Window {
 			public ShipStatusHP HP;
 			public ImageLabel Condition;
 			public ShipStatusResource ShipResource;
-			
+			public ShipStatusEquipment Equipments;
 
 			public TableMemberControl( FormFleet parent ) {
 
@@ -368,6 +368,16 @@ namespace ElectronicObserver.Window {
 				ShipResource.Visible = false;
 				ShipResource.ResumeLayout();
 
+				Equipments = new ShipStatusEquipment();
+				Equipments.SuspendLayout();
+				Equipments.Anchor = AnchorStyles.Left;
+				Equipments.Padding = new Padding( 0, 2, 0, 1 );
+				Equipments.Margin = new Padding( 2, 0, 2, 0 );
+				Equipments.Size = new Size( 40, 20 );
+				Equipments.AutoSize = true;
+				Equipments.Visible = false;
+				Equipments.ResumeLayout();
+
 				#endregion
 
 			}
@@ -385,6 +395,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( HP, 2, row );
 				table.Controls.Add( Condition, 3, row );
 				table.Controls.Add( ShipResource, 4, row );
+				table.Controls.Add( Equipments, 5, row );
 
 				#region set RowStyle
 				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
@@ -436,7 +447,10 @@ namespace ElectronicObserver.Window {
 					}
 
 					ShipResource.SetResources( ship.Fuel, shipmaster.Fuel, ship.Ammo, shipmaster.Ammo );
-				
+
+
+					Equipments.SetSlotList( ship );
+
 				}
 
 
@@ -444,7 +458,8 @@ namespace ElectronicObserver.Window {
 				Level.Visible =
 				HP.Visible = 
 				Condition.Visible = 
-				ShipResource.Visible = shipMasterID != -1;
+				ShipResource.Visible = 
+				Equipments.Visible = shipMasterID != -1;
 
 			}
 		}

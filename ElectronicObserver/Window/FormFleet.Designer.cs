@@ -33,7 +33,8 @@
 			// 
 			this.TableMember.AutoSize = true;
 			this.TableMember.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableMember.ColumnCount = 5;
+			this.TableMember.ColumnCount = 6;
+			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());

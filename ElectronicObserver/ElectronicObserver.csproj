@@ -104,6 +104,12 @@
     <Compile Include="Window\Control\ImageLabel.Designer.cs">
       <DependentUpon>ImageLabel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Control\ShipStatusEquipment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Control\ShipStatusEquipment.Designer.cs">
+      <DependentUpon>ShipStatusEquipment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Control\ShipStatusHP.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -136,7 +142,6 @@
     </Compile>
     <Compile Include="Observer\APIObserver.cs" />
     <Compile Include="Observer\kcsapi\api_start2.cs" />
-    <Compile Include="Data\ParameterBase.cs" />
     <Compile Include="Data\ShipData.cs" />
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
@@ -181,6 +186,9 @@
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
     <EmbeddedResource Include="Window\Control\ImageLabel.resx">
       <DependentUpon>ImageLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Control\ShipStatusEquipment.resx">
+      <DependentUpon>ShipStatusEquipment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ShipStatusHP.resx">
       <DependentUpon>ShipStatusHP.cs</DependentUpon>

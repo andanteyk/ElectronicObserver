@@ -349,6 +349,7 @@ namespace ElectronicObserver.Data {
 			
 			switch ( apiname ) { 
 				case "api_port/port":
+				case "api_get_member/ship2":
 					base.LoadFromResponse( apiname, (object)data );
 
 					HPCurrent = (int)RawData.api_nowhp;

@@ -46,9 +46,14 @@ namespace ElectronicObserver.Data {
 			base.LoadFromRequest( apiname, data );
 
 			switch ( apiname ) {
-				case "api_req_hensei/change":
-					Fleets[int.Parse( data["api_id"] )].LoadFromRequest( apiname, data );
-					break;
+				case "api_req_hensei/change": {
+						int memberID = int.Parse( data["api_ship_idx"] );	//fixme
+						data.Add( "replaced_id", Fleets[int.Parse( data["api_id"] )].FleetMember[memberID].ToString() );
+
+						foreach ( int i in Fleets.Keys )
+							Fleets[i].LoadFromRequest( apiname, data );
+
+					} break;
 
 				case "api_req_kousyou/destroyship":
 					foreach ( int i in Fleets.Keys )
