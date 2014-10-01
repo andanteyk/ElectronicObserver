@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -144,13 +145,18 @@ namespace ElectronicObserver.Window {
 		
 		private void FormDock_Load( object sender, EventArgs e ) {
 
-			KCDatabase Database = KCDatabase.Instance;
+			APIObserver o = APIObserver.Instance;
 
-			Database.DocksUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_DocksUpdated ), e1 );
+			APIReceivedEventHandler rec = ( string apiname ) => Invoke( new APIReceivedEventHandler( DocksUpdated ), apiname );
+
+			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
+
+			o.ResponseList["api_port/port"].ResponseReceived += rec;
+			o.ResponseList["api_get_member/ndock"].ResponseReceived += rec;
 
 		}
 
-		void Database_DocksUpdated( DatabaseUpdatedEventArgs e ) {
+		void DocksUpdated( string apiname ) {
 
 			TableDock.SuspendLayout();
 			for ( int i = 0; i < ControlDock.Length; i++ )

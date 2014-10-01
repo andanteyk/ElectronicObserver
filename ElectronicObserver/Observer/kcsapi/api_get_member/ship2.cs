@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 	
-	public static class ship2 {
+	public class ship2 : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			
+
 			//api_data
 			foreach ( var elem in data.api_data ) {
 
@@ -21,39 +21,24 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 				if ( !db.Ships.ContainsKey( id ) ) {
 					var a = new ShipData();
-					a.LoadFromResponse( apiname, elem );
+					a.LoadFromResponse( APIName, elem );
 					db.Ships.Add( a );
 
 				} else {
-					db.Ships[id].LoadFromResponse( apiname, elem );
+					db.Ships[id].LoadFromResponse( APIName, elem );
 				}
 			}
 
 
 			//api_data_deck
-			/*
-			foreach ( var elem in data.api_data_deck ) {
+			db.Fleet.LoadFromResponse( APIName, data.api_data_deck );
 
-				int id = (int)elem.api_id;
-
-				if ( !db.Fleets.ContainsKey( id ) ) {
-					var a = new FleetData();
-					a.LoadFromResponse( apiname, elem );
-					db.Fleets.Add( a );
-
-				} else {
-					db.Fleets[id].LoadFromResponse( apiname, elem );
-				}
-			}
-			*/
-
-			db.Fleet.LoadFromResponse( apiname, data.api_data_deck );
-
-
-			db.OnShipsUpdated();
-			db.OnFleetUpdated();
+			base.OnResponseReceived( (object)data );
 		}
 
+		public override string APIName {
+			get { return "api_get_member/ship2"; }
+		}
 	}
 
 }

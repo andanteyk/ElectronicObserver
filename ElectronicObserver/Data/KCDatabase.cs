@@ -24,38 +24,6 @@ namespace ElectronicObserver.Data {
 		#endregion
 
 
-		#region Events
-
-		public delegate void DatabaseUpdatedEventHandler( DatabaseUpdatedEventArgs e );
-
-		//private DatabaseUpdatedEventHandler _fleetUpdated = delegate { };
-
-		public event DatabaseUpdatedEventHandler MasterDataUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler ShipsUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler EquipmentsUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler AdmiralUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler UseItemsUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler ArsenalsUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler DocksUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler FleetUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler MaterialUpdated = delegate { };
-		public event DatabaseUpdatedEventHandler QuestUpdated = delegate { };
-
-		internal void OnMasterDataUpdated() { MasterDataUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnShipsUpdated() { ShipsUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnEquipmentsUpdated() { EquipmentsUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnAdmiralUpdated() { AdmiralUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnUseItemsUpdated() { UseItemsUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnArsenalsUpdated() { ArsenalsUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnDocksUpdated() { DocksUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnFleetUpdated() { FleetUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnMaterialUpdated() { MaterialUpdated( new DatabaseUpdatedEventArgs() ); }
-		internal void OnQuestUpdated() { QuestUpdated( new DatabaseUpdatedEventArgs() ); }
-
-		#endregion
-
-
-
 
 		/// <summary>
 		/// 艦船のマスターデータ

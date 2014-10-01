@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_req_hokyu {
 
-	public static class charge {
+	public class charge : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
@@ -20,19 +21,20 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_hokyu {
 				int shipID = (int)elem.api_id;
 				ShipData ship = db.Ships[shipID];
 
-				ship.LoadFromResponse( apiname, elem );
+				ship.LoadFromResponse( APIName, elem );
 			}
 
 
 			//api_material
-			db.Material.LoadFromResponse( apiname, data.api_material );
+			db.Material.LoadFromResponse( APIName, data.api_material );
 
 
-			db.OnMaterialUpdated();
-			db.OnShipsUpdated();
-
+			base.OnResponseReceived( (object)data );
 		}
 
+		public override string APIName {
+			get { return "api_req_hokyu/charge"; }
+		}
 	}
 
 }

@@ -24,14 +24,40 @@ namespace ElectronicObserver.Observer {
 		#endregion
 
 
+		public APIDictionary RequestList;
+		public APIDictionary ResponseList;
 
 
 		private APIObserver() {
 
-			//TODO: その他のイニシャライズも行ってくだち
+			RequestList = new APIDictionary();
+			RequestList.Add( new kcsapi.api_req_quest.clearitemget() );
+			RequestList.Add( new kcsapi.api_req_nyukyo.start() );
+			RequestList.Add( new kcsapi.api_req_kousyou.createship() );
+			RequestList.Add( new kcsapi.api_req_kousyou.createship_speedchange() );
+			RequestList.Add( new kcsapi.api_req_hensei.change() );
+			RequestList.Add( new kcsapi.api_req_kousyou.destroyship() );
+			RequestList.Add( new kcsapi.api_req_kousyou.destroyitem2() );
+			
+			ResponseList = new APIDictionary();
+			ResponseList.Add( new kcsapi.api_start2() );
+			ResponseList.Add( new kcsapi.api_get_member.basic() );
+			ResponseList.Add( new kcsapi.api_get_member.slot_item() );
+			ResponseList.Add( new kcsapi.api_get_member.useitem() );
+			ResponseList.Add( new kcsapi.api_get_member.kdock() );
+			ResponseList.Add( new kcsapi.api_port.port() );
+			ResponseList.Add( new kcsapi.api_get_member.ship2() );
+			ResponseList.Add( new kcsapi.api_get_member.questlist() );
+			ResponseList.Add( new kcsapi.api_get_member.ndock() );
+			ResponseList.Add( new kcsapi.api_req_kousyou.getship() );
+			ResponseList.Add( new kcsapi.api_req_hokyu.charge() );
+			ResponseList.Add( new kcsapi.api_req_kousyou.destroyship() );
+			ResponseList.Add( new kcsapi.api_req_kousyou.destroyitem2() );
+
+
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
-		
+			
 		}
 
 
@@ -97,33 +123,8 @@ namespace ElectronicObserver.Observer {
 				}
 
 
-				switch ( shortpath ) {
+				RequestList.OnRequestReceived( shortpath, parsedData );
 
-					case "api_req_quest/clearitemget":
-						kcsapi.api_req_quest.clearitemget.LoadFromRequest( shortpath, parsedData ); break;
-
-					case "api_req_nyukyo/start":
-						kcsapi.api_req_nyukyo.start.LoadFromRequest( shortpath, parsedData ); break;
-
-					case "api_req_kousyou/createship":
-						kcsapi.api_req_kousyou.createship.LoadFromRequest( shortpath, parsedData ); break;
-
-					case "api_req_kousyou/createship_speedchange":
-						kcsapi.api_req_kousyou.createship_speedchange.LoadFromRequest( shortpath, parsedData ); break;
-
-					case "api_req_hensei/change":
-						kcsapi.api_req_hensei.change.LoadFromRequest( shortpath, parsedData ); break;
-			
-					case "api_req_kousyou/destroyship":
-						kcsapi.api_req_kousyou.destroyship.LoadFromRequest( shortpath, parsedData ); break;
-
-					case "api_req_kousyou/destroyitem2":
-						kcsapi.api_req_kousyou.destroyitem2.LoadFromRequest( shortpath, parsedData ); break;
-
-					default:
-						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
-
-				}
 
 			} catch ( Exception e ) {
 
@@ -152,52 +153,11 @@ namespace ElectronicObserver.Observer {
 				
 
 				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
-				switch ( shortpath ) {
 
-					case "api_start2":
-						kcsapi.api_start2.LoadFromResponse( shortpath, json.api_data ); break;		//糞設計っぽい？改修求む
-
-					case "api_get_member/basic":
-						kcsapi.api_get_member.basic.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_get_member/slot_item":
-						kcsapi.api_get_member.slot_item.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_get_member/useitem":
-						kcsapi.api_get_member.useitem.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_get_member/kdock":
-						kcsapi.api_get_member.kdock.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_port/port":
-						kcsapi.api_port.port.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_get_member/ship2":
-						kcsapi.api_get_member.ship2.LoadFromResponse( shortpath, json ); break;
-
-					case "api_get_member/questlist":
-						kcsapi.api_get_member.questlist.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_get_member/ndock":
-						kcsapi.api_get_member.ndock.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_req_kousyou/getship":
-						kcsapi.api_req_kousyou.getship.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_req_hokyu/charge":
-						kcsapi.api_req_hokyu.charge.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_req_kousyou/destroyship":
-						kcsapi.api_req_kousyou.destroyship.LoadFromResponse( shortpath, json.api_data ); break;
-
-					case "api_req_kousyou/destroyitem2":
-						kcsapi.api_req_kousyou.destroyitem2.LoadFromResponse( shortpath, json.api_data ); break;
-
-					default:
-						Utility.Logger.Add( 0, shortpath + " は対応していないため、操作を実行しません。" ); break;
-
-				}
-
+				if ( shortpath == "api_get_member/ship2" )
+					ResponseList.OnResponseReceived( shortpath, json );
+				else if ( json.IsDefined( "api_data" ) )
+					ResponseList.OnResponseReceived( shortpath, json.api_data );
 
 			} catch ( Exception e ) {
 

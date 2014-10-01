@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
-	public static class getship {
+	public class getship : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
@@ -20,11 +21,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 				if ( !db.Arsenals.ContainsKey( id ) ) {
 					var a = new ArsenalData();
-					a.LoadFromResponse( apiname, ars );
+					a.LoadFromResponse( APIName, ars );
 					db.Arsenals.Add( a );
 
 				} else {
-					db.Arsenals[id].LoadFromResponse( apiname, ars );
+					db.Arsenals[id].LoadFromResponse( APIName, ars );
 				}
 			}
 
@@ -32,7 +33,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 			foreach ( var elem in data.api_slotitem ) {
 
 				var eq = new EquipmentData();
-				eq.LoadFromResponse( apiname, elem );
+				eq.LoadFromResponse( APIName, elem );
 				db.Equipments.Add( eq );
 
 			}
@@ -40,18 +41,17 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 			//api_ship
 			{
 				ShipData ship = new ShipData();
-				ship.LoadFromResponse( apiname, data.api_ship );
+				ship.LoadFromResponse( APIName, data.api_ship );
 				db.Ships.Add( ship );
 			}
 
 
-			db.OnArsenalsUpdated();
-			db.OnEquipmentsUpdated();
-			db.OnShipsUpdated();
-
+			base.OnResponseReceived( (object)data );
 		}
 
-
+		public override string APIName {
+			get { return "api_req_kousyou/getship"; }
+		}
 	}
 
 }

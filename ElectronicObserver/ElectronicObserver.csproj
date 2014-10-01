@@ -78,6 +78,8 @@
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
+    <Compile Include="Observer\APIBase.cs" />
+    <Compile Include="Observer\APIDictionary.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\basic.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\kdock.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ndock.cs" />

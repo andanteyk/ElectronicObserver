@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 
-	public static class slot_item {
+	public class slot_item : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
@@ -19,14 +20,17 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 			foreach ( var elem in data ) {
 
 				var eq = new EquipmentData();
-				eq.LoadFromResponse( apiname, elem );
+				eq.LoadFromResponse( APIName, elem );
 				db.Equipments.Add( eq );
 
 			}
-
-			db.OnEquipmentsUpdated();
+			
+			base.OnResponseReceived( (object)data );
 		}
 
+		public override string APIName {
+			get { return "api_get_member/slot_item"; }
+		}
 	}
 
 }

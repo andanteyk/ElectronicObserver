@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_req_quest {
 	
-	public static class clearitemget {
+	public class clearitemget : APIBase {
 
-		public static void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+		public override void OnRequestReceived( Dictionary<string, string> data ) {
 
-			KCDatabase db = KCDatabase.Instance;
-
-			db.Quest.LoadFromRequest( apiname, data );
-
-
-			db.OnQuestUpdated();
+			KCDatabase.Instance.Quest.LoadFromRequest( APIName, data );
+			
+			base.OnRequestReceived( data );
 		}
 
+		public override string APIName {
+			get { return "api_req_quest/clearitemget"; }
+		}
 	}
 
 }

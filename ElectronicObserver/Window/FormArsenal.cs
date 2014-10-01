@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -151,14 +152,21 @@ namespace ElectronicObserver.Window {
 		
 		private void FormArsenal_Load( object sender, EventArgs e ) {
 
-			KCDatabase Database = KCDatabase.Instance;
+			APIObserver o = APIObserver.Instance;
 
-			Database.ArsenalsUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_ArsenalsUpdated ), e1 );
-		
+			APIReceivedEventHandler rec = ( string apiname ) => Invoke( new APIReceivedEventHandler( ArsenalsUpdated ), apiname );
+			
+			o.RequestList["api_req_kousyou/createship"].RequestReceived += rec;
+			o.RequestList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
+
+			o.ResponseList["api_get_member/kdock"].ResponseReceived += rec;
+			o.ResponseList["api_req_kousyou/getship"].ResponseReceived += rec;
+
 		}
 
 
-		void Database_ArsenalsUpdated( DatabaseUpdatedEventArgs e ) {
+
+		void ArsenalsUpdated( string apiname ) {
 
 			TableArsenal.SuspendLayout();
 			for ( int i = 0; i < ControlArsenal.Length; i++ )

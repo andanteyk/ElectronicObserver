@@ -7,17 +7,19 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_port {
 	
-	public static class port {
+	public class port : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
+
 			//api_material
-			db.Material.LoadFromResponse( apiname, data.api_material );
+			db.Material.LoadFromResponse( APIName, data.api_material );
 
 			//api_basic
-			db.Admiral.LoadFromResponse( apiname, data.api_basic );
+			db.Admiral.LoadFromResponse( APIName, data.api_basic );
 
 			//api_ship
 			foreach ( var elem in data.api_ship ) {
@@ -26,11 +28,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 
 				if ( !db.Ships.ContainsKey( id ) ) {
 					var a = new ShipData();
-					a.LoadFromResponse( apiname, elem );
+					a.LoadFromResponse( APIName, elem );
 					db.Ships.Add( a );
 
 				} else {
-					db.Ships[id].LoadFromResponse( apiname, elem );
+					db.Ships[id].LoadFromResponse( APIName, elem );
 				}
 			}
 
@@ -41,28 +43,25 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 
 				if ( !db.Docks.ContainsKey( id ) ) {
 					var a = new DockData();
-					a.LoadFromResponse( apiname, elem );
+					a.LoadFromResponse( APIName, elem );
 					db.Docks.Add( a );
 
 				} else {
-					db.Docks[id].LoadFromResponse( apiname, elem );
+					db.Docks[id].LoadFromResponse( APIName, elem );
 				}
 			}
 
 			//api_deck_port
-			db.Fleet.LoadFromResponse( apiname, data.api_deck_port );
+			db.Fleet.LoadFromResponse( APIName, data.api_deck_port );
 			db.Fleet.CombinedFlag = (int)data.api_combined_flag;			//fixme:きたない
-
-
-
-			db.OnMaterialUpdated();
-			db.OnAdmiralUpdated();
-			db.OnShipsUpdated();
-			db.OnDocksUpdated();
-			db.OnFleetUpdated();
 			
+			
+			base.OnResponseReceived( (object)data );
 		}
 
+		public override string APIName {
+			get { return "api_port/port"; }
+		}
 	}
 
 }

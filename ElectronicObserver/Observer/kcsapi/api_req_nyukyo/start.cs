@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 
-	public static class start {
+	public class start : APIBase {
 
-		public static void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+
+		public override void OnRequestReceived( Dictionary<string, string> data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			int dockID = int.Parse( data["api_ndock_id"] );
-			DockData dock = db.Docks[dockID];
-	
+			DockData dock = db.Docks[int.Parse( data["api_ndock_id"] )];
+
 			int shipID = int.Parse( data["api_ship_id"] );
 			ShipData ship = db.Ships[shipID];
 
@@ -25,6 +25,10 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 
 				ship.Repair();
 				db.Material.InstantRepair--;
+
+			} else if ( ship.RepairTime <= 60 ) {
+
+				ship.Repair();
 
 			} else {
 
@@ -37,13 +41,12 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 			db.Material.Fuel -= ship.RepairFuel;
 			db.Material.Steel -= ship.RepairSteel;
 				
-
-			db.OnMaterialUpdated();
-			db.OnShipsUpdated();
-			db.OnDocksUpdated();
-
+			
+			base.OnRequestReceived( data );
+		}
+		public override string APIName {
+			get { return "api_req_nyukyo/start"; }
 		}
-
 	}
 
 }

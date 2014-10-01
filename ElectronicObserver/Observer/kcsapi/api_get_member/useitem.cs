@@ -7,25 +7,27 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 	
-	public static class useitem {
+	public class useitem : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
-
 
 			db.UseItems.Clear();
 			foreach ( var elem in data ) {
 
 				var item = new UseItem();
-				item.LoadFromResponse( apiname, elem );
+				item.LoadFromResponse( APIName, elem );
 				db.UseItems.Add( item );
 
 			}
 
-			db.OnUseItemsUpdated();
+			base.OnResponseReceived( (object)data );
 		}
-	
+
+		public override string APIName {
+			get { return "api_get_member/useitem"; }
+		}
 	}
 
 }

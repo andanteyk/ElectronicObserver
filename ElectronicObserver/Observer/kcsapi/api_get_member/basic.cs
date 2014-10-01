@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 	
-	public static class basic {
+	public class basic : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+	
+		public override void OnResponseReceived( dynamic data ) {
 
-			KCDatabase db = KCDatabase.Instance;
+			KCDatabase.Instance.Admiral.LoadFromResponse( APIName, data );
 
-			db.Admiral.LoadFromResponse( apiname, data );
+			base.OnResponseReceived( (object)data );
+		}
 
-			db.OnAdmiralUpdated();
+		public override string APIName {
+			get { return "api_get_member/basic"; }
 		}
 
 	}

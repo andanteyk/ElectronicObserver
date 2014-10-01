@@ -7,27 +7,21 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 	
-	public static class createship {
+	public class createship : APIBase {
 
-		public static void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
 
-			KCDatabase db = KCDatabase.Instance;
-
-			/*
-			int arsenalID = int.Parse( data["api_kdock_id"] );
-			ArsenalData arsenal = db.Arsenals[arsenalID];
-			*/
+		public override void OnRequestReceived( Dictionary<string, string> data ) {
 
 			//undone: このAPIが呼ばれた後 api_get_member/kdock が呼ばれ情報自体は更新されるので、建造ログのために使用？
 
-
-			db.Material.LoadFromRequest( apiname, data );
-
-
-			db.OnMaterialUpdated();
-
+			KCDatabase.Instance.Material.LoadFromRequest( APIName, data );
+			
+			base.OnRequestReceived( data );
 		}
 
+		public override string APIName {
+			get { return "api_req_kousyou/createship"; }
+		}
 	}
 
 

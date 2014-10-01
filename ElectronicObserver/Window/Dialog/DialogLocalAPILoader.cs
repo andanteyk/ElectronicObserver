@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using ElectronicObserver.Observer;
 
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogLocalAPILoader : Form {
@@ -75,31 +76,15 @@ namespace ElectronicObserver.Window.Dialog {
 			APIList.Items.Clear();
 			if ( APICategory.SelectedIndex == 0 ) {
 				//request
-				APIList.Items.Add( "api_req_quest/clearitemget" );
-				APIList.Items.Add( "api_req_nyukyo/start" );
-				APIList.Items.Add( "api_req_kousyou/createship" );
-				APIList.Items.Add( "api_req_kousyou/createship_speedchange" );
-				APIList.Items.Add( "api_req_hensei/change" );
-				APIList.Items.Add( "api_req_kousyou/destroyship" );
-				APIList.Items.Add( "api_req_kousyou/destroyitem2" );
+				foreach ( string s in APIObserver.Instance.RequestList.Keys ) {
+					APIList.Items.Add( s );
+				}
 
 			} else {
 				//response
-
-				APIList.Items.Add( "api_start2" );
-				APIList.Items.Add( "api_get_member/basic" );
-				APIList.Items.Add( "api_get_member/slot_item" );
-				APIList.Items.Add( "api_get_member/useitem" );
-				APIList.Items.Add( "api_get_member/kdock" );
-				APIList.Items.Add( "api_port/port" );
-				APIList.Items.Add( "api_get_member/ship2" );
-				APIList.Items.Add( "api_get_member/questlist" );
-				APIList.Items.Add( "api_get_member/ndock" );
-				APIList.Items.Add( "api_req_kousyou/getship" );
-				APIList.Items.Add( "api_req_hokyu/charge" );
-				APIList.Items.Add( "api_req_kousyou/destroyship" );
-				APIList.Items.Add( "api_req_kousyou/destroyitem2" );
-
+				foreach ( string s in APIObserver.Instance.ResponseList.Keys ) {
+					APIList.Items.Add( s );
+				}
 			}
 			
 			APIList.SelectedIndex = 0;

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
-	public static class destroyship {
+	public class destroyship : APIBase {
 
-		public static void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+	
+		public override void OnRequestReceived( Dictionary<string, string> data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
@@ -18,7 +19,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 			int shipID = int.Parse( data["api_ship_id"] );
 
-			db.Fleet.LoadFromRequest( apiname, data );
+			db.Fleet.LoadFromRequest( APIName, data );
 
 
 			ShipData ship = db.Ships[shipID];
@@ -29,26 +30,20 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 			db.Ships.Remove( shipID );
 
-
-			db.OnShipsUpdated();
-			db.OnEquipmentsUpdated();
-			db.OnFleetUpdated();
-
+			
+			base.OnRequestReceived( data );
 		}
 
+		public override void OnResponseReceived( dynamic data ) {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+			KCDatabase.Instance.Material.LoadFromResponse( APIName, data.api_material );
 
-			KCDatabase db = KCDatabase.Instance;
-
-			db.Material.LoadFromResponse( apiname, data.api_material );
-
-			db.OnMaterialUpdated();
-
+			base.OnResponseReceived( (object)data );
 		}
 
-
-
+		public override string APIName {
+			get { return "api_req_kousyou/destroyship"; }
+		}
 	}
 
 }

@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_req_hensei {
 
-	public static class change {
+	public class change : APIBase {
 
-		public static void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
 
-			KCDatabase db = KCDatabase.Instance;
+		public override void OnRequestReceived( Dictionary<string, string> data ) {
 
-			db.Fleet.LoadFromRequest( apiname, data );
-
-			db.OnFleetUpdated();
-
+			KCDatabase.Instance.Fleet.LoadFromRequest( APIName, data );
+			
+			base.OnRequestReceived( data );
 		}
 
+		public override string APIName {
+			get { return "api_req_hensei/change"; }
+		}
 	}
 
 }

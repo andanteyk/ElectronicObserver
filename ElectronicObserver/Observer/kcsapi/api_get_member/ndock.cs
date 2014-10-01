@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
-	public static class ndock {
+	public class ndock : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
@@ -19,19 +20,20 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 				if ( !db.Docks.ContainsKey( id ) ) {
 					var d = new DockData();
-					d.LoadFromResponse( apiname, dock );
+					d.LoadFromResponse( APIName, dock );
 					db.Docks.Add( d );
 
 				} else {
-					db.Docks[id].LoadFromResponse( apiname, dock );
+					db.Docks[id].LoadFromResponse( APIName, dock );
 				}
 			}
 
-			db.OnShipsUpdated();
-			db.OnDocksUpdated();
-			
+			base.OnResponseReceived( (object)data );
 		}
 
+		public override string APIName {
+			get { return "api_get_member/ndock"; }
+		}
 	}
 
 

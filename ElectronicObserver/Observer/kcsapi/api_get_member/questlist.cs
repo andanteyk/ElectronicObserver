@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
-	public static class questlist {
+	public class questlist : APIBase {
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+		public override void OnResponseReceived( dynamic data ) {
 
-			KCDatabase db = KCDatabase.Instance;
+			KCDatabase.Instance.Quest.LoadFromResponse( APIName, data );
 
-			db.Quest.LoadFromResponse( apiname, data );
-
-			db.OnQuestUpdated();
+			base.OnResponseReceived( (object)data );
 		}
-		
+
+		public override string APIName {
+			get { return "api_get_member/questlist"; }
+		}
 	}
 
 }

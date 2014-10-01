@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi {
 	
-	public static class api_start2 {
+	public class api_start2 : APIBase {
 
 
-		public static void LoadFromResponse( string apiname, dynamic data ) {
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
@@ -21,10 +21,10 @@ namespace ElectronicObserver.Observer.kcsapi {
 				int id = (int)elem.api_id;
 				if ( db.MasterShips[id] == null ) {
 					var ship = new ShipDataMaster();
-					ship.LoadFromResponse( apiname, elem );
+					ship.LoadFromResponse( APIName, elem );
 					db.MasterShips.Add( ship );
 				} else {
-					db.MasterShips[id].LoadFromResponse( apiname, elem );
+					db.MasterShips[id].LoadFromResponse( APIName, elem );
 				}
 			}
 
@@ -44,10 +44,10 @@ namespace ElectronicObserver.Observer.kcsapi {
 				int id = (int)elem.api_id;
 				if ( db.EquipmentTypes[id] == null ) {
 					var eqt = new EquipmentType();
-					eqt.LoadFromResponse( apiname, elem );
+					eqt.LoadFromResponse( APIName, elem );
 					db.EquipmentTypes.Add( eqt );
 				} else {
-					db.EquipmentTypes[id].LoadFromResponse( apiname, elem );
+					db.EquipmentTypes[id].LoadFromResponse( APIName, elem );
 				}
 			}
 
@@ -58,10 +58,10 @@ namespace ElectronicObserver.Observer.kcsapi {
 				int id = (int)elem.api_id;
 				if ( db.ShipTypes[id] == null ) {
 					var spt = new ShipType();
-					spt.LoadFromResponse( apiname, elem );
+					spt.LoadFromResponse( APIName, elem );
 					db.ShipTypes.Add( spt );
 				} else {
-					db.ShipTypes[id].LoadFromResponse( apiname, elem );
+					db.ShipTypes[id].LoadFromResponse( APIName, elem );
 				}
 			}
 
@@ -72,10 +72,10 @@ namespace ElectronicObserver.Observer.kcsapi {
 				int id = (int)elem.api_id;
 				if ( db.MasterEquipments[id] == null ) {
 					var eq = new EquipmentDataMaster();
-					eq.LoadFromResponse( apiname, elem );
+					eq.LoadFromResponse( APIName, elem );
 					db.MasterEquipments.Add( eq );
 				} else {
-					db.MasterEquipments[id].LoadFromResponse( apiname, elem );
+					db.MasterEquipments[id].LoadFromResponse( APIName, elem );
 				}
 			}
 
@@ -86,10 +86,10 @@ namespace ElectronicObserver.Observer.kcsapi {
 				int id = (int)elem.api_id;
 				if ( db.MasterUseItems[id] == null ) {
 					var item = new UseItemMaster();
-					item.LoadFromResponse( apiname, elem );
+					item.LoadFromResponse( APIName, elem );
 					db.MasterUseItems.Add( item );
 				} else {
-					db.MasterUseItems[id].LoadFromResponse( apiname, elem );
+					db.MasterUseItems[id].LoadFromResponse( APIName, elem );
 				}
 			}
 
@@ -106,8 +106,11 @@ namespace ElectronicObserver.Observer.kcsapi {
 			}
 
 
-			db.OnMasterDataUpdated();
+			base.OnResponseReceived( (object)data );
+		}
 
+		public override string APIName {
+			get { return "api_start2"; }
 		}
 	}
 

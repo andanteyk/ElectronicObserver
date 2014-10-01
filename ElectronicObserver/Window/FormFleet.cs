@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
@@ -521,18 +522,27 @@ namespace ElectronicObserver.Window {
 
 		private void FormFleet_Load( object sender, EventArgs e ) {
 
-			KCDatabase Database = KCDatabase.Instance;
-
 			Text = string.Format( "#{0}", FleetID );
-			
-			Database.FleetUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
-			Database.ShipsUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
-			Database.DocksUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_FleetUpdated ), e1 );
-			
+
+			APIObserver o = APIObserver.Instance;
+
+			APIReceivedEventHandler rec = ( string apiname ) => Invoke( new APIReceivedEventHandler( FleetUpdated ), apiname );
+
+			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
+			o.RequestList["api_req_hensei/change"].RequestReceived += rec;
+			o.RequestList["api_req_kousyou/destroyship"].RequestReceived += rec;
+
+			o.ResponseList["api_port/port"].ResponseReceived += rec;
+			o.ResponseList["api_get_member/ship2"].ResponseReceived += rec;
+			o.ResponseList["api_get_member/ndock"].ResponseReceived += rec;
+			o.ResponseList["api_req_kousyou/getship"].ResponseReceived += rec;
+			o.ResponseList["api_req_hokyu/charge"].ResponseReceived += rec;
+			o.ResponseList["api_req_kousyou/destroyship"].ResponseReceived += rec;
+
 		}
 
 
-		void Database_FleetUpdated( DatabaseUpdatedEventArgs e ) {
+		void FleetUpdated( string apiname ) {
 
 			KCDatabase db = KCDatabase.Instance;
 			FleetData fleet = db.Fleet.Fleets[FleetID];

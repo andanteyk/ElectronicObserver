@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using System;
 using System.Collections.Generic;
@@ -48,10 +49,25 @@ namespace ElectronicObserver.Window {
 		
 		private void FormHeadquarters_Load( object sender, EventArgs e ) {
 
-			KCDatabase Database = KCDatabase.Instance;
+			APIObserver o = APIObserver.Instance;
 
-			Database.MaterialUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_Updated ), e1 );
-			Database.AdmiralUpdated += ( DatabaseUpdatedEventArgs e1 ) => Invoke( new KCDatabase.DatabaseUpdatedEventHandler( Database_Updated ), e1 );
+			APIReceivedEventHandler rec = ( string apiname ) => Invoke( new APIReceivedEventHandler( HeadquartersUpdated ), apiname );
+
+			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
+			o.RequestList["api_req_kousyou/createship"].RequestReceived += rec;
+			o.RequestList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
+			o.RequestList["api_req_kousyou/destroyship"].RequestReceived += rec;
+			o.RequestList["api_req_kousyou/destroyitem2"].RequestReceived += rec;
+
+			o.ResponseList["api_get_member/basic"].ResponseReceived += rec;
+			o.ResponseList["api_get_member/slot_item"].ResponseReceived += rec;
+			o.ResponseList["api_port/port"].ResponseReceived += rec;
+			o.ResponseList["api_get_member/ship2"].ResponseReceived += rec;
+			o.ResponseList["api_req_kousyou/getship"].ResponseReceived += rec;
+			o.ResponseList["api_req_hokyu/charge"].ResponseReceived += rec;
+			o.ResponseList["api_req_kousyou/destroyship"].ResponseReceived += rec;
+			o.ResponseList["api_req_kousyou/destroyitem2"].ResponseReceived += rec;
+
 
 			//こうしないとフォントがなぜかデフォルトにされる
 			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
@@ -62,7 +78,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		void Database_Updated( DatabaseUpdatedEventArgs e ) {
+		void HeadquartersUpdated( string apiname ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
