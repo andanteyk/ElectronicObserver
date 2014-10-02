@@ -59,6 +59,7 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
+			this.StripMenu_View_Information = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -143,7 +144,8 @@
             this.StripMenu_View_Dock,
             this.StripMenu_View_Arsenal,
             this.toolStripSeparator2,
-            this.StripMenu_View_Headquarters});
+            this.StripMenu_View_Headquarters,
+            this.StripMenu_View_Information});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(62, 22);
 			this.StripMenu_View.Text = "表示(&V)";
@@ -156,7 +158,7 @@
             this.StripMenu_View_Fleet_3,
             this.StripMenu_View_Fleet_4});
 			this.StripMenu_View_Fleet.Name = "StripMenu_View_Fleet";
-			this.StripMenu_View_Fleet.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Fleet.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Fleet.Text = "艦隊(&F)";
 			// 
 			// StripMenu_View_Fleet_1
@@ -190,31 +192,31 @@
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(128, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_View_Dock
 			// 
 			this.StripMenu_View_Dock.Name = "StripMenu_View_Dock";
-			this.StripMenu_View_Dock.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Dock.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Dock.Text = "入渠(&D)";
 			this.StripMenu_View_Dock.Click += new System.EventHandler(this.StripMenu_View_Dock_Click);
 			// 
 			// StripMenu_View_Arsenal
 			// 
 			this.StripMenu_View_Arsenal.Name = "StripMenu_View_Arsenal";
-			this.StripMenu_View_Arsenal.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Arsenal.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Arsenal.Text = "工廠(&A)";
 			this.StripMenu_View_Arsenal.Click += new System.EventHandler(this.StripMenu_View_Arsenal_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(128, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_View_Headquarters
 			// 
 			this.StripMenu_View_Headquarters.Name = "StripMenu_View_Headquarters";
-			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Headquarters.Text = "司令部(&H)";
 			this.StripMenu_View_Headquarters.Click += new System.EventHandler(this.StripMenu_View_Headquarters_Click);
 			// 
@@ -267,6 +269,13 @@
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
 			// 
+			// StripMenu_View_Information
+			// 
+			this.StripMenu_View_Information.Name = "StripMenu_View_Information";
+			this.StripMenu_View_Information.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_View_Information.Text = "情報(&I)";
+			this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -313,6 +322,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Arsenal;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Headquarters;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Information;
 	}
 }
 

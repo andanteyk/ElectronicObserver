@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer {
 
-	public delegate void APIReceivedEventHandler( string apiname );
+	public delegate void APIReceivedEventHandler( string apiname, dynamic data );
 
 	/// <summary>
 	/// API処理部の基底となるクラスです。
@@ -30,7 +30,7 @@ namespace ElectronicObserver.Observer {
 		/// </summary>
 		/// <param name="data">処理するデータ。</param>
 		public virtual void OnRequestReceived( Dictionary<string, string> data ) {
-			RequestReceived( APIName );
+			RequestReceived( APIName, data );
 		}
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace ElectronicObserver.Observer {
 		/// </summary>
 		/// <param name="data">処理するデータ。</param>
 		public virtual void OnResponseReceived( dynamic data ) {
-			ResponseReceived( APIName );
+			ResponseReceived( APIName, data );
 		}
 
 

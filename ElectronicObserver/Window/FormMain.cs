@@ -34,6 +34,7 @@ namespace ElectronicObserver.Window {
 		public FormDock fDock;
 		public FormArsenal fArsenal;
 		public FormHeadquarters fHeadquarters;
+		public FormInformation fInformation;
 
 		#endregion
 
@@ -70,7 +71,9 @@ namespace ElectronicObserver.Window {
 			fArsenal = new FormArsenal( this );
 			
 			fHeadquarters = new FormHeadquarters( this );
-			
+
+			fInformation = new FormInformation( this );
+
 
 			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
@@ -154,6 +157,8 @@ namespace ElectronicObserver.Window {
 					return fArsenal;
 				case "HeadQuarters":
 					return fHeadquarters;
+				case "Information":
+					return fInformation;
 
 				default:
 					return null;
@@ -177,6 +182,8 @@ namespace ElectronicObserver.Window {
 					fArsenal.DockPanel = null;
 					fHeadquarters.Show( MainDockPanel, DockState.Document );
 					fHeadquarters.DockPanel = null;
+					fInformation.Show( MainDockPanel, DockState.Document );
+					fInformation.DockPanel = null;
 					
 
 					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
@@ -205,6 +212,7 @@ namespace ElectronicObserver.Window {
 					fDock.Show( MainDockPanel );
 					fArsenal.Show( MainDockPanel );
 					fHeadquarters.Show( MainDockPanel );
+					fInformation.Show( MainDockPanel );
 
 					foreach ( var x in MainDockPanel.Contents ) {
 						x.DockHandler.Hide();
@@ -247,7 +255,6 @@ namespace ElectronicObserver.Window {
 			fFleet[0].Show( MainDockPanel );
 		}
 
-
 		private void StripMenu_View_Fleet_2_Click( object sender, EventArgs e ) {
 			fFleet[1].Show( MainDockPanel );
 		}
@@ -272,7 +279,13 @@ namespace ElectronicObserver.Window {
 			fHeadquarters.Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_Information_Click( object sender, EventArgs e ) {
+			fInformation.Show( MainDockPanel );
+		}
+
 		#endregion
+
+		
 
 
 

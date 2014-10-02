@@ -154,7 +154,7 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname ) => Invoke( new APIReceivedEventHandler( ArsenalsUpdated ), apiname );
+			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 			
 			o.RequestList["api_req_kousyou/createship"].RequestReceived += rec;
 			o.RequestList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
@@ -166,7 +166,7 @@ namespace ElectronicObserver.Window {
 
 
 
-		void ArsenalsUpdated( string apiname ) {
+		void Updated( string apiname, dynamic data ) {
 
 			TableArsenal.SuspendLayout();
 			for ( int i = 0; i < ControlArsenal.Length; i++ )

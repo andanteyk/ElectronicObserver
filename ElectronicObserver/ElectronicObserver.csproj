@@ -83,6 +83,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\basic.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\kdock.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ndock.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\picture_book.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\questlist.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship2.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\slot_item.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Observer\kcsapi\api_req_kousyou\destroyitem2.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\destroyship.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\getship.cs" />
+    <Compile Include="Observer\kcsapi\api_req_member\get_practice_enemyinfo.cs" />
     <Compile Include="Observer\kcsapi\api_req_nyukyo\start.cs" />
     <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
     <Compile Include="Resource\ResourceManager.cs" />
@@ -172,6 +174,12 @@
     <Compile Include="Window\FormHeadquarters.Designer.cs">
       <DependentUpon>FormHeadquarters.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormInformation.Designer.cs">
+      <DependentUpon>FormInformation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -219,6 +227,9 @@
     <EmbeddedResource Include="Window\FormHeadquarters.resx">
       <DependentUpon>FormHeadquarters.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormInformation.resx">
+      <DependentUpon>FormInformation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -248,9 +259,7 @@
   <ItemGroup>
     <Content Include="Other\Information\apilist.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Observer\kcsapi\api_req_member\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

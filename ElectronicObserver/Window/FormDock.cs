@@ -147,7 +147,7 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname ) => Invoke( new APIReceivedEventHandler( DocksUpdated ), apiname );
+			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 
 			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
 
@@ -156,7 +156,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		void DocksUpdated( string apiname ) {
+		void Updated( string apiname, dynamic data ) {
 
 			TableDock.SuspendLayout();
 			for ( int i = 0; i < ControlDock.Length; i++ )

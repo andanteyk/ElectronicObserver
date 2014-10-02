@@ -51,7 +51,7 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname ) => Invoke( new APIReceivedEventHandler( HeadquartersUpdated ), apiname );
+			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 
 			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
 			o.RequestList["api_req_kousyou/createship"].RequestReceived += rec;
@@ -78,7 +78,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		void HeadquartersUpdated( string apiname ) {
+		void Updated( string apiname, dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 

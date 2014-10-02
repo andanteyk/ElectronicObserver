@@ -556,7 +556,7 @@ api_get_member/questlist	：任務
 	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂時はnull
 		api_no				：任務ID
 		api_category		：任務カテゴリ　1=編成, 2=出撃, 3=演習, 4=遠征, 5=補給/入渠, 6=工廠, 7=改装, 8=その他?
-		api_type			：任務出現タイプ？　1=一回限り, 2=デイリー, 3=ウィークリー
+		api_type			：任務出現タイプ？　1=一回限り, 2=デイリー, 3=ウィークリー, 6=マンスリー
 		api_state			：状態　1=未受領, 2=遂行中, 3=達成
 		api_title			：タイトル
 		api_detail			：説明
@@ -848,7 +848,7 @@ api_req_map/start		：出撃　同じメンバはnextのほうが情報が新し
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値　常に最大値に等しい
 		api_dmg			：＊ダメージ倍率? =6だとHP90の旗艦撃沈で540減少?
-	api_enemy			：
+	api_enemy			：次が戦闘マスのときのみ存在
 		api_enemy_id	：敵編成ID？
 		api_result		：
 		api_result_str	："start war"
@@ -862,12 +862,12 @@ api_req_map/next		：進撃
 	api_no				：次に向かうセルのID
 	api_color_no		：次のセルの色?　3=青, 4=赤
 	api_event_id		：イベント　api_mst_mapcell参照
-	api_event_kind		：イベント種別?　0=資源?|渦潮, 1=戦闘, 2=資源?
-	api_next			：? 0=行き止まり
+	api_event_kind		：イベント種別?　0=資源?|渦潮|気のせいだった, 1=戦闘, 2=資源?
+	api_next			：次のマスでのルート分岐の本数？ 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？
 	api_comment_kind	：0=なし, 1=<敵艦隊発見！>？
-	api_production_kind	：0=なし, 1=敵影表示？ボスに限る模様、潜水艦の敵影は0でも出る？
+	api_production_kind	：0=なし, 1=敵影表示？ボスに限る模様、潜水艦の敵影は0でも出る？、敵影が出なくても「敵艦隊発見！」時に1
 	api_eventmap		：イベント海域ゲージ情報
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値　startとは異なり実際の値が入る
@@ -994,14 +994,14 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵
 	api_hougeki			：夜間砲雷撃戦
 		api_at_list		：行動順
-		api_df_list		：防御側ID　-1から始まる　連撃とカットイン(主砲/魚雷)は2個, カットイン(主砲/(副砲|主砲))は3個(但し[1], [2]=-1)
+		api_df_list		：防御側ID　-1から始まる　連撃とカットイン((主砲|魚雷)/魚雷)は2個, カットイン(主砲/(副砲|主砲))は3個(但し[1], [2]=-1)
 		api_si_list		：表示装備ID 昼戦のそれに準ずる 非表示は-1
 		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
-		api_sp_list		：夜戦攻撃種別 0=通常攻撃, 1=連撃, 2=カットイン(主砲/魚雷), 3=カットイン(魚雷/魚雷)?, 4=カットイン(主砲/副砲), 5=カットイン(主砲/主砲)
+		api_sp_list		：夜戦攻撃種別 0=通常攻撃, 1=連撃, 2=カットイン(主砲/魚雷), 3=カットイン(魚雷/魚雷), 4=カットイン(主砲/副砲), 5=カットイン(主砲/主砲)
 		api_damage		：ダメージ(実ダメージ)
 
 
-???/sp_midnight		：開幕夜戦
+api_req_battle_midnight/sp_midnight		：開幕夜戦
 	(全メンバが api_req_battle_midnight/battle を継承)
 	api_formation		：陣形　昼戦のそれと同じ　api_eParamとapi_touch_planeの間
 
@@ -1015,7 +1015,7 @@ api_req_sortie/battleresult	：戦闘結果
 	api_member_exp			：提督経験値
 	api_get_base_exp		：獲得基本経験値
 	api_get_ship_exp		：各艦の獲得経験値
-	api_get_exp_lvup		：各艦の[0]獲得前経験値, [1]次のレベルの経験値, (レベルアップしたなら)[2]その次のレベルの経験値, ...
+	api_get_exp_lvup		：各艦の[0]獲得前経験値, [1]次のレベルの経験値(Lv99|150の場合存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ...
 	api_dests				：敵艦撃沈数？
 	api_destsf				：旗艦撃沈フラグ？
 	api_lost_flag			：味方艦撃沈フラグ？-1から始まる
@@ -1053,8 +1053,8 @@ api_get_member/mapinfo	：出撃準備　未出現海域は存在しない
 		api_now_maphp	：海域HP現在値
 		api_max_maphp	：海域HP最大値
 		api_state		：状態？1=未攻略, 2=攻略済み
-	api_exboss_flag		：1=ExtraOperation海域(未攻略)
-	api_defeated_count	：撃破回数(EO海域未攻略に限り存在)
+	api_exboss_flag		：未攻略海域フラグ(イベント海域を除く)
+	api_defeated_count	：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
 
 
 api_get_member/furniture	：所有家具データ
