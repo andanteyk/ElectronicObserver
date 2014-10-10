@@ -28,6 +28,23 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 保護ロック
+		/// </summary>
+		public bool IsLocked {
+			get { return (int)RawData.api_locked != 0; }
+		}
+
+		//api_level?
+
+
+		/// <summary>
+		/// 装備のマスターデータへの参照
+		/// </summary>
+		public EquipmentDataMaster MasterEquipment {
+			get { return KCDatabase.Instance.MasterEquipments[EquipmentID]; }
+		}
+
 
 		public int ID {
 			get { return MasterID; }

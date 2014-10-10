@@ -14,51 +14,25 @@ api_start2	：艦娘・装備固有データその他
 		api_name		：艦娘名
 		api_yomi		：艦娘名読み/(敵艦船)クラス
 		api_stype		：艦種
-		api_ctype		：艦型
-		api_cnum		：艦番
-		api_enqflg		：
 		api_afterlv		：改装Lv
 		api_aftershipid	：改装後ID 文字列 "0"=なし
 		api_taik		：耐久
 		api_souk		：装甲
-		api_tous		：搭載？
 		api_houg		：火力
 		api_raig		：雷装
-		api_baku		：爆装(0)
 		api_tyku		：対空
-		api_atap		：
-		api_tais		：対潜
-		api_houm		：砲撃命中(0)
-		api_raim		：雷撃命中(0)	8月イベント中のオンメンテで消滅
-		api_kaih		：回避
-		api_houk		：砲撃回避(0)
-		api_raik		：雷撃回避(0)
-		api_bakk		：爆撃回避(0)
-		api_saku		：索敵
-		api_sakb		：索敵妨害(0)
 		api_luck		：運
-		api_sokuh		：速力　0=低速, 1=高速
 		api_soku		：速力　5=低速, 10=高速
 		api_leng		：射程
-		api_grow		：
 		api_slot_num	：スロット数
 		api_maxeq		：艦載機搭載数
-		api_defeq		：初期装備ID
 		api_buildtime	：建造時間
 		api_broken		：解体資材
 		api_powup		：近代化改修強化値
-		api_gumax		：
 		api_backs		：レアリティ
 		api_getmes		：取得時台詞
-		api_homemes		：
-		api_gomes		：
-		api_gomes2		：
-		api_sinfo		：図鑑台詞
 		api_afterfuel	：改装鋼材
 		api_afterbull	：改装弾薬
-		api_touches		：
-		api_missions	：
-		api_systems		：
 		api_fuel_max	：消費燃料
 		api_bull_max	：消費弾薬
 		api_voicef		：ボイス設定フラグ
@@ -265,11 +239,14 @@ api_start2	：艦娘・装備固有データその他
 		api_win_item2	：獲得アイテム2
 		api_return_flag	：遠征中止可否
 	
-	api_mst_const		：母港サイズ
+	api_mst_const		：
 		api_boko_max_ships		：
 			api_string_value	：
 			api_int_value		：母港サイズ
-	
+		api_dpflag_quest		：
+			api_string_value	：
+			api_int_value		：1?
+
 	api_mst_shipupgrade	：改装設計図
 		api_id					：艦船ID
 		api_original_ship_id	：未改装艦船ID
@@ -384,7 +361,8 @@ api_port/port		：母港情報
 api_get_member/slot_item	：装備品情報
 	api_id					：装備固有ID
 	api_slotitem_id			：装備ID
-	api_locked				：
+	api_locked				：ロック有無
+	api_level				：
 
 
 api_get_member/unsetslot	：未装備武器のカテゴリ分け？
@@ -588,11 +566,11 @@ api_req_quest/clearitemget		：任務達成
 	api_material		：獲得資源量
 	api_bonus_count		：アイテム取得個数(カテゴリの)
 	api_bonus			：アイテム
-		api_type		：アイテムID
+		api_type		：アイテムID？12=一式徹甲弾
 		api_count		：取得個数
 		api_item		：アイテム追加情報 一般アイテムはnull
-			api_id		：0?
-			api_name	：アイテム名 家具箱系で確認
+			api_id		：装備アイテム=ID、家具箱=0
+			api_name	：アイテム名 家具箱系/装備のみ
 
 
 api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ送られてくるので注意

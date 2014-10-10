@@ -167,42 +167,48 @@ namespace ElectronicObserver.Data {
 		/// 対潜初期値
 		/// </summary>
 		public int ASWMin {
-			get { return (int)RawData.api_tais[0]; }
+			//get { return (int)RawData.api_tais[0]; }
+			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
 		}
 
 		/// <summary>
 		/// 対潜最大値
 		/// </summary>
 		public int ASWMax {
-			get { return (int)RawData.api_tais[1]; }
+			//get { return (int)RawData.api_tais[1]; }
+			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
 		}
 
 		/// <summary>
 		/// 回避初期値
 		/// </summary>
 		public int EvasionMin {
-			get { return (int)RawData.api_kaih[0]; }
+			//get { return (int)RawData.api_kaih[0]; }
+			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
 		}
 
 		/// <summary>
 		/// 回避最大値
 		/// </summary>
 		public int EvasionMax {
-			get { return (int)RawData.api_kaih[1]; }
+			//get { return (int)RawData.api_kaih[1]; }
+			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
 		}
 
 		/// <summary>
 		/// 索敵初期値
 		/// </summary>
 		public int LOSMin {
-			get { return (int)RawData.api_saku[0]; }
+			//get { return (int)RawData.api_saku[0]; }
+			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
 		}
 
 		/// <summary>
 		/// 索敵最大値
 		/// </summary>
 		public int LOSMax {
-			get { return (int)RawData.api_saku[1]; }
+			//get { return (int)RawData.api_saku[1]; }
+			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
 		}
 
 		/// <summary>
@@ -223,7 +229,7 @@ namespace ElectronicObserver.Data {
 		/// 速力
 		/// </summary>
 		public int Speed {
-			get { return (int)RawData.api_sokuh; }
+			get { return ( (int)RawData.api_soku >= 10 ) ? 1 : 0; }
 		}
 
 		/// <summary>
@@ -253,7 +259,8 @@ namespace ElectronicObserver.Data {
 		/// 初期装備のID
 		/// </summary>
 		public ReadOnlyCollection<int> DefaultSlot {
-			get { return Array.AsReadOnly<int>( (int[])RawData.api_defeq ); }
+			//get { return Array.AsReadOnly<int>( (int[])RawData.api_defeq ); }
+			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
 		}
 
 
@@ -297,7 +304,8 @@ namespace ElectronicObserver.Data {
 		/// 艦船名鑑でのメッセージ
 		/// </summary>
 		public string MessageDict {
-			get { return ( (string)RawData.api_sinfo ).Replace( "<br>", "\n" ); }
+			//get { return ( (string)RawData.api_sinfo ).Replace( "<br>", "\n" ); }
+			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
 		}
 
 		/// <summary>

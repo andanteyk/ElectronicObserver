@@ -278,9 +278,18 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int EvasionBase {
 			get {
+				/*
 				ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
 				return ship.EvasionMin + ( ship.EvasionMax - ship.EvasionMin ) * Level / 99;
-			}
+				*/
+				int param = EvasionTotal;
+				for ( int i = 0; i < _slot.Length; i++ ) {
+					if ( _slot[i] != -1 ) {
+						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.Evasion;
+					}
+				}
+				return param;
+			 }
 		}
 
 		/// <summary>
@@ -288,8 +297,13 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int ASWBase {
 			get {
-				ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
-				return ship.ASWMin + ( ship.ASWMax - ship.ASWMin ) * Level / 99;
+				int param = ASWTotal;
+				for ( int i = 0; i < _slot.Length; i++ ) {
+					if ( _slot[i] != -1 ) {
+						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.ASW;
+					}
+				}
+				return param;
 			}
 		}
 
@@ -298,8 +312,13 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int LOSBase {
 			get {
-				ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
-				return ship.LOSMin + ( ship.LOSMax - ship.LOSMin ) * Level / 99;
+				int param = LOSTotal;
+				for ( int i = 0; i < _slot.Length; i++ ) {
+					if ( _slot[i] != -1 ) {
+						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.LOS;
+					}
+				}
+				return param;
 			}
 		}
 
@@ -337,6 +356,15 @@ namespace ElectronicObserver.Data {
 		}
 		//*/
 
+
+		/// <summary>
+		/// 艦船のマスターデータへの参照
+		/// </summary>
+		public ShipDataMaster MasterShip {
+			get {
+				return KCDatabase.Instance.MasterShips[ShipID];
+			}
+		}
 
 
 		
