@@ -43,7 +43,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 				
 			
 			base.OnRequestReceived( data );
-		}
+		}
+
 		public override string APIName {
 			get { return "api_req_nyukyo/start"; }
 		}

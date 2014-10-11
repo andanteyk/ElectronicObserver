@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Utility {
-	
+
+
+	//public delegate void LogAddedEventHandler( Logger.LogData data );
+
 	
 	public sealed class Logger {
 

@@ -38,7 +38,9 @@ namespace ElectronicObserver.Observer {
 			RequestList.Add( new kcsapi.api_req_hensei.change() );
 			RequestList.Add( new kcsapi.api_req_kousyou.destroyship() );
 			RequestList.Add( new kcsapi.api_req_kousyou.destroyitem2() );
-			
+			RequestList.Add( new kcsapi.api_req_mission.start() );
+
+
 			ResponseList = new APIDictionary();
 			ResponseList.Add( new kcsapi.api_start2() );
 			ResponseList.Add( new kcsapi.api_get_member.basic() );
@@ -55,6 +57,7 @@ namespace ElectronicObserver.Observer {
 			ResponseList.Add( new kcsapi.api_req_kousyou.destroyitem2() );
 			ResponseList.Add( new kcsapi.api_req_member.get_practice_enemyinfo() );
 			ResponseList.Add( new kcsapi.api_get_member.picture_book() );
+			ResponseList.Add( new kcsapi.api_req_mission.start() );
 
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;

@@ -44,8 +44,6 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			//fixme: 時間経過で回復した艦の判定
-
 			int newstate = (int)RawData.api_state;
 
 			if ( State == 1 && newstate == 0 && ShipID != 0 ) {

@@ -33,23 +33,17 @@ namespace ElectronicObserver.Data {
 		/// 遠征状態
 		/// 0=未出撃, 1=遠征中, 2=遠征帰投, 3=強制帰投中
 		/// </summary>
-		public int ExpeditionState {
-			get { return (int)RawData.api_mission[0]; }
-		}
+		public int ExpeditionState { get; internal set;	}
 
 		/// <summary>
 		/// 遠征先ID
 		/// </summary>
-		public int ExpeditionDestination {
-			get { return (int)RawData.api_mission[1]; }
-		}
+		public int ExpeditionDestination { get; internal set; }
 
 		/// <summary>
 		/// 遠征帰投時間
 		/// </summary>
-		public DateTime ExpeditionTime {
-			get { return DateConverter.FromAPITime( (long)RawData.api_mission[2] ); }
-		}
+		public DateTime ExpeditionTime { get; internal set; }
 
 
 		private int[] _fleetMember;
@@ -68,17 +62,30 @@ namespace ElectronicObserver.Data {
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );
+		
+			switch ( apiname ) {
 
-			//api_port/port
+				case "api_req_mission/start":
+					ExpeditionTime = DateConverter.FromAPITime( (long)data.api_complatetime );
+					break;
 
-			_fleetMember = (int[])RawData.api_ship;
+				default:			//checkme
+					base.LoadFromResponse( apiname, (object)data );
+
+					_fleetMember = (int[])RawData.api_ship;
+					ExpeditionState = (int)RawData.api_mission[0];
+					ExpeditionDestination = (int)RawData.api_mission[1];
+					ExpeditionTime = DateConverter.FromAPITime( (long)RawData.api_mission[2] );
+					break;
+
+			}
 
 		}
 
 
 		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
 			base.LoadFromRequest( apiname, data );
+
 
 			switch ( apiname ) {
 				case "api_req_hensei/change": {
@@ -118,6 +125,11 @@ namespace ElectronicObserver.Data {
 							}
 						}
 					} break;
+
+				case "api_req_mission/start":
+					ExpeditionState = 1;
+					ExpeditionDestination = int.Parse( data["api_mission_id"] );
+					break;
 			}
 
 		}
