@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Utility {
 
 
-	//public delegate void LogAddedEventHandler( Logger.LogData data );
+	public delegate void LogAddedEventHandler( Logger.LogData data );
 
 	
 	public sealed class Logger {
@@ -21,6 +21,12 @@ namespace ElectronicObserver.Utility {
 		}
 
 		#endregion
+
+
+		/// <summary>
+		/// ログが追加された時に発生します。
+		/// </summary>
+		public event LogAddedEventHandler LogAdded = delegate { };
 
 
 		public class LogData {
@@ -76,10 +82,15 @@ namespace ElectronicObserver.Utility {
 		/// <param name="message">ログ内容。</param>
 		public static void Add( int priority, string message ) {
 			if ( Logger.Instance.priorityBorder <= priority ) {
-				Logger.Instance.log.Add( new LogData( DateTime.Now, priority, message ) );
+
+				LogData data = new LogData( DateTime.Now, priority, message );
+
+				Logger.Instance.log.Add( data );
 				if ( Logger.Instance.toDebugConsole ) {
 					System.Diagnostics.Debug.WriteLine( string.Format( "[{0}][{1}] : {2}", DateTime.Now, priority, message ) );
 				}
+
+				Logger.Instance.LogAdded( data );
 			}
 		}
 

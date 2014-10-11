@@ -49,9 +49,14 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_Load( object sender, EventArgs e ) {
 
+			ElectronicObserver.Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
+
+
 			Utility.Logger.Add( 1, "七四式電子観測儀 を起動しています…" );
 
+
 			ResourceManager.Instance.Load();
+
 
 
 			APIObserver.Instance.Start( 40620 );
@@ -83,6 +88,8 @@ namespace ElectronicObserver.Window {
 
 			Utility.Logger.Add( 1, "起動処理が完了しました。" );
 		}
+
+		
 
 
 
@@ -246,6 +253,15 @@ namespace ElectronicObserver.Window {
 			}
 
 		}
+
+
+
+		void Logger_LogAdded( Utility.Logger.LogData data ) {
+
+			StripStatus_Information.Text = data.Message;
+
+		}
+
 
 
 
