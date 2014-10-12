@@ -67,6 +67,7 @@ namespace ElectronicObserver.Window {
 			o.ResponseList["api_req_hokyu/charge"].ResponseReceived += rec;
 			o.ResponseList["api_req_kousyou/destroyship"].ResponseReceived += rec;
 			o.ResponseList["api_req_kousyou/destroyitem2"].ResponseReceived += rec;
+			o.ResponseList["api_req_kaisou/powerup"].ResponseReceived += rec;
 
 
 			//こうしないとフォントがなぜかデフォルトにされる

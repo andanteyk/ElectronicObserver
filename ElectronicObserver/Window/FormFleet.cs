@@ -540,7 +540,7 @@ namespace ElectronicObserver.Window {
 			o.ResponseList["api_req_hokyu/charge"].ResponseReceived += rec;
 			o.ResponseList["api_req_kousyou/destroyship"].ResponseReceived += rec;
 			o.ResponseList["api_get_member/ship3"].ResponseReceived += rec;
-
+			o.ResponseList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
 		}
 
 

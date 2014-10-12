@@ -10,7 +10,7 @@ namespace ElectronicObserver.Data {
 	
 		public IDDictionary<FleetData> Fleets { get; private set; }
 
-		//fixme:装備換装が反映されない
+		
 		public int CombinedFlag { get; internal set; }
 
 
