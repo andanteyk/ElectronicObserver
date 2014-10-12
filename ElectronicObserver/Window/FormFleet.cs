@@ -531,6 +531,7 @@ namespace ElectronicObserver.Window {
 			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
 			o.RequestList["api_req_hensei/change"].RequestReceived += rec;
 			o.RequestList["api_req_kousyou/destroyship"].RequestReceived += rec;
+			o.RequestList["api_req_member/updatedeckname"].RequestReceived += rec;
 
 			o.ResponseList["api_port/port"].ResponseReceived += rec;
 			o.ResponseList["api_get_member/ship2"].ResponseReceived += rec;

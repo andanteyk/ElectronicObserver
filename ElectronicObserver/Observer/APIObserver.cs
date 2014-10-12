@@ -39,7 +39,7 @@ namespace ElectronicObserver.Observer {
 			RequestList.Add( new kcsapi.api_req_kousyou.destroyship() );
 			RequestList.Add( new kcsapi.api_req_kousyou.destroyitem2() );
 			RequestList.Add( new kcsapi.api_req_mission.start() );
-
+			RequestList.Add( new kcsapi.api_req_member.updatedeckname() );
 
 			ResponseList = new APIDictionary();
 			ResponseList.Add( new kcsapi.api_start2() );

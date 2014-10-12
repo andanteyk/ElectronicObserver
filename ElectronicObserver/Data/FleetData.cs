@@ -25,9 +25,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 艦隊名
 		/// </summary>
-		public string Name {
-			get { return (string)RawData.api_name; }
-		}
+		public string Name { get; internal set; }
 
 		/// <summary>
 		/// 遠征状態
@@ -72,6 +70,7 @@ namespace ElectronicObserver.Data {
 				default:			//checkme
 					base.LoadFromResponse( apiname, (object)data );
 
+					Name = (string)RawData.api_name;
 					_fleetMember = (int[])RawData.api_ship;
 					ExpeditionState = (int)RawData.api_mission[0];
 					ExpeditionDestination = (int)RawData.api_mission[1];
@@ -84,7 +83,7 @@ namespace ElectronicObserver.Data {
 
 
 		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
-			base.LoadFromRequest( apiname, data );
+			base.LoadFromRequest( apiname, data );	//checkme
 
 
 			switch ( apiname ) {
@@ -155,6 +154,10 @@ namespace ElectronicObserver.Data {
 					ExpeditionState = 1;
 					ExpeditionDestination = int.Parse( data["api_mission_id"] );
 					ExpeditionTime = DateTime.Now;	//暫定処理。実際の更新はResponseで行う
+					break;
+
+				case "api_req_member/updatedeckname":
+					Name = data["api_name"];
 					break;
 
 			}

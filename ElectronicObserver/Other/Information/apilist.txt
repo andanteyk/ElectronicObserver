@@ -805,6 +805,13 @@ api_get_member/ship3	：装備換装時に呼ばれる
 	api_slot_data		：unsetslotと同等
 
 
+Request.api_req_kaisou/lock		：装備ロック
+	api_slotitem_id		：装備ID
+
+api_req_kaisou/lock				：装備ロック
+	api_locked			：ロック状態(1=ロック)
+
+
 api_get_member/mapcell		：マップデータ
 	api_id		：海域セルID
 	api_passed	：通行済み　初期地点は常に0
