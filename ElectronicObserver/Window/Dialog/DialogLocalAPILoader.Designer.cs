@@ -145,12 +145,15 @@
 			// 
 			// TextFilePath
 			// 
+			this.TextFilePath.AllowDrop = true;
 			this.TextFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextFilePath.Location = new System.Drawing.Point(56, 32);
 			this.TextFilePath.Name = "TextFilePath";
 			this.TextFilePath.Size = new System.Drawing.Size(480, 23);
 			this.TextFilePath.TabIndex = 4;
+			this.TextFilePath.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextFilePath_DragDrop);
+			this.TextFilePath.DragEnter += new System.Windows.Forms.DragEventHandler(this.TextFilePath_DragEnter);
 			// 
 			// label2
 			// 

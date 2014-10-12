@@ -10,7 +10,8 @@ namespace ElectronicObserver.Data {
 	
 		public IDDictionary<FleetData> Fleets { get; private set; }
 
-
+		//fixme:編成時に落ちる
+		//fixme:装備換装が反映されない
 		public int CombinedFlag { get; internal set; }
 
 
@@ -18,6 +19,12 @@ namespace ElectronicObserver.Data {
 			Fleets = new IDDictionary<FleetData>();
 		}
 
+
+		public FleetData this[int fleetID] {
+			get {
+				return Fleets[fleetID];
+			}
+		}
 
 		
 		public override void LoadFromResponse( string apiname, dynamic data ) {
@@ -47,8 +54,9 @@ namespace ElectronicObserver.Data {
 
 			switch ( apiname ) {
 				case "api_req_hensei/change": {
-						int memberID = int.Parse( data["api_ship_idx"] );	//fixme
-						data.Add( "replaced_id", Fleets[int.Parse( data["api_id"] )].FleetMember[memberID].ToString() );
+						int memberID = int.Parse( data["api_ship_idx"] );
+						if ( memberID != -1 )
+							data.Add( "replaced_id", Fleets[int.Parse( data["api_id"] )].FleetMember[memberID].ToString() );
 
 						foreach ( int i in Fleets.Keys )
 							Fleets[i].LoadFromRequest( apiname, data );

@@ -92,28 +92,53 @@ namespace ElectronicObserver.Data {
 						int fleetID = int.Parse( data["api_id"] );
 						int index = int.Parse( data["api_ship_idx"] );
 						int shipID = int.Parse( data["api_ship_id"] );
-						int replacedID = int.Parse( data["replaced_id"] );
+						int replacedID = data.ContainsKey( "replaced_id" ) ? int.Parse( data["replaced_id"] ) : -1;
 
-						if ( fleetID == FleetID && index == -1 ) {
-							//旗艦以外全解除
-							for ( int i = 1; i < _fleetMember.Length; i++ )
-								_fleetMember[i] = -1;
 
-						} else if ( fleetID == FleetID && shipID == -1 ) {
-							//はずす
-							RemoveShip( index );
+						if ( FleetID == fleetID ) {
+							if ( index == -1 ) {
+								//旗艦以外全解除
+								for ( int i = 1; i < _fleetMember.Length; i++ )
+									_fleetMember[i] = -1;
+
+							} else if ( shipID == -1 ) {
+								//はずす
+								RemoveShip( index );
+
+							} else {
+								//入隊
+
+								//入れ替え
+								for ( int i = 0; i < _fleetMember.Length; i++ ) {
+									if ( _fleetMember[i] == shipID ) {
+										_fleetMember[i] = replacedID;
+										break;
+									}
+								}
+								
+								//入隊
+								_fleetMember[index] = shipID;
+
+							}
+
 
 						} else {
 
-							for ( int i = 0; i < _fleetMember.Length; i++ ) {
-								if ( _fleetMember[i] == shipID )
-									_fleetMember[i] = replacedID;
-								else if ( _fleetMember[i] == replacedID )
-									_fleetMember[i] = shipID;
+							if ( index != -1 && shipID != -1 ) {
+								//入れ替え
+								for ( int i = 0; i < _fleetMember.Length; i++ ) {
+									if ( _fleetMember[i] == shipID ) {
+										_fleetMember[i] = replacedID;
+										break;
+									}
+								}
+
 							}
+
 						}
 
 					} break;
+
 
 				case "api_req_kousyou/destroyship": {
 						int shipID = int.Parse( data["api_ship_id"] );
@@ -129,7 +154,9 @@ namespace ElectronicObserver.Data {
 				case "api_req_mission/start":
 					ExpeditionState = 1;
 					ExpeditionDestination = int.Parse( data["api_mission_id"] );
+					ExpeditionTime = DateTime.Now;	//暫定処理。実際の更新はResponseで行う
 					break;
+
 			}
 
 		}

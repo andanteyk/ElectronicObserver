@@ -116,5 +116,25 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		private void TextFilePath_DragEnter( object sender, DragEventArgs e ) {
+
+			if ( e.Data.GetDataPresent( DataFormats.FileDrop ) ) {
+				e.Effect = DragDropEffects.Copy;
+
+			} else {
+				e.Effect = DragDropEffects.None;
+			}
+
+		}
+
+		private void TextFilePath_DragDrop( object sender, DragEventArgs e ) {
+
+			string[] path = (string[])e.Data.GetData( DataFormats.FileDrop, false );
+			if ( path.Length > 0 && File.Exists( path[0] ) )
+				TextFilePath.Text = path[0];
+
+		}
+
+
 	}
 }
