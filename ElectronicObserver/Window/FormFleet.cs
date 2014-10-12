@@ -63,7 +63,7 @@ namespace ElectronicObserver.Window {
 				SearchingAbility.ForeColor = parent.MainFontColor;
 				SearchingAbility.ImageList = ResourceManager.Instance.Equipments;
 				SearchingAbility.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedRecon;
-				SearchingAbility.Padding = new Padding( 2, 2, 2, 2 );	//fixme:paddingか何かでアイコンが欠けるバグがあるので要修正
+				SearchingAbility.Padding = new Padding( 2, 2, 2, 2 );
 				SearchingAbility.Margin = new Padding( 2, 0, 2, 0 );
 				SearchingAbility.AutoSize = true;
 
@@ -538,6 +538,7 @@ namespace ElectronicObserver.Window {
 			o.ResponseList["api_req_kousyou/getship"].ResponseReceived += rec;
 			o.ResponseList["api_req_hokyu/charge"].ResponseReceived += rec;
 			o.ResponseList["api_req_kousyou/destroyship"].ResponseReceived += rec;
+			o.ResponseList["api_get_member/ship3"].ResponseReceived += rec;
 
 		}
 

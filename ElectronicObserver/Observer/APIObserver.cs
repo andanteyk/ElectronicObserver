@@ -58,6 +58,7 @@ namespace ElectronicObserver.Observer {
 			ResponseList.Add( new kcsapi.api_req_member.get_practice_enemyinfo() );
 			ResponseList.Add( new kcsapi.api_get_member.picture_book() );
 			ResponseList.Add( new kcsapi.api_req_mission.start() );
+			ResponseList.Add( new kcsapi.api_get_member.ship3() );
 
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;

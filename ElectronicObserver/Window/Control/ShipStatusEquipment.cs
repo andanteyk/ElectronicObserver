@@ -353,6 +353,9 @@ namespace ElectronicObserver.Window.Control {
 
 				} else if ( slotindex >= SlotSize && slot.AircraftMax == 0 ) {
 					drawAircraftSlot = false;
+
+				} else if ( slot.AircraftMax == 0 ) {
+					drawAircraftSlot = false;
 				}
 
 

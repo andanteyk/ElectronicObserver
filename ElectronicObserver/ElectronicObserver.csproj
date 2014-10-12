@@ -86,6 +86,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\picture_book.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\questlist.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship2.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\ship3.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\slot_item.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\useitem.cs" />
     <Compile Include="Observer\kcsapi\api_port\port.cs" />
