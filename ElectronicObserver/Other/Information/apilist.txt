@@ -343,7 +343,7 @@ api_port/port		：母港情報
 		api_sakuteki		：索敵
 		api_lucky			：運　　[1]=最大値
 		api_locked			：保護ロック有無
-		api_locked_equip	：
+		api_locked_equip	：ロックされている装備を装備しているか
 		api_sally_area		：出撃海域（夏イベ用フラグ）2014/09現在消滅
 	
 	api_basic				：basicに同じ
@@ -910,7 +910,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_erai_flag	：敵被雷撃フラグ
 			api_fbak_flag	：味方被爆撃フラグ
 			api_ebak_flag	：敵被爆撃フラグ
-			api_fcl_flag	：味方クリティカルフラグ 0=通常(爆撃/雷撃問わず、命中|ミス), 1=(爆撃)クリティカル
+			api_fcl_flag	：味方クリティカルフラグ 0=通常(爆撃/雷撃問わず、命中|ミス), 1=クリティカル
 			api_ecl_flag	：敵クリティカルフラグ　当然ながら防御側にフラグが立つ
 			api_fdam		：味方被ダメージ　庇われると+0.1
 			api_edam		：敵被ダメージ
@@ -933,7 +933,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_stage3			：航空戦stage3に同じ
 				api_erai_flag	：
 				api_ebak_flag	：
-				api_ecl_flag	：0=爆撃通常(ミス|命中), 1=爆撃クリティカル
+				api_ecl_flag	：0=通常(ミス|命中), 1=クリティカル
 				api_edam		：
 		api_support_hourai		：砲雷撃情報
 			api_deck_id			：艦隊ID
@@ -954,11 +954,11 @@ api_req_sortie/battle	：戦闘(昼戦)
 	api_hourai_flag	：砲雷撃戦フラグ　[n]=0のときapi_hougeki<n>及びapi_raigeki=nullになる
 	api_hougeki1	：砲撃戦1巡目　api_hourai_flag[0]=0だとnull
 		api_at_list		：行動順
-		api_at_type		：特殊砲撃　0=通常, 2=連撃, 3=カットイン(主砲/副砲), 4=カットイン(主砲/電探), 5=カットイン(主砲/徹甲), 6=カットイン(主砲/主砲)
+		api_at_type		：特殊砲撃　0=通常, 1=レーザー攻撃, 2=連撃, 3=カットイン(主砲/副砲), 4=カットイン(主砲/電探), 5=カットイン(主砲/徹甲), 6=カットイン(主砲/主砲)
 		api_df_list		：防御側ID　-1から始まる　連撃は2個
 		api_si_list		：表示装備ID　カットインだと[0]=偵察機, [1]=主砲, [2]=砲|電探|徹甲弾|その他, 連撃だと[0]=砲1, [1]=砲2, 通常砲撃は[0]=装備1, etc. 非表示は-1
 							注：爆雷や艦載機など、本来表示されない装備が含まれていることがある
-		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル　連撃時は1でも外すことがある？
+		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル　命中(0ダメージ)も存在する？
 		api_damage		：ダメージ(実ダメージ)
 	api_hougeki2	：砲撃戦2巡目　上に同じ
 	api_hougeki3	：(null)

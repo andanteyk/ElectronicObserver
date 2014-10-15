@@ -60,6 +60,9 @@
   <ItemGroup>
     <Compile Include="Data\AdmiralData.cs" />
     <Compile Include="Data\ArsenalData.cs" />
+    <Compile Include="Data\BattleDataDay.cs" />
+    <Compile Include="Data\BattleDataPhase.cs" />
+    <Compile Include="Data\BattleDataPhaseAerial.cs" />
     <Compile Include="Data\Constants.cs" />
     <Compile Include="Data\DockData.cs" />
     <Compile Include="Data\EquipmentData.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Data\QuestManager.cs" />
     <Compile Include="Data\APIWrapper.cs" />
     <Compile Include="Data\ResponseWrapper.cs" />
+    <Compile Include="Data\SortieMapData.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
@@ -98,6 +102,8 @@
     <Compile Include="Observer\kcsapi\api_req_kousyou\destroyitem2.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\destroyship.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\getship.cs" />
+    <Compile Include="Observer\kcsapi\api_req_map\next.cs" />
+    <Compile Include="Observer\kcsapi\api_req_map\start.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\get_practice_enemyinfo.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\updatedeckname.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\start.cs" />

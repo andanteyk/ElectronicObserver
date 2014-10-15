@@ -43,13 +43,6 @@ namespace ElectronicObserver.Window {
 
 			switch ( apiname ) {
 
-				case "api_port/port":
-					{
-						//debug
-						TextInformation.Text = "port : " + DateTime.Now.ToString() ;
-
-					} break;
-
 				case "api_req_member/get_practice_enemyinfo":
 					{
 						//int exp = 0;

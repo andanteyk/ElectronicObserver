@@ -104,6 +104,12 @@ namespace ElectronicObserver.Data {
 		public QuestManager Quest { get; private set; }
 
 
+		/// <summary>
+		/// 出撃マップデータ
+		/// </summary>
+		public SortieMapData SortieMap { get; private set; }
+
+
 		private KCDatabase() {
 
 			MasterShips = new IDDictionary<ShipDataMaster>();
@@ -120,6 +126,7 @@ namespace ElectronicObserver.Data {
 			Fleet = new FleetManager();
 			Material = new MaterialData();
 			Quest = new QuestManager();
+			SortieMap = new SortieMapData();
 
 		}
 

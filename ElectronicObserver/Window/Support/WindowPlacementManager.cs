@@ -197,6 +197,7 @@ namespace ElectronicObserver.Window.Support {
 				var wp = new WindowPlacementWrapper();
 				
 
+
 				GetWindowPlacement( form.Handle, out wp.RawData );
 
 

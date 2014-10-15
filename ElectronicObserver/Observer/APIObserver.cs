@@ -61,6 +61,9 @@ namespace ElectronicObserver.Observer {
 			ResponseList.Add( new kcsapi.api_req_mission.start() );
 			ResponseList.Add( new kcsapi.api_get_member.ship3() );
 			ResponseList.Add( new kcsapi.api_req_kaisou.powerup() );
+			ResponseList.Add( new kcsapi.api_req_map.start() );
+			ResponseList.Add( new kcsapi.api_req_map.next() );
+
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
@@ -115,12 +118,13 @@ namespace ElectronicObserver.Observer {
 
 		public void LoadRequest( string path, string data ) {
 
-			Utility.Logger.Add( 1, "Request を受信しました : " + path );
-
 			try {
 
 				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
 
+				Utility.Logger.Add( 1, "Request を受信しました : " + shortpath );
+
+			
 				var parsedData = new Dictionary<string,string>();
 				data = HttpUtility.UrlDecode( data );
 
@@ -144,23 +148,22 @@ namespace ElectronicObserver.Observer {
 
 		public void LoadResponse( string path, string data ) {
 
-			Utility.Logger.Add( 1, "Responseを受信しました : " + path );
-
 				
 			try {
 
+				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
 
+				Utility.Logger.Add( 1, "Responseを受信しました : " + shortpath );
+
+			
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
 
 				if ( (int)json.api_result != 1 ) {
 					Utility.Logger.Add( 3, "エラーコードを含むメッセージを受信しました。" );
 					throw new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
-				}
+				}	
 
 				
-
-				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
-
 				if ( shortpath == "api_get_member/ship2" )
 					ResponseList.OnResponseReceived( shortpath, json );
 				else if ( json.IsDefined( "api_data" ) )
