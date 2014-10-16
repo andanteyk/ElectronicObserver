@@ -107,6 +107,7 @@
     <Compile Include="Observer\kcsapi\api_req_member\get_practice_enemyinfo.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\updatedeckname.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\start.cs" />
+    <Compile Include="Observer\kcsapi\api_req_nyukyo\speedchange.cs" />
     <Compile Include="Observer\kcsapi\api_req_nyukyo\start.cs" />
     <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
     <Compile Include="Resource\ResourceManager.cs" />

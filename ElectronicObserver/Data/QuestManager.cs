@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data {
 
+	/// <summary>
+	/// 任務情報を統括して扱います。
+	/// </summary>
 	public class QuestManager : APIWrapper {
 
 		public IDDictionary<QuestData> Quests { get; private set; }

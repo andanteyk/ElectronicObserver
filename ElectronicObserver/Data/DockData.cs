@@ -42,18 +42,33 @@ namespace ElectronicObserver.Data {
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );
 
-			int newstate = (int)RawData.api_state;
+			switch ( apiname ) {
+				case "api_req_nyukyo/speedchange":
+					if ( State == 1 && ShipID != 0 ) {
+						KCDatabase.Instance.Ships[ShipID].Repair();
 
-			if ( State == 1 && newstate == 0 && ShipID != 0 ) {
-				KCDatabase.Instance.Ships[ShipID].Repair();
+						State = 0;
+						ShipID = 0;
+					}
+					break;
+
+				default: {
+						base.LoadFromResponse( apiname, (object)data );
+
+						int newstate = (int)RawData.api_state;
+
+						if ( State == 1 && newstate == 0 && ShipID != 0 ) {
+							KCDatabase.Instance.Ships[ShipID].Repair();
+						}
+
+						State = newstate;
+						ShipID = (int)RawData.api_ship_id;
+						CompletionTime = DateConverter.FromAPITime( (long)RawData.api_complete_time );
+					} break;
 			}
 
-			State = newstate;
-			ShipID = (int)RawData.api_ship_id;
-			CompletionTime = DateConverter.FromAPITime( (long)RawData.api_complete_time );
-
+			
 		}
 
 

@@ -7,31 +7,52 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data {
 
+	/// <summary>
+	/// 任務のデータを保持します。
+	/// </summary>
 	[DebuggerDisplay( "[{ID}] : {Name}" )]
 	public class QuestData : ResponseWrapper, IIdentifiable {
 
+		/// <summary>
+		/// 任務ID
+		/// </summary>
 		public int QuestID {
 			get { return (int)RawData.api_no; }
 		}
 
+		/// <summary>
+		/// 任務カテゴリ
+		/// </summary>
 		public int Category {
 			get { return (int)RawData.api_category; }
 		}
 
+		/// <summary>
+		/// 遂行状態
+		/// </summary>
 		public int State {
 			get { return (int)RawData.api_state; }
 		}
 
+		/// <summary>
+		/// 任務名
+		/// </summary>
 		public string Name {
 			get { return (string)RawData.api_title; }
 		}
 
+		/// <summary>
+		/// 説明
+		/// </summary>
 		public string Description {
 			get { return (string)RawData.api_detail; }
 		}
 
 		//undone:api_bonus_flag
 
+		/// <summary>
+		/// 進捗
+		/// </summary>
 		public int Progress {
 			get { return (int)RawData.api_progress_flag; }
 		}

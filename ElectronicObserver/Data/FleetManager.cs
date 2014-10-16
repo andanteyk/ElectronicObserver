@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data {
 
+	/// <summary>
+	/// 艦隊情報を統括して扱います。
+	/// </summary>
 	public class FleetManager : APIWrapper {
 	
 		public IDDictionary<FleetData> Fleets { get; private set; }
 
-		
+
+		/// <summary>
+		/// 連合艦隊フラグ
+		/// </summary>
 		public int CombinedFlag { get; internal set; }
 
 

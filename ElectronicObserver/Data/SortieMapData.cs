@@ -115,6 +115,31 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 渦潮で失うアイテムの量
+		/// </summary>
+		public int WhirlpoolItemAmount {
+			get {
+				if ( RawData.api_happening() ) {
+					return (int)RawData.api_happening.api_count;
+				} else {
+					return 0;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 渦潮の被害を電探で軽減するか
+		/// </summary>
+		public bool WhirlpoolRadarFlag {
+			get {
+				if ( RawData.api_happening() ) {
+					return (int)RawData.api_happening.api_dentan != 0;
+				} else {
+					return false;
+				}
+			}
+		}
 
 	}
 

@@ -33,6 +33,7 @@ namespace ElectronicObserver.Observer {
 			RequestList = new APIDictionary();
 			RequestList.Add( new kcsapi.api_req_quest.clearitemget() );
 			RequestList.Add( new kcsapi.api_req_nyukyo.start() );
+			RequestList.Add( new kcsapi.api_req_nyukyo.speedchange() );
 			RequestList.Add( new kcsapi.api_req_kousyou.createship() );
 			RequestList.Add( new kcsapi.api_req_kousyou.createship_speedchange() );
 			RequestList.Add( new kcsapi.api_req_hensei.change() );
@@ -41,7 +42,7 @@ namespace ElectronicObserver.Observer {
 			RequestList.Add( new kcsapi.api_req_mission.start() );
 			RequestList.Add( new kcsapi.api_req_member.updatedeckname() );
 			RequestList.Add( new kcsapi.api_req_kaisou.powerup() );
-
+			
 			ResponseList = new APIDictionary();
 			ResponseList.Add( new kcsapi.api_start2() );
 			ResponseList.Add( new kcsapi.api_get_member.basic() );
