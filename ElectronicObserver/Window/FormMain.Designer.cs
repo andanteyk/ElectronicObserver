@@ -52,6 +52,7 @@
 			this.StripMenu_View_Arsenal = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Headquarters = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_View_Information = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripStatus = new System.Windows.Forms.StatusStrip();
@@ -59,7 +60,8 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
-			this.StripMenu_View_Information = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_View_Compass = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -145,7 +147,9 @@
             this.StripMenu_View_Arsenal,
             this.toolStripSeparator2,
             this.StripMenu_View_Headquarters,
-            this.StripMenu_View_Information});
+            this.StripMenu_View_Information,
+            this.toolStripSeparator3,
+            this.StripMenu_View_Compass});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(62, 22);
 			this.StripMenu_View.Text = "表示(&V)";
@@ -220,6 +224,13 @@
 			this.StripMenu_View_Headquarters.Text = "司令部(&H)";
 			this.StripMenu_View_Headquarters.Click += new System.EventHandler(this.StripMenu_View_Headquarters_Click);
 			// 
+			// StripMenu_View_Information
+			// 
+			this.StripMenu_View_Information.Name = "StripMenu_View_Information";
+			this.StripMenu_View_Information.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_View_Information.Text = "情報(&I)";
+			this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
+			// 
 			// StripMenu_Debug
 			// 
 			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -269,12 +280,17 @@
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
 			// 
-			// StripMenu_View_Information
+			// toolStripSeparator3
 			// 
-			this.StripMenu_View_Information.Name = "StripMenu_View_Information";
-			this.StripMenu_View_Information.Size = new System.Drawing.Size(152, 22);
-			this.StripMenu_View_Information.Text = "情報(&I)";
-			this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+			// 
+			// StripMenu_View_Compass
+			// 
+			this.StripMenu_View_Compass.Name = "StripMenu_View_Compass";
+			this.StripMenu_View_Compass.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_View_Compass.Text = "羅針盤(&C)";
+			this.StripMenu_View_Compass.Click += new System.EventHandler(this.StripMenu_View_Compass_Click);
 			// 
 			// FormMain
 			// 
@@ -323,6 +339,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Headquarters;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Information;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Compass;
 	}
 }
 

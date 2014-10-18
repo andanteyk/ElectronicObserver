@@ -35,6 +35,7 @@ namespace ElectronicObserver.Window {
 		public FormArsenal fArsenal;
 		public FormHeadquarters fHeadquarters;
 		public FormInformation fInformation;
+		public FormCompass fCompass;
 
 		#endregion
 
@@ -78,6 +79,8 @@ namespace ElectronicObserver.Window {
 			fHeadquarters = new FormHeadquarters( this );
 
 			fInformation = new FormInformation( this );
+
+			fCompass = new FormCompass( this );
 
 
 			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
@@ -166,7 +169,8 @@ namespace ElectronicObserver.Window {
 					return fHeadquarters;
 				case "Information":
 					return fInformation;
-
+				case "Compass":
+					return fCompass;
 				default:
 					return null;
 			}
@@ -191,7 +195,8 @@ namespace ElectronicObserver.Window {
 					fHeadquarters.DockPanel = null;
 					fInformation.Show( MainDockPanel, DockState.Document );
 					fInformation.DockPanel = null;
-					
+					fCompass.Show( MainDockPanel, DockState.Document );
+					fCompass.DockPanel = null;
 
 					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
@@ -220,6 +225,7 @@ namespace ElectronicObserver.Window {
 					fArsenal.Show( MainDockPanel );
 					fHeadquarters.Show( MainDockPanel );
 					fInformation.Show( MainDockPanel );
+					fCompass.Show( MainDockPanel );
 
 					foreach ( var x in MainDockPanel.Contents ) {
 						x.DockHandler.Hide();
@@ -299,7 +305,13 @@ namespace ElectronicObserver.Window {
 			fInformation.Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_Compass_Click( object sender, EventArgs e ) {
+			fCompass.Show( MainDockPanel );
+		}
+
 		#endregion
+
+	
 
 		
 

@@ -168,6 +168,12 @@
     <Compile Include="Window\FormArsenal.Designer.cs">
       <DependentUpon>FormArsenal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormCompass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormCompass.Designer.cs">
+      <DependentUpon>FormCompass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormDock.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormArsenal.resx">
       <DependentUpon>FormArsenal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormCompass.resx">
+      <DependentUpon>FormCompass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormDock.resx">
       <DependentUpon>FormDock.cs</DependentUpon>

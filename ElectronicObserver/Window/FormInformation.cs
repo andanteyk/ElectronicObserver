@@ -43,6 +43,10 @@ namespace ElectronicObserver.Window {
 
 			switch ( apiname ) {
 
+				case "api_port/port":
+					TextInformation.Text = "";		//とりあえずクリア
+					break;
+
 				case "api_req_member/get_practice_enemyinfo":
 					{
 						//int exp = 0;
@@ -54,7 +58,7 @@ namespace ElectronicObserver.Window {
 				case "api_get_member/picture_book":
 					{
 						StringBuilder sb = new StringBuilder();
-						sb.AppendLine( "中破絵未回収：" );
+						sb.AppendLine( "[中破絵未回収]" );
 
 						foreach ( dynamic elem in data.api_list ) {
 
@@ -78,7 +82,12 @@ namespace ElectronicObserver.Window {
 						if ( (int)data.api_create_flag == 0 ) {
 
 							StringBuilder sb = new StringBuilder();
+							sb.AppendLine( "[開発失敗]" );
 							sb.AppendLine( data.api_fdata );
+							
+							EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse(((string)data.api_fdata).Split( ",".ToCharArray() )[1])];
+							if ( eqm != null )
+								sb.AppendLine( eqm.Name );
 
 
 							TextInformation.Text = sb.ToString();

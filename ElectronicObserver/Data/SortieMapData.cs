@@ -82,9 +82,23 @@ namespace ElectronicObserver.Data {
 		public int GetItemID {
 			get {
 				if ( RawData.api_itemget() ) {
-					return (int)RawData.api_itemget.api_id;
+					return (int)RawData.api_itemget.api_usemst;
 				} else { 
 					return -1;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 入手するアイテムのメタデータ
+		/// GetItemID==4のとき、1=燃, 2=弾, 3=鋼, 4=ボ, 5=バーナー, 6=バケツ, 7=開発
+		/// </summary>
+		public int GetItemIDMetadata {
+			get {
+				if ( RawData.api_itemget() ) {
+					return (int)RawData.api_itemget.api_id;
+				} else {
+					return 0;
 				}
 			}
 		}
