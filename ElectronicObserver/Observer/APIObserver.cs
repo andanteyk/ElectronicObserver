@@ -64,6 +64,7 @@ namespace ElectronicObserver.Observer {
 			ResponseList.Add( new kcsapi.api_req_kaisou.powerup() );
 			ResponseList.Add( new kcsapi.api_req_map.start() );
 			ResponseList.Add( new kcsapi.api_req_map.next() );
+			ResponseList.Add( new kcsapi.api_req_kousyou.createitem() );
 
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;

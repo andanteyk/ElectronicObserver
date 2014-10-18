@@ -12,8 +12,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 
 		public override void OnRequestReceived( Dictionary<string, string> data ) {
 
-			KCDatabase.Instance.Docks[int.Parse( data["api_ndock_id"] )].LoadFromResponse( APIName, data );
-			
+			KCDatabase db = KCDatabase.Instance;
+
+			db.Docks[int.Parse( data["api_ndock_id"] )].LoadFromResponse( APIName, data );
+			db.Material.InstantRepair--;
+
 			base.OnRequestReceived( data );
 		}
 

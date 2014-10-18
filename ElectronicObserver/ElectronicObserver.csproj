@@ -97,6 +97,7 @@
     <Compile Include="Observer\kcsapi\api_req_hensei\change.cs" />
     <Compile Include="Observer\kcsapi\api_req_hokyu\charge.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\powerup.cs" />
+    <Compile Include="Observer\kcsapi\api_req_kousyou\createitem.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship_speedchange.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\destroyitem2.cs" />

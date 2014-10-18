@@ -54,6 +54,7 @@ namespace ElectronicObserver.Window {
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 
 			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
+			o.RequestList["api_req_nyukyo/speedchange"].RequestReceived += rec;
 			o.RequestList["api_req_kousyou/createship"].RequestReceived += rec;
 			o.RequestList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
 			o.RequestList["api_req_kousyou/destroyship"].RequestReceived += rec;
@@ -68,6 +69,7 @@ namespace ElectronicObserver.Window {
 			o.ResponseList["api_req_kousyou/destroyship"].ResponseReceived += rec;
 			o.ResponseList["api_req_kousyou/destroyitem2"].ResponseReceived += rec;
 			o.ResponseList["api_req_kaisou/powerup"].ResponseReceived += rec;
+			o.ResponseList["api_req_kousyou/createitem"].ResponseReceived += rec;
 
 
 			//こうしないとフォントがなぜかデフォルトにされる

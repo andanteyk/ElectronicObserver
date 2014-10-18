@@ -47,11 +47,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int DevelopmentMaterial { get; internal set; }
 
-
-
-		public MaterialData()
-			: base() {
-		}
+		//revkit
 
 
 
@@ -83,6 +79,17 @@ namespace ElectronicObserver.Data {
 					Steel += (int)data.api_get_material[2];
 					Bauxite += (int)data.api_get_material[3];
 					break;
+
+				case "api_req_kousyou/createitem":
+					Fuel = (int)data[0];
+					Ammo = (int)data[1];
+					Steel = (int)data[2];
+					Bauxite = (int)data[3];
+					InstantConstruction = (int)data[4];
+					InstantRepair = (int)data[5];
+					DevelopmentMaterial = (int)data[6];
+					break;
+
 			}
 		}
 
@@ -98,6 +105,7 @@ namespace ElectronicObserver.Data {
 					Bauxite -= int.Parse( data["api_item4"] );
 					DevelopmentMaterial -= int.Parse( data["api_item5"] );
 					break;
+				
 			}
 		}
 	}

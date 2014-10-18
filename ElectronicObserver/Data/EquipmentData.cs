@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Codeplex.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -48,6 +49,23 @@ namespace ElectronicObserver.Data {
 
 		public int ID {
 			get { return MasterID; }
+		}
+
+
+		public override void LoadFromResponse( string apiname, dynamic data ) {
+
+			switch ( apiname ) {
+				case "api_req_kousyou/createitem":		//不足パラメータの追加
+					data.api_locked = 0;
+					data.api_level = 0;
+					break;
+
+				default:
+					break;
+			}
+
+			base.LoadFromResponse( apiname, (object)data );
+		
 		}
 
 	}

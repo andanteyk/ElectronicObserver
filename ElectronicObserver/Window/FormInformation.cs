@@ -32,7 +32,7 @@ namespace ElectronicObserver.Window {
 			o.ResponseList["api_port/port"].ResponseReceived += rec;
 			o.ResponseList["api_req_member/get_practice_enemyinfo"].ResponseReceived += rec;
 			o.ResponseList["api_get_member/picture_book"].ResponseReceived += rec;
-			
+			o.ResponseList["api_req_kousyou/createitem"].ResponseReceived += rec;
 
 		}
 
@@ -49,6 +49,7 @@ namespace ElectronicObserver.Window {
 
 						//undone: 現段階では面倒過ぎるので後日実装
 					} break;
+
 
 				case "api_get_member/picture_book":
 					{
@@ -69,6 +70,20 @@ namespace ElectronicObserver.Window {
 						}
 
 						TextInformation.Text = sb.ToString();
+					} break;
+
+
+				case "api_req_kousyou/createitem":
+					{
+						if ( (int)data.api_create_flag == 0 ) {
+
+							StringBuilder sb = new StringBuilder();
+							sb.AppendLine( data.api_fdata );
+
+
+							TextInformation.Text = sb.ToString();
+						}
+
 					} break;
 
 			}
