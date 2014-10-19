@@ -18,7 +18,9 @@ namespace ElectronicObserver.Window {
 		public FormCompass( FormMain parent ) {
 			InitializeComponent();
 
-
+			BasePanel.SetFlowBreak( TextMapArea, true );
+			BasePanel.SetFlowBreak( TextDestination, true );
+			BasePanel.SetFlowBreak( TextEventDetail, true );
 
 		}
 
@@ -66,25 +68,10 @@ namespace ElectronicObserver.Window {
 							eventkind += "資源";
 							{
 								string materialname;
-								if ( map.GetItemID == 4 ) {		//"※"　大方ドロップアイテム専用ID
-									switch ( map.GetItemIDMetadata ) {	//どこかにマスターはないものでしょうか…
-										case 1:
-											materialname = "燃料"; break;
-										case 2:
-											materialname = "弾薬"; break;
-										case 3:
-											materialname = "鋼材"; break;
-										case 4:
-											materialname = "ボーキサイト"; break;
-										case 5:
-											materialname = "高速建造材"; break;
-										case 6:
-											materialname = "高速修復材"; break;
-										case 7:
-											materialname = "開発資材"; break;
-										default:
-											materialname = "不明"; break;
-									}
+								if ( map.GetItemID == 4 ) {		//"※"　大方資源専用ID
+
+									materialname = MaterialData.GetMaterialName( map.GetItemIDMetadata );
+								
 								} else {
 									materialname = KCDatabase.Instance.MasterUseItems[map.GetItemID].Name;
 								}

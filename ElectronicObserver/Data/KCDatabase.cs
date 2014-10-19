@@ -110,6 +110,7 @@ namespace ElectronicObserver.Data {
 		public SortieMapData SortieMap { get; private set; }
 
 
+
 		private KCDatabase() {
 
 			MasterShips = new IDDictionary<ShipDataMaster>();

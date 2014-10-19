@@ -52,6 +52,11 @@ namespace ElectronicObserver.Window {
 						//int exp = 0;
 
 						//undone: 現段階では面倒過ぎるので後日実装
+
+						StringBuilder sb = new StringBuilder();
+						sb.AppendLine( "[演習情報]" );
+						sb.AppendLine( "敵艦隊名 : " + data.api_deckname );
+
 					} break;
 
 

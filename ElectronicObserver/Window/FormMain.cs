@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Resource.SaveData;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Support;
 using System;
@@ -57,7 +58,7 @@ namespace ElectronicObserver.Window {
 
 
 			ResourceManager.Instance.Load();
-
+			SaveDataMaster.Instance.Load();
 
 
 			APIObserver.Instance.Start( 40620 );
@@ -144,6 +145,7 @@ namespace ElectronicObserver.Window {
 		private void FormMain_FormClosed( object sender, FormClosedEventArgs e ) {
 
 			APIObserver.Instance.Stop();
+			SaveDataMaster.Instance.Save();
 
 			Utility.Logger.Add( 1, "終了処理が完了しました。" );
 		}
