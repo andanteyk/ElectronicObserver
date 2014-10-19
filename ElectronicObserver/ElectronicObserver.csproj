@@ -201,6 +201,12 @@
     <Compile Include="Window\FormInformation.Designer.cs">
       <DependentUpon>FormInformation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormLog.Designer.cs">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,6 +259,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormInformation.resx">
       <DependentUpon>FormInformation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormLog.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

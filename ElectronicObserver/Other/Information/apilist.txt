@@ -224,7 +224,7 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：海域セルユニークID(全海域の通し番号)
 		api_no			：海域セルID(同海域内限定)
 		api_color_no	：セルの状態
-							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった? 2014/09/14現在該当セル存在せず), 7=連合艦隊航空戦
+							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった, api_req_map/start|nextにのみ存在), 7=連合艦隊航空戦
 
 	api_mst_mission		：遠征データ
 		api_id			：遠征ID
@@ -846,8 +846,8 @@ api_req_map/next		：進撃
 	api_mapinfo_no		：海域カテゴリ内番号(2-3でいう3)
 	api_no				：次に向かうセルのID
 	api_color_no		：次のセルの色?　3=青, 4=赤
-	api_event_id		：イベント　api_mst_mapcell参照
-	api_event_kind		：イベント種別?　0=資源?|渦潮|気のせいだった, 1=戦闘, 2=資源?
+	api_event_id		：イベント　api_mst_mapcell参照　6=気のせいだった
+	api_event_kind		：イベント種別　0=非戦闘セル, 1=戦闘セル
 	api_next			：次のマスでのルート分岐の本数？ 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？

@@ -82,6 +82,25 @@ namespace ElectronicObserver.Window {
 							break;
 						case 3:
 							eventkind += "渦潮";
+							{
+								string materialname = MaterialData.GetMaterialName( map.WhirlpoolItemID );
+
+								//fixme:第一艦隊以外の艦隊が出撃していた場合誤った値を返す
+								int materialmax = KCDatabase.Instance.Fleet.Fleets[1].FleetMember.Max( n => 
+								{
+									if ( n != -1 )
+										if ( map.WhirlpoolItemID == 1 )
+											return KCDatabase.Instance.Ships[n].MasterShip.Fuel;
+										else if ( map.WhirlpoolItemID == 2 )
+											return KCDatabase.Instance.Ships[n].MasterShip.Ammo;
+										else return 0;
+									else return 0;
+								} );
+
+								int percent = map.WhirlpoolItemAmount * 100 / materialmax;
+
+								TextEventDetail.Text = materialname + " x " + map.WhirlpoolItemAmount + " (" + percent + "%)";
+							}
 							break;
 						case 4:
 							eventkind += "通常戦闘";
@@ -90,6 +109,10 @@ namespace ElectronicObserver.Window {
 						case 5:
 							eventkind += "ボス戦闘";
 							TextEventDetail.Text = "敵編成ID : " + map.EnemyFleetID;
+							break;
+						case 6:
+							eventkind += "気のせいだった";
+							TextEventDetail.Text = "";
 							break;
 						case 7:
 							eventkind += "機動部隊航空戦";

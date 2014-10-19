@@ -210,7 +210,8 @@ namespace ElectronicObserver.Window {
 							if ( ship.Slot[j] == -1 )
 								continue;
 
-							EquipmentDataMaster eq = db.MasterEquipments[db.Equipments[ship.Slot[j]].EquipmentID];
+							EquipmentDataMaster eq = db.Equipments[ship.Slot[j]].MasterEquipment;
+							if ( eq == null ) continue;	//一回エラー落ちしたので念のため
 
 							switch ( eq.EquipmentType[2] ) {
 								case 6:		//艦戦

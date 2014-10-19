@@ -53,6 +53,11 @@ namespace ElectronicObserver.Utility {
 				Message = message;
 			}
 
+
+			public override string ToString() {
+				return "[" + Time + "][" + Priority + "] : " + Message;
+			}
+
 		}
 
 

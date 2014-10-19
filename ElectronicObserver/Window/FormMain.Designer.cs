@@ -53,6 +53,8 @@
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Headquarters = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_Information = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_View_Compass = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripStatus = new System.Windows.Forms.StatusStrip();
@@ -60,8 +62,8 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_View_Compass = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_View_Log = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -149,7 +151,9 @@
             this.StripMenu_View_Headquarters,
             this.StripMenu_View_Information,
             this.toolStripSeparator3,
-            this.StripMenu_View_Compass});
+            this.StripMenu_View_Compass,
+            this.toolStripSeparator4,
+            this.StripMenu_View_Log});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(62, 22);
 			this.StripMenu_View.Text = "表示(&V)";
@@ -231,6 +235,18 @@
 			this.StripMenu_View_Information.Text = "情報(&I)";
 			this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
 			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+			// 
+			// StripMenu_View_Compass
+			// 
+			this.StripMenu_View_Compass.Name = "StripMenu_View_Compass";
+			this.StripMenu_View_Compass.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_View_Compass.Text = "羅針盤(&C)";
+			this.StripMenu_View_Compass.Click += new System.EventHandler(this.StripMenu_View_Compass_Click);
+			// 
 			// StripMenu_Debug
 			// 
 			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -280,17 +296,17 @@
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
 			// 
-			// toolStripSeparator3
+			// toolStripSeparator4
 			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
 			// 
-			// StripMenu_View_Compass
+			// StripMenu_View_Log
 			// 
-			this.StripMenu_View_Compass.Name = "StripMenu_View_Compass";
-			this.StripMenu_View_Compass.Size = new System.Drawing.Size(152, 22);
-			this.StripMenu_View_Compass.Text = "羅針盤(&C)";
-			this.StripMenu_View_Compass.Click += new System.EventHandler(this.StripMenu_View_Compass_Click);
+			this.StripMenu_View_Log.Name = "StripMenu_View_Log";
+			this.StripMenu_View_Log.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_View_Log.Text = "ログ(&L)";
+			this.StripMenu_View_Log.Click += new System.EventHandler(this.StripMenu_View_Log_Click);
 			// 
 			// FormMain
 			// 
@@ -341,6 +357,8 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Information;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Compass;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Log;
 	}
 }
 

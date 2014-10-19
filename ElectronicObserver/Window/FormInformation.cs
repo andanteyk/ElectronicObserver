@@ -57,6 +57,8 @@ namespace ElectronicObserver.Window {
 						sb.AppendLine( "[演習情報]" );
 						sb.AppendLine( "敵艦隊名 : " + data.api_deckname );
 
+						TextInformation.Text = sb.ToString();
+
 					} break;
 
 
