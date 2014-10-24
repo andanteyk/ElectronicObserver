@@ -47,6 +47,7 @@ namespace ElectronicObserver.Resource {
 			ItemInstantRepair,
 			ItemInstantConstruction,
 			ItemDevelopmentMaterial,
+			ItemModdingMaterial,
 			ItemFurnitureCoin,
 			HQShip,
 			HQEquipment,
@@ -117,6 +118,7 @@ namespace ElectronicObserver.Resource {
 			Icons.Images.Add( "Item_InstantRepair", LoadImage( masterpath + @"Item\instantRepair.png" ) );
 			Icons.Images.Add( "Item_InstantConstruction", LoadImage( masterpath + @"Item\instantConstruction.png" ) );
 			Icons.Images.Add( "Item_DevelopmentMaterial", LoadImage( masterpath + @"Item\developmentMaterial.png" ) );
+			Icons.Images.Add( "Item_ModdingMaterial", LoadImage( masterpath + @"Item\moddingMaterial.png" ) );
 			Icons.Images.Add( "Item_FurnitureCoin", LoadImage( masterpath + @"Item\furnitureCoin.png" ) );
 			Icons.Images.Add( "HQ_Ship", LoadImage( masterpath + @"Ship.png" ) );
 			Icons.Images.Add( "HQ_Equipment", LoadImage( masterpath + @"Equipment.png" ) );

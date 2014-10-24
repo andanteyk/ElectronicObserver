@@ -33,6 +33,8 @@ namespace ElectronicObserver.Window {
 			InstantConstruction.ImageIndex = (int)ResourceManager.IconContent.ItemInstantConstruction;
 			DevelopmentMaterial.ImageList = icons;
 			DevelopmentMaterial.ImageIndex = (int)ResourceManager.IconContent.ItemDevelopmentMaterial;
+			ModdingMaterial.ImageList = icons;
+			ModdingMaterial.ImageIndex = (int)ResourceManager.IconContent.ItemModdingMaterial;
 			FurnitureCoin.ImageList = icons;
 			FurnitureCoin.ImageIndex = (int)ResourceManager.IconContent.ItemFurnitureCoin;
 			Fuel.ImageList = icons;
@@ -105,6 +107,7 @@ namespace ElectronicObserver.Window {
 			InstantRepair.Text = db.Material.InstantRepair.ToString();
 			InstantConstruction.Text = db.Material.InstantConstruction.ToString();
 			DevelopmentMaterial.Text = db.Material.DevelopmentMaterial.ToString();
+			ModdingMaterial.Text = db.Material.ModdingMaterial.ToString();
 			FurnitureCoin.Text = db.Admiral.FurnitureCoin.ToString();
 
 			//Resources

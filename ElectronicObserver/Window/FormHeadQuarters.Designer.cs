@@ -27,20 +27,21 @@
 			this.FlowPanelAdmiral = new System.Windows.Forms.FlowLayoutPanel();
 			this.AdmiralName = new System.Windows.Forms.Label();
 			this.AdmiralComment = new System.Windows.Forms.Label();
-			this.FlowPanelFleet = new System.Windows.Forms.FlowLayoutPanel();
-			this.FlowPanelUseItem = new System.Windows.Forms.FlowLayoutPanel();
-			this.FlowPanelResource = new System.Windows.Forms.FlowLayoutPanel();
 			this.HQLevel = new ElectronicObserver.Window.Control.ShipStatusLevel();
+			this.FlowPanelFleet = new System.Windows.Forms.FlowLayoutPanel();
 			this.ShipCount = new ElectronicObserver.Window.Control.ImageLabel();
 			this.EquipmentCount = new ElectronicObserver.Window.Control.ImageLabel();
+			this.FlowPanelUseItem = new System.Windows.Forms.FlowLayoutPanel();
 			this.InstantRepair = new ElectronicObserver.Window.Control.ImageLabel();
 			this.InstantConstruction = new ElectronicObserver.Window.Control.ImageLabel();
 			this.DevelopmentMaterial = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FurnitureCoin = new ElectronicObserver.Window.Control.ImageLabel();
+			this.FlowPanelResource = new System.Windows.Forms.FlowLayoutPanel();
 			this.Fuel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Ammo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Steel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Bauxite = new ElectronicObserver.Window.Control.ImageLabel();
+			this.ModdingMaterial = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FlowPanelMaster.SuspendLayout();
 			this.FlowPanelAdmiral.SuspendLayout();
 			this.FlowPanelFleet.SuspendLayout();
@@ -97,43 +98,6 @@
 			this.AdmiralComment.Text = "(提督コメント)";
 			this.AdmiralComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// FlowPanelFleet
-			// 
-			this.FlowPanelFleet.AutoSize = true;
-			this.FlowPanelFleet.Controls.Add(this.ShipCount);
-			this.FlowPanelFleet.Controls.Add(this.EquipmentCount);
-			this.FlowPanelFleet.Location = new System.Drawing.Point(0, 20);
-			this.FlowPanelFleet.Margin = new System.Windows.Forms.Padding(0);
-			this.FlowPanelFleet.Name = "FlowPanelFleet";
-			this.FlowPanelFleet.Size = new System.Drawing.Size(144, 20);
-			this.FlowPanelFleet.TabIndex = 1;
-			// 
-			// FlowPanelUseItem
-			// 
-			this.FlowPanelUseItem.AutoSize = true;
-			this.FlowPanelUseItem.Controls.Add(this.InstantRepair);
-			this.FlowPanelUseItem.Controls.Add(this.InstantConstruction);
-			this.FlowPanelUseItem.Controls.Add(this.DevelopmentMaterial);
-			this.FlowPanelUseItem.Controls.Add(this.FurnitureCoin);
-			this.FlowPanelUseItem.Location = new System.Drawing.Point(0, 40);
-			this.FlowPanelUseItem.Margin = new System.Windows.Forms.Padding(0);
-			this.FlowPanelUseItem.Name = "FlowPanelUseItem";
-			this.FlowPanelUseItem.Size = new System.Drawing.Size(240, 20);
-			this.FlowPanelUseItem.TabIndex = 2;
-			// 
-			// FlowPanelResource
-			// 
-			this.FlowPanelResource.AutoSize = true;
-			this.FlowPanelResource.Controls.Add(this.Fuel);
-			this.FlowPanelResource.Controls.Add(this.Ammo);
-			this.FlowPanelResource.Controls.Add(this.Steel);
-			this.FlowPanelResource.Controls.Add(this.Bauxite);
-			this.FlowPanelResource.Location = new System.Drawing.Point(0, 60);
-			this.FlowPanelResource.Margin = new System.Windows.Forms.Padding(0);
-			this.FlowPanelResource.Name = "FlowPanelResource";
-			this.FlowPanelResource.Size = new System.Drawing.Size(240, 20);
-			this.FlowPanelResource.TabIndex = 5;
-			// 
 			// HQLevel
 			// 
 			this.HQLevel.AutoSize = true;
@@ -145,6 +109,17 @@
 			this.HQLevel.Size = new System.Drawing.Size(88, 20);
 			this.HQLevel.TabIndex = 0;
 			this.HQLevel.Text = "HQ Lv.";
+			// 
+			// FlowPanelFleet
+			// 
+			this.FlowPanelFleet.AutoSize = true;
+			this.FlowPanelFleet.Controls.Add(this.ShipCount);
+			this.FlowPanelFleet.Controls.Add(this.EquipmentCount);
+			this.FlowPanelFleet.Location = new System.Drawing.Point(0, 20);
+			this.FlowPanelFleet.Margin = new System.Windows.Forms.Padding(0);
+			this.FlowPanelFleet.Name = "FlowPanelFleet";
+			this.FlowPanelFleet.Size = new System.Drawing.Size(144, 20);
+			this.FlowPanelFleet.TabIndex = 1;
 			// 
 			// ShipCount
 			// 
@@ -167,6 +142,20 @@
 			this.EquipmentCount.Size = new System.Drawing.Size(66, 20);
 			this.EquipmentCount.TabIndex = 1;
 			this.EquipmentCount.Text = "(装備数)";
+			// 
+			// FlowPanelUseItem
+			// 
+			this.FlowPanelUseItem.AutoSize = true;
+			this.FlowPanelUseItem.Controls.Add(this.InstantRepair);
+			this.FlowPanelUseItem.Controls.Add(this.InstantConstruction);
+			this.FlowPanelUseItem.Controls.Add(this.DevelopmentMaterial);
+			this.FlowPanelUseItem.Controls.Add(this.ModdingMaterial);
+			this.FlowPanelUseItem.Controls.Add(this.FurnitureCoin);
+			this.FlowPanelUseItem.Location = new System.Drawing.Point(0, 40);
+			this.FlowPanelUseItem.Margin = new System.Windows.Forms.Padding(0);
+			this.FlowPanelUseItem.Name = "FlowPanelUseItem";
+			this.FlowPanelUseItem.Size = new System.Drawing.Size(300, 20);
+			this.FlowPanelUseItem.TabIndex = 2;
 			// 
 			// InstantRepair
 			// 
@@ -204,13 +193,26 @@
 			// FurnitureCoin
 			// 
 			this.FurnitureCoin.BackColor = System.Drawing.Color.Transparent;
-			this.FurnitureCoin.Location = new System.Drawing.Point(183, 0);
+			this.FurnitureCoin.Location = new System.Drawing.Point(243, 0);
 			this.FurnitureCoin.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.FurnitureCoin.Name = "FurnitureCoin";
 			this.FurnitureCoin.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
 			this.FurnitureCoin.Size = new System.Drawing.Size(54, 20);
 			this.FurnitureCoin.TabIndex = 4;
 			this.FurnitureCoin.Text = "(家具)";
+			// 
+			// FlowPanelResource
+			// 
+			this.FlowPanelResource.AutoSize = true;
+			this.FlowPanelResource.Controls.Add(this.Fuel);
+			this.FlowPanelResource.Controls.Add(this.Ammo);
+			this.FlowPanelResource.Controls.Add(this.Steel);
+			this.FlowPanelResource.Controls.Add(this.Bauxite);
+			this.FlowPanelResource.Location = new System.Drawing.Point(0, 60);
+			this.FlowPanelResource.Margin = new System.Windows.Forms.Padding(0);
+			this.FlowPanelResource.Name = "FlowPanelResource";
+			this.FlowPanelResource.Size = new System.Drawing.Size(240, 20);
+			this.FlowPanelResource.TabIndex = 5;
 			// 
 			// Fuel
 			// 
@@ -255,6 +257,17 @@
 			this.Bauxite.Size = new System.Drawing.Size(54, 20);
 			this.Bauxite.TabIndex = 4;
 			this.Bauxite.Text = "(軽銀)";
+			// 
+			// ModdingMaterial
+			// 
+			this.ModdingMaterial.BackColor = System.Drawing.Color.Transparent;
+			this.ModdingMaterial.Location = new System.Drawing.Point(183, 0);
+			this.ModdingMaterial.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			this.ModdingMaterial.Name = "ModdingMaterial";
+			this.ModdingMaterial.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+			this.ModdingMaterial.Size = new System.Drawing.Size(54, 20);
+			this.ModdingMaterial.TabIndex = 5;
+			this.ModdingMaterial.Text = "(改修)";
 			// 
 			// FormHeadquarters
 			// 
@@ -303,5 +316,6 @@
 		private Control.ImageLabel Ammo;
 		private Control.ImageLabel Steel;
 		private Control.ImageLabel Bauxite;
+		private Control.ImageLabel ModdingMaterial;
 	}
 }

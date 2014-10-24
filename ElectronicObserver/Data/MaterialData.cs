@@ -47,7 +47,11 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int DevelopmentMaterial { get; internal set; }
 
-		//revkit
+		/// <summary>
+		/// 改修資材
+		/// </summary>
+		public int ModdingMaterial { get; internal set; }
+
 
 
 
@@ -63,6 +67,7 @@ namespace ElectronicObserver.Data {
 					InstantConstruction = (int)data[4].api_value;
 					InstantRepair = (int)data[5].api_value;
 					DevelopmentMaterial = (int)data[6].api_value;
+					ModdingMaterial = (int)data[7].api_value;
 					break;
 
 				case "api_req_hokyu/charge":
@@ -88,6 +93,7 @@ namespace ElectronicObserver.Data {
 					InstantConstruction = (int)data[4];
 					InstantRepair = (int)data[5];
 					DevelopmentMaterial = (int)data[6];
+					ModdingMaterial = (int)data[7];		//checkme
 					break;
 
 			}
@@ -132,6 +138,8 @@ namespace ElectronicObserver.Data {
 					return "高速修復材";
 				case 7:
 					return "開発資材";
+				case 8:
+					return "改修資材";
 				default:
 					return "不明";
 			}

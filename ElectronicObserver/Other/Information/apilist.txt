@@ -461,6 +461,22 @@ api_req_kousyou/destroyitem2	：装備廃棄
 	api_get_material		：入手した各種資源
 
 
+api_req_kousyou/remodel_slotlist	：改修工廠
+	api_id					：レシピID
+	api_slot_id				：改修できる装備のマスターID
+	api_req_fuel			：消費燃料
+	api_req_bull			：消費弾薬
+	api_req_steel			：消費鋼材
+	api_req_bauxite			：消費ボーキサイト
+	api_req_buildkit		：消費開発資材
+	api_req_remodelkit		：消費改修資材
+	api_req_slot_id			：
+	api_req_slot_num		：
+	api_change_flag			：(未確認)
+	api_certain_buildkit	：(未確認)
+	api_certain_remodelkit	：(未確認)
+
+
 api_get_member/ndock		：入渠ドック
 	api_member_id			：
 	api_id					：ドック番号
@@ -541,6 +557,7 @@ api_get_member/questlist	：任務
 		api_get_material	：獲得資材
 		api_bonus_flag		：
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成?
+		api_invalid_flag	：
 	api_exec_count			：受領任務数
 	api_exec_type			：？
 
