@@ -38,6 +38,7 @@ namespace ElectronicObserver.Window {
 		public FormInformation fInformation;
 		public FormCompass fCompass;
 		public FormLog fLog;
+		public FormQuest fQuest;
 
 		#endregion
 
@@ -85,6 +86,8 @@ namespace ElectronicObserver.Window {
 			fCompass = new FormCompass( this );
 
 			fLog = new FormLog( this );
+
+			fQuest = new FormQuest( this );
 
 			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
@@ -177,6 +180,8 @@ namespace ElectronicObserver.Window {
 					return fCompass;
 				case "Log":
 					return fLog;
+				case "Quest":
+					return fQuest;
 				default:
 					return null;
 			}
@@ -205,6 +210,8 @@ namespace ElectronicObserver.Window {
 					fCompass.DockPanel = null;
 					fLog.Show( MainDockPanel, DockState.Document );
 					fLog.DockPanel = null;
+					fQuest.Show( MainDockPanel, DockState.Document );
+					fQuest.DockPanel = null;
 
 					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
@@ -235,6 +242,7 @@ namespace ElectronicObserver.Window {
 					fInformation.Show( MainDockPanel );
 					fCompass.Show( MainDockPanel );
 					fLog.Show( MainDockPanel );
+					fQuest.Show( MainDockPanel );
 
 					foreach ( var x in MainDockPanel.Contents ) {
 						x.DockHandler.Hide();
@@ -322,8 +330,13 @@ namespace ElectronicObserver.Window {
 			fLog.Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_Quest_Click( object sender, EventArgs e ) {
+			fQuest.Show( MainDockPanel );
+		}
 	
 		#endregion
+
+		
 
 	
 

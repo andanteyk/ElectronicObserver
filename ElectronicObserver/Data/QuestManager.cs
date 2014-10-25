@@ -13,7 +13,9 @@ namespace ElectronicObserver.Data {
 	public class QuestManager : APIWrapper {
 
 		public IDDictionary<QuestData> Quests { get; private set; }
-		
+
+		public int Count { get; internal set; }
+
 
 		public QuestManager() {
 			Quests = new IDDictionary<QuestData>();
@@ -23,6 +25,8 @@ namespace ElectronicObserver.Data {
 		
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
+
+			Count = (int)RawData.api_count;
 
 			if ( !( RawData.api_list is double ) ) {	//任務完遂時 -1 になる
 
@@ -55,6 +59,7 @@ namespace ElectronicObserver.Data {
 
 			int id = int.Parse( RequestData["api_quest_id"] );
 			Quests.Remove( id );
+			Count--;
 
 		}
 

@@ -307,7 +307,7 @@ api_get_member/basic		：艦隊司令部情報
 api_port/port		：母港情報
 	api_material			：資源情報
 		api_member_id		：
-		api_id				：資源ID　1=燃料, 2=弾薬, 3=鋼材, 4=ボーキサイト, 5=高速建造材, 6=高速修復材, 7=開発資材, 8=???
+		api_id				：資源ID　1=燃料, 2=弾薬, 3=鋼材, 4=ボーキサイト, 5=高速建造材, 6=高速修復材, 7=開発資材, 8=改修資材
 		api_value			：保有数
 	
 	api_deck_port			：艦隊情報　deck を参照
@@ -362,7 +362,7 @@ api_get_member/slot_item	：装備品情報
 	api_id					：装備固有ID
 	api_slotitem_id			：装備ID
 	api_locked				：ロック有無
-	api_level				：
+	api_level				：改修Level
 
 
 api_get_member/unsetslot	：未装備武器のカテゴリ分け？
@@ -461,21 +461,34 @@ api_req_kousyou/destroyitem2	：装備廃棄
 	api_get_material		：入手した各種資源
 
 
-api_req_kousyou/remodel_slotlist	：改修工廠
+api_req_kousyou/remodel_slotlist	：改修工廠　装備選択
 	api_id					：レシピID
-	api_slot_id				：改修できる装備のマスターID
+	api_slot_id				：改修できる装備のID
 	api_req_fuel			：消費燃料
 	api_req_bull			：消費弾薬
 	api_req_steel			：消費鋼材
 	api_req_bauxite			：消費ボーキサイト
 	api_req_buildkit		：消費開発資材
 	api_req_remodelkit		：消費改修資材
-	api_req_slot_id			：
-	api_req_slot_num		：
-	api_change_flag			：(未確認)
-	api_certain_buildkit	：(未確認)
-	api_certain_remodelkit	：(未確認)
+	api_req_slot_id			：0
+	api_req_slot_num		：0
 
+api_req_kousyou/remodel_slotlist_detail		：改修工廠　実行確認
+	api_req_buildkit		：消費開発資材
+	api_req_remodelkit		：消費改修資材
+	api_certain_buildkit	：確実化時の消費開発資材
+	api_certain_remodelkit	：確実化時の消費改修資材
+	api_req_slot_id			：消費する装備のマスターID
+	api_req_slot_num		：消費する装備の個数
+	api_change_flag			：装備更新(アップグレード)フラグ
+
+api_req_kousyou/remodel_slot	：改修工廠　改修実行
+	api_remodel_flag	：成功フラグ？
+	api_remodel_id		：改修装備マスターID　[0]=変化前, [1]=変化後
+	api_after_material	：現在の各種資源
+	api_voice_id		：
+	api_after_slot		：更新された装備データ api_get_member/slot_item参照
+	api_use_slot_id		：消費された装備のID　使ったときのみ存在
 
 api_get_member/ndock		：入渠ドック
 	api_member_id			：
