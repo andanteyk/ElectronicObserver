@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window {
 						APIObserver.Instance.LoadRequest( dialog.APIPath, dialog.FileData );
 					}
 
-				}
+				} 
 
 			}
 

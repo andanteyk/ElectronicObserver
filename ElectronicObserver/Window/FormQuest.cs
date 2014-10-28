@@ -45,7 +45,7 @@ namespace ElectronicObserver.Window {
 			QuestView.Rows.Clear();
 			foreach ( var q in KCDatabase.Instance.Quest.Quests ) {
 				int index = QuestView.Rows.Add();
-				QuestView.Rows[index].Cells[0].Value = q.Value.State == 2;
+				QuestView.Rows[index].Cells[0].Value = ( q.Value.State == 3 ) ? ( (bool ?)null ) : ( q.Value.State == 2 );
 				QuestView.Rows[index].Cells[1].Value = q.Value.Name;
 				
 				{
@@ -70,6 +70,7 @@ namespace ElectronicObserver.Window {
 			if ( KCDatabase.Instance.Quest.Quests.Count != KCDatabase.Instance.Quest.Count ) {
 				int index = QuestView.Rows.Add();
 				QuestView.Rows[index].Cells[0].Value = null;	//intermediate
+				
 				QuestView.Rows[index].Cells[1].Value = "(未取得の任務 x " + ( KCDatabase.Instance.Quest.Count - KCDatabase.Instance.Quest.Quests.Count ) + " )";
 			}
 

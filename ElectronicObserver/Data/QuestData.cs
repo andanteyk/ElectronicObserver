@@ -28,6 +28,14 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 任務出現タイプ
+		/// 1=一回限り, 2=デイリー, 3=ウィークリー, 6=マンスリー
+		/// </summary>
+		public int Type {
+			get { return (int)RawData.api_type; }
+		}
+
+		/// <summary>
 		/// 遂行状態
 		/// </summary>
 		public int State {

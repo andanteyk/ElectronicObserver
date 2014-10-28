@@ -1,4 +1,5 @@
 ﻿using Codeplex.Data;
+using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,19 +17,47 @@ namespace ElectronicObserver.Data {
 
 		public int Count { get; internal set; }
 
+		private DateTime _prevTime;
+
 
 		public QuestManager() {
 			Quests = new IDDictionary<QuestData>();
+			_prevTime = DateTime.Now;
 		}
 		
-		//todo: 5時になった時点でデイリー及びウィークリーをリセットするように！
 		
+
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
+
+			//周期任務削除
+			if ( DateConverter.IsCrossedDay( _prevTime, 5, 0, 0 ) ) {
+				foreach ( var q in Quests ) {
+					if ( q.Value.Type == 2 ) {
+						Quests.Remove( q.Key );
+					} 
+				}
+			}
+			if ( DateConverter.IsCrossedWeek( _prevTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
+				foreach ( var q in Quests ) {
+					if ( q.Value.Type == 3 ) {
+						Quests.Remove( q.Key );
+					}
+				}
+			}
+			if ( DateConverter.IsCrossedMonth( _prevTime, 1, 5, 0, 0 ) ) {
+				foreach ( var q in Quests ) {
+					if ( q.Value.Type == 6 ) {
+						Quests.Remove( q.Key );
+					}
+				}
+			}
+
+
 			Count = (int)RawData.api_count;
 
-			if ( !( RawData.api_list is double ) ) {	//任務完遂時 -1 になる
+			if ( RawData.api_list != null ) {	//任務完遂時orページ遷移時 null になる
 
 				foreach ( dynamic elem in RawData.api_list ) {
 
@@ -49,6 +78,9 @@ namespace ElectronicObserver.Data {
 
 			}
 
+
+			_prevTime = DateTime.Now;
+
 		}
 
 
@@ -57,8 +89,7 @@ namespace ElectronicObserver.Data {
 
 			//api_req_quest/clearitemget
 
-			int id = int.Parse( RequestData["api_quest_id"] );
-			Quests.Remove( id );
+			Quests.Remove( int.Parse( RequestData["api_quest_id"] ) );
 			Count--;
 
 		}

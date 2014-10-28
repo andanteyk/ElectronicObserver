@@ -276,13 +276,13 @@ api_get_member/basic		：艦隊司令部情報
 	api_active_flag			：
 	api_starttime			：起動日時(≠着任日時, 今回のログイン時の時間)
 	api_level				：艦隊司令部Lv.
-	api_rank				：階級 
+	api_rank				：階級 1=元帥
 	api_experience			：提督経験値
 	api_fleetname			：
 	api_comment				：提督コメント
 	api_comment_id			：
 	api_max_chara			：最大保有可能艦娘数
-	api_max_slotitem		：最大保有可能装備アイテム数
+	api_max_slotitem		：最大保有可能装備数
 	api_max_kagu			：
 	api_playtime			：
 	api_tutorial			：
@@ -486,7 +486,7 @@ api_req_kousyou/remodel_slot	：改修工廠　改修実行
 	api_remodel_flag	：成功フラグ？
 	api_remodel_id		：改修装備マスターID　[0]=変化前, [1]=変化後
 	api_after_material	：現在の各種資源
-	api_voice_id		：
+	api_voice_id		：(2番艦と改装した時のボイス?未確認)
 	api_after_slot		：更新された装備データ api_get_member/slot_item参照
 	api_use_slot_id		：消費された装備のID　使ったときのみ存在
 
@@ -532,7 +532,7 @@ api_get_member/record	：戦績表示
 	api_level			：艦隊司令部Lv.
 	api_rank			：階級
 	api_experience		：提督経験値　[0]=現在値, [1]=次のレベルの経験値
-	api_war				：出撃統計
+	api_war				：出撃統計　文字列
 		api_win			：出撃勝利回数
 		api_lose		：出撃敗北回数
 		api_rate		：出撃勝率
@@ -560,7 +560,7 @@ api_get_member/questlist	：任務
 	api_count				：任務数
 	api_page_count			：ページ数
 	api_disp_page			：現在表示しているページ
-	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂時はnull
+	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂時, ページ遷移時はnull
 		api_no				：任務ID
 		api_category		：任務カテゴリ　1=編成, 2=出撃, 3=演習, 4=遠征, 5=補給/入渠, 6=工廠, 7=改装, 8=その他?
 		api_type			：任務出現タイプ？　1=一回限り, 2=デイリー, 3=ウィークリー, 6=マンスリー

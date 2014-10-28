@@ -48,6 +48,88 @@ namespace ElectronicObserver.Utility.Mathematics {
 			else
 				return string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)span.TotalHours, span.Minutes, span.Seconds );
 		}
+
+
+
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。
+		/// </summary>
+		/// <param name="prev">前回処理した時の日時。</param>
+		/// <param name="border">指定した日時。</param>
+		/// <returns></returns>
+		public static bool IsCrossed( DateTime prev, DateTime border ) {
+			return prev < border;
+		}
+
+
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。日単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の日時。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		/// <returns></returns>
+		public static bool IsCrossedDay( DateTime prev, int hours, int minutes, int seconds ) {
+
+			DateTime now = DateTime.Now;
+
+			TimeSpan nowtime = now.TimeOfDay;
+			TimeSpan bordertime = new TimeSpan( hours, minutes, seconds );
+
+			return IsCrossed( prev, now.Subtract( new TimeSpan( nowtime < bordertime ? 1 : 0, nowtime.Hours, nowtime.Minutes, nowtime.Seconds ) ).Add( bordertime ) );	
+		}
+
+
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。週単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の日時。</param>
+		/// <param name="dayOfWeek">指定した日時の曜日。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		/// <returns></returns>
+		public static bool IsCrossedWeek( DateTime prev, DayOfWeek dayOfWeek, int hours, int minutes, int seconds ) {
+
+			DateTime now = DateTime.Now;
+
+			TimeSpan nowtime = now.TimeOfDay;
+			TimeSpan bordertime = new TimeSpan( hours, minutes, seconds );
+
+			int dayshift = now.DayOfWeek - dayOfWeek;
+			if ( dayshift < 0 )
+				dayshift += 7;
+			else if ( dayshift == 0 && nowtime < bordertime )
+				dayshift += 7;
+
+			DateTime border = now.Subtract( new TimeSpan( dayshift, nowtime.Hours, nowtime.Minutes, nowtime.Seconds ) ).Add( bordertime );
+
+			return IsCrossed( prev, border );
+		}
+
+
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。月単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の日時。</param>
+		/// <param name="days">指定した日時の日付。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		/// <returns></returns>
+		public static bool IsCrossedMonth( DateTime prev, int days, int hours, int minutes, int seconds ) {
+
+			DateTime now = DateTime.Now;
+
+			DateTime border = now.Subtract( new TimeSpan( now.Day, now.Hour, now.Minute, now.Second ) ).Add( new TimeSpan( days, hours, minutes, seconds ) );
+			if ( now < border )
+				border = border.AddMonths( -1 );
+
+			return IsCrossed( prev, border );
+		}
+
 	}
+
 
 }
