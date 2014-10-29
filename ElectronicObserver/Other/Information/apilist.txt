@@ -1013,7 +1013,7 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 		api_si_list		：表示装備ID 昼戦のそれに準ずる 非表示は-1
 		api_cl_list		：クリティカルフラグ 0=ミス, 1=命中, 2=クリティカル
 		api_sp_list		：夜戦攻撃種別 0=通常攻撃, 1=連撃, 2=カットイン(主砲/魚雷), 3=カットイン(魚雷/魚雷), 4=カットイン(主砲/副砲), 5=カットイン(主砲/主砲)
-		api_damage		：ダメージ(実ダメージ)
+		api_damage		：ダメージ(実ダメージ) 砲撃カットインの場合[1], [2]=-1となるため注意
 
 
 api_req_battle_midnight/sp_midnight		：開幕夜戦

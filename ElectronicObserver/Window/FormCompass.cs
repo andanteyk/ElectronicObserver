@@ -49,7 +49,7 @@ namespace ElectronicObserver.Window {
 
 			} else {
 
-				SortieMapData map = KCDatabase.Instance.SortieMap;
+				CompassData map = KCDatabase.Instance.Compass;
 
 
 				BasePanel.SuspendLayout();

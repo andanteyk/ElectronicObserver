@@ -63,6 +63,11 @@
     <Compile Include="Data\BattleDataDay.cs" />
     <Compile Include="Data\BattleDataPhase.cs" />
     <Compile Include="Data\BattleDataPhaseAerial.cs" />
+    <Compile Include="Data\Battle\BattleData.cs" />
+    <Compile Include="Data\Battle\BattleManager.cs" />
+    <Compile Include="Data\Battle\BattleNormalDay.cs" />
+    <Compile Include="Data\Battle\BattleNormalNight.cs" />
+    <Compile Include="Data\Battle\BattleResultData.cs" />
     <Compile Include="Data\Constants.cs" />
     <Compile Include="Data\DockData.cs" />
     <Compile Include="Data\EquipmentData.cs" />
@@ -77,8 +82,11 @@
     <Compile Include="Data\QuestData.cs" />
     <Compile Include="Data\QuestManager.cs" />
     <Compile Include="Data\APIWrapper.cs" />
+    <Compile Include="Data\Quest\DestroyEquipment.cs" />
+    <Compile Include="Data\Quest\DestroyShip.cs" />
+    <Compile Include="Data\Quest\QuestCounter.cs" />
     <Compile Include="Data\ResponseWrapper.cs" />
-    <Compile Include="Data\SortieMapData.cs" />
+    <Compile Include="Data\CompassData.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />

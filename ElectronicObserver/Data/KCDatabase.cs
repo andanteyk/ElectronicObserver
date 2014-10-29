@@ -107,7 +107,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 出撃マップデータ
 		/// </summary>
-		public SortieMapData SortieMap { get; private set; }
+		public CompassData Compass { get; private set; }
 
 
 
@@ -127,7 +127,7 @@ namespace ElectronicObserver.Data {
 			Fleet = new FleetManager();
 			Material = new MaterialData();
 			Quest = new QuestManager();
-			SortieMap = new SortieMapData();
+			Compass = new CompassData();
 
 		}
 

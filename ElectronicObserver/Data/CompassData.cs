@@ -9,7 +9,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 出撃時のマップ・進撃先を保持します。
 	/// </summary>
-	public class SortieMapData : ResponseWrapper {
+	public class CompassData : ResponseWrapper {
 
 		/// <summary>
 		/// 海域カテゴリID(2-3でいう2)
