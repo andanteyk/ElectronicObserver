@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Resource.SaveData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,6 +64,7 @@ namespace ElectronicObserver.Data.Battle {
 					BattleMode = BattleModes.Normal;
 					BattleDay = new BattleNormalDay();
 					BattleDay.LoadFromResponse( apiname, data );
+					SaveDataMaster.Instance.EnemyFleet.Update( Compass.EnemyFleetID, (int)data.api_formation[1], (int[])data.api_ship_ke );		//fixme:暫定的に
 					break;
 
 				case "api_req_battle_midnight/battle":

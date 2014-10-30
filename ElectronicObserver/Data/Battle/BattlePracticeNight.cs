@@ -15,12 +15,14 @@ namespace ElectronicObserver.Data.Battle {
 
 			KCDatabase db = KCDatabase.Instance;
 			Action<int, int> DealDamageFriend = ( int index, int damage ) => {
+				if ( hp[index] == -1 ) return;
 				hp[index] = Math.Max( hp[index] - Math.Max( damage, 0 ), 0 );
 				
 				//ダメコンは発動しない。
 			};
 
 			Action<int, int> DealDamageEnemy = ( int index, int damage ) => {
+				if ( hp[index + 6] == -1 ) return;
 				hp[index + 6] = Math.Max( hp[index + 6] - Math.Max( damage, 0 ), 0 );
 			};
 
@@ -43,7 +45,7 @@ namespace ElectronicObserver.Data.Battle {
 						damageList[j] = 0;
 					}
 
-					int lenj = ( (int[])hougeki.api_df_list ).Length;
+					int lenj = ( (int[])hougeki.api_df_list[i] ).Length;
 					for ( int j = 0; j < lenj; j++ ) {
 						damageList[(int)hougeki.api_df_list[i][j] - 1] += (int)hougeki.api_damage[i][j];
 					}
@@ -63,5 +65,9 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_practice/midnight_battle"; }
 		}
 
+
+		public override int FleetIDFriend {
+			get { return (int)RawData.api_deck_id; }
+		}
 	}
 }

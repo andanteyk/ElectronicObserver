@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,40 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public abstract class BattleData : ResponseWrapper {
 
-		//public dynamic RawData { get; protected set; }
+		//戦闘系はデータが安定しないため、特例的に生データを公開する
+		//可能なら封印できるように作る事
+		public dynamic Data {
+			get { return RawData; }
+		}
+
+
+		/// <summary>
+		/// 戦闘中の自軍艦隊ID
+		/// </summary>
+		public abstract int FleetIDFriend { get; }
+
+		/// <summary>
+		/// 敵艦隊の艦船IDリスト [1-6]
+		/// </summary>
+		public ReadOnlyCollection<int> EnemyFleetMembers {
+			get { return Array.AsReadOnly<int>( (int[])RawData.api_ship_ke ); }
+		}
+
+		/// <summary>
+		/// 全軍の初期HP [1-6]=味方, [7-12]=敵
+		/// </summary>
+		public ReadOnlyCollection<int> InitialHP {
+			get { return Array.AsReadOnly<int>( (int[])RawData.api_nowhps ); }
+		}
+
+		/// <summary>
+		/// 敵艦のレベル [1-6]
+		/// </summary>
+		public ReadOnlyCollection<int> EnemyLevels {
+			get { return Array.AsReadOnly<int>( (int[])RawData.api_ship_lv ); }
+		}
+
+
 
 
 		/// <summary>

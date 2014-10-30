@@ -15,9 +15,10 @@ namespace ElectronicObserver.Data.Battle {
 
 			KCDatabase db = KCDatabase.Instance;
 			Action<int, int> DealDamageFriend = ( int index, int damage ) => {
+				if ( hp[index] == -1 ) return;
 				hp[index] = Math.Max( hp[index] - Math.Max( damage, 0 ), 0 );
 				if ( hp[index] == 0 ) {
-					var ship = db.Ships[db.Fleet[int.Parse( RawData.api_deck_id )].FleetMember[index]];
+					var ship = db.Ships[db.Fleet[ index < 6 ? 1 : 2 ].FleetMember[index]];
 					for ( int e = 0; e < ship.Slot.Count; e++ ) {
 						if ( ship.Slot[e] != -1 ) {
 							int id = db.Equipments[ship.Slot[e]].MasterEquipment.EquipmentID;
@@ -35,6 +36,7 @@ namespace ElectronicObserver.Data.Battle {
 			};
 
 			Action<int, int> DealDamageEnemy = ( int index, int damage ) => {
+				if ( hp[index + 6] == -1 ) return;
 				hp[index + 6] = Math.Max( hp[index + 6] - Math.Max( damage, 0 ), 0 );
 			};
 
@@ -63,7 +65,7 @@ namespace ElectronicObserver.Data.Battle {
 						damageList[j] = 0;
 					}
 
-					int lenj = ( (int[])hougeki.api_df_list ).Length;
+					int lenj = ( (int[])hougeki.api_df_list[i] ).Length;
 					for ( int j = 0; j < lenj; j++ ) {
 						damageList[(int)hougeki.api_df_list[i][j] - 1] += (int)hougeki.api_damage[i][j];
 					}
@@ -82,6 +84,10 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_combined_battle/midnight_battle"; }
 		}
 
+
+		public override int FleetIDFriend {
+			get { return int.Parse( RawData.api_deck_id ); }
+		}
 	}
 
 }

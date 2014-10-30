@@ -52,6 +52,7 @@
 			this.StripMenu_View_Arsenal = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Headquarters = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_View_Quest = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_Information = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Compass = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,7 +65,7 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
-			this.StripMenu_View_Quest = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_View_Battle = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -154,6 +155,7 @@
             this.StripMenu_View_Information,
             this.toolStripSeparator3,
             this.StripMenu_View_Compass,
+            this.StripMenu_View_Battle,
             this.toolStripSeparator4,
             this.StripMenu_View_Log});
 			this.StripMenu_View.Name = "StripMenu_View";
@@ -229,6 +231,13 @@
 			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Headquarters.Text = "司令部(&H)";
 			this.StripMenu_View_Headquarters.Click += new System.EventHandler(this.StripMenu_View_Headquarters_Click);
+			// 
+			// StripMenu_View_Quest
+			// 
+			this.StripMenu_View_Quest.Name = "StripMenu_View_Quest";
+			this.StripMenu_View_Quest.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_View_Quest.Text = "任務(&Q)";
+			this.StripMenu_View_Quest.Click += new System.EventHandler(this.StripMenu_View_Quest_Click);
 			// 
 			// StripMenu_View_Information
 			// 
@@ -310,12 +319,12 @@
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
 			// 
-			// StripMenu_View_Quest
+			// StripMenu_View_Battle
 			// 
-			this.StripMenu_View_Quest.Name = "StripMenu_View_Quest";
-			this.StripMenu_View_Quest.Size = new System.Drawing.Size(152, 22);
-			this.StripMenu_View_Quest.Text = "任務(&Q)";
-			this.StripMenu_View_Quest.Click += new System.EventHandler(this.StripMenu_View_Quest_Click);
+			this.StripMenu_View_Battle.Name = "StripMenu_View_Battle";
+			this.StripMenu_View_Battle.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_View_Battle.Text = "戦闘(&B)";
+			this.StripMenu_View_Battle.Click += new System.EventHandler(this.StripMenu_View_Battle_Click);
 			// 
 			// FormMain
 			// 
@@ -369,6 +378,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Log;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Quest;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Battle;
 	}
 }
 

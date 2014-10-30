@@ -61,6 +61,26 @@ namespace ElectronicObserver.Resource.SaveData {
 		}
 
 
+		public void Update( int fleetID, int formation, int[] fleetMember ) {
+			
+			if ( !Data.EnemyFleet.ContainsKey( fleetID ) ) {
+			
+				EnemyFleetElement e = new EnemyFleetElement();
+				e.FleetID = fleetID;
+				e.Formation = formation;
+				e.FleetMember = fleetMember.Skip( 1 ).ToArray();
+				Data.EnemyFleet.Add( fleetID, e );
+			
+			} else {
+				//念のため書き換える
+				EnemyFleetElement e = Data.EnemyFleet[fleetID];
+				e.Formation = formation;
+				e.FleetMember = fleetMember.Skip( 1 ).ToArray();
+
+			}
+		}
+
+
 		public override string SaveFileName {
 			get { return "EnemyFleetData.json"; }
 		}

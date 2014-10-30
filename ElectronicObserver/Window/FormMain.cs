@@ -39,6 +39,7 @@ namespace ElectronicObserver.Window {
 		public FormCompass fCompass;
 		public FormLog fLog;
 		public FormQuest fQuest;
+		public FormBattle fBattle;
 
 		#endregion
 
@@ -76,18 +77,13 @@ namespace ElectronicObserver.Window {
 			}
 	
 			fDock = new FormDock( this );
-			
 			fArsenal = new FormArsenal( this );
-			
 			fHeadquarters = new FormHeadquarters( this );
-
 			fInformation = new FormInformation( this );
-
 			fCompass = new FormCompass( this );
-
 			fLog = new FormLog( this );
-
 			fQuest = new FormQuest( this );
+			fBattle = new FormBattle( this );
 
 			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
@@ -182,6 +178,9 @@ namespace ElectronicObserver.Window {
 					return fLog;
 				case "Quest":
 					return fQuest;
+				case "Battle":
+					return fBattle;
+
 				default:
 					return null;
 			}
@@ -212,6 +211,8 @@ namespace ElectronicObserver.Window {
 					fLog.DockPanel = null;
 					fQuest.Show( MainDockPanel, DockState.Document );
 					fQuest.DockPanel = null;
+					fBattle.Show( MainDockPanel, DockState.Document );
+					fBattle.DockPanel = null;
 
 					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
@@ -243,6 +244,7 @@ namespace ElectronicObserver.Window {
 					fCompass.Show( MainDockPanel );
 					fLog.Show( MainDockPanel );
 					fQuest.Show( MainDockPanel );
+					fBattle.Show( MainDockPanel );
 
 					foreach ( var x in MainDockPanel.Contents ) {
 						x.DockHandler.Hide();
@@ -333,8 +335,14 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_View_Quest_Click( object sender, EventArgs e ) {
 			fQuest.Show( MainDockPanel );
 		}
+
+		private void StripMenu_View_Battle_Click( object sender, EventArgs e ) {
+			fBattle.Show( MainDockPanel );
+		}
 	
 		#endregion
+
+		
 
 		
 
