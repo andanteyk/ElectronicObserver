@@ -11,7 +11,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map {
 
 		public override void OnResponseReceived( dynamic data ) {
 
-			KCDatabase.Instance.Compass.LoadFromResponse( APIName, data );
+			KCDatabase.Instance.Battle.LoadFromResponse( APIName, data );
 
 
 			base.OnResponseReceived( (object)data );

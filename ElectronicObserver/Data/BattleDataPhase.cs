@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Data {
 
 	//undone
+	[Obsolete]
 	public abstract class BattleDataPhase {
 
 		protected dynamic RawData { get; private set; }

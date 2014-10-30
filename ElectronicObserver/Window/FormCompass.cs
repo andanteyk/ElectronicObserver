@@ -49,17 +49,17 @@ namespace ElectronicObserver.Window {
 
 			} else {
 
-				CompassData map = KCDatabase.Instance.Compass;
+				CompassData compass = KCDatabase.Instance.Battle.Compass;
 
 
 				BasePanel.SuspendLayout();
 
-				TextMapArea.Text = "出撃海域 : " + map.MapAreaID + "-" + map.MapInfoID;
-				TextDestination.Text = "次のセル : " + map.Destination + ( map.IsEndPoint ? " (終点)" : "" );
+				TextMapArea.Text = "出撃海域 : " + compass.MapAreaID + "-" + compass.MapInfoID;
+				TextDestination.Text = "次のセル : " + compass.Destination + ( compass.IsEndPoint ? " (終点)" : "" );
 				
 				{
 					string eventkind = "";
-					switch ( map.EventID ) {
+					switch ( compass.EventID ) {
 						case 0:
 							eventkind += "初期位置";
 							TextEventDetail.Text = "";
@@ -68,47 +68,47 @@ namespace ElectronicObserver.Window {
 							eventkind += "資源";
 							{
 								string materialname;
-								if ( map.GetItemID == 4 ) {		//"※"　大方資源専用ID
+								if ( compass.GetItemID == 4 ) {		//"※"　大方資源専用ID
 
-									materialname = MaterialData.GetMaterialName( map.GetItemIDMetadata );
+									materialname = MaterialData.GetMaterialName( compass.GetItemIDMetadata );
 								
 								} else {
-									materialname = KCDatabase.Instance.MasterUseItems[map.GetItemID].Name;
+									materialname = KCDatabase.Instance.MasterUseItems[compass.GetItemID].Name;
 								}
 
-								TextEventDetail.Text = materialname + " x " + map.GetItemAmount;
+								TextEventDetail.Text = materialname + " x " + compass.GetItemAmount;
 							}
 
 							break;
 						case 3:
 							eventkind += "渦潮";
 							{
-								string materialname = MaterialData.GetMaterialName( map.WhirlpoolItemID );
+								string materialname = MaterialData.GetMaterialName( compass.WhirlpoolItemID );
 
 								//fixme:第一艦隊以外の艦隊が出撃していた場合誤った値を返す
 								int materialmax = KCDatabase.Instance.Fleet.Fleets[1].FleetMember.Max( n => 
 								{
 									if ( n != -1 )
-										if ( map.WhirlpoolItemID == 1 )
+										if ( compass.WhirlpoolItemID == 1 )
 											return KCDatabase.Instance.Ships[n].MasterShip.Fuel;
-										else if ( map.WhirlpoolItemID == 2 )
+										else if ( compass.WhirlpoolItemID == 2 )
 											return KCDatabase.Instance.Ships[n].MasterShip.Ammo;
 										else return 0;
 									else return 0;
 								} );
 
-								int percent = map.WhirlpoolItemAmount * 100 / materialmax;
+								int percent = compass.WhirlpoolItemAmount * 100 / materialmax;
 
-								TextEventDetail.Text = materialname + " x " + map.WhirlpoolItemAmount + " (" + percent + "%)";
+								TextEventDetail.Text = materialname + " x " + compass.WhirlpoolItemAmount + " (" + percent + "%)";
 							}
 							break;
 						case 4:
 							eventkind += "通常戦闘";
-							TextEventDetail.Text = "敵編成ID : " + map.EnemyFleetID;
+							TextEventDetail.Text = "敵編成ID : " + compass.EnemyFleetID;
 							break;
 						case 5:
 							eventkind += "ボス戦闘";
-							TextEventDetail.Text = "敵編成ID : " + map.EnemyFleetID;
+							TextEventDetail.Text = "敵編成ID : " + compass.EnemyFleetID;
 							break;
 						case 6:
 							eventkind += "気のせいだった";
@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window {
 							break;
 						case 7:
 							eventkind += "機動部隊航空戦";
-							TextEventDetail.Text = "敵編成ID : " + map.EnemyFleetID;
+							TextEventDetail.Text = "敵編成ID : " + compass.EnemyFleetID;
 							break;
 						default:
 							eventkind += "不明";

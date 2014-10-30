@@ -65,6 +65,18 @@ namespace ElectronicObserver.Observer {
 			ResponseList.Add( new kcsapi.api_req_map.start() );
 			ResponseList.Add( new kcsapi.api_req_map.next() );
 			ResponseList.Add( new kcsapi.api_req_kousyou.createitem() );
+			ResponseList.Add( new kcsapi.api_req_sortie.battle() );
+			ResponseList.Add( new kcsapi.api_req_sortie.battleresult() );
+			ResponseList.Add( new kcsapi.api_req_battle_midnight.battle() );
+			ResponseList.Add( new kcsapi.api_req_battle_midnight.sp_midnight() );
+			ResponseList.Add( new kcsapi.api_req_combined_battle.battle() );
+			ResponseList.Add( new kcsapi.api_req_combined_battle.midnight_battle() );
+			ResponseList.Add( new kcsapi.api_req_combined_battle.sp_midnight() );
+			ResponseList.Add( new kcsapi.api_req_combined_battle.airbattle() );
+			ResponseList.Add( new kcsapi.api_req_combined_battle.battleresult() );
+			ResponseList.Add( new kcsapi.api_req_practice.battle() );
+			ResponseList.Add( new kcsapi.api_req_practice.midnight_battle() );
+			ResponseList.Add( new kcsapi.api_req_practice.battle_result() );
 
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;

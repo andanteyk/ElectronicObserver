@@ -11,6 +11,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 昼戦の戦闘詳報を保持します。
 	/// </summary>
+	[Obsolete]
 	public class BattleDataDay : APIWrapper {
 
 		/// <summary>

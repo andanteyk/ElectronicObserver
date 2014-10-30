@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Data.Battle;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -105,10 +106,9 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 出撃マップデータ
+		/// 戦闘データ
 		/// </summary>
-		public CompassData Compass { get; private set; }
-
+		public BattleManager Battle { get; private set; }
 
 
 		private KCDatabase() {
@@ -127,7 +127,7 @@ namespace ElectronicObserver.Data {
 			Fleet = new FleetManager();
 			Material = new MaterialData();
 			Quest = new QuestManager();
-			Compass = new CompassData();
+			Battle = new BattleManager();
 
 		}
 
