@@ -23,7 +23,9 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.TableDock = new System.Windows.Forms.TableLayoutPanel();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.SuspendLayout();
 			// 
 			// TableDock
@@ -43,6 +45,13 @@
 			this.TableDock.Size = new System.Drawing.Size(0, 21);
 			this.TableDock.TabIndex = 2;
 			this.TableDock.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableDock_CellPaint);
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 60000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// FormDock
 			// 
@@ -65,5 +74,6 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel TableDock;
+		private System.Windows.Forms.ToolTip ToolTipInfo;
 	}
 }

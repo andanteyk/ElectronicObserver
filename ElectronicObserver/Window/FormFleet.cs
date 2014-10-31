@@ -23,7 +23,10 @@ namespace ElectronicObserver.Window {
 			public ImageLabel StateMain;
 			public ImageLabel AirSuperiority;
 			public ImageLabel SearchingAbility;
-
+			public ToolTip ToolTipInfo;
+			public int State;
+			public DateTime Timer;
+		
 			public TableFleetControl( FormFleet parent ) {
 
 				#region Initialize
@@ -67,6 +70,9 @@ namespace ElectronicObserver.Window {
 				SearchingAbility.Margin = new Padding( 2, 0, 2, 0 );
 				SearchingAbility.AutoSize = true;
 
+				ToolTipInfo = parent.ToolTipInfo;
+				State = 0;
+				Timer = DateTime.Now;
 				#endregion
 
 			}
@@ -98,47 +104,24 @@ namespace ElectronicObserver.Window {
 			public void Update( FleetData fleet ) {
 
 				KCDatabase db = KCDatabase.Instance;
-					
+
 				Name.Text = fleet.Name;
 
 
 
 				#region set StateMain
 
-				//memo: [大破出撃中>出撃中|遠征中|入渠中>大破艦あり>未補給>疲労>中破艦あり>泊地修理中>出撃可能]
+				//memo: [入渠中>大破出撃中>出撃中|遠征中>大破艦あり>未補給>疲労>中破艦あり>泊地修理中>出撃可能]
 				//memo: 泊地修理は工作艦が中破しているとできない、忘れないよう
 				//fixme:　あまりにきたないので書き直しを要請する
 				//todo: 入渠/遠征：完了時間のツールチップ
 
+				ToolTipInfo.SetToolTip( StateMain, null );
 
 				var ships = KCDatabase.Instance.Ships;
 
-				//大破出撃中
-				if ( fleet.FleetMember.Count(
-						( int id ) => {
-							if ( id == -1 ) return false;
-							else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
-						}
-					) > 0 ) {
 
-					StateMain.Text = "大破艦あり！";
-
-
-				}
-					//undone: 出撃中
-				else if ( false ) {
-
-
-				}
-					//遠征中
-				else if ( fleet.ExpeditionState != 0 ) {
-
-					StateMain.Text = "遠征中 " + DateConverter.ToTimeRemainString( fleet.ExpeditionTime );
-
-				}
-					//入渠艦あり
-				else {
-
+				{
 					long ntime = KCDatabase.Instance.Docks.Max(
 						( KeyValuePair<int, DockData> dock ) => {
 							if ( dock.Value.State < 1 ) return 0;
@@ -148,16 +131,42 @@ namespace ElectronicObserver.Window {
 						}
 						);
 
-					if ( ntime > 0 ) {
-						StateMain.Text = "入渠中 " + DateConverter.ToTimeRemainString( DateTime.FromBinary( ntime ) );
+					if ( ntime > 0 ) {	//入渠中
+						State = 1;
+						Timer = DateTime.FromBinary( ntime );
+						StateMain.Text = "入渠中 " + DateConverter.ToTimeRemainString( Timer );
+						ToolTipInfo.SetToolTip( StateMain, "完了日時 : " + Timer );
 
 					} else if ( fleet.FleetMember.Count(
-					   ( int id ) => {
-						   if ( id == -1 ) return false;
-						   else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
-					   }
-					) > 0 ) {
+						( int id ) => {
+							if ( id == -1 ) return false;
+							else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
+						}
+						) > 0 ) {		//大破出撃中
 
+						State = 2;
+						StateMain.Text = "大破艦あり！";
+
+
+					} else if ( false ) {		//undone: 出撃中
+
+						State = 3;
+
+					} else if ( fleet.ExpeditionState != 0 ) {//遠征中
+
+						State = 4;
+						Timer = fleet.ExpeditionTime;
+						StateMain.Text = "遠征中 " + DateConverter.ToTimeRemainString( Timer );
+						ToolTipInfo.SetToolTip( StateMain, "完了日時 : " + Timer );
+
+					} else if ( fleet.FleetMember.Count(
+								 ( int id ) => {
+									 if ( id == -1 ) return false;
+									 else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
+								 }
+							  ) > 0 ) {
+
+						State = 5;
 						StateMain.Text = "大破艦あり！";
 
 
@@ -169,6 +178,7 @@ namespace ElectronicObserver.Window {
 						}
 					) > 0 ) {
 
+						State = 6;
 						StateMain.Text = "未補給";
 
 
@@ -179,19 +189,26 @@ namespace ElectronicObserver.Window {
 						}
 					) > 0 ) {
 
+						State = 7;
 						StateMain.Text = "疲労";
 
 
 						//undone: 泊地修理中
 					} else if ( false ) {
 
+						State = 8;
+
 					} else {
 
+						State = 9;
 						StateMain.Text = "出撃可能！";
 					}
 
 				}
 
+
+				
+				
 				#endregion
 
 
@@ -211,7 +228,6 @@ namespace ElectronicObserver.Window {
 								continue;
 
 							EquipmentDataMaster eq = db.Equipments[ship.Slot[j]].MasterEquipment;
-							if ( eq == null ) continue;	//一回エラー落ちしたので念のため
 
 							switch ( eq.EquipmentType[2] ) {
 								case 6:		//艦戦
@@ -280,6 +296,15 @@ namespace ElectronicObserver.Window {
 
 			public void Refresh() {
 
+				switch ( State ) {
+					case 1:		//入渠中 
+						StateMain.Text = "入渠中 " + DateConverter.ToTimeRemainString( Timer );
+						break;
+					case 4:		//遠征中
+						StateMain.Text = "遠征中 " + DateConverter.ToTimeRemainString( Timer );
+						break;
+				}
+				
 			}
 
 		}
@@ -571,7 +596,8 @@ namespace ElectronicObserver.Window {
 			{
 				FleetData fleet = KCDatabase.Instance.Fleet.Fleets[FleetID];
 				if ( fleet != null )
-					ControlFleet.Update( fleet );		//fixme:わざわざデータを再読み込みする必要はないのでは？タイマだけ保持しておけばいい感
+					ControlFleet.Refresh();		//タイマだけ保持する実装にしないとDB更新中に参照して死ぬ
+
 			}
 			TableFleet.ResumeLayout();
 

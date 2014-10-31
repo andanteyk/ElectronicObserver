@@ -91,7 +91,7 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// 入手するアイテムのメタデータ
-		/// GetItemID==4のとき、1=燃, 2=弾, 3=鋼, 4=ボ, 5=バーナー, 6=バケツ, 7=開発
+		/// GetItemID==4のとき、1=燃, 2=弾, 3=鋼, 4=ボ, 5=バーナー, 6=バケツ, 7=開発, 8=改修
 		/// </summary>
 		public int GetItemIDMetadata {
 			get {

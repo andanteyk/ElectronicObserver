@@ -366,6 +366,18 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 入渠中のドックID　非入渠時は-1
+		/// </summary>
+		public int RepairingDockID {
+			get {
+				foreach ( var dock in KCDatabase.Instance.Docks.Values ) {
+					if ( dock.ShipID == MasterID )
+						return dock.DockID;
+				}
+				return -1;
+			}
+		}
 
 		
 		public int ID {
@@ -379,6 +391,7 @@ namespace ElectronicObserver.Data {
 				case "api_port/port":
 				case "api_get_member/ship2":
 				case "api_get_member/ship3":
+				case "api_req_kousyou/getship":
 					base.LoadFromResponse( apiname, (object)data );
 
 					HPCurrent = (int)RawData.api_nowhp;

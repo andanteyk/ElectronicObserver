@@ -60,9 +60,6 @@
   <ItemGroup>
     <Compile Include="Data\AdmiralData.cs" />
     <Compile Include="Data\ArsenalData.cs" />
-    <Compile Include="Data\BattleDataDay.cs" />
-    <Compile Include="Data\BattleDataPhase.cs" />
-    <Compile Include="Data\BattleDataPhaseAerial.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedNightOnly.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalDay.cs" />

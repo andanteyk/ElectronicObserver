@@ -28,6 +28,8 @@ namespace ElectronicObserver.Window {
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 
 			o.ResponseList["api_port/port"].ResponseReceived += rec;
+			o.ResponseList["api_req_map/start"].ResponseReceived += rec;
+			o.ResponseList["api_req_map/next"].ResponseReceived += rec;
 			o.ResponseList["api_req_sortie/battle"].ResponseReceived += rec;
 			o.ResponseList["api_req_sortie/battleresult"].ResponseReceived += rec;
 			o.ResponseList["api_req_battle_midnight/battle"].ResponseReceived += rec;
@@ -60,114 +62,26 @@ namespace ElectronicObserver.Window {
 					TextDebug.Text = "";
 					break;
 
-				case "api_req_sortie/battle": {
 
-						StringBuilder sb = new StringBuilder();
-						int[] hp = battle.BattleDay.EmulateBattle();
+				case "api_req_sortie/battle":
+					TextDebug.Text = GetBattleString( battle.BattleDay );
+					break;
 
-						sb.AppendLine( "---- 味方艦隊 ----" );
+				case "api_req_battle_midnight/battle":
+					TextDebug.Text = GetBattleString( battle.BattleNight );
+					break;
 
-						for ( int i = 0; i < 6; i++ ) {
+				case "api_req_battle_midnight/sp_midnight":
+					TextDebug.Text = GetBattleString( battle.BattleNight );
+					break;
 
-							ShipData ship = db.Ships[db.Fleet[battle.BattleDay.FleetIDFriend].FleetMember[i]];
+				case "api_req_practice/battle":
+					TextDebug.Text = GetBattleString( battle.BattleDay );
+					break;
 
-							if ( ship != null ) {
-
-								sb.Append( ship.MasterShip.Name );
-								sb.Append( " Lv. " );
-								sb.Append( ship.Level );
-								sb.Append( " HP: " );
-								sb.Append( battle.BattleDay.InitialHP[i + 1] );
-								sb.Append( " -> " );
-								sb.Append( hp[i] );
-								sb.AppendLine();
-
-							} else {
-								sb.AppendLine( "-" );
-							}
-
-						}
-
-						sb.AppendLine();
-						sb.AppendLine( "---- 敵艦隊 ----" );
-
-						for ( int i  = 0; i < 6; i++ ) {
-
-							int eid = battle.BattleDay.EnemyFleetMembers[i + 1];
-							if ( eid != -1 ) {
-
-								sb.Append( db.MasterShips[eid].Name );
-								sb.Append( " Lv. " );
-								sb.Append( battle.BattleDay.EnemyLevels[i + 1] );
-								sb.Append( " HP: " );
-								sb.Append( battle.BattleDay.InitialHP[i + 7] );
-								sb.Append( " -> " );
-								sb.Append( hp[i + 6] );
-								sb.AppendLine();
-
-							} else {
-								sb.AppendLine( "-" );
-							}
-						}
-
-						TextDebug.Text = sb.ToString();
-
-					} break;
-
-
-				case "api_req_battle_midnight/battle": {
-
-						StringBuilder sb = new StringBuilder();
-						int[] hp = battle.BattleNight.EmulateBattle();
-
-						sb.AppendLine( "---- 味方艦隊 ----" );
-
-						for ( int i = 0; i < 6; i++ ) {
-
-							ShipData ship = db.Ships[db.Fleet[battle.BattleNight.FleetIDFriend].FleetMember[i]];
-
-							if ( ship != null ) {
-
-								sb.Append( ship.MasterShip.Name );
-								sb.Append( " Lv. " );
-								sb.Append( ship.Level );
-								sb.Append( " HP: " );
-								sb.Append( battle.BattleNight.InitialHP[i + 1] );
-								sb.Append( " -> " );
-								sb.Append( hp[i] );
-								sb.AppendLine();
-
-							} else {
-								sb.AppendLine( "-" );
-							}
-
-						}
-
-						sb.AppendLine();
-						sb.AppendLine( "---- 敵艦隊 ----" );
-
-						for ( int i  = 0; i < 6; i++ ) {
-
-							int eid = battle.BattleNight.EnemyFleetMembers[i + 1];
-							if ( eid != -1 ) {
-
-								sb.Append( db.MasterShips[eid].Name );
-								sb.Append( " Lv. " );
-								sb.Append( battle.BattleNight.EnemyLevels[i + 1] );
-								sb.Append( " HP: " );
-								sb.Append( battle.BattleNight.InitialHP[i + 7] );
-								sb.Append( " -> " );
-								sb.Append( hp[i + 6] );
-								sb.AppendLine();
-
-							} else {
-								sb.AppendLine( "-" );
-							}
-						}
-
-						TextDebug.Text = sb.ToString();
-
-					} break;
+				case "api_req_practice/midnight_battle":
+					TextDebug.Text = GetBattleString( battle.BattleNight );
+					break;
 
 
 				case "api_port/port":
@@ -177,6 +91,100 @@ namespace ElectronicObserver.Window {
 			}
 
 		}
+
+
+		private string GetBattleString( BattleData bd ) {
+
+			StringBuilder sb = new StringBuilder();
+			KCDatabase db = KCDatabase.Instance;
+			int[] hp = bd.EmulateBattle();
+
+			sb.AppendLine( "---- 自軍艦隊 ----" );
+
+			for ( int i = 0; i < 6; i++ ) {
+
+				ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
+
+				if ( ship != null ) {
+
+					sb.Append( ship.MasterShip.Name );
+					sb.Append( " Lv. " );
+					sb.Append( ship.Level );
+					sb.Append( " HP: " );
+					sb.Append( bd.InitialHP[i + 1] );
+					sb.Append( " -> " );
+					sb.Append( hp[i] );
+					sb.Append( " (" );
+					sb.Append( hp[i] - bd.InitialHP[i + 1] );
+					sb.Append( ") " );
+					if ( hp[i] == 0 ) {
+						sb.Append( "[撃沈]" );
+					} else if ( (double)hp[i] / bd.MaxHP[i + 1] <= 0.25 ) {
+						sb.Append( "[大破]" );
+					} else if ( (double)hp[i] / bd.MaxHP[i + 1] <= 0.50 ) {
+						sb.Append( "[中破]" );
+					} else if ( (double)hp[i] / bd.MaxHP[i + 1] <= 0.75 ) {
+						sb.Append( "[小破]" );
+					} else if ( (double)hp[i] < bd.MaxHP[i + 1] ) {
+						sb.Append( "[健在]" );
+					} else {
+						sb.Append( "[無傷]" );
+					}
+					sb.AppendLine();
+
+				} else {
+					sb.AppendLine( "-" );
+				}
+
+			}
+
+			sb.AppendLine();
+			sb.AppendLine( "---- 敵軍艦隊 ----" );
+
+			for ( int i  = 0; i < 6; i++ ) {
+
+				int eid = bd.EnemyFleetMembers[i + 1];
+				if ( eid != -1 ) {
+
+					sb.Append( db.MasterShips[eid].Name );
+					if ( db.MasterShips[eid].NameReading != null &&
+						 db.MasterShips[eid].NameReading != "" &&
+						 db.MasterShips[eid].NameReading != "-" ) {
+						sb.Append( " " );
+						sb.Append( db.MasterShips[eid].NameReading );
+					}
+					sb.Append( " Lv. " );
+					sb.Append( bd.EnemyLevels[i + 1] );
+					sb.Append( " HP: " );
+					sb.Append( bd.InitialHP[i + 7] );
+					sb.Append( " -> " );
+					sb.Append( hp[i + 6] );
+					sb.Append( " (" );
+					sb.Append( hp[i + 6] - bd.InitialHP[i + 7] );
+					sb.Append( ") " );
+					if ( hp[i + 6] == 0 ) {
+						sb.Append( "[撃沈]" );
+					} else if ( (double)hp[i + 6] / bd.MaxHP[i + 7] <= 0.25 ) {
+						sb.Append( "[大破]" );
+					} else if ( (double)hp[i + 6] / bd.MaxHP[i + 7] <= 0.50 ) {
+						sb.Append( "[中破]" );
+					} else if ( (double)hp[i + 6] / bd.MaxHP[i + 7] <= 0.75 ) {
+						sb.Append( "[小破]" );
+					} else if ( (double)hp[i + 6] < bd.MaxHP[i + 7] ) {
+						sb.Append( "[健在]" );
+					} else {
+						sb.Append( "[無傷]" );
+					}
+					sb.AppendLine();
+
+				} else {
+					sb.AppendLine( "-" );
+				}
+			}
+
+			return sb.ToString();
+		}
+
 
 		protected override string GetPersistString() {
 			return "Battle";

@@ -20,7 +20,7 @@ namespace ElectronicObserver.Window {
 
 			public Label ShipName;
 			public Label RepairTime;
-
+			public ToolTip ToolTipInfo;
 
 			public TableDockControl( FormDock parent ) {
 
@@ -51,8 +51,9 @@ namespace ElectronicObserver.Window {
 				RepairTime.MinimumSize = new Size( 60, 10 );
 				RepairTime.AutoSize = true;
 				RepairTime.Visible = true;
-				
-				
+
+				ToolTipInfo = parent.ToolTipInfo;
+
 				#endregion
 
 			}
@@ -89,6 +90,9 @@ namespace ElectronicObserver.Window {
 
 				DockData dock = db.Docks[dockID];
 
+
+				ToolTipInfo.SetToolTip( RepairTime, null );
+
 				if ( dock == null || dock.State == -1 ) {
 					//locked
 					ShipName.Text = "";
@@ -106,6 +110,7 @@ namespace ElectronicObserver.Window {
 					ShipName.Text = db.MasterShips[db.Ships[dock.ShipID].ShipID].Name;
 					RepairTime.Text = DateConverter.ToTimeRemainString( dock.CompletionTime );
 					RepairTime.Tag = dock.CompletionTime;
+					ToolTipInfo.SetToolTip( RepairTime, "完了日時 : " + dock.CompletionTime );
 
 				}
 

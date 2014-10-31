@@ -62,7 +62,7 @@ namespace ElectronicObserver.Window {
 					switch ( compass.EventID ) {
 						case 0:
 							eventkind += "初期位置";
-							TextEventDetail.Text = "";
+							TextEventDetail.Text = "どうしてこうなった";
 							break;
 						case 2:
 							eventkind += "資源";
@@ -97,18 +97,18 @@ namespace ElectronicObserver.Window {
 									else return 0;
 								} );
 
-								int percent = compass.WhirlpoolItemAmount * 100 / materialmax;
+								int percent = compass.WhirlpoolItemAmount * 100 / Math.Max( materialmax, 1 );
 
 								TextEventDetail.Text = materialname + " x " + compass.WhirlpoolItemAmount + " (" + percent + "%)";
 							}
 							break;
 						case 4:
 							eventkind += "通常戦闘";
-							TextEventDetail.Text = "敵編成ID : " + compass.EnemyFleetID;
+							TextEventDetail.Text = "敵艦隊ID : " + compass.EnemyFleetID;
 							break;
 						case 5:
 							eventkind += "ボス戦闘";
-							TextEventDetail.Text = "敵編成ID : " + compass.EnemyFleetID;
+							TextEventDetail.Text = "敵艦隊ID : " + compass.EnemyFleetID;
 							break;
 						case 6:
 							eventkind += "気のせいだった";
@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window {
 							break;
 						case 7:
 							eventkind += "機動部隊航空戦";
-							TextEventDetail.Text = "敵編成ID : " + compass.EnemyFleetID;
+							TextEventDetail.Text = "敵艦隊ID : " + compass.EnemyFleetID;
 							break;
 						default:
 							eventkind += "不明";

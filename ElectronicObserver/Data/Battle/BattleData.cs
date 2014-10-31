@@ -39,6 +39,14 @@ namespace ElectronicObserver.Data.Battle {
 		}
 
 		/// <summary>
+		/// 全軍の最大HP [1-6]=味方, [7-12]=敵
+		/// </summary>
+		public ReadOnlyCollection<int> MaxHP {
+			get { return Array.AsReadOnly<int>( (int[])RawData.api_maxhps ); }
+		}
+
+
+		/// <summary>
 		/// 敵艦のレベル [1-6]
 		/// </summary>
 		public ReadOnlyCollection<int> EnemyLevels {

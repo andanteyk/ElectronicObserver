@@ -40,6 +40,7 @@
 			this.TextDebug.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.TextDebug.Size = new System.Drawing.Size(282, 182);
 			this.TextDebug.TabIndex = 0;
+			this.TextDebug.WordWrap = false;
 			// 
 			// FormBattle
 			// 

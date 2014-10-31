@@ -35,7 +35,9 @@ namespace ElectronicObserver.Resource.SaveData {
 			//シリアライズ用
 			public List<EnemyFleetElement> EnemyFleetList {
 				get {
-					return EnemyFleet.Values.ToList();
+					var l = EnemyFleet.Values.ToList();
+					l.Sort( ( EnemyFleetElement e1, EnemyFleetElement e2 ) => ( e1.FleetID - e2.FleetID ) );
+					return l;
 				}
 				set {
 					EnemyFleet = value.ToDictionary( n => n.FleetID );

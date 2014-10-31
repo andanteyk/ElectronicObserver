@@ -101,8 +101,17 @@ namespace ElectronicObserver.Window {
 
 			//Fleet
 			ShipCount.Text = string.Format( "{0}/{1}", db.Ships.Count, db.Admiral.MaxShipCount );
-			EquipmentCount.Text = string.Format( "{0}/{1}", db.Equipments.Count, db.Admiral.MaxEquipmentCount );
+			if ( db.Ships.Count >= db.Admiral.MaxShipCount - 5 )
+				ShipCount.BackColor = Color.LightCoral;
+			else
+				ShipCount.BackColor = Color.Transparent;
 
+			EquipmentCount.Text = string.Format( "{0}/{1}", db.Equipments.Count, db.Admiral.MaxEquipmentCount );
+			if ( db.Equipments.Count >= db.Admiral.MaxEquipmentCount - 20 )
+				EquipmentCount.BackColor = Color.LightCoral;
+			else
+				EquipmentCount.BackColor = Color.Transparent;
+			
 			//UseItems
 			InstantRepair.Text = db.Material.InstantRepair.ToString();
 			InstantConstruction.Text = db.Material.InstantConstruction.ToString();

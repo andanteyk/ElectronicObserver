@@ -89,34 +89,33 @@ namespace ElectronicObserver.Window {
 				KCDatabase db = KCDatabase.Instance;
 				ArsenalData arsenal = db.Arsenals[arsenalID];
 
+				tooltip.SetToolTip( CompletionTime, null );
+
 				if ( arsenal == null || arsenal.State == -1 ) {
 					//locked
 					ShipName.Text = "";
 					CompletionTime.Text = "";
 					CompletionTime.Tag = null;
-					tooltip.SetToolTip( CompletionTime, null );
-
+					
 				} else if ( arsenal.State == 0 ) {
 					//empty
 					ShipName.Text = "----";
 					CompletionTime.Text = "";
 					CompletionTime.Tag = null;
-					tooltip.SetToolTip( CompletionTime, null );
-
+					
 				} else if ( arsenal.State == 2 ) {
 					//building
 					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
 					CompletionTime.Text = DateConverter.ToTimeRemainString( arsenal.CompletionTime );
 					CompletionTime.Tag = arsenal.CompletionTime;
-					tooltip.SetToolTip( CompletionTime, "建造完了 : " + arsenal.CompletionTime.ToString() );
+					tooltip.SetToolTip( CompletionTime, "完了日時 : " + arsenal.CompletionTime.ToString() );
 
 				} else if ( arsenal.State == 3 ) {
 					//complete!
 					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
 					CompletionTime.Text = "完成！";
 					CompletionTime.Tag = null;
-					tooltip.SetToolTip( CompletionTime, null );
-
+					
 				}
 
 			}

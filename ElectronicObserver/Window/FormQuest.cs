@@ -51,7 +51,7 @@ namespace ElectronicObserver.Window {
 				{
 					string message = "#null!";
 					if ( q.Value.State == 3 ) {
-						message = "達成!";
+						message = "達成！";
 					} else {
 						switch ( q.Value.Progress ) {
 							case 0:

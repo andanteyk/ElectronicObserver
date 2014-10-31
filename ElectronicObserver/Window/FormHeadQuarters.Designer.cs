@@ -35,13 +35,13 @@
 			this.InstantRepair = new ElectronicObserver.Window.Control.ImageLabel();
 			this.InstantConstruction = new ElectronicObserver.Window.Control.ImageLabel();
 			this.DevelopmentMaterial = new ElectronicObserver.Window.Control.ImageLabel();
+			this.ModdingMaterial = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FurnitureCoin = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FlowPanelResource = new System.Windows.Forms.FlowLayoutPanel();
 			this.Fuel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Ammo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Steel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Bauxite = new ElectronicObserver.Window.Control.ImageLabel();
-			this.ModdingMaterial = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FlowPanelMaster.SuspendLayout();
 			this.FlowPanelAdmiral.SuspendLayout();
 			this.FlowPanelFleet.SuspendLayout();
@@ -190,6 +190,17 @@
 			this.DevelopmentMaterial.TabIndex = 3;
 			this.DevelopmentMaterial.Text = "(開発)";
 			// 
+			// ModdingMaterial
+			// 
+			this.ModdingMaterial.BackColor = System.Drawing.Color.Transparent;
+			this.ModdingMaterial.Location = new System.Drawing.Point(183, 0);
+			this.ModdingMaterial.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			this.ModdingMaterial.Name = "ModdingMaterial";
+			this.ModdingMaterial.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+			this.ModdingMaterial.Size = new System.Drawing.Size(54, 20);
+			this.ModdingMaterial.TabIndex = 5;
+			this.ModdingMaterial.Text = "(改修)";
+			// 
 			// FurnitureCoin
 			// 
 			this.FurnitureCoin.BackColor = System.Drawing.Color.Transparent;
@@ -257,17 +268,6 @@
 			this.Bauxite.Size = new System.Drawing.Size(54, 20);
 			this.Bauxite.TabIndex = 4;
 			this.Bauxite.Text = "(軽銀)";
-			// 
-			// ModdingMaterial
-			// 
-			this.ModdingMaterial.BackColor = System.Drawing.Color.Transparent;
-			this.ModdingMaterial.Location = new System.Drawing.Point(183, 0);
-			this.ModdingMaterial.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-			this.ModdingMaterial.Name = "ModdingMaterial";
-			this.ModdingMaterial.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.ModdingMaterial.Size = new System.Drawing.Size(54, 20);
-			this.ModdingMaterial.TabIndex = 5;
-			this.ModdingMaterial.Text = "(改修)";
 			// 
 			// FormHeadquarters
 			// 
