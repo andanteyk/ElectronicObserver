@@ -22,23 +22,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 			db.Admiral.LoadFromResponse( APIName, data.api_basic );
 
 			//api_ship
-			/*/
-			foreach ( var elem in data.api_ship ) {
-
-				int id = (int)elem.api_id;
-
-				if ( !db.Ships.ContainsKey( id ) ) {
-					var a = new ShipData();
-					a.LoadFromResponse( APIName, elem );
-					db.Ships.Add( a );
-
-				} else {
-					db.Ships[id].LoadFromResponse( APIName, elem );
-				}
-			}
-			/*/
-
-			//ちょっと遅くなるかもだけど、齟齬(幽霊とかドッペルゲンガーとか)が発生しなくなる
+			//ちょっと遅くなるかもだけど、齟齬(幽霊とかドッペルゲンガーとか)の発生を防ぐ
 			db.Ships.Clear();
 			foreach ( var elem in data.api_ship ) {
 
@@ -47,9 +31,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 				db.Ships.Add( a );
 			
 			}
-
-			//*/
-
+			
 
 			//api_ndock
 			foreach ( var elem in data.api_ndock ) {

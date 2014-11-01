@@ -21,12 +21,14 @@ namespace ElectronicObserver.Resource.SaveData {
 
 		public string SaveFolderName { get; private set; } 
 		public EnemyFleetData EnemyFleet;
+		public ShipParameterData ShipParameters;
 
 
 		private SaveDataMaster() {
 
 			SaveFolderName = @"Settings\";
 			EnemyFleet = new EnemyFleetData();
+			ShipParameters = new ShipParameterData();
 
 			if ( !Directory.Exists( SaveFolderName ) ) {
 				Directory.CreateDirectory( SaveFolderName );
@@ -38,12 +40,14 @@ namespace ElectronicObserver.Resource.SaveData {
 		public void Load() {
 
 			EnemyFleet.Load( SaveFolderName );
+			ShipParameters.Load( SaveFolderName );
 
 		}
 
 		public void Save() {
 
 			EnemyFleet.Save( SaveFolderName );
+			ShipParameters.Save( SaveFolderName );
 
 		}
 

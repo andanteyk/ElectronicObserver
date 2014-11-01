@@ -25,7 +25,10 @@ namespace ElectronicObserver.Window {
 		
 		private void FormLog_Load( object sender, EventArgs e ) {
 
-			
+			foreach ( var log in Utility.Logger.Log ) {
+				LogList.Items.Add( log.ToString() );
+			}
+			LogList.TopIndex = LogList.Items.Count - 1;
 		}
 
 		void Logger_LogAdded( Utility.Logger.LogData data ) {

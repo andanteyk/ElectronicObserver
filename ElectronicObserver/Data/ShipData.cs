@@ -331,6 +331,28 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		/// <summary>
+		/// 回避最大値
+		/// </summary>
+		public int EvasionMax {
+			get { return (int)RawData.api_kaihi[1]; }
+		}
+
+		/// <summary>
+		/// 対潜最大値
+		/// </summary>
+		public int ASWMax {
+			get { return (int)RawData.api_taisen[1]; }
+		}
+
+		/// <summary>
+		/// 索敵最大値
+		/// </summary>
+		public int LOSMax {
+			get { return (int)RawData.api_sakuteki[1]; }
+		}
+
 		#endregion
 
 

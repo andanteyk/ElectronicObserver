@@ -137,6 +137,7 @@
     <Compile Include="Observer\kcsapi\api_req_sortie\battleresult.cs" />
     <Compile Include="Resource\ResourceManager.cs" />
     <Compile Include="Resource\SaveData\EnemyFleetData.cs" />
+    <Compile Include="Resource\SaveData\ShipParameterData.cs" />
     <Compile Include="Resource\SaveData\SaveData.cs" />
     <Compile Include="Resource\SaveData\SaveDataMaster.cs" />
     <Compile Include="Utility\Logger.cs" />
