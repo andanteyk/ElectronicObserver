@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource.SaveData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -104,11 +105,11 @@ namespace ElectronicObserver.Window {
 							break;
 						case 4:
 							eventkind += "通常戦闘";
-							TextEventDetail.Text = "敵艦隊ID : " + compass.EnemyFleetID;
+							TextEventDetail.Text = GetEnemyFleetInformation( compass.EnemyFleetID );
 							break;
 						case 5:
 							eventkind += "ボス戦闘";
-							TextEventDetail.Text = "敵艦隊ID : " + compass.EnemyFleetID;
+							TextEventDetail.Text = GetEnemyFleetInformation( compass.EnemyFleetID );
 							break;
 						case 6:
 							eventkind += "気のせいだった";
@@ -116,7 +117,7 @@ namespace ElectronicObserver.Window {
 							break;
 						case 7:
 							eventkind += "機動部隊航空戦";
-							TextEventDetail.Text = "敵艦隊ID : " + compass.EnemyFleetID;
+							TextEventDetail.Text = GetEnemyFleetInformation( compass.EnemyFleetID );
 							break;
 						default:
 							eventkind += "不明";
@@ -133,6 +134,58 @@ namespace ElectronicObserver.Window {
 
 
 		}
+
+
+		//for debug
+		private string GetEnemyFleetInformation( int fleetID ) {
+
+			StringBuilder sb = new StringBuilder();
+			var efleet = SaveDataMaster.Instance.EnemyFleet;
+
+			sb.AppendFormat( "敵艦隊ID : {0}\r\n", fleetID );
+
+
+			if ( !efleet.Data.EnemyFleet.ContainsKey( fleetID ) ) {
+
+				sb.AppendLine( "敵艦隊情報不明" );
+
+			} else {
+				switch ( efleet.Data.EnemyFleet[fleetID].Formation ) {
+					case 1:
+						sb.AppendLine( "単縦陣" ); break;
+					case 2:
+						sb.AppendLine( "複縦陣" ); break;
+					case 3:
+						sb.AppendLine( "輪形陣" ); break;
+					case 4:
+						sb.AppendLine( "梯形陣" ); break;
+					case 5:
+						sb.AppendLine( "単横陣" ); break;
+					default:
+						sb.AppendLine( "未定義" ); break;
+				}
+
+
+				int[] fmembers = efleet.Data.EnemyFleet[fleetID].FleetMember;
+
+				for ( int i = 0; i < fmembers.Length; i++ ) {
+					if ( fmembers[i] == -1 ) continue;
+
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[fmembers[i]];
+					sb.Append( ship.Name );
+					if ( ship.NameReading != null &&
+						 ship.NameReading != "" &&
+						 ship.NameReading != "-" ) {
+						sb.AppendFormat( " {0}", ship.NameReading );
+					}
+					sb.AppendLine();
+				}
+			}
+
+			return sb.ToString();
+
+		}
+ 
 
 
 		protected override string GetPersistString() {

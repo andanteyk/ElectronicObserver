@@ -17,22 +17,46 @@ namespace ElectronicObserver.Resource.SaveData {
 		/// </summary>
 		public class Parameter {
 
-			[IgnoreDataMember]
+			/// <summary>
+			/// 最小値(推測値)
+			/// </summary>
 			public int Min {
 				get { return ( MinEstMin + MinEstMax ) / 2; }
 			}
 
+			/// <summary>
+			/// 最大値
+			/// </summary>
 			public int Max { get; set; }
 
+
+			/// <summary>
+			/// 最小値の推測範囲の下限
+			/// </summary>
 			public int MinEstMin { get; set; }
+
+			/// <summary>
+			/// 最小値の推測範囲の上限
+			/// </summary>
 			public int MinEstMax { get; set; }
+
+
+			/// <summary>
+			/// 最小値の推測範囲の下限の初期値
+			/// </summary>
+			public const int MinEstMinDefault = 0;
+
+			/// <summary>
+			/// 最小値の推測範囲の上限の初期値
+			/// </summary>
+			public const int MinEstMaxDefault = 9999;
+
 
 			public Parameter() {
 
-				//てきとう
-				MinEstMin = 0;
-				MinEstMax = 9999;
-				Max = 9999;
+				MinEstMin = MinEstMinDefault;
+				MinEstMax = MinEstMaxDefault;
+				Max = MinEstMaxDefault;
 
 			}
 
@@ -46,9 +70,18 @@ namespace ElectronicObserver.Resource.SaveData {
 
 			public int ShipID { get; set; }
 
+			//for debug
+			//*/
 			public string ShipName {
-				get { return KCDatabase.Instance.MasterShips[ShipID].Name; }
+				get {
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
+					if ( ship != null )
+						return ship.Name + " " + ship.NameReading;
+					else
+						return null;
+				}
 			}
+			//*/
 
 			public Parameter ASW { get; set; }
 			public Parameter Evasion { get; set; }
@@ -73,6 +106,7 @@ namespace ElectronicObserver.Resource.SaveData {
 			[IgnoreDataMember]
 			public Dictionary<int, ShipParameterElement> ShipParameters;
 
+			//シリアライズ用
 			public List<ShipParameterElement> ShipParametersList {
 				get {
 					var l = ShipParameters.Values.ToList();
@@ -98,9 +132,22 @@ namespace ElectronicObserver.Resource.SaveData {
 			DataInstance = new InternalData();
 			ParameterLoadFlag = true;
 
+			APIObserver ao = APIObserver.Instance;
+
+			ao.ResponseList["api_get_member/picture_book"].ResponseReceived += AlbumOpened;
+
+			//戦闘系：最初のフェーズのみ要るから夜戦(≠開幕)は不要
+			ao.ResponseList["api_req_sortie/battle"].ResponseReceived += BattleStart;
+			//ao.ResponseList["api_req_battle_midnight/battle"].ResponseReceived += BattleStart;
+			ao.ResponseList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStart;
+			ao.ResponseList["api_req_combined_battle/battle"].ResponseReceived += BattleStart;
+			//ao.ResponseList["api_req_combined_battle/midnight_battle"].ResponseReceived += BattleStart;
+			ao.ResponseList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
+			ao.ResponseList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
+			
 		}
 
-
+		
 		public InternalData Data {
 			get { return (InternalData)DataInstance; }
 			set { DataInstance = value; }
@@ -127,7 +174,7 @@ namespace ElectronicObserver.Resource.SaveData {
 			} else {
 
 				ShipParameterElement e = Data.ShipParameters[ship.ShipID];
-				
+
 				e.ASW = SetEstParameter( ship.Level, ship.ASWMax, ship.ASWBase, e.ASW );
 				e.Evasion = SetEstParameter( ship.Level, ship.EvasionMax, ship.EvasionBase, e.Evasion );
 				e.LOS = SetEstParameter( ship.Level, ship.LOSMax, ship.LOSBase, e.LOS );
@@ -191,9 +238,15 @@ namespace ElectronicObserver.Resource.SaveData {
 		/// <returns>推測・修正した値を返します。</returns>
 		private Parameter SetEstParameter( int level, int max, int value, Parameter p ) {
 
-			p.Max = max;
+			if ( max != Parameter.MinEstMaxDefault )
+				p.Max = max;
 
-			if ( level != 99 ) {
+
+			if ( level == 1 ) {
+
+				p.MinEstMin = p.MinEstMax = value;
+
+			} else if ( level != 99 ) {
 
 				double p1, p2;
 				p1 = ( value - max * level / 99.0 ) / ( 1.0 - level / 99.0 );
@@ -224,15 +277,23 @@ namespace ElectronicObserver.Resource.SaveData {
 			get { return _parameterLoadFlag; }
 			set {
 
-				if ( value )
-					APIObserver.Instance.ResponseList["api_port/port"].ResponseReceived += ParameterLoaded;
-				else
+				if ( value ) {
+
 					APIObserver.Instance.ResponseList["api_port/port"].ResponseReceived -= ParameterLoaded;
+					APIObserver.Instance.ResponseList["api_port/port"].ResponseReceived += ParameterLoaded;
+
+				} else {
+
+					APIObserver.Instance.ResponseList["api_port/port"].ResponseReceived -= ParameterLoaded;
+
+				}
 
 				_parameterLoadFlag = value;
 			}
 		}
 
+
+		//保有艦船から各パラメータの最大値を読み込み、最小値を推測します。
 		void ParameterLoaded( string apiname, dynamic data ) {
 
 			foreach ( ShipData ship in KCDatabase.Instance.Ships.Values ) {
@@ -241,7 +302,59 @@ namespace ElectronicObserver.Resource.SaveData {
 
 			}
 
-			ParameterLoadFlag = false;		//checkme
+			ParameterLoadFlag = false;		//一回限り(基本的に起動直後の1回)
+
+		}
+
+
+		//艦娘図鑑から回避・対潜の初期値を読み込みます。
+		void AlbumOpened( string apiname, dynamic data ) {
+
+			foreach ( dynamic elem in data.api_list ) {
+
+				if ( !elem.api_yomi() ) break;		//装備図鑑だった場合終了
+
+
+				int shipID = (int)elem.api_table_id[0];
+
+				int evasion = (int)elem.api_kaih;
+				int asw = (int)elem.api_tais;
+
+				if ( !Data.ShipParameters.ContainsKey( shipID ) ) {
+
+					ShipParameterElement e = new ShipParameterElement();
+					e.ShipID = shipID;
+
+					e.ASW = SetEstParameter( 1, Parameter.MinEstMaxDefault, asw, e.ASW );
+					e.Evasion = SetEstParameter( 1, Parameter.MinEstMaxDefault, evasion, e.Evasion );
+
+					Data.ShipParameters.Add( e.ShipID, e );
+
+				} else {
+
+					ShipParameterElement e = Data.ShipParameters[shipID];
+
+					e.ASW = SetEstParameter( 1, Parameter.MinEstMaxDefault, asw, e.ASW );
+					e.Evasion = SetEstParameter( 1, Parameter.MinEstMaxDefault, evasion, e.Evasion );
+
+				}
+
+			}
+
+		}
+
+
+		void BattleStart( string apiname, dynamic data ) {
+
+			int[] efleet = (int[])data.api_ship_ke;
+
+
+			//[0]はダミー(-1)
+			for ( int i = 1; i < efleet.Length; i++ ) {
+				if ( efleet[i] == -1 ) continue;
+
+				UpdateDefaultSlot( efleet[i], (int[])( data.api_eSlot[i - 1] ) );
+			}
 
 		}
 

@@ -334,6 +334,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Other\Information\apilist.txt" />
+    <Content Include="Other\Information\todo.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

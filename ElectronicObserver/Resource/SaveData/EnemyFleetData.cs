@@ -29,7 +29,6 @@ namespace ElectronicObserver.Resource.SaveData {
 
 		public class InternalData : InternalBaseData {
 
-			[IgnoreDataMember]
 			public Dictionary<int, EnemyFleetElement> EnemyFleet;
 
 			//シリアライズ用
