@@ -76,13 +76,13 @@ namespace ElectronicObserver.Window.Dialog {
 			APIList.Items.Clear();
 			if ( APICategory.SelectedIndex == 0 ) {
 				//request
-				foreach ( string s in APIObserver.Instance.RequestList.Keys ) {
+				foreach ( string s in APIObserver.Instance.APIList.Values.Where( a => a.IsRequestSupported ).Select( a => a.APIName ) ) {
 					APIList.Items.Add( s );
 				}
 
 			} else {
 				//response
-				foreach ( string s in APIObserver.Instance.ResponseList.Keys ) {
+				foreach ( string s in APIObserver.Instance.APIList.Values.Where( a => a.IsResponseSupported ).Select( a => a.APIName ) ) {
 					APIList.Items.Add( s );
 				}
 			}

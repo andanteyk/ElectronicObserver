@@ -111,6 +111,13 @@ namespace ElectronicObserver.Data {
 		public BattleManager Battle { get; private set; }
 
 
+		/// <summary>
+		/// 海域データ
+		/// </summary>
+		public IDDictionary<MapInfoData> MapInfo { get; private set; }
+
+
+
 		private KCDatabase() {
 
 			MasterShips = new IDDictionary<ShipDataMaster>();
@@ -128,6 +135,7 @@ namespace ElectronicObserver.Data {
 			Material = new MaterialData();
 			Quest = new QuestManager();
 			Battle = new BattleManager();
+			MapInfo = new IDDictionary<MapInfoData>();
 
 		}
 

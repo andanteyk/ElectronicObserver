@@ -44,6 +44,18 @@ namespace ElectronicObserver.Observer {
 
 
 		/// <summary>
+		/// Requestの処理をサポートしているかを取得します。
+		/// </summary>
+		public virtual bool IsRequestSupported { get { return false; } }
+
+		/// <summary>
+		/// Responseの処理をサポートしているかを取得します。
+		/// </summary>
+		public virtual bool IsResponseSupported { get { return true; } }
+
+
+
+		/// <summary>
 		/// API名を取得します。
 		/// </summary>
 		public abstract string APIName { get; }

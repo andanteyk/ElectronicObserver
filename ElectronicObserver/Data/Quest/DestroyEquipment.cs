@@ -16,14 +16,14 @@ namespace ElectronicObserver.Data.Quest {
 		public override void Register() {
 			APIObserver ao = APIObserver.Instance;
 
-			ao.RequestList["api_req_kousyou/destroyitem2"].RequestReceived += Received;
+			ao.APIList["api_req_kousyou/destroyitem2"].RequestReceived += Received;
 
 		}
 
 		public override void Unregister() {
 			APIObserver ao = APIObserver.Instance;
 
-			ao.RequestList["api_req_kousyou/destroyitem2"].RequestReceived -= Received;
+			ao.APIList["api_req_kousyou/destroyitem2"].RequestReceived -= Received;
 		}
 	}
 

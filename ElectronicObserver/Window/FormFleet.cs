@@ -554,20 +554,22 @@ namespace ElectronicObserver.Window {
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 
-			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
-			o.RequestList["api_req_nyukyo/speedchange"].RequestReceived += rec;
-			o.RequestList["api_req_hensei/change"].RequestReceived += rec;
-			o.RequestList["api_req_kousyou/destroyship"].RequestReceived += rec;
-			o.RequestList["api_req_member/updatedeckname"].RequestReceived += rec;
+			o.APIList["api_req_nyukyo/start"].RequestReceived += rec;
+			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += rec;
+			o.APIList["api_req_hensei/change"].RequestReceived += rec;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += rec;
+			o.APIList["api_req_member/updatedeckname"].RequestReceived += rec;
 
-			o.ResponseList["api_port/port"].ResponseReceived += rec;
-			o.ResponseList["api_get_member/ship2"].ResponseReceived += rec;
-			o.ResponseList["api_get_member/ndock"].ResponseReceived += rec;
-			o.ResponseList["api_req_kousyou/getship"].ResponseReceived += rec;
-			o.ResponseList["api_req_hokyu/charge"].ResponseReceived += rec;
-			o.ResponseList["api_req_kousyou/destroyship"].ResponseReceived += rec;
-			o.ResponseList["api_get_member/ship3"].ResponseReceived += rec;
-			o.ResponseList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
+			o.APIList["api_port/port"].ResponseReceived += rec;
+			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
+			o.APIList["api_get_member/ndock"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/getship"].ResponseReceived += rec;
+			o.APIList["api_req_hokyu/charge"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += rec;
+			o.APIList["api_get_member/ship3"].ResponseReceived += rec;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
+			o.APIList["api_get_member/deck"].ResponseReceived += rec;
+
 		}
 
 

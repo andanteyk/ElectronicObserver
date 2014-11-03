@@ -38,13 +38,13 @@ namespace ElectronicObserver.Observer {
 
 
 		public void OnRequestReceived( string apiname, Dictionary<string, string> data ) {
-			if ( dict.ContainsKey( apiname ) ) {
+			if ( dict.ContainsKey( apiname ) && dict[apiname].IsRequestSupported ) {
 				dict[apiname].OnRequestReceived( data );
 			}
 		}
 
 		public void OnResponseReceived( string apiname, dynamic data ) {
-			if ( dict.ContainsKey( apiname ) ) {
+			if ( dict.ContainsKey( apiname ) && dict[apiname].IsResponseSupported ) {
 				dict[apiname].OnResponseReceived( data );
 			}
 		}

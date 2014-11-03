@@ -55,23 +55,23 @@ namespace ElectronicObserver.Window {
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 
-			o.RequestList["api_req_nyukyo/start"].RequestReceived += rec;
-			o.RequestList["api_req_nyukyo/speedchange"].RequestReceived += rec;
-			o.RequestList["api_req_kousyou/createship"].RequestReceived += rec;
-			o.RequestList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
-			o.RequestList["api_req_kousyou/destroyship"].RequestReceived += rec;
-			o.RequestList["api_req_kousyou/destroyitem2"].RequestReceived += rec;
+			o.APIList["api_req_nyukyo/start"].RequestReceived += rec;
+			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += rec;
+			o.APIList["api_req_kousyou/createship"].RequestReceived += rec;
+			o.APIList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += rec;
+			o.APIList["api_req_kousyou/destroyitem2"].RequestReceived += rec;
 
-			o.ResponseList["api_get_member/basic"].ResponseReceived += rec;
-			o.ResponseList["api_get_member/slot_item"].ResponseReceived += rec;
-			o.ResponseList["api_port/port"].ResponseReceived += rec;
-			o.ResponseList["api_get_member/ship2"].ResponseReceived += rec;
-			o.ResponseList["api_req_kousyou/getship"].ResponseReceived += rec;
-			o.ResponseList["api_req_hokyu/charge"].ResponseReceived += rec;
-			o.ResponseList["api_req_kousyou/destroyship"].ResponseReceived += rec;
-			o.ResponseList["api_req_kousyou/destroyitem2"].ResponseReceived += rec;
-			o.ResponseList["api_req_kaisou/powerup"].ResponseReceived += rec;
-			o.ResponseList["api_req_kousyou/createitem"].ResponseReceived += rec;
+			o.APIList["api_get_member/basic"].ResponseReceived += rec;
+			o.APIList["api_get_member/slot_item"].ResponseReceived += rec;
+			o.APIList["api_port/port"].ResponseReceived += rec;
+			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/getship"].ResponseReceived += rec;
+			o.APIList["api_req_hokyu/charge"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/destroyitem2"].ResponseReceived += rec;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/createitem"].ResponseReceived += rec;
 
 
 			//こうしないとフォントがなぜかデフォルトにされる

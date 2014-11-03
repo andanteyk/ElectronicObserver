@@ -143,21 +143,21 @@ namespace ElectronicObserver.Resource.SaveData {
 
 			APIObserver ao = APIObserver.Instance;
 
-			ao.ResponseList["api_get_member/picture_book"].ResponseReceived += AlbumOpened;
+			ao.APIList["api_get_member/picture_book"].ResponseReceived += AlbumOpened;
 
 			//戦闘系：最初のフェーズのみ要るから夜戦(≠開幕)は不要
-			ao.ResponseList["api_req_sortie/battle"].ResponseReceived += BattleStart;
-			//ao.ResponseList["api_req_battle_midnight/battle"].ResponseReceived += BattleStart;
-			ao.ResponseList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStart;
-			ao.ResponseList["api_req_combined_battle/battle"].ResponseReceived += BattleStart;
-			//ao.ResponseList["api_req_combined_battle/midnight_battle"].ResponseReceived += BattleStart;
-			ao.ResponseList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
-			ao.ResponseList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_sortie/battle"].ResponseReceived += BattleStart;
+			//ao.APIList["api_req_battle_midnight/battle"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStart;
+			//ao.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
 
-			ao.ResponseList["api_req_map/start"].ResponseReceived += SortieStart;
-			ao.ResponseList["api_port/port"].ResponseReceived += SortieEnd;
+			ao.APIList["api_req_map/start"].ResponseReceived += SortieStart;
+			ao.APIList["api_port/port"].ResponseReceived += SortieEnd;
 
-			ao.ResponseList["api_req_kousyou/getship"].ResponseReceived += ConstructionReceived;
+			ao.APIList["api_req_kousyou/getship"].ResponseReceived += ConstructionReceived;
 
 		}
 
@@ -297,12 +297,12 @@ namespace ElectronicObserver.Resource.SaveData {
 
 				if ( value ) {
 
-					APIObserver.Instance.ResponseList["api_port/port"].ResponseReceived -= ParameterLoaded;
-					APIObserver.Instance.ResponseList["api_port/port"].ResponseReceived += ParameterLoaded;
+					APIObserver.Instance.APIList["api_port/port"].ResponseReceived -= ParameterLoaded;
+					APIObserver.Instance.APIList["api_port/port"].ResponseReceived += ParameterLoaded;
 
 				} else {
 
-					APIObserver.Instance.ResponseList["api_port/port"].ResponseReceived -= ParameterLoaded;
+					APIObserver.Instance.APIList["api_port/port"].ResponseReceived -= ParameterLoaded;
 
 				}
 

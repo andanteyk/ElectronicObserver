@@ -27,21 +27,21 @@ namespace ElectronicObserver.Window {
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 
-			o.ResponseList["api_port/port"].ResponseReceived += rec;
-			o.ResponseList["api_req_map/start"].ResponseReceived += rec;
-			o.ResponseList["api_req_map/next"].ResponseReceived += rec;
-			o.ResponseList["api_req_sortie/battle"].ResponseReceived += rec;
-			o.ResponseList["api_req_sortie/battleresult"].ResponseReceived += rec;
-			o.ResponseList["api_req_battle_midnight/battle"].ResponseReceived += rec;
-			o.ResponseList["api_req_battle_midnight/sp_midnight"].ResponseReceived += rec;
-			o.ResponseList["api_req_combined_battle/battle"].ResponseReceived += rec;
-			o.ResponseList["api_req_combined_battle/midnight_battle"].ResponseReceived += rec;
-			o.ResponseList["api_req_combined_battle/sp_midnight"].ResponseReceived += rec;
-			o.ResponseList["api_req_combined_battle/airbattle"].ResponseReceived += rec;
-			o.ResponseList["api_req_combined_battle/battleresult"].ResponseReceived += rec;
-			o.ResponseList["api_req_practice/battle"].ResponseReceived += rec;
-			o.ResponseList["api_req_practice/midnight_battle"].ResponseReceived += rec;
-			o.ResponseList["api_req_practice/battle_result"].ResponseReceived += rec;
+			o.APIList["api_port/port"].ResponseReceived += rec;
+			o.APIList["api_req_map/start"].ResponseReceived += rec;
+			o.APIList["api_req_map/next"].ResponseReceived += rec;
+			o.APIList["api_req_sortie/battle"].ResponseReceived += rec;
+			o.APIList["api_req_sortie/battleresult"].ResponseReceived += rec;
+			o.APIList["api_req_battle_midnight/battle"].ResponseReceived += rec;
+			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/battle"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/battleresult"].ResponseReceived += rec;
+			o.APIList["api_req_practice/battle"].ResponseReceived += rec;
+			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += rec;
+			o.APIList["api_req_practice/battle_result"].ResponseReceived += rec;
 
 			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 			TextDebug.Font = Font;

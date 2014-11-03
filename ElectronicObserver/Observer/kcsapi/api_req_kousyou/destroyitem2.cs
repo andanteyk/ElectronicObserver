@@ -31,6 +31,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 		}
 
 
+		public override bool IsRequestSupported { get { return true; } }
+		public override bool IsResponseSupported { get { return true; } }
+
 		public override string APIName {
 			get { return "api_req_kousyou/destroyitem2"; }
 		}

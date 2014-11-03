@@ -29,17 +29,17 @@ namespace ElectronicObserver.Window {
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 
-			o.ResponseList["api_port/port"].ResponseReceived += rec;
-			o.ResponseList["api_req_member/get_practice_enemyinfo"].ResponseReceived += rec;
-			o.ResponseList["api_get_member/picture_book"].ResponseReceived += rec;
-			o.ResponseList["api_req_kousyou/createitem"].ResponseReceived += rec;
-
+			o.APIList["api_port/port"].ResponseReceived += rec;
+			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += rec;
+			o.APIList["api_get_member/picture_book"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/createitem"].ResponseReceived += rec;
+			o.APIList["api_get_member/mapinfo"].ResponseReceived += rec;
 		}
 
 
 		void Updated( string apiname, dynamic data ) {
 
-			//checkme: かなり書き方がきたなくなるが、どうしたものか…
+			//fixme: あとでメソッドを分離させる
 
 			switch ( apiname ) {
 
@@ -47,8 +47,7 @@ namespace ElectronicObserver.Window {
 					TextInformation.Text = "";		//とりあえずクリア
 					break;
 
-				case "api_req_member/get_practice_enemyinfo":
-					{
+				case "api_req_member/get_practice_enemyinfo": {
 						//int exp = 0;
 
 						//undone: 現段階では面倒過ぎるので後日実装
@@ -62,8 +61,7 @@ namespace ElectronicObserver.Window {
 					} break;
 
 
-				case "api_get_member/picture_book":
-					{
+				case "api_get_member/picture_book": {
 						StringBuilder sb = new StringBuilder();
 						sb.AppendLine( "[中破絵未回収]" );
 
@@ -84,15 +82,14 @@ namespace ElectronicObserver.Window {
 					} break;
 
 
-				case "api_req_kousyou/createitem":
-					{
+				case "api_req_kousyou/createitem": {
 						if ( (int)data.api_create_flag == 0 ) {
 
 							StringBuilder sb = new StringBuilder();
 							sb.AppendLine( "[開発失敗]" );
 							sb.AppendLine( data.api_fdata );
-							
-							EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse(((string)data.api_fdata).Split( ",".ToCharArray() )[1])];
+
+							EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse( ( (string)data.api_fdata ).Split( ",".ToCharArray() )[1] )];
 							if ( eqm != null )
 								sb.AppendLine( eqm.Name );
 
@@ -102,6 +99,35 @@ namespace ElectronicObserver.Window {
 
 					} break;
 
+
+				case "api_get_member/mapinfo": {
+
+					StringBuilder sb = new StringBuilder();
+					sb.AppendLine( "[海域ゲージ]" );
+
+					foreach ( dynamic elem in data ) {
+
+						int mapID = (int)elem.api_id;
+						MapInfoData map = KCDatabase.Instance.MapInfo[mapID];
+
+						if ( map != null ) {
+							if ( map.RequiredDefeatedCount != -1 && elem.api_defeat_count() ) {
+
+								sb.AppendFormat( "{0}-{1} : 撃破 {2}/{3} 回", map.MapAreaID, map.MapInfoID, (int)elem.api_defeat_count, map.RequiredDefeatedCount );
+								sb.AppendLine();
+
+							} else if ( elem.api_eventmap() ) {
+
+								sb.AppendFormat( "{0}-{1} : HP {2}/{3}", map.MapAreaID, map.MapInfoID, (int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
+								sb.AppendLine();
+
+							}
+						}
+					}
+
+					TextInformation.Text = sb.ToString();
+
+					} break;
 			}
 
 		}

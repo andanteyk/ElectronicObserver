@@ -24,62 +24,58 @@ namespace ElectronicObserver.Observer {
 		#endregion
 
 
-		public APIDictionary RequestList;
-		public APIDictionary ResponseList;
-
+		public APIDictionary APIList;
 
 		private APIObserver() {
 
-			RequestList = new APIDictionary();
-			RequestList.Add( new kcsapi.api_req_quest.clearitemget() );
-			RequestList.Add( new kcsapi.api_req_nyukyo.start() );
-			RequestList.Add( new kcsapi.api_req_nyukyo.speedchange() );
-			RequestList.Add( new kcsapi.api_req_kousyou.createship() );
-			RequestList.Add( new kcsapi.api_req_kousyou.createship_speedchange() );
-			RequestList.Add( new kcsapi.api_req_hensei.change() );
-			RequestList.Add( new kcsapi.api_req_kousyou.destroyship() );
-			RequestList.Add( new kcsapi.api_req_kousyou.destroyitem2() );
-			RequestList.Add( new kcsapi.api_req_mission.start() );
-			RequestList.Add( new kcsapi.api_req_member.updatedeckname() );
-			RequestList.Add( new kcsapi.api_req_kaisou.powerup() );
-			RequestList.Add( new kcsapi.api_req_kaisou.remodeling() );
-			
-			ResponseList = new APIDictionary();
-			ResponseList.Add( new kcsapi.api_start2() );
-			ResponseList.Add( new kcsapi.api_get_member.basic() );
-			ResponseList.Add( new kcsapi.api_get_member.slot_item() );
-			ResponseList.Add( new kcsapi.api_get_member.useitem() );
-			ResponseList.Add( new kcsapi.api_get_member.kdock() );
-			ResponseList.Add( new kcsapi.api_port.port() );
-			ResponseList.Add( new kcsapi.api_get_member.ship2() );
-			ResponseList.Add( new kcsapi.api_get_member.questlist() );
-			ResponseList.Add( new kcsapi.api_get_member.ndock() );
-			ResponseList.Add( new kcsapi.api_req_kousyou.getship() );
-			ResponseList.Add( new kcsapi.api_req_hokyu.charge() );
-			ResponseList.Add( new kcsapi.api_req_kousyou.destroyship() );
-			ResponseList.Add( new kcsapi.api_req_kousyou.destroyitem2() );
-			ResponseList.Add( new kcsapi.api_req_member.get_practice_enemyinfo() );
-			ResponseList.Add( new kcsapi.api_get_member.picture_book() );
-			ResponseList.Add( new kcsapi.api_req_mission.start() );
-			ResponseList.Add( new kcsapi.api_get_member.ship3() );
-			ResponseList.Add( new kcsapi.api_req_kaisou.powerup() );
-			ResponseList.Add( new kcsapi.api_req_map.start() );
-			ResponseList.Add( new kcsapi.api_req_map.next() );
-			ResponseList.Add( new kcsapi.api_req_kousyou.createitem() );
-			ResponseList.Add( new kcsapi.api_req_sortie.battle() );
-			ResponseList.Add( new kcsapi.api_req_sortie.battleresult() );
-			ResponseList.Add( new kcsapi.api_req_battle_midnight.battle() );
-			ResponseList.Add( new kcsapi.api_req_battle_midnight.sp_midnight() );
-			ResponseList.Add( new kcsapi.api_req_combined_battle.battle() );
-			ResponseList.Add( new kcsapi.api_req_combined_battle.midnight_battle() );
-			ResponseList.Add( new kcsapi.api_req_combined_battle.sp_midnight() );
-			ResponseList.Add( new kcsapi.api_req_combined_battle.airbattle() );
-			ResponseList.Add( new kcsapi.api_req_combined_battle.battleresult() );
-			ResponseList.Add( new kcsapi.api_req_practice.battle() );
-			ResponseList.Add( new kcsapi.api_req_practice.midnight_battle() );
-			ResponseList.Add( new kcsapi.api_req_practice.battle_result() );
-			ResponseList.Add( new kcsapi.api_get_member.deck() );
-			
+			// 注：重複登録するとあらぬところで落ちるので十分注意すること
+
+			APIList = new APIDictionary();
+			APIList.Add( new kcsapi.api_start2() );
+			APIList.Add( new kcsapi.api_get_member.basic() );
+			APIList.Add( new kcsapi.api_get_member.slot_item() );
+			APIList.Add( new kcsapi.api_get_member.useitem() );
+			APIList.Add( new kcsapi.api_get_member.kdock() );
+			APIList.Add( new kcsapi.api_port.port() );
+			APIList.Add( new kcsapi.api_get_member.ship2() );
+			APIList.Add( new kcsapi.api_get_member.questlist() );
+			APIList.Add( new kcsapi.api_get_member.ndock() );
+			APIList.Add( new kcsapi.api_req_kousyou.getship() );
+			APIList.Add( new kcsapi.api_req_hokyu.charge() );
+			APIList.Add( new kcsapi.api_req_kousyou.destroyship() );
+			APIList.Add( new kcsapi.api_req_kousyou.destroyitem2() );
+			APIList.Add( new kcsapi.api_req_member.get_practice_enemyinfo() );
+			APIList.Add( new kcsapi.api_get_member.picture_book() );
+			APIList.Add( new kcsapi.api_req_mission.start() );
+			APIList.Add( new kcsapi.api_get_member.ship3() );
+			APIList.Add( new kcsapi.api_req_kaisou.powerup() );
+			APIList.Add( new kcsapi.api_req_map.start() );
+			APIList.Add( new kcsapi.api_req_map.next() );
+			APIList.Add( new kcsapi.api_req_kousyou.createitem() );
+			APIList.Add( new kcsapi.api_req_sortie.battle() );
+			APIList.Add( new kcsapi.api_req_sortie.battleresult() );
+			APIList.Add( new kcsapi.api_req_battle_midnight.battle() );
+			APIList.Add( new kcsapi.api_req_battle_midnight.sp_midnight() );
+			APIList.Add( new kcsapi.api_req_combined_battle.battle() );
+			APIList.Add( new kcsapi.api_req_combined_battle.midnight_battle() );
+			APIList.Add( new kcsapi.api_req_combined_battle.sp_midnight() );
+			APIList.Add( new kcsapi.api_req_combined_battle.airbattle() );
+			APIList.Add( new kcsapi.api_req_combined_battle.battleresult() );
+			APIList.Add( new kcsapi.api_req_practice.battle() );
+			APIList.Add( new kcsapi.api_req_practice.midnight_battle() );
+			APIList.Add( new kcsapi.api_req_practice.battle_result() );
+			APIList.Add( new kcsapi.api_get_member.deck() );
+			APIList.Add( new kcsapi.api_get_member.mapinfo() );
+
+			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
+			APIList.Add( new kcsapi.api_req_nyukyo.start() );
+			APIList.Add( new kcsapi.api_req_nyukyo.speedchange() );
+			APIList.Add( new kcsapi.api_req_kousyou.createship() );
+			APIList.Add( new kcsapi.api_req_kousyou.createship_speedchange() );
+			APIList.Add( new kcsapi.api_req_hensei.change() );
+			APIList.Add( new kcsapi.api_req_member.updatedeckname() );
+			APIList.Add( new kcsapi.api_req_kaisou.remodeling() );
+
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
@@ -150,7 +146,7 @@ namespace ElectronicObserver.Observer {
 				}
 
 
-				RequestList.OnRequestReceived( shortpath, parsedData );
+				APIList.OnRequestReceived( shortpath, parsedData );
 
 
 			} catch ( Exception e ) {
@@ -181,9 +177,9 @@ namespace ElectronicObserver.Observer {
 
 				
 				if ( shortpath == "api_get_member/ship2" )
-					ResponseList.OnResponseReceived( shortpath, json );
+					APIList.OnResponseReceived( shortpath, json );
 				else if ( json.IsDefined( "api_data" ) )
-					ResponseList.OnResponseReceived( shortpath, json.api_data );
+					APIList.OnResponseReceived( shortpath, json.api_data );
 
 			} catch ( Exception e ) {
 

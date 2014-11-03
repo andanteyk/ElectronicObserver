@@ -155,11 +155,11 @@ namespace ElectronicObserver.Window {
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
 			
-			o.RequestList["api_req_kousyou/createship"].RequestReceived += rec;
-			o.RequestList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
+			o.APIList["api_req_kousyou/createship"].RequestReceived += rec;
+			o.APIList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
 
-			o.ResponseList["api_get_member/kdock"].ResponseReceived += rec;
-			o.ResponseList["api_req_kousyou/getship"].ResponseReceived += rec;
+			o.APIList["api_get_member/kdock"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/getship"].ResponseReceived += rec;
 
 		}
 

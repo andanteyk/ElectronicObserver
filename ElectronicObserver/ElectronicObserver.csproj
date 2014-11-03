@@ -82,6 +82,7 @@
     <Compile Include="Data\IIdentifiable.cs" />
     <Compile Include="Data\KCDatabase.cs" />
     <Compile Include="Data\FleetData.cs" />
+    <Compile Include="Data\MapInfoData.cs" />
     <Compile Include="Data\MaterialData.cs" />
     <Compile Include="Data\QuestData.cs" />
     <Compile Include="Data\QuestManager.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\basic.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\deck.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\kdock.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\mapinfo.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ndock.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\picture_book.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\questlist.cs" />

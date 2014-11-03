@@ -94,6 +94,20 @@ namespace ElectronicObserver.Observer.kcsapi {
 			}
 
 
+			//api_mst_mapinfo
+			foreach ( var elem in data.api_mst_mapinfo ) {
+
+				int id = (int)elem.api_id;
+				if ( db.MapInfo[id] == null ) {
+					var item = new MapInfoData();
+					item.LoadFromResponse( APIName, elem );
+					db.MapInfo.Add( item );
+				} else {
+					db.MapInfo[id].LoadFromResponse( APIName, elem );
+				}
+			}
+
+
 			//api_mst_shipupgrade
 			foreach ( var elem in data.api_mst_shipupgrade ) {
 
