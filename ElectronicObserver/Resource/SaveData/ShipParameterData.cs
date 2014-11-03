@@ -11,6 +11,13 @@ namespace ElectronicObserver.Resource.SaveData {
 
 	public class ShipParameterData : SaveData {
 
+		/// <summary>
+		/// 新規入手艦判別用ボーダー
+		/// </summary>
+		private int NewShipIDBorder;
+
+
+
 
 		/// <summary>
 		/// レベルに比例して上昇するパラメータの最小値と最大値(及びその推測値)を保持します。
@@ -131,6 +138,8 @@ namespace ElectronicObserver.Resource.SaveData {
 
 			DataInstance = new InternalData();
 			ParameterLoadFlag = true;
+			NewShipIDBorder = -1;
+
 
 			APIObserver ao = APIObserver.Instance;
 
@@ -144,9 +153,18 @@ namespace ElectronicObserver.Resource.SaveData {
 			//ao.ResponseList["api_req_combined_battle/midnight_battle"].ResponseReceived += BattleStart;
 			ao.ResponseList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
 			ao.ResponseList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
-			
+
+			ao.ResponseList["api_req_map/start"].ResponseReceived += SortieStart;
+			ao.ResponseList["api_port/port"].ResponseReceived += SortieEnd;
+
+			ao.ResponseList["api_req_kousyou/getship"].ResponseReceived += ConstructionReceived;
+
 		}
 
+
+		
+		
+		
 		
 		public InternalData Data {
 			get { return (InternalData)DataInstance; }
@@ -293,7 +311,9 @@ namespace ElectronicObserver.Resource.SaveData {
 		}
 
 
-		//保有艦船から各パラメータの最大値を読み込み、最小値を推測します。
+		/// <summary>
+		/// 保有艦船から各パラメータの最大値を読み込み、最小値を推測します。
+		/// </summary>
 		void ParameterLoaded( string apiname, dynamic data ) {
 
 			foreach ( ShipData ship in KCDatabase.Instance.Ships.Values ) {
@@ -307,7 +327,9 @@ namespace ElectronicObserver.Resource.SaveData {
 		}
 
 
-		//艦娘図鑑から回避・対潜の初期値を読み込みます。
+		/// <summary>
+		/// 艦娘図鑑から回避・対潜の初期値を読み込みます。
+		/// </summary>
 		void AlbumOpened( string apiname, dynamic data ) {
 
 			foreach ( dynamic elem in data.api_list ) {
@@ -344,6 +366,9 @@ namespace ElectronicObserver.Resource.SaveData {
 		}
 
 
+		/// <summary>
+		/// 戦闘開始時の情報から敵艦の装備を読み込みます。
+		/// </summary>
 		void BattleStart( string apiname, dynamic data ) {
 
 			int[] efleet = (int[])data.api_ship_ke;
@@ -357,6 +382,52 @@ namespace ElectronicObserver.Resource.SaveData {
 			}
 
 		}
+
+
+		/// <summary>
+		/// 出撃開始時の最新艦を記録します。SortieEndで使用されます。
+		/// </summary>
+		void SortieStart( string apiname, dynamic data ) {
+
+			NewShipIDBorder = KCDatabase.Instance.Ships.Max( ( KeyValuePair<int, ShipData> s ) => s.Value.MasterID );
+
+		}
+
+
+		/// <summary>
+		/// 艦隊帰投時に新規入手艦を取得、情報を登録します。
+		/// </summary>
+		void SortieEnd( string apiname, dynamic data ) {
+
+			if ( NewShipIDBorder == -1 ) return;
+
+
+			foreach ( ShipData s in KCDatabase.Instance.Ships.Values.Where( ( ShipData s ) => s.MasterID > NewShipIDBorder ) ) {
+
+				UpdateParameter( s );
+				UpdateDefaultSlot( s );
+
+			}
+
+			NewShipIDBorder = -1;
+		}
+
+
+		/// <summary>
+		/// 艦船建造時に新規入手艦を取得、情報を登録します。
+		/// </summary>
+		void ConstructionReceived( string apiname, dynamic data ) {
+
+			int shipID = (int)data.api_ship_id;
+			ShipData ship = KCDatabase.Instance.Ships.Values.FirstOrDefault( ( ShipData s ) => s.MasterID == shipID );
+
+			if ( ship != null ) {
+				UpdateParameter( ship );
+				UpdateDefaultSlot( ship );
+			}
+
+		}
+
 
 
 

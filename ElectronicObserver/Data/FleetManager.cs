@@ -35,7 +35,7 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			//api_port/port
+			//api_port/port, api_get_member/deck
 			foreach ( var elem in data ) {
 
 				int id = (int)elem.api_id;

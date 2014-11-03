@@ -97,6 +97,7 @@
     <Compile Include="Observer\APIBase.cs" />
     <Compile Include="Observer\APIDictionary.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\basic.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\deck.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\kdock.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ndock.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\picture_book.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Observer\kcsapi\api_req_hensei\change.cs" />
     <Compile Include="Observer\kcsapi\api_req_hokyu\charge.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\powerup.cs" />
+    <Compile Include="Observer\kcsapi\api_req_kaisou\remodeling.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createitem.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\createship_speedchange.cs" />

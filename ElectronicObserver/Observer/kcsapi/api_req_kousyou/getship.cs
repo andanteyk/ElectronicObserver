@@ -30,12 +30,14 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 			}
 
 			//api_slotitem
-			foreach ( var elem in data.api_slotitem ) {
+			if ( data.api_slotitem != null ) {				//装備なしの艦はnullになる
+				foreach ( var elem in data.api_slotitem ) {
 
-				var eq = new EquipmentData();
-				eq.LoadFromResponse( APIName, elem );
-				db.Equipments.Add( eq );
+					var eq = new EquipmentData();
+					eq.LoadFromResponse( APIName, elem );
+					db.Equipments.Add( eq );
 
+				}
 			}
 
 			//api_ship

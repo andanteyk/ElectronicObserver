@@ -42,6 +42,7 @@ namespace ElectronicObserver.Observer {
 			RequestList.Add( new kcsapi.api_req_mission.start() );
 			RequestList.Add( new kcsapi.api_req_member.updatedeckname() );
 			RequestList.Add( new kcsapi.api_req_kaisou.powerup() );
+			RequestList.Add( new kcsapi.api_req_kaisou.remodeling() );
 			
 			ResponseList = new APIDictionary();
 			ResponseList.Add( new kcsapi.api_start2() );
@@ -77,7 +78,8 @@ namespace ElectronicObserver.Observer {
 			ResponseList.Add( new kcsapi.api_req_practice.battle() );
 			ResponseList.Add( new kcsapi.api_req_practice.midnight_battle() );
 			ResponseList.Add( new kcsapi.api_req_practice.battle_result() );
-
+			ResponseList.Add( new kcsapi.api_get_member.deck() );
+			
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;

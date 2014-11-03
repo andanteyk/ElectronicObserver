@@ -420,7 +420,7 @@ api_req_kousyou/getship		：建造した艦娘を受け取る
 	api_ship_id			：艦船ID
 	api_kdock			：工廠データ　kdock参照
 	api_ship			：建造艦データ　構成は port.api_ship と同じ
-	api_slotitem		：初期装備のデータ
+	api_slotitem		：初期装備のデータ　潜水艦など初期装備がない艦はnullになるので注意
 		api_id			：装備固有ID
 		api_slotitem_id	：装備ID
 
@@ -483,10 +483,10 @@ api_req_kousyou/remodel_slotlist_detail		：改修工廠　実行確認
 	api_change_flag			：装備更新(アップグレード)フラグ
 
 api_req_kousyou/remodel_slot	：改修工廠　改修実行
-	api_remodel_flag	：成功フラグ？
+	api_remodel_flag	：成功フラグ
 	api_remodel_id		：改修装備マスターID　[0]=変化前, [1]=変化後
 	api_after_material	：現在の各種資源
-	api_voice_id		：(2番艦と改装した時のボイス?未確認)
+	api_voice_id		：2番艦と改装した時のボイス番号 string
 	api_after_slot		：更新された装備データ api_get_member/slot_item参照
 	api_use_slot_id		：消費された装備のID　使ったときのみ存在
 
