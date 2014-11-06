@@ -430,6 +430,12 @@ namespace ElectronicObserver.Resource.SaveData {
 
 
 
+		public override void Save( string path ) {
+			
+			if ( KCDatabase.Instance.MasterShips.Count > 0 )	//api_start2 読み込み済みでないと意味がない
+				base.Save( path );
+		
+		}
 
 
 		public override string SaveFileName {

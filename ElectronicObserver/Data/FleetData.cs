@@ -64,7 +64,7 @@ namespace ElectronicObserver.Data {
 			switch ( apiname ) {
 
 				case "api_req_mission/start":
-					ExpeditionTime = DateConverter.FromAPITime( (long)data.api_complatetime );
+					ExpeditionTime = DateTimeHelper.FromAPITime( (long)data.api_complatetime );
 					break;
 
 				default:			//checkme
@@ -74,7 +74,7 @@ namespace ElectronicObserver.Data {
 					_fleetMember = (int[])RawData.api_ship;
 					ExpeditionState = (int)RawData.api_mission[0];
 					ExpeditionDestination = (int)RawData.api_mission[1];
-					ExpeditionTime = DateConverter.FromAPITime( (long)RawData.api_mission[2] );
+					ExpeditionTime = DateTimeHelper.FromAPITime( (long)RawData.api_mission[2] );
 					break;
 
 			}

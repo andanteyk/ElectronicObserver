@@ -60,7 +60,9 @@ namespace ElectronicObserver.Data.Battle {
 
 					int lenj = ( (int[])hougeki.api_df_list[i] ).Length;
 					for ( int j = 0; j < lenj; j++ ) {
-						damageList[(int)hougeki.api_df_list[i][j] - 1] += (int)hougeki.api_damage[i][j];
+						int target = (int)hougeki.api_df_list[i][j];
+						if ( target != -1 )
+						damageList[target - 1] += (int)hougeki.api_damage[i][j];
 					}
 
 					for ( int j = 0; j < 6; j++ ) {

@@ -1,7 +1,9 @@
 ﻿using Codeplex.Data;
 using ElectronicObserver.Observer.kcsapi;
+using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -108,9 +110,58 @@ namespace ElectronicObserver.Observer {
 
 		private void FiddlerApplication_AfterSessionComplete( Fiddler.Session oSession ) {
 
-			if ( oSession.fullUrl.Contains( "kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {	//checkme: このあたりの条件も後々変わる可能性があるので注意
+			if ( oSession.fullUrl.Contains( "/kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {	//checkme: このあたりの条件も後々変わる可能性があるので注意
 
 				LoadResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
+
+			}
+
+
+			//保存
+			{
+				Utility.Configuration.ConfigConnection c = Utility.Configuration.Instance.Connection;
+
+				if ( c.SaveReceivedData ) {
+
+					try {
+
+						if ( c.SaveResponse && oSession.fullUrl.Contains( "/kcsapi/" ) ) {
+
+							string tpath = string.Format( "{0}\\{1}S@{2}.json", c.SaveDataPath, DateTimeHelper.GetTimeStamp(), oSession.fullUrl.Substring( oSession.fullUrl.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
+
+							using ( var sw = new System.IO.StreamWriter( tpath, false, Encoding.UTF8 ) ) {
+								sw.Write( oSession.GetResponseBodyAsString() );
+							}
+
+						} else if ( c.SaveSWF && oSession.fullUrl.IndexOf( "/kcs/" ) != -1 && oSession.oResponse.MIMEType == "application/x-shockwave-flash" ) {
+
+							//string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.LastIndexOf( "/" ) + 1 ) );
+							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
+							tpath = tpath.Substring( 0, tpath.LastIndexOf( ".swf" ) + 4 );
+							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
+
+							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
+								sw.Write( oSession.ResponseBody );
+							}
+
+						} else if ( c.SaveOtherFile && oSession.fullUrl.IndexOf( "/kcs/" ) != -1 ) {
+
+							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
+							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
+
+							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
+								sw.Write( oSession.ResponseBody );
+							}
+
+						}
+
+
+					} catch ( Exception ex ) {
+
+						Utility.Logger.Add( 3, "通信内容の保存に失敗しました。" + ex.Message );
+					}
+
+				}
 
 			}
 		}
@@ -119,11 +170,33 @@ namespace ElectronicObserver.Observer {
 
 		private void FiddlerApplication_BeforeRequest( Fiddler.Session oSession ) {
 
-			if ( oSession.fullUrl.Contains( "kcsapi/" ) ) {
+			if ( oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 
 				LoadRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
 
 			}
+
+
+			//保存
+			try {
+
+				Utility.Configuration.ConfigConnection c = Utility.Configuration.Instance.Connection;
+
+				if ( c.SaveReceivedData && c.SaveRequest && oSession.fullUrl.Contains( "/kcsapi/" ) ) {
+
+					string tpath = string.Format( "{0}\\{1}Q@{2}.json", c.SaveDataPath, DateTimeHelper.GetTimeStamp(), oSession.fullUrl.Substring( oSession.fullUrl.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
+
+					using ( var sw = new System.IO.StreamWriter( tpath, false, Encoding.UTF8 ) ) {
+						sw.Write( oSession.GetRequestBodyAsString() );
+					}
+				}
+
+			} catch ( Exception ex ) {
+
+				Utility.Logger.Add( 3, "通信内容の保存に失敗しました。" + ex.Message );
+
+			}
+			
 		}
 
 
@@ -132,7 +205,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
+				string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
 
 				Utility.Logger.Add( 1, "Request を受信しました : " + shortpath );
 
@@ -163,7 +236,7 @@ namespace ElectronicObserver.Observer {
 				
 			try {
 
-				string shortpath = path.Substring( path.LastIndexOf( "kcsapi/" ) + 7 );
+				string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
 
 				Utility.Logger.Add( 1, "Responseを受信しました : " + shortpath );
 
@@ -180,6 +253,7 @@ namespace ElectronicObserver.Observer {
 					APIList.OnResponseReceived( shortpath, json );
 				else if ( json.IsDefined( "api_data" ) )
 					APIList.OnResponseReceived( shortpath, json.api_data );
+
 
 			} catch ( Exception e ) {
 

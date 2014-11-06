@@ -106,7 +106,7 @@ namespace ElectronicObserver.Window {
 				} else if ( arsenal.State == 2 ) {
 					//building
 					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
-					CompletionTime.Text = DateConverter.ToTimeRemainString( arsenal.CompletionTime );
+					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( arsenal.CompletionTime );
 					CompletionTime.Tag = arsenal.CompletionTime;
 					tooltip.SetToolTip( CompletionTime, "完了日時 : " + arsenal.CompletionTime.ToString() );
 
@@ -124,7 +124,7 @@ namespace ElectronicObserver.Window {
 			public void Refresh( int arsenalID ) {
 
 				if ( CompletionTime.Tag != null ) {
-					CompletionTime.Text = DateConverter.ToTimeRemainString( (DateTime)CompletionTime.Tag );
+					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( (DateTime)CompletionTime.Tag );
 				}
 			}
 

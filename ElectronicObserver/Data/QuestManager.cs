@@ -32,21 +32,21 @@ namespace ElectronicObserver.Data {
 
 
 			//周期任務削除
-			if ( DateConverter.IsCrossedDay( _prevTime, 5, 0, 0 ) ) {
+			if ( DateTimeHelper.IsCrossedDay( _prevTime, 5, 0, 0 ) ) {
 				foreach ( var q in Quests ) {
 					if ( q.Value.Type == 2 ) {
 						Quests.Remove( q.Key );
 					} 
 				}
 			}
-			if ( DateConverter.IsCrossedWeek( _prevTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
+			if ( DateTimeHelper.IsCrossedWeek( _prevTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
 				foreach ( var q in Quests ) {
 					if ( q.Value.Type == 3 ) {
 						Quests.Remove( q.Key );
 					}
 				}
 			}
-			if ( DateConverter.IsCrossedMonth( _prevTime, 1, 5, 0, 0 ) ) {
+			if ( DateTimeHelper.IsCrossedMonth( _prevTime, 1, 5, 0, 0 ) ) {
 				foreach ( var q in Quests ) {
 					if ( q.Value.Type == 6 ) {
 						Quests.Remove( q.Key );

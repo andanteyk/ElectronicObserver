@@ -21,7 +21,7 @@ namespace ElectronicObserver.Resource.SaveData {
 		protected InternalBaseData DataInstance;
 
 
-		public void Load( string path ) {
+		public virtual void Load( string path ) {
 
 			try {
 				
@@ -44,7 +44,7 @@ namespace ElectronicObserver.Resource.SaveData {
 
 		}
 
-		public void Save( string path ) {
+		public virtual void Save( string path ) {
 
 			try {
 

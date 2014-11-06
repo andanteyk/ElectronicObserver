@@ -64,7 +64,7 @@ namespace ElectronicObserver.Data {
 
 						State = newstate;
 						ShipID = (int)RawData.api_ship_id;
-						CompletionTime = DateConverter.FromAPITime( (long)RawData.api_complete_time );
+						CompletionTime = DateTimeHelper.FromAPITime( (long)RawData.api_complete_time );
 					} break;
 			}
 

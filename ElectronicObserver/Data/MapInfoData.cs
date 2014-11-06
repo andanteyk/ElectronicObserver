@@ -61,7 +61,7 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 必要な撃破回数(EO海域)
+		/// クリアに必要な撃破回数(主にEO海域)
 		/// 存在しなければ -1
 		/// </summary>
 		public int RequiredDefeatedCount {

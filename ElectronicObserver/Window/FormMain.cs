@@ -59,7 +59,7 @@ namespace ElectronicObserver.Window {
 
 			Utility.Logger.Add( 1, "七四式電子観測儀 を起動しています…" );
 
-
+			Utility.Configuration.Instance.Load();
 			ResourceManager.Instance.Load();
 			SaveDataMaster.Instance.Load();
 
@@ -145,6 +145,7 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_FormClosed( object sender, FormClosedEventArgs e ) {
 
+			Utility.Configuration.Instance.Save();
 			APIObserver.Instance.Stop();
 			SaveDataMaster.Instance.Save();
 
@@ -288,6 +289,31 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_Help_Version_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogVersion() ) {
+				dialog.ShowDialog();
+			}
+
+		}
+
+		private void StripMenu_File_Configuration_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogConfiguration() ) {
+				Utility.Configuration.Instance.GetConfiguration( dialog );
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					Utility.Configuration.Instance.SetConfiguration( dialog );
+
+				}
+			}
+		}
+
+		private void StripMenu_File_Close_Click( object sender, EventArgs e ) {
+			Close();
+		}
+
 
 
 		#region フォーム表示
@@ -341,6 +367,10 @@ namespace ElectronicObserver.Window {
 		}
 	
 		#endregion
+
+		
+		
+		
 
 		
 

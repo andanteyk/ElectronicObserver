@@ -144,8 +144,9 @@
     <Compile Include="Resource\SaveData\ShipParameterData.cs" />
     <Compile Include="Resource\SaveData\SaveData.cs" />
     <Compile Include="Resource\SaveData\SaveDataMaster.cs" />
+    <Compile Include="Utility\Configuration.cs" />
     <Compile Include="Utility\Logger.cs" />
-    <Compile Include="Utility\Mathematics\DateConverter.cs" />
+    <Compile Include="Utility\Mathematics\DateTimeHelper.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -182,6 +183,12 @@
     <Compile Include="Window\Control\StatusBar.Designer.cs">
       <DependentUpon>StatusBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogConfiguration.Designer.cs">
+      <DependentUpon>DialogConfiguration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogLocalAPILoader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -194,6 +201,12 @@
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
     <Compile Include="DynamicJson.cs" />
+    <Compile Include="Window\Dialog\DialogVersion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogVersion.Designer.cs">
+      <DependentUpon>DialogVersion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormArsenal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -280,8 +293,14 @@
     <EmbeddedResource Include="Window\Control\StatusBar.resx">
       <DependentUpon>StatusBar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
+      <DependentUpon>DialogConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogVersion.resx">
+      <DependentUpon>DialogVersion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormArsenal.resx">
       <DependentUpon>FormArsenal.cs</DependentUpon>

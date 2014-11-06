@@ -227,7 +227,7 @@ namespace ElectronicObserver.Window.Control {
 
 
 			if ( RepairTime != null ) {
-				string timestr = DateConverter.ToTimeRemainString( (DateTime)RepairTime );
+				string timestr = DateTimeHelper.ToTimeRemainString( (DateTime)RepairTime );
 				
 				Size sz_time = TextRenderer.MeasureText( timestr, MainFont, maxsize, TextFormatTime );
 

@@ -37,7 +37,7 @@ namespace ElectronicObserver.Data {
 		/// 完成日時
 		/// </summary>
 		public DateTime CompletionTime {
-			get { return DateConverter.FromAPITime( (long)RawData.api_complete_time ); }
+			get { return DateTimeHelper.FromAPITime( (long)RawData.api_complete_time ); }
 		}
 
 

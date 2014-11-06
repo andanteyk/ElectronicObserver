@@ -35,7 +35,7 @@ namespace ElectronicObserver.Window.Dialog {
 		public string APIPath {
 			get {
 				if ( APIList.SelectedIndex != -1 )
-					return "kcsapi/" + APIList.SelectedItem.ToString();
+					return "/kcsapi/" + APIList.SelectedItem.ToString();
 				else
 					return null;
 			}

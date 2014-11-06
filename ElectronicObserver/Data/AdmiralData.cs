@@ -23,7 +23,7 @@ namespace ElectronicObserver.Data {
 		/// 起動日時
 		/// </summary>
 		public DateTime StartTime {
-			get { return DateConverter.FromAPITime( (long)RawData.api_starttime ); }
+			get { return DateTimeHelper.FromAPITime( (long)RawData.api_starttime ); }
 		}
 
 		/// <summary>

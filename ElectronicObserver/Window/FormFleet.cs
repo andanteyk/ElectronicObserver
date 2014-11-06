@@ -134,7 +134,7 @@ namespace ElectronicObserver.Window {
 					if ( ntime > 0 ) {	//入渠中
 						State = 1;
 						Timer = DateTime.FromBinary( ntime );
-						StateMain.Text = "入渠中 " + DateConverter.ToTimeRemainString( Timer );
+						StateMain.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( Timer );
 						ToolTipInfo.SetToolTip( StateMain, "完了日時 : " + Timer );
 
 					} else if ( fleet.FleetMember.Count(
@@ -156,7 +156,7 @@ namespace ElectronicObserver.Window {
 
 						State = 4;
 						Timer = fleet.ExpeditionTime;
-						StateMain.Text = "遠征中 " + DateConverter.ToTimeRemainString( Timer );
+						StateMain.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( Timer );
 						ToolTipInfo.SetToolTip( StateMain, "完了日時 : " + Timer );
 
 					} else if ( fleet.FleetMember.Count(
@@ -298,10 +298,10 @@ namespace ElectronicObserver.Window {
 
 				switch ( State ) {
 					case 1:		//入渠中 
-						StateMain.Text = "入渠中 " + DateConverter.ToTimeRemainString( Timer );
+						StateMain.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( Timer );
 						break;
 					case 4:		//遠征中
-						StateMain.Text = "遠征中 " + DateConverter.ToTimeRemainString( Timer );
+						StateMain.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( Timer );
 						break;
 				}
 				

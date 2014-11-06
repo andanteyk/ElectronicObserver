@@ -108,7 +108,7 @@ namespace ElectronicObserver.Window {
 				} else {
 					//repairing
 					ShipName.Text = db.MasterShips[db.Ships[dock.ShipID].ShipID].Name;
-					RepairTime.Text = DateConverter.ToTimeRemainString( dock.CompletionTime );
+					RepairTime.Text = DateTimeHelper.ToTimeRemainString( dock.CompletionTime );
 					RepairTime.Tag = dock.CompletionTime;
 					ToolTipInfo.SetToolTip( RepairTime, "完了日時 : " + dock.CompletionTime );
 
@@ -120,7 +120,7 @@ namespace ElectronicObserver.Window {
 			public void Refresh( int dockID ) {
 
 				if ( RepairTime.Tag != null )
-					RepairTime.Text = DateConverter.ToTimeRemainString( (DateTime)RepairTime.Tag );
+					RepairTime.Text = DateTimeHelper.ToTimeRemainString( (DateTime)RepairTime.Tag );
 
 			}
 

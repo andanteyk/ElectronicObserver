@@ -9,7 +9,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 	/// <summary>
 	/// APIに含まれている日時データを<see cref="DateTime"/>に変換します。
 	/// </summary>
-	public static class DateConverter {
+	public static class DateTimeHelper {
 
 		/// <summary>
 		/// 起点となる日時。日本基準です。
@@ -127,6 +127,25 @@ namespace ElectronicObserver.Utility.Mathematics {
 				border = border.AddMonths( -1 );
 
 			return IsCrossed( prev, border );
+		}
+
+
+		/// <summary>
+		/// ファイル名の一部として利用できるフォーマットの現在日時文字列を取得します。
+		/// </summary>
+		/// <returns>変換結果の文字列。</returns>
+		public static string GetTimeStamp() {
+			return GetTimeStamp( DateTime.Now );
+		}
+
+		/// <summary>
+		/// ファイル名の一部として利用できるフォーマットの日時文字列を取得します。
+		/// </summary>
+		/// <param name="time">指定する日時。</param>
+		/// <returns>変換結果の文字列。</returns>
+		public static string GetTimeStamp( DateTime time ) {
+
+			return string.Format( "{0:D4}{1:D2}{2:D2}_{3:D2}{4:D2}{5:D2}{6:D2}", time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second, time.Millisecond / 10 );
 		}
 
 	}
