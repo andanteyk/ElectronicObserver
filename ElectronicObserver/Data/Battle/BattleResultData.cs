@@ -46,7 +46,9 @@ namespace ElectronicObserver.Data.Battle {
 
 		//lostflag
 
-		//enemyinfo/name
+		public string EnemyFleetName {
+			get { return RawData.api_enemy_info.api_deck_name; }
+		}
 
 		//undone: 複数の battleresult に対応させる
 

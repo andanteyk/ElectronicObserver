@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Resource.SaveData;
 using System;
 using System.Collections.Generic;
@@ -140,17 +141,23 @@ namespace ElectronicObserver.Window {
 		private string GetEnemyFleetInformation( int fleetID ) {
 
 			StringBuilder sb = new StringBuilder();
-			var efleet = SaveDataMaster.Instance.EnemyFleet;
+			var efleet = RecordManager.Instance.EnemyFleet;
 
 			sb.AppendFormat( "敵艦隊ID : {0}\r\n", fleetID );
 
 
-			if ( !efleet.Data.EnemyFleet.ContainsKey( fleetID ) ) {
+			if ( !efleet.Record.ContainsKey( fleetID ) ) {
 
-				sb.AppendLine( "敵艦隊情報不明" );
+				sb.AppendLine( "(敵艦隊情報不明)" );
 
 			} else {
-				switch ( efleet.Data.EnemyFleet[fleetID].Formation ) {
+
+				var fdata = efleet[fleetID];
+
+				if ( fdata.FleetName != null )
+					sb.Append( fdata.FleetName + " - " );
+
+				switch ( fdata.Formation ) {
 					case 1:
 						sb.AppendLine( "単縦陣" ); break;
 					case 2:
@@ -166,7 +173,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				int[] fmembers = efleet.Data.EnemyFleet[fleetID].FleetMember;
+				int[] fmembers = fdata.FleetMember;
 
 				for ( int i = 0; i < fmembers.Length; i++ ) {
 					if ( fmembers[i] == -1 ) continue;

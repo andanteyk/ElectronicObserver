@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Resource.SaveData {
 
+	[Obsolete]
 	public sealed class SaveDataMaster {
 
 		#region Singleton
@@ -22,6 +23,7 @@ namespace ElectronicObserver.Resource.SaveData {
 		public string SaveFolderName { get; private set; } 
 		public EnemyFleetData EnemyFleet;
 		public ShipParameterData ShipParameters;
+		public ShipDropData ShipDrop;
 
 
 		private SaveDataMaster() {
@@ -29,6 +31,7 @@ namespace ElectronicObserver.Resource.SaveData {
 			SaveFolderName = @"Settings\";
 			EnemyFleet = new EnemyFleetData();
 			ShipParameters = new ShipParameterData();
+			ShipDrop = new ShipDropData();
 
 			if ( !Directory.Exists( SaveFolderName ) ) {
 				Directory.CreateDirectory( SaveFolderName );
@@ -41,6 +44,7 @@ namespace ElectronicObserver.Resource.SaveData {
 
 			EnemyFleet.Load( SaveFolderName );
 			ShipParameters.Load( SaveFolderName );
+			ShipDrop.Load( SaveFolderName );
 
 		}
 
@@ -48,6 +52,7 @@ namespace ElectronicObserver.Resource.SaveData {
 
 			EnemyFleet.Save( SaveFolderName );
 			ShipParameters.Save( SaveFolderName );
+			ShipDrop.Save( SaveFolderName );
 
 		}
 

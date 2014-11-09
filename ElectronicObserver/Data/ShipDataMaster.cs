@@ -323,6 +323,14 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 深海棲艦かどうか
+		/// </summary>
+		public bool IsAbyssalShip {
+			get { return ShipID > 500; }
+		}
+
+
 
 		public ShipDataMaster() {
 			RemodelBeforeShipID = 0;

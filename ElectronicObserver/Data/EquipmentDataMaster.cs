@@ -150,6 +150,12 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 深海棲艦専用装備かどうか
+		/// </summary>
+		public bool IsAbyssalEquipment {
+			get { return EquipmentID > 500; }
+		}
 
 
 

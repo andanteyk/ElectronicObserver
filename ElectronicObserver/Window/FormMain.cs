@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Resource.SaveData;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Support;
@@ -57,14 +58,14 @@ namespace ElectronicObserver.Window {
 			ElectronicObserver.Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
 
 
-			Utility.Logger.Add( 1, "七四式電子観測儀 を起動しています…" );
+			Utility.Logger.Add( 2, "七四式電子観測儀 を起動しています…" );
 
 			Utility.Configuration.Instance.Load();
 			ResourceManager.Instance.Load();
-			SaveDataMaster.Instance.Load();
+			RecordManager.Instance.Load();
 
 
-			APIObserver.Instance.Start( 40620 );
+			APIObserver.Instance.Start( 40620 );	//fixme
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
@@ -91,7 +92,7 @@ namespace ElectronicObserver.Window {
 
 			UIUpdateTimer.Start();
 
-			Utility.Logger.Add( 1, "起動処理が完了しました。" );
+			Utility.Logger.Add( 2, "起動処理が完了しました。" );
 		}
 
 		
@@ -136,7 +137,7 @@ namespace ElectronicObserver.Window {
 			//todo: 後々「終了しますか？」表示をつける
 
 
-			Utility.Logger.Add( 1, "七四式電子観測儀 を終了しています…" );
+			Utility.Logger.Add( 2, "七四式電子観測儀 を終了しています…" );
 
 			WindowPlacementManager.SaveWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			SaveSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
@@ -147,9 +148,9 @@ namespace ElectronicObserver.Window {
 
 			Utility.Configuration.Instance.Save();
 			APIObserver.Instance.Stop();
-			SaveDataMaster.Instance.Save();
+			RecordManager.Instance.Save();
 
-			Utility.Logger.Add( 1, "終了処理が完了しました。" );
+			Utility.Logger.Add( 2, "終了処理が完了しました。" );
 		}
 
 
@@ -315,6 +316,24 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_File_SaveData_Save_Click( object sender, EventArgs e ) {
+
+			RecordManager.Instance.Save();
+		}
+
+		private void StripMenu_File_SaveData_Load_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "セーブしていないレコードが失われる可能性があります。\r\nロードしますか？", "確認", 
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 ) 
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				RecordManager.Instance.Load();
+			}
+			
+		}
+
+
+
 
 		#region フォーム表示
 		
@@ -368,6 +387,8 @@ namespace ElectronicObserver.Window {
 	
 		#endregion
 
+		
+		
 		
 		
 		

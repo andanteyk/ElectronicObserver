@@ -139,8 +139,17 @@
     <Compile Include="Observer\kcsapi\api_req_quest\clearitemget.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\battleresult.cs" />
+    <Compile Include="Resource\Record\ConstructionRecord.cs" />
+    <Compile Include="Resource\Record\DevelopmentRecord.cs" />
+    <Compile Include="Resource\Record\EnemyFleetRecord.cs" />
+    <Compile Include="Resource\Record\RecordBase.cs" />
+    <Compile Include="Resource\Record\RecordManager.cs" />
+    <Compile Include="Resource\Record\ShipDropRecord.cs" />
+    <Compile Include="Resource\Record\ShipParameterRecord.cs" />
     <Compile Include="Resource\ResourceManager.cs" />
+    <Compile Include="Resource\SaveData\ConstructionData.cs" />
     <Compile Include="Resource\SaveData\EnemyFleetData.cs" />
+    <Compile Include="Resource\SaveData\ShipDropData.cs" />
     <Compile Include="Resource\SaveData\ShipParameterData.cs" />
     <Compile Include="Resource\SaveData\SaveData.cs" />
     <Compile Include="Resource\SaveData\SaveDataMaster.cs" />

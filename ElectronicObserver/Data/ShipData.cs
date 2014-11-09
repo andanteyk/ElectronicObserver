@@ -110,7 +110,7 @@ namespace ElectronicObserver.Data {
 		public int Ammo { get; internal set; }
 
 		/// <summary>
-		/// 入渠にかかる時間
+		/// 入渠にかかる時間(ミリ秒)
 		/// </summary>
 		public int RepairTime {
 			get { return (int)RawData.api_ndock_time; }

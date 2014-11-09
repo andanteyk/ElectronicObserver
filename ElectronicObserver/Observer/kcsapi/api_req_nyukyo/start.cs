@@ -26,7 +26,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 				ship.Repair();
 				db.Material.InstantRepair--;
 
-			} else if ( ship.RepairTime <= 60 ) {
+			} else if ( ship.RepairTime <= 60000 ) {
 
 				ship.Repair();
 
@@ -34,7 +34,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 
 				dock.State = 1;
 				dock.ShipID = shipID;
-				dock.CompletionTime = DateTime.Now.AddSeconds( ship.RepairTime );
+				dock.CompletionTime = DateTime.Now.AddMilliseconds( ship.RepairTime );
 
 			}
 

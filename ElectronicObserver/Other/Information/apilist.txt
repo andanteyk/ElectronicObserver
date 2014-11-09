@@ -330,7 +330,7 @@ api_port/port		：母港情報
 		api_fuel			：搭載燃料
 		api_bull			：搭載弾薬
 		api_slotnum			：スロット数
-		api_ndock_time		：入渠時間
+		api_ndock_time		：入渠時間(ミリ秒)
 		api_ndock_item		：入渠時の消費資材　[0]=燃料, [1]=鋼材
 		api_srate			：改装☆？
 		api_cond			：コンディション
@@ -1407,6 +1407,10 @@ api_get_member/deck
 api_req_mission/result
 api_port/port
 api_get_member/useitem
+
+《入渠》
+api_req_nyukyo/start
+api_get_member/ndock	（バケツ非使用時のみ）
 
 《入渠完了》
 api_get_member/ndock	(「入渠」画面で入渠完了時間に達すると自動的に呼ばれる)

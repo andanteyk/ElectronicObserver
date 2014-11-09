@@ -131,7 +131,7 @@ namespace ElectronicObserver.Utility {
 			Connection.Port = (ushort)dialog.Connection_Port.Value;
 			Connection.SaveReceivedData = dialog.Connection_SaveReceivedData.Checked;
 			Connection.SaveDataFilter = dialog.Connection_SaveDataFilter.Text;
-			Connection.SaveDataPath = dialog.Connection_SaveDataPath.Text;
+			Connection.SaveDataPath = dialog.Connection_SaveDataPath.Text.Trim( @"\ """.ToCharArray() );
 			Connection.SaveRequest = dialog.Connection_SaveRequest.Checked;
 			Connection.SaveResponse = dialog.Connection_SaveResponse.Checked;
 			Connection.SaveSWF = dialog.Connection_SaveSWF.Checked;

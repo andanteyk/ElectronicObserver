@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Resource.SaveData;
+﻿using ElectronicObserver.Resource.Record;
+using ElectronicObserver.Resource.SaveData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,13 +35,14 @@ namespace ElectronicObserver.Data.Battle {
 
 		[Flags]
 		public enum BattleModes {
-			Undefined,				//未定義
-			Normal,					//昼夜戦(通常戦闘)
-			NightOnly,				//夜戦
-			NightDay,				//夜昼戦
-			AirBattle,				//航空戦
-			Practice,				//演習
-			Combined = 0x10000,		//連合艦隊仕様
+			Undefined,					//未定義
+			Normal,						//昼夜戦(通常戦闘)
+			NightOnly,					//夜戦
+			NightDay,					//夜昼戦
+			AirBattle,					//航空戦
+			Practice,					//演習
+			BattlePhaseFlags = 0xFFFF,	//戦闘形態マスク
+			Combined = 0x10000,			//連合艦隊仕様
 		}
 
 		/// <summary>
@@ -64,7 +66,6 @@ namespace ElectronicObserver.Data.Battle {
 					BattleMode = BattleModes.Normal;
 					BattleDay = new BattleNormalDay();
 					BattleDay.LoadFromResponse( apiname, data );
-					SaveDataMaster.Instance.EnemyFleet.Update( Compass.EnemyFleetID, (int)data.api_formation[1], (int[])data.api_ship_ke );		//fixme:暫定的に
 					break;
 
 				case "api_req_battle_midnight/battle":
@@ -117,6 +118,7 @@ namespace ElectronicObserver.Data.Battle {
 				case "api_req_practice/battle_result":
 					Result = new BattleResultData();
 					Result.LoadFromResponse( apiname, data );
+					BattleFinished();
 					break;
 
 				case "api_port/port":
@@ -127,6 +129,39 @@ namespace ElectronicObserver.Data.Battle {
 					BattleMode = BattleModes.Undefined;
 					break;
 
+			}
+
+		}
+
+
+		/// <summary>
+		/// 戦闘終了時に各種データの収集を行います。
+		/// </summary>
+		private void BattleFinished() {
+
+			//敵編成記録
+			switch ( BattleMode & BattleModes.BattlePhaseFlags ) {
+				case BattleModes.Normal:
+				case BattleModes.AirBattle:
+					//SaveDataMaster.Instance.EnemyFleet.Update( Compass.EnemyFleetID, (int)BattleDay.Data.api_formation[1], (int[])BattleDay.Data.api_ship_ke, Result.EnemyFleetName );
+					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleDay.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
+					break;
+
+				case BattleModes.NightOnly:
+				case BattleModes.NightDay:
+					//SaveDataMaster.Instance.EnemyFleet.Update( Compass.EnemyFleetID, (int)BattleNight.Data.api_formation[1], (int[])BattleNight.Data.api_ship_ke, Result.EnemyFleetName );
+					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleNight.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
+					break;
+			}
+
+
+			//ドロップ艦記録(母港がいっぱいの場合記録しません)
+			if ( ( BattleMode & BattleModes.BattlePhaseFlags ) != BattleModes.Practice && 
+				 KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count >= 1 &&
+				 KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count >= 4 ) {
+
+				//SaveDataMaster.Instance.ShipDrop.Add( Result.DroppedShipID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
+				RecordManager.Instance.ShipDrop.Add( Result.DroppedShipID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
 			}
 
 		}

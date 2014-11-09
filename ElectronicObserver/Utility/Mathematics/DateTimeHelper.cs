@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Utility.Mathematics {
 
 	/// <summary>
-	/// APIに含まれている日時データを<see cref="DateTime"/>に変換します。
+	/// 日時データを扱うためのメソッド群です。
 	/// </summary>
 	public static class DateTimeHelper {
 
@@ -148,6 +148,16 @@ namespace ElectronicObserver.Utility.Mathematics {
 			return string.Format( "{0:D4}{1:D2}{2:D2}_{3:D2}{4:D2}{5:D2}{6:D2}", time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second, time.Millisecond / 10 );
 		}
 
+
+
+		public static string TimeToCSVString( DateTime time ) {
+			return string.Format( "{0:D4}/{1:D2}/{2:D2} {3:D2}:{4:D2}:{5:D2}", time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second );
+		}
+
+		public static DateTime CSVStringToTime( string str ) {
+			string[] elem = str.Split( "/ :".ToCharArray() );
+			return new DateTime( int.Parse( elem[0] ), int.Parse( elem[1] ), int.Parse( elem[2] ), int.Parse( elem[3] ), int.Parse( elem[4] ), int.Parse( elem[5] ) );
+		}
 	}
 
 

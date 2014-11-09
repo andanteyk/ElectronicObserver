@@ -13,6 +13,8 @@ namespace ElectronicObserver.Resource.SaveData {
 
 			public int FleetID { get; set; }
 
+			public string FleetName { get; set; }
+
 			public int Formation { get; set; }
 
 			public int[] FleetMember { get; set; }
@@ -62,7 +64,7 @@ namespace ElectronicObserver.Resource.SaveData {
 		}
 
 
-		public void Update( int fleetID, int formation, int[] fleetMember ) {
+		public void Update( int fleetID, int formation, int[] fleetMember, string fleetName ) {
 			
 			if ( !Data.EnemyFleet.ContainsKey( fleetID ) ) {
 			
@@ -70,6 +72,7 @@ namespace ElectronicObserver.Resource.SaveData {
 				e.FleetID = fleetID;
 				e.Formation = formation;
 				e.FleetMember = fleetMember.Skip( 1 ).ToArray();
+				e.FleetName = fleetName;
 				Data.EnemyFleet.Add( fleetID, e );
 			
 			} else {
@@ -77,7 +80,7 @@ namespace ElectronicObserver.Resource.SaveData {
 				EnemyFleetElement e = Data.EnemyFleet[fleetID];
 				e.Formation = formation;
 				e.FleetMember = fleetMember.Skip( 1 ).ToArray();
-
+				e.FleetName = fleetName;
 			}
 		}
 
