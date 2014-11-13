@@ -65,7 +65,7 @@ namespace ElectronicObserver.Window {
 			RecordManager.Instance.Load();
 
 
-			APIObserver.Instance.Start( 40620 );	//fixme
+			APIObserver.Instance.Start( Utility.Configuration.Instance.Connection.Port );	//fixme
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();

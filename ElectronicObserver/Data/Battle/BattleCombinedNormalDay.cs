@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 	
-	public class BattleCombinedNormalDay : BattleData {
+	public class BattleCombinedNormalDay : BattleDataCombined {
 
 
 
@@ -187,6 +188,8 @@ namespace ElectronicObserver.Data.Battle {
 
 		}
 
+
+		
 		public override string APIName {
 			get { return "api_req_combined_battle/battle"; }
 		}

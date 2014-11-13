@@ -26,7 +26,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _value; }
 			set {
 				_value = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _maximumValue; }
 			set {
 				_maximumValue = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -48,7 +48,18 @@ namespace ElectronicObserver.Window.Control {
 			get { return _valueNext; }
 			set {
 				_valueNext = value;
-				Refresh();
+				PropertyChanged();
+			}
+		}
+
+		private int _maximumValueNext;
+		[Browsable( true )]
+		[DefaultValue( 0 )]
+		public int MaximumValueNext {
+			get { return _maximumValueNext; }
+			set {
+				_maximumValueNext = value;
+				PropertyChanged();
 			}
 		}
 
@@ -59,7 +70,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _mainFontColor; }
 			set {
 				_mainFontColor = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -70,7 +81,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _subFontColor; }
 			set {
 				_subFontColor = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -81,7 +92,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _mainFont; }
 			set {
 				_mainFont = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -92,7 +103,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _subFont; }
 			set {
 				_subFont = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -107,7 +118,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _text; }
 			set {
 				_text = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -118,7 +129,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _textNext; }
 			set {
 				_textNext = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -137,6 +148,8 @@ namespace ElectronicObserver.Window.Control {
 			SetStyle( ControlStyles.ResizeRedraw, true );
 
 			_value = 0;
+			_maximumValue = 0;
+
 			_mainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
 			_subFontColor = Color.FromArgb( 0x44, 0x44, 0x44 );
 			_mainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
@@ -144,6 +157,7 @@ namespace ElectronicObserver.Window.Control {
 			_text = "Lv.";
 
 			_valueNext = 0;
+			_maximumValueNext = 0;
 			_textNext = "next:";
 		}
 
@@ -161,64 +175,52 @@ namespace ElectronicObserver.Window.Control {
 			Size sz_value = TextRenderer.MeasureText( Math.Max( Value, MaximumValue ).ToString(), MainFont, maxsize, TextFormatValue );
 			Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
 			Size sz_textnext = TextRenderer.MeasureText( TextNext, SubFont, maxsize, TextFormatText );
-			Size sz_valuenext = TextRenderer.MeasureText( ValueNext.ToString(), SubFont, maxsize, TextFormatText );
+			Size sz_valuenext = TextRenderer.MeasureText( Math.Max( ValueNext, MaximumValueNext ).ToString(), SubFont, maxsize, TextFormatText );
 
 
 			sz_value.Width -= (int)( MainFont.Size / 2.0 );
-			if ( Text.Length > 0 )
+			if ( Text != null && Text.Length > 0 )
 				sz_text.Width -= (int)( SubFont.Size / 2.0 );
-			if ( TextNext.Length > 0 )
+			if ( TextNext != null && TextNext.Length > 0 )
 				sz_textnext.Width -= (int)( SubFont.Size / 2.0 );
 			sz_valuenext.Width -= (int)( SubFont.Size / 2.0 );
 
+			if ( TextNext == null ) {
+				sz_textnext.Width =
+				sz_textnext.Height =
+				sz_valuenext.Width =
+				sz_valuenext.Height = 0;
+			}
 			//*/
 			
 			//alignment.bottom 
-			
+
 			Point p = new Point( basearea.X, basearea.Bottom - sz_text.Height );
 			TextRenderer.DrawText( e.Graphics, Text, SubFont, new Rectangle( p, sz_text ), SubFontColor, TextFormatText );
 			//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_text ) );
 
-			p.X = basearea.Right - Math.Max( sz_textnext.Width, sz_valuenext.Width );
-			p.Y = basearea.Bottom - sz_textnext.Height - sz_valuenext.Height + (int)( SubFont.Size / 2.0 );
-			TextRenderer.DrawText( e.Graphics, TextNext, SubFont, new Rectangle( p, sz_textnext ), SubFontColor, TextFormatText );
-			//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_textnext ) );
-			
-	
-			p.Y = basearea.Bottom - sz_valuenext.Height + 1;
-			TextRenderer.DrawText( e.Graphics, ValueNext.ToString(), SubFont, new Rectangle( p, sz_valuenext ), SubFontColor, TextFormatText );
-			//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_valuenext ) );
-
-			p.X -= sz_value.Width + InnerHorizontalMargin;
+			p.X += sz_text.Width;
 			p.Y = basearea.Bottom - sz_value.Height;
 			TextRenderer.DrawText( e.Graphics, Value.ToString(), MainFont, new Rectangle( p, sz_value ), MainFontColor, TextFormatValue );
 			//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_value ) );
 
-			
-			/*/
-
-			//alignment.top
-
-			Point p = new Point( basearea.X, basearea.Y + sz_value.Height - sz_text.Height );
-			TextRenderer.DrawText( e.Graphics, Text, SubFont, new Rectangle( p, sz_text ), SubFontColor, TextFormatText );
-			//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_text ) );
 
 			p.X = basearea.Right - Math.Max( sz_textnext.Width, sz_valuenext.Width );
 			p.Y = basearea.Bottom - sz_textnext.Height - sz_valuenext.Height + (int)( SubFont.Size / 2.0 );
-			TextRenderer.DrawText( e.Graphics, TextNext, SubFont, new Rectangle( p, sz_textnext ), SubFontColor, TextFormatText );
-			//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_textnext ) );
-		
+			if ( TextNext != null ) {
+				TextRenderer.DrawText( e.Graphics, TextNext, SubFont, new Rectangle( p, sz_textnext ), SubFontColor, TextFormatText );
+				//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_textnext ) );
+			}
 
 			p.Y = basearea.Bottom - sz_valuenext.Height + 1;
-			TextRenderer.DrawText( e.Graphics, ValueNext.ToString(), SubFont, new Rectangle( p, sz_valuenext ), SubFontColor, TextFormatText );
-			//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_valuenext ) );
+			if ( TextNext != null ) {
+				TextRenderer.DrawText( e.Graphics, ValueNext.ToString(), SubFont, new Rectangle( p, sz_valuenext ), SubFontColor, TextFormatText );
+				//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_valuenext ) );
+			}
 
-			p.X -= sz_value.Width + InnerHorizontalMargin;
-			p.Y = basearea.Y;
-			TextRenderer.DrawText( e.Graphics, Value.ToString(), MainFont, new Rectangle( p, sz_value ), MainFontColor, TextFormatValue );
-			//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_value ) );
-
-			//*/
+			
+			
+			
 			
 		}
 
@@ -226,25 +228,41 @@ namespace ElectronicObserver.Window.Control {
 
 		public override Size GetPreferredSize( Size proposedSize ) {
 
-			Size maxsize = new Size( 99999, 99999 );
+			Size maxsize = new Size( int.MaxValue, int.MaxValue );
 
 			Size sz_value = TextRenderer.MeasureText( Math.Max( Value, MaximumValue ).ToString(), MainFont, maxsize, TextFormatValue );
 			Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
 			Size sz_textnext = TextRenderer.MeasureText( TextNext, SubFont, maxsize, TextFormatText );
-			Size sz_valuenext = TextRenderer.MeasureText( ValueNext.ToString(), SubFont, maxsize, TextFormatText );
+			Size sz_valuenext = TextRenderer.MeasureText( Math.Max( ValueNext, MaximumValueNext ).ToString(), SubFont, maxsize, TextFormatText );
 
 
 			sz_value.Width -= (int)( MainFont.Size / 2.0 );
-			if ( Text.Length > 0 )
+			if ( Text != null && Text.Length > 0 )
 				sz_text.Width -= (int)( SubFont.Size / 2.0 );
-			if ( TextNext.Length > 0 )
+			if ( TextNext != null && TextNext.Length > 0 )
 				sz_textnext.Width -= (int)( SubFont.Size / 2.0 );
 			sz_valuenext.Width -= (int)( SubFont.Size / 2.0 );
 
+			if ( TextNext == null ) {
+				sz_textnext.Width =
+				sz_textnext.Height =
+				sz_valuenext.Width =
+				sz_valuenext.Height = 0;
+			}
 
-			return new Size( sz_value.Width + sz_text.Width + Math.Max( sz_textnext.Width, sz_valuenext.Width ) + InnerHorizontalMargin + Padding.Horizontal,
+
+
+			return new Size( sz_value.Width + sz_text.Width + InnerHorizontalMargin + Math.Max( sz_textnext.Width, sz_valuenext.Width ) + Padding.Horizontal,
 				Math.Max( sz_value.Height, sz_textnext.Height + sz_valuenext.Height - (int)( SubFont.Size / 2.0 ) ) + Padding.Vertical - 1 );
 			
+		}
+
+
+		private void PropertyChanged() {
+			if ( AutoSize )
+				Size = GetPreferredSize( Size );
+
+			Refresh();
 		}
 
 	}

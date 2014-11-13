@@ -28,12 +28,21 @@ namespace ElectronicObserver.Observer.kcsapi {
 				}
 			}
 
-
 			//改装関連のデータ設定
 			foreach ( var ship in db.MasterShips ) {
 				int remodelID = ship.Value.RemodelAfterShipID;
 				if ( remodelID != 0 ) {
 					db.MasterShips[remodelID].RemodelBeforeShipID = ship.Key;
+				}
+			}
+
+			//api_mst_shipgraph
+			foreach ( var elem in data.api_mst_shipgraph ) {
+
+				int id = (int)elem.api_id;
+				ShipDataMaster ship = db.MasterShips[id];
+				if ( ship != null ) {
+					ship.ResourceName = elem.api_filename;
 				}
 			}
 
@@ -105,6 +114,21 @@ namespace ElectronicObserver.Observer.kcsapi {
 				} else {
 					db.MapInfo[id].LoadFromResponse( APIName, elem );
 				}
+			}
+
+
+			//api_mst_mission
+			foreach ( var elem in data.api_mst_mission ) {
+
+				int id = (int)elem.api_id;
+				if ( db.Mission[id] == null ) {
+					var item = new MissionData();
+					item.LoadFromResponse( APIName, elem );
+					db.Mission.Add( item );
+				} else {
+					db.Mission[id].LoadFromResponse( APIName, elem );
+				}
+
 			}
 
 

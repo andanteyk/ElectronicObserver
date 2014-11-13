@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Resource.Record;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -180,6 +181,19 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 対潜(暫定)
+		/// </summary>
+		public ShipParameterRecord.Parameter ASW {
+			get {
+				ShipParameterRecord.ShipParameterElement e = RecordManager.Instance.ShipParameter[ShipID];
+				if ( e != null )
+					return e.ASW;
+				else
+					return null;
+			}
+		}
+
+		/// <summary>
 		/// 回避初期値
 		/// </summary>
 		public int EvasionMin {
@@ -196,6 +210,19 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 回避(暫定)
+		/// </summary>
+		public ShipParameterRecord.Parameter Evasion {
+			get {
+				ShipParameterRecord.ShipParameterElement e = RecordManager.Instance.ShipParameter[ShipID];
+				if ( e != null )
+					return e.Evasion;
+				else
+					return null;
+			}
+		}
+
+		/// <summary>
 		/// 索敵初期値
 		/// </summary>
 		public int LOSMin {
@@ -209,6 +236,19 @@ namespace ElectronicObserver.Data {
 		public int LOSMax {
 			//get { return (int)RawData.api_saku[1]; }
 			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
+		}
+
+		/// <summary>
+		/// 索敵(暫定)
+		/// </summary>
+		public ShipParameterRecord.Parameter LOS {
+			get {
+				ShipParameterRecord.ShipParameterElement e = RecordManager.Instance.ShipParameter[ShipID];
+				if ( e != null )
+					return e.LOS;
+				else
+					return null;
+			}
 		}
 
 		/// <summary>
@@ -259,8 +299,13 @@ namespace ElectronicObserver.Data {
 		/// 初期装備のID
 		/// </summary>
 		public ReadOnlyCollection<int> DefaultSlot {
-			//get { return Array.AsReadOnly<int>( (int[])RawData.api_defeq ); }
-			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
+			get {
+				ShipParameterRecord.ShipParameterElement e = RecordManager.Instance.ShipParameter[ShipID];
+				if ( e != null && e.DefaultSlot != null )
+					return Array.AsReadOnly<int>( e.DefaultSlot );
+				else
+					return null;
+			}
 		}
 
 
@@ -321,6 +366,13 @@ namespace ElectronicObserver.Data {
 		public int Ammo {
 			get { return (int)RawData.api_bull_max; }
 		}
+
+
+		/// <summary>
+		/// リソースのファイル/フォルダ名
+		/// </summary>
+		public string ResourceName { get; internal set; }
+
 
 
 		/// <summary>

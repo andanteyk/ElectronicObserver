@@ -94,6 +94,8 @@ namespace ElectronicObserver.Observer {
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}",
 						Fiddler.FiddlerApplication.oProxy.ListenPort ), "<local>" );
 
+			Utility.Logger.Add( 1, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
+
 			return Fiddler.FiddlerApplication.oProxy.ListenPort;
 		}
 
@@ -103,6 +105,7 @@ namespace ElectronicObserver.Observer {
 			Fiddler.URLMonInterop.ResetProxyInProcessToDefault();
 			Fiddler.FiddlerApplication.Shutdown();
 
+			Utility.Logger.Add( 1, "APIObserver: 受信を停止しました。" );
 		}
 
 
@@ -127,11 +130,7 @@ namespace ElectronicObserver.Observer {
 
 						if ( c.SaveResponse && oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 
-							string tpath = string.Format( "{0}\\{1}S@{2}.json", c.SaveDataPath, DateTimeHelper.GetTimeStamp(), oSession.fullUrl.Substring( oSession.fullUrl.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
-
-							using ( var sw = new System.IO.StreamWriter( tpath, false, Encoding.UTF8 ) ) {
-								sw.Write( oSession.GetResponseBodyAsString() );
-							}
+							SaveResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
 
 						} else if ( c.SaveSWF && oSession.fullUrl.IndexOf( "/kcs/" ) != -1 && oSession.oResponse.MIMEType == "application/x-shockwave-flash" ) {
 
@@ -174,29 +173,18 @@ namespace ElectronicObserver.Observer {
 
 				LoadRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
 
-			}
 
+				//保存
+				{	
+					Utility.Configuration.ConfigConnection c = Utility.Configuration.Instance.Connection;
 
-			//保存
-			try {
+					if ( c.SaveReceivedData && c.SaveRequest ) {
 
-				Utility.Configuration.ConfigConnection c = Utility.Configuration.Instance.Connection;
-
-				if ( c.SaveReceivedData && c.SaveRequest && oSession.fullUrl.Contains( "/kcsapi/" ) ) {
-
-					string tpath = string.Format( "{0}\\{1}Q@{2}.json", c.SaveDataPath, DateTimeHelper.GetTimeStamp(), oSession.fullUrl.Substring( oSession.fullUrl.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
-
-					using ( var sw = new System.IO.StreamWriter( tpath, false, Encoding.UTF8 ) ) {
-						sw.Write( oSession.GetRequestBodyAsString() );
+						SaveRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
 					}
 				}
-
-			} catch ( Exception ex ) {
-
-				Utility.Logger.Add( 3, "通信内容の保存に失敗しました。" + ex.Message );
-
 			}
-			
+
 		}
 
 
@@ -261,6 +249,46 @@ namespace ElectronicObserver.Observer {
 				System.Diagnostics.Debug.WriteLine( e.Message );
 			}
 
+		}
+
+
+		private void SaveRequest( string url, string body ) {
+
+			try {
+
+				string tpath = string.Format( "{0}\\{1}Q@{2}.json", Utility.Configuration.Instance.Connection.SaveDataPath, DateTimeHelper.GetTimeStamp(), url.Substring( url.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
+
+				using ( var sw = new System.IO.StreamWriter( tpath, false, Encoding.UTF8 ) ) {
+					sw.Write( body );
+				}
+
+
+			} catch ( Exception ex ) {
+
+				Utility.Logger.Add( 3, "Requestの保存に失敗しました。" + ex.Message );
+
+			}
+		}
+
+
+		private void SaveResponse( string url, string body ) {
+
+			try {
+
+				string tpath = string.Format( "{0}\\{1}S@{2}.json", Utility.Configuration.Instance.Connection.SaveDataPath, DateTimeHelper.GetTimeStamp(), url.Substring( url.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
+
+				using ( var sw = new System.IO.StreamWriter( tpath, false, Encoding.UTF8 ) ) {
+					sw.Write( body );
+				}
+
+			} catch ( Exception ex ) {
+
+				Utility.Logger.Add( 3, "Responseの保存に失敗しました。" + ex.Message );
+
+			}
+				
+
+			
 		}
 
 	}

@@ -93,13 +93,25 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
+		/// <summary>
+		/// 戦況を表す文字列を取得します。＊デバッグ用です＊
+		/// </summary>
+		/// <param name="bd">戦闘データ</param>
+		/// <returns>戦況</returns>
 		private string GetBattleString( BattleData bd ) {
 
 			StringBuilder sb = new StringBuilder();
 			KCDatabase db = KCDatabase.Instance;
 			int[] hp = bd.EmulateBattle();
+			bool isPractice = bd.APIName.Contains( "practice" );	//仕方ないね
+			bool isCombined = bd.APIName.Contains( "combined" );
+			int enemyoffset = !isCombined ? 6 : 12;
+
 
 			sb.AppendLine( "---- 自軍艦隊 ----" );
+			if ( isCombined )
+				sb.AppendLine( "[機動部隊本隊]" );
 
 			for ( int i = 0; i < 6; i++ ) {
 
@@ -118,7 +130,10 @@ namespace ElectronicObserver.Window {
 					sb.Append( hp[i] - bd.InitialHP[i + 1] );
 					sb.Append( ") " );
 					if ( hp[i] == 0 ) {
-						sb.Append( "[撃沈]" );
+						if ( isPractice )
+							sb.Append( "[離脱]" );
+						else
+							sb.Append( "[撃沈]" );
 					} else if ( (double)hp[i] / bd.MaxHP[i + 1] <= 0.25 ) {
 						sb.Append( "[大破]" );
 					} else if ( (double)hp[i] / bd.MaxHP[i + 1] <= 0.50 ) {
@@ -138,6 +153,57 @@ namespace ElectronicObserver.Window {
 
 			}
 
+			if ( isCombined ) {
+
+				BattleDataCombined bdc = (BattleDataCombined)bd;
+
+				sb.AppendLine();
+				sb.AppendLine( "[随伴護衛艦隊]" );
+
+
+				for ( int i = 0; i < 6; i++ ) {
+
+					ShipData ship = db.Ships[db.Fleet[2].FleetMember[i]];
+
+					if ( ship != null ) {
+
+						sb.Append( ship.MasterShip.Name );
+						sb.Append( " Lv. " );
+						sb.Append( ship.Level );
+						sb.Append( " HP: " );
+						sb.Append( bdc.InitialHPCombined[i + 1] );
+						sb.Append( " -> " );
+						sb.Append( hp[i + 6] );
+						sb.Append( " (" );
+						sb.Append( hp[i + 6] - bdc.InitialHPCombined[i + 1] );
+						sb.Append( ") " );
+						if ( hp[i + 6] == 0 ) {
+							if ( isPractice )
+								sb.Append( "[離脱]" );
+							else
+								sb.Append( "[撃沈]" );
+						} else if ( (double)hp[i + 6] / bd.MaxHP[i + 1] <= 0.25 ) {
+							sb.Append( "[大破]" );
+						} else if ( (double)hp[i + 6] / bd.MaxHP[i + 1] <= 0.50 ) {
+							sb.Append( "[中破]" );
+						} else if ( (double)hp[i + 6] / bd.MaxHP[i + 1] <= 0.75 ) {
+							sb.Append( "[小破]" );
+						} else if ( (double)hp[i + 6] < bd.MaxHP[i + 1] ) {
+							sb.Append( "[健在]" );
+						} else {
+							sb.Append( "[無傷]" );
+						}
+						sb.AppendLine();
+
+					} else {
+						sb.AppendLine( "-" );
+					}
+
+				}
+			}
+
+
+
 			sb.AppendLine();
 			sb.AppendLine( "---- 敵軍艦隊 ----" );
 
@@ -147,7 +213,8 @@ namespace ElectronicObserver.Window {
 				if ( eid != -1 ) {
 
 					sb.Append( db.MasterShips[eid].Name );
-					if ( db.MasterShips[eid].NameReading != null &&
+					if ( !isPractice &&
+						 db.MasterShips[eid].NameReading != null &&
 						 db.MasterShips[eid].NameReading != "" &&
 						 db.MasterShips[eid].NameReading != "-" ) {
 						sb.Append( " " );
@@ -158,19 +225,22 @@ namespace ElectronicObserver.Window {
 					sb.Append( " HP: " );
 					sb.Append( bd.InitialHP[i + 7] );
 					sb.Append( " -> " );
-					sb.Append( hp[i + 6] );
+					sb.Append( hp[i + enemyoffset] );
 					sb.Append( " (" );
-					sb.Append( hp[i + 6] - bd.InitialHP[i + 7] );
+					sb.Append( hp[i + enemyoffset] - bd.InitialHP[i + 7] );
 					sb.Append( ") " );
-					if ( hp[i + 6] == 0 ) {
-						sb.Append( "[撃沈]" );
-					} else if ( (double)hp[i + 6] / bd.MaxHP[i + 7] <= 0.25 ) {
+					if ( hp[i + enemyoffset] == 0 ) {
+						if ( isPractice )
+							sb.Append( "[離脱]" );
+						else
+							sb.Append( "[撃沈]" );
+					} else if ( (double)hp[i + enemyoffset] / bd.MaxHP[i + 7] <= 0.25 ) {
 						sb.Append( "[大破]" );
-					} else if ( (double)hp[i + 6] / bd.MaxHP[i + 7] <= 0.50 ) {
+					} else if ( (double)hp[i + enemyoffset] / bd.MaxHP[i + 7] <= 0.50 ) {
 						sb.Append( "[中破]" );
-					} else if ( (double)hp[i + 6] / bd.MaxHP[i + 7] <= 0.75 ) {
+					} else if ( (double)hp[i + enemyoffset] / bd.MaxHP[i + 7] <= 0.75 ) {
 						sb.Append( "[小破]" );
-					} else if ( (double)hp[i + 6] < bd.MaxHP[i + 7] ) {
+					} else if ( (double)hp[i + enemyoffset] < bd.MaxHP[i + 7] ) {
 						sb.Append( "[健在]" );
 					} else {
 						sb.Append( "[無傷]" );

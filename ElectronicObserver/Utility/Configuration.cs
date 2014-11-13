@@ -1,4 +1,5 @@
 ﻿using Codeplex.Data;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Window.Dialog;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,9 @@ namespace ElectronicObserver.Utility {
 
 
 
+		public string Version { get { return "0.0"; } }
+
+
 		//undone
 		private Configuration() {
 			Connection = new ConfigConnection();
@@ -128,7 +132,11 @@ namespace ElectronicObserver.Utility {
 		public void SetConfiguration( DialogConfiguration dialog ) {
 
 			//[通信]
-			Connection.Port = (ushort)dialog.Connection_Port.Value;
+			if ( Connection.Port != (ushort)dialog.Connection_Port.Value ) {
+				Connection.Port = (ushort)dialog.Connection_Port.Value;
+				APIObserver.Instance.Stop();
+				ushort port = (ushort)APIObserver.Instance.Start( (int)dialog.Connection_Port.Value );
+			}
 			Connection.SaveReceivedData = dialog.Connection_SaveReceivedData.Checked;
 			Connection.SaveDataFilter = dialog.Connection_SaveDataFilter.Text;
 			Connection.SaveDataPath = dialog.Connection_SaveDataPath.Text.Trim( @"\ """.ToCharArray() );

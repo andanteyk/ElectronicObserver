@@ -143,13 +143,11 @@ namespace ElectronicObserver.Data.Battle {
 			switch ( BattleMode & BattleModes.BattlePhaseFlags ) {
 				case BattleModes.Normal:
 				case BattleModes.AirBattle:
-					//SaveDataMaster.Instance.EnemyFleet.Update( Compass.EnemyFleetID, (int)BattleDay.Data.api_formation[1], (int[])BattleDay.Data.api_ship_ke, Result.EnemyFleetName );
 					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleDay.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
 					break;
 
 				case BattleModes.NightOnly:
 				case BattleModes.NightDay:
-					//SaveDataMaster.Instance.EnemyFleet.Update( Compass.EnemyFleetID, (int)BattleNight.Data.api_formation[1], (int[])BattleNight.Data.api_ship_ke, Result.EnemyFleetName );
 					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleNight.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
 					break;
 			}
@@ -160,7 +158,6 @@ namespace ElectronicObserver.Data.Battle {
 				 KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count >= 1 &&
 				 KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count >= 4 ) {
 
-				//SaveDataMaster.Instance.ShipDrop.Add( Result.DroppedShipID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
 				RecordManager.Instance.ShipDrop.Add( Result.DroppedShipID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
 			}
 

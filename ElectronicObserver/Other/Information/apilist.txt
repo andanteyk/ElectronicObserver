@@ -8,7 +8,7 @@ kcsapi list
 
 api_start2	：艦娘・装備固有データその他
 	
-	api_mst_ship	：艦船データ
+	api_mst_ship		：艦船データ
 		api_id			：艦娘固有ID
 		api_sortno		：並べ替え順
 		api_name		：艦娘名
@@ -37,7 +37,26 @@ api_start2	：艦娘・装備固有データその他
 		api_bull_max	：消費弾薬
 		api_voicef		：ボイス設定フラグ
 	
-	api_mst_shipgraph	：艦船画像URL？
+	api_mst_shipgraph	：艦船画像設定
+		api_id			：艦船ID
+		api_sortno		：並び替え順
+		api_filename	：ファイル名
+		api_version		：ファイルのバージョン string
+		api_boko_n		：母港での座標(無傷)？
+		api_boko_d		：〃(中破)？
+		api_kaisyu_n	：近代化改修
+		api_kaisyu_d	：
+		api_kaizo_n		：改装
+		api_kaizo_d		：
+		api_map_n		：出撃中
+		api_map_d		：
+		api_ensyuf_n	：演習(自軍側)
+		api_ensyuf_d	：	
+		api_ensyue_n	：演習(敵軍側)
+		api_battle_n	：戦闘
+		api_battle_d	：
+		api_weda		：ケッコンカッコカリ
+		api_wedb		：
 	
 	api_mst_slotitem_equiptype		：装備カテゴリ
 		api_id			：カテゴリID(装備のtype[2]に対応)
@@ -149,7 +168,11 @@ api_start2	：艦娘・装備固有データその他
 		api_info		：図鑑情報
 		api_usebull		：
 	
-	api_mst_slotitemgraph	：装備画像URL？
+	api_mst_slotitemgraph	：装備画像URL
+		api_id			：装備ID
+		api_sortno		：並べ替え順
+		api_filename	：ファイル名　実際のファイル名は0詰め3桁の模様
+		api_version		：ファイルのバージョン string
 	
 	api_mst_furniture	：家具データ
 		api_id			：家具ID
@@ -231,7 +254,7 @@ api_start2	：艦娘・装備固有データその他
 		api_maparea_id	：海域カテゴリID
 		api_name		：遠征名
 		api_details		：遠征詳細
-		api_time		：時間
+		api_time		：時間　分単位
 		api_difficulty	：難易度
 		api_use_fuel	：燃料消費割合
 		api_use_bull	：弾薬消費割合

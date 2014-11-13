@@ -65,6 +65,7 @@
     <Compile Include="Data\Battle\BattleCombinedNormalDay.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalNight.cs" />
     <Compile Include="Data\Battle\BattleData.cs" />
+    <Compile Include="Data\Battle\BattleDataCombined.cs" />
     <Compile Include="Data\Battle\BattleManager.cs" />
     <Compile Include="Data\Battle\BattleNightOnly.cs" />
     <Compile Include="Data\Battle\BattleNormalDay.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Data\FleetData.cs" />
     <Compile Include="Data\MapInfoData.cs" />
     <Compile Include="Data\MaterialData.cs" />
+    <Compile Include="Data\MissionData.cs" />
     <Compile Include="Data\QuestData.cs" />
     <Compile Include="Data\QuestManager.cs" />
     <Compile Include="Data\APIWrapper.cs" />

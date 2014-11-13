@@ -117,6 +117,12 @@ namespace ElectronicObserver.Data {
 		public IDDictionary<MapInfoData> MapInfo { get; private set; }
 
 
+		/// <summary>
+		/// 遠征データ
+		/// </summary>
+		public IDDictionary<MissionData> Mission { get; private set; }
+
+
 
 		private KCDatabase() {
 
@@ -136,6 +142,7 @@ namespace ElectronicObserver.Data {
 			Quest = new QuestManager();
 			Battle = new BattleManager();
 			MapInfo = new IDDictionary<MapInfoData>();
+			Mission = new IDDictionary<MissionData>();
 
 		}
 

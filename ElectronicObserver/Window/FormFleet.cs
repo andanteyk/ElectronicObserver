@@ -157,7 +157,7 @@ namespace ElectronicObserver.Window {
 						State = 4;
 						Timer = fleet.ExpeditionTime;
 						StateMain.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( Timer );
-						ToolTipInfo.SetToolTip( StateMain, "完了日時 : " + Timer );
+						ToolTipInfo.SetToolTip( StateMain, string.Format( "{0}\r\n完了日時 : {1}", KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name, Timer ) );
 
 					} else if ( fleet.FleetMember.Count(
 								 ( int id ) => {

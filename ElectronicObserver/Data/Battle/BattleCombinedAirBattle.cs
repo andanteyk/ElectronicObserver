@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 	
-	public class BattleCombinedAirBattle : BattleData  {
+	public class BattleCombinedAirBattle : BattleDataCombined  {
 
 		public override int[] EmulateBattle() {
 
@@ -90,6 +91,9 @@ namespace ElectronicObserver.Data.Battle {
 
 			return hp;
 		}
+
+
+
 
 		public override string APIName {
 			get { return "api_req_combined_battle/airbattle"; }
