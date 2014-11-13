@@ -119,6 +119,10 @@ namespace ElectronicObserver.Resource.Record {
 			return sb.ToString();
 		}
 
+		protected override void ClearRecord() {
+			Record.Clear();
+		}
+
 		protected override string RecordHeader {
 			get { return "敵編成ID,敵艦隊名,陣形,敵編成リスト"; }
 		}

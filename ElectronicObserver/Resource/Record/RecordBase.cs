@@ -45,6 +45,8 @@ namespace ElectronicObserver.Resource.Record {
 				//Excel様が読めるようにするための苦渋の決断
 				using ( StreamReader sr = new StreamReader( path, Encoding.Default ) ) {
 
+					ClearRecord();
+
 					string line;
 					sr.ReadLine();			//ヘッダを読み飛ばす
 					
@@ -109,6 +111,12 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		/// <returns>ファイルに書き込む文字列。</returns>
 		protected abstract string SaveLines();
+
+
+		/// <summary>
+		/// レコードをクリアします。ロード直前に呼ばれます。
+		/// </summary>
+		protected virtual void ClearRecord() { }
 
 
 		/// <summary>

@@ -33,7 +33,7 @@ namespace ElectronicObserver.Resource.Record {
 					if ( eq != null )
 						return eq.Name;
 					else
-						return null;
+						return "(失敗)";
 				}
 			}
 

@@ -79,6 +79,8 @@ namespace ElectronicObserver.Window {
 			AdmiralName.Font = this.Font;
 			AdmiralComment.Font = this.Font;
 
+			FlowPanelResource.SetFlowBreak( Ammo, true );
+
 			FlowPanelMaster.Visible = false;
 
 		}

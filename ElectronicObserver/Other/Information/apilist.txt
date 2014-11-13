@@ -1438,6 +1438,8 @@ api_get_member/material
 api_req_quest/clearitemget
 api_get_member/material		(資源獲得時)
 api_get_member/useitem		(アイテム獲得時)
+api_get_member/slot_item	(装備獲得時)
+api_get_member/unsetslot	(装備獲得時)
 api_get_member/questlist
 
 

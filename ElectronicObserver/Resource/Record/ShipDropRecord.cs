@@ -27,7 +27,7 @@ namespace ElectronicObserver.Resource.Record {
 				get {
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
 					if ( ship == null )
-						return "";
+						return "(なし)";
 					else
 						return ship.Name;
 				}
@@ -172,6 +172,11 @@ namespace ElectronicObserver.Resource.Record {
 			}
 
 			return sb.ToString();
+		}
+
+
+		protected override void ClearRecord() {
+			Record.Clear();
 		}
 
 

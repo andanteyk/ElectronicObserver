@@ -219,10 +219,11 @@
 			this.FlowPanelResource.Controls.Add(this.Ammo);
 			this.FlowPanelResource.Controls.Add(this.Steel);
 			this.FlowPanelResource.Controls.Add(this.Bauxite);
+			this.FlowPanelResource.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.FlowPanelResource.Location = new System.Drawing.Point(0, 60);
 			this.FlowPanelResource.Margin = new System.Windows.Forms.Padding(0);
 			this.FlowPanelResource.Name = "FlowPanelResource";
-			this.FlowPanelResource.Size = new System.Drawing.Size(240, 20);
+			this.FlowPanelResource.Size = new System.Drawing.Size(60, 80);
 			this.FlowPanelResource.TabIndex = 5;
 			// 
 			// Fuel
@@ -239,7 +240,7 @@
 			// Ammo
 			// 
 			this.Ammo.BackColor = System.Drawing.Color.Transparent;
-			this.Ammo.Location = new System.Drawing.Point(63, 0);
+			this.Ammo.Location = new System.Drawing.Point(3, 20);
 			this.Ammo.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Ammo.Name = "Ammo";
 			this.Ammo.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
@@ -250,7 +251,7 @@
 			// Steel
 			// 
 			this.Steel.BackColor = System.Drawing.Color.Transparent;
-			this.Steel.Location = new System.Drawing.Point(123, 0);
+			this.Steel.Location = new System.Drawing.Point(3, 40);
 			this.Steel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Steel.Name = "Steel";
 			this.Steel.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
@@ -261,7 +262,7 @@
 			// Bauxite
 			// 
 			this.Bauxite.BackColor = System.Drawing.Color.Transparent;
-			this.Bauxite.Location = new System.Drawing.Point(183, 0);
+			this.Bauxite.Location = new System.Drawing.Point(3, 60);
 			this.Bauxite.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Bauxite.Name = "Bauxite";
 			this.Bauxite.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);

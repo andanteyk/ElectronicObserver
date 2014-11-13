@@ -33,7 +33,7 @@ namespace ElectronicObserver.Resource.Record {
 					if ( ship != null )
 						return ship.Name;
 					else
-						return null;
+						return "???";
 				}
 			}
 
@@ -213,6 +213,11 @@ namespace ElectronicObserver.Resource.Record {
 			}
 
 			return sb.ToString();
+		}
+
+
+		protected override void ClearRecord() {
+			Record.Clear();
 		}
 
 		protected override bool IsAppend { get { return true; } }

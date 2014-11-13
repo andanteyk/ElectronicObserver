@@ -311,6 +311,7 @@ namespace ElectronicObserver.Resource.Record {
 			if ( e == null ) {
 				e = new ShipParameterElement();
 				e.ShipID = ship.ShipID;
+				Utility.Logger.Add( 2, ship.MasterShip.Name + "のパラメータを記録しました。" );
 			}
 
 			e.ASW.SetEstParameter( ship.Level, ship.ASWBase, ship.ASWMax );
@@ -318,7 +319,7 @@ namespace ElectronicObserver.Resource.Record {
 			e.LOS.SetEstParameter( ship.Level, ship.LOSBase, ship.LOSMax );
 
 			Update( e );
-
+			Utility.Logger.Add( 1, ship.MasterShip.Name + "のパラメータを更新しました。" );
 		}
 
 
@@ -351,11 +352,13 @@ namespace ElectronicObserver.Resource.Record {
 			if ( e == null ) {
 				e = new ShipParameterElement();
 				e.ShipID = shipID;
+				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].Name + "の装備を記録しました。" );
 			}
 
 			e.DefaultSlot = slot;
 
 			Update( e );
+			Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].Name + "の装備を更新しました。" );
 		}
 
 
@@ -518,6 +521,10 @@ namespace ElectronicObserver.Resource.Record {
 			}
 
 			return sb.ToString();
+		}
+
+		protected override void ClearRecord() {
+			Record.Clear();
 		}
 
 		protected override string RecordHeader {

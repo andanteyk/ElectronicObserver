@@ -138,6 +138,11 @@ namespace ElectronicObserver.Window {
 
 			parent.UpdateTimerTick += parent_UpdateTimerTick;
 
+
+			//doublebuffered
+			System.Reflection.PropertyInfo prop = typeof( TableLayoutPanel ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
+			prop.SetValue( TableDock, true, null );
+			
 			TableDock.SuspendLayout();
 			ControlDock = new TableDockControl[4];
 			for ( int i = 0; i < ControlDock.Length; i++ ) {
