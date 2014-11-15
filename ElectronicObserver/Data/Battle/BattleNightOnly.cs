@@ -82,7 +82,7 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		public override int FleetIDFriend {
-			get { return int.Parse( RawData.api_deck_id ); }
+			get { return (int)RawData.api_deck_id; }
 		}
 	}
 

@@ -27,6 +27,9 @@
 			this.TableMember = new System.Windows.Forms.TableLayoutPanel();
 			this.TableFleet = new System.Windows.Forms.TableLayoutPanel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.ContextMenuFleet = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.ContextMenuFleet_CopyFleet = new System.Windows.Forms.ToolStripMenuItem();
+			this.ContextMenuFleet.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TableMember
@@ -57,6 +60,7 @@
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableFleet.ContextMenuStrip = this.ContextMenuFleet;
 			this.TableFleet.Location = new System.Drawing.Point(0, 0);
 			this.TableFleet.Name = "TableFleet";
 			this.TableFleet.RowCount = 1;
@@ -70,6 +74,20 @@
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
+			// 
+			// ContextMenuFleet
+			// 
+			this.ContextMenuFleet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ContextMenuFleet_CopyFleet});
+			this.ContextMenuFleet.Name = "ContextMenuFleet";
+			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 48);
+			// 
+			// ContextMenuFleet_CopyFleet
+			// 
+			this.ContextMenuFleet_CopyFleet.Name = "ContextMenuFleet_CopyFleet";
+			this.ContextMenuFleet_CopyFleet.Size = new System.Drawing.Size(226, 22);
+			this.ContextMenuFleet_CopyFleet.Text = "クリップボードにコピー(&C)";
+			this.ContextMenuFleet_CopyFleet.Click += new System.EventHandler(this.ContextMenuFleet_CopyFleet_Click);
 			// 
 			// FormFleet
 			// 
@@ -86,6 +104,7 @@
 			this.Name = "FormFleet";
 			this.Text = "*not loaded*";
 			this.Load += new System.EventHandler(this.FormFleet_Load);
+			this.ContextMenuFleet.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -96,5 +115,7 @@
 		private System.Windows.Forms.TableLayoutPanel TableMember;
 		private System.Windows.Forms.TableLayoutPanel TableFleet;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
+		private System.Windows.Forms.ContextMenuStrip ContextMenuFleet;
+		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_CopyFleet;
 	}
 }

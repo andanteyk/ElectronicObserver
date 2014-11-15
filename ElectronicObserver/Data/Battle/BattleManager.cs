@@ -40,6 +40,7 @@ namespace ElectronicObserver.Data.Battle {
 			NightOnly,					//夜戦
 			NightDay,					//夜昼戦
 			AirBattle,					//航空戦
+			Water,						//連合艦隊-水上部隊 通常戦闘
 			Practice,					//演習
 			BattlePhaseFlags = 0xFFFF,	//戦闘形態マスク
 			Combined = 0x10000,			//連合艦隊仕様
@@ -102,6 +103,12 @@ namespace ElectronicObserver.Data.Battle {
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
 
+				case "api_req_combined_battle/battle_water":
+					BattleMode = BattleModes.Water | BattleModes.Combined;
+					BattleDay = new BattleCombinedWater();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+
 				case "api_req_practice/battle":
 					BattleMode = BattleModes.Practice;
 					BattleDay = new BattlePracticeDay();
@@ -143,6 +150,7 @@ namespace ElectronicObserver.Data.Battle {
 			switch ( BattleMode & BattleModes.BattlePhaseFlags ) {
 				case BattleModes.Normal:
 				case BattleModes.AirBattle:
+				case BattleModes.Water:
 					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleDay.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
 					break;
 

@@ -64,6 +64,7 @@
     <Compile Include="Data\Battle\BattleCombinedNightOnly.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalDay.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalNight.cs" />
+    <Compile Include="Data\Battle\BattleCombinedWater.cs" />
     <Compile Include="Data\Battle\BattleData.cs" />
     <Compile Include="Data\Battle\BattleDataCombined.cs" />
     <Compile Include="Data\Battle\BattleManager.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Observer\kcsapi\api_req_combined_battle\airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\battleresult.cs" />
+    <Compile Include="Observer\kcsapi\api_req_combined_battle\battle_water.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\midnight_battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\sp_midnight.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\change.cs" />

@@ -24,6 +24,24 @@ namespace ElectronicObserver.Resource.Record {
 
 			public int[] FleetMember { get; set; }
 
+			public string FormationString {
+				get {
+					switch ( Formation ) {
+						case 1:
+							return "単縦陣";
+						case 2:
+							return "複縦陣";
+						case 3:
+							return "輪形陣";
+						case 4:
+							return "梯形陣";
+						case 5:
+							return "単横陣";
+						default:
+							return "未定義";
+					}
+				}
+			}
 
 			public EnemyFleetElement()
 				: base() { }

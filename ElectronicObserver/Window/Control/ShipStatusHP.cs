@@ -21,37 +21,37 @@ namespace ElectronicObserver.Window.Control {
 
 		#region Property
 
-		private int _value;
 		[Browsable( true )]
+		[Description( "HPの現在値です。" )]
+		[Category( "データ" )]
 		[DefaultValue( 66 )]
 		public int Value {
-			get { return _value; }
+			get { return _HPBar.Value; }
 			set {
-				_value = value;
 				_HPBar.Value = value;
 				Refresh();
 			}
 		}
 
-		private int _prevValue;
 		[Browsable( true )]
+		[Description( "以前のHPです。" )]
+		[Category( "データ" )]
 		[DefaultValue( 88 )]
 		public int PrevValue {
-			get { return _prevValue; }
+			get { return _HPBar.PrevValue; }
 			set {
-				_prevValue = value;
 				_HPBar.PrevValue = value;
 				Refresh();
 			}
 		}
 
-		private int _maximumValue;
 		[Browsable( true )]
+		[Description( "HPの最大値です。" )]
+		[Category( "データ" )]
 		[DefaultValue( 100 )]
 		public int MaximumValue {
-			get { return _maximumValue; }
+			get { return _HPBar.MaximumValue; }
 			set {
-				_maximumValue = value;
 				_HPBar.MaximumValue = value;
 				Refresh();
 			}
@@ -59,6 +59,8 @@ namespace ElectronicObserver.Window.Control {
 
 		private DateTime? _repairTime;
 		[Browsable( true )]
+		[Description( "修復が完了する日時です。" )]
+		[Category( "データ" )]
 		[DefaultValue( null )]
 		public DateTime? RepairTime {
 			get { return _repairTime; }
@@ -72,6 +74,8 @@ namespace ElectronicObserver.Window.Control {
 
 		private int _maximumDigit;
 		[Browsable( true )]
+		[Description( "想定されるHPの最大値です。この値に応じてレイアウトされます。" )]
+		[Category( "データ" )]
 		[DefaultValue( 999 )]
 		public int MaximumDigit {
 			get { return _maximumDigit; }
@@ -84,6 +88,8 @@ namespace ElectronicObserver.Window.Control {
 
 		private Color _mainFontColor;
 		[Browsable( true )]
+		[Description( "主要テキストの色を指定します。" )]
+		[Category( "表示" )]
 		[DefaultValue( typeof( Color ), "0, 0, 0" )]
 		public Color MainFontColor {
 			get {
@@ -97,6 +103,8 @@ namespace ElectronicObserver.Window.Control {
 
 		private Color _subFontColor;
 		[Browsable( true )]
+		[Description( "補助テキストの色を指定します。" )]
+		[Category( "表示" )]
 		[DefaultValue( typeof( Color ), "136, 136, 136" )]
 		public Color SubFontColor {
 			get {
@@ -110,6 +118,8 @@ namespace ElectronicObserver.Window.Control {
 
 		private Color _repairFontColor;
 		[Browsable( true )]
+		[Description( "修復時間テキストの色を指定します。" )]
+		[Category( "表示" )]
 		[DefaultValue( typeof( Color ), "0, 0, 136" )]
 		public Color RepairFontColor {
 			get {
@@ -124,6 +134,8 @@ namespace ElectronicObserver.Window.Control {
 
 		private Font _mainFont;
 		[Browsable( true )]
+		[Description( "主要テキストのフォントを指定します。" )]
+		[Category( "表示" )]
 		[DefaultValue( typeof( Font ), "Meiryo UI, 12px" )]
 		public Font MainFont {
 			get {
@@ -137,6 +149,8 @@ namespace ElectronicObserver.Window.Control {
 
 		private Font _subFont;
 		[Browsable( true )]
+		[Description( "補助テキストの色を指定します。" )]
+		[Category( "表示" )]
 		[DefaultValue( typeof( Font ), "Meiryo UI, 10px" )]
 		public Font SubFont {
 			get {
@@ -151,6 +165,8 @@ namespace ElectronicObserver.Window.Control {
 
 		private string _text;
 		[Browsable( true )]
+		[Description( "説明文となるテキストを指定します。" )]
+		[Category( "表示" )]
 		[DefaultValue( "HP:" )]
 		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
 		[EditorBrowsable( EditorBrowsableState.Always )]
@@ -165,6 +181,8 @@ namespace ElectronicObserver.Window.Control {
 
 
 		[Browsable( true )]
+		[Description( "以前の値との差分を表示するかを指定します。" )]
+		[Category( "表示" )]
 		[DefaultValue( true )]
 		public bool UsePrevValue {
 			get { return HPBar.UsePrevValue; }
@@ -175,13 +193,32 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 
+		private bool _showDifference;
 		[Browsable( true )]
+		[Description( "最大値の代わりに以前の値を表示するかを指定します。" )]
+		[Category( "表示" )]
+		[DefaultValue( false )]
+		public bool ShowDifference {
+			get { return _showDifference; }
+			set {
+				_showDifference = value;
+				Refresh();
+			}
+		}
+
+
+		[Browsable( true )]
+		[Description( "HPバーへの参照です。" )]
+		[Category( "表示" )]
 		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
 		public StatusBar HPBar {
 			get { return _HPBar; }
 			set { _HPBar = value; }
 		}
 		
+
+
+
 		#endregion
 
 		
@@ -193,9 +230,9 @@ namespace ElectronicObserver.Window.Control {
 			SetStyle( ControlStyles.ResizeRedraw, true );
 
 
-			_value = _HPBar.Value;
-			_prevValue = _HPBar.PrevValue;
-			_maximumValue = _HPBar.MaximumValue;
+			_HPBar.Value = 66;
+			_HPBar.PrevValue = 88;
+			_HPBar.MaximumValue = 100;
 			_repairTime = null;
 			
 			_maximumDigit = 999;
@@ -208,7 +245,9 @@ namespace ElectronicObserver.Window.Control {
 
 			_repairFontColor = FromArgb( 0xFF000088 );
 			_text = "HP:";
-		
+
+			_HPBar.UsePrevValue = true;
+			_showDifference = false;
 		}
 
 
@@ -258,7 +297,7 @@ namespace ElectronicObserver.Window.Control {
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_text ) );
 
 				p.X = basearea.Right - sz_hpmax.Width;
-				TextRenderer.DrawText( g, MaximumValue.ToString(), SubFont, new Rectangle( p, sz_hpmax ), SubFontColor, TextFormatHP );
+				TextRenderer.DrawText( g, !ShowDifference ? MaximumValue.ToString() : GetDifferenceString(), SubFont, new Rectangle( p, sz_hpmax ), SubFontColor, TextFormatHP );
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_hpmax ) );
 
 				p.X -= sz_slash.Width;
@@ -267,7 +306,7 @@ namespace ElectronicObserver.Window.Control {
 
 				p.X -= sz_hpnow.Width;
 				p.Y = basearea.Bottom - _HPBar.Height - sz_hpnow.Height + 1;
-				TextRenderer.DrawText( g, Value.ToString(), MainFont, new Rectangle( p, sz_hpnow ), MainFontColor, TextFormatHP );
+				TextRenderer.DrawText( g, Math.Max( Value, 0 ).ToString(), MainFont, new Rectangle( p, sz_hpnow ), MainFontColor, TextFormatHP );
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_hpnow ) );
 
 			}
@@ -304,6 +343,17 @@ namespace ElectronicObserver.Window.Control {
 
 
 
+		private string GetDifferenceString() {
+
+			int diff = Value - PrevValue;
+
+			if ( diff < 0 )
+				return diff.ToString();
+			else if ( diff == 0 )
+				return "-0";
+			else
+				return "+" + diff.ToString();
+		}
 
 		private void ShipStatusHP_SizeChanged( object sender, EventArgs e ) {
 

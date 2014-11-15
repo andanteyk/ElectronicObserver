@@ -117,15 +117,7 @@ namespace ElectronicObserver.Resource.Record {
 				get {
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
 					if ( ship != null ) {
-						if ( ship.IsAbyssalShip && 
-							( ship.NameReading != null && 
-							  ship.NameReading != "" &&
-							  ship.NameReading != "-" ) ) {
-								  return ship.Name + " " + ship.NameReading;
-						} else {
-							return ship.Name;
-						}
-
+						return ship.NameWithClass;
 					} else {
 						return null;
 					}
@@ -252,6 +244,9 @@ namespace ElectronicObserver.Resource.Record {
 
 			APIObserver ao = APIObserver.Instance;
 
+
+			ao.APIList["api_start2"].ResponseReceived += GameStart;
+
 			ao.APIList["api_port/port"].ResponseReceived += ParameterLoaded;
 
 			ao.APIList["api_get_member/picture_book"].ResponseReceived += AlbumOpened;
@@ -264,6 +259,7 @@ namespace ElectronicObserver.Resource.Record {
 			//ao.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStart;
 
 			ao.APIList["api_req_map/start"].ResponseReceived += SortieStart;
 			ao.APIList["api_port/port"].ResponseReceived += SortieEnd;
@@ -275,7 +271,6 @@ namespace ElectronicObserver.Resource.Record {
 
 		}
 
-		
 		
 
 		public ShipParameterElement this[int i] {
@@ -311,7 +306,7 @@ namespace ElectronicObserver.Resource.Record {
 			if ( e == null ) {
 				e = new ShipParameterElement();
 				e.ShipID = ship.ShipID;
-				Utility.Logger.Add( 2, ship.MasterShip.Name + "のパラメータを記録しました。" );
+				Utility.Logger.Add( 2, ship.MasterShip.NameWithClass + "のパラメータを記録しました。" );
 			}
 
 			e.ASW.SetEstParameter( ship.Level, ship.ASWBase, ship.ASWMax );
@@ -319,7 +314,7 @@ namespace ElectronicObserver.Resource.Record {
 			e.LOS.SetEstParameter( ship.Level, ship.LOSBase, ship.LOSMax );
 
 			Update( e );
-			Utility.Logger.Add( 1, ship.MasterShip.Name + "のパラメータを更新しました。" );
+			Utility.Logger.Add( 1, ship.MasterShip.NameWithClass + "のパラメータを更新しました。" );
 		}
 
 
@@ -352,19 +347,29 @@ namespace ElectronicObserver.Resource.Record {
 			if ( e == null ) {
 				e = new ShipParameterElement();
 				e.ShipID = shipID;
-				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].Name + "の装備を記録しました。" );
+				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "の装備を記録しました。" );
 			}
 
 			e.DefaultSlot = slot;
 
 			Update( e );
-			Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].Name + "の装備を更新しました。" );
+			Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "の装備を更新しました。" );
 		}
 
 
 
 
 		#region API Events
+
+		/// <summary>
+		/// ゲーム開始時にパラメータ読み込みフラグを解除、初回読み込みの準備をします。
+		/// </summary>
+		private void GameStart( string apiname, dynamic data ) {
+
+			ParameterLoadFlag = true;
+
+		}
+		
 
 		/// <summary>
 		/// 保有艦船から各パラメータを読み込みます。
@@ -462,7 +467,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		private void ConstructionReceived( string apiname, dynamic data ) {
 
-			int shipID = (int)data.api_ship_id;
+			int shipID = (int)data.api_id;
 			ShipData ship = KCDatabase.Instance.Ships.Values.FirstOrDefault( ( ShipData s ) => s.MasterID == shipID );
 
 			if ( ship != null ) {

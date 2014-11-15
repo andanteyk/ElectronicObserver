@@ -32,9 +32,12 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 
 			} else {
 
+				//この場合は直後に ndock が呼ばれるので自力で更新しなくてもよい
+				/*
 				dock.State = 1;
 				dock.ShipID = shipID;
 				dock.CompletionTime = DateTime.Now.AddMilliseconds( ship.RepairTime );
+				*/
 
 			}
 

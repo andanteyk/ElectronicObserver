@@ -1,7 +1,9 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Resource.SaveData;
+using ElectronicObserver.Window.Control;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,12 +19,157 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormCompass : DockContent {
 
+
+		private class TableEnemyMemberControl {
+
+			public ImageLabel ShipName;
+			public ShipStatusEquipment Equipments;
+
+			public ToolTip ToolTipInfo;
+
+
+			public TableEnemyMemberControl( FormCompass parent ) {
+
+				#region Initialize
+
+				ShipName = new ImageLabel();
+				ShipName.Anchor = AnchorStyles.Left;
+				ShipName.Font = parent.MainFont;
+				ShipName.ForeColor = parent.MainFontColor;
+				ShipName.ImageAlign = ContentAlignment.MiddleCenter;
+				ShipName.Padding = new Padding( 0, 1, 0, 1 );
+				ShipName.Margin = new Padding( 2, 0, 2, 0 );
+				ShipName.MaximumSize = new Size( 60, 20 );
+				ShipName.AutoEllipsis = true;
+				ShipName.AutoSize = true;
+
+				Equipments = new ShipStatusEquipment();
+				Equipments.SuspendLayout();
+				Equipments.Anchor = AnchorStyles.Left;
+				Equipments.Font = parent.SubFont;
+				Equipments.Padding = new Padding( 0, 2, 0, 1 );
+				Equipments.Margin = new Padding( 2, 0, 2, 0 );
+				Equipments.Size = new Size( 40, 20 );	//checkme: 要る？
+				Equipments.AutoSize = true;
+				Equipments.ResumeLayout();
+
+				ToolTipInfo = parent.ToolTipInfo;
+				#endregion
+
+			}
+
+			public TableEnemyMemberControl( FormCompass parent, TableLayoutPanel table, int row )
+				: this( parent ) {
+
+				AddToTable( table, row );
+			}
+
+			public void AddToTable( TableLayoutPanel table, int row ) {
+
+				table.Controls.Add( ShipName, 0, row );
+				table.Controls.Add( Equipments, 1, row );
+
+				#region set RowStyle
+				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
+
+				if ( table.RowStyles.Count > row )
+					table.RowStyles[row] = rs;
+				else
+					while ( table.RowStyles.Count <= row )
+						table.RowStyles.Add( rs );
+				#endregion
+			}
+
+
+
+			public void Update( int shipID ) {
+				Update( shipID, shipID != -1 ? KCDatabase.Instance.MasterShips[shipID].DefaultSlot.ToArray() : null );
+			}
+
+			public void Update( int shipID, int[] slot ) {
+
+				if ( shipID == -1 ) {
+					//なし
+					ShipName.Text = "-";
+					ShipName.ForeColor = Color.FromArgb( 0x00, 0x00, 0x00 );
+					Equipments.Visible = false;
+					ToolTipInfo.SetToolTip( ShipName, null );
+					ToolTipInfo.SetToolTip( Equipments, null );
+
+				} else {
+
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
+
+
+					ShipName.Text = ship.Name;
+					switch ( ship.AbyssalShipClass ) {
+						case 0:
+						case 1:		//normal
+							ShipName.ForeColor = Color.FromArgb( 0x00, 0x00, 0x00 ); break;
+						case 2:		//elite
+							ShipName.ForeColor = Color.FromArgb( 0xFF, 0x00, 0x00 ); break;
+						case 3:		//flagship
+							ShipName.ForeColor = Color.FromArgb( 0xFF, 0x88, 0x00 ); break;
+						case 4:		//latemodel
+							ShipName.ForeColor = Color.FromArgb( 0x00, 0x88, 0xFF ); break;
+					}
+
+					Equipments.SetSlotList( shipID, slot );
+					Equipments.Visible = true;
+					ToolTipInfo.SetToolTip( ShipName, ship.NameWithClass );
+					ToolTipInfo.SetToolTip( Equipments, GetEquipmentString( shipID, slot ) );
+				}
+
+			}
+
+			private string GetEquipmentString( int shipID, int[] slot ) {
+				StringBuilder sb = new StringBuilder();
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
+
+				for ( int i = 0; i < slot.Length; i++ ) {
+					if ( slot[i] != -1 )
+						sb.AppendFormat( "[{0}] {1}\r\n", ship.Aircraft[i], KCDatabase.Instance.MasterEquipments[slot[i]].Name );
+				}
+
+				return sb.ToString();
+			}
+
+		}
+
+
+
+		public Font MainFont { get; set; }
+		public Font SubFont { get; set; }
+		public Color MainFontColor { get; set; }
+		public Color SubFontColor { get; set; }
+
+
+		private TableEnemyMemberControl[] ControlMember;
+
+
+		
 		public FormCompass( FormMain parent ) {
 			InitializeComponent();
 
+
+			//todo: 後々外部から設定できるように
+			MainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+			SubFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
+			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
+			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
+
+			TableEnemyMember.SuspendLayout();
+			ControlMember = new TableEnemyMemberControl[6];
+			for ( int i = 0; i < ControlMember.Length; i++ ) {
+				ControlMember[i] = new TableEnemyMemberControl( this, TableEnemyMember, i );
+			}
+			TableEnemyMember.ResumeLayout();
+
+
 			BasePanel.SetFlowBreak( TextMapArea, true );
 			BasePanel.SetFlowBreak( TextDestination, true );
-			BasePanel.SetFlowBreak( TextEventDetail, true );
+			BasePanel.SetFlowBreak( TextEventKind, true );
+			//BasePanel.SetFlowBreak( TextEventDetail, true );
 
 		}
 
@@ -30,6 +177,15 @@ namespace ElectronicObserver.Window {
 		private void FormCompass_Load( object sender, EventArgs e ) {
 
 			BasePanel.Visible = false;
+			TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
+			TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
+
+
+			Font = MainFont;
+			TextMapArea.Font = MainFont;
+			TextDestination.Font = MainFont;
+			TextEventKind.Font = MainFont;
+			TextEventDetail.Font = MainFont;
 
 
 			APIObserver o = APIObserver.Instance;
@@ -55,6 +211,7 @@ namespace ElectronicObserver.Window {
 
 
 				BasePanel.SuspendLayout();
+				PanelEnemyFleet.Visible = false;
 
 				TextMapArea.Text = "出撃海域 : " + compass.MapAreaID + "-" + compass.MapInfoID;
 				TextDestination.Text = "次のセル : " + compass.Destination + ( compass.IsEndPoint ? " (終点)" : "" );
@@ -106,11 +263,11 @@ namespace ElectronicObserver.Window {
 							break;
 						case 4:
 							eventkind += "通常戦闘";
-							TextEventDetail.Text = GetEnemyFleetInformation( compass.EnemyFleetID );
+							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 						case 5:
 							eventkind += "ボス戦闘";
-							TextEventDetail.Text = GetEnemyFleetInformation( compass.EnemyFleetID );
+							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 						case 6:
 							eventkind += "気のせいだった";
@@ -118,7 +275,7 @@ namespace ElectronicObserver.Window {
 							break;
 						case 7:
 							eventkind += "機動部隊航空戦";
-							TextEventDetail.Text = GetEnemyFleetInformation( compass.EnemyFleetID );
+							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 						default:
 							eventkind += "不明";
@@ -137,7 +294,87 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
+		private void UpdateEnemyFleet( int fleetID ) {
+
+			TextEventDetail.Text = string.Format( "敵艦隊ID : {0}", fleetID );
+
+
+			var efleet = RecordManager.Instance.EnemyFleet;
+			
+			if ( !efleet.Record.ContainsKey( fleetID ) ) {
+
+				//unknown
+				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
+				TextFormation.Visible = false;
+				TextAirSuperiority.Visible = false;
+				TableEnemyMember.Visible = false;
+
+			} else {
+
+				var fdata = efleet[fleetID];
+
+				TextEnemyFleetName.Text = fdata.FleetName;
+				TextFormation.Text = fdata.FormationString;
+				TextFormation.Visible = true;
+				TextAirSuperiority.Text = GetAirSuperiority( fdata ).ToString();
+				TextAirSuperiority.Visible = true;
+
+				TableEnemyMember.SuspendLayout();
+				for ( int i = 0; i < ControlMember.Length; i++ ) {
+					ControlMember[i].Update( fdata.FleetMember[i] );
+				}
+				TableEnemyMember.ResumeLayout();
+				TableEnemyMember.Visible = true;
+
+			}
+
+			PanelEnemyFleet.Visible = true;
+
+		}
+
+
+		//これ、どうにかならないものだろうか…
+		//纏めるにしてもつらいし
+		private int GetAirSuperiority( EnemyFleetRecord.EnemyFleetElement fdata ) {
+
+			int airSuperiority = 0;
+
+			for ( int i = 0; i < fdata.FleetMember.Length; i++ ) {
+
+				if ( fdata.FleetMember[i] == -1 )
+					continue;
+
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[fdata.FleetMember[i]];
+
+				if ( ship.DefaultSlot == null )
+					continue;
+
+				for ( int s = 0; s < ship.DefaultSlot.Count; s++ ) {
+					if ( ship.DefaultSlot[s] == -1 )
+						continue;
+
+					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[s]];
+
+					switch ( eq.EquipmentType[2] ) {
+						case 6:		//艦戦
+						case 7:		//艦爆
+						case 8:		//艦攻
+						case 11:	//水爆
+							airSuperiority += (int)( eq.AA * Math.Sqrt( ship.Aircraft[s] ) );
+							break;
+					}
+				}
+			}
+
+
+			return airSuperiority;
+		}
+
+
+
 		//for debug
+		[Obsolete]
 		private string GetEnemyFleetInformation( int fleetID ) {
 
 			StringBuilder sb = new StringBuilder();
@@ -179,13 +416,7 @@ namespace ElectronicObserver.Window {
 					if ( fmembers[i] == -1 ) continue;
 
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[fmembers[i]];
-					sb.Append( ship.Name );
-					if ( ship.NameReading != null &&
-						 ship.NameReading != "" &&
-						 ship.NameReading != "-" ) {
-						sb.AppendFormat( " {0}", ship.NameReading );
-					}
-					sb.AppendLine();
+					sb.AppendLine( ship.NameWithClass );
 				}
 			}
 
@@ -197,6 +428,10 @@ namespace ElectronicObserver.Window {
 
 		protected override string GetPersistString() {
 			return "Compass";
+		}
+
+		private void TableEnemyMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
+			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 	}

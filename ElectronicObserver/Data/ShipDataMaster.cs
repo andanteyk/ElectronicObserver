@@ -375,12 +375,51 @@ namespace ElectronicObserver.Data {
 
 
 
+		//以下、自作計算プロパティ群
+
 		/// <summary>
 		/// 深海棲艦かどうか
 		/// </summary>
 		public bool IsAbyssalShip {
 			get { return ShipID > 500; }
 		}
+
+		/// <summary>
+		/// 深海棲艦のクラス
+		/// 0=その他, 1=通常, 2=elite, 3=flagship, 4=改flagship|後期型
+		/// </summary>
+		public int AbyssalShipClass {
+			get {
+				if ( !IsAbyssalShip )
+					return 0;
+				else if ( Name.Contains( "後期型" ) || ( Name.Contains( "改" ) && NameReading == "flagship" ) )
+					return 4;
+				else if ( NameReading == "flagship" )
+					return 3;
+				else if ( NameReading == "elite" )
+					return 2;
+				else if ( NameReading == "" ||
+						  NameReading == "-" )
+					return 1;
+				else
+					return 0;
+			}
+		}
+
+		/// <summary>
+		/// クラスも含めた艦名
+		/// </summary>
+		public string NameWithClass {
+			get {
+				if ( !IsAbyssalShip )
+					return Name;
+				else if ( NameReading == "" || NameReading == "-" )
+					return Name;
+				else
+					return string.Format( "{0} {1}", Name, NameReading );
+			}
+		}
+
 
 
 

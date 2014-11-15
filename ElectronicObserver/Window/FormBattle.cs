@@ -38,6 +38,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += rec;
 			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += rec;
 			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += rec;
 			o.APIList["api_req_combined_battle/battleresult"].ResponseReceived += rec;
 			o.APIList["api_req_practice/battle"].ResponseReceived += rec;
 			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += rec;
@@ -68,10 +69,18 @@ namespace ElectronicObserver.Window {
 					break;
 
 				case "api_req_battle_midnight/battle":
+				case "api_req_battle_midnight/sp_midnight":
 					TextDebug.Text = GetBattleString( battle.BattleNight );
 					break;
 
-				case "api_req_battle_midnight/sp_midnight":
+				case "api_req_combined_battle/battle":
+				case "api_req_combined_battle/airbattle":
+				case "api_req_combined_battle/battle_water":
+					TextDebug.Text = GetBattleString( battle.BattleDay );
+					break;
+
+				case "api_req_combined_battle/midnight_battle":
+				case "api_req_combined_battle/sp_midnight":
 					TextDebug.Text = GetBattleString( battle.BattleNight );
 					break;
 
@@ -106,12 +115,12 @@ namespace ElectronicObserver.Window {
 			int[] hp = bd.EmulateBattle();
 			bool isPractice = bd.APIName.Contains( "practice" );	//仕方ないね
 			bool isCombined = bd.APIName.Contains( "combined" );
-			int enemyoffset = !isCombined ? 6 : 12;
+			int enemyoffset = 6;
 
 
 			sb.AppendLine( "---- 自軍艦隊 ----" );
 			if ( isCombined )
-				sb.AppendLine( "[機動部隊本隊]" );
+				sb.AppendLine( "[部隊本隊]" );
 
 			for ( int i = 0; i < 6; i++ ) {
 
@@ -158,7 +167,7 @@ namespace ElectronicObserver.Window {
 				BattleDataCombined bdc = (BattleDataCombined)bd;
 
 				sb.AppendLine();
-				sb.AppendLine( "[随伴護衛艦隊]" );
+				sb.AppendLine( "[随伴艦隊]" );
 
 
 				for ( int i = 0; i < 6; i++ ) {
@@ -173,22 +182,22 @@ namespace ElectronicObserver.Window {
 						sb.Append( " HP: " );
 						sb.Append( bdc.InitialHPCombined[i + 1] );
 						sb.Append( " -> " );
-						sb.Append( hp[i + 6] );
+						sb.Append( hp[i + 12] );
 						sb.Append( " (" );
-						sb.Append( hp[i + 6] - bdc.InitialHPCombined[i + 1] );
+						sb.Append( hp[i + 12] - bdc.InitialHPCombined[i + 1] );
 						sb.Append( ") " );
-						if ( hp[i + 6] == 0 ) {
+						if ( hp[i + 12] == 0 ) {
 							if ( isPractice )
 								sb.Append( "[離脱]" );
 							else
 								sb.Append( "[撃沈]" );
-						} else if ( (double)hp[i + 6] / bd.MaxHP[i + 1] <= 0.25 ) {
+						} else if ( (double)hp[i + 12] / bdc.MaxHPCombined[i + 1] <= 0.25 ) {
 							sb.Append( "[大破]" );
-						} else if ( (double)hp[i + 6] / bd.MaxHP[i + 1] <= 0.50 ) {
+						} else if ( (double)hp[i + 12] / bdc.MaxHPCombined[i + 1] <= 0.50 ) {
 							sb.Append( "[中破]" );
-						} else if ( (double)hp[i + 6] / bd.MaxHP[i + 1] <= 0.75 ) {
+						} else if ( (double)hp[i + 12] / bdc.MaxHPCombined[i + 1] <= 0.75 ) {
 							sb.Append( "[小破]" );
-						} else if ( (double)hp[i + 6] < bd.MaxHP[i + 1] ) {
+						} else if ( (double)hp[i + 12] < bdc.MaxHPCombined[i + 1] ) {
 							sb.Append( "[健在]" );
 						} else {
 							sb.Append( "[無傷]" );

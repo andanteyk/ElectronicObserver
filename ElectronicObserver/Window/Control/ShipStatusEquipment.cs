@@ -231,7 +231,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 			for ( int i = 0; i < SlotList.Length; i++ ) {
-				SlotList[i].EquipmentID = ship.DefaultSlot.Count < i ? ship.DefaultSlot[i] : -1;
+				SlotList[i].EquipmentID = ship.DefaultSlot == null ? -1 : ( ship.DefaultSlot.Count < i ? ship.DefaultSlot[i] : -1 );
 				SlotList[i].AircraftCurrent =
 				SlotList[i].AircraftMax = ship.Aircraft[i];
 			}
@@ -241,6 +241,32 @@ namespace ElectronicObserver.Window.Control {
 			PropertyChanged();
 		}
 
+		/// <summary>
+		/// スロット情報を設定します。主に演習の敵艦用です。
+		/// </summary>
+		/// <param name="shipID">艦船ID。</param>
+		/// <param name="slot">装備スロット。</param>
+		public void SetSlotList( int shipID, int[] slot ) {
+
+			ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
+
+			if ( SlotList.Length != slot.Length ) {
+				SlotList = new SlotItem[slot.Length];
+				for ( int i = 0; i < SlotList.Length; i++ ) {
+					SlotList[i] = new SlotItem();
+				}
+			}
+
+			for ( int i = 0; i < SlotList.Length; i++ ) {
+				SlotList[i].EquipmentID = slot[i];
+				SlotList[i].AircraftCurrent = ship.Aircraft[i];
+				SlotList[i].AircraftMax = ship.Aircraft[i];
+			}
+
+			SlotSize = ship.SlotSize;
+
+			PropertyChanged();
+		}
 
 
 		private void PropertyChanged() {

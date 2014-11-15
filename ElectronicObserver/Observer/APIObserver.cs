@@ -68,6 +68,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_practice.battle_result() );
 			APIList.Add( new kcsapi.api_get_member.deck() );
 			APIList.Add( new kcsapi.api_get_member.mapinfo() );
+			APIList.Add( new kcsapi.api_req_combined_battle.battle_water() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );

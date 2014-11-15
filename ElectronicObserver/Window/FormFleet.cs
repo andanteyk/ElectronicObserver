@@ -73,6 +73,7 @@ namespace ElectronicObserver.Window {
 				ToolTipInfo = parent.ToolTipInfo;
 				State = 0;
 				Timer = DateTime.Now;
+
 				#endregion
 
 			}
@@ -121,7 +122,15 @@ namespace ElectronicObserver.Window {
 				var ships = KCDatabase.Instance.Ships;
 
 
-				{
+
+
+				if ( fleet.FleetMember.Count( e => e == -1 ) == fleet.FleetMember.Count ) {
+
+					State = 0;
+					StateMain.Text = "所属艦なし";
+
+				} else {
+
 					long ntime = KCDatabase.Instance.Docks.Max(
 						( KeyValuePair<int, DockData> dock ) => {
 							if ( dock.Value.State < 1 ) return 0;
@@ -212,36 +221,9 @@ namespace ElectronicObserver.Window {
 				#endregion
 
 
-				//制空戦力計算
-				{
-					int airSuperiority = 0;
-
-					for ( int i = 0; i < fleet.FleetMember.Count; i++ ) {
-
-						if ( fleet.FleetMember[i] == -1 )
-							continue;
-
-						ShipData ship = db.Ships[fleet.FleetMember[i]];
-						for ( int j = 0; j < ship.Slot.Count; j++ ) {
-
-							if ( ship.Slot[j] == -1 )
-								continue;
-
-							EquipmentDataMaster eq = db.Equipments[ship.Slot[j]].MasterEquipment;
-
-							switch ( eq.EquipmentType[2] ) {
-								case 6:		//艦戦
-								case 7:		//艦爆
-								case 8:		//艦攻
-								case 11:	//水爆
-									airSuperiority += (int)( eq.AA * Math.Sqrt( ship.Aircraft[j] ) );
-									break;
-							}
-						}
-					}
-
-					AirSuperiority.Text = airSuperiority.ToString();
-				}
+				//制空戦力計算	
+				AirSuperiority.Text = fleet.GetAirSuperiority().ToString();
+				
 
 
 				//索敵能力計算　(水偵|艦偵)*2 + 電探 + √(その他)　とする
@@ -317,6 +299,9 @@ namespace ElectronicObserver.Window {
 			public ShipStatusResource ShipResource;
 			public ShipStatusEquipment Equipments;
 
+			private ToolTip ToolTipInfo;
+
+
 			public TableMemberControl( FormFleet parent ) {
 
 				#region Initialize
@@ -356,6 +341,7 @@ namespace ElectronicObserver.Window {
 				HP.Value = 0;
 				HP.MaximumValue = 0;
 				HP.MaximumDigit = 999;
+				HP.UsePrevValue = false;
 				HP.MainFont = parent.MainFont;
 				HP.SubFont = parent.SubFont;
 				HP.MainFontColor = parent.MainFontColor;
@@ -405,6 +391,8 @@ namespace ElectronicObserver.Window {
 				Equipments.Visible = false;
 				Equipments.ResumeLayout();
 
+
+				ToolTipInfo = parent.ToolTipInfo;
 				#endregion
 
 			}
@@ -477,6 +465,7 @@ namespace ElectronicObserver.Window {
 
 
 					Equipments.SetSlotList( ship );
+					ToolTipInfo.SetToolTip( Equipments, GetEquipmentString( ship ) );
 
 				}
 
@@ -488,6 +477,18 @@ namespace ElectronicObserver.Window {
 				ShipResource.Visible = 
 				Equipments.Visible = shipMasterID != -1;
 
+			}
+
+
+			private string GetEquipmentString( ShipData ship ) {
+				StringBuilder sb = new StringBuilder();
+				
+				for ( int i = 0; i < ship.Slot.Count; i++ ) {
+					if ( ship.Slot[i] != -1 )
+						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], KCDatabase.Instance.Equipments[ship.Slot[i]].MasterEquipment.Name );
+				}
+
+				return sb.ToString();
 			}
 		}
 
@@ -612,6 +613,63 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		//艦隊編成のコピー
+		private void ContextMenuFleet_CopyFleet_Click( object sender, EventArgs e ) {
+
+			StringBuilder sb = new StringBuilder();
+			KCDatabase db = KCDatabase.Instance;
+			FleetData fleet = db.Fleet[FleetID];
+
+			sb.AppendFormat( "{0}\t制空戦力{1}\r\n", fleet.Name, fleet.GetAirSuperiority() );
+			for ( int i = 0; i < fleet.FleetMember.Count; i++ ) {
+				if ( fleet[i] == -1 )
+					continue;
+
+				ShipData ship = db.Ships[fleet[i]];
+
+				sb.AppendFormat( "{0}/{1}\t", ship.MasterShip.Name, ship.Level );
+
+				int[] slot = new int[ship.Slot.Count];
+				for ( int j = 0; j < slot.Length; j++ ) {
+					if ( ship.Slot[j] != -1 )
+						slot[j] = db.Equipments[ship.Slot[j]].EquipmentID;
+					else
+						slot[j] = -1;
+				}
+
+
+				for ( int j = 0; j < slot.Length; j++ ) {
+
+					if ( slot[j] == -1 ) continue;
+
+					int count = 1;
+					for ( int k = j + 1; k < ship.Slot.Count; k++ ) {
+						if ( slot[k] == slot[j] ) {
+							count++;
+						} else {
+							break;
+						}
+					}
+
+					if ( count == 1 ) {
+						sb.AppendFormat( "{0}{1}", j == 0 ? "" : "/", db.MasterEquipments[slot[j]].Name );
+					} else {
+						sb.AppendFormat( "{0}{1}x{2}", j == 0 ? "" : "/", db.MasterEquipments[slot[j]].Name, count );
+					}
+
+					j += count - 1;
+				}
+
+				sb.AppendLine();
+			}
+
+
+			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
+		}
+
+
+
+
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
@@ -622,6 +680,9 @@ namespace ElectronicObserver.Window {
 			return "Fleet #" + FleetID.ToString();
 		}
 
+
+
+	
 	}
 
 }

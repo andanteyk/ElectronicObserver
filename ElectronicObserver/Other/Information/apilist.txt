@@ -367,7 +367,7 @@ api_port/port		：母港情報
 		api_lucky			：運　　[1]=最大値
 		api_locked			：保護ロック有無
 		api_locked_equip	：ロックされている装備を装備しているか
-		api_sally_area		：出撃海域（夏イベ用フラグ）2014/09現在消滅
+		api_sally_area		：出撃海域（夏イベ用フラグ）2014/09現在消滅, 秋イベで復活
 	
 	api_basic				：basicに同じ
 	
@@ -377,9 +377,10 @@ api_port/port		：母港情報
 		api_state			：
 		api_message			：メッセージ
 	
-	api_combined_flag		：連合艦隊フラグ 0=未結成, 1=結成済み
+	api_combined_flag		：連合艦隊フラグ 0=未結成, 1=機動部隊, 2=水上部隊
 	api_p_bgm_id			：母港BGMのID
-
+	api_event_object		：秋イベで追加
+		api_m_flag			：
 
 api_get_member/slot_item	：装備品情報
 	api_id					：装備固有ID
@@ -1041,6 +1042,7 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 
 api_req_battle_midnight/sp_midnight		：開幕夜戦
 	(全メンバが api_req_battle_midnight/battle を継承)
+	api_deck_id			：数値
 	api_formation		：陣形　昼戦のそれと同じ　api_eParamとapi_touch_planeの間
 
 
@@ -1244,7 +1246,7 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊 戦闘
 	api_hougeki3	：砲撃戦3巡目(機動部隊本隊2巡目)　上に同じ
 
 
-api_req_combined_battle/midnight_battle		：連合艦隊-機動部隊 夜戦
+api_req_combined_battle/midnight_battle		：連合艦隊-機動部隊/水上部隊 夜戦
 	api_deck_id			：こちらの出撃艦隊ID 文字列
 	api_ship_ke			：敵艦船ID -1から始まる
 	api_ship_lv			：敵艦船Lv.
@@ -1271,6 +1273,14 @@ api_req_combined_battle/midnight_battle		：連合艦隊-機動部隊 夜戦
 api_req_combined_battle/sp_midnight		：連合艦隊 開幕夜戦
 	(全メンバを api_req_combined_battle/midnight_battle から継承)
 	api_formation		：陣形　昼戦のそれと同じ(但し味方陣形は文字列型)
+
+
+api_req_combined_battle/battle_water	：連合艦隊-水上部隊 戦闘
+	(全メンバを api_req_combined_battle/battle から継承)
+	api_hougeki1		：砲撃戦1巡目(水上部隊本隊)
+	api_hougeki2		：砲撃戦2巡目(水上部隊本隊)
+	api_hougeki3		：砲撃戦3巡目(随伴艦隊)
+	api_raigeki			：雷撃戦
 
 
 api_req_combined_battle/battleresult	：連合艦隊 戦闘結果
@@ -1336,7 +1346,7 @@ api_req_kaisou/marriage		：ケッコンカッコカリ
 	api_data				：port.api_shipと同じ　該当艦のみ
 
 
-api_get_member/payitem		：保有課金アイテム(取り出す前のアイテム)
+api_get_member/payitem		：保有課金アイテム(取り出す前のアイテム)　未保有時はnull
 	api_payitem_id			：アイテムID　文字列　指輪=20
 	api_type				：
 	api_name				：名前

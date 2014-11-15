@@ -53,6 +53,13 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		public int this[int i] {
+			get {
+				return _fleetMember[i];
+			}
+		}
+
+
 		public int ID {
 			get { return FleetID; }
 		}
@@ -172,6 +179,42 @@ namespace ElectronicObserver.Data {
 
 			_fleetMember[_fleetMember.Length - 1] = -1;
 
+		}
+
+
+		/// <summary>
+		/// 制空戦力を取得します。
+		/// </summary>
+		/// <returns>制空戦力。</returns>
+		public int GetAirSuperiority() {
+
+			int airSuperiority = 0;
+
+			for ( int i = 0; i < FleetMember.Count; i++ ) {
+
+				if ( FleetMember[i] == -1 )
+					continue;
+
+				ShipData ship = KCDatabase.Instance.Ships[FleetMember[i]];
+				for ( int j = 0; j < ship.Slot.Count; j++ ) {
+
+					if ( ship.Slot[j] == -1 )
+						continue;
+
+					EquipmentDataMaster eq = KCDatabase.Instance.Equipments[ship.Slot[j]].MasterEquipment;
+
+					switch ( eq.EquipmentType[2] ) {
+						case 6:		//艦戦
+						case 7:		//艦爆
+						case 8:		//艦攻
+						case 11:	//水爆
+							airSuperiority += (int)( eq.AA * Math.Sqrt( ship.Aircraft[j] ) );
+							break;
+					}
+				}
+			}
+
+			return airSuperiority;
 		}
 
 
