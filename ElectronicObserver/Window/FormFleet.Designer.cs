@@ -26,9 +26,9 @@
 			this.components = new System.ComponentModel.Container();
 			this.TableMember = new System.Windows.Forms.TableLayoutPanel();
 			this.TableFleet = new System.Windows.Forms.TableLayoutPanel();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ContextMenuFleet_CopyFleet = new System.Windows.Forms.ToolStripMenuItem();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -68,19 +68,12 @@
 			this.TableFleet.Size = new System.Drawing.Size(0, 21);
 			this.TableFleet.TabIndex = 2;
 			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 60000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
-			// 
 			// ContextMenuFleet
 			// 
 			this.ContextMenuFleet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ContextMenuFleet_CopyFleet});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 48);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 26);
 			// 
 			// ContextMenuFleet_CopyFleet
 			// 
@@ -88,6 +81,13 @@
 			this.ContextMenuFleet_CopyFleet.Size = new System.Drawing.Size(226, 22);
 			this.ContextMenuFleet_CopyFleet.Text = "クリップボードにコピー(&C)";
 			this.ContextMenuFleet_CopyFleet.Click += new System.EventHandler(this.ContextMenuFleet_CopyFleet_Click);
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// FormFleet
 			// 

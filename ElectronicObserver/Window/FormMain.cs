@@ -55,12 +55,14 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_Load( object sender, EventArgs e ) {
 
+			Utility.Configuration.Instance.Load();
+			
+
 			ElectronicObserver.Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
 
 
 			Utility.Logger.Add( 2, "七四式電子観測儀 を起動しています…" );
 
-			Utility.Configuration.Instance.Load();
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
 
@@ -151,6 +153,9 @@ namespace ElectronicObserver.Window {
 			RecordManager.Instance.Save();
 
 			Utility.Logger.Add( 2, "終了処理が完了しました。" );
+
+			Utility.Logger.Save( @"eolog.log" );
+
 		}
 
 
@@ -334,6 +339,44 @@ namespace ElectronicObserver.Window {
 
 
 
+		private void StripMenu_Debug_LoadInitialAPI_Click( object sender, EventArgs e ) {
+
+			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
+
+				ofd.Title = "初期化APIをロード";
+				ofd.Filter = "api_start2|api_start2.json|File|*";
+
+				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					try {
+
+						string parent = Path.GetDirectoryName( ofd.FileName );
+
+						using ( StreamReader sr = new StreamReader( parent + "\\api_start2.json" ) ) {
+							APIObserver.Instance.LoadResponse( "/kcsapi/api_start2", sr.ReadToEnd() );
+						}
+						using ( StreamReader sr = new StreamReader( parent + "\\basic.json" ) ) {
+							APIObserver.Instance.LoadResponse( "/kcsapi/api_get_member/basic", sr.ReadToEnd() );
+						}
+						using ( StreamReader sr = new StreamReader( parent + "\\slot_item.json" ) ) {
+							APIObserver.Instance.LoadResponse( "/kcsapi/api_get_member/slot_item", sr.ReadToEnd() );
+						}
+
+
+					} catch ( Exception ex ) {
+
+						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
+							MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+					}
+
+				}
+
+			}
+
+		}
+
+
 
 		#region フォーム表示
 		
@@ -386,25 +429,6 @@ namespace ElectronicObserver.Window {
 		}
 	
 		#endregion
-
-		
-		
-		
-		
-		
-
-		
-
-		
-
-	
-
-		
-
-
-
-	
-
 		
 
 	}

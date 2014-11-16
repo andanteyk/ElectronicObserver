@@ -92,6 +92,23 @@ namespace ElectronicObserver.Utility {
 		public ConfigConnection Connection { get; private set; }
 
 
+		/// <summary>
+		/// ログの設定を扱います。
+		/// </summary>
+		public class ConfigLog : ConfigPartBase {
+
+			public int LogLevel { get; set; }
+
+
+			public ConfigLog() {
+				LogLevel = 1;
+			}
+
+		}
+		public ConfigLog Log { get; private set; }
+
+
+
 
 		public string Version { get { return "0.0"; } }
 
@@ -117,6 +134,9 @@ namespace ElectronicObserver.Utility {
 			dialog.Connection_SaveResponse.Checked = Connection.SaveResponse;
 			dialog.Connection_SaveSWF.Checked = Connection.SaveSWF;
 			dialog.Connection_SaveOtherFile.Checked = Connection.SaveOtherFile;
+
+			//[ログ]
+			dialog.Log_LogLevel.Value = Log.LogLevel;
 
 
 			//finalize
@@ -145,6 +165,10 @@ namespace ElectronicObserver.Utility {
 			Connection.SaveSWF = dialog.Connection_SaveSWF.Checked;
 			Connection.SaveOtherFile = dialog.Connection_SaveOtherFile.Checked;
 
+			
+			//[ログ]
+			Log.LogLevel = (int)dialog.Log_LogLevel.Value;
+
 		}
 
 
@@ -164,6 +188,7 @@ namespace ElectronicObserver.Utility {
 					dynamic json = DynamicJson.Parse( sr.ReadToEnd() );
 
 					Connection = json.Connection;
+					Log = json.Log;
 
 				}
 

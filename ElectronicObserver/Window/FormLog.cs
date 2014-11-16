@@ -38,8 +38,20 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+
+		private void ContextMenuLog_Clear_Click( object sender, EventArgs e ) {
+
+			LogList.Items.Clear();
+
+		}
+
+
+
 		protected override string GetPersistString() {
 			return "Log";
 		}
+
+	
 	}
 }

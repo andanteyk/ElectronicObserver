@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +56,7 @@ namespace ElectronicObserver.Utility {
 
 
 			public override string ToString() {
-				return "[" + Time + "][" + Priority + "] : " + Message;
+				return string.Format( "[{0}][{1}] : {2}", Time, Priority, Message );
 			}
 
 		}
@@ -64,12 +65,11 @@ namespace ElectronicObserver.Utility {
 
 		private List<LogData> log;
 		private bool toDebugConsole;
-		private int priorityBorder;
+		
 
 		private Logger() {
 			log = new List<LogData>();
 			toDebugConsole = true;
-			priorityBorder = 1;
 		}
 
 
@@ -86,13 +86,16 @@ namespace ElectronicObserver.Utility {
 		/// <param name="priority">優先度。</param>
 		/// <param name="message">ログ内容。</param>
 		public static void Add( int priority, string message ) {
-			if ( Logger.Instance.priorityBorder <= priority ) {
 
-				LogData data = new LogData( DateTime.Now, priority, message );
+			LogData data = new LogData( DateTime.Now, priority, message );
 
-				Logger.Instance.log.Add( data );
+			Logger.Instance.log.Add( data );
+
+
+			if ( Configuration.Instance.Log.LogLevel <= priority ) {
+
 				if ( Logger.Instance.toDebugConsole ) {
-					System.Diagnostics.Debug.WriteLine( string.Format( "[{0}][{1}] : {2}", DateTime.Now, priority, message ) );
+					System.Diagnostics.Debug.WriteLine( data.ToString() );
 				}
 
 				Logger.Instance.LogAdded( data );
@@ -104,6 +107,29 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static void Clear() {
 			Logger.instance.log.Clear();
+		}
+
+
+
+		/// <summary>
+		/// ログを保存します。
+		/// </summary>
+		/// <param name="path">保存先のファイル。</param>
+		public static void Save( string path ) {
+
+			try {
+
+				using ( StreamWriter sw = new StreamWriter( path ) ) {
+					foreach ( var l in Logger.instance.log ) {
+						sw.WriteLine( l.ToString() );
+					}
+				}
+
+			} catch ( Exception ) {
+				
+				// に ぎ り つ ぶ す
+			}
+
 		}
 
 	}
