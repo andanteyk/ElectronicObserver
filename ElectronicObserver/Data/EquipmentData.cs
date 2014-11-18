@@ -36,7 +36,13 @@ namespace ElectronicObserver.Data {
 			get { return (int)RawData.api_locked != 0; }
 		}
 
-		//api_level?
+		/// <summary>
+		/// 改修Lv.
+		/// </summary>
+		public int Level {
+			get { return (int)RawData.api_level; }
+		}
+
 
 
 		/// <summary>

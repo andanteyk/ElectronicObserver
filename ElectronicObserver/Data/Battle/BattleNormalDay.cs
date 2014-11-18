@@ -58,7 +58,7 @@ namespace ElectronicObserver.Data.Battle {
 			//支援艦隊(空撃)
 			if ( (int)RawData.api_support_flag == 1 ) {
 				for ( int i = 0; i < 6; i++ ) {
-					DealDamageEnemy( i, (int)RawData.api_support_info.api_support_airattack.api_stage3.api_edam[i + 1] );
+					DealDamageEnemy( i, (int)RawData.api_support_info.api_support_airatack.api_stage3.api_edam[i + 1] );
 				}
 			}
 

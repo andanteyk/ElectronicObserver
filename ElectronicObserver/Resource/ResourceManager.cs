@@ -84,6 +84,7 @@ namespace ElectronicObserver.Resource {
 			Flare,
 			CommandFacility,
 			MaintenanceTeam,
+			AADirector,
 			Locked,
 			Unknown,
 		}
@@ -155,6 +156,7 @@ namespace ElectronicObserver.Resource {
 			Equipments.Images.Add( "Flare", LoadImage( masterpath + @"Equipment\flare.png" ) );
 			Equipments.Images.Add( "CommandFacility", LoadImage( masterpath + @"Equipment\commandfacility.png" ) );
 			Equipments.Images.Add( "MaintenanceTeam", LoadImage( masterpath + @"Equipment\maintenanceteam.png" ) );
+			Equipments.Images.Add( "AADirector", LoadImage( masterpath + @"Equipment\aadirector.png" ) );
 			Equipments.Images.Add( "Locked", LoadImage( masterpath + @"Equipment\locked.png" ) );
 			Equipments.Images.Add( "Unknown", LoadImage( masterpath + @"Equipment\unknown.png" ) );
 			

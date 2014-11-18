@@ -624,7 +624,7 @@ api_req_quest/clearitemget		：任務達成
 	api_material		：獲得資源量
 	api_bonus_count		：アイテム取得個数(カテゴリの)
 	api_bonus			：アイテム
-		api_type		：アイテムID？12=一式徹甲弾
+		api_type		：12=一式徹甲弾|ドラム缶(装備アイテム？)
 		api_count		：取得個数
 		api_item		：アイテム追加情報 一般アイテムはnull
 			api_id		：装備アイテム=ID、家具箱=0
@@ -974,7 +974,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_edam		：敵被ダメージ
 	api_support_flag	：支援艦隊フラグ　0=なし, 1=空撃, 2=砲撃, 3=雷撃
 	api_support_info	：支援艦隊情報
-		api_support_airattack	：空撃情報
+		api_support_airatack	：空撃情報　スペルミスに注意
 			api_deck_id			：艦隊ID
 			api_ship_id			：艦船固有ID
 			api_undressing_flag	：中破グラフィックフラグ 0=通常, 1=中破 なお適用はバナーのみで、旗艦グラフィックは変わらない
