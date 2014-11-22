@@ -1,4 +1,6 @@
-﻿using ElectronicObserver.Utility.Mathematics;
+﻿using ElectronicObserver.Resource;
+using ElectronicObserver.Utility.Mathematics;
+using ElectronicObserver.Window.Control;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Data {
 	
@@ -215,6 +218,245 @@ namespace ElectronicObserver.Data {
 			}
 
 			return airSuperiority;
+		}
+
+
+		/// <summary>
+		/// 索敵能力を取得します。
+		/// いわゆる 2-5式 計算法です。正確ではありませんが、参考にはなります。
+		/// </summary>
+		/// <returns>索敵能力。</returns>
+		public int GetSearchingAbility() {
+
+			KCDatabase db = KCDatabase.Instance;
+
+			int los_reconplane = 0;
+			int los_radar = 0;
+			int los_other = 0;
+
+			for ( int i = 0; i < FleetMember.Count; i++ ) {
+
+				if ( FleetMember[i] == -1 )
+					continue;
+
+				ShipData ship = db.Ships[FleetMember[i]];
+
+				los_other += ship.LOSBase;
+
+				for ( int j = 0; j < ship.Slot.Count; j++ ) {
+
+					if ( ship.Slot[j] == -1 )
+						continue;
+
+					EquipmentDataMaster eq = db.Equipments[ship.Slot[j]].MasterEquipment;
+
+					switch ( eq.EquipmentType[2] ) {
+						case 9:		//艦偵
+						case 10:	//水偵
+						case 11:	//水爆
+							if ( ship.Aircraft[j] > 0 )
+								los_reconplane += eq.LOS * 2;
+							break;
+
+						case 12:	//小型電探
+						case 13:	//大型電探
+							los_radar += eq.LOS;
+							break;
+
+						default:
+							los_other += eq.LOS;
+							break;
+					}
+				}
+			}
+
+
+			return (int)Math.Sqrt( los_other ) + los_radar + los_reconplane;
+		}
+
+
+
+
+		/// <summary>
+		/// 艦隊の状態を表します。
+		/// </summary>
+		public enum FleetStates {
+			NoShip,
+			Docking,
+			SortieDamaged,
+			Sortie,
+			Expedition,
+			Damaged,
+			NotReplenished,
+			Tired,
+			AnchorageRepairing,
+			Ready,
+		}
+
+
+		/// <summary>
+		/// 艦隊の状態の情報をラベルに適用します。
+		/// </summary>
+		/// <param name="fleet">艦隊データ。</param>
+		/// <param name="label">適用するラベル。</param>
+		/// <param name="tooltip">適用するツールチップ。</param>
+		/// <param name="timer">日時。</param>
+		/// <returns>艦隊の状態を表す定数。</returns>
+		public static FleetStates UpdateFleetState( FleetData fleet, ImageLabel label, ToolTip tooltip, ref DateTime timer ) {
+
+			//memo: 泊地修理は工作艦が中破しているとできない、忘れないよう
+				
+
+			KCDatabase db = KCDatabase.Instance;
+
+
+			tooltip.SetToolTip( label, null );
+
+
+			//所属艦なし
+			if ( fleet.FleetMember.Count( id => id != -1 ) == 0 ) {
+				label.Text = "所属艦なし";
+				label.ImageIndex = (int)ResourceManager.IconContent.HQNoShip;
+
+				return FleetStates.NoShip;
+			}
+
+			{	//入渠中
+				long ntime = db.Docks.Values.Max(
+						dock => {
+							if ( dock.State == 1 && fleet.FleetMember.Count( ( id => id == dock.ShipID ) ) > 0 )
+								return dock.CompletionTime.ToBinary();
+							else return 0;
+						}
+						);
+
+				if ( ntime > 0 ) {	//入渠中
+
+					timer = DateTime.FromBinary( ntime );
+					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
+					label.ImageIndex = (int)ResourceManager.IconContent.HQDock;
+
+					tooltip.SetToolTip( label, "完了日時 : " + timer );
+
+					return FleetStates.Docking;
+				}
+
+			}
+
+
+			//undone:大破出撃中
+
+			//undone:出撃中
+
+
+			//遠征中
+			if ( fleet.ExpeditionState != 0 ) {
+
+				timer = fleet.ExpeditionTime;
+				label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
+				label.ImageIndex = (int)ResourceManager.IconContent.HQExpedition;
+
+				tooltip.SetToolTip( label, string.Format( "{0}\r\n完了日時 : {1}", KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name, timer ) );
+
+				return FleetStates.Expedition;
+			}
+
+			//大破艦あり
+			if ( fleet.FleetMember.Count( id =>
+				( id != -1 && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
+			 ) > 0 ) {
+
+				label.Text = "大破艦あり！";
+				label.ImageIndex = (int)ResourceManager.IconContent.ShipStateDamageL;
+
+				return FleetStates.Damaged;
+			}
+
+			//未補給
+			{
+				int fuel = fleet.FleetMember.Sum( id => id == -1 ? 0 : db.Ships[id].MasterShip.Fuel - db.Ships[id].Fuel );
+				int ammo = fleet.FleetMember.Sum( id => id == -1 ? 0 : db.Ships[id].MasterShip.Ammo - db.Ships[id].Ammo );
+				int bauxite = fleet.FleetMember.Sum(
+					id => {
+						if ( id == -1 ) return 0;
+						else {
+							int c = 0;
+							for ( int i = 0; i < db.Ships[id].Slot.Count; i++ ) {
+								c += db.Ships[id].MasterShip.Aircraft[i] - db.Ships[id].Aircraft[i];
+							}
+							return c;
+						}
+					} ) * 5;
+
+				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
+
+					label.Text = "未補給";
+					label.ImageIndex = (int)ResourceManager.IconContent.HQNotReplenished;
+
+					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2}", fuel, ammo, bauxite ) );
+
+					return FleetStates.NotReplenished;
+				}
+			}
+
+			//疲労
+			{
+				int cond = fleet.FleetMember.Min( id => id == -1 ? 100 : db.Ships[id].Condition );
+
+				if ( cond < 40 ) {
+
+					timer = DateTime.Now.AddMinutes( (int)Math.Ceiling( ( 40.0 - cond ) / 3.0 ) * 3 );		//todo: いずれ変数化できるようになるといいかも
+					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
+
+					if ( cond < 20 )
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
+					else if ( cond < 30 )
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
+					else
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
+
+
+					tooltip.SetToolTip( label, string.Format( "回復目安日時 : {0}", timer ) );
+
+					return FleetStates.Tired;
+				}
+			}
+
+
+			//undone:泊地修理中
+
+
+			//出撃可能！
+			{
+				label.Text = "出撃可能！";
+				label.ImageIndex = (int)ResourceManager.IconContent.HQShip;
+
+				return FleetStates.Ready;
+			}
+
+		}
+
+
+		/// <summary>
+		/// 艦隊の状態の情報をもとにラベルを更新します。
+		/// </summary>
+		/// <param name="label">更新するラベル。</param>
+		/// <param name="state">艦隊の状態。</param>
+		/// <param name="timer">日時。</param>
+		public static void RefreshFleetState( ImageLabel label, FleetStates state, DateTime timer ) {
+
+			switch ( state ) {
+				case FleetStates.Docking:
+					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
+					break;
+				case FleetStates.Expedition:
+					label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
+					break;
+				case FleetStates.Tired:
+					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
+					break;
+			}
+
 		}
 
 

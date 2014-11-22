@@ -63,7 +63,7 @@ namespace ElectronicObserver.Window.Control {
 			
 			//FIXME: サブウィンドウ状態のときToolTipが出現しない不具合を確認。
 
-			string tiptext = string.Format( "燃: {0}/{1} ({2}%)\r\n弾: {3}/{4} ({5}%)",
+			string tiptext = string.Format( "燃 : {0}/{1} ({2}%)\r\n弾 : {3}/{4} ({5}%)",
 				FuelCurrent, FuelMax, (int)Math.Ceiling( 100.0 * FuelCurrent / FuelMax ), 
 				AmmoCurrent, AmmoMax, (int)Math.Ceiling( 100.0 * AmmoCurrent / AmmoMax ) );
 

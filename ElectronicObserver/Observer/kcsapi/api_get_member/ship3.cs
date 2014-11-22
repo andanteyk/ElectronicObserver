@@ -18,8 +18,18 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 				int id = (int)elem.api_id;
 
-				db.Ships[id].LoadFromResponse( APIName, elem );
-				
+				ShipData ship = db.Ships[id];
+				ship.LoadFromResponse( APIName, elem );
+
+				for ( int i = 0; i < ship.Slot.Count; i++ ) {
+					if ( ship.Slot[i] == -1 ) continue;
+					if ( !db.Equipments.ContainsKey( ship.Slot[i] ) ) {		//改装時に新装備を入手するが、追加される前にIDを与えられてしまうため
+						EquipmentData eq = new EquipmentData();
+						eq.LoadFromResponse( APIName, ship.Slot[i] );
+						db.Equipments.Add( eq );
+					}
+				}
+
 			}
 			
 			//api_deck_data

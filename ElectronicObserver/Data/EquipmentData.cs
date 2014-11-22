@@ -66,6 +66,10 @@ namespace ElectronicObserver.Data {
 					data.api_level = 0;
 					break;
 
+				case "api_get_member/ship3":			//存在しないアイテムを追加
+					data = DynamicJson.Parse( string.Format( @"{""api_id"":{0},""api_slotitem_id"":0,""api_locked"":0,""api_level"":0}", data ) );
+					break;
+
 				default:
 					break;
 			}

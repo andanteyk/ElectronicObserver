@@ -51,6 +51,17 @@ namespace ElectronicObserver.Resource {
 			ItemFurnitureCoin,
 			HQShip,
 			HQEquipment,
+			HQNoShip,
+			HQDock,
+			HQExpedition,
+			HQNotReplenished,
+			ShipStateDamageS,
+			ShipStateDamageM,
+			ShipStateDamageL,
+			ShipStateEscape,
+			ShipStateExpedition,
+			ShipStateRepair,
+			ShipStateSunk,
 		}
 
 		public enum EquipmentContent {
@@ -121,8 +132,19 @@ namespace ElectronicObserver.Resource {
 			Icons.Images.Add( "Item_DevelopmentMaterial", LoadImage( masterpath + @"Item\developmentMaterial.png" ) );
 			Icons.Images.Add( "Item_ModdingMaterial", LoadImage( masterpath + @"Item\moddingMaterial.png" ) );
 			Icons.Images.Add( "Item_FurnitureCoin", LoadImage( masterpath + @"Item\furnitureCoin.png" ) );
-			Icons.Images.Add( "HQ_Ship", LoadImage( masterpath + @"Ship.png" ) );
-			Icons.Images.Add( "HQ_Equipment", LoadImage( masterpath + @"Equipment.png" ) );
+			Icons.Images.Add( "HQ_Ship", LoadImage( masterpath + @"HeadQuarters\ship.png" ) );
+			Icons.Images.Add( "HQ_Equipment", LoadImage( masterpath + @"HeadQuarters\equipment.png" ) );
+			Icons.Images.Add( "HQ_NoShip", LoadImage( masterpath + @"HeadQuarters\noship.png" ) );
+			Icons.Images.Add( "HQ_Dock", LoadImage( masterpath + @"HeadQuarters\dock.png" ) );
+			Icons.Images.Add( "HQ_Expedition", LoadImage( masterpath + @"HeadQuarters\expedition.png" ) );
+			Icons.Images.Add( "HQ_NotReplenished", LoadImage( masterpath + @"HeadQuarters\notreplenished.png" ) );
+			Icons.Images.Add( "ShipState_DamageS", LoadImage( masterpath + @"ShipState\damageS.png" ) );
+			Icons.Images.Add( "ShipState_DamageM", LoadImage( masterpath + @"ShipState\damageM.png" ) );
+			Icons.Images.Add( "ShipState_DamageL", LoadImage( masterpath + @"ShipState\damageL.png" ) );
+			Icons.Images.Add( "ShipState_Escape", LoadImage( masterpath + @"ShipState\escape.png" ) );
+			Icons.Images.Add( "ShipState_Expedition", LoadImage( masterpath + @"ShipState\expedition.png" ) );
+			Icons.Images.Add( "ShipState_Repair", LoadImage( masterpath + @"ShipState\repair.png" ) );
+			Icons.Images.Add( "ShipState_Sunk", LoadImage( masterpath + @"ShipState\sunk.png" ) );
 			#endregion
 
 			#region Equipments

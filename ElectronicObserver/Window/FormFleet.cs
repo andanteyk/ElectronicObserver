@@ -24,7 +24,7 @@ namespace ElectronicObserver.Window {
 			public ImageLabel AirSuperiority;
 			public ImageLabel SearchingAbility;
 			public ToolTip ToolTipInfo;
-			public int State;
+			public ElectronicObserver.Data.FleetData.FleetStates State;
 			public DateTime Timer;
 		
 			public TableFleetControl( FormFleet parent ) {
@@ -112,111 +112,9 @@ namespace ElectronicObserver.Window {
 
 				#region set StateMain
 
-				//memo: [入渠中>大破出撃中>出撃中|遠征中>大破艦あり>未補給>疲労>中破艦あり>泊地修理中>出撃可能]
-				//memo: 泊地修理は工作艦が中破しているとできない、忘れないよう
-				//fixme:　あまりにきたないので書き直しを要請する
-				//todo: 入渠/遠征：完了時間のツールチップ
-
-				ToolTipInfo.SetToolTip( StateMain, null );
-
-				var ships = KCDatabase.Instance.Ships;
-
-
-
-
-				if ( fleet.FleetMember.Count( e => e == -1 ) == fleet.FleetMember.Count ) {
-
-					State = 0;
-					StateMain.Text = "所属艦なし";
-
-				} else {
-
-					long ntime = KCDatabase.Instance.Docks.Max(
-						( KeyValuePair<int, DockData> dock ) => {
-							if ( dock.Value.State < 1 ) return 0;
-							else if ( fleet.FleetMember.Count( ( int id ) => id == dock.Value.ShipID ) > 0 )
-								return dock.Value.CompletionTime.ToBinary();
-							else return 0;
-						}
-						);
-
-					if ( ntime > 0 ) {	//入渠中
-						State = 1;
-						Timer = DateTime.FromBinary( ntime );
-						StateMain.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( Timer );
-						ToolTipInfo.SetToolTip( StateMain, "完了日時 : " + Timer );
-
-					} else if ( fleet.FleetMember.Count(
-						( int id ) => {
-							if ( id == -1 ) return false;
-							else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
-						}
-						) > 0 ) {		//大破出撃中
-
-						State = 2;
-						StateMain.Text = "大破艦あり！";
-
-
-					} else if ( false ) {		//undone: 出撃中
-
-						State = 3;
-
-					} else if ( fleet.ExpeditionState != 0 ) {//遠征中
-
-						State = 4;
-						Timer = fleet.ExpeditionTime;
-						StateMain.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( Timer );
-						ToolTipInfo.SetToolTip( StateMain, string.Format( "{0}\r\n完了日時 : {1}", KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name, Timer ) );
-
-					} else if ( fleet.FleetMember.Count(
-								 ( int id ) => {
-									 if ( id == -1 ) return false;
-									 else return (double)ships[id].HPCurrent / ships[id].HPMax <= 0.25;
-								 }
-							  ) > 0 ) {
-
-						State = 5;
-						StateMain.Text = "大破艦あり！";
-
-
-					} else if ( fleet.FleetMember.Count(
-						( int id ) => {
-							if ( id == -1 ) return false;
-							else return ships[id].Fuel < KCDatabase.Instance.MasterShips[ships[id].ShipID].Fuel ||
-								ships[id].Ammo < KCDatabase.Instance.MasterShips[ships[id].ShipID].Ammo;
-						}
-					) > 0 ) {
-
-						State = 6;
-						StateMain.Text = "未補給";
-
-
-					} else if ( fleet.FleetMember.Count(
-						( int id ) => {
-							if ( id == -1 ) return false;
-							else return ships[id].Condition < 40;
-						}
-					) > 0 ) {
-
-						State = 7;
-						StateMain.Text = "疲労";
-
-
-						//undone: 泊地修理中
-					} else if ( false ) {
-
-						State = 8;
-
-					} else {
-
-						State = 9;
-						StateMain.Text = "出撃可能！";
-					}
-
-				}
-
-
 				
+
+				State = FleetData.UpdateFleetState( fleet, StateMain, ToolTipInfo, ref Timer ); 
 				
 				#endregion
 
@@ -224,72 +122,22 @@ namespace ElectronicObserver.Window {
 				//制空戦力計算	
 				AirSuperiority.Text = fleet.GetAirSuperiority().ToString();
 				
+				//索敵能力計算
+				SearchingAbility.Text = fleet.GetSearchingAbility().ToString();		
 
-
-				//索敵能力計算　(水偵|艦偵)*2 + 電探 + √(その他)　とする
-				//この式は正確ではないらしいので参考までに
-				{
-					int los_reconplane = 0;
-					int los_radar = 0;
-					int los_other = 0;
-
-					for ( int i = 0; i < fleet.FleetMember.Count; i++ ) {
-
-						if ( fleet.FleetMember[i] == -1 )
-							continue;
-
-						ShipData ship = db.Ships[fleet.FleetMember[i]];
-
-						los_other += ship.LOSBase;
-
-						for ( int j = 0; j < ship.Slot.Count; j++ ) {
-
-							if ( ship.Slot[j] == -1 )
-								continue;
-
-							EquipmentDataMaster eq = db.MasterEquipments[db.Equipments[ship.Slot[j]].EquipmentID];
-
-							switch ( eq.EquipmentType[2] ) {
-								case 9:		//艦偵
-								case 10:	//水偵
-								case 11:	//水爆
-									if ( ship.Aircraft[j] > 0 )
-										los_reconplane += eq.LOS * 2;
-									break;
-
-								case 12:	//小型電探
-								case 13:	//大型電探
-									los_radar += eq.LOS;
-									break;
-
-								default:
-									los_other += eq.LOS;
-									break;
-							}
-						}
-					}
-
-					SearchingAbility.Text = ( (int)Math.Sqrt( los_other ) + los_radar + los_reconplane ).ToString();
-
-				}
 
 			}
 
 
 			public void Refresh() {
 
-				switch ( State ) {
-					case 1:		//入渠中 
-						StateMain.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( Timer );
-						break;
-					case 4:		//遠征中
-						StateMain.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( Timer );
-						break;
-				}
-				
+				FleetData.RefreshFleetState( StateMain, State, Timer );
+		
 			}
 
+
 		}
+
 
 		private class TableMemberControl {
 			public Label Name;
@@ -620,7 +468,7 @@ namespace ElectronicObserver.Window {
 			KCDatabase db = KCDatabase.Instance;
 			FleetData fleet = db.Fleet[FleetID];
 
-			sb.AppendFormat( "{0}\t制空戦力{1}\r\n", fleet.Name, fleet.GetAirSuperiority() );
+			sb.AppendFormat( "{0}\t制空戦力{1}/索敵能力{2}\r\n", fleet.Name, fleet.GetAirSuperiority(), fleet.GetSearchingAbility() );
 			for ( int i = 0; i < fleet.FleetMember.Count; i++ ) {
 				if ( fleet[i] == -1 )
 					continue;
@@ -669,6 +517,10 @@ namespace ElectronicObserver.Window {
 
 
 
+
+		//checkme:別クラスへの移動も考える
+
+		
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
