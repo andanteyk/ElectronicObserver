@@ -22,7 +22,7 @@ api_start2	：艦娘・装備固有データその他
 		api_raig		：雷装
 		api_tyku		：対空
 		api_luck		：運
-		api_soku		：速力　5=低速, 10=高速
+		api_soku		：速力　0=陸上基地, 5=低速, 10=高速
 		api_leng		：射程
 		api_slot_num	：スロット数
 		api_maxeq		：艦載機搭載数
@@ -290,8 +290,8 @@ api_start2	：艦娘・装備固有データその他
 api_req_member/get_incentive	：褒賞関連
 	api_count			：情報の個数
 	api_item			：もらえるアイテム?　api_count=0だと存在しない
-		api_mode		：3=月次褒賞
-		api_type		：2=月次褒賞 褒賞のカテゴリ？
+		api_mode		：1=事前登録?, 2=招待?, 3=月次褒賞
+		api_type		：2=月次褒賞 1=艦船?, 2=装備, 3=アイテム?, 4=資源?, 5=家具?
 		api_mst_id		：アイテムID
 		api_getmes		：獲得時メッセージ
 

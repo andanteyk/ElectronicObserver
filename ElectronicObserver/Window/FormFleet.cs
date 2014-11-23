@@ -485,6 +485,7 @@ namespace ElectronicObserver.Window {
 						slot[j] = -1;
 				}
 
+				//todo: 装備の改装levelを反映
 
 				for ( int j = 0; j < slot.Length; j++ ) {
 

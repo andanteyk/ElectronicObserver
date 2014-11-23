@@ -24,21 +24,21 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin3 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
-			WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin3 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
-			WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient7 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient15 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-			WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin3 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
-			WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
-			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient16 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-			WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient8 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient17 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-			WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
-			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient18 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient19 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-			WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient9 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient20 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient21 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+			WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
+			WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin1 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
+			WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient1 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+			WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
+			WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
+			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient2 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+			WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient3 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+			WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
+			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient4 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient5 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+			WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient6 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
 			this.StripMenu = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +69,7 @@
 			this.StripMenu_View_Log = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help_Version = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripStatus = new System.Windows.Forms.StatusStrip();
@@ -76,7 +77,8 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
-			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_View_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -94,52 +96,52 @@
 			this.MainDockPanel.Name = "MainDockPanel";
 			this.MainDockPanel.ShowDocumentIcon = true;
 			this.MainDockPanel.Size = new System.Drawing.Size(640, 431);
-			dockPanelGradient7.EndColor = System.Drawing.SystemColors.ControlLight;
-			dockPanelGradient7.StartColor = System.Drawing.SystemColors.ControlLight;
-			autoHideStripSkin3.DockStripGradient = dockPanelGradient7;
-			tabGradient15.EndColor = System.Drawing.SystemColors.Control;
-			tabGradient15.StartColor = System.Drawing.SystemColors.Control;
-			tabGradient15.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-			autoHideStripSkin3.TabGradient = tabGradient15;
-			autoHideStripSkin3.TextFont = new System.Drawing.Font("メイリオ", 9F);
-			dockPanelSkin3.AutoHideStripSkin = autoHideStripSkin3;
-			tabGradient16.EndColor = System.Drawing.SystemColors.ControlLightLight;
-			tabGradient16.StartColor = System.Drawing.SystemColors.ControlLightLight;
-			tabGradient16.TextColor = System.Drawing.SystemColors.ControlText;
-			dockPaneStripGradient3.ActiveTabGradient = tabGradient16;
-			dockPanelGradient8.EndColor = System.Drawing.SystemColors.Control;
-			dockPanelGradient8.StartColor = System.Drawing.SystemColors.Control;
-			dockPaneStripGradient3.DockStripGradient = dockPanelGradient8;
-			tabGradient17.EndColor = System.Drawing.SystemColors.ControlLight;
-			tabGradient17.StartColor = System.Drawing.SystemColors.ControlLight;
-			tabGradient17.TextColor = System.Drawing.SystemColors.ControlText;
-			dockPaneStripGradient3.InactiveTabGradient = tabGradient17;
-			dockPaneStripSkin3.DocumentGradient = dockPaneStripGradient3;
-			dockPaneStripSkin3.TextFont = new System.Drawing.Font("メイリオ", 9F);
-			tabGradient18.EndColor = System.Drawing.SystemColors.ActiveCaption;
-			tabGradient18.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-			tabGradient18.StartColor = System.Drawing.SystemColors.GradientActiveCaption;
-			tabGradient18.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
-			dockPaneStripToolWindowGradient3.ActiveCaptionGradient = tabGradient18;
-			tabGradient19.EndColor = System.Drawing.SystemColors.Control;
-			tabGradient19.StartColor = System.Drawing.SystemColors.Control;
-			tabGradient19.TextColor = System.Drawing.SystemColors.ControlText;
-			dockPaneStripToolWindowGradient3.ActiveTabGradient = tabGradient19;
-			dockPanelGradient9.EndColor = System.Drawing.SystemColors.ControlLight;
-			dockPanelGradient9.StartColor = System.Drawing.SystemColors.ControlLight;
-			dockPaneStripToolWindowGradient3.DockStripGradient = dockPanelGradient9;
-			tabGradient20.EndColor = System.Drawing.SystemColors.InactiveCaption;
-			tabGradient20.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-			tabGradient20.StartColor = System.Drawing.SystemColors.GradientInactiveCaption;
-			tabGradient20.TextColor = System.Drawing.SystemColors.InactiveCaptionText;
-			dockPaneStripToolWindowGradient3.InactiveCaptionGradient = tabGradient20;
-			tabGradient21.EndColor = System.Drawing.Color.Transparent;
-			tabGradient21.StartColor = System.Drawing.Color.Transparent;
-			tabGradient21.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-			dockPaneStripToolWindowGradient3.InactiveTabGradient = tabGradient21;
-			dockPaneStripSkin3.ToolWindowGradient = dockPaneStripToolWindowGradient3;
-			dockPanelSkin3.DockPaneStripSkin = dockPaneStripSkin3;
-			this.MainDockPanel.Skin = dockPanelSkin3;
+			dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
+			dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
+			autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
+			tabGradient1.EndColor = System.Drawing.SystemColors.Control;
+			tabGradient1.StartColor = System.Drawing.SystemColors.Control;
+			tabGradient1.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+			autoHideStripSkin1.TabGradient = tabGradient1;
+			autoHideStripSkin1.TextFont = new System.Drawing.Font("メイリオ", 9F);
+			dockPanelSkin1.AutoHideStripSkin = autoHideStripSkin1;
+			tabGradient2.EndColor = System.Drawing.SystemColors.ControlLightLight;
+			tabGradient2.StartColor = System.Drawing.SystemColors.ControlLightLight;
+			tabGradient2.TextColor = System.Drawing.SystemColors.ControlText;
+			dockPaneStripGradient1.ActiveTabGradient = tabGradient2;
+			dockPanelGradient2.EndColor = System.Drawing.SystemColors.Control;
+			dockPanelGradient2.StartColor = System.Drawing.SystemColors.Control;
+			dockPaneStripGradient1.DockStripGradient = dockPanelGradient2;
+			tabGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
+			tabGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
+			tabGradient3.TextColor = System.Drawing.SystemColors.ControlText;
+			dockPaneStripGradient1.InactiveTabGradient = tabGradient3;
+			dockPaneStripSkin1.DocumentGradient = dockPaneStripGradient1;
+			dockPaneStripSkin1.TextFont = new System.Drawing.Font("メイリオ", 9F);
+			tabGradient4.EndColor = System.Drawing.SystemColors.ActiveCaption;
+			tabGradient4.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+			tabGradient4.StartColor = System.Drawing.SystemColors.GradientActiveCaption;
+			tabGradient4.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
+			dockPaneStripToolWindowGradient1.ActiveCaptionGradient = tabGradient4;
+			tabGradient5.EndColor = System.Drawing.SystemColors.Control;
+			tabGradient5.StartColor = System.Drawing.SystemColors.Control;
+			tabGradient5.TextColor = System.Drawing.SystemColors.ControlText;
+			dockPaneStripToolWindowGradient1.ActiveTabGradient = tabGradient5;
+			dockPanelGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
+			dockPanelGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
+			dockPaneStripToolWindowGradient1.DockStripGradient = dockPanelGradient3;
+			tabGradient6.EndColor = System.Drawing.SystemColors.InactiveCaption;
+			tabGradient6.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+			tabGradient6.StartColor = System.Drawing.SystemColors.GradientInactiveCaption;
+			tabGradient6.TextColor = System.Drawing.SystemColors.InactiveCaptionText;
+			dockPaneStripToolWindowGradient1.InactiveCaptionGradient = tabGradient6;
+			tabGradient7.EndColor = System.Drawing.Color.Transparent;
+			tabGradient7.StartColor = System.Drawing.Color.Transparent;
+			tabGradient7.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+			dockPaneStripToolWindowGradient1.InactiveTabGradient = tabGradient7;
+			dockPaneStripSkin1.ToolWindowGradient = dockPaneStripToolWindowGradient1;
+			dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
+			this.MainDockPanel.Skin = dockPanelSkin1;
 			this.MainDockPanel.TabIndex = 0;
 			// 
 			// StripMenu
@@ -229,7 +231,9 @@
             this.StripMenu_View_Compass,
             this.StripMenu_View_Battle,
             this.toolStripSeparator4,
-            this.StripMenu_View_Log});
+            this.StripMenu_View_Log,
+            this.toolStripSeparator7,
+            this.StripMenu_View_AlbumMasterShip});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(62, 22);
 			this.StripMenu_View.Text = "表示(&V)";
@@ -242,7 +246,7 @@
             this.StripMenu_View_Fleet_3,
             this.StripMenu_View_Fleet_4});
 			this.StripMenu_View_Fleet.Name = "StripMenu_View_Fleet";
-			this.StripMenu_View_Fleet.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Fleet.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Fleet.Text = "艦隊(&F)";
 			// 
 			// StripMenu_View_Fleet_1
@@ -276,76 +280,76 @@
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(128, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_View_Dock
 			// 
 			this.StripMenu_View_Dock.Name = "StripMenu_View_Dock";
-			this.StripMenu_View_Dock.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Dock.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Dock.Text = "入渠(&D)";
 			this.StripMenu_View_Dock.Click += new System.EventHandler(this.StripMenu_View_Dock_Click);
 			// 
 			// StripMenu_View_Arsenal
 			// 
 			this.StripMenu_View_Arsenal.Name = "StripMenu_View_Arsenal";
-			this.StripMenu_View_Arsenal.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Arsenal.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Arsenal.Text = "工廠(&A)";
 			this.StripMenu_View_Arsenal.Click += new System.EventHandler(this.StripMenu_View_Arsenal_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(128, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_View_Headquarters
 			// 
 			this.StripMenu_View_Headquarters.Name = "StripMenu_View_Headquarters";
-			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Headquarters.Text = "司令部(&H)";
 			this.StripMenu_View_Headquarters.Click += new System.EventHandler(this.StripMenu_View_Headquarters_Click);
 			// 
 			// StripMenu_View_Quest
 			// 
 			this.StripMenu_View_Quest.Name = "StripMenu_View_Quest";
-			this.StripMenu_View_Quest.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Quest.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Quest.Text = "任務(&Q)";
 			this.StripMenu_View_Quest.Click += new System.EventHandler(this.StripMenu_View_Quest_Click);
 			// 
 			// StripMenu_View_Information
 			// 
 			this.StripMenu_View_Information.Name = "StripMenu_View_Information";
-			this.StripMenu_View_Information.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Information.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Information.Text = "情報(&I)";
 			this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(128, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_View_Compass
 			// 
 			this.StripMenu_View_Compass.Name = "StripMenu_View_Compass";
-			this.StripMenu_View_Compass.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Compass.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Compass.Text = "羅針盤(&C)";
 			this.StripMenu_View_Compass.Click += new System.EventHandler(this.StripMenu_View_Compass_Click);
 			// 
 			// StripMenu_View_Battle
 			// 
 			this.StripMenu_View_Battle.Name = "StripMenu_View_Battle";
-			this.StripMenu_View_Battle.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Battle.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Battle.Text = "戦闘(&B)";
 			this.StripMenu_View_Battle.Click += new System.EventHandler(this.StripMenu_View_Battle_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(128, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_View_Log
 			// 
 			this.StripMenu_View_Log.Name = "StripMenu_View_Log";
-			this.StripMenu_View_Log.Size = new System.Drawing.Size(131, 22);
+			this.StripMenu_View_Log.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_View_Log.Text = "ログ(&L)";
 			this.StripMenu_View_Log.Click += new System.EventHandler(this.StripMenu_View_Log_Click);
 			// 
@@ -364,6 +368,13 @@
 			this.StripMenu_Debug_LoadAPIFromFile.Size = new System.Drawing.Size(245, 22);
 			this.StripMenu_Debug_LoadAPIFromFile.Text = "ファイルからAPIをロード(&L)...";
 			this.StripMenu_Debug_LoadAPIFromFile.Click += new System.EventHandler(this.StripMenu_Debug_LoadAPIFromFile_Click);
+			// 
+			// StripMenu_Debug_LoadInitialAPI
+			// 
+			this.StripMenu_Debug_LoadInitialAPI.Name = "StripMenu_Debug_LoadInitialAPI";
+			this.StripMenu_Debug_LoadInitialAPI.Size = new System.Drawing.Size(245, 22);
+			this.StripMenu_Debug_LoadInitialAPI.Text = "初期化APIをロード(&I)...";
+			this.StripMenu_Debug_LoadInitialAPI.Click += new System.EventHandler(this.StripMenu_Debug_LoadInitialAPI_Click);
 			// 
 			// StripMenu_Help
 			// 
@@ -414,12 +425,17 @@
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
 			// 
-			// StripMenu_Debug_LoadInitialAPI
+			// toolStripSeparator7
 			// 
-			this.StripMenu_Debug_LoadInitialAPI.Name = "StripMenu_Debug_LoadInitialAPI";
-			this.StripMenu_Debug_LoadInitialAPI.Size = new System.Drawing.Size(245, 22);
-			this.StripMenu_Debug_LoadInitialAPI.Text = "初期化APIをロード(&I)...";
-			this.StripMenu_Debug_LoadInitialAPI.Click += new System.EventHandler(this.StripMenu_Debug_LoadInitialAPI_Click);
+			this.toolStripSeparator7.Name = "toolStripSeparator7";
+			this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+			// 
+			// StripMenu_View_AlbumMasterShip
+			// 
+			this.StripMenu_View_AlbumMasterShip.Name = "StripMenu_View_AlbumMasterShip";
+			this.StripMenu_View_AlbumMasterShip.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_View_AlbumMasterShip.Text = "艦船図鑑(&S)";
+			this.StripMenu_View_AlbumMasterShip.Click += new System.EventHandler(this.StripMenu_View_AlbumMasterShip_Click);
 			// 
 			// FormMain
 			// 
@@ -485,6 +501,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadInitialAPI;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_AlbumMasterShip;
 	}
 }
 

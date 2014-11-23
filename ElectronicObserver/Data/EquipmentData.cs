@@ -11,7 +11,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 個別の装備データを保持します。
 	/// </summary>
-	[DebuggerDisplay( "[{ID}] : {KCDatabase.Instance.MasterEquipments[EquipmentID].Name}" )]
+	[DebuggerDisplay( "[{ID}] : {NameWithLevel}" )]
 	public class EquipmentData : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 改修Lv.
+		/// 改修Level
 		/// </summary>
 		public int Level {
 			get { return (int)RawData.api_level; }
@@ -51,6 +51,26 @@ namespace ElectronicObserver.Data {
 		public EquipmentDataMaster MasterEquipment {
 			get { return KCDatabase.Instance.MasterEquipments[EquipmentID]; }
 		}
+
+		/// <summary>
+		/// 装備名
+		/// </summary>
+		public string Name {
+			get { return MasterEquipment.Name; }
+		}
+
+		/// <summary>
+		/// 装備名(レベルを含む)
+		/// </summary>
+		public string NameWithLevel {
+			get {
+				if ( Level > 0 )
+					return string.Format( "{0}+{1}", Name, Level );
+				else
+					return Name;
+			}
+		}
+
 
 
 		public int ID {
@@ -67,8 +87,14 @@ namespace ElectronicObserver.Data {
 					break;
 
 				case "api_get_member/ship3":			//存在しないアイテムを追加
-					data = DynamicJson.Parse( string.Format( @"{""api_id"":{0},""api_slotitem_id"":0,""api_locked"":0,""api_level"":0}", data ) );
-					break;
+					{
+						int id = data;
+						data = new DynamicJson();
+						data.api_id = id;
+						data.api_slotitem_id = 0;
+						data.api_locked = 0;
+						data.api_level = 0;
+					} break;
 
 				default:
 					break;
@@ -76,6 +102,11 @@ namespace ElectronicObserver.Data {
 
 			base.LoadFromResponse( apiname, (object)data );
 		
+		}
+
+
+		public override string ToString() {
+			return NameWithLevel;
 		}
 
 	}

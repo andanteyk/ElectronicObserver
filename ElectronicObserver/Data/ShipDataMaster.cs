@@ -62,6 +62,7 @@ namespace ElectronicObserver.Data {
 		//参照にしてもいいかも
 		/// <summary>
 		/// 改装後の艦船ID
+		/// 0=なし
 		/// </summary>
 		public int RemodelAfterShipID {
 			get { return int.Parse( (string)RawData.api_aftershipid ); }
@@ -69,6 +70,7 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// 改装前の艦船ID
+		/// 0=なし
 		/// </summary>
 		public int RemodelBeforeShipID { get; internal set; }
 
@@ -267,9 +269,10 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// 速力
+		/// 0=陸上基地, 5=低速, 10=高速
 		/// </summary>
 		public int Speed {
-			get { return ( (int)RawData.api_soku >= 10 ) ? 1 : 0; }
+			get { return (int)RawData.api_soku; }
 		}
 
 		/// <summary>
@@ -378,6 +381,23 @@ namespace ElectronicObserver.Data {
 		//以下、自作計算プロパティ群
 
 		/// <summary>
+		/// ケッコン後のHP
+		/// </summary>
+		public int HPMaxMarried {
+			get {
+				int incr;
+				if ( HPMin < 30 ) incr = 4;
+				else if ( HPMin < 40 ) incr = 5;
+				else if ( HPMin < 50 ) incr = 6;
+				else if ( HPMin < 70 ) incr = 7;
+				else if ( HPMin < 90 ) incr = 8;
+				else incr = 9;
+
+				return Math.Min( HPMin + incr, HPMax );
+			}
+		}
+
+		/// <summary>
 		/// 深海棲艦かどうか
 		/// </summary>
 		public bool IsAbyssalShip {
@@ -417,6 +437,15 @@ namespace ElectronicObserver.Data {
 					return Name;
 				else
 					return string.Format( "{0} {1}", Name, NameReading );
+			}
+		}
+
+		/// <summary>
+		/// 陸上基地かどうか
+		/// </summary>
+		public bool IsLandBase {
+			get {
+				return Speed == 0;
 			}
 		}
 

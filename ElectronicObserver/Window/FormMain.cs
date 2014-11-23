@@ -377,6 +377,14 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_View_AlbumMasterShip_Click( object sender, EventArgs e ) {
+
+			new DialogAlbumMasterShip().Show();
+
+		}
+		
+
+
 
 		#region フォーム表示
 		
@@ -429,6 +437,7 @@ namespace ElectronicObserver.Window {
 		}
 	
 		#endregion
+
 		
 
 	}

@@ -89,6 +89,8 @@ namespace ElectronicObserver.Data {
 			get { return Array.AsReadOnly<int>( _slot ); }
 		}
 
+		
+
 		private int[] _aircraft;
 		/// <summary>
 		/// 各スロットの航空機搭載量

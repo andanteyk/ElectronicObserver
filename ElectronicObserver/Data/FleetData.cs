@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -310,7 +311,9 @@ namespace ElectronicObserver.Data {
 			KCDatabase db = KCDatabase.Instance;
 
 
+			//初期化
 			tooltip.SetToolTip( label, null );
+			label.BackColor = Color.Transparent;
 
 
 			//所属艦なし
@@ -368,6 +371,7 @@ namespace ElectronicObserver.Data {
 
 				label.Text = "大破艦あり！";
 				label.ImageIndex = (int)ResourceManager.IconContent.ShipStateDamageL;
+				label.BackColor = Color.LightCoral;
 
 				return FleetStates.Damaged;
 			}

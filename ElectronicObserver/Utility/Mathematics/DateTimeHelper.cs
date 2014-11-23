@@ -42,13 +42,20 @@ namespace ElectronicObserver.Utility.Mathematics {
 		/// <param name="time">完了時刻。</param>
 		/// <returns>書式に則った時間を表す文字列。</returns>
 		public static string ToTimeRemainString( DateTime time ) {
-			var span = time - DateTime.Now;
+			return ToTimeRemainString( time - DateTime.Now );
+		}
+
+		/// <summary>
+		/// 残り時間を標準的書式の文字列に変換します。
+		/// </summary>
+		/// <param name="span">残り時間。</param>
+		/// <returns>書式に則った時間を表す文字列。</returns>
+		public static string ToTimeRemainString( TimeSpan span ) {
 			if ( span.Ticks < 0 )
 				return "00:00:00";
 			else
 				return string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)span.TotalHours, span.Minutes, span.Seconds );
 		}
-
 
 
 		/// <summary>
