@@ -4,6 +4,7 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Resource.SaveData;
 using ElectronicObserver.Window.Control;
+using ElectronicObserver.Window.Dialog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,6 +43,7 @@ namespace ElectronicObserver.Window {
 				ShipName.MaximumSize = new Size( 60, 20 );
 				ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
+				ShipName.MouseClick += ShipName_MouseClick;
 
 				Equipments = new ShipStatusEquipment();
 				Equipments.SuspendLayout();
@@ -58,6 +60,7 @@ namespace ElectronicObserver.Window {
 
 			}
 
+		
 			public TableEnemyMemberControl( FormCompass parent, TableLayoutPanel table, int row )
 				: this( parent ) {
 
@@ -87,6 +90,8 @@ namespace ElectronicObserver.Window {
 			}
 
 			public void Update( int shipID, int[] slot ) {
+
+				ShipName.Tag = shipID;
 
 				if ( shipID == -1 ) {
 					//なし
@@ -133,6 +138,17 @@ namespace ElectronicObserver.Window {
 
 				return sb.ToString();
 			}
+
+
+			void ShipName_MouseClick( object sender, MouseEventArgs e ) {
+
+				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
+					if ( ShipName.Tag != null )
+						new DialogAlbumMasterShip( (int)ShipName.Tag ).Show();
+				}
+
+			}
+
 
 		}
 

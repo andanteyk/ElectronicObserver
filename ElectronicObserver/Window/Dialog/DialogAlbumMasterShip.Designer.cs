@@ -28,9 +28,6 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.ShipView = new System.Windows.Forms.DataGridView();
-			this.ShipView_ShipID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.BasePanelShipGirl = new System.Windows.Forms.Panel();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.TableRemodel = new System.Windows.Forms.TableLayoutPanel();
@@ -41,6 +38,9 @@
 			this.TableParameterMain = new System.Windows.Forms.TableLayoutPanel();
 			this.ParameterLevel = new System.Windows.Forms.NumericUpDown();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.ShipView_ShipID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ShipView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipType = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ShipName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ShipID = new ElectronicObserver.Window.Control.ImageLabel();
@@ -48,12 +48,12 @@
 			this.RemodelAfterAmmo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelAfterLevel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelAfterShipName = new ElectronicObserver.Window.Control.ImageLabel();
-			this.imageLabel85 = new ElectronicObserver.Window.Control.ImageLabel();
+			this.RemodelAfter = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelBeforeLevel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelBeforeSteel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelBeforeAmmo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelBeforeShipName = new ElectronicObserver.Window.Control.ImageLabel();
-			this.imageLabel80 = new ElectronicObserver.Window.Control.ImageLabel();
+			this.RemodelBefore = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Ammo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Fuel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel77 = new ElectronicObserver.Window.Control.ImageLabel();
@@ -204,33 +204,8 @@
 			this.ShipView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.ShipView.Size = new System.Drawing.Size(250, 456);
 			this.ShipView.TabIndex = 0;
-			this.ShipView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ShipView_CellClick);
+			this.ShipView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ShipView_CellMouseClick);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
-			// 
-			// ShipView_ShipID
-			// 
-			this.ShipView_ShipID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle1;
-			this.ShipView_ShipID.HeaderText = "ID";
-			this.ShipView_ShipID.Name = "ShipView_ShipID";
-			this.ShipView_ShipID.ReadOnly = true;
-			this.ShipView_ShipID.Width = 46;
-			// 
-			// ShipView_ShipType
-			// 
-			this.ShipView_ShipType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.ShipView_ShipType.HeaderText = "艦種";
-			this.ShipView_ShipType.Name = "ShipView_ShipType";
-			this.ShipView_ShipType.ReadOnly = true;
-			this.ShipView_ShipType.Width = 56;
-			// 
-			// ShipView_Name
-			// 
-			this.ShipView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ShipView_Name.HeaderText = "艦名";
-			this.ShipView_Name.Name = "ShipView_Name";
-			this.ShipView_Name.ReadOnly = true;
 			// 
 			// BasePanelShipGirl
 			// 
@@ -276,12 +251,12 @@
 			this.TableRemodel.Controls.Add(this.RemodelAfterAmmo, 2, 3);
 			this.TableRemodel.Controls.Add(this.RemodelAfterLevel, 1, 3);
 			this.TableRemodel.Controls.Add(this.RemodelAfterShipName, 1, 2);
-			this.TableRemodel.Controls.Add(this.imageLabel85, 0, 2);
+			this.TableRemodel.Controls.Add(this.RemodelAfter, 0, 2);
 			this.TableRemodel.Controls.Add(this.RemodelBeforeLevel, 1, 1);
 			this.TableRemodel.Controls.Add(this.RemodelBeforeSteel, 3, 1);
 			this.TableRemodel.Controls.Add(this.RemodelBeforeAmmo, 2, 1);
 			this.TableRemodel.Controls.Add(this.RemodelBeforeShipName, 1, 0);
-			this.TableRemodel.Controls.Add(this.imageLabel80, 0, 0);
+			this.TableRemodel.Controls.Add(this.RemodelBefore, 0, 0);
 			this.TableRemodel.Location = new System.Drawing.Point(300, 278);
 			this.TableRemodel.Name = "TableRemodel";
 			this.TableRemodel.RowCount = 4;
@@ -374,7 +349,7 @@
 			this.TableEquipment.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.TableEquipment.ColumnCount = 2;
 			this.TableEquipment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-			this.TableEquipment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableEquipment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TableEquipment.Controls.Add(this.Equipment5, 1, 4);
 			this.TableEquipment.Controls.Add(this.Aircraft5, 0, 4);
 			this.TableEquipment.Controls.Add(this.Equipment4, 1, 3);
@@ -393,7 +368,6 @@
 			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableEquipment.Size = new System.Drawing.Size(234, 110);
 			this.TableEquipment.TabIndex = 8;
 			this.TableEquipment.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableEquipment_CellPaint);
@@ -500,6 +474,31 @@
 			this.pictureBox1.TabIndex = 4;
 			this.pictureBox1.TabStop = false;
 			// 
+			// ShipView_ShipID
+			// 
+			this.ShipView_ShipID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle1;
+			this.ShipView_ShipID.HeaderText = "ID";
+			this.ShipView_ShipID.Name = "ShipView_ShipID";
+			this.ShipView_ShipID.ReadOnly = true;
+			this.ShipView_ShipID.Width = 40;
+			// 
+			// ShipView_ShipType
+			// 
+			this.ShipView_ShipType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.ShipView_ShipType.HeaderText = "艦種";
+			this.ShipView_ShipType.Name = "ShipView_ShipType";
+			this.ShipView_ShipType.ReadOnly = true;
+			this.ShipView_ShipType.Width = 80;
+			// 
+			// ShipView_Name
+			// 
+			this.ShipView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ShipView_Name.HeaderText = "艦名";
+			this.ShipView_Name.Name = "ShipView_Name";
+			this.ShipView_Name.ReadOnly = true;
+			// 
 			// ShipType
 			// 
 			this.ShipType.BackColor = System.Drawing.Color.Transparent;
@@ -571,19 +570,20 @@
 			this.RemodelAfterShipName.Size = new System.Drawing.Size(81, 16);
 			this.RemodelAfterShipName.TabIndex = 19;
 			this.RemodelAfterShipName.Text = "Bismarck drei";
-			this.RemodelAfterShipName.DoubleClick += new System.EventHandler(this.RemodelAfterShipName_DoubleClick);
+			this.RemodelAfterShipName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RemodelAfterShipName_MouseClick);
 			// 
-			// imageLabel85
+			// RemodelAfter
 			// 
-			this.imageLabel85.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.imageLabel85.BackColor = System.Drawing.Color.Transparent;
-			this.imageLabel85.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel85.Location = new System.Drawing.Point(3, 47);
-			this.imageLabel85.Name = "imageLabel85";
-			this.imageLabel85.Size = new System.Drawing.Size(37, 16);
-			this.imageLabel85.TabIndex = 19;
-			this.imageLabel85.Text = "改装後";
-			this.imageLabel85.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.RemodelAfter.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.RemodelAfter.BackColor = System.Drawing.Color.Transparent;
+			this.RemodelAfter.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.RemodelAfter.Location = new System.Drawing.Point(3, 47);
+			this.RemodelAfter.Name = "RemodelAfter";
+			this.RemodelAfter.Size = new System.Drawing.Size(37, 16);
+			this.RemodelAfter.TabIndex = 19;
+			this.RemodelAfter.Text = "改装後";
+			this.RemodelAfter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.RemodelAfter.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RemodelAfterShipName_MouseClick);
 			// 
 			// RemodelBeforeLevel
 			// 
@@ -627,19 +627,20 @@
 			this.RemodelBeforeShipName.Size = new System.Drawing.Size(55, 16);
 			this.RemodelBeforeShipName.TabIndex = 18;
 			this.RemodelBeforeShipName.Text = "Bismarck";
-			this.RemodelBeforeShipName.DoubleClick += new System.EventHandler(this.RemodelBeforeShipName_DoubleClick);
+			this.RemodelBeforeShipName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RemodelBeforeShipName_MouseClick);
 			// 
-			// imageLabel80
+			// RemodelBefore
 			// 
-			this.imageLabel80.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.imageLabel80.BackColor = System.Drawing.Color.Transparent;
-			this.imageLabel80.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel80.Location = new System.Drawing.Point(3, 3);
-			this.imageLabel80.Name = "imageLabel80";
-			this.imageLabel80.Size = new System.Drawing.Size(37, 16);
-			this.imageLabel80.TabIndex = 18;
-			this.imageLabel80.Text = "改装前";
-			this.imageLabel80.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.RemodelBefore.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.RemodelBefore.BackColor = System.Drawing.Color.Transparent;
+			this.RemodelBefore.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.RemodelBefore.Location = new System.Drawing.Point(3, 3);
+			this.RemodelBefore.Name = "RemodelBefore";
+			this.RemodelBefore.Size = new System.Drawing.Size(37, 16);
+			this.RemodelBefore.TabIndex = 18;
+			this.RemodelBefore.Text = "改装前";
+			this.RemodelBefore.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.RemodelBefore.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RemodelBeforeShipName_MouseClick);
 			// 
 			// Ammo
 			// 
@@ -793,9 +794,9 @@
 			// 
 			// PowerUpArmor
 			// 
-			this.PowerUpArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.PowerUpArmor.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.PowerUpArmor.BackColor = System.Drawing.Color.Transparent;
-			this.PowerUpArmor.Location = new System.Drawing.Point(175, 25);
+			this.PowerUpArmor.Location = new System.Drawing.Point(178, 25);
 			this.PowerUpArmor.Name = "PowerUpArmor";
 			this.PowerUpArmor.Size = new System.Drawing.Size(41, 16);
 			this.PowerUpArmor.TabIndex = 19;
@@ -804,9 +805,9 @@
 			// 
 			// MaterialBauxite
 			// 
-			this.MaterialBauxite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.MaterialBauxite.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.MaterialBauxite.BackColor = System.Drawing.Color.Transparent;
-			this.MaterialBauxite.Location = new System.Drawing.Point(175, 3);
+			this.MaterialBauxite.Location = new System.Drawing.Point(178, 3);
 			this.MaterialBauxite.Name = "MaterialBauxite";
 			this.MaterialBauxite.Size = new System.Drawing.Size(41, 16);
 			this.MaterialBauxite.TabIndex = 18;
@@ -815,9 +816,9 @@
 			// 
 			// PowerUpAA
 			// 
-			this.PowerUpAA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.PowerUpAA.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.PowerUpAA.BackColor = System.Drawing.Color.Transparent;
-			this.PowerUpAA.Location = new System.Drawing.Point(128, 25);
+			this.PowerUpAA.Location = new System.Drawing.Point(130, 25);
 			this.PowerUpAA.Name = "PowerUpAA";
 			this.PowerUpAA.Size = new System.Drawing.Size(41, 16);
 			this.PowerUpAA.TabIndex = 18;
@@ -826,7 +827,7 @@
 			// 
 			// MaterialFuel
 			// 
-			this.MaterialFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.MaterialFuel.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.MaterialFuel.BackColor = System.Drawing.Color.Transparent;
 			this.MaterialFuel.Location = new System.Drawing.Point(34, 3);
 			this.MaterialFuel.Name = "MaterialFuel";
@@ -837,9 +838,9 @@
 			// 
 			// PowerUpTorpedo
 			// 
-			this.PowerUpTorpedo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.PowerUpTorpedo.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.PowerUpTorpedo.BackColor = System.Drawing.Color.Transparent;
-			this.PowerUpTorpedo.Location = new System.Drawing.Point(81, 25);
+			this.PowerUpTorpedo.Location = new System.Drawing.Point(82, 25);
 			this.PowerUpTorpedo.Name = "PowerUpTorpedo";
 			this.PowerUpTorpedo.Size = new System.Drawing.Size(41, 16);
 			this.PowerUpTorpedo.TabIndex = 17;
@@ -848,9 +849,9 @@
 			// 
 			// MaterialSteel
 			// 
-			this.MaterialSteel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.MaterialSteel.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.MaterialSteel.BackColor = System.Drawing.Color.Transparent;
-			this.MaterialSteel.Location = new System.Drawing.Point(128, 3);
+			this.MaterialSteel.Location = new System.Drawing.Point(130, 3);
 			this.MaterialSteel.Name = "MaterialSteel";
 			this.MaterialSteel.Size = new System.Drawing.Size(41, 16);
 			this.MaterialSteel.TabIndex = 17;
@@ -859,7 +860,7 @@
 			// 
 			// PowerUpFirepower
 			// 
-			this.PowerUpFirepower.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.PowerUpFirepower.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.PowerUpFirepower.BackColor = System.Drawing.Color.Transparent;
 			this.PowerUpFirepower.Location = new System.Drawing.Point(34, 25);
 			this.PowerUpFirepower.Name = "PowerUpFirepower";
@@ -882,9 +883,9 @@
 			// 
 			// MaterialAmmo
 			// 
-			this.MaterialAmmo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.MaterialAmmo.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.MaterialAmmo.BackColor = System.Drawing.Color.Transparent;
-			this.MaterialAmmo.Location = new System.Drawing.Point(81, 3);
+			this.MaterialAmmo.Location = new System.Drawing.Point(82, 3);
 			this.MaterialAmmo.Name = "MaterialAmmo";
 			this.MaterialAmmo.Size = new System.Drawing.Size(41, 16);
 			this.MaterialAmmo.TabIndex = 16;
@@ -1092,7 +1093,7 @@
 			this.imageLabel16.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel16.Location = new System.Drawing.Point(3, 208);
 			this.imageLabel16.Name = "imageLabel16";
-			this.imageLabel16.Size = new System.Drawing.Size(44, 16);
+			this.imageLabel16.Size = new System.Drawing.Size(32, 16);
 			this.imageLabel16.TabIndex = 13;
 			this.imageLabel16.Text = "運";
 			this.imageLabel16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1262,13 +1263,14 @@
 			// 
 			// imageLabel15
 			// 
-			this.imageLabel15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.imageLabel15.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.imageLabel15.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel15.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel15.Location = new System.Drawing.Point(132, 6);
-			this.imageLabel15.Margin = new System.Windows.Forms.Padding(10, 6, 10, 6);
+			this.imageLabel15.Location = new System.Drawing.Point(128, 10);
+			this.imageLabel15.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
 			this.imageLabel15.Name = "imageLabel15";
-			this.imageLabel15.Size = new System.Drawing.Size(40, 16);
+			this.imageLabel15.Size = new System.Drawing.Size(37, 16);
 			this.imageLabel15.TabIndex = 7;
 			this.imageLabel15.Text = "最大値";
 			this.imageLabel15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1311,13 +1313,14 @@
 			// 
 			// imageLabel14
 			// 
-			this.imageLabel14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.imageLabel14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.imageLabel14.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel14.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel14.Location = new System.Drawing.Point(60, 6);
-			this.imageLabel14.Margin = new System.Windows.Forms.Padding(10, 6, 10, 6);
+			this.imageLabel14.Location = new System.Drawing.Point(56, 10);
+			this.imageLabel14.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
 			this.imageLabel14.Name = "imageLabel14";
-			this.imageLabel14.Size = new System.Drawing.Size(40, 16);
+			this.imageLabel14.Size = new System.Drawing.Size(37, 16);
 			this.imageLabel14.TabIndex = 6;
 			this.imageLabel14.Text = "初期値";
 			this.imageLabel14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1566,7 +1569,6 @@
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "DialogAlbumMasterShip";
-			this.ShowInTaskbar = false;
 			this.Text = "艦船図鑑";
 			this.Load += new System.EventHandler(this.DialogAlbumMasterShip_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1602,9 +1604,6 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.DataGridView ShipView;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_ShipID;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_ShipType;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Name;
 		private System.Windows.Forms.Panel BasePanelShipGirl;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.TableLayoutPanel TableParameterMain;
@@ -1661,12 +1660,12 @@
 		private Control.ImageLabel RemodelAfterAmmo;
 		private Control.ImageLabel RemodelAfterLevel;
 		private Control.ImageLabel RemodelAfterShipName;
-		private Control.ImageLabel imageLabel85;
+		private Control.ImageLabel RemodelAfter;
 		private Control.ImageLabel RemodelBeforeLevel;
 		private Control.ImageLabel RemodelBeforeSteel;
 		private Control.ImageLabel RemodelBeforeAmmo;
 		private Control.ImageLabel RemodelBeforeShipName;
-		private Control.ImageLabel imageLabel80;
+		private Control.ImageLabel RemodelBefore;
 		private System.Windows.Forms.TableLayoutPanel TableConsumption;
 		private Control.ImageLabel Ammo;
 		private Control.ImageLabel Fuel;
@@ -1706,5 +1705,8 @@
 		private Control.ImageLabel Aircraft2;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private Control.ImageLabel ShipName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_ShipID;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_ShipType;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Name;
 	}
 }

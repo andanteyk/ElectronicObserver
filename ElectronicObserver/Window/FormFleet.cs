@@ -333,7 +333,7 @@ namespace ElectronicObserver.Window {
 				
 				for ( int i = 0; i < ship.Slot.Count; i++ ) {
 					if ( ship.Slot[i] != -1 )
-						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], KCDatabase.Instance.Equipments[ship.Slot[i]].MasterEquipment.Name );
+						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], KCDatabase.Instance.Equipments[ship.Slot[i]].NameWithLevel );
 				}
 
 				return sb.ToString();

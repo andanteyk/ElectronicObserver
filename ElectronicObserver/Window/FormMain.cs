@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Observer;
+﻿using ElectronicObserver.Data;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Resource.SaveData;
@@ -377,12 +378,16 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private void StripMenu_View_AlbumMasterShip_Click( object sender, EventArgs e ) {
+		private void StripMenu_Tool_AlbumMasterShip_Click( object sender, EventArgs e ) {
 
-			new DialogAlbumMasterShip().Show();
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦船データが読み込まれていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+			} else {
+				new DialogAlbumMasterShip().Show();
+			}
 
 		}
-		
 
 
 
@@ -437,6 +442,8 @@ namespace ElectronicObserver.Window {
 		}
 	
 		#endregion
+
+		
 
 		
 

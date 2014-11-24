@@ -52,7 +52,9 @@ namespace ElectronicObserver.Window.Dialog {
 			RemodelBeforeSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
 			RemodelAfterAmmo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
 			RemodelAfterSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
-			
+
+
+			BasePanelShipGirl.Visible = false;
 
 			//doublebuffered
 			System.Reflection.PropertyInfo prop = typeof( TableLayoutPanel ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
@@ -63,27 +65,48 @@ namespace ElectronicObserver.Window.Dialog {
 			prop.SetValue( TableArsenal, true, null );
 			prop.SetValue( TableRemodel, true, null );
 
+			prop = typeof( DataGridView ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
+			prop.SetValue( ShipView, true, null );
+			
 		}
+
+		public DialogAlbumMasterShip( int shipID )
+			: this() {
+
+			UpdateAlbumPage( shipID );
+		}
+
 
 
 		private void DialogAlbumMasterShip_Load( object sender, EventArgs e ) {
 
 			ShipView.SuspendLayout();
+
+			ShipView_ShipID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+			ShipView_ShipType.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+
 			ShipView.Rows.Clear();
+			
+			List<DataGridViewRow> rows = new List<DataGridViewRow>( KCDatabase.Instance.MasterShips.Values.Count( s => s.Name != "なし" ) );
+
 			foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
 
 				if ( ship.Name == "なし" ) continue;
 
-				int index = ShipView.Rows.Add();
-
-				ShipView.Rows[index].Cells[0].Value = ship.ShipID;
-				ShipView.Rows[index].Cells[1].Value = KCDatabase.Instance.ShipTypes[ship.ShipType].Name;
-				ShipView.Rows[index].Cells[2].Value = ship.NameWithClass;
+				DataGridViewRow row = new DataGridViewRow();
+				row.CreateCells( ShipView );
+				row.SetValues( ship.ShipID, KCDatabase.Instance.ShipTypes[ship.ShipType].Name, ship.NameWithClass );
+				rows.Add( row );
 
 			}
-			ShipView.ResumeLayout();
+			ShipView.Rows.AddRange( rows.ToArray() );
 
-			BasePanelShipGirl.Visible = false;
+			ShipView_ShipID.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+			ShipView_ShipType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+
+
+			ShipView.ResumeLayout();
 
 		}
 
@@ -98,6 +121,8 @@ namespace ElectronicObserver.Window.Dialog {
 				var ship2 = KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[0].Value];
 
 				e.SortResult = ship1.ShipType - ship2.ShipType;
+				if ( e.SortResult == 0 )
+					e.SortResult = ship1.ShipID - ship2.ShipID;
 				e.Handled = true;
 
 			} else if ( e.Column.Index == 2 ) {
@@ -109,18 +134,32 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		private void ShipView_CellClick( object sender, DataGridViewCellEventArgs e ) {
+		
+		private void ShipView_CellMouseClick( object sender, DataGridViewCellMouseEventArgs e ) {
 
-			if ( e.RowIndex >= 0 )
-				UpdateAlbumPage( (int)ShipView.Rows[e.RowIndex].Cells[0].Value );
+			if ( e.RowIndex >= 0 ) {
+				int shipID = (int)ShipView.Rows[e.RowIndex].Cells[0].Value;
+
+				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
+					new DialogAlbumMasterShip( shipID ).Show();
+
+				} else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 ) {
+					UpdateAlbumPage( shipID );
+				}
+			}
 
 		}
 
+		
+		
 
 		private void UpdateAlbumPage( int shipID ) {
 
 			KCDatabase db = KCDatabase.Instance;
 			ShipDataMaster ship = db.MasterShips[shipID];
+
+			if ( ship == null ) return;
+
 
 			BasePanelShipGirl.SuspendLayout();
 
@@ -324,6 +363,9 @@ namespace ElectronicObserver.Window.Dialog {
 			BasePanelShipGirl.ResumeLayout();
 			BasePanelShipGirl.Visible = true;
 
+
+			this.Text = "艦船図鑑 - " + ship.NameWithClass;
+
 		}
 
 
@@ -414,21 +456,36 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void RemodelBeforeShipName_DoubleClick( object sender, EventArgs e ) {
+		private void RemodelBeforeShipName_MouseClick( object sender, MouseEventArgs e ) {
+
 			if ( ShipID.Tag == null ) return;
 			var ship = KCDatabase.Instance.MasterShips[(int)ShipID.Tag];
-			if ( ship != null && ship.RemodelBeforeShipID != 0 )
-			UpdateAlbumPage( ship.RemodelBeforeShipID );
+
+			if ( ship != null && ship.RemodelBeforeShipID != 0 ) {
+
+				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 )
+					new DialogAlbumMasterShip( ship.RemodelBeforeShipID ).Show();
+
+				else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 )
+					UpdateAlbumPage( ship.RemodelBeforeShipID );		
+			}
 		}
 
-		private void RemodelAfterShipName_DoubleClick( object sender, EventArgs e ) {
+		private void RemodelAfterShipName_MouseClick( object sender, MouseEventArgs e ) {
+
 			if ( ShipID.Tag == null ) return;
 			var ship = KCDatabase.Instance.MasterShips[(int)ShipID.Tag];
-			if ( ship != null && ship.RemodelAfterShipID != 0 )
-				UpdateAlbumPage( ship.RemodelAfterShipID );
+
+			if ( ship != null && ship.RemodelAfterShipID != 0 ) {
+
+				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 )
+					new DialogAlbumMasterShip( ship.RemodelAfterShipID ).Show();
+
+				else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 )
+					UpdateAlbumPage( ship.RemodelAfterShipID );
+			}
 		}
 
-		
 		
 	}
 }
