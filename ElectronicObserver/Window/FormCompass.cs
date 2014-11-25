@@ -2,7 +2,6 @@
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
-using ElectronicObserver.Resource.SaveData;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
 using System;

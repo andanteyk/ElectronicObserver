@@ -1,5 +1,4 @@
 ﻿using ElectronicObserver.Resource.Record;
-using ElectronicObserver.Resource.SaveData;
 using System;
 using System.Collections.Generic;
 using System.Linq;

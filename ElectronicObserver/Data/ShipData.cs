@@ -13,7 +13,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 個別の艦娘データを保持します。
 	/// </summary>
-	[DebuggerDisplay( "[{ID}] : {KCDatabase.Instance.MasterShips[ShipID].Name} Lv. {Level}" )]
+	[DebuggerDisplay( "[{ID}] : {KCDatabase.Instance.MasterShips[ShipID].NameWithClass} Lv. {Level}" )]
 	public class ShipData : APIWrapper, IIdentifiable {
 
 		
@@ -89,7 +89,28 @@ namespace ElectronicObserver.Data {
 			get { return Array.AsReadOnly<int>( _slot ); }
 		}
 
-		
+
+		/// <summary>
+		/// 装備スロット(マスターID)
+		/// </summary>
+		public ReadOnlyCollection<int> SlotMaster {
+			get {
+				if ( _slot == null ) return null;
+
+				int[] s = new int[_slot.Length];
+
+				for ( int i = 0; i < s.Length; i++ ) {
+					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[_slot[i]];
+					if ( eq != null )
+						s[i] = eq.EquipmentID;
+					else
+						s[i] = -1;
+				}
+
+				return Array.AsReadOnly<int>( s );
+			}
+		}
+
 
 		private int[] _aircraft;
 		/// <summary>
@@ -98,7 +119,6 @@ namespace ElectronicObserver.Data {
 		public ReadOnlyCollection<int> Aircraft {
 			get { return Array.AsReadOnly<int>( _aircraft ); }
 		}
-
 
 
 		/// <summary>
@@ -375,7 +395,7 @@ namespace ElectronicObserver.Data {
 				if ( RawData.api_sally_area() )
 					return (int)RawData.api_sally_area;
 				else
-					return 0;
+					return -1;
 			}
 		}
 		//*/
@@ -402,6 +422,10 @@ namespace ElectronicObserver.Data {
 				return -1;
 			}
 		}
+
+
+
+
 
 		
 		public int ID {

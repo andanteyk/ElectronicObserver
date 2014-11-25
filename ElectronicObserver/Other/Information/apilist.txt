@@ -631,6 +631,10 @@ api_req_quest/clearitemget		：任務達成
 			api_name	：アイテム名 家具箱系/装備のみ
 
 
+Request.api_get_member/picture_book	：図鑑
+	api_type	：1=艦船図鑑, 2=装備図鑑
+	api_no		：ページ
+
 api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ送られてくるので注意
 	api_list				：リスト
 		api_index_no		：図鑑No.
@@ -963,6 +967,10 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_f_lostcount	：〃撃墜数
 			api_e_count		：敵〃
 			api_e_lostcount	：
+			api_air_fire	：対空カットイン
+				api_idx			：発動艦のインデックス
+				api_kind		：カットイン種別
+				api_use_items	：表示装備ID
 		api_stage3		：航空攻撃
 			api_frai_flag	：味方被雷撃フラグ
 			api_erai_flag	：敵被雷撃フラグ
