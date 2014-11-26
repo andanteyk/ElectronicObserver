@@ -34,15 +34,16 @@ namespace ElectronicObserver.Data.Battle {
 
 		[Flags]
 		public enum BattleModes {
-			Undefined,					//未定義
-			Normal,						//昼夜戦(通常戦闘)
-			NightOnly,					//夜戦
-			NightDay,					//夜昼戦
-			AirBattle,					//航空戦
-			Water,						//連合艦隊-水上部隊 通常戦闘
-			Practice,					//演習
-			BattlePhaseFlags = 0xFFFF,	//戦闘形態マスク
-			Combined = 0x10000,			//連合艦隊仕様
+			Undefined,						//未定義
+			Normal,							//昼夜戦(通常戦闘)
+			NightOnly,						//夜戦
+			NightDay,						//夜昼戦
+			AirBattle,						//航空戦
+			Practice,						//演習
+			BattlePhaseFlags = 0xFFFF,		//戦闘形態マスク
+			CombinedTaskForce = 0x10000,	//機動部隊
+			CombinedSurface = 0x20000,		//水上部隊
+			CombinedFlags = 0x7FFF0000,		//連合艦隊仕様
 		}
 
 		/// <summary>
@@ -80,7 +81,7 @@ namespace ElectronicObserver.Data.Battle {
 					break;
 
 				case "api_req_combined_battle/battle":
-					BattleMode = BattleModes.Normal | BattleModes.Combined;
+					BattleMode = BattleModes.Normal | BattleModes.CombinedTaskForce;
 					BattleDay = new BattleCombinedNormalDay();
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
@@ -91,19 +92,19 @@ namespace ElectronicObserver.Data.Battle {
 					break;
 
 				case "api_req_combined_battle/sp_midnight":
-					BattleMode = BattleModes.NightOnly | BattleModes.Combined;
+					BattleMode = BattleModes.NightOnly | BattleModes.CombinedFlags;
 					BattleNight = new BattleCombinedNightOnly();
 					BattleNight.LoadFromResponse( apiname, data );
 					break;
 
 				case "api_req_combined_battle/airbattle":
-					BattleMode = BattleModes.AirBattle | BattleModes.Combined;
+					BattleMode = BattleModes.AirBattle | BattleModes.CombinedTaskForce;
 					BattleDay = new BattleCombinedAirBattle();
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
 
 				case "api_req_combined_battle/battle_water":
-					BattleMode = BattleModes.Water | BattleModes.Combined;
+					BattleMode = BattleModes.Normal | BattleModes.CombinedSurface;
 					BattleDay = new BattleCombinedWater();
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
@@ -149,7 +150,6 @@ namespace ElectronicObserver.Data.Battle {
 			switch ( BattleMode & BattleModes.BattlePhaseFlags ) {
 				case BattleModes.Normal:
 				case BattleModes.AirBattle:
-				case BattleModes.Water:
 					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleDay.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
 					break;
 

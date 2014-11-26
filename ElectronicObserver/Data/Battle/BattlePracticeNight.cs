@@ -15,15 +15,15 @@ namespace ElectronicObserver.Data.Battle {
 
 			KCDatabase db = KCDatabase.Instance;
 			Action<int, int> DealDamageFriend = ( int index, int damage ) => {
-				if ( hp[index] == -1 ) return;
-				hp[index] = Math.Max( hp[index] - Math.Max( damage, 0 ), 0 );
+				//if ( hp[index] == -1 ) return;
+				hp[index] -= Math.Max( damage, 0 );
 				
 				//ダメコンは発動しない。
 			};
 
 			Action<int, int> DealDamageEnemy = ( int index, int damage ) => {
-				if ( hp[index + 6] == -1 ) return;
-				hp[index + 6] = Math.Max( hp[index + 6] - Math.Max( damage, 0 ), 0 );
+				//if ( hp[index + 6] == -1 ) return;
+				hp[index + 6] -= Math.Max( damage, 0 );
 			};
 
 

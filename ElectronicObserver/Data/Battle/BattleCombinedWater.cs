@@ -15,30 +15,30 @@ namespace ElectronicObserver.Data.Battle {
 			int[] hp = new int[18];
 
 			KCDatabase db = KCDatabase.Instance;
-			Action<int, int> DealDamageFriend = ( int index, int damage ) => {
-				if ( hp[index] == -1 ) return;
-				hp[index] = Math.Max( hp[index] - Math.Max( damage, 0 ), 0 );
-				if ( hp[index] == 0 ) {
-					var ship = db.Ships[db.Fleet[index < 6 ? 1 : 2].FleetMember[index]];
-					for ( int e = 0; e < ship.Slot.Count; e++ ) {
-						if ( ship.Slot[e] != -1 ) {
-							int id = db.Equipments[ship.Slot[e]].MasterEquipment.EquipmentID;
 
-							if ( id == 42 ) {			//応急修理要員
-								hp[index] = (int)( ship.HPMax * 0.2 );
-								break;
-							} else if ( id == 43 ) {	//応急修理女神
-								hp[index] = ship.HPMax;
-								break;
-							}
+			Action<int, int> DealDamageFriend = ( int index, int damage ) => {
+				//if ( hp[index] == -1 ) return;
+				hp[index] -= Math.Max( damage, 0 );
+				if ( hp[index] == 0 ) {
+					ShipData ship = db.Ships[db.Fleet[index < 6 ? 1 : 2].FleetMember[index]];
+					if ( ship == null ) return;
+
+					foreach ( int id in ship.SlotMaster ) {
+
+						if ( id == 42 ) {			//応急修理要員
+							hp[index] = (int)( ship.HPMax * 0.2 );
+							break;
+						} else if ( id == 43 ) {	//応急修理女神
+							hp[index] = ship.HPMax;
+							break;
 						}
 					}
 				}
 			};
 
 			Action<int, int> DealDamageEnemy = ( int index, int damage ) => {
-				if ( hp[index + 6] == -1 ) return;
-				hp[index + 6] = Math.Max( hp[index + 6] - Math.Max( damage, 0 ), 0 );
+				//if ( hp[index + 6] == -1 ) return;
+				hp[index + 6] -= Math.Max( damage, 0 );
 			};
 
 			Action<int, int> DealDamageFriendEscort = ( int index, int damage ) => DealDamageFriend( index + 12, damage );

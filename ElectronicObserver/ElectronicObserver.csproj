@@ -277,7 +277,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Data\Calculator.cs" />
-    <Compile Include="Utility\Mathematics\Fraction.cs" />
     <Compile Include="Window\FormQuest.cs">
       <SubType>Form</SubType>
     </Compile>

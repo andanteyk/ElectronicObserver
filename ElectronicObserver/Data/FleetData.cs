@@ -64,6 +64,15 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		private List<int> _escapedShipID = new List<int>();
+		/// <summary>
+		/// 退避艦のIDリスト
+		/// </summary>
+		public ReadOnlyCollection<int> EscapedShipID {
+			get { return _escapedShipID.AsReadOnly(); }
+		}
+
+
 		public int ID {
 			get { return FleetID; }
 		}
@@ -73,11 +82,11 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 		
 			switch ( apiname ) {
-
+				/*
 				case "api_req_mission/start":
-					ExpeditionTime = DateTimeHelper.FromAPITime( (long)data.api_complatetime );
+					ExpeditionTime = DateTimeHelper.FromAPITime( (long)data.api_complatetime );	
 					break;
-
+				*/
 				default:			//checkme
 					base.LoadFromResponse( apiname, (object)data );
 
@@ -450,6 +459,9 @@ namespace ElectronicObserver.Data {
 		public static void RefreshFleetState( ImageLabel label, FleetStates state, DateTime timer ) {
 
 			switch ( state ) {
+				case FleetStates.Damaged:
+					label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+					break;
 				case FleetStates.Docking:
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
 					break;

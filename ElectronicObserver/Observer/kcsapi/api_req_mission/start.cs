@@ -14,15 +14,19 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_mission {
 
 		public override void OnRequestReceived( Dictionary<string, string> data ) {
 
+			/*	//checkme: どちらにせよあとで deck が呼ばれるので不要？
 			FleetID = int.Parse( data["api_deck_id"] );
 			KCDatabase.Instance.Fleet.Fleets[FleetID].LoadFromRequest( APIName, data );
-			
+			*/
+
 			base.OnRequestReceived( data );
 		}
 
 		public override void OnResponseReceived( dynamic data ) {
 
+			/*
 			KCDatabase.Instance.Fleet.Fleets[FleetID].LoadFromResponse( APIName, data );
+			*/
 
 			base.OnResponseReceived( (object)data );
 
