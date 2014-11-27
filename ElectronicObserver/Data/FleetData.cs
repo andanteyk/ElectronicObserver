@@ -87,6 +87,10 @@ namespace ElectronicObserver.Data {
 					ExpeditionTime = DateTimeHelper.FromAPITime( (long)data.api_complatetime );	
 					break;
 				*/
+				case "api_port/port":
+					_escapedShipID.Clear();
+					goto default;
+
 				default:			//checkme
 					base.LoadFromResponse( apiname, (object)data );
 
@@ -196,6 +200,15 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
+		/// 護衛退避を実行します。
+		/// </summary>
+		/// <param name="index">対象艦の艦隊内でのインデックス。0-5</param>
+		public void Escape( int index ) {
+			_escapedShipID.Add( _fleetMember[index] );
+		}
+
+
+		/// <summary>
 		/// 制空戦力を取得します。
 		/// </summary>
 		/// <returns>制空戦力。</returns>
@@ -215,6 +228,7 @@ namespace ElectronicObserver.Data {
 						continue;
 
 					EquipmentDataMaster eq = KCDatabase.Instance.Equipments[ship.Slot[j]].MasterEquipment;
+					if ( eq == null ) continue;
 
 					switch ( eq.EquipmentType[2] ) {
 						case 6:		//艦戦
@@ -259,6 +273,7 @@ namespace ElectronicObserver.Data {
 						continue;
 
 					EquipmentDataMaster eq = db.Equipments[ship.Slot[j]].MasterEquipment;
+					if ( eq == null ) continue;
 
 					switch ( eq.EquipmentType[2] ) {
 						case 9:		//艦偵
@@ -375,12 +390,12 @@ namespace ElectronicObserver.Data {
 
 			//大破艦あり
 			if ( fleet.FleetMember.Count( id =>
-				( id != -1 && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
+				( id != -1 && !fleet.EscapedShipID.Contains( id ) && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
 			 ) > 0 ) {
 
 				label.Text = "大破艦あり！";
 				label.ImageIndex = (int)ResourceManager.IconContent.ShipStateDamageL;
-				label.BackColor = Color.LightCoral;
+				//label.BackColor = Color.LightCoral;
 
 				return FleetStates.Damaged;
 			}

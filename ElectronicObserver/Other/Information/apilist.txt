@@ -944,14 +944,14 @@ api_req_sortie/battle	：戦闘(昼戦)
 	api_nowhps			：味方/敵艦船の現在HP -1から
 	api_maxhps			：〃最大HP
 	api_midnight_flag	：夜戦突入可否　昼戦で全滅させれば0(不可)になる
-	api_eSlot			：敵艦船装備スロット　空欄は-1, 艦がいれば[5], いなければ[4]
+	api_eSlot			：敵艦船装備スロット　空欄は-1
 	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
 	api_fParam			：味方艦船基礎ステータス [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
 	api_eParam			：敵艦船基礎ステータス
-	api_search			：索敵成否　[0]=味方, [1]=敵　1=成功, 2=成功(未帰還機あり), 3=未帰還, 4=失敗, 5=成功(艦載機使用せず), 
+	api_search			：索敵成否　[0]=味方, [1]=敵　1=成功, 2=成功(未帰還機あり), 3=未帰還, 4=失敗, 5=成功(艦載機使用せず), 6=失敗(艦載機使用せず)
 	api_formation		：陣形/交戦形態　[0]=味方, [1]=敵, [2]=交戦形態
 							[0|1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣
-							[2]：1=同航戦, 2=反航戦, 3=T字有利, 4=T字不利?
+							[2]：1=同航戦, 2=反航戦, 3=T字有利, 4=T字不利
 	api_stage_flag		：航空戦フラグ　[n]=0のときapi_stage<n>=nullになる(航空戦力なし, 艦戦のみなど)
 	api_kouku			：航空戦情報
 		api_plane_from	：艦載機を飛ばせる艦　[0]=味方, [1]=敵　いなければ[0]=-1
@@ -1289,6 +1289,7 @@ api_req_combined_battle/sp_midnight		：連合艦隊 開幕夜戦
 
 api_req_combined_battle/battle_water	：連合艦隊-水上部隊 戦闘
 	(全メンバを api_req_combined_battle/battle から継承)
+	api_eSlot			：存在する艦の分のみ存在
 	api_hougeki1		：砲撃戦1巡目(水上部隊本隊)
 	api_hougeki2		：砲撃戦2巡目(水上部隊本隊)
 	api_hougeki3		：砲撃戦3巡目(随伴艦隊)

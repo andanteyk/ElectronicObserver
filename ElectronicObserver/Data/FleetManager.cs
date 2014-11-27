@@ -33,23 +33,35 @@ namespace ElectronicObserver.Data {
 
 		
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );
 
-			//api_port/port, api_get_member/deck
-			foreach ( var elem in data ) {
+			switch ( apiname ) {
+				case "api_req_combined_battle/goback_port":
+					foreach ( int index in KCDatabase.Instance.Battle.Result.EscapingShipIndex ) {
+						Fleets[( index - 1 ) < 6 ? 1 : 2].Escape( ( index - 1 ) % 6 );
+					}
+					break;
 
-				int id = (int)elem.api_id;
+				default:
+					base.LoadFromResponse( apiname, (object)data );
 
-				if ( !Fleets.ContainsKey( id ) ) {
-					var a = new FleetData();
-					a.LoadFromResponse( apiname, elem );
-					Fleets.Add( a );
+					//api_port/port, api_get_member/deck
+					foreach ( var elem in data ) {
 
-				} else {
-					Fleets[id].LoadFromResponse( apiname, elem );
-				}
+						int id = (int)elem.api_id;
+
+						if ( !Fleets.ContainsKey( id ) ) {
+							var a = new FleetData();
+							a.LoadFromResponse( apiname, elem );
+							Fleets.Add( a );
+
+						} else {
+							Fleets[id].LoadFromResponse( apiname, elem );
+						}
+					}
+					break;
 			}
 
+			
 		}
 
 

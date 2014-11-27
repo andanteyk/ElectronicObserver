@@ -118,6 +118,7 @@
     <Compile Include="Observer\kcsapi\api_req_combined_battle\battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\battleresult.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\battle_water.cs" />
+    <Compile Include="Observer\kcsapi\api_req_combined_battle\goback_port.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\midnight_battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\sp_midnight.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\change.cs" />

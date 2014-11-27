@@ -69,6 +69,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_get_member.deck() );
 			APIList.Add( new kcsapi.api_get_member.mapinfo() );
 			APIList.Add( new kcsapi.api_req_combined_battle.battle_water() );
+			APIList.Add( new kcsapi.api_req_combined_battle.goback_port() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );
@@ -114,13 +115,6 @@ namespace ElectronicObserver.Observer {
 
 		private void FiddlerApplication_AfterSessionComplete( Fiddler.Session oSession ) {
 
-			if ( oSession.fullUrl.Contains( "/kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {	//checkme: このあたりの条件も後々変わる可能性があるので注意
-
-				LoadResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
-
-			}
-
-
 			//保存
 			{
 				Utility.Configuration.ConfigConnection c = Utility.Configuration.Instance.Connection;
@@ -164,6 +158,14 @@ namespace ElectronicObserver.Observer {
 				}
 
 			}
+
+
+			if ( oSession.fullUrl.Contains( "/kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {	//checkme: このあたりの条件も後々変わる可能性があるので注意
+
+				LoadResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
+
+			}
+
 		}
 
 
@@ -171,10 +173,7 @@ namespace ElectronicObserver.Observer {
 		private void FiddlerApplication_BeforeRequest( Fiddler.Session oSession ) {
 
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) ) {
-
-				LoadRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
-
-
+				
 				//保存
 				{	
 					Utility.Configuration.ConfigConnection c = Utility.Configuration.Instance.Connection;
@@ -184,6 +183,10 @@ namespace ElectronicObserver.Observer {
 						SaveRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
 					}
 				}
+
+
+				LoadRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
+
 			}
 
 		}
@@ -235,13 +238,15 @@ namespace ElectronicObserver.Observer {
 				if ( (int)json.api_result != 1 ) {
 					Utility.Logger.Add( 3, "エラーコードを含むメッセージを受信しました。" );
 					throw new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
-				}	
+				}
 
-				
+
 				if ( shortpath == "api_get_member/ship2" )
 					APIList.OnResponseReceived( shortpath, json );
 				else if ( json.IsDefined( "api_data" ) )
 					APIList.OnResponseReceived( shortpath, json.api_data );
+				else
+					APIList.OnResponseReceived( shortpath, null );
 
 
 			} catch ( Exception e ) {

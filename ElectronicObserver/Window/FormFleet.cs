@@ -148,6 +148,7 @@ namespace ElectronicObserver.Window {
 			public ShipStatusEquipment Equipments;
 
 			private ToolTip ToolTipInfo;
+			private FormFleet Parent;
 
 
 			public TableMemberControl( FormFleet parent ) {
@@ -203,10 +204,11 @@ namespace ElectronicObserver.Window {
 				Condition = new ImageLabel();
 				Condition.SuspendLayout();
 				Condition.Text = "*";
-				Condition.Anchor = AnchorStyles.Right;
+				Condition.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 				Condition.Font = parent.MainFont;
 				Condition.ForeColor = parent.MainFontColor;
-				Condition.TextAlign = ContentAlignment.BottomLeft;
+				Condition.TextAlign = ContentAlignment.BottomRight;
+				Condition.ImageAlign = ContentAlignment.MiddleLeft;
 				Condition.ImageList = ResourceManager.Instance.Icons;
 				Condition.Padding = new Padding( 2, 2, 2, 2 );
 				Condition.Margin = new Padding( 2, 0, 2, 0 );
@@ -241,6 +243,7 @@ namespace ElectronicObserver.Window {
 
 
 				ToolTipInfo = parent.ToolTipInfo;
+				Parent = parent;
 				#endregion
 
 			}
@@ -278,10 +281,9 @@ namespace ElectronicObserver.Window {
 				if ( shipMasterID != -1 ) {
 
 					ShipData ship = db.Ships[shipMasterID];
-					ShipDataMaster shipmaster = db.MasterShips[ship.ShipID];
+					
 
-
-					Name.Text = shipmaster.Name;
+					Name.Text = ship.MasterShip.NameWithClass;
 					
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
@@ -295,7 +297,13 @@ namespace ElectronicObserver.Window {
 							break;
 						}
 					}
+					if ( KCDatabase.Instance.Fleet[Parent.FleetID].EscapedShipID.Contains( shipMasterID ) ) {
+						HP.BackColor = Color.Silver;
+					} else {
+						HP.BackColor = SystemColors.Control;
+					}
 					
+
 					Condition.Text = ship.Condition.ToString();
 					if ( ship.Condition < 20 ) {
 						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
@@ -309,7 +317,7 @@ namespace ElectronicObserver.Window {
 						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 					}
 
-					ShipResource.SetResources( ship.Fuel, shipmaster.Fuel, ship.Ammo, shipmaster.Ammo );
+					ShipResource.SetResources( ship.Fuel, ship.MasterShip.Fuel, ship.Ammo, ship.MasterShip.Ammo );
 
 
 					Equipments.SetSlotList( ship );
@@ -477,13 +485,8 @@ namespace ElectronicObserver.Window {
 
 				sb.AppendFormat( "{0}/{1}\t", ship.MasterShip.Name, ship.Level );
 
-				int[] slot = new int[ship.Slot.Count];
-				for ( int j = 0; j < slot.Length; j++ ) {
-					if ( ship.Slot[j] != -1 )
-						slot[j] = db.Equipments[ship.Slot[j]].EquipmentID;
-					else
-						slot[j] = -1;
-				}
+				int[] slot = ship.SlotMaster.ToArray();
+				
 
 				//todo: 装備の改装levelを反映
 

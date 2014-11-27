@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Data.Battle;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
@@ -88,6 +89,7 @@ namespace ElectronicObserver.Window {
 				Update( shipID, shipID != -1 ? KCDatabase.Instance.MasterShips[shipID].DefaultSlot.ToArray() : null );
 			}
 
+			//fixme: slotがnullだと間違いなく死ぬ
 			public void Update( int shipID, int[] slot ) {
 
 				ShipName.Tag = shipID;
@@ -210,15 +212,34 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_port/port"].ResponseReceived += rec;
 			o.APIList["api_req_map/start"].ResponseReceived += rec;
 			o.APIList["api_req_map/next"].ResponseReceived += rec;
-			
+			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += rec;
+
+			APIReceivedEventHandler rec2 = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( BattleStarted ), apiname, data );
+
+			o.APIList["api_req_sortie/battle"].ResponseReceived += rec2;
+			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += rec2;
+			o.APIList["api_req_combined_battle/battle"].ResponseReceived += rec2;
+			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += rec2;
+			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += rec2;
+			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += rec2;
+			o.APIList["api_req_practice/battle"].ResponseReceived += rec2;
+
 		}
 
 
-		void Updated( string apiname, dynamic data ) {
+		private void Updated( string apiname, dynamic data ) {
 
 			if ( apiname == "api_port/port" ) {
 
 				BasePanel.Visible = false;
+
+			} else if ( apiname == "api_req_member/get_practice_enemyinfo" ) {
+
+				TextMapArea.Text = "演習";
+				TextDestination.Text = "";
+				TextEventKind.Text = "";
+				TextEventDetail.Text = "";
+				TextEnemyFleetName.Text = data.api_deckname;
 
 			} else {
 
@@ -309,6 +330,11 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void BattleStarted( string apiname, dynamic data ) {
+			UpdateEnemyFleetInstant();
+		}
+
+
 
 		private void UpdateEnemyFleet( int fleetID ) {
 
@@ -330,9 +356,9 @@ namespace ElectronicObserver.Window {
 				var fdata = efleet[fleetID];
 
 				TextEnemyFleetName.Text = fdata.FleetName;
-				TextFormation.Text = fdata.FormationString;
+				TextFormation.Text = Constants.GetFormationShort( fdata.Formation );
 				TextFormation.Visible = true;
-				TextAirSuperiority.Text = GetAirSuperiority( fdata ).ToString();
+				TextAirSuperiority.Text = GetAirSuperiority( fdata.FleetMember ).ToString();
 				TextAirSuperiority.Visible = true;
 
 				TableEnemyMember.SuspendLayout();
@@ -349,18 +375,52 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void UpdateEnemyFleetInstant() {
+
+			BattleManager bm = KCDatabase.Instance.Battle;
+			BattleData bd;
+
+			switch ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) {
+				case BattleManager.BattleModes.NightOnly:
+				case BattleManager.BattleModes.NightDay:
+					bd = bm.BattleNight;
+					break;
+				default:
+					bd = bm.BattleDay;
+					break;
+			}
+
+			TextFormation.Text = Constants.GetFormationShort( (int)bd.Data.api_formation[1] );
+			TextFormation.Visible = true;
+			TextAirSuperiority.Text = GetAirSuperiority( ( (int[])bd.Data.api_ship_ke ).Skip( 1 ).ToArray() ).ToString();
+			TextAirSuperiority.Visible = true;
+
+			TableEnemyMember.SuspendLayout();
+			for ( int i = 0; i < ControlMember.Length; i++ ) {
+				int shipID = (int)bd.Data.api_ship_ke[i + 1];
+				ControlMember[i].Update( shipID, shipID != -1 ? (int[])bd.Data.api_eSlot[i] : null );
+			}
+			TableEnemyMember.ResumeLayout();
+			TableEnemyMember.Visible = true;
+
+			PanelEnemyFleet.Visible = true;
+			BasePanel.Visible = true;			//checkme
+
+		}
+
+
 		//これ、どうにかならないものだろうか…
 		//纏めるにしてもつらいし
-		private int GetAirSuperiority( EnemyFleetRecord.EnemyFleetElement fdata ) {
+		private int GetAirSuperiority( int[] fleet ) {
 
 			int airSuperiority = 0;
 
-			for ( int i = 0; i < fdata.FleetMember.Length; i++ ) {
+			for ( int i = 0; i < fleet.Length; i++ ) {
 
-				if ( fdata.FleetMember[i] == -1 )
+				if ( fleet[i] == -1 )
 					continue;
 
-				ShipDataMaster ship = KCDatabase.Instance.MasterShips[fdata.FleetMember[i]];
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[fleet[i]];
 
 				if ( ship.DefaultSlot == null )
 					continue;
@@ -409,20 +469,7 @@ namespace ElectronicObserver.Window {
 				if ( fdata.FleetName != null )
 					sb.Append( fdata.FleetName + " - " );
 
-				switch ( fdata.Formation ) {
-					case 1:
-						sb.AppendLine( "単縦陣" ); break;
-					case 2:
-						sb.AppendLine( "複縦陣" ); break;
-					case 3:
-						sb.AppendLine( "輪形陣" ); break;
-					case 4:
-						sb.AppendLine( "梯形陣" ); break;
-					case 5:
-						sb.AppendLine( "単横陣" ); break;
-					default:
-						sb.AppendLine( "未定義" ); break;
-				}
+				sb.AppendLine( Constants.GetFormationShort( fdata.Formation ) );
 
 
 				int[] fmembers = fdata.FleetMember;

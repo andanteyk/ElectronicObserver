@@ -93,7 +93,7 @@ namespace ElectronicObserver.Window {
 			FlowPanelMaster.SuspendLayout();
 
 			//Admiral
-			AdmiralName.Text = db.Admiral.AdmiralName + " " + db.Admiral.GetRankString();
+			AdmiralName.Text = string.Format( "{0} {1}", db.Admiral.AdmiralName, Constants.GetAdmiralRank( db.Admiral.Rank ) );
 			AdmiralComment.Text = db.Admiral.Comment;
 
 			//HQ Level

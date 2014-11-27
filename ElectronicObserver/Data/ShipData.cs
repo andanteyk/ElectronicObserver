@@ -388,7 +388,6 @@ namespace ElectronicObserver.Data {
 		//*/
 		/// <summary>
 		/// 出撃海域
-		/// 備考：2014/09/02現在、この値は削除されています
 		/// </summary>
 		public int SallyArea {
 			get {

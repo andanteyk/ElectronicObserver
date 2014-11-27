@@ -67,6 +67,34 @@ namespace ElectronicObserver.Data.Battle {
 			}
 		}
 
+
+		/// <summary>
+		/// 護衛退避可能か
+		/// </summary>
+		public bool CanEscape {
+			get {
+				if ( !RawData.api_escape() ) {
+					return false;
+				} else {
+					return (int)RawData.api_escape != 0;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 退避艦のインデックス
+		/// </summary>
+		public IEnumerable<int> EscapingShipIndex {
+			get {
+				if ( !RawData.api_escape() ) {
+					return null;
+				} else {
+					return new int[2] { (int)RawData.api_escape.api_escape_idx[0], (int)RawData.api_escape.api_tow_idx[0] }.AsEnumerable();
+				}
+
+			}
+		}
+
 		
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );

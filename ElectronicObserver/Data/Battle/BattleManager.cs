@@ -40,10 +40,10 @@ namespace ElectronicObserver.Data.Battle {
 			NightDay,						//夜昼戦
 			AirBattle,						//航空戦
 			Practice,						//演習
-			BattlePhaseFlags = 0xFFFF,		//戦闘形態マスク
+			BattlePhaseMask = 0xFFFF,		//戦闘形態マスク
 			CombinedTaskForce = 0x10000,	//機動部隊
 			CombinedSurface = 0x20000,		//水上部隊
-			CombinedFlags = 0x7FFF0000,		//連合艦隊仕様
+			CombinedMask = 0x7FFF0000,		//連合艦隊仕様
 		}
 
 		/// <summary>
@@ -92,7 +92,7 @@ namespace ElectronicObserver.Data.Battle {
 					break;
 
 				case "api_req_combined_battle/sp_midnight":
-					BattleMode = BattleModes.NightOnly | BattleModes.CombinedFlags;
+					BattleMode = BattleModes.NightOnly | BattleModes.CombinedMask;
 					BattleNight = new BattleCombinedNightOnly();
 					BattleNight.LoadFromResponse( apiname, data );
 					break;
@@ -147,7 +147,7 @@ namespace ElectronicObserver.Data.Battle {
 		private void BattleFinished() {
 
 			//敵編成記録
-			switch ( BattleMode & BattleModes.BattlePhaseFlags ) {
+			switch ( BattleMode & BattleModes.BattlePhaseMask ) {
 				case BattleModes.Normal:
 				case BattleModes.AirBattle:
 					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleDay.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
@@ -155,13 +155,13 @@ namespace ElectronicObserver.Data.Battle {
 
 				case BattleModes.NightOnly:
 				case BattleModes.NightDay:
-					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleNight.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
+					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleNight.Data.api_formation[1], ( (int[])BattleNight.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
 					break;
 			}
 
 
 			//ドロップ艦記録(母港がいっぱいの場合記録しません)
-			if ( ( BattleMode & BattleModes.BattlePhaseFlags ) != BattleModes.Practice && 
+			if ( ( BattleMode & BattleModes.BattlePhaseMask ) != BattleModes.Practice && 
 				 KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count >= 1 &&
 				 KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count >= 4 ) {
 

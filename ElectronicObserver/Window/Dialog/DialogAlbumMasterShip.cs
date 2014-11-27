@@ -210,56 +210,9 @@ namespace ElectronicObserver.Window.Dialog {
 			//sub parameter
 			TableParameterSub.SuspendLayout();
 
-			switch ( ship.Speed ) {
-				case 0:
-					Speed.Text = "陸上"; break;
-				case 5:
-					Speed.Text = "低速"; break;
-				case 10:
-					Speed.Text = "高速"; break;
-				default:
-					Speed.Text = "不明"; break;
-			}
-
-			switch ( ship.Range ) {
-				case 0:
-					Range.Text = "無"; break;
-				case 1:
-					Range.Text = "短"; break;
-				case 2:
-					Range.Text = "中"; break;
-				case 3:
-					Range.Text = "長"; break;
-				case 4:
-					Range.Text = "超長"; break;
-				default:
-					Range.Text = "不明"; break;
-			}
-
-			//undone
-			switch ( ship.Rarity ) {
-				case 0:
-					Rarity.Text = "赤"; break;
-				case 1:
-					Rarity.Text = "群青"; break;
-				case 2:
-					Rarity.Text = "青"; break;
-				case 3:
-					Rarity.Text = "水"; break;
-				case 4:
-					Rarity.Text = "銀"; break;
-				case 5:
-					Rarity.Text = "金"; break;
-				case 6:
-					Rarity.Text = "虹"; break;
-				case 7:
-					Rarity.Text = "輝虹"; break;
-				case 8:
-					Rarity.Text = "桜虹"; break;
-				default:
-					Rarity.Text = "不明"; break;
-			}
-			//Rarity.Text = ship.Rarity.ToString();
+			Speed.Text = Constants.GetSpeed( ship.Speed );
+			Range.Text = Constants.GetRange( ship.Range );
+			Rarity.Text = Constants.GetShipRarity( ship.Rarity );
 
 			Fuel.Text = ship.Fuel.ToString();
 			Ammo.Text = ship.Ammo.ToString();

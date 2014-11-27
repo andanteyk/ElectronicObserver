@@ -381,7 +381,7 @@ namespace ElectronicObserver.Data {
 		//以下、自作計算プロパティ群
 
 		/// <summary>
-		/// ケッコン後のHP
+		/// ケッコンカッコカリ後のHP
 		/// </summary>
 		public int HPMaxMarried {
 			get {
