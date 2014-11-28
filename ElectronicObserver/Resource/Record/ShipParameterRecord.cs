@@ -347,13 +347,13 @@ namespace ElectronicObserver.Resource.Record {
 			if ( e == null ) {
 				e = new ShipParameterElement();
 				e.ShipID = shipID;
-				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "の装備を記録しました。" );
+				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "の初期装備を記録しました。" );
 			}
 
 			e.DefaultSlot = slot;
 
 			Update( e );
-			Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "の装備を更新しました。" );
+			Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "の初期装備を更新しました。" );
 		}
 
 

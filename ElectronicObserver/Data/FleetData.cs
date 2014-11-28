@@ -433,7 +433,10 @@ namespace ElectronicObserver.Data {
 
 				if ( cond < 40 ) {
 
-					timer = DateTime.Now.AddMinutes( (int)Math.Ceiling( ( 40.0 - cond ) / 3.0 ) * 3 );		//todo: いずれ変数化できるようになるといいかも
+					DateTime recovertime = DateTime.Now.AddMinutes( (int)Math.Ceiling( ( 40.0 - cond ) / 3.0 ) * 3 );
+
+					//fixme: 時間を超過させない
+					timer = recovertime;		//todo: いずれ変数化できるようになるといいかも
 					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
 
 					if ( cond < 20 )

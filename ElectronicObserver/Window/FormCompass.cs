@@ -392,7 +392,7 @@ namespace ElectronicObserver.Window {
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Data.api_formation[1] );
 			TextFormation.Visible = true;
-			TextAirSuperiority.Text = GetAirSuperiority( ( (int[])bd.Data.api_ship_ke ).Skip( 1 ).ToArray() ).ToString();
+			TextAirSuperiority.Text = GetAirSuperiority( ( (int[])bd.Data.api_ship_ke ).Skip( 1 ).ToArray(), (int[][])bd.Data.api_eSlot ).ToString();
 			TextAirSuperiority.Visible = true;
 
 			TableEnemyMember.SuspendLayout();
@@ -430,6 +430,8 @@ namespace ElectronicObserver.Window {
 						continue;
 
 					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[s]];
+					if ( eq == null )
+						continue;
 
 					switch ( eq.EquipmentType[2] ) {
 						case 6:		//艦戦
@@ -446,6 +448,43 @@ namespace ElectronicObserver.Window {
 			return airSuperiority;
 		}
 
+
+		//fixme: 暫定版　いずれどこかに纏めておく…
+		private int GetAirSuperiority( int[] fleet, int[][] slot ) {
+
+			int airSuperiority = 0;
+
+			for ( int i = 0; i < fleet.Length; i++ ) {
+
+				if ( fleet[i] == -1 )
+					continue;
+
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[fleet[i]];
+
+				if ( ship == null || slot[i] == null )
+					continue;
+
+				for ( int s = 0; s < slot[i].Length; s++ ) {
+					if ( slot[i][s] == -1 )
+						continue;
+
+					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[i][s]];
+					if ( eq == null )
+						continue;
+
+					switch ( eq.EquipmentType[2] ) {
+						case 6:		//艦戦
+						case 7:		//艦爆
+						case 8:		//艦攻
+						case 11:	//水爆
+							airSuperiority += (int)( eq.AA * Math.Sqrt( ship.Aircraft[s] ) );
+							break;
+					}
+				}
+			}
+
+			return airSuperiority;
+		}
 
 
 		//for debug

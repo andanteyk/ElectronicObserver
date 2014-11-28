@@ -482,6 +482,9 @@ namespace ElectronicObserver.Window {
 
 		private void SetHPNormal( int[] hp, BattleData bd ) {
 
+			KCDatabase db = KCDatabase.Instance;
+			bool isPractice = bd.APIName.Contains( "practice" );		//fixme
+
 			for ( int i = 0; i < 12; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
 					HPBars[i].Value = hp[i];
@@ -493,6 +496,44 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+
+			for ( int i = 0; i < 6; i++ ) {
+				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
+					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
+					
+					ToolTipInfo.SetToolTip( HPBars[i],
+						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+							ship.MasterShip.NameWithClass,
+							ship.Level, 
+							Math.Max( HPBars[i].PrevValue, 0 ),
+							Math.Max( HPBars[i].Value, 0 ),
+							HPBars[i].MaximumValue,
+							HPBars[i].Value - HPBars[i].PrevValue,
+							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase )
+							)
+						);
+				}
+			}
+
+			for ( int i = 0; i < 6; i++ ) {
+				if ( (int)bd.Data.api_nowhps[i + 7] != -1 ) {
+					ShipDataMaster ship = db.MasterShips[bd.EnemyFleetMembers[i + 1]];
+
+					ToolTipInfo.SetToolTip( HPBars[i + 6],
+						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+							ship.NameWithClass,
+							bd.EnemyLevels[i + 1],
+							Math.Max( HPBars[i + 6].PrevValue, 0 ),
+							Math.Max( HPBars[i + 6].Value, 0 ),
+							HPBars[i + 6].MaximumValue,
+							HPBars[i + 6].Value - HPBars[i + 6].PrevValue,
+							Constants.GetDamageState( (double)HPBars[i + 6].Value / HPBars[i + 6].MaximumValue, isPractice, ship.IsLandBase )
+							)
+						);
+				}
+			}
+
+
 			FleetCombined.Visible = false;
 			for ( int i = 12; i < 18; i++ ) {
 				HPBars[i].Visible = false;
@@ -501,6 +542,9 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void SetHPCombined( int[] hp, BattleData bd ) {
+
+			KCDatabase db = KCDatabase.Instance;
+			bool isPractice = bd.APIName.Contains( "practice" );		//fixme
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
@@ -525,6 +569,60 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+
+			for ( int i = 0; i < 6; i++ ) {
+				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
+					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
+
+					ToolTipInfo.SetToolTip( HPBars[i],
+						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+							ship.MasterShip.NameWithClass,
+							ship.Level,
+							Math.Max( HPBars[i].PrevValue, 0 ),
+							Math.Max( HPBars[i].Value, 0 ),
+							HPBars[i].MaximumValue,
+							HPBars[i].Value - HPBars[i].PrevValue,
+							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase )
+							)
+						);
+				}
+			}
+
+			for ( int i = 0; i < 6; i++ ) {
+				if ( (int)bd.Data.api_nowhps[i + 7] != -1 ) {
+					ShipDataMaster ship = db.MasterShips[bd.EnemyFleetMembers[i + 1]];
+
+					ToolTipInfo.SetToolTip( HPBars[i + 6],
+						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+							ship.NameWithClass,
+							bd.EnemyLevels[i + 1],
+							Math.Max( HPBars[i + 6].PrevValue, 0 ),
+							Math.Max( HPBars[i + 6].Value, 0 ),
+							HPBars[i + 6].MaximumValue,
+							HPBars[i + 6].Value - HPBars[i + 6].PrevValue,
+							Constants.GetDamageState( (double)HPBars[i + 6].Value / HPBars[i + 6].MaximumValue, isPractice, ship.IsLandBase )
+							)
+						);
+				}
+			}
+
+			for ( int i = 0; i < 6; i++ ) {
+				if ( (int)bd.Data.api_nowhps_combined[i + 1] != -1 ) {
+					ShipData ship = db.Ships[db.Fleet[2].FleetMember[i]];
+
+					ToolTipInfo.SetToolTip( HPBars[i + 12],
+						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+							ship.MasterShip.NameWithClass,
+							ship.Level,
+							Math.Max( HPBars[i + 12].PrevValue, 0 ),
+							Math.Max( HPBars[i + 12].Value, 0 ),
+							HPBars[i + 12].MaximumValue,
+							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
+							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase )
+							)
+						);
+				}
+			}
 		}
 
 		private void SetDamageRateNormal( int[] hp, BattleData bd ) {
@@ -583,6 +681,12 @@ namespace ElectronicObserver.Window {
 		
 		protected override string GetPersistString() {
 			return "Battle";
+		}
+
+
+		private void TableMain_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
+			if ( e.Row == 1 || e.Row == 4 || e.Row == 12 )
+				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 	}

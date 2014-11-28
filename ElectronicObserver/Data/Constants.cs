@@ -74,6 +74,33 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 艦船の損傷度合いを表す文字列を取得します。
+		/// </summary>
+		/// <param name="hprate">現在HP/最大HPで表される割合。</param>
+		/// <param name="isPractice">演習かどうか。</param>
+		/// <param name="isLandBase">陸上基地かどうか。</param>
+		/// <param name="isEscaped">退避中かどうか。</param>
+		/// <returns></returns>
+		public static string GetDamageState( double hprate, bool isPractice = false, bool isLandBase = false, bool isEscaped = false ) {
+
+			if ( isEscaped )
+				return "退避";
+			else if ( hprate <= 0.0 )
+				return isPractice ? "離脱" : ( !isLandBase ? "撃沈" : "破壊" );
+			else if ( hprate <= 0.25 )
+				return !isLandBase ? "大破" : "損壊";
+			else if ( hprate <= 0.5 )
+				return !isLandBase ? "中破" : "損害";
+			else if ( hprate <= 0.75 )
+				return !isLandBase ? "小破" : "混乱";
+			else if ( hprate < 1.0 )
+				return "健在";
+			else
+				return "無傷";
+
+		}
+
 		#endregion
 
 
@@ -170,6 +197,28 @@ namespace ElectronicObserver.Data {
 					return "成功(非索敵機)";
 				case 6:
 					return "失敗(非索敵機)";
+				default:
+					return "不明";
+			}
+		}
+
+		/// <summary>
+		/// 索敵結果を表す文字列(短縮版)を取得します。
+		/// </summary>
+		public static string GetSearchingResultShort( int id ) {
+			switch ( id ) {
+				case 1:
+					return "成功";
+				case 2:
+					return "成功△";
+				case 3:
+					return "未帰還";
+				case 4:
+					return "失敗";
+				case 5:
+					return "成功";
+				case 6:
+					return "失敗";
 				default:
 					return "不明";
 			}

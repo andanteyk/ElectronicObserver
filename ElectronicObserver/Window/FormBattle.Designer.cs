@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.TableMain = new System.Windows.Forms.TableLayoutPanel();
 			this.FleetFriend = new ElectronicObserver.Window.Control.ImageLabel();
 			this.DamageFriend = new ElectronicObserver.Window.Control.ImageLabel();
@@ -44,6 +45,7 @@
 			this.DamageEnemy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FleetCombined = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FleetEnemy = new ElectronicObserver.Window.Control.ImageLabel();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.TableMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -93,6 +95,7 @@
 			this.TableMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableMain.Size = new System.Drawing.Size(252, 273);
 			this.TableMain.TabIndex = 1;
+			this.TableMain.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableMain_CellPaint);
 			// 
 			// FleetFriend
 			// 
@@ -334,6 +337,13 @@
 			this.FleetEnemy.Text = "敵軍艦隊";
 			this.FleetEnemy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
 			// FormBattle
 			// 
 			this.AutoHidePortion = 150D;
@@ -377,5 +387,6 @@
 		private Control.ImageLabel DamageEnemy;
 		private Control.ImageLabel FleetCombined;
 		private Control.ImageLabel FleetEnemy;
+		private System.Windows.Forms.ToolTip ToolTipInfo;
 	}
 }
