@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.Battle;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Window.Control;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,14 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+
+			SearchingFriend.ImageList = ResourceManager.Instance.Equipments;
+			SearchingEnemy.ImageList = ResourceManager.Instance.Equipments;
+
 			TableMain.Visible = false;
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Equipments.Images[(int)ResourceManager.EquipmentContent.MainGunL] );
+
 		}
 
 
@@ -400,9 +408,11 @@ namespace ElectronicObserver.Window {
 
 		private void SetSearchingResult( BattleData bd ) {
 
-			SearchingFriend.Text = Constants.GetSearchingResult( (int)bd.Data.api_search[0] );
-			SearchingEnemy.Text = Constants.GetSearchingResult( (int)bd.Data.api_search[1] );
-
+			SearchingFriend.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[0] );
+			SearchingFriend.ImageIndex = (int)( (int)bd.Data.api_search[0] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
+			SearchingEnemy.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[1] );
+			SearchingEnemy.ImageIndex = (int)( (int)bd.Data.api_search[1] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
+			
 		}
 
 		private void ClearSearchingResult() {
@@ -502,7 +512,7 @@ namespace ElectronicObserver.Window {
 					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
 					
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.MasterShip.NameWithClass,
 							ship.Level, 
 							Math.Max( HPBars[i].PrevValue, 0 ),
@@ -520,7 +530,7 @@ namespace ElectronicObserver.Window {
 					ShipDataMaster ship = db.MasterShips[bd.EnemyFleetMembers[i + 1]];
 
 					ToolTipInfo.SetToolTip( HPBars[i + 6],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.NameWithClass,
 							bd.EnemyLevels[i + 1],
 							Math.Max( HPBars[i + 6].PrevValue, 0 ),
@@ -575,7 +585,7 @@ namespace ElectronicObserver.Window {
 					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
 
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
@@ -593,7 +603,7 @@ namespace ElectronicObserver.Window {
 					ShipDataMaster ship = db.MasterShips[bd.EnemyFleetMembers[i + 1]];
 
 					ToolTipInfo.SetToolTip( HPBars[i + 6],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.NameWithClass,
 							bd.EnemyLevels[i + 1],
 							Math.Max( HPBars[i + 6].PrevValue, 0 ),
@@ -611,7 +621,7 @@ namespace ElectronicObserver.Window {
 					ShipData ship = db.Ships[db.Fleet[2].FleetMember[i]];
 
 					ToolTipInfo.SetToolTip( HPBars[i + 12],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2}→{3})/{4} ({5}) [{6}]",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i + 12].PrevValue, 0 ),

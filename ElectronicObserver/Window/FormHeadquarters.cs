@@ -45,7 +45,10 @@ namespace ElectronicObserver.Window {
 			Steel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
 			Bauxite.ImageList = icons;
 			Bauxite.ImageIndex = (int)ResourceManager.IconContent.ResourceBauxite;
-			
+
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQHeadQuarters] );
+
 		}
 
 		

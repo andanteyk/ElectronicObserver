@@ -446,6 +446,8 @@ namespace ElectronicObserver.Window {
 			}
 			TableMember.ResumeLayout();
 
+			Icon = ResourceManager.ImageToIcon( ControlFleet.StateMain.Image );
+			if ( Parent != null ) Parent.Refresh();		//アイコンを更新するため
 		}
 
 

@@ -188,6 +188,8 @@ namespace ElectronicObserver.Window {
 			BasePanel.SetFlowBreak( TextEventKind, true );
 			//BasePanel.SetFlowBreak( TextEventDetail, true );
 
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQCompass] );
+
 		}
 
 

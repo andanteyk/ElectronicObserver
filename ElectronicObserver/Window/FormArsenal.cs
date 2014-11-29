@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -149,6 +150,8 @@ namespace ElectronicObserver.Window {
 				ControlArsenal[i] = new TableArsenalControl( this, TableArsenal, i );
 			}
 			TableArsenal.ResumeLayout();
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQArsenal] );
 		}
 
 

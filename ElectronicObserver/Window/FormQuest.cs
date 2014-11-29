@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +36,9 @@ namespace ElectronicObserver.Window {
 			//こうしないとフォントがなぜかデフォルトにされる
 			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 			QuestView.Font = Font;
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQQuest] );
+
 		}
 
 

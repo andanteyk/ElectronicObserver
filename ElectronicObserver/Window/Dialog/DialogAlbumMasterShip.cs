@@ -20,13 +20,28 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogAlbumMasterShip() {
 			InitializeComponent();
 
-
+			TitleHP.ImageList =
+			TitleFirepower.ImageList =
+			TitleTorpedo.ImageList =
+			TitleAA.ImageList =
+			TitleArmor.ImageList =
+			TitleASW.ImageList =
+			TitleEvasion.ImageList =
+			TitleLOS.ImageList =
+			TitleLuck.ImageList =
+			TitleSpeed.ImageList =
+			TitleRange.ImageList =
+			Rarity.ImageList =
 			Fuel.ImageList =
 			Ammo.ImageList =
 			MaterialFuel.ImageList =
 			MaterialAmmo.ImageList =
 			MaterialSteel.ImageList =
 			MaterialBauxite.ImageList =
+			PowerUpFirepower.ImageList = 
+			PowerUpTorpedo.ImageList =
+			PowerUpAA.ImageList =
+			PowerUpArmor.ImageList =
 			RemodelBeforeLevel.ImageList =
 			RemodelBeforeAmmo.ImageList =
 			RemodelBeforeSteel.ImageList =
@@ -42,12 +57,27 @@ namespace ElectronicObserver.Window.Dialog {
 			Equipment5.ImageList =
 				ResourceManager.Instance.Equipments;
 
+			TitleHP.ImageIndex = (int)ResourceManager.IconContent.ParameterHP;
+			TitleFirepower.ImageIndex = (int)ResourceManager.IconContent.ParameterFirepower;
+			TitleTorpedo.ImageIndex = (int)ResourceManager.IconContent.ParameterTorpedo;
+			TitleAA.ImageIndex = (int)ResourceManager.IconContent.ParameterAA;
+			TitleArmor.ImageIndex = (int)ResourceManager.IconContent.ParameterArmor;
+			TitleASW.ImageIndex = (int)ResourceManager.IconContent.ParameterASW;
+			TitleEvasion.ImageIndex = (int)ResourceManager.IconContent.ParameterEvasion;
+			TitleLOS.ImageIndex = (int)ResourceManager.IconContent.ParameterLOS;
+			TitleLuck.ImageIndex = (int)ResourceManager.IconContent.ParameterLuck;
+			TitleSpeed.ImageIndex = (int)ResourceManager.IconContent.ParameterSpeed;
+			TitleRange.ImageIndex = (int)ResourceManager.IconContent.ParameterRange;
 			Fuel.ImageIndex = (int)ResourceManager.IconContent.ResourceFuel;
 			Ammo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
 			MaterialFuel.ImageIndex = (int)ResourceManager.IconContent.ResourceFuel;
 			MaterialAmmo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
 			MaterialSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
 			MaterialBauxite.ImageIndex = (int)ResourceManager.IconContent.ResourceBauxite;
+			PowerUpFirepower.ImageIndex = (int)ResourceManager.IconContent.ParameterFirepower;
+			PowerUpTorpedo.ImageIndex = (int)ResourceManager.IconContent.ParameterTorpedo;
+			PowerUpAA.ImageIndex = (int)ResourceManager.IconContent.ParameterAA;
+			PowerUpArmor.ImageIndex = (int)ResourceManager.IconContent.ParameterArmor;
 			RemodelBeforeAmmo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
 			RemodelBeforeSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
 			RemodelAfterAmmo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
@@ -213,6 +243,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Speed.Text = Constants.GetSpeed( ship.Speed );
 			Range.Text = Constants.GetRange( ship.Range );
 			Rarity.Text = Constants.GetShipRarity( ship.Rarity );
+			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + ship.Rarity;		//checkme
 
 			Fuel.Text = ship.Fuel.ToString();
 			Ammo.Text = ship.Ammo.ToString();
@@ -292,7 +323,7 @@ namespace ElectronicObserver.Window.Dialog {
 				ShipDataMaster sbefore = db.MasterShips[ship.RemodelBeforeShipID];
 				RemodelBeforeShipName.Text = sbefore.Name;
 				RemodelBeforeLevel.Text = string.Format( "Lv. {0}", sbefore.RemodelAfterLevel );
-				RemodelBeforeLevel.ImageIndex = sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.HQExpedition : -1;		//fixme
+				RemodelBeforeLevel.ImageIndex = sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;		//fixme
 				RemodelBeforeAmmo.Text = sbefore.RemodelAmmo.ToString();
 				RemodelBeforeSteel.Text = sbefore.RemodelSteel.ToString();
 			}
@@ -306,7 +337,7 @@ namespace ElectronicObserver.Window.Dialog {
 			} else {
 				RemodelAfterShipName.Text = db.MasterShips[ship.RemodelAfterShipID].Name;
 				RemodelAfterLevel.Text = string.Format( "Lv. {0}", ship.RemodelAfterLevel );
-				RemodelAfterLevel.ImageIndex = ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.HQExpedition : -1;		//fixme
+				RemodelAfterLevel.ImageIndex = ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;		//fixme
 				RemodelAfterAmmo.Text = ship.RemodelAmmo.ToString();
 				RemodelAfterSteel.Text = ship.RemodelSteel.ToString();
 			}

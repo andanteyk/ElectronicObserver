@@ -49,12 +49,17 @@ namespace ElectronicObserver.Resource {
 			ItemDevelopmentMaterial,
 			ItemModdingMaterial,
 			ItemFurnitureCoin,
+			ItemBlueprint,
 			HQShip,
 			HQEquipment,
 			HQNoShip,
 			HQDock,
 			HQExpedition,
 			HQNotReplenished,
+			HQCompass,
+			HQArsenal,
+			HQHeadQuarters,
+			HQQuest,
 			ShipStateDamageS,
 			ShipStateDamageM,
 			ShipStateDamageL,
@@ -62,6 +67,30 @@ namespace ElectronicObserver.Resource {
 			ShipStateExpedition,
 			ShipStateRepair,
 			ShipStateSunk,
+			RarityBlack,
+			RarityRed,
+			RarityBlueC,
+			RarityBlueB,
+			RarityBlueA,
+			RaritySilver,
+			RarityGold,
+			RarityHoloB,
+			RarityHoloA,
+			RarityCherry,
+			ParameterHP,
+			ParameterFirepower,
+			ParameterTorpedo,
+			ParameterAA,
+			ParameterArmor,
+			ParameterASW,
+			ParameterEvasion,
+			ParameterLOS,
+			ParameterLuck,
+			ParameterBomber,
+			ParameterAccuracy,
+			ParameterAircraft,
+			ParameterSpeed,
+			ParameterRange,
 		}
 
 		public enum EquipmentContent {
@@ -122,22 +151,31 @@ namespace ElectronicObserver.Resource {
 			Icons.Images.Add( "Ammo", LoadImage( masterpath + @"Resource\ammo.png" ) );
 			Icons.Images.Add( "Steel", LoadImage( masterpath + @"Resource\steel.png" ) );
 			Icons.Images.Add( "Bauxite", LoadImage( masterpath + @"Resource\bauxite.png" ) );
+			
 			Icons.Images.Add( "Cond_Sparkle", LoadImage( masterpath + @"Condition\sparkle.png" ) );
 			Icons.Images.Add( "Cond_Normal", LoadImage( masterpath + @"Condition\normal.png" ) );
 			Icons.Images.Add( "Cond_LittleTired", LoadImage( masterpath + @"Condition\littletired.png" ) );
 			Icons.Images.Add( "Cond_Tired", LoadImage( masterpath + @"Condition\tired.png" ) );
 			Icons.Images.Add( "Cond_VeryTired", LoadImage( masterpath + @"Condition\verytired.png" ) );
+			
 			Icons.Images.Add( "Item_InstantRepair", LoadImage( masterpath + @"Item\instantRepair.png" ) );
 			Icons.Images.Add( "Item_InstantConstruction", LoadImage( masterpath + @"Item\instantConstruction.png" ) );
 			Icons.Images.Add( "Item_DevelopmentMaterial", LoadImage( masterpath + @"Item\developmentMaterial.png" ) );
 			Icons.Images.Add( "Item_ModdingMaterial", LoadImage( masterpath + @"Item\moddingMaterial.png" ) );
 			Icons.Images.Add( "Item_FurnitureCoin", LoadImage( masterpath + @"Item\furnitureCoin.png" ) );
+			Icons.Images.Add( "Item_Blueprint", LoadImage( masterpath + @"Item\blueprint.png" ) );
+			
 			Icons.Images.Add( "HQ_Ship", LoadImage( masterpath + @"HeadQuarters\ship.png" ) );
 			Icons.Images.Add( "HQ_Equipment", LoadImage( masterpath + @"HeadQuarters\equipment.png" ) );
 			Icons.Images.Add( "HQ_NoShip", LoadImage( masterpath + @"HeadQuarters\noship.png" ) );
 			Icons.Images.Add( "HQ_Dock", LoadImage( masterpath + @"HeadQuarters\dock.png" ) );
 			Icons.Images.Add( "HQ_Expedition", LoadImage( masterpath + @"HeadQuarters\expedition.png" ) );
 			Icons.Images.Add( "HQ_NotReplenished", LoadImage( masterpath + @"HeadQuarters\notreplenished.png" ) );
+			Icons.Images.Add( "HQ_Compass", LoadImage( masterpath + @"HeadQuarters\compass.png" ) );
+			Icons.Images.Add( "HQ_Arsenal", LoadImage( masterpath + @"HeadQuarters\arsenal.png" ) );
+			Icons.Images.Add( "HQ_HeadQuarters", LoadImage( masterpath + @"HeadQuarters\headquarters.png" ) );
+			Icons.Images.Add( "HQ_Quest", LoadImage( masterpath + @"HeadQuarters\quest.png" ) );
+			
 			Icons.Images.Add( "ShipState_DamageS", LoadImage( masterpath + @"ShipState\damageS.png" ) );
 			Icons.Images.Add( "ShipState_DamageM", LoadImage( masterpath + @"ShipState\damageM.png" ) );
 			Icons.Images.Add( "ShipState_DamageL", LoadImage( masterpath + @"ShipState\damageL.png" ) );
@@ -145,6 +183,33 @@ namespace ElectronicObserver.Resource {
 			Icons.Images.Add( "ShipState_Expedition", LoadImage( masterpath + @"ShipState\expedition.png" ) );
 			Icons.Images.Add( "ShipState_Repair", LoadImage( masterpath + @"ShipState\repair.png" ) );
 			Icons.Images.Add( "ShipState_Sunk", LoadImage( masterpath + @"ShipState\sunk.png" ) );
+			
+			Icons.Images.Add( "Rarity_Black", LoadImage( masterpath + @"Rarity\black.png" ) );
+			Icons.Images.Add( "Rarity_Red", LoadImage( masterpath + @"Rarity\red.png" ) );
+			Icons.Images.Add( "Rarity_BlueC", LoadImage( masterpath + @"Rarity\blueC.png" ) );
+			Icons.Images.Add( "Rarity_BlueB", LoadImage( masterpath + @"Rarity\blueB.png" ) );
+			Icons.Images.Add( "Rarity_BlueA", LoadImage( masterpath + @"Rarity\blueA.png" ) );
+			Icons.Images.Add( "Rarity_Silver", LoadImage( masterpath + @"Rarity\silver.png" ) );
+			Icons.Images.Add( "Rarity_Gold", LoadImage( masterpath + @"Rarity\gold.png" ) );
+			Icons.Images.Add( "Rarity_HoloB", LoadImage( masterpath + @"Rarity\holoB.png" ) );
+			Icons.Images.Add( "Rarity_HoloA", LoadImage( masterpath + @"Rarity\holoA.png" ) );
+			Icons.Images.Add( "Rarity_Cherry", LoadImage( masterpath + @"Rarity\cherry.png" ) );
+
+			Icons.Images.Add( "Parameter_HP", LoadImage( masterpath + @"Parameter\hp.png" ) );
+			Icons.Images.Add( "Parameter_Firepower", LoadImage( masterpath + @"Parameter\firepower.png" ) );
+			Icons.Images.Add( "Parameter_Torpedo", LoadImage( masterpath + @"Parameter\torpedo.png" ) );
+			Icons.Images.Add( "Parameter_AA", LoadImage( masterpath + @"Parameter\aa.png" ) );
+			Icons.Images.Add( "Parameter_Armor", LoadImage( masterpath + @"Parameter\armor.png" ) );
+			Icons.Images.Add( "Parameter_ASW", LoadImage( masterpath + @"Parameter\asw.png" ) );
+			Icons.Images.Add( "Parameter_Evasion", LoadImage( masterpath + @"Parameter\evasion.png" ) );
+			Icons.Images.Add( "Parameter_LOS", LoadImage( masterpath + @"Parameter\los.png" ) );
+			Icons.Images.Add( "Parameter_Luck", LoadImage( masterpath + @"Parameter\luck.png" ) );
+			Icons.Images.Add( "Parameter_Bomber", LoadImage( masterpath + @"Parameter\bomber.png" ) );
+			Icons.Images.Add( "Parameter_Accuracy", LoadImage( masterpath + @"Parameter\accuracy.png" ) );
+			Icons.Images.Add( "Parameter_Aircraft", LoadImage( masterpath + @"Parameter\aircraft.png" ) );
+			Icons.Images.Add( "Parameter_Speed", LoadImage( masterpath + @"Parameter\speed.png" ) );
+			Icons.Images.Add( "Parameter_Range", LoadImage( masterpath + @"Parameter\range.png" ) );
+			
 			#endregion
 
 			#region Equipments
@@ -203,8 +268,20 @@ namespace ElectronicObserver.Resource {
 			return null;
 		}
 
-		
 
+		/// <summary>
+		/// BitmapをIconに変換します。
+		/// </summary>
+		public static Icon BitmapToIcon( Bitmap image ) {
+			return Icon.FromHandle( image.GetHicon() );
+		}
+
+		/// <summary>
+		/// ImageをIconに変換します。
+		/// </summary>
+		public static Icon ImageToIcon( Image image ) {
+			return BitmapToIcon( (Bitmap)image );
+		}
 	}
 
 

@@ -207,15 +207,13 @@
 			// 
 			// SearchingEnemy
 			// 
-			this.SearchingEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.SearchingEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
 			this.SearchingEnemy.BackColor = System.Drawing.Color.Transparent;
-			this.SearchingEnemy.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.SearchingEnemy.Location = new System.Drawing.Point(171, 24);
+			this.SearchingEnemy.Location = new System.Drawing.Point(182, 24);
 			this.SearchingEnemy.Name = "SearchingEnemy";
-			this.SearchingEnemy.Size = new System.Drawing.Size(78, 15);
+			this.SearchingEnemy.Size = new System.Drawing.Size(56, 15);
 			this.SearchingEnemy.TabIndex = 2;
 			this.SearchingEnemy.Text = "敵索敵";
-			this.SearchingEnemy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// Searching
 			// 
@@ -231,15 +229,13 @@
 			// 
 			// SearchingFriend
 			// 
-			this.SearchingFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.SearchingFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
 			this.SearchingFriend.BackColor = System.Drawing.Color.Transparent;
-			this.SearchingFriend.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.SearchingFriend.Location = new System.Drawing.Point(3, 24);
+			this.SearchingFriend.Location = new System.Drawing.Point(8, 24);
 			this.SearchingFriend.Name = "SearchingFriend";
-			this.SearchingFriend.Size = new System.Drawing.Size(78, 15);
+			this.SearchingFriend.Size = new System.Drawing.Size(68, 15);
 			this.SearchingFriend.TabIndex = 2;
 			this.SearchingFriend.Text = "味方索敵";
-			this.SearchingFriend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// FormationEnemy
 			// 
