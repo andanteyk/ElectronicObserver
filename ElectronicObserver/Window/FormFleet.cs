@@ -114,7 +114,7 @@ namespace ElectronicObserver.Window {
 
 				
 
-				State = FleetData.UpdateFleetState( fleet, StateMain, ToolTipInfo, ref Timer ); 
+				State = FleetData.UpdateFleetState( fleet, StateMain, ToolTipInfo, State, ref Timer ); 
 				
 				#endregion
 

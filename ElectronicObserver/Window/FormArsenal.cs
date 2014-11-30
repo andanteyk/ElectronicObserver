@@ -90,6 +90,7 @@ namespace ElectronicObserver.Window {
 				KCDatabase db = KCDatabase.Instance;
 				ArsenalData arsenal = db.Arsenals[arsenalID];
 
+				tooltip.SetToolTip( ShipName, null );
 				tooltip.SetToolTip( CompletionTime, null );
 
 				if ( arsenal == null || arsenal.State == -1 ) {
@@ -107,6 +108,7 @@ namespace ElectronicObserver.Window {
 				} else if ( arsenal.State == 2 ) {
 					//building
 					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
+					tooltip.SetToolTip( ShipName, ShipName.Text );
 					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( arsenal.CompletionTime );
 					CompletionTime.Tag = arsenal.CompletionTime;
 					tooltip.SetToolTip( CompletionTime, "完了日時 : " + arsenal.CompletionTime.ToString() );
@@ -114,6 +116,7 @@ namespace ElectronicObserver.Window {
 				} else if ( arsenal.State == 3 ) {
 					//complete!
 					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
+					tooltip.SetToolTip( ShipName, ShipName.Text );
 					CompletionTime.Text = "完成！";
 					CompletionTime.Tag = null;
 					

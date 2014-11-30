@@ -19,6 +19,7 @@ namespace ElectronicObserver.Data.Battle {
 				hp[index] -= Math.Max( damage, 0 );
 				if ( hp[index] <= 0 ) {
 					ShipData ship = db.Ships[db.Fleet[FleetIDFriend].FleetMember[index]];
+					if ( ship == null ) return;
 
 					foreach ( int id in ship.SlotMaster ) {
 

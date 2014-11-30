@@ -238,9 +238,9 @@ namespace ElectronicObserver.Window {
 			} else if ( apiname == "api_req_member/get_practice_enemyinfo" ) {
 
 				TextMapArea.Text = "演習";
-				TextDestination.Text = "";
-				TextEventKind.Text = "";
-				TextEventDetail.Text = "";
+				TextDestination.Text = string.Format( "{0} {1}", data.api_nickname, Constants.GetAdmiralRank( (int)data.api_rank ) );
+				TextEventKind.Text = data.api_cmt;
+				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
 				TextEnemyFleetName.Text = data.api_deckname;
 
 			} else {

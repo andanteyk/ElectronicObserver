@@ -42,12 +42,15 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.label5 = new System.Windows.Forms.Label();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.Log_LogLevel = new System.Windows.Forms.NumericUpDown();
+			this.label6 = new System.Windows.Forms.Label();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.label6 = new System.Windows.Forms.Label();
-			this.Log_LogLevel = new System.Windows.Forms.NumericUpDown();
+			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
+			this.label7 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -55,6 +58,8 @@
 			this.tabPage2.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).BeginInit();
+			this.tabPage4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -65,6 +70,7 @@
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
 			this.tabControl1.Controls.Add(this.tabPage3);
+			this.tabControl1.Controls.Add(this.tabPage4);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
@@ -261,6 +267,41 @@
 			this.label5.TabIndex = 0;
 			this.label5.Text = "とりあえず各ウィンドウに設定項目を作ろうと思っています。\r\nただ、メインになるフォント・色はここで一括で決められるようにはしたいですね\r\n";
 			// 
+			// tabPage3
+			// 
+			this.tabPage3.Controls.Add(this.Log_LogLevel);
+			this.tabPage3.Controls.Add(this.label6);
+			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Name = "tabPage3";
+			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage3.Size = new System.Drawing.Size(392, 231);
+			this.tabPage3.TabIndex = 2;
+			this.tabPage3.Text = "ログ";
+			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// Log_LogLevel
+			// 
+			this.Log_LogLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.Log_LogLevel.Location = new System.Drawing.Point(306, 6);
+			this.Log_LogLevel.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+			this.Log_LogLevel.Name = "Log_LogLevel";
+			this.Log_LogLevel.Size = new System.Drawing.Size(80, 23);
+			this.Log_LogLevel.TabIndex = 1;
+			this.Log_LogLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(8, 8);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(100, 15);
+			this.label6.TabIndex = 0;
+			this.label6.Text = "ログの出力レベル：";
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 60000;
@@ -289,40 +330,35 @@
 			this.ButtonCancel.Text = "キャンセル";
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			// 
-			// tabPage3
+			// tabPage4
 			// 
-			this.tabPage3.Controls.Add(this.Log_LogLevel);
-			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(392, 231);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "ログ";
-			this.tabPage3.UseVisualStyleBackColor = true;
+			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
+			this.tabPage4.Controls.Add(this.label7);
+			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Name = "tabPage4";
+			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage4.Size = new System.Drawing.Size(392, 231);
+			this.tabPage4.TabIndex = 3;
+			this.tabPage4.Text = "動作";
+			this.tabPage4.UseVisualStyleBackColor = true;
 			// 
-			// label6
+			// Control_ConditionBorder
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(8, 8);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(100, 15);
-			this.label6.TabIndex = 0;
-			this.label6.Text = "ログの出力レベル：";
+			this.Control_ConditionBorder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.Control_ConditionBorder.Location = new System.Drawing.Point(106, 6);
+			this.Control_ConditionBorder.Name = "Control_ConditionBorder";
+			this.Control_ConditionBorder.Size = new System.Drawing.Size(80, 23);
+			this.Control_ConditionBorder.TabIndex = 3;
+			this.Control_ConditionBorder.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
-			// Log_LogLevel
+			// label7
 			// 
-			this.Log_LogLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.Log_LogLevel.Location = new System.Drawing.Point(306, 6);
-			this.Log_LogLevel.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-			this.Log_LogLevel.Name = "Log_LogLevel";
-			this.Log_LogLevel.Size = new System.Drawing.Size(80, 23);
-			this.Log_LogLevel.TabIndex = 1;
-			this.Log_LogLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(6, 8);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(94, 15);
+			this.label7.TabIndex = 2;
+			this.label7.Text = "疲労度ボーダー：";
 			// 
 			// DialogConfiguration
 			// 
@@ -351,6 +387,9 @@
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).EndInit();
+			this.tabPage4.ResumeLayout(false);
+			this.tabPage4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -381,5 +420,8 @@
 		private System.Windows.Forms.TabPage tabPage3;
 		private System.Windows.Forms.Label label6;
 		internal System.Windows.Forms.NumericUpDown Log_LogLevel;
+		private System.Windows.Forms.TabPage tabPage4;
+		internal System.Windows.Forms.NumericUpDown Control_ConditionBorder;
+		private System.Windows.Forms.Label label7;
 	}
 }

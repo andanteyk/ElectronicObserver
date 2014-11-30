@@ -209,9 +209,10 @@
 			// 
 			this.SearchingEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
 			this.SearchingEnemy.BackColor = System.Drawing.Color.Transparent;
-			this.SearchingEnemy.Location = new System.Drawing.Point(182, 24);
+			this.SearchingEnemy.Location = new System.Drawing.Point(182, 23);
+			this.SearchingEnemy.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.SearchingEnemy.Name = "SearchingEnemy";
-			this.SearchingEnemy.Size = new System.Drawing.Size(56, 15);
+			this.SearchingEnemy.Size = new System.Drawing.Size(56, 17);
 			this.SearchingEnemy.TabIndex = 2;
 			this.SearchingEnemy.Text = "敵索敵";
 			// 
@@ -231,9 +232,10 @@
 			// 
 			this.SearchingFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
 			this.SearchingFriend.BackColor = System.Drawing.Color.Transparent;
-			this.SearchingFriend.Location = new System.Drawing.Point(8, 24);
+			this.SearchingFriend.Location = new System.Drawing.Point(8, 23);
+			this.SearchingFriend.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.SearchingFriend.Name = "SearchingFriend";
-			this.SearchingFriend.Size = new System.Drawing.Size(68, 15);
+			this.SearchingFriend.Size = new System.Drawing.Size(68, 17);
 			this.SearchingFriend.TabIndex = 2;
 			this.SearchingFriend.Text = "味方索敵";
 			// 

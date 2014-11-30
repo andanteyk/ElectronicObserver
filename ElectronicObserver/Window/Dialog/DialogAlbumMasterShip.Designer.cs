@@ -609,7 +609,7 @@
 			// 
 			// BuildingTime
 			// 
-			this.BuildingTime.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.BuildingTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.BuildingTime.BackColor = System.Drawing.Color.Transparent;
 			this.BuildingTime.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.BuildingTime.Location = new System.Drawing.Point(381, 191);
@@ -621,7 +621,7 @@
 			// 
 			// imageLabel57
 			// 
-			this.imageLabel57.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.imageLabel57.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.imageLabel57.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel57.Location = new System.Drawing.Point(300, 191);
 			this.imageLabel57.Name = "imageLabel57";

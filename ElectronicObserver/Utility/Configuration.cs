@@ -108,6 +108,18 @@ namespace ElectronicObserver.Utility {
 		public ConfigLog Log { get; private set; }
 
 
+		/// <summary>
+		/// 動作の設定を扱います。
+		/// </summary>
+		public class ConfigControl : ConfigPartBase {
+
+			public int ConditionBorder { get; set; }
+
+			public ConfigControl() {
+				ConditionBorder = 40;
+			}
+		}
+		public ConfigControl Control { get; private set; }
 
 
 		public string Version { get { return "0.0"; } }
@@ -116,6 +128,8 @@ namespace ElectronicObserver.Utility {
 		//undone
 		private Configuration() {
 			Connection = new ConfigConnection();
+			Log = new ConfigLog();
+			Control = new ConfigControl();
 		}
 
 
@@ -138,6 +152,8 @@ namespace ElectronicObserver.Utility {
 			//[ログ]
 			dialog.Log_LogLevel.Value = Log.LogLevel;
 
+			//[動作]
+			dialog.Control_ConditionBorder.Value = Control.ConditionBorder;
 
 			//finalize
 			dialog.UpdateParameter();
@@ -169,6 +185,9 @@ namespace ElectronicObserver.Utility {
 			//[ログ]
 			Log.LogLevel = (int)dialog.Log_LogLevel.Value;
 
+			//[動作]
+			Control.ConditionBorder = (int)dialog.Control_ConditionBorder.Value;
+
 		}
 
 
@@ -189,12 +208,13 @@ namespace ElectronicObserver.Utility {
 
 					Connection = json.Connection;
 					Log = json.Log;
+					Control = json.Control;
 
 				}
 
-			} catch ( Exception ) {
+			} catch ( Exception ex ) {
 
-				ElectronicObserver.Utility.Logger.Add( 3, "設定ファイル " + path + " の読み込みに失敗しました。" );
+				ElectronicObserver.Utility.Logger.Add( 3, "設定ファイル " + path + " の読み込みに失敗しました。" + ex.Message );
 			}
 
 
@@ -213,9 +233,9 @@ namespace ElectronicObserver.Utility {
 					sw.Write( data );
 				}
 
-			} catch ( Exception ) {
+			} catch ( Exception ex ) {
 
-				ElectronicObserver.Utility.Logger.Add( 3, "ファイル " + path + " の書き込みに失敗しました。" );
+				ElectronicObserver.Utility.Logger.Add( 3, "設定ファイル " + path + " の書き込みに失敗しました。" + ex.Message );
 			}
 
 		}

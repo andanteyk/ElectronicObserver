@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Resource;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using System;
@@ -222,6 +223,9 @@ namespace ElectronicObserver.Data {
 					continue;
 
 				ShipData ship = KCDatabase.Instance.Ships[FleetMember[i]];
+				if ( ship == null || _escapedShipID.Contains( ship.MasterID ) )
+					continue;
+
 				for ( int j = 0; j < ship.Slot.Count; j++ ) {
 
 					if ( ship.Slot[j] == -1 )
@@ -264,6 +268,8 @@ namespace ElectronicObserver.Data {
 					continue;
 
 				ShipData ship = db.Ships[FleetMember[i]];
+				if ( ship == null || _escapedShipID.Contains( ship.MasterID ) )
+					continue;
 
 				los_other += ship.LOSBase;
 
@@ -325,9 +331,10 @@ namespace ElectronicObserver.Data {
 		/// <param name="fleet">艦隊データ。</param>
 		/// <param name="label">適用するラベル。</param>
 		/// <param name="tooltip">適用するツールチップ。</param>
+		/// <param name="prevstate">前回の状態。</param>
 		/// <param name="timer">日時。</param>
 		/// <returns>艦隊の状態を表す定数。</returns>
-		public static FleetStates UpdateFleetState( FleetData fleet, ImageLabel label, ToolTip tooltip, ref DateTime timer ) {
+		public static FleetStates UpdateFleetState( FleetData fleet, ImageLabel label, ToolTip tooltip, FleetStates prevstate, ref DateTime timer ) {
 
 			//memo: 泊地修理は工作艦が中破しているとできない、忘れないよう
 				
@@ -383,7 +390,7 @@ namespace ElectronicObserver.Data {
 				label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
 				label.ImageIndex = (int)ResourceManager.IconContent.HQExpedition;
 
-				tooltip.SetToolTip( label, string.Format( "{0}\r\n完了日時 : {1}", KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name, timer ) );
+				tooltip.SetToolTip( label, string.Format( "{0} : {1}\r\n完了日時 : {2}", KCDatabase.Instance.Mission[fleet.ExpeditionDestination].ID, KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name, timer ) );
 
 				return FleetStates.Expedition;
 			}
@@ -431,12 +438,12 @@ namespace ElectronicObserver.Data {
 			{
 				int cond = fleet.FleetMember.Min( id => id == -1 ? 100 : db.Ships[id].Condition );
 
-				if ( cond < 40 ) {
+				if ( cond < Configuration.Instance.Control.ConditionBorder ) {
 
-					DateTime recovertime = DateTime.Now.AddMinutes( (int)Math.Ceiling( ( 40.0 - cond ) / 3.0 ) * 3 );
+					DateTime recovertime = DateTime.Now.AddMinutes( (int)Math.Ceiling( ( Configuration.Instance.Control.ConditionBorder - cond ) / 3.0 ) * 3 );
 
-					//fixme: 時間を超過させない
-					timer = recovertime;		//todo: いずれ変数化できるようになるといいかも
+					if ( prevstate != FleetStates.Tired || recovertime < timer )
+						timer = recovertime;
 					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
 
 					if ( cond < 20 )

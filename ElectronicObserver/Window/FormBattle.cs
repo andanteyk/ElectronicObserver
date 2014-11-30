@@ -409,8 +409,10 @@ namespace ElectronicObserver.Window {
 		private void SetSearchingResult( BattleData bd ) {
 
 			SearchingFriend.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[0] );
+			SearchingFriend.ImageAlign = ContentAlignment.MiddleLeft;
 			SearchingFriend.ImageIndex = (int)( (int)bd.Data.api_search[0] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
 			SearchingEnemy.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[1] );
+			SearchingEnemy.ImageAlign = ContentAlignment.MiddleLeft;
 			SearchingEnemy.ImageIndex = (int)( (int)bd.Data.api_search[1] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
 			
 		}
@@ -418,7 +420,11 @@ namespace ElectronicObserver.Window {
 		private void ClearSearchingResult() {
 
 			SearchingFriend.Text = "-";
+			SearchingFriend.ImageAlign = ContentAlignment.MiddleCenter;
+			SearchingFriend.ImageIndex = -1;
 			SearchingEnemy.Text = "-";
+			SearchingEnemy.ImageAlign = ContentAlignment.MiddleCenter;
+			SearchingEnemy.ImageIndex = -1;
 
 		}
 

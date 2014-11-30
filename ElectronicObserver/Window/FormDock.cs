@@ -91,7 +91,7 @@ namespace ElectronicObserver.Window {
 
 				DockData dock = db.Docks[dockID];
 
-
+				ToolTipInfo.SetToolTip( ShipName, null );
 				ToolTipInfo.SetToolTip( RepairTime, null );
 
 				if ( dock == null || dock.State == -1 ) {
@@ -109,6 +109,7 @@ namespace ElectronicObserver.Window {
 				} else {
 					//repairing
 					ShipName.Text = db.MasterShips[db.Ships[dock.ShipID].ShipID].Name;
+					ToolTipInfo.SetToolTip( ShipName, ShipName.Text );
 					RepairTime.Text = DateTimeHelper.ToTimeRemainString( dock.CompletionTime );
 					RepairTime.Tag = dock.CompletionTime;
 					ToolTipInfo.SetToolTip( RepairTime, "完了日時 : " + dock.CompletionTime );
