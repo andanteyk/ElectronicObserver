@@ -34,6 +34,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Rarity.ImageList =
 			Fuel.ImageList =
 			Ammo.ImageList =
+			TitleBuildingTime.ImageList =
 			MaterialFuel.ImageList =
 			MaterialAmmo.ImageList =
 			MaterialSteel.ImageList =
@@ -70,6 +71,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TitleRange.ImageIndex = (int)ResourceManager.IconContent.ParameterRange;
 			Fuel.ImageIndex = (int)ResourceManager.IconContent.ResourceFuel;
 			Ammo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
+			TitleBuildingTime.ImageIndex = (int)ResourceManager.IconContent.HQArsenal;
 			MaterialFuel.ImageIndex = (int)ResourceManager.IconContent.ResourceFuel;
 			MaterialAmmo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
 			MaterialSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;

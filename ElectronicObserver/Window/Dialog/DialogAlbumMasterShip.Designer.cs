@@ -61,7 +61,7 @@
 			this.TitleRange = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TitleSpeed = new ElectronicObserver.Window.Control.ImageLabel();
 			this.BuildingTime = new ElectronicObserver.Window.Control.ImageLabel();
-			this.imageLabel57 = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TitleBuildingTime = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TableArsenal = new System.Windows.Forms.TableLayoutPanel();
 			this.PowerUpArmor = new ElectronicObserver.Window.Control.ImageLabel();
 			this.MaterialBauxite = new ElectronicObserver.Window.Control.ImageLabel();
@@ -240,7 +240,7 @@
 			this.BasePanelShipGirl.Controls.Add(this.TableConsumption);
 			this.BasePanelShipGirl.Controls.Add(this.TableParameterSub);
 			this.BasePanelShipGirl.Controls.Add(this.BuildingTime);
-			this.BasePanelShipGirl.Controls.Add(this.imageLabel57);
+			this.BasePanelShipGirl.Controls.Add(this.TitleBuildingTime);
 			this.BasePanelShipGirl.Controls.Add(this.TableArsenal);
 			this.BasePanelShipGirl.Controls.Add(this.TableEquipment);
 			this.BasePanelShipGirl.Controls.Add(this.imageLabel45);
@@ -619,16 +619,16 @@
 			this.BuildingTime.Text = "06:00:00";
 			this.BuildingTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// imageLabel57
+			// TitleBuildingTime
 			// 
-			this.imageLabel57.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.imageLabel57.BackColor = System.Drawing.Color.Transparent;
-			this.imageLabel57.Location = new System.Drawing.Point(300, 191);
-			this.imageLabel57.Name = "imageLabel57";
-			this.imageLabel57.Size = new System.Drawing.Size(68, 16);
-			this.imageLabel57.TabIndex = 13;
-			this.imageLabel57.Text = "建造時間";
-			this.imageLabel57.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.TitleBuildingTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.TitleBuildingTime.BackColor = System.Drawing.Color.Transparent;
+			this.TitleBuildingTime.Location = new System.Drawing.Point(300, 191);
+			this.TitleBuildingTime.Name = "TitleBuildingTime";
+			this.TitleBuildingTime.Size = new System.Drawing.Size(68, 16);
+			this.TitleBuildingTime.TabIndex = 13;
+			this.TitleBuildingTime.Text = "建造時間";
+			this.TitleBuildingTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// TableArsenal
 			// 
@@ -1679,7 +1679,7 @@
 		private Control.ImageLabel TitleRange;
 		private Control.ImageLabel TitleSpeed;
 		private Control.ImageLabel BuildingTime;
-		private Control.ImageLabel imageLabel57;
+		private Control.ImageLabel TitleBuildingTime;
 		private System.Windows.Forms.TableLayoutPanel TableArsenal;
 		private Control.ImageLabel PowerUpArmor;
 		private Control.ImageLabel MaterialBauxite;

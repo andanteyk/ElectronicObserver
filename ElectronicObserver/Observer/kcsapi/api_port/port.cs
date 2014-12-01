@@ -50,7 +50,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 
 			//api_deck_port
 			db.Fleet.LoadFromResponse( APIName, data.api_deck_port );
-			db.Fleet.CombinedFlag = (int)data.api_combined_flag;			//fixme:きたない
+			db.Fleet.CombinedFlag = data.api_combined_flag() ? (int)data.api_combined_flag : 0;
 			
 			
 			base.OnResponseReceived( (object)data );
