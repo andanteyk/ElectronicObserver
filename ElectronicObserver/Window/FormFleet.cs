@@ -5,6 +5,7 @@ using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -416,6 +417,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_hensei/change"].RequestReceived += rec;
 			o.APIList["api_req_kousyou/destroyship"].RequestReceived += rec;
 			o.APIList["api_req_member/updatedeckname"].RequestReceived += rec;
+			o.APIList["api_req_map/start"].RequestReceived += rec;
 
 			o.APIList["api_port/port"].ResponseReceived += rec;
 			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
@@ -427,6 +429,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
 			o.APIList["api_get_member/deck"].ResponseReceived += rec;
 
+			//追加するときは FormFleetOverview にも同様に追加してください
 		}
 
 
@@ -487,31 +490,31 @@ namespace ElectronicObserver.Window {
 
 				sb.AppendFormat( "{0}/{1}\t", ship.MasterShip.Name, ship.Level );
 
-				int[] slot = ship.SlotMaster.ToArray();
-				
+				ReadOnlyCollection<EquipmentData> eq = ship.SlotInstance;		//checkme
 
-				//todo: 装備の改装levelを反映
 
-				for ( int j = 0; j < slot.Length; j++ ) {
+				if ( eq != null ) {
+					for ( int j = 0; j < eq.Count; j++ ) {
 
-					if ( slot[j] == -1 ) continue;
+						if ( eq[j] == null ) continue;
 
-					int count = 1;
-					for ( int k = j + 1; k < ship.Slot.Count; k++ ) {
-						if ( slot[k] == slot[j] ) {
-							count++;
-						} else {
-							break;
+						int count = 1;
+						for ( int k = j + 1; k < eq.Count; k++ ) {
+							if ( eq[k] != null && eq[k].EquipmentID == eq[j].EquipmentID && eq[k].Level == eq[j].Level ) {
+								count++;
+							} else {
+								break;
+							}
 						}
-					}
 
-					if ( count == 1 ) {
-						sb.AppendFormat( "{0}{1}", j == 0 ? "" : "/", db.MasterEquipments[slot[j]].Name );
-					} else {
-						sb.AppendFormat( "{0}{1}x{2}", j == 0 ? "" : "/", db.MasterEquipments[slot[j]].Name, count );
-					}
+						if ( count == 1 ) {
+							sb.AppendFormat( "{0}{1}", j == 0 ? "" : "/", eq[j].NameWithLevel );
+						} else {
+							sb.AppendFormat( "{0}{1}x{2}", j == 0 ? "" : "/", eq[j].NameWithLevel, count );
+						}
 
-					j += count - 1;
+						j += count - 1;
+					}
 				}
 
 				sb.AppendLine();

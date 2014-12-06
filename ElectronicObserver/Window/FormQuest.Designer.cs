@@ -23,9 +23,11 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.QuestView = new System.Windows.Forms.DataGridView();
 			this.QuestView_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.QuestView_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
@@ -41,16 +43,17 @@
 			this.QuestView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.QuestView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.QuestView_State,
+            this.QuestView_Type,
             this.QuestView_Name,
             this.QuestView_Progress});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.QuestView.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.QuestView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.QuestView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.QuestView.Location = new System.Drawing.Point(0, 0);
 			this.QuestView.MultiSelect = false;
@@ -72,6 +75,15 @@
 			this.QuestView_State.ThreeState = true;
 			this.QuestView_State.TrueValue = "";
 			this.QuestView_State.Width = 24;
+			// 
+			// QuestView_Type
+			// 
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			this.QuestView_Type.DefaultCellStyle = dataGridViewCellStyle1;
+			this.QuestView_Type.HeaderText = "種";
+			this.QuestView_Type.Name = "QuestView_Type";
+			this.QuestView_Type.ReadOnly = true;
+			this.QuestView_Type.Width = 24;
 			// 
 			// QuestView_Name
 			// 
@@ -110,6 +122,7 @@
 
 		private System.Windows.Forms.DataGridView QuestView;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn QuestView_State;
+		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Type;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Name;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Progress;
 	}

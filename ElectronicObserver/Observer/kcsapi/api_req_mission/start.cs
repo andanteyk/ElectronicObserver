@@ -9,7 +9,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_mission {
 
 	public class start : APIBase {
 
-		private int FleetID;
+		//private int FleetID;
 
 
 		public override void OnRequestReceived( Dictionary<string, string> data ) {

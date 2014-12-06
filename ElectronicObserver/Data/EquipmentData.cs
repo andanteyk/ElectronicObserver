@@ -86,12 +86,12 @@ namespace ElectronicObserver.Data {
 					data.api_level = 0;
 					break;
 
-				case "api_get_member/ship3":			//存在しないアイテムを追加
+				case "api_get_member/ship3":			//存在しないアイテムを追加…すると処理に不都合があるので、ID:1で我慢　一瞬だし無問題（？）
 					{
 						int id = data;
 						data = new DynamicJson();
 						data.api_id = id;
-						data.api_slotitem_id = 0;
+						data.api_slotitem_id = 1;
 						data.api_locked = 0;
 						data.api_level = 0;
 					} break;

@@ -85,6 +85,12 @@ namespace ElectronicObserver.Data {
 						Fleets[i].LoadFromRequest( apiname, data );
 					break;
 
+				case "api_req_map/start":
+					if ( CombinedFlag != 0 ) {
+						Fleets[2].IsInSortie = true;
+					}
+					Fleets[int.Parse( data["api_deck_id"] )].IsInSortie = true;
+					break;
 			}
 
 		}

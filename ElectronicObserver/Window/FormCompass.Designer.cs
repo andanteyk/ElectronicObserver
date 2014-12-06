@@ -59,7 +59,8 @@
 			// TextMapArea
 			// 
 			this.TextMapArea.AutoSize = true;
-			this.TextMapArea.Location = new System.Drawing.Point(3, 0);
+			this.TextMapArea.Location = new System.Drawing.Point(3, 3);
+			this.TextMapArea.Margin = new System.Windows.Forms.Padding(3);
 			this.TextMapArea.Name = "TextMapArea";
 			this.TextMapArea.Size = new System.Drawing.Size(41, 15);
 			this.TextMapArea.TabIndex = 0;
@@ -68,7 +69,8 @@
 			// TextDestination
 			// 
 			this.TextDestination.AutoSize = true;
-			this.TextDestination.Location = new System.Drawing.Point(50, 0);
+			this.TextDestination.Location = new System.Drawing.Point(50, 3);
+			this.TextDestination.Margin = new System.Windows.Forms.Padding(3);
 			this.TextDestination.Name = "TextDestination";
 			this.TextDestination.Size = new System.Drawing.Size(41, 15);
 			this.TextDestination.TabIndex = 1;
@@ -77,7 +79,8 @@
 			// TextEventKind
 			// 
 			this.TextEventKind.AutoSize = true;
-			this.TextEventKind.Location = new System.Drawing.Point(97, 0);
+			this.TextEventKind.Location = new System.Drawing.Point(97, 3);
+			this.TextEventKind.Margin = new System.Windows.Forms.Padding(3);
 			this.TextEventKind.Name = "TextEventKind";
 			this.TextEventKind.Size = new System.Drawing.Size(53, 15);
 			this.TextEventKind.TabIndex = 2;
@@ -86,7 +89,8 @@
 			// TextEventDetail
 			// 
 			this.TextEventDetail.AutoSize = true;
-			this.TextEventDetail.Location = new System.Drawing.Point(156, 0);
+			this.TextEventDetail.Location = new System.Drawing.Point(156, 3);
+			this.TextEventDetail.Margin = new System.Windows.Forms.Padding(3);
 			this.TextEventDetail.Name = "TextEventDetail";
 			this.TextEventDetail.Size = new System.Drawing.Size(99, 15);
 			this.TextEventDetail.TabIndex = 3;
@@ -98,7 +102,7 @@
 			this.PanelEnemyFleet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.PanelEnemyFleet.Controls.Add(this.TableEnemyMember);
 			this.PanelEnemyFleet.Controls.Add(this.TableEnemyFleet);
-			this.PanelEnemyFleet.Location = new System.Drawing.Point(3, 18);
+			this.PanelEnemyFleet.Location = new System.Drawing.Point(3, 24);
 			this.PanelEnemyFleet.Name = "PanelEnemyFleet";
 			this.PanelEnemyFleet.Size = new System.Drawing.Size(190, 22);
 			this.PanelEnemyFleet.TabIndex = 4;

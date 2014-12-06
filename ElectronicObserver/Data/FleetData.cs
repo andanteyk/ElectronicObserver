@@ -73,10 +73,15 @@ namespace ElectronicObserver.Data {
 			get { return _escapedShipID.AsReadOnly(); }
 		}
 
+		public bool IsInSortie { get; internal set; }
+
+
 
 		public int ID {
 			get { return FleetID; }
 		}
+
+
 
 
 
@@ -90,6 +95,7 @@ namespace ElectronicObserver.Data {
 				*/
 				case "api_port/port":
 					_escapedShipID.Clear();
+					IsInSortie = false;
 					goto default;
 
 				default:			//checkme
@@ -226,20 +232,18 @@ namespace ElectronicObserver.Data {
 				if ( ship == null || _escapedShipID.Contains( ship.MasterID ) )
 					continue;
 
-				for ( int j = 0; j < ship.Slot.Count; j++ ) {
+				var slot = ship.SlotInstanceMaster;
 
-					if ( ship.Slot[j] == -1 )
-						continue;
+				for ( int j = 0; j < slot.Count; j++ ) {
+					
+					if ( slot[j] == null ) continue;
 
-					EquipmentDataMaster eq = KCDatabase.Instance.Equipments[ship.Slot[j]].MasterEquipment;
-					if ( eq == null ) continue;
-
-					switch ( eq.EquipmentType[2] ) {
+					switch ( slot[j].EquipmentType[2] ) {
 						case 6:		//艦戦
 						case 7:		//艦爆
 						case 8:		//艦攻
 						case 11:	//水爆
-							airSuperiority += (int)( eq.AA * Math.Sqrt( ship.Aircraft[j] ) );
+							airSuperiority += (int)( slot[j].AA * Math.Sqrt( ship.Aircraft[j] ) );
 							break;
 					}
 				}
@@ -273,29 +277,27 @@ namespace ElectronicObserver.Data {
 
 				los_other += ship.LOSBase;
 
-				for ( int j = 0; j < ship.Slot.Count; j++ ) {
+				var slot = ship.SlotInstanceMaster;
 
-					if ( ship.Slot[j] == -1 )
-						continue;
+				for ( int j = 0; j < slot.Count; j++ ) {
 
-					EquipmentDataMaster eq = db.Equipments[ship.Slot[j]].MasterEquipment;
-					if ( eq == null ) continue;
+					if ( slot[j] == null ) continue;
 
-					switch ( eq.EquipmentType[2] ) {
+					switch ( slot[j].EquipmentType[2] ) {
 						case 9:		//艦偵
 						case 10:	//水偵
 						case 11:	//水爆
 							if ( ship.Aircraft[j] > 0 )
-								los_reconplane += eq.LOS * 2;
+								los_reconplane += slot[j].LOS * 2;
 							break;
 
 						case 12:	//小型電探
 						case 13:	//大型電探
-							los_radar += eq.LOS;
+							los_radar += slot[j].LOS;
 							break;
 
 						default:
-							los_other += eq.LOS;
+							los_other += slot[j].LOS;
 							break;
 					}
 				}
@@ -378,10 +380,28 @@ namespace ElectronicObserver.Data {
 			}
 
 
-			//undone:大破出撃中
+			if ( fleet.IsInSortie ) {
 
-			//undone:出撃中
+				//大破出撃中
+				if (  fleet.FleetMember.Count( id =>
+						( id != -1 && !fleet.EscapedShipID.Contains( id ) && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
+					 ) > 0 ) {
 
+					label.Text = "！！大破進撃中！！";
+					label.ImageIndex = (int)ResourceManager.IconContent.ShipStateDamageL;
+
+					return FleetStates.SortieDamaged;
+
+				} else {	//出撃中
+
+					label.Text = "出撃中";
+					label.ImageIndex = (int)ResourceManager.IconContent.HQShip;
+
+					return FleetStates.Sortie;
+				}
+
+			}
+			
 
 			//遠征中
 			if ( fleet.ExpeditionState != 0 ) {
@@ -461,8 +481,30 @@ namespace ElectronicObserver.Data {
 			}
 
 
-			//undone:泊地修理中
+			//泊地修理中
+			{
+				ShipData flagship = db.Ships[fleet.FleetMember[0]];
+				if( flagship.MasterShip.ShipType == 19 &&					//旗艦工作艦
+					(double)flagship.HPCurrent / flagship.HPMax > 0.5 &&	//旗艦が中破未満
+					flagship.RepairingDockID == -1 &&						//旗艦が入渠中でない
+					fleet.FleetMember.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( id => {		//(2+装備)以内に50%<HP<100%の艦がいる
+						ShipData ship = db.Ships[id];
+						if ( id == -1 ) return false;
+						if ( ship.RepairingDockID != -1 ) return false;
+						double rate = (double)ship.HPCurrent / ship.HPMax;
+ 						return 0.5 < rate && rate < 1.0;
+					} ) >= 1 ) {
 
+					if ( prevstate != FleetStates.AnchorageRepairing )
+						timer = DateTime.Now;
+					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( timer );
+					label.ImageIndex = (int)ResourceManager.IconContent.HQDock;		//fixme:新アイコンの追加
+
+					tooltip.SetToolTip( label, string.Format( "開始日時 : {0}", timer ) );
+
+					return FleetStates.AnchorageRepairing;
+				}
+			}
 
 			//出撃可能！
 			{
@@ -485,6 +527,7 @@ namespace ElectronicObserver.Data {
 
 			switch ( state ) {
 				case FleetStates.Damaged:
+				case FleetStates.SortieDamaged:
 					label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
 					break;
 				case FleetStates.Docking:
@@ -495,6 +538,9 @@ namespace ElectronicObserver.Data {
 					break;
 				case FleetStates.Tired:
 					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
+					break;
+				case FleetStates.AnchorageRepairing:
+					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( timer );
 					break;
 			}
 

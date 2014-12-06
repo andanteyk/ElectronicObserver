@@ -83,7 +83,7 @@ namespace ElectronicObserver.Data {
 
 		private int[] _slot;
 		/// <summary>
-		/// 装備スロット
+		/// 装備スロット(ID)
 		/// </summary>
 		public ReadOnlyCollection<int> Slot {
 			get { return Array.AsReadOnly<int>( _slot ); }
@@ -108,6 +108,41 @@ namespace ElectronicObserver.Data {
 				}
 
 				return Array.AsReadOnly<int>( s );
+			}
+		}
+
+		/// <summary>
+		/// 装備スロット(装備データ)
+		/// </summary>
+		public ReadOnlyCollection<EquipmentData> SlotInstance {
+			get {
+				if ( _slot == null ) return null;
+
+				EquipmentData[] s = new EquipmentData[_slot.Length];
+
+				for ( int i = 0; i < s.Length; i++ ) {
+					s[i] = KCDatabase.Instance.Equipments[_slot[i]];
+				}
+
+				return Array.AsReadOnly<EquipmentData>( s );
+ 			}
+		}
+
+		/// <summary>
+		/// 装備スロット(装備マスターデータ)
+		/// </summary>
+		public ReadOnlyCollection<EquipmentDataMaster> SlotInstanceMaster {
+			get {
+				if ( _slot == null ) return null;
+
+				EquipmentDataMaster[] s = new EquipmentDataMaster[_slot.Length];
+
+				for ( int i = 0; i < s.Length; i++ ) {
+					EquipmentData eq = KCDatabase.Instance.Equipments[_slot[i]];
+					s[i] = eq != null ? eq.MasterEquipment : null;
+				}
+
+				return Array.AsReadOnly<EquipmentDataMaster>( s );
 			}
 		}
 

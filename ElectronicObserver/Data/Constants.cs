@@ -54,7 +54,7 @@ namespace ElectronicObserver.Data {
 				case 0:
 					return "赤";
 				case 1:
-					return "群青";
+					return "藍";
 				case 2:
 					return "青";
 				case 3:

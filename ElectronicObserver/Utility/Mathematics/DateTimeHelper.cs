@@ -59,6 +59,25 @@ namespace ElectronicObserver.Utility.Mathematics {
 
 
 		/// <summary>
+		/// 経過時間を標準的書式の文字列に変換します。
+		/// </summary>
+		/// <param name="time">起点時間。</param>
+		/// <returns>書式に則った時間を表す文字列。</returns>
+		public static string ToTimeElapsedString( DateTime time ) {
+			return ToTimeElapsedString( DateTime.Now - time );
+		}
+
+		/// <summary>
+		/// 経過時間を標準的書式の文字列に変換します。
+		/// </summary>
+		/// <param name="span">経過時間。</param>
+		/// <returns>書式に則った時間を表す文字列。</returns>
+		public static string ToTimeElapsedString( TimeSpan span ) {
+			return ToTimeRemainString( span );
+		}
+
+
+		/// <summary>
 		/// 指定した日時をまたいでいるかを取得します。
 		/// </summary>
 		/// <param name="prev">前回処理した時の日時。</param>

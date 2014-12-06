@@ -451,9 +451,18 @@ namespace ElectronicObserver.Window {
 				AirStage2Enemy.Text = string.Format( "-{0}/{1}",
 					(int)bd.Data.api_kouku.api_stage2.api_e_lostcount,
 					(int)bd.Data.api_kouku.api_stage2.api_e_count );
+
+				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {	//対空カットイン
+					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
+						"対空カットイン: {0}\r\nカットイン種別: {1}", KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[bd.FleetIDFriend].FleetMember[(int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx]].MasterShip.Name, (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind ) );
+				} else {
+					ToolTipInfo.SetToolTip( AirStage2Friend, null );
+				}
+
 			} else {
 				AirStage2Friend.Text = "-";
 				AirStage2Enemy.Text = "-";
+				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 			}
 
 		}
@@ -481,9 +490,15 @@ namespace ElectronicObserver.Window {
 				AirStage2Enemy.Text = string.Format( "-{0}/{1}",
 					(int)bd.Data.api_kouku.api_stage2.api_e_lostcount + ( (int)bd.Data.api_stage_flag2[1] != 0 ? (int)bd.Data.api_kouku2.api_stage2.api_e_lostcount : 0 ),
 					(int)bd.Data.api_kouku.api_stage2.api_e_count );
+
+				//undone: 対空カットインが入るかは確認できないので未実装; データがとれたら書く
+				ToolTipInfo.SetToolTip( AirStage2Friend, null );
+
 			} else {
 				AirStage2Friend.Text = "-";
 				AirStage2Enemy.Text = "-";
+
+				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 			}
 
 		}
@@ -494,6 +509,7 @@ namespace ElectronicObserver.Window {
 			AirStage1Enemy.Text = "-";
 			AirStage2Friend.Text = "-";
 			AirStage2Enemy.Text = "-";
+			ToolTipInfo.SetToolTip( AirStage2Friend, null );
 		}
 
 		private void SetHPNormal( int[] hp, BattleData bd ) {
@@ -516,11 +532,11 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < 6; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
 					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
-					
+
 					ToolTipInfo.SetToolTip( HPBars[i],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.MasterShip.NameWithClass,
-							ship.Level, 
+							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
 							Math.Max( HPBars[i].Value, 0 ),
 							HPBars[i].MaximumValue,
@@ -589,7 +605,8 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < 6; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
 					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
-
+					bool isEscaped = db.Fleet[bd.FleetIDFriend].EscapedShipID.Contains( ship.ShipID );
+					
 					ToolTipInfo.SetToolTip( HPBars[i],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.MasterShip.NameWithClass,
@@ -598,9 +615,12 @@ namespace ElectronicObserver.Window {
 							Math.Max( HPBars[i].Value, 0 ),
 							HPBars[i].MaximumValue,
 							HPBars[i].Value - HPBars[i].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase )
+							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped )
 							)
 						);
+
+					if ( isEscaped ) HPBars[i].BackColor = Color.Silver;
+					else HPBars[i].BackColor = SystemColors.Control;
 				}
 			}
 
@@ -625,7 +645,8 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < 6; i++ ) {
 				if ( (int)bd.Data.api_nowhps_combined[i + 1] != -1 ) {
 					ShipData ship = db.Ships[db.Fleet[2].FleetMember[i]];
-
+					bool isEscaped = db.Fleet[2].EscapedShipID.Contains( ship.ShipID );
+					
 					ToolTipInfo.SetToolTip( HPBars[i + 12],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.MasterShip.NameWithClass,
@@ -634,9 +655,12 @@ namespace ElectronicObserver.Window {
 							Math.Max( HPBars[i + 12].Value, 0 ),
 							HPBars[i + 12].MaximumValue,
 							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase )
+							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase, isEscaped )
 							)
 						);
+
+					if ( isEscaped ) HPBars[i + 12].BackColor = Color.Silver;
+					else HPBars[i + 12].BackColor = SystemColors.Control;
 				}
 			}
 		}

@@ -41,6 +41,7 @@ namespace ElectronicObserver.Window {
 		public FormLog fLog;
 		public FormQuest fQuest;
 		public FormBattle fBattle;
+		public FormFleetOverview fFleetOverview;
 
 		#endregion
 
@@ -87,6 +88,7 @@ namespace ElectronicObserver.Window {
 			fLog = new FormLog( this );
 			fQuest = new FormQuest( this );
 			fBattle = new FormBattle( this );
+			fFleetOverview = new FormFleetOverview( this );
 
 			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
@@ -128,10 +130,7 @@ namespace ElectronicObserver.Window {
 			UpdateTimerTick( this, new EventArgs() );
 
 
-			{
-				DateTime now = DateTime.Now;
-				StripStatus_Clock.Text = string.Format( "{0:D2}:{1:D2}:{2:D2}", now.Hour, now.Minute, now.Second );
-			}
+			StripStatus_Clock.Text = DateTime.Now.ToString( "HH:mm:ss" );
 		}
 
 
@@ -187,6 +186,8 @@ namespace ElectronicObserver.Window {
 					return fQuest;
 				case "Battle":
 					return fBattle;
+				case "FleetOverview":
+					return fFleetOverview;
 
 				default:
 					return null;
@@ -220,6 +221,8 @@ namespace ElectronicObserver.Window {
 					fQuest.DockPanel = null;
 					fBattle.Show( MainDockPanel, DockState.Document );
 					fBattle.DockPanel = null;
+					fFleetOverview.Show( MainDockPanel, DockState.Document );
+					fFleetOverview.DockPanel = null;
 
 					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
@@ -252,6 +255,7 @@ namespace ElectronicObserver.Window {
 					fLog.Show( MainDockPanel );
 					fQuest.Show( MainDockPanel );
 					fBattle.Show( MainDockPanel );
+					fFleetOverview.Show( MainDockPanel );
 
 					foreach ( var x in MainDockPanel.Contents ) {
 						x.DockHandler.Hide();
@@ -439,9 +443,14 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_View_Battle_Click( object sender, EventArgs e ) {
 			fBattle.Show( MainDockPanel );
 		}
-	
+
+		private void StripMenu_View_FleetOverview_Click( object sender, EventArgs e ) {
+			fFleetOverview.Show( MainDockPanel );
+		}
+
 		#endregion
 
+		
 		
 
 		

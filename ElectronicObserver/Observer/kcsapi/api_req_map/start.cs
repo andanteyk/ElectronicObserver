@@ -16,6 +16,17 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map {
 			base.OnResponseReceived( (object)data );
 		}
 
+
+		public override bool IsRequestSupported { get { return true; } }
+		
+		public override void OnRequestReceived( Dictionary<string, string> data ) {
+
+			KCDatabase.Instance.Fleet.LoadFromRequest( APIName, data );
+			
+			base.OnRequestReceived( data );
+		}
+
+
 		public override string APIName {
 			get { return "api_req_map/start"; }
 		}

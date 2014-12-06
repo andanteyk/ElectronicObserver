@@ -251,6 +251,12 @@
     <Compile Include="Window\FormFleet.Designer.cs">
       <DependentUpon>FormFleet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormFleetOverview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormFleetOverview.Designer.cs">
+      <DependentUpon>FormFleetOverview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormHeadquarters.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -332,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormFleet.resx">
       <DependentUpon>FormFleet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormFleetOverview.resx">
+      <DependentUpon>FormFleetOverview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormHeadquarters.resx">
       <DependentUpon>FormHeadquarters.cs</DependentUpon>
