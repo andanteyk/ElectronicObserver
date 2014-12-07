@@ -75,6 +75,52 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 装備のレアリティを表す文字列を取得します。
+		/// </summary>
+		public static string GetEquipmentRarity( int value ) {
+			switch ( value ) {
+				case 0:
+					return "コモン";
+				case 1:
+					return "レア";
+				case 2:
+					return "ホロ";
+				case 3:
+					return "Sホロ";
+				case 4:
+					return "SSホロ";
+				case 5:
+					return "EXホロ";
+				default:
+					return "不明";
+			}
+		}
+
+		/// <summary>
+		/// 装備のレアリティの画像インデックスを取得します。
+		/// </summary>
+		public static int GetEquipmentRarityID( int value ) {
+			switch ( value ) {
+				case 0:
+					return 1;
+				case 1:
+					return 4;
+				case 2:
+					return 5;
+				case 3:
+					return 6;
+				case 4:
+					return 7;
+				case 5:
+					return 8;
+				default:
+					return 0;
+			}
+		}
+
+
+
+		/// <summary>
 		/// 艦船の損傷度合いを表す文字列を取得します。
 		/// </summary>
 		/// <param name="hprate">現在HP/最大HPで表される割合。</param>
@@ -280,6 +326,7 @@ namespace ElectronicObserver.Data {
 		}
 
 		#endregion
+
 	}
 
 }

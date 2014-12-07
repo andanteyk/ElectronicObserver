@@ -302,19 +302,28 @@ namespace ElectronicObserver.Resource.Record {
 		/// <param name="ship">対象の艦船。</param>
 		public void UpdateParameter( ShipData ship ) {
 
-			ShipParameterElement e = this[ship.ShipID];
+			UpdateParameter( ship.ShipID, ship.Level, ship.ASWBase, ship.ASWMax, ship.EvasionBase, ship.EvasionMax, ship.LOSBase, ship.LOSMax );
+		}
+
+
+		/// <summary>
+		/// パラメータを更新します。
+		/// </summary>
+		public void UpdateParameter( int shipID, int level, int aswMin, int aswMax, int evasionMin, int evasionMax, int losMin, int losMax ) {
+
+			ShipParameterElement e = this[shipID];
 			if ( e == null ) {
 				e = new ShipParameterElement();
-				e.ShipID = ship.ShipID;
-				Utility.Logger.Add( 2, ship.MasterShip.NameWithClass + "のパラメータを記録しました。" );
+				e.ShipID = shipID;
+				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを記録しました。" );
 			}
 
-			e.ASW.SetEstParameter( ship.Level, ship.ASWBase, ship.ASWMax );
-			e.Evasion.SetEstParameter( ship.Level, ship.EvasionBase, ship.EvasionMax );
-			e.LOS.SetEstParameter( ship.Level, ship.LOSBase, ship.LOSMax );
+			e.ASW.SetEstParameter( level, aswMin, aswMax );
+			e.Evasion.SetEstParameter( level, evasionMin, evasionMax );
+			e.LOS.SetEstParameter( level, losMin, losMax );
 
 			Update( e );
-			Utility.Logger.Add( 1, ship.MasterShip.NameWithClass + "のパラメータを更新しました。" );
+			Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを更新しました。" );
 		}
 
 
@@ -406,13 +415,14 @@ namespace ElectronicObserver.Resource.Record {
 				if ( e == null ) {
 					e = new ShipParameterElement();
 					e.ShipID = shipID;
+					Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを記録しました。" );
 				}
 
 				e.ASW.SetEstParameter( 1, (int)elem.api_tais, Parameter.MaximumDefault );
 				e.Evasion.SetEstParameter( 1, (int)elem.api_kaih, Parameter.MaximumDefault );
 				
 				Update( e );
-
+				Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを更新しました。" );
 			}
 		}
 

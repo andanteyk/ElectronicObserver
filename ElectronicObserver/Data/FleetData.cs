@@ -51,10 +51,26 @@ namespace ElectronicObserver.Data {
 
 		private int[] _fleetMember;
 		/// <summary>
-		/// 艦隊メンバー
+		/// 艦隊メンバー(艦船ID)
 		/// </summary>
 		public ReadOnlyCollection<int> FleetMember {
 			get { return Array.AsReadOnly<int>( _fleetMember ); }
+		}
+
+		/// <summary>
+		/// 艦隊メンバー(艦船データ)
+		/// </summary>
+		public ReadOnlyCollection<ShipData> FleetMemberInstance {
+			get {
+				if ( _fleetMember == null ) return null;
+
+				ShipData[] ships = new ShipData[_fleetMember.Length];
+				for ( int i = 0; i < ships.Length; i++ ) {
+					ships[i] = KCDatabase.Instance.Ships[_fleetMember[i]];
+				}
+
+				return Array.AsReadOnly<ShipData>( ships );
+			}
 		}
 
 

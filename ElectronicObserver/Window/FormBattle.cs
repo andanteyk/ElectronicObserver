@@ -293,7 +293,7 @@ namespace ElectronicObserver.Window {
 
 			SetHPNormal( hp, bm.BattleNight );
 			SetDamageRateNormal( hp, bm.BattleDay );
-
+			SetNightBattleEvent( bm.BattleNight );
 
 			TableMain.ResumeLayout();
 			TableMain.Visible = true;
@@ -313,6 +313,7 @@ namespace ElectronicObserver.Window {
 			ClearSearchingResult();
 			SetHPNormal( hp, bm.BattleNight );
 			SetDamageRateNormal( hp, bm.BattleNight );
+			SetNightBattleEvent( bm.BattleNight );
 
 
 			TableMain.ResumeLayout();
@@ -438,10 +439,23 @@ namespace ElectronicObserver.Window {
 				AirStage1Enemy.Text = string.Format( "-{0}/{1}",
 					(int)bd.Data.api_kouku.api_stage1.api_e_lostcount,
 					(int)bd.Data.api_kouku.api_stage1.api_e_count );
+
+				if ( (int)bd.Data.api_kouku.api_stage1.api_touch_plane[0] != -1 )
+					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_kouku.api_stage1.api_touch_plane[0]].Name ) );
+				else
+					ToolTipInfo.SetToolTip( AirStage1Friend, null );
+
+				if ( (int)bd.Data.api_kouku.api_stage1.api_touch_plane[1] != -1 )
+					ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_kouku.api_stage1.api_touch_plane[1]].Name ) );
+				else
+					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+
 			} else {
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
 				AirStage1Friend.Text = "-";
 				AirStage1Enemy.Text = "-";
+				ToolTipInfo.SetToolTip( AirStage1Friend, null );
+				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 			}
 
 			if ( (int)bd.Data.api_stage_flag[1] != 0 ) {
@@ -477,10 +491,23 @@ namespace ElectronicObserver.Window {
 				AirStage1Enemy.Text = string.Format( "-{0}/{1}",
 					(int)bd.Data.api_kouku.api_stage1.api_e_lostcount + ( (int)bd.Data.api_stage_flag2[0] != 0 ? (int)bd.Data.api_kouku2.api_stage1.api_e_lostcount : 0 ),
 					(int)bd.Data.api_kouku.api_stage1.api_e_count );
+
+				if ( (int)bd.Data.api_kouku.api_stage1.api_touch_plane[0] != -1 )
+					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_kouku.api_stage1.api_touch_plane[0]].Name ) );
+				else
+					ToolTipInfo.SetToolTip( AirStage1Friend, null );
+
+				if ( (int)bd.Data.api_kouku.api_stage1.api_touch_plane[1] != -1 )
+					ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_kouku.api_stage1.api_touch_plane[1]].Name ) );
+				else
+					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+
 			} else {
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
 				AirStage1Friend.Text = "-";
 				AirStage1Enemy.Text = "-";
+				ToolTipInfo.SetToolTip( AirStage1Friend, null );
+				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 			}
 
 			if ( (int)bd.Data.api_stage_flag[1] != 0 ) {
@@ -717,6 +744,69 @@ namespace ElectronicObserver.Window {
 
 			//undone: 戦績判定
 		}
+
+
+		//undone: Combined 非対応
+		private void SetNightBattleEvent( BattleData bd ) {
+
+			//味方探照灯判定
+			{
+				ShipData ship = KCDatabase.Instance.Fleet[bd.FleetIDFriend].FleetMemberInstance.FirstOrDefault( s => s != null && s.SlotInstanceMaster.Count( e => e != null && e.EquipmentType[2] == 29 ) > 0 && s.HPCurrent > 1 );
+				if ( ship != null ) {
+					ToolTipInfo.SetToolTip( FleetFriend, string.Format( "探照灯照射: {0}", ship.MasterShip.Name ) );
+				} else {
+					ToolTipInfo.SetToolTip( FleetFriend, null );
+				}
+			}
+
+			//敵探照灯判定
+			{
+				int idx = -1;
+				for ( int i = 1; i < bd.EnemyFleetMembers.Count; i++ ) {
+					if ( bd.EnemyFleetMembers[i] == -1 ) continue;
+
+					if ( ( (int[])bd.Data.api_eSlot[i - 1] ).Count( id => KCDatabase.Instance.MasterEquipments.ContainsKey( id ) && KCDatabase.Instance.MasterEquipments[id].EquipmentType[2] == 29 ) > 0 ) {
+						idx = i - 1;
+						break;
+					}
+				}
+
+				if ( idx != -1 ) {
+					ToolTipInfo.SetToolTip( FleetEnemy, string.Format( "探照灯照射: {0}", KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[idx]].NameWithClass ) );
+				} else {
+					ToolTipInfo.SetToolTip( FleetEnemy, null );
+				}
+			}
+
+
+			//夜間触接判定
+			if ( (int)bd.Data.api_touch_plane[0] != -1 )
+				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name ) );
+			else
+				ToolTipInfo.SetToolTip( AirStage1Friend, null );
+
+			if ( (int)bd.Data.api_touch_plane[1] != -1 )
+				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name ) );
+			else
+				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+
+
+			//照明弾投射判定(仮)
+			if ( (int)bd.Data.api_flare_pos[0] != -1 )
+				ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
+						"照明弾投射: {0}", KCDatabase.Instance.Fleet[bd.FleetIDFriend].FleetMemberInstance[(int)bd.Data.api_flare_pos[0] - 1].MasterShip.Name ) );
+			else
+				ToolTipInfo.SetToolTip( AirStage2Friend, null );
+
+			if ( (int)bd.Data.api_flare_pos[1] != -1 )
+				ToolTipInfo.SetToolTip( AirStage2Enemy, string.Format(
+						"照明弾投射: {0}", KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[(int)bd.Data.api_flare_pos[1] - 6]].NameWithClass ) );	//checkme
+			else
+				ToolTipInfo.SetToolTip( AirStage2Enemy, null );
+
+
+		}
+
 
 		
 		protected override string GetPersistString() {

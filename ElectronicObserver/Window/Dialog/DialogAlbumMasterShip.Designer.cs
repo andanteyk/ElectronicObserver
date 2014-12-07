@@ -23,8 +23,8 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.ShipView = new System.Windows.Forms.DataGridView();
@@ -132,6 +132,7 @@
 			this.ASWLevel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.EvasionMin = new ElectronicObserver.Window.Control.ImageLabel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.Description = new ElectronicObserver.Window.Control.ImageLabel();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -186,14 +187,14 @@
             this.ShipView_ShipID,
             this.ShipView_ShipType,
             this.ShipView_Name});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ShipView.DefaultCellStyle = dataGridViewCellStyle6;
 			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ShipView.Location = new System.Drawing.Point(0, 0);
 			this.ShipView.MultiSelect = false;
@@ -210,8 +211,8 @@
 			// ShipView_ShipID
 			// 
 			this.ShipView_ShipID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle5;
 			this.ShipView_ShipID.HeaderText = "ID";
 			this.ShipView_ShipID.Name = "ShipView_ShipID";
 			this.ShipView_ShipID.ReadOnly = true;
@@ -234,6 +235,7 @@
 			// 
 			// BasePanelShipGirl
 			// 
+			this.BasePanelShipGirl.Controls.Add(this.Description);
 			this.BasePanelShipGirl.Controls.Add(this.flowLayoutPanel1);
 			this.BasePanelShipGirl.Controls.Add(this.ShipID);
 			this.BasePanelShipGirl.Controls.Add(this.TableRemodel);
@@ -529,11 +531,11 @@
 			// 
 			// Rarity
 			// 
-			this.Rarity.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.Rarity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.Rarity.BackColor = System.Drawing.Color.Transparent;
-			this.Rarity.Location = new System.Drawing.Point(170, 3);
+			this.Rarity.Location = new System.Drawing.Point(157, 3);
 			this.Rarity.Name = "Rarity";
-			this.Rarity.Size = new System.Drawing.Size(41, 16);
+			this.Rarity.Size = new System.Drawing.Size(54, 16);
 			this.Rarity.TabIndex = 16;
 			this.Rarity.Text = "123";
 			this.Rarity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -810,6 +812,7 @@
 			this.Equipment5.Size = new System.Drawing.Size(41, 16);
 			this.Equipment5.TabIndex = 12;
 			this.Equipment5.Text = "123";
+			this.Equipment5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Equipment_MouseClick);
 			// 
 			// Aircraft5
 			// 
@@ -832,6 +835,7 @@
 			this.Equipment4.Size = new System.Drawing.Size(41, 16);
 			this.Equipment4.TabIndex = 11;
 			this.Equipment4.Text = "123";
+			this.Equipment4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Equipment_MouseClick);
 			// 
 			// Aircraft4
 			// 
@@ -854,6 +858,7 @@
 			this.Equipment3.Size = new System.Drawing.Size(41, 16);
 			this.Equipment3.TabIndex = 10;
 			this.Equipment3.Text = "123";
+			this.Equipment3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Equipment_MouseClick);
 			// 
 			// Aircraft1
 			// 
@@ -876,6 +881,7 @@
 			this.Equipment2.Size = new System.Drawing.Size(41, 16);
 			this.Equipment2.TabIndex = 9;
 			this.Equipment2.Text = "123";
+			this.Equipment2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Equipment_MouseClick);
 			// 
 			// Equipment1
 			// 
@@ -886,6 +892,7 @@
 			this.Equipment1.Size = new System.Drawing.Size(41, 16);
 			this.Equipment1.TabIndex = 3;
 			this.Equipment1.Text = "123";
+			this.Equipment1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Equipment_MouseClick);
 			// 
 			// Aircraft3
 			// 
@@ -1558,6 +1565,22 @@
 			this.pictureBox1.TabIndex = 4;
 			this.pictureBox1.TabStop = false;
 			// 
+			// Description
+			// 
+			this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Description.AutoSize = false;
+			this.Description.AutoWrap = true;
+			this.Description.BackColor = System.Drawing.Color.Transparent;
+			this.Description.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.Description.Location = new System.Drawing.Point(9, 380);
+			this.Description.Name = "Description";
+			this.Description.Size = new System.Drawing.Size(525, 64);
+			this.Description.TabIndex = 21;
+			this.Description.Text = "私が重雷装巡洋艦…？冗談じゃないわ！\r\nえ、デバッグ用ですって？…仕方ないわね、早く終わらせるのよ！";
+			this.Description.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+			// 
 			// DialogAlbumMasterShip
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1707,5 +1730,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_ShipID;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_ShipType;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Name;
+		private Control.ImageLabel Description;
 	}
 }

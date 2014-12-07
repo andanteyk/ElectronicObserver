@@ -15,6 +15,10 @@ namespace ElectronicObserver.Observer.kcsapi {
 			KCDatabase db = KCDatabase.Instance;
 
 
+			//特別置換処理
+			data.api_mst_stype[7].api_name = "巡洋戦艦";
+
+
 			//api_mst_ship
 			foreach ( var elem in data.api_mst_ship ) {
 

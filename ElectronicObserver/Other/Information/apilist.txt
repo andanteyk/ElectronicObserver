@@ -968,7 +968,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_e_count		：敵〃
 			api_e_lostcount	：
 			api_air_fire	：対空カットイン
-				api_idx			：発動艦のインデックス
+				api_idx			：発動艦のインデックス 0から始まる
 				api_kind		：カットイン種別
 				api_use_items	：表示装備ID
 		api_stage3		：航空攻撃

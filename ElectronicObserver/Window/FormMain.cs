@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Data;
+﻿using Codeplex.Data;
+using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
@@ -381,6 +382,49 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_Debug_LoadRecordFromOld_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "先に通常の api_start2 を読み込んでください。", "大変ご迷惑をおかけしております", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
+
+
+			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
+
+				ofd.Title = "旧 api_start2 からレコードを構築";
+				ofd.Filter = "api_start2|*api_start2*.json|JSON|*.json|File|*";
+
+				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					try {
+
+						using ( StreamReader sr = new StreamReader( ofd.FileName ) ) {
+
+							dynamic json = DynamicJson.Parse( sr.ReadToEnd().Remove( 0, 7 ) );
+
+							foreach ( dynamic elem in json.api_data.api_mst_ship ) {
+								if ( elem.api_name != "なし" && KCDatabase.Instance.MasterShips.ContainsKey( (int)elem.api_id ) && KCDatabase.Instance.MasterShips[(int)elem.api_id].Name == elem.api_name ) {
+									RecordManager.Instance.ShipParameter.UpdateParameter( (int)elem.api_id, 1, (int)elem.api_tais[0], (int)elem.api_tais[1], (int)elem.api_kaih[0], (int)elem.api_kaih[1], (int)elem.api_saku[0], (int)elem.api_saku[1] );
+									
+									int[] defaultslot = Enumerable.Repeat( -1, 5 ).ToArray();
+									( (int[])elem.api_defeq ).CopyTo( defaultslot, 0 );
+									RecordManager.Instance.ShipParameter.UpdateDefaultSlot( (int)elem.api_id, defaultslot );
+								}
+							}
+						}
+
+					} catch ( Exception ex ) {
+
+						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
+							MessageBoxButtons.OK, MessageBoxIcon.Error );
+					}
+				}
+			}
+		}
+
+		
+
 		private void StripMenu_Tool_AlbumMasterShip_Click( object sender, EventArgs e ) {
 
 			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
@@ -392,6 +436,16 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Tool_AlbumMasterEquipment_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterEquipments.Count == 0 ) {
+				MessageBox.Show( "装備データが読み込まれていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+			} else {
+				new DialogAlbumMasterEquipment().Show();
+			}
+
+		}
 
 
 		#region フォーム表示
@@ -449,6 +503,8 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
+
+		
 
 		
 		

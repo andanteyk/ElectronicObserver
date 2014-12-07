@@ -191,6 +191,12 @@
     <Compile Include="Window\Control\StatusBar.Designer.cs">
       <DependentUpon>StatusBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogAlbumMasterEquipment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogAlbumMasterEquipment.Designer.cs">
+      <DependentUpon>DialogAlbumMasterEquipment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogAlbumMasterShip.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -311,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\StatusBar.resx">
       <DependentUpon>StatusBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterEquipment.resx">
+      <DependentUpon>DialogAlbumMasterEquipment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterShip.resx">
       <DependentUpon>DialogAlbumMasterShip.cs</DependentUpon>

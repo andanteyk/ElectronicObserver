@@ -462,6 +462,10 @@ namespace ElectronicObserver.Data {
 			get { return ShipID; }
 		}
 
+
+		public override string ToString() {
+			return string.Format( "[{0}] : {1}", ShipID, NameWithClass );
+		}
 		
 	}
 

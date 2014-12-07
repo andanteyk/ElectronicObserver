@@ -16,6 +16,9 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogAlbumMasterShip : Form {
 
+		private int _shipID;
+
+
 
 		public DialogAlbumMasterShip() {
 			InitializeComponent();
@@ -173,8 +176,10 @@ namespace ElectronicObserver.Window.Dialog {
 				int shipID = (int)ShipView.Rows[e.RowIndex].Cells[0].Value;
 
 				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
+					Cursor = Cursors.AppStarting;
 					new DialogAlbumMasterShip( shipID ).Show();
-
+					Cursor = Cursors.Default;
+					
 				} else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 ) {
 					UpdateAlbumPage( shipID );
 				}
@@ -197,7 +202,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			//header
-			ShipID.Tag = shipID;
+			_shipID = shipID;
 			ShipID.Text = ship.ShipID.ToString();
 
 			ShipType.Text = db.ShipTypes[ship.ShipType].Name;
@@ -251,6 +256,10 @@ namespace ElectronicObserver.Window.Dialog {
 			Ammo.Text = ship.Ammo.ToString();
 
 			TableParameterSub.ResumeLayout();
+
+
+			Description.Text = ship.MessageGet;
+
 
 			//equipment
 			//どうにかできるなら修正すること
@@ -404,8 +413,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void ParameterLevel_ValueChanged( object sender, EventArgs e ) {
-			if ( ShipID.Tag != null ) {
-				UpdateLevelParameter( (int)ShipID.Tag );
+			if ( _shipID != -1 ) {
+				UpdateLevelParameter( _shipID );
 			}
 		}
 
@@ -444,8 +453,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void RemodelBeforeShipName_MouseClick( object sender, MouseEventArgs e ) {
 
-			if ( ShipID.Tag == null ) return;
-			var ship = KCDatabase.Instance.MasterShips[(int)ShipID.Tag];
+			if ( _shipID == -1 ) return;
+			var ship = KCDatabase.Instance.MasterShips[_shipID];
 
 			if ( ship != null && ship.RemodelBeforeShipID != 0 ) {
 
@@ -459,8 +468,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void RemodelAfterShipName_MouseClick( object sender, MouseEventArgs e ) {
 
-			if ( ShipID.Tag == null ) return;
-			var ship = KCDatabase.Instance.MasterShips[(int)ShipID.Tag];
+			if ( _shipID == -1 ) return;
+			var ship = KCDatabase.Instance.MasterShips[_shipID];
 
 			if ( ship != null && ship.RemodelAfterShipID != 0 ) {
 
@@ -469,6 +478,33 @@ namespace ElectronicObserver.Window.Dialog {
 
 				else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 )
 					UpdateAlbumPage( ship.RemodelAfterShipID );
+			}
+		}
+
+
+
+		private void Equipment_MouseClick( object sender, MouseEventArgs e ) {
+
+			if ( e.Button == System.Windows.Forms.MouseButtons.Right ) {
+
+				//fixme: これゼッタイ早く直したほうがいい　おかしい
+				ImageLabel[] slot = new ImageLabel[] { Equipment1, Equipment2, Equipment3, Equipment4, Equipment5 };
+
+				for ( int i = 0; i < slot.Length; i++ ) {
+					if ( sender == slot[i] ) {
+
+						if ( _shipID != -1 ) {
+							ShipDataMaster ship = KCDatabase.Instance.MasterShips[_shipID];
+
+							if ( ship != null && ship.DefaultSlot != null && i < ship.DefaultSlot.Count && ship.DefaultSlot[i] != -1 ) {
+								Cursor = Cursors.AppStarting;
+								new DialogAlbumMasterEquipment( ship.DefaultSlot[i] ).Show();
+								Cursor = Cursors.Default;
+							}
+						}
+					}
+				}
+
 			}
 		}
 
