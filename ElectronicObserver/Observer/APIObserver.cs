@@ -217,7 +217,7 @@ namespace ElectronicObserver.Observer {
 			} catch ( Exception e ) {
 
 				Utility.Logger.Add( 3, "Request の受信中にエラーが発生しました。\r\n" + e.Message );
-				System.Diagnostics.Debug.WriteLine( e.Message );
+				
 			}
 
 		}
@@ -252,7 +252,7 @@ namespace ElectronicObserver.Observer {
 			} catch ( Exception e ) {
 
 				Utility.Logger.Add( 3, "Responseの受信中にエラーが発生しました。\r\n" + e.Message );
-				System.Diagnostics.Debug.WriteLine( e.Message );
+				
 			}
 
 		}

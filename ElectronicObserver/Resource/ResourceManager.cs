@@ -262,10 +262,12 @@ namespace ElectronicObserver.Resource {
 
 			} catch ( Exception e ) {
 
-				System.Diagnostics.Debug.WriteLine( e.Message );
+				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。\r\n{1}", path, e.Message ) );
+				return new Bitmap( 16, 16, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+
 			}
 
-			return null;
+			//return null;
 		}
 
 

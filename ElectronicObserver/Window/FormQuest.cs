@@ -65,22 +65,7 @@ namespace ElectronicObserver.Window {
 
 
 				row.Cells[0].Value = ( q.State == 3 ) ? ( (bool ?)null ) : ( q.State == 2 );
-				{
-					string s;
-					switch ( q.Type ) {
-						case 1:
-							s = "1"; break;
-						case 2:
-							s = "日"; break;
-						case 3:
-							s = "週"; break;
-						case 6:
-							s = "月"; break;
-						default:
-							s = "?"; break;
-					}
-					row.Cells[1].Value = s;
-				}
+				row.Cells[1].Value = Constants.GetQuestType( q.Type );
 				row.Cells[2].Value = q.Name;
 				
 
