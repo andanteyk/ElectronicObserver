@@ -131,7 +131,11 @@ namespace ElectronicObserver.Observer {
 
 							//string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.LastIndexOf( "/" ) + 1 ) );
 							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
-							tpath = tpath.Substring( 0, tpath.LastIndexOf( ".swf" ) + 4 );
+							{
+								int index = tpath.IndexOf( "?" );
+								if ( index != -1 )
+									tpath = tpath.Substring( 0, index );
+							} 
 							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
 
 							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
@@ -140,7 +144,12 @@ namespace ElectronicObserver.Observer {
 
 						} else if ( c.SaveOtherFile && oSession.fullUrl.IndexOf( "/kcs/" ) != -1 ) {
 
-							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
+							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) ); 
+							{
+								int index = tpath.IndexOf( "?" );
+								if ( index != -1 )
+									tpath = tpath.Substring( 0, index );
+							}
 							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
 
 							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {

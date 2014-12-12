@@ -781,12 +781,12 @@ namespace ElectronicObserver.Window {
 
 			//夜間触接判定
 			if ( (int)bd.Data.api_touch_plane[0] != -1 )
-				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name ) );
+				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "夜間触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name ) );
 			else
 				ToolTipInfo.SetToolTip( AirStage1Friend, null );
 
 			if ( (int)bd.Data.api_touch_plane[1] != -1 )
-				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name ) );
+				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "夜間触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name ) );
 			else
 				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 

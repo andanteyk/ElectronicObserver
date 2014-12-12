@@ -204,9 +204,11 @@ namespace ElectronicObserver.Window.Dialog {
 			//header
 			_shipID = shipID;
 			ShipID.Text = ship.ShipID.ToString();
+			ToolTipInfo.SetToolTip( ShipID, ship.ResourceName );
 
 			ShipType.Text = db.ShipTypes[ship.ShipType].Name;
 			ShipName.Text = ship.NameWithClass;
+			ToolTipInfo.SetToolTip( ShipName, !ship.IsAbyssalShip ? ship.NameReading : null );
 
 
 			//main parameter

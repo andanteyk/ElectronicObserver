@@ -19,6 +19,9 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormFleet : DockContent {
 
+		private bool IsRemodeling = false;
+
+
 		private class TableFleetControl {
 			public Label Name;
 			public ImageLabel StateMain;
@@ -417,6 +420,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_hensei/change"].RequestReceived += rec;
 			o.APIList["api_req_kousyou/destroyship"].RequestReceived += rec;
 			o.APIList["api_req_member/updatedeckname"].RequestReceived += rec;
+			o.APIList["api_req_kaisou/remodeling"].RequestReceived += rec;
 			o.APIList["api_req_map/start"].RequestReceived += rec;
 
 			o.APIList["api_port/port"].ResponseReceived += rec;
@@ -434,6 +438,17 @@ namespace ElectronicObserver.Window {
 
 
 		void Updated( string apiname, dynamic data ) {
+
+			if ( IsRemodeling ) {
+				if ( apiname == "api_get_member/slot_item" )
+					IsRemodeling = false;
+				else
+					return;
+			}
+			if ( apiname == "api_req_kaisou/remodeling" ) {
+				IsRemodeling = true;
+				return;
+			}
 
 			KCDatabase db = KCDatabase.Instance;
 			FleetData fleet = db.Fleet.Fleets[FleetID];

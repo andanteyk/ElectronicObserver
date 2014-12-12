@@ -624,7 +624,7 @@ api_req_quest/clearitemget		：任務達成
 	api_material		：獲得資源量
 	api_bonus_count		：アイテム取得個数(カテゴリの)
 	api_bonus			：アイテム
-		api_type		：12=一式徹甲弾|ドラム缶(装備アイテム？)
+		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換
 		api_count		：取得個数
 		api_item		：アイテム追加情報 一般アイテムはnull
 			api_id		：装備アイテム=ID、家具箱=0
@@ -1078,7 +1078,10 @@ api_req_sortie/battleresult	：戦闘結果
 		api_rank			：
 		api_deck_name		：敵艦隊名
 	api_first_clear			：初回クリアフラグ(EO海域攻略時も1)
-	api_get_flag			：入手フラグ
+	api_get_flag			：入手フラグ [0]=アイテム, [1]=艦娘
+	api_get_useitem			：ドロップアイテム情報 api_get_flag[0]=1のときのみ存在
+		api_useitem_id		：アイテムID 60=プレゼント箱
+		api_useitem_name	：""
 	api_get_ship			：ドロップ艦情報　api_get_flag[1]=1のときのみ存在
 		api_ship_id			：艦船ID
 		api_ship_type		：艦種

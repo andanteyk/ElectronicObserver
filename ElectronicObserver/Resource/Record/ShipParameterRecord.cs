@@ -68,34 +68,37 @@ namespace ElectronicObserver.Resource.Record {
 			/// <param name="max">最大値。</param>
 			public void SetEstParameter( int level, int current, int max ) {
 
-				if ( max != MaximumDefault ) {
+				Func<int, int, int, int> clamp = ( int _value, int _min, int _max ) => _value < _min ? _min : ( _value > _max ? _max : _value );
+
+
+				if ( max != MaximumDefault )
 					Maximum = max;
-				}
 
 				if ( level == 1 ) {
 					MinimumEstMin = MinimumEstMax = current;
 
 				} else if ( level != 99 ) {
 
-					double p1 = ( current - max * level / 99.0 ) / ( 1.0 - level / 99.0 );
-					double p2 = ( ( current + 1.0 ) - max * level / 99.0 ) / ( 1.0 - level / 99.0 );
+					double emind = ( current - max * level / 99.0 ) / ( 1.0 - level / 99.0 );
+					double emaxd = ( ( current + 1.0 ) - max * level / 99.0 ) / ( 1.0 - level / 99.0 );
 
-					int estmin = (int)Math.Ceiling( Math.Min( p1, p2 ) );
-					int estmax = (int)Math.Floor( Math.Max( p1, p2 ) );
+					int emin = clamp( emind < emaxd ? (int)Math.Ceiling( emind ) : (int)Math.Floor( emaxd + 1 ), 0, max );
+					int emax = clamp( emind < emaxd ? (int)Math.Ceiling( emaxd - 1 ) : (int)Math.Floor( emind ), 0, max );
 
-					if ( estmin < 0 ) estmin = 0;
-					if ( estmin > Maximum ) estmin = Maximum;
-
-					if ( estmax < 0 ) estmax = 0;
-					if ( estmax > Maximum ) estmax = Maximum;
-
-					MinimumEstMin = Math.Max( MinimumEstMin, estmin );
-					MinimumEstMax = Math.Min( MinimumEstMax, estmax );
+					if ( emax < MinimumEstMin || MinimumEstMax < emin ) {		//明らかに範囲から外れた場合
+						MinimumEstMin = emin;
+						MinimumEstMax = emax;
+					} else {
+						MinimumEstMin = Math.Max( MinimumEstMin, emin );
+						MinimumEstMax = Math.Min( MinimumEstMax, emax );
+					}
 
 				}
 
 			}
 		}
+
+
 
 
 		/// <summary>
