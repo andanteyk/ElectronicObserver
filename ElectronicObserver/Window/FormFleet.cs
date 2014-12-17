@@ -111,17 +111,14 @@ namespace ElectronicObserver.Window {
 				KCDatabase db = KCDatabase.Instance;
 
 				Name.Text = fleet.Name;
-
-
-
-				#region set StateMain
-
+				{
+					int sum = fleet.FleetMemberInstance.Sum( s => s != null ? s.Level : 0 );
+					ToolTipInfo.SetToolTip( Name, string.Format( "合計レベル：{0}\r\n平均レベル：{1:0.00}", sum, (double)sum / Math.Max( fleet.FleetMember.Count( id => id != -1 ), 1 ) ) );
+				}
 				
 
 				State = FleetData.UpdateFleetState( fleet, StateMain, ToolTipInfo, State, ref Timer ); 
 				
-				#endregion
-
 
 				//制空戦力計算	
 				AirSuperiority.Text = fleet.GetAirSuperiority().ToString();
@@ -432,7 +429,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/ship3"].ResponseReceived += rec;
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
 			o.APIList["api_get_member/deck"].ResponseReceived += rec;
-
+			o.APIList["api_get_member/slot_item"].ResponseReceived += rec;
+			
 			//追加するときは FormFleetOverview にも同様に追加してください
 		}
 
@@ -451,6 +449,9 @@ namespace ElectronicObserver.Window {
 			}
 
 			KCDatabase db = KCDatabase.Instance;
+
+			if ( db.Ships.Count == 0 || db.Equipments.Count == 0 ) return;
+			
 			FleetData fleet = db.Fleet.Fleets[FleetID];
 
 			TableFleet.SuspendLayout();

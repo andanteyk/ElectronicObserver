@@ -140,7 +140,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ShipView_ShipID.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 			ShipView_ShipType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 
-
+			ShipView.Sort( ShipView_ShipID, ListSortDirection.Ascending );
 			ShipView.ResumeLayout();
 
 		}
@@ -150,20 +150,25 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
-			if ( e.Column.Index == 1 ) {
-				//艦種別ソート
-				var ship1 = KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[0].Value];
-				var ship2 = KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[0].Value];
+			if ( e.Column.Name == ShipView_ShipType.Name ) {
+				e.SortResult = 
+					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[0].Value].ShipType -
+					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[0].Value].ShipType;
+			} else {
+				e.SortResult = ( (IComparable)e.CellValue1 ).CompareTo( e.CellValue2 );
+			}
 
-				e.SortResult = ship1.ShipType - ship2.ShipType;
-				if ( e.SortResult == 0 )
-					e.SortResult = ship1.ShipID - ship2.ShipID;
-				e.Handled = true;
+			if ( e.SortResult == 0 ) {
+				e.SortResult = (int)( ShipView.Rows[e.RowIndex1].Tag ?? 0 ) - (int)( ShipView.Rows[e.RowIndex2].Tag ?? 0 );
+			}
 
-			} else if ( e.Column.Index == 2 ) {
-				//艦名別ソート
-				
-				//undone
+			e.Handled = true;
+		}
+
+		private void ShipView_Sorted( object sender, EventArgs e ) {
+
+			for ( int i = 0; i < ShipView.Rows.Count; i++ ) {
+				ShipView.Rows[i].Tag = i;//ShipView.SortOrder == SortOrder.Ascending ? i : ShipView.Rows.Count - 1 - i;
 			}
 
 		}
@@ -206,7 +211,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ShipID.Text = ship.ShipID.ToString();
 			ToolTipInfo.SetToolTip( ShipID, ship.ResourceName );
 
-			ShipType.Text = db.ShipTypes[ship.ShipType].Name;
+			ShipType.Text = ship.IsLandBase ? "陸上基地" : db.ShipTypes[ship.ShipType].Name;
 			ShipName.Text = ship.NameWithClass;
 			ToolTipInfo.SetToolTip( ShipName, !ship.IsAbyssalShip ? ship.NameReading : null );
 
@@ -510,6 +515,7 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
+		
 		
 	}
 }

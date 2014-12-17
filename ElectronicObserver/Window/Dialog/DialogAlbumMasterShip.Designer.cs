@@ -209,6 +209,7 @@
 			this.ShipView.TabIndex = 0;
 			this.ShipView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ShipView_CellMouseClick);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
+			this.ShipView.Sorted += new System.EventHandler(this.ShipView_Sorted);
 			// 
 			// ShipView_ShipID
 			// 

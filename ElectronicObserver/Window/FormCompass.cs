@@ -181,12 +181,12 @@ namespace ElectronicObserver.Window {
 				ControlMember[i] = new TableEnemyMemberControl( this, TableEnemyMember, i );
 			}
 			TableEnemyMember.ResumeLayout();
-
+			
 
 			BasePanel.SetFlowBreak( TextMapArea, true );
 			BasePanel.SetFlowBreak( TextDestination, true );
-			BasePanel.SetFlowBreak( TextEventKind, true );
-			//BasePanel.SetFlowBreak( TextEventDetail, true );
+			//BasePanel.SetFlowBreak( TextEventKind, true );
+			BasePanel.SetFlowBreak( TextEventDetail, true );
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQCompass] );
 

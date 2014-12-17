@@ -43,6 +43,7 @@ namespace ElectronicObserver.Window {
 		public FormQuest fQuest;
 		public FormBattle fBattle;
 		public FormFleetOverview fFleetOverview;
+		public FormShipGroup fShipGroup;
 
 		#endregion
 
@@ -90,6 +91,7 @@ namespace ElectronicObserver.Window {
 			fQuest = new FormQuest( this );
 			fBattle = new FormBattle( this );
 			fFleetOverview = new FormFleetOverview( this );
+			fShipGroup = new FormShipGroup( this );
 
 			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
@@ -189,6 +191,8 @@ namespace ElectronicObserver.Window {
 					return fBattle;
 				case "FleetOverview":
 					return fFleetOverview;
+				case "ShipGroup":
+					return fShipGroup;
 
 				default:
 					return null;
@@ -224,6 +228,8 @@ namespace ElectronicObserver.Window {
 					fBattle.DockPanel = null;
 					fFleetOverview.Show( MainDockPanel, DockState.Document );
 					fFleetOverview.DockPanel = null;
+					fShipGroup.Show( MainDockPanel, DockState.Document );
+					fShipGroup.DockPanel = null;
 
 					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
@@ -257,6 +263,7 @@ namespace ElectronicObserver.Window {
 					fQuest.Show( MainDockPanel );
 					fBattle.Show( MainDockPanel );
 					fFleetOverview.Show( MainDockPanel );
+					fShipGroup.Show( MainDockPanel );
 
 					foreach ( var x in MainDockPanel.Contents ) {
 						x.DockHandler.Hide();
@@ -502,14 +509,12 @@ namespace ElectronicObserver.Window {
 			fFleetOverview.Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_ShipGroup_Click( object sender, EventArgs e ) {
+			fShipGroup.Show( MainDockPanel );
+		}
+
 		#endregion
 
-		
-
-		
-		
-
-		
 
 	}
 }

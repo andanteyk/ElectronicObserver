@@ -79,7 +79,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void DialogAlbumMasterShip_Load( object sender, EventArgs e ) {
+		private void DialogAlbumMasterEquipment_Load( object sender, EventArgs e ) {
 
 			EquipmentView.SuspendLayout();
 
@@ -106,7 +106,7 @@ namespace ElectronicObserver.Window.Dialog {
 			EquipmentView_ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 			EquipmentView_Type.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 
-
+			EquipmentView.Sort( EquipmentView_ID, ListSortDirection.Ascending );
 			EquipmentView.ResumeLayout();
 
 		}
@@ -114,29 +114,33 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
+		private void EquipmentView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
-			if ( e.Column.Index == 1 ) {
-				//装備種別ソート
-				var eq1 = KCDatabase.Instance.MasterEquipments[(int)EquipmentView.Rows[e.RowIndex1].Cells[0].Value];
-				var eq2 = KCDatabase.Instance.MasterEquipments[(int)EquipmentView.Rows[e.RowIndex2].Cells[0].Value];
-
-				e.SortResult = eq1.EquipmentType[2] - eq2.EquipmentType[2];
-				if ( e.SortResult == 0 )
-					e.SortResult = eq1.EquipmentID - eq2.EquipmentID;
-				e.Handled = true;
-
-			} else if ( e.Column.Index == 2 ) {
-				//装備名別ソート
-				
-				//undone
+			if ( e.Column.Name == EquipmentView_Type.Name ) {
+				e.SortResult = 
+					KCDatabase.Instance.MasterEquipments[(int)EquipmentView.Rows[e.RowIndex1].Cells[0].Value].EquipmentType[2] -
+					KCDatabase.Instance.MasterEquipments[(int)EquipmentView.Rows[e.RowIndex2].Cells[0].Value].EquipmentType[2];
+			} else {
+				e.SortResult = ( (IComparable)e.CellValue1 ).CompareTo( e.CellValue2 );
 			}
 
+			if ( e.SortResult == 0 ) {
+				e.SortResult = (int)( EquipmentView.Rows[e.RowIndex1].Tag ?? 0 ) - (int)( EquipmentView.Rows[e.RowIndex2].Tag ?? 0 );
+			}
+
+			e.Handled = true;
+		}
+
+		private void EquipmentView_Sorted( object sender, EventArgs e ) {
+
+			for ( int i = 0; i < EquipmentView.Rows.Count; i++ ) {
+				EquipmentView.Rows[i].Tag = i;// EquipmentView.SortOrder == SortOrder.Ascending ? i : EquipmentView.Rows.Count - 1 - i;
+			}
 		}
 
 
 		
-		private void ShipView_CellMouseClick( object sender, DataGridViewCellMouseEventArgs e ) {
+		private void EquipmentView_CellMouseClick( object sender, DataGridViewCellMouseEventArgs e ) {
 
 			if ( e.RowIndex >= 0 ) {
 				int equipmentID = (int)EquipmentView.Rows[e.RowIndex].Cells[0].Value;
@@ -319,10 +323,6 @@ namespace ElectronicObserver.Window.Dialog {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
-		
-		
 
-		
-		
 	}
 }

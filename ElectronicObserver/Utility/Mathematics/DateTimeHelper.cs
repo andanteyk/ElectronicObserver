@@ -37,6 +37,16 @@ namespace ElectronicObserver.Utility.Mathematics {
 
 
 		/// <summary>
+		/// APIに含まれている時間データからTimeSpanを生成します。
+		/// </summary>
+		/// <param name="time">時間データ。</param>
+		/// <returns>変換されたTimeSpan。</returns>
+		public static TimeSpan FromAPITimeSpan( long time ) {
+			return new TimeSpan( time * 10000 );
+		}
+
+
+		/// <summary>
 		/// 残り時間を標準的書式の文字列に変換します。
 		/// </summary>
 		/// <param name="time">完了時刻。</param>

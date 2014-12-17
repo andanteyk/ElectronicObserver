@@ -1,5 +1,6 @@
 ﻿using Codeplex.Data;
 using ElectronicObserver.Observer.kcsapi;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -223,10 +224,11 @@ namespace ElectronicObserver.Observer {
 				APIList.OnRequestReceived( shortpath, parsedData );
 
 
-			} catch ( Exception e ) {
+			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "Request の受信中にエラーが発生しました。\r\n" + e.Message );
-				
+				Utility.Logger.Add( 3, "Request の受信中にエラーが発生しました。\r\n" + ex.Message );
+				ErrorReporter.SaveErrorReport( ex, "Request の受信中にエラーが発生しました。", data );
+			
 			}
 
 		}
@@ -258,10 +260,11 @@ namespace ElectronicObserver.Observer {
 					APIList.OnResponseReceived( shortpath, null );
 
 
-			} catch ( Exception e ) {
+			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "Responseの受信中にエラーが発生しました。\r\n" + e.Message );
-				
+				Utility.Logger.Add( 3, "Responseの受信中にエラーが発生しました。\r\n" + ex.Message );
+				ErrorReporter.SaveErrorReport( ex, "Responseの受信中にエラーが発生しました。", data );
+			
 			}
 
 		}

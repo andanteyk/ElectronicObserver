@@ -168,6 +168,7 @@
 			// FileOpener
 			// 
 			this.FileOpener.Filter = "JSON|*.json;*.js|File|*";
+			this.FileOpener.RestoreDirectory = true;
 			this.FileOpener.Title = "ファイルを開く";
 			// 
 			// DialogLocalAPILoader

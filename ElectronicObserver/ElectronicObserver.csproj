@@ -95,6 +95,7 @@
     <Compile Include="Data\Quest\QuestCounter.cs" />
     <Compile Include="Data\ResponseWrapper.cs" />
     <Compile Include="Data\CompassData.cs" />
+    <Compile Include="Data\ShipGroupData.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Resource\Record\ShipParameterRecord.cs" />
     <Compile Include="Resource\ResourceManager.cs" />
     <Compile Include="Utility\Configuration.cs" />
+    <Compile Include="Utility\ErrorReporter.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Mathematics\DateTimeHelper.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
@@ -296,6 +298,12 @@
     <Compile Include="Window\FormQuest.Designer.cs">
       <DependentUpon>FormQuest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormShipGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormShipGroup.Designer.cs">
+      <DependentUpon>FormShipGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Support\CustomFloatWindowFactory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -374,6 +382,9 @@
     </Compile>
     <EmbeddedResource Include="Window\FormQuest.resx">
       <DependentUpon>FormQuest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormShipGroup.resx">
+      <DependentUpon>FormShipGroup.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
