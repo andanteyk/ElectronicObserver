@@ -183,7 +183,7 @@ namespace ElectronicObserver.Window {
 			TableEnemyMember.ResumeLayout();
 			
 
-			BasePanel.SetFlowBreak( TextMapArea, true );
+			//BasePanel.SetFlowBreak( TextMapArea, true );
 			BasePanel.SetFlowBreak( TextDestination, true );
 			//BasePanel.SetFlowBreak( TextEventKind, true );
 			BasePanel.SetFlowBreak( TextEventDetail, true );

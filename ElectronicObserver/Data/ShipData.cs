@@ -238,6 +238,42 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
+		/// 火力改修残り
+		/// </summary>
+		public int FirepowerRemain {
+			get { return ( MasterShip.FirepowerMax - MasterShip.FirepowerMin ) - FirepowerModernized; }
+		}
+
+		/// <summary>
+		/// 雷装改修残り
+		/// </summary>
+		public int TorpedoRemain {
+			get { return ( MasterShip.TorpedoMax - MasterShip.TorpedoMin ) - TorpedoModernized; }
+		}
+
+		/// <summary>
+		/// 対空改修残り
+		/// </summary>
+		public int AARemain {
+			get { return ( MasterShip.AAMax - MasterShip.AAMin ) - AAModernized; }
+		}
+
+		/// <summary>
+		/// 装甲改修残り
+		/// </summary>
+		public int ArmorRemain {
+			get { return ( MasterShip.ArmorMax - MasterShip.ArmorMin ) - ArmorModernized; }
+		}
+
+		/// <summary>
+		/// 運改修残り
+		/// </summary>
+		public int LuckRemain {
+			get { return ( MasterShip.LuckMax - MasterShip.LuckMin ) - LuckModernized; }
+		}
+
+
+		/// <summary>
 		/// 火力総合値
 		/// </summary>
 		public int FirepowerTotal {
@@ -299,7 +335,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int FirepowerBase {
 			get {	//該当IDが存在しなければぬるぽするだろうけど、そんな状況では公式蔵も動かないだろうから問題なし（？）
-				return KCDatabase.Instance.MasterShips[ShipID].FirepowerMin + FirepowerModernized;
+				return MasterShip.FirepowerMin + FirepowerModernized;
 			}
 		}
 
@@ -308,7 +344,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int TorpedoBase {
 			get {
-				return KCDatabase.Instance.MasterShips[ShipID].TorpedoMin + TorpedoModernized;
+				return MasterShip.TorpedoMin + TorpedoModernized;
 			}
 		}
 
@@ -317,7 +353,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int AABase {
 			get {
-				return KCDatabase.Instance.MasterShips[ShipID].AAMin + AAModernized;
+				return MasterShip.AAMin + AAModernized;
 			}
 		}
 
@@ -326,7 +362,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int ArmorBase {
 			get {
-				return KCDatabase.Instance.MasterShips[ShipID].ArmorMin + ArmorModernized;
+				return MasterShip.ArmorMin + ArmorModernized;
 			}
 		}
 
@@ -384,7 +420,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int LuckBase {
 			get {
-				return KCDatabase.Instance.MasterShips[ShipID].LuckMin + LuckModernized;
+				return MasterShip.LuckMin + LuckModernized;
 			}
 		}
 
@@ -457,6 +493,26 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 所属艦隊　-1=なし
+		/// </summary>
+		public int Fleet {
+			get {
+				FleetManager fm = KCDatabase.Instance.Fleet;
+				foreach ( var f in fm.Fleets.Values ) {
+					if ( f.FleetMember.Contains( MasterID ) )
+						return f.FleetID;
+				}
+				return -1;
+			}
+		}
+
+		/// <summary>
+		/// ケッコン済みかどうか
+		/// </summary>
+		public bool IsMarried {
+			get { return Level > 99; }
+		}
 
 
 

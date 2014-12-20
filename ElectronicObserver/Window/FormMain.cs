@@ -356,7 +356,8 @@ namespace ElectronicObserver.Window {
 			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
 
 				ofd.Title = "初期化APIをロード";
-				ofd.Filter = "api_start2|api_start2.json|File|*";
+				ofd.Filter = "API List|*.txt|File|*";
+				ofd.InitialDirectory = Utility.Configuration.Instance.Connection.SaveDataPath;
 
 				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
@@ -364,16 +365,57 @@ namespace ElectronicObserver.Window {
 
 						string parent = Path.GetDirectoryName( ofd.FileName );
 
-						using ( StreamReader sr = new StreamReader( parent + "\\api_start2.json" ) ) {
-							APIObserver.Instance.LoadResponse( "/kcsapi/api_start2", sr.ReadToEnd() );
-						}
-						using ( StreamReader sr = new StreamReader( parent + "\\basic.json" ) ) {
-							APIObserver.Instance.LoadResponse( "/kcsapi/api_get_member/basic", sr.ReadToEnd() );
-						}
-						using ( StreamReader sr = new StreamReader( parent + "\\slot_item.json" ) ) {
-							APIObserver.Instance.LoadResponse( "/kcsapi/api_get_member/slot_item", sr.ReadToEnd() );
-						}
 
+						using ( StreamReader sr = new StreamReader( ofd.FileName ) ) {
+							string line;
+							while ( ( line = sr.ReadLine() ) != null ) {
+
+								bool isRequest = false;
+								{
+									int slashindex = line.IndexOf( '/' );
+									if ( slashindex != -1 ) {
+
+										switch ( line.Substring( 0, slashindex ).ToLower() ) {
+											case "q":
+											case "request":
+												isRequest = true;
+												goto case "s";
+											case "":
+											case "s":
+											case "response":
+												line = line.Substring( Math.Min( slashindex + 1, line.Length ) );
+												break;
+										}
+
+									}
+								}
+
+								if ( APIObserver.Instance.APIList.ContainsKey( line ) ) {
+									APIBase api = APIObserver.Instance.APIList[line];
+
+									if ( isRequest ? api.IsRequestSupported : api.IsResponseSupported ) {
+
+										string[] files = Directory.GetFiles( parent, string.Format( "*{0}@{1}.json", isRequest ? "Q" : "S", line.Replace( '/', '@' ) ), SearchOption.TopDirectoryOnly );
+
+										if ( files.Length == 0 )
+											continue;
+
+										Array.Sort( files );
+
+										using ( StreamReader sr2 = new StreamReader( files[files.Length - 1] ) ) {
+											if ( isRequest )
+												APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
+											else
+												APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+										}
+
+										System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
+									}
+								}
+							}
+
+						}
+						
 
 					} catch ( Exception ex ) {
 
