@@ -10,7 +10,7 @@ namespace ElectronicObserver.Utility {
 
 	public class ErrorReporter {
 
-		public static void SaveErrorReport( Exception ex, string message, string connectionData = null ) {
+		public static void SaveErrorReport( Exception ex, string message, string connectionName = null, string connectionData = null ) {
 
 			string path = "ErrorReport";
 
@@ -29,10 +29,12 @@ namespace ElectronicObserver.Utility {
 					sw.WriteLine( "スタックトレース：" );
 					sw.WriteLine( ex.StackTrace );
 					sw.WriteLine( "追加情報 : {0}", message );
-					sw.WriteLine();
-					sw.WriteLine( "通信内容 : " );
-					sw.WriteLine( connectionData );
-					
+
+					if ( connectionName != null && connectionData != null ) {
+						sw.WriteLine();
+						sw.WriteLine( "通信内容 : {0}", connectionName );
+						sw.WriteLine( connectionData );
+					}
 				}
 
 			} catch ( Exception ) {

@@ -24,8 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.ShipView = new System.Windows.Forms.DataGridView();
@@ -135,6 +135,7 @@
 			this.EvasionMin = new ElectronicObserver.Window.Control.ImageLabel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.LevelTimer = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -189,14 +190,14 @@
             this.ShipView_ShipID,
             this.ShipView_ShipType,
             this.ShipView_Name});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ShipView.DefaultCellStyle = dataGridViewCellStyle4;
 			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ShipView.Location = new System.Drawing.Point(0, 0);
 			this.ShipView.MultiSelect = false;
@@ -214,8 +215,8 @@
 			// ShipView_ShipID
 			// 
 			this.ShipView_ShipID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle3;
 			this.ShipView_ShipID.HeaderText = "ID";
 			this.ShipView_ShipID.Name = "ShipView_ShipID";
 			this.ShipView_ShipID.ReadOnly = true;
@@ -379,6 +380,7 @@
 			this.RemodelAfterShipName.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.RemodelAfterShipName.BackColor = System.Drawing.Color.Transparent;
 			this.TableRemodel.SetColumnSpan(this.RemodelAfterShipName, 3);
+			this.RemodelAfterShipName.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.RemodelAfterShipName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.RemodelAfterShipName.Location = new System.Drawing.Point(46, 47);
 			this.RemodelAfterShipName.Name = "RemodelAfterShipName";
@@ -391,6 +393,7 @@
 			// 
 			this.RemodelAfter.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.RemodelAfter.BackColor = System.Drawing.Color.Transparent;
+			this.RemodelAfter.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.RemodelAfter.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.RemodelAfter.Location = new System.Drawing.Point(3, 47);
 			this.RemodelAfter.Name = "RemodelAfter";
@@ -436,6 +439,7 @@
 			this.RemodelBeforeShipName.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.RemodelBeforeShipName.BackColor = System.Drawing.Color.Transparent;
 			this.TableRemodel.SetColumnSpan(this.RemodelBeforeShipName, 3);
+			this.RemodelBeforeShipName.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.RemodelBeforeShipName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.RemodelBeforeShipName.Location = new System.Drawing.Point(46, 3);
 			this.RemodelBeforeShipName.Name = "RemodelBeforeShipName";
@@ -448,6 +452,7 @@
 			// 
 			this.RemodelBefore.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.RemodelBefore.BackColor = System.Drawing.Color.Transparent;
+			this.RemodelBefore.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.RemodelBefore.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.RemodelBefore.Location = new System.Drawing.Point(3, 3);
 			this.RemodelBefore.Name = "RemodelBefore";
@@ -826,6 +831,7 @@
 			// 
 			this.Equipment5.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.Equipment5.BackColor = System.Drawing.Color.Transparent;
+			this.Equipment5.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.Equipment5.Location = new System.Drawing.Point(43, 91);
 			this.Equipment5.Name = "Equipment5";
 			this.Equipment5.Size = new System.Drawing.Size(41, 16);
@@ -849,6 +855,7 @@
 			// 
 			this.Equipment4.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.Equipment4.BackColor = System.Drawing.Color.Transparent;
+			this.Equipment4.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.Equipment4.Location = new System.Drawing.Point(43, 69);
 			this.Equipment4.Name = "Equipment4";
 			this.Equipment4.Size = new System.Drawing.Size(41, 16);
@@ -872,6 +879,7 @@
 			// 
 			this.Equipment3.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.Equipment3.BackColor = System.Drawing.Color.Transparent;
+			this.Equipment3.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.Equipment3.Location = new System.Drawing.Point(43, 47);
 			this.Equipment3.Name = "Equipment3";
 			this.Equipment3.Size = new System.Drawing.Size(41, 16);
@@ -895,6 +903,7 @@
 			// 
 			this.Equipment2.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.Equipment2.BackColor = System.Drawing.Color.Transparent;
+			this.Equipment2.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.Equipment2.Location = new System.Drawing.Point(43, 25);
 			this.Equipment2.Name = "Equipment2";
 			this.Equipment2.Size = new System.Drawing.Size(41, 16);
@@ -906,6 +915,7 @@
 			// 
 			this.Equipment1.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.Equipment1.BackColor = System.Drawing.Color.Transparent;
+			this.Equipment1.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.Equipment1.Location = new System.Drawing.Point(43, 3);
 			this.Equipment1.Name = "Equipment1";
 			this.Equipment1.Size = new System.Drawing.Size(41, 16);
@@ -1195,6 +1205,7 @@
 			this.ParameterLevel.Size = new System.Drawing.Size(54, 23);
 			this.ParameterLevel.TabIndex = 6;
 			this.ParameterLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.ParameterLevel, "レベルを指定すると予測値が表示されます。");
 			this.ParameterLevel.Value = new decimal(new int[] {
             150,
             0,
@@ -1591,6 +1602,11 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
+			// LevelTimer
+			// 
+			this.LevelTimer.Interval = 200;
+			this.LevelTimer.Tick += new System.EventHandler(this.LevelTimer_Tick);
+			// 
 			// DialogAlbumMasterShip
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1742,5 +1758,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Name;
 		private Control.ImageLabel Description;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
+		private System.Windows.Forms.Timer LevelTimer;
 	}
 }

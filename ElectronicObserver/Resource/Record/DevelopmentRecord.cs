@@ -185,7 +185,7 @@ namespace ElectronicObserver.Resource.Record {
 				tempElement.EquipmentID = (int)data.api_slot_item.api_slotitem_id;
 			}
 
-			ShipData flagship = KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[1].FleetMember[0]];
+			ShipData flagship = KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[1].Members[0]];
 			tempElement.FlagshipID = flagship.ShipID;
 			tempElement.HQLevel = KCDatabase.Instance.Admiral.Level;
 

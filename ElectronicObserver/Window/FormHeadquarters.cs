@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using ElectronicObserver.Utility.Data;
 
 namespace ElectronicObserver.Window {
 
@@ -101,8 +102,8 @@ namespace ElectronicObserver.Window {
 
 			//HQ Level
 			HQLevel.Value = db.Admiral.Level;
-			HQLevel.TextNext = "Exp:";				//fixme: 暫定的に現在値表示, いずれnext. にすること
-			HQLevel.ValueNext = db.Admiral.Exp;
+			HQLevel.TextNext = "next:";				//fixme: 暫定的に現在値表示, いずれnext. にすること
+			HQLevel.ValueNext = ExpTable.GetNextExpAdmiral( db.Admiral.Exp );
 
 			//Fleet
 			ShipCount.Text = string.Format( "{0}/{1}", db.Ships.Count, db.Admiral.MaxShipCount );

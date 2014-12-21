@@ -170,7 +170,7 @@ namespace ElectronicObserver.Observer {
 			}
 
 
-			if ( oSession.fullUrl.Contains( "/kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {	//checkme: このあたりの条件も後々変わる可能性があるので注意
+			if ( oSession.fullUrl.Contains( "/kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {
 
 				LoadResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
 
@@ -205,10 +205,10 @@ namespace ElectronicObserver.Observer {
 
 		public void LoadRequest( string path, string data ) {
 
+			string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
+
 			try {
-
-				string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
-
+				
 				Utility.Logger.Add( 1, "Request を受信しました : " + shortpath );
 
 			
@@ -227,7 +227,7 @@ namespace ElectronicObserver.Observer {
 			} catch ( Exception ex ) {
 
 				Utility.Logger.Add( 3, "Request の受信中にエラーが発生しました。\r\n" + ex.Message );
-				ErrorReporter.SaveErrorReport( ex, "Request の受信中にエラーが発生しました。", data );
+				ErrorReporter.SaveErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
 			
 			}
 
@@ -236,10 +236,9 @@ namespace ElectronicObserver.Observer {
 
 		public void LoadResponse( string path, string data ) {
 
+			string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
 				
 			try {
-
-				string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
 
 				Utility.Logger.Add( 1, "Responseを受信しました : " + shortpath );
 
@@ -263,7 +262,7 @@ namespace ElectronicObserver.Observer {
 			} catch ( Exception ex ) {
 
 				Utility.Logger.Add( 3, "Responseの受信中にエラーが発生しました。\r\n" + ex.Message );
-				ErrorReporter.SaveErrorReport( ex, "Responseの受信中にエラーが発生しました。", data );
+				ErrorReporter.SaveErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
 			
 			}
 

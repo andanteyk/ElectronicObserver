@@ -49,24 +49,24 @@ namespace ElectronicObserver.Data {
 		public DateTime ExpeditionTime { get; internal set; }
 
 
-		private int[] _fleetMember;
+		private int[] _members;
 		/// <summary>
 		/// 艦隊メンバー(艦船ID)
 		/// </summary>
-		public ReadOnlyCollection<int> FleetMember {
-			get { return Array.AsReadOnly<int>( _fleetMember ); }
+		public ReadOnlyCollection<int> Members {
+			get { return Array.AsReadOnly<int>( _members ); }
 		}
 
 		/// <summary>
 		/// 艦隊メンバー(艦船データ)
 		/// </summary>
-		public ReadOnlyCollection<ShipData> FleetMemberInstance {
+		public ReadOnlyCollection<ShipData> MembersInstance {
 			get {
-				if ( _fleetMember == null ) return null;
+				if ( _members == null ) return null;
 
-				ShipData[] ships = new ShipData[_fleetMember.Length];
+				ShipData[] ships = new ShipData[_members.Length];
 				for ( int i = 0; i < ships.Length; i++ ) {
-					ships[i] = KCDatabase.Instance.Ships[_fleetMember[i]];
+					ships[i] = KCDatabase.Instance.Ships[_members[i]];
 				}
 
 				return Array.AsReadOnly<ShipData>( ships );
@@ -76,17 +76,17 @@ namespace ElectronicObserver.Data {
 
 		public int this[int i] {
 			get {
-				return _fleetMember[i];
+				return _members[i];
 			}
 		}
 
 
-		private List<int> _escapedShipID = new List<int>();
+		private List<int> _escapedShipList = new List<int>();
 		/// <summary>
 		/// 退避艦のIDリスト
 		/// </summary>
-		public ReadOnlyCollection<int> EscapedShipID {
-			get { return _escapedShipID.AsReadOnly(); }
+		public ReadOnlyCollection<int> EscapedShipList {
+			get { return _escapedShipList.AsReadOnly(); }
 		}
 
 		public bool IsInSortie { get; internal set; }
@@ -110,7 +110,7 @@ namespace ElectronicObserver.Data {
 					break;
 				*/
 				case "api_port/port":
-					_escapedShipID.Clear();
+					_escapedShipList.Clear();
 					IsInSortie = false;
 					goto default;
 
@@ -118,7 +118,7 @@ namespace ElectronicObserver.Data {
 					base.LoadFromResponse( apiname, (object)data );
 
 					Name = (string)RawData.api_name;
-					_fleetMember = (int[])RawData.api_ship;
+					_members = (int[])RawData.api_ship;
 					ExpeditionState = (int)RawData.api_mission[0];
 					ExpeditionDestination = (int)RawData.api_mission[1];
 					ExpeditionTime = DateTimeHelper.FromAPITime( (long)RawData.api_mission[2] );
@@ -144,8 +144,8 @@ namespace ElectronicObserver.Data {
 						if ( FleetID == fleetID ) {
 							if ( index == -1 ) {
 								//旗艦以外全解除
-								for ( int i = 1; i < _fleetMember.Length; i++ )
-									_fleetMember[i] = -1;
+								for ( int i = 1; i < _members.Length; i++ )
+									_members[i] = -1;
 
 							} else if ( shipID == -1 ) {
 								//はずす
@@ -155,15 +155,15 @@ namespace ElectronicObserver.Data {
 								//入隊
 
 								//入れ替え
-								for ( int i = 0; i < _fleetMember.Length; i++ ) {
-									if ( _fleetMember[i] == shipID ) {
-										_fleetMember[i] = replacedID;
+								for ( int i = 0; i < _members.Length; i++ ) {
+									if ( _members[i] == shipID ) {
+										_members[i] = replacedID;
 										break;
 									}
 								}
 								
 								//入隊
-								_fleetMember[index] = shipID;
+								_members[index] = shipID;
 
 							}
 
@@ -172,9 +172,9 @@ namespace ElectronicObserver.Data {
 
 							if ( index != -1 && shipID != -1 ) {
 								//入れ替え
-								for ( int i = 0; i < _fleetMember.Length; i++ ) {
-									if ( _fleetMember[i] == shipID ) {
-										_fleetMember[i] = replacedID;
+								for ( int i = 0; i < _members.Length; i++ ) {
+									if ( _members[i] == shipID ) {
+										_members[i] = replacedID;
 										break;
 									}
 								}
@@ -189,8 +189,8 @@ namespace ElectronicObserver.Data {
 				case "api_req_kousyou/destroyship": {
 						int shipID = int.Parse( data["api_ship_id"] );
 
-						for ( int i = 0; i < _fleetMember.Length; i++ ) {
-							if ( _fleetMember[i] == shipID ) {
+						for ( int i = 0; i < _members.Length; i++ ) {
+							if ( _members[i] == shipID ) {
 								RemoveShip( i );
 								break;
 							}
@@ -214,10 +214,10 @@ namespace ElectronicObserver.Data {
 
 		private void RemoveShip( int index ) {
 
-			for ( int i = index + 1; i < _fleetMember.Length; i++ )
-				_fleetMember[i - 1] = _fleetMember[i];
+			for ( int i = index + 1; i < _members.Length; i++ )
+				_members[i - 1] = _members[i];
 
-			_fleetMember[_fleetMember.Length - 1] = -1;
+			_members[_members.Length - 1] = -1;
 
 		}
 
@@ -227,7 +227,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		/// <param name="index">対象艦の艦隊内でのインデックス。0-5</param>
 		public void Escape( int index ) {
-			_escapedShipID.Add( _fleetMember[index] );
+			_escapedShipList.Add( _members[index] );
 		}
 
 
@@ -239,13 +239,13 @@ namespace ElectronicObserver.Data {
 
 			int airSuperiority = 0;
 
-			for ( int i = 0; i < FleetMember.Count; i++ ) {
+			for ( int i = 0; i < Members.Count; i++ ) {
 
-				if ( FleetMember[i] == -1 )
+				if ( Members[i] == -1 )
 					continue;
 
-				ShipData ship = KCDatabase.Instance.Ships[FleetMember[i]];
-				if ( ship == null || _escapedShipID.Contains( ship.MasterID ) )
+				ShipData ship = KCDatabase.Instance.Ships[Members[i]];
+				if ( ship == null || _escapedShipList.Contains( ship.MasterID ) )
 					continue;
 
 				var slot = ship.SlotInstanceMaster;
@@ -282,13 +282,13 @@ namespace ElectronicObserver.Data {
 			int los_radar = 0;
 			int los_other = 0;
 
-			for ( int i = 0; i < FleetMember.Count; i++ ) {
+			for ( int i = 0; i < Members.Count; i++ ) {
 
-				if ( FleetMember[i] == -1 )
+				if ( Members[i] == -1 )
 					continue;
 
-				ShipData ship = db.Ships[FleetMember[i]];
-				if ( ship == null || _escapedShipID.Contains( ship.MasterID ) )
+				ShipData ship = db.Ships[Members[i]];
+				if ( ship == null || _escapedShipList.Contains( ship.MasterID ) )
 					continue;
 
 				los_other += ship.LOSBase;
@@ -366,7 +366,7 @@ namespace ElectronicObserver.Data {
 
 
 			//所属艦なし
-			if ( fleet.FleetMember.Count( id => id != -1 ) == 0 ) {
+			if ( fleet.Members.Count( id => id != -1 ) == 0 ) {
 				label.Text = "所属艦なし";
 				label.ImageIndex = (int)ResourceManager.IconContent.HQNoShip;
 
@@ -376,7 +376,7 @@ namespace ElectronicObserver.Data {
 			{	//入渠中
 				long ntime = db.Docks.Values.Max(
 						dock => {
-							if ( dock.State == 1 && fleet.FleetMember.Count( ( id => id == dock.ShipID ) ) > 0 )
+							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
 								return dock.CompletionTime.ToBinary();
 							else return 0;
 						}
@@ -399,8 +399,8 @@ namespace ElectronicObserver.Data {
 			if ( fleet.IsInSortie ) {
 
 				//大破出撃中
-				if (  fleet.FleetMember.Count( id =>
-						( id != -1 && !fleet.EscapedShipID.Contains( id ) && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
+				if (  fleet.Members.Count( id =>
+						( id != -1 && !fleet.EscapedShipList.Contains( id ) && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
 					 ) > 0 ) {
 
 					label.Text = "！！大破進撃中！！";
@@ -432,8 +432,8 @@ namespace ElectronicObserver.Data {
 			}
 
 			//大破艦あり
-			if ( fleet.FleetMember.Count( id =>
-				( id != -1 && !fleet.EscapedShipID.Contains( id ) && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
+			if ( fleet.Members.Count( id =>
+				( id != -1 && !fleet.EscapedShipList.Contains( id ) && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
 			 ) > 0 ) {
 
 				label.Text = "大破艦あり！";
@@ -443,11 +443,36 @@ namespace ElectronicObserver.Data {
 				return FleetStates.Damaged;
 			}
 
+			//泊地修理中
+			{
+				ShipData flagship = db.Ships[fleet.Members[0]];
+				if ( flagship.MasterShip.ShipType == 19 &&					//旗艦工作艦
+					(double)flagship.HPCurrent / flagship.HPMax > 0.5 &&	//旗艦が中破未満
+					flagship.RepairingDockID == -1 &&						//旗艦が入渠中でない
+					fleet.Members.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( id => {		//(2+装備)以内に50%<HP<100%の艦がいる
+						ShipData ship = db.Ships[id];
+						if ( id == -1 ) return false;
+						if ( ship.RepairingDockID != -1 ) return false;
+						double rate = (double)ship.HPCurrent / ship.HPMax;
+						return 0.5 < rate && rate < 1.0;
+					} ) >= 1 ) {
+
+					if ( prevstate != FleetStates.AnchorageRepairing )
+						timer = DateTime.Now;
+					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( timer );
+					label.ImageIndex = (int)ResourceManager.IconContent.HQDock;		//fixme:新アイコンの追加
+
+					tooltip.SetToolTip( label, string.Format( "開始日時 : {0}", timer ) );
+
+					return FleetStates.AnchorageRepairing;
+				}
+			}
+
 			//未補給
 			{
-				int fuel = fleet.FleetMember.Sum( id => id == -1 ? 0 : db.Ships[id].MasterShip.Fuel - db.Ships[id].Fuel );
-				int ammo = fleet.FleetMember.Sum( id => id == -1 ? 0 : db.Ships[id].MasterShip.Ammo - db.Ships[id].Ammo );
-				int bauxite = fleet.FleetMember.Sum(
+				int fuel = fleet.Members.Sum( id => id == -1 ? 0 : db.Ships[id].MasterShip.Fuel - db.Ships[id].Fuel );
+				int ammo = fleet.Members.Sum( id => id == -1 ? 0 : db.Ships[id].MasterShip.Ammo - db.Ships[id].Ammo );
+				int bauxite = fleet.Members.Sum(
 					id => {
 						if ( id == -1 ) return 0;
 						else {
@@ -472,7 +497,7 @@ namespace ElectronicObserver.Data {
 
 			//疲労
 			{
-				int cond = fleet.FleetMember.Min( id => id == -1 ? 100 : db.Ships[id].Condition );
+				int cond = fleet.Members.Min( id => id == -1 ? 100 : db.Ships[id].Condition );
 
 				if ( cond < Configuration.Instance.Control.ConditionBorder ) {
 
@@ -493,32 +518,6 @@ namespace ElectronicObserver.Data {
 					tooltip.SetToolTip( label, string.Format( "回復目安日時 : {0}", timer ) );
 
 					return FleetStates.Tired;
-				}
-			}
-
-
-			//泊地修理中
-			{
-				ShipData flagship = db.Ships[fleet.FleetMember[0]];
-				if( flagship.MasterShip.ShipType == 19 &&					//旗艦工作艦
-					(double)flagship.HPCurrent / flagship.HPMax > 0.5 &&	//旗艦が中破未満
-					flagship.RepairingDockID == -1 &&						//旗艦が入渠中でない
-					fleet.FleetMember.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( id => {		//(2+装備)以内に50%<HP<100%の艦がいる
-						ShipData ship = db.Ships[id];
-						if ( id == -1 ) return false;
-						if ( ship.RepairingDockID != -1 ) return false;
-						double rate = (double)ship.HPCurrent / ship.HPMax;
- 						return 0.5 < rate && rate < 1.0;
-					} ) >= 1 ) {
-
-					if ( prevstate != FleetStates.AnchorageRepairing )
-						timer = DateTime.Now;
-					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( timer );
-					label.ImageIndex = (int)ResourceManager.IconContent.HQDock;		//fixme:新アイコンの追加
-
-					tooltip.SetToolTip( label, string.Format( "開始日時 : {0}", timer ) );
-
-					return FleetStates.AnchorageRepairing;
 				}
 			}
 

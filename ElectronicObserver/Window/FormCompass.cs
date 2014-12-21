@@ -43,6 +43,7 @@ namespace ElectronicObserver.Window {
 				ShipName.MaximumSize = new Size( 60, 20 );
 				ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
+				ShipName.Cursor = Cursors.Help;
 				ShipName.MouseClick += ShipName_MouseClick;
 
 				Equipments = new ShipStatusEquipment();
@@ -283,7 +284,7 @@ namespace ElectronicObserver.Window {
 								string materialname = MaterialData.GetMaterialName( compass.WhirlpoolItemID );
 
 								//fixme:第一艦隊以外の艦隊が出撃していた場合誤った値を返す
-								int materialmax = KCDatabase.Instance.Fleet.Fleets[1].FleetMember.Max( n => 
+								int materialmax = KCDatabase.Instance.Fleet.Fleets[1].Members.Max( n => 
 								{
 									if ( n != -1 )
 										if ( compass.WhirlpoolItemID == 1 )

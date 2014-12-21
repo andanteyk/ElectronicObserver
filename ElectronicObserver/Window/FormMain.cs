@@ -156,7 +156,8 @@ namespace ElectronicObserver.Window {
 
 			Utility.Logger.Add( 2, "終了処理が完了しました。" );
 
-			Utility.Logger.Save( @"eolog.log" );
+			if ( Utility.Configuration.Instance.Log.SaveLogFlag )
+				Utility.Logger.Save( @"eolog.log" );
 
 		}
 
@@ -355,7 +356,7 @@ namespace ElectronicObserver.Window {
 
 			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
 
-				ofd.Title = "初期化APIをロード";
+				ofd.Title = "APIリストをロード";
 				ofd.Filter = "API List|*.txt|File|*";
 				ofd.InitialDirectory = Utility.Configuration.Instance.Connection.SaveDataPath;
 
@@ -409,7 +410,7 @@ namespace ElectronicObserver.Window {
 												APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
 										}
 
-										System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
+										//System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
 									}
 								}
 							}

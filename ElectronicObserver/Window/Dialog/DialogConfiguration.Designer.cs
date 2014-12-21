@@ -45,12 +45,13 @@
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.Log_LogLevel = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.ButtonOK = new System.Windows.Forms.Button();
-			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
 			this.label7 = new System.Windows.Forms.Label();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.ButtonOK = new System.Windows.Forms.Button();
+			this.ButtonCancel = new System.Windows.Forms.Button();
+			this.Log_SaveLogFlag = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -269,6 +270,7 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
 			this.tabPage3.Location = new System.Drawing.Point(4, 24);
@@ -282,7 +284,7 @@
 			// Log_LogLevel
 			// 
 			this.Log_LogLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.Log_LogLevel.Location = new System.Drawing.Point(306, 6);
+			this.Log_LogLevel.Location = new System.Drawing.Point(304, 32);
 			this.Log_LogLevel.Maximum = new decimal(new int[] {
             3,
             0,
@@ -296,39 +298,11 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(8, 8);
+			this.label6.Location = new System.Drawing.Point(6, 34);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(100, 15);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "ログの出力レベル：";
-			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 60000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			// 
-			// ButtonOK
-			// 
-			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.ButtonOK.Location = new System.Drawing.Point(232, 265);
-			this.ButtonOK.Name = "ButtonOK";
-			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
-			this.ButtonOK.TabIndex = 1;
-			this.ButtonOK.Text = "OK";
-			this.ButtonOK.UseVisualStyleBackColor = true;
-			// 
-			// ButtonCancel
-			// 
-			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.ButtonCancel.Location = new System.Drawing.Point(313, 265);
-			this.ButtonCancel.Name = "ButtonCancel";
-			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
-			this.ButtonCancel.TabIndex = 2;
-			this.ButtonCancel.Text = "キャンセル";
-			this.ButtonCancel.UseVisualStyleBackColor = true;
 			// 
 			// tabPage4
 			// 
@@ -359,6 +333,44 @@
 			this.label7.Size = new System.Drawing.Size(94, 15);
 			this.label7.TabIndex = 2;
 			this.label7.Text = "疲労度ボーダー：";
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 60000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			// 
+			// ButtonOK
+			// 
+			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.ButtonOK.Location = new System.Drawing.Point(232, 265);
+			this.ButtonOK.Name = "ButtonOK";
+			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
+			this.ButtonOK.TabIndex = 1;
+			this.ButtonOK.Text = "OK";
+			this.ButtonOK.UseVisualStyleBackColor = true;
+			// 
+			// ButtonCancel
+			// 
+			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.ButtonCancel.Location = new System.Drawing.Point(313, 265);
+			this.ButtonCancel.Name = "ButtonCancel";
+			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
+			this.ButtonCancel.TabIndex = 2;
+			this.ButtonCancel.Text = "キャンセル";
+			this.ButtonCancel.UseVisualStyleBackColor = true;
+			// 
+			// Log_SaveLogFlag
+			// 
+			this.Log_SaveLogFlag.AutoSize = true;
+			this.Log_SaveLogFlag.Location = new System.Drawing.Point(8, 6);
+			this.Log_SaveLogFlag.Name = "Log_SaveLogFlag";
+			this.Log_SaveLogFlag.Size = new System.Drawing.Size(139, 19);
+			this.Log_SaveLogFlag.TabIndex = 2;
+			this.Log_SaveLogFlag.Text = "ログをファイルに保存する";
+			this.Log_SaveLogFlag.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -423,5 +435,6 @@
 		private System.Windows.Forms.TabPage tabPage4;
 		internal System.Windows.Forms.NumericUpDown Control_ConditionBorder;
 		private System.Windows.Forms.Label label7;
+		internal System.Windows.Forms.CheckBox Log_SaveLogFlag;
 	}
 }

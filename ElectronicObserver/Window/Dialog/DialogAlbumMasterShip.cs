@@ -143,6 +143,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ShipView.Sort( ShipView_ShipID, ListSortDirection.Ascending );
 			ShipView.ResumeLayout();
 
+
 		}
 
 
@@ -168,7 +169,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void ShipView_Sorted( object sender, EventArgs e ) {
 
 			for ( int i = 0; i < ShipView.Rows.Count; i++ ) {
-				ShipView.Rows[i].Tag = i;//ShipView.SortOrder == SortOrder.Ascending ? i : ShipView.Rows.Count - 1 - i;
+				ShipView.Rows[i].Tag = i;
 			}
 
 		}
@@ -204,7 +205,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			BasePanelShipGirl.SuspendLayout();
-
 
 			//header
 			_shipID = shipID;
@@ -421,10 +421,15 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void ParameterLevel_ValueChanged( object sender, EventArgs e ) {
 			if ( _shipID != -1 ) {
-				UpdateLevelParameter( _shipID );
+				LevelTimer.Start();
+				//UpdateLevelParameter( _shipID );
 			}
 		}
 
+		private void LevelTimer_Tick( object sender, EventArgs e ) {
+			if ( _shipID != -1 )
+				UpdateLevelParameter( _shipID );
+		}
 
 
 		private void TableParameterMain_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
@@ -514,6 +519,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			}
 		}
+
+	
 
 		
 		

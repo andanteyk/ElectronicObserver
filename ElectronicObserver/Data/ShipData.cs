@@ -500,7 +500,7 @@ namespace ElectronicObserver.Data {
 			get {
 				FleetManager fm = KCDatabase.Instance.Fleet;
 				foreach ( var f in fm.Fleets.Values ) {
-					if ( f.FleetMember.Contains( MasterID ) )
+					if ( f.Members.Contains( MasterID ) )
 						return f.FleetID;
 				}
 				return -1;

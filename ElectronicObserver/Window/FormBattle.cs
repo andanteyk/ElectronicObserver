@@ -187,7 +187,7 @@ namespace ElectronicObserver.Window {
 
 			for ( int i = 0; i < 6; i++ ) {
 
-				ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
+				ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].Members[i]];
 
 				if ( ship != null ) {
 
@@ -215,7 +215,7 @@ namespace ElectronicObserver.Window {
 
 				for ( int i = 0; i < 6; i++ ) {
 
-					ShipData ship = db.Ships[db.Fleet[2].FleetMember[i]];
+					ShipData ship = db.Ships[db.Fleet[2].Members[i]];
 
 					if ( ship != null ) {
 
@@ -468,7 +468,7 @@ namespace ElectronicObserver.Window {
 
 				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {	//対空カットイン
 					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
-						"対空カットイン: {0}\r\nカットイン種別: {1}", KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[bd.FleetIDFriend].FleetMember[(int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx]].MasterShip.Name, (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind ) );
+						"対空カットイン: {0}\r\nカットイン種別: {1}", KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[bd.FleetIDFriend].Members[(int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx]].MasterShip.Name, (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind ) );
 				} else {
 					ToolTipInfo.SetToolTip( AirStage2Friend, null );
 				}
@@ -558,7 +558,7 @@ namespace ElectronicObserver.Window {
 
 			for ( int i = 0; i < 6; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
-					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
+					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].Members[i]];
 
 					ToolTipInfo.SetToolTip( HPBars[i],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
@@ -631,8 +631,8 @@ namespace ElectronicObserver.Window {
 
 			for ( int i = 0; i < 6; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
-					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].FleetMember[i]];
-					bool isEscaped = db.Fleet[bd.FleetIDFriend].EscapedShipID.Contains( ship.ShipID );
+					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].Members[i]];
+					bool isEscaped = db.Fleet[bd.FleetIDFriend].EscapedShipList.Contains( ship.ShipID );
 					
 					ToolTipInfo.SetToolTip( HPBars[i],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
@@ -671,8 +671,8 @@ namespace ElectronicObserver.Window {
 
 			for ( int i = 0; i < 6; i++ ) {
 				if ( (int)bd.Data.api_nowhps_combined[i + 1] != -1 ) {
-					ShipData ship = db.Ships[db.Fleet[2].FleetMember[i]];
-					bool isEscaped = db.Fleet[2].EscapedShipID.Contains( ship.ShipID );
+					ShipData ship = db.Ships[db.Fleet[2].Members[i]];
+					bool isEscaped = db.Fleet[2].EscapedShipList.Contains( ship.ShipID );
 					
 					ToolTipInfo.SetToolTip( HPBars[i + 12],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
@@ -751,7 +751,7 @@ namespace ElectronicObserver.Window {
 
 			//味方探照灯判定
 			{
-				ShipData ship = KCDatabase.Instance.Fleet[bd.FleetIDFriend].FleetMemberInstance.FirstOrDefault( s => s != null && s.SlotInstanceMaster.Count( e => e != null && e.EquipmentType[2] == 29 ) > 0 && s.HPCurrent > 1 );
+				ShipData ship = KCDatabase.Instance.Fleet[bd.FleetIDFriend].MembersInstance.FirstOrDefault( s => s != null && s.SlotInstanceMaster.Count( e => e != null && e.EquipmentType[2] == 29 ) > 0 && s.HPCurrent > 1 );
 				if ( ship != null ) {
 					ToolTipInfo.SetToolTip( FleetFriend, string.Format( "探照灯照射: {0}", ship.MasterShip.Name ) );
 				} else {
@@ -794,7 +794,7 @@ namespace ElectronicObserver.Window {
 			//照明弾投射判定(仮)
 			if ( (int)bd.Data.api_flare_pos[0] != -1 )
 				ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
-						"照明弾投射: {0}", KCDatabase.Instance.Fleet[bd.FleetIDFriend].FleetMemberInstance[(int)bd.Data.api_flare_pos[0] - 1].MasterShip.Name ) );
+						"照明弾投射: {0}", KCDatabase.Instance.Fleet[bd.FleetIDFriend].MembersInstance[(int)bd.Data.api_flare_pos[0] - 1].MasterShip.Name ) );
 			else
 				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 

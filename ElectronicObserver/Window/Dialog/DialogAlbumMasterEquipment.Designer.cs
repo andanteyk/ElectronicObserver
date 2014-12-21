@@ -208,6 +208,7 @@
 			this.DefaultSlots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.DefaultSlots.BackColor = System.Drawing.SystemColors.Control;
+			this.DefaultSlots.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.DefaultSlots.FormattingEnabled = true;
 			this.DefaultSlots.HorizontalScrollbar = true;
 			this.DefaultSlots.ItemHeight = 15;
@@ -231,7 +232,8 @@
 			this.Description.Name = "Description";
 			this.Description.Size = new System.Drawing.Size(525, 64);
 			this.Description.TabIndex = 20;
-			this.Description.Text = "かの国において最も広く使われた駆逐艦主砲、その連装砲版です。\r\n大型艦の対空砲としても搭載されました。\r\n現在では深海駆逐艦の主力兵装として普及しています。\r\n";
+			this.Description.Text = "[5inch連装砲]\r\nかの国において最も広く使われた駆逐艦主砲、その連装砲版です。\r\n大型艦の対空砲としても搭載されました。\r\n現在では深海駆逐艦の主力兵装とし" +
+    "て普及しています。\r\n";
 			this.Description.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// flowLayoutPanel1
@@ -242,7 +244,7 @@
 			this.flowLayoutPanel1.Controls.Add(this.EquipmentName);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 25);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(241, 22);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(246, 22);
 			this.flowLayoutPanel1.TabIndex = 19;
 			// 
 			// EquipmentType
@@ -260,9 +262,9 @@
 			this.EquipmentName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.EquipmentName.Location = new System.Drawing.Point(92, 3);
 			this.EquipmentName.Name = "EquipmentName";
-			this.EquipmentName.Size = new System.Drawing.Size(146, 16);
+			this.EquipmentName.Size = new System.Drawing.Size(151, 16);
 			this.EquipmentName.TabIndex = 8;
-			this.EquipmentName.Text = "潜水艦53cm艦首魚雷(8門)";
+			this.EquipmentName.Text = "10cm連装高角砲+高射装置";
 			// 
 			// EquipmentID
 			// 

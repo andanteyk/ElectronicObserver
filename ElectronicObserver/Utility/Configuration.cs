@@ -98,10 +98,11 @@ namespace ElectronicObserver.Utility {
 		public class ConfigLog : ConfigPartBase {
 
 			public int LogLevel { get; set; }
-
+			public bool SaveLogFlag { get; set; }
 
 			public ConfigLog() {
 				LogLevel = 1;
+				SaveLogFlag = true;
 			}
 
 		}
@@ -151,6 +152,7 @@ namespace ElectronicObserver.Utility {
 
 			//[ログ]
 			dialog.Log_LogLevel.Value = Log.LogLevel;
+			dialog.Log_SaveLogFlag.Checked = Log.SaveLogFlag;
 
 			//[動作]
 			dialog.Control_ConditionBorder.Value = Control.ConditionBorder;
@@ -184,6 +186,7 @@ namespace ElectronicObserver.Utility {
 			
 			//[ログ]
 			Log.LogLevel = (int)dialog.Log_LogLevel.Value;
+			Log.SaveLogFlag = dialog.Log_SaveLogFlag.Checked;
 
 			//[動作]
 			Control.ConditionBorder = (int)dialog.Control_ConditionBorder.Value;

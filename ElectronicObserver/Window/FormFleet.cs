@@ -3,6 +3,7 @@ using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
+using ElectronicObserver.Window.Dialog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -112,8 +113,8 @@ namespace ElectronicObserver.Window {
 
 				Name.Text = fleet.Name;
 				{
-					int sum = fleet.FleetMemberInstance.Sum( s => s != null ? s.Level : 0 );
-					ToolTipInfo.SetToolTip( Name, string.Format( "合計レベル：{0}\r\n平均レベル：{1:0.00}", sum, (double)sum / Math.Max( fleet.FleetMember.Count( id => id != -1 ), 1 ) ) );
+					int sum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
+					ToolTipInfo.SetToolTip( Name, string.Format( "合計レベル：{0}\r\n平均レベル：{1:0.00}", sum, (double)sum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ) ) );
 				}
 				
 
@@ -166,6 +167,8 @@ namespace ElectronicObserver.Window {
 				Name.Margin = new Padding( 2, 0, 2, 0 );
 				Name.AutoSize = true;
 				Name.Visible = false;
+				Name.Cursor = Cursors.Help;
+				Name.MouseDown += Name_MouseDown;
 				Name.ResumeLayout();
 
 				Level = new ShipStatusLevel();
@@ -249,6 +252,7 @@ namespace ElectronicObserver.Window {
 
 			}
 
+			
 			public TableMemberControl( FormFleet parent, TableLayoutPanel table, int row )
 				: this( parent ) {
 				AddToTable( table, row );
@@ -285,7 +289,8 @@ namespace ElectronicObserver.Window {
 					
 
 					Name.Text = ship.MasterShip.NameWithClass;
-					
+					Name.Tag = ship.ShipID;
+
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
 					
@@ -298,7 +303,7 @@ namespace ElectronicObserver.Window {
 							break;
 						}
 					}
-					if ( KCDatabase.Instance.Fleet[Parent.FleetID].EscapedShipID.Contains( shipMasterID ) ) {
+					if ( KCDatabase.Instance.Fleet[Parent.FleetID].EscapedShipList.Contains( shipMasterID ) ) {
 						HP.BackColor = Color.Silver;
 					} else {
 						HP.BackColor = SystemColors.Control;
@@ -324,6 +329,8 @@ namespace ElectronicObserver.Window {
 					Equipments.SetSlotList( ship );
 					ToolTipInfo.SetToolTip( Equipments, GetEquipmentString( ship ) );
 
+				} else {
+					Name.Tag = -1;
 				}
 
 
@@ -336,12 +343,21 @@ namespace ElectronicObserver.Window {
 
 			}
 
+			void Name_MouseDown( object sender, MouseEventArgs e ) {
+				int id = (int)Name.Tag;
+
+				if ( id != -1 && ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
+					new DialogAlbumMasterShip( id ).Show();
+				}
+
+			}
+
 
 			private string GetEquipmentString( ShipData ship ) {
 				StringBuilder sb = new StringBuilder();
 				
 				for ( int i = 0; i < ship.Slot.Count; i++ ) {
-					if ( ship.Slot[i] != -1 )
+					if ( ship.SlotInstance[i] != null )
 						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], KCDatabase.Instance.Equipments[ship.Slot[i]].NameWithLevel );
 				}
 
@@ -461,7 +477,7 @@ namespace ElectronicObserver.Window {
 
 			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
-				ControlMember[i].Update( fleet.FleetMember[i] );
+				ControlMember[i].Update( fleet.Members[i] );
 			}
 			TableMember.ResumeLayout();
 
@@ -498,7 +514,7 @@ namespace ElectronicObserver.Window {
 			FleetData fleet = db.Fleet[FleetID];
 
 			sb.AppendFormat( "{0}\t制空戦力{1}/索敵能力{2}\r\n", fleet.Name, fleet.GetAirSuperiority(), fleet.GetSearchingAbility() );
-			for ( int i = 0; i < fleet.FleetMember.Count; i++ ) {
+			for ( int i = 0; i < fleet.Members.Count; i++ ) {
 				if ( fleet[i] == -1 )
 					continue;
 

@@ -423,12 +423,14 @@ namespace ElectronicObserver.Window.Control {
 			if ( AutoSize )
 				Size = GetPreferredSize( Size );
 			
-			Refresh();
+			//Refresh();
+			Invalidate();			//checkme
 		}
 
 
 		private void ImageLabel_SizeChanged( object sender, EventArgs e ) {
-			Refresh();
+			//Refresh();
+			Invalidate();
 		}
 
 

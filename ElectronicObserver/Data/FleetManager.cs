@@ -73,7 +73,7 @@ namespace ElectronicObserver.Data {
 				case "api_req_hensei/change": {
 						int memberID = int.Parse( data["api_ship_idx"] );
 						if ( memberID != -1 )
-							data.Add( "replaced_id", Fleets[int.Parse( data["api_id"] )].FleetMember[memberID].ToString() );
+							data.Add( "replaced_id", Fleets[int.Parse( data["api_id"] )].Members[memberID].ToString() );
 
 						foreach ( int i in Fleets.Keys )
 							Fleets[i].LoadFromRequest( apiname, data );
