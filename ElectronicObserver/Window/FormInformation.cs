@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Utility.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,13 +49,22 @@ namespace ElectronicObserver.Window {
 					break;
 
 				case "api_req_member/get_practice_enemyinfo": {
-						//int exp = 0;
-
-						//undone: 現段階では面倒過ぎるので後日実装
-
 						StringBuilder sb = new StringBuilder();
 						sb.AppendLine( "[演習情報]" );
-						sb.AppendLine( "敵艦隊名 : " + data.api_deckname );
+						sb.AppendLine( "敵艦隊名 : " + data.api_deckname ); 
+					
+						{
+							int ship1lv = (int)data.api_deck.api_ships[0].api_id != -1 ? (int)data.api_deck.api_ships[0].api_level : 1;
+							int ship2lv = (int)data.api_deck.api_ships[1].api_id != -1 ? (int)data.api_deck.api_ships[1].api_level : 1;
+
+							double expbase = ExpTable.ShipExp[ship1lv].Total / 100.0 + ExpTable.ShipExp[ship2lv].Total / 300.0;
+							if ( expbase >= 500.0 )
+								expbase = 500.0 + Math.Sqrt( expbase - 500.0 );
+
+							sb.AppendLine( "獲得経験値 : " + (int)expbase );
+							sb.AppendLine( "S勝利 : " + (int)( expbase * 1.2 ) );
+
+						}
 
 						TextInformation.Text = sb.ToString();
 

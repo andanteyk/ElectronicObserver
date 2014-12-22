@@ -7,12 +7,29 @@ using System.Collections.ObjectModel;
 
 namespace ElectronicObserver.Utility.Data {
 
+	/// <summary>
+	/// 経験値テーブルを管理します。
+	/// </summary>
 	public static class ExpTable {
 
+		/// <summary>
+		/// 経験値データを保持します。
+		/// </summary>
 		public class Experience {
 
+			/// <summary>
+			/// 現在のレベル
+			/// </summary>
 			public int Level { get; private set; }
+			
+			/// <summary>
+			/// このレベルに到達するのに必要な累積経験値
+			/// </summary>
 			public int Total { get; private set; }
+
+			/// <summary>
+			/// 次のレベルに到達するのに必要な経験値
+			/// </summary>
 			public int Next { get; private set; }
 
 			internal Experience( int level, int total, int next ) {
@@ -24,10 +41,22 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		/// <summary>
+		/// 艦娘経験値テーブル
+		/// </summary>
 		public static ReadOnlyDictionary<int, Experience> ShipExp { get; private set; }
+		
+		/// <summary>
+		/// 提督経験値テーブル
+		/// </summary>
 		public static ReadOnlyDictionary<int, Experience> AdmiralExp { get; private set; }
 
 
+		/// <summary>
+		/// 次のレベルに上がるのに必要な経験値の量を取得します。
+		/// </summary>
+		/// <param name="exp">経験値テーブル。</param>
+		/// <param name="current">現在の累積経験値。</param>
 		private static int GetNextExp( ReadOnlyDictionary<int, Experience> exp, int current ) {
 
 			Experience l = exp.Values.FirstOrDefault( e => e.Total + e.Next > current );
@@ -48,6 +77,8 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		static ExpTable() {
+
+			#region Initialize table
 
 			Experience[] shipexp = new Experience[150] {
 				new Experience( 1, 0, 100 ), 
@@ -328,6 +359,8 @@ namespace ElectronicObserver.Utility.Data {
 
 			ShipExp = new ReadOnlyDictionary<int, Experience>( shipexp.ToDictionary( exp => exp.Level ) );
 			AdmiralExp = new ReadOnlyDictionary<int, Experience>( admiralexp.ToDictionary( exp => exp.Level ) );
+
+			#endregion
 
 		}
 

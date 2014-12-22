@@ -102,7 +102,7 @@ namespace ElectronicObserver.Window {
 
 			//HQ Level
 			HQLevel.Value = db.Admiral.Level;
-			HQLevel.TextNext = "next:";				//fixme: 暫定的に現在値表示, いずれnext. にすること
+			HQLevel.TextNext = "next:";
 			HQLevel.ValueNext = ExpTable.GetNextExpAdmiral( db.Admiral.Exp );
 
 			//Fleet
