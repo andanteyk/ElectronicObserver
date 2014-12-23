@@ -93,7 +93,7 @@ namespace ElectronicObserver.Window {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			
+
 			FlowPanelMaster.SuspendLayout();
 
 			//Admiral
@@ -117,7 +117,7 @@ namespace ElectronicObserver.Window {
 				EquipmentCount.BackColor = Color.LightCoral;
 			else
 				EquipmentCount.BackColor = Color.Transparent;
-			
+
 			//UseItems
 			InstantRepair.Text = db.Material.InstantRepair.ToString();
 			InstantConstruction.Text = db.Material.InstantConstruction.ToString();
@@ -126,10 +126,20 @@ namespace ElectronicObserver.Window {
 			FurnitureCoin.Text = db.Admiral.FurnitureCoin.ToString();
 
 			//Resources
-			Fuel.Text = db.Material.Fuel.ToString();
-			Ammo.Text = db.Material.Ammo.ToString();
-			Steel.Text = db.Material.Steel.ToString();
-			Bauxite.Text = db.Material.Bauxite.ToString();
+			{
+				Color overcolor = Color.MistyRose;
+				Fuel.Text = db.Material.Fuel.ToString();
+				Fuel.BackColor = db.Material.Fuel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
+
+				Ammo.Text = db.Material.Ammo.ToString();
+				Ammo.BackColor = db.Material.Ammo < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
+
+				Steel.Text = db.Material.Steel.ToString();
+				Steel.BackColor = db.Material.Steel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
+
+				Bauxite.Text = db.Material.Bauxite.ToString();
+				Bauxite.BackColor = db.Material.Bauxite < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
+			}
 
 			FlowPanelMaster.ResumeLayout();
 			if ( !FlowPanelMaster.Visible )

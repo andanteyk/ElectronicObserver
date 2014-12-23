@@ -123,7 +123,12 @@ namespace ElectronicObserver.Data {
 		public IDDictionary<MissionData> Mission { get; private set; }
 
 
-		public IDDictionary<ShipGroupData> ShipGroup { get; private set; }
+		/// <summary>
+		/// 艦船グループデータ
+		/// </summary>
+		public ShipGroupManager ShipGroup { get; private set; }
+
+
 
 		private KCDatabase() {
 
@@ -144,8 +149,17 @@ namespace ElectronicObserver.Data {
 			Battle = new BattleManager();
 			MapInfo = new IDDictionary<MapInfoData>();
 			Mission = new IDDictionary<MissionData>();
-			ShipGroup = new IDDictionary<ShipGroupData>();
+			ShipGroup = new ShipGroupManager();
 
+		}
+
+
+		public void Load() {
+			ShipGroup.Load();
+		}
+
+		public void Save() {
+			ShipGroup.Save();
 		}
 
 	}

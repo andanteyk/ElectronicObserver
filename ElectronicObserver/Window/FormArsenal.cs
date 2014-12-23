@@ -2,6 +2,7 @@
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -143,9 +144,7 @@ namespace ElectronicObserver.Window {
 
 			parent.UpdateTimerTick += parent_UpdateTimerTick;
 
-			//doublebuffered
-			System.Reflection.PropertyInfo prop = typeof( TableLayoutPanel ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			prop.SetValue( TableArsenal, true, null );
+			ControlHelper.SetDoubleBuffered( TableArsenal );
 
 			TableArsenal.SuspendLayout();
 			ControlArsenal = new TableArsenalControl[4];

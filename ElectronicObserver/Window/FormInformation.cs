@@ -93,19 +93,21 @@ namespace ElectronicObserver.Window {
 
 
 				case "api_req_kousyou/createitem": {
-						if ( (int)data.api_create_flag == 0 ) {
+					if ( (int)data.api_create_flag == 0 ) {
 
-							StringBuilder sb = new StringBuilder();
-							sb.AppendLine( "[開発失敗]" );
-							sb.AppendLine( data.api_fdata );
+						StringBuilder sb = new StringBuilder();
+						sb.AppendLine( "[開発失敗]" );
+						sb.AppendLine( data.api_fdata );
 
-							EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse( ( (string)data.api_fdata ).Split( ",".ToCharArray() )[1] )];
-							if ( eqm != null )
-								sb.AppendLine( eqm.Name );
+						EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse( ( (string)data.api_fdata ).Split( ",".ToCharArray() )[1] )];
+						if ( eqm != null )
+							sb.AppendLine( eqm.Name );
 
 
-							TextInformation.Text = sb.ToString();
-						}
+						TextInformation.Text = sb.ToString();
+
+					} else
+						TextInformation.Text = "";
 
 					} break;
 
@@ -123,13 +125,11 @@ namespace ElectronicObserver.Window {
 						if ( map != null ) {
 							if ( map.RequiredDefeatedCount != -1 && elem.api_defeat_count() ) {
 
-								sb.AppendFormat( "{0}-{1} : 撃破 {2}/{3} 回", map.MapAreaID, map.MapInfoID, (int)elem.api_defeat_count, map.RequiredDefeatedCount );
-								sb.AppendLine();
+								sb.AppendFormat( "{0}-{1} : 撃破 {2}/{3} 回\r\n", map.MapAreaID, map.MapInfoID, (int)elem.api_defeat_count, map.RequiredDefeatedCount );
 
 							} else if ( elem.api_eventmap() ) {
 
-								sb.AppendFormat( "{0}-{1} : HP {2}/{3}", map.MapAreaID, map.MapInfoID, (int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
-								sb.AppendLine();
+								sb.AppendFormat( "{0}-{1} : HP {2}/{3}\r\n", map.MapAreaID, map.MapInfoID, (int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
 
 							}
 						}

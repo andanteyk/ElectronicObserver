@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -66,11 +67,15 @@
 			this.ShipView_SallyArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.MenuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.MenuGroup_Add = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.MenuGroup.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ShipView
@@ -398,11 +403,35 @@
 			// 
 			// TabPanel
 			// 
+			this.TabPanel.ContextMenuStrip = this.MenuGroup;
 			this.TabPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TabPanel.Location = new System.Drawing.Point(0, 0);
 			this.TabPanel.Name = "TabPanel";
 			this.TabPanel.Size = new System.Drawing.Size(300, 53);
 			this.TabPanel.TabIndex = 0;
+			// 
+			// MenuGroup
+			// 
+			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuGroup_Add,
+            this.MenuGroup_Delete});
+			this.MenuGroup.Name = "MenuGroup";
+			this.MenuGroup.Size = new System.Drawing.Size(180, 70);
+			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
+			// 
+			// MenuGroup_Add
+			// 
+			this.MenuGroup_Add.Name = "MenuGroup_Add";
+			this.MenuGroup_Add.Size = new System.Drawing.Size(179, 22);
+			this.MenuGroup_Add.Text = "グループを追加(&A)";
+			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
+			// 
+			// MenuGroup_Delete
+			// 
+			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
+			this.MenuGroup_Delete.Size = new System.Drawing.Size(179, 22);
+			this.MenuGroup_Delete.Text = "グループを削除(&D)";
+			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
 			// 
 			// FormShipGroup
 			// 
@@ -422,6 +451,7 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.MenuGroup.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -463,5 +493,8 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_LuckRemain;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Locked;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_SallyArea;
+		private System.Windows.Forms.ContextMenuStrip MenuGroup;
+		private System.Windows.Forms.ToolStripMenuItem MenuGroup_Add;
+		private System.Windows.Forms.ToolStripMenuItem MenuGroup_Delete;
 	}
 }

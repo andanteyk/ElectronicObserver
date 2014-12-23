@@ -3,6 +3,7 @@ using ElectronicObserver.Data.Battle;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Window.Control;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,9 @@ namespace ElectronicObserver.Window {
 
 		public FormBattle( FormMain parent ) {
 			InitializeComponent();
+
+			ControlHelper.SetDoubleBuffered( TableMain );
+
 
 			HPBars = new List<ShipStatusHP>( 18 );
 

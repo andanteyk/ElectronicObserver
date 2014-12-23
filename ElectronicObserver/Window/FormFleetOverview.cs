@@ -2,6 +2,7 @@
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Window.Control;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -101,6 +102,9 @@ namespace ElectronicObserver.Window {
 
 
 			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+
+
+			ControlHelper.SetDoubleBuffered( TableFleet );
 
 
 			ControlFleet = new List<TableFleetControl>( 4 );

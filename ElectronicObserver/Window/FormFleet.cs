@@ -4,6 +4,7 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -397,10 +398,9 @@ namespace ElectronicObserver.Window {
 
 			//ui init
 
-			//doublebuffered
-			System.Reflection.PropertyInfo prop = typeof( TableLayoutPanel ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			prop.SetValue( TableFleet, true, null );
-			prop.SetValue( TableMember, true, null );
+			ControlHelper.SetDoubleBuffered( TableFleet );
+			ControlHelper.SetDoubleBuffered( TableMember );
+
 
 			TableFleet.Visible = false;
 			TableFleet.SuspendLayout();

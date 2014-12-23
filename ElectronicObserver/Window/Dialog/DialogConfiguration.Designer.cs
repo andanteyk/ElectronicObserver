@@ -43,6 +43,7 @@
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.label5 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.Log_SaveLogFlag = new System.Windows.Forms.CheckBox();
 			this.Log_LogLevel = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -51,7 +52,6 @@
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.Log_SaveLogFlag = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -264,9 +264,9 @@
 			this.label5.AutoSize = true;
 			this.label5.Location = new System.Drawing.Point(8, 3);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(353, 30);
+			this.label5.Size = new System.Drawing.Size(87, 15);
 			this.label5.TabIndex = 0;
-			this.label5.Text = "とりあえず各ウィンドウに設定項目を作ろうと思っています。\r\nただ、メインになるフォント・色はここで一括で決められるようにはしたいですね\r\n";
+			this.label5.Text = "＊未実装です＊";
 			// 
 			// tabPage3
 			// 
@@ -280,6 +280,16 @@
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// Log_SaveLogFlag
+			// 
+			this.Log_SaveLogFlag.AutoSize = true;
+			this.Log_SaveLogFlag.Location = new System.Drawing.Point(8, 6);
+			this.Log_SaveLogFlag.Name = "Log_SaveLogFlag";
+			this.Log_SaveLogFlag.Size = new System.Drawing.Size(139, 19);
+			this.Log_SaveLogFlag.TabIndex = 2;
+			this.Log_SaveLogFlag.Text = "ログをファイルに保存する";
+			this.Log_SaveLogFlag.UseVisualStyleBackColor = true;
 			// 
 			// Log_LogLevel
 			// 
@@ -361,16 +371,6 @@
 			this.ButtonCancel.TabIndex = 2;
 			this.ButtonCancel.Text = "キャンセル";
 			this.ButtonCancel.UseVisualStyleBackColor = true;
-			// 
-			// Log_SaveLogFlag
-			// 
-			this.Log_SaveLogFlag.AutoSize = true;
-			this.Log_SaveLogFlag.Location = new System.Drawing.Point(8, 6);
-			this.Log_SaveLogFlag.Name = "Log_SaveLogFlag";
-			this.Log_SaveLogFlag.Size = new System.Drawing.Size(139, 19);
-			this.Log_SaveLogFlag.TabIndex = 2;
-			this.Log_SaveLogFlag.Text = "ログをファイルに保存する";
-			this.Log_SaveLogFlag.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 

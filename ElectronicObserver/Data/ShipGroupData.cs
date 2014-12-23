@@ -32,14 +32,17 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
-		public string Name { get; private set; }
+		/// <summary>
+		/// グループ名
+		/// </summary>
+		public string Name { get; set; }
 
 
 
 		public ShipGroupData( int groupID ) {
 			GroupID = groupID;
 			Members = new List<int>();
-			Name = "";
+			Name = "notitle #" + groupID;
 		}
 
 

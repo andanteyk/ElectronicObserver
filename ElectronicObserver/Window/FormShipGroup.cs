@@ -1,6 +1,8 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
+using ElectronicObserver.Window.Dialog;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,37 +32,14 @@ namespace ElectronicObserver.Window {
 			CSIsLocked;
 
 
-		public class Fraction {
-			public int Current { get; set; }
-			public int Max { get; set; }
-
-			public double Rate {
-				get { return (double)Current / Math.Max( Max, 1 ); }
-			}
-
-
-			public Fraction() {
-				Current = Max = 0;
-			}
-
-			public Fraction( int current, int max ) {
-				Current = current;
-				Max = max;
-			}
-
-			public override string ToString() {
-				return string.Format( "{0}/{1}", Current, Max );
-			}
-		}
-
-
 
 		public FormShipGroup( FormMain parent ) {
 			InitializeComponent();
 
-			System.Reflection.PropertyInfo prop = typeof( DataGridView ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			prop.SetValue( ShipView, true, null );
+			ControlHelper.SetDoubleBuffered( ShipView );
 
+
+			#region set CellStyle
 
 			CSDefaultLeft = new DataGridViewCellStyle();
 			CSDefaultLeft.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -114,6 +93,8 @@ namespace ElectronicObserver.Window {
 			ShipView_Equipment4.DefaultCellStyle = CSDefaultLeft;
 			ShipView_Equipment5.DefaultCellStyle = CSDefaultLeft;
 
+			#endregion
+
 		}
 
 		private void FormShipGroup_Load( object sender, EventArgs e ) {
@@ -131,7 +112,7 @@ namespace ElectronicObserver.Window {
 			ImageLabel label = new ImageLabel();
 			label.Text = KCDatabase.Instance.ShipGroup[id] != null ? KCDatabase.Instance.ShipGroup[id].Name : "全所属艦";
 			label.Anchor = AnchorStyles.Left;
-			label.Font = Font;
+			label.Font = ShipView.Font;
 			label.BackColor = TabInactiveColor;
 			label.BorderStyle = BorderStyle.FixedSingle;
 			label.Padding = new Padding( 1, 1, 3, 3 );
@@ -141,12 +122,13 @@ namespace ElectronicObserver.Window {
 
 			//undone:イベントと固有IDの追加(内部データとの紐付)
 			label.Click += TabLabel_Click;
+			label.ContextMenuStrip = MenuGroup;
 			label.Tag = id;
 
 			return label;
 		}
 
-
+		
 		void TabLabel_Click( object sender, EventArgs e ) {
 			//undone:指定されたタブに切り替える
 			ChangeShipView( (int)( (ImageLabel)sender ).Tag );
@@ -331,139 +313,6 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		/*
-		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
-
-			ShipData ship1 = KCDatabase.Instance.Ships[(int)ShipView.Rows[e.RowIndex1].Cells[ShipView_ID.Index].Value];
-			ShipData ship2 = KCDatabase.Instance.Ships[(int)ShipView.Rows[e.RowIndex2].Cells[ShipView_ID.Index].Value];
-
-			if ( ship1 != null && ship2 != null ) {
-
-				if ( e.Column.Index == ShipView_ID.Index ) {
-					e.SortResult = ship1.MasterID - ship2.MasterID;
-
-				} else if ( e.Column.Index == ShipView_ShipType.Index ) {
-					e.SortResult = ship1.MasterShip.ShipType - ship2.MasterShip.ShipType;
-
-				} else if ( e.Column.Index == ShipView_Name.Index ) {
-					e.SortResult = ship1.ShipID - ship2.ShipID;		//checkme
-
-				} else if ( e.Column.Index == ShipView_Level.Index ) {
-					e.SortResult = ship1.ExpTotal - ship2.ExpTotal;
-					if ( e.SortResult == 0 )	//for Lv.99-100
-						e.SortResult = ship1.Level - ship2.Level;
-
-				} else if ( e.Column.Index == ShipView_Next.Index ) {
-					e.SortResult = ship1.ExpNext - ship2.ExpNext;
-
-				} else if ( e.Column.Index == ShipView_NextRemodel.Index ) {
-					e.SortResult = 0;		//notimplemented
-
-				} else if ( e.Column.Index == ShipView_HP.Index ) {
-					double rate = (double)ship1.HPCurrent / ship1.HPMax - (double)ship2.HPCurrent / ship2.HPMax;
-
-					if ( rate > 0 )
-						e.SortResult = 1;
-					else if ( rate < 0 )
-						e.SortResult = -1;
-					else
-						e.SortResult = ship1.HPCurrent - ship2.HPCurrent;
-
-				} else if ( e.Column.Index == ShipView_Condition.Index ) {
-					e.SortResult = ship1.Condition - ship2.Condition;
-
-				} else if ( e.Column.Index == ShipView_Fuel.Index ) {
-					double rate = (double)ship1.Fuel / ship1.MasterShip.Fuel - (double)ship2.Fuel / ship2.MasterShip.Fuel;
-
-					if ( rate > 0 )
-						e.SortResult = 1;
-					else if ( rate < 0 )
-						e.SortResult = -1;
-					else
-						e.SortResult = ship1.Fuel - ship2.Fuel;
-
-				} else if ( e.Column.Index == ShipView_Ammo.Index ) {
-					double rate = (double)ship1.Ammo / ship1.MasterShip.Ammo - (double)ship2.Ammo / ship2.MasterShip.Ammo;
-
-					if ( rate > 0 )
-						e.SortResult = 1;
-					else if ( rate < 0 )
-						e.SortResult = -1;
-					else
-						e.SortResult = ship1.Ammo - ship2.Ammo;
-
-				} else if ( e.Column.Index == ShipView_Fleet.Index ) {
-					int f1 = ship1.Fleet, f2 = ship2.Fleet;
-					e.SortResult = ( f1 == -1 ? 99 : f1 ) - ( f2 == -1 ? 99 : f2 );
-				
-				} else if ( e.Column.Index == ShipView_RepairTime.Index ) {
-					e.SortResult = ship1.RepairTime - ship2.RepairTime;
-
-				} else if ( e.Column.Index == ShipView_Firepower.Index ) {
-					e.SortResult = ship1.FirepowerBase - ship2.FirepowerBase;
-
-				} else if ( e.Column.Index == ShipView_FirepowerRemain.Index ) {
-					e.SortResult = ship1.FirepowerRemain - ship2.FirepowerRemain;
-
-				} else if ( e.Column.Index == ShipView_Torpedo.Index ) {
-					e.SortResult = ship1.TorpedoBase - ship2.TorpedoBase;
-
-				} else if ( e.Column.Index == ShipView_TorpedoRemain.Index ) {
-					e.SortResult = ship1.TorpedoRemain - ship2.TorpedoRemain;
-
-				} else if ( e.Column.Index == ShipView_AA.Index ) {
-					e.SortResult = ship1.AABase - ship2.AABase;
-
-				} else if ( e.Column.Index == ShipView_AARemain.Index ) {
-					e.SortResult = ship1.AARemain - ship2.AARemain;
-
-				} else if ( e.Column.Index == ShipView_Armor.Index ) {
-					e.SortResult = ship1.ArmorBase - ship2.ArmorBase;
-
-				} else if ( e.Column.Index == ShipView_ASW.Index ) {
-					e.SortResult = ship1.ASWBase - ship2.ASWBase;
-
-				} else if ( e.Column.Index == ShipView_Evasion.Index ) {
-					e.SortResult = ship1.EvasionBase - ship2.EvasionBase;
-
-				} else if ( e.Column.Index == ShipView_LOS.Index ) {
-					e.SortResult = ship1.LOSBase - ship2.LOSBase;
-
-				} else if ( e.Column.Index == ShipView_ArmorRemain.Index ) {
-					e.SortResult = ship1.ArmorRemain - ship2.ArmorRemain;
-
-				} else if ( e.Column.Index == ShipView_Luck.Index ) {
-					e.SortResult = ship1.LuckBase - ship2.LuckBase;
-
-				} else if ( e.Column.Index == ShipView_LuckRemain.Index ) {
-					e.SortResult = ship1.LuckRemain - ship2.LuckRemain;
-
-				} else if ( e.Column.Index == ShipView_Locked.Index ) {
-					e.SortResult = ( ship1.IsLocked ? 1 : 0 ) - ( ship2.IsLocked ? 1 : 0 );
-
-				} else if ( e.Column.Index == ShipView_SallyArea.Index ) {
-					e.SortResult = ship1.SallyArea - ship2.SallyArea;
-				}
-
-
-			} else {
-
-				if ( ship1 == null && ship2 != null )
-					e.SortResult = -1;
-				else if ( ship1 != null && ship2 == null )
-					e.SortResult = 1;
-				else
-					e.SortResult = 0;
-			}
-
-			if ( e.SortResult == 0 ) {
-				e.SortResult = (int)ShipView.Rows[e.RowIndex1].Tag - (int)ShipView.Rows[e.RowIndex2].Tag;
-			}
-
-			e.Handled = true;
-		}
-		*/
-
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
 			if ( e.Column.Index == ShipView_Name.Index ) {
@@ -523,9 +372,66 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
+
+		private void MenuGroup_Add_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogTextInput( "グループを追加", "グループ名を入力してください：" ) ) {
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					var group = KCDatabase.Instance.ShipGroup.Add();
+
+					group.Name = dialog.InputtedText;
+
+					TabPanel.Controls.Add( CreateTabLabel( group.GroupID ) );
+
+				}
+
+			}
+
+		}
+
+		private void MenuGroup_Delete_Click( object sender, EventArgs e ) {
+
+			if ( !( MenuGroup.SourceControl is ImageLabel ) )
+				return;		//想定外
+
+			ImageLabel senderLabel = (ImageLabel)MenuGroup.SourceControl;
+			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)senderLabel.Tag];
+
+			if ( group != null ) {
+				if ( MessageBox.Show( string.Format( "グループ [{0}] を削除しますか？\r\nこの操作は元に戻せません。", group.Name ), "確認",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 ) 
+					== System.Windows.Forms.DialogResult.Yes ) {
+
+					KCDatabase.Instance.ShipGroup.ShipGroups.Remove( group );
+					TabPanel.Controls.Remove( senderLabel );
+
+				}
+			}
+		}
+
+
+
+		private void MenuGroup_Opening( object sender, CancelEventArgs e ) {
+
+			if ( MenuGroup.SourceControl == TabPanel ) {
+				MenuGroup_Add.Enabled = true;
+				MenuGroup_Delete.Enabled = false;
+			} else {
+				MenuGroup_Add.Enabled = true;
+				MenuGroup_Delete.Enabled = true;
+			}
+
+		}
+
+
 		protected override string GetPersistString() {
 			return "ShipGroup";
 		}
+
+
 
 		
 		

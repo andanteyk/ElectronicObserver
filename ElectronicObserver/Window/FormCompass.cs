@@ -5,6 +5,7 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -175,6 +176,12 @@ namespace ElectronicObserver.Window {
 			SubFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
 			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
 			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
+
+
+			ControlHelper.SetDoubleBuffered( BasePanel );
+			ControlHelper.SetDoubleBuffered( TableEnemyFleet );
+			ControlHelper.SetDoubleBuffered( TableEnemyMember );
+
 
 			TableEnemyMember.SuspendLayout();
 			ControlMember = new TableEnemyMemberControl[6];

@@ -140,6 +140,14 @@ namespace ElectronicObserver.Data {
 		}
 
 
+
+		/// <summary>
+		/// 資源の自然回復上限
+		/// </summary>
+		public int MaxResourceRegenerationAmount {
+			get { return Level * 250 + 750; }
+		}
+
 	}
 
 

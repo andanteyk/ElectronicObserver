@@ -68,6 +68,7 @@ namespace ElectronicObserver.Window {
 
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
+			KCDatabase.Instance.Load();
 
 
 			APIObserver.Instance.Start( Utility.Configuration.Instance.Connection.Port );	//fixme
@@ -153,6 +154,8 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.Save();
 			APIObserver.Instance.Stop();
 			RecordManager.Instance.Save();
+			KCDatabase.Instance.Save();
+
 
 			Utility.Logger.Add( 2, "終了処理が完了しました。" );
 

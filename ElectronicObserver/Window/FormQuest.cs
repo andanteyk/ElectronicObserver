@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,8 @@ namespace ElectronicObserver.Window {
 
 		public FormQuest( FormMain parent ) {
 			InitializeComponent();
+
+			ControlHelper.SetDoubleBuffered( QuestView );
 
 		}
 
