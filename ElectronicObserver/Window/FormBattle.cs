@@ -31,6 +31,7 @@ namespace ElectronicObserver.Window {
 			HPBars = new List<ShipStatusHP>( 18 );
 
 
+			TableMain.SuspendLayout();
 			for ( int i = 0; i < 18; i++ ) {
 				HPBars.Add( new ShipStatusHP() );
 				HPBars[i].Size = new Size( 80, 20 );
@@ -48,6 +49,7 @@ namespace ElectronicObserver.Window {
 					TableMain.Controls.Add( HPBars[i], 1, i - 6 );
 				}
 			}
+			TableMain.ResumeLayout();
 
 
 			SearchingFriend.ImageList = ResourceManager.Instance.Equipments;
@@ -60,7 +62,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		
+
 
 		private void FormBattle_Load( object sender, EventArgs e ) {
 
@@ -86,16 +88,17 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_practice/battle_result"].ResponseReceived += rec;
 
 			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
-			
+
 		}
 
 
 		private void Updated( string apiname, dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
-			BattleManager battle = db.Battle;
+			BattleManager bm = db.Battle;
 
 
+			TableMain.SuspendLayout();
 			switch ( apiname ) {
 
 				case "api_req_map/start":
@@ -105,43 +108,96 @@ namespace ElectronicObserver.Window {
 
 
 				case "api_req_sortie/battle":
-				case "api_req_practice/battle":
-					UpdateNormalDayBattle( battle );
-					break;
+				case "api_req_practice/battle": {
+						int[] hp = bm.BattleDay.EmulateBattle();
+
+						SetFormation( bm.BattleDay );
+						SetSearchingResult( bm.BattleDay );
+						SetAerialWarfare( bm.BattleDay );
+						SetHPNormal( hp, bm.BattleDay );
+						SetDamageRateNormal( hp, bm.BattleDay );
+
+						TableMain.Visible = true;
+					} break;
 
 				case "api_req_battle_midnight/battle":
-				case "api_req_practice/midnight_battle":
-					UpdateNormalNightBattle( battle );
-					break;
+				case "api_req_practice/midnight_battle": {
+						int[] hp = bm.BattleNight.EmulateBattle();
 
-				case "api_req_battle_midnight/sp_midnight":
-					UpdateNightOnlyBattle( battle );
-					break;
+						SetHPNormal( hp, bm.BattleNight );
+						SetDamageRateNormal( hp, bm.BattleDay );
+						SetNightBattleEvent( bm.BattleNight );
+
+						TableMain.Visible = true;
+					} break;
+
+				case "api_req_battle_midnight/sp_midnight": {
+						int[] hp = bm.BattleNight.EmulateBattle();
+
+						SetFormation( bm.BattleNight );
+						ClearAerialWarfare();
+						ClearSearchingResult();
+						SetHPNormal( hp, bm.BattleNight );
+						SetDamageRateNormal( hp, bm.BattleNight );
+						SetNightBattleEvent( bm.BattleNight );
+
+						TableMain.Visible = true;
+					} break;
 
 				case "api_req_combined_battle/battle":
-				case "api_req_combined_battle/battle_water":
-					UpdateCombinedDayBattle( battle );
-					break;
+				case "api_req_combined_battle/battle_water": {
+						int[] hp = bm.BattleDay.EmulateBattle();
 
-				case "api_req_combined_battle/airbattle":
-					UpdateCombinedAirBattle( battle );
-					break;
-				
-				case "api_req_combined_battle/midnight_battle":
-					UpdateCombinedNightBattle( battle );
-					break;
+						SetFormation( bm.BattleDay );
+						SetSearchingResult( bm.BattleDay );
+						SetAerialWarfare( bm.BattleDay );
+						SetHPCombined( hp, bm.BattleDay );
+						SetDamageRateNormal( hp, bm.BattleDay );
 
-				case "api_req_combined_battle/sp_midnight":
-					UpdateCombinedNightOnlyBattle( battle );
-					break;
+						TableMain.Visible = true;
+					} break;
 
-				
+				case "api_req_combined_battle/airbattle": {
+						int[] hp = bm.BattleDay.EmulateBattle();
+
+						SetFormation( bm.BattleDay );
+						SetSearchingResult( bm.BattleDay );
+						SetAerialWarfareAirBattle( bm.BattleDay );
+						SetHPCombined( hp, bm.BattleDay );
+						SetDamageRateCombined( hp, bm.BattleDay );
+
+						TableMain.Visible = true;
+					} break;
+
+				case "api_req_combined_battle/midnight_battle": {
+						int[] hp = bm.BattleNight.EmulateBattle();
+
+						SetHPCombined( hp, bm.BattleNight );
+						SetDamageRateCombined( hp, bm.BattleDay );
+
+						TableMain.Visible = true;
+					} break;
+
+				case "api_req_combined_battle/sp_midnight": {
+						int[] hp = bm.BattleNight.EmulateBattle();
+
+						SetFormation( bm.BattleNight );
+						ClearAerialWarfare();
+						ClearSearchingResult();
+						SetHPCombined( hp, bm.BattleNight );
+						SetDamageRateCombined( hp, bm.BattleNight );
+
+						TableMain.Visible = true;
+					} break;
+
+
 
 				case "api_port/port":
 					TableMain.Visible = false;
 					break;
 
 			}
+			TableMain.ResumeLayout();
 
 		}
 
@@ -159,7 +215,7 @@ namespace ElectronicObserver.Window {
 			int[] hp = bd.EmulateBattle();
 			bool isPractice = bd.APIName.Contains( "practice" );	//仕方ないね
 			bool isCombined = bd.APIName.Contains( "combined" );
-			
+
 
 			Func<int, double, string> GetState = 
 			( int shipID, double percentage ) => {
@@ -180,7 +236,7 @@ namespace ElectronicObserver.Window {
 					return "[健在]";
 				else
 					return "[無傷]";
-				
+
 			};
 
 
@@ -202,7 +258,7 @@ namespace ElectronicObserver.Window {
 						hp[i],
 						hp[i] - bd.InitialHP[i + 1],
 						GetState( ship.ShipID, (double)hp[i] / bd.MaxHP[i + 1] ) );
-					
+
 				} else {
 					sb.AppendLine( "-" );
 				}
@@ -230,7 +286,7 @@ namespace ElectronicObserver.Window {
 							hp[i + 12],
 							hp[i + 12] - bdc.InitialHPCombined[i + 1],
 							GetState( ship.ShipID, (double)hp[i + 12] / bdc.MaxHPCombined[i + 1] ) );
-					
+
 
 					} else {
 						sb.AppendLine( "-" );
@@ -255,7 +311,7 @@ namespace ElectronicObserver.Window {
 						bd.InitialHP[i + 7],
 						hp[i + 6],
 						hp[i + 6] - bd.InitialHP[i + 7],
-						GetState( eid, (double)hp[i + 6] / bd.MaxHP[i + 7] ) );		
+						GetState( eid, (double)hp[i + 6] / bd.MaxHP[i + 7] ) );
 
 				} else {
 					sb.AppendLine( "-" );
@@ -267,142 +323,8 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void UpdateNormalDayBattle( BattleManager bm ) {
 
-			int[] hp = bm.BattleDay.EmulateBattle();
-
-
-			TableMain.SuspendLayout();
-
-
-			SetFormation( bm.BattleDay );
-			SetSearchingResult( bm.BattleDay );
-			SetAerialWarfare( bm.BattleDay ); 
-			SetHPNormal( hp, bm.BattleDay );
-			SetDamageRateNormal( hp, bm.BattleDay );
-
-
-			TableMain.ResumeLayout();
-			TableMain.Visible = true;
-		}
-
-
-		private void UpdateNormalNightBattle( BattleManager bm ) {
-
-			int[] hp = bm.BattleNight.EmulateBattle();
-
-
-			TableMain.SuspendLayout();
-
-
-			SetHPNormal( hp, bm.BattleNight );
-			SetDamageRateNormal( hp, bm.BattleDay );
-			SetNightBattleEvent( bm.BattleNight );
-
-			TableMain.ResumeLayout();
-			TableMain.Visible = true;
-
-		}
-
-		private void UpdateNightOnlyBattle( BattleManager bm ) {
-
-			int[] hp = bm.BattleNight.EmulateBattle();
-
-
-			TableMain.SuspendLayout();
-
-
-			SetFormation( bm.BattleNight );
-			ClearAerialWarfare();
-			ClearSearchingResult();
-			SetHPNormal( hp, bm.BattleNight );
-			SetDamageRateNormal( hp, bm.BattleNight );
-			SetNightBattleEvent( bm.BattleNight );
-
-
-			TableMain.ResumeLayout();
-			TableMain.Visible = true;
-
-		}
-
-		private void UpdateCombinedDayBattle( BattleManager bm ) {
-
-			int[] hp = bm.BattleDay.EmulateBattle();
-
-
-			TableMain.SuspendLayout();
-
-
-			SetFormation( bm.BattleDay );
-			SetSearchingResult( bm.BattleDay );
-			SetAerialWarfare( bm.BattleDay );
-			SetHPCombined( hp, bm.BattleDay );
-			SetDamageRateNormal( hp, bm.BattleDay );
-
-
-			TableMain.ResumeLayout();
-			TableMain.Visible = true;
-
-		}
-
-		private void UpdateCombinedNightBattle( BattleManager bm ) {
-
-			int[] hp = bm.BattleNight.EmulateBattle();
-
-
-			TableMain.SuspendLayout();
-
-
-			SetHPCombined( hp, bm.BattleNight );
-			SetDamageRateCombined( hp, bm.BattleDay );
-
-
-			TableMain.ResumeLayout();
-			TableMain.Visible = true;
-
-		}
-
-		private void UpdateCombinedNightOnlyBattle( BattleManager bm ) {
-
-			int[] hp = bm.BattleNight.EmulateBattle();
-
-
-			TableMain.SuspendLayout();
-
-
-			SetFormation( bm.BattleNight );
-			ClearAerialWarfare();
-			ClearSearchingResult();
-			SetHPCombined( hp, bm.BattleNight );
-			SetDamageRateCombined( hp, bm.BattleNight );
-
-
-			TableMain.ResumeLayout();
-			TableMain.Visible = true;
-
-		}
-
-		private void UpdateCombinedAirBattle( BattleManager bm ) {
-
-			int[] hp = bm.BattleDay.EmulateBattle();
-
-
-			TableMain.SuspendLayout();
-
-
-			SetFormation( bm.BattleDay );
-			SetSearchingResult( bm.BattleDay );
-			SetAerialWarfareAirBattle( bm.BattleDay );
-			SetHPCombined( hp, bm.BattleDay );
-			SetDamageRateCombined( hp, bm.BattleDay );
-
-
-			TableMain.ResumeLayout();
-			TableMain.Visible = true;
-
-		}
-
-
+	
 		private void SetFormation( BattleData bd ) {
 
 			FormationFriend.Text = Constants.GetFormationShort( bd.Data.api_formation[0] is string ? int.Parse( bd.Data.api_formation[0] ) : (int)bd.Data.api_formation[0] );
@@ -419,7 +341,7 @@ namespace ElectronicObserver.Window {
 			SearchingEnemy.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[1] );
 			SearchingEnemy.ImageAlign = ContentAlignment.MiddleLeft;
 			SearchingEnemy.ImageIndex = (int)( (int)bd.Data.api_search[1] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
-			
+
 		}
 
 		private void ClearSearchingResult() {
@@ -637,7 +559,7 @@ namespace ElectronicObserver.Window {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
 					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].Members[i]];
 					bool isEscaped = db.Fleet[bd.FleetIDFriend].EscapedShipList.Contains( ship.ShipID );
-					
+
 					ToolTipInfo.SetToolTip( HPBars[i],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.MasterShip.NameWithClass,
@@ -677,7 +599,7 @@ namespace ElectronicObserver.Window {
 				if ( (int)bd.Data.api_nowhps_combined[i + 1] != -1 ) {
 					ShipData ship = db.Ships[db.Fleet[2].Members[i]];
 					bool isEscaped = db.Fleet[2].EscapedShipList.Contains( ship.ShipID );
-					
+
 					ToolTipInfo.SetToolTip( HPBars[i + 12],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
 							ship.MasterShip.NameWithClass,
@@ -812,7 +734,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		
+
 		protected override string GetPersistString() {
 			return "Battle";
 		}

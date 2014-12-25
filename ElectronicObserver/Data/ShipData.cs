@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Utility.Mathematics;
+﻿using ElectronicObserver.Utility.Data;
+using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -515,6 +516,17 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 次の改装まで必要な経験値
+		/// </summary>
+		public int ExpNextRemodel {
+			get {
+				ShipDataMaster master = MasterShip;
+				if ( master.RemodelAfterShipID <= 0 )
+					return 0;
+				return Math.Max( ExpTable.ShipExp[master.RemodelAfterLevel].Total - ExpTotal, 0 );
+			}
+		}
 
 
 		

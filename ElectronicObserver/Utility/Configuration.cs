@@ -22,6 +22,8 @@ namespace ElectronicObserver.Utility {
 
 		#endregion
 
+		public delegate void ConfigurationChangedEventHandler();
+
 
 		public class ConfigPartBase {
 			//reserved
@@ -123,6 +125,18 @@ namespace ElectronicObserver.Utility {
 		public ConfigControl Control { get; private set; }
 
 
+		public class ConfigDebug : ConfigPartBase {
+
+			public bool EnableDebugMenu { get; set; }
+
+			public ConfigDebug() {
+				EnableDebugMenu = false;
+			}
+		}
+		public ConfigDebug Debug { get; private set; }
+
+
+
 		public string Version { get { return "0.0"; } }
 
 
@@ -131,6 +145,7 @@ namespace ElectronicObserver.Utility {
 			Connection = new ConfigConnection();
 			Log = new ConfigLog();
 			Control = new ConfigControl();
+			Debug = new ConfigDebug();
 		}
 
 
@@ -156,6 +171,9 @@ namespace ElectronicObserver.Utility {
 
 			//[動作]
 			dialog.Control_ConditionBorder.Value = Control.ConditionBorder;
+
+			//[デバッグ]
+			dialog.Debug_EnableDebugMenu.Checked = Debug.EnableDebugMenu;
 
 			//finalize
 			dialog.UpdateParameter();
@@ -191,6 +209,12 @@ namespace ElectronicObserver.Utility {
 			//[動作]
 			Control.ConditionBorder = (int)dialog.Control_ConditionBorder.Value;
 
+			//[デバッグ]
+			Debug.EnableDebugMenu = dialog.Debug_EnableDebugMenu.Checked;
+
+
+
+			ConfigurationChanged();
 		}
 
 
@@ -212,6 +236,7 @@ namespace ElectronicObserver.Utility {
 					Connection = json.Connection;
 					Log = json.Log;
 					Control = json.Control;
+					Debug = json.Debug;
 
 				}
 
@@ -242,6 +267,11 @@ namespace ElectronicObserver.Utility {
 			}
 
 		}
+
+
+
+		//イベント関係
+		public event ConfigurationChangedEventHandler ConfigurationChanged = delegate { };
 
 
 	}

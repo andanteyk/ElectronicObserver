@@ -31,6 +31,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>74eo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BCMakeCert">
       <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\BCMakeCert.dll</HintPath>
@@ -232,6 +238,12 @@
     <Compile Include="Window\Dialog\DialogTextInput.Designer.cs">
       <DependentUpon>DialogTextInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogTextSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogTextSelect.Designer.cs">
+      <DependentUpon>DialogTextSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogVersion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -351,6 +363,9 @@
     <EmbeddedResource Include="Window\Dialog\DialogTextInput.resx">
       <DependentUpon>DialogTextInput.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogTextSelect.resx">
+      <DependentUpon>DialogTextSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogVersion.resx">
       <DependentUpon>DialogVersion.cs</DependentUpon>
     </EmbeddedResource>
@@ -414,6 +429,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="74eo.ico" />
     <Content Include="Other\Information\apilist.txt" />
     <Content Include="Other\Information\todo.txt" />
   </ItemGroup>

@@ -65,17 +65,23 @@
 			this.ShipView_LuckRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Locked = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_SallyArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.MenuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuGroup_Add = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.MenuMember = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.MenuMember_AddToGroup = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMember_CreateGroup = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuMember_Delete = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
+			this.MenuGroup.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
-			this.MenuGroup.SuspendLayout();
+			this.MenuMember.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ShipView
@@ -118,6 +124,7 @@
             this.ShipView_LuckRemain,
             this.ShipView_Locked,
             this.ShipView_SallyArea});
+			this.ShipView.ContextMenuStrip = this.MenuMember;
 			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle8.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -383,6 +390,29 @@
 			this.ShipView_SallyArea.ReadOnly = true;
 			this.ShipView_SallyArea.Width = 40;
 			// 
+			// MenuGroup
+			// 
+			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuGroup_Add,
+            this.MenuGroup_Delete});
+			this.MenuGroup.Name = "MenuGroup";
+			this.MenuGroup.Size = new System.Drawing.Size(180, 48);
+			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
+			// 
+			// MenuGroup_Add
+			// 
+			this.MenuGroup_Add.Name = "MenuGroup_Add";
+			this.MenuGroup_Add.Size = new System.Drawing.Size(179, 22);
+			this.MenuGroup_Add.Text = "グループを追加(&A)";
+			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
+			// 
+			// MenuGroup_Delete
+			// 
+			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
+			this.MenuGroup_Delete.Size = new System.Drawing.Size(179, 22);
+			this.MenuGroup_Delete.Text = "グループを削除(&D)";
+			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
+			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -410,28 +440,46 @@
 			this.TabPanel.Size = new System.Drawing.Size(300, 53);
 			this.TabPanel.TabIndex = 0;
 			// 
-			// MenuGroup
+			// MenuMember
 			// 
-			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuGroup_Add,
-            this.MenuGroup_Delete});
-			this.MenuGroup.Name = "MenuGroup";
-			this.MenuGroup.Size = new System.Drawing.Size(180, 70);
-			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
+			this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuMember_AddToGroup,
+            this.MenuMember_CreateGroup,
+            this.toolStripSeparator1,
+            this.MenuMember_Delete});
+			this.MenuMember.Name = "MenuMember";
+			this.MenuMember.Size = new System.Drawing.Size(300, 76);
+			this.MenuMember.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMember_Opening);
 			// 
-			// MenuGroup_Add
+			// MenuMember_AddToGroup
 			// 
-			this.MenuGroup_Add.Name = "MenuGroup_Add";
-			this.MenuGroup_Add.Size = new System.Drawing.Size(179, 22);
-			this.MenuGroup_Add.Text = "グループを追加(&A)";
-			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
+			this.MenuMember_AddToGroup.Name = "MenuMember_AddToGroup";
+			this.MenuMember_AddToGroup.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+			this.MenuMember_AddToGroup.Size = new System.Drawing.Size(299, 22);
+			this.MenuMember_AddToGroup.Text = "グループへ追加(&A)...";
+			this.MenuMember_AddToGroup.Click += new System.EventHandler(this.MenuMember_AddToGroup_Click);
 			// 
-			// MenuGroup_Delete
+			// MenuMember_CreateGroup
 			// 
-			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
-			this.MenuGroup_Delete.Size = new System.Drawing.Size(179, 22);
-			this.MenuGroup_Delete.Text = "グループを削除(&D)";
-			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
+			this.MenuMember_CreateGroup.Name = "MenuMember_CreateGroup";
+			this.MenuMember_CreateGroup.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+			this.MenuMember_CreateGroup.Size = new System.Drawing.Size(299, 22);
+			this.MenuMember_CreateGroup.Text = "新規グループを作成(&C)...";
+			this.MenuMember_CreateGroup.Click += new System.EventHandler(this.MenuMember_CreateGroup_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(296, 6);
+			// 
+			// MenuMember_Delete
+			// 
+			this.MenuMember_Delete.Name = "MenuMember_Delete";
+			this.MenuMember_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+			this.MenuMember_Delete.Size = new System.Drawing.Size(299, 22);
+			this.MenuMember_Delete.Text = "削除";
+			this.MenuMember_Delete.Click += new System.EventHandler(this.MenuMember_Delete_Click);
 			// 
 			// FormShipGroup
 			// 
@@ -447,11 +495,12 @@
 			this.Text = "一覧";
 			this.Load += new System.EventHandler(this.FormShipGroup_Load);
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).EndInit();
+			this.MenuGroup.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
-			this.MenuGroup.ResumeLayout(false);
+			this.MenuMember.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -496,5 +545,10 @@
 		private System.Windows.Forms.ContextMenuStrip MenuGroup;
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_Add;
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_Delete;
+		private System.Windows.Forms.ContextMenuStrip MenuMember;
+		private System.Windows.Forms.ToolStripMenuItem MenuMember_AddToGroup;
+		private System.Windows.Forms.ToolStripMenuItem MenuMember_CreateGroup;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem MenuMember_Delete;
 	}
 }

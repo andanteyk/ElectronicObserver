@@ -50,10 +50,14 @@ namespace ElectronicObserver.Data {
 						var group = new ShipGroupData( id );
 
 						group.Name = data[0];
+						group.Members.Capacity = data.Length - 1;
 
 						for ( int i = 1; i < data.Length; i++ ) {
 							group.Members.Add( int.Parse( data[i] ) );
 						}
+
+
+						ShipGroups.Add( group );
 
 						id++;
 					}

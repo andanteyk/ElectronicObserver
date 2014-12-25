@@ -338,6 +338,7 @@ namespace ElectronicObserver.Data {
 			Damaged,
 			NotReplenished,
 			Tired,
+			Sparkled,
 			AnchorageRepairing,
 			Ready,
 		}
@@ -518,7 +519,18 @@ namespace ElectronicObserver.Data {
 					tooltip.SetToolTip( label, string.Format( "回復目安日時 : {0}", timer ) );
 
 					return FleetStates.Tired;
+
+
+
+				} else if ( cond >= 50 ) {		//戦意高揚
+
+					label.Text = "戦意高揚！";
+					label.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
+					tooltip.SetToolTip( label, string.Format( "最低cond: {0}\r\nあと {1} 回遠征可能", cond, Math.Ceiling( ( cond - 49 ) / 3.0 ) ) );
+					return FleetStates.Sparkled;
+
 				}
+
 			}
 
 			//出撃可能！

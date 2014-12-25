@@ -52,6 +52,8 @@
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
+			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -61,6 +63,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).BeginInit();
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).BeginInit();
+			this.tabPage5.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -72,6 +75,7 @@
 			this.tabControl1.Controls.Add(this.tabPage2);
 			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Controls.Add(this.tabPage4);
+			this.tabControl1.Controls.Add(this.tabPage5);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
@@ -372,6 +376,29 @@
 			this.ButtonCancel.Text = "キャンセル";
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			// 
+			// tabPage5
+			// 
+			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
+			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Name = "tabPage5";
+			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage5.Size = new System.Drawing.Size(392, 231);
+			this.tabPage5.TabIndex = 4;
+			this.tabPage5.Text = "デバッグ";
+			this.tabPage5.UseVisualStyleBackColor = true;
+			// 
+			// Debug_EnableDebugMenu
+			// 
+			this.Debug_EnableDebugMenu.AutoSize = true;
+			this.Debug_EnableDebugMenu.Location = new System.Drawing.Point(8, 6);
+			this.Debug_EnableDebugMenu.Name = "Debug_EnableDebugMenu";
+			this.Debug_EnableDebugMenu.Size = new System.Drawing.Size(162, 19);
+			this.Debug_EnableDebugMenu.TabIndex = 0;
+			this.Debug_EnableDebugMenu.Text = "デバッグ メニューを有効にする";
+			this.ToolTipInfo.SetToolTip(this.Debug_EnableDebugMenu, "メインウィンドウの[デバッグ]メニューを有効にします。\r\nデバッグ用の機能であるため、通常ユーザーの操作は推奨されません。\r\n使用時の動作は保証されないので、＊自" +
+        "己責任で＊使用してください。");
+			this.Debug_EnableDebugMenu.UseVisualStyleBackColor = true;
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -402,6 +429,8 @@
 			this.tabPage4.ResumeLayout(false);
 			this.tabPage4.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).EndInit();
+			this.tabPage5.ResumeLayout(false);
+			this.tabPage5.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -436,5 +465,7 @@
 		internal System.Windows.Forms.NumericUpDown Control_ConditionBorder;
 		private System.Windows.Forms.Label label7;
 		internal System.Windows.Forms.CheckBox Log_SaveLogFlag;
+		private System.Windows.Forms.TabPage tabPage5;
+		internal System.Windows.Forms.CheckBox Debug_EnableDebugMenu;
 	}
 }

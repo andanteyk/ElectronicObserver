@@ -35,6 +35,7 @@ namespace ElectronicObserver.Resource {
 
 		public enum IconContent {
 			Nothing = -1,
+			AppIcon,
 			ResourceFuel,
 			ResourceAmmo,
 			ResourceSteel,
@@ -60,6 +61,7 @@ namespace ElectronicObserver.Resource {
 			HQArsenal,
 			HQHeadQuarters,
 			HQQuest,
+			HQInformation,
 			ShipStateDamageS,
 			ShipStateDamageM,
 			ShipStateDamageL,
@@ -147,6 +149,8 @@ namespace ElectronicObserver.Resource {
 			const string masterpath = @"assets\";
 
 			#region Icons
+			Icons.Images.Add( "AppIcon", LoadImage( masterpath + "74eo_16.png" ) );
+
 			Icons.Images.Add( "Fuel", LoadImage( masterpath + @"Resource\fuel.png" ) );
 			Icons.Images.Add( "Ammo", LoadImage( masterpath + @"Resource\ammo.png" ) );
 			Icons.Images.Add( "Steel", LoadImage( masterpath + @"Resource\steel.png" ) );
@@ -175,6 +179,7 @@ namespace ElectronicObserver.Resource {
 			Icons.Images.Add( "HQ_Arsenal", LoadImage( masterpath + @"HeadQuarters\arsenal.png" ) );
 			Icons.Images.Add( "HQ_HeadQuarters", LoadImage( masterpath + @"HeadQuarters\headquarters.png" ) );
 			Icons.Images.Add( "HQ_Quest", LoadImage( masterpath + @"HeadQuarters\quest.png" ) );
+			Icons.Images.Add( "HQ_Information", LoadImage( masterpath + @"HeadQuarters\information.png" ) );
 			
 			Icons.Images.Add( "ShipState_DamageS", LoadImage( masterpath + @"ShipState\damageS.png" ) );
 			Icons.Images.Add( "ShipState_DamageM", LoadImage( masterpath + @"ShipState\damageM.png" ) );

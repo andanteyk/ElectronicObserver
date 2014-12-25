@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 艦船グループのデータを保持します。
 	/// </summary>
+	[DebuggerDisplay( "[{GroupID}] : {Name} ({Members.Count} ships)" )]
 	public class ShipGroupData : IIdentifiable {
 
 		/// <summary>
@@ -28,7 +30,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public IEnumerable<ShipData> MembersInstance {
 			get {
-				return KCDatabase.Instance.Ships.Values.Where( ship => Members.Contains( ship.ShipID ) );
+				return Members.Select( id => KCDatabase.Instance.Ships[id] );
 			}
 		}
 
@@ -47,24 +49,26 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// メンバーが存在するか確認し、存在しなければ削除します。
+		/// メンバー配列をチェックし、除籍艦や重複艦を削除します。
 		/// </summary>
 		public void CheckMembers() {
 
 			var ships = KCDatabase.Instance.Ships;
 
-			for ( int i = 0; i < Members.Count; i++ ) {
-				if ( !ships.ContainsKey( Members[i] ) ) {
-					Members.RemoveAt( i );
-					i--;
-				}
-			}
+			if ( ships.Count > 0 )		//未初期化時にデータが破壊されるのを防ぐ
+				Members = Members.Distinct().Intersect( ships.Keys ).ToList();
 		}
 
 
 		public int ID {
 			get { return GroupID; }
 		}
+
+
+		public override string ToString() {
+			return Name;
+		}
+
 	}
 
 }

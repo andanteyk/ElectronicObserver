@@ -61,8 +61,8 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.Load();
 			
 
-			ElectronicObserver.Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
-
+			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			Utility.Logger.Add( 2, "七四式電子観測儀 を起動しています…" );
 
@@ -98,9 +98,22 @@ namespace ElectronicObserver.Window {
 			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
 
 
+			ConfigurationChanged();		//設定から初期化
+
+
 			UIUpdateTimer.Start();
 
 			Utility.Logger.Add( 2, "起動処理が完了しました。" );
+		}
+
+
+
+		private void ConfigurationChanged() {
+
+			Utility.Configuration config = Utility.Configuration.Instance;
+
+			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = config.Debug.EnableDebugMenu;
+
 		}
 
 		

@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Data;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,8 @@ namespace ElectronicObserver.Window {
 
 		public FormInformation( FormMain parent ) {
 			InitializeComponent();
-		
-		
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQInformation] );
 		}
 
 

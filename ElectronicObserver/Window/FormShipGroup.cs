@@ -31,6 +31,7 @@ namespace ElectronicObserver.Window {
 			CSRedRight, CSOrangeRight, CSYellowRight, CSGreenRight, CSGrayRight, CSCherryRight,
 			CSIsLocked;
 
+		private ImageLabel SelectedTab = null;
 
 
 		public FormShipGroup( FormMain parent ) {
@@ -46,7 +47,7 @@ namespace ElectronicObserver.Window {
 			CSDefaultLeft.BackColor = SystemColors.Control;
 			CSDefaultLeft.Font = Font;
 			CSDefaultLeft.ForeColor = SystemColors.ControlText;
-			CSDefaultLeft.SelectionBackColor = SystemColors.Window;
+			CSDefaultLeft.SelectionBackColor = Color.FromArgb( 0xFF, 0xFF, 0xCC );
 			CSDefaultLeft.SelectionForeColor = SystemColors.ControlText;
 			CSDefaultLeft.WrapMode = DataGridViewTriState.False;
 
@@ -57,19 +58,19 @@ namespace ElectronicObserver.Window {
 			CSDefaultRight.Alignment = DataGridViewContentAlignment.MiddleRight;
 
 			CSRedRight = new DataGridViewCellStyle( CSDefaultRight );
-			CSRedRight.BackColor = 
+			CSRedRight.BackColor =
 			CSRedRight.SelectionBackColor = CellColorRed;
 
 			CSOrangeRight = new DataGridViewCellStyle( CSDefaultRight );
 			CSOrangeRight.BackColor =
 			CSOrangeRight.SelectionBackColor = CellColorOrange;
-			
+
 			CSYellowRight = new DataGridViewCellStyle( CSDefaultRight );
-			CSYellowRight.BackColor = 
+			CSYellowRight.BackColor =
 			CSYellowRight.SelectionBackColor = CellColorYellow;
 
 			CSGreenRight = new DataGridViewCellStyle( CSDefaultRight );
-			CSGreenRight.BackColor = 
+			CSGreenRight.BackColor =
 			CSGreenRight.SelectionBackColor = CellColorGreen;
 
 			CSGrayRight = new DataGridViewCellStyle( CSDefaultRight );
@@ -77,7 +78,7 @@ namespace ElectronicObserver.Window {
 			CSGrayRight.SelectionForeColor = CellColorGray;
 
 			CSCherryRight = new DataGridViewCellStyle( CSDefaultRight );
-			CSCherryRight.BackColor = 
+			CSCherryRight.BackColor =
 			CSCherryRight.SelectionBackColor = CellColorCherry;
 
 			CSIsLocked = new DataGridViewCellStyle( CSDefaultCenter );
@@ -104,6 +105,9 @@ namespace ElectronicObserver.Window {
 
 			TabPanel.Controls.Add( CreateTabLabel( -1 ) );
 
+			foreach ( var g in KCDatabase.Instance.ShipGroup.ShipGroups.Values ) {
+				TabPanel.Controls.Add( CreateTabLabel( g.GroupID ) );
+			}
 		}
 
 
@@ -128,16 +132,36 @@ namespace ElectronicObserver.Window {
 			return label;
 		}
 
-		
+
 		void TabLabel_Click( object sender, EventArgs e ) {
-			//undone:指定されたタブに切り替える
-			ChangeShipView( (int)( (ImageLabel)sender ).Tag );
+			ChangeShipView( ( (ImageLabel)sender ) );
 		}
 
 
-		private void ChangeShipView( int groupID ) {
+		private void ChangeShipView( ImageLabel target ) {
 
+			int groupID = (int)target.Tag;
 			var group = KCDatabase.Instance.ShipGroup[groupID];
+
+
+			if ( SelectedTab != null ) {
+				SelectedTab.BackColor = TabInactiveColor;
+
+				//ソート順の保持
+				//checkme: なんかアレなのでもっといいのが思いついたら変更する
+				//fixme: [全所属艦]はソート順が保持できない
+				ShipGroupData g = KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
+				if ( g != null ) {
+					g.Members.Clear();
+					g.Members.Capacity = ShipView.Rows.GetRowCount( DataGridViewElementStates.None );
+
+					foreach ( DataGridViewRow row in ShipView.Rows ) {
+						g.Members.Add( (int)row.Cells[ShipView_ID.Index].Value );
+					}
+				}
+			}
+
+
 
 			ShipView.SuspendLayout();
 
@@ -157,7 +181,7 @@ namespace ElectronicObserver.Window {
 					ship.MasterShip.Name,
 					ship.Level,
 					ship.ExpNext,
-					-1,		//undone:nextremodel
+					ship.ExpNextRemodel,
 					new Fraction( ship.HPCurrent, ship.HPMax ),
 					ship.Condition,
 					new Fraction( ship.Fuel, ship.MasterShip.Fuel ),
@@ -230,7 +254,7 @@ namespace ElectronicObserver.Window {
 						cs = CSYellowRight;
 					else if ( ship.RepairTime < 1000 * 60 * 60 * 6 )
 						cs = CSOrangeRight;
-					else 
+					else
 						cs = CSRedRight;
 
 					row.Cells[ShipView_RepairTime.Index].Style = cs;
@@ -254,6 +278,10 @@ namespace ElectronicObserver.Window {
 			ShipView.Rows.AddRange( rows.ToArray() );
 			ShipView.ResumeLayout();
 
+
+			SelectedTab = target;
+			SelectedTab.BackColor = TabActiveColor;
+
 		}
 
 
@@ -265,7 +293,7 @@ namespace ElectronicObserver.Window {
 
 			if ( index >= ship.MasterShip.SlotSize && ship.Slot[index] == -1 ) {
 				return "";
-			
+
 			} else if ( max == 0 ) {
 				return name;
 
@@ -290,11 +318,11 @@ namespace ElectronicObserver.Window {
 				e.Value = "";
 				e.FormattingApplied = true;
 
-			} else if ( ( 
-				e.ColumnIndex == ShipView_FirepowerRemain.Index || 
-				e.ColumnIndex == ShipView_TorpedoRemain.Index || 
-				e.ColumnIndex == ShipView_AARemain.Index || 
-				e.ColumnIndex == ShipView_ArmorRemain.Index || 
+			} else if ( (
+				e.ColumnIndex == ShipView_FirepowerRemain.Index ||
+				e.ColumnIndex == ShipView_TorpedoRemain.Index ||
+				e.ColumnIndex == ShipView_AARemain.Index ||
+				e.ColumnIndex == ShipView_ArmorRemain.Index ||
 				e.ColumnIndex == ShipView_LuckRemain.Index
 				) && (int)e.Value == 0 ) {
 				e.Value = "MAX";
@@ -308,7 +336,7 @@ namespace ElectronicObserver.Window {
 				e.Value = "";
 				e.FormattingApplied = true;
 
-			} 
+			}
 
 		}
 
@@ -316,14 +344,17 @@ namespace ElectronicObserver.Window {
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
 			if ( e.Column.Index == ShipView_Name.Index ) {
-				e.SortResult = ((string)e.CellValue1).CompareTo( e.CellValue2 );		//checkme
+				//e.SortResult = ((string)e.CellValue1).CompareTo( e.CellValue2 );		//checkme
+				e.SortResult =
+					KCDatabase.Instance.Ships[(int)e.CellValue1].MasterShip.SortID -
+					KCDatabase.Instance.Ships[(int)e.CellValue2].MasterShip.SortID;
 
 			} else if ( e.Column.Index == ShipView_Level.Index ) {
 				e.SortResult = (int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag - (int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag;	//exptotal
 				if ( e.SortResult == 0 )	//for Lv.99-100
 					e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;
 
-			} else if ( 
+			} else if (
 				e.Column.Index == ShipView_HP.Index ||
 				e.Column.Index == ShipView_Fuel.Index ||
 				e.Column.Index == ShipView_Ammo.Index
@@ -394,17 +425,21 @@ namespace ElectronicObserver.Window {
 
 		private void MenuGroup_Delete_Click( object sender, EventArgs e ) {
 
-			if ( !( MenuGroup.SourceControl is ImageLabel ) )
+			ImageLabel senderLabel = MenuGroup.SourceControl as ImageLabel;
+			if ( senderLabel == null )
 				return;		//想定外
 
-			ImageLabel senderLabel = (ImageLabel)MenuGroup.SourceControl;
 			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)senderLabel.Tag];
 
 			if ( group != null ) {
 				if ( MessageBox.Show( string.Format( "グループ [{0}] を削除しますか？\r\nこの操作は元に戻せません。", group.Name ), "確認",
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 ) 
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 					== System.Windows.Forms.DialogResult.Yes ) {
 
+					if ( SelectedTab == senderLabel ) {
+						ShipView.Rows.Clear();
+						SelectedTab = null;
+					}
 					KCDatabase.Instance.ShipGroup.ShipGroups.Remove( group );
 					TabPanel.Controls.Remove( senderLabel );
 
@@ -427,13 +462,89 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
+
+		private void MenuMember_Opening( object sender, CancelEventArgs e ) {
+
+			if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) == 0 ) {
+
+				e.Cancel = true;
+			}
+		}
+
+		private void MenuMember_AddToGroup_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogTextSelect( "グループの選択", "追加するグループを選択してください：",
+				KCDatabase.Instance.ShipGroup.ShipGroups.Values.ToArray() ) ) {
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					ShipGroupData group = (ShipGroupData)dialog.SelectedItem;
+					if ( group != null ) {
+
+						List<int> members = new List<int>( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) );
+
+						foreach ( DataGridViewRow row in ShipView.SelectedRows ) {
+
+							members.Add( (int)row.Cells[ShipView_ID.Index].Value );
+						}
+
+						group.Members.AddRange( members );
+						group.CheckMembers();
+					}
+				}
+			}
+
+		}
+
+
+		private void MenuMember_CreateGroup_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogTextInput( "グループの追加", "追加するグループの名前を入力してください：" ) ) {
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					var group = KCDatabase.Instance.ShipGroup.Add();
+
+					group.Name = dialog.InputtedText;
+					foreach ( DataGridViewRow row in ShipView.SelectedRows ) {
+
+						group.Members.Add( (int)row.Cells[ShipView_ID.Index].Value );
+					}
+
+					ImageLabel il = CreateTabLabel( group.GroupID );
+					TabPanel.Controls.Add( il );
+
+					ChangeShipView( il );
+				}
+			}
+
+		}
+
+
+		private void MenuMember_Delete_Click( object sender, EventArgs e ) {
+
+			List<int> list = new List<int>( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) );
+
+			foreach ( DataGridViewRow row in ShipView.SelectedRows ) {
+				list.Add( (int)row.Cells[ShipView_ID.Index].Value );
+				ShipView.Rows.Remove( row );
+			}
+
+			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
+
+
+			for ( int i = 0; i < list.Count; i++ ) {
+				group.Members.Remove( list[i] );		//except...
+			}
+
+			
+		}
+
+
 		protected override string GetPersistString() {
 			return "ShipGroup";
 		}
 
-
-
-		
-		
 	}
 }
