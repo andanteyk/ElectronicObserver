@@ -23,7 +23,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 所属艦のIDリスト
 		/// </summary>
-		public List<int> Members { get; private set; }
+		public List<int> Members { get; internal set; }
 		
 		/// <summary>
 		/// 所属艦リスト

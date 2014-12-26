@@ -51,7 +51,6 @@
 			// 
 			// TableMain
 			// 
-			this.TableMain.AutoSize = true;
 			this.TableMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.TableMain.ColumnCount = 3;
 			this.TableMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
@@ -358,7 +357,6 @@
 			this.TableMain.ResumeLayout(false);
 			this.TableMain.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 

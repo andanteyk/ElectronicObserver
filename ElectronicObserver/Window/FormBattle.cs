@@ -324,7 +324,7 @@ namespace ElectronicObserver.Window {
 
 
 
-	
+
 		private void SetFormation( BattleData bd ) {
 
 			FormationFriend.Text = Constants.GetFormationShort( bd.Data.api_formation[0] is string ? int.Parse( bd.Data.api_formation[0] ) : (int)bd.Data.api_formation[0] );
@@ -640,8 +640,53 @@ namespace ElectronicObserver.Window {
 			DamageEnemy.Text = string.Format( "{0:0.0}%", enemyrate * 100.0 );
 
 
-			//undone: 戦績判定
+			//戦績判定
+			{
+				int countFriend = KCDatabase.Instance.Fleet[(int)bd.FleetIDFriend].Members.Count( v => v != -1 );
+				int countEnemy = ( bd.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
+				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 );
+				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
 
+				/*/		//debug
+				ToolTipInfo.SetToolTip( DamageRate, string.Format( "count: {0} - {1}\r\nsunk: {2} - {3}\r\nrate: {4} - {5}",
+					countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate ) );
+				//*/
+
+				if ( sunkFriend == 0 ) {
+					if ( enemyrate == 1.0 ) {
+						if ( friendrate == 0.0 )
+							DamageRate.Text = "SS";
+						else
+							DamageRate.Text = "S";
+
+					} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
+						DamageRate.Text = "A";
+
+					} else if ( hp[6] == 0 ||
+						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
+						DamageRate.Text = "B";
+
+					} else if ( (int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
+						DamageRate.Text = "C";
+
+					} else {
+						DamageRate.Text = "D";
+					}
+
+				} else {
+					if ( ( hp[6] == 0 && sunkFriend < sunkEnemy ) ||
+						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
+							DamageRate.Text = "B";
+					} else if ( ( hp[6] == 0 && sunkFriend >= sunkEnemy ) ||
+						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
+							DamageRate.Text = "C";
+					} else {
+						DamageRate.Text = "D";
+					}
+
+				}
+				
+			}
 		}
 
 		private void SetDamageRateCombined( int[] hp, BattleData bd ) {

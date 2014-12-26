@@ -3,11 +3,13 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -91,17 +93,16 @@ namespace ElectronicObserver.Window.Dialog {
 
 			BasePanelShipGirl.Visible = false;
 
-			//doublebuffered
-			System.Reflection.PropertyInfo prop = typeof( TableLayoutPanel ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			prop.SetValue( TableParameterMain, true, null );
-			prop.SetValue( TableParameterSub, true, null );
-			prop.SetValue( TableConsumption, true, null );
-			prop.SetValue( TableEquipment, true, null );
-			prop.SetValue( TableArsenal, true, null );
-			prop.SetValue( TableRemodel, true, null );
 
-			prop = typeof( DataGridView ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			prop.SetValue( ShipView, true, null );
+			ControlHelper.SetDoubleBuffered( TableShipName );
+			ControlHelper.SetDoubleBuffered( TableParameterMain );
+			ControlHelper.SetDoubleBuffered( TableParameterSub );
+			ControlHelper.SetDoubleBuffered( TableConsumption );
+			ControlHelper.SetDoubleBuffered( TableEquipment );
+			ControlHelper.SetDoubleBuffered( TableArsenal );
+			ControlHelper.SetDoubleBuffered( TableRemodel );
+
+			ControlHelper.SetDoubleBuffered( ShipView );
 			
 		}
 
@@ -143,6 +144,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ShipView.Sort( ShipView_ShipID, ListSortDirection.Ascending );
 			ShipView.ResumeLayout();
 
+			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQAlbum] );
 
 		}
 
@@ -207,13 +209,16 @@ namespace ElectronicObserver.Window.Dialog {
 			BasePanelShipGirl.SuspendLayout();
 
 			//header
+			TableShipName.SuspendLayout();
 			_shipID = shipID;
 			ShipID.Text = ship.ShipID.ToString();
 			ToolTipInfo.SetToolTip( ShipID, ship.ResourceName );
+			AlbumNo.Text = ship.AlbumNo.ToString();
 
 			ShipType.Text = ship.IsLandBase ? "陸上基地" : db.ShipTypes[ship.ShipType].Name;
 			ShipName.Text = ship.NameWithClass;
 			ToolTipInfo.SetToolTip( ShipName, !ship.IsAbyssalShip ? ship.NameReading : null );
+			TableShipName.ResumeLayout();
 
 
 			//main parameter
@@ -265,7 +270,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TableParameterSub.ResumeLayout();
 
 
-			Description.Text = ship.MessageGet;
+			Description.Text = ship.MessageAlbum != "" ? ship.MessageAlbum : ship.MessageGet;
 
 
 			//equipment
@@ -518,6 +523,194 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 
 			}
+		}
+
+
+
+
+		private void StripMenu_File_OutputCSVUser_Click( object sender, EventArgs e ) {
+
+			if ( SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+				try {
+
+					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Encoding.Default ) ) {
+
+						sw.WriteLine( "艦船ID,図鑑番号,艦種,艦名,読み,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,耐久初期,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期,対潜最大,回避初期,回避最大,索敵初期,索敵最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名" );
+
+						foreach ( ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values ) {
+
+							if ( ship.Name == "なし" ) continue;
+
+							sw.WriteLine( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41},{42},{43},{44},{45},{46},{47},{48},{49},{50},{51},{52},{53},{54},{55},{56},{57}",
+								ship.ShipID,
+								ship.AlbumNo,
+								KCDatabase.Instance.ShipTypes[ship.ShipType].Name,
+								ship.Name,
+								ship.NameReading,
+								ship.RemodelBeforeShipID > 0 ? ship.RemodelBeforeShip.Name : "-",
+								ship.RemodelAfterShipID > 0 ? ship.RemodelAfterShip.Name : "-",
+								ship.RemodelAfterLevel,
+								ship.RemodelAmmo,
+								ship.RemodelSteel,
+								ship.NeedBlueprint > 0 ? ship.NeedBlueprint + "枚" : "-",
+								ship.HPMin,
+								ship.HPMaxMarried,
+								ship.FirepowerMin,
+								ship.FirepowerMax,
+								ship.TorpedoMin,
+								ship.TorpedoMax,
+								ship.AAMin,
+								ship.AAMax,
+								ship.ArmorMin,
+								ship.ArmorMax,
+								ship.ASW != null && !ship.ASW.IsMinimumDefault ? ship.ASW.Minimum.ToString() : "???",
+								ship.ASW != null && !ship.ASW.IsMaximumDefault ? ship.ASW.Maximum.ToString() : "???",
+								ship.Evasion != null && !ship.Evasion.IsMinimumDefault ? ship.Evasion.Minimum.ToString() : "???",
+								ship.Evasion != null && !ship.Evasion.IsMaximumDefault ? ship.Evasion.Maximum.ToString() : "???",
+								ship.LOS != null && !ship.LOS.IsMinimumDefault ? ship.LOS.Minimum.ToString() : "???",
+								ship.LOS != null && !ship.LOS.IsMaximumDefault ? ship.LOS.Maximum.ToString() : "???",
+								ship.LuckMin,
+								ship.LuckMax,
+								Constants.GetSpeed( ship.Speed ),
+								Constants.GetRange( ship.Range ),
+								Constants.GetShipRarity( ship.Rarity ),
+								ship.SlotSize,
+								ship.Aircraft[0],
+								ship.Aircraft[1],
+								ship.Aircraft[2],
+								ship.Aircraft[3],
+								ship.Aircraft[4],
+								ship.DefaultSlot != null ? ( ship.DefaultSlot[0] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[0]].Name : ( ship.SlotSize > 0 ? "(なし)" : "" ) ) : "???",
+								ship.DefaultSlot != null ? ( ship.DefaultSlot[1] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[1]].Name : ( ship.SlotSize > 1 ? "(なし)" : "" ) ) : "???",
+								ship.DefaultSlot != null ? ( ship.DefaultSlot[2] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[2]].Name : ( ship.SlotSize > 2 ? "(なし)" : "" ) ) : "???",
+								ship.DefaultSlot != null ? ( ship.DefaultSlot[3] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[3]].Name : ( ship.SlotSize > 3 ? "(なし)" : "" ) ) : "???",
+								ship.DefaultSlot != null ? ( ship.DefaultSlot[4] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[4]].Name : ( ship.SlotSize > 4 ? "(なし)" : "" ) ) : "???",
+								DateTimeHelper.ToTimeRemainString( new TimeSpan( 0, ship.BuildingTime, 0 ) ), 
+								ship.Material[0],
+								ship.Material[1],
+								ship.Material[2],
+								ship.Material[3],
+								ship.PowerUp[0],
+								ship.PowerUp[1],
+								ship.PowerUp[2],
+								ship.PowerUp[3],
+								ship.MessageGet.Replace( "\n", "<br>" ),
+								ship.MessageAlbum.Replace( "\n", "<br>" ),
+								ship.Fuel,
+								ship.Ammo,
+								Constants.GetVoiceFlag( ship.VoiceFlag ),
+								ship.ResourceName
+								);
+
+						}
+
+					}
+
+				} catch ( Exception ex ) {
+
+					MessageBox.Show( "CSVの書き出しに失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
+
+			}
+
+		}
+
+
+		private void StripMenu_File_OutputCSVData_Click( object sender, EventArgs e ) {
+
+			if ( SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+				try {
+
+					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Encoding.Default ) ) {
+
+						sw.WriteLine( "艦船ID,図鑑番号,艦名,読み,艦種,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,耐久初期,耐久最大,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期最小,対潜初期最大,対潜最大,対潜150最小,対潜150最大,回避初期最小,回避初期最大,回避最大,回避150最小,回避150最大,索敵初期最小,索敵初期最大,索敵最大,索敵150最小,索敵150最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名" );
+
+						foreach ( ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values ) {
+
+							sw.WriteLine( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41},{42},{43},{44},{45},{46},{47},{48},{49},{50},{51},{52},{53},{54},{55},{56},{57},{58},{59},{60},{61},{62},{63},{64},{65},{66},{67}",
+								ship.ShipID,
+								ship.AlbumNo,
+								ship.Name,
+								ship.NameReading,
+								ship.ShipType,
+								ship.RemodelBeforeShipID,
+								ship.RemodelAfterShipID,
+								ship.RemodelAfterLevel,
+								ship.RemodelAmmo,
+								ship.RemodelSteel,
+								ship.NeedBlueprint,
+								ship.HPMin,
+								ship.HPMax,
+								ship.HPMaxMarried,
+								ship.FirepowerMin,
+								ship.FirepowerMax,
+								ship.TorpedoMin,
+								ship.TorpedoMax,
+								ship.AAMin,
+								ship.AAMax,
+								ship.ArmorMin,
+								ship.ArmorMax,
+								ship.ASW != null ? ship.ASW.MinimumEstMin : ShipParameterRecord.Parameter.MinimumDefault,
+								ship.ASW != null ? ship.ASW.MinimumEstMax : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.ASW != null ? ship.ASW.Maximum : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.ASW != null ? ship.ASW.GetEstParameterMin( 150 ) : ShipParameterRecord.Parameter.MinimumDefault,
+								ship.ASW != null ? ship.ASW.GetEstParameterMax( 150 ) : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.Evasion != null ? ship.Evasion.MinimumEstMin : ShipParameterRecord.Parameter.MinimumDefault,
+								ship.Evasion != null ? ship.Evasion.MinimumEstMax : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.Evasion != null ? ship.Evasion.Maximum : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.Evasion != null ? ship.Evasion.GetEstParameterMin( 150 ) : ShipParameterRecord.Parameter.MinimumDefault,
+								ship.Evasion != null ? ship.Evasion.GetEstParameterMax( 150 ) : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.LOS != null ? ship.LOS.MinimumEstMin : ShipParameterRecord.Parameter.MinimumDefault,
+								ship.LOS != null ? ship.LOS.MinimumEstMax : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.LOS != null ? ship.LOS.Maximum : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.LOS != null ? ship.LOS.GetEstParameterMin( 150 ) : ShipParameterRecord.Parameter.MinimumDefault,
+								ship.LOS != null ? ship.LOS.GetEstParameterMax( 150 ) : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.LuckMin,
+								ship.LuckMax,
+								ship.Speed,
+								ship.Range,
+								ship.Rarity,
+								ship.SlotSize,
+								ship.Aircraft[0],
+								ship.Aircraft[1],
+								ship.Aircraft[2],
+								ship.Aircraft[3],
+								ship.Aircraft[4],
+								ship.DefaultSlot != null ? ship.DefaultSlot[0] : -1,
+								ship.DefaultSlot != null ? ship.DefaultSlot[1] : -1,
+								ship.DefaultSlot != null ? ship.DefaultSlot[2] : -1,
+								ship.DefaultSlot != null ? ship.DefaultSlot[3] : -1,
+								ship.DefaultSlot != null ? ship.DefaultSlot[4] : -1,
+								ship.BuildingTime,
+								ship.Material[0],
+								ship.Material[1],
+								ship.Material[2],
+								ship.Material[3],
+								ship.PowerUp[0],
+								ship.PowerUp[1],
+								ship.PowerUp[2],
+								ship.PowerUp[3],
+								ship.MessageGet.Replace( "\n", "<br>" ),
+								ship.MessageAlbum.Replace( "\n", "<br>" ),
+								ship.Fuel,
+								ship.Ammo,
+								ship.VoiceFlag,
+								ship.ResourceName
+								);
+
+						}
+
+					}
+
+				} catch ( Exception ex ) {
+
+					MessageBox.Show( "CSVの書き出しに失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
+
+			}
+
 		}
 
 	

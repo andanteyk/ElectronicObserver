@@ -64,6 +64,8 @@
 			this.QuestView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.QuestView.Size = new System.Drawing.Size(300, 200);
 			this.QuestView.TabIndex = 0;
+			this.QuestView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.QuestView_SortCompare);
+			this.QuestView.Sorted += new System.EventHandler(this.QuestView_Sorted);
 			// 
 			// QuestView_State
 			// 
@@ -72,6 +74,7 @@
 			this.QuestView_State.IndeterminateValue = "";
 			this.QuestView_State.Name = "QuestView_State";
 			this.QuestView_State.ReadOnly = true;
+			this.QuestView_State.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 			this.QuestView_State.ThreeState = true;
 			this.QuestView_State.TrueValue = "";
 			this.QuestView_State.Width = 24;

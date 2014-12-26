@@ -74,6 +74,8 @@ namespace ElectronicObserver.Window {
 
 				case "api_get_member/picture_book": {
 						StringBuilder sb = new StringBuilder();
+
+					/*
 						sb.AppendLine( "[中破絵未回収]" );
 
 						foreach ( dynamic elem in data.api_list ) {
@@ -88,7 +90,59 @@ namespace ElectronicObserver.Window {
 								}
 							}
 						}
+					*/
 
+						if ( data.api_list != null ) {
+							int startIndex = (int)data.api_list[0].api_index_no;
+							int bound = 50;
+							bool[] flags = Enumerable.Repeat<bool>( false, bound ).ToArray();
+
+							if ( data.api_list[0].api_yomi() ) {
+								//艦娘図鑑
+								sb.AppendLine( "[中破絵未回収]" );
+
+								foreach ( dynamic elem in data.api_list ) {
+
+									flags[(int)elem.api_index_no - startIndex] = true;
+
+									dynamic[] state = elem.api_state;
+									for ( int i = 0; i < state.Length; i++ ) {
+										if ( (int)state[i][1] == 0 ) {
+											sb.AppendLine( KCDatabase.Instance.MasterShips[(int)elem.api_table_id[i]].Name );
+										}
+									}
+
+								}
+
+								sb.AppendLine( "[未保有艦]" );
+								for ( int i = 0; i < bound; i++ ) {
+									if ( !flags[i] ) {
+										ShipDataMaster ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault( s => s.AlbumNo == startIndex + i );
+										if ( ship != null ) {
+											sb.AppendLine( ship.Name );
+										}
+									}
+								}
+
+							} else {
+								//装備図鑑
+								foreach ( dynamic elem in data.api_list ) {
+
+									flags[(int)elem.api_index_no - startIndex] = true;
+								}
+
+								sb.AppendLine( "[未保有装備]" );
+								for ( int i = 0; i < bound; i++ ) {
+									if ( !flags[i] ) {
+										EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments.Values.FirstOrDefault( s => s.AlbumNo == startIndex + i );
+										if ( eq != null ) {
+											sb.AppendLine( eq.Name );
+										}
+									}
+								}
+							}
+						}
+						
 						TextInformation.Text = sb.ToString();
 					} break;
 

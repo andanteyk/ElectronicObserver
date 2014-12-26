@@ -41,7 +41,22 @@ namespace ElectronicObserver.Resource.Record {
 			/// </summary>
 			public int MinimumEstMax { get; set; }
 
+
+			/// <summary>
+			/// 初期値がデフォルト状態かどうか
+			/// </summary>
+			public bool IsMinimumDefault {
+				get { return MinimumEstMin == MinimumDefault && MinimumEstMax == MaximumDefault; }
+			}
+
+			/// <summary>
+			/// 最大値がデフォルト状態かどうか
+			/// </summary>
+			public bool IsMaximumDefault {
+				get { return MinimumEstMin == MinimumDefault && MinimumEstMax == MaximumDefault; }
+			}
 			
+
 			/// <summary>
 			/// 最小値の初期値
 			/// </summary>
@@ -96,6 +111,16 @@ namespace ElectronicObserver.Resource.Record {
 				}
 
 			}
+
+
+			public int GetEstParameterMin( int level ) {
+				return MinimumEstMin + (int)( ( Maximum - MinimumEstMin ) * level / 99.0 );
+			}
+
+			public int GetEstParameterMax( int level ) {
+				return MinimumEstMax + (int)( ( Maximum - MinimumEstMax ) * level / 99.0 );
+			}
+
 		}
 
 
@@ -150,6 +175,12 @@ namespace ElectronicObserver.Resource.Record {
 			public int[] DefaultSlot { get; internal set; }
 
 
+			/// <summary>
+			/// 図鑑の説明文
+			/// </summary>
+			public string MessageAlbum { get; internal set; }
+
+
 			public ShipParameterElement()
 				: base() {
 
@@ -158,6 +189,7 @@ namespace ElectronicObserver.Resource.Record {
 				LOS = new Parameter();
 
 				DefaultSlot = null;
+				MessageAlbum = null;
 			}
 
 			public ShipParameterElement( string line )
@@ -192,14 +224,18 @@ namespace ElectronicObserver.Resource.Record {
 					DefaultSlot = null;
 				
 				} else {
-					DefaultSlot = new int[elem.Length - 11];
+					DefaultSlot = new int[5];
 
-					for ( int i = 11; i < elem.Length; i++ ) {
-						DefaultSlot[i - 11] = int.Parse( elem[i] );
+					for ( int i = 0; i < DefaultSlot.Length; i++ ) {
+						DefaultSlot[i] = int.Parse( elem[i + 11] );
 					}
 				}
 
+				if ( elem.Length >= 17 )		//fixme: 互換性維持のため　リリース時には削除してください
+					MessageAlbum = elem[16].ToLower() == "null" ? null : elem[16];
+
 			}
+
 
 			public override string SaveLine() {
 				StringBuilder sb = new StringBuilder();
@@ -218,12 +254,14 @@ namespace ElectronicObserver.Resource.Record {
 					LOS.Maximum );
 
 				if ( DefaultSlot == null ) {
-					sb.Append( ",null" );
+					sb.Append( ",null,null,null,null,null" );
 				} else {
 					foreach ( int i in DefaultSlot ) {
 						sb.AppendFormat( ",{0}", i );
 					}
 				}
+
+				sb.AppendFormat( ",{0}", MessageAlbum );
 
 				return sb.ToString();
 			}
@@ -403,7 +441,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		/// <summary>
-		/// 艦娘図鑑から回避・対潜の初期値を読み込みます。
+		/// 艦娘図鑑から回避・対潜の初期値及び説明文を読み込みます。
 		/// </summary>
 		private void AlbumOpened( string apiname, dynamic data ) {
 
@@ -422,8 +460,29 @@ namespace ElectronicObserver.Resource.Record {
 				}
 
 				e.ASW.SetEstParameter( 1, (int)elem.api_tais, Parameter.MaximumDefault );
-				e.Evasion.SetEstParameter( 1, (int)elem.api_kaih, Parameter.MaximumDefault );
+				e.Evasion.SetEstParameter( 1, (int)elem.api_kaih, Parameter.MaximumDefault ); 
 				
+
+				{	//図鑑説明文登録(図鑑に載っていない改装艦に関してはその改装前の艦の説明文を設定する)
+					e.MessageAlbum = elem.api_sinfo;
+
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
+					while ( ship != null && ship.RemodelAfterShipID > 0 ) {
+						ShipParameterElement e2 = this[ship.RemodelAfterShipID];
+						if ( e2 == null ) {
+							e2 = new ShipParameterElement();
+							e2.ShipID = ship.RemodelAfterShipID;
+						}
+						if ( e2.MessageAlbum == null ) {
+							e2.MessageAlbum = e.MessageAlbum;
+							Update( e2 );
+						}
+
+						ship = KCDatabase.Instance.MasterShips[ship.RemodelAfterShipID];
+					}
+				}
+				
+
 				Update( e );
 				Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを更新しました。" );
 			}
@@ -546,7 +605,7 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 		protected override string RecordHeader {
-			get { return "艦船ID,艦船名,対潜初期下限,対潜初期上限,対潜最大,回避初期下限,回避初期上限,回避最大,索敵初期下限,索敵初期上限,索敵最大,初期装備"; }
+			get { return "艦船ID,艦船名,対潜初期下限,対潜初期上限,対潜最大,回避初期下限,回避初期上限,回避最大,索敵初期下限,索敵初期上限,索敵最大,装備1,装備2,装備3,装備4,装備5,図鑑説明"; }
 		}
 
 		public override string FileName {

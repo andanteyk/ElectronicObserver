@@ -24,9 +24,9 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 並べ替え順
+		/// 図鑑番号
 		/// </summary>
-		public int SortID {
+		public int AlbumNo {
 			get { return (int)RawData.api_sortno; }
 		}
 
@@ -59,7 +59,6 @@ namespace ElectronicObserver.Data {
 			get { return (int)RawData.api_afterlv; }
 		}
 
-		//参照にしてもいいかも
 		/// <summary>
 		/// 改装後の艦船ID
 		/// 0=なし
@@ -69,13 +68,29 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 改装後の艦船
+		/// </summary>
+		public ShipDataMaster RemodelAfterShip {
+			get { return RemodelAfterShipID > 0 ? KCDatabase.Instance.MasterShips[RemodelAfterShipID] : null; }
+		}
+
+
+		/// <summary>
 		/// 改装前の艦船ID
 		/// 0=なし
 		/// </summary>
 		public int RemodelBeforeShipID { get; internal set; }
 
 		/// <summary>
-		/// 改装に必要な燃料
+		/// 改装前の艦船
+		/// </summary>
+		public ShipDataMaster RemodelBeforeShip {
+			get { return RemodelBeforeShipID > 0 ? KCDatabase.Instance.MasterShips[RemodelBeforeShipID] : null; }
+		}
+
+	
+		/// <summary>
+		/// 改装に必要な弾薬
 		/// </summary>
 		public int RemodelAmmo {
 			get { return (int)RawData.api_afterfuel; }
@@ -166,24 +181,9 @@ namespace ElectronicObserver.Data {
 			get { return (int)RawData.api_tyku[1]; }
 		}
 
-		/// <summary>
-		/// 対潜初期値
-		/// </summary>
-		public int ASWMin {
-			//get { return (int)RawData.api_tais[0]; }
-			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
-		}
 
 		/// <summary>
-		/// 対潜最大値
-		/// </summary>
-		public int ASWMax {
-			//get { return (int)RawData.api_tais[1]; }
-			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
-		}
-
-		/// <summary>
-		/// 対潜(暫定)
+		/// 対潜
 		/// </summary>
 		public ShipParameterRecord.Parameter ASW {
 			get {
@@ -196,23 +196,7 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 回避初期値
-		/// </summary>
-		public int EvasionMin {
-			//get { return (int)RawData.api_kaih[0]; }
-			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
-		}
-
-		/// <summary>
-		/// 回避最大値
-		/// </summary>
-		public int EvasionMax {
-			//get { return (int)RawData.api_kaih[1]; }
-			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
-		}
-
-		/// <summary>
-		/// 回避(暫定)
+		/// 回避
 		/// </summary>
 		public ShipParameterRecord.Parameter Evasion {
 			get {
@@ -225,23 +209,7 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 索敵初期値
-		/// </summary>
-		public int LOSMin {
-			//get { return (int)RawData.api_saku[0]; }
-			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
-		}
-
-		/// <summary>
-		/// 索敵最大値
-		/// </summary>
-		public int LOSMax {
-			//get { return (int)RawData.api_saku[1]; }
-			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
-		}
-
-		/// <summary>
-		/// 索敵(暫定)
+		/// 索敵
 		/// </summary>
 		public ShipParameterRecord.Parameter LOS {
 			get {
@@ -252,6 +220,7 @@ namespace ElectronicObserver.Data {
 					return null;
 			}
 		}
+
 
 		/// <summary>
 		/// 運初期値
@@ -351,9 +320,14 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 艦船名鑑でのメッセージ
 		/// </summary>
-		public string MessageDict {
-			//get { return ( (string)RawData.api_sinfo ).Replace( "<br>", "\n" ); }
-			get { throw new NotImplementedException(); }	// 2014/10/10 アップデートで削除されました。対策検討中です
+		public string MessageAlbum {
+			get {
+				ShipParameterRecord.ShipParameterElement e = RecordManager.Instance.ShipParameter[ShipID];
+				if ( e != null && e.MessageAlbum != null )
+					return e.MessageAlbum.Replace( "<br>", "\n" );
+				else
+					return "";
+			}
 		}
 
 		/// <summary>
@@ -368,6 +342,14 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int Ammo {
 			get { return (int)RawData.api_bull_max; }
+		}
+
+
+		/// <summary>
+		/// ボイス再生フラグ
+		/// </summary>
+		public int VoiceFlag {
+			get { return (int)RawData.api_voicef; }
 		}
 
 
@@ -401,7 +383,7 @@ namespace ElectronicObserver.Data {
 		/// 深海棲艦かどうか
 		/// </summary>
 		public bool IsAbyssalShip {
-			get { return ShipID > 500; }
+			get { return 500 < ShipID && ShipID <= 900; }
 		}
 
 		/// <summary>
@@ -431,9 +413,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public string NameWithClass {
 			get {
-				if ( !IsAbyssalShip )
-					return Name;
-				else if ( NameReading == "" || NameReading == "-" )
+				if ( !IsAbyssalShip || NameReading == "" || NameReading == "-" )
 					return Name;
 				else
 					return string.Format( "{0} {1}", Name, NameReading );
@@ -449,6 +429,13 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		/// <summary>
+		/// 図鑑に載っているか
+		/// </summary>
+		public bool IsListedInAlbum {
+			get { return 0 < AlbumNo && AlbumNo <= 300; }
+		}
 
 
 

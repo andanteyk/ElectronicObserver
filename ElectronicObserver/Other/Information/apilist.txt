@@ -10,7 +10,7 @@ api_start2	：艦娘・装備固有データその他
 	
 	api_mst_ship		：艦船データ
 		api_id			：艦娘固有ID
-		api_sortno		：並べ替え順
+		api_sortno		：図鑑番号
 		api_name		：艦娘名
 		api_yomi		：艦娘名読み/(敵艦船)クラス
 		api_stype		：艦種
@@ -35,11 +35,11 @@ api_start2	：艦娘・装備固有データその他
 		api_afterbull	：改装弾薬
 		api_fuel_max	：消費燃料
 		api_bull_max	：消費弾薬
-		api_voicef		：ボイス設定フラグ
+		api_voicef		：ボイス設定フラグ ビットフラグ; 1=放置ボイス, 2=時報
 	
 	api_mst_shipgraph	：艦船画像設定
 		api_id			：艦船ID
-		api_sortno		：並び替え順
+		api_sortno		：図鑑番号
 		api_filename	：ファイル名
 		api_version		：ファイルのバージョン string
 		api_boko_n		：母港での座標(無傷)？

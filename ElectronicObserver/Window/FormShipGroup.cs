@@ -31,6 +31,8 @@ namespace ElectronicObserver.Window {
 			CSRedRight, CSOrangeRight, CSYellowRight, CSGreenRight, CSGrayRight, CSCherryRight,
 			CSIsLocked;
 
+		private ShipGroupData ShipGroupMaster;
+
 		private ImageLabel SelectedTab = null;
 
 
@@ -39,6 +41,9 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( ShipView );
 
+
+			ShipGroupMaster = new ShipGroupData( -1 );
+			ShipGroupMaster.Name = "全所属艦";
 
 			#region set CellStyle
 
@@ -124,7 +129,7 @@ namespace ElectronicObserver.Window {
 			label.ImageAlign = ContentAlignment.MiddleCenter;
 			label.AutoSize = true;
 
-			//undone:イベントと固有IDの追加(内部データとの紐付)
+			//イベントと固有IDの追加(内部データとの紐付)
 			label.Click += TabLabel_Click;
 			label.ContextMenuStrip = MenuGroup;
 			label.Tag = id;
@@ -151,16 +156,23 @@ namespace ElectronicObserver.Window {
 				//checkme: なんかアレなのでもっといいのが思いついたら変更する
 				//fixme: [全所属艦]はソート順が保持できない
 				ShipGroupData g = KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
-				if ( g != null ) {
-					g.Members.Clear();
-					g.Members.Capacity = ShipView.Rows.GetRowCount( DataGridViewElementStates.None );
+				if ( g == null )
+					g = ShipGroupMaster;
 
-					foreach ( DataGridViewRow row in ShipView.Rows ) {
-						g.Members.Add( (int)row.Cells[ShipView_ID.Index].Value );
-					}
+				g.Members.Clear();
+				g.Members.Capacity = ShipView.Rows.GetRowCount( DataGridViewElementStates.None );
+
+				foreach ( DataGridViewRow row in ShipView.Rows ) {
+					g.Members.Add( (int)row.Cells[ShipView_ID.Index].Value );
 				}
+				
 			}
 
+
+			if ( group == null ) {
+				ShipGroupMaster.Members = ShipGroupMaster.Members.Intersect( KCDatabase.Instance.Ships.Keys ).Union( KCDatabase.Instance.Ships.Keys ).Distinct().ToList();
+				group = ShipGroupMaster;
+			}
 
 
 			ShipView.SuspendLayout();
@@ -346,8 +358,8 @@ namespace ElectronicObserver.Window {
 			if ( e.Column.Index == ShipView_Name.Index ) {
 				//e.SortResult = ((string)e.CellValue1).CompareTo( e.CellValue2 );		//checkme
 				e.SortResult =
-					KCDatabase.Instance.Ships[(int)e.CellValue1].MasterShip.SortID -
-					KCDatabase.Instance.Ships[(int)e.CellValue2].MasterShip.SortID;
+					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag].AlbumNo -
+					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag].AlbumNo;
 
 			} else if ( e.Column.Index == ShipView_Level.Index ) {
 				e.SortResult = (int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag - (int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag;	//exptotal

@@ -23,9 +23,9 @@ namespace ElectronicObserver.Data {
 		}
 		
 		/// <summary>
-		/// 並べ替え順
+		/// 図鑑番号
 		/// </summary>
-		public int SortID {
+		public int AlbumNo {
 			get { return (int)RawData.api_sortno; }
 		}
 		
@@ -155,6 +155,14 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public bool IsAbyssalEquipment {
 			get { return EquipmentID > 500; }
+		}
+
+
+		/// <summary>
+		/// 図鑑に載っているか
+		/// </summary>
+		public bool IsListedInAlbum {
+			get { return AlbumNo > 0; }
 		}
 
 

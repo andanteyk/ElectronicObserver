@@ -29,7 +29,7 @@ namespace ElectronicObserver.Data.Battle {
 		}
 
 		/// <summary>
-		/// MVP
+		/// MVP艦のインデックス(1-6)
 		/// </summary>
 		public int MVP {
 			get { return (int)RawData.api_mvp; }
@@ -46,6 +46,10 @@ namespace ElectronicObserver.Data.Battle {
 
 		//lostflag
 
+
+		/// <summary>
+		/// 敵艦隊名
+		/// </summary>
 		public string EnemyFleetName {
 			get { return RawData.api_enemy_info.api_deck_name; }
 		}
@@ -64,6 +68,21 @@ namespace ElectronicObserver.Data.Battle {
 					return -1;
 
 				return (int)RawData.api_get_ship.api_ship_id;
+			}
+		}
+
+
+		/// <summary>
+		/// ドロップしたアイテムのID
+		/// </summary>
+		public int DroppedItemID {
+			get {
+				if ( _APIName == "api_req_practice/battle_result" )
+					return -1;
+				if ( (int)RawData.api_get_flag[0] == 0 )
+					return -1;
+
+				return (int)RawData.api_get_useitem.api_useitem_id;
 			}
 		}
 

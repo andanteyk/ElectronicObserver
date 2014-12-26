@@ -67,9 +67,9 @@ namespace ElectronicObserver.Window {
 				row.CreateCells( QuestView );
 
 
-				row.Cells[0].Value = ( q.State == 3 ) ? ( (bool ?)null ) : ( q.State == 2 );
-				row.Cells[1].Value = Constants.GetQuestType( q.Type );
-				row.Cells[2].Value = q.Name;
+				row.Cells[QuestView_State.Index].Value = ( q.State == 3 ) ? ( (bool ?)null ) : ( q.State == 2 );
+				row.Cells[QuestView_Type.Index].Value = Constants.GetQuestType( q.Type );
+				row.Cells[QuestView_Name.Index].Value = q.Name;
 				
 
 				{
@@ -87,7 +87,7 @@ namespace ElectronicObserver.Window {
 						}
 					}
 
-					row.Cells[3].Value = message;
+					row.Cells[QuestView_Progress.Index].Value = message;
 				}
 
 				QuestView.Rows.Add( row );
@@ -96,9 +96,9 @@ namespace ElectronicObserver.Window {
 
 			if ( KCDatabase.Instance.Quest.Quests.Count != KCDatabase.Instance.Quest.Count ) {
 				int index = QuestView.Rows.Add();
-				QuestView.Rows[index].Cells[0].Value = null;	//intermediate
+				QuestView.Rows[index].Cells[QuestView_State.Index].Value = null;	//intermediate
 				
-				QuestView.Rows[index].Cells[2].Value = "(未取得の任務 x " + ( KCDatabase.Instance.Quest.Count - KCDatabase.Instance.Quest.Quests.Count ) + " )";
+				QuestView.Rows[index].Cells[QuestView_Name.Index].Value = "(未取得の任務 x " + ( KCDatabase.Instance.Quest.Count - KCDatabase.Instance.Quest.Quests.Count ) + " )";
 			}
 
 			//更新時にソートする！
@@ -109,6 +109,29 @@ namespace ElectronicObserver.Window {
 
 		protected override string GetPersistString() {
 			return "Quest";
+		}
+
+		private void QuestView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
+
+			if ( e.Column.Index == QuestView_State.Index ) {
+				e.SortResult = ( e.CellValue1 == null ? 2 : ( (bool)e.CellValue1 ? 1 : 0 ) ) -
+					( e.CellValue2 == null ? 2 : ( (bool)e.CellValue2 ? 1 : 0 ) );
+			} else {
+				//undone: 疲れたので寝るから手抜き工事;後で修正せよ
+				e.SortResult = ( (string)e.CellValue1 ).CompareTo( e.CellValue2 );
+			}
+
+			if ( e.SortResult == 0 ) {
+				e.SortResult = (int)( QuestView.Rows[e.RowIndex1].Tag ?? 0 ) - (int)( QuestView.Rows[e.RowIndex2].Tag ?? 0 );
+			}
+		}
+
+		private void QuestView_Sorted( object sender, EventArgs e ) {
+
+			for ( int i = 0; i < QuestView.Rows.Count; i++ ) {
+				QuestView.Rows[i].Tag = i;
+			}
+
 		}
 
 	}

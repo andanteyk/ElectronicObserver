@@ -3,6 +3,7 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,15 +61,13 @@ namespace ElectronicObserver.Window.Dialog {
 
 			BasePanelEquipment.Visible = false;
 
-			//doublebuffered
-			System.Reflection.PropertyInfo prop = typeof( TableLayoutPanel ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			prop.SetValue( TableParameterMain, true, null );
-			prop.SetValue( TableParameterSub, true, null );
-			prop.SetValue( TableArsenal, true, null );
-			
-			prop = typeof( DataGridView ).GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			prop.SetValue( EquipmentView, true, null );
-			
+
+			ControlHelper.SetDoubleBuffered( TableParameterMain );
+			ControlHelper.SetDoubleBuffered( TableParameterSub );
+			ControlHelper.SetDoubleBuffered( TableArsenal );
+
+			ControlHelper.SetDoubleBuffered( EquipmentView );
+
 		}
 
 		public DialogAlbumMasterEquipment( int shipID )
@@ -109,6 +108,9 @@ namespace ElectronicObserver.Window.Dialog {
 			EquipmentView.Sort( EquipmentView_ID, ListSortDirection.Ascending );
 			EquipmentView.ResumeLayout();
 
+
+			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQAlbum] );
+
 		}
 
 
@@ -134,7 +136,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void EquipmentView_Sorted( object sender, EventArgs e ) {
 
 			for ( int i = 0; i < EquipmentView.Rows.Count; i++ ) {
-				EquipmentView.Rows[i].Tag = i;// EquipmentView.SortOrder == SortOrder.Ascending ? i : EquipmentView.Rows.Count - 1 - i;
+				EquipmentView.Rows[i].Tag = i;
 			}
 		}
 
@@ -192,7 +194,6 @@ namespace ElectronicObserver.Window.Dialog {
 			//main parameter
 			TableParameterMain.SuspendLayout();
 
-
 			SetParameterText( Firepower, eq.Firepower );
 			SetParameterText( Torpedo, eq.Torpedo );
 			SetParameterText( AA, eq.AA );
@@ -202,7 +203,6 @@ namespace ElectronicObserver.Window.Dialog {
 			SetParameterText( LOS, eq.LOS );
 			SetParameterText( Accuracy, eq.Accuracy );
 			SetParameterText( Bomber, eq.Bomber );
-
 
 			TableParameterMain.ResumeLayout();
 
@@ -214,7 +214,6 @@ namespace ElectronicObserver.Window.Dialog {
 			Range.Text = Constants.GetRange( eq.Range );
 			Rarity.Text = Constants.GetEquipmentRarity( eq.Rarity );
 			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + Constants.GetEquipmentRarityID( eq.Rarity );		//checkme
-
 
 			TableParameterSub.ResumeLayout();
 
@@ -321,6 +320,116 @@ namespace ElectronicObserver.Window.Dialog {
 		
 		private void TableArsenal_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		}
+
+
+
+
+		private void StripMenu_File_OutputCSVUser_Click( object sender, EventArgs e ) {
+
+			if ( SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+				try {
+
+					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Encoding.Default ) ) {
+
+						sw.WriteLine( "装備ID,図鑑番号,装備種,装備名,装備種1,装備種2,装備種3,装備種4,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章" );
+
+						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
+
+							sw.WriteLine( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24}",
+								eq.EquipmentID,
+								eq.AlbumNo,
+								KCDatabase.Instance.EquipmentTypes[eq.EquipmentType[2]].Name,
+								eq.Name,
+								eq.EquipmentType[0],
+								eq.EquipmentType[1],
+								eq.EquipmentType[2],
+								eq.EquipmentType[3],
+								eq.Firepower,
+								eq.Torpedo,
+								eq.AA,
+								eq.Armor,
+								eq.ASW,
+								eq.Evasion,
+								eq.LOS,
+								eq.Luck,
+								eq.Accuracy,
+								eq.Bomber,
+								Constants.GetRange( eq.Range ),
+								Constants.GetEquipmentRarity( eq.Rarity ),
+								eq.Material[0],
+								eq.Material[1],
+								eq.Material[2],
+								eq.Material[3],
+								eq.Message.Replace( "\n", "<br>" )
+								);
+
+						}
+
+					}
+
+				} catch ( Exception ex ) {
+
+					MessageBox.Show( "CSVの書き出しに失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
+
+			}
+
+
+		}
+
+
+		private void StripMenu_File_OutputCSVData_Click( object sender, EventArgs e ) {
+
+			if ( SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+				try {
+
+					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Encoding.Default ) ) {
+
+						sw.WriteLine( "装備ID,図鑑番号,装備名,装備種1,装備種2,装備種3,装備種4,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章" );
+
+						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
+
+							sw.WriteLine( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23}",
+								eq.EquipmentID,
+								eq.AlbumNo,
+								eq.Name,
+								eq.EquipmentType[0],
+								eq.EquipmentType[1],
+								eq.EquipmentType[2],
+								eq.EquipmentType[3],
+								eq.Firepower,
+								eq.Torpedo,
+								eq.AA,
+								eq.Armor,
+								eq.ASW,
+								eq.Evasion,
+								eq.LOS,
+								eq.Luck,
+								eq.Accuracy,
+								eq.Bomber,
+								eq.Range,
+								eq.Rarity,
+								eq.Material[0],
+								eq.Material[1],
+								eq.Material[2],
+								eq.Material[3],
+								eq.Message.Replace( "\n", "<br>" )
+								);
+
+						}
+
+					}
+
+				} catch ( Exception ex ) {
+
+					MessageBox.Show( "CSVの書き出しに失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
+
+			}
+
 		}
 
 
