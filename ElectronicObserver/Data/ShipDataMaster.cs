@@ -358,6 +358,12 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public string ResourceName { get; internal set; }
 
+		/// <summary>
+		/// リソースのバージョン
+		/// </summary>
+		public string ResourceVersion { get; internal set; }
+
+
 
 
 		//以下、自作計算プロパティ群

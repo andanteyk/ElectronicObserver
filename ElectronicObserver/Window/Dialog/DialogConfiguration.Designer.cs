@@ -49,11 +49,13 @@
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
 			this.label7 = new System.Windows.Forms.Label();
+			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
-			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
+			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.Life_ConfirmOnClosing = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -64,6 +66,7 @@
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).BeginInit();
 			this.tabPage5.SuspendLayout();
+			this.tabPage6.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -76,6 +79,7 @@
 			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Controls.Add(this.tabPage4);
 			this.tabControl1.Controls.Add(this.tabPage5);
+			this.tabControl1.Controls.Add(this.tabPage6);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
@@ -348,6 +352,29 @@
 			this.label7.TabIndex = 2;
 			this.label7.Text = "疲労度ボーダー：";
 			// 
+			// tabPage5
+			// 
+			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
+			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Name = "tabPage5";
+			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage5.Size = new System.Drawing.Size(392, 231);
+			this.tabPage5.TabIndex = 4;
+			this.tabPage5.Text = "デバッグ";
+			this.tabPage5.UseVisualStyleBackColor = true;
+			// 
+			// Debug_EnableDebugMenu
+			// 
+			this.Debug_EnableDebugMenu.AutoSize = true;
+			this.Debug_EnableDebugMenu.Location = new System.Drawing.Point(8, 6);
+			this.Debug_EnableDebugMenu.Name = "Debug_EnableDebugMenu";
+			this.Debug_EnableDebugMenu.Size = new System.Drawing.Size(162, 19);
+			this.Debug_EnableDebugMenu.TabIndex = 0;
+			this.Debug_EnableDebugMenu.Text = "デバッグ メニューを有効にする";
+			this.ToolTipInfo.SetToolTip(this.Debug_EnableDebugMenu, "メインウィンドウの[デバッグ]メニューを有効にします。\r\nデバッグ用の機能であるため、通常ユーザーの操作は推奨されません。\r\n使用時の動作は保証されないので、＊自" +
+        "己責任で＊使用してください。");
+			this.Debug_EnableDebugMenu.UseVisualStyleBackColor = true;
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 60000;
@@ -376,28 +403,26 @@
 			this.ButtonCancel.Text = "キャンセル";
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			// 
-			// tabPage5
+			// tabPage6
 			// 
-			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 231);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "デバッグ";
-			this.tabPage5.UseVisualStyleBackColor = true;
+			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Name = "tabPage6";
+			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage6.Size = new System.Drawing.Size(392, 231);
+			this.tabPage6.TabIndex = 5;
+			this.tabPage6.Text = "起動と終了";
+			this.tabPage6.UseVisualStyleBackColor = true;
 			// 
-			// Debug_EnableDebugMenu
+			// Life_ConfirmOnClosing
 			// 
-			this.Debug_EnableDebugMenu.AutoSize = true;
-			this.Debug_EnableDebugMenu.Location = new System.Drawing.Point(8, 6);
-			this.Debug_EnableDebugMenu.Name = "Debug_EnableDebugMenu";
-			this.Debug_EnableDebugMenu.Size = new System.Drawing.Size(162, 19);
-			this.Debug_EnableDebugMenu.TabIndex = 0;
-			this.Debug_EnableDebugMenu.Text = "デバッグ メニューを有効にする";
-			this.ToolTipInfo.SetToolTip(this.Debug_EnableDebugMenu, "メインウィンドウの[デバッグ]メニューを有効にします。\r\nデバッグ用の機能であるため、通常ユーザーの操作は推奨されません。\r\n使用時の動作は保証されないので、＊自" +
-        "己責任で＊使用してください。");
-			this.Debug_EnableDebugMenu.UseVisualStyleBackColor = true;
+			this.Life_ConfirmOnClosing.AutoSize = true;
+			this.Life_ConfirmOnClosing.Location = new System.Drawing.Point(8, 6);
+			this.Life_ConfirmOnClosing.Name = "Life_ConfirmOnClosing";
+			this.Life_ConfirmOnClosing.Size = new System.Drawing.Size(114, 19);
+			this.Life_ConfirmOnClosing.TabIndex = 0;
+			this.Life_ConfirmOnClosing.Text = "終了時に確認する";
+			this.Life_ConfirmOnClosing.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -431,6 +456,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).EndInit();
 			this.tabPage5.ResumeLayout(false);
 			this.tabPage5.PerformLayout();
+			this.tabPage6.ResumeLayout(false);
+			this.tabPage6.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -467,5 +494,7 @@
 		internal System.Windows.Forms.CheckBox Log_SaveLogFlag;
 		private System.Windows.Forms.TabPage tabPage5;
 		internal System.Windows.Forms.CheckBox Debug_EnableDebugMenu;
+		private System.Windows.Forms.TabPage tabPage6;
+		internal System.Windows.Forms.CheckBox Life_ConfirmOnClosing;
 	}
 }

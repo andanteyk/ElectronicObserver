@@ -367,6 +367,30 @@ namespace ElectronicObserver.Data {
 
 		}
 
+
+		public static string GetQuestCategory( int id ) {
+			switch ( id ) {
+				case 1:
+					return "編成";
+				case 2:
+					return "出撃";
+				case 3:
+					return "演習";
+				case 4:
+					return "遠征";
+				case 5:
+					return "補給";		//入渠も含むが、文字数の関係
+				case 6:
+					return "工廠";
+				case 7:
+					return "改装";
+				case 8:
+					return "他";
+				default:
+					return "不明";
+			}
+		}
+
 		#endregion
 
 	}

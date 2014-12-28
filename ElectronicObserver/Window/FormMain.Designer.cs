@@ -84,6 +84,7 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
+			this.StripMenu_Debug_DeleteOldAPI = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -401,7 +402,8 @@
 			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_Debug_LoadAPIFromFile,
             this.StripMenu_Debug_LoadInitialAPI,
-            this.StripMenu_Debug_LoadRecordFromOld});
+            this.StripMenu_Debug_LoadRecordFromOld,
+            this.StripMenu_Debug_DeleteOldAPI});
 			this.StripMenu_Debug.Name = "StripMenu_Debug";
 			this.StripMenu_Debug.Size = new System.Drawing.Size(87, 22);
 			this.StripMenu_Debug.Text = "デバッグ(&D)";
@@ -476,6 +478,13 @@
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
 			// 
+			// StripMenu_Debug_DeleteOldAPI
+			// 
+			this.StripMenu_Debug_DeleteOldAPI.Name = "StripMenu_Debug_DeleteOldAPI";
+			this.StripMenu_Debug_DeleteOldAPI.Size = new System.Drawing.Size(294, 22);
+			this.StripMenu_Debug_DeleteOldAPI.Text = "古いAPIデータを削除(&D)";
+			this.StripMenu_Debug_DeleteOldAPI.Click += new System.EventHandler(this.StripMenu_Debug_DeleteOldAPI_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -547,6 +556,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AlbumMasterEquipment;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadRecordFromOld;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_ShipGroup;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_DeleteOldAPI;
 	}
 }
 

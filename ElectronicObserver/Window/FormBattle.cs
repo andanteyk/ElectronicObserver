@@ -646,6 +646,8 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bd.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
+				Color colorWin = SystemColors.WindowText;
+				Color colorLose = Color.Red;
 
 				/*/		//debug
 				ToolTipInfo.SetToolTip( DamageRate, string.Format( "count: {0} - {1}\r\nsunk: {2} - {3}\r\nrate: {4} - {5}",
@@ -654,34 +656,48 @@ namespace ElectronicObserver.Window {
 
 				if ( sunkFriend == 0 ) {
 					if ( enemyrate == 1.0 ) {
-						if ( friendrate == 0.0 )
+						if ( friendrate == 0.0 ) {
 							DamageRate.Text = "SS";
-						else
+							DamageRate.ForeColor = colorWin;
+						} else {
 							DamageRate.Text = "S";
+							DamageRate.ForeColor = colorWin;
+						}
 
 					} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
 						DamageRate.Text = "A";
+						DamageRate.ForeColor = colorWin;
 
 					} else if ( hp[6] == 0 ||
 						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
 						DamageRate.Text = "B";
+						DamageRate.ForeColor = colorWin;
 
 					} else if ( (int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
 						DamageRate.Text = "C";
+						DamageRate.ForeColor = colorLose;
 
 					} else {
 						DamageRate.Text = "D";
+						DamageRate.ForeColor = colorLose;
+
 					}
 
 				} else {
 					if ( ( hp[6] == 0 && sunkFriend < sunkEnemy ) ||
 						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
 							DamageRate.Text = "B";
+							DamageRate.ForeColor = colorWin;
+
 					} else if ( ( hp[6] == 0 && sunkFriend >= sunkEnemy ) ||
 						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
 							DamageRate.Text = "C";
+							DamageRate.ForeColor = colorLose;
+
 					} else {
 						DamageRate.Text = "D";
+						DamageRate.ForeColor = colorLose;
+
 					}
 
 				}

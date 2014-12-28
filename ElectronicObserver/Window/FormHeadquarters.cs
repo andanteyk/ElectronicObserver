@@ -97,8 +97,10 @@ namespace ElectronicObserver.Window {
 			FlowPanelMaster.SuspendLayout();
 
 			//Admiral
+			FlowPanelAdmiral.SuspendLayout();
 			AdmiralName.Text = string.Format( "{0} {1}", db.Admiral.AdmiralName, Constants.GetAdmiralRank( db.Admiral.Rank ) );
 			AdmiralComment.Text = db.Admiral.Comment;
+			FlowPanelAdmiral.ResumeLayout();
 
 			//HQ Level
 			HQLevel.Value = db.Admiral.Level;
@@ -106,6 +108,7 @@ namespace ElectronicObserver.Window {
 			HQLevel.ValueNext = ExpTable.GetNextExpAdmiral( db.Admiral.Exp );
 
 			//Fleet
+			FlowPanelFleet.SuspendLayout();
 			ShipCount.Text = string.Format( "{0}/{1}", db.Ships.Count, db.Admiral.MaxShipCount );
 			if ( db.Ships.Count > db.Admiral.MaxShipCount - 5 )
 				ShipCount.BackColor = Color.LightCoral;
@@ -117,17 +120,22 @@ namespace ElectronicObserver.Window {
 				EquipmentCount.BackColor = Color.LightCoral;
 			else
 				EquipmentCount.BackColor = Color.Transparent;
+			FlowPanelFleet.ResumeLayout();
 
 			//UseItems
+			FlowPanelUseItem.SuspendLayout();
 			InstantRepair.Text = db.Material.InstantRepair.ToString();
 			InstantConstruction.Text = db.Material.InstantConstruction.ToString();
 			DevelopmentMaterial.Text = db.Material.DevelopmentMaterial.ToString();
 			ModdingMaterial.Text = db.Material.ModdingMaterial.ToString();
 			FurnitureCoin.Text = db.Admiral.FurnitureCoin.ToString();
+			FlowPanelUseItem.ResumeLayout();
+
 
 			//Resources
+			FlowPanelResource.SuspendLayout();
 			{
-				Color overcolor = Color.MistyRose;
+				Color overcolor = Color.Moccasin;
 				Fuel.Text = db.Material.Fuel.ToString();
 				Fuel.BackColor = db.Material.Fuel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
 
@@ -140,6 +148,7 @@ namespace ElectronicObserver.Window {
 				Bauxite.Text = db.Material.Bauxite.ToString();
 				Bauxite.BackColor = db.Material.Bauxite < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
 			}
+			FlowPanelResource.ResumeLayout();
 
 			FlowPanelMaster.ResumeLayout();
 			if ( !FlowPanelMaster.Visible )

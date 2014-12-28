@@ -334,10 +334,11 @@ namespace ElectronicObserver.Window.Dialog {
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Encoding.Default ) ) {
 
 						sw.WriteLine( "装備ID,図鑑番号,装備種,装備名,装備種1,装備種2,装備種3,装備種4,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章" );
+						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 25 ) ) );
 
 						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
 
-							sw.WriteLine( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24}",
+							sw.WriteLine( arg,
 								eq.EquipmentID,
 								eq.AlbumNo,
 								KCDatabase.Instance.EquipmentTypes[eq.EquipmentType[2]].Name,
@@ -389,10 +390,11 @@ namespace ElectronicObserver.Window.Dialog {
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Encoding.Default ) ) {
 
 						sw.WriteLine( "装備ID,図鑑番号,装備名,装備種1,装備種2,装備種3,装備種4,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章" );
+						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 24 ) ) );
 
 						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
 
-							sw.WriteLine( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23}",
+							sw.WriteLine( arg,
 								eq.EquipmentID,
 								eq.AlbumNo,
 								eq.Name,

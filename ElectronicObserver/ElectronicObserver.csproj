@@ -47,6 +47,7 @@
     <Reference Include="FiddlerCore4">
       <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -166,6 +167,7 @@
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Mathematics\DateTimeHelper.cs" />
     <Compile Include="Utility\Mathematics\Fraction.cs" />
+    <Compile Include="Utility\SoftwareInformation.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -232,6 +234,12 @@
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
     <Compile Include="DynamicJson.cs" />
+    <Compile Include="Window\Dialog\DialogShipGroupColumnFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupColumnFilter.Designer.cs">
+      <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogTextInput.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -359,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogShipGroupColumnFilter.resx">
+      <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogTextInput.resx">
       <DependentUpon>DialogTextInput.cs</DependentUpon>

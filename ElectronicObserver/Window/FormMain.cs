@@ -27,6 +27,7 @@ namespace ElectronicObserver.Window {
 		#region Events
 
 		public event EventHandler UpdateTimerTick = delegate { };
+		public event EventHandler SystemShuttingDown = delegate { };
 
 		#endregion
 
@@ -59,7 +60,7 @@ namespace ElectronicObserver.Window {
 		private void FormMain_Load( object sender, EventArgs e ) {
 
 			Utility.Configuration.Instance.Load();
-			
+
 
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
@@ -82,7 +83,7 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < fFleet.Length; i++ ) {
 				fFleet[i] = new FormFleet( this, i + 1 );
 			}
-	
+
 			fDock = new FormDock( this );
 			fArsenal = new FormArsenal( this );
 			fHeadquarters = new FormHeadquarters( this );
@@ -116,7 +117,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 
 
 
@@ -134,7 +135,7 @@ namespace ElectronicObserver.Window {
 						APIObserver.Instance.LoadRequest( dialog.APIPath, dialog.FileData );
 					}
 
-				} 
+				}
 
 			}
 
@@ -152,10 +153,21 @@ namespace ElectronicObserver.Window {
 
 
 		private void FormMain_FormClosing( object sender, FormClosingEventArgs e ) {
-			//todo: 後々「終了しますか？」表示をつける
+
+			if ( Utility.Configuration.Instance.Life.ConfirmOnClosing ) {
+				if ( MessageBox.Show( "七四式電子観測儀 を終了しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+					== System.Windows.Forms.DialogResult.No ) {
+					return;
+				}
+			}
 
 
 			Utility.Logger.Add( 2, "七四式電子観測儀 を終了しています…" );
+
+			UIUpdateTimer.Stop();
+
+			SystemShuttingDown( this, new EventArgs() );
+
 
 			WindowPlacementManager.SaveWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			SaveSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
@@ -258,7 +270,7 @@ namespace ElectronicObserver.Window {
 						} else {
 							x.DockHandler.Activate();
 						}
-						
+
 					}
 
 					if ( MainDockPanel.Contents.Count > 0 )
@@ -309,7 +321,7 @@ namespace ElectronicObserver.Window {
 				MainDockPanel.SaveAsXml( path );
 
 			} catch ( Exception e ) {
-				
+
 				Utility.Logger.Add( 3, "サブウィンドウ レイアウトの保存に失敗しました。\r\n" + e.Message );
 			}
 
@@ -357,13 +369,13 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_File_SaveData_Load_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "セーブしていないレコードが失われる可能性があります。\r\nロードしますか？", "確認", 
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 ) 
+			if ( MessageBox.Show( "セーブしていないレコードが失われる可能性があります。\r\nロードしますか？", "確認",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.Yes ) {
 
 				RecordManager.Instance.Load();
 			}
-			
+
 		}
 
 
@@ -432,7 +444,7 @@ namespace ElectronicObserver.Window {
 							}
 
 						}
-						
+
 
 					} catch ( Exception ex ) {
 
@@ -472,7 +484,7 @@ namespace ElectronicObserver.Window {
 							foreach ( dynamic elem in json.api_data.api_mst_ship ) {
 								if ( elem.api_name != "なし" && KCDatabase.Instance.MasterShips.ContainsKey( (int)elem.api_id ) && KCDatabase.Instance.MasterShips[(int)elem.api_id].Name == elem.api_name ) {
 									RecordManager.Instance.ShipParameter.UpdateParameter( (int)elem.api_id, 1, (int)elem.api_tais[0], (int)elem.api_tais[1], (int)elem.api_kaih[0], (int)elem.api_kaih[1], (int)elem.api_saku[0], (int)elem.api_saku[1] );
-									
+
 									int[] defaultslot = Enumerable.Repeat( -1, 5 ).ToArray();
 									( (int[])elem.api_defeq ).CopyTo( defaultslot, 0 );
 									RecordManager.Instance.ShipParameter.UpdateDefaultSlot( (int)elem.api_id, defaultslot );
@@ -489,7 +501,7 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
-		
+
 
 		private void StripMenu_Tool_AlbumMasterShip_Click( object sender, EventArgs e ) {
 
@@ -515,7 +527,7 @@ namespace ElectronicObserver.Window {
 
 
 		#region フォーム表示
-		
+
 		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
 			fFleet[0].Show( MainDockPanel );
 		}
@@ -525,7 +537,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void StripMenu_View_Fleet_3_Click( object sender, EventArgs e ) {
-			fFleet[2].Show( MainDockPanel ); 
+			fFleet[2].Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
@@ -573,6 +585,55 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
+
+
+
+		private void StripMenu_Debug_DeleteOldAPI_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "古いAPIデータを削除します。\r\n本当によろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				try {
+
+					//適当極まりない
+
+					string[] files = Directory.GetFiles( Utility.Configuration.Instance.Connection.SaveDataPath, "*.json", SearchOption.TopDirectoryOnly );
+
+					var apilist = new Dictionary<string, List<KeyValuePair<string, string>>>();
+
+					foreach ( string s in files ) {
+
+						int start = s.IndexOf( '@' );
+						int end = s.LastIndexOf( '.' );
+
+						start--;
+						string key = s.Substring( start, end - start + 1 );
+						string date = s.Substring( 0, start );
+
+
+						if ( !apilist.ContainsKey( key ) ) {
+							apilist.Add( key, new List<KeyValuePair<string, string>>() );
+						}
+						apilist[key].Add( new KeyValuePair<string, string>( date, s ) );
+					}
+
+					foreach ( var l in apilist.Values ) {
+						var l2 = l.OrderBy( el => el.Key ).ToList();
+						for ( int i = 0; i < l2.Count - 1; i++ )
+							File.Delete( l2[i].Value );
+							//System.Diagnostics.Debug.WriteLine( l2[i].Value );
+					}
+
+
+				} catch ( Exception ex ) {
+
+					MessageBox.Show( "削除に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
+
+
+			}
+
+		}
 
 
 	}

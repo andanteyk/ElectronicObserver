@@ -18,6 +18,7 @@ namespace ElectronicObserver.Window.Dialog {
 		/// </summary>
 		public string InputtedText {
 			get { return TextInput.Text; }
+			set { TextInput.Text = value; }
 		}
 
 

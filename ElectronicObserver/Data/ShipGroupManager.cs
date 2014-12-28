@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,13 +13,15 @@ namespace ElectronicObserver.Data {
 	/// </summary>
 	public class ShipGroupManager {
 
-		public const string DefaultFilePath = @"Settings\\ShipGroups.csv";
+		public const string DefaultFilePath = @"Settings\\ShipGroups.dat";
 
 
 		/// <summary>
 		/// 艦船グループリスト
 		/// </summary>
 		public IDDictionary<ShipGroupData> ShipGroups { get; private set; }
+
+		public List<bool> FilterList { get; private set; }
 
 
 		public ShipGroupManager() {
@@ -37,14 +40,26 @@ namespace ElectronicObserver.Data {
 
 			try {
 
-				using ( var sr = new StreamReader( path, Encoding.Default ) ) {
+				using ( var parser = new TextFieldParser( path, Encoding.UTF8 ) ) {
+					parser.Delimiters = new string[] { "," };
+					
+					{
+						//filter
+						string[] data = parser.ReadFields();
+						FilterList = new List<bool>();
 
-					string line;
+						for ( int i = 1; i < data.Length; i++ ) {
+							int flag;
+							if ( int.TryParse( data[i], out flag ) )
+								FilterList.Add( flag != 0 );
+						}
+					}
+
 					int id = 1;
-					while ( ( line = sr.ReadLine() ) != null ) {
+					while ( !parser.EndOfData ) {
+						string[] data = parser.ReadFields();
 
-						string[] data = line.Split( ",".ToArray() );
-						if ( data.Length == 0 )
+						if ( data.Length < 1 )
 							continue;
 
 						var group = new ShipGroupData( id );
@@ -53,7 +68,9 @@ namespace ElectronicObserver.Data {
 						group.Members.Capacity = data.Length - 1;
 
 						for ( int i = 1; i < data.Length; i++ ) {
-							group.Members.Add( int.Parse( data[i] ) );
+							int value;
+							if ( int.TryParse( data[i], out value ) )
+								group.Members.Add( value );
 						}
 
 
@@ -61,7 +78,6 @@ namespace ElectronicObserver.Data {
 
 						id++;
 					}
-
 				}
 
 				
@@ -85,20 +101,20 @@ namespace ElectronicObserver.Data {
 
 			try {
 
-				using ( StreamWriter sw = new StreamWriter( path, false, Encoding.Default ) ) {
+				using ( StreamWriter sw = new StreamWriter( path, false, Encoding.UTF8 ) ) {
 
-					foreach ( var g in ShipGroups.Values ) {
+					sw.WriteLine( "Filter,{0}", string.Join( ",", FilterList.Select( b => b ? 1 : 0 ) ) );
+
+					foreach ( var g in ShipGroups.Values.OrderBy( g => g.GroupID ) ) {
 
 						//g.CheckMembers();		//checkme:　不用意なデータの破壊を防ぐため；必要と感じたら復活させて
 
-						sw.Write( g.Name );
-
-						foreach ( int i in g.Members ) {
-							sw.Write( "," );
-							sw.Write( i );
+						string name = g.Name;
+						if ( name.Contains( '\"' ) || name.Contains( ',' ) ) {
+							name = string.Format( "\"{0}\"", name.Replace( "\"", "\"\"" ) );
 						}
 
-						sw.WriteLine();
+						sw.WriteLine( "{0},{1}", name, string.Join( ",", g.Members ) );
 
 					}
 					

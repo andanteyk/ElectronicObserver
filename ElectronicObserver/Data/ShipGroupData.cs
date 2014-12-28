@@ -18,7 +18,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// グループID
 		/// </summary>
-		public int GroupID { get; private set; }
+		public int GroupID { get; internal set; }
 		
 		/// <summary>
 		/// 所属艦のIDリスト

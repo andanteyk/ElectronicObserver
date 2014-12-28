@@ -291,6 +291,18 @@ namespace ElectronicObserver.Resource {
 		public static Icon ImageToIcon( Image image ) {
 			return BitmapToIcon( (Bitmap)image );
 		}
+
+
+		[System.Runtime.InteropServices.DllImport( "user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto )]
+		public extern static bool DestroyIcon( IntPtr handle );
+
+		/// <summary>
+		/// ImageToIcon を利用して生成したアイコンを破棄する場合、必ずこのメソッドを呼んで破棄してください。
+		/// </summary>
+		public static bool DestroyIcon( Icon icon ) {
+			return DestroyIcon( icon.Handle );
+		}
+
 	}
 
 

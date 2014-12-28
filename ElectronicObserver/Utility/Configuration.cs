@@ -125,6 +125,9 @@ namespace ElectronicObserver.Utility {
 		public ConfigControl Control { get; private set; }
 
 
+		/// <summary>
+		/// デバッグの設定を扱います。
+		/// </summary>
 		public class ConfigDebug : ConfigPartBase {
 
 			public bool EnableDebugMenu { get; set; }
@@ -134,6 +137,17 @@ namespace ElectronicObserver.Utility {
 			}
 		}
 		public ConfigDebug Debug { get; private set; }
+
+
+		public class ConfigLife : ConfigPartBase {
+
+			public bool ConfirmOnClosing { get; set; }
+
+			public ConfigLife() {
+				ConfirmOnClosing = true;
+			}
+		}
+		public ConfigLife Life { get; private set; }
 
 
 
@@ -146,6 +160,7 @@ namespace ElectronicObserver.Utility {
 			Log = new ConfigLog();
 			Control = new ConfigControl();
 			Debug = new ConfigDebug();
+			Life = new ConfigLife();
 		}
 
 
@@ -174,6 +189,9 @@ namespace ElectronicObserver.Utility {
 
 			//[デバッグ]
 			dialog.Debug_EnableDebugMenu.Checked = Debug.EnableDebugMenu;
+
+			//[起動と終了]
+			dialog.Life_ConfirmOnClosing.Checked = Life.ConfirmOnClosing;
 
 			//finalize
 			dialog.UpdateParameter();
@@ -212,6 +230,8 @@ namespace ElectronicObserver.Utility {
 			//[デバッグ]
 			Debug.EnableDebugMenu = dialog.Debug_EnableDebugMenu.Checked;
 
+			//[起動と終了]
+			Life.ConfirmOnClosing = dialog.Life_ConfirmOnClosing.Checked;
 
 
 			ConfigurationChanged();
@@ -237,6 +257,7 @@ namespace ElectronicObserver.Utility {
 					Log = json.Log;
 					Control = json.Control;
 					Debug = json.Debug;
+					Life = json.Life;
 
 				}
 
