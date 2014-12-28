@@ -378,7 +378,7 @@ namespace ElectronicObserver.Data {
 				*/
 				int param = EvasionTotal;
 				for ( int i = 0; i < _slot.Length; i++ ) {
-					if ( _slot[i] != -1 ) {
+					if ( _slot[i] != -1 && KCDatabase.Instance.Equipments[_slot[i]] != null ) {
 						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.Evasion;
 					}
 				}
@@ -393,7 +393,7 @@ namespace ElectronicObserver.Data {
 			get {
 				int param = ASWTotal;
 				for ( int i = 0; i < _slot.Length; i++ ) {
-					if ( _slot[i] != -1 ) {
+					if ( _slot[i] != -1 && KCDatabase.Instance.Equipments[_slot[i]] != null ) {
 						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.ASW;
 					}
 				}
@@ -408,7 +408,7 @@ namespace ElectronicObserver.Data {
 			get {
 				int param = LOSTotal;
 				for ( int i = 0; i < _slot.Length; i++ ) {
-					if ( _slot[i] != -1 ) {
+					if ( _slot[i] != -1 && KCDatabase.Instance.Equipments[_slot[i]] != null ) {
 						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.LOS;
 					}
 				}
