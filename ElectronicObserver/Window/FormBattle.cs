@@ -529,7 +529,7 @@ namespace ElectronicObserver.Window {
 		private void SetHPCombined( int[] hp, BattleData bd ) {
 
 			KCDatabase db = KCDatabase.Instance;
-			bool isPractice = bd.APIName.Contains( "practice" );		//fixme
+			bool isPractice = false;
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
@@ -648,11 +648,6 @@ namespace ElectronicObserver.Window {
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
-
-				/*/		//debug
-				ToolTipInfo.SetToolTip( DamageRate, string.Format( "count: {0} - {1}\r\nsunk: {2} - {3}\r\nrate: {4} - {5}",
-					countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate ) );
-				//*/
 
 				if ( sunkFriend == 0 ) {
 					if ( enemyrate == 1.0 ) {

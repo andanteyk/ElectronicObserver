@@ -71,6 +71,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_get_member.mapinfo() );
 			APIList.Add( new kcsapi.api_req_combined_battle.battle_water() );
 			APIList.Add( new kcsapi.api_req_combined_battle.goback_port() );
+			APIList.Add( new kcsapi.api_req_kousyou.remodel_slot() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );
@@ -162,7 +163,7 @@ namespace ElectronicObserver.Observer {
 
 					} catch ( Exception ex ) {
 
-						Utility.Logger.Add( 3, "通信内容の保存に失敗しました。" + ex.Message );
+						Utility.ErrorReporter.SaveErrorReport( ex, "通信内容の保存に失敗しました。" );
 					}
 
 				}
@@ -226,7 +227,6 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "Request の受信中にエラーが発生しました。\r\n" + ex.Message );
 				ErrorReporter.SaveErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
 			
 			}
@@ -246,8 +246,10 @@ namespace ElectronicObserver.Observer {
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
 
 				if ( (int)json.api_result != 1 ) {
-					Utility.Logger.Add( 3, "エラーコードを含むメッセージを受信しました。" );
-					throw new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
+
+					var ex = new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
+					Utility.ErrorReporter.SaveErrorReport( ex, "エラーコードを含むメッセージを受信しました。" );
+					throw ex;
 				}
 
 
@@ -261,7 +263,6 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "Responseの受信中にエラーが発生しました。\r\n" + ex.Message );
 				ErrorReporter.SaveErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
 			
 			}
@@ -282,7 +283,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "Requestの保存に失敗しました。" + ex.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "Requestの保存に失敗しました。" );
 
 			}
 		}
@@ -300,7 +301,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "Responseの保存に失敗しました。" + ex.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "Responseの保存に失敗しました。" );
 
 			}
 				

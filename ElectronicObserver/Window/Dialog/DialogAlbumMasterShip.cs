@@ -317,7 +317,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//arsenal
 			TableArsenal.SuspendLayout();
-			//checkme
 			BuildingTime.Text = DateTimeHelper.ToTimeRemainString( new TimeSpan( 0, ship.BuildingTime, 0 ) );
 
 			MaterialFuel.Text = ship.Material[0].ToString();
@@ -346,7 +345,7 @@ namespace ElectronicObserver.Window.Dialog {
 				ShipDataMaster sbefore = db.MasterShips[ship.RemodelBeforeShipID];
 				RemodelBeforeShipName.Text = sbefore.Name;
 				RemodelBeforeLevel.Text = string.Format( "Lv. {0}", sbefore.RemodelAfterLevel );
-				RemodelBeforeLevel.ImageIndex = sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;		//fixme
+				RemodelBeforeLevel.ImageIndex = sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
 				RemodelBeforeAmmo.Text = sbefore.RemodelAmmo.ToString();
 				RemodelBeforeSteel.Text = sbefore.RemodelSteel.ToString();
 			}
@@ -360,7 +359,7 @@ namespace ElectronicObserver.Window.Dialog {
 			} else {
 				RemodelAfterShipName.Text = db.MasterShips[ship.RemodelAfterShipID].Name;
 				RemodelAfterLevel.Text = string.Format( "Lv. {0}", ship.RemodelAfterLevel );
-				RemodelAfterLevel.ImageIndex = ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;		//fixme
+				RemodelAfterLevel.ImageIndex = ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
 				RemodelAfterAmmo.Text = ship.RemodelAmmo.ToString();
 				RemodelAfterSteel.Text = ship.RemodelSteel.ToString();
 			}

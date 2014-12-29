@@ -528,7 +528,7 @@ namespace ElectronicObserver.Window {
 
 				sb.AppendFormat( "{0}/{1}\t", ship.MasterShip.Name, ship.Level );
 
-				ReadOnlyCollection<EquipmentData> eq = ship.SlotInstance;		//checkme
+				var eq = ship.SlotInstance;
 
 
 				if ( eq != null ) {
@@ -564,10 +564,6 @@ namespace ElectronicObserver.Window {
 
 
 
-
-		//checkme:別クラスへの移動も考える
-
-		
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );

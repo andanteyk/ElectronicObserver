@@ -10,9 +10,14 @@ namespace ElectronicObserver.Utility {
 
 	public class ErrorReporter {
 
+		private const string _basePath = "ErrorReport";
+
+
 		public static void SaveErrorReport( Exception ex, string message, string connectionName = null, string connectionData = null ) {
 
-			string path = "ErrorReport";
+			Utility.Logger.Add( 3, string.Format( "{0} : {1}", message, ex.Message ) );
+
+			string path = _basePath;
 
 			if ( !Directory.Exists( path ) )
 				Directory.CreateDirectory( path );

@@ -267,9 +267,9 @@ namespace ElectronicObserver.Resource {
 					return Image.FromStream( fs );
 				}
 
-			} catch ( Exception e ) {
+			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。\r\n{1}", path, e.Message ) );
+				Utility.ErrorReporter.SaveErrorReport( ex, string.Format( "画像リソース {0} の読み込みに失敗しました。", path ) );
 				return new Bitmap( 16, 16, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
 
 			}

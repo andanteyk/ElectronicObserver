@@ -263,7 +263,7 @@ namespace ElectronicObserver.Utility {
 
 			} catch ( Exception ex ) {
 
-				ElectronicObserver.Utility.Logger.Add( 3, "設定ファイル " + path + " の読み込みに失敗しました。" + ex.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "設定ファイル " + path + " の読み込みに失敗しました。" );
 			}
 
 
@@ -284,7 +284,7 @@ namespace ElectronicObserver.Utility {
 
 			} catch ( Exception ex ) {
 
-				ElectronicObserver.Utility.Logger.Add( 3, "設定ファイル " + path + " の書き込みに失敗しました。" + ex.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "設定ファイル " + path + " の書き込みに失敗しました。" );
 			}
 
 		}

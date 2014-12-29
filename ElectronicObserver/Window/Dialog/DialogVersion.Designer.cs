@@ -86,6 +86,7 @@
 			this.MinimizeBox = false;
 			this.Name = "DialogVersion";
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "バージョン";
 			this.ResumeLayout(false);
 			this.PerformLayout();

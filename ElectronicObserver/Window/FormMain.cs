@@ -3,6 +3,7 @@ using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Support;
 using System;
@@ -65,7 +66,8 @@ namespace ElectronicObserver.Window {
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-			Utility.Logger.Add( 2, "七四式電子観測儀 を起動しています…" );
+			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
+			this.Text = SoftwareInformation.VersionJapanese;
 
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
@@ -155,14 +157,14 @@ namespace ElectronicObserver.Window {
 		private void FormMain_FormClosing( object sender, FormClosingEventArgs e ) {
 
 			if ( Utility.Configuration.Instance.Life.ConfirmOnClosing ) {
-				if ( MessageBox.Show( "七四式電子観測儀 を終了しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+				if ( MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " を終了しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 					== System.Windows.Forms.DialogResult.No ) {
 					return;
 				}
 			}
 
 
-			Utility.Logger.Add( 2, "七四式電子観測儀 を終了しています…" );
+			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を終了しています…" );
 
 			UIUpdateTimer.Stop();
 
@@ -300,9 +302,9 @@ namespace ElectronicObserver.Window {
 
 				}
 
-			} catch ( Exception e ) {
+			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "サブウィンドウ レイアウトの復元に失敗しました。\r\n" + e.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "サブウィンドウ レイアウトの復元に失敗しました。" );
 
 			}
 
@@ -320,9 +322,9 @@ namespace ElectronicObserver.Window {
 
 				MainDockPanel.SaveAsXml( path );
 
-			} catch ( Exception e ) {
+			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "サブウィンドウ レイアウトの保存に失敗しました。\r\n" + e.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "サブウィンドウ レイアウトの保存に失敗しました。" );
 			}
 
 		}

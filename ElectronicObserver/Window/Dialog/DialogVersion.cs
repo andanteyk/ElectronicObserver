@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,7 +14,7 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogVersion() {
 			InitializeComponent();
 
-			this.StartPosition = FormStartPosition.CenterParent;
+			TextVersion.Text = string.Format( "{0} (ver. {1})", SoftwareInformation.VersionJapanese, SoftwareInformation.VersionEnglish ); 
 		}
 
 		private void TextAuthor_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {

@@ -65,7 +65,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "レコード " + path + " の読み込みに失敗しました。\r\n" + ex.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "レコード " + path + " の読み込みに失敗しました。" );
 
 			}
 		}
@@ -93,7 +93,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "レコード " + path + " の書き込みに失敗しました。\r\n" + ex.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "レコード " + path + " の書き込みに失敗しました。" );
 			
 			}
 		}

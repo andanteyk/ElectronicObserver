@@ -290,8 +290,7 @@ namespace ElectronicObserver.Window {
 							{
 								string materialname = MaterialData.GetMaterialName( compass.WhirlpoolItemID );
 
-								//fixme:第一艦隊以外の艦隊が出撃していた場合誤った値を返す
-								int materialmax = KCDatabase.Instance.Fleet.Fleets[1].Members.Max( n => 
+								int materialmax = KCDatabase.Instance.Fleet.Fleets[KCDatabase.Instance.Fleet.Fleets.Values.First( f => f.IsInSortie ).FleetID].Members.Max( n => 
 								{
 									if ( n != -1 )
 										if ( compass.WhirlpoolItemID == 1 )

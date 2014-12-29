@@ -86,6 +86,7 @@ namespace ElectronicObserver.Data {
 					break;
 
 				case "api_req_kousyou/createitem":
+				case "api_req_kousyou/remodel_slot":
 					Fuel = (int)data[0];
 					Ammo = (int)data[1];
 					Steel = (int)data[2];
@@ -93,7 +94,7 @@ namespace ElectronicObserver.Data {
 					InstantConstruction = (int)data[4];
 					InstantRepair = (int)data[5];
 					DevelopmentMaterial = (int)data[6];
-					ModdingMaterial = (int)data[7];		//checkme
+					ModdingMaterial = (int)data[7];
 					break;
 
 			}

@@ -87,7 +87,7 @@ namespace ElectronicObserver.Data {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "艦船グループデータの読み込み時にエラーが発生しました。\r\n" + ex.Message );
+				Utility.ErrorReporter.SaveErrorReport( ex, "艦船グループデータの読み込み時にエラーが発生しました。" );
 
 			}
 
@@ -122,8 +122,7 @@ namespace ElectronicObserver.Data {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "艦船グループデータの書き込み時にエラーが発生しました。\r\n" + ex.Message );
-
+				Utility.ErrorReporter.SaveErrorReport( ex, "艦船グループデータの書き込み時にエラーが発生しました。" );
 			}
 		}
 
