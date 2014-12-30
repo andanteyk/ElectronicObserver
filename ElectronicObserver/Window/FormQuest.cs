@@ -37,9 +37,10 @@ namespace ElectronicObserver.Window {
 
 
 			//こうしないとフォントがなぜかデフォルトにされる
+			//*/
 			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 			QuestView.Font = Font;
-
+			//*/
 
 			//デフォルト行の追加
 			{

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using ElectronicObserver.Utility.Data;
+using ElectronicObserver.Window.Support;
 
 namespace ElectronicObserver.Window {
 
@@ -48,6 +49,13 @@ namespace ElectronicObserver.Window {
 			Bauxite.ImageIndex = (int)ResourceManager.IconContent.ResourceBauxite;
 
 
+			ControlHelper.SetDoubleBuffered( FlowPanelMaster );
+			ControlHelper.SetDoubleBuffered( FlowPanelAdmiral );
+			ControlHelper.SetDoubleBuffered( FlowPanelFleet );
+			ControlHelper.SetDoubleBuffered( FlowPanelUseItem );
+			ControlHelper.SetDoubleBuffered( FlowPanelResource );
+
+
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQHeadQuarters] );
 
 		}
@@ -76,6 +84,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/destroyitem2"].ResponseReceived += rec;
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;
 			o.APIList["api_req_kousyou/createitem"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/remodel_slot"].ResponseReceived += rec;
 
 
 			//こうしないとフォントがなぜかデフォルトにされる

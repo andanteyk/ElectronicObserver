@@ -3,6 +3,7 @@ using ElectronicObserver.Observer;
 using ElectronicObserver.Window.Dialog;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -93,6 +94,13 @@ namespace ElectronicObserver.Utility {
 		}
 		public ConfigConnection Connection { get; private set; }
 
+
+		public class ConfigUI : ConfigPartBase {
+
+			public ConfigUI() {
+				//init
+			}
+		}
 
 		/// <summary>
 		/// ログの設定を扱います。

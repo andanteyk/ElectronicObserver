@@ -24,9 +24,12 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_File_OutputCSVData = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.EquipmentView = new System.Windows.Forms.DataGridView();
 			this.EquipmentView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,10 +81,7 @@
 			this.Accuracy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.EquipmentImage = new System.Windows.Forms.PictureBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_File_OutputCSVData = new System.Windows.Forms.ToolStripMenuItem();
 			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
-			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -106,9 +106,33 @@
 			this.menuStrip1.TabIndex = 0;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
+			// StripMenu_File
+			// 
+			this.StripMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripMenu_File_OutputCSVUser,
+            this.StripMenu_File_OutputCSVData});
+			this.StripMenu_File.Name = "StripMenu_File";
+			this.StripMenu_File.Size = new System.Drawing.Size(85, 22);
+			this.StripMenu_File.Text = "ファイル(&F)";
+			// 
+			// StripMenu_File_OutputCSVUser
+			// 
+			this.StripMenu_File_OutputCSVUser.Name = "StripMenu_File_OutputCSVUser";
+			this.StripMenu_File_OutputCSVUser.Size = new System.Drawing.Size(213, 22);
+			this.StripMenu_File_OutputCSVUser.Text = "CSV出力(閲覧用)(&U)...";
+			this.StripMenu_File_OutputCSVUser.Click += new System.EventHandler(this.StripMenu_File_OutputCSVUser_Click);
+			// 
+			// StripMenu_File_OutputCSVData
+			// 
+			this.StripMenu_File_OutputCSVData.Name = "StripMenu_File_OutputCSVData";
+			this.StripMenu_File_OutputCSVData.Size = new System.Drawing.Size(213, 22);
+			this.StripMenu_File_OutputCSVData.Text = "CSV出力(データ用)(&D)...";
+			this.StripMenu_File_OutputCSVData.Click += new System.EventHandler(this.StripMenu_File_OutputCSVData_Click);
+			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 26);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
@@ -135,14 +159,14 @@
             this.EquipmentView_ID,
             this.EquipmentView_Type,
             this.EquipmentView_Name});
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.EquipmentView.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.EquipmentView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.EquipmentView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.EquipmentView.Location = new System.Drawing.Point(0, 0);
 			this.EquipmentView.MultiSelect = false;
@@ -160,8 +184,8 @@
 			// EquipmentView_ID
 			// 
 			this.EquipmentView_ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.EquipmentView_ID.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.EquipmentView_ID.DefaultCellStyle = dataGridViewCellStyle1;
 			this.EquipmentView_ID.HeaderText = "ID";
 			this.EquipmentView_ID.Name = "EquipmentView_ID";
 			this.EquipmentView_ID.ReadOnly = true;
@@ -779,33 +803,10 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
-			// StripMenu_File
-			// 
-			this.StripMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_File_OutputCSVUser,
-            this.StripMenu_File_OutputCSVData});
-			this.StripMenu_File.Name = "StripMenu_File";
-			this.StripMenu_File.Size = new System.Drawing.Size(85, 22);
-			this.StripMenu_File.Text = "ファイル(&F)";
-			// 
-			// StripMenu_File_OutputCSVData
-			// 
-			this.StripMenu_File_OutputCSVData.Name = "StripMenu_File_OutputCSVData";
-			this.StripMenu_File_OutputCSVData.Size = new System.Drawing.Size(213, 22);
-			this.StripMenu_File_OutputCSVData.Text = "CSV出力(データ用)(&D)...";
-			this.StripMenu_File_OutputCSVData.Click += new System.EventHandler(this.StripMenu_File_OutputCSVData_Click);
-			// 
 			// SaveCSVDialog
 			// 
 			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
 			this.SaveCSVDialog.Title = "CSVに出力";
-			// 
-			// StripMenu_File_OutputCSVUser
-			// 
-			this.StripMenu_File_OutputCSVUser.Name = "StripMenu_File_OutputCSVUser";
-			this.StripMenu_File_OutputCSVUser.Size = new System.Drawing.Size(213, 22);
-			this.StripMenu_File_OutputCSVUser.Text = "CSV出力(閲覧用)(&U)...";
-			this.StripMenu_File_OutputCSVUser.Click += new System.EventHandler(this.StripMenu_File_OutputCSVUser_Click);
 			// 
 			// DialogAlbumMasterEquipment
 			// 
@@ -816,6 +817,7 @@
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.MainMenuStrip = this.menuStrip1;
+			this.MinimumSize = new System.Drawing.Size(816, 518);
 			this.Name = "DialogAlbumMasterEquipment";
 			this.Text = "装備図鑑";
 			this.Load += new System.EventHandler(this.DialogAlbumMasterEquipment_Load);
