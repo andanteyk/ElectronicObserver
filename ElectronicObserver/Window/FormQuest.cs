@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window {
 
 		private void QuestView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
-			if ( e.Value != null && e.Value is int ) {
+			if ( e.Value as int? != null ) {
 				if ( e.ColumnIndex == QuestView_Type.Index ) {
 					e.Value = Constants.GetQuestType( (int)e.Value );
 					e.FormattingApplied = true;
@@ -157,12 +157,14 @@ namespace ElectronicObserver.Window {
 				e.SortResult = ( e.CellValue1 == null ? 2 : ( (bool)e.CellValue1 ? 1 : 0 ) ) -
 					( e.CellValue2 == null ? 2 : ( (bool)e.CellValue2 ? 1 : 0 ) );
 			} else {
-				e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;
+				e.SortResult = ( e.CellValue1 as int? ?? int.MaxValue ) - ( e.CellValue2 as int? ?? int.MaxValue );
 			}
 
 			if ( e.SortResult == 0 ) {
-				e.SortResult = (int)( QuestView.Rows[e.RowIndex1].Tag ?? 0 ) - (int)( QuestView.Rows[e.RowIndex2].Tag ?? 0 );
+				e.SortResult = ( QuestView.Rows[e.RowIndex1].Tag as int? ?? 0 ) - ( QuestView.Rows[e.RowIndex2].Tag as int? ?? 0 );
 			}
+
+			e.Handled = true;
 		}
 
 		private void QuestView_Sorted( object sender, EventArgs e ) {
