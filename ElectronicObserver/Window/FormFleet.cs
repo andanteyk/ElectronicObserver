@@ -77,7 +77,7 @@ namespace ElectronicObserver.Window {
 				SearchingAbility.AutoSize = true;
 
 				ToolTipInfo = parent.ToolTipInfo;
-				State = 0;
+				State = FleetData.FleetStates.NoShip;
 				Timer = DateTime.Now;
 
 				#endregion
@@ -91,10 +91,12 @@ namespace ElectronicObserver.Window {
 
 			public void AddToTable( TableLayoutPanel table ) {
 
+				table.SuspendLayout();
 				table.Controls.Add( Name, 0, 0 );
 				table.Controls.Add( StateMain, 1, 0 );
 				table.Controls.Add( AirSuperiority, 2, 0 );
 				table.Controls.Add( SearchingAbility, 3, 0 );
+				table.ResumeLayout();
 
 				int row = 0;
 				#region set RowStyle
@@ -112,6 +114,7 @@ namespace ElectronicObserver.Window {
 
 				KCDatabase db = KCDatabase.Instance;
 
+				
 				Name.Text = fleet.Name;
 				{
 					int sum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
@@ -131,6 +134,10 @@ namespace ElectronicObserver.Window {
 
 			}
 
+
+			public void ResetState() {
+				State = FleetData.FleetStates.NoShip;
+			}
 
 			public void Refresh() {
 
@@ -262,12 +269,14 @@ namespace ElectronicObserver.Window {
 
 			public void AddToTable( TableLayoutPanel table, int row ) {
 
+				table.SuspendLayout();
 				table.Controls.Add( Name, 0, row );
 				table.Controls.Add( Level, 1, row );
 				table.Controls.Add( HP, 2, row );
 				table.Controls.Add( Condition, 3, row );
 				table.Controls.Add( ShipResource, 4, row );
 				table.Controls.Add( Equipments, 5, row );
+				table.ResumeLayout();
 
 				#region set RowStyle
 				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
@@ -430,7 +439,13 @@ namespace ElectronicObserver.Window {
 			APIObserver o = APIObserver.Instance;
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+			APIReceivedEventHandler r_org = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( ChangeOrganization ), apiname, data );
 
+			o.APIList["api_req_hensei/change"].RequestReceived += r_org;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += r_org;
+			o.APIList["api_req_kaisou/remodeling"].RequestReceived += r_org;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += r_org;
+		
 			o.APIList["api_req_nyukyo/start"].RequestReceived += rec;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += rec;
 			o.APIList["api_req_hensei/change"].RequestReceived += rec;
@@ -488,6 +503,12 @@ namespace ElectronicObserver.Window {
 			if ( Icon != null )	ResourceManager.DestroyIcon( Icon );
 			Icon = ResourceManager.ImageToIcon( ControlFleet.StateMain.Image );
 			if ( Parent != null ) Parent.Refresh();		//アイコンを更新するため
+			
+		}
+
+		void ChangeOrganization( string apiname, dynamic data ) {
+
+			ControlFleet.ResetState();
 			
 		}
 

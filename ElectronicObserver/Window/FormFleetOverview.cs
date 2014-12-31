@@ -87,6 +87,10 @@ namespace ElectronicObserver.Window {
 				ToolTipInfo.SetToolTip( Number, fleet.Name );
 			}
 
+			public void ResetState() {
+				State.Tag = FleetData.FleetStates.NoShip;
+			}
+
 			public void Refresh() {
 
 				FleetData.RefreshFleetState( State, (FleetData.FleetStates)State.Tag, (DateTime?)Number.Tag ?? DateTime.Now );
@@ -128,7 +132,13 @@ namespace ElectronicObserver.Window {
 			APIObserver o = APIObserver.Instance;
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+			APIReceivedEventHandler r_org = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( ChangeOrganization ), apiname, data );
 
+			o.APIList["api_req_hensei/change"].RequestReceived += r_org;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += r_org;
+			o.APIList["api_req_kaisou/remodeling"].RequestReceived += r_org;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += r_org;
+		
 			o.APIList["api_req_nyukyo/start"].RequestReceived += rec;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += rec;
 			o.APIList["api_req_hensei/change"].RequestReceived += rec;
@@ -155,8 +165,15 @@ namespace ElectronicObserver.Window {
 				ControlFleet[i].Update();
 			}
 
+		}
+
+		void ChangeOrganization( string apiname, dynamic data ) {
+
+			for ( int i = 0; i < ControlFleet.Count; i++ )
+				ControlFleet[i].ResetState();
 
 		}
+
 
 		void parent_UpdateTimerTick( object sender, EventArgs e ) {
 			for ( int i = 0; i < ControlFleet.Count; i++ ) {

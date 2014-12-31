@@ -109,8 +109,10 @@ namespace ElectronicObserver.Window {
 				QuestView.Rows[index].Cells[QuestView_Name.Index].Value = "(未取得の任務 x " + ( KCDatabase.Instance.Quest.Count - KCDatabase.Instance.Quest.Quests.Count ) + " )";
 			}
 
-			//更新時にソートする！
-			//フィルタも適用可能ならしておく
+
+			//更新時にソートする
+			QuestView.Sort( QuestView.SortedColumn, QuestView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
+			
 			QuestView.ResumeLayout();
 		}
 
@@ -157,7 +159,7 @@ namespace ElectronicObserver.Window {
 				e.SortResult = ( e.CellValue1 == null ? 2 : ( (bool)e.CellValue1 ? 1 : 0 ) ) -
 					( e.CellValue2 == null ? 2 : ( (bool)e.CellValue2 ? 1 : 0 ) );
 			} else {
-				e.SortResult = ( e.CellValue1 as int? ?? int.MaxValue ) - ( e.CellValue2 as int? ?? int.MaxValue );
+				e.SortResult = ( e.CellValue1 as int? ?? 99999999 ) - ( e.CellValue2 as int? ?? 99999999 );
 			}
 
 			if ( e.SortResult == 0 ) {

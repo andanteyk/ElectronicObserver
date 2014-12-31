@@ -31,10 +31,10 @@ namespace ElectronicObserver.Utility {
 					sw.WriteLine( "エラーレポート : {0}", DateTime.Now );
 					sw.WriteLine( "エラー : {0}", ex.GetType().Name );
 					sw.WriteLine( ex.Message );
+					sw.WriteLine( "追加情報 : {0}", message );
 					sw.WriteLine( "スタックトレース：" );
 					sw.WriteLine( ex.StackTrace );
-					sw.WriteLine( "追加情報 : {0}", message );
-
+					
 					if ( connectionName != null && connectionData != null ) {
 						sw.WriteLine();
 						sw.WriteLine( "通信内容 : {0}", connectionName );

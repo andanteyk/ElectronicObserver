@@ -128,7 +128,8 @@ namespace ElectronicObserver.Window {
 
 			using ( var dialog = new DialogLocalAPILoader() ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK 
+					&& APIObserver.Instance.APIList.ContainsKey( dialog.APIPath ) ) {
 
 					if ( dialog.IsResponse ) {
 						APIObserver.Instance.LoadResponse( dialog.APIPath, dialog.FileData );
@@ -528,6 +529,56 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_Debug_DeleteOldAPI_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "古いAPIデータを削除します。\r\n本当によろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				try {
+
+					//適当極まりない
+
+					string[] files = Directory.GetFiles( Utility.Configuration.Instance.Connection.SaveDataPath, "*.json", SearchOption.TopDirectoryOnly );
+
+					var apilist = new Dictionary<string, List<KeyValuePair<string, string>>>();
+
+					foreach ( string s in files ) {
+
+						int start = s.IndexOf( '@' );
+						int end = s.LastIndexOf( '.' );
+
+						start--;
+						string key = s.Substring( start, end - start + 1 );
+						string date = s.Substring( 0, start );
+
+
+						if ( !apilist.ContainsKey( key ) ) {
+							apilist.Add( key, new List<KeyValuePair<string, string>>() );
+						}
+						apilist[key].Add( new KeyValuePair<string, string>( date, s ) );
+					}
+
+					foreach ( var l in apilist.Values ) {
+						var l2 = l.OrderBy( el => el.Key ).ToList();
+						for ( int i = 0; i < l2.Count - 1; i++ )
+							File.Delete( l2[i].Value );
+						//System.Diagnostics.Debug.WriteLine( l2[i].Value );
+					}
+
+
+					MessageBox.Show( "削除が完了しました。", "削除成功", MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+				} catch ( Exception ex ) {
+
+					MessageBox.Show( "削除に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
+
+
+			}
+
+		}
+
+
 		#region フォーム表示
 
 		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
@@ -587,55 +638,6 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
-
-
-
-		private void StripMenu_Debug_DeleteOldAPI_Click( object sender, EventArgs e ) {
-
-			if ( MessageBox.Show( "古いAPIデータを削除します。\r\n本当によろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
-				== System.Windows.Forms.DialogResult.Yes ) {
-
-				try {
-
-					//適当極まりない
-
-					string[] files = Directory.GetFiles( Utility.Configuration.Instance.Connection.SaveDataPath, "*.json", SearchOption.TopDirectoryOnly );
-
-					var apilist = new Dictionary<string, List<KeyValuePair<string, string>>>();
-
-					foreach ( string s in files ) {
-
-						int start = s.IndexOf( '@' );
-						int end = s.LastIndexOf( '.' );
-
-						start--;
-						string key = s.Substring( start, end - start + 1 );
-						string date = s.Substring( 0, start );
-
-
-						if ( !apilist.ContainsKey( key ) ) {
-							apilist.Add( key, new List<KeyValuePair<string, string>>() );
-						}
-						apilist[key].Add( new KeyValuePair<string, string>( date, s ) );
-					}
-
-					foreach ( var l in apilist.Values ) {
-						var l2 = l.OrderBy( el => el.Key ).ToList();
-						for ( int i = 0; i < l2.Count - 1; i++ )
-							File.Delete( l2[i].Value );
-							//System.Diagnostics.Debug.WriteLine( l2[i].Value );
-					}
-
-
-				} catch ( Exception ex ) {
-
-					MessageBox.Show( "削除に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				}
-
-
-			}
-
-		}
 
 
 	}
