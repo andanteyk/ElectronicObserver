@@ -92,7 +92,7 @@ namespace ElectronicObserver.Utility {
 			Logger.Instance.log.Add( data );
 
 
-			if ( Configuration.Instance.Log.LogLevel <= priority ) {
+			if ( Configuration.Config.Log.LogLevel <= priority ) {
 
 				if ( Logger.Instance.toDebugConsole ) {
 					System.Diagnostics.Debug.WriteLine( data.ToString() );

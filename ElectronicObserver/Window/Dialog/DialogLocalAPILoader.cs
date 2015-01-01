@@ -69,7 +69,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			APICategory.SelectedIndex = 1;
 
-			FileOpener.InitialDirectory = Utility.Configuration.Instance.Connection.SaveDataPath;
+			FileOpener.InitialDirectory = Utility.Configuration.Config.Connection.SaveDataPath;
 		}
 
 

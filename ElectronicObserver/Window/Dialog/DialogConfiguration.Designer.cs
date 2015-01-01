@@ -32,7 +32,7 @@
 			this.Connection_SaveSWF = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveResponse = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveRequest = new System.Windows.Forms.CheckBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.Connection_SaveDataPathSearch = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
 			this.Connection_SaveDataPath = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -51,11 +51,13 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
+			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.Life_ConfirmOnClosing = new System.Windows.Forms.CheckBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.tabPage6 = new System.Windows.Forms.TabPage();
-			this.Life_ConfirmOnClosing = new System.Windows.Forms.CheckBox();
+			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+			this.Connection_ApplyVersion = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -114,11 +116,12 @@
 			// 
 			this.Connection_PanelSaveData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.Connection_PanelSaveData.Controls.Add(this.Connection_ApplyVersion);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveOtherFile);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveSWF);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveResponse);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveRequest);
-			this.Connection_PanelSaveData.Controls.Add(this.button1);
+			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveDataPathSearch);
 			this.Connection_PanelSaveData.Controls.Add(this.label3);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveDataPath);
 			this.Connection_PanelSaveData.Controls.Add(this.label2);
@@ -172,14 +175,15 @@
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveRequest, "APIのRequest部を保存します。");
 			this.Connection_SaveRequest.UseVisualStyleBackColor = true;
 			// 
-			// button1
+			// Connection_SaveDataPathSearch
 			// 
-			this.button1.Location = new System.Drawing.Point(341, 32);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(32, 23);
-			this.button1.TabIndex = 7;
-			this.button1.Text = "...";
-			this.button1.UseVisualStyleBackColor = true;
+			this.Connection_SaveDataPathSearch.Location = new System.Drawing.Point(341, 32);
+			this.Connection_SaveDataPathSearch.Name = "Connection_SaveDataPathSearch";
+			this.Connection_SaveDataPathSearch.Size = new System.Drawing.Size(32, 23);
+			this.Connection_SaveDataPathSearch.TabIndex = 7;
+			this.Connection_SaveDataPathSearch.Text = "...";
+			this.Connection_SaveDataPathSearch.UseVisualStyleBackColor = true;
+			this.Connection_SaveDataPathSearch.Click += new System.EventHandler(this.Connection_SaveDataPathSearch_Click);
 			// 
 			// label3
 			// 
@@ -375,6 +379,27 @@
         "己責任で＊使用してください。");
 			this.Debug_EnableDebugMenu.UseVisualStyleBackColor = true;
 			// 
+			// tabPage6
+			// 
+			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Name = "tabPage6";
+			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage6.Size = new System.Drawing.Size(392, 231);
+			this.tabPage6.TabIndex = 5;
+			this.tabPage6.Text = "起動と終了";
+			this.tabPage6.UseVisualStyleBackColor = true;
+			// 
+			// Life_ConfirmOnClosing
+			// 
+			this.Life_ConfirmOnClosing.AutoSize = true;
+			this.Life_ConfirmOnClosing.Location = new System.Drawing.Point(8, 6);
+			this.Life_ConfirmOnClosing.Name = "Life_ConfirmOnClosing";
+			this.Life_ConfirmOnClosing.Size = new System.Drawing.Size(114, 19);
+			this.Life_ConfirmOnClosing.TabIndex = 0;
+			this.Life_ConfirmOnClosing.Text = "終了時に確認する";
+			this.Life_ConfirmOnClosing.UseVisualStyleBackColor = true;
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 60000;
@@ -403,26 +428,20 @@
 			this.ButtonCancel.Text = "キャンセル";
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			// 
-			// tabPage6
+			// FolderBrowser
 			// 
-			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
-			this.tabPage6.Name = "tabPage6";
-			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 231);
-			this.tabPage6.TabIndex = 5;
-			this.tabPage6.Text = "起動と終了";
-			this.tabPage6.UseVisualStyleBackColor = true;
+			this.FolderBrowser.Description = "フォルダの参照";
 			// 
-			// Life_ConfirmOnClosing
+			// Connection_ApplyVersion
 			// 
-			this.Life_ConfirmOnClosing.AutoSize = true;
-			this.Life_ConfirmOnClosing.Location = new System.Drawing.Point(8, 6);
-			this.Life_ConfirmOnClosing.Name = "Life_ConfirmOnClosing";
-			this.Life_ConfirmOnClosing.Size = new System.Drawing.Size(114, 19);
-			this.Life_ConfirmOnClosing.TabIndex = 0;
-			this.Life_ConfirmOnClosing.Text = "終了時に確認する";
-			this.Life_ConfirmOnClosing.UseVisualStyleBackColor = true;
+			this.Connection_ApplyVersion.AutoSize = true;
+			this.Connection_ApplyVersion.Location = new System.Drawing.Point(299, 61);
+			this.Connection_ApplyVersion.Name = "Connection_ApplyVersion";
+			this.Connection_ApplyVersion.Size = new System.Drawing.Size(68, 19);
+			this.Connection_ApplyVersion.TabIndex = 12;
+			this.Connection_ApplyVersion.Text = "Version";
+			this.ToolTipInfo.SetToolTip(this.Connection_ApplyVersion, "バージョン名をファイルに追加します。");
+			this.Connection_ApplyVersion.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -469,7 +488,7 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Panel Connection_PanelSaveData;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button Connection_SaveDataPathSearch;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
@@ -496,5 +515,7 @@
 		internal System.Windows.Forms.CheckBox Debug_EnableDebugMenu;
 		private System.Windows.Forms.TabPage tabPage6;
 		internal System.Windows.Forms.CheckBox Life_ConfirmOnClosing;
+		private System.Windows.Forms.FolderBrowserDialog FolderBrowser;
+		internal System.Windows.Forms.CheckBox Connection_ApplyVersion;
 	}
 }

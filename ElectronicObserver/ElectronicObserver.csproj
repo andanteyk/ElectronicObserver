@@ -122,6 +122,7 @@
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
+    <Compile Include="Utility\Storage\DataStorage.cs" />
     <Compile Include="Observer\APIBase.cs" />
     <Compile Include="Observer\APIDictionary.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\basic.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Utility\Mathematics\DateTimeHelper.cs" />
     <Compile Include="Utility\Mathematics\Fraction.cs" />
     <Compile Include="Utility\SoftwareInformation.cs" />
+    <Compile Include="Utility\Storage\SerializableFont.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>

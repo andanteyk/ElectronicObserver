@@ -119,7 +119,7 @@ namespace ElectronicObserver.Observer {
 
 			//保存
 			{
-				Utility.Configuration.ConfigConnection c = Utility.Configuration.Instance.Connection;
+				Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
 
 				if ( c.SaveReceivedData ) {
 
@@ -135,8 +135,17 @@ namespace ElectronicObserver.Observer {
 							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
 							{
 								int index = tpath.IndexOf( "?" );
-								if ( index != -1 )
+								if ( index != -1 ) {
+									if ( Utility.Configuration.Config.Connection.ApplyVersion ) {
+										string over = tpath.Substring( index + 1 );
+										if ( over.Contains( "VERSION=" ) ) {
+											string version = over.Substring( over.LastIndexOf( '=' ) + 1 );
+											tpath = tpath.Insert( tpath.LastIndexOf( '.' ), "_v" + version );
+											index += version.Length + 2;
+										}
+									}
 									tpath = tpath.Substring( 0, index );
+								}
 							} 
 							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
 
@@ -146,12 +155,21 @@ namespace ElectronicObserver.Observer {
 
 						} else if ( c.SaveOtherFile && oSession.fullUrl.IndexOf( "/kcs/" ) != -1 ) {
 
-							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) ); 
+							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
 							{
 								int index = tpath.IndexOf( "?" );
-								if ( index != -1 )
+								if ( index != -1 ) {
+									if ( Utility.Configuration.Config.Connection.ApplyVersion ) {
+										string over = tpath.Substring( index + 1 );
+										if ( over.Contains( "VERSION=" ) ) {
+											string version = over.Substring( over.LastIndexOf( '=' ) + 1 );
+											tpath = tpath.Insert( tpath.LastIndexOf( '.' ), "_v" + version );
+											index += version.Length + 2;
+										}
+									}
 									tpath = tpath.Substring( 0, index );
-							}
+								}
+							}  
 							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
 
 							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
@@ -187,7 +205,7 @@ namespace ElectronicObserver.Observer {
 				
 				//保存
 				{	
-					Utility.Configuration.ConfigConnection c = Utility.Configuration.Instance.Connection;
+					Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
 
 					if ( c.SaveReceivedData && c.SaveRequest ) {
 
@@ -274,7 +292,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				string tpath = string.Format( "{0}\\{1}Q@{2}.json", Utility.Configuration.Instance.Connection.SaveDataPath, DateTimeHelper.GetTimeStamp(), url.Substring( url.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
+				string tpath = string.Format( "{0}\\{1}Q@{2}.json", Utility.Configuration.Config.Connection.SaveDataPath, DateTimeHelper.GetTimeStamp(), url.Substring( url.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
 
 				using ( var sw = new System.IO.StreamWriter( tpath, false, Encoding.UTF8 ) ) {
 					sw.Write( body );
@@ -293,7 +311,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				string tpath = string.Format( "{0}\\{1}S@{2}.json", Utility.Configuration.Instance.Connection.SaveDataPath, DateTimeHelper.GetTimeStamp(), url.Substring( url.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
+				string tpath = string.Format( "{0}\\{1}S@{2}.json", Utility.Configuration.Config.Connection.SaveDataPath, DateTimeHelper.GetTimeStamp(), url.Substring( url.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
 
 				using ( var sw = new System.IO.StreamWriter( tpath, false, Encoding.UTF8 ) ) {
 					sw.Write( body );

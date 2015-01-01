@@ -500,9 +500,9 @@ namespace ElectronicObserver.Data {
 			{
 				int cond = fleet.Members.Min( id => id == -1 ? 100 : db.Ships[id].Condition );
 
-				if ( cond < Configuration.Instance.Control.ConditionBorder ) {
+				if ( cond < Configuration.Config.Control.ConditionBorder ) {
 
-					DateTime recovertime = DateTime.Now.AddMinutes( (int)Math.Ceiling( ( Configuration.Instance.Control.ConditionBorder - cond ) / 3.0 ) * 3 );
+					DateTime recovertime = DateTime.Now.AddMinutes( (int)Math.Ceiling( ( Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3 );
 
 					if ( prevstate != FleetStates.Tired || recovertime < timer )
 						timer = recovertime;

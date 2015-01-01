@@ -318,7 +318,7 @@ namespace ElectronicObserver.Window {
 						cs = CSRedRight;
 					else if ( ship.Condition < 30 )
 						cs = CSOrangeRight;
-					else if ( ship.Condition < Utility.Configuration.Instance.Control.ConditionBorder )
+					else if ( ship.Condition < Utility.Configuration.Config.Control.ConditionBorder )
 						cs = CSYellowRight;
 					else if ( ship.Condition < 50 )
 						cs = CSDefaultRight;

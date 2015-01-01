@@ -74,7 +74,7 @@ namespace ElectronicObserver.Window {
 			KCDatabase.Instance.Load();
 
 
-			APIObserver.Instance.Start( Utility.Configuration.Instance.Connection.Port );	//fixme
+			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port );	//fixme
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
@@ -113,9 +113,7 @@ namespace ElectronicObserver.Window {
 
 		private void ConfigurationChanged() {
 
-			Utility.Configuration config = Utility.Configuration.Instance;
-
-			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = config.Debug.EnableDebugMenu;
+			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = Utility.Configuration.Config.Debug.EnableDebugMenu;
 
 		}
 
@@ -157,7 +155,7 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_FormClosing( object sender, FormClosingEventArgs e ) {
 
-			if ( Utility.Configuration.Instance.Life.ConfirmOnClosing ) {
+			if ( Utility.Configuration.Config.Life.ConfirmOnClosing ) {
 				if ( MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " を終了しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 					== System.Windows.Forms.DialogResult.No ) {
 					return;
@@ -187,7 +185,7 @@ namespace ElectronicObserver.Window {
 
 			Utility.Logger.Add( 2, "終了処理が完了しました。" );
 
-			if ( Utility.Configuration.Instance.Log.SaveLogFlag )
+			if ( Utility.Configuration.Config.Log.SaveLogFlag )
 				Utility.Logger.Save( @"eolog.log" );
 
 		}
@@ -389,7 +387,7 @@ namespace ElectronicObserver.Window {
 
 				ofd.Title = "APIリストをロード";
 				ofd.Filter = "API List|*.txt|File|*";
-				ofd.InitialDirectory = Utility.Configuration.Instance.Connection.SaveDataPath;
+				ofd.InitialDirectory = Utility.Configuration.Config.Connection.SaveDataPath;
 
 				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
@@ -538,7 +536,7 @@ namespace ElectronicObserver.Window {
 
 					//適当極まりない
 
-					string[] files = Directory.GetFiles( Utility.Configuration.Instance.Connection.SaveDataPath, "*.json", SearchOption.TopDirectoryOnly );
+					string[] files = Directory.GetFiles( Utility.Configuration.Config.Connection.SaveDataPath, "*.json", SearchOption.TopDirectoryOnly );
 
 					var apilist = new Dictionary<string, List<KeyValuePair<string, string>>>();
 

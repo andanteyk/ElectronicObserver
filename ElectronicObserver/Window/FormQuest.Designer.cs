@@ -99,7 +99,7 @@
 			this.QuestView_Type.HeaderText = "種";
 			this.QuestView_Type.Name = "QuestView_Type";
 			this.QuestView_Type.ReadOnly = true;
-			this.QuestView_Type.Width = 24;
+			this.QuestView_Type.Width = 20;
 			// 
 			// QuestView_Category
 			// 
@@ -108,7 +108,7 @@
 			this.QuestView_Category.HeaderText = "分類";
 			this.QuestView_Category.Name = "QuestView_Category";
 			this.QuestView_Category.ReadOnly = true;
-			this.QuestView_Category.Width = 48;
+			this.QuestView_Category.Width = 40;
 			// 
 			// QuestView_Name
 			// 

@@ -246,7 +246,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//debug: 装備画像を読み込んでみる
 			{
-				string path = string.Format( @"{0}\\resources\\image\\slotitem\\card\\{1:D3}.png", Utility.Configuration.Instance.Connection.SaveDataPath, equipmentID );
+				string path = string.Format( @"{0}\\resources\\image\\slotitem\\card\\{1:D3}.png", Utility.Configuration.Config.Connection.SaveDataPath, equipmentID );
 				if ( File.Exists( path ) ) {
 					try {
 

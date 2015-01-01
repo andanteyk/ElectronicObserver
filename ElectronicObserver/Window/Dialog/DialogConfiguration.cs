@@ -44,6 +44,21 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+
+
+		private void Connection_SaveDataPathSearch_Click( object sender, EventArgs e ) {
+
+			if ( Directory.Exists( Connection_SaveDataPath.Text ) ) {
+				FolderBrowser.SelectedPath = Connection_SaveDataPath.Text;
+			}
+
+			if ( FolderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+				Connection_SaveDataPath.Text = FolderBrowser.SelectedPath;
+			}
+
+		}
+
 		
 	}
 }
