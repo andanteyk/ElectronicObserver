@@ -104,14 +104,19 @@ namespace ElectronicObserver.Window {
 
 			if ( KCDatabase.Instance.Quest.Quests.Count != KCDatabase.Instance.Quest.Count ) {
 				int index = QuestView.Rows.Add();
-				QuestView.Rows[index].Cells[QuestView_State.Index].Value = null;	//indeterminate
-
-				QuestView.Rows[index].Cells[QuestView_Name.Index].Value = "(未取得の任務 x " + ( KCDatabase.Instance.Quest.Count - KCDatabase.Instance.Quest.Quests.Count ) + " )";
+				QuestView.Rows[index].Cells[QuestView_State.Index].Value = null;
+				QuestView.Rows[index].Cells[QuestView_Name.Index].Value = string.Format( "(未取得の任務 x {0})", ( KCDatabase.Instance.Quest.Count - KCDatabase.Instance.Quest.Quests.Count ) );
 			}
 
+			if ( KCDatabase.Instance.Quest.Quests.Count == 0 ) {
+				int index = QuestView.Rows.Add();
+				QuestView.Rows[index].Cells[QuestView_State.Index].Value = null;
+				QuestView.Rows[index].Cells[QuestView_Name.Index].Value = "(任務完遂！)";
+			}
 
 			//更新時にソートする
-			QuestView.Sort( QuestView.SortedColumn, QuestView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
+			//fixme: sortedcolumn == null だと死ぬ上どうも挙動が怪しい
+			//QuestView.Sort( QuestView.SortedColumn, QuestView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
 			
 			QuestView.ResumeLayout();
 		}

@@ -43,7 +43,7 @@ namespace ElectronicObserver.Resource.Record {
 			try {
 
 				//Excel様が読めるようにするための苦渋の決断
-				using ( StreamReader sr = new StreamReader( path, Encoding.Default ) ) {
+				using ( StreamReader sr = new StreamReader( path, Encoding.UTF8 ) ) {
 
 					ClearRecord();
 
@@ -83,7 +83,7 @@ namespace ElectronicObserver.Resource.Record {
 
 				bool exist = File.Exists( path );
 
-				using ( StreamWriter sw = new StreamWriter( path, IsAppend, Encoding.Default ) ) {
+				using ( StreamWriter sw = new StreamWriter( path, IsAppend, Encoding.UTF8 ) ) {
 					
 					if ( !IsAppend || !exist )
 						sw.WriteLine( RecordHeader );

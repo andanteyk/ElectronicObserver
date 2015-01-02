@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,6 +58,12 @@ namespace ElectronicObserver.Window {
 
 			ShipGroupMaster = new ShipGroupData( -1 );
 			ShipGroupMaster.Name = "全所属艦";
+
+
+			foreach ( DataGridViewColumn column in ShipView.Columns ) {
+				column.MinimumWidth = 2;
+			}
+
 
 			#region set CellStyle
 
@@ -121,24 +128,27 @@ namespace ElectronicObserver.Window {
 
 		private void FormShipGroup_Load( object sender, EventArgs e ) {
 
-			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
+
+			Font = Utility.Configuration.Config.UI.MainFont;
 			ShipView.Font = Font;
 
 			TabPanel.Controls.Add( CreateTabLabel( -1 ) );
 
-			foreach ( var g in KCDatabase.Instance.ShipGroup.ShipGroups.Values ) {
+			foreach ( var g in groups.ShipGroups.Values ) {
 				TabPanel.Controls.Add( CreateTabLabel( g.GroupID ) );
 			}
 
 
 			{
-				List<bool> filter = KCDatabase.Instance.ShipGroup.FilterList;
+				List<bool> filter = groups.FilterList;
 				int columnCount = ShipView.Columns.Count;
 				for ( int i = 0; i < filter.Count; i++ ) {
 					if ( i >= columnCount ) break;
 					ShipView.Columns[i].Visible = filter[i];
 				}
 			}
+			MenuGroup_AutoUpdate.Checked = groups.AutoUpdateFlag;
 
 
 			APIObserver o = APIObserver.Instance;
@@ -179,7 +189,7 @@ namespace ElectronicObserver.Window {
 			return label;
 		}
 
-		
+
 
 
 		void TabLabel_Click( object sender, EventArgs e ) {
@@ -187,7 +197,8 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void APIUpdated( string apiname, dynamic data ) {
-			ChangeShipView( SelectedTab );
+			if ( MenuGroup_AutoUpdate.Checked )
+				ChangeShipView( SelectedTab );
 		}
 
 
@@ -227,7 +238,7 @@ namespace ElectronicObserver.Window {
 		private void ChangeShipView( ImageLabel target ) {
 
 			if ( target == null ) return;
-			
+
 
 			int groupID = (int)target.Tag;
 			var group = KCDatabase.Instance.ShipGroup[groupID];
@@ -263,6 +274,7 @@ namespace ElectronicObserver.Window {
 					ship.MasterShip.ShipType,
 					ship.MasterShip.Name,
 					ship.Level,
+					ship.ExpTotal,
 					ship.ExpNext,
 					ship.ExpNextRemodel,
 					new Fraction( ship.HPCurrent, ship.HPMax ),
@@ -388,6 +400,19 @@ namespace ElectronicObserver.Window {
 
 			}
 
+		}
+
+		private string GetEquipmentOnlyString( ShipData ship, int index ) {
+
+			string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : "(なし)";
+
+			if ( index >= ship.MasterShip.SlotSize && ship.Slot[index] == -1 ) {
+				return "";
+
+			} else {
+				return name;
+
+			}
 		}
 
 
@@ -560,6 +585,15 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+		private void TabPanel_DoubleClick( object sender, EventArgs e ) {
+
+			MenuGroup_Add.PerformClick();
+
+		}
+
+
+
 		#endregion
 
 
@@ -583,18 +617,21 @@ namespace ElectronicObserver.Window {
 				MenuMember_AddToGroup.Enabled = false;
 				MenuMember_CreateGroup.Enabled = false;
 				MenuMember_Delete.Enabled = false;
+				MenuMember_CSVOutput.Enabled = false;
 
 			} else if ( KCDatabase.Instance.ShipGroup.ShipGroups.Count == 0 ) {
 
 				MenuMember_AddToGroup.Enabled = false;
 				MenuMember_CreateGroup.Enabled = true;
 				MenuMember_Delete.Enabled = true;
+				MenuMember_CSVOutput.Enabled = false;
 
 			} else {
 
 				MenuMember_AddToGroup.Enabled = true;
 				MenuMember_CreateGroup.Enabled = true;
 				MenuMember_Delete.Enabled = true;
+				MenuMember_CSVOutput.Enabled = true;
 
 			}
 
@@ -684,6 +721,243 @@ namespace ElectronicObserver.Window {
 
 				}
 			}
+
+		}
+
+
+
+
+
+		#region ColumnHeader
+		private readonly string[] ShipCSVHeaderUser = {
+			"固有ID",
+			"艦種",
+			"艦名",
+			"Lv",
+			"Exp",
+			"next",
+			"改装まで",
+			"耐久現在",
+			"耐久最大",
+			"Cond",
+			"燃料",
+			"弾薬",
+			"装備1",
+			"装備2",
+			"装備3",
+			"装備4",
+			"装備5",
+			"入渠",
+			"火力",
+			"火力改修",
+			"雷装",
+			"雷装改修",
+			"対空",
+			"対空改修",
+			"装甲",
+			"装甲改修",
+			"対潜",
+			"回避",
+			"索敵",
+			"運",
+			"運改修",
+			"射程",
+			"ロック",
+			"出撃先"
+			};
+
+		private readonly string[] ShipCSVHeaderData = {
+			"固有ID",
+			"艦種",
+			"艦名",
+			"艦船ID",
+			"Lv",
+			"Exp",
+			"next",
+			"改装まで",
+			"耐久現在",
+			"耐久最大",
+			"Cond",
+			"燃料",
+			"弾薬",
+			"装備1",
+			"装備2",
+			"装備3",
+			"装備4",
+			"装備5",
+			"艦載機1",
+			"艦載機2",
+			"艦載機3",
+			"艦載機4",
+			"艦載機5",
+			"入渠",
+			"火力",
+			"火力改修",
+			"雷装",
+			"雷装改修",
+			"対空",
+			"対空改修",
+			"装甲",
+			"装甲改修",
+			"対潜",
+			"回避",
+			"索敵",
+			"運",
+			"運改修",
+			"射程",
+			"ロック",
+			"出撃先"
+			};
+
+		#endregion
+
+		private void MenuMember_CSVOutput_Click( object sender, EventArgs e ) {
+
+			IEnumerable<ShipData> ships;
+			ImageLabel senderLabel = MenuGroup.SourceControl as ImageLabel;
+			if ( senderLabel == null ) {
+				ships = KCDatabase.Instance.Ships.Values;
+
+			} else {
+				ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)senderLabel.Tag];
+				if ( group != null ) {
+					ships = group.MembersInstance;
+
+				} else {
+					ships = KCDatabase.Instance.Ships.Values;
+				}
+
+			}
+
+			
+
+			using ( var dialog = new DialogShipGroupCSVOutput() ) {
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					try {
+
+						using ( StreamWriter sw = new StreamWriter( dialog.OutputPath, false, Encoding.UTF8 ) ) {
+
+							string[] header = dialog.OutputFormat == DialogShipGroupCSVOutput.OutputFormatConstants.User ? ShipCSVHeaderUser : ShipCSVHeaderData;
+
+							sw.WriteLine( string.Join( ",", header ) );
+
+							string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, header.Length ) ) );
+
+							foreach ( ShipData ship in ships ) {
+
+								if ( ship == null ) continue;
+
+
+								if ( dialog.OutputFormat == DialogShipGroupCSVOutput.OutputFormatConstants.User ) {
+
+									sw.WriteLine( arg,
+										ship.MasterID,
+										ship.MasterShip.ShipTypeName,
+										ship.MasterShip.NameWithClass,
+										ship.Level,
+										ship.ExpTotal,
+										ship.ExpNext,
+										ship.ExpNextRemodel,
+										ship.HPCurrent,
+										ship.HPMax,
+										ship.Condition,
+										ship.Fuel,
+										ship.Ammo,
+										GetEquipmentString( ship, 0 ),
+										GetEquipmentString( ship, 1 ),
+										GetEquipmentString( ship, 2 ),
+										GetEquipmentString( ship, 3 ),
+										GetEquipmentString( ship, 4 ),
+										DateTimeHelper.ToTimeRemainString( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ) ),
+										ship.FirepowerBase,
+										ship.FirepowerRemain,
+										ship.TorpedoBase,
+										ship.TorpedoRemain,
+										ship.AABase,
+										ship.AARemain,
+										ship.ArmorBase,
+										ship.ArmorRemain,
+										ship.ASWBase,
+										ship.EvasionBase,
+										ship.LOSBase,
+										ship.LuckBase,
+										ship.LuckRemain,
+										Constants.GetRange( ship.Range ),
+										ship.IsLocked ? "❤" : "-",
+										ship.SallyArea );
+
+								} else {		//data
+
+									sw.WriteLine( arg,
+										ship.MasterID,
+										ship.MasterShip.ShipType,
+										ship.MasterShip.NameWithClass,
+										ship.ShipID,
+										ship.Level,
+										ship.ExpTotal,
+										ship.ExpNext,
+										ship.ExpNextRemodel,
+										ship.HPCurrent,
+										ship.HPMax,
+										ship.Condition,
+										ship.Fuel,
+										ship.Ammo,
+										GetEquipmentOnlyString( ship, 0 ),		//undone: IDにしたいけどよく考えたら強化値が反映されない
+										GetEquipmentOnlyString( ship, 1 ),
+										GetEquipmentOnlyString( ship, 2 ),
+										GetEquipmentOnlyString( ship, 3 ),
+										GetEquipmentOnlyString( ship, 4 ),
+										ship.Aircraft[0],
+										ship.Aircraft[1],
+										ship.Aircraft[2],
+										ship.Aircraft[3],
+										ship.Aircraft[4],
+										ship.RepairTime * 10000,
+										ship.FirepowerBase,
+										ship.FirepowerRemain,
+										ship.TorpedoBase,
+										ship.TorpedoRemain,
+										ship.AABase,
+										ship.AARemain,
+										ship.ArmorBase,
+										ship.ArmorRemain,
+										ship.ASWBase,
+										ship.EvasionBase,
+										ship.LOSBase,
+										ship.LuckBase,
+										ship.LuckRemain,
+										ship.Range,
+										ship.IsLocked ? 1 : 0,
+										ship.SallyArea
+										);
+
+								}
+
+							}
+
+
+						}
+
+					} catch ( Exception ex ) {
+
+						Utility.ErrorReporter.SaveErrorReport( ex, "グループ CSV の書き出しに失敗しました。" );
+						MessageBox.Show( "保存に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+					}
+
+
+
+				}
+			}
+
+		}
+
+
+		private void MenuMember_ColumnAutoAdjust_Click( object sender, EventArgs e ) {
+
+			ShipView.AutoResizeColumns( DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader );
 
 		}
 
@@ -784,7 +1058,7 @@ namespace ElectronicObserver.Window {
 			SortGroup( SelectedTab );
 
 			List<ImageLabel> list = TabPanel.Controls.OfType<ImageLabel>().OrderBy( c => TabPanel.Controls.GetChildIndex( c ) ).ToList();
-			
+
 			for ( int i = 0; i < list.Count; i++ ) {
 
 				ShipGroupData group = groups[(int)list[i].Tag];
@@ -799,16 +1073,7 @@ namespace ElectronicObserver.Window {
 			return "ShipGroup";
 		}
 
-
-
-		private void TabPanel_DoubleClick( object sender, EventArgs e ) {
-
-			MenuGroup_Add.PerformClick();
-
-		}
-
-
-
+	
 
 	}
 }

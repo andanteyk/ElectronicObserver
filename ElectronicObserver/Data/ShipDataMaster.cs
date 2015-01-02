@@ -444,6 +444,13 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 艦種名
+		/// </summary>
+		public string ShipTypeName {
+			get { return KCDatabase.Instance.ShipTypes[ShipType].Name; }
+		}
+
 
 		public ShipDataMaster() {
 			RemodelBeforeShipID = 0;

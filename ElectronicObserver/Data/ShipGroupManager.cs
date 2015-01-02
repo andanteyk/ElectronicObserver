@@ -21,11 +21,22 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public IDDictionary<ShipGroupData> ShipGroups { get; private set; }
 
+		/// <summary>
+		/// フィルタリスト
+		/// </summary>
 		public List<bool> FilterList { get; private set; }
+
+		/// <summary>
+		/// 自動更新フラグ
+		/// </summary>
+		public bool AutoUpdateFlag { get; private set; }
+
 
 
 		public ShipGroupManager() {
 			ShipGroups = new IDDictionary<ShipGroupData>();
+			FilterList = new List<bool>();
+			AutoUpdateFlag = true;							//undone:初期値は常に true で保存されない、明日実装する
 		}
 
 

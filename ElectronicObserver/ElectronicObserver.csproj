@@ -258,6 +258,12 @@
     <Compile Include="Window\Dialog\DialogShipGroupColumnFilter.Designer.cs">
       <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupCSVOutput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupCSVOutput.Designer.cs">
+      <DependentUpon>DialogShipGroupCSVOutput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogTextInput.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -388,6 +394,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogShipGroupColumnFilter.resx">
       <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogShipGroupCSVOutput.resx">
+      <DependentUpon>DialogShipGroupCSVOutput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogTextInput.resx">
       <DependentUpon>DialogTextInput.cs</DependentUpon>
