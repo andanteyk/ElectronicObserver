@@ -146,6 +146,8 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( TableArsenal );
 
+			Font = Utility.Configuration.Config.UI.MainFont;
+
 			TableArsenal.SuspendLayout();
 			ControlArsenal = new TableArsenalControl[4];
 			for ( int i = 0; i < ControlArsenal.Length; i++ ) {

@@ -105,7 +105,7 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 
-			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+			Font = Utility.Configuration.Config.UI.MainFont;
 
 
 			ControlHelper.SetDoubleBuffered( TableFleet );

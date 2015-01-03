@@ -56,6 +56,13 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetDoubleBuffered( FlowPanelResource );
 
 
+			Font = Utility.Configuration.Config.UI.MainFont;
+			//AdmiralName.Font = Font;
+			//AdmiralComment.Font = Font;
+			HQLevel.MainFont = Utility.Configuration.Config.UI.MainFont;
+			HQLevel.SubFont = Utility.Configuration.Config.UI.SubFont;
+
+
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQHeadQuarters] );
 
 		}
@@ -86,11 +93,6 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/createitem"].ResponseReceived += rec;
 			o.APIList["api_req_kousyou/remodel_slot"].ResponseReceived += rec;
 
-
-			//こうしないとフォントがなぜかデフォルトにされる
-			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
-			AdmiralName.Font = this.Font;
-			AdmiralComment.Font = this.Font;
 
 			FlowPanelResource.SetFlowBreak( Ammo, true );
 

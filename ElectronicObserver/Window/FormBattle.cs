@@ -21,11 +21,19 @@ namespace ElectronicObserver.Window {
 
 		private List<ShipStatusHP> HPBars;
 
+		public Font MainFont { get; set; }
+		public Font SubFont { get; set; }
+		
+
 
 		public FormBattle( FormMain parent ) {
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( TableMain );
+
+
+			MainFont = Font = Utility.Configuration.Config.UI.MainFont;
+			SubFont = Utility.Configuration.Config.UI.SubFont;
 
 
 			HPBars = new List<ShipStatusHP>( 18 );
@@ -37,6 +45,8 @@ namespace ElectronicObserver.Window {
 				HPBars[i].Size = new Size( 80, 20 );
 				HPBars[i].Margin = new Padding( 2, 0, 2, 0 );
 				HPBars[i].Anchor = AnchorStyles.None;
+				HPBars[i].MainFont = MainFont;
+				HPBars[i].SubFont = SubFont;
 				HPBars[i].UsePrevValue = true;
 				HPBars[i].ShowDifference = true;
 				HPBars[i].MaximumDigit = 9999;

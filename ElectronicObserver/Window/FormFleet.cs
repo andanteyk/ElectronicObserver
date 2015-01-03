@@ -248,6 +248,7 @@ namespace ElectronicObserver.Window {
 				Equipments.Anchor = AnchorStyles.Left;
 				Equipments.Padding = new Padding( 0, 2, 0, 1 );
 				Equipments.Margin = new Padding( 2, 0, 2, 0 );
+				Equipments.Font = parent.SubFont;
 				Equipments.Size = new Size( 40, 20 );
 				Equipments.AutoSize = true;
 				Equipments.Visible = false;
@@ -399,8 +400,8 @@ namespace ElectronicObserver.Window {
 			parent.UpdateTimerTick += parent_UpdateTimerTick;
 
 			//todo: 後々外部から設定できるように
-			MainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
-			SubFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
+			MainFont = Font = Utility.Configuration.Config.UI.MainFont;
+			SubFont = Utility.Configuration.Config.UI.SubFont;
 			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
 			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
 

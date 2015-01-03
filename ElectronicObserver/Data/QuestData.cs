@@ -37,6 +37,7 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// 遂行状態
+		/// 1=未受領, 2=遂行中, 3=達成
 		/// </summary>
 		public int State {
 			get { return (int)RawData.api_state; }

@@ -67,7 +67,15 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
+			
+
 			this.Text = SoftwareInformation.VersionJapanese;
+			Font = Utility.Configuration.Config.UI.MainFont;
+			//StripMenu.Font = Font;
+			//StripStatus.Font = Font;
+			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
+			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
+
 
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
@@ -126,18 +134,18 @@ namespace ElectronicObserver.Window {
 
 			using ( var dialog = new DialogLocalAPILoader() ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK 
-					&& APIObserver.Instance.APIList.ContainsKey( dialog.APIPath ) ) {
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+					if ( APIObserver.Instance.APIList.ContainsKey( dialog.APIName ) ) {
 
-					if ( dialog.IsResponse ) {
-						APIObserver.Instance.LoadResponse( dialog.APIPath, dialog.FileData );
-					}
-					if ( dialog.IsRequest ) {
-						APIObserver.Instance.LoadRequest( dialog.APIPath, dialog.FileData );
-					}
+						if ( dialog.IsResponse ) {
+							APIObserver.Instance.LoadResponse( dialog.APIPath, dialog.FileData );
+						}
+						if ( dialog.IsRequest ) {
+							APIObserver.Instance.LoadRequest( dialog.APIPath, dialog.FileData );
+						}
 
+					}
 				}
-
 			}
 
 		}
@@ -158,6 +166,7 @@ namespace ElectronicObserver.Window {
 			if ( Utility.Configuration.Config.Life.ConfirmOnClosing ) {
 				if ( MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " を終了しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 					== System.Windows.Forms.DialogResult.No ) {
+					e.Cancel = true;
 					return;
 				}
 			}

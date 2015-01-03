@@ -565,6 +565,12 @@ namespace ElectronicObserver.Utility {
 			dialog.Connection_SaveOtherFile.Checked = _config.Connection.SaveOtherFile;
 			dialog.Connection_ApplyVersion.Checked = _config.Connection.ApplyVersion;
 
+			//[UI]
+			dialog.UI_MainFont.Font = _config.UI.MainFont.FontData;
+			dialog.UI_MainFont.Text = _config.UI.MainFont.SerializeFontAttribute;
+			dialog.UI_SubFont.Font = _config.UI.SubFont.FontData;
+			dialog.UI_SubFont.Text = _config.UI.SubFont.SerializeFontAttribute;
+
 			//[ログ]
 			dialog.Log_LogLevel.Value = _config.Log.LogLevel;
 			dialog.Log_SaveLogFlag.Checked = _config.Log.SaveLogFlag;
@@ -605,6 +611,10 @@ namespace ElectronicObserver.Utility {
 			_config.Connection.SaveOtherFile = dialog.Connection_SaveOtherFile.Checked;
 			_config.Connection.ApplyVersion = dialog.Connection_ApplyVersion.Checked;
 			
+			//[UI]
+			_config.UI.MainFont = dialog.UI_MainFont.Font;
+			_config.UI.SubFont = dialog.UI_SubFont.Font;
+
 			//[ログ]
 			_config.Log.LogLevel = (int)dialog.Log_LogLevel.Value;
 			_config.Log.SaveLogFlag = dialog.Log_SaveLogFlag.Checked;

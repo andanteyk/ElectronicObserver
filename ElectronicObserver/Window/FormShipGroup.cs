@@ -55,6 +55,9 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( ShipView );
 
+			Font = Utility.Configuration.Config.UI.MainFont;
+			ShipView.Font = Font;
+
 
 			ShipGroupMaster = new ShipGroupData( -1 );
 			ShipGroupMaster.Name = "全所属艦";
@@ -129,9 +132,6 @@ namespace ElectronicObserver.Window {
 		private void FormShipGroup_Load( object sender, EventArgs e ) {
 
 			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
-
-			Font = Utility.Configuration.Config.UI.MainFont;
-			ShipView.Font = Font;
 
 			TabPanel.Controls.Add( CreateTabLabel( -1 ) );
 
@@ -829,7 +829,7 @@ namespace ElectronicObserver.Window {
 
 			}
 
-			
+
 
 			using ( var dialog = new DialogShipGroupCSVOutput() ) {
 
@@ -1073,7 +1073,7 @@ namespace ElectronicObserver.Window {
 			return "ShipGroup";
 		}
 
-	
+
 
 	}
 }

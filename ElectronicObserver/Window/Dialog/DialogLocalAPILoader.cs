@@ -32,6 +32,15 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
+		public string APIName {
+			get {
+				if ( APIList.SelectedIndex != -1 )
+					return APIList.SelectedItem.ToString();
+				else
+					return null;
+			}
+		}
+
 		public string APIPath {
 			get {
 				if ( APIList.SelectedIndex != -1 )
@@ -59,12 +68,12 @@ namespace ElectronicObserver.Window.Dialog {
 
 			Icon iconWarning = SystemIcons.Warning;
 			Bitmap bmp = new Bitmap( PictureWarning.Width, PictureWarning.Height );
-			Graphics g = Graphics.FromImage( bmp );
+			using ( Graphics g = Graphics.FromImage( bmp ) ) {
 
-			g.DrawIcon( iconWarning, 0, 0 );
-			PictureWarning.Image = bmp;
+				g.DrawIcon( iconWarning, 0, 0 );
+				PictureWarning.Image = bmp;
 
-			g.Dispose();
+			}
 
 
 			APICategory.SelectedIndex = 1;

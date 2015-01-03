@@ -28,6 +28,7 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.label4 = new System.Windows.Forms.Label();
 			this.Connection_PanelSaveData = new System.Windows.Forms.Panel();
+			this.Connection_ApplyVersion = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveOtherFile = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveSWF = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveResponse = new System.Windows.Forms.CheckBox();
@@ -41,6 +42,12 @@
 			this.Connection_Port = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.label9 = new System.Windows.Forms.Label();
+			this.UI_SubFontSelect = new System.Windows.Forms.Button();
+			this.UI_SubFont = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.UI_MainFontSelect = new System.Windows.Forms.Button();
+			this.UI_MainFont = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.Log_SaveLogFlag = new System.Windows.Forms.CheckBox();
@@ -57,7 +64,7 @@
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-			this.Connection_ApplyVersion = new System.Windows.Forms.CheckBox();
+			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -130,6 +137,17 @@
 			this.Connection_PanelSaveData.Name = "Connection_PanelSaveData";
 			this.Connection_PanelSaveData.Size = new System.Drawing.Size(376, 83);
 			this.Connection_PanelSaveData.TabIndex = 4;
+			// 
+			// Connection_ApplyVersion
+			// 
+			this.Connection_ApplyVersion.AutoSize = true;
+			this.Connection_ApplyVersion.Location = new System.Drawing.Point(299, 61);
+			this.Connection_ApplyVersion.Name = "Connection_ApplyVersion";
+			this.Connection_ApplyVersion.Size = new System.Drawing.Size(68, 19);
+			this.Connection_ApplyVersion.TabIndex = 12;
+			this.Connection_ApplyVersion.Text = "Version";
+			this.ToolTipInfo.SetToolTip(this.Connection_ApplyVersion, "バージョン名をファイルに追加します。");
+			this.Connection_ApplyVersion.UseVisualStyleBackColor = true;
 			// 
 			// Connection_SaveOtherFile
 			// 
@@ -262,6 +280,12 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.label9);
+			this.tabPage2.Controls.Add(this.UI_SubFontSelect);
+			this.tabPage2.Controls.Add(this.UI_SubFont);
+			this.tabPage2.Controls.Add(this.label8);
+			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
+			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
 			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
@@ -271,14 +295,77 @@
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
+			// label9
+			// 
+			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(8, 211);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(146, 15);
+			this.label9.TabIndex = 12;
+			this.label9.Text = "＊再起動後に反映されます。";
+			// 
+			// UI_SubFontSelect
+			// 
+			this.UI_SubFontSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.UI_SubFontSelect.Location = new System.Drawing.Point(352, 35);
+			this.UI_SubFontSelect.Name = "UI_SubFontSelect";
+			this.UI_SubFontSelect.Size = new System.Drawing.Size(32, 23);
+			this.UI_SubFontSelect.TabIndex = 11;
+			this.UI_SubFontSelect.Text = "...";
+			this.ToolTipInfo.SetToolTip(this.UI_SubFontSelect, "＊未実装です＊");
+			this.UI_SubFontSelect.UseVisualStyleBackColor = true;
+			this.UI_SubFontSelect.Click += new System.EventHandler(this.UI_SubFontSelect_Click);
+			// 
+			// UI_SubFont
+			// 
+			this.UI_SubFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.UI_SubFont.Location = new System.Drawing.Point(92, 35);
+			this.UI_SubFont.Name = "UI_SubFont";
+			this.UI_SubFont.ReadOnly = true;
+			this.UI_SubFont.Size = new System.Drawing.Size(254, 23);
+			this.UI_SubFont.TabIndex = 10;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(8, 38);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(71, 15);
+			this.label8.TabIndex = 9;
+			this.label8.Text = "サブフォント：";
+			// 
+			// UI_MainFontSelect
+			// 
+			this.UI_MainFontSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.UI_MainFontSelect.Location = new System.Drawing.Point(352, 6);
+			this.UI_MainFontSelect.Name = "UI_MainFontSelect";
+			this.UI_MainFontSelect.Size = new System.Drawing.Size(32, 23);
+			this.UI_MainFontSelect.TabIndex = 8;
+			this.UI_MainFontSelect.Text = "...";
+			this.ToolTipInfo.SetToolTip(this.UI_MainFontSelect, "＊未実装です＊");
+			this.UI_MainFontSelect.UseVisualStyleBackColor = true;
+			this.UI_MainFontSelect.Click += new System.EventHandler(this.UI_MainFontSelect_Click);
+			// 
+			// UI_MainFont
+			// 
+			this.UI_MainFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.UI_MainFont.Location = new System.Drawing.Point(92, 6);
+			this.UI_MainFont.Name = "UI_MainFont";
+			this.UI_MainFont.ReadOnly = true;
+			this.UI_MainFont.Size = new System.Drawing.Size(254, 23);
+			this.UI_MainFont.TabIndex = 1;
+			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(8, 3);
+			this.label5.Location = new System.Drawing.Point(8, 9);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(87, 15);
+			this.label5.Size = new System.Drawing.Size(78, 15);
 			this.label5.TabIndex = 0;
-			this.label5.Text = "＊未実装です＊";
+			this.label5.Text = "メインフォント：";
 			// 
 			// tabPage3
 			// 
@@ -432,16 +519,9 @@
 			// 
 			this.FolderBrowser.Description = "フォルダの参照";
 			// 
-			// Connection_ApplyVersion
+			// FontSelector
 			// 
-			this.Connection_ApplyVersion.AutoSize = true;
-			this.Connection_ApplyVersion.Location = new System.Drawing.Point(299, 61);
-			this.Connection_ApplyVersion.Name = "Connection_ApplyVersion";
-			this.Connection_ApplyVersion.Size = new System.Drawing.Size(68, 19);
-			this.Connection_ApplyVersion.TabIndex = 12;
-			this.Connection_ApplyVersion.Text = "Version";
-			this.ToolTipInfo.SetToolTip(this.Connection_ApplyVersion, "バージョン名をファイルに追加します。");
-			this.Connection_ApplyVersion.UseVisualStyleBackColor = true;
+			this.FontSelector.ShowEffects = false;
 			// 
 			// DialogConfiguration
 			// 
@@ -493,7 +573,6 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TabPage tabPage2;
-		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Button ButtonOK;
 		private System.Windows.Forms.Button ButtonCancel;
 		internal System.Windows.Forms.CheckBox Connection_SaveOtherFile;
@@ -517,5 +596,13 @@
 		internal System.Windows.Forms.CheckBox Life_ConfirmOnClosing;
 		private System.Windows.Forms.FolderBrowserDialog FolderBrowser;
 		internal System.Windows.Forms.CheckBox Connection_ApplyVersion;
+		private System.Windows.Forms.Button UI_SubFontSelect;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Button UI_MainFontSelect;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.FontDialog FontSelector;
+		internal System.Windows.Forms.TextBox UI_SubFont;
+		internal System.Windows.Forms.TextBox UI_MainFont;
+		private System.Windows.Forms.Label label9;
 	}
 }

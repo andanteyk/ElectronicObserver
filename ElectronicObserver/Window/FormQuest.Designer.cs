@@ -28,13 +28,16 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.QuestView = new System.Windows.Forms.DataGridView();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.QuestView_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.QuestView_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
+			this.MenuMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// QuestView
@@ -51,6 +54,7 @@
             this.QuestView_Category,
             this.QuestView_Name,
             this.QuestView_Progress});
+			this.QuestView.ContextMenuStrip = this.MenuMain;
 			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle3.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -72,13 +76,6 @@
 			this.QuestView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.QuestView_CellFormatting);
 			this.QuestView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.QuestView_SortCompare);
 			this.QuestView.Sorted += new System.EventHandler(this.QuestView_Sorted);
-			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// QuestView_State
 			// 
@@ -125,6 +122,28 @@
 			this.QuestView_Progress.Name = "QuestView_Progress";
 			this.QuestView_Progress.ReadOnly = true;
 			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
+			// MenuMain
+			// 
+			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuMain_ShowRunningOnly});
+			this.MenuMain.Name = "MenuMain";
+			this.MenuMain.Size = new System.Drawing.Size(161, 48);
+			// 
+			// MenuMain_ShowRunningOnly
+			// 
+			this.MenuMain_ShowRunningOnly.CheckOnClick = true;
+			this.MenuMain_ShowRunningOnly.Name = "MenuMain_ShowRunningOnly";
+			this.MenuMain_ShowRunningOnly.Size = new System.Drawing.Size(160, 22);
+			this.MenuMain_ShowRunningOnly.Text = "遂行中のみ表示";
+			this.MenuMain_ShowRunningOnly.Click += new System.EventHandler(this.MenuMain_ShowRunningOnly_Click);
+			// 
 			// FormQuest
 			// 
 			this.AutoHidePortion = 150D;
@@ -139,6 +158,7 @@
 			this.Text = "任務";
 			this.Load += new System.EventHandler(this.FormQuest_Load);
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).EndInit();
+			this.MenuMain.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -152,5 +172,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Category;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Name;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Progress;
+		private System.Windows.Forms.ContextMenuStrip MenuMain;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowRunningOnly;
 	}
 }

@@ -29,18 +29,17 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( APIUpdated ), apiname, data );
 
 			o.APIList["api_req_quest/clearitemget"].RequestReceived += rec;
 
 			o.APIList["api_get_member/questlist"].ResponseReceived += rec;
 
 
-			//こうしないとフォントがなぜかデフォルトにされる
-			//*/
-			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+			
+			Font = Utility.Configuration.Config.UI.MainFont;
 			QuestView.Font = Font;
-			//*/
+			
 
 			//デフォルト行の追加
 			{
@@ -50,9 +49,7 @@ namespace ElectronicObserver.Window {
 				QuestView.Rows.Add( row );
 			}
 
-
-			
-
+			QuestView.Sort( QuestView_Name, ListSortDirection.Ascending );
 
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQQuest] );
@@ -60,13 +57,23 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		void Updated( string apiname, dynamic data ) {
+
+
+		void APIUpdated( string apiname, dynamic data ) {
+			Updated();
+		}
+
+		void Updated() {
 
 			QuestView.SuspendLayout();
 
 			QuestView.Rows.Clear();
 
 			foreach ( var q in KCDatabase.Instance.Quest.Quests.Values ) {
+
+				if ( MenuMain_ShowRunningOnly.Checked && !( q.State == 2 || q.State == 3 ) )
+					continue;
+				
 
 				DataGridViewRow row = new DataGridViewRow();
 				row.CreateCells( QuestView );
@@ -116,10 +123,12 @@ namespace ElectronicObserver.Window {
 
 			//更新時にソートする
 			//fixme: sortedcolumn == null だと死ぬ上どうも挙動が怪しい
-			//QuestView.Sort( QuestView.SortedColumn, QuestView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
+			if ( QuestView.SortedColumn != null )
+				QuestView.Sort( QuestView.SortedColumn, QuestView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
 			
 			QuestView.ResumeLayout();
 		}
+
 
 		private void QuestView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
@@ -183,9 +192,15 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void MenuMain_ShowRunningOnly_Click( object sender, EventArgs e ) {
+			Updated();
+		}
+
+
 		protected override string GetPersistString() {
 			return "Quest";
 		}
 
+	
 	}
 }

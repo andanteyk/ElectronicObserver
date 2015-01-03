@@ -10,8 +10,6 @@ using System.Xml.Serialization;
 
 namespace ElectronicObserver.Utility.Storage {
 
-	//checkme: unsafe?
-
 	/// <summary>
 	/// シリアル化可能な Font を扱います。
 	/// </summary>

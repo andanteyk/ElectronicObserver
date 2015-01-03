@@ -153,6 +153,8 @@ namespace ElectronicObserver.Observer {
 								sw.Write( oSession.ResponseBody );
 							}
 
+							Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath ) );
+
 						} else if ( c.SaveOtherFile && oSession.fullUrl.IndexOf( "/kcs/" ) != -1 ) {
 
 							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
@@ -175,6 +177,8 @@ namespace ElectronicObserver.Observer {
 							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
 								sw.Write( oSession.ResponseBody );
 							}
+
+							Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath ) );
 
 						}
 

@@ -42,6 +42,7 @@ namespace ElectronicObserver.Window.Control {
 		#endregion
 
 
+		/*
 		[Browsable( true )]
 		[DefaultValue( typeof( Font ), "Meiryo UI, 12px" )]
 		public override Font Font {		//checkme
@@ -51,6 +52,8 @@ namespace ElectronicObserver.Window.Control {
 				PropertyChanged();
 			}
 		}
+		*/
+
 
 		[Browsable( true )]
 		[DefaultValue( "" )]
@@ -233,7 +236,7 @@ namespace ElectronicObserver.Window.Control {
 			InitializeComponent();
 
 			Text = "";
-			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+			//Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 			_textAlign = ContentAlignment.MiddleLeft;
 			_imageAlign = ContentAlignment.MiddleLeft;
 			_image = null;

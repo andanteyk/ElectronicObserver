@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Storage;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -55,6 +56,38 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( FolderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
 				Connection_SaveDataPath.Text = FolderBrowser.SelectedPath;
+			}
+
+		}
+
+
+		private void UI_MainFontSelect_Click( object sender, EventArgs e ) {
+
+			FontSelector.Font = UI_MainFont.Font;
+
+			if ( FontSelector.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+				SerializableFont font = new SerializableFont( FontSelector.Font );
+
+				UI_MainFont.Text = font.SerializeFontAttribute;
+				UI_MainFont.Font = font.FontData;
+
+			}
+
+		}
+
+
+		private void UI_SubFontSelect_Click( object sender, EventArgs e ) {
+
+			FontSelector.Font = UI_SubFont.Font;
+
+			if ( FontSelector.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+				SerializableFont font = new SerializableFont( FontSelector.Font );
+
+				UI_SubFont.Text = font.SerializeFontAttribute;
+				UI_SubFont.Font = font.FontData;
+
 			}
 
 		}

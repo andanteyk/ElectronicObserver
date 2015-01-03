@@ -144,6 +144,8 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( TableDock );
 
+			Font = Utility.Configuration.Config.UI.MainFont;
+
 			
 			TableDock.SuspendLayout();
 			ControlDock = new TableDockControl[4];

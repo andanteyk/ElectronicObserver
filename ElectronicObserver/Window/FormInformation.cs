@@ -21,6 +21,8 @@ namespace ElectronicObserver.Window {
 		public FormInformation( FormMain parent ) {
 			InitializeComponent();
 
+			Font = Utility.Configuration.Config.UI.MainFont;
+
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQInformation] );
 		}
 

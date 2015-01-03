@@ -17,7 +17,7 @@ namespace ElectronicObserver.Window {
 		public FormLog( FormMain parent ) {
 			InitializeComponent();
 
-			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+			Font = Utility.Configuration.Config.UI.MainFont;
 			LogList.Font = Font;
 
 			ElectronicObserver.Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
