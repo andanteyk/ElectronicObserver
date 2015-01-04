@@ -96,6 +96,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void UI_MainFont_KeyDown( object sender, KeyEventArgs e ) {
 
+			//undone: めんどくさい
 			/*/
 			if ( e.KeyCode == Keys.Enter ) {
 				UI_MainFont.Font = SerializableFont.StringToFont( UI_MainFont.Text ) ?? UI_MainFont.Font;

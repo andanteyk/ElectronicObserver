@@ -65,6 +65,7 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
+			this.Log_SaveErrorReport = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -369,6 +370,7 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.Log_SaveErrorReport);
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
@@ -528,6 +530,18 @@
 			// 
 			this.FontSelector.ShowEffects = false;
 			// 
+			// Log_SaveErrorReport
+			// 
+			this.Log_SaveErrorReport.AutoSize = true;
+			this.Log_SaveErrorReport.Location = new System.Drawing.Point(8, 61);
+			this.Log_SaveErrorReport.Name = "Log_SaveErrorReport";
+			this.Log_SaveErrorReport.Size = new System.Drawing.Size(142, 19);
+			this.Log_SaveErrorReport.TabIndex = 3;
+			this.Log_SaveErrorReport.Text = "エラーレポートを保存する";
+			this.ToolTipInfo.SetToolTip(this.Log_SaveErrorReport, "エラーが発生した際に記録を残します。\r\n記録されたファイルを送信していただければバグ修正に役立てることができます。\r\nデフォルトでは実行フォルダ内 ErrorRe" +
+        "port フォルダに保存されます。");
+			this.Log_SaveErrorReport.UseVisualStyleBackColor = true;
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -609,5 +623,6 @@
 		internal System.Windows.Forms.TextBox UI_SubFont;
 		internal System.Windows.Forms.TextBox UI_MainFont;
 		private System.Windows.Forms.Label label9;
+		internal System.Windows.Forms.CheckBox Log_SaveErrorReport;
 	}
 }

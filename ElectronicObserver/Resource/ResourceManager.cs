@@ -271,7 +271,7 @@ namespace ElectronicObserver.Resource {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, string.Format( "画像リソース {0} の読み込みに失敗しました。", path ) );
+				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "画像リソース {0} の読み込みに失敗しました。", path ) );
 				return new Bitmap( 16, 16, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
 
 			}

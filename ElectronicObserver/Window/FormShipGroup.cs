@@ -44,9 +44,6 @@ namespace ElectronicObserver.Window {
 			CSRedRight, CSOrangeRight, CSYellowRight, CSGreenRight, CSGrayRight, CSCherryRight,
 			CSIsLocked;
 
-		/// <summary>全所属艦</summary>
-		private ShipGroupData ShipGroupMaster;
-
 		/// <summary>選択中のタブ</summary>
 		private ImageLabel SelectedTab = null;
 
@@ -58,10 +55,6 @@ namespace ElectronicObserver.Window {
 
 			Font = Utility.Configuration.Config.UI.MainFont;
 			ShipView.Font = Font;
-
-
-			ShipGroupMaster = new ShipGroupData( -1 );
-			ShipGroupMaster.Name = "全所属艦";
 
 
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
@@ -134,7 +127,16 @@ namespace ElectronicObserver.Window {
 
 			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
 
-			TabPanel.Controls.Add( CreateTabLabel( -1 ) );
+
+			if ( !groups.ShipGroups.ContainsKey( -1 ) ) {
+				var master = new ShipGroupData( -1 );
+				master.Name = "全所属艦";
+				master.ColumnFilter = Enumerable.Repeat<bool>( true, ShipView.Columns.Count ).ToList();
+				master.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
+
+				groups.ShipGroups.Add( master );
+			}
+
 
 			foreach ( var g in groups.ShipGroups.Values ) {
 				TabPanel.Controls.Add( CreateTabLabel( g.GroupID ) );
@@ -142,14 +144,13 @@ namespace ElectronicObserver.Window {
 
 
 			{
-				List<bool> filter = groups.FilterList;
 				int columnCount = ShipView.Columns.Count;
-				for ( int i = 0; i < filter.Count; i++ ) {
-					if ( i >= columnCount ) break;
-					ShipView.Columns[i].Visible = filter[i];
+				for ( int i = 0; i < columnCount; i++ ) {
+					ShipView.Columns[i].Visible = false;
 				}
 			}
-			MenuGroup_AutoUpdate.Checked = groups.AutoUpdateFlag;
+
+			MenuGroup_AutoUpdate.Checked = true;		//checkme:未設定です
 
 
 			APIObserver o = APIObserver.Instance;
@@ -211,9 +212,9 @@ namespace ElectronicObserver.Window {
 
 
 		/// <summary>
-		/// グループデータをGUIに沿ってソートします。
+		/// グループデータにGUIからの操作を適用します。
 		/// </summary>
-		private void SortGroup( ImageLabel target ) {
+		private void ApplyGroupData( ImageLabel target ) {
 
 			if ( target != null ) {
 				target.BackColor = TabInactiveColor;
@@ -224,7 +225,7 @@ namespace ElectronicObserver.Window {
 
 				ShipGroupData g = KCDatabase.Instance.ShipGroup[(int)target.Tag];
 				if ( g == null )
-					g = ShipGroupMaster;
+					return;
 
 				g.Members.Clear();
 				g.Members.Capacity = ShipView.Rows.GetRowCount( DataGridViewElementStates.None );
@@ -233,6 +234,10 @@ namespace ElectronicObserver.Window {
 					g.Members.Add( (int)row.Cells[ShipView_ID.Index].Value );
 				}
 
+
+				g.ColumnFilter = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Visible ).ToList();
+				g.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
+				g.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
 			}
 		}
 
@@ -249,16 +254,19 @@ namespace ElectronicObserver.Window {
 			var group = KCDatabase.Instance.ShipGroup[groupID];
 
 
-			if ( !notLoaded )
-				SortGroup( SelectedTab );
+			//if ( !notLoaded )
+				ApplyGroupData( SelectedTab );
 
-			if ( notLoaded && KCDatabase.Instance.Ships.Count > 0 )
-				notLoaded = false;
+			//if ( notLoaded && KCDatabase.Instance.Ships.Count > 0 )
+			//	notLoaded = false;
 
 
 			if ( group == null ) {
-				ShipGroupMaster.Members = ShipGroupMaster.Members.Intersect( KCDatabase.Instance.Ships.Keys ).Union( KCDatabase.Instance.Ships.Keys ).Distinct().ToList();
-				group = ShipGroupMaster;
+				Utility.Logger.Add( 3, "エラー：存在しないグループを参照しようとしました。開発者に連絡してください" );
+				return;
+			}
+			if ( group.GroupID < 0 ) {
+				group.Members = group.Members.Intersect( KCDatabase.Instance.Ships.Keys ).Union( KCDatabase.Instance.Ships.Keys ).Distinct().ToList();
 			}
 
 
@@ -266,7 +274,7 @@ namespace ElectronicObserver.Window {
 
 			ShipView.Rows.Clear();
 
-			IEnumerable<ShipData> ships = group != null ? group.MembersInstance.AsEnumerable() : KCDatabase.Instance.Ships.Values;
+			IEnumerable<ShipData> ships = group.MembersInstance;
 			List<DataGridViewRow> rows = new List<DataGridViewRow>( ships.Count() );
 
 			foreach ( ShipData ship in ships ) {
@@ -376,6 +384,24 @@ namespace ElectronicObserver.Window {
 				rows[i].Tag = i;
 
 			ShipView.Rows.AddRange( rows.ToArray() );
+
+	
+			{
+				int columnCount = ShipView.Columns.Count;
+				if ( group.ColumnFilter != null ) columnCount = Math.Min( columnCount, group.ColumnFilter.Count );
+				if ( group.ColumnWidth != null ) columnCount = Math.Min( columnCount, group.ColumnWidth.Count );
+
+
+				for ( int i = 0; i < columnCount; i++ ) {
+					ShipView.Columns[i].Visible = group.ColumnFilter[i];
+					ShipView.Columns[i].Width = group.ColumnWidth[i];
+				}
+			}
+
+			SetColumnAutoSize( group.ColumnAutoSize );
+			SetLockShipNameScroll( group.LockShipNameScroll );
+
+
 			ShipView.ResumeLayout();
 
 
@@ -457,7 +483,6 @@ namespace ElectronicObserver.Window {
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
 			if ( e.Column.Index == ShipView_Name.Index ) {
-				//e.SortResult = ((string)e.CellValue1).CompareTo( e.CellValue2 );		//checkme
 				e.SortResult =
 					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag].AlbumNo -
 					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag].AlbumNo;
@@ -528,6 +553,9 @@ namespace ElectronicObserver.Window {
 					var group = KCDatabase.Instance.ShipGroup.Add();
 
 					group.Name = dialog.InputtedText.Trim();
+					group.ColumnFilter = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Visible ).ToList();
+					group.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
+					group.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
 
 					TabPanel.Controls.Add( CreateTabLabel( group.GroupID ) );
 
@@ -545,7 +573,7 @@ namespace ElectronicObserver.Window {
 
 			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)senderLabel.Tag];
 
-			if ( group != null ) {
+			if ( group != null && group.GroupID >= 0 ) {
 				if ( MessageBox.Show( string.Format( "グループ [{0}] を削除しますか？\r\nこの操作は元に戻せません。", group.Name ), "確認",
 					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 					== System.Windows.Forms.DialogResult.Yes ) {
@@ -571,7 +599,7 @@ namespace ElectronicObserver.Window {
 
 			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)senderLabel.Tag];
 
-			if ( group != null ) {
+			if ( group != null && group.GroupID >= 0 ) {
 
 				using ( var dialog = new DialogTextInput( "グループ名の変更", "グループ名を入力してください：" ) ) {
 
@@ -605,11 +633,13 @@ namespace ElectronicObserver.Window {
 		#region メニューON/OFF操作
 		private void MenuGroup_Opening( object sender, CancelEventArgs e ) {
 
-			if ( MenuGroup.SourceControl == TabPanel ) {
+			if ( MenuGroup.SourceControl == TabPanel || SelectedTab == null ) {
 				MenuGroup_Add.Enabled = true;
+				MenuGroup_Rename.Enabled = false;
 				MenuGroup_Delete.Enabled = false;
 			} else {
 				MenuGroup_Add.Enabled = true;
+				MenuGroup_Rename.Enabled = true;
 				MenuGroup_Delete.Enabled = true;
 			}
 
@@ -617,7 +647,12 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_Opening( object sender, CancelEventArgs e ) {
 
-			if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) == 0 ) {
+			if ( SelectedTab == null ) {
+
+				e.Cancel = true;
+				return;
+
+			} else if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) == 0 ) {
 
 				MenuMember_AddToGroup.Enabled = false;
 				MenuMember_CreateGroup.Enabled = false;
@@ -649,12 +684,12 @@ namespace ElectronicObserver.Window {
 		private void MenuMember_AddToGroup_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogTextSelect( "グループの選択", "追加するグループを選択してください：",
-				KCDatabase.Instance.ShipGroup.ShipGroups.Values.ToArray() ) ) {
+				KCDatabase.Instance.ShipGroup.ShipGroups.Values.Where( g => g.GroupID >= 0 ).ToArray() ) ) {
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
 					ShipGroupData group = (ShipGroupData)dialog.SelectedItem;
-					if ( group != null ) {
+					if ( group != null && group.GroupID >= 0 ) {
 
 						List<int> members = new List<int>( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) );
 
@@ -685,6 +720,9 @@ namespace ElectronicObserver.Window {
 
 						group.Members.Add( (int)row.Cells[ShipView_ID.Index].Value );
 					}
+					group.ColumnFilter = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Visible ).ToList();
+					group.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
+					group.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
 
 					ImageLabel il = CreateTabLabel( group.GroupID );
 					TabPanel.Controls.Add( il );
@@ -698,14 +736,20 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_Delete_Click( object sender, EventArgs e ) {
 
+			ShipGroupData group = SelectedTab != null ? KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag] : null;
+
+
+			if ( group == null || group.GroupID < 0 ) {
+				MessageBox.Show( "このグループは変更できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				return;
+			}
+
 			List<int> list = new List<int>( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) );
 
 			foreach ( DataGridViewRow row in ShipView.SelectedRows ) {
 				list.Add( (int)row.Cells[ShipView_ID.Index].Value );
 				ShipView.Rows.Remove( row );
 			}
-
-			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
 
 			if ( group != null )
 				group.Members = group.Members.Except( list ).ToList();
@@ -715,11 +759,23 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_ColumnFilter_Click( object sender, EventArgs e ) {
 
+			ShipGroupData group = SelectedTab != null ? KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag] : null;
+
+			if ( group == null ) {
+				MessageBox.Show( "このグループは変更できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				return;
+			}
+
+
 			using ( var dialog = new DialogShipGroupColumnFilter( ShipView ) ) {
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
+					
+
 					bool[] checkedList = dialog.CheckedList;
+
+					group.ColumnFilter = checkedList.ToList();
 					for ( int i = 0; i < checkedList.Length; i++ ) {
 						ShipView.Columns[i].Visible = checkedList[i];
 					}
@@ -825,7 +881,7 @@ namespace ElectronicObserver.Window {
 
 			} else {
 				ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)senderLabel.Tag];
-				if ( group != null ) {
+				if ( group != null && group.GroupID >= 0 ) {
 					ships = group.MembersInstance;
 
 				} else {
@@ -947,7 +1003,7 @@ namespace ElectronicObserver.Window {
 
 					} catch ( Exception ex ) {
 
-						Utility.ErrorReporter.SaveErrorReport( ex, "グループ CSV の書き出しに失敗しました。" );
+						Utility.ErrorReporter.SendErrorReport( ex, "グループ CSV の書き出しに失敗しました。" );
 						MessageBox.Show( "保存に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 					}
@@ -960,12 +1016,56 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private void MenuMember_ColumnAutoAdjust_Click( object sender, EventArgs e ) {
+		private void MenuMember_ColumnAutoSize_Click( object sender, EventArgs e ) {
 
-			ShipView.AutoResizeColumns( DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader );
+			SetColumnAutoSize();
 
 		}
 
+
+		/// <summary>
+		/// 列の自動調整設定を適用します。
+		/// </summary>
+		/// <param name="flag">設定。nullなら既定値を、そうでなければその値を設定します。</param>
+		private void SetColumnAutoSize( bool? flag = null ) {
+
+			if ( flag == null )
+				flag = MenuMember_ColumnAutoSize.Checked;
+			else
+				MenuMember_ColumnAutoSize.Checked = (bool)flag;
+
+			if ( flag == true ) {
+				ShipView.AutoResizeColumns( DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader );
+			}
+
+			foreach ( DataGridViewColumn column in ShipView.Columns ) {
+				column.AutoSizeMode = flag == true ? DataGridViewAutoSizeColumnMode.AllCellsExceptHeader : DataGridViewAutoSizeColumnMode.NotSet;
+			}
+		}
+
+
+		private void MenuMember_LockShipNameScroll_Click( object sender, EventArgs e ) {
+
+			SetLockShipNameScroll();
+		}
+
+
+		/// <summary>
+		/// 艦名をスクロールロックするかの設定を適用します。
+		/// </summary>
+		/// <param name="flag">設定。nullなら既定値を、そうでなければその値を設定します。</param>
+		private void SetLockShipNameScroll( bool? flag = null ) {
+
+			if ( flag == null )
+				flag = MenuMember_LockShipNameScroll.Checked;
+			else
+				MenuMember_LockShipNameScroll.Checked = (bool)flag;
+
+			ShipView_ID.Frozen = flag == true;
+			ShipView_ShipType.Frozen = flag == true;
+			ShipView_Name.Frozen = flag == true;
+
+		} 
 
 		#endregion
 
@@ -1051,23 +1151,17 @@ namespace ElectronicObserver.Window {
 			//以下は実データがないと動作しないためなければスキップ
 			if ( KCDatabase.Instance.Ships.Count == 0 ) return;
 
-			{
-				groups.FilterList.Clear();
-				int columnCount = ShipView.Columns.Count;
-				for ( int i = 0; i < columnCount; i++ ) {
-					groups.FilterList.Add( ShipView.Columns[i].Visible );
-				}
-			}
+			
+			if ( SelectedTab != null )
+				ApplyGroupData( SelectedTab );
 
-
-			SortGroup( SelectedTab );
 
 			List<ImageLabel> list = TabPanel.Controls.OfType<ImageLabel>().OrderBy( c => TabPanel.Controls.GetChildIndex( c ) ).ToList();
 
 			for ( int i = 0; i < list.Count; i++ ) {
 
 				ShipGroupData group = groups[(int)list[i].Tag];
-				if ( group != null )
+				if ( group != null && group.GroupID >= 0 )
 					group.GroupID = i + 1;
 			}
 
@@ -1078,7 +1172,7 @@ namespace ElectronicObserver.Window {
 			return "ShipGroup";
 		}
 
-
+		
 
 	}
 }

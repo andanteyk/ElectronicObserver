@@ -44,7 +44,7 @@ namespace ElectronicObserver.Window.Dialog {
 			MaterialAmmo.ImageList =
 			MaterialSteel.ImageList =
 			MaterialBauxite.ImageList =
-			PowerUpFirepower.ImageList = 
+			PowerUpFirepower.ImageList =
 			PowerUpTorpedo.ImageList =
 			PowerUpAA.ImageList =
 			PowerUpArmor.ImageList =
@@ -103,7 +103,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ControlHelper.SetDoubleBuffered( TableRemodel );
 
 			ControlHelper.SetDoubleBuffered( ShipView );
-			
+
 		}
 
 		public DialogAlbumMasterShip( int shipID )
@@ -123,7 +123,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			ShipView.Rows.Clear();
-			
+
 			List<DataGridViewRow> rows = new List<DataGridViewRow>( KCDatabase.Instance.MasterShips.Values.Count( s => s.Name != "なし" ) );
 
 			foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
@@ -154,7 +154,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
 			if ( e.Column.Name == ShipView_ShipType.Name ) {
-				e.SortResult = 
+				e.SortResult =
 					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[0].Value].ShipType -
 					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[0].Value].ShipType;
 			} else {
@@ -177,7 +177,7 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		
+
 		private void ShipView_CellMouseClick( object sender, DataGridViewCellMouseEventArgs e ) {
 
 			if ( e.RowIndex >= 0 ) {
@@ -187,7 +187,7 @@ namespace ElectronicObserver.Window.Dialog {
 					Cursor = Cursors.AppStarting;
 					new DialogAlbumMasterShip( shipID ).Show();
 					Cursor = Cursors.Default;
-					
+
 				} else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 ) {
 					UpdateAlbumPage( shipID );
 				}
@@ -195,8 +195,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-		
-		
+
+
 
 		private void UpdateAlbumPage( int shipID ) {
 
@@ -276,7 +276,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//equipment
 			//どうにかできるなら修正すること
 			TableEquipment.SuspendLayout();
-			
+
 			ImageLabel[] aircraft = new ImageLabel[] { Aircraft1, Aircraft2, Aircraft3, Aircraft4, Aircraft5 };
 			ImageLabel[] slot = new ImageLabel[] { Equipment1, Equipment2, Equipment3, Equipment4, Equipment5 };
 
@@ -296,16 +296,16 @@ namespace ElectronicObserver.Window.Dialog {
 						slot[i].Text = "";
 						slot[i].ImageIndex = (int)ResourceManager.EquipmentContent.Locked;
 					}
-					
+
 				} else if ( ship.DefaultSlot[i] != -1 ) {
 					EquipmentDataMaster eq = db.MasterEquipments[ship.DefaultSlot[i]];
 					slot[i].Text = eq.Name;
 					slot[i].ImageIndex = eq.EquipmentType[3];
-				
+
 				} else if ( i < ship.SlotSize ) {
 					slot[i].Text = "(なし)";
 					slot[i].ImageIndex = (int)ResourceManager.EquipmentContent.Nothing;
-				
+
 				} else {
 					slot[i].Text = "";
 					slot[i].ImageIndex = (int)ResourceManager.EquipmentContent.Locked;
@@ -342,7 +342,7 @@ namespace ElectronicObserver.Window.Dialog {
 				RemodelBeforeAmmo.Text = "-";
 				RemodelBeforeSteel.Text = "-";
 			} else {
-				ShipDataMaster sbefore = db.MasterShips[ship.RemodelBeforeShipID];
+				ShipDataMaster sbefore = ship.RemodelBeforeShip;
 				RemodelBeforeShipName.Text = sbefore.Name;
 				RemodelBeforeLevel.Text = string.Format( "Lv. {0}", sbefore.RemodelAfterLevel );
 				RemodelBeforeLevel.ImageIndex = sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
@@ -357,7 +357,7 @@ namespace ElectronicObserver.Window.Dialog {
 				RemodelAfterAmmo.Text = "-";
 				RemodelAfterSteel.Text = "-";
 			} else {
-				RemodelAfterShipName.Text = db.MasterShips[ship.RemodelAfterShipID].Name;
+				RemodelAfterShipName.Text = ship.RemodelAfterShip.Name;
 				RemodelAfterLevel.Text = string.Format( "Lv. {0}", ship.RemodelAfterLevel );
 				RemodelAfterLevel.ImageIndex = ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
 				RemodelAfterAmmo.Text = ship.RemodelAmmo.ToString();
@@ -389,7 +389,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( param == null || param.Maximum == ShipParameterRecord.Parameter.MaximumDefault )
 				return "???";
-			
+
 			int min = (int)( param.MinimumEstMin + ( param.Maximum - param.MinimumEstMin ) * level / 99.0 );
 			int max = (int)( param.MinimumEstMax + ( param.Maximum - param.MinimumEstMax ) * level / 99.0 );
 
@@ -399,7 +399,7 @@ namespace ElectronicObserver.Window.Dialog {
 				return string.Format( "{0}～{1}", Math.Min( min, max ), Math.Max( min, max ) );
 		}
 
-		
+
 		private string GetParameterMinBound( ShipParameterRecord.Parameter param ) {
 
 			if ( param == null || param.MinimumEstMax == ShipParameterRecord.Parameter.MaximumDefault )
@@ -410,7 +410,7 @@ namespace ElectronicObserver.Window.Dialog {
 				return "???";
 			else
 				return string.Format( "{0}～{1}", param.MinimumEstMin, param.MinimumEstMax );
-		
+
 		}
 
 		private string GetParameterMax( ShipParameterRecord.Parameter param ) {
@@ -478,7 +478,7 @@ namespace ElectronicObserver.Window.Dialog {
 					new DialogAlbumMasterShip( ship.RemodelBeforeShipID ).Show();
 
 				else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 )
-					UpdateAlbumPage( ship.RemodelBeforeShipID );		
+					UpdateAlbumPage( ship.RemodelBeforeShipID );
 			}
 		}
 
@@ -586,7 +586,7 @@ namespace ElectronicObserver.Window.Dialog {
 								ship.DefaultSlot != null ? ( ship.DefaultSlot[2] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[2]].Name : ( ship.SlotSize > 2 ? "(なし)" : "" ) ) : "???",
 								ship.DefaultSlot != null ? ( ship.DefaultSlot[3] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[3]].Name : ( ship.SlotSize > 3 ? "(なし)" : "" ) ) : "???",
 								ship.DefaultSlot != null ? ( ship.DefaultSlot[4] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[4]].Name : ( ship.SlotSize > 4 ? "(なし)" : "" ) ) : "???",
-								DateTimeHelper.ToTimeRemainString( new TimeSpan( 0, ship.BuildingTime, 0 ) ), 
+								DateTimeHelper.ToTimeRemainString( new TimeSpan( 0, ship.BuildingTime, 0 ) ),
 								ship.Material[0],
 								ship.Material[1],
 								ship.Material[2],
@@ -715,9 +715,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-	
 
-		
-		
+
+
+
 	}
 }

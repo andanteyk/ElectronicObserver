@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -50,7 +51,7 @@ namespace ElectronicObserver.Utility.Storage {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, "DataStorage の書き込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の書き込みに失敗しました。" );
 			}
 
 		}
@@ -65,9 +66,14 @@ namespace ElectronicObserver.Utility.Storage {
 					return (DataStorage)serializer.ReadObject( xr );
 				}
 
+
+			} catch ( FileNotFoundException ) {
+
+				Utility.Logger.Add( 3, string.Format( "DataStorage {0} は存在しません。", path ) );
+
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, "DataStorage の読み込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の読み込みに失敗しました。" );
 
 			}
 

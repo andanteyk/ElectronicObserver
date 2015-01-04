@@ -185,7 +185,7 @@ namespace ElectronicObserver.Observer {
 
 					} catch ( Exception ex ) {
 
-						Utility.ErrorReporter.SaveErrorReport( ex, "通信内容の保存に失敗しました。" );
+						Utility.ErrorReporter.SendErrorReport( ex, "通信内容の保存に失敗しました。" );
 					}
 
 				}
@@ -249,7 +249,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				ErrorReporter.SaveErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
+				ErrorReporter.SendErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
 			
 			}
 
@@ -270,7 +270,7 @@ namespace ElectronicObserver.Observer {
 				if ( (int)json.api_result != 1 ) {
 
 					var ex = new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
-					Utility.ErrorReporter.SaveErrorReport( ex, "エラーコードを含むメッセージを受信しました。" );
+					Utility.ErrorReporter.SendErrorReport( ex, "エラーコードを含むメッセージを受信しました。" );
 					throw ex;
 				}
 
@@ -285,7 +285,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				ErrorReporter.SaveErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
+				ErrorReporter.SendErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
 			
 			}
 
@@ -305,7 +305,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, "Requestの保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "Requestの保存に失敗しました。" );
 
 			}
 		}
@@ -323,7 +323,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, "Responseの保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "Responseの保存に失敗しました。" );
 
 			}
 				

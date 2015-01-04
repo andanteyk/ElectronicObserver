@@ -176,7 +176,7 @@ namespace ElectronicObserver.Window.Support {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, "ウィンドウ状態の復元に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の復元に失敗しました。" );
 				
 			}
 
@@ -212,7 +212,7 @@ namespace ElectronicObserver.Window.Support {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, "ウィンドウ状態の保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の保存に失敗しました。" );
 			}
 		}
 

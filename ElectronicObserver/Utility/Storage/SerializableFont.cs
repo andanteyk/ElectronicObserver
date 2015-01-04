@@ -56,7 +56,7 @@ namespace ElectronicObserver.Utility.Storage {
 			
 			} catch ( Exception ex ) {
 				if ( !suppressError )
-					Utility.ErrorReporter.SaveErrorReport( ex, "SerializableFont.StringToFont failed" );
+					Utility.ErrorReporter.SendErrorReport( ex, "SerializableFont.StringToFont failed" );
 				return null;
 			}
 		}
@@ -68,7 +68,7 @@ namespace ElectronicObserver.Utility.Storage {
 				}
 			} catch ( Exception ex ) {
 				if ( !suppressError )
-					Utility.ErrorReporter.SaveErrorReport( ex, "SerializableFont.FontToString failed" );
+					Utility.ErrorReporter.SendErrorReport( ex, "SerializableFont.FontToString failed" );
 			}
 
 			return null;

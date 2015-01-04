@@ -155,7 +155,13 @@ namespace ElectronicObserver.Data {
 
 
 		public void Load() {
-			ShipGroup.Load();
+
+			{
+				var temp = (ShipGroupManager)ShipGroup.Load();
+				if ( temp != null )
+					ShipGroup = temp;
+			}
+
 		}
 
 		public void Save() {

@@ -312,7 +312,7 @@ namespace ElectronicObserver.Window {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, "サブウィンドウ レイアウトの復元に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの復元に失敗しました。" );
 
 			}
 
@@ -332,7 +332,7 @@ namespace ElectronicObserver.Window {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SaveErrorReport( ex, "サブウィンドウ レイアウトの保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの保存に失敗しました。" );
 			}
 
 		}
