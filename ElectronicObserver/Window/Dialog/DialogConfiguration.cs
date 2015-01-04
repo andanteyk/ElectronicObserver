@@ -92,6 +92,28 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+
+
+		private void UI_MainFont_KeyDown( object sender, KeyEventArgs e ) {
+
+			/*/
+			if ( e.KeyCode == Keys.Enter ) {
+				UI_MainFont.Font = SerializableFont.StringToFont( UI_MainFont.Text ) ?? UI_MainFont.Font;
+				e.Handled = true;
+			} 
+			//*/
+		}
+
+		private void UI_SubFont_KeyDown( object sender, KeyEventArgs e ) {
+
+			/*/
+			if ( e.KeyCode == Keys.Enter ) {
+				UI_SubFont.Font = SerializableFont.StringToFont( UI_SubFont.Text ) ?? UI_SubFont.Font;
+				e.Handled = true;
+			} 
+			//*/
+		}
+
 		
 	}
 }

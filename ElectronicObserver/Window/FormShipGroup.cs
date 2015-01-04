@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
@@ -158,6 +159,9 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_port/port"].ResponseReceived += rec;
 			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
 
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQShipGroup] );
+
 		}
 
 
@@ -177,6 +181,7 @@ namespace ElectronicObserver.Window {
 			label.Margin = new Padding( 0, 0, 0, 0 );
 			label.ImageAlign = ContentAlignment.MiddleCenter;
 			label.AutoSize = true;
+			label.Cursor = Cursors.Hand;
 
 			//イベントと固有IDの追加(内部データとの紐付)
 			label.Click += TabLabel_Click;

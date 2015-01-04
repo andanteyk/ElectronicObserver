@@ -63,6 +63,7 @@ namespace ElectronicObserver.Resource {
 			HQQuest,
 			HQInformation,
 			HQAlbum,
+			HQShipGroup,
 			ShipStateDamageS,
 			ShipStateDamageM,
 			ShipStateDamageL,
@@ -182,6 +183,7 @@ namespace ElectronicObserver.Resource {
 			Icons.Images.Add( "HQ_Quest", LoadImage( masterpath + @"HeadQuarters\quest.png" ) );
 			Icons.Images.Add( "HQ_Information", LoadImage( masterpath + @"HeadQuarters\information.png" ) );
 			Icons.Images.Add( "HQ_Album", LoadImage( masterpath + @"HeadQuarters\album.png" ) );
+			Icons.Images.Add( "HQ_ShipGroup", LoadImage( masterpath + @"HeadQuarters\shipgroup.png" ) );
 			
 			Icons.Images.Add( "ShipState_DamageS", LoadImage( masterpath + @"ShipState\damageS.png" ) );
 			Icons.Images.Add( "ShipState_DamageM", LoadImage( masterpath + @"ShipState\damageM.png" ) );

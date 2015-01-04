@@ -299,7 +299,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 211);
+			this.label9.Location = new System.Drawing.Point(8, 209);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 12;
@@ -323,9 +323,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.UI_SubFont.Location = new System.Drawing.Point(92, 35);
 			this.UI_SubFont.Name = "UI_SubFont";
-			this.UI_SubFont.ReadOnly = true;
 			this.UI_SubFont.Size = new System.Drawing.Size(254, 23);
 			this.UI_SubFont.TabIndex = 10;
+			this.UI_SubFont.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UI_SubFont_KeyDown);
 			// 
 			// label8
 			// 
@@ -354,9 +354,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.UI_MainFont.Location = new System.Drawing.Point(92, 6);
 			this.UI_MainFont.Name = "UI_MainFont";
-			this.UI_MainFont.ReadOnly = true;
 			this.UI_MainFont.Size = new System.Drawing.Size(254, 23);
 			this.UI_MainFont.TabIndex = 1;
+			this.UI_MainFont.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UI_MainFont_KeyDown);
 			// 
 			// label5
 			// 
@@ -429,6 +429,11 @@
 			// 
 			this.Control_ConditionBorder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.Control_ConditionBorder.Location = new System.Drawing.Point(106, 6);
+			this.Control_ConditionBorder.Maximum = new decimal(new int[] {
+            49,
+            0,
+            0,
+            0});
 			this.Control_ConditionBorder.Name = "Control_ConditionBorder";
 			this.Control_ConditionBorder.Size = new System.Drawing.Size(80, 23);
 			this.Control_ConditionBorder.TabIndex = 3;

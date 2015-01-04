@@ -28,29 +28,17 @@ namespace ElectronicObserver.Utility.Storage {
 			FontData = font;
 		}
 
+		public SerializableFont( string attribute ) {
+			SerializeFontAttribute = attribute;
+		}
 		
+
 		[DataMember]
 		public string SerializeFontAttribute {
-			get {
-				try {
-					if ( FontData != null ) {
-						return TypeDescriptor.GetConverter( typeof( Font ) ).ConvertToString( FontData );
-					} 
-				} catch ( Exception ex ) {
-					Utility.ErrorReporter.SaveErrorReport( ex, "SerializableFont.ToString failed" );
-				}
-
-				return null;
-			}
-			set {
-				try {
-					FontData = (Font)TypeDescriptor.GetConverter( typeof( Font ) ).ConvertFromString( value );
-				} catch ( Exception ex ) {
-					Utility.ErrorReporter.SaveErrorReport( ex, "SerializableFont.FromString failed" );
-					FontData = null;
-				}
-			}
+			get { return FontToString( FontData ); }
+			set { FontData = StringToFont( value ); }
 		}
+
 
 		public static implicit operator Font( SerializableFont value ) {
 			if ( value == null ) return null;
@@ -60,6 +48,32 @@ namespace ElectronicObserver.Utility.Storage {
 		public static implicit operator SerializableFont( Font value ) {
 			return new SerializableFont( value );
 		}
+
+
+		public static Font StringToFont( string value, bool suppressError = false ) {
+			try {
+				return (Font)TypeDescriptor.GetConverter( typeof( Font ) ).ConvertFromString( value );
+			
+			} catch ( Exception ex ) {
+				if ( !suppressError )
+					Utility.ErrorReporter.SaveErrorReport( ex, "SerializableFont.StringToFont failed" );
+				return null;
+			}
+		}
+
+		public static string FontToString( Font value, bool suppressError = false ) {
+			try {
+				if ( value != null ) {
+					return TypeDescriptor.GetConverter( typeof( Font ) ).ConvertToString( value );
+				}
+			} catch ( Exception ex ) {
+				if ( !suppressError )
+					Utility.ErrorReporter.SaveErrorReport( ex, "SerializableFont.FontToString failed" );
+			}
+
+			return null;
+		}
+
 
 	}
 
