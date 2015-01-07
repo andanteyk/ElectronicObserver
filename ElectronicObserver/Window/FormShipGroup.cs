@@ -20,9 +20,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace ElectronicObserver.Window {
 	public partial class FormShipGroup : DockContent {
 
-		private Boolean notLoaded = true;
-
-
+	
 		/// <summary>タブ背景色(アクティブ)</summary>
 		private readonly Color TabActiveColor = Color.FromArgb( 0xFF, 0xFF, 0xCC );
 
@@ -238,6 +236,7 @@ namespace ElectronicObserver.Window {
 				g.ColumnFilter = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Visible ).ToList();
 				g.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
 				g.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
+				g.LockShipNameScroll = MenuMember_LockShipNameScroll.Checked;
 			}
 		}
 
@@ -254,11 +253,7 @@ namespace ElectronicObserver.Window {
 			var group = KCDatabase.Instance.ShipGroup[groupID];
 
 
-			//if ( !notLoaded )
-				ApplyGroupData( SelectedTab );
-
-			//if ( notLoaded && KCDatabase.Instance.Ships.Count > 0 )
-			//	notLoaded = false;
+			ApplyGroupData( SelectedTab );
 
 
 			if ( group == null ) {
@@ -299,7 +294,7 @@ namespace ElectronicObserver.Window {
 					GetEquipmentString( ship, 2 ),
 					GetEquipmentString( ship, 3 ),
 					GetEquipmentString( ship, 4 ),
-					ship.Fleet,
+					ship.FleetWithIndex,
 					DateTimeHelper.ToTimeRemainString( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ) ),
 					ship.FirepowerBase,
 					ship.FirepowerRemain,
@@ -453,8 +448,9 @@ namespace ElectronicObserver.Window {
 				e.Value = KCDatabase.Instance.ShipTypes[(int)e.Value].Name;
 				e.FormattingApplied = true;
 
-			} else if ( e.ColumnIndex == ShipView_Fleet.Index && (int)e.Value == -1 ) {
-				e.Value = "";
+			} else if ( e.ColumnIndex == ShipView_Fleet.Index ) {
+				if ( e.Value == null )
+					e.Value = "";
 				e.FormattingApplied = true;
 
 			} else if ( (
@@ -501,16 +497,25 @@ namespace ElectronicObserver.Window {
 
 				double rate = frac1.Rate - frac2.Rate;
 
-				if ( rate > 0 )
+				if ( rate > 0.0 )
 					e.SortResult = 1;
-				else if ( rate < 0 )
+				else if ( rate < 0.0 )
 					e.SortResult = -1;
 				else
 					e.SortResult = frac1.Current - frac2.Current;
 
 			} else if ( e.Column.Index == ShipView_Fleet.Index ) {
-				int f1 = (int)e.CellValue1, f2 = (int)e.CellValue2;
-				e.SortResult = ( f1 == -1 ? 99 : f1 ) - ( f2 == -1 ? 99 : f2 );
+				if ( e.CellValue1 == null ) {
+					if ( e.CellValue2 == null )
+						e.SortResult = 0;
+					else
+						e.SortResult = 1;
+				} else {
+					if ( e.CellValue2 == null )
+						e.SortResult = -1;
+					else
+						e.SortResult = ( (string)e.CellValue1 ).CompareTo( e.CellValue2 );
+				}
 
 			} else if ( e.Column.Index == ShipView_RepairTime.Index ) {
 				e.SortResult = ( (string)e.CellValue1 ).CompareTo( e.CellValue2 );

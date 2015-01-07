@@ -77,6 +77,7 @@
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadRecordFromOld = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Debug_DeleteOldAPI = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help_Version = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripStatus = new System.Windows.Forms.StatusStrip();
@@ -84,7 +85,8 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
-			this.StripMenu_Debug_DeleteOldAPI = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_Tool_EquipmentList = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -377,6 +379,8 @@
 			// StripMenu_Tool
 			// 
 			this.StripMenu_Tool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripMenu_Tool_EquipmentList,
+            this.toolStripSeparator7,
             this.StripMenu_Tool_AlbumMasterShip,
             this.StripMenu_Tool_AlbumMasterEquipment});
 			this.StripMenu_Tool.Name = "StripMenu_Tool";
@@ -386,14 +390,14 @@
 			// StripMenu_Tool_AlbumMasterShip
 			// 
 			this.StripMenu_Tool_AlbumMasterShip.Name = "StripMenu_Tool_AlbumMasterShip";
-			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(142, 22);
+			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_Tool_AlbumMasterShip.Text = "艦船図鑑(&S)";
 			this.StripMenu_Tool_AlbumMasterShip.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterShip_Click);
 			// 
 			// StripMenu_Tool_AlbumMasterEquipment
 			// 
 			this.StripMenu_Tool_AlbumMasterEquipment.Name = "StripMenu_Tool_AlbumMasterEquipment";
-			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(142, 22);
+			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_Tool_AlbumMasterEquipment.Text = "装備図鑑(&E)";
 			this.StripMenu_Tool_AlbumMasterEquipment.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterEquipment_Click);
 			// 
@@ -428,6 +432,13 @@
 			this.StripMenu_Debug_LoadRecordFromOld.Size = new System.Drawing.Size(294, 22);
 			this.StripMenu_Debug_LoadRecordFromOld.Text = "旧 api_start2 からレコードを構築(&O)...";
 			this.StripMenu_Debug_LoadRecordFromOld.Click += new System.EventHandler(this.StripMenu_Debug_LoadRecordFromOld_Click);
+			// 
+			// StripMenu_Debug_DeleteOldAPI
+			// 
+			this.StripMenu_Debug_DeleteOldAPI.Name = "StripMenu_Debug_DeleteOldAPI";
+			this.StripMenu_Debug_DeleteOldAPI.Size = new System.Drawing.Size(294, 22);
+			this.StripMenu_Debug_DeleteOldAPI.Text = "古いAPIデータを削除(&D)";
+			this.StripMenu_Debug_DeleteOldAPI.Click += new System.EventHandler(this.StripMenu_Debug_DeleteOldAPI_Click);
 			// 
 			// StripMenu_Help
 			// 
@@ -478,12 +489,17 @@
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
 			// 
-			// StripMenu_Debug_DeleteOldAPI
+			// toolStripSeparator7
 			// 
-			this.StripMenu_Debug_DeleteOldAPI.Name = "StripMenu_Debug_DeleteOldAPI";
-			this.StripMenu_Debug_DeleteOldAPI.Size = new System.Drawing.Size(294, 22);
-			this.StripMenu_Debug_DeleteOldAPI.Text = "古いAPIデータを削除(&D)";
-			this.StripMenu_Debug_DeleteOldAPI.Click += new System.EventHandler(this.StripMenu_Debug_DeleteOldAPI_Click);
+			this.toolStripSeparator7.Name = "toolStripSeparator7";
+			this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+			// 
+			// StripMenu_Tool_EquipmentList
+			// 
+			this.StripMenu_Tool_EquipmentList.Name = "StripMenu_Tool_EquipmentList";
+			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_EquipmentList.Text = "装備一覧(&Q)";
+			this.StripMenu_Tool_EquipmentList.Click += new System.EventHandler(this.StripMenu_Tool_EquipmentList_Click);
 			// 
 			// FormMain
 			// 
@@ -557,6 +573,8 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadRecordFromOld;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_ShipGroup;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_DeleteOldAPI;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_EquipmentList;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
 	}
 }
 

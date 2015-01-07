@@ -586,6 +586,14 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_Tool_EquipmentList_Click( object sender, EventArgs e ) {
+
+			new DialogEquipmentList().Show();
+
+		}
+
+
+
 		#region フォーム表示
 
 		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
@@ -646,6 +654,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
+		
 
 	}
 }

@@ -508,6 +508,27 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		/// <summary>
+		/// 所属艦隊及びその位置
+		/// ex. 1-3 (位置も1から始まる)
+		/// 所属していなければ null
+		/// </summary>
+		public string FleetWithIndex {
+			get {
+				FleetManager fm = KCDatabase.Instance.Fleet;
+				foreach ( var f in fm.Fleets.Values ) {
+					int index = f.Members.IndexOf( MasterID );
+					if ( index != -1 ) {
+						return string.Format( "{0}-{1}", f.FleetID, index + 1 );
+					}
+				}
+				return null;
+			}
+
+		}
+
+
 		/// <summary>
 		/// ケッコン済みかどうか
 		/// </summary>

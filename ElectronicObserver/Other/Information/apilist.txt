@@ -67,8 +67,8 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：カテゴリID(艦船のstypeに対応)
 		api_sortno		：並べ替え順
 		api_name		：艦種名
-		api_scnt		：入渠時間係数
-		api_kcnt		：建造時のシルエット？
+		api_scnt		：入渠時間係数(本体ソース内では[slotCount]とある)
+		api_kcnt		：建造時のシルエット
 		api_equip_type	：装備可能カテゴリのフラグ
 							＊データと直接的関係はないが、このオブジェクトの子は"1"といった数字から始まる名前を持っている。
 							　この名前は規約違反であるため、正規のjsonパーサでは正常に読み込むことができないので注意すること。
@@ -209,7 +209,7 @@ api_start2	：艦娘・装備固有データその他
 								28=司令部施設
 								29=航空要員
 								30=高射装置
-		api_taik		：耐久
+		api_taik		：耐久(0)
 		api_souk		：装甲
 		api_houg		：火力
 		api_raig		：雷装
@@ -217,7 +217,7 @@ api_start2	：艦娘・装備固有データその他
 		api_baku		：爆装
 		api_tyku		：対空
 		api_tais		：対潜
-		api_atap		：
+		api_atap		：(0)
 		api_houm		：命中
 		api_raim		：雷撃命中(0)
 		api_houk		：回避
@@ -225,7 +225,7 @@ api_start2	：艦娘・装備固有データその他
 		api_bakk		：爆撃回避(0)
 		api_saku		：索敵
 		api_sakb		：索敵妨害(0)
-		api_luck		：運
+		api_luck		：運(0)
 		api_leng		：射程
 		api_rare		：レアリティ
 		api_broken		：廃棄資材
@@ -350,7 +350,7 @@ api_start2	：艦娘・装備固有データその他
 
 api_req_member/get_incentive	：褒賞関連
 	api_count			：情報の個数
-	api_item			：もらえるアイテム?　api_count=0だと存在しない
+	api_item			：もらえるアイテム　api_count=0だと存在しない
 		api_mode		：1=事前登録?, 2=招待?, 3=月次褒賞/年賀プレゼント
 		api_type		：1=艦船?, 2=装備, 3=アイテム?, 4=資源?, 5=家具
 		api_mst_id		：アイテムID
@@ -364,7 +364,7 @@ api_get_member/basic		：艦隊司令部情報
 	api_active_flag			：
 	api_starttime			：起動日時(≠着任日時, 今回のログイン時の時間)
 	api_level				：艦隊司令部Lv.
-	api_rank				：階級 1=元帥
+	api_rank				：階級 1から 元帥, 大将, 中将, 少将, 大佐, 中佐, 新米中佐, 少佐, 中堅少佐, 新米少佐
 	api_experience			：提督経験値
 	api_fleetname			：
 	api_comment				：提督コメント
@@ -393,10 +393,7 @@ api_get_member/basic		：艦隊司令部情報
 
 
 api_port/port		：母港情報
-	api_material			：資源情報
-		api_member_id		：
-		api_id				：資源ID　1=燃料, 2=弾薬, 3=鋼材, 4=ボーキサイト, 5=高速建造材, 6=高速修復材, 7=開発資材, 8=改修資材
-		api_value			：保有数
+	api_material			：資源情報　api_get_member/material を参照
 	
 	api_deck_port			：艦隊情報　deck を参照
 
@@ -470,6 +467,11 @@ api_get_member/useitem		：アイテム情報
 	api_price			：(0)
 	api_count			：所有個数
 
+
+api_get_member/material		：資源情報
+	api_member_id	：
+	api_id			：ID 1から 燃料, 弾薬, 鋼材, ボーキサイト, 高速建造材?, 高速修復材, 開発資材?, 改修資材
+	api_value		：保有数
 
 api_get_member/kdock		：工廠ドック
 	api_member_id			：
@@ -657,7 +659,7 @@ api_get_member/questlist	：任務
 		api_title			：タイトル
 		api_detail			：説明
 		api_get_material	：獲得資材
-		api_bonus_flag		：
+		api_bonus_flag		：1=通常, 2=艦娘?
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成?
 		api_invalid_flag	：
 	api_exec_count			：受領任務数
@@ -682,9 +684,9 @@ Request.api_req_quest/clearitemget：任務達成
 	api_quest_id		：任務ID
 	
 api_req_quest/clearitemget		：任務達成
-	api_material		：獲得資源量
-	api_bonus_count		：アイテム取得個数(カテゴリの)
-	api_bonus			：アイテム
+	api_material		：獲得資源量(基本4種)
+	api_bounus_count	：api_bounus の数 *スペルミス注意*
+	api_bounus			：アイテム *スペルミス注意*
 		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換
 		api_count		：取得個数
 		api_item		：アイテム追加情報 一般アイテムはnull

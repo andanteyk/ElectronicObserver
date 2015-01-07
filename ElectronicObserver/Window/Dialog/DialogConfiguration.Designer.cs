@@ -50,6 +50,7 @@
 			this.UI_MainFont = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.Log_SaveErrorReport = new System.Windows.Forms.CheckBox();
 			this.Log_SaveLogFlag = new System.Windows.Forms.CheckBox();
 			this.Log_LogLevel = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
@@ -65,7 +66,6 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
-			this.Log_SaveErrorReport = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -232,6 +232,7 @@
 			this.label2.Size = new System.Drawing.Size(52, 15);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "フィルタ：";
+			this.label2.Visible = false;
 			// 
 			// Connection_SaveDataFilter
 			// 
@@ -244,6 +245,7 @@
 			this.Connection_SaveDataFilter.Size = new System.Drawing.Size(268, 23);
 			this.Connection_SaveDataFilter.TabIndex = 3;
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveDataFilter, "＊未実装です＊");
+			this.Connection_SaveDataFilter.Visible = false;
 			// 
 			// Connection_SaveReceivedData
 			// 
@@ -300,7 +302,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 209);
+			this.label9.Location = new System.Drawing.Point(8, 207);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 12;
@@ -381,6 +383,18 @@
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// Log_SaveErrorReport
+			// 
+			this.Log_SaveErrorReport.AutoSize = true;
+			this.Log_SaveErrorReport.Location = new System.Drawing.Point(8, 61);
+			this.Log_SaveErrorReport.Name = "Log_SaveErrorReport";
+			this.Log_SaveErrorReport.Size = new System.Drawing.Size(142, 19);
+			this.Log_SaveErrorReport.TabIndex = 3;
+			this.Log_SaveErrorReport.Text = "エラーレポートを保存する";
+			this.ToolTipInfo.SetToolTip(this.Log_SaveErrorReport, "エラーが発生した際に記録を残します。\r\n記録されたファイルを送信していただければバグ修正に役立てることができます。\r\nデフォルトでは実行フォルダ内 ErrorRe" +
+        "port フォルダに保存されます。");
+			this.Log_SaveErrorReport.UseVisualStyleBackColor = true;
 			// 
 			// Log_SaveLogFlag
 			// 
@@ -529,18 +543,6 @@
 			// FontSelector
 			// 
 			this.FontSelector.ShowEffects = false;
-			// 
-			// Log_SaveErrorReport
-			// 
-			this.Log_SaveErrorReport.AutoSize = true;
-			this.Log_SaveErrorReport.Location = new System.Drawing.Point(8, 61);
-			this.Log_SaveErrorReport.Name = "Log_SaveErrorReport";
-			this.Log_SaveErrorReport.Size = new System.Drawing.Size(142, 19);
-			this.Log_SaveErrorReport.TabIndex = 3;
-			this.Log_SaveErrorReport.Text = "エラーレポートを保存する";
-			this.ToolTipInfo.SetToolTip(this.Log_SaveErrorReport, "エラーが発生した際に記録を残します。\r\n記録されたファイルを送信していただければバグ修正に役立てることができます。\r\nデフォルトでは実行フォルダ内 ErrorRe" +
-        "port フォルダに保存されます。");
-			this.Log_SaveErrorReport.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
