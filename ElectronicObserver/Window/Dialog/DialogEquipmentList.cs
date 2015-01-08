@@ -90,7 +90,6 @@ namespace ElectronicObserver.Window.Dialog {
 			var equippedShips = new Dictionary<int, StringBuilder>( allCount.Count );
 
 			//剰余数計算&装備艦
-			//undone: 複数の装備を保有している艦の調整
 			foreach ( var ship in ships ) {
 
 				var owneqs = ship.SlotInstance;
@@ -183,9 +182,18 @@ namespace ElectronicObserver.Window.Dialog {
 					e.SortResult = id1 - id2;
 				}
 
-				e.Handled = true;
+			} else {
+
+				e.SortResult = ( (IComparable)e.CellValue1 ).CompareTo( e.CellValue2 );
 
 			}
+
+
+			if ( e.SortResult == 0 ) {
+				e.SortResult = ( EquipmentView.Rows[e.RowIndex1].Tag as int? ?? 0 ) - ( EquipmentView.Rows[e.RowIndex2].Tag as int? ?? 0 );
+			}
+
+			e.Handled = true;
 
 		}
 

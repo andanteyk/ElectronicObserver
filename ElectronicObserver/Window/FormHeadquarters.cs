@@ -92,7 +92,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;
 			o.APIList["api_req_kousyou/createitem"].ResponseReceived += rec;
 			o.APIList["api_req_kousyou/remodel_slot"].ResponseReceived += rec;
-
+			o.APIList["api_get_member/material"].ResponseReceived += rec;
+			
 
 			FlowPanelResource.SetFlowBreak( Ammo, true );
 

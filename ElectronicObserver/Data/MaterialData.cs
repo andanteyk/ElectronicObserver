@@ -60,6 +60,7 @@ namespace ElectronicObserver.Data {
 
 			switch ( apiname ) {
 				case "api_port/port":
+				case "api_get_member/material":
 					Fuel = (int)data[0].api_value;
 					Ammo = (int)data[1].api_value;
 					Steel = (int)data[2].api_value;
