@@ -68,18 +68,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ControlHelper.SetDoubleBuffered( EquipmentView );
 
-		}
 
-		public DialogAlbumMasterEquipment( int shipID )
-			: this() {
-
-			UpdateAlbumPage( shipID );
-		}
-
-
-
-		private void DialogAlbumMasterEquipment_Load( object sender, EventArgs e ) {
-
+			//Initialize EquipmentView
 			EquipmentView.SuspendLayout();
 
 			EquipmentView_ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -87,7 +77,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			EquipmentView.Rows.Clear();
-			
+
 			List<DataGridViewRow> rows = new List<DataGridViewRow>( KCDatabase.Instance.MasterEquipments.Values.Count( s => s.Name != "なし" ) );
 
 			foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values ) {
@@ -108,6 +98,24 @@ namespace ElectronicObserver.Window.Dialog {
 			EquipmentView.Sort( EquipmentView_ID, ListSortDirection.Ascending );
 			EquipmentView.ResumeLayout();
 
+		}
+
+		public DialogAlbumMasterEquipment( int equipmentID )
+			: this() {
+
+			UpdateAlbumPage( equipmentID );
+
+
+			{
+				var row = EquipmentView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[EquipmentView_ID.Index].Value == equipmentID );
+				if ( row != null )
+					EquipmentView.FirstDisplayedScrollingRowIndex = row.Index;
+			}
+		}
+
+
+
+		private void DialogAlbumMasterEquipment_Load( object sender, EventArgs e ) {
 
 			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQAlbum] );
 

@@ -82,6 +82,7 @@ namespace ElectronicObserver.Data {
 
 			switch ( apiname ) {
 				case "api_req_kousyou/createitem":		//不足パラメータの追加
+				case "api_req_kousyou/getship":
 					data.api_locked = 0;
 					data.api_level = 0;
 					break;

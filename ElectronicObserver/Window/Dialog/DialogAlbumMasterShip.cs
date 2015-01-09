@@ -104,18 +104,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ControlHelper.SetDoubleBuffered( ShipView );
 
-		}
 
-		public DialogAlbumMasterShip( int shipID )
-			: this() {
-
-			UpdateAlbumPage( shipID );
-		}
-
-
-
-		private void DialogAlbumMasterShip_Load( object sender, EventArgs e ) {
-
+			//ShipView Initialize
 			ShipView.SuspendLayout();
 
 			ShipView_ShipID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -143,6 +133,27 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ShipView.Sort( ShipView_ShipID, ListSortDirection.Ascending );
 			ShipView.ResumeLayout();
+		}
+
+		public DialogAlbumMasterShip( int shipID )
+			: this() {
+
+			UpdateAlbumPage( shipID );
+			
+		
+			{
+				var row = ShipView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[ShipView_ShipID.Index].Value == shipID );
+				if ( row != null )
+					ShipView.FirstDisplayedScrollingRowIndex = row.Index;
+			}
+			
+		}
+
+
+
+		private void DialogAlbumMasterShip_Load( object sender, EventArgs e ) {
+
+			
 
 			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQAlbum] );
 

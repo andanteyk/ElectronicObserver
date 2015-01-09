@@ -71,6 +71,8 @@
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Log = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_EquipmentList = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_AlbumMasterEquipment = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,8 +87,6 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
-			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Tool_EquipmentList = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -387,17 +387,29 @@
 			this.StripMenu_Tool.Size = new System.Drawing.Size(74, 22);
 			this.StripMenu_Tool.Text = "ツール(&T)";
 			// 
+			// StripMenu_Tool_EquipmentList
+			// 
+			this.StripMenu_Tool_EquipmentList.Name = "StripMenu_Tool_EquipmentList";
+			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(143, 22);
+			this.StripMenu_Tool_EquipmentList.Text = "装備一覧(&Q)";
+			this.StripMenu_Tool_EquipmentList.Click += new System.EventHandler(this.StripMenu_Tool_EquipmentList_Click);
+			// 
+			// toolStripSeparator7
+			// 
+			this.toolStripSeparator7.Name = "toolStripSeparator7";
+			this.toolStripSeparator7.Size = new System.Drawing.Size(140, 6);
+			// 
 			// StripMenu_Tool_AlbumMasterShip
 			// 
 			this.StripMenu_Tool_AlbumMasterShip.Name = "StripMenu_Tool_AlbumMasterShip";
-			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(143, 22);
 			this.StripMenu_Tool_AlbumMasterShip.Text = "艦船図鑑(&S)";
 			this.StripMenu_Tool_AlbumMasterShip.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterShip_Click);
 			// 
 			// StripMenu_Tool_AlbumMasterEquipment
 			// 
 			this.StripMenu_Tool_AlbumMasterEquipment.Name = "StripMenu_Tool_AlbumMasterEquipment";
-			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(143, 22);
 			this.StripMenu_Tool_AlbumMasterEquipment.Text = "装備図鑑(&E)";
 			this.StripMenu_Tool_AlbumMasterEquipment.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterEquipment_Click);
 			// 
@@ -475,7 +487,7 @@
 			// StripStatus_Padding
 			// 
 			this.StripStatus_Padding.Name = "StripStatus_Padding";
-			this.StripStatus_Padding.Size = new System.Drawing.Size(481, 18);
+			this.StripStatus_Padding.Size = new System.Drawing.Size(450, 18);
 			this.StripStatus_Padding.Spring = true;
 			// 
 			// StripStatus_Clock
@@ -488,18 +500,6 @@
 			// 
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
-			// 
-			// toolStripSeparator7
-			// 
-			this.toolStripSeparator7.Name = "toolStripSeparator7";
-			this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
-			// 
-			// StripMenu_Tool_EquipmentList
-			// 
-			this.StripMenu_Tool_EquipmentList.Name = "StripMenu_Tool_EquipmentList";
-			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(152, 22);
-			this.StripMenu_Tool_EquipmentList.Text = "装備一覧(&Q)";
-			this.StripMenu_Tool_EquipmentList.Click += new System.EventHandler(this.StripMenu_Tool_EquipmentList_Click);
 			// 
 			// FormMain
 			// 

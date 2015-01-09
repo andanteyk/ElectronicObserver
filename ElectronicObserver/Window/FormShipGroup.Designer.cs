@@ -72,6 +72,7 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMember_ColumnFilter = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMember_ColumnAutoSize = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMember_LockShipNameScroll = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMember_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -84,7 +85,10 @@
 			this.MenuGroup_AutoUpdate = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.MenuMember_LockShipNameScroll = new System.Windows.Forms.ToolStripMenuItem();
+			this.StatusBar = new System.Windows.Forms.StatusStrip();
+			this.Status_LevelTotal = new System.Windows.Forms.ToolStripStatusLabel();
+			this.Status_LevelAverage = new System.Windows.Forms.ToolStripStatusLabel();
+			this.Status_ShipCount = new System.Windows.Forms.ToolStripStatusLabel();
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
 			this.MenuMember.SuspendLayout();
 			this.MenuGroup.SuspendLayout();
@@ -92,6 +96,7 @@
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.StatusBar.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ShipView
@@ -150,7 +155,7 @@
 			this.ShipView.ReadOnly = true;
 			this.ShipView.RowHeadersVisible = false;
 			this.ShipView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ShipView.Size = new System.Drawing.Size(300, 156);
+			this.ShipView.Size = new System.Drawing.Size(300, 134);
 			this.ShipView.TabIndex = 0;
 			this.ShipView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ShipView_CellFormatting);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
@@ -462,6 +467,14 @@
 			this.MenuMember_ColumnAutoSize.Text = "列の自動調整(&D)";
 			this.MenuMember_ColumnAutoSize.Click += new System.EventHandler(this.MenuMember_ColumnAutoSize_Click);
 			// 
+			// MenuMember_LockShipNameScroll
+			// 
+			this.MenuMember_LockShipNameScroll.CheckOnClick = true;
+			this.MenuMember_LockShipNameScroll.Name = "MenuMember_LockShipNameScroll";
+			this.MenuMember_LockShipNameScroll.Size = new System.Drawing.Size(299, 22);
+			this.MenuMember_LockShipNameScroll.Text = "艦名をスクロールしない(&S)";
+			this.MenuMember_LockShipNameScroll.Click += new System.EventHandler(this.MenuMember_LockShipNameScroll_Click);
+			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -547,6 +560,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.ShipView);
+			this.splitContainer1.Panel2.Controls.Add(this.StatusBar);
 			this.splitContainer1.Size = new System.Drawing.Size(300, 200);
 			this.splitContainer1.SplitterDistance = 40;
 			this.splitContainer1.TabIndex = 1;
@@ -565,13 +579,33 @@
 			this.TabPanel.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.TabPanel_QueryContinueDrag);
 			this.TabPanel.DoubleClick += new System.EventHandler(this.TabPanel_DoubleClick);
 			// 
-			// MenuMember_LockShipNameScroll
+			// StatusBar
 			// 
-			this.MenuMember_LockShipNameScroll.CheckOnClick = true;
-			this.MenuMember_LockShipNameScroll.Name = "MenuMember_LockShipNameScroll";
-			this.MenuMember_LockShipNameScroll.Size = new System.Drawing.Size(299, 22);
-			this.MenuMember_LockShipNameScroll.Text = "艦名をスクロールしない(&S)";
-			this.MenuMember_LockShipNameScroll.Click += new System.EventHandler(this.MenuMember_LockShipNameScroll_Click);
+			this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Status_ShipCount,
+            this.Status_LevelTotal,
+            this.Status_LevelAverage});
+			this.StatusBar.Location = new System.Drawing.Point(0, 134);
+			this.StatusBar.Name = "StatusBar";
+			this.StatusBar.Size = new System.Drawing.Size(300, 22);
+			this.StatusBar.SizingGrip = false;
+			this.StatusBar.TabIndex = 1;
+			this.StatusBar.Text = "statusStrip1";
+			// 
+			// Status_LevelTotal
+			// 
+			this.Status_LevelTotal.Name = "Status_LevelTotal";
+			this.Status_LevelTotal.Size = new System.Drawing.Size(0, 17);
+			// 
+			// Status_LevelAverage
+			// 
+			this.Status_LevelAverage.Name = "Status_LevelAverage";
+			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 17);
+			// 
+			// Status_ShipCount
+			// 
+			this.Status_ShipCount.Name = "Status_ShipCount";
+			this.Status_ShipCount.Size = new System.Drawing.Size(0, 17);
 			// 
 			// FormShipGroup
 			// 
@@ -591,8 +625,11 @@
 			this.MenuGroup.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.StatusBar.ResumeLayout(false);
+			this.StatusBar.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -652,5 +689,9 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_AutoUpdate;
 		private System.Windows.Forms.ToolStripMenuItem MenuMember_LockShipNameScroll;
+		private System.Windows.Forms.StatusStrip StatusBar;
+		private System.Windows.Forms.ToolStripStatusLabel Status_ShipCount;
+		private System.Windows.Forms.ToolStripStatusLabel Status_LevelTotal;
+		private System.Windows.Forms.ToolStripStatusLabel Status_LevelAverage;
 	}
 }
