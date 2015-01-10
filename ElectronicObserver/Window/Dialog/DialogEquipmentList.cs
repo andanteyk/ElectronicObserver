@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -133,7 +134,7 @@ namespace ElectronicObserver.Window.Dialog {
 			var rows = new List<DataGridViewRow>( allCount.Count );
 			var ids = allCount.Keys;
 
-			foreach ( int id in ids ) {	
+			foreach ( int id in ids ) {
 
 				var row = new DataGridViewRow();
 				row.CreateCells( EquipmentView );
@@ -207,6 +208,51 @@ namespace ElectronicObserver.Window.Dialog {
 		private void EquipmentView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
 			//いまはなにもないです
+
+		}
+
+
+		private void Menu_File_CSVOutput_Click( object sender, EventArgs e ) {
+
+			if ( SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+				try {
+
+					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Encoding.UTF8 ) ) {
+
+						sw.WriteLine( "固有ID,装備ID,装備名,改修Lv,ロック,装備艦ID,装備艦" );
+						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 7 ) ) );
+
+						foreach ( var eq in KCDatabase.Instance.Equipments.Values ) {
+
+							if ( eq.Name == "なし" ) continue;
+
+							ShipData equippedShip = KCDatabase.Instance.Ships.Values.FirstOrDefault( s => s.Slot.Contains( eq.MasterID ) );
+
+
+							sw.WriteLine( arg,
+								eq.MasterID,
+								eq.EquipmentID,
+								eq.Name,
+								eq.Level,
+								eq.IsLocked ? 1 : 0,
+								equippedShip != null ? equippedShip.MasterID : -1,
+								equippedShip != null ? equippedShip.NameWithLevel : ""
+								);
+
+						}
+
+					}
+
+				} catch ( Exception ex ) {
+
+					Utility.ErrorReporter.SendErrorReport( ex, "装備一覧 CSVの出力に失敗しました。" );
+					MessageBox.Show( "装備一覧 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+				}
+
+			}
+
 
 		}
 

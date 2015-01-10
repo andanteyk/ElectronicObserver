@@ -368,6 +368,9 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 任務のカテゴリを表す文字列を取得します。
+		/// </summary>
 		public static string GetQuestCategory( int id ) {
 			switch ( id ) {
 				case 1:
@@ -386,6 +389,23 @@ namespace ElectronicObserver.Data {
 					return "改装";
 				case 8:
 					return "他";
+				default:
+					return "不明";
+			}
+		}
+
+
+		/// <summary>
+		/// 遠征の結果を表す文字列を取得します。
+		/// </summary>
+		public static string GetExpeditionResult( int value ) {
+			switch ( value ) {
+				case 0:
+					return "失敗";
+				case 1:
+					return "成功";
+				case 2:
+					return "大成功";
 				default:
 					return "不明";
 			}

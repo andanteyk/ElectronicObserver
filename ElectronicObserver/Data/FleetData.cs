@@ -111,6 +111,9 @@ namespace ElectronicObserver.Data {
 				*/
 				case "api_port/port":
 					_escapedShipList.Clear();
+					if ( IsInSortie ) {
+						Utility.Logger.Add( 2, string.Format( "{0}が帰投しました。", Name ) );
+					}
 					IsInSortie = false;
 					goto default;
 

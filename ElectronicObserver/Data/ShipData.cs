@@ -550,6 +550,22 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 艦名
+		/// </summary>
+		public string Name {
+			get { return MasterShip.Name; }
+		}
+
+
+		/// <summary>
+		/// 艦名(レベルを含む)
+		/// </summary>
+		public string NameWithLevel {
+			get { return string.Format( "{0} Lv. {1}", MasterShip.Name, Level ); }
+		}
+
+
 		
 		public int ID {
 			get { return MasterID; }

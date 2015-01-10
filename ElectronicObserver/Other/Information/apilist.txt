@@ -754,7 +754,7 @@ api_req_kaisou/powerup			：近代化改修
 
 
 api_req_mission/result		：遠征帰投
-	api_ship_id				：艦船ID　(末尾-1のパーティリスト)の逆？
+	api_ship_id				：艦船ID　(末尾-1のパーティリスト)の逆、サイズ可変
 	api_clear_result		：0=失敗, 1=成功, 2=大成功
 	api_get_exp				：獲得提督経験値
 	api_member_lv			：艦隊司令部Lv.
@@ -941,6 +941,12 @@ api_get_member/mapcell		：マップデータ
 	api_id		：海域セルID
 	api_passed	：通行済み　初期地点は常に0
 
+
+Request.api_req_map/start	：出撃
+	api_deck_id			：出撃艦隊ID
+	api_formation_id	：
+	api_maparea_id		：海域カテゴリID
+	api_mapinfo_no		：海域カテゴリ内番号
 
 api_req_map/start		：出撃　同じメンバはnextのほうが情報が新しいのでそちらを参照
 	api_rashin_flg		：羅針盤を表示するかどうか
