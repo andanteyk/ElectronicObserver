@@ -155,7 +155,7 @@ namespace ElectronicObserver.Utility {
 				public bool SaveErrorReport { get; set; }
 
 				public ConfigLog() {
-					LogLevel = 1;
+					LogLevel = 2;
 					SaveLogFlag = true;
 					SaveErrorReport = true;
 				}

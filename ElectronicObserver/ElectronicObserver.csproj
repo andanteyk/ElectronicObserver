@@ -480,6 +480,7 @@
   <ItemGroup>
     <Content Include="74eo.ico" />
     <Content Include="Other\Information\apilist.txt" />
+    <None Include="Other\Information\kcmemo.md" />
     <Content Include="Other\Information\todo.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -307,11 +307,12 @@ namespace ElectronicObserver.Window {
 					
 					HP.Value = ship.HPCurrent;
 					HP.MaximumValue = ship.HPMax;
-					HP.RepairTime = null;
-					foreach ( var dock in db.Docks ) {
-						if ( dock.Value.ShipID == shipMasterID ) {
-							HP.RepairTime = dock.Value.CompletionTime;
-							break;
+					{
+						int dockID = ship.RepairingDockID;
+
+						HP.RepairTime = null;
+						if ( dockID != -1 ) {
+							HP.RepairTime = db.Docks[dockID].CompletionTime;
 						}
 					}
 					if ( KCDatabase.Instance.Fleet[Parent.FleetID].EscapedShipList.Contains( shipMasterID ) ) {
@@ -319,7 +320,27 @@ namespace ElectronicObserver.Window {
 					} else {
 						HP.BackColor = SystemColors.Control;
 					}
-					
+					{
+						StringBuilder sb = new StringBuilder();
+						double hprate = (double)ship.HPCurrent / ship.HPMax;
+
+						sb.AppendFormat( "HP {0:0.0}%\n", hprate * 100 );
+						if ( hprate > 0.50 ) {
+							sb.AppendFormat( "中破まで: {0} / 大破まで: {1}\n", ship.HPCurrent - ship.HPMax / 2, ship.HPCurrent - ship.HPMax / 4 );
+						} else if ( hprate > 0.25 ) {
+							sb.AppendFormat( "大破まで: {0}\n", ship.HPCurrent - ship.HPMax / 4 );
+						} else {
+							sb.AppendLine( "大破しています！" );
+						}
+
+						if ( ship.RepairTime > 0 ) {
+							sb.AppendFormat( "入渠時間: {0}\n", DateTimeHelper.ToTimeRemainString( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ) ) );
+						}
+
+						ToolTipInfo.SetToolTip( HP, sb.ToString() );
+					}
+
+
 
 					Condition.Text = ship.Condition.ToString();
 					if ( ship.Condition < 20 ) {

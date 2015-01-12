@@ -27,7 +27,7 @@ namespace ElectronicObserver.Utility.Storage {
 		}
 
 		[OnDeserializing]
-		public void DefaultDeserializing( StreamingContext sc ) {
+		private void DefaultDeserializing( StreamingContext sc ) {
 			Initialize();
 		}
 
