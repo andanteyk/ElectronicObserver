@@ -120,7 +120,12 @@ namespace ElectronicObserver.Utility {
 			try {
 
 				using ( StreamWriter sw = new StreamWriter( path ) ) {
-					foreach ( var l in Logger.instance.log ) {
+
+					int priority = Configuration.Config.Log.LogLevel;
+
+					var list = Logger.instance.log.Where( l => l.Priority >= priority );
+
+					foreach ( var l in list ) {
 						sw.WriteLine( l.ToString() );
 					}
 				}

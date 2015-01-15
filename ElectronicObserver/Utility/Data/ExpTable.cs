@@ -67,13 +67,58 @@ namespace ElectronicObserver.Utility.Data {
 			return exp[l.Level + 1].Total - current;
 		}
 
+
+		/// <summary>
+		/// 艦娘が次のレベルに上がるのに必要な経験値の量を取得します。
+		/// </summary>
+		/// <param name="current">現在の累積経験値。</param>
 		public static int GetNextExpShip( int current ) {
 			return GetNextExp( ShipExp, current );
 		}
 
+		/// <summary>
+		/// 司令部レベルが次のレベルに上がるのに必要な経験値の量を取得します。
+		/// </summary>
+		/// <param name="current">現在の累積経験値。</param>
 		public static int GetNextExpAdmiral( int current ) {
 			return GetNextExp( AdmiralExp, current );
 		}
+
+
+		/// <summary>
+		/// 指定したレベルに上がるのに必要な経験値の量を取得します。
+		/// </summary>
+		/// <param name="exp">経験値テーブル。</param>
+		/// <param name="current">現在の累積経験値。</param>
+		/// <param name="level">対象のレベル。</param>
+		private static int GetExpToLevel( ReadOnlyDictionary<int, Experience> exp, int current, int level ) {
+
+			Experience l = exp[level];
+
+			if ( l == null ) return 0;
+
+			return l.Total - current;
+
+		}
+
+		/// <summary>
+		/// 艦娘が指定したレベルに上がるのに必要な経験値の量を取得します。
+		/// </summary>
+		/// <param name="current">現在の累積経験値。</param>
+		/// <param name="level">対象のレベル。</param>
+		public static int GetExpToLevelShip( int current, int level ) {
+			return GetExpToLevel( ShipExp, current, level );
+		}
+
+		/// <summary>
+		/// 司令部レベルが指定したレベルに上がるのに必要な経験値の量を取得します。
+		/// </summary>
+		/// <param name="current">現在の累積経験値。</param>
+		/// <param name="level">対象のレベル。</param>
+		public static int GetExpToLevelAdmiral( int current, int level ) {
+			return GetExpToLevel( AdmiralExp, current, level );
+		}
+
 
 
 		static ExpTable() {

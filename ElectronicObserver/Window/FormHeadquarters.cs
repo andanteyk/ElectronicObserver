@@ -116,8 +116,14 @@ namespace ElectronicObserver.Window {
 
 			//HQ Level
 			HQLevel.Value = db.Admiral.Level;
-			HQLevel.TextNext = "next:";
-			HQLevel.ValueNext = ExpTable.GetNextExpAdmiral( db.Admiral.Exp );
+			if ( db.Admiral.Level < ExpTable.AdmiralExp.Max( e => e.Key ) ) {
+				HQLevel.TextNext = "next:";
+				HQLevel.ValueNext = ExpTable.GetNextExpAdmiral( db.Admiral.Exp );
+			} else {
+				HQLevel.TextNext = "exp:";
+				HQLevel.ValueNext = db.Admiral.Exp;
+			}
+
 
 			//Fleet
 			FlowPanelFleet.SuspendLayout();

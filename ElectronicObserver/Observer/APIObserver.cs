@@ -100,7 +100,7 @@ namespace ElectronicObserver.Observer {
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}",
 						Fiddler.FiddlerApplication.oProxy.ListenPort ), "<local>" );
 
-			Utility.Logger.Add( 1, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
+			Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
 
 			return Fiddler.FiddlerApplication.oProxy.ListenPort;
 		}
@@ -111,7 +111,7 @@ namespace ElectronicObserver.Observer {
 			Fiddler.URLMonInterop.ResetProxyInProcessToDefault();
 			Fiddler.FiddlerApplication.Shutdown();
 
-			Utility.Logger.Add( 1, "APIObserver: 受信を停止しました。" );
+			Utility.Logger.Add( 2, "APIObserver: 受信を停止しました。" );
 		}
 
 

@@ -450,7 +450,8 @@ namespace ElectronicObserver.Data {
 			//泊地修理中
 			{
 				ShipData flagship = db.Ships[fleet.Members[0]];
-				if ( flagship.MasterShip.ShipType == 19 &&					//旗艦工作艦
+				if ( flagship != null &&
+					flagship.MasterShip.ShipType == 19 &&					//旗艦工作艦
 					(double)flagship.HPCurrent / flagship.HPMax > 0.5 &&	//旗艦が中破未満
 					flagship.RepairingDockID == -1 &&						//旗艦が入渠中でない
 					fleet.Members.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( id => {		//(2+装備)以内に50%<HP<100%の艦がいる

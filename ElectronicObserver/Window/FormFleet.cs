@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
@@ -304,6 +305,15 @@ namespace ElectronicObserver.Window {
 
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
+
+					if ( ship.MasterShip.RemodelAfterShipID != 0 && ship.Level < ship.MasterShip.RemodelAfterLevel ) {
+						ToolTipInfo.SetToolTip( Level, string.Format( "改装まで: {0}", ship.ExpNextRemodel ) );
+					} else if ( ship.Level <= 99 ) {
+						ToolTipInfo.SetToolTip( Level, string.Format( "Lv99まで: {0}", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) ) );
+					} else {
+						ToolTipInfo.SetToolTip( Level, string.Format( "Lv150まで: {0}", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) ) );
+					}
+
 					
 					HP.Value = ship.HPCurrent;
 					HP.MaximumValue = ship.HPMax;

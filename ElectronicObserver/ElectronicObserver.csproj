@@ -224,6 +224,7 @@
     <Compile Include="Window\Control\StatusBar.Designer.cs">
       <DependentUpon>StatusBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Control\StatusBarModule.cs" />
     <Compile Include="Window\Dialog\DialogAlbumMasterEquipment.cs">
       <SubType>Form</SubType>
     </Compile>

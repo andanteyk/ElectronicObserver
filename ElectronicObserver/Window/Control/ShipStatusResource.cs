@@ -12,6 +12,8 @@ namespace ElectronicObserver.Window.Control {
 	public partial class ShipStatusResource : UserControl {
 
 		private ToolTip ResourceTip;
+		private StatusBarModule BarFuel;
+		private StatusBarModule BarAmmo;
 
 
 		#region Properties
@@ -54,6 +56,11 @@ namespace ElectronicObserver.Window.Control {
 		public ShipStatusResource( ToolTip resourceTip ) {
 			InitializeComponent();
 
+			BarFuel = new StatusBarModule();
+			BarAmmo = new StatusBarModule();
+
+			BarFuel.UsePrevValue = BarAmmo.UsePrevValue = false;
+			
 			ResourceTip = resourceTip;			
 		}
 
@@ -68,9 +75,8 @@ namespace ElectronicObserver.Window.Control {
 				AmmoCurrent, AmmoMax, (int)Math.Ceiling( 100.0 * AmmoCurrent / AmmoMax ) );
 
 			ResourceTip.SetToolTip( this, tiptext );
-			ResourceTip.SetToolTip( BarFuel, tiptext );
-			ResourceTip.SetToolTip( BarAmmo, tiptext );
-			
+
+			Invalidate();
 		}
 
 
@@ -89,6 +95,17 @@ namespace ElectronicObserver.Window.Control {
 			BarAmmo.MaximumValue = ammoMax;
 
 			PropertyChanged();
+		}
+
+
+
+		private void ShipStatusResource_Paint( object sender, PaintEventArgs e ) {
+
+			const int margin = 3;
+
+			BarFuel.Paint( e.Graphics, new Rectangle( 0, margin, this.Width, BarFuel.GetPreferredSize().Height ) );
+			BarAmmo.Paint( e.Graphics, new Rectangle( 0, this.Height - margin - BarFuel.GetPreferredSize().Height, this.Width, BarFuel.GetPreferredSize().Height ) );
+
 		}
 
 	}

@@ -17,6 +17,7 @@ namespace ElectronicObserver.Window.Control {
 		private const TextFormatFlags TextFormatText = TextFormatFlags.NoPadding | TextFormatFlags.Bottom | TextFormatFlags.Left;
 		private const TextFormatFlags TextFormatHP = TextFormatFlags.NoPadding | TextFormatFlags.Bottom | TextFormatFlags.Right;
 
+		private StatusBarModule _HPBar;
 			
 
 		#region Property
@@ -211,7 +212,7 @@ namespace ElectronicObserver.Window.Control {
 		[Description( "HPバーへの参照です。" )]
 		[Category( "表示" )]
 		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
-		public StatusBar HPBar {
+		public StatusBarModule HPBar {
 			get { return _HPBar; }
 			set { _HPBar = value; }
 		}
@@ -229,7 +230,7 @@ namespace ElectronicObserver.Window.Control {
 
 			SetStyle( ControlStyles.ResizeRedraw, true );
 
-
+			_HPBar = new StatusBarModule();
 			_HPBar.Value = 66;
 			_HPBar.PrevValue = 88;
 			_HPBar.MaximumValue = 100;
@@ -261,7 +262,7 @@ namespace ElectronicObserver.Window.Control {
 
 			Graphics g = e.Graphics;
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
-
+			Size barSize = _HPBar.GetPreferredSize( new Size( basearea.Width, 0 ) );
 
 
 
@@ -270,7 +271,7 @@ namespace ElectronicObserver.Window.Control {
 				
 				Size sz_time = TextRenderer.MeasureText( timestr, MainFont, maxsize, TextFormatTime );
 
-				TextRenderer.DrawText( g, timestr, MainFont, new Rectangle( basearea.X, basearea.Y, basearea.Width, basearea.Height - _HPBar.Height ), RepairFontColor, TextFormatTime );
+				TextRenderer.DrawText( g, timestr, MainFont, new Rectangle( basearea.X, basearea.Y, basearea.Width, basearea.Height - barSize.Height ), RepairFontColor, TextFormatTime );
 
 				/*/
 				g.DrawRectangle( Pens.Magenta, new Rectangle( basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - BarThickness - BarBackgroundOffset - 1 ) );
@@ -292,7 +293,7 @@ namespace ElectronicObserver.Window.Control {
 
 
 
-				Point p = new Point( basearea.X, basearea.Bottom - _HPBar.Height - sz_text.Height + 1 );	
+				Point p = new Point( basearea.X, basearea.Bottom - barSize.Height - sz_text.Height + 1 );	
 				TextRenderer.DrawText( g, Text, SubFont, new Rectangle( p, sz_text ), SubFontColor, TextFormatText );
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_text ) );
 
@@ -305,13 +306,13 @@ namespace ElectronicObserver.Window.Control {
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_slash ) );
 
 				p.X -= sz_hpnow.Width;
-				p.Y = basearea.Bottom - _HPBar.Height - sz_hpnow.Height + 1;
+				p.Y = basearea.Bottom - barSize.Height - sz_hpnow.Height + 1;
 				TextRenderer.DrawText( g, Math.Max( Value, 0 ).ToString(), MainFont, new Rectangle( p, sz_hpnow ), MainFontColor, TextFormatHP );
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_hpnow ) );
 
 			}
 
-			_HPBar.Refresh();
+			_HPBar.Paint( g, new Rectangle( basearea.X, basearea.Bottom - barSize.Height, barSize.Width, barSize.Height ) );
 		}
 
 
@@ -319,6 +320,8 @@ namespace ElectronicObserver.Window.Control {
 		public override Size GetPreferredSize( Size proposedSize ) {
 
 			Size maxsize = new Size( 99999, 99999 );
+
+			Size barSize = _HPBar.GetPreferredSize();
 
 			Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
 			Size sz_hpmax = TextRenderer.MeasureText( Math.Max( MaximumValue, MaximumDigit ).ToString(), SubFont, maxsize, TextFormatHP );
@@ -332,7 +335,7 @@ namespace ElectronicObserver.Window.Control {
 			sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );
 
 			return new Size( sz_text.Width + sz_hpnow.Width + sz_slash.Width + sz_hpmax.Width + Padding.Horizontal,
-				Math.Max( sz_text.Height, sz_hpnow.Height ) + _HPBar.Height + Padding.Vertical );
+				Math.Max( sz_text.Height, sz_hpnow.Height ) + barSize.Height + Padding.Vertical );
 		}
 
 
@@ -353,14 +356,6 @@ namespace ElectronicObserver.Window.Control {
 				return "-0";
 			else
 				return "+" + diff.ToString();
-		}
-
-		private void ShipStatusHP_SizeChanged( object sender, EventArgs e ) {
-
-			//anchorで自動設定できないらしいので、手動でサイズ調整
-
-			_HPBar.Size = new Size( Width - Padding.Horizontal, _HPBar.Height );
-			_HPBar.Location = new Point( Padding.Left, Height - Padding.Bottom - _HPBar.Height );
 		}
 
 	}

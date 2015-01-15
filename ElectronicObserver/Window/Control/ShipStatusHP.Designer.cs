@@ -23,32 +23,14 @@
 		/// コード エディターで変更しないでください。
 		/// </summary>
 		private void InitializeComponent() {
-			this._HPBar = new ElectronicObserver.Window.Control.StatusBar();
 			this.SuspendLayout();
-			// 
-			// _HPBar
-			// 
-			this._HPBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._HPBar.BarColor0 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._HPBar.BarColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-			this._HPBar.BarColorDecrement = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-			this._HPBar.BarColorIncrement = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-			this._HPBar.Location = new System.Drawing.Point(0, 15);
-			this._HPBar.Name = "_HPBar";
-			this._HPBar.PrevValue = 66;
-			this._HPBar.Size = new System.Drawing.Size(80, 5);
-			this._HPBar.TabIndex = 0;
-			this._HPBar.UsePrevValue = false;
 			// 
 			// ShipStatusHP
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.Controls.Add(this._HPBar);
 			this.DoubleBuffered = true;
 			this.Name = "ShipStatusHP";
 			this.Size = new System.Drawing.Size(80, 20);
-			this.SizeChanged += new System.EventHandler(this.ShipStatusHP_SizeChanged);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.ShipStatusHP_Paint);
 			this.ResumeLayout(false);
 
@@ -56,7 +38,6 @@
 
 		#endregion
 
-		private StatusBar _HPBar;
 
 	}
 }
