@@ -302,6 +302,20 @@ namespace ElectronicObserver.Window {
 
 					Name.Text = ship.MasterShip.NameWithClass;
 					Name.Tag = ship.ShipID;
+					ToolTipInfo.SetToolTip( Name,
+						string.Format( 
+							"{0}\n火力: {1}/{2}\n雷装: {3}/{4}\n対空: {5}/{6}\n装甲: {7}/{8}\n対潜: {9}/{10}\n回避: {11}/{12}\n索敵: {13}/{14}\n運: {15}\n",
+							ship.NameWithLevel,
+							ship.FirepowerBase, ship.FirepowerTotal,
+							ship.TorpedoBase, ship.TorpedoTotal,
+							ship.AABase, ship.AATotal,
+							ship.ArmorBase, ship.ArmorTotal,
+							ship.ASWBase, ship.ASWTotal,
+							ship.EvasionBase, ship.EvasionTotal,
+							ship.LOSBase, ship.LOSTotal,
+							ship.LuckTotal
+							) );
+
 
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
@@ -334,7 +348,7 @@ namespace ElectronicObserver.Window {
 						StringBuilder sb = new StringBuilder();
 						double hprate = (double)ship.HPCurrent / ship.HPMax;
 
-						sb.AppendFormat( "HP {0:0.0}%\n", hprate * 100 );
+						sb.AppendFormat( "HP: {0:0.0}% [{1}]\n", hprate * 100, Constants.GetDamageState( hprate ) );
 						if ( hprate > 0.50 ) {
 							sb.AppendFormat( "中破まで: {0} / 大破まで: {1}\n", ship.HPCurrent - ship.HPMax / 2, ship.HPCurrent - ship.HPMax / 4 );
 						} else if ( hprate > 0.25 ) {

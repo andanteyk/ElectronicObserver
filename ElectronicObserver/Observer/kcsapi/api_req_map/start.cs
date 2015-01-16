@@ -23,10 +23,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map {
 
 			KCDatabase.Instance.Fleet.LoadFromRequest( APIName, data );
 
+			int deckID = int.Parse( data["api_deck_id"] );
 			int maparea = int.Parse( data["api_maparea_id"] );
 			int mapinfo = int.Parse( data["api_mapinfo_no"] );
 
-			Utility.Logger.Add( 2, string.Format( "{0}が「{1}-{2} {3}」へ出撃しました。", KCDatabase.Instance.Fleet[int.Parse( data["api_deck_id"] )].Name, maparea, mapinfo, KCDatabase.Instance.MapInfo[maparea * 10 + mapinfo].Name ) );
+			Utility.Logger.Add( 2, string.Format( "#{0} {1}が「{2}-{3} {4}」へ出撃しました。", deckID, KCDatabase.Instance.Fleet[deckID].Name, maparea, mapinfo, KCDatabase.Instance.MapInfo[maparea * 10 + mapinfo].Name ) );
 
 			base.OnRequestReceived( data );
 		}
