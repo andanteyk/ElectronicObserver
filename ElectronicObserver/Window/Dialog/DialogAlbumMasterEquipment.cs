@@ -117,7 +117,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void DialogAlbumMasterEquipment_Load( object sender, EventArgs e ) {
 
-			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQAlbum] );
+			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumEquipment] );
 
 		}
 
@@ -441,6 +441,14 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 
 			}
+
+		}
+
+
+
+		private void DialogAlbumMasterEquipment_FormClosed( object sender, FormClosedEventArgs e ) {
+
+			ResourceManager.DestroyIcon( Icon );
 
 		}
 

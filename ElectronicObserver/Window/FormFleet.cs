@@ -472,7 +472,7 @@ namespace ElectronicObserver.Window {
 			TableMember.ResumeLayout();
 
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQShip] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
 
 		}
 

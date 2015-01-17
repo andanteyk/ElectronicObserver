@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Resource;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -29,6 +30,8 @@ namespace ElectronicObserver.Window {
 				LogList.Items.Add( log.ToString() );
 			}
 			LogList.TopIndex = LogList.Items.Count - 1;
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormLog] );
 		}
 
 		void Logger_LogAdded( Utility.Logger.LogData data ) {

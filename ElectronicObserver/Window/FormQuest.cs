@@ -52,7 +52,7 @@ namespace ElectronicObserver.Window {
 			QuestView.Sort( QuestView_Name, ListSortDirection.Ascending );
 
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQQuest] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest] );
 
 		}
 

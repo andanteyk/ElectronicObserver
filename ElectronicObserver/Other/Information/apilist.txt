@@ -67,6 +67,26 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：カテゴリID(艦船のstypeに対応)
 		api_sortno		：並べ替え順
 		api_name		：艦種名
+							 1=海防艦
+							 2=駆逐艦
+							 3=軽巡洋艦
+							 4=重雷装巡洋艦
+							 5=重巡洋艦
+							 6=航空巡洋艦
+							 7=軽空母
+							 8=巡洋戦艦(実データ中では"戦艦"だが混同を防ぐため)
+							 9=戦艦
+							10=航空戦艦
+							11=正規空母
+							12=超弩級戦艦
+							13=潜水艦
+							14=潜水空母
+							15=補給艦
+							16=水上機母艦
+							17=揚陸艦
+							18=装甲空母
+							19=工作艦
+							20=潜水母艦
 		api_scnt		：入渠時間係数(本体ソース内では[slotCount]とある)
 		api_kcnt		：建造時のシルエット
 		api_equip_type	：装備可能カテゴリのフラグ
@@ -752,6 +772,9 @@ api_req_kaisou/powerup			：近代化改修
 	api_ship			：改修艦のデータ　port.api_shipに準じる
 	api_deck			：艦隊のデータ　port.api_deck_portに準じる
 
+
+Request.api_req_mission/result		：遠征帰投
+	api_deck_id				：対象の艦隊ID
 
 api_req_mission/result		：遠征帰投
 	api_ship_id				：艦船ID　(末尾-1のパーティリスト)の逆、サイズ可変

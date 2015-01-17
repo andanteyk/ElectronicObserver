@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Utility.Storage;
+﻿using ElectronicObserver.Resource;
+using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -113,6 +114,18 @@ namespace ElectronicObserver.Window.Dialog {
 				e.Handled = true;
 			} 
 			//*/
+		}
+
+		private void DialogConfiguration_Load( object sender, EventArgs e ) {
+
+			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
+
+		}
+
+		private void DialogConfiguration_FormClosed( object sender, FormClosedEventArgs e ) {
+
+			ResourceManager.DestroyIcon( Icon );
+
 		}
 
 		

@@ -26,9 +26,9 @@ namespace ElectronicObserver.Window {
 			ImageList icons = ResourceManager.Instance.Icons;
 			
 			ShipCount.ImageList = icons;
-			ShipCount.ImageIndex = (int)ResourceManager.IconContent.HQShip;
+			ShipCount.ImageIndex = (int)ResourceManager.IconContent.HeadQuartersShip;
 			EquipmentCount.ImageList = icons;
-			EquipmentCount.ImageIndex = (int)ResourceManager.IconContent.HQEquipment;
+			EquipmentCount.ImageIndex = (int)ResourceManager.IconContent.HeadQuartersEquipment;
 			InstantRepair.ImageList = icons;
 			InstantRepair.ImageIndex = (int)ResourceManager.IconContent.ItemInstantRepair;
 			InstantConstruction.ImageList = icons;
@@ -63,7 +63,7 @@ namespace ElectronicObserver.Window {
 			HQLevel.SubFont = Utility.Configuration.Config.UI.SubFont;
 
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQHeadQuarters] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormHeadQuarters] );
 
 		}
 

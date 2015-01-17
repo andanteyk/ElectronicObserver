@@ -117,7 +117,7 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQShip] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
 
 			parent.UpdateTimerTick += parent_UpdateTimerTick;
 		}

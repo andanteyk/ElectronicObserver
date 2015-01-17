@@ -24,8 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,14 +36,31 @@
 			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.BasePanelShipGirl = new System.Windows.Forms.Panel();
+			this.TableShipName = new System.Windows.Forms.FlowLayoutPanel();
+			this.TableRemodel = new System.Windows.Forms.TableLayoutPanel();
+			this.TableConsumption = new System.Windows.Forms.TableLayoutPanel();
+			this.TableParameterSub = new System.Windows.Forms.TableLayoutPanel();
+			this.TableArsenal = new System.Windows.Forms.TableLayoutPanel();
+			this.TableEquipment = new System.Windows.Forms.TableLayoutPanel();
+			this.TableParameterMain = new System.Windows.Forms.TableLayoutPanel();
+			this.ParameterLevel = new System.Windows.Forms.NumericUpDown();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.LevelTimer = new System.Windows.Forms.Timer(this.components);
+			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
+			this.TableBattle = new System.Windows.Forms.TableLayoutPanel();
+			this.TitleDayAttack = new ElectronicObserver.Window.Control.ImageLabel();
+			this.NightAttack = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TitleNightAttack = new ElectronicObserver.Window.Control.ImageLabel();
+			this.DayAttack = new ElectronicObserver.Window.Control.ImageLabel();
+			this.AirSuperiority = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TitleAirSuperiority = new ElectronicObserver.Window.Control.ImageLabel();
 			this.AlbumNo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel2 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Description = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TableShipName = new System.Windows.Forms.FlowLayoutPanel();
 			this.ShipType = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ShipName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ShipID = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TableRemodel = new System.Windows.Forms.TableLayoutPanel();
 			this.RemodelAfterSteel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelAfterAmmo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelAfterLevel = new ElectronicObserver.Window.Control.ImageLabel();
@@ -54,11 +71,9 @@
 			this.RemodelBeforeAmmo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelBeforeShipName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.RemodelBefore = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TableConsumption = new System.Windows.Forms.TableLayoutPanel();
 			this.Ammo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Fuel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel77 = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TableParameterSub = new System.Windows.Forms.TableLayoutPanel();
 			this.imageLabel76 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Rarity = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Range = new ElectronicObserver.Window.Control.ImageLabel();
@@ -69,7 +84,6 @@
 			this.TitleSpeed = new ElectronicObserver.Window.Control.ImageLabel();
 			this.BuildingTime = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TitleBuildingTime = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TableArsenal = new System.Windows.Forms.TableLayoutPanel();
 			this.PowerUpArmor = new ElectronicObserver.Window.Control.ImageLabel();
 			this.MaterialBauxite = new ElectronicObserver.Window.Control.ImageLabel();
 			this.PowerUpAA = new ElectronicObserver.Window.Control.ImageLabel();
@@ -80,7 +94,6 @@
 			this.imageLabel60 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.MaterialAmmo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel59 = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TableEquipment = new System.Windows.Forms.TableLayoutPanel();
 			this.Equipment5 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Aircraft5 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Equipment4 = new ElectronicObserver.Window.Control.ImageLabel();
@@ -92,7 +105,6 @@
 			this.Aircraft3 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Aircraft2 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel45 = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TableParameterMain = new System.Windows.Forms.TableLayoutPanel();
 			this.imageLabel44 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FirepowerMax = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel43 = new ElectronicObserver.Window.Control.ImageLabel();
@@ -106,7 +118,6 @@
 			this.imageLabel39 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.LuckMax = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel38 = new ElectronicObserver.Window.Control.ImageLabel();
-			this.ParameterLevel = new System.Windows.Forms.NumericUpDown();
 			this.imageLabel37 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.LOSMax = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel36 = new ElectronicObserver.Window.Control.ImageLabel();
@@ -138,10 +149,6 @@
 			this.imageLabel5 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ASWLevel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.EvasionMin = new ElectronicObserver.Window.Control.ImageLabel();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.LevelTimer = new System.Windows.Forms.Timer(this.components);
-			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -158,6 +165,7 @@
 			this.TableParameterMain.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ParameterLevel)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.TableBattle.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -223,14 +231,14 @@
             this.ShipView_ShipID,
             this.ShipView_ShipType,
             this.ShipView_Name});
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ShipView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ShipView.Location = new System.Drawing.Point(0, 0);
 			this.ShipView.MultiSelect = false;
@@ -248,8 +256,8 @@
 			// ShipView_ShipID
 			// 
 			this.ShipView_ShipID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ShipView_ShipID.HeaderText = "ID";
 			this.ShipView_ShipID.Name = "ShipView_ShipID";
 			this.ShipView_ShipID.ReadOnly = true;
@@ -272,6 +280,7 @@
 			// 
 			// BasePanelShipGirl
 			// 
+			this.BasePanelShipGirl.Controls.Add(this.TableBattle);
 			this.BasePanelShipGirl.Controls.Add(this.AlbumNo);
 			this.BasePanelShipGirl.Controls.Add(this.imageLabel2);
 			this.BasePanelShipGirl.Controls.Add(this.Description);
@@ -292,6 +301,360 @@
 			this.BasePanelShipGirl.Name = "BasePanelShipGirl";
 			this.BasePanelShipGirl.Size = new System.Drawing.Size(546, 454);
 			this.BasePanelShipGirl.TabIndex = 0;
+			// 
+			// TableShipName
+			// 
+			this.TableShipName.AutoSize = true;
+			this.TableShipName.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableShipName.Controls.Add(this.ShipType);
+			this.TableShipName.Controls.Add(this.ShipName);
+			this.TableShipName.Location = new System.Drawing.Point(3, 25);
+			this.TableShipName.Name = "TableShipName";
+			this.TableShipName.Size = new System.Drawing.Size(189, 22);
+			this.TableShipName.TabIndex = 19;
+			// 
+			// TableRemodel
+			// 
+			this.TableRemodel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableRemodel.ColumnCount = 4;
+			this.TableRemodel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableRemodel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableRemodel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableRemodel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableRemodel.Controls.Add(this.RemodelAfterSteel, 3, 3);
+			this.TableRemodel.Controls.Add(this.RemodelAfterAmmo, 2, 3);
+			this.TableRemodel.Controls.Add(this.RemodelAfterLevel, 1, 3);
+			this.TableRemodel.Controls.Add(this.RemodelAfterShipName, 1, 2);
+			this.TableRemodel.Controls.Add(this.RemodelAfter, 0, 2);
+			this.TableRemodel.Controls.Add(this.RemodelBeforeLevel, 1, 1);
+			this.TableRemodel.Controls.Add(this.RemodelBeforeSteel, 3, 1);
+			this.TableRemodel.Controls.Add(this.RemodelBeforeAmmo, 2, 1);
+			this.TableRemodel.Controls.Add(this.RemodelBeforeShipName, 1, 0);
+			this.TableRemodel.Controls.Add(this.RemodelBefore, 0, 0);
+			this.TableRemodel.Location = new System.Drawing.Point(300, 278);
+			this.TableRemodel.Name = "TableRemodel";
+			this.TableRemodel.RowCount = 4;
+			this.TableRemodel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableRemodel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableRemodel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableRemodel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableRemodel.Size = new System.Drawing.Size(223, 88);
+			this.TableRemodel.TabIndex = 17;
+			this.TableRemodel.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableRemodel_CellPaint);
+			// 
+			// TableConsumption
+			// 
+			this.TableConsumption.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableConsumption.ColumnCount = 3;
+			this.TableConsumption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableConsumption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableConsumption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableConsumption.Controls.Add(this.Ammo, 0, 0);
+			this.TableConsumption.Controls.Add(this.Fuel, 0, 0);
+			this.TableConsumption.Controls.Add(this.imageLabel77, 0, 0);
+			this.TableConsumption.Location = new System.Drawing.Point(3, 344);
+			this.TableConsumption.Name = "TableConsumption";
+			this.TableConsumption.RowCount = 1;
+			this.TableConsumption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.TableConsumption.Size = new System.Drawing.Size(170, 22);
+			this.TableConsumption.TabIndex = 16;
+			this.TableConsumption.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableConsumption_CellPaint);
+			// 
+			// TableParameterSub
+			// 
+			this.TableParameterSub.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableParameterSub.ColumnCount = 4;
+			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableParameterSub.Controls.Add(this.imageLabel76, 3, 1);
+			this.TableParameterSub.Controls.Add(this.Rarity, 3, 0);
+			this.TableParameterSub.Controls.Add(this.Range, 1, 1);
+			this.TableParameterSub.Controls.Add(this.Speed, 1, 0);
+			this.TableParameterSub.Controls.Add(this.imageLabel72, 2, 1);
+			this.TableParameterSub.Controls.Add(this.imageLabel71, 2, 0);
+			this.TableParameterSub.Controls.Add(this.TitleRange, 0, 1);
+			this.TableParameterSub.Controls.Add(this.TitleSpeed, 0, 0);
+			this.TableParameterSub.Location = new System.Drawing.Point(3, 300);
+			this.TableParameterSub.Name = "TableParameterSub";
+			this.TableParameterSub.RowCount = 2;
+			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterSub.Size = new System.Drawing.Size(214, 44);
+			this.TableParameterSub.TabIndex = 15;
+			this.TableParameterSub.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableParameterSub_CellPaint);
+			// 
+			// TableArsenal
+			// 
+			this.TableArsenal.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableArsenal.ColumnCount = 5;
+			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+			this.TableArsenal.Controls.Add(this.PowerUpArmor, 4, 1);
+			this.TableArsenal.Controls.Add(this.MaterialBauxite, 4, 0);
+			this.TableArsenal.Controls.Add(this.PowerUpAA, 3, 1);
+			this.TableArsenal.Controls.Add(this.MaterialFuel, 1, 0);
+			this.TableArsenal.Controls.Add(this.PowerUpTorpedo, 2, 1);
+			this.TableArsenal.Controls.Add(this.MaterialSteel, 3, 0);
+			this.TableArsenal.Controls.Add(this.PowerUpFirepower, 1, 1);
+			this.TableArsenal.Controls.Add(this.imageLabel60, 0, 1);
+			this.TableArsenal.Controls.Add(this.MaterialAmmo, 2, 0);
+			this.TableArsenal.Controls.Add(this.imageLabel59, 0, 0);
+			this.TableArsenal.Location = new System.Drawing.Point(300, 213);
+			this.TableArsenal.Name = "TableArsenal";
+			this.TableArsenal.RowCount = 2;
+			this.TableArsenal.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableArsenal.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableArsenal.Size = new System.Drawing.Size(223, 44);
+			this.TableArsenal.TabIndex = 9;
+			this.TableArsenal.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableArsenal_CellPaint);
+			// 
+			// TableEquipment
+			// 
+			this.TableEquipment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TableEquipment.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableEquipment.ColumnCount = 2;
+			this.TableEquipment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.TableEquipment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.TableEquipment.Controls.Add(this.Equipment5, 1, 4);
+			this.TableEquipment.Controls.Add(this.Aircraft5, 0, 4);
+			this.TableEquipment.Controls.Add(this.Equipment4, 1, 3);
+			this.TableEquipment.Controls.Add(this.Aircraft4, 0, 3);
+			this.TableEquipment.Controls.Add(this.Equipment3, 1, 2);
+			this.TableEquipment.Controls.Add(this.Aircraft1, 0, 0);
+			this.TableEquipment.Controls.Add(this.Equipment2, 1, 1);
+			this.TableEquipment.Controls.Add(this.Equipment1, 1, 0);
+			this.TableEquipment.Controls.Add(this.Aircraft3, 0, 2);
+			this.TableEquipment.Controls.Add(this.Aircraft2, 0, 1);
+			this.TableEquipment.Location = new System.Drawing.Point(300, 49);
+			this.TableEquipment.Name = "TableEquipment";
+			this.TableEquipment.RowCount = 5;
+			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableEquipment.Size = new System.Drawing.Size(234, 110);
+			this.TableEquipment.TabIndex = 8;
+			this.TableEquipment.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableEquipment_CellPaint);
+			// 
+			// TableParameterMain
+			// 
+			this.TableParameterMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableParameterMain.ColumnCount = 6;
+			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableParameterMain.Controls.Add(this.imageLabel44, 4, 8);
+			this.TableParameterMain.Controls.Add(this.FirepowerMax, 3, 2);
+			this.TableParameterMain.Controls.Add(this.imageLabel43, 4, 7);
+			this.TableParameterMain.Controls.Add(this.LOSLevel, 5, 8);
+			this.TableParameterMain.Controls.Add(this.imageLabel42, 2, 9);
+			this.TableParameterMain.Controls.Add(this.TitleLuck, 0, 9);
+			this.TableParameterMain.Controls.Add(this.imageLabel41, 2, 8);
+			this.TableParameterMain.Controls.Add(this.EvasionLevel, 5, 7);
+			this.TableParameterMain.Controls.Add(this.imageLabel40, 2, 7);
+			this.TableParameterMain.Controls.Add(this.LuckMin, 1, 9);
+			this.TableParameterMain.Controls.Add(this.imageLabel39, 2, 6);
+			this.TableParameterMain.Controls.Add(this.LuckMax, 3, 9);
+			this.TableParameterMain.Controls.Add(this.imageLabel38, 2, 5);
+			this.TableParameterMain.Controls.Add(this.ParameterLevel, 5, 0);
+			this.TableParameterMain.Controls.Add(this.imageLabel37, 2, 4);
+			this.TableParameterMain.Controls.Add(this.LOSMax, 3, 8);
+			this.TableParameterMain.Controls.Add(this.imageLabel36, 2, 3);
+			this.TableParameterMain.Controls.Add(this.LOSMin, 1, 8);
+			this.TableParameterMain.Controls.Add(this.imageLabel35, 2, 2);
+			this.TableParameterMain.Controls.Add(this.EvasionMax, 3, 7);
+			this.TableParameterMain.Controls.Add(this.imageLabel15, 3, 0);
+			this.TableParameterMain.Controls.Add(this.ASWMax, 3, 6);
+			this.TableParameterMain.Controls.Add(this.ASWMin, 1, 6);
+			this.TableParameterMain.Controls.Add(this.ArmorMax, 3, 5);
+			this.TableParameterMain.Controls.Add(this.imageLabel14, 1, 0);
+			this.TableParameterMain.Controls.Add(this.AAMax, 3, 4);
+			this.TableParameterMain.Controls.Add(this.TitleLOS, 0, 8);
+			this.TableParameterMain.Controls.Add(this.TorpedoMax, 3, 3);
+			this.TableParameterMain.Controls.Add(this.ArmorMin, 1, 5);
+			this.TableParameterMain.Controls.Add(this.TitleHP, 0, 1);
+			this.TableParameterMain.Controls.Add(this.AAMin, 1, 4);
+			this.TableParameterMain.Controls.Add(this.HPMin, 1, 1);
+			this.TableParameterMain.Controls.Add(this.TorpedoMin, 1, 3);
+			this.TableParameterMain.Controls.Add(this.imageLabel3, 2, 1);
+			this.TableParameterMain.Controls.Add(this.FirepowerMin, 1, 2);
+			this.TableParameterMain.Controls.Add(this.HPMax, 3, 1);
+			this.TableParameterMain.Controls.Add(this.TitleFirepower, 0, 2);
+			this.TableParameterMain.Controls.Add(this.TitleTorpedo, 0, 3);
+			this.TableParameterMain.Controls.Add(this.TitleAA, 0, 4);
+			this.TableParameterMain.Controls.Add(this.TitleArmor, 0, 5);
+			this.TableParameterMain.Controls.Add(this.TitleASW, 0, 6);
+			this.TableParameterMain.Controls.Add(this.TitleEvasion, 0, 7);
+			this.TableParameterMain.Controls.Add(this.imageLabel5, 4, 6);
+			this.TableParameterMain.Controls.Add(this.ASWLevel, 5, 6);
+			this.TableParameterMain.Controls.Add(this.EvasionMin, 1, 7);
+			this.TableParameterMain.Location = new System.Drawing.Point(3, 49);
+			this.TableParameterMain.Name = "TableParameterMain";
+			this.TableParameterMain.RowCount = 10;
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableParameterMain.Size = new System.Drawing.Size(254, 227);
+			this.TableParameterMain.TabIndex = 5;
+			this.TableParameterMain.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableParameterMain_CellPaint);
+			// 
+			// ParameterLevel
+			// 
+			this.ParameterLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.ParameterLevel.Location = new System.Drawing.Point(197, 3);
+			this.ParameterLevel.Maximum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+			this.ParameterLevel.Name = "ParameterLevel";
+			this.ParameterLevel.Size = new System.Drawing.Size(54, 23);
+			this.ParameterLevel.TabIndex = 6;
+			this.ParameterLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.ParameterLevel, "レベルを指定すると予測値が表示されます。");
+			this.ParameterLevel.Value = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+			this.ParameterLevel.ValueChanged += new System.EventHandler(this.ParameterLevel_ValueChanged);
+			// 
+			// pictureBox1
+			// 
+			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox1.Location = new System.Drawing.Point(383, 3);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(160, 40);
+			this.pictureBox1.TabIndex = 4;
+			this.pictureBox1.TabStop = false;
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
+			// LevelTimer
+			// 
+			this.LevelTimer.Interval = 200;
+			this.LevelTimer.Tick += new System.EventHandler(this.LevelTimer_Tick);
+			// 
+			// SaveCSVDialog
+			// 
+			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
+			this.SaveCSVDialog.Title = "CSVに出力";
+			// 
+			// TableBattle
+			// 
+			this.TableBattle.AutoSize = true;
+			this.TableBattle.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableBattle.ColumnCount = 2;
+			this.TableBattle.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableBattle.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableBattle.Controls.Add(this.TitleDayAttack, 0, 1);
+			this.TableBattle.Controls.Add(this.NightAttack, 1, 2);
+			this.TableBattle.Controls.Add(this.TitleNightAttack, 0, 2);
+			this.TableBattle.Controls.Add(this.DayAttack, 1, 1);
+			this.TableBattle.Controls.Add(this.AirSuperiority, 1, 0);
+			this.TableBattle.Controls.Add(this.TitleAirSuperiority, 0, 0);
+			this.TableBattle.Location = new System.Drawing.Point(300, 278);
+			this.TableBattle.Name = "TableBattle";
+			this.TableBattle.RowCount = 3;
+			this.TableBattle.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableBattle.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableBattle.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TableBattle.Size = new System.Drawing.Size(134, 66);
+			this.TableBattle.TabIndex = 20;
+			// 
+			// TitleDayAttack
+			// 
+			this.TitleDayAttack.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.TitleDayAttack.BackColor = System.Drawing.Color.Transparent;
+			this.TitleDayAttack.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.TitleDayAttack.Location = new System.Drawing.Point(3, 25);
+			this.TitleDayAttack.Name = "TitleDayAttack";
+			this.TitleDayAttack.Size = new System.Drawing.Size(68, 16);
+			this.TitleDayAttack.TabIndex = 24;
+			this.TitleDayAttack.Text = "昼戦攻撃";
+			this.TitleDayAttack.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// NightAttack
+			// 
+			this.NightAttack.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.NightAttack.BackColor = System.Drawing.Color.Transparent;
+			this.NightAttack.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.NightAttack.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.NightAttack.Location = new System.Drawing.Point(77, 47);
+			this.NightAttack.Name = "NightAttack";
+			this.NightAttack.Size = new System.Drawing.Size(25, 16);
+			this.NightAttack.TabIndex = 19;
+			this.NightAttack.Text = "連撃";
+			// 
+			// TitleNightAttack
+			// 
+			this.TitleNightAttack.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.TitleNightAttack.BackColor = System.Drawing.Color.Transparent;
+			this.TitleNightAttack.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.TitleNightAttack.Location = new System.Drawing.Point(3, 47);
+			this.TitleNightAttack.Name = "TitleNightAttack";
+			this.TitleNightAttack.Size = new System.Drawing.Size(68, 16);
+			this.TitleNightAttack.TabIndex = 19;
+			this.TitleNightAttack.Text = "夜戦攻撃";
+			this.TitleNightAttack.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// DayAttack
+			// 
+			this.DayAttack.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.DayAttack.BackColor = System.Drawing.Color.Transparent;
+			this.DayAttack.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.DayAttack.Location = new System.Drawing.Point(77, 25);
+			this.DayAttack.Name = "DayAttack";
+			this.DayAttack.Size = new System.Drawing.Size(54, 16);
+			this.DayAttack.TabIndex = 18;
+			this.DayAttack.Text = "主砲/主砲";
+			// 
+			// AirSuperiority
+			// 
+			this.AirSuperiority.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.AirSuperiority.BackColor = System.Drawing.Color.Transparent;
+			this.AirSuperiority.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.AirSuperiority.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.AirSuperiority.Location = new System.Drawing.Point(115, 3);
+			this.AirSuperiority.Name = "AirSuperiority";
+			this.AirSuperiority.Size = new System.Drawing.Size(16, 16);
+			this.AirSuperiority.TabIndex = 18;
+			this.AirSuperiority.Text = "0";
+			this.AirSuperiority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// TitleAirSuperiority
+			// 
+			this.TitleAirSuperiority.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.TitleAirSuperiority.BackColor = System.Drawing.Color.Transparent;
+			this.TitleAirSuperiority.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.TitleAirSuperiority.Location = new System.Drawing.Point(3, 3);
+			this.TitleAirSuperiority.Name = "TitleAirSuperiority";
+			this.TitleAirSuperiority.Size = new System.Drawing.Size(68, 16);
+			this.TitleAirSuperiority.TabIndex = 18;
+			this.TitleAirSuperiority.Text = "制空戦力";
+			this.TitleAirSuperiority.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// AlbumNo
 			// 
@@ -330,17 +693,6 @@
 			this.Description.Text = "私が重雷装巡洋艦…？冗談じゃないわ！\r\nえ、デバッグ用ですって？…仕方ないわね、早く終わらせるのよ！";
 			this.Description.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
-			// TableShipName
-			// 
-			this.TableShipName.AutoSize = true;
-			this.TableShipName.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableShipName.Controls.Add(this.ShipType);
-			this.TableShipName.Controls.Add(this.ShipName);
-			this.TableShipName.Location = new System.Drawing.Point(3, 25);
-			this.TableShipName.Name = "TableShipName";
-			this.TableShipName.Size = new System.Drawing.Size(189, 22);
-			this.TableShipName.TabIndex = 19;
-			// 
 			// ShipType
 			// 
 			this.ShipType.BackColor = System.Drawing.Color.Transparent;
@@ -371,42 +723,13 @@
 			this.ShipID.TabIndex = 18;
 			this.ShipID.Text = "123";
 			// 
-			// TableRemodel
-			// 
-			this.TableRemodel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableRemodel.ColumnCount = 4;
-			this.TableRemodel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableRemodel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableRemodel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableRemodel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableRemodel.Controls.Add(this.RemodelAfterSteel, 3, 3);
-			this.TableRemodel.Controls.Add(this.RemodelAfterAmmo, 2, 3);
-			this.TableRemodel.Controls.Add(this.RemodelAfterLevel, 1, 3);
-			this.TableRemodel.Controls.Add(this.RemodelAfterShipName, 1, 2);
-			this.TableRemodel.Controls.Add(this.RemodelAfter, 0, 2);
-			this.TableRemodel.Controls.Add(this.RemodelBeforeLevel, 1, 1);
-			this.TableRemodel.Controls.Add(this.RemodelBeforeSteel, 3, 1);
-			this.TableRemodel.Controls.Add(this.RemodelBeforeAmmo, 2, 1);
-			this.TableRemodel.Controls.Add(this.RemodelBeforeShipName, 1, 0);
-			this.TableRemodel.Controls.Add(this.RemodelBefore, 0, 0);
-			this.TableRemodel.Location = new System.Drawing.Point(300, 278);
-			this.TableRemodel.Name = "TableRemodel";
-			this.TableRemodel.RowCount = 4;
-			this.TableRemodel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableRemodel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableRemodel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableRemodel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableRemodel.Size = new System.Drawing.Size(223, 88);
-			this.TableRemodel.TabIndex = 17;
-			this.TableRemodel.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableRemodel_CellPaint);
-			// 
 			// RemodelAfterSteel
 			// 
 			this.RemodelAfterSteel.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.RemodelAfterSteel.BackColor = System.Drawing.Color.Transparent;
 			this.RemodelAfterSteel.Location = new System.Drawing.Point(166, 69);
 			this.RemodelAfterSteel.Name = "RemodelAfterSteel";
-			this.RemodelAfterSteel.Size = new System.Drawing.Size(41, 16);
+			this.RemodelAfterSteel.Size = new System.Drawing.Size(38, 16);
 			this.RemodelAfterSteel.TabIndex = 19;
 			this.RemodelAfterSteel.Text = "123";
 			// 
@@ -416,7 +739,7 @@
 			this.RemodelAfterAmmo.BackColor = System.Drawing.Color.Transparent;
 			this.RemodelAfterAmmo.Location = new System.Drawing.Point(106, 69);
 			this.RemodelAfterAmmo.Name = "RemodelAfterAmmo";
-			this.RemodelAfterAmmo.Size = new System.Drawing.Size(41, 16);
+			this.RemodelAfterAmmo.Size = new System.Drawing.Size(38, 16);
 			this.RemodelAfterAmmo.TabIndex = 19;
 			this.RemodelAfterAmmo.Text = "123";
 			// 
@@ -427,7 +750,7 @@
 			this.RemodelAfterLevel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.RemodelAfterLevel.Location = new System.Drawing.Point(46, 69);
 			this.RemodelAfterLevel.Name = "RemodelAfterLevel";
-			this.RemodelAfterLevel.Size = new System.Drawing.Size(54, 16);
+			this.RemodelAfterLevel.Size = new System.Drawing.Size(50, 16);
 			this.RemodelAfterLevel.TabIndex = 19;
 			this.RemodelAfterLevel.Text = "Lv. 80";
 			// 
@@ -440,7 +763,7 @@
 			this.RemodelAfterShipName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.RemodelAfterShipName.Location = new System.Drawing.Point(46, 47);
 			this.RemodelAfterShipName.Name = "RemodelAfterShipName";
-			this.RemodelAfterShipName.Size = new System.Drawing.Size(81, 16);
+			this.RemodelAfterShipName.Size = new System.Drawing.Size(72, 16);
 			this.RemodelAfterShipName.TabIndex = 19;
 			this.RemodelAfterShipName.Text = "Bismarck drei";
 			this.RemodelAfterShipName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RemodelAfterShipName_MouseClick);
@@ -466,7 +789,7 @@
 			this.RemodelBeforeLevel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.RemodelBeforeLevel.Location = new System.Drawing.Point(46, 25);
 			this.RemodelBeforeLevel.Name = "RemodelBeforeLevel";
-			this.RemodelBeforeLevel.Size = new System.Drawing.Size(54, 16);
+			this.RemodelBeforeLevel.Size = new System.Drawing.Size(50, 16);
 			this.RemodelBeforeLevel.TabIndex = 18;
 			this.RemodelBeforeLevel.Text = "Lv. 50";
 			// 
@@ -476,7 +799,7 @@
 			this.RemodelBeforeSteel.BackColor = System.Drawing.Color.Transparent;
 			this.RemodelBeforeSteel.Location = new System.Drawing.Point(166, 25);
 			this.RemodelBeforeSteel.Name = "RemodelBeforeSteel";
-			this.RemodelBeforeSteel.Size = new System.Drawing.Size(41, 16);
+			this.RemodelBeforeSteel.Size = new System.Drawing.Size(38, 16);
 			this.RemodelBeforeSteel.TabIndex = 18;
 			this.RemodelBeforeSteel.Text = "123";
 			// 
@@ -486,7 +809,7 @@
 			this.RemodelBeforeAmmo.BackColor = System.Drawing.Color.Transparent;
 			this.RemodelBeforeAmmo.Location = new System.Drawing.Point(106, 25);
 			this.RemodelBeforeAmmo.Name = "RemodelBeforeAmmo";
-			this.RemodelBeforeAmmo.Size = new System.Drawing.Size(41, 16);
+			this.RemodelBeforeAmmo.Size = new System.Drawing.Size(38, 16);
 			this.RemodelBeforeAmmo.TabIndex = 18;
 			this.RemodelBeforeAmmo.Text = "123";
 			// 
@@ -499,7 +822,7 @@
 			this.RemodelBeforeShipName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.RemodelBeforeShipName.Location = new System.Drawing.Point(46, 3);
 			this.RemodelBeforeShipName.Name = "RemodelBeforeShipName";
-			this.RemodelBeforeShipName.Size = new System.Drawing.Size(55, 16);
+			this.RemodelBeforeShipName.Size = new System.Drawing.Size(49, 16);
 			this.RemodelBeforeShipName.TabIndex = 18;
 			this.RemodelBeforeShipName.Text = "Bismarck";
 			this.RemodelBeforeShipName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RemodelBeforeShipName_MouseClick);
@@ -517,24 +840,6 @@
 			this.RemodelBefore.Text = "改装前";
 			this.RemodelBefore.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.RemodelBefore.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RemodelBeforeShipName_MouseClick);
-			// 
-			// TableConsumption
-			// 
-			this.TableConsumption.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableConsumption.ColumnCount = 3;
-			this.TableConsumption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableConsumption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableConsumption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableConsumption.Controls.Add(this.Ammo, 0, 0);
-			this.TableConsumption.Controls.Add(this.Fuel, 0, 0);
-			this.TableConsumption.Controls.Add(this.imageLabel77, 0, 0);
-			this.TableConsumption.Location = new System.Drawing.Point(3, 344);
-			this.TableConsumption.Name = "TableConsumption";
-			this.TableConsumption.RowCount = 1;
-			this.TableConsumption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.TableConsumption.Size = new System.Drawing.Size(170, 22);
-			this.TableConsumption.TabIndex = 16;
-			this.TableConsumption.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableConsumption_CellPaint);
 			// 
 			// Ammo
 			// 
@@ -568,31 +873,6 @@
 			this.imageLabel77.TabIndex = 17;
 			this.imageLabel77.Text = "消費";
 			this.imageLabel77.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// TableParameterSub
-			// 
-			this.TableParameterSub.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableParameterSub.ColumnCount = 4;
-			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableParameterSub.Controls.Add(this.imageLabel76, 3, 1);
-			this.TableParameterSub.Controls.Add(this.Rarity, 3, 0);
-			this.TableParameterSub.Controls.Add(this.Range, 1, 1);
-			this.TableParameterSub.Controls.Add(this.Speed, 1, 0);
-			this.TableParameterSub.Controls.Add(this.imageLabel72, 2, 1);
-			this.TableParameterSub.Controls.Add(this.imageLabel71, 2, 0);
-			this.TableParameterSub.Controls.Add(this.TitleRange, 0, 1);
-			this.TableParameterSub.Controls.Add(this.TitleSpeed, 0, 0);
-			this.TableParameterSub.Location = new System.Drawing.Point(3, 300);
-			this.TableParameterSub.Name = "TableParameterSub";
-			this.TableParameterSub.RowCount = 2;
-			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterSub.Size = new System.Drawing.Size(214, 44);
-			this.TableParameterSub.TabIndex = 15;
-			this.TableParameterSub.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableParameterSub_CellPaint);
 			// 
 			// imageLabel76
 			// 
@@ -708,34 +988,6 @@
 			this.TitleBuildingTime.Text = "建造時間";
 			this.TitleBuildingTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// TableArsenal
-			// 
-			this.TableArsenal.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableArsenal.ColumnCount = 5;
-			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-			this.TableArsenal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-			this.TableArsenal.Controls.Add(this.PowerUpArmor, 4, 1);
-			this.TableArsenal.Controls.Add(this.MaterialBauxite, 4, 0);
-			this.TableArsenal.Controls.Add(this.PowerUpAA, 3, 1);
-			this.TableArsenal.Controls.Add(this.MaterialFuel, 1, 0);
-			this.TableArsenal.Controls.Add(this.PowerUpTorpedo, 2, 1);
-			this.TableArsenal.Controls.Add(this.MaterialSteel, 3, 0);
-			this.TableArsenal.Controls.Add(this.PowerUpFirepower, 1, 1);
-			this.TableArsenal.Controls.Add(this.imageLabel60, 0, 1);
-			this.TableArsenal.Controls.Add(this.MaterialAmmo, 2, 0);
-			this.TableArsenal.Controls.Add(this.imageLabel59, 0, 0);
-			this.TableArsenal.Location = new System.Drawing.Point(300, 213);
-			this.TableArsenal.Name = "TableArsenal";
-			this.TableArsenal.RowCount = 2;
-			this.TableArsenal.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableArsenal.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableArsenal.Size = new System.Drawing.Size(223, 44);
-			this.TableArsenal.TabIndex = 9;
-			this.TableArsenal.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableArsenal_CellPaint);
-			// 
 			// PowerUpArmor
 			// 
 			this.PowerUpArmor.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -847,36 +1099,6 @@
 			this.imageLabel59.TabIndex = 15;
 			this.imageLabel59.Text = "解体";
 			this.imageLabel59.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// TableEquipment
-			// 
-			this.TableEquipment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.TableEquipment.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableEquipment.ColumnCount = 2;
-			this.TableEquipment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-			this.TableEquipment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.TableEquipment.Controls.Add(this.Equipment5, 1, 4);
-			this.TableEquipment.Controls.Add(this.Aircraft5, 0, 4);
-			this.TableEquipment.Controls.Add(this.Equipment4, 1, 3);
-			this.TableEquipment.Controls.Add(this.Aircraft4, 0, 3);
-			this.TableEquipment.Controls.Add(this.Equipment3, 1, 2);
-			this.TableEquipment.Controls.Add(this.Aircraft1, 0, 0);
-			this.TableEquipment.Controls.Add(this.Equipment2, 1, 1);
-			this.TableEquipment.Controls.Add(this.Equipment1, 1, 0);
-			this.TableEquipment.Controls.Add(this.Aircraft3, 0, 2);
-			this.TableEquipment.Controls.Add(this.Aircraft2, 0, 1);
-			this.TableEquipment.Location = new System.Drawing.Point(300, 49);
-			this.TableEquipment.Name = "TableEquipment";
-			this.TableEquipment.RowCount = 5;
-			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEquipment.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEquipment.Size = new System.Drawing.Size(234, 110);
-			this.TableEquipment.TabIndex = 8;
-			this.TableEquipment.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableEquipment_CellPaint);
 			// 
 			// Equipment5
 			// 
@@ -1007,78 +1229,6 @@
 			this.imageLabel45.Size = new System.Drawing.Size(44, 16);
 			this.imageLabel45.TabIndex = 6;
 			this.imageLabel45.Text = "艦船ID:";
-			// 
-			// TableParameterMain
-			// 
-			this.TableParameterMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableParameterMain.ColumnCount = 6;
-			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableParameterMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableParameterMain.Controls.Add(this.imageLabel44, 4, 8);
-			this.TableParameterMain.Controls.Add(this.FirepowerMax, 3, 2);
-			this.TableParameterMain.Controls.Add(this.imageLabel43, 4, 7);
-			this.TableParameterMain.Controls.Add(this.LOSLevel, 5, 8);
-			this.TableParameterMain.Controls.Add(this.imageLabel42, 2, 9);
-			this.TableParameterMain.Controls.Add(this.TitleLuck, 0, 9);
-			this.TableParameterMain.Controls.Add(this.imageLabel41, 2, 8);
-			this.TableParameterMain.Controls.Add(this.EvasionLevel, 5, 7);
-			this.TableParameterMain.Controls.Add(this.imageLabel40, 2, 7);
-			this.TableParameterMain.Controls.Add(this.LuckMin, 1, 9);
-			this.TableParameterMain.Controls.Add(this.imageLabel39, 2, 6);
-			this.TableParameterMain.Controls.Add(this.LuckMax, 3, 9);
-			this.TableParameterMain.Controls.Add(this.imageLabel38, 2, 5);
-			this.TableParameterMain.Controls.Add(this.ParameterLevel, 5, 0);
-			this.TableParameterMain.Controls.Add(this.imageLabel37, 2, 4);
-			this.TableParameterMain.Controls.Add(this.LOSMax, 3, 8);
-			this.TableParameterMain.Controls.Add(this.imageLabel36, 2, 3);
-			this.TableParameterMain.Controls.Add(this.LOSMin, 1, 8);
-			this.TableParameterMain.Controls.Add(this.imageLabel35, 2, 2);
-			this.TableParameterMain.Controls.Add(this.EvasionMax, 3, 7);
-			this.TableParameterMain.Controls.Add(this.imageLabel15, 3, 0);
-			this.TableParameterMain.Controls.Add(this.ASWMax, 3, 6);
-			this.TableParameterMain.Controls.Add(this.ASWMin, 1, 6);
-			this.TableParameterMain.Controls.Add(this.ArmorMax, 3, 5);
-			this.TableParameterMain.Controls.Add(this.imageLabel14, 1, 0);
-			this.TableParameterMain.Controls.Add(this.AAMax, 3, 4);
-			this.TableParameterMain.Controls.Add(this.TitleLOS, 0, 8);
-			this.TableParameterMain.Controls.Add(this.TorpedoMax, 3, 3);
-			this.TableParameterMain.Controls.Add(this.ArmorMin, 1, 5);
-			this.TableParameterMain.Controls.Add(this.TitleHP, 0, 1);
-			this.TableParameterMain.Controls.Add(this.AAMin, 1, 4);
-			this.TableParameterMain.Controls.Add(this.HPMin, 1, 1);
-			this.TableParameterMain.Controls.Add(this.TorpedoMin, 1, 3);
-			this.TableParameterMain.Controls.Add(this.imageLabel3, 2, 1);
-			this.TableParameterMain.Controls.Add(this.FirepowerMin, 1, 2);
-			this.TableParameterMain.Controls.Add(this.HPMax, 3, 1);
-			this.TableParameterMain.Controls.Add(this.TitleFirepower, 0, 2);
-			this.TableParameterMain.Controls.Add(this.TitleTorpedo, 0, 3);
-			this.TableParameterMain.Controls.Add(this.TitleAA, 0, 4);
-			this.TableParameterMain.Controls.Add(this.TitleArmor, 0, 5);
-			this.TableParameterMain.Controls.Add(this.TitleASW, 0, 6);
-			this.TableParameterMain.Controls.Add(this.TitleEvasion, 0, 7);
-			this.TableParameterMain.Controls.Add(this.imageLabel5, 4, 6);
-			this.TableParameterMain.Controls.Add(this.ASWLevel, 5, 6);
-			this.TableParameterMain.Controls.Add(this.EvasionMin, 1, 7);
-			this.TableParameterMain.Location = new System.Drawing.Point(3, 49);
-			this.TableParameterMain.Name = "TableParameterMain";
-			this.TableParameterMain.RowCount = 10;
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterMain.Size = new System.Drawing.Size(254, 227);
-			this.TableParameterMain.TabIndex = 5;
-			this.TableParameterMain.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableParameterMain_CellPaint);
 			// 
 			// imageLabel44
 			// 
@@ -1241,27 +1391,6 @@
 			this.imageLabel38.TabIndex = 9;
 			this.imageLabel38.Text = "/";
 			this.imageLabel38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// ParameterLevel
-			// 
-			this.ParameterLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.ParameterLevel.Location = new System.Drawing.Point(197, 3);
-			this.ParameterLevel.Maximum = new decimal(new int[] {
-            150,
-            0,
-            0,
-            0});
-			this.ParameterLevel.Name = "ParameterLevel";
-			this.ParameterLevel.Size = new System.Drawing.Size(54, 23);
-			this.ParameterLevel.TabIndex = 6;
-			this.ParameterLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.ToolTipInfo.SetToolTip(this.ParameterLevel, "レベルを指定すると予測値が表示されます。");
-			this.ParameterLevel.Value = new decimal(new int[] {
-            150,
-            0,
-            0,
-            0});
-			this.ParameterLevel.ValueChanged += new System.EventHandler(this.ParameterLevel_ValueChanged);
 			// 
 			// imageLabel37
 			// 
@@ -1636,32 +1765,6 @@
 			this.EvasionMin.Text = "123";
 			this.EvasionMin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// pictureBox1
-			// 
-			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox1.Location = new System.Drawing.Point(383, 3);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(160, 40);
-			this.pictureBox1.TabIndex = 4;
-			this.pictureBox1.TabStop = false;
-			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
-			// 
-			// LevelTimer
-			// 
-			this.LevelTimer.Interval = 200;
-			this.LevelTimer.Tick += new System.EventHandler(this.LevelTimer_Tick);
-			// 
-			// SaveCSVDialog
-			// 
-			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
-			this.SaveCSVDialog.Title = "CSVに出力";
-			// 
 			// DialogAlbumMasterShip
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1674,6 +1777,7 @@
 			this.MinimumSize = new System.Drawing.Size(816, 518);
 			this.Name = "DialogAlbumMasterShip";
 			this.Text = "艦船図鑑";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogAlbumMasterShip_FormClosed);
 			this.Load += new System.EventHandler(this.DialogAlbumMasterShip_Load);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
@@ -1700,6 +1804,8 @@
 			this.TableParameterMain.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ParameterLevel)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			this.TableBattle.ResumeLayout(false);
+			this.TableBattle.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1823,5 +1929,12 @@
 		private System.Windows.Forms.SaveFileDialog SaveCSVDialog;
 		private Control.ImageLabel AlbumNo;
 		private Control.ImageLabel imageLabel2;
+		private System.Windows.Forms.TableLayoutPanel TableBattle;
+		private Control.ImageLabel TitleDayAttack;
+		private Control.ImageLabel NightAttack;
+		private Control.ImageLabel TitleNightAttack;
+		private Control.ImageLabel DayAttack;
+		private Control.ImageLabel AirSuperiority;
+		private Control.ImageLabel TitleAirSuperiority;
 	}
 }

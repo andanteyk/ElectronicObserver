@@ -78,8 +78,10 @@
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Debug_LoadRecordFromOld = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_DeleteOldAPI = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Debug_RenameShipResource = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help_Version = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripStatus = new System.Windows.Forms.StatusStrip();
@@ -290,7 +292,7 @@
 			// 
 			this.StripMenu_View_FleetOverview.Name = "StripMenu_View_FleetOverview";
 			this.StripMenu_View_FleetOverview.Size = new System.Drawing.Size(167, 22);
-			this.StripMenu_View_FleetOverview.Text = "艦隊状態一覧(&O)";
+			this.StripMenu_View_FleetOverview.Text = "艦隊一覧(&O)";
 			this.StripMenu_View_FleetOverview.Click += new System.EventHandler(this.StripMenu_View_FleetOverview_Click);
 			// 
 			// StripMenu_View_ShipGroup
@@ -418,8 +420,10 @@
 			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_Debug_LoadAPIFromFile,
             this.StripMenu_Debug_LoadInitialAPI,
+            this.toolStripSeparator8,
             this.StripMenu_Debug_LoadRecordFromOld,
-            this.StripMenu_Debug_DeleteOldAPI});
+            this.StripMenu_Debug_DeleteOldAPI,
+            this.StripMenu_Debug_RenameShipResource});
 			this.StripMenu_Debug.Name = "StripMenu_Debug";
 			this.StripMenu_Debug.Size = new System.Drawing.Size(87, 22);
 			this.StripMenu_Debug.Text = "デバッグ(&D)";
@@ -438,6 +442,11 @@
 			this.StripMenu_Debug_LoadInitialAPI.Text = "APIリストをロード(&I)...";
 			this.StripMenu_Debug_LoadInitialAPI.Click += new System.EventHandler(this.StripMenu_Debug_LoadInitialAPI_Click);
 			// 
+			// toolStripSeparator8
+			// 
+			this.toolStripSeparator8.Name = "toolStripSeparator8";
+			this.toolStripSeparator8.Size = new System.Drawing.Size(291, 6);
+			// 
 			// StripMenu_Debug_LoadRecordFromOld
 			// 
 			this.StripMenu_Debug_LoadRecordFromOld.Name = "StripMenu_Debug_LoadRecordFromOld";
@@ -451,6 +460,13 @@
 			this.StripMenu_Debug_DeleteOldAPI.Size = new System.Drawing.Size(294, 22);
 			this.StripMenu_Debug_DeleteOldAPI.Text = "古いAPIデータを削除(&D)";
 			this.StripMenu_Debug_DeleteOldAPI.Click += new System.EventHandler(this.StripMenu_Debug_DeleteOldAPI_Click);
+			// 
+			// StripMenu_Debug_RenameShipResource
+			// 
+			this.StripMenu_Debug_RenameShipResource.Name = "StripMenu_Debug_RenameShipResource";
+			this.StripMenu_Debug_RenameShipResource.Size = new System.Drawing.Size(294, 22);
+			this.StripMenu_Debug_RenameShipResource.Text = "艦船リソースをリネーム(&R)...";
+			this.StripMenu_Debug_RenameShipResource.Click += new System.EventHandler(this.StripMenu_Debug_RenameShipResource_Click);
 			// 
 			// StripMenu_Help
 			// 
@@ -487,7 +503,7 @@
 			// StripStatus_Padding
 			// 
 			this.StripStatus_Padding.Name = "StripStatus_Padding";
-			this.StripStatus_Padding.Size = new System.Drawing.Size(450, 18);
+			this.StripStatus_Padding.Size = new System.Drawing.Size(481, 18);
 			this.StripStatus_Padding.Spring = true;
 			// 
 			// StripStatus_Clock
@@ -575,6 +591,8 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_DeleteOldAPI;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_EquipmentList;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_RenameShipResource;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
 	}
 }
 

@@ -159,7 +159,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
 
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQShipGroup] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormShipGroup] );
 
 		}
 

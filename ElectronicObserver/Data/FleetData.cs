@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Resource;
 using ElectronicObserver.Utility;
+using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using System;
@@ -240,35 +241,7 @@ namespace ElectronicObserver.Data {
 		/// <returns>制空戦力。</returns>
 		public int GetAirSuperiority() {
 
-			int airSuperiority = 0;
-
-			for ( int i = 0; i < Members.Count; i++ ) {
-
-				if ( Members[i] == -1 )
-					continue;
-
-				ShipData ship = KCDatabase.Instance.Ships[Members[i]];
-				if ( ship == null || _escapedShipList.Contains( ship.MasterID ) )
-					continue;
-
-				var slot = ship.SlotInstanceMaster;
-
-				for ( int j = 0; j < slot.Count; j++ ) {
-					
-					if ( slot[j] == null ) continue;
-
-					switch ( slot[j].EquipmentType[2] ) {
-						case 6:		//艦戦
-						case 7:		//艦爆
-						case 8:		//艦攻
-						case 11:	//水爆
-							airSuperiority += (int)( slot[j].AA * Math.Sqrt( ship.Aircraft[j] ) );
-							break;
-					}
-				}
-			}
-
-			return airSuperiority;
+			return Calculator.GetAirSuperiority( this );
 		}
 
 
@@ -372,7 +345,7 @@ namespace ElectronicObserver.Data {
 			//所属艦なし
 			if ( fleet.Members.Count( id => id != -1 ) == 0 ) {
 				label.Text = "所属艦なし";
-				label.ImageIndex = (int)ResourceManager.IconContent.HQNoShip;
+				label.ImageIndex = (int)ResourceManager.IconContent.FleetNoShip;
 
 				return FleetStates.NoShip;
 			}
@@ -390,7 +363,7 @@ namespace ElectronicObserver.Data {
 
 					timer = DateTime.FromBinary( ntime );
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
-					label.ImageIndex = (int)ResourceManager.IconContent.HQDock;
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
 
 					tooltip.SetToolTip( label, "完了日時 : " + timer );
 
@@ -408,14 +381,14 @@ namespace ElectronicObserver.Data {
 					 ) > 0 ) {
 
 					label.Text = "！！大破進撃中！！";
-					label.ImageIndex = (int)ResourceManager.IconContent.ShipStateDamageL;
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetSortieDamaged;
 
 					return FleetStates.SortieDamaged;
 
 				} else {	//出撃中
 
 					label.Text = "出撃中";
-					label.ImageIndex = (int)ResourceManager.IconContent.HQShip;
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetSortie;
 
 					return FleetStates.Sortie;
 				}
@@ -428,7 +401,7 @@ namespace ElectronicObserver.Data {
 
 				timer = fleet.ExpeditionTime;
 				label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
-				label.ImageIndex = (int)ResourceManager.IconContent.HQExpedition;
+				label.ImageIndex = (int)ResourceManager.IconContent.FleetExpedition;
 
 				tooltip.SetToolTip( label, string.Format( "{0} : {1}\r\n完了日時 : {2}", KCDatabase.Instance.Mission[fleet.ExpeditionDestination].ID, KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name, timer ) );
 
@@ -441,7 +414,7 @@ namespace ElectronicObserver.Data {
 			 ) > 0 ) {
 
 				label.Text = "大破艦あり！";
-				label.ImageIndex = (int)ResourceManager.IconContent.ShipStateDamageL;
+				label.ImageIndex = (int)ResourceManager.IconContent.FleetDamaged;
 				//label.BackColor = Color.LightCoral;
 
 				return FleetStates.Damaged;
@@ -465,7 +438,7 @@ namespace ElectronicObserver.Data {
 					if ( prevstate != FleetStates.AnchorageRepairing )
 						timer = DateTime.Now;
 					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( timer );
-					label.ImageIndex = (int)ResourceManager.IconContent.HQDock;		//fixme:新アイコンの追加
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
 
 					tooltip.SetToolTip( label, string.Format( "開始日時 : {0}", timer ) );
 
@@ -492,7 +465,7 @@ namespace ElectronicObserver.Data {
 				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
 
 					label.Text = "未補給";
-					label.ImageIndex = (int)ResourceManager.IconContent.HQNotReplenished;
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
 
 					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2}", fuel, ammo, bauxite ) );
 
@@ -540,7 +513,7 @@ namespace ElectronicObserver.Data {
 			//出撃可能！
 			{
 				label.Text = "出撃可能！";
-				label.ImageIndex = (int)ResourceManager.IconContent.HQShip;
+				label.ImageIndex = (int)ResourceManager.IconContent.FleetReady;
 
 				return FleetStates.Ready;
 			}

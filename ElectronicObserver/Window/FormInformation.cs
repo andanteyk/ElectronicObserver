@@ -23,7 +23,7 @@ namespace ElectronicObserver.Window {
 
 			Font = Utility.Configuration.Config.UI.MainFont;
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQInformation] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormInformation] );
 		}
 
 

@@ -154,7 +154,7 @@ namespace ElectronicObserver.Window {
 			}
 			TableDock.ResumeLayout();
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQDock] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormDock] );
 
 		}
 

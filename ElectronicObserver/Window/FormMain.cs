@@ -67,7 +67,7 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
-			
+
 
 			this.Text = SoftwareInformation.VersionJapanese;
 			Font = Utility.Configuration.Config.UI.MainFont;
@@ -390,7 +390,7 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void StripMenu_Debug_LoadInitialAPI_Click( object sender, EventArgs e ) {
+		private async void StripMenu_Debug_LoadInitialAPI_Click( object sender, EventArgs e ) {
 
 			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
 
@@ -402,60 +402,8 @@ namespace ElectronicObserver.Window {
 
 					try {
 
-						string parent = Path.GetDirectoryName( ofd.FileName );
-
-
-						using ( StreamReader sr = new StreamReader( ofd.FileName ) ) {
-							string line;
-							while ( ( line = sr.ReadLine() ) != null ) {
-
-								bool isRequest = false;
-								{
-									int slashindex = line.IndexOf( '/' );
-									if ( slashindex != -1 ) {
-
-										switch ( line.Substring( 0, slashindex ).ToLower() ) {
-											case "q":
-											case "request":
-												isRequest = true;
-												goto case "s";
-											case "":
-											case "s":
-											case "response":
-												line = line.Substring( Math.Min( slashindex + 1, line.Length ) );
-												break;
-										}
-
-									}
-								}
-
-								if ( APIObserver.Instance.APIList.ContainsKey( line ) ) {
-									APIBase api = APIObserver.Instance.APIList[line];
-
-									if ( isRequest ? api.IsRequestSupported : api.IsResponseSupported ) {
-
-										string[] files = Directory.GetFiles( parent, string.Format( "*{0}@{1}.json", isRequest ? "Q" : "S", line.Replace( '/', '@' ) ), SearchOption.TopDirectoryOnly );
-
-										if ( files.Length == 0 )
-											continue;
-
-										Array.Sort( files );
-
-										using ( StreamReader sr2 = new StreamReader( files[files.Length - 1] ) ) {
-											if ( isRequest )
-												APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
-											else
-												APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
-										}
-
-										//System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
-									}
-								}
-							}
-
-						}
-
-
+						await Task.Factory.StartNew( () => LoadAPIList( ofd.FileName ) );
+							
 					} catch ( Exception ex ) {
 
 						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
@@ -468,6 +416,66 @@ namespace ElectronicObserver.Window {
 			}
 
 		}
+
+
+		private void LoadAPIList( string path ) {
+
+			string parent =  Path.GetDirectoryName( path );
+
+			using ( StreamReader sr = new StreamReader( path ) ) {
+				string line;
+				while ( ( line = sr.ReadLine() ) != null ) {
+
+					bool isRequest = false;
+					{
+						int slashindex = line.IndexOf( '/' );
+						if ( slashindex != -1 ) {
+
+							switch ( line.Substring( 0, slashindex ).ToLower() ) {
+								case "q":
+								case "request":
+									isRequest = true;
+									goto case "s";
+								case "":
+								case "s":
+								case "response":
+									line = line.Substring( Math.Min( slashindex + 1, line.Length ) );
+									break;
+							}
+
+						}
+					}
+
+					if ( APIObserver.Instance.APIList.ContainsKey( line ) ) {
+						APIBase api = APIObserver.Instance.APIList[line];
+
+						if ( isRequest ? api.IsRequestSupported : api.IsResponseSupported ) {
+
+							string[] files = Directory.GetFiles( parent, string.Format( "*{0}@{1}.json", isRequest ? "Q" : "S", line.Replace( '/', '@' ) ), SearchOption.TopDirectoryOnly );
+
+							if ( files.Length == 0 )
+								continue;
+
+							Array.Sort( files );
+
+							using ( StreamReader sr2 = new StreamReader( files[files.Length - 1] ) ) {
+								if ( isRequest )
+									APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
+								else
+									APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+							}
+
+							//System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
+						}
+					}
+				}
+
+			}
+
+		}
+
+
+
 
 
 		private void StripMenu_Debug_LoadRecordFromOld_Click( object sender, EventArgs e ) {
@@ -593,6 +601,114 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private async void StripMenu_Debug_RenameShipResource_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦船データが読み込まれていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			if ( MessageBox.Show( "通信から保存した艦船リソース名を持つファイル及びフォルダを、艦船名に置換します。\r\n" +
+				"対象は指定されたフォルダ以下のすべてのファイル及びフォルダです。\r\n" +
+				"続行しますか？", "艦船リソースをリネーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				string path = null;
+
+				using ( FolderBrowserDialog dialog = new FolderBrowserDialog() ) {
+					dialog.SelectedPath = Configuration.Config.Connection.SaveDataPath;
+					if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+						path = dialog.SelectedPath;
+					}
+				}
+
+				if ( path == null ) return;
+
+
+
+				try {
+
+					int count = await Task.FromResult<int>( RenameShipResource( path ) );
+
+					MessageBox.Show( string.Format( "リネーム処理が完了しました。\r\n{0} 個のアイテムをリネームしました。", count ), "処理完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+
+				} catch ( Exception ex ) {
+
+					Utility.ErrorReporter.SendErrorReport( ex, "艦船リソースのリネームに失敗しました。" );
+					MessageBox.Show( "艦船リソースのリネームに失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+				}
+
+
+
+			}
+
+		}
+
+
+		private int RenameShipResource( string path ) {
+
+			int count = 0;
+
+			foreach ( var p in Directory.EnumerateFiles( path, "*", SearchOption.AllDirectories ) ) {
+
+				string name = Path.GetFileName( p );
+
+				foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
+
+					if ( name.Contains( ship.ResourceName ) ) {
+
+						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
+
+						try {
+
+							File.Move( p, Path.Combine( Path.GetDirectoryName( p ), name ) );
+							count++;
+							break;
+
+						} catch ( IOException ) {
+							//ファイルが既に存在する：＊にぎりつぶす＊
+						}
+						
+					}
+
+				}
+
+			}
+
+			foreach ( var p in Directory.EnumerateDirectories( path, "*", SearchOption.AllDirectories ) ) {
+
+				string name = Path.GetFileName( p );		//GetDirectoryName だと親フォルダへのパスになってしまうため
+
+				foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
+
+					if ( name.Contains( ship.ResourceName ) ) {
+
+						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
+					
+						try {
+
+							Directory.Move( p, Path.Combine( Path.GetDirectoryName( p ), name ) );
+							count++;
+							break;
+
+						} catch ( IOException ) {
+							//フォルダが既に存在する：＊にぎりつぶす＊
+						}
+					}
+
+				}
+
+			}
+
+
+			return count;
+		}
+
+
+
+
 
 		#region フォーム表示
 
@@ -654,7 +770,10 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
+
+
+
+
 
 	}
 }

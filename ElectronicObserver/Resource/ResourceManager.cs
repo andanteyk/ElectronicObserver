@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,26 +52,32 @@ namespace ElectronicObserver.Resource {
 			ItemModdingMaterial,
 			ItemFurnitureCoin,
 			ItemBlueprint,
-			HQShip,
-			HQEquipment,
-			HQNoShip,
-			HQDock,
-			HQExpedition,
-			HQNotReplenished,
-			HQCompass,
-			HQArsenal,
-			HQHeadQuarters,
-			HQQuest,
-			HQInformation,
-			HQAlbum,
-			HQShipGroup,
-			ShipStateDamageS,
-			ShipStateDamageM,
-			ShipStateDamageL,
-			ShipStateEscape,
-			ShipStateExpedition,
-			ShipStateRepair,
-			ShipStateSunk,
+			FormArsenal,
+			FormBattle,
+			FormCompass,
+			FormDock,
+			FormFleet,
+			FormHeadQuarters,
+			FormInformation,
+			FormLog,
+			FormMain,
+			FormQuest,
+			FormShipGroup,
+			FormAlbumShip,
+			FormAlbumEquipment,
+			FormConfiguration,
+			FormEquipmentList,
+			FleetNoShip,
+			FleetDocking,
+			FleetSortieDamaged,
+			FleetSortie,
+			FleetExpedition,
+			FleetDamaged,
+			FleetNotReplenished,
+			FleetAnchorageRepairing,
+			FleetReady,
+			HeadQuartersShip,
+			HeadQuartersEquipment,
 			RarityBlack,
 			RarityRed,
 			RarityBlueC,
@@ -148,121 +155,22 @@ namespace ElectronicObserver.Resource {
 
 
 		public void Load() {
-			const string masterpath = @"assets\";
 
-			#region Icons
-			Icons.Images.Add( "AppIcon", LoadImage( masterpath + "74eo_16.png" ) );
+			try {
 
-			Icons.Images.Add( "Fuel", LoadImage( masterpath + @"Resource\fuel.png" ) );
-			Icons.Images.Add( "Ammo", LoadImage( masterpath + @"Resource\ammo.png" ) );
-			Icons.Images.Add( "Steel", LoadImage( masterpath + @"Resource\steel.png" ) );
-			Icons.Images.Add( "Bauxite", LoadImage( masterpath + @"Resource\bauxite.png" ) );
-			
-			Icons.Images.Add( "Cond_Sparkle", LoadImage( masterpath + @"Condition\sparkle.png" ) );
-			Icons.Images.Add( "Cond_Normal", LoadImage( masterpath + @"Condition\normal.png" ) );
-			Icons.Images.Add( "Cond_LittleTired", LoadImage( masterpath + @"Condition\littletired.png" ) );
-			Icons.Images.Add( "Cond_Tired", LoadImage( masterpath + @"Condition\tired.png" ) );
-			Icons.Images.Add( "Cond_VeryTired", LoadImage( masterpath + @"Condition\verytired.png" ) );
-			
-			Icons.Images.Add( "Item_InstantRepair", LoadImage( masterpath + @"Item\instantRepair.png" ) );
-			Icons.Images.Add( "Item_InstantConstruction", LoadImage( masterpath + @"Item\instantConstruction.png" ) );
-			Icons.Images.Add( "Item_DevelopmentMaterial", LoadImage( masterpath + @"Item\developmentMaterial.png" ) );
-			Icons.Images.Add( "Item_ModdingMaterial", LoadImage( masterpath + @"Item\moddingMaterial.png" ) );
-			Icons.Images.Add( "Item_FurnitureCoin", LoadImage( masterpath + @"Item\furnitureCoin.png" ) );
-			Icons.Images.Add( "Item_Blueprint", LoadImage( masterpath + @"Item\blueprint.png" ) );
-			
-			Icons.Images.Add( "HQ_Ship", LoadImage( masterpath + @"HeadQuarters\ship.png" ) );
-			Icons.Images.Add( "HQ_Equipment", LoadImage( masterpath + @"HeadQuarters\equipment.png" ) );
-			Icons.Images.Add( "HQ_NoShip", LoadImage( masterpath + @"HeadQuarters\noship.png" ) );
-			Icons.Images.Add( "HQ_Dock", LoadImage( masterpath + @"HeadQuarters\dock.png" ) );
-			Icons.Images.Add( "HQ_Expedition", LoadImage( masterpath + @"HeadQuarters\expedition.png" ) );
-			Icons.Images.Add( "HQ_NotReplenished", LoadImage( masterpath + @"HeadQuarters\notreplenished.png" ) );
-			Icons.Images.Add( "HQ_Compass", LoadImage( masterpath + @"HeadQuarters\compass.png" ) );
-			Icons.Images.Add( "HQ_Arsenal", LoadImage( masterpath + @"HeadQuarters\arsenal.png" ) );
-			Icons.Images.Add( "HQ_HeadQuarters", LoadImage( masterpath + @"HeadQuarters\headquarters.png" ) );
-			Icons.Images.Add( "HQ_Quest", LoadImage( masterpath + @"HeadQuarters\quest.png" ) );
-			Icons.Images.Add( "HQ_Information", LoadImage( masterpath + @"HeadQuarters\information.png" ) );
-			Icons.Images.Add( "HQ_Album", LoadImage( masterpath + @"HeadQuarters\album.png" ) );
-			Icons.Images.Add( "HQ_ShipGroup", LoadImage( masterpath + @"HeadQuarters\shipgroup.png" ) );
-			
-			Icons.Images.Add( "ShipState_DamageS", LoadImage( masterpath + @"ShipState\damageS.png" ) );
-			Icons.Images.Add( "ShipState_DamageM", LoadImage( masterpath + @"ShipState\damageM.png" ) );
-			Icons.Images.Add( "ShipState_DamageL", LoadImage( masterpath + @"ShipState\damageL.png" ) );
-			Icons.Images.Add( "ShipState_Escape", LoadImage( masterpath + @"ShipState\escape.png" ) );
-			Icons.Images.Add( "ShipState_Expedition", LoadImage( masterpath + @"ShipState\expedition.png" ) );
-			Icons.Images.Add( "ShipState_Repair", LoadImage( masterpath + @"ShipState\repair.png" ) );
-			Icons.Images.Add( "ShipState_Sunk", LoadImage( masterpath + @"ShipState\sunk.png" ) );
-			
-			Icons.Images.Add( "Rarity_Black", LoadImage( masterpath + @"Rarity\black.png" ) );
-			Icons.Images.Add( "Rarity_Red", LoadImage( masterpath + @"Rarity\red.png" ) );
-			Icons.Images.Add( "Rarity_BlueC", LoadImage( masterpath + @"Rarity\blueC.png" ) );
-			Icons.Images.Add( "Rarity_BlueB", LoadImage( masterpath + @"Rarity\blueB.png" ) );
-			Icons.Images.Add( "Rarity_BlueA", LoadImage( masterpath + @"Rarity\blueA.png" ) );
-			Icons.Images.Add( "Rarity_Silver", LoadImage( masterpath + @"Rarity\silver.png" ) );
-			Icons.Images.Add( "Rarity_Gold", LoadImage( masterpath + @"Rarity\gold.png" ) );
-			Icons.Images.Add( "Rarity_HoloB", LoadImage( masterpath + @"Rarity\holoB.png" ) );
-			Icons.Images.Add( "Rarity_HoloA", LoadImage( masterpath + @"Rarity\holoA.png" ) );
-			Icons.Images.Add( "Rarity_Cherry", LoadImage( masterpath + @"Rarity\cherry.png" ) );
+				LoadFromArchive( "Assets.zip" );
 
-			Icons.Images.Add( "Parameter_HP", LoadImage( masterpath + @"Parameter\hp.png" ) );
-			Icons.Images.Add( "Parameter_Firepower", LoadImage( masterpath + @"Parameter\firepower.png" ) );
-			Icons.Images.Add( "Parameter_Torpedo", LoadImage( masterpath + @"Parameter\torpedo.png" ) );
-			Icons.Images.Add( "Parameter_AA", LoadImage( masterpath + @"Parameter\aa.png" ) );
-			Icons.Images.Add( "Parameter_Armor", LoadImage( masterpath + @"Parameter\armor.png" ) );
-			Icons.Images.Add( "Parameter_ASW", LoadImage( masterpath + @"Parameter\asw.png" ) );
-			Icons.Images.Add( "Parameter_Evasion", LoadImage( masterpath + @"Parameter\evasion.png" ) );
-			Icons.Images.Add( "Parameter_LOS", LoadImage( masterpath + @"Parameter\los.png" ) );
-			Icons.Images.Add( "Parameter_Luck", LoadImage( masterpath + @"Parameter\luck.png" ) );
-			Icons.Images.Add( "Parameter_Bomber", LoadImage( masterpath + @"Parameter\bomber.png" ) );
-			Icons.Images.Add( "Parameter_Accuracy", LoadImage( masterpath + @"Parameter\accuracy.png" ) );
-			Icons.Images.Add( "Parameter_Aircraft", LoadImage( masterpath + @"Parameter\aircraft.png" ) );
-			Icons.Images.Add( "Parameter_Speed", LoadImage( masterpath + @"Parameter\speed.png" ) );
-			Icons.Images.Add( "Parameter_Range", LoadImage( masterpath + @"Parameter\range.png" ) );
-			
-			#endregion
+			} catch ( Exception ex ) {
 
-			#region Equipments
-			Equipments.Images.Add( "Nothing", LoadImage( masterpath + @"Equipment\nothing.png" ) );
-			Equipments.Images.Add( "MainGunS", LoadImage( masterpath + @"Equipment\maingunS.png" ) );
-			Equipments.Images.Add( "MainGunM", LoadImage( masterpath + @"Equipment\maingunM.png" ) );
-			Equipments.Images.Add( "MainGunL", LoadImage( masterpath + @"Equipment\maingunL.png" ) );
-			Equipments.Images.Add( "SecondaryGun", LoadImage( masterpath + @"Equipment\secondarygun.png" ) );
-			Equipments.Images.Add( "Torpedo", LoadImage( masterpath + @"Equipment\torpedo.png" ) );
-			Equipments.Images.Add( "CarrierBasedFighter", LoadImage( masterpath + @"Equipment\aircraft_fighter.png" ) );
-			Equipments.Images.Add( "CarrierBasedBomber", LoadImage( masterpath + @"Equipment\aircraft_bomber.png" ) );
-			Equipments.Images.Add( "CarrierBasedTorpedo", LoadImage( masterpath + @"Equipment\aircraft_torpedo.png" ) );
-			Equipments.Images.Add( "CarrierBasedRecon", LoadImage( masterpath + @"Equipment\aircraft_recon.png" ) );
-			Equipments.Images.Add( "Seaplane", LoadImage( masterpath + @"Equipment\seaplane.png" ) );
-			Equipments.Images.Add( "RADAR", LoadImage( masterpath + @"Equipment\radar.png" ) );
-			Equipments.Images.Add( "AAShell", LoadImage( masterpath + @"Equipment\aashell.png" ) );
-			Equipments.Images.Add( "APShell", LoadImage( masterpath + @"Equipment\apshell.png" ) );
-			Equipments.Images.Add( "DamageControl", LoadImage( masterpath + @"Equipment\damagecontrol.png" ) );
-			Equipments.Images.Add( "AAGun", LoadImage( masterpath + @"Equipment\aagun.png" ) );
-			Equipments.Images.Add( "HighAngleGun", LoadImage( masterpath + @"Equipment\highanglegun.png" ) );
-			Equipments.Images.Add( "DepthCharge", LoadImage( masterpath + @"Equipment\depthcharge.png" ) );
-			Equipments.Images.Add( "SONAR", LoadImage( masterpath + @"Equipment\sonar.png" ) );
-			Equipments.Images.Add( "Engine", LoadImage( masterpath + @"Equipment\engine.png" ) );
-			Equipments.Images.Add( "LandingCraft", LoadImage( masterpath + @"Equipment\landingcraft.png" ) );
-			Equipments.Images.Add( "Autogyro", LoadImage( masterpath + @"Equipment\autogyro.png" ) );
-			Equipments.Images.Add( "ASPatrol", LoadImage( masterpath + @"Equipment\aspatrol.png" ) );
-			Equipments.Images.Add( "Bulge", LoadImage( masterpath + @"Equipment\bulge.png" ) );
-			Equipments.Images.Add( "Searchlight", LoadImage( masterpath + @"Equipment\searchlight.png" ) );
-			Equipments.Images.Add( "DrumCanister", LoadImage( masterpath + @"Equipment\drumcanister.png" ) );
-			Equipments.Images.Add( "RepairFacility", LoadImage( masterpath + @"Equipment\repairfacility.png" ) );
-			Equipments.Images.Add( "Flare", LoadImage( masterpath + @"Equipment\flare.png" ) );
-			Equipments.Images.Add( "CommandFacility", LoadImage( masterpath + @"Equipment\commandfacility.png" ) );
-			Equipments.Images.Add( "MaintenanceTeam", LoadImage( masterpath + @"Equipment\maintenanceteam.png" ) );
-			Equipments.Images.Add( "AADirector", LoadImage( masterpath + @"Equipment\aadirector.png" ) );
-			Equipments.Images.Add( "Locked", LoadImage( masterpath + @"Equipment\locked.png" ) );
-			Equipments.Images.Add( "Unknown", LoadImage( masterpath + @"Equipment\unknown.png" ) );
-			
-			#endregion
+				Utility.ErrorReporter.SendErrorReport( ex, "リソースファイルの読み込みに失敗しました。" );
 
+			}
+			
 		}
 
 
 
-		private static Image LoadImage( string path ) {
+		private Image LoadImage( string path ) {
 			try {
 
 				using ( FileStream fs = new FileStream( path, FileMode.Open, FileAccess.Read ) ) {
@@ -278,6 +186,171 @@ namespace ElectronicObserver.Resource {
 
 			//return null;
 		}
+
+
+
+		private void LoadFromArchive( string path ) {
+
+			using ( var stream = File.OpenRead( path ) ) {
+
+				using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
+
+					const string mstpath = @"Assets/";
+
+					// ------------------------ icons ------------------------
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"AppIcon_16.png", "AppIcon" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"Resource/Fuel.png", "Resource_Fuel" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Resource/Ammo.png", "Resource_Ammo" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Resource/Steel.png", "Resource_Steel" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Resource/Bauxite.png", "Resource_Bauxite" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"Condition/Sparkle.png", "Condition_Sparkle" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Condition/Normal.png", "Condition_Normal" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Condition/LittleTired.png", "Condition_LittleTired" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Condition/Tired.png", "Condition_Tired" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Condition/VeryTired.png", "Condition_VeryTired" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/InstantRepair.png", "Item_InstantRepair" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/InstantConstruction.png", "Item_InstantConstruction" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/DevelopmentMaterial.png", "Item_DevelopmentMaterial" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/ModdingMaterial.png", "Item_ModdingMaterial" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/FurnitureCoin.png", "Item_FurnitureCoin" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Blueprint.png", "Item_Blueprint" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Arsenal.png", "Form_Arsenal" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Battle.png", "Form_Battle" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Compass.png", "Form_Compass" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Dock.png", "Form_Dock" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Fleet.png", "Form_Fleet" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/HeadQuarters.png", "Form_HeadQuarters" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Information.png", "Form_Information" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Log.png", "Form_Log" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Main.png", "Form_Main" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Quest.png", "Form_Quest" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/ShipGroup.png", "Form_ShipGroup" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AlbumShip.png", "Form_AlbumShip" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AlbumEquipment.png", "Form_AlbumEquipment" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Configuration.png", "Form_Configuration" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/EquipmentList.png", "Form_EquipmentList" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NoShip.png", "Fleet_NoShip" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Docking.png", "Fleet_Docking" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/SortieDamaged.png", "Fleet_SortieDamaged" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Sortie.png", "Fleet_Sortie" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Expedition.png", "Fleet_Expedition" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Damaged.png", "Fleet_Damaged" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NotReplenished.png", "Fleet_NotReplenished" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/AnchorageRepairing.png", "Fleet_AnchorageRepairing" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Ready.png", "Fleet_Ready" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"HeadQuarters/Ship.png", "HeadQuarters_Ship" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"HeadQuarters/Equipment.png", "HeadQuarters_Equipment" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Black.png", "Rarity_Black" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Red.png", "Rarity_Red" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/BlueC.png", "Rarity_BlueC" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/BlueB.png", "Rarity_BlueB" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/BlueA.png", "Rarity_BlueA" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Silver.png", "Rarity_Silver" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Gold.png", "Rarity_Gold" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/HoloB.png", "Rarity_HoloB" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/HoloA.png", "Rarity_HoloA" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Cherry.png", "Rarity_Cherry" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/HP.png", "Parameter_HP" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Firepower.png", "Parameter_Firepower" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Torpedo.png", "Parameter_Torpedo" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/AA.png", "Parameter_AA" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Armor.png", "Parameter_Armor" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/ASW.png", "Parameter_ASW" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Evasion.png", "Parameter_Evasion" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/LOS.png", "Parameter_LOS" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Luck.png", "Parameter_Luck" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Bomber.png", "Parameter_Bomber" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Accuracy.png", "Parameter_Accuracy" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Aircraft.png", "Parameter_Aircraft" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Speed.png", "Parameter_Speed" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Range.png", "Parameter_Range" );
+
+
+
+					// ------------------------ equipments ------------------------
+
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Nothing.png", "Equipment_Nothing" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/MainGunS.png", "Equipment_MainGunS" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/MainGunM.png", "Equipment_MainGunM" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/MainGunL.png", "Equipment_MainGunL" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/SecondaryGun.png", "Equipment_SecondaryGun" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Torpedo.png", "Equipment_Torpedo" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/CarrierBasedFighter.png", "Equipment_CarrierBasedFighter" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/CarrierBasedBomber.png", "Equipment_CarrierBasedBomber" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/CarrierBasedTorpedo.png", "Equipment_CarrierBasedTorpedo" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/CarrierBasedRecon.png", "Equipment_CarrierBasedRecon" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Seaplane.png", "Equipment_Seaplane" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/RADAR.png", "Equipment_RADAR" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/AAShell.png", "Equipment_AAShell" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/APShell.png", "Equipment_APShell" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/DamageControl.png", "Equipment_DamageControl" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/AAGun.png", "Equipment_AAGun" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/HighAngleGun.png", "Equipment_HighAngleGun" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/DepthCharge.png", "Equipment_DepthCharge" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/SONAR.png", "Equipment_SONAR" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Engine.png", "Equipment_Engine" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/LandingCraft.png", "Equipment_LandingCraft" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Autogyro.png", "Equipment_Autogyro" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/ASPatrol.png", "Equipment_ASPatrol" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Bulge.png", "Equipment_Bulge" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Searchlight.png", "Equipment_Searchlight" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/DrumCanister.png", "Equipment_DrumCanister" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/RepairFacility.png", "Equipment_RepairFacility" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Flare.png", "Equipment_Flare" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/CommandFacility.png", "Equipment_CommandFacility" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/MaintenanceTeam.png", "Equipment_MaintenanceTeam" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/AADirector.png", "Equipment_AADirector" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Locked.png", "Equipment_Locked" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Unknown.png", "Equipment_Unknown" );
+
+
+				}
+			}
+
+		}
+
+		private static void LoadImageFromArchive( ImageList imglist, ZipArchive arc, string path, string name ) {
+
+			var entry = arc.GetEntry( path );
+
+			if ( entry == null ) {
+				Utility.Logger.Add( 3, string.Format( "画像リソース {0} は存在しません。", path ) );
+				imglist.Images.Add( name, new Bitmap( imglist.ImageSize.Width, imglist.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) );
+				return;
+			}
+
+
+			try {
+
+				Bitmap bmp = new Bitmap( entry.Open() );
+
+				if ( bmp.Size == imglist.ImageSize ) {
+
+					imglist.Images.Add( name, bmp );
+
+				} else {
+
+					bmp.Dispose();
+				}
+
+			} catch ( ArgumentException ) {
+
+				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。" ) );
+				imglist.Images.Add( name, new Bitmap( imglist.ImageSize.Width, imglist.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) );
+				return;
+			}
+			
+		}
+
 
 
 		/// <summary>

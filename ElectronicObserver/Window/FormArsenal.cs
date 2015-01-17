@@ -155,7 +155,7 @@ namespace ElectronicObserver.Window {
 			}
 			TableArsenal.ResumeLayout();
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQArsenal] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormArsenal] );
 		}
 
 

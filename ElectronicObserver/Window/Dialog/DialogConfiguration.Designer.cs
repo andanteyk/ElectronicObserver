@@ -302,7 +302,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 207);
+			this.label9.Location = new System.Drawing.Point(8, 205);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 12;
@@ -560,6 +560,8 @@
 			this.Name = "DialogConfiguration";
 			this.ShowInTaskbar = false;
 			this.Text = "設定";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogConfiguration_FormClosed);
+			this.Load += new System.EventHandler(this.DialogConfiguration_Load);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();

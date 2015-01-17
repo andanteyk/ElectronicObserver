@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,8 @@ namespace ElectronicObserver.Window.Dialog {
 		private void DialogEquipmentList_Load( object sender, EventArgs e ) {
 
 			UpdateView();
+
+			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormEquipmentList] );
 
 		}
 
@@ -253,6 +256,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 			}
 
+
+		}
+
+
+
+		private void DialogEquipmentList_FormClosed( object sender, FormClosedEventArgs e ) {
+
+			ResourceManager.DestroyIcon( Icon );
 
 		}
 

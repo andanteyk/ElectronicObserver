@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
+using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Support;
@@ -56,6 +57,9 @@ namespace ElectronicObserver.Window.Dialog {
 			RemodelAfterSteel.ImageList =
 				ResourceManager.Instance.Icons;
 
+			TitleAirSuperiority.ImageList =
+			TitleDayAttack.ImageList =
+			TitleNightAttack.ImageList =
 			Equipment1.ImageList =
 			Equipment2.ImageList =
 			Equipment3.ImageList =
@@ -76,7 +80,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TitleRange.ImageIndex = (int)ResourceManager.IconContent.ParameterRange;
 			Fuel.ImageIndex = (int)ResourceManager.IconContent.ResourceFuel;
 			Ammo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
-			TitleBuildingTime.ImageIndex = (int)ResourceManager.IconContent.HQArsenal;
+			TitleBuildingTime.ImageIndex = (int)ResourceManager.IconContent.FormArsenal;
 			MaterialFuel.ImageIndex = (int)ResourceManager.IconContent.ResourceFuel;
 			MaterialAmmo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
 			MaterialSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
@@ -89,8 +93,11 @@ namespace ElectronicObserver.Window.Dialog {
 			RemodelBeforeSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
 			RemodelAfterAmmo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
 			RemodelAfterSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
+			TitleAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
+			TitleDayAttack.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+			TitleNightAttack.ImageIndex = (int)ResourceManager.EquipmentContent.Torpedo;
 
-
+			TableBattle.Visible = false;
 			BasePanelShipGirl.Visible = false;
 
 
@@ -101,6 +108,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ControlHelper.SetDoubleBuffered( TableEquipment );
 			ControlHelper.SetDoubleBuffered( TableArsenal );
 			ControlHelper.SetDoubleBuffered( TableRemodel );
+			ControlHelper.SetDoubleBuffered( TableBattle );
 
 			ControlHelper.SetDoubleBuffered( ShipView );
 
@@ -153,9 +161,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void DialogAlbumMasterShip_Load( object sender, EventArgs e ) {
 
-			
-
-			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.HQAlbum] );
+			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumShip] );
 
 		}
 
@@ -344,37 +350,61 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			//remodel
-			TableRemodel.SuspendLayout();
+			if ( !ship.IsAbyssalShip ) {
 
-			if ( ship.RemodelBeforeShipID == 0 ) {
-				RemodelBeforeShipName.Text = "(なし)";
-				RemodelBeforeLevel.Text = "";
-				RemodelBeforeLevel.ImageIndex = -1;
-				RemodelBeforeAmmo.Text = "-";
-				RemodelBeforeSteel.Text = "-";
+				TableRemodel.SuspendLayout();
+
+				if ( ship.RemodelBeforeShipID == 0 ) {
+					RemodelBeforeShipName.Text = "(なし)";
+					RemodelBeforeLevel.Text = "";
+					RemodelBeforeLevel.ImageIndex = -1;
+					RemodelBeforeAmmo.Text = "-";
+					RemodelBeforeSteel.Text = "-";
+				} else {
+					ShipDataMaster sbefore = ship.RemodelBeforeShip;
+					RemodelBeforeShipName.Text = sbefore.Name;
+					RemodelBeforeLevel.Text = string.Format( "Lv. {0}", sbefore.RemodelAfterLevel );
+					RemodelBeforeLevel.ImageIndex = sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
+					RemodelBeforeAmmo.Text = sbefore.RemodelAmmo.ToString();
+					RemodelBeforeSteel.Text = sbefore.RemodelSteel.ToString();
+				}
+
+				if ( ship.RemodelAfterShipID == 0 ) {
+					RemodelAfterShipName.Text = "(なし)";
+					RemodelAfterLevel.Text = "";
+					RemodelAfterLevel.ImageIndex = -1;
+					RemodelAfterAmmo.Text = "-";
+					RemodelAfterSteel.Text = "-";
+				} else {
+					RemodelAfterShipName.Text = ship.RemodelAfterShip.Name;
+					RemodelAfterLevel.Text = string.Format( "Lv. {0}", ship.RemodelAfterLevel );
+					RemodelAfterLevel.ImageIndex = ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
+					RemodelAfterAmmo.Text = ship.RemodelAmmo.ToString();
+					RemodelAfterSteel.Text = ship.RemodelSteel.ToString();
+				}
+				TableRemodel.ResumeLayout();
+
+
+				TableRemodel.Visible = true;
+				TableBattle.Visible = false;
+
+
 			} else {
-				ShipDataMaster sbefore = ship.RemodelBeforeShip;
-				RemodelBeforeShipName.Text = sbefore.Name;
-				RemodelBeforeLevel.Text = string.Format( "Lv. {0}", sbefore.RemodelAfterLevel );
-				RemodelBeforeLevel.ImageIndex = sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
-				RemodelBeforeAmmo.Text = sbefore.RemodelAmmo.ToString();
-				RemodelBeforeSteel.Text = sbefore.RemodelSteel.ToString();
+
+				TableBattle.SuspendLayout();
+
+				AirSuperiority.Text = Calculator.GetAirSuperiority( ship ).ToString();
+				DayAttack.Text = "*undone*";
+				NightAttack.Text = "*undone*";
+
+				TableBattle.ResumeLayout();
+
+				TableRemodel.Visible = false;
+				TableBattle.Visible = true;
+
 			}
 
-			if ( ship.RemodelAfterShipID == 0 ) {
-				RemodelAfterShipName.Text = "(なし)";
-				RemodelAfterLevel.Text = "";
-				RemodelAfterLevel.ImageIndex = -1;
-				RemodelAfterAmmo.Text = "-";
-				RemodelAfterSteel.Text = "-";
-			} else {
-				RemodelAfterShipName.Text = ship.RemodelAfterShip.Name;
-				RemodelAfterLevel.Text = string.Format( "Lv. {0}", ship.RemodelAfterLevel );
-				RemodelAfterLevel.ImageIndex = ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
-				RemodelAfterAmmo.Text = ship.RemodelAmmo.ToString();
-				RemodelAfterSteel.Text = ship.RemodelSteel.ToString();
-			}
-			TableRemodel.ResumeLayout();
+
 
 
 			BasePanelShipGirl.ResumeLayout();
@@ -730,7 +760,11 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		private void DialogAlbumMasterShip_FormClosed( object sender, FormClosedEventArgs e ) {
 
+			ResourceManager.DestroyIcon( Icon );
+
+		}
 
 	}
 }
