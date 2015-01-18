@@ -189,6 +189,7 @@
     <Compile Include="Utility\Mathematics\Fraction.cs" />
     <Compile Include="Utility\SoftwareInformation.cs" />
     <Compile Include="Utility\Storage\SerializableFont.cs" />
+    <Compile Include="Utility\Storage\SerializableList.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>

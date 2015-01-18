@@ -94,28 +94,6 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-
-		private void UI_MainFont_KeyDown( object sender, KeyEventArgs e ) {
-
-			//undone: めんどくさい
-			/*/
-			if ( e.KeyCode == Keys.Enter ) {
-				UI_MainFont.Font = SerializableFont.StringToFont( UI_MainFont.Text ) ?? UI_MainFont.Font;
-				e.Handled = true;
-			} 
-			//*/
-		}
-
-		private void UI_SubFont_KeyDown( object sender, KeyEventArgs e ) {
-
-			/*/
-			if ( e.KeyCode == Keys.Enter ) {
-				UI_SubFont.Font = SerializableFont.StringToFont( UI_SubFont.Text ) ?? UI_SubFont.Font;
-				e.Handled = true;
-			} 
-			//*/
-		}
-
 		private void DialogConfiguration_Load( object sender, EventArgs e ) {
 
 			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
@@ -126,6 +104,17 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ResourceManager.DestroyIcon( Icon );
 
+		}
+
+
+		private void UI_MainFontApply_Click( object sender, EventArgs e ) {
+
+			UI_MainFont.Font = SerializableFont.StringToFont( UI_MainFont.Text ) ?? UI_MainFont.Font;
+		}
+
+		private void UI_SubFontApply_Click( object sender, EventArgs e ) {
+
+			UI_SubFont.Font = SerializableFont.StringToFont( UI_SubFont.Text ) ?? UI_SubFont.Font;
 		}
 
 		

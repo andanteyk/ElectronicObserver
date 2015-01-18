@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Utility;
+﻿using ElectronicObserver.Resource;
+using ElectronicObserver.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +28,17 @@ namespace ElectronicObserver.Window.Dialog {
 
 			this.Close();
 
+		}
+
+		private void TextInformation_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+
+			System.Diagnostics.Process.Start( "http://electronicobserver.blog.fc2.com/" );
+
+		}
+
+		private void DialogVersion_Load( object sender, EventArgs e ) {
+
+			this.Icon = ResourceManager.Instance.AppIcon;
 		}
 	}
 }

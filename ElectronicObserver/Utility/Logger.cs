@@ -98,7 +98,14 @@ namespace ElectronicObserver.Utility {
 					System.Diagnostics.Debug.WriteLine( data.ToString() );
 				}
 
-				Logger.Instance.LogAdded( data );
+
+				try {
+					Logger.Instance.LogAdded( data );
+				
+				} catch ( Exception ex ) {
+					System.Diagnostics.Debug.WriteLine( ex.Message );
+				}
+				
 			}
 		}
 

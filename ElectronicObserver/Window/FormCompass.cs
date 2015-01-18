@@ -122,23 +122,105 @@ namespace ElectronicObserver.Window {
 						case 4:		//latemodel
 							ShipName.ForeColor = Color.FromArgb( 0x00, 0x88, 0xFF ); break;
 					}
+					ToolTipInfo.SetToolTip( ShipName, GetShipString( shipID, slot ) );
 
 					Equipments.SetSlotList( shipID, slot );
 					Equipments.Visible = true;
-					ToolTipInfo.SetToolTip( ShipName, ship.NameWithClass );
 					ToolTipInfo.SetToolTip( Equipments, GetEquipmentString( shipID, slot ) );
 				}
 
+			}
+
+
+			public void UpdateEquipmentToolTip( int shipID, int[] slot, int level, int firepower, int torpedo, int aa, int armor ) {
+				
+				ToolTipInfo.SetToolTip( ShipName, GetShipString( shipID, slot, level, firepower, torpedo, aa, armor ) );
+			}
+
+
+			private string GetShipString( int shipID, int[] slot ) {
+
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
+				if ( ship == null ) return null;
+
+				return GetShipString( shipID, slot, -1, ship.HPMin, ship.FirepowerMax, ship.TorpedoMax, ship.AAMax, ship.ArmorMax,
+					 ship.ASW != null && ship.ASW.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.ASW.Maximum : -1,
+					 ship.Evasion != null && ship.Evasion.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.Evasion.Maximum : -1,
+					 ship.LOS != null && ship.LOS.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.LOS.Maximum : -1,
+					 ship.LuckMin );
+			}
+
+			private string GetShipString( int shipID, int[] slot, int level, int firepower, int torpedo, int aa, int armor ) {
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
+				if ( ship == null ) return null;
+
+				return GetShipString( shipID, slot, level, level > 99 ? ship.HPMaxMarried : ship.HPMin, firepower, torpedo, aa, armor,
+					ship.ASW != null && ship.ASW.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.ASW.Maximum : -1,
+					ship.Evasion != null && ship.Evasion.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.Evasion.Maximum : -1,
+					ship.LOS != null && ship.LOS.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.LOS.Maximum : -1,
+					level > 99 ? ship.LuckMin + 3 : ship.LuckMin ); 
+			}
+
+			private string GetShipString( int shipID, int[] slot, int level, int hp, int firepower, int torpedo, int aa, int armor, int asw, int evasion, int los, int luck ) {
+
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
+				if ( ship == null ) return null;
+
+				int firepower_c = firepower;
+				int torpedo_c = torpedo;
+				int aa_c = aa;
+				int armor_c = armor;
+				int asw_c = Math.Max( asw, 0 );
+				int evasion_c = Math.Max( evasion, 0 );
+				int los_c = Math.Max( los, 0 );
+				int luck_c = luck;
+
+				if ( slot != null ) {
+					int count = slot.Length;
+					for ( int i = 0; i < count; i++ ) {
+						EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[i]];
+						if ( eq == null ) continue;
+
+						firepower += eq.Firepower;
+						torpedo += eq.Torpedo;
+						aa += eq.AA;
+						armor += eq.Armor;
+						asw += eq.ASW;
+						evasion += eq.Evasion;
+						los += eq.LOS;
+						luck += eq.Luck;
+					}
+				}
+
+				return string.Format(
+							"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n(右クリックで図鑑)\n",
+							ship.ShipTypeName, ship.NameWithClass, level < 1 ? "" : string.Format( " Lv. {0}", level ),
+							hp,
+							firepower_c, firepower,
+							torpedo_c, torpedo,
+							aa_c, aa,
+							armor_c, armor,
+							asw_c == -1 ? "???" : asw_c.ToString(), asw,
+							evasion_c == -1 ? "???" : evasion_c.ToString(), evasion,
+							los_c == -1 ? "???" : los_c.ToString(), los,
+							luck_c, luck
+							);
 			}
 
 			private string GetEquipmentString( int shipID, int[] slot ) {
 				StringBuilder sb = new StringBuilder();
 				ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
 
+				if ( ship == null || slot == null ) return null;
+
 				for ( int i = 0; i < slot.Length; i++ ) {
 					if ( slot[i] != -1 )
 						sb.AppendFormat( "[{0}] {1}\r\n", ship.Aircraft[i], KCDatabase.Instance.MasterEquipments[slot[i]].Name );
 				}
+
+				sb.AppendFormat( "\r\n昼戦: {0}\r\n夜戦: {1}\r\n",
+					Constants.GetDayAttackKind( Calculator.GetDayAttackKind( slot, ship.ShipID, -1 ) ),
+					Constants.GetNightAttackKind( Calculator.GetNightAttackKind( slot, ship.ShipID, -1 ) ) );
 
 				return sb.ToString();
 			}
@@ -410,6 +492,10 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				int shipID = (int)bd.Data.api_ship_ke[i + 1];
 				ControlMember[i].Update( shipID, shipID != -1 ? (int[])bd.Data.api_eSlot[i] : null );
+
+				if ( shipID != -1 )
+					ControlMember[i].UpdateEquipmentToolTip( shipID, (int[])bd.Data.api_eSlot[i], (int)bd.Data.api_ship_lv[i + 1],
+						(int)bd.Data.api_eParam[i][0], (int)bd.Data.api_eParam[i][1], (int)bd.Data.api_eParam[i][2], (int)bd.Data.api_eParam[i][3] );
 			}
 			TableEnemyMember.ResumeLayout();
 			TableEnemyMember.Visible = true;

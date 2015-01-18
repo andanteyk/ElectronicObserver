@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace ElectronicObserver.Utility.Storage {
 
@@ -70,6 +71,54 @@ namespace ElectronicObserver.Utility.Storage {
 			} catch ( FileNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "DataStorage {0} は存在しません。", path ) );
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の読み込みに失敗しました。" );
+
+			}
+
+			return null;
+		}
+
+
+
+		public void Save( Stream stream ) {
+
+			try {
+
+				var serializer = new DataContractSerializer( this.GetType() );
+				var xmlsetting = new XmlWriterSettings();
+				
+
+				xmlsetting.Encoding = Encoding.UTF8;
+				xmlsetting.Indent = true;
+				xmlsetting.IndentChars = "\t";
+				xmlsetting.NewLineHandling = NewLineHandling.Replace;
+				
+				using ( XmlWriter xw = XmlWriter.Create( stream, xmlsetting ) ) {
+
+					serializer.WriteObject( xw, this );
+				}
+
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の書き込みに失敗しました。" );
+			}
+
+		}
+
+
+		public DataStorage Load( Stream stream ) {
+
+			try {
+
+				var serializer = new DataContractSerializer( this.GetType() );
+
+				using ( XmlReader xr = XmlReader.Create( stream ) ) {
+					return (DataStorage)serializer.ReadObject( xr );
+				}
 
 			} catch ( Exception ex ) {
 

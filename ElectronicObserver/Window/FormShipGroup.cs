@@ -404,7 +404,7 @@ namespace ElectronicObserver.Window {
 			if ( KCDatabase.Instance.Ships.Count > 0 ) {
 				Status_ShipCount.Text = string.Format( "所属: {0}隻", group.Members.Count );
 				Status_LevelTotal.Text = string.Format( "合計Lv: {0}", group.MembersInstance.Where( s => s != null ).Sum( s => s.Level ) );
-				Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", group.MembersInstance.Where( s => s != null ).Average( s => s.Level ) );
+				Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", group.Members.Count > 0 ? group.MembersInstance.Where( s => s != null ).Average( s => s.Level ) : 0 );
 			}
 
 			SelectedTab = target;

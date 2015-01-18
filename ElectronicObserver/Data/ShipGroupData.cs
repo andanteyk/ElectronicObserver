@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Storage;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ElectronicObserver.Data {
 
@@ -26,9 +28,17 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 所属艦のIDリスト
 		/// </summary>
-		[DataMember]
+		[IgnoreDataMember]
 		public List<int> Members { get; internal set; }
-		
+
+
+		[DataMember]
+		private SerializableList<int> SerializedMembers {
+			get { return new SerializableList<int>( Members ); }
+			set { Members = value.List; }
+		}
+
+
 		/// <summary>
 		/// 所属艦リスト
 		/// </summary>
@@ -49,14 +59,27 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 列フィルタ
 		/// </summary>
-		[DataMember]
+		[IgnoreDataMember]
 		public List<bool> ColumnFilter { get; set; }
+
+		[DataMember]
+		private SerializableList<bool> SerializedColumnFilter {
+			get { return new SerializableList<bool>( ColumnFilter ); }
+			set { ColumnFilter = value.List; }
+		}
 
 		/// <summary>
 		/// 列の幅
 		/// </summary>
-		[DataMember]
+		[IgnoreDataMember]
 		public List<int> ColumnWidth { get; set; }
+
+		[DataMember]
+		private SerializableList<int> SerializedColumnWidth {
+			get { return new SerializableList<int>( ColumnWidth ); }
+			set { ColumnWidth = value.List; }
+		}
+
 
 		/// <summary>
 		/// 列幅を自動調整するか

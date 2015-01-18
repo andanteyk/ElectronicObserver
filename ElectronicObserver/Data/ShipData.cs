@@ -101,7 +101,7 @@ namespace ElectronicObserver.Data {
 				int[] s = new int[_slot.Length];
 
 				for ( int i = 0; i < s.Length; i++ ) {
-					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[_slot[i]];
+					EquipmentData eq = KCDatabase.Instance.Equipments[_slot[i]];
 					if ( eq != null )
 						s[i] = eq.EquipmentID;
 					else

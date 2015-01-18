@@ -21,7 +21,6 @@ namespace ElectronicObserver.Window {
 			Font = Utility.Configuration.Config.UI.MainFont;
 			LogList.Font = Font;
 
-			ElectronicObserver.Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
 		}
 		
 		private void FormLog_Load( object sender, EventArgs e ) {
@@ -30,6 +29,8 @@ namespace ElectronicObserver.Window {
 				LogList.Items.Add( log.ToString() );
 			}
 			LogList.TopIndex = LogList.Items.Count - 1;
+
+			ElectronicObserver.Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormLog] );
 		}

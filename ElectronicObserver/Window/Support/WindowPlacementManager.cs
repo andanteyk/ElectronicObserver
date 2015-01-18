@@ -1,10 +1,12 @@
 ﻿using Codeplex.Data;
+using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -81,55 +83,68 @@ namespace ElectronicObserver.Window.Support {
 		}
 
 
-		public class WindowPlacementWrapper {
 
+		[DataContract( Name = "WindowPlacementWrapper" )]
+		public class WindowPlacementWrapper : DataStorage {
+
+			[IgnoreDataMember]
 			public WINDOWPLACEMENT RawData;
 
+			[DataMember]
 			public int flags {
 				get { return RawData.flags; }
 				set { RawData.flags = value; }
 			}
 
+			[DataMember]
 			public int showCmd {
 				get { return (int)RawData.showCmd; }
 				set { RawData.showCmd = (SW)value; }
 			}
 
+			[DataMember]
 			public int minPositionX {
 				get { return RawData.minPosition.X; }
 				set { RawData.minPosition.X = value; }
 			}
 
+			[DataMember]
 			public int minPositionY {
 				get { return RawData.minPosition.Y; }
 				set { RawData.minPosition.Y = value; }
 			}
 
+			[DataMember]
 			public int maxPositionX {
 				get { return RawData.maxPosition.X; }
 				set { RawData.maxPosition.X = value; }
 			}
 
+			[DataMember]
 			public int maxPositionY {
 				get { return RawData.maxPosition.Y; }
 				set { RawData.maxPosition.Y = value; }
 			}
 
+			[DataMember]
 			public int normalPositionLeft {
 				get { return RawData.normalPosition.Left; }
 				set { RawData.normalPosition.Left = value; }
 			}
 
+			[DataMember]
 			public int normalPositionTop {
 				get { return RawData.normalPosition.Top; }
 				set { RawData.normalPosition.Top = value; }
 			}
 
+			[DataMember]
 			public int normalPositionRight {
 				get { return RawData.normalPosition.Right; }
 				set { RawData.normalPosition.Right = value; }
 			}
 
+			[DataMember]
 			public int normalPositionBottom {
 				get { return RawData.normalPosition.Bottom; }
 				set { RawData.normalPosition.Bottom = value; }
@@ -137,11 +152,14 @@ namespace ElectronicObserver.Window.Support {
 
 
 			public WindowPlacementWrapper() {
+				Initialize();
+			}
+
+			public override void Initialize() {
 				RawData = new WINDOWPLACEMENT();
 				RawData.length = Marshal.SizeOf( RawData );
 				RawData.flags = 0;
 			}
-
 		}
 		#endregion
 
@@ -152,6 +170,7 @@ namespace ElectronicObserver.Window.Support {
 		}
 
 
+		[Obsolete]
 		public static void LoadWindowPlacement( FormMain form, string path ) {
 
 			try {
@@ -183,6 +202,27 @@ namespace ElectronicObserver.Window.Support {
 		}
 
 
+		public static void LoadWindowPlacement( FormMain form, Stream stream ) {
+
+			try {
+				var wp = new WindowPlacementWrapper();
+				wp = (WindowPlacementWrapper)wp.Load( stream );
+
+				if ( wp.RawData.showCmd == SW.SHOWMINIMIZED )
+					wp.RawData.showCmd = SW.SHOWNORMAL;
+
+				SetWindowPlacement( form.Handle, ref wp.RawData );
+
+				
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の復元に失敗しました。" );
+			}
+
+		}
+
+
+		[Obsolete]
 		public static void SaveWindowPlacement( FormMain form, string path ) {
 
 
@@ -216,6 +256,22 @@ namespace ElectronicObserver.Window.Support {
 			}
 		}
 
+
+
+		public static void SaveWindowPlacement( FormMain form, Stream stream ) {
+
+			try {
+				var wp = new WindowPlacementWrapper();
+
+				GetWindowPlacement( form.Handle, out wp.RawData );
+
+				wp.Save( stream );
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の保存に失敗しました。" );
+			}
+		}
 
 	}
 

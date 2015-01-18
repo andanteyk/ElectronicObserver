@@ -66,6 +66,8 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
+			this.UI_MainFontApply = new System.Windows.Forms.Button();
+			this.UI_SubFontApply = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -283,6 +285,8 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.UI_SubFontApply);
+			this.tabPage2.Controls.Add(this.UI_MainFontApply);
 			this.tabPage2.Controls.Add(this.label9);
 			this.tabPage2.Controls.Add(this.UI_SubFontSelect);
 			this.tabPage2.Controls.Add(this.UI_SubFont);
@@ -302,7 +306,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 205);
+			this.label9.Location = new System.Drawing.Point(8, 203);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 12;
@@ -316,7 +320,6 @@
 			this.UI_SubFontSelect.Size = new System.Drawing.Size(32, 23);
 			this.UI_SubFontSelect.TabIndex = 11;
 			this.UI_SubFontSelect.Text = "...";
-			this.ToolTipInfo.SetToolTip(this.UI_SubFontSelect, "＊未実装です＊");
 			this.UI_SubFontSelect.UseVisualStyleBackColor = true;
 			this.UI_SubFontSelect.Click += new System.EventHandler(this.UI_SubFontSelect_Click);
 			// 
@@ -326,9 +329,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.UI_SubFont.Location = new System.Drawing.Point(92, 35);
 			this.UI_SubFont.Name = "UI_SubFont";
-			this.UI_SubFont.Size = new System.Drawing.Size(254, 23);
+			this.UI_SubFont.Size = new System.Drawing.Size(216, 23);
 			this.UI_SubFont.TabIndex = 10;
-			this.UI_SubFont.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UI_SubFont_KeyDown);
 			// 
 			// label8
 			// 
@@ -347,7 +349,6 @@
 			this.UI_MainFontSelect.Size = new System.Drawing.Size(32, 23);
 			this.UI_MainFontSelect.TabIndex = 8;
 			this.UI_MainFontSelect.Text = "...";
-			this.ToolTipInfo.SetToolTip(this.UI_MainFontSelect, "＊未実装です＊");
 			this.UI_MainFontSelect.UseVisualStyleBackColor = true;
 			this.UI_MainFontSelect.Click += new System.EventHandler(this.UI_MainFontSelect_Click);
 			// 
@@ -357,9 +358,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.UI_MainFont.Location = new System.Drawing.Point(92, 6);
 			this.UI_MainFont.Name = "UI_MainFont";
-			this.UI_MainFont.Size = new System.Drawing.Size(254, 23);
+			this.UI_MainFont.Size = new System.Drawing.Size(216, 23);
 			this.UI_MainFont.TabIndex = 1;
-			this.UI_MainFont.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UI_MainFont_KeyDown);
 			// 
 			// label5
 			// 
@@ -544,6 +544,30 @@
 			// 
 			this.FontSelector.ShowEffects = false;
 			// 
+			// UI_MainFontApply
+			// 
+			this.UI_MainFontApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.UI_MainFontApply.Location = new System.Drawing.Point(314, 6);
+			this.UI_MainFontApply.Name = "UI_MainFontApply";
+			this.UI_MainFontApply.Size = new System.Drawing.Size(32, 23);
+			this.UI_MainFontApply.TabIndex = 13;
+			this.UI_MainFontApply.Text = "⇒";
+			this.ToolTipInfo.SetToolTip(this.UI_MainFontApply, "現在のテキストボックスの内容を適用します。");
+			this.UI_MainFontApply.UseVisualStyleBackColor = true;
+			this.UI_MainFontApply.Click += new System.EventHandler(this.UI_MainFontApply_Click);
+			// 
+			// UI_SubFontApply
+			// 
+			this.UI_SubFontApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.UI_SubFontApply.Location = new System.Drawing.Point(314, 35);
+			this.UI_SubFontApply.Name = "UI_SubFontApply";
+			this.UI_SubFontApply.Size = new System.Drawing.Size(32, 23);
+			this.UI_SubFontApply.TabIndex = 14;
+			this.UI_SubFontApply.Text = "⇒";
+			this.ToolTipInfo.SetToolTip(this.UI_SubFontApply, "現在のテキストボックスの内容を適用します。");
+			this.UI_SubFontApply.UseVisualStyleBackColor = true;
+			this.UI_SubFontApply.Click += new System.EventHandler(this.UI_SubFontApply_Click);
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -628,5 +652,7 @@
 		internal System.Windows.Forms.TextBox UI_MainFont;
 		private System.Windows.Forms.Label label9;
 		internal System.Windows.Forms.CheckBox Log_SaveErrorReport;
+		private System.Windows.Forms.Button UI_SubFontApply;
+		private System.Windows.Forms.Button UI_MainFontApply;
 	}
 }

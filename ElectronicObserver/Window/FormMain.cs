@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,8 @@ namespace ElectronicObserver.Window {
 
 
 		#region Forms
+
+		public List<DockContent> SubForms { get; private set; }
 
 		public FormFleet[] fFleet;
 		public FormDock fDock;
@@ -70,44 +73,45 @@ namespace ElectronicObserver.Window {
 
 
 			this.Text = SoftwareInformation.VersionJapanese;
-			Font = Utility.Configuration.Config.UI.MainFont;
-			//StripMenu.Font = Font;
-			//StripStatus.Font = Font;
-			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
-			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
-
-
+			
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
 			KCDatabase.Instance.Load();
 
+
+			Icon = ResourceManager.Instance.AppIcon;
 
 			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port );	//fixme
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
 
+
+			SubForms = new List<DockContent>();
+
 			//form init
 			//注：一度全てshowしないとイベントを受け取れないので注意	
 			fFleet = new FormFleet[4];
 			for ( int i = 0; i < fFleet.Length; i++ ) {
-				fFleet[i] = new FormFleet( this, i + 1 );
+				SubForms.Add( fFleet[i] = new FormFleet( this, i + 1 ) );
 			}
 
-			fDock = new FormDock( this );
-			fArsenal = new FormArsenal( this );
-			fHeadquarters = new FormHeadquarters( this );
-			fInformation = new FormInformation( this );
-			fCompass = new FormCompass( this );
-			fLog = new FormLog( this );
-			fQuest = new FormQuest( this );
-			fBattle = new FormBattle( this );
-			fFleetOverview = new FormFleetOverview( this );
-			fShipGroup = new FormShipGroup( this );
+			SubForms.Add( fDock = new FormDock( this ) );
+			SubForms.Add( fArsenal = new FormArsenal( this ) );
+			SubForms.Add( fHeadquarters = new FormHeadquarters( this ) );
+			SubForms.Add( fInformation = new FormInformation( this ) );
+			SubForms.Add( fCompass = new FormCompass( this ) );
+			SubForms.Add( fLog = new FormLog( this ) );
+			SubForms.Add( fQuest = new FormQuest( this ) );
+			SubForms.Add( fBattle = new FormBattle( this ) );
+			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
+			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 
+			/*
 			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
-
+			*/
+			LoadLayout( @"Settings\WindowLayout.zip" );
 
 			ConfigurationChanged();		//設定から初期化
 
@@ -122,6 +126,12 @@ namespace ElectronicObserver.Window {
 		private void ConfigurationChanged() {
 
 			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = Utility.Configuration.Config.Debug.EnableDebugMenu;
+			
+			Font = Utility.Configuration.Config.UI.MainFont;
+			//StripMenu.Font = Font;
+			//StripStatus.Font = Font;
+			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
+			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
 		}
 
@@ -179,8 +189,12 @@ namespace ElectronicObserver.Window {
 			SystemShuttingDown( this, new EventArgs() );
 
 
+			/*
 			WindowPlacementManager.SaveWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
 			SaveSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
+			*/
+
+			SaveLayout( @"Settings\WindowLayout.zip" );
 
 		}
 
@@ -245,6 +259,7 @@ namespace ElectronicObserver.Window {
 
 				if ( File.Exists( path ) ) {
 
+					/*
 					for ( int i = 0; i < fFleet.Length; i++ ) {
 						fFleet[i].Show( MainDockPanel, DockState.Document );
 						fFleet[i].DockPanel = null;
@@ -269,6 +284,12 @@ namespace ElectronicObserver.Window {
 					fFleetOverview.DockPanel = null;
 					fShipGroup.Show( MainDockPanel, DockState.Document );
 					fShipGroup.DockPanel = null;
+					*/
+
+					foreach ( var f in SubForms ) {
+						f.Show( MainDockPanel, DockState.Document );
+						f.DockPanel = null;
+					}
 
 					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
@@ -289,6 +310,7 @@ namespace ElectronicObserver.Window {
 
 				} else {
 
+					/*
 					//とりあえず全ウィンドウを表示してから隠しておく
 					for ( int i = 0; i < fFleet.Length; i++ ) {
 						fFleet[i].Show( MainDockPanel );
@@ -303,6 +325,11 @@ namespace ElectronicObserver.Window {
 					fBattle.Show( MainDockPanel );
 					fFleetOverview.Show( MainDockPanel );
 					fShipGroup.Show( MainDockPanel );
+					*/
+
+					foreach ( var f in SubForms )
+						f.Show( MainDockPanel );
+
 
 					foreach ( var x in MainDockPanel.Contents ) {
 						x.DockHandler.Hide();
@@ -336,6 +363,112 @@ namespace ElectronicObserver.Window {
 			}
 
 		}
+
+
+
+		private void LoadSubWindowsLayout( Stream stream ) {
+
+			try {
+
+				if ( stream != null ) {
+
+					foreach ( var f in SubForms ) {
+						f.Show( MainDockPanel, DockState.Document );
+						f.DockPanel = null;
+					}
+
+					MainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
+
+					//一度全ウィンドウを読み込むことでフォームを初期化する
+					foreach ( var x in MainDockPanel.Contents ) {
+						if ( x.DockHandler.DockState == DockState.Hidden ) {
+							x.DockHandler.Show( MainDockPanel );
+							x.DockHandler.Hide();
+						} else {
+							x.DockHandler.Activate();
+						}
+					}
+
+					if ( MainDockPanel.Contents.Count > 0 )
+						MainDockPanel.Contents.First().DockHandler.Activate();
+
+				} else {
+
+					foreach ( var f in SubForms )
+						f.Show( MainDockPanel );
+
+
+					foreach ( var x in MainDockPanel.Contents ) {
+						x.DockHandler.Hide();
+					}
+				}
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの復元に失敗しました。" );
+			}
+
+		}
+
+
+		private void SaveSubWindowsLayout( Stream stream ) {
+
+			try {
+
+				MainDockPanel.SaveAsXml( stream, Encoding.UTF8 );
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの保存に失敗しました。" );
+			}
+
+		}
+
+
+
+		private void LoadLayout( string path ) {
+
+			try {
+
+				using ( var stream = File.OpenRead( path ) ) {
+
+					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
+
+						WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
+						LoadSubWindowsLayout( archive.GetEntry( "SubWindowLayout.xml" ).Open() );
+
+					}		
+				}
+
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );
+			}
+
+		}
+
+		private void SaveLayout( string path ) {
+
+			try {
+
+				using ( var stream = File.OpenWrite( path ) ) {
+					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Create ) ) {
+
+						SaveSubWindowsLayout( archive.CreateEntry( "SubWindowLayout.xml" ).Open() );
+						WindowPlacementManager.SaveWindowPlacement( this, archive.CreateEntry( "WindowPlacement.xml" ).Open() );
+
+					}
+				} 
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの保存に失敗しました。" );
+			}
+
+		}
+
+
 
 
 

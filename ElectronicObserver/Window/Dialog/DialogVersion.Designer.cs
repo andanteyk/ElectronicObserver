@@ -27,6 +27,8 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.TextAuthor = new System.Windows.Forms.LinkLabel();
 			this.ButtonClose = new System.Windows.Forms.Button();
+			this.TextInformation = new System.Windows.Forms.LinkLabel();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// TextVersion
@@ -71,10 +73,33 @@
 			this.ButtonClose.UseVisualStyleBackColor = true;
 			this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
 			// 
+			// TextInformation
+			// 
+			this.TextInformation.AutoSize = true;
+			this.TextInformation.Location = new System.Drawing.Point(12, 72);
+			this.TextInformation.Name = "TextInformation";
+			this.TextInformation.Size = new System.Drawing.Size(235, 15);
+			this.TextInformation.TabIndex = 4;
+			this.TextInformation.TabStop = true;
+			this.TextInformation.Text = "http://electronicobserver.blog.fc2.com/";
+			this.TextInformation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.TextInformation_LinkClicked);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(12, 51);
+			this.label2.Margin = new System.Windows.Forms.Padding(3);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(200, 15);
+			this.label2.TabIndex = 5;
+			this.label2.Text = "配布元(不具合報告・連絡はこちらへ)：";
+			// 
 			// DialogVersion
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(384, 162);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.TextInformation);
 			this.Controls.Add(this.ButtonClose);
 			this.Controls.Add(this.TextAuthor);
 			this.Controls.Add(this.label1);
@@ -88,6 +113,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "バージョン";
+			this.Load += new System.EventHandler(this.DialogVersion_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -99,5 +125,7 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.LinkLabel TextAuthor;
 		private System.Windows.Forms.Button ButtonClose;
+		private System.Windows.Forms.LinkLabel TextInformation;
+		private System.Windows.Forms.Label label2;
 	}
 }

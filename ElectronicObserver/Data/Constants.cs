@@ -308,6 +308,70 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+
+		/// <summary>
+		/// 昼戦攻撃種別を表す文字列を取得します。
+		/// </summary>
+		public static string GetDayAttackKind( int id ) {
+			switch ( id ) {
+				case 0:
+					return "砲撃";
+				case 1:
+					return "レーザー攻撃";
+				case 2:
+					return "連続射撃";
+				case 3:
+					return "カットイン(主砲/副砲)";
+				case 4:
+					return "カットイン(主砲/電探)";
+				case 5:
+					return "カットイン(主砲/徹甲)";
+				case 6:
+					return "カットイン(主砲/主砲)";
+				case 7:
+					return "空撃";
+				case 8:
+					return "爆雷攻撃";
+				case 9:
+					return "雷撃";
+				default:
+					return "不明";
+			}
+		}
+
+
+		/// <summary>
+		/// 夜戦攻撃種別を表す文字列を取得します。
+		/// </summary>
+		public static string GetNightAttackKind( int id ) {
+			switch ( id ) {
+				case 0:
+					return "砲撃";
+				case 1:
+					return "連続射撃";
+				case 2:
+					return "カットイン(主砲/魚雷)";
+				case 3:
+					return "カットイン(魚雷x2)";
+				case 4:
+					return "カットイン(主砲x2/副砲)";
+				case 5:
+					return "カットイン(主砲x3)";
+				case 6:
+					return "不明";
+				case 7:
+					return "空撃";
+				case 8:
+					return "爆雷攻撃";
+				case 9:
+					return "雷撃";
+				default:
+					return "不明";
+			}
+		}
+
+
 		#endregion
 
 

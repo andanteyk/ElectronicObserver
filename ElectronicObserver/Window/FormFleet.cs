@@ -304,8 +304,8 @@ namespace ElectronicObserver.Window {
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip( Name,
 						string.Format( 
-							"{0}\n火力: {1}/{2}\n雷装: {3}/{4}\n対空: {5}/{6}\n装甲: {7}/{8}\n対潜: {9}/{10}\n回避: {11}/{12}\n索敵: {13}/{14}\n運: {15}\n",
-							ship.NameWithLevel,
+							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n(右クリックで図鑑)\n",
+							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase, ship.FirepowerTotal,
 							ship.TorpedoBase, ship.TorpedoTotal,
 							ship.AABase, ship.AATotal,
@@ -378,6 +378,11 @@ namespace ElectronicObserver.Window {
 					} else {
 						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 					}
+					if ( ship.Condition < 49 ) {
+						ToolTipInfo.SetToolTip( Condition, string.Format( "完全回復まで 約 {0}", DateTimeHelper.ToTimeRemainString( new TimeSpan( 0, (int)Math.Ceiling( ( 49 - ship.Condition ) / 3.0 ) * 3, 0 ) ) ) );
+					} else {
+						ToolTipInfo.SetToolTip( Condition, string.Format( "あと {0} 回遠征可能", (int)Math.Ceiling( ( ship.Condition - 49 ) / 3.0 ) ) );
+					}
 
 					ShipResource.SetResources( ship.Fuel, ship.MasterShip.Fuel, ship.Ammo, ship.MasterShip.Ammo );
 
@@ -416,6 +421,10 @@ namespace ElectronicObserver.Window {
 					if ( ship.SlotInstance[i] != null )
 						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], KCDatabase.Instance.Equipments[ship.Slot[i]].NameWithLevel );
 				}
+
+				sb.AppendFormat( "\r\n昼戦: {0}\r\n夜戦: {1}\r\n", 
+					Constants.GetDayAttackKind( Calculator.GetDayAttackKind( ship.SlotMaster.ToArray(), ship.ShipID, -1 ) ), 
+					Constants.GetNightAttackKind( Calculator.GetNightAttackKind( ship.SlotMaster.ToArray(), ship.ShipID, -1 ) ) );
 
 				return sb.ToString();
 			}

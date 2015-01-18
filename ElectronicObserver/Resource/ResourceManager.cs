@@ -31,6 +31,8 @@ namespace ElectronicObserver.Resource {
 
 		public ImageList Equipments { get; private set; }
 
+		public Icon AppIcon { get; private set; }
+
 		#endregion
 
 
@@ -165,11 +167,11 @@ namespace ElectronicObserver.Resource {
 				Utility.ErrorReporter.SendErrorReport( ex, "リソースファイルの読み込みに失敗しました。" );
 
 			}
-			
+
 		}
 
 
-
+		[Obsolete]
 		private Image LoadImage( string path ) {
 			try {
 
@@ -196,6 +198,11 @@ namespace ElectronicObserver.Resource {
 				using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
 
 					const string mstpath = @"Assets/";
+
+
+
+					AppIcon = LoadIconFromArchive( archive, mstpath + @"AppIcon.ico" );
+
 
 					// ------------------------ icons ------------------------
 
@@ -348,7 +355,40 @@ namespace ElectronicObserver.Resource {
 				imglist.Images.Add( name, new Bitmap( imglist.ImageSize.Width, imglist.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) );
 				return;
 			}
-			
+
+		}
+
+		private static Icon LoadIconFromArchive( ZipArchive arc, string path ) {
+
+			var entry = arc.GetEntry( path );
+
+			if ( entry == null ) {
+				Utility.Logger.Add( 3, string.Format( "画像リソース {0} は存在しません。", path ) );
+				return null;
+			}
+
+
+			try {
+
+				/*//ストリームから直接読み込むと不思議なチカラによってかき消される
+				return new Icon( entry.Open() );
+				/*/
+				byte[] bytes;
+				using ( MemoryStream ms = new MemoryStream() ) {
+					entry.Open().CopyTo( ms );
+					bytes = ms.ToArray();
+				}
+				using ( MemoryStream ms = new MemoryStream( bytes ) ) {
+					return new Icon( ms );
+				}
+				//*/
+
+			} catch ( ArgumentException ) {
+
+				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。" ) );
+			}
+
+			return null;
 		}
 
 

@@ -241,33 +241,98 @@ namespace ElectronicObserver.Window.Dialog {
 			//main parameter
 			TableParameterMain.SuspendLayout();
 
-			HPMin.Text = ship.HPMin.ToString();
-			HPMax.Text = ship.HPMaxMarried.ToString();
+			if ( !ship.IsAbyssalShip ) {
 
-			FirepowerMin.Text = ship.FirepowerMin.ToString();
-			FirepowerMax.Text = ship.FirepowerMax.ToString();
+				TitleParameterMin.Text = "初期値";
+				TitleParameterMax.Text = "最大値";
 
-			TorpedoMin.Text = ship.TorpedoMin.ToString();
-			TorpedoMax.Text = ship.TorpedoMax.ToString();
+				HPMin.Text = ship.HPMin.ToString();
+				HPMax.Text = ship.HPMaxMarried.ToString();
 
-			AAMin.Text = ship.AAMin.ToString();
-			AAMax.Text = ship.AAMax.ToString();
+				FirepowerMin.Text = ship.FirepowerMin.ToString();
+				FirepowerMax.Text = ship.FirepowerMax.ToString();
 
-			ArmorMin.Text = ship.ArmorMin.ToString();
-			ArmorMax.Text = ship.ArmorMax.ToString();
+				TorpedoMin.Text = ship.TorpedoMin.ToString();
+				TorpedoMax.Text = ship.TorpedoMax.ToString();
 
-			ASWMin.Text = GetParameterMinBound( ship.ASW );
-			ASWMax.Text = GetParameterMax( ship.ASW );
+				AAMin.Text = ship.AAMin.ToString();
+				AAMax.Text = ship.AAMax.ToString();
 
-			EvasionMin.Text = GetParameterMinBound( ship.Evasion );
-			EvasionMax.Text = GetParameterMax( ship.Evasion );
+				ArmorMin.Text = ship.ArmorMin.ToString();
+				ArmorMax.Text = ship.ArmorMax.ToString();
 
-			LOSMin.Text = GetParameterMinBound( ship.LOS );
-			LOSMax.Text = GetParameterMax( ship.LOS );
+				ASWMin.Text = GetParameterMinBound( ship.ASW );
+				ASWMax.Text = GetParameterMax( ship.ASW );
 
-			LuckMin.Text = ship.LuckMin.ToString();
-			LuckMax.Text = ship.LuckMax.ToString();
+				EvasionMin.Text = GetParameterMinBound( ship.Evasion );
+				EvasionMax.Text = GetParameterMax( ship.Evasion );
 
+				LOSMin.Text = GetParameterMinBound( ship.LOS );
+				LOSMax.Text = GetParameterMax( ship.LOS );
+
+				LuckMin.Text = ship.LuckMin.ToString();
+				LuckMax.Text = ship.LuckMax.ToString();
+
+			} else {
+
+				int hp = ship.HPMin;
+				int firepower = ship.FirepowerMax;
+				int torpedo = ship.TorpedoMax;
+				int aa = ship.AAMax;
+				int armor = ship.ArmorMax;
+				int asw = ship.ASW != null && ship.ASW.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.ASW.Maximum : 0;
+				int evasion = ship.Evasion != null && ship.Evasion.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.Evasion.Maximum : 0;
+				int los = ship.LOS != null && ship.LOS.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.LOS.Maximum : 0;
+				int luck = ship.LuckMax;
+
+				if ( ship.DefaultSlot != null ) {
+					int count = ship.DefaultSlot.Count;
+					for ( int i = 0; i < count; i++ ) {
+						EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[i]];
+						if ( eq == null ) continue;
+
+						firepower += eq.Firepower;
+						torpedo += eq.Torpedo;
+						aa += eq.AA;
+						armor += eq.Armor;
+						asw += eq.ASW;
+						evasion += eq.Evasion;
+						los += eq.LOS;
+						luck += eq.Luck;
+					}
+				}
+
+				TitleParameterMin.Text = "基本値";
+				TitleParameterMax.Text = "装備込";
+
+				HPMin.Text = ship.HPMin.ToString();
+				HPMax.Text = hp.ToString();
+
+				FirepowerMin.Text = ship.FirepowerMax.ToString();
+				FirepowerMax.Text = firepower.ToString();
+
+				TorpedoMin.Text = ship.TorpedoMax.ToString();
+				TorpedoMax.Text = torpedo.ToString();
+
+				AAMin.Text = ship.AAMax.ToString();
+				AAMax.Text = aa.ToString();
+
+				ArmorMin.Text = ship.ArmorMax.ToString();
+				ArmorMax.Text = armor.ToString();
+
+				ASWMin.Text = ship.ASW != null && ship.ASW.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.ASW.Maximum.ToString() : "???";
+				ASWMax.Text = asw.ToString();
+
+				EvasionMin.Text = ship.Evasion != null && ship.Evasion.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.Evasion.Maximum.ToString() : "???";
+				EvasionMax.Text = evasion.ToString();
+
+				LOSMin.Text = ship.LOS != null && ship.LOS.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.LOS.Maximum.ToString() : "???";
+				LOSMax.Text = los.ToString();
+
+				LuckMin.Text = ship.LuckMax.ToString();
+				LuckMax.Text = luck.ToString();
+
+			}
 			UpdateLevelParameter( ship.ShipID );
 
 			TableParameterMain.ResumeLayout();
@@ -281,11 +346,27 @@ namespace ElectronicObserver.Window.Dialog {
 			Rarity.Text = Constants.GetShipRarity( ship.Rarity );
 			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + ship.Rarity;		//checkme
 
+			TableParameterSub.ResumeLayout();
+
+			TableConsumption.SuspendLayout();
+			
 			Fuel.Text = ship.Fuel.ToString();
 			Ammo.Text = ship.Ammo.ToString();
 
-			TableParameterSub.ResumeLayout();
+			string tooltiptext = string.Format(
+				"入渠時の消費:\r\nHP1あたり: 鋼 {0:F2} / 燃 {1:F2}\r\n最大: 鋼 {2} / 燃 {3}\r\n",
+				( ship.Fuel * 0.06 ),
+				( ship.Fuel * 0.032 ),
+				(int)( ship.Fuel * 0.06 * ( ship.HPMaxMarried - 1 ) ),
+				(int)( ship.Fuel * 0.032 * ( ship.HPMaxMarried - 1 ) )
+				) ;
 
+			ToolTipInfo.SetToolTip( TableConsumption, tooltiptext );
+			ToolTipInfo.SetToolTip( TitleConsumption, tooltiptext );
+			ToolTipInfo.SetToolTip( Fuel, tooltiptext );
+			ToolTipInfo.SetToolTip( Ammo, tooltiptext );
+
+			TableConsumption.ResumeLayout();
 
 			Description.Text = ship.MessageAlbum != "" ? ship.MessageAlbum : ship.MessageGet;
 
@@ -394,8 +475,8 @@ namespace ElectronicObserver.Window.Dialog {
 				TableBattle.SuspendLayout();
 
 				AirSuperiority.Text = Calculator.GetAirSuperiority( ship ).ToString();
-				DayAttack.Text = "*undone*";
-				NightAttack.Text = "*undone*";
+				DayAttack.Text = Constants.GetDayAttackKind( Calculator.GetDayAttackKind( ship.DefaultSlot == null ? null : ship.DefaultSlot.ToArray(), ship.ShipID, -1 ) );
+				NightAttack.Text = Constants.GetNightAttackKind( Calculator.GetNightAttackKind( ship.DefaultSlot == null ? null : ship.DefaultSlot.ToArray(), ship.ShipID, -1 ) );
 
 				TableBattle.ResumeLayout();
 
@@ -420,10 +501,25 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
 
-			ASWLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.ASW );
-			EvasionLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.Evasion );
-			LOSLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.LOS );
+			if ( !ship.IsAbyssalShip ) {
+				ASWLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.ASW );
+				EvasionLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.Evasion );
+				LOSLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.LOS );
+				ASWLevel.Visible = 
+				ASWSeparater.Visible =
+				EvasionLevel.Visible =
+ 				EvasionSeparater.Visible =
+				LOSLevel.Visible = 
+				LOSSeparater.Visible = true;
 
+			} else {
+				ASWLevel.Visible =
+				ASWSeparater.Visible =
+				EvasionLevel.Visible =
+				EvasionSeparater.Visible =
+				LOSLevel.Visible =
+				LOSSeparater.Visible = false;
+			}
 		}
 
 		private string EstimateParameter( int level, ShipParameterRecord.Parameter param ) {
