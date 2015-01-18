@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Resource.Record;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace ElectronicObserver.Utility.Data {
 		public static int GetParameterFromLevel( int min, int max, int lv ) {
 			return min + ( max - min ) * lv / 99;
 		}
+
 
 
 
@@ -99,7 +101,7 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="ship">対象の艦船。</param>
 		public static int GetAirSuperiority( ShipData ship ) {
 
-			return GetAirSuperiority( ship.Slot.ToArray(), ship.Aircraft.ToArray() );
+			return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
 	
 		}
 

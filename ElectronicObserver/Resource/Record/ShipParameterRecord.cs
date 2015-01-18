@@ -55,7 +55,14 @@ namespace ElectronicObserver.Resource.Record {
 			public bool IsMaximumDefault {
 				get { return MinimumEstMin == MinimumDefault && MinimumEstMax == MaximumDefault; }
 			}
-			
+
+			/// <summary>
+			/// 有効なデータか
+			/// </summary>
+			public bool IsAvailable {
+				get { return !IsMinimumDefault && !IsMaximumDefault; }
+			}
+
 
 			/// <summary>
 			/// 最小値の初期値
@@ -119,6 +126,11 @@ namespace ElectronicObserver.Resource.Record {
 
 			public int GetEstParameterMax( int level ) {
 				return MinimumEstMax + (int)( ( Maximum - MinimumEstMax ) * level / 99.0 );
+			}
+
+
+			public int GetParameter( int level ) {
+				return Minimum + (int)( ( Maximum - Minimum ) * level / 99.0 );
 			}
 
 		}
