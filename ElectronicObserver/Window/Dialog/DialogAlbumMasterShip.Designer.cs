@@ -24,8 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
@@ -231,14 +231,14 @@
             this.ShipView_ShipID,
             this.ShipView_ShipType,
             this.ShipView_Name});
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ShipView.DefaultCellStyle = dataGridViewCellStyle6;
 			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ShipView.Location = new System.Drawing.Point(0, 0);
 			this.ShipView.MultiSelect = false;
@@ -256,8 +256,8 @@
 			// ShipView_ShipID
 			// 
 			this.ShipView_ShipID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle5;
 			this.ShipView_ShipID.HeaderText = "ID";
 			this.ShipView_ShipID.Name = "ShipView_ShipID";
 			this.ShipView_ShipID.ReadOnly = true;
@@ -686,6 +686,7 @@
 			this.Description.TabIndex = 21;
 			this.Description.Text = "私が重雷装巡洋艦…？冗談じゃないわ！\r\nえ、デバッグ用ですって？…仕方ないわね、早く終わらせるのよ！";
 			this.Description.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.Description.Click += new System.EventHandler(this.Description_Click);
 			// 
 			// ShipType
 			// 

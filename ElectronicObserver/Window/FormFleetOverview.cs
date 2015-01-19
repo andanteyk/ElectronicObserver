@@ -105,9 +105,8 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 
-			Font = Utility.Configuration.Config.UI.MainFont;
-
-
+			ConfigurationChanged();
+			
 			ControlHelper.SetDoubleBuffered( TableFleet );
 
 
@@ -156,6 +155,11 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
 			o.APIList["api_get_member/deck"].ResponseReceived += rec;
 
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+		}
+
+		void ConfigurationChanged() {
+			Font = Utility.Configuration.Config.UI.MainFont;
 		}
 
 

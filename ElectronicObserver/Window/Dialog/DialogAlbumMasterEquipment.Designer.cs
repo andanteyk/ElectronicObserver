@@ -39,7 +39,7 @@
 			this.imageLabel1 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.DefaultSlots = new System.Windows.Forms.ListBox();
 			this.Description = new ElectronicObserver.Window.Control.ImageLabel();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.TableEquipmentName = new System.Windows.Forms.FlowLayoutPanel();
 			this.EquipmentType = new ElectronicObserver.Window.Control.ImageLabel();
 			this.EquipmentName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.EquipmentID = new ElectronicObserver.Window.Control.ImageLabel();
@@ -82,6 +82,8 @@
 			this.EquipmentImage = new System.Windows.Forms.PictureBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
+			this.AlbumNo = new ElectronicObserver.Window.Control.ImageLabel();
+			this.imageLabel2 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -89,7 +91,7 @@
 			this.splitContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.EquipmentView)).BeginInit();
 			this.BasePanelEquipment.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
+			this.TableEquipmentName.SuspendLayout();
 			this.TableParameterSub.SuspendLayout();
 			this.TableArsenal.SuspendLayout();
 			this.TableParameterMain.SuspendLayout();
@@ -208,10 +210,12 @@
 			// 
 			// BasePanelEquipment
 			// 
+			this.BasePanelEquipment.Controls.Add(this.AlbumNo);
 			this.BasePanelEquipment.Controls.Add(this.imageLabel1);
+			this.BasePanelEquipment.Controls.Add(this.imageLabel2);
 			this.BasePanelEquipment.Controls.Add(this.DefaultSlots);
 			this.BasePanelEquipment.Controls.Add(this.Description);
-			this.BasePanelEquipment.Controls.Add(this.flowLayoutPanel1);
+			this.BasePanelEquipment.Controls.Add(this.TableEquipmentName);
 			this.BasePanelEquipment.Controls.Add(this.EquipmentID);
 			this.BasePanelEquipment.Controls.Add(this.TableParameterSub);
 			this.BasePanelEquipment.Controls.Add(this.TableArsenal);
@@ -267,16 +271,16 @@
     "て普及しています。\r\n";
 			this.Description.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
-			// flowLayoutPanel1
+			// TableEquipmentName
 			// 
-			this.flowLayoutPanel1.AutoSize = true;
-			this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.flowLayoutPanel1.Controls.Add(this.EquipmentType);
-			this.flowLayoutPanel1.Controls.Add(this.EquipmentName);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 25);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(246, 22);
-			this.flowLayoutPanel1.TabIndex = 19;
+			this.TableEquipmentName.AutoSize = true;
+			this.TableEquipmentName.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableEquipmentName.Controls.Add(this.EquipmentType);
+			this.TableEquipmentName.Controls.Add(this.EquipmentName);
+			this.TableEquipmentName.Location = new System.Drawing.Point(3, 25);
+			this.TableEquipmentName.Name = "TableEquipmentName";
+			this.TableEquipmentName.Size = new System.Drawing.Size(246, 22);
+			this.TableEquipmentName.TabIndex = 19;
 			// 
 			// EquipmentType
 			// 
@@ -808,6 +812,27 @@
 			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
 			this.SaveCSVDialog.Title = "CSVに出力";
 			// 
+			// AlbumNo
+			// 
+			this.AlbumNo.AutoSize = false;
+			this.AlbumNo.BackColor = System.Drawing.Color.Transparent;
+			this.AlbumNo.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.AlbumNo.Location = new System.Drawing.Point(165, 6);
+			this.AlbumNo.Name = "AlbumNo";
+			this.AlbumNo.Size = new System.Drawing.Size(40, 16);
+			this.AlbumNo.TabIndex = 25;
+			this.AlbumNo.Text = "123";
+			// 
+			// imageLabel2
+			// 
+			this.imageLabel2.BackColor = System.Drawing.Color.Transparent;
+			this.imageLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.imageLabel2.Location = new System.Drawing.Point(105, 6);
+			this.imageLabel2.Name = "imageLabel2";
+			this.imageLabel2.Size = new System.Drawing.Size(54, 16);
+			this.imageLabel2.TabIndex = 24;
+			this.imageLabel2.Text = "図鑑番号:";
+			// 
 			// DialogAlbumMasterEquipment
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -831,8 +856,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.EquipmentView)).EndInit();
 			this.BasePanelEquipment.ResumeLayout(false);
 			this.BasePanelEquipment.PerformLayout();
-			this.flowLayoutPanel1.ResumeLayout(false);
-			this.flowLayoutPanel1.PerformLayout();
+			this.TableEquipmentName.ResumeLayout(false);
+			this.TableEquipmentName.PerformLayout();
 			this.TableParameterSub.ResumeLayout(false);
 			this.TableParameterSub.PerformLayout();
 			this.TableArsenal.ResumeLayout(false);
@@ -885,7 +910,7 @@
 		private Control.ImageLabel MaterialSteel;
 		private Control.ImageLabel MaterialAmmo;
 		private Control.ImageLabel imageLabel59;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.FlowLayoutPanel TableEquipmentName;
 		private Control.ImageLabel EquipmentName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_ID;
 		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_Type;
@@ -903,5 +928,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_OutputCSVData;
 		private System.Windows.Forms.SaveFileDialog SaveCSVDialog;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_OutputCSVUser;
+		private Control.ImageLabel AlbumNo;
+		private Control.ImageLabel imageLabel2;
 	}
 }

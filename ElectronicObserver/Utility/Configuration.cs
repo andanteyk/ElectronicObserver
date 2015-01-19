@@ -12,8 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Utility {
-	
-	
+
+
 	public sealed class Configuration {
 
 
@@ -23,7 +23,7 @@ namespace ElectronicObserver.Utility {
 			get { return instance; }
 		}
 
-		
+
 		private const string SaveFileName = @"Settings\Configuration.xml";
 
 
@@ -223,6 +223,77 @@ namespace ElectronicObserver.Utility {
 			public ConfigLife Life { get; private set; }
 
 
+			/// <summary>
+			/// [工廠]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormArsenal : ConfigPartBase {
+
+				/// <summary>
+				/// 艦名を表示するか
+				/// </summary>
+				public bool ShowShipName { get; set; }
+
+				public ConfigFormArsenal() {
+					ShowShipName = true;
+				}
+			}
+			/// <summary>[工廠]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormArsenal FormArsenal { get; private set; }
+
+
+			/// <summary>
+			/// [司令部]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormHeadquarters : ConfigPartBase {
+
+				public ConfigFormHeadquarters() {
+				}
+			}
+			/// <summary>[司令部]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormHeadquarters FormHeadquarters { get; private set; }
+
+
+			/// <summary>
+			/// [艦隊]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormFleet : ConfigPartBase {
+
+				/// <summary>
+				/// 艦載機を表示するか
+				/// </summary>
+				public bool ShowAircraft { get; set; }
+
+				public ConfigFormFleet() {
+					ShowAircraft = true;
+				}
+			}
+			/// <summary>[艦隊]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormFleet FormFleet { get; private set; }
+
+
+			/// <summary>
+			/// [任務]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormQuest : ConfigPartBase {
+
+				/// <summary>
+				/// 遂行中の任務のみ表示するか
+				/// </summary>
+				public bool ShowRunningOnly { get; set; }
+
+				public ConfigFormQuest() {
+					ShowRunningOnly = false;
+				}
+			}
+			/// <summary>[任務]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormQuest FormQuest { get; private set; }
+
+
+
 
 			[DataMember]
 			public string Version {
@@ -240,6 +311,11 @@ namespace ElectronicObserver.Utility {
 				Debug = new ConfigDebug();
 				Life = new ConfigLife();
 
+				FormArsenal = new ConfigFormArsenal();
+				FormFleet = new ConfigFormFleet();
+				FormHeadquarters = new ConfigFormHeadquarters();
+				FormQuest = new ConfigFormQuest();
+
 			}
 		}
 		private static ConfigurationData _config;
@@ -247,7 +323,7 @@ namespace ElectronicObserver.Utility {
 		public static ConfigurationData Config {
 			get { return _config; }
 		}
-		
+
 
 
 		private Configuration()
@@ -295,6 +371,12 @@ namespace ElectronicObserver.Utility {
 			//[起動と終了]
 			dialog.Life_ConfirmOnClosing.Checked = _config.Life.ConfirmOnClosing;
 
+			//[サブウィンドウ]
+			dialog.FormArsenal_ShowShipName.Checked = _config.FormArsenal.ShowShipName;
+			dialog.FormFleet_ShowAircraft.Checked = _config.FormFleet.ShowAircraft;
+			dialog.FormQuest_ShowRunningOnly.Checked = _config.FormQuest.ShowRunningOnly;
+
+
 			//finalize
 			dialog.UpdateParameter();
 
@@ -321,7 +403,7 @@ namespace ElectronicObserver.Utility {
 			_config.Connection.SaveSWF = dialog.Connection_SaveSWF.Checked;
 			_config.Connection.SaveOtherFile = dialog.Connection_SaveOtherFile.Checked;
 			_config.Connection.ApplyVersion = dialog.Connection_ApplyVersion.Checked;
-			
+
 			//[UI]
 			_config.UI.MainFont = dialog.UI_MainFont.Font;
 			_config.UI.SubFont = dialog.UI_SubFont.Font;
@@ -339,6 +421,11 @@ namespace ElectronicObserver.Utility {
 
 			//[起動と終了]
 			_config.Life.ConfirmOnClosing = dialog.Life_ConfirmOnClosing.Checked;
+
+			//[サブウィンドウ]
+			_config.FormArsenal.ShowShipName = dialog.FormArsenal_ShowShipName.Checked;
+			_config.FormFleet.ShowAircraft = dialog.FormFleet_ShowAircraft.Checked;
+			_config.FormQuest.ShowRunningOnly = dialog.FormQuest_ShowRunningOnly.Checked;
 
 
 			ConfigurationChanged();

@@ -71,7 +71,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _aircraftColorDisabled; }
 			set {
 				_aircraftColorDisabled = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _aircraftColorLost; }
 			set {
 				_aircraftColorLost = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _aircraftColorDamaged; }
 			set {
 				_aircraftColorDamaged = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _aircraftColorFull; }
 			set {
 				_aircraftColorFull = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _invalidSlotColor; }
 			set {
 				_invalidSlotColor = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _showAircraft; }
 			set {
 				_showAircraft = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace ElectronicObserver.Window.Control {
 			get { return _overlayAircraft; }
 			set {
 				_overlayAircraft = value;
-				Refresh();
+				PropertyChanged();
 			}
 		}
 

@@ -253,6 +253,7 @@ namespace ElectronicObserver.Window {
 				Equipments.Size = new Size( 40, 20 );
 				Equipments.AutoSize = true;
 				Equipments.Visible = false;
+				Equipments.ShowAircraft = Utility.Configuration.Config.FormFleet.ShowAircraft;
 				Equipments.ResumeLayout();
 
 
@@ -405,10 +406,10 @@ namespace ElectronicObserver.Window {
 			}
 
 			void Name_MouseDown( object sender, MouseEventArgs e ) {
-				int id = (int)Name.Tag;
+				int? id = Name.Tag as int?;
 
-				if ( id != -1 && ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
-					new DialogAlbumMasterShip( id ).Show();
+				if ( id != null && id != -1 && ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
+					new DialogAlbumMasterShip( (int)id ).Show();
 				}
 
 			}
@@ -428,6 +429,7 @@ namespace ElectronicObserver.Window {
 
 				return sb.ToString();
 			}
+
 		}
 
 
@@ -453,9 +455,8 @@ namespace ElectronicObserver.Window {
 			FleetID = fleetID;
 			parent.UpdateTimerTick += parent_UpdateTimerTick;
 
-			//todo: 後々外部から設定できるように
-			MainFont = Font = Utility.Configuration.Config.UI.MainFont;
-			SubFont = Utility.Configuration.Config.UI.SubFont;
+			
+			ConfigurationChanged();
 			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
 			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
 
@@ -521,6 +522,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/slot_item"].ResponseReceived += rec;
 			
 			//追加するときは FormFleetOverview にも同様に追加してください
+
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
 
@@ -640,17 +643,30 @@ namespace ElectronicObserver.Window {
 
 
 
+		
+		void ConfigurationChanged() {
+			MainFont = Font = Utility.Configuration.Config.UI.MainFont;
+			SubFont = Utility.Configuration.Config.UI.SubFont;
+
+			if ( ControlMember != null ) {
+				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;
+				for ( int i = 0; i < ControlMember.Length; i++ ) {
+					ControlMember[i].Equipments.ShowAircraft = flag;
+				}
+			}
+		}
+
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 
-
 		protected override string GetPersistString() {
 			return "Fleet #" + FleetID.ToString();
 		}
 
+		
 
 
 	

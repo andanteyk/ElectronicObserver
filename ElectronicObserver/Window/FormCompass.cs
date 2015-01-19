@@ -229,7 +229,9 @@ namespace ElectronicObserver.Window {
 			void ShipName_MouseClick( object sender, MouseEventArgs e ) {
 
 				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
-					if ( ShipName.Tag != null )
+					int? shipID = ShipName.Tag as int?;
+
+					if ( shipID != null && shipID != -1 )
 						new DialogAlbumMasterShip( (int)ShipName.Tag ).Show();
 				}
 
@@ -254,9 +256,7 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 
-			//todo: 後々外部から設定できるように
-			Font = MainFont = Utility.Configuration.Config.UI.MainFont;
-			SubFont = Utility.Configuration.Config.UI.SubFont;
+			ConfigurationChanged();
 
 			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
 			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
@@ -318,9 +318,11 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += rec2;
 			o.APIList["api_req_practice/battle"].ResponseReceived += rec2;
 
+
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
-
+		
 		private void Updated( string apiname, dynamic data ) {
 
 			if ( apiname == "api_port/port" ) {
@@ -544,7 +546,23 @@ namespace ElectronicObserver.Window {
 			return sb.ToString();
 
 		}
- 
+
+
+
+		void ConfigurationChanged() {
+
+			Font = PanelEnemyFleet.Font = MainFont = Utility.Configuration.Config.UI.MainFont;
+			SubFont = Utility.Configuration.Config.UI.SubFont;
+
+
+			if ( ControlMember != null ) {
+				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;
+				for ( int i = 0; i < ControlMember.Length; i++ ) {
+					ControlMember[i].Equipments.ShowAircraft = flag;
+				}
+			}
+		}
+
 
 
 		protected override string GetPersistString() {

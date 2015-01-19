@@ -21,7 +21,7 @@ namespace ElectronicObserver.Window {
 		public FormInformation( FormMain parent ) {
 			InitializeComponent();
 
-			Font = Utility.Configuration.Config.UI.MainFont;
+			ConfigurationChanged();
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormInformation] );
 		}
@@ -40,6 +40,13 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/mapinfo"].ResponseReceived += rec;
 			o.APIList["api_req_mission/result"].ResponseReceived += rec;
 
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+		}
+
+
+		void ConfigurationChanged() {
+
+			Font = TextInformation.Font = Utility.Configuration.Config.UI.MainFont;
 		}
 
 

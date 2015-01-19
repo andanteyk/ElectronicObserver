@@ -73,7 +73,7 @@
 			this.ContextMenuFleet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ContextMenuFleet_CopyFleet});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 26);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 48);
 			// 
 			// ContextMenuFleet_CopyFleet
 			// 

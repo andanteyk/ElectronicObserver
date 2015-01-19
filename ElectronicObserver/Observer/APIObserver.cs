@@ -29,6 +29,9 @@ namespace ElectronicObserver.Observer {
 
 		public APIDictionary APIList;
 
+		public string ServerAddress { get; private set; }
+
+
 		private APIObserver() {
 
 			// 注：重複登録するとあらぬところで落ちるので十分注意すること
@@ -84,6 +87,8 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_member.updatedeckname() );
 			APIList.Add( new kcsapi.api_req_kaisou.remodeling() );
 
+
+			ServerAddress = null;
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
@@ -199,6 +204,20 @@ namespace ElectronicObserver.Observer {
 
 				LoadResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
 
+			}
+
+
+
+			if ( ServerAddress == null ) {
+				string url = oSession.fullUrl;
+
+				int idxb = url.IndexOf( "/kcsapi/" );
+					
+				if ( idxb != -1 ) {
+					int idxa = url.LastIndexOf( "/", idxb - 1 );
+
+					ServerAddress = url.Substring( idxa + 1, idxb - idxa - 1 );
+				}
 			}
 
 		}

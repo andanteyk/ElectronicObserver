@@ -149,7 +149,7 @@ namespace ElectronicObserver.Window.Dialog {
 			UpdateAlbumPage( shipID );
 			
 		
-			{
+			if ( KCDatabase.Instance.MasterShips.ContainsKey( shipID ) ) {
 				var row = ShipView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[ShipView_ShipID.Index].Value == shipID );
 				if ( row != null )
 					ShipView.FirstDisplayedScrollingRowIndex = row.Index;
@@ -369,6 +369,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TableConsumption.ResumeLayout();
 
 			Description.Text = ship.MessageAlbum != "" ? ship.MessageAlbum : ship.MessageGet;
+			Description.Tag = ship.MessageAlbum != "" ? 1 : 0;
 
 
 			//equipment
@@ -860,6 +861,25 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ResourceManager.DestroyIcon( Icon );
 
+		}
+
+
+
+		private void Description_Click( object sender, EventArgs e ) {
+
+			int tag = Description.Tag as int? ?? 0;
+			ShipDataMaster ship = KCDatabase.Instance.MasterShips[_shipID];
+
+			if ( ship == null ) return;
+
+			if ( tag == 0 && ship.MessageAlbum.Length > 0 ) {
+				Description.Text = ship.MessageAlbum;
+				Description.Tag = 1;
+
+			} else {
+				Description.Text = ship.MessageGet;
+				Description.Tag = 0;
+			}
 		}
 
 	}

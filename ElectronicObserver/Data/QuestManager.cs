@@ -17,11 +17,15 @@ namespace ElectronicObserver.Data {
 
 		public int Count { get; internal set; }
 
+		public bool IsLoaded { get; private set; }
+
+
 		private DateTime _prevTime;
 
 
 		public QuestManager() {
 			Quests = new IDDictionary<QuestData>();
+			IsLoaded = false;
 			_prevTime = DateTime.Now;
 		}
 		
@@ -33,23 +37,23 @@ namespace ElectronicObserver.Data {
 
 			//周期任務削除
 			if ( DateTimeHelper.IsCrossedDay( _prevTime, 5, 0, 0 ) ) {
-				foreach ( var q in Quests ) {
-					if ( q.Value.Type == 2 ) {
-						Quests.Remove( q.Key );
+				foreach ( var q in Quests.Values ) {
+					if ( q.Type == 2 || q.Type == 4 || q.Type == 5 ) {
+						Quests.Remove( q );
 					} 
 				}
 			}
 			if ( DateTimeHelper.IsCrossedWeek( _prevTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
-				foreach ( var q in Quests ) {
-					if ( q.Value.Type == 3 ) {
-						Quests.Remove( q.Key );
+				foreach ( var q in Quests.Values ) {
+					if ( q.Type == 3 ) {
+						Quests.Remove( q );
 					}
 				}
 			}
 			if ( DateTimeHelper.IsCrossedMonth( _prevTime, 1, 5, 0, 0 ) ) {
-				foreach ( var q in Quests ) {
-					if ( q.Value.Type == 6 ) {
-						Quests.Remove( q.Key );
+				foreach ( var q in Quests.Values ) {
+					if ( q.Type == 6 ) {
+						Quests.Remove( q );
 					}
 				}
 			}
@@ -79,6 +83,7 @@ namespace ElectronicObserver.Data {
 			}
 
 
+			IsLoaded = true;
 			_prevTime = DateTime.Now;
 
 		}
@@ -92,6 +97,13 @@ namespace ElectronicObserver.Data {
 			Quests.Remove( int.Parse( RequestData["api_quest_id"] ) );
 			Count--;
 
+		}
+
+
+		public void Clear() {
+			Quests.Clear();
+			IsLoaded = false;
+			_prevTime = DateTime.Now;
 		}
 
 	}

@@ -51,9 +51,7 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( ShipView );
 
-			Font = Utility.Configuration.Config.UI.MainFont;
-			ShipView.Font = Font;
-
+			ConfigurationChanged();
 
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
 				column.MinimumWidth = 2;
@@ -159,8 +157,16 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
 
 
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormShipGroup] );
 
+		}
+
+
+		void ConfigurationChanged() {
+			ShipView.Font = StatusBar.Font = Font = Utility.Configuration.Config.UI.MainFont;
+			
 		}
 
 

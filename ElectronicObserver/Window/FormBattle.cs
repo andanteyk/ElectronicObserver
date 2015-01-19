@@ -32,10 +32,8 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetDoubleBuffered( TableMain );
 
 
-			MainFont = Font = Utility.Configuration.Config.UI.MainFont;
-			SubFont = Utility.Configuration.Config.UI.SubFont;
-
-
+			ConfigurationChanged();
+			
 			HPBars = new List<ShipStatusHP>( 18 );
 
 
@@ -67,7 +65,7 @@ namespace ElectronicObserver.Window {
 
 			TableMain.Visible = false;
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Equipments.Images[(int)ResourceManager.EquipmentContent.MainGunL] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
 
 		}
 
@@ -97,11 +95,11 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += rec;
 			o.APIList["api_req_practice/battle_result"].ResponseReceived += rec;
 
-			Font = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 		}
 
-
+	
 		private void Updated( string apiname, dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
@@ -796,6 +794,15 @@ namespace ElectronicObserver.Window {
 			else
 				ToolTipInfo.SetToolTip( AirStage2Enemy, null );
 
+
+		}
+
+
+
+		void ConfigurationChanged() {
+	
+			MainFont = TableMain.Font = Font = Utility.Configuration.Config.UI.MainFont;
+			SubFont = Utility.Configuration.Config.UI.SubFont;
 
 		}
 

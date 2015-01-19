@@ -90,6 +90,8 @@ namespace ElectronicObserver.Window {
 
 				KCDatabase db = KCDatabase.Instance;
 				ArsenalData arsenal = db.Arsenals[arsenalID];
+				bool showShipName = Utility.Configuration.Config.FormArsenal.ShowShipName;
+
 
 				tooltip.SetToolTip( ShipName, null );
 				tooltip.SetToolTip( CompletionTime, null );
@@ -108,7 +110,7 @@ namespace ElectronicObserver.Window {
 					
 				} else if ( arsenal.State == 2 ) {
 					//building
-					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
+					ShipName.Text = showShipName ? db.MasterShips[arsenal.ShipID].Name : "???";
 					tooltip.SetToolTip( ShipName, ShipName.Text );
 					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( arsenal.CompletionTime );
 					CompletionTime.Tag = arsenal.CompletionTime;
@@ -116,7 +118,7 @@ namespace ElectronicObserver.Window {
 
 				} else if ( arsenal.State == 3 ) {
 					//complete!
-					ShipName.Text = db.MasterShips[arsenal.ShipID].Name;
+					ShipName.Text = showShipName ? db.MasterShips[arsenal.ShipID].Name : "???";
 					tooltip.SetToolTip( ShipName, ShipName.Text );
 					CompletionTime.Text = "完成！";
 					CompletionTime.Tag = null;
@@ -146,7 +148,7 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( TableArsenal );
 
-			Font = Utility.Configuration.Config.UI.MainFont;
+			ConfigurationChanged();
 
 			TableArsenal.SuspendLayout();
 			ControlArsenal = new TableArsenalControl[4];
@@ -154,6 +156,8 @@ namespace ElectronicObserver.Window {
 				ControlArsenal[i] = new TableArsenalControl( this, TableArsenal, i );
 			}
 			TableArsenal.ResumeLayout();
+
+			
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormArsenal] );
 		}
@@ -172,11 +176,19 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/kdock"].ResponseReceived += rec;
 			o.APIList["api_req_kousyou/getship"].ResponseReceived += rec;
 
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+
 		}
 
 
-
 		void Updated( string apiname, dynamic data ) {
+
+			UpdateUI();
+		}
+
+		void UpdateUI() {
+
+			if ( ControlArsenal == null ) return;
 
 			TableArsenal.SuspendLayout();
 			for ( int i = 0; i < ControlArsenal.Length; i++ )
@@ -195,6 +207,21 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		void ConfigurationChanged() {
+
+			Font = Utility.Configuration.Config.UI.MainFont;
+			MenuMain_ShowShipName.Checked = Utility.Configuration.Config.FormArsenal.ShowShipName;
+
+		}
+
+
+		private void MenuMain_ShowShipName_CheckedChanged( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormArsenal.ShowShipName = MenuMain_ShowShipName.Checked;
+
+			UpdateUI();
+		}
+
+
 		private void TableArsenal_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
@@ -204,6 +231,9 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Arsenal";
 		}
+
+
+		
 	}
 
 }

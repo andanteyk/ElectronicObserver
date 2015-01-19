@@ -56,12 +56,7 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetDoubleBuffered( FlowPanelResource );
 
 
-			Font = Utility.Configuration.Config.UI.MainFont;
-			//AdmiralName.Font = Font;
-			//AdmiralComment.Font = Font;
-			HQLevel.MainFont = Utility.Configuration.Config.UI.MainFont;
-			HQLevel.SubFont = Utility.Configuration.Config.UI.SubFont;
-
+			ConfigurationChanged();
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormHeadQuarters] );
 
@@ -93,7 +88,9 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/createitem"].ResponseReceived += rec;
 			o.APIList["api_req_kousyou/remodel_slot"].ResponseReceived += rec;
 			o.APIList["api_get_member/material"].ResponseReceived += rec;
-			
+
+
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			FlowPanelResource.SetFlowBreak( Ammo, true );
 
@@ -101,6 +98,14 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+		void ConfigurationChanged() {
+
+			Font = FlowPanelMaster.Font = Utility.Configuration.Config.UI.MainFont;
+			HQLevel.MainFont = Utility.Configuration.Config.UI.MainFont;
+			HQLevel.SubFont = Utility.Configuration.Config.UI.SubFont;
+		}
+		
 		void Updated( string apiname, dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;

@@ -26,6 +26,9 @@
 			this.components = new System.ComponentModel.Container();
 			this.TableArsenal = new System.Windows.Forms.TableLayoutPanel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.MenuMain_ShowShipName = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TableArsenal
@@ -53,11 +56,27 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
+			// MenuMain
+			// 
+			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuMain_ShowShipName});
+			this.MenuMain.Name = "MenuMain";
+			this.MenuMain.Size = new System.Drawing.Size(155, 26);
+			// 
+			// MenuMain_ShowShipName
+			// 
+			this.MenuMain_ShowShipName.CheckOnClick = true;
+			this.MenuMain_ShowShipName.Name = "MenuMain_ShowShipName";
+			this.MenuMain_ShowShipName.Size = new System.Drawing.Size(154, 22);
+			this.MenuMain_ShowShipName.Text = "艦名を表示(&V)";
+			this.MenuMain_ShowShipName.CheckedChanged += new System.EventHandler(this.MenuMain_ShowShipName_CheckedChanged);
+			// 
 			// FormArsenal
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(300, 200);
+			this.ContextMenuStrip = this.MenuMain;
 			this.Controls.Add(this.TableArsenal);
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -66,6 +85,7 @@
 			this.Name = "FormArsenal";
 			this.Text = "工廠";
 			this.Load += new System.EventHandler(this.FormArsenal_Load);
+			this.MenuMain.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -75,5 +95,7 @@
 
 		private System.Windows.Forms.TableLayoutPanel TableArsenal;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
+		private System.Windows.Forms.ContextMenuStrip MenuMain;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowShipName;
 	}
 }

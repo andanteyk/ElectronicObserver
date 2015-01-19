@@ -22,6 +22,7 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( QuestView );
 
+			ConfigurationChanged();
 		}
 
 
@@ -35,12 +36,6 @@ namespace ElectronicObserver.Window {
 
 			o.APIList["api_get_member/questlist"].ResponseReceived += rec;
 
-
-			
-			Font = Utility.Configuration.Config.UI.MainFont;
-			QuestView.Font = Font;
-			
-
 			//デフォルト行の追加
 			{
 				DataGridViewRow row = new DataGridViewRow();
@@ -52,7 +47,18 @@ namespace ElectronicObserver.Window {
 			QuestView.Sort( QuestView_Name, ListSortDirection.Ascending );
 
 
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest] );
+
+		}
+
+
+		void ConfigurationChanged() {
+
+			QuestView.Font = Font = Utility.Configuration.Config.UI.MainFont;
+			MenuMain_ShowRunningOnly.Checked = Utility.Configuration.Config.FormQuest.ShowRunningOnly;
+			Updated();
 
 		}
 
@@ -65,6 +71,8 @@ namespace ElectronicObserver.Window {
 
 		void Updated() {
 
+			if ( !KCDatabase.Instance.Quest.IsLoaded ) return;
+
 			QuestView.SuspendLayout();
 
 			QuestView.Rows.Clear();
@@ -73,7 +81,7 @@ namespace ElectronicObserver.Window {
 
 				if ( MenuMain_ShowRunningOnly.Checked && !( q.State == 2 || q.State == 3 ) )
 					continue;
-				
+
 
 				DataGridViewRow row = new DataGridViewRow();
 				row.CreateCells( QuestView );
@@ -125,7 +133,7 @@ namespace ElectronicObserver.Window {
 			//fixme: sortedcolumn == null だと死ぬ上どうも挙動が怪しい
 			if ( QuestView.SortedColumn != null )
 				QuestView.Sort( QuestView.SortedColumn, QuestView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
-			
+
 			QuestView.ResumeLayout();
 		}
 
@@ -193,6 +201,7 @@ namespace ElectronicObserver.Window {
 
 
 		private void MenuMain_ShowRunningOnly_Click( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormQuest.ShowRunningOnly = MenuMain_ShowRunningOnly.Checked;
 			Updated();
 		}
 
@@ -201,6 +210,6 @@ namespace ElectronicObserver.Window {
 			return "Quest";
 		}
 
-	
+
 	}
 }

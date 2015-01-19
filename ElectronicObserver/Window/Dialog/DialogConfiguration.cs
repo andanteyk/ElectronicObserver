@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Resource;
+﻿using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
@@ -115,6 +116,58 @@ namespace ElectronicObserver.Window.Dialog {
 		private void UI_SubFontApply_Click( object sender, EventArgs e ) {
 
 			UI_SubFont.Font = SerializableFont.StringToFont( UI_SubFont.Text ) ?? UI_SubFont.Font;
+		}
+
+
+
+
+		//ui
+		private void Connection_OutputConnectionScript_Click( object sender, EventArgs e ) {
+
+			string serverAddress = APIObserver.Instance.ServerAddress;
+			if ( serverAddress == null ) {
+				MessageBox.Show( "艦これに接続してから操作してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+				return;
+			}
+
+			using ( var dialog = new SaveFileDialog() ) {
+				dialog.Filter = "Proxy Script|*.pac|File|*";
+				dialog.Title = "自動プロキシ設定スクリプトを保存する";
+				dialog.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+				dialog.FileName = System.IO.Directory.GetCurrentDirectory() + "\\proxy.pac";
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					try {
+
+						using ( StreamWriter sw = new StreamWriter( dialog.FileName ) ) {
+
+							sw.WriteLine( "function FindProxyForURL(url, host) {" );
+							sw.WriteLine( "  if (/^" + serverAddress.Replace( ".", @"\." ) + "/.test(host)) {" );
+							sw.WriteLine( "    return \"PROXY localhost:{0}; DIRECT\";", (int)Connection_Port.Value );
+							sw.WriteLine( "  }" );
+							sw.WriteLine( "  return \"DIRECT\";" );
+							sw.WriteLine( "}" );
+
+						}
+
+						Clipboard.SetData( DataFormats.StringFormat, "file:///" + dialog.FileName.Replace( '\\', '/' ) );
+
+						MessageBox.Show( "自動プロキシ設定スクリプトを保存し、設定用URLをクリップボードにコピーしました。\r\n所定の位置に貼り付けてください。",
+							"作成完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+
+					} catch ( Exception ex ) {
+
+						Utility.ErrorReporter.SendErrorReport( ex, "自動プロキシ設定スクリプトの保存に失敗しました。" );
+						MessageBox.Show( "自動プロキシ設定スクリプトの保存に失敗しました。\r\n" + ex.Message, "エラー",
+							MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+					}
+			
+				}
+			}
+
 		}
 
 		

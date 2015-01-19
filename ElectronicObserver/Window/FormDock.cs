@@ -144,7 +144,7 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( TableDock );
 
-			Font = Utility.Configuration.Config.UI.MainFont;
+			ConfigurationChanged();
 
 			
 			TableDock.SuspendLayout();
@@ -171,7 +171,10 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_port/port"].ResponseReceived += rec;
 			o.APIList["api_get_member/ndock"].ResponseReceived += rec;
 
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
+
+		
 
 		void Updated( string apiname, dynamic data ) {
 
@@ -196,6 +199,12 @@ namespace ElectronicObserver.Window {
 
 		private void TableDock_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		}
+
+
+		void ConfigurationChanged() {
+
+			Font = Utility.Configuration.Config.UI.MainFont;
 		}
 
 

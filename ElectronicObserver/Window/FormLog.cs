@@ -18,9 +18,7 @@ namespace ElectronicObserver.Window {
 		public FormLog( FormMain parent ) {
 			InitializeComponent();
 
-			Font = Utility.Configuration.Config.UI.MainFont;
-			LogList.Font = Font;
-
+			ConfigurationChanged();
 		}
 		
 		private void FormLog_Load( object sender, EventArgs e ) {
@@ -30,10 +28,19 @@ namespace ElectronicObserver.Window {
 			}
 			LogList.TopIndex = LogList.Items.Count - 1;
 
-			ElectronicObserver.Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
+			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
+
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormLog] );
 		}
+
+
+		void ConfigurationChanged() {
+
+			LogList.Font = Font = Utility.Configuration.Config.UI.MainFont;
+		}
+
 
 		void Logger_LogAdded( Utility.Logger.LogData data ) {
 

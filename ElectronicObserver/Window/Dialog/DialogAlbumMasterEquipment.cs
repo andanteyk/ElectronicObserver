@@ -62,6 +62,7 @@ namespace ElectronicObserver.Window.Dialog {
 			BasePanelEquipment.Visible = false;
 
 
+			ControlHelper.SetDoubleBuffered( TableEquipmentName );
 			ControlHelper.SetDoubleBuffered( TableParameterMain );
 			ControlHelper.SetDoubleBuffered( TableParameterSub );
 			ControlHelper.SetDoubleBuffered( TableArsenal );
@@ -106,7 +107,7 @@ namespace ElectronicObserver.Window.Dialog {
 			UpdateAlbumPage( equipmentID );
 
 
-			{
+			if ( KCDatabase.Instance.MasterEquipments.ContainsKey( equipmentID ) ) {
 				var row = EquipmentView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[EquipmentView_ID.Index].Value == equipmentID );
 				if ( row != null )
 					EquipmentView.FirstDisplayedScrollingRowIndex = row.Index;
@@ -184,7 +185,11 @@ namespace ElectronicObserver.Window.Dialog {
 			//header
 			EquipmentID.Tag = equipmentID;
 			EquipmentID.Text = eq.EquipmentID.ToString();
+			AlbumNo.Text = eq.AlbumNo.ToString();
 
+
+			TableEquipmentName.SuspendLayout();
+			
 			EquipmentType.Text = db.EquipmentTypes[eq.EquipmentType[2]].Name;
 			EquipmentType.ImageIndex = eq.EquipmentType[3];
 			{
@@ -197,6 +202,8 @@ namespace ElectronicObserver.Window.Dialog {
 				ToolTipInfo.SetToolTip( EquipmentType, sb.ToString() );
 			}
 			EquipmentName.Text = eq.Name;
+
+			TableEquipmentName.ResumeLayout();
 
 
 			//main parameter
