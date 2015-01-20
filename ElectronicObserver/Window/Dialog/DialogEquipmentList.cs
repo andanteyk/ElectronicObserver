@@ -267,5 +267,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+		private void TopMenu_File_Update_Click( object sender, EventArgs e ) {
+
+			UpdateView();
+		}
+
 	}
 }

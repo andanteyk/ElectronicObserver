@@ -33,9 +33,10 @@
 			this.QuestView_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
 			this.MenuMain.SuspendLayout();
 			this.SuspendLayout();
@@ -122,19 +123,13 @@
 			this.QuestView_Progress.Name = "QuestView_Progress";
 			this.QuestView_Progress.ReadOnly = true;
 			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
-			// 
 			// MenuMain
 			// 
 			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuMain_ShowRunningOnly});
+            this.MenuMain_ShowRunningOnly,
+            this.MenuMain_Initialize});
 			this.MenuMain.Name = "MenuMain";
-			this.MenuMain.Size = new System.Drawing.Size(161, 48);
+			this.MenuMain.Size = new System.Drawing.Size(161, 70);
 			// 
 			// MenuMain_ShowRunningOnly
 			// 
@@ -143,6 +138,20 @@
 			this.MenuMain_ShowRunningOnly.Size = new System.Drawing.Size(160, 22);
 			this.MenuMain_ShowRunningOnly.Text = "遂行中のみ表示";
 			this.MenuMain_ShowRunningOnly.Click += new System.EventHandler(this.MenuMain_ShowRunningOnly_Click);
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
+			// MenuMain_Initialize
+			// 
+			this.MenuMain_Initialize.Name = "MenuMain_Initialize";
+			this.MenuMain_Initialize.Size = new System.Drawing.Size(160, 22);
+			this.MenuMain_Initialize.Text = "初期化(&I)";
+			this.MenuMain_Initialize.Click += new System.EventHandler(this.MenuMain_Initialize_Click);
 			// 
 			// FormQuest
 			// 
@@ -174,5 +183,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Progress;
 		private System.Windows.Forms.ContextMenuStrip MenuMain;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowRunningOnly;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_Initialize;
 	}
 }

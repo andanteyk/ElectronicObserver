@@ -293,6 +293,21 @@ namespace ElectronicObserver.Utility {
 			public ConfigFormQuest FormQuest { get; private set; }
 
 
+			/// <summary>
+			/// [艦船グループ]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormShipGroup : ConfigPartBase {
+
+				public int SplitterDistance { get; set; }
+
+				public ConfigFormShipGroup() {
+					SplitterDistance = 40;
+				}
+			}
+			/// <summary>[艦船グループ]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormShipGroup FormShipGroup { get; private set; }
+
 
 
 			[DataMember]
@@ -315,6 +330,7 @@ namespace ElectronicObserver.Utility {
 				FormFleet = new ConfigFormFleet();
 				FormHeadquarters = new ConfigFormHeadquarters();
 				FormQuest = new ConfigFormQuest();
+				FormShipGroup = new ConfigFormShipGroup();
 
 			}
 		}

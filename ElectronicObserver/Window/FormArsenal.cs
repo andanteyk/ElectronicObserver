@@ -110,16 +110,18 @@ namespace ElectronicObserver.Window {
 					
 				} else if ( arsenal.State == 2 ) {
 					//building
-					ShipName.Text = showShipName ? db.MasterShips[arsenal.ShipID].Name : "???";
-					tooltip.SetToolTip( ShipName, ShipName.Text );
+					string name = showShipName ? db.MasterShips[arsenal.ShipID].Name : "???";
+					ShipName.Text = name;
+					tooltip.SetToolTip( ShipName, name );
 					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( arsenal.CompletionTime );
 					CompletionTime.Tag = arsenal.CompletionTime;
 					tooltip.SetToolTip( CompletionTime, "完了日時 : " + arsenal.CompletionTime.ToString() );
 
 				} else if ( arsenal.State == 3 ) {
 					//complete!
-					ShipName.Text = showShipName ? db.MasterShips[arsenal.ShipID].Name : "???";
-					tooltip.SetToolTip( ShipName, ShipName.Text );
+					string name = showShipName ? db.MasterShips[arsenal.ShipID].Name : "???";
+					ShipName.Text = name;
+					tooltip.SetToolTip( ShipName, name );
 					CompletionTime.Text = "完成！";
 					CompletionTime.Tag = null;
 					

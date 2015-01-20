@@ -36,14 +36,8 @@ namespace ElectronicObserver.Window {
 
 			o.APIList["api_get_member/questlist"].ResponseReceived += rec;
 
-			//デフォルト行の追加
-			{
-				DataGridViewRow row = new DataGridViewRow();
-				row.CreateCells( QuestView );
-				row.SetValues( null, null, null, "(未取得)", null );
-				QuestView.Rows.Add( row );
-			}
 
+			ClearQuestView();
 			QuestView.Sort( QuestView_Name, ListSortDirection.Ascending );
 
 
@@ -206,10 +200,35 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void MenuMain_Initialize_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "任務データを初期化します。\r\nデータに齟齬が生じている場合以外での使用は推奨しません。\r\nよろしいですか？", "任務初期化の確認",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 ) == System.Windows.Forms.DialogResult.Yes ) {
+
+				KCDatabase.Instance.Quest.Clear();
+				ClearQuestView();
+			}
+
+		}
+
+
+		private void ClearQuestView() {
+
+			QuestView.Rows.Clear();
+
+			{
+				DataGridViewRow row = new DataGridViewRow();
+				row.CreateCells( QuestView );
+				row.SetValues( null, null, null, "(未取得)", null );
+				QuestView.Rows.Add( row );
+			}
+
+		}
+
 		protected override string GetPersistString() {
 			return "Quest";
 		}
 
-
+		
 	}
 }

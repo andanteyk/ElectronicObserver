@@ -52,6 +52,7 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetDoubleBuffered( ShipView );
 
 			ConfigurationChanged();
+			splitContainer1.SplitterDistance = Utility.Configuration.Config.FormShipGroup.SplitterDistance;
 
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
 				column.MinimumWidth = 2;
@@ -572,9 +573,11 @@ namespace ElectronicObserver.Window {
 
 					group.Name = dialog.InputtedText.Trim();
 					group.ColumnFilter = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Visible ).ToList();
+					if ( group.ColumnFilter.All( f => !f ) )
+						group.ColumnFilter = Enumerable.Repeat<bool>( true, ShipView.Columns.Count ).ToList();
 					group.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
 					group.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
-
+					
 					TabPanel.Controls.Add( CreateTabLabel( group.GroupID ) );
 
 				}
@@ -1182,6 +1185,8 @@ namespace ElectronicObserver.Window {
 				if ( group != null && group.GroupID >= 0 )
 					group.GroupID = i + 1;
 			}
+
+			Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
 
 		}
 

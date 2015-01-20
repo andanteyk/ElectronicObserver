@@ -64,19 +64,19 @@
 			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.Life_ConfirmOnClosing = new System.Windows.Forms.CheckBox();
+			this.tabPage7 = new System.Windows.Forms.TabPage();
+			this.tabControl2 = new System.Windows.Forms.TabControl();
+			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_ShowAircraft = new System.Windows.Forms.CheckBox();
+			this.tabPage9 = new System.Windows.Forms.TabPage();
+			this.FormArsenal_ShowShipName = new System.Windows.Forms.CheckBox();
+			this.tabPage10 = new System.Windows.Forms.TabPage();
+			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
-			this.tabPage7 = new System.Windows.Forms.TabPage();
-			this.tabControl2 = new System.Windows.Forms.TabControl();
-			this.tabPage8 = new System.Windows.Forms.TabPage();
-			this.tabPage9 = new System.Windows.Forms.TabPage();
-			this.FormFleet_ShowAircraft = new System.Windows.Forms.CheckBox();
-			this.FormArsenal_ShowShipName = new System.Windows.Forms.CheckBox();
-			this.tabPage10 = new System.Windows.Forms.TabPage();
-			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -356,7 +356,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 199);
+			this.label9.Location = new System.Drawing.Point(8, 197);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 12;
@@ -558,6 +558,92 @@
 			this.Life_ConfirmOnClosing.Text = "終了時に確認する";
 			this.Life_ConfirmOnClosing.UseVisualStyleBackColor = true;
 			// 
+			// tabPage7
+			// 
+			this.tabPage7.Controls.Add(this.tabControl2);
+			this.tabPage7.Location = new System.Drawing.Point(4, 24);
+			this.tabPage7.Name = "tabPage7";
+			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage7.Size = new System.Drawing.Size(392, 231);
+			this.tabPage7.TabIndex = 6;
+			this.tabPage7.Text = "サブウィンドウ";
+			this.tabPage7.UseVisualStyleBackColor = true;
+			// 
+			// tabControl2
+			// 
+			this.tabControl2.Controls.Add(this.tabPage8);
+			this.tabControl2.Controls.Add(this.tabPage9);
+			this.tabControl2.Controls.Add(this.tabPage10);
+			this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl2.Location = new System.Drawing.Point(3, 3);
+			this.tabControl2.Name = "tabControl2";
+			this.tabControl2.SelectedIndex = 0;
+			this.tabControl2.Size = new System.Drawing.Size(386, 225);
+			this.tabControl2.TabIndex = 0;
+			// 
+			// tabPage8
+			// 
+			this.tabPage8.Controls.Add(this.FormFleet_ShowAircraft);
+			this.tabPage8.Location = new System.Drawing.Point(4, 24);
+			this.tabPage8.Name = "tabPage8";
+			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage8.Size = new System.Drawing.Size(378, 197);
+			this.tabPage8.TabIndex = 0;
+			this.tabPage8.Text = "艦隊";
+			this.tabPage8.UseVisualStyleBackColor = true;
+			// 
+			// FormFleet_ShowAircraft
+			// 
+			this.FormFleet_ShowAircraft.AutoSize = true;
+			this.FormFleet_ShowAircraft.Location = new System.Drawing.Point(6, 6);
+			this.FormFleet_ShowAircraft.Name = "FormFleet_ShowAircraft";
+			this.FormFleet_ShowAircraft.Size = new System.Drawing.Size(126, 19);
+			this.FormFleet_ShowAircraft.TabIndex = 0;
+			this.FormFleet_ShowAircraft.Text = "艦載機数を表示する";
+			this.FormFleet_ShowAircraft.UseVisualStyleBackColor = true;
+			// 
+			// tabPage9
+			// 
+			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
+			this.tabPage9.Location = new System.Drawing.Point(4, 22);
+			this.tabPage9.Name = "tabPage9";
+			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage9.Size = new System.Drawing.Size(378, 199);
+			this.tabPage9.TabIndex = 1;
+			this.tabPage9.Text = "工廠";
+			this.tabPage9.UseVisualStyleBackColor = true;
+			// 
+			// FormArsenal_ShowShipName
+			// 
+			this.FormArsenal_ShowShipName.AutoSize = true;
+			this.FormArsenal_ShowShipName.Location = new System.Drawing.Point(6, 6);
+			this.FormArsenal_ShowShipName.Name = "FormArsenal_ShowShipName";
+			this.FormArsenal_ShowShipName.Size = new System.Drawing.Size(102, 19);
+			this.FormArsenal_ShowShipName.TabIndex = 1;
+			this.FormArsenal_ShowShipName.Text = "艦名を表示する";
+			this.FormArsenal_ShowShipName.UseVisualStyleBackColor = true;
+			// 
+			// tabPage10
+			// 
+			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
+			this.tabPage10.Location = new System.Drawing.Point(4, 22);
+			this.tabPage10.Name = "tabPage10";
+			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage10.Size = new System.Drawing.Size(378, 199);
+			this.tabPage10.TabIndex = 2;
+			this.tabPage10.Text = "任務";
+			this.tabPage10.UseVisualStyleBackColor = true;
+			// 
+			// FormQuest_ShowRunningOnly
+			// 
+			this.FormQuest_ShowRunningOnly.AutoSize = true;
+			this.FormQuest_ShowRunningOnly.Location = new System.Drawing.Point(6, 6);
+			this.FormQuest_ShowRunningOnly.Name = "FormQuest_ShowRunningOnly";
+			this.FormQuest_ShowRunningOnly.Size = new System.Drawing.Size(126, 19);
+			this.FormQuest_ShowRunningOnly.TabIndex = 0;
+			this.FormQuest_ShowRunningOnly.Text = "遂行中のみ表示する";
+			this.FormQuest_ShowRunningOnly.UseVisualStyleBackColor = true;
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 60000;
@@ -593,92 +679,6 @@
 			// FontSelector
 			// 
 			this.FontSelector.ShowEffects = false;
-			// 
-			// tabPage7
-			// 
-			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 24);
-			this.tabPage7.Name = "tabPage7";
-			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(392, 231);
-			this.tabPage7.TabIndex = 6;
-			this.tabPage7.Text = "サブウィンドウ";
-			this.tabPage7.UseVisualStyleBackColor = true;
-			// 
-			// tabControl2
-			// 
-			this.tabControl2.Controls.Add(this.tabPage8);
-			this.tabControl2.Controls.Add(this.tabPage9);
-			this.tabControl2.Controls.Add(this.tabPage10);
-			this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl2.Location = new System.Drawing.Point(3, 3);
-			this.tabControl2.Name = "tabControl2";
-			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(386, 225);
-			this.tabControl2.TabIndex = 0;
-			// 
-			// tabPage8
-			// 
-			this.tabPage8.Controls.Add(this.FormFleet_ShowAircraft);
-			this.tabPage8.Location = new System.Drawing.Point(4, 24);
-			this.tabPage8.Name = "tabPage8";
-			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(378, 197);
-			this.tabPage8.TabIndex = 0;
-			this.tabPage8.Text = "艦隊";
-			this.tabPage8.UseVisualStyleBackColor = true;
-			// 
-			// tabPage9
-			// 
-			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 24);
-			this.tabPage9.Name = "tabPage9";
-			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 197);
-			this.tabPage9.TabIndex = 1;
-			this.tabPage9.Text = "工廠";
-			this.tabPage9.UseVisualStyleBackColor = true;
-			// 
-			// FormFleet_ShowAircraft
-			// 
-			this.FormFleet_ShowAircraft.AutoSize = true;
-			this.FormFleet_ShowAircraft.Location = new System.Drawing.Point(6, 6);
-			this.FormFleet_ShowAircraft.Name = "FormFleet_ShowAircraft";
-			this.FormFleet_ShowAircraft.Size = new System.Drawing.Size(126, 19);
-			this.FormFleet_ShowAircraft.TabIndex = 0;
-			this.FormFleet_ShowAircraft.Text = "艦載機数を表示する";
-			this.FormFleet_ShowAircraft.UseVisualStyleBackColor = true;
-			// 
-			// FormArsenal_ShowShipName
-			// 
-			this.FormArsenal_ShowShipName.AutoSize = true;
-			this.FormArsenal_ShowShipName.Location = new System.Drawing.Point(6, 6);
-			this.FormArsenal_ShowShipName.Name = "FormArsenal_ShowShipName";
-			this.FormArsenal_ShowShipName.Size = new System.Drawing.Size(102, 19);
-			this.FormArsenal_ShowShipName.TabIndex = 1;
-			this.FormArsenal_ShowShipName.Text = "艦名を表示する";
-			this.FormArsenal_ShowShipName.UseVisualStyleBackColor = true;
-			// 
-			// tabPage10
-			// 
-			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 24);
-			this.tabPage10.Name = "tabPage10";
-			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 197);
-			this.tabPage10.TabIndex = 2;
-			this.tabPage10.Text = "任務";
-			this.tabPage10.UseVisualStyleBackColor = true;
-			// 
-			// FormQuest_ShowRunningOnly
-			// 
-			this.FormQuest_ShowRunningOnly.AutoSize = true;
-			this.FormQuest_ShowRunningOnly.Location = new System.Drawing.Point(6, 6);
-			this.FormQuest_ShowRunningOnly.Name = "FormQuest_ShowRunningOnly";
-			this.FormQuest_ShowRunningOnly.Size = new System.Drawing.Size(126, 19);
-			this.FormQuest_ShowRunningOnly.TabIndex = 0;
-			this.FormQuest_ShowRunningOnly.Text = "遂行中のみ表示する";
-			this.FormQuest_ShowRunningOnly.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 

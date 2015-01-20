@@ -33,6 +33,7 @@
 			this.TopMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.TopMenu_File_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
 			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
+			this.TopMenu_File_Update = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.EquipmentView)).BeginInit();
 			this.TopMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -113,7 +114,8 @@
 			// TopMenu_File
 			// 
 			this.TopMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_File_CSVOutput});
+            this.TopMenu_File_CSVOutput,
+            this.TopMenu_File_Update});
 			this.TopMenu_File.Name = "TopMenu_File";
 			this.TopMenu_File.Size = new System.Drawing.Size(85, 22);
 			this.TopMenu_File.Text = "ファイル(&F)";
@@ -121,7 +123,8 @@
 			// TopMenu_File_CSVOutput
 			// 
 			this.TopMenu_File_CSVOutput.Name = "TopMenu_File_CSVOutput";
-			this.TopMenu_File_CSVOutput.Size = new System.Drawing.Size(154, 22);
+			this.TopMenu_File_CSVOutput.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.TopMenu_File_CSVOutput.Size = new System.Drawing.Size(201, 22);
 			this.TopMenu_File_CSVOutput.Text = "CSV出力(&C)...";
 			this.TopMenu_File_CSVOutput.Click += new System.EventHandler(this.Menu_File_CSVOutput_Click);
 			// 
@@ -129,6 +132,14 @@
 			// 
 			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
 			this.SaveCSVDialog.Title = "CSVに出力";
+			// 
+			// TopMenu_File_Update
+			// 
+			this.TopMenu_File_Update.Name = "TopMenu_File_Update";
+			this.TopMenu_File_Update.ShortcutKeys = System.Windows.Forms.Keys.F5;
+			this.TopMenu_File_Update.Size = new System.Drawing.Size(201, 22);
+			this.TopMenu_File_Update.Text = "更新(&U)";
+			this.TopMenu_File_Update.Click += new System.EventHandler(this.TopMenu_File_Update_Click);
 			// 
 			// DialogEquipmentList
 			// 
@@ -163,5 +174,6 @@
 		private System.Windows.Forms.ToolStripMenuItem TopMenu_File;
 		private System.Windows.Forms.ToolStripMenuItem TopMenu_File_CSVOutput;
 		private System.Windows.Forms.SaveFileDialog SaveCSVDialog;
+		private System.Windows.Forms.ToolStripMenuItem TopMenu_File_Update;
 	}
 }
