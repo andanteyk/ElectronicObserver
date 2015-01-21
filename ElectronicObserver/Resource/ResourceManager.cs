@@ -156,18 +156,21 @@ namespace ElectronicObserver.Resource {
 		}
 
 
-		public void Load() {
+		public bool Load() {
 
 			try {
 
 				LoadFromArchive( "Assets.zip" );
+				return true;
 
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "リソースファイルの読み込みに失敗しました。" );
+				MessageBox.Show( "リソースファイルの読み込みに失敗しました。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 			}
 
+			return false;
 		}
 
 
@@ -231,7 +234,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Compass.png", "Form_Compass" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Dock.png", "Form_Dock" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Fleet.png", "Form_Fleet" );
-					LoadImageFromArchive( Icons, archive, mstpath + @"Form/HeadQuarters.png", "Form_HeadQuarters" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Headquarters.png", "Form_Headquarters" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Information.png", "Form_Information" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Log.png", "Form_Log" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Main.png", "Form_Main" );
@@ -252,8 +255,8 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/AnchorageRepairing.png", "Fleet_AnchorageRepairing" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Ready.png", "Fleet_Ready" );
 
-					LoadImageFromArchive( Icons, archive, mstpath + @"HeadQuarters/Ship.png", "HeadQuarters_Ship" );
-					LoadImageFromArchive( Icons, archive, mstpath + @"HeadQuarters/Equipment.png", "HeadQuarters_Equipment" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Headquarters/Ship.png", "HeadQuarters_Ship" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Headquarters/Equipment.png", "HeadQuarters_Equipment" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Black.png", "Rarity_Black" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Red.png", "Rarity_Red" );
@@ -349,7 +352,7 @@ namespace ElectronicObserver.Resource {
 					bmp.Dispose();
 				}
 
-			} catch ( ArgumentException ) {
+			} catch ( Exception ) {
 
 				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。" ) );
 				imglist.Images.Add( name, new Bitmap( imglist.ImageSize.Width, imglist.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) );
@@ -383,7 +386,7 @@ namespace ElectronicObserver.Resource {
 				}
 				//*/
 
-			} catch ( ArgumentException ) {
+			} catch ( Exception ) {
 
 				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。" ) );
 			}

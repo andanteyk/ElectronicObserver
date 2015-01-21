@@ -73,7 +73,7 @@ namespace ElectronicObserver.Window {
 
 
 			this.Text = SoftwareInformation.VersionJapanese;
-			
+
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
 			KCDatabase.Instance.Load();

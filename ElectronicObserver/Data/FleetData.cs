@@ -427,7 +427,7 @@ namespace ElectronicObserver.Data {
 					flagship.MasterShip.ShipType == 19 &&					//旗艦工作艦
 					(double)flagship.HPCurrent / flagship.HPMax > 0.5 &&	//旗艦が中破未満
 					flagship.RepairingDockID == -1 &&						//旗艦が入渠中でない
-					fleet.Members.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( id => {		//(2+装備)以内に50%<HP<100%の艦がいる
+					fleet.Members.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( id => {		//(2+装備)以内に50%<HP<100%&&非入渠中の艦がいる
 						ShipData ship = db.Ships[id];
 						if ( id == -1 ) return false;
 						if ( ship.RepairingDockID != -1 ) return false;
@@ -448,26 +448,27 @@ namespace ElectronicObserver.Data {
 
 			//未補給
 			{
-				int fuel = fleet.Members.Sum( id => id == -1 ? 0 : db.Ships[id].MasterShip.Fuel - db.Ships[id].Fuel );
-				int ammo = fleet.Members.Sum( id => id == -1 ? 0 : db.Ships[id].MasterShip.Ammo - db.Ships[id].Ammo );
-				int bauxite = fleet.Members.Sum(
-					id => {
-						if ( id == -1 ) return 0;
+				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.MasterShip.Fuel - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
+				int ammo = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.MasterShip.Ammo - ship.Ammo ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) ); 
+				int aircraft = fleet.MembersInstance.Sum(
+					ship => {
+						if ( ship == null ) return 0;
 						else {
 							int c = 0;
-							for ( int i = 0; i < db.Ships[id].Slot.Count; i++ ) {
-								c += db.Ships[id].MasterShip.Aircraft[i] - db.Ships[id].Aircraft[i];
+							for ( int i = 0; i < ship.Slot.Count; i++ ) {
+								c += ship.MasterShip.Aircraft[i] - ship.Aircraft[i];
 							}
 							return c;
 						}
 					} ) * 5;
+				int bauxite = aircraft * 5;
 
 				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
 
 					label.Text = "未補給";
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
 
-					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2}", fuel, ammo, bauxite ) );
+					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ( {3}機 )", fuel, ammo, bauxite, aircraft ) );
 
 					return FleetStates.NotReplenished;
 				}
