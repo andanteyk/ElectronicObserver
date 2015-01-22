@@ -123,6 +123,9 @@
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
+    <Compile Include="Notifier\NotifierBase.cs" />
+    <Compile Include="Notifier\NotifierExpedition.cs" />
+    <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />
@@ -190,6 +193,7 @@
     <Compile Include="Utility\SoftwareInformation.cs" />
     <Compile Include="Utility\Storage\SerializableFont.cs" />
     <Compile Include="Utility\Storage\SerializableList.cs" />
+    <Compile Include="Utility\SystemEvents.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -263,6 +267,12 @@
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
     <Compile Include="DynamicJson.cs" />
+    <Compile Include="Window\Dialog\DialogNotifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogNotifier.Designer.cs">
+      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogShipGroupColumnFilter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -406,6 +416,9 @@
     <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogNotifier.resx">
+      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogShipGroupColumnFilter.resx">
       <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>
     </EmbeddedResource>
@@ -503,6 +516,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

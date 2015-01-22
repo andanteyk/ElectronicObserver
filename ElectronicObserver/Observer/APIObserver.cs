@@ -122,6 +122,13 @@ namespace ElectronicObserver.Observer {
 
 
 
+		public APIBase this[string key] {
+			get {
+				if ( APIList.ContainsKey( key ) ) return APIList[key];
+				else return null;
+			}
+		}
+
 
 		private void FiddlerApplication_AfterSessionComplete( Fiddler.Session oSession ) {
 

@@ -1,5 +1,6 @@
 ﻿using Codeplex.Data;
 using ElectronicObserver.Data;
+using ElectronicObserver.Notifier;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
@@ -23,14 +24,6 @@ namespace ElectronicObserver.Window {
 	public partial class FormMain : Form {
 
 		#region Properties
-		#endregion
-
-
-		#region Events
-
-		public event EventHandler UpdateTimerTick = delegate { };
-		public event EventHandler SystemShuttingDown = delegate { };
-
 		#endregion
 
 
@@ -77,6 +70,7 @@ namespace ElectronicObserver.Window {
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
 			KCDatabase.Instance.Load();
+			NotifierManager.Instance.Initialize();
 
 
 			Icon = ResourceManager.Instance.AppIcon;
@@ -164,7 +158,7 @@ namespace ElectronicObserver.Window {
 
 		private void UIUpdateTimer_Tick( object sender, EventArgs e ) {
 
-			UpdateTimerTick( this, new EventArgs() );
+			SystemEvents.OnUpdateTimerTick();
 
 
 			StripStatus_Clock.Text = DateTime.Now.ToString( "HH:mm:ss" );
@@ -186,7 +180,7 @@ namespace ElectronicObserver.Window {
 
 			UIUpdateTimer.Stop();
 
-			SystemShuttingDown( this, new EventArgs() );
+			SystemEvents.OnSystemShuttingDown();
 
 
 			/*
@@ -840,6 +834,16 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_Help_Help_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "外部ブラウザでオンラインヘルプを開きます。\r\nよろしいですか？", "ヘルプ", 
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				System.Diagnostics.Process.Start( "https://github.com/andanteyk/ElectronicObserver/wiki" );
+			}
+
+		}
 
 
 
@@ -903,9 +907,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-
-
-
+		
 
 
 	}

@@ -46,6 +46,7 @@
 			this.FleetCombined = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FleetEnemy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.imageLabel1 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TableMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -56,6 +57,7 @@
 			this.TableMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
 			this.TableMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
 			this.TableMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+			this.TableMain.Controls.Add(this.imageLabel1, 2, 2);
 			this.TableMain.Controls.Add(this.FleetFriend, 0, 5);
 			this.TableMain.Controls.Add(this.DamageFriend, 0, 12);
 			this.TableMain.Controls.Add(this.AirStage1Enemy, 2, 3);
@@ -295,7 +297,7 @@
 			this.DamageRate.Name = "DamageRate";
 			this.DamageRate.Size = new System.Drawing.Size(78, 15);
 			this.DamageRate.TabIndex = 14;
-			this.DamageRate.Text = "損害率";
+			this.DamageRate.Text = "戦績判定";
 			this.DamageRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// DamageEnemy
@@ -341,6 +343,19 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
+			// imageLabel1
+			// 
+			this.imageLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.imageLabel1.BackColor = System.Drawing.Color.Transparent;
+			this.imageLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.imageLabel1.Location = new System.Drawing.Point(171, 45);
+			this.imageLabel1.Name = "imageLabel1";
+			this.imageLabel1.Size = new System.Drawing.Size(78, 15);
+			this.imageLabel1.TabIndex = 5;
+			this.imageLabel1.Text = "航空戦";
+			this.imageLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.imageLabel1.Visible = false;
+			// 
 			// FormBattle
 			// 
 			this.AutoHidePortion = 150D;
@@ -384,5 +399,6 @@
 		private Control.ImageLabel FleetCombined;
 		private Control.ImageLabel FleetEnemy;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
+		private Control.ImageLabel imageLabel1;
 	}
 }

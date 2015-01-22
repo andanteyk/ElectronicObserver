@@ -468,7 +468,7 @@ namespace ElectronicObserver.Data {
 					label.Text = "未補給";
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
 
-					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ( {3}機 )", fuel, ammo, bauxite, aircraft ) );
+					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ({3}機)", fuel, ammo, bauxite, aircraft ) );
 
 					return FleetStates.NotReplenished;
 				}

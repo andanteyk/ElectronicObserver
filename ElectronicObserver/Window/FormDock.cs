@@ -139,7 +139,7 @@ namespace ElectronicObserver.Window {
 		public FormDock( FormMain parent ) {
 			InitializeComponent();
 
-			parent.UpdateTimerTick += parent_UpdateTimerTick;
+			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 
 
 			ControlHelper.SetDoubleBuffered( TableDock );
@@ -186,7 +186,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		void parent_UpdateTimerTick( object sender, EventArgs e ) {
+		void UpdateTimerTick() {
 
 			TableDock.SuspendLayout();
 			for ( int i = 0; i < ControlDock.Length; i++ )

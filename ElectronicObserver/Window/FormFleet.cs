@@ -453,7 +453,7 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 			FleetID = fleetID;
-			parent.UpdateTimerTick += parent_UpdateTimerTick;
+			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 
 			
 			ConfigurationChanged();
@@ -571,7 +571,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		void parent_UpdateTimerTick( object sender, EventArgs e ) {
+		void UpdateTimerTick() {
 
 			TableFleet.SuspendLayout();
 			{

@@ -118,7 +118,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
 
-			parent.UpdateTimerTick += parent_UpdateTimerTick;
+			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 		}
 
 		
@@ -179,7 +179,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		void parent_UpdateTimerTick( object sender, EventArgs e ) {
+		void UpdateTimerTick() {
 			for ( int i = 0; i < ControlFleet.Count; i++ ) {
 				ControlFleet[i].Refresh();
 			}

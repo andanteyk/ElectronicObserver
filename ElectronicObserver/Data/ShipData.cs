@@ -624,6 +624,10 @@ namespace ElectronicObserver.Data {
 			HPCurrent = HPMax;
 			Condition = Math.Max( Condition, 40 );
 
+			RawData.api_ndock_time = 0;
+			RawData.api_ndock_item[0] = 0;
+			RawData.api_ndock_item[1] = 0;
+
 		}
 
 	}

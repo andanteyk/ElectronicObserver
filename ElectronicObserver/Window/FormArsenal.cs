@@ -146,7 +146,7 @@ namespace ElectronicObserver.Window {
 		public FormArsenal( FormMain parent ) {
 			InitializeComponent();
 
-			parent.UpdateTimerTick += parent_UpdateTimerTick;
+			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 
 			ControlHelper.SetDoubleBuffered( TableArsenal );
 
@@ -199,7 +199,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		void parent_UpdateTimerTick( object sender, EventArgs e ) {
+		void UpdateTimerTick() {
 
 			TableArsenal.SuspendLayout();
 			for ( int i = 0; i < ControlArsenal.Length; i++ )

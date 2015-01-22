@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
@@ -116,7 +117,7 @@ namespace ElectronicObserver.Window {
 			#endregion
 
 
-			parent.SystemShuttingDown += SystemShuttingDown;
+			SystemEvents.SystemShuttingDown += SystemShuttingDown;
 		}
 
 
@@ -1166,7 +1167,7 @@ namespace ElectronicObserver.Window {
 
 
 
-		void SystemShuttingDown( object sender, EventArgs e ) {
+		void SystemShuttingDown() {
 
 			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
 			//以下は実データがないと動作しないためなければスキップ
