@@ -19,8 +19,6 @@ namespace ElectronicObserver.Notifier {
 		#endregion
 
 
-		public List<NotifierManager> NotifierList { get; private set; }
-
 		public NotifierExpedition Expedition { get; private set; }
 
 
@@ -31,17 +29,10 @@ namespace ElectronicObserver.Notifier {
 
 		public void Initialize() {
 
-			Expedition = new NotifierExpedition();
+			Expedition = new NotifierExpedition( Utility.Configuration.Config.NotificationExpedition );
 
-			NotifierList = new List<NotifierManager>();
-
-			//debug: 暫定設定
-			{
-				Expedition.AutoClosingInterval = 30 * 1000;
-				Expedition.ShowsNotificationDialog = true;
-				Expedition.PlaysNotificationSound = true;
-				//Expedition.LoadSound( @"music path" );
-			}
+			
+			
 		}
 
 	}

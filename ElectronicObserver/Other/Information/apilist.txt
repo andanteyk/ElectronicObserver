@@ -136,6 +136,7 @@ api_start2	：艦娘・装備固有データその他
 								22=Fleet Command
 								23=Maintenance Team
 								24=AA Director
+								25=AP Shell
 
 								 1=主砲
 								 2=副砲
@@ -158,6 +159,7 @@ api_start2	：艦娘・装備固有データその他
 								22=司令部施設
 								23=航空要員
 								24=高射装置
+								25=対艦強化弾
 
 							[2]：カテゴリ
 								(api_mst_slotitem_equiptype を参照)
@@ -350,7 +352,7 @@ api_start2	：艦娘・装備固有データその他
 	api_mst_const		：
 		api_boko_max_ships		：
 			api_string_value	：
-			api_int_value		：母港サイズ
+			api_int_value		：「最大保有艦娘数」最大値
 		api_dpflag_quest		：
 			api_string_value	：
 			api_int_value		：1?

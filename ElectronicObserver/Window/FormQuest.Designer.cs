@@ -35,8 +35,9 @@
 			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
 			this.MenuMain.SuspendLayout();
 			this.SuspendLayout();
@@ -127,9 +128,10 @@
 			// 
 			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuMain_ShowRunningOnly,
+            this.toolStripSeparator1,
             this.MenuMain_Initialize});
 			this.MenuMain.Name = "MenuMain";
-			this.MenuMain.Size = new System.Drawing.Size(161, 70);
+			this.MenuMain.Size = new System.Drawing.Size(161, 76);
 			// 
 			// MenuMain_ShowRunningOnly
 			// 
@@ -139,6 +141,13 @@
 			this.MenuMain_ShowRunningOnly.Text = "遂行中のみ表示";
 			this.MenuMain_ShowRunningOnly.Click += new System.EventHandler(this.MenuMain_ShowRunningOnly_Click);
 			// 
+			// MenuMain_Initialize
+			// 
+			this.MenuMain_Initialize.Name = "MenuMain_Initialize";
+			this.MenuMain_Initialize.Size = new System.Drawing.Size(160, 22);
+			this.MenuMain_Initialize.Text = "初期化(&I)";
+			this.MenuMain_Initialize.Click += new System.EventHandler(this.MenuMain_Initialize_Click);
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 30000;
@@ -146,12 +155,10 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
-			// MenuMain_Initialize
+			// toolStripSeparator1
 			// 
-			this.MenuMain_Initialize.Name = "MenuMain_Initialize";
-			this.MenuMain_Initialize.Size = new System.Drawing.Size(160, 22);
-			this.MenuMain_Initialize.Text = "初期化(&I)";
-			this.MenuMain_Initialize.Click += new System.EventHandler(this.MenuMain_Initialize_Click);
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
 			// 
 			// FormQuest
 			// 
@@ -184,5 +191,6 @@
 		private System.Windows.Forms.ContextMenuStrip MenuMain;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowRunningOnly;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_Initialize;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 	}
 }

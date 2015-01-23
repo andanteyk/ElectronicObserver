@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Notifier {
-	
+
 	/// <summary>
 	/// 遠征帰投通知を扱います。
 	/// </summary>
@@ -19,8 +19,17 @@ namespace ElectronicObserver.Notifier {
 
 		public NotifierExpedition()
 			: base() {
+			Initialize();
+		}
 
-			Title = "遠征帰投";
+		public NotifierExpedition( Utility.Configuration.ConfigurationData.ConfigNotification config )
+			: base( config ) {
+			Initialize();
+		}
+
+
+		private void Initialize() {
+			DialogData.Title = "遠征帰投";
 			processedFlags = new Dictionary<int, bool>();
 		}
 
@@ -50,7 +59,7 @@ namespace ElectronicObserver.Notifier {
 
 		public void Notify( int fleetID, int destination ) {
 
-			Message = string.Format( "#{0} {1}が遠征「{2}: {3}」から帰投しました。", 
+			DialogData.Message = string.Format( "#{0} {1}が遠征「{2}: {3}」から帰投しました。",
 				fleetID, KCDatabase.Instance.Fleet[fleetID].Name, destination, KCDatabase.Instance.Mission[destination].Name );
 
 			base.Notify();

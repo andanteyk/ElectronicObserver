@@ -124,6 +124,7 @@
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
     <Compile Include="Notifier\NotifierBase.cs" />
+    <Compile Include="Notifier\NotifierDialogData.cs" />
     <Compile Include="Notifier\NotifierExpedition.cs" />
     <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />

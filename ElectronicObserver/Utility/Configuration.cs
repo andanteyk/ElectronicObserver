@@ -310,6 +310,43 @@ namespace ElectronicObserver.Utility {
 
 
 
+			public class ConfigNotification : ConfigPartBase {
+
+				public bool IsEnabled { get; set; }
+
+				public bool ShowsDialog { get; set; }
+
+				public string ImagePath { get; set; }
+				
+				public bool DrawsImage { get; set; }
+
+				public string SoundPath { get; set; }
+
+				public bool PlaysSound { get; set; }
+
+				public bool DrawsMessage { get; set; }
+
+				public int ClosingInterval { get; set; }
+
+				public bool CloseOnMouseMove { get; set; }
+
+
+				public ConfigNotification() {
+					IsEnabled = false;
+					ShowsDialog = true;
+					ImagePath = "";
+					DrawsImage = false;
+					SoundPath = "";
+					PlaysSound = false;
+					DrawsMessage = true;
+					ClosingInterval = 30000;
+					CloseOnMouseMove = false;
+				}
+			}
+			[DataMember]
+			public ConfigNotification NotificationExpedition { get; private set; }
+
+
 			[DataMember]
 			public string Version {
 				get { return SoftwareInformation.VersionEnglish; }
@@ -331,6 +368,8 @@ namespace ElectronicObserver.Utility {
 				FormHeadquarters = new ConfigFormHeadquarters();
 				FormQuest = new ConfigFormQuest();
 				FormShipGroup = new ConfigFormShipGroup();
+
+				NotificationExpedition = new ConfigNotification();
 
 			}
 		}

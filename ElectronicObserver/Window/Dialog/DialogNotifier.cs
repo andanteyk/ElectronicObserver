@@ -12,20 +12,16 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogNotifier : Form {
 
-		//共用されるので注意！
-		//fixme: バグの温床になりそうなので別の仕様を考える
-		public NotifierBase Notifier { get; set; }
-
-		private string Message;
-
 		
-		public DialogNotifier( NotifierBase parent ) {
+		public NotifierDialogData DialogData { get; set; }
+
+	
+		public DialogNotifier( NotifierDialogData data ) {
 			InitializeComponent();
 
-			Notifier = parent;
+			DialogData = data.Clone();
 
-			Message = parent.Message;
-			Text = Notifier.Title;
+			Text = DialogData.Title;
 			Font = Utility.Configuration.Config.UI.MainFont;
 			Icon = Resource.ResourceManager.Instance.AppIcon;
 			Padding = new Padding( 4 );
@@ -34,8 +30,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void DialogNotifier_Load( object sender, EventArgs e ) {
 
-			if ( Notifier.Image != null ) {
-				ClientSize = Notifier.Image.Size;
+			if ( DialogData.Image != null ) {
+				ClientSize = DialogData.Image.Size;
 				FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			}
 
@@ -43,8 +39,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			StartPosition = FormStartPosition.WindowsDefaultLocation;		//undone: 定位置も設定できるようにする。
 
-			if ( Notifier.AutoClosingInterval > 0 ) {
-				CloseTimer.Interval = Notifier.AutoClosingInterval;
+			if ( DialogData.ClosingInterval > 0 ) {
+				CloseTimer.Interval = DialogData.ClosingInterval;
 				CloseTimer.Start();
 			}
 		}
@@ -54,20 +50,22 @@ namespace ElectronicObserver.Window.Dialog {
 
 			Graphics g = e.Graphics;
 
-			if ( Notifier.Image != null ) {
+			try {
+	
+				if ( DialogData.DrawsImage && DialogData.Image != null ) {
 
-				//image mode
+					g.DrawImage( DialogData.Image, 0, 0 );
+				} 
+			
+				if ( DialogData.DrawsMessage ) {
 
-				g.DrawImage( Notifier.Image, 0, 0 );
+					TextRenderer.DrawText( g, DialogData.Message, Font, new Rectangle( Padding.Left, Padding.Right, ClientSize.Width - Padding.Horizontal, ClientSize.Height - Padding.Vertical ), ForeColor, TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak );
+				}
 
+			} catch ( Exception ex ) {
 
-			} else {
-
-				//string mode
-				TextRenderer.DrawText( g, Message, Font, new Rectangle( Padding.Left, Padding.Right, ClientSize.Width - Padding.Horizontal, ClientSize.Height - Padding.Vertical ), ForeColor, TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak );
-
+				Utility.ErrorReporter.SendErrorReport( ex, "通知システム: ダイアログボックスでの画像の描画に失敗しました。" );
 			}
-
 		}
 
 
@@ -81,7 +79,7 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 		private void DialogNotifier_MouseMove( object sender, MouseEventArgs e ) {
-			if ( false ) {		//undone: Configuration.xxx.CloseOnMouseMove == true then...
+			if ( DialogData.CloseOnMouseMove ) {
 				Close();
 			}
 		}

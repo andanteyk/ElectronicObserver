@@ -17,52 +17,54 @@ namespace ElectronicObserver.Notifier {
 	public abstract class NotifierBase {
 
 		/// <summary>
+		/// 通知ダイアログに渡す設定データ
+		/// </summary>
+		public NotifierDialogData DialogData { get; protected set; }
+
+		/// <summary>
 		/// 通知音
 		/// </summary>
 		public SoundPlayer Sound { get; protected set; }
 
-		/// <summary>
-		/// 通知用の画像
-		/// </summary>
-		public Bitmap Image { get; protected set; }
-
-		/// <summary>
-		/// 通知メッセージ
-		/// </summary>
-		public string Message { get; protected set; }
-
-
-		/// <summary>
-		/// 通知のタイトル
-		/// </summary>
-		public string Title { get; protected set; }
-
-
+		
 		/// <summary>
 		/// 通知音を再生するか
 		/// </summary>
-		public bool PlaysNotificationSound { get; set; }
+		public bool PlaysSound { get; set; }
 
 		/// <summary>
 		/// 通知ダイアログを表示するか
 		/// </summary>
-		public bool ShowsNotificationDialog { get; set; }
+		public bool ShowsDialog { get; set; }
 
-
-		/// <summary>
-		/// 自動で閉じるまでの時間(ミリ秒, 0=閉じない)
-		/// </summary>
-		public int AutoClosingInterval { get; set; }
 
 
 		public NotifierBase() {
 
-			Sound = null;
-			Image = null;
+			Initialize();
+			DialogData = new NotifierDialogData();
 			
-			SystemEvents.UpdateTimerTick += UpdateTimerTick;
+		}
+
+		public NotifierBase( Utility.Configuration.ConfigurationData.ConfigNotification config ) {
+
+			Initialize();
+			DialogData = new NotifierDialogData( config );
+			if ( config.PlaysSound && config.SoundPath != null && config.SoundPath != "" )
+				LoadSound( config.SoundPath );
+
+			PlaysSound = config.PlaysSound;
+			ShowsDialog = config.ShowsDialog;
 
 		}
+
+		private void Initialize() {
+
+			SystemEvents.UpdateTimerTick += UpdateTimerTick;
+			Sound = null;
+			
+		}
+
 
 		protected virtual void UpdateTimerTick() {}
 
@@ -91,7 +93,7 @@ namespace ElectronicObserver.Notifier {
 		public void PlaySound() {
 			try {
 
-				if ( Sound != null && PlaysNotificationSound ) {
+				if ( Sound != null && PlaysSound ) {
 					Sound.Play();
 				}
 
@@ -114,46 +116,14 @@ namespace ElectronicObserver.Notifier {
 		#endregion
 
 
-		#region 通知画像
-
-		/// <summary>
-		/// 通知画像を読み込みます。
-		/// </summary>
-		/// <param name="path"></param>
-		public void LoadImage( string path ) {
-
-			try {
-
-				DisposeImage();
-				Image = new Bitmap( path );
-
-			} catch ( Exception ex ) {
-
-				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "通知システム: 通知画像 {0} の読み込みに失敗しました。", path ) );
-			}
-
-		}
-
-		/// <summary>
-		/// 通知画像を破棄します。
-		/// </summary>
-		public void DisposeImage() {
-			if ( Image != null ) {
-				Image.Dispose();
-				Image = null;
-			}
-		}
-
-		#endregion
-
 
 		/// <summary>
 		/// 通知ダイアログを表示します。
 		/// </summary>
 		public void ShowDialog() {
 
-			if ( ShowsNotificationDialog )
-				new DialogNotifier( this ).Show();
+			if ( ShowsDialog )
+				new DialogNotifier( DialogData ).Show();
 
 		}
 
