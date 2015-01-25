@@ -22,21 +22,42 @@ namespace ElectronicObserver.Notifier {
 		public NotifierDialogData DialogData { get; protected set; }
 
 		/// <summary>
+		/// 有効かどうか
+		/// </summary>
+		public bool IsEnabled { get; set; }
+
+
+		/// <summary>
 		/// 通知音
 		/// </summary>
 		public SoundPlayer Sound { get; protected set; }
 
-		
+		/// <summary>
+		/// 通知音のパス
+		/// </summary>
+		public string SoundPath { get; set; }
+
 		/// <summary>
 		/// 通知音を再生するか
 		/// </summary>
 		public bool PlaysSound { get; set; }
 
 		/// <summary>
+		/// undone
+		/// 通知音をループさせるか
+		/// </summary>
+		public bool LoopsSound { get; set; }
+
+		/// <summary>
 		/// 通知ダイアログを表示するか
 		/// </summary>
 		public bool ShowsDialog { get; set; }
 
+
+		/// <summary>
+		/// 通知を早める時間(ミリ秒)
+		/// </summary>
+		public int AccelInterval { get; set; }
 
 
 		public NotifierBase() {
@@ -46,15 +67,17 @@ namespace ElectronicObserver.Notifier {
 			
 		}
 
-		public NotifierBase( Utility.Configuration.ConfigurationData.ConfigNotification config ) {
+		public NotifierBase( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
 
 			Initialize();
 			DialogData = new NotifierDialogData( config );
 			if ( config.PlaysSound && config.SoundPath != null && config.SoundPath != "" )
 				LoadSound( config.SoundPath );
 
+			IsEnabled = config.IsEnabled;
 			PlaysSound = config.PlaysSound;
 			ShowsDialog = config.ShowsDialog;
+			AccelInterval = config.AccelInterval;
 
 		}
 
@@ -62,7 +85,7 @@ namespace ElectronicObserver.Notifier {
 
 			SystemEvents.UpdateTimerTick += UpdateTimerTick;
 			Sound = null;
-			
+			SoundPath = "";	
 		}
 
 
@@ -79,10 +102,12 @@ namespace ElectronicObserver.Notifier {
 
 				DisposeSound();
 				Sound = new SoundPlayer( path );
-			
+				SoundPath = path;
+
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "通知システム: 通知音 {0} のロードに失敗しました。", path ) );
+				DisposeSound();
 
 			}
 		}
@@ -111,6 +136,7 @@ namespace ElectronicObserver.Notifier {
 				Sound.Dispose();
 				Sound = null;
 			}
+			SoundPath = "";
 		}
 
 		#endregion
@@ -123,7 +149,7 @@ namespace ElectronicObserver.Notifier {
 		public void ShowDialog() {
 
 			if ( ShowsDialog )
-				new DialogNotifier( DialogData ).Show();
+				NotifierManager.Instance.ShowNotifier( new DialogNotifier( DialogData ) );
 
 		}
 
@@ -131,7 +157,7 @@ namespace ElectronicObserver.Notifier {
 		/// 通知を行います。
 		/// </summary>
 		public virtual void Notify() {
-
+	
 			ShowDialog();
 			PlaySound();
 

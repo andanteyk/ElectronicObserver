@@ -22,7 +22,7 @@ namespace ElectronicObserver.Notifier {
 			Initialize();
 		}
 
-		public NotifierExpedition( Utility.Configuration.ConfigurationData.ConfigNotification config )
+		public NotifierExpedition( Utility.Configuration.ConfigurationData.ConfigNotifierBase config )
 			: base( config ) {
 			Initialize();
 		}
@@ -42,7 +42,7 @@ namespace ElectronicObserver.Notifier {
 					processedFlags.Add( fleet.FleetID, false );
 
 				if ( fleet.ExpeditionState != 0 ) {
-					if ( !processedFlags[fleet.FleetID] && (int)( fleet.ExpeditionTime - DateTime.Now ).TotalSeconds <= 60 ) {		//undone:秒をシフトできるように
+					if ( !processedFlags[fleet.FleetID] && (int)( fleet.ExpeditionTime - DateTime.Now ).TotalMilliseconds <= AccelInterval ) {
 
 						processedFlags[fleet.FleetID] = true;
 						Notify( fleet.FleetID, fleet.ExpeditionDestination );
@@ -59,7 +59,7 @@ namespace ElectronicObserver.Notifier {
 
 		public void Notify( int fleetID, int destination ) {
 
-			DialogData.Message = string.Format( "#{0} {1}が遠征「{2}: {3}」から帰投しました。",
+			DialogData.Message = string.Format( "#{0} {1} が遠征「{2}: {3}」から帰投しました。",
 				fleetID, KCDatabase.Instance.Fleet[fleetID].Name, destination, KCDatabase.Instance.Mission[destination].Name );
 
 			base.Notify();

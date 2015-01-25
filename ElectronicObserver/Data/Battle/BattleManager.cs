@@ -59,6 +59,10 @@ namespace ElectronicObserver.Data.Battle {
 			switch ( apiname ) {
 				case "api_req_map/start":
 				case "api_req_map/next":
+					BattleDay = null;
+					BattleNight = null;
+					Result = null;
+					BattleMode = BattleModes.Undefined;
 					Compass = new CompassData();
 					Compass.LoadFromResponse( apiname, data );
 					break;

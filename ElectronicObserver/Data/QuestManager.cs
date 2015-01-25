@@ -37,24 +37,21 @@ namespace ElectronicObserver.Data {
 
 			//周期任務削除
 			if ( DateTimeHelper.IsCrossedDay( _prevTime, 5, 0, 0 ) ) {
-				foreach ( var q in Quests.Values ) {
-					if ( q.Type == 2 || q.Type == 4 || q.Type == 5 ) {
-						Quests.Remove( q );
-					} 
+				var remove = Quests.Values.Where( q => q.Type == 2 || q.Type == 4 || q.Type == 5 );
+				foreach ( var q in remove ) {
+					Quests.Remove( q ); 
 				}
 			}
 			if ( DateTimeHelper.IsCrossedWeek( _prevTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
-				foreach ( var q in Quests.Values ) {
-					if ( q.Type == 3 ) {
-						Quests.Remove( q );
-					}
+				var remove = Quests.Values.Where( q => q.Type == 3 );
+				foreach ( var q in remove ) {
+					Quests.Remove( q );
 				}
 			}
 			if ( DateTimeHelper.IsCrossedMonth( _prevTime, 1, 5, 0, 0 ) ) {
-				foreach ( var q in Quests.Values ) {
-					if ( q.Type == 6 ) {
-						Quests.Remove( q );
-					}
+				var remove = Quests.Values.Where( q => q.Type == 6 );
+				foreach ( var q in remove ) {
+					Quests.Remove( q );
 				}
 			}
 

@@ -124,7 +124,11 @@
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
     <Compile Include="Notifier\NotifierBase.cs" />
+    <Compile Include="Notifier\NotifierCondition.cs" />
+    <Compile Include="Notifier\NotifierConstruction.cs" />
     <Compile Include="Notifier\NotifierDialogData.cs" />
+    <Compile Include="Notifier\NotifierDamage.cs" />
+    <Compile Include="Notifier\NotifierRepair.cs" />
     <Compile Include="Notifier\NotifierExpedition.cs" />
     <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
@@ -192,6 +196,7 @@
     <Compile Include="Utility\Mathematics\DateTimeHelper.cs" />
     <Compile Include="Utility\Mathematics\Fraction.cs" />
     <Compile Include="Utility\SoftwareInformation.cs" />
+    <Compile Include="Utility\Storage\SerializableColor.cs" />
     <Compile Include="Utility\Storage\SerializableFont.cs" />
     <Compile Include="Utility\Storage\SerializableList.cs" />
     <Compile Include="Utility\SystemEvents.cs" />
@@ -249,6 +254,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogConfiguration.Designer.cs">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogConfigurationNotifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogConfigurationNotifier.Designer.cs">
+      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogEquipmentList.cs">
       <SubType>Form</SubType>
@@ -410,6 +421,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogConfigurationNotifier.resx">
+      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.resx">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>

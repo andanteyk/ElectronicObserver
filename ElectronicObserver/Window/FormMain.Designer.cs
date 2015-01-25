@@ -82,14 +82,14 @@
 			this.StripMenu_Debug_DeleteOldAPI = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_RenameShipResource = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Help_Help = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Help_Version = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripStatus = new System.Windows.Forms.StatusStrip();
 			this.StripStatus_Information = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
-			this.StripMenu_Help_Help = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -479,6 +479,18 @@
 			this.StripMenu_Help.Size = new System.Drawing.Size(75, 22);
 			this.StripMenu_Help.Text = "ヘルプ(&H)";
 			// 
+			// StripMenu_Help_Help
+			// 
+			this.StripMenu_Help_Help.Name = "StripMenu_Help_Help";
+			this.StripMenu_Help_Help.Size = new System.Drawing.Size(203, 22);
+			this.StripMenu_Help_Help.Text = "オンラインヘルプ(&H)...";
+			this.StripMenu_Help_Help.Click += new System.EventHandler(this.StripMenu_Help_Help_Click);
+			// 
+			// toolStripSeparator9
+			// 
+			this.toolStripSeparator9.Name = "toolStripSeparator9";
+			this.toolStripSeparator9.Size = new System.Drawing.Size(200, 6);
+			// 
 			// StripMenu_Help_Version
 			// 
 			this.StripMenu_Help_Version.Name = "StripMenu_Help_Version";
@@ -519,18 +531,6 @@
 			// 
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
-			// 
-			// StripMenu_Help_Help
-			// 
-			this.StripMenu_Help_Help.Name = "StripMenu_Help_Help";
-			this.StripMenu_Help_Help.Size = new System.Drawing.Size(203, 22);
-			this.StripMenu_Help_Help.Text = "オンラインヘルプ(&H)...";
-			this.StripMenu_Help_Help.Click += new System.EventHandler(this.StripMenu_Help_Help_Click);
-			// 
-			// toolStripSeparator9
-			// 
-			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(200, 6);
 			// 
 			// FormMain
 			// 

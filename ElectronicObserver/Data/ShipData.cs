@@ -566,6 +566,13 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		public double HPRate {
+			get {
+				if ( HPMax <= 0 ) return 0.0;
+				return (double)HPCurrent / HPMax;
+			}
+		}
+
 		
 		public int ID {
 			get { return MasterID; }

@@ -25,19 +25,62 @@ namespace ElectronicObserver.Window.Dialog {
 			Font = Utility.Configuration.Config.UI.MainFont;
 			Icon = Resource.ResourceManager.Instance.AppIcon;
 			Padding = new Padding( 4 );
+
+			SetStyle( ControlStyles.UserPaint, true );
+			SetStyle( ControlStyles.SupportsTransparentBackColor, true );
+			ForeColor = DialogData.ForeColor;
+			BackColor = DialogData.BackColor;
+
 		}
 
 
 		private void DialogNotifier_Load( object sender, EventArgs e ) {
 
-			if ( DialogData.Image != null ) {
+			if ( DialogData.DrawsImage && DialogData.Image != null ) {
 				ClientSize = DialogData.Image.Size;
-				FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			}
 
-			
+			if ( !DialogData.HasFormBorder )
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-			StartPosition = FormStartPosition.WindowsDefaultLocation;		//undone: 定位置も設定できるようにする。
+			TopMost = DialogData.TopMost;
+
+
+			Rectangle screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+			switch ( DialogData.Alignment ) {
+
+				case NotifierDialogAlignment.TopLeft:
+					Location = new Point( screen.X, screen.Y );
+					break;
+				case NotifierDialogAlignment.TopCenter:
+					Location = new Point( screen.X + ( screen.Width - Width ) / 2, screen.Y );
+					break;
+				case NotifierDialogAlignment.TopRight:
+					Location = new Point( screen.Right - Width, screen.Y );
+					break;
+				case NotifierDialogAlignment.MiddleLeft:
+					Location = new Point( screen.X, screen.Y + ( screen.Height - Height ) / 2 );
+					break;
+				case NotifierDialogAlignment.MiddleCenter:
+					Location = new Point( screen.X + ( screen.Width - Width ) / 2, screen.Y + ( screen.Height - Height ) / 2 );
+					break;
+				case NotifierDialogAlignment.MiddleRight:
+					Location = new Point( screen.Right - Width, screen.Y + ( screen.Height - Height ) / 2 );
+					break;
+				case NotifierDialogAlignment.BottomLeft:
+					Location = new Point( screen.X, screen.Bottom - Height );
+					break;
+				case NotifierDialogAlignment.BottomCenter:
+					Location = new Point( screen.X + ( screen.Width - Width ) / 2, screen.Bottom - Height );
+					break;
+				case NotifierDialogAlignment.BottomRight:
+					Location = new Point( screen.Right - Width, screen.Bottom - Height );
+					break;
+				case NotifierDialogAlignment.Custom:
+					Location = new Point( DialogData.Location.X, DialogData.Location.Y );
+					break;
+
+			}
 
 			if ( DialogData.ClosingInterval > 0 ) {
 				CloseTimer.Interval = DialogData.ClosingInterval;
@@ -48,13 +91,15 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void DialogNotifier_Paint( object sender, PaintEventArgs e ) {
 
+			
 			Graphics g = e.Graphics;
+			g.Clear( BackColor );
 
 			try {
 	
 				if ( DialogData.DrawsImage && DialogData.Image != null ) {
 
-					g.DrawImage( DialogData.Image, 0, 0 );
+					g.DrawImage( DialogData.Image, new Rectangle( 0, 0, DialogData.Image.Width, DialogData.Image.Height ) );
 				} 
 			
 				if ( DialogData.DrawsMessage ) {

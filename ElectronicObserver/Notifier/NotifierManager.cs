@@ -1,8 +1,10 @@
-﻿using System;
+﻿using ElectronicObserver.Window;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Notifier {
 
@@ -18,21 +20,35 @@ namespace ElectronicObserver.Notifier {
 
 		#endregion
 
+		private FormMain _parentForm;
+
 
 		public NotifierExpedition Expedition { get; private set; }
-
+		public NotifierConstruction Construction { get; private set; }
+		public NotifierRepair Repair { get; private set; }
+		public NotifierCondition Condition { get; private set; }
+		public NotifierDamage Damage { get; private set; }
 
 
 		private NotifierManager() {
 		}
 
 
-		public void Initialize() {
+		public void Initialize( FormMain parent ) {
 
-			Expedition = new NotifierExpedition( Utility.Configuration.Config.NotificationExpedition );
+			_parentForm = parent;
 
+			Expedition = new NotifierExpedition( Utility.Configuration.Config.NotifierExpedition );
+			Construction = new NotifierConstruction( Utility.Configuration.Config.NotifierExpedition );
+			Repair = new NotifierRepair( Utility.Configuration.Config.NotifierRepair );
+			Condition = new NotifierCondition( Utility.Configuration.Config.NotifierCondition );
+			Damage = new NotifierDamage( Utility.Configuration.Config.NotifierDamage );
 			
-			
+		}
+
+
+		public void ShowNotifier( Form form ) {
+			_parentForm.Invoke( (MethodInvoker)( () => form.Show() ) );
 		}
 
 	}

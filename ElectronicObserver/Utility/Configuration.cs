@@ -310,7 +310,7 @@ namespace ElectronicObserver.Utility {
 
 
 
-			public class ConfigNotification : ConfigPartBase {
+			public class ConfigNotifierBase : ConfigPartBase {
 
 				public bool IsEnabled { get; set; }
 
@@ -328,10 +328,24 @@ namespace ElectronicObserver.Utility {
 
 				public int ClosingInterval { get; set; }
 
+				public int AccelInterval { get; set; }
+
 				public bool CloseOnMouseMove { get; set; }
 
+				public Notifier.NotifierDialogAlignment Alignment { get; set; }
 
-				public ConfigNotification() {
+				public Point Location { get; set; }
+
+				public bool HasFormBorder { get; set; }
+
+				public bool TopMost { get; set; }
+
+				public SerializableColor ForeColor { get; set; }
+
+				public SerializableColor BackColor { get; set; }
+
+
+				public ConfigNotifierBase() {
 					IsEnabled = false;
 					ShowsDialog = true;
 					ImagePath = "";
@@ -340,11 +354,55 @@ namespace ElectronicObserver.Utility {
 					PlaysSound = false;
 					DrawsMessage = true;
 					ClosingInterval = 30000;
+					AccelInterval = 0;
 					CloseOnMouseMove = false;
+					Alignment = Notifier.NotifierDialogAlignment.BottomRight;
+					Location = new Point( 0, 0 );
+					HasFormBorder = true;
+					TopMost = true;
+					ForeColor = SystemColors.ControlText;
+					BackColor = SystemColors.Control;
+				}
+
+			}
+
+			public class ConfigNotifierDamage : ConfigNotifierBase {
+
+				public bool NotifiesBefore { get; set; }
+				public bool NotifiesNow { get; set; }
+				public bool NotifiesAfter { get; set; }
+				public int LevelBorder { get; set; }
+				public bool ContainsNotLockedShip { get; set; }
+				public bool ContainsSafeShip { get; set; }
+				public bool ContainsFlagship { get; set; }
+
+				public ConfigNotifierDamage()
+					: base() {
+					NotifiesBefore = false;
+					NotifiesNow = true;
+					NotifiesAfter = true;
+					LevelBorder = 1;
+					ContainsNotLockedShip = true;
+					ContainsSafeShip = true;
+					ContainsFlagship = true;
 				}
 			}
+
 			[DataMember]
-			public ConfigNotification NotificationExpedition { get; private set; }
+			public ConfigNotifierBase NotifierExpedition { get; private set; }
+
+			[DataMember]
+			public ConfigNotifierBase NotifierConstruction { get; private set; }
+
+			[DataMember]
+			public ConfigNotifierBase NotifierRepair { get; private set; }
+
+			[DataMember]
+			public ConfigNotifierBase NotifierCondition { get; private set; }
+
+			[DataMember]
+			public ConfigNotifierDamage NotifierDamage { get; private set; }
+
 
 
 			[DataMember]
@@ -369,7 +427,11 @@ namespace ElectronicObserver.Utility {
 				FormQuest = new ConfigFormQuest();
 				FormShipGroup = new ConfigFormShipGroup();
 
-				NotificationExpedition = new ConfigNotification();
+				NotifierExpedition = new ConfigNotifierBase();
+				NotifierConstruction = new ConfigNotifierBase();
+				NotifierRepair = new ConfigNotifierBase();
+				NotifierCondition = new ConfigNotifierBase();
+				NotifierDamage = new ConfigNotifierDamage();
 
 			}
 		}
