@@ -364,7 +364,11 @@ namespace ElectronicObserver.Window {
 									materialname = MaterialData.GetMaterialName( compass.GetItemIDMetadata );
 								
 								} else {
-									materialname = KCDatabase.Instance.MasterUseItems[compass.GetItemID].Name;
+									UseItemMaster item =  KCDatabase.Instance.MasterUseItems[compass.GetItemIDMetadata];
+									if ( item != null )
+										materialname = item.Name;
+									else
+										materialname = "謎のアイテム";
 								}
 
 								TextEventDetail.Text = materialname + " x " + compass.GetItemAmount;

@@ -346,14 +346,14 @@ namespace ElectronicObserver.Utility {
 
 
 				public ConfigNotifierBase() {
-					IsEnabled = false;
+					IsEnabled = true;
 					ShowsDialog = true;
 					ImagePath = "";
 					DrawsImage = false;
 					SoundPath = "";
 					PlaysSound = false;
 					DrawsMessage = true;
-					ClosingInterval = 30000;
+					ClosingInterval = 10000;
 					AccelInterval = 0;
 					CloseOnMouseMove = false;
 					Alignment = Notifier.NotifierDialogAlignment.BottomRight;
@@ -375,7 +375,7 @@ namespace ElectronicObserver.Utility {
 				public bool ContainsNotLockedShip { get; set; }
 				public bool ContainsSafeShip { get; set; }
 				public bool ContainsFlagship { get; set; }
-
+				public bool NotifiesAtEndpoint { get; set; }
 				public ConfigNotifierDamage()
 					: base() {
 					NotifiesBefore = false;
@@ -385,6 +385,7 @@ namespace ElectronicObserver.Utility {
 					ContainsNotLockedShip = true;
 					ContainsSafeShip = true;
 					ContainsFlagship = true;
+					NotifiesAtEndpoint = false;
 				}
 			}
 

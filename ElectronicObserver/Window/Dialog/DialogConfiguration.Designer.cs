@@ -77,6 +77,13 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
+			this.tabPage11 = new System.Windows.Forms.TabPage();
+			this.Notification_Expedition = new System.Windows.Forms.Button();
+			this.Notification_Construction = new System.Windows.Forms.Button();
+			this.Notification_Repair = new System.Windows.Forms.Button();
+			this.Notification_Condition = new System.Windows.Forms.Button();
+			this.Notification_Damage = new System.Windows.Forms.Button();
+			this.label10 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -93,6 +100,7 @@
 			this.tabPage8.SuspendLayout();
 			this.tabPage9.SuspendLayout();
 			this.tabPage10.SuspendLayout();
+			this.tabPage11.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -107,7 +115,9 @@
 			this.tabControl1.Controls.Add(this.tabPage5);
 			this.tabControl1.Controls.Add(this.tabPage6);
 			this.tabControl1.Controls.Add(this.tabPage7);
+			this.tabControl1.Controls.Add(this.tabPage11);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(400, 259);
@@ -121,10 +131,10 @@
 			this.tabPage1.Controls.Add(this.Connection_SaveReceivedData);
 			this.tabPage1.Controls.Add(this.Connection_Port);
 			this.tabPage1.Controls.Add(this.label1);
-			this.tabPage1.Location = new System.Drawing.Point(4, 24);
+			this.tabPage1.Location = new System.Drawing.Point(4, 44);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(392, 231);
+			this.tabPage1.Size = new System.Drawing.Size(392, 211);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "通信";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -134,7 +144,7 @@
 			this.Connection_OutputConnectionScript.Location = new System.Drawing.Point(8, 149);
 			this.Connection_OutputConnectionScript.Name = "Connection_OutputConnectionScript";
 			this.Connection_OutputConnectionScript.Size = new System.Drawing.Size(200, 23);
-			this.Connection_OutputConnectionScript.TabIndex = 6;
+			this.Connection_OutputConnectionScript.TabIndex = 5;
 			this.Connection_OutputConnectionScript.Text = "自動プロキシ設定スクリプトの出力...";
 			this.Connection_OutputConnectionScript.UseVisualStyleBackColor = true;
 			this.Connection_OutputConnectionScript.Click += new System.EventHandler(this.Connection_OutputConnectionScript_Click);
@@ -145,7 +155,7 @@
 			this.label4.Location = new System.Drawing.Point(140, 36);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(201, 15);
-			this.label4.TabIndex = 5;
+			this.label4.TabIndex = 3;
 			this.label4.Text = "＊膨大なサイズになる可能性があります。";
 			// 
 			// Connection_PanelSaveData
@@ -173,7 +183,7 @@
 			this.Connection_ApplyVersion.Location = new System.Drawing.Point(299, 61);
 			this.Connection_ApplyVersion.Name = "Connection_ApplyVersion";
 			this.Connection_ApplyVersion.Size = new System.Drawing.Size(68, 19);
-			this.Connection_ApplyVersion.TabIndex = 12;
+			this.Connection_ApplyVersion.TabIndex = 9;
 			this.Connection_ApplyVersion.Text = "Version";
 			this.ToolTipInfo.SetToolTip(this.Connection_ApplyVersion, "バージョン名をファイルに追加します。");
 			this.Connection_ApplyVersion.UseVisualStyleBackColor = true;
@@ -184,7 +194,7 @@
 			this.Connection_SaveOtherFile.Location = new System.Drawing.Point(234, 61);
 			this.Connection_SaveOtherFile.Name = "Connection_SaveOtherFile";
 			this.Connection_SaveOtherFile.Size = new System.Drawing.Size(59, 19);
-			this.Connection_SaveOtherFile.TabIndex = 11;
+			this.Connection_SaveOtherFile.TabIndex = 8;
 			this.Connection_SaveOtherFile.Text = "Other";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveOtherFile, "すべての通信ファイルを保存します。");
 			this.Connection_SaveOtherFile.UseVisualStyleBackColor = true;
@@ -195,7 +205,7 @@
 			this.Connection_SaveSWF.Location = new System.Drawing.Point(175, 61);
 			this.Connection_SaveSWF.Name = "Connection_SaveSWF";
 			this.Connection_SaveSWF.Size = new System.Drawing.Size(53, 19);
-			this.Connection_SaveSWF.TabIndex = 10;
+			this.Connection_SaveSWF.TabIndex = 7;
 			this.Connection_SaveSWF.Text = "SWF";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveSWF, "SWFファイルを保存します。");
 			this.Connection_SaveSWF.UseVisualStyleBackColor = true;
@@ -206,7 +216,7 @@
 			this.Connection_SaveResponse.Location = new System.Drawing.Point(88, 61);
 			this.Connection_SaveResponse.Name = "Connection_SaveResponse";
 			this.Connection_SaveResponse.Size = new System.Drawing.Size(81, 19);
-			this.Connection_SaveResponse.TabIndex = 9;
+			this.Connection_SaveResponse.TabIndex = 6;
 			this.Connection_SaveResponse.Text = "Response";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveResponse, "APIのResponse部を保存します。");
 			this.Connection_SaveResponse.UseVisualStyleBackColor = true;
@@ -217,7 +227,7 @@
 			this.Connection_SaveRequest.Location = new System.Drawing.Point(9, 61);
 			this.Connection_SaveRequest.Name = "Connection_SaveRequest";
 			this.Connection_SaveRequest.Size = new System.Drawing.Size(73, 19);
-			this.Connection_SaveRequest.TabIndex = 8;
+			this.Connection_SaveRequest.TabIndex = 5;
 			this.Connection_SaveRequest.Text = "Request";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveRequest, "APIのRequest部を保存します。");
 			this.Connection_SaveRequest.UseVisualStyleBackColor = true;
@@ -228,7 +238,7 @@
 			this.Connection_SaveDataPathSearch.Location = new System.Drawing.Point(341, 32);
 			this.Connection_SaveDataPathSearch.Name = "Connection_SaveDataPathSearch";
 			this.Connection_SaveDataPathSearch.Size = new System.Drawing.Size(32, 23);
-			this.Connection_SaveDataPathSearch.TabIndex = 7;
+			this.Connection_SaveDataPathSearch.TabIndex = 4;
 			this.Connection_SaveDataPathSearch.Text = "...";
 			this.Connection_SaveDataPathSearch.UseVisualStyleBackColor = true;
 			this.Connection_SaveDataPathSearch.Click += new System.EventHandler(this.Connection_SaveDataPathSearch_Click);
@@ -239,7 +249,7 @@
 			this.label3.Location = new System.Drawing.Point(6, 35);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(55, 15);
-			this.label3.TabIndex = 6;
+			this.label3.TabIndex = 2;
 			this.label3.Text = "保存先：";
 			// 
 			// Connection_SaveDataPath
@@ -250,7 +260,7 @@
 			this.Connection_SaveDataPath.Location = new System.Drawing.Point(67, 32);
 			this.Connection_SaveDataPath.Name = "Connection_SaveDataPath";
 			this.Connection_SaveDataPath.Size = new System.Drawing.Size(268, 23);
-			this.Connection_SaveDataPath.TabIndex = 5;
+			this.Connection_SaveDataPath.TabIndex = 3;
 			this.Connection_SaveDataPath.TextChanged += new System.EventHandler(this.Connection_SaveDataPath_TextChanged);
 			// 
 			// label2
@@ -259,7 +269,7 @@
 			this.label2.Location = new System.Drawing.Point(6, 6);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(52, 15);
-			this.label2.TabIndex = 4;
+			this.label2.TabIndex = 0;
 			this.label2.Text = "フィルタ：";
 			this.label2.Visible = false;
 			// 
@@ -272,7 +282,7 @@
 			this.Connection_SaveDataFilter.Name = "Connection_SaveDataFilter";
 			this.Connection_SaveDataFilter.ReadOnly = true;
 			this.Connection_SaveDataFilter.Size = new System.Drawing.Size(268, 23);
-			this.Connection_SaveDataFilter.TabIndex = 3;
+			this.Connection_SaveDataFilter.TabIndex = 1;
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveDataFilter, "＊未実装です＊");
 			this.Connection_SaveDataFilter.Visible = false;
 			// 
@@ -321,10 +331,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(392, 231);
+			this.tabPage2.Size = new System.Drawing.Size(392, 211);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -335,7 +345,7 @@
 			this.UI_SubFontApply.Location = new System.Drawing.Point(314, 35);
 			this.UI_SubFontApply.Name = "UI_SubFontApply";
 			this.UI_SubFontApply.Size = new System.Drawing.Size(32, 23);
-			this.UI_SubFontApply.TabIndex = 14;
+			this.UI_SubFontApply.TabIndex = 6;
 			this.UI_SubFontApply.Text = "⇒";
 			this.ToolTipInfo.SetToolTip(this.UI_SubFontApply, "現在のテキストボックスの内容を適用します。");
 			this.UI_SubFontApply.UseVisualStyleBackColor = true;
@@ -347,7 +357,7 @@
 			this.UI_MainFontApply.Location = new System.Drawing.Point(314, 6);
 			this.UI_MainFontApply.Name = "UI_MainFontApply";
 			this.UI_MainFontApply.Size = new System.Drawing.Size(32, 23);
-			this.UI_MainFontApply.TabIndex = 13;
+			this.UI_MainFontApply.TabIndex = 2;
 			this.UI_MainFontApply.Text = "⇒";
 			this.ToolTipInfo.SetToolTip(this.UI_MainFontApply, "現在のテキストボックスの内容を適用します。");
 			this.UI_MainFontApply.UseVisualStyleBackColor = true;
@@ -357,10 +367,10 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 195);
+			this.label9.Location = new System.Drawing.Point(8, 173);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
-			this.label9.TabIndex = 12;
+			this.label9.TabIndex = 8;
 			this.label9.Text = "＊再起動後に反映されます。";
 			// 
 			// UI_SubFontSelect
@@ -369,7 +379,7 @@
 			this.UI_SubFontSelect.Location = new System.Drawing.Point(352, 35);
 			this.UI_SubFontSelect.Name = "UI_SubFontSelect";
 			this.UI_SubFontSelect.Size = new System.Drawing.Size(32, 23);
-			this.UI_SubFontSelect.TabIndex = 11;
+			this.UI_SubFontSelect.TabIndex = 7;
 			this.UI_SubFontSelect.Text = "...";
 			this.UI_SubFontSelect.UseVisualStyleBackColor = true;
 			this.UI_SubFontSelect.Click += new System.EventHandler(this.UI_SubFontSelect_Click);
@@ -381,7 +391,7 @@
 			this.UI_SubFont.Location = new System.Drawing.Point(92, 35);
 			this.UI_SubFont.Name = "UI_SubFont";
 			this.UI_SubFont.Size = new System.Drawing.Size(216, 23);
-			this.UI_SubFont.TabIndex = 10;
+			this.UI_SubFont.TabIndex = 5;
 			// 
 			// label8
 			// 
@@ -389,7 +399,7 @@
 			this.label8.Location = new System.Drawing.Point(8, 38);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(71, 15);
-			this.label8.TabIndex = 9;
+			this.label8.TabIndex = 4;
 			this.label8.Text = "サブフォント：";
 			// 
 			// UI_MainFontSelect
@@ -398,7 +408,7 @@
 			this.UI_MainFontSelect.Location = new System.Drawing.Point(352, 6);
 			this.UI_MainFontSelect.Name = "UI_MainFontSelect";
 			this.UI_MainFontSelect.Size = new System.Drawing.Size(32, 23);
-			this.UI_MainFontSelect.TabIndex = 8;
+			this.UI_MainFontSelect.TabIndex = 3;
 			this.UI_MainFontSelect.Text = "...";
 			this.UI_MainFontSelect.UseVisualStyleBackColor = true;
 			this.UI_MainFontSelect.Click += new System.EventHandler(this.UI_MainFontSelect_Click);
@@ -427,10 +437,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Location = new System.Drawing.Point(4, 44);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(392, 231);
+			this.tabPage3.Size = new System.Drawing.Size(392, 211);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -438,7 +448,7 @@
 			// Log_SaveErrorReport
 			// 
 			this.Log_SaveErrorReport.AutoSize = true;
-			this.Log_SaveErrorReport.Location = new System.Drawing.Point(8, 61);
+			this.Log_SaveErrorReport.Location = new System.Drawing.Point(8, 60);
 			this.Log_SaveErrorReport.Name = "Log_SaveErrorReport";
 			this.Log_SaveErrorReport.Size = new System.Drawing.Size(142, 19);
 			this.Log_SaveErrorReport.TabIndex = 3;
@@ -453,14 +463,14 @@
 			this.Log_SaveLogFlag.Location = new System.Drawing.Point(8, 6);
 			this.Log_SaveLogFlag.Name = "Log_SaveLogFlag";
 			this.Log_SaveLogFlag.Size = new System.Drawing.Size(139, 19);
-			this.Log_SaveLogFlag.TabIndex = 2;
+			this.Log_SaveLogFlag.TabIndex = 0;
 			this.Log_SaveLogFlag.Text = "ログをファイルに保存する";
 			this.Log_SaveLogFlag.UseVisualStyleBackColor = true;
 			// 
 			// Log_LogLevel
 			// 
 			this.Log_LogLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.Log_LogLevel.Location = new System.Drawing.Point(304, 32);
+			this.Log_LogLevel.Location = new System.Drawing.Point(112, 31);
 			this.Log_LogLevel.Maximum = new decimal(new int[] {
             3,
             0,
@@ -468,7 +478,7 @@
             0});
 			this.Log_LogLevel.Name = "Log_LogLevel";
 			this.Log_LogLevel.Size = new System.Drawing.Size(80, 23);
-			this.Log_LogLevel.TabIndex = 1;
+			this.Log_LogLevel.TabIndex = 2;
 			this.Log_LogLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label6
@@ -477,17 +487,17 @@
 			this.label6.Location = new System.Drawing.Point(6, 34);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(100, 15);
-			this.label6.TabIndex = 0;
+			this.label6.TabIndex = 1;
 			this.label6.Text = "ログの出力レベル：";
 			// 
 			// tabPage4
 			// 
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Location = new System.Drawing.Point(4, 44);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(392, 231);
+			this.tabPage4.Size = new System.Drawing.Size(392, 211);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -503,7 +513,7 @@
             0});
 			this.Control_ConditionBorder.Name = "Control_ConditionBorder";
 			this.Control_ConditionBorder.Size = new System.Drawing.Size(80, 23);
-			this.Control_ConditionBorder.TabIndex = 3;
+			this.Control_ConditionBorder.TabIndex = 1;
 			this.Control_ConditionBorder.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// label7
@@ -512,16 +522,16 @@
 			this.label7.Location = new System.Drawing.Point(6, 8);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(94, 15);
-			this.label7.TabIndex = 2;
+			this.label7.TabIndex = 0;
 			this.label7.Text = "疲労度ボーダー：";
 			// 
 			// tabPage5
 			// 
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Location = new System.Drawing.Point(4, 44);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 231);
+			this.tabPage5.Size = new System.Drawing.Size(392, 211);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -541,10 +551,10 @@
 			// tabPage6
 			// 
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 231);
+			this.tabPage6.Size = new System.Drawing.Size(392, 211);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "起動と終了";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -562,10 +572,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 24);
+			this.tabPage7.Location = new System.Drawing.Point(4, 44);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(392, 231);
+			this.tabPage7.Size = new System.Drawing.Size(392, 211);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -579,7 +589,7 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(386, 225);
+			this.tabControl2.Size = new System.Drawing.Size(386, 205);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
@@ -588,7 +598,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(378, 197);
+			this.tabPage8.Size = new System.Drawing.Size(378, 177);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -606,10 +616,10 @@
 			// tabPage9
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 22);
+			this.tabPage9.Location = new System.Drawing.Point(4, 24);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 199);
+			this.tabPage9.Size = new System.Drawing.Size(378, 177);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -627,10 +637,10 @@
 			// tabPage10
 			// 
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 22);
+			this.tabPage10.Location = new System.Drawing.Point(4, 24);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 199);
+			this.tabPage10.Size = new System.Drawing.Size(378, 177);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -681,6 +691,82 @@
 			// 
 			this.FontSelector.ShowEffects = false;
 			// 
+			// tabPage11
+			// 
+			this.tabPage11.Controls.Add(this.label10);
+			this.tabPage11.Controls.Add(this.Notification_Damage);
+			this.tabPage11.Controls.Add(this.Notification_Condition);
+			this.tabPage11.Controls.Add(this.Notification_Repair);
+			this.tabPage11.Controls.Add(this.Notification_Construction);
+			this.tabPage11.Controls.Add(this.Notification_Expedition);
+			this.tabPage11.Location = new System.Drawing.Point(4, 44);
+			this.tabPage11.Name = "tabPage11";
+			this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage11.Size = new System.Drawing.Size(392, 211);
+			this.tabPage11.TabIndex = 7;
+			this.tabPage11.Text = "通知";
+			this.tabPage11.UseVisualStyleBackColor = true;
+			// 
+			// Notification_Expedition
+			// 
+			this.Notification_Expedition.Location = new System.Drawing.Point(8, 6);
+			this.Notification_Expedition.Name = "Notification_Expedition";
+			this.Notification_Expedition.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Expedition.TabIndex = 0;
+			this.Notification_Expedition.Text = "遠征帰投通知の設定...";
+			this.Notification_Expedition.UseVisualStyleBackColor = true;
+			this.Notification_Expedition.Click += new System.EventHandler(this.Notification_Expedition_Click);
+			// 
+			// Notification_Construction
+			// 
+			this.Notification_Construction.Location = new System.Drawing.Point(8, 35);
+			this.Notification_Construction.Name = "Notification_Construction";
+			this.Notification_Construction.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Construction.TabIndex = 1;
+			this.Notification_Construction.Text = "建造完了通知の設定...";
+			this.Notification_Construction.UseVisualStyleBackColor = true;
+			this.Notification_Construction.Click += new System.EventHandler(this.Notification_Construction_Click);
+			// 
+			// Notification_Repair
+			// 
+			this.Notification_Repair.Location = new System.Drawing.Point(8, 64);
+			this.Notification_Repair.Name = "Notification_Repair";
+			this.Notification_Repair.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Repair.TabIndex = 2;
+			this.Notification_Repair.Text = "入渠完了通知の設定...";
+			this.Notification_Repair.UseVisualStyleBackColor = true;
+			this.Notification_Repair.Click += new System.EventHandler(this.Notification_Repair_Click);
+			// 
+			// Notification_Condition
+			// 
+			this.Notification_Condition.Location = new System.Drawing.Point(8, 93);
+			this.Notification_Condition.Name = "Notification_Condition";
+			this.Notification_Condition.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Condition.TabIndex = 3;
+			this.Notification_Condition.Text = "疲労回復通知の設定...";
+			this.Notification_Condition.UseVisualStyleBackColor = true;
+			this.Notification_Condition.Click += new System.EventHandler(this.Notification_Condition_Click);
+			// 
+			// Notification_Damage
+			// 
+			this.Notification_Damage.Location = new System.Drawing.Point(8, 122);
+			this.Notification_Damage.Name = "Notification_Damage";
+			this.Notification_Damage.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Damage.TabIndex = 4;
+			this.Notification_Damage.Text = "大破進撃通知の設定...";
+			this.Notification_Damage.UseVisualStyleBackColor = true;
+			this.Notification_Damage.Click += new System.EventHandler(this.Notification_Damage_Click);
+			// 
+			// label10
+			// 
+			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(3, 193);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(238, 15);
+			this.label10.TabIndex = 5;
+			this.label10.Text = "＊各ダイアログでOKを押した時点で適用されます";
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -725,6 +811,8 @@
 			this.tabPage9.PerformLayout();
 			this.tabPage10.ResumeLayout(false);
 			this.tabPage10.PerformLayout();
+			this.tabPage11.ResumeLayout(false);
+			this.tabPage11.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -784,5 +872,12 @@
 		internal System.Windows.Forms.CheckBox FormFleet_ShowAircraft;
 		internal System.Windows.Forms.CheckBox FormArsenal_ShowShipName;
 		internal System.Windows.Forms.CheckBox FormQuest_ShowRunningOnly;
+		private System.Windows.Forms.TabPage tabPage11;
+		private System.Windows.Forms.Button Notification_Expedition;
+		private System.Windows.Forms.Button Notification_Construction;
+		private System.Windows.Forms.Button Notification_Repair;
+		private System.Windows.Forms.Button Notification_Damage;
+		private System.Windows.Forms.Button Notification_Condition;
+		private System.Windows.Forms.Label label10;
 	}
 }

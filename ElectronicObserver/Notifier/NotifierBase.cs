@@ -97,12 +97,16 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知音を読み込みます。
 		/// </summary>
-		public void LoadSound( string path ) {
+		/// <param name="path">音声ファイルへのパス。</param>
+		/// <returns>成功すれば true 、失敗すれば false を返します。</returns>
+		public bool LoadSound( string path ) {
 			try {
 
 				DisposeSound();
 				Sound = new SoundPlayer( path );
 				SoundPath = path;
+
+				return true;
 
 			} catch ( Exception ex ) {
 
@@ -110,6 +114,8 @@ namespace ElectronicObserver.Notifier {
 				DisposeSound();
 
 			}
+
+			return false;
 		}
 
 		/// <summary>

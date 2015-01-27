@@ -1064,7 +1064,16 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_air_fire	：対空カットイン
 				api_idx			：発動艦のインデックス 0から始まる
 				api_kind		：カットイン種別
-				api_use_items	：表示装備ID
+									1：高角砲x2/電探
+									2：高角砲/電探
+									3：高角砲x2
+									4：大口径主砲/三式弾/高射装置/電探
+									5：高角砲+高射装置x2/電探
+									6：大口径主砲/三式弾/高射装置
+									7：高角砲/高射装置/電探
+									8：高角砲+高射装置/電探
+									9：高角砲/高射装置
+				api_use_items	：表示装備IDリスト
 		api_stage3		：航空攻撃
 			api_frai_flag	：味方被雷撃フラグ
 			api_erai_flag	：敵被雷撃フラグ
@@ -1156,7 +1165,7 @@ api_req_sortie/battleresult	：戦闘結果
 	api_ship_id				：敵艦船ID
 	api_win_rank			：勝利ランク
 	api_get_exp				：獲得提督経験値
-	api_mvp					：MVP
+	api_mvp					：MVP　1から始まる, -1=なし
 	api_member_lv			：艦隊司令部Lv.
 	api_member_exp			：提督経験値
 	api_get_base_exp		：獲得基本経験値
@@ -1181,6 +1190,8 @@ api_req_sortie/battleresult	：戦闘結果
 		api_ship_type		：艦種
 		api_ship_name		：艦船名
 		api_ship_getmes		：メッセージ
+	api_get_slotitem		：ドロップ装備情報？ api_get_flag[2]=1のときのみ存在
+		api_slotitem_id		：装備ID
 	api_get_eventitem		：海域攻略報酬　イベント海域突破時のみ存在
 		api_type			：報酬種別 1=アイテム, 2=艦娘, 3=装備
 		api_id				：ID

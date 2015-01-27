@@ -120,8 +120,9 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知画像を読み込みます。
 		/// </summary>
-		/// <param name="path"></param>
-		public void LoadImage( string path ) {
+		/// <param name="path">画像ファイルへのパス。</param>
+		/// <returns>成功すれば true 、失敗すれば false を返します。</returns>
+		public bool LoadImage( string path ) {
 
 			try {
 
@@ -131,6 +132,8 @@ namespace ElectronicObserver.Notifier {
 					ImagePath = path;
 				}
 
+				return true;
+
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "通知システム: 通知画像 {0} の読み込みに失敗しました。", path ) );
@@ -138,6 +141,7 @@ namespace ElectronicObserver.Notifier {
 
 			}
 
+			return false;
 		}
 
 		/// <summary>

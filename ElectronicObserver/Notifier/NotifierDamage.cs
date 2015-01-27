@@ -50,6 +50,11 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		public bool ContainsFlagship { get; set; }
 
+		/// <summary>
+		/// 終点でも通知する
+		/// </summary>
+		public bool NotifiesAtEndpoint { get; set; }
+
 
 		public NotifierDamage()
 			: base() {
@@ -67,6 +72,7 @@ namespace ElectronicObserver.Notifier {
 			ContainsNotLockedShip = config.ContainsNotLockedShip;
 			ContainsSafeShip = config.ContainsSafeShip;
 			ContainsFlagship = config.ContainsFlagship;
+			NotifiesAtEndpoint = config.NotifiesAtEndpoint;
 		}
 
 
@@ -141,9 +147,9 @@ namespace ElectronicObserver.Notifier {
 		private void CheckBattle() {
 
 			BattleManager bm = KCDatabase.Instance.Battle;
-
-			if ( bm.Compass.IsEndPoint )
-				return;						//終点ならすぐ帰投できるので判定しない
+			
+			if ( bm.Compass.IsEndPoint && !NotifiesAtEndpoint )
+				return;
 
 
 			List<string> list = new List<string>();
@@ -198,14 +204,9 @@ namespace ElectronicObserver.Notifier {
 		}
 
 
-
-		//undone: 戦闘開始時にアラート表示
-		//fixme: 戦闘終了時のアラートが表示されない：まだHPに反映されていないため
-
-
 		
 		private string[] GetDamagedShips( IEnumerable<ShipData> ships ) {
-			return ships.Where( s => s != null && s.HPCurrent > 0 && s.HPRate <= 0.25 &&
+			return ships.Where( s => s != null && s.HPCurrent > 0 && s.HPRate <= 0.25 && s.RepairingDockID == -1 &&
 					s.Level >= LevelBorder &&
 					( ContainsNotLockedShip ? true : s.IsLocked ) &&
 					( ContainsSafeShip ? true : !s.SlotInstanceMaster.Select( e => e != null ? e.EquipmentType[2] == 23 : false ).Contains( true ) )

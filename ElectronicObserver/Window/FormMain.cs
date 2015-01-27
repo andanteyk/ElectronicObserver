@@ -698,11 +698,9 @@ namespace ElectronicObserver.Window {
 			//適当極まりない
 			int count = 0;
 
-			string[] files = Directory.GetFiles( Utility.Configuration.Config.Connection.SaveDataPath, "*.json", SearchOption.TopDirectoryOnly );
-
 			var apilist = new Dictionary<string, List<KeyValuePair<string, string>>>();
 
-			foreach ( string s in files ) {
+			foreach ( string s in Directory.EnumerateFiles( Utility.Configuration.Config.Connection.SaveDataPath, "*.json", SearchOption.TopDirectoryOnly ) ) {
 
 				int start = s.IndexOf( '@' );
 				int end = s.LastIndexOf( '.' );

@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Observer;
+﻿using ElectronicObserver.Notifier;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Storage;
 using System;
@@ -168,6 +169,43 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+		}
+
+
+
+		private void Notification_Expedition_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Expedition ) ) {
+				dialog.ShowDialog();
+			}
+		}
+
+		private void Notification_Construction_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Construction ) ) {
+				dialog.ShowDialog();
+			}
+		}
+
+		private void Notification_Repair_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Repair ) ) {
+				dialog.ShowDialog();
+			}
+		}
+
+		private void Notification_Condition_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Condition ) ) {
+				dialog.ShowDialog();
+			}
+		}
+
+		private void Notification_Damage_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Damage ) ) {
+				dialog.ShowDialog();
+			}
 		}
 
 		
