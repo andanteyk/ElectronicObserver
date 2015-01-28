@@ -13,13 +13,8 @@ namespace ElectronicObserver.Notifier {
 	/// </summary>
 	public class NotifierCondition : NotifierBase {
 
-		private Dictionary<int, ConditionTimer> timers;
+		private Dictionary<int, bool> _processedFlags;
 
-
-		private class ConditionTimer {
-			public DateTime? Timer = null;
-			public bool IsLocked = true;
-		}
 
 		public NotifierCondition()
 			: base() {
@@ -34,94 +29,27 @@ namespace ElectronicObserver.Notifier {
 
 		private void Initialize() {
 			DialogData.Title = "疲労回復";
-			timers = new Dictionary<int, ConditionTimer>();
+			_processedFlags = new Dictionary<int, bool>();
 
 			for ( int i = 1; i <= 4; i++ )
-				timers.Add( i, new ConditionTimer() );
+				_processedFlags.Add( i, false );
 
 
 			APIObserver o = APIObserver.Instance;
 
-			o["api_req_hensei/change"].RequestReceived += ( string apiname, dynamic data ) => Updated( int.Parse( data["api_id"] ) );
-			o["api_req_kaisou/remodeling"].RequestReceived += ( string apiname, dynamic data ) => Updated( int.Parse( data["api_id"] ) );
-
-			o["api_req_nyukyo/start"].RequestReceived += Shorten;
-			o["api_req_nyukyo/speedchange"].RequestReceived += Shorten;
-			o["api_req_kousyou/destroyship"].RequestReceived += Shorten;
-			o["api_port/port"].ResponseReceived += Shorten;
-			o["api_get_member/ndock"].ResponseReceived += Shorten;
-			o["api_req_kousyou/destroyship"].ResponseReceived += Shorten;
-			o["api_get_member/ship3"].ResponseReceived += Shorten;
-			o["api_req_kaisou/powerup"].ResponseReceived += Shorten;
-
-			o["api_req_map/start"].RequestReceived += LockTimer;
-
-			o["api_port/port"].ResponseReceived += UnlockTimer;
+			o["api_port/port"].ResponseReceived += ClearFlags;
 
 		}
 
-		
-		private void Updated( int fleetID ) {
 
-			int minute = GetRecoveryMinute( KCDatabase.Instance.Fleet[fleetID].MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
+		private void ClearFlags( string apiname, dynamic data ) {
 
-			if ( minute > 0 )
-				timers[fleetID].Timer = DateTime.Now.AddMinutes( minute );
-			else
-				timers[fleetID].Timer = null;
-
-			//Utility.Logger.Add( 1, string.Format( "疲労通知: 再設定 #{0} : {1}分", fleetID, minute ) );
-		}
-
-		private void Shorten( string apiname, dynamic data ) {
-
-			foreach ( var fleet in KCDatabase.Instance.Fleet.Fleets.Values ) {
-
-				int minute = GetRecoveryMinute( fleet.MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
-
-				if ( minute == 0 ) {
-					timers[fleet.FleetID].Timer = null;
-
-				} else {
-					DateTime target = DateTime.Now.AddMinutes( minute );
-					if ( target < timers[fleet.FleetID].Timer ) {
-						timers[fleet.FleetID].Timer = target;
-					}
-				}
-
-				/*/
-				{
-					var ts = ( timers[fleet.FleetID].Timer ?? DateTime.Now ) - DateTime.Now;
-					Utility.Logger.Add( 1, string.Format( "疲労通知: 短縮 #{0} : {1}分 / {2:D2}:{3:D2}", fleet.FleetID, minute, (int)ts.TotalMinutes, (int)ts.Seconds ) );
-				}
-				//*/
-			}
-
-		}
-
-		private void LockTimer( string apiname, dynamic data ) {
-
-			foreach ( var fleet in KCDatabase.Instance.Fleet.Fleets.Values ) {
-				if ( fleet.IsInSortie )
-					timers[fleet.FleetID].IsLocked = true;
+			var keys = _processedFlags.Keys.ToArray();
+			foreach ( int key in keys ) {
+				_processedFlags[key] = false;
 			}
 		}
 
-		private void UnlockTimer( string apiname, dynamic data ) {
-
-			foreach ( var fleet in KCDatabase.Instance.Fleet.Fleets.Values ) {
-				if ( timers[fleet.FleetID].IsLocked ) {
-
-					timers[fleet.FleetID].IsLocked = false;
-					Updated( fleet.FleetID );
-				}
-			}
-		}
-
-		private int GetRecoveryMinute( int cond ) {
-			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
-		}
-		
 
 		protected override void UpdateTimerTick() {
 
@@ -129,16 +57,19 @@ namespace ElectronicObserver.Notifier {
 
 				if ( fleet.ExpeditionState > 0 || fleet.IsInSortie ) continue;
 
+				if ( _processedFlags[fleet.FleetID] ) {
+					if ( fleet.ConditionTime > DateTime.Now )
+						_processedFlags[fleet.FleetID] = false;
+					else
+						continue;
+				}
 
-				ConditionTimer timer = timers[fleet.FleetID];
+				if ( fleet.ConditionTime != null && !fleet.IsConditionTimeLocked ) {
 
-				if ( timer != null && timer.Timer != null && !timer.IsLocked ) {
+					if ( ( (DateTime)fleet.ConditionTime - DateTime.Now ).TotalMilliseconds <= AccelInterval ) {
 
-					if ( timer.Timer < DateTime.Now ) {
-
-						timer.Timer = null;
 						Notify( fleet.FleetID );
-
+						_processedFlags[fleet.FleetID] = true;
 					}
 				}
 			}
@@ -147,7 +78,7 @@ namespace ElectronicObserver.Notifier {
 
 		public void Notify( int fleetID ) {
 
-			DialogData.Message = string.Format( "#{0} {1} に所属する艦娘の疲労が回復しました。",
+			DialogData.Message = string.Format( "#{0} 「{1}」に所属する艦娘の疲労が回復しました。",
 				fleetID, KCDatabase.Instance.Fleet[fleetID].Name );
 
 			base.Notify();

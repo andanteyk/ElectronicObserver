@@ -23,7 +23,7 @@ namespace ElectronicObserver.Window {
 
 		public Font MainFont { get; set; }
 		public Font SubFont { get; set; }
-		
+
 
 
 		public FormBattle( FormMain parent ) {
@@ -33,7 +33,7 @@ namespace ElectronicObserver.Window {
 
 
 			ConfigurationChanged();
-			
+
 			HPBars = new List<ShipStatusHP>( 18 );
 
 
@@ -99,7 +99,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-	
+
 		private void Updated( string apiname, dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
@@ -401,8 +401,12 @@ namespace ElectronicObserver.Window {
 					(int)bd.Data.api_kouku.api_stage2.api_e_count );
 
 				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {	//対空カットイン
+					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
 					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
-						"対空カットイン: {0}\r\nカットイン種別: {1}", KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[bd.FleetIDFriend].Members[(int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx]].MasterShip.Name, (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind ) );
+						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})", 
+						KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[bd.FleetIDFriend].Members[(int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx]].NameWithLevel, 
+						cutinID,
+						Constants.GetAACutinKind( cutinID ) ) );
 				} else {
 					ToolTipInfo.SetToolTip( AirStage2Friend, null );
 				}
@@ -654,57 +658,66 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bd.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
+				int rank;
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
 
-				if ( sunkFriend == 0 ) {
-					if ( enemyrate == 1.0 ) {
-						if ( friendrate == 0.0 ) {
-							DamageRate.Text = "SS";
-							DamageRate.ForeColor = colorWin;
-						} else {
-							DamageRate.Text = "S";
-							DamageRate.ForeColor = colorWin;
-						}
+				if ( enemyrate >= 1.0 ) {
+					if ( friendrate <= 0.0 ) {
+						rank = 7;
+					} else {
+						rank = 6;
+					}
 
-					} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
-						DamageRate.Text = "A";
-						DamageRate.ForeColor = colorWin;
+				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
+					rank = 5;
 
-					} else if ( hp[6] == 0 ||
-						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
-						DamageRate.Text = "B";
-						DamageRate.ForeColor = colorWin;
+				} else if ( hp[6] == 0 ||
+					(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
+					rank = 4;
 
-					} else if ( (int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
+				} else if ( (int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
+					rank = 3;
+				} else {
+					rank = 2;
+				}
+
+				if ( sunkFriend > 0 )
+					rank = Math.Min( rank, 5 ) - 1;
+
+
+				switch ( rank ) {
+					case 2:
+						DamageRate.Text = "D";
+						DamageRate.ForeColor = colorLose;
+						break;
+					case 3:
 						DamageRate.Text = "C";
 						DamageRate.ForeColor = colorLose;
-
-					} else {
-						DamageRate.Text = "D";
+						break;
+					case 4:
+						DamageRate.Text = "B";
+						DamageRate.ForeColor = colorWin;
+						break;
+					case 5:
+						DamageRate.Text = "A";
+						DamageRate.ForeColor = colorWin;
+						break;
+					case 6:
+						DamageRate.Text = "S";
+						DamageRate.ForeColor = colorWin;
+						break;
+					case 7:
+						DamageRate.Text = "SS";
+						DamageRate.ForeColor = colorWin;
+						break;
+					default:
+						DamageRate.Text = "E";
 						DamageRate.ForeColor = colorLose;
-
-					}
-
-				} else {
-					if ( ( hp[6] == 0 && sunkFriend < sunkEnemy ) ||
-						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
-							DamageRate.Text = "B";
-							DamageRate.ForeColor = colorWin;
-
-					} else if ( ( hp[6] == 0 && sunkFriend >= sunkEnemy ) ||
-						(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
-							DamageRate.Text = "C";
-							DamageRate.ForeColor = colorLose;
-
-					} else {
-						DamageRate.Text = "D";
-						DamageRate.ForeColor = colorLose;
-
-					}
-
+						break;
 				}
-				
+
+
 			}
 		}
 
@@ -800,7 +813,7 @@ namespace ElectronicObserver.Window {
 
 
 		void ConfigurationChanged() {
-	
+
 			MainFont = TableMain.Font = Font = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 

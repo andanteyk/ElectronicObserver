@@ -43,7 +43,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 
 			db.Material.Fuel -= ship.RepairFuel;
 			db.Material.Steel -= ship.RepairSteel;
-				
+
+
+			db.Fleet.LoadFromRequest( APIName, data );
 			
 			base.OnRequestReceived( data );
 		}

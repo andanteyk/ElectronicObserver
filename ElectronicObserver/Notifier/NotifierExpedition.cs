@@ -59,7 +59,7 @@ namespace ElectronicObserver.Notifier {
 
 		public void Notify( int fleetID, int destination ) {
 
-			DialogData.Message = string.Format( "#{0} {1} が遠征「{2}: {3}」から帰投しました。",
+			DialogData.Message = string.Format( "#{0} 「{1}」が遠征「{2}: {3}」から帰投しました。",
 				fleetID, KCDatabase.Instance.Fleet[fleetID].Name, destination, KCDatabase.Instance.Mission[destination].Name );
 
 			base.Notify();

@@ -119,9 +119,13 @@ namespace ElectronicObserver.Window {
 
 		private void ConfigurationChanged() {
 
-			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = Utility.Configuration.Config.Debug.EnableDebugMenu;
-			
-			Font = Utility.Configuration.Config.UI.MainFont;
+			var c = Utility.Configuration.Config;
+
+			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = c.Debug.EnableDebugMenu;
+
+			TopMost = c.Life.TopMost;
+
+			Font = c.UI.MainFont;
 			//StripMenu.Font = Font;
 			StripStatus.Font = Font;
 			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;

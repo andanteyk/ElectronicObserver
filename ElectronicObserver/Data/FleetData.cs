@@ -90,7 +90,17 @@ namespace ElectronicObserver.Data {
 			get { return _escapedShipList.AsReadOnly(); }
 		}
 
+		/// <summary>
+		/// 出撃中かどうか
+		/// </summary>
 		public bool IsInSortie { get; internal set; }
+
+
+
+		public DateTime? ConditionTime { get; internal set; }
+		public bool IsConditionTimeLocked { get; internal set; }
+		public DateTime? AnchorageRepairTimer { get; internal set; }
+
 
 
 
@@ -100,25 +110,45 @@ namespace ElectronicObserver.Data {
 
 
 
+		public FleetData()
+			: base() {
+
+			ConditionTime = null;
+			IsConditionTimeLocked = true;
+		}
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 		
 			switch ( apiname ) {
-				/*
-				case "api_req_mission/start":
-					ExpeditionTime = DateTimeHelper.FromAPITime( (long)data.api_complatetime );	
-					break;
-				*/
+				
 				case "api_port/port":
+					base.LoadFromResponse( apiname, (object)data );
+
+					Name = (string)RawData.api_name;
+					_members = (int[])RawData.api_ship;
+					ExpeditionState = (int)RawData.api_mission[0];
+					ExpeditionDestination = (int)RawData.api_mission[1];
+					ExpeditionTime = DateTimeHelper.FromAPITime( (long)RawData.api_mission[2] );
+
 					_escapedShipList.Clear();
 					if ( IsInSortie ) {
-						Utility.Logger.Add( 2, string.Format( "#{0} {1}が帰投しました。", FleetID, Name ) );
+						Utility.Logger.Add( 2, string.Format( "#{0}「{1}」が帰投しました。", FleetID, Name ) );
 					}
 					IsInSortie = false;
-					goto default;
 
-				default:			//checkme
+					UnlockConditionTimer();
+					ShortenConditionTimer();
+					break;
+
+				case "api_get_member/ndock":
+				case "api_req_kousyou/destroyship":
+				case "api_get_member/ship3":
+				case "api_req_kaisou/powerup":
+					ShortenConditionTimer();
+					break;
+
+				default:	//checkme
 					base.LoadFromResponse( apiname, (object)data );
 
 					Name = (string)RawData.api_name;
@@ -138,7 +168,8 @@ namespace ElectronicObserver.Data {
 
 
 			switch ( apiname ) {
-				case "api_req_hensei/change": {
+				case "api_req_hensei/change":
+					{
 						int fleetID = int.Parse( data["api_id"] );
 						int index = int.Parse( data["api_ship_idx"] );
 						int shipID = int.Parse( data["api_ship_id"] );
@@ -172,6 +203,8 @@ namespace ElectronicObserver.Data {
 							}
 
 
+							SetConditionTimer();
+						
 						} else {
 
 							if ( index != -1 && shipID != -1 ) {
@@ -190,21 +223,40 @@ namespace ElectronicObserver.Data {
 					} break;
 
 
-				case "api_req_kousyou/destroyship": {
+				case "api_req_kousyou/destroyship": 
+					{
 						int shipID = int.Parse( data["api_ship_id"] );
 
 						for ( int i = 0; i < _members.Length; i++ ) {
 							if ( _members[i] == shipID ) {
 								RemoveShip( i );
+								ShortenConditionTimer();
 								break;
 							}
 						}
+
 					} break;
+
+				case "api_req_kaisou/remodeling":
+					if ( int.Parse( data["api_id"] ) == FleetID )
+						SetConditionTimer();
+					break;
+
+				case "api_req_nyukyo/start":
+				case "api_req_nyukyo/speedchange":
+					ShortenConditionTimer();
+					break;
 
 				case "api_req_mission/start":
 					ExpeditionState = 1;
 					ExpeditionDestination = int.Parse( data["api_mission_id"] );
 					ExpeditionTime = DateTime.Now;	//暫定処理。実際の更新はResponseで行う
+
+					break;
+
+				case "api_req_map/start":
+					if ( int.Parse( data["api_deck_id"] ) == FleetID )
+						LockConditionTimer();
 					break;
 
 				case "api_req_member/updatedeckname":
@@ -225,6 +277,56 @@ namespace ElectronicObserver.Data {
 
 		}
 
+
+		private int GetConditionRecoveryMinute( int cond ) {
+			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
+		}
+
+		private void SetConditionTimer() {
+
+			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
+
+			if ( minute > 0 )
+				ConditionTime = DateTime.Now.AddMinutes( minute );
+			else
+				ConditionTime = null;
+
+			//Utility.Logger.Add( 1, string.Format( "Fleet #{0}: 疲労 再設定 {1:D2}:00", FleetID, minute ) );
+		}
+
+		private void ShortenConditionTimer() {
+
+			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
+
+			if ( minute == 0 ) {
+				ConditionTime = null;
+
+			} else {
+				DateTime target = DateTime.Now.AddMinutes( minute );
+
+				if ( ConditionTime == null || target < ConditionTime ) {
+					ConditionTime = target;
+				}
+			}
+			
+			/*/
+			{
+				TimeSpan ts = ( ConditionTime ?? DateTime.Now ) - DateTime.Now;
+				Utility.Logger.Add( 1, string.Format( "Fleet #{0}: 疲労 短縮 {1:D2}:00 => {2:D2}:{3:D2}", FleetID, minute, (int)ts.TotalMinutes, (int)ts.Seconds ) );
+			}
+			//*/
+		}
+
+		private void LockConditionTimer() {
+			IsConditionTimeLocked = true;
+		}
+
+		private void UnlockConditionTimer() {
+			if ( IsConditionTimeLocked ) {
+				IsConditionTimeLocked = false;
+				SetConditionTimer();
+			}
+		}
 
 		/// <summary>
 		/// 護衛退避を実行します。
@@ -460,7 +562,7 @@ namespace ElectronicObserver.Data {
 							}
 							return c;
 						}
-					} ) * 5;
+					} );
 				int bauxite = aircraft * 5;
 
 				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
@@ -478,12 +580,11 @@ namespace ElectronicObserver.Data {
 			{
 				int cond = fleet.Members.Min( id => id == -1 ? 100 : db.Ships[id].Condition );
 
-				if ( cond < Configuration.Config.Control.ConditionBorder ) {
+				if ( cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null ) {
 
-					DateTime recovertime = DateTime.Now.AddMinutes( (int)Math.Ceiling( ( Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3 );
+					timer = (DateTime)fleet.ConditionTime;
 
-					if ( prevstate != FleetStates.Tired || recovertime < timer )
-						timer = recovertime;
+
 					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
 
 					if ( cond < 20 )
@@ -494,10 +595,9 @@ namespace ElectronicObserver.Data {
 						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
 
 
-					tooltip.SetToolTip( label, string.Format( "回復目安日時 : {0}", timer ) );
+					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}", timer ) );
 
 					return FleetStates.Tired;
-
 
 
 				} else if ( cond >= 50 ) {		//戦意高揚

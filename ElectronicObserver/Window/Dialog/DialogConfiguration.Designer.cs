@@ -72,18 +72,19 @@
 			this.FormArsenal_ShowShipName = new System.Windows.Forms.CheckBox();
 			this.tabPage10 = new System.Windows.Forms.TabPage();
 			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
+			this.tabPage11 = new System.Windows.Forms.TabPage();
+			this.label10 = new System.Windows.Forms.Label();
+			this.Notification_Damage = new System.Windows.Forms.Button();
+			this.Notification_Condition = new System.Windows.Forms.Button();
+			this.Notification_Repair = new System.Windows.Forms.Button();
+			this.Notification_Construction = new System.Windows.Forms.Button();
+			this.Notification_Expedition = new System.Windows.Forms.Button();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
-			this.tabPage11 = new System.Windows.Forms.TabPage();
-			this.Notification_Expedition = new System.Windows.Forms.Button();
-			this.Notification_Construction = new System.Windows.Forms.Button();
-			this.Notification_Repair = new System.Windows.Forms.Button();
-			this.Notification_Condition = new System.Windows.Forms.Button();
-			this.Notification_Damage = new System.Windows.Forms.Button();
-			this.label10 = new System.Windows.Forms.Label();
+			this.Life_TopMost = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -331,10 +332,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 44);
+			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(392, 211);
+			this.tabPage2.Size = new System.Drawing.Size(392, 231);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -367,7 +368,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 173);
+			this.label9.Location = new System.Drawing.Point(8, 189);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 8;
@@ -528,10 +529,10 @@
 			// tabPage5
 			// 
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 44);
+			this.tabPage5.Location = new System.Drawing.Point(4, 24);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 211);
+			this.tabPage5.Size = new System.Drawing.Size(392, 231);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -550,13 +551,14 @@
 			// 
 			// tabPage6
 			// 
+			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
 			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage6.Size = new System.Drawing.Size(392, 211);
 			this.tabPage6.TabIndex = 5;
-			this.tabPage6.Text = "起動と終了";
+			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
 			// 
 			// Life_ConfirmOnClosing
@@ -572,10 +574,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 44);
+			this.tabPage7.Location = new System.Drawing.Point(4, 24);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(392, 211);
+			this.tabPage7.Size = new System.Drawing.Size(392, 231);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -589,7 +591,7 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(386, 205);
+			this.tabControl2.Size = new System.Drawing.Size(386, 225);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
@@ -598,7 +600,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(378, 177);
+			this.tabPage8.Size = new System.Drawing.Size(378, 197);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -616,10 +618,10 @@
 			// tabPage9
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 24);
+			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 177);
+			this.tabPage9.Size = new System.Drawing.Size(378, 179);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -637,10 +639,10 @@
 			// tabPage10
 			// 
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 24);
+			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 177);
+			this.tabPage10.Size = new System.Drawing.Size(378, 179);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -654,6 +656,82 @@
 			this.FormQuest_ShowRunningOnly.TabIndex = 0;
 			this.FormQuest_ShowRunningOnly.Text = "遂行中のみ表示する";
 			this.FormQuest_ShowRunningOnly.UseVisualStyleBackColor = true;
+			// 
+			// tabPage11
+			// 
+			this.tabPage11.Controls.Add(this.label10);
+			this.tabPage11.Controls.Add(this.Notification_Damage);
+			this.tabPage11.Controls.Add(this.Notification_Condition);
+			this.tabPage11.Controls.Add(this.Notification_Repair);
+			this.tabPage11.Controls.Add(this.Notification_Construction);
+			this.tabPage11.Controls.Add(this.Notification_Expedition);
+			this.tabPage11.Location = new System.Drawing.Point(4, 44);
+			this.tabPage11.Name = "tabPage11";
+			this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage11.Size = new System.Drawing.Size(392, 211);
+			this.tabPage11.TabIndex = 7;
+			this.tabPage11.Text = "通知";
+			this.tabPage11.UseVisualStyleBackColor = true;
+			// 
+			// label10
+			// 
+			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(3, 189);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(238, 15);
+			this.label10.TabIndex = 5;
+			this.label10.Text = "＊各ダイアログでOKを押した時点で適用されます";
+			// 
+			// Notification_Damage
+			// 
+			this.Notification_Damage.Location = new System.Drawing.Point(8, 122);
+			this.Notification_Damage.Name = "Notification_Damage";
+			this.Notification_Damage.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Damage.TabIndex = 4;
+			this.Notification_Damage.Text = "大破進撃通知の設定...";
+			this.Notification_Damage.UseVisualStyleBackColor = true;
+			this.Notification_Damage.Click += new System.EventHandler(this.Notification_Damage_Click);
+			// 
+			// Notification_Condition
+			// 
+			this.Notification_Condition.Location = new System.Drawing.Point(8, 93);
+			this.Notification_Condition.Name = "Notification_Condition";
+			this.Notification_Condition.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Condition.TabIndex = 3;
+			this.Notification_Condition.Text = "疲労回復通知の設定...";
+			this.Notification_Condition.UseVisualStyleBackColor = true;
+			this.Notification_Condition.Click += new System.EventHandler(this.Notification_Condition_Click);
+			// 
+			// Notification_Repair
+			// 
+			this.Notification_Repair.Location = new System.Drawing.Point(8, 64);
+			this.Notification_Repair.Name = "Notification_Repair";
+			this.Notification_Repair.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Repair.TabIndex = 2;
+			this.Notification_Repair.Text = "入渠完了通知の設定...";
+			this.Notification_Repair.UseVisualStyleBackColor = true;
+			this.Notification_Repair.Click += new System.EventHandler(this.Notification_Repair_Click);
+			// 
+			// Notification_Construction
+			// 
+			this.Notification_Construction.Location = new System.Drawing.Point(8, 35);
+			this.Notification_Construction.Name = "Notification_Construction";
+			this.Notification_Construction.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Construction.TabIndex = 1;
+			this.Notification_Construction.Text = "建造完了通知の設定...";
+			this.Notification_Construction.UseVisualStyleBackColor = true;
+			this.Notification_Construction.Click += new System.EventHandler(this.Notification_Construction_Click);
+			// 
+			// Notification_Expedition
+			// 
+			this.Notification_Expedition.Location = new System.Drawing.Point(8, 6);
+			this.Notification_Expedition.Name = "Notification_Expedition";
+			this.Notification_Expedition.Size = new System.Drawing.Size(150, 23);
+			this.Notification_Expedition.TabIndex = 0;
+			this.Notification_Expedition.Text = "遠征帰投通知の設定...";
+			this.Notification_Expedition.UseVisualStyleBackColor = true;
+			this.Notification_Expedition.Click += new System.EventHandler(this.Notification_Expedition_Click);
 			// 
 			// ToolTipInfo
 			// 
@@ -691,81 +769,15 @@
 			// 
 			this.FontSelector.ShowEffects = false;
 			// 
-			// tabPage11
+			// Life_TopMost
 			// 
-			this.tabPage11.Controls.Add(this.label10);
-			this.tabPage11.Controls.Add(this.Notification_Damage);
-			this.tabPage11.Controls.Add(this.Notification_Condition);
-			this.tabPage11.Controls.Add(this.Notification_Repair);
-			this.tabPage11.Controls.Add(this.Notification_Construction);
-			this.tabPage11.Controls.Add(this.Notification_Expedition);
-			this.tabPage11.Location = new System.Drawing.Point(4, 44);
-			this.tabPage11.Name = "tabPage11";
-			this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage11.Size = new System.Drawing.Size(392, 211);
-			this.tabPage11.TabIndex = 7;
-			this.tabPage11.Text = "通知";
-			this.tabPage11.UseVisualStyleBackColor = true;
-			// 
-			// Notification_Expedition
-			// 
-			this.Notification_Expedition.Location = new System.Drawing.Point(8, 6);
-			this.Notification_Expedition.Name = "Notification_Expedition";
-			this.Notification_Expedition.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Expedition.TabIndex = 0;
-			this.Notification_Expedition.Text = "遠征帰投通知の設定...";
-			this.Notification_Expedition.UseVisualStyleBackColor = true;
-			this.Notification_Expedition.Click += new System.EventHandler(this.Notification_Expedition_Click);
-			// 
-			// Notification_Construction
-			// 
-			this.Notification_Construction.Location = new System.Drawing.Point(8, 35);
-			this.Notification_Construction.Name = "Notification_Construction";
-			this.Notification_Construction.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Construction.TabIndex = 1;
-			this.Notification_Construction.Text = "建造完了通知の設定...";
-			this.Notification_Construction.UseVisualStyleBackColor = true;
-			this.Notification_Construction.Click += new System.EventHandler(this.Notification_Construction_Click);
-			// 
-			// Notification_Repair
-			// 
-			this.Notification_Repair.Location = new System.Drawing.Point(8, 64);
-			this.Notification_Repair.Name = "Notification_Repair";
-			this.Notification_Repair.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Repair.TabIndex = 2;
-			this.Notification_Repair.Text = "入渠完了通知の設定...";
-			this.Notification_Repair.UseVisualStyleBackColor = true;
-			this.Notification_Repair.Click += new System.EventHandler(this.Notification_Repair_Click);
-			// 
-			// Notification_Condition
-			// 
-			this.Notification_Condition.Location = new System.Drawing.Point(8, 93);
-			this.Notification_Condition.Name = "Notification_Condition";
-			this.Notification_Condition.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Condition.TabIndex = 3;
-			this.Notification_Condition.Text = "疲労回復通知の設定...";
-			this.Notification_Condition.UseVisualStyleBackColor = true;
-			this.Notification_Condition.Click += new System.EventHandler(this.Notification_Condition_Click);
-			// 
-			// Notification_Damage
-			// 
-			this.Notification_Damage.Location = new System.Drawing.Point(8, 122);
-			this.Notification_Damage.Name = "Notification_Damage";
-			this.Notification_Damage.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Damage.TabIndex = 4;
-			this.Notification_Damage.Text = "大破進撃通知の設定...";
-			this.Notification_Damage.UseVisualStyleBackColor = true;
-			this.Notification_Damage.Click += new System.EventHandler(this.Notification_Damage_Click);
-			// 
-			// label10
-			// 
-			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 193);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(238, 15);
-			this.label10.TabIndex = 5;
-			this.label10.Text = "＊各ダイアログでOKを押した時点で適用されます";
+			this.Life_TopMost.AutoSize = true;
+			this.Life_TopMost.Location = new System.Drawing.Point(8, 31);
+			this.Life_TopMost.Name = "Life_TopMost";
+			this.Life_TopMost.Size = new System.Drawing.Size(114, 19);
+			this.Life_TopMost.TabIndex = 1;
+			this.Life_TopMost.Text = "最前面に表示する";
+			this.Life_TopMost.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -879,5 +891,6 @@
 		private System.Windows.Forms.Button Notification_Damage;
 		private System.Windows.Forms.Button Notification_Condition;
 		private System.Windows.Forms.Label label10;
+		internal System.Windows.Forms.CheckBox Life_TopMost;
 	}
 }

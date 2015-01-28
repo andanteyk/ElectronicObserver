@@ -80,17 +80,18 @@ namespace ElectronicObserver.Data {
 
 					} break;
 
-				case "api_req_kousyou/destroyship":
-					foreach ( int i in Fleets.Keys )
-						Fleets[i].LoadFromRequest( apiname, data );
-					break;
-
 				case "api_req_map/start":
 					if ( CombinedFlag != 0 ) {
 						Fleets[2].IsInSortie = true;
 					}
 					Fleets[int.Parse( data["api_deck_id"] )].IsInSortie = true;
+					goto default;
+
+				default:
+					foreach ( int i in Fleets.Keys )
+						Fleets[i].LoadFromRequest( apiname, data );
 					break;
+
 			}
 
 		}

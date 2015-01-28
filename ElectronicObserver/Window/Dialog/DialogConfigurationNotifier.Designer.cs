@@ -37,6 +37,7 @@
 			this.ImagePathSearch = new System.Windows.Forms.Button();
 			this.ImagePath = new System.Windows.Forms.TextBox();
 			this.GroupDialog = new System.Windows.Forms.GroupBox();
+			this.label4 = new System.Windows.Forms.Label();
 			this.DrawsMessage = new System.Windows.Forms.CheckBox();
 			this.HasFormBorder = new System.Windows.Forms.CheckBox();
 			this.label6 = new System.Windows.Forms.Label();
@@ -57,6 +58,7 @@
 			this.Alignment = new System.Windows.Forms.ComboBox();
 			this.ShowsDialog = new System.Windows.Forms.CheckBox();
 			this.GroupDamage = new System.Windows.Forms.GroupBox();
+			this.NotifiesAtEndpoint = new System.Windows.Forms.CheckBox();
 			this.ContainsFlagship = new System.Windows.Forms.CheckBox();
 			this.ContainsSafeShip = new System.Windows.Forms.CheckBox();
 			this.ContainsNotLockedShip = new System.Windows.Forms.CheckBox();
@@ -68,9 +70,7 @@
 			this.DialogColor = new System.Windows.Forms.ColorDialog();
 			this.DialogOpenSound = new System.Windows.Forms.OpenFileDialog();
 			this.DialogOpenImage = new System.Windows.Forms.OpenFileDialog();
-			this.NotifiesAtEndpoint = new System.Windows.Forms.CheckBox();
 			this.ToolTipText = new System.Windows.Forms.ToolTip(this.components);
-			this.label4 = new System.Windows.Forms.Label();
 			this.GroupSound.SuspendLayout();
 			this.GroupImage.SuspendLayout();
 			this.GroupDialog.SuspendLayout();
@@ -85,7 +85,6 @@
 			// ButtonCancel
 			// 
 			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.ButtonCancel.Location = new System.Drawing.Point(463, 377);
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
@@ -97,7 +96,6 @@
 			// ButtonOK
 			// 
 			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.ButtonOK.Location = new System.Drawing.Point(382, 377);
 			this.ButtonOK.Name = "ButtonOK";
 			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
@@ -155,7 +153,6 @@
 			// ButtonTest
 			// 
 			this.ButtonTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.ButtonTest.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.ButtonTest.Location = new System.Drawing.Point(12, 377);
 			this.ButtonTest.Name = "ButtonTest";
 			this.ButtonTest.Size = new System.Drawing.Size(75, 23);
@@ -249,6 +246,15 @@
 			this.GroupDialog.TabIndex = 3;
 			this.GroupDialog.TabStop = false;
 			this.GroupDialog.Text = "通知ダイアログ";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(6, 78);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(43, 15);
+			this.label4.TabIndex = 4;
+			this.label4.Text = "座標：";
 			// 
 			// DrawsMessage
 			// 
@@ -510,6 +516,17 @@
 			this.GroupDamage.TabStop = false;
 			this.GroupDamage.Text = "大破警告";
 			// 
+			// NotifiesAtEndpoint
+			// 
+			this.NotifiesAtEndpoint.AutoSize = true;
+			this.NotifiesAtEndpoint.Location = new System.Drawing.Point(292, 22);
+			this.NotifiesAtEndpoint.Name = "NotifiesAtEndpoint";
+			this.NotifiesAtEndpoint.Size = new System.Drawing.Size(112, 19);
+			this.NotifiesAtEndpoint.TabIndex = 6;
+			this.NotifiesAtEndpoint.Text = "終点でも通知する";
+			this.ToolTipText.SetToolTip(this.NotifiesAtEndpoint, "マップの最終セルでも通知するかを指定します。");
+			this.NotifiesAtEndpoint.UseVisualStyleBackColor = true;
+			// 
 			// ContainsFlagship
 			// 
 			this.ContainsFlagship.AutoSize = true;
@@ -622,37 +639,15 @@
     "div|JPEG|*.jpg;*.jpeg;*.jpe;*.jfif|GIF|*.gif|PNG|*.png|TIFF|*.tif;*.tiff|File|*";
 			this.DialogOpenImage.Title = "画像ファイルを開く";
 			// 
-			// NotifiesAtEndpoint
-			// 
-			this.NotifiesAtEndpoint.AutoSize = true;
-			this.NotifiesAtEndpoint.Location = new System.Drawing.Point(292, 22);
-			this.NotifiesAtEndpoint.Name = "NotifiesAtEndpoint";
-			this.NotifiesAtEndpoint.Size = new System.Drawing.Size(112, 19);
-			this.NotifiesAtEndpoint.TabIndex = 6;
-			this.NotifiesAtEndpoint.Text = "終点でも通知する";
-			this.ToolTipText.SetToolTip(this.NotifiesAtEndpoint, "マップの最終セルでも通知するかを指定します。");
-			this.NotifiesAtEndpoint.UseVisualStyleBackColor = true;
-			// 
 			// ToolTipText
 			// 
 			this.ToolTipText.AutoPopDelay = 30000;
 			this.ToolTipText.InitialDelay = 500;
 			this.ToolTipText.ReshowDelay = 100;
 			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(6, 78);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(43, 15);
-			this.label4.TabIndex = 4;
-			this.label4.Text = "座標：";
-			// 
 			// DialogConfigurationNotifier
 			// 
-			this.AcceptButton = this.ButtonOK;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.CancelButton = this.ButtonCancel;
 			this.ClientSize = new System.Drawing.Size(550, 412);
 			this.Controls.Add(this.GroupDamage);
 			this.Controls.Add(this.GroupDialog);

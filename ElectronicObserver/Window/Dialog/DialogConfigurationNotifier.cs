@@ -173,7 +173,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void ForeColorPreview_ForeColorChanged( object sender, EventArgs e ) {
 
-			if ( ForeColorPreview.ForeColor.GetBrightness() > 0.5 ) {
+			if ( ForeColorPreview.ForeColor.GetBrightness() >= 0.5 ) {
 				ForeColorPreview.BackColor = Color.Black;
 			} else {
 				ForeColorPreview.BackColor = Color.White;
@@ -182,7 +182,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void BackColorPreview_ForeColorChanged( object sender, EventArgs e ) {
 
-			if ( BackColorPreview.ForeColor.GetBrightness() > 0.5 ) {
+			if ( BackColorPreview.ForeColor.GetBrightness() >= 0.5 ) {
 				BackColorPreview.BackColor = Color.Black;
 			} else {
 				BackColorPreview.BackColor = Color.White;

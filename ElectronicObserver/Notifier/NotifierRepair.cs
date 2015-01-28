@@ -57,8 +57,8 @@ namespace ElectronicObserver.Notifier {
 
 		public void Notify( int dockID, int shipID ) {
 
-			DialogData.Message = string.Format( "入渠ドック #{0} で {1} の修復が完了しました。",
-				dockID, KCDatabase.Instance.Ships[shipID].Name );
+			DialogData.Message = string.Format( "入渠ドック #{0} で「{1}」の修復が完了しました。",
+				dockID, KCDatabase.Instance.Ships[shipID].NameWithLevel );
 
 			base.Notify();
 		}

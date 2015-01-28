@@ -144,58 +144,37 @@ namespace ElectronicObserver.Observer {
 
 							SaveResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
 
-						} else if ( c.SaveSWF && oSession.fullUrl.IndexOf( "/kcs/" ) != -1 && oSession.oResponse.MIMEType == "application/x-shockwave-flash" ) {
+						} else if ( oSession.fullUrl.Contains( "/kcs/" ) &&
+							( ( c.SaveSWF && oSession.oResponse.MIMEType == "application/x-shockwave-flash" ) || c.SaveOtherFile ) ) {
 
-							//string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.LastIndexOf( "/" ) + 1 ) );
 							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
 							{
 								int index = tpath.IndexOf( "?" );
 								if ( index != -1 ) {
 									if ( Utility.Configuration.Config.Connection.ApplyVersion ) {
 										string over = tpath.Substring( index + 1 );
-										if ( over.Contains( "VERSION=" ) ) {
-											string version = over.Substring( over.LastIndexOf( '=' ) + 1 );
-											tpath = tpath.Insert( tpath.LastIndexOf( '.' ), "_v" + version );
+										int vindex = over.LastIndexOf( "VERSION=", StringComparison.CurrentCultureIgnoreCase );
+										if ( vindex != -1 ) {
+											string version = over.Substring( vindex + 8 ).Replace( '.', '_' );
+											tpath = tpath.Insert( tpath.LastIndexOf( '.', index ), "_v" + version );
 											index += version.Length + 2;
 										}
-									}
-									tpath = tpath.Substring( 0, index );
+
+									} 
+									
+									tpath = tpath.Remove( index );
 								}
 							} 
 							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
 
+							//System.Diagnostics.Debug.WriteLine( oSession.fullUrl + " => " + tpath );
 							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
 								sw.Write( oSession.ResponseBody );
 							}
 
-							Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath ) );
+							Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath.Remove( 0, c.SaveDataPath.Length + 1 ) ) );
 
-						} else if ( c.SaveOtherFile && oSession.fullUrl.IndexOf( "/kcs/" ) != -1 ) {
-
-							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
-							{
-								int index = tpath.IndexOf( "?" );
-								if ( index != -1 ) {
-									if ( Utility.Configuration.Config.Connection.ApplyVersion ) {
-										string over = tpath.Substring( index + 1 );
-										if ( over.Contains( "VERSION=" ) ) {
-											string version = over.Substring( over.LastIndexOf( '=' ) + 1 );
-											tpath = tpath.Insert( tpath.LastIndexOf( '.' ), "_v" + version );
-											index += version.Length + 2;
-										}
-									}
-									tpath = tpath.Substring( 0, index );
-								}
-							}  
-							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
-
-							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
-								sw.Write( oSession.ResponseBody );
-							}
-
-							Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath ) );
-
-						}
+						} 
 
 
 					} catch ( Exception ex ) {

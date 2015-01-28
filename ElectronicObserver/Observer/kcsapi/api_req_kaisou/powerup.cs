@@ -29,7 +29,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou {
 
 			}
 			
-
 			base.OnRequestReceived( data );
 		}
 

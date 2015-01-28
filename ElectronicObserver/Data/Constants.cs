@@ -372,6 +372,33 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		public static string GetAACutinKind( int id ) {
+			switch ( id ) {
+				case 1:
+					return "高角砲x2/電探";
+				case 2:
+					return "高角砲/電探";
+				case 3:
+					return "高角砲x2";
+				case 4:
+					return "大口径主砲/三式弾/高射装置/電探";
+				case 5:
+					return "高角砲+高射装置x2/電探";
+				case 6:
+					return "大口径主砲/三式弾/高射装置";
+				case 7:
+					return "高角砲/高射装置/電探";
+				case 8:
+					return "高角砲+高射装置/電探";
+				case 9:
+					return "高角砲/高射装置";
+
+				default:
+					return "不明";
+			}
+		}
+
+
 		#endregion
 
 

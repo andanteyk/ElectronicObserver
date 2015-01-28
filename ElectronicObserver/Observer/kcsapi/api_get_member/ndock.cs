@@ -28,6 +28,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 				}
 			}
 
+
+			db.Fleet.LoadFromResponse( APIName, data );
+
 			base.OnResponseReceived( (object)data );
 		}
 

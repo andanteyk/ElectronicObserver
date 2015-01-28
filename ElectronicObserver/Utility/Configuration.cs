@@ -214,8 +214,14 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ConfirmOnClosing { get; set; }
 
+				/// <summary>
+				/// 最前面に表示するか
+				/// </summary>
+				public bool TopMost { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
+					TopMost = false;
 				}
 			}
 			/// <summary>起動と終了</summary>
@@ -488,6 +494,7 @@ namespace ElectronicObserver.Utility {
 
 			//[起動と終了]
 			dialog.Life_ConfirmOnClosing.Checked = _config.Life.ConfirmOnClosing;
+			dialog.Life_TopMost.Checked = _config.Life.TopMost;
 
 			//[サブウィンドウ]
 			dialog.FormArsenal_ShowShipName.Checked = _config.FormArsenal.ShowShipName;
@@ -539,6 +546,7 @@ namespace ElectronicObserver.Utility {
 
 			//[起動と終了]
 			_config.Life.ConfirmOnClosing = dialog.Life_ConfirmOnClosing.Checked;
+			_config.Life.TopMost = dialog.Life_TopMost.Checked;
 
 			//[サブウィンドウ]
 			_config.FormArsenal.ShowShipName = dialog.FormArsenal_ShowShipName.Checked;

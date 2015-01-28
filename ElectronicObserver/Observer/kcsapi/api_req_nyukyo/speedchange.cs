@@ -17,6 +17,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 			db.Docks[int.Parse( data["api_ndock_id"] )].LoadFromResponse( APIName, data );
 			db.Material.InstantRepair--;
 
+
+			db.Fleet.LoadFromRequest( APIName, data );
+
 			base.OnRequestReceived( data );
 		}
 
