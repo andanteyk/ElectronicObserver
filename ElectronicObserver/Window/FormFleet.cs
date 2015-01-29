@@ -115,22 +115,31 @@ namespace ElectronicObserver.Window {
 
 				KCDatabase db = KCDatabase.Instance;
 
-				
+
 				Name.Text = fleet.Name;
 				{
 					int sum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
 					ToolTipInfo.SetToolTip( Name, string.Format( "合計レベル：{0}\r\n平均レベル：{1:0.00}", sum, (double)sum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ) ) );
 				}
-				
 
-				State = FleetData.UpdateFleetState( fleet, StateMain, ToolTipInfo, State, ref Timer ); 
-				
+
+				State = FleetData.UpdateFleetState( fleet, StateMain, ToolTipInfo, State, ref Timer );
+
 
 				//制空戦力計算	
-				AirSuperiority.Text = fleet.GetAirSuperiority().ToString();
-				
+				{
+					int airSuperiority = fleet.GetAirSuperiority();
+					AirSuperiority.Text = airSuperiority.ToString();
+					ToolTipInfo.SetToolTip( AirSuperiority, 
+						string.Format( "確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n",
+						(int)( airSuperiority / 3.0 ),
+						(int)( airSuperiority / 1.5 ),
+						(int)( airSuperiority * 1.5 ),
+						(int)( airSuperiority * 3.0 ) ) );
+				}
+
 				//索敵能力計算
-				SearchingAbility.Text = fleet.GetSearchingAbility().ToString();		
+				SearchingAbility.Text = fleet.GetSearchingAbility().ToString();
 
 
 			}
@@ -380,7 +389,8 @@ namespace ElectronicObserver.Window {
 						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 					}
 					if ( ship.Condition < 49 ) {
-						ToolTipInfo.SetToolTip( Condition, string.Format( "完全回復まで 約 {0}", DateTimeHelper.ToTimeRemainString( new TimeSpan( 0, (int)Math.Ceiling( ( 49 - ship.Condition ) / 3.0 ) * 3, 0 ) ) ) );
+						TimeSpan ts = new TimeSpan( 0, (int)Math.Ceiling( ( 49 - ship.Condition ) / 3.0 ) * 3, 0 );
+						ToolTipInfo.SetToolTip( Condition, string.Format( "完全回復まで 約 {0:D2}:{1:D2}", (int)ts.TotalMinutes, (int)ts.Seconds ) );
 					} else {
 						ToolTipInfo.SetToolTip( Condition, string.Format( "あと {0} 回遠征可能", (int)Math.Ceiling( ( ship.Condition - 49 ) / 3.0 ) ) );
 					}
@@ -423,9 +433,19 @@ namespace ElectronicObserver.Window {
 						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], KCDatabase.Instance.Equipments[ship.Slot[i]].NameWithLevel );
 				}
 
-				sb.AppendFormat( "\r\n昼戦: {0}\r\n夜戦: {1}\r\n", 
-					Constants.GetDayAttackKind( Calculator.GetDayAttackKind( ship.SlotMaster.ToArray(), ship.ShipID, -1 ) ), 
-					Constants.GetNightAttackKind( Calculator.GetNightAttackKind( ship.SlotMaster.ToArray(), ship.ShipID, -1 ) ) );
+
+				int[] slotmaster = ship.SlotMaster.ToArray();
+
+				sb.AppendFormat( "\r\n昼戦: {0}\r\n夜戦: {1}\r\n",
+					Constants.GetDayAttackKind( Calculator.GetDayAttackKind( slotmaster, ship.ShipID, -1 ) ),
+					Constants.GetNightAttackKind( Calculator.GetNightAttackKind( slotmaster, ship.ShipID, -1 ) ) );
+				{
+					int aacutin = Calculator.GetAACutinKind( ship.ShipID, slotmaster );
+					if ( aacutin != 0 ) {
+						sb.AppendFormat( "対空: {0}\r\n", Constants.GetAACutinKind( aacutin ) );
+					}
+				}
+
 
 				return sb.ToString();
 			}

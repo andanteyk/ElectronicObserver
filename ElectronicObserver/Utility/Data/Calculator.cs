@@ -299,6 +299,86 @@ namespace ElectronicObserver.Utility.Data {
 
 		}
 
+
+		public static int GetAACutinKind( int shipID, int[] slot ) {
+
+			int highangle = 0;
+			int highangle_director = 0;
+			int director = 0;
+			int radar = 0;
+			int aaradar = 0;
+			int maingunl = 0;
+			int aashell = 0;
+
+
+			foreach ( int eid in slot ) {
+
+				EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[eid];
+				if ( eq == null ) continue;
+
+				if ( eq.EquipmentID == 122 ) {		//10cm連装高角砲+高射装置
+					highangle_director++;
+					highangle++;
+
+				} else if ( eq.IconType == 16 ) {	//高角砲
+					highangle++;
+
+				} else if ( eq.CategoryType == 36 ) {	//高射装置
+					director++;
+
+				} else if ( eq.CardType == 8 ) {	//電探
+					if ( eq.AA > 0 ) {
+						aaradar++;
+					}
+					radar++;
+
+				} else if ( eq.CategoryType == 3 ) {	//大口径主砲
+					maingunl++;
+
+				} else if ( eq.CategoryType == 18 ) {	//対空強化弾
+					aashell++;
+
+				}
+
+			}
+
+
+			//秋月/秋月改限定
+			if ( shipID == 421 || shipID == 330 ) {
+
+				if ( highangle >= 2 && radar >= 1 ) {
+					return 1;
+				}
+				if ( highangle >= 1 && radar >= 1 ) {
+					return 2;
+				}
+				if ( highangle >= 2 ) {
+					return 3;
+				}
+			}
+
+			if ( maingunl >= 1 && aashell >= 1 && director >= 1 && aaradar >= 1 ) {
+				return 4;
+			}
+			if ( highangle_director >= 2 && aaradar >= 1 ) {
+				return 5;
+			}
+			if ( maingunl >= 1 && aashell >= 1 && director >= 1 ) {
+				return 6;
+			}
+			if ( highangle >= 1 && director >= 1 && aaradar >= 1 ) {
+				return 7;
+			}
+			if ( highangle_director >= 1 && aaradar >= 1 ) {
+				return 8;
+			}
+			if ( highangle >= 1 && director >= 1 ) {
+				return 9;
+			}
+
+			return 0;
+		}
+
 	}
 
 

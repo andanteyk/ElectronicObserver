@@ -920,7 +920,7 @@ namespace ElectronicObserver.Window {
 
 					try {
 
-						using ( StreamWriter sw = new StreamWriter( dialog.OutputPath, false, Encoding.UTF8 ) ) {
+						using ( StreamWriter sw = new StreamWriter( dialog.OutputPath, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
 							string[] header = dialog.OutputFormat == DialogShipGroupCSVOutput.OutputFormatConstants.User ? ShipCSVHeaderUser : ShipCSVHeaderData;
 

@@ -40,7 +40,7 @@ namespace ElectronicObserver.Utility.Storage {
 				var serializer = new DataContractSerializer( this.GetType() );
 				var xmlsetting = new XmlWriterSettings();
 
-				xmlsetting.Encoding = Encoding.UTF8;
+				xmlsetting.Encoding = Utility.Configuration.Config.Log.FileEncoding;
 				xmlsetting.Indent = true;
 				xmlsetting.IndentChars = "\t";
 				xmlsetting.NewLineHandling = NewLineHandling.Replace;
@@ -89,9 +89,9 @@ namespace ElectronicObserver.Utility.Storage {
 
 				var serializer = new DataContractSerializer( this.GetType() );
 				var xmlsetting = new XmlWriterSettings();
-				
 
-				xmlsetting.Encoding = Encoding.UTF8;
+
+				xmlsetting.Encoding = Utility.Configuration.Config.Log.FileEncoding;
 				xmlsetting.Indent = true;
 				xmlsetting.IndentChars = "\t";
 				xmlsetting.NewLineHandling = NewLineHandling.Replace;

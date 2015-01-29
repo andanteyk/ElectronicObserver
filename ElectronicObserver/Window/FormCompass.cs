@@ -222,6 +222,13 @@ namespace ElectronicObserver.Window {
 					Constants.GetDayAttackKind( Calculator.GetDayAttackKind( slot, ship.ShipID, -1 ) ),
 					Constants.GetNightAttackKind( Calculator.GetNightAttackKind( slot, ship.ShipID, -1 ) ) );
 
+				{
+					int aacutin = Calculator.GetAACutinKind( shipID, slot );
+					if ( aacutin != 0 ) {
+						sb.AppendFormat( "対空: {0}\r\n", Constants.GetAACutinKind( aacutin ) );
+					}
+				}
+
 				return sb.ToString();
 			}
 

@@ -374,6 +374,8 @@ namespace ElectronicObserver.Data {
 
 		public static string GetAACutinKind( int id ) {
 			switch ( id ) {
+				case 0:
+					return "なし";
 				case 1:
 					return "高角砲x2/電探";
 				case 2:

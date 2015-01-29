@@ -154,10 +154,37 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool SaveErrorReport { get; set; }
 
+				/// <summary>
+				/// ファイル エンコーディングのID
+				/// </summary>
+				public int FileEncodingID { get; set; }
+
+				[IgnoreDataMember]
+				public Encoding FileEncoding {
+					get {
+						switch ( FileEncodingID ) {
+							case 0:
+								return new System.Text.UTF8Encoding( false );
+							case 1:
+								return new System.Text.UTF8Encoding( true );
+							case 2:
+								return new System.Text.UnicodeEncoding( false, false );
+							case 3:
+								return new System.Text.UnicodeEncoding( false, true );
+							case 4:
+								return Encoding.GetEncoding( 932 );
+							default:
+								return new System.Text.UTF8Encoding( false );
+
+						}
+					}
+				}
+
 				public ConfigLog() {
 					LogLevel = 2;
 					SaveLogFlag = true;
 					SaveErrorReport = true;
+					FileEncodingID = 1;
 				}
 
 			}
@@ -485,6 +512,7 @@ namespace ElectronicObserver.Utility {
 			dialog.Log_LogLevel.Value = _config.Log.LogLevel;
 			dialog.Log_SaveLogFlag.Checked = _config.Log.SaveLogFlag;
 			dialog.Log_SaveErrorReport.Checked = _config.Log.SaveErrorReport;
+			dialog.Log_FileEncodingID.SelectedIndex = _config.Log.FileEncodingID;
 
 			//[動作]
 			dialog.Control_ConditionBorder.Value = _config.Control.ConditionBorder;
@@ -537,6 +565,7 @@ namespace ElectronicObserver.Utility {
 			_config.Log.LogLevel = (int)dialog.Log_LogLevel.Value;
 			_config.Log.SaveLogFlag = dialog.Log_SaveLogFlag.Checked;
 			_config.Log.SaveErrorReport = dialog.Log_SaveErrorReport.Checked;
+			_config.Log.FileEncodingID = dialog.Log_FileEncodingID.SelectedIndex;
 
 			//[動作]
 			_config.Control.ConditionBorder = (int)dialog.Control_ConditionBorder.Value;

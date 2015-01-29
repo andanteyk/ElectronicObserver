@@ -24,16 +24,17 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.EquipmentView = new System.Windows.Forms.DataGridView();
+			this.TopMenu = new System.Windows.Forms.MenuStrip();
+			this.TopMenu_File = new System.Windows.Forms.ToolStripMenuItem();
+			this.TopMenu_File_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
+			this.TopMenu_File_Update = new System.Windows.Forms.ToolStripMenuItem();
+			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
 			this.EquipmentView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.EquipmentView_Icon = new System.Windows.Forms.DataGridViewImageColumn();
 			this.EquipmentView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.EquipmentView_CountAll = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.EquipmentView_CountRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.EquipmentView_EquippedShip = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.TopMenu = new System.Windows.Forms.MenuStrip();
-			this.TopMenu_File = new System.Windows.Forms.ToolStripMenuItem();
-			this.TopMenu_File_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
-			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
-			this.TopMenu_File_Update = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.EquipmentView)).BeginInit();
 			this.TopMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -47,6 +48,7 @@
 			this.EquipmentView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.EquipmentView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.EquipmentView_ID,
+            this.EquipmentView_Icon,
             this.EquipmentView_Name,
             this.EquipmentView_CountAll,
             this.EquipmentView_CountRemain,
@@ -64,12 +66,62 @@
 			this.EquipmentView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.EquipmentView_SortCompare);
 			this.EquipmentView.Sorted += new System.EventHandler(this.EquipmentView_Sorted);
 			// 
+			// TopMenu
+			// 
+			this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TopMenu_File});
+			this.TopMenu.Location = new System.Drawing.Point(0, 0);
+			this.TopMenu.Name = "TopMenu";
+			this.TopMenu.Size = new System.Drawing.Size(640, 26);
+			this.TopMenu.TabIndex = 1;
+			this.TopMenu.Text = "menuStrip1";
+			// 
+			// TopMenu_File
+			// 
+			this.TopMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TopMenu_File_CSVOutput,
+            this.TopMenu_File_Update});
+			this.TopMenu_File.Name = "TopMenu_File";
+			this.TopMenu_File.Size = new System.Drawing.Size(85, 22);
+			this.TopMenu_File.Text = "ファイル(&F)";
+			// 
+			// TopMenu_File_CSVOutput
+			// 
+			this.TopMenu_File_CSVOutput.Name = "TopMenu_File_CSVOutput";
+			this.TopMenu_File_CSVOutput.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.TopMenu_File_CSVOutput.Size = new System.Drawing.Size(201, 22);
+			this.TopMenu_File_CSVOutput.Text = "CSV出力(&C)...";
+			this.TopMenu_File_CSVOutput.Click += new System.EventHandler(this.Menu_File_CSVOutput_Click);
+			// 
+			// TopMenu_File_Update
+			// 
+			this.TopMenu_File_Update.Name = "TopMenu_File_Update";
+			this.TopMenu_File_Update.ShortcutKeys = System.Windows.Forms.Keys.F5;
+			this.TopMenu_File_Update.Size = new System.Drawing.Size(201, 22);
+			this.TopMenu_File_Update.Text = "更新(&U)";
+			this.TopMenu_File_Update.Click += new System.EventHandler(this.TopMenu_File_Update_Click);
+			// 
+			// SaveCSVDialog
+			// 
+			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
+			this.SaveCSVDialog.Title = "CSVに出力";
+			// 
 			// EquipmentView_ID
 			// 
 			this.EquipmentView_ID.HeaderText = "ID";
 			this.EquipmentView_ID.Name = "EquipmentView_ID";
 			this.EquipmentView_ID.ReadOnly = true;
 			this.EquipmentView_ID.Width = 40;
+			// 
+			// EquipmentView_Icon
+			// 
+			this.EquipmentView_Icon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+			this.EquipmentView_Icon.HeaderText = "";
+			this.EquipmentView_Icon.Name = "EquipmentView_Icon";
+			this.EquipmentView_Icon.ReadOnly = true;
+			this.EquipmentView_Icon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.EquipmentView_Icon.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.EquipmentView_Icon.Width = 5;
 			// 
 			// EquipmentView_Name
 			// 
@@ -101,46 +153,6 @@
 			this.EquipmentView_EquippedShip.ReadOnly = true;
 			this.EquipmentView_EquippedShip.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
-			// TopMenu
-			// 
-			this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_File});
-			this.TopMenu.Location = new System.Drawing.Point(0, 0);
-			this.TopMenu.Name = "TopMenu";
-			this.TopMenu.Size = new System.Drawing.Size(640, 26);
-			this.TopMenu.TabIndex = 1;
-			this.TopMenu.Text = "menuStrip1";
-			// 
-			// TopMenu_File
-			// 
-			this.TopMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_File_CSVOutput,
-            this.TopMenu_File_Update});
-			this.TopMenu_File.Name = "TopMenu_File";
-			this.TopMenu_File.Size = new System.Drawing.Size(85, 22);
-			this.TopMenu_File.Text = "ファイル(&F)";
-			// 
-			// TopMenu_File_CSVOutput
-			// 
-			this.TopMenu_File_CSVOutput.Name = "TopMenu_File_CSVOutput";
-			this.TopMenu_File_CSVOutput.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.TopMenu_File_CSVOutput.Size = new System.Drawing.Size(201, 22);
-			this.TopMenu_File_CSVOutput.Text = "CSV出力(&C)...";
-			this.TopMenu_File_CSVOutput.Click += new System.EventHandler(this.Menu_File_CSVOutput_Click);
-			// 
-			// SaveCSVDialog
-			// 
-			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
-			this.SaveCSVDialog.Title = "CSVに出力";
-			// 
-			// TopMenu_File_Update
-			// 
-			this.TopMenu_File_Update.Name = "TopMenu_File_Update";
-			this.TopMenu_File_Update.ShortcutKeys = System.Windows.Forms.Keys.F5;
-			this.TopMenu_File_Update.Size = new System.Drawing.Size(201, 22);
-			this.TopMenu_File_Update.Text = "更新(&U)";
-			this.TopMenu_File_Update.Click += new System.EventHandler(this.TopMenu_File_Update_Click);
-			// 
 			// DialogEquipmentList
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -165,15 +177,16 @@
 		#endregion
 
 		private System.Windows.Forms.DataGridView EquipmentView;
-		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_ID;
-		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_Name;
-		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_CountAll;
-		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_CountRemain;
-		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_EquippedShip;
 		private System.Windows.Forms.MenuStrip TopMenu;
 		private System.Windows.Forms.ToolStripMenuItem TopMenu_File;
 		private System.Windows.Forms.ToolStripMenuItem TopMenu_File_CSVOutput;
 		private System.Windows.Forms.SaveFileDialog SaveCSVDialog;
 		private System.Windows.Forms.ToolStripMenuItem TopMenu_File_Update;
+		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_ID;
+		private System.Windows.Forms.DataGridViewImageColumn EquipmentView_Icon;
+		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_Name;
+		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_CountAll;
+		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_CountRemain;
+		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_EquippedShip;
 	}
 }

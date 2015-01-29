@@ -63,6 +63,7 @@
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.Life_TopMost = new System.Windows.Forms.CheckBox();
 			this.Life_ConfirmOnClosing = new System.Windows.Forms.CheckBox();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -84,7 +85,9 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
-			this.Life_TopMost = new System.Windows.Forms.CheckBox();
+			this.Log_FileEncodingID = new System.Windows.Forms.ComboBox();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label12 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -332,10 +335,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(392, 231);
+			this.tabPage2.Size = new System.Drawing.Size(392, 211);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -368,7 +371,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 189);
+			this.label9.Location = new System.Drawing.Point(8, 167);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 8;
@@ -434,6 +437,9 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.label12);
+			this.tabPage3.Controls.Add(this.label11);
+			this.tabPage3.Controls.Add(this.Log_FileEncodingID);
 			this.tabPage3.Controls.Add(this.Log_SaveErrorReport);
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
@@ -485,7 +491,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(6, 34);
+			this.label6.Location = new System.Drawing.Point(5, 33);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(100, 15);
 			this.label6.TabIndex = 1;
@@ -529,10 +535,10 @@
 			// tabPage5
 			// 
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Location = new System.Drawing.Point(4, 44);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 231);
+			this.tabPage5.Size = new System.Drawing.Size(392, 211);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -560,6 +566,16 @@
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
+			// 
+			// Life_TopMost
+			// 
+			this.Life_TopMost.AutoSize = true;
+			this.Life_TopMost.Location = new System.Drawing.Point(8, 31);
+			this.Life_TopMost.Name = "Life_TopMost";
+			this.Life_TopMost.Size = new System.Drawing.Size(114, 19);
+			this.Life_TopMost.TabIndex = 1;
+			this.Life_TopMost.Text = "最前面に表示する";
+			this.Life_TopMost.UseVisualStyleBackColor = true;
 			// 
 			// Life_ConfirmOnClosing
 			// 
@@ -621,7 +637,7 @@
 			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 179);
+			this.tabPage9.Size = new System.Drawing.Size(378, 199);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -642,7 +658,7 @@
 			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 179);
+			this.tabPage10.Size = new System.Drawing.Size(378, 199);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -677,7 +693,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 189);
+			this.label10.Location = new System.Drawing.Point(3, 167);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -738,6 +754,7 @@
 			this.ToolTipInfo.AutoPopDelay = 60000;
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// ButtonOK
 			// 
@@ -769,15 +786,40 @@
 			// 
 			this.FontSelector.ShowEffects = false;
 			// 
-			// Life_TopMost
+			// Log_FileEncodingID
 			// 
-			this.Life_TopMost.AutoSize = true;
-			this.Life_TopMost.Location = new System.Drawing.Point(8, 31);
-			this.Life_TopMost.Name = "Life_TopMost";
-			this.Life_TopMost.Size = new System.Drawing.Size(114, 19);
-			this.Life_TopMost.TabIndex = 1;
-			this.Life_TopMost.Text = "最前面に表示する";
-			this.Life_TopMost.UseVisualStyleBackColor = true;
+			this.Log_FileEncodingID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Log_FileEncodingID.FormattingEnabled = true;
+			this.Log_FileEncodingID.Items.AddRange(new object[] {
+            "UTF-8",
+            "UTF-8(BOM)",
+            "UTF-16",
+            "UTF-16(BOM)",
+            "Shift-JIS"});
+			this.Log_FileEncodingID.Location = new System.Drawing.Point(80, 85);
+			this.Log_FileEncodingID.Name = "Log_FileEncodingID";
+			this.Log_FileEncodingID.Size = new System.Drawing.Size(112, 23);
+			this.Log_FileEncodingID.TabIndex = 4;
+			this.ToolTipInfo.SetToolTip(this.Log_FileEncodingID, "入出力するファイルのエンコーディングを指定します。\r\n＊注意＊変更すると今までの設定やレコードが読み込めなくなる可能性があります。\r\n十分注意して変更してください" +
+        "。");
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(5, 88);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(69, 15);
+			this.label11.TabIndex = 5;
+			this.label11.Text = "文字コード：";
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(198, 88);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(193, 15);
+			this.label12.TabIndex = 6;
+			this.label12.Text = "＊設定が読めなくなる可能性があります";
 			// 
 			// DialogConfiguration
 			// 
@@ -892,5 +934,8 @@
 		private System.Windows.Forms.Button Notification_Condition;
 		private System.Windows.Forms.Label label10;
 		internal System.Windows.Forms.CheckBox Life_TopMost;
+		private System.Windows.Forms.Label label11;
+		internal System.Windows.Forms.ComboBox Log_FileEncodingID;
+		private System.Windows.Forms.Label label12;
 	}
 }

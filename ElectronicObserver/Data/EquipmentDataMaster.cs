@@ -166,6 +166,34 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 装備種別：小分類
+		/// </summary>
+		public int CardType {
+			get { return (int)RawData.api_type[1]; }
+		}
+
+		/// <summary>
+		/// 装備種別：カテゴリ
+		/// </summary>
+		public int CategoryType {
+			get { return (int)RawData.api_type[2]; }
+		}
+
+		/// <summary>
+		/// 装備種別：カテゴリ
+		/// </summary>
+		public EquipmentType CategoryTypeInstance {
+			get { return KCDatabase.Instance.EquipmentTypes[CategoryType]; }
+		}
+
+		/// <summary>
+		/// 装備種別：アイコン
+		/// </summary>
+		public int IconType {
+			get { return (int)RawData.api_type[3]; }
+		}
+
 
 		public int ID {
 			get { return EquipmentID; }

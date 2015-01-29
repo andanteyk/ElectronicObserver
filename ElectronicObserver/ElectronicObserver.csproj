@@ -133,6 +133,7 @@
     <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
+    <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />
     <Compile Include="Observer\APIBase.cs" />
     <Compile Include="Observer\APIDictionary.cs" />
@@ -315,6 +316,12 @@
     <Compile Include="Window\Dialog\DialogVersion.Designer.cs">
       <DependentUpon>DialogVersion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogWhitecap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogWhitecap.Designer.cs">
+      <DependentUpon>DialogWhitecap.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormArsenal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -448,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogVersion.resx">
       <DependentUpon>DialogVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogWhitecap.resx">
+      <DependentUpon>DialogWhitecap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormArsenal.resx">
       <DependentUpon>FormArsenal.cs</DependentUpon>

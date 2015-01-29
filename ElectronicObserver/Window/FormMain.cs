@@ -101,10 +101,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 
-			/*
-			WindowPlacementManager.LoadWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
-			LoadSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
-			*/
+			
 			LoadLayout( @"Settings\WindowLayout.zip" );
 
 			ConfigurationChanged();		//設定から初期化
@@ -187,11 +184,6 @@ namespace ElectronicObserver.Window {
 			SystemEvents.OnSystemShuttingDown();
 
 
-			/*
-			WindowPlacementManager.SaveWindowPlacement( this, WindowPlacementManager.WindowPlacementConfigPath );
-			SaveSubWindowsLayout( @"Settings\layout.xml" );		//fixme: パスの一元化
-			*/
-
 			SaveLayout( @"Settings\WindowLayout.zip" );
 
 		}
@@ -248,118 +240,6 @@ namespace ElectronicObserver.Window {
 				default:
 					return null;
 			}
-		}
-
-
-		private void LoadSubWindowsLayout( string path ) {
-
-			try {
-
-				if ( File.Exists( path ) ) {
-
-					/*
-					for ( int i = 0; i < fFleet.Length; i++ ) {
-						fFleet[i].Show( MainDockPanel, DockState.Document );
-						fFleet[i].DockPanel = null;
-					}
-					fDock.Show( MainDockPanel, DockState.Document );
-					fDock.DockPanel = null;
-					fArsenal.Show( MainDockPanel, DockState.Document );
-					fArsenal.DockPanel = null;
-					fHeadquarters.Show( MainDockPanel, DockState.Document );
-					fHeadquarters.DockPanel = null;
-					fInformation.Show( MainDockPanel, DockState.Document );
-					fInformation.DockPanel = null;
-					fCompass.Show( MainDockPanel, DockState.Document );
-					fCompass.DockPanel = null;
-					fLog.Show( MainDockPanel, DockState.Document );
-					fLog.DockPanel = null;
-					fQuest.Show( MainDockPanel, DockState.Document );
-					fQuest.DockPanel = null;
-					fBattle.Show( MainDockPanel, DockState.Document );
-					fBattle.DockPanel = null;
-					fFleetOverview.Show( MainDockPanel, DockState.Document );
-					fFleetOverview.DockPanel = null;
-					fShipGroup.Show( MainDockPanel, DockState.Document );
-					fShipGroup.DockPanel = null;
-					*/
-
-					foreach ( var f in SubForms ) {
-						f.Show( MainDockPanel, DockState.Document );
-						f.DockPanel = null;
-					}
-
-					MainDockPanel.LoadFromXml( path, new DeserializeDockContent( GetDockContentFromPersistString ) );
-
-					//一度全ウィンドウを読み込むことでフォームを初期化する
-					foreach ( var x in MainDockPanel.Contents ) {
-						if ( x.DockHandler.DockState == DockState.Hidden ) {
-							x.DockHandler.Show( MainDockPanel );
-							x.DockHandler.Hide();
-						} else {
-							x.DockHandler.Activate();
-						}
-
-					}
-
-					if ( MainDockPanel.Contents.Count > 0 )
-						MainDockPanel.Contents.First().DockHandler.Activate();
-
-
-				} else {
-
-					/*
-					//とりあえず全ウィンドウを表示してから隠しておく
-					for ( int i = 0; i < fFleet.Length; i++ ) {
-						fFleet[i].Show( MainDockPanel );
-					}
-					fDock.Show( MainDockPanel );
-					fArsenal.Show( MainDockPanel );
-					fHeadquarters.Show( MainDockPanel );
-					fInformation.Show( MainDockPanel );
-					fCompass.Show( MainDockPanel );
-					fLog.Show( MainDockPanel );
-					fQuest.Show( MainDockPanel );
-					fBattle.Show( MainDockPanel );
-					fFleetOverview.Show( MainDockPanel );
-					fShipGroup.Show( MainDockPanel );
-					*/
-
-					foreach ( var f in SubForms )
-						f.Show( MainDockPanel );
-
-
-					foreach ( var x in MainDockPanel.Contents ) {
-						x.DockHandler.Hide();
-					}
-
-				}
-
-			} catch ( Exception ex ) {
-
-				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの復元に失敗しました。" );
-
-			}
-
-		}
-
-
-		private void SaveSubWindowsLayout( string path ) {
-
-			try {
-
-				string parent = Directory.GetParent( path ).FullName;
-				if ( !Directory.Exists( parent ) ) {
-					Directory.CreateDirectory( parent );
-				}
-
-				MainDockPanel.SaveAsXml( path );
-
-			} catch ( Exception ex ) {
-
-				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの保存に失敗しました。" );
-			}
-
 		}
 
 
@@ -858,6 +738,13 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void SeparatorWhitecap_Click( object sender, EventArgs e ) {
+			new DialogWhitecap().Show();
+		}
+	
+
+
+
 		#region フォーム表示
 
 		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
@@ -917,9 +804,6 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
-
-
-	
 
 
 	}

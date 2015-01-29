@@ -143,6 +143,7 @@ namespace ElectronicObserver.Window.Dialog {
 				row.CreateCells( EquipmentView );
 				row.SetValues(
 					id,
+					masterEquipments[id].IconType,
 					masterEquipments[id].Name,
 					allCount[id],
 					remainCount[id],
@@ -210,7 +211,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void EquipmentView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
-			//いまはなにもないです
+			if ( e.ColumnIndex == EquipmentView_Icon.Index ) {
+				e.Value = ResourceManager.Instance.Equipments.Images[(int)e.Value];
+				e.FormattingApplied = true;
+			}
 
 		}
 
@@ -221,7 +225,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				try {
 
-					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Encoding.UTF8 ) ) {
+					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
 						sw.WriteLine( "固有ID,装備ID,装備名,改修Lv,ロック,装備艦ID,装備艦" );
 						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 7 ) ) );
