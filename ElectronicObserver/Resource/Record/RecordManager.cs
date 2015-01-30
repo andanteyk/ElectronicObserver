@@ -27,7 +27,7 @@ namespace ElectronicObserver.Resource.Record {
 		public ConstructionRecord Construction { get; private set; }
 		public ShipDropRecord ShipDrop { get; private set; }
 		public DevelopmentRecord Development { get; private set; }
-
+		public ResourceRecord Resource { get; private set; }
 
 		private RecordManager() {
 
@@ -37,7 +37,7 @@ namespace ElectronicObserver.Resource.Record {
 			Construction = new ConstructionRecord();
 			ShipDrop = new ShipDropRecord();
 			Development = new DevelopmentRecord();
-
+			Resource = new ResourceRecord();
 
 			if ( !Directory.Exists( MasterPath ) ) {
 				Directory.CreateDirectory( MasterPath );
@@ -52,6 +52,7 @@ namespace ElectronicObserver.Resource.Record {
 			//Construction.Load( MasterPath );
 			//ShipDrop.Load( MasterPath );
 			//Development.Load( MasterPath );
+			//Resource.Load( MasterPath );
 
 			//fixme: 読み込みに成功した時だけこれを表示できるように
 			Utility.Logger.Add( 2, "レコードをロードしました。" );
@@ -68,6 +69,7 @@ namespace ElectronicObserver.Resource.Record {
 			Construction.Save( MasterPath );
 			ShipDrop.Save( MasterPath );
 			Development.Save( MasterPath );
+			Resource.Save( MasterPath );
 
 			Utility.Logger.Add( 2, "レコードをセーブしました。" );
 		}

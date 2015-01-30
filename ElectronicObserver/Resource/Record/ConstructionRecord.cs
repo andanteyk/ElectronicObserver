@@ -30,10 +30,7 @@ namespace ElectronicObserver.Resource.Record {
 			public string ShipName {
 				get {
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
-					if ( ship != null )
-						return ship.Name;
-					else
-						return "???";
+					return ship != null ? ship.NameWithClass : "???";
 				}
 			}
 
@@ -83,6 +80,16 @@ namespace ElectronicObserver.Resource.Record {
 			public int FlagshipID { get; set; }
 
 			/// <summary>
+			/// 旗艦の艦名
+			/// </summary>
+			public string FlagshipName {
+				get {
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[FlagshipID];
+					return ship != null ? ship.NameWithClass : "???";
+				}
+			}
+
+			/// <summary>
 			/// 司令部Lv.
 			/// </summary>
 			public int HQLevel { get; set; }
@@ -114,7 +121,7 @@ namespace ElectronicObserver.Resource.Record {
 			public override void LoadLine( string line ) {
 
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 12 ) throw new ArgumentException( "要素数が少なすぎます。" );
+				if ( elem.Length < 13 ) throw new ArgumentException( "要素数が少なすぎます。" );
 
 				ShipID = int.Parse( elem[0] );
 				//ShipName=elem[1]は読み飛ばす
@@ -127,12 +134,13 @@ namespace ElectronicObserver.Resource.Record {
 				//IsLargeDock=elem[8]は読み飛ばす
 				EmptyDockAmount = int.Parse( elem[9] );
 				FlagshipID = int.Parse( elem[10] );
-				HQLevel = int.Parse( elem[11] );
+				//FlagshipName=elem[11]は読み飛ばす
+				HQLevel = int.Parse( elem[12] );
 
 			}
 
 			public override string SaveLine() {
-				return string.Format( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}",
+				return string.Format( "{" + string.Join( "},{", Enumerable.Range( 0, 13 ) ) + "}",
 					ShipID,
 					ShipName,
 					DateTimeHelper.TimeToCSVString( Date ),
@@ -144,6 +152,7 @@ namespace ElectronicObserver.Resource.Record {
 					IsLargeDock ? 1 : 0,
 					EmptyDockAmount,
 					FlagshipID,
+					FlagshipName,
 					HQLevel );
 			}
 		}
@@ -232,7 +241,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		protected override string RecordHeader {
-			get { return "艦船ID,艦船名,建造日時,燃料,弾薬,鋼材,ボーキ,開発資材,大型建造,空ドック,旗艦ID,司令部Lv"; }
+			get { return "艦船ID,艦船名,建造日時,燃料,弾薬,鋼材,ボーキ,開発資材,大型建造,空ドック,旗艦ID,旗艦名,司令部Lv"; }
 		}
 
 		public override string FileName {

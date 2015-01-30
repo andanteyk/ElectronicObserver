@@ -33,7 +33,7 @@ namespace ElectronicObserver.Utility {
 			path = string.Format( "{0}\\{1}.txt", path, DateTimeHelper.GetTimeStamp() );
 
 			try {
-				using ( StreamWriter sw = new StreamWriter( path, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
+				using ( StreamWriter sw = new StreamWriter( path, false, new System.Text.UTF8Encoding( false ) ) ) {
 
 					sw.WriteLine( "エラーレポート : {0}", DateTime.Now );
 					sw.WriteLine( "エラー : {0}", ex.GetType().Name );

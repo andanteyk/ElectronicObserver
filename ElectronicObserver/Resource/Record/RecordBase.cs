@@ -50,7 +50,7 @@ namespace ElectronicObserver.Resource.Record {
 					sr.ReadLine();			//ヘッダを読み飛ばす
 					
 					while ( ( line = sr.ReadLine() ) != null ) {
-						if ( line.StartsWith( "#" ) )
+						if ( line.Trim().StartsWith( "#" ) )
 							continue;
 						LoadLine( line );
 					}

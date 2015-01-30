@@ -98,6 +98,13 @@ namespace ElectronicObserver.Utility.Mathematics {
 		}
 
 
+		public static bool IsCrossedHour( DateTime prev ) {
+
+			DateTime nexthour = prev.Date.AddHours( prev.Hour + 1 );
+			return nexthour <= DateTime.Now;
+		}
+
+
 		/// <summary>
 		/// 指定した日時をまたいでいるかを取得します。日単位で処理されます。
 		/// </summary>

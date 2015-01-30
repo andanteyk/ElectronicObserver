@@ -68,16 +68,22 @@ namespace ElectronicObserver.Resource.Record {
 			public int FlagshipID { get; set; }
 
 			/// <summary>
+			/// 旗艦の艦名
+			/// </summary>
+			public string FlagshipName {
+				get {
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[FlagshipID];
+					return ship != null ? ship.NameWithClass : "???";
+				}
+			}
+
+			/// <summary>
 			/// 旗艦の艦種
 			/// </summary>
 			public int FlagshipType {
 				get {
-					ShipDataMaster flagship = KCDatabase.Instance.MasterShips[FlagshipID];
-					if ( flagship != null ) {
-						return flagship.ShipType;
-					} else {
-						return -1;
-					}
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[FlagshipID];
+					return ship != null ? ship.ShipType : -1;
 				}
 			}
 
@@ -110,7 +116,7 @@ namespace ElectronicObserver.Resource.Record {
 			public override void LoadLine( string line ) {
 
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 10 ) throw new ArgumentException( "要素数が少なすぎます。" );
+				if ( elem.Length < 11 ) throw new ArgumentException( "要素数が少なすぎます。" );
 
 				EquipmentID = int.Parse( elem[0] );
 				//EquipmentName=elem[1]は読み飛ばす
@@ -120,14 +126,15 @@ namespace ElectronicObserver.Resource.Record {
 				Steel = int.Parse( elem[5] );
 				Bauxite = int.Parse( elem[6] );
 				FlagshipID = int.Parse( elem[7] );
-				//FlagshipType = elem[8] は読み飛ばす
-				HQLevel = int.Parse( elem[9] );
+				//FlagshipName = elem[8] は読み飛ばす
+				//FlagshipType = elem[9] は読み飛ばす
+				HQLevel = int.Parse( elem[10] );
 
 			}
 
 			public override string SaveLine() {
 
-				return string.Format( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
+				return string.Format( "{" + string.Join( "},{", Enumerable.Range( 0, 11 ) ) + "}",
 					EquipmentID,
 					EquipmentName,
 					DateTimeHelper.TimeToCSVString( Date ),
@@ -136,6 +143,7 @@ namespace ElectronicObserver.Resource.Record {
 					Steel,
 					Bauxite,
 					FlagshipID,
+					FlagshipName,
 					FlagshipType,
 					HQLevel );
 			}
@@ -226,7 +234,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		protected override string RecordHeader {
-			get { return "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦艦種,司令部Lv"; }
+			get { return "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦名,旗艦艦種,司令部Lv"; }
 		}
 
 		public override string FileName {

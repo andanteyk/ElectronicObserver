@@ -672,7 +672,7 @@ namespace ElectronicObserver.Window {
 				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
 					rank = 5;
 
-				} else if ( hp[6] == 0 ||
+				} else if ( hp[6] <= 0 ||
 					(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
 					rank = 4;
 
@@ -723,29 +723,8 @@ namespace ElectronicObserver.Window {
 
 		private void SetDamageRateCombined( int[] hp, BattleData bd ) {
 
-			int friendbefore = 0;
-			int friendafter = 0;
-			double friendrate;
-			int enemybefore = 0;
-			int enemyafter = 0;
-			double enemyrate;
-
-			for ( int i = 0; i < 6; i++ ) {
-				friendbefore += Math.Max( (int)bd.Data.api_nowhps[i + 1], 0 );
-				friendafter += Math.Max( hp[i], 0 );
-				enemybefore += Math.Max( (int)bd.Data.api_nowhps[i + 7], 0 );
-				enemyafter += Math.Max( hp[i + 6], 0 );
-				friendbefore += Math.Max( (int)bd.Data.api_nowhps_combined[i + 1], 0 );
-				friendafter += Math.Max( hp[i + 12], 0 );
-			}
-
-			friendrate = ( (double)( friendbefore - friendafter ) / friendbefore );
-			DamageFriend.Text = string.Format( "{0:0.0}%", friendrate * 100.0 );
-			enemyrate = ( (double)( enemybefore - enemyafter ) / enemybefore );
-			DamageEnemy.Text = string.Format( "{0:0.0}%", enemyrate * 100.0 );
-
-
-			//undone: 戦績判定
+			//checkme: とりあえず通常艦隊と一緒にしておく
+			SetDamageRateNormal( hp, bd );
 		}
 
 

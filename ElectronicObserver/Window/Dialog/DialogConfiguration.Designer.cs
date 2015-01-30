@@ -53,6 +53,9 @@
 			this.UI_MainFont = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.label12 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.Log_FileEncodingID = new System.Windows.Forms.ComboBox();
 			this.Log_SaveErrorReport = new System.Windows.Forms.CheckBox();
 			this.Log_SaveLogFlag = new System.Windows.Forms.CheckBox();
 			this.Log_LogLevel = new System.Windows.Forms.NumericUpDown();
@@ -85,9 +88,6 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
-			this.Log_FileEncodingID = new System.Windows.Forms.ComboBox();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label12 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -371,7 +371,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 167);
+			this.label9.Location = new System.Drawing.Point(8, 145);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 8;
@@ -452,6 +452,41 @@
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
 			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(198, 88);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(193, 15);
+			this.label12.TabIndex = 6;
+			this.label12.Text = "＊設定が読めなくなる可能性があります";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(5, 88);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(69, 15);
+			this.label11.TabIndex = 5;
+			this.label11.Text = "文字コード：";
+			// 
+			// Log_FileEncodingID
+			// 
+			this.Log_FileEncodingID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Log_FileEncodingID.FormattingEnabled = true;
+			this.Log_FileEncodingID.Items.AddRange(new object[] {
+            "UTF-8",
+            "UTF-8(BOM)",
+            "UTF-16",
+            "UTF-16(BOM)",
+            "Shift-JIS"});
+			this.Log_FileEncodingID.Location = new System.Drawing.Point(80, 85);
+			this.Log_FileEncodingID.Name = "Log_FileEncodingID";
+			this.Log_FileEncodingID.Size = new System.Drawing.Size(112, 23);
+			this.Log_FileEncodingID.TabIndex = 4;
+			this.ToolTipInfo.SetToolTip(this.Log_FileEncodingID, "入出力するファイルのエンコーディングを指定します。\r\n＊注意＊変更すると今までの設定やレコードが読み込めなくなる可能性があります。\r\n十分注意して変更してください" +
+        "。");
+			// 
 			// Log_SaveErrorReport
 			// 
 			this.Log_SaveErrorReport.AutoSize = true;
@@ -501,10 +536,10 @@
 			// 
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 44);
+			this.tabPage4.Location = new System.Drawing.Point(4, 24);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(392, 211);
+			this.tabPage4.Size = new System.Drawing.Size(392, 231);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -535,10 +570,10 @@
 			// tabPage5
 			// 
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 44);
+			this.tabPage5.Location = new System.Drawing.Point(4, 24);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 211);
+			this.tabPage5.Size = new System.Drawing.Size(392, 231);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -559,10 +594,10 @@
 			// 
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 44);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 211);
+			this.tabPage6.Size = new System.Drawing.Size(392, 231);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -693,7 +728,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 167);
+			this.label10.Location = new System.Drawing.Point(3, 145);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -785,41 +820,6 @@
 			// FontSelector
 			// 
 			this.FontSelector.ShowEffects = false;
-			// 
-			// Log_FileEncodingID
-			// 
-			this.Log_FileEncodingID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.Log_FileEncodingID.FormattingEnabled = true;
-			this.Log_FileEncodingID.Items.AddRange(new object[] {
-            "UTF-8",
-            "UTF-8(BOM)",
-            "UTF-16",
-            "UTF-16(BOM)",
-            "Shift-JIS"});
-			this.Log_FileEncodingID.Location = new System.Drawing.Point(80, 85);
-			this.Log_FileEncodingID.Name = "Log_FileEncodingID";
-			this.Log_FileEncodingID.Size = new System.Drawing.Size(112, 23);
-			this.Log_FileEncodingID.TabIndex = 4;
-			this.ToolTipInfo.SetToolTip(this.Log_FileEncodingID, "入出力するファイルのエンコーディングを指定します。\r\n＊注意＊変更すると今までの設定やレコードが読み込めなくなる可能性があります。\r\n十分注意して変更してください" +
-        "。");
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(5, 88);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(69, 15);
-			this.label11.TabIndex = 5;
-			this.label11.Text = "文字コード：";
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(198, 88);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(193, 15);
-			this.label12.TabIndex = 6;
-			this.label12.Text = "＊設定が読めなくなる可能性があります";
 			// 
 			// DialogConfiguration
 			// 

@@ -184,7 +184,7 @@ namespace ElectronicObserver.Utility {
 					LogLevel = 2;
 					SaveLogFlag = true;
 					SaveErrorReport = true;
-					FileEncodingID = 1;
+					FileEncodingID = 4;
 				}
 
 			}

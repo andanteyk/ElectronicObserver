@@ -1,4 +1,6 @@
-﻿using ElectronicObserver.Utility;
+﻿using ElectronicObserver.Data;
+using ElectronicObserver.Observer;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -77,11 +79,37 @@ namespace ElectronicObserver.Resource.Record {
 			public ResourceElement( string line ) 
 			 : base( line ){}
 
-			//ctor
-
+			public ResourceElement( int fuel, int ammo, int steel, int bauxite, int instantConstruction, int instantRepair, int developmentMaterial, int moddingMaterial, int hqLevel, int hqExp )
+				: this() {
+				Fuel = fuel;
+				Ammo = ammo;
+				Steel = steel;
+				Bauxite = bauxite;
+				InstantConstruction = instantConstruction;
+				InstantRepair = instantRepair;
+				DevelopmentMaterial = developmentMaterial;
+				ModdingMaterial = moddingMaterial;
+				HQLevel = hqLevel;
+				HQExp = hqExp;
+			}
 
 			public override void LoadLine( string line ) {
-				throw new NotImplementedException();
+
+				string[] elem = line.Split( ",".ToCharArray() );
+				if ( elem.Length < 11 ) throw new ArgumentException( "要素数が少なすぎます。" );
+
+				Date = DateTimeHelper.CSVStringToTime( elem[0] );
+				Fuel = int.Parse( elem[1] );
+				Ammo = int.Parse( elem[2] );
+				Steel = int.Parse( elem[3] );
+				Bauxite = int.Parse( elem[4] );
+				InstantConstruction = int.Parse( elem[5] );
+				InstantRepair = int.Parse( elem[6] );
+				DevelopmentMaterial = int.Parse( elem[7] );
+				ModdingMaterial = int.Parse( elem[8] );
+				HQLevel = int.Parse( elem[9] );
+				HQExp = int.Parse( elem[10] );		
+
 			}
 
 			public override string SaveLine() {
@@ -103,22 +131,37 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		public List<ResourceElement> Record { get; private set; }
-
+		private DateTime _prevTime;
 
 		public ResourceRecord()
 			: base() {
 
 			Record = new List<ResourceElement>();
+			_prevTime = DateTime.Now;
 
-
-			//undone: api register
-			//SystemEvents.UpdateTimerTick += SystemEvents_UpdateTimerTick;
-			
+			APIObserver.Instance.APIList["api_port/port"].ResponseReceived += ResourceRecord_ResponseReceived;
 		}
 
 
-		void SystemEvents_UpdateTimerTick() {
-			throw new NotImplementedException();
+		void ResourceRecord_ResponseReceived( string apiname, dynamic data ) {
+
+			if ( DateTimeHelper.IsCrossedHour( _prevTime ) ) {
+				_prevTime = DateTime.Now;
+
+				var material = KCDatabase.Instance.Material;
+				var admiral = KCDatabase.Instance.Admiral;
+				Record.Add( new ResourceElement( 
+					material.Fuel,
+					material.Ammo,
+					material.Steel,
+					material.Bauxite,
+					material.InstantConstruction,
+					material.InstantRepair,
+					material.DevelopmentMaterial,
+					material.ModdingMaterial,
+					admiral.Level,
+					admiral.Exp ) );
+			}
 		}
 
 
@@ -163,7 +206,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		protected override string RecordHeader {
-			get { return "日時,燃料,弾薬,鋼材,ボーキサイト,高速建造材,高速修復材,開発資材,改修資材,司令部Lv,提督Exp"; }
+			get { return "日時,燃料,弾薬,鋼材,ボーキ,高速建造材,高速修復材,開発資材,改修資材,司令部Lv,提督Exp"; }
 		}
 
 		public override string FileName {
