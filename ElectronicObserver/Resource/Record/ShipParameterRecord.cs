@@ -213,7 +213,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			public override void LoadLine( string line ) {
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 12 ) throw new ArgumentException( "要素数が少なすぎます。" );
+				if ( elem.Length < 17 ) throw new ArgumentException( "要素数が少なすぎます。" );
 
 				ShipID = int.Parse( elem[0] );
 
@@ -243,8 +243,7 @@ namespace ElectronicObserver.Resource.Record {
 					}
 				}
 
-				if ( elem.Length >= 17 )		//fixme: 互換性維持のため　リリース時には削除してください
-					MessageAlbum = elem[16].ToLower() == "null" ? null : elem[16];
+				MessageAlbum = elem[16].ToLower() == "null" ? null : elem[16];
 
 			}
 

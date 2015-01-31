@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Utility {
 
@@ -350,7 +351,7 @@ namespace ElectronicObserver.Utility {
 				public bool ShowsDialog { get; set; }
 
 				public string ImagePath { get; set; }
-				
+
 				public bool DrawsImage { get; set; }
 
 				public string SoundPath { get; set; }
@@ -591,6 +592,10 @@ namespace ElectronicObserver.Utility {
 			var temp = (ConfigurationData)_config.Load( SaveFileName );
 			if ( temp != null )
 				_config = temp;
+			else {
+				MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " をご利用いただきありがとうございます。\r\n設定や使用方法については「ヘルプ」→「オンラインヘルプ」を参照してください。\r\nご使用の前に必ずご一読ください。",
+					"初回起動メッセージ", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
 		}
 
 		public void Save() {

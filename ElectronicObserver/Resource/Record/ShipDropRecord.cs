@@ -25,9 +25,11 @@ namespace ElectronicObserver.Resource.Record {
 			/// </summary>
 			public string ShipName {
 				get {
+					if ( ShipID == -1 ) return "(なし)";
+					if ( ShipID == -2 ) return "(満員)";
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
 					if ( ship == null )
-						return "(なし)";
+						return "???";
 					else
 						return ship.Name;
 				}
@@ -60,9 +62,8 @@ namespace ElectronicObserver.Resource.Record {
 
 			/// <summary>
 			/// 勝利ランク
-			/// 1=B, 2=A, 3=S, 4=SS?
 			/// </summary>
-			public int Rank { get; set; }
+			public string Rank { get; set; }
 
 			/// <summary>
 			/// 司令部Lv.
@@ -78,7 +79,7 @@ namespace ElectronicObserver.Resource.Record {
 			public ShipDropElement( string line ) 
 				: base( line ) { }
 
-			public ShipDropElement( int shipID, int mapAreaID, int mapInfoID, int cellID, int enemyFleetID, int rank, int hqLevel ) {
+			public ShipDropElement( int shipID, int mapAreaID, int mapInfoID, int cellID, int enemyFleetID, string rank, int hqLevel ) {
 				ShipID = shipID;
 				Date = DateTime.Now;
 				MapAreaID = mapAreaID;
@@ -102,7 +103,7 @@ namespace ElectronicObserver.Resource.Record {
 				MapInfoID = int.Parse( elem[4] );
 				CellID = int.Parse( elem[5] );
 				EnemyFleetID = int.Parse( elem[6] );
-				Rank = int.Parse( elem[7] );
+				Rank = elem[7];
 				HQLevel = int.Parse( elem[8] );
 
 			}
@@ -139,20 +140,8 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 		public void Add( int shipID, int mapAreaID, int mapInfoID, int cellID, int enemyFleetID, string rank, int hqLevel ) {
-			int irank = 0;
-
-			switch ( rank ) {
-				case "B":
-					irank = 1; break;
-				case "A":
-					irank = 2; break;
-				case "S":
-					irank = 3; break;
-				case "SS":
-					irank = 4; break;	//未実装です。
-			}
-
-			Record.Add( new ShipDropElement( shipID, mapAreaID, mapInfoID, cellID, enemyFleetID, irank, hqLevel ) );
+			
+			Record.Add( new ShipDropElement( shipID, mapAreaID, mapInfoID, cellID, enemyFleetID, rank, hqLevel ) );
 		}
 
 
@@ -183,10 +172,11 @@ namespace ElectronicObserver.Resource.Record {
 		protected override bool IsAppend { get { return true; } }
 
 
-		public override void Save( string path ) {
-			base.Save( path );
+		public override bool Save( string path ) {
+			bool ret = base.Save( path );
 
 			Record.Clear();
+			return ret;
 		}
 
 

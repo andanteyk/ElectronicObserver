@@ -181,6 +181,10 @@ namespace ElectronicObserver.Window {
 
 			UIUpdateTimer.Stop();
 
+
+			if ( !Directory.Exists( "Settings" ) )
+				Directory.CreateDirectory( "Settings" );
+
 			SystemEvents.OnSystemShuttingDown();
 
 
@@ -319,6 +323,15 @@ namespace ElectronicObserver.Window {
 				}
 
 
+			} catch ( FileNotFoundException ) {
+
+				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
+
+			} catch ( DirectoryNotFoundException ) {
+
+				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
+
+			
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );

@@ -72,6 +72,10 @@ namespace ElectronicObserver.Utility.Storage {
 
 				Utility.Logger.Add( 3, string.Format( "DataStorage {0} は存在しません。", path ) );
 
+			} catch( DirectoryNotFoundException ) {
+
+				Utility.Logger.Add( 3, string.Format( "DataStorage {0} は存在しません。", path ) );
+
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の読み込みに失敗しました。" );
@@ -119,6 +123,14 @@ namespace ElectronicObserver.Utility.Storage {
 				using ( XmlReader xr = XmlReader.Create( stream ) ) {
 					return (DataStorage)serializer.ReadObject( xr );
 				}
+
+			} catch ( FileNotFoundException ) {
+
+				Utility.Logger.Add( 3, string.Format( "DataStorage ファイルは存在しません。" ) );
+
+			} catch ( DirectoryNotFoundException ) {
+
+				Utility.Logger.Add( 3, string.Format( "DataStorage ファイルは存在しません。" ) );
 
 			} catch ( Exception ex ) {
 

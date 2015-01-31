@@ -21,10 +21,16 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private int _shipID;
 
+		private ImageLabel[] Aircrafts;
+		private ImageLabel[] Equipments;
 
 
 		public DialogAlbumMasterShip() {
 			InitializeComponent();
+
+			Aircrafts = new ImageLabel[] { Aircraft1, Aircraft2, Aircraft3, Aircraft4, Aircraft5 };
+			Equipments = new ImageLabel[] { Equipment1, Equipment2, Equipment3, Equipment4, Equipment5 };
+
 
 			TitleHP.ImageList =
 			TitleFirepower.ImageList =
@@ -373,41 +379,37 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			//equipment
-			//どうにかできるなら修正すること
 			TableEquipment.SuspendLayout();
 
-			ImageLabel[] aircraft = new ImageLabel[] { Aircraft1, Aircraft2, Aircraft3, Aircraft4, Aircraft5 };
-			ImageLabel[] slot = new ImageLabel[] { Equipment1, Equipment2, Equipment3, Equipment4, Equipment5 };
-
-			for ( int i = 0; i < slot.Length; i++ ) {
+			for ( int i = 0; i < Equipments.Length; i++ ) {
 
 				if ( ship.Aircraft[i] > 0 || i < ship.SlotSize )
-					aircraft[i].Text = ship.Aircraft[i].ToString();
+					Aircrafts[i].Text = ship.Aircraft[i].ToString();
 				else
-					aircraft[i].Text = "";
+					Aircrafts[i].Text = "";
 
 
 				if ( ship.DefaultSlot == null ) {
 					if ( i < ship.SlotSize ) {
-						slot[i].Text = "???";
-						slot[i].ImageIndex = (int)ResourceManager.EquipmentContent.Unknown;
+						Equipments[i].Text = "???";
+						Equipments[i].ImageIndex = (int)ResourceManager.EquipmentContent.Unknown;
 					} else {
-						slot[i].Text = "";
-						slot[i].ImageIndex = (int)ResourceManager.EquipmentContent.Locked;
+						Equipments[i].Text = "";
+						Equipments[i].ImageIndex = (int)ResourceManager.EquipmentContent.Locked;
 					}
 
 				} else if ( ship.DefaultSlot[i] != -1 ) {
 					EquipmentDataMaster eq = db.MasterEquipments[ship.DefaultSlot[i]];
-					slot[i].Text = eq.Name;
-					slot[i].ImageIndex = eq.EquipmentType[3];
+					Equipments[i].Text = eq.Name;
+					Equipments[i].ImageIndex = eq.EquipmentType[3];
 
 				} else if ( i < ship.SlotSize ) {
-					slot[i].Text = "(なし)";
-					slot[i].ImageIndex = (int)ResourceManager.EquipmentContent.Nothing;
+					Equipments[i].Text = "(なし)";
+					Equipments[i].ImageIndex = (int)ResourceManager.EquipmentContent.Nothing;
 
 				} else {
-					slot[i].Text = "";
-					slot[i].ImageIndex = (int)ResourceManager.EquipmentContent.Locked;
+					Equipments[i].Text = "";
+					Equipments[i].ImageIndex = (int)ResourceManager.EquipmentContent.Locked;
 				}
 			}
 
@@ -641,11 +643,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( e.Button == System.Windows.Forms.MouseButtons.Right ) {
 
-				//fixme: これゼッタイ早く直したほうがいい　おかしい
-				ImageLabel[] slot = new ImageLabel[] { Equipment1, Equipment2, Equipment3, Equipment4, Equipment5 };
-
-				for ( int i = 0; i < slot.Length; i++ ) {
-					if ( sender == slot[i] ) {
+				for ( int i = 0; i < Equipments.Length; i++ ) {
+					if ( sender == Equipments[i] ) {
 
 						if ( _shipID != -1 ) {
 							ShipDataMaster ship = KCDatabase.Instance.MasterShips[_shipID];

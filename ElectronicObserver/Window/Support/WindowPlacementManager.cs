@@ -213,7 +213,7 @@ namespace ElectronicObserver.Window.Support {
 
 				SetWindowPlacement( form.Handle, ref wp.RawData );
 
-				
+
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の復元に失敗しました。" );

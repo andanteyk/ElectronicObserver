@@ -128,8 +128,6 @@ namespace ElectronicObserver.Notifier {
 		}
 
 
-		//fixme: 以下クソコードの塊、直せるなら早めに直す
-
 		private void BattleStarted( string apiname, dynamic data ) {
 			if ( NotifiesBefore ) {
 				CheckBattle();

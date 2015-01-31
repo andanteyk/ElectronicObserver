@@ -124,7 +124,6 @@ namespace ElectronicObserver.Window {
 			}
 
 			//更新時にソートする
-			//fixme: sortedcolumn == null だと死ぬ上どうも挙動が怪しい
 			if ( QuestView.SortedColumn != null )
 				QuestView.Sort( QuestView.SortedColumn, QuestView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
 

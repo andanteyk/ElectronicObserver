@@ -123,7 +123,7 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 		protected override string RecordHeader {
-			get { return "敵編成ID,敵艦隊名,陣形,敵編成リスト"; }
+			get { return "敵編成ID,敵艦隊名,陣形,敵1番艦,敵2番艦,敵3番艦,敵4番艦,敵5番艦,敵6番艦"; }
 		}
 
 		public override string FileName {

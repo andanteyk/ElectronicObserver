@@ -164,12 +164,17 @@ namespace ElectronicObserver.Data.Battle {
 			}
 
 
-			//ドロップ艦記録(母港がいっぱいの場合記録しません)
-			if ( ( BattleMode & BattleModes.BattlePhaseMask ) != BattleModes.Practice && 
-				 KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count >= 1 &&
-				 KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count >= 4 ) {
+			//ドロップ艦記録
+			if ( ( BattleMode & BattleModes.BattlePhaseMask ) != BattleModes.Practice ) {
 
-				RecordManager.Instance.ShipDrop.Add( Result.DroppedShipID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
+				int dropID = Result.DroppedShipID;
+				if ( dropID == -1 && (
+					KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count <= 0 ||
+					KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count <= 3 ) ) {
+					dropID = -2;
+				}
+
+				RecordManager.Instance.ShipDrop.Add( dropID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
 			}
 
 		}

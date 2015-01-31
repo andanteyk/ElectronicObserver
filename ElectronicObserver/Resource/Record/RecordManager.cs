@@ -47,31 +47,41 @@ namespace ElectronicObserver.Resource.Record {
 
 		public void Load() {
 
-			EnemyFleet.Load( MasterPath );
-			ShipParameter.Load( MasterPath );
-			//Construction.Load( MasterPath );
-			//ShipDrop.Load( MasterPath );
-			//Development.Load( MasterPath );
-			//Resource.Load( MasterPath );
+			bool successed = true;
 
-			//fixme: 読み込みに成功した時だけこれを表示できるように
-			Utility.Logger.Add( 2, "レコードをロードしました。" );
+			successed &= EnemyFleet.Load( MasterPath );
+			successed &= ShipParameter.Load( MasterPath );
+			//successed &= Construction.Load( MasterPath );
+			//successed &= ShipDrop.Load( MasterPath );
+			//successed &= Development.Load( MasterPath );
+			//successed &= Resource.Load( MasterPath );
+
+			if ( successed )
+				Utility.Logger.Add( 2, "レコードをロードしました。" );
+			else
+				Utility.Logger.Add( 3, "レコードのロードに失敗しました。" );
 		}
 
 		public void Save() {
 
 			//api_start2がロード済みのときのみ
 			if ( KCDatabase.Instance.MasterShips.Count == 0 ) return;
-				
 
-			EnemyFleet.Save( MasterPath );
-			ShipParameter.Save( MasterPath );
-			Construction.Save( MasterPath );
-			ShipDrop.Save( MasterPath );
-			Development.Save( MasterPath );
-			Resource.Save( MasterPath );
+			bool successed = true;
 
-			Utility.Logger.Add( 2, "レコードをセーブしました。" );
+
+			successed &= EnemyFleet.Save( MasterPath );
+			successed &= ShipParameter.Save( MasterPath );
+			successed &= Construction.Save( MasterPath );
+			successed &= ShipDrop.Save( MasterPath );
+			successed &= Development.Save( MasterPath );
+			successed &= Resource.Save( MasterPath );
+
+			if ( successed )
+				Utility.Logger.Add( 2, "レコードをセーブしました。" );
+			else
+				Utility.Logger.Add( 2, "レコードのセーブに失敗しました。" );
+
 		}
 
 	}

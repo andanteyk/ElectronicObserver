@@ -36,7 +36,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// ファイルからレコードを読み込みます。
 		/// </summary>
 		/// <param name="path">ファイルが存在するフォルダのパス。</param>
-		public virtual void Load( string path ) {
+		public virtual bool Load( string path ) {
 
 			path = path.Trim( @" \\""".ToCharArray() ) + "\\" + FileName;
 
@@ -57,6 +57,8 @@ namespace ElectronicObserver.Resource.Record {
 
 				}
 
+				return true;
+
 			} catch ( FileNotFoundException ) {
 
 				Utility.Logger.Add( 1, "レコード " + path + " は存在しません。" );
@@ -67,6 +69,8 @@ namespace ElectronicObserver.Resource.Record {
 				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の読み込みに失敗しました。" );
 
 			}
+
+			return false;
 		}
 
 
@@ -74,7 +78,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// ファイルにレコードを書き込みます。
 		/// </summary>
 		/// <param name="path">ファイルが存在するフォルダのパス。</param>
-		public virtual void Save( string path ) {
+		public virtual bool Save( string path ) {
 
 			path = path.Trim( @" \\""".ToCharArray() ) + "\\" + FileName;
 
@@ -90,11 +94,15 @@ namespace ElectronicObserver.Resource.Record {
 					sw.Write( SaveLines() );
 				}
 
+				return true;
+
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の書き込みに失敗しました。" );
 			
 			}
+
+			return false;
 		}
 
 

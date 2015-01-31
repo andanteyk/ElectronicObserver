@@ -232,10 +232,11 @@ namespace ElectronicObserver.Resource.Record {
 		protected override bool IsAppend { get { return true; } }
 
 
-		public override void Save( string path ) {
-			base.Save( path );
+		public override bool Save( string path ) {
+			bool ret = base.Save( path );
 
 			Record.Clear();
+			return ret;
 		}
 
 

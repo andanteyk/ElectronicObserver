@@ -247,6 +247,7 @@ namespace ElectronicObserver.Window.Dialog {
 				ndmg.ContainsNotLockedShip = ContainsNotLockedShip.Checked;
 				ndmg.ContainsSafeShip = ContainsSafeShip.Checked;
 				ndmg.ContainsFlagship = ContainsFlagship.Checked;
+				ndmg.LevelBorder = (int)LevelBorder.Value;
 				ndmg.NotifiesAtEndpoint = NotifiesAtEndpoint.Checked;
 			}
 
