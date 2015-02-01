@@ -857,7 +857,7 @@ api_req_ranking/getlist	：ランキング
 		api_experience	：提督経験値
 		api_comment		：コメント
 		api_rate		：戦果
-		api_flag		：
+		api_flag		：旗アイコン? 0=金色
 		api_nickname_id	：
 		api_comment_id	：
 

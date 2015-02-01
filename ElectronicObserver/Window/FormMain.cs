@@ -326,11 +326,14 @@ namespace ElectronicObserver.Window {
 			} catch ( FileNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
+				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
+					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
 			} catch ( DirectoryNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
-
+				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
+					MessageBoxButtons.OK, MessageBoxIcon.Information );
 			
 			} catch ( Exception ex ) {
 

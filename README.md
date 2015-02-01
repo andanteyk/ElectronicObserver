@@ -48,4 +48,5 @@ Assets.zip をプログラムと同じ場所にコピーするか、実行フォ
 ### 連絡先など
 ---
 
+* 配布サイト:[ブルネイ工廠電気実験部](http://electronicobserver.blog.fc2.com/)
 * 開発:[Andante](https://twitter.com/andanteyk)
