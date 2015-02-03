@@ -88,6 +88,8 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
+			this.label13 = new System.Windows.Forms.Label();
+			this.FormFleet_SearchingAbilityMethod = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.Connection_PanelSaveData.SuspendLayout();
@@ -371,7 +373,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 143);
+			this.label9.Location = new System.Drawing.Point(8, 141);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 8;
@@ -444,10 +446,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 44);
+			this.tabPage3.Location = new System.Drawing.Point(4, 24);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(392, 211);
+			this.tabPage3.Size = new System.Drawing.Size(392, 231);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -536,10 +538,10 @@
 			// 
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 44);
+			this.tabPage4.Location = new System.Drawing.Point(4, 24);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(392, 211);
+			this.tabPage4.Size = new System.Drawing.Size(392, 231);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -570,10 +572,10 @@
 			// tabPage5
 			// 
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 44);
+			this.tabPage5.Location = new System.Drawing.Point(4, 24);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 211);
+			this.tabPage5.Size = new System.Drawing.Size(392, 231);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -594,10 +596,10 @@
 			// 
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 44);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 211);
+			this.tabPage6.Size = new System.Drawing.Size(392, 231);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -647,6 +649,8 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_SearchingAbilityMethod);
+			this.tabPage8.Controls.Add(this.label13);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowAircraft);
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
@@ -669,10 +673,10 @@
 			// tabPage9
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 24);
+			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 177);
+			this.tabPage9.Size = new System.Drawing.Size(378, 179);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -690,10 +694,10 @@
 			// tabPage10
 			// 
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 24);
+			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 177);
+			this.tabPage10.Size = new System.Drawing.Size(378, 179);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -728,7 +732,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(5, 193);
+			this.label10.Location = new System.Drawing.Point(5, 171);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -820,6 +824,27 @@
 			// FontSelector
 			// 
 			this.FontSelector.ShowEffects = false;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(6, 34);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(103, 15);
+			this.label13.TabIndex = 1;
+			this.label13.Text = "索敵能力計算式：";
+			// 
+			// FormFleet_SearchingAbilityMethod
+			// 
+			this.FormFleet_SearchingAbilityMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormFleet_SearchingAbilityMethod.FormattingEnabled = true;
+			this.FormFleet_SearchingAbilityMethod.Items.AddRange(new object[] {
+            "(旧)2-5式",
+            "2-5式(秋)"});
+			this.FormFleet_SearchingAbilityMethod.Location = new System.Drawing.Point(115, 31);
+			this.FormFleet_SearchingAbilityMethod.Name = "FormFleet_SearchingAbilityMethod";
+			this.FormFleet_SearchingAbilityMethod.Size = new System.Drawing.Size(121, 23);
+			this.FormFleet_SearchingAbilityMethod.TabIndex = 2;
 			// 
 			// DialogConfiguration
 			// 
@@ -937,5 +962,7 @@
 		private System.Windows.Forms.Label label11;
 		internal System.Windows.Forms.ComboBox Log_FileEncodingID;
 		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.Label label13;
+		internal System.Windows.Forms.ComboBox FormFleet_SearchingAbilityMethod;
 	}
 }

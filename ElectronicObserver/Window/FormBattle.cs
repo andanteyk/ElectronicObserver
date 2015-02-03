@@ -782,7 +782,7 @@ namespace ElectronicObserver.Window {
 
 			if ( (int)bd.Data.api_flare_pos[1] != -1 )
 				ToolTipInfo.SetToolTip( AirStage2Enemy, string.Format(
-						"照明弾投射: {0}", KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[(int)bd.Data.api_flare_pos[1] - 6]].NameWithClass ) );	//checkme
+						"照明弾投射: {0}", KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[(int)bd.Data.api_flare_pos[1] - 1]].NameWithClass ) );
 			else
 				ToolTipInfo.SetToolTip( AirStage2Enemy, null );
 

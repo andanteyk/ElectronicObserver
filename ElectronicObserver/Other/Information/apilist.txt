@@ -1145,7 +1145,7 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 	api_fParam			：味方艦船基礎ステータス
 	api_eParam			：敵艦船基礎ステータス
 	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵
-	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵
+	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵　敵でも1-6
 	api_hougeki			：夜間砲雷撃戦
 		api_at_list		：行動順
 		api_df_list		：防御側ID　-1から始まる　連撃とカットイン((主砲|魚雷)/魚雷)は2個, カットイン(主砲/(副砲|主砲))は3個(但し[1], [2]=-1)

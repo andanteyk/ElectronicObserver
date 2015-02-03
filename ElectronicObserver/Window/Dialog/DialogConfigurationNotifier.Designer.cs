@@ -71,6 +71,7 @@
 			this.DialogOpenSound = new System.Windows.Forms.OpenFileDialog();
 			this.DialogOpenImage = new System.Windows.Forms.OpenFileDialog();
 			this.ToolTipText = new System.Windows.Forms.ToolTip(this.components);
+			this.ShowWithActivation = new System.Windows.Forms.CheckBox();
 			this.GroupSound.SuspendLayout();
 			this.GroupImage.SuspendLayout();
 			this.GroupDialog.SuspendLayout();
@@ -220,6 +221,7 @@
 			// 
 			// GroupDialog
 			// 
+			this.GroupDialog.Controls.Add(this.ShowWithActivation);
 			this.GroupDialog.Controls.Add(this.label4);
 			this.GroupDialog.Controls.Add(this.DrawsMessage);
 			this.GroupDialog.Controls.Add(this.HasFormBorder);
@@ -359,7 +361,7 @@
 			// CloseOnMouseOver
 			// 
 			this.CloseOnMouseOver.AutoSize = true;
-			this.CloseOnMouseOver.Location = new System.Drawing.Point(272, 80);
+			this.CloseOnMouseOver.Location = new System.Drawing.Point(388, 77);
 			this.CloseOnMouseOver.Name = "CloseOnMouseOver";
 			this.CloseOnMouseOver.Size = new System.Drawing.Size(132, 19);
 			this.CloseOnMouseOver.TabIndex = 15;
@@ -402,7 +404,7 @@
 			// TopMostFlag
 			// 
 			this.TopMostFlag.AutoSize = true;
-			this.TopMostFlag.Location = new System.Drawing.Point(107, 22);
+			this.TopMostFlag.Location = new System.Drawing.Point(268, 77);
 			this.TopMostFlag.Name = "TopMostFlag";
 			this.TopMostFlag.Size = new System.Drawing.Size(114, 19);
 			this.TopMostFlag.TabIndex = 1;
@@ -645,6 +647,17 @@
 			this.ToolTipText.InitialDelay = 500;
 			this.ToolTipText.ReshowDelay = 100;
 			// 
+			// ShowWithActivation
+			// 
+			this.ShowWithActivation.AutoSize = true;
+			this.ShowWithActivation.Location = new System.Drawing.Point(90, 22);
+			this.ShowWithActivation.Name = "ShowWithActivation";
+			this.ShowWithActivation.Size = new System.Drawing.Size(151, 19);
+			this.ShowWithActivation.TabIndex = 1;
+			this.ShowWithActivation.Text = "表示時にアクティベートする";
+			this.ToolTipText.SetToolTip(this.ShowWithActivation, "表示時にダイアログをアクティブにします。\r\n無効にすると操作を妨げない代わりにダイアログが隠れやすくなります。");
+			this.ShowWithActivation.UseVisualStyleBackColor = true;
+			// 
 			// DialogConfigurationNotifier
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -732,5 +745,6 @@
 		private System.Windows.Forms.CheckBox NotifiesAtEndpoint;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.ToolTip ToolTipText;
+		private System.Windows.Forms.CheckBox ShowWithActivation;
 	}
 }

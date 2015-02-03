@@ -299,8 +299,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowAircraft { get; set; }
 
+				/// <summary>
+				/// 索敵式の計算方法
+				/// </summary>
+				public int SearchingAbilityMethod { get; set; }
+
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
+					SearchingAbilityMethod = 0;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -374,6 +381,8 @@ namespace ElectronicObserver.Utility {
 
 				public bool TopMost { get; set; }
 
+				public bool ShowWithActivation { get; set; }
+
 				public SerializableColor ForeColor { get; set; }
 
 				public SerializableColor BackColor { get; set; }
@@ -394,6 +403,7 @@ namespace ElectronicObserver.Utility {
 					Location = new Point( 0, 0 );
 					HasFormBorder = true;
 					TopMost = true;
+					ShowWithActivation = true;
 					ForeColor = SystemColors.ControlText;
 					BackColor = SystemColors.Control;
 				}
@@ -440,6 +450,32 @@ namespace ElectronicObserver.Utility {
 
 
 
+			public class ConfigWhitecap : ConfigPartBase {
+
+				public bool ShowInTaskbar { get; set; }
+				public bool TopMost { get; set; }
+				public int BoardWidth { get; set; }
+				public int BoardHeight { get; set; }
+				public int ZoomRate { get; set; }
+				public int UpdateInterval { get; set; }
+				public int ColorTheme { get; set; }
+
+				public ConfigWhitecap()
+					: base() {
+					ShowInTaskbar = true;
+					TopMost = false;
+					BoardWidth = 200;
+					BoardHeight = 150;
+					ZoomRate = 2;
+					UpdateInterval = 100;
+					ColorTheme = 0;
+				}
+			}
+			[DataMember]
+			public ConfigWhitecap Whitecap { get; private set; }
+
+
+
 			[DataMember]
 			public string Version {
 				get { return SoftwareInformation.VersionEnglish; }
@@ -467,6 +503,8 @@ namespace ElectronicObserver.Utility {
 				NotifierRepair = new ConfigNotifierBase();
 				NotifierCondition = new ConfigNotifierBase();
 				NotifierDamage = new ConfigNotifierDamage();
+
+				Whitecap = new ConfigWhitecap();
 
 			}
 		}
@@ -528,6 +566,7 @@ namespace ElectronicObserver.Utility {
 			//[サブウィンドウ]
 			dialog.FormArsenal_ShowShipName.Checked = _config.FormArsenal.ShowShipName;
 			dialog.FormFleet_ShowAircraft.Checked = _config.FormFleet.ShowAircraft;
+			dialog.FormFleet_SearchingAbilityMethod.SelectedIndex = _config.FormFleet.SearchingAbilityMethod;
 			dialog.FormQuest_ShowRunningOnly.Checked = _config.FormQuest.ShowRunningOnly;
 
 
@@ -581,6 +620,7 @@ namespace ElectronicObserver.Utility {
 			//[サブウィンドウ]
 			_config.FormArsenal.ShowShipName = dialog.FormArsenal_ShowShipName.Checked;
 			_config.FormFleet.ShowAircraft = dialog.FormFleet_ShowAircraft.Checked;
+			_config.FormFleet.SearchingAbilityMethod = dialog.FormFleet_SearchingAbilityMethod.SelectedIndex;
 			_config.FormQuest.ShowRunningOnly = dialog.FormQuest_ShowRunningOnly.Checked;
 
 
