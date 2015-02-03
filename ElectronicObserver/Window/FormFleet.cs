@@ -118,8 +118,14 @@ namespace ElectronicObserver.Window {
 
 				Name.Text = fleet.Name;
 				{
-					int sum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
-					ToolTipInfo.SetToolTip( Name, string.Format( "合計レベル：{0}\r\n平均レベル：{1:0.00}", sum, (double)sum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ) ) );
+					int levelSum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
+					ToolTipInfo.SetToolTip( Name, string.Format( "合計レベル：{0}\r\n平均レベル：{1:0.00}\r\nドラム缶搭載: {2}個 ({3}艦)\r\n大発動艇搭載: {4}個",
+						levelSum,
+						(double)levelSum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ),
+						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) ),
+						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) > 0 ),
+						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 24 ) )
+						) );
 				}
 
 
@@ -138,9 +144,9 @@ namespace ElectronicObserver.Window {
 						(int)( airSuperiority * 3.0 ) ) );
 				}
 
+				
 				//索敵能力計算
-				SearchingAbility.Text = fleet.GetSearchingAbility().ToString();
-
+				SearchingAbility.Text = fleet.GetSearchingAbilityString();
 
 			}
 
@@ -618,7 +624,7 @@ namespace ElectronicObserver.Window {
 			KCDatabase db = KCDatabase.Instance;
 			FleetData fleet = db.Fleet[FleetID];
 
-			sb.AppendFormat( "{0}\t制空戦力{1}/索敵能力{2}\r\n", fleet.Name, fleet.GetAirSuperiority(), fleet.GetSearchingAbility() );
+			sb.AppendFormat( "{0}\t制空戦力{1}/索敵能力{2}\r\n", fleet.Name, fleet.GetAirSuperiority(), fleet.GetSearchingAbilityString() );
 			for ( int i = 0; i < fleet.Members.Count; i++ ) {
 				if ( fleet[i] == -1 )
 					continue;
@@ -667,6 +673,10 @@ namespace ElectronicObserver.Window {
 		void ConfigurationChanged() {
 			MainFont = Font = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
+
+			if ( ControlFleet != null && KCDatabase.Instance.Fleet[FleetID] != null ) {
+				ControlFleet.Update( KCDatabase.Instance.Fleet[FleetID] );
+			}
 
 			if ( ControlMember != null ) {
 				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;

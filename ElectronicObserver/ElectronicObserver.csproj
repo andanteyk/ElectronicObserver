@@ -133,6 +133,7 @@
     <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
+    <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />
     <Compile Include="Observer\APIBase.cs" />

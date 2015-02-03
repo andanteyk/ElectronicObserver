@@ -77,6 +77,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_kousyou.remodel_slot() );
 			APIList.Add( new kcsapi.api_get_member.material() );
 			APIList.Add( new kcsapi.api_req_mission.result() );
+			APIList.Add( new kcsapi.api_req_ranking.getlist() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );
@@ -101,7 +102,7 @@ namespace ElectronicObserver.Observer {
 		public int Start( int portID ) {
 
 			//checkme: フラグを消してみた、要確認
-			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway /*| Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy*/ );
+			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway/* | Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy */);
 
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}",
 						Fiddler.FiddlerApplication.oProxy.ListenPort ), "<local>" );

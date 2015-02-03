@@ -1,4 +1,4 @@
-﻿
+
 ## 七四式電子観測儀
 ---
 
@@ -9,8 +9,8 @@
 
 ![](https://github.com/andanteyk/ElectronicObserver/wiki/media/mainimage.png)
 
-各機能はそれぞれウィンドウとして独立しており、自由にドッキング・タブ化するなどしてレイアウト可能です。
-以下では概略を紹介します。詳しくは[Wikiを参照](https://github.com/andanteyk/ElectronicObserver/wiki)してください。
+各機能はそれぞれウィンドウとして独立しており、自由にドッキング・タブ化するなどしてレイアウト可能です。  
+以下では概略を紹介します。**詳しくは[Wikiを参照](https://github.com/andanteyk/ElectronicObserver/wiki)してください。**  
 
 * 艦隊(状態(遠征中, 未補給など), 制空戦力, 索敵能力(仮))
     * 個艦(Lv, HP, コンディション, 補給, 装備スロット)
@@ -27,10 +27,17 @@
 
 なお、全ての機能において艦これ本体の送受信する情報に干渉する操作は行っていません。
 
+### ダウンロード
+---
+
+*このリンクの更新は遅れる可能性があります。最新版は[こちら](http://electronicobserver.blog.fc2.com/)で確認してください。*  
+
+[ver. 0.1.1 (2015/02/03)](http://bit.ly/16dqIfn)  
+
 ### 開発者の皆様へ
 ---
 
-Other/Information/apilist.txt に艦これAPIの情報を掲載しています。  
+[Other/Information/](https://github.com/andanteyk/ElectronicObserver/tree/develop/ElectronicObserver/Other/Information) に艦これのAPIや仕様についての情報を掲載しています。  
 ご自由にお持ちください。但し内容は保証しません。  
 
 また、実行する際は実行フォルダに気を付けてください。  
@@ -41,11 +48,12 @@ Assets.zip をプログラムと同じ場所にコピーするか、実行フォ
 ### 使用しているライブラリ
 ---
 
-* [DynamicJson](http://dynamicjson.codeplex.com/) 
+* [DynamicJson](http://dynamicjson.codeplex.com/)
 * [DockPanel Suite](http://dockpanelsuite.com/)
 * [FiddlerCore](http://www.telerik.com/fiddler/fiddlercore)
 
 ### 連絡先など
 ---
 
+* 配布サイト:[ブルネイ工廠電気実験部](http://electronicobserver.blog.fc2.com/) (バグ報告・要望等はこちらにお願いします)
 * 開発:[Andante](https://twitter.com/andanteyk)

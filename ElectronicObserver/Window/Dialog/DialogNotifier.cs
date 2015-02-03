@@ -15,6 +15,9 @@ namespace ElectronicObserver.Window.Dialog {
 		
 		public NotifierDialogData DialogData { get; set; }
 
+
+		protected override bool ShowWithoutActivation { get { return !DialogData.ShowWithActivation; } }
+
 	
 		public DialogNotifier( NotifierDialogData data ) {
 			InitializeComponent();

@@ -55,6 +55,7 @@ namespace ElectronicObserver.Window.Dialog {
 			AccelInterval.Value = notifier.AccelInterval / 1000;
 			ClosingInterval.Value = notifier.DialogData.ClosingInterval / 1000;
 			CloseOnMouseOver.Checked = notifier.DialogData.CloseOnMouseMove;
+			ShowWithActivation.Checked = notifier.DialogData.ShowWithActivation;
 			ForeColorPreview.ForeColor = notifier.DialogData.ForeColor;
 			BackColorPreview.ForeColor = notifier.DialogData.BackColor;
 
@@ -238,6 +239,7 @@ namespace ElectronicObserver.Window.Dialog {
 			_notifier.DialogData.CloseOnMouseMove = CloseOnMouseOver.Checked;
 			_notifier.DialogData.ForeColor = ForeColorPreview.ForeColor;
 			_notifier.DialogData.BackColor = BackColorPreview.ForeColor;
+			_notifier.DialogData.ShowWithActivation = ShowWithActivation.Checked;
 
 			NotifierDamage ndmg = _notifier as NotifierDamage;
 			if ( ndmg != null ) {

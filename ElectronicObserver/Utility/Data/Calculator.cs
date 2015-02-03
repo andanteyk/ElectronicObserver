@@ -134,6 +134,113 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		/// <summary>
+		/// 索敵能力を求めます。「2-5式」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		public static int GetSearchingAbility_Old( FleetData fleet ) {
+
+			KCDatabase db = KCDatabase.Instance;
+
+			int los_reconplane = 0;
+			int los_radar = 0;
+			int los_other = 0;
+
+			for ( int i = 0; i < fleet.Members.Count; i++ ) {
+
+				if ( fleet.Members[i] == -1 )
+					continue;
+
+				ShipData ship = db.Ships[fleet.Members[i]];
+				if ( ship == null || fleet.EscapedShipList.Contains( ship.MasterID ) )
+					continue;
+
+				los_other += ship.LOSBase;
+
+				var slot = ship.SlotInstanceMaster;
+
+				for ( int j = 0; j < slot.Count; j++ ) {
+
+					if ( slot[j] == null ) continue;
+
+					switch ( slot[j].EquipmentType[2] ) {
+						case 9:		//艦偵
+						case 10:	//水偵
+						case 11:	//水爆
+							if ( ship.Aircraft[j] > 0 )
+								los_reconplane += slot[j].LOS * 2;
+							break;
+
+						case 12:	//小型電探
+						case 13:	//大型電探
+							los_radar += slot[j].LOS;
+							break;
+
+						default:
+							los_other += slot[j].LOS;
+							break;
+					}
+				}
+			}
+
+
+			return (int)Math.Sqrt( los_other ) + los_radar + los_reconplane;
+		}
+
+
+		/// <summary>
+		/// 索敵能力を求めます。「2-5式(秋)」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		public static double GetSearchingAbility_Autumn( FleetData fleet ) {
+
+			double ret = 0.0;
+
+			foreach ( var ship in fleet.MembersInstance ) {
+				if ( ship == null ) continue;
+
+				ret += Math.Sqrt( ship.LOSBase ) * 1.6841056;
+
+				foreach ( var eq in ship.SlotInstanceMaster ) {
+					if ( eq == null ) continue;
+
+					switch ( eq.CategoryType ) {
+
+						case 7:		//艦爆
+							ret += eq.LOS * 1.0376255; break;
+
+						case 8:		//艦攻
+							ret += eq.LOS * 1.3677954; break;
+
+						case 9:		//艦偵
+							ret += eq.LOS * 1.6592780; break;
+
+						case 10:	//水偵
+							ret += eq.LOS * 2.0000000; break;
+
+						case 11:	//水爆
+							ret += eq.LOS * 1.7787282; break;
+
+						case 12:	//小型電探
+							ret += eq.LOS * 1.0045358; break;
+
+						case 13:	//大型電探
+							ret += eq.LOS * 0.9906638; break;
+ 
+						case 29:	//探照灯
+							ret += eq.LOS * 0.9067950; break;
+
+					}
+				}
+			}
+
+			ret -= Math.Ceiling( KCDatabase.Instance.Admiral.Level / 5.0 ) * 5.0 * 0.6142467;
+
+			return Math.Round( ret, 1 );
+		}
+
+
+
 
 		/// <summary>
 		/// 昼戦における攻撃種別を取得します。

@@ -348,59 +348,32 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 索敵能力を取得します。
-		/// いわゆる 2-5式 計算法です。正確ではありませんが、参考にはなります。
+		/// 現在の設定に応じて、索敵能力を取得します。
 		/// </summary>
-		/// <returns>索敵能力。</returns>
-		public int GetSearchingAbility() {
+		public double GetSearchingAbility() {
+			switch ( Utility.Configuration.Config.FormFleet.SearchingAbilityMethod ) {
+				default:
+				case 0:
+					return Calculator.GetSearchingAbility_Old( this );
 
-			KCDatabase db = KCDatabase.Instance;
-
-			int los_reconplane = 0;
-			int los_radar = 0;
-			int los_other = 0;
-
-			for ( int i = 0; i < Members.Count; i++ ) {
-
-				if ( Members[i] == -1 )
-					continue;
-
-				ShipData ship = db.Ships[Members[i]];
-				if ( ship == null || _escapedShipList.Contains( ship.MasterID ) )
-					continue;
-
-				los_other += ship.LOSBase;
-
-				var slot = ship.SlotInstanceMaster;
-
-				for ( int j = 0; j < slot.Count; j++ ) {
-
-					if ( slot[j] == null ) continue;
-
-					switch ( slot[j].EquipmentType[2] ) {
-						case 9:		//艦偵
-						case 10:	//水偵
-						case 11:	//水爆
-							if ( ship.Aircraft[j] > 0 )
-								los_reconplane += slot[j].LOS * 2;
-							break;
-
-						case 12:	//小型電探
-						case 13:	//大型電探
-							los_radar += slot[j].LOS;
-							break;
-
-						default:
-							los_other += slot[j].LOS;
-							break;
-					}
-				}
+				case 1:
+					return Calculator.GetSearchingAbility_Autumn( this );
 			}
-
-
-			return (int)Math.Sqrt( los_other ) + los_radar + los_reconplane;
 		}
 
+		/// <summary>
+		/// 現在の設定に応じて、索敵能力を表す文字列を取得します。
+		/// </summary>
+		public string GetSearchingAbilityString() {
+			switch ( Utility.Configuration.Config.FormFleet.SearchingAbilityMethod ) {
+				default:
+				case 0:
+					return Calculator.GetSearchingAbility_Old( this ).ToString();
+
+				case 1:
+					return Calculator.GetSearchingAbility_Autumn( this ).ToString( "F1" );
+			}
+		}
 
 
 
@@ -537,7 +510,7 @@ namespace ElectronicObserver.Data {
 						return 0.5 < rate && rate < 1.0;
 					} ) >= 1 ) {
 
-					if ( prevstate != FleetStates.AnchorageRepairing )
+					if ( prevstate != FleetStates.AnchorageRepairing || ( DateTime.Now - timer ).TotalSeconds >= 20 * 60 )
 						timer = DateTime.Now;
 					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( timer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;

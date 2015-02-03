@@ -29,17 +29,21 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogWhitecap() {
 			InitializeComponent();
 
-			zoomrate = 2;
+			zoomrate = Utility.Configuration.Config.Whitecap.ZoomRate;
+
+			colortheme = Utility.Configuration.Config.Whitecap.ColorTheme;
 			imagebuf = null;
 
 			rand = new Random();
 
-			SetSize( 200, 150 );
+			SetSize( Utility.Configuration.Config.Whitecap.BoardWidth, Utility.Configuration.Config.Whitecap.BoardHeight );
+			ShowInTaskbar = Utility.Configuration.Config.Whitecap.ShowInTaskbar;
+			TopMost = Utility.Configuration.Config.Whitecap.ShowInTaskbar;
 		}
 
 		private void DialogWhitecap_Load( object sender, EventArgs e ) {
 
-			UpdateTimer.Interval = 100;
+			UpdateTimer.Interval = Utility.Configuration.Config.Whitecap.UpdateInterval;
 
 			Start();
 		}
@@ -53,8 +57,6 @@ namespace ElectronicObserver.Window.Dialog {
 				imagebuf.Dispose();
 			}
 			imagebuf = new Bitmap( boardSize.Width, boardSize.Height, PixelFormat.Format24bppRgb );
-
-			colortheme = rand.Next( 8 );
 
 			clock = 0;
 			UpdateTimer.Start();
@@ -141,18 +143,89 @@ namespace ElectronicObserver.Window.Dialog {
 
 			e.Graphics.Clear( Color.Black );
 
-			BitmapData bmpdata = imagebuf.LockBits( new Rectangle( 0, 0, imagebuf.Width, imagebuf.Height ), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb );
+			BitmapData bmpdata = imagebuf.LockBits( new Rectangle( 0, 0, imagebuf.Width, imagebuf.Height ), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb );
 			byte[] canvas = new byte[imagebuf.Width * imagebuf.Height * 3];
+			Marshal.Copy( bmpdata.Scan0, canvas, 0, canvas.Length );
 			
 			for ( int y = 0; y < boardSize.Height; y++ ) {
 				for ( int x = 0; x < boardSize.Width; x++ ) {
 
-					Color col = GetCellColor( colortheme, x, y, GetCell( currentDim, x, y ) );
+					Color col;
+					Color prev = Color.FromArgb(
+						canvas[( ( y * boardSize.Width + x ) * 3 + 2 )],
+						canvas[( ( y * boardSize.Width + x ) * 3 + 1 )],
+						canvas[( ( y * boardSize.Width + x ) * 3 + 0 )] );
+					int value = GetCell( currentDim, x, y );
+
+
+					switch ( colortheme ) {
+
+						case 1:
+							col = value != 0 ?
+								BlendColor( FromRgb( 0x000000 ), FromRgb( 0xFF0000 ), (double)y / boardSize.Height ) :
+								BlendColor( FromRgb( 0xFF0000 ), FromRgb( 0xFFFF00 ), (double)y / boardSize.Height );
+							break;
+
+						case 2:
+							col = value != 0 ?
+								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0x00FFFF ), (double)y / boardSize.Height ) :
+								BlendColor( FromRgb( 0x0044FF ), FromRgb( 0x000000 ), (double)y / boardSize.Height );
+							break;
+
+						case 3:
+							col = value != 0 ?
+								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xFFDDBB ), (double)y / boardSize.Height ) :
+								BlendColor( FromRgb( 0x00FFFF ), FromRgb( 0xFFDDBB ), (double)y / boardSize.Height );
+							break;
+
+						case 4:
+							col = value != 0 ?
+								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xCCCCFF ), (double)y / boardSize.Height ) :
+								BlendColor( FromRgb( 0x000000 ), FromRgb( 0x000088 ), (double)y / boardSize.Height );
+							break;
+
+						case 5:
+							col = value != 0 ?
+								BlendColor( FromRgb( 0xDDDDDD ), FromRgb( 0xFFFFFF ), (double)( x + y ) / ( boardSize.Width + boardSize.Height ) ) :
+								BlendColor( FromRgb( 0x778888 ), FromRgb( 0x99AAAA ), (double)( x + y ) / ( boardSize.Width + boardSize.Height ) );
+							break;
+
+						case 6:
+							col = value != 0 ?
+								BlendColor( FromRgb( 0xFF66FF ), FromRgb( 0xFFAAFF ), Math.Pow( x + y, 2 ) / Math.Pow( boardSize.Width + boardSize.Height, 2 ) ) :
+								BlendColor( FromRgb( 0xFFCCCC ), FromRgb( 0xFFFFFF ), Math.Pow( x + y, 2 ) / Math.Pow( boardSize.Width + boardSize.Height, 2 ) );
+							break;
+
+						case 7:
+							col = value != 0 ?
+								BlendColor( FromRgb( 0x008800 ), FromRgb( 0x44FF44 ), Math.Pow( x + y, 2 ) / Math.Pow( boardSize.Width + boardSize.Height, 2 ) ) :
+								BlendColor( FromRgb( 0x88FF88 ), FromRgb( 0xCCFF88 ), Math.Pow( x + y, 2 ) / Math.Pow( boardSize.Width + boardSize.Height, 2 ) );
+							break;
+
+						case 8:
+							col = value != 0 ?
+								FromRgb( 0xFFFFFF ) :
+								BlendColor( FromRgb( 0x000000 ), prev, 0.5 );
+									
+							break;
+
+						case 9:
+							col = value != 0 ?
+								FromHsv( x + y + clock * 3, 1.0, 1.0 ) :
+								FromRgb( 0x000000 );
+							break;
+
+						default:
+							col = value != 0 ? FromRgb( 0xFFFFFF ) : FromRgb( 0x000000 );
+							break;
+
+					}
+
 
 					canvas[( ( y * boardSize.Width + x ) * 3 + 0 )] = col.B;
 					canvas[( ( y * boardSize.Width + x ) * 3 + 1 )] = col.G;
 					canvas[( ( y * boardSize.Width + x ) * 3 + 2 )] = col.R;
-
+					
 				}
 			}
 
@@ -164,53 +237,56 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		private Color GetCellColor( int theme, int x, int y, int value ) {
-
-			switch ( theme ) {
-
-				case 1:
-					return value != 0 ?
-						BlendColor( FromRgb( 0x000000 ), FromRgb( 0xFF0000 ), (double)y / boardSize.Height ) : 
-						BlendColor( FromRgb( 0xFF0000 ), FromRgb( 0xFFFF00 ), (double)y / boardSize.Height );
-
-				case 2:
-					return value != 0 ?
-						BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0x00FFFF ), (double)y / boardSize.Height ) :
-						BlendColor( FromRgb( 0x0044FF ), FromRgb( 0x000000 ), (double)y / boardSize.Height );
-
-				case 3:
-					return value != 0 ?
-						BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xFFDDBB ), (double)y / boardSize.Height ) :
-						BlendColor( FromRgb( 0x00FFFF ), FromRgb( 0xFFDDBB ), (double)y / boardSize.Height );
-
-				case 4:
-					return value != 0 ?
-						BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xCCCCFF ), (double)y / boardSize.Height ) :
-						BlendColor( FromRgb( 0x000000 ), FromRgb( 0x000088 ), (double)y / boardSize.Height );
-
-				case 5:
-					return value != 0 ?
-						BlendColor( FromRgb( 0xDDDDDD ), FromRgb( 0xFFFFFF ), (double)( x + y ) / ( boardSize.Width + boardSize.Height ) ) :
-						BlendColor( FromRgb( 0x778888 ), FromRgb( 0x99AAAA ), (double)( x + y ) / ( boardSize.Width + boardSize.Height ) );
-
-				case 6:
-					return value != 0 ?
-						BlendColor( FromRgb( 0xFF66FF ), FromRgb( 0xFFAAFF ), Math.Pow( x + y, 2 ) / Math.Pow( boardSize.Width + boardSize.Height, 2 ) ) :
-						BlendColor( FromRgb( 0xFFCCCC ), FromRgb( 0xFFFFFF ), Math.Pow( x + y, 2 ) / Math.Pow( boardSize.Width + boardSize.Height, 2 ) );
-
-				case 7:
-					return value != 0 ?
-						BlendColor( FromRgb( 0x008800 ), FromRgb( 0x44FF44 ), Math.Pow( x + y, 2 ) / Math.Pow( boardSize.Width + boardSize.Height, 2 ) ) :
-						BlendColor( FromRgb( 0x88FF88 ), FromRgb( 0xCCFF88 ), Math.Pow( x + y, 2 ) / Math.Pow( boardSize.Width + boardSize.Height, 2 ) );	
-				
-				default:
-					return value != 0 ? FromRgb( 0xFFFFFF ) : FromRgb( 0x000000 );
-			}
-
-		}
-
 		private Color FromRgb( int rgb ) {
 			return Color.FromArgb( ( rgb >> 16 ) & 0xFF, ( rgb >> 8 ) & 0xFF, rgb & 0xFF );
+		}
+
+
+		/// <summary>
+		/// generate Color from hsv
+		/// </summary>
+		/// <param name="hue">0-360</param>
+		/// <param name="saturation">0-1</param>
+		/// <param name="brightness">0-1</param>
+		/// <returns></returns>
+		private Color FromHsv( double hue, double saturation, double brightness ) {
+			hue = hue % 360.0;
+			if ( hue < 0.0 ) hue += 360.0;
+			if ( saturation < 0.0 ) saturation = 0.0;
+
+			double r = 255 * brightness, g = 255 * brightness, b = 255 * brightness;
+			int mode = (int)( hue / 60.0 );
+			double weight = ( ( hue / 60.0 ) - (int)( hue / 60.0 ) );
+
+			switch ( mode ) {
+				default:
+				case 0:
+					g *= 1.0 - saturation * ( 1.0 - weight );
+					b *= 1.0 - saturation;
+					break;
+				case 1:
+					r *= 1.0 - saturation * weight;
+					b *= 1.0 - saturation;
+					break;
+				case 2:
+					b *= 1.0 - saturation * ( 1.0 - weight );
+					r *= 1.0 - saturation;
+					break;
+				case 3:
+					g *= 1.0 - saturation * weight;
+					r *= 1.0 - saturation;
+					break;
+				case 4:
+					r *= 1.0 - saturation * ( 1.0 - weight );
+					g *= 1.0 - saturation;
+					break;
+				case 5:
+					b *= 1.0 - saturation * weight;
+					g *= 1.0 - saturation;
+					break;
+			}
+
+			return Color.FromArgb( (int)r, (int)g, (int)b );
 		}
 
 		private Color AddColor( Color a, Color b, double weight = 1.0 ) {
@@ -227,18 +303,20 @@ namespace ElectronicObserver.Window.Dialog {
 				Math.Min( (int)( a.B * ( 1 - weight ) + b.B * weight ), 255 ) );
 		}
 
-		private void DialogWhitecap_DoubleClick( object sender, EventArgs e ) {
-
-			UpdateTimer.Stop();
-			Start();
-		}
-
 		private void DialogWhitecap_MouseClick( object sender, MouseEventArgs e ) {
+
 			if ( e.Button == System.Windows.Forms.MouseButtons.Right ) {
 				UpdateTimer.Stop();
 				InitBoard();
 				UpdateTimer.Start();
 			}
+		}
+
+		private void DialogWhitecap_DoubleClick( object sender, EventArgs e ) {
+
+			UpdateTimer.Stop();
+			colortheme = rand.Next( 64 );
+			Start();
 		}
 
 	}

@@ -73,6 +73,10 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		public bool TopMost { get; set; }
 
+		/// <summary>
+		/// 表示時にアクティベートするか
+		/// </summary>
+		public bool ShowWithActivation { get; set; }
 
 		/// <summary>
 		/// 前景色
@@ -105,6 +109,7 @@ namespace ElectronicObserver.Notifier {
 			Location = config.Location;
 			HasFormBorder = config.HasFormBorder;
 			TopMost = config.TopMost;
+			ShowWithActivation = config.ShowWithActivation;
 			ForeColor = config.ForeColor;
 			BackColor = config.BackColor;
 		}
