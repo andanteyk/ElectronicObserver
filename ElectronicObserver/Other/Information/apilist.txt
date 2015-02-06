@@ -1,6 +1,6 @@
 
 kcsapi list
-2014/08夏イベント～2014/10ごろのAPIの情報を参照
+2014/08夏イベント～2015/01ごろのAPIの情報を参照
 未記入は不明か使いどころなし
 推測・噂で書いてある点も多々ある、信じすぎないこと
 基本的に戦闘APIはapi_req_sortie/battleを参照すること。他の戦闘系APIの説明は情報が古い可能性がある、差分だけチェックすること
@@ -412,6 +412,8 @@ api_get_member/basic		：艦隊司令部情報
 	api_firstflag			：
 	api_tutorial_progress	：チュートリアル進捗？
 	api_pvp					：
+	api_medals				：?
+	api_large_dock			：大型艦建造可否
 
 
 api_port/port		：母港情報
@@ -451,7 +453,7 @@ api_port/port		：母港情報
 		api_lucky			：運　　[1]=最大値
 		api_locked			：保護ロック有無
 		api_locked_equip	：ロックされている装備を装備しているか
-		api_sally_area		：出撃海域（夏イベ用フラグ）2014/09現在消滅, 秋イベで復活
+		api_sally_area		：出撃海域　イベント中のみ存在
 	
 	api_basic				：basicに同じ
 	
@@ -1206,15 +1208,16 @@ api_get_member/ship2		：進撃中
 	api_data_deck	：deckに同じ
 
 
-api_get_member/mapinfo	：出撃準備　未出現海域は存在しない
-	api_id				：海域ID
-	api_cleared			：攻略フラグ
-	api_eventmap		：イベント海域のみ存在
-		api_now_maphp	：海域HP現在値
-		api_max_maphp	：海域HP最大値
-		api_state		：状態？1=未攻略, 2=攻略済み
-	api_exboss_flag		：未攻略海域フラグ(イベント海域を除く)
-	api_defeated_count	：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
+api_get_member/mapinfo		：出撃準備　未出現海域は存在しない
+	api_id					：海域ID
+	api_cleared				：攻略フラグ
+	api_eventmap			：イベント海域のみ存在
+		api_now_maphp		：海域HP現在値
+		api_max_maphp		：海域HP最大値
+		api_state			：状態？1=未攻略, 2=攻略済み
+		api_selected_rank	：(15冬イベ)作戦難易度 0=未設定, 1=丙, 2=乙, 3=甲
+	api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
+	api_defeated_count		：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
 
 
 api_get_member/furniture	：所有家具データ

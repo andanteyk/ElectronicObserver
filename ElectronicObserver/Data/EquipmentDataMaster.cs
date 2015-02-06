@@ -195,6 +195,9 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		public string ResourceVersion { get; internal set; }
+
+
 		public int ID {
 			get { return EquipmentID; }
 		}

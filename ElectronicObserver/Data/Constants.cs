@@ -504,6 +504,20 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		public static string GetCombinedFleet( int value ) {
+			switch ( value ) {
+				case 0:
+					return "通常艦隊";
+				case 1:
+					return "機動部隊";
+				case 2:
+					return "水上部隊";
+				default:
+					return "不明";
+			}
+		}
+
 		#endregion
 
 	}
