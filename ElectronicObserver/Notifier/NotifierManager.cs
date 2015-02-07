@@ -39,7 +39,7 @@ namespace ElectronicObserver.Notifier {
 			_parentForm = parent;
 
 			Expedition = new NotifierExpedition( Utility.Configuration.Config.NotifierExpedition );
-			Construction = new NotifierConstruction( Utility.Configuration.Config.NotifierExpedition );
+			Construction = new NotifierConstruction( Utility.Configuration.Config.NotifierConstruction );
 			Repair = new NotifierRepair( Utility.Configuration.Config.NotifierRepair );
 			Condition = new NotifierCondition( Utility.Configuration.Config.NotifierCondition );
 			Damage = new NotifierDamage( Utility.Configuration.Config.NotifierDamage );

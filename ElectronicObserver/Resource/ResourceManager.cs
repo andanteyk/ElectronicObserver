@@ -78,6 +78,7 @@ namespace ElectronicObserver.Resource {
 			FleetNotReplenished,
 			FleetAnchorageRepairing,
 			FleetReady,
+			FleetCombined,
 			HeadQuartersShip,
 			HeadQuartersEquipment,
 			RarityBlack,
@@ -254,6 +255,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NotReplenished.png", "Fleet_NotReplenished" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/AnchorageRepairing.png", "Fleet_AnchorageRepairing" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Ready.png", "Fleet_Ready" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Combined.png", "Fleet_Combined" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Headquarters/Ship.png", "HeadQuarters_Ship" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Headquarters/Equipment.png", "HeadQuarters_Equipment" );

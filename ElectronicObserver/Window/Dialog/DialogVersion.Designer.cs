@@ -38,7 +38,7 @@
 			this.TextVersion.Margin = new System.Windows.Forms.Padding(3);
 			this.TextVersion.Name = "TextVersion";
 			this.TextVersion.Size = new System.Drawing.Size(208, 15);
-			this.TextVersion.TabIndex = 0;
+			this.TextVersion.TabIndex = 1;
 			this.TextVersion.Text = "試製七四式電子観測儀零型 (ver. 0.0)";
 			// 
 			// label1
@@ -48,7 +48,7 @@
 			this.label1.Margin = new System.Windows.Forms.Padding(3);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(43, 15);
-			this.label1.TabIndex = 1;
+			this.label1.TabIndex = 2;
 			this.label1.Text = "開発：";
 			// 
 			// TextAuthor
@@ -57,7 +57,7 @@
 			this.TextAuthor.Location = new System.Drawing.Point(61, 30);
 			this.TextAuthor.Name = "TextAuthor";
 			this.TextAuthor.Size = new System.Drawing.Size(55, 15);
-			this.TextAuthor.TabIndex = 2;
+			this.TextAuthor.TabIndex = 3;
 			this.TextAuthor.TabStop = true;
 			this.TextAuthor.Text = "Andante";
 			this.TextAuthor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.TextAuthor_LinkClicked);
@@ -68,7 +68,7 @@
 			this.ButtonClose.Location = new System.Drawing.Point(297, 127);
 			this.ButtonClose.Name = "ButtonClose";
 			this.ButtonClose.Size = new System.Drawing.Size(75, 23);
-			this.ButtonClose.TabIndex = 3;
+			this.ButtonClose.TabIndex = 0;
 			this.ButtonClose.Text = "閉じる";
 			this.ButtonClose.UseVisualStyleBackColor = true;
 			this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
@@ -79,7 +79,7 @@
 			this.TextInformation.Location = new System.Drawing.Point(12, 72);
 			this.TextInformation.Name = "TextInformation";
 			this.TextInformation.Size = new System.Drawing.Size(235, 15);
-			this.TextInformation.TabIndex = 4;
+			this.TextInformation.TabIndex = 5;
 			this.TextInformation.TabStop = true;
 			this.TextInformation.Text = "http://electronicobserver.blog.fc2.com/";
 			this.TextInformation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.TextInformation_LinkClicked);
@@ -91,11 +91,12 @@
 			this.label2.Margin = new System.Windows.Forms.Padding(3);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(200, 15);
-			this.label2.TabIndex = 5;
+			this.label2.TabIndex = 4;
 			this.label2.Text = "配布元(不具合報告・連絡はこちらへ)：";
 			// 
 			// DialogVersion
 			// 
+			this.AcceptButton = this.ButtonClose;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(384, 162);
 			this.Controls.Add(this.label2);

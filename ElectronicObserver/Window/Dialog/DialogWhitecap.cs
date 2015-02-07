@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +18,9 @@ namespace ElectronicObserver.Window.Dialog {
 		private Size boardSize;
 		private int currentDim;
 
+		private int birthRule;
+		private int aliveRule;
+
 		private int zoomrate;
 		private int colortheme;
 		private Bitmap imagebuf;
@@ -28,6 +32,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 		public DialogWhitecap() {
 			InitializeComponent();
+
+			birthRule = Utility.Configuration.Config.Whitecap.BirthRule;
+			aliveRule = Utility.Configuration.Config.Whitecap.AliveRule;
 
 			zoomrate = Utility.Configuration.Config.Whitecap.ZoomRate;
 
@@ -119,11 +126,11 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 
 					if ( GetCell( currentDim, x, y ) != 0 ) {
-						SetCell( 1 - currentDim, x, y, ( alive == 2 || alive == 3 ) ? 1 : 0 );
+						SetCell( 1 - currentDim, x, y, ( ( 1 << alive ) & aliveRule ) != 0 ? 1 : 0 );
 
 					} else {
 
-						SetCell( 1 - currentDim, x, y, alive == 3 ? 1 : 0 );
+						SetCell( 1 - currentDim, x, y, ( ( 1 << alive ) & birthRule ) != 0 ? 1 : 0 );
 
 					}
 				}
@@ -146,7 +153,7 @@ namespace ElectronicObserver.Window.Dialog {
 			BitmapData bmpdata = imagebuf.LockBits( new Rectangle( 0, 0, imagebuf.Width, imagebuf.Height ), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb );
 			byte[] canvas = new byte[imagebuf.Width * imagebuf.Height * 3];
 			Marshal.Copy( bmpdata.Scan0, canvas, 0, canvas.Length );
-			
+
 			for ( int y = 0; y < boardSize.Height; y++ ) {
 				for ( int x = 0; x < boardSize.Width; x++ ) {
 
@@ -206,13 +213,44 @@ namespace ElectronicObserver.Window.Dialog {
 							col = value != 0 ?
 								FromRgb( 0xFFFFFF ) :
 								BlendColor( FromRgb( 0x000000 ), prev, 0.5 );
-									
 							break;
 
 						case 9:
 							col = value != 0 ?
 								FromHsv( x + y + clock * 3, 1.0, 1.0 ) :
 								FromRgb( 0x000000 );
+							break;
+
+						case 10:
+							col = GetCell( currentDim, x, y + clock ) != 0 ?
+								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0x00FFFF ), (double)y / boardSize.Height ) :
+								BlendColor( prev, BlendColor( FromRgb( 0x0044FF ), FromRgb( 0x000000 ), (double)y / boardSize.Height ), 0.2 );
+							break;
+
+						case 11:
+							col = value != 0 ? FromRgb( 0x00FF00 ) : FromRgb( 0x111111 );
+							break;
+
+						case 12:
+							col = value != 0 ?
+								FromRgb( 0x0044FF ) :
+								BlendColor( FromRgb( 0xFFFFFF ), prev, 0.9 );
+							break;
+
+						case 13:
+							col = value != 0 ?
+								FromRgb( 0xFF0000 ) :
+								AddColor( prev, FromRgb( 0xFF4422 ), 0.1 );
+							break;
+
+						case 14:
+							col = GetCell( currentDim, x, y + clock ) != 0 ?
+								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xFFFFCC ), (double)y / boardSize.Height ) :
+								BlendColor( prev, BlendColor( FromRgb( 0x88FFFF ), FromRgb( 0x0000FF ), (double)y / boardSize.Height ), 0.05 );
+							break;
+
+						case 15:
+							col = FromHsv( x * x + 2 * x * y + y * y + 98 * x + 168 * y, value != 0 ? 1.0 : 0.2, value != 0 ? 1.0 : 1.0 );
 							break;
 
 						default:
@@ -225,7 +263,7 @@ namespace ElectronicObserver.Window.Dialog {
 					canvas[( ( y * boardSize.Width + x ) * 3 + 0 )] = col.B;
 					canvas[( ( y * boardSize.Width + x ) * 3 + 1 )] = col.G;
 					canvas[( ( y * boardSize.Width + x ) * 3 + 2 )] = col.R;
-					
+
 				}
 			}
 
@@ -309,6 +347,20 @@ namespace ElectronicObserver.Window.Dialog {
 				UpdateTimer.Stop();
 				InitBoard();
 				UpdateTimer.Start();
+
+			} else if ( e.Button == System.Windows.Forms.MouseButtons.Middle ) {
+				
+				UpdateTimer.Stop();
+
+				try {
+					imagebuf.Save( string.Format( "SS@{0}.png", DateTimeHelper.GetTimeStamp() ), ImageFormat.Png );
+
+				} catch ( Exception ) {
+					System.Media.SystemSounds.Exclamation.Play();
+
+				} finally {
+					UpdateTimer.Start();
+				}
 			}
 		}
 
@@ -316,6 +368,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			UpdateTimer.Stop();
 			colortheme = rand.Next( 64 );
+			//colortheme = 15;
 			Start();
 		}
 

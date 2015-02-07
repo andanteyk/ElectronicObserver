@@ -350,7 +350,9 @@ namespace ElectronicObserver.Utility {
 			public ConfigFormShipGroup FormShipGroup { get; private set; }
 
 
-
+			/// <summary>
+			/// 各[通知]ウィンドウの設定を扱います。
+			/// </summary>
 			public class ConfigNotifierBase : ConfigPartBase {
 
 				public bool IsEnabled { get; set; }
@@ -410,6 +412,10 @@ namespace ElectronicObserver.Utility {
 
 			}
 
+
+			/// <summary>
+			/// [大破進撃通知]の設定を扱います。
+			/// </summary>
 			public class ConfigNotifierDamage : ConfigNotifierBase {
 
 				public bool NotifiesBefore { get; set; }
@@ -433,18 +439,24 @@ namespace ElectronicObserver.Utility {
 				}
 			}
 
+
+			/// <summary>[遠征帰投通知]</summary>
 			[DataMember]
 			public ConfigNotifierBase NotifierExpedition { get; private set; }
 
+			/// <summary>[建造完了通知]</summary>
 			[DataMember]
 			public ConfigNotifierBase NotifierConstruction { get; private set; }
 
+			/// <summary>[入渠完了通知]</summary>
 			[DataMember]
 			public ConfigNotifierBase NotifierRepair { get; private set; }
 
+			/// <summary>[疲労回復通知]</summary>
 			[DataMember]
 			public ConfigNotifierBase NotifierCondition { get; private set; }
 
+			/// <summary>[大破進撃通知]</summary>
 			[DataMember]
 			public ConfigNotifierDamage NotifierDamage { get; private set; }
 
@@ -459,6 +471,8 @@ namespace ElectronicObserver.Utility {
 				public int ZoomRate { get; set; }
 				public int UpdateInterval { get; set; }
 				public int ColorTheme { get; set; }
+				public int BirthRule { get; set; }
+				public int AliveRule { get; set; }
 
 				public ConfigWhitecap()
 					: base() {
@@ -469,6 +483,8 @@ namespace ElectronicObserver.Utility {
 					ZoomRate = 2;
 					UpdateInterval = 100;
 					ColorTheme = 0;
+					BirthRule = ( 1 << 3 );
+					AliveRule = ( 1 << 2 ) | ( 1 << 3 );
 				}
 			}
 			[DataMember]

@@ -206,7 +206,7 @@ namespace ElectronicObserver.Notifier {
 		private string[] GetDamagedShips( IEnumerable<ShipData> ships ) {
 			return ships.Where( s => s != null && s.HPCurrent > 0 && s.HPRate <= 0.25 && s.RepairingDockID == -1 &&
 					s.Level >= LevelBorder &&
-					( ContainsNotLockedShip ? true : s.IsLocked ) &&
+					( ContainsNotLockedShip ? true : ( s.IsLocked || s.SlotInstance.Count( q => q != null && q.IsLocked ) > 0 ) ) &&
 					( ContainsSafeShip ? true : !s.SlotInstanceMaster.Select( e => e != null ? e.EquipmentType[2] == 23 : false ).Contains( true ) )
 				).Select( s => string.Format( "{0} ({1}/{2})", s.NameWithLevel, s.HPCurrent, s.HPMax ) ).ToArray();
 		}
@@ -224,7 +224,7 @@ namespace ElectronicObserver.Notifier {
 
 				if ( s != null && hps[i] > 0 && (double)hps[i] / s.HPMax <= 0.25 &&
 					s.Level >= LevelBorder &&
-					( ContainsNotLockedShip ? true : s.IsLocked ) &&
+					( ContainsNotLockedShip ? true : ( s.IsLocked || s.SlotInstance.Count( q => q != null && q.IsLocked ) > 0 ) ) &&
 					( ContainsSafeShip ? true : !s.SlotInstanceMaster.Select( e => e != null ? e.EquipmentType[2] == 23 : false ).Contains( true ) ) ) {
 
 					list.AddLast( string.Format( "{0} ({1}/{2})", s.NameWithLevel, hps[i], s.HPMax ) );

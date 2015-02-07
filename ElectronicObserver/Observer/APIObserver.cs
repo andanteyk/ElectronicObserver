@@ -109,6 +109,12 @@ namespace ElectronicObserver.Observer {
 
 			Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
 
+
+			//checkme: 一応警告をつけてみる
+			if ( portID != Fiddler.FiddlerApplication.oProxy.ListenPort ) {
+				Utility.Logger.Add( 3, "APIObserver: 実際に受信を開始したポート番号が指定されたポート番号とは異なります。" );
+			}
+
 			return Fiddler.FiddlerApplication.oProxy.ListenPort;
 		}
 
@@ -177,6 +183,10 @@ namespace ElectronicObserver.Observer {
 
 						} 
 
+
+					} catch ( IOException ex ) {	//ファイルがロックされている; 頻繁に出るのでエラーレポートを残さない
+
+						Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
 
 					} catch ( Exception ex ) {
 

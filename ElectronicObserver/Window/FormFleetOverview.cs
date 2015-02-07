@@ -99,6 +99,7 @@ namespace ElectronicObserver.Window {
 
 
 		private List<TableFleetControl> ControlFleet;
+		private ImageLabel CombinedTag;
 
 
 		public FormFleetOverview( FormMain parent ) {
@@ -106,7 +107,7 @@ namespace ElectronicObserver.Window {
 
 
 			ConfigurationChanged();
-			
+
 			ControlHelper.SetDoubleBuffered( TableFleet );
 
 
@@ -114,6 +115,34 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < 4; i++ ) {
 				ControlFleet.Add( new TableFleetControl( this, i + 1, TableFleet ) );
 			}
+
+
+			#region CombinedTag
+			{
+				CombinedTag = new ImageLabel();
+				CombinedTag.Anchor = AnchorStyles.Left;
+				CombinedTag.Font = Utility.Configuration.Config.UI.MainFont;
+				CombinedTag.Margin = new Padding( 3, 2, 3, 2 );
+				CombinedTag.ImageList = ResourceManager.Instance.Icons;
+				CombinedTag.ImageIndex = (int)ResourceManager.IconContent.FleetCombined;
+				CombinedTag.Text = "-";
+				CombinedTag.Visible = false;
+
+
+				TableFleet.Controls.Add( CombinedTag, 1, 4 );
+				
+				#region set RowStyle
+				RowStyle rs = new RowStyle( SizeType.AutoSize, 0 );
+
+				if ( TableFleet.RowStyles.Count > 4 )
+					TableFleet.RowStyles[4] = rs;
+				else
+					while ( TableFleet.RowStyles.Count <= 4 )
+						TableFleet.RowStyles.Add( rs );
+				#endregion
+
+			}
+			#endregion
 
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
@@ -169,6 +198,12 @@ namespace ElectronicObserver.Window {
 				ControlFleet[i].Update();
 			}
 
+			if ( KCDatabase.Instance.Fleet.CombinedFlag > 0 ) {
+				CombinedTag.Text = Constants.GetCombinedFleet( KCDatabase.Instance.Fleet.CombinedFlag );
+				CombinedTag.Visible = true;
+			} else {
+				CombinedTag.Visible = false;
+			}
 		}
 
 		void ChangeOrganization( string apiname, dynamic data ) {
