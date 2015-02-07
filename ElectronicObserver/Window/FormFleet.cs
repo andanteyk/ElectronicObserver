@@ -314,7 +314,8 @@ namespace ElectronicObserver.Window {
 				if ( shipMasterID != -1 ) {
 
 					ShipData ship = db.Ships[shipMasterID];
-					
+					bool isEscaped = KCDatabase.Instance.Fleet[Parent.FleetID].EscapedShipList.Contains( shipMasterID );
+
 
 					Name.Text = ship.MasterShip.NameWithClass;
 					Name.Tag = ship.ShipID;
@@ -355,7 +356,7 @@ namespace ElectronicObserver.Window {
 							HP.RepairTime = db.Docks[dockID].CompletionTime;
 						}
 					}
-					if ( KCDatabase.Instance.Fleet[Parent.FleetID].EscapedShipList.Contains( shipMasterID ) ) {
+					if ( isEscaped ) {
 						HP.BackColor = Color.Silver;
 					} else {
 						HP.BackColor = SystemColors.Control;
@@ -365,7 +366,9 @@ namespace ElectronicObserver.Window {
 						double hprate = (double)ship.HPCurrent / ship.HPMax;
 
 						sb.AppendFormat( "HP: {0:0.0}% [{1}]\n", hprate * 100, Constants.GetDamageState( hprate ) );
-						if ( hprate > 0.50 ) {
+						if ( isEscaped ) {
+							sb.AppendLine( "退避中" );
+						} else if ( hprate > 0.50 ) {
 							sb.AppendFormat( "中破まで: {0} / 大破まで: {1}\n", ship.HPCurrent - ship.HPMax / 2, ship.HPCurrent - ship.HPMax / 4 );
 						} else if ( hprate > 0.25 ) {
 							sb.AppendFormat( "大破まで: {0}\n", ship.HPCurrent - ship.HPMax / 4 );

@@ -74,6 +74,22 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 艦隊メンバー(艦船データ、退避艦を除く)
+		/// </summary>
+		public ReadOnlyCollection<ShipData> MembersWithoutEscaped {
+			get {
+				if ( _members == null ) return null;
+
+				ShipData[] ships = new ShipData[_members.Length];
+				for ( int i = 0; i < ships.Length; i++ ) {
+					ships[i] = _escapedShipList.Contains( _members[i] ) ? null : KCDatabase.Instance.Ships[_members[i]];		
+				}
+
+				return Array.AsReadOnly<ShipData>( ships );
+			}
+		}
+
 
 		public int this[int i] {
 			get {

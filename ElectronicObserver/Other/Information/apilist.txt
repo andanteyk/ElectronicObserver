@@ -877,7 +877,7 @@ api_get_member/practice		：演習ロビー
 	api_enemy_comment		：敵コメント
 	api_enemy_comment_id	：
 	api_state				：0=未挑戦, 1=E敗北?, 2=D敗北?, 3=C敗北, 4=B勝利, 5=A勝利, 6=S勝利
-
+	api_medals				：甲種勲章保有数
 
 api_req_member/get_practice_enemyinfo		：演習詳細
 	api_member_id		：
