@@ -401,7 +401,12 @@ namespace ElectronicObserver.Window.Dialog {
 				} else if ( ship.DefaultSlot[i] != -1 ) {
 					EquipmentDataMaster eq = db.MasterEquipments[ship.DefaultSlot[i]];
 					Equipments[i].Text = eq.Name;
-					Equipments[i].ImageIndex = eq.EquipmentType[3];
+
+					int eqicon = eq.EquipmentType[3];
+					if ( eqicon >= (int)ResourceManager.EquipmentContent.Locked )
+						eqicon = (int)ResourceManager.EquipmentContent.Unknown;
+
+					Equipments[i].ImageIndex = eqicon;
 
 				} else if ( i < ship.SlotSize ) {
 					Equipments[i].Text = "(なし)";

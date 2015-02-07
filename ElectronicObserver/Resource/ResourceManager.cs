@@ -139,6 +139,7 @@ namespace ElectronicObserver.Resource {
 			CommandFacility,
 			MaintenanceTeam,
 			AADirector,
+			RocketArtillery,
 			Locked,
 			Unknown,
 		}
@@ -321,6 +322,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/CommandFacility.png", "Equipment_CommandFacility" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/MaintenanceTeam.png", "Equipment_MaintenanceTeam" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/AADirector.png", "Equipment_AADirector" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/RocketArtillery.png", "Equipment_RocketArtillery" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Locked.png", "Equipment_Locked" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Unknown.png", "Equipment_Unknown" );
 
@@ -394,6 +396,20 @@ namespace ElectronicObserver.Resource {
 			}
 
 			return null;
+		}
+
+
+		/// <summary>
+		/// 装備アイコンを取得します。一般的用途(ロック/未装備等でない、マスターとしてのアイコン)に向いています。
+		/// </summary>
+		public static Image GetEquipmentImage( int imageID ) {
+
+			if ( 0 < imageID )
+				return Instance.Equipments.Images[(int)EquipmentContent.Locked];
+			if ( imageID >= (int)EquipmentContent.Locked )
+				return Instance.Equipments.Images[(int)EquipmentContent.Unknown];
+
+			return Instance.Equipments.Images[imageID];
 		}
 
 

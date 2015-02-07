@@ -132,22 +132,22 @@ namespace ElectronicObserver.Window {
 				case "api_req_practice/midnight_battle": {
 						int[] hp = bm.BattleNight.EmulateBattle();
 
+						SetNightBattleEvent( hp, false, bm.BattleNight );
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleDay );
-						SetNightBattleEvent( bm.BattleNight );
-
+						
 						TableMain.Visible = true;
 					} break;
 
 				case "api_req_battle_midnight/sp_midnight": {
 						int[] hp = bm.BattleNight.EmulateBattle();
 
+						SetNightBattleEvent( hp, false, bm.BattleNight );
 						SetFormation( bm.BattleNight );
 						ClearAerialWarfare();
 						ClearSearchingResult();
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleNight );
-						SetNightBattleEvent( bm.BattleNight );
 
 						TableMain.Visible = true;
 					} break;
@@ -160,7 +160,7 @@ namespace ElectronicObserver.Window {
 						SetSearchingResult( bm.BattleDay );
 						SetAerialWarfare( bm.BattleDay );
 						SetHPCombined( hp, bm.BattleDay );
-						SetDamageRateNormal( hp, bm.BattleDay );
+						SetDamageRateCombined( hp, bm.BattleDay );
 
 						TableMain.Visible = true;
 					} break;
@@ -180,6 +180,7 @@ namespace ElectronicObserver.Window {
 				case "api_req_combined_battle/midnight_battle": {
 						int[] hp = bm.BattleNight.EmulateBattle();
 
+						SetNightBattleEvent( hp, true, bm.BattleNight );
 						SetHPCombined( hp, bm.BattleNight );
 						SetDamageRateCombined( hp, bm.BattleDay );
 
@@ -192,6 +193,7 @@ namespace ElectronicObserver.Window {
 						SetFormation( bm.BattleNight );
 						ClearAerialWarfare();
 						ClearSearchingResult();
+						SetNightBattleEvent( hp, true, bm.BattleNight );
 						SetHPCombined( hp, bm.BattleNight );
 						SetDamageRateCombined( hp, bm.BattleNight );
 
@@ -202,6 +204,7 @@ namespace ElectronicObserver.Window {
 
 				case "api_port/port":
 					TableMain.Visible = false;
+					ToolTipInfo.RemoveAll();
 					break;
 
 			}
@@ -402,9 +405,11 @@ namespace ElectronicObserver.Window {
 
 				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {	//対空カットイン
 					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
+					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
+
 					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
 						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})", 
-						KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[bd.FleetIDFriend].Members[(int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx]].NameWithLevel, 
+						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel, 
 						cutinID,
 						Constants.GetAACutinKind( cutinID ) ) );
 				} else {
@@ -456,9 +461,20 @@ namespace ElectronicObserver.Window {
 					(int)bd.Data.api_kouku.api_stage2.api_e_lostcount + ( (int)bd.Data.api_stage_flag2[1] != 0 ? (int)bd.Data.api_kouku2.api_stage2.api_e_lostcount : 0 ),
 					(int)bd.Data.api_kouku.api_stage2.api_e_count );
 
-				//undone: 対空カットインが入るかは確認できないので未実装; データがとれたら書く
-				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 
+				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {	//対空カットイン
+					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
+					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
+
+					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
+						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})",
+						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel,
+						cutinID,
+						Constants.GetAACutinKind( cutinID ) ) );
+				} else {
+					ToolTipInfo.SetToolTip( AirStage2Friend, null );
+				}
+				
 			} else {
 				AirStage2Friend.Text = "-";
 				AirStage2Enemy.Text = "-";
@@ -570,7 +586,7 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < 6; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
 					ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].Members[i]];
-					bool isEscaped = db.Fleet[bd.FleetIDFriend].EscapedShipList.Contains( ship.ShipID );
+					bool isEscaped = db.Fleet[bd.FleetIDFriend].EscapedShipList.Contains( ship.MasterID );
 
 					ToolTipInfo.SetToolTip( HPBars[i],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
@@ -610,7 +626,7 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < 6; i++ ) {
 				if ( (int)bd.Data.api_nowhps_combined[i + 1] != -1 ) {
 					ShipData ship = db.Ships[db.Fleet[2].Members[i]];
-					bool isEscaped = db.Fleet[2].EscapedShipList.Contains( ship.ShipID );
+					bool isEscaped = db.Fleet[2].EscapedShipList.Contains( ship.MasterID );
 
 					ToolTipInfo.SetToolTip( HPBars[i + 12],
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
@@ -728,12 +744,24 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		//undone: Combined 非対応
-		private void SetNightBattleEvent( BattleData bd ) {
+
+		private void SetNightBattleEvent( int[] hp, bool isCombined, BattleData bd ) {
+
+			FleetData fleet = KCDatabase.Instance.Fleet[isCombined ? 2 : bd.FleetIDFriend];
 
 			//味方探照灯判定
 			{
-				ShipData ship = KCDatabase.Instance.Fleet[bd.FleetIDFriend].MembersInstance.FirstOrDefault( s => s != null && s.SlotInstanceMaster.Count( e => e != null && e.EquipmentType[2] == 29 ) > 0 && s.HPCurrent > 1 );
+				ShipData ship = null;
+				for ( int i = 0; i < 6; i++ ) {
+					ShipData s = fleet.MembersInstance[i];
+					if ( s != null &&
+						s.SlotInstanceMaster.Count( e => e != null && e.EquipmentType[2] == 29 ) > 0 &&
+						hp[isCombined ? 12 + i : i] > 1 ) {
+						ship = s;
+						break;
+					}
+				}
+
 				if ( ship != null ) {
 					ToolTipInfo.SetToolTip( FleetFriend, string.Format( "探照灯照射: {0}", ship.MasterShip.Name ) );
 				} else {
@@ -746,8 +774,12 @@ namespace ElectronicObserver.Window {
 				int idx = -1;
 				for ( int i = 1; i < bd.EnemyFleetMembers.Count; i++ ) {
 					if ( bd.EnemyFleetMembers[i] == -1 ) continue;
+					if ( hp[i + 6 - 1] <= 1 ) continue;
 
-					if ( ( (int[])bd.Data.api_eSlot[i - 1] ).Count( id => KCDatabase.Instance.MasterEquipments.ContainsKey( id ) && KCDatabase.Instance.MasterEquipments[id].EquipmentType[2] == 29 ) > 0 ) {
+					if ( ( (int[])bd.Data.api_eSlot[i - 1] ).Count( 
+						id => KCDatabase.Instance.MasterEquipments.ContainsKey( id ) && 
+							KCDatabase.Instance.MasterEquipments[id].EquipmentType[2] == 29
+							) > 0 ) {
 						idx = i - 1;
 						break;
 					}
@@ -776,7 +808,7 @@ namespace ElectronicObserver.Window {
 			//照明弾投射判定(仮)
 			if ( (int)bd.Data.api_flare_pos[0] != -1 )
 				ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
-						"照明弾投射: {0}", KCDatabase.Instance.Fleet[bd.FleetIDFriend].MembersInstance[(int)bd.Data.api_flare_pos[0] - 1].MasterShip.Name ) );
+						"照明弾投射: {0}", fleet.MembersInstance[(int)bd.Data.api_flare_pos[0] - 1].MasterShip.Name ) );
 			else
 				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 

@@ -192,9 +192,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 			TableEquipmentName.SuspendLayout();
 			
-			EquipmentType.Text = db.EquipmentTypes[eq.EquipmentType[2]].Name;
-			EquipmentType.ImageIndex = eq.EquipmentType[3];
+			EquipmentType.Text = db.EquipmentTypes[eq.EquipmentType[2]].Name; 
+			
 			{
+				int eqicon = eq.EquipmentType[3];
+				if ( eqicon >= (int)ResourceManager.EquipmentContent.Locked )
+					eqicon = (int)ResourceManager.EquipmentContent.Unknown;
+				EquipmentType.ImageIndex = eqicon;
+			
 				StringBuilder sb = new StringBuilder();
 				sb.AppendLine( "装備可能艦種：" );
 				foreach ( var stype in KCDatabase.Instance.ShipTypes.Values ) {

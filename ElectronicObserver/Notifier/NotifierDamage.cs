@@ -106,7 +106,7 @@ namespace ElectronicObserver.Notifier {
 		private void BeforeSortie( string apiname, dynamic data ) {
 			if ( NotifiesNow || NotifiesBefore ) {
 
-				string[] array = GetDamagedShips( KCDatabase.Instance.Fleet.Fleets.Values.SelectMany( f => f.MembersInstance ) );
+				string[] array = GetDamagedShips( KCDatabase.Instance.Fleet.Fleets.Values.SelectMany( f => f.MembersWithoutEscaped ) );
 
 				if ( array != null && array.Length > 0 ) {
 					Notify( array );
@@ -118,7 +118,7 @@ namespace ElectronicObserver.Notifier {
 		private void InSortie( string apiname, dynamic data ) {
 			if ( NotifiesAfter ) {
 
-				string[] array = GetDamagedShips( KCDatabase.Instance.Fleet.Fleets.Values.Where( f => f.IsInSortie ).SelectMany( f => f.MembersInstance ) );
+				string[] array = GetDamagedShips( KCDatabase.Instance.Fleet.Fleets.Values.Where( f => f.IsInSortie ).SelectMany( f => f.MembersWithoutEscaped ) );
 
 
 				if ( array != null && array.Length > 0 ) {
@@ -223,7 +223,7 @@ namespace ElectronicObserver.Notifier {
 				ShipData s = fleet.MembersInstance[i];
 
 				if ( s != null && hps[i] > 0 && (double)hps[i] / s.HPMax <= 0.25 &&
-					s.Level >= LevelBorder &&
+					s.Level >= LevelBorder && !fleet.EscapedShipList.Contains( s.MasterID ) &&
 					( ContainsNotLockedShip ? true : ( s.IsLocked || s.SlotInstance.Count( q => q != null && q.IsLocked ) > 0 ) ) &&
 					( ContainsSafeShip ? true : !s.SlotInstanceMaster.Select( e => e != null ? e.EquipmentType[2] == 23 : false ).Contains( true ) ) ) {
 
