@@ -1524,6 +1524,15 @@ api_req_member/itemuse_cond		：給糧艦使用
 	(情報なし)
 
 
+Request.api_req_map/select_eventmap_rank	：イベント海域難易度選択
+	api_maparea_id	：海域番号
+	api_map_no		：〃
+	api_rank		：難易度 1=丙, 2=乙, 3=甲
+
+api_req_map/select_eventmap_rank	：イベント海域難易度選択
+	(情報なし)
+
+
 ◇APIが呼ばれる順番
 
 《ログイン》
