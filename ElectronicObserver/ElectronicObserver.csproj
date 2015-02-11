@@ -135,6 +135,7 @@
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
+    <Compile Include="Utility\PathHelper.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />
     <Compile Include="Observer\APIBase.cs" />
     <Compile Include="Observer\APIDictionary.cs" />

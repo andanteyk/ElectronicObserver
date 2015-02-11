@@ -14,6 +14,10 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou {
 
 			KCDatabase db = KCDatabase.Instance;
 
+
+			db.Fleet.LoadFromRequest( APIName, data );
+
+
 			foreach( string id in data["api_id_items"].Split( ",".ToCharArray() ) ) {
 
 				int shipID = int.Parse( id );

@@ -84,6 +84,10 @@ namespace ElectronicObserver.Data.Battle {
 		public override int FleetIDFriend {
 			get { return (int)RawData.api_deck_id; }
 		}
+
+		public override BattleTypeFlag BattleType {
+			get { return BattleTypeFlag.Night; }
+		}
 	}
 
 }

@@ -89,8 +89,17 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_combined_battle/sp_midnight"; }
 		}
 
+
+		public override BattleData.BattleTypeFlag BattleType {
+			get { return BattleTypeFlag.Night | BattleTypeFlag.Combined; }
+		}
+
 		public override int FleetIDFriend {
 			get { return int.Parse( RawData.api_deck_id ); }
+		}
+
+		public override int FleetIDFriendCombined {
+			get { return 2; }
 		}
 	}
 

@@ -75,7 +75,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.Instance.AppIcon;
 
-			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port );	//fixme
+			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port );
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
@@ -102,7 +102,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 
 			
-			LoadLayout( @"Settings\WindowLayout.zip" );
+			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
 
@@ -188,7 +188,7 @@ namespace ElectronicObserver.Window {
 			SystemEvents.OnSystemShuttingDown();
 
 
-			SaveLayout( @"Settings\WindowLayout.zip" );
+			SaveLayout( Configuration.Config.Life.LayoutFilePath );
 
 		}
 
@@ -323,6 +323,8 @@ namespace ElectronicObserver.Window {
 				}
 
 
+				Utility.Logger.Add( 2, "ウィンドウ レイアウトを復元しました。" );
+
 			} catch ( FileNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
@@ -353,7 +355,10 @@ namespace ElectronicObserver.Window {
 						WindowPlacementManager.SaveWindowPlacement( this, archive.CreateEntry( "WindowPlacement.xml" ).Open() );
 
 					}
-				} 
+				}
+
+
+				Utility.Logger.Add( 2, "ウィンドウ レイアウトを保存しました。" );
 
 			} catch ( Exception ex ) {
 
@@ -383,12 +388,11 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_File_Configuration_Click( object sender, EventArgs e ) {
 
-			using ( var dialog = new DialogConfiguration() ) {
-				Utility.Configuration.Instance.GetConfiguration( dialog );
-
+			using ( var dialog = new DialogConfiguration( Utility.Configuration.Config ) ) {
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
-					Utility.Configuration.Instance.SetConfiguration( dialog );
+					dialog.ToConfiguration( Utility.Configuration.Config );
+					Utility.Configuration.Instance.OnConfigurationChanged();
 
 				}
 			}
@@ -820,6 +824,41 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
+
+
+
+		private void StripMenu_File_Layout_Load_Click( object sender, EventArgs e ) {
+
+			LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+		}
+
+		private void StripMenu_File_Layout_Save_Click( object sender, EventArgs e ) {
+
+			SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+		}
+
+		private void StripMenu_File_Layout_Open_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new OpenFileDialog() ) {
+
+				dialog.Filter = "Layout Archive|*.zip|File|*";
+				dialog.Title = "レイアウト ファイルを開く";
+
+			
+				PathHelper.InitOpenFileDialog( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					Utility.Configuration.Config.Life.LayoutFilePath = PathHelper.GetPathFromOpenFileDialog( dialog );
+					LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+				}
+
+			}
+
+		}
 
 
 	}

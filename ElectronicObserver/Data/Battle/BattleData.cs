@@ -68,6 +68,21 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public abstract string APIName { get; }
 
+
+		[Flags]
+		public enum BattleTypeFlag {
+			Undefined = 0,
+			Day,
+			Night,
+			Practice = 0x1000,
+			Combined = 0x2000,
+		}
+
+		/// <summary>
+		/// 戦闘モード
+		/// </summary>
+		public abstract BattleTypeFlag BattleType { get; }
+
 	}
 
 }
