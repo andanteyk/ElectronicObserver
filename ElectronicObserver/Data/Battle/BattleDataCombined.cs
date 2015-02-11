@@ -9,6 +9,8 @@ namespace ElectronicObserver.Data.Battle {
 
 	public abstract class BattleDataCombined : BattleData {
 
+		public abstract int FleetIDFriendCombined { get; }
+
 		/// <summary>
 		/// 随伴護衛艦隊の初期HP [1-6]
 		/// </summary>

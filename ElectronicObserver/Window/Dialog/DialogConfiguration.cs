@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Notifier;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,13 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogConfiguration() {
 			InitializeComponent();
 		}
+
+		public DialogConfiguration( Configuration.ConfigurationData config ) 
+			: this() {
+
+			FromConfiguration( config );
+		}
+
 
 		private void Connection_SaveReceivedData_CheckedChanged( object sender, EventArgs e ) {
 
@@ -52,14 +60,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void Connection_SaveDataPathSearch_Click( object sender, EventArgs e ) {
 
-			if ( Directory.Exists( Connection_SaveDataPath.Text ) ) {
-				FolderBrowser.SelectedPath = Connection_SaveDataPath.Text;
-			}
-
-			if ( FolderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
-
-				Connection_SaveDataPath.Text = FolderBrowser.SelectedPath;
-			}
+			Connection_SaveDataPath.Text = PathHelper.ProcessFolderBrowserDialog( Connection_SaveDataPath.Text, FolderBrowser );
 
 		}
 
@@ -206,6 +207,136 @@ namespace ElectronicObserver.Window.Dialog {
 			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Damage ) ) {
 				dialog.ShowDialog();
 			}
+		}
+
+
+		private void Life_LayoutFilePathSearch_Click( object sender, EventArgs e ) {
+
+			Life_LayoutFilePath.Text = PathHelper.ProcessOpenFileDialog( Life_LayoutFilePath.Text, LayoutFileBrowser );
+
+		}
+
+
+
+
+
+
+		/// <summary>
+		/// 設定からUIを初期化します。
+		/// </summary>
+		public void FromConfiguration( Configuration.ConfigurationData config ) {
+
+			//[通信]
+			Connection_Port.Value = config.Connection.Port;
+			Connection_SaveReceivedData.Checked = config.Connection.SaveReceivedData;
+			Connection_SaveDataFilter.Text = config.Connection.SaveDataFilter;
+			Connection_SaveDataPath.Text = config.Connection.SaveDataPath;
+			Connection_SaveRequest.Checked = config.Connection.SaveRequest;
+			Connection_SaveResponse.Checked = config.Connection.SaveResponse;
+			Connection_SaveSWF.Checked = config.Connection.SaveSWF;
+			Connection_SaveOtherFile.Checked = config.Connection.SaveOtherFile;
+			Connection_ApplyVersion.Checked = config.Connection.ApplyVersion;
+			Connection_RegisterAsSystemProxy.Checked = config.Connection.RegisterAsSystemProxy;
+			Connection_UseUpstreamProxy.Checked = config.Connection.UseUpstreamProxy;
+			Connection_UpstreamProxyPort.Value = config.Connection.UpstreamProxyPort;
+
+			//[UI]
+			UI_MainFont.Font = config.UI.MainFont.FontData;
+			UI_MainFont.Text = config.UI.MainFont.SerializeFontAttribute;
+			UI_SubFont.Font = config.UI.SubFont.FontData;
+			UI_SubFont.Text = config.UI.SubFont.SerializeFontAttribute;
+
+			//[ログ]
+			Log_LogLevel.Value = config.Log.LogLevel;
+			Log_SaveLogFlag.Checked = config.Log.SaveLogFlag;
+			Log_SaveErrorReport.Checked = config.Log.SaveErrorReport;
+			Log_FileEncodingID.SelectedIndex = config.Log.FileEncodingID;
+
+			//[動作]
+			Control_ConditionBorder.Value = config.Control.ConditionBorder;
+
+			//[デバッグ]
+			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
+
+			//[起動と終了]
+			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
+			Life_TopMost.Checked = config.Life.TopMost;
+			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
+
+			//[サブウィンドウ]
+			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
+			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
+			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
+			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
+
+
+			//finalize
+			UpdateParameter();
+		}
+
+
+
+		/// <summary>
+		/// UIをもとに設定を適用します。
+		/// </summary>
+		public void ToConfiguration( Configuration.ConfigurationData config ) {
+
+			//[通信]
+			{
+				bool changed = false;
+
+				changed |= config.Connection.Port != (ushort)Connection_Port.Value;
+				config.Connection.Port = (ushort)Connection_Port.Value;
+					
+				config.Connection.SaveReceivedData = Connection_SaveReceivedData.Checked;
+				config.Connection.SaveDataFilter = Connection_SaveDataFilter.Text;
+				config.Connection.SaveDataPath = Connection_SaveDataPath.Text.Trim( @"\ """.ToCharArray() );
+				config.Connection.SaveRequest = Connection_SaveRequest.Checked;
+				config.Connection.SaveResponse = Connection_SaveResponse.Checked;
+				config.Connection.SaveSWF = Connection_SaveSWF.Checked;
+				config.Connection.SaveOtherFile = Connection_SaveOtherFile.Checked;
+				config.Connection.ApplyVersion = Connection_ApplyVersion.Checked;
+
+				changed |= config.Connection.RegisterAsSystemProxy != Connection_RegisterAsSystemProxy.Checked;
+				config.Connection.RegisterAsSystemProxy = Connection_RegisterAsSystemProxy.Checked;
+
+				config.Connection.UseUpstreamProxy = Connection_UseUpstreamProxy.Checked;
+				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;
+
+				if ( changed ) {
+					APIObserver.Instance.Stop();
+					APIObserver.Instance.Start( config.Connection.Port );
+				}
+			}
+
+			//[UI]
+			config.UI.MainFont = UI_MainFont.Font;
+			config.UI.SubFont = UI_SubFont.Font;
+
+			//[ログ]
+			config.Log.LogLevel = (int)Log_LogLevel.Value;
+			config.Log.SaveLogFlag = Log_SaveLogFlag.Checked;
+			config.Log.SaveErrorReport = Log_SaveErrorReport.Checked;
+			config.Log.FileEncodingID = Log_FileEncodingID.SelectedIndex;
+
+			//[動作]
+			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
+
+			//[デバッグ]
+			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
+
+			//[起動と終了]
+			config.Life.ConfirmOnClosing = Life_ConfirmOnClosing.Checked;
+			config.Life.TopMost = Life_TopMost.Checked;
+			config.Life.LayoutFilePath = Life_LayoutFilePath.Text;
+
+			//[サブウィンドウ]
+			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
+			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
+			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
+			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
+
+
 		}
 
 		

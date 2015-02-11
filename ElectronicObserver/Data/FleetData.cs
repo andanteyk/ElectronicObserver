@@ -253,6 +253,19 @@ namespace ElectronicObserver.Data {
 
 					} break;
 
+				case "api_req_kaisou/powerup":
+					{
+						foreach ( int id in data["api_id_items"].Split( ",".ToCharArray() ).Select( s => int.Parse( s ) ) ) {
+							for ( int i = 0; i < _members.Length; i++ ) {
+								if ( _members[i] == id ) {
+									RemoveShip( i );
+									ShortenConditionTimer();
+									break;
+								}
+							}
+						}
+					} break;
+
 				case "api_req_kaisou/remodeling":
 					if ( int.Parse( data["api_id"] ) == FleetID )
 						SetConditionTimer();
@@ -467,8 +480,8 @@ namespace ElectronicObserver.Data {
 			if ( fleet.IsInSortie ) {
 
 				//大破出撃中
-				if (  fleet.Members.Count( id =>
-						( id != -1 && !fleet.EscapedShipList.Contains( id ) && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
+				if ( fleet.MembersInstance.Count( s =>
+						( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) && (double)s.HPCurrent / s.HPMax <= 0.25 )
 					 ) > 0 ) {
 
 					label.Text = "！！大破進撃中！！";
@@ -500,8 +513,8 @@ namespace ElectronicObserver.Data {
 			}
 
 			//大破艦あり
-			if ( fleet.Members.Count( id =>
-				( id != -1 && !fleet.EscapedShipList.Contains( id ) && (double)db.Ships[id].HPCurrent / db.Ships[id].HPMax <= 0.25 )
+			if ( fleet.MembersInstance.Count( s =>
+				( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) && (double)s.HPCurrent / s.HPMax <= 0.25 )
 			 ) > 0 ) {
 
 				label.Text = "大破艦あり！";
@@ -567,7 +580,7 @@ namespace ElectronicObserver.Data {
 
 			//疲労
 			{
-				int cond = fleet.Members.Min( id => id == -1 ? 100 : db.Ships[id].Condition );
+				int cond = fleet.MembersInstance.Min( s => s == null ? 100 : s.Condition );
 
 				if ( cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null ) {
 

@@ -99,8 +99,17 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_combined_battle/airbattle"; }
 		}
 
+
+		public override BattleData.BattleTypeFlag BattleType {
+			get { return BattleTypeFlag.Day | BattleTypeFlag.Combined; }
+		}
+
 		public override int FleetIDFriend {
 			get { return int.Parse( RawData.api_deck_id ); }
+		}
+
+		public override int FleetIDFriendCombined {
+			get { return 2; }
 		}
 	}
 

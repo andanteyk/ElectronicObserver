@@ -496,7 +496,7 @@ namespace ElectronicObserver.Window {
 		private void SetHPNormal( int[] hp, BattleData bd ) {
 
 			KCDatabase db = KCDatabase.Instance;
-			bool isPractice = bd.APIName.Contains( "practice" );		//fixme
+			bool isPractice = ( bd.BattleType | BattleData.BattleTypeFlag.Practice ) != 0; 
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
@@ -557,7 +557,7 @@ namespace ElectronicObserver.Window {
 		private void SetHPCombined( int[] hp, BattleData bd ) {
 
 			KCDatabase db = KCDatabase.Instance;
-			bool isPractice = false;
+			bool isPractice = ( bd.BattleType | BattleData.BattleTypeFlag.Practice ) != 0;
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
@@ -737,10 +737,101 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
+		//fixme
 		private void SetDamageRateCombined( int[] hp, BattleData bd ) {
 
-			//checkme: とりあえず通常艦隊と一緒にしておく
-			SetDamageRateNormal( hp, bd );
+			int friendbefore = 0;
+			int friendafter = 0;
+			double friendrate;
+			int enemybefore = 0;
+			int enemyafter = 0;
+			double enemyrate;
+
+			BattleDataCombined bdc = bd as BattleDataCombined;
+
+			for ( int i = 0; i < 6; i++ ) {
+				friendbefore += Math.Max( (int)bdc.Data.api_nowhps[i + 1], 0 );
+				friendafter += Math.Max( hp[i], 0 );
+				friendbefore += Math.Max( (int)bdc.Data.api_nowhps_combined[i + 1], 0 );
+				friendafter += Math.Max( hp[i + 12], 0 );
+				enemybefore += Math.Max( (int)bdc.Data.api_nowhps[i + 7], 0 );
+				enemyafter += Math.Max( hp[i + 6], 0 );
+			}
+
+			friendrate = ( (double)( friendbefore - friendafter ) / friendbefore );
+			DamageFriend.Text = string.Format( "{0:0.0}%", friendrate * 100.0 );
+			enemyrate = ( (double)( enemybefore - enemyafter ) / enemybefore );
+			DamageEnemy.Text = string.Format( "{0:0.0}%", enemyrate * 100.0 );
+
+
+			//戦績判定
+			{
+				int countFriend = KCDatabase.Instance.Fleet[bdc.FleetIDFriend].Members.Count( v => v != -1 );
+				int countFriendCombined = KCDatabase.Instance.Fleet[bdc.FleetIDFriendCombined].Members.Count( v => v != -1 );
+				int countEnemy = ( bdc.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
+				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 ) + hp.Skip( 12 ).Take( countFriendCombined ).Count( v => v <= 0 );
+				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
+				int rank;
+				Color colorWin = SystemColors.WindowText;
+				Color colorLose = Color.Red;
+
+				if ( enemyrate >= 1.0 ) {
+					if ( friendrate <= 0.0 ) {
+						rank = 7;
+					} else {
+						rank = 6;
+					}
+
+				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
+					rank = 5;
+
+				} else if ( hp[6] <= 0 ||
+					(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
+					rank = 4;
+
+				} else if ( (int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
+					rank = 3;
+				} else {
+					rank = 2;
+				}
+
+				if ( sunkFriend > 0 )
+					rank = Math.Min( rank, 5 ) - 1;
+
+
+				switch ( rank ) {
+					case 2:
+						DamageRate.Text = "D";
+						DamageRate.ForeColor = colorLose;
+						break;
+					case 3:
+						DamageRate.Text = "C";
+						DamageRate.ForeColor = colorLose;
+						break;
+					case 4:
+						DamageRate.Text = "B";
+						DamageRate.ForeColor = colorWin;
+						break;
+					case 5:
+						DamageRate.Text = "A";
+						DamageRate.ForeColor = colorWin;
+						break;
+					case 6:
+						DamageRate.Text = "S";
+						DamageRate.ForeColor = colorWin;
+						break;
+					case 7:
+						DamageRate.Text = "SS";
+						DamageRate.ForeColor = colorWin;
+						break;
+					default:
+						DamageRate.Text = "E";
+						DamageRate.ForeColor = colorLose;
+						break;
+				}
+
+
+			}
 		}
 
 

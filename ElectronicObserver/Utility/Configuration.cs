@@ -46,7 +46,7 @@ namespace ElectronicObserver.Utility {
 			public class ConfigConnection : ConfigPartBase {
 
 				/// <summary>
-				/// ポート
+				/// ポート番号
 				/// </summary>
 				public ushort Port { get; set; }
 
@@ -90,18 +90,36 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ApplyVersion { get; set; }
 
+				/// <summary>
+				/// システムプロキシに登録するか
+				/// </summary>
+				public bool RegisterAsSystemProxy { get; set; }
+
+				/// <summary>
+				/// 上流プロキシを利用するか
+				/// </summary>
+				public bool UseUpstreamProxy { get; set; }
+
+				/// <summary>
+				/// 上流プロキシのポート番号
+				/// </summary>
+				public ushort UpstreamProxyPort { get; set; }
 
 				public ConfigConnection() {
 
 					Port = 40620;
 					SaveReceivedData = false;
 					SaveDataFilter = "";
-					SaveDataPath = System.Environment.CurrentDirectory + @"\EOAPI";
+					SaveDataPath = @"KCAPI";
 					SaveRequest = false;
 					SaveResponse = true;
 					SaveSWF = false;
 					SaveOtherFile = false;
 					ApplyVersion = false;
+					RegisterAsSystemProxy = false;
+					UseUpstreamProxy = false;
+					UpstreamProxyPort = 0;
+
 				}
 
 			}
@@ -247,9 +265,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool TopMost { get; set; }
 
+				/// <summary>
+				/// レイアウトファイルのパス
+				/// </summary>
+				public string LayoutFilePath { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
+					LayoutFilePath = @"Settings\WindowLayout.zip";
 				}
 			}
 			/// <summary>起動と終了</summary>
@@ -539,107 +563,7 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-
-		/// <summary>
-		/// 設定ダイアログを、現在の設定で初期化します。
-		/// </summary>
-		/// <param name="dialog">設定するダイアログ。</param>
-		public void GetConfiguration( DialogConfiguration dialog ) {
-
-			//[通信]
-			dialog.Connection_Port.Value = _config.Connection.Port;
-			dialog.Connection_SaveReceivedData.Checked = _config.Connection.SaveReceivedData;
-			dialog.Connection_SaveDataFilter.Text = _config.Connection.SaveDataFilter;
-			dialog.Connection_SaveDataPath.Text = _config.Connection.SaveDataPath;
-			dialog.Connection_SaveRequest.Checked = _config.Connection.SaveRequest;
-			dialog.Connection_SaveResponse.Checked = _config.Connection.SaveResponse;
-			dialog.Connection_SaveSWF.Checked = _config.Connection.SaveSWF;
-			dialog.Connection_SaveOtherFile.Checked = _config.Connection.SaveOtherFile;
-			dialog.Connection_ApplyVersion.Checked = _config.Connection.ApplyVersion;
-
-			//[UI]
-			dialog.UI_MainFont.Font = _config.UI.MainFont.FontData;
-			dialog.UI_MainFont.Text = _config.UI.MainFont.SerializeFontAttribute;
-			dialog.UI_SubFont.Font = _config.UI.SubFont.FontData;
-			dialog.UI_SubFont.Text = _config.UI.SubFont.SerializeFontAttribute;
-
-			//[ログ]
-			dialog.Log_LogLevel.Value = _config.Log.LogLevel;
-			dialog.Log_SaveLogFlag.Checked = _config.Log.SaveLogFlag;
-			dialog.Log_SaveErrorReport.Checked = _config.Log.SaveErrorReport;
-			dialog.Log_FileEncodingID.SelectedIndex = _config.Log.FileEncodingID;
-
-			//[動作]
-			dialog.Control_ConditionBorder.Value = _config.Control.ConditionBorder;
-
-			//[デバッグ]
-			dialog.Debug_EnableDebugMenu.Checked = _config.Debug.EnableDebugMenu;
-
-			//[起動と終了]
-			dialog.Life_ConfirmOnClosing.Checked = _config.Life.ConfirmOnClosing;
-			dialog.Life_TopMost.Checked = _config.Life.TopMost;
-
-			//[サブウィンドウ]
-			dialog.FormArsenal_ShowShipName.Checked = _config.FormArsenal.ShowShipName;
-			dialog.FormFleet_ShowAircraft.Checked = _config.FormFleet.ShowAircraft;
-			dialog.FormFleet_SearchingAbilityMethod.SelectedIndex = _config.FormFleet.SearchingAbilityMethod;
-			dialog.FormQuest_ShowRunningOnly.Checked = _config.FormQuest.ShowRunningOnly;
-
-
-			//finalize
-			dialog.UpdateParameter();
-
-		}
-
-
-		/// <summary>
-		/// 設定ダイアログの情報から、設定を変更します。
-		/// </summary>
-		/// <param name="dialog">設定元のダイアログ。</param>
-		public void SetConfiguration( DialogConfiguration dialog ) {
-
-			//[通信]
-			if ( _config.Connection.Port != (ushort)dialog.Connection_Port.Value ) {
-				_config.Connection.Port = (ushort)dialog.Connection_Port.Value;
-				APIObserver.Instance.Stop();
-				ushort port = (ushort)APIObserver.Instance.Start( (int)dialog.Connection_Port.Value );
-			}
-			_config.Connection.SaveReceivedData = dialog.Connection_SaveReceivedData.Checked;
-			_config.Connection.SaveDataFilter = dialog.Connection_SaveDataFilter.Text;
-			_config.Connection.SaveDataPath = dialog.Connection_SaveDataPath.Text.Trim( @"\ """.ToCharArray() );
-			_config.Connection.SaveRequest = dialog.Connection_SaveRequest.Checked;
-			_config.Connection.SaveResponse = dialog.Connection_SaveResponse.Checked;
-			_config.Connection.SaveSWF = dialog.Connection_SaveSWF.Checked;
-			_config.Connection.SaveOtherFile = dialog.Connection_SaveOtherFile.Checked;
-			_config.Connection.ApplyVersion = dialog.Connection_ApplyVersion.Checked;
-
-			//[UI]
-			_config.UI.MainFont = dialog.UI_MainFont.Font;
-			_config.UI.SubFont = dialog.UI_SubFont.Font;
-
-			//[ログ]
-			_config.Log.LogLevel = (int)dialog.Log_LogLevel.Value;
-			_config.Log.SaveLogFlag = dialog.Log_SaveLogFlag.Checked;
-			_config.Log.SaveErrorReport = dialog.Log_SaveErrorReport.Checked;
-			_config.Log.FileEncodingID = dialog.Log_FileEncodingID.SelectedIndex;
-
-			//[動作]
-			_config.Control.ConditionBorder = (int)dialog.Control_ConditionBorder.Value;
-
-			//[デバッグ]
-			_config.Debug.EnableDebugMenu = dialog.Debug_EnableDebugMenu.Checked;
-
-			//[起動と終了]
-			_config.Life.ConfirmOnClosing = dialog.Life_ConfirmOnClosing.Checked;
-			_config.Life.TopMost = dialog.Life_TopMost.Checked;
-
-			//[サブウィンドウ]
-			_config.FormArsenal.ShowShipName = dialog.FormArsenal_ShowShipName.Checked;
-			_config.FormFleet.ShowAircraft = dialog.FormFleet_ShowAircraft.Checked;
-			_config.FormFleet.SearchingAbilityMethod = dialog.FormFleet_SearchingAbilityMethod.SelectedIndex;
-			_config.FormQuest.ShowRunningOnly = dialog.FormQuest_ShowRunningOnly.Checked;
-
-
+		internal void OnConfigurationChanged() {
 			ConfigurationChanged();
 		}
 

@@ -26,6 +26,9 @@
 			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.Connection_UpstreamProxyPort = new System.Windows.Forms.NumericUpDown();
+			this.Connection_UseUpstreamProxy = new System.Windows.Forms.CheckBox();
+			this.Connection_RegisterAsSystemProxy = new System.Windows.Forms.CheckBox();
 			this.Connection_OutputConnectionScript = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.Connection_PanelSaveData = new System.Windows.Forms.Panel();
@@ -71,6 +74,8 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_SearchingAbilityMethod = new System.Windows.Forms.ComboBox();
+			this.label13 = new System.Windows.Forms.Label();
 			this.FormFleet_ShowAircraft = new System.Windows.Forms.CheckBox();
 			this.tabPage9 = new System.Windows.Forms.TabPage();
 			this.FormArsenal_ShowShipName = new System.Windows.Forms.CheckBox();
@@ -88,10 +93,13 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
-			this.label13 = new System.Windows.Forms.Label();
-			this.FormFleet_SearchingAbilityMethod = new System.Windows.Forms.ComboBox();
+			this.label14 = new System.Windows.Forms.Label();
+			this.Life_LayoutFilePath = new System.Windows.Forms.TextBox();
+			this.Life_LayoutFilePathSearch = new System.Windows.Forms.Button();
+			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
 			this.Connection_PanelSaveData.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_Port)).BeginInit();
 			this.tabPage2.SuspendLayout();
@@ -131,6 +139,9 @@
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.Connection_UpstreamProxyPort);
+			this.tabPage1.Controls.Add(this.Connection_UseUpstreamProxy);
+			this.tabPage1.Controls.Add(this.Connection_RegisterAsSystemProxy);
 			this.tabPage1.Controls.Add(this.Connection_OutputConnectionScript);
 			this.tabPage1.Controls.Add(this.label4);
 			this.tabPage1.Controls.Add(this.Connection_PanelSaveData);
@@ -145,12 +156,46 @@
 			this.tabPage1.Text = "通信";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
+			// Connection_UpstreamProxyPort
+			// 
+			this.Connection_UpstreamProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.Connection_UpstreamProxyPort.Location = new System.Drawing.Point(164, 35);
+			this.Connection_UpstreamProxyPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+			this.Connection_UpstreamProxyPort.Name = "Connection_UpstreamProxyPort";
+			this.Connection_UpstreamProxyPort.Size = new System.Drawing.Size(80, 23);
+			this.Connection_UpstreamProxyPort.TabIndex = 4;
+			this.Connection_UpstreamProxyPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// Connection_UseUpstreamProxy
+			// 
+			this.Connection_UseUpstreamProxy.AutoSize = true;
+			this.Connection_UseUpstreamProxy.Location = new System.Drawing.Point(6, 36);
+			this.Connection_UseUpstreamProxy.Name = "Connection_UseUpstreamProxy";
+			this.Connection_UseUpstreamProxy.Size = new System.Drawing.Size(152, 19);
+			this.Connection_UseUpstreamProxy.TabIndex = 3;
+			this.Connection_UseUpstreamProxy.Text = "上流プロキシを利用する：";
+			this.Connection_UseUpstreamProxy.UseVisualStyleBackColor = true;
+			// 
+			// Connection_RegisterAsSystemProxy
+			// 
+			this.Connection_RegisterAsSystemProxy.AutoSize = true;
+			this.Connection_RegisterAsSystemProxy.Location = new System.Drawing.Point(164, 7);
+			this.Connection_RegisterAsSystemProxy.Name = "Connection_RegisterAsSystemProxy";
+			this.Connection_RegisterAsSystemProxy.Size = new System.Drawing.Size(152, 19);
+			this.Connection_RegisterAsSystemProxy.TabIndex = 2;
+			this.Connection_RegisterAsSystemProxy.Text = "システムプロキシとして登録";
+			this.Connection_RegisterAsSystemProxy.UseVisualStyleBackColor = true;
+			// 
 			// Connection_OutputConnectionScript
 			// 
-			this.Connection_OutputConnectionScript.Location = new System.Drawing.Point(8, 149);
+			this.Connection_OutputConnectionScript.Location = new System.Drawing.Point(6, 182);
 			this.Connection_OutputConnectionScript.Name = "Connection_OutputConnectionScript";
 			this.Connection_OutputConnectionScript.Size = new System.Drawing.Size(200, 23);
-			this.Connection_OutputConnectionScript.TabIndex = 5;
+			this.Connection_OutputConnectionScript.TabIndex = 8;
 			this.Connection_OutputConnectionScript.Text = "自動プロキシ設定スクリプトの出力...";
 			this.Connection_OutputConnectionScript.UseVisualStyleBackColor = true;
 			this.Connection_OutputConnectionScript.Click += new System.EventHandler(this.Connection_OutputConnectionScript_Click);
@@ -158,10 +203,10 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(140, 36);
+			this.label4.Location = new System.Drawing.Point(138, 69);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(201, 15);
-			this.label4.TabIndex = 3;
+			this.label4.TabIndex = 6;
 			this.label4.Text = "＊膨大なサイズになる可能性があります。";
 			// 
 			// Connection_PanelSaveData
@@ -178,10 +223,10 @@
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveDataPath);
 			this.Connection_PanelSaveData.Controls.Add(this.label2);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveDataFilter);
-			this.Connection_PanelSaveData.Location = new System.Drawing.Point(8, 60);
+			this.Connection_PanelSaveData.Location = new System.Drawing.Point(6, 93);
 			this.Connection_PanelSaveData.Name = "Connection_PanelSaveData";
-			this.Connection_PanelSaveData.Size = new System.Drawing.Size(376, 83);
-			this.Connection_PanelSaveData.TabIndex = 4;
+			this.Connection_PanelSaveData.Size = new System.Drawing.Size(378, 83);
+			this.Connection_PanelSaveData.TabIndex = 7;
 			// 
 			// Connection_ApplyVersion
 			// 
@@ -241,7 +286,7 @@
 			// Connection_SaveDataPathSearch
 			// 
 			this.Connection_SaveDataPathSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.Connection_SaveDataPathSearch.Location = new System.Drawing.Point(341, 32);
+			this.Connection_SaveDataPathSearch.Location = new System.Drawing.Point(343, 32);
 			this.Connection_SaveDataPathSearch.Name = "Connection_SaveDataPathSearch";
 			this.Connection_SaveDataPathSearch.Size = new System.Drawing.Size(32, 23);
 			this.Connection_SaveDataPathSearch.TabIndex = 4;
@@ -265,7 +310,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.Connection_SaveDataPath.Location = new System.Drawing.Point(67, 32);
 			this.Connection_SaveDataPath.Name = "Connection_SaveDataPath";
-			this.Connection_SaveDataPath.Size = new System.Drawing.Size(268, 23);
+			this.Connection_SaveDataPath.Size = new System.Drawing.Size(270, 23);
 			this.Connection_SaveDataPath.TabIndex = 3;
 			this.Connection_SaveDataPath.TextChanged += new System.EventHandler(this.Connection_SaveDataPath_TextChanged);
 			// 
@@ -287,7 +332,7 @@
 			this.Connection_SaveDataFilter.Location = new System.Drawing.Point(67, 3);
 			this.Connection_SaveDataFilter.Name = "Connection_SaveDataFilter";
 			this.Connection_SaveDataFilter.ReadOnly = true;
-			this.Connection_SaveDataFilter.Size = new System.Drawing.Size(268, 23);
+			this.Connection_SaveDataFilter.Size = new System.Drawing.Size(270, 23);
 			this.Connection_SaveDataFilter.TabIndex = 1;
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveDataFilter, "＊未実装です＊");
 			this.Connection_SaveDataFilter.Visible = false;
@@ -295,10 +340,10 @@
 			// Connection_SaveReceivedData
 			// 
 			this.Connection_SaveReceivedData.AutoSize = true;
-			this.Connection_SaveReceivedData.Location = new System.Drawing.Point(8, 35);
+			this.Connection_SaveReceivedData.Location = new System.Drawing.Point(6, 68);
 			this.Connection_SaveReceivedData.Name = "Connection_SaveReceivedData";
 			this.Connection_SaveReceivedData.Size = new System.Drawing.Size(126, 19);
-			this.Connection_SaveReceivedData.TabIndex = 2;
+			this.Connection_SaveReceivedData.TabIndex = 5;
 			this.Connection_SaveReceivedData.Text = "通信内容を保存する";
 			this.Connection_SaveReceivedData.UseVisualStyleBackColor = true;
 			this.Connection_SaveReceivedData.CheckedChanged += new System.EventHandler(this.Connection_SaveReceivedData_CheckedChanged);
@@ -337,10 +382,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(392, 231);
+			this.tabPage2.Size = new System.Drawing.Size(392, 211);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -373,7 +418,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 141);
+			this.label9.Location = new System.Drawing.Point(3, 193);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 8;
@@ -446,10 +491,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Location = new System.Drawing.Point(4, 44);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(392, 231);
+			this.tabPage3.Size = new System.Drawing.Size(392, 211);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -538,10 +583,10 @@
 			// 
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Location = new System.Drawing.Point(4, 44);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(392, 231);
+			this.tabPage4.Size = new System.Drawing.Size(392, 211);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -572,10 +617,10 @@
 			// tabPage5
 			// 
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Location = new System.Drawing.Point(4, 44);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 231);
+			this.tabPage5.Size = new System.Drawing.Size(392, 211);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -594,12 +639,15 @@
 			// 
 			// tabPage6
 			// 
+			this.tabPage6.Controls.Add(this.Life_LayoutFilePathSearch);
+			this.tabPage6.Controls.Add(this.Life_LayoutFilePath);
+			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 231);
+			this.tabPage6.Size = new System.Drawing.Size(392, 211);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -607,7 +655,7 @@
 			// Life_TopMost
 			// 
 			this.Life_TopMost.AutoSize = true;
-			this.Life_TopMost.Location = new System.Drawing.Point(8, 31);
+			this.Life_TopMost.Location = new System.Drawing.Point(11, 60);
 			this.Life_TopMost.Name = "Life_TopMost";
 			this.Life_TopMost.Size = new System.Drawing.Size(114, 19);
 			this.Life_TopMost.TabIndex = 1;
@@ -617,7 +665,7 @@
 			// Life_ConfirmOnClosing
 			// 
 			this.Life_ConfirmOnClosing.AutoSize = true;
-			this.Life_ConfirmOnClosing.Location = new System.Drawing.Point(8, 6);
+			this.Life_ConfirmOnClosing.Location = new System.Drawing.Point(11, 35);
 			this.Life_ConfirmOnClosing.Name = "Life_ConfirmOnClosing";
 			this.Life_ConfirmOnClosing.Size = new System.Drawing.Size(114, 19);
 			this.Life_ConfirmOnClosing.TabIndex = 0;
@@ -660,6 +708,27 @@
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
 			// 
+			// FormFleet_SearchingAbilityMethod
+			// 
+			this.FormFleet_SearchingAbilityMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormFleet_SearchingAbilityMethod.FormattingEnabled = true;
+			this.FormFleet_SearchingAbilityMethod.Items.AddRange(new object[] {
+            "(旧)2-5式",
+            "2-5式(秋)"});
+			this.FormFleet_SearchingAbilityMethod.Location = new System.Drawing.Point(115, 31);
+			this.FormFleet_SearchingAbilityMethod.Name = "FormFleet_SearchingAbilityMethod";
+			this.FormFleet_SearchingAbilityMethod.Size = new System.Drawing.Size(121, 23);
+			this.FormFleet_SearchingAbilityMethod.TabIndex = 2;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(6, 34);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(103, 15);
+			this.label13.TabIndex = 1;
+			this.label13.Text = "索敵能力計算式：";
+			// 
 			// FormFleet_ShowAircraft
 			// 
 			this.FormFleet_ShowAircraft.AutoSize = true;
@@ -676,7 +745,7 @@
 			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 179);
+			this.tabPage9.Size = new System.Drawing.Size(378, 199);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -697,7 +766,7 @@
 			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 179);
+			this.tabPage10.Size = new System.Drawing.Size(378, 199);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -732,7 +801,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(5, 171);
+			this.label10.Location = new System.Drawing.Point(6, 193);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -825,26 +894,36 @@
 			// 
 			this.FontSelector.ShowEffects = false;
 			// 
-			// label13
+			// label14
 			// 
-			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(6, 34);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(103, 15);
-			this.label13.TabIndex = 1;
-			this.label13.Text = "索敵能力計算式：";
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(8, 9);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(97, 15);
+			this.label14.TabIndex = 2;
+			this.label14.Text = "レイアウトファイル：";
 			// 
-			// FormFleet_SearchingAbilityMethod
+			// Life_LayoutFilePath
 			// 
-			this.FormFleet_SearchingAbilityMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.FormFleet_SearchingAbilityMethod.FormattingEnabled = true;
-			this.FormFleet_SearchingAbilityMethod.Items.AddRange(new object[] {
-            "(旧)2-5式",
-            "2-5式(秋)"});
-			this.FormFleet_SearchingAbilityMethod.Location = new System.Drawing.Point(115, 31);
-			this.FormFleet_SearchingAbilityMethod.Name = "FormFleet_SearchingAbilityMethod";
-			this.FormFleet_SearchingAbilityMethod.Size = new System.Drawing.Size(121, 23);
-			this.FormFleet_SearchingAbilityMethod.TabIndex = 2;
+			this.Life_LayoutFilePath.Location = new System.Drawing.Point(103, 6);
+			this.Life_LayoutFilePath.Name = "Life_LayoutFilePath";
+			this.Life_LayoutFilePath.Size = new System.Drawing.Size(243, 23);
+			this.Life_LayoutFilePath.TabIndex = 3;
+			// 
+			// Life_LayoutFilePathSearch
+			// 
+			this.Life_LayoutFilePathSearch.Location = new System.Drawing.Point(352, 6);
+			this.Life_LayoutFilePathSearch.Name = "Life_LayoutFilePathSearch";
+			this.Life_LayoutFilePathSearch.Size = new System.Drawing.Size(32, 23);
+			this.Life_LayoutFilePathSearch.TabIndex = 4;
+			this.Life_LayoutFilePathSearch.Text = "...";
+			this.Life_LayoutFilePathSearch.UseVisualStyleBackColor = true;
+			this.Life_LayoutFilePathSearch.Click += new System.EventHandler(this.Life_LayoutFilePathSearch_Click);
+			// 
+			// LayoutFileBrowser
+			// 
+			this.LayoutFileBrowser.Filter = "Layout Archive|*.zip|File|*";
+			this.LayoutFileBrowser.Title = "レイアウト ファイルを開く";
 			// 
 			// DialogConfiguration
 			// 
@@ -867,6 +946,7 @@
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).EndInit();
 			this.Connection_PanelSaveData.ResumeLayout(false);
 			this.Connection_PanelSaveData.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_Port)).EndInit();
@@ -910,36 +990,19 @@
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.Button ButtonOK;
 		private System.Windows.Forms.Button ButtonCancel;
-		internal System.Windows.Forms.CheckBox Connection_SaveOtherFile;
-		internal System.Windows.Forms.CheckBox Connection_SaveSWF;
-		internal System.Windows.Forms.CheckBox Connection_SaveResponse;
-		internal System.Windows.Forms.CheckBox Connection_SaveRequest;
-		internal System.Windows.Forms.TextBox Connection_SaveDataPath;
-		internal System.Windows.Forms.TextBox Connection_SaveDataFilter;
-		internal System.Windows.Forms.CheckBox Connection_SaveReceivedData;
-		internal System.Windows.Forms.NumericUpDown Connection_Port;
 		private System.Windows.Forms.TabPage tabPage3;
 		private System.Windows.Forms.Label label6;
-		internal System.Windows.Forms.NumericUpDown Log_LogLevel;
 		private System.Windows.Forms.TabPage tabPage4;
-		internal System.Windows.Forms.NumericUpDown Control_ConditionBorder;
 		private System.Windows.Forms.Label label7;
-		internal System.Windows.Forms.CheckBox Log_SaveLogFlag;
 		private System.Windows.Forms.TabPage tabPage5;
-		internal System.Windows.Forms.CheckBox Debug_EnableDebugMenu;
 		private System.Windows.Forms.TabPage tabPage6;
-		internal System.Windows.Forms.CheckBox Life_ConfirmOnClosing;
 		private System.Windows.Forms.FolderBrowserDialog FolderBrowser;
-		internal System.Windows.Forms.CheckBox Connection_ApplyVersion;
 		private System.Windows.Forms.Button UI_SubFontSelect;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Button UI_MainFontSelect;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.FontDialog FontSelector;
-		internal System.Windows.Forms.TextBox UI_SubFont;
-		internal System.Windows.Forms.TextBox UI_MainFont;
 		private System.Windows.Forms.Label label9;
-		internal System.Windows.Forms.CheckBox Log_SaveErrorReport;
 		private System.Windows.Forms.Button UI_SubFontApply;
 		private System.Windows.Forms.Button UI_MainFontApply;
 		private System.Windows.Forms.Button Connection_OutputConnectionScript;
@@ -948,9 +1011,6 @@
 		private System.Windows.Forms.TabPage tabPage8;
 		private System.Windows.Forms.TabPage tabPage9;
 		private System.Windows.Forms.TabPage tabPage10;
-		internal System.Windows.Forms.CheckBox FormFleet_ShowAircraft;
-		internal System.Windows.Forms.CheckBox FormArsenal_ShowShipName;
-		internal System.Windows.Forms.CheckBox FormQuest_ShowRunningOnly;
 		private System.Windows.Forms.TabPage tabPage11;
 		private System.Windows.Forms.Button Notification_Expedition;
 		private System.Windows.Forms.Button Notification_Construction;
@@ -958,11 +1018,38 @@
 		private System.Windows.Forms.Button Notification_Damage;
 		private System.Windows.Forms.Button Notification_Condition;
 		private System.Windows.Forms.Label label10;
-		internal System.Windows.Forms.CheckBox Life_TopMost;
 		private System.Windows.Forms.Label label11;
-		internal System.Windows.Forms.ComboBox Log_FileEncodingID;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label13;
-		internal System.Windows.Forms.ComboBox FormFleet_SearchingAbilityMethod;
+		private System.Windows.Forms.CheckBox Connection_SaveOtherFile;
+		private System.Windows.Forms.CheckBox Connection_SaveSWF;
+		private System.Windows.Forms.CheckBox Connection_SaveResponse;
+		private System.Windows.Forms.CheckBox Connection_SaveRequest;
+		private System.Windows.Forms.TextBox Connection_SaveDataPath;
+		private System.Windows.Forms.TextBox Connection_SaveDataFilter;
+		private System.Windows.Forms.CheckBox Connection_SaveReceivedData;
+		private System.Windows.Forms.NumericUpDown Connection_Port;
+		private System.Windows.Forms.NumericUpDown Log_LogLevel;
+		private System.Windows.Forms.NumericUpDown Control_ConditionBorder;
+		private System.Windows.Forms.CheckBox Log_SaveLogFlag;
+		private System.Windows.Forms.CheckBox Debug_EnableDebugMenu;
+		private System.Windows.Forms.CheckBox Life_ConfirmOnClosing;
+		private System.Windows.Forms.CheckBox Connection_ApplyVersion;
+		private System.Windows.Forms.TextBox UI_SubFont;
+		private System.Windows.Forms.TextBox UI_MainFont;
+		private System.Windows.Forms.CheckBox Log_SaveErrorReport;
+		private System.Windows.Forms.CheckBox FormFleet_ShowAircraft;
+		private System.Windows.Forms.CheckBox FormArsenal_ShowShipName;
+		private System.Windows.Forms.CheckBox FormQuest_ShowRunningOnly;
+		private System.Windows.Forms.CheckBox Life_TopMost;
+		private System.Windows.Forms.ComboBox Log_FileEncodingID;
+		private System.Windows.Forms.ComboBox FormFleet_SearchingAbilityMethod;
+		private System.Windows.Forms.NumericUpDown Connection_UpstreamProxyPort;
+		private System.Windows.Forms.CheckBox Connection_UseUpstreamProxy;
+		private System.Windows.Forms.CheckBox Connection_RegisterAsSystemProxy;
+		private System.Windows.Forms.Button Life_LayoutFilePathSearch;
+		private System.Windows.Forms.TextBox Life_LayoutFilePath;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.OpenFileDialog LayoutFileBrowser;
 	}
 }

@@ -101,8 +101,8 @@ namespace ElectronicObserver.Observer {
 
 		public int Start( int portID ) {
 
-			//checkme: フラグを消してみた、要確認
-			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway/* | Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy */);
+			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
+				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
 
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}",
 						Fiddler.FiddlerApplication.oProxy.ListenPort ), "<local>" );
@@ -224,12 +224,19 @@ namespace ElectronicObserver.Observer {
 
 		private void FiddlerApplication_BeforeRequest( Fiddler.Session oSession ) {
 
+			Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
+
+			
+			// 上流プロキシ設定
+			if ( c.UseUpstreamProxy ) {
+				oSession["X-OverrideGateway"] = string.Format( "localhost:{0}", c.UpstreamProxyPort );
+			}
+
+
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 				
 				//保存
 				{	
-					Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
-
 					if ( c.SaveReceivedData && c.SaveRequest ) {
 
 						SaveRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
