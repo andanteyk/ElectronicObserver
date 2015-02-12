@@ -69,6 +69,9 @@
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.Life_LayoutFilePathSearch = new System.Windows.Forms.Button();
+			this.Life_LayoutFilePath = new System.Windows.Forms.TextBox();
+			this.label14 = new System.Windows.Forms.Label();
 			this.Life_TopMost = new System.Windows.Forms.CheckBox();
 			this.Life_ConfirmOnClosing = new System.Windows.Forms.CheckBox();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
@@ -93,9 +96,6 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
-			this.label14 = new System.Windows.Forms.Label();
-			this.Life_LayoutFilePath = new System.Windows.Forms.TextBox();
-			this.Life_LayoutFilePathSearch = new System.Windows.Forms.Button();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -169,6 +169,7 @@
 			this.Connection_UpstreamProxyPort.Size = new System.Drawing.Size(80, 23);
 			this.Connection_UpstreamProxyPort.TabIndex = 4;
 			this.Connection_UpstreamProxyPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.Connection_UpstreamProxyPort, "他のツール・ブラウザで利用しているポート番号を指定します。");
 			// 
 			// Connection_UseUpstreamProxy
 			// 
@@ -178,6 +179,7 @@
 			this.Connection_UseUpstreamProxy.Size = new System.Drawing.Size(152, 19);
 			this.Connection_UseUpstreamProxy.TabIndex = 3;
 			this.Connection_UseUpstreamProxy.Text = "上流プロキシを利用する：";
+			this.ToolTipInfo.SetToolTip(this.Connection_UseUpstreamProxy, "他のプロキシを利用するツール・ブラウザと連携する際に利用します。");
 			this.Connection_UseUpstreamProxy.UseVisualStyleBackColor = true;
 			// 
 			// Connection_RegisterAsSystemProxy
@@ -188,6 +190,8 @@
 			this.Connection_RegisterAsSystemProxy.Size = new System.Drawing.Size(152, 19);
 			this.Connection_RegisterAsSystemProxy.TabIndex = 2;
 			this.Connection_RegisterAsSystemProxy.Text = "システムプロキシとして登録";
+			this.ToolTipInfo.SetToolTip(this.Connection_RegisterAsSystemProxy, "プロキシをシステムに登録し、自動的に通信できるようにします。\r\nプロキシ設定が不要になりますが、副作用があるため注意してご利用ください。\r\n詳細はオンラインヘルプ" +
+        "を参照してください。");
 			this.Connection_RegisterAsSystemProxy.UseVisualStyleBackColor = true;
 			// 
 			// Connection_OutputConnectionScript
@@ -361,6 +365,7 @@
 			this.Connection_Port.Size = new System.Drawing.Size(80, 23);
 			this.Connection_Port.TabIndex = 1;
 			this.Connection_Port.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.Connection_Port, "ポート番号を設定します。");
 			// 
 			// label1
 			// 
@@ -652,6 +657,32 @@
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
 			// 
+			// Life_LayoutFilePathSearch
+			// 
+			this.Life_LayoutFilePathSearch.Location = new System.Drawing.Point(352, 6);
+			this.Life_LayoutFilePathSearch.Name = "Life_LayoutFilePathSearch";
+			this.Life_LayoutFilePathSearch.Size = new System.Drawing.Size(32, 23);
+			this.Life_LayoutFilePathSearch.TabIndex = 4;
+			this.Life_LayoutFilePathSearch.Text = "...";
+			this.Life_LayoutFilePathSearch.UseVisualStyleBackColor = true;
+			this.Life_LayoutFilePathSearch.Click += new System.EventHandler(this.Life_LayoutFilePathSearch_Click);
+			// 
+			// Life_LayoutFilePath
+			// 
+			this.Life_LayoutFilePath.Location = new System.Drawing.Point(103, 6);
+			this.Life_LayoutFilePath.Name = "Life_LayoutFilePath";
+			this.Life_LayoutFilePath.Size = new System.Drawing.Size(243, 23);
+			this.Life_LayoutFilePath.TabIndex = 3;
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(8, 9);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(97, 15);
+			this.label14.TabIndex = 2;
+			this.label14.Text = "レイアウトファイル：";
+			// 
 			// Life_TopMost
 			// 
 			this.Life_TopMost.AutoSize = true;
@@ -742,10 +773,10 @@
 			// tabPage9
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 22);
+			this.tabPage9.Location = new System.Drawing.Point(4, 24);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 199);
+			this.tabPage9.Size = new System.Drawing.Size(378, 177);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -763,10 +794,10 @@
 			// tabPage10
 			// 
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 22);
+			this.tabPage10.Location = new System.Drawing.Point(4, 24);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 199);
+			this.tabPage10.Size = new System.Drawing.Size(378, 177);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -801,7 +832,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(6, 193);
+			this.label10.Location = new System.Drawing.Point(3, 193);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -893,32 +924,6 @@
 			// FontSelector
 			// 
 			this.FontSelector.ShowEffects = false;
-			// 
-			// label14
-			// 
-			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(8, 9);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(97, 15);
-			this.label14.TabIndex = 2;
-			this.label14.Text = "レイアウトファイル：";
-			// 
-			// Life_LayoutFilePath
-			// 
-			this.Life_LayoutFilePath.Location = new System.Drawing.Point(103, 6);
-			this.Life_LayoutFilePath.Name = "Life_LayoutFilePath";
-			this.Life_LayoutFilePath.Size = new System.Drawing.Size(243, 23);
-			this.Life_LayoutFilePath.TabIndex = 3;
-			// 
-			// Life_LayoutFilePathSearch
-			// 
-			this.Life_LayoutFilePathSearch.Location = new System.Drawing.Point(352, 6);
-			this.Life_LayoutFilePathSearch.Name = "Life_LayoutFilePathSearch";
-			this.Life_LayoutFilePathSearch.Size = new System.Drawing.Size(32, 23);
-			this.Life_LayoutFilePathSearch.TabIndex = 4;
-			this.Life_LayoutFilePathSearch.Text = "...";
-			this.Life_LayoutFilePathSearch.UseVisualStyleBackColor = true;
-			this.Life_LayoutFilePathSearch.Click += new System.EventHandler(this.Life_LayoutFilePathSearch_Click);
 			// 
 			// LayoutFileBrowser
 			// 

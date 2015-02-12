@@ -671,6 +671,15 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ContextMenuFleet_Capture_Click( object sender, EventArgs e ) {
+
+			Bitmap bitmap = new Bitmap( this.ClientSize.Width, this.ClientSize.Height );
+			this.DrawToBitmap( bitmap, this.ClientRectangle );
+
+			Clipboard.SetData( DataFormats.Bitmap, bitmap );
+		}
+
+		
 
 		
 		void ConfigurationChanged() {
@@ -698,9 +707,6 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Fleet #" + FleetID.ToString();
 		}
-
-		
-
 
 	
 	}
