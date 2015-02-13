@@ -50,8 +50,16 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 
-			QuestView.Font = Font = Utility.Configuration.Config.UI.MainFont;
-			MenuMain_ShowRunningOnly.Checked = Utility.Configuration.Config.FormQuest.ShowRunningOnly;
+			var c = Utility.Configuration.Config;
+
+			QuestView.Font = Font = c.UI.MainFont;
+
+			MenuMain_ShowRunningOnly.Checked = c.FormQuest.ShowRunningOnly;
+			MenuMain_ShowOnce.Checked = c.FormQuest.ShowOnce;
+			MenuMain_ShowDaily.Checked = c.FormQuest.ShowDaily;
+			MenuMain_ShowWeekly.Checked = c.FormQuest.ShowWeekly;
+			MenuMain_ShowMonthly.Checked = c.FormQuest.ShowMonthly;
+
 			Updated();
 
 		}
@@ -75,6 +83,23 @@ namespace ElectronicObserver.Window {
 
 				if ( MenuMain_ShowRunningOnly.Checked && !( q.State == 2 || q.State == 3 ) )
 					continue;
+
+				switch ( q.Type ) {
+					case 2:
+					case 4:
+					case 5:
+						if ( !MenuMain_ShowDaily.Checked ) continue;
+						break;
+					case 3:
+						if ( !MenuMain_ShowWeekly.Checked ) continue;
+						break;
+					case 6:
+						if ( !MenuMain_ShowMonthly.Checked ) continue;
+						break;
+					default:
+						if ( !MenuMain_ShowOnce.Checked ) continue;
+						break;		
+				}
 
 
 				DataGridViewRow row = new DataGridViewRow();
@@ -197,6 +222,28 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Config.FormQuest.ShowRunningOnly = MenuMain_ShowRunningOnly.Checked;
 			Updated();
 		}
+
+
+		private void MenuMain_ShowOnce_Click( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormQuest.ShowOnce = MenuMain_ShowOnce.Checked;
+			Updated();
+		}
+
+		private void MenuMain_ShowDaily_Click( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormQuest.ShowDaily = MenuMain_ShowDaily.Checked;
+			Updated();
+		}
+
+		private void MenuMain_ShowWeekly_Click( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormQuest.ShowWeekly = MenuMain_ShowWeekly.Checked;
+			Updated();
+		}
+
+		private void MenuMain_ShowMonthly_Click( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormQuest.ShowMonthly = MenuMain_ShowMonthly.Checked;
+			Updated();
+		}
+
 
 
 		private void MenuMain_Initialize_Click( object sender, EventArgs e ) {

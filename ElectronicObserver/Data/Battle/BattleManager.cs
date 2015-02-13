@@ -174,7 +174,7 @@ namespace ElectronicObserver.Data.Battle {
 					dropID = -2;
 				}
 
-				RecordManager.Instance.ShipDrop.Add( dropID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
+				RecordManager.Instance.ShipDrop.Add( dropID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EventID == 5, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
 			}
 
 		}

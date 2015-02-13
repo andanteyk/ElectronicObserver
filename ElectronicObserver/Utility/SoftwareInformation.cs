@@ -34,7 +34,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static string VersionJapanese {
 			get {
-				return SoftwareNameJapanese + "二型";
+				return SoftwareNameJapanese + "二型改";
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static string VersionEnglish {
 			get {
-				return "0.2.0";
+				return "0.2.1";
 			}
 		}
 	

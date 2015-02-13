@@ -241,8 +241,21 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool EnableDebugMenu { get; set; }
 
+				/// <summary>
+				/// 起動時にAPIリストをロードするか
+				/// </summary>
+				public bool LoadAPIListOnLoad { get; set; }
+
+				/// <summary>
+				/// APIリストのパス
+				/// </summary>
+				public string APIListPath { get; set; }
+
+
 				public ConfigDebug() {
 					EnableDebugMenu = false;
+					LoadAPIListOnLoad = false;
+					APIListPath = "";
 				}
 			}
 			/// <summary>デバッグ</summary>
@@ -349,8 +362,34 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowRunningOnly { get; set; }
 
+
+				/// <summary>
+				/// 一回限り(+その他)を表示
+				/// </summary>
+				public bool ShowOnce { get; set; }
+
+				/// <summary>
+				/// デイリーを表示
+				/// </summary>
+				public bool ShowDaily { get; set; }
+
+				/// <summary>
+				/// ウィークリーを表示
+				/// </summary>
+				public bool ShowWeekly { get; set; }
+
+				/// <summary>
+				/// マンスリーを表示
+				/// </summary>
+				public bool ShowMonthly { get; set; }
+
+
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
+					ShowOnce = true;
+					ShowDaily = true;
+					ShowWeekly = true;
+					ShowMonthly = true;
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>

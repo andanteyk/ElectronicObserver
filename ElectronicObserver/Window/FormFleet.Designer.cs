@@ -76,6 +76,7 @@
             this.ContextMenuFleet_Capture});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
 			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 70);
+			this.ContextMenuFleet.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuFleet_Opening);
 			// 
 			// ContextMenuFleet_CopyFleet
 			// 

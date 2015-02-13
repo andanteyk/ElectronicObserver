@@ -54,7 +54,7 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void FormMain_Load( object sender, EventArgs e ) {
+		private async void FormMain_Load( object sender, EventArgs e ) {
 
 			Utility.Configuration.Instance.Load();
 
@@ -105,6 +105,20 @@ namespace ElectronicObserver.Window {
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
+
+
+			// デバッグ: 開始時にAPIリストを読み込む
+			if ( Configuration.Config.Debug.LoadAPIListOnLoad ) {
+
+				try {
+
+					await Task.Factory.StartNew( () => LoadAPIList( Configuration.Config.Debug.APIListPath ) );
+
+				} catch ( Exception ex ) {
+
+					Utility.Logger.Add( 3, "API読み込みに失敗しました。" + ex.Message );
+				}
+			}
 
 
 			UIUpdateTimer.Start();
@@ -448,6 +462,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		
 
 		private void LoadAPIList( string path ) {
 
@@ -582,7 +597,7 @@ namespace ElectronicObserver.Window {
 
 				try {
 
-					int count = await Task.FromResult<int>( DeleteOldAPI() );
+					int count = await Task.Factory.StartNew( () => DeleteOldAPI() );
 
 					MessageBox.Show( "削除が完了しました。\r\n" + count + " 個のファイルを削除しました。", "削除成功", MessageBoxButtons.OK, MessageBoxIcon.Information );
 
@@ -667,7 +682,7 @@ namespace ElectronicObserver.Window {
 
 				try {
 
-					int count = await Task.FromResult<int>( RenameShipResource( path ) );
+					int count = await Task.Factory.StartNew( () => RenameShipResource( path ) );
 
 					MessageBox.Show( string.Format( "リネーム処理が完了しました。\r\n{0} 個のアイテムをリネームしました。", count ), "処理完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
 

@@ -404,7 +404,7 @@ namespace ElectronicObserver.Resource {
 		/// </summary>
 		public static Image GetEquipmentImage( int imageID ) {
 
-			if ( 0 < imageID )
+			if ( imageID < 0 )
 				return Instance.Equipments.Images[(int)EquipmentContent.Locked];
 			if ( imageID >= (int)EquipmentContent.Locked )
 				return Instance.Equipments.Images[(int)EquipmentContent.Unknown];
