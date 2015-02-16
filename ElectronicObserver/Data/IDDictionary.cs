@@ -35,6 +35,16 @@ namespace ElectronicObserver.Data {
 			dict.Remove( id );
 		}
 
+		internal int RemoveAll( Predicate<TData> predicate ) {
+			var removekeys = dict.Values.Where( elem => predicate( elem ) ).Select( elem => elem.ID ).ToArray();
+
+			foreach ( var key in removekeys ) {
+				dict.Remove( key );
+			}
+
+			return removekeys.Count();
+		}
+
 		internal void Clear() {
 			dict.Clear();
 		}

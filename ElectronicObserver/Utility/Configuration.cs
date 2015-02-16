@@ -283,10 +283,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public string LayoutFilePath { get; set; }
 
+				/// <summary>
+				/// 更新情報を取得するか
+				/// </summary>
+				public bool CheckUpdateInformation { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
 					LayoutFilePath = @"Settings\WindowLayout.zip";
+					CheckUpdateInformation = true;
 				}
 			}
 			/// <summary>起動と終了</summary>

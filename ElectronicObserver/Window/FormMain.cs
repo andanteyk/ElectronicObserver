@@ -106,6 +106,13 @@ namespace ElectronicObserver.Window {
 
 			ConfigurationChanged();		//設定から初期化
 
+			SoftwareInformation.CheckUpdate();
+
+
+			UIUpdateTimer.Start();
+
+			Utility.Logger.Add( 2, "起動処理が完了しました。" );
+
 
 			// デバッグ: 開始時にAPIリストを読み込む
 			if ( Configuration.Config.Debug.LoadAPIListOnLoad ) {
@@ -120,10 +127,6 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
-
-			UIUpdateTimer.Start();
-
-			Utility.Logger.Add( 2, "起動処理が完了しました。" );
 		}
 
 

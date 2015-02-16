@@ -277,6 +277,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
 			Life_TopMost.Checked = config.Life.TopMost;
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
+			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
@@ -350,6 +351,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.ConfirmOnClosing = Life_ConfirmOnClosing.Checked;
 			config.Life.TopMost = Life_TopMost.Checked;
 			config.Life.LayoutFilePath = Life_LayoutFilePath.Text;
+			config.Life.CheckUpdateInformation = Life_CheckUpdateInformation.Checked;
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
