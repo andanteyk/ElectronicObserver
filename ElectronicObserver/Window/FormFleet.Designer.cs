@@ -29,6 +29,7 @@
 			this.ContextMenuFleet = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ContextMenuFleet_CopyFleet = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.ContextMenuFleet_Capture = new System.Windows.Forms.ToolStripMenuItem();
 			this.ContextMenuFleet.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -71,9 +72,11 @@
 			// ContextMenuFleet
 			// 
 			this.ContextMenuFleet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ContextMenuFleet_CopyFleet});
+            this.ContextMenuFleet_CopyFleet,
+            this.ContextMenuFleet_Capture});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 48);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 70);
+			this.ContextMenuFleet.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuFleet_Opening);
 			// 
 			// ContextMenuFleet_CopyFleet
 			// 
@@ -88,6 +91,13 @@
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
+			// 
+			// ContextMenuFleet_Capture
+			// 
+			this.ContextMenuFleet_Capture.Name = "ContextMenuFleet_Capture";
+			this.ContextMenuFleet_Capture.Size = new System.Drawing.Size(226, 22);
+			this.ContextMenuFleet_Capture.Text = "この画面をキャプチャ(&S)";
+			this.ContextMenuFleet_Capture.Click += new System.EventHandler(this.ContextMenuFleet_Capture_Click);
 			// 
 			// FormFleet
 			// 
@@ -118,5 +128,6 @@
 		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private System.Windows.Forms.ContextMenuStrip ContextMenuFleet;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_CopyFleet;
+		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_Capture;
 	}
 }

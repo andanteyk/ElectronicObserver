@@ -53,6 +53,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			Connection_SaveReceivedData_CheckedChanged( null, new EventArgs() );
 			Connection_SaveDataPath_TextChanged( null, new EventArgs() );
+			Debug_EnableDebugMenu_CheckedChanged( null, new EventArgs() );
 
 		}
 
@@ -217,8 +218,20 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		private void Debug_APIListPathSearch_Click( object sender, EventArgs e ) {
+
+			Debug_APIListPath.Text = PathHelper.ProcessOpenFileDialog( Debug_APIListPath.Text, APIListBrowser );
+
+		}
 
 
+		private void Debug_EnableDebugMenu_CheckedChanged( object sender, EventArgs e ) {
+
+			Debug_SealingPanel.Visible = Debug_EnableDebugMenu.Checked;
+		}
+
+		
+		
 
 
 		/// <summary>
@@ -257,17 +270,24 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[デバッグ]
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
+			Debug_LoadAPIListOnLoad.Checked = config.Debug.LoadAPIListOnLoad;
+			Debug_APIListPath.Text = config.Debug.APIListPath;
 
 			//[起動と終了]
 			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
 			Life_TopMost.Checked = config.Life.TopMost;
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
+			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
 			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
 			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
+			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
+			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
+			FormQuest_ShowWeekly.Checked = config.FormQuest.ShowWeekly;
+			FormQuest_ShowMonthly.Checked = config.FormQuest.ShowMonthly;
 
 
 			//finalize
@@ -324,21 +344,26 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[デバッグ]
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
+			config.Debug.LoadAPIListOnLoad = Debug_LoadAPIListOnLoad.Checked;
+			config.Debug.APIListPath = Debug_APIListPath.Text;
 
 			//[起動と終了]
 			config.Life.ConfirmOnClosing = Life_ConfirmOnClosing.Checked;
 			config.Life.TopMost = Life_TopMost.Checked;
 			config.Life.LayoutFilePath = Life_LayoutFilePath.Text;
+			config.Life.CheckUpdateInformation = Life_CheckUpdateInformation.Checked;
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
 			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
 			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
-
+			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;
+			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
+			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
+			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
 
 		}
 
-		
 	}
 }

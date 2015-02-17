@@ -124,7 +124,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			int air = 0;
 
-			foreach ( var ship in fleet.MembersInstance ) {
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
 				if ( ship == null ) continue;
 
 				air += GetAirSuperiority( ship );
@@ -146,13 +146,9 @@ namespace ElectronicObserver.Utility.Data {
 			int los_radar = 0;
 			int los_other = 0;
 
-			for ( int i = 0; i < fleet.Members.Count; i++ ) {
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
 
-				if ( fleet.Members[i] == -1 )
-					continue;
-
-				ShipData ship = db.Ships[fleet.Members[i]];
-				if ( ship == null || fleet.EscapedShipList.Contains( ship.MasterID ) )
+				if ( ship == null )
 					continue;
 
 				los_other += ship.LOSBase;
@@ -196,7 +192,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			double ret = 0.0;
 
-			foreach ( var ship in fleet.MembersInstance ) {
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
 				if ( ship == null ) continue;
 
 				ret += Math.Sqrt( ship.LOSBase ) * 1.6841056;
@@ -255,6 +251,7 @@ namespace ElectronicObserver.Utility.Data {
 			int subguncnt = 0;
 			int apshellcnt = 0;
 			int radarcnt = 0;
+			int rocketcnt = 0;
 
 			if ( slot == null ) return -1;
 
@@ -263,7 +260,7 @@ namespace ElectronicObserver.Utility.Data {
 				EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[i]];
 				if ( eq == null ) continue;
 
-				int eqtype = eq.EquipmentType[2];
+				int eqtype = eq.CategoryType;
 
 				switch ( eqtype ) {
 					case 1:
@@ -284,6 +281,9 @@ namespace ElectronicObserver.Utility.Data {
 						break;
 					case 19:
 						apshellcnt++;
+						break;
+					case 37:
+						rocketcnt++;
 						break;
 				}
 			}
@@ -307,7 +307,9 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( atkship != null ) {
 
-				if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
+				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
+					return 10;		//ロケット砲撃
+				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
 					return 7;		//空撃
 				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
 					if ( atkship.ShipType == 6 || atkship.ShipType == 10 ||
@@ -337,6 +339,7 @@ namespace ElectronicObserver.Utility.Data {
 			int mainguncnt = 0;
 			int subguncnt = 0;
 			int torpcnt = 0;
+			int rocketcnt = 0;
 
 			if ( slot == null ) return -1;
 
@@ -358,6 +361,9 @@ namespace ElectronicObserver.Utility.Data {
 					case 5:
 					case 32:
 						torpcnt++; break;		//魚雷
+
+					case 37:					//対地装備
+						rocketcnt++; break;
 				}
 
 			}
@@ -383,7 +389,9 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( atkship != null ) {
 
-				if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
+				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
+					return 10;		//ロケット砲撃
+				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
 					return 7;		//空撃
 				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
 					if ( atkship.ShipType == 6 || atkship.ShipType == 10 ||

@@ -158,6 +158,8 @@ namespace ElectronicObserver.Observer.kcsapi {
 			}
 
 
+			Utility.Logger.Add( 2, "提督が鎮守府に着任しました。これより艦隊の指揮を執ります。" );
+
 			base.OnResponseReceived( (object)data );
 		}
 

@@ -671,6 +671,22 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ContextMenuFleet_Opening( object sender, CancelEventArgs e ) {
+
+			ContextMenuFleet_Capture.Visible = Utility.Configuration.Config.Debug.EnableDebugMenu;
+
+		}
+
+		private void ContextMenuFleet_Capture_Click( object sender, EventArgs e ) {
+
+			using ( Bitmap bitmap = new Bitmap( this.ClientSize.Width, this.ClientSize.Height ) ) {
+				this.DrawToBitmap( bitmap, this.ClientRectangle );
+
+				Clipboard.SetData( DataFormats.Bitmap, bitmap );
+			}
+		}
+
+		
 
 		
 		void ConfigurationChanged() {
@@ -700,7 +716,6 @@ namespace ElectronicObserver.Window {
 		}
 
 		
-
 
 	
 	}

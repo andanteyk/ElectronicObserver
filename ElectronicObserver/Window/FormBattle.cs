@@ -496,7 +496,7 @@ namespace ElectronicObserver.Window {
 		private void SetHPNormal( int[] hp, BattleData bd ) {
 
 			KCDatabase db = KCDatabase.Instance;
-			bool isPractice = ( bd.BattleType | BattleData.BattleTypeFlag.Practice ) != 0; 
+			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0; 
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
@@ -557,7 +557,7 @@ namespace ElectronicObserver.Window {
 		private void SetHPCombined( int[] hp, BattleData bd ) {
 
 			KCDatabase db = KCDatabase.Instance;
-			bool isPractice = ( bd.BattleType | BattleData.BattleTypeFlag.Practice ) != 0;
+			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0;
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {

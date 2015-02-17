@@ -56,6 +56,11 @@ namespace ElectronicObserver.Resource.Record {
 			public int CellID { get; set; }
 
 			/// <summary>
+			/// ボスかどうか
+			/// </summary>
+			public bool IsBossNode { get; set; }
+
+			/// <summary>
 			/// 敵編成ID
 			/// </summary>
 			public int EnemyFleetID { get; set; }
@@ -79,12 +84,13 @@ namespace ElectronicObserver.Resource.Record {
 			public ShipDropElement( string line ) 
 				: base( line ) { }
 
-			public ShipDropElement( int shipID, int mapAreaID, int mapInfoID, int cellID, int enemyFleetID, string rank, int hqLevel ) {
+			public ShipDropElement( int shipID, int mapAreaID, int mapInfoID, int cellID, bool isBossNode, int enemyFleetID, string rank, int hqLevel ) {
 				ShipID = shipID;
 				Date = DateTime.Now;
 				MapAreaID = mapAreaID;
 				MapInfoID = mapInfoID;
 				CellID = cellID;
+				IsBossNode = isBossNode;
 				EnemyFleetID = enemyFleetID;
 				Rank = rank;
 				HQLevel = hqLevel;
@@ -102,21 +108,23 @@ namespace ElectronicObserver.Resource.Record {
 				MapAreaID = int.Parse( elem[3] );
 				MapInfoID = int.Parse( elem[4] );
 				CellID = int.Parse( elem[5] );
-				EnemyFleetID = int.Parse( elem[6] );
-				Rank = elem[7];
-				HQLevel = int.Parse( elem[8] );
+				IsBossNode = string.Compare( elem[6], "ボス" ) == 0;
+				EnemyFleetID = int.Parse( elem[7] );
+				Rank = elem[8];
+				HQLevel = int.Parse( elem[9] );
 
 			}
 
 			public override string SaveLine() {
 
-				return string.Format( "{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+				return string.Format( "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
 					ShipID,
 					ShipName,
 					DateTimeHelper.TimeToCSVString( Date ),
 					MapAreaID,
 					MapInfoID,
 					CellID,
+					IsBossNode ? "ボス" : "-",
 					EnemyFleetID,
 					Rank,
 					HQLevel );
@@ -139,9 +147,9 @@ namespace ElectronicObserver.Resource.Record {
 			set { Record[i] = value; }
 		}
 
-		public void Add( int shipID, int mapAreaID, int mapInfoID, int cellID, int enemyFleetID, string rank, int hqLevel ) {
+		public void Add( int shipID, int mapAreaID, int mapInfoID, int cellID, bool isBossNode, int enemyFleetID, string rank, int hqLevel ) {
 			
-			Record.Add( new ShipDropElement( shipID, mapAreaID, mapInfoID, cellID, enemyFleetID, rank, hqLevel ) );
+			Record.Add( new ShipDropElement( shipID, mapAreaID, mapInfoID, cellID, isBossNode, enemyFleetID, rank, hqLevel ) );
 		}
 
 
@@ -182,7 +190,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		protected override string RecordHeader {
-			get { return "艦船ID,艦名,入手日時,海域,海域,セル,敵編成,ランク,司令部Lv"; }
+			get { return "艦船ID,艦名,入手日時,海域,海域,セル,ボス,敵編成,ランク,司令部Lv"; }
 		}
 
 		public override string FileName {

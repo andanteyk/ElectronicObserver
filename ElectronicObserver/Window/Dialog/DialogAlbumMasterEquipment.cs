@@ -74,7 +74,8 @@ namespace ElectronicObserver.Window.Dialog {
 			EquipmentView.SuspendLayout();
 
 			EquipmentView_ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-			EquipmentView_Type.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+			EquipmentView_Icon.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+			//EquipmentView_Type.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 
 
 			EquipmentView.Rows.Clear();
@@ -87,14 +88,15 @@ namespace ElectronicObserver.Window.Dialog {
 
 				DataGridViewRow row = new DataGridViewRow();
 				row.CreateCells( EquipmentView );
-				row.SetValues( eq.EquipmentID, KCDatabase.Instance.EquipmentTypes[eq.EquipmentType[2]].Name, eq.Name );
+				row.SetValues( eq.EquipmentID, eq.IconType, eq.CategoryTypeInstance.Name, eq.Name );
 				rows.Add( row );
 
 			}
 			EquipmentView.Rows.AddRange( rows.ToArray() );
 
 			EquipmentView_ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-			EquipmentView_Type.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+			EquipmentView_Icon.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+			//EquipmentView_Type.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 
 			EquipmentView.Sort( EquipmentView_ID, ListSortDirection.Ascending );
 			EquipmentView.ResumeLayout();
@@ -150,6 +152,16 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		private void EquipmentView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
+
+			if ( e.ColumnIndex == EquipmentView_Icon.Index ) {
+				e.Value = ResourceManager.GetEquipmentImage( (int)e.Value );
+				e.FormattingApplied = true;
+			}
+
+		}
+
+
 		
 		private void EquipmentView_CellMouseClick( object sender, DataGridViewCellMouseEventArgs e ) {
 
@@ -201,7 +213,7 @@ namespace ElectronicObserver.Window.Dialog {
 				EquipmentType.ImageIndex = eqicon;
 			
 				StringBuilder sb = new StringBuilder();
-				sb.AppendLine( "装備可能艦種：" );
+				sb.AppendLine( "装備可能艦種:" );
 				foreach ( var stype in KCDatabase.Instance.ShipTypes.Values ) {
 					if ( stype.EquipmentType[eq.EquipmentType[2]] )
 						sb.AppendLine( stype.Name );
@@ -240,7 +252,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TableParameterSub.ResumeLayout();
 
 
-			//default(CHECKME: this is test version)
+			//default equipment
 			DefaultSlots.BeginUpdate();
 			DefaultSlots.Items.Clear();
 			foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
@@ -468,6 +480,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-
+		
 	}
 }

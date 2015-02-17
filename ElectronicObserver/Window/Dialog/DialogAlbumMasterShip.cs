@@ -389,6 +389,8 @@ namespace ElectronicObserver.Window.Dialog {
 					Aircrafts[i].Text = "";
 
 
+				ToolTipInfo.SetToolTip( Equipments[i], null );
+
 				if ( ship.DefaultSlot == null ) {
 					if ( i < ship.SlotSize ) {
 						Equipments[i].Text = "???";
@@ -407,6 +409,24 @@ namespace ElectronicObserver.Window.Dialog {
 						eqicon = (int)ResourceManager.EquipmentContent.Unknown;
 
 					Equipments[i].ImageIndex = eqicon;
+					
+					{
+						StringBuilder sb = new StringBuilder();
+
+						sb.AppendFormat( "{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name );
+						if ( eq.Firepower != 0 ) sb.AppendFormat( "火力 {0}{1}\r\n", eq.Firepower > 0 ? "+" : "", eq.Firepower );
+						if ( eq.Torpedo != 0 ) sb.AppendFormat( "雷装 {0}{1}\r\n", eq.Torpedo > 0 ? "+" : "", eq.Torpedo );
+						if ( eq.AA != 0 ) sb.AppendFormat( "対空 {0}{1}\r\n", eq.AA > 0 ? "+" : "", eq.AA );
+						if ( eq.Armor != 0 ) sb.AppendFormat( "装甲 {0}{1}\r\n", eq.Armor > 0 ? "+" : "", eq.Armor );
+						if ( eq.ASW != 0 ) sb.AppendFormat( "対潜 {0}{1}\r\n", eq.ASW > 0 ? "+" : "", eq.ASW );
+						if ( eq.Evasion != 0 ) sb.AppendFormat( "回避 {0}{1}\r\n", eq.Evasion > 0 ? "+" : "", eq.Evasion );
+						if ( eq.LOS != 0 ) sb.AppendFormat( "索敵 {0}{1}\r\n", eq.LOS > 0 ? "+" : "", eq.LOS );
+						if ( eq.Accuracy != 0 ) sb.AppendFormat( "命中 {0}{1}\r\n", eq.Accuracy > 0 ? "+" : "", eq.Accuracy );
+						if ( eq.Bomber != 0 ) sb.AppendFormat( "爆装 {0}{1}\r\n", eq.Bomber > 0 ? "+" : "", eq.Bomber );
+						sb.AppendLine( "(右クリックで図鑑)" );
+
+						ToolTipInfo.SetToolTip( Equipments[i], sb.ToString() );
+					}
 
 				} else if ( i < ship.SlotSize ) {
 					Equipments[i].Text = "(なし)";

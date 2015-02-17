@@ -67,8 +67,15 @@
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
 			this.label7 = new System.Windows.Forms.Label();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.Debug_SealingPanel = new System.Windows.Forms.Panel();
+			this.Debug_APIListPath = new System.Windows.Forms.TextBox();
+			this.Debug_LoadAPIListOnLoad = new System.Windows.Forms.CheckBox();
+			this.Debug_APIListPathSearch = new System.Windows.Forms.Button();
 			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.Life_LayoutFilePathSearch = new System.Windows.Forms.Button();
+			this.Life_LayoutFilePath = new System.Windows.Forms.TextBox();
+			this.label14 = new System.Windows.Forms.Label();
 			this.Life_TopMost = new System.Windows.Forms.CheckBox();
 			this.Life_ConfirmOnClosing = new System.Windows.Forms.CheckBox();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
@@ -80,6 +87,11 @@
 			this.tabPage9 = new System.Windows.Forms.TabPage();
 			this.FormArsenal_ShowShipName = new System.Windows.Forms.CheckBox();
 			this.tabPage10 = new System.Windows.Forms.TabPage();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.FormQuest_ShowMonthly = new System.Windows.Forms.CheckBox();
+			this.FormQuest_ShowWeekly = new System.Windows.Forms.CheckBox();
+			this.FormQuest_ShowDaily = new System.Windows.Forms.CheckBox();
+			this.FormQuest_ShowOnce = new System.Windows.Forms.CheckBox();
 			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
 			this.tabPage11 = new System.Windows.Forms.TabPage();
 			this.label10 = new System.Windows.Forms.Label();
@@ -93,10 +105,9 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
-			this.label14 = new System.Windows.Forms.Label();
-			this.Life_LayoutFilePath = new System.Windows.Forms.TextBox();
-			this.Life_LayoutFilePathSearch = new System.Windows.Forms.Button();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
+			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
+			this.Life_CheckUpdateInformation = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -108,12 +119,14 @@
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).BeginInit();
 			this.tabPage5.SuspendLayout();
+			this.Debug_SealingPanel.SuspendLayout();
 			this.tabPage6.SuspendLayout();
 			this.tabPage7.SuspendLayout();
 			this.tabControl2.SuspendLayout();
 			this.tabPage8.SuspendLayout();
 			this.tabPage9.SuspendLayout();
 			this.tabPage10.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.tabPage11.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -169,6 +182,7 @@
 			this.Connection_UpstreamProxyPort.Size = new System.Drawing.Size(80, 23);
 			this.Connection_UpstreamProxyPort.TabIndex = 4;
 			this.Connection_UpstreamProxyPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.Connection_UpstreamProxyPort, "他のツール・ブラウザで利用しているポート番号を指定します。");
 			// 
 			// Connection_UseUpstreamProxy
 			// 
@@ -178,6 +192,7 @@
 			this.Connection_UseUpstreamProxy.Size = new System.Drawing.Size(152, 19);
 			this.Connection_UseUpstreamProxy.TabIndex = 3;
 			this.Connection_UseUpstreamProxy.Text = "上流プロキシを利用する：";
+			this.ToolTipInfo.SetToolTip(this.Connection_UseUpstreamProxy, "他のプロキシを利用するツール・ブラウザと連携する際に利用します。");
 			this.Connection_UseUpstreamProxy.UseVisualStyleBackColor = true;
 			// 
 			// Connection_RegisterAsSystemProxy
@@ -188,6 +203,8 @@
 			this.Connection_RegisterAsSystemProxy.Size = new System.Drawing.Size(152, 19);
 			this.Connection_RegisterAsSystemProxy.TabIndex = 2;
 			this.Connection_RegisterAsSystemProxy.Text = "システムプロキシとして登録";
+			this.ToolTipInfo.SetToolTip(this.Connection_RegisterAsSystemProxy, "プロキシをシステムに登録し、自動的に通信できるようにします。\r\nプロキシ設定が不要になりますが、副作用があるため注意してご利用ください。\r\n詳細はオンラインヘルプ" +
+        "を参照してください。");
 			this.Connection_RegisterAsSystemProxy.UseVisualStyleBackColor = true;
 			// 
 			// Connection_OutputConnectionScript
@@ -361,6 +378,7 @@
 			this.Connection_Port.Size = new System.Drawing.Size(80, 23);
 			this.Connection_Port.TabIndex = 1;
 			this.Connection_Port.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.Connection_Port, "ポート番号を設定します。");
 			// 
 			// label1
 			// 
@@ -616,6 +634,7 @@
 			// 
 			// tabPage5
 			// 
+			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
 			this.tabPage5.Location = new System.Drawing.Point(4, 44);
 			this.tabPage5.Name = "tabPage5";
@@ -624,6 +643,51 @@
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
+			// 
+			// Debug_SealingPanel
+			// 
+			this.Debug_SealingPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPath);
+			this.Debug_SealingPanel.Controls.Add(this.Debug_LoadAPIListOnLoad);
+			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
+			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 31);
+			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(392, 158);
+			this.Debug_SealingPanel.TabIndex = 7;
+			// 
+			// Debug_APIListPath
+			// 
+			this.Debug_APIListPath.AllowDrop = true;
+			this.Debug_APIListPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Debug_APIListPath.Location = new System.Drawing.Point(8, 28);
+			this.Debug_APIListPath.Name = "Debug_APIListPath";
+			this.Debug_APIListPath.Size = new System.Drawing.Size(338, 23);
+			this.Debug_APIListPath.TabIndex = 5;
+			// 
+			// Debug_LoadAPIListOnLoad
+			// 
+			this.Debug_LoadAPIListOnLoad.AutoSize = true;
+			this.Debug_LoadAPIListOnLoad.Location = new System.Drawing.Point(8, 3);
+			this.Debug_LoadAPIListOnLoad.Name = "Debug_LoadAPIListOnLoad";
+			this.Debug_LoadAPIListOnLoad.Size = new System.Drawing.Size(151, 19);
+			this.Debug_LoadAPIListOnLoad.TabIndex = 1;
+			this.Debug_LoadAPIListOnLoad.Text = "起動時にAPIリストをロード";
+			this.ToolTipInfo.SetToolTip(this.Debug_LoadAPIListOnLoad, "起動時に、下記テキストボックスで指定されるAPIリストを自動的に読み込みます。\r\nAPIリストの書式や用法はオンラインヘルプを参照してください。");
+			this.Debug_LoadAPIListOnLoad.UseVisualStyleBackColor = true;
+			// 
+			// Debug_APIListPathSearch
+			// 
+			this.Debug_APIListPathSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.Debug_APIListPathSearch.Location = new System.Drawing.Point(352, 28);
+			this.Debug_APIListPathSearch.Name = "Debug_APIListPathSearch";
+			this.Debug_APIListPathSearch.Size = new System.Drawing.Size(32, 23);
+			this.Debug_APIListPathSearch.TabIndex = 6;
+			this.Debug_APIListPathSearch.Text = "...";
+			this.Debug_APIListPathSearch.UseVisualStyleBackColor = true;
+			this.Debug_APIListPathSearch.Click += new System.EventHandler(this.Debug_APIListPathSearch_Click);
 			// 
 			// Debug_EnableDebugMenu
 			// 
@@ -636,9 +700,11 @@
 			this.ToolTipInfo.SetToolTip(this.Debug_EnableDebugMenu, "メインウィンドウの[デバッグ]メニューを有効にします。\r\nデバッグ用の機能であるため、通常ユーザーの操作は推奨されません。\r\n使用時の動作は保証されないので、＊自" +
         "己責任で＊使用してください。");
 			this.Debug_EnableDebugMenu.UseVisualStyleBackColor = true;
+			this.Debug_EnableDebugMenu.CheckedChanged += new System.EventHandler(this.Debug_EnableDebugMenu_CheckedChanged);
 			// 
 			// tabPage6
 			// 
+			this.tabPage6.Controls.Add(this.Life_CheckUpdateInformation);
 			this.tabPage6.Controls.Add(this.Life_LayoutFilePathSearch);
 			this.tabPage6.Controls.Add(this.Life_LayoutFilePath);
 			this.tabPage6.Controls.Add(this.label14);
@@ -651,6 +717,32 @@
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
+			// 
+			// Life_LayoutFilePathSearch
+			// 
+			this.Life_LayoutFilePathSearch.Location = new System.Drawing.Point(352, 6);
+			this.Life_LayoutFilePathSearch.Name = "Life_LayoutFilePathSearch";
+			this.Life_LayoutFilePathSearch.Size = new System.Drawing.Size(32, 23);
+			this.Life_LayoutFilePathSearch.TabIndex = 4;
+			this.Life_LayoutFilePathSearch.Text = "...";
+			this.Life_LayoutFilePathSearch.UseVisualStyleBackColor = true;
+			this.Life_LayoutFilePathSearch.Click += new System.EventHandler(this.Life_LayoutFilePathSearch_Click);
+			// 
+			// Life_LayoutFilePath
+			// 
+			this.Life_LayoutFilePath.Location = new System.Drawing.Point(103, 6);
+			this.Life_LayoutFilePath.Name = "Life_LayoutFilePath";
+			this.Life_LayoutFilePath.Size = new System.Drawing.Size(243, 23);
+			this.Life_LayoutFilePath.TabIndex = 3;
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(8, 9);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(97, 15);
+			this.label14.TabIndex = 2;
+			this.label14.Text = "レイアウトファイル：";
 			// 
 			// Life_TopMost
 			// 
@@ -745,7 +837,7 @@
 			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 199);
+			this.tabPage9.Size = new System.Drawing.Size(378, 179);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -762,14 +854,68 @@
 			// 
 			// tabPage10
 			// 
+			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
 			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 199);
+			this.tabPage10.Size = new System.Drawing.Size(378, 179);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.FormQuest_ShowMonthly);
+			this.groupBox1.Controls.Add(this.FormQuest_ShowWeekly);
+			this.groupBox1.Controls.Add(this.FormQuest_ShowDaily);
+			this.groupBox1.Controls.Add(this.FormQuest_ShowOnce);
+			this.groupBox1.Location = new System.Drawing.Point(6, 31);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(126, 123);
+			this.groupBox1.TabIndex = 1;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "フィルタ";
+			// 
+			// FormQuest_ShowMonthly
+			// 
+			this.FormQuest_ShowMonthly.AutoSize = true;
+			this.FormQuest_ShowMonthly.Location = new System.Drawing.Point(6, 97);
+			this.FormQuest_ShowMonthly.Name = "FormQuest_ShowMonthly";
+			this.FormQuest_ShowMonthly.Size = new System.Drawing.Size(70, 19);
+			this.FormQuest_ShowMonthly.TabIndex = 4;
+			this.FormQuest_ShowMonthly.Text = "マンスリー";
+			this.FormQuest_ShowMonthly.UseVisualStyleBackColor = true;
+			// 
+			// FormQuest_ShowWeekly
+			// 
+			this.FormQuest_ShowWeekly.AutoSize = true;
+			this.FormQuest_ShowWeekly.Location = new System.Drawing.Point(6, 72);
+			this.FormQuest_ShowWeekly.Name = "FormQuest_ShowWeekly";
+			this.FormQuest_ShowWeekly.Size = new System.Drawing.Size(77, 19);
+			this.FormQuest_ShowWeekly.TabIndex = 3;
+			this.FormQuest_ShowWeekly.Text = "ウィークリー";
+			this.FormQuest_ShowWeekly.UseVisualStyleBackColor = true;
+			// 
+			// FormQuest_ShowDaily
+			// 
+			this.FormQuest_ShowDaily.AutoSize = true;
+			this.FormQuest_ShowDaily.Location = new System.Drawing.Point(6, 47);
+			this.FormQuest_ShowDaily.Name = "FormQuest_ShowDaily";
+			this.FormQuest_ShowDaily.Size = new System.Drawing.Size(62, 19);
+			this.FormQuest_ShowDaily.TabIndex = 2;
+			this.FormQuest_ShowDaily.Text = "デイリー";
+			this.FormQuest_ShowDaily.UseVisualStyleBackColor = true;
+			// 
+			// FormQuest_ShowOnce
+			// 
+			this.FormQuest_ShowOnce.AutoSize = true;
+			this.FormQuest_ShowOnce.Location = new System.Drawing.Point(6, 22);
+			this.FormQuest_ShowOnce.Name = "FormQuest_ShowOnce";
+			this.FormQuest_ShowOnce.Size = new System.Drawing.Size(107, 19);
+			this.FormQuest_ShowOnce.TabIndex = 1;
+			this.FormQuest_ShowOnce.Text = "一回限り・その他";
+			this.FormQuest_ShowOnce.UseVisualStyleBackColor = true;
 			// 
 			// FormQuest_ShowRunningOnly
 			// 
@@ -801,7 +947,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(6, 193);
+			this.label10.Location = new System.Drawing.Point(3, 193);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -894,36 +1040,25 @@
 			// 
 			this.FontSelector.ShowEffects = false;
 			// 
-			// label14
-			// 
-			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(8, 9);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(97, 15);
-			this.label14.TabIndex = 2;
-			this.label14.Text = "レイアウトファイル：";
-			// 
-			// Life_LayoutFilePath
-			// 
-			this.Life_LayoutFilePath.Location = new System.Drawing.Point(103, 6);
-			this.Life_LayoutFilePath.Name = "Life_LayoutFilePath";
-			this.Life_LayoutFilePath.Size = new System.Drawing.Size(243, 23);
-			this.Life_LayoutFilePath.TabIndex = 3;
-			// 
-			// Life_LayoutFilePathSearch
-			// 
-			this.Life_LayoutFilePathSearch.Location = new System.Drawing.Point(352, 6);
-			this.Life_LayoutFilePathSearch.Name = "Life_LayoutFilePathSearch";
-			this.Life_LayoutFilePathSearch.Size = new System.Drawing.Size(32, 23);
-			this.Life_LayoutFilePathSearch.TabIndex = 4;
-			this.Life_LayoutFilePathSearch.Text = "...";
-			this.Life_LayoutFilePathSearch.UseVisualStyleBackColor = true;
-			this.Life_LayoutFilePathSearch.Click += new System.EventHandler(this.Life_LayoutFilePathSearch_Click);
-			// 
 			// LayoutFileBrowser
 			// 
 			this.LayoutFileBrowser.Filter = "Layout Archive|*.zip|File|*";
 			this.LayoutFileBrowser.Title = "レイアウト ファイルを開く";
+			// 
+			// APIListBrowser
+			// 
+			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
+			this.APIListBrowser.Title = "API リストを開く";
+			// 
+			// Life_CheckUpdateInformation
+			// 
+			this.Life_CheckUpdateInformation.AutoSize = true;
+			this.Life_CheckUpdateInformation.Location = new System.Drawing.Point(11, 85);
+			this.Life_CheckUpdateInformation.Name = "Life_CheckUpdateInformation";
+			this.Life_CheckUpdateInformation.Size = new System.Drawing.Size(131, 19);
+			this.Life_CheckUpdateInformation.TabIndex = 5;
+			this.Life_CheckUpdateInformation.Text = "アップデートを確認する";
+			this.Life_CheckUpdateInformation.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -960,6 +1095,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).EndInit();
 			this.tabPage5.ResumeLayout(false);
 			this.tabPage5.PerformLayout();
+			this.Debug_SealingPanel.ResumeLayout(false);
+			this.Debug_SealingPanel.PerformLayout();
 			this.tabPage6.ResumeLayout(false);
 			this.tabPage6.PerformLayout();
 			this.tabPage7.ResumeLayout(false);
@@ -970,6 +1107,8 @@
 			this.tabPage9.PerformLayout();
 			this.tabPage10.ResumeLayout(false);
 			this.tabPage10.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.tabPage11.ResumeLayout(false);
 			this.tabPage11.PerformLayout();
 			this.ResumeLayout(false);
@@ -1051,5 +1190,16 @@
 		private System.Windows.Forms.TextBox Life_LayoutFilePath;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.OpenFileDialog LayoutFileBrowser;
+		private System.Windows.Forms.Button Debug_APIListPathSearch;
+		private System.Windows.Forms.TextBox Debug_APIListPath;
+		private System.Windows.Forms.CheckBox Debug_LoadAPIListOnLoad;
+		private System.Windows.Forms.OpenFileDialog APIListBrowser;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.CheckBox FormQuest_ShowMonthly;
+		private System.Windows.Forms.CheckBox FormQuest_ShowWeekly;
+		private System.Windows.Forms.CheckBox FormQuest_ShowDaily;
+		private System.Windows.Forms.CheckBox FormQuest_ShowOnce;
+		private System.Windows.Forms.Panel Debug_SealingPanel;
+		private System.Windows.Forms.CheckBox Life_CheckUpdateInformation;
 	}
 }

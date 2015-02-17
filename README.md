@@ -32,7 +32,7 @@
 
 *このリンクの更新は遅れる可能性があります。最新版は[こちら](http://electronicobserver.blog.fc2.com/)で確認してください。*  
 
-[ver. 0.2.0 (2015/02/11)](http://bit.ly/1AX3p7i)  
+[ver. 0.2.1 (2015/02/17)](http://bit.ly/1DAz8uG)  
 
 ### 開発者の皆様へ
 ---
