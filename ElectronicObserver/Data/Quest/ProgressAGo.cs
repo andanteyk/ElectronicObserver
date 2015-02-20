@@ -99,6 +99,11 @@ namespace ElectronicObserver.Data.Quest {
 		}
 
 
+		public override void CheckProgress( int progressFlag ) {
+			//なにもしない
+		}
+
+
 		/// <summary>
 		/// 出撃回数を増やします。
 		/// </summary>

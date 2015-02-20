@@ -680,8 +680,8 @@ namespace ElectronicObserver.Window {
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
 
-				if ( rienemy >= 100 ) {
-					if ( rifriend <= 0 ) {
+				if ( enemyrate >= 1.0 ) {
+					if ( friendrate <= 0.0 ) {
 						rank = 7;
 					} else {
 						rank = 6;
@@ -711,7 +711,7 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
-		//fixme
+		
 		private void SetDamageRateCombined( int[] hp, BattleData bd ) {
 
 			int friendbefore = 0;
@@ -751,8 +751,8 @@ namespace ElectronicObserver.Window {
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
 
-				if ( rienemy >= 100 ) {
-					if ( rifriend <= 0 ) {
+				if ( enemyrate >= 1.0 ) {
+					if ( friendrate <= 0.0 ) {
 						rank = 7;
 					} else {
 						rank = 6;
