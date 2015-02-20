@@ -674,12 +674,14 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bd.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
+				int rifriend = (int)( friendrate * 100 );
+				int rienemy = (int)( enemyrate * 100 );
 				int rank;
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
 
-				if ( enemyrate >= 1.0 ) {
-					if ( friendrate <= 0.0 ) {
+				if ( rienemy >= 100 ) {
+					if ( rifriend <= 0 ) {
 						rank = 7;
 					} else {
 						rank = 6;
@@ -688,12 +690,12 @@ namespace ElectronicObserver.Window {
 				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
 					rank = 5;
 
-				} else if ( hp[6] <= 0 ||
-					(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
+				} else if ( hp[6] <= 0 || rienemy > rifriend * 2.5 ) {
 					rank = 4;
 
-				} else if ( (int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
+				} else if ( rienemy > rifriend || rienemy >= 50 ) {
 					rank = 3;
+
 				} else {
 					rank = 2;
 				}
@@ -702,37 +704,9 @@ namespace ElectronicObserver.Window {
 					rank = Math.Min( rank, 5 ) - 1;
 
 
-				switch ( rank ) {
-					case 2:
-						DamageRate.Text = "D";
-						DamageRate.ForeColor = colorLose;
-						break;
-					case 3:
-						DamageRate.Text = "C";
-						DamageRate.ForeColor = colorLose;
-						break;
-					case 4:
-						DamageRate.Text = "B";
-						DamageRate.ForeColor = colorWin;
-						break;
-					case 5:
-						DamageRate.Text = "A";
-						DamageRate.ForeColor = colorWin;
-						break;
-					case 6:
-						DamageRate.Text = "S";
-						DamageRate.ForeColor = colorWin;
-						break;
-					case 7:
-						DamageRate.Text = "SS";
-						DamageRate.ForeColor = colorWin;
-						break;
-					default:
-						DamageRate.Text = "E";
-						DamageRate.ForeColor = colorLose;
-						break;
-				}
 
+				DamageRate.Text = Constants.GetWinRank( rank );
+				DamageRate.ForeColor = rank >= 4 ? colorWin : colorLose;
 
 			}
 		}
@@ -771,12 +745,14 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bdc.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 ) + hp.Skip( 12 ).Take( countFriendCombined ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
+				int rifriend = (int)( friendrate * 100 );
+				int rienemy = (int)( enemyrate * 100 );
 				int rank;
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
 
-				if ( enemyrate >= 1.0 ) {
-					if ( friendrate <= 0.0 ) {
+				if ( rienemy >= 100 ) {
+					if ( rifriend <= 0 ) {
 						rank = 7;
 					} else {
 						rank = 6;
@@ -785,12 +761,12 @@ namespace ElectronicObserver.Window {
 				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
 					rank = 5;
 
-				} else if ( hp[6] <= 0 ||
-					(int)( enemyrate * 100 ) > (int)( friendrate * 100 ) * 2.5 ) {
+				} else if ( hp[6] <= 0 || rienemy > rifriend * 2.5 ) {
 					rank = 4;
 
-				} else if ( (int)( enemyrate * 100 ) > (int)( friendrate * 100 ) ) {
+				} else if ( rienemy > rifriend || rienemy >= 50 ) {
 					rank = 3;
+
 				} else {
 					rank = 2;
 				}
@@ -799,37 +775,8 @@ namespace ElectronicObserver.Window {
 					rank = Math.Min( rank, 5 ) - 1;
 
 
-				switch ( rank ) {
-					case 2:
-						DamageRate.Text = "D";
-						DamageRate.ForeColor = colorLose;
-						break;
-					case 3:
-						DamageRate.Text = "C";
-						DamageRate.ForeColor = colorLose;
-						break;
-					case 4:
-						DamageRate.Text = "B";
-						DamageRate.ForeColor = colorWin;
-						break;
-					case 5:
-						DamageRate.Text = "A";
-						DamageRate.ForeColor = colorWin;
-						break;
-					case 6:
-						DamageRate.Text = "S";
-						DamageRate.ForeColor = colorWin;
-						break;
-					case 7:
-						DamageRate.Text = "SS";
-						DamageRate.ForeColor = colorWin;
-						break;
-					default:
-						DamageRate.Text = "E";
-						DamageRate.ForeColor = colorLose;
-						break;
-				}
-
+				DamageRate.Text = Constants.GetWinRank( rank );
+				DamageRate.ForeColor = rank >= 4 ? colorWin : colorLose;
 
 			}
 		}

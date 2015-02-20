@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data.Battle;
+using ElectronicObserver.Data.Quest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,6 +105,11 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public QuestManager Quest { get; private set; }
 
+		/// <summary>
+		/// 任務進捗データ
+		/// </summary>
+		public QuestProgressManager QuestProgress { get; private set; }
+
 
 		/// <summary>
 		/// 戦闘データ
@@ -146,6 +152,7 @@ namespace ElectronicObserver.Data {
 			Fleet = new FleetManager();
 			Material = new MaterialData();
 			Quest = new QuestManager();
+			QuestProgress = new QuestProgressManager();
 			Battle = new BattleManager();
 			MapInfo = new IDDictionary<MapInfoData>();
 			Mission = new IDDictionary<MissionData>();
@@ -161,11 +168,20 @@ namespace ElectronicObserver.Data {
 				if ( temp != null )
 					ShipGroup = temp;
 			}
+			{
+				var temp = QuestProgress.Load();
+				if ( temp != null ) {
+					if ( QuestProgress != null )
+						QuestProgress.RemoveEvents();
+					QuestProgress = temp;
+				}
+			}
 
 		}
 
 		public void Save() {
 			ShipGroup.Save();
+			QuestProgress.Save();
 		}
 
 	}

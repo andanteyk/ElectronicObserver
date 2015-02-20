@@ -28,21 +28,21 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.QuestView = new System.Windows.Forms.DataGridView();
-			this.QuestView_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.QuestView_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.QuestView_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.QuestView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMain_ShowOnce = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowDaily = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowWeekly = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowMonthly = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.QuestView_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.QuestView_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.QuestView_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.QuestView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
 			this.MenuMain.SuspendLayout();
 			this.SuspendLayout();
@@ -83,6 +83,84 @@
 			this.QuestView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.QuestView_CellFormatting);
 			this.QuestView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.QuestView_SortCompare);
 			this.QuestView.Sorted += new System.EventHandler(this.QuestView_Sorted);
+			// 
+			// MenuMain
+			// 
+			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuMain_ShowRunningOnly,
+            this.toolStripSeparator2,
+            this.MenuMain_ShowOnce,
+            this.MenuMain_ShowDaily,
+            this.MenuMain_ShowWeekly,
+            this.MenuMain_ShowMonthly,
+            this.toolStripSeparator1,
+            this.MenuMain_Initialize});
+			this.MenuMain.Name = "MenuMain";
+			this.MenuMain.Size = new System.Drawing.Size(231, 148);
+			// 
+			// MenuMain_ShowRunningOnly
+			// 
+			this.MenuMain_ShowRunningOnly.CheckOnClick = true;
+			this.MenuMain_ShowRunningOnly.Name = "MenuMain_ShowRunningOnly";
+			this.MenuMain_ShowRunningOnly.Size = new System.Drawing.Size(230, 22);
+			this.MenuMain_ShowRunningOnly.Text = "遂行中のみ表示(&R)";
+			this.MenuMain_ShowRunningOnly.Click += new System.EventHandler(this.MenuMain_ShowRunningOnly_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(227, 6);
+			// 
+			// MenuMain_ShowOnce
+			// 
+			this.MenuMain_ShowOnce.CheckOnClick = true;
+			this.MenuMain_ShowOnce.Name = "MenuMain_ShowOnce";
+			this.MenuMain_ShowOnce.Size = new System.Drawing.Size(230, 22);
+			this.MenuMain_ShowOnce.Text = "一回限りの任務を表示(&O)";
+			this.MenuMain_ShowOnce.Click += new System.EventHandler(this.MenuMain_ShowOnce_Click);
+			// 
+			// MenuMain_ShowDaily
+			// 
+			this.MenuMain_ShowDaily.CheckOnClick = true;
+			this.MenuMain_ShowDaily.Name = "MenuMain_ShowDaily";
+			this.MenuMain_ShowDaily.Size = new System.Drawing.Size(230, 22);
+			this.MenuMain_ShowDaily.Text = "デイリー任務を表示(&D)";
+			this.MenuMain_ShowDaily.Click += new System.EventHandler(this.MenuMain_ShowDaily_Click);
+			// 
+			// MenuMain_ShowWeekly
+			// 
+			this.MenuMain_ShowWeekly.CheckOnClick = true;
+			this.MenuMain_ShowWeekly.Name = "MenuMain_ShowWeekly";
+			this.MenuMain_ShowWeekly.Size = new System.Drawing.Size(230, 22);
+			this.MenuMain_ShowWeekly.Text = "ウィークリー任務を表示(&W)";
+			this.MenuMain_ShowWeekly.Click += new System.EventHandler(this.MenuMain_ShowWeekly_Click);
+			// 
+			// MenuMain_ShowMonthly
+			// 
+			this.MenuMain_ShowMonthly.CheckOnClick = true;
+			this.MenuMain_ShowMonthly.Name = "MenuMain_ShowMonthly";
+			this.MenuMain_ShowMonthly.Size = new System.Drawing.Size(230, 22);
+			this.MenuMain_ShowMonthly.Text = "マンスリー任務を表示(&M)";
+			this.MenuMain_ShowMonthly.Click += new System.EventHandler(this.MenuMain_ShowMonthly_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(227, 6);
+			// 
+			// MenuMain_Initialize
+			// 
+			this.MenuMain_Initialize.Name = "MenuMain_Initialize";
+			this.MenuMain_Initialize.Size = new System.Drawing.Size(230, 22);
+			this.MenuMain_Initialize.Text = "初期化(&I)";
+			this.MenuMain_Initialize.Click += new System.EventHandler(this.MenuMain_Initialize_Click);
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// QuestView_State
 			// 
@@ -128,84 +206,7 @@
 			this.QuestView_Progress.HeaderText = "進捗";
 			this.QuestView_Progress.Name = "QuestView_Progress";
 			this.QuestView_Progress.ReadOnly = true;
-			// 
-			// MenuMain
-			// 
-			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuMain_ShowRunningOnly,
-            this.toolStripSeparator2,
-            this.MenuMain_ShowOnce,
-            this.MenuMain_ShowDaily,
-            this.MenuMain_ShowWeekly,
-            this.MenuMain_ShowMonthly,
-            this.toolStripSeparator1,
-            this.MenuMain_Initialize});
-			this.MenuMain.Name = "MenuMain";
-			this.MenuMain.Size = new System.Drawing.Size(231, 170);
-			// 
-			// MenuMain_ShowRunningOnly
-			// 
-			this.MenuMain_ShowRunningOnly.CheckOnClick = true;
-			this.MenuMain_ShowRunningOnly.Name = "MenuMain_ShowRunningOnly";
-			this.MenuMain_ShowRunningOnly.Size = new System.Drawing.Size(230, 22);
-			this.MenuMain_ShowRunningOnly.Text = "遂行中のみ表示(&R)";
-			this.MenuMain_ShowRunningOnly.Click += new System.EventHandler(this.MenuMain_ShowRunningOnly_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(227, 6);
-			// 
-			// MenuMain_Initialize
-			// 
-			this.MenuMain_Initialize.Name = "MenuMain_Initialize";
-			this.MenuMain_Initialize.Size = new System.Drawing.Size(230, 22);
-			this.MenuMain_Initialize.Text = "初期化(&I)";
-			this.MenuMain_Initialize.Click += new System.EventHandler(this.MenuMain_Initialize_Click);
-			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(227, 6);
-			// 
-			// MenuMain_ShowOnce
-			// 
-			this.MenuMain_ShowOnce.CheckOnClick = true;
-			this.MenuMain_ShowOnce.Name = "MenuMain_ShowOnce";
-			this.MenuMain_ShowOnce.Size = new System.Drawing.Size(230, 22);
-			this.MenuMain_ShowOnce.Text = "一回限りの任務を表示(&O)";
-			this.MenuMain_ShowOnce.Click += new System.EventHandler(this.MenuMain_ShowOnce_Click);
-			// 
-			// MenuMain_ShowDaily
-			// 
-			this.MenuMain_ShowDaily.CheckOnClick = true;
-			this.MenuMain_ShowDaily.Name = "MenuMain_ShowDaily";
-			this.MenuMain_ShowDaily.Size = new System.Drawing.Size(230, 22);
-			this.MenuMain_ShowDaily.Text = "デイリー任務を表示(&D)";
-			this.MenuMain_ShowDaily.Click += new System.EventHandler(this.MenuMain_ShowDaily_Click);
-			// 
-			// MenuMain_ShowWeekly
-			// 
-			this.MenuMain_ShowWeekly.CheckOnClick = true;
-			this.MenuMain_ShowWeekly.Name = "MenuMain_ShowWeekly";
-			this.MenuMain_ShowWeekly.Size = new System.Drawing.Size(230, 22);
-			this.MenuMain_ShowWeekly.Text = "ウィークリー任務を表示(&W)";
-			this.MenuMain_ShowWeekly.Click += new System.EventHandler(this.MenuMain_ShowWeekly_Click);
-			// 
-			// MenuMain_ShowMonthly
-			// 
-			this.MenuMain_ShowMonthly.CheckOnClick = true;
-			this.MenuMain_ShowMonthly.Name = "MenuMain_ShowMonthly";
-			this.MenuMain_ShowMonthly.Size = new System.Drawing.Size(230, 22);
-			this.MenuMain_ShowMonthly.Text = "マンスリー任務を表示(&M)";
-			this.MenuMain_ShowMonthly.Click += new System.EventHandler(this.MenuMain_ShowMonthly_Click);
+			this.QuestView_Progress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// FormQuest
 			// 
@@ -230,11 +231,6 @@
 
 		private System.Windows.Forms.DataGridView QuestView;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn QuestView_State;
-		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Type;
-		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Category;
-		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Name;
-		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Progress;
 		private System.Windows.Forms.ContextMenuStrip MenuMain;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowRunningOnly;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_Initialize;
@@ -244,5 +240,10 @@
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowDaily;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowWeekly;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowMonthly;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn QuestView_State;
+		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Type;
+		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Category;
+		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Name;
+		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Progress;
 	}
 }

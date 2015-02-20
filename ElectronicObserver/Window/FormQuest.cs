@@ -28,6 +28,7 @@ namespace ElectronicObserver.Window {
 
 		private void FormQuest_Load( object sender, EventArgs e ) {
 
+			/*/
 			APIObserver o = APIObserver.Instance;
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( APIUpdated ), apiname, data );
@@ -35,6 +36,9 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_quest/clearitemget"].RequestReceived += rec;
 
 			o.APIList["api_get_member/questlist"].ResponseReceived += rec;
+			//*/
+
+			KCDatabase.Instance.Quest.QuestUpdated += () => Invoke( new Action( Updated ) );
 
 
 			ClearQuestView();
@@ -98,7 +102,7 @@ namespace ElectronicObserver.Window {
 						break;
 					default:
 						if ( !MenuMain_ShowOnce.Checked ) continue;
-						break;		
+						break;
 				}
 
 
@@ -113,19 +117,19 @@ namespace ElectronicObserver.Window {
 				row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}", q.QuestID, q.Name, q.Description );
 
 				{
-					int value;
+					string value;
 					if ( q.State == 3 ) {
-						value = 3;					//達成！
+						value = "達成！";
 					} else {
 						switch ( q.Progress ) {
 							case 0:
-								value = 0; break;	//(進捗ダメです)
+								value = "-"; break;
 							case 1:
-								value = 1; break;	//≧50%
+								value = "50%以上"; break;
 							case 2:
-								value = 2; break;	//≧80%
+								value = "80%以上"; break;
 							default:
-								value = -1; break;	//???
+								value = "???"; break;
 						}
 					}
 
@@ -158,7 +162,7 @@ namespace ElectronicObserver.Window {
 
 		private void QuestView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
-			if ( e.Value as int? != null ) {
+			if ( e.Value is int ) {
 				if ( e.ColumnIndex == QuestView_Type.Index ) {
 					e.Value = Constants.GetQuestType( (int)e.Value );
 					e.FormattingApplied = true;
@@ -168,10 +172,11 @@ namespace ElectronicObserver.Window {
 					e.FormattingApplied = true;
 
 				} else if ( e.ColumnIndex == QuestView_Name.Index ) {
-					e.Value = KCDatabase.Instance.Quest.Quests[(int)e.Value].Name;
+					e.Value = KCDatabase.Instance.Quest[(int)e.Value].Name;
 					e.FormattingApplied = true;
 
-				} else if ( e.ColumnIndex == QuestView_Progress.Index ) {
+				} /*
+				else if ( e.ColumnIndex == QuestView_Progress.Index ) {
 					switch ( (int)e.Value ) {
 						case 0:
 							e.Value = "-"; break;
@@ -188,7 +193,24 @@ namespace ElectronicObserver.Window {
 					e.FormattingApplied = true;
 
 				}
+				   */
 			}
+
+
+			if ( e.ColumnIndex == QuestView_Progress.Index ) {
+				int? qid = QuestView.Rows[e.RowIndex].Cells[QuestView_Name.Index].Value as int?;
+
+				if ( qid != null ) {
+					var q = KCDatabase.Instance.Quest[(int)qid];
+
+					if ( q != null && q.State != 3 && KCDatabase.Instance.QuestProgress.Progresses.ContainsKey( q.QuestID ) ) {
+						e.Value = KCDatabase.Instance.QuestProgress.Progresses[q.QuestID].ToString();
+						e.FormattingApplied = true;
+					}
+				}
+			}
+
+
 		}
 
 
@@ -252,6 +274,7 @@ namespace ElectronicObserver.Window {
 				MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 ) == System.Windows.Forms.DialogResult.Yes ) {
 
 				KCDatabase.Instance.Quest.Clear();
+				KCDatabase.Instance.QuestProgress.Clear();
 				ClearQuestView();
 			}
 
@@ -275,6 +298,6 @@ namespace ElectronicObserver.Window {
 			return "Quest";
 		}
 
-		
+
 	}
 }
