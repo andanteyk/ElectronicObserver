@@ -41,9 +41,6 @@ namespace ElectronicObserver.Data.Quest {
 		}
 
 
-		public override void Increment() {
-			throw new NotSupportedException();
-		}
 
 		public void Increment( string rank, int areaID, bool isBoss ) {
 

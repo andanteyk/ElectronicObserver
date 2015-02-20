@@ -27,10 +27,7 @@ namespace ElectronicObserver.Data.Quest {
 		}
 
 
-		public override void Increment() {
-			throw new NotSupportedException();
-		}
-
+	
 		public void Increment( int shipTypeID ) {
 			if ( TargetShipType.Contains( shipTypeID ) )
 				Increment();
