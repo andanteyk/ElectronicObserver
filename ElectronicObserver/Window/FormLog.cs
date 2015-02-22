@@ -24,7 +24,8 @@ namespace ElectronicObserver.Window {
 		private void FormLog_Load( object sender, EventArgs e ) {
 
 			foreach ( var log in Utility.Logger.Log ) {
-				LogList.Items.Add( log.ToString() );
+				if ( log.Priority >= Utility.Configuration.Config.Log.LogLevel )
+					LogList.Items.Add( log.ToString() );
 			}
 			LogList.TopIndex = LogList.Items.Count - 1;
 

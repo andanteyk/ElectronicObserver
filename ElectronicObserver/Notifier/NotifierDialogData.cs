@@ -161,6 +161,25 @@ namespace ElectronicObserver.Notifier {
 		}
 
 		#endregion
+
+
+		public void ApplyToConfiguration( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
+
+			config.ImagePath = ImagePath;
+			config.DrawsImage = DrawsImage;
+			config.DrawsMessage = DrawsMessage;
+			config.ClosingInterval = ClosingInterval;
+			config.CloseOnMouseMove = CloseOnMouseMove;
+			config.Alignment = Alignment;
+			config.Location = Location;
+			config.HasFormBorder = HasFormBorder;
+			config.TopMost = TopMost;
+			config.ShowWithActivation = ShowWithActivation;
+			config.ForeColor = ForeColor;
+			config.BackColor = BackColor;
+
+		}
+
 	}
 
 

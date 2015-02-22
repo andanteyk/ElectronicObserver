@@ -46,6 +46,15 @@ namespace ElectronicObserver.Notifier {
 			
 		}
 
+		public void ApplyToConfiguration() {
+
+			Expedition.ApplyToConfiguration( Utility.Configuration.Config.NotifierExpedition );
+			Construction.ApplyToConfiguration( Utility.Configuration.Config.NotifierConstruction );
+			Repair.ApplyToConfiguration( Utility.Configuration.Config.NotifierRepair );
+			Condition.ApplyToConfiguration( Utility.Configuration.Config.NotifierCondition );
+			Damage.ApplyToConfiguration( Utility.Configuration.Config.NotifierDamage );
+
+		}
 
 		public void ShowNotifier( Form form ) {
 			_parentForm.Invoke( (MethodInvoker)( () => form.Show() ) );

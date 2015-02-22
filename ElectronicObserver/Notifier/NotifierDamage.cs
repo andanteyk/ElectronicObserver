@@ -242,5 +242,23 @@ namespace ElectronicObserver.Notifier {
 			base.Notify();
 		}
 
+
+		public override void ApplyToConfiguration( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
+			base.ApplyToConfiguration( config );
+
+			var c = config as Utility.Configuration.ConfigurationData.ConfigNotifierDamage;
+
+			if ( c != null ) {
+				c.NotifiesBefore = NotifiesBefore;
+				c.NotifiesNow = NotifiesNow;
+				c.NotifiesAfter = NotifiesAfter;
+				c.LevelBorder = LevelBorder;
+				c.ContainsNotLockedShip = ContainsNotLockedShip;
+				c.ContainsSafeShip = ContainsSafeShip;
+				c.ContainsFlagship = ContainsFlagship;
+				c.NotifiesAtEndpoint = NotifiesAtEndpoint;
+			}
+		}
+
 	}
 }

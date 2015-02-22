@@ -17,12 +17,48 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormQuest : DockContent {
 
+		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter, CSProgress1, CSProgress50, CSProgress80, CSProgress100;
+
+
 		public FormQuest( FormMain parent ) {
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( QuestView );
 
 			ConfigurationChanged();
+
+
+			#region set cellstyle
+
+			CSDefaultLeft = new DataGridViewCellStyle();
+			CSDefaultLeft.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			CSDefaultLeft.BackColor = SystemColors.Control;
+			//CSDefaultLeft.Font = Font;
+			CSDefaultLeft.ForeColor = SystemColors.ControlText;
+			CSDefaultLeft.SelectionBackColor = Color.FromArgb( 0xFF, 0xFF, 0xCC );
+			CSDefaultLeft.SelectionForeColor = SystemColors.ControlText;
+			CSDefaultLeft.WrapMode = DataGridViewTriState.False;
+
+			CSDefaultCenter = new DataGridViewCellStyle( CSDefaultLeft );
+			CSDefaultCenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+			CSProgress1 = new DataGridViewCellStyle( CSDefaultLeft );
+			CSProgress1.BackColor = Color.FromArgb( 0xFF, 0xFF, 0xBB );
+
+			CSProgress50 = new DataGridViewCellStyle( CSDefaultLeft );
+			CSProgress50.BackColor = Color.FromArgb( 0xDD, 0xFF, 0xBB );
+
+			CSProgress80 = new DataGridViewCellStyle( CSDefaultLeft );
+			CSProgress80.BackColor = Color.FromArgb( 0xBB, 0xFF, 0xBB );
+
+			CSProgress100 = new DataGridViewCellStyle( CSDefaultLeft );
+			CSProgress100.BackColor = Color.FromArgb( 0xBB, 0xFF, 0xFF );
+
+			QuestView.DefaultCellStyle = CSDefaultCenter;
+			QuestView_Name.DefaultCellStyle = CSDefaultLeft;
+			QuestView_Progress.DefaultCellStyle = CSDefaultLeft;
+
+			#endregion
 		}
 
 
@@ -70,11 +106,6 @@ namespace ElectronicObserver.Window {
 
 
 
-
-		void APIUpdated( string apiname, dynamic data ) {
-			Updated();
-		}
-
 		void Updated() {
 
 			if ( !KCDatabase.Instance.Quest.IsLoaded ) return;
@@ -118,22 +149,63 @@ namespace ElectronicObserver.Window {
 
 				{
 					string value;
+					DataGridViewCellStyle style;
+					
 					if ( q.State == 3 ) {
 						value = "達成！";
+						style = CSProgress100;
+
 					} else {
-						switch ( q.Progress ) {
-							case 0:
-								value = "-"; break;
-							case 1:
-								value = "50%以上"; break;
-							case 2:
-								value = "80%以上"; break;
-							default:
-								value = "???"; break;
+
+						if ( KCDatabase.Instance.QuestProgress.Progresses.ContainsKey( q.QuestID ) ) {
+							var p = KCDatabase.Instance.QuestProgress.Progresses[q.QuestID];
+							value = p.ToString();
+
+							double percentage = p.ProgressPercentage;
+
+							if ( percentage >= 1.00 ) {
+								style = CSProgress100;
+
+							} else if ( percentage >= 0.80 ) {
+								style = CSProgress80;
+
+							} else if ( percentage >= 0.50 ) {
+								style = CSProgress50;
+
+							} else if ( percentage > 0.00 ) {
+								style = CSProgress1;
+
+							} else {
+								style = CSDefaultLeft;
+
+							} 
+
+						} else {
+
+							switch ( q.Progress ) {
+								case 0:
+									value = "-";
+									style = CSDefaultLeft;
+									break;
+								case 1:
+									value = "50%以上";
+									style = CSProgress50;
+									break;
+								case 2:
+									value = "80%以上";
+									style = CSProgress80;
+									break;
+								default:
+									value = "???";
+									style = CSDefaultLeft;
+									break;
+							}
 						}
 					}
 
 					row.Cells[QuestView_Progress.Index].Value = value;
+					row.Cells[QuestView_Progress.Index].Style = style;
+
 				}
 
 				QuestView.Rows.Add( row );
@@ -197,6 +269,7 @@ namespace ElectronicObserver.Window {
 			}
 
 
+			/*
 			if ( e.ColumnIndex == QuestView_Progress.Index ) {
 				int? qid = QuestView.Rows[e.RowIndex].Cells[QuestView_Name.Index].Value as int?;
 
@@ -209,7 +282,7 @@ namespace ElectronicObserver.Window {
 					}
 				}
 			}
-
+			*/
 
 		}
 

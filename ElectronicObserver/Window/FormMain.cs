@@ -211,6 +211,7 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_FormClosed( object sender, FormClosedEventArgs e ) {
 
+			NotifierManager.Instance.ApplyToConfiguration();
 			Utility.Configuration.Instance.Save();
 			APIObserver.Instance.Stop();
 			RecordManager.Instance.Save();

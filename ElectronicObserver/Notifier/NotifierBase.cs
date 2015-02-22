@@ -169,5 +169,17 @@ namespace ElectronicObserver.Notifier {
 
 		}
 
+
+		public virtual void ApplyToConfiguration( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
+
+			DialogData.ApplyToConfiguration( config );
+			config.PlaysSound = PlaysSound;
+			config.SoundPath = SoundPath;
+			config.IsEnabled = IsEnabled;
+			config.ShowsDialog = ShowsDialog;
+			config.AccelInterval = AccelInterval;
+
+		}
+
 	}
 }
