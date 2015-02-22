@@ -401,6 +401,54 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 勝利ランクを表すIDを取得します。
+		/// </summary>
+		public static int GetWinRank( string rank ) {
+			switch ( rank.ToUpper() ) {
+				case "E":
+					return 1;
+				case "D":
+					return 2;
+				case "C":
+					return 3;
+				case "B":
+					return 4;
+				case "A":
+					return 5;
+				case "S":
+					return 6;
+				case "SS":
+					return 7;
+				default:
+					return 0;
+			}
+		}
+
+		/// <summary>
+		/// 勝利ランクを表す文字列を取得します。
+		/// </summary>
+		public static string GetWinRank( int rank ) {
+			switch ( rank ) {
+				case 1:
+					return "E";
+				case 2:
+					return "D";
+				case 3:
+					return "C";
+				case 4:
+					return "B";
+				case 5:
+					return "A";
+				case 6:
+					return "S";
+				case 7:
+					return "SS";
+				default:
+					return "不明";
+			}
+		}
+
 		#endregion
 
 

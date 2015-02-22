@@ -17,17 +17,54 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormQuest : DockContent {
 
+		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter, CSProgress1, CSProgress50, CSProgress80, CSProgress100;
+
+
 		public FormQuest( FormMain parent ) {
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( QuestView );
 
 			ConfigurationChanged();
+
+
+			#region set cellstyle
+
+			CSDefaultLeft = new DataGridViewCellStyle();
+			CSDefaultLeft.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			CSDefaultLeft.BackColor = SystemColors.Control;
+			//CSDefaultLeft.Font = Font;
+			CSDefaultLeft.ForeColor = SystemColors.ControlText;
+			CSDefaultLeft.SelectionBackColor = Color.FromArgb( 0xFF, 0xFF, 0xCC );
+			CSDefaultLeft.SelectionForeColor = SystemColors.ControlText;
+			CSDefaultLeft.WrapMode = DataGridViewTriState.False;
+
+			CSDefaultCenter = new DataGridViewCellStyle( CSDefaultLeft );
+			CSDefaultCenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+			CSProgress1 = new DataGridViewCellStyle( CSDefaultLeft );
+			CSProgress1.BackColor = Color.FromArgb( 0xFF, 0xFF, 0xBB );
+
+			CSProgress50 = new DataGridViewCellStyle( CSDefaultLeft );
+			CSProgress50.BackColor = Color.FromArgb( 0xDD, 0xFF, 0xBB );
+
+			CSProgress80 = new DataGridViewCellStyle( CSDefaultLeft );
+			CSProgress80.BackColor = Color.FromArgb( 0xBB, 0xFF, 0xBB );
+
+			CSProgress100 = new DataGridViewCellStyle( CSDefaultLeft );
+			CSProgress100.BackColor = Color.FromArgb( 0xBB, 0xFF, 0xFF );
+
+			QuestView.DefaultCellStyle = CSDefaultCenter;
+			QuestView_Name.DefaultCellStyle = CSDefaultLeft;
+			QuestView_Progress.DefaultCellStyle = CSDefaultLeft;
+
+			#endregion
 		}
 
 
 		private void FormQuest_Load( object sender, EventArgs e ) {
 
+			/*/
 			APIObserver o = APIObserver.Instance;
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( APIUpdated ), apiname, data );
@@ -35,6 +72,9 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_quest/clearitemget"].RequestReceived += rec;
 
 			o.APIList["api_get_member/questlist"].ResponseReceived += rec;
+			//*/
+
+			KCDatabase.Instance.Quest.QuestUpdated += () => Invoke( new Action( Updated ) );
 
 
 			ClearQuestView();
@@ -66,11 +106,6 @@ namespace ElectronicObserver.Window {
 
 
 
-
-		void APIUpdated( string apiname, dynamic data ) {
-			Updated();
-		}
-
 		void Updated() {
 
 			if ( !KCDatabase.Instance.Quest.IsLoaded ) return;
@@ -98,7 +133,7 @@ namespace ElectronicObserver.Window {
 						break;
 					default:
 						if ( !MenuMain_ShowOnce.Checked ) continue;
-						break;		
+						break;
 				}
 
 
@@ -113,23 +148,64 @@ namespace ElectronicObserver.Window {
 				row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}", q.QuestID, q.Name, q.Description );
 
 				{
-					int value;
+					string value;
+					DataGridViewCellStyle style;
+					
 					if ( q.State == 3 ) {
-						value = 3;					//達成！
+						value = "達成！";
+						style = CSProgress100;
+
 					} else {
-						switch ( q.Progress ) {
-							case 0:
-								value = 0; break;	//(進捗ダメです)
-							case 1:
-								value = 1; break;	//≧50%
-							case 2:
-								value = 2; break;	//≧80%
-							default:
-								value = -1; break;	//???
+
+						if ( KCDatabase.Instance.QuestProgress.Progresses.ContainsKey( q.QuestID ) ) {
+							var p = KCDatabase.Instance.QuestProgress.Progresses[q.QuestID];
+							value = p.ToString();
+
+							double percentage = p.ProgressPercentage;
+
+							if ( percentage >= 1.00 ) {
+								style = CSProgress100;
+
+							} else if ( percentage >= 0.80 ) {
+								style = CSProgress80;
+
+							} else if ( percentage >= 0.50 ) {
+								style = CSProgress50;
+
+							} else if ( percentage > 0.00 ) {
+								style = CSProgress1;
+
+							} else {
+								style = CSDefaultLeft;
+
+							} 
+
+						} else {
+
+							switch ( q.Progress ) {
+								case 0:
+									value = "-";
+									style = CSDefaultLeft;
+									break;
+								case 1:
+									value = "50%以上";
+									style = CSProgress50;
+									break;
+								case 2:
+									value = "80%以上";
+									style = CSProgress80;
+									break;
+								default:
+									value = "???";
+									style = CSDefaultLeft;
+									break;
+							}
 						}
 					}
 
 					row.Cells[QuestView_Progress.Index].Value = value;
+					row.Cells[QuestView_Progress.Index].Style = style;
+
 				}
 
 				QuestView.Rows.Add( row );
@@ -158,7 +234,7 @@ namespace ElectronicObserver.Window {
 
 		private void QuestView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
-			if ( e.Value as int? != null ) {
+			if ( e.Value is int ) {
 				if ( e.ColumnIndex == QuestView_Type.Index ) {
 					e.Value = Constants.GetQuestType( (int)e.Value );
 					e.FormattingApplied = true;
@@ -168,10 +244,11 @@ namespace ElectronicObserver.Window {
 					e.FormattingApplied = true;
 
 				} else if ( e.ColumnIndex == QuestView_Name.Index ) {
-					e.Value = KCDatabase.Instance.Quest.Quests[(int)e.Value].Name;
+					e.Value = KCDatabase.Instance.Quest[(int)e.Value].Name;
 					e.FormattingApplied = true;
 
-				} else if ( e.ColumnIndex == QuestView_Progress.Index ) {
+				} /*
+				else if ( e.ColumnIndex == QuestView_Progress.Index ) {
 					switch ( (int)e.Value ) {
 						case 0:
 							e.Value = "-"; break;
@@ -188,7 +265,25 @@ namespace ElectronicObserver.Window {
 					e.FormattingApplied = true;
 
 				}
+				   */
 			}
+
+
+			/*
+			if ( e.ColumnIndex == QuestView_Progress.Index ) {
+				int? qid = QuestView.Rows[e.RowIndex].Cells[QuestView_Name.Index].Value as int?;
+
+				if ( qid != null ) {
+					var q = KCDatabase.Instance.Quest[(int)qid];
+
+					if ( q != null && q.State != 3 && KCDatabase.Instance.QuestProgress.Progresses.ContainsKey( q.QuestID ) ) {
+						e.Value = KCDatabase.Instance.QuestProgress.Progresses[q.QuestID].ToString();
+						e.FormattingApplied = true;
+					}
+				}
+			}
+			*/
+
 		}
 
 
@@ -252,6 +347,7 @@ namespace ElectronicObserver.Window {
 				MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 ) == System.Windows.Forms.DialogResult.Yes ) {
 
 				KCDatabase.Instance.Quest.Clear();
+				KCDatabase.Instance.QuestProgress.Clear();
 				ClearQuestView();
 			}
 
@@ -275,6 +371,6 @@ namespace ElectronicObserver.Window {
 			return "Quest";
 		}
 
-		
+
 	}
 }

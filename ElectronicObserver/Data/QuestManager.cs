@@ -20,6 +20,9 @@ namespace ElectronicObserver.Data {
 		public bool IsLoaded { get; private set; }
 
 
+		public event Action QuestUpdated = delegate { };
+
+
 		private DateTime _prevTime;
 
 
@@ -28,8 +31,12 @@ namespace ElectronicObserver.Data {
 			IsLoaded = false;
 			_prevTime = DateTime.Now;
 		}
-		
-		
+
+
+		public QuestData this[int key] {
+			get { return Quests[key]; }
+		}
+
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
@@ -85,6 +92,7 @@ namespace ElectronicObserver.Data {
 			Quests.Remove( int.Parse( RequestData["api_quest_id"] ) );
 			Count--;
 
+			QuestUpdated();
 		}
 
 
@@ -94,6 +102,11 @@ namespace ElectronicObserver.Data {
 			_prevTime = DateTime.Now;
 		}
 
+
+		// QuestProgressManager から呼ばれます
+		internal void OnQuestUpdated() {
+			QuestUpdated();
+		}
 	}
 
 }

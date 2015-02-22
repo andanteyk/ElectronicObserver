@@ -180,9 +180,15 @@ namespace ElectronicObserver.Window.Dialog {
 							break;
 
 						case 3:
+							/*
 							col = value != 0 ?
 								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xFFDDBB ), (double)y / boardSize.Height ) :
 								BlendColor( FromRgb( 0x00FFFF ), FromRgb( 0xFFDDBB ), (double)y / boardSize.Height );
+							*/
+							col = BlendColor( GetCell( currentDim, x, y + (int)( ( Math.Sin( clock / 100.0 * 2.0 * Math.PI ) + 1 ) * boardSize.Height / 8.0 ) ) != 0 ?
+								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xFFDDBB ), Math.Max( Math.Min( ( y + ( ( Math.Sin( clock / 100.0 * 2.0 * Math.PI ) ) * boardSize.Height / 8.0 ) ) / boardSize.Height, 1.0 ), 0.0 ) ) : 
+								BlendColor( FromRgb( 0x00FFFF ), FromRgb( 0xFFDDBB ), Math.Min( ( y + ( ( Math.Sin( clock / 100.0 * 2.0 * Math.PI ) + 1 ) * boardSize.Height / 8.0 ) ) / boardSize.Height, 1.0 ) ),
+								prev, 0.8 );
 							break;
 
 						case 4:
@@ -368,7 +374,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			UpdateTimer.Stop();
 			colortheme = rand.Next( 64 );
-			//colortheme = 15;
+			//colortheme = 3;
 			Start();
 		}
 
