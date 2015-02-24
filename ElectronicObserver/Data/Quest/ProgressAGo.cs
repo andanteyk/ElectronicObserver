@@ -132,12 +132,12 @@ namespace ElectronicObserver.Data.Quest {
 
 
 		public override string ToString() {
-			return string.Format( "出撃 {0}/{1}, S勝利 {2}/{3}, ボス {4}/{5}, ボス勝利 {6}/{7} ({8:p})",
+			return string.Format( "{0:p1} (出撃 {1}/{2}, S勝利 {3}/{4}, ボス {5}/{6}, ボス勝利 {7}/{8})",
+				ProgressPercentage,
 				sortieCount, sortieMax,
 				sWinCount, sWinMax,
 				bossCount, bossMax,
-				bossWinCount, bossMax,
-				ProgressPercentage );
+				bossWinCount, bossWinMax );
 		}
 
 	}
