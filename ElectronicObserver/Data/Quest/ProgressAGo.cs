@@ -44,7 +44,7 @@ namespace ElectronicObserver.Data.Quest {
 		[IgnoreDataMember]
 		private int sortieCount {
 			get { return Progress & 0xFF; }
-			set { Progress = ( Progress & ~0xFF ) | ( value & 0xFF ); }
+			set { Progress = ( Progress & ~0xFF ) | ( Math.Min( value, sortieMax ) & 0xFF ); }
 		}
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace ElectronicObserver.Data.Quest {
 		[IgnoreDataMember]
 		private int sWinCount {
 			get { return ( Progress >> 8 ) & 0xFF; }
-			set { Progress = ( Progress & ~( 0xFF << 8 ) ) | ( ( value & 0xFF ) << 8 ); }
+			set { Progress = ( Progress & ~( 0xFF << 8 ) ) | ( ( Math.Min( value, sWinMax ) & 0xFF ) << 8 ); }
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace ElectronicObserver.Data.Quest {
 		[IgnoreDataMember]
 		private int bossCount {
 			get { return ( Progress >> 16 ) & 0xFF; }
-			set { Progress = ( Progress & ~( 0xFF << 16 ) ) | ( ( value & 0xFF ) << 16 ); }
+			set { Progress = ( Progress & ~( 0xFF << 16 ) ) | ( ( Math.Min( value, bossMax ) & 0xFF ) << 16 ); }
 		}
 
 		/// <summary>
@@ -71,9 +71,49 @@ namespace ElectronicObserver.Data.Quest {
 		[IgnoreDataMember]
 		private int bossWinCount {
 			get { return ( Progress >> 24 ) & 0xFF; }
-			set { Progress = ( Progress & ~( 0xFF << 24 ) ) | ( ( value & 0xFF ) << 24 ); }
+			set { Progress = ( Progress & ~( 0xFF << 24 ) ) | ( ( Math.Min( value, bossWinMax ) & 0xFF ) << 24 ); }
 		}
 
+
+		#region tempシリーズ
+
+		/// <summary>
+		/// 現在の出撃回数(temp)
+		/// </summary>
+		[IgnoreDataMember]
+		private int sortieCountTemp {
+			get { return TemporaryProgress & 0xFF; }
+			set { TemporaryProgress = ( TemporaryProgress & ~0xFF ) | ( Math.Min( value, sortieMax ) & 0xFF ); }
+		}
+
+		/// <summary>
+		/// 現在のS勝利回数(temp)
+		/// </summary>
+		[IgnoreDataMember]
+		private int sWinCountTemp {
+			get { return ( TemporaryProgress >> 8 ) & 0xFF; }
+			set { TemporaryProgress = ( TemporaryProgress & ~( 0xFF << 8 ) ) | ( ( Math.Min( value, sWinMax ) & 0xFF ) << 8 ); }
+		}
+
+		/// <summary>
+		/// 現在のボス戦闘回数(temp)
+		/// </summary>
+		[IgnoreDataMember]
+		private int bossCountTemp {
+			get { return ( TemporaryProgress >> 16 ) & 0xFF; }
+			set { TemporaryProgress = ( TemporaryProgress & ~( 0xFF << 16 ) ) | ( ( Math.Min( value, bossMax ) & 0xFF ) << 16 ); }
+		}
+
+		/// <summary>
+		/// 現在のボス勝利回数(temp)
+		/// </summary>
+		[IgnoreDataMember]
+		private int bossWinCountTemp {
+			get { return ( TemporaryProgress >> 24 ) & 0xFF; }
+			set { TemporaryProgress = ( TemporaryProgress & ~( 0xFF << 24 ) ) | ( ( Math.Min( value, bossWinMax ) & 0xFF ) << 24 ); }
+		}
+
+		#endregion
 
 
 		public ProgressAGo( int questID )
@@ -99,8 +139,21 @@ namespace ElectronicObserver.Data.Quest {
 		}
 
 
-		public override void CheckProgress( int progressFlag ) {
-			//なにもしない
+		public override void CheckProgress( QuestData q ) {
+
+			if ( TemporaryProgress != 0 ) {
+				if ( q.State == 2 ) {
+
+					sortieCount = sortieCount + sortieCountTemp;
+					sWinCount = sWinCount + sWinCountTemp;
+					bossCount = bossCount + bossCountTemp;
+					bossWinCount = bossWinCount + bossWinCountTemp;
+
+				}
+
+				TemporaryProgress = 0;
+			}
+
 		}
 
 
@@ -108,7 +161,21 @@ namespace ElectronicObserver.Data.Quest {
 		/// 出撃回数を増やします。
 		/// </summary>
 		public void IncrementSortie() {
-			sortieCount = Math.Min( sortieCount + 1, sortieMax );
+
+			var q = KCDatabase.Instance.Quest[QuestID];
+
+			if ( q == null ) {
+				sortieCountTemp++;
+				return;
+			}
+
+			if ( q.State != 2 )
+				return;
+
+
+			CheckProgress( q );
+
+			sortieCount++;
 		}
 
 		/// <summary>
@@ -116,17 +183,27 @@ namespace ElectronicObserver.Data.Quest {
 		/// </summary>
 		public void IncrementBattle( string rank, bool isBoss ) {
 
+			var q = KCDatabase.Instance.Quest[QuestID];
+
+			if ( q != null ) {
+				if ( q.State != 2 )
+					return;
+				else
+					CheckProgress( q );
+			}
+
+
 			int irank = Constants.GetWinRank( rank );
 
 			if ( isBoss ) {
-				bossCount = Math.Min( bossCount + 1, bossMax );
+				if ( q != null ) bossCount++; else bossCountTemp++;
 
 				if ( irank >= Constants.GetWinRank( "B" ) )
-					bossWinCount = Math.Min( bossWinCount + 1, bossWinMax );
+					if ( q != null ) bossWinCount++; else bossWinCountTemp++;
 			}
 
 			if ( irank >= Constants.GetWinRank( "S" ) )
-				sWinCount = Math.Min( sWinCount + 1, sWinMax );
+				if ( q != null ) sWinCount++; else sWinCountTemp++;
 
 		}
 

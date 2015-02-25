@@ -356,14 +356,14 @@ namespace ElectronicObserver.Window {
 				TextDestination.Text = "次のセル : " + compass.Destination + ( compass.IsEndPoint ? " (終点)" : "" );
 				
 				{
-					string eventkind = "";
+					string eventkind = Constants.GetMapEventID( compass.EventID );
 					switch ( compass.EventID ) {
 						case 0:
-							eventkind += "初期位置";
+							//eventkind += "初期位置";
 							TextEventDetail.Text = "どうしてこうなった";
 							break;
 						case 2:
-							eventkind += "資源";
+							//eventkind += "資源";
 							{
 								string materialname;
 								if ( compass.GetItemID == 4 ) {		//"※"　大方資源専用ID
@@ -383,7 +383,7 @@ namespace ElectronicObserver.Window {
 
 							break;
 						case 3:
-							eventkind += "渦潮";
+							//eventkind += "渦潮";
 							{
 								string materialname = MaterialData.GetMaterialName( compass.WhirlpoolItemID );
 
@@ -404,19 +404,22 @@ namespace ElectronicObserver.Window {
 							}
 							break;
 						case 4:
-							eventkind += "通常戦闘";
+							//eventkind += "通常戦闘";
+							if ( compass.EventKind >= 2 ) eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 						case 5:
-							eventkind += "ボス戦闘";
+							//eventkind += "ボス戦闘";
+							if ( compass.EventKind >= 2 ) eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 						case 6:
-							eventkind += "気のせいだった";
+							//eventkind += "気のせいだった";
 							TextEventDetail.Text = "";
 							break;
 						case 7:
-							eventkind += "機動部隊航空戦";
+							//eventkind += "機動部隊航空戦";
+							if ( compass.EventKind >= 2 && compass.EventKind != 4 ) eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 						default:
@@ -434,6 +437,7 @@ namespace ElectronicObserver.Window {
 
 
 		}
+
 
 
 		private void BattleStarted( string apiname, dynamic data ) {

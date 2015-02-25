@@ -40,7 +40,9 @@ namespace ElectronicObserver.Notifier {
 					processedFlags.Add( arsenal.ArsenalID, false );
 
 				if ( arsenal.State > 0 ) {
-					if ( !processedFlags[arsenal.ArsenalID] && (int)( arsenal.CompletionTime - DateTime.Now ).TotalMilliseconds <= AccelInterval ) {
+					if ( !processedFlags[arsenal.ArsenalID] && ( 
+						(int)( arsenal.CompletionTime - DateTime.Now ).TotalMilliseconds <= AccelInterval ||
+						arsenal.State == 3 ) ) {
 
 						processedFlags[arsenal.ArsenalID] = true;
 						Notify( arsenal.ArsenalID, arsenal.ShipID );

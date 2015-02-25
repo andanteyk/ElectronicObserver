@@ -217,42 +217,9 @@ namespace ElectronicObserver.Window {
 					e.Value = KCDatabase.Instance.Quest[(int)e.Value].Name;
 					e.FormattingApplied = true;
 
-				} /*
-				else if ( e.ColumnIndex == QuestView_Progress.Index ) {
-					switch ( (int)e.Value ) {
-						case 0:
-							e.Value = "-"; break;
-						case 1:
-							e.Value = "50%"; break;
-						case 2:
-							e.Value = "80%"; break;
-						case 3:
-							e.Value = "達成！"; break;
-						default:
-							e.Value = "???"; break;
-					}
-
-					e.FormattingApplied = true;
-
 				}
-				   */
+
 			}
-
-
-			/*
-			if ( e.ColumnIndex == QuestView_Progress.Index ) {
-				int? qid = QuestView.Rows[e.RowIndex].Cells[QuestView_Name.Index].Value as int?;
-
-				if ( qid != null ) {
-					var q = KCDatabase.Instance.Quest[(int)qid];
-
-					if ( q != null && q.State != 3 && KCDatabase.Instance.QuestProgress.Progresses.ContainsKey( q.QuestID ) ) {
-						e.Value = KCDatabase.Instance.QuestProgress.Progresses[q.QuestID].ToString();
-						e.FormattingApplied = true;
-					}
-				}
-			}
-			*/
 
 		}
 
@@ -300,13 +267,13 @@ namespace ElectronicObserver.Window {
 					col = Color.FromArgb( 0xFF, 0x88, 0x00 );
 
 				} else if ( rate < 0.8 ) {
-					col = Color.FromArgb( 0x44, 0xFF, 0x00 );
-
-				} else if ( rate < 1.0 ) {
 					col = Color.FromArgb( 0x00, 0xCC, 0x00 );
 
+				} else if ( rate < 1.0 ) {
+					col = Color.FromArgb( 0x00, 0x88, 0x00 );
+
 				} else {
-					col = Color.FromArgb( 0x00, 0xCC, 0xFF );
+					col = Color.FromArgb( 0x00, 0x88, 0xFF );
 
 				}
 

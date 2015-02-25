@@ -168,6 +168,60 @@ namespace ElectronicObserver.Data {
 		#endregion
 
 
+		#region 出撃
+
+		/// <summary>
+		/// マップ上のセルでのイベントを表す文字列を取得します。
+		/// </summary>
+		public static string GetMapEventID( int value ) {
+
+			switch ( value ) {
+
+				case 0:
+					return "初期位置";
+				case 1:
+					return "なし";
+				case 2:
+					return "資源";
+				case 3:
+					return "渦潮";
+				case 4:
+					return "通常戦闘";
+				case 5:
+					return "ボス戦闘";
+				case 6:
+					return "気のせいだった";
+				case 7:
+					return "機動部隊航空戦";
+				default:
+					return "不明";
+			}
+		}
+
+		/// <summary>
+		/// マップ上のセルでのイベント種別を表す文字列を取得します。
+		/// </summary>
+		public static string GetMapEventKind( int value ) {
+
+			switch ( value ) {
+				case 0:
+					return "非戦闘";
+				case 1:
+					return "昼夜戦";
+				case 2:
+					return "夜戦";
+				case 3:
+					return "夜昼戦";
+				case 4:
+					return "航空戦";
+				default:
+					return "不明";
+			}
+		}
+
+		#endregion
+
+
 		#region 戦闘
 
 		/// <summary>
