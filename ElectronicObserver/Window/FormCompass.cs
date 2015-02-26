@@ -356,19 +356,19 @@ namespace ElectronicObserver.Window {
 				TextDestination.Text = "次のセル : " + compass.Destination + ( compass.IsEndPoint ? " (終点)" : "" );
 				
 				{
-					string eventkind = "";
+					string eventkind = Constants.GetMapEventID( compass.EventID );
 					switch ( compass.EventID ) {
-						case 0:
-							eventkind += "初期位置";
+						
+						case 0:		//初期位置
 							TextEventDetail.Text = "どうしてこうなった";
 							break;
-						case 2:
-							eventkind += "資源";
+
+						case 2:		//資源
 							{
 								string materialname;
 								if ( compass.GetItemID == 4 ) {		//"※"　大方資源専用ID
 
-									materialname = MaterialData.GetMaterialName( compass.GetItemIDMetadata );
+									materialname = Constants.GetMaterialName( compass.GetItemIDMetadata );
 								
 								} else {
 									UseItemMaster item =  KCDatabase.Instance.MasterUseItems[compass.GetItemIDMetadata];
@@ -382,47 +382,59 @@ namespace ElectronicObserver.Window {
 							}
 
 							break;
-						case 3:
-							eventkind += "渦潮";
+
+						case 3:		//渦潮
 							{
-								string materialname = MaterialData.GetMaterialName( compass.WhirlpoolItemID );
+								int materialmax = KCDatabase.Instance.Fleet.Fleets.Values
+									.Where( f => f != null && f.IsInSortie )
+									.SelectMany( f => f.MembersWithoutEscaped )
+									.Max( s => {
+										if ( s == null ) return 0;
+										switch ( compass.WhirlpoolItemID ) {
+											case 1:
+												return s.MasterShip.Fuel;
+											case 2:
+												return s.MasterShip.Ammo;
+											default:
+												return 0;
+										}
+									} );
 
-								int materialmax = KCDatabase.Instance.Fleet.Fleets[KCDatabase.Instance.Fleet.Fleets.Values.First( f => f.IsInSortie ).FleetID].Members.Max( n => 
-								{
-									if ( n != -1 )
-										if ( compass.WhirlpoolItemID == 1 )
-											return KCDatabase.Instance.Ships[n].MasterShip.Fuel;
-										else if ( compass.WhirlpoolItemID == 2 )
-											return KCDatabase.Instance.Ships[n].MasterShip.Ammo;
-										else return 0;
-									else return 0;
-								} );
+								TextEventDetail.Text = string.Format( "{0} x {1} ({2:p0})", 
+									Constants.GetMaterialName( compass.WhirlpoolItemID ), 
+									compass.WhirlpoolItemAmount, 
+									(double)compass.WhirlpoolItemAmount / Math.Max( materialmax, 1 ) );
 
-								int percent = compass.WhirlpoolItemAmount * 100 / Math.Max( materialmax, 1 );
-
-								TextEventDetail.Text = materialname + " x " + compass.WhirlpoolItemAmount + " (" + percent + "%)";
 							}
 							break;
-						case 4:
-							eventkind += "通常戦闘";
+
+						case 4:		//通常戦闘
+							if ( compass.EventKind >= 2 )
+								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
-						case 5:
-							eventkind += "ボス戦闘";
+
+						case 5:		//ボス戦闘
+							if ( compass.EventKind >= 2 ) 
+								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
-						case 6:
-							eventkind += "気のせいだった";
+
+						case 6:		//気のせいだった
 							TextEventDetail.Text = "";
 							break;
-						case 7:
-							eventkind += "機動部隊航空戦";
+
+						case 7:		//機動部隊航空戦
+							if ( compass.EventKind >= 2 && compass.EventKind != 4 )		//必ず"航空戦"のはずなので除外
+								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
+
 						default:
 							eventkind += "不明";
 							TextEventDetail.Text = "";
 							break;
+
 					}
 					TextEventKind.Text = eventkind;
 				}
@@ -434,6 +446,7 @@ namespace ElectronicObserver.Window {
 
 
 		}
+
 
 
 		private void BattleStarted( string apiname, dynamic data ) {
@@ -515,46 +528,6 @@ namespace ElectronicObserver.Window {
 
 			PanelEnemyFleet.Visible = true;
 			BasePanel.Visible = true;			//checkme
-
-		}
-
-
-
-		//for debug
-		[Obsolete]
-		private string GetEnemyFleetInformation( int fleetID ) {
-
-			StringBuilder sb = new StringBuilder();
-			var efleet = RecordManager.Instance.EnemyFleet;
-
-			sb.AppendFormat( "敵艦隊ID : {0}\r\n", fleetID );
-
-
-			if ( !efleet.Record.ContainsKey( fleetID ) ) {
-
-				sb.AppendLine( "(敵艦隊情報不明)" );
-
-			} else {
-
-				var fdata = efleet[fleetID];
-
-				if ( fdata.FleetName != null )
-					sb.Append( fdata.FleetName + " - " );
-
-				sb.AppendLine( Constants.GetFormationShort( fdata.Formation ) );
-
-
-				int[] fmembers = fdata.FleetMember;
-
-				for ( int i = 0; i < fmembers.Length; i++ ) {
-					if ( fmembers[i] == -1 ) continue;
-
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[fmembers[i]];
-					sb.AppendLine( ship.NameWithClass );
-				}
-			}
-
-			return sb.ToString();
 
 		}
 

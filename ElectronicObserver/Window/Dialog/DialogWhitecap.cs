@@ -259,6 +259,16 @@ namespace ElectronicObserver.Window.Dialog {
 							col = FromHsv( x * x + 2 * x * y + y * y + 98 * x + 168 * y, value != 0 ? 1.0 : 0.2, value != 0 ? 1.0 : 1.0 );
 							break;
 
+						case 16:
+							col = value != 0 ? FromRgb( 0x000000 ) : FromRgb( 0xFFFFFF );
+							break;
+
+						case 17:
+							col = BlendColor( prev, GetCell( currentDim, x + clock / 4, y ) != 0 ?
+								FromRgb( 0xFFFFFF ) : BlendColor( FromRgb( 0x0088FF ), FromRgb( 0x88FFFF ), (double)y / boardSize.Height ), 
+								0.08 );
+							break;
+
 						default:
 							col = value != 0 ? FromRgb( 0xFFFFFF ) : FromRgb( 0x000000 );
 							break;
@@ -374,7 +384,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			UpdateTimer.Stop();
 			colortheme = rand.Next( 64 );
-			//colortheme = 3;
+			//colortheme = 17;
 			Start();
 		}
 

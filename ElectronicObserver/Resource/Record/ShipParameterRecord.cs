@@ -101,11 +101,11 @@ namespace ElectronicObserver.Resource.Record {
 
 				} else if ( level != 99 ) {
 
-					double emind = ( current - max * level / 99.0 ) / ( 1.0 - level / 99.0 );
-					double emaxd = ( ( current + 1.0 ) - max * level / 99.0 ) / ( 1.0 - level / 99.0 );
+					double emind = ( 99.0 * ( current + 0.0 ) - max * level ) / ( 99.0 - level );
+					double emaxd = ( 99.0 * ( current + 1.0 ) - max * level ) / ( 99.0 - level );
 
-					int emin = clamp( emind < emaxd ? (int)Math.Ceiling( emind ) : (int)Math.Floor( emaxd + 1 ), 0, max );
-					int emax = clamp( emind < emaxd ? (int)Math.Ceiling( emaxd - 1 ) : (int)Math.Floor( emind ), 0, max );
+					int emin = clamp( (int)( emind < emaxd ? Math.Ceiling( emind ) : Math.Floor( emaxd + 1.0 ) ), 0, max );
+					int emax = clamp( (int)( emind < emaxd ? Math.Ceiling( emaxd - 1.0 ) : Math.Floor( emind ) ), 0, max );
 
 					if ( emax < MinimumEstMin || MinimumEstMax < emin ) {		//明らかに範囲から外れた場合
 						MinimumEstMin = emin;

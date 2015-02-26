@@ -289,7 +289,7 @@ api_start2	：艦娘・装備固有データその他
 		api_type		：カテゴリ
 		api_no			：カテゴリ内通し番号
 		api_filename	：
-		aoi_version		：
+		api_version		：
 
 	api_mst_useitem		：アイテムデータ
 		api_id			：アイテムID
@@ -425,7 +425,7 @@ api_get_member/basic		：艦隊司令部情報
 	api_firstflag			：
 	api_tutorial_progress	：チュートリアル進捗？
 	api_pvp					：
-	api_medals				：?
+	api_medals				：甲種勲章保有数
 	api_large_dock			：大型艦建造可否
 
 
@@ -873,6 +873,7 @@ api_req_ranking/getlist	：ランキング
 		api_comment		：コメント
 		api_rate		：戦果
 		api_flag		：旗アイコン? 0=金色
+		api_medals		：甲種勲章保有数
 		api_nickname_id	：
 		api_comment_id	：
 
@@ -1018,18 +1019,18 @@ api_req_map/next		：進撃
 	api_no				：次に向かうセルのID
 	api_color_no		：次のセルの色?　3=青, 4=赤
 	api_event_id		：イベント　api_mst_mapcell参照　6=気のせいだった
-	api_event_kind		：イベント種別　0=非戦闘セル, 1=戦闘セル
-	api_next			：次のマスでのルート分岐の本数？ 0=行き止まり
+	api_event_kind		：イベント種別　0=非戦闘セル 1=通常戦闘 2=夜戦 3=夜昼戦 4=航空戦
+	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？
-	api_comment_kind	：0=なし, 1=<敵艦隊発見！>？
-	api_production_kind	：0=なし, 1=敵影表示？ボスに限る模様、潜水艦の敵影は0でも出る？、敵影が出なくても「敵艦隊発見！」時に1
+	api_comment_kind	：0=なし 1=<敵艦隊発見!> 2=<攻撃目標発見!>?
+	api_production_kind	：0=なし 1=索敵機発艦
 	api_eventmap		：イベント海域ゲージ情報
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値　startとは異なり実際の値が入る
 		api_dmg			：ダメージ倍率？
 	api_enemy			：次が戦闘マスのときのみ存在
-		api_enemy_id	：敵艦隊ID？
+		api_enemy_id	：敵艦隊ID
 		api_result		：
 		api_result_str	："start war"
 	api_itemget			：次が資源マスのときのみ存在
@@ -1503,8 +1504,8 @@ Request.api_req_member/itemuse		：アイテム使用
 	api_force_flag			：
 
 api_req_member/itemuse				：アイテム使用
-	api_caution_flag	：
-	api_flag			：
+	api_caution_flag	：0
+	api_flag			：1
 	api_getitem			：入手アイテム
 		api_usemst		：? 設計図=6
 		api_mst_id		：ID

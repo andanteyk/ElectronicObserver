@@ -132,7 +132,7 @@ namespace ElectronicObserver.Data.Quest {
 			var quests = KCDatabase.Instance.Quest;
 
 			//消えている・達成済みの任務の進捗情報を削除
-			if ( quests.IsLoaded && quests.Count == quests.Quests.Count )
+			if ( quests.IsLoadCompleted )
 				Progresses.RemoveAll( q => !quests.Quests.ContainsKey( q.QuestID ) || quests[q.QuestID].State == 3 );
 
 
@@ -237,6 +237,7 @@ namespace ElectronicObserver.Data.Quest {
 							break;
 						case 411:	//|411|南方への鼠輸送を継続実施せよ！|「東京急行」「東京急行(弐)」成功6
 							Progresses.Add( new ProgressExpedition( q.QuestID, 6, new int[] { 37, 38 } ) );
+							Progresses[q.QuestID].SharedCounterShift = 1;
 							break;
 
 						case 503:	//|503|艦隊大整備！|入渠5
@@ -254,9 +255,11 @@ namespace ElectronicObserver.Data.Quest {
 							break;
 						case 607:	//|607|装備「開発」集中強化！|開発3
 							Progresses.Add( new ProgressDevelopment( q.QuestID, 3 ) );
+							Progresses[q.QuestID].SharedCounterShift = 1;
 							break;
 						case 608:	//|608|艦娘「建造」艦隊強化！|建造3
 							Progresses.Add( new ProgressConstruction( q.QuestID, 3 ) );
+							Progresses[q.QuestID].SharedCounterShift = 1;
 							break;
 						case 609:	//|609|軍縮条約対応！|解体2
 							Progresses.Add( new ProgressDestruction( q.QuestID, 2 ) );
@@ -284,7 +287,7 @@ namespace ElectronicObserver.Data.Quest {
 				// 進捗度にずれがあった場合補正する
 				var p = Progresses[q.QuestID];
 				if ( p != null )
-					p.CheckProgress( q.Progress );
+					p.CheckProgress( q );
 
 			}
 

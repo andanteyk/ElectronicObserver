@@ -34,7 +34,7 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// イベントID
-		/// 0=初期位置, 2=資源, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 7=連合艦隊航空戦
+		/// 0=初期位置, 2=資源, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=連合艦隊航空戦
 		/// </summary>
 		public int EventID {
 			get { return (int)RawData.api_event_id; }
@@ -42,7 +42,7 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// イベント種別
-		/// 0=非戦闘イベント, 1=戦闘イベント
+		/// 0=非戦闘, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦
 		/// </summary>
 		public int EventKind {
 			get { return (int)RawData.api_event_kind; }

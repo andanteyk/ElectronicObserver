@@ -32,7 +32,22 @@ namespace ElectronicObserver.Data.Quest {
 		/// </summary>
 		[DataMember]
 		public virtual int ProgressMax { get; protected set; }
-		
+
+
+		/// <summary>
+		/// 未ロード時の進捗
+		/// </summary>
+		[DataMember]
+		public int TemporaryProgress { get; protected set; }
+
+		/// <summary>
+		/// 共有カウンタの進捗ずれ
+		/// 開発任務など、カウンタが共用になっている任務のずれ補正用です
+		/// </summary>
+		[DataMember]
+		public int SharedCounterShift { get; set; }
+
+
 		/// <summary>
 		/// 進捗率
 		/// </summary>
@@ -53,6 +68,8 @@ namespace ElectronicObserver.Data.Quest {
 		public ProgressData( int questID, int maxCount ) {
 			QuestID = questID;
 			ProgressMax = maxCount;
+			TemporaryProgress = 0;
+			SharedCounterShift = 0;
 		}
 
 
@@ -64,11 +81,17 @@ namespace ElectronicObserver.Data.Quest {
 			
 			var q = KCDatabase.Instance.Quest[QuestID];
 
-			// 任務が存在しないか遂行中でない場合スキップ
-			if ( q == null ||q.State != 2 )
+			if ( q == null ) {
+				TemporaryProgress++;
+				return;
+			} 
+
+			if ( q.State != 2 )
 				return;
 
-			CheckProgress( q.Progress );
+
+
+			CheckProgress( q );
 
 
 			Progress = Math.Min( Progress + 1, ProgressMax );
@@ -85,15 +108,21 @@ namespace ElectronicObserver.Data.Quest {
 		/// <summary>
 		/// 実際の進捗データから、進捗度を補正します。
 		/// </summary>
-		/// <param name="progressFlag">任務データの進捗度。</param>
-		public virtual void CheckProgress( int progressFlag ) {
+		/// <param name="q">任務データ。</param>
+		public virtual void CheckProgress( QuestData q ) {
 
-			switch ( progressFlag ) {
-				case 1:
-					Progress = (int)Math.Max( Progress, Math.Ceiling( ProgressMax * 0.5 ) );
+			if ( TemporaryProgress > 0 ) {
+				if ( q.State == 2 )
+					Progress = Math.Min( Progress + TemporaryProgress, ProgressMax );
+				TemporaryProgress = 0;
+			}
+
+			switch ( q.Progress ) {
+				case 1:		//50%
+					Progress = (int)Math.Max( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.5 ) - SharedCounterShift );
 					break;
-				case 2:
-					Progress = (int)Math.Max( Progress, Math.Ceiling( ProgressMax * 0.8 ) );
+				case 2:		//80%
+					Progress = (int)Math.Max( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.8 ) - SharedCounterShift );
 					break;
 			}
 

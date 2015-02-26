@@ -119,13 +119,21 @@ namespace ElectronicObserver.Window {
 				Name.Text = fleet.Name;
 				{
 					int levelSum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
-					ToolTipInfo.SetToolTip( Name, string.Format( "合計レベル：{0}\r\n平均レベル：{1:0.00}\r\nドラム缶搭載: {2}個 ({3}艦)\r\n大発動艇搭載: {4}個",
+					int fueltotal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)( s.MasterShip.Fuel * ( s.IsMarried ? 0.85 : 1.00 ) ) );
+					int ammototal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)( s.MasterShip.Ammo * ( s.IsMarried ? 0.85 : 1.00 ) ) );
+					ToolTipInfo.SetToolTip( Name, string.Format( 
+						"合計レベル：{0}\r\n平均レベル：{1:0.00}\r\nドラム缶搭載: {2}個 ({3}艦)\r\n大発動艇搭載: {4}個\r\n総積載: 燃 {5} / 弾 {6}\r\n(1戦当たり 燃 {7} / 弾 {8})",
 						levelSum,
 						(double)levelSum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ),
 						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) ),
 						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) > 0 ),
-						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 24 ) )
+						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 24 ) ),
+						fueltotal,
+						ammototal,
+						(int)( fueltotal * 0.2 ),
+						(int)( ammototal * 0.2 )
 						) );
+
 				}
 
 
