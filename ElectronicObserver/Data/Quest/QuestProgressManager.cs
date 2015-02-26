@@ -132,7 +132,7 @@ namespace ElectronicObserver.Data.Quest {
 			var quests = KCDatabase.Instance.Quest;
 
 			//消えている・達成済みの任務の進捗情報を削除
-			if ( quests.IsLoaded && quests.Count == quests.Quests.Count )
+			if ( quests.IsLoadCompleted )
 				Progresses.RemoveAll( q => !quests.Quests.ContainsKey( q.QuestID ) || quests[q.QuestID].State == 3 );
 
 

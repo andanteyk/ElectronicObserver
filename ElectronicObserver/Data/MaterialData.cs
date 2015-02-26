@@ -118,34 +118,6 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		/// <summary>
-		/// 資源の名前を取得します。
-		/// </summary>
-		/// <param name="materialID">資源のID。</param>
-		/// <returns>資源の名前。</returns>
-		public static string GetMaterialName( int materialID ) {
-			
-			switch ( materialID ) {
-				case 1:
-					return "燃料";
-				case 2:
-					return "弾薬";
-				case 3:
-					return "鋼材";
-				case 4:
-					return "ボーキサイト";
-				case 5:
-					return "高速建造材";
-				case 6:
-					return "高速修復材";
-				case 7:
-					return "開発資材";
-				case 8:
-					return "改修資材";
-				default:
-					return "不明";
-			}
-		}
 	}
 
 }

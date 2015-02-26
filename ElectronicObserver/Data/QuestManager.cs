@@ -13,16 +13,37 @@ namespace ElectronicObserver.Data {
 	/// </summary>
 	public class QuestManager : APIWrapper {
 
+		/// <summary>
+		/// 任務リスト
+		/// </summary>
 		public IDDictionary<QuestData> Quests { get; private set; }
 
+		/// <summary>
+		/// 任務数(未ロード含む)
+		/// </summary>
 		public int Count { get; internal set; }
 
+		/// <summary>
+		/// ロードしたかどうか(※全て読み込んでいるとは限らない)
+		/// </summary>
 		public bool IsLoaded { get; private set; }
+
+
+		/// <summary>
+		/// ロードが完了したかどうか
+		/// </summary>
+		public bool IsLoadCompleted {
+			get { return IsLoaded && Quests.Count == Count; }
+		}
 
 
 		public event Action QuestUpdated = delegate { };
 
 
+		/// <summary>
+		/// 前回任務読み込みをした日時
+		/// 時間切れ周期任務削除用
+		/// </summary>
 		private DateTime _prevTime;
 
 
