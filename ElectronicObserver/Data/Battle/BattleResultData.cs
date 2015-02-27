@@ -88,6 +88,23 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		/// <summary>
+		/// ドロップした装備のID(現在未使用)
+		/// </summary>
+		public int DroppedEquipmentID {
+			get {
+				if ( _APIName == "api_req_practice/battle_result" )
+					return -1;
+				if ( (int)RawData.api_get_flag[2] == 0 )
+					return -1;
+
+				return (int)RawData.api_get_slotitem.api_slotitem_id;
+			}
+		}
+
+
+
+
+		/// <summary>
 		/// 護衛退避可能か
 		/// </summary>
 		public bool CanEscape {
