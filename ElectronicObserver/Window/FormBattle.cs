@@ -29,7 +29,8 @@ namespace ElectronicObserver.Window {
 		public FormBattle( FormMain parent ) {
 			InitializeComponent();
 
-			ControlHelper.SetDoubleBuffered( TableMain );
+			ControlHelper.SetDoubleBuffered( TableTop );
+			ControlHelper.SetDoubleBuffered( TableBottom );
 
 
 			ConfigurationChanged();
@@ -37,7 +38,7 @@ namespace ElectronicObserver.Window {
 			HPBars = new List<ShipStatusHP>( 18 );
 
 
-			TableMain.SuspendLayout();
+			TableBottom.SuspendLayout();
 			for ( int i = 0; i < 18; i++ ) {
 				HPBars.Add( new ShipStatusHP() );
 				HPBars[i].Size = new Size( 80, 20 );
@@ -50,20 +51,22 @@ namespace ElectronicObserver.Window {
 				HPBars[i].MaximumDigit = 9999;
 
 				if ( i < 6 ) {
-					TableMain.Controls.Add( HPBars[i], 0, i + 6 );
+					TableBottom.Controls.Add( HPBars[i], 0, i + 1 );
 				} else if ( i < 12 ) {
-					TableMain.Controls.Add( HPBars[i], 2, i );
+					TableBottom.Controls.Add( HPBars[i], 2, i - 5 );
 				} else {
-					TableMain.Controls.Add( HPBars[i], 1, i - 6 );
+					TableBottom.Controls.Add( HPBars[i], 1, i - 11 );
 				}
 			}
-			TableMain.ResumeLayout();
+			TableBottom.ResumeLayout();
 
 
 			SearchingFriend.ImageList = ResourceManager.Instance.Equipments;
 			SearchingEnemy.ImageList = ResourceManager.Instance.Equipments;
+			AACutin.ImageList = ResourceManager.Instance.Equipments;
 
-			TableMain.Visible = false;
+			BaseLayoutPanel.Visible = false;
+			
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
 
@@ -105,13 +108,14 @@ namespace ElectronicObserver.Window {
 			KCDatabase db = KCDatabase.Instance;
 			BattleManager bm = db.Battle;
 
-
-			TableMain.SuspendLayout();
+			BaseLayoutPanel.SuspendLayout();
+			TableTop.SuspendLayout();
+			TableBottom.SuspendLayout();
 			switch ( apiname ) {
 
 				case "api_req_map/start":
 				case "api_req_map/next":
-					TableMain.Visible = false;
+					BaseLayoutPanel.Visible = false;
 					break;
 
 
@@ -125,7 +129,7 @@ namespace ElectronicObserver.Window {
 						SetHPNormal( hp, bm.BattleDay );
 						SetDamageRateNormal( hp, bm.BattleDay );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_battle_midnight/battle":
@@ -135,8 +139,8 @@ namespace ElectronicObserver.Window {
 						SetNightBattleEvent( hp, false, bm.BattleNight );
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleDay );
-						
-						TableMain.Visible = true;
+
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_battle_midnight/sp_midnight": {
@@ -149,7 +153,7 @@ namespace ElectronicObserver.Window {
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleNight );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_combined_battle/battle":
@@ -162,7 +166,7 @@ namespace ElectronicObserver.Window {
 						SetHPCombined( hp, bm.BattleDay );
 						SetDamageRateCombined( hp, bm.BattleDay );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_combined_battle/airbattle": {
@@ -174,7 +178,7 @@ namespace ElectronicObserver.Window {
 						SetHPCombined( hp, bm.BattleDay );
 						SetDamageRateCombined( hp, bm.BattleDay );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_combined_battle/midnight_battle": {
@@ -184,7 +188,7 @@ namespace ElectronicObserver.Window {
 						SetHPCombined( hp, bm.BattleNight );
 						SetDamageRateCombined( hp, bm.BattleDay );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_combined_battle/sp_midnight": {
@@ -197,142 +201,22 @@ namespace ElectronicObserver.Window {
 						SetHPCombined( hp, bm.BattleNight );
 						SetDamageRateCombined( hp, bm.BattleNight );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 
 
 				case "api_port/port":
-					TableMain.Visible = false;
+					BaseLayoutPanel.Visible = false;
 					ToolTipInfo.RemoveAll();
 					break;
 
 			}
-			TableMain.ResumeLayout();
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
+			BaseLayoutPanel.ResumeLayout();
 
 		}
-
-
-
-		/// <summary>
-		/// 戦況を表す文字列を取得します。＊デバッグ用です＊
-		/// </summary>
-		/// <param name="bd">戦闘データ</param>
-		/// <returns>戦況</returns>
-		private string GetBattleString( BattleData bd ) {
-
-			StringBuilder sb = new StringBuilder();
-			KCDatabase db = KCDatabase.Instance;
-			int[] hp = bd.EmulateBattle();
-			bool isPractice = bd.APIName.Contains( "practice" );	//仕方ないね
-			bool isCombined = bd.APIName.Contains( "combined" );
-
-
-			Func<int, double, string> GetState = 
-			( int shipID, double percentage ) => {
-
-				bool isLandBase = KCDatabase.Instance.MasterShips[shipID].IsLandBase;
-
-				if ( percentage <= 0.0 )
-					if ( isPractice ) return "[離脱]";
-					else if ( isLandBase ) return "[破壊]";
-					else return "[撃沈]";
-				else if ( percentage <= 0.25 )
-					return isLandBase ? "[損壊]" : "[大破]";
-				else if ( percentage <= 0.5 )
-					return isLandBase ? "[損害]" : "[中破]";
-				else if ( percentage <= 0.75 )
-					return isLandBase ? "[混乱]" : "[小破]";
-				else if ( percentage < 1.0 )
-					return "[健在]";
-				else
-					return "[無傷]";
-
-			};
-
-
-
-			sb.AppendLine( "---- 自軍艦隊 ----" );
-			if ( isCombined )
-				sb.AppendLine( "[部隊本隊]" );
-
-			for ( int i = 0; i < 6; i++ ) {
-
-				ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].Members[i]];
-
-				if ( ship != null ) {
-
-					sb.AppendFormat( "{0} Lv. {1} HP: {2} -> {3} ({4}) {5}\r\n",
-						ship.MasterShip.Name,
-						ship.Level,
-						bd.InitialHP[i + 1],
-						hp[i],
-						hp[i] - bd.InitialHP[i + 1],
-						GetState( ship.ShipID, (double)hp[i] / bd.MaxHP[i + 1] ) );
-
-				} else {
-					sb.AppendLine( "-" );
-				}
-
-			}
-
-			if ( isCombined ) {
-
-				BattleDataCombined bdc = (BattleDataCombined)bd;
-
-				sb.AppendLine();
-				sb.AppendLine( "[随伴艦隊]" );
-
-
-				for ( int i = 0; i < 6; i++ ) {
-
-					ShipData ship = db.Ships[db.Fleet[2].Members[i]];
-
-					if ( ship != null ) {
-
-						sb.AppendFormat( "{0} Lv. {1} HP: {2} -> {3} ({4}) {5}\r\n",
-							ship.MasterShip.Name,
-							ship.Level,
-							bdc.InitialHPCombined[i + 1],
-							hp[i + 12],
-							hp[i + 12] - bdc.InitialHPCombined[i + 1],
-							GetState( ship.ShipID, (double)hp[i + 12] / bdc.MaxHPCombined[i + 1] ) );
-
-
-					} else {
-						sb.AppendLine( "-" );
-					}
-
-				}
-			}
-
-
-
-			sb.AppendLine();
-			sb.AppendLine( "---- 敵軍艦隊 ----" );
-
-			for ( int i  = 0; i < 6; i++ ) {
-
-				int eid = bd.EnemyFleetMembers[i + 1];
-				if ( eid != -1 ) {
-
-					sb.AppendFormat( "{0} Lv. {1} HP: {2} -> {3} ({4}) {5}\r\n",
-						db.MasterShips[eid].NameWithClass,
-						bd.EnemyLevels[i + 1],
-						bd.InitialHP[i + 7],
-						hp[i + 6],
-						hp[i + 6] - bd.InitialHP[i + 7],
-						GetState( eid, (double)hp[i + 6] / bd.MaxHP[i + 7] ) );
-
-				} else {
-					sb.AppendLine( "-" );
-				}
-			}
-
-			return sb.ToString();
-		}
-
-
 
 
 
@@ -349,10 +233,12 @@ namespace ElectronicObserver.Window {
 			SearchingFriend.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[0] );
 			SearchingFriend.ImageAlign = ContentAlignment.MiddleLeft;
 			SearchingFriend.ImageIndex = (int)( (int)bd.Data.api_search[0] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
+			ToolTipInfo.SetToolTip( SearchingFriend, null );
 			SearchingEnemy.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[1] );
 			SearchingEnemy.ImageAlign = ContentAlignment.MiddleLeft;
 			SearchingEnemy.ImageIndex = (int)( (int)bd.Data.api_search[1] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
-
+			ToolTipInfo.SetToolTip( SearchingEnemy, null );
+			
 		}
 
 		private void ClearSearchingResult() {
@@ -360,9 +246,11 @@ namespace ElectronicObserver.Window {
 			SearchingFriend.Text = "-";
 			SearchingFriend.ImageAlign = ContentAlignment.MiddleCenter;
 			SearchingFriend.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( SearchingFriend, null );
 			SearchingEnemy.Text = "-";
 			SearchingEnemy.ImageAlign = ContentAlignment.MiddleCenter;
 			SearchingEnemy.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( SearchingEnemy, null );
 
 		}
 
@@ -407,19 +295,30 @@ namespace ElectronicObserver.Window {
 					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
 					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
 
-					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
-						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})", 
-						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel, 
+					
+					AACutin.Text = "#" + ( cutinIndex + 1 );
+					AACutin.ImageAlign = ContentAlignment.MiddleLeft;
+					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
+					ToolTipInfo.SetToolTip( AACutin, string.Format(
+						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})",
+						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel,
 						cutinID,
 						Constants.GetAACutinKind( cutinID ) ) );
+					
 				} else {
-					ToolTipInfo.SetToolTip( AirStage2Friend, null );
+					AACutin.Text = "対空砲火";
+					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+					AACutin.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( AACutin, null );
 				}
 
 			} else {
 				AirStage2Friend.Text = "-";
 				AirStage2Enemy.Text = "-";
-				ToolTipInfo.SetToolTip( AirStage2Friend, null );
+				AACutin.Text = "対空砲火";
+				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+				AACutin.ImageIndex = -1;
+				ToolTipInfo.SetToolTip( AACutin, null );
 			}
 
 		}
@@ -466,20 +365,28 @@ namespace ElectronicObserver.Window {
 					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
 					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
 
-					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
+					AACutin.Text = "#" + ( cutinIndex + 1 );
+					AACutin.ImageAlign = ContentAlignment.MiddleLeft;
+					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
+					ToolTipInfo.SetToolTip( AACutin, string.Format(
 						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})",
 						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel,
 						cutinID,
 						Constants.GetAACutinKind( cutinID ) ) );
 				} else {
-					ToolTipInfo.SetToolTip( AirStage2Friend, null );
+					AACutin.Text = "対空砲火";
+					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+					AACutin.ImageIndex = -1; 
+					ToolTipInfo.SetToolTip( AACutin, null );
 				}
 				
 			} else {
 				AirStage2Friend.Text = "-";
 				AirStage2Enemy.Text = "-";
-
-				ToolTipInfo.SetToolTip( AirStage2Friend, null );
+				AACutin.Text = "対空砲火";
+				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+				AACutin.ImageIndex = -1; 
+				ToolTipInfo.SetToolTip( AACutin, null );
 			}
 
 		}
@@ -490,7 +397,10 @@ namespace ElectronicObserver.Window {
 			AirStage1Enemy.Text = "-";
 			AirStage2Friend.Text = "-";
 			AirStage2Enemy.Text = "-";
-			ToolTipInfo.SetToolTip( AirStage2Friend, null );
+			AACutin.Text = "-";
+			AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+			AACutin.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( AACutin, null );
 		}
 
 		private void SetHPNormal( int[] hp, BattleData bd ) {
@@ -832,16 +742,21 @@ namespace ElectronicObserver.Window {
 
 
 			//夜間触接判定
-			if ( (int)bd.Data.api_touch_plane[0] != -1 )
-				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "夜間触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name ) );
-			else
-				ToolTipInfo.SetToolTip( AirStage1Friend, null );
+			if ( (int)bd.Data.api_touch_plane[0] != -1 ) {
+				SearchingFriend.Text = "夜間触接";
+				SearchingFriend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+				ToolTipInfo.SetToolTip( SearchingFriend, string.Format( "夜間触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name ) );
+			} else {
+				ToolTipInfo.SetToolTip( SearchingFriend, null );
+			}
 
-			if ( (int)bd.Data.api_touch_plane[1] != -1 )
-				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "夜間触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name ) );
-			else
-				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
-
+			if ( (int)bd.Data.api_touch_plane[1] != -1 ) {
+				SearchingEnemy.Text = "夜間触接";
+				SearchingEnemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+				ToolTipInfo.SetToolTip( SearchingEnemy, string.Format( "夜間触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name ) );
+			} else {
+				ToolTipInfo.SetToolTip( SearchingEnemy, null );
+			}
 
 			//照明弾投射判定(仮)
 			if ( (int)bd.Data.api_flare_pos[0] != -1 )
@@ -863,23 +778,29 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 
-			MainFont = TableMain.Font = Font = Utility.Configuration.Config.UI.MainFont;
+			MainFont = TableTop.Font = TableBottom.Font = Font = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 
 		}
 
 
 
+		private void TableTop_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
+			if ( e.Row == 1 || e.Row == 3 )
+				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		}
+
+		private void TableBottom_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
+			if ( e.Row == 7 )
+				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		}
+
+		
 		protected override string GetPersistString() {
 			return "Battle";
 		}
 
-
-		private void TableMain_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			if ( e.Row == 1 || e.Row == 4 || e.Row == 12 )
-				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
-		}
-
+		
 	}
 
 }
