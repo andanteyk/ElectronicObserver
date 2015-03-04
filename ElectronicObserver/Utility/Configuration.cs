@@ -420,6 +420,64 @@ namespace ElectronicObserver.Utility {
 
 
 			/// <summary>
+			/// [ブラウザ]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormBrowser : ConfigPartBase {
+
+				/// <summary>
+				/// ブラウザの拡大率 10-1000(%)
+				/// </summary>
+				public int ZoomRate { get; set; }
+
+				/// <summary>
+				/// ログインページのURL
+				/// </summary>
+				public string LogInPageURL { get; set; }
+
+				/// <summary>
+				/// ブラウザを有効にするか
+				/// </summary>
+				public bool IsEnabled { get; set; }
+
+				/// <summary>
+				/// スクリーンショットの保存先フォルダ
+				/// </summary>
+				public string ScreenShotPath { get; set; }
+
+				/// <summary>
+				/// スクリーンショットのフォーマット
+				/// 1=jpeg, 2=png
+				/// </summary>
+				public int ScreenShotFormat { get; set; }
+
+				/// <summary>
+				/// 適用するスタイルシート
+				/// </summary>
+				public string StyleSheet { get; set; }
+
+				/// <summary>
+				/// スクロール可能かどうか
+				/// </summary>
+				public bool IsScrollable { get; set; }
+
+
+				public ConfigFormBrowser() {
+					ZoomRate = 100;
+					LogInPageURL = @"http://www.dmm.com/netgame_s/kancolle/";
+					IsEnabled = true;
+					ScreenShotPath = "ScreenShot";
+					ScreenShotFormat = 2;
+					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
+					IsScrollable = false;
+				}
+			}
+			/// <summary>[ブラウザ]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormBrowser FormBrowser { get; private set; }
+
+
+
+			/// <summary>
 			/// 各[通知]ウィンドウの設定を扱います。
 			/// </summary>
 			public class ConfigNotifierBase : ConfigPartBase {
@@ -582,6 +640,7 @@ namespace ElectronicObserver.Utility {
 				FormHeadquarters = new ConfigFormHeadquarters();
 				FormQuest = new ConfigFormQuest();
 				FormShipGroup = new ConfigFormShipGroup();
+				FormBrowser = new ConfigFormBrowser();
 
 				NotifierExpedition = new ConfigNotifierBase();
 				NotifierConstruction = new ConfigNotifierBase();

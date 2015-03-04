@@ -65,6 +65,7 @@ namespace ElectronicObserver.Resource {
 			FormMain,
 			FormQuest,
 			FormShipGroup,
+			FormBrowser,
 			FormAlbumShip,
 			FormAlbumEquipment,
 			FormConfiguration,
@@ -243,6 +244,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Main.png", "Form_Main" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Quest.png", "Form_Quest" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/ShipGroup.png", "Form_ShipGroup" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Browser.png", "Form_Browser" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AlbumShip.png", "Form_AlbumShip" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AlbumEquipment.png", "Form_AlbumEquipment" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Configuration.png", "Form_Configuration" );

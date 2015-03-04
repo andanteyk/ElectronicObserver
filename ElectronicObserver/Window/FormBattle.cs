@@ -29,7 +29,8 @@ namespace ElectronicObserver.Window {
 		public FormBattle( FormMain parent ) {
 			InitializeComponent();
 
-			ControlHelper.SetDoubleBuffered( TableMain );
+			ControlHelper.SetDoubleBuffered( TableTop );
+			ControlHelper.SetDoubleBuffered( TableBottom );
 
 
 			ConfigurationChanged();
@@ -37,7 +38,7 @@ namespace ElectronicObserver.Window {
 			HPBars = new List<ShipStatusHP>( 18 );
 
 
-			TableMain.SuspendLayout();
+			TableBottom.SuspendLayout();
 			for ( int i = 0; i < 18; i++ ) {
 				HPBars.Add( new ShipStatusHP() );
 				HPBars[i].Size = new Size( 80, 20 );
@@ -50,25 +51,31 @@ namespace ElectronicObserver.Window {
 				HPBars[i].MaximumDigit = 9999;
 
 				if ( i < 6 ) {
-					TableMain.Controls.Add( HPBars[i], 0, i + 6 );
+					TableBottom.Controls.Add( HPBars[i], 0, i + 1 );
 				} else if ( i < 12 ) {
-					TableMain.Controls.Add( HPBars[i], 2, i );
+					TableBottom.Controls.Add( HPBars[i], 2, i - 5 );
 				} else {
-					TableMain.Controls.Add( HPBars[i], 1, i - 6 );
+					TableBottom.Controls.Add( HPBars[i], 1, i - 11 );
 				}
 			}
-			TableMain.ResumeLayout();
+			TableBottom.ResumeLayout();
 
 
-			SearchingFriend.ImageList = ResourceManager.Instance.Equipments;
-			SearchingEnemy.ImageList = ResourceManager.Instance.Equipments;
+			SearchingFriend.ImageList =
+			SearchingEnemy.ImageList =
+			AACutin.ImageList = 
+			AirStage1Friend.ImageList =
+			AirStage1Enemy.ImageList =
+			AirStage2Friend.ImageList =
+			AirStage2Enemy.ImageList =
+				ResourceManager.Instance.Equipments;
 
-			TableMain.Visible = false;
+			BaseLayoutPanel.Visible = false;
+			
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
 
 		}
-
 
 
 
@@ -105,13 +112,16 @@ namespace ElectronicObserver.Window {
 			KCDatabase db = KCDatabase.Instance;
 			BattleManager bm = db.Battle;
 
-
-			TableMain.SuspendLayout();
+			BaseLayoutPanel.SuspendLayout();
+			TableTop.SuspendLayout();
+			TableBottom.SuspendLayout();
 			switch ( apiname ) {
-
+					
 				case "api_req_map/start":
 				case "api_req_map/next":
-					TableMain.Visible = false;
+				case "api_port/port":
+					BaseLayoutPanel.Visible = false;
+					ToolTipInfo.RemoveAll();
 					break;
 
 
@@ -125,7 +135,7 @@ namespace ElectronicObserver.Window {
 						SetHPNormal( hp, bm.BattleDay );
 						SetDamageRateNormal( hp, bm.BattleDay );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_battle_midnight/battle":
@@ -135,21 +145,21 @@ namespace ElectronicObserver.Window {
 						SetNightBattleEvent( hp, false, bm.BattleNight );
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleDay );
-						
-						TableMain.Visible = true;
+
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_battle_midnight/sp_midnight": {
 						int[] hp = bm.BattleNight.EmulateBattle();
 
-						SetNightBattleEvent( hp, false, bm.BattleNight );
 						SetFormation( bm.BattleNight );
 						ClearAerialWarfare();
 						ClearSearchingResult();
+						SetNightBattleEvent( hp, false, bm.BattleNight );
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleNight );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_combined_battle/battle":
@@ -162,7 +172,7 @@ namespace ElectronicObserver.Window {
 						SetHPCombined( hp, bm.BattleDay );
 						SetDamageRateCombined( hp, bm.BattleDay );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_combined_battle/airbattle": {
@@ -174,7 +184,7 @@ namespace ElectronicObserver.Window {
 						SetHPCombined( hp, bm.BattleDay );
 						SetDamageRateCombined( hp, bm.BattleDay );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_combined_battle/midnight_battle": {
@@ -184,7 +194,7 @@ namespace ElectronicObserver.Window {
 						SetHPCombined( hp, bm.BattleNight );
 						SetDamageRateCombined( hp, bm.BattleDay );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 				case "api_req_combined_battle/sp_midnight": {
@@ -197,145 +207,21 @@ namespace ElectronicObserver.Window {
 						SetHPCombined( hp, bm.BattleNight );
 						SetDamageRateCombined( hp, bm.BattleNight );
 
-						TableMain.Visible = true;
+						BaseLayoutPanel.Visible = true;
 					} break;
 
 
-
-				case "api_port/port":
-					TableMain.Visible = false;
-					ToolTipInfo.RemoveAll();
-					break;
-
 			}
-			TableMain.ResumeLayout();
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
+			BaseLayoutPanel.ResumeLayout();
 
 		}
-
 
 
 		/// <summary>
-		/// 戦況を表す文字列を取得します。＊デバッグ用です＊
+		/// 陣形・交戦形態を設定します。
 		/// </summary>
-		/// <param name="bd">戦闘データ</param>
-		/// <returns>戦況</returns>
-		private string GetBattleString( BattleData bd ) {
-
-			StringBuilder sb = new StringBuilder();
-			KCDatabase db = KCDatabase.Instance;
-			int[] hp = bd.EmulateBattle();
-			bool isPractice = bd.APIName.Contains( "practice" );	//仕方ないね
-			bool isCombined = bd.APIName.Contains( "combined" );
-
-
-			Func<int, double, string> GetState = 
-			( int shipID, double percentage ) => {
-
-				bool isLandBase = KCDatabase.Instance.MasterShips[shipID].IsLandBase;
-
-				if ( percentage <= 0.0 )
-					if ( isPractice ) return "[離脱]";
-					else if ( isLandBase ) return "[破壊]";
-					else return "[撃沈]";
-				else if ( percentage <= 0.25 )
-					return isLandBase ? "[損壊]" : "[大破]";
-				else if ( percentage <= 0.5 )
-					return isLandBase ? "[損害]" : "[中破]";
-				else if ( percentage <= 0.75 )
-					return isLandBase ? "[混乱]" : "[小破]";
-				else if ( percentage < 1.0 )
-					return "[健在]";
-				else
-					return "[無傷]";
-
-			};
-
-
-
-			sb.AppendLine( "---- 自軍艦隊 ----" );
-			if ( isCombined )
-				sb.AppendLine( "[部隊本隊]" );
-
-			for ( int i = 0; i < 6; i++ ) {
-
-				ShipData ship = db.Ships[db.Fleet[bd.FleetIDFriend].Members[i]];
-
-				if ( ship != null ) {
-
-					sb.AppendFormat( "{0} Lv. {1} HP: {2} -> {3} ({4}) {5}\r\n",
-						ship.MasterShip.Name,
-						ship.Level,
-						bd.InitialHP[i + 1],
-						hp[i],
-						hp[i] - bd.InitialHP[i + 1],
-						GetState( ship.ShipID, (double)hp[i] / bd.MaxHP[i + 1] ) );
-
-				} else {
-					sb.AppendLine( "-" );
-				}
-
-			}
-
-			if ( isCombined ) {
-
-				BattleDataCombined bdc = (BattleDataCombined)bd;
-
-				sb.AppendLine();
-				sb.AppendLine( "[随伴艦隊]" );
-
-
-				for ( int i = 0; i < 6; i++ ) {
-
-					ShipData ship = db.Ships[db.Fleet[2].Members[i]];
-
-					if ( ship != null ) {
-
-						sb.AppendFormat( "{0} Lv. {1} HP: {2} -> {3} ({4}) {5}\r\n",
-							ship.MasterShip.Name,
-							ship.Level,
-							bdc.InitialHPCombined[i + 1],
-							hp[i + 12],
-							hp[i + 12] - bdc.InitialHPCombined[i + 1],
-							GetState( ship.ShipID, (double)hp[i + 12] / bdc.MaxHPCombined[i + 1] ) );
-
-
-					} else {
-						sb.AppendLine( "-" );
-					}
-
-				}
-			}
-
-
-
-			sb.AppendLine();
-			sb.AppendLine( "---- 敵軍艦隊 ----" );
-
-			for ( int i  = 0; i < 6; i++ ) {
-
-				int eid = bd.EnemyFleetMembers[i + 1];
-				if ( eid != -1 ) {
-
-					sb.AppendFormat( "{0} Lv. {1} HP: {2} -> {3} ({4}) {5}\r\n",
-						db.MasterShips[eid].NameWithClass,
-						bd.EnemyLevels[i + 1],
-						bd.InitialHP[i + 7],
-						hp[i + 6],
-						hp[i + 6] - bd.InitialHP[i + 7],
-						GetState( eid, (double)hp[i + 6] / bd.MaxHP[i + 7] ) );
-
-				} else {
-					sb.AppendLine( "-" );
-				}
-			}
-
-			return sb.ToString();
-		}
-
-
-
-
-
 		private void SetFormation( BattleData bd ) {
 
 			FormationFriend.Text = Constants.GetFormationShort( bd.Data.api_formation[0] is string ? int.Parse( bd.Data.api_formation[0] ) : (int)bd.Data.api_formation[0] );
@@ -344,155 +230,358 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		/// <summary>
+		/// 索敵結果を設定します。
+		/// </summary>
 		private void SetSearchingResult( BattleData bd ) {
 
-			SearchingFriend.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[0] );
+			int searchFriend = (int)bd.Data.api_search[0];
+			SearchingFriend.Text = Constants.GetSearchingResultShort( searchFriend );
 			SearchingFriend.ImageAlign = ContentAlignment.MiddleLeft;
-			SearchingFriend.ImageIndex = (int)( (int)bd.Data.api_search[0] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
-			SearchingEnemy.Text = Constants.GetSearchingResultShort( (int)bd.Data.api_search[1] );
-			SearchingEnemy.ImageAlign = ContentAlignment.MiddleLeft;
-			SearchingEnemy.ImageIndex = (int)( (int)bd.Data.api_search[1] < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
+			SearchingFriend.ImageIndex = (int)( searchFriend < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
+			ToolTipInfo.SetToolTip( SearchingFriend, null );
 
+			int searchEnemy = (int)bd.Data.api_search[1];
+			SearchingEnemy.Text = Constants.GetSearchingResultShort( searchEnemy );
+			SearchingEnemy.ImageAlign = ContentAlignment.MiddleLeft;
+			SearchingEnemy.ImageIndex = (int)( searchEnemy < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
+			ToolTipInfo.SetToolTip( SearchingEnemy, null );
+			
 		}
 
+		/// <summary>
+		/// 索敵結果をクリアします。
+		/// 索敵フェーズが発生しなかった場合にこれを設定します。
+		/// </summary>
 		private void ClearSearchingResult() {
 
 			SearchingFriend.Text = "-";
 			SearchingFriend.ImageAlign = ContentAlignment.MiddleCenter;
 			SearchingFriend.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( SearchingFriend, null );
+
 			SearchingEnemy.Text = "-";
 			SearchingEnemy.ImageAlign = ContentAlignment.MiddleCenter;
 			SearchingEnemy.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( SearchingEnemy, null );
 
 		}
 
+		/// <summary>
+		/// 航空戦情報を設定します。
+		/// </summary>
 		private void SetAerialWarfare( BattleData bd ) {
 
+			//空対空戦闘
 			if ( (int)bd.Data.api_stage_flag[0] != 0 ) {
+			
 				AirSuperiority.Text = Constants.GetAirSuperiority( (int)bd.Data.api_kouku.api_stage1.api_disp_seiku );
-				AirStage1Friend.Text = string.Format( "-{0}/{1}",
-					(int)bd.Data.api_kouku.api_stage1.api_f_lostcount,
-					(int)bd.Data.api_kouku.api_stage1.api_f_count );
-				AirStage1Enemy.Text = string.Format( "-{0}/{1}",
-					(int)bd.Data.api_kouku.api_stage1.api_e_lostcount,
-					(int)bd.Data.api_kouku.api_stage1.api_e_count );
-
-				if ( (int)bd.Data.api_kouku.api_stage1.api_touch_plane[0] != -1 )
-					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_kouku.api_stage1.api_touch_plane[0]].Name ) );
+				
+				int[] planeFriend = { (int)bd.Data.api_kouku.api_stage1.api_f_lostcount, (int)bd.Data.api_kouku.api_stage1.api_f_count };
+				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
+				
+				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
+					AirStage1Friend.ForeColor = Color.Red;
 				else
-					ToolTipInfo.SetToolTip( AirStage1Friend, null );
+					AirStage1Friend.ForeColor = SystemColors.ControlText;
 
-				if ( (int)bd.Data.api_kouku.api_stage1.api_touch_plane[1] != -1 )
-					ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_kouku.api_stage1.api_touch_plane[1]].Name ) );
+				int[] planeEnemy = { (int)bd.Data.api_kouku.api_stage1.api_e_lostcount, (int)bd.Data.api_kouku.api_stage1.api_e_count };
+				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
+				
+				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
+					AirStage1Enemy.ForeColor = Color.Red;
 				else
-					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+					AirStage1Enemy.ForeColor = SystemColors.ControlText;
 
-			} else {
-				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
-				AirStage1Friend.Text = "-";
-				AirStage1Enemy.Text = "-";
-				ToolTipInfo.SetToolTip( AirStage1Friend, null );
-				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
-			}
 
-			if ( (int)bd.Data.api_stage_flag[1] != 0 ) {
-				AirStage2Friend.Text = string.Format( "-{0}/{1}",
-					(int)bd.Data.api_kouku.api_stage2.api_f_lostcount,
-					(int)bd.Data.api_kouku.api_stage2.api_f_count );
-				AirStage2Enemy.Text = string.Format( "-{0}/{1}",
-					(int)bd.Data.api_kouku.api_stage2.api_e_lostcount,
-					(int)bd.Data.api_kouku.api_stage2.api_e_count );
-
-				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {	//対空カットイン
-					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
-					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
-
-					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
-						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})", 
-						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel, 
-						cutinID,
-						Constants.GetAACutinKind( cutinID ) ) );
+				//触接
+				int touchFriend = (int)bd.Data.api_kouku.api_stage1.api_touch_plane[0];
+				if ( touchFriend != -1 ) {
+					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
+					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+					ToolTipInfo.SetToolTip( AirStage1Friend, "触接中: " + KCDatabase.Instance.MasterEquipments[touchFriend].Name );
 				} else {
-					ToolTipInfo.SetToolTip( AirStage2Friend, null );
+					AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
+					AirStage1Friend.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( AirStage1Friend, null );
 				}
 
-			} else {
-				AirStage2Friend.Text = "-";
-				AirStage2Enemy.Text = "-";
-				ToolTipInfo.SetToolTip( AirStage2Friend, null );
-			}
-
-		}
-
-		private void SetAerialWarfareAirBattle( BattleData bd ) {
-
-			if ( (int)bd.Data.api_stage_flag[0] != 0 ) {
-				AirSuperiority.Text = Constants.GetAirSuperiority( (int)bd.Data.api_kouku.api_stage1.api_disp_seiku );
-				AirStage1Friend.Text = string.Format( "-{0}/{1}",
-					(int)bd.Data.api_kouku.api_stage1.api_f_lostcount + ( (int)bd.Data.api_stage_flag2[0] != 0 ? (int)bd.Data.api_kouku2.api_stage1.api_f_lostcount : 0 ),
-					(int)bd.Data.api_kouku.api_stage1.api_f_count );
-				AirStage1Enemy.Text = string.Format( "-{0}/{1}",
-					(int)bd.Data.api_kouku.api_stage1.api_e_lostcount + ( (int)bd.Data.api_stage_flag2[0] != 0 ? (int)bd.Data.api_kouku2.api_stage1.api_e_lostcount : 0 ),
-					(int)bd.Data.api_kouku.api_stage1.api_e_count );
-
-				if ( (int)bd.Data.api_kouku.api_stage1.api_touch_plane[0] != -1 )
-					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_kouku.api_stage1.api_touch_plane[0]].Name ) );
-				else
-					ToolTipInfo.SetToolTip( AirStage1Friend, null );
-
-				if ( (int)bd.Data.api_kouku.api_stage1.api_touch_plane[1] != -1 )
-					ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_kouku.api_stage1.api_touch_plane[1]].Name ) );
-				else
+				int touchEnemy = (int)bd.Data.api_kouku.api_stage1.api_touch_plane[1];
+				if ( touchEnemy != -1 ) {
+					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
+					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+					ToolTipInfo.SetToolTip( AirStage1Enemy, "触接中: " + KCDatabase.Instance.MasterEquipments[touchEnemy].Name );
+				} else {
+					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+					AirStage1Enemy.ImageIndex = -1;
 					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+				}
 
-			} else {
+			} else {		//空対空戦闘発生せず
+
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
+				
 				AirStage1Friend.Text = "-";
-				AirStage1Enemy.Text = "-";
+				AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
+				AirStage1Friend.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AirStage1Friend, null );
+				
+				AirStage1Enemy.Text = "-";
+				AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+				AirStage1Enemy.ImageIndex = -1; 
 				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 			}
 
+			//艦対空戦闘
 			if ( (int)bd.Data.api_stage_flag[1] != 0 ) {
-				AirStage2Friend.Text = string.Format( "-{0}/{1}",
-					(int)bd.Data.api_kouku.api_stage2.api_f_lostcount + ( (int)bd.Data.api_stage_flag2[1] != 0 ? (int)bd.Data.api_kouku2.api_stage2.api_f_lostcount : 0 ),
-					(int)bd.Data.api_kouku.api_stage2.api_f_count );
-				AirStage2Enemy.Text = string.Format( "-{0}/{1}",
-					(int)bd.Data.api_kouku.api_stage2.api_e_lostcount + ( (int)bd.Data.api_stage_flag2[1] != 0 ? (int)bd.Data.api_kouku2.api_stage2.api_e_lostcount : 0 ),
-					(int)bd.Data.api_kouku.api_stage2.api_e_count );
+
+				int[] planeFriend = { (int)bd.Data.api_kouku.api_stage2.api_f_lostcount, (int)bd.Data.api_kouku.api_stage2.api_f_count };
+				AirStage2Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
+
+				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
+					AirStage2Friend.ForeColor = Color.Red;
+				else
+					AirStage2Friend.ForeColor = SystemColors.ControlText;
+
+				int[] planeEnemy = { (int)bd.Data.api_kouku.api_stage2.api_e_lostcount, (int)bd.Data.api_kouku.api_stage2.api_e_count };
+				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
+
+				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
+					AirStage2Enemy.ForeColor = Color.Red;
+				else
+					AirStage2Enemy.ForeColor = SystemColors.ControlText;
 
 
-				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {	//対空カットイン
+				//対空カットイン
+				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {
+					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
+					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
+					
+					AACutin.Text = "#" + ( cutinIndex + 1 );
+					AACutin.ImageAlign = ContentAlignment.MiddleLeft;
+					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
+					ToolTipInfo.SetToolTip( AACutin, string.Format(
+						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})",
+						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel,
+						cutinID,
+						Constants.GetAACutinKind( cutinID ) ) );
+					
+				} else {
+					AACutin.Text = "対空砲火";
+					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+					AACutin.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( AACutin, null );
+				}
+
+			} else {	//艦対空戦闘発生せず
+				AirStage2Friend.Text = "-";
+				AirStage2Enemy.Text = "-";
+				AACutin.Text = "対空砲火";
+				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+				AACutin.ImageIndex = -1;
+				ToolTipInfo.SetToolTip( AACutin, null );
+			}
+
+
+			AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage2Friend.ImageIndex = -1;
+			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage2Enemy.ImageIndex = -1;
+		}
+
+
+		/// <summary>
+		/// 航空戦情報(連合艦隊航空戦)を設定します。
+		/// </summary>
+		private void SetAerialWarfareAirBattle( BattleData bd ) {
+
+			//空対空戦闘
+			if ( (int)bd.Data.api_stage_flag[0] != 0 ) {
+
+				//二回目の空戦が存在するか
+				bool isBattle2Enabled = (int)bd.Data.api_stage_flag2[0] != 0;
+
+				AirSuperiority.Text = Constants.GetAirSuperiority( (int)bd.Data.api_kouku.api_stage1.api_disp_seiku );
+				if ( isBattle2Enabled ) {
+					ToolTipInfo.SetToolTip( AirSuperiority, "2回目: " + Constants.GetAirSuperiority( (int)bd.Data.api_kouku2.api_stage1.api_disp_seiku ) );
+				} else {
+					ToolTipInfo.SetToolTip( AirSuperiority, null );
+				}
+
+
+				int[] planeFriend = { 
+					(int)bd.Data.api_kouku.api_stage1.api_f_lostcount + ( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_f_lostcount : 0 ), 
+					(int)bd.Data.api_kouku.api_stage1.api_f_count };
+				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
+
+				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
+					AirStage1Friend.ForeColor = Color.Red;
+				else
+					AirStage1Friend.ForeColor = SystemColors.ControlText;
+
+				int[] planeEnemy = { 
+					(int)bd.Data.api_kouku.api_stage1.api_e_lostcount + ( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_e_lostcount : 0 ), 
+					(int)bd.Data.api_kouku.api_stage1.api_e_count };
+				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
+
+				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
+					AirStage1Enemy.ForeColor = Color.Red;
+				else
+					AirStage1Enemy.ForeColor = SystemColors.ControlText;
+
+
+				//触接
+				int[] touchFriend = { 
+					(int)bd.Data.api_kouku.api_stage1.api_touch_plane[0],
+					isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_touch_plane[0] : -1
+					};
+				if ( touchFriend[0] != -1 || touchFriend[1] != -1 ) {
+					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
+					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+
+					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchFriend[0]], KCDatabase.Instance.MasterEquipments[touchFriend[1]] };
+					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( 
+						"触接中\r\n1回目: {0}\r\n2回目: {1}",
+						planes[0] != null ? planes[0].Name : "(なし)",
+						planes[1] != null ? planes[1].Name : "(なし)"
+						) );
+				} else {
+					AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
+					AirStage1Friend.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( AirStage1Friend, null );
+				}
+
+				int[] touchEnemy = {
+					(int)bd.Data.api_kouku.api_stage1.api_touch_plane[1],
+					isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_touch_plane[1] : -1
+					};
+				if ( touchEnemy[0] != -1 || touchEnemy[1] != -1 ) {
+					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
+					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+
+					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchEnemy[0]], KCDatabase.Instance.MasterEquipments[touchEnemy[1]] };
+					ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format(
+						"触接中\r\n1回目: {0}\r\n2回目: {1}",
+						planes[0] != null ? planes[0].Name : "(なし)",
+						planes[1] != null ? planes[1].Name : "(なし)"
+						) );
+				} else {
+					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+					AirStage1Enemy.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+				}
+
+			} else {	//空対空戦闘発生せず(!?)
+				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
+				ToolTipInfo.SetToolTip( AirSuperiority, null );
+				AirStage1Friend.Text = "-";
+				ToolTipInfo.SetToolTip( AirStage1Friend, null );
+				AirStage1Enemy.Text = "-";
+				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+			}
+
+			//艦対空戦闘
+			if ( (int)bd.Data.api_stage_flag[1] != 0 ) {
+
+				//二回目の空戦が存在するか
+				bool isBattle2Enabled = (int)bd.Data.api_stage_flag2[1] != 0;
+
+
+				int[] planeFriend = { 
+					(int)bd.Data.api_kouku.api_stage2.api_f_lostcount + ( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_f_lostcount : 0 ), 
+					(int)bd.Data.api_kouku.api_stage2.api_f_count };
+				AirStage2Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
+
+				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
+					AirStage2Friend.ForeColor = Color.Red;
+				else
+					AirStage2Friend.ForeColor = SystemColors.ControlText;
+
+				int[] planeEnemy = { 
+					(int)bd.Data.api_kouku.api_stage2.api_e_lostcount + ( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_e_lostcount : 0 ), 
+					(int)bd.Data.api_kouku.api_stage2.api_e_count };
+				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
+
+				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
+					AirStage2Enemy.ForeColor = Color.Red;
+				else
+					AirStage2Enemy.ForeColor = SystemColors.ControlText;
+
+
+				//対空カットイン
+				//undone: 二回目の対空カットインの処理(2015/03/03時点で航空戦と対空カットインは両立しないため)
+				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {
 					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
 					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
 
-					ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
+					AACutin.Text = "#" + ( cutinIndex + 1 );
+					AACutin.ImageAlign = ContentAlignment.MiddleLeft;
+					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
+					ToolTipInfo.SetToolTip( AACutin, string.Format(
 						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})",
 						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel,
 						cutinID,
 						Constants.GetAACutinKind( cutinID ) ) );
 				} else {
-					ToolTipInfo.SetToolTip( AirStage2Friend, null );
+					AACutin.Text = "対空砲火";
+					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+					AACutin.ImageIndex = -1; 
+					ToolTipInfo.SetToolTip( AACutin, null );
 				}
 				
 			} else {
 				AirStage2Friend.Text = "-";
 				AirStage2Enemy.Text = "-";
-
-				ToolTipInfo.SetToolTip( AirStage2Friend, null );
+				AACutin.Text = "対空砲火";
+				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+				AACutin.ImageIndex = -1; 
+				ToolTipInfo.SetToolTip( AACutin, null );
 			}
 
+			AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage2Friend.ImageIndex = -1;
+			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage2Enemy.ImageIndex = -1;
+			
 		}
 
+
+		/// <summary>
+		/// 航空戦情報をクリアします。
+		/// </summary>
 		private void ClearAerialWarfare() {
 			AirSuperiority.Text = "-";
+			ToolTipInfo.SetToolTip( AirSuperiority, null );
+
 			AirStage1Friend.Text = "-";
+			AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage1Friend.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( AirStage1Friend, null );
+
 			AirStage1Enemy.Text = "-";
+			AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage1Enemy.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+
 			AirStage2Friend.Text = "-";
-			AirStage2Enemy.Text = "-";
+			AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage2Friend.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage2Friend, null );
+
+			AirStage2Enemy.Text = "-";
+			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage2Enemy.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( AirStage2Enemy, null );
+
+			AACutin.Text = "-";
+			AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+			AACutin.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( AACutin, null );
 		}
 
+		/// <summary>
+		/// 両軍のHPゲージを設定します。
+		/// </summary>
 		private void SetHPNormal( int[] hp, BattleData bd ) {
 
 			KCDatabase db = KCDatabase.Instance;
@@ -554,6 +643,9 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		/// <summary>
+		/// 両軍のHPゲージを設定します。(連合艦隊用)
+		/// </summary>
 		private void SetHPCombined( int[] hp, BattleData bd ) {
 
 			KCDatabase db = KCDatabase.Instance;
@@ -646,6 +738,10 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
+
+		/// <summary>
+		/// 損害率と戦績予測を設定します。
+		/// </summary>
 		private void SetDamageRateNormal( int[] hp, BattleData bd ) {
 
 			int friendbefore = 0;
@@ -663,9 +759,9 @@ namespace ElectronicObserver.Window {
 			}
 
 			friendrate = ( (double)( friendbefore - friendafter ) / friendbefore );
-			DamageFriend.Text = string.Format( "{0:0.0}%", friendrate * 100.0 );
+			DamageFriend.Text = string.Format( "{0:p1}", friendrate );
 			enemyrate = ( (double)( enemybefore - enemyafter ) / enemybefore );
-			DamageEnemy.Text = string.Format( "{0:0.0}%", enemyrate * 100.0 );
+			DamageEnemy.Text = string.Format( "{0:p1}", enemyrate );
 
 
 			//戦績判定
@@ -711,7 +807,10 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
-		
+
+		/// <summary>
+		/// 損害率と戦績予測を設定します(連合艦隊用)。
+		/// </summary>
 		private void SetDamageRateCombined( int[] hp, BattleData bd ) {
 
 			int friendbefore = 0;
@@ -733,9 +832,9 @@ namespace ElectronicObserver.Window {
 			}
 
 			friendrate = ( (double)( friendbefore - friendafter ) / friendbefore );
-			DamageFriend.Text = string.Format( "{0:0.0}%", friendrate * 100.0 );
+			DamageFriend.Text = string.Format( "{0:p1}", friendrate );
 			enemyrate = ( (double)( enemybefore - enemyafter ) / enemybefore );
-			DamageEnemy.Text = string.Format( "{0:0.0}%", enemyrate * 100.0 );
+			DamageEnemy.Text = string.Format( "{0:p1}", enemyrate );
 
 
 			//戦績判定
@@ -782,7 +881,9 @@ namespace ElectronicObserver.Window {
 		}
 
 
-
+		/// <summary>
+		/// 夜戦における各種表示を設定します。
+		/// </summary>
 		private void SetNightBattleEvent( int[] hp, bool isCombined, BattleData bd ) {
 
 			FleetData fleet = KCDatabase.Instance.Fleet[isCombined ? 2 : bd.FleetIDFriend];
@@ -790,96 +891,128 @@ namespace ElectronicObserver.Window {
 			//味方探照灯判定
 			{
 				ShipData ship = null;
+				int index = -1;
 				for ( int i = 0; i < 6; i++ ) {
-					ShipData s = fleet.MembersInstance[i];
+					ShipData s = fleet.MembersWithoutEscaped[i];
 					if ( s != null &&
-						s.SlotInstanceMaster.Count( e => e != null && e.EquipmentType[2] == 29 ) > 0 &&
+						s.SlotInstanceMaster.Count( e => e != null && e.CategoryType == 29 ) > 0 &&
 						hp[isCombined ? 12 + i : i] > 1 ) {
 						ship = s;
+						index = i;
 						break;
 					}
 				}
 
-				if ( ship != null ) {
-					ToolTipInfo.SetToolTip( FleetFriend, string.Format( "探照灯照射: {0}", ship.MasterShip.Name ) );
+				if ( index != -1 ) {
+					AirStage1Friend.Text = "#" + ( index + 1 );
+					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
+					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
+					ToolTipInfo.SetToolTip( AirStage1Friend, "探照灯照射: " + ship.NameWithLevel );
 				} else {
-					ToolTipInfo.SetToolTip( FleetFriend, null );
+					ToolTipInfo.SetToolTip( AirStage1Friend, null );
 				}
 			}
 
 			//敵探照灯判定
 			{
-				int idx = -1;
+				int index = -1;
 				for ( int i = 1; i < bd.EnemyFleetMembers.Count; i++ ) {
 					if ( bd.EnemyFleetMembers[i] == -1 ) continue;
 					if ( hp[i + 6 - 1] <= 1 ) continue;
 
-					if ( ( (int[])bd.Data.api_eSlot[i - 1] ).Count( 
-						id => KCDatabase.Instance.MasterEquipments.ContainsKey( id ) && 
-							KCDatabase.Instance.MasterEquipments[id].EquipmentType[2] == 29
+					if ( ( (int[])bd.Data.api_eSlot[i - 1] ).Count(
+						id => KCDatabase.Instance.MasterEquipments.ContainsKey( id ) &&
+							KCDatabase.Instance.MasterEquipments[id].CategoryType == 29
 							) > 0 ) {
-						idx = i - 1;
+						index = i - 1;
 						break;
 					}
 				}
 
-				if ( idx != -1 ) {
-					ToolTipInfo.SetToolTip( FleetEnemy, string.Format( "探照灯照射: {0}", KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[idx]].NameWithClass ) );
+				if ( index != -1 ) {
+					AirStage1Enemy.Text = "#" + ( index + 1 );
+					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
+					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
+					ToolTipInfo.SetToolTip( AirStage1Enemy, "探照灯照射: " + KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[index]].NameWithClass );
 				} else {
-					ToolTipInfo.SetToolTip( FleetEnemy, null );
+					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 				}
 			}
 
 
 			//夜間触接判定
-			if ( (int)bd.Data.api_touch_plane[0] != -1 )
-				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "夜間触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name ) );
-			else
-				ToolTipInfo.SetToolTip( AirStage1Friend, null );
+			if ( (int)bd.Data.api_touch_plane[0] != -1 ) {
+				SearchingFriend.Text = "夜間触接";
+				SearchingFriend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+				ToolTipInfo.SetToolTip( SearchingFriend, "夜間触接中: " + KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name );
+			} else {
+				ToolTipInfo.SetToolTip( SearchingFriend, null );
+			}
 
-			if ( (int)bd.Data.api_touch_plane[1] != -1 )
-				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "夜間触接中: {0}", KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name ) );
-			else
-				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+			if ( (int)bd.Data.api_touch_plane[1] != -1 ) {
+				SearchingEnemy.Text = "夜間触接";
+				SearchingEnemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+				ToolTipInfo.SetToolTip( SearchingEnemy, "夜間触接中: " + KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name );
+			} else {
+				ToolTipInfo.SetToolTip( SearchingEnemy, null );
+			}
 
+			//照明弾投射判定
+			{
+				int index = (int)bd.Data.api_flare_pos[0];
 
-			//照明弾投射判定(仮)
-			if ( (int)bd.Data.api_flare_pos[0] != -1 )
-				ToolTipInfo.SetToolTip( AirStage2Friend, string.Format(
-						"照明弾投射: {0}", fleet.MembersInstance[(int)bd.Data.api_flare_pos[0] - 1].MasterShip.Name ) );
-			else
-				ToolTipInfo.SetToolTip( AirStage2Friend, null );
+				if ( index != -1 ) {
+					AirStage2Friend.Text = "#" + index;
+					AirStage2Friend.ImageAlign = ContentAlignment.MiddleLeft;
+					AirStage2Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
+					ToolTipInfo.SetToolTip( AirStage2Friend, "照明弾投射: " + fleet.MembersInstance[index - 1].NameWithLevel );
 
-			if ( (int)bd.Data.api_flare_pos[1] != -1 )
-				ToolTipInfo.SetToolTip( AirStage2Enemy, string.Format(
-						"照明弾投射: {0}", KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[(int)bd.Data.api_flare_pos[1] - 1]].NameWithClass ) );
-			else
-				ToolTipInfo.SetToolTip( AirStage2Enemy, null );
+				} else {
+					ToolTipInfo.SetToolTip( AirStage2Friend, null );
+				}
+			}
 
+			{
+				int index = (int)bd.Data.api_flare_pos[1];
 
+				if ( index != -1 ) {
+					AirStage2Enemy.Text = "#" + index;
+					AirStage2Enemy.ImageAlign = ContentAlignment.MiddleLeft;
+					AirStage2Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
+					ToolTipInfo.SetToolTip( AirStage2Enemy, "照明弾投射: " + KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[index]].NameWithClass );
+				} else {
+					ToolTipInfo.SetToolTip( AirStage2Enemy, null );
+				}
+			}
 		}
 
 
 
 		void ConfigurationChanged() {
 
-			MainFont = TableMain.Font = Font = Utility.Configuration.Config.UI.MainFont;
+			MainFont = TableTop.Font = TableBottom.Font = Font = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 
 		}
 
 
 
+		private void TableTop_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
+			if ( e.Row == 1 || e.Row == 3 )
+				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		}
+
+		private void TableBottom_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
+			if ( e.Row == 7 )
+				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		}
+
+		
 		protected override string GetPersistString() {
 			return "Battle";
 		}
 
-
-		private void TableMain_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			if ( e.Row == 1 || e.Row == 4 || e.Row == 12 )
-				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
-		}
-
+		
 	}
 
 }

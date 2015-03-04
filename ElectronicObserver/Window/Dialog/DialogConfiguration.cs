@@ -288,7 +288,11 @@ namespace ElectronicObserver.Window.Dialog {
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
 			FormQuest_ShowWeekly.Checked = config.FormQuest.ShowWeekly;
 			FormQuest_ShowMonthly.Checked = config.FormQuest.ShowMonthly;
-
+			FormBrowser_IsEnabled.Checked = config.FormBrowser.IsEnabled;
+			FormBrowser_ZoomRate.Value = config.FormBrowser.ZoomRate;
+			FormBrowser_LogInPageURL.Text = config.FormBrowser.LogInPageURL;
+			FormBrowser_ScreenShotFormat_JPEG.Checked = config.FormBrowser.ScreenShotFormat == 1;
+			FormBrowser_ScreenShotFormat_PNG.Checked = config.FormBrowser.ScreenShotFormat == 2;
 
 			//finalize
 			UpdateParameter();
@@ -362,6 +366,13 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
 			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
 			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
+			config.FormBrowser.IsEnabled = FormBrowser_IsEnabled.Checked;
+			config.FormBrowser.ZoomRate = (int)FormBrowser_ZoomRate.Value;
+			config.FormBrowser.LogInPageURL = FormBrowser_LogInPageURL.Text;
+			if ( FormBrowser_ScreenShotFormat_JPEG.Checked )
+				config.FormBrowser.ScreenShotFormat = 1;
+			else
+				config.FormBrowser.ScreenShotFormat = 2;
 
 		}
 

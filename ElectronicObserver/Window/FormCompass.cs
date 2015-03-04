@@ -360,6 +360,7 @@ namespace ElectronicObserver.Window {
 					switch ( compass.EventID ) {
 						
 						case 0:		//初期位置
+						case 1:		//不明
 							TextEventDetail.Text = "どうしてこうなった";
 							break;
 
@@ -392,9 +393,9 @@ namespace ElectronicObserver.Window {
 										if ( s == null ) return 0;
 										switch ( compass.WhirlpoolItemID ) {
 											case 1:
-												return s.MasterShip.Fuel;
+												return s.Fuel;
 											case 2:
-												return s.MasterShip.Ammo;
+												return s.Ammo;
 											default:
 												return 0;
 										}

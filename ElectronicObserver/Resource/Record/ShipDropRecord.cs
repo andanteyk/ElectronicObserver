@@ -27,11 +27,25 @@ namespace ElectronicObserver.Resource.Record {
 				get {
 					if ( ShipID == -1 ) return "(なし)";
 					if ( ShipID == -2 ) return "(満員)";
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
-					if ( ship == null )
-						return "???";
-					else
-						return ship.Name;
+
+					if ( ShipID > 2000 ) {
+						var eq = KCDatabase.Instance.MasterEquipments[ShipID - 2000];
+						if ( eq != null ) 
+							return eq.Name;
+
+					} else if ( ShipID > 1000 ) {
+						var item = KCDatabase.Instance.MasterUseItems[ShipID - 1000];
+						if ( item != null ) 
+							return item.Name;
+
+					} else {
+						var ship = KCDatabase.Instance.MasterShips[ShipID];
+						if ( ship != null )
+							return ship.NameWithClass;
+					
+					}
+
+					return "???";
 				}
 			}
 

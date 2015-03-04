@@ -42,6 +42,7 @@ namespace ElectronicObserver.Window {
 		public FormBattle fBattle;
 		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
+		public FormBrowser fBrowser;
 
 		#endregion
 
@@ -100,7 +101,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBattle = new FormBattle( this ) );
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
-
+			SubForms.Add( fBrowser = new FormBrowser( this ) );
 			
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
@@ -258,7 +259,8 @@ namespace ElectronicObserver.Window {
 					return fFleetOverview;
 				case "ShipGroup":
 					return fShipGroup;
-
+				case "Browser":
+					return fBrowser;
 				default:
 					return null;
 			}
@@ -289,8 +291,11 @@ namespace ElectronicObserver.Window {
 						}
 					}
 
+					// checkme: このコードの存在意義
+					/*/
 					if ( MainDockPanel.Contents.Count > 0 )
 						MainDockPanel.Contents.First().DockHandler.Activate();
+					//*/
 
 				} else {
 
@@ -349,12 +354,16 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
+				fBrowser.Show( MainDockPanel );
+
 			} catch ( DirectoryNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
-			
+
+				fBrowser.Show( MainDockPanel );
+
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );
@@ -780,7 +789,131 @@ namespace ElectronicObserver.Window {
 		private void SeparatorWhitecap_Click( object sender, EventArgs e ) {
 			new DialogWhitecap().Show();
 		}
-	
+
+
+
+		private void StripMenu_File_Layout_Load_Click( object sender, EventArgs e ) {
+
+			LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+		}
+
+		private void StripMenu_File_Layout_Save_Click( object sender, EventArgs e ) {
+
+			SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+		}
+
+		private void StripMenu_File_Layout_Open_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new OpenFileDialog() ) {
+
+				dialog.Filter = "Layout Archive|*.zip|File|*";
+				dialog.Title = "レイアウト ファイルを開く";
+
+
+				PathHelper.InitOpenFileDialog( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					Utility.Configuration.Config.Life.LayoutFilePath = PathHelper.GetPathFromOpenFileDialog( dialog );
+					LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+				}
+
+			}
+
+		}
+
+
+
+
+		private void StripMenu_Browser_ScreenShot_Click( object sender, EventArgs e ) {
+
+			fBrowser.SaveScreenShot();
+
+		}
+
+		private void StripMenu_Browser_Refresh_Click( object sender, EventArgs e ) {
+
+			fBrowser.RefreshBrowser();
+
+		}
+
+		private void StripMenu_Browser_NavigateToLogInPage_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "ログインページへ移動します。\r\nよろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				fBrowser.NavigateToLogInPage();
+			}
+		}
+
+		private void StripMenu_Browser_Navigate_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new Window.Dialog.DialogTextInput( "移動先の入力", "移動先の URL を入力してください。" ) ) {
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					fBrowser.Navigate( dialog.InputtedText );
+				}
+			}
+		}
+
+
+		private void StripMenu_Browser_Zoom_Decr20_Click( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.FormBrowser.ZoomRate =
+				Math.Max( Utility.Configuration.Config.FormBrowser.ZoomRate - 20, 10 );
+
+			fBrowser.ApplyZoom();
+		}
+
+		private void StripMenu_Browser_Zoom_Incr20_Click( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.FormBrowser.ZoomRate =
+				Math.Min( Utility.Configuration.Config.FormBrowser.ZoomRate + 20, 1000 );
+
+			fBrowser.ApplyZoom();
+		}
+
+
+		private void StripMenu_Browser_Zoom_Click( object sender, EventArgs e ) {
+
+			int zoom;
+
+			if ( sender == StripMenu_Browser_Zoom_25 )
+				zoom = 25;
+			else if ( sender == StripMenu_Browser_Zoom_50 )
+				zoom = 50;
+			else if ( sender == StripMenu_Browser_Zoom_75 )
+				zoom = 75;
+			else if ( sender == StripMenu_Browser_Zoom_100 )
+				zoom = 100;
+			else if ( sender == StripMenu_Browser_Zoom_150 )
+				zoom = 150;
+			else if ( sender == StripMenu_Browser_Zoom_200 )
+				zoom = 200;
+			else if ( sender == StripMenu_Browser_Zoom_250 )
+				zoom = 250;
+			else if ( sender == StripMenu_Browser_Zoom_300 )
+				zoom = 300;
+			else if ( sender == StripMenu_Browser_Zoom_400 )
+				zoom = 400;
+			else
+				zoom = 100;
+
+			Utility.Configuration.Config.FormBrowser.ZoomRate = zoom;
+
+			fBrowser.ApplyZoom();
+		}
+
+		private void StripMenu_Browser_Zoom_DropDownOpening( object sender, EventArgs e ) {
+
+			StripMenu_Browser_Zoom_Current.Text = string.Format( "現在: {0}%",
+				Utility.Configuration.Config.FormBrowser.ZoomRate );
+
+		}
 
 
 
@@ -842,42 +975,11 @@ namespace ElectronicObserver.Window {
 			fShipGroup.Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_Browser_Click( object sender, EventArgs e ) {
+			fBrowser.Show( MainDockPanel );
+		}
+
 		#endregion
-
-
-
-		private void StripMenu_File_Layout_Load_Click( object sender, EventArgs e ) {
-
-			LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
-
-		}
-
-		private void StripMenu_File_Layout_Save_Click( object sender, EventArgs e ) {
-
-			SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
-
-		}
-
-		private void StripMenu_File_Layout_Open_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new OpenFileDialog() ) {
-
-				dialog.Filter = "Layout Archive|*.zip|File|*";
-				dialog.Title = "レイアウト ファイルを開く";
-
-			
-				PathHelper.InitOpenFileDialog( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
-
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
-
-					Utility.Configuration.Config.Life.LayoutFilePath = PathHelper.GetPathFromOpenFileDialog( dialog );
-					LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
-
-				}
-
-			}
-
-		}
 
 
 	}
