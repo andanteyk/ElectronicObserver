@@ -31,13 +31,9 @@
 			// Browser
 			// 
 			this.Browser.AllowWebBrowserDrop = false;
-			this.Browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.Browser.IsWebBrowserContextMenuEnabled = false;
 			this.Browser.Location = new System.Drawing.Point(0, 0);
 			this.Browser.Margin = new System.Windows.Forms.Padding(0);
-			this.Browser.MinimumSize = new System.Drawing.Size(20, 20);
 			this.Browser.Name = "Browser";
 			this.Browser.ScriptErrorsSuppressed = true;
 			this.Browser.Size = new System.Drawing.Size(300, 200);

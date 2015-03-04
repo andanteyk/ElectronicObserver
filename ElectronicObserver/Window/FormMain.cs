@@ -291,8 +291,11 @@ namespace ElectronicObserver.Window {
 						}
 					}
 
+					// checkme: このコードの存在意義
+					/*/
 					if ( MainDockPanel.Contents.Count > 0 )
 						MainDockPanel.Contents.First().DockHandler.Activate();
+					//*/
 
 				} else {
 
@@ -351,12 +354,16 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
+				fBrowser.Show( MainDockPanel );
+
 			} catch ( DirectoryNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
-			
+
+				fBrowser.Show( MainDockPanel );
+
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );
@@ -819,69 +826,6 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		#region フォーム表示
-
-		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
-			fFleet[0].Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Fleet_2_Click( object sender, EventArgs e ) {
-			fFleet[1].Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Fleet_3_Click( object sender, EventArgs e ) {
-			fFleet[2].Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
-			fFleet[3].Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Dock_Click( object sender, EventArgs e ) {
-			fDock.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Arsenal_Click( object sender, EventArgs e ) {
-			fArsenal.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Headquarters_Click( object sender, EventArgs e ) {
-			fHeadquarters.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Information_Click( object sender, EventArgs e ) {
-			fInformation.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Compass_Click( object sender, EventArgs e ) {
-			fCompass.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Log_Click( object sender, EventArgs e ) {
-			fLog.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Quest_Click( object sender, EventArgs e ) {
-			fQuest.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Battle_Click( object sender, EventArgs e ) {
-			fBattle.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_FleetOverview_Click( object sender, EventArgs e ) {
-			fFleetOverview.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_ShipGroup_Click( object sender, EventArgs e ) {
-			fShipGroup.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Browser_Click( object sender, EventArgs e ) {
-			fBrowser.Show( MainDockPanel );
-		}
-
-		#endregion
 
 
 		private void StripMenu_Browser_ScreenShot_Click( object sender, EventArgs e ) {
@@ -970,6 +914,72 @@ namespace ElectronicObserver.Window {
 				Utility.Configuration.Config.FormBrowser.ZoomRate );
 
 		}
+
+
+
+		#region フォーム表示
+
+		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
+			fFleet[0].Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Fleet_2_Click( object sender, EventArgs e ) {
+			fFleet[1].Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Fleet_3_Click( object sender, EventArgs e ) {
+			fFleet[2].Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
+			fFleet[3].Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Dock_Click( object sender, EventArgs e ) {
+			fDock.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Arsenal_Click( object sender, EventArgs e ) {
+			fArsenal.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Headquarters_Click( object sender, EventArgs e ) {
+			fHeadquarters.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Information_Click( object sender, EventArgs e ) {
+			fInformation.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Compass_Click( object sender, EventArgs e ) {
+			fCompass.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Log_Click( object sender, EventArgs e ) {
+			fLog.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Quest_Click( object sender, EventArgs e ) {
+			fQuest.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Battle_Click( object sender, EventArgs e ) {
+			fBattle.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_FleetOverview_Click( object sender, EventArgs e ) {
+			fFleetOverview.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_ShipGroup_Click( object sender, EventArgs e ) {
+			fShipGroup.Show( MainDockPanel );
+		}
+
+		private void StripMenu_View_Browser_Click( object sender, EventArgs e ) {
+			fBrowser.Show( MainDockPanel );
+		}
+
+		#endregion
 
 
 	}

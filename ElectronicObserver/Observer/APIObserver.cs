@@ -260,6 +260,8 @@ namespace ElectronicObserver.Observer {
 				
 				Utility.Logger.Add( 1, "Request を受信しました : " + shortpath );
 
+				SystemEvents.UpdateTimerEnabled = false;
+
 			
 				var parsedData = new Dictionary<string,string>();
 				data = HttpUtility.UrlDecode( data );
@@ -276,7 +278,11 @@ namespace ElectronicObserver.Observer {
 			} catch ( Exception ex ) {
 
 				ErrorReporter.SendErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
-			
+
+			} finally {
+
+				SystemEvents.UpdateTimerEnabled = true;
+
 			}
 
 		}
@@ -289,6 +295,8 @@ namespace ElectronicObserver.Observer {
 			try {
 
 				Utility.Logger.Add( 1, "Responseを受信しました : " + shortpath );
+
+				SystemEvents.UpdateTimerEnabled = false;
 
 			
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
@@ -312,7 +320,11 @@ namespace ElectronicObserver.Observer {
 			} catch ( Exception ex ) {
 
 				ErrorReporter.SendErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
-			
+
+			} finally {
+
+				SystemEvents.UpdateTimerEnabled = true;
+
 			}
 
 		}

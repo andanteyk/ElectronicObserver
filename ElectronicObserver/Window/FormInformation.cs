@@ -56,8 +56,6 @@ namespace ElectronicObserver.Window {
 
 		void Updated( string apiname, dynamic data ) {
 
-			//fixme: あとでメソッドを分離させる
-
 			switch ( apiname ) {
 
 				case "api_port/port":

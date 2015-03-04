@@ -450,12 +450,25 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int ScreenShotFormat { get; set; }
 
+				/// <summary>
+				/// 適用するスタイルシート
+				/// </summary>
+				public string StyleSheet { get; set; }
+
+				/// <summary>
+				/// スクロール可能かどうか
+				/// </summary>
+				public bool IsScrollable { get; set; }
+
+
 				public ConfigFormBrowser() {
 					ZoomRate = 100;
 					LogInPageURL = @"http://www.dmm.com/netgame_s/kancolle/";
 					IsEnabled = true;
 					ScreenShotPath = "ScreenShot";
 					ScreenShotFormat = 2;
+					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
+					IsScrollable = false;
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>

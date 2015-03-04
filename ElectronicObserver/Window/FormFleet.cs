@@ -557,7 +557,10 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
 			o.APIList["api_get_member/deck"].ResponseReceived += rec;
 			o.APIList["api_get_member/slot_item"].ResponseReceived += rec;
+			o.APIList["api_req_map/start"].ResponseReceived += rec;
+			o.APIList["api_req_map/next"].ResponseReceived += rec;
 			
+
 			//追加するときは FormFleetOverview にも同様に追加してください
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
@@ -579,7 +582,7 @@ namespace ElectronicObserver.Window {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			if ( db.Ships.Count == 0 || db.Equipments.Count == 0 ) return;
+			if ( db.Ships.Count == 0 ) return;
 			
 			FleetData fleet = db.Fleet.Fleets[FleetID];
 

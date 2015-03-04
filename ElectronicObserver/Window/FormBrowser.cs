@@ -34,16 +34,13 @@ namespace ElectronicObserver.Window {
 			set {
 
 				if ( value ) {
-					Browser.Anchor = AnchorStyles.None;
-					ApplyZoom( Utility.Configuration.Config.FormBrowser.ZoomRate );
+					//Browser.Anchor = AnchorStyles.None;
+					ApplyZoom();
 					SizeAdjuster_SizeChanged( null, new EventArgs() );
 
 				} else {
 					SizeAdjuster.SuspendLayout();
-					Browser.Anchor = AnchorStyles.Top |
-						AnchorStyles.Left |
-						AnchorStyles.Bottom |
-						AnchorStyles.Right;
+					//Browser.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 					Browser.Location = new Point( 0, 0 );
 					Browser.MinimumSize = new Size( 0, 0 );
 					Browser.Size = SizeAdjuster.Size;
@@ -60,8 +57,9 @@ namespace ElectronicObserver.Window {
 
 			StyleSheetApplied = false;
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
+			ConfigurationChanged();
 
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
 		}
 
 
@@ -80,7 +78,8 @@ namespace ElectronicObserver.Window {
 		
 
 		void ConfigurationChanged() {
-			ApplyZoom();
+			SizeAdjuster.AutoScroll = Utility.Configuration.Config.FormBrowser.IsScrollable;
+			ApplyZoom();	
 		}
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
@@ -91,21 +90,33 @@ namespace ElectronicObserver.Window {
 
 		private void SizeAdjuster_SizeChanged( object sender, EventArgs e ) {
 
-			if ( !StyleSheetApplied )
+			if ( !StyleSheetApplied ) {
+				Browser.Location = new Point( 0, 0 );
+				Browser.Size = SizeAdjuster.Size;
 				return;
+			}
 
-			//センタリング
+			/*/
+			Utility.Logger.Add( 1, string.Format( "SizeChanged: BR ({0},{1}) {2}x{3}, PA {4}x{5}, CL {6}x{7}",
+				Browser.Location.X, Browser.Location.Y, Browser.Width, Browser.Height, SizeAdjuster.Width, SizeAdjuster.Height, ClientSize.Width, ClientSize.Height ) );
+			//*/
 
+
+			//スタイルシート適用時はセンタリング
+		
 			int x = Browser.Location.X, y = Browser.Location.Y;
+			bool isScrollable = Utility.Configuration.Config.FormBrowser.IsScrollable;
 
-			if ( Browser.Width <= SizeAdjuster.Width ) {
+			if ( !isScrollable || Browser.Width <= SizeAdjuster.Width ) {
 				x = ( SizeAdjuster.Width - Browser.Width ) / 2;
 			}
-			if ( Browser.Height <= SizeAdjuster.Height ) {
+			if ( !isScrollable || Browser.Height <= SizeAdjuster.Height ) {
 				y = ( SizeAdjuster.Height - Browser.Height ) / 2;
 			}
 
+			//if ( x != Browser.Location.X || y != Browser.Location.Y )
 			Browser.Location = new Point( x, y );
+		
 		}
 
 
@@ -125,9 +136,6 @@ namespace ElectronicObserver.Window {
 
 			try {
 
-				//fixme: 外部化
-				const string css = "body {\r\n    margin:0;\r\n    overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n    position:fixed;\r\n    left:50%;\r\n    top:-16px;\r\n    margin-left:-450px;\r\n    z-index:1\r\n}";
-
 				var document = Browser.Document;
 				if ( document == null ) return;
 
@@ -145,7 +153,7 @@ namespace ElectronicObserver.Window {
 				if ( target != null ) {
 					mshtml.IHTMLStyleSheet ss = ( (mshtml.IHTMLDocument2)target.DomDocument ).createStyleSheet( "", 0 );
 
-					ss.cssText = css;
+					ss.cssText = Utility.Configuration.Config.FormBrowser.StyleSheet;
 
 
 					StyleSheetApplied = true;
@@ -209,6 +217,7 @@ namespace ElectronicObserver.Window {
 					zoomRate = 1000;
 
 				var wb = Browser.ActiveXInstance as SHDocVw.IWebBrowser2;
+				if ( wb == null || wb.ReadyState == SHDocVw.tagREADYSTATE.READYSTATE_UNINITIALIZED ) return;
 
 				object pin = zoomRate;
 				object pout = null;
@@ -380,8 +389,6 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Browser";
 		}
-
-	
 
 
 	}
