@@ -12,17 +12,18 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogNotifier : Form {
 
-		
+
 		public NotifierDialogData DialogData { get; set; }
 
 
 		protected override bool ShowWithoutActivation { get { return !DialogData.ShowWithActivation; } }
 
-	
+
 		public DialogNotifier( NotifierDialogData data ) {
-			InitializeComponent();
 
 			DialogData = data.Clone();
+
+			InitializeComponent();
 
 			Text = DialogData.Title;
 			Font = Utility.Configuration.Config.UI.MainFont;
@@ -46,7 +47,7 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( !DialogData.HasFormBorder )
 				FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-			TopMost = DialogData.TopMost;
+			//TopMost = DialogData.TopMost;
 
 
 			Rectangle screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
@@ -92,19 +93,29 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		protected override CreateParams CreateParams {
+			get {
+				var cp = base.CreateParams;
+				if ( DialogData != null && DialogData.TopMost )
+					cp.ExStyle |= 0x8;		//set topmost flag
+				return cp;
+			}
+		}
+
+
 		private void DialogNotifier_Paint( object sender, PaintEventArgs e ) {
 
-			
+
 			Graphics g = e.Graphics;
 			g.Clear( BackColor );
 
 			try {
-	
+
 				if ( DialogData.DrawsImage && DialogData.Image != null ) {
 
 					g.DrawImage( DialogData.Image, new Rectangle( 0, 0, DialogData.Image.Width, DialogData.Image.Height ) );
-				} 
-			
+				}
+
 				if ( DialogData.DrawsMessage ) {
 
 					TextRenderer.DrawText( g, DialogData.Message, Font, new Rectangle( Padding.Left, Padding.Right, ClientSize.Width - Padding.Horizontal, ClientSize.Height - Padding.Vertical ), ForeColor, TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak );
@@ -136,7 +147,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void CloseTimer_Tick( object sender, EventArgs e ) {
 			Close();
 		}
-
+		
 
 	}
 }

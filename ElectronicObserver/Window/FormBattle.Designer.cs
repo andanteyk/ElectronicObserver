@@ -168,6 +168,7 @@
 			this.BaseLayoutPanel.Controls.Add(this.TableTop);
 			this.BaseLayoutPanel.Controls.Add(this.TableBottom);
 			this.BaseLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BaseLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.BaseLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.BaseLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.BaseLayoutPanel.Name = "BaseLayoutPanel";
