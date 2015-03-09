@@ -738,6 +738,76 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
+		/// <summary>
+		/// 勝利ランクを計算します。連合艦隊は情報が少ないので正確ではありません。
+		/// </summary>
+		private static int CalcRank(
+			int countFriend, int countEnemy,
+			int sunkFriend, int sunkEnemy,
+			double friendrate, double enemyrate,
+			bool defeatFlagship)
+		{
+			int rifriend = (int)(friendrate * 100);
+			int rienemy = (int)(enemyrate * 100);
+			bool equalOrMore = (rienemy > (0.9 * rifriend));
+			bool superior = (rienemy > (2.5 * rifriend));
+
+			if (sunkFriend == 0)
+			{ // 味方轟沈数ゼロ
+				if (enemyrate >= 1.0)
+				{ // 敵を殲滅した
+					if (friendrate <= 0.0)
+					{ // 味方ダメージゼロ
+						return 7; // SS
+					}
+					return 6; // S
+				}
+				else if (sunkEnemy >= (int)Math.Round(countEnemy * 0.6))
+				{ // 半数以上撃破
+					return 5; // A
+				}
+				else if (defeatFlagship || (rienemy > (rifriend * 2.5)))
+				{ // 敵旗艦を撃沈 or 戦果ゲージが2.5倍以上
+					return 4; // B
+				}
+			}
+			else
+			{
+				if (enemyrate >= 1.0)
+				{ // 敵を殲滅した
+					return 4; // B
+				}
+				// 敵旗艦を撃沈 and 味方轟沈数 < 敵撃沈数
+				if (defeatFlagship && (sunkFriend < sunkEnemy))
+				{
+					return 4; // B
+				}
+				// 戦果ゲージが2.5倍以上
+				if (rienemy > (rifriend * 2.5))
+				{
+					return 4; // B
+				}
+				// 敵旗艦を撃沈
+				// TODO: 味方の轟沈艦が２隻以上ある場合、敵旗艦を撃沈してもDになる場合がある
+				if (defeatFlagship)
+				{
+					return 3; // C
+				}
+			}
+			// 戦果ゲージが0.9倍以上
+			if (rienemy > (0.9 * rifriend))
+			{
+				return 3; // C
+			}
+			// 轟沈艦があり かつ 残った艦が１隻のみ
+			if ((sunkFriend > 0) && ((countFriend - sunkFriend) == 1))
+			{
+				return 1; // E
+			}
+			// 残りはD
+			return 2; // D
+		}
+
 
 		/// <summary>
 		/// 損害率と戦績予測を設定します。
@@ -770,36 +840,9 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bd.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
-				int rifriend = (int)( friendrate * 100 );
-				int rienemy = (int)( enemyrate * 100 );
-				int rank;
+				int rank = CalcRank(countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, (hp[6] <= 0));
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
-
-				if ( enemyrate >= 1.0 ) {
-					if ( friendrate <= 0.0 ) {
-						rank = 7;
-					} else {
-						rank = 6;
-					}
-
-				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
-					rank = 5;
-
-				} else if ( hp[6] <= 0 || rienemy > rifriend * 2.5 ) {
-					rank = 4;
-
-				} else if ( rienemy > rifriend || rienemy >= 50 ) {
-					rank = 3;
-
-				} else {
-					rank = 2;
-				}
-
-				if ( sunkFriend > 0 )
-					rank = Math.Min( rank, 5 ) - 1;
-
-
 
 				DamageRate.Text = Constants.GetWinRank( rank );
 				DamageRate.ForeColor = rank >= 4 ? colorWin : colorLose;
@@ -844,35 +887,9 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bdc.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 ) + hp.Skip( 12 ).Take( countFriendCombined ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
-				int rifriend = (int)( friendrate * 100 );
-				int rienemy = (int)( enemyrate * 100 );
-				int rank;
+				int rank = CalcRank(countFriend + countFriendCombined, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, (hp[6] <= 0));
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
-
-				if ( enemyrate >= 1.0 ) {
-					if ( friendrate <= 0.0 ) {
-						rank = 7;
-					} else {
-						rank = 6;
-					}
-
-				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {
-					rank = 5;
-
-				} else if ( hp[6] <= 0 || rienemy > rifriend * 2.5 ) {
-					rank = 4;
-
-				} else if ( rienemy > rifriend || rienemy >= 50 ) {
-					rank = 3;
-
-				} else {
-					rank = 2;
-				}
-
-				if ( sunkFriend > 0 )
-					rank = Math.Min( rank, 5 ) - 1;
-
 
 				DamageRate.Text = Constants.GetWinRank( rank );
 				DamageRate.ForeColor = rank >= 4 ? colorWin : colorLose;
