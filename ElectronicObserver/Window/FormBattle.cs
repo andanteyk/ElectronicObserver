@@ -63,7 +63,7 @@ namespace ElectronicObserver.Window {
 
 			SearchingFriend.ImageList =
 			SearchingEnemy.ImageList =
-			AACutin.ImageList = 
+			AACutin.ImageList =
 			AirStage1Friend.ImageList =
 			AirStage1Enemy.ImageList =
 			AirStage2Friend.ImageList =
@@ -71,7 +71,7 @@ namespace ElectronicObserver.Window {
 				ResourceManager.Instance.Equipments;
 
 			BaseLayoutPanel.Visible = false;
-			
+
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
 
@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window {
 			TableTop.SuspendLayout();
 			TableBottom.SuspendLayout();
 			switch ( apiname ) {
-					
+
 				case "api_req_map/start":
 				case "api_req_map/next":
 				case "api_port/port":
@@ -246,7 +246,7 @@ namespace ElectronicObserver.Window {
 			SearchingEnemy.ImageAlign = ContentAlignment.MiddleLeft;
 			SearchingEnemy.ImageIndex = (int)( searchEnemy < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
 			ToolTipInfo.SetToolTip( SearchingEnemy, null );
-			
+
 		}
 
 		/// <summary>
@@ -274,12 +274,12 @@ namespace ElectronicObserver.Window {
 
 			//空対空戦闘
 			if ( (int)bd.Data.api_stage_flag[0] != 0 ) {
-			
+
 				AirSuperiority.Text = Constants.GetAirSuperiority( (int)bd.Data.api_kouku.api_stage1.api_disp_seiku );
-				
+
 				int[] planeFriend = { (int)bd.Data.api_kouku.api_stage1.api_f_lostcount, (int)bd.Data.api_kouku.api_stage1.api_f_count };
 				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
-				
+
 				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
 					AirStage1Friend.ForeColor = Color.Red;
 				else
@@ -287,7 +287,7 @@ namespace ElectronicObserver.Window {
 
 				int[] planeEnemy = { (int)bd.Data.api_kouku.api_stage1.api_e_lostcount, (int)bd.Data.api_kouku.api_stage1.api_e_count };
 				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
-				
+
 				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
 					AirStage1Enemy.ForeColor = Color.Red;
 				else
@@ -320,15 +320,15 @@ namespace ElectronicObserver.Window {
 			} else {		//空対空戦闘発生せず
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
-				
+
 				AirStage1Friend.Text = "-";
 				AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
 				AirStage1Friend.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AirStage1Friend, null );
-				
+
 				AirStage1Enemy.Text = "-";
 				AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
-				AirStage1Enemy.ImageIndex = -1; 
+				AirStage1Enemy.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 			}
 
@@ -356,7 +356,7 @@ namespace ElectronicObserver.Window {
 				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {
 					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
 					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
-					
+
 					AACutin.Text = "#" + ( cutinIndex + 1 );
 					AACutin.ImageAlign = ContentAlignment.MiddleLeft;
 					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
@@ -365,7 +365,7 @@ namespace ElectronicObserver.Window {
 						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel,
 						cutinID,
 						Constants.GetAACutinKind( cutinID ) ) );
-					
+
 				} else {
 					AACutin.Text = "対空砲火";
 					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
@@ -440,7 +440,7 @@ namespace ElectronicObserver.Window {
 					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
 
 					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchFriend[0]], KCDatabase.Instance.MasterEquipments[touchFriend[1]] };
-					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( 
+					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format(
 						"触接中\r\n1回目: {0}\r\n2回目: {1}",
 						planes[0] != null ? planes[0].Name : "(なし)",
 						planes[1] != null ? planes[1].Name : "(なし)"
@@ -525,16 +525,16 @@ namespace ElectronicObserver.Window {
 				} else {
 					AACutin.Text = "対空砲火";
 					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
-					AACutin.ImageIndex = -1; 
+					AACutin.ImageIndex = -1;
 					ToolTipInfo.SetToolTip( AACutin, null );
 				}
-				
+
 			} else {
 				AirStage2Friend.Text = "-";
 				AirStage2Enemy.Text = "-";
 				AACutin.Text = "対空砲火";
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
-				AACutin.ImageIndex = -1; 
+				AACutin.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AACutin, null );
 			}
 
@@ -542,7 +542,7 @@ namespace ElectronicObserver.Window {
 			AirStage2Friend.ImageIndex = -1;
 			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage2Enemy.ImageIndex = -1;
-			
+
 		}
 
 
@@ -585,7 +585,7 @@ namespace ElectronicObserver.Window {
 		private void SetHPNormal( int[] hp, BattleData bd ) {
 
 			KCDatabase db = KCDatabase.Instance;
-			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0; 
+			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0;
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( (int)bd.Data.api_nowhps[i + 1] != -1 ) {
@@ -738,74 +738,74 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
+
 		/// <summary>
 		/// 勝利ランクを計算します。連合艦隊は情報が少ないので正確ではありません。
 		/// </summary>
-		private static int CalcRank(
+		/// <param name="countFriend">戦闘に参加した自軍艦数。</param>
+		/// <param name="countEnemy">戦闘に参加した敵軍艦数。</param>
+		/// <param name="sunkFriend">撃沈された自軍艦数。</param>
+		/// <param name="sunkEnemy">撃沈した敵軍艦数。</param>
+		/// <param name="friendrate">自軍損害率。</param>
+		/// <param name="enemyrate">敵軍損害率。</param>
+		/// <param name="defeatFlagship">敵旗艦を撃沈しているか。</param>
+		/// <remarks>thanks: nekopanda</remarks>
+		private static int GetWinRank( 
 			int countFriend, int countEnemy,
 			int sunkFriend, int sunkEnemy,
 			double friendrate, double enemyrate,
-			bool defeatFlagship)
-		{
-			int rifriend = (int)(friendrate * 100);
-			int rienemy = (int)(enemyrate * 100);
-			bool equalOrMore = (rienemy > (0.9 * rifriend));
-			bool superior = (rienemy > (2.5 * rifriend));
+			bool defeatFlagship ) {
 
-			if (sunkFriend == 0)
-			{ // 味方轟沈数ゼロ
-				if (enemyrate >= 1.0)
-				{ // 敵を殲滅した
-					if (friendrate <= 0.0)
-					{ // 味方ダメージゼロ
-						return 7; // SS
+			int rifriend = (int)( friendrate * 100 );
+			int rienemy = (int)( enemyrate * 100 );
+			
+			bool borderC = rienemy > ( 0.9 * rifriend );
+			bool borderB = rienemy > ( 2.5 * rifriend );
+
+			if ( sunkFriend == 0 ) {	// 味方轟沈数ゼロ
+				if ( enemyrate >= 1.0 ) {	// 敵を殲滅した
+					if ( friendrate <= 0.0 ) {	// 味方ダメージゼロ
+						return 7;	// SS
 					}
-					return 6; // S
+					return 6;	// S
+
+				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {	// 半数以上撃破
+					return 5;	// A
+				
+				} else if ( defeatFlagship || borderB ) {	// 敵旗艦を撃沈 or 戦果ゲージが2.5倍以上
+					return 4;	// B
 				}
-				else if (sunkEnemy >= (int)Math.Round(countEnemy * 0.6))
-				{ // 半数以上撃破
-					return 5; // A
-				}
-				else if (defeatFlagship || (rienemy > (rifriend * 2.5)))
-				{ // 敵旗艦を撃沈 or 戦果ゲージが2.5倍以上
-					return 4; // B
-				}
-			}
-			else
-			{
-				if (enemyrate >= 1.0)
-				{ // 敵を殲滅した
-					return 4; // B
+
+			} else {
+				if ( enemyrate >= 1.0 ) {	// 敵を殲滅した
+					return 4;	// B
 				}
 				// 敵旗艦を撃沈 and 味方轟沈数 < 敵撃沈数
-				if (defeatFlagship && (sunkFriend < sunkEnemy))
-				{
-					return 4; // B
+				if ( defeatFlagship && ( sunkFriend < sunkEnemy ) ) {
+					return 4;	// B
 				}
 				// 戦果ゲージが2.5倍以上
-				if (rienemy > (rifriend * 2.5))
-				{
-					return 4; // B
+				if ( borderB ) {
+					return 4;	// B
 				}
 				// 敵旗艦を撃沈
 				// TODO: 味方の轟沈艦が２隻以上ある場合、敵旗艦を撃沈してもDになる場合がある
-				if (defeatFlagship)
-				{
-					return 3; // C
+				if ( defeatFlagship ) {
+					return 3;	// C
 				}
 			}
+
 			// 戦果ゲージが0.9倍以上
-			if (rienemy > (0.9 * rifriend))
-			{
-				return 3; // C
+			if ( borderC ) {
+				return 3;	// C
 			}
 			// 轟沈艦があり かつ 残った艦が１隻のみ
-			if ((sunkFriend > 0) && ((countFriend - sunkFriend) == 1))
-			{
-				return 1; // E
+			if ( ( sunkFriend > 0 ) && ( ( countFriend - sunkFriend ) == 1 ) ) {
+				return 1;	// E
 			}
+
 			// 残りはD
-			return 2; // D
+			return 2;	// D
 		}
 
 
@@ -840,13 +840,15 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bd.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
-				int rank = CalcRank(countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, (hp[6] <= 0));
+
+				int rank = GetWinRank( countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, hp[6] <= 0 );
+				
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
 
+
 				DamageRate.Text = Constants.GetWinRank( rank );
 				DamageRate.ForeColor = rank >= 4 ? colorWin : colorLose;
-
 			}
 		}
 
@@ -887,13 +889,15 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bdc.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 ) + hp.Skip( 12 ).Take( countFriendCombined ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
-				int rank = CalcRank(countFriend + countFriendCombined, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, (hp[6] <= 0));
+				
+				int rank = GetWinRank( countFriend + countFriendCombined, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, hp[6] <= 0 );
+				
 				Color colorWin = SystemColors.WindowText;
 				Color colorLose = Color.Red;
 
+
 				DamageRate.Text = Constants.GetWinRank( rank );
 				DamageRate.ForeColor = rank >= 4 ? colorWin : colorLose;
-
 			}
 		}
 
@@ -1024,12 +1028,12 @@ namespace ElectronicObserver.Window {
 				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
-		
+
 		protected override string GetPersistString() {
 			return "Battle";
 		}
 
-		
+
 	}
 
 }
