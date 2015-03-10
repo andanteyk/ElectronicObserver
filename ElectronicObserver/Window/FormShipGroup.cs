@@ -52,9 +52,7 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( ShipView );
 
-			ConfigurationChanged();
-			splitContainer1.SplitterDistance = Utility.Configuration.Config.FormShipGroup.SplitterDistance;
-
+			
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
 				column.MinimumWidth = 2;
 			}
@@ -148,9 +146,10 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
-			MenuGroup_AutoUpdate.Checked = true;		//checkme:未設定です
 
-
+			ConfigurationChanged();
+			
+			
 			APIObserver o = APIObserver.Instance;
 
 			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( APIUpdated ), apiname, data );
@@ -168,7 +167,10 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 			ShipView.Font = StatusBar.Font = Font = Utility.Configuration.Config.UI.MainFont;
-			
+
+			splitContainer1.SplitterDistance = Utility.Configuration.Config.FormShipGroup.SplitterDistance;
+			MenuGroup_AutoUpdate.Checked = Utility.Configuration.Config.FormShipGroup.AutoUpdate;
+			MenuGroup_ShowStatusBar.Checked = Utility.Configuration.Config.FormShipGroup.ShowStatusBar;
 		}
 
 
@@ -1167,6 +1169,13 @@ namespace ElectronicObserver.Window {
 
 
 
+		private void MenuGroup_ShowStatusBar_Click( object sender, EventArgs e ) {
+
+			StatusBar.Visible = MenuGroup_ShowStatusBar.Checked;
+
+		}
+
+
 		void SystemShuttingDown() {
 
 			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
@@ -1188,7 +1197,8 @@ namespace ElectronicObserver.Window {
 			}
 
 			Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
-
+			Utility.Configuration.Config.FormShipGroup.AutoUpdate = MenuGroup_AutoUpdate.Checked;
+			Utility.Configuration.Config.FormShipGroup.ShowStatusBar = MenuGroup_ShowStatusBar.Checked;
 		}
 
 
@@ -1196,6 +1206,9 @@ namespace ElectronicObserver.Window {
 			return "ShipGroup";
 		}
 
+
+
+		
 		
 
 	}

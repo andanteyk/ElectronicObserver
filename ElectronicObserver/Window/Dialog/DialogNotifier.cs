@@ -21,9 +21,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 		public DialogNotifier( NotifierDialogData data ) {
 
-			DialogData = data.Clone();
-
 			InitializeComponent();
+
+			DialogData = data.Clone();
 
 			Text = DialogData.Title;
 			Font = Utility.Configuration.Config.UI.MainFont;

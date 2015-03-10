@@ -22,7 +22,7 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormCompass : DockContent {
 
-
+		
 		private class TableEnemyMemberControl {
 
 			public ImageLabel ShipName;
@@ -332,6 +332,9 @@ namespace ElectronicObserver.Window {
 		
 		private void Updated( string apiname, dynamic data ) {
 
+			Color colorNormal = SystemColors.ControlText;
+			Color colorNight = Color.Navy;
+			
 			if ( apiname == "api_port/port" ) {
 
 				BasePanel.Visible = false;
@@ -342,6 +345,7 @@ namespace ElectronicObserver.Window {
 				TextDestination.Text = string.Format( "{0} {1}", data.api_nickname, Constants.GetAdmiralRank( (int)data.api_rank ) );
 				TextEventKind.Text = data.api_cmt;
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
+				TextEventDetail.ForeColor = colorNormal;
 				TextEnemyFleetName.Text = data.api_deckname;
 
 			} else {
@@ -357,6 +361,7 @@ namespace ElectronicObserver.Window {
 				
 				{
 					string eventkind = Constants.GetMapEventID( compass.EventID );
+
 					switch ( compass.EventID ) {
 						
 						case 0:		//初期位置
@@ -410,14 +415,14 @@ namespace ElectronicObserver.Window {
 							break;
 
 						case 4:		//通常戦闘
-							if ( compass.EventKind >= 2 )
-								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
-							UpdateEnemyFleet( compass.EnemyFleetID );
-							break;
-
 						case 5:		//ボス戦闘
-							if ( compass.EventKind >= 2 ) 
+							if ( compass.EventKind >= 2 ) { 
 								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
+
+								if ( compass.EventKind == 2 || compass.EventKind == 3 ) {
+									TextEventDetail.ForeColor = colorNight; break;
+								}
+							}
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 

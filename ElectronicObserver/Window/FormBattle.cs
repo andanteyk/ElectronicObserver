@@ -19,6 +19,10 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormBattle : DockContent {
 
+		private readonly Color WinRankColor_Win = SystemColors.ControlText;
+		private readonly Color WinRankColor_Lose = Color.Red;
+
+
 		private List<ShipStatusHP> HPBars;
 
 		public Font MainFont { get; set; }
@@ -750,7 +754,7 @@ namespace ElectronicObserver.Window {
 		/// <param name="enemyrate">敵軍損害率。</param>
 		/// <param name="defeatFlagship">敵旗艦を撃沈しているか。</param>
 		/// <remarks>thanks: nekopanda</remarks>
-		private static int GetWinRank( 
+		private static int GetWinRank(
 			int countFriend, int countEnemy,
 			int sunkFriend, int sunkEnemy,
 			double friendrate, double enemyrate,
@@ -758,7 +762,7 @@ namespace ElectronicObserver.Window {
 
 			int rifriend = (int)( friendrate * 100 );
 			int rienemy = (int)( enemyrate * 100 );
-			
+
 			bool borderC = rienemy > ( 0.9 * rifriend );
 			bool borderB = rienemy > ( 2.5 * rifriend );
 
@@ -771,7 +775,7 @@ namespace ElectronicObserver.Window {
 
 				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {	// 半数以上撃破
 					return 5;	// A
-				
+
 				} else if ( defeatFlagship || borderB ) {	// 敵旗艦を撃沈 or 戦果ゲージが2.5倍以上
 					return 4;	// B
 				}
@@ -842,13 +846,10 @@ namespace ElectronicObserver.Window {
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
 
 				int rank = GetWinRank( countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, hp[6] <= 0 );
-				
-				Color colorWin = SystemColors.WindowText;
-				Color colorLose = Color.Red;
 
 
-				DamageRate.Text = Constants.GetWinRank( rank );
-				DamageRate.ForeColor = rank >= 4 ? colorWin : colorLose;
+				WinRank.Text = Constants.GetWinRank( rank );
+				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
 			}
 		}
 
@@ -889,15 +890,12 @@ namespace ElectronicObserver.Window {
 				int countEnemy = ( bdc.EnemyFleetMembers.Skip( 1 ).Count( v => v != -1 ) );
 				int sunkFriend = hp.Take( countFriend ).Count( v => v <= 0 ) + hp.Skip( 12 ).Take( countFriendCombined ).Count( v => v <= 0 );
 				int sunkEnemy = hp.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
-				
+
 				int rank = GetWinRank( countFriend + countFriendCombined, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, hp[6] <= 0 );
-				
-				Color colorWin = SystemColors.WindowText;
-				Color colorLose = Color.Red;
 
 
-				DamageRate.Text = Constants.GetWinRank( rank );
-				DamageRate.ForeColor = rank >= 4 ? colorWin : colorLose;
+				WinRank.Text = Constants.GetWinRank( rank );
+				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
 			}
 		}
 
