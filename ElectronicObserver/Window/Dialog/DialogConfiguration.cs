@@ -335,7 +335,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				if ( changed ) {
 					APIObserver.Instance.Stop();
-					APIObserver.Instance.Start( config.Connection.Port );
+					APIObserver.Instance.Start( config.Connection.Port, this );
 				}
 			}
 
