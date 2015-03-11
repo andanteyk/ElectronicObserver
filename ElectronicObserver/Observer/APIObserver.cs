@@ -30,7 +30,10 @@ namespace ElectronicObserver.Observer {
 		public APIDictionary APIList;
 
 		public string ServerAddress { get; private set; }
+		public int ProxyPort { get { return Fiddler.FiddlerApplication.oProxy.ListenPort; } }
 
+		public delegate void ProxyStartedEventHandler();
+		public event ProxyStartedEventHandler ProxyStarted = delegate { };
 
 		private APIObserver() {
 
@@ -104,8 +107,11 @@ namespace ElectronicObserver.Observer {
 			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
 				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
 
+			/*
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}",
 						Fiddler.FiddlerApplication.oProxy.ListenPort ), "<local>" );
+			*/
+			ProxyStarted();
 
 			Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
 

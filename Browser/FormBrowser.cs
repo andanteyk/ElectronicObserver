@@ -1,6 +1,4 @@
-﻿using ElectronicObserver.Resource;
-using ElectronicObserver.Utility.Mathematics;
-using mshtml;
+﻿using mshtml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,22 +6,30 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 
-namespace ElectronicObserver.Window {
-
+namespace Browser {
 	/// <summary>
 	/// ブラウザを表示するフォームです。
 	/// </summary>
 	/// <remarks>thx KanColleViewer!</remarks>
-	public partial class FormBrowser : DockContent {
+	[ServiceBehavior( InstanceContextMode = InstanceContextMode.Single )]
+	public partial class FormBrowser : Form, BrowserLib.IBrowser {
+		// FormBrowserHostの通信サーバ
+		private string ServerUri;
 
-		
+		// FormBrowserの通信サーバ
+		private ServiceHost CommunicationServiceHost;
+
+		// FormBrowserHostとの通信インターフェース
+		private BrowserLib.IBrowserHost BrowserHost;
+
+		private BrowserLib.BrowserConfiguration Configuration;
+
 		private readonly Size KanColleSize = new Size( 800, 480 );
-
 
 		private bool _styleSheetApplied;
 		/// <summary>
@@ -51,39 +57,65 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
-
-		public FormBrowser( FormMain parent ) {
+		/// <summary>
+		/// </summary>
+		/// <param name="serverUri">ホストプロセスとの通信用URL</param>
+		public FormBrowser( string serverUri ) {
 			InitializeComponent();
 
+			ServerUri = serverUri;
 			StyleSheetApplied = false;
-
-			ConfigurationChanged();
-
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
 		}
 
+		[DllImport( "user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true )]
+		private static extern uint GetWindowLong( IntPtr hwnd, int nIndex );
+
+		[DllImport( "user32.dll", EntryPoint = "SetWindowLongA", SetLastError = true )]
+		private static extern uint SetWindowLong( IntPtr hwnd, int nIndex, uint dwNewLong );
+
+		private const int GWL_STYLE = ( -16 );
+		private const uint WS_CHILD = 0x40000000;
+		private const uint WS_VISIBLE = 0x10000000;
 
 		private void FormBrowser_Load( object sender, EventArgs e ) {
+			SetWindowLong( this.Handle, GWL_STYLE, WS_CHILD );
 
-			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+			// ホストプロセスに接続
+			ChannelFactory<BrowserLib.IBrowserHost> pipeFactory =
+			new ChannelFactory<BrowserLib.IBrowserHost>(
+			  new NetNamedPipeBinding(),
+			  new EndpointAddress( ServerUri + "/BrowserHost" ) );
+			BrowserHost = pipeFactory.CreateChannel();
+			Configuration = BrowserHost.Configuration;
 
-			Observer.APIObserver.Instance.APIList["api_start2"].ResponseReceived += 
-				( string apiname, dynamic data ) => Invoke( new Observer.APIReceivedEventHandler( InitialAPIReceived ), apiname, data );
+			// キーメッセージの送り先はFormBrowserHost
+			// FormBrowserHostを別ウィンドウに切り離すとショートカットキーが効かなくなる
+			// メインウィンドウに送れば切り離してても効くようになると思うが、
+			// 元からそういう仕様だったから変更していない
+			Application.AddMessageFilter( new KeyMessageGrabber( BrowserHost.HWND ) );
 
+			// こちらのサーバを作成
+			CommunicationServiceHost = new ServiceHost( this, new Uri[] { new Uri( ServerUri + "Browser" ) } );
+			CommunicationServiceHost.AddServiceEndpoint(
+				typeof( BrowserLib.IBrowser ), new NetNamedPipeBinding(), "Browser" );
+			CommunicationServiceHost.Open();
 
-			if ( Utility.Configuration.Config.FormBrowser.IsEnabled )
-				NavigateToLogInPage();
+			// ウィンドウの親子設定＆ホストプロセスから接続してもらう
+			BrowserHost.ConnectToBrowser( this.Handle );
 		}
 
-		
+		private void FormBrowser_FormClosed( object sender, FormClosedEventArgs e ) {
+			CommunicationServiceHost.Close();
+		}
 
-		void ConfigurationChanged() {
-			SizeAdjuster.AutoScroll = Utility.Configuration.Config.FormBrowser.IsScrollable;
-			ApplyZoom();	
+		public void ConfigurationChanged( BrowserLib.BrowserConfiguration conf ) {
+			Configuration = conf;
+			SizeAdjuster.AutoScroll = Configuration.IsScrollable;
+			ApplyZoom();
 		}
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
-		void InitialAPIReceived( string apiname, dynamic data ) {
+		public void InitialAPIReceived() {
 			ApplyZoom();
 		}
 
@@ -101,11 +133,13 @@ namespace ElectronicObserver.Window {
 				Browser.Location.X, Browser.Location.Y, Browser.Width, Browser.Height, SizeAdjuster.Width, SizeAdjuster.Height, ClientSize.Width, ClientSize.Height ) );
 			//*/
 
-
 			//スタイルシート適用時はセンタリング
-		
+			CenteringBrowser();
+		}
+
+		private void CenteringBrowser() {
 			int x = Browser.Location.X, y = Browser.Location.Y;
-			bool isScrollable = Utility.Configuration.Config.FormBrowser.IsScrollable;
+			bool isScrollable = Configuration.IsScrollable;
 
 			if ( !isScrollable || Browser.Width <= SizeAdjuster.Width ) {
 				x = ( SizeAdjuster.Width - Browser.Width ) / 2;
@@ -116,9 +150,7 @@ namespace ElectronicObserver.Window {
 
 			//if ( x != Browser.Location.X || y != Browser.Location.Y )
 			Browser.Location = new Point( x, y );
-		
 		}
-
 
 		private void Browser_DocumentCompleted( object sender, WebBrowserDocumentCompletedEventArgs e ) {
 
@@ -126,8 +158,6 @@ namespace ElectronicObserver.Window {
 			ApplyStyleSheet();
 
 		}
-
-
 
 		/// <summary>
 		/// スタイルシートを適用します。
@@ -153,7 +183,7 @@ namespace ElectronicObserver.Window {
 				if ( target != null ) {
 					mshtml.IHTMLStyleSheet ss = ( (mshtml.IHTMLDocument2)target.DomDocument ).createStyleSheet( "", 0 );
 
-					ss.cssText = Utility.Configuration.Config.FormBrowser.StyleSheet;
+					ss.cssText = Configuration.StyleSheet;
 
 
 					StyleSheetApplied = true;
@@ -163,7 +193,7 @@ namespace ElectronicObserver.Window {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "スタイルシートの適用に失敗しました。" );
+				Task.Run( () => BrowserHost.SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" ) );
 			}
 
 		}
@@ -175,13 +205,6 @@ namespace ElectronicObserver.Window {
 		public void Navigate( string url ) {
 			StyleSheetApplied = false;
 			Browser.Navigate( url );
-		}
-
-		/// <summary>
-		/// 艦これのログインページを開きます。
-		/// </summary>
-		public void NavigateToLogInPage() {
-			Navigate( Utility.Configuration.Config.FormBrowser.LogInPageURL );
 		}
 
 
@@ -198,7 +221,7 @@ namespace ElectronicObserver.Window {
 		/// ズームを適用します。
 		/// </summary>
 		public void ApplyZoom() {
-			ApplyZoom( Utility.Configuration.Config.FormBrowser.ZoomRate );
+			ApplyZoom( Configuration.ZoomRate );
 		}
 
 
@@ -226,23 +249,20 @@ namespace ElectronicObserver.Window {
 
 				if ( StyleSheetApplied ) {
 					Browser.Size = Browser.MinimumSize = new Size( (int)( KanColleSize.Width * zoomRate / 100.0 ), (int)( KanColleSize.Height * zoomRate / 100.0 ) );
+					CenteringBrowser();
 				}
 
 			} catch ( Exception ex ) {
-
-				Utility.Logger.Add( 3, "ズームの適用に失敗しました。" + ex.Message );
+				Task.Run( () => BrowserHost.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message ) );
 			}
-			
+
 		}
 
 
 		/// <summary>
 		/// スクリーンショットを保存します。
 		/// </summary>
-		public void SaveScreenShot() {
-
-			string path = Utility.Configuration.Config.FormBrowser.ScreenShotPath;
-
+		public void SaveScreenShot( string path, int screenShotFormat, string timestamp ) {
 			if ( !System.IO.Directory.Exists( path ) ) {
 				System.IO.Directory.CreateDirectory( path );
 			}
@@ -250,7 +270,7 @@ namespace ElectronicObserver.Window {
 			string ext;
 			System.Drawing.Imaging.ImageFormat format;
 
-			switch ( Utility.Configuration.Config.FormBrowser.ScreenShotFormat ) {
+			switch ( screenShotFormat ) {
 				case 1:
 					ext = "jpg";
 					format = System.Drawing.Imaging.ImageFormat.Jpeg;
@@ -262,10 +282,10 @@ namespace ElectronicObserver.Window {
 					break;
 			}
 
-			
+
 			SaveScreenShot( string.Format( "{0}\\{1}.{2}",
 				path,
-				DateTimeHelper.GetTimeStamp(),
+				timestamp,
 				ext ), format );
 
 		}
@@ -374,26 +394,53 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) );
+				Task.Run( () => BrowserHost.AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) ) );
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "スクリーンショットの保存時にエラーが発生しました。" );
+				Task.Run( () => BrowserHost.SendErrorReport( ex.ToString(), "スクリーンショットの保存時にエラーが発生しました。" ) );
 			}
 
 
 		}
 
-
-
-		protected override string GetPersistString() {
-			return "Browser";
+		public void SetProxy( int port ) {
+			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}", port ), "<local>" );
 		}
-
-
 	}
 
+	/// <summary>
+	/// キーボードメッセージを親ウィンドウに届ける
+	/// 別プロセスの小ウィンドウにフォーカスがあるとキーボードショートカットが効かなくなるため、
+	/// キー関連のメッセージのコピーをホスト側に送る
+	/// </summary>
+	internal class KeyMessageGrabber : IMessageFilter {
+		private IntPtr TargetWnd;
 
+		[DllImport( "user32.dll" )]
+		private static extern bool PostMessage( IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam );
+
+		private const int WM_KEYDOWN = 0x100;
+		private const int WM_KEYUP = 0x101;
+		private const int WM_SYSKEYDOWN = 0x0104;
+		private const int WM_SYSKEYUP = 0x0105;
+
+		public KeyMessageGrabber( IntPtr targetWnd ) {
+			TargetWnd = targetWnd;
+		}
+
+		public bool PreFilterMessage( ref Message m ) {
+			switch ( m.Msg ) {
+				case WM_KEYDOWN:
+				case WM_KEYUP:
+				case WM_SYSKEYDOWN:
+				case WM_SYSKEYUP:
+					PostMessage( TargetWnd, m.Msg, m.WParam, m.LParam );
+					break;
+			}
+			return false;
+		}
+	}
 
 	#region struct
 
@@ -439,5 +486,4 @@ namespace ElectronicObserver.Window {
 	}
 
 	#endregion
-
 }
