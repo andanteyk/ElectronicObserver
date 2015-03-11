@@ -52,18 +52,25 @@ namespace ElectronicObserver.Window {
 				typeof( BrowserLib.IBrowserHost ), new NetNamedPipeBinding(), "BrowserHost" );
 			CommunicationServiceHost.Open();
 
-			// プロセス起動
-			BrowserProcess = Process.Start( "Browser.exe", ServerUri );
+			try {
+				// プロセス起動
+				BrowserProcess = Process.Start( "Browser.exe", ServerUri );
 
-			// 残りはサーバに接続してきたブラウザプロセスがドライブする
+				// 残りはサーバに接続してきたブラウザプロセスがドライブする
+
+			} catch ( Exception ex ) {
+				MessageBox.Show( "ブラウザプロセスの起動に失敗しました。\r\n" + ex.Message );
+			}
 		}
 
 		private void ConfigurationChanged() {
+			if ( Browser == null ) return;
 			Task.Run( () => Browser.ConfigurationChanged( Configuration ) );
 		}
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 		void InitialAPIReceived( string apiname, dynamic data ) {
+			if ( Browser == null ) return;
 			Task.Run( () => Browser.InitialAPIReceived() );
 		}
 
@@ -72,6 +79,7 @@ namespace ElectronicObserver.Window {
 		/// 指定した URL のページを開きます。
 		/// </summary>
 		public void Navigate( string url ) {
+			if ( Browser == null ) return;
 			Task.Run( () => Browser.Navigate( url ) );
 		}
 
@@ -86,6 +94,7 @@ namespace ElectronicObserver.Window {
 		/// ブラウザを再読み込みします。
 		/// </summary>
 		public void RefreshBrowser() {
+			if ( Browser == null ) return;
 			Task.Run( () => Browser.RefreshBrowser() );
 		}
 
@@ -102,6 +111,7 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		/// <param name="zoomRate">拡大率。%指定で 10-1000</param>
 		public void ApplyZoom( int zoomRate ) {
+			if ( Browser == null ) return;
 			Task.Run( () => Browser.ApplyZoom( zoomRate ) );
 		}
 
@@ -110,6 +120,7 @@ namespace ElectronicObserver.Window {
 		/// スクリーンショットを保存します。
 		/// </summary>
 		public void SaveScreenShot() {
+			if ( Browser == null ) return;
 			Task.Run( () => Browser.SaveScreenShot( Utility.Configuration.Config.FormBrowser.ScreenShotPath,
 				Utility.Configuration.Config.FormBrowser.ScreenShotFormat,
 				DateTimeHelper.GetTimeStamp() ) );
@@ -145,30 +156,27 @@ namespace ElectronicObserver.Window {
 		private static extern bool MoveWindow( IntPtr hwnd, int x, int y, int cx, int cy, bool repaint );
 
 		public void ConnectToBrowser( IntPtr hwnd ) {
-			// ここをBeginにすると一瞬別ウィンドウが表示されるので注意
-			// （最初非表示にしておいて準備が整ってからShow()で表示でもいいけど）
-			Invoke( (Action)( () => {
-				BrowserWnd = hwnd;
+			BrowserWnd = hwnd;
 
-				// 子ウィンドウに設定
-				SetParent( BrowserWnd, this.Handle );
-				MoveWindow( BrowserWnd, 0, 0, this.Width, this.Height, true );
+			// 子ウィンドウに設定
+			SetParent( BrowserWnd, this.Handle );
+			MoveWindow( BrowserWnd, 0, 0, this.Width, this.Height, true );
 
-			} ) );
-
+			// 後は非同期で処理
 			BeginInvoke( (Action)( () => {
 				// ブラウザプロセスに接続
 				ChannelFactory<BrowserLib.IBrowser> pipeFactory =
 					new ChannelFactory<BrowserLib.IBrowser>(
 						new NetNamedPipeBinding(), new EndpointAddress( ServerUri + "Browser/Browser" ) );
 				Browser = pipeFactory.CreateChannel();
+				( (IClientChannel)Browser ).Faulted += BrowserChannel_Faulted;
 
 				ConfigurationChanged();
 
 				Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 				Observer.APIObserver.Instance.APIList["api_start2"].ResponseReceived +=
-					( string apiname, dynamic data ) => Invoke( new Observer.APIReceivedEventHandler( InitialAPIReceived ), apiname, data );
+					( string apiname, dynamic data ) => InitialAPIReceived( apiname, data );
 
 				// プロキシをセット
 				Task.Run( () => Browser.SetProxy( Observer.APIObserver.Instance.ProxyPort ) );
@@ -181,9 +189,29 @@ namespace ElectronicObserver.Window {
 			} ) );
 		}
 
+		void TerminateBrowserProcess() {
+			if ( !BrowserProcess.WaitForExit( 2000 ) ) {
+				try {
+					// 2秒待って終了しなかったらKill
+					BrowserProcess.Kill();
+				} catch ( Exception ) {
+					// プロセスが既に終了してた場合などに例外が出る
+				}
+			}
+			BrowserWnd = IntPtr.Zero;
+		}
+
+		void BrowserChannel_Faulted( object sender, EventArgs e ) {
+			( (IClientChannel)Browser ).Abort();
+			Browser = null;
+			TerminateBrowserProcess();
+			Utility.Logger.Add( 3, "ブラウザプロセスが予期せず終了しました" );
+		}
+
 		private void FormBrowserHost_FormClosed( object sender, FormClosedEventArgs e ) {
-			BrowserProcess.WaitForExit();
+			( (IClientChannel)Browser ).Close();
 			CommunicationServiceHost.Close();
+			TerminateBrowserProcess();
 		}
 
 		private void FormBrowserHost_Resize( object sender, EventArgs e ) {

@@ -29,6 +29,9 @@ namespace Browser {
 
 		private BrowserLib.BrowserConfiguration Configuration;
 
+		// 親プロセスが生きているか定期的に確認するためのタイマー
+		private Timer HeartbeatTimer = new Timer();
+
 		private readonly Size KanColleSize = new Size( 800, 480 );
 
 		private bool _styleSheetApplied;
@@ -86,6 +89,8 @@ namespace Browser {
 			  new NetNamedPipeBinding(),
 			  new EndpointAddress( ServerUri + "/BrowserHost" ) );
 			BrowserHost = pipeFactory.CreateChannel();
+			( (IClientChannel)BrowserHost ).Faulted += BrowserHostChannel_Faulted;
+
 			Configuration = BrowserHost.Configuration;
 
 			// キーメッセージの送り先はFormBrowserHost
@@ -102,9 +107,33 @@ namespace Browser {
 
 			// ウィンドウの親子設定＆ホストプロセスから接続してもらう
 			BrowserHost.ConnectToBrowser( this.Handle );
+
+			HeartbeatTimer.Tick += HeartbeatTimer_Tick;
+			HeartbeatTimer.Interval = 2000; // 2秒ごと　
+			HeartbeatTimer.Start();
+		}
+
+		void BrowserHostChannel_Faulted( object sender, EventArgs e ) {
+			// 親と通信できなくなったら終了する
+			( (IClientChannel)BrowserHost ).Abort();
+
+			// 子ウィンドウフラグを取る
+			// （子ウィンドウフラグがあるとClose()しても閉じないので）
+			SetWindowLong( this.Handle, GWL_STYLE, 0 );
+			Close();
+		}
+
+		void HeartbeatTimer_Tick( object sender, EventArgs e ) {
+			// 親ウィンドウが生きているか確認 
+			try {
+				IntPtr hwnd = BrowserHost.HWND;
+			} catch ( Exception ) {
+				HeartbeatTimer.Stop();
+			}
 		}
 
 		private void FormBrowser_FormClosed( object sender, FormClosedEventArgs e ) {
+			( (IClientChannel)BrowserHost ).Close();
 			CommunicationServiceHost.Close();
 		}
 
@@ -198,7 +227,6 @@ namespace Browser {
 
 		}
 
-
 		/// <summary>
 		/// 指定した URL のページを開きます。
 		/// </summary>
@@ -207,15 +235,12 @@ namespace Browser {
 			Browser.Navigate( url );
 		}
 
-
 		/// <summary>
 		/// ブラウザを再読み込みします。
 		/// </summary>
 		public void RefreshBrowser() {
 			Browser.Refresh( WebBrowserRefreshOption.Completely );
 		}
-
-
 
 		/// <summary>
 		/// ズームを適用します。
@@ -224,14 +249,12 @@ namespace Browser {
 			ApplyZoom( Configuration.ZoomRate );
 		}
 
-
 		/// <summary>
 		/// ズームを適用します。
 		/// </summary>
 		/// <param name="zoomRate">拡大率。%指定で 10-1000</param>
 		public void ApplyZoom( int zoomRate ) {
 
-			// fixme: ページが未ロードのとき例外を吐くので一時しのぎ；回避できるなら回避すること
 			try {
 
 				if ( zoomRate < 10 )
@@ -241,6 +264,9 @@ namespace Browser {
 
 				var wb = Browser.ActiveXInstance as SHDocVw.IWebBrowser2;
 				if ( wb == null || wb.ReadyState == SHDocVw.tagREADYSTATE.READYSTATE_UNINITIALIZED ) return;
+
+				// 読み込み中は例外を吐くので避ける
+				if ( wb.Busy ) return;
 
 				object pin = zoomRate;
 				object pout = null;
@@ -253,7 +279,9 @@ namespace Browser {
 				}
 
 			} catch ( Exception ex ) {
-				Task.Run( () => BrowserHost.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message ) );
+				Task.Run( () => {
+					BrowserHost.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message );
+				});
 			}
 
 		}
@@ -411,7 +439,7 @@ namespace Browser {
 
 	/// <summary>
 	/// キーボードメッセージを親ウィンドウに届ける
-	/// 別プロセスの小ウィンドウにフォーカスがあるとキーボードショートカットが効かなくなるため、
+	/// 別プロセスの子ウィンドウにフォーカスがあるとキーボードショートカットが効かなくなるため、
 	/// キー関連のメッセージのコピーをホスト側に送る
 	/// </summary>
 	internal class KeyMessageGrabber : IMessageFilter {
