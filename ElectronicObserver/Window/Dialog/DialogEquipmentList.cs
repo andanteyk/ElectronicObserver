@@ -16,7 +16,8 @@ namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogEquipmentList : Form {
 
 
-		private DataGridViewCellStyle CSDefaultLeft, CSDefaultRight, CSEquippedShips;
+		private DataGridViewCellStyle CSDefaultLeft, CSDefaultRight, 
+			CSUnselectableLeft, CSUnselectableRight;
 
 
 		public DialogEquipmentList() {
@@ -42,18 +43,27 @@ namespace ElectronicObserver.Window.Dialog {
 			CSDefaultLeft.ForeColor = SystemColors.ControlText;
 			CSDefaultLeft.SelectionBackColor = Color.FromArgb( 0xFF, 0xFF, 0xCC );
 			CSDefaultLeft.SelectionForeColor = SystemColors.ControlText;
+			CSDefaultLeft.WrapMode = DataGridViewTriState.False;
 
 			CSDefaultRight = new DataGridViewCellStyle( CSDefaultLeft );
 			CSDefaultRight.Alignment = DataGridViewContentAlignment.MiddleRight;
-			CSDefaultRight.WrapMode = DataGridViewTriState.False;
 
-			CSEquippedShips = new DataGridViewCellStyle( CSDefaultLeft );
-			CSEquippedShips.WrapMode = DataGridViewTriState.True;
+			CSUnselectableLeft = new DataGridViewCellStyle( CSDefaultLeft );
+			CSUnselectableLeft.SelectionForeColor = CSUnselectableLeft.ForeColor;
+			CSUnselectableLeft.SelectionBackColor = CSUnselectableLeft.BackColor;
+
+			CSUnselectableRight = new DataGridViewCellStyle( CSDefaultRight );
+			CSUnselectableRight.SelectionForeColor = CSUnselectableRight.ForeColor;
+			CSUnselectableRight.SelectionBackColor = CSUnselectableRight.BackColor;
+
 
 			EquipmentView.DefaultCellStyle = CSDefaultRight;
 			EquipmentView_Name.DefaultCellStyle = CSDefaultLeft;
-			EquipmentView_EquippedShip.DefaultCellStyle = CSEquippedShips;
 			EquipmentView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+			DetailView.DefaultCellStyle = CSUnselectableRight;
+			DetailView_EquippedShip.DefaultCellStyle = CSUnselectableLeft;
+			DetailView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
 			#endregion
 
@@ -68,120 +78,16 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		private void UpdateView() {
-
-			var ships = KCDatabase.Instance.Ships.Values;
-			var equipments = KCDatabase.Instance.Equipments.Values;
-			var masterEquipments = KCDatabase.Instance.MasterEquipments;
-			int masterCount = masterEquipments.Values.Count( eq => !eq.IsAbyssalEquipment );
-
-			var allCount = new Dictionary<int, int>( masterCount );
-
-			//全個数計算
-			foreach ( var e in equipments ) {
-
-				if ( !allCount.ContainsKey( e.EquipmentID ) ) {
-					allCount.Add( e.EquipmentID, 1 );
-
-				} else {
-					allCount[e.EquipmentID]++;
-				}
-
-			}
-
-
-			var remainCount = new Dictionary<int, int>( allCount );
-			var equippedShips = new Dictionary<int, StringBuilder>( allCount.Count );
-
-			//剰余数計算&装備艦
-			foreach ( var ship in ships ) {
-
-				var owneqs = ship.SlotInstance;
-				int[] eqids = ship.SlotInstance.Select( i => i != null ? i.EquipmentID : -1 ).ToArray();
-
-
-				for ( int i = 0; i < eqids.Length; i++ ) {
-
-					if ( eqids[i] == -1 ) continue;
-
-					int cid = eqids[i];
-
-					int count = 0;
-					for ( int j = 0; j < eqids.Length; j++ ) {
-						if ( eqids[j] == cid ) {
-							count++;
-							eqids[j] = -1;
-						}
-					}
-
-					remainCount[cid] -= count;
-
-					if ( !equippedShips.ContainsKey( cid ) ) {
-						equippedShips.Add( cid, new StringBuilder( GetShipInformation( ship, count ) ) );
-
-					} else {
-						equippedShips[cid].AppendFormat( ", {0}", GetShipInformation( ship, count ) );
-					}
-
-				}
-
-			}
-
-
-			//表示処理
-			EquipmentView.SuspendLayout();
-
-			EquipmentView.Rows.Clear();
-
-
-			var rows = new List<DataGridViewRow>( allCount.Count );
-			var ids = allCount.Keys;
-
-			foreach ( int id in ids ) {
-
-				var row = new DataGridViewRow();
-				row.CreateCells( EquipmentView );
-				row.SetValues(
-					id,
-					masterEquipments[id].IconType,
-					masterEquipments[id].Name,
-					allCount[id],
-					remainCount[id],
-					equippedShips.ContainsKey( id ) ? equippedShips[id].ToString() : null
-					);
-
-				rows.Add( row );
-			}
-
-			for ( int i = 0; i < rows.Count; i++ )
-				rows[i].Tag = i;
-
-			EquipmentView.Rows.AddRange( rows.ToArray() );
-
-			EquipmentView.Sort( EquipmentView_Name, ListSortDirection.Ascending );
-
-			EquipmentView.ResumeLayout();
-
-		}
-
-
-		private string GetShipInformation( ShipData ship, int count ) {
-
-			return string.Format( "{0} Lv.{1}{2}", ship.MasterShip.Name, ship.Level, count > 1 ? " x" + count : "" );
-
-		}
-
-
 		private void EquipmentView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
 			if ( e.Column.Index == EquipmentView_Name.Index ) {
 
-				int id1 = (int)EquipmentView.Rows[e.RowIndex1].Cells[EquipmentView_ID.Index].Value;
-				int id2 = (int)EquipmentView.Rows[e.RowIndex2].Cells[EquipmentView_ID.Index].Value;
+				int id1 = (int)EquipmentView[EquipmentView_ID.Index, e.RowIndex1].Value;
+				int id2 = (int)EquipmentView[EquipmentView_ID.Index, e.RowIndex2].Value;
 
 				e.SortResult =
-					KCDatabase.Instance.MasterEquipments[id1].EquipmentType[2] -
-					KCDatabase.Instance.MasterEquipments[id2].EquipmentType[2];
+					KCDatabase.Instance.MasterEquipments[id1].CategoryType -
+					KCDatabase.Instance.MasterEquipments[id2].CategoryType;
 
 				if ( e.SortResult == 0 ) {
 					e.SortResult = id1 - id2;
@@ -217,6 +123,244 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 		}
+
+		private void EquipmentView_SelectionChanged( object sender, EventArgs e ) {
+
+			if ( EquipmentView.Enabled && EquipmentView.SelectedRows != null && EquipmentView.SelectedRows.Count > 0 )
+				UpdateDetailView( (int)EquipmentView[EquipmentView_ID.Index, EquipmentView.SelectedRows[0].Index].Value );
+
+		}
+
+
+		private void DetailView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
+
+			if ( e.ColumnIndex != DetailView_EquippedShip.Index ) {
+				if ( AreEqual( e.RowIndex, e.RowIndex - 1 ) ) {
+
+					e.Value = "";
+					e.FormattingApplied = true;
+					return;
+				}
+			}
+
+			if ( e.ColumnIndex == DetailView_Level.Index ) {
+
+				e.Value = "+" + e.Value;
+				e.FormattingApplied = true;
+
+			}
+
+		}
+
+		private void DetailView_CellPainting( object sender, DataGridViewCellPaintingEventArgs e ) {
+
+			e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+
+			if ( AreEqual( e.RowIndex, e.RowIndex + 1 ) ) {
+				e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+			} else {
+				e.AdvancedBorderStyle.Bottom = DetailView.AdvancedCellBorderStyle.Bottom;
+			}
+
+		}
+
+		/// <summary>
+		/// DetailView 内の行が同じレベルであるかを判定します。
+		/// </summary>
+		private bool AreEqual( int rowIndex1, int rowIndex2 ) {
+
+			if ( rowIndex1 < 0 ||
+				rowIndex1 >= DetailView.Rows.Count ||
+				rowIndex2 < 0 ||
+				rowIndex2 >= DetailView.Rows.Count )
+				return false;
+
+			return ( (IComparable)DetailView[DetailView_Level.Index, rowIndex1].Value )
+				.CompareTo( DetailView[DetailView_Level.Index, rowIndex2].Value ) == 0;
+		}
+
+
+		/// <summary>
+		/// 一覧ビューを更新します。
+		/// </summary>
+		private void UpdateView() {
+
+			var ships = KCDatabase.Instance.Ships.Values;
+			var equipments = KCDatabase.Instance.Equipments.Values;
+			var masterEquipments = KCDatabase.Instance.MasterEquipments;
+			int masterCount = masterEquipments.Values.Count( eq => !eq.IsAbyssalEquipment );
+
+			var allCount = new Dictionary<int, int>( masterCount );
+
+			//全個数計算
+			foreach ( var e in equipments ) {
+
+				if ( !allCount.ContainsKey( e.EquipmentID ) ) {
+					allCount.Add( e.EquipmentID, 1 );
+
+				} else {
+					allCount[e.EquipmentID]++;
+				}
+
+			}
+
+
+			var remainCount = new Dictionary<int, int>( allCount );
+
+
+			//剰余数計算
+			foreach ( var ship in ships ) {
+
+				int[] eqids = ship.SlotInstance.Select( i => i != null ? i.EquipmentID : -1 ).ToArray();
+
+
+				for ( int i = 0; i < eqids.Length; i++ ) {
+
+					if ( eqids[i] == -1 ) continue;
+
+					remainCount[eqids[i]]--;
+				}
+
+			}
+
+
+			//表示処理
+			EquipmentView.SuspendLayout();
+
+			EquipmentView.Enabled = false;
+			EquipmentView.Rows.Clear();
+
+
+			var rows = new List<DataGridViewRow>( allCount.Count );
+			var ids = allCount.Keys;
+
+			foreach ( int id in ids ) {
+
+				var row = new DataGridViewRow();
+				row.CreateCells( EquipmentView );
+				row.SetValues(
+					id,
+					masterEquipments[id].IconType,
+					masterEquipments[id].Name,
+					allCount[id],
+					remainCount[id]
+					);
+
+				rows.Add( row );
+			}
+
+			for ( int i = 0; i < rows.Count; i++ )
+				rows[i].Tag = i;
+
+			EquipmentView.Rows.AddRange( rows.ToArray() );
+
+			EquipmentView.Sort( EquipmentView_Name, ListSortDirection.Ascending );
+
+
+			EquipmentView.Enabled = true;
+			EquipmentView.ResumeLayout();
+
+			if ( EquipmentView.Rows.Count > 0 )
+				EquipmentView.CurrentCell = EquipmentView[0, 0];
+
+		}
+
+
+		private class DetailCounter : IIdentifiable {
+
+			public int level;
+			public int countAll;
+			public int countRemain;
+			public int countRemainPrev;
+
+			public List<string> equippedShips;
+
+			public DetailCounter( int lv ) {
+				level = lv;
+				countAll = 0;
+				countRemainPrev = 0;
+				countRemain = 0;
+				equippedShips = new List<string>();
+			}
+
+			public int ID { get { return level; } }
+		}
+
+
+		/// <summary>
+		/// 詳細ビューを更新します。
+		/// </summary>
+		private void UpdateDetailView( int equipmentID ) {
+
+			DetailView.SuspendLayout();
+
+			DetailView.Rows.Clear();
+
+			//装備数カウント
+			var eqs = KCDatabase.Instance.Equipments.Values.Where( eq => eq.EquipmentID == equipmentID );
+			var countlist = new IDDictionary<DetailCounter>();
+
+			foreach ( var eq in eqs ) {
+				var c = countlist[eq.Level];
+				if ( c == null ) {
+					countlist.Add( new DetailCounter( eq.Level ) );
+					c = countlist[eq.Level];
+				}
+				c.countAll++;
+				c.countRemain++;
+				c.countRemainPrev++;
+			}
+
+			//装備艦集計
+			foreach ( var ship in KCDatabase.Instance.Ships.Values ) {
+
+				foreach ( var eq in ship.SlotInstance.Where( s => s != null && s.EquipmentID == equipmentID ) ) {
+
+					countlist[eq.Level].countRemain--;
+
+				}
+
+				foreach ( var c in countlist.Values ) {
+					if ( c.countRemain != c.countRemainPrev ) {
+
+						int diff = c.countRemainPrev - c.countRemain;
+
+						c.equippedShips.Add( ship.NameWithLevel + ( diff > 1 ? ( " x" + diff ) : "" ) );
+
+						c.countRemainPrev = c.countRemain;
+					}
+				}
+
+			}
+
+
+			//行に反映
+			var rows = new List<DataGridViewRow>( eqs.Count() );
+
+			foreach ( var c in countlist.Values ) {
+
+				if ( c.equippedShips.Count() == 0 ) {
+					c.equippedShips.Add( "" );
+				}
+
+				foreach ( var s in c.equippedShips ) {
+
+					var row = new DataGridViewRow();
+					row.CreateCells( DetailView );
+					row.SetValues( c.level, c.countAll, c.countRemain, s );
+					rows.Add( row );
+				}
+
+			}
+
+			DetailView.Rows.AddRange( rows.ToArray() );
+			DetailView.Sort( DetailView_Level, ListSortDirection.Ascending );
+
+			DetailView.ResumeLayout();
+
+			Text = "装備一覧 - " + KCDatabase.Instance.MasterEquipments[equipmentID].Name;
+		}
+
 
 
 		private void Menu_File_CSVOutput_Click( object sender, EventArgs e ) {
@@ -263,8 +407,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-
-
 		private void DialogEquipmentList_FormClosed( object sender, FormClosedEventArgs e ) {
 
 			ResourceManager.DestroyIcon( Icon );
@@ -275,6 +417,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			UpdateView();
 		}
+
 
 	}
 }

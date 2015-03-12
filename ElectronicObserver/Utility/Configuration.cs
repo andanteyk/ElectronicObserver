@@ -410,8 +410,14 @@ namespace ElectronicObserver.Utility {
 
 				public int SplitterDistance { get; set; }
 
+				public bool AutoUpdate { get; set; }
+
+				public bool ShowStatusBar { get; set; }
+
 				public ConfigFormShipGroup() {
 					SplitterDistance = 40;
+					AutoUpdate = true;
+					ShowStatusBar = true;
 				}
 			}
 			/// <summary>[艦船グループ]ウィンドウ</summary>

@@ -281,13 +281,19 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
+
 			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
 			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
+			
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
 			FormQuest_ShowWeekly.Checked = config.FormQuest.ShowWeekly;
 			FormQuest_ShowMonthly.Checked = config.FormQuest.ShowMonthly;
+
+			FormShipGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
+			FormShipGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
+
 			FormBrowser_IsEnabled.Checked = config.FormBrowser.IsEnabled;
 			FormBrowser_ZoomRate.Value = config.FormBrowser.ZoomRate;
 			FormBrowser_LogInPageURL.Text = config.FormBrowser.LogInPageURL;
@@ -359,13 +365,19 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
+			
 			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
 			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
+			
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;
 			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
 			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
 			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
+
+			config.FormShipGroup.AutoUpdate = FormShipGroup_AutoUpdate.Checked;
+			config.FormShipGroup.ShowStatusBar = FormShipGroup_ShowStatusBar.Checked;
+
 			config.FormBrowser.IsEnabled = FormBrowser_IsEnabled.Checked;
 			config.FormBrowser.ZoomRate = (int)FormBrowser_ZoomRate.Value;
 			config.FormBrowser.LogInPageURL = FormBrowser_LogInPageURL.Text;

@@ -84,6 +84,7 @@ namespace ElectronicObserver.Window {
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 		void InitialAPIReceived( string apiname, dynamic data ) {
+			ApplyStyleSheet();
 			ApplyZoom();
 		}
 
@@ -132,7 +133,7 @@ namespace ElectronicObserver.Window {
 		/// <summary>
 		/// スタイルシートを適用します。
 		/// </summary>
-		private void ApplyStyleSheet() {
+		public void ApplyStyleSheet() {
 
 			try {
 

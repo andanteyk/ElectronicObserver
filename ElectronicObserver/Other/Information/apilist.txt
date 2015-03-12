@@ -331,7 +331,7 @@ api_start2	：艦娘・装備固有データその他
 			(夏イベ時)通常海域, MI海域は[ 0, 1 ], AL海域, 本土防衛は[ 1, 0 ]
 			(2014/09現在)すべて[ 1, 0 ]
 			(秋イベ時)通常海域/E-2は[ 1, 0 ]、E-1/3は[ 0, 2 ], E-4は[ 0, 3 ]
-			{ 通常艦隊出撃フラグ, 連合機動部隊出撃フラグ } と予想(それぞれビットフラグ)
+			{ 通常艦隊出撃フラグ, 連合艦隊出撃フラグ } と予想(それぞれビットフラグ)
 
 	api_mst_mapbgm		：海域BGMデータ
 		api_id			：海域ID
@@ -1531,7 +1531,7 @@ api_req_furniture/set_portbgm	：母港BGM設定
 
 
 Request.api_req_member/itemuse_cond		：給糧艦使用
-	api_use_type		：使用する給糧艦 1=間宮, 2=伊良湖
+	api_use_type		：使用する給糧艦 1=間宮, 2=伊良湖, 3=間宮&伊良湖
 	api_deck_id			：艦隊番号
 
 api_req_member/itemuse_cond		：給糧艦使用
