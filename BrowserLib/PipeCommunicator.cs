@@ -18,6 +18,7 @@ namespace BrowserLib {
 
 		/// <summary>
 		/// サーバ側オブジェクトへの通信インターフェース
+		/// 通信エラーが発生するとnullになることがあるので注意
 		/// </summary>
 		public ClientType Proxy { get; private set; }
 
