@@ -73,6 +73,15 @@ namespace Browser {
 			StyleSheetApplied = false;
 		}
 
+		// BrowserHostプロキシを呼び出すときに使う
+		// 例外無視で非同期実行
+		private async void AsyncRemoteRun( Action action ) {
+			if ( BrowserHost == null ) return;
+			try {
+				await Task.Run( action );
+			} catch ( Exception ) { }
+		}
+
 		[DllImport( "user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true )]
 		private static extern uint GetWindowLong( IntPtr hwnd, int nIndex );
 
@@ -230,7 +239,7 @@ namespace Browser {
 
 			} catch ( Exception ex ) {
 
-				Task.Run( () => BrowserHost.SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" ) );
+				AsyncRemoteRun( () => BrowserHost.SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" ) );
 			}
 
 		}
@@ -287,7 +296,7 @@ namespace Browser {
 				}
 
 			} catch ( Exception ex ) {
-				Task.Run( () => {
+				AsyncRemoteRun( () => {
 					BrowserHost.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message );
 				});
 			}
@@ -430,11 +439,11 @@ namespace Browser {
 				}
 
 
-				Task.Run( () => BrowserHost.AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) ) );
+				AsyncRemoteRun( () => BrowserHost.AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) ) );
 
 			} catch ( Exception ex ) {
 
-				Task.Run( () => BrowserHost.SendErrorReport( ex.ToString(), "スクリーンショットの保存時にエラーが発生しました。" ) );
+				AsyncRemoteRun( () => BrowserHost.SendErrorReport( ex.ToString(), "スクリーンショットの保存時にエラーが発生しました。" ) );
 			}
 
 

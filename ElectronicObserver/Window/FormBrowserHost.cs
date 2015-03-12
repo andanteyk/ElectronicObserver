@@ -33,6 +33,7 @@ namespace ElectronicObserver.Window {
 
 		// FormBrowserとの通信インターフェース
 		private BrowserLib.IBrowser Browser;
+		private bool ChannelClosed = false;
 
 		public FormBrowserHost( FormMain parent ) {
 			InitializeComponent();
@@ -40,6 +41,17 @@ namespace ElectronicObserver.Window {
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
 		}
 
+		// Browserプロキシを呼び出すときに使う
+		// 例外無視で非同期実行
+		private async void AsyncRemoteRun( Action action ) {
+			if ( Browser == null ) return;
+			// 例外を吐いたTaskをawaitで待たないとファイナライザで例外が飛んで落ちることがある
+			// .Net4 -> 落ちる
+			// .Net4.5 -> 落ちない（設定で落とすようにすることも可能）
+			try {
+				await Task.Run( action );
+			} catch ( Exception ) { }
+		}
 
 		private void FormBrowser_Load( object sender, EventArgs e ) {
 			LaunchBrowserProcess();
@@ -64,14 +76,12 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void ConfigurationChanged() {
-			if ( Browser == null ) return;
-			Task.Run( () => Browser.ConfigurationChanged( Configuration ) );
+			AsyncRemoteRun( () => Browser.ConfigurationChanged( Configuration ) );
 		}
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 		void InitialAPIReceived( string apiname, dynamic data ) {
-			if ( Browser == null ) return;
-			Task.Run( () => Browser.InitialAPIReceived() );
+			AsyncRemoteRun( () => Browser.InitialAPIReceived() );
 		}
 
 
@@ -79,8 +89,7 @@ namespace ElectronicObserver.Window {
 		/// 指定した URL のページを開きます。
 		/// </summary>
 		public void Navigate( string url ) {
-			if ( Browser == null ) return;
-			Task.Run( () => Browser.Navigate( url ) );
+			AsyncRemoteRun( () => Browser.Navigate( url ) );
 		}
 
 		/// <summary>
@@ -94,8 +103,7 @@ namespace ElectronicObserver.Window {
 		/// ブラウザを再読み込みします。
 		/// </summary>
 		public void RefreshBrowser() {
-			if ( Browser == null ) return;
-			Task.Run( () => Browser.RefreshBrowser() );
+			AsyncRemoteRun( () => Browser.RefreshBrowser() );
 		}
 
 		/// <summary>
@@ -111,8 +119,7 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		/// <param name="zoomRate">拡大率。%指定で 10-1000</param>
 		public void ApplyZoom( int zoomRate ) {
-			if ( Browser == null ) return;
-			Task.Run( () => Browser.ApplyZoom( zoomRate ) );
+			AsyncRemoteRun( () => Browser.ApplyZoom( zoomRate ) );
 		}
 
 
@@ -120,8 +127,7 @@ namespace ElectronicObserver.Window {
 		/// スクリーンショットを保存します。
 		/// </summary>
 		public void SaveScreenShot() {
-			if ( Browser == null ) return;
-			Task.Run( () => Browser.SaveScreenShot( Utility.Configuration.Config.FormBrowser.ScreenShotPath,
+			AsyncRemoteRun( () => Browser.SaveScreenShot( Utility.Configuration.Config.FormBrowser.ScreenShotPath,
 				Utility.Configuration.Config.FormBrowser.ScreenShotFormat,
 				DateTimeHelper.GetTimeStamp() ) );
 		}
@@ -170,6 +176,7 @@ namespace ElectronicObserver.Window {
 						new NetNamedPipeBinding(), new EndpointAddress( ServerUri + "Browser/Browser" ) );
 				Browser = pipeFactory.CreateChannel();
 				( (IClientChannel)Browser ).Faulted += BrowserChannel_Faulted;
+				ChannelClosed = false;
 
 				ConfigurationChanged();
 
@@ -179,9 +186,9 @@ namespace ElectronicObserver.Window {
 					( string apiname, dynamic data ) => InitialAPIReceived( apiname, data );
 
 				// プロキシをセット
-				Task.Run( () => Browser.SetProxy( Observer.APIObserver.Instance.ProxyPort ) );
+				AsyncRemoteRun( () => Browser.SetProxy( Observer.APIObserver.Instance.ProxyPort ) );
 				Observer.APIObserver.Instance.ProxyStarted += () => {
-					Task.Run( () => Browser.SetProxy( Observer.APIObserver.Instance.ProxyPort ) );
+					AsyncRemoteRun( () => Browser.SetProxy( Observer.APIObserver.Instance.ProxyPort ) );
 				};
 
 				if ( Utility.Configuration.Config.FormBrowser.IsEnabled )
@@ -189,7 +196,7 @@ namespace ElectronicObserver.Window {
 			} ) );
 		}
 
-		void TerminateBrowserProcess() {
+		private void TerminateBrowserProcess() {
 			if ( !BrowserProcess.WaitForExit( 2000 ) ) {
 				try {
 					// 2秒待って終了しなかったらKill
@@ -201,17 +208,23 @@ namespace ElectronicObserver.Window {
 			BrowserWnd = IntPtr.Zero;
 		}
 
-		void BrowserChannel_Faulted( object sender, EventArgs e ) {
-			( (IClientChannel)Browser ).Abort();
-			Browser = null;
-			TerminateBrowserProcess();
+		private void CloseChannel() {
+			if ( !ChannelClosed ) {
+				( (IClientChannel)Browser ).Abort();
+				Browser = null;
+				TerminateBrowserProcess();
+				ChannelClosed = true;
+			}
+		}
+
+		private void BrowserChannel_Faulted( object sender, EventArgs e ) {
+			CloseChannel();
 			Utility.Logger.Add( 3, "ブラウザプロセスが予期せず終了しました" );
 		}
 
 		private void FormBrowserHost_FormClosed( object sender, FormClosedEventArgs e ) {
-			( (IClientChannel)Browser ).Close();
+			CloseChannel();
 			CommunicationServiceHost.Close();
-			TerminateBrowserProcess();
 		}
 
 		private void FormBrowserHost_Resize( object sender, EventArgs e ) {
