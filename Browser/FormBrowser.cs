@@ -1,4 +1,5 @@
-﻿using mshtml;
+﻿using BrowserLib;
+using mshtml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,23 +18,18 @@ namespace Browser {
 	/// </summary>
 	/// <remarks>thx KanColleViewer!</remarks>
 	[ServiceBehavior( InstanceContextMode = InstanceContextMode.Single )]
-	public partial class FormBrowser : Form, BrowserLib.IBrowser {
+	public partial class FormBrowser : Form, IBrowser {
 		// FormBrowserHostの通信サーバ
 		private string ServerUri;
 
 		// FormBrowserの通信サーバ
-		private ServiceHost CommunicationServiceHost;
-
-		// FormBrowserHostとの通信インターフェース
-		private BrowserLib.IBrowserHost BrowserHost;
+		private PipeCommunicator<IBrowserHost> BrowserHost;
 
 		private BrowserLib.BrowserConfiguration Configuration;
 
 		// 親プロセスが生きているか定期的に確認するためのタイマー
 		private Timer HeartbeatTimer = new Timer();
-
 		private IntPtr HostWindow;
-		private bool ChannelClosed = false;
 
 		private readonly Size KanColleSize = new Size( 800, 480 );
 
@@ -73,15 +69,6 @@ namespace Browser {
 			StyleSheetApplied = false;
 		}
 
-		// BrowserHostプロキシを呼び出すときに使う
-		// 例外無視で非同期実行
-		private async void AsyncRemoteRun( Action action ) {
-			if ( BrowserHost == null ) return;
-			try {
-				await Task.Run( action );
-			} catch ( Exception ) { }
-		}
-
 		[DllImport( "user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true )]
 		private static extern uint GetWindowLong( IntPtr hwnd, int nIndex );
 
@@ -96,62 +83,40 @@ namespace Browser {
 			SetWindowLong( this.Handle, GWL_STYLE, WS_CHILD );
 
 			// ホストプロセスに接続
-			ChannelFactory<BrowserLib.IBrowserHost> pipeFactory =
-			new ChannelFactory<BrowserLib.IBrowserHost>(
-			  new NetNamedPipeBinding(),
-			  new EndpointAddress( ServerUri + "/BrowserHost" ) );
-			BrowserHost = pipeFactory.CreateChannel();
-			( (IClientChannel)BrowserHost ).Faulted += BrowserHostChannel_Faulted;
+			BrowserHost = new PipeCommunicator<IBrowserHost>(
+				this, typeof( IBrowser ), ServerUri + "Browser", "Browser" );
+			BrowserHost.Connect( ServerUri + "/BrowserHost" );
+			BrowserHost.Faulted += BrowserHostChannel_Faulted;
 
-			Configuration = BrowserHost.Configuration;
+			Configuration = BrowserHost.Proxy.Configuration;
 
 			// キーメッセージの送り先はFormBrowserHost
 			// FormBrowserHostを別ウィンドウに切り離すとショートカットキーが効かなくなる
 			// メインウィンドウに送れば切り離してても効くようになると思うが、
 			// 元からそういう仕様だったから変更していない
-			Application.AddMessageFilter( new KeyMessageGrabber( BrowserHost.HWND ) );
-
-			// こちらのサーバを作成
-			CommunicationServiceHost = new ServiceHost( this, new Uri[] { new Uri( ServerUri + "Browser" ) } );
-			CommunicationServiceHost.AddServiceEndpoint(
-				typeof( BrowserLib.IBrowser ), new NetNamedPipeBinding(), "Browser" );
-			CommunicationServiceHost.Open();
+			Application.AddMessageFilter( new KeyMessageGrabber( BrowserHost.Proxy.HWND ) );
 
 			// ウィンドウの親子設定＆ホストプロセスから接続してもらう
-			BrowserHost.ConnectToBrowser( this.Handle );
+			BrowserHost.Proxy.ConnectToBrowser( this.Handle );
 
-			HeartbeatTimer.Tick += HeartbeatTimer_Tick;
+			// 親ウィンドウが生きているか確認 
+			HeartbeatTimer.Tick += (EventHandler)(( sender2, e2 ) => {
+				BrowserHost.AsyncRemoteRun( () => { HostWindow = BrowserHost.Proxy.HWND; } );
+			});
 			HeartbeatTimer.Interval = 2000; // 2秒ごと　
 			HeartbeatTimer.Start();
 		}
 
-		void Exit() {
-			if ( !ChannelClosed ) {
-				( (IClientChannel)BrowserHost ).Abort();
-
-				Application.Exit();
-				ChannelClosed = true;
-			}
-		}
-
-		void BrowserHostChannel_Faulted( object sender, EventArgs e ) {
+		void BrowserHostChannel_Faulted( Exception e ) {
 			// 親と通信できなくなったら終了する
-			Exit();
-		}
-
-		void HeartbeatTimer_Tick( object sender, EventArgs e ) {
-			// 親ウィンドウが生きているか確認 
-			try {
-				HostWindow = BrowserHost.HWND;
-			} catch ( Exception ) {
-				HeartbeatTimer.Stop();
-				Exit();
+			if ( !BrowserHost.Closed ) {
+				BrowserHost.Close();
+				Application.Exit();
 			}
 		}
 
 		private void FormBrowser_FormClosed( object sender, FormClosedEventArgs e ) {
-			( (IClientChannel)BrowserHost ).Close();
-			CommunicationServiceHost.Close();
+			BrowserHost.Close();
 		}
 
 		public void ConfigurationChanged( BrowserLib.BrowserConfiguration conf ) {
@@ -239,7 +204,8 @@ namespace Browser {
 
 			} catch ( Exception ex ) {
 
-				AsyncRemoteRun( () => BrowserHost.SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" ) );
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" ) );
 			}
 
 		}
@@ -296,9 +262,8 @@ namespace Browser {
 				}
 
 			} catch ( Exception ex ) {
-				AsyncRemoteRun( () => {
-					BrowserHost.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message );
-				});
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message ));
 			}
 
 		}
@@ -439,11 +404,13 @@ namespace Browser {
 				}
 
 
-				AsyncRemoteRun( () => BrowserHost.AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) ) );
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) ) );
 
 			} catch ( Exception ex ) {
 
-				AsyncRemoteRun( () => BrowserHost.SendErrorReport( ex.ToString(), "スクリーンショットの保存時にエラーが発生しました。" ) );
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スクリーンショットの保存時にエラーが発生しました。" ) );
 			}
 
 
