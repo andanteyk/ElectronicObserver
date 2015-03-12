@@ -32,6 +32,9 @@ namespace Browser {
 		// 親プロセスが生きているか定期的に確認するためのタイマー
 		private Timer HeartbeatTimer = new Timer();
 
+		private IntPtr HostWindow;
+		private bool ChannelClosed = false;
+
 		private readonly Size KanColleSize = new Size( 800, 480 );
 
 		private bool _styleSheetApplied;
@@ -113,22 +116,27 @@ namespace Browser {
 			HeartbeatTimer.Start();
 		}
 
+		void Exit() {
+			if ( !ChannelClosed ) {
+				( (IClientChannel)BrowserHost ).Abort();
+
+				Application.Exit();
+				ChannelClosed = true;
+			}
+		}
+
 		void BrowserHostChannel_Faulted( object sender, EventArgs e ) {
 			// 親と通信できなくなったら終了する
-			( (IClientChannel)BrowserHost ).Abort();
-
-			// 子ウィンドウフラグを取る
-			// （子ウィンドウフラグがあるとClose()しても閉じないので）
-			SetWindowLong( this.Handle, GWL_STYLE, 0 );
-			Close();
+			Exit();
 		}
 
 		void HeartbeatTimer_Tick( object sender, EventArgs e ) {
 			// 親ウィンドウが生きているか確認 
 			try {
-				IntPtr hwnd = BrowserHost.HWND;
+				HostWindow = BrowserHost.HWND;
 			} catch ( Exception ) {
 				HeartbeatTimer.Stop();
+				Exit();
 			}
 		}
 
