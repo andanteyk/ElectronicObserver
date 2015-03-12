@@ -63,7 +63,6 @@
 			this.Controls.Add(this.SizeAdjuster);
 			this.Name = "FormBrowser";
 			this.Text = "FormBrowser";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormBrowser_FormClosed);
 			this.Load += new System.EventHandler(this.FormBrowser_Load);
 			this.SizeAdjuster.ResumeLayout(false);
 			this.ResumeLayout(false);

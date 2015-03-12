@@ -12,7 +12,7 @@ namespace BrowserLib {
 	/// </summary>
 	public class PipeCommunicator<ClientType> where ClientType : class {
 		private ServiceHost Server;
-		private string serverUrl;
+		private string ServerUrl;
 		private ChannelFactory<ClientType> PipeFactory;
 		private NetNamedPipeBinding Binding = new NetNamedPipeBinding();
 
@@ -47,9 +47,9 @@ namespace BrowserLib {
 		/// </summary>
 		public void Connect( string to ) {
 			if ( Proxy == null ) {
-				serverUrl = to;
+				ServerUrl = to;
 				if ( PipeFactory == null ) {
-					PipeFactory = new ChannelFactory<ClientType>( Binding, new EndpointAddress( serverUrl ) );
+					PipeFactory = new ChannelFactory<ClientType>( Binding, new EndpointAddress( ServerUrl ) );
 				}
 				Proxy = PipeFactory.CreateChannel();
 				Closed = false;
@@ -78,8 +78,7 @@ namespace BrowserLib {
 				// リトライループ
 				for ( int i = 0; i < 2; ++i ) {
 					try {
-						ClientType proxyCopy = Proxy;
-						if ( proxyCopy == null ) return;
+						if ( Proxy == null ) return;
 						await Task.Run( action );
 						return;
 					} catch ( CommunicationException cex ) {
@@ -90,7 +89,7 @@ namespace BrowserLib {
 							Faulted( cex );
 							break;
 						}
-						Connect( serverUrl );
+						Connect( ServerUrl );
 					}
 				}
 			} catch ( Exception ex ) {

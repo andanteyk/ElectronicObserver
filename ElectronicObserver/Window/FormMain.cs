@@ -197,6 +197,7 @@ namespace ElectronicObserver.Window {
 
 			UIUpdateTimer.Stop();
 
+			fBrowser.CloseBrowser();
 
 			if ( !Directory.Exists( "Settings" ) )
 				Directory.CreateDirectory( "Settings" );

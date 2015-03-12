@@ -107,16 +107,23 @@ namespace Browser {
 			HeartbeatTimer.Start();
 		}
 
-		void BrowserHostChannel_Faulted( Exception e ) {
-			// 親と通信できなくなったら終了する
+		void Exit() {
 			if ( !BrowserHost.Closed ) {
 				BrowserHost.Close();
+				HeartbeatTimer.Stop();
 				Application.Exit();
 			}
 		}
 
-		private void FormBrowser_FormClosed( object sender, FormClosedEventArgs e ) {
-			BrowserHost.Close();
+		void BrowserHostChannel_Faulted( Exception e ) {
+			// 親と通信できなくなったら終了する
+			Exit();
+		}
+
+		public void CloseBrowser() {
+			HeartbeatTimer.Stop();
+			// リモートコールでClose()呼ぶのばヤバそうなので非同期にしておく
+			BeginInvoke( (Action)( () => Exit() ) );
 		}
 
 		public void ConfigurationChanged( BrowserLib.BrowserConfiguration conf ) {

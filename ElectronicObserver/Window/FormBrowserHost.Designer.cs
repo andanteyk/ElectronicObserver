@@ -36,7 +36,6 @@
             this.HideOnClose = true;
             this.Name = "FormBrowserHost";
             this.Text = "ブラウザ";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormBrowserHost_FormClosed);
             this.Load += new System.EventHandler(this.FormBrowser_Load);
             this.Resize += new System.EventHandler(this.FormBrowserHost_Resize);
             this.ResumeLayout(false);

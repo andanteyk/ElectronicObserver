@@ -163,7 +163,7 @@ namespace ElectronicObserver.Window {
 			BeginInvoke( (Action)( () => {
 				// ブラウザプロセスに接続
 				Browser.Connect( ServerUri + "Browser/Browser" );
-				Browser.Faulted += Communicator_Faulted;
+				Browser.Faulted += Browser_Faulted;
 
 				ConfigurationChanged();
 
@@ -185,7 +185,7 @@ namespace ElectronicObserver.Window {
 			} ) );
 		}
 
-		void Communicator_Faulted( Exception e ) {
+		void Browser_Faulted( Exception e ) {
 			if ( Browser.Proxy == null ) {
 				Utility.Logger.Add( 3, "ブラウザプロセスが予期せず終了しました。" );
 			} else {
@@ -205,8 +205,11 @@ namespace ElectronicObserver.Window {
 			BrowserWnd = IntPtr.Zero;
 		}
 
-		private void FormBrowserHost_FormClosed( object sender, FormClosedEventArgs e ) {
+		public void CloseBrowser() {
 			if ( !Browser.Closed ) {
+				if ( Browser.Proxy != null ) {
+					Browser.Proxy.CloseBrowser();
+				}
 				Browser.Close();
 				TerminateBrowserProcess();
 			}

@@ -40,5 +40,8 @@ namespace BrowserLib
 
 		[OperationContract]
 		void ApplyStyleSheet();
+
+		[OperationContract]
+		void CloseBrowser();
 	}
 }
