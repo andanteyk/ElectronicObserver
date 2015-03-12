@@ -24,6 +24,9 @@ namespace ElectronicObserver.Window {
 	public partial class FormMain : Form {
 
 		#region Properties
+
+		public DockPanel MainDockPanel { get { return mainDockPanel; } }
+
 		#endregion
 
 
@@ -43,6 +46,7 @@ namespace ElectronicObserver.Window {
 		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
+		public FormControl fControl;
 
 		#endregion
 
@@ -86,7 +90,7 @@ namespace ElectronicObserver.Window {
 			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port, this );
 
 
-			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
+			mainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
 
 
 			SubForms = new List<DockContent>();
@@ -109,7 +113,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
-
+			SubForms.Add( fControl = new FormControl( this ) );
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
@@ -150,8 +154,8 @@ namespace ElectronicObserver.Window {
 			Font = c.UI.MainFont;
 			//StripMenu.Font = Font;
 			StripStatus.Font = Font;
-			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
-			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
+			mainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
+			mainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
 		}
 
@@ -283,16 +287,16 @@ namespace ElectronicObserver.Window {
 				if ( stream != null ) {
 
 					foreach ( var f in SubForms ) {
-						f.Show( MainDockPanel, DockState.Document );
+						f.Show( mainDockPanel, DockState.Document );
 						f.DockPanel = null;
 					}
 
-					MainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
+					mainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
 					//一度全ウィンドウを読み込むことでフォームを初期化する
-					foreach ( var x in MainDockPanel.Contents ) {
+					foreach ( var x in mainDockPanel.Contents ) {
 						if ( x.DockHandler.DockState == DockState.Hidden ) {
-							x.DockHandler.Show( MainDockPanel );
+							x.DockHandler.Show( mainDockPanel );
 							x.DockHandler.Hide();
 						} else {
 							x.DockHandler.Activate();
@@ -308,10 +312,10 @@ namespace ElectronicObserver.Window {
 				} else {
 
 					foreach ( var f in SubForms )
-						f.Show( MainDockPanel );
+						f.Show( mainDockPanel );
 
 
-					foreach ( var x in MainDockPanel.Contents ) {
+					foreach ( var x in mainDockPanel.Contents ) {
 						x.DockHandler.Hide();
 					}
 				}
@@ -328,7 +332,7 @@ namespace ElectronicObserver.Window {
 
 			try {
 
-				MainDockPanel.SaveAsXml( stream, Encoding.UTF8 );
+				mainDockPanel.SaveAsXml( stream, Encoding.UTF8 );
 
 			} catch ( Exception ex ) {
 
@@ -362,7 +366,7 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
-				fBrowser.Show( MainDockPanel );
+				fBrowser.Show( mainDockPanel );
 
 			} catch ( DirectoryNotFoundException ) {
 
@@ -370,7 +374,7 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
-				fBrowser.Show( MainDockPanel );
+				fBrowser.Show( mainDockPanel );
 
 			} catch ( Exception ex ) {
 
@@ -947,63 +951,67 @@ namespace ElectronicObserver.Window {
 		#region フォーム表示
 
 		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
-			fFleet[0].Show( MainDockPanel );
+			fFleet[0].Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Fleet_2_Click( object sender, EventArgs e ) {
-			fFleet[1].Show( MainDockPanel );
+			fFleet[1].Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Fleet_3_Click( object sender, EventArgs e ) {
-			fFleet[2].Show( MainDockPanel );
+			fFleet[2].Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
-			fFleet[3].Show( MainDockPanel );
+			fFleet[3].Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Dock_Click( object sender, EventArgs e ) {
-			fDock.Show( MainDockPanel );
+			fDock.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Arsenal_Click( object sender, EventArgs e ) {
-			fArsenal.Show( MainDockPanel );
+			fArsenal.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Headquarters_Click( object sender, EventArgs e ) {
-			fHeadquarters.Show( MainDockPanel );
+			fHeadquarters.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Information_Click( object sender, EventArgs e ) {
-			fInformation.Show( MainDockPanel );
+			fInformation.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Compass_Click( object sender, EventArgs e ) {
-			fCompass.Show( MainDockPanel );
+			fCompass.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Log_Click( object sender, EventArgs e ) {
-			fLog.Show( MainDockPanel );
+			fLog.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Quest_Click( object sender, EventArgs e ) {
-			fQuest.Show( MainDockPanel );
+			fQuest.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Battle_Click( object sender, EventArgs e ) {
-			fBattle.Show( MainDockPanel );
+			fBattle.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_FleetOverview_Click( object sender, EventArgs e ) {
-			fFleetOverview.Show( MainDockPanel );
+			fFleetOverview.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_ShipGroup_Click( object sender, EventArgs e ) {
-			fShipGroup.Show( MainDockPanel );
+			fShipGroup.Show( mainDockPanel );
 		}
 
 		private void StripMenu_View_Browser_Click( object sender, EventArgs e ) {
-			fBrowser.Show( MainDockPanel );
+			fBrowser.Show( mainDockPanel );
+		}
+
+		private void StripMenu_View_Control_Click( object sender, EventArgs e ) {
+			fControl.Show( mainDockPanel );
 		}
 
 		#endregion
