@@ -7,35 +7,38 @@ using System.Threading.Tasks;
 
 namespace BrowserLib
 {
-    /// <summary>
-    /// FormBrowserのインターフェス
-    /// WCFでプロセス間通信用
-    /// </summary>
-    [ServiceContract]
-    public interface IBrowser
-    {
-        [OperationContract]
-        void ConfigurationChanged(BrowserConfiguration conf);
+	/// <summary>
+	/// FormBrowserのインターフェス
+	/// WCFでプロセス間通信用
+	/// </summary>
+	[ServiceContract]
+	public interface IBrowser
+	{
+		[OperationContract]
+		void ConfigurationChanged(BrowserConfiguration conf);
 
-        [OperationContract]
-        void InitialAPIReceived();
+		[OperationContract]
+		void InitialAPIReceived();
 
-        [OperationContract]
-        void SaveScreenShot(string path, int format, string timestamp);
+		[OperationContract]
+		void SaveScreenShot(string path, int format, string timestamp);
 
-        [OperationContract]
-        void RefreshBrowser();
+		[OperationContract]
+		void RefreshBrowser();
 
-        [OperationContract]
-        void ApplyZoom(int zoomRate);
+		[OperationContract]
+		void ApplyZoom(int zoomRate);
 
-        [OperationContract]
-        void Navigate(string url);
+		[OperationContract]
+		void Navigate(string url);
 
-        /// <summary>
-        /// プロキシをセット
-        /// </summary>
-        [OperationContract]
-        void SetProxy(int port);
-    }
+		/// <summary>
+		/// プロキシをセット
+		/// </summary>
+		[OperationContract]
+		void SetProxy(int port);
+
+		[OperationContract]
+		void ApplyStyleSheet();
+	}
 }

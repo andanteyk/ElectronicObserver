@@ -334,7 +334,8 @@ namespace ElectronicObserver.Window {
 
 			Color colorNormal = SystemColors.ControlText;
 			Color colorNight = Color.Navy;
-			
+
+
 			if ( apiname == "api_port/port" ) {
 
 				BasePanel.Visible = false;
@@ -344,8 +345,8 @@ namespace ElectronicObserver.Window {
 				TextMapArea.Text = "演習";
 				TextDestination.Text = string.Format( "{0} {1}", data.api_nickname, Constants.GetAdmiralRank( (int)data.api_rank ) );
 				TextEventKind.Text = data.api_cmt;
+				TextEventKind.ForeColor = colorNormal;
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
-				TextEventDetail.ForeColor = colorNormal;
 				TextEnemyFleetName.Text = data.api_deckname;
 
 			} else {
@@ -358,6 +359,7 @@ namespace ElectronicObserver.Window {
 
 				TextMapArea.Text = "出撃海域 : " + compass.MapAreaID + "-" + compass.MapInfoID;
 				TextDestination.Text = "次のセル : " + compass.Destination + ( compass.IsEndPoint ? " (終点)" : "" );
+				TextEventKind.ForeColor = colorNormal;
 				
 				{
 					string eventkind = Constants.GetMapEventID( compass.EventID );
@@ -420,7 +422,7 @@ namespace ElectronicObserver.Window {
 								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 
 								if ( compass.EventKind == 2 || compass.EventKind == 3 ) {
-									TextEventDetail.ForeColor = colorNight; break;
+									TextEventKind.ForeColor = colorNight;
 								}
 							}
 							UpdateEnemyFleet( compass.EnemyFleetID );

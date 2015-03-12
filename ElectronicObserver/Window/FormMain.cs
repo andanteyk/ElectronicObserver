@@ -913,6 +913,17 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Browser_ApplyStyleSheet_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( 
+				"スタイルシートを再適用します。\r\nよろしいですか？", "確認",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question 
+				) == System.Windows.Forms.DialogResult.Yes ) {
+				
+				fBrowser.ApplyStyleSheet();
+			}
+
+		}
 
 
 		#region フォーム表示
@@ -978,6 +989,8 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
+
+		
 
 
 	}

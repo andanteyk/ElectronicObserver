@@ -171,6 +171,7 @@ namespace ElectronicObserver.Window {
 			splitContainer1.SplitterDistance = Utility.Configuration.Config.FormShipGroup.SplitterDistance;
 			MenuGroup_AutoUpdate.Checked = Utility.Configuration.Config.FormShipGroup.AutoUpdate;
 			MenuGroup_ShowStatusBar.Checked = Utility.Configuration.Config.FormShipGroup.ShowStatusBar;
+			
 		}
 
 
@@ -1169,19 +1170,27 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void MenuGroup_ShowStatusBar_Click( object sender, EventArgs e ) {
+		private void MenuGroup_ShowStatusBar_CheckedChanged( object sender, EventArgs e ) {
 
 			StatusBar.Visible = MenuGroup_ShowStatusBar.Checked;
 
 		}
 
 
+
 		void SystemShuttingDown() {
 
-			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
+
+			Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
+			Utility.Configuration.Config.FormShipGroup.AutoUpdate = MenuGroup_AutoUpdate.Checked;
+			Utility.Configuration.Config.FormShipGroup.ShowStatusBar = MenuGroup_ShowStatusBar.Checked;
+
+
 			//以下は実データがないと動作しないためなければスキップ
 			if ( KCDatabase.Instance.Ships.Count == 0 ) return;
 
+			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
+			
 			
 			if ( SelectedTab != null )
 				ApplyGroupData( SelectedTab );
@@ -1196,19 +1205,12 @@ namespace ElectronicObserver.Window {
 					group.GroupID = i + 1;
 			}
 
-			Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
-			Utility.Configuration.Config.FormShipGroup.AutoUpdate = MenuGroup_AutoUpdate.Checked;
-			Utility.Configuration.Config.FormShipGroup.ShowStatusBar = MenuGroup_ShowStatusBar.Checked;
 		}
 
 
 		protected override string GetPersistString() {
 			return "ShipGroup";
 		}
-
-
-
-		
 		
 
 	}

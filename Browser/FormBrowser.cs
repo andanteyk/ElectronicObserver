@@ -127,6 +127,7 @@ namespace Browser {
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 		public void InitialAPIReceived() {
+			ApplyStyleSheet();
 			ApplyZoom();
 		}
 
@@ -173,7 +174,7 @@ namespace Browser {
 		/// <summary>
 		/// スタイルシートを適用します。
 		/// </summary>
-		private void ApplyStyleSheet() {
+		public void ApplyStyleSheet() {
 
 			try {
 

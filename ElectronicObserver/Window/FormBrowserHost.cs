@@ -106,6 +106,13 @@ namespace ElectronicObserver.Window {
 			Browser.AsyncRemoteRun( () => Browser.Proxy.ApplyZoom( zoomRate ) );
 		}
 
+		/// <summary>
+		/// スタイルシートを適用します。
+		/// </summary>
+		public void ApplyStyleSheet() {
+			Browser.AsyncRemoteRun( () => Browser.Proxy.ApplyStyleSheet() );
+		}
+
 
 		/// <summary>
 		/// スクリーンショットを保存します。

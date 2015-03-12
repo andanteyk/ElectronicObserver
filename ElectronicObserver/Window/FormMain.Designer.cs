@@ -119,6 +119,7 @@
 			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
+			this.StripMenu_Browser_ApplyStyleSheet = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -455,6 +456,7 @@
             this.StripMenu_Browser_ScreenShot,
             this.toolStripSeparator9,
             this.StripMenu_Browser_Zoom,
+            this.StripMenu_Browser_ApplyStyleSheet,
             this.toolStripSeparator10,
             this.StripMenu_Browser_Refresh,
             this.StripMenu_Browser_NavigateToLogInPage,
@@ -467,14 +469,14 @@
 			// 
 			this.StripMenu_Browser_ScreenShot.Name = "StripMenu_Browser_ScreenShot";
 			this.StripMenu_Browser_ScreenShot.ShortcutKeys = System.Windows.Forms.Keys.F2;
-			this.StripMenu_Browser_ScreenShot.Size = new System.Drawing.Size(224, 22);
+			this.StripMenu_Browser_ScreenShot.Size = new System.Drawing.Size(226, 22);
 			this.StripMenu_Browser_ScreenShot.Text = "スクリーンショット(&S)";
 			this.StripMenu_Browser_ScreenShot.Click += new System.EventHandler(this.StripMenu_Browser_ScreenShot_Click);
 			// 
 			// toolStripSeparator9
 			// 
 			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(221, 6);
+			this.toolStripSeparator9.Size = new System.Drawing.Size(223, 6);
 			// 
 			// StripMenu_Browser_Zoom
 			// 
@@ -496,7 +498,7 @@
             this.StripMenu_Browser_Zoom_300,
             this.StripMenu_Browser_Zoom_400});
 			this.StripMenu_Browser_Zoom.Name = "StripMenu_Browser_Zoom";
-			this.StripMenu_Browser_Zoom.Size = new System.Drawing.Size(224, 22);
+			this.StripMenu_Browser_Zoom.Size = new System.Drawing.Size(226, 22);
 			this.StripMenu_Browser_Zoom.Text = "ズーム(&Z)";
 			this.StripMenu_Browser_Zoom.DropDownOpening += new System.EventHandler(this.StripMenu_Browser_Zoom_DropDownOpening);
 			// 
@@ -607,27 +609,27 @@
 			// toolStripSeparator10
 			// 
 			this.toolStripSeparator10.Name = "toolStripSeparator10";
-			this.toolStripSeparator10.Size = new System.Drawing.Size(221, 6);
+			this.toolStripSeparator10.Size = new System.Drawing.Size(223, 6);
 			// 
 			// StripMenu_Browser_Refresh
 			// 
 			this.StripMenu_Browser_Refresh.Name = "StripMenu_Browser_Refresh";
 			this.StripMenu_Browser_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-			this.StripMenu_Browser_Refresh.Size = new System.Drawing.Size(224, 22);
+			this.StripMenu_Browser_Refresh.Size = new System.Drawing.Size(226, 22);
 			this.StripMenu_Browser_Refresh.Text = "更新(&R)";
 			this.StripMenu_Browser_Refresh.Click += new System.EventHandler(this.StripMenu_Browser_Refresh_Click);
 			// 
 			// StripMenu_Browser_NavigateToLogInPage
 			// 
 			this.StripMenu_Browser_NavigateToLogInPage.Name = "StripMenu_Browser_NavigateToLogInPage";
-			this.StripMenu_Browser_NavigateToLogInPage.Size = new System.Drawing.Size(224, 22);
+			this.StripMenu_Browser_NavigateToLogInPage.Size = new System.Drawing.Size(226, 22);
 			this.StripMenu_Browser_NavigateToLogInPage.Text = "ログインページへ移動(&L)";
 			this.StripMenu_Browser_NavigateToLogInPage.Click += new System.EventHandler(this.StripMenu_Browser_NavigateToLogInPage_Click);
 			// 
 			// StripMenu_Browser_Navigate
 			// 
 			this.StripMenu_Browser_Navigate.Name = "StripMenu_Browser_Navigate";
-			this.StripMenu_Browser_Navigate.Size = new System.Drawing.Size(224, 22);
+			this.StripMenu_Browser_Navigate.Size = new System.Drawing.Size(226, 22);
 			this.StripMenu_Browser_Navigate.Text = "移動(&M)...";
 			this.StripMenu_Browser_Navigate.Click += new System.EventHandler(this.StripMenu_Browser_Navigate_Click);
 			// 
@@ -785,6 +787,13 @@
 			this.UIUpdateTimer.Interval = 1000;
 			this.UIUpdateTimer.Tick += new System.EventHandler(this.UIUpdateTimer_Tick);
 			// 
+			// StripMenu_Browser_ApplyStyleSheet
+			// 
+			this.StripMenu_Browser_ApplyStyleSheet.Name = "StripMenu_Browser_ApplyStyleSheet";
+			this.StripMenu_Browser_ApplyStyleSheet.Size = new System.Drawing.Size(226, 22);
+			this.StripMenu_Browser_ApplyStyleSheet.Text = "スタイルシートの再適用(&S)";
+			this.StripMenu_Browser_ApplyStyleSheet.Click += new System.EventHandler(this.StripMenu_Browser_ApplyStyleSheet_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -891,6 +900,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Refresh;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_NavigateToLogInPage;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Navigate;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_ApplyStyleSheet;
 	}
 }
 
