@@ -318,10 +318,10 @@ namespace ElectronicObserver.Window {
 			public void Update( int shipMasterID ) {
 
 				KCDatabase db = KCDatabase.Instance;
+				ShipData ship = db.Ships[shipMasterID];
+					
+				if ( ship != null ) {
 
-				if ( shipMasterID != -1 ) {
-
-					ShipData ship = db.Ships[shipMasterID];
 					bool isEscaped = KCDatabase.Instance.Fleet[Parent.FleetID].EscapedShipList.Contains( shipMasterID );
 
 

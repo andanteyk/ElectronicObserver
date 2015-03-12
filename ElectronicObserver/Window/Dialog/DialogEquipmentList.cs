@@ -358,7 +358,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			DetailView.ResumeLayout();
 
-			Text = "装備図鑑 - " + KCDatabase.Instance.MasterEquipments[equipmentID].Name;
+			Text = "装備一覧 - " + KCDatabase.Instance.MasterEquipments[equipmentID].Name;
 		}
 
 
