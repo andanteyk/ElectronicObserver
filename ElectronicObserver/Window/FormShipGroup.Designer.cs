@@ -83,13 +83,13 @@
 			this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuGroup_AutoUpdate = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuGroup_ShowStatusBar = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.StatusBar = new System.Windows.Forms.StatusStrip();
 			this.Status_ShipCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Status_LevelTotal = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Status_LevelAverage = new System.Windows.Forms.ToolStripStatusLabel();
-			this.MenuGroup_ShowStatusBar = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
 			this.MenuMember.SuspendLayout();
 			this.MenuGroup.SuspendLayout();
@@ -547,6 +547,16 @@
 			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(220, 22);
 			this.MenuGroup_AutoUpdate.Text = "自動更新する";
 			// 
+			// MenuGroup_ShowStatusBar
+			// 
+			this.MenuGroup_ShowStatusBar.Checked = true;
+			this.MenuGroup_ShowStatusBar.CheckOnClick = true;
+			this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
+			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(220, 22);
+			this.MenuGroup_ShowStatusBar.Text = "ステータスバーを表示する";
+			this.MenuGroup_ShowStatusBar.CheckedChanged += new System.EventHandler(this.MenuGroup_ShowStatusBar_CheckedChanged);
+			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -610,16 +620,6 @@
 			// 
 			this.Status_LevelAverage.Name = "Status_LevelAverage";
 			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 17);
-			// 
-			// MenuGroup_ShowStatusBar
-			// 
-			this.MenuGroup_ShowStatusBar.Checked = true;
-			this.MenuGroup_ShowStatusBar.CheckOnClick = true;
-			this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
-			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(220, 22);
-			this.MenuGroup_ShowStatusBar.Text = "ステータスバーを表示する";
-			this.MenuGroup_ShowStatusBar.Click += new System.EventHandler(this.MenuGroup_ShowStatusBar_Click);
 			// 
 			// FormShipGroup
 			// 
