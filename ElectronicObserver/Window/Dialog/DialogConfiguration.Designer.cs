@@ -95,6 +95,9 @@
 			this.FormQuest_ShowOnce = new System.Windows.Forms.CheckBox();
 			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.label18 = new System.Windows.Forms.Label();
+			this.FormBrowser_ScreenShotPath = new System.Windows.Forms.TextBox();
+			this.FormBrowser_ScreenShotPathSearch = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.FormBrowser_ScreenShotFormat_PNG = new System.Windows.Forms.RadioButton();
 			this.FormBrowser_ScreenShotFormat_JPEG = new System.Windows.Forms.RadioButton();
@@ -958,6 +961,9 @@
 			// 
 			// tabPage12
 			// 
+			this.tabPage12.Controls.Add(this.label18);
+			this.tabPage12.Controls.Add(this.FormBrowser_ScreenShotPath);
+			this.tabPage12.Controls.Add(this.FormBrowser_ScreenShotPathSearch);
 			this.tabPage12.Controls.Add(this.groupBox2);
 			this.tabPage12.Controls.Add(this.label17);
 			this.tabPage12.Controls.Add(this.label16);
@@ -973,6 +979,34 @@
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
 			// 
+			// label18
+			// 
+			this.label18.AutoSize = true;
+			this.label18.Location = new System.Drawing.Point(6, 148);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(64, 15);
+			this.label18.TabIndex = 9;
+			this.label18.Text = "SS保存先:";
+			// 
+			// FormBrowser_ScreenShotPath
+			// 
+			this.FormBrowser_ScreenShotPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.FormBrowser_ScreenShotPath.Location = new System.Drawing.Point(82, 145);
+			this.FormBrowser_ScreenShotPath.Name = "FormBrowser_ScreenShotPath";
+			this.FormBrowser_ScreenShotPath.Size = new System.Drawing.Size(252, 23);
+			this.FormBrowser_ScreenShotPath.TabIndex = 4;
+			// 
+			// FormBrowser_ScreenShotPathSearch
+			// 
+			this.FormBrowser_ScreenShotPathSearch.Location = new System.Drawing.Point(340, 144);
+			this.FormBrowser_ScreenShotPathSearch.Name = "FormBrowser_ScreenShotPathSearch";
+			this.FormBrowser_ScreenShotPathSearch.Size = new System.Drawing.Size(32, 23);
+			this.FormBrowser_ScreenShotPathSearch.TabIndex = 5;
+			this.FormBrowser_ScreenShotPathSearch.Text = "...";
+			this.FormBrowser_ScreenShotPathSearch.UseVisualStyleBackColor = true;
+			this.FormBrowser_ScreenShotPathSearch.Click += new System.EventHandler(this.FormBrowser_ScreenShotPathSearch_Click);
+			// 
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_PNG);
@@ -980,7 +1014,7 @@
 			this.groupBox2.Location = new System.Drawing.Point(6, 88);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(136, 51);
-			this.groupBox2.TabIndex = 6;
+			this.groupBox2.TabIndex = 3;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "スクリーンショットの形式";
 			// 
@@ -1030,7 +1064,7 @@
 			this.FormBrowser_IsEnabled.Location = new System.Drawing.Point(6, 6);
 			this.FormBrowser_IsEnabled.Name = "FormBrowser_IsEnabled";
 			this.FormBrowser_IsEnabled.Size = new System.Drawing.Size(78, 19);
-			this.FormBrowser_IsEnabled.TabIndex = 3;
+			this.FormBrowser_IsEnabled.TabIndex = 0;
 			this.FormBrowser_IsEnabled.Text = "有効にする";
 			this.FormBrowser_IsEnabled.UseVisualStyleBackColor = true;
 			// 
@@ -1393,5 +1427,8 @@
 		private System.Windows.Forms.TabPage tabPage13;
 		private System.Windows.Forms.CheckBox FormShipGroup_AutoUpdate;
 		private System.Windows.Forms.CheckBox FormShipGroup_ShowStatusBar;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.TextBox FormBrowser_ScreenShotPath;
+		private System.Windows.Forms.Button FormBrowser_ScreenShotPathSearch;
 	}
 }
