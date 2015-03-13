@@ -24,7 +24,7 @@ namespace BrowserLib {
 		/// <summary>
 		/// エラーハンドラ
 		/// </summary>
-		public delegate void FaultedDelegate(Exception e);
+		public delegate void FaultedDelegate( Exception e );
 		public event FaultedDelegate Faulted = delegate { };
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace BrowserLib {
 		public PipeCommunicator( object instance, Type type, string listenUrl, string serviceAddress ) {
 			Server = new ServiceHost( instance, new Uri[] { new Uri( listenUrl ) } );
 			Binding.ReceiveTimeout = TimeSpan.MaxValue;
-			Server.AddServiceEndpoint(type, Binding, serviceAddress );
+			Server.AddServiceEndpoint( type, Binding, serviceAddress );
 			Server.Open();
 		}
 

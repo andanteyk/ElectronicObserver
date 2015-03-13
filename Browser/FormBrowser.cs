@@ -100,9 +100,9 @@ namespace Browser {
 			BrowserHost.Proxy.ConnectToBrowser( this.Handle );
 
 			// 親ウィンドウが生きているか確認 
-			HeartbeatTimer.Tick += (EventHandler)(( sender2, e2 ) => {
+			HeartbeatTimer.Tick += (EventHandler)( ( sender2, e2 ) => {
 				BrowserHost.AsyncRemoteRun( () => { HostWindow = BrowserHost.Proxy.HWND; } );
-			});
+			} );
 			HeartbeatTimer.Interval = 2000; // 2秒ごと　
 			HeartbeatTimer.Start();
 		}
@@ -271,7 +271,7 @@ namespace Browser {
 
 			} catch ( Exception ex ) {
 				BrowserHost.AsyncRemoteRun( () =>
-					BrowserHost.Proxy.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message ));
+					BrowserHost.Proxy.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message ) );
 			}
 
 		}

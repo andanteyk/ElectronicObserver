@@ -5,38 +5,36 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BrowserLib
-{
+namespace BrowserLib {
 	/// <summary>
 	/// FormBrowserのインターフェス
 	/// WCFでプロセス間通信用
 	/// </summary>
 	[ServiceContract]
-	public interface IBrowser
-	{
+	public interface IBrowser {
 		[OperationContract]
-		void ConfigurationChanged(BrowserConfiguration conf);
+		void ConfigurationChanged( BrowserConfiguration conf );
 
 		[OperationContract]
 		void InitialAPIReceived();
 
 		[OperationContract]
-		void SaveScreenShot(string path, int format, string timestamp);
+		void SaveScreenShot( string path, int format, string timestamp );
 
 		[OperationContract]
 		void RefreshBrowser();
 
 		[OperationContract]
-		void ApplyZoom(int zoomRate);
+		void ApplyZoom( int zoomRate );
 
 		[OperationContract]
-		void Navigate(string url);
+		void Navigate( string url );
 
 		/// <summary>
 		/// プロキシをセット
 		/// </summary>
 		[OperationContract]
-		void SetProxy(int port);
+		void SetProxy( int port );
 
 		[OperationContract]
 		void ApplyStyleSheet();
