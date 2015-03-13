@@ -94,7 +94,13 @@
 			this.FormQuest_ShowDaily = new System.Windows.Forms.CheckBox();
 			this.FormQuest_ShowOnce = new System.Windows.Forms.CheckBox();
 			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
+			this.tabPage13 = new System.Windows.Forms.TabPage();
+			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
+			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.label18 = new System.Windows.Forms.Label();
+			this.FormBrowser_ScreenShotPath = new System.Windows.Forms.TextBox();
+			this.FormBrowser_ScreenShotPathSearch = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.FormBrowser_ScreenShotFormat_PNG = new System.Windows.Forms.RadioButton();
 			this.FormBrowser_ScreenShotFormat_JPEG = new System.Windows.Forms.RadioButton();
@@ -118,9 +124,6 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.tabPage13 = new System.Windows.Forms.TabPage();
-			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
-			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -140,11 +143,11 @@
 			this.tabPage9.SuspendLayout();
 			this.tabPage10.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			this.tabPage13.SuspendLayout();
 			this.tabPage12.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).BeginInit();
 			this.tabPage11.SuspendLayout();
-			this.tabPage13.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -956,8 +959,45 @@
 			this.FormQuest_ShowRunningOnly.Text = "遂行中のみ表示する";
 			this.FormQuest_ShowRunningOnly.UseVisualStyleBackColor = true;
 			// 
+			// tabPage13
+			// 
+			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
+			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
+			this.tabPage13.Location = new System.Drawing.Point(4, 22);
+			this.tabPage13.Name = "tabPage13";
+			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage13.Size = new System.Drawing.Size(378, 179);
+			this.tabPage13.TabIndex = 4;
+			this.tabPage13.Text = "グループ";
+			this.tabPage13.UseVisualStyleBackColor = true;
+			// 
+			// FormShipGroup_ShowStatusBar
+			// 
+			this.FormShipGroup_ShowStatusBar.AutoSize = true;
+			this.FormShipGroup_ShowStatusBar.Location = new System.Drawing.Point(6, 31);
+			this.FormShipGroup_ShowStatusBar.Name = "FormShipGroup_ShowStatusBar";
+			this.FormShipGroup_ShowStatusBar.Size = new System.Drawing.Size(143, 19);
+			this.FormShipGroup_ShowStatusBar.TabIndex = 2;
+			this.FormShipGroup_ShowStatusBar.Text = "ステータスバーを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormShipGroup_ShowStatusBar, "下部のステータスバー(所属艦数など)を表示するかを指定します。\r\nわずかですが表示行数を増やすことができます。");
+			this.FormShipGroup_ShowStatusBar.UseVisualStyleBackColor = true;
+			// 
+			// FormShipGroup_AutoUpdate
+			// 
+			this.FormShipGroup_AutoUpdate.AutoSize = true;
+			this.FormShipGroup_AutoUpdate.Location = new System.Drawing.Point(6, 6);
+			this.FormShipGroup_AutoUpdate.Name = "FormShipGroup_AutoUpdate";
+			this.FormShipGroup_AutoUpdate.Size = new System.Drawing.Size(93, 19);
+			this.FormShipGroup_AutoUpdate.TabIndex = 1;
+			this.FormShipGroup_AutoUpdate.Text = "自動更新する";
+			this.ToolTipInfo.SetToolTip(this.FormShipGroup_AutoUpdate, "艦船データを自動更新するかを指定します。\r\n");
+			this.FormShipGroup_AutoUpdate.UseVisualStyleBackColor = true;
+			// 
 			// tabPage12
 			// 
+			this.tabPage12.Controls.Add(this.label18);
+			this.tabPage12.Controls.Add(this.FormBrowser_ScreenShotPath);
+			this.tabPage12.Controls.Add(this.FormBrowser_ScreenShotPathSearch);
 			this.tabPage12.Controls.Add(this.groupBox2);
 			this.tabPage12.Controls.Add(this.label17);
 			this.tabPage12.Controls.Add(this.label16);
@@ -973,6 +1013,34 @@
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
 			// 
+			// label18
+			// 
+			this.label18.AutoSize = true;
+			this.label18.Location = new System.Drawing.Point(6, 148);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(64, 15);
+			this.label18.TabIndex = 9;
+			this.label18.Text = "SS保存先:";
+			// 
+			// FormBrowser_ScreenShotPath
+			// 
+			this.FormBrowser_ScreenShotPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.FormBrowser_ScreenShotPath.Location = new System.Drawing.Point(82, 145);
+			this.FormBrowser_ScreenShotPath.Name = "FormBrowser_ScreenShotPath";
+			this.FormBrowser_ScreenShotPath.Size = new System.Drawing.Size(252, 23);
+			this.FormBrowser_ScreenShotPath.TabIndex = 4;
+			// 
+			// FormBrowser_ScreenShotPathSearch
+			// 
+			this.FormBrowser_ScreenShotPathSearch.Location = new System.Drawing.Point(340, 144);
+			this.FormBrowser_ScreenShotPathSearch.Name = "FormBrowser_ScreenShotPathSearch";
+			this.FormBrowser_ScreenShotPathSearch.Size = new System.Drawing.Size(32, 23);
+			this.FormBrowser_ScreenShotPathSearch.TabIndex = 5;
+			this.FormBrowser_ScreenShotPathSearch.Text = "...";
+			this.FormBrowser_ScreenShotPathSearch.UseVisualStyleBackColor = true;
+			this.FormBrowser_ScreenShotPathSearch.Click += new System.EventHandler(this.FormBrowser_ScreenShotPathSearch_Click);
+			// 
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_PNG);
@@ -980,7 +1048,7 @@
 			this.groupBox2.Location = new System.Drawing.Point(6, 88);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(136, 51);
-			this.groupBox2.TabIndex = 6;
+			this.groupBox2.TabIndex = 3;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "スクリーンショットの形式";
 			// 
@@ -1030,7 +1098,7 @@
 			this.FormBrowser_IsEnabled.Location = new System.Drawing.Point(6, 6);
 			this.FormBrowser_IsEnabled.Name = "FormBrowser_IsEnabled";
 			this.FormBrowser_IsEnabled.Size = new System.Drawing.Size(78, 19);
-			this.FormBrowser_IsEnabled.TabIndex = 3;
+			this.FormBrowser_IsEnabled.TabIndex = 0;
 			this.FormBrowser_IsEnabled.Text = "有効にする";
 			this.FormBrowser_IsEnabled.UseVisualStyleBackColor = true;
 			// 
@@ -1198,40 +1266,6 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// tabPage13
-			// 
-			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
-			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 24);
-			this.tabPage13.Name = "tabPage13";
-			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(378, 177);
-			this.tabPage13.TabIndex = 4;
-			this.tabPage13.Text = "グループ";
-			this.tabPage13.UseVisualStyleBackColor = true;
-			// 
-			// FormShipGroup_AutoUpdate
-			// 
-			this.FormShipGroup_AutoUpdate.AutoSize = true;
-			this.FormShipGroup_AutoUpdate.Location = new System.Drawing.Point(6, 6);
-			this.FormShipGroup_AutoUpdate.Name = "FormShipGroup_AutoUpdate";
-			this.FormShipGroup_AutoUpdate.Size = new System.Drawing.Size(93, 19);
-			this.FormShipGroup_AutoUpdate.TabIndex = 1;
-			this.FormShipGroup_AutoUpdate.Text = "自動更新する";
-			this.ToolTipInfo.SetToolTip(this.FormShipGroup_AutoUpdate, "艦船データを自動更新するかを指定します。\r\n");
-			this.FormShipGroup_AutoUpdate.UseVisualStyleBackColor = true;
-			// 
-			// FormShipGroup_ShowStatusBar
-			// 
-			this.FormShipGroup_ShowStatusBar.AutoSize = true;
-			this.FormShipGroup_ShowStatusBar.Location = new System.Drawing.Point(6, 31);
-			this.FormShipGroup_ShowStatusBar.Name = "FormShipGroup_ShowStatusBar";
-			this.FormShipGroup_ShowStatusBar.Size = new System.Drawing.Size(143, 19);
-			this.FormShipGroup_ShowStatusBar.TabIndex = 2;
-			this.FormShipGroup_ShowStatusBar.Text = "ステータスバーを表示する";
-			this.ToolTipInfo.SetToolTip(this.FormShipGroup_ShowStatusBar, "下部のステータスバー(所属艦数など)を表示するかを指定します。\r\nわずかですが表示行数を増やすことができます。");
-			this.FormShipGroup_ShowStatusBar.UseVisualStyleBackColor = true;
-			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1261,7 +1295,7 @@
 			this.tabPage2.PerformLayout();
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).EndInit();
 			this.tabPage4.ResumeLayout(false);
 			this.tabPage4.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).EndInit();
@@ -1281,6 +1315,8 @@
 			this.tabPage10.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			this.tabPage13.ResumeLayout(false);
+			this.tabPage13.PerformLayout();
 			this.tabPage12.ResumeLayout(false);
 			this.tabPage12.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -1288,8 +1324,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).EndInit();
 			this.tabPage11.ResumeLayout(false);
 			this.tabPage11.PerformLayout();
-			this.tabPage13.ResumeLayout(false);
-			this.tabPage13.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -1393,5 +1427,8 @@
 		private System.Windows.Forms.TabPage tabPage13;
 		private System.Windows.Forms.CheckBox FormShipGroup_AutoUpdate;
 		private System.Windows.Forms.CheckBox FormShipGroup_ShowStatusBar;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.TextBox FormBrowser_ScreenShotPath;
+		private System.Windows.Forms.Button FormBrowser_ScreenShotPathSearch;
 	}
 }
