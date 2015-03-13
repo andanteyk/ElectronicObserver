@@ -230,6 +230,12 @@ namespace ElectronicObserver.Window.Dialog {
 			Debug_SealingPanel.Visible = Debug_EnableDebugMenu.Checked;
 		}
 
+
+        private void FormBrowser_ScreenShotPathSearch_Click(object sender, EventArgs e)
+        {
+            FormBrowser_ScreenShotPath.Text = PathHelper.ProcessFolderBrowserDialog( FormBrowser_ScreenShotPath.Text, FolderBrowser );
+        }
+
 		
 		
 
@@ -299,6 +305,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_LogInPageURL.Text = config.FormBrowser.LogInPageURL;
 			FormBrowser_ScreenShotFormat_JPEG.Checked = config.FormBrowser.ScreenShotFormat == 1;
 			FormBrowser_ScreenShotFormat_PNG.Checked = config.FormBrowser.ScreenShotFormat == 2;
+            FormBrowser_ScreenShotPath.Text = config.FormBrowser.ScreenShotPath;
 
 			//finalize
 			UpdateParameter();
@@ -385,6 +392,7 @@ namespace ElectronicObserver.Window.Dialog {
 				config.FormBrowser.ScreenShotFormat = 1;
 			else
 				config.FormBrowser.ScreenShotFormat = 2;
+            config.FormBrowser.ScreenShotPath = FormBrowser_ScreenShotPath.Text;
 
 		}
 
