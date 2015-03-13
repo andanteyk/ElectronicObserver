@@ -281,7 +281,7 @@ namespace ElectronicObserver.Window {
 					MainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
 					//一度全ウィンドウを読み込むことでフォームを初期化する
-					foreach ( var x in MainDockPanel.Contents ) {
+					foreach ( var x in MainDockPanel.Contents.Reverse() ) {
 						if ( x.DockHandler.DockState == DockState.Hidden ) {
 							x.DockHandler.Show( MainDockPanel );
 							x.DockHandler.Hide();
