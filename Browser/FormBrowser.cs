@@ -1,5 +1,4 @@
-﻿using ElectronicObserver.Resource;
-using ElectronicObserver.Utility.Mathematics;
+﻿using BrowserLib;
 using mshtml;
 using System;
 using System.Collections.Generic;
@@ -8,22 +7,31 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 
-namespace ElectronicObserver.Window {
-
+namespace Browser {
 	/// <summary>
 	/// ブラウザを表示するフォームです。
 	/// </summary>
 	/// <remarks>thx KanColleViewer!</remarks>
-	public partial class FormBrowser : DockContent {
+	[ServiceBehavior( InstanceContextMode = InstanceContextMode.Single )]
+	public partial class FormBrowser : Form, IBrowser {
+		// FormBrowserHostの通信サーバ
+		private string ServerUri;
 
-		
+		// FormBrowserの通信サーバ
+		private PipeCommunicator<IBrowserHost> BrowserHost;
+
+		private BrowserLib.BrowserConfiguration Configuration;
+
+		// 親プロセスが生きているか定期的に確認するためのタイマー
+		private Timer HeartbeatTimer = new Timer();
+		private IntPtr HostWindow;
+
 		private readonly Size KanColleSize = new Size( 800, 480 );
-
 
 		private bool _styleSheetApplied;
 		/// <summary>
@@ -51,39 +59,81 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
-
-		public FormBrowser( FormMain parent ) {
+		/// <summary>
+		/// </summary>
+		/// <param name="serverUri">ホストプロセスとの通信用URL</param>
+		public FormBrowser( string serverUri ) {
 			InitializeComponent();
 
+			ServerUri = serverUri;
 			StyleSheetApplied = false;
-
-			ConfigurationChanged();
-
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
 		}
 
+		[DllImport( "user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true )]
+		private static extern uint GetWindowLong( IntPtr hwnd, int nIndex );
+
+		[DllImport( "user32.dll", EntryPoint = "SetWindowLongA", SetLastError = true )]
+		private static extern uint SetWindowLong( IntPtr hwnd, int nIndex, uint dwNewLong );
+
+		private const int GWL_STYLE = ( -16 );
+		private const uint WS_CHILD = 0x40000000;
+		private const uint WS_VISIBLE = 0x10000000;
 
 		private void FormBrowser_Load( object sender, EventArgs e ) {
+			SetWindowLong( this.Handle, GWL_STYLE, WS_CHILD );
 
-			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+			// ホストプロセスに接続
+			BrowserHost = new PipeCommunicator<IBrowserHost>(
+				this, typeof( IBrowser ), ServerUri + "Browser", "Browser" );
+			BrowserHost.Connect( ServerUri + "/BrowserHost" );
+			BrowserHost.Faulted += BrowserHostChannel_Faulted;
 
-			Observer.APIObserver.Instance.APIList["api_start2"].ResponseReceived += 
-				( string apiname, dynamic data ) => Invoke( new Observer.APIReceivedEventHandler( InitialAPIReceived ), apiname, data );
+			Configuration = BrowserHost.Proxy.Configuration;
 
+			// キーメッセージの送り先はFormBrowserHost
+			// FormBrowserHostを別ウィンドウに切り離すとショートカットキーが効かなくなる
+			// メインウィンドウに送れば切り離してても効くようになると思うが、
+			// 元からそういう仕様だったから変更していない
+			Application.AddMessageFilter( new KeyMessageGrabber( BrowserHost.Proxy.HWND ) );
 
-			if ( Utility.Configuration.Config.FormBrowser.IsEnabled )
-				NavigateToLogInPage();
+			// ウィンドウの親子設定＆ホストプロセスから接続してもらう
+			BrowserHost.Proxy.ConnectToBrowser( this.Handle );
+
+			// 親ウィンドウが生きているか確認 
+			HeartbeatTimer.Tick += (EventHandler)( ( sender2, e2 ) => {
+				BrowserHost.AsyncRemoteRun( () => { HostWindow = BrowserHost.Proxy.HWND; } );
+			} );
+			HeartbeatTimer.Interval = 2000; // 2秒ごと　
+			HeartbeatTimer.Start();
 		}
 
-		
+		void Exit() {
+			if ( !BrowserHost.Closed ) {
+				BrowserHost.Close();
+				HeartbeatTimer.Stop();
+				Application.Exit();
+			}
+		}
 
-		void ConfigurationChanged() {
-			SizeAdjuster.AutoScroll = Utility.Configuration.Config.FormBrowser.IsScrollable;
-			ApplyZoom();	
+		void BrowserHostChannel_Faulted( Exception e ) {
+			// 親と通信できなくなったら終了する
+			Exit();
+		}
+
+		public void CloseBrowser() {
+			HeartbeatTimer.Stop();
+			// リモートコールでClose()呼ぶのばヤバそうなので非同期にしておく
+			BeginInvoke( (Action)( () => Exit() ) );
+		}
+
+		public void ConfigurationChanged( BrowserLib.BrowserConfiguration conf ) {
+			Configuration = conf;
+			SizeAdjuster.AutoScroll = Configuration.IsScrollable;
+			ApplyZoom();
 		}
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
-		void InitialAPIReceived( string apiname, dynamic data ) {
+		public void InitialAPIReceived() {
 			ApplyStyleSheet();
 			ApplyZoom();
 		}
@@ -102,11 +152,13 @@ namespace ElectronicObserver.Window {
 				Browser.Location.X, Browser.Location.Y, Browser.Width, Browser.Height, SizeAdjuster.Width, SizeAdjuster.Height, ClientSize.Width, ClientSize.Height ) );
 			//*/
 
-
 			//スタイルシート適用時はセンタリング
-		
+			CenteringBrowser();
+		}
+
+		private void CenteringBrowser() {
 			int x = Browser.Location.X, y = Browser.Location.Y;
-			bool isScrollable = Utility.Configuration.Config.FormBrowser.IsScrollable;
+			bool isScrollable = Configuration.IsScrollable;
 
 			if ( !isScrollable || Browser.Width <= SizeAdjuster.Width ) {
 				x = ( SizeAdjuster.Width - Browser.Width ) / 2;
@@ -117,9 +169,7 @@ namespace ElectronicObserver.Window {
 
 			//if ( x != Browser.Location.X || y != Browser.Location.Y )
 			Browser.Location = new Point( x, y );
-		
 		}
-
 
 		private void Browser_DocumentCompleted( object sender, WebBrowserDocumentCompletedEventArgs e ) {
 
@@ -127,8 +177,6 @@ namespace ElectronicObserver.Window {
 			ApplyStyleSheet();
 
 		}
-
-
 
 		/// <summary>
 		/// スタイルシートを適用します。
@@ -154,7 +202,7 @@ namespace ElectronicObserver.Window {
 				if ( target != null ) {
 					mshtml.IHTMLStyleSheet ss = ( (mshtml.IHTMLDocument2)target.DomDocument ).createStyleSheet( "", 0 );
 
-					ss.cssText = Utility.Configuration.Config.FormBrowser.StyleSheet;
+					ss.cssText = Configuration.StyleSheet;
 
 
 					StyleSheetApplied = true;
@@ -164,11 +212,11 @@ namespace ElectronicObserver.Window {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "スタイルシートの適用に失敗しました。" );
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" ) );
 			}
 
 		}
-
 
 		/// <summary>
 		/// 指定した URL のページを開きます。
@@ -179,29 +227,18 @@ namespace ElectronicObserver.Window {
 		}
 
 		/// <summary>
-		/// 艦これのログインページを開きます。
-		/// </summary>
-		public void NavigateToLogInPage() {
-			Navigate( Utility.Configuration.Config.FormBrowser.LogInPageURL );
-		}
-
-
-		/// <summary>
 		/// ブラウザを再読み込みします。
 		/// </summary>
 		public void RefreshBrowser() {
 			Browser.Refresh( WebBrowserRefreshOption.Completely );
 		}
 
-
-
 		/// <summary>
 		/// ズームを適用します。
 		/// </summary>
 		public void ApplyZoom() {
-			ApplyZoom( Utility.Configuration.Config.FormBrowser.ZoomRate );
+			ApplyZoom( Configuration.ZoomRate );
 		}
-
 
 		/// <summary>
 		/// ズームを適用します。
@@ -209,7 +246,6 @@ namespace ElectronicObserver.Window {
 		/// <param name="zoomRate">拡大率。%指定で 10-1000</param>
 		public void ApplyZoom( int zoomRate ) {
 
-			// fixme: ページが未ロードのとき例外を吐くので一時しのぎ；回避できるなら回避すること
 			try {
 
 				if ( zoomRate < 10 )
@@ -220,6 +256,9 @@ namespace ElectronicObserver.Window {
 				var wb = Browser.ActiveXInstance as SHDocVw.IWebBrowser2;
 				if ( wb == null || wb.ReadyState == SHDocVw.tagREADYSTATE.READYSTATE_UNINITIALIZED ) return;
 
+				// 読み込み中は例外を吐くので避ける
+				if ( wb.Busy ) return;
+
 				object pin = zoomRate;
 				object pout = null;
 
@@ -227,23 +266,21 @@ namespace ElectronicObserver.Window {
 
 				if ( StyleSheetApplied ) {
 					Browser.Size = Browser.MinimumSize = new Size( (int)( KanColleSize.Width * zoomRate / 100.0 ), (int)( KanColleSize.Height * zoomRate / 100.0 ) );
+					CenteringBrowser();
 				}
 
 			} catch ( Exception ex ) {
-
-				Utility.Logger.Add( 3, "ズームの適用に失敗しました。" + ex.Message );
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message ) );
 			}
-			
+
 		}
 
 
 		/// <summary>
 		/// スクリーンショットを保存します。
 		/// </summary>
-		public void SaveScreenShot() {
-
-			string path = Utility.Configuration.Config.FormBrowser.ScreenShotPath;
-
+		public void SaveScreenShot( string path, int screenShotFormat, string timestamp ) {
 			if ( !System.IO.Directory.Exists( path ) ) {
 				System.IO.Directory.CreateDirectory( path );
 			}
@@ -251,7 +288,7 @@ namespace ElectronicObserver.Window {
 			string ext;
 			System.Drawing.Imaging.ImageFormat format;
 
-			switch ( Utility.Configuration.Config.FormBrowser.ScreenShotFormat ) {
+			switch ( screenShotFormat ) {
 				case 1:
 					ext = "jpg";
 					format = System.Drawing.Imaging.ImageFormat.Jpeg;
@@ -263,10 +300,10 @@ namespace ElectronicObserver.Window {
 					break;
 			}
 
-			
+
 			SaveScreenShot( string.Format( "{0}\\{1}.{2}",
 				path,
-				DateTimeHelper.GetTimeStamp(),
+				timestamp,
 				ext ), format );
 
 		}
@@ -375,26 +412,55 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) );
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) ) );
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "スクリーンショットの保存時にエラーが発生しました。" );
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スクリーンショットの保存時にエラーが発生しました。" ) );
 			}
 
 
 		}
 
-
-
-		protected override string GetPersistString() {
-			return "Browser";
+		public void SetProxy( int port ) {
+			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}", port ), "<local>" );
 		}
-
-
 	}
 
+	/// <summary>
+	/// キーボードメッセージを親ウィンドウに届ける
+	/// 別プロセスの子ウィンドウにフォーカスがあるとキーボードショートカットが効かなくなるため、
+	/// キー関連のメッセージのコピーをホスト側に送る
+	/// </summary>
+	internal class KeyMessageGrabber : IMessageFilter {
+		private IntPtr TargetWnd;
 
+		[DllImport( "user32.dll" )]
+		private static extern bool PostMessage( IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam );
+
+		private const int WM_KEYDOWN = 0x100;
+		private const int WM_KEYUP = 0x101;
+		private const int WM_SYSKEYDOWN = 0x0104;
+		private const int WM_SYSKEYUP = 0x0105;
+
+		public KeyMessageGrabber( IntPtr targetWnd ) {
+			TargetWnd = targetWnd;
+		}
+
+		public bool PreFilterMessage( ref Message m ) {
+			switch ( m.Msg ) {
+				case WM_KEYDOWN:
+				case WM_KEYUP:
+				case WM_SYSKEYDOWN:
+				case WM_SYSKEYUP:
+					PostMessage( TargetWnd, m.Msg, m.WParam, m.LParam );
+					break;
+			}
+			return false;
+		}
+	}
 
 	#region struct
 
@@ -440,5 +506,4 @@ namespace ElectronicObserver.Window {
 	}
 
 	#endregion
-
 }

@@ -42,7 +42,7 @@ namespace ElectronicObserver.Window {
 		public FormBattle fBattle;
 		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
-		public FormBrowser fBrowser;
+		public FormBrowserHost fBrowser;
 
 		#endregion
 
@@ -52,8 +52,6 @@ namespace ElectronicObserver.Window {
 		public FormMain() {
 			InitializeComponent();
 		}
-
-
 
 		private async void FormMain_Load( object sender, EventArgs e ) {
 
@@ -101,7 +99,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBattle = new FormBattle( this ) );
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
-			SubForms.Add( fBrowser = new FormBrowser( this ) );
+			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
@@ -199,6 +197,7 @@ namespace ElectronicObserver.Window {
 
 			UIUpdateTimer.Stop();
 
+			fBrowser.CloseBrowser();
 
 			if ( !Directory.Exists( "Settings" ) )
 				Directory.CreateDirectory( "Settings" );
