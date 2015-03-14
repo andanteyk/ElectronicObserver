@@ -67,27 +67,25 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
+			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
+			o.APIList["api_req_kousyou/createship"].RequestReceived += Updated;
+			o.APIList["api_req_kousyou/createship_speedchange"].RequestReceived += Updated;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += Updated;
+			o.APIList["api_req_kousyou/destroyitem2"].RequestReceived += Updated;
 
-			o.APIList["api_req_nyukyo/start"].RequestReceived += rec;
-			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += rec;
-			o.APIList["api_req_kousyou/createship"].RequestReceived += rec;
-			o.APIList["api_req_kousyou/createship_speedchange"].RequestReceived += rec;
-			o.APIList["api_req_kousyou/destroyship"].RequestReceived += rec;
-			o.APIList["api_req_kousyou/destroyitem2"].RequestReceived += rec;
-
-			o.APIList["api_get_member/basic"].ResponseReceived += rec;
-			o.APIList["api_get_member/slot_item"].ResponseReceived += rec;
-			o.APIList["api_port/port"].ResponseReceived += rec;
-			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
-			o.APIList["api_req_kousyou/getship"].ResponseReceived += rec;
-			o.APIList["api_req_hokyu/charge"].ResponseReceived += rec;
-			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += rec;
-			o.APIList["api_req_kousyou/destroyitem2"].ResponseReceived += rec;
-			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;
-			o.APIList["api_req_kousyou/createitem"].ResponseReceived += rec;
-			o.APIList["api_req_kousyou/remodel_slot"].ResponseReceived += rec;
-			o.APIList["api_get_member/material"].ResponseReceived += rec;
+			o.APIList["api_get_member/basic"].ResponseReceived += Updated;
+			o.APIList["api_get_member/slot_item"].ResponseReceived += Updated;
+			o.APIList["api_port/port"].ResponseReceived += Updated;
+			o.APIList["api_get_member/ship2"].ResponseReceived += Updated;
+			o.APIList["api_req_kousyou/getship"].ResponseReceived += Updated;
+			o.APIList["api_req_hokyu/charge"].ResponseReceived += Updated;
+			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += Updated;
+			o.APIList["api_req_kousyou/destroyitem2"].ResponseReceived += Updated;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += Updated;
+			o.APIList["api_req_kousyou/createitem"].ResponseReceived += Updated;
+			o.APIList["api_req_kousyou/remodel_slot"].ResponseReceived += Updated;
+			o.APIList["api_get_member/material"].ResponseReceived += Updated;
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
