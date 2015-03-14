@@ -374,12 +374,15 @@ namespace ElectronicObserver.Window {
 
 			try {
 
-				using ( var stream = File.OpenWrite( path ) ) {
+				using ( var stream = File.Open( path, FileMode.Create ) ) {
 					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Create ) ) {
 
-						SaveSubWindowsLayout( archive.CreateEntry( "SubWindowLayout.xml" ).Open() );
-						WindowPlacementManager.SaveWindowPlacement( this, archive.CreateEntry( "WindowPlacement.xml" ).Open() );
-
+						using ( var layoutstream = archive.CreateEntry( "SubWindowLayout.xml" ).Open() ) {
+							SaveSubWindowsLayout( layoutstream );
+						}
+						using ( var placementstream = archive.CreateEntry( "WindowPlacement.xml" ).Open() ) {
+							WindowPlacementManager.SaveWindowPlacement( this, placementstream );
+						}
 					}
 				}
 

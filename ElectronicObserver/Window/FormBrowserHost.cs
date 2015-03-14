@@ -206,7 +206,12 @@ namespace ElectronicObserver.Window {
 		}
 
 		public void CloseBrowser() {
+			if ( Browser == null ) {
+				// ブラウザを開いていない場合はnullなので
+				return;
+			}
 			if ( !Browser.Closed ) {
+				// ブラウザプロセスが異常終了した場合などはnullになる
 				if ( Browser.Proxy != null ) {
 					Browser.Proxy.CloseBrowser();
 				}
