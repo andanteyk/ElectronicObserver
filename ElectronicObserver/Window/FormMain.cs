@@ -74,7 +74,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.Instance.AppIcon;
 
-			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port );
+			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port, this );
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
