@@ -102,7 +102,13 @@ namespace ElectronicObserver.Observer {
 
 		}
 
-		// UIControl: GUIスレッドで実行するためのオブジェクト。中身は何でもいい
+
+		/// <summary>
+		/// 通信の受信を開始します。
+		/// </summary>
+		/// <param name="portID">受信に使用するポート番号。</param>
+		/// <param name="UIControl">GUI スレッドで実行するためのオブジェクト。中身は何でもいい</param>
+		/// <returns>実際に使用されるポート番号。</returns>
 		public int Start( int portID, Control UIControl ) {
 			this.UIControl = UIControl;
 
@@ -127,6 +133,9 @@ namespace ElectronicObserver.Observer {
 		}
 
 
+		/// <summary>
+		/// 通信の受信を停止します。
+		/// </summary>
 		public void Stop() {
 
 			Fiddler.URLMonInterop.ResetProxyInProcessToDefault();
@@ -213,6 +222,7 @@ namespace ElectronicObserver.Observer {
 									Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
 								}
 							} ) );
+
 						}
 
 					} catch ( Exception ex ) {
@@ -268,7 +278,7 @@ namespace ElectronicObserver.Observer {
 
 				string url = oSession.fullUrl;
 				string body = oSession.GetRequestBodyAsString();
-				
+
 				//保存
 				{
 					if ( c.SaveReceivedData && c.SaveRequest ) {
