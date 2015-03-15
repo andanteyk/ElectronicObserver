@@ -135,6 +135,9 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		public void ApplyStyleSheet() {
 
+			if ( !Utility.Configuration.Config.FormBrowser.AplliesStyleSheet )
+				return;
+
 			try {
 
 				var document = Browser.Document;
