@@ -107,12 +107,6 @@ namespace ElectronicObserver.Window {
 
 			SoftwareInformation.CheckUpdate();
 
-
-			UIUpdateTimer.Start();
-
-			Utility.Logger.Add( 2, "起動処理が完了しました。" );
-
-
 			// デバッグ: 開始時にAPIリストを読み込む
 			if ( Configuration.Config.Debug.LoadAPIListOnLoad ) {
 
@@ -126,6 +120,12 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			// 完了通知（ログインページを開く）
+			fBrowser.InitializeApiCompleted();
+
+			UIUpdateTimer.Start();
+
+			Utility.Logger.Add( 2, "起動処理が完了しました。" );
 		}
 
 
@@ -520,10 +520,15 @@ namespace ElectronicObserver.Window {
 							Array.Sort( files );
 
 							using ( StreamReader sr2 = new StreamReader( files[files.Length - 1] ) ) {
-								if ( isRequest )
-									APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
-								else
-									APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+								if ( isRequest ) {
+									Invoke( (Action)( () => {
+										APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
+									} ) );
+								} else {
+									Invoke( (Action)( () => {
+										APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+									} ) );
+								}
 							}
 
 							//System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
