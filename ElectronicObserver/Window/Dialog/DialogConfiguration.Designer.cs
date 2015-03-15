@@ -94,6 +94,9 @@
 			this.FormQuest_ShowDaily = new System.Windows.Forms.CheckBox();
 			this.FormQuest_ShowOnce = new System.Windows.Forms.CheckBox();
 			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
+			this.tabPage13 = new System.Windows.Forms.TabPage();
+			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
+			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.FormBrowser_ScreenShotFormat_PNG = new System.Windows.Forms.RadioButton();
@@ -118,9 +121,6 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.tabPage13 = new System.Windows.Forms.TabPage();
-			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
-			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -140,11 +140,11 @@
 			this.tabPage9.SuspendLayout();
 			this.tabPage10.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			this.tabPage13.SuspendLayout();
 			this.tabPage12.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).BeginInit();
 			this.tabPage11.SuspendLayout();
-			this.tabPage13.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -417,10 +417,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(392, 231);
+			this.tabPage2.Size = new System.Drawing.Size(392, 211);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -453,7 +453,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(3, 169);
+			this.label9.Location = new System.Drawing.Point(3, 193);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 8;
@@ -526,10 +526,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Location = new System.Drawing.Point(4, 44);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(392, 231);
+			this.tabPage3.Size = new System.Drawing.Size(392, 211);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -618,10 +618,10 @@
 			// 
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Location = new System.Drawing.Point(4, 44);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(392, 231);
+			this.tabPage4.Size = new System.Drawing.Size(392, 211);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -653,10 +653,10 @@
 			// 
 			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Location = new System.Drawing.Point(4, 44);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 231);
+			this.tabPage5.Size = new System.Drawing.Size(392, 211);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -671,7 +671,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 31);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(392, 134);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(392, 112);
 			this.Debug_SealingPanel.TabIndex = 7;
 			// 
 			// Debug_APIListPath
@@ -727,10 +727,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 231);
+			this.tabPage6.Size = new System.Drawing.Size(392, 211);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -956,6 +956,40 @@
 			this.FormQuest_ShowRunningOnly.Text = "遂行中のみ表示する";
 			this.FormQuest_ShowRunningOnly.UseVisualStyleBackColor = true;
 			// 
+			// tabPage13
+			// 
+			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
+			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
+			this.tabPage13.Location = new System.Drawing.Point(4, 24);
+			this.tabPage13.Name = "tabPage13";
+			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage13.Size = new System.Drawing.Size(378, 177);
+			this.tabPage13.TabIndex = 4;
+			this.tabPage13.Text = "グループ";
+			this.tabPage13.UseVisualStyleBackColor = true;
+			// 
+			// FormShipGroup_ShowStatusBar
+			// 
+			this.FormShipGroup_ShowStatusBar.AutoSize = true;
+			this.FormShipGroup_ShowStatusBar.Location = new System.Drawing.Point(6, 31);
+			this.FormShipGroup_ShowStatusBar.Name = "FormShipGroup_ShowStatusBar";
+			this.FormShipGroup_ShowStatusBar.Size = new System.Drawing.Size(143, 19);
+			this.FormShipGroup_ShowStatusBar.TabIndex = 2;
+			this.FormShipGroup_ShowStatusBar.Text = "ステータスバーを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormShipGroup_ShowStatusBar, "下部のステータスバー(所属艦数など)を表示するかを指定します。\r\nわずかですが表示行数を増やすことができます。");
+			this.FormShipGroup_ShowStatusBar.UseVisualStyleBackColor = true;
+			// 
+			// FormShipGroup_AutoUpdate
+			// 
+			this.FormShipGroup_AutoUpdate.AutoSize = true;
+			this.FormShipGroup_AutoUpdate.Location = new System.Drawing.Point(6, 6);
+			this.FormShipGroup_AutoUpdate.Name = "FormShipGroup_AutoUpdate";
+			this.FormShipGroup_AutoUpdate.Size = new System.Drawing.Size(93, 19);
+			this.FormShipGroup_AutoUpdate.TabIndex = 1;
+			this.FormShipGroup_AutoUpdate.Text = "自動更新する";
+			this.ToolTipInfo.SetToolTip(this.FormShipGroup_AutoUpdate, "艦船データを自動更新するかを指定します。\r\n");
+			this.FormShipGroup_AutoUpdate.UseVisualStyleBackColor = true;
+			// 
 			// tabPage12
 			// 
 			this.tabPage12.Controls.Add(this.groupBox2);
@@ -1095,7 +1129,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 149);
+			this.label10.Location = new System.Drawing.Point(3, 193);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -1198,40 +1232,6 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// tabPage13
-			// 
-			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
-			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 24);
-			this.tabPage13.Name = "tabPage13";
-			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(378, 177);
-			this.tabPage13.TabIndex = 4;
-			this.tabPage13.Text = "グループ";
-			this.tabPage13.UseVisualStyleBackColor = true;
-			// 
-			// FormShipGroup_AutoUpdate
-			// 
-			this.FormShipGroup_AutoUpdate.AutoSize = true;
-			this.FormShipGroup_AutoUpdate.Location = new System.Drawing.Point(6, 6);
-			this.FormShipGroup_AutoUpdate.Name = "FormShipGroup_AutoUpdate";
-			this.FormShipGroup_AutoUpdate.Size = new System.Drawing.Size(93, 19);
-			this.FormShipGroup_AutoUpdate.TabIndex = 1;
-			this.FormShipGroup_AutoUpdate.Text = "自動更新する";
-			this.ToolTipInfo.SetToolTip(this.FormShipGroup_AutoUpdate, "艦船データを自動更新するかを指定します。\r\n");
-			this.FormShipGroup_AutoUpdate.UseVisualStyleBackColor = true;
-			// 
-			// FormShipGroup_ShowStatusBar
-			// 
-			this.FormShipGroup_ShowStatusBar.AutoSize = true;
-			this.FormShipGroup_ShowStatusBar.Location = new System.Drawing.Point(6, 31);
-			this.FormShipGroup_ShowStatusBar.Name = "FormShipGroup_ShowStatusBar";
-			this.FormShipGroup_ShowStatusBar.Size = new System.Drawing.Size(143, 19);
-			this.FormShipGroup_ShowStatusBar.TabIndex = 2;
-			this.FormShipGroup_ShowStatusBar.Text = "ステータスバーを表示する";
-			this.ToolTipInfo.SetToolTip(this.FormShipGroup_ShowStatusBar, "下部のステータスバー(所属艦数など)を表示するかを指定します。\r\nわずかですが表示行数を増やすことができます。");
-			this.FormShipGroup_ShowStatusBar.UseVisualStyleBackColor = true;
-			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1281,6 +1281,8 @@
 			this.tabPage10.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			this.tabPage13.ResumeLayout(false);
+			this.tabPage13.PerformLayout();
 			this.tabPage12.ResumeLayout(false);
 			this.tabPage12.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -1288,8 +1290,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).EndInit();
 			this.tabPage11.ResumeLayout(false);
 			this.tabPage11.PerformLayout();
-			this.tabPage13.ResumeLayout(false);
-			this.tabPage13.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

@@ -14,7 +14,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 		/// <summary>
 		/// 起点となる日時。
 		/// </summary>
-		private static readonly DateTime origin = new DateTime( 1970, 1, 1 ).ToLocalTime();
+		private static readonly DateTime origin = new DateTime( 1970, 1, 1, 9, 0, 0 );
 
 
 		/// <summary>

@@ -135,6 +135,9 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		public void ApplyStyleSheet() {
 
+			if ( !Utility.Configuration.Config.FormBrowser.AplliesStyleSheet )
+				return;
+
 			try {
 
 				var document = Browser.Document;
@@ -335,8 +338,8 @@ namespace ElectronicObserver.Window {
 							if ( target == null ) return false;
 							viewobj = target as IViewObject;
 							if ( viewobj == null ) return false;
-							width = int.Parse( target.width );
-							height = int.Parse( target.height );
+							if ( !int.TryParse( target.width, out width ) ) return false;
+							if ( !int.TryParse( target.height, out height ) ) return false;
 							return true;
 						};
 

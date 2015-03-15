@@ -375,12 +375,15 @@ namespace ElectronicObserver.Window {
 
 			try {
 
-				using ( var stream = File.OpenWrite( path ) ) {
+				using ( var stream = File.Open( path, FileMode.Create ) ) {
 					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Create ) ) {
 
-						SaveSubWindowsLayout( archive.CreateEntry( "SubWindowLayout.xml" ).Open() );
-						WindowPlacementManager.SaveWindowPlacement( this, archive.CreateEntry( "WindowPlacement.xml" ).Open() );
-
+						using ( var layoutstream = archive.CreateEntry( "SubWindowLayout.xml" ).Open() ) {
+							SaveSubWindowsLayout( layoutstream );
+						}
+						using ( var placementstream = archive.CreateEntry( "WindowPlacement.xml" ).Open() ) {
+							WindowPlacementManager.SaveWindowPlacement( this, placementstream );
+						}
 					}
 				}
 
@@ -915,16 +918,14 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		private void StripMenu_Browser_ApplyStyleSheet_Click( object sender, EventArgs e ) {
+		private void StripMenu_Browser_AppliesStyleSheet_CheckedChanged( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( 
-				"スタイルシートを再適用します。\r\nよろしいですか？", "確認",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question 
-				) == System.Windows.Forms.DialogResult.Yes ) {
-				
-				fBrowser.ApplyStyleSheet();
-			}
+			Utility.Configuration.Config.FormBrowser.AplliesStyleSheet = StripMenu_Browser_AppliesStyleSheet.Checked;
+		}
 
+		private void StripMenu_Browser_DropDownOpening( object sender, EventArgs e ) {
+
+			StripMenu_Browser_AppliesStyleSheet.Checked = Utility.Configuration.Config.FormBrowser.AplliesStyleSheet;
 		}
 
 
@@ -992,7 +993,12 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
+	
+
+
+
+
+
 
 
 	}

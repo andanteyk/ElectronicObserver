@@ -466,6 +466,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool IsScrollable { get; set; }
 
+				/// <summary>
+				/// スタイルシートを適用するか
+				/// </summary>
+				public bool AplliesStyleSheet { get; set; }
+
 
 				public ConfigFormBrowser() {
 					ZoomRate = 100;
@@ -475,6 +480,7 @@ namespace ElectronicObserver.Utility {
 					ScreenShotFormat = 2;
 					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
 					IsScrollable = false;
+					AplliesStyleSheet = true;
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>
