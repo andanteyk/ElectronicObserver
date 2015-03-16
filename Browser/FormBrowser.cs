@@ -183,6 +183,9 @@ namespace Browser {
 		/// </summary>
 		public void ApplyStyleSheet() {
 
+			if ( !Configuration.AppliesStyleSheet )
+				return;
+
 			try {
 
 				var document = Browser.Document;
@@ -372,8 +375,8 @@ namespace Browser {
 							if ( target == null ) return false;
 							viewobj = target as IViewObject;
 							if ( viewobj == null ) return false;
-							width = int.Parse( target.width );
-							height = int.Parse( target.height );
+							if ( !int.TryParse( target.width, out width ) ) return false;
+							if ( !int.TryParse( target.height, out height ) ) return false;
 							return true;
 						};
 

@@ -66,5 +66,8 @@ namespace BrowserLib {
 
 		[DataMember]
 		public int ZoomRate;
+
+		[DataMember]
+		public bool AppliesStyleSheet;
 	}
 }

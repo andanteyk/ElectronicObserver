@@ -98,11 +98,11 @@
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
-			this.label18 = new System.Windows.Forms.Label();
-			this.FormBrowser_ScreenShotPath = new System.Windows.Forms.TextBox();
-			this.FormBrowser_ScreenShotPathSearch = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label18 = new System.Windows.Forms.Label();
 			this.FormBrowser_ScreenShotFormat_PNG = new System.Windows.Forms.RadioButton();
+			this.FormBrowser_ScreenShotPathSearch = new System.Windows.Forms.Button();
+			this.FormBrowser_ScreenShotPath = new System.Windows.Forms.TextBox();
 			this.FormBrowser_ScreenShotFormat_JPEG = new System.Windows.Forms.RadioButton();
 			this.label17 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
@@ -420,10 +420,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(392, 231);
+			this.tabPage2.Size = new System.Drawing.Size(392, 211);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -456,7 +456,7 @@
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(3, 167);
+			this.label9.Location = new System.Drawing.Point(3, 193);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 8;
@@ -529,10 +529,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Location = new System.Drawing.Point(4, 44);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(392, 231);
+			this.tabPage3.Size = new System.Drawing.Size(392, 211);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -621,10 +621,10 @@
 			// 
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Location = new System.Drawing.Point(4, 44);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(392, 231);
+			this.tabPage4.Size = new System.Drawing.Size(392, 211);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -656,10 +656,10 @@
 			// 
 			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Location = new System.Drawing.Point(4, 44);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 231);
+			this.tabPage5.Size = new System.Drawing.Size(392, 211);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -674,7 +674,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 31);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(392, 132);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(392, 180);
 			this.Debug_SealingPanel.TabIndex = 7;
 			// 
 			// Debug_APIListPath
@@ -866,10 +866,10 @@
 			// tabPage9
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 22);
+			this.tabPage9.Location = new System.Drawing.Point(4, 24);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(378, 179);
+			this.tabPage9.Size = new System.Drawing.Size(378, 177);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -888,10 +888,10 @@
 			// 
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 22);
+			this.tabPage10.Location = new System.Drawing.Point(4, 24);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(378, 179);
+			this.tabPage10.Size = new System.Drawing.Size(378, 177);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1010,35 +1010,6 @@
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
 			// 
-			// label18
-			// 
-			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(6, 50);
-			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(48, 15);
-			this.label18.TabIndex = 2;
-			this.label18.Text = "保存先:";
-			// 
-			// FormBrowser_ScreenShotPath
-			// 
-			this.FormBrowser_ScreenShotPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.FormBrowser_ScreenShotPath.Location = new System.Drawing.Point(76, 47);
-			this.FormBrowser_ScreenShotPath.Name = "FormBrowser_ScreenShotPath";
-			this.FormBrowser_ScreenShotPath.Size = new System.Drawing.Size(246, 23);
-			this.FormBrowser_ScreenShotPath.TabIndex = 3;
-			// 
-			// FormBrowser_ScreenShotPathSearch
-			// 
-			this.FormBrowser_ScreenShotPathSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.FormBrowser_ScreenShotPathSearch.Location = new System.Drawing.Point(328, 47);
-			this.FormBrowser_ScreenShotPathSearch.Name = "FormBrowser_ScreenShotPathSearch";
-			this.FormBrowser_ScreenShotPathSearch.Size = new System.Drawing.Size(32, 23);
-			this.FormBrowser_ScreenShotPathSearch.TabIndex = 4;
-			this.FormBrowser_ScreenShotPathSearch.Text = "...";
-			this.FormBrowser_ScreenShotPathSearch.UseVisualStyleBackColor = true;
-			this.FormBrowser_ScreenShotPathSearch.Click += new System.EventHandler(this.FormBrowser_ScreenShotPathSearch_Click);
-			// 
 			// groupBox2
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1056,6 +1027,15 @@
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "スクリーンショット";
 			// 
+			// label18
+			// 
+			this.label18.AutoSize = true;
+			this.label18.Location = new System.Drawing.Point(6, 50);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(48, 15);
+			this.label18.TabIndex = 2;
+			this.label18.Text = "保存先:";
+			// 
 			// FormBrowser_ScreenShotFormat_PNG
 			// 
 			this.FormBrowser_ScreenShotFormat_PNG.AutoSize = true;
@@ -1066,6 +1046,26 @@
 			this.FormBrowser_ScreenShotFormat_PNG.TabStop = true;
 			this.FormBrowser_ScreenShotFormat_PNG.Text = "PNG";
 			this.FormBrowser_ScreenShotFormat_PNG.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_ScreenShotPathSearch
+			// 
+			this.FormBrowser_ScreenShotPathSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.FormBrowser_ScreenShotPathSearch.Location = new System.Drawing.Point(328, 47);
+			this.FormBrowser_ScreenShotPathSearch.Name = "FormBrowser_ScreenShotPathSearch";
+			this.FormBrowser_ScreenShotPathSearch.Size = new System.Drawing.Size(32, 23);
+			this.FormBrowser_ScreenShotPathSearch.TabIndex = 4;
+			this.FormBrowser_ScreenShotPathSearch.Text = "...";
+			this.FormBrowser_ScreenShotPathSearch.UseVisualStyleBackColor = true;
+			this.FormBrowser_ScreenShotPathSearch.Click += new System.EventHandler(this.FormBrowser_ScreenShotPathSearch_Click);
+			// 
+			// FormBrowser_ScreenShotPath
+			// 
+			this.FormBrowser_ScreenShotPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.FormBrowser_ScreenShotPath.Location = new System.Drawing.Point(76, 47);
+			this.FormBrowser_ScreenShotPath.Name = "FormBrowser_ScreenShotPath";
+			this.FormBrowser_ScreenShotPath.Size = new System.Drawing.Size(246, 23);
+			this.FormBrowser_ScreenShotPath.TabIndex = 3;
 			// 
 			// FormBrowser_ScreenShotFormat_JPEG
 			// 
@@ -1084,7 +1084,7 @@
 			this.label17.Location = new System.Drawing.Point(6, 62);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(72, 15);
-			this.label17.TabIndex = 4;
+			this.label17.TabIndex = 5;
 			this.label17.Text = "ログインURL:";
 			// 
 			// label16
@@ -1093,7 +1093,7 @@
 			this.label16.Location = new System.Drawing.Point(148, 32);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(19, 15);
-			this.label16.TabIndex = 3;
+			this.label16.TabIndex = 4;
 			this.label16.Text = "％";
 			// 
 			// FormBrowser_IsEnabled
@@ -1102,7 +1102,7 @@
 			this.FormBrowser_IsEnabled.Location = new System.Drawing.Point(6, 6);
 			this.FormBrowser_IsEnabled.Name = "FormBrowser_IsEnabled";
 			this.FormBrowser_IsEnabled.Size = new System.Drawing.Size(78, 19);
-			this.FormBrowser_IsEnabled.TabIndex = 0;
+			this.FormBrowser_IsEnabled.TabIndex = 3;
 			this.FormBrowser_IsEnabled.Text = "有効にする";
 			this.FormBrowser_IsEnabled.UseVisualStyleBackColor = true;
 			// 
@@ -1113,7 +1113,7 @@
 			this.FormBrowser_LogInPageURL.Location = new System.Drawing.Point(82, 59);
 			this.FormBrowser_LogInPageURL.Name = "FormBrowser_LogInPageURL";
 			this.FormBrowser_LogInPageURL.Size = new System.Drawing.Size(290, 23);
-			this.FormBrowser_LogInPageURL.TabIndex = 5;
+			this.FormBrowser_LogInPageURL.TabIndex = 2;
 			// 
 			// FormBrowser_ZoomRate
 			// 
@@ -1130,7 +1130,7 @@
             0});
 			this.FormBrowser_ZoomRate.Name = "FormBrowser_ZoomRate";
 			this.FormBrowser_ZoomRate.Size = new System.Drawing.Size(60, 23);
-			this.FormBrowser_ZoomRate.TabIndex = 2;
+			this.FormBrowser_ZoomRate.TabIndex = 1;
 			this.FormBrowser_ZoomRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.FormBrowser_ZoomRate.Value = new decimal(new int[] {
             10,
@@ -1144,7 +1144,7 @@
 			this.label15.Location = new System.Drawing.Point(6, 32);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(73, 15);
-			this.label15.TabIndex = 1;
+			this.label15.TabIndex = 0;
 			this.label15.Text = "ズーム倍率：";
 			// 
 			// tabPage11
@@ -1167,7 +1167,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 127);
+			this.label10.Location = new System.Drawing.Point(3, 193);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;

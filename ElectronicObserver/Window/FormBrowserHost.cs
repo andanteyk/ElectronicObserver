@@ -142,6 +142,7 @@ namespace ElectronicObserver.Window {
 				conf.LogInPageURL = Utility.Configuration.Config.FormBrowser.LogInPageURL;
 				conf.StyleSheet = Utility.Configuration.Config.FormBrowser.StyleSheet;
 				conf.ZoomRate = Utility.Configuration.Config.FormBrowser.ZoomRate;
+				conf.AppliesStyleSheet = Utility.Configuration.Config.FormBrowser.AplliesStyleSheet;
 				return conf;
 			}
 		}
