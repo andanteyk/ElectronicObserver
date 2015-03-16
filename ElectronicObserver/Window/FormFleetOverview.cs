@@ -159,29 +159,32 @@ namespace ElectronicObserver.Window {
 			//api register
 			APIObserver o = APIObserver.Instance;
 
-			o.APIList["api_req_hensei/change"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kousyou/destroyship"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
+			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+			APIReceivedEventHandler r_org = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( ChangeOrganization ), apiname, data );
 
-			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
-			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
-			o.APIList["api_req_hensei/change"].RequestReceived += Updated;
-			o.APIList["api_req_kousyou/destroyship"].RequestReceived += Updated;
-			o.APIList["api_req_member/updatedeckname"].RequestReceived += Updated;
-			o.APIList["api_req_map/start"].RequestReceived += Updated;
+			o.APIList["api_req_hensei/change"].RequestReceived += r_org;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += r_org;
+			o.APIList["api_req_kaisou/remodeling"].RequestReceived += r_org;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += r_org;
+		
+			o.APIList["api_req_nyukyo/start"].RequestReceived += rec;
+			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += rec;
+			o.APIList["api_req_hensei/change"].RequestReceived += rec;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += rec;
+			o.APIList["api_req_member/updatedeckname"].RequestReceived += rec;
+			o.APIList["api_req_map/start"].RequestReceived += rec;
 
-			o.APIList["api_port/port"].ResponseReceived += Updated;
-			o.APIList["api_get_member/ship2"].ResponseReceived += Updated;
-			o.APIList["api_get_member/ndock"].ResponseReceived += Updated;
-			o.APIList["api_req_kousyou/getship"].ResponseReceived += Updated;
-			o.APIList["api_req_hokyu/charge"].ResponseReceived += Updated;
-			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += Updated;
-			o.APIList["api_get_member/ship3"].ResponseReceived += Updated;
-			o.APIList["api_req_kaisou/powerup"].ResponseReceived += Updated;		//requestのほうは面倒なのでこちらでまとめてやる
-			o.APIList["api_get_member/deck"].ResponseReceived += Updated;
-			o.APIList["api_req_map/start"].ResponseReceived += Updated;
-			o.APIList["api_req_map/next"].ResponseReceived += Updated;
+			o.APIList["api_port/port"].ResponseReceived += rec;
+			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
+			o.APIList["api_get_member/ndock"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/getship"].ResponseReceived += rec;
+			o.APIList["api_req_hokyu/charge"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += rec;
+			o.APIList["api_get_member/ship3"].ResponseReceived += rec;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
+			o.APIList["api_get_member/deck"].ResponseReceived += rec;
+			o.APIList["api_req_map/start"].ResponseReceived += rec;
+			o.APIList["api_req_map/next"].ResponseReceived += rec;
 			
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}

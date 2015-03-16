@@ -87,22 +87,24 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			o.APIList["api_port/port"].ResponseReceived += Updated;
-			o.APIList["api_req_map/start"].ResponseReceived += Updated;
-			o.APIList["api_req_map/next"].ResponseReceived += Updated;
-			o.APIList["api_req_sortie/battle"].ResponseReceived += Updated;
-			o.APIList["api_req_sortie/battleresult"].ResponseReceived += Updated;
-			o.APIList["api_req_battle_midnight/battle"].ResponseReceived += Updated;
-			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/battle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
-			o.APIList["api_req_practice/battle"].ResponseReceived += Updated;
-			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += Updated;
-			o.APIList["api_req_practice/battle_result"].ResponseReceived += Updated;
+			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+
+			o.APIList["api_port/port"].ResponseReceived += rec;
+			o.APIList["api_req_map/start"].ResponseReceived += rec;
+			o.APIList["api_req_map/next"].ResponseReceived += rec;
+			o.APIList["api_req_sortie/battle"].ResponseReceived += rec;
+			o.APIList["api_req_sortie/battleresult"].ResponseReceived += rec;
+			o.APIList["api_req_battle_midnight/battle"].ResponseReceived += rec;
+			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/battle"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += rec;
+			o.APIList["api_req_combined_battle/battleresult"].ResponseReceived += rec;
+			o.APIList["api_req_practice/battle"].ResponseReceived += rec;
+			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += rec;
+			o.APIList["api_req_practice/battle_result"].ResponseReceived += rec;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 

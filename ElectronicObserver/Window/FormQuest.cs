@@ -62,7 +62,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/questlist"].ResponseReceived += rec;
 			//*/
 
-			KCDatabase.Instance.Quest.QuestUpdated += Updated;
+			KCDatabase.Instance.Quest.QuestUpdated += () => Invoke( new Action( Updated ) );
 
 
 			ClearQuestView();

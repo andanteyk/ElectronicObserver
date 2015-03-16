@@ -75,9 +75,7 @@ namespace ElectronicObserver.Utility {
 
 		public static IReadOnlyList<LogData> Log {
 			get {
-				lock ( Logger.Instance ) {
-					return Logger.Instance.log.AsReadOnly();
-				}
+				return Logger.Instance.log.AsReadOnly();
 			}
 		}
 
@@ -91,9 +89,7 @@ namespace ElectronicObserver.Utility {
 
 			LogData data = new LogData( DateTime.Now, priority, message );
 
-			lock ( Logger.Instance ) {
-				Logger.Instance.log.Add( data );
-			}
+			Logger.Instance.log.Add( data );
 
 
 			if ( Configuration.Config.Log.LogLevel <= priority ) {
@@ -117,9 +113,7 @@ namespace ElectronicObserver.Utility {
 		/// ログをすべて消去します。
 		/// </summary>
 		public static void Clear() {
-			lock ( Logger.Instance ) {
-				Logger.instance.log.Clear();
-			}
+			Logger.instance.log.Clear();
 		}
 
 
@@ -131,20 +125,20 @@ namespace ElectronicObserver.Utility {
 		public static void Save( string path ) {
 
 			try {
-				lock ( Logger.Instance ) {
-					using ( StreamWriter sw = new StreamWriter( path ) ) {
 
-						int priority = Configuration.Config.Log.LogLevel;
+				using ( StreamWriter sw = new StreamWriter( path ) ) {
 
-						var list = Logger.instance.log.Where( l => l.Priority >= priority );
+					int priority = Configuration.Config.Log.LogLevel;
 
-						foreach ( var l in list ) {
-							sw.WriteLine( l.ToString() );
-						}
+					var list = Logger.instance.log.Where( l => l.Priority >= priority );
+
+					foreach ( var l in list ) {
+						sw.WriteLine( l.ToString() );
 					}
 				}
-			} catch ( Exception ) {
 
+			} catch ( Exception ) {
+				
 				// に ぎ り つ ぶ す
 			}
 

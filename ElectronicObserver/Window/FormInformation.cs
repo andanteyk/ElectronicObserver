@@ -34,13 +34,15 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			o.APIList["api_port/port"].ResponseReceived += Updated;
-			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += Updated;
-			o.APIList["api_get_member/picture_book"].ResponseReceived += Updated;
-			o.APIList["api_req_kousyou/createitem"].ResponseReceived += Updated;
-			o.APIList["api_get_member/mapinfo"].ResponseReceived += Updated;
-			o.APIList["api_req_mission/result"].ResponseReceived += Updated;
-			o.APIList["api_req_ranking/getlist"].ResponseReceived += Updated;
+			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+
+			o.APIList["api_port/port"].ResponseReceived += rec;
+			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += rec;
+			o.APIList["api_get_member/picture_book"].ResponseReceived += rec;
+			o.APIList["api_req_kousyou/createitem"].ResponseReceived += rec;
+			o.APIList["api_get_member/mapinfo"].ResponseReceived += rec;
+			o.APIList["api_req_mission/result"].ResponseReceived += rec;
+			o.APIList["api_req_ranking/getlist"].ResponseReceived += rec;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
