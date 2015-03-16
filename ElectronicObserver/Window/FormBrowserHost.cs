@@ -33,10 +33,23 @@ namespace ElectronicObserver.Window {
 
 		private IntPtr BrowserWnd = IntPtr.Zero;
 
+		// デバッグ用初期APIロードが完了した後に、艦これページを開くようにするため
+		// APIロードの完了で+1、ブラウザ起動の完了で+1、最終的に2になる
+		private int initializeCompletionCount = 0;
+
 		public FormBrowserHost( FormMain parent ) {
 			InitializeComponent();
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
+		}
+
+		public void InitializeApiCompleted() {
+			++initializeCompletionCount;
+			if ( initializeCompletionCount == 2 ) { // ブラウザ起動も完了していたら実行
+				if ( Utility.Configuration.Config.FormBrowser.IsEnabled ) {
+					NavigateToLogInPage();
+				}
+			}
 		}
 
 		private void FormBrowser_Load( object sender, EventArgs e ) {
@@ -65,6 +78,7 @@ namespace ElectronicObserver.Window {
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 		void InitialAPIReceived( string apiname, dynamic data ) {
+			if ( initializeCompletionCount < 2 ) return; // 未初期化状態なので、まだ
 			Browser.AsyncRemoteRun( () => Browser.Proxy.InitialAPIReceived() );
 		}
 
@@ -181,8 +195,12 @@ namespace ElectronicObserver.Window {
 						Browser.Proxy.SetProxy( Observer.APIObserver.Instance.ProxyPort ) );
 				};
 
-				if ( Utility.Configuration.Config.FormBrowser.IsEnabled )
-					NavigateToLogInPage();
+				++initializeCompletionCount;
+				if ( initializeCompletionCount == 2 ) { // APIロードも完了していたら実行
+					if ( Utility.Configuration.Config.FormBrowser.IsEnabled ) {
+						NavigateToLogInPage();
+					}
+				}
 			} ) );
 		}
 

@@ -58,7 +58,16 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.Load();
 
 
-			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
+			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
+				if ( InvokeRequired ) {
+					// Invokeはメッセージキューにジョブを投げて待つので、別のBeginInvokeされたジョブが既にキューにあると、
+					// それを実行してしまい、BeginInvokeされたジョブの順番が保てなくなる
+					// GUIスレッドによる処理は、順番が重要なことがあるので、GUIスレッドからInvokeを呼び出してはいけない
+					Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data );
+				} else {
+					Logger_LogAdded( data );
+				}
+			} );
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
@@ -107,12 +116,6 @@ namespace ElectronicObserver.Window {
 
 			SoftwareInformation.CheckUpdate();
 
-
-			UIUpdateTimer.Start();
-
-			Utility.Logger.Add( 2, "起動処理が完了しました。" );
-
-
 			// デバッグ: 開始時にAPIリストを読み込む
 			if ( Configuration.Config.Debug.LoadAPIListOnLoad ) {
 
@@ -126,6 +129,12 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			// 完了通知（ログインページを開く）
+			fBrowser.InitializeApiCompleted();
+
+			UIUpdateTimer.Start();
+
+			Utility.Logger.Add( 2, "起動処理が完了しました。" );
 		}
 
 
@@ -520,10 +529,15 @@ namespace ElectronicObserver.Window {
 							Array.Sort( files );
 
 							using ( StreamReader sr2 = new StreamReader( files[files.Length - 1] ) ) {
-								if ( isRequest )
-									APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
-								else
-									APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+								if ( isRequest ) {
+									Invoke( (Action)( () => {
+										APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
+									} ) );
+								} else {
+									Invoke( (Action)( () => {
+										APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+									} ) );
+								}
 							}
 
 							//System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
