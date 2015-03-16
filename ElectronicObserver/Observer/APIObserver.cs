@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Observer {
 
@@ -34,6 +35,8 @@ namespace ElectronicObserver.Observer {
 
 		public delegate void ProxyStartedEventHandler();
 		public event ProxyStartedEventHandler ProxyStarted = delegate { };
+
+		private Control UIControl;
 
 		private APIObserver() {
 
@@ -100,9 +103,14 @@ namespace ElectronicObserver.Observer {
 		}
 
 
-
-
-		public int Start( int portID ) {
+		/// <summary>
+		/// 通信の受信を開始します。
+		/// </summary>
+		/// <param name="portID">受信に使用するポート番号。</param>
+		/// <param name="UIControl">GUI スレッドで実行するためのオブジェクト。中身は何でもいい</param>
+		/// <returns>実際に使用されるポート番号。</returns>
+		public int Start( int portID, Control UIControl ) {
+			this.UIControl = UIControl;
 
 			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
 				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
@@ -125,6 +133,9 @@ namespace ElectronicObserver.Observer {
 		}
 
 
+		/// <summary>
+		/// 通信の受信を停止します。
+		/// </summary>
 		public void Stop() {
 
 			Fiddler.URLMonInterop.ResetProxyInProcessToDefault();
@@ -155,12 +166,20 @@ namespace ElectronicObserver.Observer {
 
 						if ( c.SaveResponse && oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 
-							SaveResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
+							// 非同期で書き出し処理するので取っておく
+							// stringはイミュータブルなのでOK
+							string url = oSession.fullUrl;
+							string body = oSession.GetResponseBodyAsString();
+
+							Task.Run( (Action)( () => {
+								SaveResponse( url, body );
+							} ) );
 
 						} else if ( oSession.fullUrl.Contains( "/kcs/" ) &&
 							( ( c.SaveSWF && oSession.oResponse.MIMEType == "application/x-shockwave-flash" ) || c.SaveOtherFile ) ) {
 
-							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
+							string saveDataPath = c.SaveDataPath; // スレッド間の競合を避けるため取っておく
+							string tpath = string.Format( "{0}\\{1}", saveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
 							{
 								int index = tpath.IndexOf( "?" );
 								if ( index != -1 ) {
@@ -178,21 +197,33 @@ namespace ElectronicObserver.Observer {
 									tpath = tpath.Remove( index );
 								}
 							}
-							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
 
-							//System.Diagnostics.Debug.WriteLine( oSession.fullUrl + " => " + tpath );
-							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
-								sw.Write( oSession.ResponseBody );
-							}
+							// 非同期で書き出し処理するので取っておく
+							byte[] responseCopy = new byte[oSession.ResponseBody.Length];
+							Array.Copy( oSession.ResponseBody, responseCopy, oSession.ResponseBody.Length );
 
-							Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath.Remove( 0, c.SaveDataPath.Length + 1 ) ) );
+							Task.Run( (Action)( () => {
+								try {
+									lock ( this ) {
+										// 同時に書き込みが走るとアレなのでロックしておく
+
+										Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
+
+										//System.Diagnostics.Debug.WriteLine( oSession.fullUrl + " => " + tpath );
+										using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
+											sw.Write( responseCopy );
+										}
+									}
+
+									Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath.Remove( 0, saveDataPath.Length + 1 ) ) );
+
+								} catch ( IOException ex ) {	//ファイルがロックされている; 頻繁に出るのでエラーレポートを残さない
+
+									Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
+								}
+							} ) );
 
 						}
-
-
-					} catch ( IOException ex ) {	//ファイルがロックされている; 頻繁に出るのでエラーレポートを残さない
-
-						Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
 
 					} catch ( Exception ex ) {
 
@@ -206,7 +237,11 @@ namespace ElectronicObserver.Observer {
 
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {
 
-				LoadResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
+				// 非同期でGUIスレッドに渡すので取っておく
+				// stringはイミュータブルなのでOK
+				string url = oSession.fullUrl;
+				string body = oSession.GetResponseBodyAsString();
+				UIControl.BeginInvoke( (Action)( () => { LoadResponse( url, body ); } ) );
 
 			}
 
@@ -241,17 +276,20 @@ namespace ElectronicObserver.Observer {
 
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 
+				string url = oSession.fullUrl;
+				string body = oSession.GetRequestBodyAsString();
+
 				//保存
 				{
 					if ( c.SaveReceivedData && c.SaveRequest ) {
 
-						SaveRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
+						Task.Run( (Action)( () => {
+							SaveResponse( url, body );
+						} ) );
 					}
 				}
 
-
-				LoadRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
-
+				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
 			}
 
 		}

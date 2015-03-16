@@ -199,7 +199,7 @@ namespace ElectronicObserver.Window {
 			SetParent( BrowserWnd, this.Handle );
 			MoveWindow( BrowserWnd, 0, 0, this.Width, this.Height, true );
 
-			// 後は非同期で処理
+			// デッドロックするので非同期で処理
 			BeginInvoke( (Action)( () => {
 				// ブラウザプロセスに接続
 				Browser.Connect( ServerUri + "Browser/Browser" );
