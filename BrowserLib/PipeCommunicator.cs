@@ -72,7 +72,7 @@ namespace BrowserLib {
 		}
 
 		/// <summary>
-		/// 非同期でactionを実行。例外が発生したらFaultイベントが反省するので、例外が出ることはない
+		/// 非同期でactionを実行。例外が発生したらFaultイベントが発生するので、例外が出ることはない
 		/// </summary>
 		public async void AsyncRemoteRun( Action action ) {
 			try {

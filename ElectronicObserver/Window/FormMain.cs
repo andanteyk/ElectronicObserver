@@ -933,12 +933,14 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_Browser_AppliesStyleSheet_CheckedChanged( object sender, EventArgs e ) {
 
-			Utility.Configuration.Config.FormBrowser.AplliesStyleSheet = StripMenu_Browser_AppliesStyleSheet.Checked;
+			Utility.Configuration.Config.FormBrowser.AppliesStyleSheet = StripMenu_Browser_AppliesStyleSheet.Checked;
+			fBrowser.ConfigurationChanged();
+
 		}
 
 		private void StripMenu_Browser_DropDownOpening( object sender, EventArgs e ) {
 
-			StripMenu_Browser_AppliesStyleSheet.Checked = Utility.Configuration.Config.FormBrowser.AplliesStyleSheet;
+			StripMenu_Browser_AppliesStyleSheet.Checked = Utility.Configuration.Config.FormBrowser.AppliesStyleSheet;
 		}
 
 

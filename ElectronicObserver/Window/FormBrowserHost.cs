@@ -23,19 +23,32 @@ namespace ElectronicObserver.Window {
 	/// </summary>
 	[ServiceBehavior( InstanceContextMode = InstanceContextMode.Single )]
 	public partial class FormBrowserHost : DockContent, IBrowserHost {
-		// FormBrowserHostの通信サーバ
+
+
+		private const string BrowserExeName = "Browser.exe";
+
+		/// <summary>
+		/// FormBrowserHostの通信サーバ
+		/// </summary>
 		private string ServerUri = "net.pipe://localhost/" + Process.GetCurrentProcess().Id + "/ElectronicObserver";
 
-		// FormBrowserとの通信インターフェース
+		/// <summary>
+		/// FormBrowserとの通信インターフェース
+		/// </summary>
 		private PipeCommunicator<IBrowser> Browser;
 
 		private Process BrowserProcess;
 
 		private IntPtr BrowserWnd = IntPtr.Zero;
 
-		// デバッグ用初期APIロードが完了した後に、艦これページを開くようにするため
-		// APIロードの完了で+1、ブラウザ起動の完了で+1、最終的に2になる
+		/// <summary>
+		/// 初期化ステージカウント
+		/// デバッグ用初期APIロードが完了した後に、艦これページを開くようにするため
+		/// APIロードの完了で+1、ブラウザ起動の完了で+1、最終的に2になる
+		/// </summary>
 		private int initializeCompletionCount = 0;
+
+
 
 		public FormBrowserHost( FormMain parent ) {
 			InitializeComponent();
@@ -56,6 +69,7 @@ namespace ElectronicObserver.Window {
 			LaunchBrowserProcess();
 		}
 
+
 		private void LaunchBrowserProcess() {
 			// 通信サーバ起動
 			Browser = new PipeCommunicator<IBrowser>(
@@ -63,18 +77,28 @@ namespace ElectronicObserver.Window {
 
 			try {
 				// プロセス起動
-				BrowserProcess = Process.Start( "Browser.exe", ServerUri );
+
+				if ( System.IO.File.Exists( BrowserExeName ) )
+					BrowserProcess = Process.Start( BrowserExeName, ServerUri );
+
+				else	//デバッグ環境用 作業フォルダにかかわらず自分と同じフォルダのを参照する
+					BrowserProcess = Process.Start(
+						System.IO.Path.GetDirectoryName( System.Reflection.Assembly.GetExecutingAssembly().Location ) + "\\" + BrowserExeName,
+						ServerUri );
 
 				// 残りはサーバに接続してきたブラウザプロセスがドライブする
 
 			} catch ( Exception ex ) {
-				MessageBox.Show( "ブラウザプロセスの起動に失敗しました。\r\n" + ex.Message );
+				Utility.ErrorReporter.SendErrorReport( ex, "ブラウザプロセスの起動に失敗しました。" );
+				MessageBox.Show( "ブラウザプロセスの起動に失敗しました。\r\n" + ex.Message,
+					"エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
 			}
 		}
 
-		private void ConfigurationChanged() {
+		internal void ConfigurationChanged() {
 			Browser.AsyncRemoteRun( () => Browser.Proxy.ConfigurationChanged( Configuration ) );
 		}
+
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 		void InitialAPIReceived( string apiname, dynamic data ) {
@@ -141,6 +165,7 @@ namespace ElectronicObserver.Window {
 			return "Browser";
 		}
 
+
 		public void SendErrorReport( string exceptionName, string message ) {
 			Utility.ErrorReporter.SendErrorReport( new Exception( exceptionName ), message );
 		}
@@ -156,7 +181,7 @@ namespace ElectronicObserver.Window {
 				conf.LogInPageURL = Utility.Configuration.Config.FormBrowser.LogInPageURL;
 				conf.StyleSheet = Utility.Configuration.Config.FormBrowser.StyleSheet;
 				conf.ZoomRate = Utility.Configuration.Config.FormBrowser.ZoomRate;
-				conf.AppliesStyleSheet = Utility.Configuration.Config.FormBrowser.AplliesStyleSheet;
+				conf.AppliesStyleSheet = Utility.Configuration.Config.FormBrowser.AppliesStyleSheet;
 				return conf;
 			}
 		}

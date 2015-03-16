@@ -128,6 +128,7 @@ namespace Browser {
 
 		public void ConfigurationChanged( BrowserLib.BrowserConfiguration conf ) {
 			Configuration = conf;
+
 			SizeAdjuster.AutoScroll = Configuration.IsScrollable;
 			ApplyZoom();
 		}
