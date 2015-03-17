@@ -18,6 +18,7 @@ namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogConfiguration : Form {
 		public DialogConfiguration() {
 			InitializeComponent();
+
 		}
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
