@@ -32,7 +32,7 @@ namespace ElectronicObserver.Data.Quest {
 	public class QuestProgressManager : DataStorage {
 
 
-		public const string DefaultFilePath = @"Settings\QuestProgress.xml";		
+		public const string DefaultFilePath = @"Settings\QuestProgress.xml";
 
 
 		[IgnoreDataMember]
@@ -51,8 +51,8 @@ namespace ElectronicObserver.Data.Quest {
 
 
 		public QuestProgressManager() {
-	
-			Initialize();
+
+			//Initialize();		//二重init禁止！！！！
 		}
 
 
@@ -211,7 +211,7 @@ namespace ElectronicObserver.Data.Quest {
 							Progresses.Add( new ProgressBattle( q.QuestID, 10, "A", new int[] { 15 }, true ) );
 							break;
 
-							//undone: その他の条件付きマンスリー任務
+						//undone: その他の条件付きマンスリー任務
 
 						case 303:	//|303|「演習」で練度向上！|演習3
 							Progresses.Add( new ProgressPractice( q.QuestID, 3, false ) );
@@ -396,7 +396,7 @@ namespace ElectronicObserver.Data.Quest {
 				var pi = p as ProgressDocking;
 				if ( pi != null ) pi.Increment();
 			}
-		
+
 			OnProgressChanged();
 		}
 
