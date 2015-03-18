@@ -415,6 +415,9 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		/// <summary>
+		/// 対空カットイン種別を取得します。
+		/// </summary>
 		public static int GetAACutinKind( int shipID, int[] slot ) {
 
 			int highangle = 0;
@@ -424,6 +427,8 @@ namespace ElectronicObserver.Utility.Data {
 			int aaradar = 0;
 			int maingunl = 0;
 			int aashell = 0;
+			int aagun = 0;
+			int aagun_concentrated = 0;
 
 
 			foreach ( int eid in slot ) {
@@ -431,11 +436,10 @@ namespace ElectronicObserver.Utility.Data {
 				EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[eid];
 				if ( eq == null ) continue;
 
-				if ( eq.EquipmentID == 122 ) {		//10cm連装高角砲+高射装置
-					highangle_director++;
-					highangle++;
-
-				} else if ( eq.IconType == 16 ) {	//高角砲
+				if ( eq.IconType == 16 ) {	//高角砲
+					if ( eq.EquipmentID == 122 || eq.EquipmentID == 130 ) {		//10cm連装高角砲+高射装置 or 12.7cm高角砲+高射装置
+						highangle_director++;
+					}
 					highangle++;
 
 				} else if ( eq.CategoryType == 36 ) {	//高射装置
@@ -452,6 +456,12 @@ namespace ElectronicObserver.Utility.Data {
 
 				} else if ( eq.CategoryType == 18 ) {	//対空強化弾
 					aashell++;
+
+				} else if ( eq.CategoryType == 21 ) {	//対空機銃
+					if ( eq.EquipmentID == 131 ) {		//25mm三連装機銃 集中配備
+						aagun_concentrated++;
+					}
+					aagun++;
 
 				}
 
@@ -472,6 +482,15 @@ namespace ElectronicObserver.Utility.Data {
 				}
 			}
 
+			if ( shipID == 428 ) {		//摩耶改二限定
+				if ( highangle >= 1 && aagun_concentrated >= 1 ) {
+					if ( aaradar >= 1 )
+						return 10;
+
+					return 11;
+				}
+			}
+
 			if ( maingunl >= 1 && aashell >= 1 && director >= 1 && aaradar >= 1 ) {
 				return 4;
 			}
@@ -489,6 +508,10 @@ namespace ElectronicObserver.Utility.Data {
 			}
 			if ( highangle >= 1 && director >= 1 ) {
 				return 9;
+			}
+
+			if ( aagun_concentrated >= 1 && aagun >= 2 && aaradar >= 1 ) {	//注: 機銃2なのは集中機銃がダブるため
+				return 12;
 			}
 
 			return 0;
