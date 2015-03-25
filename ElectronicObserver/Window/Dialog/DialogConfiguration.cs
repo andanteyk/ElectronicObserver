@@ -307,6 +307,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_ScreenShotFormat_JPEG.Checked = config.FormBrowser.ScreenShotFormat == 1;
 			FormBrowser_ScreenShotFormat_PNG.Checked = config.FormBrowser.ScreenShotFormat == 2;
 			FormBrowser_ScreenShotPath.Text = config.FormBrowser.ScreenShotPath;
+			FormBrowser_ConfirmAtRefresh.Checked = config.FormBrowser.ConfirmAtRefresh;
 
 			//finalize
 			UpdateParameter();
@@ -394,6 +395,7 @@ namespace ElectronicObserver.Window.Dialog {
 			else
 				config.FormBrowser.ScreenShotFormat = 2;
 			config.FormBrowser.ScreenShotPath = FormBrowser_ScreenShotPath.Text;
+			config.FormBrowser.ConfirmAtRefresh = FormBrowser_ConfirmAtRefresh.Checked;
 
 		}
 

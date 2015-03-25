@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.ServiceModel;
@@ -19,6 +21,11 @@ namespace Browser {
 	/// <remarks>thx KanColleViewer!</remarks>
 	[ServiceBehavior( InstanceContextMode = InstanceContextMode.Single )]
 	public partial class FormBrowser : Form, IBrowser {
+
+		private readonly Size KanColleSize = new Size( 800, 480 );
+
+
+
 		// FormBrowserHostの通信サーバ
 		private string ServerUri;
 
@@ -30,8 +37,6 @@ namespace Browser {
 		// 親プロセスが生きているか定期的に確認するためのタイマー
 		private Timer HeartbeatTimer = new Timer();
 		private IntPtr HostWindow;
-
-		private readonly Size KanColleSize = new Size( 800, 480 );
 
 		private bool _styleSheetApplied;
 		/// <summary>
@@ -60,6 +65,15 @@ namespace Browser {
 		}
 
 		/// <summary>
+		/// 艦これが読み込まれているかどうか
+		/// </summary>
+		private bool IsKanColleLoaded { get; set; }
+
+		private VolumeManager _volumeManager;
+
+
+
+		/// <summary>
 		/// </summary>
 		/// <param name="serverUri">ホストプロセスとの通信用URL</param>
 		public FormBrowser( string serverUri ) {
@@ -67,18 +81,11 @@ namespace Browser {
 
 			ServerUri = serverUri;
 			StyleSheetApplied = false;
+			_volumeManager = new VolumeManager( (uint)System.Diagnostics.Process.GetCurrentProcess().Id );
+			Browser.ReplacedKeyDown += Browser_ReplacedKeyDown;
 		}
 
-		[DllImport( "user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true )]
-		private static extern uint GetWindowLong( IntPtr hwnd, int nIndex );
-
-		[DllImport( "user32.dll", EntryPoint = "SetWindowLongA", SetLastError = true )]
-		private static extern uint SetWindowLong( IntPtr hwnd, int nIndex, uint dwNewLong );
-
-		private const int GWL_STYLE = ( -16 );
-		private const uint WS_CHILD = 0x40000000;
-		private const uint WS_VISIBLE = 0x10000000;
-
+		
 		private void FormBrowser_Load( object sender, EventArgs e ) {
 			SetWindowLong( this.Handle, GWL_STYLE, WS_CHILD );
 
@@ -88,13 +95,9 @@ namespace Browser {
 			BrowserHost.Connect( ServerUri + "/BrowserHost" );
 			BrowserHost.Faulted += BrowserHostChannel_Faulted;
 
-			Configuration = BrowserHost.Proxy.Configuration;
 
-			// キーメッセージの送り先はFormBrowserHost
-			// FormBrowserHostを別ウィンドウに切り離すとショートカットキーが効かなくなる
-			// メインウィンドウに送れば切り離してても効くようになると思うが、
-			// 元からそういう仕様だったから変更していない
-			Application.AddMessageFilter( new KeyMessageGrabber( BrowserHost.Proxy.HWND ) );
+			ConfigurationChanged( BrowserHost.Proxy.Configuration );
+
 
 			// ウィンドウの親子設定＆ホストプロセスから接続してもらう
 			BrowserHost.Proxy.ConnectToBrowser( this.Handle );
@@ -105,6 +108,9 @@ namespace Browser {
 			} );
 			HeartbeatTimer.Interval = 2000; // 2秒ごと　
 			HeartbeatTimer.Start();
+
+
+			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.GetIconResource() );
 		}
 
 		void Exit() {
@@ -131,12 +137,31 @@ namespace Browser {
 
 			SizeAdjuster.AutoScroll = Configuration.IsScrollable;
 			ApplyZoom();
+			ToolMenu_Other_AppliesStyleSheet.Checked = Configuration.AppliesStyleSheet;
+			ToolMenu.Dock = (DockStyle)Configuration.ToolMenuDockStyle;
+			ToolMenu.Visible = Configuration.IsToolMenuVisible;
+
 		}
 
-		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
+		private void ConfigurationUpdated() {
+			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.ConfigurationUpdated( Configuration ) );
+		}
+
+		private void AddLog( int priority, string message ) {
+			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.AddLog( priority, message ) );
+		}
+
+
 		public void InitialAPIReceived() {
+
+			IsKanColleLoaded = true;
+
+			//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 			ApplyStyleSheet();
 			ApplyZoom();
+
+			//起動直後はまだ音声が鳴っていないのでミュートできないため、この時点で有効化
+			SetMuteIcon();
 		}
 
 
@@ -172,11 +197,19 @@ namespace Browser {
 			Browser.Location = new Point( x, y );
 		}
 
+
+		private void Browser_Navigating( object sender, WebBrowserNavigatingEventArgs e ) {
+
+			IsKanColleLoaded = false;
+
+		}
+
 		private void Browser_DocumentCompleted( object sender, WebBrowserDocumentCompletedEventArgs e ) {
 
 			StyleSheetApplied = false;
 			ApplyStyleSheet();
 
+			ApplyZoom();
 		}
 
 		/// <summary>
@@ -258,10 +291,7 @@ namespace Browser {
 					zoomRate = 1000;
 
 				var wb = Browser.ActiveXInstance as SHDocVw.IWebBrowser2;
-				if ( wb == null || wb.ReadyState == SHDocVw.tagREADYSTATE.READYSTATE_UNINITIALIZED ) return;
-
-				// 読み込み中は例外を吐くので避ける
-				if ( wb.Busy ) return;
+				if ( wb == null || wb.ReadyState == SHDocVw.tagREADYSTATE.READYSTATE_UNINITIALIZED || wb.Busy ) return;
 
 				object pin = zoomRate;
 				object pout = null;
@@ -273,20 +303,24 @@ namespace Browser {
 					CenteringBrowser();
 				}
 
+				ToolMenu_Other_Zoom_Current.Text = string.Format( "現在: {0}%", zoomRate );
+
 			} catch ( Exception ex ) {
-				BrowserHost.AsyncRemoteRun( () =>
-					BrowserHost.Proxy.AddLog( 3, "ズームの適用に失敗しました。" + ex.Message ) );
+				AddLog( 3, "ズームの適用に失敗しました。" + ex.Message );
 			}
 
 		}
 
 
+
 		/// <summary>
 		/// スクリーンショットを保存します。
 		/// </summary>
-		public void SaveScreenShot( string path, int screenShotFormat, string timestamp ) {
-			if ( !System.IO.Directory.Exists( path ) ) {
-				System.IO.Directory.CreateDirectory( path );
+		/// <param name="folderPath">保存するフォルダへのパス。</param>
+		/// <param name="screenShotFormat">スクリーンショットのフォーマット。1=jpg, 2=png</param>
+		public void SaveScreenShot( string folderPath, int screenShotFormat ) {
+			if ( !System.IO.Directory.Exists( folderPath ) ) {
+				System.IO.Directory.CreateDirectory( folderPath );
 			}
 
 			string ext;
@@ -305,9 +339,10 @@ namespace Browser {
 			}
 
 
-			SaveScreenShot( string.Format( "{0}\\{1}.{2}",
-				path,
-				timestamp,
+			SaveScreenShot( string.Format(
+				"{0}\\{1:yyyyMMdd_HHmmssff}.{2}",
+				folderPath,
+				DateTime.Now,
 				ext ), format );
 
 		}
@@ -321,6 +356,11 @@ namespace Browser {
 		private void SaveScreenShot( string path, System.Drawing.Imaging.ImageFormat format ) {
 
 			var wb = Browser;
+
+			if ( !IsKanColleLoaded ) {
+				AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
+				return;
+			}
 
 			try {
 
@@ -416,8 +456,7 @@ namespace Browser {
 				}
 
 
-				BrowserHost.AsyncRemoteRun( () =>
-					BrowserHost.Proxy.AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) ) );
+				AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) );
 
 			} catch ( Exception ex ) {
 
@@ -428,43 +467,348 @@ namespace Browser {
 
 		}
 
+
 		public void SetProxy( int port ) {
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}", port ), "<local>" );
 		}
-	}
 
-	/// <summary>
-	/// キーボードメッセージを親ウィンドウに届ける
-	/// 別プロセスの子ウィンドウにフォーカスがあるとキーボードショートカットが効かなくなるため、
-	/// キー関連のメッセージのコピーをホスト側に送る
-	/// </summary>
-	internal class KeyMessageGrabber : IMessageFilter {
-		private IntPtr TargetWnd;
 
-		[DllImport( "user32.dll" )]
-		private static extern bool PostMessage( IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam );
+		public void SetIconResource( byte[] canvas ) {
 
-		private const int WM_KEYDOWN = 0x100;
-		private const int WM_KEYUP = 0x101;
-		private const int WM_SYSKEYDOWN = 0x0104;
-		private const int WM_SYSKEYUP = 0x0105;
+			string[] keys = new string[] {
+				"Browser_ScreenShot",
+				"Browser_Zoom",
+				"Browser_ZoomIn",
+				"Browser_ZoomOut",
+				"Browser_Unmute",
+				"Browser_Mute",
+				"Browser_Refresh",
+				"Browser_Navigate",
+				"Browser_Other",
+			};
+			int unitsize = 16 * 16 * 4;
 
-		public KeyMessageGrabber( IntPtr targetWnd ) {
-			TargetWnd = targetWnd;
+			for ( int i = 0; i < keys.Length; i++ ) {
+				Bitmap bmp = new Bitmap( 16, 16, PixelFormat.Format32bppArgb );
+
+				if ( canvas != null ) {
+					BitmapData bmpdata = bmp.LockBits( new Rectangle( 0, 0, bmp.Width, bmp.Height ), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb );
+					Marshal.Copy( canvas, unitsize * i, bmpdata.Scan0, unitsize );
+					bmp.UnlockBits( bmpdata );
+				}
+
+				Icons.Images.Add( keys[i], bmp );
+			}
+
+
+			ToolMenu_ScreenShot.Image = ToolMenu_Other_ScreenShot.Image =
+				Icons.Images["Browser_ScreenShot"];
+			ToolMenu_Zoom.Image = ToolMenu_Other_Zoom.Image =
+				Icons.Images["Browser_Zoom"];
+			ToolMenu_Other_Zoom_Increment.Image =
+				Icons.Images["Browser_ZoomIn"];
+			ToolMenu_Other_Zoom_Decrement.Image =
+				Icons.Images["Browser_ZoomOut"];
+			ToolMenu_Refresh.Image = ToolMenu_Other_Refresh.Image =
+				Icons.Images["Browser_Refresh"];
+			ToolMenu_NavigateToLogInPage.Image = ToolMenu_Other_NavigateToLogInPage.Image =
+				Icons.Images["Browser_Navigate"];
+			ToolMenu_Other.Image =
+				Icons.Images["Browser_Other"];
+			SetMuteIcon();
 		}
 
-		public bool PreFilterMessage( ref Message m ) {
-			switch ( m.Msg ) {
-				case WM_KEYDOWN:
-				case WM_KEYUP:
-				case WM_SYSKEYDOWN:
-				case WM_SYSKEYUP:
-					PostMessage( TargetWnd, m.Msg, m.WParam, m.LParam );
+
+		private void SetMuteIcon() {
+
+			bool mute;
+			bool isEnabled;
+
+			try {
+				mute = _volumeManager.IsMute;
+				isEnabled = true;
+
+			} catch ( Exception ) {
+				// 音量データ取得不能時
+				mute = false;
+				isEnabled = false;
+			}
+
+			ToolMenu_Mute.Image = ToolMenu_Other_Mute.Image =
+				Icons.Images[mute ? "Browser_Mute" : "Browser_Unmute"];
+
+
+			ToolMenu_Mute.Enabled = ToolMenu_Other_Mute.Enabled =
+				isEnabled;
+		}
+
+
+		private void ToolMenu_Other_ScreenShot_Click( object sender, EventArgs e ) {
+			SaveScreenShot( Configuration.ScreenShotPath, Configuration.ScreenShotFormat );
+		}
+
+		private void ToolMenu_Other_Zoom_Decrement_Click( object sender, EventArgs e ) {
+			Configuration.ZoomRate = Math.Max( Configuration.ZoomRate - 20, 10 );
+			ApplyZoom();
+			ConfigurationUpdated();
+		}
+
+		private void ToolMenu_Other_Zoom_Increment_Click( object sender, EventArgs e ) {
+			Configuration.ZoomRate = Math.Min( Configuration.ZoomRate + 20, 1000 );
+			ApplyZoom();
+			ConfigurationUpdated();
+		}
+
+		private void ToolMenu_Other_Zoom_Click( object sender, EventArgs e ) {
+
+			int zoom;
+
+			if ( sender == ToolMenu_Other_Zoom_25 )
+				zoom = 25;
+			else if ( sender == ToolMenu_Other_Zoom_50 )
+				zoom = 50;
+			else if ( sender == ToolMenu_Other_Zoom_75 )
+				zoom = 75;
+			else if ( sender == ToolMenu_Other_Zoom_100 )
+				zoom = 100;
+			else if ( sender == ToolMenu_Other_Zoom_150 )
+				zoom = 150;
+			else if ( sender == ToolMenu_Other_Zoom_200 )
+				zoom = 200;
+			else if ( sender == ToolMenu_Other_Zoom_250 )
+				zoom = 250;
+			else if ( sender == ToolMenu_Other_Zoom_300 )
+				zoom = 300;
+			else if ( sender == ToolMenu_Other_Zoom_400 )
+				zoom = 400;
+			else
+				zoom = 100;
+
+			Configuration.ZoomRate = zoom;
+			ApplyZoom();
+			ConfigurationUpdated();
+		}
+
+
+		//ズームUIの使いまわし
+		private void ToolMenu_Other_DropDownOpening( object sender, EventArgs e ) {
+			var list = ToolMenu_Zoom.DropDownItems.Cast<ToolStripItem>().ToArray();
+			ToolMenu_Other_Zoom.DropDownItems.AddRange( list );
+		}
+
+		private void ToolMenu_Zoom_DropDownOpening( object sender, EventArgs e ) {
+
+			var list = ToolMenu_Other_Zoom.DropDownItems.Cast<ToolStripItem>().ToArray();
+			ToolMenu_Zoom.DropDownItems.AddRange( list );
+		}
+
+
+		private void ToolMenu_Other_Mute_Click( object sender, EventArgs e ) {
+			try {
+				_volumeManager.ToggleMute();
+
+			} catch ( Exception ) {
+			}
+
+			SetMuteIcon();
+		}
+
+		private void ToolMenu_Other_Refresh_Click( object sender, EventArgs e ) {
+
+			if ( !Configuration.ConfirmAtRefresh || 
+				MessageBox.Show( "再読み込みします。\r\nよろしいですか？", "確認",
+				MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
+				== System.Windows.Forms.DialogResult.OK ) {
+
+				RefreshBrowser();
+			}
+		}
+
+		private void ToolMenu_Other_NavigateToLogInPage_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "ログインページへ移動します。\r\nよろしいですか？", "確認",
+				MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+				== System.Windows.Forms.DialogResult.OK ) {
+
+				Navigate( Configuration.LogInPageURL );
+			}
+
+		}
+
+		private void ToolMenu_Other_Navigate_Click( object sender, EventArgs e ) {
+			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.RequestNavigation( Browser.Url.ToString() ) );
+		}
+
+		private void ToolMenu_Other_AppliesStyleSheet_Click( object sender, EventArgs e ) {
+			Configuration.AppliesStyleSheet = ToolMenu_Other_AppliesStyleSheet.Checked;
+			ConfigurationUpdated();
+		}
+
+		private void ToolMenu_Other_Alignment_Click( object sender, EventArgs e ) {
+
+			if ( sender == ToolMenu_Other_Alignment_Top )
+				ToolMenu.Dock = DockStyle.Top;
+			else if ( sender == ToolMenu_Other_Alignment_Bottom )
+				ToolMenu.Dock = DockStyle.Bottom;
+			else if ( sender == ToolMenu_Other_Alignment_Left )
+				ToolMenu.Dock = DockStyle.Left;
+			else
+				ToolMenu.Dock = DockStyle.Right;
+
+			Configuration.ToolMenuDockStyle = (int)ToolMenu.Dock;
+
+			ConfigurationUpdated();
+		}
+
+		private void ToolMenu_Other_Alignment_Invisible_Click( object sender, EventArgs e ) {
+			ToolMenu.Visible =
+			Configuration.IsToolMenuVisible = false;
+			ConfigurationUpdated();
+		}
+
+		private void SizeAdjuster_Click( object sender, EventArgs e ) {
+			ToolMenu.Visible =
+			Configuration.IsToolMenuVisible = true;
+			ConfigurationUpdated();
+		}
+
+		private void ContextMenuTool_ShowToolMenu_Click( object sender, EventArgs e ) {
+			ToolMenu.Visible =
+			Configuration.IsToolMenuVisible = true;
+			ConfigurationUpdated();
+		}
+
+		private void ContextMenuTool_Opening( object sender, CancelEventArgs e ) {
+
+			if ( IsKanColleLoaded || ToolMenu.Visible )
+				e.Cancel = true;
+		}
+
+
+		private void ToolMenu_ScreenShot_Click( object sender, EventArgs e ) {
+			ToolMenu_Other_ScreenShot_Click( sender, e );
+		}
+
+		private void ToolMenu_Mute_Click( object sender, EventArgs e ) {
+			ToolMenu_Other_Mute_Click( sender, e );
+		}
+
+		private void ToolMenu_Refresh_Click( object sender, EventArgs e ) {
+			ToolMenu_Other_Refresh_Click( sender, e );
+		}
+
+		private void ToolMenu_NavigateToLogInPage_Click( object sender, EventArgs e ) {
+			ToolMenu_Other_NavigateToLogInPage_Click( sender, e );
+		}
+
+		
+
+
+		// ショートカットキーが反映されない問題の対策
+		void Browser_ReplacedKeyDown( object sender, KeyEventArgs e ) {
+
+			foreach ( var item in ToolMenu_Other.DropDownItems ) {
+
+				ToolStripMenuItem menu = item as ToolStripMenuItem;
+
+				if ( menu != null ) {
+					if ( e.KeyData == menu.ShortcutKeys ) {
+						menu.PerformClick();
+						e.Handled = true;
+					}
+				}
+			}
+
+			/*// 有効にするとショートカットが完全に無効化できる代わりに提督コメント・艦隊名が入力不能に
+			if ( IsKanColleLoaded )
+				e.Handled = true;
+			//*/
+		}
+
+
+		private void FormBrowser_Activated( object sender, EventArgs e ) {
+			
+			//System.Media.SystemSounds.Asterisk.Play();
+			Browser.Focus();
+		}
+
+		private void ToolMenu_Other_Alignment_DropDownOpening( object sender, EventArgs e ) {
+
+			foreach ( var item in ToolMenu_Other_Alignment.DropDownItems ) {
+				var menu = item as ToolStripMenuItem;
+				if ( menu != null ) {
+					menu.Checked = false;
+				}
+			}
+
+			switch ( (DockStyle)Configuration.ToolMenuDockStyle ) {
+				case DockStyle.Top:
+					ToolMenu_Other_Alignment_Top.Checked = true;
+					break;
+				case DockStyle.Bottom:
+					ToolMenu_Other_Alignment_Bottom.Checked = true;
+					break;
+				case DockStyle.Left:
+					ToolMenu_Other_Alignment_Left.Checked = true;
+					break;
+				case DockStyle.Right:
+					ToolMenu_Other_Alignment_Right.Checked = true;
 					break;
 			}
-			return false;
+
+			ToolMenu_Other_Alignment_Invisible.Checked = !Configuration.IsToolMenuVisible;
+		}
+
+
+		
+		#region 呪文
+
+		[DllImport( "user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true )]
+		private static extern uint GetWindowLong( IntPtr hwnd, int nIndex );
+
+		[DllImport( "user32.dll", EntryPoint = "SetWindowLongA", SetLastError = true )]
+		private static extern uint SetWindowLong( IntPtr hwnd, int nIndex, uint dwNewLong );
+
+		private const int GWL_STYLE = ( -16 );
+		private const uint WS_CHILD = 0x40000000;
+		private const uint WS_VISIBLE = 0x10000000;
+
+		#endregion
+
+		
+		
+	}
+
+	
+
+	/// <summary>
+	/// デフォルトのショートカットキーを無効化する WebBrowser です。
+	/// WebBrowserShortCutEnabled = false だとメニューのショートカットキーが無効化されるため、
+	/// わざわざ手動で実装しています。
+	/// </summary>
+	internal class ExtraWebBrowser : WebBrowser {
+
+		public event KeyEventHandler ReplacedKeyDown = delegate { };
+
+
+		public ExtraWebBrowser()
+			: base() { }
+
+		public override bool PreProcessMessage( ref Message msg ) {
+
+			if ( msg.Msg == 0x100 ) {		//WM_KEYDOWN
+
+				var e = new KeyEventArgs( (Keys)msg.WParam | ModifierKeys );
+				ReplacedKeyDown( this, e );
+
+				if ( e.Handled )
+					return true;
+			}
+
+			return base.PreProcessMessage( ref msg );
 		}
 	}
+
 
 	#region struct
 

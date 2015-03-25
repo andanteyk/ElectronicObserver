@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.ServiceModel;
@@ -157,15 +158,10 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		public void SaveScreenShot() {
 			Browser.AsyncRemoteRun( () => Browser.Proxy.SaveScreenShot( Utility.Configuration.Config.FormBrowser.ScreenShotPath,
-				Utility.Configuration.Config.FormBrowser.ScreenShotFormat,
-				DateTimeHelper.GetTimeStamp() ) );
+				Utility.Configuration.Config.FormBrowser.ScreenShotFormat ) );
 		}
 
-		protected override string GetPersistString() {
-			return "Browser";
-		}
-
-
+		
 		public void SendErrorReport( string exceptionName, string message ) {
 			Utility.ErrorReporter.SendErrorReport( new Exception( exceptionName ), message );
 		}
@@ -174,30 +170,104 @@ namespace ElectronicObserver.Window {
 			Utility.Logger.Add( priority, message );
 		}
 
+
 		public BrowserLib.BrowserConfiguration Configuration {
 			get {
-				BrowserLib.BrowserConfiguration conf = new BrowserLib.BrowserConfiguration();
-				conf.IsScrollable = Utility.Configuration.Config.FormBrowser.IsScrollable;
-				conf.LogInPageURL = Utility.Configuration.Config.FormBrowser.LogInPageURL;
-				conf.StyleSheet = Utility.Configuration.Config.FormBrowser.StyleSheet;
-				conf.ZoomRate = Utility.Configuration.Config.FormBrowser.ZoomRate;
-				conf.AppliesStyleSheet = Utility.Configuration.Config.FormBrowser.AppliesStyleSheet;
-				return conf;
+				BrowserLib.BrowserConfiguration config = new BrowserLib.BrowserConfiguration();
+				var c = Utility.Configuration.Config.FormBrowser;
+
+				config.ZoomRate = c.ZoomRate;
+				config.LogInPageURL = c.LogInPageURL;
+				config.IsEnabled = c.IsEnabled;
+				config.ScreenShotPath = c.ScreenShotPath;
+				config.ScreenShotFormat = c.ScreenShotFormat;
+				config.StyleSheet = c.StyleSheet;
+				config.IsScrollable = c.IsScrollable;
+				config.AppliesStyleSheet = c.AppliesStyleSheet;
+				config.ToolMenuDockStyle = (int)c.ToolMenuDockStyle;
+				config.IsToolMenuVisible = c.IsToolMenuVisible;
+				config.ConfirmAtRefresh = c.ConfirmAtRefresh;
+
+				return config;
 			}
 		}
 
-		[DllImport( "user32.dll", SetLastError = true )]
-		private static extern uint SetParent( IntPtr hWndChild, IntPtr hWndNewParent );
+		public void ConfigurationUpdated( BrowserLib.BrowserConfiguration config ) {
 
-		[DllImport( "user32.dll", SetLastError = true )]
-		private static extern bool MoveWindow( IntPtr hwnd, int x, int y, int cx, int cy, bool repaint );
+			var c = Utility.Configuration.Config.FormBrowser;
 
+			c.ZoomRate = config.ZoomRate;
+			c.LogInPageURL = config.LogInPageURL;
+			c.IsEnabled = config.IsEnabled;
+			c.ScreenShotPath = config.ScreenShotPath;
+			c.ScreenShotFormat = config.ScreenShotFormat;
+			c.StyleSheet = config.StyleSheet;
+			c.IsScrollable = config.IsScrollable;
+			c.AppliesStyleSheet = config.AppliesStyleSheet;
+			c.ToolMenuDockStyle = (DockStyle)config.ToolMenuDockStyle;
+			c.IsToolMenuVisible = config.IsToolMenuVisible;
+			c.ConfirmAtRefresh = config.ConfirmAtRefresh;
+
+		}
+
+		public void GetIconResource() {
+
+			string[] keys = new string[] {
+				"Browser_ScreenShot",
+				"Browser_Zoom",
+				"Browser_ZoomIn",
+				"Browser_ZoomOut",
+				"Browser_Unmute",
+				"Browser_Mute",
+				"Browser_Refresh",
+				"Browser_Navigate",
+				"Browser_Other",
+			};
+			int unitsize = 16 * 16 * 4;
+
+			byte[] canvas = new byte[unitsize * keys.Length];
+
+			for ( int i = 0; i < keys.Length; i++ ) {
+				Image img = ResourceManager.Instance.Icons.Images[keys[i]];
+				if ( img != null ) {
+					using ( Bitmap bmp = new Bitmap( img ) ) {
+
+						BitmapData bmpdata = bmp.LockBits( new Rectangle( 0, 0, bmp.Width, bmp.Height ), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb );
+						Marshal.Copy( bmpdata.Scan0, canvas, unitsize * i, unitsize );
+						bmp.UnlockBits( bmpdata );
+
+					}
+				}
+			}
+
+			Browser.AsyncRemoteRun( () => Browser.Proxy.SetIconResource( canvas ) );
+
+		}
+
+
+		public void RequestNavigation( string baseurl ) {
+
+			using ( var dialog = new Window.Dialog.DialogTextInput( "移動先の入力", "移動先の URL を入力してください。" ) ) {
+				dialog.InputtedText = baseurl;
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					Navigate( dialog.InputtedText );
+				}
+			}
+
+		}
+
+		
 		public void ConnectToBrowser( IntPtr hwnd ) {
 			BrowserWnd = hwnd;
 
 			// 子ウィンドウに設定
 			SetParent( BrowserWnd, this.Handle );
 			MoveWindow( BrowserWnd, 0, 0, this.Width, this.Height, true );
+
+			//キー入力をブラウザに投げる
+			Application.AddMessageFilter( new KeyMessageGrabber( BrowserWnd ) );
 
 			// デッドロックするので非同期で処理
 			BeginInvoke( (Action)( () => {
@@ -233,9 +303,10 @@ namespace ElectronicObserver.Window {
 			if ( Browser.Proxy == null ) {
 				Utility.Logger.Add( 3, "ブラウザプロセスが予期せず終了しました。" );
 			} else {
-				Utility.ErrorReporter.SendErrorReport( e, "通信エラー" );
+				Utility.ErrorReporter.SendErrorReport( e, "ブラウザプロセス間で通信エラーが発生しました。" );
 			}
 		}
+
 
 		private void TerminateBrowserProcess() {
 			if ( !BrowserProcess.WaitForExit( 2000 ) ) {
@@ -250,18 +321,27 @@ namespace ElectronicObserver.Window {
 		}
 
 		public void CloseBrowser() {
-			if ( Browser == null ) {
-				// ブラウザを開いていない場合はnullなので
-				return;
-			}
-			if ( !Browser.Closed ) {
-				// ブラウザプロセスが異常終了した場合などはnullになる
-				if ( Browser.Proxy != null ) {
-					Browser.Proxy.CloseBrowser();
+
+			try {
+
+				if ( Browser == null ) {
+					// ブラウザを開いていない場合はnullなので
+					return;
 				}
-				Browser.Close();
-				TerminateBrowserProcess();
+				if ( !Browser.Closed ) {
+					// ブラウザプロセスが異常終了した場合などはnullになる
+					if ( Browser.Proxy != null ) {
+						Browser.Proxy.CloseBrowser();
+					}
+					Browser.Close();
+					TerminateBrowserProcess();
+				}
+
+			} catch ( Exception ex ) {		//ブラウザプロセスが既に終了していた場合など
+
+				Utility.ErrorReporter.SendErrorReport( ex, "ブラウザの終了中にエラーが発生しました。" );
 			}
+
 		}
 
 		private void FormBrowserHost_Resize( object sender, EventArgs e ) {
@@ -271,10 +351,60 @@ namespace ElectronicObserver.Window {
 		}
 
 		/// <summary>
-		/// キーメッセージの送り先
+		/// ハートビート用
 		/// </summary>
 		public IntPtr HWND {
 			get { return this.Handle; }
+		}
+
+		protected override string GetPersistString() {
+			return "Browser";
+		}
+
+
+		#region 呪文
+
+		[DllImport( "user32.dll", SetLastError = true )]
+		private static extern uint SetParent( IntPtr hWndChild, IntPtr hWndNewParent );
+
+		[DllImport( "user32.dll", SetLastError = true )]
+		private static extern bool MoveWindow( IntPtr hwnd, int x, int y, int cx, int cy, bool repaint );
+
+		
+		#endregion
+
+	}
+
+
+	/// <summary>
+	/// 別プロセスのウィンドウにフォーカスがあるとキーボードショートカットが効かなくなるため、
+	/// キー関連のメッセージのコピーを別のウィンドウに送る
+	/// </summary>
+	internal class KeyMessageGrabber : IMessageFilter {
+		private IntPtr TargetWnd;
+
+		[DllImport( "user32.dll" )]
+		private static extern bool PostMessage( IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam );
+
+		private const int WM_KEYDOWN = 0x100;
+		private const int WM_KEYUP = 0x101;
+		private const int WM_SYSKEYDOWN = 0x0104;
+		private const int WM_SYSKEYUP = 0x0105;
+
+		public KeyMessageGrabber( IntPtr targetWnd ) {
+			TargetWnd = targetWnd;
+		}
+
+		public bool PreFilterMessage( ref Message m ) {
+			switch ( m.Msg ) {
+				case WM_KEYDOWN:
+				case WM_KEYUP:
+				case WM_SYSKEYDOWN:
+				case WM_SYSKEYUP:
+					PostMessage( TargetWnd, m.Msg, m.WParam, m.LParam );
+					break;
+			}
+			return false;
 		}
 	}
 

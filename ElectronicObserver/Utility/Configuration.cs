@@ -471,6 +471,21 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool AppliesStyleSheet { get; set; }
 
+				/// <summary>
+				/// ツールメニューの配置
+				/// </summary>
+				public DockStyle ToolMenuDockStyle { get; set; }
+
+				/// <summary>
+				/// ツールメニューの可視性
+				/// </summary>
+				public bool IsToolMenuVisible { get; set; }
+
+				/// <summary>
+				/// 再読み込み時に確認ダイアログを入れるか
+				/// </summary>
+				public bool ConfirmAtRefresh { get; set; }
+
 
 				public ConfigFormBrowser() {
 					ZoomRate = 100;
@@ -481,6 +496,9 @@ namespace ElectronicObserver.Utility {
 					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
 					IsScrollable = false;
 					AppliesStyleSheet = true;
+					ToolMenuDockStyle = DockStyle.Top;
+					IsToolMenuVisible = true;
+					ConfirmAtRefresh = true;
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>

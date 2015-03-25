@@ -109,7 +109,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
-			
+
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
@@ -350,7 +350,7 @@ namespace ElectronicObserver.Window {
 						WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
 						LoadSubWindowsLayout( archive.GetEntry( "SubWindowLayout.xml" ).Open() );
 
-					}		
+					}
 				}
 
 
@@ -472,7 +472,7 @@ namespace ElectronicObserver.Window {
 					try {
 
 						await Task.Factory.StartNew( () => LoadAPIList( ofd.FileName ) );
-							
+
 					} catch ( Exception ex ) {
 
 						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
@@ -486,7 +486,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 
 		private void LoadAPIList( string path ) {
 
@@ -753,7 +753,7 @@ namespace ElectronicObserver.Window {
 						} catch ( IOException ) {
 							//ファイルが既に存在する：＊にぎりつぶす＊
 						}
-						
+
 					}
 
 				}
@@ -769,7 +769,7 @@ namespace ElectronicObserver.Window {
 					if ( name.Contains( ship.ResourceName ) ) {
 
 						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
-					
+
 						try {
 
 							Directory.Move( p, Path.Combine( Path.GetDirectoryName( p ), name ) );
@@ -792,7 +792,7 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_Help_Help_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "外部ブラウザでオンラインヘルプを開きます。\r\nよろしいですか？", "ヘルプ", 
+			if ( MessageBox.Show( "外部ブラウザでオンラインヘルプを開きます。\r\nよろしいですか？", "ヘルプ",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
 				== System.Windows.Forms.DialogResult.Yes ) {
 
@@ -1008,7 +1008,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-	
+
 
 
 

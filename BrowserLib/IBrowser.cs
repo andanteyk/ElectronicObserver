@@ -19,7 +19,7 @@ namespace BrowserLib {
 		void InitialAPIReceived();
 
 		[OperationContract]
-		void SaveScreenShot( string path, int format, string timestamp );
+		void SaveScreenShot( string path, int format );
 
 		[OperationContract]
 		void RefreshBrowser();
@@ -41,5 +41,9 @@ namespace BrowserLib {
 
 		[OperationContract]
 		void CloseBrowser();
+
+		[OperationContract]
+		void SetIconResource( byte[] canvas );
+
 	}
 }

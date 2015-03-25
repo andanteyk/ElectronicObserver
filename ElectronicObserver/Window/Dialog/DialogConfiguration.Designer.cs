@@ -124,6 +124,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
+			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -420,10 +421,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 44);
+			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(392, 211);
+			this.tabPage2.Size = new System.Drawing.Size(392, 231);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -528,10 +529,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 44);
+			this.tabPage3.Location = new System.Drawing.Point(4, 24);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(392, 211);
+			this.tabPage3.Size = new System.Drawing.Size(392, 231);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -655,10 +656,10 @@
 			// 
 			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 44);
+			this.tabPage5.Location = new System.Drawing.Point(4, 24);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(392, 211);
+			this.tabPage5.Size = new System.Drawing.Size(392, 231);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -726,10 +727,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 44);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 211);
+			this.tabPage6.Size = new System.Drawing.Size(392, 231);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -991,6 +992,7 @@
 			// 
 			// tabPage12
 			// 
+			this.tabPage12.Controls.Add(this.FormBrowser_ConfirmAtRefresh);
 			this.tabPage12.Controls.Add(this.groupBox2);
 			this.tabPage12.Controls.Add(this.label17);
 			this.tabPage12.Controls.Add(this.label16);
@@ -998,10 +1000,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 22);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(378, 179);
+			this.tabPage12.Size = new System.Drawing.Size(378, 177);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1018,7 +1020,7 @@
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_JPEG);
 			this.groupBox2.Location = new System.Drawing.Point(6, 88);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(366, 85);
+			this.groupBox2.Size = new System.Drawing.Size(366, 83);
 			this.groupBox2.TabIndex = 6;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "スクリーンショット";
@@ -1097,9 +1099,9 @@
 			this.FormBrowser_IsEnabled.AutoSize = true;
 			this.FormBrowser_IsEnabled.Location = new System.Drawing.Point(6, 6);
 			this.FormBrowser_IsEnabled.Name = "FormBrowser_IsEnabled";
-			this.FormBrowser_IsEnabled.Size = new System.Drawing.Size(78, 19);
+			this.FormBrowser_IsEnabled.Size = new System.Drawing.Size(116, 19);
 			this.FormBrowser_IsEnabled.TabIndex = 3;
-			this.FormBrowser_IsEnabled.Text = "有効にする";
+			this.FormBrowser_IsEnabled.Text = "起動時に読み込む";
 			this.FormBrowser_IsEnabled.UseVisualStyleBackColor = true;
 			// 
 			// FormBrowser_LogInPageURL
@@ -1265,6 +1267,17 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
+			// FormBrowser_ConfirmAtRefresh
+			// 
+			this.FormBrowser_ConfirmAtRefresh.AutoSize = true;
+			this.FormBrowser_ConfirmAtRefresh.Location = new System.Drawing.Point(128, 6);
+			this.FormBrowser_ConfirmAtRefresh.Name = "FormBrowser_ConfirmAtRefresh";
+			this.FormBrowser_ConfirmAtRefresh.Size = new System.Drawing.Size(148, 19);
+			this.FormBrowser_ConfirmAtRefresh.TabIndex = 7;
+			this.FormBrowser_ConfirmAtRefresh.Text = "再読み込み時に確認する";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_ConfirmAtRefresh, "有効な場合再読み込みするときに確認ダイアログを表示します。\r\n誤爆防止にご利用ください。");
+			this.FormBrowser_ConfirmAtRefresh.UseVisualStyleBackColor = true;
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1429,5 +1442,6 @@
 		private System.Windows.Forms.TextBox FormBrowser_ScreenShotPath;
 		private System.Windows.Forms.Button FormBrowser_ScreenShotPathSearch;
 		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.CheckBox FormBrowser_ConfirmAtRefresh;
 	}
 }

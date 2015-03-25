@@ -835,7 +835,7 @@ api_req_mission/start	：遠征開始
 	api_complatetime_str：帰投日時
 
 
-api_get_member/deck		：艦隊情報
+api_get_member/deck		：艦隊情報 個数はそのまま保有艦隊数と同じになる(パディング等はない)
 	api_member_id		：
 	api_id				：艦隊番号
 	api_name			：艦隊名
