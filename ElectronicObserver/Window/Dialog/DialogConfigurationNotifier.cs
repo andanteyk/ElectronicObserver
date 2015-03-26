@@ -41,7 +41,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			PlaysSound.Checked = notifier.PlaysSound;
 			SoundPath.Text = notifier.SoundPath;
-			
+
 			DrawsImage.Checked = notifier.DialogData.DrawsImage;
 			ImagePath.Text = notifier.DialogData.ImagePath;
 
@@ -131,7 +131,7 @@ namespace ElectronicObserver.Window.Dialog {
 				try {
 					DialogOpenSound.InitialDirectory = System.IO.Path.GetDirectoryName( SoundPath.Text );
 
-				} catch ( Exception ) {}
+				} catch ( Exception ) { }
 			}
 
 			if ( DialogOpenSound.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
@@ -164,7 +164,7 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 		private void BackColorSelect_Click( object sender, EventArgs e ) {
-		
+
 			DialogColor.Color = BackColorPreview.ForeColor;
 			if ( DialogColor.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 				BackColorPreview.ForeColor = DialogColor.Color;

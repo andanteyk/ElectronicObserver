@@ -98,6 +98,7 @@
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label18 = new System.Windows.Forms.Label();
 			this.FormBrowser_ScreenShotFormat_PNG = new System.Windows.Forms.RadioButton();
@@ -124,7 +125,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
+			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -727,10 +728,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 231);
+			this.tabPage6.Size = new System.Drawing.Size(392, 211);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -992,6 +993,7 @@
 			// 
 			// tabPage12
 			// 
+			this.tabPage12.Controls.Add(this.FormBrowser_AppliesStyleSheet);
 			this.tabPage12.Controls.Add(this.FormBrowser_ConfirmAtRefresh);
 			this.tabPage12.Controls.Add(this.groupBox2);
 			this.tabPage12.Controls.Add(this.label17);
@@ -1007,6 +1009,17 @@
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_ConfirmAtRefresh
+			// 
+			this.FormBrowser_ConfirmAtRefresh.AutoSize = true;
+			this.FormBrowser_ConfirmAtRefresh.Location = new System.Drawing.Point(180, 6);
+			this.FormBrowser_ConfirmAtRefresh.Name = "FormBrowser_ConfirmAtRefresh";
+			this.FormBrowser_ConfirmAtRefresh.Size = new System.Drawing.Size(148, 19);
+			this.FormBrowser_ConfirmAtRefresh.TabIndex = 7;
+			this.FormBrowser_ConfirmAtRefresh.Text = "再読み込み時に確認する";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_ConfirmAtRefresh, "有効な場合再読み込みするときに確認ダイアログを表示します。\r\n誤爆防止にご利用ください。");
+			this.FormBrowser_ConfirmAtRefresh.UseVisualStyleBackColor = true;
 			// 
 			// groupBox2
 			// 
@@ -1267,16 +1280,16 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// FormBrowser_ConfirmAtRefresh
+			// FormBrowser_AppliesStyleSheet
 			// 
-			this.FormBrowser_ConfirmAtRefresh.AutoSize = true;
-			this.FormBrowser_ConfirmAtRefresh.Location = new System.Drawing.Point(128, 6);
-			this.FormBrowser_ConfirmAtRefresh.Name = "FormBrowser_ConfirmAtRefresh";
-			this.FormBrowser_ConfirmAtRefresh.Size = new System.Drawing.Size(148, 19);
-			this.FormBrowser_ConfirmAtRefresh.TabIndex = 7;
-			this.FormBrowser_ConfirmAtRefresh.Text = "再読み込み時に確認する";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_ConfirmAtRefresh, "有効な場合再読み込みするときに確認ダイアログを表示します。\r\n誤爆防止にご利用ください。");
-			this.FormBrowser_ConfirmAtRefresh.UseVisualStyleBackColor = true;
+			this.FormBrowser_AppliesStyleSheet.AutoSize = true;
+			this.FormBrowser_AppliesStyleSheet.Location = new System.Drawing.Point(180, 31);
+			this.FormBrowser_AppliesStyleSheet.Name = "FormBrowser_AppliesStyleSheet";
+			this.FormBrowser_AppliesStyleSheet.Size = new System.Drawing.Size(142, 19);
+			this.FormBrowser_AppliesStyleSheet.TabIndex = 8;
+			this.FormBrowser_AppliesStyleSheet.Text = "スタイルシートを適用する";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_AppliesStyleSheet, "艦これ画面のみを表示できるようにします。\r\n環境によっては表示が乱れます、その場合は無効にしてください。");
+			this.FormBrowser_AppliesStyleSheet.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -1443,5 +1456,6 @@
 		private System.Windows.Forms.Button FormBrowser_ScreenShotPathSearch;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.CheckBox FormBrowser_ConfirmAtRefresh;
+		private System.Windows.Forms.CheckBox FormBrowser_AppliesStyleSheet;
 	}
 }

@@ -31,17 +31,17 @@ namespace ElectronicObserver.Data {
 		/// 艦船のマスターデータ
 		/// </summary>
 		public IDDictionary<ShipDataMaster> MasterShips { get; private set; }
-		
+
 		/// <summary>
 		/// 艦種データ
 		/// </summary>
 		public IDDictionary<ShipType> ShipTypes { get; private set; }
-		
+
 		/// <summary>
 		/// 装備のマスターデータ
 		/// </summary>
 		public IDDictionary<EquipmentDataMaster> MasterEquipments { get; private set; }
-		
+
 		/// <summary>
 		/// 装備種別
 		/// </summary>
@@ -52,7 +52,7 @@ namespace ElectronicObserver.Data {
 		/// 保有艦娘のデータ
 		/// </summary>
 		public IDDictionary<ShipData> Ships { get; private set; }
-		
+
 		/// <summary>
 		/// 保有装備のデータ
 		/// </summary>
@@ -90,7 +90,6 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 艦隊データ
 		/// </summary>
-		//public IDDictionary<FleetData> Fleets { get; private set; }
 		public FleetManager Fleet { get; private set; }
 
 

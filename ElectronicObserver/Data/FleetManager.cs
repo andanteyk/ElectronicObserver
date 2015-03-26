@@ -10,7 +10,7 @@ namespace ElectronicObserver.Data {
 	/// 艦隊情報を統括して扱います。
 	/// </summary>
 	public class FleetManager : APIWrapper {
-	
+
 		public IDDictionary<FleetData> Fleets { get; private set; }
 
 
@@ -31,7 +31,7 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
-		
+
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 
 			switch ( apiname ) {
@@ -61,7 +61,7 @@ namespace ElectronicObserver.Data {
 					break;
 			}
 
-			
+
 		}
 
 

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ElectronicObserver.Data {
-	
+
 	/// <summary>
 	/// 艦隊の情報を保持します。
 	/// </summary>
@@ -37,7 +37,7 @@ namespace ElectronicObserver.Data {
 		/// 遠征状態
 		/// 0=未出撃, 1=遠征中, 2=遠征帰投, 3=強制帰投中
 		/// </summary>
-		public int ExpeditionState { get; internal set;	}
+		public int ExpeditionState { get; internal set; }
 
 		/// <summary>
 		/// 遠征先ID
@@ -83,7 +83,7 @@ namespace ElectronicObserver.Data {
 
 				ShipData[] ships = new ShipData[_members.Length];
 				for ( int i = 0; i < ships.Length; i++ ) {
-					ships[i] = _escapedShipList.Contains( _members[i] ) ? null : KCDatabase.Instance.Ships[_members[i]];		
+					ships[i] = _escapedShipList.Contains( _members[i] ) ? null : KCDatabase.Instance.Ships[_members[i]];
 				}
 
 				return Array.AsReadOnly<ShipData>( ships );
@@ -135,9 +135,9 @@ namespace ElectronicObserver.Data {
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-		
+
 			switch ( apiname ) {
-				
+
 				case "api_port/port":
 					base.LoadFromResponse( apiname, (object)data );
 
@@ -184,8 +184,7 @@ namespace ElectronicObserver.Data {
 
 
 			switch ( apiname ) {
-				case "api_req_hensei/change":
-					{
+				case "api_req_hensei/change": {
 						int fleetID = int.Parse( data["api_id"] );
 						int index = int.Parse( data["api_ship_idx"] );
 						int shipID = int.Parse( data["api_ship_id"] );
@@ -212,7 +211,7 @@ namespace ElectronicObserver.Data {
 										break;
 									}
 								}
-								
+
 								//入隊
 								_members[index] = shipID;
 
@@ -220,7 +219,7 @@ namespace ElectronicObserver.Data {
 
 
 							SetConditionTimer();
-						
+
 						} else {
 
 							if ( index != -1 && shipID != -1 ) {
@@ -239,8 +238,7 @@ namespace ElectronicObserver.Data {
 					} break;
 
 
-				case "api_req_kousyou/destroyship": 
-					{
+				case "api_req_kousyou/destroyship": {
 						int shipID = int.Parse( data["api_ship_id"] );
 
 						for ( int i = 0; i < _members.Length; i++ ) {
@@ -253,8 +251,7 @@ namespace ElectronicObserver.Data {
 
 					} break;
 
-				case "api_req_kaisou/powerup":
-					{
+				case "api_req_kaisou/powerup": {
 						foreach ( int id in data["api_id_items"].Split( ",".ToCharArray() ).Select( s => int.Parse( s ) ) ) {
 							for ( int i = 0; i < _members.Length; i++ ) {
 								if ( _members[i] == id ) {
@@ -266,8 +263,8 @@ namespace ElectronicObserver.Data {
 						}
 					} break;
 
-				case "api_req_kaisou/remodeling":
-					if ( int.Parse( data["api_id"] ) == FleetID )
+				case "api_req_kaisou/remodeling":	//fixme: ここでリセットしてもまだデータが送られてきてないので無意味
+					if ( Members.Contains( int.Parse( data["api_id"] ) ) )
 						SetConditionTimer();
 					break;
 
@@ -337,7 +334,7 @@ namespace ElectronicObserver.Data {
 					ConditionTime = target;
 				}
 			}
-			
+
 			/*/
 			{
 				TimeSpan ts = ( ConditionTime ?? DateTime.Now ) - DateTime.Now;
@@ -436,7 +433,7 @@ namespace ElectronicObserver.Data {
 		public static FleetStates UpdateFleetState( FleetData fleet, ImageLabel label, ToolTip tooltip, FleetStates prevstate, ref DateTime timer ) {
 
 			//memo: 泊地修理は工作艦が中破しているとできない、忘れないよう
-				
+
 
 			KCDatabase db = KCDatabase.Instance;
 
@@ -446,8 +443,9 @@ namespace ElectronicObserver.Data {
 			label.BackColor = Color.Transparent;
 
 
+
 			//所属艦なし
-			if ( fleet.Members.Count( id => id != -1 ) == 0 ) {
+			if ( fleet == null || fleet.Members.Count( id => id != -1 ) == 0 ) {
 				label.Text = "所属艦なし";
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetNoShip;
 
@@ -498,7 +496,7 @@ namespace ElectronicObserver.Data {
 				}
 
 			}
-			
+
 
 			//遠征中
 			if ( fleet.ExpeditionState != 0 ) {
@@ -553,7 +551,7 @@ namespace ElectronicObserver.Data {
 			//未補給
 			{
 				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.MasterShip.Fuel - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
-				int ammo = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.MasterShip.Ammo - ship.Ammo ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) ); 
+				int ammo = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.MasterShip.Ammo - ship.Ammo ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
 				int aircraft = fleet.MembersInstance.Sum(
 					ship => {
 						if ( ship == null ) return 0;

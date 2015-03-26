@@ -79,6 +79,7 @@ namespace ElectronicObserver.Window {
 			public void Update() {
 
 				FleetData fleet =  KCDatabase.Instance.Fleet[fleetID];
+				if ( fleet == null ) return;
 
 				DateTime dt = (DateTime?)Number.Tag ?? DateTime.Now;
 				State.Tag = FleetData.UpdateFleetState( fleet, State, ToolTipInfo, (FleetData.FleetStates)State.Tag, ref dt );
@@ -130,7 +131,7 @@ namespace ElectronicObserver.Window {
 
 
 				TableFleet.Controls.Add( CombinedTag, 1, 4 );
-				
+
 				#region set RowStyle
 				RowStyle rs = new RowStyle( SizeType.AutoSize, 0 );
 
@@ -150,11 +151,11 @@ namespace ElectronicObserver.Window {
 			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 		}
 
-		
+
 
 		private void FormFleetOverview_Load( object sender, EventArgs e ) {
 
-			
+
 
 			//api register
 			APIObserver o = APIObserver.Instance;
@@ -182,7 +183,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/deck"].ResponseReceived += Updated;
 			o.APIList["api_req_map/start"].ResponseReceived += Updated;
 			o.APIList["api_req_map/next"].ResponseReceived += Updated;
-			
+
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 

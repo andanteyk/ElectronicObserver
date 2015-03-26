@@ -389,6 +389,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowMonthly { get; set; }
 
+				/// <summary>
+				/// 列の可視性
+				/// </summary>
+				public SerializableList<bool> ColumnFilter { get; set; }
+
 
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
@@ -396,6 +401,7 @@ namespace ElectronicObserver.Utility {
 					ShowDaily = true;
 					ShowWeekly = true;
 					ShowMonthly = true;
+					ColumnFilter = null;		//実際の初期化は FormQuest で行う
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
