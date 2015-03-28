@@ -29,6 +29,9 @@
 			this.ContextMenuFleet = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ContextMenuFleet_CopyFleet = new System.Windows.Forms.ToolStripMenuItem();
 			this.ContextMenuFleet_Capture = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.ContextMenuFleet_IsScrollable = new System.Windows.Forms.ToolStripMenuItem();
+			this.ContextMenuFleet_FixShipNameWidth = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet.SuspendLayout();
 			this.SuspendLayout();
@@ -73,9 +76,12 @@
 			// 
 			this.ContextMenuFleet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ContextMenuFleet_CopyFleet,
-            this.ContextMenuFleet_Capture});
+            this.ContextMenuFleet_Capture,
+            this.toolStripSeparator1,
+            this.ContextMenuFleet_IsScrollable,
+            this.ContextMenuFleet_FixShipNameWidth});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 48);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 120);
 			this.ContextMenuFleet.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuFleet_Opening);
 			// 
 			// ContextMenuFleet_CopyFleet
@@ -91,6 +97,32 @@
 			this.ContextMenuFleet_Capture.Size = new System.Drawing.Size(226, 22);
 			this.ContextMenuFleet_Capture.Text = "この画面をキャプチャ(&S)";
 			this.ContextMenuFleet_Capture.Click += new System.EventHandler(this.ContextMenuFleet_Capture_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(223, 6);
+			this.toolStripSeparator1.Visible = false;
+			// 
+			// ContextMenuFleet_IsScrollable
+			// 
+			this.ContextMenuFleet_IsScrollable.CheckOnClick = true;
+			this.ContextMenuFleet_IsScrollable.Enabled = false;
+			this.ContextMenuFleet_IsScrollable.Name = "ContextMenuFleet_IsScrollable";
+			this.ContextMenuFleet_IsScrollable.Size = new System.Drawing.Size(226, 22);
+			this.ContextMenuFleet_IsScrollable.Text = "スクロール可能";
+			this.ContextMenuFleet_IsScrollable.Visible = false;
+			this.ContextMenuFleet_IsScrollable.Click += new System.EventHandler(this.ContextMenuFleet_IsScrollable_Click);
+			// 
+			// ContextMenuFleet_FixShipNameWidth
+			// 
+			this.ContextMenuFleet_FixShipNameWidth.CheckOnClick = true;
+			this.ContextMenuFleet_FixShipNameWidth.Enabled = false;
+			this.ContextMenuFleet_FixShipNameWidth.Name = "ContextMenuFleet_FixShipNameWidth";
+			this.ContextMenuFleet_FixShipNameWidth.Size = new System.Drawing.Size(226, 22);
+			this.ContextMenuFleet_FixShipNameWidth.Text = "艦名の幅を固定する";
+			this.ContextMenuFleet_FixShipNameWidth.Visible = false;
+			this.ContextMenuFleet_FixShipNameWidth.Click += new System.EventHandler(this.ContextMenuFleet_FixShipNameWidth_Click);
 			// 
 			// ToolTipInfo
 			// 
@@ -130,5 +162,8 @@
 		private System.Windows.Forms.ContextMenuStrip ContextMenuFleet;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_CopyFleet;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_Capture;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_IsScrollable;
+		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_FixShipNameWidth;
 	}
 }

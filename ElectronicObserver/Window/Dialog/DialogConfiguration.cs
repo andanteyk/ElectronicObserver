@@ -291,6 +291,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
 			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
+			FormFleet_IsScrollable.Checked = config.FormFleet.IsScrollable;
+			FormFleet_FixShipNameWidth.Checked = config.FormFleet.FixShipNameWidth;
 
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
@@ -378,6 +380,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
 			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
+			config.FormFleet.IsScrollable = FormFleet_IsScrollable.Checked;
+			config.FormFleet.FixShipNameWidth = FormFleet_FixShipNameWidth.Checked;
 
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;

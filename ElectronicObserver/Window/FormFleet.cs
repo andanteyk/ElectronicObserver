@@ -196,11 +196,13 @@ namespace ElectronicObserver.Window {
 				Name.SuspendLayout();
 				Name.Text = "*nothing*";
 				Name.Anchor = AnchorStyles.Left;
+				Name.TextAlign = ContentAlignment.MiddleLeft;
 				Name.Font = parent.MainFont;
 				Name.ForeColor = parent.MainFontColor;
 				Name.Padding = new Padding( 0, 1, 0, 1 );
 				Name.Margin = new Padding( 2, 0, 2, 0 );
 				Name.AutoSize = true;
+				Name.AutoEllipsis = true;
 				Name.Visible = false;
 				Name.Cursor = Cursors.Help;
 				Name.MouseDown += Name_MouseDown;
@@ -709,19 +711,49 @@ namespace ElectronicObserver.Window {
 
 
 		void ConfigurationChanged() {
-			MainFont = Font = Utility.Configuration.Config.UI.MainFont;
-			SubFont = Utility.Configuration.Config.UI.SubFont;
+
+			var c = Utility.Configuration.Config;
+
+			MainFont = Font = c.UI.MainFont;
+			SubFont = c.UI.SubFont;
+
+			AutoScroll = ContextMenuFleet_IsScrollable.Checked = c.FormFleet.IsScrollable;
+			ContextMenuFleet_FixShipNameWidth.Checked = c.FormFleet.FixShipNameWidth;
 
 			if ( ControlFleet != null && KCDatabase.Instance.Fleet[FleetID] != null ) {
 				ControlFleet.Update( KCDatabase.Instance.Fleet[FleetID] );
 			}
 
 			if ( ControlMember != null ) {
-				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;
+				bool showAircraft = c.FormFleet.ShowAircraft;
+				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
+				Size shipNameSize = fixShipNameWidth ? new Size( 60, 20 ) : Size.Empty;
+
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
-					ControlMember[i].Equipments.ShowAircraft = flag;
+					ControlMember[i].Equipments.ShowAircraft = showAircraft;
+					ControlMember[i].Name.MaximumSize = shipNameSize;
+					ControlMember[i].Name.AutoEllipsis = fixShipNameWidth;
+
+					if ( !fixShipNameWidth ) {		//オートサイズし直す
+						ControlMember[i].Name.AutoSize = false;
+						ControlMember[i].Name.AutoSize = true;
+					}
 				}
 			}
+
+			
+		}
+
+
+		//よく考えたら別の艦隊タブと同期しないといけないので封印
+		private void ContextMenuFleet_IsScrollable_Click( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormFleet.IsScrollable = ContextMenuFleet_IsScrollable.Checked;
+			ConfigurationChanged();
+		}
+
+		private void ContextMenuFleet_FixShipNameWidth_Click( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormFleet.FixShipNameWidth = ContextMenuFleet_FixShipNameWidth.Checked;
+			ConfigurationChanged();
 		}
 
 
@@ -734,6 +766,8 @@ namespace ElectronicObserver.Window {
 			return "Fleet #" + FleetID.ToString();
 		}
 
+		
+		
 
 
 

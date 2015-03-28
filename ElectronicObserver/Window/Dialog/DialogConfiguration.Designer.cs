@@ -98,6 +98,7 @@
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label18 = new System.Windows.Forms.Label();
@@ -125,7 +126,8 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
+			this.FormFleet_IsScrollable = new System.Windows.Forms.CheckBox();
+			this.FormFleet_FixShipNameWidth = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -728,10 +730,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 44);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(392, 211);
+			this.tabPage6.Size = new System.Drawing.Size(392, 231);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -819,6 +821,8 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_FixShipNameWidth);
+			this.tabPage8.Controls.Add(this.FormFleet_IsScrollable);
 			this.tabPage8.Controls.Add(this.FormFleet_SearchingAbilityMethod);
 			this.tabPage8.Controls.Add(this.label13);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowAircraft);
@@ -1002,13 +1006,24 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 24);
+			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(378, 177);
+			this.tabPage12.Size = new System.Drawing.Size(378, 179);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_AppliesStyleSheet
+			// 
+			this.FormBrowser_AppliesStyleSheet.AutoSize = true;
+			this.FormBrowser_AppliesStyleSheet.Location = new System.Drawing.Point(180, 31);
+			this.FormBrowser_AppliesStyleSheet.Name = "FormBrowser_AppliesStyleSheet";
+			this.FormBrowser_AppliesStyleSheet.Size = new System.Drawing.Size(142, 19);
+			this.FormBrowser_AppliesStyleSheet.TabIndex = 8;
+			this.FormBrowser_AppliesStyleSheet.Text = "スタイルシートを適用する";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_AppliesStyleSheet, "艦これ画面のみを表示できるようにします。\r\n環境によっては表示が乱れます、その場合は無効にしてください。");
+			this.FormBrowser_AppliesStyleSheet.UseVisualStyleBackColor = true;
 			// 
 			// FormBrowser_ConfirmAtRefresh
 			// 
@@ -1033,7 +1048,7 @@
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_JPEG);
 			this.groupBox2.Location = new System.Drawing.Point(6, 88);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(366, 83);
+			this.groupBox2.Size = new System.Drawing.Size(366, 85);
 			this.groupBox2.TabIndex = 6;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "スクリーンショット";
@@ -1280,16 +1295,25 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// FormBrowser_AppliesStyleSheet
+			// FormFleet_IsScrollable
 			// 
-			this.FormBrowser_AppliesStyleSheet.AutoSize = true;
-			this.FormBrowser_AppliesStyleSheet.Location = new System.Drawing.Point(180, 31);
-			this.FormBrowser_AppliesStyleSheet.Name = "FormBrowser_AppliesStyleSheet";
-			this.FormBrowser_AppliesStyleSheet.Size = new System.Drawing.Size(142, 19);
-			this.FormBrowser_AppliesStyleSheet.TabIndex = 8;
-			this.FormBrowser_AppliesStyleSheet.Text = "スタイルシートを適用する";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_AppliesStyleSheet, "艦これ画面のみを表示できるようにします。\r\n環境によっては表示が乱れます、その場合は無効にしてください。");
-			this.FormBrowser_AppliesStyleSheet.UseVisualStyleBackColor = true;
+			this.FormFleet_IsScrollable.AutoSize = true;
+			this.FormFleet_IsScrollable.Location = new System.Drawing.Point(6, 60);
+			this.FormFleet_IsScrollable.Name = "FormFleet_IsScrollable";
+			this.FormFleet_IsScrollable.Size = new System.Drawing.Size(144, 19);
+			this.FormFleet_IsScrollable.TabIndex = 3;
+			this.FormFleet_IsScrollable.Text = "スクロールバーを表示する";
+			this.FormFleet_IsScrollable.UseVisualStyleBackColor = true;
+			// 
+			// FormFleet_FixShipNameWidth
+			// 
+			this.FormFleet_FixShipNameWidth.AutoSize = true;
+			this.FormFleet_FixShipNameWidth.Location = new System.Drawing.Point(6, 85);
+			this.FormFleet_FixShipNameWidth.Name = "FormFleet_FixShipNameWidth";
+			this.FormFleet_FixShipNameWidth.Size = new System.Drawing.Size(136, 19);
+			this.FormFleet_FixShipNameWidth.TabIndex = 4;
+			this.FormFleet_FixShipNameWidth.Text = "艦名の横幅を固定する";
+			this.FormFleet_FixShipNameWidth.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -1457,5 +1481,7 @@
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.CheckBox FormBrowser_ConfirmAtRefresh;
 		private System.Windows.Forms.CheckBox FormBrowser_AppliesStyleSheet;
+		private System.Windows.Forms.CheckBox FormFleet_FixShipNameWidth;
+		private System.Windows.Forms.CheckBox FormFleet_IsScrollable;
 	}
 }
