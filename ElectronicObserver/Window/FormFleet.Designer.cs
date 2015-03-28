@@ -35,20 +35,21 @@
 			// 
 			// TableMember
 			// 
-			this.TableMember.AutoSize = true;
 			this.TableMember.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.TableMember.ColumnCount = 6;
-			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableMember.Location = new System.Drawing.Point(0, 24);
+			this.TableMember.MaximumSize = new System.Drawing.Size(500, 0);
+			this.TableMember.MinimumSize = new System.Drawing.Size(360, 0);
 			this.TableMember.Name = "TableMember";
 			this.TableMember.RowCount = 1;
 			this.TableMember.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-			this.TableMember.Size = new System.Drawing.Size(0, 21);
+			this.TableMember.Size = new System.Drawing.Size(390, 21);
 			this.TableMember.TabIndex = 1;
 			this.TableMember.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableMember_CellPaint);
 			// 
@@ -75,20 +76,20 @@
             this.ContextMenuFleet_CopyFleet,
             this.ContextMenuFleet_Capture});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 48);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(188, 48);
 			this.ContextMenuFleet.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuFleet_Opening);
 			// 
 			// ContextMenuFleet_CopyFleet
 			// 
 			this.ContextMenuFleet_CopyFleet.Name = "ContextMenuFleet_CopyFleet";
-			this.ContextMenuFleet_CopyFleet.Size = new System.Drawing.Size(226, 22);
+			this.ContextMenuFleet_CopyFleet.Size = new System.Drawing.Size(187, 22);
 			this.ContextMenuFleet_CopyFleet.Text = "クリップボードにコピー(&C)";
 			this.ContextMenuFleet_CopyFleet.Click += new System.EventHandler(this.ContextMenuFleet_CopyFleet_Click);
 			// 
 			// ContextMenuFleet_Capture
 			// 
 			this.ContextMenuFleet_Capture.Name = "ContextMenuFleet_Capture";
-			this.ContextMenuFleet_Capture.Size = new System.Drawing.Size(226, 22);
+			this.ContextMenuFleet_Capture.Size = new System.Drawing.Size(187, 22);
 			this.ContextMenuFleet_Capture.Text = "この画面をキャプチャ(&S)";
 			this.ContextMenuFleet_Capture.Click += new System.EventHandler(this.ContextMenuFleet_Capture_Click);
 			// 
@@ -103,11 +104,10 @@
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.AutoScroll = true;
 			this.BackColor = System.Drawing.SystemColors.Control;
-			this.ClientSize = new System.Drawing.Size(300, 200);
-			this.Controls.Add(this.TableFleet);
+			this.ClientSize = new System.Drawing.Size(390, 200);
 			this.Controls.Add(this.TableMember);
+			this.Controls.Add(this.TableFleet);
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -116,6 +116,7 @@
 			this.Name = "FormFleet";
 			this.Text = "*not loaded*";
 			this.Load += new System.EventHandler(this.FormFleet_Load);
+			this.Resize += new System.EventHandler(this.FormFleet_Resize);
 			this.ContextMenuFleet.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();

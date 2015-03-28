@@ -177,7 +177,7 @@ namespace ElectronicObserver.Window {
 
 
 		private class TableMemberControl {
-			public Label Name;
+			public TextBox Name;
 			public ShipStatusLevel Level;
 			public ShipStatusHP HP;
 			public ImageLabel Condition;
@@ -192,7 +192,7 @@ namespace ElectronicObserver.Window {
 
 				#region Initialize
 
-				Name = new Label();
+				Name = new TextBox();
 				Name.SuspendLayout();
 				Name.Text = "*nothing*";
 				Name.Anchor = AnchorStyles.Left;
@@ -204,6 +204,10 @@ namespace ElectronicObserver.Window {
 				Name.Visible = false;
 				Name.Cursor = Cursors.Help;
 				Name.MouseDown += Name_MouseDown;
+				Name.ReadOnly = true;
+				Name.TabStop = false;
+				Name.BorderStyle = BorderStyle.None;
+				Name.ContextMenu = new ContextMenu();
 				Name.ResumeLayout();
 
 				Level = new ShipStatusLevel();
@@ -248,9 +252,10 @@ namespace ElectronicObserver.Window {
 				Condition.ForeColor = parent.MainFontColor;
 				Condition.TextAlign = ContentAlignment.BottomRight;
 				Condition.ImageAlign = ContentAlignment.MiddleLeft;
+				Condition.ImageMargin = 0;
 				Condition.ImageList = ResourceManager.Instance.Icons;
-				Condition.Padding = new Padding( 2, 2, 2, 2 );
-				Condition.Margin = new Padding( 2, 0, 2, 0 );
+				Condition.Padding = new Padding( 0, 2, 0, 2 );
+				Condition.Margin = new Padding( 0, 0, 0, 0 );
 				Condition.Size = new Size( 40, 20 );
 				Condition.AutoSize = true;
 				Condition.Visible = false;
@@ -265,7 +270,7 @@ namespace ElectronicObserver.Window {
 				ShipResource.Anchor = AnchorStyles.Left;
 				ShipResource.Padding = new Padding( 0, 2, 0, 1 );
 				ShipResource.Margin = new Padding( 2, 0, 2, 0 );
-				ShipResource.Size = new Size( 40, 20 );
+				ShipResource.Size = new Size( 30, 20 );
 				ShipResource.AutoSize = false;
 				ShipResource.Visible = false;
 				ShipResource.ResumeLayout();
@@ -280,6 +285,7 @@ namespace ElectronicObserver.Window {
 				Equipments.AutoSize = true;
 				Equipments.Visible = false;
 				Equipments.ShowAircraft = Utility.Configuration.Config.FormFleet.ShowAircraft;
+				Equipments.SlotMargin = 0;
 				Equipments.ResumeLayout();
 
 
@@ -602,6 +608,7 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i].Update( fleet.Members[i] );
 			}
+			TableMember.Height = TableMember.GetPreferredSize( Size.Empty ).Height;
 			TableMember.ResumeLayout();
 
 
@@ -732,6 +739,10 @@ namespace ElectronicObserver.Window {
 
 		protected override string GetPersistString() {
 			return "Fleet #" + FleetID.ToString();
+		}
+
+		private void FormFleet_Resize( object sender, EventArgs e ) {
+			TableMember.Width = Width;
 		}
 
 

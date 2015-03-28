@@ -282,15 +282,14 @@ namespace ElectronicObserver.Window.Control {
 
 				Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
 				Size sz_hpmax = TextRenderer.MeasureText( Math.Max( MaximumValue, MaximumDigit ).ToString(), SubFont, maxsize, TextFormatHP );
-				Size sz_slash = TextRenderer.MeasureText( " / ", SubFont, maxsize, TextFormatHP );
+				Size sz_slash = TextRenderer.MeasureText( "/", SubFont, maxsize, TextFormatHP );
 				Size sz_hpnow = TextRenderer.MeasureText( Math.Max( Value, MaximumDigit ).ToString(), MainFont, maxsize, TextFormatHP );
 
 				if ( Text.Length > 0 )
-					sz_text.Width -= (int)( SubFont.Size / 2.0 );
-				sz_hpmax.Width -= (int)( SubFont.Size / 2.0 );
-				sz_slash.Width -= (int)( SubFont.Size / 2.0 );
-				sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );
-
+					sz_text.Width -= (int)( SubFont.Size / 1.5 );
+				sz_hpmax.Width -= (int)( SubFont.Size / 1.5 );
+				sz_slash.Width -= (int)( SubFont.Size / 1.5 );
+				sz_hpnow.Width -= (int)( MainFont.Size / 1.5 );
 
 
 				Point p = new Point( basearea.X, basearea.Bottom - barSize.Height - sz_text.Height + 1 );	
@@ -302,7 +301,7 @@ namespace ElectronicObserver.Window.Control {
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_hpmax ) );
 
 				p.X -= sz_slash.Width;
-				TextRenderer.DrawText( g, " / ", SubFont, new Rectangle( p, sz_slash ), SubFontColor, TextFormatHP );
+				TextRenderer.DrawText( g, "/", SubFont, new Rectangle( p, sz_slash ), SubFontColor, TextFormatHP );
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_slash ) );
 
 				p.X -= sz_hpnow.Width;
@@ -325,14 +324,14 @@ namespace ElectronicObserver.Window.Control {
 
 			Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
 			Size sz_hpmax = TextRenderer.MeasureText( Math.Max( MaximumValue, MaximumDigit ).ToString(), SubFont, maxsize, TextFormatHP );
-			Size sz_slash = TextRenderer.MeasureText( " / ", SubFont, maxsize, TextFormatHP );
+			Size sz_slash = TextRenderer.MeasureText( "/", SubFont, maxsize, TextFormatHP );
 			Size sz_hpnow = TextRenderer.MeasureText( Math.Max( Value, MaximumDigit ).ToString(), MainFont, maxsize, TextFormatHP );
 
 			if ( Text.Length > 0 )
-				sz_text.Width -= (int)( SubFont.Size / 2.0 );
-			sz_hpmax.Width -= (int)( SubFont.Size / 2.0 );
-			sz_slash.Width -= (int)( SubFont.Size / 2.0 );
-			sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );
+				sz_text.Width -= (int)( SubFont.Size / 1.5 );
+			sz_hpmax.Width -= (int)( SubFont.Size / 1.5 );
+			sz_slash.Width -= (int)( SubFont.Size / 1.5 );
+			sz_hpnow.Width -= (int)( MainFont.Size / 1.5 );
 
 			return new Size( sz_text.Width + sz_hpnow.Width + sz_slash.Width + sz_hpmax.Width + Padding.Horizontal,
 				Math.Max( sz_text.Height, sz_hpnow.Height ) + barSize.Height + Padding.Vertical );

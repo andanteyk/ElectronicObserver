@@ -198,8 +198,9 @@ namespace ElectronicObserver.Window.Control {
 		/// <param name="ship">当該艦船。</param>
 		public void SetSlotList( ShipData ship ) {
 
-			if ( SlotList.Length != ship.Slot.Count ) {
-				SlotList = new SlotItem[ship.Slot.Count];
+			int SlotCount = Math.Min( 4, ship.Slot.Count ); // 味方艦は装備4つまでなので4つに制限
+			if ( SlotList.Length != SlotCount ) {
+				SlotList = new SlotItem[SlotCount];
 				for ( int i = 0; i < SlotList.Length; i++ ) {
 					SlotList[i] = new SlotItem();
 				}
@@ -293,7 +294,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 			Size sz_eststr = TextRenderer.MeasureText( "99", Font, new Size( int.MaxValue, int.MaxValue ), textformat );
-			sz_eststr.Width -= (int)( Font.Size / 2.0 );
+			sz_eststr.Width -= (int)( Font.Size / 1.5 );
 			
 			Size sz_unit = new Size( eqimages.ImageSize.Width + SlotMargin, eqimages.ImageSize.Height );
 			if ( ShowAircraft ) {
@@ -387,15 +388,31 @@ namespace ElectronicObserver.Window.Control {
 
 				if ( drawAircraftSlot ) {
 					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width - SlotMargin, sz_unit.Height );
+					String aircraftSlotText = slot.AircraftCurrent.ToString();
 
 					if ( OverlayAircraft ) {
 						using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0x80, 0xFF, 0xFF, 0xFF ) ) ) {
 							e.Graphics.FillRectangle( b, new Rectangle( textarea.X, textarea.Y, sz_eststr.Width, sz_eststr.Height ) );
 						}
+					} else {
+						if ( aircraftSlotText.Length == 1 ) {
+							// 1文字の場合は画像に近づける
+							textarea.Width -= sz_eststr.Width / 2;
+						}
+						if ( aircraftSlotText.Length > 2 ) { // 3文字以上の時はかぶるので背景を薄くする
+							Size sz_realstr = TextRenderer.MeasureText( aircraftSlotText, Font, new Size( int.MaxValue, int.MaxValue ), textformat );
+							sz_realstr.Width -= (int)( Font.Size / 2.0 );
+							using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0xC0, 0xFF, 0xFF, 0xFF ) ) ) {
+								e.Graphics.FillRectangle( b, new Rectangle(
+									textarea.X + sz_unit.Width - sz_realstr.Width,
+									textarea.Y + sz_unit.Height - sz_realstr.Height,
+									sz_realstr.Width, sz_realstr.Height ) );
+							}
+						}
 					}
-					
 
-					TextRenderer.DrawText( e.Graphics, slot.AircraftCurrent.ToString(), Font, textarea, aircraftColor, textformat );
+
+					TextRenderer.DrawText( e.Graphics, aircraftSlotText, Font, textarea, aircraftColor, textformat );
 				}
 
 			}
@@ -418,7 +435,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 			Size sz_eststr = TextRenderer.MeasureText( "99", Font, new Size( int.MaxValue, int.MaxValue ), textformat );
-			sz_eststr.Width -= (int)( Font.Size / 2.0 );
+			sz_eststr.Width -= (int)( Font.Size / 1.5 );
 
 			Size sz_unit = new Size( eqimages.ImageSize.Width + SlotMargin, eqimages.ImageSize.Height );
 			if ( ShowAircraft ) {
