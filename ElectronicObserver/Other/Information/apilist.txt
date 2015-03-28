@@ -142,13 +142,18 @@ api_start2	：艦娘・装備固有データその他
 				25=AP Shell
 				26=Rocket Artillery
 				27=Picket Crew
+				28=AA Shell
+				29=AA Rocket
+				30=Damage Control
+				31=Engine Upgrades
+				32=Depth Charge
 
 				 1=主砲
 				 2=副砲
 				 3=魚雷
 				 4=特殊潜航艇
 				 5=艦上機
-				 6=対空兵装
+				 6=対空機銃
 				 7=偵察機
 				 8=電探
 				 9=強化
@@ -167,6 +172,11 @@ api_start2	：艦娘・装備固有データその他
 				25=対艦強化弾
 				26=対地装備
 				27=水上艦要員
+				28=対空強化弾
+				29=対空ロケットランチャー
+				30=応急修理要員
+				31=機関部強化
+				32=爆雷
 
 			[2]：カテゴリ
 				(api_mst_slotitem_equiptype を参照)

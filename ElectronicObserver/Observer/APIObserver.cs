@@ -284,7 +284,7 @@ namespace ElectronicObserver.Observer {
 					if ( c.SaveReceivedData && c.SaveRequest ) {
 
 						Task.Run( (Action)( () => {
-							SaveResponse( url, body );
+							SaveRequest( url, body );
 						} ) );
 					}
 				}

@@ -31,6 +31,8 @@
 			this.components = new System.ComponentModel.Container();
 			this.SizeAdjuster = new System.Windows.Forms.Panel();
 			this.Browser = new Browser.ExtraWebBrowser();
+			this.ContextMenuTool = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.ContextMenuTool_ShowToolMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolMenu = new System.Windows.Forms.ToolStrip();
 			this.ToolMenu_ScreenShot = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -77,11 +79,9 @@
 			this.ToolMenu_Other_Alignment_Right = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolMenu_Other_Alignment_Invisible = new System.Windows.Forms.ToolStripMenuItem();
 			this.Icons = new System.Windows.Forms.ImageList(this.components);
-			this.ContextMenuTool = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.ContextMenuTool_ShowToolMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.SizeAdjuster.SuspendLayout();
-			this.ToolMenu.SuspendLayout();
 			this.ContextMenuTool.SuspendLayout();
+			this.ToolMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// SizeAdjuster
@@ -108,6 +108,21 @@
 			this.Browser.TabIndex = 0;
 			this.Browser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.Browser_DocumentCompleted);
 			this.Browser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.Browser_Navigating);
+			// 
+			// ContextMenuTool
+			// 
+			this.ContextMenuTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ContextMenuTool_ShowToolMenu});
+			this.ContextMenuTool.Name = "ContextMenuTool";
+			this.ContextMenuTool.Size = new System.Drawing.Size(197, 26);
+			this.ContextMenuTool.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuTool_Opening);
+			// 
+			// ContextMenuTool_ShowToolMenu
+			// 
+			this.ContextMenuTool_ShowToolMenu.Name = "ContextMenuTool_ShowToolMenu";
+			this.ContextMenuTool_ShowToolMenu.Size = new System.Drawing.Size(196, 22);
+			this.ContextMenuTool_ShowToolMenu.Text = "ツールメニューを表示";
+			this.ContextMenuTool_ShowToolMenu.Click += new System.EventHandler(this.ContextMenuTool_ShowToolMenu_Click);
 			// 
 			// ToolMenu
 			// 
@@ -466,21 +481,6 @@
 			this.Icons.ImageSize = new System.Drawing.Size(16, 16);
 			this.Icons.TransparentColor = System.Drawing.Color.Transparent;
 			// 
-			// ContextMenuTool
-			// 
-			this.ContextMenuTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ContextMenuTool_ShowToolMenu});
-			this.ContextMenuTool.Name = "ContextMenuTool";
-			this.ContextMenuTool.Size = new System.Drawing.Size(197, 48);
-			this.ContextMenuTool.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuTool_Opening);
-			// 
-			// ContextMenuTool_ShowToolMenu
-			// 
-			this.ContextMenuTool_ShowToolMenu.Name = "ContextMenuTool_ShowToolMenu";
-			this.ContextMenuTool_ShowToolMenu.Size = new System.Drawing.Size(196, 22);
-			this.ContextMenuTool_ShowToolMenu.Text = "ツールメニューを表示";
-			this.ContextMenuTool_ShowToolMenu.Click += new System.EventHandler(this.ContextMenuTool_ShowToolMenu_Click);
-			// 
 			// FormBrowser
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -490,13 +490,13 @@
 			this.Controls.Add(this.ToolMenu);
 			this.KeyPreview = true;
 			this.Name = "FormBrowser";
-			this.Text = "FormBrowser";
+			this.Text = "七四式電子観測儀 ブラウザ";
 			this.Activated += new System.EventHandler(this.FormBrowser_Activated);
 			this.Load += new System.EventHandler(this.FormBrowser_Load);
 			this.SizeAdjuster.ResumeLayout(false);
+			this.ContextMenuTool.ResumeLayout(false);
 			this.ToolMenu.ResumeLayout(false);
 			this.ToolMenu.PerformLayout();
-			this.ContextMenuTool.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

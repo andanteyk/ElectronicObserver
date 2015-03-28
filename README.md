@@ -12,7 +12,7 @@
 各機能はそれぞれウィンドウとして独立しており、自由にドッキング・タブ化するなどしてレイアウト可能です。  
 以下では概略を紹介します。**詳しくは[Wikiを参照](https://github.com/andanteyk/ElectronicObserver/wiki)してください。**  
 
-* 内蔵ブラウザ(スクリーンショット, ズームなど)
+* 内蔵ブラウザ(スクリーンショット, ズーム, ミュートなど)
 * 艦隊(状態(遠征中, 未補給など), 制空戦力, 索敵能力)
     * 個艦(Lv, HP, コンディション, 補給, 装備スロット)
     * 艦隊一覧(全艦隊の状態を一目で確認できます)
@@ -36,7 +36,7 @@
 
 *このリンクの更新は遅れる可能性があります。最新版は[こちら](http://electronicobserver.blog.fc2.com/)で確認してください。*  
 
-[ver. 1.0.2 (2015/03/15)](http://bit.ly/1GHsp18)  
+[ver. 1.1.0 (2015/03/28)](http://bit.ly/1Cigczx)  
 
 更新内容・履歴は[こちら](https://github.com/andanteyk/ElectronicObserver/wiki/ChangeLog)で確認できます。  
 
