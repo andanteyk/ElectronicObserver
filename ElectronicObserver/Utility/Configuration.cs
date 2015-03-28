@@ -389,6 +389,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowMonthly { get; set; }
 
+				/// <summary>
+				/// 列の可視性
+				/// </summary>
+				public SerializableList<bool> ColumnFilter { get; set; }
+
 
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
@@ -396,6 +401,7 @@ namespace ElectronicObserver.Utility {
 					ShowDaily = true;
 					ShowWeekly = true;
 					ShowMonthly = true;
+					ColumnFilter = null;		//実際の初期化は FormQuest で行う
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
@@ -469,7 +475,22 @@ namespace ElectronicObserver.Utility {
 				/// <summary>
 				/// スタイルシートを適用するか
 				/// </summary>
-				public bool AplliesStyleSheet { get; set; }
+				public bool AppliesStyleSheet { get; set; }
+
+				/// <summary>
+				/// ツールメニューの配置
+				/// </summary>
+				public DockStyle ToolMenuDockStyle { get; set; }
+
+				/// <summary>
+				/// ツールメニューの可視性
+				/// </summary>
+				public bool IsToolMenuVisible { get; set; }
+
+				/// <summary>
+				/// 再読み込み時に確認ダイアログを入れるか
+				/// </summary>
+				public bool ConfirmAtRefresh { get; set; }
 
 
 				public ConfigFormBrowser() {
@@ -480,7 +501,10 @@ namespace ElectronicObserver.Utility {
 					ScreenShotFormat = 2;
 					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
 					IsScrollable = false;
-					AplliesStyleSheet = true;
+					AppliesStyleSheet = true;
+					ToolMenuDockStyle = DockStyle.Top;
+					IsToolMenuVisible = true;
+					ConfirmAtRefresh = true;
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>

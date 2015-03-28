@@ -10,7 +10,7 @@ namespace ElectronicObserver.Data {
 	/// 艦隊情報を統括して扱います。
 	/// </summary>
 	public class FleetManager : APIWrapper {
-	
+
 		public IDDictionary<FleetData> Fleets { get; private set; }
 
 
@@ -19,9 +19,12 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int CombinedFlag { get; internal set; }
 
+		public DateTime AnchorageRepairingTimer { get; set; }
+
 
 		public FleetManager() {
 			Fleets = new IDDictionary<FleetData>();
+			AnchorageRepairingTimer = DateTime.MinValue;
 		}
 
 
@@ -31,7 +34,7 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
-		
+
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 
 			switch ( apiname ) {
@@ -61,7 +64,13 @@ namespace ElectronicObserver.Data {
 					break;
 			}
 
-			
+			//泊地修理関連
+			if ( apiname == "api_port/port" ) {
+				if ( ( DateTime.Now - AnchorageRepairingTimer ).TotalMinutes >= 20 || AnchorageRepairingTimer == DateTime.MinValue ) {
+					ResetAnchorageRepairing();
+				}
+			}
+
 		}
 
 
@@ -71,7 +80,7 @@ namespace ElectronicObserver.Data {
 
 			switch ( apiname ) {
 				case "api_req_hensei/change": {
-						int memberID = int.Parse( data["api_ship_idx"] );
+						int memberID = int.Parse( data["api_ship_idx"] );		//変更スロット
 						if ( memberID != -1 )
 							data.Add( "replaced_id", Fleets[int.Parse( data["api_id"] )].Members[memberID].ToString() );
 
@@ -95,6 +104,19 @@ namespace ElectronicObserver.Data {
 			}
 
 		}
+
+		public void ResetAnchorageRepairing() {
+			AnchorageRepairingTimer = DateTime.Now;
+		}
+
+
+		public void StartAnchorageRepairing() {
+			if ( Fleets.Values.Count( f => f.IsAnchorageRepairing ) == 1 ) {
+				ResetAnchorageRepairing();
+			}
+		}
+
+
 	}
 
 }

@@ -57,7 +57,7 @@ namespace ElectronicObserver.Notifier {
 		}
 
 		public void ShowNotifier( ElectronicObserver.Window.Dialog.DialogNotifier form ) {
-			_parentForm.Invoke( (MethodInvoker)( () => form.Show() ) );
+			form.Show();
 		}
 
 	}

@@ -42,7 +42,7 @@ namespace ElectronicObserver.Window {
 		public FormBattle fBattle;
 		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
-		public FormBrowser fBrowser;
+		public FormBrowserHost fBrowser;
 
 		#endregion
 
@@ -53,14 +53,21 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 		}
 
-
-
 		private async void FormMain_Load( object sender, EventArgs e ) {
 
 			Utility.Configuration.Instance.Load();
 
 
-			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
+			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
+				if ( InvokeRequired ) {
+					// Invokeはメッセージキューにジョブを投げて待つので、別のBeginInvokeされたジョブが既にキューにあると、
+					// それを実行してしまい、BeginInvokeされたジョブの順番が保てなくなる
+					// GUIスレッドによる処理は、順番が重要なことがあるので、GUIスレッドからInvokeを呼び出してはいけない
+					Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data );
+				} else {
+					Logger_LogAdded( data );
+				}
+			} );
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
@@ -76,7 +83,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.Instance.AppIcon;
 
-			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port );
+			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port, this );
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
@@ -101,19 +108,13 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBattle = new FormBattle( this ) );
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
-			SubForms.Add( fBrowser = new FormBrowser( this ) );
-			
+			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
+
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
 
 			SoftwareInformation.CheckUpdate();
-
-
-			UIUpdateTimer.Start();
-
-			Utility.Logger.Add( 2, "起動処理が完了しました。" );
-
 
 			// デバッグ: 開始時にAPIリストを読み込む
 			if ( Configuration.Config.Debug.LoadAPIListOnLoad ) {
@@ -128,6 +129,12 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			// 完了通知（ログインページを開く）
+			fBrowser.InitializeApiCompleted();
+
+			UIUpdateTimer.Start();
+
+			Utility.Logger.Add( 2, "起動処理が完了しました。" );
 		}
 
 
@@ -199,6 +206,7 @@ namespace ElectronicObserver.Window {
 
 			UIUpdateTimer.Stop();
 
+			fBrowser.CloseBrowser();
 
 			if ( !Directory.Exists( "Settings" ) )
 				Directory.CreateDirectory( "Settings" );
@@ -342,7 +350,7 @@ namespace ElectronicObserver.Window {
 						WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
 						LoadSubWindowsLayout( archive.GetEntry( "SubWindowLayout.xml" ).Open() );
 
-					}		
+					}
 				}
 
 
@@ -464,7 +472,7 @@ namespace ElectronicObserver.Window {
 					try {
 
 						await Task.Factory.StartNew( () => LoadAPIList( ofd.FileName ) );
-							
+
 					} catch ( Exception ex ) {
 
 						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
@@ -478,7 +486,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 
 		private void LoadAPIList( string path ) {
 
@@ -521,10 +529,15 @@ namespace ElectronicObserver.Window {
 							Array.Sort( files );
 
 							using ( StreamReader sr2 = new StreamReader( files[files.Length - 1] ) ) {
-								if ( isRequest )
-									APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
-								else
-									APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+								if ( isRequest ) {
+									Invoke( (Action)( () => {
+										APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
+									} ) );
+								} else {
+									Invoke( (Action)( () => {
+										APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+									} ) );
+								}
 							}
 
 							//System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
@@ -740,7 +753,7 @@ namespace ElectronicObserver.Window {
 						} catch ( IOException ) {
 							//ファイルが既に存在する：＊にぎりつぶす＊
 						}
-						
+
 					}
 
 				}
@@ -756,7 +769,7 @@ namespace ElectronicObserver.Window {
 					if ( name.Contains( ship.ResourceName ) ) {
 
 						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
-					
+
 						try {
 
 							Directory.Move( p, Path.Combine( Path.GetDirectoryName( p ), name ) );
@@ -779,7 +792,7 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_Help_Help_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "外部ブラウザでオンラインヘルプを開きます。\r\nよろしいですか？", "ヘルプ", 
+			if ( MessageBox.Show( "外部ブラウザでオンラインヘルプを開きます。\r\nよろしいですか？", "ヘルプ",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
 				== System.Windows.Forms.DialogResult.Yes ) {
 
@@ -920,12 +933,14 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_Browser_AppliesStyleSheet_CheckedChanged( object sender, EventArgs e ) {
 
-			Utility.Configuration.Config.FormBrowser.AplliesStyleSheet = StripMenu_Browser_AppliesStyleSheet.Checked;
+			Utility.Configuration.Config.FormBrowser.AppliesStyleSheet = StripMenu_Browser_AppliesStyleSheet.Checked;
+			fBrowser.ConfigurationChanged();
+
 		}
 
 		private void StripMenu_Browser_DropDownOpening( object sender, EventArgs e ) {
 
-			StripMenu_Browser_AppliesStyleSheet.Checked = Utility.Configuration.Config.FormBrowser.AplliesStyleSheet;
+			StripMenu_Browser_AppliesStyleSheet.Checked = Utility.Configuration.Config.FormBrowser.AppliesStyleSheet;
 		}
 
 
@@ -993,7 +1008,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-	
+
 
 
 

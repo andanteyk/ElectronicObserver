@@ -188,13 +188,13 @@ namespace ElectronicObserver.Utility.Mathematics {
 		/// <returns>変換結果の文字列。</returns>
 		public static string GetTimeStamp( DateTime time ) {
 
-			return string.Format( "{0:D4}{1:D2}{2:D2}_{3:D2}{4:D2}{5:D2}{6:D2}", time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second, time.Millisecond / 10 );
+			return time.ToString( "yyyyMMdd_HHmmssff" );
 		}
 
 
 
 		public static string TimeToCSVString( DateTime time ) {
-			return string.Format( "{0:D4}/{1:D2}/{2:D2} {3:D2}:{4:D2}:{5:D2}", time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second );
+			return time.ToString( "yyyy/MM/dd HH:mm:ss" );
 		}
 
 		public static DateTime CSVStringToTime( string str ) {

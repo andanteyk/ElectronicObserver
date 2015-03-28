@@ -18,9 +18,10 @@ namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogConfiguration : Form {
 		public DialogConfiguration() {
 			InitializeComponent();
+
 		}
 
-		public DialogConfiguration( Configuration.ConfigurationData config ) 
+		public DialogConfiguration( Configuration.ConfigurationData config )
 			: this() {
 
 			FromConfiguration( config );
@@ -167,7 +168,7 @@ namespace ElectronicObserver.Window.Dialog {
 							MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 					}
-			
+
 				}
 			}
 
@@ -230,8 +231,14 @@ namespace ElectronicObserver.Window.Dialog {
 			Debug_SealingPanel.Visible = Debug_EnableDebugMenu.Checked;
 		}
 
-		
-		
+
+		private void FormBrowser_ScreenShotPathSearch_Click( object sender, EventArgs e ) {
+
+			FormBrowser_ScreenShotPath.Text = PathHelper.ProcessFolderBrowserDialog( FormBrowser_ScreenShotPath.Text, FolderBrowser );
+		}
+
+
+
 
 
 		/// <summary>
@@ -275,7 +282,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[起動と終了]
 			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
-			Life_TopMost.Checked = config.Life.TopMost;
+			Life_TopMost.Checked = this.TopMost = config.Life.TopMost;		//メインウィンドウに隠れないように
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
 			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 
@@ -284,7 +291,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
 			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
-			
+
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
@@ -299,6 +306,9 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_LogInPageURL.Text = config.FormBrowser.LogInPageURL;
 			FormBrowser_ScreenShotFormat_JPEG.Checked = config.FormBrowser.ScreenShotFormat == 1;
 			FormBrowser_ScreenShotFormat_PNG.Checked = config.FormBrowser.ScreenShotFormat == 2;
+			FormBrowser_ScreenShotPath.Text = config.FormBrowser.ScreenShotPath;
+			FormBrowser_ConfirmAtRefresh.Checked = config.FormBrowser.ConfirmAtRefresh;
+			FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
 
 			//finalize
 			UpdateParameter();
@@ -317,7 +327,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				changed |= config.Connection.Port != (ushort)Connection_Port.Value;
 				config.Connection.Port = (ushort)Connection_Port.Value;
-					
+
 				config.Connection.SaveReceivedData = Connection_SaveReceivedData.Checked;
 				config.Connection.SaveDataFilter = Connection_SaveDataFilter.Text;
 				config.Connection.SaveDataPath = Connection_SaveDataPath.Text.Trim( @"\ """.ToCharArray() );
@@ -335,7 +345,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				if ( changed ) {
 					APIObserver.Instance.Stop();
-					APIObserver.Instance.Start( config.Connection.Port );
+					APIObserver.Instance.Start( config.Connection.Port, this );
 				}
 			}
 
@@ -365,10 +375,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
-			
+
 			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
 			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
-			
+
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;
 			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
@@ -385,6 +395,9 @@ namespace ElectronicObserver.Window.Dialog {
 				config.FormBrowser.ScreenShotFormat = 1;
 			else
 				config.FormBrowser.ScreenShotFormat = 2;
+			config.FormBrowser.ScreenShotPath = FormBrowser_ScreenShotPath.Text;
+			config.FormBrowser.ConfirmAtRefresh = FormBrowser_ConfirmAtRefresh.Checked;
+			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 
 		}
 

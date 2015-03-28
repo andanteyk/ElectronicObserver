@@ -389,6 +389,8 @@ namespace ElectronicObserver.Data {
 					return "爆雷攻撃";
 				case 9:
 					return "雷撃";
+				case 10:
+					return "ロケット砲撃";
 				default:
 					return "不明";
 			}
@@ -420,12 +422,17 @@ namespace ElectronicObserver.Data {
 					return "爆雷攻撃";
 				case 9:
 					return "雷撃";
+				case 10:
+					return "ロケット砲撃";
 				default:
 					return "不明";
 			}
 		}
 
 
+		/// <summary>
+		/// 対空カットイン種別を表す文字列を取得します。
+		/// </summary>
 		public static string GetAACutinKind( int id ) {
 			switch ( id ) {
 				case 0:
@@ -448,7 +455,12 @@ namespace ElectronicObserver.Data {
 					return "高角砲+高射装置/電探";
 				case 9:
 					return "高角砲/高射装置";
-
+				case 10:
+					return "高角砲/集中機銃/電探";
+				case 11:
+					return "高角砲/集中機銃";
+				case 12:
+					return "集中機銃/機銃/電探";
 				default:
 					return "不明";
 			}

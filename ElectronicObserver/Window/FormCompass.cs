@@ -308,22 +308,18 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+			o.APIList["api_port/port"].ResponseReceived += Updated;
+			o.APIList["api_req_map/start"].ResponseReceived += Updated;
+			o.APIList["api_req_map/next"].ResponseReceived += Updated;
+			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += Updated;
 
-			o.APIList["api_port/port"].ResponseReceived += rec;
-			o.APIList["api_req_map/start"].ResponseReceived += rec;
-			o.APIList["api_req_map/next"].ResponseReceived += rec;
-			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += rec;
-
-			APIReceivedEventHandler rec2 = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( BattleStarted ), apiname, data );
-
-			o.APIList["api_req_sortie/battle"].ResponseReceived += rec2;
-			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += rec2;
-			o.APIList["api_req_combined_battle/battle"].ResponseReceived += rec2;
-			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += rec2;
-			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += rec2;
-			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += rec2;
-			o.APIList["api_req_practice/battle"].ResponseReceived += rec2;
+			o.APIList["api_req_sortie/battle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_practice/battle"].ResponseReceived += BattleStarted;
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;

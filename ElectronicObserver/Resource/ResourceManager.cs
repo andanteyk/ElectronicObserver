@@ -82,6 +82,15 @@ namespace ElectronicObserver.Resource {
 			FleetCombined,
 			HeadQuartersShip,
 			HeadQuartersEquipment,
+			BrowserScreenShot,
+			BrowserZoom,
+			BrowserZoomIn,
+			BrowserZoomOut,
+			BrowserUnmute,
+			BrowserMute,
+			BrowserRefresh,
+			BrowserNavigate,
+			BrowserOther,
 			RarityBlack,
 			RarityRed,
 			RarityBlueC,
@@ -248,6 +257,16 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Headquarters/Ship.png", "HeadQuarters_Ship" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Headquarters/Equipment.png", "HeadQuarters_Equipment" );
 
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/ScreenShot.png", "Browser_ScreenShot" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Zoom.png", "Browser_Zoom" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/ZoomIn.png", "Browser_ZoomIn" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/ZoomOut.png", "Browser_ZoomOut" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Unmute.png", "Browser_Unmute" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Mute.png", "Browser_Mute" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Refresh.png", "Browser_Refresh" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Navigate.png", "Browser_Navigate" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Other.png", "Browser_Other" );
+					
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Black.png", "Rarity_Black" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Red.png", "Rarity_Red" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/BlueC.png", "Rarity_BlueC" );

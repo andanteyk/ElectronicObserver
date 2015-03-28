@@ -70,6 +70,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -79,9 +80,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking">
-      <HintPath>..\packages\DockPanelSuite.2.9.0.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AdmiralData.cs" />
@@ -351,11 +349,11 @@
     <Compile Include="Window\FormBattle.Designer.cs">
       <DependentUpon>FormBattle.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\FormBrowser.cs">
+    <Compile Include="Window\FormBrowserHost.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Window\FormBrowser.Designer.cs">
-      <DependentUpon>FormBrowser.cs</DependentUpon>
+    <Compile Include="Window\FormBrowserHost.Designer.cs">
+      <DependentUpon>FormBrowserHost.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\FormCompass.cs">
       <SubType>Form</SubType>
@@ -488,8 +486,8 @@
     <EmbeddedResource Include="Window\FormBattle.resx">
       <DependentUpon>FormBattle.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormBrowser.resx">
-      <DependentUpon>FormBrowser.cs</DependentUpon>
+    <EmbeddedResource Include="Window\FormBrowserHost.resx">
+      <DependentUpon>FormBrowserHost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormCompass.resx">
       <DependentUpon>FormCompass.cs</DependentUpon>
@@ -568,15 +566,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="SHDocVw">
-      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>1</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrowserLib\BrowserLib.csproj">
+      <Project>{8bb3e37d-09fb-40b9-958a-8cdcd18ef1f5}</Project>
+      <Name>BrowserLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DockPanelSuite\WinFormsUI\WinFormsUI.csproj">
+      <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
+      <Name>WinFormsUI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

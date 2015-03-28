@@ -28,8 +28,8 @@
 			this.TableFleet = new System.Windows.Forms.TableLayoutPanel();
 			this.ContextMenuFleet = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ContextMenuFleet_CopyFleet = new System.Windows.Forms.ToolStripMenuItem();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet_Capture = new System.Windows.Forms.ToolStripMenuItem();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -75,7 +75,7 @@
             this.ContextMenuFleet_CopyFleet,
             this.ContextMenuFleet_Capture});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 70);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 48);
 			this.ContextMenuFleet.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuFleet_Opening);
 			// 
 			// ContextMenuFleet_CopyFleet
@@ -85,13 +85,6 @@
 			this.ContextMenuFleet_CopyFleet.Text = "クリップボードにコピー(&C)";
 			this.ContextMenuFleet_CopyFleet.Click += new System.EventHandler(this.ContextMenuFleet_CopyFleet_Click);
 			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
-			// 
 			// ContextMenuFleet_Capture
 			// 
 			this.ContextMenuFleet_Capture.Name = "ContextMenuFleet_Capture";
@@ -99,10 +92,18 @@
 			this.ContextMenuFleet_Capture.Text = "この画面をキャプチャ(&S)";
 			this.ContextMenuFleet_Capture.Click += new System.EventHandler(this.ContextMenuFleet_Capture_Click);
 			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
 			// FormFleet
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.AutoScroll = true;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(300, 200);
 			this.Controls.Add(this.TableFleet);

@@ -79,6 +79,7 @@ namespace ElectronicObserver.Window {
 			public void Update() {
 
 				FleetData fleet =  KCDatabase.Instance.Fleet[fleetID];
+				if ( fleet == null ) return;
 
 				DateTime dt = (DateTime?)Number.Tag ?? DateTime.Now;
 				State.Tag = FleetData.UpdateFleetState( fleet, State, ToolTipInfo, (FleetData.FleetStates)State.Tag, ref dt );
@@ -130,7 +131,7 @@ namespace ElectronicObserver.Window {
 
 
 				TableFleet.Controls.Add( CombinedTag, 1, 4 );
-				
+
 				#region set RowStyle
 				RowStyle rs = new RowStyle( SizeType.AutoSize, 0 );
 
@@ -150,42 +151,39 @@ namespace ElectronicObserver.Window {
 			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 		}
 
-		
+
 
 		private void FormFleetOverview_Load( object sender, EventArgs e ) {
 
-			
+
 
 			//api register
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
-			APIReceivedEventHandler r_org = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( ChangeOrganization ), apiname, data );
+			o.APIList["api_req_hensei/change"].RequestReceived += ChangeOrganization;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += ChangeOrganization;
+			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
 
-			o.APIList["api_req_hensei/change"].RequestReceived += r_org;
-			o.APIList["api_req_kousyou/destroyship"].RequestReceived += r_org;
-			o.APIList["api_req_kaisou/remodeling"].RequestReceived += r_org;
-			o.APIList["api_req_kaisou/powerup"].ResponseReceived += r_org;
-		
-			o.APIList["api_req_nyukyo/start"].RequestReceived += rec;
-			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += rec;
-			o.APIList["api_req_hensei/change"].RequestReceived += rec;
-			o.APIList["api_req_kousyou/destroyship"].RequestReceived += rec;
-			o.APIList["api_req_member/updatedeckname"].RequestReceived += rec;
-			o.APIList["api_req_map/start"].RequestReceived += rec;
+			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
+			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
+			o.APIList["api_req_hensei/change"].RequestReceived += Updated;
+			o.APIList["api_req_kousyou/destroyship"].RequestReceived += Updated;
+			o.APIList["api_req_member/updatedeckname"].RequestReceived += Updated;
+			o.APIList["api_req_map/start"].RequestReceived += Updated;
 
-			o.APIList["api_port/port"].ResponseReceived += rec;
-			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
-			o.APIList["api_get_member/ndock"].ResponseReceived += rec;
-			o.APIList["api_req_kousyou/getship"].ResponseReceived += rec;
-			o.APIList["api_req_hokyu/charge"].ResponseReceived += rec;
-			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += rec;
-			o.APIList["api_get_member/ship3"].ResponseReceived += rec;
-			o.APIList["api_req_kaisou/powerup"].ResponseReceived += rec;		//requestのほうは面倒なのでこちらでまとめてやる
-			o.APIList["api_get_member/deck"].ResponseReceived += rec;
-			o.APIList["api_req_map/start"].ResponseReceived += rec;
-			o.APIList["api_req_map/next"].ResponseReceived += rec;
-			
+			o.APIList["api_port/port"].ResponseReceived += Updated;
+			o.APIList["api_get_member/ship2"].ResponseReceived += Updated;
+			o.APIList["api_get_member/ndock"].ResponseReceived += Updated;
+			o.APIList["api_req_kousyou/getship"].ResponseReceived += Updated;
+			o.APIList["api_req_hokyu/charge"].ResponseReceived += Updated;
+			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += Updated;
+			o.APIList["api_get_member/ship3"].ResponseReceived += Updated;
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += Updated;		//requestのほうは面倒なのでこちらでまとめてやる
+			o.APIList["api_get_member/deck"].ResponseReceived += Updated;
+			o.APIList["api_req_map/start"].ResponseReceived += Updated;
+			o.APIList["api_req_map/next"].ResponseReceived += Updated;
+
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 

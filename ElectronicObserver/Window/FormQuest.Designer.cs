@@ -40,6 +40,13 @@
 			this.MenuMain_ShowDaily = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowWeekly = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowMonthly = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuMain_ColumnFilter = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMain_ColumnFilter_State = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMain_ColumnFilter_Type = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMain_ColumnFilter_Category = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMain_ColumnFilter_Name = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMain_ColumnFilter_Progress = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
@@ -140,10 +147,12 @@
             this.MenuMain_ShowDaily,
             this.MenuMain_ShowWeekly,
             this.MenuMain_ShowMonthly,
+            this.toolStripMenuItem1,
+            this.MenuMain_ColumnFilter,
             this.toolStripSeparator1,
             this.MenuMain_Initialize});
 			this.MenuMain.Name = "MenuMain";
-			this.MenuMain.Size = new System.Drawing.Size(231, 148);
+			this.MenuMain.Size = new System.Drawing.Size(231, 198);
 			// 
 			// MenuMain_ShowRunningOnly
 			// 
@@ -189,6 +198,63 @@
 			this.MenuMain_ShowMonthly.Size = new System.Drawing.Size(230, 22);
 			this.MenuMain_ShowMonthly.Text = "マンスリー任務を表示(&M)";
 			this.MenuMain_ShowMonthly.Click += new System.EventHandler(this.MenuMain_ShowMonthly_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(227, 6);
+			// 
+			// MenuMain_ColumnFilter
+			// 
+			this.MenuMain_ColumnFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuMain_ColumnFilter_State,
+            this.MenuMain_ColumnFilter_Type,
+            this.MenuMain_ColumnFilter_Category,
+            this.MenuMain_ColumnFilter_Name,
+            this.MenuMain_ColumnFilter_Progress});
+			this.MenuMain_ColumnFilter.Name = "MenuMain_ColumnFilter";
+			this.MenuMain_ColumnFilter.Size = new System.Drawing.Size(230, 22);
+			this.MenuMain_ColumnFilter.Text = "列フィルタ(&C)";
+			// 
+			// MenuMain_ColumnFilter_State
+			// 
+			this.MenuMain_ColumnFilter_State.CheckOnClick = true;
+			this.MenuMain_ColumnFilter_State.Name = "MenuMain_ColumnFilter_State";
+			this.MenuMain_ColumnFilter_State.Size = new System.Drawing.Size(152, 22);
+			this.MenuMain_ColumnFilter_State.Text = "遂行中(&S)";
+			this.MenuMain_ColumnFilter_State.Click += new System.EventHandler(this.MenuMain_ColumnFilter_Click);
+			// 
+			// MenuMain_ColumnFilter_Type
+			// 
+			this.MenuMain_ColumnFilter_Type.CheckOnClick = true;
+			this.MenuMain_ColumnFilter_Type.Name = "MenuMain_ColumnFilter_Type";
+			this.MenuMain_ColumnFilter_Type.Size = new System.Drawing.Size(152, 22);
+			this.MenuMain_ColumnFilter_Type.Text = "出現種別(&T)";
+			this.MenuMain_ColumnFilter_Type.Click += new System.EventHandler(this.MenuMain_ColumnFilter_Click);
+			// 
+			// MenuMain_ColumnFilter_Category
+			// 
+			this.MenuMain_ColumnFilter_Category.CheckOnClick = true;
+			this.MenuMain_ColumnFilter_Category.Name = "MenuMain_ColumnFilter_Category";
+			this.MenuMain_ColumnFilter_Category.Size = new System.Drawing.Size(152, 22);
+			this.MenuMain_ColumnFilter_Category.Text = "分類(&C)";
+			this.MenuMain_ColumnFilter_Category.Click += new System.EventHandler(this.MenuMain_ColumnFilter_Click);
+			// 
+			// MenuMain_ColumnFilter_Name
+			// 
+			this.MenuMain_ColumnFilter_Name.CheckOnClick = true;
+			this.MenuMain_ColumnFilter_Name.Name = "MenuMain_ColumnFilter_Name";
+			this.MenuMain_ColumnFilter_Name.Size = new System.Drawing.Size(152, 22);
+			this.MenuMain_ColumnFilter_Name.Text = "任務名(&N)";
+			this.MenuMain_ColumnFilter_Name.Click += new System.EventHandler(this.MenuMain_ColumnFilter_Click);
+			// 
+			// MenuMain_ColumnFilter_Progress
+			// 
+			this.MenuMain_ColumnFilter_Progress.CheckOnClick = true;
+			this.MenuMain_ColumnFilter_Progress.Name = "MenuMain_ColumnFilter_Progress";
+			this.MenuMain_ColumnFilter_Progress.Size = new System.Drawing.Size(152, 22);
+			this.MenuMain_ColumnFilter_Progress.Text = "進捗(&P)";
+			this.MenuMain_ColumnFilter_Progress.Click += new System.EventHandler(this.MenuMain_ColumnFilter_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -246,5 +312,12 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Category;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Name;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Progress;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ColumnFilter;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ColumnFilter_State;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ColumnFilter_Type;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ColumnFilter_Category;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ColumnFilter_Name;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ColumnFilter_Progress;
 	}
 }
