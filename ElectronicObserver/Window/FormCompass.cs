@@ -22,7 +22,7 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormCompass : DockContent {
 
-
+		
 		private class TableEnemyMemberControl {
 
 			public ImageLabel ShipName;
@@ -308,22 +308,18 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( Updated ), apiname, data );
+			o.APIList["api_port/port"].ResponseReceived += Updated;
+			o.APIList["api_req_map/start"].ResponseReceived += Updated;
+			o.APIList["api_req_map/next"].ResponseReceived += Updated;
+			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += Updated;
 
-			o.APIList["api_port/port"].ResponseReceived += rec;
-			o.APIList["api_req_map/start"].ResponseReceived += rec;
-			o.APIList["api_req_map/next"].ResponseReceived += rec;
-			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += rec;
-
-			APIReceivedEventHandler rec2 = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( BattleStarted ), apiname, data );
-
-			o.APIList["api_req_sortie/battle"].ResponseReceived += rec2;
-			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += rec2;
-			o.APIList["api_req_combined_battle/battle"].ResponseReceived += rec2;
-			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += rec2;
-			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += rec2;
-			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += rec2;
-			o.APIList["api_req_practice/battle"].ResponseReceived += rec2;
+			o.APIList["api_req_sortie/battle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_practice/battle"].ResponseReceived += BattleStarted;
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
@@ -331,6 +327,10 @@ namespace ElectronicObserver.Window {
 
 		
 		private void Updated( string apiname, dynamic data ) {
+
+			Color colorNormal = SystemColors.ControlText;
+			Color colorNight = Color.Navy;
+
 
 			if ( apiname == "api_port/port" ) {
 
@@ -341,6 +341,7 @@ namespace ElectronicObserver.Window {
 				TextMapArea.Text = "演習";
 				TextDestination.Text = string.Format( "{0} {1}", data.api_nickname, Constants.GetAdmiralRank( (int)data.api_rank ) );
 				TextEventKind.Text = data.api_cmt;
+				TextEventKind.ForeColor = colorNormal;
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
 				TextEnemyFleetName.Text = data.api_deckname;
 
@@ -354,12 +355,15 @@ namespace ElectronicObserver.Window {
 
 				TextMapArea.Text = "出撃海域 : " + compass.MapAreaID + "-" + compass.MapInfoID;
 				TextDestination.Text = "次のセル : " + compass.Destination + ( compass.IsEndPoint ? " (終点)" : "" );
+				TextEventKind.ForeColor = colorNormal;
 				
 				{
 					string eventkind = Constants.GetMapEventID( compass.EventID );
+
 					switch ( compass.EventID ) {
 						
 						case 0:		//初期位置
+						case 1:		//不明
 							TextEventDetail.Text = "どうしてこうなった";
 							break;
 
@@ -392,9 +396,9 @@ namespace ElectronicObserver.Window {
 										if ( s == null ) return 0;
 										switch ( compass.WhirlpoolItemID ) {
 											case 1:
-												return s.MasterShip.Fuel;
+												return s.Fuel;
 											case 2:
-												return s.MasterShip.Ammo;
+												return s.Ammo;
 											default:
 												return 0;
 										}
@@ -409,14 +413,14 @@ namespace ElectronicObserver.Window {
 							break;
 
 						case 4:		//通常戦闘
-							if ( compass.EventKind >= 2 )
-								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
-							UpdateEnemyFleet( compass.EnemyFleetID );
-							break;
-
 						case 5:		//ボス戦闘
-							if ( compass.EventKind >= 2 ) 
+							if ( compass.EventKind >= 2 ) { 
 								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
+
+								if ( compass.EventKind == 2 || compass.EventKind == 3 ) {
+									TextEventKind.ForeColor = colorNight;
+								}
+							}
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 

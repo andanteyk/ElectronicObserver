@@ -269,6 +269,36 @@ namespace ElectronicObserver.Window.Dialog {
 								0.08 );
 							break;
 
+						case 18:
+							col = AddColor( value != 0 ? FromRgb( 0xFF0000 ) : FromRgb( 0x000000 ),
+								AddColor( GetCell( currentDim, x, boardSize.Height - 1 - y ) != 0 ? FromRgb( 0x00FF00 ) : FromRgb( 0x000000 ),
+								GetCell( currentDim, boardSize.Width - 1 - x, y ) != 0 ? FromRgb( 0x0000FF ) : FromRgb( 0x000000 ) ) );
+							break;
+
+						case 19:
+							//*/
+							if ( value != 0 ||
+								GetCell( currentDim, x + 1, y ) != 0 ||
+								GetCell( currentDim, x, y + 1 ) != 0 ||
+								GetCell( currentDim, x + 1, y + 1 ) != 0 )
+								col = FromRgb( 0xFFFFFF );
+							else if (
+								GetCell( currentDim, x - 1, y ) != 0 ||
+								GetCell( currentDim, x, y - 1 ) != 0 ||
+								GetCell( currentDim, x - 1, y - 1 ) != 0 )
+								col = FromRgb( 0x888888 );
+							else
+								col = FromRgb( 0x000000 );
+							/*/
+							if ( value != 0 )
+								col = FromRgb( 0xFFFFFF );
+							else if ( GetCell( currentDim, x - 1, y - 1 ) != 0 )
+								col = FromRgb( 0x888888 );
+							else
+								col = FromRgb( 0x000000 );			
+							//*/
+							break;
+
 						default:
 							col = value != 0 ? FromRgb( 0xFFFFFF ) : FromRgb( 0x000000 );
 							break;
@@ -384,7 +414,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			UpdateTimer.Stop();
 			colortheme = rand.Next( 64 );
-			//colortheme = 17;
+			//colortheme = 18;
 			Start();
 		}
 

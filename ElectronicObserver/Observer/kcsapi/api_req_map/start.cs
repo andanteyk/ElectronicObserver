@@ -14,6 +14,13 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map {
 			KCDatabase.Instance.Battle.LoadFromResponse( APIName, data );
 
 			base.OnResponseReceived( (object)data );
+
+
+			// 表示順の関係上、UIの更新をしてからデータを更新する
+			if ( KCDatabase.Instance.Battle.Compass.EventID == 3 ) {
+				next.EmulateWhirlpool();
+			}
+			
 		}
 
 

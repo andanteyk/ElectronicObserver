@@ -167,7 +167,27 @@ namespace ElectronicObserver.Data.Battle {
 			//ドロップ艦記録
 			if ( ( BattleMode & BattleModes.BattlePhaseMask ) != BattleModes.Practice ) {
 
+				//checkme: とてもアレな感じ
+
 				int dropID = Result.DroppedShipID;
+
+				if ( dropID == -1 ) {
+
+					int itemID = Result.DroppedItemID;
+
+					if ( itemID != -1 )
+						dropID = itemID + 1000;
+				}
+
+				if ( dropID == -1 ) {
+
+					int eqID = Result.DroppedEquipmentID;
+
+					if ( eqID != -1 )
+						dropID = eqID + 2000;
+
+				}
+
 				if ( dropID == -1 && (
 					KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count <= 0 ||
 					KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count <= 3 ) ) {

@@ -389,6 +389,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowMonthly { get; set; }
 
+				/// <summary>
+				/// 列の可視性
+				/// </summary>
+				public SerializableList<bool> ColumnFilter { get; set; }
+
 
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
@@ -396,6 +401,7 @@ namespace ElectronicObserver.Utility {
 					ShowDaily = true;
 					ShowWeekly = true;
 					ShowMonthly = true;
+					ColumnFilter = null;		//実際の初期化は FormQuest で行う
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
@@ -410,13 +416,101 @@ namespace ElectronicObserver.Utility {
 
 				public int SplitterDistance { get; set; }
 
+				public bool AutoUpdate { get; set; }
+
+				public bool ShowStatusBar { get; set; }
+
 				public ConfigFormShipGroup() {
 					SplitterDistance = 40;
+					AutoUpdate = true;
+					ShowStatusBar = true;
 				}
 			}
 			/// <summary>[艦船グループ]ウィンドウ</summary>
 			[DataMember]
 			public ConfigFormShipGroup FormShipGroup { get; private set; }
+
+
+			/// <summary>
+			/// [ブラウザ]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormBrowser : ConfigPartBase {
+
+				/// <summary>
+				/// ブラウザの拡大率 10-1000(%)
+				/// </summary>
+				public int ZoomRate { get; set; }
+
+				/// <summary>
+				/// ログインページのURL
+				/// </summary>
+				public string LogInPageURL { get; set; }
+
+				/// <summary>
+				/// ブラウザを有効にするか
+				/// </summary>
+				public bool IsEnabled { get; set; }
+
+				/// <summary>
+				/// スクリーンショットの保存先フォルダ
+				/// </summary>
+				public string ScreenShotPath { get; set; }
+
+				/// <summary>
+				/// スクリーンショットのフォーマット
+				/// 1=jpeg, 2=png
+				/// </summary>
+				public int ScreenShotFormat { get; set; }
+
+				/// <summary>
+				/// 適用するスタイルシート
+				/// </summary>
+				public string StyleSheet { get; set; }
+
+				/// <summary>
+				/// スクロール可能かどうか
+				/// </summary>
+				public bool IsScrollable { get; set; }
+
+				/// <summary>
+				/// スタイルシートを適用するか
+				/// </summary>
+				public bool AppliesStyleSheet { get; set; }
+
+				/// <summary>
+				/// ツールメニューの配置
+				/// </summary>
+				public DockStyle ToolMenuDockStyle { get; set; }
+
+				/// <summary>
+				/// ツールメニューの可視性
+				/// </summary>
+				public bool IsToolMenuVisible { get; set; }
+
+				/// <summary>
+				/// 再読み込み時に確認ダイアログを入れるか
+				/// </summary>
+				public bool ConfirmAtRefresh { get; set; }
+
+
+				public ConfigFormBrowser() {
+					ZoomRate = 100;
+					LogInPageURL = @"http://www.dmm.com/netgame_s/kancolle/";
+					IsEnabled = true;
+					ScreenShotPath = "ScreenShot";
+					ScreenShotFormat = 2;
+					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
+					IsScrollable = false;
+					AppliesStyleSheet = true;
+					ToolMenuDockStyle = DockStyle.Top;
+					IsToolMenuVisible = true;
+					ConfirmAtRefresh = true;
+				}
+			}
+			/// <summary>[ブラウザ]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormBrowser FormBrowser { get; private set; }
+
 
 
 			/// <summary>
@@ -582,6 +676,7 @@ namespace ElectronicObserver.Utility {
 				FormHeadquarters = new ConfigFormHeadquarters();
 				FormQuest = new ConfigFormQuest();
 				FormShipGroup = new ConfigFormShipGroup();
+				FormBrowser = new ConfigFormBrowser();
 
 				NotifierExpedition = new ConfigNotifierBase();
 				NotifierConstruction = new ConfigNotifierBase();

@@ -65,6 +65,7 @@ namespace ElectronicObserver.Resource {
 			FormMain,
 			FormQuest,
 			FormShipGroup,
+			FormBrowser,
 			FormAlbumShip,
 			FormAlbumEquipment,
 			FormConfiguration,
@@ -81,6 +82,15 @@ namespace ElectronicObserver.Resource {
 			FleetCombined,
 			HeadQuartersShip,
 			HeadQuartersEquipment,
+			BrowserScreenShot,
+			BrowserZoom,
+			BrowserZoomIn,
+			BrowserZoomOut,
+			BrowserUnmute,
+			BrowserMute,
+			BrowserRefresh,
+			BrowserNavigate,
+			BrowserOther,
 			RarityBlack,
 			RarityRed,
 			RarityBlueC,
@@ -169,30 +179,14 @@ namespace ElectronicObserver.Resource {
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "リソースファイルの読み込みに失敗しました。" );
-				MessageBox.Show( "リソースファイルの読み込みに失敗しました。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				MessageBox.Show( "リソースファイルの読み込みに失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+				FillWithBlankImage( Icons, Enum.GetValues( typeof( IconContent ) ).Length );
+				FillWithBlankImage( Equipments, Enum.GetValues( typeof( EquipmentContent ) ).Length );
 
 			}
 
 			return false;
-		}
-
-
-		[Obsolete]
-		private Image LoadImage( string path ) {
-			try {
-
-				using ( FileStream fs = new FileStream( path, FileMode.Open, FileAccess.Read ) ) {
-					return Image.FromStream( fs );
-				}
-
-			} catch ( Exception ex ) {
-
-				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "画像リソース {0} の読み込みに失敗しました。", path ) );
-				return new Bitmap( 16, 16, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
-
-			}
-
-			//return null;
 		}
 
 
@@ -243,6 +237,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Main.png", "Form_Main" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Quest.png", "Form_Quest" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/ShipGroup.png", "Form_ShipGroup" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Browser.png", "Form_Browser" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AlbumShip.png", "Form_AlbumShip" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AlbumEquipment.png", "Form_AlbumEquipment" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Configuration.png", "Form_Configuration" );
@@ -262,6 +257,16 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Headquarters/Ship.png", "HeadQuarters_Ship" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Headquarters/Equipment.png", "HeadQuarters_Equipment" );
 
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/ScreenShot.png", "Browser_ScreenShot" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Zoom.png", "Browser_Zoom" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/ZoomIn.png", "Browser_ZoomIn" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/ZoomOut.png", "Browser_ZoomOut" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Unmute.png", "Browser_Unmute" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Mute.png", "Browser_Mute" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Refresh.png", "Browser_Refresh" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Navigate.png", "Browser_Navigate" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Other.png", "Browser_Other" );
+					
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Black.png", "Rarity_Black" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Red.png", "Rarity_Red" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/BlueC.png", "Rarity_BlueC" );
@@ -349,19 +354,20 @@ namespace ElectronicObserver.Resource {
 
 				Bitmap bmp = new Bitmap( entry.Open() );
 
-				if ( bmp.Size == imglist.ImageSize ) {
-
-					imglist.Images.Add( name, bmp );
-
-				} else {
+				if ( bmp.Size != imglist.ImageSize ) {
 
 					bmp.Dispose();
-				}
+					bmp = CreateBlankImage();
+					
+				} 
+				
+				imglist.Images.Add( name, bmp );
+			
 
 			} catch ( Exception ) {
 
 				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。" ) );
-				imglist.Images.Add( name, new Bitmap( imglist.ImageSize.Width, imglist.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) );
+				imglist.Images.Add( name, CreateBlankImage() );
 				return;
 			}
 
@@ -399,6 +405,25 @@ namespace ElectronicObserver.Resource {
 
 			return null;
 		}
+
+
+		/// <summary>
+		/// エラーが発生しないよう、ダミーの画像で領域を埋めます。
+		/// </summary>
+		private static void FillWithBlankImage( ImageList list, int length ) {
+
+			for ( int i = list.Images.Count; i < length; i++ ) {
+				list.Images.Add( CreateBlankImage() );
+			}
+		}
+
+		/// <summary>
+		/// 空白画像を作成します。
+		/// </summary>
+		private static Bitmap CreateBlankImage() {
+			return new Bitmap( 16, 16, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+		}
+
 
 
 		/// <summary>

@@ -42,6 +42,7 @@ namespace ElectronicObserver.Window {
 		public FormBattle fBattle;
 		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
+		public FormBrowserHost fBrowser;
 
 		#endregion
 
@@ -52,14 +53,21 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 		}
 
-
-
 		private async void FormMain_Load( object sender, EventArgs e ) {
 
 			Utility.Configuration.Instance.Load();
 
 
-			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data ) );
+			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
+				if ( InvokeRequired ) {
+					// Invokeはメッセージキューにジョブを投げて待つので、別のBeginInvokeされたジョブが既にキューにあると、
+					// それを実行してしまい、BeginInvokeされたジョブの順番が保てなくなる
+					// GUIスレッドによる処理は、順番が重要なことがあるので、GUIスレッドからInvokeを呼び出してはいけない
+					Invoke( new Utility.LogAddedEventHandler( Logger_LogAdded ), data );
+				} else {
+					Logger_LogAdded( data );
+				}
+			} );
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
@@ -75,7 +83,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.Instance.AppIcon;
 
-			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port );
+			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port, this );
 
 
 			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
@@ -100,19 +108,13 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBattle = new FormBattle( this ) );
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
+			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 
-			
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
 
 			SoftwareInformation.CheckUpdate();
-
-
-			UIUpdateTimer.Start();
-
-			Utility.Logger.Add( 2, "起動処理が完了しました。" );
-
 
 			// デバッグ: 開始時にAPIリストを読み込む
 			if ( Configuration.Config.Debug.LoadAPIListOnLoad ) {
@@ -127,6 +129,12 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			// 完了通知（ログインページを開く）
+			fBrowser.InitializeApiCompleted();
+
+			UIUpdateTimer.Start();
+
+			Utility.Logger.Add( 2, "起動処理が完了しました。" );
 		}
 
 
@@ -198,6 +206,7 @@ namespace ElectronicObserver.Window {
 
 			UIUpdateTimer.Stop();
 
+			fBrowser.CloseBrowser();
 
 			if ( !Directory.Exists( "Settings" ) )
 				Directory.CreateDirectory( "Settings" );
@@ -258,7 +267,8 @@ namespace ElectronicObserver.Window {
 					return fFleetOverview;
 				case "ShipGroup":
 					return fShipGroup;
-
+				case "Browser":
+					return fBrowser;
 				default:
 					return null;
 			}
@@ -289,8 +299,11 @@ namespace ElectronicObserver.Window {
 						}
 					}
 
+					// checkme: このコードの存在意義
+					/*/
 					if ( MainDockPanel.Contents.Count > 0 )
 						MainDockPanel.Contents.First().DockHandler.Activate();
+					//*/
 
 				} else {
 
@@ -337,7 +350,7 @@ namespace ElectronicObserver.Window {
 						WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
 						LoadSubWindowsLayout( archive.GetEntry( "SubWindowLayout.xml" ).Open() );
 
-					}		
+					}
 				}
 
 
@@ -349,12 +362,16 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
+				fBrowser.Show( MainDockPanel );
+
 			} catch ( DirectoryNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
-			
+
+				fBrowser.Show( MainDockPanel );
+
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );
@@ -366,12 +383,15 @@ namespace ElectronicObserver.Window {
 
 			try {
 
-				using ( var stream = File.OpenWrite( path ) ) {
+				using ( var stream = File.Open( path, FileMode.Create ) ) {
 					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Create ) ) {
 
-						SaveSubWindowsLayout( archive.CreateEntry( "SubWindowLayout.xml" ).Open() );
-						WindowPlacementManager.SaveWindowPlacement( this, archive.CreateEntry( "WindowPlacement.xml" ).Open() );
-
+						using ( var layoutstream = archive.CreateEntry( "SubWindowLayout.xml" ).Open() ) {
+							SaveSubWindowsLayout( layoutstream );
+						}
+						using ( var placementstream = archive.CreateEntry( "WindowPlacement.xml" ).Open() ) {
+							WindowPlacementManager.SaveWindowPlacement( this, placementstream );
+						}
 					}
 				}
 
@@ -452,7 +472,7 @@ namespace ElectronicObserver.Window {
 					try {
 
 						await Task.Factory.StartNew( () => LoadAPIList( ofd.FileName ) );
-							
+
 					} catch ( Exception ex ) {
 
 						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
@@ -466,7 +486,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 
 		private void LoadAPIList( string path ) {
 
@@ -509,10 +529,15 @@ namespace ElectronicObserver.Window {
 							Array.Sort( files );
 
 							using ( StreamReader sr2 = new StreamReader( files[files.Length - 1] ) ) {
-								if ( isRequest )
-									APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
-								else
-									APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+								if ( isRequest ) {
+									Invoke( (Action)( () => {
+										APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
+									} ) );
+								} else {
+									Invoke( (Action)( () => {
+										APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
+									} ) );
+								}
 							}
 
 							//System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
@@ -728,7 +753,7 @@ namespace ElectronicObserver.Window {
 						} catch ( IOException ) {
 							//ファイルが既に存在する：＊にぎりつぶす＊
 						}
-						
+
 					}
 
 				}
@@ -744,7 +769,7 @@ namespace ElectronicObserver.Window {
 					if ( name.Contains( ship.ResourceName ) ) {
 
 						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
-					
+
 						try {
 
 							Directory.Move( p, Path.Combine( Path.GetDirectoryName( p ), name ) );
@@ -767,7 +792,7 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_Help_Help_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "外部ブラウザでオンラインヘルプを開きます。\r\nよろしいですか？", "ヘルプ", 
+			if ( MessageBox.Show( "外部ブラウザでオンラインヘルプを開きます。\r\nよろしいですか？", "ヘルプ",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
 				== System.Windows.Forms.DialogResult.Yes ) {
 
@@ -780,8 +805,143 @@ namespace ElectronicObserver.Window {
 		private void SeparatorWhitecap_Click( object sender, EventArgs e ) {
 			new DialogWhitecap().Show();
 		}
-	
 
+
+
+		private void StripMenu_File_Layout_Load_Click( object sender, EventArgs e ) {
+
+			LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+		}
+
+		private void StripMenu_File_Layout_Save_Click( object sender, EventArgs e ) {
+
+			SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+		}
+
+		private void StripMenu_File_Layout_Open_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new OpenFileDialog() ) {
+
+				dialog.Filter = "Layout Archive|*.zip|File|*";
+				dialog.Title = "レイアウト ファイルを開く";
+
+
+				PathHelper.InitOpenFileDialog( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					Utility.Configuration.Config.Life.LayoutFilePath = PathHelper.GetPathFromOpenFileDialog( dialog );
+					LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+				}
+
+			}
+
+		}
+
+
+
+
+		private void StripMenu_Browser_ScreenShot_Click( object sender, EventArgs e ) {
+
+			fBrowser.SaveScreenShot();
+
+		}
+
+		private void StripMenu_Browser_Refresh_Click( object sender, EventArgs e ) {
+
+			fBrowser.RefreshBrowser();
+
+		}
+
+		private void StripMenu_Browser_NavigateToLogInPage_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "ログインページへ移動します。\r\nよろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				fBrowser.NavigateToLogInPage();
+			}
+		}
+
+		private void StripMenu_Browser_Navigate_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new Window.Dialog.DialogTextInput( "移動先の入力", "移動先の URL を入力してください。" ) ) {
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					fBrowser.Navigate( dialog.InputtedText );
+				}
+			}
+		}
+
+
+		private void StripMenu_Browser_Zoom_Decr20_Click( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.FormBrowser.ZoomRate =
+				Math.Max( Utility.Configuration.Config.FormBrowser.ZoomRate - 20, 10 );
+
+			fBrowser.ApplyZoom();
+		}
+
+		private void StripMenu_Browser_Zoom_Incr20_Click( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.FormBrowser.ZoomRate =
+				Math.Min( Utility.Configuration.Config.FormBrowser.ZoomRate + 20, 1000 );
+
+			fBrowser.ApplyZoom();
+		}
+
+
+		private void StripMenu_Browser_Zoom_Click( object sender, EventArgs e ) {
+
+			int zoom;
+
+			if ( sender == StripMenu_Browser_Zoom_25 )
+				zoom = 25;
+			else if ( sender == StripMenu_Browser_Zoom_50 )
+				zoom = 50;
+			else if ( sender == StripMenu_Browser_Zoom_75 )
+				zoom = 75;
+			else if ( sender == StripMenu_Browser_Zoom_100 )
+				zoom = 100;
+			else if ( sender == StripMenu_Browser_Zoom_150 )
+				zoom = 150;
+			else if ( sender == StripMenu_Browser_Zoom_200 )
+				zoom = 200;
+			else if ( sender == StripMenu_Browser_Zoom_250 )
+				zoom = 250;
+			else if ( sender == StripMenu_Browser_Zoom_300 )
+				zoom = 300;
+			else if ( sender == StripMenu_Browser_Zoom_400 )
+				zoom = 400;
+			else
+				zoom = 100;
+
+			Utility.Configuration.Config.FormBrowser.ZoomRate = zoom;
+
+			fBrowser.ApplyZoom();
+		}
+
+		private void StripMenu_Browser_Zoom_DropDownOpening( object sender, EventArgs e ) {
+
+			StripMenu_Browser_Zoom_Current.Text = string.Format( "現在: {0}%",
+				Utility.Configuration.Config.FormBrowser.ZoomRate );
+
+		}
+
+		private void StripMenu_Browser_AppliesStyleSheet_CheckedChanged( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.FormBrowser.AppliesStyleSheet = StripMenu_Browser_AppliesStyleSheet.Checked;
+			fBrowser.ConfigurationChanged();
+
+		}
+
+		private void StripMenu_Browser_DropDownOpening( object sender, EventArgs e ) {
+
+			StripMenu_Browser_AppliesStyleSheet.Checked = Utility.Configuration.Config.FormBrowser.AppliesStyleSheet;
+		}
 
 
 		#region フォーム表示
@@ -842,42 +1002,18 @@ namespace ElectronicObserver.Window {
 			fShipGroup.Show( MainDockPanel );
 		}
 
+		private void StripMenu_View_Browser_Click( object sender, EventArgs e ) {
+			fBrowser.Show( MainDockPanel );
+		}
+
 		#endregion
 
 
 
-		private void StripMenu_File_Layout_Load_Click( object sender, EventArgs e ) {
 
-			LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
 
-		}
 
-		private void StripMenu_File_Layout_Save_Click( object sender, EventArgs e ) {
 
-			SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
-
-		}
-
-		private void StripMenu_File_Layout_Open_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new OpenFileDialog() ) {
-
-				dialog.Filter = "Layout Archive|*.zip|File|*";
-				dialog.Title = "レイアウト ファイルを開く";
-
-			
-				PathHelper.InitOpenFileDialog( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
-
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
-
-					Utility.Configuration.Config.Life.LayoutFilePath = PathHelper.GetPathFromOpenFileDialog( dialog );
-					LoadLayout( Utility.Configuration.Config.Life.LayoutFilePath );
-
-				}
-
-			}
-
-		}
 
 
 	}

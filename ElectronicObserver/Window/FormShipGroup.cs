@@ -21,7 +21,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace ElectronicObserver.Window {
 	public partial class FormShipGroup : DockContent {
 
-	
+
 		/// <summary>タブ背景色(アクティブ)</summary>
 		private readonly Color TabActiveColor = Color.FromArgb( 0xFF, 0xFF, 0xCC );
 
@@ -52,8 +52,6 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( ShipView );
 
-			ConfigurationChanged();
-			splitContainer1.SplitterDistance = Utility.Configuration.Config.FormShipGroup.SplitterDistance;
 
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
 				column.MinimumWidth = 2;
@@ -148,15 +146,14 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
-			MenuGroup_AutoUpdate.Checked = true;		//checkme:未設定です
+
+			ConfigurationChanged();
 
 
 			APIObserver o = APIObserver.Instance;
 
-			APIReceivedEventHandler rec = ( string apiname, dynamic data ) => Invoke( new APIReceivedEventHandler( APIUpdated ), apiname, data );
-
-			o.APIList["api_port/port"].ResponseReceived += rec;
-			o.APIList["api_get_member/ship2"].ResponseReceived += rec;
+			o.APIList["api_port/port"].ResponseReceived += APIUpdated;
+			o.APIList["api_get_member/ship2"].ResponseReceived += APIUpdated;
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
@@ -167,8 +164,27 @@ namespace ElectronicObserver.Window {
 
 
 		void ConfigurationChanged() {
-			ShipView.Font = StatusBar.Font = Font = Utility.Configuration.Config.UI.MainFont;
-			
+
+			var config = Utility.Configuration.Config;
+
+			ShipView.Font = StatusBar.Font = Font = config.UI.MainFont;
+
+			CSDefaultLeft.Font =
+			CSDefaultCenter.Font =
+			CSDefaultRight.Font =
+			CSRedRight.Font =
+			CSOrangeRight.Font =
+			CSYellowRight.Font =
+			CSGreenRight.Font =
+			CSGrayRight.Font =
+			CSCherryRight.Font =
+			CSIsLocked.Font =
+				config.UI.MainFont;
+
+			splitContainer1.SplitterDistance = config.FormShipGroup.SplitterDistance;
+			MenuGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
+			MenuGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
+
 		}
 
 
@@ -303,7 +319,7 @@ namespace ElectronicObserver.Window {
 					GetEquipmentString( ship, 3 ),
 					GetEquipmentString( ship, 4 ),
 					ship.FleetWithIndex,
-					DateTimeHelper.ToTimeRemainString( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ) ),
+					ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
 					ship.FirepowerBase,
 					ship.FirepowerRemain,
 					ship.TorpedoBase,
@@ -388,7 +404,7 @@ namespace ElectronicObserver.Window {
 
 			ShipView.Rows.AddRange( rows.ToArray() );
 
-	
+
 			{
 				int columnCount = ShipView.Columns.Count;
 				if ( group.ColumnFilter != null ) columnCount = Math.Min( columnCount, group.ColumnFilter.Count );
@@ -468,6 +484,15 @@ namespace ElectronicObserver.Window {
 					e.Value = "";
 				e.FormattingApplied = true;
 
+			} else if ( e.ColumnIndex == ShipView_RepairTime.Index ) {
+
+				if ( (int)e.Value < 0 ) {
+					e.Value = "入渠 #" + ( (int)e.Value + 1000 );
+				} else {
+					e.Value = DateTimeHelper.ToTimeRemainString( DateTimeHelper.FromAPITimeSpan( (int)e.Value ) );
+				}
+				e.FormattingApplied = true;
+
 			} else if ( (
 				e.ColumnIndex == ShipView_FirepowerRemain.Index ||
 				e.ColumnIndex == ShipView_TorpedoRemain.Index ||
@@ -532,9 +557,6 @@ namespace ElectronicObserver.Window {
 						e.SortResult = ( (string)e.CellValue1 ).CompareTo( e.CellValue2 );
 				}
 
-			} else if ( e.Column.Index == ShipView_RepairTime.Index ) {
-				e.SortResult = ( (string)e.CellValue1 ).CompareTo( e.CellValue2 );
-
 			} else if ( e.Column.Index == ShipView_Locked.Index ) {
 				e.SortResult = ( (bool)e.CellValue1 ? 1 : 0 ) - ( (bool)e.CellValue2 ? 1 : 0 );
 
@@ -578,7 +600,7 @@ namespace ElectronicObserver.Window {
 						group.ColumnFilter = Enumerable.Repeat<bool>( true, ShipView.Columns.Count ).ToList();
 					group.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
 					group.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
-					
+
 					TabPanel.Controls.Add( CreateTabLabel( group.GroupID ) );
 
 				}
@@ -793,7 +815,7 @@ namespace ElectronicObserver.Window {
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
-					
+
 
 					bool[] checkedList = dialog.CheckedList;
 
@@ -1087,7 +1109,7 @@ namespace ElectronicObserver.Window {
 			ShipView_ShipType.Frozen = flag == true;
 			ShipView_Name.Frozen = flag == true;
 
-		} 
+		}
 
 		#endregion
 
@@ -1167,13 +1189,28 @@ namespace ElectronicObserver.Window {
 
 
 
+		private void MenuGroup_ShowStatusBar_CheckedChanged( object sender, EventArgs e ) {
+
+			StatusBar.Visible = MenuGroup_ShowStatusBar.Checked;
+
+		}
+
+
+
 		void SystemShuttingDown() {
 
-			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
+
+			Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
+			Utility.Configuration.Config.FormShipGroup.AutoUpdate = MenuGroup_AutoUpdate.Checked;
+			Utility.Configuration.Config.FormShipGroup.ShowStatusBar = MenuGroup_ShowStatusBar.Checked;
+
+
 			//以下は実データがないと動作しないためなければスキップ
 			if ( KCDatabase.Instance.Ships.Count == 0 ) return;
 
-			
+			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
+
+
 			if ( SelectedTab != null )
 				ApplyGroupData( SelectedTab );
 
@@ -1187,8 +1224,6 @@ namespace ElectronicObserver.Window {
 					group.GroupID = i + 1;
 			}
 
-			Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
-
 		}
 
 
@@ -1196,7 +1231,6 @@ namespace ElectronicObserver.Window {
 			return "ShipGroup";
 		}
 
-		
 
 	}
 }

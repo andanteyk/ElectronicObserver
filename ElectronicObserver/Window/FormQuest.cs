@@ -62,7 +62,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/questlist"].ResponseReceived += rec;
 			//*/
 
-			KCDatabase.Instance.Quest.QuestUpdated += () => Invoke( new Action( Updated ) );
+			KCDatabase.Instance.Quest.QuestUpdated += Updated;
 
 
 			ClearQuestView();
@@ -88,6 +88,17 @@ namespace ElectronicObserver.Window {
 			MenuMain_ShowWeekly.Checked = c.FormQuest.ShowWeekly;
 			MenuMain_ShowMonthly.Checked = c.FormQuest.ShowMonthly;
 
+			if ( c.FormQuest.ColumnFilter == null ) {
+				c.FormQuest.ColumnFilter = new Utility.Storage.SerializableList<bool>( Enumerable.Repeat( true, QuestView.Columns.Count ).ToList() );
+			}
+			{
+				List<bool> list = c.FormQuest.ColumnFilter;
+
+				for ( int i = 0; i < QuestView.Columns.Count; i++ ) {
+					QuestView.Columns[i].Visible =
+					((ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i]).Checked = list[i];
+				}
+			}
 			Updated();
 
 		}
@@ -147,7 +158,7 @@ namespace ElectronicObserver.Window {
 
 						if ( KCDatabase.Instance.QuestProgress.Progresses.ContainsKey( q.QuestID ) ) {
 							var p = KCDatabase.Instance.QuestProgress.Progresses[q.QuestID];
-						
+
 							value = p.ToString();
 							tag = p.ProgressPercentage;
 
@@ -351,7 +362,28 @@ namespace ElectronicObserver.Window {
 			return "Quest";
 		}
 
-		
+
+
+		private void MenuMain_ColumnFilter_Click( object sender, EventArgs e ) {
+
+			var menu = sender as ToolStripMenuItem;
+			if ( menu == null ) return;
+
+			int index = -1;
+			for ( int i = 0; i < MenuMain_ColumnFilter.DropDownItems.Count; i++ ) {
+				if ( sender == MenuMain_ColumnFilter.DropDownItems[i] ) {
+					index = i;
+					break;
+				}
+			}
+
+			if ( index == -1 ) return;
+
+			QuestView.Columns[index].Visible =
+			Utility.Configuration.Config.FormQuest.ColumnFilter.List[index] = menu.Checked;
+		}
+
+
 
 	}
 }

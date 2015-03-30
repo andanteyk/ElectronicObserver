@@ -24,14 +24,14 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.ShipView = new System.Windows.Forms.DataGridView();
 			this.ShipView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -83,6 +83,7 @@
 			this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuGroup_AutoUpdate = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuGroup_ShowStatusBar = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.StatusBar = new System.Windows.Forms.StatusStrip();
@@ -141,14 +142,14 @@
             this.ShipView_Locked,
             this.ShipView_SallyArea});
 			this.ShipView.ContextMenuStrip = this.MenuMember;
-			dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			dataGridViewCellStyle58.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle58.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle58.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle58.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle58.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle58.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.DefaultCellStyle = dataGridViewCellStyle58;
+			dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle16.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ShipView.DefaultCellStyle = dataGridViewCellStyle16;
 			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ShipView.Location = new System.Drawing.Point(0, 0);
 			this.ShipView.Name = "ShipView";
@@ -171,8 +172,8 @@
 			// 
 			// ShipView_ShipType
 			// 
-			dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_ShipType.DefaultCellStyle = dataGridViewCellStyle44;
+			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_ShipType.DefaultCellStyle = dataGridViewCellStyle9;
 			this.ShipView_ShipType.Frozen = true;
 			this.ShipView_ShipType.HeaderText = "艦種";
 			this.ShipView_ShipType.Name = "ShipView_ShipType";
@@ -181,8 +182,8 @@
 			// 
 			// ShipView_Name
 			// 
-			dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Name.DefaultCellStyle = dataGridViewCellStyle52;
+			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_Name.DefaultCellStyle = dataGridViewCellStyle10;
 			this.ShipView_Name.Frozen = true;
 			this.ShipView_Name.HeaderText = "艦名";
 			this.ShipView_Name.Name = "ShipView_Name";
@@ -246,8 +247,8 @@
 			// 
 			// ShipView_Equipment1
 			// 
-			dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment1.DefaultCellStyle = dataGridViewCellStyle53;
+			dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_Equipment1.DefaultCellStyle = dataGridViewCellStyle11;
 			this.ShipView_Equipment1.HeaderText = "装備1";
 			this.ShipView_Equipment1.Name = "ShipView_Equipment1";
 			this.ShipView_Equipment1.ReadOnly = true;
@@ -256,8 +257,8 @@
 			// 
 			// ShipView_Equipment2
 			// 
-			dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment2.DefaultCellStyle = dataGridViewCellStyle54;
+			dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_Equipment2.DefaultCellStyle = dataGridViewCellStyle12;
 			this.ShipView_Equipment2.HeaderText = "装備2";
 			this.ShipView_Equipment2.Name = "ShipView_Equipment2";
 			this.ShipView_Equipment2.ReadOnly = true;
@@ -266,8 +267,8 @@
 			// 
 			// ShipView_Equipment3
 			// 
-			dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment3.DefaultCellStyle = dataGridViewCellStyle55;
+			dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_Equipment3.DefaultCellStyle = dataGridViewCellStyle13;
 			this.ShipView_Equipment3.HeaderText = "装備3";
 			this.ShipView_Equipment3.Name = "ShipView_Equipment3";
 			this.ShipView_Equipment3.ReadOnly = true;
@@ -276,8 +277,8 @@
 			// 
 			// ShipView_Equipment4
 			// 
-			dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment4.DefaultCellStyle = dataGridViewCellStyle56;
+			dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_Equipment4.DefaultCellStyle = dataGridViewCellStyle14;
 			this.ShipView_Equipment4.HeaderText = "装備4";
 			this.ShipView_Equipment4.Name = "ShipView_Equipment4";
 			this.ShipView_Equipment4.ReadOnly = true;
@@ -286,8 +287,8 @@
 			// 
 			// ShipView_Equipment5
 			// 
-			dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment5.DefaultCellStyle = dataGridViewCellStyle57;
+			dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_Equipment5.DefaultCellStyle = dataGridViewCellStyle15;
 			this.ShipView_Equipment5.HeaderText = "装備5";
 			this.ShipView_Equipment5.Name = "ShipView_Equipment5";
 			this.ShipView_Equipment5.ReadOnly = true;
@@ -507,43 +508,54 @@
             this.MenuGroup_Rename,
             this.MenuGroup_Delete,
             this.toolStripSeparator4,
-            this.MenuGroup_AutoUpdate});
+            this.MenuGroup_AutoUpdate,
+            this.MenuGroup_ShowStatusBar});
 			this.MenuGroup.Name = "MenuGroup";
-			this.MenuGroup.Size = new System.Drawing.Size(203, 98);
+			this.MenuGroup.Size = new System.Drawing.Size(221, 142);
 			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
 			// 
 			// MenuGroup_Add
 			// 
 			this.MenuGroup_Add.Name = "MenuGroup_Add";
-			this.MenuGroup_Add.Size = new System.Drawing.Size(202, 22);
+			this.MenuGroup_Add.Size = new System.Drawing.Size(220, 22);
 			this.MenuGroup_Add.Text = "グループを追加(&A)";
 			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
 			// 
 			// MenuGroup_Rename
 			// 
 			this.MenuGroup_Rename.Name = "MenuGroup_Rename";
-			this.MenuGroup_Rename.Size = new System.Drawing.Size(202, 22);
+			this.MenuGroup_Rename.Size = new System.Drawing.Size(220, 22);
 			this.MenuGroup_Rename.Text = "グループ名の変更(&R)...";
 			this.MenuGroup_Rename.Click += new System.EventHandler(this.MenuGroup_Rename_Click);
 			// 
 			// MenuGroup_Delete
 			// 
 			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
-			this.MenuGroup_Delete.Size = new System.Drawing.Size(202, 22);
+			this.MenuGroup_Delete.Size = new System.Drawing.Size(220, 22);
 			this.MenuGroup_Delete.Text = "グループを削除(&D)";
 			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(199, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(217, 6);
 			// 
 			// MenuGroup_AutoUpdate
 			// 
 			this.MenuGroup_AutoUpdate.CheckOnClick = true;
 			this.MenuGroup_AutoUpdate.Name = "MenuGroup_AutoUpdate";
-			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(202, 22);
+			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(220, 22);
 			this.MenuGroup_AutoUpdate.Text = "自動更新する";
+			// 
+			// MenuGroup_ShowStatusBar
+			// 
+			this.MenuGroup_ShowStatusBar.Checked = true;
+			this.MenuGroup_ShowStatusBar.CheckOnClick = true;
+			this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
+			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(220, 22);
+			this.MenuGroup_ShowStatusBar.Text = "ステータスバーを表示する";
+			this.MenuGroup_ShowStatusBar.CheckedChanged += new System.EventHandler(this.MenuGroup_ShowStatusBar_CheckedChanged);
 			// 
 			// splitContainer1
 			// 
@@ -695,5 +707,6 @@
 		private System.Windows.Forms.ToolStripStatusLabel Status_ShipCount;
 		private System.Windows.Forms.ToolStripStatusLabel Status_LevelTotal;
 		private System.Windows.Forms.ToolStripStatusLabel Status_LevelAverage;
+		private System.Windows.Forms.ToolStripMenuItem MenuGroup_ShowStatusBar;
 	}
 }

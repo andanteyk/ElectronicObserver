@@ -62,11 +62,15 @@
     <Reference Include="FiddlerCore4">
       <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -76,9 +80,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking">
-      <HintPath>..\packages\DockPanelSuite.2.9.0.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AdmiralData.cs" />
@@ -348,6 +349,12 @@
     <Compile Include="Window\FormBattle.Designer.cs">
       <DependentUpon>FormBattle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormBrowserHost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormBrowserHost.Designer.cs">
+      <DependentUpon>FormBrowserHost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormCompass.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -479,6 +486,9 @@
     <EmbeddedResource Include="Window\FormBattle.resx">
       <DependentUpon>FormBattle.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormBrowserHost.resx">
+      <DependentUpon>FormBrowserHost.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormCompass.resx">
       <DependentUpon>FormCompass.cs</DependentUpon>
     </EmbeddedResource>
@@ -555,7 +565,19 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrowserLib\BrowserLib.csproj">
+      <Project>{8bb3e37d-09fb-40b9-958a-8cdcd18ef1f5}</Project>
+      <Name>BrowserLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DockPanelSuite\WinFormsUI\WinFormsUI.csproj">
+      <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
+      <Name>WinFormsUI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

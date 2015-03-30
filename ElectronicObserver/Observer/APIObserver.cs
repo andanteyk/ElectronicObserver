@@ -9,9 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Observer {
-	
+
 
 	public sealed class APIObserver {
 
@@ -30,7 +31,12 @@ namespace ElectronicObserver.Observer {
 		public APIDictionary APIList;
 
 		public string ServerAddress { get; private set; }
+		public int ProxyPort { get { return Fiddler.FiddlerApplication.oProxy.ListenPort; } }
 
+		public delegate void ProxyStartedEventHandler();
+		public event ProxyStartedEventHandler ProxyStarted = delegate { };
+
+		private Control UIControl;
 
 		private APIObserver() {
 
@@ -93,19 +99,27 @@ namespace ElectronicObserver.Observer {
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
-			
+
 		}
 
 
-
-
-		public int Start( int portID ) {
+		/// <summary>
+		/// 通信の受信を開始します。
+		/// </summary>
+		/// <param name="portID">受信に使用するポート番号。</param>
+		/// <param name="UIControl">GUI スレッドで実行するためのオブジェクト。中身は何でもいい</param>
+		/// <returns>実際に使用されるポート番号。</returns>
+		public int Start( int portID, Control UIControl ) {
+			this.UIControl = UIControl;
 
 			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
 				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
 
+			/*
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}",
 						Fiddler.FiddlerApplication.oProxy.ListenPort ), "<local>" );
+			*/
+			ProxyStarted();
 
 			Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
 
@@ -119,8 +133,11 @@ namespace ElectronicObserver.Observer {
 		}
 
 
+		/// <summary>
+		/// 通信の受信を停止します。
+		/// </summary>
 		public void Stop() {
-			
+
 			Fiddler.URLMonInterop.ResetProxyInProcessToDefault();
 			Fiddler.FiddlerApplication.Shutdown();
 
@@ -149,12 +166,20 @@ namespace ElectronicObserver.Observer {
 
 						if ( c.SaveResponse && oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 
-							SaveResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
+							// 非同期で書き出し処理するので取っておく
+							// stringはイミュータブルなのでOK
+							string url = oSession.fullUrl;
+							string body = oSession.GetResponseBodyAsString();
+
+							Task.Run( (Action)( () => {
+								SaveResponse( url, body );
+							} ) );
 
 						} else if ( oSession.fullUrl.Contains( "/kcs/" ) &&
 							( ( c.SaveSWF && oSession.oResponse.MIMEType == "application/x-shockwave-flash" ) || c.SaveOtherFile ) ) {
 
-							string tpath = string.Format( "{0}\\{1}", c.SaveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
+							string saveDataPath = c.SaveDataPath; // スレッド間の競合を避けるため取っておく
+							string tpath = string.Format( "{0}\\{1}", saveDataPath, oSession.fullUrl.Substring( oSession.fullUrl.IndexOf( "/kcs/" ) + 5 ).Replace( "/", "\\" ) );
 							{
 								int index = tpath.IndexOf( "?" );
 								if ( index != -1 ) {
@@ -167,26 +192,38 @@ namespace ElectronicObserver.Observer {
 											index += version.Length + 2;
 										}
 
-									} 
-									
+									}
+
 									tpath = tpath.Remove( index );
 								}
-							} 
-							Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
-
-							//System.Diagnostics.Debug.WriteLine( oSession.fullUrl + " => " + tpath );
-							using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
-								sw.Write( oSession.ResponseBody );
 							}
 
-							Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath.Remove( 0, c.SaveDataPath.Length + 1 ) ) );
+							// 非同期で書き出し処理するので取っておく
+							byte[] responseCopy = new byte[oSession.ResponseBody.Length];
+							Array.Copy( oSession.ResponseBody, responseCopy, oSession.ResponseBody.Length );
 
-						} 
+							Task.Run( (Action)( () => {
+								try {
+									lock ( this ) {
+										// 同時に書き込みが走るとアレなのでロックしておく
 
+										Directory.CreateDirectory( Path.GetDirectoryName( tpath ) );
 
-					} catch ( IOException ex ) {	//ファイルがロックされている; 頻繁に出るのでエラーレポートを残さない
+										//System.Diagnostics.Debug.WriteLine( oSession.fullUrl + " => " + tpath );
+										using ( var sw = new System.IO.BinaryWriter( System.IO.File.OpenWrite( tpath ) ) ) {
+											sw.Write( responseCopy );
+										}
+									}
 
-						Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
+									Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath.Remove( 0, saveDataPath.Length + 1 ) ) );
+
+								} catch ( IOException ex ) {	//ファイルがロックされている; 頻繁に出るのでエラーレポートを残さない
+
+									Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
+								}
+							} ) );
+
+						}
 
 					} catch ( Exception ex ) {
 
@@ -200,7 +237,11 @@ namespace ElectronicObserver.Observer {
 
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {
 
-				LoadResponse( oSession.fullUrl, oSession.GetResponseBodyAsString() );
+				// 非同期でGUIスレッドに渡すので取っておく
+				// stringはイミュータブルなのでOK
+				string url = oSession.fullUrl;
+				string body = oSession.GetResponseBodyAsString();
+				UIControl.BeginInvoke( (Action)( () => { LoadResponse( url, body ); } ) );
 
 			}
 
@@ -210,7 +251,7 @@ namespace ElectronicObserver.Observer {
 				string url = oSession.fullUrl;
 
 				int idxb = url.IndexOf( "/kcsapi/" );
-					
+
 				if ( idxb != -1 ) {
 					int idxa = url.LastIndexOf( "/", idxb - 1 );
 
@@ -226,7 +267,7 @@ namespace ElectronicObserver.Observer {
 
 			Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
 
-			
+
 			// 上流プロキシ設定
 			if ( c.UseUpstreamProxy ) {
 				oSession["X-OverrideGateway"] = string.Format( "localhost:{0}", c.UpstreamProxyPort );
@@ -234,18 +275,21 @@ namespace ElectronicObserver.Observer {
 
 
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) ) {
-				
+
+				string url = oSession.fullUrl;
+				string body = oSession.GetRequestBodyAsString();
+
 				//保存
-				{	
+				{
 					if ( c.SaveReceivedData && c.SaveRequest ) {
 
-						SaveRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
+						Task.Run( (Action)( () => {
+							SaveRequest( url, body );
+						} ) );
 					}
 				}
 
-
-				LoadRequest( oSession.fullUrl, oSession.GetRequestBodyAsString() );
-
+				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
 			}
 
 		}
@@ -257,11 +301,13 @@ namespace ElectronicObserver.Observer {
 			string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
 
 			try {
-				
+
 				Utility.Logger.Add( 1, "Request を受信しました : " + shortpath );
 
-			
-				var parsedData = new Dictionary<string,string>();
+				SystemEvents.UpdateTimerEnabled = false;
+
+
+				var parsedData = new Dictionary<string, string>();
 				data = HttpUtility.UrlDecode( data );
 
 				foreach ( string unit in data.Split( "&".ToCharArray() ) ) {
@@ -276,7 +322,11 @@ namespace ElectronicObserver.Observer {
 			} catch ( Exception ex ) {
 
 				ErrorReporter.SendErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
-			
+
+			} finally {
+
+				SystemEvents.UpdateTimerEnabled = true;
+
 			}
 
 		}
@@ -285,12 +335,14 @@ namespace ElectronicObserver.Observer {
 		public void LoadResponse( string path, string data ) {
 
 			string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
-				
+
 			try {
 
 				Utility.Logger.Add( 1, "Responseを受信しました : " + shortpath );
 
-			
+				SystemEvents.UpdateTimerEnabled = false;
+
+
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
 
 				if ( (int)json.api_result != 1 ) {
@@ -312,7 +364,11 @@ namespace ElectronicObserver.Observer {
 			} catch ( Exception ex ) {
 
 				ErrorReporter.SendErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
-			
+
+			} finally {
+
+				SystemEvents.UpdateTimerEnabled = true;
+
 			}
 
 		}
@@ -352,9 +408,9 @@ namespace ElectronicObserver.Observer {
 				Utility.ErrorReporter.SendErrorReport( ex, "Responseの保存に失敗しました。" );
 
 			}
-				
 
-			
+
+
 		}
 
 	}
