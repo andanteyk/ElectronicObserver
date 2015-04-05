@@ -236,6 +236,64 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		/// <summary>
+		/// 索敵能力を求めます。「2-5式(秋)簡易式」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		public static double GetSearchingAbility_TinyAutumn(FleetData fleet)
+		{
+
+			double ret = 0.0;
+
+			foreach (var ship in fleet.MembersWithoutEscaped)
+			{
+				if (ship == null) continue;
+
+				double cur = Math.Sqrt(ship.LOSBase);
+
+				foreach (var eq in ship.SlotInstanceMaster)
+				{
+					if (eq == null) continue;
+
+					switch (eq.CategoryType)
+					{
+
+						case 7:		//艦爆
+							cur += eq.LOS * 0.6; break;
+
+						case 8:		//艦攻
+							cur += eq.LOS * 0.8; break;
+
+						case 9:		//艦偵
+							cur += eq.LOS * 1.0; break;
+
+						case 10:	//水偵
+							cur += eq.LOS * 1.2; break;
+
+						case 11:	//水爆
+							cur += eq.LOS * 1.0; break;
+
+						case 12:	//小型電探
+							cur += eq.LOS * 0.6; break;
+
+						case 13:	//大型電探
+							cur += eq.LOS * 0.6; break;
+
+						case 29:	//探照灯
+							cur += eq.LOS * 0.5; break;
+
+					}
+				}
+
+				ret += Math.Floor( cur );
+			}
+
+			ret -= Math.Floor( KCDatabase.Instance.Admiral.Level * 0.4 );
+
+			return Math.Round(ret, 1);
+		}
+
+
 
 
 		/// <summary>
