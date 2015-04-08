@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dpi.cs" />
     <Compile Include="FormBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +81,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenHelper.cs" />
     <Compile Include="VolumeManager.cs" />
     <EmbeddedResource Include="FormBrowser.resx">
       <DependentUpon>FormBrowser.cs</DependentUpon>
