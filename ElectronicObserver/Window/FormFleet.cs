@@ -117,7 +117,7 @@ namespace ElectronicObserver.Window {
 
 				if ( fleet == null ) return;
 
-				
+
 
 				Name.Text = fleet.Name;
 				{
@@ -177,7 +177,7 @@ namespace ElectronicObserver.Window {
 
 
 		private class TableMemberControl {
-			public Label Name;
+			public ImageLabel Name;
 			public ShipStatusLevel Level;
 			public ShipStatusHP HP;
 			public ImageLabel Condition;
@@ -192,17 +192,18 @@ namespace ElectronicObserver.Window {
 
 				#region Initialize
 
-				Name = new Label();
+				Name = new ImageLabel();
 				Name.SuspendLayout();
 				Name.Text = "*nothing*";
 				Name.Anchor = AnchorStyles.Left;
 				Name.TextAlign = ContentAlignment.MiddleLeft;
+				Name.ImageAlign = ContentAlignment.MiddleCenter;
 				Name.Font = parent.MainFont;
 				Name.ForeColor = parent.MainFontColor;
 				Name.Padding = new Padding( 0, 1, 0, 1 );
 				Name.Margin = new Padding( 2, 0, 2, 0 );
 				Name.AutoSize = true;
-				Name.AutoEllipsis = true;
+				//Name.AutoEllipsis = true;
 				Name.Visible = false;
 				Name.Cursor = Cursors.Help;
 				Name.MouseDown += Name_MouseDown;
@@ -210,7 +211,7 @@ namespace ElectronicObserver.Window {
 
 				Level = new ShipStatusLevel();
 				Level.SuspendLayout();
-				Level.Anchor = AnchorStyles.Left;
+				Level.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
 				Level.Value = 0;
 				Level.MaximumValue = 150;
 				Level.ValueNext = 0;
@@ -220,7 +221,7 @@ namespace ElectronicObserver.Window {
 				Level.SubFontColor = parent.SubFontColor;
 				//Level.TextNext = "n.";
 				Level.Padding = new Padding( 0, 0, 0, 0 );
-				Level.Margin = new Padding( 2, 0, 2, 0 );
+				Level.Margin = new Padding( 2, 0, 2, 1 );
 				Level.AutoSize = true;
 				Level.Visible = false;
 				Name.ResumeLayout();
@@ -267,7 +268,7 @@ namespace ElectronicObserver.Window {
 				ShipResource.Anchor = AnchorStyles.Left;
 				ShipResource.Padding = new Padding( 0, 2, 0, 1 );
 				ShipResource.Margin = new Padding( 2, 0, 2, 0 );
-				ShipResource.Size = new Size( 40, 20 );
+				ShipResource.Size = new Size( 30, 20 );
 				ShipResource.AutoSize = false;
 				ShipResource.Visible = false;
 				ShipResource.ResumeLayout();
@@ -350,12 +351,23 @@ namespace ElectronicObserver.Window {
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
 
-					if ( ship.MasterShip.RemodelAfterShipID != 0 && ship.Level < ship.MasterShip.RemodelAfterLevel ) {
-						ToolTipInfo.SetToolTip( Level, string.Format( "改装まで: {0}", ship.ExpNextRemodel ) );
-					} else if ( ship.Level <= 99 ) {
-						ToolTipInfo.SetToolTip( Level, string.Format( "Lv99まで: {0}", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) ) );
-					} else {
-						ToolTipInfo.SetToolTip( Level, string.Format( "Lv150まで: {0}", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) ) );
+					{
+						StringBuilder tip = new StringBuilder();
+						if ( !Utility.Configuration.Config.FormFleet.ShowNextExp )
+							tip.AppendFormat( "次のレベルまで: {0}\n", ship.ExpNext );
+						
+						if ( ship.MasterShip.RemodelAfterShipID != 0 && ship.Level < ship.MasterShip.RemodelAfterLevel ) {
+							tip.AppendFormat( "改装まで: {0}", ship.ExpNextRemodel );
+							
+						} else if ( ship.Level <= 99 ) {
+							tip.AppendFormat( "Lv99まで: {0}", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
+						
+						} else {
+							tip.AppendFormat( "Lv150まで: {0}", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) );
+							
+						}
+
+						ToolTipInfo.SetToolTip( Level, tip.ToString() );
 					}
 
 
@@ -503,8 +515,8 @@ namespace ElectronicObserver.Window {
 			FleetID = fleetID;
 			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 
-
 			ConfigurationChanged();
+
 			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
 			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
 
@@ -529,6 +541,8 @@ namespace ElectronicObserver.Window {
 			}
 			TableMember.ResumeLayout();
 
+
+			ConfigurationChanged();		//fixme: 苦渋の決断
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
 
@@ -727,21 +741,24 @@ namespace ElectronicObserver.Window {
 			if ( ControlMember != null ) {
 				bool showAircraft = c.FormFleet.ShowAircraft;
 				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
-				Size shipNameSize = fixShipNameWidth ? new Size( 60, 20 ) : Size.Empty;
+				bool shortHPBar = c.FormFleet.ShortenHPBar;
+				bool showNext = c.FormFleet.ShowNextExp;
 
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
 					ControlMember[i].Equipments.ShowAircraft = showAircraft;
-					ControlMember[i].Name.MaximumSize = shipNameSize;
-					ControlMember[i].Name.AutoEllipsis = fixShipNameWidth;
-
-					if ( !fixShipNameWidth ) {		//オートサイズし直す
+					if ( fixShipNameWidth ) {
 						ControlMember[i].Name.AutoSize = false;
+						ControlMember[i].Name.Size = new Size( 40, 20 );
+					} else {
 						ControlMember[i].Name.AutoSize = true;
 					}
+
+					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
+					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
 				}
 			}
+			TableMember.PerformLayout();		//fixme:サイズ変更に親パネルが追随しない
 
-			
 		}
 
 
@@ -765,9 +782,6 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Fleet #" + FleetID.ToString();
 		}
-
-		
-		
 
 
 

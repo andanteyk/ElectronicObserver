@@ -52,11 +52,11 @@ namespace ElectronicObserver.Window.Control {
 
 
 		private SlotItem[] SlotList;
-		
+
 
 		[Browsable( true )]
 		[DefaultValue( typeof( Font ), "Meiryo UI, 10px" )]
-		public override Font Font {	
+		public override Font Font {
 			get { return base.Font; }
 			set {
 				base.Font = value;
@@ -175,7 +175,7 @@ namespace ElectronicObserver.Window.Control {
 
 
 			base.Font = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
-			
+
 			_aircraftColorDisabled = Color.FromArgb( 0xAA, 0xAA, 0xAA );
 			_aircraftColorLost = Color.FromArgb( 0xFF, 0x00, 0xFF );
 			_aircraftColorDamaged = Color.FromArgb( 0xFF, 0x00, 0x00 );
@@ -198,8 +198,10 @@ namespace ElectronicObserver.Window.Control {
 		/// <param name="ship">当該艦船。</param>
 		public void SetSlotList( ShipData ship ) {
 
-			if ( SlotList.Length != ship.Slot.Count ) {
-				SlotList = new SlotItem[ship.Slot.Count];
+			int slotCount = Math.Max( ship.MasterShip.SlotSize, 4 );
+
+			if ( SlotList.Length != slotCount ) {
+				SlotList = new SlotItem[slotCount];
 				for ( int i = 0; i < SlotList.Length; i++ ) {
 					SlotList[i] = new SlotItem();
 				}
@@ -273,7 +275,7 @@ namespace ElectronicObserver.Window.Control {
 
 			if ( AutoSize )
 				Size = GetPreferredSize( Size );
-			
+
 			Refresh();
 		}
 
@@ -292,16 +294,18 @@ namespace ElectronicObserver.Window.Control {
 				textformat |= TextFormatFlags.Top | TextFormatFlags.Left;
 			}
 
+			// 艦載機スロット表示の予測サイズ(2桁)
 			Size sz_eststr = TextRenderer.MeasureText( "99", Font, new Size( int.MaxValue, int.MaxValue ), textformat );
 			sz_eststr.Width -= (int)( Font.Size / 2.0 );
-			
+
+			// スロット1つ当たりのサイズ(右の余白含む)
 			Size sz_unit = new Size( eqimages.ImageSize.Width + SlotMargin, eqimages.ImageSize.Height );
 			if ( ShowAircraft ) {
 				if ( !OverlayAircraft )
 					sz_unit.Width += sz_eststr.Width;
 				sz_unit.Height = Math.Max( sz_unit.Height, sz_eststr.Height );
 			}
-			
+
 
 			for ( int slotindex = 0; slotindex < SlotList.Length; slotindex++ ) {
 
@@ -350,7 +354,7 @@ namespace ElectronicObserver.Window.Control {
 
 				if ( slot.EquipmentID != -1 ) {
 
-					switch ( slot.Equipment.EquipmentType[2] ) {
+					switch ( slot.Equipment.CategoryType ) {
 						case 6:		//艦戦
 						case 7:		//艦爆
 						case 8:		//艦攻
@@ -377,9 +381,6 @@ namespace ElectronicObserver.Window.Control {
 							break;
 					}
 
-				} else if ( slotindex >= SlotSize && slot.AircraftMax == 0 ) {
-					drawAircraftSlot = false;
-
 				} else if ( slot.AircraftMax == 0 ) {
 					drawAircraftSlot = false;
 				}
@@ -392,14 +393,37 @@ namespace ElectronicObserver.Window.Control {
 						using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0x80, 0xFF, 0xFF, 0xFF ) ) ) {
 							e.Graphics.FillRectangle( b, new Rectangle( textarea.X, textarea.Y, sz_eststr.Width, sz_eststr.Height ) );
 						}
+
+					} else {
+
+						if ( slot.AircraftCurrent < 10 ) {
+							//1桁なら画像に近づける
+
+							textarea.Width -= sz_eststr.Width / 2;
+
+						} else if ( slot.AircraftCurrent >= 100 ) {
+							//3桁以上ならオーバーレイを入れる
+
+							Size sz_realstr = TextRenderer.MeasureText( slot.AircraftCurrent.ToString(), Font, new Size( int.MaxValue, int.MaxValue ), textformat );
+							sz_realstr.Width -= (int)( Font.Size / 2.0 );
+
+							using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0x80, 0xFF, 0xFF, 0xFF ) ) ) {
+								e.Graphics.FillRectangle( b, new Rectangle(
+									textarea.X + sz_unit.Width - sz_realstr.Width,
+									textarea.Y + sz_unit.Height - sz_realstr.Height,
+									sz_realstr.Width, sz_realstr.Height ) );
+							}
+
+						}
+
 					}
-					
+
 
 					TextRenderer.DrawText( e.Graphics, slot.AircraftCurrent.ToString(), Font, textarea, aircraftColor, textformat );
 				}
 
 			}
-		
+
 		}
 
 
@@ -426,7 +450,7 @@ namespace ElectronicObserver.Window.Control {
 					sz_unit.Width += sz_eststr.Width;
 				sz_unit.Height = Math.Max( sz_unit.Height, sz_eststr.Height );
 			}
-			
+
 
 			return new Size( Padding.Horizontal + sz_unit.Width * SlotList.Length, Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
 

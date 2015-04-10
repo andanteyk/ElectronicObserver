@@ -357,11 +357,23 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool FixShipNameWidth { get; set; }
 
+				/// <summary>
+				/// HPバーを短縮するか
+				/// </summary>
+				public bool ShortenHPBar { get; set; }
+
+				/// <summary>
+				/// next lv. を表示するか
+				/// </summary>
+				public bool ShowNextExp { get; set; }
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 0;
 					IsScrollable = true;
 					FixShipNameWidth = false;
+					ShortenHPBar = false;
+					ShowNextExp = true;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>

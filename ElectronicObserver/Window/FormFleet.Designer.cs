@@ -81,7 +81,7 @@
             this.ContextMenuFleet_IsScrollable,
             this.ContextMenuFleet_FixShipNameWidth});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 120);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(227, 98);
 			this.ContextMenuFleet.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuFleet_Opening);
 			// 
 			// ContextMenuFleet_CopyFleet
