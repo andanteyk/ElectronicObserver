@@ -83,6 +83,8 @@ namespace ElectronicObserver.Data {
 			get {
 				if ( RawData.api_itemget() ) {
 					return (int)RawData.api_itemget.api_usemst;
+				} else if ( RawData.api_itemget_eo_comment() ) {
+					return (int)RawData.api_itemget_eo_comment.api_usemst;
 				} else { 
 					return -1;
 				}
@@ -97,6 +99,8 @@ namespace ElectronicObserver.Data {
 			get {
 				if ( RawData.api_itemget() ) {
 					return (int)RawData.api_itemget.api_id;
+				} else if ( RawData.api_itemget_eo_comment() ) {
+					return (int)RawData.api_itemget_eo_comment.api_id;
 				} else {
 					return 0;
 				}
@@ -110,6 +114,8 @@ namespace ElectronicObserver.Data {
 			get {
 				if ( RawData.api_itemget() ) {
 					return (int)RawData.api_itemget.api_getcount;
+				} else if ( RawData.api_itemget_eo_comment() ) {
+					return (int)RawData.api_itemget_eo_comment.api_getcount;
 				} else {
 					return 0;
 				}

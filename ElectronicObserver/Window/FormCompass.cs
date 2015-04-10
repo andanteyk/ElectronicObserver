@@ -22,7 +22,7 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormCompass : DockContent {
 
-		
+
 		private class TableEnemyMemberControl {
 
 			public ImageLabel ShipName;
@@ -63,7 +63,7 @@ namespace ElectronicObserver.Window {
 
 			}
 
-		
+
 			public TableEnemyMemberControl( FormCompass parent, TableLayoutPanel table, int row )
 				: this( parent ) {
 
@@ -133,7 +133,7 @@ namespace ElectronicObserver.Window {
 
 
 			public void UpdateEquipmentToolTip( int shipID, int[] slot, int level, int firepower, int torpedo, int aa, int armor ) {
-				
+
 				ToolTipInfo.SetToolTip( ShipName, GetShipString( shipID, slot, level, firepower, torpedo, aa, armor ) );
 			}
 
@@ -158,7 +158,7 @@ namespace ElectronicObserver.Window {
 					ship.ASW != null && ship.ASW.IsAvailable ? ship.ASW.GetParameter( level ) : -1,
 					ship.Evasion != null && ship.Evasion.IsAvailable ? ship.Evasion.GetParameter( level ) : -1,
 					ship.LOS != null && ship.LOS.IsAvailable ? ship.LOS.GetParameter( level ) : -1,
-					level > 99 ? Math.Min( ship.LuckMin + 3, ship.LuckMax ) : ship.LuckMin ); 
+					level > 99 ? Math.Min( ship.LuckMin + 3, ship.LuckMax ) : ship.LuckMin );
 			}
 
 			private string GetShipString( int shipID, int[] slot, int level, int hp, int firepower, int torpedo, int aa, int armor, int asw, int evasion, int los, int luck ) {
@@ -258,7 +258,7 @@ namespace ElectronicObserver.Window {
 		private TableEnemyMemberControl[] ControlMember;
 
 
-		
+
 		public FormCompass( FormMain parent ) {
 			InitializeComponent();
 
@@ -280,7 +280,7 @@ namespace ElectronicObserver.Window {
 				ControlMember[i] = new TableEnemyMemberControl( this, TableEnemyMember, i );
 			}
 			TableEnemyMember.ResumeLayout();
-			
+
 
 			//BasePanel.SetFlowBreak( TextMapArea, true );
 			BasePanel.SetFlowBreak( TextDestination, true );
@@ -315,6 +315,7 @@ namespace ElectronicObserver.Window {
 
 			o.APIList["api_req_sortie/battle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_sortie/airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
@@ -325,7 +326,7 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
-		
+
 		private void Updated( string apiname, dynamic data ) {
 
 			Color colorNormal = SystemColors.ControlText;
@@ -356,24 +357,25 @@ namespace ElectronicObserver.Window {
 				TextMapArea.Text = "出撃海域 : " + compass.MapAreaID + "-" + compass.MapInfoID;
 				TextDestination.Text = "次のセル : " + compass.Destination + ( compass.IsEndPoint ? " (終点)" : "" );
 				TextEventKind.ForeColor = colorNormal;
-				
+
 				{
 					string eventkind = Constants.GetMapEventID( compass.EventID );
 
 					switch ( compass.EventID ) {
-						
+
 						case 0:		//初期位置
 						case 1:		//不明
 							TextEventDetail.Text = "どうしてこうなった";
 							break;
 
 						case 2:		//資源
+						case 8:		//船団護衛成功
 							{
 								string materialname;
 								if ( compass.GetItemID == 4 ) {		//"※"　大方資源専用ID
 
 									materialname = Constants.GetMaterialName( compass.GetItemIDMetadata );
-								
+
 								} else {
 									UseItemMaster item =  KCDatabase.Instance.MasterUseItems[compass.GetItemIDMetadata];
 									if ( item != null )
@@ -404,9 +406,9 @@ namespace ElectronicObserver.Window {
 										}
 									} );
 
-								TextEventDetail.Text = string.Format( "{0} x {1} ({2:p0})", 
-									Constants.GetMaterialName( compass.WhirlpoolItemID ), 
-									compass.WhirlpoolItemAmount, 
+								TextEventDetail.Text = string.Format( "{0} x {1} ({2:p0})",
+									Constants.GetMaterialName( compass.WhirlpoolItemID ),
+									compass.WhirlpoolItemAmount,
 									(double)compass.WhirlpoolItemAmount / Math.Max( materialmax, 1 ) );
 
 							}
@@ -414,7 +416,7 @@ namespace ElectronicObserver.Window {
 
 						case 4:		//通常戦闘
 						case 5:		//ボス戦闘
-							if ( compass.EventKind >= 2 ) { 
+							if ( compass.EventKind >= 2 ) {
 								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 
 								if ( compass.EventKind == 2 || compass.EventKind == 3 ) {
@@ -428,11 +430,12 @@ namespace ElectronicObserver.Window {
 							TextEventDetail.Text = "";
 							break;
 
-						case 7:		//機動部隊航空戦
+						case 7:		//航空戦(連合艦隊)
 							if ( compass.EventKind >= 2 && compass.EventKind != 4 )		//必ず"航空戦"のはずなので除外
 								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
+
 
 						default:
 							eventkind += "不明";
@@ -465,7 +468,7 @@ namespace ElectronicObserver.Window {
 
 
 			var efleet = RecordManager.Instance.EnemyFleet;
-			
+
 			if ( !efleet.Record.ContainsKey( fleetID ) ) {
 
 				//unknown

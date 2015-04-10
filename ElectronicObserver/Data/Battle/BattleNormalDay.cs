@@ -8,7 +8,7 @@ namespace ElectronicObserver.Data.Battle {
 
 	public class BattleNormalDay : BattleData {
 
-		
+
 		public override int[] EmulateBattle() {
 
 			int[] hp = new int[12];

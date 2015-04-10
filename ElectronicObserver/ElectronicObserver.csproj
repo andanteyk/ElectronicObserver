@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Data\AdmiralData.cs" />
     <Compile Include="Data\ArsenalData.cs" />
+    <Compile Include="Data\Battle\BattleAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedNightOnly.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalDay.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
+    <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Utility\PathHelper.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />

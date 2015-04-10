@@ -84,6 +84,12 @@ namespace ElectronicObserver.Data.Battle {
 					BattleNight.LoadFromResponse( apiname, data );
 					break;
 
+				case "api_req_sortie/airbattle":
+					BattleMode = BattleModes.AirBattle;
+					BattleDay = new BattleAirBattle();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+
 				case "api_req_combined_battle/battle":
 					BattleMode = BattleModes.Normal | BattleModes.CombinedTaskForce;
 					BattleDay = new BattleCombinedNormalDay();

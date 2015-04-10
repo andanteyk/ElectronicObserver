@@ -94,6 +94,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_sortie/battleresult"].ResponseReceived += Updated;
 			o.APIList["api_req_battle_midnight/battle"].ResponseReceived += Updated;
 			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += Updated;
+			o.APIList["api_req_sortie/airbattle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/battle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += Updated;
@@ -160,6 +161,18 @@ namespace ElectronicObserver.Window {
 						SetNightBattleEvent( hp, false, bm.BattleNight );
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleNight );
+
+						BaseLayoutPanel.Visible = true;
+					} break;
+
+				case "api_req_sortie/airbattle": {
+						int[] hp = bm.BattleDay.EmulateBattle();
+
+						SetFormation( bm.BattleDay );
+						SetSearchingResult( bm.BattleDay );
+						SetAerialWarfareAirBattle( bm.BattleDay );
+						SetHPNormal( hp, bm.BattleDay );
+						SetDamageRateNormal( hp, bm.BattleDay );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -393,7 +406,8 @@ namespace ElectronicObserver.Window {
 
 
 		/// <summary>
-		/// 航空戦情報(連合艦隊航空戦)を設定します。
+		/// 航空戦情報(航空戦)を設定します。
+		/// 通常艦隊・連合艦隊両用です。
 		/// </summary>
 		private void SetAerialWarfareAirBattle( BattleData bd ) {
 
@@ -511,24 +525,43 @@ namespace ElectronicObserver.Window {
 
 
 				//対空カットイン
-				//undone: 二回目の対空カットインの処理(2015/03/03時点で航空戦と対空カットインは両立しないため)
-				if ( bd.Data.api_kouku.api_stage2.api_air_fire() ) {
-					int cutinID = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind;
-					int cutinIndex = (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx;
+				{
+					bool[] fire = new bool[] { bd.Data.api_kouku.api_stage2.api_air_fire(), isBattle2Enabled && bd.Data.api_kouku2.api_stage2.api_air_fire() };
+					int[] cutinID = new int[] {
+						fire[0] ? (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_kind : -1,
+						fire[1] ? (int)bd.Data.api_kouku2.api_stage2.api_air_fire.api_kind : -1,
+					};
+					int[] cutinIndex = new int[] {
+						fire[0] ? (int)bd.Data.api_kouku.api_stage2.api_air_fire.api_idx : -1,
+						fire[1] ? (int)bd.Data.api_kouku2.api_stage2.api_air_fire.api_idx : -1,
+					};
 
-					AACutin.Text = "#" + ( cutinIndex + 1 );
-					AACutin.ImageAlign = ContentAlignment.MiddleLeft;
-					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
-					ToolTipInfo.SetToolTip( AACutin, string.Format(
-						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})",
-						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel,
-						cutinID,
-						Constants.GetAACutinKind( cutinID ) ) );
-				} else {
-					AACutin.Text = "対空砲火";
-					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
-					AACutin.ImageIndex = -1;
-					ToolTipInfo.SetToolTip( AACutin, null );
+					if ( fire[0] || fire[1] ) {
+
+						AACutin.Text = string.Format( "#{0}/{1}", fire[0] ? ( cutinIndex[0] + 1 ).ToString() : "-", fire[1] ? ( cutinIndex[1] + 1 ).ToString() : "-" );
+						AACutin.ImageAlign = ContentAlignment.MiddleLeft;
+						AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
+
+						StringBuilder sb = new StringBuilder();
+						for ( int i = 0; i < 2; i++ ) {
+							if ( fire[i] ) {
+								sb.AppendFormat( "{0}回目 - 対空カットイン: {1}\r\nカットイン種別: {2} ({3})",
+									i + 1,
+									KCDatabase.Instance.Fleet[cutinIndex[i] >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex[i] % 6].NameWithLevel,
+									cutinID[i],
+									Constants.GetAACutinKind( cutinID[i] ) );
+							} else {
+								sb.AppendFormat( "{0}回目 - 対空カットイン: (発動せず)\r\n" );
+							}
+						}
+						ToolTipInfo.SetToolTip( AACutin, sb.ToString() );
+
+					} else {
+						AACutin.Text = "対空砲火";
+						AACutin.ImageAlign = ContentAlignment.MiddleCenter;
+						AACutin.ImageIndex = -1;
+						ToolTipInfo.SetToolTip( AACutin, null );
+					}
 				}
 
 			} else {
@@ -941,13 +974,13 @@ namespace ElectronicObserver.Window {
 						id => KCDatabase.Instance.MasterEquipments.ContainsKey( id ) &&
 							KCDatabase.Instance.MasterEquipments[id].CategoryType == 29
 							) > 0 ) {
-						index = i - 1;
+						index = i;
 						break;
 					}
 				}
 
 				if ( index != -1 ) {
-					AirStage1Enemy.Text = "#" + ( index + 1 );
+					AirStage1Enemy.Text = "#" + ( index );
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
 					ToolTipInfo.SetToolTip( AirStage1Enemy, "探照灯照射: " + KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[index]].NameWithClass );

@@ -374,6 +374,9 @@ api_start2	：艦娘・装備固有データその他
 		api_return_flag	：遠征中止可否
 	
 	api_mst_const		：
+		api_parallel_quest_max	：
+			api_string_value	：
+			api_int_value		：「最大任務受領可能数」最大値？
 		api_boko_max_ships		：
 			api_string_value	：
 			api_int_value		：「最大保有艦娘数」最大値
@@ -1057,6 +1060,11 @@ api_req_map/next		：進撃
 		api_mst_id		：落とした資源の種類　2=弾薬
 		api_icon_id		：表示アイコンID？　2=弾薬
 		api_dentan		：電探による被害軽減フラグ(1=軽減)
+	api_get_eo_rate		：獲得戦果　次が船団護衛成功マスのときのみ存在(ゲージ破壊時追加で)
+	api_itemget_eo_result	：次が船団護衛成功マスのときのみ存在(ゲージ破壊時追加で)
+		api_usemst		：5
+		api_id			：60=プレゼント箱
+		api_getcount	：入手個数
 	api_itemget_eo_comment	：次が船団護衛成功マスのときのみ存在
 		api_usemst		：4=資源
 		api_id			：多分api_itemgetと同じ(3=鋼材)
@@ -1195,11 +1203,11 @@ api_req_battle_midnight/sp_midnight		：開幕夜戦
 	api_formation		：陣形　昼戦のそれと同じ　api_eParamとapi_touch_planeの間
 
 api_req_sortie/airbattle	：航空戦
-	(全メンバをapi_req_sortie/battleから継承)
+	(全メンバが api_req_sortie/battle を継承)
 	api_support_flag	：(存在せず)
 	api_support_info	：(存在せず)
-	api_stage_flag2		：第二回航空戦フラグ
-	api_kouku2			：第二回航空戦 api_koukuに準じる
+	api_stage_flag2		：第二次航空戦フラグ
+	api_kouku2			：第二次航空戦 api_koukuに準じる
 
 api_req_sortie/battleresult	：戦闘結果
 	api_ship_id				：敵艦船ID
