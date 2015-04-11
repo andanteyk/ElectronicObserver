@@ -376,7 +376,7 @@ api_start2	：艦娘・装備固有データその他
 	api_mst_const		：
 		api_parallel_quest_max	：
 			api_string_value	：
-			api_int_value		：「最大任務受領可能数」最大値？
+			api_int_value		：「最大受領可能任務数」最大値？
 		api_boko_max_ships		：
 			api_string_value	：
 			api_int_value		：「最大保有艦娘数」最大値
@@ -494,6 +494,7 @@ api_port/port		：母港情報
 	api_p_bgm_id			：母港BGMのID
 	api_event_object		：秋イベで追加
 		api_m_flag			：
+	api_parallel_quest_count	：最大受領可能任務数
 
 api_get_member/slot_item	：装備品情報
 	api_id					：装備固有ID

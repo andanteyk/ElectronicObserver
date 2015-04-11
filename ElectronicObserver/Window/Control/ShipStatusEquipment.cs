@@ -21,17 +21,15 @@ namespace ElectronicObserver.Window.Control {
 
 			public EquipmentDataMaster Equipment {
 				get {
-					if ( EquipmentID != -1 )
-						return KCDatabase.Instance.MasterEquipments[EquipmentID];
-					else
-						return null;
+					return KCDatabase.Instance.MasterEquipments[EquipmentID];
 				}
 			}
 
 			public int EquipmentIconID {
 				get {
-					if ( EquipmentID != -1 )
-						return KCDatabase.Instance.MasterEquipments[EquipmentID].EquipmentType[3];
+					var eq = KCDatabase.Instance.MasterEquipments[EquipmentID];
+					if ( eq != null )
+						return eq.IconType;
 					else
 						return -1;
 				}
@@ -52,6 +50,7 @@ namespace ElectronicObserver.Window.Control {
 
 
 		private SlotItem[] SlotList;
+		private int SlotSize { get; set; }
 
 
 		[Browsable( true )]
@@ -159,8 +158,6 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 
-		private int SlotSize { get; set; }
-
 		#endregion
 
 
@@ -172,6 +169,7 @@ namespace ElectronicObserver.Window.Control {
 			for ( int i = 0; i < SlotList.Length; i++ ) {
 				SlotList[i] = new SlotItem();
 			}
+			SlotSize = 0;
 
 
 			base.Font = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
@@ -187,7 +185,6 @@ namespace ElectronicObserver.Window.Control {
 			_overlayAircraft = false;
 
 			_slotMargin = 3;
-			SlotSize = 0;
 
 		}
 
@@ -208,12 +205,13 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 			for ( int i = 0; i < SlotList.Length; i++ ) {
-				SlotList[i].EquipmentID = ship.Slot[i] != -1 ? KCDatabase.Instance.Equipments[ship.Slot[i]].EquipmentID : -1;
+				var eq = ship.SlotInstance[i];
+				SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[i].AircraftCurrent = ship.Aircraft[i];
-				SlotList[i].AircraftMax = KCDatabase.Instance.MasterShips[ship.ShipID].Aircraft[i];
+				SlotList[i].AircraftMax = ship.MasterShip.Aircraft[i];
 			}
 
-			SlotSize = KCDatabase.Instance.MasterShips[ship.ShipID].SlotSize;
+			SlotSize = ship.MasterShip.SlotSize;
 
 			PropertyChanged();
 		}
@@ -399,7 +397,7 @@ namespace ElectronicObserver.Window.Control {
 						if ( slot.AircraftCurrent < 10 ) {
 							//1桁なら画像に近づける
 
-							textarea.Width -= sz_eststr.Width / 2;
+							textarea.Width -= sz_eststr.Width / 2 - 1;
 
 						} else if ( slot.AircraftCurrent >= 100 ) {
 							//3桁以上ならオーバーレイを入れる
