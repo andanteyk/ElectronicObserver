@@ -158,6 +158,11 @@ namespace ElectronicObserver.Window {
 
 				//索敵能力計算
 				SearchingAbility.Text = fleet.GetSearchingAbilityString();
+				ToolTipInfo.SetToolTip( SearchingAbility,
+					string.Format( "(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n",
+					fleet.GetSearchingAbilityString( 0 ),
+					fleet.GetSearchingAbilityString( 1 ),
+					fleet.GetSearchingAbilityString( 2 ) ) );
 
 			}
 
