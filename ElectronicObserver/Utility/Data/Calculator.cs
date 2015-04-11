@@ -102,7 +102,7 @@ namespace ElectronicObserver.Utility.Data {
 		public static int GetAirSuperiority( ShipData ship ) {
 
 			return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
-	
+
 		}
 
 		/// <summary>
@@ -222,7 +222,7 @@ namespace ElectronicObserver.Utility.Data {
 
 						case 13:	//大型電探
 							ret += eq.LOS * 0.9906638; break;
- 
+
 						case 29:	//探照灯
 							ret += eq.LOS * 0.9067950; break;
 
@@ -231,6 +231,62 @@ namespace ElectronicObserver.Utility.Data {
 			}
 
 			ret -= Math.Ceiling( KCDatabase.Instance.Admiral.Level / 5.0 ) * 5.0 * 0.6142467;
+
+			return Math.Round( ret, 1 );
+		}
+
+
+		/// <summary>
+		/// 索敵能力を求めます。「2-5式(秋)簡易式」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		public static double GetSearchingAbility_TinyAutumn( FleetData fleet ) {
+
+			double ret = 0.0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null ) continue;
+
+				double cur = Math.Sqrt( ship.LOSBase );
+
+				foreach ( var eq in ship.SlotInstanceMaster ) {
+					if ( eq == null ) continue;
+
+					switch ( eq.CategoryType ) {
+
+						case 7:		//艦爆
+							cur += eq.LOS * 0.6; break;
+
+						case 8:		//艦攻
+							cur += eq.LOS * 0.8; break;
+
+						case 9:		//艦偵
+							cur += eq.LOS * 1.0; break;
+
+						case 10:	//水偵
+							cur += eq.LOS * 1.2; break;
+
+						case 11:	//水爆
+							cur += eq.LOS * 1.0; break;
+
+						case 12:	//小型電探
+							cur += eq.LOS * 0.6; break;
+
+						case 13:	//大型電探
+							cur += eq.LOS * 0.6; break;
+
+						case 29:	//探照灯
+							cur += eq.LOS * 0.5; break;
+
+						default:	//その他
+							cur += eq.LOS * 0.5; break;
+					}
+				}
+
+				ret += Math.Floor( cur );
+			}
+
+			ret -= Math.Floor( KCDatabase.Instance.Admiral.Level * 0.4 );
 
 			return Math.Round( ret, 1 );
 		}
@@ -404,7 +460,7 @@ namespace ElectronicObserver.Utility.Data {
 				else if ( slot.Length > 0 ) {
 					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[0]];
 					if ( eq != null && eq.EquipmentType[2] == 5 ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
-							return 9;		//雷撃
+						return 9;		//雷撃
 					}
 				}
 

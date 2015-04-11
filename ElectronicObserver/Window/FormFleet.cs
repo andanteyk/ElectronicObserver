@@ -158,6 +158,11 @@ namespace ElectronicObserver.Window {
 
 				//索敵能力計算
 				SearchingAbility.Text = fleet.GetSearchingAbilityString();
+				ToolTipInfo.SetToolTip( SearchingAbility,
+					string.Format( "(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n",
+					fleet.GetSearchingAbilityString( 0 ),
+					fleet.GetSearchingAbilityString( 1 ),
+					fleet.GetSearchingAbilityString( 2 ) ) );
 
 			}
 
@@ -355,16 +360,16 @@ namespace ElectronicObserver.Window {
 						StringBuilder tip = new StringBuilder();
 						if ( !Utility.Configuration.Config.FormFleet.ShowNextExp )
 							tip.AppendFormat( "次のレベルまで: {0}\n", ship.ExpNext );
-						
+
 						if ( ship.MasterShip.RemodelAfterShipID != 0 && ship.Level < ship.MasterShip.RemodelAfterLevel ) {
 							tip.AppendFormat( "改装まで: {0}", ship.ExpNextRemodel );
-							
+
 						} else if ( ship.Level <= 99 ) {
 							tip.AppendFormat( "Lv99まで: {0}", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
-						
+
 						} else {
 							tip.AppendFormat( "Lv150まで: {0}", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) );
-							
+
 						}
 
 						ToolTipInfo.SetToolTip( Level, tip.ToString() );

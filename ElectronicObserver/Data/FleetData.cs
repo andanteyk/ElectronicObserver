@@ -219,7 +219,7 @@ namespace ElectronicObserver.Data {
 									}
 								}
 
-								
+
 							}
 
 
@@ -236,7 +236,7 @@ namespace ElectronicObserver.Data {
 											_members[i] = replacedID;
 										else
 											RemoveShip( i );
-										
+
 										break;
 									}
 								}
@@ -404,6 +404,9 @@ namespace ElectronicObserver.Data {
 
 				case 1:
 					return Calculator.GetSearchingAbility_Autumn( this );
+
+				case 2:
+					return Calculator.GetSearchingAbility_TinyAutumn( this );
 			}
 		}
 
@@ -411,13 +414,24 @@ namespace ElectronicObserver.Data {
 		/// 現在の設定に応じて、索敵能力を表す文字列を取得します。
 		/// </summary>
 		public string GetSearchingAbilityString() {
-			switch ( Utility.Configuration.Config.FormFleet.SearchingAbilityMethod ) {
+			return this.GetSearchingAbilityString( Utility.Configuration.Config.FormFleet.SearchingAbilityMethod );
+		}
+
+		/// <summary>
+		/// 指定の計算式で、索敵能力を表す文字列を取得します。
+		/// </summary>
+		/// <param name="index">計算式。0-2</param>
+		public string GetSearchingAbilityString( int index ) {
+			switch ( index ) {
 				default:
 				case 0:
 					return Calculator.GetSearchingAbility_Old( this ).ToString();
 
 				case 1:
 					return Calculator.GetSearchingAbility_Autumn( this ).ToString( "F1" );
+
+				case 2:
+					return Calculator.GetSearchingAbility_TinyAutumn( this ).ToString();
 			}
 		}
 
