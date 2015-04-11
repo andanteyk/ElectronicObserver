@@ -102,7 +102,7 @@ namespace ElectronicObserver.Utility.Data {
 		public static int GetAirSuperiority( ShipData ship ) {
 
 			return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
-	
+
 		}
 
 		/// <summary>
@@ -222,7 +222,7 @@ namespace ElectronicObserver.Utility.Data {
 
 						case 13:	//大型電探
 							ret += eq.LOS * 0.9906638; break;
- 
+
 						case 29:	//探照灯
 							ret += eq.LOS * 0.9067950; break;
 
@@ -240,23 +240,19 @@ namespace ElectronicObserver.Utility.Data {
 		/// 索敵能力を求めます。「2-5式(秋)簡易式」です。
 		/// </summary>
 		/// <param name="fleet">対象の艦隊。</param>
-		public static double GetSearchingAbility_TinyAutumn(FleetData fleet)
-		{
+		public static double GetSearchingAbility_TinyAutumn( FleetData fleet ) {
 
 			double ret = 0.0;
 
-			foreach (var ship in fleet.MembersWithoutEscaped)
-			{
-				if (ship == null) continue;
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null ) continue;
 
-				double cur = Math.Sqrt(ship.LOSBase);
+				double cur = Math.Sqrt( ship.LOSBase );
 
-				foreach (var eq in ship.SlotInstanceMaster)
-				{
-					if (eq == null) continue;
+				foreach ( var eq in ship.SlotInstanceMaster ) {
+					if ( eq == null ) continue;
 
-					switch (eq.CategoryType)
-					{
+					switch ( eq.CategoryType ) {
 
 						case 7:		//艦爆
 							cur += eq.LOS * 0.6; break;
@@ -282,6 +278,8 @@ namespace ElectronicObserver.Utility.Data {
 						case 29:	//探照灯
 							cur += eq.LOS * 0.5; break;
 
+						default:	//その他
+							cur += eq.LOS * 0.5; break;
 					}
 				}
 
@@ -290,7 +288,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			ret -= Math.Floor( KCDatabase.Instance.Admiral.Level * 0.4 );
 
-			return Math.Round(ret, 1);
+			return Math.Round( ret, 1 );
 		}
 
 
@@ -462,7 +460,7 @@ namespace ElectronicObserver.Utility.Data {
 				else if ( slot.Length > 0 ) {
 					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[0]];
 					if ( eq != null && eq.EquipmentType[2] == 5 ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
-							return 9;		//雷撃
+						return 9;		//雷撃
 					}
 				}
 

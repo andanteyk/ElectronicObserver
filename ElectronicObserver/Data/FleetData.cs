@@ -219,7 +219,7 @@ namespace ElectronicObserver.Data {
 									}
 								}
 
-								
+
 							}
 
 
@@ -236,7 +236,7 @@ namespace ElectronicObserver.Data {
 											_members[i] = replacedID;
 										else
 											RemoveShip( i );
-										
+
 										break;
 									}
 								}
@@ -422,8 +422,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		/// <param name="index">計算式。0-2</param>
 		public string GetSearchingAbilityString( int index ) {
-			switch ( index )
-			{
+			switch ( index ) {
 				default:
 				case 0:
 					return Calculator.GetSearchingAbility_Old( this ).ToString();
