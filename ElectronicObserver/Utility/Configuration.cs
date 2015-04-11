@@ -347,10 +347,33 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int SearchingAbilityMethod { get; set; }
 
+				/// <summary>
+				/// スクロール可能か
+				/// </summary>
+				public bool IsScrollable { get; set; }
+
+				/// <summary>
+				/// 艦名表示の幅を固定するか
+				/// </summary>
+				public bool FixShipNameWidth { get; set; }
+
+				/// <summary>
+				/// HPバーを短縮するか
+				/// </summary>
+				public bool ShortenHPBar { get; set; }
+
+				/// <summary>
+				/// next lv. を表示するか
+				/// </summary>
+				public bool ShowNextExp { get; set; }
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 0;
+					IsScrollable = true;
+					FixShipNameWidth = false;
+					ShortenHPBar = false;
+					ShowNextExp = true;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>

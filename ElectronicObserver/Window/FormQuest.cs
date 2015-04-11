@@ -225,7 +225,8 @@ namespace ElectronicObserver.Window {
 					e.FormattingApplied = true;
 
 				} else if ( e.ColumnIndex == QuestView_Name.Index ) {
-					e.Value = KCDatabase.Instance.Quest[(int)e.Value].Name;
+					var quest = KCDatabase.Instance.Quest[(int)e.Value];
+					e.Value = quest != null ? quest.Name : "???";
 					e.FormattingApplied = true;
 
 				}

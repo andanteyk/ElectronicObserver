@@ -14,7 +14,7 @@ namespace ElectronicObserver.Window.Control {
 
 		private const TextFormatFlags TextFormatValue = TextFormatFlags.NoPadding | TextFormatFlags.Bottom | TextFormatFlags.Right;
 		private const TextFormatFlags TextFormatText = TextFormatFlags.NoPadding | TextFormatFlags.Bottom | TextFormatFlags.Left;
-		
+
 
 
 		#region Property
@@ -113,7 +113,7 @@ namespace ElectronicObserver.Window.Control {
 		[DefaultValue( "Lv." )]
 		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
 		[EditorBrowsable( EditorBrowsableState.Always )]
-		[Bindable( BindableSupport.Default ) ]
+		[Bindable( BindableSupport.Default )]
 		public override string Text {
 			get { return _text; }
 			set {
@@ -192,7 +192,7 @@ namespace ElectronicObserver.Window.Control {
 				sz_valuenext.Height = 0;
 			}
 			//*/
-			
+
 			//alignment.bottom 
 
 			Point p = new Point( basearea.X, basearea.Bottom - sz_text.Height );
@@ -218,10 +218,6 @@ namespace ElectronicObserver.Window.Control {
 				//e.Graphics.DrawRectangle( Pens.Orange, new Rectangle( p, sz_valuenext ) );
 			}
 
-			
-			
-			
-			
 		}
 
 
@@ -252,9 +248,9 @@ namespace ElectronicObserver.Window.Control {
 
 
 
-			return new Size( sz_value.Width + sz_text.Width + InnerHorizontalMargin + Math.Max( sz_textnext.Width, sz_valuenext.Width ) + Padding.Horizontal,
+			return new Size( sz_value.Width + sz_text.Width + ( TextNext == null ? 0 : InnerHorizontalMargin ) + Math.Max( sz_textnext.Width, sz_valuenext.Width ) + Padding.Horizontal,
 				Math.Max( sz_value.Height, sz_textnext.Height + sz_valuenext.Height - (int)( SubFont.Size / 2.0 ) ) + Padding.Vertical - 1 );
-			
+
 		}
 
 

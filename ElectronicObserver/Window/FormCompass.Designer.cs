@@ -25,10 +25,6 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			this.BasePanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.TextMapArea = new System.Windows.Forms.Label();
-			this.TextDestination = new System.Windows.Forms.Label();
-			this.TextEventKind = new System.Windows.Forms.Label();
-			this.TextEventDetail = new System.Windows.Forms.Label();
 			this.PanelEnemyFleet = new System.Windows.Forms.Panel();
 			this.TableEnemyMember = new System.Windows.Forms.TableLayoutPanel();
 			this.TableEnemyFleet = new System.Windows.Forms.TableLayoutPanel();
@@ -36,6 +32,10 @@
 			this.TextFormation = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextAirSuperiority = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.TextMapArea = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TextDestination = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TextEventKind = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TextEventDetail = new ElectronicObserver.Window.Control.ImageLabel();
 			this.BasePanel.SuspendLayout();
 			this.PanelEnemyFleet.SuspendLayout();
 			this.TableEnemyFleet.SuspendLayout();
@@ -56,53 +56,13 @@
 			this.BasePanel.Size = new System.Drawing.Size(300, 200);
 			this.BasePanel.TabIndex = 0;
 			// 
-			// TextMapArea
-			// 
-			this.TextMapArea.AutoSize = true;
-			this.TextMapArea.Location = new System.Drawing.Point(3, 3);
-			this.TextMapArea.Margin = new System.Windows.Forms.Padding(3);
-			this.TextMapArea.Name = "TextMapArea";
-			this.TextMapArea.Size = new System.Drawing.Size(41, 15);
-			this.TextMapArea.TabIndex = 0;
-			this.TextMapArea.Text = "(海域)";
-			// 
-			// TextDestination
-			// 
-			this.TextDestination.AutoSize = true;
-			this.TextDestination.Location = new System.Drawing.Point(50, 3);
-			this.TextDestination.Margin = new System.Windows.Forms.Padding(3);
-			this.TextDestination.Name = "TextDestination";
-			this.TextDestination.Size = new System.Drawing.Size(41, 15);
-			this.TextDestination.TabIndex = 1;
-			this.TextDestination.Text = "(行先)";
-			// 
-			// TextEventKind
-			// 
-			this.TextEventKind.AutoSize = true;
-			this.TextEventKind.Location = new System.Drawing.Point(97, 3);
-			this.TextEventKind.Margin = new System.Windows.Forms.Padding(3);
-			this.TextEventKind.Name = "TextEventKind";
-			this.TextEventKind.Size = new System.Drawing.Size(53, 15);
-			this.TextEventKind.TabIndex = 2;
-			this.TextEventKind.Text = "(イベント)";
-			// 
-			// TextEventDetail
-			// 
-			this.TextEventDetail.AutoSize = true;
-			this.TextEventDetail.Location = new System.Drawing.Point(156, 3);
-			this.TextEventDetail.Margin = new System.Windows.Forms.Padding(3);
-			this.TextEventDetail.Name = "TextEventDetail";
-			this.TextEventDetail.Size = new System.Drawing.Size(99, 15);
-			this.TextEventDetail.TabIndex = 3;
-			this.TextEventDetail.Text = "(イベント詳細(仮))";
-			// 
 			// PanelEnemyFleet
 			// 
 			this.PanelEnemyFleet.AutoSize = true;
 			this.PanelEnemyFleet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.PanelEnemyFleet.Controls.Add(this.TableEnemyMember);
 			this.PanelEnemyFleet.Controls.Add(this.TableEnemyFleet);
-			this.PanelEnemyFleet.Location = new System.Drawing.Point(3, 24);
+			this.PanelEnemyFleet.Location = new System.Drawing.Point(3, 25);
 			this.PanelEnemyFleet.Name = "PanelEnemyFleet";
 			this.PanelEnemyFleet.Size = new System.Drawing.Size(190, 22);
 			this.PanelEnemyFleet.TabIndex = 4;
@@ -181,6 +141,46 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
+			// TextMapArea
+			// 
+			this.TextMapArea.BackColor = System.Drawing.Color.Transparent;
+			this.TextMapArea.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.TextMapArea.Location = new System.Drawing.Point(3, 3);
+			this.TextMapArea.Name = "TextMapArea";
+			this.TextMapArea.Size = new System.Drawing.Size(35, 16);
+			this.TextMapArea.TabIndex = 5;
+			this.TextMapArea.Text = "(海域)";
+			// 
+			// TextDestination
+			// 
+			this.TextDestination.BackColor = System.Drawing.Color.Transparent;
+			this.TextDestination.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.TextDestination.Location = new System.Drawing.Point(44, 3);
+			this.TextDestination.Name = "TextDestination";
+			this.TextDestination.Size = new System.Drawing.Size(44, 16);
+			this.TextDestination.TabIndex = 6;
+			this.TextDestination.Text = "(行き先)";
+			// 
+			// TextEventKind
+			// 
+			this.TextEventKind.BackColor = System.Drawing.Color.Transparent;
+			this.TextEventKind.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.TextEventKind.Location = new System.Drawing.Point(94, 3);
+			this.TextEventKind.Name = "TextEventKind";
+			this.TextEventKind.Size = new System.Drawing.Size(47, 16);
+			this.TextEventKind.TabIndex = 7;
+			this.TextEventKind.Text = "(イベント)";
+			// 
+			// TextEventDetail
+			// 
+			this.TextEventDetail.BackColor = System.Drawing.Color.Transparent;
+			this.TextEventDetail.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.TextEventDetail.Location = new System.Drawing.Point(147, 3);
+			this.TextEventDetail.Name = "TextEventDetail";
+			this.TextEventDetail.Size = new System.Drawing.Size(71, 16);
+			this.TextEventDetail.TabIndex = 8;
+			this.TextEventDetail.Text = "(イベント詳細)";
+			// 
 			// FormCompass
 			// 
 			this.AutoHidePortion = 150D;
@@ -206,10 +206,6 @@
 		#endregion
 
 		private System.Windows.Forms.FlowLayoutPanel BasePanel;
-		private System.Windows.Forms.Label TextMapArea;
-		private System.Windows.Forms.Label TextDestination;
-		private System.Windows.Forms.Label TextEventKind;
-		private System.Windows.Forms.Label TextEventDetail;
 		private System.Windows.Forms.Panel PanelEnemyFleet;
 		private System.Windows.Forms.TableLayoutPanel TableEnemyFleet;
 		private Control.ImageLabel TextEnemyFleetName;
@@ -217,5 +213,9 @@
 		private Control.ImageLabel TextAirSuperiority;
 		private System.Windows.Forms.TableLayoutPanel TableEnemyMember;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
+		private Control.ImageLabel TextMapArea;
+		private Control.ImageLabel TextDestination;
+		private Control.ImageLabel TextEventKind;
+		private Control.ImageLabel TextEventDetail;
 	}
 }

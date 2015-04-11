@@ -82,6 +82,10 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_ShowNextExp = new System.Windows.Forms.CheckBox();
+			this.FormFleet_ShortenHPBar = new System.Windows.Forms.CheckBox();
+			this.FormFleet_FixShipNameWidth = new System.Windows.Forms.CheckBox();
+			this.FormFleet_IsScrollable = new System.Windows.Forms.CheckBox();
 			this.FormFleet_SearchingAbilityMethod = new System.Windows.Forms.ComboBox();
 			this.label13 = new System.Windows.Forms.Label();
 			this.FormFleet_ShowAircraft = new System.Windows.Forms.CheckBox();
@@ -98,6 +102,7 @@
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label18 = new System.Windows.Forms.Label();
@@ -125,7 +130,6 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -819,6 +823,10 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_ShowNextExp);
+			this.tabPage8.Controls.Add(this.FormFleet_ShortenHPBar);
+			this.tabPage8.Controls.Add(this.FormFleet_FixShipNameWidth);
+			this.tabPage8.Controls.Add(this.FormFleet_IsScrollable);
 			this.tabPage8.Controls.Add(this.FormFleet_SearchingAbilityMethod);
 			this.tabPage8.Controls.Add(this.label13);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowAircraft);
@@ -830,13 +838,58 @@
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
 			// 
+			// FormFleet_ShowNextExp
+			// 
+			this.FormFleet_ShowNextExp.AutoSize = true;
+			this.FormFleet_ShowNextExp.Location = new System.Drawing.Point(6, 135);
+			this.FormFleet_ShowNextExp.Name = "FormFleet_ShowNextExp";
+			this.FormFleet_ShowNextExp.Size = new System.Drawing.Size(112, 19);
+			this.FormFleet_ShowNextExp.TabIndex = 6;
+			this.FormFleet_ShowNextExp.Text = "next. を表示する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowNextExp, "「次のレベルまでに必要な経験値」を表示するかを指定します。\r\n省略した場合スペースを節約できます。");
+			this.FormFleet_ShowNextExp.UseVisualStyleBackColor = true;
+			// 
+			// FormFleet_ShortenHPBar
+			// 
+			this.FormFleet_ShortenHPBar.AutoSize = true;
+			this.FormFleet_ShortenHPBar.Location = new System.Drawing.Point(6, 110);
+			this.FormFleet_ShortenHPBar.Name = "FormFleet_ShortenHPBar";
+			this.FormFleet_ShortenHPBar.Size = new System.Drawing.Size(114, 19);
+			this.FormFleet_ShortenHPBar.TabIndex = 5;
+			this.FormFleet_ShortenHPBar.Text = "HPバーを短縮する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShortenHPBar, "HPバーを短縮し、スペースを節約します。");
+			this.FormFleet_ShortenHPBar.UseVisualStyleBackColor = true;
+			// 
+			// FormFleet_FixShipNameWidth
+			// 
+			this.FormFleet_FixShipNameWidth.AutoSize = true;
+			this.FormFleet_FixShipNameWidth.Location = new System.Drawing.Point(6, 85);
+			this.FormFleet_FixShipNameWidth.Name = "FormFleet_FixShipNameWidth";
+			this.FormFleet_FixShipNameWidth.Size = new System.Drawing.Size(136, 19);
+			this.FormFleet_FixShipNameWidth.TabIndex = 4;
+			this.FormFleet_FixShipNameWidth.Text = "艦名の横幅を固定する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_FixShipNameWidth, "艦名表示部の幅を固定し、スペースを節約します。\r\n代わりに長い名前を持つ艦娘は見切れます。");
+			this.FormFleet_FixShipNameWidth.UseVisualStyleBackColor = true;
+			// 
+			// FormFleet_IsScrollable
+			// 
+			this.FormFleet_IsScrollable.AutoSize = true;
+			this.FormFleet_IsScrollable.Location = new System.Drawing.Point(6, 60);
+			this.FormFleet_IsScrollable.Name = "FormFleet_IsScrollable";
+			this.FormFleet_IsScrollable.Size = new System.Drawing.Size(144, 19);
+			this.FormFleet_IsScrollable.TabIndex = 3;
+			this.FormFleet_IsScrollable.Text = "スクロールバーを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_IsScrollable, "表示エリアがはみ出した場合にスクロールバーを表示するかを指定します。\r\n収まりきった場合は表示しません。");
+			this.FormFleet_IsScrollable.UseVisualStyleBackColor = true;
+			// 
 			// FormFleet_SearchingAbilityMethod
 			// 
 			this.FormFleet_SearchingAbilityMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.FormFleet_SearchingAbilityMethod.FormattingEnabled = true;
 			this.FormFleet_SearchingAbilityMethod.Items.AddRange(new object[] {
             "(旧)2-5式",
-            "2-5式(秋)"});
+            "2-5式(秋)",
+            "2-5新秋簡易式"});
 			this.FormFleet_SearchingAbilityMethod.Location = new System.Drawing.Point(115, 31);
 			this.FormFleet_SearchingAbilityMethod.Name = "FormFleet_SearchingAbilityMethod";
 			this.FormFleet_SearchingAbilityMethod.Size = new System.Drawing.Size(121, 23);
@@ -1002,13 +1055,24 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 24);
+			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(378, 177);
+			this.tabPage12.Size = new System.Drawing.Size(378, 179);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_AppliesStyleSheet
+			// 
+			this.FormBrowser_AppliesStyleSheet.AutoSize = true;
+			this.FormBrowser_AppliesStyleSheet.Location = new System.Drawing.Point(180, 31);
+			this.FormBrowser_AppliesStyleSheet.Name = "FormBrowser_AppliesStyleSheet";
+			this.FormBrowser_AppliesStyleSheet.Size = new System.Drawing.Size(142, 19);
+			this.FormBrowser_AppliesStyleSheet.TabIndex = 8;
+			this.FormBrowser_AppliesStyleSheet.Text = "スタイルシートを適用する";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_AppliesStyleSheet, "艦これ画面のみを表示できるようにします。\r\n環境によっては表示が乱れます、その場合は無効にしてください。");
+			this.FormBrowser_AppliesStyleSheet.UseVisualStyleBackColor = true;
 			// 
 			// FormBrowser_ConfirmAtRefresh
 			// 
@@ -1033,7 +1097,7 @@
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_JPEG);
 			this.groupBox2.Location = new System.Drawing.Point(6, 88);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(366, 83);
+			this.groupBox2.Size = new System.Drawing.Size(366, 85);
 			this.groupBox2.TabIndex = 6;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "スクリーンショット";
@@ -1280,17 +1344,6 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// FormBrowser_AppliesStyleSheet
-			// 
-			this.FormBrowser_AppliesStyleSheet.AutoSize = true;
-			this.FormBrowser_AppliesStyleSheet.Location = new System.Drawing.Point(180, 31);
-			this.FormBrowser_AppliesStyleSheet.Name = "FormBrowser_AppliesStyleSheet";
-			this.FormBrowser_AppliesStyleSheet.Size = new System.Drawing.Size(142, 19);
-			this.FormBrowser_AppliesStyleSheet.TabIndex = 8;
-			this.FormBrowser_AppliesStyleSheet.Text = "スタイルシートを適用する";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_AppliesStyleSheet, "艦これ画面のみを表示できるようにします。\r\n環境によっては表示が乱れます、その場合は無効にしてください。");
-			this.FormBrowser_AppliesStyleSheet.UseVisualStyleBackColor = true;
-			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1457,5 +1510,9 @@
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.CheckBox FormBrowser_ConfirmAtRefresh;
 		private System.Windows.Forms.CheckBox FormBrowser_AppliesStyleSheet;
+		private System.Windows.Forms.CheckBox FormFleet_FixShipNameWidth;
+		private System.Windows.Forms.CheckBox FormFleet_IsScrollable;
+		private System.Windows.Forms.CheckBox FormFleet_ShowNextExp;
+		private System.Windows.Forms.CheckBox FormFleet_ShortenHPBar;
 	}
 }
