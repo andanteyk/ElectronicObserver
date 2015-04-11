@@ -400,8 +400,11 @@ namespace ElectronicObserver.Window {
 
 			AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage2Friend.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( AirStage2Friend, null );
 			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage2Enemy.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( AirStage2Enemy, null );
+
 		}
 
 
@@ -419,28 +422,44 @@ namespace ElectronicObserver.Window {
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( (int)bd.Data.api_kouku.api_stage1.api_disp_seiku );
 				if ( isBattle2Enabled ) {
-					ToolTipInfo.SetToolTip( AirSuperiority, "2回目: " + Constants.GetAirSuperiority( (int)bd.Data.api_kouku2.api_stage1.api_disp_seiku ) );
+					ToolTipInfo.SetToolTip( AirSuperiority, "第2次: " + Constants.GetAirSuperiority( (int)bd.Data.api_kouku2.api_stage1.api_disp_seiku ) );
 				} else {
 					ToolTipInfo.SetToolTip( AirSuperiority, null );
 				}
 
 
+				/*
 				int[] planeFriend = { 
 					(int)bd.Data.api_kouku.api_stage1.api_f_lostcount + ( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_f_lostcount : 0 ), 
 					(int)bd.Data.api_kouku.api_stage1.api_f_count };
-				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
+				*/
+				int[] planeFriend = {
+					(int)bd.Data.api_kouku.api_stage1.api_f_lostcount,
+					(int)bd.Data.api_kouku.api_stage1.api_f_count,
+					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_f_lostcount : 0 ),
+					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_f_count : 0 ),
+				};
+				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0] + planeFriend[2], planeFriend[1] );
+				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
+					planeFriend[0], planeFriend[1], planeFriend[2], planeFriend[3] ) );
 
-				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
+				if ( planeFriend[1] > 0 && ( planeFriend[0] == planeFriend[1] || planeFriend[2] == planeFriend[3] ) )
 					AirStage1Friend.ForeColor = Color.Red;
 				else
 					AirStage1Friend.ForeColor = SystemColors.ControlText;
 
-				int[] planeEnemy = { 
-					(int)bd.Data.api_kouku.api_stage1.api_e_lostcount + ( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_e_lostcount : 0 ), 
-					(int)bd.Data.api_kouku.api_stage1.api_e_count };
-				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
 
-				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
+				int[] planeEnemy = { 
+					(int)bd.Data.api_kouku.api_stage1.api_e_lostcount,
+					(int)bd.Data.api_kouku.api_stage1.api_e_count,
+					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_e_lostcount : 0 ),
+					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_e_count : 0 ),
+				};
+				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0] + planeEnemy[2], planeEnemy[1] );
+				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
+					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3] ) );
+
+				if ( planeEnemy[1] > 0 && ( planeEnemy[0] == planeEnemy[1] || planeEnemy[2] == planeEnemy[3] ) )
 					AirStage1Enemy.ForeColor = Color.Red;
 				else
 					AirStage1Enemy.ForeColor = SystemColors.ControlText;
@@ -457,14 +476,15 @@ namespace ElectronicObserver.Window {
 
 					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchFriend[0]], KCDatabase.Instance.MasterEquipments[touchFriend[1]] };
 					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format(
-						"触接中\r\n1回目: {0}\r\n2回目: {1}",
+						"{0}触接中\r\n第1次: {1}\r\n第2次: {2}",
+						ToolTipInfo.GetToolTip( AirStage1Friend ) ?? "",
 						planes[0] != null ? planes[0].Name : "(なし)",
 						planes[1] != null ? planes[1].Name : "(なし)"
 						) );
 				} else {
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
 					AirStage1Friend.ImageIndex = -1;
-					ToolTipInfo.SetToolTip( AirStage1Friend, null );
+					//ToolTipInfo.SetToolTip( AirStage1Friend, null );
 				}
 
 				int[] touchEnemy = {
@@ -477,14 +497,15 @@ namespace ElectronicObserver.Window {
 
 					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchEnemy[0]], KCDatabase.Instance.MasterEquipments[touchEnemy[1]] };
 					ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format(
-						"触接中\r\n1回目: {0}\r\n2回目: {1}",
+						"{0}触接中\r\n第1次: {1}\r\n第2次: {2}",
+						ToolTipInfo.GetToolTip( AirStage1Enemy ) ?? "",
 						planes[0] != null ? planes[0].Name : "(なし)",
 						planes[1] != null ? planes[1].Name : "(なし)"
 						) );
 				} else {
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 					AirStage1Enemy.ImageIndex = -1;
-					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+					//ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 				}
 
 			} else {	//空対空戦闘発生せず(!?)
@@ -504,21 +525,32 @@ namespace ElectronicObserver.Window {
 
 
 				int[] planeFriend = { 
-					(int)bd.Data.api_kouku.api_stage2.api_f_lostcount + ( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_f_lostcount : 0 ), 
-					(int)bd.Data.api_kouku.api_stage2.api_f_count };
-				AirStage2Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
+					(int)bd.Data.api_kouku.api_stage2.api_f_lostcount,
+					(int)bd.Data.api_kouku.api_stage2.api_f_count,
+					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_f_lostcount : 0 ),
+					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_f_count : 0 ),
+				};
+				AirStage2Friend.Text = string.Format( "-{0}/{1}", planeFriend[0] + planeFriend[2], planeFriend[1] );
+				ToolTipInfo.SetToolTip( AirStage2Friend, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
+					planeFriend[0], planeFriend[1], planeFriend[2], planeFriend[3] ) );
 
-				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
+				if ( planeFriend[1] > 0 && ( planeFriend[0] == planeFriend[1] || planeFriend[2] == planeFriend[3] ) )
 					AirStage2Friend.ForeColor = Color.Red;
 				else
 					AirStage2Friend.ForeColor = SystemColors.ControlText;
 
-				int[] planeEnemy = { 
-					(int)bd.Data.api_kouku.api_stage2.api_e_lostcount + ( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_e_lostcount : 0 ), 
-					(int)bd.Data.api_kouku.api_stage2.api_e_count };
-				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
 
-				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
+				int[] planeEnemy = { 
+					(int)bd.Data.api_kouku.api_stage2.api_e_lostcount,
+					(int)bd.Data.api_kouku.api_stage2.api_e_count,
+					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_e_lostcount : 0 ),
+					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_e_count : 0 ),
+				};
+				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0] + planeEnemy[2], planeEnemy[1] );
+				ToolTipInfo.SetToolTip( AirStage2Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
+					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3] ) );
+
+				if ( planeEnemy[1] > 0 && ( planeEnemy[0] == planeEnemy[1] || planeEnemy[2] == planeEnemy[3] ) )
 					AirStage2Enemy.ForeColor = Color.Red;
 				else
 					AirStage2Enemy.ForeColor = SystemColors.ControlText;
@@ -543,15 +575,17 @@ namespace ElectronicObserver.Window {
 						AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
 
 						StringBuilder sb = new StringBuilder();
+						sb.AppendLine( "対空カットイン" );
 						for ( int i = 0; i < 2; i++ ) {
 							if ( fire[i] ) {
-								sb.AppendFormat( "{0}回目 - 対空カットイン: {1}\r\nカットイン種別: {2} ({3})",
+								sb.AppendFormat( "第{0}次: {1}\r\nカットイン種別: {2} ({3})\r\n",
 									i + 1,
 									KCDatabase.Instance.Fleet[cutinIndex[i] >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex[i] % 6].NameWithLevel,
 									cutinID[i],
 									Constants.GetAACutinKind( cutinID[i] ) );
 							} else {
-								sb.AppendFormat( "{0}回目 - 対空カットイン: (発動せず)\r\n" );
+								sb.AppendFormat( "第{0}次: (発動せず)\r\n",
+									i + 1 );
 							}
 						}
 						ToolTipInfo.SetToolTip( AACutin, sb.ToString() );
@@ -566,7 +600,9 @@ namespace ElectronicObserver.Window {
 
 			} else {
 				AirStage2Friend.Text = "-";
+				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 				AirStage2Enemy.Text = "-";
+				ToolTipInfo.SetToolTip( AirStage2Enemy, null );
 				AACutin.Text = "対空砲火";
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
 				AACutin.ImageIndex = -1;

@@ -1038,8 +1038,8 @@ api_req_map/next		：進撃
 	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？コード中にスペルミスがあり未使用
-	api_comment_kind	：0=なし 1=<敵艦隊発見!> 2=<攻撃目標発見!>?
-	api_production_kind	：0=なし 1=索敵機発艦
+	api_comment_kind	：0=なし 1=<敵艦隊発見!> 2=<攻撃目標発見!>?　startにはないので注意
+	api_production_kind	：0=なし 1=索敵機発艦　startにはないので注意
 	api_eventmap		：イベント海域ゲージ情報
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値　startとは異なり実際の値が入る

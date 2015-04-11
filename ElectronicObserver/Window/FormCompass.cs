@@ -287,6 +287,7 @@ namespace ElectronicObserver.Window {
 			//BasePanel.SetFlowBreak( TextEventKind, true );
 			BasePanel.SetFlowBreak( TextEventDetail, true );
 
+			TextDestination.ImageList = ResourceManager.Instance.Equipments;
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
 
 		}
@@ -354,8 +355,21 @@ namespace ElectronicObserver.Window {
 				BasePanel.SuspendLayout();
 				PanelEnemyFleet.Visible = false;
 
-				TextMapArea.Text = "出撃海域 : " + compass.MapAreaID + "-" + compass.MapInfoID;
-				TextDestination.Text = "次のセル : " + compass.Destination + ( compass.IsEndPoint ? " (終点)" : "" );
+
+				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}", compass.MapAreaID, compass.MapInfoID );
+				
+				TextDestination.Text = string.Format( "次のセル : {0}{1}", compass.Destination, ( compass.IsEndPoint ? " (終点)" : "" ) );
+				if ( compass.LaunchedRecon != 0 ) {
+					TextDestination.ImageAlign = ContentAlignment.MiddleRight;
+					TextDestination.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+					ToolTipInfo.SetToolTip( TextDestination, "索敵機発艦！" );
+				} else {
+					TextDestination.ImageAlign = ContentAlignment.MiddleCenter;
+					TextDestination.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( TextDestination, null );
+				}
+
+
 				TextEventKind.ForeColor = colorNormal;
 
 				{

@@ -33,8 +33,15 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 次のセルのグラフィック
+		/// </summary>
+		public int ColorID {
+			get { return (int)RawData.api_color_no; }
+		}
+
+		/// <summary>
 		/// イベントID
-		/// 0=初期位置, 2=資源, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=連合艦隊航空戦
+		/// 0=初期位置, 2=資源, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=航空戦, 8=船団護衛成功
 		/// </summary>
 		public int EventID {
 			get { return (int)RawData.api_event_id; }
@@ -62,6 +69,31 @@ namespace ElectronicObserver.Data {
 			get { return NextBranchCount == 0; }
 		}
 
+		/// <summary>
+		/// 吹き出しの内容
+		/// 0=なし, 1="敵艦隊発見!", 2="攻撃目標発見!"
+		/// </summary>
+		public int CommentID {
+			get {
+				if ( RawData.api_comment_kind() )	//startには存在しないため
+					return (int)RawData.api_comment_kind;
+				else
+					return 0;
+			}
+		}
+
+		/// <summary>
+		/// 索敵に成功したか 0=失敗, 1=成功(索敵機発艦)
+		/// </summary>
+		public int LaunchedRecon {
+			get {
+				if ( RawData.api_production_kind() )
+					return (int)RawData.api_production_kind;
+				else
+					return 0;
+			}
+		}
+
 
 		/// <summary>
 		/// 交戦する敵艦隊ID
@@ -85,7 +117,7 @@ namespace ElectronicObserver.Data {
 					return (int)RawData.api_itemget.api_usemst;
 				} else if ( RawData.api_itemget_eo_comment() ) {
 					return (int)RawData.api_itemget_eo_comment.api_usemst;
-				} else { 
+				} else {
 					return -1;
 				}
 			}
