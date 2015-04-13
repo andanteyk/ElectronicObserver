@@ -293,13 +293,20 @@ namespace Browser {
 				var wb = Browser.ActiveXInstance as SHDocVw.IWebBrowser2;
 				if ( wb == null || wb.ReadyState == SHDocVw.tagREADYSTATE.READYSTATE_UNINITIALIZED || wb.Busy ) return;
 
-				object pin = zoomRate;
+				var dpi = ScreenHelper.GetSystemDpi();
+                var zoomFactor = dpi.ScaleX + (zoomRate / 100.0 - 1.0);
+                var percentage = (int)(zoomFactor * 100);
+
+                object pin = percentage;
 				object pout = null;
 
 				wb.ExecWB( SHDocVw.OLECMDID.OLECMDID_OPTICAL_ZOOM, SHDocVw.OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref pin, ref pout );
 
 				if ( StyleSheetApplied ) {
-					Browser.Size = Browser.MinimumSize = new Size( (int)( KanColleSize.Width * zoomRate / 100.0 ), (int)( KanColleSize.Height * zoomRate / 100.0 ) );
+                    Browser.Size = Browser.MinimumSize = new Size(
+                        (int)(KanColleSize.Width * (zoomFactor / dpi.ScaleX)),
+                        (int)(KanColleSize.Height * (zoomFactor / dpi.ScaleY))
+                        );
 					CenteringBrowser();
 				}
 
