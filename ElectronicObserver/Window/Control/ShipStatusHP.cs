@@ -293,7 +293,7 @@ namespace ElectronicObserver.Window.Control {
 
 
 
-				Point p = new Point( basearea.X, basearea.Bottom - barSize.Height - sz_text.Height + 1 );	
+				Point p = new Point( basearea.X, basearea.Bottom - barSize.Height - Math.Max( sz_text.Height, sz_hpmax.Height ) + 1 );
 				TextRenderer.DrawText( g, Text, SubFont, new Rectangle( p, sz_text ), SubFontColor, TextFormatText );
 				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_text ) );
 
@@ -319,7 +319,7 @@ namespace ElectronicObserver.Window.Control {
 
 		public override Size GetPreferredSize( Size proposedSize ) {
 
-			Size maxsize = new Size( 99999, 99999 );
+			Size maxsize = new Size( int.MaxValue, int.MaxValue );
 
 			Size barSize = _HPBar.GetPreferredSize();
 

@@ -219,7 +219,7 @@ namespace ElectronicObserver.Data {
 									}
 								}
 
-								
+
 							}
 
 
@@ -236,7 +236,7 @@ namespace ElectronicObserver.Data {
 											_members[i] = replacedID;
 										else
 											RemoveShip( i );
-										
+
 										break;
 									}
 								}
@@ -404,6 +404,9 @@ namespace ElectronicObserver.Data {
 
 				case 1:
 					return Calculator.GetSearchingAbility_Autumn( this );
+
+				case 2:
+					return Calculator.GetSearchingAbility_TinyAutumn( this );
 			}
 		}
 
@@ -411,13 +414,24 @@ namespace ElectronicObserver.Data {
 		/// 現在の設定に応じて、索敵能力を表す文字列を取得します。
 		/// </summary>
 		public string GetSearchingAbilityString() {
-			switch ( Utility.Configuration.Config.FormFleet.SearchingAbilityMethod ) {
+			return this.GetSearchingAbilityString( Utility.Configuration.Config.FormFleet.SearchingAbilityMethod );
+		}
+
+		/// <summary>
+		/// 指定の計算式で、索敵能力を表す文字列を取得します。
+		/// </summary>
+		/// <param name="index">計算式。0-2</param>
+		public string GetSearchingAbilityString( int index ) {
+			switch ( index ) {
 				default:
 				case 0:
 					return Calculator.GetSearchingAbility_Old( this ).ToString();
 
 				case 1:
 					return Calculator.GetSearchingAbility_Autumn( this ).ToString( "F1" );
+
+				case 2:
+					return Calculator.GetSearchingAbility_TinyAutumn( this ).ToString();
 			}
 		}
 
@@ -473,14 +487,14 @@ namespace ElectronicObserver.Data {
 				long ntime = db.Docks.Values.Max(
 						dock => {
 							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
-								return dock.CompletionTime.ToBinary();
+								return dock.CompletionTime.Ticks;
 							else return 0;
 						}
 						);
 
 				if ( ntime > 0 ) {	//入渠中
 
-					timer = DateTime.FromBinary( ntime );
+					timer = new DateTime( ntime );
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
 

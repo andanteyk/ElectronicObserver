@@ -192,7 +192,9 @@ namespace ElectronicObserver.Data {
 				case 6:
 					return "気のせいだった";
 				case 7:
-					return "機動部隊航空戦";
+					return "航空戦";
+				case 8:
+					return "船団護衛成功";
 				default:
 					return "不明";
 			}
