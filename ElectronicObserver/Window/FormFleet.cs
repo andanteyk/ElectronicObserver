@@ -464,7 +464,7 @@ namespace ElectronicObserver.Window {
 				int? id = Name.Tag as int?;
 
 				if ( id != null && id != -1 && ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
-					new DialogAlbumMasterShip( (int)id ).Show();
+					new DialogAlbumMasterShip( (int)id ).Show( Parent );
 				}
 
 			}

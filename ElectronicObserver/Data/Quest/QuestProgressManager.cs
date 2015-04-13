@@ -60,6 +60,9 @@ namespace ElectronicObserver.Data.Quest {
 			Progresses = new IDDictionary<ProgressData>();
 
 
+			RemoveEvents();		//二重登録防止
+
+			
 			var ao = APIObserver.Instance;
 
 			ao.APIList["api_get_member/questlist"].ResponseReceived += QuestUpdated;

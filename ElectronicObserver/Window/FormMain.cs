@@ -164,7 +164,7 @@ namespace ElectronicObserver.Window {
 
 			using ( var dialog = new DialogLocalAPILoader() ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 					if ( APIObserver.Instance.APIList.ContainsKey( dialog.APIName ) ) {
 
 						if ( dialog.IsResponse ) {
@@ -419,7 +419,7 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_Help_Version_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogVersion() ) {
-				dialog.ShowDialog();
+				dialog.ShowDialog( this );
 			}
 
 		}
@@ -427,7 +427,7 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_File_Configuration_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogConfiguration( Utility.Configuration.Config ) ) {
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					dialog.ToConfiguration( Utility.Configuration.Config );
 					Utility.Configuration.Instance.OnConfigurationChanged();
@@ -602,7 +602,7 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "艦船データが読み込まれていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 			} else {
-				new DialogAlbumMasterShip().Show();
+				new DialogAlbumMasterShip().Show( this );
 			}
 
 		}
@@ -613,7 +613,7 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "装備データが読み込まれていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 			} else {
-				new DialogAlbumMasterEquipment().Show();
+				new DialogAlbumMasterEquipment().Show( this );
 			}
 
 		}
@@ -679,7 +679,7 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_Tool_EquipmentList_Click( object sender, EventArgs e ) {
 
-			new DialogEquipmentList().Show();
+			new DialogEquipmentList().Show( this );
 
 		}
 
@@ -803,7 +803,7 @@ namespace ElectronicObserver.Window {
 
 
 		private void SeparatorWhitecap_Click( object sender, EventArgs e ) {
-			new DialogWhitecap().Show();
+			new DialogWhitecap().Show( this );
 		}
 
 
@@ -869,7 +869,7 @@ namespace ElectronicObserver.Window {
 
 			using ( var dialog = new Window.Dialog.DialogTextInput( "移動先の入力", "移動先の URL を入力してください。" ) ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					fBrowser.Navigate( dialog.InputtedText );
 				}
@@ -1007,12 +1007,6 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
-
-
-
-
-
-
 
 
 

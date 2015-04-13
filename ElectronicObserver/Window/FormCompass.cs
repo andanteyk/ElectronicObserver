@@ -28,6 +28,7 @@ namespace ElectronicObserver.Window {
 			public ImageLabel ShipName;
 			public ShipStatusEquipment Equipments;
 
+			public FormCompass Parent;
 			public ToolTip ToolTipInfo;
 
 
@@ -58,6 +59,7 @@ namespace ElectronicObserver.Window {
 				Equipments.AutoSize = true;
 				Equipments.ResumeLayout();
 
+				Parent = parent;
 				ToolTipInfo = parent.ToolTipInfo;
 				#endregion
 
@@ -239,7 +241,7 @@ namespace ElectronicObserver.Window {
 					int? shipID = ShipName.Tag as int?;
 
 					if ( shipID != null && shipID != -1 )
-						new DialogAlbumMasterShip( (int)ShipName.Tag ).Show();
+						new DialogAlbumMasterShip( (int)ShipName.Tag ).Show( Parent );
 				}
 
 			}

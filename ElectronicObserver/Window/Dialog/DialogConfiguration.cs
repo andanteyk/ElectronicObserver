@@ -71,7 +71,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FontSelector.Font = UI_MainFont.Font;
 
-			if ( FontSelector.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+			if ( FontSelector.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 				SerializableFont font = new SerializableFont( FontSelector.Font );
 
@@ -87,7 +87,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FontSelector.Font = UI_SubFont.Font;
 
-			if ( FontSelector.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+			if ( FontSelector.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 				SerializableFont font = new SerializableFont( FontSelector.Font );
 
@@ -140,7 +140,7 @@ namespace ElectronicObserver.Window.Dialog {
 				dialog.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
 				dialog.FileName = System.IO.Directory.GetCurrentDirectory() + "\\proxy.pac";
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					try {
 
@@ -179,35 +179,35 @@ namespace ElectronicObserver.Window.Dialog {
 		private void Notification_Expedition_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Expedition ) ) {
-				dialog.ShowDialog();
+				dialog.ShowDialog( this );
 			}
 		}
 
 		private void Notification_Construction_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Construction ) ) {
-				dialog.ShowDialog();
+				dialog.ShowDialog( this );
 			}
 		}
 
 		private void Notification_Repair_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Repair ) ) {
-				dialog.ShowDialog();
+				dialog.ShowDialog( this );
 			}
 		}
 
 		private void Notification_Condition_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Condition ) ) {
-				dialog.ShowDialog();
+				dialog.ShowDialog( this );
 			}
 		}
 
 		private void Notification_Damage_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Damage ) ) {
-				dialog.ShowDialog();
+				dialog.ShowDialog( this );
 			}
 		}
 

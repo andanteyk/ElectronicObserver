@@ -590,7 +590,7 @@ namespace ElectronicObserver.Window {
 
 			using ( var dialog = new DialogTextInput( "グループを追加", "グループ名を入力してください：" ) ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					var group = KCDatabase.Instance.ShipGroup.Add();
 
@@ -649,7 +649,7 @@ namespace ElectronicObserver.Window {
 
 					dialog.InputtedText = group.Name;
 
-					if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+					if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 						group.Name = senderLabel.Text = dialog.InputtedText.Trim();
 
@@ -730,7 +730,7 @@ namespace ElectronicObserver.Window {
 			using ( var dialog = new DialogTextSelect( "グループの選択", "追加するグループを選択してください：",
 				KCDatabase.Instance.ShipGroup.ShipGroups.Values.Where( g => g.GroupID >= 0 ).ToArray() ) ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					ShipGroupData group = (ShipGroupData)dialog.SelectedItem;
 					if ( group != null && group.GroupID >= 0 ) {
@@ -755,7 +755,7 @@ namespace ElectronicObserver.Window {
 
 			using ( var dialog = new DialogTextInput( "グループの追加", "追加するグループの名前を入力してください：" ) ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					var group = KCDatabase.Instance.ShipGroup.Add();
 
@@ -813,7 +813,7 @@ namespace ElectronicObserver.Window {
 
 			using ( var dialog = new DialogShipGroupColumnFilter( ShipView ) ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 
 
@@ -938,7 +938,7 @@ namespace ElectronicObserver.Window {
 
 			using ( var dialog = new DialogShipGroupCSVOutput() ) {
 
-				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					try {
 
