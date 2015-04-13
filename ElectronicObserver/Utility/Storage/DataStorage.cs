@@ -57,6 +57,17 @@ namespace ElectronicObserver.Utility.Storage {
 
 		}
 
+		public void Save( StringBuilder stringBuilder ) {
+			try {
+				var serializer = new DataContractSerializer( this.GetType() );
+				using ( XmlWriter xw = XmlWriter.Create( stringBuilder ) ) {
+					serializer.WriteObject( xw, this );
+				}
+			} catch ( Exception ex ) {
+				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の書き込みに失敗しました。" );
+			}
+		}
+
 		public DataStorage Load( string path ) {
 
 			try {
@@ -128,6 +139,26 @@ namespace ElectronicObserver.Utility.Storage {
 
 				Utility.Logger.Add( 3, string.Format( "DataStorage ファイルは存在しません。" ) );
 
+			} catch ( DirectoryNotFoundException ) {
+
+				Utility.Logger.Add( 3, string.Format( "DataStorage ファイルは存在しません。" ) );
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の読み込みに失敗しました。" );
+
+			}
+
+			return null;
+		}
+
+		public DataStorage Load( TextReader reader ) {
+			try {
+				var serializer = new DataContractSerializer( this.GetType() );
+
+				using ( XmlReader xr = XmlReader.Create( reader ) ) {
+					return (DataStorage)serializer.ReadObject( xr );
+				}
 			} catch ( DirectoryNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "DataStorage ファイルは存在しません。" ) );

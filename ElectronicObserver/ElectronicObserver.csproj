@@ -69,6 +69,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
@@ -371,11 +372,11 @@
     <Compile Include="Window\FormCompass.Designer.cs">
       <DependentUpon>FormCompass.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\FormControl.cs">
+    <Compile Include="Window\FormWindowCapture.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Window\FormControl.Designer.cs">
-      <DependentUpon>FormControl.cs</DependentUpon>
+    <Compile Include="Window\FormWindowCapture.Designer.cs">
+      <DependentUpon>FormWindowCapture.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\FormDock.cs">
       <SubType>Form</SubType>
@@ -526,8 +527,8 @@
     <EmbeddedResource Include="Window\FormCompass.resx">
       <DependentUpon>FormCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormControl.resx">
-      <DependentUpon>FormControl.cs</DependentUpon>
+    <EmbeddedResource Include="Window\FormWindowCapture.resx">
+      <DependentUpon>FormWindowCapture.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormDock.resx">
       <DependentUpon>FormDock.cs</DependentUpon>

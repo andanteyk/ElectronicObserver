@@ -6,6 +6,7 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Window.Dialog;
+using ElectronicObserver.Window.Integrate;
 using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,8 @@ namespace ElectronicObserver.Window {
 
 		#region Properties
 
-		public DockPanel MainDockPanel { get { return mainDockPanel; } }
+		public DockPanel MainPanel { get { return MainDockPanel; } }
+		public FormWindowCapture WindowCapture { get { return fWindowCapture; } }
 
 		#endregion
 
@@ -46,7 +48,7 @@ namespace ElectronicObserver.Window {
 		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
-		public FormControl fControl;
+		public FormWindowCapture fWindowCapture;
 
 		#endregion
 
@@ -90,7 +92,7 @@ namespace ElectronicObserver.Window {
 			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port, this );
 
 
-			mainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
+			MainDockPanel.Extender.FloatWindowFactory = new CustomFloatWindowFactory();
 
 
 			SubForms = new List<DockContent>();
@@ -113,7 +115,8 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
-			SubForms.Add( fControl = new FormControl( this ) );
+			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
+			
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
@@ -154,8 +157,8 @@ namespace ElectronicObserver.Window {
 			Font = c.UI.MainFont;
 			//StripMenu.Font = Font;
 			StripStatus.Font = Font;
-			mainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
-			mainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
+			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
+			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
 		}
 
@@ -273,7 +276,12 @@ namespace ElectronicObserver.Window {
 					return fShipGroup;
 				case "Browser":
 					return fBrowser;
+				case "WindowCapture":
+					return fWindowCapture;
 				default:
+					if ( persistString.StartsWith( FormIntegrated.PREFIX ) ) {
+						return FormIntegrated.FromPersistString( this, persistString );
+					}
 					return null;
 			}
 		}
@@ -286,17 +294,20 @@ namespace ElectronicObserver.Window {
 
 				if ( stream != null ) {
 
+					// 取り込んだウィンドウは一旦デタッチして閉じる
+					fWindowCapture.CloseAll();
+
 					foreach ( var f in SubForms ) {
-						f.Show( mainDockPanel, DockState.Document );
+						f.Show( MainDockPanel, DockState.Document );
 						f.DockPanel = null;
 					}
 
-					mainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
+					MainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
 					//一度全ウィンドウを読み込むことでフォームを初期化する
-					foreach ( var x in mainDockPanel.Contents ) {
+					foreach ( var x in MainDockPanel.Contents ) {
 						if ( x.DockHandler.DockState == DockState.Hidden ) {
-							x.DockHandler.Show( mainDockPanel );
+							x.DockHandler.Show( MainDockPanel );
 							x.DockHandler.Hide();
 						} else {
 							x.DockHandler.Activate();
@@ -309,13 +320,15 @@ namespace ElectronicObserver.Window {
 						MainDockPanel.Contents.First().DockHandler.Activate();
 					//*/
 
+					fWindowCapture.AttachAll();
+
 				} else {
 
 					foreach ( var f in SubForms )
-						f.Show( mainDockPanel );
+						f.Show( MainDockPanel );
 
 
-					foreach ( var x in mainDockPanel.Contents ) {
+					foreach ( var x in MainDockPanel.Contents ) {
 						x.DockHandler.Hide();
 					}
 				}
@@ -332,7 +345,7 @@ namespace ElectronicObserver.Window {
 
 			try {
 
-				mainDockPanel.SaveAsXml( stream, Encoding.UTF8 );
+				MainDockPanel.SaveAsXml( stream, Encoding.UTF8 );
 
 			} catch ( Exception ex ) {
 
@@ -366,7 +379,7 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
-				fBrowser.Show( mainDockPanel );
+				fBrowser.Show( MainDockPanel );
 
 			} catch ( DirectoryNotFoundException ) {
 
@@ -374,7 +387,7 @@ namespace ElectronicObserver.Window {
 				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
-				fBrowser.Show( mainDockPanel );
+				fBrowser.Show( MainDockPanel );
 
 			} catch ( Exception ex ) {
 
@@ -947,76 +960,83 @@ namespace ElectronicObserver.Window {
 			StripMenu_Browser_AppliesStyleSheet.Checked = Utility.Configuration.Config.FormBrowser.AppliesStyleSheet;
 		}
 
+		private void StripMenu_WindowCapture_AttachAll_Click( object sender, EventArgs e ) {
+			fWindowCapture.AttachAll();
+		}
+
+		private void StripMenu_WindowCapture_DetachAll_Click( object sender, EventArgs e ) {
+			fWindowCapture.DetachAll();
+		}
+		
 
 		#region フォーム表示
 
 		private void StripMenu_View_Fleet_1_Click( object sender, EventArgs e ) {
-			fFleet[0].Show( mainDockPanel );
+			fFleet[0].Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Fleet_2_Click( object sender, EventArgs e ) {
-			fFleet[1].Show( mainDockPanel );
+			fFleet[1].Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Fleet_3_Click( object sender, EventArgs e ) {
-			fFleet[2].Show( mainDockPanel );
+			fFleet[2].Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
-			fFleet[3].Show( mainDockPanel );
+			fFleet[3].Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Dock_Click( object sender, EventArgs e ) {
-			fDock.Show( mainDockPanel );
+			fDock.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Arsenal_Click( object sender, EventArgs e ) {
-			fArsenal.Show( mainDockPanel );
+			fArsenal.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Headquarters_Click( object sender, EventArgs e ) {
-			fHeadquarters.Show( mainDockPanel );
+			fHeadquarters.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Information_Click( object sender, EventArgs e ) {
-			fInformation.Show( mainDockPanel );
+			fInformation.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Compass_Click( object sender, EventArgs e ) {
-			fCompass.Show( mainDockPanel );
+			fCompass.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Log_Click( object sender, EventArgs e ) {
-			fLog.Show( mainDockPanel );
+			fLog.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Quest_Click( object sender, EventArgs e ) {
-			fQuest.Show( mainDockPanel );
+			fQuest.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Battle_Click( object sender, EventArgs e ) {
-			fBattle.Show( mainDockPanel );
+			fBattle.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_FleetOverview_Click( object sender, EventArgs e ) {
-			fFleetOverview.Show( mainDockPanel );
+			fFleetOverview.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_ShipGroup_Click( object sender, EventArgs e ) {
-			fShipGroup.Show( mainDockPanel );
+			fShipGroup.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_Browser_Click( object sender, EventArgs e ) {
-			fBrowser.Show( mainDockPanel );
+			fBrowser.Show( MainDockPanel );
 		}
 
-		private void StripMenu_View_Control_Click( object sender, EventArgs e ) {
-			fControl.Show( mainDockPanel );
+		private void StripMenu_WindowCapture_SubWindow_Click( object sender, EventArgs e ) {
+			fWindowCapture.Show( MainDockPanel );
 		}
 
 		#endregion
 
 
 
-	}
-}
+	}}

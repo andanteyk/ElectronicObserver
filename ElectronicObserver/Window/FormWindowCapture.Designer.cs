@@ -1,5 +1,5 @@
 ﻿namespace ElectronicObserver.Window {
-	partial class FormControl {
+	partial class FormWindowCapture {
 		/// <summary>
 		/// 必要なデザイナー変数です。
 		/// </summary>
@@ -35,7 +35,7 @@
 			this.windowCaptureButton.UseVisualStyleBackColor = true;
 			this.windowCaptureButton.WindowCaptured += new ElectronicObserver.Window.Control.WindowCaptureButton.WindowCapturedDelegate(this.windowCaptureButton_WindowCaptured);
 			// 
-			// FormControl
+			// FormWindowCapture
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -44,8 +44,8 @@
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(128)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
-			this.Name = "FormControl";
-			this.Text = "操作";
+			this.Name = "FormWindowCapture";
+			this.Text = "ウィンドウキャプチャ";
 			this.ResumeLayout(false);
 
 		}
