@@ -18,6 +18,7 @@ namespace ElectronicObserver.Window {
 	public partial class FormQuest : DockContent {
 
 		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter;
+		private DataGridViewCellStyle[] CSCategories;
 
 
 		public FormQuest( FormMain parent ) {
@@ -41,8 +42,45 @@ namespace ElectronicObserver.Window {
 			CSDefaultCenter = new DataGridViewCellStyle( CSDefaultLeft );
 			CSDefaultCenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+			CSCategories = new DataGridViewCellStyle[8];
+			for ( int i = 0; i < 8; i++ ) {
+				CSCategories[i] = new DataGridViewCellStyle( CSDefaultCenter );
+
+				Color c;
+				switch ( i + 1 ) {
+					case 1:		//編成
+						c = Color.FromArgb( 0xAA, 0xFF, 0xAA );
+						break;
+					case 2:		//出撃
+						c = Color.FromArgb( 0xFF, 0xCC, 0xCC );
+						break;
+					case 3:		//演習
+						c = Color.FromArgb( 0xDD, 0xFF, 0xAA );
+						break;
+					case 4:		//遠征
+						c = Color.FromArgb( 0xCC, 0xFF, 0xFF );
+						break;
+					case 5:		//補給/入渠
+						c = Color.FromArgb( 0xFF, 0xFF, 0xCC );
+						break;
+					case 6:		//工廠
+						c = Color.FromArgb( 0xDD, 0xCC, 0xBB );
+						break;
+					case 7:		//改装
+						c = Color.FromArgb( 0xDD, 0xCC, 0xFF );
+						break;
+					case 8:		//その他
+					default:
+						c = CSDefaultCenter.BackColor;
+						break;
+				}
+
+				CSCategories[i].BackColor =
+				CSCategories[i].SelectionBackColor = c;
+			}
 
 			QuestView.DefaultCellStyle = CSDefaultCenter;
+			QuestView_Category.DefaultCellStyle = CSCategories[8 - 1];
 			QuestView_Name.DefaultCellStyle = CSDefaultLeft;
 			QuestView_Progress.DefaultCellStyle = CSDefaultLeft;
 
@@ -143,6 +181,7 @@ namespace ElectronicObserver.Window {
 				row.Cells[QuestView_State.Index].Value = ( q.State == 3 ) ? ( (bool?)null ) : ( q.State == 2 );
 				row.Cells[QuestView_Type.Index].Value = q.Type;
 				row.Cells[QuestView_Category.Index].Value = q.Category;
+				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min( q.Category - 1, 8 - 1 )];
 				row.Cells[QuestView_Name.Index].Value = q.QuestID;
 				row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}", q.QuestID, q.Name, q.Description );
 

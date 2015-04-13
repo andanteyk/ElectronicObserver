@@ -37,6 +37,7 @@
 			this.ImagePathSearch = new System.Windows.Forms.Button();
 			this.ImagePath = new System.Windows.Forms.TextBox();
 			this.GroupDialog = new System.Windows.Forms.GroupBox();
+			this.ShowWithActivation = new System.Windows.Forms.CheckBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.DrawsMessage = new System.Windows.Forms.CheckBox();
 			this.HasFormBorder = new System.Windows.Forms.CheckBox();
@@ -71,7 +72,6 @@
 			this.DialogOpenSound = new System.Windows.Forms.OpenFileDialog();
 			this.DialogOpenImage = new System.Windows.Forms.OpenFileDialog();
 			this.ToolTipText = new System.Windows.Forms.ToolTip(this.components);
-			this.ShowWithActivation = new System.Windows.Forms.CheckBox();
 			this.GroupSound.SuspendLayout();
 			this.GroupImage.SuspendLayout();
 			this.GroupDialog.SuspendLayout();
@@ -248,6 +248,17 @@
 			this.GroupDialog.TabIndex = 3;
 			this.GroupDialog.TabStop = false;
 			this.GroupDialog.Text = "通知ダイアログ";
+			// 
+			// ShowWithActivation
+			// 
+			this.ShowWithActivation.AutoSize = true;
+			this.ShowWithActivation.Location = new System.Drawing.Point(90, 22);
+			this.ShowWithActivation.Name = "ShowWithActivation";
+			this.ShowWithActivation.Size = new System.Drawing.Size(151, 19);
+			this.ShowWithActivation.TabIndex = 1;
+			this.ShowWithActivation.Text = "表示時にアクティベートする";
+			this.ToolTipText.SetToolTip(this.ShowWithActivation, "表示時にダイアログをアクティブにします。\r\n無効にすると操作を妨げない代わりにダイアログが隠れやすくなります。");
+			this.ShowWithActivation.UseVisualStyleBackColor = true;
 			// 
 			// label4
 			// 
@@ -483,7 +494,8 @@
             "左下",
             "下",
             "右下",
-            "手動設定"});
+            "手動(絶対)",
+            "手動(相対)"});
 			this.Alignment.Location = new System.Drawing.Point(55, 47);
 			this.Alignment.Name = "Alignment";
 			this.Alignment.Size = new System.Drawing.Size(121, 23);
@@ -646,17 +658,6 @@
 			this.ToolTipText.AutoPopDelay = 30000;
 			this.ToolTipText.InitialDelay = 500;
 			this.ToolTipText.ReshowDelay = 100;
-			// 
-			// ShowWithActivation
-			// 
-			this.ShowWithActivation.AutoSize = true;
-			this.ShowWithActivation.Location = new System.Drawing.Point(90, 22);
-			this.ShowWithActivation.Name = "ShowWithActivation";
-			this.ShowWithActivation.Size = new System.Drawing.Size(151, 19);
-			this.ShowWithActivation.TabIndex = 1;
-			this.ShowWithActivation.Text = "表示時にアクティベートする";
-			this.ToolTipText.SetToolTip(this.ShowWithActivation, "表示時にダイアログをアクティブにします。\r\n無効にすると操作を妨げない代わりにダイアログが隠れやすくなります。");
-			this.ShowWithActivation.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfigurationNotifier
 			// 

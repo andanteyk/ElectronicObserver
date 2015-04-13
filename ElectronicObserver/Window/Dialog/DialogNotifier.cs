@@ -35,11 +35,6 @@ namespace ElectronicObserver.Window.Dialog {
 			ForeColor = DialogData.ForeColor;
 			BackColor = DialogData.BackColor;
 
-		}
-
-
-		private void DialogNotifier_Load( object sender, EventArgs e ) {
-
 			if ( DialogData.DrawsImage && DialogData.Image != null ) {
 				ClientSize = DialogData.Image.Size;
 			}
@@ -47,6 +42,12 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( !DialogData.HasFormBorder )
 				FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
+		}
+
+
+		private void DialogNotifier_Load( object sender, EventArgs e ) {
+
+			
 			//TopMost = DialogData.TopMost;
 
 
@@ -81,6 +82,7 @@ namespace ElectronicObserver.Window.Dialog {
 					Location = new Point( screen.Right - Width, screen.Bottom - Height );
 					break;
 				case NotifierDialogAlignment.Custom:
+				case NotifierDialogAlignment.CustomRelative:
 					Location = new Point( DialogData.Location.X, DialogData.Location.Y );
 					break;
 

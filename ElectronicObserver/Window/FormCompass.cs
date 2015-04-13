@@ -332,9 +332,19 @@ namespace ElectronicObserver.Window {
 
 		private void Updated( string apiname, dynamic data ) {
 
-			Color colorNormal = SystemColors.ControlText;
-			Color colorNight = Color.Navy;
-
+			Func<int, Color> getColorFromEventKind = ( int kind ) => {
+				switch ( kind ) {
+					case 0:
+					case 1:
+					default:	//昼夜戦・その他
+						return SystemColors.ControlText;
+					case 2:
+					case 3:		//夜戦・夜昼戦
+						return Color.Navy;
+					case 4:		//航空戦
+						return Color.DarkGreen;
+				}
+			};
 
 			if ( apiname == "api_port/port" ) {
 
@@ -345,7 +355,7 @@ namespace ElectronicObserver.Window {
 				TextMapArea.Text = "演習";
 				TextDestination.Text = string.Format( "{0} {1}", data.api_nickname, Constants.GetAdmiralRank( (int)data.api_rank ) );
 				TextEventKind.Text = data.api_cmt;
-				TextEventKind.ForeColor = colorNormal;
+				TextEventKind.ForeColor = SystemColors.ControlText;
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
 				TextEnemyFleetName.Text = data.api_deckname;
 
@@ -359,7 +369,7 @@ namespace ElectronicObserver.Window {
 
 
 				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}", compass.MapAreaID, compass.MapInfoID );
-				
+
 				TextDestination.Text = string.Format( "次のセル : {0}{1}", compass.Destination, ( compass.IsEndPoint ? " (終点)" : "" ) );
 				if ( compass.LaunchedRecon != 0 ) {
 					TextDestination.ImageAlign = ContentAlignment.MiddleRight;
@@ -372,7 +382,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				TextEventKind.ForeColor = colorNormal;
+				TextEventKind.ForeColor = SystemColors.ControlText;
 
 				{
 					string eventkind = Constants.GetMapEventID( compass.EventID );
@@ -435,9 +445,7 @@ namespace ElectronicObserver.Window {
 							if ( compass.EventKind >= 2 ) {
 								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 
-								if ( compass.EventKind == 2 || compass.EventKind == 3 ) {
-									TextEventKind.ForeColor = colorNight;
-								}
+								TextEventKind.ForeColor = getColorFromEventKind( compass.EventKind );
 							}
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
@@ -447,8 +455,11 @@ namespace ElectronicObserver.Window {
 							break;
 
 						case 7:		//航空戦(連合艦隊)
-							if ( compass.EventKind >= 2 && compass.EventKind != 4 )		//必ず"航空戦"のはずなので除外
-								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
+							if ( compass.EventKind >= 2 ) {
+								if ( compass.EventKind != 4 )	//必ず"航空戦"のはずなので除外
+									eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
+								TextEventKind.ForeColor = getColorFromEventKind( compass.EventKind );
+							}
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 
