@@ -13,6 +13,9 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace ElectronicObserver.Window {
 
+	/// <summary>
+	/// ウィンドウキャプチャ
+	/// </summary>
 	public partial class FormWindowCapture : DockContent {
 
 		public static readonly String WARNING_MESSAGE = 
@@ -21,9 +24,9 @@ namespace ElectronicObserver.Window {
 				"非対応ウィンドウを取り込むとシステムが不安定になる恐れがあります。\r\n" +
 				"（取り込んでも安全かどうかは取り込んでみないと分かりませんが・・・）";
 
-		FormMain parent;
+		private FormMain parent;
 
-		List<FormIntegrated> capturedWindows = new List<FormIntegrated>();
+		private List<FormIntegrate> capturedWindows = new List<FormIntegrate>();
 
 		public FormWindowCapture( FormMain parent ) {
 			InitializeComponent();
@@ -39,14 +42,23 @@ namespace ElectronicObserver.Window {
 			DetachAll();
 		}
 
-		public void AddCapturedWindow( FormIntegrated form ) {
+		/// <summary>
+		/// FormIntegrateが新しく作られたら追加
+		/// </summary>
+		public void AddCapturedWindow( FormIntegrate form ) {
 			capturedWindows.Add( form );
 		}
 
+		/// <summary>
+		/// ウィンドウを取り込めていないFormIntegrateでウィンドウの検索と取り込みを実行
+		/// </summary>
 		public void AttachAll() {
 			capturedWindows.ForEach( form => form.Grab() );
 		}
 
+		/// <summary>
+		/// 取り込んだウィンドウを全て開放
+		/// </summary>
 		public void DetachAll() {
 			// ウィンドウのzオーダー維持のためデタッチはアタッチの逆順で行う
 			for ( int i = capturedWindows.Count; i > 0; --i ) {
@@ -54,6 +66,9 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
+		/// <summary>
+		/// FormIntegrateを全て破棄する
+		/// </summary>
 		public void CloseAll() {
 			DetachAll();
 			capturedWindows.ForEach( form => form.Close() );
@@ -70,7 +85,7 @@ namespace ElectronicObserver.Window {
 				SoftwareInformation.SoftwareNameJapanese, MessageBoxButtons.YesNoCancel);
 
 			if ( result == System.Windows.Forms.DialogResult.Yes ) {
-				FormIntegrated form = new FormIntegrated( parent );
+				FormIntegrate form = new FormIntegrate( parent );
 				form.Show( hWnd );
 			}
 		}

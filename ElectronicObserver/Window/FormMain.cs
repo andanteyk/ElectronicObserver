@@ -279,8 +279,8 @@ namespace ElectronicObserver.Window {
 				case "WindowCapture":
 					return fWindowCapture;
 				default:
-					if ( persistString.StartsWith( FormIntegrated.PREFIX ) ) {
-						return FormIntegrated.FromPersistString( this, persistString );
+					if ( persistString.StartsWith( FormIntegrate.PREFIX ) ) {
+						return FormIntegrate.FromPersistString( this, persistString );
 					}
 					return null;
 			}

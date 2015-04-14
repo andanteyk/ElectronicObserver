@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ElectronicObserver.Window.Integrate {
+
+	/// <summary>
+	/// 選択中のウィンドウに表示する枠
+	/// </summary>
 	public partial class FormCandidate : Form {
 
 		private Pen blackPen = new Pen( Color.Black, 5 );

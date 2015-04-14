@@ -16,7 +16,10 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace ElectronicObserver.Window.Integrate {
 
-	public partial class FormIntegrated : DockContent {
+	/// <summary>
+	/// 取り込むウィンドウのベースとなるフォーム
+	/// </summary>
+	public partial class FormIntegrate : DockContent {
 
 		public readonly static String PREFIX = "FormIntegrated_";
 		
@@ -48,13 +51,13 @@ namespace ElectronicObserver.Window.Integrate {
 
 			public bool Match( String name ) {
 				switch ( MatchControl ) {
-					case FormIntegrated.MatchControl.Exact:
+					case FormIntegrate.MatchControl.Exact:
 						return ( name == Name );
-					case FormIntegrated.MatchControl.Contains:
+					case FormIntegrate.MatchControl.Contains:
 						return name.Contains( Name );
-					case FormIntegrated.MatchControl.StartEnd:
+					case FormIntegrate.MatchControl.StartEnd:
 						return name.StartsWith( Name ) || name.EndsWith( Name );
-					case FormIntegrated.MatchControl.Ignore:
+					case FormIntegrate.MatchControl.Ignore:
 						return true;
 				}
 				throw new NotImplementedException( "サポートされていないMatchControl" );
@@ -93,9 +96,11 @@ namespace ElectronicObserver.Window.Integrate {
 				  "条件を無視"
 		};
 
-		FormMain parent;
+		private FormMain parent;
 
-		// 次のウィンドウキャプチャ時に必要な情報
+		/// <summary>
+		/// 次のウィンドウキャプチャ時に必要な情報
+		/// </summary>
 		WindowInfo WindowData {
 			get {
 				WindowInfo info = new WindowInfo();
@@ -120,14 +125,15 @@ namespace ElectronicObserver.Window.Integrate {
 			}
 		}
 
-		IntPtr attachingWindow;
-		// 戻すときに必要になる情報
-		uint origStyle;
-		IntPtr origOwner;
-		WinAPI.RECT origWindowRect;
-		IntPtr origMenu;
+		private IntPtr attachingWindow;
 
-		public FormIntegrated( FormMain parent ) {
+		// 戻すときに必要になる情報
+		private uint origStyle;
+		private IntPtr origOwner;
+		private WinAPI.RECT origWindowRect;
+		private IntPtr origMenu;
+
+		public FormIntegrate( FormMain parent ) {
 			InitializeComponent();
 
 			this.parent = parent;
@@ -143,15 +149,19 @@ namespace ElectronicObserver.Window.Integrate {
 			parent.WindowCapture.AddCapturedWindow( this );
 		}
 
-		public static FormIntegrated FromPersistString( FormMain parent, String str ) {
+		/// <summary>
+		/// PersistStringから復元
+		/// </summary>
+		public static FormIntegrate FromPersistString( FormMain parent, String str ) {
 			WindowInfo info = new WindowInfo();
 			info = (WindowInfo)info.Load( new StringReader( str.Substring( PREFIX.Length ) ) );
-			FormIntegrated form = new FormIntegrated( parent );
+			FormIntegrate form = new FormIntegrate( parent );
 			form.WindowData = info;
 			return form;
 		}
 
 		private static string GetMainModuleFilepath( int processId ) {
+			// System.Diagnostics.Processからだと64bit/32bitの壁を超えられないのでWMIで取得
 			string wmiQueryString = "SELECT ProcessId, ExecutablePath FROM Win32_Process WHERE ProcessId = " + processId;
 			using ( var searcher = new ManagementObjectSearcher( wmiQueryString ) ) {
 				using ( var results = searcher.Get() ) {
@@ -163,6 +173,9 @@ namespace ElectronicObserver.Window.Integrate {
 			return null;
 		}
 
+		/// <summary>
+		/// WindowDataにマッチするウィンドウを探す
+		/// </summary>
 		private IntPtr FindWindow() {
 			StringBuilder className = new StringBuilder( 256 );
 			StringBuilder windowText = new StringBuilder( 256 );
@@ -192,6 +205,9 @@ namespace ElectronicObserver.Window.Integrate {
 			return result;
 		}
 
+		/// <summary>
+		/// ウィンドウを取り込む
+		/// </summary>
 		public bool Grab() {
 			if ( attachingWindow != IntPtr.Zero ) {
 				// 既にアタッチ済み
@@ -305,6 +321,9 @@ namespace ElectronicObserver.Window.Integrate {
 			}
 		}
 
+		/// <summary>
+		/// ウィンドウを開放する
+		/// </summary>
 		public void Detach() {
 			if ( attachingWindow != IntPtr.Zero ) {
 				InternalDetach();
@@ -314,6 +333,9 @@ namespace ElectronicObserver.Window.Integrate {
 			}
 		}
 
+		/// <summary>
+		/// ウィンドウを元の場所を維持しながら取り込む
+		/// </summary>
 		public void Show( IntPtr hWnd ) {
 			Attach( hWnd, true );
 			WindowData = WindowInfoFromHandle( hWnd );

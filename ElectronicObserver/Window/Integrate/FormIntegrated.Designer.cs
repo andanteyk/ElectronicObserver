@@ -1,5 +1,5 @@
 ﻿namespace ElectronicObserver.Window.Integrate {
-	partial class FormIntegrated {
+	partial class FormIntegrate {
 		/// <summary>
 		/// 必要なデザイナー変数です。
 		/// </summary>
