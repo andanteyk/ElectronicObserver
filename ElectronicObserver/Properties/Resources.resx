@@ -1332,4 +1332,202 @@
   <data name="WindowPlacementManager_2" xml:space="preserve">
     <value>ウィンドウ状態の保存に失敗しました。</value>
   </data>
+  <data name="FormBattle_1" xml:space="preserve">
+    <value>触接中:</value>
+  </data>
+  <data name="FormBattle_10" xml:space="preserve">
+    <value>第{0}次: {1}\r\nカットイン種別: {2} ({3})\r\n</value>
+  </data>
+  <data name="FormBattle_11" xml:space="preserve">
+    <value>第{0}次: (発動せず)\r\n</value>
+  </data>
+  <data name="FormBattle_12" xml:space="preserve">
+    <value>探照灯照射:</value>
+  </data>
+  <data name="FormBattle_13" xml:space="preserve">
+    <value>夜間触接</value>
+  </data>
+  <data name="FormBattle_14" xml:space="preserve">
+    <value>夜間触接中:</value>
+  </data>
+  <data name="FormBattle_15" xml:space="preserve">
+    <value>照明弾投射:</value>
+  </data>
+  <data name="FormBattle_2" xml:space="preserve">
+    <value>対空カットイン: {0}\r\nカットイン種別: {1} ({2})</value>
+  </data>
+  <data name="FormBattle_3" xml:space="preserve">
+    <value>対空砲火</value>
+  </data>
+  <data name="FormBattle_4" xml:space="preserve">
+    <value>第2次:</value>
+  </data>
+  <data name="FormBattle_5" xml:space="preserve">
+    <value>第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n</value>
+  </data>
+  <data name="FormBattle_6" xml:space="preserve">
+    <value>{0}触接中\r\n第1次: {1}\r\n第2次: {2}</value>
+  </data>
+  <data name="FormBattle_7" xml:space="preserve">
+    <value>(なし)</value>
+  </data>
+  <data name="FormBattle_8" xml:space="preserve">
+    <value>第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n</value>
+  </data>
+  <data name="FormBattle_9" xml:space="preserve">
+    <value>対空カットイン</value>
+  </data>
+  <data name="FormCompass_1" xml:space="preserve">
+    <value>{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n(右クリックで図鑑)\n</value>
+  </data>
+  <data name="FormCompass_10" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="FormCompass_11" xml:space="preserve">
+    <value>敵艦隊ID : {0}</value>
+  </data>
+  <data name="FormCompass_12" xml:space="preserve">
+    <value>(敵艦隊情報不明)</value>
+  </data>
+  <data name="FormCompass_2" xml:space="preserve">
+    <value>\r\n昼戦: {0}\r\n夜戦: {1}\r\n</value>
+  </data>
+  <data name="FormCompass_3" xml:space="preserve">
+    <value>対空: {0}\r\n</value>
+  </data>
+  <data name="FormCompass_4" xml:space="preserve">
+    <value>演習</value>
+  </data>
+  <data name="FormCompass_5" xml:space="preserve">
+    <value>出撃海域 : {0}-{1}</value>
+  </data>
+  <data name="FormCompass_6" xml:space="preserve">
+    <value>次のセル : {0}{1}</value>
+  </data>
+  <data name="FormCompass_7" xml:space="preserve">
+    <value>索敵機発艦！</value>
+  </data>
+  <data name="FormCompass_8" xml:space="preserve">
+    <value>どうしてこうなった</value>
+  </data>
+  <data name="FormCompass_9" xml:space="preserve">
+    <value>謎のアイテム</value>
+  </data>
+  <data name="FormDock_1" xml:space="preserve">
+    <value>完了日時 :</value>
+  </data>
+  <data name="FormFleet_1" xml:space="preserve">
+    <value>合計レベル：{0}\r\n平均レベル：{1:0.00}\r\nドラム缶搭載: {2}個 ({3}艦)\r\n大発動艇搭載: {4}個\r\n総積載: 燃 {5} / 弾 {6}\r\n(1戦当たり 燃 {7} / 弾 {8})</value>
+  </data>
+  <data name="FormFleet_10" xml:space="preserve">
+    <value>中破まで: {0} / 大破まで: {1}\n</value>
+  </data>
+  <data name="FormFleet_11" xml:space="preserve">
+    <value>大破まで: {0}\n</value>
+  </data>
+  <data name="FormFleet_12" xml:space="preserve">
+    <value>大破しています！</value>
+  </data>
+  <data name="FormFleet_13" xml:space="preserve">
+    <value>入渠時間: {0}\n</value>
+  </data>
+  <data name="FormFleet_14" xml:space="preserve">
+    <value>完全回復まで 約 {0:D2}:{1:D2}</value>
+  </data>
+  <data name="FormFleet_15" xml:space="preserve">
+    <value>あと {0} 回遠征可能</value>
+  </data>
+  <data name="FormFleet_16" xml:space="preserve">
+    <value>\r\n昼戦: {0}\r\n夜戦: {1}\r\n</value>
+  </data>
+  <data name="FormFleet_17" xml:space="preserve">
+    <value>対空: {0}\r\n</value>
+  </data>
+  <data name="FormFleet_18" xml:space="preserve">
+    <value>{0}\t制空戦力{1}/索敵能力{2}\r\n</value>
+  </data>
+  <data name="FormFleet_2" xml:space="preserve">
+    <value>確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n</value>
+  </data>
+  <data name="FormFleet_3" xml:space="preserve">
+    <value>(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n</value>
+  </data>
+  <data name="FormFleet_4" xml:space="preserve">
+    <value>{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n(右クリックで図鑑)\n</value>
+  </data>
+  <data name="FormFleet_5" xml:space="preserve">
+    <value>次のレベルまで: {0}\n</value>
+  </data>
+  <data name="FormFleet_6" xml:space="preserve">
+    <value>改装まで: {0}</value>
+  </data>
+  <data name="FormFleet_7" xml:space="preserve">
+    <value>Lv99まで: {0}</value>
+  </data>
+  <data name="FormFleet_8" xml:space="preserve">
+    <value>Lv150まで: {0}</value>
+  </data>
+  <data name="FormFleet_9" xml:space="preserve">
+    <value>退避中</value>
+  </data>
+  <data name="FormInformation_1" xml:space="preserve">
+    <value>[演習情報]</value>
+  </data>
+  <data name="FormInformation_10" xml:space="preserve">
+    <value>{0}-{1} : 撃破 {2}/{3} 回\r\n</value>
+  </data>
+  <data name="FormInformation_11" xml:space="preserve">
+    <value>[遠征帰投]</value>
+  </data>
+  <data name="FormInformation_12" xml:space="preserve">
+    <value>結果: {0}\r\n</value>
+  </data>
+  <data name="FormInformation_13" xml:space="preserve">
+    <value>提督経験値: +{0}\r\n</value>
+  </data>
+  <data name="FormInformation_14" xml:space="preserve">
+    <value>艦娘経験値: +{0}\r\n</value>
+  </data>
+  <data name="FormInformation_2" xml:space="preserve">
+    <value>敵艦隊名 :</value>
+  </data>
+  <data name="FormInformation_3" xml:space="preserve">
+    <value>獲得経験値 :</value>
+  </data>
+  <data name="FormInformation_4" xml:space="preserve">
+    <value>S勝利 :</value>
+  </data>
+  <data name="FormInformation_5" xml:space="preserve">
+    <value>[中破絵未回収]</value>
+  </data>
+  <data name="FormInformation_6" xml:space="preserve">
+    <value>[未保有艦]</value>
+  </data>
+  <data name="FormInformation_7" xml:space="preserve">
+    <value>[未保有装備]</value>
+  </data>
+  <data name="FormInformation_8" xml:space="preserve">
+    <value>[開発失敗]</value>
+  </data>
+  <data name="FormInformation_9" xml:space="preserve">
+    <value>[海域ゲージ]</value>
+  </data>
+  <data name="FormQuest_1" xml:space="preserve">
+    <value>達成！</value>
+  </data>
+  <data name="FormQuest_2" xml:space="preserve">
+    <value>(未取得の任務 x {0})</value>
+  </data>
+  <data name="FormQuest_3" xml:space="preserve">
+    <value>(任務完遂！)</value>
+  </data>
+  <data name="FormQuest_4" xml:space="preserve">
+    <value>任務データを初期化します。\r\nデータに齟齬が生じている場合以外での使用は推奨しません。\r\nよろしいですか？</value>
+  </data>
+  <data name="FormQuest_5" xml:space="preserve">
+    <value>任務初期化の確認</value>
+  </data>
+  <data name="FormQuest_6" xml:space="preserve">
+    <value>(未取得)</value>
+  </data>
 </root>

@@ -277,12 +277,14 @@
             // StripMenu_View_FleetOverview
             // 
             resources.ApplyResources(this.StripMenu_View_FleetOverview, "StripMenu_View_FleetOverview");
+            this.StripMenu_View_FleetOverview.CheckOnClick = true;
             this.StripMenu_View_FleetOverview.Name = "StripMenu_View_FleetOverview";
             this.StripMenu_View_FleetOverview.Click += new System.EventHandler(this.StripMenu_View_FleetOverview_Click);
             // 
             // StripMenu_View_ShipGroup
             // 
             resources.ApplyResources(this.StripMenu_View_ShipGroup, "StripMenu_View_ShipGroup");
+            this.StripMenu_View_ShipGroup.CheckOnClick = true;
             this.StripMenu_View_ShipGroup.Name = "StripMenu_View_ShipGroup";
             this.StripMenu_View_ShipGroup.Click += new System.EventHandler(this.StripMenu_View_ShipGroup_Click);
             // 
@@ -294,12 +296,14 @@
             // StripMenu_View_Dock
             // 
             resources.ApplyResources(this.StripMenu_View_Dock, "StripMenu_View_Dock");
+            this.StripMenu_View_Dock.CheckOnClick = true;
             this.StripMenu_View_Dock.Name = "StripMenu_View_Dock";
             this.StripMenu_View_Dock.Click += new System.EventHandler(this.StripMenu_View_Dock_Click);
             // 
             // StripMenu_View_Arsenal
             // 
             resources.ApplyResources(this.StripMenu_View_Arsenal, "StripMenu_View_Arsenal");
+            this.StripMenu_View_Arsenal.CheckOnClick = true;
             this.StripMenu_View_Arsenal.Name = "StripMenu_View_Arsenal";
             this.StripMenu_View_Arsenal.Click += new System.EventHandler(this.StripMenu_View_Arsenal_Click);
             // 
@@ -311,18 +315,21 @@
             // StripMenu_View_Headquarters
             // 
             resources.ApplyResources(this.StripMenu_View_Headquarters, "StripMenu_View_Headquarters");
+            this.StripMenu_View_Headquarters.CheckOnClick = true;
             this.StripMenu_View_Headquarters.Name = "StripMenu_View_Headquarters";
             this.StripMenu_View_Headquarters.Click += new System.EventHandler(this.StripMenu_View_Headquarters_Click);
             // 
             // StripMenu_View_Quest
             // 
             resources.ApplyResources(this.StripMenu_View_Quest, "StripMenu_View_Quest");
+            this.StripMenu_View_Quest.CheckOnClick = true;
             this.StripMenu_View_Quest.Name = "StripMenu_View_Quest";
             this.StripMenu_View_Quest.Click += new System.EventHandler(this.StripMenu_View_Quest_Click);
             // 
             // StripMenu_View_Information
             // 
             resources.ApplyResources(this.StripMenu_View_Information, "StripMenu_View_Information");
+            this.StripMenu_View_Information.CheckOnClick = true;
             this.StripMenu_View_Information.Name = "StripMenu_View_Information";
             this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
             // 
@@ -334,12 +341,14 @@
             // StripMenu_View_Compass
             // 
             resources.ApplyResources(this.StripMenu_View_Compass, "StripMenu_View_Compass");
+            this.StripMenu_View_Compass.CheckOnClick = true;
             this.StripMenu_View_Compass.Name = "StripMenu_View_Compass";
             this.StripMenu_View_Compass.Click += new System.EventHandler(this.StripMenu_View_Compass_Click);
             // 
             // StripMenu_View_Battle
             // 
             resources.ApplyResources(this.StripMenu_View_Battle, "StripMenu_View_Battle");
+            this.StripMenu_View_Battle.CheckOnClick = true;
             this.StripMenu_View_Battle.Name = "StripMenu_View_Battle";
             this.StripMenu_View_Battle.Click += new System.EventHandler(this.StripMenu_View_Battle_Click);
             // 
@@ -351,12 +360,14 @@
             // StripMenu_View_Browser
             // 
             resources.ApplyResources(this.StripMenu_View_Browser, "StripMenu_View_Browser");
+            this.StripMenu_View_Browser.CheckOnClick = true;
             this.StripMenu_View_Browser.Name = "StripMenu_View_Browser";
             this.StripMenu_View_Browser.Click += new System.EventHandler(this.StripMenu_View_Browser_Click);
             // 
             // StripMenu_View_Log
             // 
             resources.ApplyResources(this.StripMenu_View_Log, "StripMenu_View_Log");
+            this.StripMenu_View_Log.CheckOnClick = true;
             this.StripMenu_View_Log.Name = "StripMenu_View_Log";
             this.StripMenu_View_Log.Click += new System.EventHandler(this.StripMenu_View_Log_Click);
             // 

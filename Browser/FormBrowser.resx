@@ -135,6 +135,9 @@
   <data name="&gt;&gt;ToolMenu_Other_Zoom_50.Name" xml:space="preserve">
     <value>ToolMenu_Other_Zoom_50</value>
   </data>
+  <data name="ToolMenu_Other_Alignment_Bottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 22</value>
+  </data>
   <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
     <value>217, 6</value>
   </data>
@@ -201,11 +204,11 @@
   <data name="&gt;&gt;ToolMenu_Other_Zoom_300.Name" xml:space="preserve">
     <value>ToolMenu_Other_Zoom_300</value>
   </data>
+  <data name="&gt;&gt;ToolMenu_Other_Alignment_Bottom.Name" xml:space="preserve">
+    <value>ToolMenu_Other_Alignment_Bottom</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
     <value>toolStripSeparator5</value>
-  </data>
-  <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
   </data>
   <data name="ToolMenu_Other_Zoom_Current.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -215,6 +218,9 @@
   </data>
   <data name="&gt;&gt;ContextMenuTool.Name" xml:space="preserve">
     <value>ContextMenuTool</value>
+  </data>
+  <data name="&gt;&gt;ToolMenu_Other_Alignment_Right.Name" xml:space="preserve">
+    <value>ToolMenu_Other_Alignment_Right</value>
   </data>
   <data name="ToolMenu_Other_Zoom.Text" xml:space="preserve">
     <value>ズーム(&amp;Z)</value>
@@ -246,9 +252,6 @@
   <data name="ToolMenu_Other_Refresh.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 22</value>
   </data>
-  <data name="ToolMenu_Other_ScreenShot.Text" xml:space="preserve">
-    <value>スクリーンショット(&amp;S)</value>
-  </data>
   <data name="ToolMenu_Other.Text" xml:space="preserve">
     <value>その他</value>
   </data>
@@ -257,9 +260,6 @@
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolMenu_Other_Alignment_Invisible.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -270,8 +270,8 @@
   <data name="&gt;&gt;ToolMenu_ScreenShot.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 6</value>
+  <data name="&gt;&gt;ToolMenu_Other_Alignment_Bottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ToolMenu_Other_Zoom_300.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
@@ -300,6 +300,9 @@
   <data name="&gt;&gt;ToolMenu_Other_Zoom_25.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
+    <value>toolStripSeparator4</value>
+  </data>
   <data name="&gt;&gt;ToolMenu_Other_Zoom_300.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -327,6 +330,9 @@
   <data name="ContextMenuTool.Size" type="System.Drawing.Size, System.Drawing">
     <value>197, 26</value>
   </data>
+  <data name="&gt;&gt;ToolMenu_Other_Alignment_Top.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="ToolMenu_Mute.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -351,8 +357,8 @@
   <data name="ToolMenu_Other_Zoom_25.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_Zoom_75.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;ToolMenu_Refresh.Name" xml:space="preserve">
+    <value>ToolMenu_Refresh</value>
   </data>
   <data name="&gt;&gt;ContextMenuTool_ShowToolMenu.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -371,9 +377,6 @@
   </data>
   <data name="&gt;&gt;Browser.Parent" xml:space="preserve">
     <value>SizeAdjuster</value>
-  </data>
-  <data name="Browser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>284, 236</value>
   </data>
   <data name="ToolMenu_Other_Zoom_Current.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
@@ -405,14 +408,8 @@
   <data name="&gt;&gt;Icons.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SizeAdjuster.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
   <data name="&gt;&gt;ToolMenu_Other_Alignment_Left.Name" xml:space="preserve">
     <value>ToolMenu_Other_Alignment_Left</value>
-  </data>
-  <data name="ToolMenu_Other_Zoom_400.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 22</value>
   </data>
   <data name="ToolMenu_Other_Zoom_50.Text" xml:space="preserve">
     <value>50%</value>
@@ -431,9 +428,6 @@
   </data>
   <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
     <value>toolStripSeparator3</value>
-  </data>
-  <data name="ToolMenu_Other_Zoom_Increment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 22</value>
   </data>
   <data name="&gt;&gt;ToolMenu_Zoom.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -462,8 +456,11 @@
   <data name="ToolMenu_Other_Alignment_Top.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 22</value>
   </data>
-  <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 6</value>
+  <data name="&gt;&gt;ToolMenu_Other_Zoom_75.Name" xml:space="preserve">
+    <value>ToolMenu_Other_Zoom_75</value>
+  </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 6</value>
   </data>
   <data name="ToolMenu_Other_Zoom_25.Text" xml:space="preserve">
     <value>25%</value>
@@ -474,8 +471,8 @@
   <data name="&gt;&gt;ToolMenu_Other_Zoom.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Refresh.Name" xml:space="preserve">
-    <value>ToolMenu_Refresh</value>
+  <data name="&gt;&gt;ToolMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ToolMenu_Other_Refresh.Text" xml:space="preserve">
     <value>更新(&amp;R)</value>
@@ -504,6 +501,9 @@
   <data name="ToolMenu_Mute.Text" xml:space="preserve">
     <value>ミュート</value>
   </data>
+  <data name="&gt;&gt;ToolMenu_Other_Zoom.Name" xml:space="preserve">
+    <value>ToolMenu_Other_Zoom</value>
+  </data>
   <data name="ToolMenu_Other_NavigateToLogInPage.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 22</value>
   </data>
@@ -515,6 +515,9 @@
   </data>
   <data name="ToolMenu_Refresh.Text" xml:space="preserve">
     <value>更新</value>
+  </data>
+  <data name="&gt;&gt;ToolMenu_Other_Zoom_50.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolMenu_Other_Zoom_Current.Name" xml:space="preserve">
     <value>ToolMenu_Other_Zoom_Current</value>
@@ -533,9 +536,6 @@
   </data>
   <data name="ToolMenu_Other_Zoom_50.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
-  </data>
-  <data name="&gt;&gt;ToolMenu_Other_AppliesStyleSheet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
@@ -576,6 +576,9 @@
   <data name="SizeAdjuster.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 25</value>
   </data>
+  <data name="&gt;&gt;ToolMenu_Other_Zoom_75.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="SizeAdjuster.Size" type="System.Drawing.Size, System.Drawing">
     <value>284, 236</value>
   </data>
@@ -591,8 +594,8 @@
   <data name="&gt;&gt;ToolMenu_Other_AppliesStyleSheet.Name" xml:space="preserve">
     <value>ToolMenu_Other_AppliesStyleSheet</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_Alignment_Bottom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="ToolMenu_Other_ScreenShot.Text" xml:space="preserve">
+    <value>スクリーンショット(&amp;S)</value>
   </data>
   <data name="Browser.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -609,11 +612,11 @@
   <data name="&gt;&gt;ToolMenu_Other_Zoom_400.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ToolMenu_Other_Zoom_200.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 22</value>
+  <data name="&gt;&gt;toolStripSeparator5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_Alignment_Top.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="ToolMenu_Other_Zoom_Increment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 22</value>
   </data>
   <data name="&gt;&gt;ToolMenu_NavigateToLogInPage.Name" xml:space="preserve">
     <value>ToolMenu_NavigateToLogInPage</value>
@@ -621,8 +624,8 @@
   <data name="ToolMenu_Other_Zoom_Decrement.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
   </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 6</value>
+  <data name="ToolMenu_Other_Zoom_200.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 22</value>
   </data>
   <data name="&gt;&gt;ToolMenu_Mute.Name" xml:space="preserve">
     <value>ToolMenu_Mute</value>
@@ -645,8 +648,8 @@
   <data name="&gt;&gt;ToolMenu_Other_NavigateToLogInPage.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;ToolMenu_Other_NavigateToLogInPage.Name" xml:space="preserve">
+    <value>ToolMenu_Other_NavigateToLogInPage</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator12.Name" xml:space="preserve">
     <value>toolStripSeparator12</value>
@@ -654,14 +657,11 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>284, 261</value>
   </data>
-  <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 6</value>
-  </data>
   <data name="ToolMenu_Other_Mute.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>F7</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
-    <value>toolStripSeparator4</value>
+  <data name="Browser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>284, 236</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
     <value>toolStripSeparator1</value>
@@ -690,8 +690,8 @@
   <data name="ToolMenu_Other_Alignment_Right.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 22</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_Zoom_50.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 25</value>
   </data>
   <data name="&gt;&gt;ToolMenu_Other_Refresh.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -699,11 +699,11 @@
   <data name="&gt;&gt;ContextMenuTool.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_Zoom.Name" xml:space="preserve">
-    <value>ToolMenu_Other_Zoom</value>
+  <data name="&gt;&gt;SizeAdjuster.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_Alignment_Bottom.Name" xml:space="preserve">
-    <value>ToolMenu_Other_Alignment_Bottom</value>
+  <data name="ToolMenu_Other_Zoom_400.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 22</value>
   </data>
   <data name="&gt;&gt;ToolMenu_Other_Zoom_Decrement.Name" xml:space="preserve">
     <value>ToolMenu_Other_Zoom_Decrement</value>
@@ -714,17 +714,17 @@
   <data name="&gt;&gt;ToolMenu_Other_Mute.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_Zoom_75.Name" xml:space="preserve">
-    <value>ToolMenu_Other_Zoom_75</value>
+  <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 6</value>
   </data>
   <data name="ToolMenu_Other_Alignment_Top.Text" xml:space="preserve">
     <value>上(&amp;T)</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_Alignment_Right.Name" xml:space="preserve">
-    <value>ToolMenu_Other_Alignment_Right</value>
+  <data name="&gt;&gt;ToolMenu_Other_AppliesStyleSheet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolMenu_Other_NavigateToLogInPage.Name" xml:space="preserve">
-    <value>ToolMenu_Other_NavigateToLogInPage</value>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 6</value>
   </data>
   <data name="ToolMenu_Other_Alignment_Right.Text" xml:space="preserve">
     <value>右(&amp;R)</value>
@@ -738,8 +738,8 @@
   <data name="ToolMenu_Other_Alignment_Bottom.Text" xml:space="preserve">
     <value>下(&amp;B)</value>
   </data>
-  <data name="ToolMenu_Other_Alignment_Bottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+  <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 6</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator10.Name" xml:space="preserve">
     <value>toolStripSeparator10</value>

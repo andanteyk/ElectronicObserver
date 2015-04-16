@@ -193,7 +193,7 @@ namespace ElectronicObserver.Window {
 				}
 
 				return string.Format(
-							"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n(右クリックで図鑑)\n",
+                            LoadResources.getter("FormCompass_1"),
 							ship.ShipTypeName, ship.NameWithClass, level < 1 ? "" : string.Format( " Lv. {0}", level ),
 							hp,
 							firepower_c, firepower,
@@ -218,14 +218,14 @@ namespace ElectronicObserver.Window {
 						sb.AppendFormat( "[{0}] {1}\r\n", ship.Aircraft[i], KCDatabase.Instance.MasterEquipments[slot[i]].Name );
 				}
 
-				sb.AppendFormat( "\r\n昼戦: {0}\r\n夜戦: {1}\r\n",
+                sb.AppendFormat(LoadResources.getter("FormCompass_2"),
 					Constants.GetDayAttackKind( Calculator.GetDayAttackKind( slot, ship.ShipID, -1 ) ),
 					Constants.GetNightAttackKind( Calculator.GetNightAttackKind( slot, ship.ShipID, -1 ) ) );
 
 				{
 					int aacutin = Calculator.GetAACutinKind( shipID, slot );
 					if ( aacutin != 0 ) {
-						sb.AppendFormat( "対空: {0}\r\n", Constants.GetAACutinKind( aacutin ) );
+                        sb.AppendFormat(LoadResources.getter("FormCompass_3"), Constants.GetAACutinKind(aacutin));
 					}
 				}
 
@@ -340,7 +340,7 @@ namespace ElectronicObserver.Window {
 
 			} else if ( apiname == "api_req_member/get_practice_enemyinfo" ) {
 
-				TextMapArea.Text = "演習";
+                TextMapArea.Text = LoadResources.getter("FormCompass_4");
 				TextDestination.Text = string.Format( "{0} {1}", data.api_nickname, Constants.GetAdmiralRank( (int)data.api_rank ) );
 				TextEventKind.Text = data.api_cmt;
 				TextEventKind.ForeColor = colorNormal;
@@ -356,13 +356,13 @@ namespace ElectronicObserver.Window {
 				PanelEnemyFleet.Visible = false;
 
 
-				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}", compass.MapAreaID, compass.MapInfoID );
-				
-				TextDestination.Text = string.Format( "次のセル : {0}{1}", compass.Destination, ( compass.IsEndPoint ? " (終点)" : "" ) );
+                TextMapArea.Text = string.Format(LoadResources.getter("FormCompass_5"), compass.MapAreaID, compass.MapInfoID);
+
+                TextDestination.Text = string.Format(LoadResources.getter("FormCompass_6"), compass.Destination, (compass.IsEndPoint ? " (終点)" : ""));
 				if ( compass.LaunchedRecon != 0 ) {
 					TextDestination.ImageAlign = ContentAlignment.MiddleRight;
 					TextDestination.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
-					ToolTipInfo.SetToolTip( TextDestination, "索敵機発艦！" );
+                    ToolTipInfo.SetToolTip(TextDestination, LoadResources.getter("FormCompass_7"));
 				} else {
 					TextDestination.ImageAlign = ContentAlignment.MiddleCenter;
 					TextDestination.ImageIndex = -1;
@@ -379,7 +379,7 @@ namespace ElectronicObserver.Window {
 
 						case 0:		//初期位置
 						case 1:		//不明
-							TextEventDetail.Text = "どうしてこうなった";
+                            TextEventDetail.Text = LoadResources.getter("FormCompass_8");
 							break;
 
 						case 2:		//資源
@@ -395,7 +395,7 @@ namespace ElectronicObserver.Window {
 									if ( item != null )
 										materialname = item.Name;
 									else
-										materialname = "謎のアイテム";
+                                        materialname = LoadResources.getter("FormCompass_9");
 								}
 
 								TextEventDetail.Text = materialname + " x " + compass.GetItemAmount;
@@ -452,7 +452,7 @@ namespace ElectronicObserver.Window {
 
 
 						default:
-							eventkind += "不明";
+                            eventkind += LoadResources.getter("FormCompass_10");
 							TextEventDetail.Text = "";
 							break;
 
@@ -478,7 +478,7 @@ namespace ElectronicObserver.Window {
 
 		private void UpdateEnemyFleet( int fleetID ) {
 
-			TextEventDetail.Text = string.Format( "敵艦隊ID : {0}", fleetID );
+            TextEventDetail.Text = string.Format(LoadResources.getter("FormCompass_11"), fleetID);
 
 
 			var efleet = RecordManager.Instance.EnemyFleet;
@@ -486,7 +486,7 @@ namespace ElectronicObserver.Window {
 			if ( !efleet.Record.ContainsKey( fleetID ) ) {
 
 				//unknown
-				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
+                TextEnemyFleetName.Text = LoadResources.getter("FormCompass_12");
 				TextFormation.Visible = false;
 				TextAirSuperiority.Visible = false;
 				TableEnemyMember.Visible = false;

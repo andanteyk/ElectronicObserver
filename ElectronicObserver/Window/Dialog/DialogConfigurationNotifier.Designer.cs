@@ -394,7 +394,8 @@
             resources.GetString("Alignment.Items7"),
             resources.GetString("Alignment.Items8"),
             resources.GetString("Alignment.Items9"),
-            resources.GetString("Alignment.Items10")});
+            resources.GetString("Alignment.Items10"),
+            resources.GetString("Alignment.Items11")});
             this.Alignment.Name = "Alignment";
             this.ToolTipText.SetToolTip(this.Alignment, resources.GetString("Alignment.ToolTip"));
             // 

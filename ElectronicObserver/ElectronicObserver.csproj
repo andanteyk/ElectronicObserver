@@ -138,6 +138,7 @@
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
     <Compile Include="LoadResources.cs" />
+    <Compile Include="Notifier\BalloonNotifier.cs" />
     <Compile Include="Notifier\NotifierBase.cs" />
     <Compile Include="Notifier\NotifierCondition.cs" />
     <Compile Include="Notifier\NotifierConstruction.cs" />
@@ -154,6 +155,11 @@
       <DependentUpon>Resources.zh-Hans.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Utility\PathHelper.cs" />
@@ -576,6 +582,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormHeadquarters.resx">
       <DependentUpon>FormHeadquarters.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormHeadquarters.zh-Hans.resx">
       <DependentUpon>FormHeadquarters.cs</DependentUpon>
@@ -597,14 +604,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Window\FormMain.zh-Hans.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

@@ -117,145 +117,302 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.Text" xml:space="preserve">
-    <value>试制七四式电子观测仪</value>
-  </data>
-  <data name="StripMenu.Text" xml:space="preserve">
-    <value>菜单</value>
-  </data>
-  <data name="StripMenu_Browser.Text" xml:space="preserve">
-    <value>浏览器(&amp;B)</value>
-  </data>
-  <data name="StripMenu_Browser_AppliesStyleSheet.Text" xml:space="preserve">
-    <value>应用样式(&amp;S)</value>
-  </data>
-  <data name="StripMenu_Browser_Navigate.Text" xml:space="preserve">
-    <value>跳转(&amp;M)...</value>
-  </data>
-  <data name="StripMenu_Browser_NavigateToLogInPage.Text" xml:space="preserve">
-    <value>跳转登陆页面(&amp;L)</value>
-  </data>
-  <data name="StripMenu_Browser_Refresh.Text" xml:space="preserve">
-    <value>刷新(&amp;R)</value>
-  </data>
-  <data name="StripMenu_Browser_ScreenShot.Text" xml:space="preserve">
-    <value>截图(&amp;S)</value>
-  </data>
-  <data name="StripMenu_Browser_Zoom.Text" xml:space="preserve">
-    <value>缩放(&amp;Z)</value>
-  </data>
-  <data name="StripMenu_Browser_Zoom_Current.Text" xml:space="preserve">
-    <value>当前%</value>
-  </data>
-  <data name="StripMenu_Debug.Text" xml:space="preserve">
-    <value>调试(&amp;D)</value>
-  </data>
-  <data name="StripMenu_Debug_DeleteOldAPI.Text" xml:space="preserve">
-    <value>旧API数据删除(&amp;D)</value>
-  </data>
-  <data name="StripMenu_Debug_LoadAPIFromFile.Text" xml:space="preserve">
-    <value>从文件读取API接口(&amp;L)...</value>
-  </data>
-  <data name="StripMenu_Debug_LoadInitialAPI.Text" xml:space="preserve">
-    <value>读取初始API列表(&amp;I)...</value>
-  </data>
-  <data name="StripMenu_Debug_LoadRecordFromOld.Text" xml:space="preserve">
-    <value>从旧 api_star2 构建记录(&amp;O)...</value>
-  </data>
-  <data name="StripMenu_Debug_RenameShipResource.Text" xml:space="preserve">
-    <value>重命名舰船资源(&amp;R)...</value>
-  </data>
-  <data name="StripMenu_File.Text" xml:space="preserve">
-    <value>文件(&amp;F)</value>
-  </data>
-  <data name="StripMenu_File_Close.Text" xml:space="preserve">
-    <value>退出(&amp;X)</value>
-  </data>
-  <data name="StripMenu_File_Configuration.Text" xml:space="preserve">
-    <value>设置(&amp;C)...</value>
-  </data>
-  <data name="StripMenu_File_Layout.Text" xml:space="preserve">
-    <value>布局(&amp;L)</value>
-  </data>
-  <data name="StripMenu_File_Layout_Load.Text" xml:space="preserve">
-    <value>恢复(&amp;L)</value>
-  </data>
-  <data name="StripMenu_File_Layout_Open.Text" xml:space="preserve">
-    <value>打开其他布局文件(&amp;O)...</value>
-  </data>
-  <data name="StripMenu_File_Layout_Save.Text" xml:space="preserve">
-    <value>保存(&amp;S)</value>
-  </data>
-  <data name="StripMenu_File_Record.Text" xml:space="preserve">
-    <value>记录(&amp;R)</value>
-  </data>
-  <data name="StripMenu_File_Record_Load.Text" xml:space="preserve">
-    <value>读取(&amp;L)</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="StripMenu_File_Record_Save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 22</value>
   </data>
   <data name="StripMenu_File_Record_Save.Text" xml:space="preserve">
     <value>保存(&amp;S)</value>
   </data>
-  <data name="StripMenu_Help.Text" xml:space="preserve">
-    <value>帮助(&amp;H)</value>
+  <data name="StripMenu_File_Record_Load.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 22</value>
   </data>
-  <data name="StripMenu_Help_Help.Text" xml:space="preserve">
-    <value>联机帮助(&amp;H)...</value>
+  <data name="StripMenu_File_Record_Load.Text" xml:space="preserve">
+    <value>读取(&amp;L)</value>
   </data>
-  <data name="StripMenu_Help_Version.Text" xml:space="preserve">
-    <value>版本信息(&amp;V)</value>
+  <data name="StripMenu_File_Record.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
   </data>
-  <data name="StripMenu_Tool.Text" xml:space="preserve">
-    <value>工具(&amp;T)</value>
+  <data name="StripMenu_File_Record.Text" xml:space="preserve">
+    <value>记录(&amp;R)</value>
   </data>
-  <data name="StripMenu_Tool_AlbumMasterEquipment.Text" xml:space="preserve">
-    <value>装备图鉴(&amp;E)</value>
+  <data name="StripMenu_File_Layout_Load.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 22</value>
   </data>
-  <data name="StripMenu_Tool_AlbumMasterShip.Text" xml:space="preserve">
-    <value>舰船图鉴(&amp;S)</value>
+  <data name="StripMenu_File_Layout_Load.Text" xml:space="preserve">
+    <value>恢复(&amp;L)</value>
   </data>
-  <data name="StripMenu_Tool_EquipmentList.Text" xml:space="preserve">
-    <value>装备一览(&amp;Q)</value>
+  <data name="StripMenu_File_Layout_Save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 22</value>
   </data>
-  <data name="StripMenu_View.Text" xml:space="preserve">
-    <value>显示(&amp;V)</value>
+  <data name="StripMenu_File_Layout_Open.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 22</value>
   </data>
-  <data name="StripMenu_View_Arsenal.Text" xml:space="preserve">
-    <value>工厂(&amp;A)</value>
+  <data name="StripMenu_File_Layout_Open.Text" xml:space="preserve">
+    <value>打开其他布局文件(&amp;O)...</value>
   </data>
-  <data name="StripMenu_View_Battle.Text" xml:space="preserve">
-    <value>战斗(&amp;B)</value>
+  <data name="StripMenu_File_Layout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
   </data>
-  <data name="StripMenu_View_Browser.Text" xml:space="preserve">
-    <value>浏览器(&amp;M)</value>
+  <data name="StripMenu_File_Layout.Text" xml:space="preserve">
+    <value>布局(&amp;L)</value>
   </data>
-  <data name="StripMenu_View_Compass.Text" xml:space="preserve">
-    <value>罗盘(&amp;C)</value>
+  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
   </data>
-  <data name="StripMenu_View_Dock.Text" xml:space="preserve">
-    <value>入渠(&amp;D)</value>
+  <data name="StripMenu_File_Configuration.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_File_Configuration.Text" xml:space="preserve">
+    <value>设置(&amp;C)...</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="StripMenu_File_Close.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_File_Close.Text" xml:space="preserve">
+    <value>退出(&amp;X)</value>
+  </data>
+  <data name="StripMenu_File.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 21</value>
+  </data>
+  <data name="StripMenu_File.Text" xml:space="preserve">
+    <value>文件(&amp;F)</value>
+  </data>
+  <data name="StripMenu_View_Fleet_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Fleet_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Fleet_3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Fleet_4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Fleet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
   </data>
   <data name="StripMenu_View_Fleet.Text" xml:space="preserve">
     <value>舰队(&amp;F)</value>
   </data>
+  <data name="StripMenu_View_FleetOverview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
   <data name="StripMenu_View_FleetOverview.Text" xml:space="preserve">
     <value>舰队一览(&amp;O)</value>
   </data>
-  <data name="StripMenu_View_Headquarters.Text" xml:space="preserve">
-    <value>司令部(&amp;H)</value>
-  </data>
-  <data name="StripMenu_View_Information.Text" xml:space="preserve">
-    <value>信息(&amp;I)</value>
-  </data>
-  <data name="StripMenu_View_Log.Text" xml:space="preserve">
-    <value>记录(&amp;L)</value>
-  </data>
-  <data name="StripMenu_View_Quest.Text" xml:space="preserve">
-    <value>任务(&amp;Q)</value>
+  <data name="StripMenu_View_ShipGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
   </data>
   <data name="StripMenu_View_ShipGroup.Text" xml:space="preserve">
     <value>舰队编成(&amp;G)</value>
   </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="StripMenu_View_Dock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Arsenal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Arsenal.Text" xml:space="preserve">
+    <value>工厂(&amp;A)</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="StripMenu_View_Headquarters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Quest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Quest.Text" xml:space="preserve">
+    <value>任务(&amp;Q)</value>
+  </data>
+  <data name="StripMenu_View_Information.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Information.Text" xml:space="preserve">
+    <value>信息(&amp;I)</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="StripMenu_View_Compass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Compass.Text" xml:space="preserve">
+    <value>罗盘(&amp;C)</value>
+  </data>
+  <data name="StripMenu_View_Battle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Battle.Text" xml:space="preserve">
+    <value>战斗(&amp;B)</value>
+  </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="StripMenu_View_Browser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Browser.Text" xml:space="preserve">
+    <value>浏览器(&amp;M)</value>
+  </data>
+  <data name="StripMenu_View_Log.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="StripMenu_View_Log.Text" xml:space="preserve">
+    <value>记录(&amp;L)</value>
+  </data>
+  <data name="StripMenu_View.Text" xml:space="preserve">
+    <value>显示(&amp;V)</value>
+  </data>
+  <data name="StripMenu_Browser_ScreenShot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="StripMenu_Browser_ScreenShot.Text" xml:space="preserve">
+    <value>截图(&amp;S)</value>
+  </data>
+  <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 6</value>
+  </data>
+  <data name="StripMenu_Browser_Zoom_Current.Text" xml:space="preserve">
+    <value>当前%</value>
+  </data>
+  <data name="StripMenu_Browser_Zoom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="StripMenu_Browser_Zoom.Text" xml:space="preserve">
+    <value>缩放(&amp;Z)</value>
+  </data>
+  <data name="StripMenu_Browser_AppliesStyleSheet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="StripMenu_Browser_AppliesStyleSheet.Text" xml:space="preserve">
+    <value>应用样式(&amp;S)</value>
+  </data>
+  <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 6</value>
+  </data>
+  <data name="StripMenu_Browser_Refresh.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="StripMenu_Browser_Refresh.Text" xml:space="preserve">
+    <value>刷新(&amp;R)</value>
+  </data>
+  <data name="StripMenu_Browser_NavigateToLogInPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="StripMenu_Browser_NavigateToLogInPage.Text" xml:space="preserve">
+    <value>跳转登陆页面(&amp;L)</value>
+  </data>
+  <data name="StripMenu_Browser_Navigate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="StripMenu_Browser_Navigate.Text" xml:space="preserve">
+    <value>跳转(&amp;M)...</value>
+  </data>
+  <data name="StripMenu_Browser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 21</value>
+  </data>
+  <data name="StripMenu_Browser.Text" xml:space="preserve">
+    <value>浏览器(&amp;B)</value>
+  </data>
+  <data name="StripMenu_Tool_EquipmentList.Text" xml:space="preserve">
+    <value>装备一览(&amp;Q)</value>
+  </data>
+  <data name="StripMenu_Tool_AlbumMasterShip.Text" xml:space="preserve">
+    <value>舰船图鉴(&amp;S)</value>
+  </data>
+  <data name="StripMenu_Tool_AlbumMasterEquipment.Text" xml:space="preserve">
+    <value>装备图鉴(&amp;E)</value>
+  </data>
+  <data name="StripMenu_Tool.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 21</value>
+  </data>
+  <data name="StripMenu_Tool.Text" xml:space="preserve">
+    <value>工具(&amp;T)</value>
+  </data>
+  <data name="StripMenu_Debug_LoadAPIFromFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="StripMenu_Debug_LoadAPIFromFile.Text" xml:space="preserve">
+    <value>从文件读取API接口(&amp;L)...</value>
+  </data>
+  <data name="StripMenu_Debug_LoadInitialAPI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="StripMenu_Debug_LoadInitialAPI.Text" xml:space="preserve">
+    <value>读取初始API列表(&amp;I)...</value>
+  </data>
+  <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 6</value>
+  </data>
+  <data name="StripMenu_Debug_LoadRecordFromOld.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="StripMenu_Debug_LoadRecordFromOld.Text" xml:space="preserve">
+    <value>从旧 api_star2 构建记录(&amp;O)...</value>
+  </data>
+  <data name="StripMenu_Debug_DeleteOldAPI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="StripMenu_Debug_DeleteOldAPI.Text" xml:space="preserve">
+    <value>旧API数据删除(&amp;D)</value>
+  </data>
+  <data name="StripMenu_Debug_RenameShipResource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="StripMenu_Debug_RenameShipResource.Text" xml:space="preserve">
+    <value>重命名舰船资源(&amp;R)...</value>
+  </data>
+  <data name="StripMenu_Debug.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 21</value>
+  </data>
+  <data name="StripMenu_Debug.Text" xml:space="preserve">
+    <value>调试(&amp;D)</value>
+  </data>
+  <data name="StripMenu_Help_Help.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 22</value>
+  </data>
+  <data name="StripMenu_Help_Help.Text" xml:space="preserve">
+    <value>联机帮助(&amp;H)...</value>
+  </data>
+  <data name="SeparatorWhitecap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 6</value>
+  </data>
+  <data name="StripMenu_Help_Version.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 22</value>
+  </data>
+  <data name="StripMenu_Help_Version.Text" xml:space="preserve">
+    <value>版本信息(&amp;V)</value>
+  </data>
+  <data name="StripMenu_Help.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 21</value>
+  </data>
+  <data name="StripMenu_Help.Text" xml:space="preserve">
+    <value>帮助(&amp;H)</value>
+  </data>
+  <data name="StripMenu.Text" xml:space="preserve">
+    <value>菜单</value>
+  </data>
+  <data name="StripStatus_Information.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 17</value>
+  </data>
   <data name="StripStatus_Information.Text" xml:space="preserve">
     <value>舰船准备中...</value>
+  </data>
+  <data name="StripStatus_Padding.Size" type="System.Drawing.Size, System.Drawing">
+    <value>508, 17</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>试制七四式电子观测仪</value>
   </data>
 </root>

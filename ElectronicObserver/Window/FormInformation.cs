@@ -96,8 +96,8 @@ namespace ElectronicObserver.Window {
 		private string GetPracticeEnemyInfo( dynamic data ) {
 
 			StringBuilder sb = new StringBuilder();
-			sb.AppendLine( "[演習情報]" );
-			sb.AppendLine( "敵艦隊名 : " + data.api_deckname );
+            sb.AppendLine(LoadResources.getter("FormInformation_1"));
+            sb.AppendLine(LoadResources.getter("FormInformation_2") + data.api_deckname);
 
 			{
 				int ship1lv = (int)data.api_deck.api_ships[0].api_id != -1 ? (int)data.api_deck.api_ships[0].api_level : 1;
@@ -107,8 +107,8 @@ namespace ElectronicObserver.Window {
 				if ( expbase >= 500.0 )
 					expbase = 500.0 + Math.Sqrt( expbase - 500.0 );
 
-				sb.AppendLine( "獲得経験値 : " + (int)expbase );
-				sb.AppendLine( "S勝利 : " + (int)( expbase * 1.2 ) );
+                sb.AppendLine(LoadResources.getter("FormInformation_3") + (int)expbase);
+                sb.AppendLine(LoadResources.getter("FormInformation_4") + (int)(expbase * 1.2));
 
 			}
 
@@ -127,7 +127,7 @@ namespace ElectronicObserver.Window {
 
 				if ( data.api_list[0].api_yomi() ) {
 					//艦娘図鑑
-					sb.AppendLine( "[中破絵未回収]" );
+                    sb.AppendLine(LoadResources.getter("FormInformation_5"));
 
 					foreach ( dynamic elem in data.api_list ) {
 
@@ -142,7 +142,7 @@ namespace ElectronicObserver.Window {
 
 					}
 
-					sb.AppendLine( "[未保有艦]" );
+                    sb.AppendLine(LoadResources.getter("FormInformation_6"));
 					for ( int i = 0; i < bound; i++ ) {
 						if ( !flags[i] ) {
 							ShipDataMaster ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault( s => s.AlbumNo == startIndex + i );
@@ -159,7 +159,7 @@ namespace ElectronicObserver.Window {
 						flags[(int)elem.api_index_no - startIndex] = true;
 					}
 
-					sb.AppendLine( "[未保有装備]" );
+                    sb.AppendLine(LoadResources.getter("FormInformation_7"));
 					for ( int i = 0; i < bound; i++ ) {
 						if ( !flags[i] ) {
 							EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments.Values.FirstOrDefault( s => s.AlbumNo == startIndex + i );
@@ -180,7 +180,7 @@ namespace ElectronicObserver.Window {
 			if ( (int)data.api_create_flag == 0 ) {
 
 				StringBuilder sb = new StringBuilder();
-				sb.AppendLine( "[開発失敗]" );
+                sb.AppendLine(LoadResources.getter("FormInformation_8"));
 				sb.AppendLine( data.api_fdata );
 
 				EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse( ( (string)data.api_fdata ).Split( ",".ToCharArray() )[1] )];
@@ -198,7 +198,7 @@ namespace ElectronicObserver.Window {
 		private string GetMapGauge( dynamic data ) {
 
 			StringBuilder sb = new StringBuilder();
-			sb.AppendLine( "[海域ゲージ]" );
+            sb.AppendLine(LoadResources.getter("FormInformation_9"));
 
 			foreach ( dynamic elem in data ) {
 
@@ -208,7 +208,7 @@ namespace ElectronicObserver.Window {
 				if ( map != null ) {
 					if ( map.RequiredDefeatedCount != -1 && elem.api_defeat_count() ) {
 
-						sb.AppendFormat( "{0}-{1} : 撃破 {2}/{3} 回\r\n", map.MapAreaID, map.MapInfoID, (int)elem.api_defeat_count, map.RequiredDefeatedCount );
+                        sb.AppendFormat(LoadResources.getter("FormInformation_10"), map.MapAreaID, map.MapInfoID, (int)elem.api_defeat_count, map.RequiredDefeatedCount);
 
 					} else if ( elem.api_eventmap() ) {
 
@@ -225,11 +225,11 @@ namespace ElectronicObserver.Window {
 		private string GetExpeditionResult( dynamic data ) {
 			StringBuilder sb = new StringBuilder();
 
-			sb.AppendLine( "[遠征帰投]" );
+            sb.AppendLine(LoadResources.getter("FormInformation_11"));
 			sb.AppendLine( data.api_quest_name );
-			sb.AppendFormat( "結果: {0}\r\n", Constants.GetExpeditionResult( (int)data.api_clear_result ) );
-			sb.AppendFormat( "提督経験値: +{0}\r\n", (int)data.api_get_exp );
-			sb.AppendFormat( "艦娘経験値: +{0}\r\n", ( (int[])data.api_get_ship_exp ).Min() );
+            sb.AppendFormat(LoadResources.getter("FormInformation_12"), Constants.GetExpeditionResult((int)data.api_clear_result));
+            sb.AppendFormat(LoadResources.getter("FormInformation_13"), (int)data.api_get_exp);
+            sb.AppendFormat(LoadResources.getter("FormInformation_14"), ((int[])data.api_get_ship_exp).Min());
 
 			return sb.ToString();
 		}

@@ -155,7 +155,7 @@ namespace ElectronicObserver.Notifier {
 		public void ShowDialog() {
 
 			if ( ShowsDialog )
-				NotifierManager.Instance.ShowNotifier( new DialogNotifier( DialogData ) );
+				NotifierManager.Instance.ShowNotifier( DialogData );
 
 		}
 

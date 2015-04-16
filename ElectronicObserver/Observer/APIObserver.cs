@@ -335,7 +335,7 @@ namespace ElectronicObserver.Observer {
 
 		public void LoadResponse( string path, string data ) {
 
-			string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
+			　string shortpath = path.Substring( path.LastIndexOf( "/kcsapi/" ) + 8 );
 
 			try {
 

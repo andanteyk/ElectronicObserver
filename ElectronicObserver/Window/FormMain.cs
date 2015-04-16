@@ -930,7 +930,6 @@ namespace ElectronicObserver.Window {
 
             StripMenu_Browser_Zoom_Current.Text = string.Format(LoadResources.getter("FormMain_48"),
 				Utility.Configuration.Config.FormBrowser.ZoomRate );
-
 		}
 
 		private void StripMenu_Browser_AppliesStyleSheet_CheckedChanged( object sender, EventArgs e ) {
@@ -1007,7 +1006,6 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_View_Browser_Click( object sender, EventArgs e ) {
 			fBrowser.Show( MainDockPanel );
 		}
-
 		#endregion
 
 

@@ -2500,6 +2500,141 @@ namespace ElectronicObserver.Properties {
         }
         
         /// <summary>
+        ///   查找类似 触接中: 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_1 {
+            get {
+                return ResourceManager.GetString("FormBattle_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第{0}次: {1}\r\nカットイン種別: {2} ({3})\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_10 {
+            get {
+                return ResourceManager.GetString("FormBattle_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第{0}次: (発動せず)\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_11 {
+            get {
+                return ResourceManager.GetString("FormBattle_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 探照灯照射: 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_12 {
+            get {
+                return ResourceManager.GetString("FormBattle_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 夜間触接 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_13 {
+            get {
+                return ResourceManager.GetString("FormBattle_13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 夜間触接中: 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_14 {
+            get {
+                return ResourceManager.GetString("FormBattle_14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 照明弾投射: 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_15 {
+            get {
+                return ResourceManager.GetString("FormBattle_15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 対空カットイン: {0}\r\nカットイン種別: {1} ({2}) 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_2 {
+            get {
+                return ResourceManager.GetString("FormBattle_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 対空砲火 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_3 {
+            get {
+                return ResourceManager.GetString("FormBattle_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第2次: 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_4 {
+            get {
+                return ResourceManager.GetString("FormBattle_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_5 {
+            get {
+                return ResourceManager.GetString("FormBattle_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0}触接中\r\n第1次: {1}\r\n第2次: {2} 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_6 {
+            get {
+                return ResourceManager.GetString("FormBattle_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (なし) 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_7 {
+            get {
+                return ResourceManager.GetString("FormBattle_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_8 {
+            get {
+                return ResourceManager.GetString("FormBattle_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 対空カットイン 的本地化字符串。
+        /// </summary>
+        internal static string FormBattle_9 {
+            get {
+                return ResourceManager.GetString("FormBattle_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ブラウザプロセスの起動に失敗しました。 的本地化字符串。
         /// </summary>
         internal static string FormBrowserHost_1 {
@@ -2568,6 +2703,411 @@ namespace ElectronicObserver.Properties {
         internal static string FormBrowserHost_8 {
             get {
                 return ResourceManager.GetString("FormBrowserHost_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &quot;{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n(右クリックで図鑑)\n&quot; 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_1 {
+            get {
+                return ResourceManager.GetString("FormCompass_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 不明 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_10 {
+            get {
+                return ResourceManager.GetString("FormCompass_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 敵艦隊ID : {0} 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_11 {
+            get {
+                return ResourceManager.GetString("FormCompass_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (敵艦隊情報不明) 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_12 {
+            get {
+                return ResourceManager.GetString("FormCompass_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 \r\n昼戦: {0}\r\n夜戦: {1}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_2 {
+            get {
+                return ResourceManager.GetString("FormCompass_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 対空: {0}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_3 {
+            get {
+                return ResourceManager.GetString("FormCompass_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 演習 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_4 {
+            get {
+                return ResourceManager.GetString("FormCompass_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 出撃海域 : {0}-{1} 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_5 {
+            get {
+                return ResourceManager.GetString("FormCompass_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 次のセル : {0}{1} 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_6 {
+            get {
+                return ResourceManager.GetString("FormCompass_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 索敵機発艦！ 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_7 {
+            get {
+                return ResourceManager.GetString("FormCompass_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 どうしてこうなった 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_8 {
+            get {
+                return ResourceManager.GetString("FormCompass_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 謎のアイテム 的本地化字符串。
+        /// </summary>
+        internal static string FormCompass_9 {
+            get {
+                return ResourceManager.GetString("FormCompass_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完了日時 : 的本地化字符串。
+        /// </summary>
+        internal static string FormDock_1 {
+            get {
+                return ResourceManager.GetString("FormDock_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 合計レベル：{0}\r\n平均レベル：{1:0.00}\r\nドラム缶搭載: {2}個 ({3}艦)\r\n大発動艇搭載: {4}個\r\n総積載: 燃 {5} / 弾 {6}\r\n(1戦当たり 燃 {7} / 弾 {8}) 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_1 {
+            get {
+                return ResourceManager.GetString("FormFleet_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 中破まで: {0} / 大破まで: {1}\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_10 {
+            get {
+                return ResourceManager.GetString("FormFleet_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 大破まで: {0}\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_11 {
+            get {
+                return ResourceManager.GetString("FormFleet_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 大破しています！ 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_12 {
+            get {
+                return ResourceManager.GetString("FormFleet_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 入渠時間: {0}\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_13 {
+            get {
+                return ResourceManager.GetString("FormFleet_13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完全回復まで 約 {0:D2}:{1:D2} 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_14 {
+            get {
+                return ResourceManager.GetString("FormFleet_14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 あと {0} 回遠征可能 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_15 {
+            get {
+                return ResourceManager.GetString("FormFleet_15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 \r\n昼戦: {0}\r\n夜戦: {1}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_16 {
+            get {
+                return ResourceManager.GetString("FormFleet_16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 対空: {0}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_17 {
+            get {
+                return ResourceManager.GetString("FormFleet_17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0}\t制空戦力{1}/索敵能力{2}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_18 {
+            get {
+                return ResourceManager.GetString("FormFleet_18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_2 {
+            get {
+                return ResourceManager.GetString("FormFleet_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_3 {
+            get {
+                return ResourceManager.GetString("FormFleet_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n(右クリックで図鑑)\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_4 {
+            get {
+                return ResourceManager.GetString("FormFleet_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 次のレベルまで: {0}\n 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_5 {
+            get {
+                return ResourceManager.GetString("FormFleet_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 改装まで: {0} 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_6 {
+            get {
+                return ResourceManager.GetString("FormFleet_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Lv99まで: {0} 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_7 {
+            get {
+                return ResourceManager.GetString("FormFleet_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Lv150まで: {0} 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_8 {
+            get {
+                return ResourceManager.GetString("FormFleet_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 退避中 的本地化字符串。
+        /// </summary>
+        internal static string FormFleet_9 {
+            get {
+                return ResourceManager.GetString("FormFleet_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [演習情報] 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_1 {
+            get {
+                return ResourceManager.GetString("FormInformation_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0}-{1} : 撃破 {2}/{3} 回\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_10 {
+            get {
+                return ResourceManager.GetString("FormInformation_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [遠征帰投] 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_11 {
+            get {
+                return ResourceManager.GetString("FormInformation_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 結果: {0}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_12 {
+            get {
+                return ResourceManager.GetString("FormInformation_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 提督経験値: +{0}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_13 {
+            get {
+                return ResourceManager.GetString("FormInformation_13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 艦娘経験値: +{0}\r\n 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_14 {
+            get {
+                return ResourceManager.GetString("FormInformation_14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 敵艦隊名 : 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_2 {
+            get {
+                return ResourceManager.GetString("FormInformation_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 獲得経験値 : 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_3 {
+            get {
+                return ResourceManager.GetString("FormInformation_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 S勝利 : 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_4 {
+            get {
+                return ResourceManager.GetString("FormInformation_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [中破絵未回収] 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_5 {
+            get {
+                return ResourceManager.GetString("FormInformation_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [未保有艦] 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_6 {
+            get {
+                return ResourceManager.GetString("FormInformation_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [未保有装備] 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_7 {
+            get {
+                return ResourceManager.GetString("FormInformation_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [開発失敗] 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_8 {
+            get {
+                return ResourceManager.GetString("FormInformation_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [海域ゲージ] 的本地化字符串。
+        /// </summary>
+        internal static string FormInformation_9 {
+            get {
+                return ResourceManager.GetString("FormInformation_9", resourceCulture);
             }
         }
         
@@ -3018,6 +3558,60 @@ namespace ElectronicObserver.Properties {
         internal static string FormMain_9 {
             get {
                 return ResourceManager.GetString("FormMain_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 達成！ 的本地化字符串。
+        /// </summary>
+        internal static string FormQuest_1 {
+            get {
+                return ResourceManager.GetString("FormQuest_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (未取得の任務 x {0}) 的本地化字符串。
+        /// </summary>
+        internal static string FormQuest_2 {
+            get {
+                return ResourceManager.GetString("FormQuest_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (任務完遂！) 的本地化字符串。
+        /// </summary>
+        internal static string FormQuest_3 {
+            get {
+                return ResourceManager.GetString("FormQuest_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 任務データを初期化します。\r\nデータに齟齬が生じている場合以外での使用は推奨しません。\r\nよろしいですか？ 的本地化字符串。
+        /// </summary>
+        internal static string FormQuest_4 {
+            get {
+                return ResourceManager.GetString("FormQuest_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 任務初期化の確認 的本地化字符串。
+        /// </summary>
+        internal static string FormQuest_5 {
+            get {
+                return ResourceManager.GetString("FormQuest_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (未取得) 的本地化字符串。
+        /// </summary>
+        internal static string FormQuest_6 {
+            get {
+                return ResourceManager.GetString("FormQuest_6", resourceCulture);
             }
         }
         

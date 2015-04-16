@@ -143,9 +143,6 @@
   <data name="MainDockPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FormMain</value>
-  </data>
   <data name="&gt;&gt;StripMenu_Tool_EquipmentList.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -200,14 +197,8 @@
   <data name="&gt;&gt;StripMenu_Browser_Zoom_300.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="StripMenu_Browser_AppliesStyleSheet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
-  </data>
   <data name="&gt;&gt;StripMenu_View_Dock.Name" xml:space="preserve">
     <value>StripMenu_View_Dock</value>
-  </data>
-  <data name="&gt;&gt;SeparatorWhitecap.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StripMenu_View_Quest.Name" xml:space="preserve">
     <value>StripMenu_View_Quest</value>
@@ -232,6 +223,9 @@
   </data>
   <data name="StripMenu_View_Browser.Text" xml:space="preserve">
     <value>ブラウザ(&amp;M)</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_File_Record_Save.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>試製七四式電子観測儀</value>
@@ -269,8 +263,11 @@
   <data name="StripMenu_Tool_AlbumMasterEquipment.Text" xml:space="preserve">
     <value>装備図鑑(&amp;E)</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;StripMenu_View_Dock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StripStatus_Clock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="StripMenu_Debug_RenameShipResource.Size" type="System.Drawing.Size, System.Drawing">
     <value>287, 22</value>
@@ -280,9 +277,6 @@
   </data>
   <data name="StripMenu_Help_Version.Size" type="System.Drawing.Size, System.Drawing">
     <value>198, 22</value>
-  </data>
-  <data name="&gt;&gt;StripMenu_View_Dock.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="StripMenu_File_Layout_Save.Text" xml:space="preserve">
     <value>保存(&amp;S)</value>
@@ -329,8 +323,8 @@
   <data name="&gt;&gt;MainDockPanel.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;StripMenu_View_Log.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;StripStatus_Information.Name" xml:space="preserve">
+    <value>StripStatus_Information</value>
   </data>
   <data name="StripMenu_Browser_Zoom_75.Text" xml:space="preserve">
     <value>75%</value>
@@ -344,8 +338,8 @@
   <data name="StripMenu_Browser_Zoom_75.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
   </data>
-  <data name="&gt;&gt;StripMenu_File_Record_Save.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;StripMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
     <value>toolStripSeparator4</value>
@@ -359,8 +353,8 @@
   <data name="&gt;&gt;StripMenu_File_Record_Load.Name" xml:space="preserve">
     <value>StripMenu_File_Record_Load</value>
   </data>
-  <data name="&gt;&gt;StripMenu_File_Record.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;SeparatorWhitecap.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StripMenu.Name" xml:space="preserve">
     <value>StripMenu</value>
@@ -425,8 +419,8 @@
   <data name="&gt;&gt;StripMenu_View.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;StripStatus.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="StripMenu_Browser_AppliesStyleSheet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
   </data>
   <data name="&gt;&gt;StripMenu_Browser_Zoom_250.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -507,20 +501,26 @@
   <data name="&gt;&gt;StripMenu_Debug_LoadInitialAPI.Name" xml:space="preserve">
     <value>StripMenu_Debug_LoadInitialAPI</value>
   </data>
-  <data name="StripMenu_Browser_NavigateToLogInPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
-  </data>
   <data name="&gt;&gt;StripMenu_View_Browser.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="StripMenu_Debug_LoadRecordFromOld.Size" type="System.Drawing.Size, System.Drawing">
     <value>287, 22</value>
   </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 6</value>
+  </data>
   <data name="StripMenu_Browser_Zoom_50.Text" xml:space="preserve">
     <value>50%</value>
   </data>
   <data name="StripMenu_Help_Version.Text" xml:space="preserve">
     <value>バージョン情報(&amp;V)</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_View_Log.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StripStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="StripMenu_Browser_Zoom_50.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
@@ -546,11 +546,11 @@
   <data name="&gt;&gt;StripMenu_Debug_LoadAPIFromFile.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;StripStatus_Information.Name" xml:space="preserve">
-    <value>StripStatus_Information</value>
-  </data>
   <data name="StripMenu_Browser_Navigate.Text" xml:space="preserve">
     <value>移動(&amp;M)...</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StripMenu_File_Record_Load.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -603,9 +603,6 @@
   <data name="&gt;&gt;toolStripSeparator12.Name" xml:space="preserve">
     <value>toolStripSeparator12</value>
   </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 6</value>
-  </data>
   <data name="&gt;&gt;StripStatus_Padding.Name" xml:space="preserve">
     <value>StripStatus_Padding</value>
   </data>
@@ -621,14 +618,11 @@
   <data name="&gt;&gt;StripMenu_Browser_Zoom.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;StripMenu_Tool_AlbumMasterShip.Name" xml:space="preserve">
-    <value>StripMenu_Tool_AlbumMasterShip</value>
+  <data name="&gt;&gt;StripMenu_File_Record.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="StripMenu_File_Configuration.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 22</value>
-  </data>
-  <data name="&gt;&gt;StripMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StripMenu_Debug_RenameShipResource.Name" xml:space="preserve">
     <value>StripMenu_Debug_RenameShipResource</value>
@@ -636,8 +630,8 @@
   <data name="StripMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>640, 25</value>
   </data>
-  <data name="&gt;&gt;StripMenu_View_Log.Name" xml:space="preserve">
-    <value>StripMenu_View_Log</value>
+  <data name="StripMenu_Browser_NavigateToLogInPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
   </data>
   <data name="StripMenu_Browser_Zoom_25.Text" xml:space="preserve">
     <value>25%</value>
@@ -657,8 +651,8 @@
   <data name="StripMenu_File_Record_Save.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 22</value>
   </data>
-  <data name="StripMenu_View_Arsenal.Text" xml:space="preserve">
-    <value>工廠(&amp;A)</value>
+  <data name="&gt;&gt;toolStripSeparator12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator13.Name" xml:space="preserve">
     <value>toolStripSeparator13</value>
@@ -686,6 +680,9 @@
   </data>
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
     <value>284, 6</value>
+  </data>
+  <data name="StripMenu_View_Fleet_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 22</value>
   </data>
   <data name="StripMenu_Browser_Zoom_100.Text" xml:space="preserve">
     <value>100%</value>
@@ -729,8 +726,8 @@
   <data name="&gt;&gt;StripMenu_Help_Help.Name" xml:space="preserve">
     <value>StripMenu_Help_Help</value>
   </data>
-  <data name="&gt;&gt;StripStatus_Clock.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormMain</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator11.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -758,9 +755,6 @@
   </data>
   <data name="MainDockPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 25</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StripMenu_View_Fleet_4.Name" xml:space="preserve">
     <value>StripMenu_View_Fleet_4</value>
@@ -798,8 +792,8 @@
   <data name="StripMenu_View_Battle.Text" xml:space="preserve">
     <value>戦闘(&amp;B)</value>
   </data>
-  <data name="StripMenu_View_Fleet_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 22</value>
+  <data name="StripMenu_View_Headquarters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
   </data>
   <data name="StripMenu_Browser_Zoom_300.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
@@ -828,14 +822,14 @@
   <data name="StripMenu_File_Layout_Open.Size" type="System.Drawing.Size, System.Drawing">
     <value>235, 22</value>
   </data>
-  <data name="StripMenu_View_Headquarters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
   <data name="StripMenu_Browser_Refresh.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>F5</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>162, 6</value>
+  </data>
+  <data name="StripMenu_View_Arsenal.Text" xml:space="preserve">
+    <value>工廠(&amp;A)</value>
   </data>
   <data name="StripStatus_Padding.Size" type="System.Drawing.Size, System.Drawing">
     <value>480, 17</value>
@@ -924,8 +918,14 @@
   <data name="&gt;&gt;StripMenu_Browser_Zoom_100.Name" xml:space="preserve">
     <value>StripMenu_Browser_Zoom_100</value>
   </data>
+  <data name="&gt;&gt;StripMenu_Tool_AlbumMasterShip.Name" xml:space="preserve">
+    <value>StripMenu_Tool_AlbumMasterShip</value>
+  </data>
   <data name="&gt;&gt;StripMenu_Browser_NavigateToLogInPage.Name" xml:space="preserve">
     <value>StripMenu_Browser_NavigateToLogInPage</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_View_Log.Name" xml:space="preserve">
+    <value>StripMenu_View_Log</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator13.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

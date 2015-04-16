@@ -157,13 +157,13 @@
     <value>#{0}「{1}」去「{2}-{3} {4}」出击了。</value>
   </data>
   <data name="api_req_mission_result" xml:space="preserve">
-    <value>#{0}「{1}」从远征「{2}: {3}」返航了。({4})</value>
+    <value>#{0}「{1}」从远征「{2}: {3}」已经返航。({4})</value>
   </data>
   <data name="api_req_mission_start" xml:space="preserve">
     <value>#{0}「{1}」正在远征「{2}: {3}」出击。</value>
   </data>
   <data name="api_start2" xml:space="preserve">
-    <value>提督 您到镇守府了。舰队将交由您来指挥。</value>
+    <value>提督您到镇守府了。舰队将交由您来指挥。</value>
   </data>
   <data name="Configuration_1" xml:space="preserve">
     <value>感谢您使用本软件。\r\n设定和使用方法请参照「帮助」→「在线帮助」。\r\n使用之前请一定要读一下。</value>
@@ -901,7 +901,7 @@
     <value>停泊修理中 </value>
   </data>
   <data name="FleetData_22" xml:space="preserve">
-    <value>#{0}「{1}」还没返航。</value>
+    <value>#{0}「{1}」已经返航。</value>
   </data>
   <data name="FleetData_23" xml:space="preserve">
     <value>Fleet #{0}: 疲劳 再次设定 {1:D2}:00</value>
@@ -955,7 +955,7 @@
     <value>停止浏览器的过程中发生了错误。</value>
   </data>
   <data name="FormMain_1" xml:space="preserve">
-    <value> 已启动…</value>
+    <value>已启动…</value>
   </data>
   <data name="FormMain_10" xml:space="preserve">
     <value>正在恢复窗口布局。</value>
@@ -988,7 +988,7 @@
     <value>加载API列表</value>
   </data>
   <data name="FormMain_2" xml:space="preserve">
-    <value> API读取失败。</value>
+    <value>API读取失败。</value>
   </data>
   <data name="FormMain_20" xml:space="preserve">
     <value>无法读取API列表。\r\n</value>
@@ -1094,10 +1094,10 @@ Sony大法好，来正面上我啊？</value>
     <value>无</value>
   </data>
   <data name="FormMain_6" xml:space="preserve">
-    <value> 已经退出了…</value>
+    <value>已经退出了…</value>
   </data>
   <data name="FormMain_7" xml:space="preserve">
-    <value> 已经处理完成。</value>
+    <value>已经处理完成。</value>
   </data>
   <data name="FormMain_8" xml:space="preserve">
     <value>恢复窗口布局失败。</value>
@@ -1334,5 +1334,205 @@ Sony大法好，来正面上我啊？</value>
   </data>
   <data name="WindowPlacementManager_2" xml:space="preserve">
     <value>窗口状态保存失败。</value>
+  </data>
+  <data name="FormBattle_1" xml:space="preserve">
+    <value>接触中:</value>
+  </data>
+  <data name="FormBattle_10" xml:space="preserve">
+    <value>第{0}次: {1}\r\nCut-In种类: {2} ({3})\r\n</value>
+  </data>
+  <data name="FormBattle_11" xml:space="preserve">
+    <value>第{0}次: (未发动)\r\n</value>
+  </data>
+  <data name="FormBattle_12" xml:space="preserve">
+    <value>探照灯照射:</value>
+  </data>
+  <data name="FormBattle_13" xml:space="preserve">
+    <value>夜间接触</value>
+  </data>
+  <data name="FormBattle_14" xml:space="preserve">
+    <value>夜间接触中:</value>
+  </data>
+  <data name="FormBattle_15" xml:space="preserve">
+    <value>照明弹投射:</value>
+  </data>
+  <data name="FormBattle_2" xml:space="preserve">
+    <value>对空Cut-In: {0}\r\nCut-In种类: {1} ({2})</value>
+  </data>
+  <data name="FormBattle_3" xml:space="preserve">
+    <value>对空炮火</value>
+  </data>
+  <data name="FormBattle_4" xml:space="preserve">
+    <value>第2次:</value>
+  </data>
+  <data name="FormBattle_5" xml:space="preserve">
+    <value>第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n</value>
+  </data>
+  <data name="FormBattle_6" xml:space="preserve">
+    <value>{0}接触中\r\n第1次: {1}\r\n第2次: {2}</value>
+  </data>
+  <data name="FormBattle_7" xml:space="preserve">
+    <value>(无)</value>
+  </data>
+  <data name="FormBattle_8" xml:space="preserve">
+    <value>第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n</value>
+  </data>
+  <data name="FormBattle_9" xml:space="preserve">
+    <value>对空Cut-In</value>
+  </data>
+  <data name="FormCompass_1" xml:space="preserve">
+    <value>{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n对空: {8}/{9}\n装甲: {10}/{11}\n对潜: {12}/{13}\n回避: {14}/{15}\n索敌: {16}/{17}\n运: {18}/{19}\n(右键单击图鉴)\n</value>
+  </data>
+  <data name="FormCompass_10" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="FormCompass_11" xml:space="preserve">
+    <value>敌舰队ID : {0}</value>
+  </data>
+  <data name="FormCompass_12" xml:space="preserve">
+    <value>(敌舰队情报未知)</value>
+  </data>
+  <data name="FormCompass_2" xml:space="preserve">
+    <value>\r\n昼战: {0}\r\n夜战: {1}\r\n</value>
+  </data>
+  <data name="FormCompass_3" xml:space="preserve">
+    <value>对空: {0}\r\n</value>
+  </data>
+  <data name="FormCompass_4" xml:space="preserve">
+    <value>演习</value>
+  </data>
+  <data name="FormCompass_5" xml:space="preserve">
+    <value>出击海域 : {0}-{1}</value>
+  </data>
+  <data name="FormCompass_6" xml:space="preserve">
+    <value>下一点位 : {0}{1}</value>
+  </data>
+  <data name="FormCompass_7" xml:space="preserve">
+    <value>侦察机离舰！</value>
+  </data>
+  <data name="FormCompass_8" xml:space="preserve">
+    <value>怎么变成酱紫了？</value>
+  </data>
+  <data name="FormCompass_9" xml:space="preserve">
+    <value>神秘道具</value>
+  </data>
+  <data name="FormDock_1" xml:space="preserve">
+    <value>完成时间 :</value>
+  </data>
+  <data name="FormFleet_1" xml:space="preserve">
+    <value>合计等级：{0}\r\n平均等级：{1:0.00}\r\n油桶搭载: {2}个 ({3}舰)\r\n大发动艇搭载: {4}个\r\n总装载: 燃 {5} / 弹 {6}\r\n(1每战消耗 燃 {7} / 弹 {8})</value>
+  </data>
+  <data name="FormFleet_10" xml:space="preserve">
+    <value>中破: {0} / 大破: {1}\n</value>
+  </data>
+  <data name="FormFleet_11" xml:space="preserve">
+    <value>大破: {0}\n</value>
+  </data>
+  <data name="FormFleet_12" xml:space="preserve">
+    <value>已经大破了！</value>
+  </data>
+  <data name="FormFleet_13" xml:space="preserve">
+    <value>入渠时间: {0}\n</value>
+  </data>
+  <data name="FormFleet_14" xml:space="preserve">
+    <value>到完全恢复约需 {0:D2}:{1:D2}</value>
+  </data>
+  <data name="FormFleet_15" xml:space="preserve">
+    <value>还能远征 {0} 次</value>
+  </data>
+  <data name="FormFleet_16" xml:space="preserve">
+    <value>\r\n昼战: {0}\r\n夜战: {1}\r\n</value>
+  </data>
+  <data name="FormFleet_17" xml:space="preserve">
+    <value>对空: {0}\r\n</value>
+  </data>
+  <data name="FormFleet_18" xml:space="preserve">
+    <value>{0}\t制空战力{1}/索敌能力{2}\r\n</value>
+  </data>
+  <data name="FormFleet_2" xml:space="preserve">
+    <value>确保: {0}\r\n优势: {1}\r\n均衡: {2}\r\n劣势: {3}\r\n</value>
+  </data>
+  <data name="FormFleet_3" xml:space="preserve">
+    <value>(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋简易式: {2}\r\n</value>
+  </data>
+  <data name="FormFleet_4" xml:space="preserve">
+    <value>{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n对空: {6}/{7}\n装甲: {8}/{9}\n对潜: {10}/{11}\n回避: {12}/{13}\n索敌: {14}/{15}\n运: {16}\n(右键单击图鉴)\n</value>
+  </data>
+  <data name="FormFleet_5" xml:space="preserve">
+    <value>到下一级: {0}\n</value>
+  </data>
+  <data name="FormFleet_6" xml:space="preserve">
+    <value>到改装: {0}</value>
+  </data>
+  <data name="FormFleet_7" xml:space="preserve">
+    <value>到Lv99: {0}</value>
+  </data>
+  <data name="FormFleet_8" xml:space="preserve">
+    <value>到Lv150: {0}</value>
+  </data>
+  <data name="FormFleet_9" xml:space="preserve">
+    <value>退避中</value>
+  </data>
+  <data name="FormInformation_1" xml:space="preserve">
+    <value>[演习情报]</value>
+  </data>
+  <data name="FormInformation_10" xml:space="preserve">
+    <value>{0}-{1} : 击破 {2}/{3} 回\r\n</value>
+  </data>
+  <data name="FormInformation_11" xml:space="preserve">
+    <value>[远征返航]</value>
+  </data>
+  <data name="FormInformation_12" xml:space="preserve">
+    <value>结果: {0}\r\n</value>
+  </data>
+  <data name="FormInformation_13" xml:space="preserve">
+    <value>提督经验值: +{0}\r\n</value>
+  </data>
+  <data name="FormInformation_14" xml:space="preserve">
+    <value>舰娘经验值: +{0}\r\n</value>
+  </data>
+  <data name="FormInformation_2" xml:space="preserve">
+    <value>敌舰队名 :</value>
+  </data>
+  <data name="FormInformation_3" xml:space="preserve">
+    <value>获得经验 :</value>
+  </data>
+  <data name="FormInformation_4" xml:space="preserve">
+    <value>S胜利 :</value>
+  </data>
+  <data name="FormInformation_5" xml:space="preserve">
+    <value>[中破舰未回收]</value>
+  </data>
+  <data name="FormInformation_6" xml:space="preserve">
+    <value>[未拥有舰]</value>
+  </data>
+  <data name="FormInformation_7" xml:space="preserve">
+    <value>[未拥有装备]</value>
+  </data>
+  <data name="FormInformation_8" xml:space="preserve">
+    <value>[开发失败]</value>
+  </data>
+  <data name="FormInformation_9" xml:space="preserve">
+    <value>[Boss血量]</value>
+  </data>
+  <data name="FormQuest_1" xml:space="preserve">
+    <value>达成！</value>
+  </data>
+  <data name="FormQuest_2" xml:space="preserve">
+    <value>(未取得的任务 x {0})</value>
+  </data>
+  <data name="FormQuest_3" xml:space="preserve">
+    <value>(任务完成！)</value>
+  </data>
+  <data name="FormQuest_4" xml:space="preserve">
+    <value>任务数据正在初始化。
+数据不一致的场合推荐使用。
+您确认使用吗？</value>
+  </data>
+  <data name="FormQuest_5" xml:space="preserve">
+    <value>任务初始化的确认</value>
+  </data>
+  <data name="FormQuest_6" xml:space="preserve">
+    <value>(未取得)</value>
   </data>
 </root>

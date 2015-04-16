@@ -220,6 +220,8 @@ namespace ElectronicObserver.Notifier {
 
 		/// <summary>ユーザーが設定した座標に配置されます。</summary>
 		Custom,
+
+        Balloon,
 	}
 
 }

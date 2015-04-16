@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Window;
+using ElectronicObserver.Window.Dialog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,8 +57,17 @@ namespace ElectronicObserver.Notifier {
 
 		}
 
-		public void ShowNotifier( ElectronicObserver.Window.Dialog.DialogNotifier form ) {
-			form.Show();
+        public void ShowNotifier(NotifierDialogData dialogData)
+        {
+            switch (dialogData.Alignment)
+            {
+                case NotifierDialogAlignment.Balloon:
+                    new BalloonNotifier(dialogData).Show();
+                    break;
+                default:
+                    new DialogNotifier(dialogData).Show();
+                    break;
+            }
 		}
 
 	}
