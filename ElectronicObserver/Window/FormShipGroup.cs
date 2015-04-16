@@ -126,7 +126,7 @@ namespace ElectronicObserver.Window {
 
 			if ( !groups.ShipGroups.ContainsKey( -1 ) ) {
 				var master = new ShipGroupData( -1 );
-				master.Name = "全所属艦";
+                master.Name = LoadResources.getter("FormShipGroup_1");
 				master.ColumnFilter = Enumerable.Repeat<bool>( true, ShipView.Columns.Count ).ToList();
 				master.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
 
@@ -195,7 +195,7 @@ namespace ElectronicObserver.Window {
 		private ImageLabel CreateTabLabel( int id ) {
 
 			ImageLabel label = new ImageLabel();
-			label.Text = KCDatabase.Instance.ShipGroup[id] != null ? KCDatabase.Instance.ShipGroup[id].Name : "全所属艦";
+            label.Text = KCDatabase.Instance.ShipGroup[id] != null ? KCDatabase.Instance.ShipGroup[id].Name : LoadResources.getter("FormShipGroup_2");
 			label.Anchor = AnchorStyles.Left;
 			label.Font = ShipView.Font;
 			label.BackColor = TabInactiveColor;
@@ -281,7 +281,7 @@ namespace ElectronicObserver.Window {
 
 
 			if ( group == null ) {
-				Utility.Logger.Add( 3, "エラー：存在しないグループを参照しようとしました。開発者に連絡してください" );
+                Utility.Logger.Add(3, LoadResources.getter("FormShipGroup_3"));
 				return;
 			}
 			if ( group.GroupID < 0 ) {
@@ -426,9 +426,9 @@ namespace ElectronicObserver.Window {
 
 			//status bar
 			if ( KCDatabase.Instance.Ships.Count > 0 ) {
-				Status_ShipCount.Text = string.Format( "所属: {0}隻", group.Members.Count );
-				Status_LevelTotal.Text = string.Format( "合計Lv: {0}", group.MembersInstance.Where( s => s != null ).Sum( s => s.Level ) );
-				Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", group.Members.Count > 0 ? group.MembersInstance.Where( s => s != null ).Average( s => s.Level ) : 0 );
+                Status_ShipCount.Text = string.Format(LoadResources.getter("FormShipGroup_4"), group.Members.Count);
+                Status_LevelTotal.Text = string.Format(LoadResources.getter("FormShipGroup_5"), group.MembersInstance.Where(s => s != null).Sum(s => s.Level));
+                Status_LevelAverage.Text = string.Format(LoadResources.getter("FormShipGroup_6"), group.Members.Count > 0 ? group.MembersInstance.Where(s => s != null).Average(s => s.Level) : 0);
 			}
 
 			SelectedTab = target;
@@ -441,7 +441,7 @@ namespace ElectronicObserver.Window {
 
 			int current = ship.Aircraft[index];
 			int max = ship.MasterShip.Aircraft[index];
-			string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : "(なし)";
+            string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : LoadResources.getter("FormShipGroup_7");
 
 			if ( index >= ship.MasterShip.SlotSize && ship.Slot[index] == -1 ) {
 				return "";
@@ -461,7 +461,7 @@ namespace ElectronicObserver.Window {
 
 		private string GetEquipmentOnlyString( ShipData ship, int index ) {
 
-			string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : "(なし)";
+            string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : LoadResources.getter("FormShipGroup_8");
 
 			if ( index >= ship.MasterShip.SlotSize && ship.Slot[index] == -1 ) {
 				return "";
@@ -588,7 +588,8 @@ namespace ElectronicObserver.Window {
 
 		private void MenuGroup_Add_Click( object sender, EventArgs e ) {
 
-			using ( var dialog = new DialogTextInput( "グループを追加", "グループ名を入力してください：" ) ) {
+            using (var dialog = new DialogTextInput(LoadResources.getter("FormShipGroup_9"), LoadResources.getter("FormShipGroup_10")))
+            {
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
@@ -618,7 +619,7 @@ namespace ElectronicObserver.Window {
 			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)senderLabel.Tag];
 
 			if ( group != null && group.GroupID >= 0 ) {
-				if ( MessageBox.Show( string.Format( "グループ [{0}] を削除しますか？\r\nこの操作は元に戻せません。", group.Name ), "確認",
+                if (MessageBox.Show(string.Format(LoadResources.getter("FormShipGroup_11"), group.Name), LoadResources.getter("FormShipGroup_24"),
 					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 					== System.Windows.Forms.DialogResult.Yes ) {
 
@@ -632,7 +633,7 @@ namespace ElectronicObserver.Window {
 				}
 
 			} else {
-				MessageBox.Show( "このグループは削除できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+                MessageBox.Show(LoadResources.getter("FormShipGroup_12"), LoadResources.getter("FormShipGroup_13"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 
@@ -645,7 +646,8 @@ namespace ElectronicObserver.Window {
 
 			if ( group != null && group.GroupID >= 0 ) {
 
-				using ( var dialog = new DialogTextInput( "グループ名の変更", "グループ名を入力してください：" ) ) {
+                using (var dialog = new DialogTextInput(LoadResources.getter("FormShipGroup_14"), LoadResources.getter("FormShipGroup_15")))
+                {
 
 					dialog.InputtedText = group.Name;
 
@@ -657,7 +659,7 @@ namespace ElectronicObserver.Window {
 				}
 
 			} else {
-				MessageBox.Show( "このグループの名前を変更することはできません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+                MessageBox.Show(LoadResources.getter("FormShipGroup_16"), LoadResources.getter("FormShipGroup_13"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
 		}
@@ -727,7 +729,7 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_AddToGroup_Click( object sender, EventArgs e ) {
 
-			using ( var dialog = new DialogTextSelect( "グループの選択", "追加するグループを選択してください：",
+            using (var dialog = new DialogTextSelect(LoadResources.getter("FormShipGroup_17"), LoadResources.getter("FormShipGroup_18"),
 				KCDatabase.Instance.ShipGroup.ShipGroups.Values.Where( g => g.GroupID >= 0 ).ToArray() ) ) {
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
@@ -753,7 +755,8 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_CreateGroup_Click( object sender, EventArgs e ) {
 
-			using ( var dialog = new DialogTextInput( "グループの追加", "追加するグループの名前を入力してください：" ) ) {
+            using (var dialog = new DialogTextInput(LoadResources.getter("FormShipGroup_19"), LoadResources.getter("FormShipGroup_20")))
+            {
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
@@ -784,7 +787,7 @@ namespace ElectronicObserver.Window {
 
 
 			if ( group == null || group.GroupID < 0 ) {
-				MessageBox.Show( "このグループは変更できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+                MessageBox.Show(LoadResources.getter("FormShipGroup_21"), LoadResources.getter("FormShipGroup_13"), MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 				return;
 			}
 
@@ -806,7 +809,7 @@ namespace ElectronicObserver.Window {
 			ShipGroupData group = SelectedTab != null ? KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag] : null;
 
 			if ( group == null ) {
-				MessageBox.Show( "このグループは変更できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+                MessageBox.Show(LoadResources.getter("FormShipGroup_21"), LoadResources.getter("FormShipGroup_13"), MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 				return;
 			}
 
@@ -1047,8 +1050,8 @@ namespace ElectronicObserver.Window {
 
 					} catch ( Exception ex ) {
 
-						Utility.ErrorReporter.SendErrorReport( ex, "艦船グループ CSVの出力に失敗しました。" );
-						MessageBox.Show( "艦船グループ CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                        Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("FormShipGroup_22"));
+                        MessageBox.Show(LoadResources.getter("FormShipGroup_23") + ex.Message, LoadResources.getter("FormShipGroup_13"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 					}
 

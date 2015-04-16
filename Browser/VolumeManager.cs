@@ -82,7 +82,7 @@ namespace Browser {
 		}
 
 
-		private const string ErrorMessageNotFound = "指定したプロセスIDの音量オブジェクトは存在しません。";
+        private const string ErrorMessageNotFound = "指定したプロセスIDの音量オブジェクトは存在しません。";
 
 		/// <summary>
 		/// 音量を取得します。

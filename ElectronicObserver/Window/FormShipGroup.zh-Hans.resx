@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>编成</value>
+  </data>
+  <data name="MenuGroup_Add.Text" xml:space="preserve">
+    <value>增加编组(&amp;A)</value>
+  </data>
+  <data name="MenuGroup_AutoUpdate.Text" xml:space="preserve">
+    <value>自动更新</value>
+  </data>
+  <data name="MenuGroup_Delete.Text" xml:space="preserve">
+    <value>删除编组(&amp;D)</value>
+  </data>
+  <data name="MenuGroup_Rename.Text" xml:space="preserve">
+    <value>更换组名(&amp;R)...</value>
+  </data>
+  <data name="MenuGroup_ShowStatusBar.Text" xml:space="preserve">
+    <value>显示状态栏</value>
+  </data>
+  <data name="MenuMember_AddToGroup.Text" xml:space="preserve">
+    <value>添加到编组(&amp;A)...</value>
+  </data>
+  <data name="MenuMember_ColumnAutoSize.Text" xml:space="preserve">
+    <value>自动调整列(&amp;D)</value>
+  </data>
+  <data name="MenuMember_ColumnFilter.Text" xml:space="preserve">
+    <value>过滤列(&amp;F)...</value>
+  </data>
+  <data name="MenuMember_CreateGroup.Text" xml:space="preserve">
+    <value>新建编组(&amp;C)...</value>
+  </data>
+  <data name="MenuMember_CSVOutput.Text" xml:space="preserve">
+    <value>输出CSV(&amp;O)...</value>
+  </data>
+  <data name="MenuMember_Delete.Text" xml:space="preserve">
+    <value>删除(&amp;D)</value>
+  </data>
+  <data name="MenuMember_LockShipNameScroll.Text" xml:space="preserve">
+    <value>禁止舰名滚动(&amp;S)</value>
+  </data>
+  <data name="ShipView_AA.HeaderText" xml:space="preserve">
+    <value>对空</value>
+  </data>
+  <data name="ShipView_AARemain.HeaderText" xml:space="preserve">
+    <value>对空改修</value>
+  </data>
+  <data name="ShipView_Ammo.HeaderText" xml:space="preserve">
+    <value>弹药</value>
+  </data>
+  <data name="ShipView_Armor.HeaderText" xml:space="preserve">
+    <value>装甲</value>
+  </data>
+  <data name="ShipView_ArmorRemain.HeaderText" xml:space="preserve">
+    <value>装甲改修</value>
+  </data>
+  <data name="ShipView_ASW.HeaderText" xml:space="preserve">
+    <value>对潜</value>
+  </data>
+  <data name="ShipView_Condition.HeaderText" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="ShipView_Equipment1.HeaderText" xml:space="preserve">
+    <value>装备1</value>
+  </data>
+  <data name="ShipView_Equipment2.HeaderText" xml:space="preserve">
+    <value>装备2</value>
+  </data>
+  <data name="ShipView_Equipment3.HeaderText" xml:space="preserve">
+    <value>装备3</value>
+  </data>
+  <data name="ShipView_Equipment4.HeaderText" xml:space="preserve">
+    <value>装备4</value>
+  </data>
+  <data name="ShipView_Equipment5.HeaderText" xml:space="preserve">
+    <value>装备5</value>
+  </data>
+  <data name="ShipView_Evasion.HeaderText" xml:space="preserve">
+    <value>回避</value>
+  </data>
+  <data name="ShipView_Firepower.HeaderText" xml:space="preserve">
+    <value>火力</value>
+  </data>
+  <data name="ShipView_FirepowerRemain.HeaderText" xml:space="preserve">
+    <value>火力改修</value>
+  </data>
+  <data name="ShipView_Fleet.HeaderText" xml:space="preserve">
+    <value>舰队</value>
+  </data>
+  <data name="ShipView_Fuel.HeaderText" xml:space="preserve">
+    <value>燃料</value>
+  </data>
+  <data name="ShipView_Locked.HeaderText" xml:space="preserve">
+    <value>锁</value>
+  </data>
+  <data name="ShipView_LOS.HeaderText" xml:space="preserve">
+    <value>索敌</value>
+  </data>
+  <data name="ShipView_Luck.HeaderText" xml:space="preserve">
+    <value>运气</value>
+  </data>
+  <data name="ShipView_LuckRemain.HeaderText" xml:space="preserve">
+    <value>运气改修</value>
+  </data>
+  <data name="ShipView_Name.HeaderText" xml:space="preserve">
+    <value>舰名</value>
+  </data>
+  <data name="ShipView_NextRemodel.HeaderText" xml:space="preserve">
+    <value>改装完成</value>
+  </data>
+  <data name="ShipView_RepairTime.HeaderText" xml:space="preserve">
+    <value>入渠</value>
+  </data>
+  <data name="ShipView_SallyArea.HeaderText" xml:space="preserve">
+    <value>攻击顺序(暂)</value>
+  </data>
+  <data name="ShipView_ShipType.HeaderText" xml:space="preserve">
+    <value>舰种</value>
+  </data>
+  <data name="ShipView_Torpedo.HeaderText" xml:space="preserve">
+    <value>雷装</value>
+  </data>
+  <data name="ShipView_TorpedoRemain.HeaderText" xml:space="preserve">
+    <value>雷装改修</value>
+  </data>
+  <data name="StatusBar.Text" xml:space="preserve">
+    <value>状态栏</value>
+  </data>
+</root>

@@ -137,6 +137,8 @@
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
+    <Compile Include="LoadResources.cs" />
+    <Compile Include="Notifier\BalloonNotifier.cs" />
     <Compile Include="Notifier\NotifierBase.cs" />
     <Compile Include="Notifier\NotifierCondition.cs" />
     <Compile Include="Notifier\NotifierConstruction.cs" />
@@ -149,6 +151,16 @@
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
+    <Compile Include="Properties\Resources.zh-Hans.Designer.cs">
+      <DependentUpon>Resources.zh-Hans.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Utility\PathHelper.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />
@@ -425,6 +437,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
+    <EmbeddedResource Include="Properties\Resources.zh-Hans.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.zh-Hans.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ImageLabel.resx">
       <DependentUpon>ImageLabel.cs</DependentUpon>
     </EmbeddedResource>
@@ -446,70 +463,140 @@
     <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterEquipment.resx">
       <DependentUpon>DialogAlbumMasterEquipment.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterEquipment.zh-Hans.resx">
+      <DependentUpon>DialogAlbumMasterEquipment.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterShip.resx">
+      <DependentUpon>DialogAlbumMasterShip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterShip.zh-Hans.resx">
       <DependentUpon>DialogAlbumMasterShip.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogConfiguration.zh-Hans.resx">
+      <DependentUpon>DialogConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfigurationNotifier.resx">
+      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogConfigurationNotifier.zh-Hans.resx">
       <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.resx">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.zh-Hans.resx">
+      <DependentUpon>DialogEquipmentList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
+      <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.zh-Hans.resx">
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogNotifier.resx">
       <DependentUpon>DialogNotifier.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogNotifier.zh-Hans.resx">
+      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogShipGroupColumnFilter.resx">
+      <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogShipGroupColumnFilter.zh-Hans.resx">
       <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogShipGroupCSVOutput.resx">
       <DependentUpon>DialogShipGroupCSVOutput.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogShipGroupCSVOutput.zh-Hans.resx">
+      <DependentUpon>DialogShipGroupCSVOutput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogTextInput.resx">
+      <DependentUpon>DialogTextInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogTextInput.zh-Hans.resx">
       <DependentUpon>DialogTextInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogTextSelect.resx">
       <DependentUpon>DialogTextSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogTextSelect.zh-Hans.resx">
+      <DependentUpon>DialogTextSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogVersion.resx">
+      <DependentUpon>DialogVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogVersion.zh-Hans.resx">
       <DependentUpon>DialogVersion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogWhitecap.resx">
       <DependentUpon>DialogWhitecap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogWhitecap.zh-Hans.resx">
+      <DependentUpon>DialogWhitecap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormArsenal.resx">
+      <DependentUpon>FormArsenal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormArsenal.zh-Hans.resx">
       <DependentUpon>FormArsenal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormBattle.resx">
       <DependentUpon>FormBattle.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormBattle.zh-Hans.resx">
+      <DependentUpon>FormBattle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormBrowserHost.resx">
+      <DependentUpon>FormBrowserHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormBrowserHost.zh-Hans.resx">
       <DependentUpon>FormBrowserHost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormCompass.resx">
       <DependentUpon>FormCompass.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormCompass.zh-Hans.resx">
+      <DependentUpon>FormCompass.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormDock.resx">
+      <DependentUpon>FormDock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormDock.zh-Hans.resx">
       <DependentUpon>FormDock.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormFleet.resx">
       <DependentUpon>FormFleet.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormFleet.zh-Hans.resx">
+      <DependentUpon>FormFleet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormFleetOverview.resx">
       <DependentUpon>FormFleetOverview.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormFleetOverview.zh-Hans.resx">
+      <DependentUpon>FormFleetOverview.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormHeadquarters.resx">
+      <DependentUpon>FormHeadquarters.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormHeadquarters.zh-Hans.resx">
       <DependentUpon>FormHeadquarters.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormInformation.resx">
       <DependentUpon>FormInformation.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormInformation.zh-Hans.resx">
+      <DependentUpon>FormInformation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormLog.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormLog.zh-Hans.resx">
       <DependentUpon>FormLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormMain.resx">
@@ -517,17 +604,22 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="Window\FormMain.zh-Hans.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormQuest.resx">
       <DependentUpon>FormQuest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormQuest.zh-Hans.resx">
+      <DependentUpon>FormQuest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormShipGroup.resx">
+      <DependentUpon>FormShipGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormShipGroup.zh-Hans.resx">
       <DependentUpon>FormShipGroup.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -553,7 +645,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 および x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

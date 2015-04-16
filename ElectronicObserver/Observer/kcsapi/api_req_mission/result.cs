@@ -26,7 +26,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_mission {
 			var fleet = KCDatabase.Instance.Fleet[_fleetID];
 
 
-			Utility.Logger.Add( 2, string.Format( "#{0}「{1}」が遠征「{2}: {3}」から帰投しました。({4})", fleet.FleetID, fleet.Name, fleet.ExpeditionDestination, data.api_quest_name, Constants.GetExpeditionResult( (int)data.api_clear_result ) ) );
+            Utility.Logger.Add(2, string.Format(LoadResources.getter("api_req_mission_result"), fleet.FleetID, fleet.Name, fleet.ExpeditionDestination, data.api_quest_name, Constants.GetExpeditionResult((int)data.api_clear_result)));
 
 			base.OnResponseReceived( (object)data );
 		}

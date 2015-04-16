@@ -238,7 +238,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ToolTipInfo.SetToolTip( ShipID, ship.ResourceName );
 			AlbumNo.Text = ship.AlbumNo.ToString();
 
-			ShipType.Text = ship.IsLandBase ? "陸上基地" : db.ShipTypes[ship.ShipType].Name;
+            ShipType.Text = ship.IsLandBase ? LoadResources.getter("DialogAlbumMasterShip_1") : db.ShipTypes[ship.ShipType].Name;
 			ShipName.Text = ship.NameWithClass;
 			ToolTipInfo.SetToolTip( ShipName, !ship.IsAbyssalShip ? ship.NameReading : null );
 			TableShipName.ResumeLayout();
@@ -249,8 +249,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( !ship.IsAbyssalShip ) {
 
-				TitleParameterMin.Text = "初期値";
-				TitleParameterMax.Text = "最大値";
+                TitleParameterMin.Text = LoadResources.getter("DialogAlbumMasterShip_2");
+                TitleParameterMax.Text = LoadResources.getter("DialogAlbumMasterShip_3");
 
 				HPMin.Text = ship.HPMin.ToString();
 				HPMax.Text = ship.HPMaxMarried.ToString();
@@ -308,8 +308,8 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				TitleParameterMin.Text = "基本値";
-				TitleParameterMax.Text = "装備込";
+                TitleParameterMin.Text = LoadResources.getter("DialogAlbumMasterShip_4");
+                TitleParameterMax.Text = LoadResources.getter("DialogAlbumMasterShip_5");
 
 				HPMin.Text = ship.HPMin.ToString();
 				HPMax.Text = hp.ToString();
@@ -360,7 +360,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Ammo.Text = ship.Ammo.ToString();
 
 			string tooltiptext = string.Format(
-				"入渠時の消費:\r\nHP1あたり: 鋼 {0:F2} / 燃 {1:F2}\r\n最大: 鋼 {2} / 燃 {3}\r\n",
+                LoadResources.getter("DialogAlbumMasterShip_6"),
 				( ship.Fuel * 0.06 ),
 				( ship.Fuel * 0.032 ),
 				(int)( ship.Fuel * 0.06 * ( ship.HPMaxMarried - 1 ) ),
@@ -414,22 +414,22 @@ namespace ElectronicObserver.Window.Dialog {
 						StringBuilder sb = new StringBuilder();
 
 						sb.AppendFormat( "{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name );
-						if ( eq.Firepower != 0 ) sb.AppendFormat( "火力 {0}{1}\r\n", eq.Firepower > 0 ? "+" : "", eq.Firepower );
-						if ( eq.Torpedo != 0 ) sb.AppendFormat( "雷装 {0}{1}\r\n", eq.Torpedo > 0 ? "+" : "", eq.Torpedo );
-						if ( eq.AA != 0 ) sb.AppendFormat( "対空 {0}{1}\r\n", eq.AA > 0 ? "+" : "", eq.AA );
-						if ( eq.Armor != 0 ) sb.AppendFormat( "装甲 {0}{1}\r\n", eq.Armor > 0 ? "+" : "", eq.Armor );
-						if ( eq.ASW != 0 ) sb.AppendFormat( "対潜 {0}{1}\r\n", eq.ASW > 0 ? "+" : "", eq.ASW );
-						if ( eq.Evasion != 0 ) sb.AppendFormat( "回避 {0}{1}\r\n", eq.Evasion > 0 ? "+" : "", eq.Evasion );
-						if ( eq.LOS != 0 ) sb.AppendFormat( "索敵 {0}{1}\r\n", eq.LOS > 0 ? "+" : "", eq.LOS );
-						if ( eq.Accuracy != 0 ) sb.AppendFormat( "命中 {0}{1}\r\n", eq.Accuracy > 0 ? "+" : "", eq.Accuracy );
-						if ( eq.Bomber != 0 ) sb.AppendFormat( "爆装 {0}{1}\r\n", eq.Bomber > 0 ? "+" : "", eq.Bomber );
-						sb.AppendLine( "(右クリックで図鑑)" );
+                        if (eq.Firepower != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_7"), eq.Firepower > 0 ? "+" : "", eq.Firepower);
+                        if (eq.Torpedo != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_8"), eq.Torpedo > 0 ? "+" : "", eq.Torpedo);
+                        if (eq.AA != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_9"), eq.AA > 0 ? "+" : "", eq.AA);
+                        if (eq.Armor != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_10"), eq.Armor > 0 ? "+" : "", eq.Armor);
+                        if (eq.ASW != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_11"), eq.ASW > 0 ? "+" : "", eq.ASW);
+                        if (eq.Evasion != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_12"), eq.Evasion > 0 ? "+" : "", eq.Evasion);
+                        if (eq.LOS != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_13"), eq.LOS > 0 ? "+" : "", eq.LOS);
+                        if (eq.Accuracy != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_14"), eq.Accuracy > 0 ? "+" : "", eq.Accuracy);
+                        if (eq.Bomber != 0) sb.AppendFormat(LoadResources.getter("DialogAlbumMasterShip_15"), eq.Bomber > 0 ? "+" : "", eq.Bomber);
+                        sb.AppendLine(LoadResources.getter("DialogAlbumMasterShip_16"));
 
 						ToolTipInfo.SetToolTip( Equipments[i], sb.ToString() );
 					}
 
 				} else if ( i < ship.SlotSize ) {
-					Equipments[i].Text = "(なし)";
+                    Equipments[i].Text = LoadResources.getter("DialogAlbumMasterShip_17");
 					Equipments[i].ImageIndex = (int)ResourceManager.EquipmentContent.Nothing;
 
 				} else {
@@ -464,7 +464,7 @@ namespace ElectronicObserver.Window.Dialog {
 				TableRemodel.SuspendLayout();
 
 				if ( ship.RemodelBeforeShipID == 0 ) {
-					RemodelBeforeShipName.Text = "(なし)";
+                    RemodelBeforeShipName.Text = LoadResources.getter("DialogAlbumMasterShip_17");
 					RemodelBeforeLevel.Text = "";
 					RemodelBeforeLevel.ImageIndex = -1;
 					RemodelBeforeAmmo.Text = "-";
@@ -479,7 +479,7 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 
 				if ( ship.RemodelAfterShipID == 0 ) {
-					RemodelAfterShipName.Text = "(なし)";
+                    RemodelAfterShipName.Text = LoadResources.getter("DialogAlbumMasterShip_17");
 					RemodelAfterLevel.Text = "";
 					RemodelAfterLevel.ImageIndex = -1;
 					RemodelAfterAmmo.Text = "-";
@@ -520,7 +520,7 @@ namespace ElectronicObserver.Window.Dialog {
 			BasePanelShipGirl.Visible = true;
 
 
-			this.Text = "艦船図鑑 - " + ship.NameWithClass;
+            this.Text = LoadResources.getter("DialogAlbumMasterShip_18") + ship.NameWithClass;
 
 		}
 
@@ -697,12 +697,12 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "艦船ID,図鑑番号,艦種,艦名,読み,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,耐久初期,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期,対潜最大,回避初期,回避最大,索敵初期,索敵最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,バージョン" );
+                        sw.WriteLine(LoadResources.getter("DialogAlbumMasterShip_19"));
 						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 59 ) ) );
 
 						foreach ( ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values ) {
 
-							if ( ship.Name == "なし" ) continue;
+                            if (ship.Name == LoadResources.getter("DialogAlbumMasterShip_20")) continue;
 
 							sw.WriteLine( arg,
 								ship.ShipID,
@@ -715,7 +715,7 @@ namespace ElectronicObserver.Window.Dialog {
 								ship.RemodelAfterLevel,
 								ship.RemodelAmmo,
 								ship.RemodelSteel,
-								ship.NeedBlueprint > 0 ? ship.NeedBlueprint + "枚" : "-",
+                                ship.NeedBlueprint > 0 ? ship.NeedBlueprint + LoadResources.getter("DialogAlbumMasterShip_21") : "-",
 								ship.HPMin,
 								ship.HPMaxMarried,
 								ship.FirepowerMin,
@@ -772,8 +772,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 				} catch ( Exception ex ) {
 
-					Utility.ErrorReporter.SendErrorReport( ex, "艦船図鑑 CSVの出力に失敗しました。" );
-					MessageBox.Show( "艦船図鑑 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("DialogAlbumMasterShip_23"));
+                    MessageBox.Show(LoadResources.getter("DialogAlbumMasterShip_24") + ex.Message, LoadResources.getter("DialogAlbumMasterShip_25"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 
 			}
@@ -789,7 +789,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "艦船ID,図鑑番号,艦名,読み,艦種,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,耐久初期,耐久最大,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期最小,対潜初期最大,対潜最大,対潜150最小,対潜150最大,回避初期最小,回避初期最大,回避最大,回避150最小,回避150最大,索敵初期最小,索敵初期最大,索敵最大,索敵150最小,索敵150最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,バージョン" );
+                        sw.WriteLine(LoadResources.getter("DialogAlbumMasterShip_22"));
 						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 69 ) ) );
 
 						foreach ( ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values ) {
@@ -872,8 +872,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 				} catch ( Exception ex ) {
 
-					Utility.ErrorReporter.SendErrorReport( ex, "艦船図鑑 CSVの出力に失敗しました。" );
-					MessageBox.Show( "艦船図鑑 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("DialogAlbumMasterShip_23"));
+                    MessageBox.Show(LoadResources.getter("DialogAlbumMasterShip_24") + ex.Message, LoadResources.getter("DialogAlbumMasterShip_25"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 
 			}

@@ -1,0 +1,1538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="APIObserver_1" xml:space="preserve">
+    <value>APIObserver: 端口：{0} 开始接收。</value>
+  </data>
+  <data name="APIObserver_10" xml:space="preserve">
+    <value>Response的接收中发生了Error。</value>
+  </data>
+  <data name="APIObserver_11" xml:space="preserve">
+    <value>Reques保存失败。</value>
+  </data>
+  <data name="APIObserver_12" xml:space="preserve">
+    <value>Response保存失败。</value>
+  </data>
+  <data name="APIObserver_2" xml:space="preserve">
+    <value>APIObserver: 实际接收端口号与指定端口号不同。</value>
+  </data>
+  <data name="APIObserver_3" xml:space="preserve">
+    <value>APIObserver: 停止接收。</value>
+  </data>
+  <data name="APIObserver_4" xml:space="preserve">
+    <value>通信文件 {0} 已被保存。</value>
+  </data>
+  <data name="APIObserver_5" xml:space="preserve">
+    <value>通信内容保存失败。 </value>
+  </data>
+  <data name="APIObserver_6" xml:space="preserve">
+    <value>收到的Request  :</value>
+  </data>
+  <data name="APIObserver_7" xml:space="preserve">
+    <value>Request的接收中发生了Error。</value>
+  </data>
+  <data name="APIObserver_8" xml:space="preserve">
+    <value>收到的Response :</value>
+  </data>
+  <data name="APIObserver_9" xml:space="preserve">
+    <value>收到了含有ErrorCode的消息。</value>
+  </data>
+  <data name="api_req_map_start" xml:space="preserve">
+    <value>#{0}「{1}」去「{2}-{3} {4}」出击了。</value>
+  </data>
+  <data name="api_req_mission_result" xml:space="preserve">
+    <value>#{0}「{1}」从远征「{2}: {3}」已经返航。({4})</value>
+  </data>
+  <data name="api_req_mission_start" xml:space="preserve">
+    <value>#{0}「{1}」正在远征「{2}: {3}」出击。</value>
+  </data>
+  <data name="api_start2" xml:space="preserve">
+    <value>提督您到镇守府了。舰队将交由您来指挥。</value>
+  </data>
+  <data name="Configuration_1" xml:space="preserve">
+    <value>感谢您使用本软件。\r\n设定和使用方法请参照「帮助」→「在线帮助」。\r\n使用之前请一定要读一下。</value>
+  </data>
+  <data name="Configuration_2" xml:space="preserve">
+    <value>第一次启动</value>
+  </data>
+  <data name="Configuration_Font" xml:space="preserve">
+    <value>Microsoft YaHei UI</value>
+  </data>
+  <data name="Constants_1" xml:space="preserve">
+    <value>陆上</value>
+  </data>
+  <data name="Constants_10" xml:space="preserve">
+    <value>赤</value>
+  </data>
+  <data name="Constants_100" xml:space="preserve">
+    <value>Cut-In(主炮/主炮)</value>
+  </data>
+  <data name="Constants_101" xml:space="preserve">
+    <value>空战</value>
+  </data>
+  <data name="Constants_102" xml:space="preserve">
+    <value>轰炸</value>
+  </data>
+  <data name="Constants_103" xml:space="preserve">
+    <value>雷击</value>
+  </data>
+  <data name="Constants_104" xml:space="preserve">
+    <value>火箭炮</value>
+  </data>
+  <data name="Constants_105" xml:space="preserve">
+    <value>炮击</value>
+  </data>
+  <data name="Constants_106" xml:space="preserve">
+    <value>连续射击</value>
+  </data>
+  <data name="Constants_107" xml:space="preserve">
+    <value>Cut-In(主炮/鱼雷)</value>
+  </data>
+  <data name="Constants_108" xml:space="preserve">
+    <value>Cut-In(鱼雷x2)</value>
+  </data>
+  <data name="Constants_109" xml:space="preserve">
+    <value>Cut-In(主炮x2/副炮)</value>
+  </data>
+  <data name="Constants_11" xml:space="preserve">
+    <value>蓝</value>
+  </data>
+  <data name="Constants_110" xml:space="preserve">
+    <value>Cut-In(主炮x3)</value>
+  </data>
+  <data name="Constants_111" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="Constants_112" xml:space="preserve">
+    <value>空战</value>
+  </data>
+  <data name="Constants_113" xml:space="preserve">
+    <value>轰炸</value>
+  </data>
+  <data name="Constants_114" xml:space="preserve">
+    <value>雷击</value>
+  </data>
+  <data name="Constants_115" xml:space="preserve">
+    <value>火箭炮</value>
+  </data>
+  <data name="Constants_116" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="Constants_117" xml:space="preserve">
+    <value>高角炮x2/电探</value>
+  </data>
+  <data name="Constants_118" xml:space="preserve">
+    <value>高角炮/电探</value>
+  </data>
+  <data name="Constants_119" xml:space="preserve">
+    <value>高角炮x2</value>
+  </data>
+  <data name="Constants_12" xml:space="preserve">
+    <value>青</value>
+  </data>
+  <data name="Constants_120" xml:space="preserve">
+    <value>大口径主炮/三式弹/高射装置/电探</value>
+  </data>
+  <data name="Constants_121" xml:space="preserve">
+    <value>高角炮+高射装置x2/电探</value>
+  </data>
+  <data name="Constants_122" xml:space="preserve">
+    <value>大口径主炮/三式弹/高射装置</value>
+  </data>
+  <data name="Constants_123" xml:space="preserve">
+    <value>高角炮/高射装置/电探</value>
+  </data>
+  <data name="Constants_124" xml:space="preserve">
+    <value>高角炮+高射装置/电探</value>
+  </data>
+  <data name="Constants_125" xml:space="preserve">
+    <value>高角炮/高射装置</value>
+  </data>
+  <data name="Constants_126" xml:space="preserve">
+    <value>高角炮/集中机枪/电探</value>
+  </data>
+  <data name="Constants_127" xml:space="preserve">
+    <value>高角炮/集中机枪</value>
+  </data>
+  <data name="Constants_128" xml:space="preserve">
+    <value>集中机枪/机枪/电探</value>
+  </data>
+  <data name="Constants_129" xml:space="preserve">
+    <value>燃料</value>
+  </data>
+  <data name="Constants_13" xml:space="preserve">
+    <value>水</value>
+  </data>
+  <data name="Constants_130" xml:space="preserve">
+    <value>弹药</value>
+  </data>
+  <data name="Constants_131" xml:space="preserve">
+    <value>钢材</value>
+  </data>
+  <data name="Constants_132" xml:space="preserve">
+    <value>铝土</value>
+  </data>
+  <data name="Constants_133" xml:space="preserve">
+    <value>高速建造材料</value>
+  </data>
+  <data name="Constants_134" xml:space="preserve">
+    <value>高速修复材料</value>
+  </data>
+  <data name="Constants_135" xml:space="preserve">
+    <value>开发资材</value>
+  </data>
+  <data name="Constants_136" xml:space="preserve">
+    <value>改修资材</value>
+  </data>
+  <data name="Constants_137" xml:space="preserve">
+    <value>元帅</value>
+  </data>
+  <data name="Constants_138" xml:space="preserve">
+    <value>大将</value>
+  </data>
+  <data name="Constants_139" xml:space="preserve">
+    <value>中将</value>
+  </data>
+  <data name="Constants_14" xml:space="preserve">
+    <value>银</value>
+  </data>
+  <data name="Constants_140" xml:space="preserve">
+    <value>少将</value>
+  </data>
+  <data name="Constants_141" xml:space="preserve">
+    <value>大佐</value>
+  </data>
+  <data name="Constants_142" xml:space="preserve">
+    <value>中佐</value>
+  </data>
+  <data name="Constants_143" xml:space="preserve">
+    <value>新米中佐</value>
+  </data>
+  <data name="Constants_144" xml:space="preserve">
+    <value>少佐</value>
+  </data>
+  <data name="Constants_145" xml:space="preserve">
+    <value>中坚少佐</value>
+  </data>
+  <data name="Constants_146" xml:space="preserve">
+    <value>新米少佐</value>
+  </data>
+  <data name="Constants_147" xml:space="preserve">
+    <value>提督</value>
+  </data>
+  <data name="Constants_148" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Constants_149" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="Constants_15" xml:space="preserve">
+    <value>金</value>
+  </data>
+  <data name="Constants_150" xml:space="preserve">
+    <value>周</value>
+  </data>
+  <data name="Constants_151" xml:space="preserve">
+    <value>变</value>
+  </data>
+  <data name="Constants_152" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="Constants_153" xml:space="preserve">
+    <value>编成</value>
+  </data>
+  <data name="Constants_154" xml:space="preserve">
+    <value>出击</value>
+  </data>
+  <data name="Constants_155" xml:space="preserve">
+    <value>演习</value>
+  </data>
+  <data name="Constants_156" xml:space="preserve">
+    <value>远征</value>
+  </data>
+  <data name="Constants_157" xml:space="preserve">
+    <value>补给</value>
+  </data>
+  <data name="Constants_158" xml:space="preserve">
+    <value>工厂</value>
+  </data>
+  <data name="Constants_159" xml:space="preserve">
+    <value>改造</value>
+  </data>
+  <data name="Constants_16" xml:space="preserve">
+    <value>虹</value>
+  </data>
+  <data name="Constants_160" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="Constants_161" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="Constants_162" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Constants_163" xml:space="preserve">
+    <value>大成功</value>
+  </data>
+  <data name="Constants_164" xml:space="preserve">
+    <value>通常舰队</value>
+  </data>
+  <data name="Constants_165" xml:space="preserve">
+    <value>空母机动部队</value>
+  </data>
+  <data name="Constants_166" xml:space="preserve">
+    <value>水上打击部队</value>
+  </data>
+  <data name="Constants_17" xml:space="preserve">
+    <value>辉虹</value>
+  </data>
+  <data name="Constants_18" xml:space="preserve">
+    <value>樱虹</value>
+  </data>
+  <data name="Constants_19" xml:space="preserve">
+    <value>普通</value>
+  </data>
+  <data name="Constants_2" xml:space="preserve">
+    <value>低速</value>
+  </data>
+  <data name="Constants_20" xml:space="preserve">
+    <value>稀有</value>
+  </data>
+  <data name="Constants_21" xml:space="preserve">
+    <value>星</value>
+  </data>
+  <data name="Constants_22" xml:space="preserve">
+    <value>S星</value>
+  </data>
+  <data name="Constants_23" xml:space="preserve">
+    <value>SS星</value>
+  </data>
+  <data name="Constants_24" xml:space="preserve">
+    <value>EX星</value>
+  </data>
+  <data name="Constants_25" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="Constants_26" xml:space="preserve">
+    <value>报时</value>
+  </data>
+  <data name="Constants_27" xml:space="preserve">
+    <value>放置</value>
+  </data>
+  <data name="Constants_28" xml:space="preserve">
+    <value>报时+放置</value>
+  </data>
+  <data name="Constants_29" xml:space="preserve">
+    <value>退避</value>
+  </data>
+  <data name="Constants_3" xml:space="preserve">
+    <value>高速</value>
+  </data>
+  <data name="Constants_30" xml:space="preserve">
+    <value>脱离</value>
+  </data>
+  <data name="Constants_31" xml:space="preserve">
+    <value>击沉</value>
+  </data>
+  <data name="Constants_32" xml:space="preserve">
+    <value>破坏</value>
+  </data>
+  <data name="Constants_33" xml:space="preserve">
+    <value>大破</value>
+  </data>
+  <data name="Constants_34" xml:space="preserve">
+    <value>损坏</value>
+  </data>
+  <data name="Constants_35" xml:space="preserve">
+    <value>中破</value>
+  </data>
+  <data name="Constants_36" xml:space="preserve">
+    <value>损害</value>
+  </data>
+  <data name="Constants_37" xml:space="preserve">
+    <value>小破</value>
+  </data>
+  <data name="Constants_38" xml:space="preserve">
+    <value>混乱</value>
+  </data>
+  <data name="Constants_39" xml:space="preserve">
+    <value>健在</value>
+  </data>
+  <data name="Constants_4" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="Constants_40" xml:space="preserve">
+    <value>无伤</value>
+  </data>
+  <data name="Constants_41" xml:space="preserve">
+    <value>初期位置</value>
+  </data>
+  <data name="Constants_42" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="Constants_43" xml:space="preserve">
+    <value>资源</value>
+  </data>
+  <data name="Constants_44" xml:space="preserve">
+    <value>漩涡</value>
+  </data>
+  <data name="Constants_45" xml:space="preserve">
+    <value>通常战斗</value>
+  </data>
+  <data name="Constants_46" xml:space="preserve">
+    <value>Boss战斗</value>
+  </data>
+  <data name="Constants_47" xml:space="preserve">
+    <value>错觉</value>
+  </data>
+  <data name="Constants_48" xml:space="preserve">
+    <value>航空战</value>
+  </data>
+  <data name="Constants_49" xml:space="preserve">
+    <value>舰队护卫成功</value>
+  </data>
+  <data name="Constants_5" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="Constants_50" xml:space="preserve">
+    <value>非战斗</value>
+  </data>
+  <data name="Constants_51" xml:space="preserve">
+    <value>昼夜战</value>
+  </data>
+  <data name="Constants_52" xml:space="preserve">
+    <value>夜战</value>
+  </data>
+  <data name="Constants_53" xml:space="preserve">
+    <value>夜昼战</value>
+  </data>
+  <data name="Constants_54" xml:space="preserve">
+    <value>航空战</value>
+  </data>
+  <data name="Constants_55" xml:space="preserve">
+    <value>单纵阵</value>
+  </data>
+  <data name="Constants_56" xml:space="preserve">
+    <value>复纵阵</value>
+  </data>
+  <data name="Constants_57" xml:space="preserve">
+    <value>轮形阵</value>
+  </data>
+  <data name="Constants_58" xml:space="preserve">
+    <value>梯形阵</value>
+  </data>
+  <data name="Constants_59" xml:space="preserve">
+    <value>单横阵</value>
+  </data>
+  <data name="Constants_6" xml:space="preserve">
+    <value>短</value>
+  </data>
+  <data name="Constants_60" xml:space="preserve">
+    <value>第一警戒航行序列</value>
+  </data>
+  <data name="Constants_61" xml:space="preserve">
+    <value>第二警戒航行序列</value>
+  </data>
+  <data name="Constants_62" xml:space="preserve">
+    <value>第三警戒航行序列</value>
+  </data>
+  <data name="Constants_63" xml:space="preserve">
+    <value>第四警戒航行序列</value>
+  </data>
+  <data name="Constants_64" xml:space="preserve">
+    <value>单纵阵</value>
+  </data>
+  <data name="Constants_65" xml:space="preserve">
+    <value>复纵阵</value>
+  </data>
+  <data name="Constants_66" xml:space="preserve">
+    <value>轮形阵</value>
+  </data>
+  <data name="Constants_67" xml:space="preserve">
+    <value>梯形阵</value>
+  </data>
+  <data name="Constants_68" xml:space="preserve">
+    <value>单横阵</value>
+  </data>
+  <data name="Constants_69" xml:space="preserve">
+    <value>第一警戒</value>
+  </data>
+  <data name="Constants_7" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="Constants_70" xml:space="preserve">
+    <value>第二警戒</value>
+  </data>
+  <data name="Constants_71" xml:space="preserve">
+    <value>第三警戒</value>
+  </data>
+  <data name="Constants_72" xml:space="preserve">
+    <value>第四警戒</value>
+  </data>
+  <data name="Constants_73" xml:space="preserve">
+    <value>同航战</value>
+  </data>
+  <data name="Constants_74" xml:space="preserve">
+    <value>反航战</value>
+  </data>
+  <data name="Constants_75" xml:space="preserve">
+    <value>T字有利</value>
+  </data>
+  <data name="Constants_76" xml:space="preserve">
+    <value>T字不利</value>
+  </data>
+  <data name="Constants_77" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Constants_78" xml:space="preserve">
+    <value>成功(有未返回)</value>
+  </data>
+  <data name="Constants_79" xml:space="preserve">
+    <value>未返回</value>
+  </data>
+  <data name="Constants_8" xml:space="preserve">
+    <value>长</value>
+  </data>
+  <data name="Constants_80" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="Constants_81" xml:space="preserve">
+    <value>成功(非侦察机)</value>
+  </data>
+  <data name="Constants_82" xml:space="preserve">
+    <value>失败(非侦察机)</value>
+  </data>
+  <data name="Constants_83" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Constants_84" xml:space="preserve">
+    <value>成功△</value>
+  </data>
+  <data name="Constants_85" xml:space="preserve">
+    <value>未返回</value>
+  </data>
+  <data name="Constants_86" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="Constants_87" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Constants_88" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="Constants_89" xml:space="preserve">
+    <value>航空均衡</value>
+  </data>
+  <data name="Constants_9" xml:space="preserve">
+    <value>超长</value>
+  </data>
+  <data name="Constants_90" xml:space="preserve">
+    <value>制空权确保</value>
+  </data>
+  <data name="Constants_91" xml:space="preserve">
+    <value>航空优势</value>
+  </data>
+  <data name="Constants_92" xml:space="preserve">
+    <value>航空劣势</value>
+  </data>
+  <data name="Constants_93" xml:space="preserve">
+    <value>制空权丧失</value>
+  </data>
+  <data name="Constants_94" xml:space="preserve">
+    <value>炮击</value>
+  </data>
+  <data name="Constants_95" xml:space="preserve">
+    <value>激光攻击</value>
+  </data>
+  <data name="Constants_96" xml:space="preserve">
+    <value>连续射击</value>
+  </data>
+  <data name="Constants_97" xml:space="preserve">
+    <value>Cut-In(主炮/副炮)</value>
+  </data>
+  <data name="Constants_98" xml:space="preserve">
+    <value>Cut-In(主炮/电探)</value>
+  </data>
+  <data name="Constants_99" xml:space="preserve">
+    <value>Cut-In(主炮/彻甲)</value>
+  </data>
+  <data name="ConstructionRecord_1" xml:space="preserve">
+    <value>元素数量过少。</value>
+  </data>
+  <data name="ConstructionRecord_2" xml:space="preserve">
+    <value>舰船ID,舰船名,建造日期,燃料,弹药,钢材,铝土,开发资材,大型建造,空坞数量,旗舰ID,旗舰名,司令部Lv</value>
+  </data>
+  <data name="DataStorage_1" xml:space="preserve">
+    <value>DataStorage 写入失败。</value>
+  </data>
+  <data name="DataStorage_2" xml:space="preserve">
+    <value>DataStorage {0} 不存在。</value>
+  </data>
+  <data name="DataStorage_3" xml:space="preserve">
+    <value>DataStorage 读取失败。</value>
+  </data>
+  <data name="DataStorage_4" xml:space="preserve">
+    <value>DataStorage 文件不存在。</value>
+  </data>
+  <data name="DevelopmentElement_1" xml:space="preserve">
+    <value>(失败)</value>
+  </data>
+  <data name="DevelopmentElement_2" xml:space="preserve">
+    <value>元素数量太少。</value>
+  </data>
+  <data name="DevelopmentElement_3" xml:space="preserve">
+    <value>装备ID,装备名,开发日期,燃料,弹药,钢材,铝土,旗舰ID,旗舰名,旗舰舰种,司令部Lv</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_1" xml:space="preserve">
+    <value>可装备舰种:</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_10" xml:space="preserve">
+    <value>装备图鉴 输出CSV失败。\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_11" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_2" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_3" xml:space="preserve">
+    <value>装备图鉴 - </value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_4" xml:space="preserve">
+    <value>装备D,图鉴编号,装备种类,装备名,装备种类1,装备种类2,装备种类3,装备种类4,火力,雷装,对空,装甲,对潜,回避,索敌,运,命中,爆装,射程,稀有,废弃燃料,废弃弹药,废弃钢材,废弃铝土,图鉴文章,版本号</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_5" xml:space="preserve">
+    <value>装备图鉴 输出CSV失败。</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_6" xml:space="preserve">
+    <value>装备图鉴 输出CSV失败。\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_7" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_8" xml:space="preserve">
+    <value>装备D,图鉴编号,装备种类,装备名,装备种类1,装备种类2,装备种类3,装备种类4,火力,雷装,对空,装甲,对潜,回避,索敌,运,命中,爆装,射程,稀有,废弃燃料,废弃弹药,废弃钢材,废弃铝土,图鉴文章,版本号</value>
+  </data>
+  <data name="DialogAlbumMasterEquipment_9" xml:space="preserve">
+    <value>装备图鉴 输出CSV失败。</value>
+  </data>
+  <data name="DialogAlbumMasterShip_1" xml:space="preserve">
+    <value>陆上基地</value>
+  </data>
+  <data name="DialogAlbumMasterShip_10" xml:space="preserve">
+    <value>装甲 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_11" xml:space="preserve">
+    <value>对潜 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_12" xml:space="preserve">
+    <value>回避 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_13" xml:space="preserve">
+    <value>索敌 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_14" xml:space="preserve">
+    <value>命中 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_15" xml:space="preserve">
+    <value>爆装 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_16" xml:space="preserve">
+    <value>(右键单击图鉴)</value>
+  </data>
+  <data name="DialogAlbumMasterShip_17" xml:space="preserve">
+    <value>(无)</value>
+  </data>
+  <data name="DialogAlbumMasterShip_18" xml:space="preserve">
+    <value>舰船图鉴 -</value>
+  </data>
+  <data name="DialogAlbumMasterShip_19" xml:space="preserve">
+    <value>舰船ID,图鉴编号,舰种,舰名,读作,改装前,改装后,改装Lv,改装弹药,改装钢材,改造设计图,初期耐久,婚后耐久,初期火力,最大火力,初期雷装,最大雷装,初期对空,最大对空,初期装甲,最大装甲,初期对潜,最大对潜,初期回避,最大回避,初期索敌,最大索敌,初期运气,最大运气,速力,射程,稀有,装备槽数,搭载机数1,搭载机数2,搭载机数3,搭载机数4,搭载机数5,初期装备1,初期装备2,初期装备3,初期装备4,初期装备5,建造时间,解体燃料,解体弹药,解体钢材,解体铝土,改修火力,改修雷装,改修对空,改修装甲,下降文章(暂),图鉴文章,搭载燃料,搭载弹药,语音,资源文件名,版本</value>
+  </data>
+  <data name="DialogAlbumMasterShip_2" xml:space="preserve">
+    <value>初期值</value>
+  </data>
+  <data name="DialogAlbumMasterShip_20" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="DialogAlbumMasterShip_21" xml:space="preserve">
+    <value>枚</value>
+  </data>
+  <data name="DialogAlbumMasterShip_22" xml:space="preserve">
+    <value>舰船ID,图鉴编号,舰名,读作,舰种,改装前,改装后,改装Lv,改装弹药,改装钢材,改装设计图,初期耐久,最大耐久,婚后耐久,初期火力,最大火力,初期雷装,最大雷装,初期对空,最大对空,初期装甲,最大装甲,初期对潜最小值,初期对潜最大值,对潜最大,对潜150最小,对潜150最大,初期回避最小值,初期回避最大值,最大回避,回避150最小,回避150最大,初期索敌最小值,初期索敌最大值,最大索敌,索敌150最大,索敌150最大,初期运,最大运,速力,射程,稀有,装备槽数,搭载机数1,搭载机数2,搭载机数3,搭载机数4,搭载机数5,初期装备1,初期装备2,初期装备3,初期装备4,初期装备5,建造时间,解体燃料,解体弹药,解体钢材,解体铝土,改修火力,改修雷装,改修对空,改修装甲,下降文章(暂),图鉴文章,搭载燃料,搭载弹药,语音,资源名,版本号</value>
+  </data>
+  <data name="DialogAlbumMasterShip_23" xml:space="preserve">
+    <value>舰船图鉴 输出CSV失败。</value>
+  </data>
+  <data name="DialogAlbumMasterShip_24" xml:space="preserve">
+    <value>舰船图鉴 输出CSV失败。\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_25" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="DialogAlbumMasterShip_3" xml:space="preserve">
+    <value>最大值</value>
+  </data>
+  <data name="DialogAlbumMasterShip_4" xml:space="preserve">
+    <value>基本值</value>
+  </data>
+  <data name="DialogAlbumMasterShip_5" xml:space="preserve">
+    <value>包括装备后</value>
+  </data>
+  <data name="DialogAlbumMasterShip_6" xml:space="preserve">
+    <value>入渠时会消耗:\r\n每HP1: 钢 {0:F2} / 燃 {1:F2}\r\n最大: 钢 {2} / 燃 {3}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_7" xml:space="preserve">
+    <value>火力 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_8" xml:space="preserve">
+    <value>雷装 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogAlbumMasterShip_9" xml:space="preserve">
+    <value>对空 {0}{1}\r\n</value>
+  </data>
+  <data name="DialogConfiguration_1" xml:space="preserve">
+    <value>指定文件夹不存在。</value>
+  </data>
+  <data name="DialogConfiguration_2" xml:space="preserve">
+    <value>请连接上艦これ后在进行操作。</value>
+  </data>
+  <data name="DialogConfiguration_3" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="DialogConfiguration_4" xml:space="preserve">
+    <value>保存自动配置代理脚本</value>
+  </data>
+  <data name="DialogConfiguration_5" xml:space="preserve">
+    <value>保存自动配置代理脚本、本程序将复制设置用的URL到剪贴板。\r\n请粘贴到指定位置。</value>
+  </data>
+  <data name="DialogConfiguration_6" xml:space="preserve">
+    <value>创建完成</value>
+  </data>
+  <data name="DialogConfiguration_7" xml:space="preserve">
+    <value>没能保存自动代理配置脚本。</value>
+  </data>
+  <data name="DialogConfiguration_8" xml:space="preserve">
+    <value>没能保存自动代理配置脚本。\r\n</value>
+  </data>
+  <data name="DialogConfiguration_9" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="EnemyFleetRecord_1" xml:space="preserve">
+    <value>元素数量太少。</value>
+  </data>
+  <data name="EnemyFleetRecord_2" xml:space="preserve">
+    <value>敌编成ID,敌舰队名,阵型,敌1号舰,敌2号舰,敌3号舰,敌4号舰,敌5号舰,敌6号舰</value>
+  </data>
+  <data name="ErrorReporter_1" xml:space="preserve">
+    <value>ErrorReport : {0}</value>
+  </data>
+  <data name="ErrorReporter_2" xml:space="preserve">
+    <value>Error : {0}</value>
+  </data>
+  <data name="ErrorReporter_3" xml:space="preserve">
+    <value>追加信息 : {0}</value>
+  </data>
+  <data name="ErrorReporter_4" xml:space="preserve">
+    <value>StackTrace：</value>
+  </data>
+  <data name="ErrorReporter_5" xml:space="preserve">
+    <value>通信内容 : {0}</value>
+  </data>
+  <data name="ErrorReporter_6" xml:space="preserve">
+    <value>ErrorReport写入失败。\r\n{0}\r\n{1}</value>
+  </data>
+  <data name="FleetData_1" xml:space="preserve">
+    <value>没有所属舰队</value>
+  </data>
+  <data name="FleetData_10" xml:space="preserve">
+    <value>开始时间 : </value>
+  </data>
+  <data name="FleetData_111" xml:space="preserve">
+    <value>未补给</value>
+  </data>
+  <data name="FleetData_12" xml:space="preserve">
+    <value>燃 : {0}\r\n弹 : {1}\r\n铝 : {2} ({3}机)</value>
+  </data>
+  <data name="FleetData_13" xml:space="preserve">
+    <value>疲劳</value>
+  </data>
+  <data name="FleetData_14" xml:space="preserve">
+    <value>回复大致时间: {0}</value>
+  </data>
+  <data name="FleetData_15" xml:space="preserve">
+    <value>战意高扬！</value>
+  </data>
+  <data name="FleetData_16" xml:space="preserve">
+    <value>最低cond: {0}\r\n还可进行 {1} 次远征</value>
+  </data>
+  <data name="FleetData_17" xml:space="preserve">
+    <value>可以出击！</value>
+  </data>
+  <data name="FleetData_18" xml:space="preserve">
+    <value>入渠中 </value>
+  </data>
+  <data name="FleetData_19" xml:space="preserve">
+    <value>远征中 </value>
+  </data>
+  <data name="FleetData_2" xml:space="preserve">
+    <value>入渠中 </value>
+  </data>
+  <data name="FleetData_20" xml:space="preserve">
+    <value>疲劳 </value>
+  </data>
+  <data name="FleetData_21" xml:space="preserve">
+    <value>停泊修理中 </value>
+  </data>
+  <data name="FleetData_22" xml:space="preserve">
+    <value>#{0}「{1}」已经返航。</value>
+  </data>
+  <data name="FleetData_23" xml:space="preserve">
+    <value>Fleet #{0}: 疲劳 再次设定 {1:D2}:00</value>
+  </data>
+  <data name="FleetData_24" xml:space="preserve">
+    <value>Fleet #{0}: 疲劳 缩短 {1:D2}:00 =&gt; {2:D2}:{3:D2}</value>
+  </data>
+  <data name="FleetData_3" xml:space="preserve">
+    <value>完成时间 : </value>
+  </data>
+  <data name="FleetData_4" xml:space="preserve">
+    <value>！！大破进击中！！</value>
+  </data>
+  <data name="FleetData_5" xml:space="preserve">
+    <value>出击中 </value>
+  </data>
+  <data name="FleetData_6" xml:space="preserve">
+    <value>远征中 </value>
+  </data>
+  <data name="FleetData_7" xml:space="preserve">
+    <value>完成时间 : </value>
+  </data>
+  <data name="FleetData_8" xml:space="preserve">
+    <value>有舰船大破！</value>
+  </data>
+  <data name="FleetData_9" xml:space="preserve">
+    <value>停泊修理中</value>
+  </data>
+  <data name="FormBrowserHost_1" xml:space="preserve">
+    <value>无法启动浏览器进程。</value>
+  </data>
+  <data name="FormBrowserHost_2" xml:space="preserve">
+    <value>无法启动浏览器进程。\r\n</value>
+  </data>
+  <data name="FormBrowserHost_3" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="FormBrowserHost_4" xml:space="preserve">
+    <value>请输入目的地址</value>
+  </data>
+  <data name="FormBrowserHost_5" xml:space="preserve">
+    <value>请输入目的地址的URL。</value>
+  </data>
+  <data name="FormBrowserHost_6" xml:space="preserve">
+    <value>浏览器进程意外结束。</value>
+  </data>
+  <data name="FormBrowserHost_7" xml:space="preserve">
+    <value>浏览器进程间通信发生了错误。</value>
+  </data>
+  <data name="FormBrowserHost_8" xml:space="preserve">
+    <value>停止浏览器的过程中发生了错误。</value>
+  </data>
+  <data name="FormMain_1" xml:space="preserve">
+    <value>已启动…</value>
+  </data>
+  <data name="FormMain_10" xml:space="preserve">
+    <value>正在恢复窗口布局。</value>
+  </data>
+  <data name="FormMain_11" xml:space="preserve">
+    <value>窗口布局文件不存在。</value>
+  </data>
+  <data name="FormMain_12" xml:space="preserve">
+    <value>布局已经初始化完成。\r\n请从「显示」菜单中添加自己喜欢的窗口。</value>
+  </data>
+  <data name="FormMain_13" xml:space="preserve">
+    <value>窗口布局文件不存在</value>
+  </data>
+  <data name="FormMain_14" xml:space="preserve">
+    <value>恢复窗口布局失败。</value>
+  </data>
+  <data name="FormMain_15" xml:space="preserve">
+    <value>正在恢复窗口布局。</value>
+  </data>
+  <data name="FormMain_16" xml:space="preserve">
+    <value>保存窗口布局失败。</value>
+  </data>
+  <data name="FormMain_17" xml:space="preserve">
+    <value>记录不保存的话会丢失。\r\n你确认加载？</value>
+  </data>
+  <data name="FormMain_18" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="FormMain_19" xml:space="preserve">
+    <value>加载API列表</value>
+  </data>
+  <data name="FormMain_2" xml:space="preserve">
+    <value>API读取失败。</value>
+  </data>
+  <data name="FormMain_20" xml:space="preserve">
+    <value>无法读取API列表。\r\n</value>
+  </data>
+  <data name="FormMain_21" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="FormMain_22" xml:space="preserve">
+    <value>请提前读入正常的 api_start2。</value>
+  </data>
+  <data name="FormMain_23" xml:space="preserve">
+    <value>给您造成不便还请谅解</value>
+  </data>
+  <data name="FormMain_24" xml:space="preserve">
+    <value>从旧 api_start2 建立记录</value>
+  </data>
+  <data name="FormMain_25" xml:space="preserve">
+    <value>舰船数据加载失败。</value>
+  </data>
+  <data name="FormMain_26" xml:space="preserve">
+    <value>装备数据加载失败。</value>
+  </data>
+  <data name="FormMain_27" xml:space="preserve">
+    <value>将要删除旧的API数据。\r\n真的要这么做？</value>
+  </data>
+  <data name="FormMain_28" xml:space="preserve">
+    <value>已经删除。\r\n</value>
+  </data>
+  <data name="FormMain_29" xml:space="preserve">
+    <value> 个文件已经删除。</value>
+  </data>
+  <data name="FormMain_3" xml:space="preserve">
+    <value>启动处理已完成。</value>
+  </data>
+  <data name="FormMain_30" xml:space="preserve">
+    <value>删除成功</value>
+  </data>
+  <data name="FormMain_31" xml:space="preserve">
+    <value>删除失败。\r\n</value>
+  </data>
+  <data name="FormMain_32" xml:space="preserve">
+    <value>舰船数据加载失败。</value>
+  </data>
+  <data name="FormMain_33" xml:space="preserve">
+    <value>从通信中保存的舰船资源名的文件及文件夹、将替换成舰船名。\r\n</value>
+  </data>
+  <data name="FormMain_34" xml:space="preserve">
+    <value>对象是指定目录下的所有文件及子文件夹。\r\n</value>
+  </data>
+  <data name="FormMain_35" xml:space="preserve">
+    <value>确认要继续？</value>
+  </data>
+  <data name="FormMain_36" xml:space="preserve">
+    <value>重命名该船的资源文件名</value>
+  </data>
+  <data name="FormMain_37" xml:space="preserve">
+    <value>已完成重命名。\r\n{0} 个资源文件被修改。</value>
+  </data>
+  <data name="FormMain_38" xml:space="preserve">
+    <value>处理完成</value>
+  </data>
+  <data name="FormMain_39" xml:space="preserve">
+    <value>舰船资源文件重命名失败。</value>
+  </data>
+  <data name="FormMain_4" xml:space="preserve">
+    <value>就要退出了
+Sony大法好，来正面上我啊？</value>
+  </data>
+  <data name="FormMain_40" xml:space="preserve">
+    <value>舰船资源文件重命名失败。\r\n</value>
+  </data>
+  <data name="FormMain_41" xml:space="preserve">
+    <value>将要打开外部浏览器查看在线帮助。\r\n确认继续吗？</value>
+  </data>
+  <data name="FormMain_42" xml:space="preserve">
+    <value>帮助</value>
+  </data>
+  <data name="FormMain_43" xml:space="preserve">
+    <value>打开布局文件</value>
+  </data>
+  <data name="FormMain_44" xml:space="preserve">
+    <value>将要跳转到登陆界面。\r\n确认继续吗？</value>
+  </data>
+  <data name="FormMain_45" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="FormMain_46" xml:space="preserve">
+    <value>请输入目的地址</value>
+  </data>
+  <data name="FormMain_47" xml:space="preserve">
+    <value>请输入目的URL。</value>
+  </data>
+  <data name="FormMain_48" xml:space="preserve">
+    <value>当前: {0}%</value>
+  </data>
+  <data name="FormMain_49" xml:space="preserve">
+    <value>API读取失败。\r\n</value>
+  </data>
+  <data name="FormMain_5" xml:space="preserve">
+    <value>上上上！不上还是人！？</value>
+  </data>
+  <data name="FormMain_50" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="FormMain_6" xml:space="preserve">
+    <value>已经退出了…</value>
+  </data>
+  <data name="FormMain_7" xml:space="preserve">
+    <value>已经处理完成。</value>
+  </data>
+  <data name="FormMain_8" xml:space="preserve">
+    <value>恢复窗口布局失败。</value>
+  </data>
+  <data name="FormMain_9" xml:space="preserve">
+    <value>保存窗口布局失败。</value>
+  </data>
+  <data name="FormShipGroup_1" xml:space="preserve">
+    <value>全所属舰</value>
+  </data>
+  <data name="FormShipGroup_10" xml:space="preserve">
+    <value>请输入编成组的名称：</value>
+  </data>
+  <data name="FormShipGroup_11" xml:space="preserve">
+    <value>您确定要删除[{0}]组吗？
+该操作无法撤销。</value>
+  </data>
+  <data name="FormShipGroup_12" xml:space="preserve">
+    <value>该组不能被删除。</value>
+  </data>
+  <data name="FormShipGroup_13" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="FormShipGroup_14" xml:space="preserve">
+    <value>变更编成组名</value>
+  </data>
+  <data name="FormShipGroup_15" xml:space="preserve">
+    <value>请输入编成组的名称：</value>
+  </data>
+  <data name="FormShipGroup_16" xml:space="preserve">
+    <value>该编成组名不能被变更。</value>
+  </data>
+  <data name="FormShipGroup_17" xml:space="preserve">
+    <value>选择编成组</value>
+  </data>
+  <data name="FormShipGroup_18" xml:space="preserve">
+    <value>选择您要添加的编成组：</value>
+  </data>
+  <data name="FormShipGroup_19" xml:space="preserve">
+    <value>添加编成组</value>
+  </data>
+  <data name="FormShipGroup_2" xml:space="preserve">
+    <value>全所属舰</value>
+  </data>
+  <data name="FormShipGroup_20" xml:space="preserve">
+    <value>请输入编成组的名称：</value>
+  </data>
+  <data name="FormShipGroup_21" xml:space="preserve">
+    <value>该编成组不能被变更。</value>
+  </data>
+  <data name="FormShipGroup_22" xml:space="preserve">
+    <value>舰船编成组CSV输出失败。</value>
+  </data>
+  <data name="FormShipGroup_23" xml:space="preserve">
+    <value>舰船编成组CSV输出失败。
+</value>
+  </data>
+  <data name="FormShipGroup_24" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="FormShipGroup_3" xml:space="preserve">
+    <value>Error：正在试图引用不存在的编成组。请联系开发者(@andanteyk @Gizeta @AtrisMio)</value>
+  </data>
+  <data name="FormShipGroup_4" xml:space="preserve">
+    <value>所属: {0}艘</value>
+  </data>
+  <data name="FormShipGroup_5" xml:space="preserve">
+    <value>合计Lv: {0}</value>
+  </data>
+  <data name="FormShipGroup_6" xml:space="preserve">
+    <value>平均Lv: {0:F2}</value>
+  </data>
+  <data name="FormShipGroup_7" xml:space="preserve">
+    <value>(无)</value>
+  </data>
+  <data name="FormShipGroup_8" xml:space="preserve">
+    <value>(无)</value>
+  </data>
+  <data name="FormShipGroup_9" xml:space="preserve">
+    <value>添加编成组</value>
+  </data>
+  <data name="NotifierBase_1" xml:space="preserve">
+    <value>系统通知: 播放通知音失败。</value>
+  </data>
+  <data name="NotifierCondition_1" xml:space="preserve">
+    <value>疲劳恢复</value>
+  </data>
+  <data name="NotifierCondition_2" xml:space="preserve">
+    <value>#{0} 「{1}」的舰娘疲劳恢复了。</value>
+  </data>
+  <data name="NotifierConstruction_1" xml:space="preserve">
+    <value>建造完成</value>
+  </data>
+  <data name="NotifierConstruction_2" xml:space="preserve">
+    <value>工厂的 #{0} 船坞中的「{1}」建造完成了。</value>
+  </data>
+  <data name="NotifierDamage_1" xml:space="preserve">
+    <value>大破警告</value>
+  </data>
+  <data name="NotifierDamage_2" xml:space="preserve">
+    <value>{0} 已经大破了！</value>
+  </data>
+  <data name="NotifierDialogData_1" xml:space="preserve">
+    <value>系统通知: 通知图片 {0} 读取失败。</value>
+  </data>
+  <data name="NotifierExpedition_1" xml:space="preserve">
+    <value>远征归来</value>
+  </data>
+  <data name="NotifierExpedition_2" xml:space="preserve">
+    <value>#{0} 「{1}」从远征「{2}: {3}」返航了。</value>
+  </data>
+  <data name="NotifierRepair_1" xml:space="preserve">
+    <value>入渠完成</value>
+  </data>
+  <data name="NotifierRepair_2" xml:space="preserve">
+    <value>入渠的 #{0} 渠中的「{1}」修复完成了。</value>
+  </data>
+  <data name="ProgressAGo_1" xml:space="preserve">
+    <value>{0:p1} (出击 {1}/{2}, S胜利 {3}/{4}, Boss {5}/{6}, Boss胜利 {7}/{8})</value>
+  </data>
+  <data name="RecordBase_1" xml:space="preserve">
+    <value>记录</value>
+  </data>
+  <data name="RecordBase_2" xml:space="preserve">
+    <value>不存在。</value>
+  </data>
+  <data name="RecordBase_3" xml:space="preserve">
+    <value>读取失败。</value>
+  </data>
+  <data name="RecordBase_4" xml:space="preserve">
+    <value>写入失败。</value>
+  </data>
+  <data name="RecordManager_1" xml:space="preserve">
+    <value>记录已加载。</value>
+  </data>
+  <data name="RecordManager_2" xml:space="preserve">
+    <value>记录加载失败。</value>
+  </data>
+  <data name="ResourceManager_1" xml:space="preserve">
+    <value>资源文件读取失败。</value>
+  </data>
+  <data name="ResourceManager_2" xml:space="preserve">
+    <value>资源文件读取失败。\r\n</value>
+  </data>
+  <data name="ResourceManager_3" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ResourceManager_4" xml:space="preserve">
+    <value>图片资源 {0} 不存在。</value>
+  </data>
+  <data name="ResourceManager_5" xml:space="preserve">
+    <value>图片资源 {0} 读取失败。</value>
+  </data>
+  <data name="ResourceRecord_1" xml:space="preserve">
+    <value>元素数量太少。</value>
+  </data>
+  <data name="ResourceRecord_2" xml:space="preserve">
+    <value>日期,燃料,弹药,钢材,铝土,高速建造材料,高速修复材料,开发资材,改修资材,司令部Lv,提督Exp</value>
+  </data>
+  <data name="SerializableList_1" xml:space="preserve">
+    <value>SerializableList: StringToList 失败了。</value>
+  </data>
+  <data name="ShipDropRecord_1" xml:space="preserve">
+    <value>(无)</value>
+  </data>
+  <data name="ShipDropRecord_2" xml:space="preserve">
+    <value>(满员)</value>
+  </data>
+  <data name="ShipDropRecord_3" xml:space="preserve">
+    <value>元素数量太少。</value>
+  </data>
+  <data name="ShipDropRecord_4" xml:space="preserve">
+    <value>Boss</value>
+  </data>
+  <data name="ShipDropRecord_5" xml:space="preserve">
+    <value>舰船ID,舰名,获得日期,海域,海域,点位,Boss,敌编成,等级,司令部Lv</value>
+  </data>
+  <data name="ShipParameterRecord_1" xml:space="preserve">
+    <value>元素数量太少。</value>
+  </data>
+  <data name="ShipParameterRecord_2" xml:space="preserve">
+    <value>的参数已记录。</value>
+  </data>
+  <data name="ShipParameterRecord_3" xml:space="preserve">
+    <value>的参数已更新。</value>
+  </data>
+  <data name="ShipParameterRecord_4" xml:space="preserve">
+    <value>的初期装备已记录。</value>
+  </data>
+  <data name="ShipParameterRecord_5" xml:space="preserve">
+    <value>的初期装备已更新。</value>
+  </data>
+  <data name="ShipParameterRecord_6" xml:space="preserve">
+    <value>舰船ID,舰船名,初期对潜下限,初期对潜上限,对潜最大,初期回避下限,初期回避上限,回避最大,初期索敌下限,初期索敌上限,索敌最大,装备1,装备2,装备3,装备4,装备5,图鉴说明</value>
+  </data>
+  <data name="ShipStatusResource_1" xml:space="preserve">
+    <value>燃料 : {0}/{1} ({2}%)\r\n弹药 : {3}/{4} ({5}%)</value>
+  </data>
+  <data name="SoftwareInformation_1" xml:space="preserve">
+    <value>七四式电子观测仪</value>
+  </data>
+  <data name="SoftwareInformation_10" xml:space="preserve">
+    <value>您现在使用的版本是最新的。</value>
+  </data>
+  <data name="SoftwareInformation_11" xml:space="preserve">
+    <value>处理更新信息失败。</value>
+  </data>
+  <data name="SoftwareInformation_2" xml:space="preserve">
+    <value>ElectronicObserver</value>
+  </data>
+  <data name="SoftwareInformation_3" xml:space="preserve">
+    <value>一一型改</value>
+  </data>
+  <data name="SoftwareInformation_4" xml:space="preserve">
+    <value>1.1.1</value>
+  </data>
+  <data name="SoftwareInformation_5" xml:space="preserve">
+    <value>新版本已经发布！ : {0}\r\n更新内容 : \r\n{1}\r\n打开下载页面吗？\r\n(取消后则不再显示)</value>
+  </data>
+  <data name="SoftwareInformation_6" xml:space="preserve">
+    <value>更新信息</value>
+  </data>
+  <data name="SoftwareInformation_7" xml:space="preserve">
+    <value>获取更新信息失败。</value>
+  </data>
+  <data name="SoftwareInformation_8" xml:space="preserve">
+    <value>更新信息的URI无效。</value>
+  </data>
+  <data name="SoftwareInformation_9" xml:space="preserve">
+    <value>新版本已经发布了！ :</value>
+  </data>
+  <data name="WindowPlacementManager_1" xml:space="preserve">
+    <value>窗口状态复原失败。</value>
+  </data>
+  <data name="WindowPlacementManager_2" xml:space="preserve">
+    <value>窗口状态保存失败。</value>
+  </data>
+  <data name="FormBattle_1" xml:space="preserve">
+    <value>接触中:</value>
+  </data>
+  <data name="FormBattle_10" xml:space="preserve">
+    <value>第{0}次: {1}\r\nCut-In种类: {2} ({3})\r\n</value>
+  </data>
+  <data name="FormBattle_11" xml:space="preserve">
+    <value>第{0}次: (未发动)\r\n</value>
+  </data>
+  <data name="FormBattle_12" xml:space="preserve">
+    <value>探照灯照射:</value>
+  </data>
+  <data name="FormBattle_13" xml:space="preserve">
+    <value>夜间接触</value>
+  </data>
+  <data name="FormBattle_14" xml:space="preserve">
+    <value>夜间接触中:</value>
+  </data>
+  <data name="FormBattle_15" xml:space="preserve">
+    <value>照明弹投射:</value>
+  </data>
+  <data name="FormBattle_2" xml:space="preserve">
+    <value>对空Cut-In: {0}\r\nCut-In种类: {1} ({2})</value>
+  </data>
+  <data name="FormBattle_3" xml:space="preserve">
+    <value>对空炮火</value>
+  </data>
+  <data name="FormBattle_4" xml:space="preserve">
+    <value>第2次:</value>
+  </data>
+  <data name="FormBattle_5" xml:space="preserve">
+    <value>第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n</value>
+  </data>
+  <data name="FormBattle_6" xml:space="preserve">
+    <value>{0}接触中\r\n第1次: {1}\r\n第2次: {2}</value>
+  </data>
+  <data name="FormBattle_7" xml:space="preserve">
+    <value>(无)</value>
+  </data>
+  <data name="FormBattle_8" xml:space="preserve">
+    <value>第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n</value>
+  </data>
+  <data name="FormBattle_9" xml:space="preserve">
+    <value>对空Cut-In</value>
+  </data>
+  <data name="FormCompass_1" xml:space="preserve">
+    <value>{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n对空: {8}/{9}\n装甲: {10}/{11}\n对潜: {12}/{13}\n回避: {14}/{15}\n索敌: {16}/{17}\n运: {18}/{19}\n(右键单击图鉴)\n</value>
+  </data>
+  <data name="FormCompass_10" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="FormCompass_11" xml:space="preserve">
+    <value>敌舰队ID : {0}</value>
+  </data>
+  <data name="FormCompass_12" xml:space="preserve">
+    <value>(敌舰队情报未知)</value>
+  </data>
+  <data name="FormCompass_2" xml:space="preserve">
+    <value>\r\n昼战: {0}\r\n夜战: {1}\r\n</value>
+  </data>
+  <data name="FormCompass_3" xml:space="preserve">
+    <value>对空: {0}\r\n</value>
+  </data>
+  <data name="FormCompass_4" xml:space="preserve">
+    <value>演习</value>
+  </data>
+  <data name="FormCompass_5" xml:space="preserve">
+    <value>出击海域 : {0}-{1}</value>
+  </data>
+  <data name="FormCompass_6" xml:space="preserve">
+    <value>下一点位 : {0}{1}</value>
+  </data>
+  <data name="FormCompass_7" xml:space="preserve">
+    <value>侦察机离舰！</value>
+  </data>
+  <data name="FormCompass_8" xml:space="preserve">
+    <value>怎么变成酱紫了？</value>
+  </data>
+  <data name="FormCompass_9" xml:space="preserve">
+    <value>神秘道具</value>
+  </data>
+  <data name="FormDock_1" xml:space="preserve">
+    <value>完成时间 :</value>
+  </data>
+  <data name="FormFleet_1" xml:space="preserve">
+    <value>合计等级：{0}\r\n平均等级：{1:0.00}\r\n油桶搭载: {2}个 ({3}舰)\r\n大发动艇搭载: {4}个\r\n总装载: 燃 {5} / 弹 {6}\r\n(1每战消耗 燃 {7} / 弹 {8})</value>
+  </data>
+  <data name="FormFleet_10" xml:space="preserve">
+    <value>中破: {0} / 大破: {1}\n</value>
+  </data>
+  <data name="FormFleet_11" xml:space="preserve">
+    <value>大破: {0}\n</value>
+  </data>
+  <data name="FormFleet_12" xml:space="preserve">
+    <value>已经大破了！</value>
+  </data>
+  <data name="FormFleet_13" xml:space="preserve">
+    <value>入渠时间: {0}\n</value>
+  </data>
+  <data name="FormFleet_14" xml:space="preserve">
+    <value>到完全恢复约需 {0:D2}:{1:D2}</value>
+  </data>
+  <data name="FormFleet_15" xml:space="preserve">
+    <value>还能远征 {0} 次</value>
+  </data>
+  <data name="FormFleet_16" xml:space="preserve">
+    <value>\r\n昼战: {0}\r\n夜战: {1}\r\n</value>
+  </data>
+  <data name="FormFleet_17" xml:space="preserve">
+    <value>对空: {0}\r\n</value>
+  </data>
+  <data name="FormFleet_18" xml:space="preserve">
+    <value>{0}\t制空战力{1}/索敌能力{2}\r\n</value>
+  </data>
+  <data name="FormFleet_2" xml:space="preserve">
+    <value>确保: {0}\r\n优势: {1}\r\n均衡: {2}\r\n劣势: {3}\r\n</value>
+  </data>
+  <data name="FormFleet_3" xml:space="preserve">
+    <value>(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋简易式: {2}\r\n</value>
+  </data>
+  <data name="FormFleet_4" xml:space="preserve">
+    <value>{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n对空: {6}/{7}\n装甲: {8}/{9}\n对潜: {10}/{11}\n回避: {12}/{13}\n索敌: {14}/{15}\n运: {16}\n(右键单击图鉴)\n</value>
+  </data>
+  <data name="FormFleet_5" xml:space="preserve">
+    <value>到下一级: {0}\n</value>
+  </data>
+  <data name="FormFleet_6" xml:space="preserve">
+    <value>到改装: {0}</value>
+  </data>
+  <data name="FormFleet_7" xml:space="preserve">
+    <value>到Lv99: {0}</value>
+  </data>
+  <data name="FormFleet_8" xml:space="preserve">
+    <value>到Lv150: {0}</value>
+  </data>
+  <data name="FormFleet_9" xml:space="preserve">
+    <value>退避中</value>
+  </data>
+  <data name="FormInformation_1" xml:space="preserve">
+    <value>[演习情报]</value>
+  </data>
+  <data name="FormInformation_10" xml:space="preserve">
+    <value>{0}-{1} : 击破 {2}/{3} 回\r\n</value>
+  </data>
+  <data name="FormInformation_11" xml:space="preserve">
+    <value>[远征返航]</value>
+  </data>
+  <data name="FormInformation_12" xml:space="preserve">
+    <value>结果: {0}\r\n</value>
+  </data>
+  <data name="FormInformation_13" xml:space="preserve">
+    <value>提督经验值: +{0}\r\n</value>
+  </data>
+  <data name="FormInformation_14" xml:space="preserve">
+    <value>舰娘经验值: +{0}\r\n</value>
+  </data>
+  <data name="FormInformation_2" xml:space="preserve">
+    <value>敌舰队名 :</value>
+  </data>
+  <data name="FormInformation_3" xml:space="preserve">
+    <value>获得经验 :</value>
+  </data>
+  <data name="FormInformation_4" xml:space="preserve">
+    <value>S胜利 :</value>
+  </data>
+  <data name="FormInformation_5" xml:space="preserve">
+    <value>[中破舰未回收]</value>
+  </data>
+  <data name="FormInformation_6" xml:space="preserve">
+    <value>[未拥有舰]</value>
+  </data>
+  <data name="FormInformation_7" xml:space="preserve">
+    <value>[未拥有装备]</value>
+  </data>
+  <data name="FormInformation_8" xml:space="preserve">
+    <value>[开发失败]</value>
+  </data>
+  <data name="FormInformation_9" xml:space="preserve">
+    <value>[Boss血量]</value>
+  </data>
+  <data name="FormQuest_1" xml:space="preserve">
+    <value>达成！</value>
+  </data>
+  <data name="FormQuest_2" xml:space="preserve">
+    <value>(未取得的任务 x {0})</value>
+  </data>
+  <data name="FormQuest_3" xml:space="preserve">
+    <value>(任务完成！)</value>
+  </data>
+  <data name="FormQuest_4" xml:space="preserve">
+    <value>任务数据正在初始化。
+数据不一致的场合推荐使用。
+您确认使用吗？</value>
+  </data>
+  <data name="FormQuest_5" xml:space="preserve">
+    <value>任务初始化的确认</value>
+  </data>
+  <data name="FormQuest_6" xml:space="preserve">
+    <value>(未取得)</value>
+  </data>
+</root>

@@ -33,7 +33,7 @@ namespace ElectronicObserver.Resource.Record {
 					if ( eq != null )
 						return eq.Name;
 					else
-						return "(失敗)";
+                        return LoadResources.getter("DevelopmentElement_1");
 				}
 			}
 
@@ -116,7 +116,7 @@ namespace ElectronicObserver.Resource.Record {
 			public override void LoadLine( string line ) {
 
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 11 ) throw new ArgumentException( "要素数が少なすぎます。" );
+                if (elem.Length < 11) throw new ArgumentException(LoadResources.getter("DevelopmentElement_2"));
 
 				EquipmentID = int.Parse( elem[0] );
 				//EquipmentName=elem[1]は読み飛ばす
@@ -235,7 +235,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		protected override string RecordHeader {
-			get { return "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦名,旗艦艦種,司令部Lv"; }
+            get { return LoadResources.getter("DevelopmentElement_3"); }
 		}
 
 		public override string FileName {

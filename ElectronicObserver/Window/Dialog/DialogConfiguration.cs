@@ -42,7 +42,7 @@ namespace ElectronicObserver.Window.Dialog {
 				ToolTipInfo.SetToolTip( Connection_SaveDataPath, null );
 			} else {
 				Connection_SaveDataPath.BackColor = Color.MistyRose;
-				ToolTipInfo.SetToolTip( Connection_SaveDataPath, "指定されたフォルダは存在しません。" );
+                ToolTipInfo.SetToolTip(Connection_SaveDataPath, LoadResources.getter("DialogConfiguration_1"));
 			}
 		}
 
@@ -130,13 +130,13 @@ namespace ElectronicObserver.Window.Dialog {
 
 			string serverAddress = APIObserver.Instance.ServerAddress;
 			if ( serverAddress == null ) {
-				MessageBox.Show( "艦これに接続してから操作してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+                MessageBox.Show(LoadResources.getter("DialogConfiguration_2"), LoadResources.getter("DialogConfiguration_3"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
 			using ( var dialog = new SaveFileDialog() ) {
 				dialog.Filter = "Proxy Script|*.pac|File|*";
-				dialog.Title = "自動プロキシ設定スクリプトを保存する";
+                dialog.Title = LoadResources.getter("DialogConfiguration_4");
 				dialog.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
 				dialog.FileName = System.IO.Directory.GetCurrentDirectory() + "\\proxy.pac";
 
@@ -157,14 +157,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 						Clipboard.SetData( DataFormats.StringFormat, "file:///" + dialog.FileName.Replace( '\\', '/' ) );
 
-						MessageBox.Show( "自動プロキシ設定スクリプトを保存し、設定用URLをクリップボードにコピーしました。\r\n所定の位置に貼り付けてください。",
-							"作成完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
+                        MessageBox.Show(LoadResources.getter("DialogConfiguration_5"),
+                            LoadResources.getter("DialogConfiguration_6"), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
 					} catch ( Exception ex ) {
 
-						Utility.ErrorReporter.SendErrorReport( ex, "自動プロキシ設定スクリプトの保存に失敗しました。" );
-						MessageBox.Show( "自動プロキシ設定スクリプトの保存に失敗しました。\r\n" + ex.Message, "エラー",
+                        Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("DialogConfiguration_7"));
+                        MessageBox.Show(LoadResources.getter("DialogConfiguration_8") + ex.Message, LoadResources.getter("DialogConfiguration_9"),
 							MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 					}

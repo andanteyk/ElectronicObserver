@@ -23,91 +23,65 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.FilterList = new System.Windows.Forms.CheckedListBox();
-			this.Description = new System.Windows.Forms.Label();
-			this.ButtonOK = new System.Windows.Forms.Button();
-			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.AllCheck = new System.Windows.Forms.CheckBox();
-			this.SuspendLayout();
-			// 
-			// FilterList
-			// 
-			this.FilterList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.FilterList.CheckOnClick = true;
-			this.FilterList.FormattingEnabled = true;
-			this.FilterList.HorizontalScrollbar = true;
-			this.FilterList.IntegralHeight = false;
-			this.FilterList.Location = new System.Drawing.Point(16, 31);
-			this.FilterList.MultiColumn = true;
-			this.FilterList.Name = "FilterList";
-			this.FilterList.Size = new System.Drawing.Size(436, 290);
-			this.FilterList.TabIndex = 0;
-			this.FilterList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterList_ItemCheck);
-			// 
-			// Description
-			// 
-			this.Description.AutoSize = true;
-			this.Description.Location = new System.Drawing.Point(13, 13);
-			this.Description.Name = "Description";
-			this.Description.Size = new System.Drawing.Size(165, 15);
-			this.Description.TabIndex = 1;
-			this.Description.Text = "表示する列をチェックしてください：";
-			// 
-			// ButtonOK
-			// 
-			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonOK.Location = new System.Drawing.Point(296, 327);
-			this.ButtonOK.Name = "ButtonOK";
-			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
-			this.ButtonOK.TabIndex = 2;
-			this.ButtonOK.Text = "OK";
-			this.ButtonOK.UseVisualStyleBackColor = true;
-			this.ButtonOK.Click += new System.EventHandler(this.ButtonOK_Click);
-			// 
-			// ButtonCancel
-			// 
-			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.ButtonCancel.Location = new System.Drawing.Point(377, 327);
-			this.ButtonCancel.Name = "ButtonCancel";
-			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
-			this.ButtonCancel.TabIndex = 3;
-			this.ButtonCancel.Text = "キャンセル";
-			this.ButtonCancel.UseVisualStyleBackColor = true;
-			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
-			// 
-			// AllCheck
-			// 
-			this.AllCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.AllCheck.AutoSize = true;
-			this.AllCheck.Location = new System.Drawing.Point(16, 330);
-			this.AllCheck.Name = "AllCheck";
-			this.AllCheck.Size = new System.Drawing.Size(57, 19);
-			this.AllCheck.TabIndex = 4;
-			this.AllCheck.Text = "(全て)";
-			this.AllCheck.UseVisualStyleBackColor = true;
-			this.AllCheck.CheckedChanged += new System.EventHandler(this.AllCheck_CheckedChanged);
-			// 
-			// DialogShipGroupColumnFilter
-			// 
-			this.AcceptButton = this.ButtonOK;
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.CancelButton = this.ButtonCancel;
-			this.ClientSize = new System.Drawing.Size(464, 362);
-			this.Controls.Add(this.AllCheck);
-			this.Controls.Add(this.ButtonCancel);
-			this.Controls.Add(this.ButtonOK);
-			this.Controls.Add(this.Description);
-			this.Controls.Add(this.FilterList);
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.Name = "DialogShipGroupColumnFilter";
-			this.Text = "列フィルタ";
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DialogShipGroupColumnFilter));
+            this.FilterList = new System.Windows.Forms.CheckedListBox();
+            this.Description = new System.Windows.Forms.Label();
+            this.ButtonOK = new System.Windows.Forms.Button();
+            this.ButtonCancel = new System.Windows.Forms.Button();
+            this.AllCheck = new System.Windows.Forms.CheckBox();
+            this.SuspendLayout();
+            // 
+            // FilterList
+            // 
+            resources.ApplyResources(this.FilterList, "FilterList");
+            this.FilterList.CheckOnClick = true;
+            this.FilterList.FormattingEnabled = true;
+            this.FilterList.MultiColumn = true;
+            this.FilterList.Name = "FilterList";
+            this.FilterList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterList_ItemCheck);
+            // 
+            // Description
+            // 
+            resources.ApplyResources(this.Description, "Description");
+            this.Description.Name = "Description";
+            // 
+            // ButtonOK
+            // 
+            resources.ApplyResources(this.ButtonOK, "ButtonOK");
+            this.ButtonOK.Name = "ButtonOK";
+            this.ButtonOK.UseVisualStyleBackColor = true;
+            this.ButtonOK.Click += new System.EventHandler(this.ButtonOK_Click);
+            // 
+            // ButtonCancel
+            // 
+            resources.ApplyResources(this.ButtonCancel, "ButtonCancel");
+            this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.ButtonCancel.Name = "ButtonCancel";
+            this.ButtonCancel.UseVisualStyleBackColor = true;
+            this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+            // 
+            // AllCheck
+            // 
+            resources.ApplyResources(this.AllCheck, "AllCheck");
+            this.AllCheck.Name = "AllCheck";
+            this.AllCheck.UseVisualStyleBackColor = true;
+            this.AllCheck.CheckedChanged += new System.EventHandler(this.AllCheck_CheckedChanged);
+            // 
+            // DialogShipGroupColumnFilter
+            // 
+            this.AcceptButton = this.ButtonOK;
+            resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.CancelButton = this.ButtonCancel;
+            this.Controls.Add(this.AllCheck);
+            this.Controls.Add(this.ButtonCancel);
+            this.Controls.Add(this.ButtonOK);
+            this.Controls.Add(this.Description);
+            this.Controls.Add(this.FilterList);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Name = "DialogShipGroupColumnFilter";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 

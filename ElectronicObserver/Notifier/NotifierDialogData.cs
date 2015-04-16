@@ -141,7 +141,7 @@ namespace ElectronicObserver.Notifier {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "通知システム: 通知画像 {0} の読み込みに失敗しました。", path ) );
+                Utility.ErrorReporter.SendErrorReport(ex, string.Format(LoadResources.getter("NotifierDialogData_1"), path));
 				DisposeImage();
 
 			}
@@ -220,6 +220,8 @@ namespace ElectronicObserver.Notifier {
 
 		/// <summary>ユーザーが設定した座標に配置されます。</summary>
 		Custom,
+
+        Balloon,
 	}
 
 }

@@ -314,7 +314,7 @@ namespace ElectronicObserver.Window {
 				if ( touchFriend != -1 ) {
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
-					ToolTipInfo.SetToolTip( AirStage1Friend, "触接中: " + KCDatabase.Instance.MasterEquipments[touchFriend].Name );
+                    ToolTipInfo.SetToolTip(AirStage1Friend, LoadResources.getter("FormBattle_1") + KCDatabase.Instance.MasterEquipments[touchFriend].Name);
 				} else {
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
 					AirStage1Friend.ImageIndex = -1;
@@ -325,7 +325,7 @@ namespace ElectronicObserver.Window {
 				if ( touchEnemy != -1 ) {
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
-					ToolTipInfo.SetToolTip( AirStage1Enemy, "触接中: " + KCDatabase.Instance.MasterEquipments[touchEnemy].Name );
+                    ToolTipInfo.SetToolTip(AirStage1Enemy, LoadResources.getter("FormBattle_1") + KCDatabase.Instance.MasterEquipments[touchEnemy].Name);
 				} else {
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 					AirStage1Enemy.ImageIndex = -1;
@@ -376,13 +376,13 @@ namespace ElectronicObserver.Window {
 					AACutin.ImageAlign = ContentAlignment.MiddleLeft;
 					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
 					ToolTipInfo.SetToolTip( AACutin, string.Format(
-						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})",
+                        LoadResources.getter("FormBattle_2"),
 						KCDatabase.Instance.Fleet[cutinIndex >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex % 6].NameWithLevel,
 						cutinID,
 						Constants.GetAACutinKind( cutinID ) ) );
 
 				} else {
-					AACutin.Text = "対空砲火";
+                    AACutin.Text = LoadResources.getter("FormBattle_3");
 					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
 					AACutin.ImageIndex = -1;
 					ToolTipInfo.SetToolTip( AACutin, null );
@@ -391,7 +391,7 @@ namespace ElectronicObserver.Window {
 			} else {	//艦対空戦闘発生せず
 				AirStage2Friend.Text = "-";
 				AirStage2Enemy.Text = "-";
-				AACutin.Text = "対空砲火";
+                AACutin.Text = LoadResources.getter("FormBattle_3");
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
 				AACutin.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AACutin, null );
@@ -422,7 +422,7 @@ namespace ElectronicObserver.Window {
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( (int)bd.Data.api_kouku.api_stage1.api_disp_seiku );
 				if ( isBattle2Enabled ) {
-					ToolTipInfo.SetToolTip( AirSuperiority, "第2次: " + Constants.GetAirSuperiority( (int)bd.Data.api_kouku2.api_stage1.api_disp_seiku ) );
+                    ToolTipInfo.SetToolTip(AirSuperiority, LoadResources.getter("FormBattle_4") + Constants.GetAirSuperiority((int)bd.Data.api_kouku2.api_stage1.api_disp_seiku));
 				} else {
 					ToolTipInfo.SetToolTip( AirSuperiority, null );
 				}
@@ -440,7 +440,7 @@ namespace ElectronicObserver.Window {
 					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_f_count : 0 ),
 				};
 				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0] + planeFriend[2], planeFriend[1] );
-				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
+                ToolTipInfo.SetToolTip(AirStage1Friend, string.Format(LoadResources.getter("FormBattle_5"),
 					planeFriend[0], planeFriend[1], planeFriend[2], planeFriend[3] ) );
 
 				if ( planeFriend[1] > 0 && ( planeFriend[0] == planeFriend[1] || planeFriend[2] == planeFriend[3] ) )
@@ -456,7 +456,7 @@ namespace ElectronicObserver.Window {
 					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage1.api_e_count : 0 ),
 				};
 				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0] + planeEnemy[2], planeEnemy[1] );
-				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
+                ToolTipInfo.SetToolTip(AirStage1Enemy, string.Format(LoadResources.getter("FormBattle_5"),
 					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3] ) );
 
 				if ( planeEnemy[1] > 0 && ( planeEnemy[0] == planeEnemy[1] || planeEnemy[2] == planeEnemy[3] ) )
@@ -476,10 +476,10 @@ namespace ElectronicObserver.Window {
 
 					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchFriend[0]], KCDatabase.Instance.MasterEquipments[touchFriend[1]] };
 					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format(
-						"{0}触接中\r\n第1次: {1}\r\n第2次: {2}",
+                        LoadResources.getter("FormBattle_6"),
 						ToolTipInfo.GetToolTip( AirStage1Friend ) ?? "",
-						planes[0] != null ? planes[0].Name : "(なし)",
-						planes[1] != null ? planes[1].Name : "(なし)"
+                        planes[0] != null ? planes[0].Name : LoadResources.getter("FormBattle_7"),
+                        planes[1] != null ? planes[1].Name : LoadResources.getter("FormBattle_7")
 						) );
 				} else {
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
@@ -497,10 +497,10 @@ namespace ElectronicObserver.Window {
 
 					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchEnemy[0]], KCDatabase.Instance.MasterEquipments[touchEnemy[1]] };
 					ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format(
-						"{0}触接中\r\n第1次: {1}\r\n第2次: {2}",
+						LoadResources.getter("FormBattle_6"),
 						ToolTipInfo.GetToolTip( AirStage1Enemy ) ?? "",
-						planes[0] != null ? planes[0].Name : "(なし)",
-						planes[1] != null ? planes[1].Name : "(なし)"
+                        planes[0] != null ? planes[0].Name : LoadResources.getter("FormBattle_7"),
+                        planes[1] != null ? planes[1].Name : LoadResources.getter("FormBattle_7")
 						) );
 				} else {
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
@@ -531,7 +531,7 @@ namespace ElectronicObserver.Window {
 					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_f_count : 0 ),
 				};
 				AirStage2Friend.Text = string.Format( "-{0}/{1}", planeFriend[0] + planeFriend[2], planeFriend[1] );
-				ToolTipInfo.SetToolTip( AirStage2Friend, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
+                ToolTipInfo.SetToolTip(AirStage2Friend, string.Format(LoadResources.getter("FormBattle_8"),
 					planeFriend[0], planeFriend[1], planeFriend[2], planeFriend[3] ) );
 
 				if ( planeFriend[1] > 0 && ( planeFriend[0] == planeFriend[1] || planeFriend[2] == planeFriend[3] ) )
@@ -547,7 +547,7 @@ namespace ElectronicObserver.Window {
 					( isBattle2Enabled ? (int)bd.Data.api_kouku2.api_stage2.api_e_count : 0 ),
 				};
 				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0] + planeEnemy[2], planeEnemy[1] );
-				ToolTipInfo.SetToolTip( AirStage2Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
+                ToolTipInfo.SetToolTip(AirStage2Enemy, string.Format(LoadResources.getter("FormBattle_8"),
 					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3] ) );
 
 				if ( planeEnemy[1] > 0 && ( planeEnemy[0] == planeEnemy[1] || planeEnemy[2] == planeEnemy[3] ) )
@@ -575,23 +575,23 @@ namespace ElectronicObserver.Window {
 						AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
 
 						StringBuilder sb = new StringBuilder();
-						sb.AppendLine( "対空カットイン" );
+                        sb.AppendLine(LoadResources.getter("FormBattle_9"));
 						for ( int i = 0; i < 2; i++ ) {
 							if ( fire[i] ) {
-								sb.AppendFormat( "第{0}次: {1}\r\nカットイン種別: {2} ({3})\r\n",
+                                sb.AppendFormat(LoadResources.getter("FormBattle_10"),
 									i + 1,
 									KCDatabase.Instance.Fleet[cutinIndex[i] >= 6 ? 2 : bd.FleetIDFriend].MembersInstance[cutinIndex[i] % 6].NameWithLevel,
 									cutinID[i],
 									Constants.GetAACutinKind( cutinID[i] ) );
 							} else {
-								sb.AppendFormat( "第{0}次: (発動せず)\r\n",
+                                sb.AppendFormat(LoadResources.getter("FormBattle_11"),
 									i + 1 );
 							}
 						}
 						ToolTipInfo.SetToolTip( AACutin, sb.ToString() );
 
 					} else {
-						AACutin.Text = "対空砲火";
+                        AACutin.Text = LoadResources.getter("FormBattle_3");
 						AACutin.ImageAlign = ContentAlignment.MiddleCenter;
 						AACutin.ImageIndex = -1;
 						ToolTipInfo.SetToolTip( AACutin, null );
@@ -603,7 +603,7 @@ namespace ElectronicObserver.Window {
 				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 				AirStage2Enemy.Text = "-";
 				ToolTipInfo.SetToolTip( AirStage2Enemy, null );
-				AACutin.Text = "対空砲火";
+                AACutin.Text = LoadResources.getter("FormBattle_3");
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
 				AACutin.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AACutin, null );
@@ -993,7 +993,7 @@ namespace ElectronicObserver.Window {
 					AirStage1Friend.Text = "#" + ( index + 1 );
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
-					ToolTipInfo.SetToolTip( AirStage1Friend, "探照灯照射: " + ship.NameWithLevel );
+                    ToolTipInfo.SetToolTip(AirStage1Friend, LoadResources.getter("FormBattle_12") + ship.NameWithLevel);
 				} else {
 					ToolTipInfo.SetToolTip( AirStage1Friend, null );
 				}
@@ -1019,7 +1019,7 @@ namespace ElectronicObserver.Window {
 					AirStage1Enemy.Text = "#" + ( index );
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
-					ToolTipInfo.SetToolTip( AirStage1Enemy, "探照灯照射: " + KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[index]].NameWithClass );
+                    ToolTipInfo.SetToolTip(AirStage1Enemy, LoadResources.getter("FormBattle_12") + KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[index]].NameWithClass);
 				} else {
 					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 				}
@@ -1028,17 +1028,17 @@ namespace ElectronicObserver.Window {
 
 			//夜間触接判定
 			if ( (int)bd.Data.api_touch_plane[0] != -1 ) {
-				SearchingFriend.Text = "夜間触接";
+                SearchingFriend.Text = LoadResources.getter("FormBattle_13");
 				SearchingFriend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
-				ToolTipInfo.SetToolTip( SearchingFriend, "夜間触接中: " + KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name );
+                ToolTipInfo.SetToolTip(SearchingFriend, LoadResources.getter("FormBattle_14") + KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name);
 			} else {
 				ToolTipInfo.SetToolTip( SearchingFriend, null );
 			}
 
 			if ( (int)bd.Data.api_touch_plane[1] != -1 ) {
-				SearchingEnemy.Text = "夜間触接";
+                SearchingEnemy.Text = LoadResources.getter("FormBattle_13");
 				SearchingEnemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
-				ToolTipInfo.SetToolTip( SearchingEnemy, "夜間触接中: " + KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name );
+                ToolTipInfo.SetToolTip(SearchingEnemy, LoadResources.getter("FormBattle_14") + KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name);
 			} else {
 				ToolTipInfo.SetToolTip( SearchingEnemy, null );
 			}
@@ -1051,7 +1051,7 @@ namespace ElectronicObserver.Window {
 					AirStage2Friend.Text = "#" + index;
 					AirStage2Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage2Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
-					ToolTipInfo.SetToolTip( AirStage2Friend, "照明弾投射: " + fleet.MembersInstance[index - 1].NameWithLevel );
+                    ToolTipInfo.SetToolTip(AirStage2Friend, LoadResources.getter("FormBattle_15") + fleet.MembersInstance[index - 1].NameWithLevel);
 
 				} else {
 					ToolTipInfo.SetToolTip( AirStage2Friend, null );
@@ -1065,7 +1065,7 @@ namespace ElectronicObserver.Window {
 					AirStage2Enemy.Text = "#" + index;
 					AirStage2Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage2Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
-					ToolTipInfo.SetToolTip( AirStage2Enemy, "照明弾投射: " + KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[index]].NameWithClass );
+                    ToolTipInfo.SetToolTip(AirStage2Enemy, LoadResources.getter("FormBattle_15") + KCDatabase.Instance.MasterShips[bd.EnemyFleetMembers[index]].NameWithClass);
 				} else {
 					ToolTipInfo.SetToolTip( AirStage2Enemy, null );
 				}

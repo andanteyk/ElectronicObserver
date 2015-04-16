@@ -121,7 +121,7 @@ namespace ElectronicObserver.Resource.Record {
 			public override void LoadLine( string line ) {
 
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 13 ) throw new ArgumentException( "要素数が少なすぎます。" );
+                if (elem.Length < 13) throw new ArgumentException(LoadResources.getter("ConstructionRecord_1"));
 
 				ShipID = int.Parse( elem[0] );
 				//ShipName=elem[1]は読み飛ばす
@@ -242,7 +242,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		protected override string RecordHeader {
-			get { return "艦船ID,艦船名,建造日時,燃料,弾薬,鋼材,ボーキ,開発資材,大型建造,空ドック,旗艦ID,旗艦名,司令部Lv"; }
+            get { return LoadResources.getter("ConstructionRecord_2"); }
 		}
 
 		public override string FileName {

@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ButtonCancel.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ButtonOK.Text" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="PlaysSound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="PlaysSound.Text" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="GroupSound.Text" xml:space="preserve">
+    <value>通知音效</value>
+  </data>
+  <data name="ButtonTest.Text" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="ButtonTest.ToolTip" xml:space="preserve">
+    <value>进行通知播放测试。
+设定被应用・就会被保存，请注意。</value>
+  </data>
+  <data name="IsEnabled.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 19</value>
+  </data>
+  <data name="IsEnabled.Text" xml:space="preserve">
+    <value>启用通知</value>
+  </data>
+  <data name="DrawsImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="DrawsImage.Text" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="GroupImage.Text" xml:space="preserve">
+    <value>通知图片</value>
+  </data>
+  <data name="ShowWithActivation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 19</value>
+  </data>
+  <data name="ShowWithActivation.Text" xml:space="preserve">
+    <value>显示时激活</value>
+  </data>
+  <data name="ShowWithActivation.ToolTip" xml:space="preserve">
+    <value>显示的时候对话框将被激活。
+误操作确认对话框不容易被忽略。</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 15</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>坐标：</value>
+  </data>
+  <data name="DrawsMessage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 19</value>
+  </data>
+  <data name="DrawsMessage.Text" xml:space="preserve">
+    <value>显示信息</value>
+  </data>
+  <data name="DrawsMessage.ToolTip" xml:space="preserve">
+    <value>设置对话框内通知文本绘制。
+只如果图像，则不显示。</value>
+  </data>
+  <data name="HasFormBorder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 19</value>
+  </data>
+  <data name="HasFormBorder.Text" xml:space="preserve">
+    <value>显示窗口边框</value>
+  </data>
+  <data name="HasFormBorder.ToolTip" xml:space="preserve">
+    <value>设置通知对话框的窗口显示范围。
+只如果图像，则不显示。</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 15</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>自动关闭：</value>
+  </data>
+  <data name="ClosingInterval.ToolTip" xml:space="preserve">
+    <value>设定通知对话框放置的自动关闭时间。
+如果设定为0秒将不会自动关闭。</value>
+  </data>
+  <data name="BackColorPreview.ToolTip" xml:space="preserve">
+    <value>设定通知对话框的背景色。
+这个标签将用来显示■设定的颜色。</value>
+  </data>
+  <data name="BackColorSelect.ToolTip" xml:space="preserve">
+    <value>设定通知对话框的背景色。
+左侧标签将用来显示■设定的颜色。</value>
+  </data>
+  <data name="ForeColorPreview.ToolTip" xml:space="preserve">
+    <value>设定通知对话框的文字颜色。
+这个标签将用来显示■设定的颜色。</value>
+  </data>
+  <data name="ForeColorSelect.ToolTip" xml:space="preserve">
+    <value>设定通知对话框的文字颜色。
+左侧标签将用来显示■设定的颜色。</value>
+  </data>
+  <data name="CloseOnMouseOver.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 19</value>
+  </data>
+  <data name="CloseOnMouseOver.Text" xml:space="preserve">
+    <value>关闭鼠标悬停</value>
+  </data>
+  <data name="CloseOnMouseOver.ToolTip" xml:space="preserve">
+    <value>就算鼠标在通知对话框上也关闭。</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 15</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>提前通知：</value>
+  </data>
+  <data name="AccelInterval.ToolTip" xml:space="preserve">
+    <value>设置通知提前秒数。
+推荐将 遠征・入渠 设定为提前60秒。</value>
+  </data>
+  <data name="TopMostFlag.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 19</value>
+  </data>
+  <data name="TopMostFlag.Text" xml:space="preserve">
+    <value>置顶显示</value>
+  </data>
+  <data name="LocationY.ToolTip" xml:space="preserve">
+    <value>配置：手动设定时出现的坐标。</value>
+  </data>
+  <data name="LocationX.ToolTip" xml:space="preserve">
+    <value>配置：手动设定时出现的坐标。</value>
+  </data>
+  <data name="Alignment.Items" xml:space="preserve">
+    <value>未设定</value>
+  </data>
+  <data name="Alignment.Items10" xml:space="preserve">
+    <value>手动设置</value>
+  </data>
+  <data name="Alignment.Items11" xml:space="preserve">
+    <value>气泡</value>
+  </data>
+  <data name="Alignment.ToolTip" xml:space="preserve">
+    <value>设定通知对话框出现的位置。</value>
+  </data>
+  <data name="ShowsDialog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="ShowsDialog.Text" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="GroupDialog.Text" xml:space="preserve">
+    <value>通知对话框</value>
+  </data>
+  <data name="NotifiesAtEndpoint.Text" xml:space="preserve">
+    <value>到达终点时通知</value>
+  </data>
+  <data name="NotifiesAtEndpoint.ToolTip" xml:space="preserve">
+    <value>设置到达地图最终点也通知。</value>
+  </data>
+  <data name="ContainsFlagship.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 19</value>
+  </data>
+  <data name="ContainsFlagship.Text" xml:space="preserve">
+    <value>包含旗舰</value>
+  </data>
+  <data name="ContainsSafeShip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 19</value>
+  </data>
+  <data name="ContainsSafeShip.Text" xml:space="preserve">
+    <value>包含装备了ダメコン的舰船</value>
+  </data>
+  <data name="ContainsNotLockedShip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 19</value>
+  </data>
+  <data name="ContainsNotLockedShip.Text" xml:space="preserve">
+    <value>包含未上锁舰船</value>
+  </data>
+  <data name="LevelBorder.ToolTip" xml:space="preserve">
+    <value>设置被通知的 大破舰 的最低级。
+比这等级低的舰大破是不会被通知，请注意。</value>
+  </data>
+  <data name="NotifiesAfter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 19</value>
+  </data>
+  <data name="NotifiesAfter.Text" xml:space="preserve">
+    <value>启用事后通知</value>
+  </data>
+  <data name="NotifiesAfter.ToolTip" xml:space="preserve">
+    <value>大破进击时通知</value>
+  </data>
+  <data name="NotifiesNow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 19</value>
+  </data>
+  <data name="NotifiesNow.Text" xml:space="preserve">
+    <value>启用事中通知</value>
+  </data>
+  <data name="NotifiesNow.ToolTip" xml:space="preserve">
+    <value>出击前和战斗结束后通知。</value>
+  </data>
+  <data name="NotifiesBefore.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 19</value>
+  </data>
+  <data name="NotifiesBefore.Text" xml:space="preserve">
+    <value>启用事前通知</value>
+  </data>
+  <data name="NotifiesBefore.ToolTip" xml:space="preserve">
+    <value>出击前和战斗开始后通知。</value>
+  </data>
+  <data name="DialogOpenSound.Title" xml:space="preserve">
+    <value>打开声音文件</value>
+  </data>
+  <data name="DialogOpenImage.Title" xml:space="preserve">
+    <value>打开图片文件</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>设置通知</value>
+  </data>
+  <data name="Alignment.Items1" xml:space="preserve">
+    <value>未指定</value>
+  </data>
+  <data name="Alignment.Items12" xml:space="preserve">
+    <value>左上</value>
+  </data>
+</root>
