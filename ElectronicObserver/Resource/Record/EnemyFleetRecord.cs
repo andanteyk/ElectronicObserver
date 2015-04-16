@@ -42,7 +42,7 @@ namespace ElectronicObserver.Resource.Record {
 			public override void LoadLine( string line ) {
 
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 4 ) throw new ArgumentException( "要素数が少なすぎます。" );
+                if (elem.Length < 4) throw new ArgumentException(LoadResources.getter("EnemyFleetRecord_1"));
 
 				FleetID = int.Parse( elem[0] );
 				FleetName = elem[1];
@@ -123,7 +123,7 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 		protected override string RecordHeader {
-			get { return "敵編成ID,敵艦隊名,陣形,敵1番艦,敵2番艦,敵3番艦,敵4番艦,敵5番艦,敵6番艦"; }
+            get { return LoadResources.getter("EnemyFleetRecord_2"); }
 		}
 
 		public override string FileName {

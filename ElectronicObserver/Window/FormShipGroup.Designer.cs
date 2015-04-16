@@ -23,91 +23,93 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.ShipView = new System.Windows.Forms.DataGridView();
-			this.ShipView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Exp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Next = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_NextRemodel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_HP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Condition = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Fuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Ammo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Equipment1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Equipment2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Equipment3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Equipment4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Equipment5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Fleet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_RepairTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Firepower = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_FirepowerRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Torpedo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_TorpedoRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_AA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_AARemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Armor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_ArmorRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_ASW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Evasion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_LOS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Luck = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_LuckRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_Locked = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_SallyArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.MenuMember = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.MenuMember_AddToGroup = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_CreateGroup = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuMember_ColumnFilter = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_ColumnAutoSize = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_LockShipNameScroll = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuMember_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuMember_Delete = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.MenuGroup_Add = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuGroup_Rename = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuGroup_AutoUpdate = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuGroup_ShowStatusBar = new System.Windows.Forms.ToolStripMenuItem();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.StatusBar = new System.Windows.Forms.StatusStrip();
-			this.Status_ShipCount = new System.Windows.Forms.ToolStripStatusLabel();
-			this.Status_LevelTotal = new System.Windows.Forms.ToolStripStatusLabel();
-			this.Status_LevelAverage = new System.Windows.Forms.ToolStripStatusLabel();
-			((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
-			this.MenuMember.SuspendLayout();
-			this.MenuGroup.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
-			this.StatusBar.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// ShipView
-			// 
-			this.ShipView.AllowUserToAddRows = false;
-			this.ShipView.AllowUserToDeleteRows = false;
-			this.ShipView.AllowUserToResizeRows = false;
-			this.ShipView.BackgroundColor = System.Drawing.SystemColors.Control;
-			this.ShipView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			this.ShipView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormShipGroup));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.ShipView = new System.Windows.Forms.DataGridView();
+            this.ShipView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Exp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Next = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_NextRemodel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_HP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Condition = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Fuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Ammo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Equipment1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Equipment2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Equipment3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Equipment4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Equipment5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Fleet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_RepairTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Firepower = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_FirepowerRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Torpedo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_TorpedoRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_AA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_AARemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Armor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_ArmorRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_ASW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Evasion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_LOS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Luck = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_LuckRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_Locked = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShipView_SallyArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MenuMember = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MenuMember_AddToGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuMember_CreateGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MenuMember_ColumnFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuMember_ColumnAutoSize = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuMember_LockShipNameScroll = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.MenuMember_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.MenuMember_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MenuGroup_Add = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuGroup_Rename = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.MenuGroup_AutoUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuGroup_ShowStatusBar = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.Status_ShipCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Status_LevelTotal = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Status_LevelAverage = new System.Windows.Forms.ToolStripStatusLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
+            this.MenuMember.SuspendLayout();
+            this.MenuGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.StatusBar.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // ShipView
+            // 
+            resources.ApplyResources(this.ShipView, "ShipView");
+            this.ShipView.AllowUserToAddRows = false;
+            this.ShipView.AllowUserToDeleteRows = false;
+            this.ShipView.AllowUserToResizeRows = false;
+            this.ShipView.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.ShipView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.ShipView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ShipView_ID,
             this.ShipView_ShipType,
             this.ShipView_Name,
@@ -141,282 +143,247 @@
             this.ShipView_LuckRemain,
             this.ShipView_Locked,
             this.ShipView_SallyArea});
-			this.ShipView.ContextMenuStrip = this.MenuMember;
-			dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle16.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.DefaultCellStyle = dataGridViewCellStyle16;
-			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ShipView.Location = new System.Drawing.Point(0, 0);
-			this.ShipView.Name = "ShipView";
-			this.ShipView.ReadOnly = true;
-			this.ShipView.RowHeadersVisible = false;
-			this.ShipView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ShipView.Size = new System.Drawing.Size(300, 134);
-			this.ShipView.TabIndex = 0;
-			this.ShipView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ShipView_CellFormatting);
-			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
-			this.ShipView.Sorted += new System.EventHandler(this.ShipView_Sorted);
-			// 
-			// ShipView_ID
-			// 
-			this.ShipView_ID.Frozen = true;
-			this.ShipView_ID.HeaderText = "ID";
-			this.ShipView_ID.Name = "ShipView_ID";
-			this.ShipView_ID.ReadOnly = true;
-			this.ShipView_ID.Width = 50;
-			// 
-			// ShipView_ShipType
-			// 
-			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_ShipType.DefaultCellStyle = dataGridViewCellStyle9;
-			this.ShipView_ShipType.Frozen = true;
-			this.ShipView_ShipType.HeaderText = "艦種";
-			this.ShipView_ShipType.Name = "ShipView_ShipType";
-			this.ShipView_ShipType.ReadOnly = true;
-			this.ShipView_ShipType.Width = 80;
-			// 
-			// ShipView_Name
-			// 
-			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Name.DefaultCellStyle = dataGridViewCellStyle10;
-			this.ShipView_Name.Frozen = true;
-			this.ShipView_Name.HeaderText = "艦名";
-			this.ShipView_Name.Name = "ShipView_Name";
-			this.ShipView_Name.ReadOnly = true;
-			// 
-			// ShipView_Level
-			// 
-			this.ShipView_Level.HeaderText = "Lv";
-			this.ShipView_Level.Name = "ShipView_Level";
-			this.ShipView_Level.ReadOnly = true;
-			this.ShipView_Level.Width = 40;
-			// 
-			// ShipView_Exp
-			// 
-			this.ShipView_Exp.HeaderText = "Exp";
-			this.ShipView_Exp.Name = "ShipView_Exp";
-			this.ShipView_Exp.ReadOnly = true;
-			this.ShipView_Exp.Width = 60;
-			// 
-			// ShipView_Next
-			// 
-			this.ShipView_Next.HeaderText = "next";
-			this.ShipView_Next.Name = "ShipView_Next";
-			this.ShipView_Next.ReadOnly = true;
-			this.ShipView_Next.Width = 60;
-			// 
-			// ShipView_NextRemodel
-			// 
-			this.ShipView_NextRemodel.HeaderText = "改装まで";
-			this.ShipView_NextRemodel.Name = "ShipView_NextRemodel";
-			this.ShipView_NextRemodel.ReadOnly = true;
-			this.ShipView_NextRemodel.Width = 60;
-			// 
-			// ShipView_HP
-			// 
-			this.ShipView_HP.HeaderText = "HP";
-			this.ShipView_HP.Name = "ShipView_HP";
-			this.ShipView_HP.ReadOnly = true;
-			this.ShipView_HP.Width = 60;
-			// 
-			// ShipView_Condition
-			// 
-			this.ShipView_Condition.HeaderText = "Cond";
-			this.ShipView_Condition.Name = "ShipView_Condition";
-			this.ShipView_Condition.ReadOnly = true;
-			this.ShipView_Condition.Width = 40;
-			// 
-			// ShipView_Fuel
-			// 
-			this.ShipView_Fuel.HeaderText = "燃料";
-			this.ShipView_Fuel.Name = "ShipView_Fuel";
-			this.ShipView_Fuel.ReadOnly = true;
-			this.ShipView_Fuel.Width = 60;
-			// 
-			// ShipView_Ammo
-			// 
-			this.ShipView_Ammo.HeaderText = "弾薬";
-			this.ShipView_Ammo.Name = "ShipView_Ammo";
-			this.ShipView_Ammo.ReadOnly = true;
-			this.ShipView_Ammo.Width = 60;
-			// 
-			// ShipView_Equipment1
-			// 
-			dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment1.DefaultCellStyle = dataGridViewCellStyle11;
-			this.ShipView_Equipment1.HeaderText = "装備1";
-			this.ShipView_Equipment1.Name = "ShipView_Equipment1";
-			this.ShipView_Equipment1.ReadOnly = true;
-			this.ShipView_Equipment1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment1.Width = 150;
-			// 
-			// ShipView_Equipment2
-			// 
-			dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment2.DefaultCellStyle = dataGridViewCellStyle12;
-			this.ShipView_Equipment2.HeaderText = "装備2";
-			this.ShipView_Equipment2.Name = "ShipView_Equipment2";
-			this.ShipView_Equipment2.ReadOnly = true;
-			this.ShipView_Equipment2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment2.Width = 150;
-			// 
-			// ShipView_Equipment3
-			// 
-			dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment3.DefaultCellStyle = dataGridViewCellStyle13;
-			this.ShipView_Equipment3.HeaderText = "装備3";
-			this.ShipView_Equipment3.Name = "ShipView_Equipment3";
-			this.ShipView_Equipment3.ReadOnly = true;
-			this.ShipView_Equipment3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment3.Width = 150;
-			// 
-			// ShipView_Equipment4
-			// 
-			dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment4.DefaultCellStyle = dataGridViewCellStyle14;
-			this.ShipView_Equipment4.HeaderText = "装備4";
-			this.ShipView_Equipment4.Name = "ShipView_Equipment4";
-			this.ShipView_Equipment4.ReadOnly = true;
-			this.ShipView_Equipment4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment4.Width = 150;
-			// 
-			// ShipView_Equipment5
-			// 
-			dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_Equipment5.DefaultCellStyle = dataGridViewCellStyle15;
-			this.ShipView_Equipment5.HeaderText = "装備5";
-			this.ShipView_Equipment5.Name = "ShipView_Equipment5";
-			this.ShipView_Equipment5.ReadOnly = true;
-			this.ShipView_Equipment5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment5.Width = 150;
-			// 
-			// ShipView_Fleet
-			// 
-			this.ShipView_Fleet.HeaderText = "艦隊";
-			this.ShipView_Fleet.Name = "ShipView_Fleet";
-			this.ShipView_Fleet.ReadOnly = true;
-			this.ShipView_Fleet.Width = 40;
-			// 
-			// ShipView_RepairTime
-			// 
-			this.ShipView_RepairTime.HeaderText = "入渠";
-			this.ShipView_RepairTime.Name = "ShipView_RepairTime";
-			this.ShipView_RepairTime.ReadOnly = true;
-			this.ShipView_RepairTime.Width = 60;
-			// 
-			// ShipView_Firepower
-			// 
-			this.ShipView_Firepower.HeaderText = "火力";
-			this.ShipView_Firepower.Name = "ShipView_Firepower";
-			this.ShipView_Firepower.ReadOnly = true;
-			this.ShipView_Firepower.Width = 40;
-			// 
-			// ShipView_FirepowerRemain
-			// 
-			this.ShipView_FirepowerRemain.HeaderText = "火力改修";
-			this.ShipView_FirepowerRemain.Name = "ShipView_FirepowerRemain";
-			this.ShipView_FirepowerRemain.ReadOnly = true;
-			this.ShipView_FirepowerRemain.Width = 40;
-			// 
-			// ShipView_Torpedo
-			// 
-			this.ShipView_Torpedo.HeaderText = "雷装";
-			this.ShipView_Torpedo.Name = "ShipView_Torpedo";
-			this.ShipView_Torpedo.ReadOnly = true;
-			this.ShipView_Torpedo.Width = 40;
-			// 
-			// ShipView_TorpedoRemain
-			// 
-			this.ShipView_TorpedoRemain.HeaderText = "雷装改修";
-			this.ShipView_TorpedoRemain.Name = "ShipView_TorpedoRemain";
-			this.ShipView_TorpedoRemain.ReadOnly = true;
-			this.ShipView_TorpedoRemain.Width = 40;
-			// 
-			// ShipView_AA
-			// 
-			this.ShipView_AA.HeaderText = "対空";
-			this.ShipView_AA.Name = "ShipView_AA";
-			this.ShipView_AA.ReadOnly = true;
-			this.ShipView_AA.Width = 40;
-			// 
-			// ShipView_AARemain
-			// 
-			this.ShipView_AARemain.HeaderText = "対空改修";
-			this.ShipView_AARemain.Name = "ShipView_AARemain";
-			this.ShipView_AARemain.ReadOnly = true;
-			this.ShipView_AARemain.Width = 40;
-			// 
-			// ShipView_Armor
-			// 
-			this.ShipView_Armor.HeaderText = "装甲";
-			this.ShipView_Armor.Name = "ShipView_Armor";
-			this.ShipView_Armor.ReadOnly = true;
-			this.ShipView_Armor.Width = 40;
-			// 
-			// ShipView_ArmorRemain
-			// 
-			this.ShipView_ArmorRemain.HeaderText = "装甲改修";
-			this.ShipView_ArmorRemain.Name = "ShipView_ArmorRemain";
-			this.ShipView_ArmorRemain.ReadOnly = true;
-			this.ShipView_ArmorRemain.Width = 40;
-			// 
-			// ShipView_ASW
-			// 
-			this.ShipView_ASW.HeaderText = "対潜";
-			this.ShipView_ASW.Name = "ShipView_ASW";
-			this.ShipView_ASW.ReadOnly = true;
-			this.ShipView_ASW.Width = 40;
-			// 
-			// ShipView_Evasion
-			// 
-			this.ShipView_Evasion.HeaderText = "回避";
-			this.ShipView_Evasion.Name = "ShipView_Evasion";
-			this.ShipView_Evasion.ReadOnly = true;
-			this.ShipView_Evasion.Width = 40;
-			// 
-			// ShipView_LOS
-			// 
-			this.ShipView_LOS.HeaderText = "索敵";
-			this.ShipView_LOS.Name = "ShipView_LOS";
-			this.ShipView_LOS.ReadOnly = true;
-			this.ShipView_LOS.Width = 40;
-			// 
-			// ShipView_Luck
-			// 
-			this.ShipView_Luck.HeaderText = "運";
-			this.ShipView_Luck.Name = "ShipView_Luck";
-			this.ShipView_Luck.ReadOnly = true;
-			this.ShipView_Luck.Width = 40;
-			// 
-			// ShipView_LuckRemain
-			// 
-			this.ShipView_LuckRemain.HeaderText = "運改修";
-			this.ShipView_LuckRemain.Name = "ShipView_LuckRemain";
-			this.ShipView_LuckRemain.ReadOnly = true;
-			this.ShipView_LuckRemain.Width = 40;
-			// 
-			// ShipView_Locked
-			// 
-			this.ShipView_Locked.HeaderText = "ロック";
-			this.ShipView_Locked.Name = "ShipView_Locked";
-			this.ShipView_Locked.ReadOnly = true;
-			this.ShipView_Locked.Width = 40;
-			// 
-			// ShipView_SallyArea
-			// 
-			this.ShipView_SallyArea.HeaderText = "出撃先";
-			this.ShipView_SallyArea.Name = "ShipView_SallyArea";
-			this.ShipView_SallyArea.ReadOnly = true;
-			this.ShipView_SallyArea.Width = 40;
-			// 
-			// MenuMember
-			// 
-			this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ShipView.ContextMenuStrip = this.MenuMember;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ShipView.DefaultCellStyle = dataGridViewCellStyle8;
+            this.ShipView.Name = "ShipView";
+            this.ShipView.ReadOnly = true;
+            this.ShipView.RowHeadersVisible = false;
+            this.ShipView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ShipView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ShipView_CellFormatting);
+            this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
+            this.ShipView.Sorted += new System.EventHandler(this.ShipView_Sorted);
+            // 
+            // ShipView_ID
+            // 
+            this.ShipView_ID.Frozen = true;
+            resources.ApplyResources(this.ShipView_ID, "ShipView_ID");
+            this.ShipView_ID.Name = "ShipView_ID";
+            this.ShipView_ID.ReadOnly = true;
+            // 
+            // ShipView_ShipType
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ShipView_ShipType.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ShipView_ShipType.Frozen = true;
+            resources.ApplyResources(this.ShipView_ShipType, "ShipView_ShipType");
+            this.ShipView_ShipType.Name = "ShipView_ShipType";
+            this.ShipView_ShipType.ReadOnly = true;
+            // 
+            // ShipView_Name
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ShipView_Name.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ShipView_Name.Frozen = true;
+            resources.ApplyResources(this.ShipView_Name, "ShipView_Name");
+            this.ShipView_Name.Name = "ShipView_Name";
+            this.ShipView_Name.ReadOnly = true;
+            // 
+            // ShipView_Level
+            // 
+            resources.ApplyResources(this.ShipView_Level, "ShipView_Level");
+            this.ShipView_Level.Name = "ShipView_Level";
+            this.ShipView_Level.ReadOnly = true;
+            // 
+            // ShipView_Exp
+            // 
+            resources.ApplyResources(this.ShipView_Exp, "ShipView_Exp");
+            this.ShipView_Exp.Name = "ShipView_Exp";
+            this.ShipView_Exp.ReadOnly = true;
+            // 
+            // ShipView_Next
+            // 
+            resources.ApplyResources(this.ShipView_Next, "ShipView_Next");
+            this.ShipView_Next.Name = "ShipView_Next";
+            this.ShipView_Next.ReadOnly = true;
+            // 
+            // ShipView_NextRemodel
+            // 
+            resources.ApplyResources(this.ShipView_NextRemodel, "ShipView_NextRemodel");
+            this.ShipView_NextRemodel.Name = "ShipView_NextRemodel";
+            this.ShipView_NextRemodel.ReadOnly = true;
+            // 
+            // ShipView_HP
+            // 
+            resources.ApplyResources(this.ShipView_HP, "ShipView_HP");
+            this.ShipView_HP.Name = "ShipView_HP";
+            this.ShipView_HP.ReadOnly = true;
+            // 
+            // ShipView_Condition
+            // 
+            resources.ApplyResources(this.ShipView_Condition, "ShipView_Condition");
+            this.ShipView_Condition.Name = "ShipView_Condition";
+            this.ShipView_Condition.ReadOnly = true;
+            // 
+            // ShipView_Fuel
+            // 
+            resources.ApplyResources(this.ShipView_Fuel, "ShipView_Fuel");
+            this.ShipView_Fuel.Name = "ShipView_Fuel";
+            this.ShipView_Fuel.ReadOnly = true;
+            // 
+            // ShipView_Ammo
+            // 
+            resources.ApplyResources(this.ShipView_Ammo, "ShipView_Ammo");
+            this.ShipView_Ammo.Name = "ShipView_Ammo";
+            this.ShipView_Ammo.ReadOnly = true;
+            // 
+            // ShipView_Equipment1
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ShipView_Equipment1.DefaultCellStyle = dataGridViewCellStyle3;
+            resources.ApplyResources(this.ShipView_Equipment1, "ShipView_Equipment1");
+            this.ShipView_Equipment1.Name = "ShipView_Equipment1";
+            this.ShipView_Equipment1.ReadOnly = true;
+            this.ShipView_Equipment1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ShipView_Equipment2
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ShipView_Equipment2.DefaultCellStyle = dataGridViewCellStyle4;
+            resources.ApplyResources(this.ShipView_Equipment2, "ShipView_Equipment2");
+            this.ShipView_Equipment2.Name = "ShipView_Equipment2";
+            this.ShipView_Equipment2.ReadOnly = true;
+            this.ShipView_Equipment2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ShipView_Equipment3
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ShipView_Equipment3.DefaultCellStyle = dataGridViewCellStyle5;
+            resources.ApplyResources(this.ShipView_Equipment3, "ShipView_Equipment3");
+            this.ShipView_Equipment3.Name = "ShipView_Equipment3";
+            this.ShipView_Equipment3.ReadOnly = true;
+            this.ShipView_Equipment3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ShipView_Equipment4
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ShipView_Equipment4.DefaultCellStyle = dataGridViewCellStyle6;
+            resources.ApplyResources(this.ShipView_Equipment4, "ShipView_Equipment4");
+            this.ShipView_Equipment4.Name = "ShipView_Equipment4";
+            this.ShipView_Equipment4.ReadOnly = true;
+            this.ShipView_Equipment4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ShipView_Equipment5
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ShipView_Equipment5.DefaultCellStyle = dataGridViewCellStyle7;
+            resources.ApplyResources(this.ShipView_Equipment5, "ShipView_Equipment5");
+            this.ShipView_Equipment5.Name = "ShipView_Equipment5";
+            this.ShipView_Equipment5.ReadOnly = true;
+            this.ShipView_Equipment5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ShipView_Fleet
+            // 
+            resources.ApplyResources(this.ShipView_Fleet, "ShipView_Fleet");
+            this.ShipView_Fleet.Name = "ShipView_Fleet";
+            this.ShipView_Fleet.ReadOnly = true;
+            // 
+            // ShipView_RepairTime
+            // 
+            resources.ApplyResources(this.ShipView_RepairTime, "ShipView_RepairTime");
+            this.ShipView_RepairTime.Name = "ShipView_RepairTime";
+            this.ShipView_RepairTime.ReadOnly = true;
+            // 
+            // ShipView_Firepower
+            // 
+            resources.ApplyResources(this.ShipView_Firepower, "ShipView_Firepower");
+            this.ShipView_Firepower.Name = "ShipView_Firepower";
+            this.ShipView_Firepower.ReadOnly = true;
+            // 
+            // ShipView_FirepowerRemain
+            // 
+            resources.ApplyResources(this.ShipView_FirepowerRemain, "ShipView_FirepowerRemain");
+            this.ShipView_FirepowerRemain.Name = "ShipView_FirepowerRemain";
+            this.ShipView_FirepowerRemain.ReadOnly = true;
+            // 
+            // ShipView_Torpedo
+            // 
+            resources.ApplyResources(this.ShipView_Torpedo, "ShipView_Torpedo");
+            this.ShipView_Torpedo.Name = "ShipView_Torpedo";
+            this.ShipView_Torpedo.ReadOnly = true;
+            // 
+            // ShipView_TorpedoRemain
+            // 
+            resources.ApplyResources(this.ShipView_TorpedoRemain, "ShipView_TorpedoRemain");
+            this.ShipView_TorpedoRemain.Name = "ShipView_TorpedoRemain";
+            this.ShipView_TorpedoRemain.ReadOnly = true;
+            // 
+            // ShipView_AA
+            // 
+            resources.ApplyResources(this.ShipView_AA, "ShipView_AA");
+            this.ShipView_AA.Name = "ShipView_AA";
+            this.ShipView_AA.ReadOnly = true;
+            // 
+            // ShipView_AARemain
+            // 
+            resources.ApplyResources(this.ShipView_AARemain, "ShipView_AARemain");
+            this.ShipView_AARemain.Name = "ShipView_AARemain";
+            this.ShipView_AARemain.ReadOnly = true;
+            // 
+            // ShipView_Armor
+            // 
+            resources.ApplyResources(this.ShipView_Armor, "ShipView_Armor");
+            this.ShipView_Armor.Name = "ShipView_Armor";
+            this.ShipView_Armor.ReadOnly = true;
+            // 
+            // ShipView_ArmorRemain
+            // 
+            resources.ApplyResources(this.ShipView_ArmorRemain, "ShipView_ArmorRemain");
+            this.ShipView_ArmorRemain.Name = "ShipView_ArmorRemain";
+            this.ShipView_ArmorRemain.ReadOnly = true;
+            // 
+            // ShipView_ASW
+            // 
+            resources.ApplyResources(this.ShipView_ASW, "ShipView_ASW");
+            this.ShipView_ASW.Name = "ShipView_ASW";
+            this.ShipView_ASW.ReadOnly = true;
+            // 
+            // ShipView_Evasion
+            // 
+            resources.ApplyResources(this.ShipView_Evasion, "ShipView_Evasion");
+            this.ShipView_Evasion.Name = "ShipView_Evasion";
+            this.ShipView_Evasion.ReadOnly = true;
+            // 
+            // ShipView_LOS
+            // 
+            resources.ApplyResources(this.ShipView_LOS, "ShipView_LOS");
+            this.ShipView_LOS.Name = "ShipView_LOS";
+            this.ShipView_LOS.ReadOnly = true;
+            // 
+            // ShipView_Luck
+            // 
+            resources.ApplyResources(this.ShipView_Luck, "ShipView_Luck");
+            this.ShipView_Luck.Name = "ShipView_Luck";
+            this.ShipView_Luck.ReadOnly = true;
+            // 
+            // ShipView_LuckRemain
+            // 
+            resources.ApplyResources(this.ShipView_LuckRemain, "ShipView_LuckRemain");
+            this.ShipView_LuckRemain.Name = "ShipView_LuckRemain";
+            this.ShipView_LuckRemain.ReadOnly = true;
+            // 
+            // ShipView_Locked
+            // 
+            resources.ApplyResources(this.ShipView_Locked, "ShipView_Locked");
+            this.ShipView_Locked.Name = "ShipView_Locked";
+            this.ShipView_Locked.ReadOnly = true;
+            // 
+            // ShipView_SallyArea
+            // 
+            resources.ApplyResources(this.ShipView_SallyArea, "ShipView_SallyArea");
+            this.ShipView_SallyArea.Name = "ShipView_SallyArea";
+            this.ShipView_SallyArea.ReadOnly = true;
+            // 
+            // MenuMember
+            // 
+            resources.ApplyResources(this.MenuMember, "MenuMember");
+            this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuMember_AddToGroup,
             this.MenuMember_CreateGroup,
             this.toolStripSeparator1,
@@ -427,224 +394,193 @@
             this.MenuMember_CSVOutput,
             this.toolStripSeparator3,
             this.MenuMember_Delete});
-			this.MenuMember.Name = "MenuMember";
-			this.MenuMember.Size = new System.Drawing.Size(300, 176);
-			this.MenuMember.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMember_Opening);
-			// 
-			// MenuMember_AddToGroup
-			// 
-			this.MenuMember_AddToGroup.Name = "MenuMember_AddToGroup";
-			this.MenuMember_AddToGroup.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-			this.MenuMember_AddToGroup.Size = new System.Drawing.Size(299, 22);
-			this.MenuMember_AddToGroup.Text = "グループへ追加(&A)...";
-			this.MenuMember_AddToGroup.Click += new System.EventHandler(this.MenuMember_AddToGroup_Click);
-			// 
-			// MenuMember_CreateGroup
-			// 
-			this.MenuMember_CreateGroup.Name = "MenuMember_CreateGroup";
-			this.MenuMember_CreateGroup.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-			this.MenuMember_CreateGroup.Size = new System.Drawing.Size(299, 22);
-			this.MenuMember_CreateGroup.Text = "新規グループを作成(&C)...";
-			this.MenuMember_CreateGroup.Click += new System.EventHandler(this.MenuMember_CreateGroup_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(296, 6);
-			// 
-			// MenuMember_ColumnFilter
-			// 
-			this.MenuMember_ColumnFilter.Name = "MenuMember_ColumnFilter";
-			this.MenuMember_ColumnFilter.Size = new System.Drawing.Size(299, 22);
-			this.MenuMember_ColumnFilter.Text = "列フィルタ(&F)...";
-			this.MenuMember_ColumnFilter.Click += new System.EventHandler(this.MenuMember_ColumnFilter_Click);
-			// 
-			// MenuMember_ColumnAutoSize
-			// 
-			this.MenuMember_ColumnAutoSize.CheckOnClick = true;
-			this.MenuMember_ColumnAutoSize.Name = "MenuMember_ColumnAutoSize";
-			this.MenuMember_ColumnAutoSize.Size = new System.Drawing.Size(299, 22);
-			this.MenuMember_ColumnAutoSize.Text = "列の自動調整(&D)";
-			this.MenuMember_ColumnAutoSize.Click += new System.EventHandler(this.MenuMember_ColumnAutoSize_Click);
-			// 
-			// MenuMember_LockShipNameScroll
-			// 
-			this.MenuMember_LockShipNameScroll.CheckOnClick = true;
-			this.MenuMember_LockShipNameScroll.Name = "MenuMember_LockShipNameScroll";
-			this.MenuMember_LockShipNameScroll.Size = new System.Drawing.Size(299, 22);
-			this.MenuMember_LockShipNameScroll.Text = "艦名をスクロールしない(&S)";
-			this.MenuMember_LockShipNameScroll.Click += new System.EventHandler(this.MenuMember_LockShipNameScroll_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(296, 6);
-			// 
-			// MenuMember_CSVOutput
-			// 
-			this.MenuMember_CSVOutput.Name = "MenuMember_CSVOutput";
-			this.MenuMember_CSVOutput.Size = new System.Drawing.Size(299, 22);
-			this.MenuMember_CSVOutput.Text = "CSV出力(&O)...";
-			this.MenuMember_CSVOutput.Click += new System.EventHandler(this.MenuMember_CSVOutput_Click);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(296, 6);
-			// 
-			// MenuMember_Delete
-			// 
-			this.MenuMember_Delete.Name = "MenuMember_Delete";
-			this.MenuMember_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-			this.MenuMember_Delete.Size = new System.Drawing.Size(299, 22);
-			this.MenuMember_Delete.Text = "削除(&D)";
-			this.MenuMember_Delete.Click += new System.EventHandler(this.MenuMember_Delete_Click);
-			// 
-			// MenuGroup
-			// 
-			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuMember.Name = "MenuMember";
+            this.MenuMember.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMember_Opening);
+            // 
+            // MenuMember_AddToGroup
+            // 
+            resources.ApplyResources(this.MenuMember_AddToGroup, "MenuMember_AddToGroup");
+            this.MenuMember_AddToGroup.Name = "MenuMember_AddToGroup";
+            this.MenuMember_AddToGroup.Click += new System.EventHandler(this.MenuMember_AddToGroup_Click);
+            // 
+            // MenuMember_CreateGroup
+            // 
+            resources.ApplyResources(this.MenuMember_CreateGroup, "MenuMember_CreateGroup");
+            this.MenuMember_CreateGroup.Name = "MenuMember_CreateGroup";
+            this.MenuMember_CreateGroup.Click += new System.EventHandler(this.MenuMember_CreateGroup_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            // 
+            // MenuMember_ColumnFilter
+            // 
+            resources.ApplyResources(this.MenuMember_ColumnFilter, "MenuMember_ColumnFilter");
+            this.MenuMember_ColumnFilter.Name = "MenuMember_ColumnFilter";
+            this.MenuMember_ColumnFilter.Click += new System.EventHandler(this.MenuMember_ColumnFilter_Click);
+            // 
+            // MenuMember_ColumnAutoSize
+            // 
+            resources.ApplyResources(this.MenuMember_ColumnAutoSize, "MenuMember_ColumnAutoSize");
+            this.MenuMember_ColumnAutoSize.CheckOnClick = true;
+            this.MenuMember_ColumnAutoSize.Name = "MenuMember_ColumnAutoSize";
+            this.MenuMember_ColumnAutoSize.Click += new System.EventHandler(this.MenuMember_ColumnAutoSize_Click);
+            // 
+            // MenuMember_LockShipNameScroll
+            // 
+            resources.ApplyResources(this.MenuMember_LockShipNameScroll, "MenuMember_LockShipNameScroll");
+            this.MenuMember_LockShipNameScroll.CheckOnClick = true;
+            this.MenuMember_LockShipNameScroll.Name = "MenuMember_LockShipNameScroll";
+            this.MenuMember_LockShipNameScroll.Click += new System.EventHandler(this.MenuMember_LockShipNameScroll_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            // 
+            // MenuMember_CSVOutput
+            // 
+            resources.ApplyResources(this.MenuMember_CSVOutput, "MenuMember_CSVOutput");
+            this.MenuMember_CSVOutput.Name = "MenuMember_CSVOutput";
+            this.MenuMember_CSVOutput.Click += new System.EventHandler(this.MenuMember_CSVOutput_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            // 
+            // MenuMember_Delete
+            // 
+            resources.ApplyResources(this.MenuMember_Delete, "MenuMember_Delete");
+            this.MenuMember_Delete.Name = "MenuMember_Delete";
+            this.MenuMember_Delete.Click += new System.EventHandler(this.MenuMember_Delete_Click);
+            // 
+            // MenuGroup
+            // 
+            resources.ApplyResources(this.MenuGroup, "MenuGroup");
+            this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuGroup_Add,
             this.MenuGroup_Rename,
             this.MenuGroup_Delete,
             this.toolStripSeparator4,
             this.MenuGroup_AutoUpdate,
             this.MenuGroup_ShowStatusBar});
-			this.MenuGroup.Name = "MenuGroup";
-			this.MenuGroup.Size = new System.Drawing.Size(221, 142);
-			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
-			// 
-			// MenuGroup_Add
-			// 
-			this.MenuGroup_Add.Name = "MenuGroup_Add";
-			this.MenuGroup_Add.Size = new System.Drawing.Size(220, 22);
-			this.MenuGroup_Add.Text = "グループを追加(&A)";
-			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
-			// 
-			// MenuGroup_Rename
-			// 
-			this.MenuGroup_Rename.Name = "MenuGroup_Rename";
-			this.MenuGroup_Rename.Size = new System.Drawing.Size(220, 22);
-			this.MenuGroup_Rename.Text = "グループ名の変更(&R)...";
-			this.MenuGroup_Rename.Click += new System.EventHandler(this.MenuGroup_Rename_Click);
-			// 
-			// MenuGroup_Delete
-			// 
-			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
-			this.MenuGroup_Delete.Size = new System.Drawing.Size(220, 22);
-			this.MenuGroup_Delete.Text = "グループを削除(&D)";
-			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
-			// 
-			// toolStripSeparator4
-			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(217, 6);
-			// 
-			// MenuGroup_AutoUpdate
-			// 
-			this.MenuGroup_AutoUpdate.CheckOnClick = true;
-			this.MenuGroup_AutoUpdate.Name = "MenuGroup_AutoUpdate";
-			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(220, 22);
-			this.MenuGroup_AutoUpdate.Text = "自動更新する";
-			// 
-			// MenuGroup_ShowStatusBar
-			// 
-			this.MenuGroup_ShowStatusBar.Checked = true;
-			this.MenuGroup_ShowStatusBar.CheckOnClick = true;
-			this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
-			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(220, 22);
-			this.MenuGroup_ShowStatusBar.Text = "ステータスバーを表示する";
-			this.MenuGroup_ShowStatusBar.CheckedChanged += new System.EventHandler(this.MenuGroup_ShowStatusBar_CheckedChanged);
-			// 
-			// splitContainer1
-			// 
-			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer1.Name = "splitContainer1";
-			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainer1.Panel1
-			// 
-			this.splitContainer1.Panel1.Controls.Add(this.TabPanel);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this.splitContainer1.Panel2.Controls.Add(this.ShipView);
-			this.splitContainer1.Panel2.Controls.Add(this.StatusBar);
-			this.splitContainer1.Size = new System.Drawing.Size(300, 200);
-			this.splitContainer1.SplitterDistance = 40;
-			this.splitContainer1.TabIndex = 1;
-			// 
-			// TabPanel
-			// 
-			this.TabPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.TabPanel.AutoScroll = true;
-			this.TabPanel.ContextMenuStrip = this.MenuGroup;
-			this.TabPanel.Location = new System.Drawing.Point(0, 0);
-			this.TabPanel.Name = "TabPanel";
-			this.TabPanel.Size = new System.Drawing.Size(300, 40);
-			this.TabPanel.TabIndex = 0;
-			this.TabPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragDrop);
-			this.TabPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragEnter);
-			this.TabPanel.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.TabPanel_QueryContinueDrag);
-			this.TabPanel.DoubleClick += new System.EventHandler(this.TabPanel_DoubleClick);
-			// 
-			// StatusBar
-			// 
-			this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuGroup.Name = "MenuGroup";
+            this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
+            // 
+            // MenuGroup_Add
+            // 
+            resources.ApplyResources(this.MenuGroup_Add, "MenuGroup_Add");
+            this.MenuGroup_Add.Name = "MenuGroup_Add";
+            this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
+            // 
+            // MenuGroup_Rename
+            // 
+            resources.ApplyResources(this.MenuGroup_Rename, "MenuGroup_Rename");
+            this.MenuGroup_Rename.Name = "MenuGroup_Rename";
+            this.MenuGroup_Rename.Click += new System.EventHandler(this.MenuGroup_Rename_Click);
+            // 
+            // MenuGroup_Delete
+            // 
+            resources.ApplyResources(this.MenuGroup_Delete, "MenuGroup_Delete");
+            this.MenuGroup_Delete.Name = "MenuGroup_Delete";
+            this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            // 
+            // MenuGroup_AutoUpdate
+            // 
+            resources.ApplyResources(this.MenuGroup_AutoUpdate, "MenuGroup_AutoUpdate");
+            this.MenuGroup_AutoUpdate.CheckOnClick = true;
+            this.MenuGroup_AutoUpdate.Name = "MenuGroup_AutoUpdate";
+            // 
+            // MenuGroup_ShowStatusBar
+            // 
+            resources.ApplyResources(this.MenuGroup_ShowStatusBar, "MenuGroup_ShowStatusBar");
+            this.MenuGroup_ShowStatusBar.Checked = true;
+            this.MenuGroup_ShowStatusBar.CheckOnClick = true;
+            this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
+            this.MenuGroup_ShowStatusBar.CheckedChanged += new System.EventHandler(this.MenuGroup_ShowStatusBar_CheckedChanged);
+            // 
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
+            this.splitContainer1.Panel1.Controls.Add(this.TabPanel);
+            // 
+            // splitContainer1.Panel2
+            // 
+            resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
+            this.splitContainer1.Panel2.Controls.Add(this.ShipView);
+            this.splitContainer1.Panel2.Controls.Add(this.StatusBar);
+            // 
+            // TabPanel
+            // 
+            resources.ApplyResources(this.TabPanel, "TabPanel");
+            this.TabPanel.ContextMenuStrip = this.MenuGroup;
+            this.TabPanel.Name = "TabPanel";
+            this.TabPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragDrop);
+            this.TabPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragEnter);
+            this.TabPanel.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.TabPanel_QueryContinueDrag);
+            this.TabPanel.DoubleClick += new System.EventHandler(this.TabPanel_DoubleClick);
+            // 
+            // StatusBar
+            // 
+            resources.ApplyResources(this.StatusBar, "StatusBar");
+            this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Status_ShipCount,
             this.Status_LevelTotal,
             this.Status_LevelAverage});
-			this.StatusBar.Location = new System.Drawing.Point(0, 134);
-			this.StatusBar.Name = "StatusBar";
-			this.StatusBar.Size = new System.Drawing.Size(300, 22);
-			this.StatusBar.SizingGrip = false;
-			this.StatusBar.TabIndex = 1;
-			this.StatusBar.Text = "statusStrip1";
-			// 
-			// Status_ShipCount
-			// 
-			this.Status_ShipCount.Name = "Status_ShipCount";
-			this.Status_ShipCount.Size = new System.Drawing.Size(0, 17);
-			// 
-			// Status_LevelTotal
-			// 
-			this.Status_LevelTotal.Name = "Status_LevelTotal";
-			this.Status_LevelTotal.Size = new System.Drawing.Size(0, 17);
-			// 
-			// Status_LevelAverage
-			// 
-			this.Status_LevelAverage.Name = "Status_LevelAverage";
-			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 17);
-			// 
-			// FormShipGroup
-			// 
-			this.AutoHidePortion = 150D;
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(300, 200);
-			this.Controls.Add(this.splitContainer1);
-			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.HideOnClose = true;
-			this.Name = "FormShipGroup";
-			this.Text = "グループ";
-			this.Load += new System.EventHandler(this.FormShipGroup_Load);
-			((System.ComponentModel.ISupportInitialize)(this.ShipView)).EndInit();
-			this.MenuMember.ResumeLayout(false);
-			this.MenuGroup.ResumeLayout(false);
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			this.splitContainer1.Panel2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-			this.splitContainer1.ResumeLayout(false);
-			this.StatusBar.ResumeLayout(false);
-			this.StatusBar.PerformLayout();
-			this.ResumeLayout(false);
+            this.StatusBar.Name = "StatusBar";
+            this.StatusBar.SizingGrip = false;
+            // 
+            // Status_ShipCount
+            // 
+            resources.ApplyResources(this.Status_ShipCount, "Status_ShipCount");
+            this.Status_ShipCount.Name = "Status_ShipCount";
+            // 
+            // Status_LevelTotal
+            // 
+            resources.ApplyResources(this.Status_LevelTotal, "Status_LevelTotal");
+            this.Status_LevelTotal.Name = "Status_LevelTotal";
+            // 
+            // Status_LevelAverage
+            // 
+            resources.ApplyResources(this.Status_LevelAverage, "Status_LevelAverage");
+            this.Status_LevelAverage.Name = "Status_LevelAverage";
+            // 
+            // FormShipGroup
+            // 
+            resources.ApplyResources(this, "$this");
+            this.AutoHidePortion = 150D;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.splitContainer1);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.HideOnClose = true;
+            this.Name = "FormShipGroup";
+            this.Load += new System.EventHandler(this.FormShipGroup_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.ShipView)).EndInit();
+            this.MenuMember.ResumeLayout(false);
+            this.MenuGroup.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.StatusBar.ResumeLayout(false);
+            this.StatusBar.PerformLayout();
+            this.ResumeLayout(false);
 
 		}
 

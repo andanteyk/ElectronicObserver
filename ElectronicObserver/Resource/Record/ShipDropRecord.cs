@@ -25,8 +25,8 @@ namespace ElectronicObserver.Resource.Record {
 			/// </summary>
 			public string ShipName {
 				get {
-					if ( ShipID == -1 ) return "(なし)";
-					if ( ShipID == -2 ) return "(満員)";
+                    if (ShipID == -1) return LoadResources.getter("ShipDropRecord_1");
+                    if (ShipID == -2) return LoadResources.getter("ShipDropRecord_2");
 
 					if ( ShipID > 2000 ) {
 						var eq = KCDatabase.Instance.MasterEquipments[ShipID - 2000];
@@ -114,7 +114,7 @@ namespace ElectronicObserver.Resource.Record {
 			public override void LoadLine( string line ) {
 
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 9 ) throw new ArgumentException( "要素数が少なすぎます。" );
+				if ( elem.Length < 9 ) throw new ArgumentException( LoadResources.getter("ShipDropRecord_3") );
 
 				ShipID = int.Parse( elem[0] );
 				//ShipName = elem[1] は読み飛ばす
@@ -122,7 +122,7 @@ namespace ElectronicObserver.Resource.Record {
 				MapAreaID = int.Parse( elem[3] );
 				MapInfoID = int.Parse( elem[4] );
 				CellID = int.Parse( elem[5] );
-				IsBossNode = string.Compare( elem[6], "ボス" ) == 0;
+                IsBossNode = string.Compare(elem[6], LoadResources.getter("ShipDropRecord_4")) == 0;
 				EnemyFleetID = int.Parse( elem[7] );
 				Rank = elem[8];
 				HQLevel = int.Parse( elem[9] );
@@ -138,7 +138,7 @@ namespace ElectronicObserver.Resource.Record {
 					MapAreaID,
 					MapInfoID,
 					CellID,
-					IsBossNode ? "ボス" : "-",
+                    IsBossNode ? LoadResources.getter("ShipDropRecord_4") : "-",
 					EnemyFleetID,
 					Rank,
 					HQLevel );
@@ -204,7 +204,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		protected override string RecordHeader {
-			get { return "艦船ID,艦名,入手日時,海域,海域,セル,ボス,敵編成,ランク,司令部Lv"; }
+            get { return LoadResources.getter("ShipDropRecord_5"); }
 		}
 
 		public override string FileName {

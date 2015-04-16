@@ -117,7 +117,694 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;TableBottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FormationFriend.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="AirSuperiority.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 45</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>戦闘</value>
+  </data>
+  <data name="&gt;&gt;AirStage1Friend.Name" xml:space="preserve">
+    <value>AirStage1Friend</value>
+  </data>
+  <data name="FleetEnemy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="&gt;&gt;AACutin.Name" xml:space="preserve">
+    <value>AACutin</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AirSuperiority.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="AirStage2Enemy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>197, 66</value>
+  </data>
+  <data name="DamageEnemy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="&gt;&gt;Searching.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;FleetFriend.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SearchingEnemy.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 2</value>
+  </data>
+  <data name="&gt;&gt;TableTop.Name" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="SearchingFriend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 17</value>
+  </data>
+  <data name="TableTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>252, 84</value>
+  </data>
+  <data name="&gt;&gt;ToolTipInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AirStage1Friend.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;AirStage1Enemy.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="Formation.Text" xml:space="preserve">
+    <value>交戦形態</value>
+  </data>
+  <data name="AirStage2Enemy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 15</value>
+  </data>
+  <data name="TableTop.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="FormationFriend" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Formation" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="FormationEnemy" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="AirStage2Friend" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="AACutin" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="AirStage2Enemy" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="AirStage1Enemy" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="SearchingFriend" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Searching" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="AirStage1Friend" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SearchingEnemy" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="AirSuperiority" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,84,Absolute,84,Absolute,84" /&gt;&lt;Rows Styles="Absolute,21,Absolute,21,Absolute,21,Absolute,21,Absolute,20,Absolute,20,Absolute,20,Absolute,20,Absolute,20,Absolute,20,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;SearchingFriend.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="DamageEnemy.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AirSuperiority.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="AirStage1Enemy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>197, 45</value>
+  </data>
+  <data name="DamageFriend.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;SearchingFriend.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="BaseLayoutPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;FormationFriend.Name" xml:space="preserve">
+    <value>FormationFriend</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SearchingFriend.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;AACutin.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="FleetFriend.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;FormationEnemy.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="AirStage2Enemy.Text" xml:space="preserve">
+    <value>撃墜</value>
+  </data>
+  <data name="BaseLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 300</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Meiryo UI, 12px</value>
+  </data>
+  <data name="BaseLayoutPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="BaseLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="Formation.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="AirStage1Enemy.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TableTop.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 0</value>
+  </data>
+  <data name="FleetFriend.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AACutin.Text" xml:space="preserve">
+    <value>対空</value>
+  </data>
+  <data name="AirStage2Enemy.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AirStage1Friend.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="WinRank.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 150</value>
+  </data>
+  <data name="TableTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="&gt;&gt;FleetEnemy.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="FleetEnemy.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AirStage1Enemy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="FormationFriend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="&gt;&gt;WinRank.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;AirStage2Friend.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="DamageEnemy.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;DamageFriend.Name" xml:space="preserve">
+    <value>DamageFriend</value>
+  </data>
+  <data name="TableTop.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="BaseLayoutPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TableBottom.Parent" xml:space="preserve">
+    <value>BaseLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;FleetCombined.Parent" xml:space="preserve">
+    <value>TableBottom</value>
+  </data>
+  <data name="&gt;&gt;FleetCombined.Name" xml:space="preserve">
+    <value>FleetCombined</value>
+  </data>
+  <data name="&gt;&gt;AirStage2Friend.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="&gt;&gt;AirSuperiority.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="SearchingEnemy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="AirStage1Friend.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;Searching.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Searching.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="FleetEnemy.Text" xml:space="preserve">
+    <value>敵軍艦隊</value>
+  </data>
+  <data name="FormationEnemy.Text" xml:space="preserve">
+    <value>敵陣形</value>
+  </data>
+  <data name="SearchingEnemy.Text" xml:space="preserve">
+    <value>敵索敵</value>
+  </data>
+  <data name="&gt;&gt;AirStage2Enemy.Name" xml:space="preserve">
+    <value>AirStage2Enemy</value>
+  </data>
+  <data name="&gt;&gt;DamageFriend.Parent" xml:space="preserve">
+    <value>TableBottom</value>
+  </data>
+  <data name="&gt;&gt;BaseLayoutPanel.Name" xml:space="preserve">
+    <value>BaseLayoutPanel</value>
+  </data>
+  <data name="Formation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="&gt;&gt;AirStage1Enemy.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;Formation.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="AirStage2Friend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 66</value>
+  </data>
+  <data name="DamageFriend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="TableBottom.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="TableBottom.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="FleetFriend" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="DamageFriend" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="WinRank" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="DamageEnemy" Row="7" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="FleetCombined" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="FleetEnemy" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,84,Absolute,84,Absolute,84" /&gt;&lt;Rows Styles="Absolute,21,Absolute,21,Absolute,21,Absolute,21,Absolute,21,Absolute,21,Absolute,21,Absolute,21,Absolute,20,Absolute,20,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="AACutin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 15</value>
+  </data>
+  <data name="AirStage1Enemy.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;AirStage2Friend.Name" xml:space="preserve">
+    <value>AirStage2Friend</value>
+  </data>
+  <data name="&gt;&gt;FleetCombined.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="WinRank.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FleetCombined.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;AirStage1Enemy.Name" xml:space="preserve">
+    <value>AirStage1Enemy</value>
+  </data>
+  <data name="&gt;&gt;AirSuperiority.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="FleetCombined.Text" xml:space="preserve">
+    <value>随伴艦隊</value>
+  </data>
+  <data name="TableTop.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormBattle</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>300, 300</value>
+  </data>
+  <data name="&gt;&gt;FleetEnemy.Name" xml:space="preserve">
+    <value>FleetEnemy</value>
+  </data>
+  <data name="WinRank.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="TableBottom.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SearchingFriend.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;WinRank.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="SearchingEnemy.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="FormationFriend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="Searching.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="&gt;&gt;AirStage2Enemy.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="AirStage1Enemy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 15</value>
+  </data>
+  <data name="&gt;&gt;TableBottom.Name" xml:space="preserve">
+    <value>TableBottom</value>
+  </data>
+  <data name="FleetEnemy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 3</value>
+  </data>
+  <data name="SearchingEnemy.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;BaseLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Searching.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="&gt;&gt;WinRank.Name" xml:space="preserve">
+    <value>WinRank</value>
+  </data>
+  <data name="AACutin.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="&gt;&gt;TableBottom.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Searching.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="FleetFriend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="DamageFriend.Text" xml:space="preserve">
+    <value>損害率</value>
+  </data>
+  <data name="&gt;&gt;TableTop.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="DamageEnemy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="FleetFriend.Text" xml:space="preserve">
+    <value>自軍艦隊</value>
+  </data>
+  <data name="SearchingFriend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="SearchingFriend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 23</value>
+  </data>
+  <data name="AACutin.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;AirStage2Enemy.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="AirStage2Friend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 15</value>
+  </data>
+  <data name="&gt;&gt;FleetCombined.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;AirStage1Friend.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="SearchingFriend.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 2</value>
+  </data>
+  <data name="TableBottom.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="&gt;&gt;DamageEnemy.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;FormationFriend.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="WinRank.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;BaseLayoutPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="SearchingFriend.Text" xml:space="preserve">
+    <value>味方索敵</value>
+  </data>
+  <data name="&gt;&gt;AACutin.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="&gt;&gt;FormationEnemy.Name" xml:space="preserve">
+    <value>FormationEnemy</value>
+  </data>
+  <data name="&gt;&gt;FleetFriend.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Searching.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 24</value>
+  </data>
+  <data name="TableBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 90</value>
+  </data>
+  <data name="FormationFriend.Text" xml:space="preserve">
+    <value>味方陣形</value>
+  </data>
+  <data name="AirStage1Friend.Text" xml:space="preserve">
+    <value>撃墜</value>
+  </data>
+  <data name="SearchingEnemy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 17</value>
+  </data>
+  <data name="AirSuperiority.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="AirStage2Friend.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="DamageEnemy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 150</value>
+  </data>
+  <data name="FleetCombined.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="DamageFriend.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="FormationEnemy.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="FleetCombined.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AirStage2Friend.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FormationFriend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="&gt;&gt;DamageFriend.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;SearchingEnemy.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="&gt;&gt;AirStage2Friend.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="SearchingEnemy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 23</value>
+  </data>
+  <data name="&gt;&gt;FormationEnemy.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="&gt;&gt;Formation.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="AirStage1Friend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 15</value>
+  </data>
+  <data name="AirStage2Friend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="AirStage1Friend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 45</value>
+  </data>
+  <data name="&gt;&gt;SearchingFriend.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="AirStage2Friend.Text" xml:space="preserve">
+    <value>撃墜</value>
+  </data>
+  <data name="FleetFriend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="WinRank.Text" xml:space="preserve">
+    <value>戦績判定</value>
+  </data>
+  <data name="FormationEnemy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 3</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>WeifenLuo.WinFormsUI.Docking.DockContent, WeifenLuo.WinFormsUI.Docking, Version=2.9.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481</value>
+  </data>
+  <data name="&gt;&gt;DamageEnemy.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="FleetEnemy.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;AirSuperiority.Name" xml:space="preserve">
+    <value>AirSuperiority</value>
+  </data>
+  <data name="&gt;&gt;DamageEnemy.Parent" xml:space="preserve">
+    <value>TableBottom</value>
+  </data>
+  <data name="TableTop.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;BaseLayoutPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="AACutin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>113, 66</value>
+  </data>
+  <data name="&gt;&gt;FleetEnemy.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="TableBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>252, 168</value>
+  </data>
+  <data name="TableBottom.RowCount" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="DamageFriend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 150</value>
+  </data>
+  <data name="&gt;&gt;AACutin.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;DamageFriend.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Formation.Name" xml:space="preserve">
+    <value>Formation</value>
+  </data>
+  <data name="&gt;&gt;Formation.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FleetCombined.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="AACutin.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;FleetFriend.Parent" xml:space="preserve">
+    <value>TableBottom</value>
+  </data>
+  <data name="Formation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 3</value>
+  </data>
+  <data name="TableTop.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="FormationEnemy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="&gt;&gt;FormationEnemy.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="DamageEnemy.Text" xml:space="preserve">
+    <value>損害率</value>
+  </data>
+  <data name="TableBottom.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="FleetEnemy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="&gt;&gt;ToolTipInfo.Name" xml:space="preserve">
+    <value>ToolTipInfo</value>
+  </data>
+  <data name="&gt;&gt;AirStage1Enemy.Parent" xml:space="preserve">
+    <value>TableTop</value>
+  </data>
+  <data name="FleetCombined.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 3</value>
+  </data>
+  <data name="DamageFriend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="Searching.Text" xml:space="preserve">
+    <value>索敵</value>
+  </data>
+  <data name="&gt;&gt;SearchingFriend.Name" xml:space="preserve">
+    <value>SearchingFriend</value>
+  </data>
+  <data name="&gt;&gt;FleetEnemy.Parent" xml:space="preserve">
+    <value>TableBottom</value>
+  </data>
+  <data name="BaseLayoutPanel.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="AirStage2Enemy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="AirStage2Enemy.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="TableTop.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="AirSuperiority.Text" xml:space="preserve">
+    <value>制空権</value>
+  </data>
+  <data name="WinRank.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="Formation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 15</value>
+  </data>
+  <data name="&gt;&gt;SearchingEnemy.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="BaseLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;TableTop.Parent" xml:space="preserve">
+    <value>BaseLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;FleetFriend.Name" xml:space="preserve">
+    <value>FleetFriend</value>
+  </data>
+  <data name="Formation.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;FormationFriend.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Searching.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AirStage1Enemy.Text" xml:space="preserve">
+    <value>撃墜</value>
+  </data>
+  <data name="&gt;&gt;AirStage1Friend.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;SearchingEnemy.Name" xml:space="preserve">
+    <value>SearchingEnemy</value>
+  </data>
+  <data name="&gt;&gt;WinRank.Parent" xml:space="preserve">
+    <value>TableBottom</value>
+  </data>
+  <data name="FleetFriend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="FormationEnemy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="FormationFriend.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FormationEnemy.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AirStage1Friend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="AirSuperiority.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;Searching.Name" xml:space="preserve">
+    <value>Searching</value>
+  </data>
+  <data name="&gt;&gt;TableTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AirStage2Enemy.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;SearchingEnemy.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;DamageEnemy.Name" xml:space="preserve">
+    <value>DamageEnemy</value>
+  </data>
+  <data name="&gt;&gt;AirSuperiority.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="FormationFriend.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-Hans</value>
+  </metadata>
   <metadata name="ToolTipInfo.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
 </root>

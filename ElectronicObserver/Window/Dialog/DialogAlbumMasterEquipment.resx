@@ -117,25 +117,1703 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="EquipmentView_ID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DefaultSlots.ItemHeight" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;imageLabel71.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Accuracy.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="EquipmentView_Icon.Width" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Description.Name" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="&gt;&gt;AA.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TitleAccuracy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;EquipmentID.Name" xml:space="preserve">
+    <value>EquipmentID</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Description.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 361</value>
+  </data>
+  <data name="TitleSpeed.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TitleFirepower.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 25</value>
+  </data>
+  <data name="&gt;&gt;Armor.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TitleAccuracy.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;TitleAccuracy.Name" xml:space="preserve">
+    <value>TitleAccuracy</value>
+  </data>
+  <data name="Bomber.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;imageLabel72.Parent" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Meiryo UI, 12px</value>
+  </data>
+  <data name="TableArsenal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 22</value>
+  </data>
+  <data name="&gt;&gt;TitleBomber.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TitleArmor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="TitleEvasion.Text" xml:space="preserve">
+    <value>回避</value>
+  </data>
+  <data name="imageLabel71.Text" xml:space="preserve">
+    <value>レア</value>
+  </data>
+  <data name="Accuracy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="imageLabel1.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="imageLabel45.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StripMenu_File.Text" xml:space="preserve">
+    <value>ファイル(&amp;F)</value>
+  </data>
+  <data name="&gt;&gt;imageLabel2.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="&gt;&gt;TitleAccuracy.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="TitleBomber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 199</value>
+  </data>
+  <data name="&gt;&gt;Accuracy.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="EquipmentImage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 3</value>
+  </data>
+  <data name="&gt;&gt;Rarity.Name" xml:space="preserve">
+    <value>Rarity</value>
+  </data>
+  <data name="Rarity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 16</value>
+  </data>
+  <data name="DefaultSlots.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;imageLabel71.Name" xml:space="preserve">
+    <value>imageLabel71</value>
+  </data>
+  <data name="&gt;&gt;AlbumNo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="MaterialAmmo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 16</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView_Icon.Name" xml:space="preserve">
+    <value>EquipmentView_Icon</value>
+  </data>
+  <data name="BasePanelEquipment.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TitleAA.Text" xml:space="preserve">
+    <value>対空</value>
+  </data>
+  <data name="imageLabel71.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 16</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_File_OutputCSVData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="EquipmentView_Icon.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageLabel76.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="&gt;&gt;EquipmentID.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="imageLabel76.Location" type="System.Drawing.Point, System.Drawing">
+    <value>189, 25</value>
+  </data>
+  <data name="Armor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 91</value>
+  </data>
+  <data name="&gt;&gt;EquipmentImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="StripMenu_File_OutputCSVUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="&gt;&gt;AlbumNo.Name" xml:space="preserve">
+    <value>AlbumNo</value>
+  </data>
+  <data name="&gt;&gt;imageLabel72.Name" xml:space="preserve">
+    <value>imageLabel72</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_File_OutputCSVData.Name" xml:space="preserve">
+    <value>StripMenu_File_OutputCSVData</value>
+  </data>
+  <data name="&gt;&gt;TableArsenal.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="&gt;&gt;TitleTorpedo.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="Evasion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="MaterialBauxite.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="AA.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="imageLabel59.Text" xml:space="preserve">
+    <value>廃棄</value>
+  </data>
+  <data name="&gt;&gt;TitleASW.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TitleFirepower.Name" xml:space="preserve">
+    <value>TitleFirepower</value>
+  </data>
+  <data name="LOS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="TitleAA.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="Description.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TitleASW.Text" xml:space="preserve">
+    <value>対潜</value>
+  </data>
+  <data name="MaterialFuel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 3</value>
+  </data>
+  <data name="&gt;&gt;TableParameterMain.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;TableParameterMain.Name" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="TitleArmor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.Parent" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="TableParameterMain.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="Bomber" Row="9" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="TitleBomber" Row="9" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="LOS" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="ASW" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imageLabel14" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="TitleLOS" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Armor" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="AA" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="Torpedo" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="Firepower" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="TitleFirepower" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="TitleTorpedo" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="TitleAA" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="TitleArmor" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="TitleASW" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="TitleEvasion" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Evasion" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="TitleAccuracy" Row="8" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="Accuracy" Row="8" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Absolute,60,Absolute,20,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;TableParameterSub.Name" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="&gt;&gt;DefaultSlots.Name" xml:space="preserve">
+    <value>DefaultSlots</value>
+  </data>
+  <data name="LOS.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="Range.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EquipmentName.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="MaterialBauxite.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="imageLabel59.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TableParameterSub.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="MaterialSteel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>130, 3</value>
+  </data>
+  <data name="imageLabel59.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 16</value>
+  </data>
+  <data name="&gt;&gt;AlbumNo.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;LOS.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="imageLabel72.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 16</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>装備図鑑</value>
+  </data>
+  <data name="EquipmentID.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="TableParameterSub.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="imageLabel14.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="TitleEvasion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 135</value>
+  </data>
+  <data name="TableArsenal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>300, 300</value>
+  </data>
+  <data name="&gt;&gt;ToolTipInfo.Name" xml:space="preserve">
+    <value>ToolTipInfo</value>
+  </data>
+  <data name="&gt;&gt;MaterialBauxite.Parent" xml:space="preserve">
+    <value>TableArsenal</value>
+  </data>
+  <data name="imageLabel14.Text" xml:space="preserve">
+    <value>性能</value>
+  </data>
+  <data name="&gt;&gt;TitleEvasion.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BasePanelEquipment.Name" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="&gt;&gt;imageLabel71.Parent" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="EquipmentView_Name.HeaderText" xml:space="preserve">
+    <value>装備名</value>
+  </data>
+  <data name="TitleArmor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 91</value>
+  </data>
+  <data name="TitleLOS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 157</value>
+  </data>
+  <data name="TitleLOS.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TableParameterMain.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="EquipmentView_Icon.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="&gt;&gt;ASW.Name" xml:space="preserve">
+    <value>ASW</value>
+  </data>
+  <data name="TitleASW.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 113</value>
+  </data>
+  <data name="imageLabel1.Text" xml:space="preserve">
+    <value>初期装備艦：</value>
+  </data>
+  <data name="MaterialSteel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 16</value>
+  </data>
+  <data name="&gt;&gt;TitleArmor.Name" xml:space="preserve">
+    <value>TitleArmor</value>
+  </data>
+  <data name="&gt;&gt;SaveCSVDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="EquipmentImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 260</value>
+  </data>
+  <data name="Accuracy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 14</value>
+  </data>
+  <data name="TitleAA.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;TitleFirepower.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="EquipmentView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 455</value>
+  </data>
+  <data name="MaterialAmmo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>82, 3</value>
+  </data>
+  <data name="&gt;&gt;MaterialFuel.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="StripMenu_File_OutputCSVData.Text" xml:space="preserve">
+    <value>CSV出力(データ用)(&amp;D)...</value>
+  </data>
+  <data name="TitleTorpedo.Text" xml:space="preserve">
+    <value>雷装</value>
+  </data>
+  <data name="imageLabel76.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TableEquipmentName.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="Evasion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 135</value>
+  </data>
+  <data name="Description.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;TitleSpeed.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TitleLOS.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="imageLabel45.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="Firepower.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="TableArsenal.ColumnCount" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="AlbumNo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Speed.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageLabel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Torpedo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TableArsenal.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 25</value>
+  </data>
+  <data name="TitleASW.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="Armor.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="imageLabel72.Text" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="TableArsenal.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;TableEquipmentName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="imageLabel14.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 3, 6, 3</value>
+  </data>
+  <data name="&gt;&gt;EquipmentName.Parent" xml:space="preserve">
+    <value>TableEquipmentName</value>
+  </data>
+  <data name="imageLabel72.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="TitleSpeed.Text" xml:space="preserve">
+    <value>速力</value>
+  </data>
+  <data name="Firepower.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="TitleAA.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;imageLabel14.Name" xml:space="preserve">
+    <value>imageLabel14</value>
+  </data>
+  <data name="Armor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="Evasion.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageLabel72.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="Torpedo.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;imageLabel76.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="imageLabel14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="&gt;&gt;MaterialBauxite.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;imageLabel2.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="MaterialAmmo.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="Evasion.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="Rarity.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="EquipmentView_ID.HeaderText" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="&gt;&gt;TableArsenal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="splitContainer1.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TitleEvasion.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="TitleArmor.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="EquipmentName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 16</value>
+  </data>
+  <data name="Bomber.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;Bomber.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;Description.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;imageLabel14.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;TitleSpeed.Parent" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="imageLabel76.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="TableParameterSub.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="&gt;&gt;Armor.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="StripMenu_File_OutputCSVData.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Torpedo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="TitleBomber.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="TitleASW.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="imageLabel71.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="TitleAccuracy.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TitleASW.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="imageLabel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>105, 6</value>
+  </data>
+  <data name="TableParameterMain.RowCount" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="MaterialSteel.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="Firepower.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DefaultSlots.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;imageLabel72.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView_ID.Name" xml:space="preserve">
+    <value>EquipmentView_ID</value>
+  </data>
+  <data name="Accuracy.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;Torpedo.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="Speed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 3</value>
+  </data>
+  <data name="&gt;&gt;Firepower.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;MaterialBauxite.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Parent" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Torpedo.Name" xml:space="preserve">
+    <value>Torpedo</value>
+  </data>
+  <data name="AlbumNo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>165, 6</value>
+  </data>
+  <data name="TitleLOS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="TitleFirepower.Text" xml:space="preserve">
+    <value>火力</value>
+  </data>
+  <data name="TitleSpeed.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="TitleAccuracy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 179</value>
+  </data>
+  <data name="TitleAA.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 69</value>
+  </data>
+  <data name="EquipmentView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;TitleArmor.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="imageLabel72.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TableEquipmentName.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="AA.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;SaveCSVDialog.Name" xml:space="preserve">
+    <value>SaveCSVDialog</value>
+  </data>
+  <data name="&gt;&gt;Range.Parent" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="&gt;&gt;EquipmentType.Parent" xml:space="preserve">
+    <value>TableEquipmentName</value>
+  </data>
+  <data name="&gt;&gt;TableArsenal.Name" xml:space="preserve">
+    <value>TableArsenal</value>
+  </data>
+  <data name="&gt;&gt;TitleSpeed.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="TableParameterMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 49</value>
+  </data>
+  <data name="TitleFirepower.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="&gt;&gt;Firepower.Name" xml:space="preserve">
+    <value>Firepower</value>
+  </data>
+  <data name="MaterialBauxite.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="menuStrip1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;Armor.Name" xml:space="preserve">
+    <value>Armor</value>
+  </data>
+  <data name="&gt;&gt;TitleRange.Parent" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="&gt;&gt;imageLabel1.Name" xml:space="preserve">
+    <value>imageLabel1</value>
+  </data>
+  <data name="EquipmentImage.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="SaveCSVDialog.Filter" xml:space="preserve">
+    <value>CSV|*.csv|File|*</value>
+  </data>
+  <data name="&gt;&gt;ASW.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;Accuracy.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="MaterialFuel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 16</value>
+  </data>
+  <data name="&gt;&gt;BasePanelEquipment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TitleBomber.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Description.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;TitleArmor.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="SaveCSVDialog.Title" xml:space="preserve">
+    <value>CSVに出力</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LOS.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_File_OutputCSVUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="EquipmentView_Type.Width" type="System.Int32, mscorlib">
+    <value>75</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Rarity.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="EquipmentName.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageLabel45.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 6</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView.Name" xml:space="preserve">
+    <value>EquipmentView</value>
+  </data>
+  <data name="AlbumNo.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MaterialAmmo.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;MaterialAmmo.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;AA.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;TitleRange.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TitleTorpedo.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;MaterialSteel.Name" xml:space="preserve">
+    <value>MaterialSteel</value>
+  </data>
+  <data name="TableEquipmentName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 25</value>
+  </data>
+  <data name="imageLabel14.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageLabel72.Location" type="System.Drawing.Point, System.Drawing">
+    <value>113, 25</value>
+  </data>
+  <data name="TitleRange.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 25</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;AA.Name" xml:space="preserve">
+    <value>AA</value>
+  </data>
+  <data name="&gt;&gt;Evasion.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="menuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="EquipmentView_Icon.MinimumWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TableEquipmentName.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Speed.Name" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="imageLabel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MaterialAmmo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Speed.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;TableEquipmentName.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="TableParameterMain.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="TitleFirepower.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="TableParameterMain.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TableParameterSub.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="EquipmentID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>35, 6</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TitleSpeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="TitleASW.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TableArsenal.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;EquipmentType.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Range.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="imageLabel76.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;Range.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;DefaultSlots.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Accuracy.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;imageLabel2.Name" xml:space="preserve">
+    <value>imageLabel2</value>
+  </data>
+  <data name="&gt;&gt;imageLabel45.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="imageLabel72.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;AlbumNo.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="&gt;&gt;Bomber.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TitleAA.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;EquipmentName.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ToolTipInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="splitContainer1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TitleRange.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="BasePanelEquipment.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TitleArmor.Text" xml:space="preserve">
+    <value>装甲</value>
+  </data>
+  <data name="TableArsenal.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView_Type.Name" xml:space="preserve">
+    <value>EquipmentView_Type</value>
+  </data>
+  <data name="&gt;&gt;Rarity.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;MaterialAmmo.Name" xml:space="preserve">
+    <value>MaterialAmmo</value>
+  </data>
+  <data name="&gt;&gt;EquipmentName.Name" xml:space="preserve">
+    <value>EquipmentName</value>
+  </data>
+  <data name="&gt;&gt;Range.Name" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="&gt;&gt;TitleTorpedo.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="MaterialFuel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;imageLabel14.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="StripMenu_File_OutputCSVUser.Text" xml:space="preserve">
+    <value>CSV出力(閲覧用)(&amp;U)...</value>
+  </data>
+  <data name="&gt;&gt;Range.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView_Name.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="&gt;&gt;imageLabel59.Parent" xml:space="preserve">
+    <value>TableArsenal</value>
+  </data>
+  <data name="imageLabel76.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;imageLabel59.Name" xml:space="preserve">
+    <value>imageLabel59</value>
+  </data>
+  <data name="Armor.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AlbumNo.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 455</value>
+  </data>
+  <data name="TitleTorpedo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Evasion.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="EquipmentView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="TableParameterSub.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;imageLabel76.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TableEquipmentName.Name" xml:space="preserve">
+    <value>TableEquipmentName</value>
+  </data>
+  <data name="Armor.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;TitleTorpedo.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TitleLOS.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;EquipmentID.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="MaterialBauxite.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TitleAccuracy.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="TableArsenal.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
+  <data name="TitleLOS.Text" xml:space="preserve">
+    <value>索敵</value>
+  </data>
+  <data name="&gt;&gt;MaterialFuel.Name" xml:space="preserve">
+    <value>MaterialFuel</value>
+  </data>
+  <data name="BasePanelEquipment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="imageLabel14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>56, 3</value>
+  </data>
+  <data name="&gt;&gt;EquipmentType.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;Evasion.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;EquipmentImage.Name" xml:space="preserve">
+    <value>EquipmentImage</value>
+  </data>
+  <data name="Range.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;imageLabel76.Parent" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="ASW.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="TableEquipmentName.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AA.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 69</value>
+  </data>
+  <data name="TitleRange.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="EquipmentView_ID.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="EquipmentName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 3</value>
+  </data>
+  <data name="Speed.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="Torpedo.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;imageLabel45.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="imageLabel71.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;MaterialSteel.Parent" xml:space="preserve">
+    <value>TableArsenal</value>
+  </data>
+  <data name="MaterialFuel.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="LOS.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;Speed.Parent" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="TitleRange.Text" xml:space="preserve">
+    <value>射程</value>
+  </data>
+  <data name="TitleLOS.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="MaterialSteel.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="MaterialBauxite.Location" type="System.Drawing.Point, System.Drawing">
+    <value>178, 3</value>
+  </data>
+  <data name="EquipmentType.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MaterialSteel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="EquipmentView.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="imageLabel14.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Description.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;Speed.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TitleFirepower.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;Torpedo.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="Description.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;TitleASW.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;Speed.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="EquipmentType.Text" xml:space="preserve">
+    <value>オートジャイロ</value>
+  </data>
+  <data name="&gt;&gt;TableParameterMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TitleFirepower.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MaterialFuel.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>DialogAlbumMasterEquipment</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MaterialSteel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="EquipmentType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="&gt;&gt;Description.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="&gt;&gt;BasePanelEquipment.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Speed.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="LOS.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;LOS.Name" xml:space="preserve">
+    <value>LOS</value>
+  </data>
+  <data name="TitleRange.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ASW.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="Firepower.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 25</value>
+  </data>
+  <data name="imageLabel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 16</value>
+  </data>
+  <data name="EquipmentImage.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Bomber.Name" xml:space="preserve">
+    <value>Bomber</value>
+  </data>
+  <data name="&gt;&gt;imageLabel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;imageLabel72.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;TitleASW.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;EquipmentName.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Armor.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="TableParameterSub.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Bomber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 199</value>
+  </data>
+  <data name="Bomber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 14</value>
+  </data>
+  <data name="imageLabel45.Text" xml:space="preserve">
+    <value>ID:</value>
+  </data>
+  <data name="&gt;&gt;TableParameterMain.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="&gt;&gt;Evasion.Name" xml:space="preserve">
+    <value>Evasion</value>
+  </data>
+  <data name="TitleBomber.Text" xml:space="preserve">
+    <value>爆装</value>
+  </data>
+  <data name="TableParameterMain.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageLabel2.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_File.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TitleEvasion.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;TitleAccuracy.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="TableParameterMain.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="TitleEvasion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="Speed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="imageLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 52</value>
+  </data>
+  <data name="&gt;&gt;imageLabel45.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;TitleEvasion.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="EquipmentID.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MaterialSteel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ASW.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="Rarity.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView_ID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="imageLabel45.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 16</value>
+  </data>
+  <data name="AA.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;Bomber.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TitleLOS.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;imageLabel45.Name" xml:space="preserve">
+    <value>imageLabel45</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Range.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 25</value>
+  </data>
+  <data name="Firepower.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;MaterialAmmo.Parent" xml:space="preserve">
+    <value>TableArsenal</value>
+  </data>
+  <data name="Description.Text" xml:space="preserve">
+    <value>[5inch連装砲]
+かの国において最も広く使われた駆逐艦主砲、その連装砲版です。
+大型艦の対空砲としても搭載されました。
+現在では深海駆逐艦の主力兵装として普及しています。
+</value>
+  </data>
+  <data name="ASW.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 113</value>
+  </data>
+  <data name="EquipmentName.Text" xml:space="preserve">
+    <value>試製FaT仕様九五式酸素魚雷改</value>
+  </data>
+  <data name="TitleArmor.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TitleAA.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;imageLabel1.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="TitleRange.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;DefaultSlots.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="AlbumNo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 16</value>
+  </data>
+  <data name="MaterialFuel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LOS.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Bomber.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="imageLabel71.Location" type="System.Drawing.Point, System.Drawing">
+    <value>113, 3</value>
+  </data>
+  <data name="imageLabel76.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EquipmentType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 16</value>
+  </data>
+  <data name="Rarity.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;Firepower.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;TitleRange.Name" xml:space="preserve">
+    <value>TitleRange</value>
+  </data>
+  <data name="TitleSpeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="&gt;&gt;imageLabel2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TitleEvasion.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView_Name.Name" xml:space="preserve">
+    <value>EquipmentView_Name</value>
+  </data>
+  <data name="TitleBomber.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="DefaultSlots.HorizontalScrollbar" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ASW.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TitleLOS.Name" xml:space="preserve">
+    <value>TitleLOS</value>
+  </data>
+  <data name="Torpedo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="TableParameterSub.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageLabel59.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;imageLabel59.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="EquipmentID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="&gt;&gt;TitleBomber.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView_Type.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TitleSpeed.Name" xml:space="preserve">
+    <value>TitleSpeed</value>
+  </data>
+  <data name="&gt;&gt;ASW.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;imageLabel76.Name" xml:space="preserve">
+    <value>imageLabel76</value>
+  </data>
+  <data name="&gt;&gt;MaterialFuel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="StripMenu_File.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 21</value>
+  </data>
+  <data name="TableParameterSub.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 44</value>
+  </data>
+  <data name="&gt;&gt;TitleLOS.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;MaterialFuel.Parent" xml:space="preserve">
+    <value>TableArsenal</value>
+  </data>
+  <data name="&gt;&gt;Accuracy.Name" xml:space="preserve">
+    <value>Accuracy</value>
+  </data>
+  <data name="TableArsenal.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;Evasion.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;MaterialAmmo.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="TitleTorpedo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 47</value>
+  </data>
+  <data name="&gt;&gt;BasePanelEquipment.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
+  </data>
+  <data name="imageLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 16</value>
+  </data>
+  <data name="MaterialBauxite.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 16</value>
+  </data>
+  <data name="Evasion.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 25</value>
+  </data>
+  <data name="Range.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="TitleAccuracy.Text" xml:space="preserve">
+    <value>命中</value>
+  </data>
+  <data name="Range.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>816, 518</value>
+  </data>
+  <data name="&gt;&gt;imageLabel71.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;MaterialBauxite.Name" xml:space="preserve">
+    <value>MaterialBauxite</value>
+  </data>
+  <data name="&gt;&gt;EquipmentImage.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="DefaultSlots.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 184</value>
+  </data>
+  <data name="&gt;&gt;TitleFirepower.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="&gt;&gt;ASW.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;Rarity.Parent" xml:space="preserve">
+    <value>TableParameterSub</value>
+  </data>
+  <data name="Torpedo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 47</value>
+  </data>
+  <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
+    <value>250</value>
+  </data>
+  <data name="&gt;&gt;AA.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TitleRange.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="imageLabel59.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="AA.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BasePanelEquipment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>546, 455</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>800, 480</value>
+  </data>
+  <data name="&gt;&gt;Firepower.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;TitleTorpedo.Name" xml:space="preserve">
+    <value>TitleTorpedo</value>
+  </data>
+  <data name="&gt;&gt;EquipmentImage.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="imageLabel71.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;Accuracy.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="AA.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="EquipmentView.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Armor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="TitleBomber.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;TableParameterSub.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ASW.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="&gt;&gt;EquipmentType.Name" xml:space="preserve">
+    <value>EquipmentType</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_File_OutputCSVUser.Name" xml:space="preserve">
+    <value>StripMenu_File_OutputCSVUser</value>
+  </data>
+  <data name="DefaultSlots.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 74</value>
+  </data>
+  <data name="DefaultSlots.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Rarity.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;EquipmentID.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="TitleTorpedo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;imageLabel59.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="imageLabel2.Text" xml:space="preserve">
+    <value>図鑑番号:</value>
+  </data>
+  <data name="TableEquipmentName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TitleTorpedo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="TableArsenal.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="MaterialBauxite" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="MaterialFuel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="MaterialSteel" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="MaterialAmmo" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="imageLabel59" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Absolute,48,Absolute,48,Absolute,48,Absolute,48" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="BasePanelEquipment.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;imageLabel14.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Bomber.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;TitleEvasion.Name" xml:space="preserve">
+    <value>TitleEvasion</value>
+  </data>
+  <data name="&gt;&gt;StripMenu_File.Name" xml:space="preserve">
+    <value>StripMenu_File</value>
+  </data>
+  <data name="&gt;&gt;DefaultSlots.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="&gt;&gt;TitleBomber.Name" xml:space="preserve">
+    <value>TitleBomber</value>
+  </data>
+  <data name="EquipmentID.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="TableParameterSub.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="MaterialAmmo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="AlbumNo.Text" xml:space="preserve">
+    <value>123</value>
+  </data>
+  <data name="TitleBomber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 14</value>
+  </data>
+  <data name="Firepower.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="&gt;&gt;imageLabel1.Parent" xml:space="preserve">
+    <value>BasePanelEquipment</value>
+  </data>
+  <data name="TableParameterSub.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 300</value>
+  </data>
+  <data name="splitContainer1.Panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EquipmentType.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TitleAA.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="TitleSpeed.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="&gt;&gt;LOS.Parent" xml:space="preserve">
+    <value>TableParameterMain</value>
+  </data>
+  <data name="TableParameterSub.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="imageLabel76" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="Rarity" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="Range" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="Speed" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="imageLabel72" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="imageLabel71" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="TitleRange" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="TitleSpeed" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Absolute,60,AutoSize,0,Absolute,60" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;EquipmentView_Icon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TitleEvasion.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TableEquipmentName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>262, 22</value>
+  </data>
+  <data name="Rarity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>157, 3</value>
+  </data>
+  <data name="&gt;&gt;TitleAA.Name" xml:space="preserve">
+    <value>TitleAA</value>
+  </data>
+  <data name="TitleAccuracy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 14</value>
+  </data>
+  <data name="Description.Size" type="System.Drawing.Size, System.Drawing">
+    <value>525, 82</value>
+  </data>
+  <data name="EquipmentView_Type.HeaderText" xml:space="preserve">
+    <value>装備種</value>
+  </data>
+  <data name="&gt;&gt;Torpedo.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="imageLabel59.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="LOS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 157</value>
+  </data>
+  <data name="&gt;&gt;MaterialSteel.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="EquipmentImage.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TableParameterMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 216</value>
+  </data>
+  <data name="TitleAA.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 16</value>
+  </data>
+  <data name="&gt;&gt;TitleArmor.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="TitleFirepower.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;TitleASW.Name" xml:space="preserve">
+    <value>TitleASW</value>
+  </data>
+  <data name="Accuracy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 179</value>
+  </data>
   <metadata name="EquipmentView_Type.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="EquipmentView_Name.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-Hans</value>
+  </metadata>
   <metadata name="ToolTipInfo.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>139, 17</value>
   </metadata>
+  <metadata name="EquipmentView_ID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="SaveCSVDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>259, 17</value>
+  </metadata>
+  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="EquipmentView_Icon.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
 </root>

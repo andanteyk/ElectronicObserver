@@ -27,7 +27,7 @@ namespace ElectronicObserver.Notifier {
 
 
 		private void Initialize() {
-			DialogData.Title = "建造完了";
+            DialogData.Title = LoadResources.getter("NotifierConstruction_1");
 			processedFlags = new Dictionary<int, bool>();
 		}
 
@@ -58,7 +58,7 @@ namespace ElectronicObserver.Notifier {
 
 		public void Notify( int arsenalID, int shipID ) {
 
-			DialogData.Message = string.Format( "工廠ドック #{0} で「{1}」の建造が完了しました。",
+            DialogData.Message = string.Format(LoadResources.getter("NotifierConstruction_2"),
 				arsenalID, Utility.Configuration.Config.FormArsenal.ShowShipName ? KCDatabase.Instance.MasterShips[shipID].NameWithClass : "艦娘" );
 
 			base.Notify();

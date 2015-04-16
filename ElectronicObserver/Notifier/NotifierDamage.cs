@@ -77,7 +77,7 @@ namespace ElectronicObserver.Notifier {
 
 
 		private void Initialize() {
-			DialogData.Title = "！大破警告！";
+            DialogData.Title = LoadResources.getter("NotifierDamage_1");
 
 			APIObserver o = APIObserver.Instance;
 
@@ -237,7 +237,7 @@ namespace ElectronicObserver.Notifier {
 
 		public void Notify( string[] messages ) {
 
-			DialogData.Message = string.Format( "{0} が大破しています！",
+            DialogData.Message = string.Format(LoadResources.getter("NotifierDamage_2"),
 				string.Join( ", ", messages ) );
 
 			base.Notify();

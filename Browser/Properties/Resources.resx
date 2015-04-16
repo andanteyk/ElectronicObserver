@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,57 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplyStyleSheet_Failed" xml:space="preserve">
+    <value>スタイルシートの適用に失敗しました。</value>
+  </data>
+  <data name="Browser_FlashNotFound" xml:space="preserve">
+    <value>対象の swf が見つかりませんでした。</value>
+  </data>
+  <data name="Browser_InaccessableDocument" xml:space="preserve">
+    <value>Document が取得できませんでした。</value>
+  </data>
+  <data name="Browser_InaccessableFlash" xml:space="preserve">
+    <value>embed 要素の取得に失敗しました。</value>
+  </data>
+  <data name="Browser_InaccessableGameFrame" xml:space="preserve">
+    <value>game_frame 要素の取得に失敗しました。</value>
+  </data>
+  <data name="Dialog_Confirm" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="Dialog_Login" xml:space="preserve">
+    <value>ログインページへ移動します。\r\nよろしいですか？</value>
+  </data>
+  <data name="Dialog_Refresh" xml:space="preserve">
+    <value>再読み込みします。\r\nよろしいですか？</value>
+  </data>
+  <data name="ErrorMessageNotFound" xml:space="preserve">
+    <value>指定したプロセスIDの音量オブジェクトは存在しません。</value>
+  </data>
+  <data name="KanColle_NotLoaded" xml:space="preserve">
+    <value>艦これが読み込まれていないため、スクリーンショットを撮ることはできません。</value>
+  </data>
+  <data name="Program_1" xml:space="preserve">
+    <value>これは七四式電子観測儀のサブプログラムであり、単体では起動できません。\r\n本体から起動してください。</value>
+  </data>
+  <data name="Program_2" xml:space="preserve">
+    <value>情報</value>
+  </data>
+  <data name="SaveScreenShot_Failed" xml:space="preserve">
+    <value>スクリーンショットの保存時にエラーが発生しました。</value>
+  </data>
+  <data name="SaveScreenShot_Succeed" xml:space="preserve">
+    <value>スクリーンショットを {0} に保存しました。</value>
+  </data>
+  <data name="Zoom_CurrentText" xml:space="preserve">
+    <value>現在: {0}%</value>
+  </data>
+  <data name="Zoom_Failed" xml:space="preserve">
+    <value>ズームの適用に失敗しました。</value>
+  </data>
 </root>

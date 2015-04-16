@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>试制七四式电子观测仪</value>
+  </data>
+  <data name="StripMenu.Text" xml:space="preserve">
+    <value>菜单</value>
+  </data>
+  <data name="StripMenu_Browser.Text" xml:space="preserve">
+    <value>浏览器(&amp;B)</value>
+  </data>
+  <data name="StripMenu_Browser_AppliesStyleSheet.Text" xml:space="preserve">
+    <value>应用样式(&amp;S)</value>
+  </data>
+  <data name="StripMenu_Browser_Navigate.Text" xml:space="preserve">
+    <value>跳转(&amp;M)...</value>
+  </data>
+  <data name="StripMenu_Browser_NavigateToLogInPage.Text" xml:space="preserve">
+    <value>跳转登陆页面(&amp;L)</value>
+  </data>
+  <data name="StripMenu_Browser_Refresh.Text" xml:space="preserve">
+    <value>刷新(&amp;R)</value>
+  </data>
+  <data name="StripMenu_Browser_ScreenShot.Text" xml:space="preserve">
+    <value>截图(&amp;S)</value>
+  </data>
+  <data name="StripMenu_Browser_Zoom.Text" xml:space="preserve">
+    <value>缩放(&amp;Z)</value>
+  </data>
+  <data name="StripMenu_Browser_Zoom_Current.Text" xml:space="preserve">
+    <value>当前%</value>
+  </data>
+  <data name="StripMenu_Debug.Text" xml:space="preserve">
+    <value>调试(&amp;D)</value>
+  </data>
+  <data name="StripMenu_Debug_DeleteOldAPI.Text" xml:space="preserve">
+    <value>旧API数据删除(&amp;D)</value>
+  </data>
+  <data name="StripMenu_Debug_LoadAPIFromFile.Text" xml:space="preserve">
+    <value>从文件读取API接口(&amp;L)...</value>
+  </data>
+  <data name="StripMenu_Debug_LoadInitialAPI.Text" xml:space="preserve">
+    <value>读取初始API列表(&amp;I)...</value>
+  </data>
+  <data name="StripMenu_Debug_LoadRecordFromOld.Text" xml:space="preserve">
+    <value>从旧 api_star2 构建记录(&amp;O)...</value>
+  </data>
+  <data name="StripMenu_Debug_RenameShipResource.Text" xml:space="preserve">
+    <value>重命名舰船资源(&amp;R)...</value>
+  </data>
+  <data name="StripMenu_File.Text" xml:space="preserve">
+    <value>文件(&amp;F)</value>
+  </data>
+  <data name="StripMenu_File_Close.Text" xml:space="preserve">
+    <value>退出(&amp;X)</value>
+  </data>
+  <data name="StripMenu_File_Configuration.Text" xml:space="preserve">
+    <value>设置(&amp;C)...</value>
+  </data>
+  <data name="StripMenu_File_Layout.Text" xml:space="preserve">
+    <value>布局(&amp;L)</value>
+  </data>
+  <data name="StripMenu_File_Layout_Load.Text" xml:space="preserve">
+    <value>恢复(&amp;L)</value>
+  </data>
+  <data name="StripMenu_File_Layout_Open.Text" xml:space="preserve">
+    <value>打开其他布局文件(&amp;O)...</value>
+  </data>
+  <data name="StripMenu_File_Layout_Save.Text" xml:space="preserve">
+    <value>保存(&amp;S)</value>
+  </data>
+  <data name="StripMenu_File_Record.Text" xml:space="preserve">
+    <value>记录(&amp;R)</value>
+  </data>
+  <data name="StripMenu_File_Record_Load.Text" xml:space="preserve">
+    <value>读取(&amp;L)</value>
+  </data>
+  <data name="StripMenu_File_Record_Save.Text" xml:space="preserve">
+    <value>保存(&amp;S)</value>
+  </data>
+  <data name="StripMenu_Help.Text" xml:space="preserve">
+    <value>帮助(&amp;H)</value>
+  </data>
+  <data name="StripMenu_Help_Help.Text" xml:space="preserve">
+    <value>联机帮助(&amp;H)...</value>
+  </data>
+  <data name="StripMenu_Help_Version.Text" xml:space="preserve">
+    <value>版本信息(&amp;V)</value>
+  </data>
+  <data name="StripMenu_Tool.Text" xml:space="preserve">
+    <value>工具(&amp;T)</value>
+  </data>
+  <data name="StripMenu_Tool_AlbumMasterEquipment.Text" xml:space="preserve">
+    <value>装备图鉴(&amp;E)</value>
+  </data>
+  <data name="StripMenu_Tool_AlbumMasterShip.Text" xml:space="preserve">
+    <value>舰船图鉴(&amp;S)</value>
+  </data>
+  <data name="StripMenu_Tool_EquipmentList.Text" xml:space="preserve">
+    <value>装备一览(&amp;Q)</value>
+  </data>
+  <data name="StripMenu_View.Text" xml:space="preserve">
+    <value>显示(&amp;V)</value>
+  </data>
+  <data name="StripMenu_View_Arsenal.Text" xml:space="preserve">
+    <value>工厂(&amp;A)</value>
+  </data>
+  <data name="StripMenu_View_Battle.Text" xml:space="preserve">
+    <value>战斗(&amp;B)</value>
+  </data>
+  <data name="StripMenu_View_Browser.Text" xml:space="preserve">
+    <value>浏览器(&amp;M)</value>
+  </data>
+  <data name="StripMenu_View_Compass.Text" xml:space="preserve">
+    <value>罗盘(&amp;C)</value>
+  </data>
+  <data name="StripMenu_View_Dock.Text" xml:space="preserve">
+    <value>入渠(&amp;D)</value>
+  </data>
+  <data name="StripMenu_View_Fleet.Text" xml:space="preserve">
+    <value>舰队(&amp;F)</value>
+  </data>
+  <data name="StripMenu_View_FleetOverview.Text" xml:space="preserve">
+    <value>舰队一览(&amp;O)</value>
+  </data>
+  <data name="StripMenu_View_Headquarters.Text" xml:space="preserve">
+    <value>司令部(&amp;H)</value>
+  </data>
+  <data name="StripMenu_View_Information.Text" xml:space="preserve">
+    <value>信息(&amp;I)</value>
+  </data>
+  <data name="StripMenu_View_Log.Text" xml:space="preserve">
+    <value>记录(&amp;L)</value>
+  </data>
+  <data name="StripMenu_View_Quest.Text" xml:space="preserve">
+    <value>任务(&amp;Q)</value>
+  </data>
+  <data name="StripMenu_View_ShipGroup.Text" xml:space="preserve">
+    <value>舰队编成(&amp;G)</value>
+  </data>
+  <data name="StripStatus_Information.Text" xml:space="preserve">
+    <value>舰船准备中...</value>
+  </data>
+</root>

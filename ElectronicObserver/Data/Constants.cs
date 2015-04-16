@@ -16,13 +16,13 @@ namespace ElectronicObserver.Data {
 		public static string GetSpeed( int value ) {
 			switch ( value ) {
 				case 0:
-					return "陸上";
+                    return LoadResources.getter("Constants_1");
 				case 5:
-					return "低速";
+                    return LoadResources.getter("Constants_2");
 				case 10:
-					return "高速";
+                    return LoadResources.getter("Constants_3");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -32,17 +32,17 @@ namespace ElectronicObserver.Data {
 		public static string GetRange( int value ) {
 			switch ( value ) {
 				case 0:
-					return "無";
+                    return LoadResources.getter("Constants_5");
 				case 1:
-					return "短";
+                    return LoadResources.getter("Constants_6");
 				case 2:
-					return "中";
+					return LoadResources.getter("Constants_7");
 				case 3:
-					return "長";
+					return LoadResources.getter("Constants_8");
 				case 4:
-					return "超長";
+					return LoadResources.getter("Constants_9");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -52,25 +52,25 @@ namespace ElectronicObserver.Data {
 		public static string GetShipRarity( int value ) {
 			switch ( value ) {
 				case 0:
-					return "赤";
+                    return LoadResources.getter("Constants_10");
 				case 1:
-					return "藍";
+                    return LoadResources.getter("Constants_11");
 				case 2:
-					return "青";
+                    return LoadResources.getter("Constants_12");
 				case 3:
-					return "水";
+                    return LoadResources.getter("Constants_13");
 				case 4:
-					return "銀";
+                    return LoadResources.getter("Constants_14");
 				case 5:
-					return "金";
+                    return LoadResources.getter("Constants_15");
 				case 6:
-					return "虹";
+                    return LoadResources.getter("Constants_16");
 				case 7:
-					return "輝虹";
+                    return LoadResources.getter("Constants_17");
 				case 8:
-					return "桜虹";
+                    return LoadResources.getter("Constants_18");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -80,19 +80,19 @@ namespace ElectronicObserver.Data {
 		public static string GetEquipmentRarity( int value ) {
 			switch ( value ) {
 				case 0:
-					return "コモン";
+                    return LoadResources.getter("Constants_19");
 				case 1:
-					return "レア";
+                    return LoadResources.getter("Constants_20");
 				case 2:
-					return "ホロ";
+                    return LoadResources.getter("Constants_21");
 				case 3:
-					return "Sホロ";
+                    return LoadResources.getter("Constants_22");
 				case 4:
-					return "SSホロ";
+                    return LoadResources.getter("Constants_23");
 				case 5:
-					return "EXホロ";
+                    return LoadResources.getter("Constants_24");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -125,15 +125,15 @@ namespace ElectronicObserver.Data {
 		public static string GetVoiceFlag( int value ) {
 			switch ( value ) {
 				case 0:
-					return "-";
+                    return LoadResources.getter("Constants_25");
 				case 1:
-					return "時報";
+                    return LoadResources.getter("Constants_26");
 				case 2:
-					return "放置";
+                    return LoadResources.getter("Constants_27");
 				case 3:
-					return "時報+放置";
+                    return LoadResources.getter("Constants_28");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -149,19 +149,19 @@ namespace ElectronicObserver.Data {
 		public static string GetDamageState( double hprate, bool isPractice = false, bool isLandBase = false, bool isEscaped = false ) {
 
 			if ( isEscaped )
-				return "退避";
+                return LoadResources.getter("Constants_29");
 			else if ( hprate <= 0.0 )
-				return isPractice ? "離脱" : ( !isLandBase ? "撃沈" : "破壊" );
+                return isPractice ? LoadResources.getter("Constants_30") : (!isLandBase ? LoadResources.getter("Constants_31") : LoadResources.getter("Constants_32"));
 			else if ( hprate <= 0.25 )
-				return !isLandBase ? "大破" : "損壊";
+                return !isLandBase ? LoadResources.getter("Constants_33") : LoadResources.getter("Constants_34");
 			else if ( hprate <= 0.5 )
-				return !isLandBase ? "中破" : "損害";
+                return !isLandBase ? LoadResources.getter("Constants_35") : LoadResources.getter("Constants_36");
 			else if ( hprate <= 0.75 )
-				return !isLandBase ? "小破" : "混乱";
+                return !isLandBase ? LoadResources.getter("Constants_37") : LoadResources.getter("Constants_38");
 			else if ( hprate < 1.0 )
-				return "健在";
+                return LoadResources.getter("Constants_39");
 			else
-				return "無傷";
+                return LoadResources.getter("Constants_40");
 
 		}
 
@@ -178,25 +178,25 @@ namespace ElectronicObserver.Data {
 			switch ( value ) {
 
 				case 0:
-					return "初期位置";
+                    return LoadResources.getter("Constants_41");
 				case 1:
-					return "なし";
+                    return LoadResources.getter("Constants_42");
 				case 2:
-					return "資源";
+                    return LoadResources.getter("Constants_43");
 				case 3:
-					return "渦潮";
+                    return LoadResources.getter("Constants_44");
 				case 4:
-					return "通常戦闘";
+                    return LoadResources.getter("Constants_45");
 				case 5:
-					return "ボス戦闘";
+                    return LoadResources.getter("Constants_46");
 				case 6:
-					return "気のせいだった";
+                    return LoadResources.getter("Constants_47");
 				case 7:
-					return "航空戦";
+                    return LoadResources.getter("Constants_48");
 				case 8:
-					return "船団護衛成功";
+                    return LoadResources.getter("Constants_49");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -207,17 +207,17 @@ namespace ElectronicObserver.Data {
 
 			switch ( value ) {
 				case 0:
-					return "非戦闘";
+                    return LoadResources.getter("Constants_50");
 				case 1:
-					return "昼夜戦";
+                    return LoadResources.getter("Constants_51");
 				case 2:
-					return "夜戦";
+                    return LoadResources.getter("Constants_52");
 				case 3:
-					return "夜昼戦";
+                    return LoadResources.getter("Constants_53");
 				case 4:
-					return "航空戦";
+                    return LoadResources.getter("Constants_54");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -232,25 +232,25 @@ namespace ElectronicObserver.Data {
 		public static string GetFormation( int id ) {
 			switch ( id ) {
 				case 1:
-					return "単縦陣";
+                    return LoadResources.getter("Constants_55");
 				case 2:
-					return "複縦陣";
+                    return LoadResources.getter("Constants_56");
 				case 3:
-					return "輪形陣";
+                    return LoadResources.getter("Constants_57");
 				case 4:
-					return "梯形陣";
+                    return LoadResources.getter("Constants_58");
 				case 5:
-					return "単横陣";
+                    return LoadResources.getter("Constants_59");
 				case 11:
-					return "第一警戒航行序列";
+                    return LoadResources.getter("Constants_60");
 				case 12:
-					return "第二警戒航行序列";
+                    return LoadResources.getter("Constants_61");
 				case 13:
-					return "第三警戒航行序列";
+                    return LoadResources.getter("Constants_62");
 				case 14:
-					return "第四警戒航行序列";
+                    return LoadResources.getter("Constants_63");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -260,25 +260,25 @@ namespace ElectronicObserver.Data {
 		public static string GetFormationShort( int id ) {
 			switch ( id ) {
 				case 1:
-					return "単縦陣";
+                    return LoadResources.getter("Constants_64");
 				case 2:
-					return "複縦陣";
+                    return LoadResources.getter("Constants_65");
 				case 3:
-					return "輪形陣";
+                    return LoadResources.getter("Constants_66");
 				case 4:
-					return "梯形陣";
+                    return LoadResources.getter("Constants_67");
 				case 5:
-					return "単横陣";
+                    return LoadResources.getter("Constants_68");
 				case 11:
-					return "第一警戒";
+                    return LoadResources.getter("Constants_69");
 				case 12:
-					return "第二警戒";
+                    return LoadResources.getter("Constants_70");
 				case 13:
-					return "第三警戒";
+                    return LoadResources.getter("Constants_71");
 				case 14:
-					return "第四警戒";
+                    return LoadResources.getter("Constants_72");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -288,15 +288,15 @@ namespace ElectronicObserver.Data {
 		public static string GetEngagementForm( int id ) {
 			switch ( id ) {
 				case 1:
-					return "同航戦";
+                    return LoadResources.getter("Constants_73");
 				case 2:
-					return "反航戦";
+                    return LoadResources.getter("Constants_74");
 				case 3:
-					return "T字有利";
+                    return LoadResources.getter("Constants_75");
 				case 4:
-					return "T字不利";
+                    return LoadResources.getter("Constants_76");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -306,19 +306,19 @@ namespace ElectronicObserver.Data {
 		public static string GetSearchingResult( int id ) {
 			switch ( id ) {
 				case 1:
-					return "成功";
+                    return LoadResources.getter("Constants_77");
 				case 2:
-					return "成功(未帰還有)";
+                    return LoadResources.getter("Constants_78");
 				case 3:
-					return "未帰還";
+                    return LoadResources.getter("Constants_79");
 				case 4:
-					return "失敗";
+                    return LoadResources.getter("Constants_80");
 				case 5:
-					return "成功(非索敵機)";
+                    return LoadResources.getter("Constants_81");
 				case 6:
-					return "失敗(非索敵機)";
+                    return LoadResources.getter("Constants_82");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -328,19 +328,19 @@ namespace ElectronicObserver.Data {
 		public static string GetSearchingResultShort( int id ) {
 			switch ( id ) {
 				case 1:
-					return "成功";
+                    return LoadResources.getter("Constants_83");
 				case 2:
-					return "成功△";
+                    return LoadResources.getter("Constants_84");
 				case 3:
-					return "未帰還";
+                    return LoadResources.getter("Constants_85");
 				case 4:
-					return "失敗";
+                    return LoadResources.getter("Constants_86");
 				case 5:
-					return "成功";
+                    return LoadResources.getter("Constants_87");
 				case 6:
-					return "失敗";
+                    return LoadResources.getter("Constants_88");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -350,17 +350,17 @@ namespace ElectronicObserver.Data {
 		public static string GetAirSuperiority( int id ) {
 			switch ( id ) {
 				case 0:
-					return "航空均衡";
+                    return LoadResources.getter("Constants_89");
 				case 1:
-					return "制空権確保";
+                    return LoadResources.getter("Constants_90");
 				case 2:
-					return "航空優勢";
+                    return LoadResources.getter("Constants_91");
 				case 3:
-					return "航空劣勢";
+                    return LoadResources.getter("Constants_92");
 				case 4:
-					return "制空権喪失";
+                    return LoadResources.getter("Constants_93");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -372,29 +372,29 @@ namespace ElectronicObserver.Data {
 		public static string GetDayAttackKind( int id ) {
 			switch ( id ) {
 				case 0:
-					return "砲撃";
+                    return LoadResources.getter("Constants_94");
 				case 1:
-					return "レーザー攻撃";
+                    return LoadResources.getter("Constants_95");
 				case 2:
-					return "連続射撃";
+                    return LoadResources.getter("Constants_96");
 				case 3:
-					return "カットイン(主砲/副砲)";
+                    return LoadResources.getter("Constants_97");
 				case 4:
-					return "カットイン(主砲/電探)";
+                    return LoadResources.getter("Constants_98");
 				case 5:
-					return "カットイン(主砲/徹甲)";
+                    return LoadResources.getter("Constants_99");
 				case 6:
-					return "カットイン(主砲/主砲)";
+                    return LoadResources.getter("Constants_100");
 				case 7:
-					return "空撃";
+                    return LoadResources.getter("Constants_101");
 				case 8:
-					return "爆雷攻撃";
+                    return LoadResources.getter("Constants_102");
 				case 9:
-					return "雷撃";
+                    return LoadResources.getter("Constants_103");
 				case 10:
-					return "ロケット砲撃";
+                    return LoadResources.getter("Constants_104");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -405,29 +405,29 @@ namespace ElectronicObserver.Data {
 		public static string GetNightAttackKind( int id ) {
 			switch ( id ) {
 				case 0:
-					return "砲撃";
+                    return LoadResources.getter("Constants_105");
 				case 1:
-					return "連続射撃";
+                    return LoadResources.getter("Constants_106");
 				case 2:
-					return "カットイン(主砲/魚雷)";
+                    return LoadResources.getter("Constants_107");
 				case 3:
-					return "カットイン(魚雷x2)";
+                    return LoadResources.getter("Constants_108");
 				case 4:
-					return "カットイン(主砲x2/副砲)";
+                    return LoadResources.getter("Constants_109");
 				case 5:
-					return "カットイン(主砲x3)";
+                    return LoadResources.getter("Constants_110");
 				case 6:
-					return "不明";
+                    return LoadResources.getter("Constants_111");
 				case 7:
-					return "空撃";
+                    return LoadResources.getter("Constants_112");
 				case 8:
-					return "爆雷攻撃";
+                    return LoadResources.getter("Constants_113");
 				case 9:
-					return "雷撃";
+                    return LoadResources.getter("Constants_114");
 				case 10:
-					return "ロケット砲撃";
+                    return LoadResources.getter("Constants_115");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -438,33 +438,33 @@ namespace ElectronicObserver.Data {
 		public static string GetAACutinKind( int id ) {
 			switch ( id ) {
 				case 0:
-					return "なし";
+                    return LoadResources.getter("Constants_116");
 				case 1:
-					return "高角砲x2/電探";
+                    return LoadResources.getter("Constants_117");
 				case 2:
-					return "高角砲/電探";
+                    return LoadResources.getter("Constants_118");
 				case 3:
-					return "高角砲x2";
+                    return LoadResources.getter("Constants_119");
 				case 4:
-					return "大口径主砲/三式弾/高射装置/電探";
+                    return LoadResources.getter("Constants_120");
 				case 5:
-					return "高角砲+高射装置x2/電探";
+					return LoadResources.getter("Constants_121");
 				case 6:
-					return "大口径主砲/三式弾/高射装置";
+					return LoadResources.getter("Constants_122");
 				case 7:
-					return "高角砲/高射装置/電探";
+                    return LoadResources.getter("Constants_123");
 				case 8:
-					return "高角砲+高射装置/電探";
+                    return LoadResources.getter("Constants_124");
 				case 9:
-					return "高角砲/高射装置";
+                    return LoadResources.getter("Constants_125");
 				case 10:
-					return "高角砲/集中機銃/電探";
+                    return LoadResources.getter("Constants_126");
 				case 11:
-					return "高角砲/集中機銃";
+                    return LoadResources.getter("Constants_127");
 				case 12:
-					return "集中機銃/機銃/電探";
+                    return LoadResources.getter("Constants_128");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -513,7 +513,7 @@ namespace ElectronicObserver.Data {
 				case 7:
 					return "SS";
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -531,23 +531,23 @@ namespace ElectronicObserver.Data {
 
 			switch ( materialID ) {
 				case 1:
-					return "燃料";
+					return LoadResources.getter("Constants_129");
 				case 2:
-					return "弾薬";
+                    return LoadResources.getter("Constants_130");
 				case 3:
-					return "鋼材";
+                    return LoadResources.getter("Constants_131");
 				case 4:
-					return "ボーキサイト";
+                    return LoadResources.getter("Constants_132");
 				case 5:
-					return "高速建造材";
+                    return LoadResources.getter("Constants_133");
 				case 6:
-					return "高速修復材";
+                    return LoadResources.getter("Constants_134");
 				case 7:
-					return "開発資材";
+                    return LoadResources.getter("Constants_135");
 				case 8:
-					return "改修資材";
+                    return LoadResources.getter("Constants_136");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -558,27 +558,27 @@ namespace ElectronicObserver.Data {
 		public static string GetAdmiralRank( int id ) {
 			switch ( id ) {
 				case 1:
-					return "元帥";
+                    return LoadResources.getter("Constants_137");
 				case 2:
-					return "大将";
+                    return LoadResources.getter("Constants_138");
 				case 3:
-					return "中将";
+                    return LoadResources.getter("Constants_139");
 				case 4:
-					return "少将";
+                    return LoadResources.getter("Constants_140");
 				case 5:
-					return "大佐";
+                    return LoadResources.getter("Constants_141");
 				case 6:
-					return "中佐";
+                    return LoadResources.getter("Constants_142");
 				case 7:
-					return "新米中佐";
+                    return LoadResources.getter("Constants_143");
 				case 8:
-					return "少佐";
+                    return LoadResources.getter("Constants_144");
 				case 9:
-					return "中堅少佐";
+                    return LoadResources.getter("Constants_145");
 				case 10:
-					return "新米少佐";
+                    return LoadResources.getter("Constants_146");
 				default:
-					return "提督";
+                    return LoadResources.getter("Constants_147");
 			}
 		}
 
@@ -589,17 +589,17 @@ namespace ElectronicObserver.Data {
 		public static string GetQuestType( int id ) {
 			switch ( id ) {
 				case 1:		//一回限り
-					return "1";
+                    return LoadResources.getter("Constants_148");
 				case 2:		//デイリー
-					return "日";
+                    return LoadResources.getter("Constants_149");
 				case 3:		//ウィークリー
-					return "週";
+                    return LoadResources.getter("Constants_150");
 				case 4:		//敵空母を3隻撃沈せよ！(日付下一桁0|3|7)
-					return "変";
+                    return LoadResources.getter("Constants_151");
 				case 5:		//敵輸送船団を叩け！(日付下一桁2|8)
-					return "変";
+                    return LoadResources.getter("Constants_151");
 				case 6:		//マンスリー
-					return "月";
+                    return LoadResources.getter("Constants_152");
 				default:
 					return "?";
 			}
@@ -613,23 +613,23 @@ namespace ElectronicObserver.Data {
 		public static string GetQuestCategory( int id ) {
 			switch ( id ) {
 				case 1:
-					return "編成";
+                    return LoadResources.getter("Constants_153");
 				case 2:
-					return "出撃";
+                    return LoadResources.getter("Constants_154");
 				case 3:
-					return "演習";
+                    return LoadResources.getter("Constants_155");
 				case 4:
-					return "遠征";
+                    return LoadResources.getter("Constants_156");
 				case 5:
-					return "補給";		//入渠も含むが、文字数の関係
+                    return LoadResources.getter("Constants_157");		//入渠も含むが、文字数の関係
 				case 6:
-					return "工廠";
+                    return LoadResources.getter("Constants_158");
 				case 7:
-					return "改装";
+                    return LoadResources.getter("Constants_159");
 				case 8:
-					return "他";
+                    return LoadResources.getter("Constants_160");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -640,13 +640,13 @@ namespace ElectronicObserver.Data {
 		public static string GetExpeditionResult( int value ) {
 			switch ( value ) {
 				case 0:
-					return "失敗";
+                    return LoadResources.getter("Constants_161");
 				case 1:
-					return "成功";
+                    return LoadResources.getter("Constants_162");
 				case 2:
-					return "大成功";
+                    return LoadResources.getter("Constants_163");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 
@@ -654,13 +654,13 @@ namespace ElectronicObserver.Data {
 		public static string GetCombinedFleet( int value ) {
 			switch ( value ) {
 				case 0:
-					return "通常艦隊";
+                    return LoadResources.getter("Constants_164");
 				case 1:
-					return "機動部隊";
+                    return LoadResources.getter("Constants_165");
 				case 2:
-					return "水上部隊";
+                    return LoadResources.getter("Constants_166");
 				default:
-					return "不明";
+					return LoadResources.getter("Constants_4");
 			}
 		}
 

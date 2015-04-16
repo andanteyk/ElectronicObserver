@@ -117,14 +117,314 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="QuestView_State.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="MenuMain_ColumnFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 22</value>
+  </data>
+  <data name="&gt;&gt;QuestView.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>300, 200</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_State.Text" xml:space="preserve">
+    <value>遂行中(&amp;S)</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_Category.Text" xml:space="preserve">
+    <value>分類(&amp;C)</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowWeekly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MenuMain.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;QuestView_Name.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MenuMain_ShowWeekly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 22</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowDaily.Name" xml:space="preserve">
+    <value>MenuMain_ShowDaily</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_State.Name" xml:space="preserve">
+    <value>MenuMain_ColumnFilter_State</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_State.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_State.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
+  <data name="&gt;&gt;QuestView_Name.Name" xml:space="preserve">
+    <value>QuestView_Name</value>
+  </data>
+  <data name="MenuMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>229, 176</value>
+  </data>
+  <data name="MenuMain_ShowRunningOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 22</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowOnce.Name" xml:space="preserve">
+    <value>MenuMain_ShowOnce</value>
+  </data>
+  <data name="MenuMain_ShowOnce.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 22</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_Category.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;QuestView_Progress.Name" xml:space="preserve">
+    <value>QuestView_Progress</value>
+  </data>
+  <data name="MenuMain_ShowRunningOnly.Text" xml:space="preserve">
+    <value>遂行中のみ表示(&amp;R)</value>
+  </data>
+  <data name="&gt;&gt;ToolTipInfo.Name" xml:space="preserve">
+    <value>ToolTipInfo</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_Category.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
+  <data name="QuestView.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;QuestView_Category.Name" xml:space="preserve">
+    <value>QuestView_Category</value>
+  </data>
+  <data name="&gt;&gt;QuestView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;QuestView_Type.Name" xml:space="preserve">
+    <value>QuestView_Type</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="QuestView_Category.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowOnce.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowMonthly.Name" xml:space="preserve">
+    <value>MenuMain_ShowMonthly</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_Progress.Text" xml:space="preserve">
+    <value>進捗(&amp;P)</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>WeifenLuo.WinFormsUI.Docking.DockContent, WeifenLuo.WinFormsUI.Docking, Version=2.9.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_Name.Text" xml:space="preserve">
+    <value>任務名(&amp;N)</value>
+  </data>
+  <data name="&gt;&gt;QuestView_Category.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_Name.Name" xml:space="preserve">
+    <value>MenuMain_ColumnFilter_Name</value>
+  </data>
+  <data name="MenuMain_Initialize.Text" xml:space="preserve">
+    <value>初期化(&amp;I)</value>
+  </data>
+  <data name="QuestView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;ToolTipInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MenuMain_ShowWeekly.Text" xml:space="preserve">
+    <value>ウィークリー任務を表示(&amp;W)</value>
+  </data>
+  <data name="QuestView_State.Width" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowRunningOnly.Name" xml:space="preserve">
+    <value>MenuMain_ShowRunningOnly</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_Type.Name" xml:space="preserve">
+    <value>MenuMain_ColumnFilter_Type</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Meiryo UI, 12px</value>
+  </data>
+  <data name="&gt;&gt;QuestView_Progress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 6</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_Progress.Name" xml:space="preserve">
+    <value>MenuMain_ColumnFilter_Progress</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowMonthly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;QuestView_State.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewCheckBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter.Name" xml:space="preserve">
+    <value>MenuMain_ColumnFilter</value>
+  </data>
+  <data name="QuestView_Name.HeaderText" xml:space="preserve">
+    <value>任務名</value>
+  </data>
+  <data name="&gt;&gt;MenuMain.Name" xml:space="preserve">
+    <value>MenuMain</value>
+  </data>
+  <data name="QuestView_Type.Width" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="QuestView_State.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MenuMain_ColumnFilter_Progress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="QuestView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_Name.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
+  <data name="&gt;&gt;QuestView_Type.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;QuestView_State.Name" xml:space="preserve">
+    <value>QuestView_State</value>
+  </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 6</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_Type.Text" xml:space="preserve">
+    <value>出現種別(&amp;T)</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowWeekly.Name" xml:space="preserve">
+    <value>MenuMain_ShowWeekly</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowDaily.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="QuestView_Type.HeaderText" xml:space="preserve">
+    <value>種</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_Initialize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MenuMain_ShowMonthly.Text" xml:space="preserve">
+    <value>マンスリー任務を表示(&amp;M)</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
+    <value>toolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_Initialize.Name" xml:space="preserve">
+    <value>MenuMain_Initialize</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>任務</value>
+  </data>
+  <data name="QuestView_Progress.HeaderText" xml:space="preserve">
+    <value>進捗</value>
+  </data>
+  <data name="&gt;&gt;QuestView.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="MenuMain_ShowMonthly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 22</value>
+  </data>
+  <data name="QuestView_Category.HeaderText" xml:space="preserve">
+    <value>分類</value>
+  </data>
+  <data name="MenuMain_ShowOnce.Text" xml:space="preserve">
+    <value>一回限りの任務を表示(&amp;O)</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 6</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_Progress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_Name.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MenuMain_ShowDaily.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 22</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MenuMain_ColumnFilter_Type.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MenuMain_ShowDaily.Text" xml:space="preserve">
+    <value>デイリー任務を表示(&amp;D)</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
+    <value>toolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;QuestView.Name" xml:space="preserve">
+    <value>QuestView</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_Category.Name" xml:space="preserve">
+    <value>MenuMain_ColumnFilter_Category</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormQuest</value>
+  </data>
+  <data name="QuestView.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="MenuMain_Initialize.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 22</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ShowRunningOnly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MenuMain_ColumnFilter.Text" xml:space="preserve">
+    <value>列フィルタ(&amp;C)</value>
+  </data>
+  <data name="QuestView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 200</value>
+  </data>
+  <data name="&gt;&gt;MenuMain_ColumnFilter_Type.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <metadata name="QuestView_Type.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="QuestView_State.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ToolTipInfo.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="QuestView_Category.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-Hans</value>
   </metadata>
   <metadata name="QuestView_Name.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -134,8 +434,5 @@
   </metadata>
   <metadata name="MenuMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>137, 17</value>
-  </metadata>
-  <metadata name="ToolTipInfo.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
   </metadata>
 </root>

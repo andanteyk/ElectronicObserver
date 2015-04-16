@@ -213,7 +213,7 @@ namespace ElectronicObserver.Window.Dialog {
 				EquipmentType.ImageIndex = eqicon;
 			
 				StringBuilder sb = new StringBuilder();
-				sb.AppendLine( "装備可能艦種:" );
+                sb.AppendLine(LoadResources.getter("DialogAlbumMasterEquipment_1"));
 				foreach ( var stype in KCDatabase.Instance.ShipTypes.Values ) {
 					if ( stype.EquipmentType[eq.EquipmentType[2]] )
 						sb.AppendLine( stype.Name );
@@ -244,7 +244,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//sub parameter
 			TableParameterSub.SuspendLayout();
 
-			Speed.Text = "なし"; //Constants.GetSpeed( eq.Speed );
+            Speed.Text = LoadResources.getter("DialogAlbumMasterEquipment_2"); //Constants.GetSpeed( eq.Speed );
 			Range.Text = Constants.GetRange( eq.Range );
 			Rarity.Text = Constants.GetEquipmentRarity( eq.Rarity );
 			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + Constants.GetEquipmentRarityID( eq.Rarity );		//checkme
@@ -303,7 +303,7 @@ namespace ElectronicObserver.Window.Dialog {
 			BasePanelEquipment.Visible = true;
 
 
-			this.Text = "装備図鑑 - " + eq.Name;
+            this.Text = LoadResources.getter("DialogAlbumMasterEquipment_3") + eq.Name;
 
 		}
 
@@ -367,7 +367,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "装備ID,図鑑番号,装備種,装備名,装備種1,装備種2,装備種3,装備種4,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,バージョン" );
+                        sw.WriteLine(LoadResources.getter("DialogAlbumMasterEquipment_4"));
 						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 26 ) ) );
 
 						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
@@ -407,8 +407,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 				} catch ( Exception ex ) {
 
-					Utility.ErrorReporter.SendErrorReport( ex, "装備図鑑 CSVの出力に失敗しました。" );
-					MessageBox.Show( "装備図鑑 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("DialogAlbumMasterEquipment_5"));
+                    MessageBox.Show(LoadResources.getter("DialogAlbumMasterEquipment_6") + ex.Message, LoadResources.getter("DialogAlbumMasterEquipment_7"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 
 			}
@@ -425,7 +425,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "装備ID,図鑑番号,装備名,装備種1,装備種2,装備種3,装備種4,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,バージョン" );
+                        sw.WriteLine(LoadResources.getter("DialogAlbumMasterEquipment_8"));
 						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 24 ) ) );
 
 						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
@@ -464,8 +464,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 				} catch ( Exception ex ) {
 
-					Utility.ErrorReporter.SendErrorReport( ex, "装備図鑑 CSVの出力に失敗しました。" );
-					MessageBox.Show( "装備図鑑 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("DialogAlbumMasterEquipment_9"));
+                    MessageBox.Show(LoadResources.getter("DialogAlbumMasterEquipment_10") + ex.Message, LoadResources.getter("DialogAlbumMasterEquipment_11"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 
 			}

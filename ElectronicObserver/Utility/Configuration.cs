@@ -143,8 +143,8 @@ namespace ElectronicObserver.Utility {
 
 				public ConfigUI() {
 					//*/
-					MainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
-					SubFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
+                    MainFont = new Font(LoadResources.getter("Configuration_Font"), 12, FontStyle.Regular, GraphicsUnit.Pixel);
+                    SubFont = new Font(LoadResources.getter("Configuration_Font"), 10, FontStyle.Regular, GraphicsUnit.Pixel);
 					//*/
 				}
 			}
@@ -736,8 +736,8 @@ namespace ElectronicObserver.Utility {
 			if ( temp != null )
 				_config = temp;
 			else {
-				MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " をご利用いただきありがとうございます。\r\n設定や使用方法については「ヘルプ」→「オンラインヘルプ」を参照してください。\r\nご使用の前に必ずご一読ください。",
-					"初回起動メッセージ", MessageBoxButtons.OK, MessageBoxIcon.Information );
+                MessageBox.Show(SoftwareInformation.SoftwareNameJapanese + LoadResources.getter("Configuration_1"),
+                     LoadResources.getter("Configuration_2"), MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 

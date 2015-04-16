@@ -96,7 +96,7 @@ namespace ElectronicObserver.Resource.Record {
 			public override void LoadLine( string line ) {
 
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 11 ) throw new ArgumentException( "要素数が少なすぎます。" );
+                if (elem.Length < 11) throw new ArgumentException(LoadResources.getter("ResourceRecord_1"));
 
 				Date = DateTimeHelper.CSVStringToTime( elem[0] );
 				Fuel = int.Parse( elem[1] );
@@ -207,7 +207,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		protected override string RecordHeader {
-			get { return "日時,燃料,弾薬,鋼材,ボーキ,高速建造材,高速修復材,開発資材,改修資材,司令部Lv,提督Exp"; }
+            get { return LoadResources.getter("ResourceRecord_2"); }
 		}
 
 		public override string FileName {

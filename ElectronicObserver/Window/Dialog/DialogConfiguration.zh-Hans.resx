@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Connection_UpstreamProxyPort.ToolTip" xml:space="preserve">
+    <value>指定其他工具或浏览器使用端口。</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Connection_UseUpstreamProxy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 19</value>
+  </data>
+  <data name="Connection_UseUpstreamProxy.Text" xml:space="preserve">
+    <value>上传使用的代理：</value>
+  </data>
+  <data name="Connection_UseUpstreamProxy.ToolTip" xml:space="preserve">
+    <value>与其他工具或浏览器协作使用。</value>
+  </data>
+  <data name="Connection_RegisterAsSystemProxy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 19</value>
+  </data>
+  <data name="Connection_RegisterAsSystemProxy.Text" xml:space="preserve">
+    <value>登记系统代理(暂)</value>
+  </data>
+  <data name="Connection_RegisterAsSystemProxy.ToolTip" xml:space="preserve">
+    <value>如果设置了系统代理，那么本程序能自动通信。
+不需要额外设置代理，要注意使用时的副作用。
+详细请参照在线帮助。</value>
+  </data>
+  <data name="Connection_OutputConnectionScript.Text" xml:space="preserve">
+    <value>输出自动设置代理脚本...</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 15</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>＊可以选择更大的尺寸。</value>
+  </data>
+  <data name="Connection_ApplyVersion.ToolTip" xml:space="preserve">
+    <value>提交的文件版本。</value>
+  </data>
+  <data name="Connection_SaveOtherFile.ToolTip" xml:space="preserve">
+    <value>保存其他通信文件。</value>
+  </data>
+  <data name="Connection_SaveSWF.ToolTip" xml:space="preserve">
+    <value>保存SWF文件。</value>
+  </data>
+  <data name="Connection_SaveResponse.ToolTip" xml:space="preserve">
+    <value>保存API的响应部分。</value>
+  </data>
+  <data name="Connection_SaveRequest.ToolTip" xml:space="preserve">
+    <value>保存API的请求部分。</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>保存至：</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 15</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>过滤器：</value>
+  </data>
+  <data name="Connection_SaveDataFilter.ToolTip" xml:space="preserve">
+    <value>＊未实装＊</value>
+  </data>
+  <data name="Connection_SaveReceivedData.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 19</value>
+  </data>
+  <data name="Connection_SaveReceivedData.Text" xml:space="preserve">
+    <value>保存通信内容</value>
+  </data>
+  <data name="Connection_Port.ToolTip" xml:space="preserve">
+    <value>设置端口号。</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 15</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>端口：</value>
+  </data>
+  <data name="UI_SubFontApply.ToolTip" xml:space="preserve">
+    <value>应用现在文本框中的内容。</value>
+  </data>
+  <data name="UI_MainFontApply.ToolTip" xml:space="preserve">
+    <value>应用现在文本框中的内容。</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 15</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>＊重启才会生效哟。</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 15</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>辅助字体：</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 15</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>主字体：</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 15</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>＊轻率的变更设定会使得记录不能被读取哟</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>文字编码：</value>
+  </data>
+  <data name="Log_FileEncodingID.ToolTip" xml:space="preserve">
+    <value>指定输入输出文件的编码。
+＊注意＊变更后以前的设定和记录将不可读入。
+变更时请多注意。</value>
+  </data>
+  <data name="Log_SaveErrorReport.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 19</value>
+  </data>
+  <data name="Log_SaveErrorReport.Text" xml:space="preserve">
+    <value>保存错误报告</value>
+  </data>
+  <data name="Log_SaveErrorReport.ToolTip" xml:space="preserve">
+    <value>错误发生时会记录残余数据。
+记录文件发送给开发者的话，能帮助修复BUG。
+将保存在默认文件夹中的ErrorReport文件夹内。</value>
+  </data>
+  <data name="Log_SaveLogFlag.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 19</value>
+  </data>
+  <data name="Log_SaveLogFlag.Text" xml:space="preserve">
+    <value>保存日志文件</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 15</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>日志的输出等级：</value>
+  </data>
+  <data name="tabPage3.Text" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 15</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>疲劳度界限：</value>
+  </data>
+  <data name="tabPage4.Text" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Debug_LoadAPIListOnLoad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 19</value>
+  </data>
+  <data name="Debug_LoadAPIListOnLoad.Text" xml:space="preserve">
+    <value>启动时加载API列表</value>
+  </data>
+  <data name="Debug_LoadAPIListOnLoad.ToolTip" xml:space="preserve">
+    <value>启动时，下列文本框中被选中的API列表将自动加载。
+API列表的格式和用法在线帮助请参照。</value>
+  </data>
+  <data name="Debug_EnableDebugMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 19</value>
+  </data>
+  <data name="Debug_EnableDebugMenu.Text" xml:space="preserve">
+    <value>开启调试菜单</value>
+  </data>
+  <data name="Debug_EnableDebugMenu.ToolTip" xml:space="preserve">
+    <value>开启主窗口的[调试]菜单。
+不推荐普通用户开启调试功能。
+无法保证操作时安全的，所以使用时要＊自己负责＊。</value>
+  </data>
+  <data name="tabPage5.Text" xml:space="preserve">
+    <value>调试</value>
+  </data>
+  <data name="Life_CheckUpdateInformation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 19</value>
+  </data>
+  <data name="Life_CheckUpdateInformation.Text" xml:space="preserve">
+    <value>更新时确认</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 15</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>配置文件：</value>
+  </data>
+  <data name="Life_TopMost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 19</value>
+  </data>
+  <data name="Life_TopMost.Text" xml:space="preserve">
+    <value>窗口置顶</value>
+  </data>
+  <data name="Life_ConfirmOnClosing.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 19</value>
+  </data>
+  <data name="Life_ConfirmOnClosing.Text" xml:space="preserve">
+    <value>退出时确认</value>
+  </data>
+  <data name="tabPage6.Text" xml:space="preserve">
+    <value>窗口</value>
+  </data>
+  <data name="FormFleet_ShowNextExp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 19</value>
+  </data>
+  <data name="FormFleet_ShowNextExp.Text" xml:space="preserve">
+    <value>显示next. </value>
+  </data>
+  <data name="FormFleet_ShowNextExp.ToolTip" xml:space="preserve">
+    <value>设置是否显示[到下一级需要的经验值]。
+不显示可节省空间。</value>
+  </data>
+  <data name="FormFleet_ShortenHPBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 19</value>
+  </data>
+  <data name="FormFleet_ShortenHPBar.Text" xml:space="preserve">
+    <value>HP条缩短</value>
+  </data>
+  <data name="FormFleet_ShortenHPBar.ToolTip" xml:space="preserve">
+    <value>HP条缩短以节省空间。</value>
+  </data>
+  <data name="FormFleet_FixShipNameWidth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 19</value>
+  </data>
+  <data name="FormFleet_FixShipNameWidth.Text" xml:space="preserve">
+    <value>舰名宽度固定</value>
+  </data>
+  <data name="FormFleet_FixShipNameWidth.ToolTip" xml:space="preserve">
+    <value>舰名宽度固定，以节省空间。
+截取那些有很长名字的舰娘名。</value>
+  </data>
+  <data name="FormFleet_IsScrollable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 19</value>
+  </data>
+  <data name="FormFleet_IsScrollable.Text" xml:space="preserve">
+    <value>显示滚动条</value>
+  </data>
+  <data name="FormFleet_IsScrollable.ToolTip" xml:space="preserve">
+    <value>使得超出显示区域时显示滚动条。
+不超出的时候不会显示。</value>
+  </data>
+  <data name="FormFleet_SearchingAbilityMethod.Items2" xml:space="preserve">
+    <value>2-5新秋简易公式</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 15</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>索敌力计算公式：</value>
+  </data>
+  <data name="FormFleet_ShowAircraft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 19</value>
+  </data>
+  <data name="FormFleet_ShowAircraft.Text" xml:space="preserve">
+    <value>显示舰载机数量</value>
+  </data>
+  <data name="tabPage8.Text" xml:space="preserve">
+    <value>舰队</value>
+  </data>
+  <data name="FormArsenal_ShowShipName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 19</value>
+  </data>
+  <data name="FormArsenal_ShowShipName.Text" xml:space="preserve">
+    <value>显示舰名</value>
+  </data>
+  <data name="tabPage9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>378, 199</value>
+  </data>
+  <data name="tabPage9.Text" xml:space="preserve">
+    <value>工厂</value>
+  </data>
+  <data name="FormQuest_ShowMonthly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="FormQuest_ShowMonthly.Text" xml:space="preserve">
+    <value>月常</value>
+  </data>
+  <data name="FormQuest_ShowWeekly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="FormQuest_ShowWeekly.Text" xml:space="preserve">
+    <value>周常</value>
+  </data>
+  <data name="FormQuest_ShowDaily.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="FormQuest_ShowDaily.Text" xml:space="preserve">
+    <value>日常</value>
+  </data>
+  <data name="FormQuest_ShowOnce.Size" type="System.Drawing.Size, System.Drawing">
+    <value>128, 19</value>
+  </data>
+  <data name="FormQuest_ShowOnce.Text" xml:space="preserve">
+    <value>只能完成一次・其他</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>过滤器</value>
+  </data>
+  <data name="FormQuest_ShowRunningOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 19</value>
+  </data>
+  <data name="FormQuest_ShowRunningOnly.Text" xml:space="preserve">
+    <value>显示正在进行中</value>
+  </data>
+  <data name="tabPage10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>378, 199</value>
+  </data>
+  <data name="tabPage10.Text" xml:space="preserve">
+    <value>任务</value>
+  </data>
+  <data name="FormShipGroup_ShowStatusBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 19</value>
+  </data>
+  <data name="FormShipGroup_ShowStatusBar.Text" xml:space="preserve">
+    <value>显示状态栏</value>
+  </data>
+  <data name="FormShipGroup_ShowStatusBar.ToolTip" xml:space="preserve">
+    <value>设置是否显示下部的状态栏（所属舰数量等）。
+选择只是显示行数会增加。</value>
+  </data>
+  <data name="FormShipGroup_AutoUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 19</value>
+  </data>
+  <data name="FormShipGroup_AutoUpdate.Text" xml:space="preserve">
+    <value>自动更新</value>
+  </data>
+  <data name="FormShipGroup_AutoUpdate.ToolTip" xml:space="preserve">
+    <value>设置是否自动更新舰船数据</value>
+  </data>
+  <data name="tabPage13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>378, 199</value>
+  </data>
+  <data name="tabPage13.Text" xml:space="preserve">
+    <value>编成</value>
+  </data>
+  <data name="FormBrowser_AppliesStyleSheet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 19</value>
+  </data>
+  <data name="FormBrowser_AppliesStyleSheet.Text" xml:space="preserve">
+    <value>应用样式</value>
+  </data>
+  <data name="FormBrowser_AppliesStyleSheet.ToolTip" xml:space="preserve">
+    <value>只会在艦これ的窗口中生效。
+如果显示效果混乱，清禁用此项。</value>
+  </data>
+  <data name="FormBrowser_ConfirmAtRefresh.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 19</value>
+  </data>
+  <data name="FormBrowser_ConfirmAtRefresh.Text" xml:space="preserve">
+    <value>重现加载时确认</value>
+  </data>
+  <data name="FormBrowser_ConfirmAtRefresh.ToolTip" xml:space="preserve">
+    <value>会显示确认对话框，并在确认的情况才会刷新。
+防止误操作。</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>保存至:</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>366, 105</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>截图</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 15</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>登陆URL:</value>
+  </data>
+  <data name="FormBrowser_IsEnabled.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 19</value>
+  </data>
+  <data name="FormBrowser_IsEnabled.Text" xml:space="preserve">
+    <value>启动时加载</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 15</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>缩放倍率：</value>
+  </data>
+  <data name="tabPage12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>378, 199</value>
+  </data>
+  <data name="tabPage12.Text" xml:space="preserve">
+    <value>浏览器</value>
+  </data>
+  <data name="tabPage7.Text" xml:space="preserve">
+    <value>辅助窗口</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 15</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>＊适用于每个对话框都点确认的情况</value>
+  </data>
+  <data name="Notification_Damage.Text" xml:space="preserve">
+    <value>设定大破进击时的通知...</value>
+  </data>
+  <data name="Notification_Condition.Text" xml:space="preserve">
+    <value>设定疲劳恢复后的通知...</value>
+  </data>
+  <data name="Notification_Repair.Text" xml:space="preserve">
+    <value>设定入渠结束后的通知...</value>
+  </data>
+  <data name="Notification_Construction.Text" xml:space="preserve">
+    <value>设定建造完成后的通知...</value>
+  </data>
+  <data name="Notification_Expedition.Text" xml:space="preserve">
+    <value>设定远征结束后的通知...</value>
+  </data>
+  <data name="ButtonCancel.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="FolderBrowser.Description" xml:space="preserve">
+    <value>参考文件夹</value>
+  </data>
+  <data name="LayoutFileBrowser.Title" xml:space="preserve">
+    <value>打开布局文件</value>
+  </data>
+  <data name="APIListBrowser.Title" xml:space="preserve">
+    <value>打开API列表</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+</root>

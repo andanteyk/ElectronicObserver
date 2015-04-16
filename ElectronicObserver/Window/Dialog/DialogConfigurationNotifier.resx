@@ -117,17 +117,1405 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="ToolTipText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>455, 17</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ImagePathSearch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="BackColorPreview.ToolTip" xml:space="preserve">
+    <value>通知ダイアログの背景色を指定します。
+このラベルの■に色プレビューが表示されます。
+</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="IsEnabled.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 19</value>
+  </data>
+  <data name="ForeColorSelect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="PlaysSound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="HasFormBorder.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="LocationY.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="ContainsNotLockedShip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 19</value>
+  </data>
+  <data name="DrawsMessage.ToolTip" xml:space="preserve">
+    <value>ダイアログ内に通知テキストを描画するかを設定します。
+画像のみで足りる場合は非表示にできます。</value>
+  </data>
+  <data name="ButtonOK.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;ContainsSafeShip.Name" xml:space="preserve">
+    <value>ContainsSafeShip</value>
+  </data>
+  <data name="&gt;&gt;ForeColorSelect.Name" xml:space="preserve">
+    <value>ForeColorSelect</value>
+  </data>
+  <data name="&gt;&gt;ForeColorPreview.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="label6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GroupDialog.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ImagePathSearch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LocationY.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="BackColorSelect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>470, 105</value>
+  </data>
+  <data name="&gt;&gt;HasFormBorder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ShowsDialog.Name" xml:space="preserve">
+    <value>ShowsDialog</value>
+  </data>
+  <data name="GroupDialog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>526, 141</value>
+  </data>
+  <data name="ShowWithActivation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 22</value>
+  </data>
+  <data name="&gt;&gt;ContainsNotLockedShip.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;DialogOpenSound.Name" xml:space="preserve">
+    <value>DialogOpenSound</value>
+  </data>
+  <data name="ButtonCancel.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>自動で閉じる：</value>
+  </data>
+  <data name="&gt;&gt;NotifiesAtEndpoint.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IsEnabled.Text" xml:space="preserve">
+    <value>通知を有効にする</value>
+  </data>
+  <data name="ForeColorSelect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 23</value>
+  </data>
+  <data name="ImagePathSearch.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="BackColorPreview.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="PlaysSound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 19</value>
+  </data>
+  <data name="GroupDamage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>526, 103</value>
+  </data>
+  <data name="&gt;&gt;LocationY.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ButtonOK.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ImagePathSearch.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;ButtonCancel.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;ContainsNotLockedShip.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="&gt;&gt;LevelBorder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="NotifiesNow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <data name="&gt;&gt;ButtonTest.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NotifiesNow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SoundPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="IsEnabled.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="HasFormBorder.ToolTip" xml:space="preserve">
+    <value>通知ダイアログのウィンドウ枠を表示するかを指定できます。
+画像のみで足りる場合は非表示にできます。</value>
+  </data>
+  <data name="&gt;&gt;NotifiesNow.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="&gt;&gt;PlaysSound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ShowWithActivation.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ButtonOK.Name" xml:space="preserve">
+    <value>ButtonOK</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>444, 52</value>
+  </data>
+  <data name="ShowWithActivation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LevelBorder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="&gt;&gt;GroupSound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ContainsNotLockedShip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>146, 22</value>
+  </data>
+  <data name="&gt;&gt;LevelBorder.Name" xml:space="preserve">
+    <value>LevelBorder</value>
+  </data>
+  <data name="&gt;&gt;HasFormBorder.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;AccelInterval.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>通知の設定</value>
+  </data>
+  <data name="ButtonCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ContainsSafeShip.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ShowsDialog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NotifiesBefore.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="BackColorSelect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="SoundPath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;AccelInterval.Name" xml:space="preserve">
+    <value>AccelInterval</value>
+  </data>
+  <data name="&gt;&gt;ImagePath.Name" xml:space="preserve">
+    <value>ImagePath</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>289, 48</value>
+  </data>
+  <data name="LocationX.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="NotifiesBefore.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;DialogColor.Name" xml:space="preserve">
+    <value>DialogColor</value>
+  </data>
+  <data name="GroupImage.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="DrawsImage.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ButtonOK.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;GroupSound.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ContainsNotLockedShip.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ShowWithActivation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 19</value>
+  </data>
+  <data name="ContainsNotLockedShip.Text" xml:space="preserve">
+    <value>非ロック艦を含める</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>550, 412</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>444, 23</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ForeColorPreview.ToolTip" xml:space="preserve">
+    <value>通知ダイアログの文字色を指定します。
+このラベルの■に色プレビューが表示されます。
+</value>
+  </data>
+  <data name="ForeColorPreview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 15</value>
+  </data>
+  <data name="GroupSound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 37</value>
+  </data>
+  <data name="ButtonCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>463, 377</value>
+  </data>
+  <data name="&gt;&gt;GroupImage.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;LocationX.Name" xml:space="preserve">
+    <value>LocationX</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="HasFormBorder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 19</value>
+  </data>
+  <data name="ButtonCancel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonTest.ToolTip" xml:space="preserve">
+    <value>通知のテスト再生を行います。
+設定が適用・保存されるため注意してください。</value>
+  </data>
+  <data name="&gt;&gt;Alignment.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;ButtonCancel.Name" xml:space="preserve">
+    <value>ButtonCancel</value>
+  </data>
+  <data name="&gt;&gt;NotifiesAtEndpoint.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Alignment.Items7" xml:space="preserve">
+    <value>左下</value>
+  </data>
+  <data name="&gt;&gt;ImagePathSearch.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ClosingInterval.ToolTip" xml:space="preserve">
+    <value>通知ダイアログを放置した時に自動で閉じるまでの時間を指定します。
+0秒を指定した場合は時間経過では閉じません。</value>
+  </data>
+  <data name="NotifiesBefore.Text" xml:space="preserve">
+    <value>事前通知を有効にする</value>
+  </data>
+  <data name="CloseOnMouseOver.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 19</value>
+  </data>
+  <data name="&gt;&gt;ShowWithActivation.Name" xml:space="preserve">
+    <value>ShowWithActivation</value>
+  </data>
+  <data name="ForeColorSelect.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="BackColorPreview.Text" xml:space="preserve">
+    <value>■背景色：</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="PlaysSound.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GroupDialog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CloseOnMouseOver.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>269, 23</value>
+  </data>
+  <data name="GroupImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 78</value>
+  </data>
+  <data name="&gt;&gt;SoundPath.Name" xml:space="preserve">
+    <value>SoundPath</value>
+  </data>
+  <data name="SoundPathSearch.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="&gt;&gt;ImagePath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ShowsDialog.Text" xml:space="preserve">
+    <value>有効にする</value>
+  </data>
+  <data name="IsEnabled.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;SoundPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="NotifiesAfter.Text" xml:space="preserve">
+    <value>事後通知を有効にする</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>配置：</value>
+  </data>
+  <data name="NotifiesAtEndpoint.ToolTip" xml:space="preserve">
+    <value>マップの最終セルでも通知するかを指定します。</value>
+  </data>
+  <data name="LocationY.ToolTip" xml:space="preserve">
+    <value>配置：手動設定時の出現座標を指定します。</value>
+  </data>
+  <data name="LocationX.ToolTip" xml:space="preserve">
+    <value>配置：手動設定時の出現座標を指定します。</value>
+  </data>
+  <data name="Alignment.ToolTip" xml:space="preserve">
+    <value>通知ダイアログの出現位置を設定します。</value>
+  </data>
+  <data name="PlaysSound.Text" xml:space="preserve">
+    <value>有効にする</value>
+  </data>
+  <data name="NotifiesAfter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 72</value>
+  </data>
+  <data name="&gt;&gt;GroupSound.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ButtonTest.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GroupImage.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 15</value>
+  </data>
+  <data name="ButtonTest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HasFormBorder.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CloseOnMouseOver.Location" type="System.Drawing.Point, System.Drawing">
+    <value>388, 77</value>
+  </data>
+  <data name="ContainsFlagship.Location" type="System.Drawing.Point, System.Drawing">
+    <value>146, 72</value>
+  </data>
+  <data name="LevelBorder.ToolTip" xml:space="preserve">
+    <value>通知する大破艦の最低Lvを指定します。
+これよりLvの低い艦は通知されないので注意してください。</value>
+  </data>
+  <data name="&gt;&gt;DialogOpenSound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ShowsDialog.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;NotifiesBefore.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="ContainsSafeShip.Text" xml:space="preserve">
+    <value>ダメコン装備艦を含める</value>
+  </data>
+  <data name="&gt;&gt;CloseOnMouseOver.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TopMostFlag.Name" xml:space="preserve">
+    <value>TopMostFlag</value>
+  </data>
+  <data name="&gt;&gt;SoundPathSearch.Name" xml:space="preserve">
+    <value>SoundPathSearch</value>
+  </data>
+  <data name="&gt;&gt;CloseOnMouseOver.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;BackColorSelect.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="NotifiesAfter.ToolTip" xml:space="preserve">
+    <value>大破進撃中に通知します。</value>
+  </data>
+  <data name="ButtonCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="ShowWithActivation.ToolTip" xml:space="preserve">
+    <value>表示時にダイアログをアクティブにします。
+無効にすると操作を妨げない代わりにダイアログが隠れやすくなります。</value>
+  </data>
+  <data name="Alignment.Items8" xml:space="preserve">
+    <value>下</value>
+  </data>
+  <data name="LocationY.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>座標：</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;SoundPath.Parent" xml:space="preserve">
+    <value>GroupSound</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;LevelBorder.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="&gt;&gt;DrawsImage.Parent" xml:space="preserve">
+    <value>GroupImage</value>
+  </data>
+  <data name="&gt;&gt;GroupDialog.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 15</value>
+  </data>
+  <data name="DrawsMessage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Alignment.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="DrawsMessage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 108</value>
+  </data>
+  <data name="&gt;&gt;PlaysSound.Parent" xml:space="preserve">
+    <value>GroupSound</value>
+  </data>
+  <data name="&gt;&gt;NotifiesAfter.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="BackColorSelect.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="HasFormBorder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 108</value>
+  </data>
+  <data name="&gt;&gt;DialogOpenImage.Name" xml:space="preserve">
+    <value>DialogOpenImage</value>
+  </data>
+  <data name="HasFormBorder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;ContainsFlagship.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;ForeColorSelect.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;ToolTipText.Name" xml:space="preserve">
+    <value>ToolTipText</value>
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CloseOnMouseOver.ToolTip" xml:space="preserve">
+    <value>通知ダイアログにマウスを乗せただけでも閉じるようにします。</value>
+  </data>
+  <data name="ShowWithActivation.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TopMostFlag.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NotifiesBefore.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LocationX.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="DrawsImage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="&gt;&gt;NotifiesAtEndpoint.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="ButtonTest.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ImagePathSearch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>222, 47</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="TopMostFlag.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;ForeColorSelect.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CloseOnMouseOver.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;DrawsMessage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="NotifiesBefore.ToolTip" xml:space="preserve">
+    <value>出撃前及び戦闘開始直後に通知します。</value>
+  </data>
+  <data name="DrawsImage.Text" xml:space="preserve">
+    <value>有効にする</value>
+  </data>
+  <data name="GroupDamage.Text" xml:space="preserve">
+    <value>大破警告</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ForeColorPreview.Text" xml:space="preserve">
+    <value>■前景色：</value>
+  </data>
+  <data name="&gt;&gt;ShowWithActivation.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;BackColorPreview.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;SoundPathSearch.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;AccelInterval.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 15</value>
+  </data>
+  <data name="ShowsDialog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="ForeColorSelect.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;GroupDamage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SoundPath.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Alignment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;IsEnabled.Name" xml:space="preserve">
+    <value>IsEnabled</value>
+  </data>
+  <data name="GroupSound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 78</value>
+  </data>
+  <data name="BackColorPreview.Location" type="System.Drawing.Point, System.Drawing">
+    <value>397, 109</value>
+  </data>
+  <data name="&gt;&gt;HasFormBorder.Name" xml:space="preserve">
+    <value>HasFormBorder</value>
+  </data>
+  <data name="DrawsMessage.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="ClosingInterval.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;IsEnabled.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;ContainsNotLockedShip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 15</value>
+  </data>
+  <data name="ClosingInterval.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ContainsFlagship.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="GroupDamage.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;ContainsNotLockedShip.Name" xml:space="preserve">
+    <value>ContainsNotLockedShip</value>
+  </data>
+  <data name="BackColorSelect.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DrawsImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 19</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 15</value>
+  </data>
+  <data name="HasFormBorder.Text" xml:space="preserve">
+    <value>窓枠を表示する</value>
+  </data>
+  <data name="AccelInterval.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="ImagePathSearch.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="&gt;&gt;ShowsDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ClosingInterval.Location" type="System.Drawing.Point, System.Drawing">
+    <value>358, 47</value>
+  </data>
+  <data name="GroupImage.Text" xml:space="preserve">
+    <value>通知画像</value>
+  </data>
+  <data name="ButtonTest.Text" xml:space="preserve">
+    <value>テスト</value>
+  </data>
+  <data name="ContainsSafeShip.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ContainsFlagship.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;DrawsImage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ButtonOK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="DialogOpenImage.Filter" xml:space="preserve">
+    <value>Image|*.bmp;*.div;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff|BMP|*.bmp;*.div|JPEG|*.jpg;*.jpeg;*.jpe;*.jfif|GIF|*.gif|PNG|*.png|TIFF|*.tif;*.tiff|File|*</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LocationX.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="ShowWithActivation.Text" xml:space="preserve">
+    <value>表示時にアクティベートする</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;TopMostFlag.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonOK.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="DrawsMessage.Text" xml:space="preserve">
+    <value>メッセージを表示する</value>
+  </data>
+  <data name="&gt;&gt;ShowsDialog.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="Alignment.Items10" xml:space="preserve">
+    <value>手動設定</value>
+  </data>
+  <data name="&gt;&gt;SoundPathSearch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ForeColorPreview.Location" type="System.Drawing.Point, System.Drawing">
+    <value>269, 109</value>
+  </data>
+  <data name="&gt;&gt;LocationY.Name" xml:space="preserve">
+    <value>LocationY</value>
+  </data>
+  <data name="&gt;&gt;LevelBorder.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;DrawsMessage.Name" xml:space="preserve">
+    <value>DrawsMessage</value>
+  </data>
+  <data name="&gt;&gt;ClosingInterval.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LocationY.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="LevelBorder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>351, 46</value>
+  </data>
+  <data name="&gt;&gt;SoundPath.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;ShowsDialog.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="ContainsSafeShip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>146, 47</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;AccelInterval.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="ImagePath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NotifiesNow.Text" xml:space="preserve">
+    <value>事中通知を有効にする</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>最低Lv：</value>
+  </data>
+  <data name="DrawsMessage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 19</value>
+  </data>
+  <data name="LocationX.Location" type="System.Drawing.Point, System.Drawing">
+    <value>55, 76</value>
+  </data>
+  <data name="&gt;&gt;DrawsImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ContainsNotLockedShip.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ForeColorSelect.ToolTip" xml:space="preserve">
+    <value>通知ダイアログの文字色を指定します。
+左側のラベルの■に色プレビューが表示されます。</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BackColorSelect.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="GroupImage.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;ForeColorPreview.Name" xml:space="preserve">
+    <value>ForeColorPreview</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 50</value>
+  </data>
+  <data name="IsEnabled.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;NotifiesBefore.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SoundPathSearch.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NotifiesNow.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;NotifiesAfter.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="ButtonOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;ForeColorSelect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;GroupSound.Name" xml:space="preserve">
+    <value>GroupSound</value>
+  </data>
+  <data name="NotifiesAtEndpoint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 19</value>
+  </data>
+  <data name="ContainsFlagship.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NotifiesAtEndpoint.Location" type="System.Drawing.Point, System.Drawing">
+    <value>292, 22</value>
+  </data>
+  <data name="NotifiesAtEndpoint.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NotifiesNow.ToolTip" xml:space="preserve">
+    <value>出撃前及び戦闘終了時に通知します。</value>
+  </data>
+  <data name="NotifiesAtEndpoint.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Alignment.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="TopMostFlag.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 19</value>
+  </data>
+  <data name="&gt;&gt;ShowWithActivation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;ButtonTest.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupDialog.Name" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>DialogConfigurationNotifier</value>
+  </data>
+  <data name="ForeColorPreview.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;NotifiesNow.Name" xml:space="preserve">
+    <value>NotifiesNow</value>
+  </data>
+  <data name="&gt;&gt;ContainsFlagship.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Meiryo UI, 12px</value>
+  </data>
+  <data name="BackColorPreview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 15</value>
+  </data>
+  <data name="&gt;&gt;NotifiesBefore.Name" xml:space="preserve">
+    <value>NotifiesBefore</value>
+  </data>
+  <data name="&gt;&gt;ContainsFlagship.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="&gt;&gt;ImagePath.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BackColorPreview.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NotifiesAtEndpoint.Text" xml:space="preserve">
+    <value>終点でも通知する</value>
+  </data>
+  <data name="&gt;&gt;BackColorPreview.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="ForeColorPreview.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;BackColorPreview.Name" xml:space="preserve">
+    <value>BackColorPreview</value>
+  </data>
+  <data name="AccelInterval.ToolTip" xml:space="preserve">
+    <value>通知を早める秒数を指定します。
+遠征・入渠を60秒早めるのがおすすめです。</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 15</value>
+  </data>
+  <data name="ContainsNotLockedShip.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;GroupDialog.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="AccelInterval.Location" type="System.Drawing.Point, System.Drawing">
+    <value>358, 18</value>
+  </data>
+  <data name="&gt;&gt;BackColorSelect.Name" xml:space="preserve">
+    <value>BackColorSelect</value>
+  </data>
+  <data name="DrawsImage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NotifiesAfter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 19</value>
+  </data>
+  <data name="&gt;&gt;ButtonOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 15</value>
+  </data>
+  <data name="&gt;&gt;CloseOnMouseOver.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;LocationY.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;ContainsSafeShip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Alignment.Name" xml:space="preserve">
+    <value>Alignment</value>
+  </data>
+  <data name="SoundPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 23</value>
+  </data>
+  <data name="&gt;&gt;ContainsSafeShip.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="DialogOpenSound.Title" xml:space="preserve">
+    <value>音声ファイルを開く</value>
+  </data>
+  <data name="ImagePathSearch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 23</value>
+  </data>
+  <data name="&gt;&gt;ClosingInterval.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="SoundPathSearch.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ImagePath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;TopMostFlag.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="ButtonOK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>通知を早める：</value>
+  </data>
+  <data name="&gt;&gt;GroupDamage.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="SoundPathSearch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;BackColorSelect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="DialogOpenSound.Filter" xml:space="preserve">
+    <value>Wave|*.wav|File|*</value>
+  </data>
+  <data name="GroupImage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>278, 37</value>
+  </data>
+  <data name="&gt;&gt;NotifiesBefore.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="NotifiesBefore.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 19</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="Alignment.Items1" xml:space="preserve">
+    <value>左上</value>
+  </data>
+  <data name="ContainsSafeShip.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;ImagePathSearch.Parent" xml:space="preserve">
+    <value>GroupImage</value>
+  </data>
+  <data name="&gt;&gt;ClosingInterval.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="&gt;&gt;ImagePathSearch.Name" xml:space="preserve">
+    <value>ImagePathSearch</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="&gt;&gt;DrawsImage.Name" xml:space="preserve">
+    <value>DrawsImage</value>
+  </data>
+  <data name="ContainsFlagship.Text" xml:space="preserve">
+    <value>旗艦を含める</value>
+  </data>
+  <data name="&gt;&gt;ButtonTest.Name" xml:space="preserve">
+    <value>ButtonTest</value>
+  </data>
+  <data name="&gt;&gt;DialogOpenImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ClosingInterval.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 23</value>
+  </data>
+  <data name="&gt;&gt;ImagePath.Parent" xml:space="preserve">
+    <value>GroupImage</value>
+  </data>
+  <data name="ContainsFlagship.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 19</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="BackColorSelect.ToolTip" xml:space="preserve">
+    <value>通知ダイアログの背景色を指定します。
+左側のラベルの■に色プレビューが表示されます。
+</value>
+  </data>
+  <data name="AccelInterval.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="PlaysSound.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="Alignment.Items2" xml:space="preserve">
+    <value>上</value>
+  </data>
+  <data name="&gt;&gt;ClosingInterval.Name" xml:space="preserve">
+    <value>ClosingInterval</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NotifiesNow.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ForeColorPreview.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="NotifiesAfter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SoundPathSearch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>222, 47</value>
+  </data>
+  <data name="GroupDialog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 121</value>
+  </data>
+  <data name="AccelInterval.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;IsEnabled.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ForeColorPreview.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="Alignment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 23</value>
+  </data>
+  <data name="BackColorSelect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 23</value>
+  </data>
+  <data name="&gt;&gt;SoundPathSearch.Parent" xml:space="preserve">
+    <value>GroupSound</value>
+  </data>
+  <data name="Alignment.Items3" xml:space="preserve">
+    <value>右上</value>
+  </data>
+  <data name="LevelBorder.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="ShowsDialog.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LocationX.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;ContainsFlagship.Name" xml:space="preserve">
+    <value>ContainsFlagship</value>
+  </data>
+  <data name="SoundPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <data name="&gt;&gt;PlaysSound.Name" xml:space="preserve">
+    <value>PlaysSound</value>
+  </data>
+  <data name="&gt;&gt;GroupDamage.Name" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DrawsImage.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;LocationX.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Alignment.Items9" xml:space="preserve">
+    <value>右下</value>
+  </data>
+  <data name="GroupDamage.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="GroupSound.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CloseOnMouseOver.Name" xml:space="preserve">
+    <value>CloseOnMouseOver</value>
+  </data>
+  <data name="Alignment.Items4" xml:space="preserve">
+    <value>左</value>
+  </data>
+  <data name="&gt;&gt;TopMostFlag.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="TopMostFlag.Text" xml:space="preserve">
+    <value>最前面に表示する</value>
+  </data>
+  <data name="LocationY.Location" type="System.Drawing.Point, System.Drawing">
+    <value>141, 76</value>
+  </data>
+  <data name="IsEnabled.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ShowsDialog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 19</value>
+  </data>
+  <data name="&gt;&gt;DrawsMessage.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="DialogOpenImage.Title" xml:space="preserve">
+    <value>画像ファイルを開く</value>
+  </data>
+  <data name="&gt;&gt;ContainsSafeShip.Parent" xml:space="preserve">
+    <value>GroupDamage</value>
+  </data>
+  <data name="LocationX.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;NotifiesAtEndpoint.Name" xml:space="preserve">
+    <value>NotifiesAtEndpoint</value>
+  </data>
+  <data name="TopMostFlag.Location" type="System.Drawing.Point, System.Drawing">
+    <value>268, 77</value>
+  </data>
+  <data name="GroupDamage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 268</value>
+  </data>
+  <data name="&gt;&gt;IsEnabled.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="Alignment.Items5" xml:space="preserve">
+    <value>中央</value>
+  </data>
+  <data name="&gt;&gt;DrawsMessage.Parent" xml:space="preserve">
+    <value>GroupDialog</value>
+  </data>
+  <data name="ButtonOK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>382, 377</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;DialogColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ImagePath.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;GroupDamage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="GroupDialog.Text" xml:space="preserve">
+    <value>通知ダイアログ</value>
+  </data>
+  <data name="Alignment.Items" xml:space="preserve">
+    <value>未指定</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 78</value>
+  </data>
+  <data name="ImagePath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 23</value>
+  </data>
+  <data name="&gt;&gt;NotifiesAfter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupImage.Name" xml:space="preserve">
+    <value>GroupImage</value>
+  </data>
+  <data name="&gt;&gt;GroupImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LevelBorder.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;NotifiesAfter.Name" xml:space="preserve">
+    <value>NotifiesAfter</value>
+  </data>
+  <data name="GroupSound.Text" xml:space="preserve">
+    <value>通知音</value>
+  </data>
+  <data name="&gt;&gt;BackColorPreview.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Alignment.Items6" xml:space="preserve">
+    <value>右</value>
+  </data>
+  <data name="&gt;&gt;ToolTipText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ForeColorSelect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 105</value>
+  </data>
+  <data name="NotifiesAfter.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;PlaysSound.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Alignment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>55, 47</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="ButtonCancel.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="TopMostFlag.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ImagePath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>269, 52</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="SoundPathSearch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 23</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="ContainsSafeShip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 19</value>
+  </data>
+  <data name="ButtonTest.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="&gt;&gt;ButtonCancel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="GroupSound.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CloseOnMouseOver.Text" xml:space="preserve">
+    <value>マウスオーバーで閉じる</value>
+  </data>
+  <data name="ButtonTest.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 377</value>
+  </data>
+  <data name="&gt;&gt;NotifiesNow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="NotifiesNow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 19</value>
+  </data>
+  <data name="PlaysSound.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-Hans</value>
   </metadata>
   <metadata name="ToolTipText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>455, 17</value>
   </metadata>
-  <metadata name="DialogColor.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
   <metadata name="DialogOpenSound.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>137, 17</value>
+  </metadata>
+  <metadata name="DialogColor.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
   <metadata name="DialogOpenImage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>296, 17</value>

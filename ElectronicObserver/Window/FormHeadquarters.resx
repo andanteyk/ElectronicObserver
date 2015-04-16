@@ -117,4 +117,592 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Bauxite.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 60</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="EquipmentCount.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;InstantConstruction.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;InstantConstruction.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ModdingMaterial.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;InstantRepair.Parent" xml:space="preserve">
+    <value>FlowPanelUseItem</value>
+  </data>
+  <data name="AdmiralComment.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;FurnitureCoin.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="Ammo.Text" xml:space="preserve">
+    <value>(弾薬)</value>
+  </data>
+  <data name="&gt;&gt;ShipCount.Name" xml:space="preserve">
+    <value>ShipCount</value>
+  </data>
+  <data name="&gt;&gt;AdmiralName.Parent" xml:space="preserve">
+    <value>FlowPanelAdmiral</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelMaster.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;AdmiralComment.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="EquipmentCount.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="&gt;&gt;ModdingMaterial.Parent" xml:space="preserve">
+    <value>FlowPanelUseItem</value>
+  </data>
+  <data name="&gt;&gt;HQLevel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="EquipmentCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 20</value>
+  </data>
+  <data name="DevelopmentMaterial.Text" xml:space="preserve">
+    <value>(開発)</value>
+  </data>
+  <data name="&gt;&gt;Ammo.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="FlowPanelFleet.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="&gt;&gt;AdmiralName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="FlowPanelResource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 80</value>
+  </data>
+  <data name="AdmiralComment.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;FurnitureCoin.Name" xml:space="preserve">
+    <value>FurnitureCoin</value>
+  </data>
+  <data name="&gt;&gt;InstantConstruction.Parent" xml:space="preserve">
+    <value>FlowPanelUseItem</value>
+  </data>
+  <data name="AdmiralName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 20</value>
+  </data>
+  <data name="&gt;&gt;ModdingMaterial.Name" xml:space="preserve">
+    <value>ModdingMaterial</value>
+  </data>
+  <data name="DevelopmentMaterial.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="&gt;&gt;Fuel.Parent" xml:space="preserve">
+    <value>FlowPanelResource</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelUseItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="FlowPanelMaster.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="ModdingMaterial.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="EquipmentCount.Text" xml:space="preserve">
+    <value>(装備数)</value>
+  </data>
+  <data name="AdmiralComment.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="ModdingMaterial.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="AdmiralName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelFleet.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Fuel.Text" xml:space="preserve">
+    <value>(燃料)</value>
+  </data>
+  <data name="DevelopmentMaterial.Location" type="System.Drawing.Point, System.Drawing">
+    <value>123, 0</value>
+  </data>
+  <data name="HQLevel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 20</value>
+  </data>
+  <data name="Steel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;HQLevel.Name" xml:space="preserve">
+    <value>HQLevel</value>
+  </data>
+  <data name="FlowPanelUseItem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 40</value>
+  </data>
+  <data name="&gt;&gt;ModdingMaterial.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelFleet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Fuel.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Fuel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;ShipCount.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ShipCount.Parent" xml:space="preserve">
+    <value>FlowPanelFleet</value>
+  </data>
+  <data name="AdmiralName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelAdmiral.Parent" xml:space="preserve">
+    <value>FlowPanelMaster</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelAdmiral.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ShipCount.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="InstantConstruction.Location" type="System.Drawing.Point, System.Drawing">
+    <value>63, 0</value>
+  </data>
+  <data name="&gt;&gt;InstantRepair.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="FurnitureCoin.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="HQLevel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="Bauxite.Text" xml:space="preserve">
+    <value>(軽銀)</value>
+  </data>
+  <data name="FlowPanelAdmiral.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="FurnitureCoin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="InstantConstruction.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;EquipmentCount.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="HQLevel.Text" xml:space="preserve">
+    <value>HQ Lv.</value>
+  </data>
+  <data name="FlowPanelUseItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 20</value>
+  </data>
+  <data name="AdmiralComment.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Ammo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 20</value>
+  </data>
+  <data name="&gt;&gt;HQLevel.Parent" xml:space="preserve">
+    <value>FlowPanelMaster</value>
+  </data>
+  <data name="&gt;&gt;Ammo.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;AdmiralComment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Fuel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelMaster.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="FlowPanelResource.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="Steel.Text" xml:space="preserve">
+    <value>(鋼材)</value>
+  </data>
+  <data name="AdmiralComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 20</value>
+  </data>
+  <data name="DevelopmentMaterial.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="Bauxite.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="ShipCount.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormHeadquarters</value>
+  </data>
+  <data name="ModdingMaterial.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 0</value>
+  </data>
+  <data name="DevelopmentMaterial.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;ModdingMaterial.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="ShipCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 20</value>
+  </data>
+  <data name="&gt;&gt;Bauxite.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;FurnitureCoin.Parent" xml:space="preserve">
+    <value>FlowPanelUseItem</value>
+  </data>
+  <data name="&gt;&gt;Fuel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="FlowPanelResource.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Ammo.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="FlowPanelMaster.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="Ammo.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="FlowPanelMaster.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 200</value>
+  </data>
+  <data name="Fuel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="FurnitureCoin.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="&gt;&gt;Steel.Name" xml:space="preserve">
+    <value>Steel</value>
+  </data>
+  <data name="FlowPanelAdmiral.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="FlowPanelFleet.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="FurnitureCoin.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="DevelopmentMaterial.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="AdmiralComment.Text" xml:space="preserve">
+    <value>(提督コメント)</value>
+  </data>
+  <data name="&gt;&gt;FurnitureCoin.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Ammo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="Steel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 40</value>
+  </data>
+  <data name="&gt;&gt;ShipCount.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="FlowPanelAdmiral.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 20</value>
+  </data>
+  <data name="FurnitureCoin.Text" xml:space="preserve">
+    <value>(家具)</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelUseItem.Name" xml:space="preserve">
+    <value>FlowPanelUseItem</value>
+  </data>
+  <data name="HQLevel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelFleet.Parent" xml:space="preserve">
+    <value>FlowPanelMaster</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelResource.Name" xml:space="preserve">
+    <value>FlowPanelResource</value>
+  </data>
+  <data name="&gt;&gt;DevelopmentMaterial.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Meiryo UI, 12px</value>
+  </data>
+  <data name="&gt;&gt;AdmiralName.Name" xml:space="preserve">
+    <value>AdmiralName</value>
+  </data>
+  <data name="&gt;&gt;Steel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="AdmiralName.Text" xml:space="preserve">
+    <value>(提督名)</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>司令部</value>
+  </data>
+  <data name="ShipCount.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="AdmiralComment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>62, 0</value>
+  </data>
+  <data name="&gt;&gt;DevelopmentMaterial.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelResource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AdmiralComment.Parent" xml:space="preserve">
+    <value>FlowPanelAdmiral</value>
+  </data>
+  <data name="InstantRepair.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="Steel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="InstantRepair.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="HQLevel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 0</value>
+  </data>
+  <data name="FlowPanelResource.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="InstantConstruction.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="InstantConstruction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="&gt;&gt;Bauxite.Name" xml:space="preserve">
+    <value>Bauxite</value>
+  </data>
+  <data name="FlowPanelUseItem.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelAdmiral.Name" xml:space="preserve">
+    <value>FlowPanelAdmiral</value>
+  </data>
+  <data name="&gt;&gt;Ammo.Name" xml:space="preserve">
+    <value>Ammo</value>
+  </data>
+  <data name="&gt;&gt;InstantRepair.Name" xml:space="preserve">
+    <value>InstantRepair</value>
+  </data>
+  <data name="Steel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="&gt;&gt;Ammo.Parent" xml:space="preserve">
+    <value>FlowPanelResource</value>
+  </data>
+  <data name="InstantRepair.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>WeifenLuo.WinFormsUI.Docking.DockContent, WeifenLuo.WinFormsUI.Docking, Version=2.9.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481</value>
+  </data>
+  <data name="&gt;&gt;HQLevel.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ShipStatusLevel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="ModdingMaterial.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;InstantConstruction.Name" xml:space="preserve">
+    <value>InstantConstruction</value>
+  </data>
+  <data name="EquipmentCount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 0</value>
+  </data>
+  <data name="Bauxite.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;DevelopmentMaterial.Parent" xml:space="preserve">
+    <value>FlowPanelUseItem</value>
+  </data>
+  <data name="&gt;&gt;Steel.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Bauxite.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="Steel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelAdmiral.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EquipmentCount.Name" xml:space="preserve">
+    <value>EquipmentCount</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelResource.Parent" xml:space="preserve">
+    <value>FlowPanelMaster</value>
+  </data>
+  <data name="AdmiralName.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelResource.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelUseItem.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Bauxite.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;AdmiralName.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="FlowPanelResource.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="FlowPanelUseItem.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Ammo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="FlowPanelFleet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 20</value>
+  </data>
+  <data name="Fuel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="FlowPanelAdmiral.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="InstantRepair.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelUseItem.Parent" xml:space="preserve">
+    <value>FlowPanelMaster</value>
+  </data>
+  <data name="&gt;&gt;EquipmentCount.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;Bauxite.Parent" xml:space="preserve">
+    <value>FlowPanelResource</value>
+  </data>
+  <data name="AdmiralName.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>300, 200</value>
+  </data>
+  <data name="InstantRepair.Text" xml:space="preserve">
+    <value>(修復)</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelFleet.Name" xml:space="preserve">
+    <value>FlowPanelFleet</value>
+  </data>
+  <data name="&gt;&gt;InstantRepair.Type" xml:space="preserve">
+    <value>ElectronicObserver.Window.Control.ImageLabel, ElectronicObserver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="ShipCount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="&gt;&gt;DevelopmentMaterial.Name" xml:space="preserve">
+    <value>DevelopmentMaterial</value>
+  </data>
+  <data name="FurnitureCoin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>243, 0</value>
+  </data>
+  <data name="InstantConstruction.Text" xml:space="preserve">
+    <value>(建造)</value>
+  </data>
+  <data name="FlowPanelResource.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 60</value>
+  </data>
+  <data name="&gt;&gt;Fuel.Name" xml:space="preserve">
+    <value>Fuel</value>
+  </data>
+  <data name="FlowPanelFleet.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 20</value>
+  </data>
+  <data name="FlowPanelAdmiral.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="ModdingMaterial.Text" xml:space="preserve">
+    <value>(改修)</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelMaster.Name" xml:space="preserve">
+    <value>FlowPanelMaster</value>
+  </data>
+  <data name="&gt;&gt;Steel.Parent" xml:space="preserve">
+    <value>FlowPanelResource</value>
+  </data>
+  <data name="FlowPanelFleet.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;AdmiralComment.Name" xml:space="preserve">
+    <value>AdmiralComment</value>
+  </data>
+  <data name="FlowPanelUseItem.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="&gt;&gt;FlowPanelMaster.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="InstantRepair.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;EquipmentCount.Parent" xml:space="preserve">
+    <value>FlowPanelFleet</value>
+  </data>
+  <data name="HQLevel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ShipCount.Text" xml:space="preserve">
+    <value>(艦船数)</value>
+  </data>
+  <data name="FlowPanelMaster.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="FlowPanelMaster.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="Bauxite.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="AdmiralName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="EquipmentCount.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="InstantConstruction.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="Fuel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-Hans</value>
+  </metadata>
 </root>

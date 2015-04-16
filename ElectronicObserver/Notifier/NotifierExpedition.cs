@@ -29,7 +29,7 @@ namespace ElectronicObserver.Notifier {
 
 
 		private void Initialize() {
-			DialogData.Title = "遠征帰投";
+            DialogData.Title = LoadResources.getter("NotifierExpedition_1");
 			processedFlags = new Dictionary<int, bool>();
 		}
 
@@ -59,7 +59,7 @@ namespace ElectronicObserver.Notifier {
 
 		public void Notify( int fleetID, int destination ) {
 
-			DialogData.Message = string.Format( "#{0} 「{1}」が遠征「{2}: {3}」から帰投しました。",
+            DialogData.Message = string.Format(LoadResources.getter("NotifierExpedition_2"),
 				fleetID, KCDatabase.Instance.Fleet[fleetID].Name, destination, KCDatabase.Instance.Mission[destination].Name );
 
 			base.Notify();

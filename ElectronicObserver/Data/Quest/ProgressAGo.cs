@@ -209,7 +209,7 @@ namespace ElectronicObserver.Data.Quest {
 
 
 		public override string ToString() {
-			return string.Format( "{0:p1} (出撃 {1}/{2}, S勝利 {3}/{4}, ボス {5}/{6}, ボス勝利 {7}/{8})",
+            return string.Format(LoadResources.getter("ProgressAGo_1"),
 				ProgressPercentage,
 				sortieCount, sortieMax,
 				sWinCount, sWinMax,

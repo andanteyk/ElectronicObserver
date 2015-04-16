@@ -61,12 +61,12 @@ namespace ElectronicObserver.Resource.Record {
 
 			} catch ( FileNotFoundException ) {
 
-				Utility.Logger.Add( 1, "レコード " + path + " は存在しません。" );
+                Utility.Logger.Add(1, LoadResources.getter("RecordBase_1") + path + LoadResources.getter("RecordBase_2"));
 
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の読み込みに失敗しました。" );
+                Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("RecordBase_1") + path + LoadResources.getter("RecordBase_3"));
 
 			}
 
@@ -98,7 +98,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の書き込みに失敗しました。" );
+                Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("RecordBase_1") + path + LoadResources.getter("RecordBase_4"));
 			
 			}
 

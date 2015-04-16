@@ -110,7 +110,7 @@ namespace ElectronicObserver.Notifier {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "通知システム: 通知音 {0} のロードに失敗しました。", path ) );
+                Utility.ErrorReporter.SendErrorReport(ex, string.Format(LoadResources.getter("api_req_map_start_1"), path));
 				DisposeSound();
 
 			}
@@ -130,7 +130,7 @@ namespace ElectronicObserver.Notifier {
 
 			} catch ( Exception ex ) {
 
-				Utility.Logger.Add( 3, "通知システム: 通知音の再生に失敗しました。" + ex.Message );
+                Utility.Logger.Add(3, LoadResources.getter("NotifierBase_1") + ex.Message);
 			}
 		}
 

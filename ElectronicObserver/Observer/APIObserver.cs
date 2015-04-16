@@ -122,12 +122,12 @@ namespace ElectronicObserver.Observer {
 			*/
 			ProxyStarted();
 
-			Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
+            Utility.Logger.Add(2, string.Format(LoadResources.getter("APIObserver_1"), Fiddler.FiddlerApplication.oProxy.ListenPort));
 
 
 			//checkme: 一応警告をつけてみる
 			if ( portID != Fiddler.FiddlerApplication.oProxy.ListenPort ) {
-				Utility.Logger.Add( 3, "APIObserver: 実際に受信を開始したポート番号が指定されたポート番号とは異なります。" );
+                Utility.Logger.Add(3, LoadResources.getter("APIObserver_2"));
 			}
 
 			return Fiddler.FiddlerApplication.oProxy.ListenPort;
@@ -142,7 +142,7 @@ namespace ElectronicObserver.Observer {
 			Fiddler.URLMonInterop.ResetProxyInProcessToDefault();
 			Fiddler.FiddlerApplication.Shutdown();
 
-			Utility.Logger.Add( 2, "APIObserver: 受信を停止しました。" );
+            Utility.Logger.Add(2, LoadResources.getter("APIObserver_3"));
 		}
 
 
@@ -216,11 +216,11 @@ namespace ElectronicObserver.Observer {
 										}
 									}
 
-									Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath.Remove( 0, saveDataPath.Length + 1 ) ) );
+                                    Utility.Logger.Add(1, string.Format(LoadResources.getter("APIObserver_4"), tpath.Remove(0, saveDataPath.Length + 1)));
 
 								} catch ( IOException ex ) {	//ファイルがロックされている; 頻繁に出るのでエラーレポートを残さない
 
-									Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
+                                    Utility.Logger.Add(3, LoadResources.getter("APIObserver_5") + ex.Message);
 								}
 							} ) );
 
@@ -228,7 +228,7 @@ namespace ElectronicObserver.Observer {
 
 					} catch ( Exception ex ) {
 
-						Utility.ErrorReporter.SendErrorReport( ex, "通信内容の保存に失敗しました。" );
+                        Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("APIObserver_5"));
 					}
 
 				}
@@ -303,7 +303,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				Utility.Logger.Add( 1, "Request を受信しました : " + shortpath );
+                Utility.Logger.Add(1, LoadResources.getter("APIObserver_6") + shortpath);
 
 				SystemEvents.UpdateTimerEnabled = false;
 
@@ -322,7 +322,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				ErrorReporter.SendErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
+                ErrorReporter.SendErrorReport(ex, LoadResources.getter("APIObserver_7"), shortpath, data);
 
 			} finally {
 
@@ -339,7 +339,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				Utility.Logger.Add( 1, "Responseを受信しました : " + shortpath );
+                Utility.Logger.Add(1, LoadResources.getter("APIObserver_8") + shortpath);
 
 				SystemEvents.UpdateTimerEnabled = false;
 
@@ -348,8 +348,8 @@ namespace ElectronicObserver.Observer {
 
 				if ( (int)json.api_result != 1 ) {
 
-					var ex = new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
-					Utility.ErrorReporter.SendErrorReport( ex, "エラーコードを含むメッセージを受信しました。" );
+                    var ex = new ArgumentException(LoadResources.getter("APIObserver_9"));
+                    Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("APIObserver_9"));
 					throw ex;
 				}
 
@@ -364,7 +364,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				ErrorReporter.SendErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
+                ErrorReporter.SendErrorReport(ex, LoadResources.getter("APIObserver_10"), shortpath, data);
 
 			} finally {
 
@@ -388,7 +388,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "Requestの保存に失敗しました。" );
+                Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("APIObserver_11"));
 
 			}
 		}
@@ -406,7 +406,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "Responseの保存に失敗しました。" );
+                Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("APIObserver_12"));
 
 			}
 

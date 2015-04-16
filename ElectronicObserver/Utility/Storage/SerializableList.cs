@@ -61,7 +61,7 @@ namespace ElectronicObserver.Utility.Storage {
 			} catch ( Exception ex ) {
 
 				if ( !suppressError )
-					Utility.ErrorReporter.SendErrorReport( ex, "SerializableList: StringToList に失敗しました。" );
+                    Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("SerializableList_1"));
 			}
 
 			return null;
@@ -77,7 +77,7 @@ namespace ElectronicObserver.Utility.Storage {
 			} catch ( Exception ex ) {
 
 				if ( !suppressError )
-					Utility.ErrorReporter.SendErrorReport( ex, "SerializableList: ListToString に失敗しました。" );
+                    Utility.ErrorReporter.SendErrorReport(ex, LoadResources.getter("SerializableList_1"));
 			}
 
 			return "";
