@@ -22,7 +22,7 @@ namespace ElectronicObserver.Window.Integrate {
 	public partial class FormIntegrate : DockContent {
 
 		public readonly static String PREFIX = "FormIntegrated_";
-		
+
 		[DataContract( Name = "MatchControl" )]
 		public enum MatchControl {
 			[EnumMember]
@@ -69,10 +69,10 @@ namespace ElectronicObserver.Window.Integrate {
 
 			[DataMember]
 			public String CurrentTitle { get; set; }
-			
+
 			[DataMember]
 			public MatchString Title { get; set; }
-			
+
 			[DataMember]
 			public MatchString ClassName { get; set; }
 
@@ -138,7 +138,7 @@ namespace ElectronicObserver.Window.Integrate {
 
 			this.parent = parent;
 
-			windowCaptureButton.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration];
+			windowCaptureButton.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormWindowCapture];
 
 			titleComboBox.Items.AddRange( MATCH_COMBO_ITEMS );
 			classNameComboBox.Items.AddRange( MATCH_COMBO_ITEMS );
@@ -146,7 +146,14 @@ namespace ElectronicObserver.Window.Integrate {
 
 			TabPageContextMenuStrip = tabContextMenu;
 
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+			ConfigurationChanged();
+
 			parent.WindowCapture.AddCapturedWindow( this );
+		}
+
+		void ConfigurationChanged() {
+			Font = Utility.Configuration.Config.UI.MainFont;
 		}
 
 		/// <summary>
@@ -188,11 +195,10 @@ namespace ElectronicObserver.Window.Integrate {
 				WinAPI.GetWindowText( hWnd, windowText, windowText.Capacity );
 				uint processId;
 				WinAPI.GetWindowThreadProcessId( hWnd, out processId );
-				if ( info.ClassName.Match(className.ToString()) &&
+				if ( info.ClassName.Match( className.ToString() ) &&
 					info.Title.Match( windowText.ToString() ) &&
 					WinAPI.IsWindowVisible( hWnd ) &&
-					processId != currentProcessId )
-				{
+					processId != currentProcessId ) {
 					String fileName = GetMainModuleFilepath( (int)processId );
 					if ( info.ProcessFilePath.Match( fileName ) ) {
 						result = hWnd;
@@ -225,18 +231,18 @@ namespace ElectronicObserver.Window.Integrate {
 		private static WindowInfo WindowInfoFromHandle( IntPtr hWnd ) {
 			WindowInfo info = new WindowInfo();
 			StringBuilder sb = new StringBuilder( 256 );
-			
+
 			WinAPI.GetClassName( hWnd, sb, sb.Capacity );
-			info.ClassName = new MatchString(sb.ToString(), MatchControl.Exact);
-			
+			info.ClassName = new MatchString( sb.ToString(), MatchControl.Exact );
+
 			WinAPI.GetWindowText( hWnd, sb, sb.Capacity );
-			info.Title = new MatchString(sb.ToString(), MatchControl.Exact);
-			
+			info.Title = new MatchString( sb.ToString(), MatchControl.Exact );
+
 			uint processId;
 			WinAPI.GetWindowThreadProcessId( hWnd, out processId );
 			String fileName = GetMainModuleFilepath( (int)processId );
 			info.ProcessFilePath = new MatchString( fileName, MatchControl.Exact );
-			
+
 			info.CurrentTitle = info.Title.Name;
 
 			return info;
@@ -343,6 +349,7 @@ namespace ElectronicObserver.Window.Integrate {
 
 		private void FormIntegrated_FormClosing( object sender, FormClosingEventArgs e ) {
 			InternalDetach();
+			Utility.Configuration.Instance.ConfigurationChanged -= ConfigurationChanged;
 		}
 
 		private void FormIntegrated_Resize( object sender, EventArgs e ) {
@@ -368,11 +375,10 @@ namespace ElectronicObserver.Window.Integrate {
 			StringBuilder stringBuilder = new StringBuilder( capacity );
 			WinAPI.GetWindowText( hWnd, stringBuilder, stringBuilder.Capacity );
 
-			var result = MessageBox.Show( stringBuilder.ToString() + "\r\n" + 
-				FormWindowCapture.WARNING_MESSAGE,
-				SoftwareInformation.SoftwareNameJapanese, MessageBoxButtons.YesNoCancel );
+			if ( MessageBox.Show( stringBuilder.ToString() + "\r\n" + FormWindowCapture.WARNING_MESSAGE,
+				"ウィンドウキャプチャの確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question )
+				== System.Windows.Forms.DialogResult.Yes ) {
 
-			if ( result == System.Windows.Forms.DialogResult.Yes ) {
 				Attach( hWnd, false );
 				WindowData = WindowInfoFromHandle( hWnd );
 			}

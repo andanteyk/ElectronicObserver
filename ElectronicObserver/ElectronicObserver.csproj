@@ -220,7 +220,6 @@
     <Compile Include="Utility\Storage\SerializableList.cs" />
     <Compile Include="Utility\SystemEvents.cs" />
     <Compile Include="Utility\WinAPI.cs" />
-    <Compile Include="Utility\WindowHelper.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -475,6 +474,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\StatusBar.resx">
       <DependentUpon>StatusBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Control\WindowCaptureButton.resx">
+      <DependentUpon>WindowCaptureButton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterEquipment.resx">
       <DependentUpon>DialogAlbumMasterEquipment.cs</DependentUpon>

@@ -34,134 +34,151 @@
 			this.classNameComboBox = new System.Windows.Forms.ComboBox();
 			this.fileNameComboBox = new System.Windows.Forms.ComboBox();
 			this.settingPanel = new System.Windows.Forms.Panel();
-			this.label1 = new System.Windows.Forms.Label();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.windowCaptureButton = new ElectronicObserver.Window.Control.WindowCaptureButton();
 			this.infoLabel = new System.Windows.Forms.Label();
 			this.integrateButton = new System.Windows.Forms.Button();
 			this.tabContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.StripMenu_Detach = new System.Windows.Forms.ToolStripMenuItem();
-			this.windowCaptureButton = new ElectronicObserver.Window.Control.WindowCaptureButton();
 			this.settingPanel.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.tabContextMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// labelTitle
 			// 
 			this.labelTitle.AutoSize = true;
-			this.labelTitle.Location = new System.Drawing.Point(5, 54);
+			this.labelTitle.Location = new System.Drawing.Point(6, 25);
 			this.labelTitle.Name = "labelTitle";
-			this.labelTitle.Size = new System.Drawing.Size(40, 12);
+			this.labelTitle.Size = new System.Drawing.Size(42, 15);
 			this.labelTitle.TabIndex = 0;
 			this.labelTitle.Text = "タイトル";
 			// 
 			// labelClassName
 			// 
 			this.labelClassName.AutoSize = true;
-			this.labelClassName.Location = new System.Drawing.Point(4, 78);
+			this.labelClassName.Location = new System.Drawing.Point(6, 54);
 			this.labelClassName.Name = "labelClassName";
-			this.labelClassName.Size = new System.Drawing.Size(42, 12);
-			this.labelClassName.TabIndex = 1;
+			this.labelClassName.Size = new System.Drawing.Size(44, 15);
+			this.labelClassName.TabIndex = 3;
 			this.labelClassName.Text = "クラス名";
 			// 
 			// labelFileName
 			// 
 			this.labelFileName.AutoSize = true;
-			this.labelFileName.Location = new System.Drawing.Point(6, 104);
+			this.labelFileName.Location = new System.Drawing.Point(6, 83);
 			this.labelFileName.Name = "labelFileName";
-			this.labelFileName.Size = new System.Drawing.Size(38, 12);
-			this.labelFileName.TabIndex = 2;
+			this.labelFileName.Size = new System.Drawing.Size(41, 15);
+			this.labelFileName.TabIndex = 6;
 			this.labelFileName.Text = "EXE名";
 			// 
 			// titleTextBox
 			// 
 			this.titleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.titleTextBox.Location = new System.Drawing.Point(51, 51);
+			this.titleTextBox.Location = new System.Drawing.Point(56, 22);
 			this.titleTextBox.Name = "titleTextBox";
-			this.titleTextBox.Size = new System.Drawing.Size(157, 19);
-			this.titleTextBox.TabIndex = 3;
+			this.titleTextBox.Size = new System.Drawing.Size(92, 23);
+			this.titleTextBox.TabIndex = 1;
 			// 
 			// classNameTextBox
 			// 
 			this.classNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.classNameTextBox.Location = new System.Drawing.Point(51, 76);
+			this.classNameTextBox.Location = new System.Drawing.Point(56, 51);
 			this.classNameTextBox.Name = "classNameTextBox";
-			this.classNameTextBox.Size = new System.Drawing.Size(157, 19);
+			this.classNameTextBox.Size = new System.Drawing.Size(92, 23);
 			this.classNameTextBox.TabIndex = 4;
 			// 
 			// fileNameTextBox
 			// 
 			this.fileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.fileNameTextBox.Location = new System.Drawing.Point(51, 101);
+			this.fileNameTextBox.Location = new System.Drawing.Point(56, 80);
 			this.fileNameTextBox.Name = "fileNameTextBox";
-			this.fileNameTextBox.Size = new System.Drawing.Size(157, 19);
-			this.fileNameTextBox.TabIndex = 5;
+			this.fileNameTextBox.Size = new System.Drawing.Size(92, 23);
+			this.fileNameTextBox.TabIndex = 7;
 			// 
 			// titleComboBox
 			// 
 			this.titleComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.titleComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.titleComboBox.FormattingEnabled = true;
-			this.titleComboBox.Location = new System.Drawing.Point(214, 50);
+			this.titleComboBox.Location = new System.Drawing.Point(154, 22);
 			this.titleComboBox.Name = "titleComboBox";
-			this.titleComboBox.Size = new System.Drawing.Size(67, 20);
-			this.titleComboBox.TabIndex = 6;
+			this.titleComboBox.Size = new System.Drawing.Size(100, 23);
+			this.titleComboBox.TabIndex = 2;
 			// 
 			// classNameComboBox
 			// 
 			this.classNameComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.classNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.classNameComboBox.FormattingEnabled = true;
-			this.classNameComboBox.Location = new System.Drawing.Point(214, 75);
+			this.classNameComboBox.Location = new System.Drawing.Point(154, 51);
 			this.classNameComboBox.Name = "classNameComboBox";
-			this.classNameComboBox.Size = new System.Drawing.Size(67, 20);
-			this.classNameComboBox.TabIndex = 7;
+			this.classNameComboBox.Size = new System.Drawing.Size(100, 23);
+			this.classNameComboBox.TabIndex = 5;
 			// 
 			// fileNameComboBox
 			// 
 			this.fileNameComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.fileNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.fileNameComboBox.FormattingEnabled = true;
-			this.fileNameComboBox.Location = new System.Drawing.Point(214, 100);
+			this.fileNameComboBox.Location = new System.Drawing.Point(154, 80);
 			this.fileNameComboBox.Name = "fileNameComboBox";
-			this.fileNameComboBox.Size = new System.Drawing.Size(67, 20);
+			this.fileNameComboBox.Size = new System.Drawing.Size(100, 23);
 			this.fileNameComboBox.TabIndex = 8;
 			// 
 			// settingPanel
 			// 
+			this.settingPanel.Controls.Add(this.groupBox1);
 			this.settingPanel.Controls.Add(this.windowCaptureButton);
-			this.settingPanel.Controls.Add(this.label1);
 			this.settingPanel.Controls.Add(this.infoLabel);
 			this.settingPanel.Controls.Add(this.integrateButton);
-			this.settingPanel.Controls.Add(this.titleTextBox);
-			this.settingPanel.Controls.Add(this.fileNameComboBox);
-			this.settingPanel.Controls.Add(this.labelTitle);
-			this.settingPanel.Controls.Add(this.classNameComboBox);
-			this.settingPanel.Controls.Add(this.labelClassName);
-			this.settingPanel.Controls.Add(this.titleComboBox);
-			this.settingPanel.Controls.Add(this.labelFileName);
-			this.settingPanel.Controls.Add(this.fileNameTextBox);
-			this.settingPanel.Controls.Add(this.classNameTextBox);
 			this.settingPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.settingPanel.Location = new System.Drawing.Point(0, 0);
 			this.settingPanel.Name = "settingPanel";
 			this.settingPanel.Size = new System.Drawing.Size(284, 261);
-			this.settingPanel.TabIndex = 9;
+			this.settingPanel.TabIndex = 0;
 			// 
-			// label1
+			// groupBox1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 36);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(96, 12);
-			this.label1.TabIndex = 12;
-			this.label1.Text = "ウィンドウ検索設定";
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Controls.Add(this.titleComboBox);
+			this.groupBox1.Controls.Add(this.classNameComboBox);
+			this.groupBox1.Controls.Add(this.fileNameComboBox);
+			this.groupBox1.Controls.Add(this.titleTextBox);
+			this.groupBox1.Controls.Add(this.classNameTextBox);
+			this.groupBox1.Controls.Add(this.labelFileName);
+			this.groupBox1.Controls.Add(this.labelClassName);
+			this.groupBox1.Controls.Add(this.labelTitle);
+			this.groupBox1.Controls.Add(this.fileNameTextBox);
+			this.groupBox1.Location = new System.Drawing.Point(12, 39);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(260, 119);
+			this.groupBox1.TabIndex = 3;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "ウィンドウ検索設定";
+			// 
+			// windowCaptureButton
+			// 
+			this.windowCaptureButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.windowCaptureButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.windowCaptureButton.Location = new System.Drawing.Point(245, 12);
+			this.windowCaptureButton.Name = "windowCaptureButton";
+			this.windowCaptureButton.Size = new System.Drawing.Size(27, 27);
+			this.windowCaptureButton.TabIndex = 2;
+			this.windowCaptureButton.UseVisualStyleBackColor = true;
+			this.windowCaptureButton.WindowCaptured += new ElectronicObserver.Window.Control.WindowCaptureButton.WindowCapturedDelegate(this.windowCaptureButton_WindowCaptured);
 			// 
 			// infoLabel
 			// 
 			this.infoLabel.AutoSize = true;
 			this.infoLabel.Location = new System.Drawing.Point(89, 12);
 			this.infoLabel.Name = "infoLabel";
-			this.infoLabel.Size = new System.Drawing.Size(47, 12);
-			this.infoLabel.TabIndex = 11;
+			this.infoLabel.Size = new System.Drawing.Size(55, 15);
+			this.infoLabel.TabIndex = 1;
 			this.infoLabel.Text = "起動中...";
 			// 
 			// integrateButton
@@ -169,7 +186,7 @@
 			this.integrateButton.Location = new System.Drawing.Point(8, 7);
 			this.integrateButton.Name = "integrateButton";
 			this.integrateButton.Size = new System.Drawing.Size(75, 23);
-			this.integrateButton.TabIndex = 10;
+			this.integrateButton.TabIndex = 0;
 			this.integrateButton.Text = "取り込む";
 			this.integrateButton.UseVisualStyleBackColor = true;
 			this.integrateButton.Click += new System.EventHandler(this.integrateButton_Click);
@@ -179,36 +196,31 @@
 			this.tabContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_Detach});
 			this.tabContextMenu.Name = "tabContextMenu";
-			this.tabContextMenu.Size = new System.Drawing.Size(153, 48);
+			this.tabContextMenu.Size = new System.Drawing.Size(161, 26);
 			// 
 			// StripMenu_Detach
 			// 
 			this.StripMenu_Detach.Enabled = false;
 			this.StripMenu_Detach.Name = "StripMenu_Detach";
-			this.StripMenu_Detach.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Detach.Size = new System.Drawing.Size(160, 22);
 			this.StripMenu_Detach.Text = "ウィンドウ開放";
 			this.StripMenu_Detach.Click += new System.EventHandler(this.StripMenu_Detach_Click);
 			// 
-			// windowCaptureButton
+			// FormIntegrate
 			// 
-			this.windowCaptureButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.windowCaptureButton.Location = new System.Drawing.Point(248, 4);
-			this.windowCaptureButton.Name = "windowCaptureButton";
-			this.windowCaptureButton.Size = new System.Drawing.Size(33, 29);
-			this.windowCaptureButton.TabIndex = 9;
-			this.windowCaptureButton.UseVisualStyleBackColor = true;
-			this.windowCaptureButton.WindowCaptured += new ElectronicObserver.Window.Control.WindowCaptureButton.WindowCapturedDelegate(this.windowCaptureButton_WindowCaptured);
-			// 
-			// FormIntegrated
-			// 
+			this.AutoHidePortion = 150D;
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(284, 261);
 			this.Controls.Add(this.settingPanel);
-			this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Name = "FormIntegrated";
+			this.DoubleBuffered = true;
+			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Name = "FormIntegrate";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIntegrated_FormClosing);
 			this.Resize += new System.EventHandler(this.FormIntegrated_Resize);
 			this.settingPanel.ResumeLayout(false);
 			this.settingPanel.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.tabContextMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -231,6 +243,6 @@
 		private System.Windows.Forms.Label infoLabel;
 		private System.Windows.Forms.ContextMenuStrip tabContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Detach;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.GroupBox groupBox1;
 	}
 }

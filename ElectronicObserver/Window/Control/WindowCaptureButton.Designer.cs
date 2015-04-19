@@ -23,7 +23,13 @@
 		/// コード エディターで変更しないでください。
 		/// </summary>
 		private void InitializeComponent() {
-			components = new System.ComponentModel.Container();
+			this.SuspendLayout();
+			// 
+			// WindowCaptureButton
+			// 
+			this.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.ResumeLayout(false);
+
 		}
 
 		#endregion

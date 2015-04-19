@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Utility {
-	
+
 	public static class WinAPI {
 
 		[DllImport( "user32.dll", SetLastError = true )]

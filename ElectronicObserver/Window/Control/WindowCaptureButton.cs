@@ -21,7 +21,7 @@ namespace ElectronicObserver.Window.Control {
 
 		private bool selectingWindow = false;
 		private IntPtr currentCandidate;
-		
+
 		public delegate void WindowCapturedDelegate( IntPtr hWnd );
 		public event WindowCapturedDelegate WindowCaptured = delegate { };
 

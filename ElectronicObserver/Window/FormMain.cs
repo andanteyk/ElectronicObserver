@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
-			
+
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
@@ -967,7 +967,7 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_WindowCapture_DetachAll_Click( object sender, EventArgs e ) {
 			fWindowCapture.DetachAll();
 		}
-		
+
 
 		#region フォーム表示
 
@@ -1039,4 +1039,5 @@ namespace ElectronicObserver.Window {
 
 
 
-	}}
+	}
+}

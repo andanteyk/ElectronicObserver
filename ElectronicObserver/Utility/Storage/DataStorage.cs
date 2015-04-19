@@ -83,7 +83,7 @@ namespace ElectronicObserver.Utility.Storage {
 
 				Utility.Logger.Add( 3, string.Format( "DataStorage {0} は存在しません。", path ) );
 
-			} catch( DirectoryNotFoundException ) {
+			} catch ( DirectoryNotFoundException ) {
 
 				Utility.Logger.Add( 3, string.Format( "DataStorage {0} は存在しません。", path ) );
 
@@ -110,7 +110,7 @@ namespace ElectronicObserver.Utility.Storage {
 				xmlsetting.Indent = true;
 				xmlsetting.IndentChars = "\t";
 				xmlsetting.NewLineHandling = NewLineHandling.Replace;
-				
+
 				using ( XmlWriter xw = XmlWriter.Create( stream, xmlsetting ) ) {
 
 					serializer.WriteObject( xw, this );

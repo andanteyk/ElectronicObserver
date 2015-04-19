@@ -23,8 +23,19 @@
 		/// コード エディターで変更しないでください。
 		/// </summary>
 		private void InitializeComponent() {
+			this.label1 = new System.Windows.Forms.Label();
 			this.windowCaptureButton = new ElectronicObserver.Window.Control.WindowCaptureButton();
 			this.SuspendLayout();
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.Location = new System.Drawing.Point(45, 9);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(243, 50);
+			this.label1.TabIndex = 1;
+			this.label1.Text = "取り込みたいウィンドウへボタンをドラッグ＆ドロップしてください。";
 			// 
 			// windowCaptureButton
 			// 
@@ -40,6 +51,7 @@
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(300, 200);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.windowCaptureButton);
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(128)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -53,6 +65,7 @@
 		#endregion
 
 		private Control.WindowCaptureButton windowCaptureButton;
+		private System.Windows.Forms.Label label1;
 
 	}
 }

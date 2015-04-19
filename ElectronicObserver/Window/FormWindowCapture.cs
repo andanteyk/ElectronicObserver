@@ -20,9 +20,8 @@ namespace ElectronicObserver.Window {
 
 		public static readonly String WARNING_MESSAGE = 
 				"このウィンドウをキャプチャします。よろしいですか？\r\n\r\n" +
-				"注意: 取り込んでも安全なウィンドウだけ取り込んでください。\r\n" +
-				"非対応ウィンドウを取り込むとシステムが不安定になる恐れがあります。\r\n" +
-				"（取り込んでも安全かどうかは取り込んでみないと分かりませんが・・・）";
+				"注意: ウィンドウによっては正常に取り込めず、不安定になる可能性があります。\r\n" +
+				"データを保存する・母港に戻るなど、安全を確保してから実行してください。\r\n";
 
 		private FormMain parent;
 
@@ -32,8 +31,8 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 			this.parent = parent;
-			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
-			this.windowCaptureButton.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration];
+			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormWindowCapture] );
+			this.windowCaptureButton.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormWindowCapture];
 
 			SystemEvents.SystemShuttingDown += SystemEvents_SystemShuttingDown;
 		}
@@ -81,10 +80,10 @@ namespace ElectronicObserver.Window {
 			StringBuilder stringBuilder = new StringBuilder( capacity );
 			WinAPI.GetWindowText( hWnd, stringBuilder, stringBuilder.Capacity );
 
-			var result = MessageBox.Show( stringBuilder.ToString() + "\r\n" + WARNING_MESSAGE,
-				SoftwareInformation.SoftwareNameJapanese, MessageBoxButtons.YesNoCancel);
+			if ( MessageBox.Show( stringBuilder.ToString() + "\r\n" + WARNING_MESSAGE,
+				"ウィンドウキャプチャの確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question )
+				== System.Windows.Forms.DialogResult.Yes ) {
 
-			if ( result == System.Windows.Forms.DialogResult.Yes ) {
 				FormIntegrate form = new FormIntegrate( parent );
 				form.Show( hWnd );
 			}
