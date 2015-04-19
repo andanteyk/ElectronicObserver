@@ -70,6 +70,7 @@ namespace ElectronicObserver.Resource {
 			FormAlbumEquipment,
 			FormConfiguration,
 			FormEquipmentList,
+			FormWindowCapture,
 			FleetNoShip,
 			FleetDocking,
 			FleetSortieDamaged,
@@ -242,6 +243,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AlbumEquipment.png", "Form_AlbumEquipment" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Configuration.png", "Form_Configuration" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/EquipmentList.png", "Form_EquipmentList" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/WindowCapture.png", "Form_WindowCapture" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NoShip.png", "Fleet_NoShip" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Docking.png", "Fleet_Docking" );
@@ -266,7 +268,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Refresh.png", "Browser_Refresh" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Navigate.png", "Browser_Navigate" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Browser/Other.png", "Browser_Other" );
-					
+
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Black.png", "Rarity_Black" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/Red.png", "Rarity_Red" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Rarity/BlueC.png", "Rarity_BlueC" );
@@ -358,11 +360,11 @@ namespace ElectronicObserver.Resource {
 
 					bmp.Dispose();
 					bmp = CreateBlankImage();
-					
-				} 
-				
+
+				}
+
 				imglist.Images.Add( name, bmp );
-			
+
 
 			} catch ( Exception ) {
 

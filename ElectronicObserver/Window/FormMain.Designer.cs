@@ -73,6 +73,10 @@
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Browser = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_Log = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_WindowCapture = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_WindowCapture_SubWindow = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_WindowCapture_AttachAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_WindowCapture_DetachAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Browser = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Browser_ScreenShot = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
@@ -248,7 +252,8 @@
             this.StripMenu_View_Battle,
             this.toolStripSeparator4,
             this.StripMenu_View_Browser,
-            this.StripMenu_View_Log});
+            this.StripMenu_View_Log,
+            this.StripMenu_WindowCapture});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(62, 22);
 			this.StripMenu_View.Text = "表示(&V)";
@@ -388,6 +393,37 @@
 			this.StripMenu_View_Log.Size = new System.Drawing.Size(167, 22);
 			this.StripMenu_View_Log.Text = "ログ(&L)";
 			this.StripMenu_View_Log.Click += new System.EventHandler(this.StripMenu_View_Log_Click);
+			// 
+			// StripMenu_WindowCapture
+			// 
+			this.StripMenu_WindowCapture.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripMenu_WindowCapture_SubWindow,
+            this.StripMenu_WindowCapture_AttachAll,
+            this.StripMenu_WindowCapture_DetachAll});
+			this.StripMenu_WindowCapture.Name = "StripMenu_WindowCapture";
+			this.StripMenu_WindowCapture.Size = new System.Drawing.Size(160, 22);
+			this.StripMenu_WindowCapture.Text = "ウィンドウキャプチャ";
+			// 
+			// StripMenu_WindowCapture_SubWindow
+			// 
+			this.StripMenu_WindowCapture_SubWindow.Name = "StripMenu_WindowCapture_SubWindow";
+			this.StripMenu_WindowCapture_SubWindow.Size = new System.Drawing.Size(191, 22);
+			this.StripMenu_WindowCapture_SubWindow.Text = "コントロールウィンドウ";
+			this.StripMenu_WindowCapture_SubWindow.Click += new System.EventHandler(this.StripMenu_WindowCapture_SubWindow_Click);
+			// 
+			// StripMenu_WindowCapture_AttachAll
+			// 
+			this.StripMenu_WindowCapture_AttachAll.Name = "StripMenu_WindowCapture_AttachAll";
+			this.StripMenu_WindowCapture_AttachAll.Size = new System.Drawing.Size(191, 22);
+			this.StripMenu_WindowCapture_AttachAll.Text = "全て再検索して取り込む";
+			this.StripMenu_WindowCapture_AttachAll.Click += new System.EventHandler(this.StripMenu_WindowCapture_AttachAll_Click);
+			// 
+			// StripMenu_WindowCapture_DetachAll
+			// 
+			this.StripMenu_WindowCapture_DetachAll.Name = "StripMenu_WindowCapture_DetachAll";
+			this.StripMenu_WindowCapture_DetachAll.Size = new System.Drawing.Size(191, 22);
+			this.StripMenu_WindowCapture_DetachAll.Text = "全てのウィンドウを開放";
+			this.StripMenu_WindowCapture_DetachAll.Click += new System.EventHandler(this.StripMenu_WindowCapture_DetachAll_Click);
 			// 
 			// StripMenu_Browser
 			// 
@@ -907,6 +943,9 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_NavigateToLogInPage;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Navigate;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_AppliesStyleSheet;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_WindowCapture;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_WindowCapture_SubWindow;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_WindowCapture_AttachAll;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_WindowCapture_DetachAll;
 	}
 }
-
