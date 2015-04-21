@@ -221,7 +221,7 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>ユーザーが設定した座標に配置されます。</summary>
 		Custom,
 
-		/// <summary>ユーザーが設定した座標に配置されます(ブラウザウィンドウの左上を中心とする相対座標)。</summary>
+		/// <summary>ユーザーが設定した座標に配置されます(ブラウザウィンドウの中心を原点とする相対座標)。</summary>
 		CustomRelative,
 	}
 

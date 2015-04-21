@@ -232,6 +232,10 @@ namespace ElectronicObserver.Resource.Record {
 		protected override bool IsAppend { get { return true; } }
 
 
+		public override bool Load( string path ) {
+			return true;
+		}
+
 		public override bool Save( string path ) {
 			bool ret = base.Save( path );
 

@@ -9,8 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Resource.Record {
-	
-	//undone
+
+	/// <summary>
+	/// 資源のレコードを保持します。
+	/// </summary>
 	public class ResourceRecord : RecordBase {
 
 		public class ResourceElement : RecordElementBase {
@@ -76,8 +78,8 @@ namespace ElectronicObserver.Resource.Record {
 				Date = DateTime.Now;
 			}
 
-			public ResourceElement( string line ) 
-			 : base( line ){}
+			public ResourceElement( string line )
+				: base( line ) { }
 
 			public ResourceElement( int fuel, int ammo, int steel, int bauxite, int instantConstruction, int instantRepair, int developmentMaterial, int moddingMaterial, int hqLevel, int hqExp )
 				: this() {
@@ -108,7 +110,7 @@ namespace ElectronicObserver.Resource.Record {
 				DevelopmentMaterial = int.Parse( elem[7] );
 				ModdingMaterial = int.Parse( elem[8] );
 				HQLevel = int.Parse( elem[9] );
-				HQExp = int.Parse( elem[10] );		
+				HQExp = int.Parse( elem[10] );
 
 			}
 
@@ -132,25 +134,34 @@ namespace ElectronicObserver.Resource.Record {
 
 		public List<ResourceElement> Record { get; private set; }
 		private DateTime _prevTime;
+		private bool _initialFlag;
 
 		public ResourceRecord()
 			: base() {
 
 			Record = new List<ResourceElement>();
 			_prevTime = DateTime.Now;
+			_initialFlag = false;
 
-			APIObserver.Instance.APIList["api_port/port"].ResponseReceived += ResourceRecord_ResponseReceived;
+			APIObserver.Instance.APIList["api_start2"].ResponseReceived += ResourceRecord_Started;
+			APIObserver.Instance.APIList["api_port/port"].ResponseReceived += ResourceRecord_Updated;
 		}
 
 
-		void ResourceRecord_ResponseReceived( string apiname, dynamic data ) {
+		private void ResourceRecord_Started( string apiname, dynamic data ) {
+			_initialFlag = true;
+		}
 
-			if ( DateTimeHelper.IsCrossedHour( _prevTime ) ) {
+
+		void ResourceRecord_Updated( string apiname, dynamic data ) {
+
+			if ( _initialFlag || DateTimeHelper.IsCrossedHour( _prevTime ) ) {
 				_prevTime = DateTime.Now;
+				_initialFlag = false;
 
 				var material = KCDatabase.Instance.Material;
 				var admiral = KCDatabase.Instance.Admiral;
-				Record.Add( new ResourceElement( 
+				Record.Add( new ResourceElement(
 					material.Fuel,
 					material.Ammo,
 					material.Steel,
@@ -169,6 +180,70 @@ namespace ElectronicObserver.Resource.Record {
 			get { return Record[i]; }
 			set { Record[i] = value; }
 		}
+
+
+		/// <summary>
+		/// 指定した日時以降の最も古い記録を返します。
+		/// </summary>
+		public ResourceElement GetRecord( DateTime target ) {
+
+			int i;
+			for ( i = Record.Count - 1; i >= 0; i-- ) {
+				if ( Record[i].Date < target )
+					break;
+			}
+
+			if ( 0 <= i && i < Record.Count ) {
+				return Record[i];
+			} else {
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// 前回の戦果更新以降の最も古い記録を返します。
+		/// </summary>
+		public ResourceElement GetRecordPrevious() {
+
+			DateTime now = DateTime.Now;
+			DateTime target;
+			if ( now.TimeOfDay.Hours < 2 ) {
+				target = new DateTime( now.Year, now.Month, now.Day - 1, 14, 0, 0 );
+			} else if ( now.TimeOfDay.Hours < 14 ) {
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 );
+			} else {
+				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 );
+			}
+
+			return GetRecord( target );
+		}
+
+		/// <summary>
+		/// 今日の戦果更新以降の最も古い記録を返します。
+		/// </summary>
+		public ResourceElement GetRecordDay() {
+
+			DateTime now = DateTime.Now;
+			DateTime target;
+			if ( now.TimeOfDay.Hours < 2 ) {
+				target = new DateTime( now.Year, now.Month, now.Day - 1, 2, 0, 0 );
+			} else {
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 );
+			}
+
+			return GetRecord( target );
+		}
+
+		/// <summary>
+		/// 今月の戦果更新以降の最も古い記録を返します。
+		/// </summary>
+		public ResourceElement GetRecordMonth() {
+			DateTime now = DateTime.Now;
+
+			return GetRecord( new DateTime( now.Year, now.Month, 1 ) );
+		}
+
+
 
 
 		protected override void LoadLine( string line ) {
@@ -194,16 +269,17 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Clear();
 		}
 
-		protected override bool IsAppend { get { return true; } }
+		//protected override bool IsAppend { get { return true; } }
 
 
+		/*/
 		public override bool Save( string path ) {
 			bool ret = base.Save( path );
 
 			Record.Clear();
 			return ret;
 		}
-
+		//*/
 
 
 		protected override string RecordHeader {

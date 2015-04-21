@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Notifier {
-	
+
 	/// <summary>
 	/// 通知を扱います。
 	/// </summary>
@@ -64,7 +64,7 @@ namespace ElectronicObserver.Notifier {
 
 			Initialize();
 			DialogData = new NotifierDialogData();
-			
+
 		}
 
 		public NotifierBase( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
@@ -85,11 +85,11 @@ namespace ElectronicObserver.Notifier {
 
 			SystemEvents.UpdateTimerTick += UpdateTimerTick;
 			Sound = null;
-			SoundPath = "";	
+			SoundPath = "";
 		}
 
 
-		protected virtual void UpdateTimerTick() {}
+		protected virtual void UpdateTimerTick() { }
 
 
 		#region 通知音
@@ -163,7 +163,9 @@ namespace ElectronicObserver.Notifier {
 		/// 通知を行います。
 		/// </summary>
 		public virtual void Notify() {
-	
+
+			if ( !IsEnabled ) return;
+
 			ShowDialog();
 			PlaySound();
 

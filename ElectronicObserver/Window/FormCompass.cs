@@ -91,10 +91,11 @@ namespace ElectronicObserver.Window {
 
 
 			public void Update( int shipID ) {
-				Update( shipID, shipID != -1 ? KCDatabase.Instance.MasterShips[shipID].DefaultSlot.ToArray() : null );
+				var slot = shipID != -1 ? KCDatabase.Instance.MasterShips[shipID].DefaultSlot : null;
+				Update( shipID, slot != null ? slot.ToArray() : null );
 			}
 
-			//fixme: slotがnullだと間違いなく死ぬ
+
 			public void Update( int shipID, int[] slot ) {
 
 				ShipName.Tag = shipID;
@@ -146,9 +147,9 @@ namespace ElectronicObserver.Window {
 				if ( ship == null ) return null;
 
 				return GetShipString( shipID, slot, -1, ship.HPMin, ship.FirepowerMax, ship.TorpedoMax, ship.AAMax, ship.ArmorMax,
-					 ship.ASW != null && !ship.ASW.IsMaximumDefault ? ship.ASW.Maximum : -1,
-					 ship.Evasion != null && !ship.Evasion.IsMaximumDefault ? ship.Evasion.Maximum : -1,
-					 ship.LOS != null && !ship.LOS.IsMaximumDefault ? ship.LOS.Maximum : -1,
+					 ship.ASW != null && !ship.ASW.IsMaximumDefault ? ship.ASW.Maximum : 0,
+					 ship.Evasion != null && !ship.Evasion.IsMaximumDefault ? ship.Evasion.Maximum : 0,
+					 ship.LOS != null && !ship.LOS.IsMaximumDefault ? ship.LOS.Maximum : 0,
 					 ship.LuckMin );
 			}
 
@@ -157,9 +158,9 @@ namespace ElectronicObserver.Window {
 				if ( ship == null ) return null;
 
 				return GetShipString( shipID, slot, level, level > 99 ? ship.HPMaxMarried : ship.HPMin, firepower, torpedo, aa, armor,
-					ship.ASW != null && ship.ASW.IsAvailable ? ship.ASW.GetParameter( level ) : -1,
-					ship.Evasion != null && ship.Evasion.IsAvailable ? ship.Evasion.GetParameter( level ) : -1,
-					ship.LOS != null && ship.LOS.IsAvailable ? ship.LOS.GetParameter( level ) : -1,
+					ship.ASW != null && ship.ASW.IsAvailable ? ship.ASW.GetParameter( level ) : 0,
+					ship.Evasion != null && ship.Evasion.IsAvailable ? ship.Evasion.GetParameter( level ) : 0,
+					ship.LOS != null && ship.LOS.IsAvailable ? ship.LOS.GetParameter( level ) : 0,
 					level > 99 ? Math.Min( ship.LuckMin + 3, ship.LuckMax ) : ship.LuckMin );
 			}
 
@@ -355,7 +356,7 @@ namespace ElectronicObserver.Window {
 				TextMapArea.Text = "演習";
 				TextDestination.Text = string.Format( "{0} {1}", data.api_nickname, Constants.GetAdmiralRank( (int)data.api_rank ) );
 				TextEventKind.Text = data.api_cmt;
-				TextEventKind.ForeColor = SystemColors.ControlText;
+				TextEventKind.ForeColor = getColorFromEventKind( 0 );
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
 				TextEnemyFleetName.Text = data.api_deckname;
 
@@ -374,7 +375,21 @@ namespace ElectronicObserver.Window {
 				if ( compass.LaunchedRecon != 0 ) {
 					TextDestination.ImageAlign = ContentAlignment.MiddleRight;
 					TextDestination.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
-					ToolTipInfo.SetToolTip( TextDestination, "索敵機発艦！" );
+
+					string tiptext;
+					switch ( compass.CommentID ) {
+						case 1:
+							tiptext = "敵艦隊発見！";
+							break;
+						case 2:
+							tiptext = "攻撃目標発見！";
+							break;
+						default:
+							tiptext = "索敵機発艦！";
+							break;
+					}
+					ToolTipInfo.SetToolTip( TextDestination, tiptext );
+
 				} else {
 					TextDestination.ImageAlign = ContentAlignment.MiddleCenter;
 					TextDestination.ImageIndex = -1;
@@ -382,7 +397,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				TextEventKind.ForeColor = SystemColors.ControlText;
+				TextEventKind.ForeColor = getColorFromEventKind( 0 );
 
 				{
 					string eventkind = Constants.GetMapEventID( compass.EventID );
