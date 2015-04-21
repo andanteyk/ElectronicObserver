@@ -749,6 +749,25 @@ namespace ElectronicObserver.Window {
 
 			}
 
+            // 「現在の艦隊を追加」コンテキストメニュー
+            {
+                int groupID = (int)SelectedTab.Tag;
+                // 艦隊がロード済み && 選択中のタブが全所属艦以外の場合にEnabled
+                MenuMember_AddCurrentFleet_Group.Enabled = (KCDatabase.Instance.Fleet.Fleets.Count > 0) && (groupID >= 0);
+                if (MenuMember_AddCurrentFleet_Group.Enabled)
+                {
+                    MenuMember_AddCurrentFleet_Group.DropDownItems.Clear();
+                    foreach (FleetData fleet in KCDatabase.Instance.Fleet.Fleets.Values)
+                    {
+                        var newItem = new ToolStripMenuItem();
+                        newItem.Name = "MenuMember_AddCurrentFleetChild_" + fleet.FleetID.ToString();
+                        newItem.Text = String.Format("#&{0} {1}", fleet.FleetID, fleet.Name);
+                        newItem.Tag = fleet.FleetID;
+                        newItem.Click += MenuMember_AddCurrentFleetChild_Click;
+                        MenuMember_AddCurrentFleet_Group.DropDownItems.Add(newItem);
+                    }
+                }
+            }
 		}
 		#endregion
 
@@ -1140,6 +1159,48 @@ namespace ElectronicObserver.Window {
 			ShipView_Name.Frozen = flag == true;
 
 		}
+
+
+        /// <summary>
+        /// 現在の艦隊を表示中のグループに追加する。
+        /// 「このグループに現在の艦隊を追加」の子項目をクリックした時に実行。
+        /// </summary>
+        /// <param name="sender">追加する艦隊。senderのTagに艦隊IDを格納すること。</param>
+        /// <param name="e"></param>
+        private void MenuMember_AddCurrentFleetChild_Click(object sender, EventArgs e)
+        {
+            if (SelectedTab == null)
+                return;
+
+            int fleetID = (int)((ToolStripItem)sender).Tag;
+            FleetData fleet = KCDatabase.Instance.Fleet[fleetID];
+
+            // 選択中の行・スクロール位置の保存
+            List<int> selectedRows = new List<int>();
+            foreach (DataGridViewRow row in ShipView.SelectedRows)
+            {
+                selectedRows.Add(row.Index);
+            }
+            int dispRowIndex = ShipView.FirstDisplayedScrollingRowIndex;
+
+            // ShipViewの再構築
+            int groupID = (int)SelectedTab.Tag;
+            ShipGroupData group = KCDatabase.Instance.ShipGroup[groupID];
+            List<int> fleetShipList = fleet.Members.Where((id) => id >= 0).ToList();
+            ApplyGroupData(SelectedTab);
+            group.Members.AddRange(fleetShipList);
+            group.CheckMembers();
+            BuildShipView(SelectedTab);
+
+            // 選択行・スクロール位置の復元
+            if (dispRowIndex >= 0)
+                ShipView.FirstDisplayedScrollingRowIndex = dispRowIndex;
+            ShipView.ClearSelection();
+            foreach (int row in selectedRows)
+            {
+                ShipView.Rows[row].Selected = true;
+            }
+        }
 
 		#endregion
 
