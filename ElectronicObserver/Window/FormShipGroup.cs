@@ -265,6 +265,112 @@ namespace ElectronicObserver.Window {
 
 
         /// <summary>
+        /// ShipView用の新しい行のインスタンスを作成する
+        /// </summary>
+        /// <param name="ship">追加する艦娘データ</param>
+        /// <returns>新しい行</returns>
+        private DataGridViewRow CreateShipViewRow(ShipData ship)
+        {
+            DataGridViewRow row = new DataGridViewRow();
+            row.CreateCells(ShipView);
+            row.SetValues(
+                ship.MasterID,
+                ship.MasterShip.ShipType,
+                ship.MasterShip.Name,
+                ship.Level,
+                ship.ExpTotal,
+                ship.ExpNext,
+                ship.ExpNextRemodel,
+                new Fraction(ship.HPCurrent, ship.HPMax),
+                ship.Condition,
+                new Fraction(ship.Fuel, ship.MasterShip.Fuel),
+                new Fraction(ship.Ammo, ship.MasterShip.Ammo),
+                GetEquipmentString(ship, 0),
+                GetEquipmentString(ship, 1),
+                GetEquipmentString(ship, 2),
+                GetEquipmentString(ship, 3),
+                GetEquipmentString(ship, 4),
+                ship.FleetWithIndex,
+                ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
+                ship.FirepowerBase,
+                ship.FirepowerRemain,
+                ship.TorpedoBase,
+                ship.TorpedoRemain,
+                ship.AABase,
+                ship.AARemain,
+                ship.ArmorBase,
+                ship.ArmorRemain,
+                ship.ASWBase,
+                ship.EvasionBase,
+                ship.LOSBase,
+                ship.LuckBase,
+                ship.LuckRemain,
+                ship.IsLocked,
+                ship.SallyArea
+                );
+
+            row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
+            row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
+
+            {
+                DataGridViewCellStyle cs;
+                double hprate = (double)ship.HPCurrent / Math.Max(ship.HPMax, 1);
+                if (hprate <= 0.25)
+                    cs = CSRedRight;
+                else if (hprate <= 0.50)
+                    cs = CSOrangeRight;
+                else if (hprate <= 0.75)
+                    cs = CSYellowRight;
+                else if (hprate < 1.00)
+                    cs = CSGreenRight;
+                else
+                    cs = CSDefaultRight;
+
+                row.Cells[ShipView_HP.Index].Style = cs;
+            }
+            {
+                DataGridViewCellStyle cs;
+                if (ship.Condition < 20)
+                    cs = CSRedRight;
+                else if (ship.Condition < 30)
+                    cs = CSOrangeRight;
+                else if (ship.Condition < Utility.Configuration.Config.Control.ConditionBorder)
+                    cs = CSYellowRight;
+                else if (ship.Condition < 50)
+                    cs = CSDefaultRight;
+                else
+                    cs = CSGreenRight;
+
+                row.Cells[ShipView_Condition.Index].Style = cs;
+            }
+            row.Cells[ShipView_Fuel.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
+            row.Cells[ShipView_Ammo.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
+            {
+                DataGridViewCellStyle cs;
+                if (ship.RepairTime == 0)
+                    cs = CSDefaultRight;
+                else if (ship.RepairTime < 1000 * 60 * 60)
+                    cs = CSYellowRight;
+                else if (ship.RepairTime < 1000 * 60 * 60 * 6)
+                    cs = CSOrangeRight;
+                else
+                    cs = CSRedRight;
+
+                row.Cells[ShipView_RepairTime.Index].Style = cs;
+            }
+            row.Cells[ShipView_FirepowerRemain.Index].Style = ship.FirepowerRemain == 0 ? CSGrayRight : CSDefaultRight;
+            row.Cells[ShipView_TorpedoRemain.Index].Style = ship.TorpedoRemain == 0 ? CSGrayRight : CSDefaultRight;
+            row.Cells[ShipView_AARemain.Index].Style = ship.AARemain == 0 ? CSGrayRight : CSDefaultRight;
+            row.Cells[ShipView_ArmorRemain.Index].Style = ship.ArmorRemain == 0 ? CSGrayRight : CSDefaultRight;
+            row.Cells[ShipView_LuckRemain.Index].Style = ship.LuckRemain == 0 ? CSGrayRight : CSDefaultRight;
+
+            row.Cells[ShipView_Locked.Index].Style = ship.IsLocked ? CSIsLocked : CSDefaultCenter;
+
+            return row;
+        }
+
+
+        /// <summary>
         /// 指定したタブのグループのShipViewを作成する。
         /// </summary>
         /// <param name="target">作成するビューのグループデータ</param>
@@ -287,102 +393,8 @@ namespace ElectronicObserver.Window {
             {
 
                 if (ship == null) continue;
-                DataGridViewRow row = new DataGridViewRow();
-                row.CreateCells(ShipView);
-                row.SetValues(
-                    ship.MasterID,
-                    ship.MasterShip.ShipType,
-                    ship.MasterShip.Name,
-                    ship.Level,
-                    ship.ExpTotal,
-                    ship.ExpNext,
-                    ship.ExpNextRemodel,
-                    new Fraction(ship.HPCurrent, ship.HPMax),
-                    ship.Condition,
-                    new Fraction(ship.Fuel, ship.MasterShip.Fuel),
-                    new Fraction(ship.Ammo, ship.MasterShip.Ammo),
-                    GetEquipmentString(ship, 0),
-                    GetEquipmentString(ship, 1),
-                    GetEquipmentString(ship, 2),
-                    GetEquipmentString(ship, 3),
-                    GetEquipmentString(ship, 4),
-                    ship.FleetWithIndex,
-                    ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
-                    ship.FirepowerBase,
-                    ship.FirepowerRemain,
-                    ship.TorpedoBase,
-                    ship.TorpedoRemain,
-                    ship.AABase,
-                    ship.AARemain,
-                    ship.ArmorBase,
-                    ship.ArmorRemain,
-                    ship.ASWBase,
-                    ship.EvasionBase,
-                    ship.LOSBase,
-                    ship.LuckBase,
-                    ship.LuckRemain,
-                    ship.IsLocked,
-                    ship.SallyArea
-                    );
 
-                row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
-                row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
-
-                {
-                    DataGridViewCellStyle cs;
-                    double hprate = (double)ship.HPCurrent / Math.Max(ship.HPMax, 1);
-                    if (hprate <= 0.25)
-                        cs = CSRedRight;
-                    else if (hprate <= 0.50)
-                        cs = CSOrangeRight;
-                    else if (hprate <= 0.75)
-                        cs = CSYellowRight;
-                    else if (hprate < 1.00)
-                        cs = CSGreenRight;
-                    else
-                        cs = CSDefaultRight;
-
-                    row.Cells[ShipView_HP.Index].Style = cs;
-                }
-                {
-                    DataGridViewCellStyle cs;
-                    if (ship.Condition < 20)
-                        cs = CSRedRight;
-                    else if (ship.Condition < 30)
-                        cs = CSOrangeRight;
-                    else if (ship.Condition < Utility.Configuration.Config.Control.ConditionBorder)
-                        cs = CSYellowRight;
-                    else if (ship.Condition < 50)
-                        cs = CSDefaultRight;
-                    else
-                        cs = CSGreenRight;
-
-                    row.Cells[ShipView_Condition.Index].Style = cs;
-                }
-                row.Cells[ShipView_Fuel.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
-                row.Cells[ShipView_Ammo.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
-                {
-                    DataGridViewCellStyle cs;
-                    if (ship.RepairTime == 0)
-                        cs = CSDefaultRight;
-                    else if (ship.RepairTime < 1000 * 60 * 60)
-                        cs = CSYellowRight;
-                    else if (ship.RepairTime < 1000 * 60 * 60 * 6)
-                        cs = CSOrangeRight;
-                    else
-                        cs = CSRedRight;
-
-                    row.Cells[ShipView_RepairTime.Index].Style = cs;
-                }
-                row.Cells[ShipView_FirepowerRemain.Index].Style = ship.FirepowerRemain == 0 ? CSGrayRight : CSDefaultRight;
-                row.Cells[ShipView_TorpedoRemain.Index].Style = ship.TorpedoRemain == 0 ? CSGrayRight : CSDefaultRight;
-                row.Cells[ShipView_AARemain.Index].Style = ship.AARemain == 0 ? CSGrayRight : CSDefaultRight;
-                row.Cells[ShipView_ArmorRemain.Index].Style = ship.ArmorRemain == 0 ? CSGrayRight : CSDefaultRight;
-                row.Cells[ShipView_LuckRemain.Index].Style = ship.LuckRemain == 0 ? CSGrayRight : CSDefaultRight;
-
-                row.Cells[ShipView_Locked.Index].Style = ship.IsLocked ? CSIsLocked : CSDefaultCenter;
-
-
+                DataGridViewRow row = CreateShipViewRow(ship);
                 rows.Add(row);
 
             }
