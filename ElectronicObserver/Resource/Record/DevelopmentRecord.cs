@@ -99,8 +99,8 @@ namespace ElectronicObserver.Resource.Record {
 				Date = DateTime.Now;
 			}
 
-			public DevelopmentElement( string line ) 
-				: base( line ){}
+			public DevelopmentElement( string line )
+				: base( line ) { }
 
 			public DevelopmentElement( int equipmentID, int fuel, int ammo, int steel, int bauxite, int flagshipID, int hqLevel ) {
 				EquipmentID = equipmentID;
@@ -163,7 +163,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			ao.APIList["api_req_kousyou/createitem"].RequestReceived += DevelopmentStart;
 			ao.APIList["api_req_kousyou/createitem"].ResponseReceived += DevelopmentEnd;
-		
+
 		}
 
 
@@ -225,6 +225,10 @@ namespace ElectronicObserver.Resource.Record {
 
 		protected override bool IsAppend { get { return true; } }
 
+
+		public override bool Load( string path ) {
+			return true;
+		}
 
 		public override bool Save( string path ) {
 			bool ret = base.Save( path );

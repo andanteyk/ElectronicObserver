@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			this.FlowPanelMaster = new System.Windows.Forms.FlowLayoutPanel();
 			this.FlowPanelAdmiral = new System.Windows.Forms.FlowLayoutPanel();
 			this.AdmiralName = new System.Windows.Forms.Label();
@@ -42,6 +43,7 @@
 			this.Ammo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Steel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Bauxite = new ElectronicObserver.Window.Control.ImageLabel();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.FlowPanelMaster.SuspendLayout();
 			this.FlowPanelAdmiral.SuspendLayout();
 			this.FlowPanelFleet.SuspendLayout();
@@ -270,6 +272,13 @@
 			this.Bauxite.TabIndex = 4;
 			this.Bauxite.Text = "(軽銀)";
 			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
 			// FormHeadquarters
 			// 
 			this.AutoHidePortion = 150D;
@@ -318,5 +327,6 @@
 		private Control.ImageLabel Steel;
 		private Control.ImageLabel Bauxite;
 		private Control.ImageLabel ModdingMaterial;
+		private System.Windows.Forms.ToolTip ToolTipInfo;
 	}
 }

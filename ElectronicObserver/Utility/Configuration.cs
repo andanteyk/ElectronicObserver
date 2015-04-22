@@ -178,6 +178,9 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int FileEncodingID { get; set; }
 
+				/// <summary>
+				/// ファイル エンコーディング
+				/// </summary>
 				[IgnoreDataMember]
 				public Encoding FileEncoding {
 					get {
@@ -199,11 +202,17 @@ namespace ElectronicObserver.Utility {
 					}
 				}
 
+				/// <summary>
+				/// ネタバレを許可するか
+				/// </summary>
+				public bool ShowSpoiler { get; set; }
+
 				public ConfigLog() {
 					LogLevel = 2;
 					SaveLogFlag = true;
 					SaveErrorReport = true;
 					FileEncodingID = 4;
+					ShowSpoiler = true;
 				}
 
 			}

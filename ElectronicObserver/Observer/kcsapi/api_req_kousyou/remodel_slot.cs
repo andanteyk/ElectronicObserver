@@ -15,9 +15,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 			db.Material.LoadFromResponse( APIName, data.api_after_material );
 
-			EquipmentData eq = db.Equipments[(int)data.api_after_slot.api_id];
-			if ( eq != null )
-				eq.LoadFromResponse( APIName, data.api_after_slot );
+			if ( data.api_after_slot() ) {	//改修成功時のみ存在
+				EquipmentData eq = db.Equipments[(int)data.api_after_slot.api_id];
+				if ( eq != null )
+					eq.LoadFromResponse( APIName, data.api_after_slot );
+			}
 
 			if ( data.api_use_slot_id() ) {
 				foreach ( int id in data.api_use_slot_id ) {
