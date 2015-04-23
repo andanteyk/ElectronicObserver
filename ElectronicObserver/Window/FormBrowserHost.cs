@@ -26,7 +26,8 @@ namespace ElectronicObserver.Window {
 	public partial class FormBrowserHost : DockContent, IBrowserHost {
 
 
-		private const string BrowserExeName = "EOBrowser.exe";
+		public static readonly string BrowserExeName = "EOBrowser.exe";
+
 
 		/// <summary>
 		/// FormBrowserHostの通信サーバ

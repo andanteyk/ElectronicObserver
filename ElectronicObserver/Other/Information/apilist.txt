@@ -400,9 +400,9 @@ api_start2	：艦娘・装備固有データその他
 api_req_member/get_incentive	：褒賞関連
 	api_count			：情報の個数
 	api_item			：もらえるアイテム　api_count=0だと存在しない
-		api_mode		：1=事前登録?, 2=招待?, 3=月次褒賞/年賀プレゼント
-		api_type		：1=艦船?, 2=装備, 3=アイテム?, 4=資源?, 5=家具
-		api_mst_id		：アイテムID
+		api_mode		：1=事前登録?, 2=招待?, 3=月次褒賞/プレゼント
+		api_type		：1=艦船?, 2=装備, 3=アイテム, 4=資源?, 5=家具
+		api_mst_id		：ID
 		api_getmes		：獲得時メッセージ
 
 

@@ -16,6 +16,15 @@ using System.Windows.Forms;
 
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogConfiguration : Form {
+
+		private static readonly string RegistryPathMaster = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\";
+		private static readonly string RegistryPathBrowserVersion = @"FEATURE_BROWSER_EMULATION\";
+		private static readonly string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";
+
+		private static readonly int DefaultBrowserVersion = 7000;
+		private static readonly bool DefaultGPURendering = false;
+
+
 		public DialogConfiguration() {
 			InitializeComponent();
 
@@ -271,6 +280,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Log_SaveLogFlag.Checked = config.Log.SaveLogFlag;
 			Log_SaveErrorReport.Checked = config.Log.SaveErrorReport;
 			Log_FileEncodingID.SelectedIndex = config.Log.FileEncodingID;
+			Log_ShowSpoiler.Checked = config.Log.ShowSpoiler;
 
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
@@ -313,6 +323,42 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_ScreenShotPath.Text = config.FormBrowser.ScreenShotPath;
 			FormBrowser_ConfirmAtRefresh.Checked = config.FormBrowser.ConfirmAtRefresh;
 			FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
+			{
+				Microsoft.Win32.RegistryKey reg = null;
+				try {
+
+					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey( RegistryPathMaster + RegistryPathBrowserVersion );
+					if ( reg == null ) {
+						FormBrowser_BrowserVersion.Text = DefaultBrowserVersion.ToString();
+
+					} else {
+						FormBrowser_BrowserVersion.Text = ( reg.GetValue( FormBrowserHost.BrowserExeName ) ?? DefaultBrowserVersion ).ToString();
+					}
+					reg.Close();
+
+					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey( RegistryPathMaster + RegistryPathGPURendering );
+					if ( reg == null ) {
+						FormBrowser_GPURendering.Checked = DefaultGPURendering;
+
+					} else {
+						int? gpu = reg.GetValue( FormBrowserHost.BrowserExeName ) as int?;
+						FormBrowser_GPURendering.Checked = gpu != null ? gpu != 0 : DefaultGPURendering;
+					}
+
+				} catch ( Exception ex ) {
+
+					FormBrowser_BrowserVersion.Text = DefaultBrowserVersion.ToString();
+					FormBrowser_GPURendering.Checked = DefaultGPURendering;
+
+					Utility.Logger.Add( 3, "レジストリからの読み込みに失敗しました。" + ex.Message );
+
+				} finally {
+					if ( reg != null )
+						reg.Close();
+
+				}
+			}
+
 
 			//finalize
 			UpdateParameter();
@@ -362,6 +408,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Log.SaveLogFlag = Log_SaveLogFlag.Checked;
 			config.Log.SaveErrorReport = Log_SaveErrorReport.Checked;
 			config.Log.FileEncodingID = Log_FileEncodingID.SelectedIndex;
+			config.Log.ShowSpoiler = Log_ShowSpoiler.Checked;
 
 			//[動作]
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
@@ -407,6 +454,66 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.ConfirmAtRefresh = FormBrowser_ConfirmAtRefresh.Checked;
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 
+		}
+
+
+		private void FormBrowser_ApplyRegistry_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "レジストリに登録します。よろしいですか？\r\n＊完全に適用するには再起動が必要です。", "確認",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				Microsoft.Win32.RegistryKey reg = null;
+
+				try {
+					reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey( RegistryPathMaster + RegistryPathBrowserVersion );
+					reg.SetValue( FormBrowserHost.BrowserExeName, int.Parse( FormBrowser_BrowserVersion.Text ), Microsoft.Win32.RegistryValueKind.DWord );
+					reg.Close();
+
+					reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey( RegistryPathMaster + RegistryPathGPURendering );
+					reg.SetValue( FormBrowserHost.BrowserExeName, FormBrowser_GPURendering.Checked ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord );
+
+				} catch ( Exception ex ) {
+
+					Utility.ErrorReporter.SendErrorReport( ex, "レジストリへの書き込みに失敗しました。" );
+					MessageBox.Show( "レジストリへの書き込みに失敗しました。\r\n" + ex.Message, "エラー", 
+						MessageBoxButtons.OK, MessageBoxIcon.Error );
+					
+				} finally {
+					if ( reg != null )
+						reg.Close();
+				}
+			}
+
+		}
+
+		private void FormBrowser_DeleteRegistry_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "レジストリを削除します。よろしいですか？\r\n＊完全に適用するには再起動が必要です。", "確認",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+				== System.Windows.Forms.DialogResult.Yes ) {
+				
+				Microsoft.Win32.RegistryKey reg = null;
+
+				try {
+					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey( RegistryPathMaster + RegistryPathBrowserVersion, true );
+					reg.DeleteValue( FormBrowserHost.BrowserExeName );
+					reg.Close();
+
+					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey( RegistryPathMaster + RegistryPathGPURendering, true );
+					reg.DeleteValue( FormBrowserHost.BrowserExeName );
+
+				} catch ( Exception ex ) {
+
+					Utility.ErrorReporter.SendErrorReport( ex, "レジストリの削除に失敗しました。" );
+					MessageBox.Show( "レジストリの削除に失敗しました。\r\n" + ex.Message, "エラー",
+						MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+				} finally {
+					if ( reg != null )
+						reg.Close();
+				}
+			}
 		}
 
 	}
