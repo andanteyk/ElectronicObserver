@@ -239,7 +239,6 @@ namespace ElectronicObserver.Window {
 		private void ApplyGroupData( ImageLabel target ) {
 
 			if ( target != null ) {
-				target.BackColor = TabInactiveColor;
 
 				//ソート順の保持
 				if ( KCDatabase.Instance.Ships.Count == 0 )
@@ -266,135 +265,136 @@ namespace ElectronicObserver.Window {
 
 
 		/// <summary>
-		/// ShipViewを更新します。
+		/// ShipView用の新しい行のインスタンスを作成します。
 		/// </summary>
-		private void ChangeShipView( ImageLabel target ) {
+		/// <param name="ship">追加する艦娘データ。</param>
+		private DataGridViewRow CreateShipViewRow( ShipData ship ) {
 
-			if ( target == null ) return;
+			if ( ship == null ) return null;
 
+			DataGridViewRow row = new DataGridViewRow();
+			row.CreateCells( ShipView );
+
+			row.SetValues(
+				ship.MasterID,
+				ship.MasterShip.ShipType,
+				ship.MasterShip.Name,
+				ship.Level,
+				ship.ExpTotal,
+				ship.ExpNext,
+				ship.ExpNextRemodel,
+				new Fraction( ship.HPCurrent, ship.HPMax ),
+				ship.Condition,
+				new Fraction( ship.Fuel, ship.MasterShip.Fuel ),
+				new Fraction( ship.Ammo, ship.MasterShip.Ammo ),
+				GetEquipmentString( ship, 0 ),
+				GetEquipmentString( ship, 1 ),
+				GetEquipmentString( ship, 2 ),
+				GetEquipmentString( ship, 3 ),
+				GetEquipmentString( ship, 4 ),
+				ship.FleetWithIndex,
+				ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
+				ship.FirepowerBase,
+				ship.FirepowerRemain,
+				ship.TorpedoBase,
+				ship.TorpedoRemain,
+				ship.AABase,
+				ship.AARemain,
+				ship.ArmorBase,
+				ship.ArmorRemain,
+				ship.ASWBase,
+				ship.EvasionBase,
+				ship.LOSBase,
+				ship.LuckBase,
+				ship.LuckRemain,
+				ship.IsLocked,
+				ship.SallyArea
+				);
+
+			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
+			row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
+
+			{
+				DataGridViewCellStyle cs;
+				double hprate = (double)ship.HPCurrent / Math.Max( ship.HPMax, 1 );
+				if ( hprate <= 0.25 )
+					cs = CSRedRight;
+				else if ( hprate <= 0.50 )
+					cs = CSOrangeRight;
+				else if ( hprate <= 0.75 )
+					cs = CSYellowRight;
+				else if ( hprate < 1.00 )
+					cs = CSGreenRight;
+				else
+					cs = CSDefaultRight;
+
+				row.Cells[ShipView_HP.Index].Style = cs;
+			}
+			{
+				DataGridViewCellStyle cs;
+				if ( ship.Condition < 20 )
+					cs = CSRedRight;
+				else if ( ship.Condition < 30 )
+					cs = CSOrangeRight;
+				else if ( ship.Condition < Utility.Configuration.Config.Control.ConditionBorder )
+					cs = CSYellowRight;
+				else if ( ship.Condition < 50 )
+					cs = CSDefaultRight;
+				else
+					cs = CSGreenRight;
+
+				row.Cells[ShipView_Condition.Index].Style = cs;
+			}
+			row.Cells[ShipView_Fuel.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
+			row.Cells[ShipView_Ammo.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
+			{
+				DataGridViewCellStyle cs;
+				if ( ship.RepairTime == 0 )
+					cs = CSDefaultRight;
+				else if ( ship.RepairTime < 1000 * 60 * 60 )
+					cs = CSYellowRight;
+				else if ( ship.RepairTime < 1000 * 60 * 60 * 6 )
+					cs = CSOrangeRight;
+				else
+					cs = CSRedRight;
+
+				row.Cells[ShipView_RepairTime.Index].Style = cs;
+			}
+			row.Cells[ShipView_FirepowerRemain.Index].Style = ship.FirepowerRemain == 0 ? CSGrayRight : CSDefaultRight;
+			row.Cells[ShipView_TorpedoRemain.Index].Style = ship.TorpedoRemain == 0 ? CSGrayRight : CSDefaultRight;
+			row.Cells[ShipView_AARemain.Index].Style = ship.AARemain == 0 ? CSGrayRight : CSDefaultRight;
+			row.Cells[ShipView_ArmorRemain.Index].Style = ship.ArmorRemain == 0 ? CSGrayRight : CSDefaultRight;
+			row.Cells[ShipView_LuckRemain.Index].Style = ship.LuckRemain == 0 ? CSGrayRight : CSDefaultRight;
+
+			row.Cells[ShipView_Locked.Index].Style = ship.IsLocked ? CSIsLocked : CSDefaultCenter;
+
+			return row;
+		}
+
+
+		/// <summary>
+		/// 指定したタブのグループのShipViewを作成します。
+		/// </summary>
+		/// <param name="target">作成するビューのグループデータ</param>
+		private void BuildShipView( ImageLabel target ) {
+			if ( target == null )
+				return;
 
 			int groupID = (int)target.Tag;
-			var group = KCDatabase.Instance.ShipGroup[groupID];
-
-
-			ApplyGroupData( SelectedTab );
-
-
-			if ( group == null ) {
-				Utility.Logger.Add( 3, "エラー：存在しないグループを参照しようとしました。開発者に連絡してください" );
-				return;
-			}
-			if ( group.GroupID < 0 ) {
-				group.Members = group.Members.Intersect( KCDatabase.Instance.Ships.Keys ).Union( KCDatabase.Instance.Ships.Keys ).Distinct().ToList();
-			}
-
+			ShipGroupData group = KCDatabase.Instance.ShipGroup[groupID];
 
 			ShipView.SuspendLayout();
 
 			ShipView.Rows.Clear();
 
-			IEnumerable<ShipData> ships = group.MembersInstance;
-			List<DataGridViewRow> rows = new List<DataGridViewRow>( ships.Count() );
+			var ships = group.MembersInstance;
+			var rows = new List<DataGridViewRow>( ships.Count() );
 
 			foreach ( ShipData ship in ships ) {
 
 				if ( ship == null ) continue;
-				DataGridViewRow row = new DataGridViewRow();
-				row.CreateCells( ShipView );
-				row.SetValues(
-					ship.MasterID,
-					ship.MasterShip.ShipType,
-					ship.MasterShip.Name,
-					ship.Level,
-					ship.ExpTotal,
-					ship.ExpNext,
-					ship.ExpNextRemodel,
-					new Fraction( ship.HPCurrent, ship.HPMax ),
-					ship.Condition,
-					new Fraction( ship.Fuel, ship.MasterShip.Fuel ),
-					new Fraction( ship.Ammo, ship.MasterShip.Ammo ),
-					GetEquipmentString( ship, 0 ),
-					GetEquipmentString( ship, 1 ),
-					GetEquipmentString( ship, 2 ),
-					GetEquipmentString( ship, 3 ),
-					GetEquipmentString( ship, 4 ),
-					ship.FleetWithIndex,
-					ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
-					ship.FirepowerBase,
-					ship.FirepowerRemain,
-					ship.TorpedoBase,
-					ship.TorpedoRemain,
-					ship.AABase,
-					ship.AARemain,
-					ship.ArmorBase,
-					ship.ArmorRemain,
-					ship.ASWBase,
-					ship.EvasionBase,
-					ship.LOSBase,
-					ship.LuckBase,
-					ship.LuckRemain,
-					ship.IsLocked,
-					ship.SallyArea
-					);
 
-				row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
-				row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
-
-				{
-					DataGridViewCellStyle cs;
-					double hprate = (double)ship.HPCurrent / Math.Max( ship.HPMax, 1 );
-					if ( hprate <= 0.25 )
-						cs = CSRedRight;
-					else if ( hprate <= 0.50 )
-						cs = CSOrangeRight;
-					else if ( hprate <= 0.75 )
-						cs = CSYellowRight;
-					else if ( hprate < 1.00 )
-						cs = CSGreenRight;
-					else
-						cs = CSDefaultRight;
-
-					row.Cells[ShipView_HP.Index].Style = cs;
-				}
-				{
-					DataGridViewCellStyle cs;
-					if ( ship.Condition < 20 )
-						cs = CSRedRight;
-					else if ( ship.Condition < 30 )
-						cs = CSOrangeRight;
-					else if ( ship.Condition < Utility.Configuration.Config.Control.ConditionBorder )
-						cs = CSYellowRight;
-					else if ( ship.Condition < 50 )
-						cs = CSDefaultRight;
-					else
-						cs = CSGreenRight;
-
-					row.Cells[ShipView_Condition.Index].Style = cs;
-				}
-				row.Cells[ShipView_Fuel.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
-				row.Cells[ShipView_Ammo.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
-				{
-					DataGridViewCellStyle cs;
-					if ( ship.RepairTime == 0 )
-						cs = CSDefaultRight;
-					else if ( ship.RepairTime < 1000 * 60 * 60 )
-						cs = CSYellowRight;
-					else if ( ship.RepairTime < 1000 * 60 * 60 * 6 )
-						cs = CSOrangeRight;
-					else
-						cs = CSRedRight;
-
-					row.Cells[ShipView_RepairTime.Index].Style = cs;
-				}
-				row.Cells[ShipView_FirepowerRemain.Index].Style = ship.FirepowerRemain == 0 ? CSGrayRight : CSDefaultRight;
-				row.Cells[ShipView_TorpedoRemain.Index].Style = ship.TorpedoRemain == 0 ? CSGrayRight : CSDefaultRight;
-				row.Cells[ShipView_AARemain.Index].Style = ship.AARemain == 0 ? CSGrayRight : CSDefaultRight;
-				row.Cells[ShipView_ArmorRemain.Index].Style = ship.ArmorRemain == 0 ? CSGrayRight : CSDefaultRight;
-				row.Cells[ShipView_LuckRemain.Index].Style = ship.LuckRemain == 0 ? CSGrayRight : CSDefaultRight;
-
-				row.Cells[ShipView_Locked.Index].Style = ship.IsLocked ? CSIsLocked : CSDefaultCenter;
-
-
+				DataGridViewRow row = CreateShipViewRow( ship );
 				rows.Add( row );
 
 			}
@@ -430,8 +430,36 @@ namespace ElectronicObserver.Window {
 				Status_LevelTotal.Text = string.Format( "合計Lv: {0}", group.MembersInstance.Where( s => s != null ).Sum( s => s.Level ) );
 				Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", group.Members.Count > 0 ? group.MembersInstance.Where( s => s != null ).Average( s => s.Level ) : 0 );
 			}
+		}
 
+
+		/// <summary>
+		/// ShipViewを指定したタブに切り替えます。
+		/// </summary>
+		private void ChangeShipView( ImageLabel target ) {
+
+			if ( target == null ) return;
+
+
+			int groupID = (int)target.Tag;
+			var group = KCDatabase.Instance.ShipGroup[groupID];
+
+
+			ApplyGroupData( SelectedTab );
+
+
+			if ( group == null ) {
+				Utility.Logger.Add( 3, "エラー：存在しないグループを参照しようとしました。開発者に連絡してください" );
+				return;
+			}
+			if ( group.GroupID < 0 ) {
+				group.Members = group.Members.Intersect( KCDatabase.Instance.Ships.Keys ).Union( KCDatabase.Instance.Ships.Keys ).Distinct().ToList();
+			}
+
+			if ( SelectedTab != null )
+				SelectedTab.BackColor = TabInactiveColor;
 			SelectedTab = target;
+			BuildShipView( SelectedTab );
 			SelectedTab.BackColor = TabActiveColor;
 
 		}
@@ -719,6 +747,29 @@ namespace ElectronicObserver.Window {
 
 			}
 
+			// 「現在の艦隊を追加」コンテキストメニュー
+			{
+				int groupID = (int)SelectedTab.Tag;
+
+				// 艦隊がロード済み && 選択中のタブが全所属艦以外の場合にEnabled
+				MenuMember_AddCurrentFleet_Group.Enabled = ( KCDatabase.Instance.Fleet.Fleets.Count > 0 ) && ( groupID >= 0 );
+
+				if ( MenuMember_AddCurrentFleet_Group.Enabled ) {
+
+					MenuMember_AddCurrentFleet_Group.DropDownItems.Clear();
+					foreach ( FleetData fleet in KCDatabase.Instance.Fleet.Fleets.Values ) {
+
+						if ( fleet.MembersInstance.Count( s => s != null ) == 0 ) continue;
+
+						var newItem = new ToolStripMenuItem();
+						newItem.Name = "MenuMember_AddCurrentFleetChild_" + fleet.FleetID;
+						newItem.Text = string.Format( "#&{0} {1}", fleet.FleetID, fleet.Name );
+						newItem.Tag = fleet.FleetID;
+						newItem.Click += MenuMember_AddCurrentFleetChild_Click;
+						MenuMember_AddCurrentFleet_Group.DropDownItems.Add( newItem );
+					}
+				}
+			}
 		}
 		#endregion
 
@@ -1109,6 +1160,29 @@ namespace ElectronicObserver.Window {
 			ShipView_ShipType.Frozen = flag == true;
 			ShipView_Name.Frozen = flag == true;
 
+		}
+
+
+		/// <summary>
+		/// 現在の艦隊を表示中のグループに追加する。
+		/// 「このグループに現在の艦隊を追加」の子項目をクリックした時に実行。
+		/// </summary>
+		/// <param name="sender">追加する艦隊。senderのTagに艦隊IDを格納すること。</param>
+		/// <param name="e"></param>
+		private void MenuMember_AddCurrentFleetChild_Click( object sender, EventArgs e ) {
+			if ( SelectedTab == null )
+				return;
+
+			FleetData fleet = KCDatabase.Instance.Fleet[(int)( (ToolStripItem)sender ).Tag];
+			if ( fleet == null ) return;
+
+			// ShipViewに追加
+			var members = fleet.MembersInstance.Where( s => s != null ).ToList();
+			var rows = new List<DataGridViewRow>( members.Count );
+			foreach ( var ship in members ) {
+				rows.Add( CreateShipViewRow( ship ) );
+			}
+			ShipView.Rows.AddRange( rows.ToArray() );
 		}
 
 		#endregion
