@@ -30,19 +30,19 @@ namespace ElectronicObserver.Resource.Record {
 
 					if ( ShipID > 2000 ) {
 						var eq = KCDatabase.Instance.MasterEquipments[ShipID - 2000];
-						if ( eq != null ) 
+						if ( eq != null )
 							return eq.Name;
 
 					} else if ( ShipID > 1000 ) {
 						var item = KCDatabase.Instance.MasterUseItems[ShipID - 1000];
-						if ( item != null ) 
+						if ( item != null )
 							return item.Name;
 
 					} else {
 						var ship = KCDatabase.Instance.MasterShips[ShipID];
 						if ( ship != null )
 							return ship.NameWithClass;
-					
+
 					}
 
 					return "???";
@@ -95,7 +95,7 @@ namespace ElectronicObserver.Resource.Record {
 				Date = DateTime.Now;
 			}
 
-			public ShipDropElement( string line ) 
+			public ShipDropElement( string line )
 				: base( line ) { }
 
 			public ShipDropElement( int shipID, int mapAreaID, int mapInfoID, int cellID, bool isBossNode, int enemyFleetID, string rank, int hqLevel ) {
@@ -151,7 +151,7 @@ namespace ElectronicObserver.Resource.Record {
 		public List<ShipDropElement> Record { get; private set; }
 
 
-		public ShipDropRecord() 
+		public ShipDropRecord()
 			: base() {
 			Record = new List<ShipDropElement>();
 		}
@@ -162,7 +162,7 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 		public void Add( int shipID, int mapAreaID, int mapInfoID, int cellID, bool isBossNode, int enemyFleetID, string rank, int hqLevel ) {
-			
+
 			Record.Add( new ShipDropElement( shipID, mapAreaID, mapInfoID, cellID, isBossNode, enemyFleetID, rank, hqLevel ) );
 		}
 
@@ -193,6 +193,10 @@ namespace ElectronicObserver.Resource.Record {
 
 		protected override bool IsAppend { get { return true; } }
 
+
+		public override bool Load( string path ) {
+			return true;
+		}
 
 		public override bool Save( string path ) {
 			bool ret = base.Save( path );

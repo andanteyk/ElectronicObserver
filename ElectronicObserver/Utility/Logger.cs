@@ -10,7 +10,7 @@ namespace ElectronicObserver.Utility {
 
 	public delegate void LogAddedEventHandler( Logger.LogData data );
 
-	
+
 	public sealed class Logger {
 
 		#region Singleton
@@ -47,7 +47,7 @@ namespace ElectronicObserver.Utility {
 			/// ログ内容
 			/// </summary>
 			public readonly string Message;
-			
+
 			public LogData( DateTime time, int priority, string message ) {
 				Time = time;
 				Priority = priority;
@@ -65,7 +65,7 @@ namespace ElectronicObserver.Utility {
 
 		private List<LogData> log;
 		private bool toDebugConsole;
-		
+
 
 		private Logger() {
 			log = new List<LogData>();
@@ -105,11 +105,11 @@ namespace ElectronicObserver.Utility {
 
 				try {
 					Logger.Instance.LogAdded( data );
-				
+
 				} catch ( Exception ex ) {
 					System.Diagnostics.Debug.WriteLine( ex.Message );
 				}
-				
+
 			}
 		}
 
@@ -132,7 +132,7 @@ namespace ElectronicObserver.Utility {
 
 			try {
 				lock ( Logger.Instance ) {
-					using ( StreamWriter sw = new StreamWriter( path ) ) {
+					using ( StreamWriter sw = new StreamWriter( path, true, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
 						int priority = Configuration.Config.Log.LogLevel;
 

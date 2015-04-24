@@ -28,7 +28,7 @@ namespace ElectronicObserver.Resource.Record {
 				: base() { }
 
 			public EnemyFleetElement( string line )
-				: base( line ) {}
+				: base( line ) { }
 
 			public EnemyFleetElement( int fleetID, string fleetName, int formation, int[] fleetMember )
 				: base() {
@@ -74,7 +74,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 
-		public EnemyFleetRecord() 
+		public EnemyFleetRecord()
 			: base() {
 			Record = new Dictionary<int, EnemyFleetElement>();
 		}
@@ -99,7 +99,7 @@ namespace ElectronicObserver.Resource.Record {
 			this[elem.FleetID] = elem;
 		}
 
-	
+
 		protected override void LoadLine( string line ) {
 			Update( new EnemyFleetElement( line ) );
 		}

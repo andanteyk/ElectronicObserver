@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Window.Support;
+using ElectronicObserver.Resource.Record;
 
 namespace ElectronicObserver.Window {
 
@@ -24,7 +25,7 @@ namespace ElectronicObserver.Window {
 
 
 			ImageList icons = ResourceManager.Instance.Icons;
-			
+
 			ShipCount.ImageList = icons;
 			ShipCount.ImageIndex = (int)ResourceManager.IconContent.HeadQuartersShip;
 			EquipmentCount.ImageList = icons;
@@ -62,7 +63,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 		private void FormHeadquarters_Load( object sender, EventArgs e ) {
 
 			APIObserver o = APIObserver.Instance;
@@ -89,6 +90,7 @@ namespace ElectronicObserver.Window {
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+			Utility.SystemEvents.UpdateTimerTick += SystemEvents_UpdateTimerTick;
 
 			FlowPanelResource.SetFlowBreak( Ammo, true );
 
@@ -97,13 +99,14 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
 		void ConfigurationChanged() {
 
 			Font = FlowPanelMaster.Font = Utility.Configuration.Config.UI.MainFont;
 			HQLevel.MainFont = Utility.Configuration.Config.UI.MainFont;
 			HQLevel.SubFont = Utility.Configuration.Config.UI.SubFont;
 		}
-		
+
 		void Updated( string apiname, dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
@@ -119,14 +122,43 @@ namespace ElectronicObserver.Window {
 
 			//HQ Level
 			HQLevel.Value = db.Admiral.Level;
-			if ( db.Admiral.Level < ExpTable.AdmiralExp.Max( e => e.Key ) ) {
-				HQLevel.TextNext = "next:";
-				HQLevel.ValueNext = ExpTable.GetNextExpAdmiral( db.Admiral.Exp );
-			} else {
-				HQLevel.TextNext = "exp:";
-				HQLevel.ValueNext = db.Admiral.Exp;
-			}
+			{
+				StringBuilder tooltip = new StringBuilder();
+				if ( db.Admiral.Level < ExpTable.AdmiralExp.Max( e => e.Key ) ) {
+					HQLevel.TextNext = "next:";
+					HQLevel.ValueNext = ExpTable.GetNextExpAdmiral( db.Admiral.Exp );
+					tooltip.AppendFormat( "{0} / {1}\r\n", db.Admiral.Exp, ExpTable.AdmiralExp[db.Admiral.Level + 1].Total );
+				} else {
+					HQLevel.TextNext = "exp:";
+					HQLevel.ValueNext = db.Admiral.Exp;
+				}
 
+				//戦果ツールチップ
+				//fixme: もっとましな書き方はなかっただろうか
+				{
+					var res = RecordManager.Instance.Resource.GetRecordPrevious();
+					if ( res != null ) {
+						int diff = db.Admiral.Exp - res.HQExp;
+						tooltip.AppendFormat( "前回: +{0} exp. / 戦果 {1:n2}\r\n", diff, diff * 7 / 10000.0 );
+					}
+				}
+				{
+					var res = RecordManager.Instance.Resource.GetRecordDay();
+					if ( res != null ) {
+						int diff = db.Admiral.Exp - res.HQExp;
+						tooltip.AppendFormat( "今日: +{0} exp. / 戦果 {1:n2}\r\n", diff, diff * 7 / 10000.0 );
+					}
+				}
+				{
+					var res = RecordManager.Instance.Resource.GetRecordMonth();
+					if ( res != null ) {
+						int diff = db.Admiral.Exp - res.HQExp;
+						tooltip.AppendFormat( "今月: +{0} exp. / 戦果 {1:n2}\r\n", diff, diff * 7 / 10000.0 );
+					}
+				}
+
+				ToolTipInfo.SetToolTip( HQLevel, tooltip.ToString() );
+			}
 
 			//Fleet
 			FlowPanelFleet.SuspendLayout();
@@ -179,6 +211,21 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+		void SystemEvents_UpdateTimerTick() {
+
+			KCDatabase db = KCDatabase.Instance;
+
+			if ( db.Ships.Count <= 0 ) return;
+
+			if ( db.Ships.Count >= db.Admiral.MaxShipCount ) {
+				ShipCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+			}
+
+			if ( db.Equipments.Count >= db.Admiral.MaxEquipmentCount ) {
+				EquipmentCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+			}
+		}
 
 
 		protected override string GetPersistString() {

@@ -178,6 +178,9 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int FileEncodingID { get; set; }
 
+				/// <summary>
+				/// ファイル エンコーディング
+				/// </summary>
 				[IgnoreDataMember]
 				public Encoding FileEncoding {
 					get {
@@ -199,11 +202,17 @@ namespace ElectronicObserver.Utility {
 					}
 				}
 
+				/// <summary>
+				/// ネタバレを許可するか
+				/// </summary>
+				public bool ShowSpoiler { get; set; }
+
 				public ConfigLog() {
 					LogLevel = 2;
 					SaveLogFlag = true;
 					SaveErrorReport = true;
 					FileEncodingID = 4;
+					ShowSpoiler = true;
 				}
 
 			}
@@ -288,11 +297,17 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool CheckUpdateInformation { get; set; }
 
+				/// <summary>
+				/// ステータスバーを表示するか
+				/// </summary>
+				public bool ShowStatusBar { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
 					LayoutFilePath = @"Settings\WindowLayout.zip";
 					CheckUpdateInformation = true;
+					ShowStatusBar = true;
 				}
 			}
 			/// <summary>起動と終了</summary>

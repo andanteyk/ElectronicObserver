@@ -85,7 +85,7 @@ namespace Browser {
 			Browser.ReplacedKeyDown += Browser_ReplacedKeyDown;
 		}
 
-		
+
 		private void FormBrowser_Load( object sender, EventArgs e ) {
 			SetWindowLong( this.Handle, GWL_STYLE, WS_CHILD );
 
@@ -293,13 +293,20 @@ namespace Browser {
 				var wb = Browser.ActiveXInstance as SHDocVw.IWebBrowser2;
 				if ( wb == null || wb.ReadyState == SHDocVw.tagREADYSTATE.READYSTATE_UNINITIALIZED || wb.Busy ) return;
 
-				object pin = zoomRate;
+				var dpi = ScreenHelper.GetSystemDpi();
+				var zoomFactor = dpi.ScaleX + ( zoomRate / 100.0 - 1.0 );
+				var percentage = (int)( zoomFactor * 100 );
+
+				object pin = percentage;
 				object pout = null;
 
 				wb.ExecWB( SHDocVw.OLECMDID.OLECMDID_OPTICAL_ZOOM, SHDocVw.OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref pin, ref pout );
 
 				if ( StyleSheetApplied ) {
-					Browser.Size = Browser.MinimumSize = new Size( (int)( KanColleSize.Width * zoomRate / 100.0 ), (int)( KanColleSize.Height * zoomRate / 100.0 ) );
+					Browser.Size = Browser.MinimumSize = new Size(
+						(int)( KanColleSize.Width * ( zoomFactor / dpi.ScaleX ) ),
+						(int)( KanColleSize.Height * ( zoomFactor / dpi.ScaleY ) )
+						);
 					CenteringBrowser();
 				}
 
@@ -615,7 +622,7 @@ namespace Browser {
 
 		private void ToolMenu_Other_Refresh_Click( object sender, EventArgs e ) {
 
-			if ( !Configuration.ConfirmAtRefresh || 
+			if ( !Configuration.ConfirmAtRefresh ||
 				MessageBox.Show( "再読み込みします。\r\nよろしいですか？", "確認",
 				MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.OK ) {
@@ -701,7 +708,7 @@ namespace Browser {
 			ToolMenu_Other_NavigateToLogInPage_Click( sender, e );
 		}
 
-		
+
 
 
 		// ショートカットキーが反映されない問題の対策
@@ -727,7 +734,7 @@ namespace Browser {
 
 
 		private void FormBrowser_Activated( object sender, EventArgs e ) {
-			
+
 			//System.Media.SystemSounds.Asterisk.Play();
 			Browser.Focus();
 		}
@@ -760,7 +767,7 @@ namespace Browser {
 		}
 
 
-		
+
 		#region 呪文
 
 		[DllImport( "user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true )]
@@ -775,11 +782,11 @@ namespace Browser {
 
 		#endregion
 
-		
-		
+
+
 	}
 
-	
+
 
 	/// <summary>
 	/// デフォルトのショートカットキーを無効化する WebBrowser です。

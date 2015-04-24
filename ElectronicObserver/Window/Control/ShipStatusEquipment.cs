@@ -250,8 +250,10 @@ namespace ElectronicObserver.Window.Control {
 
 			ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
 
-			if ( SlotList.Length != slot.Length ) {
-				SlotList = new SlotItem[slot.Length];
+			int slotLength = slot != null ? slot.Length : 0;
+
+			if ( SlotList.Length != slotLength ) {
+				SlotList = new SlotItem[slotLength];
 				for ( int i = 0; i < SlotList.Length; i++ ) {
 					SlotList[i] = new SlotItem();
 				}
@@ -263,7 +265,7 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[i].AircraftMax = ship.Aircraft[i];
 			}
 
-			SlotSize = ship.SlotSize;
+			SlotSize = ship != null ? ship.SlotSize : 0;
 
 			PropertyChanged();
 		}

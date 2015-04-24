@@ -51,10 +51,10 @@ namespace ElectronicObserver.Resource.Record {
 
 			successed &= EnemyFleet.Load( MasterPath );
 			successed &= ShipParameter.Load( MasterPath );
-			//successed &= Construction.Load( MasterPath );
-			//successed &= ShipDrop.Load( MasterPath );
-			//successed &= Development.Load( MasterPath );
-			//successed &= Resource.Load( MasterPath );
+			successed &= Construction.Load( MasterPath );
+			successed &= ShipDrop.Load( MasterPath );
+			successed &= Development.Load( MasterPath );
+			successed &= Resource.Load( MasterPath );
 
 			if ( successed )
 				Utility.Logger.Add( 2, "レコードをロードしました。" );

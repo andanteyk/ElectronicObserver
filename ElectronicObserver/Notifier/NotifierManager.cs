@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Window;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,6 +58,15 @@ namespace ElectronicObserver.Notifier {
 		}
 
 		public void ShowNotifier( ElectronicObserver.Window.Dialog.DialogNotifier form ) {
+
+			if ( form.DialogData.Alignment == NotifierDialogAlignment.CustomRelative ) {		//cloneしているから書き換えても問題ないはず
+				Point p = _parentForm.fBrowser.PointToScreen( new Point( _parentForm.fBrowser.ClientSize.Width / 2, _parentForm.fBrowser.ClientSize.Height / 2 ) );
+				p.Offset( new Point( -form.Width / 2, -form.Height / 2 ) );
+				p.Offset( form.DialogData.Location );
+				
+				form.DialogData.Location = p;
+			}
+
 			form.Show();
 		}
 

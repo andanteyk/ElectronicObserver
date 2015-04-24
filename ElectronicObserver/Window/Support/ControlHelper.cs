@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Window.Support {
 
@@ -22,7 +23,6 @@ namespace ElectronicObserver.Window.Support {
 			prop.SetValue( control, flag, null );
 
 		}
-
 		
 	}
 
