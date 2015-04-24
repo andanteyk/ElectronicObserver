@@ -337,11 +337,13 @@ namespace ElectronicObserver.Window {
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
 
 				AirStage1Friend.Text = "-";
+				AirStage1Friend.ForeColor = SystemColors.ControlText;
 				AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
 				AirStage1Friend.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AirStage1Friend, null );
 
 				AirStage1Enemy.Text = "-";
+				AirStage1Enemy.ForeColor = SystemColors.ControlText;
 				AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 				AirStage1Enemy.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
@@ -390,7 +392,9 @@ namespace ElectronicObserver.Window {
 
 			} else {	//艦対空戦闘発生せず
 				AirStage2Friend.Text = "-";
+				AirStage2Friend.ForeColor = SystemColors.ControlText;
 				AirStage2Enemy.Text = "-";
+				AirStage2Enemy.ForeColor = SystemColors.ControlText;
 				AACutin.Text = "対空砲火";
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
 				AACutin.ImageIndex = -1;
@@ -512,8 +516,10 @@ namespace ElectronicObserver.Window {
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
 				ToolTipInfo.SetToolTip( AirSuperiority, null );
 				AirStage1Friend.Text = "-";
+				AirStage1Friend.ForeColor = SystemColors.ControlText;
 				ToolTipInfo.SetToolTip( AirStage1Friend, null );
 				AirStage1Enemy.Text = "-";
+				AirStage1Enemy.ForeColor = SystemColors.ControlText;
 				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 			}
 
@@ -598,10 +604,12 @@ namespace ElectronicObserver.Window {
 					}
 				}
 
-			} else {
+			} else {	//艦対空戦闘発生せず
 				AirStage2Friend.Text = "-";
+				AirStage2Friend.ForeColor = SystemColors.ControlText;
 				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 				AirStage2Enemy.Text = "-";
+				AirStage2Enemy.ForeColor = SystemColors.ControlText;
 				ToolTipInfo.SetToolTip( AirStage2Enemy, null );
 				AACutin.Text = "対空砲火";
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;

@@ -266,7 +266,7 @@
             this.StripMenu_View_Fleet_3,
             this.StripMenu_View_Fleet_4});
 			this.StripMenu_View_Fleet.Name = "StripMenu_View_Fleet";
-			this.StripMenu_View_Fleet.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Fleet.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Fleet.Text = "艦隊(&F)";
 			// 
 			// StripMenu_View_Fleet_1
@@ -300,97 +300,97 @@
 			// StripMenu_View_FleetOverview
 			// 
 			this.StripMenu_View_FleetOverview.Name = "StripMenu_View_FleetOverview";
-			this.StripMenu_View_FleetOverview.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_FleetOverview.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_FleetOverview.Text = "艦隊一覧(&O)";
 			this.StripMenu_View_FleetOverview.Click += new System.EventHandler(this.StripMenu_View_FleetOverview_Click);
 			// 
 			// StripMenu_View_ShipGroup
 			// 
 			this.StripMenu_View_ShipGroup.Name = "StripMenu_View_ShipGroup";
-			this.StripMenu_View_ShipGroup.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_ShipGroup.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_ShipGroup.Text = "艦船グループ(&G)";
 			this.StripMenu_View_ShipGroup.Click += new System.EventHandler(this.StripMenu_View_ShipGroup_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(215, 6);
 			// 
 			// StripMenu_View_Dock
 			// 
 			this.StripMenu_View_Dock.Name = "StripMenu_View_Dock";
-			this.StripMenu_View_Dock.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Dock.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Dock.Text = "入渠(&D)";
 			this.StripMenu_View_Dock.Click += new System.EventHandler(this.StripMenu_View_Dock_Click);
 			// 
 			// StripMenu_View_Arsenal
 			// 
 			this.StripMenu_View_Arsenal.Name = "StripMenu_View_Arsenal";
-			this.StripMenu_View_Arsenal.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Arsenal.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Arsenal.Text = "工廠(&A)";
 			this.StripMenu_View_Arsenal.Click += new System.EventHandler(this.StripMenu_View_Arsenal_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(164, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(215, 6);
 			// 
 			// StripMenu_View_Headquarters
 			// 
 			this.StripMenu_View_Headquarters.Name = "StripMenu_View_Headquarters";
-			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Headquarters.Text = "司令部(&H)";
 			this.StripMenu_View_Headquarters.Click += new System.EventHandler(this.StripMenu_View_Headquarters_Click);
 			// 
 			// StripMenu_View_Quest
 			// 
 			this.StripMenu_View_Quest.Name = "StripMenu_View_Quest";
-			this.StripMenu_View_Quest.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Quest.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Quest.Text = "任務(&Q)";
 			this.StripMenu_View_Quest.Click += new System.EventHandler(this.StripMenu_View_Quest_Click);
 			// 
 			// StripMenu_View_Information
 			// 
 			this.StripMenu_View_Information.Name = "StripMenu_View_Information";
-			this.StripMenu_View_Information.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Information.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Information.Text = "情報(&I)";
 			this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(164, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(215, 6);
 			// 
 			// StripMenu_View_Compass
 			// 
 			this.StripMenu_View_Compass.Name = "StripMenu_View_Compass";
-			this.StripMenu_View_Compass.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Compass.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Compass.Text = "羅針盤(&C)";
 			this.StripMenu_View_Compass.Click += new System.EventHandler(this.StripMenu_View_Compass_Click);
 			// 
 			// StripMenu_View_Battle
 			// 
 			this.StripMenu_View_Battle.Name = "StripMenu_View_Battle";
-			this.StripMenu_View_Battle.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Battle.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Battle.Text = "戦闘(&B)";
 			this.StripMenu_View_Battle.Click += new System.EventHandler(this.StripMenu_View_Battle_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(164, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(215, 6);
 			// 
 			// StripMenu_View_Browser
 			// 
 			this.StripMenu_View_Browser.Name = "StripMenu_View_Browser";
-			this.StripMenu_View_Browser.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Browser.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Browser.Text = "ブラウザ(&M)";
 			this.StripMenu_View_Browser.Click += new System.EventHandler(this.StripMenu_View_Browser_Click);
 			// 
 			// StripMenu_View_Log
 			// 
 			this.StripMenu_View_Log.Name = "StripMenu_View_Log";
-			this.StripMenu_View_Log.Size = new System.Drawing.Size(167, 22);
+			this.StripMenu_View_Log.Size = new System.Drawing.Size(218, 22);
 			this.StripMenu_View_Log.Text = "ログ(&L)";
 			this.StripMenu_View_Log.Click += new System.EventHandler(this.StripMenu_View_Log_Click);
 			// 
@@ -401,28 +401,28 @@
             this.StripMenu_WindowCapture_AttachAll,
             this.StripMenu_WindowCapture_DetachAll});
 			this.StripMenu_WindowCapture.Name = "StripMenu_WindowCapture";
-			this.StripMenu_WindowCapture.Size = new System.Drawing.Size(160, 22);
-			this.StripMenu_WindowCapture.Text = "ウィンドウキャプチャ";
+			this.StripMenu_WindowCapture.Size = new System.Drawing.Size(218, 22);
+			this.StripMenu_WindowCapture.Text = "ウィンドウキャプチャ(&W)";
 			// 
 			// StripMenu_WindowCapture_SubWindow
 			// 
 			this.StripMenu_WindowCapture_SubWindow.Name = "StripMenu_WindowCapture_SubWindow";
-			this.StripMenu_WindowCapture_SubWindow.Size = new System.Drawing.Size(191, 22);
-			this.StripMenu_WindowCapture_SubWindow.Text = "コントロールウィンドウ";
+			this.StripMenu_WindowCapture_SubWindow.Size = new System.Drawing.Size(226, 22);
+			this.StripMenu_WindowCapture_SubWindow.Text = "コントロールウィンドウ(&C)";
 			this.StripMenu_WindowCapture_SubWindow.Click += new System.EventHandler(this.StripMenu_WindowCapture_SubWindow_Click);
 			// 
 			// StripMenu_WindowCapture_AttachAll
 			// 
 			this.StripMenu_WindowCapture_AttachAll.Name = "StripMenu_WindowCapture_AttachAll";
-			this.StripMenu_WindowCapture_AttachAll.Size = new System.Drawing.Size(191, 22);
-			this.StripMenu_WindowCapture_AttachAll.Text = "全て再検索して取り込む";
+			this.StripMenu_WindowCapture_AttachAll.Size = new System.Drawing.Size(226, 22);
+			this.StripMenu_WindowCapture_AttachAll.Text = "全て再検索して取り込む(&S)";
 			this.StripMenu_WindowCapture_AttachAll.Click += new System.EventHandler(this.StripMenu_WindowCapture_AttachAll_Click);
 			// 
 			// StripMenu_WindowCapture_DetachAll
 			// 
 			this.StripMenu_WindowCapture_DetachAll.Name = "StripMenu_WindowCapture_DetachAll";
-			this.StripMenu_WindowCapture_DetachAll.Size = new System.Drawing.Size(191, 22);
-			this.StripMenu_WindowCapture_DetachAll.Text = "全てのウィンドウを開放";
+			this.StripMenu_WindowCapture_DetachAll.Size = new System.Drawing.Size(226, 22);
+			this.StripMenu_WindowCapture_DetachAll.Text = "全てのウィンドウを開放(&R)";
 			this.StripMenu_WindowCapture_DetachAll.Click += new System.EventHandler(this.StripMenu_WindowCapture_DetachAll_Click);
 			// 
 			// StripMenu_Browser
@@ -485,103 +485,103 @@
 			// 
 			this.StripMenu_Browser_Zoom_Current.Enabled = false;
 			this.StripMenu_Browser_Zoom_Current.Name = "StripMenu_Browser_Zoom_Current";
-			this.StripMenu_Browser_Zoom_Current.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_Current.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_Current.Text = "現在%";
 			// 
 			// toolStripSeparator14
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
-			this.toolStripSeparator14.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator14.Size = new System.Drawing.Size(109, 6);
 			// 
 			// StripMenu_Browser_Zoom_Decr20
 			// 
 			this.StripMenu_Browser_Zoom_Decr20.Name = "StripMenu_Browser_Zoom_Decr20";
-			this.StripMenu_Browser_Zoom_Decr20.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_Decr20.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_Decr20.Text = "-20%";
 			this.StripMenu_Browser_Zoom_Decr20.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Decr20_Click);
 			// 
 			// StripMenu_Browser_Zoom_Incr20
 			// 
 			this.StripMenu_Browser_Zoom_Incr20.Name = "StripMenu_Browser_Zoom_Incr20";
-			this.StripMenu_Browser_Zoom_Incr20.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_Incr20.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_Incr20.Text = "+20%";
 			this.StripMenu_Browser_Zoom_Incr20.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Incr20_Click);
 			// 
 			// toolStripSeparator13
 			// 
 			this.toolStripSeparator13.Name = "toolStripSeparator13";
-			this.toolStripSeparator13.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator13.Size = new System.Drawing.Size(109, 6);
 			// 
 			// StripMenu_Browser_Zoom_25
 			// 
 			this.StripMenu_Browser_Zoom_25.Name = "StripMenu_Browser_Zoom_25";
-			this.StripMenu_Browser_Zoom_25.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_25.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_25.Text = "25%";
 			this.StripMenu_Browser_Zoom_25.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
 			// StripMenu_Browser_Zoom_50
 			// 
 			this.StripMenu_Browser_Zoom_50.Name = "StripMenu_Browser_Zoom_50";
-			this.StripMenu_Browser_Zoom_50.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_50.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_50.Text = "50%";
 			this.StripMenu_Browser_Zoom_50.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
 			// StripMenu_Browser_Zoom_75
 			// 
 			this.StripMenu_Browser_Zoom_75.Name = "StripMenu_Browser_Zoom_75";
-			this.StripMenu_Browser_Zoom_75.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_75.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_75.Text = "75%";
 			this.StripMenu_Browser_Zoom_75.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
 			// toolStripSeparator11
 			// 
 			this.toolStripSeparator11.Name = "toolStripSeparator11";
-			this.toolStripSeparator11.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator11.Size = new System.Drawing.Size(109, 6);
 			// 
 			// StripMenu_Browser_Zoom_100
 			// 
 			this.StripMenu_Browser_Zoom_100.Name = "StripMenu_Browser_Zoom_100";
-			this.StripMenu_Browser_Zoom_100.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_100.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_100.Text = "100%";
 			this.StripMenu_Browser_Zoom_100.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
 			// toolStripSeparator12
 			// 
 			this.toolStripSeparator12.Name = "toolStripSeparator12";
-			this.toolStripSeparator12.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator12.Size = new System.Drawing.Size(109, 6);
 			// 
 			// StripMenu_Browser_Zoom_150
 			// 
 			this.StripMenu_Browser_Zoom_150.Name = "StripMenu_Browser_Zoom_150";
-			this.StripMenu_Browser_Zoom_150.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_150.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_150.Text = "150%";
 			this.StripMenu_Browser_Zoom_150.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
 			// StripMenu_Browser_Zoom_200
 			// 
 			this.StripMenu_Browser_Zoom_200.Name = "StripMenu_Browser_Zoom_200";
-			this.StripMenu_Browser_Zoom_200.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_200.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_200.Text = "200%";
 			this.StripMenu_Browser_Zoom_200.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
 			// StripMenu_Browser_Zoom_250
 			// 
 			this.StripMenu_Browser_Zoom_250.Name = "StripMenu_Browser_Zoom_250";
-			this.StripMenu_Browser_Zoom_250.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_250.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_250.Text = "250%";
 			this.StripMenu_Browser_Zoom_250.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
 			// StripMenu_Browser_Zoom_300
 			// 
 			this.StripMenu_Browser_Zoom_300.Name = "StripMenu_Browser_Zoom_300";
-			this.StripMenu_Browser_Zoom_300.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_300.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_300.Text = "300%";
 			this.StripMenu_Browser_Zoom_300.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
 			// StripMenu_Browser_Zoom_400
 			// 
 			this.StripMenu_Browser_Zoom_400.Name = "StripMenu_Browser_Zoom_400";
-			this.StripMenu_Browser_Zoom_400.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Browser_Zoom_400.Size = new System.Drawing.Size(112, 22);
 			this.StripMenu_Browser_Zoom_400.Text = "400%";
 			this.StripMenu_Browser_Zoom_400.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
 			// 
@@ -635,26 +635,26 @@
 			// StripMenu_Tool_EquipmentList
 			// 
 			this.StripMenu_Tool_EquipmentList.Name = "StripMenu_Tool_EquipmentList";
-			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(143, 22);
 			this.StripMenu_Tool_EquipmentList.Text = "装備一覧(&Q)";
 			this.StripMenu_Tool_EquipmentList.Click += new System.EventHandler(this.StripMenu_Tool_EquipmentList_Click);
 			// 
 			// toolStripSeparator7
 			// 
 			this.toolStripSeparator7.Name = "toolStripSeparator7";
-			this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator7.Size = new System.Drawing.Size(140, 6);
 			// 
 			// StripMenu_Tool_AlbumMasterShip
 			// 
 			this.StripMenu_Tool_AlbumMasterShip.Name = "StripMenu_Tool_AlbumMasterShip";
-			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(143, 22);
 			this.StripMenu_Tool_AlbumMasterShip.Text = "艦船図鑑(&S)";
 			this.StripMenu_Tool_AlbumMasterShip.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterShip_Click);
 			// 
 			// StripMenu_Tool_AlbumMasterEquipment
 			// 
 			this.StripMenu_Tool_AlbumMasterEquipment.Name = "StripMenu_Tool_AlbumMasterEquipment";
-			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(143, 22);
 			this.StripMenu_Tool_AlbumMasterEquipment.Text = "装備図鑑(&E)";
 			this.StripMenu_Tool_AlbumMasterEquipment.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterEquipment_Click);
 			// 

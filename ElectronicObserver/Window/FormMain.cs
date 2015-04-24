@@ -151,6 +151,7 @@ namespace ElectronicObserver.Window {
 			var c = Utility.Configuration.Config;
 
 			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = c.Debug.EnableDebugMenu;
+			StripStatus.Visible = c.Life.ShowStatusBar;
 
 			TopMost = c.Life.TopMost;
 
@@ -1036,6 +1037,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
+
 
 
 

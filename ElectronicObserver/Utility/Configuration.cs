@@ -297,11 +297,17 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool CheckUpdateInformation { get; set; }
 
+				/// <summary>
+				/// ステータスバーを表示するか
+				/// </summary>
+				public bool ShowStatusBar { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
 					LayoutFilePath = @"Settings\WindowLayout.zip";
 					CheckUpdateInformation = true;
+					ShowStatusBar = true;
 				}
 			}
 			/// <summary>起動と終了</summary>

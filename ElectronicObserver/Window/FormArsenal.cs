@@ -141,7 +141,7 @@ namespace ElectronicObserver.Window {
 
 
 		private TableArsenalControl[] ControlArsenal;
-
+		private int _buildingID;
 
 		public FormArsenal( FormMain parent ) {
 			InitializeComponent();
@@ -159,7 +159,7 @@ namespace ElectronicObserver.Window {
 			}
 			TableArsenal.ResumeLayout();
 
-			
+			_buildingID = -1;
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormArsenal] );
 		}
@@ -183,6 +183,39 @@ namespace ElectronicObserver.Window {
 
 		void Updated( string apiname, dynamic data ) {
 
+			if ( _buildingID != -1 && apiname == "api_get_member/kdock" ) {
+
+				ArsenalData arsenal = KCDatabase.Instance.Arsenals[_buildingID];
+				ShipDataMaster ship = KCDatabase.Instance.MasterShips[arsenal.ShipID];
+				string name;
+				
+				if ( Utility.Configuration.Config.Log.ShowSpoiler && Utility.Configuration.Config.FormArsenal.ShowShipName ) {
+
+					name = string.Format( "{0}「{1}」", ship.ShipTypeName, ship.NameWithClass );
+
+				} else {
+
+					name = "艦娘";
+				}
+
+				Utility.Logger.Add( 2, string.Format( "工廠ドック #{0}で {1}の建造を開始しました。({2}/{3}/{4}/{5}-{6} 秘書艦: {7})",
+					_buildingID,
+					name,
+					arsenal.Fuel,
+					arsenal.Ammo,
+					arsenal.Steel,
+					arsenal.Bauxite,
+					arsenal.DevelopmentMaterial,
+					KCDatabase.Instance.Fleet[1].MembersInstance[0].NameWithLevel
+					) );
+
+				_buildingID = -1;
+			}
+
+			if ( apiname == "api_req_kousyou/createship" ) {
+				_buildingID = int.Parse( data["api_kdock_id"] );
+			}
+			
 			UpdateUI();
 		}
 

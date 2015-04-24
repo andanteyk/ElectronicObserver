@@ -295,6 +295,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_TopMost.Checked = this.TopMost = config.Life.TopMost;		//メインウィンドウに隠れないように
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
 			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
+			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
@@ -423,6 +424,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.TopMost = Life_TopMost.Checked;
 			config.Life.LayoutFilePath = Life_LayoutFilePath.Text;
 			config.Life.CheckUpdateInformation = Life_CheckUpdateInformation.Checked;
+			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;

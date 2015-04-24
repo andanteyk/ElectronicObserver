@@ -176,22 +176,35 @@ namespace ElectronicObserver.Data.Battle {
 				//checkme: とてもアレな感じ
 
 				int dropID = Result.DroppedShipID;
+				bool showLog = Utility.Configuration.Config.Log.ShowSpoiler;
+
+				if ( dropID != -1 && showLog ) {
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
+					Utility.Logger.Add( 2, string.Format( "{0}「{1}」が戦列に加わりました。", ship.ShipTypeName, ship.NameWithClass ) );
+				}
 
 				if ( dropID == -1 ) {
 
 					int itemID = Result.DroppedItemID;
 
-					if ( itemID != -1 )
+					if ( itemID != -1 ) {
 						dropID = itemID + 1000;
+						if ( showLog )
+							Utility.Logger.Add( 2, string.Format( "アイテム「{0}」を入手しました。", KCDatabase.Instance.MasterUseItems[itemID].Name ) );
+					}
 				}
 
 				if ( dropID == -1 ) {
 
 					int eqID = Result.DroppedEquipmentID;
 
-					if ( eqID != -1 )
+					if ( eqID != -1 ) {
 						dropID = eqID + 2000;
-
+						if ( showLog ) {
+							EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[eqID];
+							Utility.Logger.Add( 2, string.Format( "{0}「{1}」を入手しました。", eq.CategoryTypeInstance.Name, eq.Name ) );
+						}
+					}
 				}
 
 				if ( dropID == -1 && (

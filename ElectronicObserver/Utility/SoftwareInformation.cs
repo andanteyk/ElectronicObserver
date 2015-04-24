@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Utility {
-	
+
 	/// <summary>
 	/// ソフトウェアの情報を保持します。
 	/// </summary>
@@ -35,7 +35,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static string VersionJapanese {
 			get {
-				return SoftwareNameJapanese + "一一型改二";
+				return SoftwareNameJapanese + "一二型";
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static string VersionEnglish {
 			get {
-				return "1.1.2";
+				return "1.2.0";
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static DateTime UpdateTime {
 			get {
-				return DateTimeHelper.CSVStringToTime( "2015/04/13 20:00:00" );
+				return DateTimeHelper.CSVStringToTime( "2015/04/24 23:00:00" );
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace ElectronicObserver.Utility {
 			if ( !Utility.Configuration.Config.Life.CheckUpdateInformation )
 				return;
 
-			if ( client == null ) { 
+			if ( client == null ) {
 				client = new System.Net.WebClient();
 				client.Encoding = new System.Text.UTF8Encoding( false );
 				client.DownloadStringCompleted += DownloadStringCompleted;
@@ -136,7 +136,7 @@ namespace ElectronicObserver.Utility {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "アップデート情報の処理に失敗しました。" );
 			}
-			
+
 		}
 
 	}

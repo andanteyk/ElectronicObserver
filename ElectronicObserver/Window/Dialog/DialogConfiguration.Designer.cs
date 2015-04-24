@@ -103,6 +103,12 @@
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.FormBrowser_BrowserVersion = new System.Windows.Forms.ComboBox();
+			this.FormBrowser_DeleteRegistry = new System.Windows.Forms.Button();
+			this.FormBrowser_GPURendering = new System.Windows.Forms.CheckBox();
+			this.FormBrowser_ApplyRegistry = new System.Windows.Forms.Button();
+			this.label19 = new System.Windows.Forms.Label();
 			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -131,12 +137,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.FormBrowser_BrowserVersion = new System.Windows.Forms.ComboBox();
-			this.FormBrowser_GPURendering = new System.Windows.Forms.CheckBox();
-			this.label19 = new System.Windows.Forms.Label();
-			this.FormBrowser_ApplyRegistry = new System.Windows.Forms.Button();
-			this.FormBrowser_DeleteRegistry = new System.Windows.Forms.Button();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.Life_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -158,10 +159,10 @@
 			this.groupBox1.SuspendLayout();
 			this.tabPage13.SuspendLayout();
 			this.tabPage12.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).BeginInit();
 			this.tabPage11.SuspendLayout();
-			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -742,6 +743,7 @@
 			// 
 			// tabPage6
 			// 
+			this.tabPage6.Controls.Add(this.Life_ShowStatusBar);
 			this.tabPage6.Controls.Add(this.Life_CheckUpdateInformation);
 			this.tabPage6.Controls.Add(this.Life_LayoutFilePathSearch);
 			this.tabPage6.Controls.Add(this.Life_LayoutFilePath);
@@ -936,10 +938,10 @@
 			// tabPage9
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 24);
+			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 219);
+			this.tabPage9.Size = new System.Drawing.Size(442, 221);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -958,10 +960,10 @@
 			// 
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 24);
+			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 219);
+			this.tabPage10.Size = new System.Drawing.Size(442, 221);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1033,10 +1035,10 @@
 			// 
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 24);
+			this.tabPage13.Location = new System.Drawing.Point(4, 22);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 219);
+			this.tabPage13.Size = new System.Drawing.Size(442, 221);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1075,13 +1077,92 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 24);
+			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 219);
+			this.tabPage12.Size = new System.Drawing.Size(442, 221);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Controls.Add(this.FormBrowser_BrowserVersion);
+			this.groupBox3.Controls.Add(this.FormBrowser_DeleteRegistry);
+			this.groupBox3.Controls.Add(this.FormBrowser_GPURendering);
+			this.groupBox3.Controls.Add(this.FormBrowser_ApplyRegistry);
+			this.groupBox3.Controls.Add(this.label19);
+			this.groupBox3.Location = new System.Drawing.Point(6, 165);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(430, 46);
+			this.groupBox3.TabIndex = 5;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "レジストリ";
+			// 
+			// FormBrowser_BrowserVersion
+			// 
+			this.FormBrowser_BrowserVersion.FormattingEnabled = true;
+			this.FormBrowser_BrowserVersion.Items.AddRange(new object[] {
+            "7000",
+            "8000",
+            "8888",
+            "9000",
+            "9999",
+            "10000",
+            "10001",
+            "11000",
+            "11001"});
+			this.FormBrowser_BrowserVersion.Location = new System.Drawing.Point(112, 16);
+			this.FormBrowser_BrowserVersion.Name = "FormBrowser_BrowserVersion";
+			this.FormBrowser_BrowserVersion.Size = new System.Drawing.Size(60, 23);
+			this.FormBrowser_BrowserVersion.TabIndex = 9;
+			this.FormBrowser_BrowserVersion.Text = "7000";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_BrowserVersion, "内蔵ブラウザのバージョンを指定します。\r\n7000がIE7相当、8000がIE8相当、11000がIE11相当です。\r\nバージョンによって動作が変わる可能性があり" +
+        "ます。");
+			// 
+			// FormBrowser_DeleteRegistry
+			// 
+			this.FormBrowser_DeleteRegistry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.FormBrowser_DeleteRegistry.Location = new System.Drawing.Point(374, 15);
+			this.FormBrowser_DeleteRegistry.Name = "FormBrowser_DeleteRegistry";
+			this.FormBrowser_DeleteRegistry.Size = new System.Drawing.Size(50, 23);
+			this.FormBrowser_DeleteRegistry.TabIndex = 13;
+			this.FormBrowser_DeleteRegistry.Text = "削除";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_DeleteRegistry, "レジストリを削除します。");
+			this.FormBrowser_DeleteRegistry.UseVisualStyleBackColor = true;
+			this.FormBrowser_DeleteRegistry.Click += new System.EventHandler(this.FormBrowser_DeleteRegistry_Click);
+			// 
+			// FormBrowser_GPURendering
+			// 
+			this.FormBrowser_GPURendering.AutoSize = true;
+			this.FormBrowser_GPURendering.Location = new System.Drawing.Point(180, 18);
+			this.FormBrowser_GPURendering.Name = "FormBrowser_GPURendering";
+			this.FormBrowser_GPURendering.Size = new System.Drawing.Size(103, 19);
+			this.FormBrowser_GPURendering.TabIndex = 10;
+			this.FormBrowser_GPURendering.Text = "GPUレンダリング";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_GPURendering, "内蔵ブラウザでGPUレンダリングを使用するかを指定します。\r\n環境によっては処理が高速化します。");
+			this.FormBrowser_GPURendering.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_ApplyRegistry
+			// 
+			this.FormBrowser_ApplyRegistry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.FormBrowser_ApplyRegistry.Location = new System.Drawing.Point(318, 15);
+			this.FormBrowser_ApplyRegistry.Name = "FormBrowser_ApplyRegistry";
+			this.FormBrowser_ApplyRegistry.Size = new System.Drawing.Size(50, 23);
+			this.FormBrowser_ApplyRegistry.TabIndex = 12;
+			this.FormBrowser_ApplyRegistry.Text = "適用";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_ApplyRegistry, "レジストリに対して設定を適用します。\r\n下の[OK]ボタンでは反映されないのでご注意ください。");
+			this.FormBrowser_ApplyRegistry.UseVisualStyleBackColor = true;
+			this.FormBrowser_ApplyRegistry.Click += new System.EventHandler(this.FormBrowser_ApplyRegistry_Click);
+			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.Location = new System.Drawing.Point(6, 19);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(100, 15);
+			this.label19.TabIndex = 11;
+			this.label19.Text = "ブラウザバージョン：";
 			// 
 			// FormBrowser_AppliesStyleSheet
 			// 
@@ -1363,84 +1444,15 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// FormBrowser_BrowserVersion
+			// Life_ShowStatusBar
 			// 
-			this.FormBrowser_BrowserVersion.FormattingEnabled = true;
-			this.FormBrowser_BrowserVersion.Items.AddRange(new object[] {
-            "7000",
-            "8000",
-            "8888",
-            "9000",
-            "9999",
-            "10000",
-            "10001",
-            "11000",
-            "11001"});
-			this.FormBrowser_BrowserVersion.Location = new System.Drawing.Point(112, 16);
-			this.FormBrowser_BrowserVersion.Name = "FormBrowser_BrowserVersion";
-			this.FormBrowser_BrowserVersion.Size = new System.Drawing.Size(60, 23);
-			this.FormBrowser_BrowserVersion.TabIndex = 9;
-			this.FormBrowser_BrowserVersion.Text = "7000";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_BrowserVersion, "内蔵ブラウザのバージョンを指定します。\r\n7000がIE7相当、8000がIE8相当、11000がIE11相当です。\r\nバージョンによって動作が変わる可能性があり" +
-        "ます。");
-			// 
-			// FormBrowser_GPURendering
-			// 
-			this.FormBrowser_GPURendering.AutoSize = true;
-			this.FormBrowser_GPURendering.Location = new System.Drawing.Point(180, 18);
-			this.FormBrowser_GPURendering.Name = "FormBrowser_GPURendering";
-			this.FormBrowser_GPURendering.Size = new System.Drawing.Size(103, 19);
-			this.FormBrowser_GPURendering.TabIndex = 10;
-			this.FormBrowser_GPURendering.Text = "GPUレンダリング";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_GPURendering, "内蔵ブラウザでGPUレンダリングを使用するかを指定します。\r\n環境によっては処理が高速化します。");
-			this.FormBrowser_GPURendering.UseVisualStyleBackColor = true;
-			// 
-			// label19
-			// 
-			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(6, 19);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(100, 15);
-			this.label19.TabIndex = 11;
-			this.label19.Text = "ブラウザバージョン：";
-			// 
-			// FormBrowser_ApplyRegistry
-			// 
-			this.FormBrowser_ApplyRegistry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.FormBrowser_ApplyRegistry.Location = new System.Drawing.Point(318, 15);
-			this.FormBrowser_ApplyRegistry.Name = "FormBrowser_ApplyRegistry";
-			this.FormBrowser_ApplyRegistry.Size = new System.Drawing.Size(50, 23);
-			this.FormBrowser_ApplyRegistry.TabIndex = 12;
-			this.FormBrowser_ApplyRegistry.Text = "適用";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_ApplyRegistry, "レジストリに対して設定を適用します。\r\n下の[OK]ボタンでは反映されないのでご注意ください。");
-			this.FormBrowser_ApplyRegistry.UseVisualStyleBackColor = true;
-			this.FormBrowser_ApplyRegistry.Click += new System.EventHandler(this.FormBrowser_ApplyRegistry_Click);
-			// 
-			// FormBrowser_DeleteRegistry
-			// 
-			this.FormBrowser_DeleteRegistry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.FormBrowser_DeleteRegistry.Location = new System.Drawing.Point(374, 15);
-			this.FormBrowser_DeleteRegistry.Name = "FormBrowser_DeleteRegistry";
-			this.FormBrowser_DeleteRegistry.Size = new System.Drawing.Size(50, 23);
-			this.FormBrowser_DeleteRegistry.TabIndex = 13;
-			this.FormBrowser_DeleteRegistry.Text = "削除";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_DeleteRegistry, "レジストリを削除します。");
-			this.FormBrowser_DeleteRegistry.UseVisualStyleBackColor = true;
-			this.FormBrowser_DeleteRegistry.Click += new System.EventHandler(this.FormBrowser_DeleteRegistry_Click);
-			// 
-			// groupBox3
-			// 
-			this.groupBox3.Controls.Add(this.FormBrowser_BrowserVersion);
-			this.groupBox3.Controls.Add(this.FormBrowser_DeleteRegistry);
-			this.groupBox3.Controls.Add(this.FormBrowser_GPURendering);
-			this.groupBox3.Controls.Add(this.FormBrowser_ApplyRegistry);
-			this.groupBox3.Controls.Add(this.label19);
-			this.groupBox3.Location = new System.Drawing.Point(6, 165);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(430, 46);
-			this.groupBox3.TabIndex = 5;
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "レジストリ";
+			this.Life_ShowStatusBar.AutoSize = true;
+			this.Life_ShowStatusBar.Location = new System.Drawing.Point(11, 110);
+			this.Life_ShowStatusBar.Name = "Life_ShowStatusBar";
+			this.Life_ShowStatusBar.Size = new System.Drawing.Size(143, 19);
+			this.Life_ShowStatusBar.TabIndex = 6;
+			this.Life_ShowStatusBar.Text = "ステータスバーを表示する";
+			this.Life_ShowStatusBar.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -1495,13 +1507,13 @@
 			this.tabPage13.PerformLayout();
 			this.tabPage12.ResumeLayout(false);
 			this.tabPage12.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).EndInit();
 			this.tabPage11.ResumeLayout(false);
 			this.tabPage11.PerformLayout();
-			this.groupBox3.ResumeLayout(false);
-			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -1621,5 +1633,6 @@
 		private System.Windows.Forms.CheckBox FormBrowser_GPURendering;
 		private System.Windows.Forms.Button FormBrowser_ApplyRegistry;
 		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.CheckBox Life_ShowStatusBar;
 	}
 }
