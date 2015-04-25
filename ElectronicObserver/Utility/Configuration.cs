@@ -480,6 +480,12 @@ namespace ElectronicObserver.Utility {
 				public int ZoomRate { get; set; }
 
 				/// <summary>
+				/// ブラウザをウィンドウサイズに合わせる
+				/// </summary>
+				[DataMember]
+				public bool ZoomFit { get; set; }
+
+				/// <summary>
 				/// ログインページのURL
 				/// </summary>
 				public string LogInPageURL { get; set; }

@@ -63,6 +63,8 @@
 			this.ToolMenu_Other_Zoom_250 = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolMenu_Other_Zoom_300 = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolMenu_Other_Zoom_400 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+			this.ToolMenu_Other_Zoom_Fit = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.ToolMenu_Other_Mute = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -246,6 +248,8 @@
 			this.ToolMenu_Other_Zoom.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolMenu_Other_Zoom_Current,
             this.toolStripSeparator9,
+            this.ToolMenu_Other_Zoom_Fit,
+            this.toolStripSeparator14,
             this.ToolMenu_Other_Zoom_Decrement,
             this.ToolMenu_Other_Zoom_Increment,
             this.toolStripSeparator10,
@@ -367,6 +371,19 @@
 			this.ToolMenu_Other_Zoom_400.Size = new System.Drawing.Size(112, 22);
 			this.ToolMenu_Other_Zoom_400.Text = "400%";
 			this.ToolMenu_Other_Zoom_400.Click += new System.EventHandler(this.ToolMenu_Other_Zoom_Click);
+			// 
+			// toolStripSeparator14
+			// 
+			this.toolStripSeparator14.Name = "toolStripSeparator14";
+			this.toolStripSeparator14.Size = new System.Drawing.Size(149, 6);
+			// 
+			// ToolMenu_Other_Zoom_Fit
+			// 
+			this.ToolMenu_Other_Zoom_Fit.CheckOnClick = true;
+			this.ToolMenu_Other_Zoom_Fit.Name = "ToolMenu_Other_Zoom_Fit";
+			this.ToolMenu_Other_Zoom_Fit.Size = new System.Drawing.Size(152, 22);
+			this.ToolMenu_Other_Zoom_Fit.Text = "ぴったり";
+			this.ToolMenu_Other_Zoom_Fit.Click += new System.EventHandler(this.ToolMenu_Other_Zoom_Fit_Click);
 			// 
 			// toolStripSeparator3
 			// 
@@ -554,6 +571,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
 		private System.Windows.Forms.ContextMenuStrip ContextMenuTool;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenuTool_ShowToolMenu;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+		private System.Windows.Forms.ToolStripMenuItem ToolMenu_Other_Zoom_Fit;
 
     }
 }
