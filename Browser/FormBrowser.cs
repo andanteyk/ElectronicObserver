@@ -270,27 +270,32 @@ namespace Browser {
 		/// </summary>
 		public void ApplyZoom() {
 			int zoomRate = Configuration.ZoomRate;
-			bool fit = Configuration.ZoomFit;
+			bool fit = Configuration.ZoomFit && StyleSheetApplied;
 
 			try {
 				var wb = Browser.ActiveXInstance as SHDocVw.IWebBrowser2;
 				if ( wb == null || wb.ReadyState == SHDocVw.tagREADYSTATE.READYSTATE_UNINITIALIZED || wb.Busy ) return;
 
 				double zoomFactor;
+				object pin;
 
 				if ( fit ) {
+					pin = 100;
 					double rateX = (double)SizeAdjuster.Width / KanColleSize.Width;
 					double rateY = (double)SizeAdjuster.Height / KanColleSize.Height;
 					zoomFactor = Math.Min( rateX, rateY );
-
 				} else {
 					if ( zoomRate < 10 )
 						zoomRate = 10;
 					if ( zoomRate > 1000 )
 						zoomRate = 1000;
 
+					pin = zoomRate;
 					zoomFactor = zoomRate / 100.0;
 				}
+
+				object pout = null;
+				wb.ExecWB( SHDocVw.OLECMDID.OLECMDID_OPTICAL_ZOOM, SHDocVw.OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref pin, ref pout );
 
 				if ( StyleSheetApplied ) {
 					Browser.Size = Browser.MinimumSize = new Size(
