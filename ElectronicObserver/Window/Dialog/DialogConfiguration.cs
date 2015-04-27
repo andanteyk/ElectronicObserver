@@ -318,6 +318,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FormBrowser_IsEnabled.Checked = config.FormBrowser.IsEnabled;
 			FormBrowser_ZoomRate.Value = config.FormBrowser.ZoomRate;
+			FormBrowser_ZoomFit.Checked = config.FormBrowser.ZoomFit;
 			FormBrowser_LogInPageURL.Text = config.FormBrowser.LogInPageURL;
 			FormBrowser_ScreenShotFormat_JPEG.Checked = config.FormBrowser.ScreenShotFormat == 1;
 			FormBrowser_ScreenShotFormat_PNG.Checked = config.FormBrowser.ScreenShotFormat == 2;
@@ -447,6 +448,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			config.FormBrowser.IsEnabled = FormBrowser_IsEnabled.Checked;
 			config.FormBrowser.ZoomRate = (int)FormBrowser_ZoomRate.Value;
+			config.FormBrowser.ZoomFit = FormBrowser_ZoomFit.Checked;
 			config.FormBrowser.LogInPageURL = FormBrowser_LogInPageURL.Text;
 			if ( FormBrowser_ScreenShotFormat_JPEG.Checked )
 				config.FormBrowser.ScreenShotFormat = 1;
@@ -478,9 +480,9 @@ namespace ElectronicObserver.Window.Dialog {
 				} catch ( Exception ex ) {
 
 					Utility.ErrorReporter.SendErrorReport( ex, "レジストリへの書き込みに失敗しました。" );
-					MessageBox.Show( "レジストリへの書き込みに失敗しました。\r\n" + ex.Message, "エラー", 
+					MessageBox.Show( "レジストリへの書き込みに失敗しました。\r\n" + ex.Message, "エラー",
 						MessageBoxButtons.OK, MessageBoxIcon.Error );
-					
+
 				} finally {
 					if ( reg != null )
 						reg.Close();
@@ -494,7 +496,7 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( MessageBox.Show( "レジストリを削除します。よろしいですか？\r\n＊完全に適用するには再起動が必要です。", "確認",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.Yes ) {
-				
+
 				Microsoft.Win32.RegistryKey reg = null;
 
 				try {

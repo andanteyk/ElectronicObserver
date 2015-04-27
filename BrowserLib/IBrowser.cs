@@ -25,7 +25,7 @@ namespace BrowserLib {
 		void RefreshBrowser();
 
 		[OperationContract]
-		void ApplyZoom( int zoomRate );
+		void ApplyZoom();
 
 		[OperationContract]
 		void Navigate( string url );

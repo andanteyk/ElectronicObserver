@@ -480,6 +480,12 @@ namespace ElectronicObserver.Utility {
 				public int ZoomRate { get; set; }
 
 				/// <summary>
+				/// ブラウザをウィンドウサイズに合わせる
+				/// </summary>
+				[DataMember]
+				public bool ZoomFit { get; set; }
+
+				/// <summary>
 				/// ログインページのURL
 				/// </summary>
 				public string LogInPageURL { get; set; }
@@ -533,6 +539,7 @@ namespace ElectronicObserver.Utility {
 
 				public ConfigFormBrowser() {
 					ZoomRate = 100;
+					ZoomFit = false;
 					LogInPageURL = @"http://www.dmm.com/netgame_s/kancolle/";
 					IsEnabled = true;
 					ScreenShotPath = "ScreenShot";
