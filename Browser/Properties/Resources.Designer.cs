@@ -86,12 +86,12 @@ namespace Browser.Properties {
         ///	var fillStyle = {margin:&quot;0px&quot;,padding:&quot;0px&quot;,position:&quot;fixed&quot;,left:&quot;0px&quot;,top:&quot;0px&quot;,width:&quot;100%&quot;,height:&quot;100%&quot;,overflow:&quot;hidden&quot;};
         ///	$(document.body).css({margin:&quot;0px&quot;,padding:&quot;0px&quot;,overflow:&quot;hidden&quot;});
         ///	$(&quot;img&quot;).css(hideStyle);
-        ///	$(&quot;#dmm_ntgnavi&quot;).css(hideStyle);
+        ///	//$(&quot;#dmm_ntgnavi&quot;).css(hideStyle);
+        ///	$(&quot;#dmm-ntgnavi-renew&quot;).css(hideStyle);
         ///	$(&quot;#w&quot;).css(fillStyle);
         ///	$(&quot;#main-ntg&quot;).css(fillStyle);
         ///	$(&quot;#page&quot;).css(fillStyle);
-        ///	$(&quot;#area-game&quot;).css(fillStyle);
-        ///	var jqGam [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PageScript {
             get {

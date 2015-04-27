@@ -152,7 +152,8 @@ try {
 	var fillStyle = {margin:"0px",padding:"0px",position:"fixed",left:"0px",top:"0px",width:"100%",height:"100%",overflow:"hidden"};
 	$(document.body).css({margin:"0px",padding:"0px",overflow:"hidden"});
 	$("img").css(hideStyle);
-	$("#dmm_ntgnavi").css(hideStyle);
+	//$("#dmm_ntgnavi").css(hideStyle);
+	$("#dmm-ntgnavi-renew").css(hideStyle);
 	$("#w").css(fillStyle);
 	$("#main-ntg").css(fillStyle);
 	$("#page").css(fillStyle);
