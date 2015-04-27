@@ -153,7 +153,7 @@ namespace ElectronicObserver.Window {
 				Utility.Configuration.Config.FormBrowser.ScreenShotFormat ) );
 		}
 
-		
+
 		public void SendErrorReport( string exceptionName, string message ) {
 			Utility.ErrorReporter.SendErrorReport( new Exception( exceptionName ), message );
 		}
@@ -252,7 +252,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 		public void ConnectToBrowser( IntPtr hwnd ) {
 			BrowserWnd = hwnd;
 
@@ -364,7 +364,7 @@ namespace ElectronicObserver.Window {
 		[DllImport( "user32.dll", SetLastError = true )]
 		private static extern bool MoveWindow( IntPtr hwnd, int x, int y, int cx, int cy, bool repaint );
 
-		
+
 		#endregion
 
 	}

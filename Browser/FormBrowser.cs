@@ -239,7 +239,7 @@ namespace Browser {
 					document.InvokeScript( "eval", new object[] { Properties.Resources.PageScript } );
 					swf.Document.InvokeScript( "eval", new object[] { Properties.Resources.FrameScript } );
 				}
-				
+
 				StyleSheetApplied = true;
 
 			} catch ( Exception ex ) {
@@ -363,14 +363,14 @@ namespace Browser {
 
 		// 中のフレームからidにマッチする要素を返す
 		private static HtmlElement getFrameElementById( HtmlDocument document, String id ) {
-			foreach (HtmlWindow frame in document.Window.Frames) {
+			foreach ( HtmlWindow frame in document.Window.Frames ) {
 
 				// frameが別ドメインだとセキュリティ上の問題（クロスフレームスクリプティング）
 				// からアクセスができないのでアクセスできるドキュメントに変換する
 				IServiceProvider provider = (IServiceProvider)frame.DomWindow;
 				object ppvobj;
 				provider.QueryService( typeof( SHDocVw.IWebBrowserApp ).GUID, typeof( SHDocVw.IWebBrowser2 ).GUID, out ppvobj );
-				var htmlDocument = WrapHTMLDocument( (IHTMLDocument2)((SHDocVw.IWebBrowser2)ppvobj).Document );
+				var htmlDocument = WrapHTMLDocument( (IHTMLDocument2)( (SHDocVw.IWebBrowser2)ppvobj ).Document );
 				var htmlElement = htmlDocument.GetElementById( id );
 				if ( htmlElement == null )
 					continue;
@@ -379,7 +379,7 @@ namespace Browser {
 			}
 
 			return null;
-		} 
+		}
 
 
 		/// <summary>
