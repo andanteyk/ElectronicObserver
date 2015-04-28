@@ -91,8 +91,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( IsLayeredWindow ) {
 
+				Size size = DialogData.Image != null ? DialogData.Image.Size : new Size( 300, 100 );
+
 				// メッセージを書き込んだうえでレイヤードウィンドウ化する
-				using ( var bmp = new Bitmap( DialogData.Image.Width, DialogData.Image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) ) {
+				using ( var bmp = new Bitmap( size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) ) {
 
 					using ( var g = Graphics.FromImage( bmp ) ) {
 
@@ -100,7 +102,10 @@ namespace ElectronicObserver.Window.Dialog {
 						g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 						g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
-						g.DrawImage( DialogData.Image, new Rectangle( 0, 0, bmp.Width, bmp.Height ) );
+						if ( DialogData.Image != null )
+							g.DrawImage( DialogData.Image, new Rectangle( 0, 0, bmp.Width, bmp.Height ) );
+						else
+							g.Clear( DialogData.BackColor );
 						//DrawMessage( g );
 
 						//*/

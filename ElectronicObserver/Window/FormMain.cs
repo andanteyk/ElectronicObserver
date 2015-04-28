@@ -196,6 +196,7 @@ namespace ElectronicObserver.Window {
 
 
 			StripStatus_Clock.Text = DateTime.Now.ToString( "HH:mm:ss" );
+			StripStatus_Clock.ToolTipText = DateTime.Now.ToString( "yyyy/MM/dd (ddd)" );
 		}
 
 
