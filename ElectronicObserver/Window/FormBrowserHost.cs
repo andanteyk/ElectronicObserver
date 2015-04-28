@@ -134,16 +134,7 @@ namespace ElectronicObserver.Window {
 		/// ズームを適用します。
 		/// </summary>
 		public void ApplyZoom() {
-			ApplyZoom( Utility.Configuration.Config.FormBrowser.ZoomRate );
-		}
-
-
-		/// <summary>
-		/// ズームを適用します。
-		/// </summary>
-		/// <param name="zoomRate">拡大率。%指定で 10-1000</param>
-		public void ApplyZoom( int zoomRate ) {
-			Browser.AsyncRemoteRun( () => Browser.Proxy.ApplyZoom( zoomRate ) );
+			Browser.AsyncRemoteRun( () => Browser.Proxy.ApplyZoom() );
 		}
 
 		/// <summary>
@@ -162,7 +153,7 @@ namespace ElectronicObserver.Window {
 				Utility.Configuration.Config.FormBrowser.ScreenShotFormat ) );
 		}
 
-		
+
 		public void SendErrorReport( string exceptionName, string message ) {
 			Utility.ErrorReporter.SendErrorReport( new Exception( exceptionName ), message );
 		}
@@ -178,6 +169,7 @@ namespace ElectronicObserver.Window {
 				var c = Utility.Configuration.Config.FormBrowser;
 
 				config.ZoomRate = c.ZoomRate;
+				config.ZoomFit = c.ZoomFit;
 				config.LogInPageURL = c.LogInPageURL;
 				config.IsEnabled = c.IsEnabled;
 				config.ScreenShotPath = c.ScreenShotPath;
@@ -198,6 +190,7 @@ namespace ElectronicObserver.Window {
 			var c = Utility.Configuration.Config.FormBrowser;
 
 			c.ZoomRate = config.ZoomRate;
+			c.ZoomFit = config.ZoomFit;
 			c.LogInPageURL = config.LogInPageURL;
 			c.IsEnabled = config.IsEnabled;
 			c.ScreenShotPath = config.ScreenShotPath;
@@ -259,7 +252,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 		public void ConnectToBrowser( IntPtr hwnd ) {
 			BrowserWnd = hwnd;
 
@@ -371,7 +364,7 @@ namespace ElectronicObserver.Window {
 		[DllImport( "user32.dll", SetLastError = true )]
 		private static extern bool MoveWindow( IntPtr hwnd, int x, int y, int cx, int cy, bool repaint );
 
-		
+
 		#endregion
 
 	}

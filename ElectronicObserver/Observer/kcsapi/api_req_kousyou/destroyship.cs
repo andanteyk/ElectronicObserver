@@ -21,8 +21,10 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 			db.Fleet.LoadFromRequest( APIName, data );
 
-
 			ShipData ship = db.Ships[shipID];
+			
+			Utility.Logger.Add( 2, ship.NameWithLevel + " を解体しました。" );
+
 			for ( int i = 0; i < ship.Slot.Count; i++ ) {
 				if ( ship.Slot[i] != -1 )
 					db.Equipments.Remove( ship.Slot[i] );

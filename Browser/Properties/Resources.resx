@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,62 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FrameScript" xml:space="preserve">
+    <value>// KCRDBと競合しないように同じように処理
+try {
+	var hideStyle = {width:"0px",height:"0px",visibility:"hidden",display:"none"};
+	var fillStyle = {margin:"0px",padding:"0px",position:"fixed",left:"0px",top:"0px",width:"100%",height:"100%",overflow:"hidden"};
+	var jqBody=document.body;
+	$(jqBody).css("zoom","normal");
+	$(jqBody).css({margin:"0px",padding:"0px",overflow:"hidden"});
+	$("#spacing_top").css(hideStyle);
+	$("#adFlashWrap").css(fillStyle);
+	$("#wsFlashWrap").css(fillStyle);
+	$("#flashWrap").css(fillStyle);
+	var elmExternalSwf=document.getElementById("externalswf");
+	if(elmExternalSwf != null) {
+		elmExternalSwf.setAttribute("width","100%");
+		elmExternalSwf.setAttribute("height","100%");
+	}
+	$("#sectionWrap").css(hideStyle);
+	$("#globalNavi").css(hideStyle);
+	$(".rollover").css(hideStyle);
+	$("img").css(hideStyle);
+	$(".badge").css(hideStyle);
+	$("#contentsWrap").css(hideStyle);
+}
+catch(e) {
+	alert("フレームCSS適用に失敗しました: "+e);
+}</value>
+  </data>
+  <data name="PageScript" xml:space="preserve">
+    <value>// KCRDBと競合しないように同じように処理
+try {
+	var hideStyle = {width:"0px",height:"0px",visibility:"hidden",display:"none"};
+	var fillStyle = {margin:"0px",padding:"0px",position:"fixed",left:"0px",top:"0px",width:"100%",height:"100%",overflow:"hidden"};
+	$(document.body).css({margin:"0px",padding:"0px",overflow:"hidden"});
+	$("img").css(hideStyle);
+	//$("#dmm_ntgnavi").css(hideStyle);
+	$("#dmm-ntgnavi-renew").css(hideStyle);
+	$("#w").css(fillStyle);
+	$("#main-ntg").css(fillStyle);
+	$("#page").css(fillStyle);
+	$("#area-game").css(fillStyle);
+	var jqGameFrame=$("#game_frame");
+	jqGameFrame.css(fillStyle);
+	jqGameFrame.attr("scrolling","no");
+	jqGameFrame.attr("width","100%");
+	jqGameFrame.attr("height","100%");
+	$("[class^=area-naviapp]").css(hideStyle);
+	$("#foot").css(hideStyle);
+}
+catch(e) {
+	alert("ページCSS適用に失敗しました: "+e);
+}</value>
+  </data>
 </root>

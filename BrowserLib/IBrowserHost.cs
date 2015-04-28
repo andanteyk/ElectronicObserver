@@ -73,6 +73,12 @@ namespace BrowserLib {
 		public int ZoomRate { get; set; }
 
 		/// <summary>
+		/// ブラウザをウィンドウサイズに合わせる
+		/// </summary>
+		[DataMember]
+		public bool ZoomFit { get; set; }
+
+		/// <summary>
 		/// ログインページのURL
 		/// </summary>
 		[DataMember]
