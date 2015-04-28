@@ -194,9 +194,9 @@ namespace ElectronicObserver.Window {
 
 			SystemEvents.OnUpdateTimerTick();
 
-
-			StripStatus_Clock.Text = DateTime.Now.ToString( "HH:mm:ss" );
-			StripStatus_Clock.ToolTipText = DateTime.Now.ToString( "yyyy/MM/dd (ddd)" );
+            DateTime JstNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
+            StripStatus_Clock.Text = JstNow.ToString("HH:mm:ss");
+            StripStatus_Clock.ToolTipText = JstNow.ToString("yyyy/MM/dd (ddd)");
 		}
 
 
