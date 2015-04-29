@@ -194,7 +194,7 @@ namespace ElectronicObserver.Window {
 
 			SystemEvents.OnUpdateTimerTick();
 
-            DateTime JstNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
+            DateTime JstNow = (DateTimeOffset.Now.Offset.Hours == 9) ? DateTime.Now : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time"));
             StripStatus_Clock.Text = JstNow.ToString("HH:mm:ss");
             StripStatus_Clock.ToolTipText = JstNow.ToString("yyyy/MM/dd (ddd)");
 		}
