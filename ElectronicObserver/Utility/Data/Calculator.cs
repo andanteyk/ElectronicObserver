@@ -573,6 +573,39 @@ namespace ElectronicObserver.Utility.Data {
 			return 0;
 		}
 
+
+		/// <summary>
+		/// 装備が艦載機であるかを取得します。
+		/// </summary>
+		/// <param name="equipmentID">装備ID。</param>
+		/// <param name="containsRecon">偵察機(非攻撃機)を含めるか。</param>
+		public static bool IsAircraft( int equipmentID, bool containsRecon ) {
+
+			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
+
+			if ( eq == null ) return false;
+
+			switch ( eq.CategoryType ) {
+				case 6:		//艦上戦闘機
+				case 7:		//艦上爆撃機
+				case 8:		//艦上攻撃機
+				case 11:	//水上爆撃機
+				case 25:	//オートジャイロ
+				case 26:	//対潜哨戒機
+					return true;
+
+				case 9:		//艦上偵察機
+				case 10:	//水上偵察機
+				case 41:	//大型飛行艇
+					return containsRecon;
+
+				default:
+					return false;
+			}
+
+		}
+
+
 	}
 
 

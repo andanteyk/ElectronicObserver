@@ -50,7 +50,7 @@ namespace ElectronicObserver.Data.Battle {
 		/// 戦闘種別
 		/// </summary>
 		public BattleModes BattleMode { get; private set; }
-		
+
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
@@ -209,7 +209,7 @@ namespace ElectronicObserver.Data.Battle {
 
 				if ( dropID == -1 && (
 					KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count <= 0 ||
-					KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count <= 3 ) ) {
+					KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count <= 0 ) ) {
 					dropID = -2;
 				}
 

@@ -169,7 +169,7 @@ namespace ElectronicObserver.Window {
 				ShipCount.BackColor = Color.Transparent;
 
 			EquipmentCount.Text = string.Format( "{0}/{1}", db.Equipments.Count, db.Admiral.MaxEquipmentCount );
-			if ( db.Equipments.Count > db.Admiral.MaxEquipmentCount - 20 )
+			if ( db.Equipments.Count > db.Admiral.MaxEquipmentCount + 3 - 20 )
 				EquipmentCount.BackColor = Color.LightCoral;
 			else
 				EquipmentCount.BackColor = Color.Transparent;
