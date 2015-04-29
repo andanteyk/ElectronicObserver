@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -193,6 +194,18 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 能動分岐の選択肢
+		/// </summary>
+		public ReadOnlyCollection<int> RouteChoices {
+			get {
+				if ( RawData.api_select_route() ) {
+					return Array.AsReadOnly( (int[])RawData.api_select_route.api_select_cells );
+				} else {
+					return null;
+				}
+			}
+		}
 	}
 
 
