@@ -397,20 +397,12 @@ namespace Browser {
 			}
 
 			try {
-
-				var document = wb.Document.DomDocument as HTMLDocument;
-				if ( document == null ) {
-					throw new InvalidOperationException( "Document が取得できませんでした。" );
-				}
-
-
 				IViewObject viewobj = null;
 				//int width = 0, height = 0;
 
+				if ( wb.Document.Url.AbsolutePath.Contains( ".swf?" ) ) {
 
-				if ( document.url.Contains( ".swf?" ) ) {
-
-					viewobj = document.getElementsByTagName( "embed" ).item( 0, 0 ) as IViewObject;
+					viewobj = wb.Document.GetElementsByTagName( "embed" )[0].DomElement as IViewObject;
 					if ( viewobj == null ) {
 						throw new InvalidOperationException( "embed 要素の取得に失敗しました。" );
 					}
