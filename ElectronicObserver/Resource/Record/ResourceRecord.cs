@@ -208,7 +208,7 @@ namespace ElectronicObserver.Resource.Record {
 			DateTime now = DateTime.Now;
 			DateTime target;
 			if ( now.TimeOfDay.Hours < 2 ) {
-				target = new DateTime( now.Year, now.Month, now.Day - 1, 14, 0, 0 );
+				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 ).Subtract( TimeSpan.FromDays( 1 ) );
 			} else if ( now.TimeOfDay.Hours < 14 ) {
 				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 );
 			} else {
@@ -226,7 +226,7 @@ namespace ElectronicObserver.Resource.Record {
 			DateTime now = DateTime.Now;
 			DateTime target;
 			if ( now.TimeOfDay.Hours < 2 ) {
-				target = new DateTime( now.Year, now.Month, now.Day - 1, 2, 0, 0 );
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( TimeSpan.FromDays( 1 ) );
 			} else {
 				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 );
 			}
