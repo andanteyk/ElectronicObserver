@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using ElectronicObserver.Data;
 using System.Drawing.Design;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Utility.Data;
 
 namespace ElectronicObserver.Window.Control {
 
@@ -354,31 +355,21 @@ namespace ElectronicObserver.Window.Control {
 
 				if ( slot.EquipmentID != -1 ) {
 
-					switch ( slot.Equipment.CategoryType ) {
-						case 6:		//艦戦
-						case 7:		//艦爆
-						case 8:		//艦攻
-						case 9:		//艦偵
-						case 10:	//水偵
-						case 11:	//水爆
-						case 25:	//オートジャイロ
-						case 26:	//対潜哨戒機
+					if ( Calculator.IsAircraft( slot.EquipmentID, true ) ) {
 
-							if ( slot.AircraftMax == 0 ) {
-								aircraftColor = AircraftColorDisabled;
-							} else if ( slot.AircraftCurrent == 0 ) {
-								aircraftColor = AircraftColorLost;
-							} else if ( slot.AircraftCurrent < slot.AircraftMax ) {
-								aircraftColor = AircraftColorDamaged;
-							} else {
-								aircraftColor = AircraftColorFull;
-							}
-							break;
+						if ( slot.AircraftMax == 0 ) {
+							aircraftColor = AircraftColorDisabled;
+						} else if ( slot.AircraftCurrent == 0 ) {
+							aircraftColor = AircraftColorLost;
+						} else if ( slot.AircraftCurrent < slot.AircraftMax ) {
+							aircraftColor = AircraftColorDamaged;
+						} else {
+							aircraftColor = AircraftColorFull;
+						}
 
-						default:
-							if ( slot.AircraftMax == 0 )
-								drawAircraftSlot = false;
-							break;
+					} else {
+						if ( slot.AircraftMax == 0 )
+							drawAircraftSlot = false;
 					}
 
 				} else if ( slot.AircraftMax == 0 ) {

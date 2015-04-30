@@ -89,12 +89,13 @@ namespace ElectronicObserver.Data {
 
 					} break;
 
-				case "api_req_map/start":
-					if ( CombinedFlag != 0 ) {
-						Fleets[2].IsInSortie = true;
-					}
-					Fleets[int.Parse( data["api_deck_id"] )].IsInSortie = true;
-					goto default;
+				case "api_req_map/start": {
+					int fleetID = int.Parse( data["api_deck_id"] );
+						if ( CombinedFlag != 0 && fleetID == 1 ) {
+							Fleets[2].IsInSortie = true;
+						}
+						Fleets[fleetID].IsInSortie = true;
+					} goto default;
 
 				default:
 					foreach ( int i in Fleets.Keys )
