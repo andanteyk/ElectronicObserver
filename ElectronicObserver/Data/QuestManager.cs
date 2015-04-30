@@ -64,14 +64,13 @@ namespace ElectronicObserver.Data {
 
 
 			//周期任務削除
-			int refreshHour = ( DateTimeOffset.Now.Offset.Hours == 9 ) ? 5 : -4 + DateTimeOffset.Now.Offset.Hours;	//日本標準時5時（UTC -4時）から対応の Local Time に換算する
-			if ( DateTimeHelper.IsCrossedDay( _prevTime, refreshHour, 0, 0 ) ) {
+			if ( DateTimeHelper.IsCrossedDay( _prevTime, 5, 0, 0 ) ) {
 				Quests.RemoveAll( q => q.Type == 2 || q.Type == 4 || q.Type == 5 );
 			}
-			if ( DateTimeHelper.IsCrossedWeek( _prevTime, DayOfWeek.Monday, refreshHour, 0, 0 ) ) {
+			if ( DateTimeHelper.IsCrossedWeek( _prevTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
 				Quests.RemoveAll( q => q.Type == 3 );
 			}
-			if ( DateTimeHelper.IsCrossedMonth( _prevTime, 1, refreshHour, 0, 0 ) ) {
+			if ( DateTimeHelper.IsCrossedMonth( _prevTime, 1, 5, 0, 0 ) ) {
 				Quests.RemoveAll( q => q.Type == 6 );
 			}
 
