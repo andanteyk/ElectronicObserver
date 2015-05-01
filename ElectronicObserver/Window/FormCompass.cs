@@ -465,7 +465,7 @@ namespace ElectronicObserver.Window {
 							break;
 
 						case 5:		//ボス戦闘
-							TextEventKind.ForeColor = Color.Maroon;
+							TextEventKind.ForeColor = Color.Red;
 							goto case 4;
 
 						case 6:		//気のせいだった
