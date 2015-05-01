@@ -54,7 +54,9 @@ namespace ElectronicObserver.Window.Dialog {
 			HasFormBorder.Checked = notifier.DialogData.HasFormBorder;
 			AccelInterval.Value = notifier.AccelInterval / 1000;
 			ClosingInterval.Value = notifier.DialogData.ClosingInterval / 1000;
-			CloseOnMouseOver.Checked = notifier.DialogData.CloseOnMouseMove;
+			for ( int i = 0; i < (int)NotifierDialogClickFlags.HighestBit; i++ )
+				CloseList.SetItemChecked( i, ( (int)notifier.DialogData.ClickFlag & ( 1 << i ) ) != 0 );
+			CloseList.SetItemChecked( (int)NotifierDialogClickFlags.HighestBit, notifier.DialogData.CloseOnMouseMove );
 			ShowWithActivation.Checked = notifier.DialogData.ShowWithActivation;
 			ForeColorPreview.ForeColor = notifier.DialogData.ForeColor;
 			BackColorPreview.ForeColor = notifier.DialogData.BackColor;
@@ -236,7 +238,13 @@ namespace ElectronicObserver.Window.Dialog {
 			_notifier.DialogData.HasFormBorder = HasFormBorder.Checked;
 			_notifier.AccelInterval = (int)( AccelInterval.Value * 1000 );
 			_notifier.DialogData.ClosingInterval = (int)( ClosingInterval.Value * 1000 );
-			_notifier.DialogData.CloseOnMouseMove = CloseOnMouseOver.Checked;
+			{
+				int flag = 0;
+				for ( int i = 0; i < (int)NotifierDialogClickFlags.HighestBit; i++ )
+					flag |= ( CloseList.GetItemChecked( i ) ? 1 : 0 ) << i;
+				_notifier.DialogData.ClickFlag = (NotifierDialogClickFlags)flag;
+			}
+			_notifier.DialogData.CloseOnMouseMove = CloseList.GetItemChecked( (int)NotifierDialogClickFlags.HighestBit );
 			_notifier.DialogData.ForeColor = ForeColorPreview.ForeColor;
 			_notifier.DialogData.BackColor = BackColorPreview.ForeColor;
 			_notifier.DialogData.ShowWithActivation = ShowWithActivation.Checked;

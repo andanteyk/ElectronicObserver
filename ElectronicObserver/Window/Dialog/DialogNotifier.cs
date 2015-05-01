@@ -126,7 +126,7 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 
 					SetLayeredWindow( bmp );
-					
+
 				}
 			}
 
@@ -179,8 +179,31 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
-		private void DialogNotifier_Click( object sender, EventArgs e ) {
-			Close();
+		private void DialogNotifier_MouseClick( object sender, MouseEventArgs e ) {
+
+			var flag = DialogData.ClickFlag;
+
+			if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 ) {
+				if ( ( flag & NotifierDialogClickFlags.Left ) != 0 ||
+				   ( ( flag & NotifierDialogClickFlags.LeftDouble ) != 0 && e.Clicks > 1 ) ) {
+					Close();
+				}
+			}
+
+			if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
+				if ( ( flag & NotifierDialogClickFlags.Right ) != 0 ||
+				   ( ( flag & NotifierDialogClickFlags.RightDouble ) != 0 && e.Clicks > 1 ) ) {
+					Close();
+				}
+			}
+
+			if ( ( e.Button & System.Windows.Forms.MouseButtons.Middle ) != 0 ) {
+				if ( ( flag & NotifierDialogClickFlags.Middle ) != 0 ||
+				   ( ( flag & NotifierDialogClickFlags.MiddleDouble ) != 0 && e.Clicks > 1 ) ) {
+					Close();
+				}
+			}
+
 		}
 
 		private void DialogNotifier_KeyDown( object sender, KeyEventArgs e ) {
@@ -291,6 +314,7 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 		}
+
 
 	}
 }

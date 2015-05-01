@@ -145,7 +145,7 @@ namespace ElectronicObserver.Window {
 				case "api_req_practice/midnight_battle": {
 						int[] hp = bm.BattleNight.EmulateBattle();
 
-						SetNightBattleEvent( hp, false, bm.BattleNight );
+						SetNightBattleEvent( bm.BattleNight.InitialHP.Skip( 1 ).ToArray(), false, bm.BattleNight );
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleDay );
 
@@ -158,7 +158,7 @@ namespace ElectronicObserver.Window {
 						SetFormation( bm.BattleNight );
 						ClearAerialWarfare();
 						ClearSearchingResult();
-						SetNightBattleEvent( hp, false, bm.BattleNight );
+						SetNightBattleEvent( bm.BattleNight.InitialHP.Skip( 1 ).ToArray(), false, bm.BattleNight );
 						SetHPNormal( hp, bm.BattleNight );
 						SetDamageRateNormal( hp, bm.BattleNight );
 
@@ -205,7 +205,7 @@ namespace ElectronicObserver.Window {
 				case "api_req_combined_battle/midnight_battle": {
 						int[] hp = bm.BattleNight.EmulateBattle();
 
-						SetNightBattleEvent( hp, true, bm.BattleNight );
+						SetNightBattleEvent( bm.BattleNight.InitialHP.Skip( 1 ).ToArray(), true, bm.BattleNight );
 						SetHPCombined( hp, bm.BattleNight );
 						SetDamageRateCombined( hp, bm.BattleDay );
 
@@ -218,7 +218,7 @@ namespace ElectronicObserver.Window {
 						SetFormation( bm.BattleNight );
 						ClearAerialWarfare();
 						ClearSearchingResult();
-						SetNightBattleEvent( hp, true, bm.BattleNight );
+						SetNightBattleEvent( bm.BattleNight.InitialHP.Skip( 1 ).ToArray(), true, bm.BattleNight );
 						SetHPCombined( hp, bm.BattleNight );
 						SetDamageRateCombined( hp, bm.BattleNight );
 
@@ -978,6 +978,9 @@ namespace ElectronicObserver.Window {
 		/// <summary>
 		/// 夜戦における各種表示を設定します。
 		/// </summary>
+		/// <param name="hp">戦闘開始前のHP。</param>
+		/// <param name="isCombined">連合艦隊かどうか。</param>
+		/// <param name="bd">戦闘データ。</param>
 		private void SetNightBattleEvent( int[] hp, bool isCombined, BattleData bd ) {
 
 			FleetData fleet = KCDatabase.Instance.Fleet[isCombined ? 2 : bd.FleetIDFriend];
@@ -1038,6 +1041,7 @@ namespace ElectronicObserver.Window {
 			if ( (int)bd.Data.api_touch_plane[0] != -1 ) {
 				SearchingFriend.Text = "夜間触接";
 				SearchingFriend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+				SearchingFriend.ImageAlign = ContentAlignment.MiddleLeft;
 				ToolTipInfo.SetToolTip( SearchingFriend, "夜間触接中: " + KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[0]].Name );
 			} else {
 				ToolTipInfo.SetToolTip( SearchingFriend, null );
@@ -1046,6 +1050,7 @@ namespace ElectronicObserver.Window {
 			if ( (int)bd.Data.api_touch_plane[1] != -1 ) {
 				SearchingEnemy.Text = "夜間触接";
 				SearchingEnemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+				SearchingFriend.ImageAlign = ContentAlignment.MiddleLeft;
 				ToolTipInfo.SetToolTip( SearchingEnemy, "夜間触接中: " + KCDatabase.Instance.MasterEquipments[(int)bd.Data.api_touch_plane[1]].Name );
 			} else {
 				ToolTipInfo.SetToolTip( SearchingEnemy, null );

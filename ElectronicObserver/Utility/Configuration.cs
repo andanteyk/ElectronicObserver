@@ -583,6 +583,8 @@ namespace ElectronicObserver.Utility {
 
 				public bool CloseOnMouseMove { get; set; }
 
+				public Notifier.NotifierDialogClickFlags ClickFlag { get; set; }
+
 				public Notifier.NotifierDialogAlignment Alignment { get; set; }
 
 				public Point Location { get; set; }
@@ -609,6 +611,7 @@ namespace ElectronicObserver.Utility {
 					ClosingInterval = 10000;
 					AccelInterval = 0;
 					CloseOnMouseMove = false;
+					ClickFlag = Notifier.NotifierDialogClickFlags.Left;
 					Alignment = Notifier.NotifierDialogAlignment.BottomRight;
 					Location = new Point( 0, 0 );
 					HasFormBorder = true;
