@@ -65,7 +65,7 @@
 			// ButtonClose
 			// 
 			this.ButtonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonClose.Location = new System.Drawing.Point(297, 127);
+			this.ButtonClose.Location = new System.Drawing.Point(377, 127);
 			this.ButtonClose.Name = "ButtonClose";
 			this.ButtonClose.Size = new System.Drawing.Size(75, 23);
 			this.ButtonClose.TabIndex = 0;
@@ -98,7 +98,7 @@
 			// 
 			this.AcceptButton = this.ButtonClose;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(384, 162);
+			this.ClientSize = new System.Drawing.Size(464, 162);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.TextInformation);
 			this.Controls.Add(this.ButtonClose);
