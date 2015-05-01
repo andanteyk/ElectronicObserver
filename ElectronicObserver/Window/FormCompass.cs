@@ -456,7 +456,6 @@ namespace ElectronicObserver.Window {
 							break;
 
 						case 4:		//通常戦闘
-						case 5:		//ボス戦闘
 							if ( compass.EventKind >= 2 ) {
 								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
 
@@ -464,6 +463,10 @@ namespace ElectronicObserver.Window {
 							}
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
+
+						case 5:		//ボス戦闘
+							TextEventKind.ForeColor = Color.Maroon;
+							goto case 4;
 
 						case 6:		//気のせいだった
 							switch ( compass.EventKind ) {
