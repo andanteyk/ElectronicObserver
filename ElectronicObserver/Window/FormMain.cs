@@ -403,6 +403,8 @@ namespace ElectronicObserver.Window {
 
 			try {
 
+				CreateParentDirectories( path );
+
 				using ( var stream = File.Open( path, FileMode.Create ) )
 				using ( var archive = new ZipArchive( stream, ZipArchiveMode.Create ) ) {
 
@@ -424,7 +426,15 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void CreateParentDirectories( string path ) {
 
+			var parents = Path.GetDirectoryName( path );
+
+			if ( !String.IsNullOrEmpty( parents ) ) {
+				Directory.CreateDirectory( parents );
+			}
+
+		}
 
 
 
