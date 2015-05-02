@@ -381,7 +381,7 @@ namespace ElectronicObserver.Window.Control {
 					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width - SlotMargin, sz_unit.Height );
 
 					if ( OverlayAircraft ) {
-						using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0x80, 0xFF, 0xFF, 0xFF ) ) ) {
+						using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0xC0, 0xF0, 0xF0, 0xF0 ) ) ) {
 							e.Graphics.FillRectangle( b, new Rectangle( textarea.X, textarea.Y, sz_eststr.Width, sz_eststr.Height ) );
 						}
 
@@ -398,7 +398,7 @@ namespace ElectronicObserver.Window.Control {
 							Size sz_realstr = TextRenderer.MeasureText( slot.AircraftCurrent.ToString(), Font, new Size( int.MaxValue, int.MaxValue ), textformat );
 							sz_realstr.Width -= (int)( Font.Size / 2.0 );
 
-							using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0x80, 0xFF, 0xFF, 0xFF ) ) ) {
+							using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0xC0, 0xF0, 0xF0, 0xF0 ) ) ) {
 								e.Graphics.FillRectangle( b, new Rectangle(
 									textarea.X + sz_unit.Width - sz_realstr.Width,
 									textarea.Y + sz_unit.Height - sz_realstr.Height,
