@@ -673,19 +673,17 @@ namespace ElectronicObserver.Data {
 		private bool CanAnchorageRepair {
 			get {
 				KCDatabase db = KCDatabase.Instance;
-				ShipData flagship = db.Ships[Members[0]];
+				ShipData flagship = MembersInstance[0];
 				return (
 					ExpeditionState == 0 &&
 					flagship != null &&
-					flagship.MasterShip.ShipType == 19 &&					//旗艦工作艦
-					(double)flagship.HPCurrent / flagship.HPMax > 0.5 &&	//旗艦が中破未満
-					flagship.RepairingDockID == -1 &&						//旗艦が入渠中でない
-					Members.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( id => {		//(2+装備)以内に50%<HP<100%&&非入渠中の艦がいる
-						ShipData ship = db.Ships[id];
+					flagship.MasterShip.ShipType == 19 &&	//旗艦工作艦
+					flagship.HPRate > 0.5 &&				//旗艦が中破未満
+					flagship.RepairingDockID == -1 &&		//旗艦が入渠中でない
+					MembersInstance.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( ship => {		//(2+装備)以内に50%<HP<100%&&非入渠中の艦がいる
 						if ( ship == null ) return false;
 						if ( ship.RepairingDockID != -1 ) return false;
-						double rate = (double)ship.HPCurrent / ship.HPMax;
-						return 0.5 < rate && rate < 1.0;
+						return 0.5 < ship.HPRate && ship.HPRate < 1.0;
 					} ) > 0 );
 			}
 		}
