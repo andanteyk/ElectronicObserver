@@ -147,9 +147,9 @@ namespace ElectronicObserver.Window {
 				if ( ship == null ) return null;
 
 				return GetShipString( shipID, slot, -1, ship.HPMin, ship.FirepowerMax, ship.TorpedoMax, ship.AAMax, ship.ArmorMax,
-					 ship.ASW != null && !ship.ASW.IsMaximumDefault ? ship.ASW.Maximum : 0,
-					 ship.Evasion != null && !ship.Evasion.IsMaximumDefault ? ship.Evasion.Maximum : 0,
-					 ship.LOS != null && !ship.LOS.IsMaximumDefault ? ship.LOS.Maximum : 0,
+					 ship.ASW != null && !ship.ASW.IsMaximumDefault ? ship.ASW.Maximum : -1,
+					 ship.Evasion != null && !ship.Evasion.IsMaximumDefault ? ship.Evasion.Maximum : -1,
+					 ship.LOS != null && !ship.LOS.IsMaximumDefault ? ship.LOS.Maximum : -1,
 					 ship.LuckMin );
 			}
 
@@ -158,9 +158,9 @@ namespace ElectronicObserver.Window {
 				if ( ship == null ) return null;
 
 				return GetShipString( shipID, slot, level, level > 99 ? ship.HPMaxMarried : ship.HPMin, firepower, torpedo, aa, armor,
-					ship.ASW != null && ship.ASW.IsAvailable ? ship.ASW.GetParameter( level ) : 0,
-					ship.Evasion != null && ship.Evasion.IsAvailable ? ship.Evasion.GetParameter( level ) : 0,
-					ship.LOS != null && ship.LOS.IsAvailable ? ship.LOS.GetParameter( level ) : 0,
+					ship.ASW != null && ship.ASW.IsAvailable ? ship.ASW.GetParameter( level ) : -1,
+					ship.Evasion != null && ship.Evasion.IsAvailable ? ship.Evasion.GetParameter( level ) : -1,
+					ship.LOS != null && ship.LOS.IsAvailable ? ship.LOS.GetParameter( level ) : -1,
 					level > 99 ? Math.Min( ship.LuckMin + 3, ship.LuckMax ) : ship.LuckMin );
 			}
 
@@ -173,10 +173,15 @@ namespace ElectronicObserver.Window {
 				int torpedo_c = torpedo;
 				int aa_c = aa;
 				int armor_c = armor;
-				int asw_c = Math.Max( asw, 0 );
-				int evasion_c = Math.Max( evasion, 0 );
-				int los_c = Math.Max( los, 0 );
+				int asw_c = asw;
+				int evasion_c = evasion;
+				int los_c = los;
 				int luck_c = luck;
+				int range = ship.Range;
+
+				asw = Math.Max( asw, 0 );
+				evasion = Math.Max( evasion, 0 );
+				los = Math.Max( los, 0 );
 
 				if ( slot != null ) {
 					int count = slot.Length;
@@ -192,11 +197,12 @@ namespace ElectronicObserver.Window {
 						evasion += eq.Evasion;
 						los += eq.LOS;
 						luck += eq.Luck;
+						range = Math.Max( range, eq.Range );
 					}
 				}
 
 				return string.Format(
-							"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n(右クリックで図鑑)\n",
+							"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n射程: {20}\n(右クリックで図鑑)\n",
 							ship.ShipTypeName, ship.NameWithClass, level < 1 ? "" : string.Format( " Lv. {0}", level ),
 							hp,
 							firepower_c, firepower,
@@ -206,7 +212,8 @@ namespace ElectronicObserver.Window {
 							asw_c == -1 ? "???" : asw_c.ToString(), asw,
 							evasion_c == -1 ? "???" : evasion_c.ToString(), evasion,
 							los_c == -1 ? "???" : los_c.ToString(), los,
-							luck_c, luck
+							luck_c, luck,
+							Constants.GetRange( range )
 							);
 			}
 
@@ -229,6 +236,12 @@ namespace ElectronicObserver.Window {
 					int aacutin = Calculator.GetAACutinKind( shipID, slot );
 					if ( aacutin != 0 ) {
 						sb.AppendFormat( "対空: {0}\r\n", Constants.GetAACutinKind( aacutin ) );
+					}
+				}
+				{
+					int airsup = Calculator.GetAirSuperiority( slot, ship.Aircraft.ToArray() );
+					if ( airsup > 0 ) {
+						sb.AppendFormat( "制空戦力: {0}\r\n", airsup );
 					}
 				}
 

@@ -493,7 +493,8 @@ namespace ElectronicObserver.Utility.Data {
 				if ( eq == null ) continue;
 
 				if ( eq.IconType == 16 ) {	//高角砲
-					if ( eq.EquipmentID == 122 || eq.EquipmentID == 130 ) {		//10cm連装高角砲+高射装置 or 12.7cm高角砲+高射装置
+					// 10cm連装高角砲+高射装置 or 12.7cm高角砲+高射装置 or 90mm単装高角砲
+					if ( eq.EquipmentID == 122 || eq.EquipmentID == 130 || eq.EquipmentID == 135 ) {
 						highangle_director++;
 					}
 					highangle++;

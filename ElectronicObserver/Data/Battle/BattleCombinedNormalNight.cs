@@ -19,7 +19,7 @@ namespace ElectronicObserver.Data.Battle {
 			Action<int, int> DealDamageFriend = ( int index, int damage ) => {
 				//if ( hp[index] == -1 ) return;
 				hp[index] -= Math.Max( damage, 0 );
-				if ( hp[index] == 0 ) {
+				if ( hp[index] <= 0 ) {
 					ShipData ship = db.Ships[db.Fleet[index < 6 ? 1 : 2].Members[index]];
 					if ( ship == null ) return;
 

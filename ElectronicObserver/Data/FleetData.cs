@@ -328,6 +328,7 @@ namespace ElectronicObserver.Data {
 			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
 		}
 
+		/*/
 		private void SetConditionTimer() {
 
 			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
@@ -339,6 +340,26 @@ namespace ElectronicObserver.Data {
 
 			//Utility.Logger.Add( 1, string.Format( "Fleet #{0}: 疲労 再設定 {1:D2}:00", FleetID, minute ) );
 		}
+		/*/
+
+		private void SetConditionTimer() {
+
+			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
+
+			if ( minute <= 0 ) {
+				ConditionTime = null;
+
+			} else if ( ConditionTime != null ) {
+				TimeSpan ts = (DateTime)ConditionTime - DateTime.Now;
+
+				ConditionTime = DateTime.Now + ts.Add( TimeSpan.FromMinutes( minute - 3 - (int)( ts.TotalMinutes / 3 ) * 3 ) );
+
+			} else {
+				ConditionTime = DateTime.Now.AddMinutes( minute );
+			}
+
+		}
+		//*/
 
 		private void ShortenConditionTimer() {
 

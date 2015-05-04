@@ -107,7 +107,10 @@ namespace ElectronicObserver.Notifier {
 		private void BeforeSortie( string apiname, dynamic data ) {
 			if ( NotifiesNow || NotifiesBefore ) {
 
-				string[] array = GetDamagedShips( KCDatabase.Instance.Fleet.Fleets.Values.SelectMany( f => f.MembersWithoutEscaped ) );
+				string[] array = GetDamagedShips(
+					KCDatabase.Instance.Fleet.Fleets.Values
+					.Where( f => f.ExpeditionState == 0 )
+					.SelectMany( f => f.MembersWithoutEscaped.Skip( !ContainsFlagship ? 1 : 0 ) ) );
 
 				if ( array != null && array.Length > 0 ) {
 					Notify( array );
@@ -119,7 +122,9 @@ namespace ElectronicObserver.Notifier {
 		private void InSortie( string apiname, dynamic data ) {
 			if ( NotifiesAfter ) {
 
-				string[] array = GetDamagedShips( KCDatabase.Instance.Fleet.Fleets.Values.Where( f => f.IsInSortie ).SelectMany( f => f.MembersWithoutEscaped ) );
+				string[] array = GetDamagedShips( KCDatabase.Instance.Fleet.Fleets.Values
+					.Where( f => f.IsInSortie )
+					.SelectMany( f => f.MembersWithoutEscaped.Skip( !ContainsFlagship ? 1 : 0 ) ) );
 
 
 				if ( array != null && array.Length > 0 ) {
@@ -146,7 +151,7 @@ namespace ElectronicObserver.Notifier {
 		private void CheckBattle() {
 
 			BattleManager bm = KCDatabase.Instance.Battle;
-			
+
 			if ( bm.Compass.IsEndPoint && !NotifiesAtEndpoint )
 				return;
 
@@ -203,15 +208,20 @@ namespace ElectronicObserver.Notifier {
 		}
 
 
-		
-		private string[] GetDamagedShips( IEnumerable<ShipData> ships ) {
-			return ships.Where( s => s != null && s.HPCurrent > 0 && s.HPRate <= 0.25 && s.RepairingDockID == -1 &&
-					s.Level >= LevelBorder &&
-					( ContainsNotLockedShip ? true : ( s.IsLocked || s.SlotInstance.Count( q => q != null && q.IsLocked ) > 0 ) ) &&
-					( ContainsSafeShip ? true : !s.SlotInstanceMaster.Select( e => e != null ? e.EquipmentType[2] == 23 : false ).Contains( true ) )
-				).Select( s => string.Format( "{0} ({1}/{2})", s.NameWithLevel, s.HPCurrent, s.HPMax ) ).ToArray();
+		// 注: 退避中かどうかまではチェックしない
+		private bool IsShipDamaged( ShipData ship, int hp ) {
+			return ship != null &&
+				hp > 0 &&
+				(double)hp / ship.HPMax <= 0.25 &&
+				ship.RepairingDockID == -1 &&
+				ship.Level >= LevelBorder &&
+				( ContainsNotLockedShip ? true : ( ship.IsLocked || ship.SlotInstance.Count( q => q != null && q.IsLocked ) > 0 ) ) &&
+				( ContainsSafeShip ? true : !ship.SlotInstanceMaster.Select( e => e != null ? e.CategoryType == 23 : false ).Contains( true ) );
 		}
-		
+
+		private string[] GetDamagedShips( IEnumerable<ShipData> ships ) {
+			return ships.Where( s => IsShipDamaged( s, s != null ? s.HPCurrent : 0 ) ).Select( s => string.Format( "{0} ({1}/{2})", s.NameWithLevel, s.HPCurrent, s.HPMax ) ).ToArray();
+		}
 
 		private string[] GetDamagedShips( FleetData fleet, int[] hps ) {
 
@@ -223,10 +233,8 @@ namespace ElectronicObserver.Notifier {
 
 				ShipData s = fleet.MembersInstance[i];
 
-				if ( s != null && hps[i] > 0 && (double)hps[i] / s.HPMax <= 0.25 &&
-					s.Level >= LevelBorder && !fleet.EscapedShipList.Contains( s.MasterID ) &&
-					( ContainsNotLockedShip ? true : ( s.IsLocked || s.SlotInstance.Count( q => q != null && q.IsLocked ) > 0 ) ) &&
-					( ContainsSafeShip ? true : !s.SlotInstanceMaster.Select( e => e != null ? e.EquipmentType[2] == 23 : false ).Contains( true ) ) ) {
+				if ( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) &&
+					IsShipDamaged( s, hps[i] ) ) {
 
 					list.AddLast( string.Format( "{0} ({1}/{2})", s.NameWithLevel, hps[i], s.HPMax ) );
 				}
