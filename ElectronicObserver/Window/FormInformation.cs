@@ -121,8 +121,8 @@ namespace ElectronicObserver.Window {
 			StringBuilder sb = new StringBuilder();
 
 			if ( data.api_list != null ) {
-				int startIndex = (int)data.api_list[0].api_index_no;
-				int bound = 50;
+				const int bound = 50;
+				int startIndex = ( ( (int)data.api_list[0].api_index_no - 1 ) / bound ) * bound + 1;
 				bool[] flags = Enumerable.Repeat<bool>( false, bound ).ToArray();
 
 				if ( data.api_list[0].api_yomi() ) {

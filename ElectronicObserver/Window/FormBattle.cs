@@ -671,6 +671,7 @@ namespace ElectronicObserver.Window {
 					HPBars[i].Value = hp[i];
 					HPBars[i].PrevValue = (int)bd.Data.api_nowhps[i + 1];
 					HPBars[i].MaximumValue = (int)bd.Data.api_maxhps[i + 1];
+					HPBars[i].BackColor = SystemColors.Control;
 					HPBars[i].Visible = true;
 				} else {
 					HPBars[i].Visible = false;
