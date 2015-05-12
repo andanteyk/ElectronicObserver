@@ -651,6 +651,9 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 連合艦隊の編成名を表す文字列を取得します。
+		/// </summary>
 		public static string GetCombinedFleet( int value ) {
 			switch ( value ) {
 				case 0:

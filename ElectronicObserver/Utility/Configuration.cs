@@ -105,6 +105,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public ushort UpstreamProxyPort { get; set; }
 
+				/// <summary>
+				/// 上流プロキシのアドレス
+				/// </summary>
+				public string UpstreamProxyAddress { get; set; }
+
 				public ConfigConnection() {
 
 					Port = 40620;
@@ -119,7 +124,7 @@ namespace ElectronicObserver.Utility {
 					RegisterAsSystemProxy = false;
 					UseUpstreamProxy = false;
 					UpstreamProxyPort = 0;
-
+					UpstreamProxyAddress = "127.0.0.1";
 				}
 
 			}
