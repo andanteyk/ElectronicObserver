@@ -437,6 +437,16 @@ namespace ElectronicObserver.Utility {
 			public class ConfigFormBrowser : ConfigPartBase {
 
 				/// <summary>
+				/// flash parameter 'wmode'
+				/// </summary>
+				public string FlashWmode { get; set; }
+
+				/// <summary>
+				/// flash parameter 'quality'
+				/// </summary>
+				public string FlashQuality { get; set; }
+
+				/// <summary>
 				/// ブラウザの拡大率 10-1000(%)
 				/// </summary>
 				public int ZoomRate { get; set; }
@@ -494,6 +504,8 @@ namespace ElectronicObserver.Utility {
 
 
 				public ConfigFormBrowser() {
+					FlashWmode = "direct";
+					FlashQuality = "high";
 					ZoomRate = 100;
 					LogInPageURL = @"http://www.dmm.com/netgame_s/kancolle/";
 					IsEnabled = true;

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
@@ -98,6 +99,7 @@ namespace ElectronicObserver.Observer {
 			ServerAddress = null;
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
+			Fiddler.FiddlerApplication.BeforeResponse += FiddlerApplication_BeforeResponse;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
 
 		}
@@ -261,6 +263,36 @@ namespace ElectronicObserver.Observer {
 
 		}
 
+		// regex
+		private Regex _wmodeRegex = new Regex( @"""wmode""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
+		private Regex _qualityRegex = new Regex( @"""quality""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
+
+		private void FiddlerApplication_BeforeResponse( Fiddler.Session oSession ) {
+
+			if (oSession.bBufferResponse && oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+
+				string js = oSession.GetResponseBodyAsString();
+				bool flag = false;
+
+				var wmode = _wmodeRegex.Match( js );
+				if ( wmode.Success ) {
+					js = js.Replace( wmode.Value, string.Format( @"""wmode"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashWmode ) );
+					flag = true;
+				}
+
+				var quality = _qualityRegex.Match( js );
+				if ( quality.Success ) {
+					js = js.Replace( quality.Value, string.Format( @"""quality"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashQuality ) );
+					flag = true;
+				}
+
+				if ( flag ) {
+					oSession.utilSetResponseBody( js );
+
+					Utility.Logger.Add( 2, "应用自定义flash模式/质量" );
+				}
+			}
+		}
 
 
 		private void FiddlerApplication_BeforeRequest( Fiddler.Session oSession ) {
@@ -290,6 +322,14 @@ namespace ElectronicObserver.Observer {
 				}
 
 				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
+			}
+
+			// flash wmode & quality
+			{
+				if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+
+					oSession.bBufferResponse = true;
+				}
 			}
 
 		}
