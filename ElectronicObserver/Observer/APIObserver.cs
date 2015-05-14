@@ -264,20 +264,22 @@ namespace ElectronicObserver.Observer {
 
 		}
 
+
 		// regex
 		private Regex _wmodeRegex = new Regex( @"""wmode""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
 		private Regex _qualityRegex = new Regex( @"""quality""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
 
 		private void FiddlerApplication_BeforeResponse( Fiddler.Session oSession ) {
 
-			if (oSession.bBufferResponse && oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+			//flash 品質設定
+			if ( oSession.bBufferResponse && oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
 
 				string js = oSession.GetResponseBodyAsString();
 				bool flag = false;
 
 				var wmode = _wmodeRegex.Match( js );
 				if ( wmode.Success ) {
-					js = js.Replace( wmode.Value, string.Format( @"""wmode"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashWmode ) );
+					js = js.Replace( wmode.Value, string.Format( @"""wmode"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashWMode ) );
 					flag = true;
 				}
 
@@ -290,7 +292,7 @@ namespace ElectronicObserver.Observer {
 				if ( flag ) {
 					oSession.utilSetResponseBody( js );
 
-					Utility.Logger.Add( 2, "应用自定义flash模式/质量" );
+					Utility.Logger.Add( 1, "flashの品質設定を行いました。" );
 				}
 			}
 		}

@@ -480,16 +480,6 @@ namespace ElectronicObserver.Utility {
 			public class ConfigFormBrowser : ConfigPartBase {
 
 				/// <summary>
-				/// flash parameter 'wmode'
-				/// </summary>
-				public string FlashWmode { get; set; }
-
-				/// <summary>
-				/// flash parameter 'quality'
-				/// </summary>
-				public string FlashQuality { get; set; }
-
-				/// <summary>
 				/// ブラウザの拡大率 10-1000(%)
 				/// </summary>
 				public int ZoomRate { get; set; }
@@ -551,10 +541,18 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ConfirmAtRefresh { get; set; }
 
+				/// <summary>
+				/// flashのパラメータ指定 'wmode'
+				/// </summary>
+				public string FlashWMode { get; set; }
+
+				/// <summary>
+				/// flashのパラメータ指定 'quality'
+				/// </summary>
+				public string FlashQuality { get; set; }
+
 
 				public ConfigFormBrowser() {
-					FlashWmode = "direct";
-					FlashQuality = "high";
 					ZoomRate = 100;
 					ZoomFit = false;
 					LogInPageURL = @"http://www.dmm.com/netgame_s/kancolle/";
@@ -567,6 +565,8 @@ namespace ElectronicObserver.Utility {
 					ToolMenuDockStyle = DockStyle.Top;
 					IsToolMenuVisible = true;
 					ConfirmAtRefresh = true;
+					FlashWMode = "opaque";
+					FlashQuality = "high";
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>
