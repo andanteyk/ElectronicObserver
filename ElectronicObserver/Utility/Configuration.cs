@@ -541,6 +541,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ConfirmAtRefresh { get; set; }
 
+				/// <summary>
+				/// flashのパラメータ指定 'wmode'
+				/// </summary>
+				public string FlashWMode { get; set; }
+
+				/// <summary>
+				/// flashのパラメータ指定 'quality'
+				/// </summary>
+				public string FlashQuality { get; set; }
+
 
 				public ConfigFormBrowser() {
 					ZoomRate = 100;
@@ -555,6 +565,8 @@ namespace ElectronicObserver.Utility {
 					ToolMenuDockStyle = DockStyle.Top;
 					IsToolMenuVisible = true;
 					ConfirmAtRefresh = true;
+					FlashWMode = "opaque";
+					FlashQuality = "high";
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>
