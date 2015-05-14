@@ -278,10 +278,10 @@ namespace ElectronicObserver.Window {
 
 				// プロキシをセット
 				Browser.AsyncRemoteRun( () =>
-					Browser.Proxy.SetProxy( Observer.APIObserver.Instance.ProxyPort ) );
+					Browser.Proxy.SetProxy( Utility.Configuration.Config.Connection.UpstreamProxyAddress, Observer.APIObserver.Instance.ProxyPort ) );
 				Observer.APIObserver.Instance.ProxyStarted += () => {
 					Browser.AsyncRemoteRun( () =>
-						Browser.Proxy.SetProxy( Observer.APIObserver.Instance.ProxyPort ) );
+						Browser.Proxy.SetProxy( Utility.Configuration.Config.Connection.UpstreamProxyAddress, Observer.APIObserver.Instance.ProxyPort ) );
 				};
 
 				++initializeCompletionCount;
