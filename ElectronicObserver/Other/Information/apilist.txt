@@ -1030,6 +1030,9 @@ api_req_map/start		：出撃　同じメンバはnextのほうが情報が新し
 		api_result		：
 		api_result_str	："start war"
 
+Request.api_req_map/next	：進撃
+	api_recovery_type	：旗艦大破進撃フラグ　0=通常
+	api_cell_id			：能動分岐時のみ存在　選択したセルID
 
 api_req_map/next		：進撃
 	api_rashin_flg		：羅針盤を表示するかどうか
@@ -1040,6 +1043,7 @@ api_req_map/next		：進撃
 	api_color_no		：次のセルの色?　3=青, 4=赤
 	api_event_id		：イベント　api_mst_mapcell参照　6=気のせいだった
 	api_event_kind		：イベント種別　0=非戦闘セル 1=通常戦闘 2=夜戦 3=夜昼戦 4=航空戦
+							api_event_id=6(気のせいだった)時は 0="気のせいだった。" 1="敵影を見ず。" 2=能動分岐
 	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？コード中にスペルミスがあり未使用
@@ -1075,6 +1079,8 @@ api_req_map/next		：進撃
 		api_usemst		：4=資源
 		api_id			：多分api_itemgetと同じ(3=鋼材)
 		api_getcount	：入手資源量
+	api_select_route	：次が能動分岐マスのときのみ存在
+		api_select_cells：選択可能なセルIDのリスト
 
 api_req_sortie/battle	：戦闘(昼戦)
 	api_dock_id			：こちらの出撃艦隊ID

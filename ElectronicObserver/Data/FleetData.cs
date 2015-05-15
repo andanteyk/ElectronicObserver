@@ -328,7 +328,7 @@ namespace ElectronicObserver.Data {
 			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
 		}
 
-		/*/
+		//*/
 		private void SetConditionTimer() {
 
 			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
@@ -349,7 +349,7 @@ namespace ElectronicObserver.Data {
 			if ( minute <= 0 ) {
 				ConditionTime = null;
 
-			} else if ( ConditionTime != null ) {
+			} else if ( ConditionTime != null && (DateTime)ConditionTime > DateTime.Now ) {
 				TimeSpan ts = (DateTime)ConditionTime - DateTime.Now;
 
 				ConditionTime = DateTime.Now + ts.Add( TimeSpan.FromMinutes( minute - 3 - (int)( ts.TotalMinutes / 3 ) * 3 ) );
@@ -371,9 +371,14 @@ namespace ElectronicObserver.Data {
 			} else {
 				DateTime target = DateTime.Now.AddMinutes( minute );
 
+				if ( ConditionTime != null && ConditionTime < DateTime.Now ) {
+					ConditionTime = null;
+				}
+
 				if ( ConditionTime == null || target < ConditionTime ) {
 					ConditionTime = target;
 				}
+
 			}
 
 			/*/
@@ -391,6 +396,7 @@ namespace ElectronicObserver.Data {
 		private void UnlockConditionTimer() {
 			if ( IsConditionTimeLocked ) {
 				IsConditionTimeLocked = false;
+				ConditionTime = null;		//reset
 				SetConditionTimer();
 			}
 		}

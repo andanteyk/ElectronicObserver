@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
@@ -99,6 +100,7 @@ namespace ElectronicObserver.Observer {
 			ServerAddress = null;
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
+			Fiddler.FiddlerApplication.BeforeResponse += FiddlerApplication_BeforeResponse;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
 
 		}
@@ -263,6 +265,38 @@ namespace ElectronicObserver.Observer {
 		}
 
 
+		// regex
+		private Regex _wmodeRegex = new Regex( @"""wmode""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
+		private Regex _qualityRegex = new Regex( @"""quality""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
+
+		private void FiddlerApplication_BeforeResponse( Fiddler.Session oSession ) {
+
+			//flash 品質設定
+			if ( oSession.bBufferResponse && oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+
+				string js = oSession.GetResponseBodyAsString();
+				bool flag = false;
+
+				var wmode = _wmodeRegex.Match( js );
+				if ( wmode.Success ) {
+					js = js.Replace( wmode.Value, string.Format( @"""wmode"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashWMode ) );
+					flag = true;
+				}
+
+				var quality = _qualityRegex.Match( js );
+				if ( quality.Success ) {
+					js = js.Replace( quality.Value, string.Format( @"""quality"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashQuality ) );
+					flag = true;
+				}
+
+				if ( flag ) {
+					oSession.utilSetResponseBody( js );
+
+					Utility.Logger.Add( 1, "flashの品質設定を行いました。" );
+				}
+			}
+		}
+
 
 		private void FiddlerApplication_BeforeRequest( Fiddler.Session oSession ) {
 
@@ -271,7 +305,7 @@ namespace ElectronicObserver.Observer {
 
 			// 上流プロキシ設定
 			if ( c.UseUpstreamProxy ) {
-				oSession["X-OverrideGateway"] = string.Format( "127.0.0.1:{0}", c.UpstreamProxyPort );
+				oSession["X-OverrideGateway"] = string.Format( "{0}:{1}", c.UpstreamProxyAddress, c.UpstreamProxyPort );
 			}
 
 
@@ -291,6 +325,14 @@ namespace ElectronicObserver.Observer {
 				}
 
 				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
+			}
+
+			// flash wmode & quality
+			{
+				if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+
+					oSession.bBufferResponse = true;
+				}
 			}
 
 		}
