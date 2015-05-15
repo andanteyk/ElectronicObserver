@@ -371,9 +371,14 @@ namespace ElectronicObserver.Data {
 			} else {
 				DateTime target = DateTime.Now.AddMinutes( minute );
 
+				if ( ConditionTime != null && ConditionTime < DateTime.Now ) {
+					ConditionTime = null;
+				}
+
 				if ( ConditionTime == null || target < ConditionTime ) {
 					ConditionTime = target;
 				}
+
 			}
 
 			/*/

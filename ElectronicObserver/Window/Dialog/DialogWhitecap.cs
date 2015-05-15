@@ -186,7 +186,7 @@ namespace ElectronicObserver.Window.Dialog {
 								BlendColor( FromRgb( 0x00FFFF ), FromRgb( 0xFFDDBB ), (double)y / boardSize.Height );
 							*/
 							col = BlendColor( GetCell( currentDim, x, y + (int)( ( Math.Sin( clock / 100.0 * 2.0 * Math.PI ) + 1 ) * boardSize.Height / 8.0 ) ) != 0 ?
-								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xFFDDBB ), Math.Max( Math.Min( ( y + ( ( Math.Sin( clock / 100.0 * 2.0 * Math.PI ) ) * boardSize.Height / 8.0 ) ) / boardSize.Height, 1.0 ), 0.0 ) ) : 
+								BlendColor( FromRgb( 0xFFFFFF ), FromRgb( 0xFFDDBB ), Math.Max( Math.Min( ( y + ( ( Math.Sin( clock / 100.0 * 2.0 * Math.PI ) ) * boardSize.Height / 8.0 ) ) / boardSize.Height, 1.0 ), 0.0 ) ) :
 								BlendColor( FromRgb( 0x00FFFF ), FromRgb( 0xFFDDBB ), Math.Min( ( y + ( ( Math.Sin( clock / 100.0 * 2.0 * Math.PI ) + 1 ) * boardSize.Height / 8.0 ) ) / boardSize.Height, 1.0 ) ),
 								prev, 0.8 );
 							break;
@@ -265,7 +265,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 						case 17:
 							col = BlendColor( prev, GetCell( currentDim, x + clock / 4, y ) != 0 ?
-								FromRgb( 0xFFFFFF ) : BlendColor( FromRgb( 0x0088FF ), FromRgb( 0x88FFFF ), (double)y / boardSize.Height ), 
+								FromRgb( 0xFFFFFF ) : BlendColor( FromRgb( 0x0088FF ), FromRgb( 0x88FFFF ), (double)y / boardSize.Height ),
 								0.08 );
 							break;
 
@@ -297,6 +297,55 @@ namespace ElectronicObserver.Window.Dialog {
 							else
 								col = FromRgb( 0x000000 );			
 							//*/
+							break;
+
+						case 20:
+							if ( value != 0 ) {
+								const int incr = 1;
+								col = Color.FromArgb( Math.Min( prev.R + incr, 255 ), Math.Min( prev.G + incr, 255 ), Math.Min( prev.B + incr, 255 ) );
+							} else {
+								const int decr = 0;
+								col = Color.FromArgb( Math.Max( prev.R - decr, 0 ), Math.Max( prev.G - decr, 0 ), Math.Max( prev.B - decr, 0 ) );
+							} break;
+
+						case 21:
+							if ( value != 0 ) {
+								col = BlendColor( prev, FromRgb( 0x000000 ), 0.2 );
+							} else {
+								col = BlendColor( prev, BlendColor( FromRgb( 0x111188 ), FromRgb( 0x111111 ), (double)y / boardSize.Height ), 0.2 );
+							}
+
+							if ( value != 0 ) {
+								const int blocksize = 32;
+								const int frequency = 16;
+
+								int ux = (int)( x / blocksize ) * blocksize;
+								int uy = (int)( y / blocksize ) * blocksize;
+
+								int seedx = clock / frequency * 16829 + ux / blocksize * 81953 + uy / blocksize * 40123;
+								int seedy = clock / frequency * 81041 + ux / blocksize * 11471 + uy / blocksize * 51419;
+								int seedz = clock / frequency * 39503 + ux / blocksize * 46133 + uy / blocksize * 15241;
+
+
+								int rx = ( seedx >> 4 ) % blocksize;
+								int ry = ( seedy >> 4 ) % blocksize;
+								int rz = ( seedz >> 4 ) % 256;
+
+								if ( ux + rx == x && uy + ry == y ) {
+									Color eye;
+									if ( rz < 160 )
+										eye = FromRgb( 0x00FFFF );
+									else if ( rz < 224 )
+										eye = FromRgb( 0xFF0000 );
+									else
+										eye = FromRgb( 0xFFCC00 );
+
+
+									col = BlendColor( col, eye, (double)y / boardSize.Height );
+								}
+
+							}
+
 							break;
 
 						default:
@@ -395,7 +444,7 @@ namespace ElectronicObserver.Window.Dialog {
 				UpdateTimer.Start();
 
 			} else if ( e.Button == System.Windows.Forms.MouseButtons.Middle ) {
-				
+
 				UpdateTimer.Stop();
 
 				try {
@@ -414,7 +463,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			UpdateTimer.Stop();
 			colortheme = rand.Next( 64 );
-			//colortheme = 18;
+			//colortheme = 21;
 			Start();
 		}
 
