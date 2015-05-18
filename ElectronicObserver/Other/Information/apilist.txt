@@ -1261,10 +1261,16 @@ api_req_sortie/battleresult	：戦闘結果
 	api_get_exmap_useitem_id：EO海域攻略時：取得アイテムID(文字列) "57"=勲章　それ以外は0(数値)
 
 
-api_get_member/ship2		：進撃中
+api_get_member/ship2		：進撃中 2015/05/18廃止？
 	api_data		：portに同じ
 	api_data_deck	：deckに同じ
 
+Request.api_get_member/ship_deck	：進撃中
+	api_deck_rid	：出撃艦隊ID？艦隊の更新リクエストかも
+
+api_get_member/ship_deck	：進撃中 2015/05/18以降 更新された艦船/艦隊のみ存在
+	api_ship_data		：艦船データ portと同じ
+	api_deck_data		：艦隊データ deckと同じ
 
 api_get_member/mapinfo		：出撃準備　未出現海域は存在しない
 	api_id					：海域ID
@@ -1617,7 +1623,7 @@ api_req_battle_midnight/battle
 [戦闘終了]
 api_req_sortie/battleresult
 [進撃]
-api_get_member/ship2
+api_get_member/ship_deck
 api_req_map/next
 [帰投]
 api_get_member/slot_item

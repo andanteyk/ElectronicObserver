@@ -586,6 +586,7 @@ namespace ElectronicObserver.Data {
 				case "api_get_member/ship2":
 				case "api_get_member/ship3":
 				case "api_req_kousyou/getship":
+				case "api_get_member/ship_deck":
 					base.LoadFromResponse( apiname, (object)data );
 
 					HPCurrent = (int)RawData.api_nowhp;
