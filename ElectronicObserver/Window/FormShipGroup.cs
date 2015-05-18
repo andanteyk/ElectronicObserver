@@ -154,6 +154,7 @@ namespace ElectronicObserver.Window {
 
 			o.APIList["api_port/port"].ResponseReceived += APIUpdated;
 			o.APIList["api_get_member/ship2"].ResponseReceived += APIUpdated;
+			o.APIList["api_get_member/ship_deck"].ResponseReceived += APIUpdated;
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
