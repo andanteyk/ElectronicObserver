@@ -597,7 +597,6 @@ namespace ElectronicObserver.Window {
 
 			o.APIList["api_port/port"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ship2"].ResponseReceived += Updated;
-			o.APIList["api_get_member/ship_deck"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ndock"].ResponseReceived += Updated;
 			o.APIList["api_req_kousyou/getship"].ResponseReceived += Updated;
 			o.APIList["api_req_hokyu/charge"].ResponseReceived += Updated;
@@ -608,6 +607,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/slot_item"].ResponseReceived += Updated;
 			o.APIList["api_req_map/start"].ResponseReceived += Updated;
 			o.APIList["api_req_map/next"].ResponseReceived += Updated;
+			o.APIList["api_get_member/ship_deck"].ResponseReceived += Updated;
 
 
 			//追加するときは FormFleetOverview にも同様に追加してください

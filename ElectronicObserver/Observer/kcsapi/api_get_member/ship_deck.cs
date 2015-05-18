@@ -17,13 +17,18 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 			//api_ship_data
 			foreach ( var elem in data.api_ship_data ) {
 
-				var a = new ShipData();
-				a.LoadFromResponse( APIName, elem );
+				int id = (int)elem.api_id;
+				ShipData ship = db.Ships[id];
 
-				if ( db.Ships.ContainsKey( a.ID ) ) {
-					db.Ships.Remove( a.ID );
+				if ( ship != null ) {
+					ship.LoadFromResponse( APIName, elem );
+
+				} else {	//ないとは思うけど
+					var a = new ShipData();
+					a.LoadFromResponse( APIName, elem );
+					db.Ships.Add( a );
+
 				}
-				db.Ships.Add( a );
 
 			}
 
@@ -37,6 +42,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 		public override string APIName {
 			get { return "api_get_member/ship_deck"; }
 		}
-	}
 
+	}
 }
