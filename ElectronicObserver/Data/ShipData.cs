@@ -584,6 +584,7 @@ namespace ElectronicObserver.Data {
 			switch ( apiname ) { 
 				case "api_port/port":
 				case "api_get_member/ship2":
+				case "api_get_member/ship_deck":
 				case "api_get_member/ship3":
 				case "api_req_kousyou/getship":
 					base.LoadFromResponse( apiname, (object)data );
