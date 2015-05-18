@@ -44,12 +44,12 @@ namespace ElectronicObserver.Utility.Data {
 		/// <summary>
 		/// 艦娘経験値テーブル
 		/// </summary>
-		public static ReadOnlyDictionary<int, Experience> ShipExp { get; private set; }
+		public static Dictionary<int, Experience> ShipExp { get; private set; }
 		
 		/// <summary>
 		/// 提督経験値テーブル
 		/// </summary>
-		public static ReadOnlyDictionary<int, Experience> AdmiralExp { get; private set; }
+		public static Dictionary<int, Experience> AdmiralExp { get; private set; }
 
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		/// <param name="exp">経験値テーブル。</param>
 		/// <param name="current">現在の累積経験値。</param>
-		private static int GetNextExp( ReadOnlyDictionary<int, Experience> exp, int current ) {
+		private static int GetNextExp( Dictionary<int, Experience> exp, int current ) {
 
 			Experience l = exp.Values.FirstOrDefault( e => e.Total + e.Next > current );
 
@@ -91,7 +91,7 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="exp">経験値テーブル。</param>
 		/// <param name="current">現在の累積経験値。</param>
 		/// <param name="level">対象のレベル。</param>
-		private static int GetExpToLevel( ReadOnlyDictionary<int, Experience> exp, int current, int level ) {
+		private static int GetExpToLevel( Dictionary<int, Experience> exp, int current, int level ) {
 
 			Experience l = exp[level];
 
@@ -402,8 +402,8 @@ namespace ElectronicObserver.Utility.Data {
 				new Experience( 120, 15000000, 0 )
 			};
 
-			ShipExp = new ReadOnlyDictionary<int, Experience>( shipexp.ToDictionary( exp => exp.Level ) );
-			AdmiralExp = new ReadOnlyDictionary<int, Experience>( admiralexp.ToDictionary( exp => exp.Level ) );
+			ShipExp = new Dictionary<int, Experience>( shipexp.ToDictionary( exp => exp.Level ) );
+			AdmiralExp = new Dictionary<int, Experience>( admiralexp.ToDictionary( exp => exp.Level ) );
 
 			#endregion
 

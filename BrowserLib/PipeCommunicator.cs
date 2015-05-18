@@ -80,7 +80,7 @@ namespace BrowserLib {
 				for ( int i = 0; i < 2; ++i ) {
 					try {
 						if ( Proxy == null ) return;
-						await Task.Run( action );
+						await Task.Factory.StartNew( action );
 						return;
 					} catch ( CommunicationException cex ) {
 						( (IClientChannel)Proxy ).Abort();

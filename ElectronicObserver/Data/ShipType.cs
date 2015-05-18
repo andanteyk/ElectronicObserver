@@ -50,8 +50,8 @@ namespace ElectronicObserver.Data {
 		/// 装備可否フラグ
 		/// </summary>
 		private Dictionary<int, bool> _equipmentType;
-		public ReadOnlyDictionary<int, bool> EquipmentType {
-			get { return new ReadOnlyDictionary<int, bool>( _equipmentType ); }
+		public Dictionary<int, bool> EquipmentType {
+			get { return _equipmentType; }
 		}
 
 

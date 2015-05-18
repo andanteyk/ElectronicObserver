@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Zip;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -198,7 +199,7 @@ namespace ElectronicObserver.Resource {
 
 			using ( var stream = File.OpenRead( path ) ) {
 
-				using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
+				using ( var archive = new ZipFile( stream ) ) {
 
 					const string mstpath = @"Assets/";
 
@@ -345,7 +346,7 @@ namespace ElectronicObserver.Resource {
 
 		}
 
-		private static void LoadImageFromArchive( ImageList imglist, ZipArchive arc, string path, string name ) {
+		private static void LoadImageFromArchive( ImageList imglist, ZipFile arc, string path, string name ) {
 
 			var entry = arc.GetEntry( path );
 
@@ -358,7 +359,7 @@ namespace ElectronicObserver.Resource {
 
 			try {
 
-				Bitmap bmp = new Bitmap( entry.Open() );
+				Bitmap bmp = new Bitmap( arc.GetInputStream( entry ) );
 
 				if ( bmp.Size != imglist.ImageSize ) {
 
@@ -405,7 +406,7 @@ namespace ElectronicObserver.Resource {
 
 		}
 
-		private static Icon LoadIconFromArchive( ZipArchive arc, string path ) {
+		private static Icon LoadIconFromArchive( ZipFile arc, string path ) {
 
 			var entry = arc.GetEntry( path );
 
@@ -421,8 +422,14 @@ namespace ElectronicObserver.Resource {
 				return new Icon( entry.Open() );
 				/*/
 				byte[] bytes;
-				using ( MemoryStream ms = new MemoryStream() ) {
-					entry.Open().CopyTo( ms );
+				using ( MemoryStream ms = new MemoryStream() )
+				using ( Stream ins = arc.GetInputStream( entry ) ) {
+					byte[] buffer = new byte[1024];
+					int count;
+					while ( ( count = ins.Read( buffer, 0, 1024 ) ) > 0 ) {
+						ms.Write( buffer, 0, count );
+					}
+					ms.Flush();
 					bytes = ms.ToArray();
 				}
 				using ( MemoryStream ms = new MemoryStream( bytes ) ) {
