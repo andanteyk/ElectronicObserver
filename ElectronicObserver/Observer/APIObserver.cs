@@ -51,6 +51,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_get_member.kdock() );
 			APIList.Add( new kcsapi.api_port.port() );
 			APIList.Add( new kcsapi.api_get_member.ship2() );
+			APIList.Add( new kcsapi.api_get_member.ship_deck() );
 			APIList.Add( new kcsapi.api_get_member.questlist() );
 			APIList.Add( new kcsapi.api_get_member.ndock() );
 			APIList.Add( new kcsapi.api_req_kousyou.getship() );

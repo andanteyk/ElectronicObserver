@@ -585,6 +585,7 @@ namespace ElectronicObserver.Window {
 
 			o.APIList["api_port/port"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ship2"].ResponseReceived += Updated;
+			o.APIList["api_get_member/ship_deck"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ndock"].ResponseReceived += Updated;
 			o.APIList["api_req_kousyou/getship"].ResponseReceived += Updated;
 			o.APIList["api_req_hokyu/charge"].ResponseReceived += Updated;
