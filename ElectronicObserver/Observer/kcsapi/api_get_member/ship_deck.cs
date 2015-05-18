@@ -15,11 +15,14 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 
 			//api_ship_data
-			db.Ships.Clear();
 			foreach ( var elem in data.api_ship_data ) {
 
 				var a = new ShipData();
 				a.LoadFromResponse( APIName, elem );
+
+				if ( db.Ships.ContainsKey( a.ID ) ) {
+					db.Ships.Remove( a.ID );
+				}
 				db.Ships.Add( a );
 
 			}
