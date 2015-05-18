@@ -20,12 +20,12 @@ namespace ElectronicObserver.Data.Battle {
 		/// <summary>
 		/// 昼戦データ
 		/// </summary>
-		public BattleData BattleDay { get; private set; }
+		public BattleDay BattleDay { get; private set; }
 
 		/// <summary>
 		/// 夜戦データ
 		/// </summary>
-		public BattleData BattleNight { get; private set; }
+		public BattleNight BattleNight { get; private set; }
 
 		/// <summary>
 		/// 戦闘結果データ
@@ -160,12 +160,12 @@ namespace ElectronicObserver.Data.Battle {
 			switch ( BattleMode & BattleModes.BattlePhaseMask ) {
 				case BattleModes.Normal:
 				case BattleModes.AirBattle:
-					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleDay.Data.api_formation[1], ( (int[])BattleDay.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
+					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleDay.Searching.FormationEnemy, BattleDay.Initial.EnemyMembers ) );
 					break;
 
 				case BattleModes.NightOnly:
 				case BattleModes.NightDay:
-					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, (int)BattleNight.Data.api_formation[1], ( (int[])BattleNight.Data.api_ship_ke ).Skip( 1 ).ToArray() ) );
+					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleNight.Searching.FormationEnemy, BattleNight.Initial.EnemyMembers ) );
 					break;
 			}
 

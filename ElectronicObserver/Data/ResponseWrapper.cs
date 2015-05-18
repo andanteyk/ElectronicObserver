@@ -15,7 +15,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 生の受信データ(api_data)
 		/// </summary>
-		protected dynamic RawData { get; private set; }
+		public dynamic RawData { get; private set; }
 
 		/// <summary>
 		/// Responseを読み込みます。
