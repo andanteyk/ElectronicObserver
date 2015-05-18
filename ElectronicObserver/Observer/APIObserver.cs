@@ -86,6 +86,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_mission.result() );
 			APIList.Add( new kcsapi.api_req_ranking.getlist() );
 			APIList.Add( new kcsapi.api_req_sortie.airbattle() );
+			APIList.Add( new kcsapi.api_get_member.ship_deck() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );
