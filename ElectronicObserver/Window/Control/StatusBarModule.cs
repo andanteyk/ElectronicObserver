@@ -234,17 +234,17 @@ namespace ElectronicObserver.Window.Control {
 			_maximumValue = 100;
 			_usePrevValue = true;
 
-			_barColor0 = FromArgb( 0xFFFF0000 );
-			_barColor1 = FromArgb( 0xFFFF8800 );
-			_barColor2 = FromArgb( 0xFFFFCC00 );
-			_barColor3 = FromArgb( 0xFF00CC00 );
-			_barColor4 = FromArgb( 0xFF0044CC );
-			_barColorIncrement = FromArgb( 0xFF44FF00 );
-			_barColorDecrement = FromArgb( 0xFF882222 );
-			_barColorBackground = FromArgb( 0xFF888888 );
+			_barColor0 = Utility.Configuration.Config.UI.Hp0Color.ColorData;
+			_barColor1 = Utility.Configuration.Config.UI.Hp25Color.ColorData;
+			_barColor2 = Utility.Configuration.Config.UI.Hp50Color.ColorData;
+			_barColor3 = Utility.Configuration.Config.UI.Hp75Color.ColorData;
+			_barColor4 = Utility.Configuration.Config.UI.Hp100Color.ColorData;
+			_barColorIncrement = Utility.Configuration.Config.UI.HpIncrementColor.ColorData;
+			_barColorDecrement = Utility.Configuration.Config.UI.HpDecrementColor.ColorData;
+			_barColorBackground = Utility.Configuration.Config.UI.HpBackgroundColor.ColorData;
 
-			_barThickness = 4;
-			_barBackgroundOffset = 1;
+			_barThickness = Utility.Configuration.Config.UI.HpThickness;
+			_barBackgroundOffset = Utility.Configuration.Config.UI.HpBackgroundOffset;
 
 		}
 

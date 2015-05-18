@@ -58,6 +58,7 @@
 			// 
 			// MenuMain
 			// 
+			ToolStripCustomizer.ToolStripRender.SetRender(this.MenuMain);
 			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuMain_ShowShipName});
 			this.MenuMain.Name = "MenuMain";
@@ -68,7 +69,7 @@
 			this.MenuMain_ShowShipName.CheckOnClick = true;
 			this.MenuMain_ShowShipName.Name = "MenuMain_ShowShipName";
 			this.MenuMain_ShowShipName.Size = new System.Drawing.Size(154, 22);
-			this.MenuMain_ShowShipName.Text = "艦名を表示(&V)";
+			this.MenuMain_ShowShipName.Text = "显示舰名(&V)";
 			this.MenuMain_ShowShipName.CheckedChanged += new System.EventHandler(this.MenuMain_ShowShipName_CheckedChanged);
 			// 
 			// FormArsenal
@@ -79,11 +80,11 @@
 			this.ContextMenuStrip = this.MenuMain;
 			this.Controls.Add(this.TableArsenal);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Name = "FormArsenal";
-			this.Text = "工廠";
+			this.Text = "工厂";
 			this.Load += new System.EventHandler(this.FormArsenal_Load);
 			this.MenuMain.ResumeLayout(false);
 			this.ResumeLayout(false);

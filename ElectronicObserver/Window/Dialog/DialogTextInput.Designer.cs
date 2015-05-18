@@ -67,7 +67,7 @@
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this.ButtonCancel.TabIndex = 2;
-			this.ButtonCancel.Text = "キャンセル";
+			this.ButtonCancel.Text = "取消";
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
@@ -79,7 +79,7 @@
 			this.Description.Name = "Description";
 			this.Description.Size = new System.Drawing.Size(139, 15);
 			this.Description.TabIndex = 0;
-			this.Description.Text = "テキストを入力してください：";
+			this.Description.Text = "请输入文本：";
 			// 
 			// TextInput
 			// 
@@ -98,13 +98,13 @@
 			this.Controls.Add(this.ButtonCancel);
 			this.Controls.Add(this.ButtonOK);
 			this.Controls.Add(this.tableLayoutPanel1);
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DialogTextInput";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "テキストを入力";
+			this.Text = "文本输入";
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);

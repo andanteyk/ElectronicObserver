@@ -29,6 +29,8 @@
 			this.BaseLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.TableTop = new System.Windows.Forms.TableLayoutPanel();
 			this.FormationFriend = new ElectronicObserver.Window.Control.ImageLabel();
+			this.AirDamage = new ElectronicObserver.Window.Control.ImageLabel();
+			this.AirDamageValue = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Formation = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FormationEnemy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.AirStage2Friend = new ElectronicObserver.Window.Control.ImageLabel();
@@ -54,16 +56,17 @@
 			// TableBottom
 			// 
 			this.TableBottom.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableBottom.ColumnCount = 3;
+			this.TableBottom.ColumnCount = 4;
 			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
 			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
 			this.TableBottom.Controls.Add(this.FleetFriend, 0, 0);
 			this.TableBottom.Controls.Add(this.DamageFriend, 0, 7);
-			this.TableBottom.Controls.Add(this.WinRank, 1, 7);
-			this.TableBottom.Controls.Add(this.DamageEnemy, 2, 7);
-			this.TableBottom.Controls.Add(this.FleetCombined, 1, 0);
-			this.TableBottom.Controls.Add(this.FleetEnemy, 2, 0);
+			this.TableBottom.Controls.Add(this.WinRank, 2, 7);
+			this.TableBottom.Controls.Add(this.DamageEnemy, 3, 7);
+			this.TableBottom.Controls.Add(this.FleetCombined, 2, 0);
+			this.TableBottom.Controls.Add(this.FleetEnemy, 3, 0);
 			this.TableBottom.Location = new System.Drawing.Point(3, 90);
 			this.TableBottom.Name = "TableBottom";
 			this.TableBottom.RowCount = 8;
@@ -80,7 +83,7 @@
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableBottom.Size = new System.Drawing.Size(252, 168);
+			this.TableBottom.Size = new System.Drawing.Size(312, 168);
 			this.TableBottom.TabIndex = 1;
 			this.TableBottom.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableBottom_CellPaint);
 			// 
@@ -106,22 +109,25 @@
 			// TableTop
 			// 
 			this.TableTop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableTop.ColumnCount = 3;
+			this.TableTop.ColumnCount = 4;
+			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
 			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+			this.TableTop.Controls.Add(this.AirDamage, 1, 0);
+			this.TableTop.Controls.Add(this.AirDamageValue, 1, 1);
 			this.TableTop.Controls.Add(this.FormationFriend, 0, 0);
-			this.TableTop.Controls.Add(this.Formation, 1, 0);
-			this.TableTop.Controls.Add(this.FormationEnemy, 2, 0);
+			this.TableTop.Controls.Add(this.Formation, 2, 0);
+			this.TableTop.Controls.Add(this.FormationEnemy, 3, 0);
 			this.TableTop.Controls.Add(this.AirStage2Friend, 0, 3);
-			this.TableTop.Controls.Add(this.AACutin, 1, 3);
-			this.TableTop.Controls.Add(this.AirStage2Enemy, 2, 3);
-			this.TableTop.Controls.Add(this.AirStage1Enemy, 2, 2);
+			this.TableTop.Controls.Add(this.AACutin, 2, 3);
+			this.TableTop.Controls.Add(this.AirStage2Enemy, 3, 3);
+			this.TableTop.Controls.Add(this.AirStage1Enemy, 3, 2);
 			this.TableTop.Controls.Add(this.SearchingFriend, 0, 1);
-			this.TableTop.Controls.Add(this.Searching, 1, 1);
+			this.TableTop.Controls.Add(this.Searching, 2, 1);
 			this.TableTop.Controls.Add(this.AirStage1Friend, 0, 2);
-			this.TableTop.Controls.Add(this.SearchingEnemy, 2, 1);
-			this.TableTop.Controls.Add(this.AirSuperiority, 1, 2);
+			this.TableTop.Controls.Add(this.SearchingEnemy, 3, 1);
+			this.TableTop.Controls.Add(this.AirSuperiority, 2, 2);
 			this.TableTop.Location = new System.Drawing.Point(3, 3);
 			this.TableTop.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.TableTop.Name = "TableTop";
@@ -139,9 +145,33 @@
 			this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableTop.Size = new System.Drawing.Size(252, 84);
+			this.TableTop.Size = new System.Drawing.Size(312, 84);
 			this.TableTop.TabIndex = 18;
 			this.TableTop.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableTop_CellPaint);
+			// 
+			// AirDamage
+			// 
+			this.AirDamage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.AirDamage.BackColor = System.Drawing.Color.Transparent;
+			this.AirDamage.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.AirDamage.Location = new System.Drawing.Point(3, 3);
+			this.AirDamage.Name = "AirDamage";
+			this.AirDamage.Size = new System.Drawing.Size(54, 15);
+			this.AirDamage.TabIndex = 0;
+			this.AirDamage.Text = "航空伤害";
+			this.AirDamage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// AirDamageValue
+			// 
+			this.AirDamageValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.AirDamageValue.BackColor = System.Drawing.Color.Transparent;
+			this.AirDamageValue.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.AirDamageValue.Location = new System.Drawing.Point(3, 3);
+			this.AirDamageValue.Name = "AirDamageValue";
+			this.AirDamageValue.Size = new System.Drawing.Size(54, 15);
+			this.AirDamageValue.TabIndex = 0;
+			this.AirDamageValue.Text = "999";
+			this.AirDamageValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// FormationFriend
 			// 
@@ -361,14 +391,14 @@
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(300, 300);
+			this.ClientSize = new System.Drawing.Size(340, 300);
 			this.Controls.Add(this.BaseLayoutPanel);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Name = "FormBattle";
-			this.Text = "戦闘";
+			this.Text = "战斗";
 			this.Load += new System.EventHandler(this.FormBattle_Load);
 			this.TableBottom.ResumeLayout(false);
 			this.TableBottom.PerformLayout();
@@ -392,6 +422,8 @@
 		private Control.ImageLabel SearchingFriend;
 		private Control.ImageLabel FormationEnemy;
 		private Control.ImageLabel FormationFriend;
+		private Control.ImageLabel AirDamage;
+		private Control.ImageLabel AirDamageValue;
 		private Control.ImageLabel Formation;
 		private Control.ImageLabel AirStage2Enemy;
 		private Control.ImageLabel FleetFriend;

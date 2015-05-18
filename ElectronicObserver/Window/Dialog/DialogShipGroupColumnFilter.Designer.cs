@@ -53,7 +53,7 @@
 			this.Description.Name = "Description";
 			this.Description.Size = new System.Drawing.Size(165, 15);
 			this.Description.TabIndex = 1;
-			this.Description.Text = "表示する列をチェックしてください：";
+			this.Description.Text = "请选中需要显示的列：";
 			// 
 			// ButtonOK
 			// 
@@ -74,7 +74,7 @@
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this.ButtonCancel.TabIndex = 3;
-			this.ButtonCancel.Text = "キャンセル";
+			this.ButtonCancel.Text = "取消";
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
@@ -86,7 +86,7 @@
 			this.AllCheck.Name = "AllCheck";
 			this.AllCheck.Size = new System.Drawing.Size(57, 19);
 			this.AllCheck.TabIndex = 4;
-			this.AllCheck.Text = "(全て)";
+			this.AllCheck.Text = "(全选)";
 			this.AllCheck.UseVisualStyleBackColor = true;
 			this.AllCheck.CheckedChanged += new System.EventHandler(this.AllCheck_CheckedChanged);
 			// 
@@ -101,11 +101,11 @@
 			this.Controls.Add(this.ButtonOK);
 			this.Controls.Add(this.Description);
 			this.Controls.Add(this.FilterList);
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "DialogShipGroupColumnFilter";
-			this.Text = "列フィルタ";
+			this.Text = "列过滤";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

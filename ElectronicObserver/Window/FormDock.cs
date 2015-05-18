@@ -134,6 +134,8 @@ namespace ElectronicObserver.Window {
 		private TableDockControl[] ControlDock;
 
 
+		private Pen LinePen = Pens.Silver;
+
 
 
 		public FormDock( FormMain parent ) {
@@ -196,13 +198,26 @@ namespace ElectronicObserver.Window {
 
 
 		private void TableDock_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+			e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 
 		void ConfigurationChanged() {
 
 			Font = Utility.Configuration.Config.UI.MainFont;
+
+			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
+
+			ForeColor = Utility.Configuration.Config.UI.ForeColor;
+
+			if ( ControlDock != null ) {
+				for ( int i = 0; i < ControlDock.Length; i++ ) {
+					if ( ControlDock[i].RepairTime != null && ControlDock[i].ShipName != null ) {
+						ControlDock[i].ShipName.ForeColor = ForeColor;
+						ControlDock[i].RepairTime.ForeColor = ForeColor;
+					}
+				}
+			}
 		}
 
 

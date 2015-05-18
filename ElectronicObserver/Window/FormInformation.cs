@@ -49,6 +49,9 @@ namespace ElectronicObserver.Window {
 		void ConfigurationChanged() {
 
 			Font = TextInformation.Font = Utility.Configuration.Config.UI.MainFont;
+
+			TextInformation.BackColor = Utility.Configuration.Config.UI.BackColor;
+			TextInformation.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 		}
 
 

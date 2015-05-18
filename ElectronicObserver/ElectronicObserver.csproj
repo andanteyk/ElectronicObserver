@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +46,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>74eo.ico</ApplicationIcon>
@@ -52,15 +54,25 @@
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EO|AnyCPU'">
+    <OutputPath>bin\EO\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BCMakeCert">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\BCMakeCert.dll</HintPath>
+      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\BCMakeCert.dll</HintPath>
     </Reference>
     <Reference Include="CertMaker">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\CertMaker.dll</HintPath>
+      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\CertMaker.dll</HintPath>
     </Reference>
     <Reference Include="FiddlerCore4">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
+      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\FiddlerCore4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -73,6 +85,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -146,11 +159,17 @@
     <Compile Include="Notifier\NotifierRepair.cs" />
     <Compile Include="Notifier\NotifierExpedition.cs" />
     <Compile Include="Notifier\NotifierManager.cs" />
+    <Compile Include="Observer\Cache\CacheCore.cs" />
+    <Compile Include="Observer\Cache\Extensions.cs" />
+    <Compile Include="Observer\Cache\GMTHelper.cs" />
+    <Compile Include="Observer\Cache\TaskRecord.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
+    <Compile Include="Utility\Modify\ModifyConfiguration.cs" />
     <Compile Include="Utility\PathHelper.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />
     <Compile Include="Observer\APIBase.cs" />
@@ -220,6 +239,12 @@
     <Compile Include="Utility\Storage\SerializableList.cs" />
     <Compile Include="Utility\SystemEvents.cs" />
     <Compile Include="Utility\WinAPI.cs" />
+    <Compile Include="Window\Control\ColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Control\ColorPicker.Designer.cs">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -310,6 +335,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogNotifier.Designer.cs">
       <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogResourcesGraph.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogResourcesGraph.Designer.cs">
+      <DependentUpon>DialogResourcesGraph.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogShipGroupColumnFilter.cs">
       <SubType>Form</SubType>
@@ -457,6 +488,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
+    <EmbeddedResource Include="Window\Control\ColorPicker.resx">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ImageLabel.resx">
       <DependentUpon>ImageLabel.cs</DependentUpon>
     </EmbeddedResource>
@@ -498,6 +532,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogNotifier.resx">
       <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogResourcesGraph.resx">
+      <DependentUpon>DialogResourcesGraph.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogShipGroupColumnFilter.resx">
       <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>

@@ -41,6 +41,15 @@ namespace ElectronicObserver.Utility {
 					sw.WriteLine( "追加情報 : {0}", message );
 					sw.WriteLine( "スタックトレース：" );
 					sw.WriteLine( ex.StackTrace );
+
+                    var exInner = ex;
+                    while ((exInner = exInner.InnerException) != null)
+                    {
+                        sw.WriteLine("Inner Error : {0}", exInner.GetType().Name);
+                        sw.WriteLine(exInner.Message);
+                        sw.WriteLine("Stack Trace：");
+                        sw.WriteLine(exInner.StackTrace);
+                    }
 					
 					if ( connectionName != null && connectionData != null ) {
 						sw.WriteLine();

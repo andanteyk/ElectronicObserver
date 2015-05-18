@@ -32,7 +32,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextInformation.AutoWordSelection = true;
-			this.TextInformation.BackColor = System.Drawing.SystemColors.Control;
+			this.TextInformation.BackColor = Utility.Configuration.Config.UI.BackColor.ColorData;
 			this.TextInformation.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.TextInformation.Location = new System.Drawing.Point(3, 3);
 			this.TextInformation.Name = "TextInformation";
@@ -48,11 +48,11 @@
 			this.ClientSize = new System.Drawing.Size(300, 200);
 			this.Controls.Add(this.TextInformation);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Name = "FormInformation";
-			this.Text = "情報";
+			this.Text = "情报";
 			this.Load += new System.EventHandler(this.FormInformation_Load);
 			this.ResumeLayout(false);
 

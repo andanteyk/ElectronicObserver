@@ -70,7 +70,9 @@ namespace Browser {
 		/// </summary>
 		private bool IsKanColleLoaded { get; set; }
 
+#if !NOVOL
 		private VolumeManager _volumeManager;
+#endif
 
 
 
@@ -82,7 +84,9 @@ namespace Browser {
 
 			ServerUri = serverUri;
 			StyleSheetApplied = false;
+#if !NOVOL
 			_volumeManager = new VolumeManager( (uint)System.Diagnostics.Process.GetCurrentProcess().Id );
+#endif
 			Browser.ReplacedKeyDown += Browser_ReplacedKeyDown;
 		}
 
@@ -143,6 +147,10 @@ namespace Browser {
 			ToolMenu.Dock = (DockStyle)Configuration.ToolMenuDockStyle;
 			ToolMenu.Visible = Configuration.IsToolMenuVisible;
 
+			ToolStripCustomizer.ToolStripRender.RendererTheme = (ToolStripCustomizer.ToolStripRenderTheme)Configuration.ThemeID;
+
+			ToolStripCustomizer.ToolStripRender.SetRender( this.ContextMenuTool );
+			ToolStripCustomizer.ToolStripRender.SetRender( this.ToolMenu );
 		}
 
 		private void ConfigurationUpdated() {
@@ -206,11 +214,31 @@ namespace Browser {
 		}
 
 		private void Browser_DocumentCompleted( object sender, WebBrowserDocumentCompletedEventArgs e ) {
+			ReplaceEmbedHtml();
 
 			StyleSheetApplied = false;
 			ApplyStyleSheet();
 
 			ApplyZoom();
+		}
+
+		/// <summary>
+		/// 应用embed元素
+		/// </summary>
+		private void ReplaceEmbedHtml() {
+			if ( string.IsNullOrEmpty( Configuration.EmbedHtml ) )
+				return;
+
+			try {
+				var document = Browser.Document;
+				string url;
+				if ( document != null && ( url = document.Url.ToString() ).Contains( ".swf?" ) ) {
+					document.Body.InnerHtml = string.Format( Configuration.EmbedHtml, url, Configuration.FlashWmode, Configuration.FlashQuality );
+				}
+			} catch ( Exception ex ) {
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "embed元素应用失败。" ) );
+			}
 		}
 
 		/// <summary>
@@ -391,10 +419,10 @@ namespace Browser {
 
 			var wb = Browser;
 
-			if ( !IsKanColleLoaded ) {
-				AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
-				return;
-			}
+			//if ( !IsKanColleLoaded ) {
+			//	AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
+			//	return;
+			//}
 
 			try {
 				IViewObject viewobj = null;
@@ -414,7 +442,10 @@ namespace Browser {
 
 					var swf = getFrameElementById( wb.Document, "externalswf" );
 					if ( swf == null ) {
-						throw new InvalidOperationException( "対象の swf が見つかりませんでした。" );
+						viewobj = wb.Document.GetElementsByTagName( "embed" )[0].DomElement as IViewObject;
+						if ( viewobj == null ) {
+							throw new InvalidOperationException( "swf 对象未发现，并且获取 embed 元素失败。" );
+						}
 					}
 
 					Func<dynamic, bool> isvalid = target => {
@@ -427,8 +458,12 @@ namespace Browser {
 						return true;
 					};
 
-					if ( !isvalid( swf.DomElement as HTMLEmbed ) && !isvalid( swf.DomElement as HTMLObjectElement ) ) {
-						throw new InvalidOperationException( "対象の swf が見つかりませんでした。" );
+					if ( viewobj == null && !isvalid( swf.DomElement as HTMLEmbed ) && !isvalid( swf.DomElement as HTMLObjectElement ) ) {
+						string name = null;
+						if ( swf.DomElement != null ) {
+							name = swf.DomElement.GetType().FullName;
+						}
+						throw new InvalidOperationException( string.Format( "swf对象无效，该对象为：{0}.", name ) );
 					}
 				}
 
@@ -465,7 +500,7 @@ namespace Browser {
 
 
 		public void SetProxy( string address, int port ) {
-			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "{0}:{1}", address, port ), "<local>" );
+			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}", port ), "<local>" );
 		}
 
 
@@ -595,10 +630,15 @@ namespace Browser {
 			bool isEnabled;
 
 			try {
+#if !NOVOL
 				mute = _volumeManager.IsMute;
 				isEnabled = true;
+#else
+				mute = false;
+				isEnabled = false;
+#endif
 
-			} catch ( Exception ) {
+			} catch ( Exception ex ) {
 				// 音量データ取得不能時
 				mute = false;
 				isEnabled = false;
@@ -608,7 +648,7 @@ namespace Browser {
 				Icons.Images[mute ? "Browser_Mute" : "Browser_Unmute"];
 
 
-			ToolMenu_Mute.Enabled = ToolMenu_Other_Mute.Enabled =
+			ToolMenu_Mute.Enabled = ToolMenu_Other_Mute.Enabled = ToolMenu_Mute_Track.Enabled =
 				isEnabled;
 		}
 
@@ -683,11 +723,13 @@ namespace Browser {
 
 
 		private void ToolMenu_Other_Mute_Click( object sender, EventArgs e ) {
+#if !NOVOL
 			try {
 				_volumeManager.ToggleMute();
 
 			} catch ( Exception ) {
 			}
+#endif
 
 			SetMuteIcon();
 		}
@@ -972,7 +1014,24 @@ namespace Browser {
 
 		#endregion
 
+		private void ToolMenu_Mute_DropDownOpening( object sender, EventArgs e ) {
+#if !NOVOL
+			trackVolume.Value = (int)( _volumeManager.Volume * 100 );
+			trackVolume.Visible = !trackVolume.Visible;
+#endif
+		}
 
+		private void trackVolume_ValueChanged( object sender, EventArgs e ) {
+#if !NOVOL
+			_volumeManager.Volume = trackVolume.Value / 100f;
+#endif
+		}
+
+		private void trackVolume_LostFocus( object sender, EventArgs e ) {
+#if !NOVOL
+			trackVolume.Visible = false;
+#endif
+		}
 
 
 	}

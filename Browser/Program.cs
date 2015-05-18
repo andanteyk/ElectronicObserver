@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define DEBUG
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +19,12 @@ namespace Browser {
 					"情報", MessageBoxButtons.OK, MessageBoxIcon.Information );
 				return;
 			}
+#if DEBUG
+			// debug
+			System.Diagnostics.Debug.WriteLine( string.Format( "volume: {0}.", VolumeManager.GetApplicationVolume( (uint)System.Diagnostics.Process.GetCurrentProcess().Id ) ) );
+
+			return;
+#endif
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault( false );
 			Application.Run( new FormBrowser( args[0] ) );

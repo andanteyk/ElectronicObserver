@@ -56,12 +56,17 @@ namespace ElectronicObserver.Window {
 
 
 		public FormMain() {
+			this.BackColor = Utility.Configuration.Config.UI.BackColor.ColorData;
+			this.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
+
 			InitializeComponent();
 		}
 
 		private async void FormMain_Load( object sender, EventArgs e ) {
 
-			Utility.Configuration.Instance.Load();
+			//Utility.Configuration.Instance.Load();
+
+			Utility.Modify.ModifyConfiguration.Instance.LoadSettings();
 
 
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
@@ -79,7 +84,7 @@ namespace ElectronicObserver.Window {
 			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
 
 
-			this.Text = SoftwareInformation.VersionJapanese;
+			this.Text = SoftwareInformation.VersionJapanese + "（迷彩型）";
 
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
@@ -161,6 +166,16 @@ namespace ElectronicObserver.Window {
 			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
 			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
+			// color theme
+			foreach ( var f in SubForms ) {
+				if ( f is FormShipGroup ) {
+					f.BackColor = SystemColors.Control;
+					f.ForeColor = SystemColors.ControlText;
+				} else {
+					f.BackColor = this.BackColor;
+					f.ForeColor = this.ForeColor;
+				}
+			}
 		}
 
 
@@ -647,6 +662,17 @@ namespace ElectronicObserver.Window {
 
 		}
 
+        private void StripMenu_Tool_ResourcesGraph_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new DialogResourcesGraph().Show(this);
+            }
+            catch (System.ObjectDisposedException)
+            {
+                //catch and do nothing. window was disposed by inner logic.
+            }
+        }
 
 		private async void StripMenu_Debug_DeleteOldAPI_Click( object sender, EventArgs e ) {
 

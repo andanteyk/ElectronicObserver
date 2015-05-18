@@ -74,6 +74,7 @@
 			// 
 			// ContextMenuFleet
 			// 
+			ToolStripCustomizer.ToolStripRender.SetRender(this.ContextMenuFleet);
 			this.ContextMenuFleet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ContextMenuFleet_CopyFleet,
             this.ContextMenuFleet_Capture,
@@ -88,14 +89,14 @@
 			// 
 			this.ContextMenuFleet_CopyFleet.Name = "ContextMenuFleet_CopyFleet";
 			this.ContextMenuFleet_CopyFleet.Size = new System.Drawing.Size(226, 22);
-			this.ContextMenuFleet_CopyFleet.Text = "クリップボードにコピー(&C)";
+			this.ContextMenuFleet_CopyFleet.Text = "复制到剪贴板(&C)";
 			this.ContextMenuFleet_CopyFleet.Click += new System.EventHandler(this.ContextMenuFleet_CopyFleet_Click);
 			// 
 			// ContextMenuFleet_Capture
 			// 
 			this.ContextMenuFleet_Capture.Name = "ContextMenuFleet_Capture";
 			this.ContextMenuFleet_Capture.Size = new System.Drawing.Size(226, 22);
-			this.ContextMenuFleet_Capture.Text = "この画面をキャプチャ(&S)";
+			this.ContextMenuFleet_Capture.Text = "截取画面(&S)";
 			this.ContextMenuFleet_Capture.Click += new System.EventHandler(this.ContextMenuFleet_Capture_Click);
 			// 
 			// toolStripSeparator1
@@ -110,7 +111,7 @@
 			this.ContextMenuFleet_IsScrollable.Enabled = false;
 			this.ContextMenuFleet_IsScrollable.Name = "ContextMenuFleet_IsScrollable";
 			this.ContextMenuFleet_IsScrollable.Size = new System.Drawing.Size(226, 22);
-			this.ContextMenuFleet_IsScrollable.Text = "スクロール可能";
+			this.ContextMenuFleet_IsScrollable.Text = "允许滚动";
 			this.ContextMenuFleet_IsScrollable.Visible = false;
 			this.ContextMenuFleet_IsScrollable.Click += new System.EventHandler(this.ContextMenuFleet_IsScrollable_Click);
 			// 
@@ -120,7 +121,7 @@
 			this.ContextMenuFleet_FixShipNameWidth.Enabled = false;
 			this.ContextMenuFleet_FixShipNameWidth.Name = "ContextMenuFleet_FixShipNameWidth";
 			this.ContextMenuFleet_FixShipNameWidth.Size = new System.Drawing.Size(226, 22);
-			this.ContextMenuFleet_FixShipNameWidth.Text = "艦名の幅を固定する";
+			this.ContextMenuFleet_FixShipNameWidth.Text = "固定舰名宽度";
 			this.ContextMenuFleet_FixShipNameWidth.Visible = false;
 			this.ContextMenuFleet_FixShipNameWidth.Click += new System.EventHandler(this.ContextMenuFleet_FixShipNameWidth_Click);
 			// 
@@ -136,12 +137,11 @@
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
-			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(300, 200);
 			this.Controls.Add(this.TableFleet);
 			this.Controls.Add(this.TableMember);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

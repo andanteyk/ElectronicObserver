@@ -143,8 +143,11 @@ namespace ElectronicObserver.Window {
 		private TableArsenalControl[] ControlArsenal;
 		private int _buildingID;
 
+		private Pen LinePen = Pens.Silver;
+
 		public FormArsenal( FormMain parent ) {
 			InitializeComponent();
+			this.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 
@@ -245,6 +248,16 @@ namespace ElectronicObserver.Window {
 			Font = Utility.Configuration.Config.UI.MainFont;
 			MenuMain_ShowShipName.Checked = Utility.Configuration.Config.FormArsenal.ShowShipName;
 
+			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
+
+			if ( ControlArsenal != null ) {
+				for ( int i = 0; i < ControlArsenal.Length; i++ ) {
+					if ( ControlArsenal[i] != null && ControlArsenal[i].ShipName != null && ControlArsenal[i].CompletionTime != null ) {
+						ControlArsenal[i].ShipName.ForeColor = Utility.Configuration.Config.UI.ForeColor;
+						ControlArsenal[i].CompletionTime.ForeColor = Utility.Configuration.Config.UI.ForeColor;
+					}
+				}
+			}
 		}
 
 
@@ -256,7 +269,7 @@ namespace ElectronicObserver.Window {
 
 
 		private void TableArsenal_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+			e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 

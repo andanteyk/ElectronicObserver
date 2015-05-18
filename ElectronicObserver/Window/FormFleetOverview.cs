@@ -102,6 +102,13 @@ namespace ElectronicObserver.Window {
 		private List<TableFleetControl> ControlFleet;
 		private ImageLabel CombinedTag;
 
+		private Pen LinePen = Pens.Silver;
+
+		private Brush fleetReady;
+		private Brush fleetExpedition;
+		private Brush fleetSortie;
+		private Brush fleetNotReady;
+
 
 		public FormFleetOverview( FormMain parent ) {
 			InitializeComponent();
@@ -189,6 +196,13 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 			Font = Utility.Configuration.Config.UI.MainFont;
+			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
+
+			fleetReady = new SolidBrush( Utility.Configuration.Config.UI.FleetReadyColor );
+			fleetExpedition = new SolidBrush( Utility.Configuration.Config.UI.FleetExpeditionColor );
+			fleetSortie = new SolidBrush( Utility.Configuration.Config.UI.FleetSortieColor );
+			fleetNotReady = new SolidBrush( Utility.Configuration.Config.UI.FleetNotReadyColor );
+
 		}
 
 
@@ -204,6 +218,8 @@ namespace ElectronicObserver.Window {
 			} else {
 				CombinedTag.Visible = false;
 			}
+
+			TableFleet.Invalidate();
 		}
 
 		void ChangeOrganization( string apiname, dynamic data ) {
@@ -220,10 +236,37 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
-
-
 		private void TableFleet_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+
+			Rectangle bounds = e.CellBounds;
+
+			if ( e.Row < ControlFleet.Count ) {
+
+				var state = (FleetData.FleetStates)ControlFleet[e.Row].State.Tag;
+
+				switch ( state ) {
+					case FleetData.FleetStates.Ready:
+					case FleetData.FleetStates.Sparkled:
+						e.Graphics.FillRectangle( fleetReady, bounds.X, bounds.Top, bounds.Width, bounds.Height - 1 );
+						break;
+
+					case FleetData.FleetStates.Expedition:
+						e.Graphics.FillRectangle( fleetExpedition, bounds.X, bounds.Top, bounds.Width, bounds.Height - 1 );
+						break;
+
+					case FleetData.FleetStates.Sortie:
+					case FleetData.FleetStates.SortieDamaged:
+						e.Graphics.FillRectangle( fleetSortie, bounds.X, bounds.Top, bounds.Width, bounds.Height - 1 );
+						break;
+
+					case FleetData.FleetStates.NotReplenished:
+					case FleetData.FleetStates.Tired:
+						e.Graphics.FillRectangle( fleetNotReady, bounds.X, bounds.Top, bounds.Width, bounds.Height - 1 );
+						break;
+				}
+			}
+
+			e.Graphics.DrawLine( LinePen, bounds.X, bounds.Bottom - 1, bounds.Right - 1, bounds.Bottom - 1 );
 
 		}
 

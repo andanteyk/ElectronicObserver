@@ -130,7 +130,7 @@
 			this.TextAirSuperiority.Location = new System.Drawing.Point(109, 0);
 			this.TextAirSuperiority.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.TextAirSuperiority.Name = "TextAirSuperiority";
-			this.TextAirSuperiority.Size = new System.Drawing.Size(78, 16);
+			this.TextAirSuperiority.Size = new System.Drawing.Size(175, 16);
 			this.TextAirSuperiority.TabIndex = 2;
 			this.TextAirSuperiority.Text = "(制空戦力)";
 			// 
@@ -169,7 +169,7 @@
 			this.TextEventKind.Name = "TextEventKind";
 			this.TextEventKind.Size = new System.Drawing.Size(47, 16);
 			this.TextEventKind.TabIndex = 7;
-			this.TextEventKind.Text = "(イベント)";
+			this.TextEventKind.Text = "(活动)";
 			// 
 			// TextEventDetail
 			// 
@@ -179,7 +179,7 @@
 			this.TextEventDetail.Name = "TextEventDetail";
 			this.TextEventDetail.Size = new System.Drawing.Size(71, 16);
 			this.TextEventDetail.TabIndex = 8;
-			this.TextEventDetail.Text = "(イベント詳細)";
+			this.TextEventDetail.Text = "(活动详情)";
 			// 
 			// FormCompass
 			// 
@@ -187,11 +187,11 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(300, 200);
 			this.Controls.Add(this.BasePanel);
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Name = "FormCompass";
-			this.Text = "羅針盤";
+			this.Text = "罗针盘";
 			this.Load += new System.EventHandler(this.FormCompass_Load);
 			this.BasePanel.ResumeLayout(false);
 			this.BasePanel.PerformLayout();

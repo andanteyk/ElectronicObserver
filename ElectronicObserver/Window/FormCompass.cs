@@ -103,7 +103,7 @@ namespace ElectronicObserver.Window {
 				if ( shipID == -1 ) {
 					//なし
 					ShipName.Text = "-";
-					ShipName.ForeColor = Color.FromArgb( 0x00, 0x00, 0x00 );
+					ShipName.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 					Equipments.Visible = false;
 					ToolTipInfo.SetToolTip( ShipName, null );
 					ToolTipInfo.SetToolTip( Equipments, null );
@@ -117,13 +117,13 @@ namespace ElectronicObserver.Window {
 					switch ( ship.AbyssalShipClass ) {
 						case 0:
 						case 1:		//normal
-							ShipName.ForeColor = Color.FromArgb( 0x00, 0x00, 0x00 ); break;
+							ShipName.ForeColor = Utility.Configuration.Config.UI.ForeColor; break;
 						case 2:		//elite
-							ShipName.ForeColor = Color.FromArgb( 0xFF, 0x00, 0x00 ); break;
+							ShipName.ForeColor = Utility.Configuration.Config.UI.EliteColor; break;
 						case 3:		//flagship
-							ShipName.ForeColor = Color.FromArgb( 0xFF, 0x88, 0x00 ); break;
+							ShipName.ForeColor = Utility.Configuration.Config.UI.FlagshipColor; break;
 						case 4:		//latemodel
-							ShipName.ForeColor = Color.FromArgb( 0x00, 0x88, 0xFF ); break;
+							ShipName.ForeColor = Utility.Configuration.Config.UI.LateModelColor; break;
 					}
 					ToolTipInfo.SetToolTip( ShipName, GetShipString( shipID, slot ) );
 
@@ -271,6 +271,8 @@ namespace ElectronicObserver.Window {
 		public Color MainFontColor { get; set; }
 		public Color SubFontColor { get; set; }
 
+		private Pen LinePen = Pens.Silver;
+
 
 		private TableEnemyMemberControl[] ControlMember;
 
@@ -281,9 +283,6 @@ namespace ElectronicObserver.Window {
 
 
 			ConfigurationChanged();
-
-			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
-			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
 
 
 			ControlHelper.SetDoubleBuffered( BasePanel );
@@ -352,7 +351,7 @@ namespace ElectronicObserver.Window {
 					case 0:
 					case 1:
 					default:	//昼夜戦・その他
-						return SystemColors.ControlText;
+						return Utility.Configuration.Config.UI.ForeColor;
 					case 2:
 					case 3:		//夜戦・夜昼戦
 						return Color.Navy;
@@ -556,7 +555,9 @@ namespace ElectronicObserver.Window {
 				TextEnemyFleetName.Text = fdata.FleetName;
 				TextFormation.Text = Constants.GetFormationShort( fdata.Formation );
 				TextFormation.Visible = true;
-				TextAirSuperiority.Text = Calculator.GetAirSuperiority( fdata.FleetMember ).ToString();
+				int airSuperiority = Calculator.GetAirSuperiority( fdata.FleetMember );
+				TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
+				ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
 				TextAirSuperiority.Visible = true;
 
 				TableEnemyMember.SuspendLayout();
@@ -617,6 +618,10 @@ namespace ElectronicObserver.Window {
 			Font = PanelEnemyFleet.Font = MainFont = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 
+			MainFontColor = Utility.Configuration.Config.UI.ForeColor;
+			SubFontColor = Utility.Configuration.Config.UI.SubForeColor;
+
+			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
 
 			if ( ControlMember != null ) {
 				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;
@@ -633,7 +638,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void TableEnemyMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+			e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 	}

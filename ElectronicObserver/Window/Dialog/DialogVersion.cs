@@ -15,7 +15,14 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogVersion() {
 			InitializeComponent();
 
+			this.Text = string.Format( "魔改版本 - {0:F4}", SoftwareInformation.MakaiVersion );
 			TextVersion.Text = string.Format( "{0} (ver. {1} - {2} Release)", SoftwareInformation.VersionJapanese, SoftwareInformation.VersionEnglish, SoftwareInformation.UpdateTime.ToString( "d" ) ); 
+		}
+
+		private void Text__LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+
+			System.Diagnostics.Process.Start( "https://github.com/tsanie/ElectronicObserver/tree/development" );
+
 		}
 
 		private void TextAuthor_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {

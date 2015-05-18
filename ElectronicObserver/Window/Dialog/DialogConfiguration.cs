@@ -28,6 +28,7 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogConfiguration() {
 			InitializeComponent();
 
+            CustomInitialize();
 		}
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
@@ -43,6 +44,22 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+		private void Connection_UseUpstreamProxy_CheckedChanged( object sender, EventArgs e ) {
+
+			if ( !Connection_UseUpstreamProxy.Checked ) {
+				Connection_EnableSslUpstreamProxy.Checked = false;
+			}
+
+		}
+
+		private void Connection_EnableSslUpstreamProxy_CheckedChanged( object sender, EventArgs e ) {
+
+			if ( Connection_EnableSslUpstreamProxy.Checked ) {
+				Connection_UseUpstreamProxy.Checked = true;
+			}
+
+		}
+
 
 		private void Connection_SaveDataPath_TextChanged( object sender, EventArgs e ) {
 
@@ -51,7 +68,7 @@ namespace ElectronicObserver.Window.Dialog {
 				ToolTipInfo.SetToolTip( Connection_SaveDataPath, null );
 			} else {
 				Connection_SaveDataPath.BackColor = Color.MistyRose;
-				ToolTipInfo.SetToolTip( Connection_SaveDataPath, "指定されたフォルダは存在しません。" );
+				ToolTipInfo.SetToolTip( Connection_SaveDataPath, "指定的文件夹不存在。" );
 			}
 		}
 
@@ -64,6 +81,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_SaveReceivedData_CheckedChanged( null, new EventArgs() );
 			Connection_SaveDataPath_TextChanged( null, new EventArgs() );
 			Debug_EnableDebugMenu_CheckedChanged( null, new EventArgs() );
+            textCacheFolder_TextChanged(null, EventArgs.Empty);
 
 		}
 
@@ -267,6 +285,8 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_ApplyVersion.Checked = config.Connection.ApplyVersion;
 			Connection_RegisterAsSystemProxy.Checked = config.Connection.RegisterAsSystemProxy;
 			Connection_UseUpstreamProxy.Checked = config.Connection.UseUpstreamProxy;
+			Connection_EnableSslUpstreamProxy.Checked = config.Connection.EnableSslUpstreamProxy;
+			Connection_UpstreamProxyHost.Text = config.Connection.UpstreamProxyAddress;
 			Connection_UpstreamProxyPort.Value = config.Connection.UpstreamProxyPort;
 
 			//[UI]
@@ -274,6 +294,37 @@ namespace ElectronicObserver.Window.Dialog {
 			UI_MainFont.Text = config.UI.MainFont.SerializeFontAttribute;
 			UI_SubFont.Font = config.UI.SubFont.FontData;
 			UI_SubFont.Text = config.UI.SubFont.SerializeFontAttribute;
+
+			comboUITheme.SelectedIndex = config.UI.ThemeID;
+			colorBackColor.SelectedColor = config.UI.BackColor.ColorData;
+			colorForeColor.SelectedColor = config.UI.ForeColor.ColorData;
+			colorSubForeColor.SelectedColor = config.UI.SubForeColor.ColorData;
+			colorHightlightColor.SelectedColor = config.UI.HighlightColor.ColorData;
+			colorHightlightForeColor.SelectedColor = config.UI.HighlightForeColor.ColorData;
+			colorLineColor.SelectedColor = config.UI.LineColor.ColorData;
+			colorButtonBackColor.SelectedColor = config.UI.ButtonBackColor.ColorData;
+
+			colorFailedColor.SelectedColor = config.UI.FailedColor.ColorData;
+			colorEliteColor.SelectedColor = config.UI.EliteColor.ColorData;
+			colorFlagshipColor.SelectedColor = config.UI.FlagshipColor.ColorData;
+			colorLateModelColor.SelectedColor = config.UI.LateModelColor.ColorData;
+
+			colorHp0Color.SelectedColor = config.UI.Hp0Color.ColorData;
+			colorHp25Color.SelectedColor = config.UI.Hp25Color.ColorData;
+			colorHp50Color.SelectedColor = config.UI.Hp50Color.ColorData;
+			colorHp75Color.SelectedColor = config.UI.Hp75Color.ColorData;
+			colorHp100Color.SelectedColor = config.UI.Hp100Color.ColorData;
+			colorHpIncrementColor.SelectedColor = config.UI.HpIncrementColor.ColorData;
+			colorDecrementColor.SelectedColor = config.UI.HpDecrementColor.ColorData;
+			colorHpBackgroundColor.SelectedColor = config.UI.HpBackgroundColor.ColorData;
+			numericHpBackgroundOffset.Value = config.UI.HpBackgroundOffset;
+			numericHpThickness.Value = config.UI.HpThickness;
+
+			colorFleetReadyColor.SelectedColor = config.UI.FleetReadyColor.ColorData;
+			colorFleetExpeditionColor.SelectedColor = config.UI.FleetExpeditionColor.ColorData;
+			colorFleetSortieColor.SelectedColor = config.UI.FleetSortieColor.ColorData;
+			colorFleetNotReadyColor.SelectedColor = config.UI.FleetNotReadyColor.ColorData;
+			colorFleetDamageColor.SelectedColor = config.UI.FleetDamageColor.ColorData;
 
 			//[ログ]
 			Log_LogLevel.Value = config.Log.LogLevel;
@@ -326,6 +377,9 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_ConfirmAtRefresh.Checked = config.FormBrowser.ConfirmAtRefresh;
 			FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
 			{
+				FormBrowser_BrowserVersion.Enabled = false;
+				FormBrowser_GPURendering.Enabled = false;
+
 				Microsoft.Win32.RegistryKey reg = null;
 				try {
 
@@ -336,6 +390,7 @@ namespace ElectronicObserver.Window.Dialog {
 					} else {
 						FormBrowser_BrowserVersion.Text = ( reg.GetValue( FormBrowserHost.BrowserExeName ) ?? DefaultBrowserVersion ).ToString();
 					}
+					FormBrowser_BrowserVersion.Enabled = true;
 					reg.Close();
 
 					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey( RegistryPathMaster + RegistryPathGPURendering );
@@ -346,22 +401,30 @@ namespace ElectronicObserver.Window.Dialog {
 						int? gpu = reg.GetValue( FormBrowserHost.BrowserExeName ) as int?;
 						FormBrowser_GPURendering.Checked = gpu != null ? gpu != 0 : DefaultGPURendering;
 					}
+					FormBrowser_GPURendering.Enabled = true;
 
-				} catch ( Exception ex ) {
+				} catch ( Exception ) {
 
 					FormBrowser_BrowserVersion.Text = DefaultBrowserVersion.ToString();
 					FormBrowser_GPURendering.Checked = DefaultGPURendering;
 
-					Utility.Logger.Add( 3, "レジストリからの読み込みに失敗しました。" + ex.Message );
+					//Utility.Logger.Add( 3, "注册表读取失败。" + ex.Message );
 
 				} finally {
 					if ( reg != null )
 						reg.Close();
 
 				}
+
+				FormBrowser_ApplyRegistry.Enabled = FormBrowser_DeleteRegistry.Enabled =
+					FormBrowser_BrowserVersion.Enabled || FormBrowser_GPURendering.Enabled;
 			}
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
-			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWMode;
+			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWmode;
+
+			// [缓存]
+			textCacheFolder.Text = config.CacheSettings.CacheFolder;
+			checkCache.Checked = config.CacheSettings.CacheEnabled;
 
 			//finalize
 			UpdateParameter();
@@ -394,6 +457,8 @@ namespace ElectronicObserver.Window.Dialog {
 				config.Connection.RegisterAsSystemProxy = Connection_RegisterAsSystemProxy.Checked;
 
 				config.Connection.UseUpstreamProxy = Connection_UseUpstreamProxy.Checked;
+				config.Connection.EnableSslUpstreamProxy = Connection_EnableSslUpstreamProxy.Checked;
+				config.Connection.UpstreamProxyAddress = Connection_UpstreamProxyHost.Text;
 				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;
 
 				if ( changed ) {
@@ -405,6 +470,37 @@ namespace ElectronicObserver.Window.Dialog {
 			//[UI]
 			config.UI.MainFont = UI_MainFont.Font;
 			config.UI.SubFont = UI_SubFont.Font;
+
+			config.UI.ThemeID = comboUITheme.SelectedIndex;
+			config.UI.BackColor = colorBackColor.SelectedColor;
+			config.UI.ForeColor = colorForeColor.SelectedColor;
+			config.UI.SubForeColor = colorSubForeColor.SelectedColor;
+			config.UI.HighlightColor = colorHightlightColor.SelectedColor;
+			config.UI.HighlightForeColor = colorHightlightForeColor.SelectedColor;
+			config.UI.LineColor = colorLineColor.SelectedColor;
+			config.UI.ButtonBackColor = colorButtonBackColor.SelectedColor;
+
+			config.UI.FailedColor = colorFailedColor.SelectedColor;
+			config.UI.EliteColor = colorEliteColor.SelectedColor;
+			config.UI.FlagshipColor = colorFlagshipColor.SelectedColor;
+			config.UI.LateModelColor = colorLateModelColor.SelectedColor;
+
+			config.UI.Hp0Color = colorHp0Color.SelectedColor;
+			config.UI.Hp25Color = colorHp25Color.SelectedColor;
+			config.UI.Hp50Color = colorHp50Color.SelectedColor;
+			config.UI.Hp75Color = colorHp75Color.SelectedColor;
+			config.UI.Hp100Color = colorHp100Color.SelectedColor;
+			config.UI.HpIncrementColor = colorHpIncrementColor.SelectedColor;
+			config.UI.HpDecrementColor = colorDecrementColor.SelectedColor;
+			config.UI.HpBackgroundColor = colorHpBackgroundColor.SelectedColor;
+			config.UI.HpBackgroundOffset = (int)numericHpBackgroundOffset.Value;
+			config.UI.HpThickness = (int)numericHpThickness.Value;
+
+			config.UI.FleetReadyColor = colorFleetReadyColor.SelectedColor;
+			config.UI.FleetExpeditionColor = colorFleetExpeditionColor.SelectedColor;
+			config.UI.FleetSortieColor = colorFleetSortieColor.SelectedColor;
+			config.UI.FleetNotReadyColor = colorFleetNotReadyColor.SelectedColor;
+			config.UI.FleetDamageColor = colorFleetDamageColor.SelectedColor;
 
 			//[ログ]
 			config.Log.LogLevel = (int)Log_LogLevel.Value;
@@ -459,14 +555,27 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.ConfirmAtRefresh = FormBrowser_ConfirmAtRefresh.Checked;
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
-			config.FormBrowser.FlashWMode = FormBrowser_FlashWMode.Text;
+			config.FormBrowser.FlashWmode = FormBrowser_FlashWMode.Text;
+
+            // [缓存]
+            config.CacheSettings.CacheFolder = textCacheFolder.Text;
+            if (checkCache.Checked)
+            {
+                config.CacheSettings.CacheEnabled = true;
+                Utility.Logger.Add(2, string.Format("缓存设置更新。“{0}”", textCacheFolder.Text));
+            }
+            else
+            {
+                config.CacheSettings.CacheEnabled = false;
+                Utility.Logger.Add(2, string.Format("缓存已关闭。"));
+            }
 
 		}
 
 
 		private void FormBrowser_ApplyRegistry_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "レジストリに登録します。よろしいですか？\r\n＊完全に適用するには再起動が必要です。", "確認",
+			if ( MessageBox.Show( "确认写入注册表吗？\r\n＊需要重新启动以完全适用。", "确认",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.Yes ) {
 
@@ -482,8 +591,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 				} catch ( Exception ex ) {
 
-					Utility.ErrorReporter.SendErrorReport( ex, "レジストリへの書き込みに失敗しました。" );
-					MessageBox.Show( "レジストリへの書き込みに失敗しました。\r\n" + ex.Message, "エラー",
+					Utility.ErrorReporter.SendErrorReport( ex, "注册表写入失败。" );
+					MessageBox.Show( "注册表写入失败。\r\n" + ex.Message, "错误", 
 						MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 				} finally {
@@ -496,7 +605,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void FormBrowser_DeleteRegistry_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "レジストリを削除します。よろしいですか？\r\n＊完全に適用するには再起動が必要です。", "確認",
+			if ( MessageBox.Show( "确认删除注册表项吗？\r\n＊需要重新启动以完全适用。", "确认",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.Yes ) {
 
@@ -512,8 +621,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 				} catch ( Exception ex ) {
 
-					Utility.ErrorReporter.SendErrorReport( ex, "レジストリの削除に失敗しました。" );
-					MessageBox.Show( "レジストリの削除に失敗しました。\r\n" + ex.Message, "エラー",
+					Utility.ErrorReporter.SendErrorReport( ex, "注册表项删除失败。" );
+					MessageBox.Show( "注册表项删除失败。\r\n" + ex.Message, "错误",
 						MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 				} finally {
@@ -523,5 +632,108 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
-	}
+        private void buttonCacheFolderBrowse_Click(object sender, EventArgs e)
+        {
+            textCacheFolder.Text = PathHelper.ProcessFolderBrowserDialog(textCacheFolder.Text, FolderBrowser);
+        }
+
+        private void textCacheFolder_TextChanged(object sender, EventArgs e)
+        {
+            if (Directory.Exists(textCacheFolder.Text))
+            {
+                textCacheFolder.BackColor = SystemColors.Window;
+                ToolTipInfo.SetToolTip(textCacheFolder, null);
+            }
+            else
+            {
+                textCacheFolder.BackColor = Color.MistyRose;
+                ToolTipInfo.SetToolTip(textCacheFolder, "指定的文件夹不存在。");
+            }
+        }
+
+
+
+        #region - Added config pages -
+
+        private void CustomInitialize()
+        {
+            this.tabPageCache = new System.Windows.Forms.TabPage();
+            this.labelCache = new System.Windows.Forms.Label();
+            this.textCacheFolder = new System.Windows.Forms.TextBox();
+            this.buttonCacheFolderBrowse = new System.Windows.Forms.Button();
+            this.checkCache = new System.Windows.Forms.CheckBox();
+
+            this.tabControl1.SuspendLayout();
+            this.tabPageCache.SuspendLayout();
+            this.tabControl1.Controls.Add(this.tabPageCache);
+            // 
+            // tabPageCache
+            // 
+            this.tabPageCache.Controls.Add(this.buttonCacheFolderBrowse);
+            this.tabPageCache.Controls.Add(this.textCacheFolder);
+            this.tabPageCache.Controls.Add(this.labelCache);
+            this.tabPageCache.Controls.Add(this.checkCache);
+            this.tabPageCache.Location = new System.Drawing.Point(4, 44);
+            this.tabPageCache.Name = "tabPageCache";
+            this.tabPageCache.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCache.Size = new System.Drawing.Size(392, 211);
+            this.tabPageCache.TabIndex = 8;
+            this.tabPageCache.Text = "缓存";
+            this.tabPageCache.UseVisualStyleBackColor = true;
+            // 
+            // labelCache
+            // 
+            this.labelCache.AutoSize = true;
+            this.labelCache.Location = new System.Drawing.Point(8, 9);
+            this.labelCache.Name = "labelCache";
+            this.labelCache.Size = new System.Drawing.Size(103, 15);
+            this.labelCache.TabIndex = 0;
+            this.labelCache.Text = "缓存文件夹路径：";
+            // 
+            // textCacheFolder
+            // 
+            this.textCacheFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textCacheFolder.Location = new System.Drawing.Point(118, 6);
+            this.textCacheFolder.Name = "textCacheFolder";
+            this.textCacheFolder.Size = new System.Drawing.Size(199, 23);
+            this.textCacheFolder.TabIndex = 1;
+            this.textCacheFolder.TextChanged += new System.EventHandler(this.textCacheFolder_TextChanged);
+            // 
+            // buttonCacheFolderBrowse
+            // 
+            this.buttonCacheFolderBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCacheFolderBrowse.Location = new System.Drawing.Point(323, 6);
+            this.buttonCacheFolderBrowse.Name = "buttonCacheFolderBrowse";
+            this.buttonCacheFolderBrowse.Size = new System.Drawing.Size(61, 23);
+            this.buttonCacheFolderBrowse.TabIndex = 2;
+            this.buttonCacheFolderBrowse.Text = "浏览";
+            this.buttonCacheFolderBrowse.UseVisualStyleBackColor = true;
+            this.buttonCacheFolderBrowse.Click += new System.EventHandler(this.buttonCacheFolderBrowse_Click);
+            // 
+            // checkCache
+            // 
+            this.checkCache.AutoSize = true;
+            this.checkCache.Location = new System.Drawing.Point(8, 38);
+            this.checkCache.Name = "checkCache";
+            this.checkCache.Size = new System.Drawing.Size(139, 19);
+            this.checkCache.TabIndex = 3;
+            this.checkCache.Text = "启用缓存";
+            this.checkCache.UseVisualStyleBackColor = true;
+            //
+            // End
+            //
+            this.tabControl1.ResumeLayout(false);
+            this.tabPageCache.ResumeLayout(false);
+        }
+
+        // custom config
+        private System.Windows.Forms.TabPage tabPageCache;
+        private System.Windows.Forms.Label labelCache;
+        private System.Windows.Forms.TextBox textCacheFolder;
+        private System.Windows.Forms.Button buttonCacheFolderBrowse;
+        private System.Windows.Forms.CheckBox checkCache;
+    }
+
+        #endregion
 }

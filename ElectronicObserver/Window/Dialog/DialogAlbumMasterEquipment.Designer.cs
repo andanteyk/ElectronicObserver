@@ -102,6 +102,7 @@
 			// 
 			// menuStrip1
 			// 
+			ToolStripCustomizer.ToolStripRender.SetRender(this.menuStrip1);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_File});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -160,7 +161,7 @@
 			this.EquipmentView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle1.Font = Program.Window_Font;
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -174,7 +175,7 @@
             this.EquipmentView_Name});
 			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle3.Font = Program.Window_Font;
 			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
 			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
@@ -862,11 +863,11 @@
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.menuStrip1);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.MainMenuStrip = this.menuStrip1;
 			this.MinimumSize = new System.Drawing.Size(816, 518);
 			this.Name = "DialogAlbumMasterEquipment";
-			this.Text = "装備図鑑";
+			this.Text = "装备图鉴";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogAlbumMasterEquipment_FormClosed);
 			this.Load += new System.EventHandler(this.DialogAlbumMasterEquipment_Load);
 			this.menuStrip1.ResumeLayout(false);

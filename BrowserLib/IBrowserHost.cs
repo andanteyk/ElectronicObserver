@@ -139,5 +139,29 @@ namespace BrowserLib {
 		[DataMember]
 		public bool ConfirmAtRefresh { get; set; }
 
+		/// <summary>
+		/// 直连swf时替换的embed元素
+		/// </summary>
+		[DataMember]
+		public string EmbedHtml { get; set; }
+
+		/// <summary>
+		/// Flash模式
+		/// </summary>
+		[DataMember]
+		public string FlashWmode { get; set; }
+
+		/// <summary>
+		/// Flash质量
+		/// </summary>
+		[DataMember]
+		public string FlashQuality { get; set; }
+
+		/// <summary>
+		/// 主题ID
+		/// </summary>
+		[DataMember]
+		public int ThemeID { get; set; }
+
 	}
 }

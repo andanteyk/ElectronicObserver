@@ -240,7 +240,13 @@ namespace ElectronicObserver.Window.Integrate {
 
 			uint processId;
 			WinAPI.GetWindowThreadProcessId( hWnd, out processId );
-			String fileName = GetMainModuleFilepath( (int)processId );
+			String fileName;
+			try {
+				fileName = GetMainModuleFilepath( (int)processId );
+			} catch ( Exception ex ) {
+				fileName = string.Empty;
+				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "获取进程模块文件路径时发生错误：{0}", processId ) );
+			}
 			info.ProcessFilePath = new MatchString( fileName, MatchControl.Exact );
 
 			info.CurrentTitle = info.Title.Name;

@@ -180,6 +180,10 @@ namespace ElectronicObserver.Window {
 				config.ToolMenuDockStyle = (int)c.ToolMenuDockStyle;
 				config.IsToolMenuVisible = c.IsToolMenuVisible;
 				config.ConfirmAtRefresh = c.ConfirmAtRefresh;
+				config.EmbedHtml = c.EmbedHtml;
+				config.FlashWmode = c.FlashWmode;
+				config.FlashQuality = c.FlashQuality;
+				config.ThemeID = Utility.Configuration.Config.UI.ThemeID;
 
 				return config;
 			}
@@ -201,6 +205,9 @@ namespace ElectronicObserver.Window {
 			c.ToolMenuDockStyle = (DockStyle)config.ToolMenuDockStyle;
 			c.IsToolMenuVisible = config.IsToolMenuVisible;
 			c.ConfirmAtRefresh = config.ConfirmAtRefresh;
+			c.EmbedHtml = config.EmbedHtml;
+			c.FlashWmode = config.FlashWmode;
+			c.FlashQuality = config.FlashQuality;
 
 		}
 
@@ -261,7 +268,9 @@ namespace ElectronicObserver.Window {
 			MoveWindow( BrowserWnd, 0, 0, this.Width, this.Height, true );
 
 			//キー入力をブラウザに投げる
-			Application.AddMessageFilter( new KeyMessageGrabber( BrowserWnd ) );
+			if ( Utility.Configuration.Config.FormBrowser.AddMessageFilter ) {
+				Application.AddMessageFilter( new KeyMessageGrabber( BrowserWnd ) );
+			}
 
 			// デッドロックするので非同期で処理
 			BeginInvoke( (Action)( () => {

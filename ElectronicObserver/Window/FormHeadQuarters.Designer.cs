@@ -104,7 +104,7 @@
 			// 
 			this.HQLevel.AutoSize = true;
 			this.HQLevel.Location = new System.Drawing.Point(142, 0);
-			this.HQLevel.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.HQLevel.MainFontColor = Utility.Configuration.Config.UI.ForeColor;
 			this.HQLevel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.HQLevel.MaximumValue = 999;
 			this.HQLevel.Name = "HQLevel";
@@ -286,7 +286,7 @@
 			this.ClientSize = new System.Drawing.Size(300, 200);
 			this.Controls.Add(this.FlowPanelMaster);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Name = "FormHeadquarters";

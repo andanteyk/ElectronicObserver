@@ -212,13 +212,13 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( _soundChanged ) {
 				if ( !_notifier.LoadSound( SoundPath.Text ) && PlaysSound.Checked ) {
-					MessageBox.Show( "音声ファイルの読み込みに失敗しました。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show( "声音文件读取失败。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error );
 					return false;
 				}
 			}
 			if ( _imageChanged ) {
 				if ( !_notifier.DialogData.LoadImage( ImagePath.Text ) && DrawsImage.Checked ) {
-					MessageBox.Show( "画像ファイルの読み込みに失敗しました。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					MessageBox.Show( "图像文件读取失败。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error );
 					return false;
 				}
 			}
@@ -268,7 +268,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void ButtonTest_Click( object sender, EventArgs e ) {
 
 			if ( !SetConfiguration() ) return;
-			_notifier.DialogData.Message = "テスト 通知です。";
+			_notifier.DialogData.Message = "测试通知。";
 			_notifier.Notify();
 
 		}

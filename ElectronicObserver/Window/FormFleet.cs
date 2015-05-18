@@ -244,6 +244,7 @@ namespace ElectronicObserver.Window {
 				HP.SubFont = parent.SubFont;
 				HP.MainFontColor = parent.MainFontColor;
 				HP.SubFontColor = parent.SubFontColor;
+				HP.RepairFontColor = parent.SubFontColor;
 				HP.Padding = new Padding( 0, 0, 0, 0 );
 				HP.Margin = new Padding( 2, 1, 2, 2 );
 				HP.AutoSize = true;
@@ -328,6 +329,10 @@ namespace ElectronicObserver.Window {
 				#endregion
 			}
 
+			private double CalculateFire( ShipData ship ) {
+				return Math.Floor( ( ship.FirepowerTotal + ship.TorpedoTotal ) * 1.5 + ship.BombTotal * 2 + 50 );
+			}
+
 			public void Update( int shipMasterID ) {
 
 				KCDatabase db = KCDatabase.Instance;
@@ -344,7 +349,12 @@ namespace ElectronicObserver.Window {
 						string.Format(
 							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
-							ship.FirepowerBase, ship.FirepowerTotal,
+							ship.FirepowerBase,
+							(ship.MasterShip.ShipType == 7 ||	// 轻空母
+							ship.MasterShip.ShipType == 11 ||	// 正规空母
+							ship.MasterShip.ShipType == 18) ?	// 装甲空母
+							string.Format( "{0}（空母火力：{1:F0}）", ship.FirepowerTotal, CalculateFire( ship ) ) :
+							ship.FirepowerTotal.ToString(),
 							ship.TorpedoBase, ship.TorpedoTotal,
 							ship.AABase, ship.AATotal,
 							ship.ArmorBase, ship.ArmorTotal,
@@ -393,7 +403,7 @@ namespace ElectronicObserver.Window {
 					if ( isEscaped ) {
 						HP.BackColor = Color.Silver;
 					} else {
-						HP.BackColor = SystemColors.Control;
+						HP.BackColor = Utility.Configuration.Config.UI.BackColor;
 					}
 					{
 						StringBuilder sb = new StringBuilder();
@@ -522,6 +532,8 @@ namespace ElectronicObserver.Window {
 		private TableMemberControl[] ControlMember;
 
 
+		private Pen LinePen = Pens.Silver;
+
 
 		public FormFleet( FormMain parent, int fleetID ) {
 			InitializeComponent();
@@ -531,8 +543,8 @@ namespace ElectronicObserver.Window {
 
 			ConfigurationChanged();
 
-			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
-			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
+			MainFontColor = Utility.Configuration.Config.UI.ForeColor;
+			SubFontColor = Utility.Configuration.Config.UI.SubForeColor;
 
 
 			//ui init
@@ -585,6 +597,7 @@ namespace ElectronicObserver.Window {
 
 			o.APIList["api_port/port"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ship2"].ResponseReceived += Updated;
+			o.APIList["api_get_member/ship_deck"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ndock"].ResponseReceived += Updated;
 			o.APIList["api_req_kousyou/getship"].ResponseReceived += Updated;
 			o.APIList["api_req_hokyu/charge"].ResponseReceived += Updated;
@@ -745,6 +758,8 @@ namespace ElectronicObserver.Window {
 			MainFont = Font = c.UI.MainFont;
 			SubFont = c.UI.SubFont;
 
+			LinePen = new Pen( c.UI.LineColor.ColorData );
+
 			AutoScroll = ContextMenuFleet_IsScrollable.Checked = c.FormFleet.IsScrollable;
 			ContextMenuFleet_FixShipNameWidth.Checked = c.FormFleet.FixShipNameWidth;
 
@@ -789,7 +804,7 @@ namespace ElectronicObserver.Window {
 
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+			e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 

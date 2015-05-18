@@ -70,6 +70,7 @@ namespace ElectronicObserver.Resource {
 			FormAlbumEquipment,
 			FormConfiguration,
 			FormEquipmentList,
+            FormResourcesGraph,
 			FormWindowCapture,
 			FleetNoShip,
 			FleetDocking,
@@ -244,6 +245,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AlbumEquipment.png", "Form_AlbumEquipment" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Configuration.png", "Form_Configuration" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/EquipmentList.png", "Form_EquipmentList" );
+                    LoadImageFromArchive( Icons, archive, mstpath + @"Form/ResourcesGraph.png", "Form_ResourcesGraph");
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/WindowCapture.png", "Form_WindowCapture" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NoShip.png", "Fleet_NoShip" );
@@ -365,12 +367,38 @@ namespace ElectronicObserver.Resource {
 
 				}
 
+				Color bg = Utility.Configuration.Config.UI.BackColor;
+				var data = bmp.LockBits( new Rectangle( Point.Empty, bmp.Size ), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+				unsafe {
+					byte* ptr = (byte*)( data.Scan0 );
+					for ( int y = 0; y < data.Height; y++ ) {
+						for ( int x = 0; x < data.Width; x++ ) {
+							byte b = *ptr;
+							byte g = *( ptr + 1 );
+							byte r = *( ptr + 2 );
+							byte a = *( ptr + 3 );
+
+							if ( a > 0 ) {
+								// alpha blend
+								*( ptr ) = (byte)( ( ( 255 - a ) * bg.B + a * b ) / 255 );
+								*( ptr + 1 ) = (byte)( ( ( 255 - a ) * bg.G + a * g ) / 255 );
+								*( ptr + 2 ) = (byte)( ( ( 255 - a ) * bg.R + a * r ) / 255 );
+								*( ptr + 3 ) = 0xff;
+							}
+
+							ptr += 4;
+						}
+						ptr += data.Stride - data.Width * 4;
+					}
+				}
+				bmp.UnlockBits( data );
+
 				imglist.Images.Add( name, bmp );
 
 
 			} catch ( Exception ) {
 
-				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。" ) );
+				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。", path ) );
 				imglist.Images.Add( name, CreateBlankImage() );
 				return;
 			}

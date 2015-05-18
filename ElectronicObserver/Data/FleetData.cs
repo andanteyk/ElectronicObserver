@@ -678,7 +678,7 @@ namespace ElectronicObserver.Data {
 			switch ( state ) {
 				case FleetStates.Damaged:
 				case FleetStates.SortieDamaged:
-					label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+					label.BackColor = DateTime.Now.Second % 2 == 0 ? Utility.Configuration.Config.UI.FleetDamageColor.ColorData : Color.Transparent;
 					break;
 				case FleetStates.Docking:
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );

@@ -178,7 +178,7 @@ namespace ElectronicObserver.Window.Control {
 			_aircraftColorDisabled = Color.FromArgb( 0xAA, 0xAA, 0xAA );
 			_aircraftColorLost = Color.FromArgb( 0xFF, 0x00, 0xFF );
 			_aircraftColorDamaged = Color.FromArgb( 0xFF, 0x00, 0x00 );
-			_aircraftColorFull = Color.FromArgb( 0x00, 0x00, 0x00 );
+			_aircraftColorFull = Utility.Configuration.Config.UI.ForeColor;
 
 			_invalidSlotColor = Color.FromArgb( 0x40, 0xFF, 0x00, 0x00 );
 
