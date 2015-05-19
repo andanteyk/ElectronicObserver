@@ -558,17 +558,17 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.FlashWmode = FormBrowser_FlashWMode.Text;
 
             // [缓存]
-            config.CacheSettings.CacheFolder = textCacheFolder.Text;
             if (checkCache.Checked)
             {
-                config.CacheSettings.CacheEnabled = true;
-                Utility.Logger.Add(2, string.Format("缓存设置更新。“{0}”", textCacheFolder.Text));
-            }
-            else
-            {
-                config.CacheSettings.CacheEnabled = false;
-                Utility.Logger.Add(2, string.Format("缓存已关闭。"));
-            }
+				if ( !config.CacheSettings.CacheEnabled || config.CacheSettings.CacheFolder != textCacheFolder.Text ) {
+					Utility.Logger.Add( 2, string.Format( "缓存设置更新。“{0}”", textCacheFolder.Text ) );
+				}
+            } else if ( config.CacheSettings.CacheEnabled ) {
+				Utility.Logger.Add( 2, string.Format( "缓存已关闭。" ) );
+			}
+
+			config.CacheSettings.CacheEnabled = checkCache.Checked;
+			config.CacheSettings.CacheFolder = textCacheFolder.Text;
 
 		}
 
