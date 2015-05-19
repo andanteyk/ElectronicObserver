@@ -55,12 +55,12 @@ namespace ElectronicObserver.Data.Battle {
 		/// <summary>
 		/// Drop ships in battle
 		/// </summary>
-		public int DropShipsInBattle { get; private set; }
+		public int DropShipsInBattle { get; internal set; }
 
 		/// <summary>
 		/// Drop eqps in battle
 		/// </summary>
-		public int DropEquipmentsInBattle { get; private set; }
+		public int DropEquipmentsInBattle { get; internal set; }
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
