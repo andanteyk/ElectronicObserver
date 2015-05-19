@@ -367,6 +367,7 @@ namespace ElectronicObserver.Resource {
 
 				}
 
+				/* alpha blend
 				Color bg = Utility.Configuration.Config.UI.BackColor;
 				var data = bmp.LockBits( new Rectangle( Point.Empty, bmp.Size ), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
 				unsafe {
@@ -392,6 +393,7 @@ namespace ElectronicObserver.Resource {
 					}
 				}
 				bmp.UnlockBits( data );
+				//*/
 
 				imglist.Images.Add( name, bmp );
 
