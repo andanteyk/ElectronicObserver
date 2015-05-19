@@ -52,12 +52,32 @@ namespace ElectronicObserver.Data.Battle {
 		public BattleModes BattleMode { get; private set; }
 
 
+		/// <summary>
+		/// Drop ships in battle
+		/// </summary>
+		public int DropShipsInBattle { get; private set; }
+
+		/// <summary>
+		/// Drop eqps in battle
+		/// </summary>
+		public int DropEquipmentsInBattle { get; private set; }
+
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			//base.LoadFromResponse( apiname, data );	//不要
 
 			switch ( apiname ) {
 				case "api_req_map/start":
+					DropShipsInBattle = 0;
+					DropEquipmentsInBattle = 0;
+					BattleDay = null;
+					BattleNight = null;
+					Result = null;
+					BattleMode = BattleModes.Undefined;
+					Compass = new CompassData();
+					Compass.LoadFromResponse( apiname, data );
+					break;
+
 				case "api_req_map/next":
 					BattleDay = null;
 					BattleNight = null;
@@ -139,6 +159,8 @@ namespace ElectronicObserver.Data.Battle {
 					break;
 
 				case "api_port/port":
+					DropShipsInBattle = 0;
+					DropEquipmentsInBattle = 0;
 					Compass = null;
 					BattleDay = null;
 					BattleNight = null;
@@ -204,12 +226,21 @@ namespace ElectronicObserver.Data.Battle {
 							EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[eqID];
 							Utility.Logger.Add( 2, string.Format( "{0}「{1}」を入手しました。", eq.CategoryTypeInstance.Name, eq.Name ) );
 						}
+
+						DropEquipmentsInBattle++;
 					}
+
+				} else {
+
+					DropShipsInBattle++;
+
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
+					DropEquipmentsInBattle += ship.DefaultSlot.Count( id => id > 0 );
 				}
 
 				if ( dropID == -1 && (
-					KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count <= 0 ||
-					KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count <= 0 ) ) {
+					KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count - DropShipsInBattle <= 0 ||
+					KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count - DropEquipmentsInBattle <= 0 ) ) {
 					dropID = -2;
 				}
 
