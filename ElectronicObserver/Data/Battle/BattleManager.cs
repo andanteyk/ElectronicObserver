@@ -235,7 +235,13 @@ namespace ElectronicObserver.Data.Battle {
 					DropShipsInBattle++;
 
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
-					DropEquipmentsInBattle += ship.DefaultSlot.Count( id => id > 0 );
+
+					var defaultSlot = ship.DefaultSlot;
+
+					// but what I can do when it is null
+					if ( defaultSlot != null ) {
+						DropEquipmentsInBattle += defaultSlot.Count( id => id > 0 );
+					}
 				}
 
 				if ( dropID == -1 && (
