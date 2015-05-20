@@ -268,6 +268,11 @@ namespace ElectronicObserver.Utility {
 				public bool ShowCacheLog { get; set; }
 
 				/// <summary>
+				/// get or set if output the ship graphic list
+				/// </summary>
+				public bool OutputGraphicList { get; set; }
+
+				/// <summary>
 				/// ファイル エンコーディングのID
 				/// </summary>
 				public int FileEncodingID { get; set; }
@@ -308,6 +313,7 @@ namespace ElectronicObserver.Utility {
 					FileEncodingID = 0;
 					ShowMainD2Link = false;
 					ShowCacheLog = true;
+					OutputGraphicList = false;
 					ShowSpoiler = true;
 				}
 
