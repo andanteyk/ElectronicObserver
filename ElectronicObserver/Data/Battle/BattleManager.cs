@@ -68,16 +68,6 @@ namespace ElectronicObserver.Data.Battle {
 
 			switch ( apiname ) {
 				case "api_req_map/start":
-					DropShipsInBattle = 0;
-					DropEquipmentsInBattle = 0;
-					BattleDay = null;
-					BattleNight = null;
-					Result = null;
-					BattleMode = BattleModes.Undefined;
-					Compass = new CompassData();
-					Compass.LoadFromResponse( apiname, data );
-					break;
-
 				case "api_req_map/next":
 					BattleDay = null;
 					BattleNight = null;
@@ -159,8 +149,6 @@ namespace ElectronicObserver.Data.Battle {
 					break;
 
 				case "api_port/port":
-					DropShipsInBattle = 0;
-					DropEquipmentsInBattle = 0;
 					Compass = null;
 					BattleDay = null;
 					BattleNight = null;
@@ -234,6 +222,7 @@ namespace ElectronicObserver.Data.Battle {
 
 					DropShipsInBattle++;
 
+					//* seems like not need
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
 
 					var defaultSlot = ship.DefaultSlot;
@@ -242,6 +231,7 @@ namespace ElectronicObserver.Data.Battle {
 					if ( defaultSlot != null ) {
 						DropEquipmentsInBattle += defaultSlot.Count( id => id > 0 );
 					}
+					//*/
 				}
 
 				if ( dropID == -1 && (

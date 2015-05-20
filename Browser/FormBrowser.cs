@@ -7,6 +7,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -25,6 +26,8 @@ namespace Browser {
 
 		private readonly Size KanColleSize = new Size( 800, 480 );
 
+		private string FrameScript;
+		private string PageScript;
 
 
 		// FormBrowserHostの通信サーバ
@@ -88,6 +91,20 @@ namespace Browser {
 			_volumeManager = new VolumeManager( (uint)System.Diagnostics.Process.GetCurrentProcess().Id );
 #endif
 			Browser.ReplacedKeyDown += Browser_ReplacedKeyDown;
+
+			if ( File.Exists( "PageScript.js" ) ) {
+				PageScript = File.ReadAllText( "PageScript.js" );
+			}
+			if ( string.IsNullOrEmpty( PageScript ) ) {
+				PageScript = Properties.Resources.PageScript;
+			}
+
+			if ( File.Exists( "FrameScript.js" ) ) {
+				FrameScript = File.ReadAllText( "FrameScript.js" );
+			}
+			if ( string.IsNullOrEmpty( FrameScript ) ) {
+				FrameScript = Properties.Resources.FrameScript;
+			}
 		}
 
 
@@ -264,8 +281,8 @@ namespace Browser {
 					if ( swf == null ) return;
 
 					// InvokeScriptは関数しか呼べないようなので、スクリプトをevalで渡す
-					document.InvokeScript( "eval", new object[] { Properties.Resources.PageScript } );
-					swf.Document.InvokeScript( "eval", new object[] { Properties.Resources.FrameScript } );
+					document.InvokeScript( "eval", new object[] { PageScript } );
+					swf.Document.InvokeScript( "eval", new object[] { FrameScript } );
 				}
 
 				StyleSheetApplied = true;
