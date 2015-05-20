@@ -55,12 +55,12 @@ namespace ElectronicObserver.Data.Battle {
 		/// <summary>
 		/// Drop ships in battle
 		/// </summary>
-		public int DropShipsInBattle { get; private set; }
+		public int DropShipsInBattle { get; internal set; }
 
 		/// <summary>
 		/// Drop eqps in battle
 		/// </summary>
-		public int DropEquipmentsInBattle { get; private set; }
+		public int DropEquipmentsInBattle { get; internal set; }
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
@@ -68,16 +68,6 @@ namespace ElectronicObserver.Data.Battle {
 
 			switch ( apiname ) {
 				case "api_req_map/start":
-					DropShipsInBattle = 0;
-					DropEquipmentsInBattle = 0;
-					BattleDay = null;
-					BattleNight = null;
-					Result = null;
-					BattleMode = BattleModes.Undefined;
-					Compass = new CompassData();
-					Compass.LoadFromResponse( apiname, data );
-					break;
-
 				case "api_req_map/next":
 					BattleDay = null;
 					BattleNight = null;
@@ -159,8 +149,6 @@ namespace ElectronicObserver.Data.Battle {
 					break;
 
 				case "api_port/port":
-					DropShipsInBattle = 0;
-					DropEquipmentsInBattle = 0;
 					Compass = null;
 					BattleDay = null;
 					BattleNight = null;
@@ -234,8 +222,16 @@ namespace ElectronicObserver.Data.Battle {
 
 					DropShipsInBattle++;
 
+					//* seems like not need
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
-					DropEquipmentsInBattle += ship.DefaultSlot.Count( id => id > 0 );
+
+					var defaultSlot = ship.DefaultSlot;
+
+					// but what I can do when it is null
+					if ( defaultSlot != null ) {
+						DropEquipmentsInBattle += defaultSlot.Count( id => id > 0 );
+					}
+					//*/
 				}
 
 				if ( dropID == -1 && (

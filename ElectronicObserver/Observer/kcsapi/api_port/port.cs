@@ -14,6 +14,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 
 			KCDatabase db = KCDatabase.Instance;
 
+			// reset drops
+			db.Battle.DropShipsInBattle = db.Battle.DropEquipmentsInBattle = 0;
 
 			//api_material
 			db.Material.LoadFromResponse( APIName, data.api_material );
