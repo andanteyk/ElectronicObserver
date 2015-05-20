@@ -674,6 +674,18 @@ namespace ElectronicObserver.Window {
             }
         }
 
+		private void StripMenu_Tool_CopyEOBrowserExecute_Click( object sender, EventArgs e ) {
+
+			var eobrowser = Path.Combine( Path.GetDirectoryName( System.Reflection.Assembly.GetExecutingAssembly().Location ), "EOBrowser.exe" );
+			var parameter = "net.pipe://localhost/" + System.Diagnostics.Process.GetCurrentProcess().Id + "/ElectronicObserver";
+
+			string path = eobrowser + " \"" + parameter + "\"";
+
+			MessageBox.Show( this, "已复制以下启动参数至剪贴板：\r\n" + path + "\r\n请打开“运行”对话框粘贴执行。", "启动 EOBrowser", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			Clipboard.SetText( path );
+
+		}
+
 		private async void StripMenu_Debug_DeleteOldAPI_Click( object sender, EventArgs e ) {
 
 			if ( MessageBox.Show( "古いAPIデータを削除します。\r\n本当によろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )

@@ -93,6 +93,8 @@
 			this.StripMenu_Tool_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_AlbumMasterEquipment = new System.Windows.Forms.ToolStripMenuItem();
             this.StripMenu_Tool_ResourcesGraph = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparatorAnother1 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_Tool_CopyEOBrowserExecute = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
@@ -615,7 +617,9 @@
             this.toolStripSeparator7,
             this.StripMenu_Tool_AlbumMasterShip,
             this.StripMenu_Tool_AlbumMasterEquipment,
-            this.StripMenu_Tool_ResourcesGraph});
+            this.StripMenu_Tool_ResourcesGraph,
+			this.toolStripSeparatorAnother1,
+			this.StripMenu_Tool_CopyEOBrowserExecute});
 			this.StripMenu_Tool.Name = "StripMenu_Tool";
 			this.StripMenu_Tool.Size = new System.Drawing.Size(74, 22);
 			this.StripMenu_Tool.Text = "工具(&T)";
@@ -652,6 +656,18 @@
             this.StripMenu_Tool_ResourcesGraph.Size = new System.Drawing.Size(143, 22);
             this.StripMenu_Tool_ResourcesGraph.Text = "资源图表";
             this.StripMenu_Tool_ResourcesGraph.Click += new System.EventHandler(this.StripMenu_Tool_ResourcesGraph_Click);
+			// 
+			// toolStripSeparatorAnother1
+			// 
+			this.toolStripSeparatorAnother1.Name = "toolStripSeparatorAnother1";
+			this.toolStripSeparatorAnother1.Size = new System.Drawing.Size( 140, 6 );
+			// 
+			// StripMenu_Tool_CopyEOBrowserExecute
+			// 
+			this.StripMenu_Tool_CopyEOBrowserExecute.Name = "StripMenu_Tool_CopyEOBrowserExecute";
+			this.StripMenu_Tool_CopyEOBrowserExecute.Size = new System.Drawing.Size( 143, 22 );
+			this.StripMenu_Tool_CopyEOBrowserExecute.Text = "复制EOBrowser启动参数(&C)";
+			this.StripMenu_Tool_CopyEOBrowserExecute.Click += new System.EventHandler( this.StripMenu_Tool_CopyEOBrowserExecute_Click );
 			// 
 			// StripMenu_Debug
 			// 
@@ -861,6 +877,8 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_FleetOverview;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AlbumMasterEquipment;
         private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ResourcesGraph;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother1;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_CopyEOBrowserExecute;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadRecordFromOld;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_ShipGroup;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_DeleteOldAPI;
