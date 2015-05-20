@@ -159,6 +159,7 @@
     <Compile Include="Notifier\NotifierRepair.cs" />
     <Compile Include="Notifier\NotifierExpedition.cs" />
     <Compile Include="Notifier\NotifierManager.cs" />
+    <Compile Include="Observer\APIGraphicList.cs" />
     <Compile Include="Observer\Cache\CacheCore.cs" />
     <Compile Include="Observer\Cache\Extensions.cs" />
     <Compile Include="Observer\Cache\GMTHelper.cs" />

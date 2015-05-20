@@ -319,6 +319,14 @@ namespace ElectronicObserver.Observer {
 				if ( oSession.fullUrl.Contains( "/kcsapi/api_start2" ) ) {
 					string api_start2 = oSession.GetResponseBodyAsString();
 
+					// output list
+					string filename = @"Settings\GraphicList.csv";
+					if ( Utility.Configuration.Config.Log.OutputGraphicList && !File.Exists( filename ) ) {
+
+						Task.Factory.StartNew( (Action)( () => APIGraphicList.Instance.OutputGraphicList( api_start2, filename ) ) )
+							.ContinueWith( t => Utility.Logger.Add( 2, "输出舰船列表至：" + filename ) );
+					}
+
 					var mod = Utility.Modify.ModifyConfiguration.Instance;
 					bool changed = false;
 
