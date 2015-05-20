@@ -52,6 +52,16 @@ namespace ElectronicObserver.Data.Battle {
 		public BattleModes BattleMode { get; private set; }
 
 
+		/// <summary>
+		/// 出撃中に入手した艦船数
+		/// </summary>
+		public int DroppedShipCount { get; internal set; }
+
+		/// <summary>
+		/// 出撃中に入手した装備数
+		/// </summary>
+		public int DroppedEquipmentCount { get; internal set; }
+
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			//base.LoadFromResponse( apiname, data );	//不要
@@ -144,6 +154,11 @@ namespace ElectronicObserver.Data.Battle {
 					BattleNight = null;
 					Result = null;
 					BattleMode = BattleModes.Undefined;
+					DroppedShipCount = DroppedEquipmentCount = 0;
+					break;
+					
+				case "api_get_member/slot_item":
+					DroppedEquipmentCount = 0;
 					break;
 
 			}
@@ -178,9 +193,18 @@ namespace ElectronicObserver.Data.Battle {
 				int dropID = Result.DroppedShipID;
 				bool showLog = Utility.Configuration.Config.Log.ShowSpoiler;
 
-				if ( dropID != -1 && showLog ) {
+				if ( dropID != -1 ) {
+
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
-					Utility.Logger.Add( 2, string.Format( "{0}「{1}」が戦列に加わりました。", ship.ShipTypeName, ship.NameWithClass ) );
+
+					DroppedShipCount++;
+
+					var defaultSlot = ship.DefaultSlot;
+					if ( defaultSlot != null )
+						DroppedEquipmentCount += defaultSlot.Count( id => id != -1 );
+
+					if ( showLog )
+						Utility.Logger.Add( 2, string.Format( "{0}「{1}」が戦列に加わりました。", ship.ShipTypeName, ship.NameWithClass ) );
 				}
 
 				if ( dropID == -1 ) {
@@ -204,12 +228,16 @@ namespace ElectronicObserver.Data.Battle {
 							EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[eqID];
 							Utility.Logger.Add( 2, string.Format( "{0}「{1}」を入手しました。", eq.CategoryTypeInstance.Name, eq.Name ) );
 						}
+
+						DroppedEquipmentCount++;
 					}
+
 				}
 
+
 				if ( dropID == -1 && (
-					KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count <= 0 ||
-					KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count <= 0 ) ) {
+					KCDatabase.Instance.Admiral.MaxShipCount - ( KCDatabase.Instance.Ships.Count + DroppedShipCount ) <= 0 ||
+					KCDatabase.Instance.Admiral.MaxEquipmentCount - ( KCDatabase.Instance.Equipments.Count + DroppedEquipmentCount ) <= 0 ) ) {
 					dropID = -2;
 				}
 
