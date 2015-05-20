@@ -15,7 +15,6 @@ namespace ElectronicObserver.Data.Battle {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			Searching = new PhaseSearching( this );
 			AirBattle = new PhaseAirBattle( this );
 			Support = new PhaseSupport( this );
 			AirBattle2 = new PhaseAirBattle( this, "2" );

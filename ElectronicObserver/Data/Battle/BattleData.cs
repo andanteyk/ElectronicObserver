@@ -27,12 +27,12 @@ namespace ElectronicObserver.Data.Battle {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			int length = (BattleType & BattleTypeFlag.Combined ) != 0 ? 18 : 12;
-			_resultHPs = new int[length];
-			_attackDamages = new int[length];
-
 			Initial = new PhaseInitial( this );
 			Searching = new PhaseSearching( this );
+
+			_resultHPs = Initial.InitialHPs.ToArray();
+			_attackDamages = new int[_resultHPs.Length];
+
 		}
 
 
