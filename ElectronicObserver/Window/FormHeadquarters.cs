@@ -24,7 +24,7 @@ namespace ElectronicObserver.Window {
 
 
 
-			ImageList icons = ResourceManager.Instance.Icons;
+			ImageCollection icons = ResourceManager.Instance.Icons;
 
 			ShipCount.ImageList = icons;
 			ShipCount.ImageIndex = (int)ResourceManager.IconContent.HeadQuartersShip;

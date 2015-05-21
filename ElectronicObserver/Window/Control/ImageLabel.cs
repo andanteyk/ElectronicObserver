@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Design;
+using ElectronicObserver.Resource;
 
 namespace ElectronicObserver.Window.Control {
 	public partial class ImageLabel : UserControl {
@@ -121,12 +122,12 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 
-		private ImageList _imageList;
+		private ImageCollection _imageList;
 		[Browsable( true )]
 		[DefaultValue( null )]
 		[Description( "コントロールに表示するイメージを取得するための ImageList です。" )]
 		[Category( "表示" )]
-		public ImageList ImageList {
+		public ImageCollection ImageList {
 			get { return _imageList; }
 			set {
 				_imageList = value;

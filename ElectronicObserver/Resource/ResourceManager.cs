@@ -27,9 +27,9 @@ namespace ElectronicObserver.Resource {
 
 		#region Properties
 
-		public ImageList Icons { get; private set; }
+		public ImageCollection Icons { get; private set; }
 
-		public ImageList Equipments { get; private set; }
+		public ImageCollection Equipments { get; private set; }
 
 		public Icon AppIcon { get; private set; }
 
@@ -161,13 +161,9 @@ namespace ElectronicObserver.Resource {
 
 		private ResourceManager() {
 
-			Icons = new ImageList();
-			Icons.ColorDepth = ColorDepth.Depth32Bit;
-			Icons.ImageSize = new Size( 16, 16 );
+			Icons = new ImageCollection();
 
-			Equipments = new ImageList();
-			Equipments.ColorDepth = ColorDepth.Depth32Bit;
-			Equipments.ImageSize = new Size( 16, 16 );
+			Equipments = new ImageCollection();
 
 		}
 
@@ -181,8 +177,8 @@ namespace ElectronicObserver.Resource {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "リソースファイルの読み込みに失敗しました。" );
-				MessageBox.Show( "リソースファイルの読み込みに失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				Utility.ErrorReporter.SendErrorReport( ex, "资源文件 Assets.zip 载入失败。" );
+				MessageBox.Show( "资源文件 Assets.zip 载入失败。\r\n" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 				FillWithBlankImage( Icons, Enum.GetValues( typeof( IconContent ) ).Length );
 				FillWithBlankImage( Equipments, Enum.GetValues( typeof( EquipmentContent ) ).Length );
@@ -345,12 +341,12 @@ namespace ElectronicObserver.Resource {
 
 		}
 
-		private static void LoadImageFromArchive( ImageList imglist, ZipArchive arc, string path, string name ) {
+		private static void LoadImageFromArchive( ImageCollection imglist, ZipArchive arc, string path, string name ) {
 
 			var entry = arc.GetEntry( path );
 
 			if ( entry == null ) {
-				Utility.Logger.Add( 3, string.Format( "画像リソース {0} は存在しません。", path ) );
+				Utility.Logger.Add( 3, string.Format( "图片资源 {0} 不存在。", path ) );
 				imglist.Images.Add( name, new Bitmap( imglist.ImageSize.Width, imglist.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) );
 				return;
 			}
@@ -400,7 +396,7 @@ namespace ElectronicObserver.Resource {
 
 			} catch ( Exception ) {
 
-				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。", path ) );
+				Utility.Logger.Add( 3, string.Format( "图片资源 {0} 读取失败。" ) );
 				imglist.Images.Add( name, CreateBlankImage() );
 				return;
 			}
@@ -412,7 +408,7 @@ namespace ElectronicObserver.Resource {
 			var entry = arc.GetEntry( path );
 
 			if ( entry == null ) {
-				Utility.Logger.Add( 3, string.Format( "画像リソース {0} は存在しません。", path ) );
+				Utility.Logger.Add( 3, string.Format( "图标资源 {0} 不存在。", path ) );
 				return null;
 			}
 
@@ -434,7 +430,7 @@ namespace ElectronicObserver.Resource {
 
 			} catch ( Exception ) {
 
-				Utility.Logger.Add( 3, string.Format( "画像リソース {0} の読み込みに失敗しました。" ) );
+				Utility.Logger.Add( 3, string.Format( "图标资源 {0} 读取失败。" ) );
 			}
 
 			return null;
@@ -444,7 +440,7 @@ namespace ElectronicObserver.Resource {
 		/// <summary>
 		/// エラーが発生しないよう、ダミーの画像で領域を埋めます。
 		/// </summary>
-		private static void FillWithBlankImage( ImageList list, int length ) {
+		private static void FillWithBlankImage( ImageCollection list, int length ) {
 
 			for ( int i = list.Images.Count; i < length; i++ ) {
 				list.Images.Add( CreateBlankImage() );
