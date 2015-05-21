@@ -342,7 +342,7 @@ namespace ElectronicObserver.Resource {
 
 		}
 
-		private static void LoadImageFromArchive( ImageCollection imglist, ZipArchive arc, string path, string name ) {
+		private static void LoadImageFromArchive( ImageCollection imglist, ZipFile arc, string path, string name ) {
 
 			var entry = arc.GetEntry( path );
 
