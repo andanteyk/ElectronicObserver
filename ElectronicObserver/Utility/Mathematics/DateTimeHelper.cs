@@ -16,6 +16,11 @@ namespace ElectronicObserver.Utility.Mathematics {
 		/// </summary>
 		private static readonly long origin = new DateTime( 1970, 1, 1, 0, 0, 0 ).Ticks;
 
+		/// <summary>
+		/// 東京標準時(艦これ時間)
+		/// </summary>
+		public static readonly TimeZoneInfo TokyoStandardZoneInfo = TimeZoneInfo.FindSystemTimeZoneById( "Tokyo Standard Time" );
+
 
 		/// <summary>
 		/// APIに含まれている日時データから<see cref="System.DateTime"/>を生成します。
@@ -207,7 +212,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 		/// 現在地点と東京標準時(艦これ時間)との時差を取得します。
 		/// </summary>
 		public static TimeSpan GetTimeDifference() {
-			return TimeZoneInfo.Local.BaseUtcOffset - TimeZoneInfo.FindSystemTimeZoneById( "Tokyo Standard Time" ).BaseUtcOffset;
+			return TimeZoneInfo.Local.BaseUtcOffset - TokyoStandardZoneInfo.BaseUtcOffset;
 		}
 
 

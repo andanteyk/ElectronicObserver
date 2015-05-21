@@ -31,6 +31,7 @@
 			this.StripMenu_File_Record_Load = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_Layout = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_Layout_Load = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparatorAnother2 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Layout_Save = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_Layout_Open = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -172,8 +173,9 @@
 			// 
 			this.StripMenu_File_Layout.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_File_Layout_Load,
-            this.StripMenu_File_Layout_Save,
-            this.StripMenu_File_Layout_Open});
+            this.StripMenu_File_Layout_Open,
+			this.toolStripSeparatorAnother2,
+            this.StripMenu_File_Layout_Save} );
 			this.StripMenu_File_Layout.Name = "StripMenu_File_Layout";
 			this.StripMenu_File_Layout.Size = new System.Drawing.Size(153, 22);
 			this.StripMenu_File_Layout.Text = "布局(&L)";
@@ -184,6 +186,11 @@
 			this.StripMenu_File_Layout_Load.Size = new System.Drawing.Size(239, 22);
 			this.StripMenu_File_Layout_Load.Text = "复原(&L)";
 			this.StripMenu_File_Layout_Load.Click += new System.EventHandler(this.StripMenu_File_Layout_Load_Click);
+			// 
+			// toolStripSeparatorAnother2
+			// 
+			this.toolStripSeparatorAnother2.Name = "toolStripSeparatorAnother2";
+			this.toolStripSeparatorAnother2.Size = new System.Drawing.Size( 150, 6 );
 			// 
 			// StripMenu_File_Layout_Save
 			// 
@@ -890,6 +897,7 @@
 		private System.Windows.Forms.ToolStripSeparator SeparatorWhitecap;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Load;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Save;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Open;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Browser;
