@@ -205,14 +205,17 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		public ResourceElement GetRecordPrevious() {
 
-			DateTime now = DateTime.Now;
+			DateTime now = TimeZoneInfo.ConvertTime( DateTime.UtcNow, DateTimeHelper.TokyoStandardZoneInfo );
 			DateTime target;
-			if ( now.TimeOfDay.Hours < 2 ) {
-				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 ).Subtract( TimeSpan.FromDays( 1 ) );
-			} else if ( now.TimeOfDay.Hours < 14 ) {
-				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 );
+
+			TimeSpan diff = DateTimeHelper.TokyoStandardZoneInfo.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
+			int hour = now.TimeOfDay.Hours;
+			if ( hour < 2 ) {
+				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 ).Subtract( diff + TimeSpan.FromDays( 1 ) );
+			} else if ( hour < 14 ) {
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( diff );
 			} else {
-				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 );
+				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 ).Subtract( diff );
 			}
 
 			return GetRecord( target );
@@ -223,12 +226,14 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		public ResourceElement GetRecordDay() {
 
-			DateTime now = DateTime.Now;
+			DateTime now = TimeZoneInfo.ConvertTime( DateTime.UtcNow, DateTimeHelper.TokyoStandardZoneInfo );
 			DateTime target;
+
+			TimeSpan diff = DateTimeHelper.TokyoStandardZoneInfo.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
 			if ( now.TimeOfDay.Hours < 2 ) {
-				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( TimeSpan.FromDays( 1 ) );
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( diff + TimeSpan.FromDays( 1 ) );
 			} else {
-				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 );
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( diff );
 			}
 
 			return GetRecord( target );
@@ -238,9 +243,10 @@ namespace ElectronicObserver.Resource.Record {
 		/// 今月の戦果更新以降の最も古い記録を返します。
 		/// </summary>
 		public ResourceElement GetRecordMonth() {
-			DateTime now = DateTime.Now;
+			DateTime now = TimeZoneInfo.ConvertTime( DateTime.UtcNow, DateTimeHelper.TokyoStandardZoneInfo );
+			TimeSpan diff = DateTimeHelper.TokyoStandardZoneInfo.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
 
-			return GetRecord( new DateTime( now.Year, now.Month, 1 ) );
+			return GetRecord( new DateTime( now.Year, now.Month, 1 ).Subtract( diff ) );
 		}
 
 

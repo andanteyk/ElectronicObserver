@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_port {
-	
+
 	public class port : APIBase {
 
 
@@ -14,8 +14,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			// reset drops
-			db.Battle.DropShipsInBattle = db.Battle.DropEquipmentsInBattle = 0;
 
 			//api_material
 			db.Material.LoadFromResponse( APIName, data.api_material );
@@ -31,9 +29,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 				var a = new ShipData();
 				a.LoadFromResponse( APIName, elem );
 				db.Ships.Add( a );
-			
+
 			}
-			
+
 
 			//api_ndock
 			foreach ( var elem in data.api_ndock ) {
@@ -53,8 +51,10 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 			//api_deck_port
 			db.Fleet.LoadFromResponse( APIName, data.api_deck_port );
 			db.Fleet.CombinedFlag = data.api_combined_flag() ? (int)data.api_combined_flag : 0;
-			
-			
+
+
+			db.Battle.LoadFromResponse( APIName, data );
+
 			base.OnResponseReceived( (object)data );
 		}
 

@@ -15,8 +15,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			// reset drop equipments
-			db.Battle.DropEquipmentsInBattle = 0;
 
 			db.Equipments.Clear();
 			foreach ( var elem in data ) {
@@ -26,7 +24,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 				db.Equipments.Add( eq );
 
 			}
-			
+
+			db.Battle.LoadFromResponse( APIName, data );
+
 			base.OnResponseReceived( (object)data );
 		}
 
