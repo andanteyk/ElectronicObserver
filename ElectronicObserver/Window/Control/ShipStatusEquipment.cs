@@ -286,7 +286,7 @@ namespace ElectronicObserver.Window.Control {
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
 			//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
 
-			ImageList eqimages = ResourceManager.Instance.Equipments;
+			ImageCollection eqimages = ResourceManager.Instance.Equipments;
 
 			TextFormatFlags textformat = TextFormatFlags.NoPadding;
 			if ( !OverlayAircraft ) {
@@ -423,7 +423,7 @@ namespace ElectronicObserver.Window.Control {
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
 			//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
 
-			ImageList eqimages = ResourceManager.Instance.Equipments;
+			ImageCollection eqimages = ResourceManager.Instance.Equipments;
 
 			TextFormatFlags textformat = TextFormatFlags.NoPadding;
 			if ( !OverlayAircraft ) {
