@@ -166,11 +166,11 @@ namespace ElectronicObserver.Window {
 			int dropShips = 0;
 			int dropEqps = 0;
 			if ( db.Battle != null ) {
-				dropShips = db.Battle.DropShipsInBattle;
-				dropEqps = db.Battle.DropEquipmentsInBattle;
+				dropShips = db.Battle.DroppedShipCount;
+				dropEqps = db.Battle.DroppedEquipmentCount;
 			}
 
-			ShipCount.Text = string.Format( "{0}/{1}", Math.Min( db.Ships.Count + dropShips, db.Admiral.MaxShipCount ), db.Admiral.MaxShipCount );
+			ShipCount.Text = string.Format( "{0}/{1}", db.Ships.Count + dropShips, db.Admiral.MaxShipCount );
 			if ( db.Ships.Count > db.Admiral.MaxShipCount - 5 ) {
 				ShipCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
 				ShipCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
@@ -179,7 +179,7 @@ namespace ElectronicObserver.Window {
 				ShipCount.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
 			}
 
-			EquipmentCount.Text = string.Format( "{0}/{1}", Math.Min( db.Equipments.Count + dropEqps, db.Admiral.MaxEquipmentCount ), db.Admiral.MaxEquipmentCount );
+			EquipmentCount.Text = string.Format( "{0}/{1}", db.Equipments.Count + dropEqps, db.Admiral.MaxEquipmentCount );
 			if ( db.Equipments.Count > db.Admiral.MaxEquipmentCount + 3 - 20 ) {
 				EquipmentCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
 				EquipmentCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;

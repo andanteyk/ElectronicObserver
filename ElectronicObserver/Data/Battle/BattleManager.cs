@@ -53,14 +53,14 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		/// <summary>
-		/// Drop ships in battle
+		/// 出撃中に入手した艦船数
 		/// </summary>
-		public int DropShipsInBattle { get; internal set; }
+		public int DroppedShipCount { get; internal set; }
 
 		/// <summary>
-		/// Drop eqps in battle
+		/// 出撃中に入手した装備数
 		/// </summary>
-		public int DropEquipmentsInBattle { get; internal set; }
+		public int DroppedEquipmentCount { get; internal set; }
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
@@ -154,6 +154,11 @@ namespace ElectronicObserver.Data.Battle {
 					BattleNight = null;
 					Result = null;
 					BattleMode = BattleModes.Undefined;
+					DroppedShipCount = DroppedEquipmentCount = 0;
+					break;
+					
+				case "api_get_member/slot_item":
+					DroppedEquipmentCount = 0;
 					break;
 
 			}
@@ -188,9 +193,18 @@ namespace ElectronicObserver.Data.Battle {
 				int dropID = Result.DroppedShipID;
 				bool showLog = Utility.Configuration.Config.Log.ShowSpoiler;
 
-				if ( dropID != -1 && showLog ) {
+				if ( dropID != -1 ) {
+
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
-					Utility.Logger.Add( 2, string.Format( "{0}「{1}」が戦列に加わりました。", ship.ShipTypeName, ship.NameWithClass ) );
+
+					DroppedShipCount++;
+
+					var defaultSlot = ship.DefaultSlot;
+					if ( defaultSlot != null )
+						DroppedEquipmentCount += defaultSlot.Count( id => id != -1 );
+
+					if ( showLog )
+						Utility.Logger.Add( 2, string.Format( "{0}「{1}」が戦列に加わりました。", ship.ShipTypeName, ship.NameWithClass ) );
 				}
 
 				if ( dropID == -1 ) {
@@ -215,28 +229,15 @@ namespace ElectronicObserver.Data.Battle {
 							Utility.Logger.Add( 2, string.Format( "{0}「{1}」を入手しました。", eq.CategoryTypeInstance.Name, eq.Name ) );
 						}
 
-						DropEquipmentsInBattle++;
+						DroppedEquipmentCount++;
 					}
 
-				} else {
-
-					DropShipsInBattle++;
-
-					//* seems like not need
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
-
-					var defaultSlot = ship.DefaultSlot;
-
-					// but what I can do when it is null
-					if ( defaultSlot != null ) {
-						DropEquipmentsInBattle += defaultSlot.Count( id => id > 0 );
-					}
-					//*/
 				}
 
+
 				if ( dropID == -1 && (
-					KCDatabase.Instance.Admiral.MaxShipCount - KCDatabase.Instance.Ships.Count - DropShipsInBattle <= 0 ||
-					KCDatabase.Instance.Admiral.MaxEquipmentCount - KCDatabase.Instance.Equipments.Count - DropEquipmentsInBattle <= 0 ) ) {
+					KCDatabase.Instance.Admiral.MaxShipCount - ( KCDatabase.Instance.Ships.Count + DroppedShipCount ) <= 0 ||
+					KCDatabase.Instance.Admiral.MaxEquipmentCount - ( KCDatabase.Instance.Equipments.Count + DroppedEquipmentCount ) <= 0 ) ) {
 					dropID = -2;
 				}
 
