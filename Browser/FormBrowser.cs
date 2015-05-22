@@ -231,6 +231,12 @@ namespace Browser {
 
 		}
 
+		private void Browser_Navigated( object sender, WebBrowserNavigatedEventArgs e ) {
+
+			ToolMenu_Url.Text = Browser.Url.ToString();
+
+		}
+
 		private void Browser_DocumentCompleted( object sender, WebBrowserDocumentCompletedEventArgs e ) {
 			ReplaceEmbedHtml();
 
@@ -238,6 +244,8 @@ namespace Browser {
 			ApplyStyleSheet();
 
 			ApplyZoom();
+
+			ToolMenu_Url.Text = Browser.Url.ToString();
 		}
 
 		/// <summary>
@@ -302,6 +310,7 @@ namespace Browser {
 		public void Navigate( string url ) {
 			StyleSheetApplied = false;
 			Browser.Navigate( url );
+			ToolMenu_Url.Text = url;
 		}
 
 		/// <summary>

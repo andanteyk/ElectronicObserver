@@ -63,8 +63,8 @@ namespace ElectronicObserver.Utility {
 		/// 魔改版本
 		/// </summary>
 		public static double MakaiVersion {
-			get { return 522.1127; }		}
-
+			get { return 522.2225; }
+		}
 
 		private static System.Net.WebClient client;
 		private static readonly Uri uri = new Uri( "https://www.dropbox.com/s/vk073iw1wvktq4d/version.txt?dl=1" );
