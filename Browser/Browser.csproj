@@ -58,12 +58,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BCMakeCert">
-      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\BCMakeCert.dll</HintPath>
-    </Reference>
-    <Reference Include="CertMaker">
-      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\CertMaker.dll</HintPath>
-    </Reference>
     <Reference Include="CoreAudioApi">
       <HintPath>..\assemblies\CoreAudioApi.dll</HintPath>
     </Reference>
