@@ -41,6 +41,8 @@
 			this.ToolMenu_Mute = new System.Windows.Forms.ToolStripButton();
 			this.ToolMenu_Mute_Track = new System.Windows.Forms.ToolStripDropDownButton();
 			this.trackVolume = new System.Windows.Forms.TrackBar();
+			this.toolStripSeparatorAnother1 = new System.Windows.Forms.ToolStripSeparator();
+			this.ToolMenu_Url = new Browser.Control.ToolStripSpringTextBox();
 			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
 			this.ToolMenu_Refresh = new System.Windows.Forms.ToolStripButton();
 			this.ToolMenu_NavigateToLogInPage = new System.Windows.Forms.ToolStripButton();
@@ -130,6 +132,7 @@
 			this.Browser.TabIndex = 0;
 			this.Browser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.Browser_DocumentCompleted);
 			this.Browser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.Browser_Navigating);
+			this.Browser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.Browser_Navigated);
 			// 
 			// ContextMenuTool
 			// 
@@ -161,11 +164,14 @@
             this.ToolMenu_Refresh,
             this.ToolMenu_NavigateToLogInPage,
             this.toolStripSeparator8,
-            this.ToolMenu_Other});
+            this.ToolMenu_Other,
+			this.toolStripSeparatorAnother1,
+			this.ToolMenu_Url} );
 			this.ToolMenu.Location = new System.Drawing.Point(0, 0);
 			this.ToolMenu.Name = "ToolMenu";
 			this.ToolMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
 			this.ToolMenu.Size = new System.Drawing.Size(615, 38);
+			this.ToolMenu.Stretch = true;
 			this.ToolMenu.TabIndex = 1;
 			this.ToolMenu.Text = "toolStrip1";
 			// 
@@ -239,6 +245,18 @@
 			// 
 			this.toolStripSeparator8.Name = "toolStripSeparator8";
 			this.toolStripSeparator8.Size = new System.Drawing.Size(6, 38);
+			// 
+			// toolStripSeparatorAnother1
+			// 
+			this.toolStripSeparatorAnother1.Name = "toolStripSeparatorAnother1";
+			this.toolStripSeparatorAnother1.Size = new System.Drawing.Size(6, 38);
+			// 
+			// ToolMenu_Url
+			// 
+			this.ToolMenu_Url.Name = "ToolMenu_Url";
+			this.ToolMenu_Url.ReadOnly = true;
+			this.ToolMenu_Url.Size = new System.Drawing.Size( 160, 35 );
+			this.ToolMenu_Url.Text = "";
 			// 
 			// ToolMenu_Other
 			// 
@@ -611,6 +629,8 @@
 		private System.Windows.Forms.ToolStripMenuItem ToolMenu_Other_Zoom_300;
 		private System.Windows.Forms.ToolStripMenuItem ToolMenu_Other_Zoom_400;
 		private System.Windows.Forms.TrackBar trackVolume;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother1;
+		private Browser.Control.ToolStripSpringTextBox ToolMenu_Url;
 		private System.Windows.Forms.ToolStripDropDownButton ToolMenu_Mute_Track;
 		private System.Windows.Forms.ToolStripButton ToolMenu_Mute;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
