@@ -1,4 +1,5 @@
-﻿using BrowserLib;
+﻿using Browser.Win32;
+using BrowserLib;
 using mshtml;
 using System;
 using System.Collections.Generic;
@@ -517,9 +518,27 @@ namespace Browser {
 
 
 		public void SetProxy( string address, int port ) {
-			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}", port ), "<local>" );
+			//Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}", port ), "<local>" );
+			SetIESettings( "localhost:" + port );
 		}
 
+		private static void SetIESettings( string proxyUri ) {
+			// ReSharper disable InconsistentNaming
+			const int INTERNET_OPTION_PROXY = 38;
+			const int INTERNET_OPEN_TYPE_PROXY = 3;
+			// ReSharper restore InconsistentNaming
+
+			INTERNET_PROXY_INFO proxyInfo;
+			proxyInfo.dwAccessType = INTERNET_OPEN_TYPE_PROXY;
+			proxyInfo.proxy = Marshal.StringToHGlobalAnsi( proxyUri );
+			proxyInfo.proxyBypass = Marshal.StringToHGlobalAnsi( "local" );
+
+			var proxyInfoSize = Marshal.SizeOf( proxyInfo );
+			var proxyInfoPtr = Marshal.AllocCoTaskMem( proxyInfoSize );
+			Marshal.StructureToPtr( proxyInfo, proxyInfoPtr, true );
+
+			NativeMethods.InternetSetOption( IntPtr.Zero, INTERNET_OPTION_PROXY, proxyInfoPtr, proxyInfoSize );
+		}
 
 		/// <summary>
 		/// キャッシュを削除します。

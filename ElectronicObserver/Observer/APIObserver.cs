@@ -119,6 +119,7 @@ namespace ElectronicObserver.Observer {
 			this.UIControl = UIControl;
 
 			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
+				Fiddler.FiddlerCoreStartupFlags.OptimizeThreadPool |
 				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
 
 			/*
