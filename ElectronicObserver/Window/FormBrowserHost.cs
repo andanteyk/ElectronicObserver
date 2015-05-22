@@ -184,6 +184,7 @@ namespace ElectronicObserver.Window {
 				config.FlashWmode = c.FlashWmode;
 				config.FlashQuality = c.FlashQuality;
 				config.ThemeID = Utility.Configuration.Config.UI.ThemeID;
+				config.ShowURL = c.ShowURL;
 
 				return config;
 			}
@@ -208,6 +209,7 @@ namespace ElectronicObserver.Window {
 			c.EmbedHtml = config.EmbedHtml;
 			c.FlashWmode = config.FlashWmode;
 			c.FlashQuality = config.FlashQuality;
+			c.ShowURL = config.ShowURL;
 
 		}
 
@@ -268,9 +270,7 @@ namespace ElectronicObserver.Window {
 			MoveWindow( BrowserWnd, 0, 0, this.Width, this.Height, true );
 
 			//キー入力をブラウザに投げる
-			if ( Utility.Configuration.Config.FormBrowser.AddMessageFilter ) {
-				Application.AddMessageFilter( new KeyMessageGrabber( BrowserWnd ) );
-			}
+			Application.AddMessageFilter( new KeyMessageGrabber( BrowserWnd ) );
 
 			// デッドロックするので非同期で処理
 			BeginInvoke( (Action)( () => {
