@@ -648,9 +648,9 @@ namespace ElectronicObserver.Utility {
 				public string EmbedHtml { get; set; }
 
 				/// <summary>
-				/// 增加消息过滤器（接收键盘快捷键用）
+				/// 是否显示URL地址
 				/// </summary>
-				public bool AddMessageFilter { get; set; }
+				public bool ShowURL { get; set; }
 
 				/// <summary>
 				/// flashのパラメータ指定 'wmode'
@@ -677,7 +677,7 @@ namespace ElectronicObserver.Utility {
 					IsToolMenuVisible = true;
 					ConfirmAtRefresh = true;
 					EmbedHtml = "<embed width=\"800\" height=\"480\" wmode=\"{1}\" quality=\"{2}\" bgcolor=\"#000\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" src=\"{0}\">";
-					AddMessageFilter = true;
+					ShowURL = true;
 					FlashWmode = "direct";
 					FlashQuality = "high";
 				}

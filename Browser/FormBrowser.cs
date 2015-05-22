@@ -158,6 +158,8 @@ namespace Browser {
 		public void ConfigurationChanged( BrowserLib.BrowserConfiguration conf ) {
 			Configuration = conf;
 
+			ToolMenu_Url.Visible = conf.ShowURL;
+
 			SizeAdjuster.AutoScroll = Configuration.IsScrollable;
 			ToolMenu_Other_Zoom_Fit.Checked = Configuration.ZoomFit;
 			ApplyZoom();

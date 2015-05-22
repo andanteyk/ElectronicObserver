@@ -163,5 +163,11 @@ namespace BrowserLib {
 		[DataMember]
 		public int ThemeID { get; set; }
 
+		/// <summary>
+		/// 是否显示URL地址
+		/// </summary>
+		[DataMember]
+		public bool ShowURL { get; set; }
+
 	}
 }
