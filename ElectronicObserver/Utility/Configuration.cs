@@ -190,6 +190,8 @@ namespace ElectronicObserver.Utility {
 
 				#endregion
 
+				public bool NotExpeditionBlink { get; set; }
+
 				public int HpBackgroundOffset { get; set; }
 
 				public int HpThickness { get; set; }
@@ -211,6 +213,8 @@ namespace ElectronicObserver.Utility {
 					EliteColor = new SerializableColor( Color.FromArgb( 0xFF, 0x00, 0x00 ) );
 					FlagshipColor = new SerializableColor( Color.FromArgb( 0xFF, 0x88, 0x00 ) );
 					LateModelColor = new SerializableColor( Color.FromArgb( 0x00, 0x88, 0xFF ) );
+
+					NotExpeditionBlink = true;
 
 					Hp0Color = Color.FromArgb( 0xFF, 0, 0 );
 					Hp25Color = Color.FromArgb( 0xFF, 0x88, 0 );
