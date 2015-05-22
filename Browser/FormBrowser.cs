@@ -233,7 +233,7 @@ namespace Browser {
 
 		private void Browser_Navigated( object sender, WebBrowserNavigatedEventArgs e ) {
 
-			ToolMenu_Url.Text = e.Url.ToString();
+			ToolMenu_Url.Text = Browser.Url.ToString();
 
 		}
 
@@ -245,7 +245,7 @@ namespace Browser {
 
 			ApplyZoom();
 
-			ToolMenu_Url.Text = e.Url.ToString();
+			ToolMenu_Url.Text = Browser.Url.ToString();
 		}
 
 		/// <summary>
