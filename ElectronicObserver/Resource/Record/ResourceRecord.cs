@@ -205,20 +205,19 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		public ResourceElement GetRecordPrevious() {
 
-			DateTime now = TimeZoneInfo.ConvertTime( DateTime.UtcNow, DateTimeHelper.TokyoStandardZoneInfo );
+			DateTime now = DateTime.Now.Subtract( DateTimeHelper.GetTimeDifference );
 			DateTime target;
 
-			TimeSpan diff = DateTimeHelper.TokyoStandardZoneInfo.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
 			int hour = now.TimeOfDay.Hours;
 			if ( hour < 2 ) {
-				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 ).Subtract( diff + TimeSpan.FromDays( 1 ) );
+				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 ).Subtract( TimeSpan.FromDays( 1 ) );
 			} else if ( hour < 14 ) {
-				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( diff );
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 );
 			} else {
-				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 ).Subtract( diff );
+				target = new DateTime( now.Year, now.Month, now.Day, 14, 0, 0 );
 			}
 
-			return GetRecord( target );
+			return GetRecord( target.Subtract( DateTimeHelper.GetTimeDifference ) );
 		}
 
 		/// <summary>
@@ -226,27 +225,25 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		public ResourceElement GetRecordDay() {
 
-			DateTime now = TimeZoneInfo.ConvertTime( DateTime.UtcNow, DateTimeHelper.TokyoStandardZoneInfo );
+			DateTime now = DateTime.Now.Subtract( DateTimeHelper.GetTimeDifference );
 			DateTime target;
 
-			TimeSpan diff = DateTimeHelper.TokyoStandardZoneInfo.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
 			if ( now.TimeOfDay.Hours < 2 ) {
-				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( diff + TimeSpan.FromDays( 1 ) );
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( TimeSpan.FromDays( 1 ) );
 			} else {
-				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 ).Subtract( diff );
+				target = new DateTime( now.Year, now.Month, now.Day, 2, 0, 0 );
 			}
 
-			return GetRecord( target );
+			return GetRecord( target.Subtract( DateTimeHelper.GetTimeDifference ) );
 		}
 
 		/// <summary>
 		/// 今月の戦果更新以降の最も古い記録を返します。
 		/// </summary>
 		public ResourceElement GetRecordMonth() {
-			DateTime now = TimeZoneInfo.ConvertTime( DateTime.UtcNow, DateTimeHelper.TokyoStandardZoneInfo );
-			TimeSpan diff = DateTimeHelper.TokyoStandardZoneInfo.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
+			DateTime now = DateTime.Now.Subtract( DateTimeHelper.GetTimeDifference );
 
-			return GetRecord( new DateTime( now.Year, now.Month, 1 ).Subtract( diff ) );
+			return GetRecord( new DateTime( now.Year, now.Month, 1 ).Subtract( DateTimeHelper.GetTimeDifference ) );
 		}
 
 
