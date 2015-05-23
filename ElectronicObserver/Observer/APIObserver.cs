@@ -528,14 +528,8 @@ namespace ElectronicObserver.Observer {
 
 			}
 
-			// flash wmode & quality
-			else if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
-
-				oSession.bBufferResponse = true;
-			}
-
 			// use cache js
-			else if ( Utility.Configuration.Config.CacheSettings.UseCacheJs && oSession.fullUrl.StartsWith( "http://203.104.209.7/gadget/" ) ) {
+			else if ( Utility.Configuration.Config.CacheSettings.UseCacheJs && oSession.fullUrl.StartsWith( "http://203.104.209.7/" ) ) {
 
 				string filepath = Path.Combine( Utility.Configuration.Config.CacheSettings.CacheFolder, "kcs" ) + oSession.PathAndQuery.Replace( '/', '\\' );
 				if ( File.Exists( filepath ) ) {
@@ -554,6 +548,12 @@ namespace ElectronicObserver.Observer {
 						oSession.oResponse.headers["Content-Type"] = "application/x-javascript";
 				}
 
+			}
+
+			// flash wmode & quality
+			else if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+
+				oSession.bBufferResponse = true;
 			}
 
 		}
