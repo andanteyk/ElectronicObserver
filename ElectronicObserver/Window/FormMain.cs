@@ -166,6 +166,10 @@ namespace ElectronicObserver.Window {
 			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
 			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
+			MainDockPanel.AllowEndUserDocking =
+			MainDockPanel.AllowSplitterDrag = !c.Life.IsLocked;
+			StripMenu_File_Layout_Lock.Checked = c.Life.IsLocked;
+
 			// color theme
 			foreach ( var f in SubForms ) {
 				if ( f is FormShipGroup ) {
@@ -885,6 +889,19 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_File_Layout_Save_Click( object sender, EventArgs e ) {
 
 			SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+		}
+
+		private void StripMenu_File_Layout_Lock_Click( object sender, EventArgs e ) {
+
+			bool locked = !StripMenu_File_Layout_Lock.Checked;
+
+			MainDockPanel.AllowEndUserDocking =
+			MainDockPanel.AllowSplitterDrag = !locked;
+
+			Utility.Configuration.Config.Life.IsLocked = locked;
+
+			StripMenu_File_Layout_Lock.Checked = locked;
 
 		}
 

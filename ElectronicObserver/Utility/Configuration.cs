@@ -423,6 +423,11 @@ namespace ElectronicObserver.Utility {
 				public bool CheckUpdateInformation { get; set; }
 
 				/// <summary>
+				/// 是否锁定布局
+				/// </summary>
+				public bool IsLocked { get; set; }
+
+				/// <summary>
 				/// ステータスバーを表示するか
 				/// </summary>
 				public bool ShowStatusBar { get; set; }
@@ -432,6 +437,7 @@ namespace ElectronicObserver.Utility {
 					TopMost = false;
 					LayoutFilePath = @"Settings\WindowLayout.zip";
 					CheckUpdateInformation = true;
+					IsLocked = false;
 					ShowStatusBar = true;
 				}
 			}
