@@ -158,8 +158,6 @@ namespace Browser {
 		public void ConfigurationChanged( BrowserLib.BrowserConfiguration conf ) {
 			Configuration = conf;
 
-			ToolMenu_Url.Visible = conf.ShowURL;
-
 			SizeAdjuster.AutoScroll = Configuration.IsScrollable;
 			ToolMenu_Other_Zoom_Fit.Checked = Configuration.ZoomFit;
 			ApplyZoom();
@@ -167,7 +165,7 @@ namespace Browser {
 			ToolMenu.Dock = (DockStyle)Configuration.ToolMenuDockStyle;
 			ToolMenu.Visible = Configuration.IsToolMenuVisible;
 
-			ToolMenu_Url.Visible = ( ToolMenu.Dock == DockStyle.Top || ToolMenu.Dock == DockStyle.Bottom );
+			ToolMenu_Url.Visible = conf.ShowURL && ( ToolMenu.Dock == DockStyle.Top || ToolMenu.Dock == DockStyle.Bottom );
 
 			ToolStripCustomizer.ToolStripRender.RendererTheme = (ToolStripCustomizer.ToolStripRenderTheme)Configuration.ThemeID;
 
@@ -176,7 +174,7 @@ namespace Browser {
 		}
 
 		private void ConfigurationUpdated() {
-			ToolMenu_Url.Visible = ( ToolMenu.Dock == DockStyle.Top || ToolMenu.Dock == DockStyle.Bottom );
+			ToolMenu_Url.Visible = Configuration.ShowURL && ( ToolMenu.Dock == DockStyle.Top || ToolMenu.Dock == DockStyle.Bottom );
 
 			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.ConfigurationUpdated( Configuration ) );
 		}
