@@ -179,14 +179,23 @@ namespace ElectronicObserver.Utility {
 				#region - Fleet Color -
 
 				public SerializableColor FleetReadyColor { get; set; }
-
 				public SerializableColor FleetExpeditionColor { get; set; }
-
 				public SerializableColor FleetSortieColor { get; set; }
-
 				public SerializableColor FleetNotReadyColor { get; set; }
-
 				public SerializableColor FleetDamageColor { get; set; }
+
+				#endregion
+
+				#region - Quest Color -
+
+				public SerializableColor QuestOrganization { get; set; }
+				public SerializableColor QuestSortie { get; set; }
+				public SerializableColor QuestExercise { get; set; }
+				public SerializableColor QuestExpedition { get; set; }
+				public SerializableColor QuestSupplyDocking { get; set; }
+				public SerializableColor QuestArsenal { get; set; }
+				public SerializableColor QuestRenovated { get; set; }
+				public SerializableColor QuestForeColor { get; set; }
 
 				#endregion
 
@@ -234,6 +243,16 @@ namespace ElectronicObserver.Utility {
 					FleetNotReadyColor = Color.FromArgb( 0xFD, 0xDF, 0x51 );
 
 					FleetDamageColor = Color.FromArgb( 0xF0, 0x80, 0x80 );
+
+					QuestOrganization = Color.FromArgb( 0xAA, 0xFF, 0xAA );
+					QuestSortie = Color.FromArgb( 0xFF, 0xCC, 0xCC );
+					QuestExercise = Color.FromArgb( 0xDD, 0xFF, 0xAA );
+					QuestExpedition = Color.FromArgb( 0xCC, 0xFF, 0xFF );
+					QuestSupplyDocking = Color.FromArgb( 0xFF, 0xFF, 0xCC );
+					QuestArsenal = Color.FromArgb( 0xDD, 0xCC, 0xBB );
+					QuestRenovated = Color.FromArgb( 0xDD, 0xCC, 0xFF );
+					QuestForeColor = SystemColors.ControlText;
+
 				}
 			}
 			/// <summary>UI</summary>

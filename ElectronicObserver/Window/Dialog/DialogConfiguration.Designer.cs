@@ -60,6 +60,15 @@
 			this.colorFleetSortieColor = new ElectronicObserver.Window.Control.ColorPicker();
 			this.colorFleetNotReadyColor = new ElectronicObserver.Window.Control.ColorPicker();
 			this.colorFleetDamageColor = new ElectronicObserver.Window.Control.ColorPicker();
+			this.tabPageColorQuest = new System.Windows.Forms.TabPage();
+			this.colorQuestOrganization = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorQuestSortie = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorQuestExercise = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorQuestExpedition = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorQuestSupplyDocking = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorQuestArsenal = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorQuestRenovated = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorQuestForeColor = new ElectronicObserver.Window.Control.ColorPicker();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyHost = new System.Windows.Forms.TextBox();
 			this.Connection_UpstreamProxyPort = new System.Windows.Forms.NumericUpDown();
@@ -189,6 +198,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.numericHpThickness)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericHpBackgroundOffset)).BeginInit();
 			this.tabPageColorFleet.SuspendLayout();
+			this.tabPageColorQuest.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -522,6 +532,7 @@
 			this.tabControlUIColor.Controls.Add(this.tabPageColorBattle);
 			this.tabControlUIColor.Controls.Add(this.tabPageColorHp);
 			this.tabControlUIColor.Controls.Add(this.tabPageColorFleet);
+			this.tabControlUIColor.Controls.Add(this.tabPageColorQuest);
 			this.tabControlUIColor.Location = new System.Drawing.Point(6, 64);
 			this.tabControlUIColor.Name = "tabControlUIColor";
 			this.tabControlUIColor.SelectedIndex = 0;
@@ -847,6 +858,7 @@
 			this.tabPageColorFleet.TabIndex = 3;
 			this.tabPageColorFleet.Text = "舰队颜色";
 			this.tabPageColorFleet.UseVisualStyleBackColor = true;
+			// 
 			// colorFleetReadyColor
 			// 
 			this.colorFleetReadyColor.Location = new System.Drawing.Point(6, 6);
@@ -891,6 +903,96 @@
 			this.colorFleetDamageColor.Size = new System.Drawing.Size(200, 23);
 			this.colorFleetDamageColor.TabIndex = 4;
 			this.colorFleetDamageColor.Text = "危险颜色：";
+			// 
+			// tabPageColorQuest
+			// 
+			this.tabPageColorQuest.Controls.Add( this.colorQuestOrganization);
+			this.tabPageColorQuest.Controls.Add( this.colorQuestSortie);
+			this.tabPageColorQuest.Controls.Add( this.colorQuestExercise);
+			this.tabPageColorQuest.Controls.Add( this.colorQuestExpedition);
+			this.tabPageColorQuest.Controls.Add( this.colorQuestSupplyDocking);
+			this.tabPageColorQuest.Controls.Add( this.colorQuestArsenal);
+			this.tabPageColorQuest.Controls.Add( this.colorQuestRenovated );
+			this.tabPageColorQuest.Controls.Add( this.colorQuestForeColor );
+			this.tabPageColorQuest.Location = new System.Drawing.Point( 4, 24 );
+			this.tabPageColorQuest.Name = "tabPageColorQuest";
+			this.tabPageColorQuest.Padding = new System.Windows.Forms.Padding( 3 );
+			this.tabPageColorQuest.Size = new System.Drawing.Size( 434, 150 );
+			this.tabPageColorQuest.TabIndex = 4;
+			this.tabPageColorQuest.Text = "任务颜色";
+			this.tabPageColorQuest.UseVisualStyleBackColor = true;
+			// 
+			// colorQuestOrganization
+			// 
+			this.colorQuestOrganization.Location = new System.Drawing.Point( 6, 6 );
+			this.colorQuestOrganization.MinimumSize = new System.Drawing.Size( 190, 23 );
+			this.colorQuestOrganization.Name = "colorQuestOrganization";
+			this.colorQuestOrganization.Size = new System.Drawing.Size( 200, 23 );
+			this.colorQuestOrganization.TabIndex = 0;
+			this.colorQuestOrganization.Text = "编成任务：";
+			// 
+			// colorQuestSortie
+			// 
+			this.colorQuestSortie.Location = new System.Drawing.Point( 6, 35 );
+			this.colorQuestSortie.MinimumSize = new System.Drawing.Size( 190, 23 );
+			this.colorQuestSortie.Name = "colorQuestSortie";
+			this.colorQuestSortie.Size = new System.Drawing.Size( 200, 23 );
+			this.colorQuestSortie.TabIndex = 1;
+			this.colorQuestSortie.Text = "出击任务：";
+			// 
+			// colorQuestExercise
+			// 
+			this.colorQuestExercise.Location = new System.Drawing.Point( 6, 64 );
+			this.colorQuestExercise.MinimumSize = new System.Drawing.Size( 190, 23 );
+			this.colorQuestExercise.Name = "colorQuestExercise";
+			this.colorQuestExercise.Size = new System.Drawing.Size( 200, 23 );
+			this.colorQuestExercise.TabIndex = 2;
+			this.colorQuestExercise.Text = "演习任务：";
+			// 
+			// colorQuestExpedition
+			// 
+			this.colorQuestExpedition.Location = new System.Drawing.Point( 6, 93 );
+			this.colorQuestExpedition.MinimumSize = new System.Drawing.Size( 190, 23 );
+			this.colorQuestExpedition.Name = "colorQuestExpedition";
+			this.colorQuestExpedition.Size = new System.Drawing.Size( 200, 23 );
+			this.colorQuestExpedition.TabIndex = 3;
+			this.colorQuestExpedition.Text = "远征任务：";
+			// 
+			// colorQuestSupplyDocking
+			// 
+			this.colorQuestSupplyDocking.Location = new System.Drawing.Point( 228, 6 );
+			this.colorQuestSupplyDocking.MinimumSize = new System.Drawing.Size( 190, 23 );
+			this.colorQuestSupplyDocking.Name = "colorQuestSupplyDocking";
+			this.colorQuestSupplyDocking.Size = new System.Drawing.Size( 200, 23 );
+			this.colorQuestSupplyDocking.TabIndex = 4;
+			this.colorQuestSupplyDocking.Text = "补给/入渠：";
+			// 
+			// colorQuestArsenal
+			// 
+			this.colorQuestArsenal.Location = new System.Drawing.Point( 228, 35 );
+			this.colorQuestArsenal.MinimumSize = new System.Drawing.Size( 190, 23 );
+			this.colorQuestArsenal.Name = "colorQuestArsenal";
+			this.colorQuestArsenal.Size = new System.Drawing.Size( 200, 23 );
+			this.colorQuestArsenal.TabIndex = 5;
+			this.colorQuestArsenal.Text = "工厂任务：";
+			// 
+			// colorQuestRenovated
+			// 
+			this.colorQuestRenovated.Location = new System.Drawing.Point( 228, 64 );
+			this.colorQuestRenovated.MinimumSize = new System.Drawing.Size( 190, 23 );
+			this.colorQuestRenovated.Name = "colorQuestRenovated";
+			this.colorQuestRenovated.Size = new System.Drawing.Size( 200, 23 );
+			this.colorQuestRenovated.TabIndex = 6;
+			this.colorQuestRenovated.Text = "改装任务：";
+			// 
+			// colorQuestForeColor
+			// 
+			this.colorQuestForeColor.Location = new System.Drawing.Point( 228, 93 );
+			this.colorQuestForeColor.MinimumSize = new System.Drawing.Size( 190, 23 );
+			this.colorQuestForeColor.Name = "colorQuestForeColor";
+			this.colorQuestForeColor.Size = new System.Drawing.Size( 200, 23 );
+			this.colorQuestForeColor.TabIndex = 7;
+			this.colorQuestForeColor.Text = "文字颜色：";
 			// 
 			// UI_SubFontApply
 			// 
@@ -2018,6 +2120,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.numericHpThickness)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericHpBackgroundOffset)).EndInit();
 			this.tabPageColorFleet.ResumeLayout(false);
+			this.tabPageColorQuest.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).EndInit();
@@ -2105,6 +2208,15 @@
 		private Control.ColorPicker colorFleetSortieColor;
 		private Control.ColorPicker colorFleetExpeditionColor;
 		private Control.ColorPicker colorFleetReadyColor;
+		private System.Windows.Forms.TabPage tabPageColorQuest;
+		private Control.ColorPicker colorQuestOrganization;
+		private Control.ColorPicker colorQuestSortie;
+		private Control.ColorPicker colorQuestExercise;
+		private Control.ColorPicker colorQuestExpedition;
+		private Control.ColorPicker colorQuestSupplyDocking;
+		private Control.ColorPicker colorQuestArsenal;
+		private Control.ColorPicker colorQuestRenovated;
+		private Control.ColorPicker colorQuestForeColor;
 		private System.Windows.Forms.Button ButtonOK;
 		private System.Windows.Forms.Button ButtonCancel;
 		private System.Windows.Forms.TabPage tabPage3;
