@@ -131,6 +131,7 @@
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
 			this.FormFleet_ShowNextExp = new System.Windows.Forms.CheckBox();
+			this.FormFleet_BlinkHPBar = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ShortenHPBar = new System.Windows.Forms.CheckBox();
 			this.FormFleet_FixShipNameWidth = new System.Windows.Forms.CheckBox();
 			this.FormFleet_IsScrollable = new System.Windows.Forms.CheckBox();
@@ -171,6 +172,8 @@
 			this.FormBrowser_LogInPageURL = new System.Windows.Forms.TextBox();
 			this.FormBrowser_ZoomRate = new System.Windows.Forms.NumericUpDown();
 			this.label15 = new System.Windows.Forms.Label();
+			this.tabPageFormBattle = new System.Windows.Forms.TabPage();
+			this.FormBattle_IsShortDamage = new System.Windows.Forms.CheckBox();
 			this.tabPage14 = new System.Windows.Forms.TabPage();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.label21 = new System.Windows.Forms.Label();
@@ -223,6 +226,7 @@
 			this.groupBox3.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).BeginInit();
+			this.tabPageFormBattle.SuspendLayout();
 			this.tabPage14.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			this.tabPage11.SuspendLayout();
@@ -1396,6 +1400,7 @@
 			this.tabControl2.Controls.Add(this.tabPage13);
 			this.tabControl2.Controls.Add(this.tabPage12);
 			this.tabControl2.Controls.Add(this.tabPage14);
+			this.tabControl2.Controls.Add(this.tabPageFormBattle);
 			this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
@@ -1405,6 +1410,7 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_BlinkHPBar);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowNextExp);
 			this.tabPage8.Controls.Add(this.FormFleet_ShortenHPBar);
 			this.tabPage8.Controls.Add(this.FormFleet_FixShipNameWidth);
@@ -1419,6 +1425,17 @@
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "舰队";
 			this.tabPage8.UseVisualStyleBackColor = true;
+			// 
+			// FormFleet_BlinkHPBar
+			// 
+			this.FormFleet_BlinkHPBar.AutoSize = true;
+			this.FormFleet_BlinkHPBar.Location = new System.Drawing.Point(6, 160);
+			this.FormFleet_BlinkHPBar.Name = "FormFleet_BlinkHPBar";
+			this.FormFleet_BlinkHPBar.Size = new System.Drawing.Size(125, 27);
+			this.FormFleet_BlinkHPBar.TabIndex = 7;
+			this.FormFleet_BlinkHPBar.Text = "允许闪烁标签";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_BlinkHPBar, "非第1舰队空闲时是否允许闪烁背景给予远征提示。");
+			this.FormFleet_BlinkHPBar.UseVisualStyleBackColor = true;
 			// 
 			// FormFleet_ShowNextExp
 			// 
@@ -1894,6 +1911,28 @@
 			this.label15.TabIndex = 1;
 			this.label15.Text = "缩放倍率：";
 			// 
+			// tabPageFormBattle
+			// 
+			this.tabPageFormBattle.Controls.Add(this.FormBattle_IsShortDamage);
+			this.tabPageFormBattle.Location = new System.Drawing.Point(4, 24);
+			this.tabPageFormBattle.Name = "tabPageFormBattle";
+			this.tabPageFormBattle.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageFormBattle.Size = new System.Drawing.Size(442, 219);
+			this.tabPageFormBattle.TabIndex = 6;
+			this.tabPageFormBattle.Text = "战斗";
+			this.tabPageFormBattle.UseVisualStyleBackColor = true;
+			// 
+			// FormBattle_IsShortDamage
+			// 
+			this.FormBattle_IsShortDamage.AutoSize = true;
+			this.FormBattle_IsShortDamage.Location = new System.Drawing.Point(6, 6);
+			this.FormBattle_IsShortDamage.Name = "FormBattle_IsShortDamage";
+			this.FormBattle_IsShortDamage.Size = new System.Drawing.Size(129, 27);
+			this.FormBattle_IsShortDamage.TabIndex = 0;
+			this.FormBattle_IsShortDamage.Text = "简洁化伤害显示";
+			this.ToolTipInfo.SetToolTip(this.FormBattle_IsShortDamage, "不显示具体伤害数字，可节省横向空间。");
+			this.FormBattle_IsShortDamage.UseVisualStyleBackColor = true;
+			// 
 			// tabPage14
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
@@ -2152,6 +2191,7 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).EndInit();
+			this.tabPageFormBattle.ResumeLayout(false);
 			this.tabPage14.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
@@ -2314,6 +2354,7 @@
 		private System.Windows.Forms.CheckBox FormFleet_FixShipNameWidth;
 		private System.Windows.Forms.CheckBox FormFleet_IsScrollable;
 		private System.Windows.Forms.CheckBox FormFleet_ShowNextExp;
+		private System.Windows.Forms.CheckBox FormFleet_BlinkHPBar;
 		private System.Windows.Forms.CheckBox FormFleet_ShortenHPBar;
 		private System.Windows.Forms.CheckBox Log_ShowSpoiler;
 		private System.Windows.Forms.GroupBox groupBox3;
@@ -2324,6 +2365,8 @@
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.CheckBox Life_ShowStatusBar;
 		private System.Windows.Forms.CheckBox FormBrowser_ZoomFit;
+		private System.Windows.Forms.TabPage tabPageFormBattle;
+		private System.Windows.Forms.CheckBox FormBattle_IsShortDamage;
 		private System.Windows.Forms.TabPage tabPage14;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.Label label21;

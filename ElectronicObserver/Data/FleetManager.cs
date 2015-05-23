@@ -44,6 +44,12 @@ namespace ElectronicObserver.Data {
 					}
 					break;
 
+				case "api_get_member/ndock":
+					foreach ( var fleet in Fleets.Values ) {
+						fleet.LoadFromResponse( apiname, data );
+					}
+					break;
+
 				default:
 					base.LoadFromResponse( apiname, (object)data );
 

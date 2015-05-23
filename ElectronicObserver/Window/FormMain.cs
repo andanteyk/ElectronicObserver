@@ -190,6 +190,7 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_Debug_LoadAPIFromFile_Click( object sender, EventArgs e ) {
 
+			/*/
 			using ( var dialog = new DialogLocalAPILoader() ) {
 
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
@@ -205,7 +206,9 @@ namespace ElectronicObserver.Window {
 					}
 				}
 			}
-
+			/*/
+			new DialogLocalAPILoader2().Show( this );
+			//*/
 		}
 
 

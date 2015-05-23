@@ -366,6 +366,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_FixShipNameWidth.Checked = config.FormFleet.FixShipNameWidth;
 			FormFleet_ShortenHPBar.Checked = config.FormFleet.ShortenHPBar;
 			FormFleet_ShowNextExp.Checked = config.FormFleet.ShowNextExp;
+			FormFleet_BlinkHPBar.Checked = config.UI.NotExpeditionBlink;
 
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
@@ -430,6 +431,8 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
 			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWmode;
+
+			FormBattle_IsShortDamage.Checked = config.FormBattle.IsShortDamage;
 
 			// [缓存]
 			textCacheFolder.Text = config.CacheSettings.CacheFolder;
@@ -551,6 +554,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.FixShipNameWidth = FormFleet_FixShipNameWidth.Checked;
 			config.FormFleet.ShortenHPBar = FormFleet_ShortenHPBar.Checked;
 			config.FormFleet.ShowNextExp = FormFleet_ShowNextExp.Checked;
+			config.UI.NotExpeditionBlink = FormFleet_BlinkHPBar.Checked;
 
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;
@@ -574,6 +578,8 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWmode = FormBrowser_FlashWMode.Text;
+
+			config.FormBattle.IsShortDamage = FormBattle_IsShortDamage.Checked;
 
             // [缓存]
             if (checkCache.Checked)
