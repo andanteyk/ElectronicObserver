@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle.Phase {
 
+	/// <summary>
+	/// 戦闘開始フェーズの処理を行います。
+	/// </summary>
 	public class PhaseInitial : PhaseBase {
 
 
@@ -19,7 +22,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		}
 
 		public override void EmulateBattle( int[] hps, int[] damages ) {
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		/// <summary>
@@ -80,10 +83,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		public int[] MaxHPs {
 			get {
-				if ( RawData.api_nowhps_combined() )
-					return ( (int[])RawData.api_nowhps ).Skip( 1 ).Concat( ( (int[])RawData.api_nowhps_combined ).Skip( 1 ) ).ToArray();
+				if ( RawData.api_maxhps_combined() )
+					return ( (int[])RawData.api_maxhps ).Skip( 1 ).Concat( ( (int[])RawData.api_maxhps_combined ).Skip( 1 ) ).ToArray();
 				else
-					return ArraySkip( (int[])RawData.api_nowhps );
+					return ArraySkip( (int[])RawData.api_maxhps );
 			}
 		}
 

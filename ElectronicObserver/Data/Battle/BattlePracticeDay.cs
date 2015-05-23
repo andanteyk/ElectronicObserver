@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 
+	/// <summary>
+	/// 演習昼戦
+	/// </summary>
 	public class BattlePracticeDay : BattleDay {
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {

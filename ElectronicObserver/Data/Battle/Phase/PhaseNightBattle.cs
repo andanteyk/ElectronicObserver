@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle.Phase {
 
+	/// <summary>
+	/// 夜戦フェーズの処理を行います。
+	/// </summary>
 	public class PhaseNightBattle : PhaseBase {
 
 		private readonly bool isEscort;

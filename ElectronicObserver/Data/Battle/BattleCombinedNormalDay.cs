@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 
+	/// <summary>
+	/// 連合艦隊(機動部隊)昼戦
+	/// </summary>
 	public class BattleCombinedNormalDay : BattleDay {
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {

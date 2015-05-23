@@ -14,9 +14,15 @@ namespace ElectronicObserver.Data.Battle {
 	public abstract class BattleData : ResponseWrapper {
 
 		protected int[] _resultHPs;
+		/// <summary>
+		/// 戦闘終了時の各艦のHP
+		/// </summary>
 		public ReadOnlyCollection<int> ResultHPs { get { return Array.AsReadOnly( _resultHPs ); } }
 
 		protected int[] _attackDamages;
+		/// <summary>
+		/// 各艦の与ダメージ
+		/// </summary>
 		public ReadOnlyCollection<int> AttackDamages { get { return Array.AsReadOnly( _attackDamages ); } }
 
 
@@ -31,9 +37,73 @@ namespace ElectronicObserver.Data.Battle {
 			Searching = new PhaseSearching( this );
 
 			_resultHPs = Initial.InitialHPs.ToArray();
-			_attackDamages = new int[_resultHPs.Length];
+			if ( _attackDamages == null )
+				_attackDamages = new int[_resultHPs.Length];
 
 		}
+
+
+		/// <summary>
+		/// MVPを取得した艦のインデックス
+		/// </summary>
+		public int MVPShipIndex {
+			get {
+				int index = -1;
+				int max = -1;
+				for ( int i = 0; i < 6; i++ ) {
+					if ( _attackDamages[i] > max ) {
+						max = _attackDamages[i];
+						index = i;
+					}
+				}
+				return index;
+			}
+		}
+
+		/// <summary>
+		/// MVPを取得した艦
+		/// </summary>
+		public ShipData MVPShip {
+			get {
+				return Initial.FriendFleet.MembersInstance[MVPShipIndex];
+			}
+		}
+
+
+		/// <summary>
+		/// MVPを取得した艦のインデックス(随伴護衛部隊)
+		/// </summary>
+		public int MVPShipCombinedIndex {
+			get {
+				int index = -1;
+				int max = -1;
+				for ( int i = 12; i < 18; i++ ) {
+					if ( _attackDamages[i] > max ) {
+						max = _attackDamages[i];
+						index = i;
+					}
+				}
+				return index;
+			}
+		}
+
+		/// <summary>
+		/// MVPを取得した艦(随伴護衛部隊)
+		/// </summary>
+		public ShipData MVPShipCombined {
+			get {
+				return KCDatabase.Instance.Fleet[2].MembersInstance[MVPShipCombinedIndex];
+			}
+		}
+
+
+		/// <summary>
+		/// 前回の戦闘データからパラメータを引き継ぎます。
+		/// </summary>
+		internal void TakeOverParameters( BattleData prev ) {
+			_attackDamages = (int[])prev._attackDamages.Clone();
+		}
+
 
 
 		/// <summary>

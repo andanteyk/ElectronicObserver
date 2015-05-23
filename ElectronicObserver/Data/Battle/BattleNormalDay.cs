@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 
+	/// <summary>
+	/// 通常艦隊昼戦
+	/// </summary>
 	public class BattleNormalDay : BattleDay {
 
 

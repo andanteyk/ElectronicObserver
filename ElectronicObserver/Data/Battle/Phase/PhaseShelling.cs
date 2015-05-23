@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle.Phase {
 
+	/// <summary>
+	/// 砲撃戦フェーズの処理を行います。
+	/// </summary>
 	public class PhaseShelling : PhaseBase {
 
 		private readonly int phaseID;

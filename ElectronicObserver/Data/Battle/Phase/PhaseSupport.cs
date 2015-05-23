@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle.Phase {
 
+	/// <summary>
+	/// 支援攻撃フェーズの処理を行います。
+	/// </summary>
 	public class PhaseSupport : PhaseBase {
 
 
@@ -57,6 +60,19 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					return (int)RawData.api_support_info.api_support_hourai.api_deck_id;
 				else
 					return -1;
+			}
+		}
+
+		/// <summary>
+		/// 支援艦隊
+		/// </summary>
+		public FleetData SupportFleet {
+			get {
+				int id = SupportFleetID;
+				if ( id != -1 )
+					return KCDatabase.Instance.Fleet[id];
+				else
+					return null;
 			}
 		}
 

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle.Phase {
 
+	/// <summary>
+	/// 索敵フェーズの処理を行います。
+	/// </summary>
 	public class PhaseSearching : PhaseBase {
 
 
@@ -18,19 +21,31 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		}
 
 		public override void EmulateBattle( int[] hps, int[] damages ) {
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 
 		/// <summary>
 		/// 自軍索敵結果
 		/// </summary>
-		public int SearchingFriend { get { return (int)RawData.api_search[0]; } }
+		public int SearchingFriend { 
+			get {
+				if ( RawData.api_search() )
+					return (int)RawData.api_search[0];
+				else return -1;
+			}
+		}
 
 		/// <summary>
 		/// 敵軍索敵結果
 		/// </summary>
-		public int SearchingEnemy { get { return (int)RawData.api_search[1]; } }
+		public int SearchingEnemy { 
+			get {
+				if ( RawData.api_search() )
+					return (int)RawData.api_search[1];
+				else return -1;
+			}
+		}
 
 		/// <summary>
 		/// 自軍陣形

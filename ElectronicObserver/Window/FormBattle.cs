@@ -136,7 +136,7 @@ namespace ElectronicObserver.Window {
 						SetSearchingResult( bm.BattleDay );
 						SetAerialWarfare( bm.BattleDay.AirBattle );
 						SetHPNormal( bm.BattleDay );
-						SetDamageRateNormal( bm.BattleDay );
+						SetDamageRateNormal( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -146,7 +146,7 @@ namespace ElectronicObserver.Window {
 
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPNormal( bm.BattleNight );
-						SetDamageRateNormal( bm.BattleDay );
+						SetDamageRateNormal( bm.BattleNight, bm.BattleDay.Initial.InitialHPs );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -158,7 +158,7 @@ namespace ElectronicObserver.Window {
 						ClearSearchingResult();
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPNormal( bm.BattleNight );
-						SetDamageRateNormal( bm.BattleNight );
+						SetDamageRateNormal( bm.BattleNight, bm.BattleNight.Initial.InitialHPs );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -169,7 +169,7 @@ namespace ElectronicObserver.Window {
 						SetSearchingResult( bm.BattleDay );
 						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleAirBattle)bm.BattleDay ).AirBattle2 );
 						SetHPNormal( bm.BattleDay );
-						SetDamageRateNormal( bm.BattleDay );
+						SetDamageRateNormal( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -181,7 +181,7 @@ namespace ElectronicObserver.Window {
 						SetSearchingResult( bm.BattleDay );
 						SetAerialWarfare( bm.BattleDay.AirBattle );
 						SetHPCombined( bm.BattleDay );
-						SetDamageRateCombined( bm.BattleDay );
+						SetDamageRateCombined( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -192,7 +192,7 @@ namespace ElectronicObserver.Window {
 						SetSearchingResult( bm.BattleDay );
 						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleCombinedAirBattle)bm.BattleDay ).AirBattle2 );
 						SetHPCombined( bm.BattleDay );
-						SetDamageRateCombined( bm.BattleDay );
+						SetDamageRateCombined( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -201,7 +201,7 @@ namespace ElectronicObserver.Window {
 
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPCombined( bm.BattleNight );
-						SetDamageRateCombined( bm.BattleDay );
+						SetDamageRateCombined( bm.BattleNight, bm.BattleDay.Initial.InitialHPs );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -213,7 +213,7 @@ namespace ElectronicObserver.Window {
 						ClearSearchingResult();
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPCombined( bm.BattleNight );
-						SetDamageRateCombined( bm.BattleNight );
+						SetDamageRateCombined( bm.BattleNight, bm.BattleNight.Initial.InitialHPs );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -646,6 +646,7 @@ namespace ElectronicObserver.Window {
 			ToolTipInfo.SetToolTip( AACutin, null );
 		}
 
+
 		/// <summary>
 		/// 両軍のHPゲージを設定します。
 		/// </summary>
@@ -657,6 +658,7 @@ namespace ElectronicObserver.Window {
 			var initialHPs = bd.Initial.InitialHPs;
 			var maxHPs = bd.Initial.MaxHPs;
 			var resultHPs = bd.ResultHPs;
+			var attackDamages = bd.AttackDamages;
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( initialHPs[i] != -1 ) {
@@ -676,14 +678,15 @@ namespace ElectronicObserver.Window {
 					ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
 
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
 							Math.Max( HPBars[i].Value, 0 ),
 							HPBars[i].MaximumValue,
 							HPBars[i].Value - HPBars[i].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase )
+							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase ),
+							attackDamages[i]
 							)
 						);
 				}
@@ -707,6 +710,7 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
 
 			FleetCombined.Visible = false;
 			for ( int i = 12; i < 18; i++ ) {
@@ -726,6 +730,7 @@ namespace ElectronicObserver.Window {
 			var initialHPs = bd.Initial.InitialHPs;
 			var maxHPs = bd.Initial.MaxHPs;
 			var resultHPs = bd.ResultHPs;
+			var attackDamages = bd.AttackDamages;
 
 
 			FleetCombined.Visible = true;
@@ -747,14 +752,15 @@ namespace ElectronicObserver.Window {
 					bool isEscaped =  bd.Initial.FriendFleet.EscapedShipList.Contains( ship.MasterID );
 
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
 							Math.Max( HPBars[i].Value, 0 ),
 							HPBars[i].MaximumValue,
 							HPBars[i].Value - HPBars[i].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped )
+							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
+							attackDamages[i]
 							)
 						);
 
@@ -787,14 +793,15 @@ namespace ElectronicObserver.Window {
 					bool isEscaped = db.Fleet[2].EscapedShipList.Contains( ship.MasterID );
 
 					ToolTipInfo.SetToolTip( HPBars[i + 12],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i + 12].PrevValue, 0 ),
 							Math.Max( HPBars[i + 12].Value, 0 ),
 							HPBars[i + 12].MaximumValue,
 							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase, isEscaped )
+							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase, isEscaped ),
+							attackDamages[i + 12]
 							)
 						);
 
@@ -802,6 +809,10 @@ namespace ElectronicObserver.Window {
 					else HPBars[i + 12].BackColor = SystemColors.Control;
 				}
 			}
+
+
+			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
+			HPBars[bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
 		}
 
 
@@ -878,7 +889,7 @@ namespace ElectronicObserver.Window {
 		/// <summary>
 		/// 損害率と戦績予測を設定します。
 		/// </summary>
-		private void SetDamageRateNormal( BattleData bd ) {
+		private void SetDamageRateNormal( BattleData bd, int[] initialHPs ) {
 
 			int friendbefore = 0;
 			int friendafter = 0;
@@ -887,7 +898,6 @@ namespace ElectronicObserver.Window {
 			int enemyafter = 0;
 			double enemyrate;
 
-			var initialHPs = bd.Initial.InitialHPs;
 			var resultHPs = bd.ResultHPs;
 
 			for ( int i = 0; i < 6; i++ ) {
@@ -922,7 +932,7 @@ namespace ElectronicObserver.Window {
 		/// <summary>
 		/// 損害率と戦績予測を設定します(連合艦隊用)。
 		/// </summary>
-		private void SetDamageRateCombined( BattleData bd ) {
+		private void SetDamageRateCombined( BattleData bd, int[] initialHPs ) {
 
 			int friendbefore = 0;
 			int friendafter = 0;
@@ -931,7 +941,6 @@ namespace ElectronicObserver.Window {
 			int enemyafter = 0;
 			double enemyrate;
 
-			var initialHPs = bd.Initial.InitialHPs;
 			var resultHPs = bd.ResultHPs;
 
 			for ( int i = 0; i < 6; i++ ) {

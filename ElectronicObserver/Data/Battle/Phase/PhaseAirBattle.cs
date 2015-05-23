@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle.Phase {
 
+	/// <summary>
+	/// 航空戦フェーズの処理を行います。
+	/// </summary>
 	public class PhaseAirBattle : PhaseBase {
 
+		/// <summary>
+		/// API データの接尾辞(第二次航空戦用)
+		/// </summary>
 		protected readonly string suffix;
 
 
@@ -28,14 +34,61 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public override void EmulateBattle( int[] hps, int[] damages ) {
 
 			if ( !IsAvailable || !IsStage3Available ) return;
-			
-			int[] dmg = Damages;
 
-			for ( int i = 0; i < hps.Length; i++ ) {
-				AddDamage( hps, i, dmg[i] );
+			{
+				int[] dmg = Damages;
+
+				for ( int i = 0; i < hps.Length; i++ ) {
+					AddDamage( hps, i, dmg[i] );
+				}
 			}
 
-			//undone: 与ダメージ計算
+			CalculateAttackDamage( damages );
+
+		}
+
+		/// <summary>
+		/// 航空戦での与ダメージを推測します。
+		/// </summary>
+		/// <param name="damages">与ダメージリスト。</param>
+		private void CalculateAttackDamage( int[] damages ) {
+			// 敵はめんどくさすぎるので省略
+			// 仮想火力を求め、それに従って合計ダメージを分配
+
+			var firepower = new int[6];
+			var members = _battleData.Initial.FriendFleet.MembersWithoutEscaped;
+
+			for ( int i = 0; i < members.Count; i++ ) {
+				var ship = members[i];
+				if ( ship == null ) continue;
+
+				var slots = ship.SlotInstanceMaster;
+				var aircrafts = ship.Aircraft;
+				for ( int s = 0; s < slots.Count; s++ ) {
+
+					if ( slots[s] == null ) continue;
+
+					switch ( slots[s].CategoryType ) {
+						case 7:		//艦上爆撃機
+						case 11:	//水上爆撃機
+							firepower[i] += (int)( 1.0 * ( slots[s].Bomber * Math.Sqrt( aircrafts[s] ) + 25 ) );
+							break;
+
+						case 8:		//艦上攻撃機 (80%と150%はランダムのため係数は平均値)
+							firepower[i] += (int)( 1.15 * ( slots[s].Torpedo * Math.Sqrt( aircrafts[s] ) + 25 ) );
+							break;
+					}
+
+				}
+
+			}
+
+			int totalFirepower = firepower.Sum();
+			int totalDamage = Damages.Sum();
+
+			for ( int i = 0; i < 6; i++ ) {
+				damages[i] += (int)( (double)totalDamage * firepower[i] / Math.Max( totalFirepower, 1 ) );
+			}
 		}
 
 

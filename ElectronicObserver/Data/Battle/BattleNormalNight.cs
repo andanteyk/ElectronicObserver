@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 
+	/// <summary>
+	/// 通常艦隊夜戦
+	/// </summary>
 	public class BattleNormalNight : BattleNight {
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			NightBattle = new PhaseNightBattle( data, true );
+			NightBattle = new PhaseNightBattle( this, false );
 
 			NightBattle.EmulateBattle( _resultHPs, _attackDamages );
 

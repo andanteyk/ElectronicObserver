@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 	
+	/// <summary>
+	/// 昼戦の基底クラス
+	/// </summary>
 	public abstract class BattleDay : BattleData {
 
 		public PhaseAirBattle AirBattle { get; protected set; }

@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
+
+	/// <summary>
+	/// 通常艦隊航空戦
+	/// </summary>
 	public class BattleAirBattle : BattleDay {
 
 		public PhaseAirBattle AirBattle2 { get; protected set; }

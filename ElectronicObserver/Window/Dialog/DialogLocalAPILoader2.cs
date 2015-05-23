@@ -54,7 +54,7 @@ namespace ElectronicObserver.Window.Dialog {
 			/*/
 			if ( !APICaller.IsBusy )
 				APICaller.RunWorkerAsync( APIView.SelectedRows.Cast<DataGridViewRow>().Select( row => row.Cells[APIView_FileName.Index].Value as string ).OrderBy( s => s ) );
-			else 
+			else
 				if ( MessageBox.Show( "既に実行中です。\n中断しますか?", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation )
 					== System.Windows.Forms.DialogResult.Yes ) {
 					APICaller.CancelAsync();
@@ -194,7 +194,7 @@ namespace ElectronicObserver.Window.Dialog {
 				index = 0;
 
 			for ( int i = index; i < count; i++ ) {
-				if ( APIView[APIView_FileName.Index, i].Value.ToString().Contains( TextFilter.Text ) ) {
+				if ( APIView[APIView_FileName.Index, i].Value.ToString().ToLower().Contains( TextFilter.Text.ToLower() ) ) {
 					result = i;
 					break;
 				}
