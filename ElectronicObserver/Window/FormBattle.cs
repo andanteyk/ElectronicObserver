@@ -21,6 +21,7 @@ namespace ElectronicObserver.Window {
 	public partial class FormBattle : DockContent {
 
 		private List<ShipStatusHP> HPBars;
+		private List<ImageLabel> DamageLabels;
 
 		public Font MainFont { get; set; }
 		public Font SubFont { get; set; }
@@ -33,13 +34,32 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetDoubleBuffered( TableTop );
 			ControlHelper.SetDoubleBuffered( TableBottom );
 
-
 			ConfigurationChanged();
 
+
 			HPBars = new List<ShipStatusHP>( 18 );
+			DamageLabels = new List<ImageLabel>( 12 );
 
 
 			TableBottom.SuspendLayout();
+			for ( int i = 0; i < 12; i++ ) {
+				var lbl = new ImageLabel {
+					ImageList = ResourceManager.Instance.Icons,
+					ImageIndex = (int)ResourceManager.IconContent.ConditionNormal,
+					ImageAlign = ContentAlignment.MiddleRight,
+					AutoSize = true,
+					Margin = new Padding( 2, 0, 2, 0 ),
+					Anchor = AnchorStyles.None,
+					Font = MainFont
+				};
+				DamageLabels.Add( lbl );
+				if ( i < 6 ) {
+					TableBottom.Controls.Add( lbl, 1, i + 1 );
+				} else {
+					TableBottom.Controls.Add( lbl, 3, i - 5 );
+				}
+			}
+
 			for ( int i = 0; i < 18; i++ ) {
 				HPBars.Add( new ShipStatusHP() );
 				HPBars[i].Size = new Size( 80, 20 );
@@ -56,9 +76,9 @@ namespace ElectronicObserver.Window {
 				if ( i < 6 ) {
 					TableBottom.Controls.Add( HPBars[i], 0, i + 1 );
 				} else if ( i < 12 ) {
-					TableBottom.Controls.Add( HPBars[i], 2, i - 5 );
+					TableBottom.Controls.Add( HPBars[i], 4, i - 5 );
 				} else {
-					TableBottom.Controls.Add( HPBars[i], 1, i - 11 );
+					TableBottom.Controls.Add( HPBars[i], 2, i - 11 );
 				}
 			}
 			TableBottom.ResumeLayout();
@@ -106,7 +126,7 @@ namespace ElectronicObserver.Window {
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-			/*
+			//*
 			#region - Debug -
 
 			dynamic data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "api_start2.txt" ) ).api_data;
@@ -115,8 +135,8 @@ namespace ElectronicObserver.Window {
 			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "port.txt" ) ).api_data;
 			o.APIList["api_port/port"].OnResponseReceived( data );
 
-			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "combine_battle.txt" ) ).api_data;
-			string apiname = "api_req_combined_battle/battle";
+			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "battle.txt" ) ).api_data;
+			string apiname = "api_req_sortie/battle";
 			KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
 
 			//data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "practice.txt" ) ).api_data;
@@ -306,6 +326,7 @@ namespace ElectronicObserver.Window {
 			if ( pd.IsStage1Available ) {
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( pd.AirSuperiority );
+				ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "航空伤害: {0}", pd.Damages.Sum() ) );
 
 				int[] planeFriend = { pd.AircraftLostStage1Friend, pd.AircraftTotalStage1Friend };
 				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
@@ -350,6 +371,7 @@ namespace ElectronicObserver.Window {
 			} else {		//空対空戦闘発生せず
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
+				ToolTipInfo.SetToolTip( AirSuperiority, null );
 
 				AirStage1Friend.Text = "-";
 				AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
@@ -441,9 +463,11 @@ namespace ElectronicObserver.Window {
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( pd1.AirSuperiority );
 				if ( isBattle2Enabled ) {
-					ToolTipInfo.SetToolTip( AirSuperiority, "第2次: " + Constants.GetAirSuperiority( pd2.AirSuperiority ) );
+					ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "第2次: {0}\r\n航空伤害: {1}",
+						Constants.GetAirSuperiority( pd2.AirSuperiority ),
+						pd1.Damages.Concat( pd2.Damages ).Sum() ) );
 				} else {
-					ToolTipInfo.SetToolTip( AirSuperiority, null );
+					ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "航空伤害: {0}", pd1.Damages.Sum() ) );
 				}
 
 
@@ -681,6 +705,7 @@ namespace ElectronicObserver.Window {
 			var maxHPs = bd.Initial.MaxHPs;
 			var resultHPs = bd.ResultHPs;
 			var attackDamages = bd.AttackDamages;
+			var attackAirDamages = bd.AttackAirDamages;
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( initialHPs[i] != -1 ) {
@@ -689,8 +714,11 @@ namespace ElectronicObserver.Window {
 					HPBars[i].MaximumValue = maxHPs[i];
 					HPBars[i].BackColor = Utility.Configuration.Config.UI.BackColor;
 					HPBars[i].Visible = true;
+					DamageLabels[i].ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+					DamageLabels[i].Visible = true;
 				} else {
 					HPBars[i].Visible = false;
+					DamageLabels[i].Visible = false;
 				}
 			}
 
@@ -699,8 +727,10 @@ namespace ElectronicObserver.Window {
 				if ( initialHPs[i] != -1 ) {
 					ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
 
+					DamageLabels[i].Text = ( attackAirDamages[i] + attackDamages[i] ) > 0 ? ( attackAirDamages[i] + attackDamages[i] ).ToString() : string.Empty;
+
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n造成伤害: {7}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
@@ -708,7 +738,7 @@ namespace ElectronicObserver.Window {
 							HPBars[i].MaximumValue,
 							HPBars[i].Value - HPBars[i].PrevValue,
 							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase ),
-							attackDamages[i]
+							( attackAirDamages[i] > 0 ) ? string.Format( "{0} (+{1})", attackDamages[i], attackAirDamages[i] ) : attackDamages[i].ToString()
 							)
 						);
 				}
@@ -732,7 +762,8 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
-			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
+			//HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
+			DamageLabels[bd.MVPShipIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 
 			FleetCombined.Visible = false;
 			for ( int i = 12; i < 18; i++ ) {
@@ -753,6 +784,7 @@ namespace ElectronicObserver.Window {
 			var maxHPs = bd.Initial.MaxHPs;
 			var resultHPs = bd.ResultHPs;
 			var attackDamages = bd.AttackDamages;
+			var attackAirDamages = bd.AttackAirDamages;
 
 
 			FleetCombined.Visible = true;
@@ -762,10 +794,17 @@ namespace ElectronicObserver.Window {
 					HPBars[i].PrevValue = initialHPs[i];
 					HPBars[i].MaximumValue = maxHPs[i];
 					HPBars[i].Visible = true;
+					if ( i < 12 ) {
+						DamageLabels[i].ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+						DamageLabels[i].Visible = true;
+					}
 				} else {
 					HPBars[i].Visible = false;
+					if ( i < 12 )
+						DamageLabels[i].Visible = false;
 				}
 			}
+
 
 
 			for ( int i = 0; i < 6; i++ ) {
@@ -773,8 +812,10 @@ namespace ElectronicObserver.Window {
 					ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
 					bool isEscaped =  bd.Initial.FriendFleet.EscapedShipList.Contains( ship.MasterID );
 
+					DamageLabels[i].Text = ( attackAirDamages[i] + attackDamages[i] ) > 0 ? ( attackAirDamages[i] + attackDamages[i] ).ToString() : string.Empty;
+
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n造成伤害: {7}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
@@ -782,7 +823,7 @@ namespace ElectronicObserver.Window {
 							HPBars[i].MaximumValue,
 							HPBars[i].Value - HPBars[i].PrevValue,
 							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
-							attackDamages[i]
+							( attackAirDamages[i] > 0 ) ? string.Format( "{0} (+{1})", attackDamages[i], attackAirDamages[i] ) : attackDamages[i].ToString()
 							)
 						);
 
@@ -814,8 +855,10 @@ namespace ElectronicObserver.Window {
 					ShipData ship = db.Fleet[2].MembersInstance[i];
 					bool isEscaped = db.Fleet[2].EscapedShipList.Contains( ship.MasterID );
 
+					DamageLabels[i + 6].Text = ( attackAirDamages[i + 12] + attackDamages[i + 12] ) > 0 ? ( attackAirDamages[i + 12] + attackDamages[i + 12] ).ToString() : string.Empty;
+
 					ToolTipInfo.SetToolTip( HPBars[i + 12],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n造成伤害: {7}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i + 12].PrevValue, 0 ),
@@ -823,7 +866,7 @@ namespace ElectronicObserver.Window {
 							HPBars[i + 12].MaximumValue,
 							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
 							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase, isEscaped ),
-							attackDamages[i + 12]
+							( attackAirDamages[i + 12] > 0 ) ? string.Format( "{0} (+{1})", attackDamages[i + 12], attackAirDamages[i + 12] ) : attackDamages[i + 12].ToString()
 							)
 						);
 
@@ -833,8 +876,10 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
-			HPBars[bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
+			//HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
+			//HPBars[bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
+			DamageLabels[bd.MVPShipIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
+			DamageLabels[bd.MVPShipCombinedIndex - 6].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 		}
 
 
@@ -1093,6 +1138,34 @@ namespace ElectronicObserver.Window {
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 
 			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
+
+			bool shorten = Utility.Configuration.Config.FormBattle.IsShortDamage;
+			bool isCombined = ( KCDatabase.Instance.Battle.BattleMode & BattleManager.BattleModes.CombinedMask ) != 0;
+
+			if ( shorten ) {
+
+				TableTop.ColumnStyles[1].Width =
+				TableBottom.ColumnStyles[1].Width = 30;
+				TableTop.ColumnStyles[3].Width =
+				TableBottom.ColumnStyles[3].Width = isCombined ? 30 : 0;
+
+			} else {
+
+				TableTop.ColumnStyles[1].Width =
+				TableBottom.ColumnStyles[1].Width = 60;
+				TableTop.ColumnStyles[3].Width =
+				TableBottom.ColumnStyles[3].Width = isCombined ? 60 : 0;
+			}
+
+			if ( DamageLabels == null )
+				return;
+
+
+			for ( int i = 0; i < 12; i++ ) {
+
+				DamageLabels[i].ShowText = !shorten;
+				DamageLabels[i].ImageAlign = shorten ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleRight;
+			}
 
 		}
 

@@ -24,7 +24,7 @@ namespace ElectronicObserver.Data.Battle {
 			Torpedo = new PhaseTorpedo( this, 4 );
 			
 
-			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
+			AirBattle.EmulateBattle( _resultHPs, _attackAirDamages );
 			Support.EmulateBattle( _resultHPs, _attackDamages );
 			OpeningTorpedo.EmulateBattle( _resultHPs, _attackDamages );
 			Shelling1.EmulateBattle( _resultHPs, _attackDamages );

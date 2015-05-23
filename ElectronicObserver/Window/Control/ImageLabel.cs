@@ -227,6 +227,19 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+
+		private bool _showText;
+		[Browsable( true )]
+		[DefaultValue( true )]
+		[Description( "设置是否显示文字。" )]
+		[Category( "動作" )]
+		public bool ShowText {
+			get { return _showText; }
+			set {
+				_showText = value;
+				PropertyChanged();
+			}
+		}
 		
 
 		#endregion
@@ -248,6 +261,7 @@ namespace ElectronicObserver.Window.Control {
 			_imageSize = new Size( 16, 16 );
 			_autoWrap = false;
 			_autoEllipsis = false;
+			_showText = true;
 
 		}
 
@@ -306,14 +320,15 @@ namespace ElectronicObserver.Window.Control {
 
 			
 			//text
-			TextFormatFlags textformat = GetTextFormat( TextAlign, AutoWrap, AutoEllipsis );
+			if ( ShowText ) {
+				TextFormatFlags textformat = GetTextFormat( TextAlign, AutoWrap, AutoEllipsis );
 
 
-			Rectangle textarea = ModifyTextArea( basearea, imagearea, ImageMargin, ImageAlign );	
-			
-			TextRenderer.DrawText( e.Graphics, Text, Font, textarea, ForeColor, textformat );
-			//e.Graphics.DrawRectangle( Pens.Orange, textarea.X, textarea.Y, textarea.Width - 1, textarea.Height - 1 );
+				Rectangle textarea = ModifyTextArea( basearea, imagearea, ImageMargin, ImageAlign );
 
+				TextRenderer.DrawText( e.Graphics, Text, Font, textarea, ForeColor, textformat );
+				//e.Graphics.DrawRectangle( Pens.Orange, textarea.X, textarea.Y, textarea.Width - 1, textarea.Height - 1 );
+			}
 		}
 
 
@@ -323,10 +338,17 @@ namespace ElectronicObserver.Window.Control {
 			Size ret = new Size( Padding.Horizontal, Padding.Vertical );
 
 			TextFormatFlags textformat = GetTextFormat( TextAlign, AutoWrap, AutoEllipsis );
-			Size sz_text = TextRenderer.MeasureText( Text, Font, new Size( int.MaxValue, int.MaxValue ), textformat );
+			Size sz_text;
 
-			if ( Text.Length > 0 )
-				sz_text.Width -= (int)( Font.Size / 2 );
+			if ( ShowText ) {
+				sz_text = TextRenderer.MeasureText( Text, Font, new Size( int.MaxValue, int.MaxValue ), textformat );
+
+				if ( Text.Length > 0 )
+					sz_text.Width -= (int)( Font.Size / 2 );
+			} else {
+
+				sz_text = Size.Empty;
+			}
 
 			switch ( ImageAlign ) { 
 				case ContentAlignment.TopLeft:

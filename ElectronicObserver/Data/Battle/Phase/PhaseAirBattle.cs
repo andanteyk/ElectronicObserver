@@ -16,8 +16,6 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		protected readonly string suffix;
 
-		public double OurDamage;
-
 		public PhaseAirBattle( BattleData data, string suffix = "" )
 			: base( data ) {
 

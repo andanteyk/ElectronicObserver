@@ -21,9 +21,9 @@ namespace ElectronicObserver.Data.Battle {
 			Support = new PhaseSupport( this );
 			AirBattle2 = new PhaseAirBattle( this, "2" );
 
-			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
+			AirBattle.EmulateBattle( _resultHPs, _attackAirDamages );
 			Support.EmulateBattle( _resultHPs, _attackDamages );
-			AirBattle2.EmulateBattle( _resultHPs, _attackDamages );
+			AirBattle2.EmulateBattle( _resultHPs, _attackAirDamages );
 
 		}
 
