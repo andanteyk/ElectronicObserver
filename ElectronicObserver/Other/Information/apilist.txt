@@ -1218,8 +1218,16 @@ api_req_sortie/airbattle	：航空戦
 	(全メンバが api_req_sortie/battle を継承)
 	api_support_flag	：(存在せず)
 	api_support_info	：(存在せず)
+	api_opening_flag	：(存在せず)
+	api_opening_atack	：(存在せず)
+	api_hourai_flag		：(存在せず)
+	api_hougeki1		：(存在せず)
+	api_hougeki2		：(存在せず)
+	api_hougeki3		：(存在せず)
+	api_raigeki			：(存在せず)
 	api_stage_flag2		：第二次航空戦フラグ
 	api_kouku2			：第二次航空戦 api_koukuに準じる
+
 
 api_req_sortie/battleresult	：戦闘結果
 	api_ship_id				：敵艦船ID

@@ -588,19 +588,23 @@ namespace ElectronicObserver.Window {
 					break;
 			}
 
-			TextFormation.Text = Constants.GetFormationShort( (int)bd.Data.api_formation[1] );
+			int[] enemies = bd.Initial.EnemyMembers;
+			int[][] slots = bd.Initial.EnemySlots;
+			int[] levels = bd.Initial.EnemyLevels;
+			int[][] parameters = bd.Initial.EnemyParameters;
+
+			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			TextFormation.Visible = true;
-			TextAirSuperiority.Text = Calculator.GetAirSuperiority( ( (int[])bd.Data.api_ship_ke ).Skip( 1 ).ToArray(), (int[][])bd.Data.api_eSlot ).ToString();
+			TextAirSuperiority.Text = Calculator.GetAirSuperiority( enemies, slots ).ToString();
 			TextAirSuperiority.Visible = true;
 
 			TableEnemyMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
-				int shipID = (int)bd.Data.api_ship_ke[i + 1];
-				ControlMember[i].Update( shipID, shipID != -1 ? (int[])bd.Data.api_eSlot[i] : null );
+				int shipID = enemies[i];
+				ControlMember[i].Update( shipID, shipID != -1 ? slots[i] : null );
 
 				if ( shipID != -1 )
-					ControlMember[i].UpdateEquipmentToolTip( shipID, (int[])bd.Data.api_eSlot[i], (int)bd.Data.api_ship_lv[i + 1],
-						(int)bd.Data.api_eParam[i][0], (int)bd.Data.api_eParam[i][1], (int)bd.Data.api_eParam[i][2], (int)bd.Data.api_eParam[i][3] );
+					ControlMember[i].UpdateEquipmentToolTip( shipID, slots[i], levels[i], parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3] );
 			}
 			TableEnemyMember.ResumeLayout();
 			TableEnemyMember.Visible = true;

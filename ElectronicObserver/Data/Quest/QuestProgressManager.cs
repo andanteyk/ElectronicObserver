@@ -3,6 +3,7 @@ using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -62,7 +63,7 @@ namespace ElectronicObserver.Data.Quest {
 
 			RemoveEvents();		//二重登録防止
 
-			
+
 			var ao = APIObserver.Instance;
 
 			ao.APIList["api_get_member/questlist"].ResponseReceived += QuestUpdated;
@@ -302,7 +303,7 @@ namespace ElectronicObserver.Data.Quest {
 		void BattleFinished( string apiname, dynamic data ) {
 
 			var bm = KCDatabase.Instance.Battle;
-			int[] hps = null;
+			ReadOnlyCollection<int> hps = null;
 
 
 			#region Slaughter
@@ -311,13 +312,13 @@ namespace ElectronicObserver.Data.Quest {
 			switch ( bm.BattleMode & Battle.BattleManager.BattleModes.BattlePhaseMask ) {
 				case Battle.BattleManager.BattleModes.Normal:
 				case Battle.BattleManager.BattleModes.AirBattle:
-					if ( bm.BattleNight != null ) hps = bm.BattleNight.EmulateBattle();
-					else hps = bm.BattleDay.EmulateBattle();
+					if ( bm.BattleNight != null ) hps = bm.BattleNight.ResultHPs;
+					else hps = bm.BattleDay.ResultHPs;
 					break;
 				case Battle.BattleManager.BattleModes.NightOnly:
 				case Battle.BattleManager.BattleModes.NightDay:
-					if ( bm.BattleDay != null ) hps = bm.BattleDay.EmulateBattle();
-					else hps = bm.BattleNight.EmulateBattle();
+					if ( bm.BattleDay != null ) hps = bm.BattleDay.ResultHPs;
+					else hps = bm.BattleNight.ResultHPs;
 					break;
 			}
 
@@ -329,7 +330,7 @@ namespace ElectronicObserver.Data.Quest {
 
 				if ( hps[i + 6] <= 0 ) {
 
-					var ship = KCDatabase.Instance.MasterShips[bm.BattleDay != null ? bm.BattleDay.EnemyFleetMembers[i + 1] : bm.BattleNight.EnemyFleetMembers[i + 1]];
+					var ship = bm.BattleDay != null ? bm.BattleDay.Initial.EnemyMembersInstance[i] : bm.BattleNight.Initial.EnemyMembersInstance[i];
 					if ( ship == null ) continue;
 
 					foreach ( var p in slaughterList )

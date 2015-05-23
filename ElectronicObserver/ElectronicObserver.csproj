@@ -92,14 +92,23 @@
     <Compile Include="Data\Battle\BattleCombinedNormalNight.cs" />
     <Compile Include="Data\Battle\BattleCombinedWater.cs" />
     <Compile Include="Data\Battle\BattleData.cs" />
-    <Compile Include="Data\Battle\BattleDataCombined.cs" />
+    <Compile Include="Data\Battle\BattleDay.cs" />
     <Compile Include="Data\Battle\BattleManager.cs" />
+    <Compile Include="Data\Battle\BattleNight.cs" />
     <Compile Include="Data\Battle\BattleNightOnly.cs" />
     <Compile Include="Data\Battle\BattleNormalDay.cs" />
     <Compile Include="Data\Battle\BattleNormalNight.cs" />
     <Compile Include="Data\Battle\BattlePracticeDay.cs" />
     <Compile Include="Data\Battle\BattlePracticeNight.cs" />
     <Compile Include="Data\Battle\BattleResultData.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseAirBattle.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseBase.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseInitial.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseNightBattle.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseSearching.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseShelling.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseSupport.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseTorpedo.cs" />
     <Compile Include="Data\Constants.cs" />
     <Compile Include="Data\DockData.cs" />
     <Compile Include="Data\EquipmentData.cs" />
@@ -306,6 +315,12 @@
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
     <Compile Include="DynamicJson.cs" />
+    <Compile Include="Window\Dialog\DialogLocalAPILoader2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogLocalAPILoader2.Designer.cs">
+      <DependentUpon>DialogLocalAPILoader2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogNotifier.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -496,6 +511,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader2.resx">
+      <DependentUpon>DialogLocalAPILoader2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogNotifier.resx">
       <DependentUpon>DialogNotifier.cs</DependentUpon>

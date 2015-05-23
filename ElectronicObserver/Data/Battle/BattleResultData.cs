@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 	
+	/// <summary>
+	/// 戦闘結果のデータを扱います。
+	/// </summary>
 	public class BattleResultData : ResponseWrapper {
 
 		/// <summary>
