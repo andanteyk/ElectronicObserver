@@ -49,25 +49,25 @@ namespace ElectronicObserver.Window {
 				Color c;
 				switch ( i + 1 ) {
 					case 1:		//編成
-						c = Color.FromArgb( 0xAA, 0xFF, 0xAA );
+						c = Utility.Configuration.Config.UI.QuestOrganization;
 						break;
 					case 2:		//出撃
-						c = Color.FromArgb( 0xFF, 0xCC, 0xCC );
+						c = Utility.Configuration.Config.UI.QuestSortie;
 						break;
 					case 3:		//演習
-						c = Color.FromArgb( 0xDD, 0xFF, 0xAA );
+						c = Utility.Configuration.Config.UI.QuestExercise;
 						break;
 					case 4:		//遠征
-						c = Color.FromArgb( 0xCC, 0xFF, 0xFF );
+						c = Utility.Configuration.Config.UI.QuestExpedition;
 						break;
 					case 5:		//補給/入渠
-						c = Color.FromArgb( 0xFF, 0xFF, 0xCC );
+						c = Utility.Configuration.Config.UI.QuestSupplyDocking;
 						break;
 					case 6:		//工廠
-						c = Color.FromArgb( 0xDD, 0xCC, 0xBB );
+						c = Utility.Configuration.Config.UI.QuestArsenal;
 						break;
 					case 7:		//改装
-						c = Color.FromArgb( 0xDD, 0xCC, 0xFF );
+						c = Utility.Configuration.Config.UI.QuestRenovated;
 						break;
 					case 8:		//その他
 					default:
@@ -79,7 +79,7 @@ namespace ElectronicObserver.Window {
 				CSCategories[i].SelectionBackColor = c;
 				CSCategories[i].ForeColor =
 				CSCategories[i].SelectionForeColor =
-					SystemColors.ControlText;
+					Utility.Configuration.Config.UI.QuestForeColor;
 			}
 
 			QuestView.DefaultCellStyle = CSDefaultCenter;
@@ -139,37 +139,77 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 
-			var c = Utility.Configuration.Config;
+			var conf = Utility.Configuration.Config;
 
-			QuestView.BackgroundColor = c.UI.BackColor;
-			QuestView.GridColor = c.UI.LineColor;
+			QuestView.BackgroundColor = conf.UI.BackColor;
+			QuestView.GridColor = conf.UI.LineColor;
 
 			if ( CSDefaultCenter != null && CSDefaultLeft != null ) {
 				CSDefaultCenter.BackColor =
 				CSDefaultCenter.SelectionBackColor =
 				CSDefaultLeft.BackColor =
 				CSDefaultLeft.SelectionBackColor =
-					c.UI.BackColor;
+					conf.UI.BackColor;
 				CSDefaultCenter.ForeColor =
 				CSDefaultCenter.SelectionForeColor =
 				CSDefaultLeft.ForeColor =
 				CSDefaultLeft.SelectionForeColor =
-					c.UI.ForeColor;
+					conf.UI.ForeColor;
 			}
 
-			QuestView.Font = Font = c.UI.MainFont;
+			if ( CSCategories != null && CSCategories.Length >= 8 ) {
+				for ( int i = 0; i < 8; i++ ) {
 
-			MenuMain_ShowRunningOnly.Checked = c.FormQuest.ShowRunningOnly;
-			MenuMain_ShowOnce.Checked = c.FormQuest.ShowOnce;
-			MenuMain_ShowDaily.Checked = c.FormQuest.ShowDaily;
-			MenuMain_ShowWeekly.Checked = c.FormQuest.ShowWeekly;
-			MenuMain_ShowMonthly.Checked = c.FormQuest.ShowMonthly;
+					Color c;
+					switch ( i + 1 ) {
+						case 1:		//編成
+							c = conf.UI.QuestOrganization;
+							break;
+						case 2:		//出撃
+							c = conf.UI.QuestSortie;
+							break;
+						case 3:		//演習
+							c = conf.UI.QuestExercise;
+							break;
+						case 4:		//遠征
+							c = conf.UI.QuestExpedition;
+							break;
+						case 5:		//補給/入渠
+							c = conf.UI.QuestSupplyDocking;
+							break;
+						case 6:		//工廠
+							c = conf.UI.QuestArsenal;
+							break;
+						case 7:		//改装
+							c = conf.UI.QuestRenovated;
+							break;
+						case 8:		//その他
+						default:
+							c = CSDefaultCenter.BackColor;
+							break;
+					}
 
-			if ( c.FormQuest.ColumnFilter == null ) {
-				c.FormQuest.ColumnFilter = new Utility.Storage.SerializableList<bool>( Enumerable.Repeat( true, QuestView.Columns.Count ).ToList() );
+					CSCategories[i].BackColor =
+					CSCategories[i].SelectionBackColor = c;
+					CSCategories[i].ForeColor =
+					CSCategories[i].SelectionForeColor =
+						SystemColors.ControlText;
+				}
+			}
+
+			QuestView.Font = Font = conf.UI.MainFont;
+
+			MenuMain_ShowRunningOnly.Checked = conf.FormQuest.ShowRunningOnly;
+			MenuMain_ShowOnce.Checked = conf.FormQuest.ShowOnce;
+			MenuMain_ShowDaily.Checked = conf.FormQuest.ShowDaily;
+			MenuMain_ShowWeekly.Checked = conf.FormQuest.ShowWeekly;
+			MenuMain_ShowMonthly.Checked = conf.FormQuest.ShowMonthly;
+
+			if ( conf.FormQuest.ColumnFilter == null ) {
+				conf.FormQuest.ColumnFilter = new Utility.Storage.SerializableList<bool>( Enumerable.Repeat( true, QuestView.Columns.Count ).ToList() );
 			}
 			{
-				List<bool> list = c.FormQuest.ColumnFilter;
+				List<bool> list = conf.FormQuest.ColumnFilter;
 
 				for ( int i = 0; i < QuestView.Columns.Count; i++ ) {
 					QuestView.Columns[i].Visible =

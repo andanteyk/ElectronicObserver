@@ -34,6 +34,8 @@
 			this.toolStripSeparatorAnother2 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Layout_Save = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_Layout_Open = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparatorAnother3 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_File_Layout_Lock = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Configuration = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -175,7 +177,9 @@
             this.StripMenu_File_Layout_Load,
             this.StripMenu_File_Layout_Open,
 			this.toolStripSeparatorAnother2,
-            this.StripMenu_File_Layout_Save} );
+            this.StripMenu_File_Layout_Save,
+			this.toolStripSeparatorAnother3,
+			this.StripMenu_File_Layout_Lock} );
 			this.StripMenu_File_Layout.Name = "StripMenu_File_Layout";
 			this.StripMenu_File_Layout.Size = new System.Drawing.Size(153, 22);
 			this.StripMenu_File_Layout.Text = "布局(&L)";
@@ -205,6 +209,18 @@
 			this.StripMenu_File_Layout_Open.Size = new System.Drawing.Size(239, 22);
 			this.StripMenu_File_Layout_Open.Text = "载入其他布局文件(&O)...";
 			this.StripMenu_File_Layout_Open.Click += new System.EventHandler(this.StripMenu_File_Layout_Open_Click);
+			// 
+			// toolStripSeparatorAnother3
+			// 
+			this.toolStripSeparatorAnother3.Name = "toolStripSeparatorAnother3";
+			this.toolStripSeparatorAnother3.Size = new System.Drawing.Size( 150, 6 );
+			// 
+			// StripMenu_File_Layout_Lock
+			// 
+			this.StripMenu_File_Layout_Lock.Name = "StripMenu_File_Layout_Lock";
+			this.StripMenu_File_Layout_Lock.Size = new System.Drawing.Size( 239, 22 );
+			this.StripMenu_File_Layout_Lock.Text = "锁定布局(&C)";
+			this.StripMenu_File_Layout_Lock.Click += new System.EventHandler( this.StripMenu_File_Layout_Lock_Click );
 			// 
 			// toolStripSeparator6
 			// 
@@ -900,6 +916,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Save;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Open;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother3;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Lock;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Browser;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_ScreenShot;

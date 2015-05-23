@@ -167,6 +167,8 @@ namespace Browser {
 			ToolMenu.Dock = (DockStyle)Configuration.ToolMenuDockStyle;
 			ToolMenu.Visible = Configuration.IsToolMenuVisible;
 
+			ToolMenu_Url.Visible = ( ToolMenu.Dock == DockStyle.Top || ToolMenu.Dock == DockStyle.Bottom );
+
 			ToolStripCustomizer.ToolStripRender.RendererTheme = (ToolStripCustomizer.ToolStripRenderTheme)Configuration.ThemeID;
 
 			ToolStripCustomizer.ToolStripRender.SetRender( this.ContextMenuTool );
@@ -174,6 +176,8 @@ namespace Browser {
 		}
 
 		private void ConfigurationUpdated() {
+			ToolMenu_Url.Visible = ( ToolMenu.Dock == DockStyle.Top || ToolMenu.Dock == DockStyle.Bottom );
+
 			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.ConfigurationUpdated( Configuration ) );
 		}
 

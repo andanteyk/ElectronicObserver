@@ -326,6 +326,15 @@ namespace ElectronicObserver.Window.Dialog {
 			colorFleetNotReadyColor.SelectedColor = config.UI.FleetNotReadyColor.ColorData;
 			colorFleetDamageColor.SelectedColor = config.UI.FleetDamageColor.ColorData;
 
+			colorQuestOrganization.SelectedColor = config.UI.QuestOrganization.ColorData;
+			colorQuestSortie.SelectedColor = config.UI.QuestSortie.ColorData;
+			colorQuestExercise.SelectedColor = config.UI.QuestExercise.ColorData;
+			colorQuestExpedition.SelectedColor = config.UI.QuestExpedition.ColorData;
+			colorQuestSupplyDocking.SelectedColor = config.UI.QuestSupplyDocking.ColorData;
+			colorQuestArsenal.SelectedColor = config.UI.QuestArsenal.ColorData;
+			colorQuestRenovated.SelectedColor = config.UI.QuestRenovated.ColorData;
+			colorQuestForeColor.SelectedColor = config.UI.QuestForeColor.ColorData;
+
 			//[ログ]
 			Log_LogLevel.Value = config.Log.LogLevel;
 			Log_SaveLogFlag.Checked = config.Log.SaveLogFlag;
@@ -501,6 +510,15 @@ namespace ElectronicObserver.Window.Dialog {
 			config.UI.FleetSortieColor = colorFleetSortieColor.SelectedColor;
 			config.UI.FleetNotReadyColor = colorFleetNotReadyColor.SelectedColor;
 			config.UI.FleetDamageColor = colorFleetDamageColor.SelectedColor;
+
+			config.UI.QuestOrganization = colorQuestOrganization.SelectedColor;
+			config.UI.QuestSortie = colorQuestSortie.SelectedColor;
+			config.UI.QuestExercise = colorQuestExercise.SelectedColor;
+			config.UI.QuestExpedition = colorQuestExpedition.SelectedColor;
+			config.UI.QuestSupplyDocking = colorQuestSupplyDocking.SelectedColor;
+			config.UI.QuestArsenal = colorQuestArsenal.SelectedColor;
+			config.UI.QuestRenovated = colorQuestRenovated.SelectedColor;
+			config.UI.QuestForeColor = colorQuestForeColor.SelectedColor;
 
 			//[ログ]
 			config.Log.LogLevel = (int)Log_LogLevel.Value;
