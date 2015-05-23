@@ -870,6 +870,7 @@ namespace ElectronicObserver.Utility {
                 public int CacheSoundFiles { get; set; }
                 public int CheckFiles { get; set; }
                 public bool SaveApiStart2 { get; set; }
+				public bool UseCacheJs { get; set; }
 
                 public ConfigCacheSettings()
                     : base()
@@ -885,6 +886,7 @@ namespace ElectronicObserver.Utility {
                     CacheSoundFiles = 2;
                     CheckFiles = 1;
                     SaveApiStart2 = true;
+					UseCacheJs = false;
                 }
             }
             [DataMember]

@@ -534,6 +534,28 @@ namespace ElectronicObserver.Observer {
 				oSession.bBufferResponse = true;
 			}
 
+			// use cache js
+			else if ( Utility.Configuration.Config.CacheSettings.UseCacheJs && oSession.fullUrl.StartsWith( "http://203.104.209.7/gadget/" ) ) {
+
+				string filepath = Path.Combine( Utility.Configuration.Config.CacheSettings.CacheFolder, "kcs" ) + oSession.PathAndQuery.Replace( '/', '\\' );
+				if ( File.Exists( filepath ) ) {
+
+					//返回本地文件
+					oSession.utilCreateResponseAndBypassServer();
+					oSession.ResponseBody = File.ReadAllBytes( filepath );
+					oSession.oResponse.headers["Server"] = "Apache";
+					oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
+					oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
+					oSession.oResponse.headers["Connection"] = "close";
+					oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+
+					filepath = filepath.ToLower();
+					if ( filepath.EndsWith( ".js" ) )
+						oSession.oResponse.headers["Content-Type"] = "application/x-javascript";
+				}
+
+			}
+
 		}
 
 
