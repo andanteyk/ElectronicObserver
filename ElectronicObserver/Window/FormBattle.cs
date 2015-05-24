@@ -326,7 +326,7 @@ namespace ElectronicObserver.Window {
 			if ( pd.IsStage1Available ) {
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( pd.AirSuperiority );
-				ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "航空伤害: {0}", pd.Damages.Sum() ) );
+				ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "航空伤害: {0}", pd.TotalDamage ) );
 
 				int[] planeFriend = { pd.AircraftLostStage1Friend, pd.AircraftTotalStage1Friend };
 				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
@@ -465,9 +465,9 @@ namespace ElectronicObserver.Window {
 				if ( isBattle2Enabled ) {
 					ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "第2次: {0}\r\n航空伤害: {1}",
 						Constants.GetAirSuperiority( pd2.AirSuperiority ),
-						pd1.Damages.Concat( pd2.Damages ).Sum() ) );
+						pd1.TotalDamage + pd2.TotalDamage ) );
 				} else {
-					ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "航空伤害: {0}", pd1.Damages.Sum() ) );
+					ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "航空伤害: {0}", pd1.TotalDamage ) );
 				}
 
 

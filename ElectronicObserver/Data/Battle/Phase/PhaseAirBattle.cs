@@ -231,5 +231,18 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 		}
 
+		/// <summary>
+		/// 总伤害
+		/// </summary>
+		public int TotalDamage {
+			get {
+				if ( IsStage3Available ) {
+					return Damages.Sum();
+				}
+
+				return 0;
+			}
+		}
+
 	}
 }
