@@ -812,7 +812,7 @@ namespace ElectronicObserver.Window {
 
 
 			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
-			HPBars[bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
+			HPBars[12 + bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
 		}
 
 
