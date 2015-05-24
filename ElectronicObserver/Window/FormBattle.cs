@@ -43,16 +43,19 @@ namespace ElectronicObserver.Window {
 
 			TableBottom.SuspendLayout();
 			for ( int i = 0; i < 12; i++ ) {
-				var lbl = new ImageLabel {
-					ImageList = ResourceManager.Instance.Icons,
-					ImageIndex = (int)ResourceManager.IconContent.ConditionNormal,
-					ImageAlign = ContentAlignment.MiddleRight,
-					AutoSize = true,
-					Margin = new Padding( 2, 0, 2, 0 ),
-					Anchor = AnchorStyles.None,
-					Font = MainFont
-				};
+				var lbl = new ImageLabel();
 				DamageLabels.Add( lbl );
+				{
+					lbl.ImageList = ResourceManager.Instance.Icons;
+					lbl.ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+					lbl.ImageAlign = ContentAlignment.MiddleLeft;
+					lbl.AutoSize = false;
+					lbl.ShowText = !Utility.Configuration.Config.FormBattle.IsShortDamage;
+					lbl.Size = new Size( 56, 20 );
+					lbl.Margin = new Padding( 2, 0, 2, 0 );
+					lbl.Anchor = AnchorStyles.None;
+					lbl.Font = MainFont;
+				}
 				if ( i < 6 ) {
 					TableBottom.Controls.Add( lbl, 1, i + 1 );
 				} else {
@@ -126,7 +129,7 @@ namespace ElectronicObserver.Window {
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-			/*
+			//*
 			#region - Debug -
 
 			dynamic data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "api_start2.txt" ) ).api_data;
@@ -1142,19 +1145,26 @@ namespace ElectronicObserver.Window {
 			bool shorten = Utility.Configuration.Config.FormBattle.IsShortDamage;
 			bool isCombined = ( KCDatabase.Instance.Battle.BattleMode & BattleManager.BattleModes.CombinedMask ) != 0;
 
-			if ( shorten ) {
+			int damageWidth = shorten ? 30 : 60;
 
-				TableTop.ColumnStyles[1].Width =
-				TableBottom.ColumnStyles[1].Width = 30;
-				TableTop.ColumnStyles[3].Width =
-				TableBottom.ColumnStyles[3].Width = isCombined ? 30 : 0;
+			if ( isCombined ) {
 
+				TableTop.ColumnStyles[1].Width = 84 + 2 * damageWidth;
+				TableTop.ClientSize = new System.Drawing.Size( 252 + 2 * damageWidth, TableTop.ClientSize.Height );
+
+				TableBottom.ColumnStyles[1].Width =
+				TableBottom.ColumnStyles[3].Width = damageWidth;
+				TableBottom.ColumnStyles[2].Width = 84;
+				TableBottom.ClientSize = new System.Drawing.Size( 252 + 2 * damageWidth, TableBottom.ClientSize.Height );
 			} else {
 
-				TableTop.ColumnStyles[1].Width =
-				TableBottom.ColumnStyles[1].Width = 60;
-				TableTop.ColumnStyles[3].Width =
-				TableBottom.ColumnStyles[3].Width = isCombined ? 60 : 0;
+				TableTop.ColumnStyles[1].Width = 84;
+				TableTop.ClientSize = new System.Drawing.Size( 252, TableTop.ClientSize.Height );
+
+				TableBottom.ColumnStyles[1].Width = damageWidth;
+				TableBottom.ColumnStyles[3].Width = 0;
+				TableBottom.ColumnStyles[2].Width = 84 - damageWidth;
+				TableBottom.ClientSize = new System.Drawing.Size( 252, TableBottom.ClientSize.Height );
 			}
 
 			if ( DamageLabels == null )
@@ -1164,7 +1174,6 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < 12; i++ ) {
 
 				DamageLabels[i].ShowText = !shorten;
-				DamageLabels[i].ImageAlign = shorten ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleRight;
 			}
 
 		}
