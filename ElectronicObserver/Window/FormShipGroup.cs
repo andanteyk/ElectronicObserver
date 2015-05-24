@@ -46,8 +46,8 @@ namespace ElectronicObserver.Window {
 		/// <summary>選択中のタブ</summary>
 		private ImageLabel SelectedTab = null;
 
-        /// <summary>艦これ起動前にタブを選択した場合はtrue</summary>
-        private bool IsTabSelectedBeforeBoot = false;
+		/// <summary>艦これ起動前にタブを選択した場合はtrue</summary>
+		private bool IsTabSelectedBeforeBoot = false;
 
 		public FormShipGroup( FormMain parent ) {
 			InitializeComponent();
@@ -228,13 +228,13 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void APIUpdated( string apiname, dynamic data ) {
-            if ( IsTabSelectedBeforeBoot ) {
-                // 空のShipViewでKCDatabase.Instance.ShipGroupを上書きしてしまうのを防ぐため、
-                // 艦これ起動前にタブを選択した後の最初の艦船データ受信時は、ShipViewの構築を行う
-                BuildShipView( SelectedTab );
-                IsTabSelectedBeforeBoot = false;
+			if ( IsTabSelectedBeforeBoot ) {
+				// 空のShipViewでKCDatabase.Instance.ShipGroupを上書きしてしまうのを防ぐため、
+				// 艦これ起動前にタブを選択した後の最初の艦船データ受信時は、ShipViewの構築を行う
+				BuildShipView( SelectedTab );
+				IsTabSelectedBeforeBoot = false;
 
-            }else if ( MenuGroup_AutoUpdate.Checked )
+			} else if ( MenuGroup_AutoUpdate.Checked )
 				ChangeShipView( SelectedTab );
 		}
 
@@ -467,11 +467,11 @@ namespace ElectronicObserver.Window {
 
 			if ( SelectedTab != null )
 				SelectedTab.BackColor = TabInactiveColor;
-            
-            SelectedTab = target;
-            // 艦これ起動前にタブを選択した場合はフラグを立てておく(APIUpdatedで使う)
-            if ( KCDatabase.Instance.Ships.Count == 0 )
-                IsTabSelectedBeforeBoot = true;
+
+			SelectedTab = target;
+			// 艦これ起動前にタブを選択した場合はフラグを立てておく(APIUpdatedで使う)
+			if ( KCDatabase.Instance.Ships.Count == 0 )
+				IsTabSelectedBeforeBoot = true;
 
 			BuildShipView( SelectedTab );
 			SelectedTab.BackColor = TabActiveColor;
