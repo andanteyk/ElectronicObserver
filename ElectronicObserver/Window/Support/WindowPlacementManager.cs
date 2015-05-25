@@ -157,7 +157,7 @@ namespace ElectronicObserver.Window.Support {
 
 			public override void Initialize() {
 				RawData = new WINDOWPLACEMENT();
-				RawData.length = Marshal.SizeOf( RawData );
+				RawData.length = Marshal.SizeOf( typeof( WINDOWPLACEMENT ) );
 				RawData.flags = 0;
 			}
 		}

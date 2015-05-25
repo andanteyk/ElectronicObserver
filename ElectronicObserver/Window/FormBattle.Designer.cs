@@ -62,7 +62,8 @@
 			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
 			this.TableBottom.Controls.Add(this.FleetFriend, 0, 0);
 			this.TableBottom.Controls.Add(this.DamageFriend, 0, 7);
-			this.TableBottom.Controls.Add(this.WinRank, 2, 7);
+			this.TableBottom.Controls.Add(this.WinRank, 1, 7);
+			this.TableBottom.SetColumnSpan(this.WinRank, 3);
 			this.TableBottom.Controls.Add(this.DamageEnemy, 4, 7);
 			this.TableBottom.Controls.Add(this.FleetCombined, 2, 0);
 			this.TableBottom.Controls.Add(this.FleetEnemy, 4, 0);
@@ -108,24 +109,22 @@
 			// TableTop
 			// 
 			this.TableTop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableTop.ColumnCount = 5;
+			this.TableTop.ColumnCount = 3;
 			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
 			this.TableTop.Controls.Add(this.FormationFriend, 0, 0);
-			this.TableTop.Controls.Add(this.Formation, 2, 0);
-			this.TableTop.Controls.Add(this.FormationEnemy, 4, 0);
+			this.TableTop.Controls.Add(this.Formation, 1, 0);
+			this.TableTop.Controls.Add(this.FormationEnemy, 2, 0);
 			this.TableTop.Controls.Add(this.AirStage2Friend, 0, 3);
-			this.TableTop.Controls.Add(this.AACutin, 2, 3);
-			this.TableTop.Controls.Add(this.AirStage2Enemy, 4, 3);
-			this.TableTop.Controls.Add(this.AirStage1Enemy, 4, 2);
+			this.TableTop.Controls.Add(this.AACutin, 1, 3);
+			this.TableTop.Controls.Add(this.AirStage2Enemy, 2, 3);
+			this.TableTop.Controls.Add(this.AirStage1Enemy, 2, 2);
 			this.TableTop.Controls.Add(this.SearchingFriend, 0, 1);
-			this.TableTop.Controls.Add(this.Searching, 2, 1);
+			this.TableTop.Controls.Add(this.Searching, 1, 1);
 			this.TableTop.Controls.Add(this.AirStage1Friend, 0, 2);
-			this.TableTop.Controls.Add(this.SearchingEnemy, 4, 1);
-			this.TableTop.Controls.Add(this.AirSuperiority, 2, 2);
+			this.TableTop.Controls.Add(this.SearchingEnemy, 2, 1);
+			this.TableTop.Controls.Add(this.AirSuperiority, 1, 2);
 			this.TableTop.Location = new System.Drawing.Point(3, 3);
 			this.TableTop.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.TableTop.Name = "TableTop";
@@ -143,7 +142,7 @@
 			this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableTop.Size = new System.Drawing.Size(372, 84);
+			this.TableTop.Size = new System.Drawing.Size(252, 84);
 			this.TableTop.TabIndex = 18;
 			this.TableTop.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableTop_CellPaint);
 			// 
