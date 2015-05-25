@@ -796,7 +796,8 @@ api_get_member/picture_book	：装備図鑑　図鑑登録済みのもののみ�
 		api_houk			：回避
 		api_saku			：索敵
 		api_leng			：射程
-		api_flag			：
+		api_flag			：カテゴリ?
+								[0]=砲, [1]=魚雷, [2]=攻撃機(雷撃機), [3]=爆撃機, [4]=機銃, [5]=戦闘機, [6]=偵察機, [7]=戦闘機/機銃
 		api_info			：説明
 
 
