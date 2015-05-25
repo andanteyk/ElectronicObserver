@@ -23,10 +23,11 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 		public DialogShipGroupColumnFilter( DataGridView target ) {
+			SuspendLayout();
 			InitializeComponent();
 
 			AllCheck.Tag = false;
-			
+
 			foreach ( DataGridViewColumn c in target.Columns ) {
 				FilterList.Items.Add( c.HeaderText, c.Visible );
 			}
@@ -43,6 +44,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 			}
 			AllCheck.Tag = true;
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
 		}
 
 

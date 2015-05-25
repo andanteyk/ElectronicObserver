@@ -22,6 +22,7 @@ namespace ElectronicObserver.Window {
 
 
 		public FormQuest( FormMain parent ) {
+			SuspendLayout();
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( QuestView );
@@ -87,8 +88,14 @@ namespace ElectronicObserver.Window {
 			QuestView_Category.DefaultCellStyle = CSCategories[8 - 1];
 			QuestView_Name.DefaultCellStyle = CSDefaultLeft;
 			QuestView_Progress.DefaultCellStyle = CSDefaultLeft;
+			QuestView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+			QuestView.ColumnHeadersHeight = this.GetDpiHeight( 23 );
 
 			#endregion
+
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
 		}
 
 

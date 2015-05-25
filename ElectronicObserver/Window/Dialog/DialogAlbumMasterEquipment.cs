@@ -20,6 +20,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogAlbumMasterEquipment() {
+
+			SuspendLayout();
 			InitializeComponent();
 
 			TitleFirepower.ImageList =
@@ -30,7 +32,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TitleEvasion.ImageList =
 			TitleLOS.ImageList =
 			TitleAccuracy.ImageList =
-			TitleBomber.ImageList = 
+			TitleBomber.ImageList =
 			TitleSpeed.ImageList =
 			TitleRange.ImageList =
 			Rarity.ImageList =
@@ -41,7 +43,7 @@ namespace ElectronicObserver.Window.Dialog {
 				ResourceManager.Instance.Icons;
 
 			EquipmentType.ImageList = ResourceManager.Instance.Equipments;
-			
+
 			TitleFirepower.ImageIndex = (int)ResourceManager.IconContent.ParameterFirepower;
 			TitleTorpedo.ImageIndex = (int)ResourceManager.IconContent.ParameterTorpedo;
 			TitleAA.ImageIndex = (int)ResourceManager.IconContent.ParameterAA;
@@ -57,7 +59,7 @@ namespace ElectronicObserver.Window.Dialog {
 			MaterialAmmo.ImageIndex = (int)ResourceManager.IconContent.ResourceAmmo;
 			MaterialSteel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
 			MaterialBauxite.ImageIndex = (int)ResourceManager.IconContent.ResourceBauxite;
-			
+
 
 			BasePanelEquipment.Visible = false;
 
@@ -100,6 +102,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 			EquipmentView.Sort( EquipmentView_ID, ListSortDirection.Ascending );
 			EquipmentView.ResumeLayout();
+
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
 
 		}
 
