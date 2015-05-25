@@ -24,7 +24,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 				db.Equipments.Add( eq );
 
 			}
-			
+
+			db.Battle.LoadFromResponse( APIName, data );
+
 			base.OnResponseReceived( (object)data );
 		}
 

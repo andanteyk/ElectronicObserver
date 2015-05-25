@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ElectronicObserver.Data.Battle.Phase {
+
+	/// <summary>
+	/// 砲撃戦フェーズの処理を行います。
+	/// </summary>
+	public class PhaseShelling : PhaseBase {
+
+		private readonly int phaseID;
+		private readonly string suffix;
+		private readonly bool isEscort;
+
+		public PhaseShelling( BattleData data, int phaseID, string suffix, bool isEscort )
+			: base( data ) {
+
+			this.phaseID = phaseID;
+			this.suffix = suffix;
+			this.isEscort = isEscort;
+		}
+
+
+		public override bool IsAvailable {
+			get { return (int)RawData.api_hourai_flag[phaseID - 1] != 0; }
+		}
+
+
+		public dynamic ShellingData {
+			get { return RawData["api_hougeki" + suffix]; }
+		}
+
+
+		public override void EmulateBattle( int[] hps, int[] damages ) {
+
+			if ( !IsAvailable ) return;
+
+			int[] attackers = (int[])ShellingData.api_at_list;
+
+			for ( int i = 1; i < attackers.Length; i++ ) {		//skip header(-1)
+
+				int[] tempDamages = Enumerable.Repeat( 0, hps.Length ).ToArray();
+
+				int[] defenders = (int[])( ShellingData.api_df_list[i] );
+				int[] unitDamages = (int[])( ShellingData.api_damage[i] );
+
+				for ( int j = 0; j < defenders.Length; j++ ) {
+					if ( defenders[j] != -1 )
+						tempDamages[GetIndex( defenders[j] )] += Math.Max( unitDamages[j], 0 );
+				}
+
+				for ( int j = 0; j < tempDamages.Length; j++ )
+					AddDamage( hps, j, tempDamages[j] );
+
+				damages[GetIndex( attackers[i] )] += tempDamages.Sum();
+			}
+
+		}
+
+		private int GetIndex( int index ) {
+			if ( isEscort && index <= 6 )
+				return 12 + index - 1;
+			return index - 1;
+		}
+	}
+}

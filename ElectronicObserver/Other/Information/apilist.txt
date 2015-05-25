@@ -796,7 +796,8 @@ api_get_member/picture_book	：装備図鑑　図鑑登録済みのもののみ�
 		api_houk			：回避
 		api_saku			：索敵
 		api_leng			：射程
-		api_flag			：
+		api_flag			：カテゴリ?
+								[0]=砲, [1]=魚雷, [2]=攻撃機(雷撃機), [3]=爆撃機, [4]=機銃, [5]=戦闘機, [6]=偵察機, [7]=戦闘機/機銃
 		api_info			：説明
 
 
@@ -1218,8 +1219,16 @@ api_req_sortie/airbattle	：航空戦
 	(全メンバが api_req_sortie/battle を継承)
 	api_support_flag	：(存在せず)
 	api_support_info	：(存在せず)
+	api_opening_flag	：(存在せず)
+	api_opening_atack	：(存在せず)
+	api_hourai_flag		：(存在せず)
+	api_hougeki1		：(存在せず)
+	api_hougeki2		：(存在せず)
+	api_hougeki3		：(存在せず)
+	api_raigeki			：(存在せず)
 	api_stage_flag2		：第二次航空戦フラグ
 	api_kouku2			：第二次航空戦 api_koukuに準じる
+
 
 api_req_sortie/battleresult	：戦闘結果
 	api_ship_id				：敵艦船ID

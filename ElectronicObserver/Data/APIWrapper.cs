@@ -12,7 +12,7 @@ namespace ElectronicObserver.Data {
 	/// </summary>
 	public abstract class APIWrapper : ResponseWrapper {
 
-		protected Dictionary<string, string> RequestData { get; private set; }
+		public Dictionary<string, string> RequestData { get; private set; }
 
 
 		public APIWrapper() 

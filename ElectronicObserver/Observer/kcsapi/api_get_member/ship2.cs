@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 	
-	[Obsolete( "このAPIは廃止された可能性があります。", false)]
+	//一応現役、ケッコンした時などに呼ばれる
 	public class ship2 : APIBase {
 
 		public override void OnResponseReceived( dynamic data ) {
