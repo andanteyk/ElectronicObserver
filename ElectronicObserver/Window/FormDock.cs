@@ -34,8 +34,8 @@ namespace ElectronicObserver.Window {
 				ShipName.Font = parent.Font;
 				ShipName.ForeColor = parent.ForeColor;
 				ShipName.TextAlign = ContentAlignment.MiddleLeft;
-				ShipName.Padding = new Padding( 0, 1, 0, 1 );
-				ShipName.Margin = new Padding( 2, 0, 2, 0 );
+				//ShipName.Padding = new Padding( 0, 1, 0, 1 );
+				ShipName.Margin = new Padding( 3, 2, 3, 2 );
 				//ShipName.MaximumSize = new Size( 60, 20 );
 				ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
@@ -48,8 +48,8 @@ namespace ElectronicObserver.Window {
 				RepairTime.ForeColor = parent.ForeColor;
 				RepairTime.Tag = null;
 				RepairTime.TextAlign = ContentAlignment.MiddleLeft;
-				RepairTime.Padding = new Padding( 0, 1, 0, 1 );
-				RepairTime.Margin = new Padding( 2, 0, 2, 0 );
+				//RepairTime.Padding = new Padding( 0, 1, 0, 1 );
+				RepairTime.Margin = new Padding( 3, 2, 3, 2 );
 				RepairTime.MinimumSize = new Size( 60, 10 );
 				RepairTime.AutoSize = true;
 				RepairTime.Visible = true;
@@ -160,7 +160,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 		private void FormDock_Load( object sender, EventArgs e ) {
 
 			APIObserver o = APIObserver.Instance;

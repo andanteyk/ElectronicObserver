@@ -34,8 +34,8 @@ namespace ElectronicObserver.Window {
 				ShipName.Font = parent.Font;
 				ShipName.ForeColor = parent.ForeColor;
 				ShipName.TextAlign = ContentAlignment.MiddleLeft;
-				ShipName.Padding = new Padding( 0, 1, 0, 1 );
-				ShipName.Margin = new Padding( 2, 0, 2, 0 );
+				//ShipName.Padding = new Padding( 0, 1, 0, 1 );
+				ShipName.Margin = new Padding( 3, 2, 3, 2 );
 				//ShipName.MaximumSize = new Size( 60, 20 );
 				ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
@@ -48,8 +48,8 @@ namespace ElectronicObserver.Window {
 				CompletionTime.ForeColor = parent.ForeColor;
 				CompletionTime.Tag = null;
 				CompletionTime.TextAlign = ContentAlignment.MiddleLeft;
-				CompletionTime.Padding = new Padding( 0, 1, 0, 1 );
-				CompletionTime.Margin = new Padding( 2, 0, 2, 0 );
+				//CompletionTime.Padding = new Padding( 0, 1, 0, 1 );
+				CompletionTime.Margin = new Padding( 3, 2, 3, 2 );
 				CompletionTime.MinimumSize = new Size( 60, 10 );
 				CompletionTime.AutoSize = true;
 				CompletionTime.Visible = true;
@@ -168,7 +168,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		
+
 		private void FormArsenal_Load( object sender, EventArgs e ) {
 
 			APIObserver o = APIObserver.Instance;

@@ -42,6 +42,12 @@ namespace ElectronicObserver.Window.Control {
 
 		public ColorPicker() {
 			InitializeComponent();
+
+			SuspendLayout();
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
+
 			textBox1.LostFocus += textBox1_LostFocus;
 		}
 
