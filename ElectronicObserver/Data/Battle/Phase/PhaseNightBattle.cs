@@ -149,7 +149,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 
 		private int GetIndex( int index ) {
-			if ( isEscort && index < 6 )
+			if ( isEscort && index <= 6 )
 				return 12 + index - 1;
 			return index - 1;
 		}

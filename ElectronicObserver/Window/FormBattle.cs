@@ -880,9 +880,9 @@ namespace ElectronicObserver.Window {
 
 
 			//HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
-			//HPBars[bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
+			//HPBars[12 + bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
 			DamageLabels[bd.MVPShipIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
-			DamageLabels[bd.MVPShipCombinedIndex - 6].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
+			DamageLabels[6 + bd.MVPShipCombinedIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 		}
 
 
