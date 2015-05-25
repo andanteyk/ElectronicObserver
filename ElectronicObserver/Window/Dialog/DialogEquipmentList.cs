@@ -77,6 +77,8 @@ namespace ElectronicObserver.Window.Dialog {
             }
             DetailView.ColumnHeadersHeight = (int)dy / 96 * 23;
             EquipmentView.ColumnHeadersHeight = (int)dy / 96 * 23;
+            DetailView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            EquipmentView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
             #endregion
             this.AutoScaleMode = AutoScaleMode.Dpi;
