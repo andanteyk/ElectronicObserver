@@ -53,10 +53,16 @@ namespace ElectronicObserver.Window {
 
 
 		public FormBrowserHost( FormMain parent ) {
+            SuspendLayout();
+
 			InitializeComponent();
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
-		}
+
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new SizeF(96, 96);
+            ResumeLayout();
+        }
 
 		public void InitializeApiCompleted() {
 			++initializeCompletionCount;

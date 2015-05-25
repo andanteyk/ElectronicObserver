@@ -24,6 +24,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogNotifier( NotifierDialogData data ) {
+            SuspendLayout();
 
 			InitializeComponent();
 
@@ -46,7 +47,11 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( !DialogData.HasFormBorder )
 				FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-		}
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new SizeF(96, 96);
+            ResumeLayout();
+
+        }
 
 
 		private void DialogNotifier_Load( object sender, EventArgs e ) {

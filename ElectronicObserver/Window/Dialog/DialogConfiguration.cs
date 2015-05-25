@@ -26,10 +26,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogConfiguration() {
+            SuspendLayout();
 			InitializeComponent();
 
             CustomInitialize();
-		}
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new SizeF(96, 96);
+            ResumeLayout();
+        }
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
 			: this() {

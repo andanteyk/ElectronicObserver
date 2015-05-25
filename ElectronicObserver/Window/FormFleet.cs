@@ -536,6 +536,7 @@ namespace ElectronicObserver.Window {
 
 
 		public FormFleet( FormMain parent, int fleetID ) {
+            SuspendLayout();
 			InitializeComponent();
 
 			FleetID = fleetID;
@@ -572,7 +573,10 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
 
-		}
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new SizeF(96, 96);
+            ResumeLayout();
+        }
 
 
 

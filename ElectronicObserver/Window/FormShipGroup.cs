@@ -48,6 +48,7 @@ namespace ElectronicObserver.Window {
 
 
 		public FormShipGroup( FormMain parent ) {
+            SuspendLayout();
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( ShipView );
@@ -112,11 +113,27 @@ namespace ElectronicObserver.Window {
 			ShipView_Equipment4.DefaultCellStyle = CSDefaultLeft;
 			ShipView_Equipment5.DefaultCellStyle = CSDefaultLeft;
 
-			#endregion
+            Graphics g = this.CreateGraphics();
+            float dy;
+            try
+            {
+                dy = g.DpiY;
+            }
+            finally
+            {
+                g.Dispose();
+            }
+            ShipView.ColumnHeadersHeight = (int)dy / 96 * 23;
+
+            #endregion
 
 
-			SystemEvents.SystemShuttingDown += SystemShuttingDown;
-		}
+            SystemEvents.SystemShuttingDown += SystemShuttingDown;
+
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new SizeF(96, 96);
+            ResumeLayout();
+        }
 
 
 		private void FormShipGroup_Load( object sender, EventArgs e ) {
