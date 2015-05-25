@@ -22,7 +22,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private bool _imageChanged;
 
 		public DialogConfigurationNotifier( NotifierBase notifier ) {
-            SuspendLayout();
+			SuspendLayout();
 			InitializeComponent();
 
 			_notifier = notifier;
@@ -77,10 +77,10 @@ namespace ElectronicObserver.Window.Dialog {
 				GroupDamage.Visible = false;
 				GroupDamage.Enabled = false;
 			}
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.AutoScaleDimensions = new SizeF(96, 96);
-            ResumeLayout();
-        }
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
+		}
 
 		private void DialogConfigurationNotifier_Load( object sender, EventArgs e ) {
 

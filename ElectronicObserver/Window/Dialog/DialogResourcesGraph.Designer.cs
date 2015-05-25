@@ -347,7 +347,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 681);
             this.Controls.Add(this.splitContainer1);
-            this.MinimumSize = new System.Drawing.Size(600, 400);
+			this.Font = Program.Window_Font;
+			this.MinimumSize = new System.Drawing.Size( 600, 400 );
             this.Name = "DialogResourcesGraph";
             this.Text = "DialogResourcesGraph";
             this.Load += new System.EventHandler(this.DialogResourcesGraph_Load);

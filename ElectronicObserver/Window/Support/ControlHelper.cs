@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,30 @@ namespace ElectronicObserver.Window.Support {
 			prop.SetValue( control, flag, null );
 
 		}
-		
+
+		public static int GetDpiHeight( this Form form, int height ) {
+
+			if ( form == null ) {
+				return height;
+			}
+
+			Graphics g = form.CreateGraphics();
+			float dy;
+			try {
+
+				dy = g.DpiY;
+
+			} catch {
+				dy = 96f;
+			} finally {
+
+				g.Dispose();
+
+			}
+			return (int)Math.Round( dy / 96 * height );
+
+		}
+
 	}
 
 }

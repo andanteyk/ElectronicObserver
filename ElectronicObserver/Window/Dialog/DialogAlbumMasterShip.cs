@@ -26,7 +26,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogAlbumMasterShip() {
-            SuspendLayout();
+			SuspendLayout();
 			InitializeComponent();
 
 			Aircrafts = new ImageLabel[] { Aircraft1, Aircraft2, Aircraft3, Aircraft4, Aircraft5 };
@@ -149,10 +149,10 @@ namespace ElectronicObserver.Window.Dialog {
 			ShipView.Sort( ShipView_ShipID, ListSortDirection.Ascending );
 			ShipView.ResumeLayout();
 
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.AutoScaleDimensions = new SizeF(96, 96);
-            ResumeLayout();
-        }
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
+		}
 
 		public DialogAlbumMasterShip( int shipID )
 			: this() {

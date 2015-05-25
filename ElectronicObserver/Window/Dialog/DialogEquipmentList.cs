@@ -21,9 +21,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogEquipmentList() {
-            SuspendLayout();
+			SuspendLayout();
 
-            InitializeComponent();
+			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( EquipmentView );
 
@@ -65,26 +65,17 @@ namespace ElectronicObserver.Window.Dialog {
 			DetailView.DefaultCellStyle = CSUnselectableRight;
 			DetailView_EquippedShip.DefaultCellStyle = CSUnselectableLeft;
 			DetailView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            Graphics g = this.CreateGraphics();
-            float dy;
-            try
-            {
-                dy = g.DpiY;
-            }
-            finally
-            {
-                g.Dispose();
-            }
-            DetailView.ColumnHeadersHeight = (int)dy / 96 * 23;
-            EquipmentView.ColumnHeadersHeight = (int)dy / 96 * 23;
-            DetailView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            EquipmentView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+			int headerHeight = this.GetDpiHeight( 23 );
+			DetailView.ColumnHeadersHeight = headerHeight;
+			EquipmentView.ColumnHeadersHeight = headerHeight;
+			DetailView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+			EquipmentView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-            #endregion
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.AutoScaleDimensions = new SizeF(96, 96);
-            ResumeLayout();
-        }
+			#endregion
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
+		}
 
 		private void DialogEquipmentList_Load( object sender, EventArgs e ) {
 

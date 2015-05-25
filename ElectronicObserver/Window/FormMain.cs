@@ -56,14 +56,14 @@ namespace ElectronicObserver.Window {
 
 
 		public FormMain() {
-            SuspendLayout();
+			SuspendLayout();
 			this.BackColor = Utility.Configuration.Config.UI.BackColor.ColorData;
 			this.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
 
 			InitializeComponent();
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.AutoScaleDimensions = new SizeF(96, 96);
-            ResumeLayout();
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
         }
 
 		private async void FormMain_Load( object sender, EventArgs e ) {

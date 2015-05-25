@@ -279,7 +279,7 @@ namespace ElectronicObserver.Window {
 
 
 		public FormCompass( FormMain parent ) {
-            SuspendLayout();
+			SuspendLayout();
 			InitializeComponent();
 
 
@@ -307,9 +307,9 @@ namespace ElectronicObserver.Window {
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
 
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.AutoScaleDimensions = new SizeF(96, 96);
-            ResumeLayout();
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
         }
 
 

@@ -29,7 +29,7 @@ namespace ElectronicObserver.Window {
 		private Pen LinePen = Pens.Silver;
 
 		public FormBattle( FormMain parent ) {
-            SuspendLayout();
+			SuspendLayout();
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( TableTop );
@@ -101,9 +101,9 @@ namespace ElectronicObserver.Window {
 
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.AutoScaleDimensions = new SizeF(96, 96);
-            ResumeLayout();
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			ResumeLayout();
         }
 
 
