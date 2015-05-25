@@ -89,11 +89,17 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogShipGroupCSVOutput() {
+            SuspendLayout();
+
 			InitializeComponent();
 
 			DialogSaveCSV.InitialDirectory = Utility.Configuration.Config.Connection.SaveDataPath;
 
-		}
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new SizeF(96, 96);
+            ResumeLayout();
+
+        }
 
 		private void DialogShipGroupCSVOutput_Load( object sender, EventArgs e ) {
 

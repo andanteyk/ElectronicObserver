@@ -36,7 +36,7 @@ namespace ElectronicObserver.Window {
 				ShipName.TextAlign = ContentAlignment.MiddleLeft;
 				ShipName.Padding = new Padding( 0, 1, 0, 1 );
 				ShipName.Margin = new Padding( 2, 0, 2, 0 );
-				ShipName.MaximumSize = new Size( 60, 20 );
+				//ShipName.MaximumSize = new Size( 60, 20 );
 				ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
 				ShipName.Visible = true;
@@ -73,7 +73,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( RepairTime, 1, row );
 
 				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
+				RowStyle rs = new RowStyle( SizeType.AutoSize );
 
 				if ( table.RowStyles.Count > row )
 					table.RowStyles[row] = rs;
