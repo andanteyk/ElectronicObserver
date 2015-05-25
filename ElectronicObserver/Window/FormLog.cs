@@ -70,6 +70,15 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void ContextMenuLog_Copy_Click( object sender, EventArgs e ) {
+
+			if (LogList.SelectedItem == null )
+				return;
+
+			Clipboard.SetText( LogList.SelectedItem.ToString() );
+
+		}
+
 
 
 		protected override string GetPersistString() {
