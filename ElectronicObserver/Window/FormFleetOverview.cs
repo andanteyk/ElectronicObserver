@@ -241,9 +241,10 @@ namespace ElectronicObserver.Window {
 				if ( i > 0 && Utility.Configuration.Config.UI.NotExpeditionBlink ) {
 					FleetData.FleetStates state = (FleetData.FleetStates)ControlFleet[i].State.Tag;
 
-					if ( state == FleetData.FleetStates.Ready || state == FleetData.FleetStates.NotReplenished ) {
+					if ( state == FleetData.FleetStates.Ready
+						|| state == FleetData.FleetStates.NotReplenished
+						|| state == FleetData.FleetStates.Sparkled ) {
 
-						Color color = DateTime.Now.Second % 2 == 1 ? Utility.Configuration.Config.UI.BackColor.ColorData : Color.Transparent;
 						TableFleet.Invalidate( false );
 					}
 				}
