@@ -103,22 +103,42 @@ namespace ElectronicObserver.Observer {
 			string oauth = Utility.Configuration.Config.Connection.SendKancolleOAuth;
 			string url = oSession.fullUrl;
 			string request = oSession.GetRequestBodyAsString();
-			string response = oSession.GetResponseBodyAsString().Replace( "svdata=", "" );
+			string response = oSession.GetResponseBodyAsString();
 
 			request = RequestRegex.Replace( request, "" );
 
 			try {
 
+				using ( System.Net.WebClient wc = new System.Net.WebClient() ) {
+					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection();
+					post.Add( "token", oauth );
+					post.Add( "agent", "LZXNXVGPejgSnEXLH2ur" );  // TODO: now it means 'KanColleViewer'
+					post.Add( "url", url );
+					post.Add( "requestbody", request );
+					post.Add( "responsebody", response );
+
+					wc.UploadValuesCompleted += ( sender, e ) => {
+						using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
+
+							output.WriteLine( "[{0}] - {1}", DateTime.Now, Encoding.UTF8.GetString( e.Result ) );
+
+						}
+					};
+
+					wc.UploadValuesAsync( new Uri( "http://api.kancolle-db.net/2/" ), post );
+				}
+
+				/*
 				var req = WebRequest.Create( "http://api.kancolle-db.net/2/" );
 				req.Method = "POST";
 				req.ContentType = "application/x-www-form-urlencoded";
 
 				string body =
 					"token=" + HttpUtility.UrlEncode( oauth ) + "&" +
-					"agent=&" +
+					"agent=LZXNXVGPejgSnEXLH2ur&" +	// TODO: now it means 'KanColleViewer'
 					"url=" + HttpUtility.UrlEncode( url ) + "&" +
 					"requestbody=" + HttpUtility.UrlEncode( request ) + "&" +
-					"responsebody=" + HttpUtility.UrlEncode( response );
+					"responsebody=" + HttpUtility.UrlEncode( response.Replace( "svdata=", "" ) );
 				byte[] data = Encoding.ASCII.GetBytes( body );
 				req.ContentLength = data.Length;
 
@@ -135,6 +155,7 @@ namespace ElectronicObserver.Observer {
 
 					}
 				}
+				//*/
 
 			} catch ( Exception ex ) {
 
