@@ -115,6 +115,22 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public ushort UpstreamProxyPort { get; set; }
 
+				/// <summary>
+				/// kancolle-db.netに送信する
+				/// </summary>
+				public bool SendDataToKancolleDB { get; set; }
+
+				/// <summary>
+				/// kancolle-db.netのOAuth認証
+				/// </summary>
+				public string SendKancolleOAuth { get; set; }
+
+				/// <summary>
+				/// APIがに送信されます
+				/// 21 apis which take 21 bits.
+				/// </summary>
+				public uint SendKancolleDBApis { get; set; }
+
 				public ConfigConnection() {
 
 					Port = 40620;
@@ -132,6 +148,9 @@ namespace ElectronicObserver.Utility {
 					UpstreamProxyAddress = @"127.0.0.1";
 					UpstreamProxyPort = 0;
 
+					SendDataToKancolleDB = false;
+					SendKancolleOAuth = "";
+					SendKancolleDBApis = 0x1FFFFF;
 				}
 
 			}
