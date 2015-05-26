@@ -21,7 +21,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogEquipmentList() {
-			SuspendLayout();
+			this.SuspendLayoutForDpiScale();
 
 			InitializeComponent();
 
@@ -72,9 +72,8 @@ namespace ElectronicObserver.Window.Dialog {
 			EquipmentView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
 			#endregion
-			this.AutoScaleMode = AutoScaleMode.Dpi;
-			this.AutoScaleDimensions = new SizeF( 96, 96 );
-			ResumeLayout();
+
+			this.ResumeLayoutForDpiScale();
 		}
 
 		private void DialogEquipmentList_Load( object sender, EventArgs e ) {

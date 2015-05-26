@@ -48,6 +48,25 @@ namespace ElectronicObserver.Window.Support {
 
 		}
 
+		public static void SuspendLayoutForDpiScale( this ContainerControl container ) {
+
+			if ( Utility.Configuration.Config.UI.AutoScaleDpi ) {
+				container.SuspendLayout();
+			}
+
+		}
+
+		public static void ResumeLayoutForDpiScale( this ContainerControl container ) {
+
+			if ( Utility.Configuration.Config.UI.AutoScaleDpi ) {
+				container.AutoScaleMode = AutoScaleMode.Dpi;
+				container.AutoScaleDimensions = new SizeF( 96f, 96f );
+
+				container.ResumeLayout();
+			}
+
+		}
+
 	}
 
 }

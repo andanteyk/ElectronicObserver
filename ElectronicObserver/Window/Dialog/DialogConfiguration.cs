@@ -3,6 +3,7 @@ using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Storage;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,13 +27,11 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogConfiguration() {
-			SuspendLayout();
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			CustomInitialize();
-			this.AutoScaleMode = AutoScaleMode.Dpi;
-			this.AutoScaleDimensions = new SizeF( 96, 96 );
-			ResumeLayout();
+			this.ResumeLayoutForDpiScale();
 		}
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
@@ -360,6 +359,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
 			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
+			Life_AutoScaleDpi.Checked = config.UI.AutoScaleDpi;
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
@@ -548,6 +548,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.LayoutFilePath = Life_LayoutFilePath.Text;
 			config.Life.CheckUpdateInformation = Life_CheckUpdateInformation.Checked;
 			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
+			config.UI.AutoScaleDpi = Life_AutoScaleDpi.Checked;
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;

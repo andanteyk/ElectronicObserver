@@ -205,6 +205,8 @@ namespace ElectronicObserver.Utility {
 
 				public int HpThickness { get; set; }
 
+				public bool AutoScaleDpi { get; set; }
+
 				public ConfigUI() {
 					//*/
 					MainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
@@ -252,6 +254,8 @@ namespace ElectronicObserver.Utility {
 					QuestArsenal = Color.FromArgb( 0xDD, 0xCC, 0xBB );
 					QuestRenovated = Color.FromArgb( 0xDD, 0xCC, 0xFF );
 					QuestForeColor = SystemColors.ControlText;
+
+					AutoScaleDpi = true;
 
 				}
 			}

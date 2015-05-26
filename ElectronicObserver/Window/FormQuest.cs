@@ -22,7 +22,7 @@ namespace ElectronicObserver.Window {
 
 
 		public FormQuest( FormMain parent ) {
-			SuspendLayout();
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( QuestView );
@@ -93,9 +93,7 @@ namespace ElectronicObserver.Window {
 
 			#endregion
 
-			this.AutoScaleMode = AutoScaleMode.Dpi;
-			this.AutoScaleDimensions = new SizeF( 96, 96 );
-			ResumeLayout();
+			this.ResumeLayoutForDpiScale();
 		}
 
 

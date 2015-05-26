@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Window.Support;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,7 +24,7 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 		public DialogShipGroupColumnFilter( DataGridView target ) {
-			SuspendLayout();
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			AllCheck.Tag = false;
@@ -44,9 +45,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			}
 			AllCheck.Tag = true;
-			this.AutoScaleMode = AutoScaleMode.Dpi;
-			this.AutoScaleDimensions = new SizeF( 96, 96 );
-			ResumeLayout();
+
+			this.ResumeLayoutForDpiScale();
 		}
 
 

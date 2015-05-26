@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Resource;
 using ElectronicObserver.Utility;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,14 +14,14 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogVersion : Form {
 		public DialogVersion() {
-			SuspendLayout();
+
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			this.Text = string.Format( "魔改版本 - {0:F4}", SoftwareInformation.MakaiVersion );
 			TextVersion.Text = string.Format( "{0} (ver. {1} - {2} Release)", SoftwareInformation.VersionJapanese, SoftwareInformation.VersionEnglish, SoftwareInformation.UpdateTime.ToString( "d" ) );
-			this.AutoScaleMode = AutoScaleMode.Dpi;
-			this.AutoScaleDimensions = new SizeF( 96, 96 );
-			ResumeLayout();
+
+			this.ResumeLayoutForDpiScale();
 		}
 
 		private void Text__LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {

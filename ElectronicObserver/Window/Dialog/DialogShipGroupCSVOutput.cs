@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Window.Support;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -89,15 +90,13 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogShipGroupCSVOutput() {
-			SuspendLayout();
+			this.SuspendLayoutForDpiScale();
 
 			InitializeComponent();
 
 			DialogSaveCSV.InitialDirectory = Utility.Configuration.Config.Connection.SaveDataPath;
 
-			this.AutoScaleMode = AutoScaleMode.Dpi;
-			this.AutoScaleDimensions = new SizeF( 96, 96 );
-			ResumeLayout();
+			this.ResumeLayoutForDpiScale();
 
 		}
 

@@ -50,7 +50,7 @@ namespace ElectronicObserver.Window {
 		private bool IsTabSelectedBeforeBoot = false;
 
 		public FormShipGroup( FormMain parent ) {
-			SuspendLayout();
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( ShipView );
@@ -122,9 +122,7 @@ namespace ElectronicObserver.Window {
 
 			SystemEvents.SystemShuttingDown += SystemShuttingDown;
 
-			this.AutoScaleMode = AutoScaleMode.Dpi;
-			this.AutoScaleDimensions = new SizeF( 96, 96 );
-			ResumeLayout();
+			this.ResumeLayoutForDpiScale();
 		}
 
 
