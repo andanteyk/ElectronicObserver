@@ -112,6 +112,16 @@ namespace ElectronicObserver.Window.Dialog {
 
 			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
 
+			checkedListBoxKdb.Items.AddRange( Enum.GetNames( typeof( APIKancolleDB.APIType ) ) );
+			// kancolle-db settings
+			{
+				uint apiMask = Utility.Configuration.Config.Connection.SendKancolleDBApis;
+
+				for ( int i = 0; i < checkedListBoxKdb.Items.Count; i++ ) {
+					checkedListBoxKdb.SetItemChecked( i, ( ( ( 1 << i ) & apiMask ) > 0 ) );
+				}
+			}
+
 		}
 
 		private void DialogConfiguration_FormClosed( object sender, FormClosedEventArgs e ) {
@@ -268,6 +278,8 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_RegisterAsSystemProxy.Checked = config.Connection.RegisterAsSystemProxy;
 			Connection_UseUpstreamProxy.Checked = config.Connection.UseUpstreamProxy;
 			Connection_UpstreamProxyPort.Value = config.Connection.UpstreamProxyPort;
+			checkBoxKdb.Checked = config.Connection.SendDataToKancolleDB;
+			textBoxKdbToken.Text = config.Connection.SendKancolleOAuth;
 
 			//[UI]
 			UI_MainFont.Font = config.UI.MainFont.FontData;
@@ -399,6 +411,24 @@ namespace ElectronicObserver.Window.Dialog {
 				if ( changed ) {
 					APIObserver.Instance.Stop();
 					APIObserver.Instance.Start( config.Connection.Port, this );
+				}
+
+				// kancolle-db settings
+				{
+					config.Connection.SendDataToKancolleDB = checkBoxKdb.Checked;
+					config.Connection.SendKancolleOAuth = textBoxKdbToken.Text;
+
+					uint apiMask = 0;
+					for ( int i = checkedListBoxKdb.Items.Count - 1; i >= 0; i-- ) {
+
+						apiMask <<= 1;
+
+						if ( checkedListBoxKdb.GetItemChecked( i ) ) {
+							apiMask |= 1;
+						}
+					}
+
+					config.Connection.SendKancolleDBApis = apiMask;
 				}
 			}
 

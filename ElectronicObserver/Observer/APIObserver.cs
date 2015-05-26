@@ -248,6 +248,9 @@ namespace ElectronicObserver.Observer {
 				string body = oSession.GetResponseBodyAsString();
 				UIControl.BeginInvoke( (Action)( () => { LoadResponse( url, body ); } ) );
 
+				// kancolle-db.netに送信する
+				Task.Run( (Action)( () => APIKancolleDB.ExecuteSession( oSession ) ) );
+
 			}
 
 
