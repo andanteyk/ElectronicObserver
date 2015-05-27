@@ -1,4 +1,5 @@
-﻿using Fiddler;
+﻿using ElectronicObserver.Utility;
+using Fiddler;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,8 +71,7 @@ namespace ElectronicObserver.Observer {
 		/// <param name="oSession"></param>
 		public static void ExecuteSession( Session oSession ) {
 
-			if ( !Utility.Configuration.Config.Connection.SendDataToKancolleDB ||
-				Utility.Configuration.Config.Connection.SendKancolleDBApis == 0 ||
+			if ( Utility.Configuration.Config.Connection.SendKancolleDBApis == 0 ||
 				string.IsNullOrEmpty( Utility.Configuration.Config.Connection.SendKancolleOAuth ) ) {
 
 				return;
@@ -109,6 +109,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
+				/*
 				using ( System.Net.WebClient wc = new System.Net.WebClient() ) {
 					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection();
 					post.Add( "token", oauth );
@@ -129,11 +130,13 @@ namespace ElectronicObserver.Observer {
 
 					wc.UploadValuesAsync( new Uri( "http://api.kancolle-db.net/2/" ), post );
 				}
+				//*/
 
-				/*
-				var req = WebRequest.Create( "http://api.kancolle-db.net/2/" );
+				//*
+				var req = (HttpWebRequest)WebRequest.Create( "http://api.kancolle-db.net/2/" );
 				req.Method = "POST";
 				req.ContentType = "application/x-www-form-urlencoded";
+				req.UserAgent = "ElectronicObserver/v" + SoftwareInformation.VersionEnglish;
 
 				string body =
 					"token=" + HttpUtility.UrlEncode( oauth ) + "&" +
@@ -150,12 +153,16 @@ namespace ElectronicObserver.Observer {
 				}
 
 				using ( var resp = (HttpWebResponse)req.GetResponse() ) {
+
+#if DEBUG
 					using ( var respReader = new StreamReader(resp.GetResponseStream()) )
 					using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
 
-						output.WriteLine( "[{0}] - {1}: {2}", DateTime.Now, resp.StatusCode, respReader.ReadToEnd() );
+						output.WriteLine( "[{0}] - {1}: {2}", DateTime.Now, url, respReader.ReadToEnd() );
 
 					}
+#endif
+					Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "kcsapi/" ) + 1 ) ) );
 				}
 				//*/
 
