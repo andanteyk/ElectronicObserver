@@ -158,6 +158,7 @@ namespace ElectronicObserver.Observer {
 				req.Method = "POST";
 				req.ContentType = "application/x-www-form-urlencoded";
 				req.UserAgent = "ElectronicObserver/v" + SoftwareInformation.VersionEnglish;
+				req.ServicePoint.Expect100Continue = false;
 
 				if ( Proxy != null ) {
 					req.Proxy = Proxy;
