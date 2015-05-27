@@ -46,10 +46,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void Connection_UseUpstreamProxy_CheckedChanged( object sender, EventArgs e ) {
 
-			if ( !Connection_UseUpstreamProxy.Checked ) {
-				Connection_EnableSslUpstreamProxy.Checked = false;
-			}
-
 		}
 
 		private void Connection_EnableSslUpstreamProxy_CheckedChanged( object sender, EventArgs e ) {
@@ -294,8 +290,8 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_SaveOtherFile.Checked = config.Connection.SaveOtherFile;
 			Connection_ApplyVersion.Checked = config.Connection.ApplyVersion;
 			Connection_RegisterAsSystemProxy.Checked = config.Connection.RegisterAsSystemProxy;
-			Connection_UseUpstreamProxy.Checked = config.Connection.UseUpstreamProxy;
 			Connection_EnableSslUpstreamProxy.Checked = config.Connection.EnableSslUpstreamProxy;
+			Connection_UseUpstreamProxy.Checked = config.Connection.UseUpstreamProxy;
 			Connection_UpstreamProxyHost.Text = config.Connection.UpstreamProxyAddress;
 			Connection_UpstreamProxyPort.Value = config.Connection.UpstreamProxyPort;
 			checkBoxKdb.Checked = config.Connection.SendDataToKancolleDB;
