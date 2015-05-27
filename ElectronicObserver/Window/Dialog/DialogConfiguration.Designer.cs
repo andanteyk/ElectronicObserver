@@ -70,6 +70,10 @@
 			this.colorQuestRenovated = new ElectronicObserver.Window.Control.ColorPicker();
 			this.colorQuestForeColor = new ElectronicObserver.Window.Control.ColorPicker();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.checkedListBoxKdb = new System.Windows.Forms.CheckedListBox();
+			this.textBoxKdbToken = new System.Windows.Forms.TextBox();
+			this.labelKdb = new System.Windows.Forms.Label();
+			this.checkBoxKdb = new System.Windows.Forms.CheckBox();
 			this.Connection_UpstreamProxyHost = new System.Windows.Forms.TextBox();
 			this.Connection_UpstreamProxyPort = new System.Windows.Forms.NumericUpDown();
 			this.Connection_UseUpstreamProxy = new System.Windows.Forms.CheckBox();
@@ -254,6 +258,10 @@
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.checkedListBoxKdb);
+			this.tabPage1.Controls.Add(this.textBoxKdbToken);
+			this.tabPage1.Controls.Add(this.labelKdb);
+			this.tabPage1.Controls.Add(this.checkBoxKdb);
 			this.tabPage1.Controls.Add(this.Connection_UpstreamProxyHost);
 			this.tabPage1.Controls.Add(this.Connection_UpstreamProxyPort);
 			this.tabPage1.Controls.Add(this.Connection_UseUpstreamProxy);
@@ -272,6 +280,40 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "通信";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// checkedListBoxKdb
+			// 
+			this.checkedListBoxKdb.FormattingEnabled = true;
+			this.checkedListBoxKdb.Location = new System.Drawing.Point(240, 183);
+			this.checkedListBoxKdb.Name = "checkedListBoxKdb";
+			this.checkedListBoxKdb.Size = new System.Drawing.Size(208, 59);
+			this.checkedListBoxKdb.TabIndex = 12;
+			// 
+			// textBoxKdbToken
+			// 
+			this.textBoxKdbToken.Location = new System.Drawing.Point(87, 226);
+			this.textBoxKdbToken.Name = "textBoxKdbToken";
+			this.textBoxKdbToken.Size = new System.Drawing.Size(144, 20);
+			this.textBoxKdbToken.TabIndex = 11;
+			// 
+			// labelKdb
+			// 
+			this.labelKdb.AutoSize = true;
+			this.labelKdb.Location = new System.Drawing.Point(8, 229);
+			this.labelKdb.Name = "labelKdb";
+			this.labelKdb.Size = new System.Drawing.Size(73, 13);
+			this.labelKdb.TabIndex = 10;
+			this.labelKdb.Text = "OAuth认证：";
+			// 
+			// checkBoxKdb
+			// 
+			this.checkBoxKdb.AutoSize = true;
+			this.checkBoxKdb.Location = new System.Drawing.Point(6, 208);
+			this.checkBoxKdb.Name = "checkBoxKdb";
+			this.checkBoxKdb.Size = new System.Drawing.Size(126, 17);
+			this.checkBoxKdb.TabIndex = 9;
+			this.checkBoxKdb.Text = "发送数据到kancolle-db.net";
+			this.checkBoxKdb.UseVisualStyleBackColor = true;
 			// 
 			// Connection_UpstreamProxyHost
 			// 
@@ -2205,6 +2247,10 @@
 
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.CheckedListBox checkedListBoxKdb;
+		private System.Windows.Forms.TextBox textBoxKdbToken;
+		private System.Windows.Forms.Label labelKdb;
+		private System.Windows.Forms.CheckBox checkBoxKdb;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Panel Connection_PanelSaveData;
 		private System.Windows.Forms.ToolTip ToolTipInfo;

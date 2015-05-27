@@ -63,7 +63,7 @@ namespace ElectronicObserver.Utility {
 		/// 魔改版本
 		/// </summary>
 		public static double MakaiVersion {
-			get { return 526.0853; }
+			get { return 527.0956; }
 		}
 
 		private static System.Net.WebClient client;
