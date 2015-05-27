@@ -65,21 +65,42 @@ namespace ElectronicObserver.Observer {
             { APIType.COMBINED_BATTLE_RESULT,   "/kcsapi/api_req_combined_battle/battleresult"   }
 		};
 
+		public APIKancolleDB() {
+
+			Utility.Configuration.Instance.ConfigurationChanged += Instance_ConfigurationChanged;
+			Instance_ConfigurationChanged();
+
+		}
+
+		private void Instance_ConfigurationChanged() {
+			SendDBApis = Utility.Configuration.Config.Connection.SendKancolleDBApis;
+			OAuth = Utility.Configuration.Config.Connection.SendKancolleOAuth;
+
+			if ( Utility.Configuration.Config.Connection.UseUpstreamProxy ) {
+				Proxy = new WebProxy( "127.0.0.1", Utility.Configuration.Config.Connection.Port );
+			}else {
+				Proxy = null;
+			}
+		}
+
+		private uint SendDBApis;
+		private string OAuth;
+		private WebProxy Proxy;
+
+
 		/// <summary>
 		/// read the after-session, determinate whether it will send to kancolle-db.net
 		/// </summary>
 		/// <param name="oSession"></param>
-		public static void ExecuteSession( Session oSession ) {
+		public void ExecuteSession( Session oSession ) {
 
-			if ( Utility.Configuration.Config.Connection.SendKancolleDBApis == 0 ||
-				string.IsNullOrEmpty( Utility.Configuration.Config.Connection.SendKancolleOAuth ) ) {
-
+			if ( SendDBApis == 0 || string.IsNullOrEmpty( OAuth ) ) {
 				return;
 			}
 
 			// find the url in dict.
 			string url = oSession.PathAndQuery;
-			uint apiMask = Utility.Configuration.Config.Connection.SendKancolleDBApis;
+			uint apiMask = SendDBApis;
 
 			foreach ( var kv in apis ) {
 				if ( url == kv.Value ) {
@@ -98,9 +119,9 @@ namespace ElectronicObserver.Observer {
 
 		private static Regex RequestRegex = new Regex( @"&api(_|%5F)token=[0-9a-f]+|api(_|%5F)token=[0-9a-f]+&?", RegexOptions.Compiled );
 
-		private static void PostToServer( Session oSession ) {
+		private void PostToServer( Session oSession ) {
 
-			string oauth = Utility.Configuration.Config.Connection.SendKancolleOAuth;
+			string oauth = OAuth;
 			string url = oSession.fullUrl;
 			string request = oSession.GetRequestBodyAsString();
 			string response = oSession.GetResponseBodyAsString();
@@ -137,6 +158,10 @@ namespace ElectronicObserver.Observer {
 				req.Method = "POST";
 				req.ContentType = "application/x-www-form-urlencoded";
 				req.UserAgent = "ElectronicObserver/v" + SoftwareInformation.VersionEnglish;
+
+				if ( Proxy != null ) {
+					req.Proxy = Proxy;
+				}
 
 				string body =
 					"token=" + HttpUtility.UrlEncode( oauth ) + "&" +
