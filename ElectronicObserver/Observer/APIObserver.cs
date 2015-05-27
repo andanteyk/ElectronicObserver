@@ -30,6 +30,7 @@ namespace ElectronicObserver.Observer {
 		#endregion
 
 		private CacheCore cache = new CacheCore();
+		private APIKancolleDB DBSender;
 
 		public APIDictionary APIList;
 
@@ -102,6 +103,8 @@ namespace ElectronicObserver.Observer {
 
 
 			ServerAddress = null;
+
+			DBSender = new APIKancolleDB();
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.BeforeResponse += FiddlerApplication_BeforeResponse;
@@ -253,7 +256,7 @@ namespace ElectronicObserver.Observer {
 
 				// kancolle-db.netに送信する
 				if ( Utility.Configuration.Config.Connection.SendDataToKancolleDB ) {
-					Task.Factory.StartNew( (Action)( () => APIKancolleDB.ExecuteSession( oSession ) ) );
+					Task.Factory.StartNew( (Action)( () => DBSender.ExecuteSession( oSession ) ) );
 				}
 
 			} else if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.responseCode == 200 ) {
