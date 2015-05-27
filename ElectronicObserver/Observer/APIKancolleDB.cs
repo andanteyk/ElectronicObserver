@@ -154,14 +154,14 @@ namespace ElectronicObserver.Observer {
 
 				using ( var resp = (HttpWebResponse)req.GetResponse() ) {
 
-#if DEBUG
+//#if DEBUG
 					using ( var respReader = new StreamReader(resp.GetResponseStream()) )
 					using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
 
 						output.WriteLine( "[{0}] - {1}: {2}", DateTime.Now, url, respReader.ReadToEnd() );
 
 					}
-#endif
+//#endif
 					Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "kcsapi/" ) + 1 ) ) );
 				}
 				//*/
