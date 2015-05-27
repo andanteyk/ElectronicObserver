@@ -252,7 +252,9 @@ namespace ElectronicObserver.Observer {
 				UIControl.BeginInvoke( (Action)( () => { LoadResponse( url, body ); } ) );
 
 				// kancolle-db.netに送信する
-				Task.Run( (Action)( () => APIKancolleDB.ExecuteSession( oSession ) ) );
+				if ( Utility.Configuration.Config.Connection.SendDataToKancolleDB ) {
+					Task.Run( (Action)( () => APIKancolleDB.ExecuteSession( oSession ) ) );
+				}
 
 			} else if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.responseCode == 200 ) {
 
