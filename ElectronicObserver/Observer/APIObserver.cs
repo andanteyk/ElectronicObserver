@@ -253,7 +253,7 @@ namespace ElectronicObserver.Observer {
 
 				// kancolle-db.netに送信する
 				if ( Utility.Configuration.Config.Connection.SendDataToKancolleDB ) {
-					Task.Run( (Action)( () => APIKancolleDB.ExecuteSession( oSession ) ) );
+					Task.Factory.StartNew( (Action)( () => APIKancolleDB.ExecuteSession( oSession ) ) );
 				}
 
 			} else if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.responseCode == 200 ) {
