@@ -70,6 +70,8 @@ namespace ElectronicObserver.Observer {
 			Utility.Configuration.Instance.ConfigurationChanged += Instance_ConfigurationChanged;
 			Instance_ConfigurationChanged();
 
+			ServicePointManager.Expect100Continue = false;
+
 		}
 
 		private void Instance_ConfigurationChanged() {
@@ -130,8 +132,14 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				/*
+				//*
 				using ( System.Net.WebClient wc = new System.Net.WebClient() ) {
+					wc.Headers["User-Agent"] = "ElectronicObserver/v" + SoftwareInformation.VersionEnglish;
+
+					if ( Proxy != null ) {
+						wc.Proxy = Proxy;
+					}
+
 					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection();
 					post.Add( "token", oauth );
 					// agent key for 'ElectronicObserver'
@@ -142,10 +150,16 @@ namespace ElectronicObserver.Observer {
 					post.Add( "responsebody", response );
 
 					wc.UploadValuesCompleted += ( sender, e ) => {
-						using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
+						if ( e.Error != null ) {
+							using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
 
-							output.WriteLine( "[{0}] - {1}", DateTime.Now, Encoding.UTF8.GetString( e.Result ) );
+								output.WriteLine( "[{0}] - {1}: {2}", DateTime.Now,
+									url.Substring( url.IndexOf( "/api" ) + 1 ),
+									e.Error );
 
+							}
+						} else {
+							Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
 						}
 					};
 
@@ -153,7 +167,7 @@ namespace ElectronicObserver.Observer {
 				}
 				//*/
 
-				//*
+				/*
 				var req = (HttpWebRequest)WebRequest.Create( "http://api.kancolle-db.net/2/" );
 				req.Method = "POST";
 				req.ContentType = "application/x-www-form-urlencoded";
@@ -188,7 +202,7 @@ namespace ElectronicObserver.Observer {
 
 					}
 //#endif
-					Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "kcsapi/" ) + 1 ) ) );
+					Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
 				}
 				//*/
 
