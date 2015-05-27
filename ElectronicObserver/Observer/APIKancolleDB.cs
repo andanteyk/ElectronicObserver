@@ -112,7 +112,9 @@ namespace ElectronicObserver.Observer {
 				using ( System.Net.WebClient wc = new System.Net.WebClient() ) {
 					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection();
 					post.Add( "token", oauth );
-					post.Add( "agent", "LZXNXVGPejgSnEXLH2ur" );  // TODO: now it means 'KanColleViewer'
+					// agent key for 'ElectronicObserver'
+					// https://github.com/about518/kanColleDbPost/issues/3#issuecomment-105534030
+					post.Add( "agent", "L57Mi4hJeCYinbbBSH5K" );
 					post.Add( "url", url );
 					post.Add( "requestbody", request );
 					post.Add( "responsebody", response );
@@ -135,7 +137,7 @@ namespace ElectronicObserver.Observer {
 
 				string body =
 					"token=" + HttpUtility.UrlEncode( oauth ) + "&" +
-					"agent=LZXNXVGPejgSnEXLH2ur&" +	// TODO: now it means 'KanColleViewer'
+					"agent=L57Mi4hJeCYinbbBSH5K&" +	// agent key for 'ElectronicObserver'
 					"url=" + HttpUtility.UrlEncode( url ) + "&" +
 					"requestbody=" + HttpUtility.UrlEncode( request ) + "&" +
 					"responsebody=" + HttpUtility.UrlEncode( response.Replace( "svdata=", "" ) );
