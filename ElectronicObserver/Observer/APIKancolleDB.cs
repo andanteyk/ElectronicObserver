@@ -65,21 +65,45 @@ namespace ElectronicObserver.Observer {
             { APIType.COMBINED_BATTLE_RESULT,   "/kcsapi/api_req_combined_battle/battleresult"   }
 		};
 
+		public APIKancolleDB() {
+
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+			ConfigurationChanged();
+
+			// to avoid http 417 error
+			ServicePointManager.Expect100Continue = false;
+
+		}
+
+		private void ConfigurationChanged() {
+			SendDBApis = Utility.Configuration.Config.Connection.SendKancolleDBApis;
+			OAuth = Utility.Configuration.Config.Connection.SendKancolleOAuth;
+
+			if ( Utility.Configuration.Config.Connection.UseUpstreamProxy ) {
+				Proxy = new WebProxy( "127.0.0.1", Utility.Configuration.Config.Connection.Port );
+			}else {
+				Proxy = null;
+			}
+		}
+
+		private uint SendDBApis;
+		private string OAuth;
+		private WebProxy Proxy;
+
+
 		/// <summary>
 		/// read the after-session, determinate whether it will send to kancolle-db.net
 		/// </summary>
 		/// <param name="oSession"></param>
-		public static void ExecuteSession( Session oSession ) {
+		public void ExecuteSession( Session oSession ) {
 
-			if ( Utility.Configuration.Config.Connection.SendKancolleDBApis == 0 ||
-				string.IsNullOrEmpty( Utility.Configuration.Config.Connection.SendKancolleOAuth ) ) {
-
+			if ( SendDBApis == 0 || string.IsNullOrEmpty( OAuth ) ) {
 				return;
 			}
 
 			// find the url in dict.
 			string url = oSession.PathAndQuery;
-			uint apiMask = Utility.Configuration.Config.Connection.SendKancolleDBApis;
+			uint apiMask = SendDBApis;
 
 			foreach ( var kv in apis ) {
 				if ( url == kv.Value ) {
@@ -98,9 +122,9 @@ namespace ElectronicObserver.Observer {
 
 		private static Regex RequestRegex = new Regex( @"&api(_|%5F)token=[0-9a-f]+|api(_|%5F)token=[0-9a-f]+&?", RegexOptions.Compiled );
 
-		private static void PostToServer( Session oSession ) {
+		private void PostToServer( Session oSession ) {
 
-			string oauth = Utility.Configuration.Config.Connection.SendKancolleOAuth;
+			string oauth = OAuth;
 			string url = oSession.fullUrl;
 			string request = oSession.GetRequestBodyAsString();
 			string response = oSession.GetResponseBodyAsString();
@@ -109,8 +133,14 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				/*
+				//*
 				using ( System.Net.WebClient wc = new System.Net.WebClient() ) {
+					wc.Headers["User-Agent"] = "ElectronicObserver/v" + SoftwareInformation.VersionEnglish;
+
+					if ( Proxy != null ) {
+						wc.Proxy = Proxy;
+					}
+
 					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection();
 					post.Add( "token", oauth );
 					// agent key for 'ElectronicObserver'
@@ -121,48 +151,20 @@ namespace ElectronicObserver.Observer {
 					post.Add( "responsebody", response );
 
 					wc.UploadValuesCompleted += ( sender, e ) => {
-						using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
+						if ( e.Error != null ) {
+							using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
 
-							output.WriteLine( "[{0}] - {1}", DateTime.Now, Encoding.UTF8.GetString( e.Result ) );
+								output.WriteLine( "[{0}] - {1}: {2}", DateTime.Now,
+									url.Substring( url.IndexOf( "/api" ) + 1 ),
+									e.Error );
 
+							}
+						} else {
+							Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
 						}
 					};
 
 					wc.UploadValuesAsync( new Uri( "http://api.kancolle-db.net/2/" ), post );
-				}
-				//*/
-
-				//*
-				var req = (HttpWebRequest)WebRequest.Create( "http://api.kancolle-db.net/2/" );
-				req.Method = "POST";
-				req.ContentType = "application/x-www-form-urlencoded";
-				req.UserAgent = "ElectronicObserver/v" + SoftwareInformation.VersionEnglish;
-
-				string body =
-					"token=" + HttpUtility.UrlEncode( oauth ) + "&" +
-					"agent=L57Mi4hJeCYinbbBSH5K&" +	// agent key for 'ElectronicObserver'
-					"url=" + HttpUtility.UrlEncode( url ) + "&" +
-					"requestbody=" + HttpUtility.UrlEncode( request ) + "&" +
-					"responsebody=" + HttpUtility.UrlEncode( response.Replace( "svdata=", "" ) );
-				byte[] data = Encoding.ASCII.GetBytes( body );
-				req.ContentLength = data.Length;
-
-				using ( var reqStream = req.GetRequestStream() ) {
-					reqStream.Write( data, 0, data.Length );
-					reqStream.Flush();
-				}
-
-				using ( var resp = (HttpWebResponse)req.GetResponse() ) {
-
-#if DEBUG
-					using ( var respReader = new StreamReader(resp.GetResponseStream()) )
-					using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
-
-						output.WriteLine( "[{0}] - {1}: {2}", DateTime.Now, url, respReader.ReadToEnd() );
-
-					}
-#endif
-					Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "kcsapi/" ) + 1 ) ) );
 				}
 				//*/
 

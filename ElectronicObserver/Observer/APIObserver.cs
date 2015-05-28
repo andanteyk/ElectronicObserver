@@ -38,6 +38,7 @@ namespace ElectronicObserver.Observer {
 		public event ProxyStartedEventHandler ProxyStarted = delegate { };
 
 		private Control UIControl;
+		private APIKancolleDB DBSender;
 
 		private APIObserver() {
 
@@ -100,6 +101,8 @@ namespace ElectronicObserver.Observer {
 
 
 			ServerAddress = null;
+
+			DBSender = new APIKancolleDB();
 
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.BeforeResponse += FiddlerApplication_BeforeResponse;
@@ -250,7 +253,7 @@ namespace ElectronicObserver.Observer {
 
 				// kancolle-db.netに送信する
 				if ( Utility.Configuration.Config.Connection.SendDataToKancolleDB ) {
-					Task.Run( (Action)( () => APIKancolleDB.ExecuteSession( oSession ) ) );
+					Task.Run( (Action)( () => DBSender.ExecuteSession( oSession ) ) );
 				}
 
 			}
