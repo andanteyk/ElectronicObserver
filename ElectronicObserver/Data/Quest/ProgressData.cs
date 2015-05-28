@@ -139,7 +139,16 @@ namespace ElectronicObserver.Data.Quest {
 					Progress = (int)Math.Max( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.8 ) - SharedCounterShift );
 					Progress = Math.Min( Progress, ProgressMax - 1 );
 					break;
+
+				default:
+					if ( q.State == 2 ) {	// 50%以下，进行中
+						Progress = (int)Math.Min( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.5 ) - SharedCounterShift - 1 );
+					}
+					break;
 			}
+
+			if ( Progress < 0 )
+				Progress = 0;
 
 		}
 
