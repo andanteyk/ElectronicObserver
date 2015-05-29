@@ -56,15 +56,15 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public int MVPShipIndex {
 			get {
-				int index = -1;
-				int max = 1;
+				int index = 0;
+				int max = -1;
 				for ( int i = 0; i < 6; i++ ) {
-					if ( _attackDamages[i] + _attackAirDamages[i] >= max ) {
+					if ( _attackDamages[i] + _attackAirDamages[i] > max ) {
 						max = _attackDamages[i] + _attackAirDamages[i];
 						index = i;
 					}
 				}
-				return index == -1 ? 0 : index;
+				return index < 0 ? 0 : index;
 			}
 		}
 
@@ -83,15 +83,15 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public int MVPShipCombinedIndex {
 			get {
-				int index = -1;
-				int max = 1;
+				int index = 0;
+				int max = -1;
 				for ( int i = 0; i < 6; i++ ) {
-					if ( _attackDamages[i + 12] + _attackAirDamages[i + 12] >= max ) {
+					if ( _attackDamages[i + 12] + _attackAirDamages[i + 12] > max ) {
 						max = _attackDamages[i + 12] + _attackAirDamages[i + 12];
 						index = i;
 					}
 				}
-				return index == -1 ? 0 : index;
+				return index < 0 ? 0 : index;
 			}
 		}
 

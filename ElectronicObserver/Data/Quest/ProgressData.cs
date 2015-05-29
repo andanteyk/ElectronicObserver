@@ -133,13 +133,14 @@ namespace ElectronicObserver.Data.Quest {
 			switch ( q.Progress ) {
 				case 1:		//50%
 					Progress = (int)Math.Max( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.5 ) - SharedCounterShift );
-					Progress = (int)Math.Min( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.8 ) - SharedCounterShift - 1 );
 					break;
 				case 2:		//80%
 					Progress = (int)Math.Max( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.8 ) - SharedCounterShift );
-					Progress = Math.Min( Progress, ProgressMax - 1 );
 					break;
 			}
+
+			if ( Progress < 0 )
+				Progress = 0;
 
 		}
 
