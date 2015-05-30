@@ -18,23 +18,23 @@ namespace ElectronicObserver.Observer.Cache {
 		unknown_file,
 
 		game_entry,		//kcs\mainD2.swf
-		//kcs\Core.swf
+						//kcs\Core.swf
 
 		entry_large,	//kcs\scenes\TitleMain.swf
-		//kcs\resources\swf\commonAsset.swf
-		//kcs\resources\swf\font.swf
-		//kcs\resources\swf\icons.swf
+						//kcs\resources\swf\commonAsset.swf
+						//kcs\resources\swf\font.swf
+						//kcs\resources\swf\icons.swf
 
 		port_main,		//kcs\PortMain.swf
-		//kcs\resources\swf\sound_se.swf
+						//kcs\resources\swf\sound_se.swf
 
 		scenes,			//kcs\scenes\
 
 		resources,		//kcs\resources\bgm_p\
-		//kcs\resources\swf\sound_bgm.swf
-		//kcs\resources\swf\sound_b_bgm_*.swf
-		//kcs\resources\swf\map\
-		//kcs\resources\swf\ships\
+						//kcs\resources\swf\sound_bgm.swf
+						//kcs\resources\swf\sound_b_bgm_*.swf
+						//kcs\resources\swf\map\
+						//kcs\resources\swf\ships\
 
 		image,			//kcs\resources\images
 		sound,			//kcs\sound
@@ -45,6 +45,67 @@ namespace ElectronicObserver.Observer.Cache {
 
 
 	class CacheCore {
+
+
+		private Dictionary<string, string> _cacheList;
+
+		private const string CACHE_LIST_FILE = @"Settings\CacheList.txt";
+
+		public CacheCore() {
+			LoadCacheList();
+        }
+
+		/// <summary>
+		/// 读取缓存列表
+		/// </summary>
+		public void LoadCacheList() {
+
+			_cacheList = new Dictionary<string, string>();
+
+			if ( File.Exists( CACHE_LIST_FILE ) ) {
+				try {
+
+					foreach ( var line in File.ReadAllLines( CACHE_LIST_FILE ) ) {
+						int index = line.IndexOf( '?' );
+						if ( index > 0 ) {
+
+							_cacheList[line.Substring( 0, index )] = line.Substring( index + 1 );
+
+						}
+					}
+
+					Utility.Logger.Add( 2, "缓存列表载入完毕。" );
+
+				} catch ( Exception ex ) {
+					Utility.ErrorReporter.SendErrorReport( ex, "读取缓存列表时出错。" );
+				}
+			}
+
+		}
+
+		/// <summary>
+		/// 保存缓存列表
+		/// </summary>
+		public void SaveCacheList() {
+
+			try {
+
+				if ( !Directory.Exists( "Settings" ) )
+					Directory.CreateDirectory( "Settings" );
+
+				using ( var writer = new StreamWriter( CACHE_LIST_FILE, false, Encoding.UTF8 ) ) {
+					foreach ( var kv in _cacheList ) {
+						writer.WriteLine( "{0}?{1}", kv.Key, kv.Value );
+					}
+				}
+
+				Utility.Logger.Add( 2, "缓存列表已保存。" );
+
+			} catch(Exception ex ) {
+				Utility.ErrorReporter.SendErrorReport( ex, "保存缓存列表时出错。" );
+			}
+		}
+
 
 		/// <summary>
 		/// 对于一个新的客户端请求，根据url，决定下一步要对请求怎样处理
@@ -107,6 +168,26 @@ namespace ElectronicObserver.Observer.Cache {
 				  type == filetype.image ) && Configuration.Config.CacheSettings.CacheResourceFiles > 0 ) ) {
 				filepath = Configuration.Config.CacheSettings.CacheFolder + uri.AbsolutePath.Replace( '/', '\\' );
 
+				// 检查缓存列表中是否有对应版本
+				string query = uri.PathAndQuery;
+				int index = query.LastIndexOf( '?' );
+				bool changed = false;
+				if ( index > 0 ) {
+					string key = query.Substring( 0, index );
+					string value = query.Substring( index + 1 );
+
+					changed = _cacheList.ContainsKey( key ) && ( _cacheList[key] != query.Substring( index + 1 ) );
+					if ( _cacheList.ContainsKey( key ) ) {
+
+						if ( changed = ( _cacheList[key] != value ) ) {
+							_cacheList[key] = value;
+						}
+
+					} else {
+						_cacheList[key] = value;
+					}
+				}
+
 				//检查Hack文件地址
 				if ( Configuration.Config.CacheSettings.HackEnabled ) {
 					var fnext = uri.Segments.Last().Split( '.' );
@@ -122,24 +203,34 @@ namespace ElectronicObserver.Observer.Cache {
 
 				//检查缓存文件
 				if ( File.Exists( filepath ) ) {
+
 					//存在本地缓存文件 -> 检查文件的最后修改时间
 					//（验证所有文件 或 只验证非资源文件）
 					if ( Configuration.Config.CacheSettings.CheckFiles > 1 || ( Configuration.Config.CacheSettings.CheckFiles > 0 && type != filetype.resources ) ) {
 						//只有swf文件需要验证时间
 						if ( filepath.EndsWith( ".swf" ) ) {
+
 							//文件存在且需要验证时间
 							//-> 请求服务器验证修改时间（记录读取和保存的位置）
 							result = filepath;
 							_RecordTask( url, filepath );
+
+							if ( changed ) {
+								// 版本发生变动，则重新下载
+								return Direction.Discharge_Response;
+							}
+
 							return Direction.Verify_LocalFile;
 						}
 					}
+
 					//文件不需验证
 					//->返回本地缓存文件
 					result = filepath;
 					return Direction.Return_LocalFile;
 
 				} else {
+
 					//缓存文件不存在
 					//-> 下载文件 （记录保存地址）
 					_RecordTask( url, filepath );
