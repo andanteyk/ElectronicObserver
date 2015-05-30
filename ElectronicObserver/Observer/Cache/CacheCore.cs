@@ -204,6 +204,12 @@ namespace ElectronicObserver.Observer.Cache {
 				//检查缓存文件
 				if ( File.Exists( filepath ) ) {
 
+					if ( changed ) {
+						// 版本发生变动，则重新下载
+						_RecordTask( url, filepath );
+						return Direction.Discharge_Response;
+					}
+
 					//存在本地缓存文件 -> 检查文件的最后修改时间
 					//（验证所有文件 或 只验证非资源文件）
 					if ( Configuration.Config.CacheSettings.CheckFiles > 1 || ( Configuration.Config.CacheSettings.CheckFiles > 0 && type != filetype.resources ) ) {
@@ -214,12 +220,6 @@ namespace ElectronicObserver.Observer.Cache {
 							//-> 请求服务器验证修改时间（记录读取和保存的位置）
 							result = filepath;
 							_RecordTask( url, filepath );
-
-							if ( changed ) {
-								// 版本发生变动，则重新下载
-								return Direction.Discharge_Response;
-							}
-
 							return Direction.Verify_LocalFile;
 						}
 					}
