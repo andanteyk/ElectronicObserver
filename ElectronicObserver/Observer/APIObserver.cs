@@ -29,7 +29,7 @@ namespace ElectronicObserver.Observer {
 
 		#endregion
 
-		private CacheCore cache = new CacheCore();
+		private CacheCore Cache;
 		private APIKancolleDB DBSender;
 
 		public APIDictionary APIList;
@@ -110,6 +110,7 @@ namespace ElectronicObserver.Observer {
 			Fiddler.FiddlerApplication.BeforeResponse += FiddlerApplication_BeforeResponse;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
 
+			Cache = new CacheCore();
 		}
 
 
@@ -153,6 +154,8 @@ namespace ElectronicObserver.Observer {
 			Fiddler.FiddlerApplication.Shutdown();
 
 			Utility.Logger.Add( 2, "APIObserver: 受信を停止しました。" );
+
+			Cache.SaveCacheList();
 		}
 
 
@@ -321,7 +324,7 @@ namespace ElectronicObserver.Observer {
 						oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
 				}
 
-			} else if ( oSession.PathAndQuery.StartsWith( "/kcs" ) && oSession.responseCode != 200 && oSession.responseCode != 304 ) {
+			} else if ( oSession.PathAndQuery.StartsWith( "/kcs" ) && oSession.responseCode >= 400 ) {
 
 				Utility.ErrorReporter.SendErrorReport( new Exception( oSession.fullUrl ), "返回错误状态码：" + oSession.responseCode, oSession.fullUrl, oSession.GetResponseBodyAsString() );
 
@@ -499,7 +502,7 @@ namespace ElectronicObserver.Observer {
 
 				// = KanColleCacher =
 				string filepath;
-				var direction = cache.GotNewRequest( oSession.fullUrl, out filepath );
+				var direction = Cache.GotNewRequest( oSession.fullUrl, out filepath );
 
 				if ( direction == Direction.Return_LocalFile ) {
 

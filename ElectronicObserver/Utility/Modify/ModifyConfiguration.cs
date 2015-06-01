@@ -109,6 +109,7 @@ namespace ElectronicObserver.Utility.Modify {
 			set {
 				if ( value == null ) {
 					_api_name = string.Empty;
+					return;
 				}
 
 				StringBuilder sb = new StringBuilder();
