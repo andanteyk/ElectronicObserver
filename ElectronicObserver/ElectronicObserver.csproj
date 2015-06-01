@@ -630,6 +630,9 @@
     <EmbeddedResource Include="Window\Integrate\FormIntegrated.resx">
       <DependentUpon>FormIntegrated.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Assets.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
