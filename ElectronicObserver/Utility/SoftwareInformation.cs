@@ -68,8 +68,9 @@ namespace ElectronicObserver.Utility {
 
 
 		private static System.Net.WebClient client;
-		private static readonly Uri uri = new Uri( "https://www.dropbox.com/s/vk073iw1wvktq4d/version.txt?dl=1" );
-		private static readonly Uri uri_kai = new Uri( "http://106.187.38.41/version.txt" );
+		private static readonly Uri uri = new Uri( "https://ci.appveyor.com/api/projects/tsanie/electronicobserver/branch/makai" );
+		private const string ARTIFACTS = "https://ci.appveyor.com/project/tsanie/electronicobserver/branch/makai/artifacts";
+		private const string VERSION_FILE = ".version";
 
 		public static void CheckUpdate() {
 
@@ -79,12 +80,13 @@ namespace ElectronicObserver.Utility {
 			if ( client == null ) {
 				client = new System.Net.WebClient();
 				client.CachePolicy = new System.Net.Cache.RequestCachePolicy( System.Net.Cache.RequestCacheLevel.NoCacheNoStore );
-				client.Encoding = Encoding.GetEncoding( 936 );
+				client.Encoding = Encoding.UTF8;
 				client.DownloadStringCompleted += DownloadStringKaiCompleted;
 			}
+			System.Net.ServicePointManager.Expect100Continue = false;
 
 			if ( !client.IsBusy )
-				client.DownloadStringAsync( uri_kai );
+				client.DownloadStringAsync( uri );
 		}
 
 		private static void DownloadStringKaiCompleted( object sender, System.Net.DownloadStringCompletedEventArgs e ) {
@@ -104,95 +106,41 @@ namespace ElectronicObserver.Utility {
 			}
 
 			try {
-				using ( var sr = new System.IO.StringReader( e.Result ) ) {
 
-					string versionText = sr.ReadLine();
-					string showText = sr.ReadLine();
-					string description = sr.ReadToEnd();
-					double version;
-					bool show;
+				var build = Codeplex.Data.DynamicJson.Parse( e.Result ).build;
+				string ver = build.version;
 
-					if ( double.TryParse( versionText, out version ) && bool.TryParse( showText, out show ) ) {
-						if ( version > MakaiVersion) {
+				// 验证版本
+				if ( !System.IO.File.Exists( VERSION_FILE ) ) {
 
-							if ( show ) {
-								// 有更新
-								Utility.Logger.Add( 3, "发现新的版本！ : " + version.ToString( "F4" ) );
+					System.IO.File.WriteAllText( VERSION_FILE, ver );
+					Utility.Logger.Add( 2, "已记录版本: " + ver );
+					return;
 
-								var result = System.Windows.Forms.MessageBox.Show(
-									string.Format( "发现新的版本：{0:F4}\r\n更新内容 : \r\n{1}\r\n需要前往LGA查看吗？\r\n（点“取消”停止以后检查版本更新）",
-									version, description ),
-									"更新情报", System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Information,
-									System.Windows.Forms.MessageBoxDefaultButton.Button1 );
-
-
-								if ( result == System.Windows.Forms.DialogResult.Yes ) {
-
-									System.Diagnostics.Process.Start( "http://bbs.ngacn.cc/read.php?tid=8093743" );
-
-								} else if ( result == System.Windows.Forms.DialogResult.Cancel ) {
-
-									Utility.Configuration.Config.Life.CheckUpdateInformation = false;
-
-								}
-							} else {
-
-								Utility.Logger.Add( 2, string.Format( "发现小版本变动：{0:F4}", version ) );
-							}
-
-						} else {
-
-							Utility.Logger.Add( 1, "正在使用的为最新版本。" );
-
-						}
+				} else {
+					string verLocal = System.IO.File.ReadAllText( VERSION_FILE );
+					if ( verLocal == ver ) {
+						// 最新
+						Utility.Logger.Add( 1, "正在使用的为最新版本。" );
+						return;
 					}
-				}
 
-			} catch ( Exception ex ) {
+					// 判断是否为重要更新
+					string message = build.message;
+					if ( message.StartsWith( "important:" ) ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "更新情报处理失败。" );
-			}
-		}
-
-		private static void DownloadStringCompleted( object sender, System.Net.DownloadStringCompletedEventArgs e ) {
-
-			if ( e.Error != null ) {
-
-				Utility.ErrorReporter.SendErrorReport( e.Error, "アップデート情報の取得に失敗しました。" );
-				return;
-
-			}
-
-			if ( e.Result.StartsWith( "<!DOCTYPE html>" ) ) {
-
-				Utility.Logger.Add( 3, "アップデート情報の URI が無効です。" );
-				return;
-
-			}
-
-
-			try {
-
-				using ( var sr = new System.IO.StringReader( e.Result ) ) {
-
-					DateTime date = DateTimeHelper.CSVStringToTime( sr.ReadLine() );
-					string version = sr.ReadLine();
-					string description = sr.ReadToEnd();
-
-					if ( UpdateTime < date ) {
-
-						Utility.Logger.Add( 3, "新しいバージョンがリリースされています！ : " + version );
+						Utility.Logger.Add( 3, "发现新的版本！: " + ver );
 
 						var result = System.Windows.Forms.MessageBox.Show(
-							string.Format( "新しいバージョンがリリースされています！ : {0}\r\n更新内容 : \r\n{1}\r\nダウンロードページを開きますか？\r\n(キャンセルすると以降表示しません)",
-							version, description ),
-							"アップデート情報", System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Information,
+							string.Format( "发现新的版本: {0}\r\n更新内容 : \r\n{1}\r\n需要打开下载页面吗？\r\n（点“取消”停止以后检查版本更新）",
+							ver, message ),
+							"更新情报", System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Information,
 							System.Windows.Forms.MessageBoxDefaultButton.Button1 );
 
 
 						if ( result == System.Windows.Forms.DialogResult.Yes ) {
 
-							System.Diagnostics.Process.Start( "http://electronicobserver.blog.fc2.com/" );
+							System.Diagnostics.Process.Start( ARTIFACTS );
 
 						} else if ( result == System.Windows.Forms.DialogResult.Cancel ) {
 
@@ -202,17 +150,14 @@ namespace ElectronicObserver.Utility {
 
 					} else {
 
-						Utility.Logger.Add( 1, "お使いのバージョンは最新です。" );
-
+						Utility.Logger.Add( 2, string.Format( "发现小版本变动：{0}", ver ) );
 					}
-
 				}
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "アップデート情報の処理に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "更新情报处理失败。" );
 			}
-
 		}
 
 	}
