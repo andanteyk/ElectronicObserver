@@ -67,8 +67,8 @@ namespace ElectronicObserver.Utility {
 		}
 
 		private static System.Net.WebClient client;
-		private static readonly Uri uri = new Uri( "https://ci.appveyor.com/api/projects/tsanie/electronicobserver/branch/makai" );
-		private const string ARTIFACTS = "https://ci.appveyor.com/project/tsanie/electronicobserver/branch/makai/artifacts";
+		private static readonly Uri uri = new Uri( "https://ci.appveyor.com/api/projects/tsanie/electronicobserver/branch/net40" );
+		private const string ARTIFACTS = "https://ci.appveyor.com/project/tsanie/electronicobserver/branch/net40/artifacts";
 		private const string VERSION_FILE = ".version";
 
 		public static void CheckUpdate() {
