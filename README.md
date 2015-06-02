@@ -4,6 +4,8 @@
 
 現在鋭意開発中の艦これ補助ブラウザです。  
 
+[![Build status](https://ci.appveyor.com/api/projects/status/7jciq1cqj6qto3ij/branch/makai)](https://ci.appveyor.com/project/tsanie/electronicobserver/branch/makai/artifacts)
+
 ### 実装されている機能
 ---
 
