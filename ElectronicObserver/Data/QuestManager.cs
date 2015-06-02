@@ -65,12 +65,24 @@ namespace ElectronicObserver.Data {
 
 			//周期任務削除
 			if ( DateTimeHelper.IsCrossedDay( _prevTime, 5, 0, 0 ) ) {
+				KCDatabase.Instance.QuestProgress.Progresses.RemoveAll( p => {
+					var q = Quests[p.QuestID];
+					return q != null && ( q.Type == 2 || q.Type == 4 || q.Type == 5 );
+				} );
 				Quests.RemoveAll( q => q.Type == 2 || q.Type == 4 || q.Type == 5 );
 			}
 			if ( DateTimeHelper.IsCrossedWeek( _prevTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
+				KCDatabase.Instance.QuestProgress.Progresses.RemoveAll( p => {
+					var q = Quests[p.QuestID];
+					return q != null && ( q.Type == 3 );
+				} );
 				Quests.RemoveAll( q => q.Type == 3 );
 			}
 			if ( DateTimeHelper.IsCrossedMonth( _prevTime, 1, 5, 0, 0 ) ) {
+				KCDatabase.Instance.QuestProgress.Progresses.RemoveAll( p => {
+					var q = Quests[p.QuestID];
+					return q != null && ( q.Type == 6 );
+				} );
 				Quests.RemoveAll( q => q.Type == 6 );
 			}
 

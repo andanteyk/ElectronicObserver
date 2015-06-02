@@ -29,7 +29,7 @@ namespace ElectronicObserver.Observer {
 		#endregion
 
 
-		public APIDictionary APIList;
+		public APIDictionary APIList { get; private set; }
 
 		public string ServerAddress { get; private set; }
 		public int ProxyPort { get { return Fiddler.FiddlerApplication.oProxy.ListenPort; } }
