@@ -25,9 +25,9 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			this.BasePanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.FlowPanelEnemyInformation = new System.Windows.Forms.FlowLayoutPanel();
 			this.PanelEnemyFleet = new System.Windows.Forms.Panel();
 			this.TableEnemyMember = new System.Windows.Forms.TableLayoutPanel();
-			this.TableEnemyFleet = new System.Windows.Forms.TableLayoutPanel();
 			this.TextEnemyFleetName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextFormation = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextAirSuperiority = new ElectronicObserver.Window.Control.ImageLabel();
@@ -37,8 +37,8 @@
 			this.TextEventKind = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextEventDetail = new ElectronicObserver.Window.Control.ImageLabel();
 			this.BasePanel.SuspendLayout();
+			this.FlowPanelEnemyInformation.SuspendLayout();
 			this.PanelEnemyFleet.SuspendLayout();
-			this.TableEnemyFleet.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// BasePanel
@@ -50,19 +50,33 @@
 			this.BasePanel.Controls.Add(this.TextDestination);
 			this.BasePanel.Controls.Add(this.TextEventKind);
 			this.BasePanel.Controls.Add(this.TextEventDetail);
+			this.BasePanel.Controls.Add(this.FlowPanelEnemyInformation);
 			this.BasePanel.Controls.Add(this.PanelEnemyFleet);
 			this.BasePanel.Location = new System.Drawing.Point(0, 0);
 			this.BasePanel.Name = "BasePanel";
 			this.BasePanel.Size = new System.Drawing.Size(300, 200);
 			this.BasePanel.TabIndex = 0;
+			//
+			// FlowPanelEnemyInformation
+			//
+			this.FlowPanelEnemyInformation.AutoSize = true;
+			this.FlowPanelEnemyInformation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.FlowPanelEnemyInformation.Controls.Add(this.TextEnemyFleetName);
+			this.FlowPanelEnemyInformation.Controls.Add(this.TextFormation);
+			this.FlowPanelEnemyInformation.Controls.Add(this.TextAirSuperiority);
+			this.FlowPanelEnemyInformation.Location = new System.Drawing.Point(0, 0);
+			this.FlowPanelEnemyInformation.Margin = new System.Windows.Forms.Padding(0);
+			this.FlowPanelEnemyInformation.Name = "FlowPanelEnemyInformation";
+			this.FlowPanelEnemyInformation.Size = new System.Drawing.Size(0, 0);
+			this.FlowPanelEnemyInformation.TabIndex = 0;
 			// 
 			// PanelEnemyFleet
 			// 
 			this.PanelEnemyFleet.AutoSize = true;
 			this.PanelEnemyFleet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.PanelEnemyFleet.Controls.Add(this.TableEnemyMember);
-			this.PanelEnemyFleet.Controls.Add(this.TableEnemyFleet);
 			this.PanelEnemyFleet.Location = new System.Drawing.Point(3, 25);
+			this.PanelEnemyFleet.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.PanelEnemyFleet.Name = "PanelEnemyFleet";
 			this.PanelEnemyFleet.Size = new System.Drawing.Size(190, 22);
 			this.PanelEnemyFleet.TabIndex = 4;
@@ -74,40 +88,20 @@
 			this.TableEnemyMember.ColumnCount = 2;
 			this.TableEnemyMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableEnemyMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableEnemyMember.Location = new System.Drawing.Point(0, 22);
+			this.TableEnemyMember.Location = new System.Drawing.Point(0, 0);
 			this.TableEnemyMember.Margin = new System.Windows.Forms.Padding(0);
 			this.TableEnemyMember.Name = "TableEnemyMember";
 			this.TableEnemyMember.RowCount = 1;
 			this.TableEnemyMember.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEnemyMember.Size = new System.Drawing.Size(0, 0);
+			this.TableEnemyMember.MinimumSize = new System.Drawing.Size(240, 128);
 			this.TableEnemyMember.TabIndex = 1;
 			this.TableEnemyMember.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableEnemyMember_CellPaint);
-			// 
-			// TableEnemyFleet
-			// 
-			this.TableEnemyFleet.AutoSize = true;
-			this.TableEnemyFleet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableEnemyFleet.ColumnCount = 3;
-			this.TableEnemyFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableEnemyFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableEnemyFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableEnemyFleet.Controls.Add(this.TextEnemyFleetName, 0, 0);
-			this.TableEnemyFleet.Controls.Add(this.TextFormation, 1, 0);
-			this.TableEnemyFleet.Controls.Add(this.TextAirSuperiority, 2, 0);
-			this.TableEnemyFleet.Location = new System.Drawing.Point(0, 0);
-			this.TableEnemyFleet.Margin = new System.Windows.Forms.Padding(0);
-			this.TableEnemyFleet.Name = "TableEnemyFleet";
-			this.TableEnemyFleet.RowCount = 1;
-			this.TableEnemyFleet.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEnemyFleet.Size = new System.Drawing.Size(190, 16);
-			this.TableEnemyFleet.TabIndex = 0;
 			// 
 			// TextEnemyFleetName
 			// 
 			this.TextEnemyFleetName.BackColor = System.Drawing.Color.Transparent;
 			this.TextEnemyFleetName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.TextEnemyFleetName.Location = new System.Drawing.Point(3, 0);
-			this.TextEnemyFleetName.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.TextEnemyFleetName.Name = "TextEnemyFleetName";
 			this.TextEnemyFleetName.Size = new System.Drawing.Size(59, 16);
 			this.TextEnemyFleetName.TabIndex = 0;
@@ -118,7 +112,6 @@
 			this.TextFormation.BackColor = System.Drawing.Color.Transparent;
 			this.TextFormation.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.TextFormation.Location = new System.Drawing.Point(68, 0);
-			this.TextFormation.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.TextFormation.Name = "TextFormation";
 			this.TextFormation.Size = new System.Drawing.Size(35, 16);
 			this.TextFormation.TabIndex = 1;
@@ -128,7 +121,6 @@
 			// 
 			this.TextAirSuperiority.BackColor = System.Drawing.Color.Transparent;
 			this.TextAirSuperiority.Location = new System.Drawing.Point(109, 0);
-			this.TextAirSuperiority.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.TextAirSuperiority.Name = "TextAirSuperiority";
 			this.TextAirSuperiority.Size = new System.Drawing.Size(175, 16);
 			this.TextAirSuperiority.TabIndex = 2;
@@ -195,10 +187,10 @@
 			this.Load += new System.EventHandler(this.FormCompass_Load);
 			this.BasePanel.ResumeLayout(false);
 			this.BasePanel.PerformLayout();
+			this.FlowPanelEnemyInformation.ResumeLayout( false );
+			this.FlowPanelEnemyInformation.PerformLayout();
 			this.PanelEnemyFleet.ResumeLayout(false);
 			this.PanelEnemyFleet.PerformLayout();
-			this.TableEnemyFleet.ResumeLayout(false);
-			this.TableEnemyFleet.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -206,8 +198,8 @@
 		#endregion
 
 		private System.Windows.Forms.FlowLayoutPanel BasePanel;
+		private System.Windows.Forms.FlowLayoutPanel FlowPanelEnemyInformation;
 		private System.Windows.Forms.Panel PanelEnemyFleet;
-		private System.Windows.Forms.TableLayoutPanel TableEnemyFleet;
 		private Control.ImageLabel TextEnemyFleetName;
 		private Control.ImageLabel TextFormation;
 		private Control.ImageLabel TextAirSuperiority;
