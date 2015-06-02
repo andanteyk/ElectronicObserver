@@ -93,7 +93,7 @@
 			this.TableEnemyMember.Name = "TableEnemyMember";
 			this.TableEnemyMember.RowCount = 1;
 			this.TableEnemyMember.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableEnemyMember.MinimumSize = new System.Drawing.Size(240, 128);
+			this.TableEnemyMember.MinimumSize = new System.Drawing.Size(240, 10);
 			this.TableEnemyMember.TabIndex = 1;
 			this.TableEnemyMember.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableEnemyMember_CellPaint);
 			// 
