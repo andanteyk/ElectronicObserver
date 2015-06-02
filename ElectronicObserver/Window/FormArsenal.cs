@@ -198,10 +198,10 @@ namespace ElectronicObserver.Window {
 
 				} else {
 
-					name = "艦娘";
+					name = "舰娘";
 				}
 
-				Utility.Logger.Add( 2, string.Format( "工廠ドック #{0}で {1}の建造を開始しました。({2}/{3}/{4}/{5}-{6} 秘書艦: {7})",
+				Utility.Logger.Add( 2, string.Format( "工厂船坞 #{0} 开始建造 {1}。({2}/{3}/{4}/{5}-{6} 秘书舰: {7})",
 					_buildingID,
 					name,
 					arsenal.Fuel,

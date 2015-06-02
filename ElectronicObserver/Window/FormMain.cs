@@ -81,7 +81,7 @@ namespace ElectronicObserver.Window {
 			} );
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
+			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " 开始启动…" );
 
 
 			this.Text = SoftwareInformation.VersionJapanese + "（迷彩型）";
@@ -146,7 +146,7 @@ namespace ElectronicObserver.Window {
 
 			UIUpdateTimer.Start();
 
-			Utility.Logger.Add( 2, "起動処理が完了しました。" );
+			Utility.Logger.Add( 2, "启动处理完毕。" );
 		}
 
 
@@ -234,7 +234,7 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を終了しています…" );
+			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " 即将结束…" );
 
 			UIUpdateTimer.Stop();
 
@@ -259,7 +259,7 @@ namespace ElectronicObserver.Window {
 			KCDatabase.Instance.Save();
 
 
-			Utility.Logger.Add( 2, "終了処理が完了しました。" );
+			Utility.Logger.Add( 2, "结束处理完毕。" );
 
 			if ( Utility.Configuration.Config.Log.SaveLogFlag )
 				Utility.Logger.Save( @"eolog.log" );
@@ -361,7 +361,7 @@ namespace ElectronicObserver.Window {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの復元に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "子窗口布局恢复失败。" );
 			}
 
 		}
@@ -375,7 +375,7 @@ namespace ElectronicObserver.Window {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "子窗口布局保存失败。" );
 			}
 
 		}
@@ -397,27 +397,27 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "ウィンドウ レイアウトを復元しました。" );
+				Utility.Logger.Add( 2, "窗口布局已恢复。" );
 
 			} catch ( FileNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
-				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
+				Utility.Logger.Add( 3, string.Format( "窗口布局文件不存在。" ) );
+				MessageBox.Show( "已初始化布局。\r\n请在「显示」菜单中添加想要的窗口。", "窗口布局文件不存在",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
 				fBrowser.Show( MainDockPanel );
 
 			} catch ( DirectoryNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
-				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
+				Utility.Logger.Add( 3, string.Format( "窗口布局文件不存在。" ) );
+				MessageBox.Show( "已初始化布局。\r\n请在「显示」菜单中添加想要的窗口。", "窗口布局文件不存在",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
 				fBrowser.Show( MainDockPanel );
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "窗口布局恢复失败。" );
 			}
 
 		}
@@ -440,11 +440,11 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "ウィンドウ レイアウトを保存しました。" );
+				Utility.Logger.Add( 2, "窗口布局已保存。" );
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "窗口布局保存失败。" );
 			}
 
 		}

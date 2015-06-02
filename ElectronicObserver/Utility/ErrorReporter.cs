@@ -35,11 +35,11 @@ namespace ElectronicObserver.Utility {
 			try {
 				using ( StreamWriter sw = new StreamWriter( path, false, new System.Text.UTF8Encoding( false ) ) ) {
 
-					sw.WriteLine( "エラーレポート : {0}", DateTime.Now );
-					sw.WriteLine( "エラー : {0}", ex.GetType().Name );
+					sw.WriteLine( "错误报告日期 : {0}", DateTime.Now );
+					sw.WriteLine( "错误 : {0}", ex.GetType().Name );
 					sw.WriteLine( ex.Message );
-					sw.WriteLine( "追加情報 : {0}", message );
-					sw.WriteLine( "スタックトレース：" );
+					sw.WriteLine( "追加信息 : {0}", message );
+					sw.WriteLine( "堆栈信息：" );
 					sw.WriteLine( ex.StackTrace );
 
                     var exInner = ex;
@@ -60,7 +60,7 @@ namespace ElectronicObserver.Utility {
 
 			} catch ( Exception ) {
 
-				Utility.Logger.Add( 3, string.Format( "エラーレポートの書き込みに失敗しました。\r\n{0}\r\n{1}", ex.Message, ex.StackTrace ) );
+				Utility.Logger.Add( 3, string.Format( "错误报告文件写入失败。\r\n{0}\r\n{1}", ex.Message, ex.StackTrace ) );
 			}
 
 		}

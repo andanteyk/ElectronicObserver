@@ -22,7 +22,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_mission {
 			int deckID = int.Parse( data["api_deck_id"] );
 			int destination = int.Parse( data["api_mission_id"] );
 			
-			Utility.Logger.Add( 2, string.Format( "#{0}「{1}」が遠征「{2}: {3}」へ出撃しました。", deckID, KCDatabase.Instance.Fleet[deckID].Name, destination, KCDatabase.Instance.Mission[destination].Name ) );
+			Utility.Logger.Add( 2, string.Format( "#{0}「{1}」已出击远征「{2}: {3}」。", deckID, KCDatabase.Instance.Fleet[deckID].Name, destination, KCDatabase.Instance.Mission[destination].Name ) );
 
 			base.OnRequestReceived( data );
 		}
