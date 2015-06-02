@@ -117,7 +117,7 @@ namespace ElectronicObserver.Utility {
 					return;
 
 				} else {
-					string verLocal = System.IO.File.ReadAllText( VERSION_FILE );
+					string verLocal = System.IO.File.ReadLines( VERSION_FILE ).FirstOrDefault();
 					if ( verLocal == ver ) {
 						// 最新
 						Utility.Logger.Add( 1, "正在使用的为最新版本。" );
@@ -130,9 +130,14 @@ namespace ElectronicObserver.Utility {
 
 						Utility.Logger.Add( 3, "发现新的版本！: " + ver );
 
+						string extend = build.messageExtended() ? build.messageExtended : null;
+						if ( extend != null ) {
+							extend = extend.Replace( " ", "\r\n" );
+						}
+
 						var result = System.Windows.Forms.MessageBox.Show(
-							string.Format( "发现新的版本: {0}\r\n更新内容 : \r\n{1}\r\n需要打开下载页面吗？\r\n（点“取消”停止以后检查版本更新）",
-							ver, message ),
+							string.Format( "发现新的版本: {0}\r\n更新内容 : \r\n{1}\r\n{2}\r\n\r\n需要打开下载页面吗？\r\n（点“取消”停止以后检查版本更新）",
+							ver, message, extend ),
 							"更新情报", System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Information,
 							System.Windows.Forms.MessageBoxDefaultButton.Button1 );
 

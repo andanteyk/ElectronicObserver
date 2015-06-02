@@ -76,7 +76,7 @@
 			this.PanelEnemyFleet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.PanelEnemyFleet.Controls.Add(this.TableEnemyMember);
 			this.PanelEnemyFleet.Location = new System.Drawing.Point(3, 25);
-			this.PanelEnemyFleet.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			this.PanelEnemyFleet.Margin = new System.Windows.Forms.Padding(3);
 			this.PanelEnemyFleet.Name = "PanelEnemyFleet";
 			this.PanelEnemyFleet.Size = new System.Drawing.Size(190, 22);
 			this.PanelEnemyFleet.TabIndex = 4;

@@ -123,14 +123,15 @@ namespace ElectronicObserver.Window {
 
 			StringBuilder sb = new StringBuilder();
 
-			if ( data.api_list != null ) {
+			if ( data != null && data.api_list() && data.api_list != null ) {
 
 				if ( data.api_list[0].api_yomi() ) {
-					const int bound = 70;
-					int startIndex = ( ( (int)data.api_list[0].api_index_no - 1 ) / bound ) * bound + 1;
-					bool[] flags = Enumerable.Repeat( false, bound ).ToArray();
 
 					//艦娘図鑑
+					const int bound = 70;		// 図鑑1ページあたりの艦船数
+					int startIndex = ( ( (int)data.api_list[0].api_index_no - 1 ) / bound ) * bound + 1;
+					bool[] flags = Enumerable.Repeat<bool>( false, bound ).ToArray();
+
 					sb.AppendLine( "[中破絵未回収]" );
 
 					foreach ( dynamic elem in data.api_list ) {
@@ -157,11 +158,12 @@ namespace ElectronicObserver.Window {
 					}
 
 				} else {
-					const int bound = 50;
-					int startIndex = ( ( (int)data.api_list[0].api_index_no - 1 ) / bound ) * bound + 1;
-					bool[] flags = Enumerable.Repeat( false, bound ).ToArray();
 
 					//装備図鑑
+					const int bound = 50;		// 図鑑1ページあたりの装備数
+					int startIndex = ( ( (int)data.api_list[0].api_index_no - 1 ) / bound ) * bound + 1;
+					bool[] flags = Enumerable.Repeat<bool>( false, bound ).ToArray();
+
 					foreach ( dynamic elem in data.api_list ) {
 
 						flags[(int)elem.api_index_no - startIndex] = true;
