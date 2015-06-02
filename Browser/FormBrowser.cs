@@ -715,7 +715,7 @@ namespace Browser {
 		}
 
 		private void ToolMenu_Other_Navigate_Click( object sender, EventArgs e ) {
-			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.RequestNavigation( Browser.Url.ToString() ) );
+			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.RequestNavigation( Browser.Url == null ? null : Browser.Url.ToString() ) );
 		}
 
 		private void ToolMenu_Other_AppliesStyleSheet_Click( object sender, EventArgs e ) {
@@ -855,6 +855,14 @@ namespace Browser {
 			ToolMenu_Other_Alignment_Invisible.Checked = !Configuration.IsToolMenuVisible;
 		}
 
+		protected override void WndProc( ref Message m ) {
+
+			if ( m.Msg == WM_ERASEBKGND )
+				// ignore this message
+				return;
+
+			base.WndProc( ref m );
+		}
 
 
 		#region 呪文
@@ -868,6 +876,7 @@ namespace Browser {
 		private const int GWL_STYLE = ( -16 );
 		private const uint WS_CHILD = 0x40000000;
 		private const uint WS_VISIBLE = 0x10000000;
+		private const int WM_ERASEBKGND = 0x14;
 
 
 		//以下キャッシュ削除用呪文
