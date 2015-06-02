@@ -120,7 +120,7 @@ namespace ElectronicObserver.Window {
 
 			StringBuilder sb = new StringBuilder();
 
-			if ( data.api_list != null ) {
+			if ( data != null && data.api_list() && data.api_list != null ) {
 
 				if ( data.api_list[0].api_yomi() ) {
 					//艦娘図鑑
