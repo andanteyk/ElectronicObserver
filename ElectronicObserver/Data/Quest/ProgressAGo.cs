@@ -19,13 +19,13 @@ namespace ElectronicObserver.Data.Quest {
 		/// </summary>
 		[IgnoreDataMember]
 		private int sortieMax { get { return 36; } }
-		
+
 		/// <summary>
 		/// 達成に必要なS勝利回数
 		/// </summary>
 		[IgnoreDataMember]
 		private int sWinMax { get { return 6; } }
-		
+
 		/// <summary>
 		/// 達成に必要なボス戦闘回数
 		/// </summary>
@@ -211,11 +211,13 @@ namespace ElectronicObserver.Data.Quest {
 
 		public override string ToString() {
 			var list = new List<DSPair>();
-			list.Add( new DSPair( Math.Min((double)sortieCount / sortieMax, 1.0 ), string.Format( "出撃 {0}/{1}", sortieCount, sortieMax ) ) );
-			list.Add( new DSPair( Math.Min((double)sWinCount / sWinMax, 1.0 ), string.Format( "S勝利 {0}/{1}", sWinCount, sWinMax ) ) );
-			list.Add( new DSPair( Math.Min((double)bossCount / bossMax, 1.0 ), string.Format( "ボス {0}/{1}", bossCount, bossMax ) ) );
-			list.Add( new DSPair( Math.Min((double)bossWinCount / bossWinMax, 1.0 ), string.Format( "ボス勝利 {0}/{1}", bossWinCount, bossWinMax ) ) );
-			return string.Format( "{0:p1} ({1})", ProgressPercentage, string.Join( ", ", list.OrderBy( elem => elem.Key ).Select( elem => elem.Value ) ) );
+			list.Add( new DSPair( Math.Min( (double)sortieCount / sortieMax, 1.0 ), string.Format( "出撃 {0}/{1}", sortieCount, sortieMax ) ) );
+			list.Add( new DSPair( Math.Min( (double)sWinCount / sWinMax, 1.0 ), string.Format( "S勝利 {0}/{1}", sWinCount, sWinMax ) ) );
+			list.Add( new DSPair( Math.Min( (double)bossCount / bossMax, 1.0 ), string.Format( "ボス {0}/{1}", bossCount, bossMax ) ) );
+			list.Add( new DSPair( Math.Min( (double)bossWinCount / bossWinMax, 1.0 ), string.Format( "ボス勝利 {0}/{1}", bossWinCount, bossWinMax ) ) );
+
+			var slist = list.Where( elem => elem.Key < 1.0 ).OrderBy( elem => elem.Key ).Select( elem => elem.Value );
+			return string.Format( "{0:p1} ({1})", ProgressPercentage, slist.Count() > 0 ? string.Join( ", ", slist ) : "達成" );
 		}
 	}
 
