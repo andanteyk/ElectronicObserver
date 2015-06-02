@@ -286,7 +286,6 @@ namespace ElectronicObserver.Window {
 
 
 			ControlHelper.SetDoubleBuffered( BasePanel );
-			ControlHelper.SetDoubleBuffered( TableEnemyFleet );
 			ControlHelper.SetDoubleBuffered( TableEnemyMember );
 
 
@@ -302,6 +301,9 @@ namespace ElectronicObserver.Window {
 			BasePanel.SetFlowBreak( TextDestination, true );
 			//BasePanel.SetFlowBreak( TextEventKind, true );
 			BasePanel.SetFlowBreak( TextEventDetail, true );
+			BasePanel.SetFlowBreak( FlowPanelEnemyInformation, true );
+
+			FlowPanelEnemyInformation.WrapContents = true;
 
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
