@@ -159,7 +159,7 @@ namespace ElectronicObserver.Observer {
 
 							}
 						} else {
-							Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
+							Utility.Logger.Add( 1, string.Format( "{0} 数据已发送。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
 						}
 					};
 
