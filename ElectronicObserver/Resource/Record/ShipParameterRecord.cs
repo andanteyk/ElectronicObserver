@@ -457,6 +457,9 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		private void AlbumOpened( string apiname, dynamic data ) {
 
+			if ( data == null || !data.api_list() )		//空のページ
+				return;
+
 			foreach ( dynamic elem in data.api_list ) {
 
 				if ( !elem.api_yomi() ) break;		//装備図鑑だった場合終了

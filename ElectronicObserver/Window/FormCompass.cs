@@ -602,7 +602,9 @@ namespace ElectronicObserver.Window {
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			TextFormation.Visible = true;
-			TextAirSuperiority.Text = Calculator.GetAirSuperiority( enemies, slots ).ToString();
+			int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
+            TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
+			ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
 			TextAirSuperiority.Visible = true;
 
 			TableEnemyMember.SuspendLayout();

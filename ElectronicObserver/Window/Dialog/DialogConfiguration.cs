@@ -129,15 +129,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
 
-			checkedListBoxKdb.Items.AddRange( Enum.GetNames( typeof( APIKancolleDB.APIType ) ) );
-			// kancolle-db settings
-			{
-				uint apiMask = Utility.Configuration.Config.Connection.SendKancolleDBApis;
 
-				for ( int i = 0; i < checkedListBoxKdb.Items.Count; i++ ) {
-					checkedListBoxKdb.SetItemChecked( i, ( ( ( 1 << i ) & apiMask ) > 0 ) );
-				}
-			}
 
 		}
 
@@ -297,8 +289,6 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_UseUpstreamProxy.Checked = config.Connection.UseUpstreamProxy;
 			Connection_UpstreamProxyHost.Text = config.Connection.UpstreamProxyAddress;
 			Connection_UpstreamProxyPort.Value = config.Connection.UpstreamProxyPort;
-			checkBoxKdb.Checked = config.Connection.SendDataToKancolleDB;
-			textBoxKdbToken.Text = config.Connection.SendKancolleOAuth;
 
 			//[UI]
 			UI_MainFont.Font = config.UI.MainFont.FontData;
@@ -450,6 +440,19 @@ namespace ElectronicObserver.Window.Dialog {
 			textCacheFolder.Text = config.CacheSettings.CacheFolder;
 			checkCache.Checked = config.CacheSettings.CacheEnabled;
 
+			//[データベース]
+			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
+			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
+			Database_SendKancolleDBApis.Items.Clear();
+			Database_SendKancolleDBApis.Items.AddRange( Enum.GetNames( typeof( APIKancolleDB.APIType ) ) );
+			{
+				uint apiMask = Utility.Configuration.Config.Connection.SendKancolleDBApis;
+
+				for ( int i = 0; i < Database_SendKancolleDBApis.Items.Count; i++ ) {
+					Database_SendKancolleDBApis.SetItemChecked( i, ( ( ( 1 << i ) & apiMask ) > 0 ) );
+				}
+			}
+
 			//finalize
 			UpdateParameter();
 		}
@@ -490,23 +493,6 @@ namespace ElectronicObserver.Window.Dialog {
 					APIObserver.Instance.Start( config.Connection.Port, this );
 				}
 
-				// kancolle-db settings
-				{
-					config.Connection.SendDataToKancolleDB = checkBoxKdb.Checked;
-					config.Connection.SendKancolleOAuth = textBoxKdbToken.Text;
-
-					uint apiMask = 0;
-					for ( int i = checkedListBoxKdb.Items.Count - 1; i >= 0; i-- ) {
-
-						apiMask <<= 1;
-
-						if ( checkedListBoxKdb.GetItemChecked( i ) ) {
-							apiMask |= 1;
-						}
-					}
-
-					config.Connection.SendKancolleDBApis = apiMask;
-				}
 			}
 
 			//[UI]
@@ -612,13 +598,31 @@ namespace ElectronicObserver.Window.Dialog {
 
 			config.FormBattle.IsShortDamage = FormBattle_IsShortDamage.Checked;
 
-            // [缓存]
-            if (checkCache.Checked)
-            {
+			//[データベース]
+			{
+				config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
+				config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
+
+				uint apiMask = 0;
+				for ( int i = Database_SendKancolleDBApis.Items.Count - 1; i >= 0; i-- ) {
+
+					apiMask <<= 1;
+
+					if ( Database_SendKancolleDBApis.GetItemChecked( i ) ) {
+						apiMask |= 1;
+					}
+				}
+
+				config.Connection.SendKancolleDBApis = apiMask;
+			}
+
+			// [缓存]
+			if (checkCache.Checked)
+			{
 				if ( !config.CacheSettings.CacheEnabled || config.CacheSettings.CacheFolder != textCacheFolder.Text ) {
 					Utility.Logger.Add( 2, string.Format( "缓存设置更新。“{0}”", textCacheFolder.Text ) );
 				}
-            } else if ( config.CacheSettings.CacheEnabled ) {
+			} else if ( config.CacheSettings.CacheEnabled ) {
 				Utility.Logger.Add( 2, string.Format( "缓存已关闭。" ) );
 			}
 
@@ -685,6 +689,10 @@ namespace ElectronicObserver.Window.Dialog {
 						reg.Close();
 				}
 			}
+		}
+
+		private void Database_LinkKCDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+			System.Diagnostics.Process.Start( "http://kancolle-db.net/" );
 		}
 
         private void buttonCacheFolderBrowse_Click(object sender, EventArgs e)
