@@ -46,7 +46,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 				ship.LoadFromResponse( APIName, data.api_ship );
 				db.Ships.Add( ship );
 
-				Utility.Logger.Add( 2, string.Format( "{0}「{1}」の建造が完了しました。", ship.MasterShip.ShipTypeName, ship.MasterShip.NameWithClass ) );
+				Utility.Logger.Add( 2, string.Format( "{0}「{1}」建造完毕。", ship.MasterShip.ShipTypeName, ship.MasterShip.NameWithClass ) );
 			}
 
 

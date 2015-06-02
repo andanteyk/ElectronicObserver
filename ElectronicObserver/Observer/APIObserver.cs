@@ -133,12 +133,12 @@ namespace ElectronicObserver.Observer {
 			*/
 			ProxyStarted();
 
-			Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
+			Utility.Logger.Add( 2, string.Format( "APIObserver: 端口 {0} 开始监听。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
 
 
 			//checkme: 一応警告をつけてみる
 			if ( portID != Fiddler.FiddlerApplication.oProxy.ListenPort ) {
-				Utility.Logger.Add( 3, "APIObserver: 実際に受信を開始したポート番号が指定されたポート番号とは異なります。" );
+				Utility.Logger.Add( 3, "APIObserver: 实际监听端口号与指定的端口号不一致。" );
 			}
 
 			return Fiddler.FiddlerApplication.oProxy.ListenPort;
@@ -153,7 +153,7 @@ namespace ElectronicObserver.Observer {
 			Fiddler.URLMonInterop.ResetProxyInProcessToDefault();
 			Fiddler.FiddlerApplication.Shutdown();
 
-			Utility.Logger.Add( 2, "APIObserver: 受信を停止しました。" );
+			Utility.Logger.Add( 2, "APIObserver: 监听终止。" );
 
 			Cache.SaveCacheList();
 		}
@@ -229,11 +229,11 @@ namespace ElectronicObserver.Observer {
 										}
 									}
 
-									Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath.Remove( 0, saveDataPath.Length + 1 ) ) );
+									Utility.Logger.Add( 1, string.Format( "通信文件 {0} 已保存。", tpath.Remove( 0, saveDataPath.Length + 1 ) ) );
 
 								} catch ( IOException ex ) {	//ファイルがロックされている; 頻繁に出るのでエラーレポートを残さない
 
-									Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
+									Utility.Logger.Add( 3, "通信内容保存失败。 " + ex.Message );
 								}
 							} ) );
 
@@ -241,7 +241,7 @@ namespace ElectronicObserver.Observer {
 
 					} catch ( Exception ex ) {
 
-						Utility.ErrorReporter.SendErrorReport( ex, "通信内容の保存に失敗しました。" );
+						Utility.ErrorReporter.SendErrorReport( ex, "通信内容保存失败。" );
 					}
 
 				}
@@ -274,7 +274,7 @@ namespace ElectronicObserver.Observer {
 
 						if ( Configuration.Config.Log.ShowCacheLog ) {
 
-							Utility.Logger.Add( 2, string.Format( "更新缓存文件：{0}.", filepath ) );
+							Utility.Logger.Add( 2, string.Format( "更新缓存文件： {0}.", filepath ) );
 						}
 
 						oSession.SaveResponseBody( filepath );
@@ -338,7 +338,7 @@ namespace ElectronicObserver.Observer {
 					if ( Utility.Configuration.Config.Log.OutputGraphicList && !File.Exists( filename ) ) {
 
 						Task.Factory.StartNew( (Action)( () => APIGraphicList.Instance.OutputGraphicList( api_start2, filename ) ) )
-							.ContinueWith( t => Utility.Logger.Add( 2, "输出舰船列表至：" + filename ) );
+							.ContinueWith( t => Utility.Logger.Add( 2, "输出舰船列表至: " + filename ) );
 					}
 
 					var mod = Utility.Modify.ModifyConfiguration.Instance;
@@ -390,7 +390,7 @@ namespace ElectronicObserver.Observer {
 							}
 
 							if ( changed ) {
-								Utility.Logger.Add( 2, string.Format( "应用魔改：{0} → {1}", node.api_filename, node.api_name ) );
+								Utility.Logger.Add( 2, string.Format( "应用魔改: {0} → {1}", node.api_filename, node.api_name ) );
 							}
 						}
 					}
@@ -536,7 +536,7 @@ namespace ElectronicObserver.Observer {
 				} else if ( Configuration.Config.Log.ShowCacheLog && ( Configuration.Config.Log.ShowMainD2Link || !oSession.fullUrl.Contains( "mainD2.swf" ) ) ) {
 
 					//下载文件
-					Utility.Logger.Add( 2, string.Format( "BeforeRequest: 重新下载文件。{0}", oSession.fullUrl ) );
+					Utility.Logger.Add( 2, string.Format( "重新下载缓存文件: {0}", oSession.fullUrl ) );
 				}
 
 			}
@@ -605,7 +605,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				Utility.Logger.Add( 1, "Request を受信しました : " + shortpath );
+				Utility.Logger.Add( 1, "开始处理 Request : " + shortpath );
 
 				SystemEvents.UpdateTimerEnabled = false;
 
@@ -624,7 +624,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				ErrorReporter.SendErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
+				ErrorReporter.SendErrorReport( ex, "处理 Request 时发生错误。", shortpath, data );
 
 			} finally {
 
@@ -641,7 +641,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				Utility.Logger.Add( 1, "Responseを受信しました : " + shortpath );
+				Utility.Logger.Add( 1, "开始处理 Response : " + shortpath );
 
 				SystemEvents.UpdateTimerEnabled = false;
 
@@ -650,8 +650,8 @@ namespace ElectronicObserver.Observer {
 
 				if ( (int)json.api_result != 1 ) {
 
-					var ex = new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
-					Utility.ErrorReporter.SendErrorReport( ex, "エラーコードを含むメッセージを受信しました。" );
+					var ex = new ArgumentException( "返回信息中含有错误码。" );
+					Utility.ErrorReporter.SendErrorReport( ex, "返回信息中含有错误码。" );
 					throw ex;
 				}
 
@@ -666,7 +666,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				ErrorReporter.SendErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
+				ErrorReporter.SendErrorReport( ex, "处理 Response 时发生错误。", shortpath, data );
 
 			} finally {
 

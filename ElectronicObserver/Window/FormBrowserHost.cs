@@ -309,9 +309,9 @@ namespace ElectronicObserver.Window {
 
 		void Browser_Faulted( Exception e ) {
 			if ( Browser.Proxy == null ) {
-				Utility.Logger.Add( 3, "ブラウザプロセスが予期せず終了しました。" );
+				Utility.Logger.Add( 3, "浏览器进程意外终止。" );
 			} else {
-				Utility.ErrorReporter.SendErrorReport( e, "ブラウザプロセス間で通信エラーが発生しました。" );
+				Utility.ErrorReporter.SendErrorReport( e, "与浏览器进程间的通信发生错误。" );
 			}
 		}
 

@@ -23,7 +23,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 			ShipData ship = db.Ships[shipID];
 			
-			Utility.Logger.Add( 2, ship.NameWithLevel + " を解体しました。" );
+			Utility.Logger.Add( 2, ship.NameWithLevel + " 已解体。" );
 
 			for ( int i = 0; i < ship.Slot.Count; i++ ) {
 				if ( ship.Slot[i] != -1 )

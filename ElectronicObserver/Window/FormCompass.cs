@@ -384,6 +384,7 @@ namespace ElectronicObserver.Window {
 
 				BasePanel.SuspendLayout();
 				PanelEnemyFleet.Visible = false;
+				FlowPanelEnemyInformation.Visible = false;
 
 
 				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}", compass.MapAreaID, compass.MapInfoID );
@@ -574,6 +575,7 @@ namespace ElectronicObserver.Window {
 			}
 
 			PanelEnemyFleet.Visible = true;
+			FlowPanelEnemyInformation.Visible = true;
 
 		}
 
@@ -615,6 +617,7 @@ namespace ElectronicObserver.Window {
 			TableEnemyMember.Visible = true;
 
 			PanelEnemyFleet.Visible = true;
+			FlowPanelEnemyInformation.Visible = true;
 			BasePanel.Visible = true;			//checkme
 
 		}

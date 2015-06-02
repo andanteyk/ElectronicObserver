@@ -61,12 +61,12 @@ namespace ElectronicObserver.Resource.Record {
 
 			} catch ( FileNotFoundException ) {
 
-				Utility.Logger.Add( 1, "レコード " + path + " は存在しません。" );
+				Utility.Logger.Add( 1, "记录 " + path + " 不存在。" );
 
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の読み込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "记录 " + path + " 读取失败。" );
 
 			}
 
