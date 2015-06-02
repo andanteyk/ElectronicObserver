@@ -234,7 +234,7 @@
 		private System.Windows.Forms.ToolStripMenuItem Menu_File_OpenFolder;
 		private System.Windows.Forms.Button ButtonExecuteNext;
 		private System.Windows.Forms.Button ButtonExecute;
-		private System.Windows.Forms.ContextMenuStrip ContextMenu;
+		private new System.Windows.Forms.ContextMenuStrip ContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenu_Execute;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenu_Delete;
 		private System.Windows.Forms.FolderBrowserDialog FolderBrowser;
