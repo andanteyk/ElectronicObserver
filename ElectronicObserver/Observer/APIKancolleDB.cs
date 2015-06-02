@@ -11,7 +11,11 @@ using System.Threading.Tasks;
 using System.Web;
 
 namespace ElectronicObserver.Observer {
-	
+
+	/// <summary>
+	/// 艦これ統計データベースへのデータ送信処理を行います。
+	/// </summary>
+	/// <remarks>http://kancolle-db.net/</remarks>
 	public class APIKancolleDB {
 
 		public enum APIType : int {
@@ -65,6 +69,7 @@ namespace ElectronicObserver.Observer {
             { APIType.COMBINED_BATTLE_RESULT,   "/kcsapi/api_req_combined_battle/battleresult"   }
 		};
 
+
 		public APIKancolleDB() {
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
@@ -81,7 +86,7 @@ namespace ElectronicObserver.Observer {
 
 			if ( Utility.Configuration.Config.Connection.UseUpstreamProxy ) {
 				Proxy = new WebProxy( "127.0.0.1", Utility.Configuration.Config.Connection.Port );
-			}else {
+			} else {
 				Proxy = null;
 			}
 		}
@@ -94,7 +99,6 @@ namespace ElectronicObserver.Observer {
 		/// <summary>
 		/// read the after-session, determinate whether it will send to kancolle-db.net
 		/// </summary>
-		/// <param name="oSession"></param>
 		public void ExecuteSession( Session oSession ) {
 
 			if ( SendDBApis == 0 || string.IsNullOrEmpty( OAuth ) ) {
@@ -152,15 +156,11 @@ namespace ElectronicObserver.Observer {
 
 					wc.UploadValuesCompleted += ( sender, e ) => {
 						if ( e.Error != null ) {
-							using ( var output = new StreamWriter( @"kancolle-db.log", true, Encoding.UTF8 ) ) {
 
-								output.WriteLine( "[{0}] - {1}: {2}", DateTime.Now,
-									url.Substring( url.IndexOf( "/api" ) + 1 ),
-									e.Error );
+							Utility.ErrorReporter.SendErrorReport( e.Error, string.Format( "艦これ統計データベースへの {0} の送信に失敗しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
 
-							}
 						} else {
-							Utility.Logger.Add( 1, string.Format( "{0}のデータを送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
+							Utility.Logger.Add( 1, string.Format( "艦これ統計データベースへ {0} を送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
 						}
 					};
 
@@ -170,7 +170,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "kancolle-db.netの送信中にエラーが発生しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "艦これ統計データベースへの送信中にエラーが発生しました。" );
 			}
 
 		}
