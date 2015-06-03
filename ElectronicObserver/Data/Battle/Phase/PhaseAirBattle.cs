@@ -87,7 +87,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			int totalDamage = Damages.Skip( 6 ).Take( 6 ).Sum();
 
 			for ( int i = 0; i < 6; i++ ) {
-				damages[i] += (int)( (double)totalDamage * firepower[i] / Math.Max( totalFirepower, 1 ) );
+				damages[i] += (int)Math.Round( (double)totalDamage * firepower[i] / Math.Max( totalFirepower, 1 ) );
 			}
 		}
 
@@ -227,9 +227,9 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					int[] escort = (int[])AirBattleData.api_stage3_combined.api_fdam;
 
 					for ( int i = 0; i < 6; i++ ) {
-						ret[i] = friend[i];
-						ret[i + 6] = enemy[i];
-						ret[i + 12] = escort[i];
+						ret[i] = Math.Max( friend[i + 1], 0 );
+						ret[i + 6] = Math.Max( enemy[i + 1], 0 );
+						ret[i + 12] = Math.Max( escort[i + 1], 0 );
 					}
 
 					return ret;
@@ -241,8 +241,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					int[] enemy = (int[])AirBattleData.api_stage3.api_edam;
 
 					for ( int i = 0; i < 6; i++ ) {
-						ret[i] = friend[i];
-						ret[i + 6] = enemy[i];
+						ret[i] = Math.Max( friend[i + 1], 0 );
+						ret[i + 6] = Math.Max( enemy[i + 1], 0 );
 					}
 
 					return ret;
