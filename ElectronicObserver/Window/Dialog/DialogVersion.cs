@@ -18,8 +18,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			string ver;
 			try {
-				var assembly = Assembly.GetExecutingAssembly();
-				ver = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+				var attr = Assembly.GetExecutingAssembly().GetCustomAttributes( typeof( AssemblyInformationalVersionAttribute ), true ).FirstOrDefault();
+				ver = ( (AssemblyInformationalVersionAttribute)attr ).InformationalVersion;
 			} catch {
 				ver = SoftwareInformation.VersionEnglish;
 			}

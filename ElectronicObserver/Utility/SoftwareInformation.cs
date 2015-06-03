@@ -157,8 +157,8 @@ namespace ElectronicObserver.Utility {
 
 				// 验证版本
 				{
-					var assembly = Assembly.GetExecutingAssembly();
-					string verLocal = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+					var attr = Assembly.GetExecutingAssembly().GetCustomAttributes( typeof( AssemblyInformationalVersionAttribute ), true ).FirstOrDefault();
+					string verLocal = attr == null ? null : ( (AssemblyInformationalVersionAttribute)attr ).InformationalVersion;
 					int compare = CompareVersion( ver, verLocal );
 
 					if ( compare == 0 ) {
