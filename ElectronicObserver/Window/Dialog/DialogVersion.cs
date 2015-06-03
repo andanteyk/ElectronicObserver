@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,8 +16,15 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogVersion() {
 			InitializeComponent();
 
-			this.Text = string.Format( "魔改版本 - {0:F4}", SoftwareInformation.MakaiVersion );
-			TextVersion.Text = string.Format( "{0} (ver. {1} - {2} Release)", SoftwareInformation.VersionJapanese, SoftwareInformation.VersionEnglish, SoftwareInformation.UpdateTime.ToString( "d" ) ); 
+			string ver;
+			try {
+				var assembly = Assembly.GetExecutingAssembly();
+				ver = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+			} catch {
+				ver = SoftwareInformation.VersionEnglish;
+			}
+
+			TextVersion.Text = string.Format( "{0} (ver. {1} - {2} Release)", SoftwareInformation.VersionJapanese, ver, SoftwareInformation.UpdateTime.ToString( "d" ) ); 
 		}
 
 		private void Text__LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {

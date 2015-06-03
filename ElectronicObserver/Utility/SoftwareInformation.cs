@@ -60,13 +60,6 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-		/// <summary>
-		/// 魔改版本
-		/// </summary>
-		public static double MakaiVersion {
-			get { return 603.0945; }
-		}
-
 
 		private static System.Net.WebClient client;
 		private static readonly Uri uri = new Uri( "https://ci.appveyor.com/api/projects/tsanie/electronicobserver/branch/makai" );
