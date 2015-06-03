@@ -157,7 +157,10 @@ namespace ElectronicObserver.Observer {
 					wc.UploadValuesCompleted += ( sender, e ) => {
 						if ( e.Error != null ) {
 
-							Utility.ErrorReporter.SendErrorReport( e.Error, string.Format( "艦これ統計データベースへの {0} の送信に失敗しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
+							// 結構頻繁に出るのでレポートは残さない方針で　申し訳ないです
+							//Utility.ErrorReporter.SendErrorReport( e.Error, string.Format( "艦これ統計データベースへの {0} の送信に失敗しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
+
+							Utility.Logger.Add( 3, string.Format( "艦これ統計データベースへの {0} の送信に失敗しました。{1}", url.Substring( url.IndexOf( "/api" ) + 1 ), e.Error.Message ) );
 
 						} else {
 							Utility.Logger.Add( 1, string.Format( "艦これ統計データベースへ {0} を送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
