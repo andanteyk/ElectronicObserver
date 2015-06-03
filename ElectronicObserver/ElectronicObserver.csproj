@@ -329,6 +329,12 @@
     <Compile Include="Window\Dialog\DialogAlbumMasterShip.Designer.cs">
       <DependentUpon>DialogAlbumMasterShip.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogBattleReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogBattleReport.Designer.cs">
+      <DependentUpon>DialogBattleReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -552,6 +558,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterShip.resx">
       <DependentUpon>DialogAlbumMasterShip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogBattleReport.resx">
+      <DependentUpon>DialogBattleReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>

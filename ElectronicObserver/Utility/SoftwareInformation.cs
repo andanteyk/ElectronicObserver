@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,17 +60,10 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-		/// <summary>
-		/// 魔改版本
-		/// </summary>
-		public static double MakaiVersion {
-			get { return 603.0945; }
-		}
 
 		private static System.Net.WebClient client;
 		private static readonly Uri uri = new Uri( "https://ci.appveyor.com/api/projects/tsanie/electronicobserver/branch/net40" );
 		private const string ARTIFACTS = "https://ci.appveyor.com/project/tsanie/electronicobserver/branch/net40/artifacts";
-		private const string VERSION_FILE = ".version";
 
 		public static void CheckUpdate() {
 
@@ -86,6 +80,58 @@ namespace ElectronicObserver.Utility {
 
 			if ( !client.IsBusy )
 				client.DownloadStringAsync( uri );
+		}
+
+		/// <summary>
+		/// 比较版本，例 1.0.1.2.makai
+		/// </summary>
+		/// <returns>
+		/// 0 - 相同
+		/// 1 - 小变动
+		/// 2 - 大变动
+		/// </returns>
+		private static int CompareVersion( string verRemote, string verLocal )
+		{
+			if ( verRemote == verLocal )
+				return 0;
+
+			int t;
+			int[] vr = verRemote.Split( '.' ).Select( s => int.TryParse( s, out t ) ? t : 0 ).ToArray();
+
+			if ( vr.Length != 5 ) {
+				// 远程版本不合法也不进行升级通知
+				return 0;
+			}
+
+			int[] vl = verLocal.Split( '.' ).Select( s => int.TryParse( s, out t ) ? t : 0 ).ToArray();
+
+			if ( vr.Length != 5 || vl.Length != 5 || vr.Length != vl.Length )
+				return 2;
+
+			// 2.0.0.0 -> 1.0.0.0
+			if ( vr[0] > vl[0] ) {
+				return 2;
+			} else if ( vr[0] == vl[0] ) {
+
+				// 2.1.0.0 -> 2.0.0.0
+				if ( vr[1] > vl[1] ) {
+					return 2;
+				} else if ( vr[1] == vl[1] ) {
+
+					// 2.1.1.0 -> 2.1.0.0
+					if ( vr[2] > vl[2] ) {
+						return 2;
+					} else if ( vr[2] == vl[2] ) {
+
+						// 2.1.1.9 -> 2.1.1.0
+						if ( vr[3] > vl[3] ) {
+							return 1;
+						}
+					}
+				}
+			}
+
+			return 0;
 		}
 
 		private static void DownloadStringKaiCompleted( object sender, System.Net.DownloadStringCompletedEventArgs e ) {
@@ -110,26 +156,23 @@ namespace ElectronicObserver.Utility {
 				string ver = build.version;
 
 				// 验证版本
-				if ( !System.IO.File.Exists( VERSION_FILE ) ) {
+				{
+					var assembly = Assembly.GetExecutingAssembly();
+					string verLocal = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+					int compare = CompareVersion( ver, verLocal );
 
-					System.IO.File.WriteAllText( VERSION_FILE, ver );
-					Utility.Logger.Add( 2, "已记录版本: " + ver );
-					return;
-
-				} else {
-					string verLocal = System.IO.File.ReadLines( VERSION_FILE ).FirstOrDefault();
-					if ( verLocal == ver ) {
+					if ( compare == 0 ) {
 						// 最新
 						Utility.Logger.Add( 1, "正在使用的为最新版本。" );
 						return;
 					}
 
 					// 判断是否为重要更新
-					string message = build.message;
-					if ( message.StartsWith( "important:" ) ) {
+					else if ( compare >= 2 ) {
 
 						Utility.Logger.Add( 3, "发现新的版本！: " + ver );
 
+						string message = build.message;
 						string extend = build.messageExtended() ? build.messageExtended : null;
 						if ( extend != null ) {
 							extend = extend.Replace( " ", "\r\n" );

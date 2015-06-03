@@ -26,6 +26,8 @@
 			this.components = new System.ComponentModel.Container();
 			this.TableBottom = new System.Windows.Forms.TableLayoutPanel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.ContextMenuBattle = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.ContextMenuBattle_ExportReport = new System.Windows.Forms.ToolStripMenuItem();
 			this.BaseLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.TableTop = new System.Windows.Forms.TableLayoutPanel();
 			this.FormationFriend = new ElectronicObserver.Window.Control.ImageLabel();
@@ -46,10 +48,26 @@
 			this.DamageEnemy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FleetCombined = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FleetEnemy = new ElectronicObserver.Window.Control.ImageLabel();
+			this.ContextMenuBattle.SuspendLayout();
 			this.TableBottom.SuspendLayout();
 			this.BaseLayoutPanel.SuspendLayout();
 			this.TableTop.SuspendLayout();
 			this.SuspendLayout();
+			// 
+			// ContextMenuFleet
+			// 
+			ToolStripCustomizer.ToolStripRender.SetRender(this.ContextMenuBattle);
+			this.ContextMenuBattle.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.ContextMenuBattle_ExportReport});
+			this.ContextMenuBattle.Name = "ContextMenuBattle";
+			this.ContextMenuBattle.Size = new System.Drawing.Size(227, 98);
+			// 
+			// ContextMenuFleet_CopyFleet
+			// 
+			this.ContextMenuBattle_ExportReport.Name = "ContextMenuBattle_ExportReport";
+			this.ContextMenuBattle_ExportReport.Size = new System.Drawing.Size(226, 22);
+			this.ContextMenuBattle_ExportReport.Text = "导出为报告(&E)";
+			this.ContextMenuBattle_ExportReport.Click += new System.EventHandler(this.ContextMenuBattle_ExportReport_Click);
 			// 
 			// TableBottom
 			// 
@@ -364,6 +382,7 @@
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.ContextMenuStrip = this.ContextMenuBattle;
 			this.ClientSize = new System.Drawing.Size(380, 300);
 			this.Controls.Add(this.BaseLayoutPanel);
 			this.DoubleBuffered = true;
@@ -373,7 +392,8 @@
 			this.Name = "FormBattle";
 			this.Text = "战斗";
 			this.Load += new System.EventHandler(this.FormBattle_Load);
-			this.TableBottom.ResumeLayout(false);
+			this.ContextMenuBattle.ResumeLayout(false);
+            this.TableBottom.ResumeLayout(false);
 			this.TableBottom.PerformLayout();
 			this.BaseLayoutPanel.ResumeLayout(false);
 			this.TableTop.ResumeLayout(false);
@@ -403,6 +423,8 @@
 		private Control.ImageLabel DamageEnemy;
 		private Control.ImageLabel FleetCombined;
 		private Control.ImageLabel FleetEnemy;
+		private System.Windows.Forms.ContextMenuStrip ContextMenuBattle;
+		private System.Windows.Forms.ToolStripMenuItem ContextMenuBattle_ExportReport;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private System.Windows.Forms.FlowLayoutPanel BaseLayoutPanel;
 		private System.Windows.Forms.TableLayoutPanel TableTop;

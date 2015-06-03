@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using FiddlerFlags = Fiddler.FiddlerCoreStartupFlags;
 
 namespace ElectronicObserver.Observer {
 
@@ -121,11 +122,14 @@ namespace ElectronicObserver.Observer {
 		/// <param name="UIControl">GUI スレッドで実行するためのオブジェクト。中身は何でもいい</param>
 		/// <returns>実際に使用されるポート番号。</returns>
 		public int Start( int portID, Control UIControl ) {
+
 			this.UIControl = UIControl;
 
-			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
-				Fiddler.FiddlerCoreStartupFlags.OptimizeThreadPool |
-				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
+			var flag = FiddlerFlags.ChainToUpstreamGateway | FiddlerFlags.OptimizeThreadPool;
+			if ( Utility.Configuration.Config.Connection.RegisterAsSystemProxy )
+				flag |= FiddlerFlags.RegisterAsSystemProxy;
+
+			Fiddler.FiddlerApplication.Startup( portID, flag );
 
 			/*
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}",
@@ -139,6 +143,12 @@ namespace ElectronicObserver.Observer {
 			//checkme: 一応警告をつけてみる
 			if ( portID != Fiddler.FiddlerApplication.oProxy.ListenPort ) {
 				Utility.Logger.Add( 3, "APIObserver: 实际监听端口号与指定的端口号不一致。" );
+
+				if ( Fiddler.FiddlerApplication.oProxy.ListenPort == 0 ) {
+					MessageBox.Show(
+						"当前监听端口被占用，请在设置对话框中更换。",
+						"启动", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
 			}
 
 			return Fiddler.FiddlerApplication.oProxy.ListenPort;
