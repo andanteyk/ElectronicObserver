@@ -255,7 +255,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public int TotalDamage {
 			get {
 				if ( IsStage3Available ) {
-					return Damages.Sum();
+					return Damages.Skip( 6 ).Take( 6 ).Sum();
 				}
 
 				return 0;
