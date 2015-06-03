@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Quest {
+	using DSPair = KeyValuePair<double, string>;
 
 	/// <summary>
 	/// 任務「あ号作戦」の進捗を管理します。
@@ -18,13 +19,13 @@ namespace ElectronicObserver.Data.Quest {
 		/// </summary>
 		[IgnoreDataMember]
 		private int sortieMax { get { return 36; } }
-		
+
 		/// <summary>
 		/// 達成に必要なS勝利回数
 		/// </summary>
 		[IgnoreDataMember]
 		private int sWinMax { get { return 6; } }
-		
+
 		/// <summary>
 		/// 達成に必要なボス戦闘回数
 		/// </summary>
@@ -209,14 +210,15 @@ namespace ElectronicObserver.Data.Quest {
 
 
 		public override string ToString() {
-			return string.Format( "{0:p1} (出撃 {1}/{2}, S勝利 {3}/{4}, ボス {5}/{6}, ボス勝利 {7}/{8})",
-				ProgressPercentage,
-				sortieCount, sortieMax,
-				sWinCount, sWinMax,
-				bossCount, bossMax,
-				bossWinCount, bossWinMax );
-		}
+			var list = new List<DSPair>();
+			list.Add( new DSPair( Math.Min( (double)sortieCount / sortieMax, 1.0 ), string.Format( "出撃 {0}/{1}", sortieCount, sortieMax ) ) );
+			list.Add( new DSPair( Math.Min( (double)sWinCount / sWinMax, 1.0 ), string.Format( "S勝利 {0}/{1}", sWinCount, sWinMax ) ) );
+			list.Add( new DSPair( Math.Min( (double)bossCount / bossMax, 1.0 ), string.Format( "ボス {0}/{1}", bossCount, bossMax ) ) );
+			list.Add( new DSPair( Math.Min( (double)bossWinCount / bossWinMax, 1.0 ), string.Format( "ボス勝利 {0}/{1}", bossWinCount, bossWinMax ) ) );
 
+			var slist = list.Where( elem => elem.Key < 1.0 ).OrderBy( elem => elem.Key ).Select( elem => elem.Value );
+			return string.Format( "{0:p1} ({1})", ProgressPercentage, slist.Count() > 0 ? string.Join( ", ", slist ) : "達成" );
+		}
 	}
 
 }
