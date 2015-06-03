@@ -139,7 +139,10 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_port/port"].OnResponseReceived( data );
 
 			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( "battle.json" ).Substring( 7 ) ).api_data;
-			string apiname = "api_req_sortie/battle";
+			KCDatabase.Instance.Battle.LoadFromResponse( "api_req_sortie/battle", data );
+
+			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( "midnight@battle.json" ).Substring( 7 ) ).api_data;
+			string apiname = "api_req_battle_midnight/battle";
 			KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
 
 			//data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "practice.txt" ) ).api_data;
@@ -172,14 +175,14 @@ td,th,tr {text-align:left; padding:2px 4px;}
 </head>
 <body>" );
 
+			var day = bm.BattleDay;
+			string[] friends = day.Initial.FriendFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
+			string[] enemys = ( (int[])day.RawData.api_ship_ke ).Skip( 1 ).Select( id => id <= 0 ? null : KCDatabase.Instance.MasterShips[id].NameWithClass ).ToArray();
+			int[] hps = (int[])day.Initial.InitialHPs.Clone();
+			int[] maxHps = day.Initial.MaxHPs;
+
 			// day
 			{
-				var day = bm.BattleDay;
-				string[] friends = day.Initial.FriendFleet.MembersInstance.Select( s => s.NameWithLevel ).ToArray();
-				string[] enemys = ( (int[])day.RawData.api_ship_ke ).Skip( 1 ).Select( id => KCDatabase.Instance.MasterShips[id].NameWithClass ).ToArray();
-				int[] hps = (int[])day.Initial.InitialHPs.Clone();
-				int[] maxHps = day.Initial.MaxHPs;
-
 				// 航空战血量变化
 				if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available ) {
 					FillAirDamage( "航空战", builder, day.AirBattle.Damages, friends, enemys, hps, maxHps );
@@ -224,6 +227,19 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 			}
 
+			// night
+			{
+				var night = bm.BattleNight;
+				if (night != null && night.IsAvailable ) {
+
+					var nightbattle = night.NightBattle;
+					if (nightbattle.ShellingData != null ) {
+						FillShellingDamage( "夜战", builder, nightbattle.ShellingData, friends, enemys, hps, maxHps );
+					}
+
+				}
+			}
+
 			builder.AppendLine( "</body>\r\n</html>" );
 
 			new Dialog.DialogBattleReport( builder.ToString() ).Show();
@@ -248,7 +264,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			for ( int i = 0; i < 6; i++ ) {
 				builder.AppendLine( "<tr>" );
 
-				if ( i < friends.Length ) {
+				if ( friends[i] != null ) {
 					int before = hps[i];
 					hps[i] -= damages[i];
 					builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
@@ -260,7 +276,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
 				}
 
-				if ( i < enemys.Length ) {
+				if ( enemys[i] != null ) {
 					int before = hps[i + 6];
 					hps[i + 6] -= damages[i + 6];
 					builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
