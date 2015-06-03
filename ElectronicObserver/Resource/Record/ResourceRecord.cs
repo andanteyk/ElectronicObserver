@@ -189,9 +189,14 @@ namespace ElectronicObserver.Resource.Record {
 
 			int i;
 			for ( i = Record.Count - 1; i >= 0; i-- ) {
-				if ( Record[i].Date < target )
+				if ( Record[i].Date < target ) {
+					i++;
 					break;
+				}
 			}
+			// Record内の全ての記録がtarget以降だった
+			if ( i < 0 )
+				i = 0;
 
 			if ( 0 <= i && i < Record.Count ) {
 				return Record[i];

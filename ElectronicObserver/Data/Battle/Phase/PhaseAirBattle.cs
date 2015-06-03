@@ -84,10 +84,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 
 			int totalFirepower = firepower.Sum();
-			int totalDamage = Damages.Sum();
+			int totalDamage = Damages.Skip( 6 ).Take( 6 ).Sum();
 
 			for ( int i = 0; i < 6; i++ ) {
-				damages[i] += (int)( (double)totalDamage * firepower[i] / Math.Max( totalFirepower, 1 ) );
+				damages[i] += (int)Math.Round( (double)totalDamage * firepower[i] / Math.Max( totalFirepower, 1 ) );
 			}
 		}
 
@@ -220,14 +220,32 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public int[] Damages {
 			get {
 				if ( AirBattleData.api_stage3_combined() ) {
-					return ( (int[])AirBattleData.api_stage3.api_fdam ).Skip( 1 )
-						.Concat( ( (int[])AirBattleData.api_stage3.api_edam ).Skip( 1 ) )
-						.Concat( ( (int[])AirBattleData.api_stage3_combined.api_fdam ).Skip( 1 ) )
-						.ToArray();
+					int[] ret = new int[18];
+
+					int[] friend = (int[])AirBattleData.api_stage3.api_fdam;
+					int[] enemy = (int[])AirBattleData.api_stage3.api_edam;
+					int[] escort = (int[])AirBattleData.api_stage3_combined.api_fdam;
+
+					for ( int i = 0; i < 6; i++ ) {
+						ret[i] = Math.Max( friend[i + 1], 0 );
+						ret[i + 6] = Math.Max( enemy[i + 1], 0 );
+						ret[i + 12] = Math.Max( escort[i + 1], 0 );
+					}
+
+					return ret;
+
 				} else {
-					return ( (int[])AirBattleData.api_stage3.api_fdam ).Skip( 1 )
-						.Concat( ( (int[])AirBattleData.api_stage3.api_edam ).Skip( 1 ) )
-						.ToArray();
+					int[] ret = new int[12];
+
+					int[] friend = (int[])AirBattleData.api_stage3.api_fdam;
+					int[] enemy = (int[])AirBattleData.api_stage3.api_edam;
+
+					for ( int i = 0; i < 6; i++ ) {
+						ret[i] = Math.Max( friend[i + 1], 0 );
+						ret[i + 6] = Math.Max( enemy[i + 1], 0 );
+					}
+
+					return ret;
 				}
 			}
 		}

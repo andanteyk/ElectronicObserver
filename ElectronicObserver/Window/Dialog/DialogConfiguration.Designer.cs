@@ -138,6 +138,14 @@
 			this.Notification_Repair = new System.Windows.Forms.Button();
 			this.Notification_Construction = new System.Windows.Forms.Button();
 			this.Notification_Expedition = new System.Windows.Forms.Button();
+			this.tabPage15 = new System.Windows.Forms.TabPage();
+			this.label23 = new System.Windows.Forms.Label();
+			this.Database_LinkKCDB = new System.Windows.Forms.LinkLabel();
+			this.label22 = new System.Windows.Forms.Label();
+			this.Database_SendKancolleDBApis = new System.Windows.Forms.CheckedListBox();
+			this.Database_SendKancolleOAuth = new System.Windows.Forms.TextBox();
+			this.labelKdb = new System.Windows.Forms.Label();
+			this.Database_SendDataToKancolleDB = new System.Windows.Forms.CheckBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
@@ -172,6 +180,7 @@
 			this.tabPage14.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			this.tabPage11.SuspendLayout();
+			this.tabPage15.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -187,6 +196,7 @@
 			this.tabControl1.Controls.Add(this.tabPage6);
 			this.tabControl1.Controls.Add(this.tabPage7);
 			this.tabControl1.Controls.Add(this.tabPage11);
+			this.tabControl1.Controls.Add(this.tabPage15);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
@@ -205,10 +215,10 @@
 			this.tabPage1.Controls.Add(this.Connection_SaveReceivedData);
 			this.tabPage1.Controls.Add(this.Connection_Port);
 			this.tabPage1.Controls.Add(this.label1);
-			this.tabPage1.Location = new System.Drawing.Point(4, 24);
+			this.tabPage1.Location = new System.Drawing.Point(4, 44);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(456, 253);
+			this.tabPage1.Size = new System.Drawing.Size(456, 233);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "通信";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -1357,10 +1367,10 @@
 			// tabPage14
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
-			this.tabPage14.Location = new System.Drawing.Point(4, 24);
+			this.tabPage14.Location = new System.Drawing.Point(4, 34);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 219);
+			this.tabPage14.Size = new System.Drawing.Size(442, 209);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1497,6 +1507,93 @@
 			this.Notification_Expedition.UseVisualStyleBackColor = true;
 			this.Notification_Expedition.Click += new System.EventHandler(this.Notification_Expedition_Click);
 			// 
+			// tabPage15
+			// 
+			this.tabPage15.Controls.Add(this.label23);
+			this.tabPage15.Controls.Add(this.Database_LinkKCDB);
+			this.tabPage15.Controls.Add(this.label22);
+			this.tabPage15.Controls.Add(this.Database_SendKancolleDBApis);
+			this.tabPage15.Controls.Add(this.Database_SendKancolleOAuth);
+			this.tabPage15.Controls.Add(this.labelKdb);
+			this.tabPage15.Controls.Add(this.Database_SendDataToKancolleDB);
+			this.tabPage15.Location = new System.Drawing.Point(4, 44);
+			this.tabPage15.Name = "tabPage15";
+			this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage15.Size = new System.Drawing.Size(456, 233);
+			this.tabPage15.TabIndex = 8;
+			this.tabPage15.Text = "データベース";
+			this.tabPage15.UseVisualStyleBackColor = true;
+			// 
+			// label23
+			// 
+			this.label23.AutoSize = true;
+			this.label23.Location = new System.Drawing.Point(8, 101);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(52, 15);
+			this.label23.TabIndex = 18;
+			this.label23.Text = "フィルタ：";
+			this.ToolTipInfo.SetToolTip(this.label23, "チェックしたAPIのみ送信します。");
+			// 
+			// Database_LinkKCDB
+			// 
+			this.Database_LinkKCDB.AutoSize = true;
+			this.Database_LinkKCDB.Location = new System.Drawing.Point(8, 35);
+			this.Database_LinkKCDB.Name = "Database_LinkKCDB";
+			this.Database_LinkKCDB.Size = new System.Drawing.Size(141, 15);
+			this.Database_LinkKCDB.TabIndex = 17;
+			this.Database_LinkKCDB.TabStop = true;
+			this.Database_LinkKCDB.Text = "http://kancolle-db.net/";
+			this.Database_LinkKCDB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Database_LinkKCDB_LinkClicked);
+			// 
+			// label22
+			// 
+			this.label22.AutoSize = true;
+			this.label22.Location = new System.Drawing.Point(8, 3);
+			this.label22.Name = "label22";
+			this.label22.Size = new System.Drawing.Size(414, 30);
+			this.label22.TabIndex = 16;
+			this.label22.Text = "「艦これ統計データベース」へデータを送信できます。\r\n詳細やアクセスキーの取得は以下のサイトを参照してください。(外部ブラウザが開きます)";
+			// 
+			// Database_SendKancolleDBApis
+			// 
+			this.Database_SendKancolleDBApis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+			this.Database_SendKancolleDBApis.CheckOnClick = true;
+			this.Database_SendKancolleDBApis.FormattingEnabled = true;
+			this.Database_SendKancolleDBApis.IntegralHeight = false;
+			this.Database_SendKancolleDBApis.Location = new System.Drawing.Point(6, 119);
+			this.Database_SendKancolleDBApis.Name = "Database_SendKancolleDBApis";
+			this.Database_SendKancolleDBApis.Size = new System.Drawing.Size(212, 108);
+			this.Database_SendKancolleDBApis.TabIndex = 15;
+			// 
+			// Database_SendKancolleOAuth
+			// 
+			this.Database_SendKancolleOAuth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Database_SendKancolleOAuth.Location = new System.Drawing.Point(89, 75);
+			this.Database_SendKancolleOAuth.Name = "Database_SendKancolleOAuth";
+			this.Database_SendKancolleOAuth.Size = new System.Drawing.Size(359, 23);
+			this.Database_SendKancolleOAuth.TabIndex = 14;
+			// 
+			// labelKdb
+			// 
+			this.labelKdb.AutoSize = true;
+			this.labelKdb.Location = new System.Drawing.Point(8, 78);
+			this.labelKdb.Name = "labelKdb";
+			this.labelKdb.Size = new System.Drawing.Size(75, 15);
+			this.labelKdb.TabIndex = 13;
+			this.labelKdb.Text = "アクセスキー：";
+			// 
+			// Database_SendDataToKancolleDB
+			// 
+			this.Database_SendDataToKancolleDB.AutoSize = true;
+			this.Database_SendDataToKancolleDB.Location = new System.Drawing.Point(6, 53);
+			this.Database_SendDataToKancolleDB.Name = "Database_SendDataToKancolleDB";
+			this.Database_SendDataToKancolleDB.Size = new System.Drawing.Size(203, 27);
+			this.Database_SendDataToKancolleDB.TabIndex = 12;
+			this.Database_SendDataToKancolleDB.Text = "艦これ統計データベースに送信する";
+			this.Database_SendDataToKancolleDB.UseVisualStyleBackColor = true;
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 60000;
@@ -1607,6 +1704,8 @@
 			this.groupBox4.PerformLayout();
 			this.tabPage11.ResumeLayout(false);
 			this.tabPage11.PerformLayout();
+			this.tabPage15.ResumeLayout(false);
+			this.tabPage15.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -1734,5 +1833,13 @@
 		private System.Windows.Forms.ComboBox FormBrowser_FlashWMode;
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.ComboBox FormBrowser_FlashQuality;
+		private System.Windows.Forms.TabPage tabPage15;
+		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.LinkLabel Database_LinkKCDB;
+		private System.Windows.Forms.Label label22;
+		private System.Windows.Forms.CheckedListBox Database_SendKancolleDBApis;
+		private System.Windows.Forms.TextBox Database_SendKancolleOAuth;
+		private System.Windows.Forms.Label labelKdb;
+		private System.Windows.Forms.CheckBox Database_SendDataToKancolleDB;
 	}
 }
