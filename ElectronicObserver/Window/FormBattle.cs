@@ -132,21 +132,28 @@ namespace ElectronicObserver.Window {
 			/*
 			#region - Debug -
 
-			dynamic data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( "api_start2.json" ).Substring( 7 ) ).api_data;
-			o.APIList["api_start2"].OnResponseReceived( data );
+			string file = "api_start2.json";
+			dynamic data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( file ).Substring( 7 ) ).api_data;
+			string apiname = "api_start2";
+			o.APIList[apiname].OnResponseReceived( data );
 
-			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( "port.json" ).Substring( 7 ) ).api_data;
-			o.APIList["api_port/port"].OnResponseReceived( data );
+			file = @"KCAPI\20150604_12110948S@api_port@port.json";
+			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( file ).Substring( 7 ) ).api_data;
+			apiname = "api_port/port";
+			o.APIList[apiname].OnResponseReceived( data );
 
-			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( "battle.json" ).Substring( 7 ) ).api_data;
-			KCDatabase.Instance.Battle.LoadFromResponse( "api_req_sortie/battle", data );
+			file = @"KCAPI\20150604_12171472S@api_req_sortie@battle.json";
+			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( file ).Substring( 7 ) ).api_data;
+			apiname = "api_req_sortie/battle";
+			KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
 
-			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( "midnight@battle.json" ).Substring( 7 ) ).api_data;
-			string apiname = "api_req_battle_midnight/battle";
+			file = @"KCAPI\20150604_12183583S@api_req_battle_midnight@battle.json";
+			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( file ).Substring( 7 ) ).api_data;
+			apiname = "api_req_battle_midnight/battle";
 			KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
 
 			//data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "practice.txt" ) ).api_data;
-			//string apiname = "api_req_practice/battle";
+			//apiname = "api_req_practice/battle";
 			//KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
 
 			//data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "practice_midnight.txt" ) ).api_data;
@@ -161,7 +168,10 @@ namespace ElectronicObserver.Window {
 		private void ContextMenuBattle_ExportReport_Click( object sender, EventArgs e ) {
 
 			BattleManager bm = KCDatabase.Instance.Battle;
-			if ( !bm.IsAvailable || !bm.BattleDay.IsAvailable || !bm.BattleDay.Initial.IsAvailable )
+			if ( bm == null
+				|| bm.BattleMode == BattleManager.BattleModes.Undefined	// 无战斗
+				|| bm.BattleMode == BattleManager.BattleModes.NightDay	// TODO: 夜转昼
+				|| bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask)	// TODO：联合舰队
 				return;
 
 			StringBuilder builder = new StringBuilder();
@@ -178,62 +188,75 @@ td,th,tr {text-align:left; padding:2px 4px;}
 </head>
 <body>" );
 
-			var day = bm.BattleDay;
-			string[] friends = day.Initial.FriendFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
-			string[] enemys = ( (int[])day.RawData.api_ship_ke ).Skip( 1 ).Select( id => id <= 0 ? null : KCDatabase.Instance.MasterShips[id].NameWithClass ).ToArray();
-			int[] hps = (int[])day.Initial.InitialHPs.Clone();
-			int[] maxHps = day.Initial.MaxHPs;
+			PhaseInitial init;
+			string[] enemys;
+
+			if ( bm.BattleDay == null ) {
+				init = bm.BattleNight.Initial;
+				enemys = ( (int[])bm.BattleNight.RawData.api_ship_ke ).Skip( 1 ).Select( id => id <= 0 ? null : KCDatabase.Instance.MasterShips[id].NameWithClass ).ToArray();
+			} else {
+				init = bm.BattleDay.Initial;
+				enemys = ( (int[])bm.BattleDay.RawData.api_ship_ke ).Skip( 1 ).Select( id => id <= 0 ? null : KCDatabase.Instance.MasterShips[id].NameWithClass ).ToArray();
+			}
+
+			string[] friends = init.FriendFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
+			int[] hps = (int[])init.InitialHPs.Clone();
+			int[] maxHps = init.MaxHPs;
 
 			// day
 			{
-				try {
-					// 航空战血量变化
-					if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available ) {
-						FillAirDamage( "航空战", builder, day.AirBattle.Damages, friends, enemys, hps, maxHps );
-					}
-
-					// 支援
-					if ( day.Support != null && day.Support.SupportFlag > 0 ) {
-
-						switch ( day.Support.SupportFlag ) {
-							case 1:
-								FillAirDamage( "航空支援", builder, day.Support.AirRaidDamages, friends, enemys, hps, maxHps );
-								break;
-
-							case 2:
-							case 3:
-								FillAirDamage( "炮雷支援", builder, day.Support.ShellingTorpedoDamages, friends, enemys, hps, maxHps );
-								break;
+				var day = bm.BattleDay;
+				if ( day != null && day.IsAvailable ) {
+					try {
+						// 航空战血量变化
+						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available ) {
+							FillAirDamage( "航空战", builder, day.AirBattle.Damages, friends, enemys, hps, maxHps );
 						}
 
+						// 支援
+						if ( day.Support != null && day.Support.SupportFlag > 0 ) {
+
+							string[] supportnames = day.Support.SupportFleet.MembersInstance.Select( m => m == null ? null : m.NameWithLevel ).ToArray();
+
+							switch ( day.Support.SupportFlag ) {
+								case 1:
+									FillSupportDamage( "航空支援", builder, day.Support.AirRaidDamages, supportnames, enemys, hps, maxHps );
+									break;
+
+								case 2:
+								case 3:
+									FillSupportDamage( "炮雷支援", builder, day.Support.ShellingTorpedoDamages, supportnames, enemys, hps, maxHps );
+									break;
+							}
+
+						}
+					} catch ( Exception ex ) {
+
+						Utility.ErrorReporter.SendErrorReport( ex, "航空/支援解析出错。", "battle day", day.RawData.ToString() );
+
 					}
-				} catch ( Exception ex ) {
 
-					Utility.ErrorReporter.SendErrorReport( ex, "航空/支援解析出错。", "battle day", day.RawData.ToString() );
+					// 开幕雷击
+					if ( day.OpeningTorpedo != null && day.OpeningTorpedo.IsAvailable ) {
+						FillTorpedoDamage( "开幕雷击", builder, day.OpeningTorpedo.TorpedoData, friends, enemys, hps, maxHps );
+					}
 
+
+					// 炮击战
+					if ( day.Shelling1 != null && day.Shelling1.IsAvailable ) {
+						FillShellingDamage( "炮击战1回合", builder, day.Shelling1.ShellingData, friends, enemys, hps, maxHps );
+					}
+
+					if ( day.Shelling2 != null && day.Shelling2.IsAvailable ) {
+						FillShellingDamage( "炮击战2回合", builder, day.Shelling2.ShellingData, friends, enemys, hps, maxHps );
+					}
+
+
+					// 闭幕雷击
+					if ( day.Torpedo != null && day.Torpedo.IsAvailable ) {
+						FillTorpedoDamage( "闭幕雷击", builder, day.Torpedo.TorpedoData, friends, enemys, hps, maxHps );
+					}
 				}
-
-				// 开幕雷击
-				if ( day.OpeningTorpedo != null && day.OpeningTorpedo.IsAvailable ) {
-					FillTorpedoDamage( "开幕雷击", builder, day.OpeningTorpedo.TorpedoData, friends, enemys, hps, maxHps );
-				}
-
-
-				// 炮击战
-				if ( day.Shelling1 != null && day.Shelling1.IsAvailable ) {
-					FillShellingDamage( "炮击战1回合", builder, day.Shelling1.ShellingData, friends, enemys, hps, maxHps );
-				}
-
-				if ( day.Shelling2 != null && day.Shelling2.IsAvailable ) {
-					FillShellingDamage( "炮击战2回合", builder, day.Shelling2.ShellingData, friends, enemys, hps, maxHps );
-				}
-
-
-				// 闭幕雷击
-				if ( day.Torpedo != null && day.Torpedo.IsAvailable ) {
-					FillTorpedoDamage( "闭幕雷击", builder, day.Torpedo.TorpedoData, friends, enemys, hps, maxHps );
-				}
-
 			}
 
 			// night
@@ -273,6 +296,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			for ( int i = 0; i < 6; i++ ) {
 				builder.AppendLine( "<tr>" );
 
+				// 航空开幕
 				if ( friends[i] != null ) {
 					int before = hps[i];
 					hps[i] -= damages[i];
@@ -296,6 +320,55 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				} else {
 					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
 				}
+
+				builder.AppendLine( "</tr>" );
+			}
+
+			builder.AppendLine( "</tbody>\r\n</table>" );
+
+		}
+
+		private void FillSupportDamage( string name, StringBuilder builder, int[] damages, string[] friends, string[] enemys, int[] hps, int[] maxHps )
+		{
+
+			builder.AppendFormat( @"<h2>{0} <small>（伤害无对应关系）</small></h2>
+<hr />
+<table cellspacing=""2"" cellpadding=""0"">
+<thead>
+<tr>
+<th width=""160"">我方</th>
+<th width=""40"">&nbsp;</th>
+<th width=""160"">敌方</th>
+<th width=""90"">伤害</th>
+<th width=""90"">血量</th>
+</tr>
+</thead>
+<tbody>
+", name );
+
+			for ( int i = 0; i < 6; i++ ) {
+				builder.AppendLine( "<tr>" );
+
+				// 支援
+				if ( friends[i] != null ) {
+					builder.AppendFormat( "<td>{0}.{1}</td><td></td>\r\n", ( i + 1 ), friends[i] );
+				} else {
+					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+				}
+
+				if ( enemys[i] != null ) {
+					int before = hps[i + 6];
+					hps[i + 6] -= damages[i];
+					builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+						enemys[i], before, Math.Max( hps[i + 6], 0 ), maxHps[i + 6],
+						( before == hps[i + 6] ? null : @" class=""changed""" ),
+						( i + 1 ),
+						( damages[i] > 0 ? damages[i].ToString() : "miss" ) );
+
+				} else {
+					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+				}
+
 				builder.AppendLine( "</tr>" );
 			}
 
@@ -410,6 +483,12 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 					for ( int j = 0; j < enemy_list.Length; j++ ) {
 						int to = enemy_list[j] - 1;
+
+						if ( to < 0 ) {
+							// 3炮ci？
+							continue;
+						}
+
 						if ( to < 6 ) {
 							// 我方受到攻击
 							builder.AppendLine( @"<tr class=""damage"">" );
@@ -438,14 +517,14 @@ td,th,tr {text-align:left; padding:2px 4px;}
 							Math.Max( hps[to], 0 ), maxHps[to],
 							( flags[j] == 2 ? "√" : "" ) );
 
-						if ( enemy_list.Length == 1 && equips.Length > 1 ) {
+						if ( ( enemy_list.Length == 1 && equips.Length > 1 ) || enemy_list.Any( el => el < 0 ) ) {	// 3炮ci貌似list后两个都是-1
 
 							var eqs = equips.Select( ei =>
 							{
 								var eq = KCDatabase.Instance.MasterEquipments[ei];
 								return eq == null ? "&lt;" + ei + "&gt;" : eq.Name;
 							} );
-							builder.AppendFormat( "<td>{0}</td>", string.Join( ",", equips.Select( ei => KCDatabase.Instance.MasterEquipments[ei].Name ) ) );
+							builder.AppendFormat( "<td>{0}</td>", string.Join( ", ", equips.Select( ei => KCDatabase.Instance.MasterEquipments[ei].Name ) ) );
 
 						} else {
 							int equipid = equips[j];
