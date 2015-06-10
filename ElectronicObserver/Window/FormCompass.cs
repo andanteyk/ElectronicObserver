@@ -302,9 +302,7 @@ namespace ElectronicObserver.Window {
 			BasePanel.SetFlowBreak( TextDestination, true );
 			//BasePanel.SetFlowBreak( TextEventKind, true );
 			BasePanel.SetFlowBreak( TextEventDetail, true );
-			BasePanel.SetFlowBreak( FlowPanelEnemyInformation, true );
-
-			FlowPanelEnemyInformation.WrapContents = true;
+			BasePanel.SetFlowBreak( TextAirSuperiority, true );
 
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
@@ -384,7 +382,9 @@ namespace ElectronicObserver.Window {
 
 				BasePanel.SuspendLayout();
 				PanelEnemyFleet.Visible = false;
-				FlowPanelEnemyInformation.Visible = false;
+				TextEnemyFleetName.Visible =
+				TextFormation.Visible =
+				TextAirSuperiority.Visible = false;
 
 
 				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}", compass.MapAreaID, compass.MapInfoID );
@@ -575,7 +575,9 @@ namespace ElectronicObserver.Window {
 			}
 
 			PanelEnemyFleet.Visible = true;
-			FlowPanelEnemyInformation.Visible = true;
+			TextEnemyFleetName.Visible =
+			TextFormation.Visible =
+			TextAirSuperiority.Visible = true;
 
 		}
 
@@ -619,7 +621,9 @@ namespace ElectronicObserver.Window {
 			TableEnemyMember.Visible = true;
 
 			PanelEnemyFleet.Visible = true;
-			FlowPanelEnemyInformation.Visible = true;
+			TextEnemyFleetName.Visible =
+			TextFormation.Visible =
+			TextAirSuperiority.Visible = true;
 			BasePanel.Visible = true;			//checkme
 
 		}

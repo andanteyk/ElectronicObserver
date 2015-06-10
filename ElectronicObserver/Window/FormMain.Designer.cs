@@ -36,6 +36,9 @@
 			this.StripMenu_File_Layout_Open = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparatorAnother3 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Layout_Lock = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparatorAnother4 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_File_Layout1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_File_Layout2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Configuration = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -140,6 +143,9 @@
 			this.StripMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_File_Record,
             this.StripMenu_File_Layout,
+            this.toolStripSeparatorAnother4,
+            this.StripMenu_File_Layout1,
+            this.StripMenu_File_Layout2,
             this.toolStripSeparator6,
             this.StripMenu_File_Configuration,
             this.toolStripSeparator5,
@@ -194,7 +200,7 @@
 			// toolStripSeparatorAnother2
 			// 
 			this.toolStripSeparatorAnother2.Name = "toolStripSeparatorAnother2";
-			this.toolStripSeparatorAnother2.Size = new System.Drawing.Size( 150, 6 );
+			this.toolStripSeparatorAnother2.Size = new System.Drawing.Size(150, 6);
 			// 
 			// StripMenu_File_Layout_Save
 			// 
@@ -213,14 +219,33 @@
 			// toolStripSeparatorAnother3
 			// 
 			this.toolStripSeparatorAnother3.Name = "toolStripSeparatorAnother3";
-			this.toolStripSeparatorAnother3.Size = new System.Drawing.Size( 150, 6 );
+			this.toolStripSeparatorAnother3.Size = new System.Drawing.Size(150, 6);
 			// 
 			// StripMenu_File_Layout_Lock
 			// 
 			this.StripMenu_File_Layout_Lock.Name = "StripMenu_File_Layout_Lock";
-			this.StripMenu_File_Layout_Lock.Size = new System.Drawing.Size( 239, 22 );
+			this.StripMenu_File_Layout_Lock.Size = new System.Drawing.Size(239, 22);
 			this.StripMenu_File_Layout_Lock.Text = "锁定布局(&C)";
-			this.StripMenu_File_Layout_Lock.Click += new System.EventHandler( this.StripMenu_File_Layout_Lock_Click );
+			this.StripMenu_File_Layout_Lock.Click += new System.EventHandler(this.StripMenu_File_Layout_Lock_Click);
+			// 
+			// toolStripSeparatorAnother4
+			// 
+			this.toolStripSeparatorAnother4.Name = "toolStripSeparatorAnother4";
+			this.toolStripSeparatorAnother4.Size = new System.Drawing.Size(150, 6);
+			// 
+			// StripMenu_File_Layout1
+			// 
+			this.StripMenu_File_Layout1.Name = "StripMenu_File_Layout1";
+			this.StripMenu_File_Layout1.Size = new System.Drawing.Size(239, 22);
+			this.StripMenu_File_Layout1.Text = "布局&1";
+			this.StripMenu_File_Layout1.Click += new System.EventHandler(this.StripMenu_File_Layout1_Click);
+			// 
+			// StripMenu_File_Layout2
+			// 
+			this.StripMenu_File_Layout2.Name = "StripMenu_File_Layout2";
+			this.StripMenu_File_Layout2.Size = new System.Drawing.Size(239, 22);
+			this.StripMenu_File_Layout2.Text = "布局&2";
+			this.StripMenu_File_Layout2.Click += new System.EventHandler(this.StripMenu_File_Layout2_Click);
 			// 
 			// toolStripSeparator6
 			// 
@@ -683,14 +708,14 @@
 			// toolStripSeparatorAnother1
 			// 
 			this.toolStripSeparatorAnother1.Name = "toolStripSeparatorAnother1";
-			this.toolStripSeparatorAnother1.Size = new System.Drawing.Size( 140, 6 );
+			this.toolStripSeparatorAnother1.Size = new System.Drawing.Size(140, 6);
 			// 
 			// StripMenu_Tool_CopyEOBrowserExecute
 			// 
 			this.StripMenu_Tool_CopyEOBrowserExecute.Name = "StripMenu_Tool_CopyEOBrowserExecute";
-			this.StripMenu_Tool_CopyEOBrowserExecute.Size = new System.Drawing.Size( 143, 22 );
+			this.StripMenu_Tool_CopyEOBrowserExecute.Size = new System.Drawing.Size(143, 22);
 			this.StripMenu_Tool_CopyEOBrowserExecute.Text = "复制EOBrowser启动参数(&C)";
-			this.StripMenu_Tool_CopyEOBrowserExecute.Click += new System.EventHandler( this.StripMenu_Tool_CopyEOBrowserExecute_Click );
+			this.StripMenu_Tool_CopyEOBrowserExecute.Click += new System.EventHandler(this.StripMenu_Tool_CopyEOBrowserExecute_Click);
 			// 
 			// StripMenu_Debug
 			// 
@@ -918,6 +943,9 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Open;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother3;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Lock;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother4;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout1;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Browser;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_ScreenShot;
