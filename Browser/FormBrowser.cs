@@ -844,7 +844,7 @@ namespace Browser {
 
 				try {
 
-					await Task.Run( (Action)( () => ClearCache() ) );
+					await Task.Factory.StartNew( (Action)( () => ClearCache() ) );
 					MessageBox.Show( "キャッシュの削除が完了しました。", "削除完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
 
 				} catch ( Exception ex ) {
