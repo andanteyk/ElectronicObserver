@@ -25,7 +25,6 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			this.BasePanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.FlowPanelEnemyInformation = new System.Windows.Forms.FlowLayoutPanel();
 			this.PanelEnemyFleet = new System.Windows.Forms.Panel();
 			this.TableEnemyMember = new System.Windows.Forms.TableLayoutPanel();
 			this.TextEnemyFleetName = new ElectronicObserver.Window.Control.ImageLabel();
@@ -37,7 +36,6 @@
 			this.TextEventKind = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextEventDetail = new ElectronicObserver.Window.Control.ImageLabel();
 			this.BasePanel.SuspendLayout();
-			this.FlowPanelEnemyInformation.SuspendLayout();
 			this.PanelEnemyFleet.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -50,25 +48,14 @@
 			this.BasePanel.Controls.Add(this.TextDestination);
 			this.BasePanel.Controls.Add(this.TextEventKind);
 			this.BasePanel.Controls.Add(this.TextEventDetail);
-			this.BasePanel.Controls.Add(this.FlowPanelEnemyInformation);
+			this.BasePanel.Controls.Add(this.TextEnemyFleetName);
+			this.BasePanel.Controls.Add(this.TextFormation);
+			this.BasePanel.Controls.Add(this.TextAirSuperiority);
 			this.BasePanel.Controls.Add(this.PanelEnemyFleet);
 			this.BasePanel.Location = new System.Drawing.Point(0, 0);
 			this.BasePanel.Name = "BasePanel";
 			this.BasePanel.Size = new System.Drawing.Size(300, 200);
 			this.BasePanel.TabIndex = 0;
-			//
-			// FlowPanelEnemyInformation
-			//
-			this.FlowPanelEnemyInformation.AutoSize = true;
-			this.FlowPanelEnemyInformation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.FlowPanelEnemyInformation.Controls.Add(this.TextEnemyFleetName);
-			this.FlowPanelEnemyInformation.Controls.Add(this.TextFormation);
-			this.FlowPanelEnemyInformation.Controls.Add(this.TextAirSuperiority);
-			this.FlowPanelEnemyInformation.Location = new System.Drawing.Point(0, 0);
-			this.FlowPanelEnemyInformation.Margin = new System.Windows.Forms.Padding(0);
-			this.FlowPanelEnemyInformation.Name = "FlowPanelEnemyInformation";
-			this.FlowPanelEnemyInformation.Size = new System.Drawing.Size(0, 0);
-			this.FlowPanelEnemyInformation.TabIndex = 0;
 			// 
 			// PanelEnemyFleet
 			// 
@@ -187,8 +174,6 @@
 			this.Load += new System.EventHandler(this.FormCompass_Load);
 			this.BasePanel.ResumeLayout(false);
 			this.BasePanel.PerformLayout();
-			this.FlowPanelEnemyInformation.ResumeLayout( false );
-			this.FlowPanelEnemyInformation.PerformLayout();
 			this.PanelEnemyFleet.ResumeLayout(false);
 			this.PanelEnemyFleet.PerformLayout();
 			this.ResumeLayout(false);
@@ -198,7 +183,6 @@
 		#endregion
 
 		private System.Windows.Forms.FlowLayoutPanel BasePanel;
-		private System.Windows.Forms.FlowLayoutPanel FlowPanelEnemyInformation;
 		private System.Windows.Forms.Panel PanelEnemyFleet;
 		private Control.ImageLabel TextEnemyFleetName;
 		private Control.ImageLabel TextFormation;

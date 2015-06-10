@@ -54,7 +54,8 @@ namespace ElectronicObserver.Window {
 		#endregion
 
 
-
+		private const string LAYOUT_FILE1 = @"Settings\WindowLayout.zip";
+		private const string LAYOUT_FILE2 = @"Settings\WindowLayout2.zip";
 
 		public FormMain() {
 			this.BackColor = Utility.Configuration.Config.UI.BackColor.ColorData;
@@ -124,6 +125,13 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
+
+			string lower = Configuration.Config.Life.LayoutFilePath.ToLower();
+			if ( lower == LAYOUT_FILE1.ToLower() ) {
+				StripMenu_File_Layout1.Checked = true;
+			} else if ( lower == LAYOUT_FILE2.ToLower() ) {
+				StripMenu_File_Layout2.Checked = true;
+			}
 
 			ConfigurationChanged();		//設定から初期化
 
@@ -383,7 +391,7 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void LoadLayout( string path ) {
+		private bool LoadLayout( string path ) {
 
 			try {
 
@@ -399,6 +407,7 @@ namespace ElectronicObserver.Window {
 
 
 				Utility.Logger.Add( 2, "窗口布局已恢复。" );
+				return true;
 
 			} catch ( FileNotFoundException ) {
 
@@ -421,6 +430,7 @@ namespace ElectronicObserver.Window {
 				Utility.ErrorReporter.SendErrorReport( ex, "窗口布局恢复失败。" );
 			}
 
+			return false;
 		}
 
 		private void SaveLayout( string path ) {
@@ -936,6 +946,32 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private bool SwitchLayout( string path )
+		{
+			if ( !File.Exists( path ) ) {
+				MessageBox.Show( string.Format( "布局文件 {0} 不存在。", path ), "切换布局", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
+
+			Utility.Configuration.Config.Life.LayoutFilePath = path;
+			return LoadLayout( path );
+		}
+
+		private void StripMenu_File_Layout1_Click( object sender, EventArgs e )
+		{
+			if ( SwitchLayout( LAYOUT_FILE1 ) ) {
+				StripMenu_File_Layout1.Checked = true;
+				StripMenu_File_Layout2.Checked = false;
+			}
+		}
+
+		private void StripMenu_File_Layout2_Click( object sender, EventArgs e )
+		{
+			if ( SwitchLayout( LAYOUT_FILE2 ) ) {
+				StripMenu_File_Layout1.Checked = false;
+				StripMenu_File_Layout2.Checked = true;
+			}
+		}
 
 
 
