@@ -164,21 +164,15 @@ namespace ElectronicObserver.Window {
 			//Fleet
 			FlowPanelFleet.SuspendLayout();
 			{
-				int dropShips = 0;
-				int dropEqps = 0;
-				if ( db.Battle != null ) {
-					dropShips = db.Battle.DroppedShipCount;
-					dropEqps = db.Battle.DroppedEquipmentCount;
-				}
 
-				ShipCount.Text = string.Format( "{0}/{1}", db.Ships.Count + dropShips, db.Admiral.MaxShipCount );
-				if ( db.Ships.Count > db.Admiral.MaxShipCount - 5 )
+				ShipCount.Text = string.Format( "{0}/{1}", RealShipCount, db.Admiral.MaxShipCount );
+				if ( RealShipCount > db.Admiral.MaxShipCount - 5 )
 					ShipCount.BackColor = Color.LightCoral;
 				else
 					ShipCount.BackColor = Color.Transparent;
 
-				EquipmentCount.Text = string.Format( "{0}/{1}", db.Equipments.Count + dropEqps, db.Admiral.MaxEquipmentCount );
-				if ( db.Equipments.Count > db.Admiral.MaxEquipmentCount + 3 - 20 )
+				EquipmentCount.Text = string.Format( "{0}/{1}", RealEquipmentCount, db.Admiral.MaxEquipmentCount );
+				if ( RealEquipmentCount > db.Admiral.MaxEquipmentCount + 3 - 20 )
 					EquipmentCount.BackColor = Color.LightCoral;
 				else
 					EquipmentCount.BackColor = Color.Transparent;
@@ -199,17 +193,31 @@ namespace ElectronicObserver.Window {
 			FlowPanelResource.SuspendLayout();
 			{
 				Color overcolor = Color.Moccasin;
+
+				var resday = RecordManager.Instance.Resource.GetRecord( DateTime.Now.Date.AddHours( 5 ) );
+				var resweek = RecordManager.Instance.Resource.GetRecord( DateTime.Now.Date.AddDays( -( ( (int)DateTime.Now.DayOfWeek + 6 ) % 7 ) ).AddHours( 5 ) );	//月曜日起点
+				var resmonth = RecordManager.Instance.Resource.GetRecord( new DateTime( DateTime.Now.Year, DateTime.Now.Month, 1 ).AddHours( 5 ) );
+
 				Fuel.Text = db.Material.Fuel.ToString();
 				Fuel.BackColor = db.Material.Fuel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
+				ToolTipInfo.SetToolTip( Fuel, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+					db.Material.Fuel - resday.Fuel, db.Material.Fuel - resweek.Fuel, db.Material.Fuel - resmonth.Fuel ) );
 
 				Ammo.Text = db.Material.Ammo.ToString();
 				Ammo.BackColor = db.Material.Ammo < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
+				ToolTipInfo.SetToolTip( Ammo, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+					db.Material.Ammo - resday.Ammo, db.Material.Ammo - resweek.Ammo, db.Material.Ammo - resmonth.Ammo ) );
 
 				Steel.Text = db.Material.Steel.ToString();
 				Steel.BackColor = db.Material.Steel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
+				ToolTipInfo.SetToolTip( Steel, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+					db.Material.Steel - resday.Steel, db.Material.Steel - resweek.Steel, db.Material.Steel - resmonth.Steel ) );
 
 				Bauxite.Text = db.Material.Bauxite.ToString();
 				Bauxite.BackColor = db.Material.Bauxite < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
+				ToolTipInfo.SetToolTip( Bauxite, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+					db.Material.Bauxite - resday.Bauxite, db.Material.Bauxite - resweek.Bauxite, db.Material.Bauxite - resmonth.Bauxite ) );
+
 			}
 			FlowPanelResource.ResumeLayout();
 
@@ -228,12 +236,38 @@ namespace ElectronicObserver.Window {
 
 			if ( db.Ships.Count <= 0 ) return;
 
-			if ( db.Ships.Count >= db.Admiral.MaxShipCount ) {
+			if ( RealShipCount >= db.Admiral.MaxShipCount ) {
 				ShipCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
 			}
 
-			if ( db.Equipments.Count >= db.Admiral.MaxEquipmentCount ) {
+			if ( RealEquipmentCount >= db.Admiral.MaxEquipmentCount ) {
 				EquipmentCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+			}
+		}
+
+
+		private void Resource_MouseClick( object sender, MouseEventArgs e ) {
+
+			new Dialog.DialogResourceChart().Show( this );
+
+		}
+
+
+		private int RealShipCount {
+			get {
+				if ( KCDatabase.Instance.Battle != null )
+					return KCDatabase.Instance.Ships.Count + KCDatabase.Instance.Battle.DroppedShipCount;
+
+				return KCDatabase.Instance.Ships.Count;
+			}
+		}
+
+		private int RealEquipmentCount {
+			get {
+				if ( KCDatabase.Instance.Battle != null )
+					return KCDatabase.Instance.Equipments.Count + KCDatabase.Instance.Battle.DroppedEquipmentCount;
+
+				return KCDatabase.Instance.Equipments.Count;
 			}
 		}
 
