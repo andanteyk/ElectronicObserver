@@ -194,9 +194,10 @@ namespace ElectronicObserver.Window {
 			{
 				Color overcolor = Color.Moccasin;
 
-				var resday = RecordManager.Instance.Resource.GetRecord( DateTime.Now.Date.AddHours( 5 ) );
-				var resweek = RecordManager.Instance.Resource.GetRecord( DateTime.Now.Date.AddDays( -( ( (int)DateTime.Now.DayOfWeek + 6 ) % 7 ) ).AddHours( 5 ) );	//月曜日起点
+				var resday = RecordManager.Instance.Resource.GetRecord( DateTime.Now.AddHours( -5 ).Date.AddHours( 5 ) );
+				var resweek = RecordManager.Instance.Resource.GetRecord( DateTime.Now.AddHours( -5 ).Date.AddDays( -( ( (int)DateTime.Now.AddHours( -5 ).DayOfWeek + 6 ) % 7 ) ).AddHours( 5 ) );	//月曜日起点
 				var resmonth = RecordManager.Instance.Resource.GetRecord( new DateTime( DateTime.Now.Year, DateTime.Now.Month, 1 ).AddHours( 5 ) );
+				
 
 				Fuel.Text = db.Material.Fuel.ToString();
 				Fuel.BackColor = db.Material.Fuel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
