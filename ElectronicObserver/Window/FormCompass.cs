@@ -547,6 +547,8 @@ namespace ElectronicObserver.Window {
 
 				//unknown
 				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
+
+				TextEnemyFleetName.Visible = true;
 				TextFormation.Visible = false;
 				TextAirSuperiority.Visible = false;
 				TableEnemyMember.Visible = false;
@@ -570,12 +572,12 @@ namespace ElectronicObserver.Window {
 				TableEnemyMember.ResumeLayout();
 				TableEnemyMember.Visible = true;
 
+				TextEnemyFleetName.Visible =
+				TextFormation.Visible =
+				TextAirSuperiority.Visible = true;
 			}
 
 			PanelEnemyFleet.Visible = true;
-			TextEnemyFleetName.Visible =
-			TextFormation.Visible =
-			TextAirSuperiority.Visible = true;
 
 		}
 
