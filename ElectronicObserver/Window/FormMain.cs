@@ -56,13 +56,11 @@ namespace ElectronicObserver.Window {
 
 
 		public FormMain() {
+			Utility.Configuration.Instance.Load();
 			InitializeComponent();
 		}
 
 		private async void FormMain_Load( object sender, EventArgs e ) {
-
-			Utility.Configuration.Instance.Load();
-
 
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
 				if ( InvokeRequired ) {
