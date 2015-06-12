@@ -615,7 +615,7 @@
 			this.NotifiesAfter.Name = "NotifiesAfter";
 			this.NotifiesAfter.Size = new System.Drawing.Size(135, 19);
 			this.NotifiesAfter.TabIndex = 2;
-			this.NotifiesAfter.Text = "启用时候通知";
+			this.NotifiesAfter.Text = "启用事后通知";
 			this.ToolTipText.SetToolTip(this.NotifiesAfter, "大破进击时通知。");
 			this.NotifiesAfter.UseVisualStyleBackColor = true;
 			// 

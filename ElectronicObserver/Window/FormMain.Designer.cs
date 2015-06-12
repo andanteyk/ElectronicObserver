@@ -127,7 +127,6 @@
 			// StripMenu
 			// 
 			ToolStripCustomizer.ToolStripRender.SetRender(this.StripMenu);
-			this.StripMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.StripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_File,
             this.StripMenu_View,
@@ -807,7 +806,6 @@
 			// 
 			// StripStatus
 			// 
-			this.StripStatus.ImageScalingSize = new System.Drawing.Size(32, 32);
 			ToolStripCustomizer.ToolStripRender.SetRender(this.StripStatus);
 			this.StripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripStatus_Information,
@@ -866,7 +864,7 @@
 			// 
 			this.StripMenu_Tool_ResourceChart.Name = "StripMenu_Tool_ResourceChart";
 			this.StripMenu_Tool_ResourceChart.Size = new System.Drawing.Size(244, 34);
-			this.StripMenu_Tool_ResourceChart.Text = "資源チャート(&C)";
+			this.StripMenu_Tool_ResourceChart.Text = "资源 Chart(&C)";
 			this.StripMenu_Tool_ResourceChart.Click += new System.EventHandler(this.StripMenu_Tool_ResourceChart_Click);
 			// 
 			// toolStripSeparator15
