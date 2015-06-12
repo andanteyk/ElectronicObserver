@@ -201,23 +201,27 @@ namespace ElectronicObserver.Window {
 
 				Fuel.Text = db.Material.Fuel.ToString();
 				Fuel.BackColor = db.Material.Fuel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
-				ToolTipInfo.SetToolTip( Fuel, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
-					db.Material.Fuel - resday.Fuel, db.Material.Fuel - resweek.Fuel, db.Material.Fuel - resmonth.Fuel ) );
+				if ( resday != null && resweek != null && resmonth != null )
+					ToolTipInfo.SetToolTip( Fuel, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+						db.Material.Fuel - resday.Fuel, db.Material.Fuel - resweek.Fuel, db.Material.Fuel - resmonth.Fuel ) );
 
 				Ammo.Text = db.Material.Ammo.ToString();
 				Ammo.BackColor = db.Material.Ammo < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
-				ToolTipInfo.SetToolTip( Ammo, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
-					db.Material.Ammo - resday.Ammo, db.Material.Ammo - resweek.Ammo, db.Material.Ammo - resmonth.Ammo ) );
+				if ( resday != null && resweek != null && resmonth != null )
+					ToolTipInfo.SetToolTip( Ammo, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+						db.Material.Ammo - resday.Ammo, db.Material.Ammo - resweek.Ammo, db.Material.Ammo - resmonth.Ammo ) );
 
 				Steel.Text = db.Material.Steel.ToString();
 				Steel.BackColor = db.Material.Steel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
-				ToolTipInfo.SetToolTip( Steel, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
-					db.Material.Steel - resday.Steel, db.Material.Steel - resweek.Steel, db.Material.Steel - resmonth.Steel ) );
+				if ( resday != null && resweek != null && resmonth != null )
+					ToolTipInfo.SetToolTip( Steel, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+						db.Material.Steel - resday.Steel, db.Material.Steel - resweek.Steel, db.Material.Steel - resmonth.Steel ) );
 
 				Bauxite.Text = db.Material.Bauxite.ToString();
 				Bauxite.BackColor = db.Material.Bauxite < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;
-				ToolTipInfo.SetToolTip( Bauxite, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
-					db.Material.Bauxite - resday.Bauxite, db.Material.Bauxite - resweek.Bauxite, db.Material.Bauxite - resmonth.Bauxite ) );
+				if ( resday != null && resweek != null && resmonth != null )
+					ToolTipInfo.SetToolTip( Bauxite, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+						db.Material.Bauxite - resday.Bauxite, db.Material.Bauxite - resweek.Bauxite, db.Material.Bauxite - resmonth.Bauxite ) );
 
 			}
 			FlowPanelResource.ResumeLayout();
