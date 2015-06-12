@@ -946,12 +946,19 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Tool_ResourceChart_Click( object sender, EventArgs e ) {
+
+			new Dialog.DialogResourceChart().Show( this );
+
+		}
+
 		private bool SwitchLayout( string path )
 		{
 			if ( !File.Exists( path ) ) {
 				MessageBox.Show( string.Format( "布局文件 {0} 不存在。", path ), "切换布局", MessageBoxButtons.OK, MessageBoxIcon.Warning );
 				return false;
 			}
+
 
 			Utility.Configuration.Config.Life.LayoutFilePath = path;
 			return LoadLayout( path );
@@ -972,7 +979,6 @@ namespace ElectronicObserver.Window {
 				StripMenu_File_Layout2.Checked = true;
 			}
 		}
-
 
 
 		private void StripMenu_Browser_ScreenShot_Click( object sender, EventArgs e ) {
@@ -1151,6 +1157,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
+		
 
 
 
