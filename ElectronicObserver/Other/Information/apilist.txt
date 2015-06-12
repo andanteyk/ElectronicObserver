@@ -224,6 +224,7 @@ api_start2	：艦娘・装備固有データその他
 				39=水上艦要員
 				40=大型ソナー
 				41=大型飛行艇
+				42=大型探照灯
 
 			[3]：アイコンID
 				 1=小口径主砲
@@ -711,14 +712,14 @@ api_get_member/questlist	：任務
 	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂時, ページ遷移時はnull
 		api_no				：任務ID
 		api_category		：任務カテゴリ　1=編成, 2=出撃, 3=演習, 4=遠征, 5=補給/入渠, 6=工廠, 7=改装, 8=その他?
-		api_type			：任務出現タイプ？　1=一回限り, 2=デイリー, 3=ウィークリー, 4=敵空母を3隻撃沈せよ!(日付下一桁0|3|7), 5=敵輸送船団を叩け!(日付下一桁2|8), 6=マンスリー
+		api_type			：任務出現タイプ　1=一回限り, 2=デイリー, 3=ウィークリー, 4=敵空母を3隻撃沈せよ!(日付下一桁0|3|7), 5=敵輸送船団を叩け!(日付下一桁2|8), 6=マンスリー
 		api_state			：状態　1=未受領, 2=遂行中, 3=達成
 		api_title			：タイトル
 		api_detail			：説明
 		api_get_material	：獲得資材
-		api_bonus_flag		：1=通常, 2=艦娘?
-		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成?
-		api_invalid_flag	：
+		api_bonus_flag		：1=通常, 2=艦娘
+		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成
+		api_invalid_flag	：機種転換不能フラグ？
 	api_exec_count			：受領任務数
 	api_exec_type			：？
 
@@ -756,7 +757,7 @@ Request.api_get_member/picture_book	：図鑑
 	api_no		：ページ
 
 api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ送られてくるので注意
-	api_list				：リスト
+	api_list				：リスト　登録艦が0隻の場合は存在しない(api_data=nullになる)
 		api_index_no		：図鑑No.
 		api_state			：取得フラグ？
 								二重配列になっており、未改造・改造後が同じ項目で登録されている艦娘は以下データが2つ(以上)存在する
@@ -1270,7 +1271,7 @@ api_req_sortie/battleresult	：戦闘結果
 	api_get_exmap_useitem_id：EO海域攻略時：取得アイテムID(文字列) "57"=勲章　それ以外は0(数値)
 
 
-api_get_member/ship2		：進撃中 2015/05/18廃止？
+api_get_member/ship2		：旧進撃中(現在はケッコンカッコカリ・給糧艦使用(未確認)のみだと思われる)
 	api_data		：portに同じ
 	api_data_deck	：deckに同じ
 

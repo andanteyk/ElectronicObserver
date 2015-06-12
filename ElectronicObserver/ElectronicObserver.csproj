@@ -355,6 +355,12 @@
     <Compile Include="Window\Dialog\DialogNotifier.Designer.cs">
       <DependentUpon>DialogNotifier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogResourceChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogResourceChart.Designer.cs">
+      <DependentUpon>DialogResourceChart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogResourcesGraph.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -557,6 +563,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogNotifier.resx">
       <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogResourceChart.resx">
+      <DependentUpon>DialogResourceChart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogResourcesGraph.resx">
       <DependentUpon>DialogResourcesGraph.cs</DependentUpon>

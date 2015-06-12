@@ -368,6 +368,9 @@ namespace ElectronicObserver.Window {
 
 				TextMapArea.Text = "演習";
 				TextDestination.Text = string.Format( "{0} {1}", data.api_nickname, Constants.GetAdmiralRank( (int)data.api_rank ) );
+				TextDestination.ImageAlign = ContentAlignment.MiddleCenter;
+				TextDestination.ImageIndex = -1;
+				ToolTipInfo.SetToolTip( TextDestination, null );
 				TextEventKind.Text = data.api_cmt;
 				TextEventKind.ForeColor = getColorFromEventKind( 0 );
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
