@@ -174,6 +174,7 @@
 			this.TextFilter.Name = "TextFilter";
 			this.TextFilter.Size = new System.Drawing.Size(519, 23);
 			this.TextFilter.TabIndex = 2;
+			this.TextFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFilter_KeyDown);
 			// 
 			// ButtonExecuteNext
 			// 
