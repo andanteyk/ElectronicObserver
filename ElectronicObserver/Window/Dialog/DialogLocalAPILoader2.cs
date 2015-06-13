@@ -95,6 +95,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void LoadFiles( string path ) {
 
+			if ( !Directory.Exists( path ) ) return;
+
 			CurrentPath = path;
 
 			APIView.Rows.Clear();
@@ -206,6 +208,15 @@ namespace ElectronicObserver.Window.Dialog {
 				APIView.FirstDisplayedScrollingRowIndex = result;
 			} else {
 				System.Media.SystemSounds.Asterisk.Play();
+			}
+		}
+
+
+
+		private void TextFilter_KeyDown( object sender, KeyEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				e.SuppressKeyPress = true;
+				ButtonSearch.PerformClick();
 			}
 		}
 

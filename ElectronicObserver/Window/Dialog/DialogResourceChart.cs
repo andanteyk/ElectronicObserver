@@ -54,11 +54,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void DialogResourceChart_Load( object sender, EventArgs e ) {
 
+			if ( RecordManager.Instance.Resource.Record.Count == 0 ) {
+				MessageBox.Show( "レコードが存在しません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				Close();
+				return;
+			}
+			
 			SwitchMenuStrip( Menu_Graph, 0 );
 			SwitchMenuStrip( Menu_Span, 2 );
-
-			//checkme: if レコードが未ロード or 0個の項目 then throw
-			//SetResourceChart( _currentChartSpan );
 
 			UpdateChart();
 		}
