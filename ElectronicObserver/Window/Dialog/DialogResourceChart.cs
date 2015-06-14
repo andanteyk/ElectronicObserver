@@ -54,7 +54,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void DialogResourceChart_Load( object sender, EventArgs e ) {
-						
+
+			if ( !RecordManager.Instance.Resource.Record.Any() ) {
+				MessageBox.Show( "レコード データが存在しません。\n一度母港に移動してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				Close();
+				return;
+			}
+
+
 			SwitchMenuStrip( Menu_Graph, 0 );
 			SwitchMenuStrip( Menu_Span, 2 );
 
@@ -125,18 +132,21 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				double now = DateTime.Now.ToOADate();
-				fuel.Points.AddXY( now, KCDatabase.Instance.Material.Fuel );
-				ammo.Points.AddXY( now, KCDatabase.Instance.Material.Ammo );
-				steel.Points.AddXY( now, KCDatabase.Instance.Material.Steel );
-				bauxite.Points.AddXY( now, KCDatabase.Instance.Material.Bauxite );
+				if ( KCDatabase.Instance.Material.IsAvailable ) {
+					double now = DateTime.Now.ToOADate();
+					fuel.Points.AddXY( now, KCDatabase.Instance.Material.Fuel );
+					ammo.Points.AddXY( now, KCDatabase.Instance.Material.Ammo );
+					steel.Points.AddXY( now, KCDatabase.Instance.Material.Steel );
+					bauxite.Points.AddXY( now, KCDatabase.Instance.Material.Bauxite );
+				}
 
-				int min = (int)new[] { fuel.Points.Min( p => p.YValues[0] ), ammo.Points.Min( p => p.YValues[0] ), steel.Points.Min( p => p.YValues[0] ), bauxite.Points.Min( p => p.YValues[0] ) }.Min();
-				area.AxisY.Minimum = Math.Floor( min / 10000.0 ) * 10000;
+				if ( fuel.Points.Count > 0 ) {
+					int min = (int)new[] { fuel.Points.Min( p => p.YValues[0] ), ammo.Points.Min( p => p.YValues[0] ), steel.Points.Min( p => p.YValues[0] ), bauxite.Points.Min( p => p.YValues[0] ) }.Min();
+					area.AxisY.Minimum = Math.Floor( min / 10000.0 ) * 10000;
 
-				int max = (int)new[] { fuel.Points.Max( p => p.YValues[0] ), ammo.Points.Max( p => p.YValues[0] ), steel.Points.Max( p => p.YValues[0] ), bauxite.Points.Max( p => p.YValues[0] ) }.Max();
-				area.AxisY.Maximum = Math.Ceiling( max / 10000.0 ) * 10000;
-				
+					int max = (int)new[] { fuel.Points.Max( p => p.YValues[0] ), ammo.Points.Max( p => p.YValues[0] ), steel.Points.Max( p => p.YValues[0] ), bauxite.Points.Max( p => p.YValues[0] ) }.Max();
+					area.AxisY.Maximum = Math.Ceiling( max / 10000.0 ) * 10000;
+				}
 			}
 
 		}
@@ -208,18 +218,21 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				double now = DateTime.Now.ToOADate();
-				fuel.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Fuel - prev.Fuel );
-				ammo.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Ammo - prev.Ammo );
-				steel.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Steel - prev.Steel );
-				bauxite.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Bauxite - prev.Bauxite );
+				if ( KCDatabase.Instance.Material.IsAvailable ) {
+					double now = DateTime.Now.ToOADate();
+					fuel.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Fuel - prev.Fuel );
+					ammo.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Ammo - prev.Ammo );
+					steel.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Steel - prev.Steel );
+					bauxite.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Bauxite - prev.Bauxite );
+				}
 
-				int min = (int)new[] { fuel.Points.Min( p => p.YValues[0] ), ammo.Points.Min( p => p.YValues[0] ), steel.Points.Min( p => p.YValues[0] ), bauxite.Points.Min( p => p.YValues[0] ) }.Min();
-				area.AxisY.Minimum = Math.Floor( min / 1000.0 ) * 1000;
+				if ( fuel.Points.Count > 0 ) {
+					int min = (int)new[] { fuel.Points.Min( p => p.YValues[0] ), ammo.Points.Min( p => p.YValues[0] ), steel.Points.Min( p => p.YValues[0] ), bauxite.Points.Min( p => p.YValues[0] ) }.Min();
+					area.AxisY.Minimum = Math.Floor( min / 1000.0 ) * 1000;
 
-				int max = (int)new[] { fuel.Points.Max( p => p.YValues[0] ), ammo.Points.Max( p => p.YValues[0] ), steel.Points.Max( p => p.YValues[0] ), bauxite.Points.Max( p => p.YValues[0] ) }.Max();
-				area.AxisY.Maximum = Math.Ceiling( max / 1000.0 ) * 1000;
-
+					int max = (int)new[] { fuel.Points.Max( p => p.YValues[0] ), ammo.Points.Max( p => p.YValues[0] ), steel.Points.Max( p => p.YValues[0] ), bauxite.Points.Max( p => p.YValues[0] ) }.Max();
+					area.AxisY.Maximum = Math.Ceiling( max / 1000.0 ) * 1000;
+				}
 			}
 
 		}
@@ -288,17 +301,21 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				double now = DateTime.Now.ToOADate();
-				instantConstruction.Points.AddXY( now, KCDatabase.Instance.Material.InstantConstruction );
-				instantRepair.Points.AddXY( now, KCDatabase.Instance.Material.InstantRepair );
-				developmentMaterial.Points.AddXY( now, KCDatabase.Instance.Material.DevelopmentMaterial );
-				moddingMaterial.Points.AddXY( now, KCDatabase.Instance.Material.ModdingMaterial );
+				if ( KCDatabase.Instance.Material.IsAvailable ) {
+					double now = DateTime.Now.ToOADate();
+					instantConstruction.Points.AddXY( now, KCDatabase.Instance.Material.InstantConstruction );
+					instantRepair.Points.AddXY( now, KCDatabase.Instance.Material.InstantRepair );
+					developmentMaterial.Points.AddXY( now, KCDatabase.Instance.Material.DevelopmentMaterial );
+					moddingMaterial.Points.AddXY( now, KCDatabase.Instance.Material.ModdingMaterial );
+				}
 
-				int min = (int)new[] { instantConstruction.Points.Min( p => p.YValues[0] ), instantRepair.Points.Min( p => p.YValues[0] ), developmentMaterial.Points.Min( p => p.YValues[0] ), moddingMaterial.Points.Min( p => p.YValues[0] ) }.Min();
-				area.AxisY.Minimum = Math.Floor( min / 200.0 ) * 200;
+				if ( instantConstruction.Points.Count > 0 ) {
+					int min = (int)new[] { instantConstruction.Points.Min( p => p.YValues[0] ), instantRepair.Points.Min( p => p.YValues[0] ), developmentMaterial.Points.Min( p => p.YValues[0] ), moddingMaterial.Points.Min( p => p.YValues[0] ) }.Min();
+					area.AxisY.Minimum = Math.Floor( min / 200.0 ) * 200;
 
-				int max = (int)new[] { instantConstruction.Points.Max( p => p.YValues[0] ), instantRepair.Points.Max( p => p.YValues[0] ), developmentMaterial.Points.Max( p => p.YValues[0] ), moddingMaterial.Points.Max( p => p.YValues[0] ) }.Max();
-				area.AxisY.Maximum = Math.Ceiling( max / 200.0 ) * 200;
+					int max = (int)new[] { instantConstruction.Points.Max( p => p.YValues[0] ), instantRepair.Points.Max( p => p.YValues[0] ), developmentMaterial.Points.Max( p => p.YValues[0] ), moddingMaterial.Points.Max( p => p.YValues[0] ) }.Max();
+					area.AxisY.Maximum = Math.Ceiling( max / 200.0 ) * 200;
+				}
 			}
 
 		}
@@ -370,18 +387,21 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				double now = DateTime.Now.ToOADate();
-				instantConstruction.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.InstantConstruction - prev.InstantConstruction );
-				instantRepair.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.InstantRepair - prev.InstantRepair );
-				developmentMaterial.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.DevelopmentMaterial - prev.DevelopmentMaterial );
-				moddingMaterial.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.ModdingMaterial - prev.ModdingMaterial );
+				if ( KCDatabase.Instance.Material.IsAvailable ) {
+					double now = DateTime.Now.ToOADate();
+					instantConstruction.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.InstantConstruction - prev.InstantConstruction );
+					instantRepair.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.InstantRepair - prev.InstantRepair );
+					developmentMaterial.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.DevelopmentMaterial - prev.DevelopmentMaterial );
+					moddingMaterial.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.ModdingMaterial - prev.ModdingMaterial );
+				}
 
-				int min = (int)new[] { instantConstruction.Points.Min( p => p.YValues[0] ), instantRepair.Points.Min( p => p.YValues[0] ), developmentMaterial.Points.Min( p => p.YValues[0] ), moddingMaterial.Points.Min( p => p.YValues[0] ) }.Min();
-				area.AxisY.Minimum = Math.Floor( min / 20.0 ) * 20;
+				if ( instantConstruction.Points.Count > 0 ) {
+					int min = (int)new[] { instantConstruction.Points.Min( p => p.YValues[0] ), instantRepair.Points.Min( p => p.YValues[0] ), developmentMaterial.Points.Min( p => p.YValues[0] ), moddingMaterial.Points.Min( p => p.YValues[0] ) }.Min();
+					area.AxisY.Minimum = Math.Floor( min / 20.0 ) * 20;
 
-				int max = (int)new[] { instantConstruction.Points.Max( p => p.YValues[0] ), instantRepair.Points.Max( p => p.YValues[0] ), developmentMaterial.Points.Max( p => p.YValues[0] ), moddingMaterial.Points.Max( p => p.YValues[0] ) }.Max();
-				area.AxisY.Maximum = Math.Ceiling( max / 20.0 ) * 20;
-
+					int max = (int)new[] { instantConstruction.Points.Max( p => p.YValues[0] ), instantRepair.Points.Max( p => p.YValues[0] ), developmentMaterial.Points.Max( p => p.YValues[0] ), moddingMaterial.Points.Max( p => p.YValues[0] ) }.Max();
+					area.AxisY.Maximum = Math.Ceiling( max / 20.0 ) * 20;
+				}
 			}
 
 		}
@@ -431,14 +451,18 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				double now = DateTime.Now.ToOADate();
-				exp.Points.AddXY( now, KCDatabase.Instance.Admiral.Exp );
+				if ( KCDatabase.Instance.Admiral.IsAvailable ) {
+					double now = DateTime.Now.ToOADate();
+					exp.Points.AddXY( now, KCDatabase.Instance.Admiral.Exp );
+				}
 
-				int min = (int)exp.Points.Min( p => p.YValues[0] );
-				area.AxisY.Minimum = Math.Floor( min / 100000.0 ) * 100000;
+				if ( exp.Points.Count > 0 ) {
+					int min = (int)exp.Points.Min( p => p.YValues[0] );
+					area.AxisY.Minimum = Math.Floor( min / 100000.0 ) * 100000;
 
-				int max = (int)exp.Points.Max( p => p.YValues[0] );
-				area.AxisY.Maximum = Math.Ceiling( max / 100000.0 ) * 100000;
+					int max = (int)exp.Points.Max( p => p.YValues[0] );
+					area.AxisY.Maximum = Math.Ceiling( max / 100000.0 ) * 100000;
+				}
 			}
 
 		}
@@ -493,15 +517,18 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				double now = DateTime.Now.ToOADate();
-				exp.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Admiral.Exp - prev.HQExp );
+				if ( KCDatabase.Instance.Admiral.IsAvailable ) {
+					double now = DateTime.Now.ToOADate();
+					exp.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Admiral.Exp - prev.HQExp );
+				}
 
-				int min = (int)exp.Points.Min( p => p.YValues[0] );
-				area.AxisY.Minimum = Math.Floor( min / 10000.0 ) * 10000;
+				if ( exp.Points.Count > 0 ) {
+					int min = (int)exp.Points.Min( p => p.YValues[0] );
+					area.AxisY.Minimum = Math.Floor( min / 10000.0 ) * 10000;
 
-				int max = (int)exp.Points.Max( p => p.YValues[0] );
-				area.AxisY.Maximum = Math.Ceiling( max / 10000.0 ) * 10000;
-
+					int max = (int)exp.Points.Max( p => p.YValues[0] );
+					area.AxisY.Maximum = Math.Ceiling( max / 10000.0 ) * 10000;
+				}
 			}
 
 		}
@@ -661,6 +688,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private bool ShouldSkipRecord( TimeSpan span ) {
+
+			if ( span.Ticks == 0 )		//初回のデータ( prev == First )は無視しない
+				return false;
 
 			switch ( SelectedChartSpan ) {
 				case ChartSpan.Day:
