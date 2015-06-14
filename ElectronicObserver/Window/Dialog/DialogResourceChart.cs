@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Resource.Record;
+﻿using ElectronicObserver.Data;
+using ElectronicObserver.Resource.Record;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,13 +54,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void DialogResourceChart_Load( object sender, EventArgs e ) {
-
-			if ( RecordManager.Instance.Resource.Record.Count == 0 ) {
-				MessageBox.Show( "レコードが存在しません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				Close();
-				return;
-			}
-			
+						
 			SwitchMenuStrip( Menu_Graph, 0 );
 			SwitchMenuStrip( Menu_Span, 2 );
 
@@ -114,25 +109,34 @@ namespace ElectronicObserver.Window.Dialog {
 			{
 				var record = GetRecords();
 
-				var prev = record.First();
-				foreach ( var r in record ) {
+				if ( record.Any() ) {
+					var prev = record.First();
+					foreach ( var r in record ) {
 
-					if ( ShouldSkipRecord( r.Date - prev.Date ) )
-						continue;
+						if ( ShouldSkipRecord( r.Date - prev.Date ) )
+							continue;
 
-					fuel.Points.AddXY( r.Date.ToOADate(), r.Fuel );
-					ammo.Points.AddXY( r.Date.ToOADate(), r.Ammo );
-					steel.Points.AddXY( r.Date.ToOADate(), r.Steel );
-					bauxite.Points.AddXY( r.Date.ToOADate(), r.Bauxite );
+						fuel.Points.AddXY( r.Date.ToOADate(), r.Fuel );
+						ammo.Points.AddXY( r.Date.ToOADate(), r.Ammo );
+						steel.Points.AddXY( r.Date.ToOADate(), r.Steel );
+						bauxite.Points.AddXY( r.Date.ToOADate(), r.Bauxite );
 
-					prev = r;
+						prev = r;
+					}
 				}
+
+				double now = DateTime.Now.ToOADate();
+				fuel.Points.AddXY( now, KCDatabase.Instance.Material.Fuel );
+				ammo.Points.AddXY( now, KCDatabase.Instance.Material.Ammo );
+				steel.Points.AddXY( now, KCDatabase.Instance.Material.Steel );
+				bauxite.Points.AddXY( now, KCDatabase.Instance.Material.Bauxite );
 
 				int min = (int)new[] { fuel.Points.Min( p => p.YValues[0] ), ammo.Points.Min( p => p.YValues[0] ), steel.Points.Min( p => p.YValues[0] ), bauxite.Points.Min( p => p.YValues[0] ) }.Min();
 				area.AxisY.Minimum = Math.Floor( min / 10000.0 ) * 10000;
 
 				int max = (int)new[] { fuel.Points.Max( p => p.YValues[0] ), ammo.Points.Max( p => p.YValues[0] ), steel.Points.Max( p => p.YValues[0] ), bauxite.Points.Max( p => p.YValues[0] ) }.Max();
 				area.AxisY.Maximum = Math.Ceiling( max / 10000.0 ) * 10000;
+				
 			}
 
 		}
@@ -186,20 +190,29 @@ namespace ElectronicObserver.Window.Dialog {
 			{
 				var record = GetRecords();
 
+				ResourceRecord.ResourceElement prev = null;
 
-				var prev = record.First();
-				foreach ( var r in record ) {
+				if ( record.Any() ) {
+					prev = record.First();
+					foreach ( var r in record ) {
 
-					if ( ShouldSkipRecord( r.Date - prev.Date ) )
-						continue;
+						if ( ShouldSkipRecord( r.Date - prev.Date ) )
+							continue;
 
-					fuel.Points.AddXY( r.Date.ToOADate(), r.Fuel - prev.Fuel );
-					ammo.Points.AddXY( r.Date.ToOADate(), r.Ammo - prev.Ammo );
-					steel.Points.AddXY( r.Date.ToOADate(), r.Steel - prev.Steel );
-					bauxite.Points.AddXY( r.Date.ToOADate(), r.Bauxite - prev.Bauxite );
+						fuel.Points.AddXY( r.Date.ToOADate(), r.Fuel - prev.Fuel );
+						ammo.Points.AddXY( r.Date.ToOADate(), r.Ammo - prev.Ammo );
+						steel.Points.AddXY( r.Date.ToOADate(), r.Steel - prev.Steel );
+						bauxite.Points.AddXY( r.Date.ToOADate(), r.Bauxite - prev.Bauxite );
 
-					prev = r;
+						prev = r;
+					}
 				}
+
+				double now = DateTime.Now.ToOADate();
+				fuel.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Fuel - prev.Fuel );
+				ammo.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Ammo - prev.Ammo );
+				steel.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Steel - prev.Steel );
+				bauxite.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Bauxite - prev.Bauxite );
 
 				int min = (int)new[] { fuel.Points.Min( p => p.YValues[0] ), ammo.Points.Min( p => p.YValues[0] ), steel.Points.Min( p => p.YValues[0] ), bauxite.Points.Min( p => p.YValues[0] ) }.Min();
 				area.AxisY.Minimum = Math.Floor( min / 1000.0 ) * 1000;
@@ -259,19 +272,27 @@ namespace ElectronicObserver.Window.Dialog {
 			{
 				var record = GetRecords();
 
-				var prev = record.First();
-				foreach ( var r in record ) {
+				if ( record.Any() ) {
+					var prev = record.First();
+					foreach ( var r in record ) {
 
-					if ( ShouldSkipRecord( r.Date - prev.Date ) )
-						continue;
+						if ( ShouldSkipRecord( r.Date - prev.Date ) )
+							continue;
 
-					instantConstruction.Points.AddXY( r.Date.ToOADate(), r.InstantConstruction );
-					instantRepair.Points.AddXY( r.Date.ToOADate(), r.InstantRepair );
-					developmentMaterial.Points.AddXY( r.Date.ToOADate(), r.DevelopmentMaterial );
-					moddingMaterial.Points.AddXY( r.Date.ToOADate(), r.ModdingMaterial );
+						instantConstruction.Points.AddXY( r.Date.ToOADate(), r.InstantConstruction );
+						instantRepair.Points.AddXY( r.Date.ToOADate(), r.InstantRepair );
+						developmentMaterial.Points.AddXY( r.Date.ToOADate(), r.DevelopmentMaterial );
+						moddingMaterial.Points.AddXY( r.Date.ToOADate(), r.ModdingMaterial );
 
-					prev = r;
+						prev = r;
+					}
 				}
+
+				double now = DateTime.Now.ToOADate();
+				instantConstruction.Points.AddXY( now, KCDatabase.Instance.Material.InstantConstruction );
+				instantRepair.Points.AddXY( now, KCDatabase.Instance.Material.InstantRepair );
+				developmentMaterial.Points.AddXY( now, KCDatabase.Instance.Material.DevelopmentMaterial );
+				moddingMaterial.Points.AddXY( now, KCDatabase.Instance.Material.ModdingMaterial );
 
 				int min = (int)new[] { instantConstruction.Points.Min( p => p.YValues[0] ), instantRepair.Points.Min( p => p.YValues[0] ), developmentMaterial.Points.Min( p => p.YValues[0] ), moddingMaterial.Points.Min( p => p.YValues[0] ) }.Min();
 				area.AxisY.Minimum = Math.Floor( min / 200.0 ) * 200;
@@ -331,20 +352,29 @@ namespace ElectronicObserver.Window.Dialog {
 			{
 				var record = GetRecords();
 
+				ResourceRecord.ResourceElement prev = null;
 
-				var prev = record.First();
-				foreach ( var r in record ) {
+				if ( record.Any() ) {
+					prev = record.First();
+					foreach ( var r in record ) {
 
-					if ( ShouldSkipRecord( r.Date - prev.Date ) )
-						continue;
+						if ( ShouldSkipRecord( r.Date - prev.Date ) )
+							continue;
 
-					instantConstruction.Points.AddXY( r.Date.ToOADate(), r.InstantConstruction - prev.InstantConstruction );
-					instantRepair.Points.AddXY( r.Date.ToOADate(), r.InstantRepair - prev.InstantRepair );
-					developmentMaterial.Points.AddXY( r.Date.ToOADate(), r.DevelopmentMaterial - prev.DevelopmentMaterial );
-					moddingMaterial.Points.AddXY( r.Date.ToOADate(), r.ModdingMaterial - prev.ModdingMaterial );
+						instantConstruction.Points.AddXY( r.Date.ToOADate(), r.InstantConstruction - prev.InstantConstruction );
+						instantRepair.Points.AddXY( r.Date.ToOADate(), r.InstantRepair - prev.InstantRepair );
+						developmentMaterial.Points.AddXY( r.Date.ToOADate(), r.DevelopmentMaterial - prev.DevelopmentMaterial );
+						moddingMaterial.Points.AddXY( r.Date.ToOADate(), r.ModdingMaterial - prev.ModdingMaterial );
 
-					prev = r;
+						prev = r;
+					}
 				}
+
+				double now = DateTime.Now.ToOADate();
+				instantConstruction.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.InstantConstruction - prev.InstantConstruction );
+				instantRepair.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.InstantRepair - prev.InstantRepair );
+				developmentMaterial.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.DevelopmentMaterial - prev.DevelopmentMaterial );
+				moddingMaterial.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.ModdingMaterial - prev.ModdingMaterial );
 
 				int min = (int)new[] { instantConstruction.Points.Min( p => p.YValues[0] ), instantRepair.Points.Min( p => p.YValues[0] ), developmentMaterial.Points.Min( p => p.YValues[0] ), moddingMaterial.Points.Min( p => p.YValues[0] ) }.Min();
 				area.AxisY.Minimum = Math.Floor( min / 20.0 ) * 20;
@@ -389,15 +419,20 @@ namespace ElectronicObserver.Window.Dialog {
 			{
 				var record = GetRecords();
 
-				var prev = record.First();
-				foreach ( var r in record ) {
+				if ( record.Any() ) {
+					var prev = record.First();
+					foreach ( var r in record ) {
 
-					if ( ShouldSkipRecord( r.Date - prev.Date ) )
-						continue;
+						if ( ShouldSkipRecord( r.Date - prev.Date ) )
+							continue;
 
-					exp.Points.AddXY( r.Date.ToOADate(), r.HQExp );
-					prev = r;
+						exp.Points.AddXY( r.Date.ToOADate(), r.HQExp );
+						prev = r;
+					}
 				}
+
+				double now = DateTime.Now.ToOADate();
+				exp.Points.AddXY( now, KCDatabase.Instance.Admiral.Exp );
 
 				int min = (int)exp.Points.Min( p => p.YValues[0] );
 				area.AxisY.Minimum = Math.Floor( min / 100000.0 ) * 100000;
@@ -443,16 +478,23 @@ namespace ElectronicObserver.Window.Dialog {
 			{
 				var record = GetRecords();
 
-				var prev = record.First();
-				foreach ( var r in record ) {
+				ResourceRecord.ResourceElement prev = null;
 
-					if ( ShouldSkipRecord( r.Date - prev.Date ) )
-						continue;
+				if ( record.Any() ) {
+					prev = record.First();
+					foreach ( var r in record ) {
 
-					exp.Points.AddXY( r.Date.ToOADate(), r.HQExp - prev.HQExp );
+						if ( ShouldSkipRecord( r.Date - prev.Date ) )
+							continue;
 
-					prev = r;
+						exp.Points.AddXY( r.Date.ToOADate(), r.HQExp - prev.HQExp );
+
+						prev = r;
+					}
 				}
+
+				double now = DateTime.Now.ToOADate();
+				exp.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Admiral.Exp - prev.HQExp );
 
 				int min = (int)exp.Points.Min( p => p.YValues[0] );
 				area.AxisY.Minimum = Math.Floor( min / 10000.0 ) * 10000;
