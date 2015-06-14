@@ -173,6 +173,7 @@ namespace ElectronicObserver.Window {
 					ShipCount.BackColor = Color.Transparent;
 					ShipCount.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
 				}
+				ShipCount.Tag = RealShipCount >= db.Admiral.MaxShipCount;
 
 				EquipmentCount.Text = string.Format( "{0}/{1}", RealEquipmentCount, db.Admiral.MaxEquipmentCount );
 				if ( RealEquipmentCount > db.Admiral.MaxEquipmentCount + 3 - 20 ) {
@@ -182,6 +183,8 @@ namespace ElectronicObserver.Window {
 					EquipmentCount.BackColor = Color.Transparent;
 					EquipmentCount.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
 				}
+				EquipmentCount.Tag = RealEquipmentCount >= db.Admiral.MaxEquipmentCount;
+
 			}
 			FlowPanelFleet.ResumeLayout();
 
@@ -257,7 +260,7 @@ namespace ElectronicObserver.Window {
 
 			if ( db.Ships.Count <= 0 ) return;
 
-			if ( RealShipCount >= db.Admiral.MaxShipCount ) {
+			if ( ShipCount.Tag as bool? ?? false ) {
 				if ( DateTime.Now.Second % 2 == 0 ) {
 					ShipCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
 					ShipCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
@@ -267,7 +270,7 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
-			if ( RealEquipmentCount >= db.Admiral.MaxEquipmentCount ) {
+			if ( EquipmentCount.Tag as bool? ?? false ) {
 				if ( DateTime.Now.Second % 2 == 0 ) {
 					EquipmentCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
 					EquipmentCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
