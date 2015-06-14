@@ -166,16 +166,21 @@ namespace ElectronicObserver.Window {
 			{
 
 				ShipCount.Text = string.Format( "{0}/{1}", RealShipCount, db.Admiral.MaxShipCount );
-				if ( RealShipCount > db.Admiral.MaxShipCount - 5 )
+				if ( RealShipCount > db.Admiral.MaxShipCount - 5 ) {
 					ShipCount.BackColor = Color.LightCoral;
-				else
+				} else {
 					ShipCount.BackColor = Color.Transparent;
+				}
+				ShipCount.Tag = RealShipCount >= db.Admiral.MaxShipCount;
 
 				EquipmentCount.Text = string.Format( "{0}/{1}", RealEquipmentCount, db.Admiral.MaxEquipmentCount );
-				if ( RealEquipmentCount > db.Admiral.MaxEquipmentCount + 3 - 20 )
+				if ( RealEquipmentCount > db.Admiral.MaxEquipmentCount + 3 - 20 ) {
 					EquipmentCount.BackColor = Color.LightCoral;
-				else
+				} else {
 					EquipmentCount.BackColor = Color.Transparent;
+				}
+				EquipmentCount.Tag = RealEquipmentCount >= db.Admiral.MaxEquipmentCount;
+
 			}
 			FlowPanelFleet.ResumeLayout();
 
@@ -245,11 +250,11 @@ namespace ElectronicObserver.Window {
 
 			if ( db.Ships.Count <= 0 ) return;
 
-			if ( RealShipCount >= db.Admiral.MaxShipCount ) {
+			if ( ShipCount.Tag as bool? ?? false ) {
 				ShipCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
 			}
 
-			if ( RealEquipmentCount >= db.Admiral.MaxEquipmentCount ) {
+			if ( EquipmentCount.Tag as bool? ?? false ) {
 				EquipmentCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
 			}
 		}

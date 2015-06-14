@@ -139,10 +139,8 @@
 			this.Notification_Construction = new System.Windows.Forms.Button();
 			this.Notification_Expedition = new System.Windows.Forms.Button();
 			this.tabPage15 = new System.Windows.Forms.TabPage();
-			this.label23 = new System.Windows.Forms.Label();
 			this.Database_LinkKCDB = new System.Windows.Forms.LinkLabel();
 			this.label22 = new System.Windows.Forms.Label();
-			this.Database_SendKancolleDBApis = new System.Windows.Forms.CheckedListBox();
 			this.Database_SendKancolleOAuth = new System.Windows.Forms.TextBox();
 			this.labelKdb = new System.Windows.Forms.Label();
 			this.Database_SendDataToKancolleDB = new System.Windows.Forms.CheckBox();
@@ -1509,10 +1507,8 @@
 			// 
 			// tabPage15
 			// 
-			this.tabPage15.Controls.Add(this.label23);
 			this.tabPage15.Controls.Add(this.Database_LinkKCDB);
 			this.tabPage15.Controls.Add(this.label22);
-			this.tabPage15.Controls.Add(this.Database_SendKancolleDBApis);
 			this.tabPage15.Controls.Add(this.Database_SendKancolleOAuth);
 			this.tabPage15.Controls.Add(this.labelKdb);
 			this.tabPage15.Controls.Add(this.Database_SendDataToKancolleDB);
@@ -1523,16 +1519,6 @@
 			this.tabPage15.TabIndex = 8;
 			this.tabPage15.Text = "データベース";
 			this.tabPage15.UseVisualStyleBackColor = true;
-			// 
-			// label23
-			// 
-			this.label23.AutoSize = true;
-			this.label23.Location = new System.Drawing.Point(8, 101);
-			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(52, 15);
-			this.label23.TabIndex = 18;
-			this.label23.Text = "フィルタ：";
-			this.ToolTipInfo.SetToolTip(this.label23, "チェックしたAPIのみ送信します。");
 			// 
 			// Database_LinkKCDB
 			// 
@@ -1553,18 +1539,6 @@
 			this.label22.Size = new System.Drawing.Size(414, 30);
 			this.label22.TabIndex = 16;
 			this.label22.Text = "「艦これ統計データベース」へデータを送信できます。\r\n詳細やアクセスキーの取得は以下のサイトを参照してください。(外部ブラウザが開きます)";
-			// 
-			// Database_SendKancolleDBApis
-			// 
-			this.Database_SendKancolleDBApis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-			this.Database_SendKancolleDBApis.CheckOnClick = true;
-			this.Database_SendKancolleDBApis.FormattingEnabled = true;
-			this.Database_SendKancolleDBApis.IntegralHeight = false;
-			this.Database_SendKancolleDBApis.Location = new System.Drawing.Point(6, 119);
-			this.Database_SendKancolleDBApis.Name = "Database_SendKancolleDBApis";
-			this.Database_SendKancolleDBApis.Size = new System.Drawing.Size(212, 108);
-			this.Database_SendKancolleDBApis.TabIndex = 15;
 			// 
 			// Database_SendKancolleOAuth
 			// 
@@ -1834,10 +1808,8 @@
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.ComboBox FormBrowser_FlashQuality;
 		private System.Windows.Forms.TabPage tabPage15;
-		private System.Windows.Forms.Label label23;
 		private System.Windows.Forms.LinkLabel Database_LinkKCDB;
 		private System.Windows.Forms.Label label22;
-		private System.Windows.Forms.CheckedListBox Database_SendKancolleDBApis;
 		private System.Windows.Forms.TextBox Database_SendKancolleOAuth;
 		private System.Windows.Forms.Label labelKdb;
 		private System.Windows.Forms.CheckBox Database_SendDataToKancolleDB;

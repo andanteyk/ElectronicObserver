@@ -368,15 +368,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//[データベース]
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
-			Database_SendKancolleDBApis.Items.Clear();
-			Database_SendKancolleDBApis.Items.AddRange( Enum.GetNames( typeof( APIKancolleDB.APIType ) ) );
-			{
-				uint apiMask = Utility.Configuration.Config.Connection.SendKancolleDBApis;
 
-				for ( int i = 0; i < Database_SendKancolleDBApis.Items.Count; i++ ) {
-					Database_SendKancolleDBApis.SetItemChecked( i, ( ( ( 1 << i ) & apiMask ) > 0 ) );
-				}
-			}
 
 			//finalize
 			UpdateParameter();
@@ -478,22 +470,9 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.FlashWMode = FormBrowser_FlashWMode.Text;
 
 			//[データベース]
-			{
-				config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
-				config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
+			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
+			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
 
-				uint apiMask = 0;
-				for ( int i = Database_SendKancolleDBApis.Items.Count - 1; i >= 0; i-- ) {
-
-					apiMask <<= 1;
-
-					if ( Database_SendKancolleDBApis.GetItemChecked( i ) ) {
-						apiMask |= 1;
-					}
-				}
-
-				config.Connection.SendKancolleDBApis = apiMask;
-			}
 		}
 
 
