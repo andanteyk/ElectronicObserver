@@ -81,7 +81,6 @@ namespace ElectronicObserver.Observer {
 		}
 
 		private void ConfigurationChanged() {
-			SendDBApis = Utility.Configuration.Config.Connection.SendKancolleDBApis;
 			OAuth = Utility.Configuration.Config.Connection.SendKancolleOAuth;
 
 			if ( Utility.Configuration.Config.Connection.UseUpstreamProxy ) {
@@ -91,7 +90,6 @@ namespace ElectronicObserver.Observer {
 			}
 		}
 
-		private uint SendDBApis;
 		private string OAuth;
 		private WebProxy Proxy;
 
@@ -101,25 +99,15 @@ namespace ElectronicObserver.Observer {
 		/// </summary>
 		public void ExecuteSession( Session oSession ) {
 
-			if ( SendDBApis == 0 || string.IsNullOrEmpty( OAuth ) ) {
+			if ( string.IsNullOrEmpty( OAuth ) ) {
 				return;
 			}
 
 			// find the url in dict.
 			string url = oSession.PathAndQuery;
-			uint apiMask = SendDBApis;
 
-			foreach ( var kv in apis ) {
-				if ( url == kv.Value ) {
-
-					// if we allow to post this api.
-					if ( ( ( 1 << (int)kv.Key ) & apiMask ) > 0 ) {
-
-						PostToServer( oSession );
-						return;
-
-					}
-				}
+			if ( apis.Values.Contains( url ) ) {
+				PostToServer( oSession );
 			}
 
 		}

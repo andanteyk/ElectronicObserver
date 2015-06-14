@@ -125,11 +125,6 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public string SendKancolleOAuth { get; set; }
 
-				/// <summary>
-				/// APIがに送信されます
-				/// 21 apis which take 21 bits.
-				/// </summary>
-				public uint SendKancolleDBApis { get; set; }
 
 				public ConfigConnection() {
 
@@ -150,7 +145,7 @@ namespace ElectronicObserver.Utility {
 
 					SendDataToKancolleDB = false;
 					SendKancolleOAuth = "";
-					SendKancolleDBApis = 0x1FFFFF;
+
 				}
 
 			}
