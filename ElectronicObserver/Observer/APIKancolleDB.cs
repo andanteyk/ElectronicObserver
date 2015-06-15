@@ -18,55 +18,18 @@ namespace ElectronicObserver.Observer {
 	/// <remarks>http://kancolle-db.net/</remarks>
 	public class APIKancolleDB {
 
-		public enum APIType : int {
-			PORT = 0,
-			SHIP2,
-			SHIP3,
-			KDOCK,
-			CHANGE,
-			CREATESHIP,
-			GETSHIP,
-			CREATEITEM,
-			START,
-			NEXT,
-			BATTLE,
-			BATTLE_MIDNIGHT,
-			BATTLE_SP_MIDNIGHT,
-			BATTLE_NIGHT_TO_DAY,
-			BATTLERESULT,
-			PRACTICE_BATTLE,
-			PRACTICE_BATTLERESULT,
-			COMBINED_BATTLE,
-			COMBINED_BATTLE_AIR,
-			COMBINED_BATTLE_MIDNIGHT,
-			COMBINED_BATTLE_RESULT
-		}
 
-		/// <summary>
-		/// all apis
-		/// </summary>
-		private static readonly Dictionary<APIType, string> apis = new Dictionary<APIType, string> {
-			{ APIType.PORT,                     "/kcsapi/api_port/port"                          },
-            { APIType.SHIP2,                    "/kcsapi/api_get_member/ship2"                   },
-            { APIType.SHIP3,                    "/kcsapi/api_get_member/ship3"                   },
-            { APIType.KDOCK,                    "/kcsapi/api_get_member/kdock"                   },
-            { APIType.CHANGE,                   "/kcsapi/api_req_hensei/change"                  },
-            { APIType.CREATESHIP,               "/kcsapi/api_req_kousyou/createship"             },
-            { APIType.GETSHIP,                  "/kcsapi/api_req_kousyou/getship"                },
-            { APIType.CREATEITEM,               "/kcsapi/api_req_kousyou/createitem"             },
-            { APIType.START,                    "/kcsapi/api_req_map/start"                      },
-            { APIType.NEXT,                     "/kcsapi/api_req_map/next"                       },
-            { APIType.BATTLE,                   "/kcsapi/api_req_sortie/battle"                  },
-            { APIType.BATTLE_MIDNIGHT,          "/kcsapi/api_req_battle_midnight/battle"         },
-            { APIType.BATTLE_SP_MIDNIGHT,       "/kcsapi/api_req_battle_midnight/sp_midnight"    },
-            { APIType.BATTLE_NIGHT_TO_DAY,      "/kcsapi/api_req_sortie/night_to_day"            },
-            { APIType.BATTLERESULT,             "/kcsapi/api_req_sortie/battleresult"            },
-            { APIType.PRACTICE_BATTLE,          "/kcsapi/api_req_practice/battle"                },
-            { APIType.PRACTICE_BATTLERESULT,    "/kcsapi/api_req_practice/battle_result"         },
-            { APIType.COMBINED_BATTLE,          "/kcsapi/api_req_combined_battle/battle"         },
-            { APIType.COMBINED_BATTLE_AIR,      "/kcsapi/api_req_combined_battle/airbattle"      },
-            { APIType.COMBINED_BATTLE_MIDNIGHT, "/kcsapi/api_req_combined_battle/midnight_battle"},
-            { APIType.COMBINED_BATTLE_RESULT,   "/kcsapi/api_req_combined_battle/battleresult"   }
+		private static readonly HashSet<string> apis = new HashSet<string>() {
+			"/kcsapi/api_port/port"                       ,
+			"/kcsapi/api_get_member/ship2"                ,
+			"/kcsapi/api_get_member/ship3"                ,
+			"/kcsapi/api_get_member/kdock"                ,
+			"/kcsapi/api_req_hensei/change"               ,
+			"/kcsapi/api_req_kousyou/createship"          ,
+			"/kcsapi/api_req_kousyou/getship"             ,
+			"/kcsapi/api_req_kousyou/createitem"          ,
+			"/kcsapi/api_req_sortie/battleresult"         ,
+			"/kcsapi/api_req_combined_battle/battleresult",
 		};
 
 
@@ -106,7 +69,7 @@ namespace ElectronicObserver.Observer {
 			// find the url in dict.
 			string url = oSession.PathAndQuery;
 
-			if ( apis.Values.Contains( url ) ) {
+			if ( apis.Contains( url ) ) {
 				PostToServer( oSession );
 			}
 
