@@ -250,12 +250,14 @@ namespace ElectronicObserver.Window {
 
 			if ( db.Ships.Count <= 0 ) return;
 
-			if ( ShipCount.Tag as bool? ?? false ) {
-				ShipCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
-			}
+			if ( Utility.Configuration.Config.FormHeadquarters.BlinkAtMaximum ) {
+				if ( ShipCount.Tag as bool? ?? false ) {
+					ShipCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+				}
 
-			if ( EquipmentCount.Tag as bool? ?? false ) {
-				EquipmentCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+				if ( EquipmentCount.Tag as bool? ?? false ) {
+					EquipmentCount.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+				}
 			}
 		}
 

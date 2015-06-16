@@ -309,6 +309,8 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShortenHPBar.Checked = config.FormFleet.ShortenHPBar;
 			FormFleet_ShowNextExp.Checked = config.FormFleet.ShowNextExp;
 
+			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
+
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
@@ -445,6 +447,8 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.FixShipNameWidth = FormFleet_FixShipNameWidth.Checked;
 			config.FormFleet.ShortenHPBar = FormFleet_ShortenHPBar.Checked;
 			config.FormFleet.ShowNextExp = FormFleet_ShowNextExp.Checked;
+
+			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;

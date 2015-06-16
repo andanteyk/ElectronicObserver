@@ -151,6 +151,8 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
+			this.tabPage16 = new System.Windows.Forms.TabPage();
+			this.FormHeadquarters_BlinkAtMaximum = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -179,6 +181,7 @@
 			this.groupBox4.SuspendLayout();
 			this.tabPage11.SuspendLayout();
 			this.tabPage15.SuspendLayout();
+			this.tabPage16.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -661,10 +664,10 @@
 			// 
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Location = new System.Drawing.Point(4, 44);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(456, 253);
+			this.tabPage4.Size = new System.Drawing.Size(456, 233);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -767,10 +770,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 253);
+			this.tabPage6.Size = new System.Drawing.Size(456, 233);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -847,10 +850,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 24);
+			this.tabPage7.Location = new System.Drawing.Point(4, 44);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(456, 253);
+			this.tabPage7.Size = new System.Drawing.Size(456, 233);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -859,6 +862,7 @@
 			// 
 			this.tabControl2.Controls.Add(this.tabPage8);
 			this.tabControl2.Controls.Add(this.tabPage9);
+			this.tabControl2.Controls.Add(this.tabPage16);
 			this.tabControl2.Controls.Add(this.tabPage10);
 			this.tabControl2.Controls.Add(this.tabPage13);
 			this.tabControl2.Controls.Add(this.tabPage12);
@@ -867,7 +871,7 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(450, 247);
+			this.tabControl2.Size = new System.Drawing.Size(450, 227);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
@@ -882,7 +886,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(442, 219);
+			this.tabPage8.Size = new System.Drawing.Size(442, 199);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -966,10 +970,10 @@
 			// tabPage9
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 34);
+			this.tabPage9.Location = new System.Drawing.Point(4, 24);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 209);
+			this.tabPage9.Size = new System.Drawing.Size(442, 199);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -988,10 +992,10 @@
 			// 
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 34);
+			this.tabPage10.Location = new System.Drawing.Point(4, 24);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 209);
+			this.tabPage10.Size = new System.Drawing.Size(442, 199);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1063,10 +1067,10 @@
 			// 
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 34);
+			this.tabPage13.Location = new System.Drawing.Point(4, 24);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 209);
+			this.tabPage13.Size = new System.Drawing.Size(442, 199);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1106,10 +1110,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 34);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 209);
+			this.tabPage12.Size = new System.Drawing.Size(442, 199);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1365,10 +1369,10 @@
 			// tabPage14
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
-			this.tabPage14.Location = new System.Drawing.Point(4, 34);
+			this.tabPage14.Location = new System.Drawing.Point(4, 24);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 209);
+			this.tabPage14.Size = new System.Drawing.Size(442, 199);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1615,6 +1619,27 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
+			// tabPage16
+			// 
+			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
+			this.tabPage16.Location = new System.Drawing.Point(4, 24);
+			this.tabPage16.Name = "tabPage16";
+			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage16.Size = new System.Drawing.Size(442, 199);
+			this.tabPage16.TabIndex = 6;
+			this.tabPage16.Text = "司令部";
+			this.tabPage16.UseVisualStyleBackColor = true;
+			// 
+			// FormHeadquarters_BlinkAtMaximum
+			// 
+			this.FormHeadquarters_BlinkAtMaximum.AutoSize = true;
+			this.FormHeadquarters_BlinkAtMaximum.Location = new System.Drawing.Point(6, 6);
+			this.FormHeadquarters_BlinkAtMaximum.Name = "FormHeadquarters_BlinkAtMaximum";
+			this.FormHeadquarters_BlinkAtMaximum.Size = new System.Drawing.Size(196, 27);
+			this.FormHeadquarters_BlinkAtMaximum.TabIndex = 0;
+			this.FormHeadquarters_BlinkAtMaximum.Text = "艦船/装備が満タンの時点滅する";
+			this.FormHeadquarters_BlinkAtMaximum.UseVisualStyleBackColor = true;
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1680,6 +1705,8 @@
 			this.tabPage11.PerformLayout();
 			this.tabPage15.ResumeLayout(false);
 			this.tabPage15.PerformLayout();
+			this.tabPage16.ResumeLayout(false);
+			this.tabPage16.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -1813,5 +1840,7 @@
 		private System.Windows.Forms.TextBox Database_SendKancolleOAuth;
 		private System.Windows.Forms.Label labelKdb;
 		private System.Windows.Forms.CheckBox Database_SendDataToKancolleDB;
+		private System.Windows.Forms.TabPage tabPage16;
+		private System.Windows.Forms.CheckBox FormHeadquarters_BlinkAtMaximum;
 	}
 }
