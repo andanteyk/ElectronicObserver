@@ -154,14 +154,7 @@
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
-    <Compile Include="Notifier\NotifierBase.cs" />
-    <Compile Include="Notifier\NotifierCondition.cs" />
-    <Compile Include="Notifier\NotifierConstruction.cs" />
     <Compile Include="Notifier\NotifierDialogData.cs" />
-    <Compile Include="Notifier\NotifierDamage.cs" />
-    <Compile Include="Notifier\NotifierRepair.cs" />
-    <Compile Include="Notifier\NotifierExpedition.cs" />
-    <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\APIKancolleDB.cs" />
     <Compile Include="Observer\APIGraphicList.cs" />
     <Compile Include="Observer\Cache\CacheCore.cs" />
@@ -313,12 +306,6 @@
     <Compile Include="Window\Dialog\DialogConfiguration.Designer.cs">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\Dialog\DialogConfigurationNotifier.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\Dialog\DialogConfigurationNotifier.Designer.cs">
-      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
-    </Compile>
     <Compile Include="Window\Dialog\DialogEquipmentList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -331,11 +318,11 @@
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
     <Compile Include="DynamicJson.cs" />
-    <Compile Include="Window\Dialog\DialogNotifier.cs">
+    <Compile Include="Window\Dialog\DialogPlugins.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Window\Dialog\DialogNotifier.Designer.cs">
-      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    <Compile Include="Window\Dialog\DialogPlugins.Designer.cs">
+      <DependentUpon>DialogPlugins.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogResourceChart.cs">
       <SubType>Form</SubType>
@@ -472,14 +459,11 @@
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\Dialog\DialogConfigurationNotifier.resx">
-      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.resx">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\Dialog\DialogNotifier.resx">
-      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    <EmbeddedResource Include="Window\Dialog\DialogPlugins.resx">
+      <DependentUpon>DialogPlugins.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogResourceChart.resx">
       <DependentUpon>DialogResourceChart.cs</DependentUpon>

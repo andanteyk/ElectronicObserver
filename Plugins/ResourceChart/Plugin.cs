@@ -19,7 +19,7 @@ namespace ResourceChart
 			}
 		}
 
-		public override Form GetSettingsWindow()
+		public override UserControl GetSettings()
 		{
 			return null;
 		}

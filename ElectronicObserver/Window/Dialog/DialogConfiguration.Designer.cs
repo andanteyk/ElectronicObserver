@@ -180,13 +180,6 @@
 			this.FormBrowser_FlashWMode = new System.Windows.Forms.ComboBox();
 			this.label20 = new System.Windows.Forms.Label();
 			this.FormBrowser_FlashQuality = new System.Windows.Forms.ComboBox();
-			this.tabPage11 = new System.Windows.Forms.TabPage();
-			this.label10 = new System.Windows.Forms.Label();
-			this.Notification_Damage = new System.Windows.Forms.Button();
-			this.Notification_Condition = new System.Windows.Forms.Button();
-			this.Notification_Repair = new System.Windows.Forms.Button();
-			this.Notification_Construction = new System.Windows.Forms.Button();
-			this.Notification_Expedition = new System.Windows.Forms.Button();
 			this.tabPage15 = new System.Windows.Forms.TabPage();
 			this.Database_LinkKCDB = new System.Windows.Forms.LinkLabel();
 			this.label22 = new System.Windows.Forms.Label();
@@ -235,7 +228,6 @@
 			this.tabPageFormBattle.SuspendLayout();
 			this.tabPage14.SuspendLayout();
 			this.groupBox4.SuspendLayout();
-			this.tabPage11.SuspendLayout();
 			this.tabPage15.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -251,7 +243,6 @@
 			this.tabControl1.Controls.Add(this.tabPage5);
 			this.tabControl1.Controls.Add(this.tabPage6);
 			this.tabControl1.Controls.Add(this.tabPage7);
-			this.tabControl1.Controls.Add(this.tabPage11);
 			this.tabControl1.Controls.Add(this.tabPage15);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Multiline = true;
@@ -2009,81 +2000,6 @@
 			this.FormBrowser_FlashQuality.TabIndex = 0;
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_FlashQuality, "设置Flash品质。\r\n默认值是 high 。");
 			// 
-			// tabPage11
-			// 
-			this.tabPage11.Controls.Add(this.label10);
-			this.tabPage11.Controls.Add(this.Notification_Damage);
-			this.tabPage11.Controls.Add(this.Notification_Condition);
-			this.tabPage11.Controls.Add(this.Notification_Repair);
-			this.tabPage11.Controls.Add(this.Notification_Construction);
-			this.tabPage11.Controls.Add(this.Notification_Expedition);
-			this.tabPage11.Location = new System.Drawing.Point(4, 24);
-			this.tabPage11.Name = "tabPage11";
-			this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage11.Size = new System.Drawing.Size(456, 253);
-			this.tabPage11.TabIndex = 7;
-			this.tabPage11.Text = "通知";
-			this.tabPage11.UseVisualStyleBackColor = true;
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 235);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(238, 15);
-			this.label10.TabIndex = 5;
-			this.label10.Text = "＊每个设置对话框点OK时生效";
-			// 
-			// Notification_Damage
-			// 
-			this.Notification_Damage.Location = new System.Drawing.Point(8, 122);
-			this.Notification_Damage.Name = "Notification_Damage";
-			this.Notification_Damage.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Damage.TabIndex = 4;
-			this.Notification_Damage.Text = "大破进击通知的设置...";
-			this.Notification_Damage.UseVisualStyleBackColor = true;
-			this.Notification_Damage.Click += new System.EventHandler(this.Notification_Damage_Click);
-			// 
-			// Notification_Condition
-			// 
-			this.Notification_Condition.Location = new System.Drawing.Point(8, 93);
-			this.Notification_Condition.Name = "Notification_Condition";
-			this.Notification_Condition.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Condition.TabIndex = 3;
-			this.Notification_Condition.Text = "疲劳恢复通知的设置...";
-			this.Notification_Condition.UseVisualStyleBackColor = true;
-			this.Notification_Condition.Click += new System.EventHandler(this.Notification_Condition_Click);
-			// 
-			// Notification_Repair
-			// 
-			this.Notification_Repair.Location = new System.Drawing.Point(8, 64);
-			this.Notification_Repair.Name = "Notification_Repair";
-			this.Notification_Repair.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Repair.TabIndex = 2;
-			this.Notification_Repair.Text = "入渠结束通知的设置...";
-			this.Notification_Repair.UseVisualStyleBackColor = true;
-			this.Notification_Repair.Click += new System.EventHandler(this.Notification_Repair_Click);
-			// 
-			// Notification_Construction
-			// 
-			this.Notification_Construction.Location = new System.Drawing.Point(8, 35);
-			this.Notification_Construction.Name = "Notification_Construction";
-			this.Notification_Construction.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Construction.TabIndex = 1;
-			this.Notification_Construction.Text = "建造完毕通知的设置...";
-			this.Notification_Construction.UseVisualStyleBackColor = true;
-			this.Notification_Construction.Click += new System.EventHandler(this.Notification_Construction_Click);
-			// 
-			// Notification_Expedition
-			// 
-			this.Notification_Expedition.Location = new System.Drawing.Point(8, 6);
-			this.Notification_Expedition.Name = "Notification_Expedition";
-			this.Notification_Expedition.Size = new System.Drawing.Size(150, 23);
-			this.Notification_Expedition.TabIndex = 0;
-			this.Notification_Expedition.Text = "远征结束通知的设置...";
-			this.Notification_Expedition.UseVisualStyleBackColor = true;
-			this.Notification_Expedition.Click += new System.EventHandler(this.Notification_Expedition_Click);
-			// 
 			// tabPage15
 			// 
 			this.tabPage15.Controls.Add(this.Database_LinkKCDB);
@@ -2266,8 +2182,6 @@
 			this.tabPage14.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
-			this.tabPage11.ResumeLayout(false);
-			this.tabPage11.PerformLayout();
 			this.tabPage15.ResumeLayout(false);
 			this.tabPage15.PerformLayout();
 			this.ResumeLayout(false);
@@ -2352,13 +2266,6 @@
 		private System.Windows.Forms.TabPage tabPage8;
 		private System.Windows.Forms.TabPage tabPage9;
 		private System.Windows.Forms.TabPage tabPage10;
-		private System.Windows.Forms.TabPage tabPage11;
-		private System.Windows.Forms.Button Notification_Expedition;
-		private System.Windows.Forms.Button Notification_Construction;
-		private System.Windows.Forms.Button Notification_Repair;
-		private System.Windows.Forms.Button Notification_Damage;
-		private System.Windows.Forms.Button Notification_Condition;
-		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label13;

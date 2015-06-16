@@ -67,7 +67,8 @@
 			this.StripMenu_Tool_AlbumMasterEquipment = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparatorAnother1 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_CopyEOBrowserExecute = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_PluginManager = new System.Windows.Forms.ToolStripMenuItem();
+            this.StripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help_Help = new System.Windows.Forms.ToolStripMenuItem();
 			this.SeparatorWhitecap = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Help_Version = new System.Windows.Forms.ToolStripMenuItem();
@@ -361,7 +362,8 @@
             this.StripMenu_Tool_AlbumMasterShip,
             this.StripMenu_Tool_AlbumMasterEquipment,
             this.StripMenu_Tool_CopyEOBrowserExecute,
-			this.toolStripSeparatorAnother1});
+			this.toolStripSeparatorAnother1,
+			this.StripMenu_Tool_PluginManager} );
 			this.StripMenu_Tool.Name = "StripMenu_Tool";
 			this.StripMenu_Tool.Size = new System.Drawing.Size(120, 38);
 			this.StripMenu_Tool.Text = "工具(&T)";
@@ -403,6 +405,13 @@
 			this.StripMenu_Tool_CopyEOBrowserExecute.Size = new System.Drawing.Size(143, 22);
 			this.StripMenu_Tool_CopyEOBrowserExecute.Text = "复制EOBrowser启动参数(&C)";
 			this.StripMenu_Tool_CopyEOBrowserExecute.Click += new System.EventHandler(this.StripMenu_Tool_CopyEOBrowserExecute_Click);
+			// 
+			// StripMenu_Tool_PluginManager
+			// 
+			this.StripMenu_Tool_PluginManager.Name = "StripMenu_Tool_PluginManager";
+			this.StripMenu_Tool_PluginManager.Size = new System.Drawing.Size(143, 22);
+			this.StripMenu_Tool_PluginManager.Text = "插件管理(&P)";
+			this.StripMenu_Tool_PluginManager.Click += new System.EventHandler(this.StripMenu_Tool_PluginManager_Click);
 			// 
 			// StripMenu_Help
 			// 
@@ -557,6 +566,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AlbumMasterEquipment;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother1;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_CopyEOBrowserExecute;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_PluginManager;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_ShipGroup;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_EquipmentList;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;

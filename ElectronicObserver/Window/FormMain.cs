@@ -1,6 +1,5 @@
 ﻿using Codeplex.Data;
 using ElectronicObserver.Data;
-using ElectronicObserver.Notifier;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
@@ -45,6 +44,8 @@ namespace ElectronicObserver.Window {
 		public FormBrowserHost fBrowser;
 		public FormWindowCapture fWindowCapture;
 
+		public Form Browser { get { return fBrowser; } }
+
 		#endregion
 
 
@@ -85,7 +86,6 @@ namespace ElectronicObserver.Window {
 			ResourceManager.Instance.Load();
 			RecordManager.Instance.Load();
 			KCDatabase.Instance.Load();
-			NotifierManager.Instance.Initialize( this );
 
 
 			Icon = ResourceManager.Instance.AppIcon;
@@ -344,7 +344,8 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_FormClosed( object sender, FormClosedEventArgs e ) {
 
-			NotifierManager.Instance.ApplyToConfiguration();
+			// TODO 不确定影响
+			//NotifierManager.Instance.ApplyToConfiguration();
 			Utility.Configuration.Instance.Save();
 			APIObserver.Instance.Stop();
 			RecordManager.Instance.Save();
@@ -618,6 +619,11 @@ namespace ElectronicObserver.Window {
 				new DialogAlbumMasterEquipment().Show( this );
 			}
 
+		}
+
+		private void StripMenu_Tool_PluginManager_Click( object sender, EventArgs e )
+		{
+			new DialogPlugins( this ).Show( this );
 		}
 
 		private void StripMenu_Tool_CopyEOBrowserExecute_Click( object sender, EventArgs e ) {
