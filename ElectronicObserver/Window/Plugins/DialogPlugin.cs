@@ -25,9 +25,9 @@ namespace ElectronicObserver.Window.Plugins
 			get { return "1.0.0.0"; }
 		}
 
-		public virtual bool RunService( FormMain main )
+		public virtual Task<bool> RunService( FormMain main )
 		{
-			return false;
+			return new Task<bool>( () => false );
 		}
 	}
 }

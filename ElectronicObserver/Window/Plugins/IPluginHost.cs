@@ -24,7 +24,7 @@ namespace ElectronicObserver.Window.Plugins
 
 		Form GetSettingsWindow();
 
-		bool RunService( FormMain main );
+		Task<bool> RunService( FormMain main );
 
 		string Version { get; }
 	}

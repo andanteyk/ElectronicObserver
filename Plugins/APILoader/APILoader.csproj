@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{73C79403-21D4-45AE-8769-332613CD45F0}</ProjectGuid>
+    <ProjectGuid>{BC2F555D-EFD9-43A7-8F91-0621BAFF8692}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Battles</RootNamespace>
-    <AssemblyName>Battles</AssemblyName>
+    <RootNamespace>APILoader</RootNamespace>
+    <AssemblyName>APILoader</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,51 +42,40 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking">
-      <HintPath>..\..\output\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogBattleReport.cs">
-      <Link>Dialog\DialogBattleReport.cs</Link>
+    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogLocalAPILoader.cs">
+      <Link>DialogLocalAPILoader.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogBattleReport.designer.cs">
-      <Link>Dialog\DialogBattleReport.designer.cs</Link>
-      <DependentUpon>DialogBattleReport.cs</DependentUpon>
+    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogLocalAPILoader.designer.cs">
+      <Link>DialogLocalAPILoader.designer.cs</Link>
+      <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\..\ElectronicObserver\Window\FormBattle.cs">
-      <Link>FormBattle.cs</Link>
+    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogLocalAPILoader2.cs">
+      <Link>DialogLocalAPILoader2.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\..\ElectronicObserver\Window\FormBattle.Designer.cs">
-      <Link>FormBattle.Designer.cs</Link>
-      <DependentUpon>FormBattle.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\..\ElectronicObserver\Window\FormCompass.cs">
-      <Link>FormCompass.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\..\ElectronicObserver\Window\FormCompass.Designer.cs">
-      <Link>FormCompass.Designer.cs</Link>
-      <DependentUpon>FormCompass.cs</DependentUpon>
+    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogLocalAPILoader2.designer.cs">
+      <Link>DialogLocalAPILoader2.designer.cs</Link>
+      <DependentUpon>DialogLocalAPILoader2.cs</DependentUpon>
     </Compile>
     <Compile Include="Plugin.cs" />
+    <Compile Include="Plugin.Designer.cs">
+      <DependentUpon>Plugin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\ElectronicObserver\Window\Dialog\DialogBattleReport.resx">
-      <Link>Dialog\DialogBattleReport.resx</Link>
-      <DependentUpon>DialogBattleReport.cs</DependentUpon>
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\Dialog\DialogLocalAPILoader.resx">
+      <Link>DialogLocalAPILoader.resx</Link>
+      <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormBattle.resx">
-      <Link>FormBattle.resx</Link>
-      <DependentUpon>FormBattle.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormCompass.resx">
-      <Link>FormCompass.resx</Link>
-      <DependentUpon>FormCompass.cs</DependentUpon>
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\Dialog\DialogLocalAPILoader2.resx">
+      <Link>DialogLocalAPILoader2.resx</Link>
+      <DependentUpon>DialogLocalAPILoader2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
