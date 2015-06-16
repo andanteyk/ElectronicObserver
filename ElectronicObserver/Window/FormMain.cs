@@ -140,6 +140,8 @@ namespace ElectronicObserver.Window {
 				// menu
 				if ( PluginForms.Count > 0 )
 				{
+					SubForms.AddRange( PluginForms );
+
 					var sep = new ToolStripSeparator();
 					StripMenu_View.DropDownItems.Add( sep );
 					foreach ( var f in PluginForms )
