@@ -16,6 +16,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,15 +37,9 @@ namespace ElectronicObserver.Window {
 
 		public List<DockContent> SubForms { get; private set; }
 
+		public List<DockContent> PluginForms { get; private set; }
+
 		public FormFleet[] fFleet;
-		public FormDock fDock;
-		public FormArsenal fArsenal;
-		public FormHeadquarters fHeadquarters;
-		public FormInformation fInformation;
-		public FormCompass fCompass;
-		public FormLog fLog;
-		public FormQuest fQuest;
-		public FormBattle fBattle;
 		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
@@ -110,19 +105,57 @@ namespace ElectronicObserver.Window {
 				SubForms.Add( fFleet[i] = new FormFleet( this, i + 1 ) );
 			}
 
-			SubForms.Add( fDock = new FormDock( this ) );
-			SubForms.Add( fArsenal = new FormArsenal( this ) );
-			SubForms.Add( fHeadquarters = new FormHeadquarters( this ) );
-			SubForms.Add( fInformation = new FormInformation( this ) );
-			SubForms.Add( fCompass = new FormCompass( this ) );
-			SubForms.Add( fLog = new FormLog( this ) );
-			SubForms.Add( fQuest = new FormQuest( this ) );
-			SubForms.Add( fBattle = new FormBattle( this ) );
 			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 
+			// plugins
+			PluginForms = new List<DockContent>();
+
+			var path = this.GetType().Assembly.Location;
+			path = path.Substring( 0, path.LastIndexOf( '\\' ) + 1 ) + "Plugins";
+			if ( Directory.Exists( path ) )
+			{
+				foreach ( var file in Directory.GetFiles( path, "*.dll", SearchOption.TopDirectoryOnly ) )
+				{
+					try
+					{
+						var assembly = Assembly.LoadFile( file );
+						foreach ( var type in assembly.GetTypes().Where( t => t.BaseType == typeof( DockContent ) ) )
+						{
+							if ( type != null )
+							{
+								var form = (DockContent)type.GetConstructor( new[] { typeof( FormMain ) } ).Invoke( new object[] { this } );
+								PluginForms.Add( form );
+							}
+						}
+					}
+					catch ( Exception ex )
+					{
+						Utility.ErrorReporter.SendErrorReport( ex, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
+					}
+				}
+
+				// menu
+				if ( PluginForms.Count > 0 )
+				{
+					var sep = new ToolStripSeparator();
+					StripMenu_View.DropDownItems.Add( sep );
+					foreach ( var f in PluginForms )
+					{
+						var menuitem = new ToolStripMenuItem
+						{
+							Text = f.Text,
+							Tag = f
+						};
+						menuitem.Click += menuitem_Click;
+						StripMenu_View.DropDownItems.Add( menuitem );
+					}
+				}
+			}
+
+			// layout
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			string lower = Configuration.Config.Life.LayoutFilePath.ToLower();
@@ -155,6 +188,16 @@ namespace ElectronicObserver.Window {
 			UIUpdateTimer.Start();
 
 			Utility.Logger.Add( 2, "启动处理完毕。" );
+		}
+
+
+		void menuitem_Click( object sender, EventArgs e )
+		{
+			var f = ((ToolStripMenuItem)sender).Tag as DockContent;
+			if ( f != null )
+			{
+				f.Show( this.MainDockPanel );
+			}
 		}
 
 
@@ -287,22 +330,6 @@ namespace ElectronicObserver.Window {
 					return fFleet[2];
 				case "Fleet #4":
 					return fFleet[3];
-				case "Dock":
-					return fDock;
-				case "Arsenal":
-					return fArsenal;
-				case "HeadQuarters":
-					return fHeadquarters;
-				case "Information":
-					return fInformation;
-				case "Compass":
-					return fCompass;
-				case "Log":
-					return fLog;
-				case "Quest":
-					return fQuest;
-				case "Battle":
-					return fBattle;
 				case "FleetOverview":
 					return fFleetOverview;
 				case "ShipGroup":
@@ -312,8 +339,17 @@ namespace ElectronicObserver.Window {
 				case "WindowCapture":
 					return fWindowCapture;
 				default:
-					if ( persistString.StartsWith( FormIntegrate.PREFIX ) ) {
+					if ( persistString.StartsWith( FormIntegrate.PREFIX ) )
+					{
 						return FormIntegrate.FromPersistString( this, persistString );
+					}
+					else
+					{
+						var form = PluginForms.FirstOrDefault( f => f.GetPersistString() == persistString );
+						if ( form != null )
+						{
+							return form;
+						}
 					}
 					return null;
 			}
@@ -1098,38 +1134,6 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
 			fFleet[3].Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Dock_Click( object sender, EventArgs e ) {
-			fDock.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Arsenal_Click( object sender, EventArgs e ) {
-			fArsenal.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Headquarters_Click( object sender, EventArgs e ) {
-			fHeadquarters.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Information_Click( object sender, EventArgs e ) {
-			fInformation.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Compass_Click( object sender, EventArgs e ) {
-			fCompass.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Log_Click( object sender, EventArgs e ) {
-			fLog.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Quest_Click( object sender, EventArgs e ) {
-			fQuest.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Battle_Click( object sender, EventArgs e ) {
-			fBattle.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_FleetOverview_Click( object sender, EventArgs e ) {

@@ -808,7 +808,8 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Fleet #" + FleetID.ToString();
 		}
 

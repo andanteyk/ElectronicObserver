@@ -1580,7 +1580,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 		}
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Battle";
 		}
 

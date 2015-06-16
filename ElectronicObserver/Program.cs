@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ElectronicObserver {
-	static class Program {
+	public static class Program {
 
 		public static System.Drawing.Font Window_Font;
 

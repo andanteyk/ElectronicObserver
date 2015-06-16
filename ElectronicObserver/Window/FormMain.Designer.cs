@@ -51,19 +51,8 @@
 			this.StripMenu_View_Fleet_4 = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_FleetOverview = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_ShipGroup = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_View_Dock = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Arsenal = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_View_Headquarters = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Quest = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Information = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_View_Compass = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Battle = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Browser = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Log = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_WindowCapture = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_WindowCapture_SubWindow = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_WindowCapture_AttachAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -279,19 +268,8 @@
             this.StripMenu_View_Fleet,
             this.StripMenu_View_FleetOverview,
             this.StripMenu_View_ShipGroup,
-            this.toolStripSeparator1,
-            this.StripMenu_View_Dock,
-            this.StripMenu_View_Arsenal,
-            this.toolStripSeparator2,
-            this.StripMenu_View_Headquarters,
-            this.StripMenu_View_Quest,
-            this.StripMenu_View_Information,
-            this.toolStripSeparator3,
-            this.StripMenu_View_Compass,
-            this.StripMenu_View_Battle,
             this.toolStripSeparator4,
             this.StripMenu_View_Browser,
-            this.StripMenu_View_Log,
             this.StripMenu_WindowCapture});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(111, 38);
@@ -350,70 +328,6 @@
 			this.StripMenu_View_ShipGroup.Text = "舰队编成(&G)";
 			this.StripMenu_View_ShipGroup.Click += new System.EventHandler(this.StripMenu_View_ShipGroup_Click);
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(303, 6);
-			// 
-			// StripMenu_View_Dock
-			// 
-			this.StripMenu_View_Dock.Name = "StripMenu_View_Dock";
-			this.StripMenu_View_Dock.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Dock.Text = "入渠(&D)";
-			this.StripMenu_View_Dock.Click += new System.EventHandler(this.StripMenu_View_Dock_Click);
-			// 
-			// StripMenu_View_Arsenal
-			// 
-			this.StripMenu_View_Arsenal.Name = "StripMenu_View_Arsenal";
-			this.StripMenu_View_Arsenal.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Arsenal.Text = "工厂(&A)";
-			this.StripMenu_View_Arsenal.Click += new System.EventHandler(this.StripMenu_View_Arsenal_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(303, 6);
-			// 
-			// StripMenu_View_Headquarters
-			// 
-			this.StripMenu_View_Headquarters.Name = "StripMenu_View_Headquarters";
-			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Headquarters.Text = "司令部(&H)";
-			this.StripMenu_View_Headquarters.Click += new System.EventHandler(this.StripMenu_View_Headquarters_Click);
-			// 
-			// StripMenu_View_Quest
-			// 
-			this.StripMenu_View_Quest.Name = "StripMenu_View_Quest";
-			this.StripMenu_View_Quest.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Quest.Text = "任务(&Q)";
-			this.StripMenu_View_Quest.Click += new System.EventHandler(this.StripMenu_View_Quest_Click);
-			// 
-			// StripMenu_View_Information
-			// 
-			this.StripMenu_View_Information.Name = "StripMenu_View_Information";
-			this.StripMenu_View_Information.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Information.Text = "情报(&I)";
-			this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(303, 6);
-			// 
-			// StripMenu_View_Compass
-			// 
-			this.StripMenu_View_Compass.Name = "StripMenu_View_Compass";
-			this.StripMenu_View_Compass.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Compass.Text = "罗针盘(&C)";
-			this.StripMenu_View_Compass.Click += new System.EventHandler(this.StripMenu_View_Compass_Click);
-			// 
-			// StripMenu_View_Battle
-			// 
-			this.StripMenu_View_Battle.Name = "StripMenu_View_Battle";
-			this.StripMenu_View_Battle.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Battle.Text = "战斗(&B)";
-			this.StripMenu_View_Battle.Click += new System.EventHandler(this.StripMenu_View_Battle_Click);
-			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -425,13 +339,6 @@
 			this.StripMenu_View_Browser.Size = new System.Drawing.Size(306, 34);
 			this.StripMenu_View_Browser.Text = "浏览器(&M)";
 			this.StripMenu_View_Browser.Click += new System.EventHandler(this.StripMenu_View_Browser_Click);
-			// 
-			// StripMenu_View_Log
-			// 
-			this.StripMenu_View_Log.Name = "StripMenu_View_Log";
-			this.StripMenu_View_Log.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Log.Text = "日志(&L)";
-			this.StripMenu_View_Log.Click += new System.EventHandler(this.StripMenu_View_Log_Click);
 			// 
 			// StripMenu_WindowCapture
 			// 
@@ -913,18 +820,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Fleet_2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Fleet_3;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Fleet_4;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Dock;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Arsenal;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Headquarters;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Information;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Compass;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Log;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Quest;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Battle;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Help;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Help_Version;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File;
