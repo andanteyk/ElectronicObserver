@@ -131,6 +131,10 @@ namespace ElectronicObserver.Window {
 							}
 						}
 					}
+					catch ( ReflectionTypeLoadException refEx )
+					{
+						Utility.ErrorReporter.SendLoadErrorReport( refEx, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
+					}
 					catch ( Exception ex )
 					{
 						Utility.ErrorReporter.SendErrorReport( ex, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
