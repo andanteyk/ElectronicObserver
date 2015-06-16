@@ -48,16 +48,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormQuest.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormQuest.cs">
+      <Link>FormQuest.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormQuest.Designer.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormQuest.Designer.cs">
+      <Link>FormQuest.Designer.cs</Link>
       <DependentUpon>FormQuest.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormQuest.resx">
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormQuest.resx">
+      <Link>FormQuest.resx</Link>
       <DependentUpon>FormQuest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

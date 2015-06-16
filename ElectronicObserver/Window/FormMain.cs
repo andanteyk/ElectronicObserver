@@ -40,7 +40,6 @@ namespace ElectronicObserver.Window {
 		public List<DockContent> PluginForms { get; private set; }
 
 		public FormFleet[] fFleet;
-		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
 		public FormWindowCapture fWindowCapture;
@@ -105,7 +104,6 @@ namespace ElectronicObserver.Window {
 				SubForms.Add( fFleet[i] = new FormFleet( this, i + 1 ) );
 			}
 
-			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
@@ -336,8 +334,6 @@ namespace ElectronicObserver.Window {
 					return fFleet[2];
 				case "Fleet #4":
 					return fFleet[3];
-				case "FleetOverview":
-					return fFleetOverview;
 				case "ShipGroup":
 					return fShipGroup;
 				case "Browser":
@@ -1140,10 +1136,6 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
 			fFleet[3].Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_FleetOverview_Click( object sender, EventArgs e ) {
-			fFleetOverview.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_ShipGroup_Click( object sender, EventArgs e ) {

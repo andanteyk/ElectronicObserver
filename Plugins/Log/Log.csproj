@@ -48,16 +48,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormLog.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormLog.cs">
+      <Link>FormLog.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormLog.Designer.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormLog.Designer.cs">
+      <Link>FormLog.Designer.cs</Link>
       <DependentUpon>FormLog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormLog.resx">
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormLog.resx">
+      <Link>FormLog.resx</Link>
       <DependentUpon>FormLog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

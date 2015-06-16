@@ -48,16 +48,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormInformation.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormInformation.cs">
+      <Link>FormInformation.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormInformation.Designer.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormInformation.Designer.cs">
+      <Link>FormInformation.Designer.cs</Link>
       <DependentUpon>FormInformation.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormInformation.resx">
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormInformation.resx">
+      <Link>FormInformation.resx</Link>
       <DependentUpon>FormInformation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

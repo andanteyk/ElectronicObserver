@@ -48,25 +48,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormBattle.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormBattle.cs">
+      <Link>FormBattle.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormBattle.Designer.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormBattle.Designer.cs">
+      <Link>FormBattle.Designer.cs</Link>
       <DependentUpon>FormBattle.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormCompass.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormCompass.cs">
+      <Link>FormCompass.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormCompass.Designer.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormCompass.Designer.cs">
+      <Link>FormCompass.Designer.cs</Link>
       <DependentUpon>FormCompass.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormBattle.resx">
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormBattle.resx">
+      <Link>FormBattle.resx</Link>
       <DependentUpon>FormBattle.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormCompass.resx">
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormCompass.resx">
+      <Link>FormCompass.resx</Link>
       <DependentUpon>FormCompass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

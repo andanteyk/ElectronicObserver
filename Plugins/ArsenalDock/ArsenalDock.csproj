@@ -48,25 +48,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormArsenal.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormArsenal.cs">
+      <Link>FormArsenal.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormArsenal.Designer.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormArsenal.Designer.cs">
+      <Link>FormArsenal.Designer.cs</Link>
       <DependentUpon>FormArsenal.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormDock.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormDock.cs">
+      <Link>FormDock.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDock.Designer.cs">
+    <Compile Include="..\..\ElectronicObserver\Window\FormDock.Designer.cs">
+      <Link>FormDock.Designer.cs</Link>
       <DependentUpon>FormDock.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormArsenal.resx">
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormArsenal.resx">
+      <Link>FormArsenal.resx</Link>
       <DependentUpon>FormArsenal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDock.resx">
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\FormDock.resx">
+      <Link>FormDock.resx</Link>
       <DependentUpon>FormDock.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

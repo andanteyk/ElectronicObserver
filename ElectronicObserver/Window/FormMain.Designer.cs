@@ -49,7 +49,6 @@
 			this.StripMenu_View_Fleet_2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_Fleet_3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_Fleet_4 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_FleetOverview = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_ShipGroup = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Browser = new System.Windows.Forms.ToolStripMenuItem();
@@ -266,7 +265,6 @@
 			// 
 			this.StripMenu_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_View_Fleet,
-            this.StripMenu_View_FleetOverview,
             this.StripMenu_View_ShipGroup,
             this.toolStripSeparator4,
             this.StripMenu_View_Browser,
@@ -313,13 +311,6 @@
 			this.StripMenu_View_Fleet_4.Size = new System.Drawing.Size(120, 34);
 			this.StripMenu_View_Fleet_4.Text = "#&4";
 			this.StripMenu_View_Fleet_4.Click += new System.EventHandler(this.StripMenu_View_Fleet_4_Click);
-			// 
-			// StripMenu_View_FleetOverview
-			// 
-			this.StripMenu_View_FleetOverview.Name = "StripMenu_View_FleetOverview";
-			this.StripMenu_View_FleetOverview.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_FleetOverview.Text = "舰队一览(&O)";
-			this.StripMenu_View_FleetOverview.Click += new System.EventHandler(this.StripMenu_View_FleetOverview_Click);
 			// 
 			// StripMenu_View_ShipGroup
 			// 
@@ -834,7 +825,6 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadInitialAPI;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AlbumMasterShip;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_FleetOverview;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AlbumMasterEquipment;
         private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ResourcesGraph;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother1;
