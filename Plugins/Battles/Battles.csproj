@@ -64,6 +64,7 @@
       <Link>FormCompass.Designer.cs</Link>
       <DependentUpon>FormCompass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

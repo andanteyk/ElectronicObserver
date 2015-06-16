@@ -454,6 +454,9 @@
     <Compile Include="Window\Integrate\FormIntegrated.Designer.cs">
       <DependentUpon>FormIntegrated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Plugins\ServerPlugin.cs" />
+    <Compile Include="Window\Plugins\DialogPlugin.cs" />
+    <Compile Include="Window\Plugins\DockPlugin.cs" />
     <Compile Include="Window\Plugins\IPluginHost.cs" />
     <Compile Include="Window\Support\ControlHelper.cs" />
     <Compile Include="Window\Support\CustomFloatWindowFactory.cs">

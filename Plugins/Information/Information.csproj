@@ -56,6 +56,7 @@
       <Link>FormInformation.Designer.cs</Link>
       <DependentUpon>FormInformation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

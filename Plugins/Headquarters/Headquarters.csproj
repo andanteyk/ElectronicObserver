@@ -56,6 +56,7 @@
       <Link>FormHeadQuarters.Designer.cs</Link>
       <DependentUpon>FormHeadquarters.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

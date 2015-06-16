@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Window.Plugins
 {
 	public enum PluginType
 	{
-		DockForm = 0,
-		Server,
-		Dialog
+		DockContent = 0,
+		Dialog,
+		Service
 	}
 
 	public interface IPluginHost
@@ -19,9 +20,12 @@ namespace ElectronicObserver.Window.Plugins
 
 		string MenuTitle { get; }
 
-		// todo...
+		Form GetToolWindow();
 
+		Form GetSettingsWindow();
 
+		bool RunService( FormMain main );
 
+		string Version { get; }
 	}
 }
