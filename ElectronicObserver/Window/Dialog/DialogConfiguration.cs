@@ -112,6 +112,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
 
+
+
 		}
 
 		private void DialogConfiguration_FormClosed( object sender, FormClosedEventArgs e ) {
@@ -307,6 +309,8 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShortenHPBar.Checked = config.FormFleet.ShortenHPBar;
 			FormFleet_ShowNextExp.Checked = config.FormFleet.ShowNextExp;
 
+			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
+
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
@@ -363,6 +367,11 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
 			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWMode;
 
+			//[データベース]
+			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
+			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
+
+
 			//finalize
 			UpdateParameter();
 		}
@@ -400,6 +409,7 @@ namespace ElectronicObserver.Window.Dialog {
 					APIObserver.Instance.Stop();
 					APIObserver.Instance.Start( config.Connection.Port, this );
 				}
+
 			}
 
 			//[UI]
@@ -438,6 +448,8 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShortenHPBar = FormFleet_ShortenHPBar.Checked;
 			config.FormFleet.ShowNextExp = FormFleet_ShowNextExp.Checked;
 
+			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
+
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;
 			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
@@ -460,6 +472,10 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWMode = FormBrowser_FlashWMode.Text;
+
+			//[データベース]
+			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
+			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
 
 		}
 
@@ -521,6 +537,11 @@ namespace ElectronicObserver.Window.Dialog {
 						reg.Close();
 				}
 			}
+		}
+
+
+		private void Database_LinkKCDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+			System.Diagnostics.Process.Start( "http://kancolle-db.net/" );
 		}
 
 	}

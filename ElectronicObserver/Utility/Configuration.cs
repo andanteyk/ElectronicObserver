@@ -110,6 +110,17 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public string UpstreamProxyAddress { get; set; }
 
+				/// <summary>
+				/// kancolle-db.netに送信する
+				/// </summary>
+				public bool SendDataToKancolleDB { get; set; }
+
+				/// <summary>
+				/// kancolle-db.netのOAuth認証
+				/// </summary>
+				public string SendKancolleOAuth { get; set; }
+
+
 				public ConfigConnection() {
 
 					Port = 40620;
@@ -125,6 +136,9 @@ namespace ElectronicObserver.Utility {
 					UseUpstreamProxy = false;
 					UpstreamProxyPort = 0;
 					UpstreamProxyAddress = "127.0.0.1";
+					SendDataToKancolleDB = false;
+					SendKancolleOAuth = "";
+
 				}
 
 			}
@@ -344,7 +358,14 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigFormHeadquarters : ConfigPartBase {
 
+				/// <summary>
+				/// 艦船/装備が満タンの時点滅するか
+				/// </summary>
+				public bool BlinkAtMaximum { get; set; }
+
+
 				public ConfigFormHeadquarters() {
+					BlinkAtMaximum = true;
 				}
 			}
 			/// <summary>[司令部]ウィンドウ</summary>
@@ -775,9 +796,10 @@ namespace ElectronicObserver.Utility {
 
 		public void Load() {
 			var temp = (ConfigurationData)_config.Load( SaveFileName );
-			if ( temp != null )
+			if ( temp != null ) {
 				_config = temp;
-			else {
+				OnConfigurationChanged();
+			} else {
 				MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " をご利用いただきありがとうございます。\r\n設定や使用方法については「ヘルプ」→「オンラインヘルプ」を参照してください。\r\nご使用の前に必ずご一読ください。",
 					"初回起動メッセージ", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}

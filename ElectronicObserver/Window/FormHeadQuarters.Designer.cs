@@ -238,6 +238,7 @@
 			this.Fuel.Size = new System.Drawing.Size(54, 20);
 			this.Fuel.TabIndex = 1;
 			this.Fuel.Text = "(燃料)";
+			this.Fuel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
 			// 
 			// Ammo
 			// 
@@ -249,6 +250,7 @@
 			this.Ammo.Size = new System.Drawing.Size(54, 20);
 			this.Ammo.TabIndex = 2;
 			this.Ammo.Text = "(弾薬)";
+			this.Ammo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
 			// 
 			// Steel
 			// 
@@ -260,6 +262,7 @@
 			this.Steel.Size = new System.Drawing.Size(54, 20);
 			this.Steel.TabIndex = 3;
 			this.Steel.Text = "(鋼材)";
+			this.Steel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
 			// 
 			// Bauxite
 			// 
@@ -271,6 +274,7 @@
 			this.Bauxite.Size = new System.Drawing.Size(54, 20);
 			this.Bauxite.TabIndex = 4;
 			this.Bauxite.Text = "(軽銀)";
+			this.Bauxite.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
 			// 
 			// ToolTipInfo
 			// 

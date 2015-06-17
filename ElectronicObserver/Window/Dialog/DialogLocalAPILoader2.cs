@@ -43,7 +43,7 @@ namespace ElectronicObserver.Window.Dialog {
 				MessageBox.Show( "フォルダが指定されていないか存在しません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
 		}
 
-		private void ContextMenu_Execute_Click( object sender, EventArgs e ) {
+		private void ViewMenu_Execute_Click( object sender, EventArgs e ) {
 
 			/*/
 			var rows = APIView.SelectedRows.Cast<DataGridViewRow>().OrderBy( r => r.Cells[APIView_FileName.Index].Value );
@@ -62,7 +62,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//*/
 		}
 
-		private void ContextMenu_Delete_Click( object sender, EventArgs e ) {
+		private void ViewMenu_Delete_Click( object sender, EventArgs e ) {
 
 			foreach ( DataGridViewRow row in APIView.SelectedRows ) {
 				APIView.Rows.Remove( row );
@@ -94,6 +94,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void LoadFiles( string path ) {
+
+			if ( !Directory.Exists( path ) ) return;
 
 			CurrentPath = path;
 
@@ -206,6 +208,15 @@ namespace ElectronicObserver.Window.Dialog {
 				APIView.FirstDisplayedScrollingRowIndex = result;
 			} else {
 				System.Media.SystemSounds.Asterisk.Play();
+			}
+		}
+
+
+
+		private void TextFilter_KeyDown( object sender, KeyEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				e.SuppressKeyPress = true;
+				ButtonSearch.PerformClick();
 			}
 		}
 
