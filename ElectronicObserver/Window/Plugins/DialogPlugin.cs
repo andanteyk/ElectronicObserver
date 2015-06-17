@@ -18,7 +18,10 @@ namespace ElectronicObserver.Window.Plugins
 
 		public abstract Form GetToolWindow();
 
-		public abstract PluginSettingControl GetSettings();
+		public virtual PluginSettingControl GetSettings()
+		{
+			return null;
+		}
 
 		public virtual string Version
 		{
@@ -27,7 +30,7 @@ namespace ElectronicObserver.Window.Plugins
 
 		public virtual Task<bool> RunService( FormMain main )
 		{
-			return new Task<bool>( () => false );
+			return null;
 		}
 	}
 }

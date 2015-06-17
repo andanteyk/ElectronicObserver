@@ -33,7 +33,7 @@ namespace ElectronicObserver.Window.Plugins
 
 		public virtual Task<bool> RunService( FormMain main )
 		{
-			return new Task<bool>( () => false );
+			return null;
 		}
 	}
 }
