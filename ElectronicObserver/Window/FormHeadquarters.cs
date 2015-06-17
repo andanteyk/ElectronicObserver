@@ -260,23 +260,25 @@ namespace ElectronicObserver.Window {
 
 			if ( db.Ships.Count <= 0 ) return;
 
-			if ( ShipCount.Tag as bool? ?? false ) {
-				if ( DateTime.Now.Second % 2 == 0 ) {
-					ShipCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
-					ShipCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
-				} else {
-					ShipCount.BackColor = Color.Transparent;
-					ShipCount.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
+			if ( Utility.Configuration.Config.FormHeadquarters.BlinkAtMaximum ) {
+				if ( ShipCount.Tag as bool? ?? false ) {
+					if ( DateTime.Now.Second % 2 == 0 ) {
+						ShipCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
+						ShipCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
+					} else {
+						ShipCount.BackColor = Color.Transparent;
+						ShipCount.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
+					}
 				}
-			}
 
-			if ( EquipmentCount.Tag as bool? ?? false ) {
-				if ( DateTime.Now.Second % 2 == 0 ) {
-					EquipmentCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
-					EquipmentCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
-				} else {
-					EquipmentCount.BackColor = Color.Transparent;
-					EquipmentCount.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
+				if ( EquipmentCount.Tag as bool? ?? false ) {
+					if ( DateTime.Now.Second % 2 == 0 ) {
+						EquipmentCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
+						EquipmentCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
+					} else {
+						EquipmentCount.BackColor = Color.Transparent;
+						EquipmentCount.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
+					}
 				}
 			}
 		}
