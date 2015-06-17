@@ -417,6 +417,9 @@
     <Compile Include="Window\Integrate\FormIntegrated.Designer.cs">
       <DependentUpon>FormIntegrated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Plugins\PluginSettingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Window\Plugins\ServerPlugin.cs" />
     <Compile Include="Window\Plugins\DialogPlugin.cs" />
     <Compile Include="Window\Plugins\DockPlugin.cs" />

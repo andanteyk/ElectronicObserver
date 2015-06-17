@@ -18,5 +18,10 @@ namespace Battles
 		{
 			get { return "1.0.0"; }
 		}
+
+		public override PluginSettingControl GetSettings()
+		{
+			return new Settings();
+		}
 	}
 }

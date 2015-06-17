@@ -410,7 +410,7 @@
 			// 
 			this.StripMenu_Tool_PluginManager.Name = "StripMenu_Tool_PluginManager";
 			this.StripMenu_Tool_PluginManager.Size = new System.Drawing.Size(143, 22);
-			this.StripMenu_Tool_PluginManager.Text = "插件管理(&P)";
+			this.StripMenu_Tool_PluginManager.Text = "插件设置(&P)";
 			this.StripMenu_Tool_PluginManager.Click += new System.EventHandler(this.StripMenu_Tool_PluginManager_Click);
 			// 
 			// StripMenu_Help

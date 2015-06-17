@@ -27,7 +27,7 @@ namespace Notifier
 			return true;
 		}
 
-		public override UserControl GetSettings()
+		public override PluginSettingControl GetSettings()
 		{
 			return new Settings();
 		}

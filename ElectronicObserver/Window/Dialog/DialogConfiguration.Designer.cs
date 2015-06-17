@@ -113,12 +113,6 @@
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
 			this.label7 = new System.Windows.Forms.Label();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
-			this.Debug_SealingPanel = new System.Windows.Forms.Panel();
-			this.Debug_APIListPath = new System.Windows.Forms.TextBox();
-			this.Debug_LoadAPIListOnLoad = new System.Windows.Forms.CheckBox();
-			this.Debug_APIListPathSearch = new System.Windows.Forms.Button();
-			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.Life_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.Life_CheckUpdateInformation = new System.Windows.Forms.CheckBox();
@@ -138,15 +132,6 @@
 			this.FormFleet_SearchingAbilityMethod = new System.Windows.Forms.ComboBox();
 			this.label13 = new System.Windows.Forms.Label();
 			this.FormFleet_ShowAircraft = new System.Windows.Forms.CheckBox();
-			this.tabPage9 = new System.Windows.Forms.TabPage();
-			this.FormArsenal_ShowShipName = new System.Windows.Forms.CheckBox();
-			this.tabPage10 = new System.Windows.Forms.TabPage();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.FormQuest_ShowMonthly = new System.Windows.Forms.CheckBox();
-			this.FormQuest_ShowWeekly = new System.Windows.Forms.CheckBox();
-			this.FormQuest_ShowDaily = new System.Windows.Forms.CheckBox();
-			this.FormQuest_ShowOnce = new System.Windows.Forms.CheckBox();
-			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
 			this.tabPage13 = new System.Windows.Forms.TabPage();
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
@@ -172,8 +157,6 @@
 			this.FormBrowser_LogInPageURL = new System.Windows.Forms.TextBox();
 			this.FormBrowser_ZoomRate = new System.Windows.Forms.NumericUpDown();
 			this.label15 = new System.Windows.Forms.Label();
-			this.tabPageFormBattle = new System.Windows.Forms.TabPage();
-			this.FormBattle_IsShortDamage = new System.Windows.Forms.CheckBox();
 			this.tabPage14 = new System.Windows.Forms.TabPage();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.label21 = new System.Windows.Forms.Label();
@@ -192,9 +175,6 @@
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.tabPage16 = new System.Windows.Forms.TabPage();
-			this.FormHeadquarters_BlinkAtMaximum = new System.Windows.Forms.CheckBox();
 			this.tabControlUIColor.SuspendLayout();
 			this.tabPageColorUI.SuspendLayout();
 			this.tabPageColorBattle.SuspendLayout();
@@ -213,25 +193,18 @@
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).BeginInit();
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).BeginInit();
-			this.tabPage5.SuspendLayout();
-			this.Debug_SealingPanel.SuspendLayout();
 			this.tabPage6.SuspendLayout();
 			this.tabPage7.SuspendLayout();
 			this.tabControl2.SuspendLayout();
 			this.tabPage8.SuspendLayout();
-			this.tabPage9.SuspendLayout();
-			this.tabPage10.SuspendLayout();
-			this.groupBox1.SuspendLayout();
 			this.tabPage13.SuspendLayout();
 			this.tabPage12.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).BeginInit();
-			this.tabPageFormBattle.SuspendLayout();
 			this.tabPage14.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			this.tabPage15.SuspendLayout();
-			this.tabPage16.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -243,7 +216,6 @@
 			this.tabControl1.Controls.Add(this.tabPage2);
 			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Controls.Add(this.tabPage4);
-			this.tabControl1.Controls.Add(this.tabPage5);
 			this.tabControl1.Controls.Add(this.tabPage6);
 			this.tabControl1.Controls.Add(this.tabPage7);
 			this.tabControl1.Controls.Add(this.tabPage15);
@@ -1233,74 +1205,6 @@
 			this.label7.TabIndex = 0;
 			this.label7.Text = "疲劳度界限：";
 			// 
-			// tabPage5
-			// 
-			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
-			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(456, 253);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "调试";
-			this.tabPage5.UseVisualStyleBackColor = true;
-			// 
-			// Debug_SealingPanel
-			// 
-			this.Debug_SealingPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPath);
-			this.Debug_SealingPanel.Controls.Add(this.Debug_LoadAPIListOnLoad);
-			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
-			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 31);
-			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 222);
-			this.Debug_SealingPanel.TabIndex = 7;
-			// 
-			// Debug_APIListPath
-			// 
-			this.Debug_APIListPath.AllowDrop = true;
-			this.Debug_APIListPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Debug_APIListPath.Location = new System.Drawing.Point(8, 28);
-			this.Debug_APIListPath.Name = "Debug_APIListPath";
-			this.Debug_APIListPath.Size = new System.Drawing.Size(402, 23);
-			this.Debug_APIListPath.TabIndex = 5;
-			// 
-			// Debug_LoadAPIListOnLoad
-			// 
-			this.Debug_LoadAPIListOnLoad.AutoSize = true;
-			this.Debug_LoadAPIListOnLoad.Location = new System.Drawing.Point(8, 3);
-			this.Debug_LoadAPIListOnLoad.Name = "Debug_LoadAPIListOnLoad";
-			this.Debug_LoadAPIListOnLoad.Size = new System.Drawing.Size(164, 27);
-			this.Debug_LoadAPIListOnLoad.TabIndex = 1;
-			this.Debug_LoadAPIListOnLoad.Text = "启动时加载API列表";
-			this.ToolTipInfo.SetToolTip(this.Debug_LoadAPIListOnLoad, "启动时，下列文本框中的API列表将自动加载。\r\nAPI列表的格式和用法请参照在线帮助。");
-			this.Debug_LoadAPIListOnLoad.UseVisualStyleBackColor = true;
-			// 
-			// Debug_APIListPathSearch
-			// 
-			this.Debug_APIListPathSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.Debug_APIListPathSearch.Location = new System.Drawing.Point(416, 28);
-			this.Debug_APIListPathSearch.Name = "Debug_APIListPathSearch";
-			this.Debug_APIListPathSearch.Size = new System.Drawing.Size(32, 23);
-			this.Debug_APIListPathSearch.TabIndex = 6;
-			this.Debug_APIListPathSearch.Text = "...";
-			this.Debug_APIListPathSearch.UseVisualStyleBackColor = true;
-			this.Debug_APIListPathSearch.Click += new System.EventHandler(this.Debug_APIListPathSearch_Click);
-			// 
-			// Debug_EnableDebugMenu
-			// 
-			this.Debug_EnableDebugMenu.AutoSize = true;
-			this.Debug_EnableDebugMenu.Location = new System.Drawing.Point(8, 6);
-			this.Debug_EnableDebugMenu.Name = "Debug_EnableDebugMenu";
-			this.Debug_EnableDebugMenu.Size = new System.Drawing.Size(175, 27);
-			this.Debug_EnableDebugMenu.TabIndex = 0;
-			this.Debug_EnableDebugMenu.Text = "开启调试菜单";
-			this.ToolTipInfo.SetToolTip(this.Debug_EnableDebugMenu, "开启主界面的 [调试] 菜单。\r\n不推荐普通用户开启调试功能。\r\n无法保证操作安全，行为请＊自己负责＊。");
-			this.Debug_EnableDebugMenu.UseVisualStyleBackColor = true;
-			this.Debug_EnableDebugMenu.CheckedChanged += new System.EventHandler(this.Debug_EnableDebugMenu_CheckedChanged);
-			// 
 			// tabPage6
 			// 
 			this.tabPage6.Controls.Add(this.Life_ShowStatusBar);
@@ -1401,13 +1305,9 @@
 			// tabControl2
 			// 
 			this.tabControl2.Controls.Add(this.tabPage8);
-			this.tabControl2.Controls.Add(this.tabPage9);
-			this.tabControl2.Controls.Add(this.tabPage16);
-			this.tabControl2.Controls.Add(this.tabPage10);
 			this.tabControl2.Controls.Add(this.tabPage13);
 			this.tabControl2.Controls.Add(this.tabPage12);
 			this.tabControl2.Controls.Add(this.tabPage14);
-			this.tabControl2.Controls.Add(this.tabPageFormBattle);
 			this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
@@ -1519,102 +1419,6 @@
 			this.FormFleet_ShowAircraft.TabIndex = 0;
 			this.FormFleet_ShowAircraft.Text = "显示舰载机数量";
 			this.FormFleet_ShowAircraft.UseVisualStyleBackColor = true;
-			// 
-			// tabPage9
-			// 
-			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 24);
-			this.tabPage9.Name = "tabPage9";
-			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 199);
-			this.tabPage9.TabIndex = 1;
-			this.tabPage9.Text = "工厂";
-			this.tabPage9.UseVisualStyleBackColor = true;
-			// 
-			// FormArsenal_ShowShipName
-			// 
-			this.FormArsenal_ShowShipName.AutoSize = true;
-			this.FormArsenal_ShowShipName.Location = new System.Drawing.Point(6, 6);
-			this.FormArsenal_ShowShipName.Name = "FormArsenal_ShowShipName";
-			this.FormArsenal_ShowShipName.Size = new System.Drawing.Size(115, 27);
-			this.FormArsenal_ShowShipName.TabIndex = 1;
-			this.FormArsenal_ShowShipName.Text = "显示舰名";
-			this.FormArsenal_ShowShipName.UseVisualStyleBackColor = true;
-			// 
-			// tabPage10
-			// 
-			this.tabPage10.Controls.Add(this.groupBox1);
-			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 24);
-			this.tabPage10.Name = "tabPage10";
-			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 199);
-			this.tabPage10.TabIndex = 2;
-			this.tabPage10.Text = "任务";
-			this.tabPage10.UseVisualStyleBackColor = true;
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.FormQuest_ShowMonthly);
-			this.groupBox1.Controls.Add(this.FormQuest_ShowWeekly);
-			this.groupBox1.Controls.Add(this.FormQuest_ShowDaily);
-			this.groupBox1.Controls.Add(this.FormQuest_ShowOnce);
-			this.groupBox1.Location = new System.Drawing.Point(6, 31);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(156, 123);
-			this.groupBox1.TabIndex = 1;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "显示过滤";
-			// 
-			// FormQuest_ShowMonthly
-			// 
-			this.FormQuest_ShowMonthly.AutoSize = true;
-			this.FormQuest_ShowMonthly.Location = new System.Drawing.Point(6, 97);
-			this.FormQuest_ShowMonthly.Name = "FormQuest_ShowMonthly";
-			this.FormQuest_ShowMonthly.Size = new System.Drawing.Size(83, 27);
-			this.FormQuest_ShowMonthly.TabIndex = 4;
-			this.FormQuest_ShowMonthly.Text = "月常";
-			this.FormQuest_ShowMonthly.UseVisualStyleBackColor = true;
-			// 
-			// FormQuest_ShowWeekly
-			// 
-			this.FormQuest_ShowWeekly.AutoSize = true;
-			this.FormQuest_ShowWeekly.Location = new System.Drawing.Point(6, 72);
-			this.FormQuest_ShowWeekly.Name = "FormQuest_ShowWeekly";
-			this.FormQuest_ShowWeekly.Size = new System.Drawing.Size(90, 27);
-			this.FormQuest_ShowWeekly.TabIndex = 3;
-			this.FormQuest_ShowWeekly.Text = "周常";
-			this.FormQuest_ShowWeekly.UseVisualStyleBackColor = true;
-			// 
-			// FormQuest_ShowDaily
-			// 
-			this.FormQuest_ShowDaily.AutoSize = true;
-			this.FormQuest_ShowDaily.Location = new System.Drawing.Point(6, 47);
-			this.FormQuest_ShowDaily.Name = "FormQuest_ShowDaily";
-			this.FormQuest_ShowDaily.Size = new System.Drawing.Size(75, 27);
-			this.FormQuest_ShowDaily.TabIndex = 2;
-			this.FormQuest_ShowDaily.Text = "日常";
-			this.FormQuest_ShowDaily.UseVisualStyleBackColor = true;
-			// 
-			// FormQuest_ShowOnce
-			// 
-			this.FormQuest_ShowOnce.AutoSize = true;
-			this.FormQuest_ShowOnce.Location = new System.Drawing.Point(6, 22);
-			this.FormQuest_ShowOnce.Name = "FormQuest_ShowOnce";
-			this.FormQuest_ShowOnce.Size = new System.Drawing.Size(120, 27);
-			this.FormQuest_ShowOnce.TabIndex = 1;
-			this.FormQuest_ShowOnce.Text = "一次性任务以及其他";
-			this.FormQuest_ShowOnce.UseVisualStyleBackColor = true;
-			// 
-			// FormQuest_ShowRunningOnly
-			// 
-			this.FormQuest_ShowRunningOnly.AutoSize = true;
-			this.FormQuest_ShowRunningOnly.Location = new System.Drawing.Point(6, 6);
-			this.FormQuest_ShowRunningOnly.Name = "FormQuest_ShowRunningOnly";
-			this.FormQuest_ShowRunningOnly.Size = new System.Drawing.Size(139, 27);
-			this.FormQuest_ShowRunningOnly.TabIndex = 0;
-			this.FormQuest_ShowRunningOnly.Text = "显示执行中的任务";
-			this.FormQuest_ShowRunningOnly.UseVisualStyleBackColor = true;
 			// 
 			// tabPage13
 			// 
@@ -1914,28 +1718,6 @@
 			this.label15.TabIndex = 1;
 			this.label15.Text = "缩放倍率：";
 			// 
-			// tabPageFormBattle
-			// 
-			this.tabPageFormBattle.Controls.Add(this.FormBattle_IsShortDamage);
-			this.tabPageFormBattle.Location = new System.Drawing.Point(4, 24);
-			this.tabPageFormBattle.Name = "tabPageFormBattle";
-			this.tabPageFormBattle.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageFormBattle.Size = new System.Drawing.Size(442, 219);
-			this.tabPageFormBattle.TabIndex = 6;
-			this.tabPageFormBattle.Text = "战斗";
-			this.tabPageFormBattle.UseVisualStyleBackColor = true;
-			// 
-			// FormBattle_IsShortDamage
-			// 
-			this.FormBattle_IsShortDamage.AutoSize = true;
-			this.FormBattle_IsShortDamage.Location = new System.Drawing.Point(6, 6);
-			this.FormBattle_IsShortDamage.Name = "FormBattle_IsShortDamage";
-			this.FormBattle_IsShortDamage.Size = new System.Drawing.Size(129, 27);
-			this.FormBattle_IsShortDamage.TabIndex = 0;
-			this.FormBattle_IsShortDamage.Text = "简洁化伤害显示";
-			this.ToolTipInfo.SetToolTip(this.FormBattle_IsShortDamage, "不显示具体伤害数字，可节省横向空间。");
-			this.FormBattle_IsShortDamage.UseVisualStyleBackColor = true;
-			// 
 			// tabPage14
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
@@ -2109,32 +1891,6 @@
 			this.LayoutFileBrowser.Filter = "Layout Archive|*.zip|File|*";
 			this.LayoutFileBrowser.Title = "打开布局文件";
 			// 
-			// APIListBrowser
-			// 
-			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
-			this.APIListBrowser.Title = "打开API列表";
-			// 
-			// tabPage16
-			// 
-			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
-			this.tabPage16.Location = new System.Drawing.Point(4, 24);
-			this.tabPage16.Name = "tabPage16";
-			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(442, 199);
-			this.tabPage16.TabIndex = 6;
-			this.tabPage16.Text = "司令部";
-			this.tabPage16.UseVisualStyleBackColor = true;
-			// 
-			// FormHeadquarters_BlinkAtMaximum
-			// 
-			this.FormHeadquarters_BlinkAtMaximum.AutoSize = true;
-			this.FormHeadquarters_BlinkAtMaximum.Location = new System.Drawing.Point(6, 6);
-			this.FormHeadquarters_BlinkAtMaximum.Name = "FormHeadquarters_BlinkAtMaximum";
-			this.FormHeadquarters_BlinkAtMaximum.Size = new System.Drawing.Size(196, 27);
-			this.FormHeadquarters_BlinkAtMaximum.TabIndex = 0;
-			this.FormHeadquarters_BlinkAtMaximum.Text = "舰船/装备已达最大值时闪烁";
-			this.FormHeadquarters_BlinkAtMaximum.UseVisualStyleBackColor = true;
-			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -2178,22 +1934,12 @@
 			this.tabPage4.ResumeLayout(false);
 			this.tabPage4.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).EndInit();
-			this.tabPage5.ResumeLayout(false);
-			this.tabPage5.PerformLayout();
-			this.Debug_SealingPanel.ResumeLayout(false);
-			this.Debug_SealingPanel.PerformLayout();
 			this.tabPage6.ResumeLayout(false);
 			this.tabPage6.PerformLayout();
 			this.tabPage7.ResumeLayout(false);
 			this.tabControl2.ResumeLayout(false);
 			this.tabPage8.ResumeLayout(false);
 			this.tabPage8.PerformLayout();
-			this.tabPage9.ResumeLayout(false);
-			this.tabPage9.PerformLayout();
-			this.tabPage10.ResumeLayout(false);
-			this.tabPage10.PerformLayout();
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
 			this.tabPage13.ResumeLayout(false);
 			this.tabPage13.PerformLayout();
 			this.tabPage12.ResumeLayout(false);
@@ -2203,14 +1949,11 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).EndInit();
-			this.tabPageFormBattle.ResumeLayout(false);
 			this.tabPage14.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
 			this.tabPage15.ResumeLayout(false);
 			this.tabPage15.PerformLayout();
-			this.tabPage16.ResumeLayout(false);
-			this.tabPage16.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -2277,7 +2020,6 @@
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.TabPage tabPage4;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.TabPage tabPage6;
 		private System.Windows.Forms.FolderBrowserDialog FolderBrowser;
 		private System.Windows.Forms.Button UI_SubFontSelect;
@@ -2291,8 +2033,6 @@
 		private System.Windows.Forms.TabPage tabPage7;
 		private System.Windows.Forms.TabControl tabControl2;
 		private System.Windows.Forms.TabPage tabPage8;
-		private System.Windows.Forms.TabPage tabPage9;
-		private System.Windows.Forms.TabPage tabPage10;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label13;
@@ -2307,15 +2047,12 @@
 		private System.Windows.Forms.NumericUpDown Log_LogLevel;
 		private System.Windows.Forms.NumericUpDown Control_ConditionBorder;
 		private System.Windows.Forms.CheckBox Log_SaveLogFlag;
-		private System.Windows.Forms.CheckBox Debug_EnableDebugMenu;
 		private System.Windows.Forms.CheckBox Life_ConfirmOnClosing;
 		private System.Windows.Forms.CheckBox Connection_ApplyVersion;
 		private System.Windows.Forms.TextBox UI_SubFont;
 		private System.Windows.Forms.TextBox UI_MainFont;
 		private System.Windows.Forms.CheckBox Log_SaveErrorReport;
 		private System.Windows.Forms.CheckBox FormFleet_ShowAircraft;
-		private System.Windows.Forms.CheckBox FormArsenal_ShowShipName;
-		private System.Windows.Forms.CheckBox FormQuest_ShowRunningOnly;
 		private System.Windows.Forms.CheckBox Life_TopMost;
 		private System.Windows.Forms.ComboBox Log_FileEncodingID;
 		private System.Windows.Forms.ComboBox FormFleet_SearchingAbilityMethod;
@@ -2328,16 +2065,6 @@
 		private System.Windows.Forms.TextBox Life_LayoutFilePath;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.OpenFileDialog LayoutFileBrowser;
-		private System.Windows.Forms.Button Debug_APIListPathSearch;
-		private System.Windows.Forms.TextBox Debug_APIListPath;
-		private System.Windows.Forms.CheckBox Debug_LoadAPIListOnLoad;
-		private System.Windows.Forms.OpenFileDialog APIListBrowser;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.CheckBox FormQuest_ShowMonthly;
-		private System.Windows.Forms.CheckBox FormQuest_ShowWeekly;
-		private System.Windows.Forms.CheckBox FormQuest_ShowDaily;
-		private System.Windows.Forms.CheckBox FormQuest_ShowOnce;
-		private System.Windows.Forms.Panel Debug_SealingPanel;
 		private System.Windows.Forms.CheckBox Life_CheckUpdateInformation;
 		private System.Windows.Forms.TabPage tabPage12;
 		private System.Windows.Forms.NumericUpDown FormBrowser_ZoomRate;
@@ -2372,8 +2099,6 @@
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.CheckBox Life_ShowStatusBar;
 		private System.Windows.Forms.CheckBox FormBrowser_ZoomFit;
-		private System.Windows.Forms.TabPage tabPageFormBattle;
-		private System.Windows.Forms.CheckBox FormBattle_IsShortDamage;
 		private System.Windows.Forms.TabPage tabPage14;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.Label label21;
@@ -2386,7 +2111,5 @@
 		private System.Windows.Forms.TextBox Database_SendKancolleOAuth;
 		private System.Windows.Forms.Label labelKdb;
 		private System.Windows.Forms.CheckBox Database_SendDataToKancolleDB;
-		private System.Windows.Forms.TabPage tabPage16;
-		private System.Windows.Forms.CheckBox FormHeadquarters_BlinkAtMaximum;
 	}
 }

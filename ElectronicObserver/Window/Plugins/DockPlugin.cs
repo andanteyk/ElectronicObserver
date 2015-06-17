@@ -21,7 +21,7 @@ namespace ElectronicObserver.Window.Plugins
 			return null;
 		}
 
-		public virtual UserControl GetSettings()
+		public virtual PluginSettingControl GetSettings()
 		{
 			return null;
 		}

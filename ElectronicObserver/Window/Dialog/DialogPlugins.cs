@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Resource;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Window.Plugins;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,18 @@ namespace ElectronicObserver.Window.Dialog
 	public partial class DialogPlugins : Form
 	{
 		private FormMain mainForm;
-		private Dictionary<IPluginHost, UserControl> settings;
+		private Dictionary<IPluginHost, PluginSettingControl> settings;
 
 		private DialogPlugins()
 		{
 			InitializeComponent();
 			listViewPlugins.Font = this.Font = Program.Window_Font;
 
-			settings = new Dictionary<IPluginHost, UserControl>();
+			settings = new Dictionary<IPluginHost, PluginSettingControl>();
 		}
 
-		public DialogPlugins(FormMain parent ) : this()
+		public DialogPlugins( FormMain parent )
+			: this()
 		{
 			mainForm = parent;
 		}
@@ -34,9 +36,14 @@ namespace ElectronicObserver.Window.Dialog
 		{
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
 
-			foreach (var p in mainForm.Plugins )
+			foreach ( var p in mainForm.Plugins )
 			{
-				var item = new ListViewItem( new[] { p.MenuTitle, p.GetType().Assembly.Location } );
+				var item = new ListViewItem( new[]
+				{
+					p.MenuTitle,
+					PathHelper.GetRelativePath( p.GetType().Assembly.Location )
+				} );
+
 				item.Tag = p;
 				switch ( p.PluginType )
 				{
@@ -64,7 +71,7 @@ namespace ElectronicObserver.Window.Dialog
 			if ( plugin == null )
 				return;
 
-			UserControl control;
+			PluginSettingControl control;
 			if ( !settings.TryGetValue( plugin, out control ) )
 			{
 				settings[plugin] = ( control = plugin.GetSettings() );
@@ -76,6 +83,24 @@ namespace ElectronicObserver.Window.Dialog
 				control.Dock = DockStyle.Fill;
 				panelSettings.Controls.Add( control );
 			}
+		}
+
+		private void buttonOK_Click( object sender, EventArgs e )
+		{
+			foreach ( var kv in settings )
+			{
+				var page = kv.Value;
+				if ( page != null && page.Save() )
+				{
+					Utility.Logger.Add( 1, string.Format( "插件 {0}({1}) 设置已保存。", kv.Key.MenuTitle, kv.Key.Version ) );
+				}
+			}
+			this.Close();
+		}
+
+		private void buttonCancel_Click( object sender, EventArgs e )
+		{
+			this.Close();
 		}
 	}
 

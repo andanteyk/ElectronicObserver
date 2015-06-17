@@ -18,7 +18,7 @@ namespace ElectronicObserver.Window.Plugins
 
 		public abstract Form GetToolWindow();
 
-		public abstract UserControl GetSettings();
+		public abstract PluginSettingControl GetSettings();
 
 		public virtual string Version
 		{

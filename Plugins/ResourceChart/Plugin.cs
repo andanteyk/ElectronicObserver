@@ -19,7 +19,7 @@ namespace ResourceChart
 			}
 		}
 
-		public override UserControl GetSettings()
+		public override PluginSettingControl GetSettings()
 		{
 			return null;
 		}

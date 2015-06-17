@@ -29,6 +29,11 @@ namespace APILoader
 			}
 		}
 
+		public override PluginSettingControl GetSettings()
+		{
+			return new Settings(this);
+		}
+
 		public override async Task<bool> RunService( FormMain main )
 		{
 			MainForm = main;
@@ -67,7 +72,7 @@ namespace APILoader
 			return true;
 		}
 
-		private void ConfigurationChanged()
+		internal void ConfigurationChanged()
 		{
 			if ( !Configuration.Config.Debug.EnableDebugMenu )
 			{

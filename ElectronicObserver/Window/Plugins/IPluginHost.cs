@@ -22,7 +22,7 @@ namespace ElectronicObserver.Window.Plugins
 
 		Form GetToolWindow();
 
-		UserControl GetSettings();
+		PluginSettingControl GetSettings();
 
 		Task<bool> RunService( FormMain main );
 

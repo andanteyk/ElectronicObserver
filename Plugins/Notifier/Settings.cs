@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Notifier;
+using ElectronicObserver.Window.Plugins;
 
 namespace Notifier
 {
-	public partial class Settings : UserControl
+	public partial class Settings : PluginSettingControl
 	{
 		public Settings()
 		{
@@ -64,5 +65,9 @@ namespace Notifier
 			}
 		}
 
+		public override bool Save()
+		{
+			return false;
+		}
 	}
 }

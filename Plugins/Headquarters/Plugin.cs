@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Overview
+namespace Headquarters
 {
 	public class Plugin : DockPlugin
 	{
@@ -17,6 +17,11 @@ namespace Overview
 		public override string Version
 		{
 			get { return "1.0.0"; }
+		}
+
+		public override PluginSettingControl GetSettings()
+		{
+			return new Settings();
 		}
 	}
 }
