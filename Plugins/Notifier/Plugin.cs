@@ -22,9 +22,9 @@ namespace Notifier
 
 		public override async Task<bool> RunService( FormMain main )
 		{
-			NotifierManager.Instance.Initialize( main );
+			await Task.Run( (Action)( () => NotifierManager.Instance.Initialize( main ) ) );
 
-			return await Task.Run( () => true );
+			return true;
 		}
 
 		public override UserControl GetSettings()

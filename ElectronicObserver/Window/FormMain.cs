@@ -89,6 +89,7 @@ namespace ElectronicObserver.Window {
 
 
 			Icon = ResourceManager.Instance.AppIcon;
+			StripMenu_Tool_PluginManager.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration];
 
 			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port, this );
 
