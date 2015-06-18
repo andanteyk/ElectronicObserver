@@ -49,66 +49,26 @@
 			this.StripMenu_View_Fleet_2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_Fleet_3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_Fleet_4 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_FleetOverview = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_ShipGroup = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_View_Dock = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Arsenal = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_View_Headquarters = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Quest = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Information = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_View_Compass = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Battle = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_View_Browser = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_View_Log = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_WindowCapture = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_WindowCapture_SubWindow = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_WindowCapture_AttachAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_WindowCapture_DetachAll = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_ScreenShot = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Browser_Zoom = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Zoom_Current = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Browser_Zoom_Decr20 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Zoom_Incr20 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Browser_Zoom_25 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Zoom_50 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Zoom_75 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Browser_Zoom_100 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Browser_Zoom_150 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Zoom_200 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Zoom_250 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Zoom_300 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Zoom_400 = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_AppliesStyleSheet = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Browser_Refresh = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_NavigateToLogInPage = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Browser_Navigate = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_EquipmentList = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_AlbumMasterEquipment = new System.Windows.Forms.ToolStripMenuItem();
-            this.StripMenu_Tool_ResourcesGraph = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparatorAnother1 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_CopyEOBrowserExecute = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Debug_LoadRecordFromOld = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Debug_DeleteOldAPI = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Debug_RenameShipResource = new System.Windows.Forms.ToolStripMenuItem();
-			this.StripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_PluginManager = new System.Windows.Forms.ToolStripMenuItem();
+            this.StripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Help_Help = new System.Windows.Forms.ToolStripMenuItem();
 			this.SeparatorWhitecap = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Help_Version = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,9 +90,7 @@
 			this.StripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_File,
             this.StripMenu_View,
-            this.StripMenu_Browser,
             this.StripMenu_Tool,
-            this.StripMenu_Debug,
             this.StripMenu_Help});
 			this.StripMenu.Location = new System.Drawing.Point(0, 0);
 			this.StripMenu.Name = "StripMenu";
@@ -277,21 +235,9 @@
 			// 
 			this.StripMenu_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_View_Fleet,
-            this.StripMenu_View_FleetOverview,
             this.StripMenu_View_ShipGroup,
-            this.toolStripSeparator1,
-            this.StripMenu_View_Dock,
-            this.StripMenu_View_Arsenal,
-            this.toolStripSeparator2,
-            this.StripMenu_View_Headquarters,
-            this.StripMenu_View_Quest,
-            this.StripMenu_View_Information,
-            this.toolStripSeparator3,
-            this.StripMenu_View_Compass,
-            this.StripMenu_View_Battle,
             this.toolStripSeparator4,
             this.StripMenu_View_Browser,
-            this.StripMenu_View_Log,
             this.StripMenu_WindowCapture});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(111, 38);
@@ -336,83 +282,12 @@
 			this.StripMenu_View_Fleet_4.Text = "#&4";
 			this.StripMenu_View_Fleet_4.Click += new System.EventHandler(this.StripMenu_View_Fleet_4_Click);
 			// 
-			// StripMenu_View_FleetOverview
-			// 
-			this.StripMenu_View_FleetOverview.Name = "StripMenu_View_FleetOverview";
-			this.StripMenu_View_FleetOverview.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_FleetOverview.Text = "舰队一览(&O)";
-			this.StripMenu_View_FleetOverview.Click += new System.EventHandler(this.StripMenu_View_FleetOverview_Click);
-			// 
 			// StripMenu_View_ShipGroup
 			// 
 			this.StripMenu_View_ShipGroup.Name = "StripMenu_View_ShipGroup";
 			this.StripMenu_View_ShipGroup.Size = new System.Drawing.Size(306, 34);
 			this.StripMenu_View_ShipGroup.Text = "舰队编成(&G)";
 			this.StripMenu_View_ShipGroup.Click += new System.EventHandler(this.StripMenu_View_ShipGroup_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(303, 6);
-			// 
-			// StripMenu_View_Dock
-			// 
-			this.StripMenu_View_Dock.Name = "StripMenu_View_Dock";
-			this.StripMenu_View_Dock.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Dock.Text = "入渠(&D)";
-			this.StripMenu_View_Dock.Click += new System.EventHandler(this.StripMenu_View_Dock_Click);
-			// 
-			// StripMenu_View_Arsenal
-			// 
-			this.StripMenu_View_Arsenal.Name = "StripMenu_View_Arsenal";
-			this.StripMenu_View_Arsenal.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Arsenal.Text = "工厂(&A)";
-			this.StripMenu_View_Arsenal.Click += new System.EventHandler(this.StripMenu_View_Arsenal_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(303, 6);
-			// 
-			// StripMenu_View_Headquarters
-			// 
-			this.StripMenu_View_Headquarters.Name = "StripMenu_View_Headquarters";
-			this.StripMenu_View_Headquarters.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Headquarters.Text = "司令部(&H)";
-			this.StripMenu_View_Headquarters.Click += new System.EventHandler(this.StripMenu_View_Headquarters_Click);
-			// 
-			// StripMenu_View_Quest
-			// 
-			this.StripMenu_View_Quest.Name = "StripMenu_View_Quest";
-			this.StripMenu_View_Quest.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Quest.Text = "任务(&Q)";
-			this.StripMenu_View_Quest.Click += new System.EventHandler(this.StripMenu_View_Quest_Click);
-			// 
-			// StripMenu_View_Information
-			// 
-			this.StripMenu_View_Information.Name = "StripMenu_View_Information";
-			this.StripMenu_View_Information.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Information.Text = "情报(&I)";
-			this.StripMenu_View_Information.Click += new System.EventHandler(this.StripMenu_View_Information_Click);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(303, 6);
-			// 
-			// StripMenu_View_Compass
-			// 
-			this.StripMenu_View_Compass.Name = "StripMenu_View_Compass";
-			this.StripMenu_View_Compass.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Compass.Text = "罗针盘(&C)";
-			this.StripMenu_View_Compass.Click += new System.EventHandler(this.StripMenu_View_Compass_Click);
-			// 
-			// StripMenu_View_Battle
-			// 
-			this.StripMenu_View_Battle.Name = "StripMenu_View_Battle";
-			this.StripMenu_View_Battle.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Battle.Text = "战斗(&B)";
-			this.StripMenu_View_Battle.Click += new System.EventHandler(this.StripMenu_View_Battle_Click);
 			// 
 			// toolStripSeparator4
 			// 
@@ -425,13 +300,6 @@
 			this.StripMenu_View_Browser.Size = new System.Drawing.Size(306, 34);
 			this.StripMenu_View_Browser.Text = "浏览器(&M)";
 			this.StripMenu_View_Browser.Click += new System.EventHandler(this.StripMenu_View_Browser_Click);
-			// 
-			// StripMenu_View_Log
-			// 
-			this.StripMenu_View_Log.Name = "StripMenu_View_Log";
-			this.StripMenu_View_Log.Size = new System.Drawing.Size(306, 34);
-			this.StripMenu_View_Log.Text = "日志(&L)";
-			this.StripMenu_View_Log.Click += new System.EventHandler(this.StripMenu_View_Log_Click);
 			// 
 			// StripMenu_WindowCapture
 			// 
@@ -464,201 +332,25 @@
 			this.StripMenu_WindowCapture_DetachAll.Text = "释放所有窗口(&R)";
 			this.StripMenu_WindowCapture_DetachAll.Click += new System.EventHandler(this.StripMenu_WindowCapture_DetachAll_Click);
 			// 
-			// StripMenu_Browser
-			// 
-			this.StripMenu_Browser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Browser_ScreenShot,
-            this.toolStripSeparator9,
-            this.StripMenu_Browser_Zoom,
-            this.StripMenu_Browser_AppliesStyleSheet,
-            this.toolStripSeparator10,
-            this.StripMenu_Browser_Refresh,
-            this.StripMenu_Browser_NavigateToLogInPage,
-            this.StripMenu_Browser_Navigate});
-			this.StripMenu_Browser.Enabled = false;
-			this.StripMenu_Browser.Name = "StripMenu_Browser";
-			this.StripMenu_Browser.Size = new System.Drawing.Size(136, 38);
-			this.StripMenu_Browser.Text = "浏览器(&B)";
-			this.StripMenu_Browser.Visible = false;
-			this.StripMenu_Browser.DropDownOpening += new System.EventHandler(this.StripMenu_Browser_DropDownOpening);
-			// 
-			// StripMenu_Browser_ScreenShot
-			// 
-			this.StripMenu_Browser_ScreenShot.Enabled = false;
-			this.StripMenu_Browser_ScreenShot.Name = "StripMenu_Browser_ScreenShot";
-			this.StripMenu_Browser_ScreenShot.ShortcutKeys = System.Windows.Forms.Keys.F2;
-			this.StripMenu_Browser_ScreenShot.Size = new System.Drawing.Size(356, 34);
-			this.StripMenu_Browser_ScreenShot.Text = "屏幕截图(&S)";
-			this.StripMenu_Browser_ScreenShot.Click += new System.EventHandler(this.StripMenu_Browser_ScreenShot_Click);
-			// 
-			// toolStripSeparator9
-			// 
-			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(353, 6);
-			// 
-			// StripMenu_Browser_Zoom
-			// 
-			this.StripMenu_Browser_Zoom.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Browser_Zoom_Current,
-            this.toolStripSeparator14,
-            this.StripMenu_Browser_Zoom_Decr20,
-            this.StripMenu_Browser_Zoom_Incr20,
-            this.toolStripSeparator13,
-            this.StripMenu_Browser_Zoom_25,
-            this.StripMenu_Browser_Zoom_50,
-            this.StripMenu_Browser_Zoom_75,
-            this.toolStripSeparator11,
-            this.StripMenu_Browser_Zoom_100,
-            this.toolStripSeparator12,
-            this.StripMenu_Browser_Zoom_150,
-            this.StripMenu_Browser_Zoom_200,
-            this.StripMenu_Browser_Zoom_250,
-            this.StripMenu_Browser_Zoom_300,
-            this.StripMenu_Browser_Zoom_400});
-			this.StripMenu_Browser_Zoom.Name = "StripMenu_Browser_Zoom";
-			this.StripMenu_Browser_Zoom.Size = new System.Drawing.Size(356, 34);
-			this.StripMenu_Browser_Zoom.Text = "缩放(&Z)";
-			this.StripMenu_Browser_Zoom.DropDownOpening += new System.EventHandler(this.StripMenu_Browser_Zoom_DropDownOpening);
-			// 
-			// StripMenu_Browser_Zoom_Current
-			// 
-			this.StripMenu_Browser_Zoom_Current.Enabled = false;
-			this.StripMenu_Browser_Zoom_Current.Name = "StripMenu_Browser_Zoom_Current";
-			this.StripMenu_Browser_Zoom_Current.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_Current.Text = "当前%";
-			// 
 			// toolStripSeparator14
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
 			this.toolStripSeparator14.Size = new System.Drawing.Size(157, 6);
-			// 
-			// StripMenu_Browser_Zoom_Decr20
-			// 
-			this.StripMenu_Browser_Zoom_Decr20.Name = "StripMenu_Browser_Zoom_Decr20";
-			this.StripMenu_Browser_Zoom_Decr20.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_Decr20.Text = "-20%";
-			this.StripMenu_Browser_Zoom_Decr20.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Decr20_Click);
-			// 
-			// StripMenu_Browser_Zoom_Incr20
-			// 
-			this.StripMenu_Browser_Zoom_Incr20.Name = "StripMenu_Browser_Zoom_Incr20";
-			this.StripMenu_Browser_Zoom_Incr20.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_Incr20.Text = "+20%";
-			this.StripMenu_Browser_Zoom_Incr20.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Incr20_Click);
 			// 
 			// toolStripSeparator13
 			// 
 			this.toolStripSeparator13.Name = "toolStripSeparator13";
 			this.toolStripSeparator13.Size = new System.Drawing.Size(157, 6);
 			// 
-			// StripMenu_Browser_Zoom_25
-			// 
-			this.StripMenu_Browser_Zoom_25.Name = "StripMenu_Browser_Zoom_25";
-			this.StripMenu_Browser_Zoom_25.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_25.Text = "25%";
-			this.StripMenu_Browser_Zoom_25.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
-			// StripMenu_Browser_Zoom_50
-			// 
-			this.StripMenu_Browser_Zoom_50.Name = "StripMenu_Browser_Zoom_50";
-			this.StripMenu_Browser_Zoom_50.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_50.Text = "50%";
-			this.StripMenu_Browser_Zoom_50.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
-			// StripMenu_Browser_Zoom_75
-			// 
-			this.StripMenu_Browser_Zoom_75.Name = "StripMenu_Browser_Zoom_75";
-			this.StripMenu_Browser_Zoom_75.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_75.Text = "75%";
-			this.StripMenu_Browser_Zoom_75.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
 			// toolStripSeparator11
 			// 
 			this.toolStripSeparator11.Name = "toolStripSeparator11";
 			this.toolStripSeparator11.Size = new System.Drawing.Size(157, 6);
 			// 
-			// StripMenu_Browser_Zoom_100
-			// 
-			this.StripMenu_Browser_Zoom_100.Name = "StripMenu_Browser_Zoom_100";
-			this.StripMenu_Browser_Zoom_100.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_100.Text = "100%";
-			this.StripMenu_Browser_Zoom_100.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
 			// toolStripSeparator12
 			// 
 			this.toolStripSeparator12.Name = "toolStripSeparator12";
 			this.toolStripSeparator12.Size = new System.Drawing.Size(157, 6);
-			// 
-			// StripMenu_Browser_Zoom_150
-			// 
-			this.StripMenu_Browser_Zoom_150.Name = "StripMenu_Browser_Zoom_150";
-			this.StripMenu_Browser_Zoom_150.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_150.Text = "150%";
-			this.StripMenu_Browser_Zoom_150.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
-			// StripMenu_Browser_Zoom_200
-			// 
-			this.StripMenu_Browser_Zoom_200.Name = "StripMenu_Browser_Zoom_200";
-			this.StripMenu_Browser_Zoom_200.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_200.Text = "200%";
-			this.StripMenu_Browser_Zoom_200.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
-			// StripMenu_Browser_Zoom_250
-			// 
-			this.StripMenu_Browser_Zoom_250.Name = "StripMenu_Browser_Zoom_250";
-			this.StripMenu_Browser_Zoom_250.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_250.Text = "250%";
-			this.StripMenu_Browser_Zoom_250.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
-			// StripMenu_Browser_Zoom_300
-			// 
-			this.StripMenu_Browser_Zoom_300.Name = "StripMenu_Browser_Zoom_300";
-			this.StripMenu_Browser_Zoom_300.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_300.Text = "300%";
-			this.StripMenu_Browser_Zoom_300.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
-			// StripMenu_Browser_Zoom_400
-			// 
-			this.StripMenu_Browser_Zoom_400.Name = "StripMenu_Browser_Zoom_400";
-			this.StripMenu_Browser_Zoom_400.Size = new System.Drawing.Size(160, 34);
-			this.StripMenu_Browser_Zoom_400.Text = "400%";
-			this.StripMenu_Browser_Zoom_400.Click += new System.EventHandler(this.StripMenu_Browser_Zoom_Click);
-			// 
-			// StripMenu_Browser_AppliesStyleSheet
-			// 
-			this.StripMenu_Browser_AppliesStyleSheet.CheckOnClick = true;
-			this.StripMenu_Browser_AppliesStyleSheet.Name = "StripMenu_Browser_AppliesStyleSheet";
-			this.StripMenu_Browser_AppliesStyleSheet.Size = new System.Drawing.Size(356, 34);
-			this.StripMenu_Browser_AppliesStyleSheet.Text = "应用样式表(&S)";
-			this.StripMenu_Browser_AppliesStyleSheet.CheckedChanged += new System.EventHandler(this.StripMenu_Browser_AppliesStyleSheet_CheckedChanged);
-			// 
-			// toolStripSeparator10
-			// 
-			this.toolStripSeparator10.Name = "toolStripSeparator10";
-			this.toolStripSeparator10.Size = new System.Drawing.Size(353, 6);
-			// 
-			// StripMenu_Browser_Refresh
-			// 
-			this.StripMenu_Browser_Refresh.Enabled = false;
-			this.StripMenu_Browser_Refresh.Name = "StripMenu_Browser_Refresh";
-			this.StripMenu_Browser_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-			this.StripMenu_Browser_Refresh.Size = new System.Drawing.Size(356, 34);
-			this.StripMenu_Browser_Refresh.Text = "刷新(&R)";
-			this.StripMenu_Browser_Refresh.Click += new System.EventHandler(this.StripMenu_Browser_Refresh_Click);
-			// 
-			// StripMenu_Browser_NavigateToLogInPage
-			// 
-			this.StripMenu_Browser_NavigateToLogInPage.Name = "StripMenu_Browser_NavigateToLogInPage";
-			this.StripMenu_Browser_NavigateToLogInPage.Size = new System.Drawing.Size(356, 34);
-			this.StripMenu_Browser_NavigateToLogInPage.Text = "移动至登录页面(&L)";
-			this.StripMenu_Browser_NavigateToLogInPage.Click += new System.EventHandler(this.StripMenu_Browser_NavigateToLogInPage_Click);
-			// 
-			// StripMenu_Browser_Navigate
-			// 
-			this.StripMenu_Browser_Navigate.Name = "StripMenu_Browser_Navigate";
-			this.StripMenu_Browser_Navigate.Size = new System.Drawing.Size(356, 34);
-			this.StripMenu_Browser_Navigate.Text = "移动(&M)...";
-			this.StripMenu_Browser_Navigate.Click += new System.EventHandler(this.StripMenu_Browser_Navigate_Click);
 			// 
 			// StripMenu_Tool
 			// 
@@ -669,9 +361,9 @@
             this.toolStripSeparator15,
             this.StripMenu_Tool_AlbumMasterShip,
             this.StripMenu_Tool_AlbumMasterEquipment,
-            this.StripMenu_Tool_ResourcesGraph,
+            this.StripMenu_Tool_CopyEOBrowserExecute,
 			this.toolStripSeparatorAnother1,
-			this.StripMenu_Tool_CopyEOBrowserExecute});
+			this.StripMenu_Tool_PluginManager} );
 			this.StripMenu_Tool.Name = "StripMenu_Tool";
 			this.StripMenu_Tool.Size = new System.Drawing.Size(120, 38);
 			this.StripMenu_Tool.Text = "工具(&T)";
@@ -701,13 +393,6 @@
 			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(244, 34);
 			this.StripMenu_Tool_AlbumMasterEquipment.Text = "装备图鉴(&E)";
 			this.StripMenu_Tool_AlbumMasterEquipment.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterEquipment_Click);
-            // 
-            // StripMenu_Tool_ResourcesGraph
-            // 
-            this.StripMenu_Tool_ResourcesGraph.Name = "StripMenu_Tool_ResourcesGraph";
-            this.StripMenu_Tool_ResourcesGraph.Size = new System.Drawing.Size(143, 22);
-            this.StripMenu_Tool_ResourcesGraph.Text = "资源图表";
-            this.StripMenu_Tool_ResourcesGraph.Click += new System.EventHandler(this.StripMenu_Tool_ResourcesGraph_Click);
 			// 
 			// toolStripSeparatorAnother1
 			// 
@@ -721,58 +406,12 @@
 			this.StripMenu_Tool_CopyEOBrowserExecute.Text = "复制EOBrowser启动参数(&C)";
 			this.StripMenu_Tool_CopyEOBrowserExecute.Click += new System.EventHandler(this.StripMenu_Tool_CopyEOBrowserExecute_Click);
 			// 
-			// StripMenu_Debug
+			// StripMenu_Tool_PluginManager
 			// 
-			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Debug_LoadAPIFromFile,
-            this.StripMenu_Debug_LoadInitialAPI,
-            this.toolStripSeparator8,
-            this.StripMenu_Debug_LoadRecordFromOld,
-            this.StripMenu_Debug_DeleteOldAPI,
-            this.StripMenu_Debug_RenameShipResource});
-			this.StripMenu_Debug.Name = "StripMenu_Debug";
-			this.StripMenu_Debug.Size = new System.Drawing.Size(137, 38);
-			this.StripMenu_Debug.Text = "调试(&D)";
-			// 
-			// StripMenu_Debug_LoadAPIFromFile
-			// 
-			this.StripMenu_Debug_LoadAPIFromFile.Name = "StripMenu_Debug_LoadAPIFromFile";
-			this.StripMenu_Debug_LoadAPIFromFile.Size = new System.Drawing.Size(484, 34);
-			this.StripMenu_Debug_LoadAPIFromFile.Text = "ファイルからAPIをロード(&L)...";
-			this.StripMenu_Debug_LoadAPIFromFile.Click += new System.EventHandler(this.StripMenu_Debug_LoadAPIFromFile_Click);
-			// 
-			// StripMenu_Debug_LoadInitialAPI
-			// 
-			this.StripMenu_Debug_LoadInitialAPI.Name = "StripMenu_Debug_LoadInitialAPI";
-			this.StripMenu_Debug_LoadInitialAPI.Size = new System.Drawing.Size(484, 34);
-			this.StripMenu_Debug_LoadInitialAPI.Text = "APIリストをロード(&I)...";
-			this.StripMenu_Debug_LoadInitialAPI.Click += new System.EventHandler(this.StripMenu_Debug_LoadInitialAPI_Click);
-			// 
-			// toolStripSeparator8
-			// 
-			this.toolStripSeparator8.Name = "toolStripSeparator8";
-			this.toolStripSeparator8.Size = new System.Drawing.Size(481, 6);
-			// 
-			// StripMenu_Debug_LoadRecordFromOld
-			// 
-			this.StripMenu_Debug_LoadRecordFromOld.Name = "StripMenu_Debug_LoadRecordFromOld";
-			this.StripMenu_Debug_LoadRecordFromOld.Size = new System.Drawing.Size(484, 34);
-			this.StripMenu_Debug_LoadRecordFromOld.Text = "旧 api_start2 からレコードを構築(&O)...";
-			this.StripMenu_Debug_LoadRecordFromOld.Click += new System.EventHandler(this.StripMenu_Debug_LoadRecordFromOld_Click);
-			// 
-			// StripMenu_Debug_DeleteOldAPI
-			// 
-			this.StripMenu_Debug_DeleteOldAPI.Name = "StripMenu_Debug_DeleteOldAPI";
-			this.StripMenu_Debug_DeleteOldAPI.Size = new System.Drawing.Size(484, 34);
-			this.StripMenu_Debug_DeleteOldAPI.Text = "古いAPIデータを削除(&D)";
-			this.StripMenu_Debug_DeleteOldAPI.Click += new System.EventHandler(this.StripMenu_Debug_DeleteOldAPI_Click);
-			// 
-			// StripMenu_Debug_RenameShipResource
-			// 
-			this.StripMenu_Debug_RenameShipResource.Name = "StripMenu_Debug_RenameShipResource";
-			this.StripMenu_Debug_RenameShipResource.Size = new System.Drawing.Size(484, 34);
-			this.StripMenu_Debug_RenameShipResource.Text = "重命名舰船(&R)...";
-			this.StripMenu_Debug_RenameShipResource.Click += new System.EventHandler(this.StripMenu_Debug_RenameShipResource_Click);
+			this.StripMenu_Tool_PluginManager.Name = "StripMenu_Tool_PluginManager";
+			this.StripMenu_Tool_PluginManager.Size = new System.Drawing.Size(143, 22);
+			this.StripMenu_Tool_PluginManager.Text = "插件设置(&P)";
+			this.StripMenu_Tool_PluginManager.Click += new System.EventHandler(this.StripMenu_Tool_PluginManager_Click);
 			// 
 			// StripMenu_Help
 			// 
@@ -901,8 +540,6 @@
 		private WeifenLuo.WinFormsUI.Docking.DockPanel MainDockPanel;
 		private System.Windows.Forms.MenuStrip StripMenu;
 		private System.Windows.Forms.StatusStrip StripStatus;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadAPIFromFile;
 		private System.Windows.Forms.Timer UIUpdateTimer;
 		private System.Windows.Forms.ToolStripStatusLabel StripStatus_Information;
 		private System.Windows.Forms.ToolStripStatusLabel StripStatus_Padding;
@@ -913,18 +550,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Fleet_2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Fleet_3;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Fleet_4;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Dock;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Arsenal;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Headquarters;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Information;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Compass;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Log;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Quest;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Battle;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Help;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Help_Version;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File;
@@ -935,21 +561,15 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Record_Load;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadInitialAPI;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AlbumMasterShip;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_FleetOverview;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AlbumMasterEquipment;
-        private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ResourcesGraph;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparatorAnother1;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_CopyEOBrowserExecute;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadRecordFromOld;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_PluginManager;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_ShipGroup;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_DeleteOldAPI;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_EquipmentList;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_RenameShipResource;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Help_Help;
 		private System.Windows.Forms.ToolStripSeparator SeparatorWhitecap;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout;
@@ -963,31 +583,10 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout1;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Browser;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_ScreenShot;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_Current;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_Decr20;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_Incr20;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_25;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_50;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_75;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_100;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_150;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_200;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_250;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_300;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Zoom_400;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Refresh;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_NavigateToLogInPage;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_Navigate;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_Browser_AppliesStyleSheet;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_WindowCapture;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_WindowCapture_SubWindow;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_WindowCapture_AttachAll;

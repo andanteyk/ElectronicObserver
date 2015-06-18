@@ -365,7 +365,8 @@ namespace ElectronicObserver.Window.Integrate {
 			}
 		}
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			StringBuilder stringBuilder = new StringBuilder();
 			WindowData.Save( stringBuilder );
 			return PREFIX + stringBuilder.ToString();

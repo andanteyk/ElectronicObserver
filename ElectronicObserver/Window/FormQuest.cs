@@ -120,25 +120,6 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest] );
 
-			/*/
-			#region - Debug -
-
-			APIObserver o = APIObserver.Instance;
-			dynamic data;
-
-			//data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "api_start2.txt" ) ).api_data;
-			//o.APIList["api_start2"].OnResponseReceived( data );
-
-			//data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "port.txt" ) ).api_data;
-			//o.APIList["api_port/port"].OnResponseReceived( data );
-
-			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "questlist.txt" ) ).api_data;
-			o.APIList["api_get_member/questlist"].OnResponseReceived( data );
-
-			Updated();
-
-			#endregion
-			//*/
 		}
 
 
@@ -482,7 +463,8 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Quest";
 		}
 

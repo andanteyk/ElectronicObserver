@@ -34,7 +34,16 @@ namespace Browser {
 			}
 
 			var deviceEnumerator = new MMDeviceEnumerator();
-			var devices = deviceEnumerator.GetDefaultAudioEndpoint( EDataFlow.eRender, ERole.eMultimedia );
+			MMDevice devices;
+			try
+			{
+				devices = deviceEnumerator.GetDefaultAudioEndpoint( EDataFlow.eRender, ERole.eMultimedia );
+			}
+			catch
+			{
+				
+				return null;
+			}
 
 			for ( int i = 0; i < devices.AudioSessionManager.Sessions.Count; i++ ) {
 				var session = devices.AudioSessionManager.Sessions[i];

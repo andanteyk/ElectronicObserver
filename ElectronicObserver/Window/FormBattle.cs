@@ -130,40 +130,6 @@ namespace ElectronicObserver.Window {
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-			/*
-			#region - Debug -
-
-			string file = "api_start2.json";
-			dynamic data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( file ).Substring( 7 ) ).api_data;
-			string apiname = "api_start2";
-			o.APIList[apiname].OnResponseReceived( data );
-
-			file = @"KCAPI\20150604_12110948S@api_port@port.json";
-			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( file ).Substring( 7 ) ).api_data;
-			apiname = "api_port/port";
-			o.APIList[apiname].OnResponseReceived( data );
-
-			file = @"KCAPI\20150604_12171472S@api_req_sortie@battle.json";
-			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( file ).Substring( 7 ) ).api_data;
-			apiname = "api_req_sortie/battle";
-			KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
-
-			file = @"KCAPI\20150604_12183583S@api_req_battle_midnight@battle.json";
-			data = Codeplex.Data.DynamicJson.Parse( System.IO.File.ReadAllText( file ).Substring( 7 ) ).api_data;
-			apiname = "api_req_battle_midnight/battle";
-			KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
-
-			//data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "practice.txt" ) ).api_data;
-			//apiname = "api_req_practice/battle";
-			//KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
-
-			//data = Codeplex.Data.DynamicJson.Parse( System.IO.File.OpenRead( "practice_midnight.txt" ) ).api_data;
-			//apiname = "api_req_practice/midnight_battle";
-			//KCDatabase.Instance.Battle.LoadFromResponse( apiname, data );
-			Updated( apiname, data );
-
-			#endregion
-			//*/
 		}
 
 		private void ContextMenuBattle_ExportReport_Click( object sender, EventArgs e ) {
@@ -1581,7 +1547,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 		}
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Battle";
 		}
 

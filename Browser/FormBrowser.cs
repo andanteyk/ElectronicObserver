@@ -692,7 +692,7 @@ namespace Browser {
 				isEnabled = false;
 #endif
 
-			} catch ( Exception ex ) {
+			} catch ( Exception ) {
 				// 音量データ取得不能時
 				mute = false;
 				isEnabled = false;

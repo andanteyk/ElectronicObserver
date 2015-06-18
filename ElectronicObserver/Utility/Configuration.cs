@@ -488,7 +488,14 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigFormHeadquarters : ConfigPartBase {
 
+				/// <summary>
+				/// 艦船/装備が満タンの時点滅するか
+				/// </summary>
+				public bool BlinkAtMaximum { get; set; }
+
+
 				public ConfigFormHeadquarters() {
+					BlinkAtMaximum = true;
 				}
 			}
 			/// <summary>[司令部]ウィンドウ</summary>

@@ -308,7 +308,7 @@ namespace ElectronicObserver.Window {
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
 
 			this.ResumeLayoutForDpiScale();
-        }
+		}
 
 
 		private void FormCompass_Load( object sender, EventArgs e ) {
@@ -655,7 +655,8 @@ namespace ElectronicObserver.Window {
 
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Compass";
 		}
 
