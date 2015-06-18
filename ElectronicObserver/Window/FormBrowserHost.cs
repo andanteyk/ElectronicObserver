@@ -360,7 +360,8 @@ namespace ElectronicObserver.Window {
 			get { return this.Handle; }
 		}
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Browser";
 		}
 

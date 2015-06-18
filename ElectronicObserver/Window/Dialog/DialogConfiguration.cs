@@ -76,7 +76,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 			Connection_SaveReceivedData_CheckedChanged( null, new EventArgs() );
 			Connection_SaveDataPath_TextChanged( null, new EventArgs() );
-			Debug_EnableDebugMenu_CheckedChanged( null, new EventArgs() );
 			textCacheFolder_TextChanged(null, EventArgs.Empty);
 
 		}
@@ -201,41 +200,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void Notification_Expedition_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Expedition ) ) {
-				dialog.ShowDialog( this );
-			}
-		}
-
-		private void Notification_Construction_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Construction ) ) {
-				dialog.ShowDialog( this );
-			}
-		}
-
-		private void Notification_Repair_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Repair ) ) {
-				dialog.ShowDialog( this );
-			}
-		}
-
-		private void Notification_Condition_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Condition ) ) {
-				dialog.ShowDialog( this );
-			}
-		}
-
-		private void Notification_Damage_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.Damage ) ) {
-				dialog.ShowDialog( this );
-			}
-		}
-
 
 		private void Life_LayoutFilePathSearch_Click( object sender, EventArgs e ) {
 
@@ -243,18 +207,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-
-		private void Debug_APIListPathSearch_Click( object sender, EventArgs e ) {
-
-			Debug_APIListPath.Text = PathHelper.ProcessOpenFileDialog( Debug_APIListPath.Text, APIListBrowser );
-
-		}
-
-
-		private void Debug_EnableDebugMenu_CheckedChanged( object sender, EventArgs e ) {
-
-			Debug_SealingPanel.Visible = Debug_EnableDebugMenu.Checked;
-		}
 
 
 		private void FormBrowser_ScreenShotPathSearch_Click( object sender, EventArgs e ) {
@@ -343,11 +295,6 @@ namespace ElectronicObserver.Window.Dialog {
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
 
-			//[デバッグ]
-			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
-			Debug_LoadAPIListOnLoad.Checked = config.Debug.LoadAPIListOnLoad;
-			Debug_APIListPath.Text = config.Debug.APIListPath;
-
 			//[起動と終了]
 			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
 			Life_TopMost.Checked = this.TopMost = config.Life.TopMost;		//メインウィンドウに隠れないように
@@ -356,8 +303,6 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
 
 			//[サブウィンドウ]
-			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
-
 			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
 			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
 			FormFleet_IsScrollable.Checked = config.FormFleet.IsScrollable;
@@ -365,12 +310,6 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShortenHPBar.Checked = config.FormFleet.ShortenHPBar;
 			FormFleet_ShowNextExp.Checked = config.FormFleet.ShowNextExp;
 			FormFleet_BlinkHPBar.Checked = config.UI.NotExpeditionBlink;
-
-			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
-			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
-			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
-			FormQuest_ShowWeekly.Checked = config.FormQuest.ShowWeekly;
-			FormQuest_ShowMonthly.Checked = config.FormQuest.ShowMonthly;
 
 			FormShipGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			FormShipGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
@@ -429,8 +368,6 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
 			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWmode;
-
-			FormBattle_IsShortDamage.Checked = config.FormBattle.IsShortDamage;
 
 			// [缓存]
 			textCacheFolder.Text = config.CacheSettings.CacheFolder;
@@ -537,11 +474,6 @@ namespace ElectronicObserver.Window.Dialog {
 			//[動作]
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
 
-			//[デバッグ]
-			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
-			config.Debug.LoadAPIListOnLoad = Debug_LoadAPIListOnLoad.Checked;
-			config.Debug.APIListPath = Debug_APIListPath.Text;
-
 			//[起動と終了]
 			config.Life.ConfirmOnClosing = Life_ConfirmOnClosing.Checked;
 			config.Life.TopMost = Life_TopMost.Checked;
@@ -550,8 +482,6 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
 
 			//[サブウィンドウ]
-			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
-
 			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
 			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
 			config.FormFleet.IsScrollable = FormFleet_IsScrollable.Checked;
@@ -559,12 +489,6 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShortenHPBar = FormFleet_ShortenHPBar.Checked;
 			config.FormFleet.ShowNextExp = FormFleet_ShowNextExp.Checked;
 			config.UI.NotExpeditionBlink = FormFleet_BlinkHPBar.Checked;
-
-			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
-			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;
-			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
-			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
-			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
 
 			config.FormShipGroup.AutoUpdate = FormShipGroup_AutoUpdate.Checked;
 			config.FormShipGroup.ShowStatusBar = FormShipGroup_ShowStatusBar.Checked;
@@ -582,8 +506,6 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWmode = FormBrowser_FlashWMode.Text;
-
-			config.FormBattle.IsShortDamage = FormBattle_IsShortDamage.Checked;
 
 			//[データベース]
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
