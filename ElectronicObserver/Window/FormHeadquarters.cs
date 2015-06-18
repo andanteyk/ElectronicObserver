@@ -106,6 +106,19 @@ namespace ElectronicObserver.Window {
 			Font = FlowPanelMaster.Font = Utility.Configuration.Config.UI.MainFont;
 			HQLevel.MainFont = Utility.Configuration.Config.UI.MainFont;
 			HQLevel.SubFont = Utility.Configuration.Config.UI.SubFont;
+
+			// 点滅しない設定にしたときに消灯状態で固定されるのを防ぐ
+			if ( !Utility.Configuration.Config.FormHeadquarters.BlinkAtMaximum ) {
+				if ( ShipCount.Tag as bool? ?? false ) {
+					ShipCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
+					ShipCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
+				}
+
+				if ( EquipmentCount.Tag as bool? ?? false ) {
+					EquipmentCount.BackColor = Utility.Configuration.Config.UI.FleetDamageColor.ColorData;
+					EquipmentCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
+				}
+			}
 		}
 
 		void Updated( string apiname, dynamic data ) {

@@ -26,7 +26,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 				}
 
 			} else if ( Utility.Configuration.Config.Log.ShowSpoiler ) {
-				Utility.Logger.Add( 2, string.Format( "{0} の改修に失敗しました。", db.Equipments[(int)data.api_remodel_id[0]].NameWithLevel ) );
+				Utility.Logger.Add( 2, string.Format( "{0} の改修に失敗しました。", db.MasterEquipments[(int)data.api_remodel_id[0]].Name ) );
 			}
 
 
