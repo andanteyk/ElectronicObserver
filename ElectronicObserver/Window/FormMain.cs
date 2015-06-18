@@ -110,12 +110,13 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 
+			Plugins = new List<IPluginHost>();
+
 			var path = this.GetType().Assembly.Location;
 			path = path.Substring( 0, path.LastIndexOf( '\\' ) + 1 ) + "Plugins";
 			if ( Directory.Exists( path ) )
 			{
 				bool flag = false;
-				Plugins = new List<IPluginHost>();
 
 				foreach ( var file in Directory.GetFiles( path, "*.dll", SearchOption.TopDirectoryOnly ) )
 				{
