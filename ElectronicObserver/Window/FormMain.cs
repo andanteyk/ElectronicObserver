@@ -123,7 +123,7 @@ namespace ElectronicObserver.Window {
 					try
 					{
 						var assembly = Assembly.LoadFile( file );
-						var pluginType = assembly.ExportedTypes.FirstOrDefault( t => t.GetInterface( typeof(IPluginHost).FullName ) != null );
+						var pluginType = assembly.GetExportedTypes().FirstOrDefault( t => t.GetInterface( typeof(IPluginHost).FullName ) != null );
 						if ( pluginType != null )
 						{
 							var plugin = (IPluginHost)assembly.CreateInstance( pluginType.FullName );
