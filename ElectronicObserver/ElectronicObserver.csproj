@@ -177,7 +177,6 @@
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
     <Compile Include="Notifier\NotifierDialogData.cs" />
-    <Compile Include="Observer\APIKancolleDB.cs" />
     <Compile Include="Observer\APIGraphicList.cs" />
     <Compile Include="Observer\Cache\CacheCore.cs" />
     <Compile Include="Observer\Cache\Extensions.cs" />

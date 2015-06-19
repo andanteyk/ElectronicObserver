@@ -203,7 +203,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 		}
 
 		public static DateTime CSVStringToTime( string str ) {
-			string[] elem = str.Split( "/ :".ToCharArray() );
+			string[] elem = str.Split( "-/ :".ToCharArray() );
 			return new DateTime( int.Parse( elem[0] ), int.Parse( elem[1] ), int.Parse( elem[2] ), int.Parse( elem[3] ), int.Parse( elem[4] ), int.Parse( elem[5] ) );
 		}
 

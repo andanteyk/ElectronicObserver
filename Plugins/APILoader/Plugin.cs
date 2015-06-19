@@ -34,7 +34,7 @@ namespace APILoader
 			return new Settings(this);
 		}
 
-		public override async Task<bool> RunService( FormMain main )
+		public override bool RunService( FormMain main )
 		{
 			MainForm = main;
 
@@ -54,7 +54,7 @@ namespace APILoader
 				try
 				{
 
-					await Task.Factory.StartNew( () => LoadAPIList( Configuration.Config.Debug.APIListPath ) );
+					LoadAPIList( Configuration.Config.Debug.APIListPath );
 
 				}
 				catch ( Exception ex )
