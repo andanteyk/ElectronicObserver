@@ -36,6 +36,7 @@
 			this.Database_SendKancolleOAuth = new System.Windows.Forms.TextBox();
 			this.labelKdb = new System.Windows.Forms.Label();
 			this.Database_SendDataToKancolleDB = new System.Windows.Forms.CheckBox();
+			this.Database_SendWithProxy = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage15.SuspendLayout();
 			this.SuspendLayout();
@@ -58,6 +59,7 @@
 			this.tabPage15.Controls.Add( this.Database_SendKancolleOAuth );
 			this.tabPage15.Controls.Add( this.labelKdb );
 			this.tabPage15.Controls.Add( this.Database_SendDataToKancolleDB );
+			this.tabPage15.Controls.Add( this.Database_SendWithProxy );
 			this.tabPage15.Location = new System.Drawing.Point( 4, 44 );
 			this.tabPage15.Name = "tabPage15";
 			this.tabPage15.Padding = new System.Windows.Forms.Padding( 3 );
@@ -114,6 +116,16 @@
 			this.Database_SendDataToKancolleDB.Text = "发送数据到「艦これ統計データベース」";
 			this.Database_SendDataToKancolleDB.UseVisualStyleBackColor = true;
 			// 
+			// Database_SendWithProxy
+			// 
+			this.Database_SendWithProxy.AutoSize = true;
+			this.Database_SendWithProxy.Location = new System.Drawing.Point( 6, 103 );
+			this.Database_SendWithProxy.Name = "Database_SendWithProxy";
+			this.Database_SendWithProxy.Size = new System.Drawing.Size( 203, 27 );
+			this.Database_SendWithProxy.TabIndex = 12;
+			this.Database_SendWithProxy.Text = "通过设置的代理发送数据";
+			this.Database_SendWithProxy.UseVisualStyleBackColor = true;
+			// 
 			// Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,6 +142,7 @@
 		}
 
 		#endregion
+
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage15;
 		private System.Windows.Forms.LinkLabel Database_LinkKCDB;
@@ -137,5 +150,6 @@
 		private System.Windows.Forms.TextBox Database_SendKancolleOAuth;
 		private System.Windows.Forms.Label labelKdb;
 		private System.Windows.Forms.CheckBox Database_SendDataToKancolleDB;
+		private System.Windows.Forms.CheckBox Database_SendWithProxy;
 	}
 }

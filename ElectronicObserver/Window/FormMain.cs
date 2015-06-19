@@ -59,7 +59,7 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 		}
 
-		private async void FormMain_Load( object sender, EventArgs e ) {
+		private void FormMain_Load( object sender, EventArgs e ) {
 
 			//Utility.Configuration.Instance.Load();
 
