@@ -377,10 +377,6 @@ namespace ElectronicObserver.Window.Dialog {
 			textCacheFolder.Text = config.CacheSettings.CacheFolder;
 			checkCache.Checked = config.CacheSettings.CacheEnabled;
 
-			//[データベース]
-			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
-			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
-
 
 			//finalize
 			UpdateParameter();
@@ -512,10 +508,6 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWmode = FormBrowser_FlashWMode.Text;
 
-			//[データベース]
-			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
-			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
-
 
 			// [缓存]
 			if (checkCache.Checked)
@@ -590,10 +582,6 @@ namespace ElectronicObserver.Window.Dialog {
 						reg.Close();
 				}
 			}
-		}
-
-		private void Database_LinkKCDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
-			System.Diagnostics.Process.Start( "http://kancolle-db.net/" );
 		}
 
 		private void buttonCacheFolderBrowse_Click( object sender, EventArgs e )

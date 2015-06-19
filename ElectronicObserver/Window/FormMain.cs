@@ -112,12 +112,13 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 
+			Plugins = new List<IPluginHost>();
+
 			var path = this.GetType().Assembly.Location;
 			path = path.Substring( 0, path.LastIndexOf( '\\' ) + 1 ) + "Plugins";
 			if ( Directory.Exists( path ) )
 			{
 				bool flag = false;
-				Plugins = new List<IPluginHost>();
 
 				foreach ( var file in Directory.GetFiles( path, "*.dll", SearchOption.TopDirectoryOnly ) )
 				{
@@ -184,7 +185,7 @@ namespace ElectronicObserver.Window {
 							// service
 							else if ( plugin.PluginType == PluginType.Service )
 							{
-								if ( await plugin.RunService( this ) )
+								if ( plugin.RunService( this ) )
 								{
 									Utility.Logger.Add( 2, string.Format( "服务 {0}({1}) 已加载。", plugin.MenuTitle, plugin.Version ) );
 								}
