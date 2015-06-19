@@ -31,6 +31,6 @@ namespace ElectronicObserver.Window.Plugins
 			get { return "1.0.0.0"; }
 		}
 
-		public abstract Task<bool> RunService( FormMain main );
+		public abstract bool RunService( FormMain main );
 	}
 }

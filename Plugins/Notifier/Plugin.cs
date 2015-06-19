@@ -20,9 +20,9 @@ namespace Notifier
 			}
 		}
 
-		public override async Task<bool> RunService( FormMain main )
+		public override bool RunService( FormMain main )
 		{
-			await Task.Run( (Action)( () => NotifierManager.Instance.Initialize( main ) ) );
+			NotifierManager.Instance.Initialize( main );
 
 			return true;
 		}

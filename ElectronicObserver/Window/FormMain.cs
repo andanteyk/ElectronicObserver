@@ -183,7 +183,7 @@ namespace ElectronicObserver.Window {
 							// service
 							else if ( plugin.PluginType == PluginType.Service )
 							{
-								if ( await plugin.RunService( this ) )
+								if ( plugin.RunService( this ) )
 								{
 									Utility.Logger.Add( 2, string.Format( "服务 {0}({1}) 已加载。", plugin.MenuTitle, plugin.Version ) );
 								}
