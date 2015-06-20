@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace ElectronicObserver.Data {
 	/// IDを持つデータのリストを保持します。
 	/// </summary>
 	/// <typeparam name="TData"></typeparam>
-	public class IDDictionary<TData> : IReadOnlyDictionary<int, TData> where TData : class, IIdentifiable {
+	public class IDDictionary<TData> : IEnumerable<KeyValuePair<int, TData>>, IEnumerable where TData : class, IIdentifiable {
 
 		private readonly IDictionary<int, TData> dict;
 
@@ -78,7 +79,7 @@ namespace ElectronicObserver.Data {
 			return dict.GetEnumerator();
 		}
 
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+		IEnumerator IEnumerable.GetEnumerator() {
 			return dict.GetEnumerator();
 		}
 	}

@@ -15,9 +15,12 @@ namespace DBSender
 {
 	public partial class Settings : PluginSettingControl
 	{
-		public Settings()
+		private Plugin plugin;
+
+		public Settings( Plugin plugin )
 		{
 			InitializeComponent();
+			this.plugin = plugin;
 		}
 
 
@@ -29,6 +32,19 @@ namespace DBSender
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
 			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
 
+			try
+			{
+				plugin.Settings.DBSender.send_with_proxy = Database_SendWithProxy.Checked;
+			}
+			catch ( Exception ex )
+			{
+				ElectronicObserver.Utility.ErrorReporter.SendErrorReport( ex, "保存DBSender设置出错。" );
+			}
+			finally
+			{
+				plugin.SaveSettings();
+			}
+
 			return true;
 		}
 
@@ -39,6 +55,17 @@ namespace DBSender
 			//[データベース]
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
+
+			// 代理设置
+			try
+			{
+				Database_SendWithProxy.Checked = plugin.Settings.DBSender.send_with_proxy;
+			}
+			catch ( Exception ex )
+			{
+				Database_SendWithProxy.Checked = true;
+				ElectronicObserver.Utility.ErrorReporter.SendErrorReport( ex, "读取DBSender设置出错。" );
+			}
 		}
 
 		private void Database_LinkKCDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )

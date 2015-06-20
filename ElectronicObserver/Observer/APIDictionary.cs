@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Observer {
 
 
-	public class APIDictionary : IReadOnlyDictionary<string, APIBase> {
+	public class APIDictionary : IEnumerable<KeyValuePair<string, APIBase>>, IEnumerable {
 
 		private readonly IDictionary<string, APIBase> dict;
 
@@ -78,7 +79,7 @@ namespace ElectronicObserver.Observer {
 			return dict.GetEnumerator();
 		}
 
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+		IEnumerator IEnumerable.GetEnumerator() {
 			return dict.GetEnumerator();
 		}
 	}
