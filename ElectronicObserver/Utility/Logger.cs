@@ -73,7 +73,7 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-		public static IReadOnlyList<LogData> Log {
+		public static IList<LogData> Log {
 			get {
 				lock ( Logger.Instance ) {
 					return Logger.Instance.log.AsReadOnly();
