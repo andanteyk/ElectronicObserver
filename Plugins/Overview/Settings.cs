@@ -27,11 +27,6 @@ namespace Overview
 
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
 
-			var instance = ElectronicObserver.Utility.Configuration.Instance;
-			var method = typeof( ElectronicObserver.Utility.Configuration ).GetMethod( "OnConfigurationChanged",
-				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			method.Invoke( instance, null );
-
 			return true;
 		}
 
