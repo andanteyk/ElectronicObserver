@@ -95,6 +95,8 @@ namespace ElectronicObserver.Window.Dialog
 					Utility.Logger.Add( 1, string.Format( "插件 {0}({1}) 设置已保存。", kv.Key.MenuTitle, kv.Key.Version ) );
 				}
 			}
+
+			Utility.Configuration.Instance.OnConfigurationChanged();
 			this.Close();
 		}
 

@@ -31,11 +31,6 @@ namespace Quest
 			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
 			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
 
-			var instance = ElectronicObserver.Utility.Configuration.Instance;
-			var method = typeof( ElectronicObserver.Utility.Configuration ).GetMethod( "OnConfigurationChanged",
-				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-			method.Invoke( instance, null );
-
 			return true;
 		}
 
