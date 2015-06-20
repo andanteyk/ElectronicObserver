@@ -88,6 +88,15 @@ namespace ElectronicObserver.Window {
 			QuestView_Name.DefaultCellStyle = CSDefaultLeft;
 			QuestView_Progress.DefaultCellStyle = CSDefaultLeft;
 
+			QuestView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+			if ( Utility.Configuration.Config.UI.ThemeID == 1 )
+			{
+				QuestView.EnableHeadersVisualStyles = false;
+				QuestView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+				QuestView.ColumnHeadersDefaultCellStyle = CSDefaultLeft;
+			}
+
 			#endregion
 		}
 
