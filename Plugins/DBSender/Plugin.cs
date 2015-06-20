@@ -1,9 +1,11 @@
-﻿using ElectronicObserver.Observer;
+﻿using Codeplex.Data;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Window;
 using ElectronicObserver.Window.Plugins;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,20 +14,54 @@ namespace DBSender
 {
 	public class Plugin : ServerPlugin
 	{
+		private const string PLUGIN_SETTINGS = @"Settings\PluginSettings.json";
+		private const string DEFAULT_SETTINGS = @"{""DBSender"":{""send_with_proxy"":true}}";
+
 		private APIKancolleDB DBSender;
+		public dynamic Settings;
 
 		public override string MenuTitle
 		{
 			get { return "数据发送插件"; }
 		}
 
+		public override string Version
+		{
+			get { return "1.0.0.1"; }
+		}
+
 		public override PluginSettingControl GetSettings()
 		{
-			return new Settings();
+			return new Settings( this );
+		}
+
+		public void SaveSettings()
+		{
+			if ( Settings == null )
+			{
+				Settings = DynamicJson.Parse( DEFAULT_SETTINGS );
+			}
+			if ( !Directory.Exists( "Settings" ) )
+			{
+				Directory.CreateDirectory( "Settings" );
+			}
+			File.WriteAllText( PLUGIN_SETTINGS, Settings.ToString() );
 		}
 
 		public override bool RunService( FormMain main )
 		{
+			try
+			{
+				if ( File.Exists( PLUGIN_SETTINGS ) )
+					Settings = DynamicJson.Parse( File.ReadAllText( PLUGIN_SETTINGS ) );
+				else
+					Settings = DynamicJson.Parse( DEFAULT_SETTINGS );
+			}
+			catch ( Exception ex )
+			{
+				Settings = DynamicJson.Parse( DEFAULT_SETTINGS );
+				ErrorReporter.SendErrorReport( ex, string.Format( "读取插件设置时出错，{0}({1}", MenuTitle, Version ) );
+			}
 
 			DBSender = new APIKancolleDB();
 
@@ -42,7 +78,8 @@ namespace DBSender
 				// kancolle-db.netに送信する
 				if ( Configuration.Config.Connection.SendDataToKancolleDB )
 				{
-					Task.Factory.StartNew( (Action)( () => DBSender.ExecuteSession( oSession ) ) );
+					bool sendWithProxy = Settings.DBSender.send_with_proxy;
+					Task.Factory.StartNew( (Action)( () => DBSender.ExecuteSession( oSession, sendWithProxy ) ) );
 				}
 
 			}

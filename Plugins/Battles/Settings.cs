@@ -27,6 +27,11 @@ namespace Battles
 
 			config.FormBattle.IsShortDamage = FormBattle_IsShortDamage.Checked;
 
+			var instance = ElectronicObserver.Utility.Configuration.Instance;
+			var method = typeof( ElectronicObserver.Utility.Configuration ).GetMethod( "OnConfigurationChanged",
+				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
+			method.Invoke( instance, null );
+
 			return true;
 		}
 
