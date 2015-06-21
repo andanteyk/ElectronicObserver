@@ -44,9 +44,6 @@ namespace ElectronicObserver.Window.Control {
 		public ColorPicker() {
 			InitializeComponent();
 
-			this.SuspendLayoutForDpiScale();
-			this.ResumeLayoutForDpiScale();
-
 			textBox1.LostFocus += textBox1_LostFocus;
 		}
 

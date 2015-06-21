@@ -102,9 +102,11 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
 			this.ResumeLayoutForDpiScale();
-		}
 
+			DamageWidth = TableBottom.ColumnStyles[1].Width;
+        }
 
+		float DamageWidth = 60;
 
 		private void FormBattle_Load( object sender, EventArgs e ) {
 
@@ -1057,6 +1059,18 @@ td,th,tr {text-align:left; padding:2px 4px;}
 		/// </summary>
 		private void SetHPNormal( BattleData bd ) {
 
+			float damageWidth = ( Utility.Configuration.Config.FormBattle.IsShortDamage ? DamageWidth / 2 : DamageWidth );
+			float singleWidth = TableBottom.ColumnStyles[0].Width;
+
+			TableTop.ColumnStyles[1].Width = singleWidth;
+			TableTop.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableTop.ClientSize.Height );
+
+			TableBottom.ColumnStyles[1].Width = damageWidth;
+			TableBottom.ColumnStyles[3].Width = 0;
+			TableBottom.ColumnStyles[2].Width = singleWidth - damageWidth;
+			TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableBottom.ClientSize.Height );
+
+
 			KCDatabase db = KCDatabase.Instance;
 			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0;
 
@@ -1135,6 +1149,18 @@ td,th,tr {text-align:left; padding:2px 4px;}
 		/// 両軍のHPゲージを設定します。(連合艦隊用)
 		/// </summary>
 		private void SetHPCombined( BattleData bd ) {
+
+			float damageWidth = ( Utility.Configuration.Config.FormBattle.IsShortDamage ? DamageWidth / 2 : DamageWidth );
+			float singleWidth = TableBottom.ColumnStyles[0].Width;
+
+			TableTop.ColumnStyles[1].Width = singleWidth + 2 * damageWidth;
+			TableTop.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth + 2 * damageWidth ), TableTop.ClientSize.Height );
+
+			TableBottom.ColumnStyles[1].Width =
+			TableBottom.ColumnStyles[3].Width = damageWidth;
+			TableBottom.ColumnStyles[2].Width = singleWidth;
+			TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth + 2 * damageWidth ), TableBottom.ClientSize.Height );
+
 
 			KCDatabase db = KCDatabase.Instance;
 			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0;
@@ -1493,6 +1519,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 		void ConfigurationChanged() {
 
+			TableTop.SuspendLayout();
+			TableBottom.SuspendLayout();
+
 			MainFont = TableTop.Font = TableBottom.Font = Font = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 
@@ -1501,27 +1530,31 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			bool shorten = Utility.Configuration.Config.FormBattle.IsShortDamage;
 			bool isCombined = ( KCDatabase.Instance.Battle.BattleMode & BattleManager.BattleModes.CombinedMask ) != 0;
 
-			int damageWidth = shorten ? 30 : 60;
+			float damageWidth = ( shorten ? DamageWidth / 2 : DamageWidth );
+			float singleWidth = TableBottom.ColumnStyles[0].Width;
 
 			if ( isCombined ) {
 
-				TableTop.ColumnStyles[1].Width = 84 + 2 * damageWidth;
-				TableTop.ClientSize = new System.Drawing.Size( 252 + 2 * damageWidth, TableTop.ClientSize.Height );
+				TableTop.ColumnStyles[1].Width = singleWidth + 2 * damageWidth;
+				TableTop.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth + 2 * damageWidth ), TableTop.ClientSize.Height );
 
 				TableBottom.ColumnStyles[1].Width =
 				TableBottom.ColumnStyles[3].Width = damageWidth;
-				TableBottom.ColumnStyles[2].Width = 84;
-				TableBottom.ClientSize = new System.Drawing.Size( 252 + 2 * damageWidth, TableBottom.ClientSize.Height );
+				TableBottom.ColumnStyles[2].Width = singleWidth;
+				TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth + 2 * damageWidth ), TableBottom.ClientSize.Height );
 			} else {
 
-				TableTop.ColumnStyles[1].Width = 84;
-				TableTop.ClientSize = new System.Drawing.Size( 252, TableTop.ClientSize.Height );
+				TableTop.ColumnStyles[1].Width = singleWidth;
+				TableTop.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableTop.ClientSize.Height );
 
 				TableBottom.ColumnStyles[1].Width = damageWidth;
 				TableBottom.ColumnStyles[3].Width = 0;
-				TableBottom.ColumnStyles[2].Width = 84 - damageWidth;
-				TableBottom.ClientSize = new System.Drawing.Size( 252, TableBottom.ClientSize.Height );
+				TableBottom.ColumnStyles[2].Width = singleWidth - damageWidth;
+				TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableBottom.ClientSize.Height );
 			}
+
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
 
 			if ( DamageLabels == null )
 				return;
