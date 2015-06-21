@@ -21,6 +21,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogEquipmentList() {
+			this.SuspendLayoutForDpiScale();
 
 			InitializeComponent();
 
@@ -64,9 +65,15 @@ namespace ElectronicObserver.Window.Dialog {
 			DetailView.DefaultCellStyle = CSUnselectableRight;
 			DetailView_EquippedShip.DefaultCellStyle = CSUnselectableLeft;
 			DetailView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+			int headerHeight = this.GetDpiHeight( 23 );
+			DetailView.ColumnHeadersHeight = headerHeight;
+			EquipmentView.ColumnHeadersHeight = headerHeight;
+			DetailView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+			EquipmentView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
 			#endregion
 
+			this.ResumeLayoutForDpiScale();
 		}
 
 		private void DialogEquipmentList_Load( object sender, EventArgs e ) {

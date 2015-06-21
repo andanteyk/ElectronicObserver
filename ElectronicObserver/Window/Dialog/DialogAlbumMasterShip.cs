@@ -26,6 +26,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogAlbumMasterShip() {
+
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			Aircrafts = new ImageLabel[] { Aircraft1, Aircraft2, Aircraft3, Aircraft4, Aircraft5 };
@@ -147,6 +149,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ShipView.Sort( ShipView_ShipID, ListSortDirection.Ascending );
 			ShipView.ResumeLayout();
+
+			this.ResumeLayoutForDpiScale();
 		}
 
 		public DialogAlbumMasterShip( int shipID )

@@ -114,6 +114,7 @@
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
 			this.label7 = new System.Windows.Forms.Label();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.Life_AutoScaleDpi = new System.Windows.Forms.CheckBox();
 			this.Life_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.Life_CheckUpdateInformation = new System.Windows.Forms.CheckBox();
 			this.Life_LayoutFilePathSearch = new System.Windows.Forms.Button();
@@ -1199,6 +1200,7 @@
 			// 
 			// tabPage6
 			// 
+			this.tabPage6.Controls.Add(this.Life_AutoScaleDpi);
 			this.tabPage6.Controls.Add(this.Life_ShowStatusBar);
 			this.tabPage6.Controls.Add(this.Life_CheckUpdateInformation);
 			this.tabPage6.Controls.Add(this.Life_LayoutFilePathSearch);
@@ -1213,6 +1215,16 @@
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "窗口";
 			this.tabPage6.UseVisualStyleBackColor = true;
+			// 
+			// Life_AutoScaleDpi
+			// 
+			this.Life_AutoScaleDpi.AutoSize = true;
+			this.Life_AutoScaleDpi.Location = new System.Drawing.Point(11, 135);
+			this.Life_AutoScaleDpi.Name = "Life_AutoScaleDpi";
+			this.Life_AutoScaleDpi.Size = new System.Drawing.Size(156, 27);
+			this.Life_AutoScaleDpi.TabIndex = 7;
+			this.Life_AutoScaleDpi.Text = "根据 DPI 自动缩放布局";
+			this.Life_AutoScaleDpi.UseVisualStyleBackColor = true;
 			// 
 			// Life_ShowStatusBar
 			// 
@@ -2025,6 +2037,7 @@
 		private System.Windows.Forms.Button FormBrowser_ApplyRegistry;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.CheckBox Life_ShowStatusBar;
+		private System.Windows.Forms.CheckBox Life_AutoScaleDpi;
 		private System.Windows.Forms.CheckBox FormBrowser_ZoomFit;
 		private System.Windows.Forms.TabPage tabPage14;
 		private System.Windows.Forms.GroupBox groupBox4;

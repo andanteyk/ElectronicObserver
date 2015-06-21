@@ -54,10 +54,12 @@ namespace ElectronicObserver.Window {
 		private const string LAYOUT_FILE2 = @"Settings\WindowLayout2.zip";
 
 		public FormMain() {
+			this.SuspendLayoutForDpiScale();
 			this.BackColor = Utility.Configuration.Config.UI.BackColor.ColorData;
 			this.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
 
 			InitializeComponent();
+			this.ResumeLayoutForDpiScale();
 		}
 
 		private void FormMain_Load( object sender, EventArgs e ) {

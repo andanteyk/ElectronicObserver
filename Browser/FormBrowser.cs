@@ -84,6 +84,7 @@ namespace Browser {
 		/// </summary>
 		/// <param name="serverUri">ホストプロセスとの通信用URL</param>
 		public FormBrowser( string serverUri ) {
+			SuspendLayout();
 			InitializeComponent();
 
 			ServerUri = serverUri;
@@ -106,6 +107,10 @@ namespace Browser {
 			if ( string.IsNullOrEmpty( FrameScript ) ) {
 				FrameScript = Properties.Resources.FrameScript;
 			}
+
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96F, 96F );
+			ResumeLayout();
 		}
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Window.Support;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,10 +24,11 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 		public DialogShipGroupColumnFilter( DataGridView target ) {
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			AllCheck.Tag = false;
-			
+
 			foreach ( DataGridViewColumn c in target.Columns ) {
 				FilterList.Items.Add( c.HeaderText, c.Visible );
 			}
@@ -43,6 +45,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			}
 			AllCheck.Tag = true;
+
+			this.ResumeLayoutForDpiScale();
 		}
 
 

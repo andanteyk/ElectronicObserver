@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Notifier;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private bool _imageChanged;
 
 		public DialogConfigurationNotifier( NotifierBase notifier ) {
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			_notifier = notifier;
@@ -77,6 +79,7 @@ namespace ElectronicObserver.Window.Dialog {
 				GroupDamage.Enabled = false;
 			}
 
+			this.ResumeLayoutForDpiScale();
 		}
 
 		private void DialogConfigurationNotifier_Load( object sender, EventArgs e ) {

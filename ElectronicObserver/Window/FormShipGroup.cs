@@ -50,6 +50,7 @@ namespace ElectronicObserver.Window {
 		private bool IsTabSelectedBeforeBoot = false;
 
 		public FormShipGroup( FormMain parent ) {
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( ShipView );
@@ -114,10 +115,14 @@ namespace ElectronicObserver.Window {
 			ShipView_Equipment4.DefaultCellStyle = CSDefaultLeft;
 			ShipView_Equipment5.DefaultCellStyle = CSDefaultLeft;
 
+			ShipView.ColumnHeadersHeight = this.GetDpiHeight( 24 );
+
 			#endregion
 
 
 			SystemEvents.SystemShuttingDown += SystemShuttingDown;
+
+			this.ResumeLayoutForDpiScale();
 		}
 
 

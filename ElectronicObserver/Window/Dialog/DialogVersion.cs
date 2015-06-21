@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Resource;
 using ElectronicObserver.Utility;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,8 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogVersion : Form {
 		public DialogVersion() {
+
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			string ver;
@@ -25,6 +28,8 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 			TextVersion.Text = string.Format( "{0} (ver. {1} - {2} Release)", SoftwareInformation.VersionJapanese, ver, SoftwareInformation.UpdateTime.ToString( "d" ) ); 
+
+			this.ResumeLayoutForDpiScale();
 		}
 
 		private void Text__LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
