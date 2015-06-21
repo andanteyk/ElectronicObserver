@@ -9,6 +9,7 @@ namespace Headquarters
 {
 	public class Plugin : DockPlugin
 	{
+
 		public override string MenuTitle
 		{
 			get { return "司令部(&H)"; }
@@ -16,7 +17,7 @@ namespace Headquarters
 
 		public override string Version
 		{
-			get { return "1.0.0"; }
+			get { return "1.0.0.1"; }
 		}
 
 		public override PluginSettingControl GetSettings()

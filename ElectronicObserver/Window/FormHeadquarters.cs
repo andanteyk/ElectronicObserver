@@ -14,6 +14,8 @@ using WeifenLuo.WinFormsUI.Docking;
 using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Window.Support;
 using ElectronicObserver.Resource.Record;
+using System.IO;
+using Codeplex.Data;
 
 namespace ElectronicObserver.Window {
 
@@ -95,10 +97,69 @@ namespace ElectronicObserver.Window {
 
 			FlowPanelResource.SetFlowBreak( Ammo, true );
 
+			// custom flow break/visible
+			CustomFlowSettings();
+
 			FlowPanelMaster.Visible = false;
 
 		}
 
+		void CustomFlowSettings()
+		{
+			var settings = Headquarters.Settings.settings;
+
+			if ( settings == null )
+			{
+				try
+				{
+					if ( File.Exists( Headquarters.Settings.PLUGIN_SETTINGS ) )
+						settings = DynamicJson.Parse( File.ReadAllText( Headquarters.Settings.PLUGIN_SETTINGS ) );
+					else
+						settings = DynamicJson.Parse( Headquarters.Settings.DEFAULT_SETTINGS );
+				}
+				catch
+				{
+					settings = DynamicJson.Parse( Headquarters.Settings.DEFAULT_SETTINGS );
+				}
+
+				Headquarters.Settings.settings = settings;
+            }
+
+			if ( settings != null )
+			{
+				AdmiralName.Visible = settings.AdmiralName.show;
+				//FlowPanelAdmiral.SetFlowBreak( AdmiralName, settings.AdmiralName.@break );
+
+				AdmiralComment.Visible = settings.AdmiralComment.show;
+				//FlowPanelMaster.SetFlowBreak( FlowPanelAdmiral, settings.AdmiralComment.@break );
+
+				HQLevel.Visible = settings.HQLevel.show;
+				//FlowPanelMaster.SetFlowBreak( HQLevel, settings.HQLevel.@break );
+
+				ShipCount.Visible = settings.ShipCount.show;
+				//FlowPanelFleet.SetFlowBreak( ShipCount, settings.ShipCount.@break );
+
+				EquipmentCount.Visible = settings.EquipmentCount.show;
+				//FlowPanelMaster.SetFlowBreak( FlowPanelFleet, settings.EquipmentCount.@break );
+
+				InstantRepair.Visible = settings.InstantRepair.show;
+				//FlowPanelUseItem.SetFlowBreak( InstantRepair, settings.InstantRepair.@break );
+
+				InstantConstruction.Visible = settings.InstantConstruction.show;
+				//FlowPanelUseItem.SetFlowBreak( InstantConstruction, settings.InstantConstruction.@break );
+
+				DevelopmentMaterial.Visible = settings.DevelopmentMaterial.show;
+				//FlowPanelUseItem.SetFlowBreak( DevelopmentMaterial, settings.DevelopmentMaterial.@break );
+
+				ModdingMaterial.Visible = settings.ModdingMaterial.show;
+				//FlowPanelUseItem.SetFlowBreak( ModdingMaterial, settings.ModdingMaterial.@break );
+
+				FurnitureCoin.Visible = settings.FurnitureCoin.show;
+				//FlowPanelMaster.SetFlowBreak( FlowPanelUseItem, settings.FurnitureCoin.@break );
+
+				FlowPanelResource.Visible = settings.Resources.show;
+			}
+		}
 
 
 		void ConfigurationChanged() {
@@ -106,6 +167,8 @@ namespace ElectronicObserver.Window {
 			Font = FlowPanelMaster.Font = Utility.Configuration.Config.UI.MainFont;
 			HQLevel.MainFont = Utility.Configuration.Config.UI.MainFont;
 			HQLevel.SubFont = Utility.Configuration.Config.UI.SubFont;
+			HQLevel.MainFontColor = Utility.Configuration.Config.UI.ForeColor;
+			HQLevel.SubFontColor = Utility.Configuration.Config.UI.SubForeColor;
 
 			// 点滅しない設定にしたときに消灯状態で固定されるのを防ぐ
 			if ( !Utility.Configuration.Config.FormHeadquarters.BlinkAtMaximum ) {
@@ -119,7 +182,9 @@ namespace ElectronicObserver.Window {
 					EquipmentCount.ForeColor = Utility.Configuration.Config.UI.HighlightForeColor.ColorData;
 				}
 			}
-		}
+
+			CustomFlowSettings();
+        }
 
 		void Updated( string apiname, dynamic data ) {
 
