@@ -109,9 +109,9 @@ namespace Browser {
 			}
 
 			this.AutoScaleMode = AutoScaleMode.Dpi;
-			this.AutoScaleDimensions = new SizeF( 96, 96 );
+			this.AutoScaleDimensions = new SizeF( 96F, 96F );
 			ResumeLayout();
-        }
+		}
 
 
 		private void FormBrowser_Load( object sender, EventArgs e ) {

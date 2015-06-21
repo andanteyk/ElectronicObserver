@@ -115,7 +115,7 @@ namespace ElectronicObserver.Window {
 			ShipView_Equipment4.DefaultCellStyle = CSDefaultLeft;
 			ShipView_Equipment5.DefaultCellStyle = CSDefaultLeft;
 
-			ShipView.ColumnHeadersHeight = this.GetDpiHeight( 23 );
+			ShipView.ColumnHeadersHeight = this.GetDpiHeight( 24 );
 
 			#endregion
 

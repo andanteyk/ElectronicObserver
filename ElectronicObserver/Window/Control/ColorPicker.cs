@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ElectronicObserver.Window.Support;
 
 namespace ElectronicObserver.Window.Control {
 	public partial class ColorPicker : UserControl {
@@ -43,10 +42,6 @@ namespace ElectronicObserver.Window.Control {
 
 		public ColorPicker() {
 			InitializeComponent();
-
-			this.SuspendLayoutForDpiScale();
-			this.ResumeLayoutForDpiScale();
-
 			textBox1.LostFocus += textBox1_LostFocus;
 		}
 

@@ -62,7 +62,8 @@
 			// 
 			// ColorPicker
 			// 
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.label1);

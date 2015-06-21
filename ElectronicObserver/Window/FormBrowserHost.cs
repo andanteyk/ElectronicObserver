@@ -61,7 +61,7 @@ namespace ElectronicObserver.Window {
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
 
 			this.ResumeLayoutForDpiScale();
-        }
+		}
 
 		public void InitializeApiCompleted() {
 			++initializeCompletionCount;
