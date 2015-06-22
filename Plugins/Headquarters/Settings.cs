@@ -63,6 +63,8 @@ namespace Headquarters
 
 			settings.AdmiralName.show = AdmiralName_Show.Checked;
 			settings.AdmiralName.@break = AdmiralName_Break.Checked;
+			settings.AdmiralComment.show = AdmiralComment_Show.Checked;
+			settings.AdmiralComment.@break = AdmiralComment_Break.Checked;
 			settings.HQLevel.show = HQLevel_Show.Checked;
 			settings.HQLevel.@break = HQLevel_Break.Checked;
 			settings.ShipCount.show = ShipCount_Show.Checked;
@@ -97,6 +99,8 @@ namespace Headquarters
 
 			AdmiralName_Show.Checked = settings.AdmiralName.show;
 			AdmiralName_Break.Checked = settings.AdmiralName.@break;
+			AdmiralComment_Show.Checked = settings.AdmiralComment.show;
+			AdmiralComment_Break.Checked = settings.AdmiralComment.@break;
 			HQLevel_Show.Checked = settings.HQLevel.show;
 			HQLevel_Break.Checked = settings.HQLevel.@break;
 			ShipCount_Show.Checked = settings.ShipCount.show;
