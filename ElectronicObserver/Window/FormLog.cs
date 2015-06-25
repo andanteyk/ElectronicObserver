@@ -52,6 +52,8 @@ namespace ElectronicObserver.Window {
 
 			LogList.BackColor = Utility.Configuration.Config.UI.BackColor;
 			LogList.ForeColor = Utility.Configuration.Config.UI.ForeColor;
+
+			LogList.TopIndex = LogList.Items.Count - 1;
 		}
 
 

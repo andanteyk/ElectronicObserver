@@ -109,6 +109,9 @@
 			this.Log_SaveErrorReport = new System.Windows.Forms.CheckBox();
 			this.Log_SaveLogFlag = new System.Windows.Forms.CheckBox();
 			this.Log_LogLevel = new System.Windows.Forms.NumericUpDown();
+			this.Log_AutoSave = new System.Windows.Forms.CheckBox();
+			this.Log_AutoSaveMinutes = new System.Windows.Forms.NumericUpDown();
+			this.labelAnother1 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
@@ -186,6 +189,7 @@
 			this.tabPage2.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.Log_AutoSaveMinutes)).BeginInit();
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).BeginInit();
 			this.tabPage6.SuspendLayout();
@@ -1068,6 +1072,9 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
+			this.tabPage3.Controls.Add(this.Log_AutoSave);
+			this.tabPage3.Controls.Add(this.Log_AutoSaveMinutes);
+			this.tabPage3.Controls.Add(this.labelAnother1);
 			this.tabPage3.Location = new System.Drawing.Point(4, 24);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -1090,19 +1097,19 @@
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(6, 111);
+			this.label12.Location = new System.Drawing.Point(6, 141);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(318, 15);
-			this.label12.TabIndex = 6;
+			this.label12.TabIndex = 9;
 			this.label12.Text = "＊随意变更设定可能会导致无法读取记录";
 			// 
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(5, 88);
+			this.label11.Location = new System.Drawing.Point(5, 116);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(69, 15);
-			this.label11.TabIndex = 5;
+			this.label11.TabIndex = 8;
 			this.label11.Text = "文本编码：";
 			// 
 			// Log_FileEncodingID
@@ -1115,10 +1122,10 @@
             "UTF-16",
             "UTF-16(BOM)",
             "Shift-JIS"});
-			this.Log_FileEncodingID.Location = new System.Drawing.Point(80, 85);
+			this.Log_FileEncodingID.Location = new System.Drawing.Point(80, 113);
 			this.Log_FileEncodingID.Name = "Log_FileEncodingID";
 			this.Log_FileEncodingID.Size = new System.Drawing.Size(112, 23);
-			this.Log_FileEncodingID.TabIndex = 4;
+			this.Log_FileEncodingID.TabIndex = 7;
 			this.ToolTipInfo.SetToolTip(this.Log_FileEncodingID, "指定输入输出文件的文本编码。\r\n＊注意＊变更后可能会导致之前的记录无法读取。\r\n请务必多加注意。");
 			// 
 			// Log_SaveErrorReport
@@ -1141,6 +1148,48 @@
 			this.Log_SaveLogFlag.TabIndex = 0;
 			this.Log_SaveLogFlag.Text = "保存日志文件";
 			this.Log_SaveLogFlag.UseVisualStyleBackColor = true;
+			// 
+			// Log_AutoSave
+			// 
+			this.Log_AutoSave.AutoSize = true;
+			this.Log_AutoSave.Location = new System.Drawing.Point(8, 85);
+			this.Log_AutoSave.Name = "Log_AutoSave";
+			this.Log_AutoSave.Size = new System.Drawing.Size(152, 27);
+			this.Log_AutoSave.TabIndex = 4;
+			this.Log_AutoSave.Text = "自动保存日志";
+			this.Log_AutoSave.UseVisualStyleBackColor = true;
+			// 
+			// Log_AutoSaveMinutes
+			// 
+			this.Log_AutoSaveMinutes.Location = new System.Drawing.Point(111, 85);
+			this.Log_AutoSaveMinutes.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.Log_AutoSaveMinutes.Maximum = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+			this.Log_AutoSaveMinutes.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+			this.Log_AutoSaveMinutes.Name = "Log_AutoSaveMinutes";
+			this.Log_AutoSaveMinutes.Size = new System.Drawing.Size(80, 23);
+			this.Log_AutoSaveMinutes.TabIndex = 5;
+			this.Log_AutoSaveMinutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// labelAnother1
+			// 
+			this.labelAnother1.AutoSize = true;
+			this.labelAnother1.Location = new System.Drawing.Point(194, 88);
+			this.labelAnother1.Name = "labelAnother1";
+			this.labelAnother1.Size = new System.Drawing.Size(318, 15);
+			this.labelAnother1.TabIndex = 6;
+			this.labelAnother1.Text = "分钟";
 			// 
 			// Log_LogLevel
 			// 
@@ -1872,6 +1921,7 @@
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.Log_AutoSaveMinutes)).EndInit();
 			this.tabPage4.ResumeLayout(false);
 			this.tabPage4.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Control_ConditionBorder)).EndInit();
@@ -1986,6 +2036,9 @@
 		private System.Windows.Forms.NumericUpDown Log_LogLevel;
 		private System.Windows.Forms.NumericUpDown Control_ConditionBorder;
 		private System.Windows.Forms.CheckBox Log_SaveLogFlag;
+		private System.Windows.Forms.CheckBox Log_AutoSave;
+		private System.Windows.Forms.NumericUpDown Log_AutoSaveMinutes;
+		private System.Windows.Forms.Label labelAnother1;
 		private System.Windows.Forms.CheckBox Life_ConfirmOnClosing;
 		private System.Windows.Forms.CheckBox Connection_ApplyVersion;
 		private System.Windows.Forms.TextBox UI_SubFont;
