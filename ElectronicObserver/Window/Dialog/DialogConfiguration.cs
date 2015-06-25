@@ -294,6 +294,8 @@ namespace ElectronicObserver.Window.Dialog {
 			Log_SaveErrorReport.Checked = config.Log.SaveErrorReport;
 			Log_FileEncodingID.SelectedIndex = config.Log.FileEncodingID;
 			Log_ShowSpoiler.Checked = config.Log.ShowSpoiler;
+			Log_AutoSave.Checked = config.Log.AutoSave;
+			Log_AutoSaveMinutes.Value = config.Log.AutoSaveMinutes;
 
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
@@ -470,6 +472,13 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Log.SaveErrorReport = Log_SaveErrorReport.Checked;
 			config.Log.FileEncodingID = Log_FileEncodingID.SelectedIndex;
 			config.Log.ShowSpoiler = Log_ShowSpoiler.Checked;
+			if ( !config.Log.AutoSave && Log_AutoSave.Checked )
+			{
+				ElectronicObserver.Resource.Record.RecordManager.Instance.Save();
+				ElectronicObserver.Data.KCDatabase.Instance.Save();
+			}
+			config.Log.AutoSave = Log_AutoSave.Checked;
+			config.Log.AutoSaveMinutes = (int)Log_AutoSaveMinutes.Value;
 
 			//[動作]
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;

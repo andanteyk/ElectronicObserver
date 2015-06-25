@@ -277,6 +277,9 @@ namespace ElectronicObserver.Window {
 
 			StripStatus.Visible = c.Life.ShowStatusBar;
 
+			if ( !c.Log.AutoSave )
+				nowSeconds = 0;
+
 			TopMost = c.Life.TopMost;
 
 			Font = c.UI.MainFont;
@@ -306,11 +309,19 @@ namespace ElectronicObserver.Window {
 
 
 
-
+		private int nowSeconds = 0;
 
 		private void UIUpdateTimer_Tick( object sender, EventArgs e ) {
 
 			SystemEvents.OnUpdateTimerTick();
+
+			// 自动保存
+			if ( Utility.Configuration.Config.Log.AutoSave && ++nowSeconds >= Utility.Configuration.Config.Log.AutoSaveMinutes * 60 )
+			{
+				RecordManager.Instance.Save();
+				KCDatabase.Instance.Save();
+				nowSeconds = 0;
+			}
 
 			// 東京標準時で表示
 			DateTime now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId( DateTime.UtcNow, "Tokyo Standard Time" );
@@ -570,6 +581,7 @@ namespace ElectronicObserver.Window {
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					dialog.ToConfiguration( Utility.Configuration.Config );
+					Utility.Configuration.Instance.Save();
 					Utility.Configuration.Instance.OnConfigurationChanged();
 
 				}

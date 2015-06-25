@@ -423,6 +423,11 @@ namespace ElectronicObserver.Window {
 			Updated();
 		}
 
+		private void MenuMain_SaveNow_Click( object sender, EventArgs e ) {
+			KCDatabase.Instance.QuestProgress.Save();
+			Utility.Logger.Add( 2, "任务进度已保存。" );
+		}
+
 
 		private void MenuMain_ShowOnce_Click( object sender, EventArgs e ) {
 			Utility.Configuration.Config.FormQuest.ShowOnce = MenuMain_ShowOnce.Checked;
@@ -448,7 +453,7 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMain_Initialize_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "任務データを初期化します。\r\nデータに齟齬が生じている場合以外での使用は推奨しません。\r\nよろしいですか？", "任務初期化の確認",
+			if ( MessageBox.Show( "任务进度即将初始化。\r\n推荐只在数据混乱的时候使用。\r\n确定吗？", "任务初始化确认",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 ) == System.Windows.Forms.DialogResult.Yes ) {
 
 				KCDatabase.Instance.Quest.Clear();

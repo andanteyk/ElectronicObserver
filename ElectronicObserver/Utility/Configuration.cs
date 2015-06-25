@@ -314,6 +314,16 @@ namespace ElectronicObserver.Utility {
 				public bool OutputGraphicList { get; set; }
 
 				/// <summary>
+				/// 自动保存日志
+				/// </summary>
+				public bool AutoSave { get; set; }
+
+				/// <summary>
+				/// 自动保存日志的时间间隔（分钟）
+				/// </summary>
+				public int AutoSaveMinutes { get; set; }
+
+				/// <summary>
 				/// ファイル エンコーディングのID
 				/// </summary>
 				public int FileEncodingID { get; set; }
@@ -355,6 +365,8 @@ namespace ElectronicObserver.Utility {
 					ShowMainD2Link = false;
 					ShowCacheLog = true;
 					OutputGraphicList = false;
+					AutoSave = false;
+					AutoSaveMinutes = 3;
 					ShowSpoiler = true;
 				}
 

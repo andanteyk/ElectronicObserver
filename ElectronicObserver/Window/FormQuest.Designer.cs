@@ -35,6 +35,7 @@
 			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMain_SaveNow = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMain_ShowOnce = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowDaily = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,6 +144,7 @@
 			ToolStripCustomizer.ToolStripRender.SetRender(this.MenuMain);
 			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuMain_ShowRunningOnly,
+            this.MenuMain_SaveNow,
             this.toolStripSeparator2,
             this.MenuMain_ShowOnce,
             this.MenuMain_ShowDaily,
@@ -162,6 +164,13 @@
 			this.MenuMain_ShowRunningOnly.Size = new System.Drawing.Size(230, 22);
 			this.MenuMain_ShowRunningOnly.Text = "显示执行中的任务(&R)";
 			this.MenuMain_ShowRunningOnly.Click += new System.EventHandler(this.MenuMain_ShowRunningOnly_Click);
+			// 
+			// MenuMain_SaveNow
+			// 
+			this.MenuMain_SaveNow.Name = "MenuMain_SaveNow";
+			this.MenuMain_SaveNow.Size = new System.Drawing.Size(230, 22);
+			this.MenuMain_SaveNow.Text = "立即保存进度(&S)";
+			this.MenuMain_SaveNow.Click += new System.EventHandler(this.MenuMain_SaveNow_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -301,6 +310,7 @@
 		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private System.Windows.Forms.ContextMenuStrip MenuMain;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowRunningOnly;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_SaveNow;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_Initialize;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
