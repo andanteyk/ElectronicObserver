@@ -206,6 +206,38 @@ namespace ElectronicObserver.Data {
 				}
 			}
 		}
+
+
+		/// <summary>
+		/// 航空偵察の航空機
+		/// 0=なし, 1=大型飛行艇, 2=水上偵察機
+		/// </summary>
+		public int AirReconnaissancePlane {
+			get {
+				if ( RawData.api_airsearch() ) {
+					return (int)RawData.api_airsearch.api_plane_type;
+				} else {
+					return 0;
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// 航空偵察結果
+		/// 0=失敗, 1=成功, 2=大成功
+		/// </summary>
+		public int AirReconnaissanceResult {
+			get {
+				if ( RawData.api_airsearch() ) {
+					return (int)RawData.api_airsearch.api_result;
+				} else {
+					return 0;
+				}
+			}
+		}
+
+
 	}
 
 
