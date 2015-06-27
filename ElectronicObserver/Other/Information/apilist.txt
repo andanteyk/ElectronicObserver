@@ -364,7 +364,7 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：海域セルユニークID(全海域の通し番号)
 		api_no			：海域セルID(同海域内限定)
 		api_color_no	：セルの状態
-							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった, api_req_map/start|nextにのみ存在, ここでは4として扱われる?), 7=航空戦, 8=船団護衛成功
+							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった, api_req_map/start|nextにのみ存在, ここでは4として扱われる?), 7=航空戦, 8=船団護衛成功, 9=航空偵察
 
 	api_mst_mission		：遠征データ
 		api_id			：遠征ID
@@ -960,6 +960,7 @@ api_req_practice/battle_result			：演習結果
 		api_rank			：敵階級　文字列
 		api_deck_name		：敵艦隊名
 	api_first_clear			：(存在せず)
+	api_mapcell_incentive	：(存在せず)
 	api_get_flag			：(存在せず)
 	api_get_ship			：(存在せず)
 	api_get_eventflag		：(存在せず)
@@ -1042,10 +1043,11 @@ api_req_map/next		：進撃
 	api_maparea_id		：海域カテゴリID(2-3でいう2)
 	api_mapinfo_no		：海域カテゴリ内番号(2-3でいう3)
 	api_no				：次に向かうセルのID
-	api_color_no		：次のセルの色?　3=青, 4=赤
-	api_event_id		：イベント　api_mst_mapcell参照　6=気のせいだった
+	api_color_no		：次のセルの色　api_mst_mapcell参照　3=青, 4=赤, 9=航空偵察
+	api_event_id		：イベント　0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=航空戦or航空偵察, 8=船団護衛成功
 	api_event_kind		：イベント種別　0=非戦闘セル 1=通常戦闘 2=夜戦 3=夜昼戦 4=航空戦
-							api_event_id=6(気のせいだった)時は 0="気のせいだった。" 1="敵影を見ず。" 2=能動分岐
+							api_event_id=6(気のせいだった)時は　0="気のせいだった。", 1="敵影を見ず。", 2=能動分岐
+							api_event_id=7(航空戦)時は　0=航空偵察, 4=航空戦 
 	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？コード中にスペルミスがあり未使用
@@ -1059,12 +1061,12 @@ api_req_map/next		：進撃
 		api_enemy_id	：敵艦隊ID
 		api_result		：
 		api_result_str	："start war"
-	api_itemget			：次が資源マスのときのみ存在
+	api_itemget			：次が資源マス/航空偵察マスのときのみ存在
 		api_usemst		：4=資源, 11=家具箱(中), 12=家具箱(大) 
-		api_id			：1=燃料, 2=弾薬, 11=家具箱(中), 12=家具箱(大)
+		api_id			：1=燃料, 2=弾薬, 4=ボーキ, 11=家具箱(中), 12=家具箱(大)
 		api_getcount	：入手資源量
 		api_name		：アイテム名(家具箱のみ?燃料等の資源は"")
-		api_icon_id		：1=燃料, 2=弾薬, 11=家具箱(中), 12=家具箱(大)
+		api_icon_id		：1=燃料, 2=弾薬, 4=ボーキ, 11=家具箱(中), 12=家具箱(大)
 	api_happening		：次が渦潮マスのときのみ存在
 		api_type		：1
 		api_count		：落とした資源の量
@@ -1083,6 +1085,9 @@ api_req_map/next		：進撃
 		api_getcount	：入手資源量
 	api_select_route	：次が能動分岐マスのときのみ存在
 		api_select_cells：選択可能なセルIDのリスト
+	api_airsearch		：次が航空偵察マスのときのみ存在
+		api_plane_type	：発艦した索敵機の種別　0=なし, 1=大型飛行艇, 2=水上偵察機
+		api_result		：偵察結果　0=失敗, 1=成功, 2=大成功
 
 api_req_sortie/battle	：戦闘(昼戦)
 	api_dock_id			：こちらの出撃艦隊ID
@@ -1251,6 +1256,7 @@ api_req_sortie/battleresult	：戦闘結果
 		api_rank			：
 		api_deck_name		：敵艦隊名
 	api_first_clear			：初回クリアフラグ(EO海域攻略時も1)
+	api_mapcell_incentive	：航空偵察作戦報酬獲得フラグ　0=なし, 1=獲得
 	api_get_flag			：入手フラグ [0]=アイテム, [1]=艦娘
 	api_get_useitem			：ドロップアイテム情報 api_get_flag[0]=1のときのみ存在
 		api_useitem_id		：アイテムID 60=プレゼント箱
