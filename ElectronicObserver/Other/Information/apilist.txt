@@ -960,6 +960,7 @@ api_req_practice/battle_result			：演習結果
 		api_rank			：敵階級　文字列
 		api_deck_name		：敵艦隊名
 	api_first_clear			：(存在せず)
+	api_mapcell_incentive	：(存在せず)
 	api_get_flag			：(存在せず)
 	api_get_ship			：(存在せず)
 	api_get_eventflag		：(存在せず)
@@ -1255,6 +1256,7 @@ api_req_sortie/battleresult	：戦闘結果
 		api_rank			：
 		api_deck_name		：敵艦隊名
 	api_first_clear			：初回クリアフラグ(EO海域攻略時も1)
+	api_mapcell_incentive	：航空偵察作戦報酬獲得フラグ　0=なし, 1=獲得
 	api_get_flag			：入手フラグ [0]=アイテム, [1]=艦娘
 	api_get_useitem			：ドロップアイテム情報 api_get_flag[0]=1のときのみ存在
 		api_useitem_id		：アイテムID 60=プレゼント箱

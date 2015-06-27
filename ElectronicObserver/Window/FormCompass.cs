@@ -305,6 +305,7 @@ namespace ElectronicObserver.Window {
 			BasePanel.SetFlowBreak( TextEventDetail, true );
 
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
+			TextEventDetail.ImageList = ResourceManager.Instance.Equipments;
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
 
 		}
@@ -375,6 +376,8 @@ namespace ElectronicObserver.Window {
 				TextEventKind.Text = data.api_cmt;
 				TextEventKind.ForeColor = getColorFromEventKind( 0 );
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
+				TextEventDetail.ImageAlign = ContentAlignment.MiddleCenter;
+				TextEventDetail.ImageIndex = -1;
 				TextEnemyFleetName.Text = data.api_deckname;
 
 			} else {
@@ -412,6 +415,10 @@ namespace ElectronicObserver.Window {
 					TextDestination.ImageIndex = -1;
 					ToolTipInfo.SetToolTip( TextDestination, null );
 				}
+
+				//とりあえずリセット
+				TextEventDetail.ImageAlign = ContentAlignment.MiddleCenter;
+				TextEventDetail.ImageIndex = -1;
 
 
 				TextEventKind.ForeColor = getColorFromEventKind( 0 );
@@ -507,7 +514,23 @@ namespace ElectronicObserver.Window {
 											break;
 									}
 
-									if ( compass.AirReconnaissanceResult > 0 || compass.GetItemID != -1 ) {
+									switch ( compass.AirReconnaissancePlane ) {
+										case 0:
+										default:
+											TextEventDetail.ImageAlign = ContentAlignment.MiddleCenter;
+											TextEventDetail.ImageIndex = -1;
+											break;
+										case 1:
+											TextEventDetail.ImageAlign = ContentAlignment.MiddleLeft;
+											TextEventDetail.ImageIndex = (int)ResourceManager.EquipmentContent.FlyingBoat;
+											break;
+										case 2:
+											TextEventDetail.ImageAlign = ContentAlignment.MiddleLeft;
+											TextEventDetail.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+											break;
+									}
+
+									if ( compass.GetItemID != -1 ) {
 										TextEventDetail.Text += string.Format( "　{0} x {1}", GetMaterialName( compass ), compass.GetItemAmount );
 									}
 

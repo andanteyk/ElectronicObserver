@@ -225,7 +225,7 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// 航空偵察結果
-		/// 0=失敗?, 1=成功?, 2=大成功
+		/// 0=失敗, 1=成功, 2=大成功
 		/// </summary>
 		public int AirReconnaissanceResult {
 			get {

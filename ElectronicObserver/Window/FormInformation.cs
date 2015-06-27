@@ -34,13 +34,16 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			o.APIList["api_port/port"].ResponseReceived += Updated;
-			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += Updated;
-			o.APIList["api_get_member/picture_book"].ResponseReceived += Updated;
-			o.APIList["api_req_kousyou/createitem"].ResponseReceived += Updated;
-			o.APIList["api_get_member/mapinfo"].ResponseReceived += Updated;
-			o.APIList["api_req_mission/result"].ResponseReceived += Updated;
-			o.APIList["api_req_ranking/getlist"].ResponseReceived += Updated;
+			o["api_port/port"].ResponseReceived += Updated;
+			o["api_req_member/get_practice_enemyinfo"].ResponseReceived += Updated;
+			o["api_get_member/picture_book"].ResponseReceived += Updated;
+			o["api_req_kousyou/createitem"].ResponseReceived += Updated;
+			o["api_get_member/mapinfo"].ResponseReceived += Updated;
+			o["api_req_mission/result"].ResponseReceived += Updated;
+			o["api_req_ranking/getlist"].ResponseReceived += Updated;
+			o["api_req_practice/battle_result"].ResponseReceived += Updated;
+			o["api_req_sortie/battleresult"].ResponseReceived += Updated;
+			o["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
@@ -86,6 +89,12 @@ namespace ElectronicObserver.Window {
 
 				case "api_req_ranking/getlist":
 					TextInformation.Text = GetRankingData( data );
+					break;
+
+				case "api_req_practice/battle_result":
+				case "api_req_sortie/battleresult":
+				case "api_req_combined_battle/battleresult":
+					TextInformation.Text = GetBattleResult( data );
 					break;
 
 			}
@@ -255,6 +264,18 @@ namespace ElectronicObserver.Window {
 					);
 
 			}
+
+			return sb.ToString();
+		}
+
+
+		private string GetBattleResult( dynamic data ) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.AppendLine( "[戦闘終了]" );
+			sb.AppendFormat( "敵艦隊名: {0}\r\n", data.api_enemy_info.api_deck_name );
+			sb.AppendFormat( "勝敗判定: {0}\r\n", data.api_win_rank );
+			sb.AppendFormat( "提督経験値: +{0}\r\n", (int)data.api_get_exp );
 
 			return sb.ToString();
 		}
