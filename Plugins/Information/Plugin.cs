@@ -16,7 +16,12 @@ namespace Overview
 
 		public override string Version
 		{
-			get { return "1.0.0"; }
+			get { return "1.0.0.1"; }
+		}
+
+		public override PluginSettingControl GetSettings()
+		{
+			return new Settings();
 		}
 	}
 }
