@@ -59,23 +59,23 @@ namespace ElectronicObserver.Window {
 			TextInformation.BackColor = Utility.Configuration.Config.UI.BackColor;
 			TextInformation.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
-			var settings = Overview.Settings.settings;
+			var settings = Information.Settings.settings;
 
 			if ( settings == null )
 			{
 				try
 				{
-					if ( File.Exists( Overview.Settings.PLUGIN_SETTINGS ) )
-						settings = DynamicJson.Parse( File.ReadAllText( Overview.Settings.PLUGIN_SETTINGS ) );
+					if ( File.Exists( Information.Settings.PLUGIN_SETTINGS ) )
+						settings = DynamicJson.Parse( File.ReadAllText( Information.Settings.PLUGIN_SETTINGS ) );
 					else
-						settings = DynamicJson.Parse( Overview.Settings.DEFAULT_SETTINGS );
+						settings = DynamicJson.Parse( Information.Settings.DEFAULT_SETTINGS );
 				}
 				catch
 				{
-					settings = DynamicJson.Parse( Overview.Settings.DEFAULT_SETTINGS );
+					settings = DynamicJson.Parse( Information.Settings.DEFAULT_SETTINGS );
 				}
 
-				Overview.Settings.settings = settings;
+				Information.Settings.settings = settings;
 			}
 
 			if ( settings != null )

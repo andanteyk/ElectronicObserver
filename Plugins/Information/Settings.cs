@@ -13,7 +13,7 @@ using ElectronicObserver.Window.Plugins;
 using System.IO;
 using Codeplex.Data;
 
-namespace Overview
+namespace Information
 {
 	public partial class Settings : PluginSettingControl
 	{

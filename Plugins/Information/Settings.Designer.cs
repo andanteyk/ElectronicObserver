@@ -1,4 +1,4 @@
-﻿namespace Overview
+﻿namespace Information
 {
 	partial class Settings
 	{
