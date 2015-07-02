@@ -22,7 +22,7 @@ namespace Notifier
 
 		public override bool RunService( FormMain main )
 		{
-			NotifierManager.Instance.Initialize( main );
+			Task.Factory.StartNew( () => NotifierManager.Instance.Initialize( main ) );
 
 			return true;
 		}

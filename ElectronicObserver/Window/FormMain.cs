@@ -18,6 +18,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -63,11 +64,6 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_Load( object sender, EventArgs e ) {
 
-			//Utility.Configuration.Instance.Load();
-
-			Utility.Modify.ModifyConfiguration.Instance.LoadSettings();
-
-
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
 				if ( InvokeRequired ) {
 					// Invokeはメッセージキューにジョブを投げて待つので、別のBeginInvokeされたジョブが既にキューにあると、
@@ -85,10 +81,19 @@ namespace ElectronicObserver.Window {
 
 			this.Text = SoftwareInformation.VersionJapanese + "（迷彩型）";
 
-			ResourceManager.Instance.Load();
-			RecordManager.Instance.Load();
-			KCDatabase.Instance.Load();
+			LoadWindowPosition( Configuration.Config.Life.LayoutFilePath );
 
+		}
+
+		private async void FormMain_Shown( object sender, EventArgs e ) {
+
+			// 并行加载
+			var task = Task.Factory.StartNew( () => Utility.Modify.ModifyConfiguration.Instance.LoadSettings() );	// 不等待完成
+			task = Task.Factory.StartNew( () => ResourceManager.Instance.Load() );	// 保证与以下两个任务一起完毕
+
+			await Task.Factory.StartNew( () => RecordManager.Instance.Load() );
+			await Task.Factory.StartNew( () => KCDatabase.Instance.Load() );
+			await task;
 
 			Icon = ResourceManager.Instance.AppIcon;
 			StripMenu_Tool_PluginManager.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration];
@@ -102,7 +107,7 @@ namespace ElectronicObserver.Window {
 			SubForms = new List<DockContent>();
 
 			//form init
-			//注：一度全てshowしないとイベントを受け取れないので注意	
+			//注：一度全てshowしないとイベントを受け取れないので注意
 			fFleet = new FormFleet[4];
 			for ( int i = 0; i < fFleet.Length; i++ ) {
 				SubForms.Add( fFleet[i] = new FormFleet( this, i + 1 ) );
@@ -112,112 +117,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 
-			Plugins = new List<IPluginHost>();
-
-			var path = this.GetType().Assembly.Location;
-			path = path.Substring( 0, path.LastIndexOf( '\\' ) + 1 ) + "Plugins";
-			if ( Directory.Exists( path ) )
-			{
-				bool flag = false;
-
-				foreach ( var file in Directory.GetFiles( path, "*.dll", SearchOption.TopDirectoryOnly ) )
-				{
-					try
-					{
-						var assembly = Assembly.LoadFile( file );
-						var pluginType = assembly.ExportedTypes.FirstOrDefault( t => t.GetInterface( typeof(IPluginHost).FullName ) != null );
-						if ( pluginType != null )
-						{
-							var plugin = (IPluginHost)assembly.CreateInstance( pluginType.FullName );
-							Plugins.Add( plugin );
-
-							if ( !flag )
-							{
-								var sep = new ToolStripSeparator();
-								StripMenu_View.DropDownItems.Add( sep );
-								flag = true;
-							}
-
-							if ( plugin.PluginType == PluginType.DockContent )
-							{
-								List<DockContent> plugins = new List<DockContent>();
-								foreach ( var type in assembly.GetTypes().Where( t => t.BaseType == typeof( DockContent ) ) )
-								{
-									if ( type != null )
-									{
-										var form = (DockContent)type.GetConstructor( new[] { typeof( FormMain ) } ).Invoke( new object[] { this } );
-										plugins.Add( form );
-									}
-								}
-								if ( plugins.Count == 1 )
-								{
-									var p = plugins[0];
-									var item = new ToolStripMenuItem
-									{
-										Text = plugin.MenuTitle ?? p.Text,
-										Tag = p
-									};
-									item.Click += menuitem_Click;
-									StripMenu_View.DropDownItems.Add( item );
-								}
-								else if ( plugins.Count > 1 )
-								{
-									var item = new ToolStripMenuItem
-									{
-										Text = plugin.MenuTitle ?? plugins.First().Text
-									};
-									foreach ( var p in plugins )
-									{
-										var subItem = new ToolStripMenuItem
-										{
-											Text = p.Text,
-											Tag = p
-										};
-										subItem.Click += menuitem_Click;
-										item.DropDownItems.Add( subItem );
-									}
-									StripMenu_View.DropDownItems.Add( item );
-								}
-
-								SubForms.AddRange( plugins );
-							}
-
-							// service
-							else if ( plugin.PluginType == PluginType.Service )
-							{
-								if ( plugin.RunService( this ) )
-								{
-									Utility.Logger.Add( 2, string.Format( "服务 {0}({1}) 已加载。", plugin.MenuTitle, plugin.Version ) );
-								}
-								else
-								{
-									Utility.Logger.Add( 3, string.Format( "服务 {0}({1}, {2}) 加载时返回异常结果。", plugin.MenuTitle, plugin.Version, pluginType.Name ) );
-								}
-							}
-
-							// dialog
-							else if ( plugin.PluginType == PluginType.Dialog )
-							{
-								var item = new ToolStripMenuItem
-								{
-									Text = plugin.MenuTitle,
-									Tag = plugin
-								};
-								item.Click += dialogPlugin_Click;
-								StripMenu_Tool.DropDownItems.Add( item );
-							}
-						}
-					}
-					catch ( ReflectionTypeLoadException refEx )
-					{
-						Utility.ErrorReporter.SendLoadErrorReport( refEx, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
-					}
-					catch ( Exception ex )
-					{
-						Utility.ErrorReporter.SendErrorReport( ex, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
-					}
-				}
-			}
+			await LoadPlugins();
 
 			// layout
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
@@ -231,7 +131,7 @@ namespace ElectronicObserver.Window {
 
 			ConfigurationChanged();		//設定から初期化
 
-			SoftwareInformation.CheckUpdate();
+			task = Task.Factory.StartNew( () => SoftwareInformation.CheckUpdate() );
 
 			// 完了通知（ログインページを開く）
 			fBrowser.InitializeApiCompleted();
@@ -239,6 +139,138 @@ namespace ElectronicObserver.Window {
 			UIUpdateTimer.Start();
 
 			Utility.Logger.Add( 2, "启动处理完毕。" );
+		}
+
+		private object _sync = new object();
+
+		private async Task LoadPlugins()
+		{
+			Plugins = new List<IPluginHost>();
+
+			var path = this.GetType().Assembly.Location;
+			path = path.Substring( 0, path.LastIndexOf( '\\' ) + 1 ) + "Plugins";
+			if ( Directory.Exists( path ) )
+			{
+				bool flag = false;
+
+				// load dlls
+				await Task.Factory.StartNew( () =>
+				{
+					foreach ( var file in Directory.GetFiles( path, "*.dll", SearchOption.TopDirectoryOnly ) )
+					{
+						try
+						{
+							var assembly = Assembly.LoadFile( file );
+							var pluginType = assembly.ExportedTypes.FirstOrDefault( t => t.GetInterface( typeof( IPluginHost ).FullName ) != null );
+							if ( pluginType != null )
+							{
+								var plugin = (IPluginHost)assembly.CreateInstance( pluginType.FullName );
+								lock ( _sync )
+								{
+									Plugins.Add( plugin );
+								}
+							}
+						}
+						catch ( ReflectionTypeLoadException refEx )
+						{
+							Utility.ErrorReporter.SendLoadErrorReport( refEx, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
+						}
+						catch ( Exception ex )
+						{
+							Utility.ErrorReporter.SendErrorReport( ex, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
+						}
+					}
+				} );
+
+				// instance them
+				foreach ( var plugin in Plugins )
+				{
+					try
+					{
+						if ( !flag )
+						{
+							var sep = new ToolStripSeparator();
+							StripMenu_View.DropDownItems.Add( sep );
+							flag = true;
+						}
+
+						if ( plugin.PluginType == PluginType.DockContent )
+						{
+							List<DockContent> plugins = new List<DockContent>();
+							foreach ( var type in plugin.GetType().Assembly.ExportedTypes.Where( t => t.BaseType == typeof( DockContent ) ) )
+							{
+								if ( type != null )
+								{
+									var form = (DockContent)type.GetConstructor( new[] { typeof( FormMain ) } ).Invoke( new object[] { this } );
+									plugins.Add( form );
+								}
+							}
+							if ( plugins.Count == 1 )
+							{
+								var p = plugins[0];
+								var item = new ToolStripMenuItem
+								{
+									Text = plugin.MenuTitle ?? p.Text,
+									Tag = p
+								};
+								item.Click += menuitem_Click;
+								StripMenu_View.DropDownItems.Add( item );
+							}
+							else if ( plugins.Count > 1 )
+							{
+								var item = new ToolStripMenuItem
+								{
+									Text = plugin.MenuTitle ?? plugins.First().Text
+								};
+								foreach ( var p in plugins )
+								{
+									var subItem = new ToolStripMenuItem
+									{
+										Text = p.Text,
+										Tag = p
+									};
+									subItem.Click += menuitem_Click;
+									item.DropDownItems.Add( subItem );
+								}
+								StripMenu_View.DropDownItems.Add( item );
+							}
+
+							SubForms.AddRange( plugins );
+						}
+
+						// service
+						else if ( plugin.PluginType == PluginType.Service )
+						{
+							if ( plugin.RunService( this ) )
+							{
+								Utility.Logger.Add( 2, string.Format( "服务 {0}({1}) 已加载。", plugin.MenuTitle, plugin.Version ) );
+							}
+							else
+							{
+								Utility.Logger.Add( 3, string.Format( "服务 {0}({1}, {2}) 加载时返回异常结果。", plugin.MenuTitle, plugin.Version, plugin.GetType().Name ) );
+							}
+						}
+
+						// dialog
+						else if ( plugin.PluginType == PluginType.Dialog )
+						{
+							var item = new ToolStripMenuItem
+							{
+								Text = plugin.MenuTitle,
+								Tag = plugin
+							};
+							item.Click += dialogPlugin_Click;
+							StripMenu_Tool.DropDownItems.Add( item );
+						}
+
+					}
+					catch ( Exception ex )
+					{
+						Utility.ErrorReporter.SendErrorReport( ex, "载入插件时出错：" + plugin );
+					}
+
+				}
+			}
 		}
 
 
@@ -340,6 +372,16 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			if ( !SaveLayout( Configuration.Config.Life.LayoutFilePath ) )
+			{
+				if ( MessageBox.Show( "布局保存失败，是否继续关闭？\r\n详情请查看 ErrorReport 目录中的错误日志。", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+					== System.Windows.Forms.DialogResult.No )
+				{
+					e.Cancel = true;
+					return;
+				}
+			}
+
 
 			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " 即将结束…" );
 
@@ -352,8 +394,6 @@ namespace ElectronicObserver.Window {
 
 			SystemEvents.OnSystemShuttingDown();
 
-
-			SaveLayout( Configuration.Config.Life.LayoutFilePath );
 
 		}
 
@@ -478,6 +518,23 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private bool LoadWindowPosition( string path )
+		{
+			try
+			{
+				using ( var stream = File.OpenRead( path ) )
+				{
+					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) )
+					{
+						WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
+					}
+				}
+
+				return true;
+			}
+			catch { }
+			return false;
+		}
 
 		private bool LoadLayout( string path ) {
 
@@ -487,7 +544,7 @@ namespace ElectronicObserver.Window {
 
 					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
 
-						WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
+						//WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
 						LoadSubWindowsLayout( archive.GetEntry( "SubWindowLayout.xml" ).Open() );
 
 					}
@@ -521,7 +578,7 @@ namespace ElectronicObserver.Window {
 			return false;
 		}
 
-		private void SaveLayout( string path ) {
+		private bool SaveLayout( string path ) {
 
 			try {
 
@@ -540,12 +597,14 @@ namespace ElectronicObserver.Window {
 
 
 				Utility.Logger.Add( 2, "窗口布局已保存。" );
+				return true;
 
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "窗口布局保存失败。" );
 			}
 
+			return false;
 		}
 
 		private void CreateParentDirectories( string path ) {

@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Data;
+﻿using Codeplex.Data;
+using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Data;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +50,7 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
+		private bool ShowFailedDevelopment;
 
 		void ConfigurationChanged() {
 
@@ -55,6 +58,34 @@ namespace ElectronicObserver.Window {
 
 			TextInformation.BackColor = Utility.Configuration.Config.UI.BackColor;
 			TextInformation.ForeColor = Utility.Configuration.Config.UI.ForeColor;
+
+			var settings = Information.Settings.settings;
+
+			if ( settings == null )
+			{
+				try
+				{
+					if ( File.Exists( Information.Settings.PLUGIN_SETTINGS ) )
+						settings = DynamicJson.Parse( File.ReadAllText( Information.Settings.PLUGIN_SETTINGS ) );
+					else
+						settings = DynamicJson.Parse( Information.Settings.DEFAULT_SETTINGS );
+				}
+				catch
+				{
+					settings = DynamicJson.Parse( Information.Settings.DEFAULT_SETTINGS );
+				}
+
+				Information.Settings.settings = settings;
+			}
+
+			if ( settings != null )
+			{
+				ShowFailedDevelopment = settings.ShowFailedDevelopment;
+			}
+			else
+			{
+				ShowFailedDevelopment = true;
+			}
 		}
 
 
@@ -202,9 +233,12 @@ namespace ElectronicObserver.Window {
 				sb.AppendLine( "[開発失敗]" );
 				sb.AppendLine( data.api_fdata );
 
-				EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse( ( (string)data.api_fdata ).Split( ",".ToCharArray() )[1] )];
-				if ( eqm != null )
-					sb.AppendLine( eqm.Name );
+				if ( ShowFailedDevelopment )
+				{
+					EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse( ( (string)data.api_fdata ).Split( ",".ToCharArray() )[1] )];
+					if ( eqm != null )
+						sb.AppendLine( eqm.Name );
+				}
 
 
 				return sb.ToString();
