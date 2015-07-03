@@ -170,7 +170,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
 					Cursor = Cursors.AppStarting;
-					new DialogAlbumMasterEquipment( equipmentID ).Show();
+					new DialogAlbumMasterEquipment( equipmentID ).Show( Owner );
 					Cursor = Cursors.Default;
 
 				} else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 ) {
@@ -330,7 +330,7 @@ namespace ElectronicObserver.Window.Dialog {
 				int index = DefaultSlots.IndexFromPoint( e.Location );
 				if ( index >= 0 ) {
 					Cursor = Cursors.AppStarting;
-					new DialogAlbumMasterShip( ( (ShipDataMaster)DefaultSlots.Items[index] ).ShipID ).Show();
+					new DialogAlbumMasterShip( ( (ShipDataMaster)DefaultSlots.Items[index] ).ShipID ).Show( Owner );
 					Cursor = Cursors.Default;
 				}
 			}

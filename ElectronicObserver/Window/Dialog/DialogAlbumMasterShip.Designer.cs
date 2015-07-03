@@ -24,8 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,6 +49,7 @@
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.LevelTimer = new System.Windows.Forms.Timer(this.components);
 			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
+			this.ResourceName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TitleDayAttack = new ElectronicObserver.Window.Control.ImageLabel();
 			this.NightAttack = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TitleNightAttack = new ElectronicObserver.Window.Control.ImageLabel();
@@ -149,6 +150,7 @@
 			this.ASWSeparater = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ASWLevel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.EvasionMin = new ElectronicObserver.Window.Control.ImageLabel();
+			this.imageLabel1 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -170,11 +172,12 @@
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_File});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(800, 26);
+			this.menuStrip1.Size = new System.Drawing.Size(800, 38);
 			this.menuStrip1.TabIndex = 0;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -184,20 +187,20 @@
             this.StripMenu_File_OutputCSVUser,
             this.StripMenu_File_OutputCSVData});
 			this.StripMenu_File.Name = "StripMenu_File";
-			this.StripMenu_File.Size = new System.Drawing.Size(85, 22);
+			this.StripMenu_File.Size = new System.Drawing.Size(128, 34);
 			this.StripMenu_File.Text = "ファイル(&F)";
 			// 
 			// StripMenu_File_OutputCSVUser
 			// 
 			this.StripMenu_File_OutputCSVUser.Name = "StripMenu_File_OutputCSVUser";
-			this.StripMenu_File_OutputCSVUser.Size = new System.Drawing.Size(213, 22);
+			this.StripMenu_File_OutputCSVUser.Size = new System.Drawing.Size(348, 34);
 			this.StripMenu_File_OutputCSVUser.Text = "CSV出力(閲覧用)(&U)...";
 			this.StripMenu_File_OutputCSVUser.Click += new System.EventHandler(this.StripMenu_File_OutputCSVUser_Click);
 			// 
 			// StripMenu_File_OutputCSVData
 			// 
 			this.StripMenu_File_OutputCSVData.Name = "StripMenu_File_OutputCSVData";
-			this.StripMenu_File_OutputCSVData.Size = new System.Drawing.Size(213, 22);
+			this.StripMenu_File_OutputCSVData.Size = new System.Drawing.Size(348, 34);
 			this.StripMenu_File_OutputCSVData.Text = "CSV出力(データ用)(&D)...";
 			this.StripMenu_File_OutputCSVData.Click += new System.EventHandler(this.StripMenu_File_OutputCSVData_Click);
 			// 
@@ -205,7 +208,7 @@
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 26);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 38);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -215,7 +218,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.BasePanelShipGirl);
-			this.splitContainer1.Size = new System.Drawing.Size(800, 454);
+			this.splitContainer1.Size = new System.Drawing.Size(800, 442);
 			this.splitContainer1.SplitterDistance = 250;
 			this.splitContainer1.TabIndex = 1;
 			// 
@@ -231,14 +234,14 @@
             this.ShipView_ShipID,
             this.ShipView_ShipType,
             this.ShipView_Name});
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ShipView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ShipView.Location = new System.Drawing.Point(0, 0);
 			this.ShipView.MultiSelect = false;
@@ -247,7 +250,7 @@
 			this.ShipView.RowHeadersVisible = false;
 			this.ShipView.RowTemplate.Height = 21;
 			this.ShipView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ShipView.Size = new System.Drawing.Size(250, 454);
+			this.ShipView.Size = new System.Drawing.Size(250, 442);
 			this.ShipView.TabIndex = 0;
 			this.ShipView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ShipView_CellMouseClick);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
@@ -256,8 +259,8 @@
 			// ShipView_ShipID
 			// 
 			this.ShipView_ShipID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ShipView_ShipID.HeaderText = "ID";
 			this.ShipView_ShipID.Name = "ShipView_ShipID";
 			this.ShipView_ShipID.ReadOnly = true;
@@ -280,6 +283,8 @@
 			// 
 			// BasePanelShipGirl
 			// 
+			this.BasePanelShipGirl.Controls.Add(this.imageLabel1);
+			this.BasePanelShipGirl.Controls.Add(this.ResourceName);
 			this.BasePanelShipGirl.Controls.Add(this.TableBattle);
 			this.BasePanelShipGirl.Controls.Add(this.AlbumNo);
 			this.BasePanelShipGirl.Controls.Add(this.imageLabel2);
@@ -299,7 +304,7 @@
 			this.BasePanelShipGirl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BasePanelShipGirl.Location = new System.Drawing.Point(0, 0);
 			this.BasePanelShipGirl.Name = "BasePanelShipGirl";
-			this.BasePanelShipGirl.Size = new System.Drawing.Size(546, 454);
+			this.BasePanelShipGirl.Size = new System.Drawing.Size(546, 442);
 			this.BasePanelShipGirl.TabIndex = 0;
 			// 
 			// TableBattle
@@ -584,6 +589,17 @@
 			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
 			this.SaveCSVDialog.Title = "CSVに出力";
 			// 
+			// ResourceName
+			// 
+			this.ResourceName.BackColor = System.Drawing.Color.Transparent;
+			this.ResourceName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.ResourceName.Location = new System.Drawing.Point(258, 6);
+			this.ResourceName.Name = "ResourceName";
+			this.ResourceName.Size = new System.Drawing.Size(113, 16);
+			this.ResourceName.TabIndex = 24;
+			this.ResourceName.Text = "abcdefghijkl ver. 99";
+			this.ResourceName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ResourceName_MouseClick);
+			// 
 			// TitleDayAttack
 			// 
 			this.TitleDayAttack.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -682,7 +698,7 @@
 			this.Description.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.Description.Location = new System.Drawing.Point(9, 380);
 			this.Description.Name = "Description";
-			this.Description.Size = new System.Drawing.Size(525, 62);
+			this.Description.Size = new System.Drawing.Size(525, 50);
 			this.Description.TabIndex = 21;
 			this.Description.Text = "私が重雷装巡洋艦…？冗談じゃないわ！\r\nえ、デバッグ用ですって？…仕方ないわね、早く終わらせるのよ！";
 			this.Description.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -1760,6 +1776,16 @@
 			this.EvasionMin.Text = "123";
 			this.EvasionMin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
+			// imageLabel1
+			// 
+			this.imageLabel1.BackColor = System.Drawing.Color.Transparent;
+			this.imageLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.imageLabel1.Location = new System.Drawing.Point(211, 6);
+			this.imageLabel1.Name = "imageLabel1";
+			this.imageLabel1.Size = new System.Drawing.Size(41, 16);
+			this.imageLabel1.TabIndex = 25;
+			this.imageLabel1.Text = "リソース:";
+			// 
 			// DialogAlbumMasterShip
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1931,5 +1957,7 @@
 		private Control.ImageLabel DayAttack;
 		private Control.ImageLabel AirSuperiority;
 		private Control.ImageLabel TitleAirSuperiority;
+		private Control.ImageLabel ResourceName;
+		private Control.ImageLabel imageLabel1;
 	}
 }
