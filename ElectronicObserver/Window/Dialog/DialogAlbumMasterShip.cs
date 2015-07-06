@@ -157,14 +157,14 @@ namespace ElectronicObserver.Window.Dialog {
 			: this() {
 
 			UpdateAlbumPage( shipID );
-			
-		
+
+
 			if ( KCDatabase.Instance.MasterShips.ContainsKey( shipID ) ) {
 				var row = ShipView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[ShipView_ShipID.Index].Value == shipID );
 				if ( row != null )
 					ShipView.FirstDisplayedScrollingRowIndex = row.Index;
 			}
-			
+
 		}
 
 
@@ -212,7 +212,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
 					Cursor = Cursors.AppStarting;
-					new DialogAlbumMasterShip( shipID ).Show();
+					new DialogAlbumMasterShip( shipID ).Show( Owner );
 					Cursor = Cursors.Default;
 
 				} else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 ) {
@@ -239,8 +239,8 @@ namespace ElectronicObserver.Window.Dialog {
 			TableShipName.SuspendLayout();
 			_shipID = shipID;
 			ShipID.Text = ship.ShipID.ToString();
-			ToolTipInfo.SetToolTip( ShipID, ship.ResourceName );
 			AlbumNo.Text = ship.AlbumNo.ToString();
+			ResourceName.Text = string.Format( "{0} ver. {1}", ship.ResourceName, ship.ResourceVersion );
 
 			ShipType.Text = ship.IsLandBase ? "陸上基地" : db.ShipTypes[ship.ShipType].Name;
 			ShipName.Text = ship.NameWithClass;
@@ -359,7 +359,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TableParameterSub.ResumeLayout();
 
 			TableConsumption.SuspendLayout();
-			
+
 			Fuel.Text = ship.Fuel.ToString();
 			Ammo.Text = ship.Ammo.ToString();
 
@@ -369,7 +369,7 @@ namespace ElectronicObserver.Window.Dialog {
 				( ship.Fuel * 0.032 ),
 				(int)( ship.Fuel * 0.06 * ( ship.HPMaxMarried - 1 ) ),
 				(int)( ship.Fuel * 0.032 * ( ship.HPMaxMarried - 1 ) )
-				) ;
+				);
 
 			ToolTipInfo.SetToolTip( TableConsumption, tooltiptext );
 			ToolTipInfo.SetToolTip( TitleConsumption, tooltiptext );
@@ -413,7 +413,7 @@ namespace ElectronicObserver.Window.Dialog {
 						eqicon = (int)ResourceManager.EquipmentContent.Unknown;
 
 					Equipments[i].ImageIndex = eqicon;
-					
+
 					{
 						StringBuilder sb = new StringBuilder();
 
@@ -537,11 +537,11 @@ namespace ElectronicObserver.Window.Dialog {
 				ASWLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.ASW );
 				EvasionLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.Evasion );
 				LOSLevel.Text = EstimateParameter( (int)ParameterLevel.Value, ship.LOS );
-				ASWLevel.Visible = 
+				ASWLevel.Visible =
 				ASWSeparater.Visible =
 				EvasionLevel.Visible =
- 				EvasionSeparater.Visible =
-				LOSLevel.Visible = 
+				EvasionSeparater.Visible =
+				LOSLevel.Visible =
 				LOSSeparater.Visible = true;
 
 			} else {
@@ -644,7 +644,7 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( ship != null && ship.RemodelBeforeShipID != 0 ) {
 
 				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 )
-					new DialogAlbumMasterShip( ship.RemodelBeforeShipID ).Show();
+					new DialogAlbumMasterShip( ship.RemodelBeforeShipID ).Show( Owner );
 
 				else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 )
 					UpdateAlbumPage( ship.RemodelBeforeShipID );
@@ -659,7 +659,7 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( ship != null && ship.RemodelAfterShipID != 0 ) {
 
 				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 )
-					new DialogAlbumMasterShip( ship.RemodelAfterShipID ).Show();
+					new DialogAlbumMasterShip( ship.RemodelAfterShipID ).Show( Owner );
 
 				else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 )
 					UpdateAlbumPage( ship.RemodelAfterShipID );
@@ -680,7 +680,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 							if ( ship != null && ship.DefaultSlot != null && i < ship.DefaultSlot.Count && ship.DefaultSlot[i] != -1 ) {
 								Cursor = Cursors.AppStarting;
-								new DialogAlbumMasterEquipment( ship.DefaultSlot[i] ).Show();
+								new DialogAlbumMasterEquipment( ship.DefaultSlot[i] ).Show( Owner );
 								Cursor = Cursors.Default;
 							}
 						}
@@ -909,6 +909,19 @@ namespace ElectronicObserver.Window.Dialog {
 				Description.Text = ship.MessageGet;
 				Description.Tag = 0;
 			}
+		}
+
+
+		private void ResourceName_MouseClick( object sender, MouseEventArgs e ) {
+
+			if ( e.Button == System.Windows.Forms.MouseButtons.Right ) {
+
+				var ship = KCDatabase.Instance.MasterShips[_shipID];
+				if ( ship != null ) {
+					Clipboard.SetData( DataFormats.StringFormat, ship.ResourceName );
+				}
+			}
+
 		}
 
 	}

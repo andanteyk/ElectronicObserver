@@ -1457,7 +1457,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			{
 				int index = pd.SearchlightIndexEnemy;
 				if ( index != -1 ) {
-					AirStage1Enemy.Text = "#" + ( index );
+					AirStage1Enemy.Text = "#" + ( index + 1 );
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
 					ToolTipInfo.SetToolTip( AirStage1Enemy, "探照灯照射: " + pd.SearchlightEnemyInstance.NameWithClass );

@@ -13,7 +13,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 艦船のマスターデータを保持します。
 	/// </summary>
-	[DebuggerDisplay( "[{ID}] : {NameWithClass}" )]
+	[DebuggerDisplay( "[{ID}] {NameWithClass}" )]
 	public class ShipDataMaster : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
@@ -464,7 +464,7 @@ namespace ElectronicObserver.Data {
 
 
 		public override string ToString() {
-			return string.Format( "[{0}] : {1}", ShipID, NameWithClass );
+			return string.Format( "[{0}] {1}", ShipID, NameWithClass );
 		}
 		
 	}
