@@ -21,10 +21,13 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormHeadquarters : DockContent {
 
+		private Form _parentForm;
+
 		public FormHeadquarters( FormMain parent ) {
 			InitializeComponent();
 
-
+			_parentForm = parent;
+			
 
 			ImageCollection icons = ResourceManager.Instance.Icons;
 
@@ -364,7 +367,8 @@ namespace ElectronicObserver.Window {
 
 		private void Resource_MouseClick( object sender, MouseEventArgs e ) {
 
-			new Dialog.DialogResourceChart().Show( this );
+			if ( e.Button == System.Windows.Forms.MouseButtons.Right )
+				new Dialog.DialogResourceChart().Show( _parentForm );
 
 		}
 

@@ -14,7 +14,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 個別の艦娘データを保持します。
 	/// </summary>
-	[DebuggerDisplay( "[{ID}] : {KCDatabase.Instance.MasterShips[ShipID].NameWithClass} Lv. {Level}" )]
+	[DebuggerDisplay( "[{ID}] {KCDatabase.Instance.MasterShips[ShipID].NameWithClass} Lv. {Level}" )]
 	public class ShipData : APIWrapper, IIdentifiable {
 
 		
