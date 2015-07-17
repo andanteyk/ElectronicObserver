@@ -17,6 +17,11 @@ namespace ElectronicObserver.Data {
 	public class ShipDataMaster : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
+		/// 兼容性只读变量
+		/// </summary>
+		private static readonly int[] EMPTY_SLOTS = { 0, 0, 0, 0, 0 };
+
+		/// <summary>
 		/// 艦船ID
 		/// </summary>
 		public int ShipID {
@@ -27,7 +32,7 @@ namespace ElectronicObserver.Data {
 		/// 図鑑番号
 		/// </summary>
 		public int AlbumNo {
-			get { return (int)RawData.api_sortno; }
+			get { return RawData.api_sortno() ? (int)RawData.api_sortno : 0; }
 		}
 
 		/// <summary>
@@ -56,7 +61,7 @@ namespace ElectronicObserver.Data {
 		/// 改装Lv.
 		/// </summary>
 		public int RemodelAfterLevel {
-			get { return (int)RawData.api_afterlv; }
+			get { return RawData.api_afterlv() ? (int)RawData.api_afterlv : 0; }
 		}
 
 		/// <summary>
@@ -64,7 +69,7 @@ namespace ElectronicObserver.Data {
 		/// 0=なし
 		/// </summary>
 		public int RemodelAfterShipID {
-			get { return int.Parse( (string)RawData.api_aftershipid ); }
+			get { return RawData.api_aftershipid() ? int.Parse( (string)RawData.api_aftershipid ) : 0; }
 		}
 
 		/// <summary>
@@ -93,14 +98,14 @@ namespace ElectronicObserver.Data {
 		/// 改装に必要な弾薬
 		/// </summary>
 		public int RemodelAmmo {
-			get { return (int)RawData.api_afterfuel; }
+			get { return RawData.api_afterfuel() ? (int)RawData.api_afterfuel : 0; }
 		}
 
 		/// <summary>
 		/// 改装に必要な鋼材
 		/// </summary>
 		public int RemodelSteel {
-			get { return (int)RawData.api_afterbull; }
+			get { return RawData.api_afterbull() ? (int)RawData.api_afterbull : 0; }
 		}
 
 		/// <summary>
@@ -115,70 +120,76 @@ namespace ElectronicObserver.Data {
 		/// 耐久初期値
 		/// </summary>
 		public int HPMin {
-			get { return (int)RawData.api_taik[0]; }
+			get { return RawData.api_taik() ? (int)RawData.api_taik[0] : -1; }
 		}
 
 		/// <summary>
 		/// 耐久最大値
 		/// </summary>
 		public int HPMax {
-			get { return (int)RawData.api_taik[1]; }
+			get { return RawData.api_taik() ? (int)RawData.api_taik[1] : -1; }
 		}
 
 		/// <summary>
 		/// 装甲初期値
 		/// </summary>
 		public int ArmorMin {
-			get { return (int)RawData.api_souk[0]; }
+			get {
+				try { return (int)RawData.api_souk; }
+				catch { return RawData.api_souk() ? (int)RawData.api_souk[0] : -1; }
+			}
 		}
 
 		/// <summary>
 		/// 装甲最大値
 		/// </summary>
 		public int ArmorMax {
-			get { return (int)RawData.api_souk[1]; }
+			get {
+				try { return (int)RawData.api_souk; }
+				catch { return RawData.api_souk() ? (int)RawData.api_souk[1] : -1; }
+			}
 		}
 
 		/// <summary>
 		/// 火力初期値
 		/// </summary>
 		public int FirepowerMin {
-			get { return (int)RawData.api_houg[0]; }
+			get { return RawData.api_houg() ? (int)RawData.api_houg[0] : -1; }
 		}
 
 		/// <summary>
 		/// 火力最大値
 		/// </summary>
 		public int FirepowerMax {
-			get { return (int)RawData.api_houg[1]; }
+			get { return RawData.api_houg() ? (int)RawData.api_houg[1] : -1; }
 		}
 
 		/// <summary>
 		/// 雷装初期値
 		/// </summary>
 		public int TorpedoMin {
-			get { return (int)RawData.api_raig[0]; }
+			get { return RawData.api_raig() ? (int)RawData.api_raig[0] : -1; }
 		}
 
 		/// <summary>
 		/// 雷装最大値
 		/// </summary>
 		public int TorpedoMax {
-			get { return (int)RawData.api_raig[1]; }
+			get { return RawData.api_raig() ? (int)RawData.api_raig[1] : -1; }
 		}
 
 		/// <summary>
 		/// 対空初期値
 		/// </summary>
 		public int AAMin {
-			get { return (int)RawData.api_tyku[0]; }
+			get { return RawData.api_tyku() ? (int)RawData.api_tyku[0] : -1; }
 		}
 
 		/// <summary>
 		/// 対空最大値
 		/// </summary>
 		public int AAMax {
-			get { return (int)RawData.api_tyku[1]; }
+			get { return RawData.api_tyku() ? (int)RawData.api_tyku[1] : -1; }
 		}
 
 
@@ -226,14 +237,14 @@ namespace ElectronicObserver.Data {
 		/// 運初期値
 		/// </summary>
 		public int LuckMin {
-			get { return (int)RawData.api_luck[0]; }
+			get { return RawData.api_luck() ? (int)RawData.api_luck[0] : -1; }
 		}
 
 		/// <summary>
 		/// 運最大値
 		/// </summary>
 		public int LuckMax {
-			get { return (int)RawData.api_luck[1]; }
+			get { return RawData.api_luck() ? (int)RawData.api_luck[1] : -1; }
 		}
 
 		/// <summary>
@@ -241,14 +252,14 @@ namespace ElectronicObserver.Data {
 		/// 0=陸上基地, 5=低速, 10=高速
 		/// </summary>
 		public int Speed {
-			get { return (int)RawData.api_soku; }
+			get { return RawData.api_soku() ? (int)RawData.api_soku : -1; }
 		}
 
 		/// <summary>
 		/// 射程
 		/// </summary>
 		public int Range {
-			get { return (int)RawData.api_leng; }
+			get { return RawData.api_leng() ? (int)RawData.api_leng : -1; }
 		}
 		#endregion
 
@@ -264,7 +275,7 @@ namespace ElectronicObserver.Data {
 		/// 各スロットの航空機搭載数
 		/// </summary>
 		public ReadOnlyCollection<int> Aircraft {
-			get { return Array.AsReadOnly<int>( (int[])RawData.api_maxeq ); }
+			get { return Array.AsReadOnly<int>( RawData.api_maxeq() ? (int[])RawData.api_maxeq : EMPTY_SLOTS ); }
 		}
 
 		/// <summary>
@@ -285,7 +296,7 @@ namespace ElectronicObserver.Data {
 		/// 建造時間(分)
 		/// </summary>
 		public int BuildingTime {
-			get { return (int)RawData.api_buildtime; }
+			get { return RawData.api_buildtime() ? (int)RawData.api_buildtime : -1; }
 		}
 
 
@@ -293,28 +304,28 @@ namespace ElectronicObserver.Data {
 		/// 解体資材
 		/// </summary>
 		public ReadOnlyCollection<int> Material {
-			get { return Array.AsReadOnly<int>( (int[])RawData.api_broken ); }
+			get { return Array.AsReadOnly<int>( RawData.api_broken() ? (int[])RawData.api_broken : EMPTY_SLOTS ); }
 		}
 
 		/// <summary>
 		/// 近代化改修の素材にしたとき上昇するパラメータの量
 		/// </summary>
 		public ReadOnlyCollection<int> PowerUp {
-			get { return Array.AsReadOnly<int>( (int[])RawData.api_powup ); }
+			get { return Array.AsReadOnly<int>( RawData.api_powup() ? (int[])RawData.api_powup : EMPTY_SLOTS ); }
 		}
 
 		/// <summary>
 		/// レアリティ
 		/// </summary>
 		public int Rarity {
-			get { return (int)RawData.api_backs; }
+			get { return RawData.api_backs() ? (int)RawData.api_backs : -1; }
 		}
 
 		/// <summary>
 		/// ドロップ/ログイン時のメッセージ
 		/// </summary>
 		public string MessageGet {
-			get { return ( (string)RawData.api_getmes ).Replace( "<br>", "\n" ); }
+			get { return RawData.api_getmes() ? ( (string)RawData.api_getmes ).Replace( "<br>", "\n" ) : null; }
 		}
 
 		/// <summary>
@@ -334,14 +345,14 @@ namespace ElectronicObserver.Data {
 		/// 搭載燃料
 		/// </summary>
 		public int Fuel {
-			get { return (int)RawData.api_fuel_max; }
+			get { return RawData.api_fuel_max() ? (int)RawData.api_fuel_max : -1; }
 		}
 		
 		/// <summary>
 		/// 搭載弾薬
 		/// </summary>
 		public int Ammo {
-			get { return (int)RawData.api_bull_max; }
+			get { return RawData.api_bull_max() ? (int)RawData.api_bull_max : -1; }
 		}
 
 
@@ -349,7 +360,7 @@ namespace ElectronicObserver.Data {
 		/// ボイス再生フラグ
 		/// </summary>
 		public int VoiceFlag {
-			get { return (int)RawData.api_voicef; }
+			get { return RawData.api_voicef() ? (int)RawData.api_voicef : -1; }
 		}
 
 
