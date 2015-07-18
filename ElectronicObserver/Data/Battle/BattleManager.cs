@@ -159,7 +159,7 @@ namespace ElectronicObserver.Data.Battle {
 					BattleMode = BattleModes.Undefined;
 					DroppedShipCount = DroppedEquipmentCount = 0;
 					break;
-					
+
 				case "api_get_member/slot_item":
 					DroppedEquipmentCount = 0;
 					break;
@@ -175,19 +175,20 @@ namespace ElectronicObserver.Data.Battle {
 		private void BattleFinished() {
 
 			//敵編成記録
-			if ( Compass.EnemyFleetID != -1 ) {
-				switch ( BattleMode & BattleModes.BattlePhaseMask ) {
-					case BattleModes.Normal:
-					case BattleModes.AirBattle:
+			switch ( BattleMode & BattleModes.BattlePhaseMask ) {
+				case BattleModes.Normal:
+				case BattleModes.AirBattle:
+					if ( Compass.EnemyFleetID != -1 )
 						RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleDay.Searching.FormationEnemy, BattleDay.Initial.EnemyMembers ) );
-						break;
+					break;
 
-					case BattleModes.NightOnly:
-					case BattleModes.NightDay:
+				case BattleModes.NightOnly:
+				case BattleModes.NightDay:
+					if ( Compass.EnemyFleetID != -1 )
 						RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleNight.Searching.FormationEnemy, BattleNight.Initial.EnemyMembers ) );
-						break;
-				}
+					break;
 			}
+
 
 
 			//ドロップ艦記録
