@@ -305,6 +305,7 @@ namespace ElectronicObserver.Window {
 			BasePanel.SetFlowBreak( TextEventDetail, true );
 
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
+			TextEventDetail.ImageList = ResourceManager.Instance.Equipments;
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
 
 		}
@@ -375,6 +376,8 @@ namespace ElectronicObserver.Window {
 				TextEventKind.Text = data.api_cmt;
 				TextEventKind.ForeColor = getColorFromEventKind( 0 );
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
+				TextEventDetail.ImageAlign = ContentAlignment.MiddleCenter;
+				TextEventDetail.ImageIndex = -1;
 				TextEnemyFleetName.Text = data.api_deckname;
 
 			} else {
@@ -413,6 +416,10 @@ namespace ElectronicObserver.Window {
 					ToolTipInfo.SetToolTip( TextDestination, null );
 				}
 
+				//とりあえずリセット
+				TextEventDetail.ImageAlign = ContentAlignment.MiddleCenter;
+				TextEventDetail.ImageIndex = -1;
+
 
 				TextEventKind.ForeColor = getColorFromEventKind( 0 );
 
@@ -428,23 +435,7 @@ namespace ElectronicObserver.Window {
 
 						case 2:		//資源
 						case 8:		//船団護衛成功
-							{
-								string materialname;
-								if ( compass.GetItemID == 4 ) {		//"※"　大方資源専用ID
-
-									materialname = Constants.GetMaterialName( compass.GetItemIDMetadata );
-
-								} else {
-									UseItemMaster item =  KCDatabase.Instance.MasterUseItems[compass.GetItemIDMetadata];
-									if ( item != null )
-										materialname = item.Name;
-									else
-										materialname = "謎のアイテム";
-								}
-
-								TextEventDetail.Text = materialname + " x " + compass.GetItemAmount;
-							}
-
+							TextEventDetail.Text = GetMaterialName( compass ) + " x " + compass.GetItemAmount;
 							break;
 
 						case 3:		//渦潮
@@ -503,13 +494,53 @@ namespace ElectronicObserver.Window {
 							}
 							break;
 
-						case 7:		//航空戦(連合艦隊)
-							if ( compass.EventKind >= 2 ) {
-								if ( compass.EventKind != 4 )	//必ず"航空戦"のはずなので除外
-									eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
-								TextEventKind.ForeColor = getColorFromEventKind( compass.EventKind );
+						case 7:		//航空戦or航空偵察
+							TextEventKind.ForeColor = getColorFromEventKind( compass.EventKind );
+
+							switch ( compass.EventKind ) {
+								case 0:		//航空偵察
+									eventkind = "航空偵察";
+
+									switch ( compass.AirReconnaissanceResult ) {
+										case 0:
+										default:
+											TextEventDetail.Text = "失敗";
+											break;
+										case 1:
+											TextEventDetail.Text = "成功";
+											break;
+										case 2:
+											TextEventDetail.Text = "大成功";
+											break;
+									}
+
+									switch ( compass.AirReconnaissancePlane ) {
+										case 0:
+										default:
+											TextEventDetail.ImageAlign = ContentAlignment.MiddleCenter;
+											TextEventDetail.ImageIndex = -1;
+											break;
+										case 1:
+											TextEventDetail.ImageAlign = ContentAlignment.MiddleLeft;
+											TextEventDetail.ImageIndex = (int)ResourceManager.EquipmentContent.FlyingBoat;
+											break;
+										case 2:
+											TextEventDetail.ImageAlign = ContentAlignment.MiddleLeft;
+											TextEventDetail.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
+											break;
+									}
+
+									if ( compass.GetItemID != -1 ) {
+										TextEventDetail.Text += string.Format( "　{0} x {1}", GetMaterialName( compass ), compass.GetItemAmount );
+									}
+
+									break;
+
+								case 4:		//航空戦
+								default:
+									UpdateEnemyFleet( compass.EnemyFleetID );
+									break;
 							}
-							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 
 
@@ -527,6 +558,22 @@ namespace ElectronicObserver.Window {
 			}
 
 
+		}
+
+
+		private string GetMaterialName( CompassData compass ) {
+
+			if ( compass.GetItemID == 4 ) {		//"※"　大方資源専用ID
+
+				return Constants.GetMaterialName( compass.GetItemIDMetadata );
+
+			} else {
+				UseItemMaster item =  KCDatabase.Instance.MasterUseItems[compass.GetItemIDMetadata];
+				if ( item != null )
+					return item.Name;
+				else
+					return "謎のアイテム";
+			}
 		}
 
 

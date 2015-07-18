@@ -175,16 +175,18 @@ namespace ElectronicObserver.Data.Battle {
 		private void BattleFinished() {
 
 			//敵編成記録
-			switch ( BattleMode & BattleModes.BattlePhaseMask ) {
-				case BattleModes.Normal:
-				case BattleModes.AirBattle:
-					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleDay.Searching.FormationEnemy, BattleDay.Initial.EnemyMembers ) );
-					break;
+			if ( Compass.EnemyFleetID != -1 ) {
+				switch ( BattleMode & BattleModes.BattlePhaseMask ) {
+					case BattleModes.Normal:
+					case BattleModes.AirBattle:
+						RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleDay.Searching.FormationEnemy, BattleDay.Initial.EnemyMembers ) );
+						break;
 
-				case BattleModes.NightOnly:
-				case BattleModes.NightDay:
-					RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleNight.Searching.FormationEnemy, BattleNight.Initial.EnemyMembers ) );
-					break;
+					case BattleModes.NightOnly:
+					case BattleModes.NightDay:
+						RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleNight.Searching.FormationEnemy, BattleNight.Initial.EnemyMembers ) );
+						break;
+				}
 			}
 
 
