@@ -8,11 +8,11 @@
 
 api_start2	：艦娘・装備固有データその他
 	
-	api_mst_ship		：艦船データ
+	api_mst_ship		：艦船データ(艦娘)　衣替え艦娘のデータはshipgraphにしか存在しない
 		api_id			：艦娘固有ID
 		api_sortno		：図鑑番号
 		api_name		：艦娘名
-		api_yomi		：艦娘名読み/(敵艦船)クラス
+		api_yomi		：艦娘名読み
 		api_stype		：艦種
 		api_afterlv		：改装Lv
 		api_aftershipid	：改装後ID 文字列 "0"=なし
@@ -36,7 +36,15 @@ api_start2	：艦娘・装備固有データその他
 		api_fuel_max	：消費燃料
 		api_bull_max	：消費弾薬
 		api_voicef		：ボイス設定フラグ ビットフラグ; 1=放置ボイス, 2=時報
-	
+
+	api_mst_ship		：艦船データ(深海棲艦)
+		api_id			：艦船固有ID
+		api_name		：艦船名
+		api_yomi		：敵クラス
+		api_stype		：艦種
+		api_soku		：速力
+		api_slot_num	：スロット数
+
 	api_mst_shipgraph	：艦船画像設定
 		api_id			：艦船ID
 		api_sortno		：図鑑番号
@@ -283,13 +291,7 @@ api_start2	：艦娘・装備固有データその他
 		api_broken		：廃棄資材
 		api_info		：図鑑情報
 		api_usebull		：
-	
-	api_mst_slotitemgraph	：装備画像URL
-		api_id			：装備ID
-		api_sortno		：並べ替え順
-		api_filename	：ファイル名　実際のファイル名は0詰め3桁の模様
-		api_version		：ファイルのバージョン string
-	
+		
 	api_mst_furniture	：家具データ
 		api_id			：家具ID
 		api_type		：カテゴリ 0=床, 1=壁紙, 2=窓, 3=壁掛け, 4=家具, 5=机
@@ -446,8 +448,6 @@ api_get_member/basic		：艦隊司令部情報
 	api_tutorial_progress	：チュートリアル進捗？
 	api_pvp					：
 	api_medals				：甲種勲章保有数
-	api_large_dock			：大型艦建造可否
-
 
 api_port/port		：母港情報
 	api_material			：資源情報　api_get_member/material を参照
@@ -488,8 +488,9 @@ api_port/port		：母港情報
 		api_locked_equip	：ロックされている装備を装備しているか
 		api_sally_area		：出撃海域　イベント中のみ存在
 	
-	api_basic				：basicに同じ
-	
+	api_basic				：api_get_member/basicに同じ　以下追加メンバ
+		api_large_dock			：大型艦建造可否
+
 	api_log					：母港下の通知欄
 		api_no				：通し番号
 		api_type			：通知タイプ　文字列　1から 入渠, 工廠, 遠征, 支給?, 演習, 勲章?, 出撃, 任務?, 申請?, 昇格?, 図鑑, 達成?, 改造?
@@ -1028,13 +1029,9 @@ api_req_map/start		：出撃　同じメンバはnextのほうが情報が新し
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値　常に最大値に等しい
 		api_dmg			：＊ダメージ倍率? =6だとHP90の旗艦撃沈で540減少?
-	api_enemy			：次が戦闘マスのときのみ存在
-		api_enemy_id	：敵編成ID？
-		api_result		：
-		api_result_str	："start war"
 
 Request.api_req_map/next	：進撃
-	api_recovery_type	：旗艦大破進撃フラグ　0=通常
+	api_recovery_type	：旗艦大破進撃フラグ　0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃?
 	api_cell_id			：能動分岐時のみ存在　選択したセルID
 
 api_req_map/next		：進撃
@@ -1057,10 +1054,6 @@ api_req_map/next		：進撃
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値　startとは異なり実際の値が入る
 		api_dmg			：ダメージ倍率？
-	api_enemy			：次が戦闘マスのときのみ存在
-		api_enemy_id	：敵艦隊ID
-		api_result		：
-		api_result_str	："start war"
 	api_itemget			：次が資源マス/航空偵察マスのときのみ存在
 		api_usemst		：4=資源, 11=家具箱(中), 12=家具箱(大) 
 		api_id			：1=燃料, 2=弾薬, 4=ボーキ, 11=家具箱(中), 12=家具箱(大)
