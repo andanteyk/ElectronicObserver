@@ -94,14 +94,16 @@ namespace ElectronicObserver.Observer.kcsapi {
 			}
 
 			//api_mst_slotitemgraph
-			//foreach ( var elem in data.api_mst_slotitemgraph ) {
+			/*
+			foreach ( var elem in data.api_mst_slotitemgraph ) {
 
-			//	int id = (int)elem.api_id;
-			//	EquipmentDataMaster eq = db.MasterEquipments[id];
-			//	if ( eq != null ) {
-			//		eq.ResourceVersion = elem.api_version;
-			//	}
-			//}
+				int id = (int)elem.api_id;
+				EquipmentDataMaster eq = db.MasterEquipments[id];
+				if ( eq != null ) {
+					eq.ResourceVersion = elem.api_version;
+				}
+			}
+			*/
 
 			//api_mst_useitem
 			foreach ( var elem in data.api_mst_useitem ) {
