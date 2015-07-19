@@ -181,9 +181,9 @@ namespace ElectronicObserver.Window {
 						dynamic[] state = elem.api_state;
 						for ( int i = 0; i < state.Length; i++ ) {
 							if ( (int)state[i][1] == 0 ) {
-								var masterShip = KCDatabase.Instance.MasterShips[(int)elem.api_table_id[i]];
-								if ( masterShip != null )
-									sb.AppendLine( masterShip.Name );
+								var target = KCDatabase.Instance.MasterShips[(int)elem.api_table_id[i]];
+								if ( target != null )		//季節の衣替え艦娘の場合存在しないことがある
+									sb.AppendLine( target.Name );
 							}
 						}
 
