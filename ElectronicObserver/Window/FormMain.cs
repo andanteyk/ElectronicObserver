@@ -82,8 +82,6 @@ namespace ElectronicObserver.Window {
 
 			this.Text = SoftwareInformation.VersionJapanese + "（迷彩型）";
 
-			LoadWindowPosition( Configuration.Config.Life.LayoutFilePath );
-
 		}
 
 		private async void FormMain_Shown( object sender, EventArgs e ) {
@@ -519,24 +517,6 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private bool LoadWindowPosition( string path )
-		{
-			try
-			{
-				using ( var stream = File.OpenRead( path ) )
-				{
-					using ( var archive = new ZipFile( stream ) )
-					{
-						WindowPlacementManager.LoadWindowPlacement( this, archive.GetInputStream( archive.GetEntry( "WindowPlacement.xml" ) ) );
-					}
-				}
-
-				return true;
-			}
-			catch { }
-			return false;
-		}
-
 		private bool LoadLayout( string path ) {
 
 			try {
@@ -545,7 +525,7 @@ namespace ElectronicObserver.Window {
 
 					using ( var archive = new ZipFile( stream ) ) {
 
-						//WindowPlacementManager.LoadWindowPlacement( this, archive.GetInputStream( archive.GetEntry( "WindowPlacement.xml" ) ) );
+						WindowPlacementManager.LoadWindowPlacement( this, archive.GetInputStream( archive.GetEntry( "WindowPlacement.xml" ) ) );
 						LoadSubWindowsLayout( archive.GetInputStream( archive.GetEntry( "SubWindowLayout.xml" ) ) );
 
 					}
