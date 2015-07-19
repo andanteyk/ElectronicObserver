@@ -86,6 +86,8 @@ namespace ElectronicObserver.Resource.Record {
 				return Record.ContainsKey( i ) ? Record[i] : null;
 			}
 			set {
+				if ( i < 0 )
+					return;
 				if ( !Record.ContainsKey( i ) ) {
 					Record.Add( i, value );
 				} else {

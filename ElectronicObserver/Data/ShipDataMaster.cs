@@ -139,7 +139,7 @@ namespace ElectronicObserver.Data {
 		public int ArmorMax {
 			get {
 				try { return (int)RawData.api_souk; }
-				catch { IsAbyssalShip ? 0 : (int)RawData.api_souk[1]; }
+				catch { return IsAbyssalShip ? 0 : (int)RawData.api_souk[1]; }
 			}
 		}
 
