@@ -392,7 +392,13 @@ namespace ElectronicObserver.Resource.Record {
 				if ( ship.Slot[i] == -1 )
 					slot[i] = -1;
 				else
-					slot[i] = KCDatabase.Instance.Equipments[ship.Slot[i]].EquipmentID;
+				{
+					var sl = KCDatabase.Instance.Equipments[ship.Slot[i]];
+					if ( sl == null )
+						slot[i] = -1;
+					else
+						slot[i] = sl.EquipmentID;
+				}
 			}
 
 			UpdateDefaultSlot( ship.ShipID, slot );

@@ -49,7 +49,11 @@ namespace ElectronicObserver.Observer.Cache {
 
 		private Dictionary<string, string> _cacheList;
 
-		private const string CACHE_LIST_FILE = @"Settings\CacheList.txt";
+		private const string CACHE_LIST_FILE = @"\CacheList.txt";
+		private string CacheListFile
+		{
+			get { return Configuration.Config.CacheSettings.CacheFolder + CACHE_LIST_FILE; }
+		}
 
 		public CacheCore() {
 			LoadCacheList();
@@ -62,12 +66,15 @@ namespace ElectronicObserver.Observer.Cache {
 
 			_cacheList = new Dictionary<string, string>();
 
-			if ( File.Exists( CACHE_LIST_FILE ) ) {
-				try {
-
-					foreach ( var line in File.ReadAllLines( CACHE_LIST_FILE ) ) {
+			if ( File.Exists( CacheListFile ) )
+			{
+				try
+				{
+					foreach ( var line in File.ReadAllLines( CacheListFile ) )
+					{
 						int index = line.IndexOf( '?' );
-						if ( index > 0 ) {
+						if ( index > 0 )
+						{
 
 							_cacheList[line.Substring( 0, index )] = line.Substring( index + 1 );
 
@@ -76,7 +83,9 @@ namespace ElectronicObserver.Observer.Cache {
 
 					Utility.Logger.Add( 2, "缓存列表载入完毕。" );
 
-				} catch ( Exception ex ) {
+				}
+				catch ( Exception ex )
+				{
 					Utility.ErrorReporter.SendErrorReport( ex, "读取缓存列表时出错。" );
 				}
 			}
@@ -88,20 +97,24 @@ namespace ElectronicObserver.Observer.Cache {
 		/// </summary>
 		public void SaveCacheList() {
 
-			try {
+			try
+			{
+				//if ( !Directory.Exists( "Settings" ) )
+				//	Directory.CreateDirectory( "Settings" );
 
-				if ( !Directory.Exists( "Settings" ) )
-					Directory.CreateDirectory( "Settings" );
-
-				using ( var writer = new StreamWriter( CACHE_LIST_FILE, false, Encoding.UTF8 ) ) {
-					foreach ( var kv in _cacheList ) {
+				using ( var writer = new StreamWriter( CacheListFile, false, Encoding.UTF8 ) )
+				{
+					foreach ( var kv in _cacheList )
+					{
 						writer.WriteLine( "{0}?{1}", kv.Key, kv.Value );
 					}
 				}
 
 				Utility.Logger.Add( 2, "缓存列表已保存。" );
 
-			} catch(Exception ex ) {
+			}
+			catch ( Exception ex )
+			{
 				Utility.ErrorReporter.SendErrorReport( ex, "保存缓存列表时出错。" );
 			}
 		}

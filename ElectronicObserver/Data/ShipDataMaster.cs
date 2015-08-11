@@ -20,6 +20,7 @@ namespace ElectronicObserver.Data {
 		/// 兼容性只读变量
 		/// </summary>
 		private static readonly int[] EMPTY_ARRAY5 = { 0, 0, 0, 0, 0 };
+		private static readonly int[] INVALID_ARRAY5 = { -1, -1, -1, -1, -1 };
 
 		/// <summary>
 		/// 艦船ID
@@ -259,7 +260,7 @@ namespace ElectronicObserver.Data {
 		/// 各スロットの航空機搭載数
 		/// </summary>
 		public ReadOnlyCollection<int> Aircraft {
-			get { return Array.AsReadOnly<int>( IsAbyssalShip ? EMPTY_ARRAY5 : (int[])RawData.api_maxeq ); }		}
+			get { return Array.AsReadOnly<int>( IsAbyssalShip ? INVALID_ARRAY5 : (int[])RawData.api_maxeq ); }		}
 
 		/// <summary>
 		/// 初期装備のID

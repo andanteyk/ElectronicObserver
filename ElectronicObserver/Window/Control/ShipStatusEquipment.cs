@@ -38,10 +38,13 @@ namespace ElectronicObserver.Window.Control {
 			public int AircraftCurrent { get; set; }
 			public int AircraftMax { get; set; }
 
+			public int AircraftProficiency { get; set; }
+
 
 			public SlotItem() {
 				EquipmentID = -1;
 				AircraftCurrent = AircraftMax = 0;
+				AircraftProficiency = -1;
 			}
 		}
 
@@ -71,6 +74,16 @@ namespace ElectronicObserver.Window.Control {
 			get { return _aircraftColorDisabled; }
 			set {
 				_aircraftColorDisabled = value;
+				PropertyChanged();
+			}
+		}
+
+		private SolidBrush _aircraftBrushDisabled = new SolidBrush( Color.FromArgb( 100, 100, 100 ) );
+		[Browsable( true )]
+		public SolidBrush AircraftBrushDisabled {
+			get { return _aircraftBrushDisabled; }
+			set {
+				_aircraftBrushDisabled = value;
 				PropertyChanged();
 			}
 		}
@@ -144,6 +157,18 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+		private bool _textProficiency;
+		[Browsable( true )]
+		[DefaultValue( false )]
+		public bool TextProficiency
+		{
+			get { return _textProficiency; }
+			set {
+				_textProficiency = value;
+				PropertyChanged();
+			}
+		}
+
 
 		private int _slotMargin;
 		[Browsable( true )]
@@ -210,6 +235,7 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[i].AircraftCurrent = ship.Aircraft[i];
 				SlotList[i].AircraftMax = ship.MasterShip.Aircraft[i];
+				SlotList[i].AircraftProficiency = eq != null ? eq.Proficiency : -1;
 			}
 
 			SlotSize = ship.MasterShip.SlotSize;
@@ -352,12 +378,15 @@ namespace ElectronicObserver.Window.Control {
 
 				Color aircraftColor = AircraftColorDisabled;
 				bool drawAircraftSlot = ShowAircraft;
+				bool drawAircraftProficiency = slot.AircraftProficiency >= 0;
 
 				if ( slot.EquipmentID != -1 ) {
 
 					if ( Calculator.IsAircraft( slot.EquipmentID, true ) ) {
 
-						if ( slot.AircraftMax == 0 ) {
+						if ( slot.AircraftMax == -1 )
+							drawAircraftSlot = false;
+						else if ( slot.AircraftMax == 0 ) {
 							aircraftColor = AircraftColorDisabled;
 						} else if ( slot.AircraftCurrent == 0 ) {
 							aircraftColor = AircraftColorLost;
@@ -411,6 +440,26 @@ namespace ElectronicObserver.Window.Control {
 
 
 					TextRenderer.DrawText( e.Graphics, slot.AircraftCurrent.ToString(), Font, textarea, aircraftColor, textformat );
+				}
+
+				if ( drawAircraftProficiency )
+				{
+					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width - SlotMargin, sz_unit.Height );
+					if ( TextProficiency )
+					{
+						textarea.Y -= 5;
+						TextFormatFlags format = TextFormatFlags.NoPadding | TextFormatFlags.Top | TextFormatFlags.Right;
+						TextRenderer.DrawText( e.Graphics, slot.AircraftProficiency.ToString(), Font, textarea, aircraftColor, format );
+					}
+					else
+					{
+						int x = textarea.Right - 1;
+						for ( int i = 0; i < slot.AircraftProficiency; i++ )
+						{
+							e.Graphics.FillRectangle( AircraftBrushDisabled, x, textarea.Y, 1, 4 );
+							x -= 2;
+						}
+					}
 				}
 
 			}
