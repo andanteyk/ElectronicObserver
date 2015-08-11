@@ -39,6 +39,9 @@ namespace ElectronicObserver.Utility.Data {
 
 			for ( int s = 0; s < length; s++ ) {
 
+				if ( aircraft[s] < 0 )
+					continue;
+
 				EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[s]];
 
 				if ( eq == null ) continue;
