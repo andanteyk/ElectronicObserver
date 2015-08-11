@@ -384,7 +384,7 @@ namespace ElectronicObserver.Window.Control {
 
 					if ( Calculator.IsAircraft( slot.EquipmentID, true ) ) {
 
-						if ( slot.AircraftMax == -1 )
+						if ( slot.AircraftMax < 0 )
 							drawAircraftSlot = false;
 						else if ( slot.AircraftMax == 0 ) {
 							aircraftColor = AircraftColorDisabled;
@@ -397,11 +397,11 @@ namespace ElectronicObserver.Window.Control {
 						}
 
 					} else {
-						if ( slot.AircraftMax == 0 )
+						if ( slot.AircraftMax <= 0 )
 							drawAircraftSlot = false;
 					}
 
-				} else if ( slot.AircraftMax == 0 ) {
+				} else if ( slot.AircraftMax <= 0 ) {
 					drawAircraftSlot = false;
 				}
 
