@@ -128,6 +128,7 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_TextProficiency = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ShowNextExp = new System.Windows.Forms.CheckBox();
 			this.FormFleet_BlinkHPBar = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ShortenHPBar = new System.Windows.Forms.CheckBox();
@@ -1370,6 +1371,7 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_TextProficiency);
 			this.tabPage8.Controls.Add(this.FormFleet_BlinkHPBar);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowNextExp);
 			this.tabPage8.Controls.Add(this.FormFleet_ShortenHPBar);
@@ -1396,6 +1398,16 @@
 			this.FormFleet_BlinkHPBar.Text = "允许闪烁标签";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_BlinkHPBar, "非第1舰队空闲时是否允许闪烁背景给予远征提示。");
 			this.FormFleet_BlinkHPBar.UseVisualStyleBackColor = true;
+			// 
+			// FormFleet_TextProficiency
+			// 
+			this.FormFleet_TextProficiency.AutoSize = true;
+			this.FormFleet_TextProficiency.Location = new System.Drawing.Point(6, 185);
+			this.FormFleet_TextProficiency.Name = "FormFleet_TextProficiency";
+			this.FormFleet_TextProficiency.Size = new System.Drawing.Size(125, 27);
+			this.FormFleet_TextProficiency.TabIndex = 8;
+			this.FormFleet_TextProficiency.Text = "显示文字舰载机熟练度";
+			this.FormFleet_TextProficiency.UseVisualStyleBackColor = true;
 			// 
 			// FormFleet_ShowNextExp
 			// 
@@ -2082,6 +2094,7 @@
 		private System.Windows.Forms.CheckBox FormFleet_ShowNextExp;
 		private System.Windows.Forms.CheckBox FormFleet_BlinkHPBar;
 		private System.Windows.Forms.CheckBox FormFleet_ShortenHPBar;
+		private System.Windows.Forms.CheckBox FormFleet_TextProficiency;
 		private System.Windows.Forms.CheckBox Log_ShowSpoiler;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.ComboBox FormBrowser_BrowserVersion;

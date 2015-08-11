@@ -550,6 +550,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowNextExp { get; set; }
 
+				/// <summary>
+				/// 显示文字熟练度
+				/// </summary>
+				public bool ShowTextProficiency { get; set; }
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 0;
@@ -557,6 +562,7 @@ namespace ElectronicObserver.Utility {
 					FixShipNameWidth = false;
 					ShortenHPBar = false;
 					ShowNextExp = true;
+					ShowTextProficiency = false;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>

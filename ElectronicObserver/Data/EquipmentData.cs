@@ -43,6 +43,13 @@ namespace ElectronicObserver.Data {
 			get { return (int)RawData.api_level; }
 		}
 
+		/// <summary>
+		/// 舰载机熟练度
+		/// </summary>
+		public int Proficiency
+		{
+			get { return RawData.api_alv() ? (int)RawData.api_alv : -1; }
+		}
 
 
 		/// <summary>
