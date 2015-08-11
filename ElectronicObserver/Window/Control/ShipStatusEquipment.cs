@@ -78,15 +78,9 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
-		private SolidBrush _aircraftBrushDisabled = new SolidBrush( Color.FromArgb( 100, 100, 100 ) );
-		[Browsable( true )]
-		public SolidBrush AircraftBrushDisabled {
-			get { return _aircraftBrushDisabled; }
-			set {
-				_aircraftBrushDisabled = value;
-				PropertyChanged();
-			}
-		}
+		private Brush _aircraftBrushOne = new SolidBrush( Color.Red );
+		private Brush _aircraftBrushTwo = new SolidBrush( Color.FromArgb( 192, 185, 14 ) );
+		private Brush _aircraftBrushThree = new SolidBrush( Color.FromArgb( 38, 181, 50 ) );
 
 		private Color _aircraftColorLost;
 		[Browsable( true )]
@@ -221,7 +215,7 @@ namespace ElectronicObserver.Window.Control {
 		/// <param name="ship">当該艦船。</param>
 		public void SetSlotList( ShipData ship ) {
 
-			int slotCount = Math.Max( ship.MasterShip.SlotSize, 4 );
+			int slotCount = Math.Max( ship.Slot.Count( s => s > 0 ), 4 );	//  ship.MasterShip.SlotSize
 
 			if ( SlotList.Length != slotCount ) {
 				SlotList = new SlotItem[slotCount];
@@ -449,14 +443,50 @@ namespace ElectronicObserver.Window.Control {
 					{
 						textarea.Y -= 5;
 						TextFormatFlags format = TextFormatFlags.NoPadding | TextFormatFlags.Top | TextFormatFlags.Right;
-						TextRenderer.DrawText( e.Graphics, slot.AircraftProficiency.ToString(), Font, textarea, aircraftColor, format );
+						Color color = AircraftColorDisabled;
+						//if ( slot.AircraftProficiency < 4 )
+						//	color = _aircraftPenOne.Color;
+						//else if ( slot.AircraftProficiency < 7 )
+						//	color = _aircraftPenTwo.Color;
+						//else
+						//	color = _aircraftPenThree.Color;
+						TextRenderer.DrawText( e.Graphics, slot.AircraftProficiency.ToString(), Font, textarea, color, format );
 					}
 					else
 					{
-						int x = textarea.Right - 1;
-						for ( int i = 0; i < slot.AircraftProficiency; i++ )
+						int x = textarea.Right - 3;
+						int y = textarea.Y;
+						int pro = slot.AircraftProficiency;
+						//if ( pro < 4 )
+						//{
+						//	for ( int i = 0; i < pro; i++ )
+						//	{
+						//		e.Graphics.FillRectangle( _aircraftBrushOne, x, y, 2, 5 );
+						//		x -= 3;
+						//	}
+						//}
+						//else if ( pro < 7 )
+						//{
+						//	for ( int i = 0; i < pro - 3; i++ )
+						//	{
+						//		e.Graphics.FillRectangle( _aircraftBrushTwo, x, y, 2, 5 );
+						//		x -= 3;
+						//	}
+						//}
+						//else
+						//{
+						//	e.Graphics.FillRectangle( _aircraftBrushThree, x - 8, y + 1, 8, 3 );
+						//}
+						Brush brush;
+						if ( pro < 4 )
+							brush = _aircraftBrushOne;
+						else if ( pro < 7 )
+							brush = _aircraftBrushTwo;
+						else
+							brush = _aircraftBrushThree;
+						for ( int i = 0; i < pro; i++ )
 						{
-							e.Graphics.FillRectangle( AircraftBrushDisabled, x, textarea.Y, 1, 4 );
+							e.Graphics.FillRectangle( brush, x + 2, y, 1, 5 );
 							x -= 2;
 						}
 					}
