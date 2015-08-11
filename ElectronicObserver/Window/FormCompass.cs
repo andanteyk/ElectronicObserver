@@ -590,7 +590,10 @@ namespace ElectronicObserver.Window {
 
 		private void UpdateEnemyFleet( int fleetID ) {
 
-			TextEventDetail.Text = string.Format( "敵艦隊ID : {0}", fleetID );
+			if ( fleetID < 0 )
+				TextEventDetail.Text = string.Empty;
+			else
+				TextEventDetail.Text = string.Format( "敵艦隊ID : {0}", fleetID );
 
 
 			var efleet = RecordManager.Instance.EnemyFleet;
@@ -598,7 +601,7 @@ namespace ElectronicObserver.Window {
 			if ( !efleet.Record.ContainsKey( fleetID ) ) {
 
 				//unknown
-				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
+				TextEnemyFleetName.Text = string.Empty;	//			"(敵艦隊情報不明)";
 
 				TextEnemyFleetName.Visible = true;
 				TextFormation.Visible = false;
