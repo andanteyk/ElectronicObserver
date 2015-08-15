@@ -90,6 +90,34 @@ namespace ElectronicObserver.Data {
 			get { return Array.AsReadOnly<int>( _slot ); }
 		}
 
+		/// <summary>
+		/// 扩展槽装备
+		/// </summary>
+		public int SlotEx
+		{
+			get { return (int)RawData.api_slot_ex; }
+		}
+
+		/// <summary>
+		/// 扩展槽装备数据
+		/// </summary>
+		public EquipmentData SlotExInstance
+		{
+			get { return KCDatabase.Instance.Equipments[SlotEx]; }
+		}
+
+		/// <summary>
+		/// 扩展槽装备主数据
+		/// </summary>
+		public EquipmentDataMaster SlotExInstanceMaster
+		{
+			get
+			{
+				var eq = SlotExInstance;
+				return eq != null ? eq.MasterEquipment : null;
+			}
+		}
+
 
 		/// <summary>
 		/// 装備スロット(マスターID)

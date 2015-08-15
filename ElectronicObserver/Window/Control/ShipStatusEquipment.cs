@@ -215,7 +215,9 @@ namespace ElectronicObserver.Window.Control {
 		/// <param name="ship">当該艦船。</param>
 		public void SetSlotList( ShipData ship ) {
 
-			int slotCount = Math.Max( ship.Slot.Count( s => s > 0 ), 4 );	//  ship.MasterShip.SlotSize
+			int slotCount = Math.Max( ship.MasterShip.SlotSize, 4 );
+			if ( ship.SlotEx > 0 )
+				slotCount++;
 
 			if ( SlotList.Length != slotCount ) {
 				SlotList = new SlotItem[slotCount];
@@ -225,8 +227,13 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 			for ( int i = 0; i < SlotList.Length; i++ ) {
-				var eq = ship.SlotInstance[i];
-				SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
+				EquipmentData eq;
+				if ( ( i == SlotList.Length - 1 ) && ship.SlotEx > 0 )
+					eq = ship.SlotExInstance;
+				else
+					eq = ship.SlotInstance[i];
+
+                SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[i].AircraftCurrent = ship.Aircraft[i];
 				SlotList[i].AircraftMax = ship.MasterShip.Aircraft[i];
 				SlotList[i].AircraftProficiency = eq != null ? eq.Proficiency : -1;
