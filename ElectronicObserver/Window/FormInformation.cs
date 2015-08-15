@@ -267,7 +267,9 @@ namespace ElectronicObserver.Window {
 
 					} else if ( elem.api_eventmap() ) {
 
-						sb.AppendFormat( "{0}-{1} : HP {2}/{3}\r\n", map.MapAreaID, map.MapInfoID, (int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
+						int now_maphp = (int)elem.api_eventmap.api_now_maphp;
+						if ( now_maphp > 0 )
+							sb.AppendFormat( "{0}-{1} : HP {2}/{3}\r\n", map.MapAreaID, map.MapInfoID, now_maphp, (int)elem.api_eventmap.api_max_maphp );
 
 					}
 				}
