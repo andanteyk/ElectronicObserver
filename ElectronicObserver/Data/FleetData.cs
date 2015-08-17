@@ -409,12 +409,20 @@ namespace ElectronicObserver.Data {
 			_escapedShipList.Add( _members[index] );
 		}
 
+		/// <summary>
+		/// 获取计算了舰载机熟练度的制空值
+		/// </summary>
+		/// <returns></returns>
+		public int GetAirSuperiority()
+		{
+			return Calculator.GetAirSuperiorityEnhance( this );
+		}
 
 		/// <summary>
 		/// 制空戦力を取得します。
 		/// </summary>
 		/// <returns>制空戦力。</returns>
-		public int GetAirSuperiority() {
+		public int GetAirSuperiority_Old() {
 
 			return Calculator.GetAirSuperiority( this );
 		}

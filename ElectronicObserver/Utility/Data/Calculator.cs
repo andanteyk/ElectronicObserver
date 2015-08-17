@@ -136,6 +136,64 @@ namespace ElectronicObserver.Utility.Data {
 			return air;
 		}
 
+		public static int GetAirSuperiorityEnhance( FleetData fleet )
+		{
+			int air = 0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped )
+			{
+				if ( ship == null )
+					continue;
+
+				air += GetAirSuperiorityEnhance( ship.SlotInstance.ToArray(), ship.Aircraft.ToArray() );
+			}
+
+			return air;
+		}
+
+		private static readonly int[] ProficiencyArray = { 0, 1, 4, 6, 11, 16, 17, 25 };
+
+		public static int GetAirSuperiorityEnhance( EquipmentData[] slot, int[] aircraft )
+		{
+
+			int air = 0;
+			int length = Math.Min( slot.Length, aircraft.Length );
+
+			for ( int s = 0; s < length; s++ )
+			{
+
+				if ( aircraft[s] < 0 )
+					continue;
+
+				EquipmentData equip = slot[s];
+				if ( equip == null )
+					continue;
+
+				EquipmentDataMaster eq = equip.MasterEquipment;
+				if ( eq == null )
+					continue;
+
+				switch ( eq.EquipmentType[2] )
+				{
+					case 6:
+						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
+						if ( equip.Proficiency > 0 && equip.Proficiency <= 7 )
+							air += ProficiencyArray[equip.Proficiency];
+						break;
+
+					case 7:
+					case 8:
+					case 11:
+						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
+						if ( equip.Proficiency == 7 )
+							air += 3;
+						break;
+				}
+			}
+
+			return air;
+		}
+
 
 		/// <summary>
 		/// 索敵能力を求めます。「2-5式」です。
