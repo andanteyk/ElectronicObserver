@@ -17,7 +17,7 @@ namespace ElectronicObserver.Data {
 	[DebuggerDisplay( "[{ID}] {KCDatabase.Instance.MasterShips[ShipID].NameWithClass} Lv. {Level}" )]
 	public class ShipData : APIWrapper, IIdentifiable {
 
-		
+
 
 		/// <summary>
 		/// 艦娘を一意に識別するID
@@ -119,14 +119,14 @@ namespace ElectronicObserver.Data {
 			get {
 				if ( _slot == null ) return null;
 
-				EquipmentData[] s = new EquipmentData[_slot.Length];
+				var s = new EquipmentData[_slot.Length];
 
 				for ( int i = 0; i < s.Length; i++ ) {
 					s[i] = KCDatabase.Instance.Equipments[_slot[i]];
 				}
 
-				return Array.AsReadOnly<EquipmentData>( s );
- 			}
+				return Array.AsReadOnly( s );
+			}
 		}
 
 		/// <summary>
@@ -136,16 +136,125 @@ namespace ElectronicObserver.Data {
 			get {
 				if ( _slot == null ) return null;
 
-				EquipmentDataMaster[] s = new EquipmentDataMaster[_slot.Length];
+				var s = new EquipmentDataMaster[_slot.Length];
 
 				for ( int i = 0; i < s.Length; i++ ) {
 					EquipmentData eq = KCDatabase.Instance.Equipments[_slot[i]];
 					s[i] = eq != null ? eq.MasterEquipment : null;
 				}
 
-				return Array.AsReadOnly<EquipmentDataMaster>( s );
+				return Array.AsReadOnly( s );
 			}
 		}
+
+		
+		/// <summary>
+		/// 補強装備スロット(ID)
+		/// 0=未開放, -1=装備なし 
+		/// </summary>
+		public int ExpansionSlot { get; private set; }
+
+		/// <summary>
+		/// 補強装備スロット(マスターID)
+		/// </summary>
+		public int ExpansionSlotMaster {
+			get {
+				EquipmentData eq = KCDatabase.Instance.Equipments[ExpansionSlot];
+				if ( eq != null )
+					return eq.EquipmentID;
+				else
+					return -1;
+			}
+		}
+
+		/// <summary>
+		/// 補強装備スロット(装備データ)
+		/// </summary>
+		public EquipmentData ExpansionSlotInstance {
+			get { return KCDatabase.Instance.Equipments[ExpansionSlot]; }
+		}
+
+		/// <summary>
+		/// 補強装備スロット(装備マスターデータ)
+		/// </summary>
+		public EquipmentDataMaster ExpansionSlotInstanceMaster {
+			get {
+				EquipmentData eq = ExpansionSlotInstance;
+				return eq != null ? eq.MasterEquipment : null;
+			}
+		}
+
+
+		/// <summary>
+		/// 全てのスロット(ID)
+		/// </summary>
+		public ReadOnlyCollection<int> AllSlot {
+			get {
+				if ( _slot == null ) return null;
+
+				int[] ret = new int[_slot.Length + 1];
+				Array.Copy( _slot, ret, _slot.Length );
+				ret[ret.Length - 1] = ExpansionSlot;
+				return Array.AsReadOnly( ret );
+			}
+		}
+
+		/// <summary>
+		/// 全てのスロット(マスターID)
+		/// </summary>
+		public ReadOnlyCollection<int> AllSlotMaster {
+			get {
+				if ( _slot == null ) return null;
+
+				var alls = AllSlot;
+				int[] ret = new int[alls.Count];
+				for ( int i = 0; i < ret.Length; i++ ) {
+					var eq = KCDatabase.Instance.Equipments[alls[i]];
+					if ( eq != null ) ret[i] = eq.EquipmentID;
+					else ret[i] = -1;
+				}
+
+				return Array.AsReadOnly( ret );
+			}
+		}
+
+		/// <summary>
+		/// 全てのスロット(装備データ)
+		/// </summary>
+		public ReadOnlyCollection<EquipmentData> AllSlotInstance {
+			get {
+				if ( _slot == null ) return null;
+
+				var alls = AllSlot;
+				EquipmentData[] s = new EquipmentData[alls.Count];
+
+				for ( int i = 0; i < s.Length; i++ ) {
+					s[i] = KCDatabase.Instance.Equipments[alls[i]];
+				}
+
+				return Array.AsReadOnly( s );
+			}
+		}
+
+		/// <summary>
+		/// 全てのスロット(装備マスターデータ)
+		/// </summary>
+		public ReadOnlyCollection<EquipmentDataMaster> AllSlotInstanceMaster {
+			get {
+				if ( _slot == null ) return null;
+
+				var alls = AllSlot;
+				var s = new EquipmentDataMaster[alls.Count];
+
+				for ( int i = 0; i < s.Length; i++ ) {
+					EquipmentData eq = KCDatabase.Instance.Equipments[alls[i]];
+					s[i] = eq != null ? eq.MasterEquipment : null;
+				}
+
+				return Array.AsReadOnly( s );
+			}
+		}
+
 
 
 		private int[] _aircraft;
@@ -167,6 +276,14 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int Ammo { get; internal set; }
 
+
+		/// <summary>
+		/// スロットのサイズ
+		/// </summary>
+		public int SlotSize {
+			get { return !RawData.api_slotnum() ? 0 : (int)RawData.api_slotnum; }
+		}
+
 		/// <summary>
 		/// 入渠にかかる時間(ミリ秒)
 		/// </summary>
@@ -180,7 +297,7 @@ namespace ElectronicObserver.Data {
 		public int RepairSteel {
 			get { return (int)RawData.api_ndock_item[0]; }
 		}
-		
+
 		/// <summary>
 		/// 入渠にかかる燃料
 		/// </summary>
@@ -280,7 +397,7 @@ namespace ElectronicObserver.Data {
 		public int FirepowerTotal {
 			get { return (int)RawData.api_karyoku[0]; }
 		}
-		
+
 		/// <summary>
 		/// 雷装総合値
 		/// </summary>
@@ -377,13 +494,12 @@ namespace ElectronicObserver.Data {
 				return ship.EvasionMin + ( ship.EvasionMax - ship.EvasionMin ) * Level / 99;
 				*/
 				int param = EvasionTotal;
-				for ( int i = 0; i < _slot.Length; i++ ) {
-					if ( _slot[i] != -1 && KCDatabase.Instance.Equipments[_slot[i]] != null ) {
-						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.Evasion;
-					}
+				foreach ( var eq in AllSlotInstance ) {
+					if ( eq != null )
+						param -= eq.MasterEquipment.Evasion;
 				}
 				return param;
-			 }
+			}
 		}
 
 		/// <summary>
@@ -392,10 +508,9 @@ namespace ElectronicObserver.Data {
 		public int ASWBase {
 			get {
 				int param = ASWTotal;
-				for ( int i = 0; i < _slot.Length; i++ ) {
-					if ( _slot[i] != -1 && KCDatabase.Instance.Equipments[_slot[i]] != null ) {
-						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.ASW;
-					}
+				foreach ( var eq in AllSlotInstance ) {
+					if ( eq != null )
+						param -= eq.MasterEquipment.ASW;
 				}
 				return param;
 			}
@@ -407,10 +522,9 @@ namespace ElectronicObserver.Data {
 		public int LOSBase {
 			get {
 				int param = LOSTotal;
-				for ( int i = 0; i < _slot.Length; i++ ) {
-					if ( _slot[i] != -1 && KCDatabase.Instance.Equipments[_slot[i]] != null ) {
-						param -= KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.LOS;
-					}
+				foreach ( var eq in AllSlotInstance ) {
+					if ( eq != null )
+						param -= eq.MasterEquipment.LOS;
 				}
 				return param;
 			}
@@ -463,10 +577,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int SallyArea {
 			get {
-				if ( RawData.api_sally_area() )
-					return (int)RawData.api_sally_area;
-				else
-					return -1;
+				return RawData.api_sally_area() ? (int)RawData.api_sally_area : -1;
 			}
 		}
 		//*/
@@ -566,6 +677,9 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// HP/HPmax
+		/// </summary>
 		public double HPRate {
 			get {
 				if ( HPMax <= 0 ) return 0.0;
@@ -573,15 +687,23 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
-		
+
+		/// <summary>
+		/// 補強装備スロットが使用可能か
+		/// </summary>
+		public bool IsExpansionSlotAvailable {
+			get { return ExpansionSlot != 0; }
+		}
+
+
 		public int ID {
 			get { return MasterID; }
 		}
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
-			
-			switch ( apiname ) { 
+
+			switch ( apiname ) {
 				case "api_port/port":
 				case "api_get_member/ship2":
 				case "api_get_member/ship3":
@@ -594,6 +716,7 @@ namespace ElectronicObserver.Data {
 					Ammo = (int)RawData.api_bull;
 					Condition = (int)RawData.api_cond;
 					_slot = (int[])RawData.api_slot;
+					ExpansionSlot = (int)RawData.api_slot_ex;
 					_aircraft = (int[])RawData.api_onslot;
 					break;
 
@@ -620,6 +743,10 @@ namespace ElectronicObserver.Data {
 							db.Equipments.Remove( _slot[i] );
 						}
 					} break;
+
+				case "api_req_kaisou/open_exslot":
+					ExpansionSlot = -1;
+					break;
 			}
 		}
 

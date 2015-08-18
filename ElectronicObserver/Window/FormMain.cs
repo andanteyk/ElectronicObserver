@@ -627,6 +627,51 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_Debug_LoadDataFromOld_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "先に通常の api_start2 を読み込んでください。", "大変ご迷惑をおかけしております", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
+
+
+			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
+
+				ofd.Title = "旧 api_start2 から深海棲艦を復元";
+				ofd.Filter = "api_start2|*api_start2*.json|JSON|*.json|File|*";
+				ofd.InitialDirectory = Utility.Configuration.Config.Connection.SaveDataPath;
+
+				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					try {
+
+						using ( StreamReader sr = new StreamReader( ofd.FileName ) ) {
+
+							dynamic json = DynamicJson.Parse( sr.ReadToEnd().Remove( 0, 7 ) );
+
+							foreach ( dynamic elem in json.api_data.api_mst_ship ) {
+
+								var ship = KCDatabase.Instance.MasterShips[ (int)elem.api_id ];
+
+								if ( elem.api_name != "なし" && ship != null && ship.IsAbyssalShip ) {
+
+									KCDatabase.Instance.MasterShips[(int)elem.api_id].LoadFromResponse( "api_start2", elem );
+								}
+							}
+						}
+
+						Utility.Logger.Add( 1, "旧 api_start2 からデータを復元しました。" );
+
+					} catch ( Exception ex ) {
+
+						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
+							MessageBoxButtons.OK, MessageBoxIcon.Error );
+					}
+				}
+			}
+
+		}
+
 
 		private void StripMenu_Tool_AlbumMasterShip_Click( object sender, EventArgs e ) {
 
@@ -931,55 +976,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private void StripMenu_Browser_Zoom_Click( object sender, EventArgs e ) {
-
-			int zoom;
-
-			if ( sender == StripMenu_Browser_Zoom_25 )
-				zoom = 25;
-			else if ( sender == StripMenu_Browser_Zoom_50 )
-				zoom = 50;
-			else if ( sender == StripMenu_Browser_Zoom_75 )
-				zoom = 75;
-			else if ( sender == StripMenu_Browser_Zoom_100 )
-				zoom = 100;
-			else if ( sender == StripMenu_Browser_Zoom_150 )
-				zoom = 150;
-			else if ( sender == StripMenu_Browser_Zoom_200 )
-				zoom = 200;
-			else if ( sender == StripMenu_Browser_Zoom_250 )
-				zoom = 250;
-			else if ( sender == StripMenu_Browser_Zoom_300 )
-				zoom = 300;
-			else if ( sender == StripMenu_Browser_Zoom_400 )
-				zoom = 400;
-			else
-				zoom = 100;
-
-			Utility.Configuration.Config.FormBrowser.ZoomRate = zoom;
-
-			fBrowser.ApplyZoom();
-		}
-
-		private void StripMenu_Browser_Zoom_DropDownOpening( object sender, EventArgs e ) {
-
-			StripMenu_Browser_Zoom_Current.Text = string.Format( "現在: {0}%",
-				Utility.Configuration.Config.FormBrowser.ZoomRate );
-
-		}
-
-		private void StripMenu_Browser_AppliesStyleSheet_CheckedChanged( object sender, EventArgs e ) {
-
-			Utility.Configuration.Config.FormBrowser.AppliesStyleSheet = StripMenu_Browser_AppliesStyleSheet.Checked;
-			fBrowser.ConfigurationChanged();
-
-		}
-
-		private void StripMenu_Browser_DropDownOpening( object sender, EventArgs e ) {
-
-			StripMenu_Browser_AppliesStyleSheet.Checked = Utility.Configuration.Config.FormBrowser.AppliesStyleSheet;
-		}
-
+		
 		private void StripMenu_WindowCapture_AttachAll_Click( object sender, EventArgs e ) {
 			fWindowCapture.AttachAll();
 		}
@@ -1058,7 +1055,6 @@ namespace ElectronicObserver.Window {
 		#endregion
 
 		
-
 
 
 	}

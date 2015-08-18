@@ -71,31 +71,34 @@ api_start2	：艦娘・装備固有データその他
 		api_name		：カテゴリ名
 		api_show_flg	：
 	
+	api_mst_equip_exslot：補強スロットに装備可能なカテゴリ
+
 	api_mst_stype		：艦船カテゴリ
 		api_id			：カテゴリID(艦船のstypeに対応)
 		api_sortno		：並べ替え順
-		api_name		：艦種名
-			 1=海防艦
-			 2=駆逐艦
-			 3=軽巡洋艦
-			 4=重雷装巡洋艦
-			 5=重巡洋艦
-			 6=航空巡洋艦
-			 7=軽空母
-			 8=巡洋戦艦(実データ中では"戦艦"だが混同を防ぐため)
-			 9=戦艦
-			10=航空戦艦
-			11=正規空母
-			12=超弩級戦艦
-			13=潜水艦
-			14=潜水空母
-			15=補給艦
-			16=水上機母艦
-			17=揚陸艦
-			18=装甲空母
-			19=工作艦
-			20=潜水母艦
-			21=練習巡洋艦
+		api_name		：艦種名(英語は図鑑内での表示)
+			 1=海防艦		Escort Ship
+			 2=駆逐艦		Destroyer
+			 3=軽巡洋艦		Light Cruiser
+			 4=重雷装巡洋艦	Torpedo Cruiser
+			 5=重巡洋艦		Heavy Cruiser
+			 6=航空巡洋艦	Aircraft Cruiser
+			 7=軽空母		Light Aircraft Carrier
+			 8=巡洋戦艦		Battleship		(実データ中では"戦艦"だが混同を防ぐため)
+			 9=戦艦			Battleship
+			10=航空戦艦		Aviation Battleship
+			11=正規空母		Aircraft Carrier
+			12=超弩級戦艦	Super Dreadnoughts
+			13=潜水艦		Submarine
+			14=潜水空母		Aircraft Carrying Submarine
+			15=補給艦						(敵のほう)
+			16=水上機母艦	Seaplane Carrier
+			17=揚陸艦		Amphibious Assault Ship
+			18=装甲空母		Aircraft Carrier
+			19=工作艦		Repair Ship
+			20=潜水母艦		Submarine Tender
+			21=練習巡洋艦	Training Cruiser
+			22=補給艦		Fleet Oiler		(味方のほう)
 		api_scnt		：入渠時間係数(本体ソース内では[slotCount]とある)
 		api_kcnt		：建造時のシルエット
 		api_equip_type	：装備可能カテゴリのフラグ
@@ -125,6 +128,8 @@ api_start2	：艦娘・装備固有データその他
 				15=対地装備
 				16=水上艦要員
 				17=大型飛行艇
+				18=戦闘糧食
+				19=補給物資
 
 			[1]：図鑑表示
 				 1=Primary Armament
@@ -157,6 +162,8 @@ api_start2	：艦娘・装備固有データその他
 				31=Engine Upgrades
 				32=Depth Charge
 				33=Flying Boat
+				34=Ration
+				35=Supply
 
 				 1=主砲
 				 2=副砲
@@ -188,6 +195,8 @@ api_start2	：艦娘・装備固有データその他
 				31=機関部強化
 				32=爆雷
 				33=大型飛行艇
+				34=戦闘糧食
+				35=補給物資
 
 			[2]：カテゴリ
 				(api_mst_slotitem_equiptype を参照)
@@ -233,6 +242,9 @@ api_start2	：艦娘・装備固有データその他
 				40=大型ソナー
 				41=大型飛行艇
 				42=大型探照灯
+				43=戦闘糧食
+				44=補給物資
+				93=大型電探(II)
 
 			[3]：アイコンID
 				 1=小口径主砲
@@ -268,6 +280,8 @@ api_start2	：艦娘・装備固有データその他
 				31=対地装備
 				32=水上艦要員
 				33=大型飛行艇
+				34=戦闘糧食
+				35=補給物資
 
 		api_taik		：耐久(0)
 		api_souk		：装甲
@@ -307,8 +321,8 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：家具ID
 		api_type		：カテゴリ
 		api_no			：カテゴリ内通し番号
-		api_filename	：
-		api_version		：
+		api_filename	：ファイル名
+		api_version		：バージョン
 
 	api_mst_useitem		：アイテムデータ
 		api_id			：アイテムID
@@ -465,8 +479,9 @@ api_port/port		：母港情報
 		api_nowhp			：現在HP
 		api_maxhp			：最大HP
 		api_leng			：射程
-		api_slot			：装備　空きは-1
+		api_slot			：装備　-1=空き
 		api_onslot			：艦載機搭載数
+		api_slot_ex			：補強スロット 0=未解放, -1=未装備
 		api_kyouka			：近代化改修状態　[0]=火力, [1]=雷装, [2]=対空, [3]=装甲, [4]=運
 		api_backs			：レアリティ？
 		api_fuel			：搭載燃料
@@ -499,8 +514,17 @@ api_port/port		：母港情報
 	
 	api_combined_flag		：連合艦隊フラグ 0=未結成, 1=機動部隊, 2=水上部隊
 	api_p_bgm_id			：母港BGMのID
-	api_event_object		：秋イベで追加
-		api_m_flag			：
+	api_event_object		：'14 秋イベで追加、'15 夏イベでも復活
+		0					：'15 夏イベで追加　'14 秋イベ 攻略順記録?　名前が数値なので注意
+			id				：?
+			member_id		：提督ID
+			rid				：到達順位?
+			type			：攻略時難易度? 1=甲作戦?
+			maparea_id		：海域ID 28=渾作戦
+			mapinfo_no		：海域ID 3=E-3
+			no				：ボスセル番号? 14
+			modified		：ボス撃破日時 夜戦突入時の(おそらく昼で撃沈したならその時の)時刻
+		api_m_flag			：1?
 	api_parallel_quest_count	：最大受領可能任務数
 
 api_get_member/slot_item	：装備品情報
@@ -508,6 +532,7 @@ api_get_member/slot_item	：装備品情報
 	api_slotitem_id			：装備ID
 	api_locked				：ロック有無
 	api_level				：改修Level
+	api_alv					：艦載機熟練度　1以上の時のみ存在
 
 
 api_get_member/unsetslot	：未装備武器のカテゴリ分け？
@@ -529,7 +554,7 @@ api_get_member/useitem		：アイテム情報
 
 api_get_member/material		：資源情報
 	api_member_id	：
-	api_id			：ID 1から 燃料, 弾薬, 鋼材, ボーキサイト, 高速建造材?, 高速修復材, 開発資材?, 改修資材
+	api_id			：ID 1から 燃料, 弾薬, 鋼材, ボーキサイト, 高速建造材, 高速修復材, 開発資材, 改修資材
 	api_value		：保有数
 
 api_get_member/kdock		：工廠ドック
@@ -982,6 +1007,21 @@ Request.api_req_kaisou/unsetslot_all	：装備全解除
 	
 api_req_kaisou/unsetslot_all			：装備全解除
 	(情報なし)
+
+
+Request.api_req_kaisou/open_exslot		：補強スロット開放
+	api_id				：艦船ID
+
+api_req_kaisou/open_exslot				：補強スロット解放
+	(情報なし)
+
+Request.api_req_kaisou/slotset_ex		：補強スロット装備
+	api_id				：艦船ID
+	api_item_id			：装備ID -1=はずす
+
+api_req_kaisou/slotset_ex				：補強スロット装備
+	(情報なし)
+
 
 Request.api_req_kaisou/remodeling	：改装
 	api_id				：艦船ID
@@ -1544,17 +1584,20 @@ api_req_kaisou/marriage		：ケッコンカッコカリ
 
 
 api_get_member/payitem		：保有課金アイテム(取り出す前のアイテム)　未保有時はnull
-	api_payitem_id			：アイテムID　文字列　指輪=20
+	api_payitem_id			：アイテムID　文字列　指輪=20, 補強増設=26
 	api_type				：
 	api_name				：名前
 	api_description			：説明
 	api_price				：価格
-	api_count				：個数？
+	api_count				：個数
 
 
 Request.api_req_member/payitemuse	：課金アイテム使用
 	api_payitem_id			：使用したアイテムのID
 	api_force_flag			：
+
+api_req_member/payitemuse	：課金アイテム使用
+	api_caution_flag		：0?
 
 
 Request.api_req_member/itemuse		：アイテム使用
@@ -1606,6 +1649,20 @@ api_req_map/select_eventmap_rank	：イベント海域難易度選択
 	(情報なし)
 
 
+Request.api_req_furniture/buy		：家具購入
+	api_type		：家具種別
+	api_no			：家具ID
+
+api_req_furniture/buy				：家具購入
+	(情報なし)
+
+api_dmm_payment/paycheck			：アイテム購入
+	api_check_value		：購入個数?
+
+
+
+
+
 ◇APIが呼ばれる順番
 
 《ログイン》
@@ -1635,10 +1692,10 @@ api_req_sortie/battleresult
 api_get_member/ship_deck
 api_req_map/next
 [帰投]
+api_port/port
 api_get_member/slot_item
 api_get_member/unsetslot
 api_get_member/useitem
-api_port/port
 
 
 《遠征》
@@ -1671,6 +1728,12 @@ api_get_member/ship3
 [装備全解除]
 api_req_kaisou/unsetslot_all
 api_get_member/ship3
+[補強スロット開放]
+api_req_kaisou/open_exslot	(ship3は呼ばれない)
+[補強スロット換装]
+api_req_kaisou/slotset_ex
+api_get_member/ship3
+
 
 《艦船建造》
 api_req_kousyou/createship

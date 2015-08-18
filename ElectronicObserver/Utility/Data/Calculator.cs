@@ -525,8 +525,8 @@ namespace ElectronicObserver.Utility.Data {
 			}
 
 
-			//秋月/秋月改限定
-			if ( shipID == 421 || shipID == 330 ) {
+			//秋月/秋月改/照月/照月改限定
+			if ( shipID == 421 || shipID == 330 || shipID == 422 || shipID == 346 ) {
 
 				if ( highangle >= 2 && radar >= 1 ) {
 					return 1;
@@ -546,6 +546,11 @@ namespace ElectronicObserver.Utility.Data {
 
 					return 11;
 				}
+			}
+
+			if ( shipID == 141 ) {		//五十鈴改二限定
+				if ( highangle >= 1 && aagun >= 1 && aaradar >= 1 )
+					return 14;
 			}
 
 			if ( maingunl >= 1 && aashell >= 1 && director >= 1 && aaradar >= 1 ) {

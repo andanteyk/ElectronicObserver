@@ -22,7 +22,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 			db.Admiral.LoadFromResponse( APIName, data.api_basic );
 
 			//api_ship
-			//ちょっと遅くなるかもだけど、齟齬(幽霊とかドッペルゲンガーとか)の発生を防ぐため全入れ替え
 			db.Ships.Clear();
 			foreach ( var elem in data.api_ship ) {
 

@@ -478,10 +478,16 @@ namespace ElectronicObserver.Window {
 				StringBuilder sb = new StringBuilder();
 
 				for ( int i = 0; i < ship.Slot.Count; i++ ) {
-					if ( ship.SlotInstance[i] != null )
-						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], KCDatabase.Instance.Equipments[ship.Slot[i]].NameWithLevel );
+					var eq = ship.SlotInstance[i];
+					if ( eq != null )
+						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], eq.NameWithLevel );
 				}
 
+				{
+					var exslot = ship.ExpansionSlotInstance;
+					if ( exslot != null )
+						sb.AppendFormat( "補強: {0}\r\n", exslot.NameWithLevel );
+				}
 
 				int[] slotmaster = ship.SlotMaster.ToArray();
 
@@ -686,7 +692,7 @@ namespace ElectronicObserver.Window {
 
 				sb.AppendFormat( "{0}/{1}\t", ship.MasterShip.Name, ship.Level );
 
-				var eq = ship.SlotInstance;
+				var eq = ship.AllSlotInstance;
 
 
 				if ( eq != null ) {
@@ -696,7 +702,7 @@ namespace ElectronicObserver.Window {
 
 						int count = 1;
 						for ( int k = j + 1; k < eq.Count; k++ ) {
-							if ( eq[k] != null && eq[k].EquipmentID == eq[j].EquipmentID && eq[k].Level == eq[j].Level ) {
+							if ( eq[k] != null && eq[k].EquipmentID == eq[j].EquipmentID && eq[k].Level == eq[j].Level && eq[k].AircraftLevel == eq[j].AircraftLevel ) {
 								count++;
 							} else {
 								break;

@@ -27,7 +27,7 @@ namespace ElectronicObserver.Data {
 		/// 図鑑番号
 		/// </summary>
 		public int AlbumNo {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_sortno; }
+			get { return !RawData.api_sortno() ? 0 : (int)RawData.api_sortno; }
 		}
 
 		/// <summary>
@@ -56,7 +56,7 @@ namespace ElectronicObserver.Data {
 		/// 改装Lv.
 		/// </summary>
 		public int RemodelAfterLevel {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_afterlv; }
+			get { return !RawData.api_afterlv() ? 0 : (int)RawData.api_afterlv; }
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace ElectronicObserver.Data {
 		/// 0=なし
 		/// </summary>
 		public int RemodelAfterShipID {
-			get { return IsAbyssalShip ? 0 : int.Parse( (string)RawData.api_aftershipid ); }
+			get { return !RawData.api_aftershipid() ? 0 : int.Parse( (string)RawData.api_aftershipid ); }
 		}
 
 		/// <summary>
@@ -93,14 +93,14 @@ namespace ElectronicObserver.Data {
 		/// 改装に必要な弾薬
 		/// </summary>
 		public int RemodelAmmo {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_afterfuel; }
+			get { return !RawData.api_afterfuel() ? 0 : (int)RawData.api_afterfuel; }
 		}
 
 		/// <summary>
 		/// 改装に必要な鋼材
 		/// </summary>
 		public int RemodelSteel {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_afterbull; }
+			get { return !RawData.api_afterbull() ? 0 : (int)RawData.api_afterbull; }
 		}
 
 		/// <summary>
@@ -115,70 +115,70 @@ namespace ElectronicObserver.Data {
 		/// 耐久初期値
 		/// </summary>
 		public int HPMin {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_taik[0]; }
+			get { return !RawData.api_taik() ? 0 : (int)RawData.api_taik[0]; }
 		}
 
 		/// <summary>
 		/// 耐久最大値
 		/// </summary>
 		public int HPMax {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_taik[1]; }
+			get { return !RawData.api_taik() ? 0 : (int)RawData.api_taik[1]; }
 		}
 
 		/// <summary>
 		/// 装甲初期値
 		/// </summary>
 		public int ArmorMin {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_souk[0]; }
+			get { return !RawData.api_souk() ? 0 : (int)RawData.api_souk[0]; }
 		}
 
 		/// <summary>
 		/// 装甲最大値
 		/// </summary>
 		public int ArmorMax {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_souk[1]; }
+			get { return !RawData.api_souk() ? 0 : (int)RawData.api_souk[1]; }
 		}
 
 		/// <summary>
 		/// 火力初期値
 		/// </summary>
 		public int FirepowerMin {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_houg[0]; }
+			get { return !RawData.api_houg() ? 0 : (int)RawData.api_houg[0]; }
 		}
 
 		/// <summary>
 		/// 火力最大値
 		/// </summary>
 		public int FirepowerMax {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_houg[1]; }
+			get { return !RawData.api_houg() ? 0 : (int)RawData.api_houg[1]; }
 		}
 
 		/// <summary>
 		/// 雷装初期値
 		/// </summary>
 		public int TorpedoMin {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_raig[0]; }
+			get { return !RawData.api_raig() ? 0 : (int)RawData.api_raig[0]; }
 		}
 
 		/// <summary>
 		/// 雷装最大値
 		/// </summary>
 		public int TorpedoMax {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_raig[1]; }
+			get { return !RawData.api_raig() ? 0 : (int)RawData.api_raig[1]; }
 		}
 
 		/// <summary>
 		/// 対空初期値
 		/// </summary>
 		public int AAMin {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_tyku[0]; }
+			get { return !RawData.api_tyku() ? 0 : (int)RawData.api_tyku[0]; }
 		}
 
 		/// <summary>
 		/// 対空最大値
 		/// </summary>
 		public int AAMax {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_tyku[1]; }
+			get { return !RawData.api_tyku() ? 0 : (int)RawData.api_tyku[1]; }
 		}
 
 
@@ -226,14 +226,14 @@ namespace ElectronicObserver.Data {
 		/// 運初期値
 		/// </summary>
 		public int LuckMin {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_luck[0]; }
+			get { return !RawData.api_luck() ? 0 : (int)RawData.api_luck[0]; }
 		}
 
 		/// <summary>
 		/// 運最大値
 		/// </summary>
 		public int LuckMax {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_luck[1]; }
+			get { return !RawData.api_luck() ? 0 : (int)RawData.api_luck[1]; }
 		}
 
 		/// <summary>
@@ -248,7 +248,7 @@ namespace ElectronicObserver.Data {
 		/// 射程
 		/// </summary>
 		public int Range {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_leng; }
+			get { return !RawData.api_leng() ? 0 : (int)RawData.api_leng; }
 		}
 		#endregion
 
@@ -264,7 +264,7 @@ namespace ElectronicObserver.Data {
 		/// 各スロットの航空機搭載数
 		/// </summary>
 		public ReadOnlyCollection<int> Aircraft {
-			get { return Array.AsReadOnly<int>( IsAbyssalShip ? new[] { 0, 0, 0, 0, 0 } : (int[])RawData.api_maxeq ); }
+			get { return Array.AsReadOnly<int>( !RawData.api_maxeq() ? new[] { 0, 0, 0, 0, 0 } : (int[])RawData.api_maxeq ); }
 		}
 
 		/// <summary>
@@ -285,7 +285,7 @@ namespace ElectronicObserver.Data {
 		/// 建造時間(分)
 		/// </summary>
 		public int BuildingTime {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_buildtime; }
+			get { return !RawData.api_buildtime() ? 0 : (int)RawData.api_buildtime; }
 		}
 
 
@@ -293,28 +293,28 @@ namespace ElectronicObserver.Data {
 		/// 解体資材
 		/// </summary>
 		public ReadOnlyCollection<int> Material {
-			get { return Array.AsReadOnly<int>( IsAbyssalShip ? new[] { 0, 0, 0, 0 } : (int[])RawData.api_broken ); }
+			get { return Array.AsReadOnly<int>( !RawData.api_broken() ? new[] { 0, 0, 0, 0 } : (int[])RawData.api_broken ); }
 		}
 
 		/// <summary>
 		/// 近代化改修の素材にしたとき上昇するパラメータの量
 		/// </summary>
 		public ReadOnlyCollection<int> PowerUp {
-			get { return Array.AsReadOnly<int>( IsAbyssalShip ? new[] { 0, 0, 0, 0 } : (int[])RawData.api_powup ); }
+			get { return Array.AsReadOnly<int>( !RawData.api_powup() ? new[] { 0, 0, 0, 0 } : (int[])RawData.api_powup ); }
 		}
 
 		/// <summary>
 		/// レアリティ
 		/// </summary>
 		public int Rarity {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_backs; }
+			get { return !RawData.api_backs() ? 0 : (int)RawData.api_backs; }
 		}
 
 		/// <summary>
 		/// ドロップ/ログイン時のメッセージ
 		/// </summary>
 		public string MessageGet {
-			get { return IsAbyssalShip ? "" : ( (string)RawData.api_getmes ).Replace( "<br>", "\n" ); }
+			get { return !RawData.api_getmes() ? "" : ( (string)RawData.api_getmes ).Replace( "<br>", "\n" ); }
 		}
 
 		/// <summary>
@@ -334,14 +334,14 @@ namespace ElectronicObserver.Data {
 		/// 搭載燃料
 		/// </summary>
 		public int Fuel {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_fuel_max; }
+			get { return !RawData.api_fuel_max() ? 0 : (int)RawData.api_fuel_max; }
 		}
 
 		/// <summary>
 		/// 搭載弾薬
 		/// </summary>
 		public int Ammo {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_bull_max; }
+			get { return !RawData.api_bull_max() ? 0 : (int)RawData.api_bull_max; }
 		}
 
 
@@ -349,7 +349,7 @@ namespace ElectronicObserver.Data {
 		/// ボイス再生フラグ
 		/// </summary>
 		public int VoiceFlag {
-			get { return IsAbyssalShip ? 0 : (int)RawData.api_voicef; }
+			get { return !RawData.api_voicef() ? 0 : (int)RawData.api_voicef; }
 		}
 
 
@@ -394,13 +394,22 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// 深海棲艦のクラス
-		/// 0=その他, 1=通常, 2=elite, 3=flagship, 4=改flagship|後期型
+		/// 0=その他, 1=通常, 2=elite, 3=flagship, 4=改flagship|後期型, 5=後期型elite, 6=後期型flagship
 		/// </summary>
 		public int AbyssalShipClass {
 			get {
 				if ( !IsAbyssalShip )
 					return 0;
-				else if ( Name.Contains( "後期型" ) || ( Name.Contains( "改" ) && NameReading == "flagship" ) )
+
+				else if ( Name.Contains( "後期型" ) ) {
+					if ( NameReading == "flagship" )
+						return 6;
+					else if ( NameReading == "elite" )
+						return 5;
+					else
+						return 4;
+
+				} else if ( Name.Contains( "改" ) && NameReading == "flagship" )
 					return 4;
 				else if ( NameReading == "flagship" )
 					return 3;

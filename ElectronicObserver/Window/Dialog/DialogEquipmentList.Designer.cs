@@ -37,6 +37,7 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.DetailView = new System.Windows.Forms.DataGridView();
 			this.DetailView_Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.DetailView_AircraftLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.DetailView_CountAll = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.DetailView_CountRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.DetailView_EquippedShip = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,7 +70,7 @@
 			this.EquipmentView.RowHeadersVisible = false;
 			this.EquipmentView.RowTemplate.Height = 21;
 			this.EquipmentView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.EquipmentView.Size = new System.Drawing.Size(320, 454);
+			this.EquipmentView.Size = new System.Drawing.Size(320, 442);
 			this.EquipmentView.TabIndex = 0;
 			this.EquipmentView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.EquipmentView_CellFormatting);
 			this.EquipmentView.SelectionChanged += new System.EventHandler(this.EquipmentView_SelectionChanged);
@@ -116,11 +117,12 @@
 			// 
 			// TopMenu
 			// 
+			this.TopMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TopMenu_File});
 			this.TopMenu.Location = new System.Drawing.Point(0, 0);
 			this.TopMenu.Name = "TopMenu";
-			this.TopMenu.Size = new System.Drawing.Size(640, 26);
+			this.TopMenu.Size = new System.Drawing.Size(640, 38);
 			this.TopMenu.TabIndex = 1;
 			this.TopMenu.Text = "menuStrip1";
 			// 
@@ -130,22 +132,22 @@
             this.TopMenu_File_CSVOutput,
             this.TopMenu_File_Update});
 			this.TopMenu_File.Name = "TopMenu_File";
-			this.TopMenu_File.Size = new System.Drawing.Size(85, 22);
+			this.TopMenu_File.Size = new System.Drawing.Size(128, 34);
 			this.TopMenu_File.Text = "ファイル(&F)";
 			// 
 			// TopMenu_File_CSVOutput
 			// 
 			this.TopMenu_File_CSVOutput.Name = "TopMenu_File_CSVOutput";
 			this.TopMenu_File_CSVOutput.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.TopMenu_File_CSVOutput.Size = new System.Drawing.Size(201, 22);
+			this.TopMenu_File_CSVOutput.Size = new System.Drawing.Size(331, 34);
 			this.TopMenu_File_CSVOutput.Text = "CSV出力(&C)...";
 			this.TopMenu_File_CSVOutput.Click += new System.EventHandler(this.Menu_File_CSVOutput_Click);
 			// 
 			// TopMenu_File_Update
 			// 
 			this.TopMenu_File_Update.Name = "TopMenu_File_Update";
-			this.TopMenu_File_Update.ShortcutKeys = System.Windows.Forms.Keys.F5;
-			this.TopMenu_File_Update.Size = new System.Drawing.Size(201, 22);
+			this.TopMenu_File_Update.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+			this.TopMenu_File_Update.Size = new System.Drawing.Size(331, 34);
 			this.TopMenu_File_Update.Text = "更新(&U)";
 			this.TopMenu_File_Update.Click += new System.EventHandler(this.TopMenu_File_Update_Click);
 			// 
@@ -157,7 +159,7 @@
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 26);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 38);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -167,7 +169,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.DetailView);
-			this.splitContainer1.Size = new System.Drawing.Size(640, 454);
+			this.splitContainer1.Size = new System.Drawing.Size(640, 442);
 			this.splitContainer1.SplitterDistance = 320;
 			this.splitContainer1.TabIndex = 2;
 			// 
@@ -180,6 +182,7 @@
 			this.DetailView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.DetailView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DetailView_Level,
+            this.DetailView_AircraftLevel,
             this.DetailView_CountAll,
             this.DetailView_CountRemain,
             this.DetailView_EquippedShip});
@@ -190,7 +193,7 @@
 			this.DetailView.RowHeadersVisible = false;
 			this.DetailView.RowTemplate.Height = 21;
 			this.DetailView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.DetailView.Size = new System.Drawing.Size(316, 454);
+			this.DetailView.Size = new System.Drawing.Size(316, 442);
 			this.DetailView.TabIndex = 1;
 			this.DetailView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DetailView_CellFormatting);
 			this.DetailView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DetailView_CellPainting);
@@ -201,6 +204,13 @@
 			this.DetailView_Level.Name = "DetailView_Level";
 			this.DetailView_Level.ReadOnly = true;
 			this.DetailView_Level.Width = 40;
+			// 
+			// DetailView_AircraftLevel
+			// 
+			this.DetailView_AircraftLevel.HeaderText = "練度";
+			this.DetailView_AircraftLevel.Name = "DetailView_AircraftLevel";
+			this.DetailView_AircraftLevel.ReadOnly = true;
+			this.DetailView_AircraftLevel.Width = 40;
 			// 
 			// DetailView_CountAll
 			// 
@@ -266,6 +276,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.DataGridView DetailView;
 		private System.Windows.Forms.DataGridViewTextBoxColumn DetailView_Level;
+		private System.Windows.Forms.DataGridViewTextBoxColumn DetailView_AircraftLevel;
 		private System.Windows.Forms.DataGridViewTextBoxColumn DetailView_CountAll;
 		private System.Windows.Forms.DataGridViewTextBoxColumn DetailView_CountRemain;
 		private System.Windows.Forms.DataGridViewTextBoxColumn DetailView_EquippedShip;

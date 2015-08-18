@@ -176,7 +176,9 @@ namespace ElectronicObserver.Window.Dialog {
 				return false;
 
 			return ( (IComparable)DetailView[DetailView_Level.Index, rowIndex1].Value )
-				.CompareTo( DetailView[DetailView_Level.Index, rowIndex2].Value ) == 0;
+				.CompareTo( DetailView[DetailView_Level.Index, rowIndex2].Value ) == 0 &&
+				( (IComparable)DetailView[DetailView_AircraftLevel.Index, rowIndex1].Value )
+				.CompareTo( DetailView[DetailView_AircraftLevel.Index, rowIndex2].Value ) == 0;
 		}
 
 
@@ -269,21 +271,31 @@ namespace ElectronicObserver.Window.Dialog {
 		private class DetailCounter : IIdentifiable {
 
 			public int level;
+			public int aircraftLevel;
 			public int countAll;
 			public int countRemain;
 			public int countRemainPrev;
 
 			public List<string> equippedShips;
 
-			public DetailCounter( int lv ) {
+			public DetailCounter( int lv, int aircraftLv ) {
 				level = lv;
+				aircraftLevel = aircraftLv;
 				countAll = 0;
 				countRemainPrev = 0;
 				countRemain = 0;
 				equippedShips = new List<string>();
 			}
 
-			public int ID { get { return level; } }
+			public static int CalculateID( int level, int aircraftLevel ) {
+				return level + aircraftLevel * 100;
+			}
+
+			public static int CalculateID( EquipmentData eq ) {
+				return CalculateID( eq.Level, eq.AircraftLevel );
+			}
+
+			public int ID { get { return CalculateID( level, aircraftLevel ); } }
 		}
 
 
@@ -301,10 +313,10 @@ namespace ElectronicObserver.Window.Dialog {
 			var countlist = new IDDictionary<DetailCounter>();
 
 			foreach ( var eq in eqs ) {
-				var c = countlist[eq.Level];
+				var c = countlist[DetailCounter.CalculateID( eq )];
 				if ( c == null ) {
-					countlist.Add( new DetailCounter( eq.Level ) );
-					c = countlist[eq.Level];
+					countlist.Add( new DetailCounter( eq.Level, eq.AircraftLevel ) );
+					c = countlist[DetailCounter.CalculateID( eq )];
 				}
 				c.countAll++;
 				c.countRemain++;
@@ -316,7 +328,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				foreach ( var eq in ship.SlotInstance.Where( s => s != null && s.EquipmentID == equipmentID ) ) {
 
-					countlist[eq.Level].countRemain--;
+					countlist[DetailCounter.CalculateID( eq )].countRemain--;
 
 				}
 
@@ -347,13 +359,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 					var row = new DataGridViewRow();
 					row.CreateCells( DetailView );
-					row.SetValues( c.level, c.countAll, c.countRemain, s );
+					row.SetValues( c.level, c.aircraftLevel, c.countAll, c.countRemain, s );
 					rows.Add( row );
 				}
 
 			}
 
 			DetailView.Rows.AddRange( rows.ToArray() );
+			DetailView.Sort( DetailView_AircraftLevel, ListSortDirection.Ascending );
 			DetailView.Sort( DetailView_Level, ListSortDirection.Ascending );
 
 			DetailView.ResumeLayout();
@@ -371,8 +384,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "固有ID,装備ID,装備名,改修Lv,ロック,装備艦ID,装備艦" );
-						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 7 ) ) );
+						sw.WriteLine( "固有ID,装備ID,装備名,改修Lv,艦載機Lv,ロック,装備艦ID,装備艦" );
+						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 8 ) ) );
 
 						foreach ( var eq in KCDatabase.Instance.Equipments.Values ) {
 
@@ -386,6 +399,7 @@ namespace ElectronicObserver.Window.Dialog {
 								eq.EquipmentID,
 								eq.Name,
 								eq.Level,
+								eq.AircraftLevel,
 								eq.IsLocked ? 1 : 0,
 								equippedShip != null ? equippedShip.MasterID : -1,
 								equippedShip != null ? equippedShip.NameWithLevel : ""
