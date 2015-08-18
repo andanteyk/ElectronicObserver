@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Codeplex.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data {
-	
+
 	/// <summary>
 	/// 艦種
 	/// </summary>
@@ -27,14 +29,14 @@ namespace ElectronicObserver.Data {
 		public int SortID {
 			get { return (int)RawData.api_sortno; }
 		}
-		
+
 		/// <summary>
 		/// 艦種名
 		/// </summary>
 		public string Name {
 			get { return RawData.api_name; }
 		}
-		
+
 		/// <summary>
 		/// 入渠時間係数
 		/// </summary>
@@ -42,16 +44,16 @@ namespace ElectronicObserver.Data {
 			get { return (int)RawData.api_scnt; }
 		}
 
-		
+
 		//TODO: api_kcnt
 
 
 		/// <summary>
 		/// 装備可否フラグ
 		/// </summary>
-		private Dictionary<int, bool> _equipmentType;
-		public ReadOnlyDictionary<int, bool> EquipmentType {
-			get { return new ReadOnlyDictionary<int, bool>( _equipmentType ); }
+		private HashSet<int> _equipmentType;
+		public HashSet<int> EquipmentType {
+			get { return _equipmentType; }
 		}
 
 
@@ -65,19 +67,24 @@ namespace ElectronicObserver.Data {
 		public ShipType()
 			: base() {
 
-			_equipmentType = new Dictionary<int, bool>();
+			_equipmentType = new HashSet<int>();
 		}
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
+
+			// api_equip_type の置換処理
+			// checkme: 無駄が多い気がするのでもっといい案があったら是非
+			data = DynamicJson.Parse( Regex.Replace( data.ToString(), @"""(?<id>\d+?)""", @"""api_id_${id}""" ) );
+
 			base.LoadFromResponse( apiname, (object)data );
 
-			//注：jsonの命名規則に違反するkeyを持っていて読み込めないので、決め打ちで読み込む
+			
 			if ( IsAvailable ) {
-				int i = 1;
-				_equipmentType = new Dictionary<int, bool>();
+				_equipmentType = new HashSet<int>();
 				foreach ( KeyValuePair<string, object> type in RawData.api_equip_type ) {
-					_equipmentType.Add( i, (double)type.Value != 0 );
-					i++;
+
+					if ( (double)type.Value != 0 )
+						_equipmentType.Add( Convert.ToInt32( type.Key.Substring( 7 ) ) );		//skip api_id_
 				}
 			}
 		}

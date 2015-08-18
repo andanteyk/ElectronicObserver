@@ -281,8 +281,8 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		public Dictionary<int, ShipParameterElement> Record { get; private set; }
-		private int NewShipIDBorder;
-		private int RemodelingShipID;
+		private int newShipIDBorder;
+		private int remodelingShipID;
 		public bool ParameterLoadFlag { get; set; }
 
 
@@ -290,8 +290,8 @@ namespace ElectronicObserver.Resource.Record {
 			: base() {
 			
 			Record = new Dictionary<int, ShipParameterElement>();
-			NewShipIDBorder = -1;
-			RemodelingShipID = -1;
+			newShipIDBorder = -1;
+			remodelingShipID = -1;
 			ParameterLoadFlag = true;
 
 			APIObserver ao = APIObserver.Instance;
@@ -315,7 +315,8 @@ namespace ElectronicObserver.Resource.Record {
 			ao.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStart;
 
 			ao.APIList["api_req_map/start"].ResponseReceived += SortieStart;
-			ao.APIList["api_port/port"].ResponseReceived += SortieEnd;
+			//ao.APIList["api_port/port"].ResponseReceived += SortieEnd;
+			ao.APIList["api_get_member/slot_item"].ResponseReceived += SortieEnd;
 
 			ao.APIList["api_req_kousyou/getship"].ResponseReceived += ConstructionReceived;
 
@@ -526,7 +527,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		private void SortieStart( string apiname, dynamic data ) {
 
-			NewShipIDBorder = KCDatabase.Instance.Ships.Max( ( KeyValuePair<int, ShipData> s ) => s.Value.MasterID );
+			newShipIDBorder = KCDatabase.Instance.Ships.Max( ( KeyValuePair<int, ShipData> s ) => s.Value.MasterID );
 
 		}
 
@@ -536,16 +537,16 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		private void SortieEnd( string apiname, dynamic data ) {
 
-			if ( NewShipIDBorder == -1 ) return;
+			if ( newShipIDBorder == -1 ) return;
 
-			foreach ( ShipData s in KCDatabase.Instance.Ships.Values.Where( ( ShipData s ) => s.MasterID > NewShipIDBorder ) ) {
+			foreach ( ShipData s in KCDatabase.Instance.Ships.Values.Where( ( ShipData s ) => s.MasterID > newShipIDBorder ) ) {
 
 				UpdateParameter( s );
 				UpdateDefaultSlot( s );
 
 			}
 
-			NewShipIDBorder = -1;
+			newShipIDBorder = -1;
 		}
 
 
@@ -570,7 +571,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		void RemodelingStart( string apiname, dynamic data ) {
 
-			RemodelingShipID = int.Parse( data["api_id"] );
+			remodelingShipID = int.Parse( data["api_id"] );
 
 		}
 
@@ -579,16 +580,16 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		void RemodelingEnd( string apiname, dynamic data ) {
 
-			if ( RemodelingShipID == -1 ) return;
+			if ( remodelingShipID == -1 ) return;
 
-			ShipData ship = KCDatabase.Instance.Ships[RemodelingShipID];
+			ShipData ship = KCDatabase.Instance.Ships[remodelingShipID];
 
 			if ( ship != null ) {
 				UpdateParameter( ship );
 				UpdateDefaultSlot( ship );
 			}
 
-			RemodelingShipID = -1;
+			remodelingShipID = -1;
 		}
 
 		
