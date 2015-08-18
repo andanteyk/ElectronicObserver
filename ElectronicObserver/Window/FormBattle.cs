@@ -139,9 +139,11 @@ namespace ElectronicObserver.Window {
 			BattleManager bm = KCDatabase.Instance.Battle;
 			if ( bm == null
 				|| bm.BattleMode == BattleManager.BattleModes.Undefined	// 无战斗
-				|| bm.BattleMode == BattleManager.BattleModes.NightDay	// TODO: 夜转昼
-				|| bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask)	// TODO：联合舰队
+				|| bm.BattleMode == BattleManager.BattleModes.NightDay )	// TODO: 夜转昼
+				//|| bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask )	// TODO：联合舰队
 				return;
+
+			bool isCombined = bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask;
 
 			StringBuilder builder = new StringBuilder();
 			builder.AppendLine( @"<html>
@@ -169,6 +171,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			}
 
 			string[] friends = init.FriendFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
+			string[] accompany = init.AccompanyFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
 			int[] hps = (int[])init.InitialHPs.Clone();
 			int[] maxHps = init.MaxHPs;
 
@@ -179,7 +182,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					try {
 						// 航空战血量变化
 						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available ) {
-							FillAirDamage( "航空战", builder, day.AirBattle.Damages, friends, enemys, hps, maxHps );
+							FillAirDamage( "航空战", builder, day.AirBattle.Damages, friends, isCombined ? accompany : null, enemys, hps, maxHps );
 						}
 
 						// 支援
@@ -207,7 +210,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 					// 开幕雷击
 					if ( day.OpeningTorpedo != null && day.OpeningTorpedo.IsAvailable ) {
-						FillTorpedoDamage( "开幕雷击", builder, day.OpeningTorpedo.TorpedoData, friends, enemys, hps, maxHps );
+						FillTorpedoDamage( "开幕雷击", builder, day.OpeningTorpedo.TorpedoData, isCombined ? accompany : friends, enemys, hps, maxHps );
 					}
 
 
@@ -220,10 +223,14 @@ td,th,tr {text-align:left; padding:2px 4px;}
 						FillShellingDamage( "炮击战2回合", builder, day.Shelling2.ShellingData, friends, enemys, hps, maxHps );
 					}
 
+					if ( day.Shelling3 != null && day.Shelling3.IsAvailable )
+					{
+						FillShellingDamage( "炮击战3回合", builder, day.Shelling3.ShellingData, accompany, enemys, hps, maxHps );
+					}
 
 					// 闭幕雷击
 					if ( day.Torpedo != null && day.Torpedo.IsAvailable ) {
-						FillTorpedoDamage( "闭幕雷击", builder, day.Torpedo.TorpedoData, friends, enemys, hps, maxHps );
+						FillTorpedoDamage( "闭幕雷击", builder, day.Torpedo.TorpedoData, isCombined ? accompany : friends, enemys, hps, maxHps );
 					}
 				}
 			}
@@ -235,7 +242,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 					var nightbattle = night.NightBattle;
 					if ( nightbattle.ShellingData != null ) {
-						FillShellingDamage( "夜战", builder, nightbattle.ShellingData, friends, enemys, hps, maxHps );
+						FillShellingDamage( "夜战", builder, nightbattle.ShellingData, isCombined ? accompany : friends, enemys, hps, maxHps );
 					}
 
 				}
@@ -246,7 +253,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			new Dialog.DialogBattleReport( builder.ToString() ).Show();
 		}
 
-		private void FillAirDamage( string name, StringBuilder builder, int[] damages, string[] friends, string[] enemys, int[] hps, int[] maxHps ) {
+		private void FillAirDamage( string name, StringBuilder builder, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
+		{
 
 			builder.AppendFormat( @"<h2>{0}</h2>
 <hr />
@@ -255,12 +263,17 @@ td,th,tr {text-align:left; padding:2px 4px;}
 <tr>
 <th width=""160"">我方</th>
 <th width=""90"">血量</th>
-<th width=""160"">敌方</th>
+", name );
+			if ( accompany != null )
+			{
+				builder.AppendLine( @"<th width=""160"">伴随</th>
+<th width=""90"">血量</th>" );
+			}
+			builder.AppendLine( @"<th width=""160"">敌方</th>
 <th width=""90"">血量</th>
 </tr>
 </thead>
-<tbody>
-", name );
+<tbody>" );
 
 			for ( int i = 0; i < 6; i++ ) {
 				builder.AppendLine( "<tr>" );
@@ -276,6 +289,23 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 				} else {
 					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+				}
+
+				if ( accompany != null )
+				{
+					if ( accompany[i] != null )
+					{
+						int before = hps[i + 12];
+						hps[i + 12] -= damages[i + 12];
+						builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+							accompany[i], before, Math.Max( hps[i + 12], 0 ), maxHps[i + 12],
+							( before == hps[i + 12] ? null : @" class=""changed""" ),
+							( i + 1 ) );
+					}
+					else
+					{
+						builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+					}
 				}
 
 				if ( enemys[i] != null ) {

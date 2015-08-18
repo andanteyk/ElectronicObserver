@@ -40,6 +40,14 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		public FleetData FriendFleet { get { return KCDatabase.Instance.Fleet[FriendFleetID]; } }
 
+		/// <summary>
+		/// 伴随舰队
+		/// </summary>
+		public FleetData AccompanyFleet
+		{
+			get { return ( IsCombined && ( FriendFleetID == 1 ) ) ? KCDatabase.Instance.Fleet[2] : FriendFleet; }
+		}
+
 
 		/// <summary>
 		/// 敵艦隊メンバ

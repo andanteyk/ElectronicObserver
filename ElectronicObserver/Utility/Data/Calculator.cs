@@ -183,10 +183,13 @@ namespace ElectronicObserver.Utility.Data {
 
 					case 7:
 					case 8:
-					case 11:
 						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
 						if ( equip.Proficiency == 7 )
 							air += 3;
+						break;
+
+					case 11:
+						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
 						break;
 				}
 			}
