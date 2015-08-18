@@ -98,6 +98,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_hensei.change() );
 			APIList.Add( new kcsapi.api_req_member.updatedeckname() );
 			APIList.Add( new kcsapi.api_req_kaisou.remodeling() );
+			APIList.Add( new kcsapi.api_req_kaisou.open_exslot() );
 
 
 			ServerAddress = null;

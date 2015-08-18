@@ -1008,6 +1008,21 @@ Request.api_req_kaisou/unsetslot_all	：装備全解除
 api_req_kaisou/unsetslot_all			：装備全解除
 	(情報なし)
 
+
+Request.api_req_kaisou/open_exslot		：補強スロット開放
+	api_id				：艦船ID
+
+api_req_kaisou/open_exslot				：補強スロット解放
+	(情報なし)
+
+Request.api_req_kaisou/slotset_ex		：補強スロット装備
+	api_id				：艦船ID
+	api_item_id			：装備ID -1=はずす
+
+api_req_kaisou/slotset_ex				：補強スロット装備
+	(情報なし)
+
+
 Request.api_req_kaisou/remodeling	：改装
 	api_id				：艦船ID
 
@@ -1569,17 +1584,20 @@ api_req_kaisou/marriage		：ケッコンカッコカリ
 
 
 api_get_member/payitem		：保有課金アイテム(取り出す前のアイテム)　未保有時はnull
-	api_payitem_id			：アイテムID　文字列　指輪=20
+	api_payitem_id			：アイテムID　文字列　指輪=20, 補強増設=26
 	api_type				：
 	api_name				：名前
 	api_description			：説明
 	api_price				：価格
-	api_count				：個数？
+	api_count				：個数
 
 
 Request.api_req_member/payitemuse	：課金アイテム使用
 	api_payitem_id			：使用したアイテムのID
 	api_force_flag			：
+
+api_req_member/payitemuse	：課金アイテム使用
+	api_caution_flag		：0?
 
 
 Request.api_req_member/itemuse		：アイテム使用
@@ -1629,6 +1647,20 @@ Request.api_req_map/select_eventmap_rank	：イベント海域難易度選択
 
 api_req_map/select_eventmap_rank	：イベント海域難易度選択
 	(情報なし)
+
+
+Request.api_req_furniture/buy		：家具購入
+	api_type		：家具種別
+	api_no			：家具ID
+
+api_req_furniture/buy				：家具購入
+	(情報なし)
+
+api_dmm_payment/paycheck			：アイテム購入
+	api_check_value		：購入個数?
+
+
+
 
 
 ◇APIが呼ばれる順番
@@ -1696,6 +1728,12 @@ api_get_member/ship3
 [装備全解除]
 api_req_kaisou/unsetslot_all
 api_get_member/ship3
+[補強スロット開放]
+api_req_kaisou/open_exslot	(ship3は呼ばれない)
+[補強スロット換装]
+api_req_kaisou/slotset_ex
+api_get_member/ship3
+
 
 《艦船建造》
 api_req_kousyou/createship
