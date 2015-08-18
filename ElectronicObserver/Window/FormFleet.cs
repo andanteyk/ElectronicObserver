@@ -696,7 +696,7 @@ namespace ElectronicObserver.Window {
 
 						int count = 1;
 						for ( int k = j + 1; k < eq.Count; k++ ) {
-							if ( eq[k] != null && eq[k].EquipmentID == eq[j].EquipmentID && eq[k].Level == eq[j].Level ) {
+							if ( eq[k] != null && eq[k].EquipmentID == eq[j].EquipmentID && eq[k].Level == eq[j].Level && eq[k].AircraftLevel == eq[j].AircraftLevel ) {
 								count++;
 							} else {
 								break;
