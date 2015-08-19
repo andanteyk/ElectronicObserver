@@ -267,7 +267,7 @@ namespace ElectronicObserver.Window.Dialog {
 			DefaultSlots.EndUpdate();
 
 
-			Description.Text = eq.Message;
+			Description.Text = eq.Message + "\r\n\r\n[" + string.Join( ", ", eq.EquipmentType ) + "]";
 
 
 			//arsenal

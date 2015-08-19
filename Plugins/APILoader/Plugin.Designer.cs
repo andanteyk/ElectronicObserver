@@ -29,7 +29,8 @@ namespace APILoader
 			this.toolStripSeparator,
 			this.StripMenu_Debug_LoadRecordFromOld,
 			this.StripMenu_Debug_DeleteOldAPI,
-			this.StripMenu_Debug_RenameShipResource} );
+			this.StripMenu_Debug_RenameShipResource,
+            this.StripMenu_Debug_LoadDataFromOld} );
 			this.StripMenu_Debug.Name = "StripMenu_Debug";
 			this.StripMenu_Debug.Size = new System.Drawing.Size( 137, 38 );
 			this.StripMenu_Debug.Text = "调试(&D)";

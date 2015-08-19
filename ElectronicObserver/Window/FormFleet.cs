@@ -335,6 +335,39 @@ namespace ElectronicObserver.Window {
 				return Math.Floor( ( ship.FirepowerTotal + ship.TorpedoTotal ) * 1.5 + ship.BombTotal * 2 + 50 );
 			}
 
+			private double CalculateWeightingAA( ShipData ship )
+			{
+				double aatotal = ship.AATotal;
+				foreach ( var eq in ship.AllSlotInstance )
+				{
+					if ( eq == null )
+						continue;
+
+					int ratio;
+					var eqmaster = eq.MasterEquipment;
+					switch ( eqmaster.IconType )
+					{
+						case 15:	// 对空机枪
+							ratio = 6; break;
+
+						case 16:	// 高角炮
+						case 30:	// 高射装置
+							ratio = 4; break;
+
+						case 11:	// 电探
+							ratio = ( eqmaster.AA > 0 ) ? 3 : 0; break;
+
+						default:
+							ratio = 0; break;
+					}
+					if ( ratio <= 0 )
+						continue;
+
+					aatotal += ratio * ( eqmaster.AA + 0.7 * Math.Sqrt( eq.Level ) );
+				}
+				return aatotal;
+			}
+
 			public void Update( int shipMasterID ) {
 
 				KCDatabase db = KCDatabase.Instance;
@@ -349,7 +382,7 @@ namespace ElectronicObserver.Window {
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip( Name,
 						string.Format(
-							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
+							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n加权对空: {19:0.##}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase,
 							(ship.MasterShip.ShipType == 7 ||	// 轻空母
@@ -365,7 +398,8 @@ namespace ElectronicObserver.Window {
 							ship.LOSBase, ship.LOSTotal,
 							ship.LuckTotal,
 							Constants.GetRange( ship.Range ),
-							Constants.GetSpeed( ship.MasterShip.Speed )
+							Constants.GetSpeed( ship.MasterShip.Speed ),
+							CalculateWeightingAA( ship )
 							) );
 
 

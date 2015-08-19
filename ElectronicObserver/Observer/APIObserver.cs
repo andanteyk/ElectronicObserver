@@ -123,7 +123,7 @@ namespace ElectronicObserver.Observer {
 
 			this.UIControl = UIControl;
 
-			var flag = FiddlerFlags.ChainToUpstreamGateway | FiddlerFlags.OptimizeThreadPool;
+			var flag = FiddlerFlags.ChainToUpstreamGateway; // | FiddlerFlags.OptimizeThreadPool;
 			if ( Utility.Configuration.Config.Connection.RegisterAsSystemProxy )
 				flag |= FiddlerFlags.RegisterAsSystemProxy;
 
