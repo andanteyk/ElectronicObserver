@@ -19,6 +19,9 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int CombinedFlag { get; internal set; }
 
+		/// <summary>
+		/// 泊地修理タイマ
+		/// </summary>
 		public DateTime AnchorageRepairingTimer { get; set; }
 
 
@@ -96,7 +99,7 @@ namespace ElectronicObserver.Data {
 					} break;
 
 				case "api_req_map/start": {
-					int fleetID = int.Parse( data["api_deck_id"] );
+						int fleetID = int.Parse( data["api_deck_id"] );
 						if ( CombinedFlag != 0 && fleetID == 1 ) {
 							Fleets[2].IsInSortie = true;
 						}
@@ -112,11 +115,17 @@ namespace ElectronicObserver.Data {
 
 		}
 
+		/// <summary>
+		/// 泊地修理タイマをリセットします。
+		/// </summary>
 		public void ResetAnchorageRepairing() {
 			AnchorageRepairingTimer = DateTime.Now;
 		}
 
 
+		/// <summary>
+		/// 泊地修理を開始します。
+		/// </summary>
 		public void StartAnchorageRepairing() {
 			if ( Fleets.Values.Count( f => f.IsAnchorageRepairing ) == 1 ) {
 				ResetAnchorageRepairing();

@@ -213,14 +213,9 @@ namespace ElectronicObserver.Window.Dialog {
 			//剰余数計算
 			foreach ( var ship in ships ) {
 
-				int[] eqids = ship.SlotInstance.Select( i => i != null ? i.EquipmentID : -1 ).ToArray();
-
-
-				for ( int i = 0; i < eqids.Length; i++ ) {
-
-					if ( eqids[i] == -1 ) continue;
-
-					remainCount[eqids[i]]--;
+				foreach ( var eq in ship.AllSlotInstanceMaster ) {
+					if ( eq == null ) continue;
+					remainCount[eq.EquipmentID]--;
 				}
 
 			}
@@ -326,7 +321,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//装備艦集計
 			foreach ( var ship in KCDatabase.Instance.Ships.Values ) {
 
-				foreach ( var eq in ship.SlotInstance.Where( s => s != null && s.EquipmentID == equipmentID ) ) {
+				foreach ( var eq in ship.AllSlotInstance.Where( s => s != null && s.EquipmentID == equipmentID ) ) {
 
 					countlist[DetailCounter.CalculateID( eq )].countRemain--;
 

@@ -42,6 +42,9 @@ namespace ElectronicObserver.Observer {
 			"/kcsapi/api_req_combined_battle/airbattle",
 			"/kcsapi/api_req_combined_battle/midnight_battle",
 			"/kcsapi/api_req_combined_battle/battleresult",
+			"/kcsapi/api_req_sortie/airbattle",
+			"/kcsapi/api_req_combined_battle/battle_water",
+			"/kcsapi/api_req_combined_battle/sp_midnight",
 		};
 
 
