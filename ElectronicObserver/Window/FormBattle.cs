@@ -1089,6 +1089,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 		/// </summary>
 		private void SetHPNormal( BattleData bd ) {
 
+			TableTop.SuspendLayout();
+			TableBottom.SuspendLayout();
+
 			float damageWidth = ( Utility.Configuration.Config.FormBattle.IsShortDamage ? DamageWidth / 2 : DamageWidth );
 			float singleWidth = TableBottom.ColumnStyles[0].Width;
 
@@ -1172,6 +1175,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			for ( int i = 12; i < 18; i++ ) {
 				HPBars[i].Visible = false;
 			}
+
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
 
 		}
 
@@ -1299,8 +1305,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			DamageLabels[bd.MVPShipIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 			DamageLabels[6 + bd.MVPShipCombinedIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 
-			TableTop.ResumeLayout( false );
-			TableBottom.ResumeLayout( false );
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
 		}
 
 
@@ -1589,8 +1595,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableBottom.ClientSize.Height );
 			}
 
-			TableTop.ResumeLayout( false );
-			TableBottom.ResumeLayout( false );
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
 
 			if ( DamageLabels == null )
 				return;
