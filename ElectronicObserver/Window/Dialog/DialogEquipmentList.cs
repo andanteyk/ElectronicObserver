@@ -228,6 +228,9 @@ namespace ElectronicObserver.Window.Dialog {
 					remainCount[eqids[i]]--;
 				}
 
+				if ( ship.SlotExInstance != null && ship.SlotExInstance.EquipmentID > 0 )
+					remainCount[ship.SlotExInstance.EquipmentID]--;
+
 			}
 
 
@@ -327,6 +330,11 @@ namespace ElectronicObserver.Window.Dialog {
 
 				}
 
+				if (ship.SlotExInstance != null && ship.SlotExInstance.EquipmentID == equipmentID )
+				{
+					countlist[ship.SlotExInstance.Level].countRemain--;
+				}
+
 				foreach ( var c in countlist.Values ) {
 					if ( c.countRemain != c.countRemainPrev ) {
 
@@ -385,7 +393,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 							if ( eq.Name == "なし" ) continue;
 
-							ShipData equippedShip = KCDatabase.Instance.Ships.Values.FirstOrDefault( s => s.Slot.Contains( eq.MasterID ) );
+							ShipData equippedShip = KCDatabase.Instance.Ships.Values.FirstOrDefault( s => s.Slot.Contains( eq.MasterID ) || s.SlotEx == eq.MasterID );
 
 
 							sw.WriteLine( arg,
