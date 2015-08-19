@@ -113,9 +113,22 @@ namespace ElectronicObserver.Data {
 
 
 
+
+		/// <summary>
+		/// 疲労度回復処理用タイマ
+		/// </summary>
 		public DateTime? ConditionTime { get; internal set; }
+
+		/// <summary>
+		/// 疲労回復タイマがロック中かどうか
+		/// </summary>
 		public bool IsConditionTimeLocked { get; internal set; }
+
+		/// <summary>
+		/// 泊地修理中かどうか
+		/// </summary>
 		public bool IsAnchorageRepairing { get; internal set; }
+
 
 
 		public int ID {
@@ -224,6 +237,8 @@ namespace ElectronicObserver.Data {
 
 
 							SetConditionTimer();
+							if ( IsAnchorageRepairing )
+								KCDatabase.Instance.Fleet.ResetAnchorageRepairing();
 
 						} else {
 
@@ -237,6 +252,9 @@ namespace ElectronicObserver.Data {
 										else
 											RemoveShip( i );
 
+										if ( IsAnchorageRepairing )
+											KCDatabase.Instance.Fleet.ResetAnchorageRepairing();
+
 										break;
 									}
 								}
@@ -245,7 +263,8 @@ namespace ElectronicObserver.Data {
 
 						}
 
-						KCDatabase.Instance.Fleet.ResetAnchorageRepairing();
+
+						
 						UpdateAnchorageRepairingState();
 						/*
 						if ( flagshipID != _members[0] && MembersInstance[0] != null && MembersInstance[0].MasterShip.ShipType == 19 ) {
@@ -316,6 +335,10 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 指定した艦娘を艦隊からはずします。
+		/// </summary>
+		/// <param name="index">対象艦のインデックス。0-5</param>
 		private void RemoveShip( int index ) {
 
 			for ( int i = index + 1; i < _members.Length; i++ )
@@ -326,11 +349,19 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 疲労回復にかかる時間を取得します。
+		/// </summary>
+		/// <param name="cond">コンディション。</param>
 		private int GetConditionRecoveryMinute( int cond ) {
 			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
 		}
 
 		//*/
+		/// <summary>
+		/// 疲労回復タイマを設定します。
+		/// 現在のタイマにかかわらず設定します。
+		/// </summary>
 		private void SetConditionTimer() {
 
 			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
@@ -363,6 +394,10 @@ namespace ElectronicObserver.Data {
 		}
 		//*/
 
+		/// <summary>
+		/// 疲労回復タイマを更新します。
+		/// 現在時間より短くなるように設定します。
+		/// </summary>
 		private void ShortenConditionTimer() {
 
 			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
@@ -391,10 +426,17 @@ namespace ElectronicObserver.Data {
 			//*/
 		}
 
+
+		/// <summary>
+		/// 疲労回復タイマをロックします。
+		/// </summary>
 		private void LockConditionTimer() {
 			IsConditionTimeLocked = true;
 		}
 
+		/// <summary>
+		/// 疲労回復タイマのロックを解除します。
+		/// </summary>
 		private void UnlockConditionTimer() {
 			if ( IsConditionTimeLocked ) {
 				IsConditionTimeLocked = false;
@@ -402,6 +444,7 @@ namespace ElectronicObserver.Data {
 				SetConditionTimer();
 			}
 		}
+
 
 		/// <summary>
 		/// 護衛退避を実行します。
@@ -699,6 +742,9 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 泊地修理可能か
+		/// </summary>
 		private bool CanAnchorageRepair {
 			get {
 				KCDatabase db = KCDatabase.Instance;
@@ -717,6 +763,10 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		/// <summary>
+		/// 泊地修理中であるかを再判定・状態を更新します。
+		/// </summary>
 		public void UpdateAnchorageRepairingState() {
 
 			bool prev = IsAnchorageRepairing;

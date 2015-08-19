@@ -112,7 +112,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// Stage1(空対空戦闘)が存在するか
 		/// </summary>
-		public bool IsStage1Available { get { return StageFlag != null && StageFlag[0] != 0; } }
+		public bool IsStage1Available { get { return StageFlag != null && StageFlag[0] != 0 && AirBattleData.api_stage1() && AirBattleData.api_stage1 != null; } }
 
 
 		/// <summary>
@@ -156,7 +156,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// Stage2(艦対空戦闘)が存在するか
 		/// </summary>
-		public bool IsStage2Available { get { return StageFlag != null && StageFlag[1] != 0; } }
+		public bool IsStage2Available { get { return StageFlag != null && StageFlag[1] != 0 && AirBattleData.api_stage2() && AirBattleData.api_stage2 != null; } }
 
 		/// <summary>
 		/// 自軍Stage2参加機数
@@ -212,7 +212,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// Stage3(航空攻撃)が存在するか
 		/// </summary>
-		public bool IsStage3Available { get { return StageFlag != null && StageFlag[2] != 0; } }
+		public bool IsStage3Available { get { return StageFlag != null && StageFlag[2] != 0 && AirBattleData.api_stage3() && AirBattleData.api_stage3 != null; } }
 
 		/// <summary>
 		/// 各艦の被ダメージ
