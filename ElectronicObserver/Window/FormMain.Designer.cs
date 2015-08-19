@@ -63,6 +63,8 @@
 			this.StripMenu_Tool = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_EquipmentList = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_Tool_ResourceChart = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_AlbumMasterEquipment = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparatorAnother1 = new System.Windows.Forms.ToolStripSeparator();
@@ -78,8 +80,6 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.StripMenu_Tool_ResourceChart = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -380,6 +380,18 @@
 			this.toolStripSeparator7.Name = "toolStripSeparator7";
 			this.toolStripSeparator7.Size = new System.Drawing.Size(241, 6);
 			// 
+			// StripMenu_Tool_ResourceChart
+			// 
+			this.StripMenu_Tool_ResourceChart.Name = "StripMenu_Tool_ResourceChart";
+			this.StripMenu_Tool_ResourceChart.Size = new System.Drawing.Size(244, 34);
+			this.StripMenu_Tool_ResourceChart.Text = "资源 Chart(&C)";
+			this.StripMenu_Tool_ResourceChart.Click += new System.EventHandler(this.StripMenu_Tool_ResourceChart_Click);
+			// 
+			// toolStripSeparator15
+			// 
+			this.toolStripSeparator15.Name = "toolStripSeparator15";
+			this.toolStripSeparator15.Size = new System.Drawing.Size(241, 6);
+			// 
 			// StripMenu_Tool_AlbumMasterShip
 			// 
 			this.StripMenu_Tool_AlbumMasterShip.Name = "StripMenu_Tool_AlbumMasterShip";
@@ -498,18 +510,6 @@
 				this.MainDockPanel.Theme = new WeifenLuo.WinFormsUI.Docking.VS2012LightTheme();
 			}
 			this.MainDockPanel.TabIndex = 0;
-			// 
-			// StripMenu_Tool_ResourceChart
-			// 
-			this.StripMenu_Tool_ResourceChart.Name = "StripMenu_Tool_ResourceChart";
-			this.StripMenu_Tool_ResourceChart.Size = new System.Drawing.Size(244, 34);
-			this.StripMenu_Tool_ResourceChart.Text = "资源 Chart(&C)";
-			this.StripMenu_Tool_ResourceChart.Click += new System.EventHandler(this.StripMenu_Tool_ResourceChart_Click);
-			// 
-			// toolStripSeparator15
-			// 
-			this.toolStripSeparator15.Name = "toolStripSeparator15";
-			this.toolStripSeparator15.Size = new System.Drawing.Size(241, 6);
 			// 
 			// FormMain
 			// 

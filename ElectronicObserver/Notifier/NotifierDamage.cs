@@ -216,8 +216,7 @@ namespace ElectronicObserver.Notifier {
 				ship.RepairingDockID == -1 &&
 				ship.Level >= LevelBorder &&
 				( ContainsNotLockedShip ? true : ( ship.IsLocked || ship.SlotInstance.Count( q => q != null && q.IsLocked ) > 0 ) ) &&
-				( ContainsSafeShip ? true : !( ship.SlotInstanceMaster.Any( e => e != null && e.CategoryType == 23 )
-					|| ( ship.SlotExInstanceMaster != null && ship.SlotExInstanceMaster.CategoryType == 23 ) ) );
+				( ContainsSafeShip ? true : !ship.AllSlotInstanceMaster.Any( e => e != null ? e.CategoryType == 23 : false ) );
 		}
 
 		private string[] GetDamagedShips( IEnumerable<ShipData> ships ) {

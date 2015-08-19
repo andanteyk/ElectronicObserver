@@ -46,6 +46,15 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				ShipData ship = KCDatabase.Instance.Fleet[index < 6 ? _battleData.Initial.FriendFleetID : 2].MembersInstance[index % 6];
 				if ( ship == null ) return;
 
+				//補強スロットが最優先
+				if ( ship.ExpansionSlotMaster == 42 ) {			//応急修理要員
+					hps[index] = (int)( ship.HPMax * 0.2 );
+					return;
+				} else if ( ship.ExpansionSlotMaster == 43 ) {	//応急修理女神
+					hps[index] = ship.HPMax;
+					return;
+				}
+
 				foreach ( var eid in ship.SlotMaster ) {
 					if ( eid == 42 ) {			//応急修理要員
 						hps[index] = (int)( ship.HPMax * 0.2 );

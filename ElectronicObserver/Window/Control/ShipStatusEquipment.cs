@@ -55,6 +55,7 @@ namespace ElectronicObserver.Window.Control {
 
 		private SlotItem[] SlotList;
 		private int SlotSize { get; set; }
+		private bool IsExpansionSlotAvailable { get; set; }
 
 
 		[Browsable( true )]
@@ -185,7 +186,7 @@ namespace ElectronicObserver.Window.Control {
 		public ShipStatusEquipment() {
 			InitializeComponent();
 
-			SlotList = new SlotItem[5];
+			SlotList = new SlotItem[6];
 			for ( int i = 0; i < SlotList.Length; i++ ) {
 				SlotList[i] = new SlotItem();
 			}
@@ -215,9 +216,9 @@ namespace ElectronicObserver.Window.Control {
 		/// <param name="ship">当該艦船。</param>
 		public void SetSlotList( ShipData ship ) {
 
-			int slotCount = Math.Max( ship.MasterShip.SlotSize, 4 );
-			if ( ship.SlotEx > 0 )
-				slotCount++;
+			int slotCount = Math.Max( ship.SlotSize + ( ship.IsExpansionSlotAvailable ? 1 : 0 ), 4 );
+
+			IsExpansionSlotAvailable = ship.IsExpansionSlotAvailable;
 
 			if ( SlotList.Length != slotCount ) {
 				SlotList = new SlotItem[slotCount];
@@ -226,20 +227,25 @@ namespace ElectronicObserver.Window.Control {
 				}
 			}
 
-			for ( int i = 0; i < SlotList.Length; i++ ) {
-				EquipmentData eq;
-				if ( ( i == SlotList.Length - 1 ) && ship.SlotEx > 0 )
-					eq = ship.SlotExInstance;
-				else
-					eq = ship.SlotInstance[i];
+			for ( int i = 0; i < Math.Min( slotCount, 5 ); i++ ) {
+				var eq = ship.SlotInstance[i];
 
-                SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
+				SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[i].AircraftCurrent = ship.Aircraft[i];
 				SlotList[i].AircraftMax = ship.MasterShip.Aircraft[i];
-				SlotList[i].AircraftProficiency = eq != null ? eq.Proficiency : -1;
+				SlotList[i].AircraftProficiency = eq != null ? eq.AircraftLevel : -1;
 			}
 
-			SlotSize = ship.MasterShip.SlotSize;
+			if ( ship.IsExpansionSlotAvailable ) {
+				var eq = ship.ExpansionSlotInstance;
+				SlotList[ship.SlotSize].EquipmentID = eq != null ? eq.EquipmentID : -1;
+				SlotList[ship.SlotSize].AircraftCurrent =
+				SlotList[ship.SlotSize].AircraftMax = 0;
+				SlotList[ship.SlotSize].AircraftProficiency = -1;
+			}
+
+
+			SlotSize = ship.SlotSize + ( ship.IsExpansionSlotAvailable ? 1 : 0 );
 
 			PropertyChanged();
 		}

@@ -467,5 +467,61 @@ namespace APILoader
 
 			return count;
 		}
+
+
+		private void StripMenu_Debug_LoadDataFromOld_Click( object sender, EventArgs e )
+		{
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 )
+			{
+				MessageBox.Show( "先に通常の api_start2 を読み込んでください。", "大変ご迷惑をおかけしております", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
+
+
+			using ( OpenFileDialog ofd = new OpenFileDialog() )
+			{
+
+				ofd.Title = "旧 api_start2 から深海棲艦を復元";
+				ofd.Filter = "api_start2|*api_start2*.json|JSON|*.json|File|*";
+				ofd.InitialDirectory = Configuration.Config.Connection.SaveDataPath;
+
+				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
+				{
+
+					try
+					{
+
+						using ( StreamReader sr = new StreamReader( ofd.FileName ) )
+						{
+
+							dynamic json = DynamicJson.Parse( sr.ReadToEnd().Remove( 0, 7 ) );
+
+							foreach ( dynamic elem in json.api_data.api_mst_ship )
+							{
+
+								var ship = KCDatabase.Instance.MasterShips[(int)elem.api_id];
+
+								if ( elem.api_name != "なし" && ship != null && ship.IsAbyssalShip )
+								{
+
+									KCDatabase.Instance.MasterShips[(int)elem.api_id].LoadFromResponse( "api_start2", elem );
+								}
+							}
+						}
+
+						Logger.Add( 1, "旧 api_start2 からデータを復元しました。" );
+
+					}
+					catch ( Exception ex )
+					{
+
+						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
+							MessageBoxButtons.OK, MessageBoxIcon.Error );
+					}
+				}
+			}
+
+		}
 	}
 }

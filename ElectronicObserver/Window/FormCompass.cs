@@ -117,13 +117,18 @@ namespace ElectronicObserver.Window {
 					switch ( ship.AbyssalShipClass ) {
 						case 0:
 						case 1:		//normal
+						default:
 							ShipName.ForeColor = Utility.Configuration.Config.UI.ForeColor; break;
 						case 2:		//elite
 							ShipName.ForeColor = Utility.Configuration.Config.UI.EliteColor; break;
 						case 3:		//flagship
 							ShipName.ForeColor = Utility.Configuration.Config.UI.FlagshipColor; break;
-						case 4:		//latemodel
+						case 4:		//latemodel / flagship kai
 							ShipName.ForeColor = Utility.Configuration.Config.UI.LateModelColor; break;
+						case 5:		//latemodel elite
+							ShipName.ForeColor = Color.FromArgb( 0x88, 0x00, 0x00 ); break;
+						case 6:		//latemodel flagship
+							ShipName.ForeColor = Color.FromArgb( 0x88, 0x44, 0x00 ); break;
 					}
 					ToolTipInfo.SetToolTip( ShipName, GetShipString( shipID, slot ) );
 
@@ -135,9 +140,9 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			public void UpdateEquipmentToolTip( int shipID, int[] slot, int level, int firepower, int torpedo, int aa, int armor ) {
+			public void UpdateEquipmentToolTip( int shipID, int[] slot, int level, int hp, int firepower, int torpedo, int aa, int armor ) {
 
-				ToolTipInfo.SetToolTip( ShipName, GetShipString( shipID, slot, level, firepower, torpedo, aa, armor ) );
+				ToolTipInfo.SetToolTip( ShipName, GetShipString( shipID, slot, level, hp, firepower, torpedo, aa, armor ) );
 			}
 
 
@@ -153,11 +158,11 @@ namespace ElectronicObserver.Window {
 					 ship.LuckMin );
 			}
 
-			private string GetShipString( int shipID, int[] slot, int level, int firepower, int torpedo, int aa, int armor ) {
+			private string GetShipString( int shipID, int[] slot, int level, int hp, int firepower, int torpedo, int aa, int armor ) {
 				ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
 				if ( ship == null ) return null;
 
-				return GetShipString( shipID, slot, level, level > 99 ? ship.HPMaxMarried : ship.HPMin, firepower, torpedo, aa, armor,
+				return GetShipString( shipID, slot, level, hp, firepower, torpedo, aa, armor,
 					ship.ASW != null && ship.ASW.IsAvailable ? ship.ASW.GetParameter( level ) : -1,
 					ship.Evasion != null && ship.Evasion.IsAvailable ? ship.Evasion.GetParameter( level ) : -1,
 					ship.LOS != null && ship.LOS.IsAvailable ? ship.LOS.GetParameter( level ) : -1,
@@ -656,6 +661,7 @@ namespace ElectronicObserver.Window {
 			int[][] slots = bd.Initial.EnemySlots;
 			int[] levels = bd.Initial.EnemyLevels;
 			int[][] parameters = bd.Initial.EnemyParameters;
+			int[] hps = bd.Initial.MaxHPs;
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			TextFormation.Visible = true;
@@ -670,7 +676,7 @@ namespace ElectronicObserver.Window {
 				ControlMember[i].Update( shipID, shipID != -1 ? slots[i] : null );
 
 				if ( shipID != -1 )
-					ControlMember[i].UpdateEquipmentToolTip( shipID, slots[i], levels[i], parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3] );
+					ControlMember[i].UpdateEquipmentToolTip( shipID, slots[i], levels[i], hps[i + 6], parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3] );
 			}
 			TableEnemyMember.ResumeLayout();
 			TableEnemyMember.Visible = true;
