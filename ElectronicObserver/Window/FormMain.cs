@@ -845,6 +845,5 @@ namespace ElectronicObserver.Window {
 		
 
 
-
 	}
 }

@@ -154,6 +154,8 @@ namespace ElectronicObserver.Resource {
 			RocketArtillery,
 			PicketCrew,
 			FlyingBoat,
+			Ration,
+			Supplies,
 			Locked,
 			Unknown,
 		}
@@ -332,6 +334,8 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/RocketArtillery.png", "Equipment_RocketArtillery" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/PicketCrew.png", "Equipment_PicketCrew" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/FlyingBoat.png", "Equipment_FlyingBoat" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Ration.png", "Equipment_Ration" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Supplies.png", "Equipment_Supplies" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Locked.png", "Equipment_Locked" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Unknown.png", "Equipment_Unknown" );
 

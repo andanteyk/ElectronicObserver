@@ -335,6 +335,39 @@ namespace ElectronicObserver.Window {
 				return Math.Floor( ( ship.FirepowerTotal + ship.TorpedoTotal ) * 1.5 + ship.BombTotal * 2 + 50 );
 			}
 
+			private double CalculateWeightingAA( ShipData ship )
+			{
+				double aatotal = ship.AATotal;
+				foreach ( var eq in ship.AllSlotInstance )
+				{
+					if ( eq == null )
+						continue;
+
+					int ratio;
+					var eqmaster = eq.MasterEquipment;
+					switch ( eqmaster.IconType )
+					{
+						case 15:	// 对空机枪
+							ratio = 6; break;
+
+						case 16:	// 高角炮
+						case 30:	// 高射装置
+							ratio = 4; break;
+
+						case 11:	// 电探
+							ratio = ( eqmaster.AA > 0 ) ? 3 : 0; break;
+
+						default:
+							ratio = 0; break;
+					}
+					if ( ratio <= 0 )
+						continue;
+
+					aatotal += ratio * ( eqmaster.AA + 0.7 * Math.Sqrt( eq.Level ) );
+				}
+				return aatotal;
+			}
+
 			public void Update( int shipMasterID ) {
 
 				KCDatabase db = KCDatabase.Instance;
@@ -349,7 +382,7 @@ namespace ElectronicObserver.Window {
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip( Name,
 						string.Format(
-							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
+							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n加权对空: {19:0.##}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase,
 							(ship.MasterShip.ShipType == 7 ||	// 轻空母
@@ -365,7 +398,8 @@ namespace ElectronicObserver.Window {
 							ship.LOSBase, ship.LOSTotal,
 							ship.LuckTotal,
 							Constants.GetRange( ship.Range ),
-							Constants.GetSpeed( ship.MasterShip.Speed )
+							Constants.GetSpeed( ship.MasterShip.Speed ),
+							CalculateWeightingAA( ship )
 							) );
 
 
@@ -490,12 +524,16 @@ namespace ElectronicObserver.Window {
 				StringBuilder sb = new StringBuilder();
 
 				for ( int i = 0; i < ship.Slot.Count; i++ ) {
-					if ( ship.SlotInstance[i] != null )
-						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], KCDatabase.Instance.Equipments[ship.Slot[i]].NameWithLevel );
+					var eq = ship.SlotInstance[i];
+					if ( eq != null )
+						sb.AppendFormat( "[{0}/{1}] {2}\r\n", ship.Aircraft[i], ship.MasterShip.Aircraft[i], eq.NameWithLevel );
 				}
 
-				if (ship.SlotExInstance!= null )
-					sb.AppendFormat( "\r\n[0/0] {0}\r\n", ship.SlotExInstance.NameWithLevel );
+				{
+					var exslot = ship.ExpansionSlotInstance;
+					if ( exslot != null )
+						sb.AppendFormat( "補強: {0}\r\n", exslot.NameWithLevel );
+				}
 
 
 				int[] slotmaster = ship.SlotMaster.ToArray();
@@ -705,7 +743,7 @@ namespace ElectronicObserver.Window {
 
 				sb.AppendFormat( "{0}/{1}\t", ship.MasterShip.Name, ship.Level );
 
-				var eq = ship.SlotInstance;
+				var eq = ship.AllSlotInstance;
 
 
 				if ( eq != null ) {
@@ -715,7 +753,7 @@ namespace ElectronicObserver.Window {
 
 						int count = 1;
 						for ( int k = j + 1; k < eq.Count; k++ ) {
-							if ( eq[k] != null && eq[k].EquipmentID == eq[j].EquipmentID && eq[k].Level == eq[j].Level ) {
+							if ( eq[k] != null && eq[k].EquipmentID == eq[j].EquipmentID && eq[k].Level == eq[j].Level && eq[k].AircraftLevel == eq[j].AircraftLevel ) {
 								count++;
 							} else {
 								break;

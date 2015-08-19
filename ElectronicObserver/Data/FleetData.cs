@@ -245,11 +245,13 @@ namespace ElectronicObserver.Data {
 
 						}
 
+						KCDatabase.Instance.Fleet.ResetAnchorageRepairing();
 						UpdateAnchorageRepairingState();
+						/*
 						if ( flagshipID != _members[0] && MembersInstance[0] != null && MembersInstance[0].MasterShip.ShipType == 19 ) {
 							KCDatabase.Instance.Fleet.ResetAnchorageRepairing();
 						}
-
+						*/
 					} break;
 
 

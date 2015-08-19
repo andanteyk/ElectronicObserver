@@ -134,7 +134,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void EquipmentView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
 			if ( e.Column.Name == EquipmentView_Type.Name ) {
-				e.SortResult = 
+				e.SortResult =
 					KCDatabase.Instance.MasterEquipments[(int)EquipmentView.Rows[e.RowIndex1].Cells[0].Value].EquipmentType[2] -
 					KCDatabase.Instance.MasterEquipments[(int)EquipmentView.Rows[e.RowIndex2].Cells[0].Value].EquipmentType[2];
 			} else {
@@ -166,7 +166,7 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		
+
 		private void EquipmentView_CellMouseClick( object sender, DataGridViewCellMouseEventArgs e ) {
 
 			if ( e.RowIndex >= 0 ) {
@@ -207,19 +207,19 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			TableEquipmentName.SuspendLayout();
-			
-			EquipmentType.Text = db.EquipmentTypes[eq.EquipmentType[2]].Name; 
-			
+
+			EquipmentType.Text = db.EquipmentTypes[eq.EquipmentType[2]].Name;
+
 			{
 				int eqicon = eq.EquipmentType[3];
 				if ( eqicon >= (int)ResourceManager.EquipmentContent.Locked )
 					eqicon = (int)ResourceManager.EquipmentContent.Unknown;
 				EquipmentType.ImageIndex = eqicon;
-			
+
 				StringBuilder sb = new StringBuilder();
 				sb.AppendLine( "装備可能艦種:" );
 				foreach ( var stype in KCDatabase.Instance.ShipTypes.Values ) {
-					if ( stype.EquipmentType[eq.EquipmentType[2]] )
+					if ( stype.EquipmentType.Contains( eq.EquipmentType[2] ) )
 						sb.AppendLine( stype.Name );
 				}
 				ToolTipInfo.SetToolTip( EquipmentType, sb.ToString() );
@@ -267,7 +267,7 @@ namespace ElectronicObserver.Window.Dialog {
 			DefaultSlots.EndUpdate();
 
 
-			Description.Text = eq.Message;
+			Description.Text = eq.Message + "\r\n\r\n[" + string.Join( ", ", eq.EquipmentType ) + "]";
 
 
 			//arsenal
@@ -354,8 +354,8 @@ namespace ElectronicObserver.Window.Dialog {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
-		
-		
+
+
 		private void TableArsenal_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
@@ -484,6 +484,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-		
+
 	}
 }

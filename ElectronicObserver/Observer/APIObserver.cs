@@ -100,6 +100,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_hensei.change() );
 			APIList.Add( new kcsapi.api_req_member.updatedeckname() );
 			APIList.Add( new kcsapi.api_req_kaisou.remodeling() );
+			APIList.Add( new kcsapi.api_req_kaisou.open_exslot() );
 
 
 			ServerAddress = null;
@@ -122,7 +123,7 @@ namespace ElectronicObserver.Observer {
 
 			this.UIControl = UIControl;
 
-			var flag = FiddlerFlags.ChainToUpstreamGateway | FiddlerFlags.OptimizeThreadPool;
+			var flag = FiddlerFlags.ChainToUpstreamGateway; // | FiddlerFlags.OptimizeThreadPool;
 			if ( Utility.Configuration.Config.Connection.RegisterAsSystemProxy )
 				flag |= FiddlerFlags.RegisterAsSystemProxy;
 

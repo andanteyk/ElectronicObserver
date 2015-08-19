@@ -44,12 +44,12 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 舰载机熟练度
+		/// 艦載機熟練度
 		/// </summary>
-		public int Proficiency
-		{
-			get { return RawData.api_alv() ? (int)RawData.api_alv : -1; }
+		public int AircraftLevel {
+			get { return RawData.api_alv() ? (int)RawData.api_alv : 0; }
 		}
+
 
 
 		/// <summary>
@@ -72,9 +72,15 @@ namespace ElectronicObserver.Data {
 		public string NameWithLevel {
 			get {
 				if ( Level > 0 )
-					return string.Format( "{0}+{1}", Name, Level );
+					if ( AircraftLevel > 0 )
+						return string.Format( "{0}+{1} Lv. {2}", Name, Level, AircraftLevel );		//念のため
+					else
+						return string.Format( "{0}+{1}", Name, Level );
 				else
-					return Name;
+					if ( AircraftLevel > 0 )
+						return string.Format( "{0} Lv. {1}", Name, AircraftLevel );
+					else
+						return Name;
 			}
 		}
 
@@ -109,7 +115,7 @@ namespace ElectronicObserver.Data {
 			}
 
 			base.LoadFromResponse( apiname, (object)data );
-		
+
 		}
 
 

@@ -67,7 +67,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FiddlerCore4">
-      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\FiddlerCore4.dll</HintPath>
+      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -154,7 +154,6 @@
     <Compile Include="Data\ShipGroupManager.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
-    <Compile Include="Data\DatabaseUpdatedEventArgs.cs" />
     <Compile Include="Notifier\NotifierDialogData.cs" />
     <Compile Include="Observer\APIGraphicList.cs" />
     <Compile Include="Observer\Cache\CacheCore.cs" />
@@ -164,6 +163,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
+    <Compile Include="Observer\kcsapi\api_req_kaisou\open_exslot.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />

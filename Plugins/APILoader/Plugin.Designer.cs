@@ -18,6 +18,7 @@ namespace APILoader
 			this.StripMenu_Debug_LoadRecordFromOld = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_DeleteOldAPI = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_RenameShipResource = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Debug_LoadDataFromOld = new System.Windows.Forms.ToolStripMenuItem();
 
 			// 
 			// StripMenu_Debug
@@ -28,7 +29,8 @@ namespace APILoader
 			this.toolStripSeparator,
 			this.StripMenu_Debug_LoadRecordFromOld,
 			this.StripMenu_Debug_DeleteOldAPI,
-			this.StripMenu_Debug_RenameShipResource} );
+			this.StripMenu_Debug_RenameShipResource,
+            this.StripMenu_Debug_LoadDataFromOld} );
 			this.StripMenu_Debug.Name = "StripMenu_Debug";
 			this.StripMenu_Debug.Size = new System.Drawing.Size( 137, 38 );
 			this.StripMenu_Debug.Text = "调试(&D)";
@@ -72,6 +74,13 @@ namespace APILoader
 			this.StripMenu_Debug_RenameShipResource.Size = new System.Drawing.Size( 484, 34 );
 			this.StripMenu_Debug_RenameShipResource.Text = "重命名舰船(&R)...";
 			this.StripMenu_Debug_RenameShipResource.Click += new System.EventHandler( this.StripMenu_Debug_RenameShipResource_Click );
+			// 
+			// StripMenu_Debug_LoadDataFromOld
+			// 
+			this.StripMenu_Debug_LoadDataFromOld.Name = "StripMenu_Debug_LoadDataFromOld";
+			this.StripMenu_Debug_LoadDataFromOld.Size = new System.Drawing.Size(498, 34);
+			this.StripMenu_Debug_LoadDataFromOld.Text = "旧 api_start2から深海棲艦を復元(&A)...";
+			this.StripMenu_Debug_LoadDataFromOld.Click += new System.EventHandler(this.StripMenu_Debug_LoadDataFromOld_Click);
 		}
 
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug;
@@ -81,5 +90,6 @@ namespace APILoader
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadRecordFromOld;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_DeleteOldAPI;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_RenameShipResource;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadDataFromOld;
 	}
 }
