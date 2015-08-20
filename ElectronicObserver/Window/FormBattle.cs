@@ -872,7 +872,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
 					planeFriend[0], planeFriend[1], planeFriend[2], planeFriend[3] ) );
 
-				if ( planeFriend[1] > 0 && ( planeFriend[0] == planeFriend[1] || planeFriend[2] == planeFriend[3] ) )
+				if ( ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] ) ||
+					 ( planeFriend[3] > 0 && planeFriend[2] == planeFriend[3] ) )
 					AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
 					AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
@@ -888,7 +889,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
 					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3] ) );
 
-				if ( planeEnemy[1] > 0 && ( planeEnemy[0] == planeEnemy[1] || planeEnemy[2] == planeEnemy[3] ) )
+				if ( ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] ) ||
+					 ( planeEnemy[3] > 0 && planeEnemy[2] == planeEnemy[3] ) )
 					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
 					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
@@ -917,8 +919,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				}
 
 				int[] touchEnemy = {
-					pd1.TouchAircraftFriend,
-					isBattle2Enabled ? pd2.TouchAircraftFriend : -1
+					pd1.TouchAircraftEnemy,
+					isBattle2Enabled ? pd2.TouchAircraftEnemy : -1
 					};
 				if ( touchEnemy[0] != -1 || touchEnemy[1] != -1 ) {
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
@@ -965,7 +967,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				ToolTipInfo.SetToolTip( AirStage2Friend, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
 					planeFriend[0], planeFriend[1], planeFriend[2], planeFriend[3] ) );
 
-				if ( planeFriend[1] > 0 && ( planeFriend[0] == planeFriend[1] || planeFriend[2] == planeFriend[3] ) )
+				if ( ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] ) ||
+					 ( planeFriend[3] > 0 && planeFriend[2] == planeFriend[3] ) )
 					AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
 					AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
@@ -978,10 +981,12 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					( isBattle2Enabled ? pd2.AircraftTotalStage2Enemy : 0 ),
 				};
 				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0] + planeEnemy[2], planeEnemy[1] );
-				ToolTipInfo.SetToolTip( AirStage2Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
-					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3] ) );
+				ToolTipInfo.SetToolTip( AirStage2Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n{4}",
+					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3],
+					isBattle2Enabled ? "" : "(第二次戦発生せず)" ) );			//DEBUG
 
-				if ( planeEnemy[1] > 0 && ( planeEnemy[0] == planeEnemy[1] || planeEnemy[2] == planeEnemy[3] ) )
+				if ( ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] ) ||
+					 ( planeEnemy[3] > 0 && planeEnemy[2] == planeEnemy[3] ) )
 					AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
 					AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
