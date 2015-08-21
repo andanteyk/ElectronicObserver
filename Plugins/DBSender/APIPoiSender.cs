@@ -33,15 +33,18 @@ namespace ElectronicObserver.Observer
 			{
 				switch ( oSession.PathAndQuery )
 				{
+
 					case "/kcsapi/api_req_kousyou/createitem":
 						CreateItem(
 							ParseApiData( oSession.GetResponseBodyAsString() ),
 							ParseRequest( oSession.GetRequestBodyAsString() ) ); break;
 
+
 					case "/kcsapi/api_req_kousyou/createship":
 						CreateShip( ParseRequest( oSession.GetRequestBodyAsString() ) ); break;
 					case "/kcsapi/api_get_member/kdock":
 						KDockEvent( ParseApiData( oSession.GetResponseBodyAsString() ) ); break;
+
 
 					case "/kcsapi/api_get_member/mapinfo":
 						this.mapinfo = ParseApiData( oSession.GetResponseBodyAsString() ); break;
@@ -55,7 +58,8 @@ namespace ElectronicObserver.Observer
 						BattleEvent( ParseApiData( oSession.GetResponseBodyAsString() ) ); break;
 					case "/kcsapi/api_req_sortie/battleresult":
 					case "/kcsapi/api_req_combined_battle/battleresult":
-						break;
+						BattleResultEvent( ParseApiData( oSession.GetResponseBodyAsString() ) ); break;
+
 				}
 			}
 			catch ( Exception ex )
@@ -202,17 +206,17 @@ namespace ElectronicObserver.Observer
 			if ( !waitForBattleResult )
 				return;
 
-			dropship.shipId = ( data.api_get_ship == null ) ? -1 : data.api_get_ship.api_ship_id;
+			dropship.shipId = data.api_get_ship() ? data.api_get_ship.api_ship_id : -1;
 			dropship.enemy = data.api_enemy_info.api_deck_name;
 			dropship.quest = data.api_quest_name;
 
 			// TODO: dynamic object 不允许动态方法中使用 lambda
-			int mapId = dropship.mapId;
+			double mapId = dropship.mapId;
 			foreach ( var m in mapinfo )
 			{
 				if ( m.api_id == mapId )
 				{
-					dropship.mapLv = m.api_level;
+					dropship.mapLv = m.api_eventmap() ? m.api_eventmap.api_selected_rank : 0;
 					break;
 				}
 			}
