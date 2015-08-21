@@ -223,8 +223,7 @@ namespace ElectronicObserver.Observer
 			// dropship.mapLv = mapinfo.Where( x => x.api_id == dropship.mapId ).First().api_level;
 			dropship.rank = data.api_win_rank;
 			dropship.teitokuLv = KCDatabase.Instance.Admiral.Level;
-			dropship.enemyShips = new int[6];
-			Array.Copy( data.api_ship_id, 1, dropship.enemyShips, 0, 6 );
+			dropship.enemyShips = ( (int[])data.api_ship_id ).Skip( 1 ).ToArray();
 			waitForBattleResult = false;
 
 			ReportAsync( dropship, "drop_ship" );

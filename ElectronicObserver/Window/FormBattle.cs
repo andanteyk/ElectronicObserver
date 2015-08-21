@@ -143,7 +143,7 @@ namespace ElectronicObserver.Window {
 				//|| bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask )	// TODO：联合舰队
 				return;
 
-			bool isWater = bm.BattleMode == BattleManager.BattleModes.CombinedSurface;
+			bool isWater = ( ( bm.BattleMode & BattleManager.BattleModes.CombinedSurface ) > 0 );
 			bool isCombined = isWater || ( bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask );
 
 			StringBuilder builder = new StringBuilder();
