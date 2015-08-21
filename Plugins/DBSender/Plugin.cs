@@ -15,9 +15,10 @@ namespace DBSender
 	public class Plugin : ServerPlugin
 	{
 		private const string PLUGIN_SETTINGS = @"Settings\PluginSettings.json";
-		private const string DEFAULT_SETTINGS = @"{""DBSender"":{""send_with_proxy"":true}}";
+		private const string DEFAULT_SETTINGS = @"{""DBSender"":{""send_with_proxy"":true},""Poi"":{""enable"":true}}";
 
 		private APIKancolleDB DBSender;
+		private APIPoiSender PoiSender;
 		public dynamic Settings;
 
 		public override string MenuTitle
@@ -27,7 +28,7 @@ namespace DBSender
 
 		public override string Version
 		{
-			get { return "1.0.0.1"; }
+			get { return "2.0.0.1"; }
 		}
 
 		public override PluginSettingControl GetSettings()
@@ -64,6 +65,7 @@ namespace DBSender
 			}
 
 			DBSender = new APIKancolleDB();
+			PoiSender = new APIPoiSender();
 
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
 
@@ -82,6 +84,11 @@ namespace DBSender
 					Task.Factory.StartNew( (Action)( () => DBSender.ExecuteSession( oSession, sendWithProxy ) ) );
 				}
 
+				// poi-statistics 送信
+				if ( !Settings.Poi() || Settings.Poi.enable )
+				{
+					Task.Factory.StartNew( (Action)( () => PoiSender.ExecuteSession( oSession ) ) );
+				}
 			}
 		}
 	}

@@ -143,7 +143,8 @@ namespace ElectronicObserver.Window {
 				//|| bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask )	// TODO：联合舰队
 				return;
 
-			bool isCombined = bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask;
+			bool isWater = bm.BattleMode == BattleManager.BattleModes.CombinedSurface;
+			bool isCombined = isWater || ( bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask );
 
 			StringBuilder builder = new StringBuilder();
 			builder.AppendLine( @"<html>
@@ -178,19 +179,24 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			// day
 			{
 				var day = bm.BattleDay;
-				if ( day != null && day.IsAvailable ) {
-					try {
+				if ( day != null && day.IsAvailable )
+				{
+					try
+					{
 						// 航空战血量变化
-						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available ) {
+						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available )
+						{
 							FillAirDamage( "航空战", builder, day.AirBattle.Damages, friends, isCombined ? accompany : null, enemys, hps, maxHps );
 						}
 
 						// 支援
-						if ( day.Support != null && day.Support.SupportFlag > 0 ) {
+						if ( day.Support != null && day.Support.SupportFlag > 0 )
+						{
 
 							string[] supportnames = day.Support.SupportFleet.MembersInstance.Select( m => m == null ? null : m.NameWithLevel ).ToArray();
 
-							switch ( day.Support.SupportFlag ) {
+							switch ( day.Support.SupportFlag )
+							{
 								case 1:
 									FillSupportDamage( "航空支援", builder, day.Support.AirRaidDamages, supportnames, enemys, hps, maxHps );
 									break;
@@ -202,34 +208,49 @@ td,th,tr {text-align:left; padding:2px 4px;}
 							}
 
 						}
-					} catch ( Exception ex ) {
+					}
+					catch ( Exception ex )
+					{
 
 						Utility.ErrorReporter.SendErrorReport( ex, "航空/支援解析出错。", "battle day", day.RawData.ToString() );
 
 					}
 
 					// 开幕雷击
-					if ( day.OpeningTorpedo != null && day.OpeningTorpedo.IsAvailable ) {
+					if ( day.OpeningTorpedo != null && day.OpeningTorpedo.IsAvailable )
+					{
 						FillTorpedoDamage( "开幕雷击", builder, day.OpeningTorpedo.TorpedoData, isCombined ? accompany : friends, enemys, hps, maxHps );
 					}
 
 
 					// 炮击战
-					if ( day.Shelling1 != null && day.Shelling1.IsAvailable ) {
-						FillShellingDamage( "炮击战1回合", builder, day.Shelling1.ShellingData, friends, enemys, hps, maxHps );
+					if ( day.Shelling1 != null && day.Shelling1.IsAvailable )
+					{
+						FillShellingDamage( "炮击战1回合", builder, day.Shelling1.ShellingData, ( isCombined && !isWater ) ? accompany : friends, enemys, hps, maxHps );
 					}
 
-					if ( day.Shelling2 != null && day.Shelling2.IsAvailable ) {
+					if ( isCombined && !isWater )
+					{
+						// 机动部队闭幕雷击
+						if ( day.Torpedo != null && day.Torpedo.IsAvailable )
+						{
+							FillTorpedoDamage( "闭幕雷击", builder, day.Torpedo.TorpedoData, accompany, enemys, hps, maxHps );
+						}
+					}
+
+					if ( day.Shelling2 != null && day.Shelling2.IsAvailable )
+					{
 						FillShellingDamage( "炮击战2回合", builder, day.Shelling2.ShellingData, friends, enemys, hps, maxHps );
 					}
 
 					if ( day.Shelling3 != null && day.Shelling3.IsAvailable )
 					{
-						FillShellingDamage( "炮击战3回合", builder, day.Shelling3.ShellingData, accompany, enemys, hps, maxHps );
+						FillShellingDamage( "炮击战3回合", builder, day.Shelling3.ShellingData, isWater ? accompany : friends, enemys, hps, maxHps );
 					}
 
 					// 闭幕雷击
-					if ( day.Torpedo != null && day.Torpedo.IsAvailable ) {
+					if ( ( !isCombined || isWater ) && day.Torpedo != null && day.Torpedo.IsAvailable )
+					{
 						FillTorpedoDamage( "闭幕雷击", builder, day.Torpedo.TorpedoData, isCombined ? accompany : friends, enemys, hps, maxHps );
 					}
 				}
