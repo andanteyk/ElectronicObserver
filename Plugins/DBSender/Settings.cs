@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Notifier;
 using ElectronicObserver.Window.Plugins;
+using System.Dynamic;
 
 namespace DBSender
 {
@@ -35,6 +36,12 @@ namespace DBSender
 			try
 			{
 				plugin.Settings.DBSender.send_with_proxy = Database_SendWithProxy.Checked;
+				if ( plugin.Settings.Poi() )
+					plugin.Settings.Poi.enable = Poi_EnableSending.Checked;
+				else
+				{
+					plugin.Settings.Poi = new { enable = true };
+				}
 			}
 			catch ( Exception ex )
 			{
@@ -60,6 +67,7 @@ namespace DBSender
 			try
 			{
 				Database_SendWithProxy.Checked = plugin.Settings.DBSender.send_with_proxy;
+				Poi_EnableSending.Checked = plugin.Settings.Poi() ? plugin.Settings.Poi.enable : true;
 			}
 			catch ( Exception ex )
 			{
@@ -71,6 +79,11 @@ namespace DBSender
 		private void Database_LinkKCDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
 		{
 			System.Diagnostics.Process.Start( "http://kancolle-db.net/" );
+		}
+
+		private void linkLabel1_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+		{
+			System.Diagnostics.Process.Start( "http://db.kcwiki.moe/drop/" );
 		}
 
 	}
