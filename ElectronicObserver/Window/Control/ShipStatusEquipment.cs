@@ -301,15 +301,16 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[i].AircraftMax = ship.MasterShip.Aircraft[i];
 				SlotList[i].Level = eq != null ? eq.Level : 0;
 				SlotList[i].AircraftLevel = eq != null ? eq.AircraftLevel : 0;
+				SlotList[i].IsExpansionSlot = false;
 			}
 
 			if ( ship.IsExpansionSlotAvailable ) {
 				var eq = ship.ExpansionSlotInstance;
 				SlotList[ship.SlotSize].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[ship.SlotSize].AircraftCurrent =
-				SlotList[ship.SlotSize].AircraftMax = 0;
-				SlotList[ship.SlotSize].Level = eq != null ? eq.Level : 0;
-				SlotList[ship.SlotSize].AircraftLevel = eq != null ? eq.AircraftLevel : 0;
+				SlotList[ship.SlotSize].AircraftMax =
+				SlotList[ship.SlotSize].Level =
+				SlotList[ship.SlotSize].AircraftLevel = 0;
 				SlotList[ship.SlotSize].IsExpansionSlot = true;
 			}
 
@@ -428,6 +429,16 @@ namespace ElectronicObserver.Window.Control {
 					}
 				}
 
+				if ( slot.IsExpansionSlot )
+				{
+					// expansion slot spliter
+					e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
+					using ( var b = new SolidBrush( AircraftColorDisabled ) )
+					{
+						e.Graphics.FillRectangle( b, new Rectangle( basearea.X + sz_unit.Width * 4, basearea.Y, 1, sz_unit.Height ) );
+					}
+				}
+
 
 				if ( slot.EquipmentID == -1 ) {
 					if ( slotindex < SlotSize ) {
@@ -450,8 +461,11 @@ namespace ElectronicObserver.Window.Control {
 
 				//装備アイコン描画
 				{
-					int index = slot.IsExpansionSlot ? 4 : slotindex;
-					Rectangle imagearea = new Rectangle( basearea.X + sz_unit.Width * index, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
+					Rectangle imagearea;
+					if ( slot.IsExpansionSlot )
+						imagearea = new Rectangle( basearea.X + sz_unit.Width * 4 + 3, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
+					else
+						imagearea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
 
 					/*/
 					// マウスオーバー式
@@ -645,22 +659,27 @@ namespace ElectronicObserver.Window.Control {
 				sz_unit.Height = Math.Max( sz_unit.Height, sz_eststr.Height );
 			}
 
+			int width;
+			if ( IsExpansionSlotAvailable )
+				width = Padding.Horizontal + sz_unit.Width * 5 + 3;
+			else
+				width = Padding.Horizontal + sz_unit.Width * SlotList.Length;
 
-			return new Size( Padding.Horizontal + sz_unit.Width * ( IsExpansionSlotAvailable ? 5 : SlotList.Length ), Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
+			return new Size( width, Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
 
 		}
 
 
-		private bool isMouseEntering = false;
+		//private bool isMouseEntering = false;
 
 		private void ShipStatusEquipment_MouseEnter( object sender, EventArgs e ) {
-			isMouseEntering = true;
-			Refresh();
+			//isMouseEntering = true;
+			//Refresh();
 		}
 
 		private void ShipStatusEquipment_MouseLeave( object sender, EventArgs e ) {
-			isMouseEntering = false;
-			Refresh();
+			//isMouseEntering = false;
+			//Refresh();
 		}
 
 	}
