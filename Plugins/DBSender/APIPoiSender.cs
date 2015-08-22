@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer
 {
@@ -15,7 +16,7 @@ namespace ElectronicObserver.Observer
 
 		private readonly string SERVER_HOSTNAME = "poi.0u0.moe";
 		private readonly string UAString =
-#if DEBUG
+#if TEST
 			"ElectronicObserver-MaKai Plugin Test";
 #else
             "ElectronicObserver-MaKai Plugin v2.0.0.1";
@@ -102,32 +103,42 @@ namespace ElectronicObserver.Observer
 			return pars;
 		}
 
-		private void ReportAsync( dynamic data, string apiname )
+		private void Report( string data, string apiname )
 		{
 			HttpWebRequest wrq = (HttpWebRequest)WebRequest.Create(
 				string.Format( "http://{0}/api/report/v2/{1}", SERVER_HOSTNAME, apiname ) );
 
-            wrq.UserAgent = UAString;
-            wrq.Method = "POST";
+			wrq.UserAgent = UAString;
+			wrq.Method = "POST";
+			wrq.Timeout = 30000;
 
-#if DEBUG
+#if TEST
 			Utility.Logger.Add( 1, string.Format( "data={0}", data ) );
 #else
 			byte[] bs = Encoding.UTF8.GetBytes( string.Format( "data={0}", data ) );
 			using ( System.IO.Stream reqs = wrq.GetRequestStream() )
 				reqs.Write( bs, 0, bs.Length );
 
-            wrq.ContentType = "text/plain-text";
+			wrq.ContentType = "text/plain-text";
 			try
 			{
-				var response = (HttpWebResponse)wrq.GetResponse();	// Async().Result;
+				var response = (HttpWebResponse)wrq.GetResponse();  // Async().Result;
 				Utility.Logger.Add( 1, string.Format( "已发送至 poi-statistics: {0}-{1}", (int)response.StatusCode, response.StatusCode ) );
 			}
 			catch ( Exception ex )
 			{
-				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "送信至 poi-statistics 失败: {0}", ex.Message ) );
+				Utility.ErrorReporter.SendErrorReport( ex, "送信至 poi-statistics 失败" );
 			}
 #endif
+		}
+
+		private void ReportAsync( dynamic data, string apiname )
+		{
+			if ( data != null )
+			{
+				string str = data.ToString();
+				Task.Factory.StartNew( () => Report( str, apiname ) );
+			}
 		}
 
 		#endregion

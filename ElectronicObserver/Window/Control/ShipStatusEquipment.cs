@@ -39,6 +39,7 @@ namespace ElectronicObserver.Window.Control {
 			public int AircraftMax { get; set; }
 
 			public int AircraftProficiency { get; set; }
+			public bool IsExpansionSlot { get; set; }
 
 
 			public SlotItem() {
@@ -79,9 +80,9 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
-		private Brush _aircraftBrushOne = new SolidBrush( Color.Red );
-		private Brush _aircraftBrushTwo = new SolidBrush( Color.FromArgb( 192, 185, 14 ) );
-		private Brush _aircraftBrushThree = new SolidBrush( Color.FromArgb( 38, 181, 50 ) );
+		private Pen _aircraftOne = new Pen( Color.FromArgb( 154, 181, 208 ), 1 );
+		private Pen _aircraftTwo = new Pen( Color.FromArgb( 213, 157, 18 ), 1 );
+		private Pen _aircraftThree = new Pen( Color.FromArgb( 38, 181, 50 ), 1 );
 
 		private Color _aircraftColorLost;
 		[Browsable( true )]
@@ -242,6 +243,7 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[ship.SlotSize].AircraftCurrent =
 				SlotList[ship.SlotSize].AircraftMax = 0;
 				SlotList[ship.SlotSize].AircraftProficiency = -1;
+				SlotList[ship.SlotSize].IsExpansionSlot = true;
 			}
 
 
@@ -376,7 +378,8 @@ namespace ElectronicObserver.Window.Control {
 
 
 				if ( image != null ) {
-					Rectangle imagearea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
+					int index = slot.IsExpansionSlot ? 4 : slotindex;
+					Rectangle imagearea = new Rectangle( basearea.X + sz_unit.Width * index, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
 
 					e.Graphics.DrawImage( image, imagearea );
 				}
@@ -445,7 +448,7 @@ namespace ElectronicObserver.Window.Control {
 
 					}
 
-
+					textarea.Height = Math.Max( textarea.Height, Height );
 					TextRenderer.DrawText( e.Graphics, slot.AircraftCurrent.ToString(), Font, textarea, aircraftColor, textformat );
 				}
 
@@ -467,41 +470,49 @@ namespace ElectronicObserver.Window.Control {
 					}
 					else
 					{
+						e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+						int h = sz_unit.Height / 2;
+
 						int x = textarea.Right - 3;
 						int y = textarea.Y;
 						int pro = slot.AircraftProficiency;
-						//if ( pro < 4 )
-						//{
-						//	for ( int i = 0; i < pro; i++ )
-						//	{
-						//		e.Graphics.FillRectangle( _aircraftBrushOne, x, y, 2, 5 );
-						//		x -= 3;
-						//	}
-						//}
-						//else if ( pro < 7 )
-						//{
-						//	for ( int i = 0; i < pro - 3; i++ )
-						//	{
-						//		e.Graphics.FillRectangle( _aircraftBrushTwo, x, y, 2, 5 );
-						//		x -= 3;
-						//	}
-						//}
-						//else
-						//{
-						//	e.Graphics.FillRectangle( _aircraftBrushThree, x - 8, y + 1, 8, 3 );
-						//}
-						Brush brush;
 						if ( pro < 4 )
-							brush = _aircraftBrushOne;
-						else if ( pro < 7 )
-							brush = _aircraftBrushTwo;
-						else
-							brush = _aircraftBrushThree;
-						for ( int i = 0; i < pro; i++ )
 						{
-							e.Graphics.FillRectangle( brush, x + 2, y, 1, 5 );
-							x -= 2;
+							for ( int i = 0; i < pro; i++ )
+							{
+								e.Graphics.DrawLine( _aircraftOne, x, 0, x, h );
+								x -= 3;
+							}
 						}
+						else if ( pro < 7 )
+						{
+							for ( int i = 0; i < pro - 3; i++ )
+							{
+								e.Graphics.DrawLine( _aircraftTwo, x - 2, 0, x + 2, h );
+								x -= 4;
+							}
+						}
+						else
+						{
+							for ( int i = 0; i < 2; i++ )
+							{
+								e.Graphics.DrawLine( _aircraftThree, x - 2, 0, x + 1, h / 2 );
+								e.Graphics.DrawLine( _aircraftThree, x - 2, h, x + 1, h / 2 );
+								x -= 4;
+							}
+						}
+						//Brush brush;
+						//if ( pro < 4 )
+						//	brush = _aircraftBrushOne;
+						//else if ( pro < 7 )
+						//	brush = _aircraftBrushTwo;
+						//else
+						//	brush = _aircraftBrushThree;
+						//for ( int i = 0; i < pro; i++ )
+						//{
+						//	e.Graphics.FillRectangle( brush, x + 2, y, 1, 5 );
+						//	x -= 2;
+						//}
 					}
 				}
 
@@ -535,7 +546,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 
-			return new Size( Padding.Horizontal + sz_unit.Width * SlotList.Length, Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
+			return new Size( Padding.Horizontal + sz_unit.Width * ( IsExpansionSlotAvailable ? 5 : SlotList.Length ), Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
 
 		}
 

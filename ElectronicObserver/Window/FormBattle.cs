@@ -1244,14 +1244,22 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					HPBars[i].PrevValue = initialHPs[i];
 					HPBars[i].MaximumValue = maxHPs[i];
 					HPBars[i].Visible = true;
-					if ( i < 12 ) {
+					if ( i < 6 )
+					{
 						DamageLabels[i].ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
 						DamageLabels[i].Visible = true;
 					}
+					else if ( i >= 12 )
+					{
+						DamageLabels[i - 6].ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+						DamageLabels[i - 6].Visible = true;
+					}
 				} else {
 					HPBars[i].Visible = false;
-					if ( i < 12 )
+					if ( i < 6 )
 						DamageLabels[i].Visible = false;
+					else if ( i >= 12 )
+						DamageLabels[i - 6].Visible = false;
 				}
 			}
 
