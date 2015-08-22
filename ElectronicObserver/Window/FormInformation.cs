@@ -151,7 +151,7 @@ namespace ElectronicObserver.Window {
 					expbase = 500.0 + Math.Sqrt( expbase - 500.0 );
 
 				sb.AppendLine( "獲得経験値 : " + (int)expbase );
-				sb.AppendLine( "S勝利 : " + (int)( expbase * 1.2 ) );
+				sb.AppendLine( "S勝利 : " + (int)( (int)expbase * 1.2 ) );
 
 			}
 
