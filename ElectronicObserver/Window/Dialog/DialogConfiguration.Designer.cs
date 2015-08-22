@@ -128,6 +128,7 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_ShowEquipmentLevel = new System.Windows.Forms.CheckBox();
 			this.FormFleet_TextProficiency = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ShowNextExp = new System.Windows.Forms.CheckBox();
 			this.FormFleet_BlinkHPBar = new System.Windows.Forms.CheckBox();
@@ -272,7 +273,7 @@
 			this.Connection_UseUpstreamProxy.AutoSize = true;
 			this.Connection_UseUpstreamProxy.Location = new System.Drawing.Point(6, 36);
 			this.Connection_UseUpstreamProxy.Name = "Connection_UseUpstreamProxy";
-			this.Connection_UseUpstreamProxy.Size = new System.Drawing.Size(165, 27);
+			this.Connection_UseUpstreamProxy.Size = new System.Drawing.Size(152, 19);
 			this.Connection_UseUpstreamProxy.TabIndex = 3;
 			this.Connection_UseUpstreamProxy.Text = "使用上流代理：";
 			this.ToolTipInfo.SetToolTip(this.Connection_UseUpstreamProxy, "与其他代理连携使用。");
@@ -295,7 +296,7 @@
 			this.Connection_RegisterAsSystemProxy.AutoSize = true;
 			this.Connection_RegisterAsSystemProxy.Location = new System.Drawing.Point(147, 7);
 			this.Connection_RegisterAsSystemProxy.Name = "Connection_RegisterAsSystemProxy";
-			this.Connection_RegisterAsSystemProxy.Size = new System.Drawing.Size(165, 27);
+			this.Connection_RegisterAsSystemProxy.Size = new System.Drawing.Size(152, 19);
 			this.Connection_RegisterAsSystemProxy.TabIndex = 2;
 			this.Connection_RegisterAsSystemProxy.Text = "登录为系统代理";
 			this.ToolTipInfo.SetToolTip(this.Connection_RegisterAsSystemProxy, "登录为系统代理后，本程序可以不设定监听端口而自动监听通信。\r\n请注意这会有副作用，详情请咨询官网。");
@@ -344,7 +345,7 @@
 			this.Connection_ApplyVersion.AutoSize = true;
 			this.Connection_ApplyVersion.Location = new System.Drawing.Point(299, 61);
 			this.Connection_ApplyVersion.Name = "Connection_ApplyVersion";
-			this.Connection_ApplyVersion.Size = new System.Drawing.Size(81, 27);
+			this.Connection_ApplyVersion.Size = new System.Drawing.Size(68, 19);
 			this.Connection_ApplyVersion.TabIndex = 9;
 			this.Connection_ApplyVersion.Text = "Version";
 			this.ToolTipInfo.SetToolTip(this.Connection_ApplyVersion, "文件中追加记录版本号。");
@@ -355,7 +356,7 @@
 			this.Connection_SaveOtherFile.AutoSize = true;
 			this.Connection_SaveOtherFile.Location = new System.Drawing.Point(234, 61);
 			this.Connection_SaveOtherFile.Name = "Connection_SaveOtherFile";
-			this.Connection_SaveOtherFile.Size = new System.Drawing.Size(72, 27);
+			this.Connection_SaveOtherFile.Size = new System.Drawing.Size(59, 19);
 			this.Connection_SaveOtherFile.TabIndex = 8;
 			this.Connection_SaveOtherFile.Text = "Other";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveOtherFile, "保存所有通信文件。");
@@ -366,7 +367,7 @@
 			this.Connection_SaveSWF.AutoSize = true;
 			this.Connection_SaveSWF.Location = new System.Drawing.Point(175, 61);
 			this.Connection_SaveSWF.Name = "Connection_SaveSWF";
-			this.Connection_SaveSWF.Size = new System.Drawing.Size(66, 27);
+			this.Connection_SaveSWF.Size = new System.Drawing.Size(53, 19);
 			this.Connection_SaveSWF.TabIndex = 7;
 			this.Connection_SaveSWF.Text = "SWF";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveSWF, "保存SWF文件。");
@@ -377,7 +378,7 @@
 			this.Connection_SaveResponse.AutoSize = true;
 			this.Connection_SaveResponse.Location = new System.Drawing.Point(88, 61);
 			this.Connection_SaveResponse.Name = "Connection_SaveResponse";
-			this.Connection_SaveResponse.Size = new System.Drawing.Size(94, 27);
+			this.Connection_SaveResponse.Size = new System.Drawing.Size(81, 19);
 			this.Connection_SaveResponse.TabIndex = 6;
 			this.Connection_SaveResponse.Text = "Response";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveResponse, "保存API的响应部分。");
@@ -388,7 +389,7 @@
 			this.Connection_SaveRequest.AutoSize = true;
 			this.Connection_SaveRequest.Location = new System.Drawing.Point(9, 61);
 			this.Connection_SaveRequest.Name = "Connection_SaveRequest";
-			this.Connection_SaveRequest.Size = new System.Drawing.Size(86, 27);
+			this.Connection_SaveRequest.Size = new System.Drawing.Size(73, 19);
 			this.Connection_SaveRequest.TabIndex = 5;
 			this.Connection_SaveRequest.Text = "Request";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveRequest, "保存API的请求部分。");
@@ -453,7 +454,7 @@
 			this.Connection_SaveReceivedData.AutoSize = true;
 			this.Connection_SaveReceivedData.Location = new System.Drawing.Point(6, 68);
 			this.Connection_SaveReceivedData.Name = "Connection_SaveReceivedData";
-			this.Connection_SaveReceivedData.Size = new System.Drawing.Size(139, 27);
+			this.Connection_SaveReceivedData.Size = new System.Drawing.Size(126, 19);
 			this.Connection_SaveReceivedData.TabIndex = 5;
 			this.Connection_SaveReceivedData.Text = "保存通信内容";
 			this.Connection_SaveReceivedData.UseVisualStyleBackColor = true;
@@ -494,10 +495,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(456, 263);
+			this.tabPage2.Size = new System.Drawing.Size(456, 233);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -999,7 +1000,7 @@
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(6, 245);
+			this.label9.Location = new System.Drawing.Point(6, 215);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(146, 15);
 			this.label9.TabIndex = 8;
@@ -1076,10 +1077,10 @@
 			this.tabPage3.Controls.Add(this.Log_AutoSave);
 			this.tabPage3.Controls.Add(this.Log_AutoSaveMinutes);
 			this.tabPage3.Controls.Add(this.labelAnother1);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Location = new System.Drawing.Point(4, 44);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(456, 253);
+			this.tabPage3.Size = new System.Drawing.Size(456, 233);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "日志";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -1089,7 +1090,7 @@
 			this.Log_ShowSpoiler.AutoSize = true;
 			this.Log_ShowSpoiler.Location = new System.Drawing.Point(197, 32);
 			this.Log_ShowSpoiler.Name = "Log_ShowSpoiler";
-			this.Log_ShowSpoiler.Size = new System.Drawing.Size(128, 27);
+			this.Log_ShowSpoiler.Size = new System.Drawing.Size(115, 19);
 			this.Log_ShowSpoiler.TabIndex = 7;
 			this.Log_ShowSpoiler.Text = "允许显示名称";
 			this.ToolTipInfo.SetToolTip(this.Log_ShowSpoiler, "日志中显示开发装备以及掉落舰名。\r\n不喜剧透的话请关闭此设置。\r\n");
@@ -1134,7 +1135,7 @@
 			this.Log_SaveErrorReport.AutoSize = true;
 			this.Log_SaveErrorReport.Location = new System.Drawing.Point(8, 60);
 			this.Log_SaveErrorReport.Name = "Log_SaveErrorReport";
-			this.Log_SaveErrorReport.Size = new System.Drawing.Size(155, 27);
+			this.Log_SaveErrorReport.Size = new System.Drawing.Size(142, 19);
 			this.Log_SaveErrorReport.TabIndex = 3;
 			this.Log_SaveErrorReport.Text = "保存错误报告";
 			this.ToolTipInfo.SetToolTip(this.Log_SaveErrorReport, "错误发生时会记录当前环境的数据。\r\n记录文件发送给开发者可以帮助修复BUG。\r\n错误文件保存在 ErrorReport 文件夹下。");
@@ -1145,7 +1146,7 @@
 			this.Log_SaveLogFlag.AutoSize = true;
 			this.Log_SaveLogFlag.Location = new System.Drawing.Point(8, 6);
 			this.Log_SaveLogFlag.Name = "Log_SaveLogFlag";
-			this.Log_SaveLogFlag.Size = new System.Drawing.Size(152, 27);
+			this.Log_SaveLogFlag.Size = new System.Drawing.Size(139, 19);
 			this.Log_SaveLogFlag.TabIndex = 0;
 			this.Log_SaveLogFlag.Text = "保存日志文件";
 			this.Log_SaveLogFlag.UseVisualStyleBackColor = true;
@@ -1281,7 +1282,7 @@
 			this.Life_ShowStatusBar.AutoSize = true;
 			this.Life_ShowStatusBar.Location = new System.Drawing.Point(11, 110);
 			this.Life_ShowStatusBar.Name = "Life_ShowStatusBar";
-			this.Life_ShowStatusBar.Size = new System.Drawing.Size(156, 27);
+			this.Life_ShowStatusBar.Size = new System.Drawing.Size(143, 19);
 			this.Life_ShowStatusBar.TabIndex = 6;
 			this.Life_ShowStatusBar.Text = "显示状态栏";
 			this.Life_ShowStatusBar.UseVisualStyleBackColor = true;
@@ -1291,7 +1292,7 @@
 			this.Life_CheckUpdateInformation.AutoSize = true;
 			this.Life_CheckUpdateInformation.Location = new System.Drawing.Point(11, 85);
 			this.Life_CheckUpdateInformation.Name = "Life_CheckUpdateInformation";
-			this.Life_CheckUpdateInformation.Size = new System.Drawing.Size(144, 27);
+			this.Life_CheckUpdateInformation.Size = new System.Drawing.Size(131, 19);
 			this.Life_CheckUpdateInformation.TabIndex = 5;
 			this.Life_CheckUpdateInformation.Text = "检查更新";
 			this.Life_CheckUpdateInformation.UseVisualStyleBackColor = true;
@@ -1330,7 +1331,7 @@
 			this.Life_TopMost.AutoSize = true;
 			this.Life_TopMost.Location = new System.Drawing.Point(11, 60);
 			this.Life_TopMost.Name = "Life_TopMost";
-			this.Life_TopMost.Size = new System.Drawing.Size(127, 27);
+			this.Life_TopMost.Size = new System.Drawing.Size(114, 19);
 			this.Life_TopMost.TabIndex = 1;
 			this.Life_TopMost.Text = "窗口置顶";
 			this.Life_TopMost.UseVisualStyleBackColor = true;
@@ -1340,7 +1341,7 @@
 			this.Life_ConfirmOnClosing.AutoSize = true;
 			this.Life_ConfirmOnClosing.Location = new System.Drawing.Point(11, 35);
 			this.Life_ConfirmOnClosing.Name = "Life_ConfirmOnClosing";
-			this.Life_ConfirmOnClosing.Size = new System.Drawing.Size(127, 27);
+			this.Life_ConfirmOnClosing.Size = new System.Drawing.Size(114, 19);
 			this.Life_ConfirmOnClosing.TabIndex = 0;
 			this.Life_ConfirmOnClosing.Text = "退出时确认";
 			this.Life_ConfirmOnClosing.UseVisualStyleBackColor = true;
@@ -1371,6 +1372,7 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_ShowEquipmentLevel);
 			this.tabPage8.Controls.Add(this.FormFleet_TextProficiency);
 			this.tabPage8.Controls.Add(this.FormFleet_BlinkHPBar);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowNextExp);
@@ -1399,6 +1401,17 @@
 			this.ToolTipInfo.SetToolTip(this.FormFleet_BlinkHPBar, "非第1舰队空闲时是否允许闪烁背景给予远征提示。");
 			this.FormFleet_BlinkHPBar.UseVisualStyleBackColor = true;
 			// 
+			// FormFleet_ShowEquipmentLevel
+			// 
+			this.FormFleet_ShowEquipmentLevel.AutoSize = true;
+			this.FormFleet_ShowEquipmentLevel.Location = new System.Drawing.Point(156, 60);
+			this.FormFleet_ShowEquipmentLevel.Name = "FormFleet_ShowEquipmentLevel";
+			this.FormFleet_ShowEquipmentLevel.Size = new System.Drawing.Size(173, 19);
+			this.FormFleet_ShowEquipmentLevel.TabIndex = 9;
+			this.FormFleet_ShowEquipmentLevel.Text = "显示改修等级";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowEquipmentLevel, "指定是否显示装备改修等级。\r\n");
+			this.FormFleet_ShowEquipmentLevel.UseVisualStyleBackColor = true;
+			// 
 			// FormFleet_TextProficiency
 			// 
 			this.FormFleet_TextProficiency.AutoSize = true;
@@ -1414,7 +1427,7 @@
 			this.FormFleet_ShowNextExp.AutoSize = true;
 			this.FormFleet_ShowNextExp.Location = new System.Drawing.Point(6, 135);
 			this.FormFleet_ShowNextExp.Name = "FormFleet_ShowNextExp";
-			this.FormFleet_ShowNextExp.Size = new System.Drawing.Size(125, 27);
+			this.FormFleet_ShowNextExp.Size = new System.Drawing.Size(112, 19);
 			this.FormFleet_ShowNextExp.TabIndex = 6;
 			this.FormFleet_ShowNextExp.Text = "显示next.经验";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowNextExp, "指定是否显示「到下一级需要的经验值」。\r\n不显示可节省空间。");
@@ -1425,7 +1438,7 @@
 			this.FormFleet_ShortenHPBar.AutoSize = true;
 			this.FormFleet_ShortenHPBar.Location = new System.Drawing.Point(6, 110);
 			this.FormFleet_ShortenHPBar.Name = "FormFleet_ShortenHPBar";
-			this.FormFleet_ShortenHPBar.Size = new System.Drawing.Size(127, 27);
+			this.FormFleet_ShortenHPBar.Size = new System.Drawing.Size(114, 19);
 			this.FormFleet_ShortenHPBar.TabIndex = 5;
 			this.FormFleet_ShortenHPBar.Text = "缩短HP条";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_ShortenHPBar, "缩短HP条，以节省空间。");
@@ -1436,7 +1449,7 @@
 			this.FormFleet_FixShipNameWidth.AutoSize = true;
 			this.FormFleet_FixShipNameWidth.Location = new System.Drawing.Point(6, 85);
 			this.FormFleet_FixShipNameWidth.Name = "FormFleet_FixShipNameWidth";
-			this.FormFleet_FixShipNameWidth.Size = new System.Drawing.Size(149, 27);
+			this.FormFleet_FixShipNameWidth.Size = new System.Drawing.Size(136, 19);
 			this.FormFleet_FixShipNameWidth.TabIndex = 4;
 			this.FormFleet_FixShipNameWidth.Text = "固定舰名长度";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_FixShipNameWidth, "舰名宽度固定，以节省空间。\r\n有些舰娘名字很长。");
@@ -1447,7 +1460,7 @@
 			this.FormFleet_IsScrollable.AutoSize = true;
 			this.FormFleet_IsScrollable.Location = new System.Drawing.Point(6, 60);
 			this.FormFleet_IsScrollable.Name = "FormFleet_IsScrollable";
-			this.FormFleet_IsScrollable.Size = new System.Drawing.Size(157, 27);
+			this.FormFleet_IsScrollable.Size = new System.Drawing.Size(144, 19);
 			this.FormFleet_IsScrollable.TabIndex = 3;
 			this.FormFleet_IsScrollable.Text = "显示滚动条";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_IsScrollable, "指定超出显示区域时是否显示滚动条。\r\n默认不超出时不会显示。");
@@ -1480,7 +1493,7 @@
 			this.FormFleet_ShowAircraft.AutoSize = true;
 			this.FormFleet_ShowAircraft.Location = new System.Drawing.Point(6, 6);
 			this.FormFleet_ShowAircraft.Name = "FormFleet_ShowAircraft";
-			this.FormFleet_ShowAircraft.Size = new System.Drawing.Size(139, 27);
+			this.FormFleet_ShowAircraft.Size = new System.Drawing.Size(126, 19);
 			this.FormFleet_ShowAircraft.TabIndex = 0;
 			this.FormFleet_ShowAircraft.Text = "显示舰载机数量";
 			this.FormFleet_ShowAircraft.UseVisualStyleBackColor = true;
@@ -1502,7 +1515,7 @@
 			this.FormShipGroup_ShowStatusBar.AutoSize = true;
 			this.FormShipGroup_ShowStatusBar.Location = new System.Drawing.Point(6, 31);
 			this.FormShipGroup_ShowStatusBar.Name = "FormShipGroup_ShowStatusBar";
-			this.FormShipGroup_ShowStatusBar.Size = new System.Drawing.Size(156, 27);
+			this.FormShipGroup_ShowStatusBar.Size = new System.Drawing.Size(143, 19);
 			this.FormShipGroup_ShowStatusBar.TabIndex = 2;
 			this.FormShipGroup_ShowStatusBar.Text = "显示状态栏";
 			this.ToolTipInfo.SetToolTip(this.FormShipGroup_ShowStatusBar, "指定是否显示下端状态栏（所属舰娘数量等）。\r\n不勾选可以增加表格显示行数。");
@@ -1513,7 +1526,7 @@
 			this.FormShipGroup_AutoUpdate.AutoSize = true;
 			this.FormShipGroup_AutoUpdate.Location = new System.Drawing.Point(6, 6);
 			this.FormShipGroup_AutoUpdate.Name = "FormShipGroup_AutoUpdate";
-			this.FormShipGroup_AutoUpdate.Size = new System.Drawing.Size(106, 27);
+			this.FormShipGroup_AutoUpdate.Size = new System.Drawing.Size(93, 19);
 			this.FormShipGroup_AutoUpdate.TabIndex = 1;
 			this.FormShipGroup_AutoUpdate.Text = "自动更新";
 			this.ToolTipInfo.SetToolTip(this.FormShipGroup_AutoUpdate, "指定舰船数据是否自动更新。\r\n");
@@ -1522,7 +1535,6 @@
 			// tabPage12
 			// 
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomFit);
-			this.tabPage12.Controls.Add(this.groupBox3);
 			this.tabPage12.Controls.Add(this.FormBrowser_AppliesStyleSheet);
 			this.tabPage12.Controls.Add(this.FormBrowser_ConfirmAtRefresh);
 			this.tabPage12.Controls.Add(this.groupBox2);
@@ -1545,7 +1557,7 @@
 			this.FormBrowser_ZoomFit.AutoSize = true;
 			this.FormBrowser_ZoomFit.Location = new System.Drawing.Point(173, 31);
 			this.FormBrowser_ZoomFit.Name = "FormBrowser_ZoomFit";
-			this.FormBrowser_ZoomFit.Size = new System.Drawing.Size(74, 27);
+			this.FormBrowser_ZoomFit.Size = new System.Drawing.Size(61, 19);
 			this.FormBrowser_ZoomFit.TabIndex = 4;
 			this.FormBrowser_ZoomFit.Text = "自适应";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_ZoomFit, "随着窗口扩大缩小自适应。");
@@ -1558,7 +1570,7 @@
 			this.groupBox3.Controls.Add(this.FormBrowser_GPURendering);
 			this.groupBox3.Controls.Add(this.FormBrowser_ApplyRegistry);
 			this.groupBox3.Controls.Add(this.label19);
-			this.groupBox3.Location = new System.Drawing.Point(6, 165);
+			this.groupBox3.Location = new System.Drawing.Point(6, 6);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(470, 46);
 			this.groupBox3.TabIndex = 10;
@@ -1602,7 +1614,7 @@
 			this.FormBrowser_GPURendering.AutoSize = true;
 			this.FormBrowser_GPURendering.Location = new System.Drawing.Point(180, 18);
 			this.FormBrowser_GPURendering.Name = "FormBrowser_GPURendering";
-			this.FormBrowser_GPURendering.Size = new System.Drawing.Size(116, 27);
+			this.FormBrowser_GPURendering.Size = new System.Drawing.Size(103, 19);
 			this.FormBrowser_GPURendering.TabIndex = 2;
 			this.FormBrowser_GPURendering.Text = "GPU渲染";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_GPURendering, "指定使用内置浏览器的GPU渲染。\r\n可以加速环境处理。");
@@ -1634,7 +1646,7 @@
 			this.FormBrowser_AppliesStyleSheet.AutoSize = true;
 			this.FormBrowser_AppliesStyleSheet.Location = new System.Drawing.Point(282, 31);
 			this.FormBrowser_AppliesStyleSheet.Name = "FormBrowser_AppliesStyleSheet";
-			this.FormBrowser_AppliesStyleSheet.Size = new System.Drawing.Size(155, 27);
+			this.FormBrowser_AppliesStyleSheet.Size = new System.Drawing.Size(142, 19);
 			this.FormBrowser_AppliesStyleSheet.TabIndex = 6;
 			this.FormBrowser_AppliesStyleSheet.Text = "应用样式表";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_AppliesStyleSheet, "在艦これ页面中会生效。\r\n如果显示错乱，请禁用此项。");
@@ -1645,7 +1657,7 @@
 			this.FormBrowser_ConfirmAtRefresh.AutoSize = true;
 			this.FormBrowser_ConfirmAtRefresh.Location = new System.Drawing.Point(282, 6);
 			this.FormBrowser_ConfirmAtRefresh.Name = "FormBrowser_ConfirmAtRefresh";
-			this.FormBrowser_ConfirmAtRefresh.Size = new System.Drawing.Size(161, 27);
+			this.FormBrowser_ConfirmAtRefresh.Size = new System.Drawing.Size(148, 19);
 			this.FormBrowser_ConfirmAtRefresh.TabIndex = 5;
 			this.FormBrowser_ConfirmAtRefresh.Text = "刷新时确认";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_ConfirmAtRefresh, "刷新时提示确认，通过才会刷新。\r\n防止误操作。");
@@ -1679,7 +1691,7 @@
 			this.FormBrowser_ScreenShotFormat_PNG.AutoSize = true;
 			this.FormBrowser_ScreenShotFormat_PNG.Location = new System.Drawing.Point(65, 22);
 			this.FormBrowser_ScreenShotFormat_PNG.Name = "FormBrowser_ScreenShotFormat_PNG";
-			this.FormBrowser_ScreenShotFormat_PNG.Size = new System.Drawing.Size(63, 26);
+			this.FormBrowser_ScreenShotFormat_PNG.Size = new System.Drawing.Size(50, 19);
 			this.FormBrowser_ScreenShotFormat_PNG.TabIndex = 1;
 			this.FormBrowser_ScreenShotFormat_PNG.TabStop = true;
 			this.FormBrowser_ScreenShotFormat_PNG.Text = "PNG";
@@ -1710,7 +1722,7 @@
 			this.FormBrowser_ScreenShotFormat_JPEG.AutoSize = true;
 			this.FormBrowser_ScreenShotFormat_JPEG.Location = new System.Drawing.Point(6, 22);
 			this.FormBrowser_ScreenShotFormat_JPEG.Name = "FormBrowser_ScreenShotFormat_JPEG";
-			this.FormBrowser_ScreenShotFormat_JPEG.Size = new System.Drawing.Size(66, 26);
+			this.FormBrowser_ScreenShotFormat_JPEG.Size = new System.Drawing.Size(53, 19);
 			this.FormBrowser_ScreenShotFormat_JPEG.TabIndex = 0;
 			this.FormBrowser_ScreenShotFormat_JPEG.TabStop = true;
 			this.FormBrowser_ScreenShotFormat_JPEG.Text = "JPEG";
@@ -1739,7 +1751,7 @@
 			this.FormBrowser_IsEnabled.AutoSize = true;
 			this.FormBrowser_IsEnabled.Location = new System.Drawing.Point(6, 6);
 			this.FormBrowser_IsEnabled.Name = "FormBrowser_IsEnabled";
-			this.FormBrowser_IsEnabled.Size = new System.Drawing.Size(129, 27);
+			this.FormBrowser_IsEnabled.Size = new System.Drawing.Size(116, 19);
 			this.FormBrowser_IsEnabled.TabIndex = 0;
 			this.FormBrowser_IsEnabled.Text = "启动时加载页面";
 			this.FormBrowser_IsEnabled.UseVisualStyleBackColor = true;
@@ -1786,6 +1798,7 @@
 			// tabPage14
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
+			this.tabPage14.Controls.Add(this.groupBox3);
 			this.tabPage14.Location = new System.Drawing.Point(4, 24);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
@@ -1800,7 +1813,7 @@
 			this.groupBox4.Controls.Add(this.FormBrowser_FlashWMode);
 			this.groupBox4.Controls.Add(this.label20);
 			this.groupBox4.Controls.Add(this.FormBrowser_FlashQuality);
-			this.groupBox4.Location = new System.Drawing.Point(6, 6);
+			this.groupBox4.Location = new System.Drawing.Point(6, 58);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(200, 80);
 			this.groupBox4.TabIndex = 0;
@@ -2111,5 +2124,6 @@
 		private System.Windows.Forms.ComboBox FormBrowser_FlashWMode;
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.ComboBox FormBrowser_FlashQuality;
+		private System.Windows.Forms.CheckBox FormFleet_ShowEquipmentLevel;
 	}
 }

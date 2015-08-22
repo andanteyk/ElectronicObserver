@@ -1084,22 +1084,26 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			ToolTipInfo.SetToolTip( AirSuperiority, null );
 
 			AirStage1Friend.Text = "-";
+			AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 			AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage1Friend.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage1Friend, null );
 
 			AirStage1Enemy.Text = "-";
+			AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 			AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage1Enemy.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 
 			AirStage2Friend.Text = "-";
+			AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 			AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage2Friend.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage2Friend, null );
 
 			AirStage2Enemy.Text = "-";
 			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+			AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 			AirStage2Enemy.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage2Enemy, null );
 
@@ -1521,6 +1525,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					ShipData ship = fleet.MembersInstance[index];
 
 					AirStage1Friend.Text = "#" + ( index + 1 );
+					AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
 					ToolTipInfo.SetToolTip( AirStage1Friend, "探照灯照射: " + ship.NameWithLevel );
@@ -1534,6 +1539,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				int index = pd.SearchlightIndexEnemy;
 				if ( index != -1 ) {
 					AirStage1Enemy.Text = "#" + ( index + 1 );
+					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;	
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
 					ToolTipInfo.SetToolTip( AirStage1Enemy, "探照灯照射: " + pd.SearchlightEnemyInstance.NameWithClass );
@@ -1568,6 +1574,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 				if ( index != -1 ) {
 					AirStage2Friend.Text = "#" + ( index + 1 );
+					AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 					AirStage2Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage2Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
 					ToolTipInfo.SetToolTip( AirStage2Friend, "照明弾投射: " + fleet.MembersInstance[index].NameWithLevel );
@@ -1582,6 +1589,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 				if ( index != -1 ) {
 					AirStage2Enemy.Text = "#" + ( index + 1 );
+					AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 					AirStage2Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage2Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
 					ToolTipInfo.SetToolTip( AirStage2Enemy, "照明弾投射: " + pd.FlareEnemyInstance.NameWithClass );

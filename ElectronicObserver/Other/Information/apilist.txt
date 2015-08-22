@@ -771,11 +771,16 @@ api_req_quest/clearitemget		：任務達成
 	api_material		：獲得資源量(基本4種)
 	api_bounus_count	：api_bounus の数 *スペルミス注意*
 	api_bounus			：アイテム *スペルミス注意*
-		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換
+		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換, 99=イベント海域解放
 		api_count		：取得個数
-		api_item		：アイテム追加情報 一般アイテムはnull
+		api_item		：アイテム追加情報 一般アイテムはnull イベント海域解放時は api_count = 1 にもかかわらず null
+			(アイテムの場合)
 			api_id		：装備アイテム=ID、家具箱=0
 			api_name	：アイテム名 家具箱系/装備のみ
+			(機種転換の場合)
+			api_id_from	：転換前の装備ID(マスター)
+			api_id_to	：転換後の装備ID
+			api_message	：メッセージ
 
 
 Request.api_get_member/picture_book	：図鑑
@@ -1417,6 +1422,8 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊 戦闘
 	api_fParam			：味方艦船基礎ステータス
 	api_eParam			：敵艦船基礎ステータス
 	api_fParam_combined	：味方随伴護衛艦隊基礎ステータス
+	api_combat_ration	：本隊戦闘糧食補給　発動時のみ存在　艦船IDの数値配列
+	api_combat_ration_combined	：随伴艦隊戦闘糧食補給　発動時のみ存在　艦船IDの数値配列
 	api_search			：索敵　[0]=味方, [1]=敵	1=成功, 2=失敗?, 5=失敗
 	api_formation		：陣形/交戦形態?　[0]=味方, [1]=敵, [2]=交戦形態
 							[0|1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣?, 5=単横陣?, "11"-"14"=第n警戒航行序列
