@@ -408,6 +408,12 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowNextExp { get; set; }
 
+				/// <summary>
+				/// 装備の改修レベル・艦載機熟練度を表示するか
+				/// </summary>
+				public bool ShowEquipmentLevel { get; set; }
+
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 0;
@@ -415,6 +421,7 @@ namespace ElectronicObserver.Utility {
 					FixShipNameWidth = false;
 					ShortenHPBar = false;
 					ShowNextExp = true;
+					ShowEquipmentLevel = true;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>

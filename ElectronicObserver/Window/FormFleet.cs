@@ -764,6 +764,7 @@ namespace ElectronicObserver.Window {
 				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
 				bool shortHPBar = c.FormFleet.ShortenHPBar;
 				bool showNext = c.FormFleet.ShowNextExp;
+				bool showEquipmentLevel = c.FormFleet.ShowEquipmentLevel;
 
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
 					ControlMember[i].Equipments.ShowAircraft = showAircraft;
@@ -776,6 +777,7 @@ namespace ElectronicObserver.Window {
 
 					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
+					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
 				}
 			}
 			TableMember.PerformLayout();		//fixme:サイズ変更に親パネルが追随しない
