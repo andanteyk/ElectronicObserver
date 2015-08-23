@@ -37,11 +37,12 @@ namespace ElectronicObserver.Window.Control {
 			}
 			public int AircraftCurrent { get; set; }
 			public int AircraftMax { get; set; }
+            public int EquipLevel { get; set; }
+            public int AircrafLevel { get; set; }
 
-
-			public SlotItem() {
+            public SlotItem() {
 				EquipmentID = -1;
-				AircraftCurrent = AircraftMax = 0;
+				AircraftCurrent = AircraftMax = EquipLevel = AircrafLevel = 0;
 			}
 		}
 
@@ -65,7 +66,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
-		private Color _aircraftColorDisabled;
+        private Color _aircraftColorDisabled;
 		[Browsable( true )]
 		[DefaultValue( typeof( Color ), "170, 170, 170" )]
 		public Color AircraftColorDisabled {
@@ -109,8 +110,59 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+        private Color _equipLevelColorDisabled;
+        [Browsable(true)]
+        [DefaultValue(typeof(Color), "170, 170, 170")]
+        public Color EquipLevelColorDisabled
+        {
+            get { return _equipLevelColorDisabled; }
+            set
+            {
+                _equipLevelColorDisabled = value;
+                PropertyChanged();
+            }
+        }
 
-		private Color _invalidSlotColor;
+        private Color _equipLevelColorBlack;
+        [Browsable(true)]
+        [DefaultValue(typeof(Color), "0, 0, 0")]
+        public Color EquipLevelColorBlack
+        {
+            get { return _equipLevelColorBlack; }
+            set
+            {
+                _equipLevelColorBlack = value;
+                PropertyChanged();
+            }
+        }
+
+        private Color _equipLevelColorBlue;
+        [Browsable(true)]
+        [DefaultValue(typeof(Color), "100, 149, 237")]
+        public Color EquipLevelColorBlue
+        {
+            get { return _equipLevelColorBlue; }
+            set
+            {
+                _equipLevelColorBlue = value;
+                PropertyChanged();
+            }
+        }
+
+        private Color _equipLevelColorOrange;
+        [Browsable(true)]
+        [DefaultValue(typeof(Color), "255, 165, 0")]
+        public Color EquipLevelColorOrange
+        {
+            get { return _equipLevelColorOrange; }
+            set
+            {
+                _equipLevelColorOrange = value;
+                PropertyChanged();
+            }
+        }
+
+        private Color _invalidSlotColor;
 		[Browsable( true )]
 		[DefaultValue( typeof( Color ), "64, 255, 0, 0" )]
 		public Color InvalidSlotColor {
@@ -121,8 +173,20 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+        private bool _showEquipLevel;
+        [Browsable( true )]
+        [DefaultValue( true )]
+        public bool ShowEquipLevel
+        {
+            get { return _showEquipLevel; }
+            set
+            {
+                _showEquipLevel = value;
+                PropertyChanged();
+            }
+        }
 
-		private bool _showAircraft;
+        private bool _showAircraft;
 		[Browsable( true )]
 		[DefaultValue( true )]
 		public bool ShowAircraft {
@@ -133,8 +197,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
-
-		private bool _overlayAircraft;
+        private bool _overlayAircraft;
 		[Browsable( true )]
 		[DefaultValue( true )]
 		public bool OverlayAircraft {
@@ -159,12 +222,26 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+        private int _aircraftMargin;
+        [Browsable(true)]
+        [DefaultValue(0)]
+        [Description("搭載数表示位置のスペースを指定します。")]
+        [Category("表示")]
+        public int AircraftMargin
+        {
+            get { return _aircraftMargin; }
+            set
+            {
+                _aircraftMargin = value;
+                PropertyChanged();
+            }
+        }
 
-		#endregion
+        #endregion
 
 
 
-		public ShipStatusEquipment() {
+        public ShipStatusEquipment() {
 			InitializeComponent();
 
 			SlotList = new SlotItem[6];
@@ -176,19 +253,26 @@ namespace ElectronicObserver.Window.Control {
 
 			base.Font = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
 
-			_aircraftColorDisabled = Color.FromArgb( 0xAA, 0xAA, 0xAA );
-			_aircraftColorLost = Color.FromArgb( 0xFF, 0x00, 0xFF );
+            _equipLevelColorDisabled = Color.FromArgb(0xAA, 0xAA, 0xAA);
+            _equipLevelColorBlack = Color.FromArgb(0x00, 0x00, 0x00);
+            _equipLevelColorBlue = Color.FromArgb(0x64, 0x95, 0xED);
+            _equipLevelColorOrange = Color.FromArgb(0xFF, 0xA5, 0x00);
+
+            _aircraftColorDisabled = Color.FromArgb(0xAA, 0xAA, 0xAA);
+            _aircraftColorLost = Color.FromArgb( 0xFF, 0x00, 0xFF );
 			_aircraftColorDamaged = Color.FromArgb( 0xFF, 0x00, 0x00 );
 			_aircraftColorFull = Color.FromArgb( 0x00, 0x00, 0x00 );
 
 			_invalidSlotColor = Color.FromArgb( 0x40, 0xFF, 0x00, 0x00 );
 
+            _showEquipLevel = true;
 			_showAircraft = true;
 			_overlayAircraft = false;
 
 			_slotMargin = 3;
+            _aircraftMargin = 2;
 
-		}
+        }
 
 
 		/// <summary>
@@ -213,6 +297,8 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[i].AircraftCurrent = ship.Aircraft[i];
 				SlotList[i].AircraftMax = ship.MasterShip.Aircraft[i];
+                SlotList[i].EquipLevel = eq != null ? eq.Level : 0;
+                SlotList[i].AircrafLevel = eq != null ? eq.AircraftLevel : 0;
 			}
 
 			if ( ship.IsExpansionSlotAvailable ) {
@@ -220,7 +306,9 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[ship.SlotSize].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[ship.SlotSize].AircraftCurrent =
 				SlotList[ship.SlotSize].AircraftMax = 0;
-			}
+                SlotList[ship.SlotSize].EquipLevel = 0;
+                SlotList[ship.SlotSize].AircrafLevel = 0;
+            }
 
 
 			SlotSize = ship.SlotSize + ( ship.IsExpansionSlotAvailable ? 1 : 0 );
@@ -246,7 +334,9 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[i].EquipmentID = ship.DefaultSlot == null ? -1 : ( ship.DefaultSlot.Count < i ? ship.DefaultSlot[i] : -1 );
 				SlotList[i].AircraftCurrent =
 				SlotList[i].AircraftMax = ship.Aircraft[i];
-			}
+                SlotList[i].EquipLevel = 0;
+                SlotList[i].AircrafLevel = 0;
+            }
 
 			SlotSize = ship.SlotSize;
 
@@ -275,7 +365,9 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[i].EquipmentID = slot[i];
 				SlotList[i].AircraftCurrent = ship.Aircraft[i];
 				SlotList[i].AircraftMax = ship.Aircraft[i];
-			}
+                SlotList[i].EquipLevel = 0;
+                SlotList[i].AircrafLevel = 0;
+            }
 
 			SlotSize = ship != null ? ship.SlotSize : 0;
 
@@ -295,9 +387,9 @@ namespace ElectronicObserver.Window.Control {
 		private void ShipStatusEquipment_Paint( object sender, PaintEventArgs e ) {
 
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
-			//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
+            //e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
 
-			ImageList eqimages = ResourceManager.Instance.Equipments;
+            ImageList eqimages = ResourceManager.Instance.Equipments;
 
 			TextFormatFlags textformat = TextFormatFlags.NoPadding;
 			if ( !OverlayAircraft ) {
@@ -306,8 +398,15 @@ namespace ElectronicObserver.Window.Control {
 				textformat |= TextFormatFlags.Top | TextFormatFlags.Left;
 			}
 
-			// 艦載機スロット表示の予測サイズ(2桁)
-			Size sz_eststr = TextRenderer.MeasureText( "99", Font, new Size( int.MaxValue, int.MaxValue ), textformat );
+            TextFormatFlags textformatLevel = TextFormatFlags.NoPadding;
+            if (!OverlayAircraft) {
+                textformatLevel |= TextFormatFlags.Top | TextFormatFlags.Right;
+            } else {
+                textformatLevel |= TextFormatFlags.Top | TextFormatFlags.Left;
+            }
+
+            // 艦載機スロット表示の予測サイズ(2桁)
+            Size sz_eststr = TextRenderer.MeasureText( "99", Font, new Size( int.MaxValue, int.MaxValue ), textformat );
 			sz_eststr.Width -= (int)( Font.Size / 2.0 );
 
 			// スロット1つ当たりのサイズ(右の余白含む)
@@ -330,7 +429,7 @@ namespace ElectronicObserver.Window.Control {
 					//invalid!
 					using ( SolidBrush b = new SolidBrush( InvalidSlotColor ) ) {
 						e.Graphics.FillRectangle( b, new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width, sz_unit.Height ) );
-					}
+                    }
 				}
 
 
@@ -357,44 +456,99 @@ namespace ElectronicObserver.Window.Control {
 					Rectangle imagearea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
 
 					e.Graphics.DrawImage( image, imagearea );
-				}
-
+                    //e.Graphics.DrawRectangle(Pens.Magenta, basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
+                }
 
 
 				Color aircraftColor = AircraftColorDisabled;
-				bool drawAircraftSlot = ShowAircraft;
+                Color equipLevelColor = EquipLevelColorDisabled;
+                bool drawEqiuipLevel = ShowEquipLevel;
+                bool drawAircraftSlot = ShowAircraft;
 
-				if ( slot.EquipmentID != -1 ) {
+                if (slot.EquipmentID != -1)
+                { //装備有
 
-					if ( Calculator.IsAircraft( slot.EquipmentID, true ) ) {
+                    if (Calculator.IsAircraft(slot.EquipmentID, true))
+                    { //装備有り、艦載機の場合
 
-						if ( slot.AircraftMax == 0 ) {
-							aircraftColor = AircraftColorDisabled;
-						} else if ( slot.AircraftCurrent == 0 ) {
-							aircraftColor = AircraftColorLost;
-						} else if ( slot.AircraftCurrent < slot.AircraftMax ) {
-							aircraftColor = AircraftColorDamaged;
-						} else {
-							aircraftColor = AircraftColorFull;
-						}
+                        if (slot.AircraftMax == 0)
+                        {
+                            aircraftColor = AircraftColorDisabled;
+                        }
+                        else if (slot.AircraftCurrent == 0)
+                        {
+                            aircraftColor = AircraftColorLost;
+                        }
+                        else if (slot.AircraftCurrent < slot.AircraftMax)
+                        {
+                            aircraftColor = AircraftColorDamaged;
+                        }
+                        else
+                        {
+                            aircraftColor = AircraftColorFull;
+                        }
 
-					} else {
-						if ( slot.AircraftMax == 0 )
-							drawAircraftSlot = false;
-					}
+                        if (slot.AircrafLevel == 0)
+                        {
+                            equipLevelColor = EquipLevelColorDisabled;
+                        }
+                        else if (slot.AircrafLevel >= 1 && slot.AircrafLevel <= 3)
+                        {
+                            equipLevelColor = EquipLevelColorBlue;
+                        }
+                        else if (slot.AircrafLevel >= 4)
+                        {
+                            equipLevelColor = EquipLevelColorOrange;
+                        }
+                    }
+                }
 
-				} else if ( slot.AircraftMax == 0 ) {
-					drawAircraftSlot = false;
-				}
+                if ( slot.AircraftMax == 0 )
+                { //搭載最大数が0ならば表示なし
 
+                    drawAircraftSlot = false;
+                }
 
-				if ( drawAircraftSlot ) {
-					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width - SlotMargin, sz_unit.Height );
+                if ( !Calculator.IsAircraft(slot.EquipmentID, true) && slot.EquipLevel == 0 )
+                { //装備が艦載機以外で装備改修レベルが0ならば表示なし
 
-					if ( OverlayAircraft ) {
+                    drawEqiuipLevel = false;
+                }
+
+                if ( drawEqiuipLevel ) {
+                    Rectangle textarea = new Rectangle(basearea.X + sz_unit.Width * slotindex, basearea.Y - (AircraftMargin + SlotMargin), sz_unit.Width - AircraftMargin, sz_unit.Height + 7);
+                    String equipLevelText = "";
+
+                    if (Calculator.IsAircraft(slot.EquipmentID, true))
+                    { //装備が艦載機
+                        switch (slot.AircrafLevel)
+                        {
+                            case 1: equipLevelText = "l"; break;
+                            case 2: equipLevelText = "ll"; break;
+                            case 3: equipLevelText = "lll"; break;
+                            case 4: equipLevelText = "/"; break;
+                            case 5: equipLevelText = "//"; break;
+                            case 6: equipLevelText = "///"; break;
+                            case 7: equipLevelText = ">>"; break;
+                        }
+
+                    } else
+                    { //装備が艦載機以外
+                        equipLevelColor = EquipLevelColorBlack;
+                        equipLevelText = "+" + slot.EquipLevel.ToString();
+                    }
+
+                    TextRenderer.DrawText(e.Graphics, equipLevelText, Font, textarea, equipLevelColor, textformatLevel);
+                }
+
+                if ( drawAircraftSlot ) {
+					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y - ( AircraftMargin + SlotMargin ), sz_unit.Width - AircraftMargin, sz_unit.Height + 7);
+                    //e.Graphics.DrawRectangle(Pens.Cyan, basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width - SlotMargin, sz_unit.Height );
+
+                    if ( OverlayAircraft ) {
 						using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0xC0, 0xF0, 0xF0, 0xF0 ) ) ) {
 							e.Graphics.FillRectangle( b, new Rectangle( textarea.X, textarea.Y, sz_eststr.Width, sz_eststr.Height ) );
-						}
+                        }
 
 					} else {
 
@@ -422,9 +576,9 @@ namespace ElectronicObserver.Window.Control {
 
 
 					TextRenderer.DrawText( e.Graphics, slot.AircraftCurrent.ToString(), Font, textarea, aircraftColor, textformat );
-				}
+                }
 
-			}
+            }
 
 		}
 
@@ -432,9 +586,9 @@ namespace ElectronicObserver.Window.Control {
 		public override Size GetPreferredSize( Size proposedSize ) {
 
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
-			//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
+            //e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
 
-			ImageList eqimages = ResourceManager.Instance.Equipments;
+            ImageList eqimages = ResourceManager.Instance.Equipments;
 
 			TextFormatFlags textformat = TextFormatFlags.NoPadding;
 			if ( !OverlayAircraft ) {
