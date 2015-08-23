@@ -413,6 +413,10 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowEquipmentLevel { get; set; }
 
+				/// <summary>
+				/// 制空戦力の計算方法
+				/// </summary>
+				public int AirSuperiorityMethod { get; set; }
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
@@ -422,6 +426,7 @@ namespace ElectronicObserver.Utility {
 					ShortenHPBar = false;
 					ShowNextExp = true;
 					ShowEquipmentLevel = true;
+					AirSuperiorityMethod = 1;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>

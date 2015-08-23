@@ -95,15 +95,49 @@ namespace ElectronicObserver.Utility.Data {
 			return air;
 		}
 
+
+
+		private static readonly Dictionary<int, int> AirSuperiorityBonus = new Dictionary<int, int>() {
+			{ 6, 25 },		//艦上戦闘機
+			{ 7, 0 },		//艦上爆撃機
+			{ 8, 3 },		//艦上攻撃機
+			{ 11, 9 },		//水上爆撃機
+		};
+
 		/// <summary>
 		/// 制空戦力を求めます。
 		/// </summary>
 		/// <param name="ship">対象の艦船。</param>
 		public static int GetAirSuperiority( ShipData ship ) {
 
-			return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
+			if ( Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 0 ) {
+				return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
+			}
 
+			int air = 0;		//checkme: 場合によっては double にする必要があるかも
+			var eqs = ship.SlotInstance;
+			var aircrafts = ship.Aircraft;
+
+
+			for ( int i = 0; i < eqs.Count; i++ ) {
+				var eq = eqs[i];
+				if ( eq != null && aircrafts[i] > 0 ) {
+
+					int category = eq.MasterEquipment.CategoryType;
+
+					if ( AirSuperiorityBonus.ContainsKey( category ) ) {
+						air += (int)( eq.MasterEquipment.AA * Math.Sqrt( aircrafts[i] ) );
+
+						if ( eq.AircraftLevel == 7 )
+							air += AirSuperiorityBonus[category];
+					}
+
+				}
+			}
+
+			return air;
 		}
+
 
 		/// <summary>
 		/// 制空戦力を求めます。
