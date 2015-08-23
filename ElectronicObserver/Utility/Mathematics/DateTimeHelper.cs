@@ -194,7 +194,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 
 
 		public static string TimeToCSVString( DateTime time ) {
-			return time.ToString( "yyyy/MM/dd HH:mm:ss" );
+			return time.ToString( "yyyy\\/MM\\/dd HH\\:mm\\:ss" );
 		}
 
 		public static DateTime CSVStringToTime( string str ) {

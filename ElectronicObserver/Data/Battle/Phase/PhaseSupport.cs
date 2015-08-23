@@ -82,7 +82,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		public int[] AirRaidDamages {
 			get {
-				if ( SupportFlag == 1 && (int)RawData.api_support_info.api_stage_flag[2] != 0 ) {
+				if ( SupportFlag == 1 && (int)RawData.api_support_info.api_support_airatack.api_stage_flag[2] != 0 ) {
 
 					return ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_edam ).Skip( 1 ).ToArray();
 
