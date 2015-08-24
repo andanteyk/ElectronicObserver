@@ -104,10 +104,10 @@ namespace ElectronicObserver.Window {
 
 
 			ClearQuestView();
-			QuestView.Sort( QuestView_Name, ListSortDirection.Ascending );
+            // QuestView.Sort( QuestView_Name, ListSortDirection.Ascending );
+            QuestView.Sort( QuestView_State, ListSortDirection.Descending);
 
-
-			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+            Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest] );
 
@@ -402,9 +402,12 @@ namespace ElectronicObserver.Window {
 			return "Quest";
 		}
 
+        private void QuestView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
+        }
 
-		private void MenuMain_ColumnFilter_Click( object sender, EventArgs e ) {
+        private void MenuMain_ColumnFilter_Click( object sender, EventArgs e ) {
 
 			var menu = sender as ToolStripMenuItem;
 			if ( menu == null ) return;
