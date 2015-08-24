@@ -104,18 +104,21 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public int SearchlightIndexFriend {
 			get {
 				var ships = KCDatabase.Instance.Fleet[isEscort ? 2 : _battleData.Initial.FriendFleetID].MembersWithoutEscaped;
+				int index = -1;
+
 				for ( int i = 0; i < ships.Count; i++ ) {
 
 					var ship = ships[i];
-					if ( ship != null &&
-						ship.SlotInstanceMaster.Count( e => e != null && e.CategoryType == 29 ) > 0 &&
-						_battleData.Initial.InitialHPs[( isEscort ? 12 : 0 ) + i] > 1 ) {
+					if ( ship != null && _battleData.Initial.InitialHPs[( isEscort ? 12 : 0 ) + i] > 1 ) {
 
-						return i;
+						if ( ship.SlotInstanceMaster.Count( e => e != null && e.CategoryType == 42 ) > 0 )		//大型探照灯
+							return i;
+						else if ( ship.SlotInstanceMaster.Count( e => e != null && e.CategoryType == 29 ) > 0 && index == -1 )		//探照灯
+							index = i;
 					}
 				}
 
-				return -1;
+				return index;
 			}
 		}
 
@@ -126,17 +129,21 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			get {
 				var ships = _battleData.Initial.EnemyMembersInstance;
 				var eqs = _battleData.Initial.EnemySlotsInstance;
+				int index = -1;
+
 				for ( int i = 0; i < ships.Length; i++ ) {
 
-					if ( ships[i] != null &&
-						eqs[i].Count( e => e != null && e.CategoryType == 29 ) > 0 &&
-						_battleData.Initial.InitialHPs[6 + i] > 1 ) {
+					if ( ships[i] != null && _battleData.Initial.InitialHPs[6 + i] > 1 ) {
 
-						return i;
+						if ( eqs[i].Count( e => e != null && e.CategoryType == 42 ) > 0 )		//大型探照灯
+							return i;
+						else if ( eqs[i].Count( e => e != null && e.CategoryType == 29 ) > 0 && index == -1 )		//探照灯
+							index = i;
+
 					}
 				}
 
-				return -1;
+				return index;
 			}
 		}
 

@@ -151,7 +151,13 @@ namespace ElectronicObserver.Utility.Data {
 			return air;
 		}
 
-		private static readonly int[] ProficiencyArray = { 0, 1, 4, 6, 11, 16, 17, 25 };
+		private static readonly Dictionary<int, int[]> ProficiencyArray = new Dictionary<int, int[]>
+		{
+			{ 6, new [] { 0, 1, 4, 6, 11, 16, 17, 25 } },
+			{ 7, new [] { 0, 1, 1, 1, 2, 2, 2, 3 } },
+			{ 8, new [] { 0, 1, 1, 1, 2, 2, 2, 3 } },
+			{ 11, new [] { 0, 1, 2, 2, 4, 4, 4, 9 } }
+		};
 
 		public static int GetAirSuperiorityEnhance( EquipmentData[] slot, int[] aircraft )
 		{
@@ -176,22 +182,12 @@ namespace ElectronicObserver.Utility.Data {
 				switch ( eq.EquipmentType[2] )
 				{
 					case 6:
-						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
-						if ( equip.AircraftLevel > 0 && equip.AircraftLevel <= 7 )
-							air += ProficiencyArray[equip.AircraftLevel];
-						break;
-
 					case 7:
 					case 8:
-						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
-						if ( equip.AircraftLevel == 7 )
-							air += 3;
-						break;
-
 					case 11:
 						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
-						if ( equip.AircraftLevel == 7 )
-							air += 9;
+						if ( equip.AircraftLevel > 0 && equip.AircraftLevel <= 7 )
+							air += ProficiencyArray[eq.EquipmentType[2]][equip.AircraftLevel];
 						break;
 				}
 			}

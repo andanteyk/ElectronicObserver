@@ -318,6 +318,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_BlinkHPBar.Checked = config.UI.NotExpeditionBlink;
 			FormFleet_TextProficiency.Checked = config.FormFleet.ShowTextProficiency;
 			FormFleet_ShowEquipmentLevel.Checked = config.FormFleet.ShowEquipmentLevel;
+			FormFleet_AirSuperiorityMethod.SelectedIndex = config.FormFleet.AirSuperiorityMethod;
 
 			FormShipGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			FormShipGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
@@ -503,6 +504,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.UI.NotExpeditionBlink = FormFleet_BlinkHPBar.Checked;
 			config.FormFleet.ShowTextProficiency = FormFleet_TextProficiency.Checked;
 			config.FormFleet.ShowEquipmentLevel = FormFleet_ShowEquipmentLevel.Checked;
+			config.FormFleet.AirSuperiorityMethod = FormFleet_AirSuperiorityMethod.SelectedIndex;
 
 			config.FormShipGroup.AutoUpdate = FormShipGroup_AutoUpdate.Checked;
 			config.FormShipGroup.ShowStatusBar = FormShipGroup_ShowStatusBar.Checked;

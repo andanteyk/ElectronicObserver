@@ -562,7 +562,7 @@ namespace ElectronicObserver.Window.Control {
 
 					}
 
-					textarea.Height = Math.Max( textarea.Height, Height );
+					textarea.Height = Math.Max( textarea.Height, Height - 1 );
 					TextRenderer.DrawText( e.Graphics, slot.AircraftCurrent.ToString(), Font, textarea, aircraftColor, textformat );
 				}
 
