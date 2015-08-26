@@ -231,7 +231,7 @@ namespace ElectronicObserver.Window {
 				Level.Margin = new Padding( 2, 0, 2, 1 );
 				Level.AutoSize = true;
 				Level.Visible = false;
-				Name.ResumeLayout();
+				Level.ResumeLayout();
 
 				HP = new ShipStatusHP();
 				HP.SuspendLayout();
