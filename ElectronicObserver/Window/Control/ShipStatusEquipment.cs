@@ -81,7 +81,7 @@ namespace ElectronicObserver.Window.Control {
 
 		private SlotItem[] SlotList;
 		private int SlotSize { get; set; }
-		private bool IsExpansionSlotAvailable { get; set; }
+
 
 
 		[Browsable( true )]
@@ -309,7 +309,7 @@ namespace ElectronicObserver.Window.Control {
 			_equipmentLevelColor = Color.FromArgb( 0x00, 0x66, 0x66 );
 			_aircraftLevelColorLow = Color.FromArgb( 0x66, 0x99, 0xEE );
 			_aircraftLevelColorHigh = Color.FromArgb( 0xFF, 0xAA, 0x00 );
-			
+
 			_invalidSlotColor = Color.FromArgb( 0x40, 0xFF, 0x00, 0x00 );
 
 			_showAircraft = true;
@@ -329,7 +329,6 @@ namespace ElectronicObserver.Window.Control {
 
 			int slotCount = Math.Max( ship.SlotSize + ( ship.IsExpansionSlotAvailable ? 1 : 0 ), 4 );
 
-			IsExpansionSlotAvailable = ship.IsExpansionSlotAvailable;
 
 			if ( SlotList.Length != slotCount ) {
 				SlotList = new SlotItem[slotCount];

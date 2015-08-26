@@ -289,7 +289,6 @@ namespace ElectronicObserver.Window {
 				Equipments.Size = new Size( 40, 20 );
 				Equipments.AutoSize = true;
 				Equipments.Visible = false;
-				Equipments.ShowAircraft = Utility.Configuration.Config.FormFleet.ShowAircraft;
 				Equipments.ResumeLayout();
 
 
