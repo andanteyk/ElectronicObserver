@@ -125,6 +125,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public string SendKancolleOAuth { get; set; }
 
+				/// <summary>
+				/// 屏蔽图片等文件下载
+				/// </summary>
+				public bool BlockMedia { get; set; }
+
 
 				public ConfigConnection() {
 
@@ -145,6 +150,7 @@ namespace ElectronicObserver.Utility {
 
 					SendDataToKancolleDB = false;
 					SendKancolleOAuth = "";
+					BlockMedia = false;
 
 				}
 
@@ -618,6 +624,10 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public SerializableList<bool> ColumnFilter { get; set; }
 
+				/// <summary>
+				/// どの行をソートしていたか
+				/// </summary>
+				public int SortParameter { get; set; }
 
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
@@ -626,6 +636,7 @@ namespace ElectronicObserver.Utility {
 					ShowWeekly = true;
 					ShowMonthly = true;
 					ColumnFilter = null;		//実際の初期化は FormQuest で行う
+					SortParameter = 3 << 1 | 0;
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>

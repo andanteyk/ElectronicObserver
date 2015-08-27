@@ -233,7 +233,7 @@ namespace ElectronicObserver.Window {
 				Level.Margin = new Padding( 2, 0, 2, 1 );
 				Level.AutoSize = true;
 				Level.Visible = false;
-				Name.ResumeLayout();
+				Level.ResumeLayout();
 
 				HP = new ShipStatusHP();
 				HP.SuspendLayout();
@@ -292,7 +292,6 @@ namespace ElectronicObserver.Window {
 				Equipments.Size = new Size( 40, 20 );
 				Equipments.AutoSize = true;
 				Equipments.Visible = false;
-				Equipments.ShowAircraft = Utility.Configuration.Config.FormFleet.ShowAircraft;
 				Equipments.ResumeLayout();
 
 
