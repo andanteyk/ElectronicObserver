@@ -229,7 +229,19 @@ namespace ElectronicObserver.Window {
 
 					} else if ( elem.api_eventmap() ) {
 
-						sb.AppendFormat( "{0}-{1} : HP {2}/{3}\r\n", map.MapAreaID, map.MapInfoID, (int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
+						string difficulty = "";
+						if ( elem.api_eventmap.api_selected_rank() ) {
+							switch ( (int)elem.api_eventmap.api_selected_rank ) {
+								case 1:
+									difficulty = "[丙] "; break;
+								case 2:
+									difficulty = "[乙] "; break;
+								case 3:
+									difficulty = "[甲] "; break;
+							}
+						}
+
+						sb.AppendFormat( "{0}-{1} {2}: HP {3}/{4}\r\n", map.MapAreaID, map.MapInfoID, difficulty, (int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
 
 					}
 				}

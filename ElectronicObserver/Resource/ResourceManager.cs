@@ -157,25 +157,6 @@ namespace ElectronicObserver.Resource {
 			Supplies,
 			Locked,
 			Unknown,
-			Level0,
-			Level1,
-			Level2,
-			Level3,
-			Level4,
-			Level5,
-			Level6,
-			Level7,
-			Level8,
-			Level9,
-			Level10,
-			AircraftLevel0,
-			AircraftLevel1,
-			AircraftLevel2,
-			AircraftLevel3,
-			AircraftLevel4,
-			AircraftLevel5,
-			AircraftLevel6,
-			AircraftLevel7,
 		}
 
 
@@ -360,27 +341,6 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Locked.png", "Equipment_Locked" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Unknown.png", "Equipment_Unknown" );
 
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level0.png", "SlotOption_Level0" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level1.png", "SlotOption_Level1" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level2.png", "SlotOption_Level2" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level3.png", "SlotOption_Level3" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level4.png", "SlotOption_Level4" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level5.png", "SlotOption_Level5" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level6.png", "SlotOption_Level6" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level7.png", "SlotOption_Level7" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level8.png", "SlotOption_Level8" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level9.png", "SlotOption_Level9" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/Level10.png", "SlotOption_Level10" );
-
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/AircraftLevel0.png", "SlotOption_AircraftLevel0" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/AircraftLevel1.png", "SlotOption_AircraftLevel1" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/AircraftLevel2.png", "SlotOption_AircraftLevel2" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/AircraftLevel3.png", "SlotOption_AircraftLevel3" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/AircraftLevel4.png", "SlotOption_AircraftLevel4" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/AircraftLevel5.png", "SlotOption_AircraftLevel5" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/AircraftLevel6.png", "SlotOption_AircraftLevel6" );
-					LoadImageFromArchive( Equipments, archive, mstpath + @"SlotOption/AircraftLevel7.png", "SlotOption_AircraftLevel7" );
-					
 				}
 			}
 

@@ -70,10 +70,14 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		public int[] InitialHPs {
 			get {
+				var list = (int[])RawData.api_nowhps;
+				if ( list.Length < 13 )		//頭にきました。
+					list = list.Concat( Enumerable.Repeat( -1, 13 - list.Length ) ).ToArray();
+
 				if ( RawData.api_nowhps_combined() )
-					return ( (int[])RawData.api_nowhps ).Skip( 1 ).Concat( ( (int[])RawData.api_nowhps_combined ).Skip( 1 ) ).ToArray();
+					return list.Skip( 1 ).Concat( ( (int[])RawData.api_nowhps_combined ).Skip( 1 ) ).ToArray();
 				else
-					return ArraySkip( (int[])RawData.api_nowhps );
+					return ArraySkip( list );
 			}
 		}
 
