@@ -163,7 +163,8 @@ namespace ElectronicObserver.Observer {
 
 			Utility.Logger.Add( 2, "APIObserver: 监听终止。" );
 
-			Cache.SaveCacheList();
+			if ( Utility.Configuration.Config.CacheSettings.CacheEnabled )
+				Cache.SaveCacheList();
 		}
 
 
@@ -570,6 +571,39 @@ namespace ElectronicObserver.Observer {
 			else if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
 
 				oSession.bBufferResponse = true;
+			}
+
+			// block media
+			else if ( Utility.Configuration.Config.Connection.BlockMedia )
+			{
+				string file = oSession.PathAndQuery;
+				int n = file.IndexOf( '?' );
+				if ( n > 0 )
+					file = file.Substring( 0, n );
+
+				string ext = file.Substring( file.LastIndexOf( '.' ) + 1 ).ToLower();
+				if ( ext == "jpg" || ext == "gif" || ext == "png" )
+				{
+					// 直接返回404
+					oSession.utilCreateResponseAndBypassServer();
+					oSession.responseCode = 404;
+				}
+				else if ( ext == "css" )
+				{
+					string path = Path.Combine( Utility.Configuration.Config.CacheSettings.CacheFolder, "kcs" ) + file.Replace( '/', '\\' );
+					if ( File.Exists( path ) )
+					{
+						// 返回缓存
+						oSession.utilCreateResponseAndBypassServer();
+						oSession.ResponseBody = File.ReadAllBytes( path );
+						oSession.oResponse.headers["Server"] = "Apache";
+						oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
+						oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
+						oSession.oResponse.headers["Connection"] = "close";
+						oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+						oSession.oResponse.headers["Content-Type"] = "text/css";
+					}
+				}
 			}
 
 		}

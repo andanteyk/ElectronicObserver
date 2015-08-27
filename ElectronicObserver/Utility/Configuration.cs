@@ -125,6 +125,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public string SendKancolleOAuth { get; set; }
 
+				/// <summary>
+				/// 屏蔽图片等文件下载
+				/// </summary>
+				public bool BlockMedia { get; set; }
+
 
 				public ConfigConnection() {
 
@@ -145,6 +150,7 @@ namespace ElectronicObserver.Utility {
 
 					SendDataToKancolleDB = false;
 					SendKancolleOAuth = "";
+					BlockMedia = false;
 
 				}
 
