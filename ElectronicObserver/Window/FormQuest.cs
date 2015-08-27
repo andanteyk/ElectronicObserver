@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
@@ -102,6 +103,7 @@ namespace ElectronicObserver.Window {
 			#endregion
 
 			this.ResumeLayoutForDpiScale();
+			SystemEvents.SystemShuttingDown += SystemEvents_SystemShuttingDown;
 		}
 
 
@@ -121,7 +123,16 @@ namespace ElectronicObserver.Window {
 
 
 			ClearQuestView();
-			QuestView.Sort( QuestView_Name, ListSortDirection.Ascending );
+
+			try {
+				int sort = Utility.Configuration.Config.FormQuest.SortParameter;
+
+				QuestView.Sort( QuestView.Columns[sort >> 1], ( sort & 1 ) == 0 ? ListSortDirection.Ascending : ListSortDirection.Descending );
+
+			} catch ( Exception ) {
+
+				QuestView.Sort( QuestView_Name, ListSortDirection.Ascending );
+			}
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
@@ -207,11 +218,17 @@ namespace ElectronicObserver.Window {
 
 				for ( int i = 0; i < QuestView.Columns.Count; i++ ) {
 					QuestView.Columns[i].Visible =
-					((ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i]).Checked = list[i];
+					( (ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i] ).Checked = list[i];
 				}
 			}
 			Updated();
 
+		}
+
+
+		void SystemEvents_SystemShuttingDown() {
+
+			Utility.Configuration.Config.FormQuest.SortParameter = QuestView.SortedColumn.Index << 1 | ( QuestView.SortOrder == SortOrder.Ascending ? 0 : 1 );
 		}
 
 
