@@ -30,6 +30,7 @@ namespace ElectronicObserver.Window {
 			public ImageLabel StateMain;
 			public ImageLabel AirSuperiority;
 			public ImageLabel SearchingAbility;
+			public ImageLabel AAValue;
 			public ToolTip ToolTipInfo;
 			public ElectronicObserver.Data.FleetData.FleetStates State;
 			public DateTime Timer;
@@ -77,6 +78,16 @@ namespace ElectronicObserver.Window {
 				SearchingAbility.Margin = new Padding( 2, 0, 2, 0 );
 				SearchingAbility.AutoSize = true;
 
+				AAValue = new ImageLabel();
+				AAValue.Anchor = AnchorStyles.Left;
+				AAValue.Font = parent.MainFont;
+				AAValue.ForeColor = parent.MainFontColor;
+				AAValue.ImageList = ResourceManager.Instance.Equipments;
+				AAValue.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
+				AAValue.Padding = new Padding( 2, 2, 2, 2 );
+				AAValue.Margin = new Padding( 2, 0, 2, 0 );
+				AAValue.AutoSize = true;
+
 				ToolTipInfo = parent.ToolTipInfo;
 				State = FleetData.FleetStates.NoShip;
 				Timer = DateTime.Now;
@@ -97,6 +108,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( StateMain, 1, 0 );
 				table.Controls.Add( AirSuperiority, 2, 0 );
 				table.Controls.Add( SearchingAbility, 3, 0 );
+				table.Controls.Add( AAValue, 4, 0 );
 				table.ResumeLayout();
 
 				int row = 0;
@@ -167,6 +179,16 @@ namespace ElectronicObserver.Window {
 					fleet.GetSearchingAbilityString( 0 ),
 					fleet.GetSearchingAbilityString( 1 ),
 					fleet.GetSearchingAbilityString( 2 ) ) );
+
+				// 舰队防空值计算
+				AAValue.Text = CalculatorEx.GetFleetAAValue( fleet, 0 ).ToString();
+				ToolTipInfo.SetToolTip( AAValue,
+					string.Format( "单纵阵: {0}\r\n复纵阵: {1}\r\n轮形阵: {2}\r\n梯形阵: {3}\r\n单横阵: {4}\r\n",
+					CalculatorEx.GetFleetAAValue( fleet, 1 ),
+					CalculatorEx.GetFleetAAValue( fleet, 2 ),
+					CalculatorEx.GetFleetAAValue( fleet, 3 ),
+					CalculatorEx.GetFleetAAValue( fleet, 4 ),
+					CalculatorEx.GetFleetAAValue( fleet, 5 ) ) );
 
 			}
 
@@ -331,40 +353,12 @@ namespace ElectronicObserver.Window {
 			}
 
 			private double CalculateFire( ShipData ship ) {
-				return Math.Floor( ( ship.FirepowerTotal + ship.TorpedoTotal ) * 1.5 + ship.BombTotal * 2 + 50 );
+				return CalculatorEx.CalculateFire( ship );
 			}
 
 			private double CalculateWeightingAA( ShipData ship )
 			{
-				double aatotal = ship.AATotal;
-				foreach ( var eq in ship.AllSlotInstance )
-				{
-					if ( eq == null )
-						continue;
-
-					int ratio;
-					var eqmaster = eq.MasterEquipment;
-					switch ( eqmaster.IconType )
-					{
-						case 15:	// 对空机枪
-							ratio = 6; break;
-
-						case 16:	// 高角炮
-						case 30:	// 高射装置
-							ratio = 4; break;
-
-						case 11:	// 电探
-							ratio = ( eqmaster.AA > 0 ) ? 3 : 0; break;
-
-						default:
-							ratio = 0; break;
-					}
-					if ( ratio <= 0 )
-						continue;
-
-					aatotal += ratio * ( eqmaster.AA + 0.7 * Math.Sqrt( eq.Level ) );
-				}
-				return aatotal;
+				return CalculatorEx.CalculateWeightingAA( ship );
 			}
 
 			public void Update( int shipMasterID ) {

@@ -59,7 +59,8 @@
 			// 
 			this.TableFleet.AutoSize = true;
 			this.TableFleet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableFleet.ColumnCount = 4;
+			this.TableFleet.ColumnCount = 5;
+			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableFleet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());

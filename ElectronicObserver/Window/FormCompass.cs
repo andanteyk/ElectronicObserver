@@ -207,10 +207,17 @@ namespace ElectronicObserver.Window {
 				}
 
 				return string.Format(
-							"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n射程: {20} / 速力: {21}\n(右クリックで図鑑)\n",
+							"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n加权对空: {22:0.##}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n射程: {20} / 速力: {21}\n(右クリックで図鑑)\n",
 							ship.ShipTypeName, ship.NameWithClass, level < 1 ? "" : string.Format( " Lv. {0}", level ),
 							hp,
-							firepower_c, firepower,
+							firepower_c,
+
+							( ship.ShipType == 7 ||	// 轻空母
+							ship.ShipType == 11 ||	// 正规空母
+							ship.IsLandBase ) ?		// 陆基
+							string.Format( "{0}（空母火力：{1:F0}）", firepower, CalculatorEx.CalculateFireEnemy( shipID, slot, firepower_c, torpedo_c ) ) :
+							firepower.ToString(),
+
 							torpedo_c, torpedo,
 							aa_c, aa,
 							armor_c, armor,
@@ -219,7 +226,8 @@ namespace ElectronicObserver.Window {
 							los_c == -1 ? "???" : los_c.ToString(), los,
 							luck_c, luck,
 							Constants.GetRange( range ),
-							Constants.GetSpeed( ship.Speed )
+							Constants.GetSpeed( ship.Speed ),
+							CalculatorEx.CalculateWeightingAAEnemy( shipID, slot, aa_c )
 							);
 			}
 
@@ -321,7 +329,7 @@ namespace ElectronicObserver.Window {
 
 			BasePanel.Visible = false;
 			TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
-			TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
+			TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
 
 
 			Font = MainFont;
@@ -618,11 +626,12 @@ namespace ElectronicObserver.Window {
 				var fdata = efleet[fleetID];
 
 				TextEnemyFleetName.Text = fdata.FleetName;
-				TextFormation.Text = Constants.GetFormationShort( fdata.Formation );
+				TextFormation.Text = Constants.GetFormationShort( fdata.Formation ) + ", 防空: ";
 				TextFormation.Visible = true;
-				int airSuperiority = Calculator.GetAirSuperiority( fdata.FleetMember );
-				TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
-				ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
+				//int airSuperiority = Calculator.GetAirSuperiority( fdata.FleetMember );
+				//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
+				//ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
+				TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( fdata.FleetMember, fdata.Formation ).ToString();
 				TextAirSuperiority.Visible = true;
 
 				TableEnemyMember.SuspendLayout();
@@ -663,11 +672,13 @@ namespace ElectronicObserver.Window {
 			int[][] parameters = bd.Initial.EnemyParameters;
 			int[] hps = bd.Initial.MaxHPs;
 
-			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
+			int formation = (int)bd.Searching.FormationEnemy;
+			TextFormation.Text = Constants.GetFormationShort( formation ) + ", 防空: ";
 			TextFormation.Visible = true;
-			int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
-            TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
-			ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
+			//int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
+			//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
+			//ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
+			TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, formation ).ToString();
 			TextAirSuperiority.Visible = true;
 
 			TableEnemyMember.SuspendLayout();

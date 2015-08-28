@@ -460,7 +460,7 @@ namespace ElectronicObserver.Data {
 		/// <returns></returns>
 		public int GetAirSuperiority()
 		{
-			return Calculator.GetAirSuperiorityEnhance( this );
+			return CalculatorEx.GetAirSuperiorityEnhance( this );
 		}
 
 		/// <summary>
