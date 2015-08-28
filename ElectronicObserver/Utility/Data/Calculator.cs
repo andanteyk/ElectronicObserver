@@ -1,12 +1,171 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Resource.Record;
+using Microsoft.CSharp;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Utility.Data {
+
+	public static class CalculatorEx
+	{
+		static Dictionary<string, MethodInfo> methodInfos;
+		static DateTime dateLast;
+
+		static CalculatorEx()
+		{
+			methodInfos = new Dictionary<string, MethodInfo>();
+			RefreshMethods();
+		}
+
+		private static bool RefreshMethods()
+		{
+			FileInfo file = new FileInfo( "CalculatorEx.cs" );
+			if ( file.Exists && file.LastWriteTime > dateLast )
+			{
+
+				var provider = new CSharpCodeProvider();
+				var parameters = new CompilerParameters()
+				{
+					CompilerOptions = "/target:library /optimize",
+					GenerateExecutable = false,
+					GenerateInMemory = true
+				};
+				if ( File.Exists( "CalculatorEx.lst" ) )
+					parameters.ReferencedAssemblies.AddRange( File.ReadAllLines( "CalculatorEx.lst" ) );
+				parameters.ReferencedAssemblies.Add( Assembly.GetExecutingAssembly().Location );
+
+				var result = provider.CompileAssemblyFromFile( parameters, file.FullName );
+				if ( result.Errors.HasErrors )
+				{
+					string err = "Errors:\r\n";
+					foreach ( CompilerError e in result.Errors )
+					{
+						err += "\r\n" + e.ToString();
+					}
+					System.Windows.Forms.MessageBox.Show( err, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error );
+				}
+				else
+				{
+					dateLast = file.LastWriteTime;
+
+					var ass = result.CompiledAssembly;
+					var type = ass.GetType( "ElectronicObserver.Utility.Data.CalculatorEx" );
+
+					methodInfos.Clear();
+					foreach ( var m in type.GetMethods( BindingFlags.Public | BindingFlags.Static ) )
+					{
+						string key = m.Name;
+						foreach ( var p in m.GetParameters() )
+							key += "," + p.ParameterType.FullName;
+						methodInfos.Add( key, m );
+					}
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/*
+		public static T GetResult<T>( string method, params object[] pars )
+		{
+			MethodInfo m;
+			if ( !methodInfos.TryGetValue( method, out m ) )
+				return default( T );
+
+			return (T)m.Invoke( null, pars );
+		}
+		//*/
+
+
+		public static double CalculateFire( ShipData ship )
+		{
+			RefreshMethods();
+			MethodInfo m;
+			if ( methodInfos.TryGetValue( "CalculateFire,ElectronicObserver.Data.ShipData", out m ) )
+				return (double)m.Invoke( null, new object[] { ship } );
+
+			return Math.Floor( ( ship.FirepowerTotal + ship.TorpedoTotal ) * 1.5 + ship.BombTotal * 2 + 50 );
+		}
+
+
+		public static int GetAirSuperiorityEnhance( FleetData fleet )
+		{
+			RefreshMethods();
+			MethodInfo m;
+			if ( methodInfos.TryGetValue( "GetAirSuperiorityEnhance,ElectronicObserver.Data.FleetData", out m ) )
+				return (int)m.Invoke( null, new object[] { fleet } );
+
+
+			int air = 0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped )
+			{
+				if ( ship == null )
+					continue;
+
+				air += GetAirSuperiorityEnhance( ship.SlotInstance.ToArray(), ship.Aircraft.ToArray() );
+			}
+
+			return air;
+		}
+
+		private static readonly Dictionary<int, int[]> ProficiencyArray = new Dictionary<int, int[]>
+		{
+			{ 6, new [] { 0, 1, 4, 6, 11, 16, 17, 25 } },
+			{ 7, new [] { 0, 1, 1, 1, 2, 2, 2, 3 } },
+			{ 8, new [] { 0, 1, 1, 1, 2, 2, 2, 3 } },
+			{ 11, new [] { 0, 1, 2, 2, 4, 4, 4, 9 } }
+		};
+
+		public static int GetAirSuperiorityEnhance( EquipmentData[] slot, int[] aircraft )
+		{
+			RefreshMethods();
+			MethodInfo m;
+			if ( methodInfos.TryGetValue( "GetAirSuperiorityEnhance,ElectronicObserver.Data.EquipmentData[],System.Int32[]", out m ) )
+				return (int)m.Invoke( null, new object[] { slot, aircraft } );
+
+			int air = 0;
+			int length = Math.Min( slot.Length, aircraft.Length );
+
+			for ( int s = 0; s < length; s++ )
+			{
+
+				if ( aircraft[s] < 0 )
+					continue;
+
+				EquipmentData equip = slot[s];
+				if ( equip == null )
+					continue;
+
+				EquipmentDataMaster eq = equip.MasterEquipment;
+				if ( eq == null )
+					continue;
+
+				switch ( eq.EquipmentType[2] )
+				{
+					case 6:
+					case 7:
+					case 8:
+					case 11:
+						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
+						if ( equip.AircraftLevel > 0 && equip.AircraftLevel <= 7 )
+							air += ProficiencyArray[eq.EquipmentType[2]][equip.AircraftLevel];
+						break;
+				}
+			}
+
+			return air;
+		}
+
+	}
 
 	/// <summary>
 	/// 汎用計算クラス
@@ -131,65 +290,6 @@ namespace ElectronicObserver.Utility.Data {
 				if ( ship == null ) continue;
 
 				air += GetAirSuperiority( ship );
-			}
-
-			return air;
-		}
-
-		public static int GetAirSuperiorityEnhance( FleetData fleet )
-		{
-			int air = 0;
-
-			foreach ( var ship in fleet.MembersWithoutEscaped )
-			{
-				if ( ship == null )
-					continue;
-
-				air += GetAirSuperiorityEnhance( ship.SlotInstance.ToArray(), ship.Aircraft.ToArray() );
-			}
-
-			return air;
-		}
-
-		private static readonly Dictionary<int, int[]> ProficiencyArray = new Dictionary<int, int[]>
-		{
-			{ 6, new [] { 0, 1, 4, 6, 11, 16, 17, 25 } },
-			{ 7, new [] { 0, 1, 1, 1, 2, 2, 2, 3 } },
-			{ 8, new [] { 0, 1, 1, 1, 2, 2, 2, 3 } },
-			{ 11, new [] { 0, 1, 2, 2, 4, 4, 4, 9 } }
-		};
-
-		public static int GetAirSuperiorityEnhance( EquipmentData[] slot, int[] aircraft )
-		{
-
-			int air = 0;
-			int length = Math.Min( slot.Length, aircraft.Length );
-
-			for ( int s = 0; s < length; s++ )
-			{
-
-				if ( aircraft[s] < 0 )
-					continue;
-
-				EquipmentData equip = slot[s];
-				if ( equip == null )
-					continue;
-
-				EquipmentDataMaster eq = equip.MasterEquipment;
-				if ( eq == null )
-					continue;
-
-				switch ( eq.EquipmentType[2] )
-				{
-					case 6:
-					case 7:
-					case 8:
-					case 11:
-						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
-						if ( equip.AircraftLevel > 0 && equip.AircraftLevel <= 7 )
-							air += ProficiencyArray[eq.EquipmentType[2]][equip.AircraftLevel];
-						break;
-				}
 			}
 
 			return air;

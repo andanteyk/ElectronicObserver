@@ -331,7 +331,7 @@ namespace ElectronicObserver.Window {
 			}
 
 			private double CalculateFire( ShipData ship ) {
-				return Math.Floor( ( ship.FirepowerTotal + ship.TorpedoTotal ) * 1.5 + ship.BombTotal * 2 + 50 );
+				return CalculatorEx.CalculateFire( ship );
 			}
 
 			private double CalculateWeightingAA( ShipData ship )
