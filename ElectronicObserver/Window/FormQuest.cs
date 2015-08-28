@@ -228,7 +228,8 @@ namespace ElectronicObserver.Window {
 
 		void SystemEvents_SystemShuttingDown() {
 
-			Utility.Configuration.Config.FormQuest.SortParameter = QuestView.SortedColumn.Index << 1 | ( QuestView.SortOrder == SortOrder.Ascending ? 0 : 1 );
+			if ( QuestView.SortedColumn != null )
+				Utility.Configuration.Config.FormQuest.SortParameter = QuestView.SortedColumn.Index << 1 | ( QuestView.SortOrder == SortOrder.Ascending ? 0 : 1 );
 		}
 
 
