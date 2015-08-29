@@ -626,7 +626,7 @@ namespace ElectronicObserver.Window {
 				var fdata = efleet[fleetID];
 
 				TextEnemyFleetName.Text = fdata.FleetName;
-				TextFormation.Text = Constants.GetFormationShort( fdata.Formation ) + ", 防空: ";
+				TextFormation.Text = Constants.GetFormationShort( fdata.Formation ) + ", 舰队防空: ";
 				TextFormation.Visible = true;
 				//int airSuperiority = Calculator.GetAirSuperiority( fdata.FleetMember );
 				//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
@@ -673,7 +673,7 @@ namespace ElectronicObserver.Window {
 			int[] hps = bd.Initial.MaxHPs;
 
 			int formation = (int)bd.Searching.FormationEnemy;
-			TextFormation.Text = Constants.GetFormationShort( formation ) + ", 防空: ";
+			TextFormation.Text = Constants.GetFormationShort( formation ) + ", 舰队防空: ";
 			TextFormation.Visible = true;
 			//int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
 			//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );

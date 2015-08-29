@@ -63,6 +63,7 @@ namespace ElectronicObserver.Observer
 
 				}
 			}
+			catch ( ParseException ) { }
 			catch ( Exception ex )
 			{
 				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "提交 poi-statistics 时发生错误：{0}", ex.Message ) );
@@ -74,12 +75,19 @@ namespace ElectronicObserver.Observer
 		private dynamic ParseApiData( string body )
 		{
 			if ( string.IsNullOrEmpty( body ) )
-				throw new NullReferenceException( "body cannot be null." );
+				throw new ParseException( "正文不可为空。" );
 
 			if ( body.StartsWith( "svdata=" ) )
-				return DynamicJson.Parse( body.Substring( 7 ) ).api_data;
+			{
+				var json = DynamicJson.Parse( body.Substring( 7 ) );        //remove "svdata="
 
-			return DynamicJson.Parse( body );
+				if ( (int)json.api_result != 1 )
+					throw new ParseException( "返回信息中含有错误码。" );
+
+				return json.api_data;
+			}
+
+			throw new ParseException( "无效数据。" );
 		}
 
 		private NameValueCollection ParseRequest( string request )
@@ -241,5 +249,10 @@ namespace ElectronicObserver.Observer
 		}
 
 		#endregion
+	}
+
+	class ParseException : Exception
+	{
+		public ParseException( string message ) : base( message ) { }
 	}
 }

@@ -85,7 +85,7 @@ namespace ElectronicObserver.Utility.Data {
 			if ( methodInfos.TryGetValue( "CalculateFire,ElectronicObserver.Data.ShipData", out m ) )
 				return (double)m.Invoke( null, new object[] { ship } );
 
-			return Math.Floor( ( ship.FirepowerTotal + ship.TorpedoTotal ) * 1.5 + ship.BombTotal * 2 + 50 );
+			return Math.Floor( ( ship.FirepowerTotal + ship.TorpedoTotal + Math.Floor( ship.BombTotal * 1.3 ) ) * 1.5 + 55 );
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace ElectronicObserver.Utility.Data {
 					}
 				}
 			}
-			return Math.Floor( ( fire + tor ) * 1.5 + bomb * 2 + 50 );
+			return Math.Floor( ( fire + tor + Math.Floor( bomb * 1.3 ) ) * 1.5 + 55 );
 		}
 
 
@@ -136,7 +136,7 @@ namespace ElectronicObserver.Utility.Data {
 			if ( methodInfos.TryGetValue( "CalculateWeightingAA,ElectronicObserver.Data.ShipData", out m ) )
 				return (double)m.Invoke( null, new object[] { ship } );
 
-			double aatotal = ship.AATotal;
+			double aatotal = ship.AABase;
 			foreach ( var eq in ship.AllSlotInstance )
 			{
 				if ( eq == null )
@@ -219,7 +219,7 @@ namespace ElectronicObserver.Utility.Data {
 					aatotal += ratio * eqmaster.AA;
 				}
 			}
-			return aatotal;
+			return aatotal / 2;
 		}
 
 
@@ -229,16 +229,16 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		private static readonly double[] FormationAA = new double[]
 		{
-			1, 0.77,	// 单纵
-			0.91,		// 复纵
-			1.2,		// 轮型
-			0.77,		// 梯形
-			0.77,		// 单横
+			45, 35,		// 单纵
+			41,			// 复纵
+			55,			// 轮型
+			35,			// 梯形
+			35,			// 单横
 			0, 0, 0, 0, 0,
-			0,			// 第一警戒航行序列
-			0,			// 第二警戒航行序列
-			0,			// 第三警戒航行序列
-			0			// 第四警戒航行序列
+			35,			// 第一警戒航行序列
+			41,			// 第二警戒航行序列
+			55,			// 第三警戒航行序列
+			35			// 第四警戒航行序列
 		};
 
 		/// <summary>
@@ -253,11 +253,11 @@ namespace ElectronicObserver.Utility.Data {
 
 			RefreshMethods();
 			MethodInfo m;
-			if ( methodInfos.TryGetValue( "GetFleetAAValue,ElectronicObserver.Data.FleetData,System.In32", out m ) )
+			if ( methodInfos.TryGetValue( "GetFleetAAValue,ElectronicObserver.Data.FleetData,System.Int32", out m ) )
 				return (double)m.Invoke( null, new object[] { fleet, formation } );
 
 			double aatotal = fleet.MembersWithoutEscaped.Sum( ship => ship == null ? 0.0 : GetShipAAValue( ship ) );
-			return aatotal * FormationAA[formation] * 2;
+			return Math.Floor( aatotal * FormationAA[formation] * 20 / 45 ) / 10;
 		}
 
 		/// <summary>
@@ -375,7 +375,7 @@ namespace ElectronicObserver.Utility.Data {
 				}
 
 			}
-			return aatotal * FormationAA[formation] * 2;
+			return Math.Floor( aatotal * FormationAA[formation] * 20 / 45 ) / 10;
 		}
 
 
