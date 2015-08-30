@@ -416,6 +416,8 @@ namespace ElectronicObserver.Window {
 								int level = ship_m.RemodelAfterLevel;
 								if ( ship.Level < level )
 									tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.\n", level - ship.Level, Math.Max( ExpTable.ShipExp[level].Total - ship.ExpTotal, 0 ) );
+
+								ship_m = ship_m.RemodelAfterShip;
 							}
 
 							tip.AppendFormat( "Lv99まで: {0} exp.", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
