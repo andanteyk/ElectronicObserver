@@ -302,9 +302,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				// 航空开幕
 				if ( friends[i] != null ) {
 					int before = hps[i];
-					hps[i] -= damages[i];
+					hps[i] = Math.Max( hps[i] - damages[i], 0 );
 					builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
-						friends[i], before, Math.Max( hps[i], 0 ), maxHps[i],
+						friends[i], before, hps[i], maxHps[i],
 						( before == hps[i] ? null : @" class=""changed""" ),
 						( i + 1 ) );
 
@@ -317,9 +317,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					if ( accompany[i] != null )
 					{
 						int before = hps[i + 12];
-						hps[i + 12] -= damages[i + 12];
+						hps[i + 12] = Math.Max( hps[i + 12] - damages[i + 12], 0 );
 						builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
-							accompany[i], before, Math.Max( hps[i + 12], 0 ), maxHps[i + 12],
+							accompany[i], before, hps[i + 12], maxHps[i + 12],
 							( before == hps[i + 12] ? null : @" class=""changed""" ),
 							( i + 1 ) );
 					}
@@ -331,9 +331,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 				if ( enemys[i] != null ) {
 					int before = hps[i + 6];
-					hps[i + 6] -= damages[i + 6];
+					hps[i + 6] = Math.Max( hps[i + 6] - damages[i + 6], 0 );
 					builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
-						enemys[i], before, Math.Max( hps[i + 6], 0 ), maxHps[i + 6],
+						enemys[i], before, hps[i + 6], maxHps[i + 6],
 						( before == hps[i + 6] ? null : @" class=""changed""" ),
 						( i + 1 ) );
 
@@ -378,9 +378,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 				if ( enemys[i] != null ) {
 					int before = hps[i + 6];
-					hps[i + 6] -= damages[i];
+					hps[i + 6] = Math.Max( hps[i + 6] - damages[i], 0 );
 					builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
-						enemys[i], before, Math.Max( hps[i + 6], 0 ), maxHps[i + 6],
+						enemys[i], before, hps[i + 6], maxHps[i + 6],
 						( before == hps[i + 6] ? null : @" class=""changed""" ),
 						( i + 1 ),
 						( damages[i] > 0 ? damages[i].ToString() : "miss" ) );
