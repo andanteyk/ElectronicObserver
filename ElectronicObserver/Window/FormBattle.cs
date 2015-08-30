@@ -158,8 +158,10 @@ td,th,tr {text-align:left; padding:2px 4px;}
 .damage {background:#fcfcfc;color:#822;}
 </style>
 </head>
-<body>" );
+<body>
+" );
 
+			var day = bm.BattleDay;
 			PhaseInitial init;
 			string[] enemys;
 
@@ -171,6 +173,47 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				enemys = ( (int[])bm.BattleDay.RawData.api_ship_ke ).Skip( 1 ).Select( id => id <= 0 ? null : KCDatabase.Instance.MasterShips[id].NameWithClass ).ToArray();
 			}
 
+			// 基本信息
+			// 阵形
+			builder.AppendFormat( @"<h2>战斗阵形</h2>
+<hr />
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90"">我方</th><td>{0}</td>
+</tr>
+<tr>
+<th width=""90"">敌方</th><td>{1}</td>
+</tr>
+<tr>
+<th width=""90"">航向</th><td>{2}</td>
+</tr>
+</tbody>
+</table>
+", FormationFriend.Text, FormationEnemy.Text, Formation.Text );
+			// 索敌
+			if ( day != null && day.IsAvailable )
+			{
+				int searchFriend = day.Searching.SearchingFriend;
+				int searchEnemy = day.Searching.SearchingEnemy;
+				builder.AppendFormat( @"<hr/>
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90"">我方索敌</th><td>{0}</td><td>{1}</td>
+</tr>
+<tr>
+<th width=""90"">敌方索敌</th><td>{2}</td><td>{3}</td>
+</tr>
+</tbody>
+</table>
+", ( searchFriend < 4 ? "水上机" : "雷达" ), Constants.GetSearchingResult( searchFriend ),
+ ( searchEnemy < 4 ? "水上机" : "雷达" ), Constants.GetSearchingResult( searchEnemy ) );
+			}
+
+
+			// 战斗过程
+
 			string[] friends = init.FriendFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
 			string[] accompany = init.AccompanyFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
 			int[] hps = (int[])init.InitialHPs.Clone();
@@ -178,15 +221,52 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 			// day
 			{
-				var day = bm.BattleDay;
 				if ( day != null && day.IsAvailable )
 				{
 					try
 					{
+						var pd1 = day.AirBattle;
+						var pd2 = ( day is BattleAirBattle ? ( (BattleAirBattle)day ).AirBattle2 : null );
+						// 接触信息
+						builder.AppendFormat( @"<h2>航空战</h2>
+<hr/>
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90""></th><th width=""110"">我方</th><th width=""110""></th><th width=""110"">敌方</th><th width=""110""></th>
+</tr>
+<tr>
+<th width=""90"">制空</th><td>{0}</td><td>{1}</td><td colspan=""2""></td>
+</tr>
+<tr>
+<th width=""90"">stage1</th><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td>
+</tr>
+<tr>
+<th width=""90"">stage2</th><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td>
+</tr>
+</tbody>
+</table>
+", Constants.GetAirSuperiority( pd1.AirSuperiority ),
+	( pd2 == null ? null : Constants.GetAirSuperiority( pd2.AirSuperiority ) ),
+
+	( !pd1.IsStage1Available ? "无效" : string.Format( "-{0}/{1}", pd1.AircraftLostStage1Friend, pd1.AircraftTotalStage1Friend ) ),
+	( pd2 == null || !pd2.IsStage1Available ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage1Friend, pd2.AircraftTotalStage1Friend ) ),
+	( !pd1.IsStage1Available ? null : string.Format( "-{0}/{1}", pd1.AircraftLostStage1Enemy, pd1.AircraftTotalStage1Enemy ) ),
+	( pd2 == null || !pd2.IsStage1Available ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage1Enemy, pd2.AircraftTotalStage1Enemy ) ),
+
+	( !pd1.IsStage2Available ? "无效" : string.Format( "-{0}/{1}", pd1.AircraftLostStage2Friend, pd1.AircraftTotalStage2Friend ) ),
+	( pd2 == null || !pd2.IsStage2Available ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage2Friend, pd2.AircraftTotalStage2Friend ) ),
+	( !pd1.IsStage2Available ? null : string.Format( "-{0}/{1}", pd1.AircraftLostStage2Enemy, pd1.AircraftTotalStage2Enemy ) ),
+	( pd2 == null || !pd2.IsStage2Available ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage2Enemy, pd2.AircraftTotalStage2Enemy ) )
+	
+	);
+
+						// TODO: 接触与AACI
+
 						// 航空战血量变化
 						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available )
 						{
-							FillAirDamage( "航空战", builder, day.AirBattle.Damages, friends, isCombined ? accompany : null, enemys, hps, maxHps );
+							FillAirDamage( builder, day.AirBattle.Damages, friends, isCombined ? accompany : null, enemys, hps, maxHps );
 						}
 
 						// 支援
@@ -274,23 +354,21 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			new Dialog.DialogBattleReport( builder.ToString() ).Show();
 		}
 
-		private void FillAirDamage( string name, StringBuilder builder, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
+		private void FillAirDamage( StringBuilder builder, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
 		{
-
-			builder.AppendFormat( @"<h2>{0}</h2>
-<hr />
-<table cellspacing=""2"" cellpadding=""0"">
+			builder.AppendLine( @"<hr/><table cellspacing=""2"" cellpadding=""0"">
 <thead>
-<tr>
 <th width=""160"">我方</th>
-<th width=""90"">血量</th>
-", name );
+<th width=""90"">所受伤害</th>
+<th width=""90"">血量</th>" );
 			if ( accompany != null )
 			{
 				builder.AppendLine( @"<th width=""160"">伴随</th>
+<th width=""90"">所受伤害</th>
 <th width=""90"">血量</th>" );
 			}
 			builder.AppendLine( @"<th width=""160"">敌方</th>
+<th width=""90"">所受伤害</th>
 <th width=""90"">血量</th>
 </tr>
 </thead>
@@ -303,10 +381,11 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				if ( friends[i] != null ) {
 					int before = hps[i];
 					hps[i] = Math.Max( hps[i] - damages[i], 0 );
-					builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+					builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
 						friends[i], before, hps[i], maxHps[i],
 						( before == hps[i] ? null : @" class=""changed""" ),
-						( i + 1 ) );
+						( i + 1 ),
+						( damages[i] > 0 ? damages[i].ToString() : null ) );
 
 				} else {
 					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
@@ -318,10 +397,11 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					{
 						int before = hps[i + 12];
 						hps[i + 12] = Math.Max( hps[i + 12] - damages[i + 12], 0 );
-						builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+						builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
 							accompany[i], before, hps[i + 12], maxHps[i + 12],
 							( before == hps[i + 12] ? null : @" class=""changed""" ),
-							( i + 1 ) );
+							( i + 1 ),
+							( damages[i + 12] > 0 ? damages[i + 12].ToString() : null ) );
 					}
 					else
 					{
@@ -332,10 +412,11 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				if ( enemys[i] != null ) {
 					int before = hps[i + 6];
 					hps[i + 6] = Math.Max( hps[i + 6] - damages[i + 6], 0 );
-					builder.AppendFormat( "<td>{5}.{0}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+					builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
 						enemys[i], before, hps[i + 6], maxHps[i + 6],
 						( before == hps[i + 6] ? null : @" class=""changed""" ),
-						( i + 1 ) );
+						( i + 1 ),
+						( damages[i + 6] > 0 ? damages[i + 6].ToString() : null ) );
 
 				} else {
 					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
