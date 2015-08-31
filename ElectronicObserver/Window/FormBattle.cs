@@ -227,6 +227,28 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					{
 						var pd1 = day.AirBattle;
 						var pd2 = ( day is BattleAirBattle ? ( (BattleAirBattle)day ).AirBattle2 : null );
+
+						bool[] s1available = { pd1.IsStage1Available, ( pd2 != null && pd2.IsStage1Available ) };
+						bool[] s2available = { pd1.IsStage2Available, ( pd2 != null && pd2.IsStage2Available ) };
+						int[] touches =
+						{
+							pd1.TouchAircraftFriend, s1available[1] ? pd2.TouchAircraftFriend : -1,
+							pd1.TouchAircraftEnemy, s1available[1] ? pd2.TouchAircraftEnemy : -1
+						};
+						EquipmentDataMaster[] planes =
+						{
+							KCDatabase.Instance.MasterEquipments[touches[0]],
+							KCDatabase.Instance.MasterEquipments[touches[1]],
+							KCDatabase.Instance.MasterEquipments[touches[2]],
+							KCDatabase.Instance.MasterEquipments[touches[3]]
+						};
+						bool[] fire = new bool[] { pd1.IsAACutinAvailable, s1available[1] && pd2.IsAACutinAvailable };
+						int[] cutinID = new int[]
+						{
+							fire[0] ? pd1.AACutInKind : -1,
+							fire[1] ? pd2.AACutInKind : -1,
+						};
+
 						// 接触信息
 						builder.AppendFormat( @"<h2>航空战</h2>
 <hr/>
@@ -239,29 +261,41 @@ td,th,tr {text-align:left; padding:2px 4px;}
 <th width=""90"">制空</th><td>{0}</td><td>{1}</td><td colspan=""2""></td>
 </tr>
 <tr>
-<th width=""90"">stage1</th><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td>
+<th width=""90"">接触信息</th><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td>
 </tr>
 <tr>
-<th width=""90"">stage2</th><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td>
+<th width=""90"">stage1</th><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td>
+</tr>
+<tr>
+<th width=""90"">stage2</th><td>{10}</td><td>{11}</td><td>{12}</td><td>{13}</td>
+</tr>
+<tr>
+<th width=""90"">对空</th><td>{14}</td><td>{15}</td><td colspan=""2""></td>
 </tr>
 </tbody>
 </table>
 ", Constants.GetAirSuperiority( pd1.AirSuperiority ),
 	( pd2 == null ? null : Constants.GetAirSuperiority( pd2.AirSuperiority ) ),
 
-	( !pd1.IsStage1Available ? "无效" : string.Format( "-{0}/{1}", pd1.AircraftLostStage1Friend, pd1.AircraftTotalStage1Friend ) ),
-	( pd2 == null || !pd2.IsStage1Available ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage1Friend, pd2.AircraftTotalStage1Friend ) ),
-	( !pd1.IsStage1Available ? null : string.Format( "-{0}/{1}", pd1.AircraftLostStage1Enemy, pd1.AircraftTotalStage1Enemy ) ),
-	( pd2 == null || !pd2.IsStage1Available ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage1Enemy, pd2.AircraftTotalStage1Enemy ) ),
+	( !s1available[0] || planes[0] == null ? "-" : planes[0].Name ),
+	( !s1available[1] || planes[1] == null ? null : planes[1].Name ),
+	( !s1available[0] || planes[2] == null ? "-" : planes[2].Name ),
+	( !s1available[1] || planes[3] == null ? null : planes[3].Name ),
 
-	( !pd1.IsStage2Available ? "无效" : string.Format( "-{0}/{1}", pd1.AircraftLostStage2Friend, pd1.AircraftTotalStage2Friend ) ),
-	( pd2 == null || !pd2.IsStage2Available ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage2Friend, pd2.AircraftTotalStage2Friend ) ),
-	( !pd1.IsStage2Available ? null : string.Format( "-{0}/{1}", pd1.AircraftLostStage2Enemy, pd1.AircraftTotalStage2Enemy ) ),
-	( pd2 == null || !pd2.IsStage2Available ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage2Enemy, pd2.AircraftTotalStage2Enemy ) )
-	
+	( !s1available[0] ? "-" : string.Format( "-{0}/{1}", pd1.AircraftLostStage1Friend, pd1.AircraftTotalStage1Friend ) ),
+	( !s1available[1] ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage1Friend, pd2.AircraftTotalStage1Friend ) ),
+	( !s1available[0] ? null : string.Format( "-{0}/{1}", pd1.AircraftLostStage1Enemy, pd1.AircraftTotalStage1Enemy ) ),
+	( !s1available[1] ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage1Enemy, pd2.AircraftTotalStage1Enemy ) ),
+
+	( !s2available[0] ? "-" : string.Format( "-{0}/{1}", pd1.AircraftLostStage2Friend, pd1.AircraftTotalStage2Friend ) ),
+	( !s2available[1] ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage2Friend, pd2.AircraftTotalStage2Friend ) ),
+	( !s2available[0] ? null : string.Format( "-{0}/{1}", pd1.AircraftLostStage2Enemy, pd1.AircraftTotalStage2Enemy ) ),
+	( !s2available[1] ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage2Enemy, pd2.AircraftTotalStage2Enemy ) ),
+
+	( !fire[0] && !fire[1] ? "对空炮火" : ( !fire[0] ? "-" : string.Format( "{0}<br/>{1} (#{2})", pd1.AACutInShip.NameWithLevel, Constants.GetAACutinKind( cutinID[0] ), cutinID[0] ) ) ),
+	( !fire[1] || !s1available[1] ? "-" : string.Format( "{0}<br/>{1} (#{2})", pd2.AACutInShip.NameWithLevel, Constants.GetAACutinKind( cutinID[1] ), cutinID[1] ) )
 	);
 
-						// TODO: 接触与AACI
 
 						// 航空战血量变化
 						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available )
@@ -342,8 +376,47 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				if ( night != null && night.IsAvailable ) {
 
 					var nightbattle = night.NightBattle;
+
+					// 夜战buff判定
+					var ship = ( nightbattle.SearchlightIndexFriend < 0 ? null : nightbattle.FriendFleet.MembersInstance[nightbattle.SearchlightIndexFriend] );
+					var enemy = nightbattle.SearchlightEnemyInstance;
+					EquipmentDataMaster[] touches =
+					{
+						KCDatabase.Instance.MasterEquipments[nightbattle.TouchAircraftFriend],
+						KCDatabase.Instance.MasterEquipments[nightbattle.TouchAircraftEnemy]
+					};
+					var flareFriend = ( nightbattle.FlareIndexFriend < 0 ? null : nightbattle.FriendFleet.MembersInstance[nightbattle.FlareIndexFriend] );
+					var flareEnemy = nightbattle.FlareEnemyInstance;
+
+					builder.AppendFormat( @"<h2>夜战</h2>
+<hr/>
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90""></th><th width=""110"">我方</th><th width=""110"">敌方</th>
+</tr>
+<tr>
+<th width=""90"">探照灯</th><td>{0}</td><td>{1}</td>
+</tr>
+<tr>
+<th width=""90"">夜间接触</th><td>{2}</td><td>{3}</td>
+</tr>
+<tr>
+<th width=""90"">照明弹</th><td>{4}</td><td>{5}</td>
+</tr>
+</tbody>
+</table>
+", ( ship == null ? "-" : ship.NameWithLevel ),
+	( enemy == null ? "-" : enemy.NameWithClass ),
+	( touches[0] == null ? "-" : touches[0].Name ),
+	( touches[1] == null ? "-" : touches[1].Name ),
+	( flareFriend == null ? "-" : flareFriend.NameWithLevel ),
+	( flareEnemy == null ? "-" : flareEnemy.NameWithClass )
+	);
+
+					// 战况
 					if ( nightbattle.ShellingData != null ) {
-						FillShellingDamage( "夜战", builder, nightbattle.ShellingData, isCombined ? accompany : friends, enemys, hps, maxHps );
+						FillShellingDamage( null, builder, nightbattle.ShellingData, isCombined ? accompany : friends, enemys, hps, maxHps );
 					}
 
 				}
@@ -356,7 +429,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 		private void FillAirDamage( StringBuilder builder, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
 		{
-			builder.AppendLine( @"<hr/><table cellspacing=""2"" cellpadding=""0"">
+			builder.AppendLine( @"<table cellspacing=""2"" cellpadding=""0"">
 <thead>
 <th width=""160"">我方</th>
 <th width=""90"">所受伤害</th>
@@ -553,9 +626,15 @@ td,th,tr {text-align:left; padding:2px 4px;}
 		private void FillShellingDamage( string name, StringBuilder builder, dynamic data, string[] friends, string[] enemys, int[] hps, int[] maxHps ) {
 
 			try {
-				builder.AppendFormat( @"<h2>{0}</h2>
+
+				if ( !string.IsNullOrEmpty( name ) )
+				{
+					builder.AppendFormat( @"<h2>{0}</h2>
 <hr />
-<table cellspacing=""2"" cellpadding=""0"">
+", name );
+				}
+
+				builder.AppendLine( @"<table cellspacing=""2"" cellpadding=""0"">
 <thead>
 <tr>
 <th width=""24"">&nbsp;</th>
@@ -569,8 +648,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 <th width=""120"">装备</th>
 </tr>
 </thead>
-<tbody>
-", name );
+<tbody>" );
 
 				int[] at_list = (int[])data.api_at_list;
 
