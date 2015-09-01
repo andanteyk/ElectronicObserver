@@ -1,5 +1,8 @@
 ﻿using Codeplex.Data;
+using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Resource.Record;
+using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Utility.Storage;
 using ElectronicObserver.Window.Dialog;
 using System;
@@ -765,6 +768,10 @@ namespace ElectronicObserver.Utility {
 			}
 
 
+			[DataMember]
+			public string VersionUpdateTime { get; set; }
+
+
 			public override void Initialize() {
 
 				Connection = new ConfigConnection();
@@ -815,6 +822,7 @@ namespace ElectronicObserver.Utility {
 			var temp = (ConfigurationData)_config.Load( SaveFileName );
 			if ( temp != null ) {
 				_config = temp;
+				CheckUpdate();
 				OnConfigurationChanged();
 			} else {
 				MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " をご利用いただきありがとうございます。\r\n設定や使用方法については「ヘルプ」→「オンラインヘルプ」を参照してください。\r\nご使用の前に必ずご一読ください。",
@@ -825,6 +833,77 @@ namespace ElectronicObserver.Utility {
 		public void Save() {
 			_config.Save( SaveFileName );
 		}
+
+
+
+		private void CheckUpdate() {
+			DateTime dt = Config.VersionUpdateTime == null ? new DateTime( 0 ) : DateTimeHelper.CSVStringToTime( Config.VersionUpdateTime );
+
+			// version 1.4.6 or earlier
+			if ( dt <= DateTimeHelper.CSVStringToTime( "2015/08/27 21:00:00" ) ) {
+
+				if ( MessageBox.Show(
+					"バージョンアップが検出されました。\r\n古いレコードファイルを新しいフォーマットにコンバートします。\r\n(元のファイルは Record_Backup フォルダに残されます。)\r\nよろしいですか？\r\n(コンバートせずに続行した場合、読み込めなくなる可能性があります。)\r\n",
+					"バージョンアップに伴う確認(～1.4.6)",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
+					 == DialogResult.Yes ) {
+
+					try {
+
+						Directory.CreateDirectory( "Record_Backup" );
+
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\EnemyFleetRecord.csv" ) ) {
+							File.Copy( RecordManager.Instance.MasterPath + "\\EnemyFleetRecord.csv", "Record_Backup\\EnemyFleetRecord.csv", false );
+
+							//ヒャッハー！！
+							using ( var writer = new StreamWriter( RecordManager.Instance.MasterPath + "\\EnemyFleetRecord.csv", false, Config.Log.FileEncoding ) ) {
+								writer.WriteLine();
+							}
+						}
+
+
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv" ) ) {
+							File.Copy( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", "Record_Backup\\ShipDropRecord.csv", false );
+
+							using ( var reader = new StreamReader( "Record_Backup\\ShipDropRecord.csv", Config.Log.FileEncoding ) ) {
+								using ( var writer = new StreamWriter( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", false, Config.Log.FileEncoding ) ) {
+
+									while ( !reader.EndOfStream ) {
+										string line = reader.ReadLine();
+										var elem = line.Split( ",".ToCharArray() ).ToList();
+
+										elem.Insert( 6, Constants.GetDifficulty( -1 ) );	//difficulty
+										elem[8] = "0";		//EnemyFleetID
+
+
+										writer.WriteLine( string.Join( ",", elem ) );
+									}
+								}
+							}
+						}
+
+
+
+					} catch ( Exception ex ) {
+
+						Utility.ErrorReporter.SendErrorReport( ex, "バージョンアップに伴うレコードのコンバートに失敗しました。" );
+
+						if ( MessageBox.Show( "コンバートに失敗しました。\r\n" + ex.Message + "\r\n起動処理を続行しますか？\r\n(データが破壊される可能性があります)\r\n",
+							"エラー", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2 )
+							== DialogResult.No )
+							Environment.Exit( -1 );
+
+					}
+				}
+
+
+			}
+
+
+
+			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );
+		}
+
 	}
 
 

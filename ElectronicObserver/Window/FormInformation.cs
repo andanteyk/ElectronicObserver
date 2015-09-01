@@ -44,6 +44,7 @@ namespace ElectronicObserver.Window {
 			o["api_req_practice/battle_result"].ResponseReceived += Updated;
 			o["api_req_sortie/battleresult"].ResponseReceived += Updated;
 			o["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
+			o["api_req_hokyu/charge"].ResponseReceived += Updated;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
@@ -95,6 +96,10 @@ namespace ElectronicObserver.Window {
 				case "api_req_sortie/battleresult":
 				case "api_req_combined_battle/battleresult":
 					TextInformation.Text = GetBattleResult( data );
+					break;
+
+				case "api_req_hokyu/charge":
+					TextInformation.Text = GetSupplyInformation( data );
 					break;
 
 			}
@@ -291,6 +296,17 @@ namespace ElectronicObserver.Window {
 			sb.AppendFormat( "敵艦隊名: {0}\r\n", data.api_enemy_info.api_deck_name );
 			sb.AppendFormat( "勝敗判定: {0}\r\n", data.api_win_rank );
 			sb.AppendFormat( "提督経験値: +{0}\r\n", (int)data.api_get_exp );
+
+			return sb.ToString();
+		}
+
+
+		private string GetSupplyInformation( dynamic data ) {
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.AppendLine( "[補給完了]" );
+			sb.AppendFormat( "ボーキサイト: {0} ( {1}機 )\r\n", (int)data.api_use_bou, (int)data.api_use_bou / 5 );
 
 			return sb.ToString();
 		}

@@ -221,6 +221,48 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		/// <summary>
+		/// 海域難易度を表す文字列を取得します。
+		/// </summary>
+		public static string GetDifficulty( int value ) {
+
+			switch ( value ) {
+				case -1:
+					return "なし";
+				case 0:
+					return "未選択";
+				case 1:
+					return "丙";
+				case 2:
+					return "乙";
+				case 3:
+					return "甲";
+				default:
+					return "不明";
+			}
+		}
+
+		/// <summary>
+		/// 海域難易度を表す数値を取得します。
+		/// </summary>
+		public static int GetDifficulty( string value ) {
+
+			switch ( value ) {
+				case "未選択":
+					return 0;
+				case "丙":
+					return 1;
+				case "乙":
+					return 2;
+				case "甲":
+					return 3;
+				default:
+					return -1;
+			}
+
+		}
+
 		#endregion
 
 

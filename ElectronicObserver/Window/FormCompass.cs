@@ -474,7 +474,7 @@ namespace ElectronicObserver.Window {
 
 								TextEventKind.ForeColor = getColorFromEventKind( compass.EventKind );
 							}
-							UpdateEnemyFleet( compass.EnemyFleetID );
+							UpdateEnemyFleet();
 							break;
 
 						case 5:		//ボス戦闘
@@ -543,7 +543,7 @@ namespace ElectronicObserver.Window {
 
 								case 4:		//航空戦
 								default:
-									UpdateEnemyFleet( compass.EnemyFleetID );
+									UpdateEnemyFleet();
 									break;
 							}
 							break;
@@ -589,39 +589,31 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void UpdateEnemyFleet( int fleetID ) {
+		private void UpdateEnemyFleet() {
 
-			TextEventDetail.Text = string.Format( "敵艦隊ID : {0}", fleetID );
+			CompassData compass = KCDatabase.Instance.Battle.Compass;
+
+			var candidate = RecordManager.Instance.EnemyFleet.Record.Values.Where(
+				r =>
+					r.MapAreaID == compass.MapAreaID &&
+					r.MapInfoID == compass.MapInfoID &&
+					r.CellID == compass.Destination &&
+					r.Difficulty == compass.MapInfo.EventDifficulty
+				);
+
+			TextEventDetail.Text = string.Format( "敵艦隊候補数 : {0}", candidate.Count() );
 
 
-			var efleet = RecordManager.Instance.EnemyFleet;
-
-			if ( !efleet.Record.ContainsKey( fleetID ) ) {
-
-				//unknown
+			//fixme: 暫定
+			if ( candidate.Count() == 0 )
 				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
-				TextFormation.Visible = false;
-				TextAirSuperiority.Visible = false;
-				TableEnemyMember.Visible = false;
+			else
+				TextEnemyFleetName.Text = candidate.First().FleetName;
 
-			} else {
+			TextFormation.Visible = false;
+			TextAirSuperiority.Visible = false;
+			TableEnemyMember.Visible = false;
 
-				var fdata = efleet[fleetID];
-
-				TextEnemyFleetName.Text = fdata.FleetName;
-				TextFormation.Text = Constants.GetFormationShort( fdata.Formation );
-				TextFormation.Visible = true;
-				TextAirSuperiority.Text = Calculator.GetAirSuperiority( fdata.FleetMember ).ToString();
-				TextAirSuperiority.Visible = true;
-
-				TableEnemyMember.SuspendLayout();
-				for ( int i = 0; i < ControlMember.Length; i++ ) {
-					ControlMember[i].Update( fdata.FleetMember[i] );
-				}
-				TableEnemyMember.ResumeLayout();
-				TableEnemyMember.Visible = true;
-
-			}
 
 			PanelEnemyFleet.Visible = true;
 
@@ -648,6 +640,13 @@ namespace ElectronicObserver.Window {
 			int[] levels = bd.Initial.EnemyLevels;
 			int[][] parameters = bd.Initial.EnemyParameters;
 			int[] hps = bd.Initial.MaxHPs;
+
+
+			if ( ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) != BattleManager.BattleModes.Practice ) {
+				var efrecord = RecordManager.Instance.EnemyFleet[EnemyFleetRecord.EnemyFleetElement.CreateFromCurrentState().FleetID];
+				if ( efrecord != null )
+					TextEnemyFleetName.Text = efrecord.FleetName;
+			}
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			TextFormation.Visible = true;

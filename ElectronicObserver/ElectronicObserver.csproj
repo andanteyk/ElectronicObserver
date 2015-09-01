@@ -160,6 +160,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\open_exslot.cs" />
+    <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
