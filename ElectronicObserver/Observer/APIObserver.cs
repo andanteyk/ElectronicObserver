@@ -584,9 +584,9 @@ namespace ElectronicObserver.Observer {
 				string ext = file.Substring( file.LastIndexOf( '.' ) + 1 ).ToLower();
 				if ( ext == "jpg" || ext == "gif" || ext == "png" )
 				{
-					// 直接返回404
+					// 直接返回204
 					oSession.utilCreateResponseAndBypassServer();
-					oSession.responseCode = 404;
+					oSession.responseCode = 204;
 				}
 				else if ( ext == "css" )
 				{

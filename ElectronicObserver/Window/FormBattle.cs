@@ -300,7 +300,10 @@ td,th,tr {text-align:left; padding:2px 4px;}
 						// 航空战血量变化
 						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available )
 						{
-							FillAirDamage( builder, day.AirBattle.Damages, friends, isCombined ? accompany : null, enemys, hps, maxHps );
+							var stage3 = day.RawData.api_kouku.api_stage3;
+							int[] flagsfriend = ( (int[])stage3.api_frai_flag ).Skip( 1 ).Concat( ( (int[])stage3.api_fbak_flag ).Skip( 1 ) ).ToArray();
+							int[] flagsenemy = ( (int[])stage3.api_erai_flag ).Skip( 1 ).Concat( ( (int[])stage3.api_ebak_flag ).Skip( 1 ) ).ToArray();
+							FillAirDamage( builder, flagsfriend, flagsenemy, day.AirBattle.Damages, friends, isCombined ? accompany : null, enemys, hps, maxHps );
 						}
 
 						// 支援
@@ -427,7 +430,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			new Dialog.DialogBattleReport( builder.ToString() ).Show();
 		}
 
-		private void FillAirDamage( StringBuilder builder, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
+		private void FillAirDamage( StringBuilder builder, int[] flagsfriend, int[] flagsenemy, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
 		{
 			builder.AppendLine( @"<table cellspacing=""2"" cellpadding=""0"">
 <thead>
@@ -458,7 +461,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 						friends[i], before, hps[i], maxHps[i],
 						( before == hps[i] ? null : @" class=""changed""" ),
 						( i + 1 ),
-						( damages[i] > 0 ? damages[i].ToString() : null ) );
+						( damages[i] > 0 ? damages[i].ToString() : ( ( flagsfriend[i] > 0 || flagsfriend[i + 6] > 0 ) ? "miss" : null ) ) );
 
 				} else {
 					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
@@ -489,7 +492,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 						enemys[i], before, hps[i + 6], maxHps[i + 6],
 						( before == hps[i + 6] ? null : @" class=""changed""" ),
 						( i + 1 ),
-						( damages[i + 6] > 0 ? damages[i + 6].ToString() : null ) );
+						( damages[i + 6] > 0 ? damages[i + 6].ToString() : ( ( flagsenemy[i] > 0 || flagsenemy[i + 6] > 0 ) ? "miss" : null ) ) );
 
 				} else {
 					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
