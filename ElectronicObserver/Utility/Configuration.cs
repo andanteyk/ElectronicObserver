@@ -883,6 +883,29 @@ namespace ElectronicObserver.Utility {
 						}
 
 
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv" ) ) {
+							File.Copy( RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv", "Record_Backup\\ShipParameterRecord.csv", false );
+
+							using ( var reader = new StreamReader( "Record_Backup\\ShipParameterRecord.csv", Config.Log.FileEncoding ) ) {
+								using ( var writer = new StreamWriter( RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv", false, Config.Log.FileEncoding ) ) {
+
+									while ( !reader.EndOfStream ) {
+										string line = reader.ReadLine();
+										var elem = line.Split( ",".ToCharArray() ).ToList();
+
+										elem.InsertRange( 2, Enumerable.Repeat( "0", 10 ) );
+										elem.InsertRange( 21, Enumerable.Repeat( "0", 3 ) );
+										elem.InsertRange( 29, Enumerable.Repeat( "null", 5 ) );
+										elem.Insert( 34, "null" );
+									
+										writer.WriteLine( string.Join( ",", elem ) );
+									}
+								}
+							}
+						}
+
+
+
 
 					} catch ( Exception ex ) {
 

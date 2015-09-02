@@ -57,6 +57,15 @@ namespace ElectronicObserver.Resource.Record {
 			/// 敵艦船リスト
 			/// </summary>
 			public int[] FleetMember { get; set; }
+			
+			/// <summary>
+			/// 敵艦船名リスト
+			/// </summary>
+			public string[] FleetMemberName {
+				get {
+					return FleetMember.Select( id => KCDatabase.Instance.MasterShips[id] != null ? KCDatabase.Instance.MasterShips[id].NameWithClass : "-" ).ToArray();
+				}
+			}
 
 			/// <summary>
 			/// 艦娘の獲得経験値
@@ -87,21 +96,21 @@ namespace ElectronicObserver.Resource.Record {
 			public override void LoadLine( string line ) {
 
 				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 14 ) throw new ArgumentException( "要素数が少なすぎます。" );
+				if ( elem.Length < 20 ) throw new ArgumentException( "要素数が少なすぎます。" );
 
 				FleetName = elem[1];
 				MapAreaID = int.Parse( elem[2] );
 				MapInfoID = int.Parse( elem[3] );
 				CellID = int.Parse( elem[4] );
 				Difficulty = Constants.GetDifficulty( elem[5] );
-				Formation = int.Parse( elem[6] );
+				Formation = Constants.GetFormation( elem[6] );
 
 				FleetMember = new int[6];
 				for ( int i = 7; i < 7 + 6; i++ ) {
 					FleetMember[i - 7] = int.Parse( elem[i] );
 				}
 
-				ExpShip = int.Parse( elem[13] );
+				ExpShip = int.Parse( elem[19] );
 
 				//if ( FleetID != uint.Parse( elem[0] ) ) //???
 
@@ -109,7 +118,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			public override string SaveLine() {
 
-				return string.Format( "{0},{1},{2},{3}", FleetID, FleetName, SaveLinePart(), ExpShip );
+				return string.Format( "{0},{1},{2},{3},{4}", FleetID, FleetName, SaveLinePart(), string.Join( ",", FleetMemberName ), ExpShip );
 			}
 
 
@@ -119,7 +128,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// </summary>
 			private string SaveLinePart() {
 
-				return string.Format( "{0},{1},{2},{3},{4},{5}", MapAreaID, MapInfoID, CellID, Constants.GetDifficulty( Difficulty ), Formation,
+				return string.Format( "{0},{1},{2},{3},{4},{5}", MapAreaID, MapInfoID, CellID, Constants.GetDifficulty( Difficulty ), Constants.GetFormation( Formation ),
 					string.Join( ",", FleetMember ) );
 
 			}
@@ -244,6 +253,16 @@ namespace ElectronicObserver.Resource.Record {
 					if ( diffdiff != 0 )
 						return diffdiff;
 
+					for ( int i = 0; i < 6; i++ ) {
+						int shipdiff = e1.FleetMember[i] - e2.FleetMember[i];
+						if ( shipdiff != 0 )
+							return shipdiff;
+					}
+
+					int formdiff = e1.Formation - e2.Formation;
+					if ( formdiff != -1 )
+						return formdiff;
+					
 					return e1.FleetID.CompareTo( e2.FleetID );
 
 				} );
@@ -260,7 +279,7 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 		protected override string RecordHeader {
-			get { return "敵編成ID,敵艦隊名,海域,海域,セル,難易度,陣形,敵1番艦,敵2番艦,敵3番艦,敵4番艦,敵5番艦,敵6番艦,経験値"; }
+			get { return "敵編成ID,敵艦隊名,海域,海域,セル,難易度,陣形,敵1番艦,敵2番艦,敵3番艦,敵4番艦,敵5番艦,敵6番艦,敵1番艦名,敵2番艦名,敵3番艦名,敵4番艦名,敵5番艦名,敵6番艦名,経験値"; }
 		}
 
 		public override string FileName {
