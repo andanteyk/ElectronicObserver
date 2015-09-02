@@ -622,6 +622,7 @@ namespace ElectronicObserver.Window {
 
 
 			if ( _enemyFleetCandidate.Count == 0 ) {
+				TextEventDetail.Text = "(敵艦隊候補なし)";
 				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
 
 				TextFormation.Visible = false;
