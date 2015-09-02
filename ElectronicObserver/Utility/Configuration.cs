@@ -906,6 +906,15 @@ namespace ElectronicObserver.Utility {
 
 
 
+						// 読み書き方式が変わったので念のため
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv" ) ) {
+							File.Copy( RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv", "Record_Backup\\ConstructionRecord.csv", false );
+						}
+
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\DevelopmentRecord.csv" ) ) {
+							File.Copy( RecordManager.Instance.MasterPath + "\\DevelopmentRecord.csv", "Record_Backup\\DevelopmentRecord.csv", false );
+						}
+						
 
 					} catch ( Exception ex ) {
 

@@ -99,7 +99,7 @@ namespace ElectronicObserver.Utility.Data {
 
 		private static readonly Dictionary<int, int> AirSuperiorityBonus = new Dictionary<int, int>() {
 			{ 6, 25 },		//艦上戦闘機
-			{ 7, 0 },		//艦上爆撃機
+			{ 7, 3 },		//艦上爆撃機
 			{ 8, 3 },		//艦上攻撃機
 			{ 11, 9 },		//水上爆撃機
 		};

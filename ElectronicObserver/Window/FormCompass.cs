@@ -280,6 +280,18 @@ namespace ElectronicObserver.Window {
 		private TableEnemyMemberControl[] ControlMember;
 
 
+		/// <summary>
+		/// 次に遭遇する敵艦隊候補
+		/// </summary>
+		private List<EnemyFleetRecord.EnemyFleetElement> _enemyFleetCandidate = null;
+
+		/// <summary>
+		/// 表示中の敵艦隊候補のインデックス
+		/// </summary>
+		private int _enemyFleetCandidateIndex = 0;
+
+
+
 
 		public FormCompass( FormMain parent ) {
 			InitializeComponent();
@@ -393,8 +405,12 @@ namespace ElectronicObserver.Window {
 				BasePanel.SuspendLayout();
 				PanelEnemyFleet.Visible = false;
 
+				_enemyFleetCandidate = null;
+				_enemyFleetCandidateIndex = -1;
 
-				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}", compass.MapAreaID, compass.MapInfoID );
+
+				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}{2}", compass.MapAreaID, compass.MapInfoID,
+					compass.MapInfo.EventDifficulty > 0 ? " [" + Constants.GetDifficulty( compass.MapInfo.EventDifficulty ) + "]" : "" );
 
 				TextDestination.Text = string.Format( "次のセル : {0}{1}", compass.Destination, ( compass.IsEndPoint ? " (終点)" : "" ) );
 				if ( compass.LaunchedRecon != 0 ) {
@@ -589,30 +605,32 @@ namespace ElectronicObserver.Window {
 
 
 
+
+
 		private void UpdateEnemyFleet() {
 
 			CompassData compass = KCDatabase.Instance.Battle.Compass;
 
-			var candidate = RecordManager.Instance.EnemyFleet.Record.Values.Where(
+			_enemyFleetCandidate = RecordManager.Instance.EnemyFleet.Record.Values.Where(
 				r =>
 					r.MapAreaID == compass.MapAreaID &&
 					r.MapInfoID == compass.MapInfoID &&
 					r.CellID == compass.Destination &&
 					r.Difficulty == compass.MapInfo.EventDifficulty
-				);
+				).ToList();
+			_enemyFleetCandidateIndex = -1;
 
-			TextEventDetail.Text = string.Format( "敵艦隊候補数 : {0}", candidate.Count() );
 
-
-			//fixme: 暫定
-			if ( candidate.Count() == 0 )
+			if ( _enemyFleetCandidate.Count == 0 ) {
 				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
-			else
-				TextEnemyFleetName.Text = candidate.First().FleetName;
 
-			TextFormation.Visible = false;
-			TextAirSuperiority.Visible = false;
-			TableEnemyMember.Visible = false;
+				TextFormation.Visible = false;
+				TextAirSuperiority.Visible = false;
+				TableEnemyMember.Visible = false;
+
+			} else {
+				NextEnemyFleetCandidate();
+			}
 
 
 			PanelEnemyFleet.Visible = true;
@@ -642,10 +660,17 @@ namespace ElectronicObserver.Window {
 			int[] hps = bd.Initial.MaxHPs;
 
 
+			_enemyFleetCandidate = null;
+			_enemyFleetCandidateIndex = -1;
+
+
+
 			if ( ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) != BattleManager.BattleModes.Practice ) {
 				var efrecord = RecordManager.Instance.EnemyFleet[EnemyFleetRecord.EnemyFleetElement.CreateFromCurrentState().FleetID];
-				if ( efrecord != null )
+				if ( efrecord != null ) {
 					TextEnemyFleetName.Text = efrecord.FleetName;
+					TextEventDetail.Text = "敵艦隊ID: " + efrecord.FleetID.ToString( "x8" );
+				}
 			}
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
@@ -671,6 +696,49 @@ namespace ElectronicObserver.Window {
 
 
 
+		private void TextEnemyFleetName_MouseDown( object sender, MouseEventArgs e ) {
+
+			if ( e.Button != System.Windows.Forms.MouseButtons.Left ) return;
+
+			NextEnemyFleetCandidate();
+		}
+
+
+		private void NextEnemyFleetCandidate() {
+
+			if ( _enemyFleetCandidate != null && _enemyFleetCandidate.Count != 0 ) {
+
+				_enemyFleetCandidateIndex++;
+				if ( _enemyFleetCandidateIndex >= _enemyFleetCandidate.Count )
+					_enemyFleetCandidateIndex = 0;
+
+
+				var candidate = _enemyFleetCandidate[_enemyFleetCandidateIndex];
+
+
+				TextEventDetail.Text = string.Format( "敵艦隊候補 : {0} / {1}", _enemyFleetCandidateIndex + 1, _enemyFleetCandidate.Count );
+
+				TextEnemyFleetName.Text = candidate.FleetName;
+				TextFormation.Text = Constants.GetFormationShort( candidate.Formation );
+				TextAirSuperiority.Text = Calculator.GetAirSuperiority( candidate.FleetMember ).ToString();
+
+				TableEnemyMember.SuspendLayout();
+				for ( int i = 0; i < ControlMember.Length; i++ ) {
+					ControlMember[i].Update( candidate.FleetMember[i] );
+				}
+				TableEnemyMember.ResumeLayout();
+
+				TextFormation.Visible = true;
+				TextAirSuperiority.Visible = true;
+				TableEnemyMember.Visible = true;
+
+
+				PanelEnemyFleet.Visible = true;
+
+			}
+		}
+
+
 		void ConfigurationChanged() {
 
 			Font = PanelEnemyFleet.Font = MainFont = Utility.Configuration.Config.UI.MainFont;
@@ -694,6 +762,10 @@ namespace ElectronicObserver.Window {
 		private void TableEnemyMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
+
+
+
+
 
 	}
 

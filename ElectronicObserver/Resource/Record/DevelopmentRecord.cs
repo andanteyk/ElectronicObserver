@@ -223,6 +223,8 @@ namespace ElectronicObserver.Resource.Record {
 			return sb.ToString();
 		}
 
+
+		/*/
 		protected override bool IsAppend { get { return true; } }
 
 
@@ -236,6 +238,7 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Clear();
 			return ret;
 		}
+		//*/
 
 
 		protected override string RecordHeader {

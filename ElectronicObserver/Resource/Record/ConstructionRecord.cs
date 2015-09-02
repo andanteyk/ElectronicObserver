@@ -173,11 +173,11 @@ namespace ElectronicObserver.Resource.Record {
 
 			ao.APIList["api_req_kousyou/createship"].RequestReceived += ConstructionStart;
 			ao.APIList["api_get_member/kdock"].ResponseReceived += ConstructionEnd;
-		
+
 		}
 
-		
-	
+
+
 		public ConstructionElement this[int i] {
 			get { return Record[i]; }
 			set { Record[i] = value; }
@@ -229,6 +229,8 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Clear();
 		}
 
+
+		/*/
 		protected override bool IsAppend { get { return true; } }
 
 
@@ -242,7 +244,7 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Clear();
 			return ret;
 		}
-
+		//*/
 
 
 		protected override string RecordHeader {
