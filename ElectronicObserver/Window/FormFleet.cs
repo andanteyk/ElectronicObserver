@@ -592,6 +592,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_member/updatedeckname"].RequestReceived += Updated;
 			o.APIList["api_req_kaisou/remodeling"].RequestReceived += Updated;
 			o.APIList["api_req_map/start"].RequestReceived += Updated;
+			o.APIList["api_req_hensei/combined"].RequestReceived += Updated;
 
 			o.APIList["api_port/port"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ship2"].ResponseReceived += Updated;
@@ -737,6 +738,49 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+
+		/// <summary>
+		/// 「艦隊デッキビルダー」用編成コピー
+		/// <see cref="http://www.kancolle-calc.net/deckbuilder.html"/>
+		/// </summary>
+		private void ContextMenuFleet_CopyFleetDeckBuilder_Click( object sender, EventArgs e ) {
+
+			StringBuilder sb = new StringBuilder();
+			KCDatabase db = KCDatabase.Instance;
+
+			sb.Append( "[" );
+
+			foreach ( var fleet in db.Fleet.Fleets.Values ) {
+				if ( fleet == null ) continue;
+
+				sb.Append( "[" );
+
+				foreach ( var ship in fleet.MembersInstance ) {
+					if ( ship == null ) continue;
+
+					sb.AppendFormat( "[\"{0}\",[{1},-1],[", ship.ShipID, ship.Level );
+
+					int length = ship.SlotMaster.Count( id => id != -1 );
+					sb.Append( string.Join( ",", ship.SlotMaster.Take( length ) ) );
+					sb.Append( "],[" );
+					sb.Append( string.Join( ",", ship.SlotInstance.Take( length ).Select( item => item.Level ) ) );
+					sb.Append( "]]," );
+				}
+
+				if ( fleet.MembersInstance.Count( s => s != null ) != 0 )
+					sb.Remove( sb.Length - 1, 1 );		// remove ","
+
+				sb.Append( "]," );
+			}
+
+			sb.Remove( sb.Length - 1, 1 );		// remove ","
+			sb.Append( "]" );
+
+			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
+		}
+
+
 		private void ContextMenuFleet_Capture_Click( object sender, EventArgs e ) {
 
 			using ( Bitmap bitmap = new Bitmap( this.ClientSize.Width, this.ClientSize.Height ) ) {
@@ -789,6 +833,8 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
+
 		//よく考えたら別の艦隊タブと同期しないといけないので封印
 		private void ContextMenuFleet_IsScrollable_Click( object sender, EventArgs e ) {
 			Utility.Configuration.Config.FormFleet.IsScrollable = ContextMenuFleet_IsScrollable.Checked;
@@ -809,6 +855,7 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Fleet #" + FleetID.ToString();
 		}
+
 
 
 

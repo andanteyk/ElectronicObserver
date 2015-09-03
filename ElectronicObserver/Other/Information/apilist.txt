@@ -1372,7 +1372,7 @@ api_req_combined_battle/airbattle	：連合艦隊-機動部隊 航空戦
 	api_fParam			：味方艦船基礎ステータス
 	api_eParam			：敵艦船基礎ステータス
 	api_fParam_combined	：味方随伴護衛艦隊基礎ステータス
-	api_escape_idx?		：機動部隊本隊退避艦座標
+	api_escape_idx		：機動部隊本隊退避艦座標(1-6)
 	api_escape_idx_combined		：随伴護衛艦隊退避艦座標(1-6)
 	api_search			：索敵　[0]=味方, [1]=敵	1=成功, 2=失敗?, 5=失敗
 	api_formation		：陣形/交戦形態?　[0]=味方, [1]=敵, [2]=交戦形態
@@ -1427,6 +1427,8 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊 戦闘
 	api_fParam			：味方艦船基礎ステータス
 	api_eParam			：敵艦船基礎ステータス
 	api_fParam_combined	：味方随伴護衛艦隊基礎ステータス
+	api_escape_idx		：機動部隊本隊退避艦座標(1-6)
+	api_escape_idx_combined		：随伴護衛艦隊退避艦座標(1-6)
 	api_combat_ration	：本隊戦闘糧食補給　発動時のみ存在　艦船IDの数値配列
 	api_combat_ration_combined	：随伴艦隊戦闘糧食補給　発動時のみ存在　艦船IDの数値配列
 	api_search			：索敵　[0]=味方, [1]=敵	1=成功, 2=失敗?, 5=失敗
@@ -1507,6 +1509,8 @@ api_req_combined_battle/midnight_battle		：連合艦隊-機動部隊/水上部�
 	api_fParam			：味方艦船基礎ステータス
 	api_eParam			：敵艦船基礎ステータス　存在する艦の分のみ存在
 	api_fParam_combined	：味方随伴護衛艦隊基礎ステータス
+	api_escape_idx		：本隊退避艦座標(1-6)
+	api_escape_idx_combined		：随伴護衛艦隊退避艦座標(1-6)
 	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵
 	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵
 	api_hougeki			：夜間砲撃戦
