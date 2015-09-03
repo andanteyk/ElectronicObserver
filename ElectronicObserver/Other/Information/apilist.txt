@@ -867,6 +867,11 @@ api_req_mission/result		：遠征帰投
 	api_get_item2			：上に同じ
 
 
+Request.api_req_hokyu/charge	：補給
+	api_kind			：1=燃料のみ 2=弾薬のみ 3=まとめて補給
+	api_onslot			：艦載機を補充するか?
+	api_id_items		：補給艦船IDリスト　,区切り文字列
+
 api_req_hokyu/charge	：補給
 	api_ship			：補給を受けた艦船リスト
 		api_id			：艦船固有ID

@@ -486,7 +486,7 @@ namespace ElectronicObserver.Window {
 
 								TextEventKind.ForeColor = getColorFromEventKind( compass.EventKind );
 							}
-							UpdateEnemyFleet( compass.EnemyFleetID );
+							UpdateEnemyFleet();
 							break;
 
 						case 5:		//ボス戦闘
@@ -555,7 +555,7 @@ namespace ElectronicObserver.Window {
 
 								case 4:		//航空戦
 								default:
-									UpdateEnemyFleet( compass.EnemyFleetID );
+									UpdateEnemyFleet();
 									break;
 							}
 							break;
@@ -601,50 +601,31 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void UpdateEnemyFleet( int fleetID ) {
+		private void UpdateEnemyFleet() {
 
-			if ( fleetID < 0 )
-				TextEventDetail.Text = string.Empty;
-			else
-				TextEventDetail.Text = string.Format( "敵艦隊ID : {0}", fleetID );
+			CompassData compass = KCDatabase.Instance.Battle.Compass;
+
+			var candidate = RecordManager.Instance.EnemyFleet.Record.Values.Where(
+				r =>
+					r.MapAreaID == compass.MapAreaID &&
+					r.MapInfoID == compass.MapInfoID &&
+					r.CellID == compass.Destination &&
+					r.Difficulty == compass.MapInfo.EventDifficulty
+				);
+
+			TextEventDetail.Text = string.Format( "敵艦隊候補数 : {0}", candidate.Count() );
 
 
-			var efleet = RecordManager.Instance.EnemyFleet;
-
-			if ( !efleet.Record.ContainsKey( fleetID ) ) {
-
-				//unknown
+			//fixme: 暫定
+			if ( candidate.Count() == 0 )
 				TextEnemyFleetName.Text = string.Empty;	//			"(敵艦隊情報不明)";
+			else
+				TextEnemyFleetName.Text = candidate.First().FleetName;
 
-				TextEnemyFleetName.Visible = true;
-				TextFormation.Visible = false;
-				TextAirSuperiority.Visible = false;
-				TableEnemyMember.Visible = false;
+			TextFormation.Visible = false;
+			TextAirSuperiority.Visible = false;
+			TableEnemyMember.Visible = false;
 
-			} else {
-
-				var fdata = efleet[fleetID];
-
-				TextEnemyFleetName.Text = fdata.FleetName;
-				TextFormation.Text = Constants.GetFormationShort( fdata.Formation ) + ", 舰队防空: ";
-				TextFormation.Visible = true;
-				//int airSuperiority = Calculator.GetAirSuperiority( fdata.FleetMember );
-				//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
-				//ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
-				TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( fdata.FleetMember, fdata.Formation ).ToString();
-				TextAirSuperiority.Visible = true;
-
-				TableEnemyMember.SuspendLayout();
-				for ( int i = 0; i < ControlMember.Length; i++ ) {
-					ControlMember[i].Update( fdata.FleetMember[i] );
-				}
-				TableEnemyMember.ResumeLayout();
-				TableEnemyMember.Visible = true;
-
-				TextEnemyFleetName.Visible =
-				TextFormation.Visible =
-				TextAirSuperiority.Visible = true;
-			}
 
 			PanelEnemyFleet.Visible = true;
 
@@ -672,13 +653,19 @@ namespace ElectronicObserver.Window {
 			int[][] parameters = bd.Initial.EnemyParameters;
 			int[] hps = bd.Initial.MaxHPs;
 
-			int formation = (int)bd.Searching.FormationEnemy;
-			TextFormation.Text = Constants.GetFormationShort( formation ) + ", 舰队防空: ";
+
+			if ( ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) != BattleManager.BattleModes.Practice ) {
+				var efrecord = RecordManager.Instance.EnemyFleet[EnemyFleetRecord.EnemyFleetElement.CreateFromCurrentState().FleetID];
+				if ( efrecord != null )
+					TextEnemyFleetName.Text = efrecord.FleetName;
+			}
+
+			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy ) + ", 舰队防空: ";
 			TextFormation.Visible = true;
 			//int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
 			//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
 			//ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
-			TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, formation ).ToString();
+			TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, bd.Searching.FormationEnemy ).ToString();
 			TextAirSuperiority.Visible = true;
 
 			TableEnemyMember.SuspendLayout();

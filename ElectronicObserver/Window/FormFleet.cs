@@ -134,8 +134,13 @@ namespace ElectronicObserver.Window {
 				Name.Text = fleet.Name;
 				{
 					int levelSum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
-					int fueltotal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)( s.MasterShip.Fuel * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-					int ammototal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)( s.MasterShip.Ammo * ( s.IsMarried ? 0.85 : 1.00 ) ) );
+
+					int fueltotal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Fuel * ( s.IsMarried ? 0.85 : 1.00 ) ) );
+					int ammototal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Ammo * ( s.IsMarried ? 0.85 : 1.00 ) ) );
+
+					int fuelunit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Fuel * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
+					int ammounit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Ammo * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
+
 					int speed = fleet.MembersWithoutEscaped.Min( s => s == null ? 10 : s.MasterShip.Speed );
 					ToolTipInfo.SetToolTip( Name, string.Format(
 						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個\r\n総積載: 燃 {6} / 弾 {7}\r\n(1戦当たり 燃 {8} / 弾 {9})",
@@ -147,8 +152,8 @@ namespace ElectronicObserver.Window {
 						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 24 ) ),
 						fueltotal,
 						ammototal,
-						(int)( fueltotal * 0.2 ),
-						(int)( ammototal * 0.2 )
+						fuelunit,
+						ammounit
 						) );
 
 				}
