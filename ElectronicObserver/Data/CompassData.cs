@@ -99,6 +99,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 交戦する敵艦隊ID
 		/// </summary>
+		[Obsolete( "この API 項目は廃止されました。", true )]
 		public int EnemyFleetID {
 			get {
 				if ( RawData.api_enemy() ) {
@@ -238,6 +239,14 @@ namespace ElectronicObserver.Data {
 		}
 
 
+
+
+		/// <summary>
+		/// 対応する海域情報
+		/// </summary>
+		public MapInfoData MapInfo {
+			get { return KCDatabase.Instance.MapInfo[MapAreaID * 10 + MapInfoID]; }
+		}
 	}
 
 

@@ -175,19 +175,10 @@ namespace ElectronicObserver.Data.Battle {
 		private void BattleFinished() {
 
 			//敵編成記録
-			switch ( BattleMode & BattleModes.BattlePhaseMask ) {
-				case BattleModes.Normal:
-				case BattleModes.AirBattle:
-					if ( Compass.EnemyFleetID != -1 )
-						RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleDay.Searching.FormationEnemy, BattleDay.Initial.EnemyMembers ) );
-					break;
+			EnemyFleetRecord.EnemyFleetElement enemyFleetData = EnemyFleetRecord.EnemyFleetElement.CreateFromCurrentState();
 
-				case BattleModes.NightOnly:
-				case BattleModes.NightDay:
-					if ( Compass.EnemyFleetID != -1 )
-						RecordManager.Instance.EnemyFleet.Update( new EnemyFleetRecord.EnemyFleetElement( Compass.EnemyFleetID, Result.EnemyFleetName, BattleNight.Searching.FormationEnemy, BattleNight.Initial.EnemyMembers ) );
-					break;
-			}
+			if ( enemyFleetData != null )
+				RecordManager.Instance.EnemyFleet.Update( enemyFleetData );
 
 
 
@@ -247,7 +238,7 @@ namespace ElectronicObserver.Data.Battle {
 					dropID = -2;
 				}
 
-				RecordManager.Instance.ShipDrop.Add( dropID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.EventID == 5, Compass.EnemyFleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
+				RecordManager.Instance.ShipDrop.Add( dropID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.MapInfo.EventDifficulty, Compass.EventID == 5, enemyFleetData.FleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
 			}
 
 		}

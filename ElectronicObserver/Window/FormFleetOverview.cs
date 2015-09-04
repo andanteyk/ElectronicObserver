@@ -171,6 +171,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/destroyship"].RequestReceived += Updated;
 			o.APIList["api_req_member/updatedeckname"].RequestReceived += Updated;
 			o.APIList["api_req_map/start"].RequestReceived += Updated;
+			o.APIList["api_req_hensei/combined"].RequestReceived += Updated;
 
 			o.APIList["api_port/port"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ship2"].ResponseReceived += Updated;

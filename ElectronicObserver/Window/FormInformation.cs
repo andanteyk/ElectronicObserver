@@ -18,11 +18,13 @@ namespace ElectronicObserver.Window {
 	public partial class FormInformation : DockContent {
 
 		private int _ignorePort;
+		private List<int> _inSortie;
 
 		public FormInformation( FormMain parent ) {
 			InitializeComponent();
 
 			_ignorePort = 0;
+			_inSortie = null;
 
 			ConfigurationChanged();
 
@@ -44,6 +46,9 @@ namespace ElectronicObserver.Window {
 			o["api_req_practice/battle_result"].ResponseReceived += Updated;
 			o["api_req_sortie/battleresult"].ResponseReceived += Updated;
 			o["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
+			o["api_req_hokyu/charge"].ResponseReceived += Updated;
+			o["api_req_map/start"].ResponseReceived += Updated;
+			o["api_req_practice/battle"].ResponseReceived += Updated;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
@@ -64,6 +69,11 @@ namespace ElectronicObserver.Window {
 						_ignorePort--;
 					else
 						TextInformation.Text = "";		//とりあえずクリア
+
+					if ( _inSortie != null ) {
+						TextInformation.Text = GetConsumptionResource( data );
+					}
+					_inSortie = null;
 					break;
 
 				case "api_req_member/get_practice_enemyinfo":
@@ -97,6 +107,17 @@ namespace ElectronicObserver.Window {
 					TextInformation.Text = GetBattleResult( data );
 					break;
 
+				case "api_req_hokyu/charge":
+					TextInformation.Text = GetSupplyInformation( data );
+					break;
+
+				case "api_req_map/start":
+					_inSortie = KCDatabase.Instance.Fleet.Fleets.Values.Where( f => f.IsInSortie || f.ExpeditionState == 1 ).Select( f => f.FleetID ).ToList();
+					break;
+
+				case "api_req_practice/battle":
+					_inSortie = new List<int>() { KCDatabase.Instance.Battle.BattleDay.Initial.FriendFleetID };
+					break;
 			}
 
 		}
@@ -106,6 +127,7 @@ namespace ElectronicObserver.Window {
 
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine( "[演習情報]" );
+			sb.AppendLine( "敵提督名 : " + data.api_nickname );
 			sb.AppendLine( "敵艦隊名 : " + data.api_deckname );
 
 			{
@@ -231,14 +253,7 @@ namespace ElectronicObserver.Window {
 
 						string difficulty = "";
 						if ( elem.api_eventmap.api_selected_rank() ) {
-							switch ( (int)elem.api_eventmap.api_selected_rank ) {
-								case 1:
-									difficulty = "[丙] "; break;
-								case 2:
-									difficulty = "[乙] "; break;
-								case 3:
-									difficulty = "[甲] "; break;
-							}
+							difficulty = "[" + Constants.GetDifficulty( (int)elem.api_eventmap.api_selected_rank ) + "] ";
 						}
 
 						sb.AppendFormat( "{0}-{1} {2}: HP {3}/{4}\r\n", map.MapAreaID, map.MapInfoID, difficulty, (int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
@@ -294,6 +309,49 @@ namespace ElectronicObserver.Window {
 
 			return sb.ToString();
 		}
+
+
+		private string GetSupplyInformation( dynamic data ) {
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.AppendLine( "[補給完了]" );
+			sb.AppendFormat( "ボーキサイト: {0} ( {1}機 )\r\n", (int)data.api_use_bou, (int)data.api_use_bou / 5 );
+
+			return sb.ToString();
+		}
+
+
+		private string GetConsumptionResource( dynamic data ) {
+
+			StringBuilder sb = new StringBuilder();
+			int fuel_supply = 0,
+				fuel_repair = 0,
+				ammo = 0,
+				steel = 0,
+				bauxite = 0;
+
+
+			sb.AppendLine( "[艦隊帰投]" );
+
+			foreach ( var f in KCDatabase.Instance.Fleet.Fleets.Values.Where( f => _inSortie.Contains( f.FleetID ) ) ) {
+
+				fuel_supply += f.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( ( s.MasterShip.Fuel - s.Fuel ) * ( s.IsMarried ? 0.85 : 1.0 ) ) );
+				ammo += f.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( ( s.MasterShip.Ammo - s.Ammo ) * ( s.IsMarried ? 0.85 : 1.0 ) ) );
+				bauxite += f.MembersInstance.Sum( s => s == null ? 0 : s.Aircraft.Zip( s.MasterShip.Aircraft, ( current, max ) => new { Current = current, Max = max } ).Sum( a => ( a.Max - a.Current ) * 5 ) );
+
+				fuel_repair += f.MembersInstance.Sum( s => s == null ? 0 : s.RepairFuel );
+				steel += f.MembersInstance.Sum( s => s == null ? 0 : s.RepairSteel );
+
+			}
+
+			sb.AppendFormat( "燃料: {0} (補給) + {1} (入渠) = {2}\r\n弾薬: {3}\r\n鋼材: {4}\r\nボーキ: {5} ( {6}機 )\r\n",
+				fuel_supply, fuel_repair, fuel_supply + fuel_repair, ammo, steel, bauxite, bauxite / 5 );
+
+			return sb.ToString();
+		}
+
+
 
 
 		protected override string GetPersistString() {
