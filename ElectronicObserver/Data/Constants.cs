@@ -297,6 +297,34 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 陣形を表す数値を取得します。
+		/// </summary>
+		public static int GetFormation( string value ) {
+			switch ( value ) {
+				case "単縦陣":
+					return 1;
+				case "複縦陣":
+					return 2;
+				case "輪形陣":
+					return 3;
+				case "梯形陣":
+					return 4;
+				case "単横陣":
+					return 5;
+				case "第一警戒航行序列":
+					return 11;
+				case "第二警戒航行序列":
+					return 12;
+				case "第三警戒航行序列":
+					return 13;
+				case "第四警戒航行序列":
+					return 14;
+				default:
+					return -1;
+			}
+		}
+
+		/// <summary>
 		/// 陣形を表す文字列(短縮版)を取得します。
 		/// </summary>
 		public static string GetFormationShort( int id ) {

@@ -1102,6 +1102,38 @@ namespace ElectronicObserver.Utility {
 						}
 
 
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv" ) ) {
+							File.Copy( RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv", "Record_Backup\\ShipParameterRecord.csv", false );
+
+							using ( var reader = new StreamReader( "Record_Backup\\ShipParameterRecord.csv", Config.Log.FileEncoding ) ) {
+								using ( var writer = new StreamWriter( RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv", false, Config.Log.FileEncoding ) ) {
+
+									while ( !reader.EndOfStream ) {
+										string line = reader.ReadLine();
+										var elem = line.Split( ",".ToCharArray() ).ToList();
+
+										elem.InsertRange( 2, Enumerable.Repeat( "0", 10 ) );
+										elem.InsertRange( 21, Enumerable.Repeat( "0", 3 ) );
+										elem.InsertRange( 29, Enumerable.Repeat( "null", 5 ) );
+										elem.Insert( 34, "null" );
+									
+										writer.WriteLine( string.Join( ",", elem ) );
+									}
+								}
+							}
+						}
+
+
+
+						// 読み書き方式が変わったので念のため
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv" ) ) {
+							File.Copy( RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv", "Record_Backup\\ConstructionRecord.csv", false );
+						}
+
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\DevelopmentRecord.csv" ) ) {
+							File.Copy( RecordManager.Instance.MasterPath + "\\DevelopmentRecord.csv", "Record_Backup\\DevelopmentRecord.csv", false );
+						}
+						
 
 					} catch ( Exception ex ) {
 
