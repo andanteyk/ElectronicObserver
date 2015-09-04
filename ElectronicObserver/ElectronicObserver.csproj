@@ -183,6 +183,7 @@
     <Compile Include="Observer\Cache\TaskRecord.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
+    <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\open_exslot.cs" />
     <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />

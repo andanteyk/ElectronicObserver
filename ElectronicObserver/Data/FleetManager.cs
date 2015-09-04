@@ -106,6 +106,10 @@ namespace ElectronicObserver.Data {
 						Fleets[fleetID].IsInSortie = true;
 					} goto default;
 
+				case "api_req_hensei/combined":
+					CombinedFlag = int.Parse( data["api_combined_type"] );
+					break;
+
 				default:
 					foreach ( int i in Fleets.Keys )
 						Fleets[i].LoadFromRequest( apiname, data );

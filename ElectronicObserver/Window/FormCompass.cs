@@ -679,11 +679,12 @@ namespace ElectronicObserver.Window {
 
 
 			if ( ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) != BattleManager.BattleModes.Practice ) {
-				var efrecord = RecordManager.Instance.EnemyFleet[EnemyFleetRecord.EnemyFleetElement.CreateFromCurrentState().FleetID];
+				var efcurrent = EnemyFleetRecord.EnemyFleetElement.CreateFromCurrentState();
+				var efrecord = RecordManager.Instance.EnemyFleet[efcurrent.FleetID];
 				if ( efrecord != null ) {
 					TextEnemyFleetName.Text = efrecord.FleetName;
-					TextEventDetail.Text = "敵艦隊ID: " + efrecord.FleetID.ToString( "x8" );
 				}
+				TextEventDetail.Text = "敵艦隊ID: " + efcurrent.FleetID.ToString( "x8" );
 			}
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy ) + ", 舰队防空: ";

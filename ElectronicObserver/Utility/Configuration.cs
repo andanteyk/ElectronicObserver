@@ -1116,7 +1116,7 @@ namespace ElectronicObserver.Utility {
 										elem.InsertRange( 21, Enumerable.Repeat( "0", 3 ) );
 										elem.InsertRange( 29, Enumerable.Repeat( "null", 5 ) );
 										elem.Insert( 34, "null" );
-									
+
 										writer.WriteLine( string.Join( ",", elem ) );
 									}
 								}
@@ -1125,15 +1125,50 @@ namespace ElectronicObserver.Utility {
 
 
 
-						// 読み書き方式が変わったので念のため
 						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv" ) ) {
 							File.Copy( RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv", "Record_Backup\\ConstructionRecord.csv", false );
+
+							using ( var reader = new StreamReader( "Record_Backup\\ConstructionRecord.csv", Config.Log.FileEncoding ) ) {
+								using ( var writer = new StreamWriter( RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv", false, Config.Log.FileEncoding ) ) {
+
+									string[] prev = null;
+
+									while ( !reader.EndOfStream ) {
+										string line = reader.ReadLine();
+										var elem = line.Split( ",".ToCharArray() );
+
+										// 以前のバージョンのバグによる無効行・重複行の削除
+										if ( prev != null ) {
+											if ( elem[0] == "0" || (	//invalid id
+												elem[0] == prev[0] &&	//id
+												elem[1] == prev[1] &&	//name
+												elem[3] == prev[3] &&	//fuel
+												elem[4] == prev[4] &&	//ammo
+												elem[5] == prev[5] &&	//steel
+												elem[6] == prev[6] &&	//bauxite
+												elem[7] == prev[7] &&	//dev.mat
+												elem[8] == prev[8] &&	//islarge
+												elem[9] == prev[9]		//emptydock
+												) ) {
+
+												prev = elem;
+												continue;
+											}
+										}
+
+										writer.WriteLine( string.Join( ",", elem ) );
+										prev = elem;
+									}
+								}
+							}
 						}
 
+
+						// 読み書き方式が変わったので念のため
 						if ( File.Exists( RecordManager.Instance.MasterPath + "\\DevelopmentRecord.csv" ) ) {
 							File.Copy( RecordManager.Instance.MasterPath + "\\DevelopmentRecord.csv", "Record_Backup\\DevelopmentRecord.csv", false );
 						}
-						
+
 
 					} catch ( Exception ex ) {
 

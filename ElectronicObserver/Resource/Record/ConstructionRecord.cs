@@ -202,6 +202,7 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Add( new ConstructionElement( a.ShipID, a.Fuel, a.Ammo, a.Steel, a.Bauxite, a.DevelopmentMaterial,
 				emptyDock, flagship.ShipID, KCDatabase.Instance.Admiral.Level ) );
 
+			ConstructingDockID = -1;
 		}
 
 
