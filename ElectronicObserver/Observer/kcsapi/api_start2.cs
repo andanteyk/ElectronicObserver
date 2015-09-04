@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi {
-	
+
 	public class api_start2 : APIBase {
 
 

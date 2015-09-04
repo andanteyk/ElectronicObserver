@@ -125,7 +125,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 			TimeSpan nowtime = now.TimeOfDay;
 			TimeSpan bordertime = new TimeSpan( hours, minutes, seconds ) + GetTimeDifference;
 
-			return IsCrossed( prev, now.Subtract( new TimeSpan( nowtime < bordertime ? 1 : 0, nowtime.Hours, nowtime.Minutes, nowtime.Seconds ) ).Add( bordertime ) );	
+			return IsCrossed( prev, now.Subtract( new TimeSpan( nowtime < bordertime ? 1 : 0, nowtime.Hours, nowtime.Minutes, nowtime.Seconds ) ).Add( bordertime ) );
 		}
 
 
@@ -204,7 +204,15 @@ namespace ElectronicObserver.Utility.Mathematics {
 
 		public static DateTime CSVStringToTime( string str ) {
 			string[] elem = str.Split( "-/ :".ToCharArray() );
-			return new DateTime( int.Parse( elem[0] ), int.Parse( elem[1] ), int.Parse( elem[2] ), int.Parse( elem[3] ), int.Parse( elem[4] ), int.Parse( elem[5] ) );
+
+			// Excel様が *うっかり* データを破損させることがあるので対応
+			return new DateTime(
+				elem.Length > 0 ? int.Parse( elem[0] ) : 1970,
+				elem.Length > 1 ? int.Parse( elem[1] ) : 1,
+				elem.Length > 2 ? int.Parse( elem[2] ) : 1,
+				elem.Length > 3 ? int.Parse( elem[3] ) : 0,
+				elem.Length > 4 ? int.Parse( elem[4] ) : 0,
+				elem.Length > 5 ? int.Parse( elem[5] ) : 0 );
 		}
 
 

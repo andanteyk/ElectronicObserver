@@ -37,7 +37,7 @@
 			this.webBrowser1.Location = new System.Drawing.Point(0, 25);
 			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
 			this.webBrowser1.Name = "webBrowser1";
-			this.webBrowser1.Size = new System.Drawing.Size(830, 505);
+			this.webBrowser1.Size = new System.Drawing.Size(1030, 605);
 			this.webBrowser1.TabIndex = 0;
 			// 
 			// saveFileDialog1
@@ -73,7 +73,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(830, 530);
+			this.ClientSize = new System.Drawing.Size(1030, 630);
 			this.Controls.Add(this.webBrowser1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;

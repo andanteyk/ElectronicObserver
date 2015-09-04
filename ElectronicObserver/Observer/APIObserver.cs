@@ -101,6 +101,8 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_member.updatedeckname() );
 			APIList.Add( new kcsapi.api_req_kaisou.remodeling() );
 			APIList.Add( new kcsapi.api_req_kaisou.open_exslot() );
+			APIList.Add( new kcsapi.api_req_map.select_eventmap_rank() );
+			APIList.Add( new kcsapi.api_req_hensei.combined() );
 
 
 			ServerAddress = null;
@@ -584,9 +586,9 @@ namespace ElectronicObserver.Observer {
 				string ext = file.Substring( file.LastIndexOf( '.' ) + 1 ).ToLower();
 				if ( ext == "jpg" || ext == "gif" || ext == "png" )
 				{
-					// 直接返回404
+					// 直接返回204
 					oSession.utilCreateResponseAndBypassServer();
-					oSession.responseCode = 404;
+					oSession.responseCode = 204;
 				}
 				else if ( ext == "css" )
 				{

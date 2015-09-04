@@ -221,6 +221,48 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		/// <summary>
+		/// 海域難易度を表す文字列を取得します。
+		/// </summary>
+		public static string GetDifficulty( int value ) {
+
+			switch ( value ) {
+				case -1:
+					return "なし";
+				case 0:
+					return "未選択";
+				case 1:
+					return "丙";
+				case 2:
+					return "乙";
+				case 3:
+					return "甲";
+				default:
+					return "不明";
+			}
+		}
+
+		/// <summary>
+		/// 海域難易度を表す数値を取得します。
+		/// </summary>
+		public static int GetDifficulty( string value ) {
+
+			switch ( value ) {
+				case "未選択":
+					return 0;
+				case "丙":
+					return 1;
+				case "乙":
+					return 2;
+				case "甲":
+					return 3;
+				default:
+					return -1;
+			}
+
+		}
+
 		#endregion
 
 
@@ -251,6 +293,34 @@ namespace ElectronicObserver.Data {
 					return "第四警戒航行序列";
 				default:
 					return "不明";
+			}
+		}
+
+		/// <summary>
+		/// 陣形を表す数値を取得します。
+		/// </summary>
+		public static int GetFormation( string value ) {
+			switch ( value ) {
+				case "単縦陣":
+					return 1;
+				case "複縦陣":
+					return 2;
+				case "輪形陣":
+					return 3;
+				case "梯形陣":
+					return 4;
+				case "単横陣":
+					return 5;
+				case "第一警戒航行序列":
+					return 11;
+				case "第二警戒航行序列":
+					return 12;
+				case "第三警戒航行序列":
+					return 13;
+				case "第四警戒航行序列":
+					return 14;
+				default:
+					return -1;
 			}
 		}
 

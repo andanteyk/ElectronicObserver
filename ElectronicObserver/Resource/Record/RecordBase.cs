@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,10 +22,10 @@ namespace ElectronicObserver.Resource.Record {
 			public abstract void LoadLine( string line );
 			public abstract string SaveLine();
 
-			
-			public RecordElementBase() {}
 
-			public RecordElementBase( string line ) 
+			public RecordElementBase() { }
+
+			public RecordElementBase( string line )
 				: this() {
 				LoadLine( line );
 			}
@@ -47,12 +48,30 @@ namespace ElectronicObserver.Resource.Record {
 					ClearRecord();
 
 					string line;
+					int linecount = 1;
 					sr.ReadLine();			//ヘッダを読み飛ばす
-					
+
 					while ( ( line = sr.ReadLine() ) != null ) {
 						if ( line.Trim().StartsWith( "#" ) )
 							continue;
+
+						/*/
+						// こちらのほうがよさげだが、エラーが多すぎた場合プログラムが起動できなくなるので自粛
+						
+						try {
+							LoadLine( line );
+
+						} catch ( Exception ex ) {
+							Utility.Logger.Add( 3, string.Format( "{0}: エラーが発生したため行 {1} をスキップしました。 {2}", path, linecount, ex.Message ) );
+						}
+						
+						/*/
+
 						LoadLine( line );
+						
+						//*/
+
+						linecount++;
 					}
 
 				}
@@ -87,7 +106,7 @@ namespace ElectronicObserver.Resource.Record {
 				bool exist = File.Exists( path );
 
 				using ( StreamWriter sw = new StreamWriter( path, IsAppend, Utility.Configuration.Config.Log.FileEncoding ) ) {
-					
+
 					if ( !IsAppend || !exist )
 						sw.WriteLine( RecordHeader );
 
@@ -99,14 +118,14 @@ namespace ElectronicObserver.Resource.Record {
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の書き込みに失敗しました。" );
-			
+
 			}
 
 			return false;
 		}
 
 
-		
+
 		/// <summary>
 		/// ファイルから読み込んだデータを解析し、レコードに追加します。
 		/// </summary>

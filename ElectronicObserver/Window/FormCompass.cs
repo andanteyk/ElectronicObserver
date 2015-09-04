@@ -290,6 +290,18 @@ namespace ElectronicObserver.Window {
 		private TableEnemyMemberControl[] ControlMember;
 
 
+		/// <summary>
+		/// 次に遭遇する敵艦隊候補
+		/// </summary>
+		private List<EnemyFleetRecord.EnemyFleetElement> _enemyFleetCandidate = null;
+
+		/// <summary>
+		/// 表示中の敵艦隊候補のインデックス
+		/// </summary>
+		private int _enemyFleetCandidateIndex = 0;
+
+
+
 
 		public FormCompass( FormMain parent ) {
 			this.SuspendLayoutForDpiScale();
@@ -405,8 +417,12 @@ namespace ElectronicObserver.Window {
 				TextFormation.Visible =
 				TextAirSuperiority.Visible = false;
 
+				_enemyFleetCandidate = null;
+				_enemyFleetCandidateIndex = -1;
 
-				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}", compass.MapAreaID, compass.MapInfoID );
+
+				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}{2}", compass.MapAreaID, compass.MapInfoID,
+					compass.MapInfo.EventDifficulty > 0 ? " [" + Constants.GetDifficulty( compass.MapInfo.EventDifficulty ) + "]" : "" );
 
 				TextDestination.Text = string.Format( "次のセル : {0}{1}", compass.Destination, ( compass.IsEndPoint ? " (終点)" : "" ) );
 				if ( compass.LaunchedRecon != 0 ) {
@@ -486,7 +502,7 @@ namespace ElectronicObserver.Window {
 
 								TextEventKind.ForeColor = getColorFromEventKind( compass.EventKind );
 							}
-							UpdateEnemyFleet( compass.EnemyFleetID );
+							UpdateEnemyFleet();
 							break;
 
 						case 5:		//ボス戦闘
@@ -555,7 +571,7 @@ namespace ElectronicObserver.Window {
 
 								case 4:		//航空戦
 								default:
-									UpdateEnemyFleet( compass.EnemyFleetID );
+									UpdateEnemyFleet();
 									break;
 							}
 							break;
@@ -601,50 +617,34 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void UpdateEnemyFleet( int fleetID ) {
-
-			if ( fleetID < 0 )
-				TextEventDetail.Text = string.Empty;
-			else
-				TextEventDetail.Text = string.Format( "敵艦隊ID : {0}", fleetID );
 
 
-			var efleet = RecordManager.Instance.EnemyFleet;
+		private void UpdateEnemyFleet() {
 
-			if ( !efleet.Record.ContainsKey( fleetID ) ) {
+			CompassData compass = KCDatabase.Instance.Battle.Compass;
 
-				//unknown
+			_enemyFleetCandidate = RecordManager.Instance.EnemyFleet.Record.Values.Where(
+				r =>
+					r.MapAreaID == compass.MapAreaID &&
+					r.MapInfoID == compass.MapInfoID &&
+					r.CellID == compass.Destination &&
+					r.Difficulty == compass.MapInfo.EventDifficulty
+				).ToList();
+			_enemyFleetCandidateIndex = -1;
+
+
+			if ( _enemyFleetCandidate.Count == 0 ) {
+				TextEventDetail.Text = "(敵艦隊候補なし)";
 				TextEnemyFleetName.Text = string.Empty;	//			"(敵艦隊情報不明)";
 
-				TextEnemyFleetName.Visible = true;
 				TextFormation.Visible = false;
 				TextAirSuperiority.Visible = false;
 				TableEnemyMember.Visible = false;
 
 			} else {
-
-				var fdata = efleet[fleetID];
-
-				TextEnemyFleetName.Text = fdata.FleetName;
-				TextFormation.Text = Constants.GetFormationShort( fdata.Formation ) + ", 舰队防空: ";
-				TextFormation.Visible = true;
-				//int airSuperiority = Calculator.GetAirSuperiority( fdata.FleetMember );
-				//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
-				//ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
-				TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( fdata.FleetMember, fdata.Formation ).ToString();
-				TextAirSuperiority.Visible = true;
-
-				TableEnemyMember.SuspendLayout();
-				for ( int i = 0; i < ControlMember.Length; i++ ) {
-					ControlMember[i].Update( fdata.FleetMember[i] );
-				}
-				TableEnemyMember.ResumeLayout();
-				TableEnemyMember.Visible = true;
-
-				TextEnemyFleetName.Visible =
-				TextFormation.Visible =
-				TextAirSuperiority.Visible = true;
+				NextEnemyFleetCandidate();
 			}
+
 
 			PanelEnemyFleet.Visible = true;
 
@@ -672,13 +672,27 @@ namespace ElectronicObserver.Window {
 			int[][] parameters = bd.Initial.EnemyParameters;
 			int[] hps = bd.Initial.MaxHPs;
 
-			int formation = (int)bd.Searching.FormationEnemy;
-			TextFormation.Text = Constants.GetFormationShort( formation ) + ", 舰队防空: ";
+
+			_enemyFleetCandidate = null;
+			_enemyFleetCandidateIndex = -1;
+
+
+
+			if ( ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) != BattleManager.BattleModes.Practice ) {
+				var efcurrent = EnemyFleetRecord.EnemyFleetElement.CreateFromCurrentState();
+				var efrecord = RecordManager.Instance.EnemyFleet[efcurrent.FleetID];
+				if ( efrecord != null ) {
+					TextEnemyFleetName.Text = efrecord.FleetName;
+				}
+				TextEventDetail.Text = "敵艦隊ID: " + efcurrent.FleetID.ToString( "x8" );
+			}
+
+			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy ) + ", 舰队防空: ";
 			TextFormation.Visible = true;
 			//int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
 			//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
 			//ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
-			TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, formation ).ToString();
+			TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, bd.Searching.FormationEnemy ).ToString();
 			TextAirSuperiority.Visible = true;
 
 			TableEnemyMember.SuspendLayout();
@@ -700,6 +714,49 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+
+		private void TextEnemyFleetName_MouseDown( object sender, MouseEventArgs e ) {
+
+			if ( e.Button != System.Windows.Forms.MouseButtons.Left ) return;
+
+			NextEnemyFleetCandidate();
+		}
+
+
+		private void NextEnemyFleetCandidate() {
+
+			if ( _enemyFleetCandidate != null && _enemyFleetCandidate.Count != 0 ) {
+
+				_enemyFleetCandidateIndex++;
+				if ( _enemyFleetCandidateIndex >= _enemyFleetCandidate.Count )
+					_enemyFleetCandidateIndex = 0;
+
+
+				var candidate = _enemyFleetCandidate[_enemyFleetCandidateIndex];
+
+
+				TextEventDetail.Text = string.Format( "敵艦隊候補 : {0} / {1}", _enemyFleetCandidateIndex + 1, _enemyFleetCandidate.Count );
+
+				TextEnemyFleetName.Text = candidate.FleetName;
+				TextFormation.Text = Constants.GetFormationShort( candidate.Formation );
+				TextAirSuperiority.Text = Calculator.GetAirSuperiority( candidate.FleetMember ).ToString();
+
+				TableEnemyMember.SuspendLayout();
+				for ( int i = 0; i < ControlMember.Length; i++ ) {
+					ControlMember[i].Update( candidate.FleetMember[i] );
+				}
+				TableEnemyMember.ResumeLayout();
+
+				TextFormation.Visible = true;
+				TextAirSuperiority.Visible = true;
+				TableEnemyMember.Visible = true;
+
+
+				PanelEnemyFleet.Visible = true;
+
+			}
+		}
 
 
 		void ConfigurationChanged() {
@@ -730,6 +787,10 @@ namespace ElectronicObserver.Window {
 		private void TableEnemyMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
+
+
+
+
 
 	}
 

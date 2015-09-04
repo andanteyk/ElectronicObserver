@@ -25,16 +25,16 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			this.BasePanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.TextMapArea = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TextDestination = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TextEventKind = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TextEventDetail = new ElectronicObserver.Window.Control.ImageLabel();
 			this.PanelEnemyFleet = new System.Windows.Forms.Panel();
 			this.TableEnemyMember = new System.Windows.Forms.TableLayoutPanel();
 			this.TextEnemyFleetName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextFormation = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextAirSuperiority = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.TextMapArea = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TextDestination = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TextEventKind = new ElectronicObserver.Window.Control.ImageLabel();
-			this.TextEventDetail = new ElectronicObserver.Window.Control.ImageLabel();
 			this.BasePanel.SuspendLayout();
 			this.PanelEnemyFleet.SuspendLayout();
 			this.SuspendLayout();
@@ -56,6 +56,47 @@
 			this.BasePanel.Name = "BasePanel";
 			this.BasePanel.Size = new System.Drawing.Size(300, 200);
 			this.BasePanel.TabIndex = 0;
+			// 
+			// TextMapArea
+			// 
+			this.TextMapArea.BackColor = System.Drawing.Color.Transparent;
+			this.TextMapArea.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.TextMapArea.Location = new System.Drawing.Point(3, 3);
+			this.TextMapArea.Name = "TextMapArea";
+			this.TextMapArea.Size = new System.Drawing.Size(35, 16);
+			this.TextMapArea.TabIndex = 5;
+			this.TextMapArea.Text = "(海域)";
+			// 
+			// TextDestination
+			// 
+			this.TextDestination.BackColor = System.Drawing.Color.Transparent;
+			this.TextDestination.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.TextDestination.Location = new System.Drawing.Point(44, 3);
+			this.TextDestination.Name = "TextDestination";
+			this.TextDestination.Size = new System.Drawing.Size(44, 16);
+			this.TextDestination.TabIndex = 6;
+			this.TextDestination.Text = "(行き先)";
+			// 
+			// TextEventKind
+			// 
+			this.TextEventKind.BackColor = System.Drawing.Color.Transparent;
+			this.TextEventKind.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.TextEventKind.Location = new System.Drawing.Point(94, 3);
+			this.TextEventKind.Name = "TextEventKind";
+			this.TextEventKind.Size = new System.Drawing.Size(47, 16);
+			this.TextEventKind.TabIndex = 7;
+			this.TextEventKind.Text = "(イベント)";
+			// 
+			// TextEventDetail
+			// 
+			this.TextEventDetail.BackColor = System.Drawing.Color.Transparent;
+			this.TextEventDetail.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.TextEventDetail.Location = new System.Drawing.Point(147, 3);
+			this.TextEventDetail.Name = "TextEventDetail";
+			this.TextEventDetail.Size = new System.Drawing.Size(71, 16);
+			this.TextEventDetail.TabIndex = 8;
+			this.TextEventDetail.Text = "(イベント詳細)";
+			this.TextEventDetail.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TextEnemyFleetName_MouseDown);
 			// 
 			// PanelEnemyFleet
 			// 
@@ -93,6 +134,7 @@
 			this.TextEnemyFleetName.Size = new System.Drawing.Size(59, 16);
 			this.TextEnemyFleetName.TabIndex = 0;
 			this.TextEnemyFleetName.Text = "(敵艦隊名)";
+			this.TextEnemyFleetName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TextEnemyFleetName_MouseDown);
 			// 
 			// TextFormation
 			// 
@@ -119,46 +161,6 @@
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
-			// 
-			// TextMapArea
-			// 
-			this.TextMapArea.BackColor = System.Drawing.Color.Transparent;
-			this.TextMapArea.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.TextMapArea.Location = new System.Drawing.Point(3, 3);
-			this.TextMapArea.Name = "TextMapArea";
-			this.TextMapArea.Size = new System.Drawing.Size(35, 16);
-			this.TextMapArea.TabIndex = 5;
-			this.TextMapArea.Text = "(海域)";
-			// 
-			// TextDestination
-			// 
-			this.TextDestination.BackColor = System.Drawing.Color.Transparent;
-			this.TextDestination.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.TextDestination.Location = new System.Drawing.Point(44, 3);
-			this.TextDestination.Name = "TextDestination";
-			this.TextDestination.Size = new System.Drawing.Size(44, 16);
-			this.TextDestination.TabIndex = 6;
-			this.TextDestination.Text = "(行き先)";
-			// 
-			// TextEventKind
-			// 
-			this.TextEventKind.BackColor = System.Drawing.Color.Transparent;
-			this.TextEventKind.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.TextEventKind.Location = new System.Drawing.Point(94, 3);
-			this.TextEventKind.Name = "TextEventKind";
-			this.TextEventKind.Size = new System.Drawing.Size(47, 16);
-			this.TextEventKind.TabIndex = 7;
-			this.TextEventKind.Text = "(活动)";
-			// 
-			// TextEventDetail
-			// 
-			this.TextEventDetail.BackColor = System.Drawing.Color.Transparent;
-			this.TextEventDetail.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.TextEventDetail.Location = new System.Drawing.Point(147, 3);
-			this.TextEventDetail.Name = "TextEventDetail";
-			this.TextEventDetail.Size = new System.Drawing.Size(71, 16);
-			this.TextEventDetail.TabIndex = 8;
-			this.TextEventDetail.Text = "(活动详情)";
 			// 
 			// FormCompass
 			// 
