@@ -1583,6 +1583,9 @@ api_req_combined_battle/goback_port				：護衛退避
 	(情報なし)				：退避したときのみ呼ばれる; 退避艦等の情報はbattleresultに含まれている
 
 
+Request.api_req_hensei/combined		：連合艦隊結成
+	api_combined_type		：連合艦隊フラグ 0=解隊, 1=機動部隊, 2=水上部隊
+
 api_req_hensei/combined		：連合艦隊結成
 	api_combined			：連合艦隊フラグ 0=解隊, 1=結成
 
