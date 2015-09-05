@@ -170,7 +170,7 @@ namespace ElectronicObserver.Observer
 				int.Parse(request["api_item3"]),
 				int.Parse(request["api_item4"])
 			};
-			item.secretary = KCDatabase.Instance.Fleet[1].MembersInstance[0].MasterID;
+			item.secretary = KCDatabase.Instance.Fleet[1].MembersInstance[0].ShipID;
 			item.successful = ( data.api_create_flag != 0 );
 			item.teitokuLv = KCDatabase.Instance.Admiral.Level;
 			item.itemId = item.successful ? data.api_slot_item.api_slotitem_id : int.Parse( data.api_fdata.Split( ',' )[1] );
@@ -185,10 +185,11 @@ namespace ElectronicObserver.Observer
 				int.Parse( request["api_item1"] ),
 				int.Parse( request["api_item2"] ),
 				int.Parse( request["api_item3"] ),
-				int.Parse( request["api_item4"] )
+				int.Parse( request["api_item4"] ),
+				int.Parse( request["api_item5"] )
 			};
 			createship.kdockId = int.Parse( request["api_kdock_id"] ) - 1;
-			createship.secretary = KCDatabase.Instance.Fleet[1].MembersInstance[0].MasterID;
+			createship.secretary = KCDatabase.Instance.Fleet[1].MembersInstance[0].ShipID;
 			createship.teitokuLv = KCDatabase.Instance.Admiral.Level;
 			createship.largeFlag = ( int.Parse( request["api_large_flag"] ) != 0 );
 			createship.highspeed = int.Parse( request["api_highspeed"] );
