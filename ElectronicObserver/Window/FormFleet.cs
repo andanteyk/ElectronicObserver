@@ -759,7 +759,7 @@ namespace ElectronicObserver.Window {
 				foreach ( var ship in fleet.MembersInstance ) {
 					if ( ship == null ) continue;
 
-					sb.AppendFormat( "[\"{0}\",[{1},-1],[", ship.ShipID, ship.Level );
+					sb.AppendFormat( "[\"{0}\",[{1},{2}],[", ship.ShipID, ship.Level, ship.LuckTotal );
 
 					int length = ship.SlotMaster.Count( id => id != -1 );
 					sb.Append( string.Join( ",", ship.SlotMaster.Take( length ) ) );

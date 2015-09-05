@@ -49,6 +49,8 @@ namespace ElectronicObserver.Data.Quest {
 			}
 		}
 
+		[DataMember]
+		public DateTime LastUpdateTime { get; set; }
 
 
 		public QuestProgressManager() {
@@ -59,7 +61,7 @@ namespace ElectronicObserver.Data.Quest {
 
 		public override void Initialize() {
 			Progresses = new IDDictionary<ProgressData>();
-
+			LastUpdateTime = DateTime.Now;
 
 			RemoveEvents();		//二重登録防止
 
@@ -295,6 +297,7 @@ namespace ElectronicObserver.Data.Quest {
 
 			}
 
+			LastUpdateTime = DateTime.Now;
 			OnProgressChanged();
 
 		}
@@ -487,6 +490,7 @@ namespace ElectronicObserver.Data.Quest {
 
 		public void Clear() {
 			Progresses.Clear();
+			LastUpdateTime = DateTime.Now;
 		}
 
 
