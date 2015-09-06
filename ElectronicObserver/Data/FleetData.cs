@@ -353,8 +353,32 @@ namespace ElectronicObserver.Data {
 		/// 疲労回復にかかる時間を取得します。
 		/// </summary>
 		/// <param name="cond">コンディション。</param>
-		private int GetConditionRecoveryMinute( int cond ) {
-			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
+		private int GetConditionRecoverySecond( int cond ) {
+			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 180, 0 );
+		}
+
+		/// <summary>
+		/// 验证已有疲劳值
+		/// </summary>
+		/// <param name="minute"></param>
+		private bool CheckSolongConditionTimer( ref int second )
+		{
+			// 判断是否已有 ConditionTime
+			if ( ConditionTime != null )
+			{
+				int soffset = (int)Math.Ceiling( ConditionTime.Value.Subtract( DateTime.Now ).TotalSeconds );
+				if ( second > soffset )
+				{
+					second = soffset;
+					if ( soffset <= 0 )
+					{
+						ConditionTime = null;
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 
 		//*/
@@ -364,10 +388,15 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		private void SetConditionTimer() {
 
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
+			int sec = GetConditionRecoverySecond( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
 
-			if ( minute > 0 )
-				ConditionTime = DateTime.Now.AddMinutes( minute );
+			if ( sec > 0 )
+			{
+				if ( CheckSolongConditionTimer( ref sec ) )
+					return;
+
+				ConditionTime = DateTime.Now.AddSeconds( sec );
+			}
 			else
 				ConditionTime = null;
 
@@ -400,13 +429,17 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		private void ShortenConditionTimer() {
 
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
+			int sec = GetConditionRecoverySecond( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
 
-			if ( minute == 0 ) {
+			if ( sec == 0 ) {
 				ConditionTime = null;
 
 			} else {
-				DateTime target = DateTime.Now.AddMinutes( minute );
+
+				if ( CheckSolongConditionTimer( ref sec ) )
+					return;
+
+				DateTime target = DateTime.Now.AddSeconds( sec );
 
 				if ( ConditionTime != null && ConditionTime < DateTime.Now ) {
 					ConditionTime = null;
