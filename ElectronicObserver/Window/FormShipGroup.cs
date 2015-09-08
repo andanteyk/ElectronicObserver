@@ -38,6 +38,25 @@ namespace ElectronicObserver.Window {
 		private readonly Color CellColorGray = Color.FromArgb( 0xBB, 0xBB, 0xBB );
 		private readonly Color CellColorCherry = Color.FromArgb( 0xFF, 0xDD, 0xDD );
 
+		private Brush BrushHighlight;
+		private Brush BrushForeground;
+		private Brush BrushSubForeground;
+		private readonly Brush[] Bs = new[]
+		{
+			//new SolidBrush( Color.FromArgb( 114, 55, 49 ) ),
+			//new SolidBrush( Color.FromArgb( 46, 82, 113 ) ),
+			//new SolidBrush( Color.FromArgb( 137, 79, 34 ) ),
+			//new SolidBrush( Color.FromArgb( 131, 99, 37 ) ),
+			//new SolidBrush( Color.FromArgb( 63, 63, 70 ) ),
+			new SolidBrush( Color.FromArgb( 191, 115, 106 ) ),
+			new SolidBrush( Color.FromArgb( 104, 151, 193 ) ),
+			new SolidBrush( Color.FromArgb( 213, 139, 85 ) ),
+			new SolidBrush( Color.FromArgb( 208, 167, 89 ) ),
+			new SolidBrush( Color.FromArgb( 143, 143, 154 ) ),
+		};
+
+		private float subfontHeight = -1;
+
 		//セルスタイル
 		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter, CSDefaultRight,
 			CSRedRight, CSOrangeRight, CSYellowRight, CSGreenRight, CSGrayRight, CSCherryRight,
@@ -134,7 +153,8 @@ namespace ElectronicObserver.Window {
 			if ( !groups.ShipGroups.ContainsKey( -1 ) ) {
 				var master = new ShipGroupData( -1 );
 				master.Name = "全所属艦";
-				master.ColumnFilter = Enumerable.Repeat<bool>( true, ShipView.Columns.Count ).ToList();
+				//master.ColumnFilter = Enumerable.Repeat<bool>( true, ShipView.Columns.Count ).ToList();
+				master.ColumnFilter = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Visible ).ToList();
 				master.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
 
 				groups.ShipGroups.Add( master );
@@ -175,7 +195,12 @@ namespace ElectronicObserver.Window {
 
 			var config = Utility.Configuration.Config;
 
+			subfontHeight = -1;
 			ShipView.Font = StatusBar.Font = Font = config.UI.MainFont;
+
+			BrushHighlight = new SolidBrush( config.UI.HighlightColor );
+			BrushForeground = new SolidBrush( config.UI.ForeColor );
+			BrushSubForeground = new SolidBrush( config.UI.SubForeColor );
 
 			CSDefaultLeft.Font =
 			CSDefaultCenter.Font =
@@ -289,6 +314,10 @@ namespace ElectronicObserver.Window {
 			DataGridViewRow row = new DataGridViewRow();
 			row.CreateCells( ShipView );
 
+			string[] eqs = new string[5];
+			var ex = ship.ExpansionSlotInstance;
+			string exEq = ex != null ? ex.NameWithLevel : ( ship.ExpansionSlot < 0 ? "(なし)" : "" );
+
 			row.SetValues(
 				ship.MasterID,
 				ship.MasterShip.ShipType,
@@ -301,11 +330,12 @@ namespace ElectronicObserver.Window {
 				ship.Condition,
 				new Fraction( ship.Fuel, ship.MasterShip.Fuel ),
 				new Fraction( ship.Ammo, ship.MasterShip.Ammo ),
-				GetEquipmentTypeID( ship, 0 ),
-				GetEquipmentTypeID( ship, 1 ),
-				GetEquipmentTypeID( ship, 2 ),
-				GetEquipmentTypeID( ship, 3 ),
-				GetEquipmentTypeID( ship, 4 ),
+				( eqs[0] = GetEquipmentString( ship, 0 ) ),
+				( eqs[1] = GetEquipmentString( ship, 1 ) ),
+				( eqs[2] = GetEquipmentString( ship, 2 ) ),
+				( eqs[3] = GetEquipmentString( ship, 3 ) ),
+				( eqs[4] = GetEquipmentString( ship, 4 ) ),
+				exEq,
 				ship.FleetWithIndex,
 				ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
 				ship.FirepowerBase,
@@ -325,11 +355,18 @@ namespace ElectronicObserver.Window {
 				ship.SallyArea
 				);
 
-			row.Cells[ShipView_Equipment1.Index].ToolTipText = GetEquipmentString( ship, 0 );
-			row.Cells[ShipView_Equipment2.Index].ToolTipText = GetEquipmentString( ship, 1 );
-			row.Cells[ShipView_Equipment3.Index].ToolTipText = GetEquipmentString( ship, 2 );
-			row.Cells[ShipView_Equipment4.Index].ToolTipText = GetEquipmentString( ship, 3 );
-			row.Cells[ShipView_Equipment5.Index].ToolTipText = GetEquipmentString( ship, 4 );
+			row.Cells[ShipView_Equipment1.Index].ToolTipText = eqs[0];
+			row.Cells[ShipView_Equipment2.Index].ToolTipText = eqs[1];
+			row.Cells[ShipView_Equipment3.Index].ToolTipText = eqs[2];
+			row.Cells[ShipView_Equipment4.Index].ToolTipText = eqs[3];
+			row.Cells[ShipView_Equipment5.Index].ToolTipText = eqs[4];
+			row.Cells[ShipView_EquipmentEx.Index].ToolTipText = exEq;
+			row.Cells[ShipView_Equipment1.Index].Tag = GetEquipmentTypeID( ship, 0 );
+			row.Cells[ShipView_Equipment2.Index].Tag = GetEquipmentTypeID( ship, 1 );
+			row.Cells[ShipView_Equipment3.Index].Tag = GetEquipmentTypeID( ship, 2 );
+			row.Cells[ShipView_Equipment4.Index].Tag = GetEquipmentTypeID( ship, 3 );
+			row.Cells[ShipView_Equipment5.Index].Tag = GetEquipmentTypeID( ship, 4 );
+			row.Cells[ShipView_EquipmentEx.Index].Tag = GetEquipmentTypeID( ship, 5 );
 
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
 			row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
@@ -492,11 +529,19 @@ namespace ElectronicObserver.Window {
 
 		private int GetEquipmentTypeID( ShipData ship, int index )
 		{
-			if ( ship.SlotInstance[index] != null )
+			if ( index >= 5 )
 			{
-				return ship.SlotInstance[index].MasterEquipment.IconType;
+				if ( ship.ExpansionSlotInstanceMaster != null )
+					return ship.ExpansionSlotInstanceMaster.IconType;
+
+				else
+					return -1 - ship.ExpansionSlot;
+
 			}
-			return -1;
+			else if ( ship.SlotInstance[index] != null )
+				return ship.SlotInstance[index].MasterEquipment.IconType;
+
+			return ship.SlotSize > index ? 0 : -1;
 		}
 
 		private string GetEquipmentString( ShipData ship, int index ) {
@@ -581,11 +626,12 @@ namespace ElectronicObserver.Window {
 		{
 			if ( e.RowIndex >= 0 )
 			{
-				if ( e.ColumnIndex >= ShipView_Equipment1.Index && e.ColumnIndex <= ShipView_Equipment5.Index )
+				if ( e.ColumnIndex >= ShipView_Equipment1.Index && e.ColumnIndex <= ShipView_EquipmentEx.Index )
 				{
 					e.Paint( e.ClipBounds, e.PaintParts & ~DataGridViewPaintParts.ContentForeground );
 					int id;
-					if ( e.Value is int && ( id = (int)e.Value ) >= 0 )
+					var tag = ShipView.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag;
+					if ( tag is int && ( id = (int)tag ) >= 0 )
 					{
 						Image image = ResourceManager.Instance.Equipments[id];
 						if ( image != null )
@@ -598,6 +644,57 @@ namespace ElectronicObserver.Window {
 						}
 					}
 					e.Handled = true;
+				}
+
+				else
+				{
+					int index = -1;
+					if ( e.ColumnIndex == ShipView_Firepower.Index )
+						index = 0;
+					else if ( e.ColumnIndex == ShipView_Torpedo.Index )
+						index = 1;
+					else if ( e.ColumnIndex == ShipView_AA.Index )
+						index = 2;
+					else if ( e.ColumnIndex == ShipView_Armor.Index )
+						index = 3;
+					else if ( e.ColumnIndex == ShipView_Luck.Index )
+						index = 4;
+
+					if ( index >= 0 )
+					{
+						int value = (int)e.Value;
+						int remain = (int)ShipView.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
+						if ( remain <= 0 )
+						{
+							e.Graphics.FillRectangle( Bs[index], e.CellBounds );
+							e.Paint( e.ClipBounds, e.PaintParts
+								& ~DataGridViewPaintParts.ContentForeground
+								& ~DataGridViewPaintParts.Background );
+						}
+						else
+						{
+							e.Paint( e.ClipBounds, e.PaintParts & ~DataGridViewPaintParts.ContentForeground );
+						}
+						StringFormat sf = new StringFormat { LineAlignment = StringAlignment.Center };
+						e.Graphics.DrawString( value.ToString(), ShipView.Font, BrushForeground, e.CellBounds, sf );
+						float offset = e.Graphics.MeasureString( value.ToString(), ShipView.Font ).Width;
+
+						RectangleF rect = e.CellBounds;
+						rect.X += offset + 3;
+						rect.Width -= offset + 3;
+						if ( rect.Width > 0 )
+						{
+							if ( subfontHeight < 0 )
+							{
+								subfontHeight = e.Graphics.MeasureString( "W", Utility.Configuration.Config.UI.SubFont ).Height;
+							}
+							rect.Y += ( rect.Height - subfontHeight ) * 2 / 3;
+							rect.Height = subfontHeight;
+							e.Graphics.DrawString( remain > 0 ? "+" + remain : "MAX", Utility.Configuration.Config.UI.SubFont, BrushSubForeground, rect );
+						}
+
+						e.Handled = true;
+					}
 				}
 			}
 		}
@@ -646,6 +743,9 @@ namespace ElectronicObserver.Window {
 
 			} else if ( e.Column.Index == ShipView_Locked.Index ) {
 				e.SortResult = ( (bool)e.CellValue1 ? 1 : 0 ) - ( (bool)e.CellValue2 ? 1 : 0 );
+
+			} else if ( e.Column.Index == ShipView_EquipmentEx.Index ) {
+				e.SortResult = string.Compare( (string)e.CellValue1, (string)e.CellValue2 );
 
 			} else {
 				e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;

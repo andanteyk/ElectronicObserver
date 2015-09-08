@@ -32,6 +32,7 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.ShipView = new System.Windows.Forms.DataGridView();
 			this.ShipView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,6 +50,7 @@
 			this.ShipView_Equipment3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Equipment4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Equipment5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ShipView_EquipmentEx = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Fleet = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_RepairTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Firepower = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -125,6 +127,7 @@
             this.ShipView_Equipment3,
             this.ShipView_Equipment4,
             this.ShipView_Equipment5,
+			this.ShipView_EquipmentEx,
             this.ShipView_Fleet,
             this.ShipView_RepairTime,
             this.ShipView_Firepower,
@@ -297,6 +300,15 @@
 			this.ShipView_Equipment5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this.ShipView_Equipment5.Width = 45;
 			// 
+			// ShipView_EquipmentEx
+			// 
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_EquipmentEx.DefaultCellStyle = dataGridViewCellStyle9;
+			this.ShipView_EquipmentEx.HeaderText = "扩展";
+			this.ShipView_EquipmentEx.Name = "ShipView_EquipmentEx";
+			this.ShipView_EquipmentEx.ReadOnly = true;
+			this.ShipView_EquipmentEx.Width = 45;
+			// 
 			// ShipView_Fleet
 			// 
 			this.ShipView_Fleet.HeaderText = "艦隊";
@@ -316,13 +328,14 @@
 			this.ShipView_Firepower.HeaderText = "火力";
 			this.ShipView_Firepower.Name = "ShipView_Firepower";
 			this.ShipView_Firepower.ReadOnly = true;
-			this.ShipView_Firepower.Width = 40;
+			this.ShipView_Firepower.Width = 52;
 			// 
 			// ShipView_FirepowerRemain
 			// 
 			this.ShipView_FirepowerRemain.HeaderText = "火力改修";
 			this.ShipView_FirepowerRemain.Name = "ShipView_FirepowerRemain";
 			this.ShipView_FirepowerRemain.ReadOnly = true;
+			this.ShipView_FirepowerRemain.Visible = false;
 			this.ShipView_FirepowerRemain.Width = 40;
 			// 
 			// ShipView_Torpedo
@@ -330,13 +343,14 @@
 			this.ShipView_Torpedo.HeaderText = "雷装";
 			this.ShipView_Torpedo.Name = "ShipView_Torpedo";
 			this.ShipView_Torpedo.ReadOnly = true;
-			this.ShipView_Torpedo.Width = 40;
+			this.ShipView_Torpedo.Width = 52;
 			// 
 			// ShipView_TorpedoRemain
 			// 
 			this.ShipView_TorpedoRemain.HeaderText = "雷装改修";
 			this.ShipView_TorpedoRemain.Name = "ShipView_TorpedoRemain";
 			this.ShipView_TorpedoRemain.ReadOnly = true;
+			this.ShipView_TorpedoRemain.Visible = false;
 			this.ShipView_TorpedoRemain.Width = 40;
 			// 
 			// ShipView_AA
@@ -344,13 +358,14 @@
 			this.ShipView_AA.HeaderText = "対空";
 			this.ShipView_AA.Name = "ShipView_AA";
 			this.ShipView_AA.ReadOnly = true;
-			this.ShipView_AA.Width = 40;
+			this.ShipView_AA.Width = 52;
 			// 
 			// ShipView_AARemain
 			// 
 			this.ShipView_AARemain.HeaderText = "対空改修";
 			this.ShipView_AARemain.Name = "ShipView_AARemain";
 			this.ShipView_AARemain.ReadOnly = true;
+			this.ShipView_AARemain.Visible = false;
 			this.ShipView_AARemain.Width = 40;
 			// 
 			// ShipView_Armor
@@ -358,13 +373,14 @@
 			this.ShipView_Armor.HeaderText = "装甲";
 			this.ShipView_Armor.Name = "ShipView_Armor";
 			this.ShipView_Armor.ReadOnly = true;
-			this.ShipView_Armor.Width = 40;
+			this.ShipView_Armor.Width = 52;
 			// 
 			// ShipView_ArmorRemain
 			// 
 			this.ShipView_ArmorRemain.HeaderText = "装甲改修";
 			this.ShipView_ArmorRemain.Name = "ShipView_ArmorRemain";
 			this.ShipView_ArmorRemain.ReadOnly = true;
+			this.ShipView_ArmorRemain.Visible = false;
 			this.ShipView_ArmorRemain.Width = 40;
 			// 
 			// ShipView_ASW
@@ -393,13 +409,14 @@
 			this.ShipView_Luck.HeaderText = "運";
 			this.ShipView_Luck.Name = "ShipView_Luck";
 			this.ShipView_Luck.ReadOnly = true;
-			this.ShipView_Luck.Width = 40;
+			this.ShipView_Luck.Width = 52;
 			// 
 			// ShipView_LuckRemain
 			// 
 			this.ShipView_LuckRemain.HeaderText = "運改修";
 			this.ShipView_LuckRemain.Name = "ShipView_LuckRemain";
 			this.ShipView_LuckRemain.ReadOnly = true;
+			this.ShipView_LuckRemain.Visible = false;
 			this.ShipView_LuckRemain.Width = 40;
 			// 
 			// ShipView_Locked
@@ -693,6 +710,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Equipment3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Equipment4;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Equipment5;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_EquipmentEx;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Fleet;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_RepairTime;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Firepower;
