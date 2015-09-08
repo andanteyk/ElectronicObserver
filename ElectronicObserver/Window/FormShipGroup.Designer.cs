@@ -160,6 +160,7 @@
 			this.ShipView.Size = new System.Drawing.Size(300, 118);
 			this.ShipView.TabIndex = 0;
 			this.ShipView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ShipView_CellFormatting);
+			this.ShipView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.ShipView_CellPainting);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
 			this.ShipView.Sorted += new System.EventHandler(this.ShipView_Sorted);
 			// 
@@ -254,7 +255,7 @@
 			this.ShipView_Equipment1.Name = "ShipView_Equipment1";
 			this.ShipView_Equipment1.ReadOnly = true;
 			this.ShipView_Equipment1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment1.Width = 150;
+			this.ShipView_Equipment1.Width = 45;
 			// 
 			// ShipView_Equipment2
 			// 
@@ -264,7 +265,7 @@
 			this.ShipView_Equipment2.Name = "ShipView_Equipment2";
 			this.ShipView_Equipment2.ReadOnly = true;
 			this.ShipView_Equipment2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment2.Width = 150;
+			this.ShipView_Equipment2.Width = 45;
 			// 
 			// ShipView_Equipment3
 			// 
@@ -274,7 +275,7 @@
 			this.ShipView_Equipment3.Name = "ShipView_Equipment3";
 			this.ShipView_Equipment3.ReadOnly = true;
 			this.ShipView_Equipment3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment3.Width = 150;
+			this.ShipView_Equipment3.Width = 45;
 			// 
 			// ShipView_Equipment4
 			// 
@@ -284,7 +285,7 @@
 			this.ShipView_Equipment4.Name = "ShipView_Equipment4";
 			this.ShipView_Equipment4.ReadOnly = true;
 			this.ShipView_Equipment4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment4.Width = 150;
+			this.ShipView_Equipment4.Width = 45;
 			// 
 			// ShipView_Equipment5
 			// 
@@ -294,7 +295,7 @@
 			this.ShipView_Equipment5.Name = "ShipView_Equipment5";
 			this.ShipView_Equipment5.ReadOnly = true;
 			this.ShipView_Equipment5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.ShipView_Equipment5.Width = 150;
+			this.ShipView_Equipment5.Width = 45;
 			// 
 			// ShipView_Fleet
 			// 

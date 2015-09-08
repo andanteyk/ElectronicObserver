@@ -301,11 +301,11 @@ namespace ElectronicObserver.Window {
 				ship.Condition,
 				new Fraction( ship.Fuel, ship.MasterShip.Fuel ),
 				new Fraction( ship.Ammo, ship.MasterShip.Ammo ),
-				GetEquipmentString( ship, 0 ),
-				GetEquipmentString( ship, 1 ),
-				GetEquipmentString( ship, 2 ),
-				GetEquipmentString( ship, 3 ),
-				GetEquipmentString( ship, 4 ),
+				GetEquipmentTypeID( ship, 0 ),
+				GetEquipmentTypeID( ship, 1 ),
+				GetEquipmentTypeID( ship, 2 ),
+				GetEquipmentTypeID( ship, 3 ),
+				GetEquipmentTypeID( ship, 4 ),
 				ship.FleetWithIndex,
 				ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
 				ship.FirepowerBase,
@@ -324,6 +324,12 @@ namespace ElectronicObserver.Window {
 				ship.IsLocked,
 				ship.SallyArea
 				);
+
+			row.Cells[ShipView_Equipment1.Index].ToolTipText = GetEquipmentString( ship, 0 );
+			row.Cells[ShipView_Equipment2.Index].ToolTipText = GetEquipmentString( ship, 1 );
+			row.Cells[ShipView_Equipment3.Index].ToolTipText = GetEquipmentString( ship, 2 );
+			row.Cells[ShipView_Equipment4.Index].ToolTipText = GetEquipmentString( ship, 3 );
+			row.Cells[ShipView_Equipment5.Index].ToolTipText = GetEquipmentString( ship, 4 );
 
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
 			row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
@@ -484,6 +490,15 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private int GetEquipmentTypeID( ShipData ship, int index )
+		{
+			if ( ship.SlotInstance[index] != null )
+			{
+				return ship.SlotInstance[index].MasterEquipment.IconType;
+			}
+			return -1;
+		}
+
 		private string GetEquipmentString( ShipData ship, int index ) {
 
 			int current = ship.Aircraft[index];
@@ -560,6 +575,31 @@ namespace ElectronicObserver.Window {
 
 			}
 
+		}
+
+		private void ShipView_CellPainting( object sender, DataGridViewCellPaintingEventArgs e )
+		{
+			if ( e.RowIndex >= 0 )
+			{
+				if ( e.ColumnIndex >= ShipView_Equipment1.Index && e.ColumnIndex <= ShipView_Equipment5.Index )
+				{
+					e.Paint( e.ClipBounds, e.PaintParts & ~DataGridViewPaintParts.ContentForeground );
+					int id;
+					if ( e.Value is int && ( id = (int)e.Value ) >= 0 )
+					{
+						Image image = ResourceManager.Instance.Equipments[id];
+						if ( image != null )
+						{
+							var rect = e.CellBounds;
+							rect.Width = rect.Height = Math.Min( image.Height, rect.Height );
+							rect.X += ( e.CellBounds.Width - rect.Width ) / 2;
+							rect.Y += ( e.CellBounds.Height - rect.Height ) / 2;
+							e.Graphics.DrawImage( image, rect );
+						}
+					}
+					e.Handled = true;
+				}
+			}
 		}
 
 
