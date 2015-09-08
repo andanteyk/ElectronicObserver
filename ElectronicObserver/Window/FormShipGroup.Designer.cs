@@ -475,7 +475,7 @@
 			this.MenuMember_AddToGroup.Name = "MenuMember_AddToGroup";
 			this.MenuMember_AddToGroup.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
 			this.MenuMember_AddToGroup.Size = new System.Drawing.Size(281, 22);
-			this.MenuMember_AddToGroup.Text = "グループへ追加(&A)...";
+			this.MenuMember_AddToGroup.Text = "添加到分组(&A)...";
 			this.MenuMember_AddToGroup.Click += new System.EventHandler(this.MenuMember_AddToGroup_Click);
 			// 
 			// MenuMember_CreateGroup
@@ -484,14 +484,14 @@
 			this.MenuMember_CreateGroup.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
 			this.MenuMember_CreateGroup.Size = new System.Drawing.Size(281, 22);
-			this.MenuMember_CreateGroup.Text = "新規グループを作成(&C)...";
+			this.MenuMember_CreateGroup.Text = "添加到新的分组(&C)...";
 			this.MenuMember_CreateGroup.Click += new System.EventHandler(this.MenuMember_CreateGroup_Click);
 			// 
 			// MenuMember_AddCurrentFleet_Group
 			// 
 			this.MenuMember_AddCurrentFleet_Group.Name = "MenuMember_AddCurrentFleet_Group";
 			this.MenuMember_AddCurrentFleet_Group.Size = new System.Drawing.Size(281, 22);
-			this.MenuMember_AddCurrentFleet_Group.Text = "現在の艦隊を追加(&G)";
+			this.MenuMember_AddCurrentFleet_Group.Text = "添加当前舰队成员(&G)";
 			// 
 			// toolStripSeparator1
 			// 
@@ -502,7 +502,7 @@
 			// 
 			this.MenuMember_ColumnFilter.Name = "MenuMember_ColumnFilter";
 			this.MenuMember_ColumnFilter.Size = new System.Drawing.Size(281, 22);
-			this.MenuMember_ColumnFilter.Text = "列フィルタ(&F)...";
+			this.MenuMember_ColumnFilter.Text = "列过滤(&F)...";
 			this.MenuMember_ColumnFilter.Click += new System.EventHandler(this.MenuMember_ColumnFilter_Click);
 			// 
 			// MenuMember_ColumnAutoSize
@@ -510,7 +510,7 @@
 			this.MenuMember_ColumnAutoSize.CheckOnClick = true;
 			this.MenuMember_ColumnAutoSize.Name = "MenuMember_ColumnAutoSize";
 			this.MenuMember_ColumnAutoSize.Size = new System.Drawing.Size(281, 22);
-			this.MenuMember_ColumnAutoSize.Text = "列の自動調整(&D)";
+			this.MenuMember_ColumnAutoSize.Text = "列宽自动调整(&D)";
 			this.MenuMember_ColumnAutoSize.Click += new System.EventHandler(this.MenuMember_ColumnAutoSize_Click);
 			// 
 			// MenuMember_LockShipNameScroll
@@ -518,7 +518,7 @@
 			this.MenuMember_LockShipNameScroll.CheckOnClick = true;
 			this.MenuMember_LockShipNameScroll.Name = "MenuMember_LockShipNameScroll";
 			this.MenuMember_LockShipNameScroll.Size = new System.Drawing.Size(281, 22);
-			this.MenuMember_LockShipNameScroll.Text = "艦名をスクロールしない(&S)";
+			this.MenuMember_LockShipNameScroll.Text = "舰名不滚动(&S)";
 			this.MenuMember_LockShipNameScroll.Click += new System.EventHandler(this.MenuMember_LockShipNameScroll_Click);
 			// 
 			// toolStripSeparator2
@@ -530,7 +530,7 @@
 			// 
 			this.MenuMember_CSVOutput.Name = "MenuMember_CSVOutput";
 			this.MenuMember_CSVOutput.Size = new System.Drawing.Size(281, 22);
-			this.MenuMember_CSVOutput.Text = "CSV出力(&O)...";
+			this.MenuMember_CSVOutput.Text = "输出CSV(&O)...";
 			this.MenuMember_CSVOutput.Click += new System.EventHandler(this.MenuMember_CSVOutput_Click);
 			// 
 			// toolStripSeparator3
@@ -543,7 +543,7 @@
 			this.MenuMember_Delete.Name = "MenuMember_Delete";
 			this.MenuMember_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
 			this.MenuMember_Delete.Size = new System.Drawing.Size(281, 22);
-			this.MenuMember_Delete.Text = "削除(&D)";
+			this.MenuMember_Delete.Text = "删除(&D)";
 			this.MenuMember_Delete.Click += new System.EventHandler(this.MenuMember_Delete_Click);
 			// 
 			// MenuGroup
@@ -563,21 +563,21 @@
 			// 
 			this.MenuGroup_Add.Name = "MenuGroup_Add";
 			this.MenuGroup_Add.Size = new System.Drawing.Size(218, 22);
-			this.MenuGroup_Add.Text = "グループを追加(&A)";
+			this.MenuGroup_Add.Text = "添加分组(&A)";
 			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
 			// 
 			// MenuGroup_Rename
 			// 
 			this.MenuGroup_Rename.Name = "MenuGroup_Rename";
 			this.MenuGroup_Rename.Size = new System.Drawing.Size(218, 22);
-			this.MenuGroup_Rename.Text = "グループ名の変更(&R)...";
+			this.MenuGroup_Rename.Text = "修改分组名(&R)...";
 			this.MenuGroup_Rename.Click += new System.EventHandler(this.MenuGroup_Rename_Click);
 			// 
 			// MenuGroup_Delete
 			// 
 			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
 			this.MenuGroup_Delete.Size = new System.Drawing.Size(218, 22);
-			this.MenuGroup_Delete.Text = "グループを削除(&D)";
+			this.MenuGroup_Delete.Text = "删除分组(&D)";
 			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
 			// 
 			// toolStripSeparator4
@@ -590,7 +590,7 @@
 			this.MenuGroup_AutoUpdate.CheckOnClick = true;
 			this.MenuGroup_AutoUpdate.Name = "MenuGroup_AutoUpdate";
 			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(218, 22);
-			this.MenuGroup_AutoUpdate.Text = "自動更新する";
+			this.MenuGroup_AutoUpdate.Text = "自动更新";
 			// 
 			// MenuGroup_ShowStatusBar
 			// 
@@ -599,7 +599,7 @@
 			this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
 			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(218, 22);
-			this.MenuGroup_ShowStatusBar.Text = "ステータスバーを表示する";
+			this.MenuGroup_ShowStatusBar.Text = "显示状态栏";
 			this.MenuGroup_ShowStatusBar.CheckedChanged += new System.EventHandler(this.MenuGroup_ShowStatusBar_CheckedChanged);
 			// 
 			// splitContainer1
@@ -692,6 +692,7 @@
 			this.PanelFilter.Controls.Add(this.CheckShipTypeAll);
 			this.PanelFilter.Controls.Add(this.label1);
 			this.PanelFilter.Dock = System.Windows.Forms.DockStyle.Top;
+			this.PanelFilter.Font = Program.Window_Font;
 			this.PanelFilter.Location = new System.Drawing.Point(0, 0);
 			this.PanelFilter.Name = "PanelFilter";
 			this.PanelFilter.Size = new System.Drawing.Size(765, 169);
