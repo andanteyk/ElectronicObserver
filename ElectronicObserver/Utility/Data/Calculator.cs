@@ -399,8 +399,24 @@ namespace ElectronicObserver.Utility.Data {
 
 				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
 					return 10;		//ロケット砲撃
-				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
+
+				else if ( attackerShipID == 352 ) {	//速吸改
+
+					if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) ) {
+						if ( slot.Select( id => KCDatabase.Instance.MasterEquipments[id] )
+							.Count( eq => eq != null && ( ( eq.CategoryType == 8 && eq.ASW > 0 ) || eq.CategoryType == 11 || eq.CategoryType == 25 ) ) > 0 )
+							return 7;		//空撃
+						else
+							return 8;	//爆雷攻撃
+
+					} else if ( slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).Count( eq => eq != null && eq.CategoryType == 8 ) > 0 )
+						return 7;		//空撃
+					else
+						return 0;		//砲撃
+
+				} else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
 					return 7;		//空撃
+
 				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
 					if ( atkship.ShipType == 6 || atkship.ShipType == 10 ||
 						 atkship.ShipType == 16 || atkship.ShipType == 17 )			//航空巡洋艦/航空戦艦/水上機母艦/揚陸艦
@@ -408,10 +424,10 @@ namespace ElectronicObserver.Utility.Data {
 					else
 						return 8;		//爆雷攻撃
 
-				//本来の雷撃は発生しえない
-
+				//本来の雷撃は発生しない
 				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )		//潜水艦/潜水空母
 					return 9;			//雷撃(特例措置, 本来のコード中には存在しない)
+
 			}
 
 			return 0;
@@ -481,16 +497,20 @@ namespace ElectronicObserver.Utility.Data {
 
 				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
 					return 10;		//ロケット砲撃
+
 				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
 					return 7;		//空撃
+
+				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
+					return 9;			//雷撃
+
 				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
 					if ( atkship.ShipType == 6 || atkship.ShipType == 10 ||
 						 atkship.ShipType == 16 || atkship.ShipType == 17 )			//航空巡洋艦/航空戦艦/水上機母艦/揚陸艦
 						return 7;		//空撃
 					else
 						return 8;		//爆雷攻撃
-				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
-					return 9;			//雷撃
+
 				else if ( slot.Length > 0 ) {
 					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[0]];
 					if ( eq != null && eq.EquipmentType[2] == 5 ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
