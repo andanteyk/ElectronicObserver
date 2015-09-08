@@ -68,6 +68,19 @@ namespace ElectronicObserver.Window {
 		/// <summary>艦これ起動前にタブを選択した場合はtrue</summary>
 		private bool IsTabSelectedBeforeBoot = false;
 
+		private bool IsLoadTypes = false;
+
+		private Dictionary<string, int[]> CustomShipTypes = new Dictionary<string, int[]>
+		{
+			{ "駆逐艦",     new[] { 2 } },
+			{ "軽巡·雷巡", new[] { 3, 4 } },
+			{ "重巡·航巡", new[] { 5, 6 } },
+			{ "戦艦",      new[] { 9, 10, 12 } },
+			{ "航空母艦",   new[] { 7, 11, 18 } },
+			{ "潜水艦",     new[] { 13, 14 } },
+			{ "航戦·航巡", new[] { 6, 10 } },
+		};
+
 		public FormShipGroup( FormMain parent ) {
 			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
@@ -77,6 +90,25 @@ namespace ElectronicObserver.Window {
 
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
 				column.MinimumWidth = 2;
+			}
+
+			foreach ( var ct in CustomShipTypes )
+			{
+				var label = new ImageLabel();
+				label.Text = ct.Key;
+				label.Font = ShipView.Font;
+				label.BackColor = TabInactiveColor;
+				label.BorderStyle = BorderStyle.FixedSingle;
+				label.Padding = new Padding( 4, 4, 7, 7 );
+				label.Margin = new Padding( 0, 0, 0, 0 );
+				label.ImageAlign = ContentAlignment.MiddleCenter;
+				label.AutoSize = true;
+				label.Cursor = Cursors.Hand;
+
+				label.Tag = ct.Value;
+				label.Click += label_Click;
+
+				FlowLayoutCustomShipTypes.Controls.Add( label );
 			}
 
 
@@ -144,6 +176,25 @@ namespace ElectronicObserver.Window {
 			this.ResumeLayoutForDpiScale();
 		}
 
+		void label_Click( object sender, EventArgs e )
+		{
+			ImageLabel label = sender as ImageLabel;
+			if ( label != null )
+			{
+				int[] ids = (int[])label.Tag;
+				
+				HangFilterChange = true;
+				CheckShipTypeAll.Checked = false;
+				foreach ( var type in FlowLayoutShipTypes.Controls.OfType<CheckBox>() )
+				{
+					type.Checked = ids.Contains( (int)type.Tag );
+				}
+				HangFilterChange = false;
+
+				FilterCheckChanged( sender, e );
+			}
+		}
+
 
 		private void FormShipGroup_Load( object sender, EventArgs e ) {
 
@@ -190,6 +241,23 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+		void SetFilterShipTypes()
+		{
+			foreach ( var type in KCDatabase.Instance.ShipTypes.Values.OrderBy( t => t.SortID ) )
+			{
+				var check = new CheckBox();
+				check.AutoSize = true;
+				check.Font = ShipView.Font;
+				check.Text = type.Name;
+				check.Checked = true;
+				check.Tag = type.TypeID;
+				check.UseVisualStyleBackColor = true;
+				check.CheckedChanged += check_CheckedChanged;
+				FlowLayoutShipTypes.Controls.Add( check );
+			}
+			IsLoadTypes = true;
+		}
 
 		void ConfigurationChanged() {
 
@@ -258,7 +326,12 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void APIUpdated( string apiname, dynamic data ) {
-			if ( IsTabSelectedBeforeBoot ) {
+
+			if ( !IsLoadTypes )
+				SetFilterShipTypes();
+
+			if ( IsTabSelectedBeforeBoot )
+			{
 				// 空のShipViewでKCDatabase.Instance.ShipGroupを上書きしてしまうのを防ぐため、
 				// 艦これ起動前にタブを選択した後の最初の艦船データ受信時は、ShipViewの構築を行う
 				BuildShipView( SelectedTab );
@@ -1463,6 +1536,60 @@ namespace ElectronicObserver.Window {
 		public override string GetPersistString()
 		{
 			return "ShipGroup";
+		}
+
+		private bool HangFilterChange = false;
+
+		private void CheckShipTypeAll_CheckedChanged( object sender, EventArgs e )
+		{
+			if ( HangFilterChange )
+				return;
+
+			bool check = CheckShipTypeAll.Checked;
+			HangFilterChange = true;
+			foreach ( CheckBox ck in FlowLayoutShipTypes.Controls )
+			{
+				ck.Checked = check;
+			}
+			HangFilterChange = false;
+			FilterCheckChanged( sender, e );
+		}
+
+		void check_CheckedChanged( object sender, EventArgs e )
+		{
+			if ( HangFilterChange )
+				return;
+
+			HangFilterChange = true;
+			CheckShipTypeAll.Checked = FlowLayoutShipTypes.Controls.OfType<CheckBox>().All( c => c.Checked );
+			HangFilterChange = false;
+
+			FilterCheckChanged( sender, e );
+		}
+
+		private void ButtonFilter_Click( object sender, EventArgs e )
+		{
+			PanelFilter.Visible = !PanelFilter.Visible;
+		}
+
+		private void FilterChanged( object sender, EventArgs e )
+		{
+			RadioButton rd = sender as RadioButton;
+			if ( rd != null )
+			{
+				if ( rd.Checked )
+					FilterCheckChanged( sender, e );
+			}
+		}
+
+		private void FilterCheckChanged( object sender, EventArgs e )
+		{
+			if ( HangFilterChange )
+				return;
+
+			// filter
+			// todo...
+			Utility.Logger.Add( 1, "DEBUG: Change filter." );
 		}
 
 

@@ -32,7 +32,6 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.ShipView = new System.Windows.Forms.DataGridView();
 			this.ShipView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -89,10 +88,28 @@
 			this.MenuGroup_ShowStatusBar = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.ButtonFilter = new System.Windows.Forms.Button();
 			this.StatusBar = new System.Windows.Forms.StatusStrip();
 			this.Status_ShipCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Status_LevelTotal = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Status_LevelAverage = new System.Windows.Forms.ToolStripStatusLabel();
+			this.PanelFilter = new System.Windows.Forms.Panel();
+			this.label4 = new System.Windows.Forms.Label();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.RadioLockNone = new System.Windows.Forms.RadioButton();
+			this.RadioLock = new System.Windows.Forms.RadioButton();
+			this.RadioLockAll = new System.Windows.Forms.RadioButton();
+			this.label3 = new System.Windows.Forms.Label();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.RadioLevel1 = new System.Windows.Forms.RadioButton();
+			this.RadioLevel2Above = new System.Windows.Forms.RadioButton();
+			this.RadioLevelAll = new System.Windows.Forms.RadioButton();
+			this.label2 = new System.Windows.Forms.Label();
+			this.FlowLayoutCustomShipTypes = new System.Windows.Forms.FlowLayoutPanel();
+			this.FlowLayoutShipTypes = new System.Windows.Forms.FlowLayoutPanel();
+			this.CheckShipTypeAll = new System.Windows.Forms.CheckBox();
+			this.label1 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
 			this.MenuMember.SuspendLayout();
 			this.MenuGroup.SuspendLayout();
@@ -100,7 +117,11 @@
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.TabPanel.SuspendLayout();
 			this.StatusBar.SuspendLayout();
+			this.PanelFilter.SuspendLayout();
+			this.panel3.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ShipView
@@ -127,7 +148,7 @@
             this.ShipView_Equipment3,
             this.ShipView_Equipment4,
             this.ShipView_Equipment5,
-			this.ShipView_EquipmentEx,
+            this.ShipView_EquipmentEx,
             this.ShipView_Fleet,
             this.ShipView_RepairTime,
             this.ShipView_Firepower,
@@ -155,12 +176,12 @@
 			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.ShipView.DefaultCellStyle = dataGridViewCellStyle8;
 			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ShipView.Location = new System.Drawing.Point(0, 0);
+			this.ShipView.Location = new System.Drawing.Point(0, 169);
 			this.ShipView.Name = "ShipView";
 			this.ShipView.ReadOnly = true;
 			this.ShipView.RowHeadersVisible = false;
 			this.ShipView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ShipView.Size = new System.Drawing.Size(300, 118);
+			this.ShipView.Size = new System.Drawing.Size(765, 161);
 			this.ShipView.TabIndex = 0;
 			this.ShipView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ShipView_CellFormatting);
 			this.ShipView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.ShipView_CellPainting);
@@ -302,8 +323,6 @@
 			// 
 			// ShipView_EquipmentEx
 			// 
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_EquipmentEx.DefaultCellStyle = dataGridViewCellStyle9;
 			this.ShipView_EquipmentEx.HeaderText = "扩展";
 			this.ShipView_EquipmentEx.Name = "ShipView_EquipmentEx";
 			this.ShipView_EquipmentEx.ReadOnly = true;
@@ -435,7 +454,6 @@
 			// 
 			// MenuMember
 			// 
-			ToolStripCustomizer.ToolStripRender.SetRender(this.MenuMember);
 			this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuMember_AddToGroup,
             this.MenuMember_CreateGroup,
@@ -449,14 +467,14 @@
             this.toolStripSeparator3,
             this.MenuMember_Delete});
 			this.MenuMember.Name = "MenuMember";
-			this.MenuMember.Size = new System.Drawing.Size(502, 294);
+			this.MenuMember.Size = new System.Drawing.Size(282, 198);
 			this.MenuMember.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMember_Opening);
 			// 
 			// MenuMember_AddToGroup
 			// 
 			this.MenuMember_AddToGroup.Name = "MenuMember_AddToGroup";
 			this.MenuMember_AddToGroup.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-			this.MenuMember_AddToGroup.Size = new System.Drawing.Size(501, 34);
+			this.MenuMember_AddToGroup.Size = new System.Drawing.Size(281, 22);
 			this.MenuMember_AddToGroup.Text = "グループへ追加(&A)...";
 			this.MenuMember_AddToGroup.Click += new System.EventHandler(this.MenuMember_AddToGroup_Click);
 			// 
@@ -465,25 +483,25 @@
 			this.MenuMember_CreateGroup.Name = "MenuMember_CreateGroup";
 			this.MenuMember_CreateGroup.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
-			this.MenuMember_CreateGroup.Size = new System.Drawing.Size(501, 34);
+			this.MenuMember_CreateGroup.Size = new System.Drawing.Size(281, 22);
 			this.MenuMember_CreateGroup.Text = "新規グループを作成(&C)...";
 			this.MenuMember_CreateGroup.Click += new System.EventHandler(this.MenuMember_CreateGroup_Click);
 			// 
 			// MenuMember_AddCurrentFleet_Group
 			// 
 			this.MenuMember_AddCurrentFleet_Group.Name = "MenuMember_AddCurrentFleet_Group";
-			this.MenuMember_AddCurrentFleet_Group.Size = new System.Drawing.Size(501, 34);
+			this.MenuMember_AddCurrentFleet_Group.Size = new System.Drawing.Size(281, 22);
 			this.MenuMember_AddCurrentFleet_Group.Text = "現在の艦隊を追加(&G)";
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(498, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(278, 6);
 			// 
 			// MenuMember_ColumnFilter
 			// 
 			this.MenuMember_ColumnFilter.Name = "MenuMember_ColumnFilter";
-			this.MenuMember_ColumnFilter.Size = new System.Drawing.Size(501, 34);
+			this.MenuMember_ColumnFilter.Size = new System.Drawing.Size(281, 22);
 			this.MenuMember_ColumnFilter.Text = "列フィルタ(&F)...";
 			this.MenuMember_ColumnFilter.Click += new System.EventHandler(this.MenuMember_ColumnFilter_Click);
 			// 
@@ -491,7 +509,7 @@
 			// 
 			this.MenuMember_ColumnAutoSize.CheckOnClick = true;
 			this.MenuMember_ColumnAutoSize.Name = "MenuMember_ColumnAutoSize";
-			this.MenuMember_ColumnAutoSize.Size = new System.Drawing.Size(501, 34);
+			this.MenuMember_ColumnAutoSize.Size = new System.Drawing.Size(281, 22);
 			this.MenuMember_ColumnAutoSize.Text = "列の自動調整(&D)";
 			this.MenuMember_ColumnAutoSize.Click += new System.EventHandler(this.MenuMember_ColumnAutoSize_Click);
 			// 
@@ -499,38 +517,37 @@
 			// 
 			this.MenuMember_LockShipNameScroll.CheckOnClick = true;
 			this.MenuMember_LockShipNameScroll.Name = "MenuMember_LockShipNameScroll";
-			this.MenuMember_LockShipNameScroll.Size = new System.Drawing.Size(501, 34);
+			this.MenuMember_LockShipNameScroll.Size = new System.Drawing.Size(281, 22);
 			this.MenuMember_LockShipNameScroll.Text = "艦名をスクロールしない(&S)";
 			this.MenuMember_LockShipNameScroll.Click += new System.EventHandler(this.MenuMember_LockShipNameScroll_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(498, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(278, 6);
 			// 
 			// MenuMember_CSVOutput
 			// 
 			this.MenuMember_CSVOutput.Name = "MenuMember_CSVOutput";
-			this.MenuMember_CSVOutput.Size = new System.Drawing.Size(501, 34);
+			this.MenuMember_CSVOutput.Size = new System.Drawing.Size(281, 22);
 			this.MenuMember_CSVOutput.Text = "CSV出力(&O)...";
 			this.MenuMember_CSVOutput.Click += new System.EventHandler(this.MenuMember_CSVOutput_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(498, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(278, 6);
 			// 
 			// MenuMember_Delete
 			// 
 			this.MenuMember_Delete.Name = "MenuMember_Delete";
 			this.MenuMember_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-			this.MenuMember_Delete.Size = new System.Drawing.Size(501, 34);
+			this.MenuMember_Delete.Size = new System.Drawing.Size(281, 22);
 			this.MenuMember_Delete.Text = "削除(&D)";
 			this.MenuMember_Delete.Click += new System.EventHandler(this.MenuMember_Delete_Click);
 			// 
 			// MenuGroup
 			// 
-			ToolStripCustomizer.ToolStripRender.SetRender(this.MenuGroup);
 			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuGroup_Add,
             this.MenuGroup_Rename,
@@ -539,40 +556,40 @@
             this.MenuGroup_AutoUpdate,
             this.MenuGroup_ShowStatusBar});
 			this.MenuGroup.Name = "MenuGroup";
-			this.MenuGroup.Size = new System.Drawing.Size(322, 200);
+			this.MenuGroup.Size = new System.Drawing.Size(219, 120);
 			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
 			// 
 			// MenuGroup_Add
 			// 
 			this.MenuGroup_Add.Name = "MenuGroup_Add";
-			this.MenuGroup_Add.Size = new System.Drawing.Size(321, 38);
+			this.MenuGroup_Add.Size = new System.Drawing.Size(218, 22);
 			this.MenuGroup_Add.Text = "グループを追加(&A)";
 			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
 			// 
 			// MenuGroup_Rename
 			// 
 			this.MenuGroup_Rename.Name = "MenuGroup_Rename";
-			this.MenuGroup_Rename.Size = new System.Drawing.Size(321, 38);
+			this.MenuGroup_Rename.Size = new System.Drawing.Size(218, 22);
 			this.MenuGroup_Rename.Text = "グループ名の変更(&R)...";
 			this.MenuGroup_Rename.Click += new System.EventHandler(this.MenuGroup_Rename_Click);
 			// 
 			// MenuGroup_Delete
 			// 
 			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
-			this.MenuGroup_Delete.Size = new System.Drawing.Size(321, 38);
+			this.MenuGroup_Delete.Size = new System.Drawing.Size(218, 22);
 			this.MenuGroup_Delete.Text = "グループを削除(&D)";
 			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(318, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(215, 6);
 			// 
 			// MenuGroup_AutoUpdate
 			// 
 			this.MenuGroup_AutoUpdate.CheckOnClick = true;
 			this.MenuGroup_AutoUpdate.Name = "MenuGroup_AutoUpdate";
-			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(321, 38);
+			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(218, 22);
 			this.MenuGroup_AutoUpdate.Text = "自動更新する";
 			// 
 			// MenuGroup_ShowStatusBar
@@ -581,7 +598,7 @@
 			this.MenuGroup_ShowStatusBar.CheckOnClick = true;
 			this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
-			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(321, 38);
+			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(218, 22);
 			this.MenuGroup_ShowStatusBar.Text = "ステータスバーを表示する";
 			this.MenuGroup_ShowStatusBar.CheckedChanged += new System.EventHandler(this.MenuGroup_ShowStatusBar_CheckedChanged);
 			// 
@@ -601,7 +618,8 @@
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.ShipView);
 			this.splitContainer1.Panel2.Controls.Add(this.StatusBar);
-			this.splitContainer1.Size = new System.Drawing.Size(300, 200);
+			this.splitContainer1.Panel2.Controls.Add(this.PanelFilter);
+			this.splitContainer1.Size = new System.Drawing.Size(765, 396);
 			this.splitContainer1.SplitterDistance = 40;
 			this.splitContainer1.TabIndex = 1;
 			// 
@@ -613,25 +631,35 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TabPanel.AutoScroll = true;
 			this.TabPanel.ContextMenuStrip = this.MenuGroup;
+			this.TabPanel.Controls.Add(this.ButtonFilter);
 			this.TabPanel.Location = new System.Drawing.Point(0, 0);
 			this.TabPanel.Name = "TabPanel";
-			this.TabPanel.Size = new System.Drawing.Size(300, 40);
+			this.TabPanel.Size = new System.Drawing.Size(765, 40);
 			this.TabPanel.TabIndex = 0;
 			this.TabPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragDrop);
 			this.TabPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragEnter);
 			this.TabPanel.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.TabPanel_QueryContinueDrag);
 			this.TabPanel.DoubleClick += new System.EventHandler(this.TabPanel_DoubleClick);
 			// 
+			// ButtonFilter
+			// 
+			this.ButtonFilter.Location = new System.Drawing.Point(3, 3);
+			this.ButtonFilter.Name = "ButtonFilter";
+			this.ButtonFilter.Size = new System.Drawing.Size(21, 28);
+			this.ButtonFilter.TabIndex = 0;
+			this.ButtonFilter.Text = "…";
+			this.ButtonFilter.UseVisualStyleBackColor = true;
+			this.ButtonFilter.Click += new System.EventHandler(this.ButtonFilter_Click);
+			// 
 			// StatusBar
 			// 
-			ToolStripCustomizer.ToolStripRender.SetRender(this.StatusBar);
 			this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Status_ShipCount,
             this.Status_LevelTotal,
             this.Status_LevelAverage});
-			this.StatusBar.Location = new System.Drawing.Point(0, 118);
+			this.StatusBar.Location = new System.Drawing.Point(0, 330);
 			this.StatusBar.Name = "StatusBar";
-			this.StatusBar.Size = new System.Drawing.Size(300, 38);
+			this.StatusBar.Size = new System.Drawing.Size(765, 22);
 			this.StatusBar.SizingGrip = false;
 			this.StatusBar.TabIndex = 1;
 			this.StatusBar.Text = "statusStrip1";
@@ -639,23 +667,210 @@
 			// Status_ShipCount
 			// 
 			this.Status_ShipCount.Name = "Status_ShipCount";
-			this.Status_ShipCount.Size = new System.Drawing.Size(0, 33);
+			this.Status_ShipCount.Size = new System.Drawing.Size(0, 17);
 			// 
 			// Status_LevelTotal
 			// 
 			this.Status_LevelTotal.Name = "Status_LevelTotal";
-			this.Status_LevelTotal.Size = new System.Drawing.Size(0, 33);
+			this.Status_LevelTotal.Size = new System.Drawing.Size(0, 17);
 			// 
 			// Status_LevelAverage
 			// 
 			this.Status_LevelAverage.Name = "Status_LevelAverage";
-			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 33);
+			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 17);
+			// 
+			// PanelFilter
+			// 
+			this.PanelFilter.Controls.Add(this.label4);
+			this.PanelFilter.Controls.Add(this.checkBox1);
+			this.PanelFilter.Controls.Add(this.panel3);
+			this.PanelFilter.Controls.Add(this.label3);
+			this.PanelFilter.Controls.Add(this.panel2);
+			this.PanelFilter.Controls.Add(this.label2);
+			this.PanelFilter.Controls.Add(this.FlowLayoutCustomShipTypes);
+			this.PanelFilter.Controls.Add(this.FlowLayoutShipTypes);
+			this.PanelFilter.Controls.Add(this.CheckShipTypeAll);
+			this.PanelFilter.Controls.Add(this.label1);
+			this.PanelFilter.Dock = System.Windows.Forms.DockStyle.Top;
+			this.PanelFilter.Location = new System.Drawing.Point(0, 0);
+			this.PanelFilter.Name = "PanelFilter";
+			this.PanelFilter.Size = new System.Drawing.Size(765, 169);
+			this.PanelFilter.TabIndex = 2;
+			this.PanelFilter.Visible = false;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(3, 149);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(43, 13);
+			this.label4.TabIndex = 9;
+			this.label4.Text = "远征：";
+			// 
+			// checkBox1
+			// 
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Location = new System.Drawing.Point(52, 148);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(122, 17);
+			this.checkBox1.TabIndex = 8;
+			this.checkBox1.Text = "排除已远征的舰娘";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			this.checkBox1.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
+			// 
+			// panel3
+			// 
+			this.panel3.Controls.Add(this.RadioLockNone);
+			this.panel3.Controls.Add(this.RadioLock);
+			this.panel3.Controls.Add(this.RadioLockAll);
+			this.panel3.Location = new System.Drawing.Point(49, 126);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(248, 20);
+			this.panel3.TabIndex = 7;
+			// 
+			// RadioLockNone
+			// 
+			this.RadioLockNone.AutoSize = true;
+			this.RadioLockNone.Location = new System.Drawing.Point(145, 0);
+			this.RadioLockNone.Name = "RadioLockNone";
+			this.RadioLockNone.Size = new System.Drawing.Size(49, 17);
+			this.RadioLockNone.TabIndex = 2;
+			this.RadioLockNone.Text = "未锁";
+			this.RadioLockNone.UseVisualStyleBackColor = true;
+			this.RadioLockNone.CheckedChanged += new System.EventHandler(this.FilterChanged);
+			// 
+			// RadioLock
+			// 
+			this.RadioLock.AutoSize = true;
+			this.RadioLock.Checked = true;
+			this.RadioLock.Location = new System.Drawing.Point(62, 0);
+			this.RadioLock.Name = "RadioLock";
+			this.RadioLock.Size = new System.Drawing.Size(61, 17);
+			this.RadioLock.TabIndex = 1;
+			this.RadioLock.TabStop = true;
+			this.RadioLock.Text = "已上锁";
+			this.RadioLock.UseVisualStyleBackColor = true;
+			this.RadioLock.CheckedChanged += new System.EventHandler(this.FilterChanged);
+			// 
+			// RadioLockAll
+			// 
+			this.RadioLockAll.AutoSize = true;
+			this.RadioLockAll.Location = new System.Drawing.Point(3, 0);
+			this.RadioLockAll.Name = "RadioLockAll";
+			this.RadioLockAll.Size = new System.Drawing.Size(49, 17);
+			this.RadioLockAll.TabIndex = 0;
+			this.RadioLockAll.Text = "全部";
+			this.RadioLockAll.UseVisualStyleBackColor = true;
+			this.RadioLockAll.CheckedChanged += new System.EventHandler(this.FilterChanged);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(3, 128);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(43, 13);
+			this.label3.TabIndex = 6;
+			this.label3.Text = "锁定：";
+			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.RadioLevel1);
+			this.panel2.Controls.Add(this.RadioLevel2Above);
+			this.panel2.Controls.Add(this.RadioLevelAll);
+			this.panel2.Location = new System.Drawing.Point(49, 105);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(248, 20);
+			this.panel2.TabIndex = 5;
+			// 
+			// RadioLevel1
+			// 
+			this.RadioLevel1.AutoSize = true;
+			this.RadioLevel1.Location = new System.Drawing.Point(145, 0);
+			this.RadioLevel1.Name = "RadioLevel1";
+			this.RadioLevel1.Size = new System.Drawing.Size(46, 17);
+			this.RadioLevel1.TabIndex = 2;
+			this.RadioLevel1.Text = "Lv.1";
+			this.RadioLevel1.UseVisualStyleBackColor = true;
+			this.RadioLevel1.CheckedChanged += new System.EventHandler(this.FilterChanged);
+			// 
+			// RadioLevel2Above
+			// 
+			this.RadioLevel2Above.AutoSize = true;
+			this.RadioLevel2Above.Checked = true;
+			this.RadioLevel2Above.Location = new System.Drawing.Point(62, 0);
+			this.RadioLevel2Above.Name = "RadioLevel2Above";
+			this.RadioLevel2Above.Size = new System.Drawing.Size(73, 17);
+			this.RadioLevel2Above.TabIndex = 1;
+			this.RadioLevel2Above.TabStop = true;
+			this.RadioLevel2Above.Text = "Lv.2 以上";
+			this.RadioLevel2Above.UseVisualStyleBackColor = true;
+			this.RadioLevel2Above.CheckedChanged += new System.EventHandler(this.FilterChanged);
+			// 
+			// RadioLevelAll
+			// 
+			this.RadioLevelAll.AutoSize = true;
+			this.RadioLevelAll.Location = new System.Drawing.Point(3, 0);
+			this.RadioLevelAll.Name = "RadioLevelAll";
+			this.RadioLevelAll.Size = new System.Drawing.Size(49, 17);
+			this.RadioLevelAll.TabIndex = 0;
+			this.RadioLevelAll.Text = "全部";
+			this.RadioLevelAll.UseVisualStyleBackColor = true;
+			this.RadioLevelAll.CheckedChanged += new System.EventHandler(this.FilterChanged);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(3, 107);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(43, 13);
+			this.label2.TabIndex = 4;
+			this.label2.Text = "等级：";
+			// 
+			// FlowLayoutCustomShipTypes
+			// 
+			this.FlowLayoutCustomShipTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.FlowLayoutCustomShipTypes.Location = new System.Drawing.Point(49, 72);
+			this.FlowLayoutCustomShipTypes.Name = "FlowLayoutCustomShipTypes";
+			this.FlowLayoutCustomShipTypes.Size = new System.Drawing.Size(716, 32);
+			this.FlowLayoutCustomShipTypes.TabIndex = 3;
+			// 
+			// FlowLayoutShipTypes
+			// 
+			this.FlowLayoutShipTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.FlowLayoutShipTypes.Location = new System.Drawing.Point(49, 20);
+			this.FlowLayoutShipTypes.Name = "FlowLayoutShipTypes";
+			this.FlowLayoutShipTypes.Size = new System.Drawing.Size(716, 51);
+			this.FlowLayoutShipTypes.TabIndex = 2;
+			// 
+			// CheckShipTypeAll
+			// 
+			this.CheckShipTypeAll.AutoSize = true;
+			this.CheckShipTypeAll.Checked = true;
+			this.CheckShipTypeAll.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.CheckShipTypeAll.Location = new System.Drawing.Point(52, 3);
+			this.CheckShipTypeAll.Name = "CheckShipTypeAll";
+			this.CheckShipTypeAll.Size = new System.Drawing.Size(74, 17);
+			this.CheckShipTypeAll.TabIndex = 1;
+			this.CheckShipTypeAll.Text = "全部选中";
+			this.CheckShipTypeAll.UseVisualStyleBackColor = true;
+			this.CheckShipTypeAll.CheckedChanged += new System.EventHandler(this.CheckShipTypeAll_CheckedChanged);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(3, 4);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(43, 13);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "舰种：";
 			// 
 			// FormShipGroup
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(300, 200);
+			this.ClientSize = new System.Drawing.Size(765, 396);
 			this.Controls.Add(this.splitContainer1);
 			this.DoubleBuffered = true;
 			this.Font = Program.Window_Font;
@@ -672,8 +887,15 @@
 			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.TabPanel.ResumeLayout(false);
 			this.StatusBar.ResumeLayout(false);
 			this.StatusBar.PerformLayout();
+			this.PanelFilter.ResumeLayout(false);
+			this.PanelFilter.PerformLayout();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
+			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -740,5 +962,23 @@
 		private System.Windows.Forms.ToolStripStatusLabel Status_LevelAverage;
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_ShowStatusBar;
         private System.Windows.Forms.ToolStripMenuItem MenuMember_AddCurrentFleet_Group;
+		private System.Windows.Forms.Panel PanelFilter;
+		private System.Windows.Forms.CheckBox CheckShipTypeAll;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.FlowLayoutPanel FlowLayoutShipTypes;
+		private System.Windows.Forms.FlowLayoutPanel FlowLayoutCustomShipTypes;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.RadioButton RadioLevel1;
+		private System.Windows.Forms.RadioButton RadioLevel2Above;
+		private System.Windows.Forms.RadioButton RadioLevelAll;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Panel panel3;
+		private System.Windows.Forms.RadioButton RadioLockNone;
+		private System.Windows.Forms.RadioButton RadioLock;
+		private System.Windows.Forms.RadioButton RadioLockAll;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.Button ButtonFilter;
 	}
 }
