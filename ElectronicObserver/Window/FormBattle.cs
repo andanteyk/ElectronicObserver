@@ -242,7 +242,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 							KCDatabase.Instance.MasterEquipments[touches[2]],
 							KCDatabase.Instance.MasterEquipments[touches[3]]
 						};
-						bool[] fire = new bool[] { pd1.IsAACutinAvailable, s1available[1] && pd2.IsAACutinAvailable };
+						bool[] fire = new bool[] { s2available[0] && pd1.IsAACutinAvailable, s2available[1] && pd2.IsAACutinAvailable };
 						int[] cutinID = new int[]
 						{
 							fire[0] ? pd1.AACutInKind : -1,

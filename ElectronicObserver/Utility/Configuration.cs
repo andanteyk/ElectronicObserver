@@ -355,7 +355,7 @@ namespace ElectronicObserver.Utility {
 							case 4:
 								return Encoding.GetEncoding( 932 );
 							default:
-								return new System.Text.UTF8Encoding( false );
+								return new System.Text.UTF8Encoding( true );
 
 						}
 					}
@@ -370,7 +370,7 @@ namespace ElectronicObserver.Utility {
 					LogLevel = 2;
 					SaveLogFlag = true;
 					SaveErrorReport = true;
-					FileEncodingID = 0;
+					FileEncodingID = 1;
 					ShowMainD2Link = false;
 					ShowCacheLog = true;
 					OutputGraphicList = false;

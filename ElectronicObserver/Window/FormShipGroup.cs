@@ -38,6 +38,25 @@ namespace ElectronicObserver.Window {
 		private readonly Color CellColorGray = Color.FromArgb( 0xBB, 0xBB, 0xBB );
 		private readonly Color CellColorCherry = Color.FromArgb( 0xFF, 0xDD, 0xDD );
 
+		private Brush BrushHighlight;
+		private Brush BrushForeground;
+		private Brush BrushSubForeground;
+		private readonly Brush[] Bs = new[]
+		{
+			//new SolidBrush( Color.FromArgb( 114, 55, 49 ) ),
+			//new SolidBrush( Color.FromArgb( 46, 82, 113 ) ),
+			//new SolidBrush( Color.FromArgb( 137, 79, 34 ) ),
+			//new SolidBrush( Color.FromArgb( 131, 99, 37 ) ),
+			//new SolidBrush( Color.FromArgb( 63, 63, 70 ) ),
+			new SolidBrush( Color.FromArgb( 191, 115, 106 ) ),
+			new SolidBrush( Color.FromArgb( 104, 151, 193 ) ),
+			new SolidBrush( Color.FromArgb( 213, 139, 85 ) ),
+			new SolidBrush( Color.FromArgb( 208, 167, 89 ) ),
+			new SolidBrush( Color.FromArgb( 143, 143, 154 ) ),
+		};
+
+		private float subfontHeight = -1;
+
 		//セルスタイル
 		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter, CSDefaultRight,
 			CSRedRight, CSOrangeRight, CSYellowRight, CSGreenRight, CSGrayRight, CSCherryRight,
@@ -49,6 +68,19 @@ namespace ElectronicObserver.Window {
 		/// <summary>艦これ起動前にタブを選択した場合はtrue</summary>
 		private bool IsTabSelectedBeforeBoot = false;
 
+		private bool IsLoadTypes = false;
+
+		private Dictionary<string, int[]> CustomShipTypes = new Dictionary<string, int[]>
+		{
+			{ "駆逐艦",     new[] { 2 } },
+			{ "軽巡·雷巡", new[] { 3, 4 } },
+			{ "重巡·航巡", new[] { 5, 6 } },
+			{ "戦艦",      new[] { 9, 10, 12 } },
+			{ "航空母艦",   new[] { 7, 11, 18 } },
+			{ "潜水艦",     new[] { 13, 14 } },
+			{ "航戦·航巡", new[] { 6, 10 } },
+		};
+
 		public FormShipGroup( FormMain parent ) {
 			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
@@ -58,6 +90,25 @@ namespace ElectronicObserver.Window {
 
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
 				column.MinimumWidth = 2;
+			}
+
+			foreach ( var ct in CustomShipTypes )
+			{
+				var label = new ImageLabel();
+				label.Text = ct.Key;
+				label.Font = ShipView.Font;
+				label.BackColor = TabInactiveColor;
+				label.BorderStyle = BorderStyle.FixedSingle;
+				label.Padding = new Padding( 4, 4, 7, 7 );
+				label.Margin = new Padding( 0, 0, 4, 0 );
+				label.ImageAlign = ContentAlignment.MiddleCenter;
+				label.AutoSize = true;
+				label.Cursor = Cursors.Hand;
+
+				label.Tag = ct.Value;
+				label.Click += label_Click;
+
+				FlowLayoutCustomShipTypes.Controls.Add( label );
 			}
 
 
@@ -125,6 +176,25 @@ namespace ElectronicObserver.Window {
 			this.ResumeLayoutForDpiScale();
 		}
 
+		void label_Click( object sender, EventArgs e )
+		{
+			ImageLabel label = sender as ImageLabel;
+			if ( label != null )
+			{
+				int[] ids = (int[])label.Tag;
+				
+				HangFilterChange = true;
+				CheckShipTypeAll.Checked = false;
+				foreach ( var type in FlowLayoutShipTypes.Controls.OfType<CheckBox>() )
+				{
+					type.Checked = ids.Contains( (int)type.Tag );
+				}
+				HangFilterChange = false;
+
+				FilterCheckChanged( sender, e );
+			}
+		}
+
 
 		private void FormShipGroup_Load( object sender, EventArgs e ) {
 
@@ -134,7 +204,8 @@ namespace ElectronicObserver.Window {
 			if ( !groups.ShipGroups.ContainsKey( -1 ) ) {
 				var master = new ShipGroupData( -1 );
 				master.Name = "全所属艦";
-				master.ColumnFilter = Enumerable.Repeat<bool>( true, ShipView.Columns.Count ).ToList();
+				//master.ColumnFilter = Enumerable.Repeat<bool>( true, ShipView.Columns.Count ).ToList();
+				master.ColumnFilter = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Visible ).ToList();
 				master.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
 
 				groups.ShipGroups.Add( master );
@@ -171,11 +242,33 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		void SetFilterShipTypes()
+		{
+			foreach ( var type in KCDatabase.Instance.ShipTypes.Values.OrderBy( t => t.SortID ) )
+			{
+				var check = new CheckBox();
+				check.AutoSize = true;
+				check.Font = ShipView.Font;
+				check.Text = type.Name;
+				check.Checked = true;
+				check.Tag = type.TypeID;
+				check.UseVisualStyleBackColor = true;
+				check.CheckedChanged += check_CheckedChanged;
+				FlowLayoutShipTypes.Controls.Add( check );
+			}
+			IsLoadTypes = true;
+		}
+
 		void ConfigurationChanged() {
 
 			var config = Utility.Configuration.Config;
 
+			subfontHeight = -1;
 			ShipView.Font = StatusBar.Font = Font = config.UI.MainFont;
+
+			BrushHighlight = new SolidBrush( config.UI.HighlightColor );
+			BrushForeground = new SolidBrush( config.UI.ForeColor );
+			BrushSubForeground = new SolidBrush( config.UI.SubForeColor );
 
 			CSDefaultLeft.Font =
 			CSDefaultCenter.Font =
@@ -229,11 +322,21 @@ namespace ElectronicObserver.Window {
 
 
 		void TabLabel_Click( object sender, EventArgs e ) {
+			var label = sender as ImageLabel;
+
+			if ( PanelFilter.Visible && (int)label.Tag != -1 )
+				ButtonFilter.PerformClick();
+
 			ChangeShipView( sender as ImageLabel );
 		}
 
 		private void APIUpdated( string apiname, dynamic data ) {
-			if ( IsTabSelectedBeforeBoot ) {
+
+			if ( !IsLoadTypes )
+				SetFilterShipTypes();
+
+			if ( IsTabSelectedBeforeBoot )
+			{
 				// 空のShipViewでKCDatabase.Instance.ShipGroupを上書きしてしまうのを防ぐため、
 				// 艦これ起動前にタブを選択した後の最初の艦船データ受信時は、ShipViewの構築を行う
 				BuildShipView( SelectedTab );
@@ -301,11 +404,12 @@ namespace ElectronicObserver.Window {
 				ship.Condition,
 				new Fraction( ship.Fuel, ship.MasterShip.Fuel ),
 				new Fraction( ship.Ammo, ship.MasterShip.Ammo ),
-				GetEquipmentString( ship, 0 ),
-				GetEquipmentString( ship, 1 ),
-				GetEquipmentString( ship, 2 ),
-				GetEquipmentString( ship, 3 ),
-				GetEquipmentString( ship, 4 ),
+				GetEquipmentTypeID( ship, 0 ),
+				GetEquipmentTypeID( ship, 1 ),
+				GetEquipmentTypeID( ship, 2 ),
+				GetEquipmentTypeID( ship, 3 ),
+				GetEquipmentTypeID( ship, 4 ),
+				GetEquipmentTypeID( ship, 5 ),
 				ship.FleetWithIndex,
 				ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
 				ship.FirepowerBase,
@@ -324,6 +428,14 @@ namespace ElectronicObserver.Window {
 				ship.IsLocked,
 				ship.SallyArea
 				);
+
+			row.Cells[ShipView_Equipment1.Index].ToolTipText = GetEquipmentString( ship, 0 );
+			row.Cells[ShipView_Equipment2.Index].ToolTipText = GetEquipmentString( ship, 1 );
+			row.Cells[ShipView_Equipment3.Index].ToolTipText = GetEquipmentString( ship, 2 );
+			row.Cells[ShipView_Equipment4.Index].ToolTipText = GetEquipmentString( ship, 3 );
+			row.Cells[ShipView_Equipment5.Index].ToolTipText = GetEquipmentString( ship, 4 );
+			var ex = ship.ExpansionSlotInstance;
+			row.Cells[ShipView_EquipmentEx.Index].ToolTipText = ( ex != null ? ex.NameWithLevel : ( ship.ExpansionSlot < 0 ? "(无)" : "" ) );
 
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
 			row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
@@ -395,16 +507,30 @@ namespace ElectronicObserver.Window {
 				return;
 
 			int groupID = (int)target.Tag;
-			ShipGroupData group = KCDatabase.Instance.ShipGroup[groupID];
 
+			ShipGroupData group = KCDatabase.Instance.ShipGroup[groupID];
+			if ( groupID < 0 )
+			{
+				BuildShipView( GetFilteredShips(), group );
+			}
+			else
+			{
+				var ships = group.MembersInstance;
+
+				BuildShipView( ships, group );
+			}
+		}
+
+		private void BuildShipView( IEnumerable<ShipData> ships, ShipGroupData g )
+		{
 			ShipView.SuspendLayout();
 
 			ShipView.Rows.Clear();
 
-			var ships = group.MembersInstance;
 			var rows = new List<DataGridViewRow>( ships.Count() );
 
-			foreach ( ShipData ship in ships ) {
+			foreach ( ShipData ship in ships )
+			{
 
 				if ( ship == null ) continue;
 
@@ -418,32 +544,40 @@ namespace ElectronicObserver.Window {
 
 			ShipView.Rows.AddRange( rows.ToArray() );
 
-
+			if ( g != null )
 			{
-				int columnCount = ShipView.Columns.Count;
-				if ( group.ColumnFilter != null ) columnCount = Math.Min( columnCount, group.ColumnFilter.Count );
-				if ( group.ColumnWidth != null ) columnCount = Math.Min( columnCount, group.ColumnWidth.Count );
+				{
+					int columnCount = ShipView.Columns.Count;
+					if ( g.ColumnFilter != null ) columnCount = Math.Min( columnCount, g.ColumnFilter.Count );
+					if ( g.ColumnWidth != null ) columnCount = Math.Min( columnCount, g.ColumnWidth.Count );
 
 
-				for ( int i = 0; i < columnCount; i++ ) {
-					ShipView.Columns[i].Visible = group.ColumnFilter[i];
-					ShipView.Columns[i].Width = group.ColumnWidth[i];
+					for ( int i = 0; i < columnCount; i++ )
+					{
+						ShipView.Columns[i].Visible = g.ColumnFilter[i];
+						ShipView.Columns[i].Width = g.ColumnWidth[i];
+					}
 				}
+
+				SetColumnAutoSize( g.ColumnAutoSize );
+				SetLockShipNameScroll( g.LockShipNameScroll );
 			}
-
-			SetColumnAutoSize( group.ColumnAutoSize );
-			SetLockShipNameScroll( group.LockShipNameScroll );
-
 
 			ShipView.ResumeLayout();
 
 
 			//status bar
-			if ( KCDatabase.Instance.Ships.Count > 0 ) {
-				Status_ShipCount.Text = string.Format( "所属: {0}隻", group.Members.Count );
-				Status_LevelTotal.Text = string.Format( "合計Lv: {0}", group.MembersInstance.Where( s => s != null ).Sum( s => s.Level ) );
-				Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", group.Members.Count > 0 ? group.MembersInstance.Where( s => s != null ).Average( s => s.Level ) : 0 );
+			if ( KCDatabase.Instance.Ships.Count > 0 )
+			{
+				try
+				{
+					Status_ShipCount.Text = string.Format( "所属: {0}隻", ships.Count() );
+					Status_LevelTotal.Text = string.Format( "合計Lv: {0}", ships.Where( s => s != null ).Sum( s => s.Level ) );
+					Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", ships.Count() > 0 ? ships.Where( s => s != null ).Average( s => s.Level ) : 0 );
+				}
+				catch { }
 			}
+
 		}
 
 
@@ -484,11 +618,28 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private int GetEquipmentTypeID( ShipData ship, int index )
+		{
+			if ( index >= 5 )
+			{
+				if ( ship.ExpansionSlotInstanceMaster != null )
+					return ship.ExpansionSlotInstanceMaster.IconType;
+
+				else
+					return -1 - ship.ExpansionSlot;
+
+			}
+			else if ( ship.SlotInstance[index] != null )
+				return ship.SlotInstance[index].MasterEquipment.IconType;
+
+			return ship.SlotSize > index ? 0 : -1;
+		}
+
 		private string GetEquipmentString( ShipData ship, int index ) {
 
 			int current = ship.Aircraft[index];
 			int max = ship.MasterShip.Aircraft[index];
-			string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : "(なし)";
+			string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : "(无)";
 
 			if ( index >= ship.MasterShip.SlotSize && ship.Slot[index] == -1 ) {
 				return "";
@@ -508,7 +659,7 @@ namespace ElectronicObserver.Window {
 
 		private string GetEquipmentOnlyString( ShipData ship, int index ) {
 
-			string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : "(なし)";
+			string name = ship.SlotInstance[index] != null ? ship.SlotInstance[index].NameWithLevel : "(无)";
 
 			if ( index >= ship.MasterShip.SlotSize && ship.Slot[index] == -1 ) {
 				return "";
@@ -562,6 +713,83 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void ShipView_CellPainting( object sender, DataGridViewCellPaintingEventArgs e )
+		{
+			if ( e.RowIndex < 0 )
+				return;
+
+			if ( e.ColumnIndex >= ShipView_Equipment1.Index && e.ColumnIndex <= ShipView_EquipmentEx.Index )
+			{
+				e.Paint( e.ClipBounds, e.PaintParts & ~DataGridViewPaintParts.ContentForeground );
+				int id;
+				var tag = e.Value;
+				if ( tag is int && ( id = (int)tag ) >= 0 )
+				{
+					Image image = ResourceManager.Instance.Equipments[id];
+					if ( image != null )
+					{
+						var rect = e.CellBounds;
+						rect.Width = rect.Height = Math.Min( image.Height, rect.Height );
+						rect.X += ( e.CellBounds.Width - rect.Width ) / 2;
+						rect.Y += ( e.CellBounds.Height - rect.Height ) / 2;
+						e.Graphics.DrawImage( image, rect );
+					}
+				}
+				e.Handled = true;
+			}
+
+			else
+			{
+				int index = -1;
+				if ( e.ColumnIndex == ShipView_Firepower.Index )
+					index = 0;
+				else if ( e.ColumnIndex == ShipView_Torpedo.Index )
+					index = 1;
+				else if ( e.ColumnIndex == ShipView_AA.Index )
+					index = 2;
+				else if ( e.ColumnIndex == ShipView_Armor.Index )
+					index = 3;
+				else if ( e.ColumnIndex == ShipView_Luck.Index )
+					index = 4;
+
+				if ( index >= 0 )
+				{
+					string value = ( (int)e.Value ).ToString();
+					int remain = (int)ShipView.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
+					if ( remain <= 0 )
+					{
+						e.Graphics.FillRectangle( Bs[index], e.CellBounds );
+						e.Paint( e.ClipBounds, e.PaintParts
+							& ~DataGridViewPaintParts.ContentForeground
+							& ~DataGridViewPaintParts.Background );
+					}
+					else
+					{
+						e.Paint( e.ClipBounds, e.PaintParts & ~DataGridViewPaintParts.ContentForeground );
+					}
+					StringFormat sf = new StringFormat { LineAlignment = StringAlignment.Center };
+					e.Graphics.DrawString( value, ShipView.Font, BrushForeground, e.CellBounds, sf );
+					float offset = e.Graphics.MeasureString( value, ShipView.Font ).Width;
+
+					RectangleF rect = e.CellBounds;
+					rect.X += offset + 3;
+					rect.Width -= offset + 3;
+					if ( rect.Width > 0 )
+					{
+						if ( subfontHeight < 0 )
+						{
+							subfontHeight = e.Graphics.MeasureString( "W", Utility.Configuration.Config.UI.SubFont ).Height;
+						}
+						rect.Y += ( rect.Height - subfontHeight ) * 2 / 3;
+						rect.Height = subfontHeight;
+						e.Graphics.DrawString( remain > 0 ? "+" + remain : "MAX", Utility.Configuration.Config.UI.SubFont, BrushSubForeground, rect );
+					}
+
+					e.Handled = true;
+				}
+			}
+		}
+
 
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
@@ -607,6 +835,9 @@ namespace ElectronicObserver.Window {
 			} else if ( e.Column.Index == ShipView_Locked.Index ) {
 				e.SortResult = ( (bool)e.CellValue1 ? 1 : 0 ) - ( (bool)e.CellValue2 ? 1 : 0 );
 
+			} else if ( e.Column.Index == ShipView_EquipmentEx.Index ) {
+				e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;
+
 			} else {
 				e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;
 			}
@@ -635,7 +866,7 @@ namespace ElectronicObserver.Window {
 
 		private void MenuGroup_Add_Click( object sender, EventArgs e ) {
 
-			using ( var dialog = new DialogTextInput( "グループを追加", "グループ名を入力してください：" ) ) {
+			using ( var dialog = new DialogTextInput( "添加分组", "请输入分组名：" ) ) {
 
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
@@ -665,7 +896,7 @@ namespace ElectronicObserver.Window {
 			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)senderLabel.Tag];
 
 			if ( group != null && group.GroupID >= 0 ) {
-				if ( MessageBox.Show( string.Format( "グループ [{0}] を削除しますか？\r\nこの操作は元に戻せません。", group.Name ), "確認",
+				if ( MessageBox.Show( string.Format( "要删除分组 [{0}] 吗？\r\n此操作无法撤销。", group.Name ), "确认",
 					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 					== System.Windows.Forms.DialogResult.Yes ) {
 
@@ -679,7 +910,7 @@ namespace ElectronicObserver.Window {
 				}
 
 			} else {
-				MessageBox.Show( "このグループは削除できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+				MessageBox.Show( "此分组无法删除。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
 			}
 		}
 
@@ -692,7 +923,7 @@ namespace ElectronicObserver.Window {
 
 			if ( group != null && group.GroupID >= 0 ) {
 
-				using ( var dialog = new DialogTextInput( "グループ名の変更", "グループ名を入力してください：" ) ) {
+				using ( var dialog = new DialogTextInput( "修改分组名", "请输入分组名：" ) ) {
 
 					dialog.InputtedText = group.Name;
 
@@ -704,7 +935,7 @@ namespace ElectronicObserver.Window {
 				}
 
 			} else {
-				MessageBox.Show( "このグループの名前を変更することはできません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+				MessageBox.Show( "分组名修改失败。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
 			}
 
 		}
@@ -797,7 +1028,7 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_AddToGroup_Click( object sender, EventArgs e ) {
 
-			using ( var dialog = new DialogTextSelect( "グループの選択", "追加するグループを選択してください：",
+			using ( var dialog = new DialogTextSelect( "分组选择", "请选择要添加到的分组：",
 				KCDatabase.Instance.ShipGroup.ShipGroups.Values.Where( g => g.GroupID >= 0 ).ToArray() ) ) {
 
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
@@ -823,7 +1054,7 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_CreateGroup_Click( object sender, EventArgs e ) {
 
-			using ( var dialog = new DialogTextInput( "グループの追加", "追加するグループの名前を入力してください：" ) ) {
+			using ( var dialog = new DialogTextInput( "添加分组", "请输入分组名：" ) ) {
 
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
@@ -854,7 +1085,7 @@ namespace ElectronicObserver.Window {
 
 
 			if ( group == null || group.GroupID < 0 ) {
-				MessageBox.Show( "このグループは変更できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				MessageBox.Show( "此分组无法修改。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
 				return;
 			}
 
@@ -876,7 +1107,7 @@ namespace ElectronicObserver.Window {
 			ShipGroupData group = SelectedTab != null ? KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag] : null;
 
 			if ( group == null ) {
-				MessageBox.Show( "このグループは変更できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				MessageBox.Show( "此分组无法修改。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
 				return;
 			}
 
@@ -1117,8 +1348,8 @@ namespace ElectronicObserver.Window {
 
 					} catch ( Exception ex ) {
 
-						Utility.ErrorReporter.SendErrorReport( ex, "艦船グループ CSVの出力に失敗しました。" );
-						MessageBox.Show( "艦船グループ CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+						Utility.ErrorReporter.SendErrorReport( ex, "舰船分组输出CSV失败。" );
+						MessageBox.Show( "舰船分组输出CSV失败。\r\n" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 					}
 
@@ -1325,6 +1556,91 @@ namespace ElectronicObserver.Window {
 			return "ShipGroup";
 		}
 
+		private bool HangFilterChange = false;
+
+		private void CheckShipTypeAll_CheckedChanged( object sender, EventArgs e )
+		{
+			if ( HangFilterChange )
+				return;
+
+			bool check = CheckShipTypeAll.Checked;
+			HangFilterChange = true;
+			foreach ( CheckBox ck in FlowLayoutShipTypes.Controls )
+			{
+				ck.Checked = check;
+			}
+			HangFilterChange = false;
+			FilterCheckChanged( sender, e );
+		}
+
+		void check_CheckedChanged( object sender, EventArgs e )
+		{
+			if ( HangFilterChange )
+				return;
+
+			HangFilterChange = true;
+			CheckShipTypeAll.Checked = FlowLayoutShipTypes.Controls.OfType<CheckBox>().All( c => c.Checked );
+			HangFilterChange = false;
+
+			FilterCheckChanged( sender, e );
+		}
+
+		private void ButtonFilter_Click( object sender, EventArgs e )
+		{
+			if ( PanelFilter.Visible || ( SelectedTab != null && (int)SelectedTab.Tag == -1 ) )
+				PanelFilter.Visible = !PanelFilter.Visible;
+		}
+
+		private void FilterChanged( object sender, EventArgs e )
+		{
+			RadioButton rd = sender as RadioButton;
+			if ( rd != null )
+			{
+				if ( rd.Checked )
+					FilterCheckChanged( sender, e );
+			}
+		}
+
+		private void FilterCheckChanged( object sender, EventArgs e )
+		{
+			if ( HangFilterChange )
+				return;
+
+			int id = ( SelectedTab == null ? 0 : (int)SelectedTab.Tag );
+			if ( id < 0 )	// 全部舰队
+				BuildShipView( GetFilteredShips(), null );
+		}
+
+		private IEnumerable<ShipData> GetFilteredShips()
+		{
+			// filter
+			var types = FlowLayoutShipTypes.Controls.OfType<CheckBox>().Where( c => c.Checked ).Select( c => (int)c.Tag );
+			int level = 0;
+			if ( RadioLevel1.Checked )
+				level = 1;
+			else if ( RadioLevel2Above.Checked )
+				level = 2;
+			int islock = 0;
+			if ( RadioLock.Checked )
+				islock = 1;
+			else if ( RadioLockNone.Checked )
+				islock = -1;
+			bool exceptMission = checkBox1.Checked;
+
+			IEnumerable<ShipData> ships;
+			if ( level == 1 )
+				ships = KCDatabase.Instance.Ships.Values.Where( s => ( s.Level == 1 ) && ( islock == 1 ? s.IsLocked : ( islock == 0 || !s.IsLocked ) ) && types.Contains( s.MasterShip.ShipType ) );
+			else
+				ships = KCDatabase.Instance.Ships.Values.Where( s => ( s.Level > level ) && ( islock == 1 ? s.IsLocked : ( islock == 0 || !s.IsLocked ) ) && types.Contains( s.MasterShip.ShipType ) );
+
+			if ( exceptMission )
+			{
+				var missions = KCDatabase.Instance.Fleet.Fleets.Where( f => f.Value.ExpeditionState == 1 ).SelectMany( f => f.Value.Members );
+				ships = ships.Where( s => !missions.Contains( s.MasterID ) );
+			}
+
+			return ships;
+		}
 
 	}
 }

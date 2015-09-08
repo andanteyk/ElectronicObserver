@@ -270,7 +270,7 @@ namespace ElectronicObserver.Utility.Data
 				}
 
 			}
-			return Math.Floor( aatotal * FormationAA[formation] * 20 / 45 ) / 10;
+			return Math.Floor( aatotal * FormationAA[formation] * 10 / 45 ) / 10;
 		}
 
 
