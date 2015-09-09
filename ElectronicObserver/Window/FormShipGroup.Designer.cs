@@ -842,6 +842,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.FlowLayoutShipTypes.Location = new System.Drawing.Point(49, 20);
 			this.FlowLayoutShipTypes.Name = "FlowLayoutShipTypes";
+			this.FlowLayoutShipTypes.AutoScroll = true;
 			this.FlowLayoutShipTypes.Size = new System.Drawing.Size(716, 51);
 			this.FlowLayoutShipTypes.TabIndex = 2;
 			// 

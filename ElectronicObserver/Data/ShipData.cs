@@ -295,14 +295,14 @@ namespace ElectronicObserver.Data {
 		/// 入渠にかかる鋼材
 		/// </summary>
 		public int RepairSteel {
-			get { return (int)RawData.api_ndock_item[0]; }
+			get { return (int)RawData.api_ndock_item[1]; }
 		}
 
 		/// <summary>
 		/// 入渠にかかる燃料
 		/// </summary>
 		public int RepairFuel {
-			get { return (int)RawData.api_ndock_item[1]; }
+			get { return (int)RawData.api_ndock_item[0]; }
 		}
 
 		/// <summary>
