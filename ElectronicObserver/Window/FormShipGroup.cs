@@ -75,7 +75,7 @@ namespace ElectronicObserver.Window {
 			{ "駆逐艦",     new[] { 2 } },
 			{ "軽巡·雷巡", new[] { 3, 4 } },
 			{ "重巡·航巡", new[] { 5, 6 } },
-			{ "戦艦",      new[] { 9, 10, 12 } },
+			{ "戦艦",      new[] { 8, 9, 10, 12 } },
 			{ "航空母艦",   new[] { 7, 11, 18 } },
 			{ "潜水艦",     new[] { 13, 14 } },
 			{ "航戦·航巡", new[] { 6, 10 } },
@@ -266,8 +266,8 @@ namespace ElectronicObserver.Window {
 			subfontHeight = -1;
 			ShipView.Font = StatusBar.Font = Font = config.UI.MainFont;
 
-			BrushHighlight = new SolidBrush( config.UI.HighlightColor );
-			BrushForeground = new SolidBrush( config.UI.ForeColor );
+			BrushHighlight = new SolidBrush( config.UI.HighlightForeColor );
+			BrushForeground = new SolidBrush( Color.Black );	// config.UI.ForeColor
 			BrushSubForeground = new SolidBrush( config.UI.SubForeColor );
 
 			CSDefaultLeft.Font =
@@ -691,6 +691,17 @@ namespace ElectronicObserver.Window {
 				}
 				e.FormattingApplied = true;
 
+			}
+			else if (
+				e.ColumnIndex == ShipView_Firepower.Index ||
+				e.ColumnIndex == ShipView_Torpedo.Index ||
+				e.ColumnIndex == ShipView_AA.Index ||
+				e.ColumnIndex == ShipView_Armor.Index ||
+				e.ColumnIndex == ShipView_Luck.Index
+				) {
+				e.Value += " MAX";
+				e.FormattingApplied = true;
+
 			} else if ( (
 				e.ColumnIndex == ShipView_FirepowerRemain.Index ||
 				e.ColumnIndex == ShipView_TorpedoRemain.Index ||
@@ -768,7 +779,7 @@ namespace ElectronicObserver.Window {
 						e.Paint( e.ClipBounds, e.PaintParts & ~DataGridViewPaintParts.ContentForeground );
 					}
 					StringFormat sf = new StringFormat { LineAlignment = StringAlignment.Center };
-					e.Graphics.DrawString( value, ShipView.Font, BrushForeground, e.CellBounds, sf );
+					e.Graphics.DrawString( value, ShipView.Font, remain > 0 ? BrushForeground : BrushHighlight, e.CellBounds, sf );
 					float offset = e.Graphics.MeasureString( value, ShipView.Font ).Width;
 
 					RectangleF rect = e.CellBounds;
