@@ -571,6 +571,14 @@ namespace ElectronicObserver.Data {
 			get { return (int)RawData.api_locked != 0; }
 		}
 
+		/// <summary>
+		/// 装備による保護ロックの有無
+		/// </summary>
+		public bool IsLockedByEquipment {
+			get { return (int)RawData.api_locked_equip != 0; }
+		}
+
+
 		//*/
 		/// <summary>
 		/// 出撃海域

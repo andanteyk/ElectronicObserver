@@ -597,6 +597,16 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
+		/// 搭載
+		/// </summary>
+		public int AircraftTotal {
+			get {
+				return Aircraft.Sum( i => Math.Max( i, 0 ) );
+			}
+		}
+
+
+		/// <summary>
 		/// 図鑑に載っているか
 		/// </summary>
 		public bool IsListedInAlbum {

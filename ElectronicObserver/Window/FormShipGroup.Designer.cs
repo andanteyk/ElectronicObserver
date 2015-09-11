@@ -157,7 +157,7 @@
 			this.ShipView.ReadOnly = true;
 			this.ShipView.RowHeadersVisible = false;
 			this.ShipView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ShipView.Size = new System.Drawing.Size(300, 118);
+			this.ShipView.Size = new System.Drawing.Size(300, 134);
 			this.ShipView.TabIndex = 0;
 			this.ShipView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ShipView_CellFormatting);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
@@ -417,6 +417,7 @@
 			// 
 			// MenuMember
 			// 
+			this.MenuMember.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuMember_AddToGroup,
             this.MenuMember_CreateGroup,
@@ -511,6 +512,7 @@
 			// 
 			// MenuGroup
 			// 
+			this.MenuGroup.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuGroup_Add,
             this.MenuGroup_Rename,
@@ -519,7 +521,7 @@
             this.MenuGroup_AutoUpdate,
             this.MenuGroup_ShowStatusBar});
 			this.MenuGroup.Name = "MenuGroup";
-			this.MenuGroup.Size = new System.Drawing.Size(322, 200);
+			this.MenuGroup.Size = new System.Drawing.Size(322, 244);
 			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
 			// 
 			// MenuGroup_Add
@@ -604,13 +606,14 @@
 			// 
 			// StatusBar
 			// 
+			this.StatusBar.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Status_ShipCount,
             this.Status_LevelTotal,
             this.Status_LevelAverage});
-			this.StatusBar.Location = new System.Drawing.Point(0, 118);
+			this.StatusBar.Location = new System.Drawing.Point(0, 134);
 			this.StatusBar.Name = "StatusBar";
-			this.StatusBar.Size = new System.Drawing.Size(300, 38);
+			this.StatusBar.Size = new System.Drawing.Size(300, 22);
 			this.StatusBar.SizingGrip = false;
 			this.StatusBar.TabIndex = 1;
 			this.StatusBar.Text = "statusStrip1";
@@ -618,17 +621,17 @@
 			// Status_ShipCount
 			// 
 			this.Status_ShipCount.Name = "Status_ShipCount";
-			this.Status_ShipCount.Size = new System.Drawing.Size(0, 33);
+			this.Status_ShipCount.Size = new System.Drawing.Size(0, 17);
 			// 
 			// Status_LevelTotal
 			// 
 			this.Status_LevelTotal.Name = "Status_LevelTotal";
-			this.Status_LevelTotal.Size = new System.Drawing.Size(0, 33);
+			this.Status_LevelTotal.Size = new System.Drawing.Size(0, 17);
 			// 
 			// Status_LevelAverage
 			// 
 			this.Status_LevelAverage.Name = "Status_LevelAverage";
-			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 33);
+			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 17);
 			// 
 			// FormShipGroup
 			// 

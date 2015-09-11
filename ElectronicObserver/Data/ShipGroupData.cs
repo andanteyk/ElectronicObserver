@@ -2,10 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -19,12 +22,33 @@ namespace ElectronicObserver.Data {
 	[DebuggerDisplay( "[{GroupID}] : {Name} ({Members.Count} ships)" )]
 	public class ShipGroupData : IIdentifiable {
 
+
+		// fixme: アクセサは要検討
+
+		public class ViewColumnData : IIdentifiable {
+
+			public int Width { get; set; }
+			public int Index { get; set; }
+			public bool Visible { get; set; }
+
+			public int ID {
+				get { return Index; }
+			}
+		}
+
+
+
+		[DataMember]
+		public List<KeyValuePair<int,ListSortDirection>> SortOrder;		//string のほうがいいのでは
+
+
+
 		/// <summary>
 		/// グループID
 		/// </summary>
 		[DataMember]
 		public int GroupID { get; internal set; }
-		
+
 		/// <summary>
 		/// 所属艦のIDリスト
 		/// </summary>
