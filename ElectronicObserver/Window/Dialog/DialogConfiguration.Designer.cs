@@ -1125,7 +1125,8 @@
             "UTF-8(BOM)",
             "UTF-16",
             "UTF-16(BOM)",
-            "Shift-JIS"});
+            "Shift-JIS",
+            "GB2312(GBK)"} );
 			this.Log_FileEncodingID.Location = new System.Drawing.Point(80, 113);
 			this.Log_FileEncodingID.Name = "Log_FileEncodingID";
 			this.Log_FileEncodingID.Size = new System.Drawing.Size(112, 23);

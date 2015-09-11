@@ -327,7 +327,7 @@ namespace ElectronicObserver.Window {
 			BasePanel.SetFlowBreak( TextDestination, true );
 			//BasePanel.SetFlowBreak( TextEventKind, true );
 			BasePanel.SetFlowBreak( TextEventDetail, true );
-			BasePanel.SetFlowBreak( TextAirSuperiority, true );
+			BasePanel.SetFlowBreak( TextAA, true );
 
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
 			TextEventDetail.ImageList = ResourceManager.Instance.Equipments;
@@ -340,8 +340,9 @@ namespace ElectronicObserver.Window {
 		private void FormCompass_Load( object sender, EventArgs e ) {
 
 			BasePanel.Visible = false;
-			TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
-			TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
+			TextAA.ImageList = TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
+			TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
+			TextAA.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
 
 
 			Font = MainFont;
@@ -416,6 +417,7 @@ namespace ElectronicObserver.Window {
 				TextEnemyFleetName.Visible =
 				TextFormation.Visible =
 				TextAirSuperiority.Visible = false;
+				TextAA.Visible = false;
 
 				_enemyFleetCandidate = null;
 				_enemyFleetCandidateIndex = -1;
@@ -639,6 +641,7 @@ namespace ElectronicObserver.Window {
 
 				TextFormation.Visible = false;
 				TextAirSuperiority.Visible = false;
+				TextAA.Visible = false;
 				TableEnemyMember.Visible = false;
 
 			} else {
@@ -687,13 +690,13 @@ namespace ElectronicObserver.Window {
 				TextEventDetail.Text = "敵艦隊ID: " + efcurrent.FleetID.ToString( "x8" );
 			}
 
-			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy ) + ", 舰队防空: ";
+			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			TextFormation.Visible = true;
-			//int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
-			//TextAirSuperiority.Text = string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
-			//ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
-			TextAirSuperiority.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, bd.Searching.FormationEnemy ).ToString();
-			TextAirSuperiority.Visible = true;
+			int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
+			TextAirSuperiority.Text = airSuperiority.ToString();
+			//string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
+			ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
+			TextAA.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, bd.Searching.FormationEnemy ).ToString();
 
 			TableEnemyMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
@@ -710,6 +713,7 @@ namespace ElectronicObserver.Window {
 			TextEnemyFleetName.Visible =
 			TextFormation.Visible =
 			TextAirSuperiority.Visible = true;
+			TextAA.Visible = true;
 			BasePanel.Visible = true;			//checkme
 
 		}
@@ -741,6 +745,7 @@ namespace ElectronicObserver.Window {
 				TextEnemyFleetName.Text = candidate.FleetName;
 				TextFormation.Text = Constants.GetFormationShort( candidate.Formation );
 				TextAirSuperiority.Text = Calculator.GetAirSuperiority( candidate.FleetMember ).ToString();
+				TextAA.Text = CalculatorEx.GetEnemyFleetAAValue( candidate.FleetMember, candidate.Formation ).ToString();
 
 				TableEnemyMember.SuspendLayout();
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
@@ -750,6 +755,7 @@ namespace ElectronicObserver.Window {
 
 				TextFormation.Visible = true;
 				TextAirSuperiority.Visible = true;
+				TextAA.Visible = true;
 				TableEnemyMember.Visible = true;
 
 

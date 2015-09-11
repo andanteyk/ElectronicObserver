@@ -39,8 +39,8 @@ namespace ElectronicObserver.Window {
 		private readonly Color CellColorCherry = Color.FromArgb( 0xFF, 0xDD, 0xDD );
 
 		private Brush BrushHighlight;
-		private Brush BrushForeground;
-		private Brush BrushSubForeground;
+		private Brush BrushForeground = new SolidBrush( Color.Black );	// config.UI.ForeColor
+		private Brush BrushSubForeground = new SolidBrush( Color.FromArgb( 0x88, 0x88, 0x88 ) );
 		private readonly Brush[] Bs = new[]
 		{
 			//new SolidBrush( Color.FromArgb( 114, 55, 49 ) ),
@@ -246,6 +246,10 @@ namespace ElectronicObserver.Window {
 		{
 			foreach ( var type in KCDatabase.Instance.ShipTypes.Values.OrderBy( t => t.SortID ) )
 			{
+				// 敌方补给舰不显示
+				if ( type.TypeID == 15 )
+					continue;
+
 				var check = new CheckBox();
 				check.AutoSize = true;
 				check.Font = ShipView.Font;
@@ -267,8 +271,6 @@ namespace ElectronicObserver.Window {
 			ShipView.Font = StatusBar.Font = Font = config.UI.MainFont;
 
 			BrushHighlight = new SolidBrush( config.UI.HighlightForeColor );
-			BrushForeground = new SolidBrush( Color.Black );	// config.UI.ForeColor
-			BrushSubForeground = new SolidBrush( config.UI.SubForeColor );
 
 			CSDefaultLeft.Font =
 			CSDefaultCenter.Font =
@@ -314,6 +316,8 @@ namespace ElectronicObserver.Window {
 			label.MouseUp += TabLabel_MouseUp;
 			label.ContextMenuStrip = MenuGroup;
 			label.Tag = id;
+
+			this.ButtonFilter.Size = new System.Drawing.Size( 21, label.Height );
 
 			return label;
 		}
@@ -377,6 +381,13 @@ namespace ElectronicObserver.Window {
 				g.ColumnWidth = ShipView.Columns.OfType<DataGridViewColumn>().Select( c => c.Width ).ToList();
 				g.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
 				g.LockShipNameScroll = MenuMember_LockShipNameScroll.Checked;
+
+				// sort save
+				if ( ShipView.SortedColumn != null )
+				{
+					g.SortColumnName = ShipView.SortedColumn.Name;
+					g.SortOrder = (int)ShipView.SortOrder;
+				}
 			}
 		}
 
@@ -436,6 +447,12 @@ namespace ElectronicObserver.Window {
 			row.Cells[ShipView_Equipment5.Index].ToolTipText = GetEquipmentString( ship, 4 );
 			var ex = ship.ExpansionSlotInstance;
 			row.Cells[ShipView_EquipmentEx.Index].ToolTipText = ( ex != null ? ex.NameWithLevel : ( ship.ExpansionSlot < 0 ? "(无)" : "" ) );
+
+			row.Cells[ShipView_Firepower.Index].ToolTipText = ship.FirepowerRemain > 0 ? ( "剩余: " + ship.FirepowerRemain ) : null;
+			row.Cells[ShipView_Torpedo.Index].ToolTipText = ship.TorpedoRemain > 0 ? ( "剩余: " + ship.TorpedoRemain ) : null;
+			row.Cells[ShipView_AA.Index].ToolTipText = ship.AARemain > 0 ? ( "剩余: " + ship.AARemain ) : null;
+			row.Cells[ShipView_Armor.Index].ToolTipText = ship.ArmorRemain > 0 ? ( "剩余: " + ship.ArmorRemain ) : null;
+			row.Cells[ShipView_Luck.Index].ToolTipText = ship.LuckRemain > 0 ? ( "剩余: " + ship.LuckRemain ) : null;
 
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
 			row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
@@ -561,9 +578,23 @@ namespace ElectronicObserver.Window {
 
 				SetColumnAutoSize( g.ColumnAutoSize );
 				SetLockShipNameScroll( g.LockShipNameScroll );
+
+				// set sort
+				SetSort( g.SortColumnName, (SortOrder)g.SortOrder );
+			}
+			else
+			{
+				DataGridViewColumn col = ShipView.SortedColumn;
+				SortOrder order = ShipView.SortOrder;
+				if ( order > SortOrder.None && col != null )
+				{
+					ShipView.Sort( col, ( order == SortOrder.Ascending ) ? ListSortDirection.Ascending : ListSortDirection.Descending );
+				}
 			}
 
 			ShipView.ResumeLayout();
+			if ( !ShipView.Focused )
+				ShipView.Focus();
 
 
 			//status bar
@@ -865,6 +896,7 @@ namespace ElectronicObserver.Window {
 
 
 		private void ShipView_Sorted( object sender, EventArgs e ) {
+
 
 			for ( int i = 0; i < ShipView.Rows.Count; i++ )
 				ShipView.Rows[i].Tag = i;
@@ -1423,6 +1455,18 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void SetSort( string sortname, SortOrder order )
+		{
+			if ( order > SortOrder.None && !string.IsNullOrEmpty( sortname ) )
+			{
+				DataGridViewColumn col;
+				try { col = ShipView.Columns[sortname]; }
+				catch { return; }
+
+				ShipView.Sort( col, ( order == SortOrder.Ascending ) ? ListSortDirection.Ascending : ListSortDirection.Descending );
+			}
+		}
+
 
 		/// <summary>
 		/// 現在の艦隊を表示中のグループに追加する。
@@ -1618,7 +1662,8 @@ namespace ElectronicObserver.Window {
 				return;
 
 			int id = ( SelectedTab == null ? 0 : (int)SelectedTab.Tag );
-			if ( id < 0 )	// 全部舰队
+			if ( id < 0 )
+				// 全部舰队
 				BuildShipView( GetFilteredShips(), null );
 		}
 

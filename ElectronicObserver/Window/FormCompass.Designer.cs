@@ -34,6 +34,7 @@
 			this.TextEnemyFleetName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextFormation = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextAirSuperiority = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TextAA = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.BasePanel.SuspendLayout();
 			this.PanelEnemyFleet.SuspendLayout();
@@ -51,6 +52,7 @@
 			this.BasePanel.Controls.Add(this.TextEnemyFleetName);
 			this.BasePanel.Controls.Add(this.TextFormation);
 			this.BasePanel.Controls.Add(this.TextAirSuperiority);
+			this.BasePanel.Controls.Add(this.TextAA);
 			this.BasePanel.Controls.Add(this.PanelEnemyFleet);
 			this.BasePanel.Location = new System.Drawing.Point(0, 0);
 			this.BasePanel.Name = "BasePanel";
@@ -155,6 +157,15 @@
 			this.TextAirSuperiority.TabIndex = 2;
 			this.TextAirSuperiority.Text = "(制空戦力)";
 			// 
+			// TextAA
+			// 
+			this.TextAA.BackColor = System.Drawing.Color.Transparent;
+			this.TextAA.Location = new System.Drawing.Point(290, 0);
+			this.TextAA.Name = "TextAA";
+			this.TextAA.Size = new System.Drawing.Size(175, 16);
+			this.TextAA.TabIndex = 3;
+			this.TextAA.Text = "(舰队防空)";
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 30000;
@@ -189,6 +200,7 @@
 		private Control.ImageLabel TextEnemyFleetName;
 		private Control.ImageLabel TextFormation;
 		private Control.ImageLabel TextAirSuperiority;
+		private Control.ImageLabel TextAA;
 		private System.Windows.Forms.TableLayoutPanel TableEnemyMember;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private Control.ImageLabel TextMapArea;
