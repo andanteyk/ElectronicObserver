@@ -649,6 +649,7 @@
 			this.ButtonFilter.TabIndex = 0;
 			this.ButtonFilter.Text = "…";
 			this.ButtonFilter.UseVisualStyleBackColor = true;
+			this.ButtonFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.ButtonFilter.Click += new System.EventHandler(this.ButtonFilter_Click);
 			// 
 			// StatusBar

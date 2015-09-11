@@ -50,6 +50,18 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 排序列
+		/// </summary>
+		[DataMember]
+		public string SortColumnName { get; set; }
+
+		/// <summary>
+		/// 升降序
+		/// </summary>
+		[DataMember]
+		public int SortOrder { get; set; }
+
+		/// <summary>
 		/// グループ名
 		/// </summary>
 		[DataMember]

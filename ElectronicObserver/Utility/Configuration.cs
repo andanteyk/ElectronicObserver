@@ -354,6 +354,8 @@ namespace ElectronicObserver.Utility {
 								return new System.Text.UnicodeEncoding( false, true );
 							case 4:
 								return Encoding.GetEncoding( 932 );
+							case 5:
+								return Encoding.GetEncoding( 936 );
 							default:
 								return new System.Text.UTF8Encoding( true );
 
