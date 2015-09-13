@@ -291,8 +291,11 @@ namespace Browser {
 
 				if ( document.Url.ToString().Contains( ".swf?" ) ) {
 
-					document.Body.SetAttribute( "width", "100%" );
-					document.Body.SetAttribute( "height", "100%" );
+					var swf = document.Body.Children.OfType<HtmlElement>().FirstOrDefault( e => e.TagName == "EMBED" );
+					if ( swf == null ) return;
+
+					swf.SetAttribute( "width", "100%" );
+					swf.SetAttribute( "height", "100%" );
 
 				} else {
 					var swf = getFrameElementById( document, "externalswf" );
@@ -326,7 +329,8 @@ namespace Browser {
 		/// ブラウザを再読み込みします。
 		/// </summary>
 		public void RefreshBrowser() {
-			Browser.Refresh( WebBrowserRefreshOption.Completely );
+			//Browser.Refresh( WebBrowserRefreshOption.Completely );
+			Browser.Navigate( Browser.Url );
 		}
 
 		/// <summary>
