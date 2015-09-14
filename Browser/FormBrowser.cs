@@ -226,7 +226,7 @@ namespace Browser {
 				var document = Browser.Document;
 				if ( document == null ) return;
 
-				if ( document.Url.AbsolutePath.Contains( ".swf?" ) ) {
+				if ( document.Url.ToString().Contains( ".swf?" ) ) {
 
 					document.Body.SetAttribute( "width", "100%" );
 					document.Body.SetAttribute( "height", "100%" );
@@ -400,7 +400,7 @@ namespace Browser {
 				IViewObject viewobj = null;
 				//int width = 0, height = 0;
 
-				if ( wb.Document.Url.AbsolutePath.Contains( ".swf?" ) ) {
+				if ( wb.Document.Url.ToString().Contains( ".swf?" ) ) {
 
 					viewobj = wb.Document.GetElementsByTagName( "embed" )[0].DomElement as IViewObject;
 					if ( viewobj == null ) {
