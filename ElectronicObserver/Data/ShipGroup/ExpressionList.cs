@@ -45,7 +45,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 		public ExpressionList() {
 			Expressions = new List<ExpressionData>();
 			InternalAnd = true;
-			ExternalAnd = true;
+			ExternalOr = true;
 			Inverse = false;
 			Enabled = true;
 		}
@@ -58,7 +58,14 @@ namespace ElectronicObserver.Data.ShipGroup {
 			Enabled = true;
 		}
 
-		public Expression Compile() {
+
+		public ExpressionData this[int index] {
+			get { return Expressions[index]; }
+			set { Expressions[index] = value; }
+		}
+
+
+		public Expression Compile( ParameterExpression paramex ) {
 			Expression ex = null;
 
 			foreach ( var exdata in Expressions ) {
@@ -66,13 +73,13 @@ namespace ElectronicObserver.Data.ShipGroup {
 					continue;
 
 				if ( ex == null ) {
-					ex = exdata.Compile();
+					ex = exdata.Compile( paramex  );
 
 				} else {
 					if ( InternalAnd ) {
-						ex = Expression.AndAlso( ex, exdata.Compile() );
+						ex = Expression.AndAlso( ex, exdata.Compile( paramex ) );
 					} else {
-						ex = Expression.OrElse( ex, exdata.Compile() );
+						ex = Expression.OrElse( ex, exdata.Compile( paramex ) );
 					}
 				}
 			}
@@ -85,14 +92,15 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 
 		public override string ToString() {
-			return string.Format( "({0}){1}", string.Join( InternalAnd ? " かつ " : " または ", Expressions ), Inverse ? " ではない" : "" );			
+			var exp = Expressions.Where( p => p.Enabled );
+			return string.Format( "({0}){1}", exp.Count() == 0 ? "なし" : string.Join( InternalAnd ? " かつ " : " または ", exp ), Inverse ? " を満たさない" : "" );			
 		}
 
 
 
 		public ExpressionList Clone() {
 			var clone = (ExpressionList)MemberwiseClone();
-			clone.Expressions = new List<ExpressionData>( Expressions );
+			clone.Expressions = Expressions == null ? null : new List<ExpressionData>( Expressions );
 			return clone;
 		}
 

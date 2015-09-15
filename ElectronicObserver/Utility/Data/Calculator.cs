@@ -334,7 +334,8 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
 		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
 		/// <param name="defenerShipID">防御艦の艦船ID。なければ-1</param>
-		public static int GetDayAttackKind( int[] slot, int attackerShipID, int defenerShipID ) {
+		/// <param name="includeSpecialAttack">弾着観測砲撃を含むか。falseなら除外して計算</param>
+		public static int GetDayAttackKind( int[] slot, int attackerShipID, int defenerShipID, bool includeSpecialAttack = true ) {
 
 			int reconcnt = 0;
 			int mainguncnt = 0;
@@ -378,7 +379,7 @@ namespace ElectronicObserver.Utility.Data {
 				}
 			}
 
-			if ( reconcnt > 0 ) {
+			if ( reconcnt > 0 && includeSpecialAttack ) {
 				if ( mainguncnt == 2 && apshellcnt == 1 )
 					return 6;		//カットイン(主砲/主砲)
 				else if ( mainguncnt == 1 && subguncnt == 1 && apshellcnt == 1 )

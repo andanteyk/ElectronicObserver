@@ -22,27 +22,47 @@ namespace ElectronicObserver.Data.ShipGroup {
 		private Expression expression;
 
 
+		public ExpressionManager() {
+			Expressions = new List<ExpressionList>();
+			predicate = null;
+			expression = null;
+		}
+
+
+		public ExpressionList this[int index] {
+			get { return Expressions[index]; }
+			set { Expressions[index] = value; }
+		}
+
+
 		public void Compile() {
 			Expression ex = null;
+			var paramex = Expression.Parameter( typeof( ShipData ) );
 
 			foreach ( var exlist in Expressions ) {
 				if ( !exlist.Enabled )
 					continue;
 
 				if ( ex == null ) {
-					ex = exlist.Compile();
+					ex = exlist.Compile( paramex );
 
 				} else {
 					if ( exlist.ExternalAnd ) {
-						ex = Expression.AndAlso( ex, exlist.Compile() );
+						ex = Expression.AndAlso( ex, exlist.Compile( paramex ) );
 					} else {
-						ex = Expression.OrElse( ex, exlist.Compile() );
+						ex = Expression.OrElse( ex, exlist.Compile( paramex ) );
 					}
 				}
 			}
 
-			predicate = Expression.Lambda<Func<ShipData, bool>>( ex, Expression.Parameter( typeof( ShipData ) ) );
+
+			if ( ex == null ) {
+				ex = Expression.Constant( true, typeof( bool ) );		//:-P
+			}
+
+			predicate = Expression.Lambda<Func<ShipData, bool>>( ex, paramex );
 			expression = ex;
+
 		}
 
 
@@ -54,6 +74,9 @@ namespace ElectronicObserver.Data.ShipGroup {
 			return list.AsQueryable().Where( predicate ).AsEnumerable();
 		}
 
+		public bool IsAvailable { get { return predicate != null; } }
+
+
 
 		public override string ToString() {
 			return expression.ToString();
@@ -63,7 +86,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 		public ExpressionManager Clone() {
 			var clone = (ExpressionManager)MemberwiseClone();
-			clone.Expressions = new List<ExpressionList>( Expressions );
+			clone.Expressions = Expressions == null ? null : new List<ExpressionList>( Expressions );
 			return clone;
 		}
 

@@ -24,38 +24,48 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.ExpressionView = new System.Windows.Forms.DataGridView();
-			this.ExpressionDetailView = new System.Windows.Forms.DataGridView();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.GroupExpression = new System.Windows.Forms.GroupBox();
-			this.LeftOperand = new System.Windows.Forms.ComboBox();
-			this.Operator = new System.Windows.Forms.ComboBox();
-			this.RightOperand_TextBox = new System.Windows.Forms.TextBox();
-			this.RightOperand_NumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.RightOperand_ComboBox = new System.Windows.Forms.ComboBox();
-			this.ButtonAdd = new System.Windows.Forms.Button();
-			this.ButtonEdit = new System.Windows.Forms.Button();
-			this.ButtonRemove = new System.Windows.Forms.Button();
 			this.ExpressionView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ExpressionView_AndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.ExpressionView_ExternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.ExpressionView_Inverse = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ExpressionView_InternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.ExpressionView_Expression = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ExpressionView_Up = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.ExpressionView_Down = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.Expression_Delete = new System.Windows.Forms.Button();
+			this.Expression_Add = new System.Windows.Forms.Button();
+			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.ExpressionDetailView = new System.Windows.Forms.DataGridView();
 			this.ExpressionDetailView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ExpressionDetailView_LeftOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ExpressionDetailView_LeftOperand = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.ExpressionDetailView_RightOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ExpressionDetailView_Operator = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ExpressionDetailView_Operator = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.ExpressionDetail_Delete = new System.Windows.Forms.Button();
+			this.ExpressionDetail_Edit = new System.Windows.Forms.Button();
+			this.ExpressionDetail_Add = new System.Windows.Forms.Button();
+			this.GroupExpression = new System.Windows.Forms.GroupBox();
+			this.Description = new System.Windows.Forms.Label();
+			this.RightOperand_ComboBox = new System.Windows.Forms.ComboBox();
+			this.RightOperand_NumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.Operator = new System.Windows.Forms.ComboBox();
+			this.RightOperand_TextBox = new System.Windows.Forms.TextBox();
+			this.LeftOperand = new System.Windows.Forms.ComboBox();
+			this.ButtonOK = new System.Windows.Forms.Button();
+			this.ButtonCancel = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+			this.splitContainer3.Panel1.SuspendLayout();
+			this.splitContainer3.Panel2.SuspendLayout();
+			this.splitContainer3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.ExpressionView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.ExpressionView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ExpressionDetailView)).BeginInit();
 			this.GroupExpression.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.RightOperand_NumericUpDown)).BeginInit();
@@ -69,36 +79,37 @@
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.ExpressionView);
+			this.splitContainer1.Panel1.Controls.Add(this.splitContainer3);
 			// 
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
 			this.splitContainer1.Size = new System.Drawing.Size(624, 441);
-			this.splitContainer1.SplitterDistance = 208;
+			this.splitContainer1.SplitterDistance = 240;
 			this.splitContainer1.TabIndex = 0;
 			// 
-			// splitContainer2
+			// splitContainer3
 			// 
-			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer2.Name = "splitContainer2";
-			this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitContainer3.IsSplitterFixed = true;
+			this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer3.Name = "splitContainer3";
+			this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
-			// splitContainer2.Panel1
+			// splitContainer3.Panel1
 			// 
-			this.splitContainer2.Panel1.Controls.Add(this.ExpressionDetailView);
+			this.splitContainer3.Panel1.Controls.Add(this.ExpressionView);
 			// 
-			// splitContainer2.Panel2
+			// splitContainer3.Panel2
 			// 
-			this.splitContainer2.Panel2.Controls.Add(this.ButtonRemove);
-			this.splitContainer2.Panel2.Controls.Add(this.ButtonEdit);
-			this.splitContainer2.Panel2.Controls.Add(this.ButtonAdd);
-			this.splitContainer2.Panel2.Controls.Add(this.GroupExpression);
-			this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
-			this.splitContainer2.Size = new System.Drawing.Size(412, 441);
-			this.splitContainer2.SplitterDistance = 268;
-			this.splitContainer2.TabIndex = 0;
+			this.splitContainer3.Panel2.Controls.Add(this.ButtonCancel);
+			this.splitContainer3.Panel2.Controls.Add(this.ButtonOK);
+			this.splitContainer3.Panel2.Controls.Add(this.Expression_Delete);
+			this.splitContainer3.Panel2.Controls.Add(this.Expression_Add);
+			this.splitContainer3.Size = new System.Drawing.Size(240, 441);
+			this.splitContainer3.SplitterDistance = 320;
+			this.splitContainer3.TabIndex = 0;
 			// 
 			// ExpressionView
 			// 
@@ -109,8 +120,9 @@
 			this.ExpressionView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ExpressionView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ExpressionView_Enabled,
-            this.ExpressionView_AndOr,
+            this.ExpressionView_ExternalAndOr,
             this.ExpressionView_Inverse,
+            this.ExpressionView_InternalAndOr,
             this.ExpressionView_Expression,
             this.ExpressionView_Up,
             this.ExpressionView_Down});
@@ -118,13 +130,108 @@
 			this.ExpressionView.Location = new System.Drawing.Point(0, 0);
 			this.ExpressionView.MultiSelect = false;
 			this.ExpressionView.Name = "ExpressionView";
-			this.ExpressionView.ReadOnly = true;
 			this.ExpressionView.RowHeadersVisible = false;
 			this.ExpressionView.RowTemplate.Height = 21;
 			this.ExpressionView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ExpressionView.Size = new System.Drawing.Size(208, 441);
+			this.ExpressionView.Size = new System.Drawing.Size(240, 320);
 			this.ExpressionView.TabIndex = 0;
-			this.ExpressionView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ExpressionView_CellMouseClick);
+			this.ExpressionView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpressionView_CellContentClick);
+			this.ExpressionView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpressionView_CellValueChanged);
+			this.ExpressionView.CurrentCellDirtyStateChanged += new System.EventHandler(this.ExpressionView_CurrentCellDirtyStateChanged);
+			this.ExpressionView.SelectionChanged += new System.EventHandler(this.ExpressionView_SelectionChanged);
+			// 
+			// ExpressionView_Enabled
+			// 
+			this.ExpressionView_Enabled.HeaderText = "";
+			this.ExpressionView_Enabled.Name = "ExpressionView_Enabled";
+			this.ExpressionView_Enabled.Width = 20;
+			// 
+			// ExpressionView_ExternalAndOr
+			// 
+			this.ExpressionView_ExternalAndOr.HeaderText = "";
+			this.ExpressionView_ExternalAndOr.Items.AddRange(new object[] {
+            "And",
+            "Or"});
+			this.ExpressionView_ExternalAndOr.Name = "ExpressionView_ExternalAndOr";
+			this.ExpressionView_ExternalAndOr.Width = 50;
+			// 
+			// ExpressionView_Inverse
+			// 
+			this.ExpressionView_Inverse.HeaderText = "Inv";
+			this.ExpressionView_Inverse.Name = "ExpressionView_Inverse";
+			this.ExpressionView_Inverse.Width = 20;
+			// 
+			// ExpressionView_InternalAndOr
+			// 
+			this.ExpressionView_InternalAndOr.HeaderText = "";
+			this.ExpressionView_InternalAndOr.Items.AddRange(new object[] {
+            "And",
+            "Or"});
+			this.ExpressionView_InternalAndOr.Name = "ExpressionView_InternalAndOr";
+			this.ExpressionView_InternalAndOr.Width = 50;
+			// 
+			// ExpressionView_Expression
+			// 
+			this.ExpressionView_Expression.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionView_Expression.HeaderText = "式";
+			this.ExpressionView_Expression.Name = "ExpressionView_Expression";
+			this.ExpressionView_Expression.ReadOnly = true;
+			this.ExpressionView_Expression.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ExpressionView_Up
+			// 
+			this.ExpressionView_Up.HeaderText = "↑";
+			this.ExpressionView_Up.Name = "ExpressionView_Up";
+			this.ExpressionView_Up.Width = 20;
+			// 
+			// ExpressionView_Down
+			// 
+			this.ExpressionView_Down.HeaderText = "↓";
+			this.ExpressionView_Down.Name = "ExpressionView_Down";
+			this.ExpressionView_Down.Width = 20;
+			// 
+			// Expression_Delete
+			// 
+			this.Expression_Delete.Location = new System.Drawing.Point(84, 5);
+			this.Expression_Delete.Name = "Expression_Delete";
+			this.Expression_Delete.Size = new System.Drawing.Size(75, 23);
+			this.Expression_Delete.TabIndex = 7;
+			this.Expression_Delete.Text = "削除";
+			this.Expression_Delete.UseVisualStyleBackColor = true;
+			this.Expression_Delete.Click += new System.EventHandler(this.Expression_Delete_Click);
+			// 
+			// Expression_Add
+			// 
+			this.Expression_Add.Location = new System.Drawing.Point(3, 5);
+			this.Expression_Add.Name = "Expression_Add";
+			this.Expression_Add.Size = new System.Drawing.Size(75, 23);
+			this.Expression_Add.TabIndex = 5;
+			this.Expression_Add.Text = "追加";
+			this.Expression_Add.UseVisualStyleBackColor = true;
+			this.Expression_Add.Click += new System.EventHandler(this.Expression_Add_Click);
+			// 
+			// splitContainer2
+			// 
+			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitContainer2.IsSplitterFixed = true;
+			this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer2.Name = "splitContainer2";
+			this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer2.Panel1
+			// 
+			this.splitContainer2.Panel1.Controls.Add(this.ExpressionDetailView);
+			// 
+			// splitContainer2.Panel2
+			// 
+			this.splitContainer2.Panel2.Controls.Add(this.ExpressionDetail_Delete);
+			this.splitContainer2.Panel2.Controls.Add(this.ExpressionDetail_Edit);
+			this.splitContainer2.Panel2.Controls.Add(this.ExpressionDetail_Add);
+			this.splitContainer2.Panel2.Controls.Add(this.GroupExpression);
+			this.splitContainer2.Size = new System.Drawing.Size(380, 441);
+			this.splitContainer2.SplitterDistance = 320;
+			this.splitContainer2.TabIndex = 0;
 			// 
 			// ExpressionDetailView
 			// 
@@ -142,161 +249,17 @@
 			this.ExpressionDetailView.Location = new System.Drawing.Point(0, 0);
 			this.ExpressionDetailView.MultiSelect = false;
 			this.ExpressionDetailView.Name = "ExpressionDetailView";
-			this.ExpressionDetailView.ReadOnly = true;
 			this.ExpressionDetailView.RowHeadersVisible = false;
 			this.ExpressionDetailView.RowTemplate.Height = 21;
 			this.ExpressionDetailView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ExpressionDetailView.Size = new System.Drawing.Size(412, 268);
+			this.ExpressionDetailView.Size = new System.Drawing.Size(380, 320);
 			this.ExpressionDetailView.TabIndex = 0;
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Location = new System.Drawing.Point(3, 3);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(406, 40);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Group";
-			// 
-			// GroupExpression
-			// 
-			this.GroupExpression.Controls.Add(this.RightOperand_ComboBox);
-			this.GroupExpression.Controls.Add(this.RightOperand_NumericUpDown);
-			this.GroupExpression.Controls.Add(this.RightOperand_TextBox);
-			this.GroupExpression.Controls.Add(this.Operator);
-			this.GroupExpression.Controls.Add(this.LeftOperand);
-			this.GroupExpression.Location = new System.Drawing.Point(3, 49);
-			this.GroupExpression.Name = "GroupExpression";
-			this.GroupExpression.Size = new System.Drawing.Size(406, 57);
-			this.GroupExpression.TabIndex = 1;
-			this.GroupExpression.TabStop = false;
-			this.GroupExpression.Text = "Detail";
-			// 
-			// LeftOperand
-			// 
-			this.LeftOperand.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.LeftOperand.FormattingEnabled = true;
-			this.LeftOperand.Location = new System.Drawing.Point(6, 22);
-			this.LeftOperand.Name = "LeftOperand";
-			this.LeftOperand.Size = new System.Drawing.Size(121, 23);
-			this.LeftOperand.TabIndex = 0;
-			this.LeftOperand.SelectedValueChanged += new System.EventHandler(this.LeftOperand_SelectedValueChanged);
-			// 
-			// Operator
-			// 
-			this.Operator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.Operator.FormattingEnabled = true;
-			this.Operator.Location = new System.Drawing.Point(300, 22);
-			this.Operator.Name = "Operator";
-			this.Operator.Size = new System.Drawing.Size(100, 23);
-			this.Operator.TabIndex = 1;
-			// 
-			// RightOperand_TextBox
-			// 
-			this.RightOperand_TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.RightOperand_TextBox.Location = new System.Drawing.Point(133, 22);
-			this.RightOperand_TextBox.Name = "RightOperand_TextBox";
-			this.RightOperand_TextBox.Size = new System.Drawing.Size(161, 23);
-			this.RightOperand_TextBox.TabIndex = 2;
-			// 
-			// RightOperand_NumericUpDown
-			// 
-			this.RightOperand_NumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.RightOperand_NumericUpDown.Location = new System.Drawing.Point(133, 22);
-			this.RightOperand_NumericUpDown.Name = "RightOperand_NumericUpDown";
-			this.RightOperand_NumericUpDown.Size = new System.Drawing.Size(161, 23);
-			this.RightOperand_NumericUpDown.TabIndex = 2;
-			this.RightOperand_NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			// 
-			// RightOperand_ComboBox
-			// 
-			this.RightOperand_ComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.RightOperand_ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.RightOperand_ComboBox.FormattingEnabled = true;
-			this.RightOperand_ComboBox.Location = new System.Drawing.Point(133, 22);
-			this.RightOperand_ComboBox.Name = "RightOperand_ComboBox";
-			this.RightOperand_ComboBox.Size = new System.Drawing.Size(161, 23);
-			this.RightOperand_ComboBox.TabIndex = 3;
-			// 
-			// ButtonAdd
-			// 
-			this.ButtonAdd.Location = new System.Drawing.Point(9, 112);
-			this.ButtonAdd.Name = "ButtonAdd";
-			this.ButtonAdd.Size = new System.Drawing.Size(75, 23);
-			this.ButtonAdd.TabIndex = 2;
-			this.ButtonAdd.Text = "追加";
-			this.ButtonAdd.UseVisualStyleBackColor = true;
-			// 
-			// ButtonEdit
-			// 
-			this.ButtonEdit.Location = new System.Drawing.Point(90, 112);
-			this.ButtonEdit.Name = "ButtonEdit";
-			this.ButtonEdit.Size = new System.Drawing.Size(75, 23);
-			this.ButtonEdit.TabIndex = 3;
-			this.ButtonEdit.Text = "編集";
-			this.ButtonEdit.UseVisualStyleBackColor = true;
-			// 
-			// ButtonRemove
-			// 
-			this.ButtonRemove.Location = new System.Drawing.Point(171, 112);
-			this.ButtonRemove.Name = "ButtonRemove";
-			this.ButtonRemove.Size = new System.Drawing.Size(75, 23);
-			this.ButtonRemove.TabIndex = 4;
-			this.ButtonRemove.Text = "削除";
-			this.ButtonRemove.UseVisualStyleBackColor = true;
-			// 
-			// ExpressionView_Enabled
-			// 
-			this.ExpressionView_Enabled.HeaderText = "";
-			this.ExpressionView_Enabled.Name = "ExpressionView_Enabled";
-			this.ExpressionView_Enabled.ReadOnly = true;
-			this.ExpressionView_Enabled.Width = 20;
-			// 
-			// ExpressionView_AndOr
-			// 
-			this.ExpressionView_AndOr.HeaderText = "";
-			this.ExpressionView_AndOr.Name = "ExpressionView_AndOr";
-			this.ExpressionView_AndOr.ReadOnly = true;
-			this.ExpressionView_AndOr.Width = 40;
-			// 
-			// ExpressionView_Inverse
-			// 
-			this.ExpressionView_Inverse.HeaderText = "Inv";
-			this.ExpressionView_Inverse.Name = "ExpressionView_Inverse";
-			this.ExpressionView_Inverse.ReadOnly = true;
-			this.ExpressionView_Inverse.Width = 20;
-			// 
-			// ExpressionView_Expression
-			// 
-			this.ExpressionView_Expression.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionView_Expression.HeaderText = "式";
-			this.ExpressionView_Expression.Name = "ExpressionView_Expression";
-			this.ExpressionView_Expression.ReadOnly = true;
-			this.ExpressionView_Expression.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// ExpressionView_Up
-			// 
-			this.ExpressionView_Up.HeaderText = "↑";
-			this.ExpressionView_Up.Name = "ExpressionView_Up";
-			this.ExpressionView_Up.ReadOnly = true;
-			this.ExpressionView_Up.Width = 20;
-			// 
-			// ExpressionView_Down
-			// 
-			this.ExpressionView_Down.HeaderText = "↓";
-			this.ExpressionView_Down.Name = "ExpressionView_Down";
-			this.ExpressionView_Down.ReadOnly = true;
-			this.ExpressionView_Down.Width = 20;
+			this.ExpressionDetailView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ExpressionDetailView_CellMouseClick);
 			// 
 			// ExpressionDetailView_Enabled
 			// 
 			this.ExpressionDetailView_Enabled.HeaderText = "";
 			this.ExpressionDetailView_Enabled.Name = "ExpressionDetailView_Enabled";
-			this.ExpressionDetailView_Enabled.ReadOnly = true;
 			this.ExpressionDetailView_Enabled.Width = 20;
 			// 
 			// ExpressionDetailView_LeftOperand
@@ -305,7 +268,7 @@
 			this.ExpressionDetailView_LeftOperand.HeaderText = "Left";
 			this.ExpressionDetailView_LeftOperand.Name = "ExpressionDetailView_LeftOperand";
 			this.ExpressionDetailView_LeftOperand.ReadOnly = true;
-			this.ExpressionDetailView_LeftOperand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.ExpressionDetailView_LeftOperand.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			// 
 			// ExpressionDetailView_RightOperand
 			// 
@@ -321,7 +284,132 @@
 			this.ExpressionDetailView_Operator.HeaderText = "Operator";
 			this.ExpressionDetailView_Operator.Name = "ExpressionDetailView_Operator";
 			this.ExpressionDetailView_Operator.ReadOnly = true;
-			this.ExpressionDetailView_Operator.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.ExpressionDetailView_Operator.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			// 
+			// ExpressionDetail_Delete
+			// 
+			this.ExpressionDetail_Delete.Location = new System.Drawing.Point(165, 5);
+			this.ExpressionDetail_Delete.Name = "ExpressionDetail_Delete";
+			this.ExpressionDetail_Delete.Size = new System.Drawing.Size(75, 23);
+			this.ExpressionDetail_Delete.TabIndex = 4;
+			this.ExpressionDetail_Delete.Text = "削除";
+			this.ExpressionDetail_Delete.UseVisualStyleBackColor = true;
+			this.ExpressionDetail_Delete.Click += new System.EventHandler(this.ExpressionDetail_Delete_Click);
+			// 
+			// ExpressionDetail_Edit
+			// 
+			this.ExpressionDetail_Edit.Location = new System.Drawing.Point(84, 5);
+			this.ExpressionDetail_Edit.Name = "ExpressionDetail_Edit";
+			this.ExpressionDetail_Edit.Size = new System.Drawing.Size(75, 23);
+			this.ExpressionDetail_Edit.TabIndex = 3;
+			this.ExpressionDetail_Edit.Text = "上書き";
+			this.ExpressionDetail_Edit.UseVisualStyleBackColor = true;
+			// 
+			// ExpressionDetail_Add
+			// 
+			this.ExpressionDetail_Add.Location = new System.Drawing.Point(3, 5);
+			this.ExpressionDetail_Add.Name = "ExpressionDetail_Add";
+			this.ExpressionDetail_Add.Size = new System.Drawing.Size(75, 23);
+			this.ExpressionDetail_Add.TabIndex = 1;
+			this.ExpressionDetail_Add.Text = "追加";
+			this.ExpressionDetail_Add.UseVisualStyleBackColor = true;
+			this.ExpressionDetail_Add.Click += new System.EventHandler(this.ExpressionDetail_Add_Click);
+			// 
+			// GroupExpression
+			// 
+			this.GroupExpression.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.GroupExpression.Controls.Add(this.Description);
+			this.GroupExpression.Controls.Add(this.RightOperand_ComboBox);
+			this.GroupExpression.Controls.Add(this.RightOperand_NumericUpDown);
+			this.GroupExpression.Controls.Add(this.Operator);
+			this.GroupExpression.Controls.Add(this.RightOperand_TextBox);
+			this.GroupExpression.Controls.Add(this.LeftOperand);
+			this.GroupExpression.Location = new System.Drawing.Point(3, 34);
+			this.GroupExpression.Name = "GroupExpression";
+			this.GroupExpression.Size = new System.Drawing.Size(374, 71);
+			this.GroupExpression.TabIndex = 0;
+			this.GroupExpression.TabStop = false;
+			this.GroupExpression.Text = "Expression";
+			// 
+			// Description
+			// 
+			this.Description.AutoSize = true;
+			this.Description.Location = new System.Drawing.Point(130, 48);
+			this.Description.Name = "Description";
+			this.Description.Size = new System.Drawing.Size(41, 15);
+			this.Description.TabIndex = 5;
+			this.Description.Text = "(説明)";
+			// 
+			// RightOperand_ComboBox
+			// 
+			this.RightOperand_ComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.RightOperand_ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.RightOperand_ComboBox.FormattingEnabled = true;
+			this.RightOperand_ComboBox.Location = new System.Drawing.Point(133, 22);
+			this.RightOperand_ComboBox.Name = "RightOperand_ComboBox";
+			this.RightOperand_ComboBox.Size = new System.Drawing.Size(108, 23);
+			this.RightOperand_ComboBox.TabIndex = 4;
+			// 
+			// RightOperand_NumericUpDown
+			// 
+			this.RightOperand_NumericUpDown.Location = new System.Drawing.Point(133, 22);
+			this.RightOperand_NumericUpDown.Name = "RightOperand_NumericUpDown";
+			this.RightOperand_NumericUpDown.Size = new System.Drawing.Size(108, 23);
+			this.RightOperand_NumericUpDown.TabIndex = 3;
+			this.RightOperand_NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// Operator
+			// 
+			this.Operator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Operator.FormattingEnabled = true;
+			this.Operator.Location = new System.Drawing.Point(247, 22);
+			this.Operator.Name = "Operator";
+			this.Operator.Size = new System.Drawing.Size(121, 23);
+			this.Operator.TabIndex = 2;
+			// 
+			// RightOperand_TextBox
+			// 
+			this.RightOperand_TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.RightOperand_TextBox.Location = new System.Drawing.Point(133, 22);
+			this.RightOperand_TextBox.Name = "RightOperand_TextBox";
+			this.RightOperand_TextBox.Size = new System.Drawing.Size(108, 23);
+			this.RightOperand_TextBox.TabIndex = 1;
+			// 
+			// LeftOperand
+			// 
+			this.LeftOperand.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.LeftOperand.FormattingEnabled = true;
+			this.LeftOperand.Location = new System.Drawing.Point(6, 22);
+			this.LeftOperand.Name = "LeftOperand";
+			this.LeftOperand.Size = new System.Drawing.Size(121, 23);
+			this.LeftOperand.TabIndex = 0;
+			this.LeftOperand.SelectedValueChanged += new System.EventHandler(this.LeftOperand_SelectedValueChanged);
+			// 
+			// ButtonOK
+			// 
+			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ButtonOK.Location = new System.Drawing.Point(3, 91);
+			this.ButtonOK.Name = "ButtonOK";
+			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
+			this.ButtonOK.TabIndex = 8;
+			this.ButtonOK.Text = "OK";
+			this.ButtonOK.UseVisualStyleBackColor = true;
+			this.ButtonOK.Click += new System.EventHandler(this.ButtonOK_Click);
+			// 
+			// ButtonCancel
+			// 
+			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ButtonCancel.Location = new System.Drawing.Point(84, 91);
+			this.ButtonCancel.Name = "ButtonCancel";
+			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
+			this.ButtonCancel.TabIndex = 9;
+			this.ButtonCancel.Text = "キャンセル";
+			this.ButtonCancel.UseVisualStyleBackColor = true;
+			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
 			// DialogShipGroupFilter
 			// 
@@ -335,11 +423,15 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.splitContainer3.Panel1.ResumeLayout(false);
+			this.splitContainer3.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+			this.splitContainer3.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.ExpressionView)).EndInit();
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
 			this.splitContainer2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.ExpressionView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ExpressionDetailView)).EndInit();
 			this.GroupExpression.ResumeLayout(false);
 			this.GroupExpression.PerformLayout();
@@ -351,28 +443,34 @@
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
-		private System.Windows.Forms.SplitContainer splitContainer2;
 		private System.Windows.Forms.DataGridView ExpressionView;
 		private System.Windows.Forms.DataGridView ExpressionDetailView;
+		private System.Windows.Forms.SplitContainer splitContainer3;
+		private System.Windows.Forms.Button Expression_Delete;
+		private System.Windows.Forms.Button Expression_Add;
+		private System.Windows.Forms.SplitContainer splitContainer2;
+		private System.Windows.Forms.Button ExpressionDetail_Delete;
+		private System.Windows.Forms.Button ExpressionDetail_Edit;
+		private System.Windows.Forms.Button ExpressionDetail_Add;
 		private System.Windows.Forms.GroupBox GroupExpression;
-		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.ComboBox RightOperand_ComboBox;
 		private System.Windows.Forms.NumericUpDown RightOperand_NumericUpDown;
-		private System.Windows.Forms.TextBox RightOperand_TextBox;
 		private System.Windows.Forms.ComboBox Operator;
+		private System.Windows.Forms.TextBox RightOperand_TextBox;
 		private System.Windows.Forms.ComboBox LeftOperand;
-		private System.Windows.Forms.Button ButtonRemove;
-		private System.Windows.Forms.Button ButtonEdit;
-		private System.Windows.Forms.Button ButtonAdd;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn ExpressionView_Enabled;
-		private System.Windows.Forms.DataGridViewComboBoxColumn ExpressionView_AndOr;
+		private System.Windows.Forms.DataGridViewComboBoxColumn ExpressionView_ExternalAndOr;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn ExpressionView_Inverse;
+		private System.Windows.Forms.DataGridViewComboBoxColumn ExpressionView_InternalAndOr;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ExpressionView_Expression;
 		private System.Windows.Forms.DataGridViewButtonColumn ExpressionView_Up;
 		private System.Windows.Forms.DataGridViewButtonColumn ExpressionView_Down;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn ExpressionDetailView_Enabled;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ExpressionDetailView_LeftOperand;
+		private System.Windows.Forms.DataGridViewComboBoxColumn ExpressionDetailView_LeftOperand;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ExpressionDetailView_RightOperand;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ExpressionDetailView_Operator;
+		private System.Windows.Forms.DataGridViewComboBoxColumn ExpressionDetailView_Operator;
+		private System.Windows.Forms.Label Description;
+		private System.Windows.Forms.Button ButtonCancel;
+		private System.Windows.Forms.Button ButtonOK;
 	}
 }

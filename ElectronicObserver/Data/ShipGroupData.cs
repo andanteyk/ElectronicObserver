@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Utility.Storage;
+﻿using ElectronicObserver.Data.ShipGroup;
+using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace ElectronicObserver.Data {
@@ -25,21 +27,64 @@ namespace ElectronicObserver.Data {
 
 		// fixme: アクセサは要検討
 
-		public class ViewColumnData : IIdentifiable {
+		/// <summary>
+		/// 列のプロパティを保持します。
+		/// </summary>
+		public class ViewColumnData : IIdentifiable, ICloneable {
 
-			public int Width { get; set; }
+			/// <summary>
+			/// 処理上の順番
+			/// </summary>
 			public int Index { get; set; }
+
+			/// <summary>
+			/// 幅
+			/// </summary>
+			public int Width { get; set; }
+
+			/// <summary>
+			/// 表示される順番
+			/// </summary>
+			public int DisplayIndex { get; set; }
+
+			/// <summary>
+			/// 可視かどうか
+			/// </summary>
 			public bool Visible { get; set; }
+
+
+			public ViewColumnData( int index ) {
+				Index = index;
+			}
+
+			public ViewColumnData( int index, int width, int displayIndex, bool visible )
+				: this( index ) {
+				Width = width;
+				DisplayIndex = displayIndex;
+				Visible = visible;
+			}
+
+			public ViewColumnData( DataGridViewColumn column ) {
+				Index = column.Index;
+				Width = column.Width;
+				DisplayIndex = column.DisplayIndex;
+				Visible = column.Visible;
+			}
+
 
 			public int ID {
 				get { return Index; }
 			}
+
+			public ViewColumnData Clone() {
+				return (ViewColumnData)MemberwiseClone();
+			}
+
+			object ICloneable.Clone() {
+				return Clone();
+			}
 		}
 
-
-
-		[DataMember]
-		public List<KeyValuePair<int,ListSortDirection>> SortOrder;		//string のほうがいいのでは
 
 
 
@@ -49,29 +94,6 @@ namespace ElectronicObserver.Data {
 		[DataMember]
 		public int GroupID { get; internal set; }
 
-		/// <summary>
-		/// 所属艦のIDリスト
-		/// </summary>
-		[IgnoreDataMember]
-		public List<int> Members { get; internal set; }
-
-
-		[DataMember]
-		private SerializableList<int> SerializedMembers {
-			get { return new SerializableList<int>( Members ); }
-			set { Members = value.List; }
-		}
-
-
-		/// <summary>
-		/// 所属艦リスト
-		/// </summary>
-		[IgnoreDataMember]
-		public IEnumerable<ShipData> MembersInstance {
-			get {
-				return Members.Select( id => KCDatabase.Instance.Ships[id] );
-			}
-		}
 
 		/// <summary>
 		/// グループ名
@@ -81,29 +103,16 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 列フィルタ
+		/// 列の設定
 		/// </summary>
 		[IgnoreDataMember]
-		public List<bool> ColumnFilter { get; set; }
+		public IDDictionary<ViewColumnData> ViewColumns { get; set; }
 
 		[DataMember]
-		private SerializableList<bool> SerializedColumnFilter {
-			get { return new SerializableList<bool>( ColumnFilter ); }
-			set { ColumnFilter = value.List; }
+		private IEnumerable<ViewColumnData> ViewColumnsSerializer {
+			get { return ViewColumns.Values.OrderBy( v => v.ID ); }
+			set { ViewColumns = new IDDictionary<ViewColumnData>( value ); }
 		}
-
-		/// <summary>
-		/// 列の幅
-		/// </summary>
-		[IgnoreDataMember]
-		public List<int> ColumnWidth { get; set; }
-
-		[DataMember]
-		private SerializableList<int> SerializedColumnWidth {
-			get { return new SerializableList<int>( ColumnWidth ); }
-			set { ColumnWidth = value.List; }
-		}
-
 
 		/// <summary>
 		/// 列幅を自動調整するか
@@ -113,33 +122,63 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 艦名をスクロールしない
+		/// ロックされる列数(左端から)
 		/// </summary>
 		[DataMember]
-		public bool LockShipNameScroll { get; set; }
+		public int ScrollLockColumnCount { get; set; }
+
+		/// <summary>
+		/// 自動ソートの順番
+		/// </summary>
+		[DataMember]
+		public List<KeyValuePair<int, ListSortDirection>> SortOrder { get; set; }
+
+
+		/// <summary>
+		/// フィルタデータ
+		/// </summary>
+		[DataMember]
+		public ExpressionManager Expressions { get; set; }
+
+
+
+		/// <summary>
+		/// 艦船IDリスト（キャッシュ）
+		/// </summary>
+		[IgnoreDataMember]
+		public List<int> Members { get; private set; }
+
+		/// <summary>
+		/// 艦船リスト（キャッシュ）
+		/// </summary>
+		[IgnoreDataMember]
+		public IEnumerable<ShipData> MembersInstance {
+			get {
+				return Members.Select( id => KCDatabase.Instance.Ships[id] );
+			}
+		}
 
 
 
 
 		public ShipGroupData( int groupID ) {
 			GroupID = groupID;
-			Members = new List<int>();
+			ViewColumns = new IDDictionary<ViewColumnData>();
 			Name = "notitle #" + groupID;
 			ColumnAutoSize = false;
-			LockShipNameScroll = true;
+			ScrollLockColumnCount = 0;
+			Expressions = new ExpressionManager();
+			Members = new List<int>();
 		}
 
 
-		/// <summary>
-		/// メンバー配列をチェックし、除籍艦や重複艦を削除します。
-		/// </summary>
-		public void CheckMembers() {
+		public void UpdateMembers() {
+			if ( !Expressions.IsAvailable )
+				Expressions.Compile();
 
-			var ships = KCDatabase.Instance.Ships;
-
-			if ( ships.Count > 0 )		//未初期化時にデータが破壊されるのを防ぐ
-				Members = Members.Distinct().Intersect( ships.Keys ).ToList();
+			Members = Expressions.GetResult( KCDatabase.Instance.Ships.Values ).Select( s => s.MasterID ).ToList();
 		}
+
 
 
 		public int ID {

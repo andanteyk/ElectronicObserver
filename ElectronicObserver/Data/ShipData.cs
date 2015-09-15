@@ -147,7 +147,7 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
-		
+
 		/// <summary>
 		/// 補強装備スロット(ID)
 		/// 0=未開放, -1=装備なし 
@@ -295,14 +295,14 @@ namespace ElectronicObserver.Data {
 		/// 入渠にかかる鋼材
 		/// </summary>
 		public int RepairSteel {
-			get { return (int)RawData.api_ndock_item[0]; }
+			get { return (int)RawData.api_ndock_item[1]; }
 		}
 
 		/// <summary>
 		/// 入渠にかかる燃料
 		/// </summary>
 		public int RepairFuel {
-			get { return (int)RawData.api_ndock_item[1]; }
+			get { return (int)RawData.api_ndock_item[0]; }
 		}
 
 		/// <summary>
@@ -452,7 +452,7 @@ namespace ElectronicObserver.Data {
 		/// 火力基本値
 		/// </summary>
 		public int FirepowerBase {
-			get {	//該当IDが存在しなければぬるぽするだろうけど、そんな状況では公式蔵も動かないだろうから問題なし（？）
+			get {
 				return MasterShip.FirepowerMin + FirepowerModernized;
 			}
 		}
@@ -702,6 +702,348 @@ namespace ElectronicObserver.Data {
 		public bool IsExpansionSlotAvailable {
 			get { return ExpansionSlot != 0; }
 		}
+
+
+
+		/// <summary>
+		/// 航空戦威力
+		/// 本来スロットごとのものであるが、ここでは最大火力を採用する
+		/// </summary>
+		public int AirBattlePower {
+			get {
+				double basepower = 0;
+				var slots = SlotInstance;
+				var aircrafts = Aircraft;
+				for ( int i = 0; i < 5; i++ ) {
+					double tmp = 0;
+					if ( slots[i] == null )
+						continue;
+
+					switch ( slots[i].MasterEquipment.CategoryType ) {
+						case 7:		//艦爆
+						case 11:	//水爆
+							tmp = slots[i].MasterEquipment.Bomber * Math.Sqrt( aircrafts[i] ) + 25;
+							break;
+						case 8:		//艦攻
+							// 150% 補正を引いたとする
+							tmp = ( slots[i].MasterEquipment.Torpedo * Math.Sqrt( aircrafts[i] ) + 25 ) * 1.5;
+							break;
+					}
+					basepower = Math.Max( tmp, basepower );
+				}
+
+				//キャップ
+				if ( basepower > 150 ) {
+					basepower = 150 + Math.Sqrt( basepower - 150 );
+				}
+				basepower = Math.Floor( basepower );
+
+				return (int)basepower;
+			}
+		}
+
+		/// <summary>
+		/// 砲撃威力
+		/// </summary>
+		public int ShellingPower {
+			get {
+				double basepower = FirepowerTotal + GetDayBattleEquipmentLevelBonus() + 5;
+
+				basepower *= GetHPDamageBonus();
+
+				basepower += GetLightCruiserDamageBonus();
+
+				//キャップ
+				if ( basepower > 150 ) {
+					basepower = 100 + Math.Sqrt( basepower - 150 );
+				}
+				basepower = Math.Floor( basepower );
+
+
+				//弾着
+				switch ( Calculator.GetDayAttackKind( SlotMaster.ToArray(), ShipID, -1 ) ) {
+					case 2:		//連撃
+					case 4:		//主砲/電探
+						basepower *= 1.2;
+						break;
+					case 3:		//主砲/副砲
+						basepower *= 1.1;
+						break;
+					case 5:		//主砲/徹甲弾
+						basepower *= 1.3;
+						break;
+					case 6:		//主砲/主砲
+						basepower *= 1.5;
+						break;
+				}
+
+				return (int)basepower;
+			}
+		}
+
+		/// <summary>
+		/// 空撃威力
+		/// </summary>
+		public int AircraftPower {
+			get {
+				double basepower = Math.Floor( ( FirepowerTotal + TorpedoTotal + Math.Floor( SlotInstance.Sum( s => s == null ? 0 : s.MasterEquipment.Bomber ) * 1.3 ) + GetDayBattleEquipmentLevelBonus() ) * 1.5 ) + 55;
+
+				basepower *= GetHPDamageBonus();
+
+				//キャップ
+				if ( basepower > 150 ) {
+					basepower = 150 + Math.Sqrt( basepower - 150 );
+				}
+				basepower = Math.Floor( basepower );
+
+				return (int)basepower;
+			}
+		}
+
+		/// <summary>
+		/// 対潜威力
+		/// </summary>
+		public int AntiSubmarinePower {
+			get {
+				double eqpower = 0;
+				foreach ( var slot in SlotInstance ) {
+					if ( slot == null )
+						continue;
+
+					switch ( slot.MasterEquipment.CategoryType ) {
+						case 7:		//艦爆
+						case 8:		//艦攻
+						case 11:	//水爆
+						case 14:	//爆雷
+						case 15:	//ソナー
+						case 25:	//オートジャイロ
+						case 26:	//対潜哨戒機
+							eqpower += slot.MasterEquipment.ASW;
+							break;
+					}
+				}
+
+				double basepower = Math.Sqrt( ASWBase ) * 2 + eqpower * 1.5 + GetAntiSubmarineEquipmentLevelBonus();
+				if ( Calculator.GetDayAttackKind( SlotMaster.ToArray(), ShipID, 126, false ) == 7 ) {		//126=伊168; 対潜攻撃が空撃なら
+					basepower += 8;
+				} else {	//爆雷攻撃なら
+					basepower += 13;
+				}
+
+
+				basepower *= GetHPDamageBonus();
+
+				//対潜シナジー
+				if ( SlotInstanceMaster.Where( s => s != null && s.CategoryType == 14 ).Count() > 0 &&
+					 SlotInstanceMaster.Where( s => s != null && s.CategoryType == 15 ).Count() > 0 )
+					basepower *= 1.15;
+
+				//キャップ
+				if ( basepower > 100 ) {
+					basepower = 100 + Math.Sqrt( basepower - 100 );
+				}
+				basepower = Math.Floor( basepower );
+
+				return (int)basepower;
+			}
+		}
+
+		/// <summary>
+		/// 雷撃威力
+		/// </summary>
+		public int TorpedoPower {
+			get {
+				double basepower = TorpedoTotal + GetTorpedoEquipmentLevelBonus() + 5;
+
+				basepower *= GetHPDamageBonus();		//開幕雷撃は補正が違うが見なかったことに
+
+				//キャップ
+				if ( basepower > 150 ) {
+					basepower = 150 + Math.Sqrt( basepower - 150 );
+				}
+				basepower = Math.Floor( basepower );
+
+				return (int)basepower;
+			}
+		}
+
+		/// <summary>
+		/// 夜戦威力
+		/// </summary>
+		public int NightBattlePower {
+			get {
+				double basepower = FirepowerTotal + TorpedoTotal + GetNightBattleEquipmentLevelBonus();
+
+				basepower *= GetHPDamageBonus();
+
+				switch ( Calculator.GetNightAttackKind( SlotMaster.ToArray(), ShipID, -1 ) ) {
+					case 1:	//連撃
+						basepower *= 1.2;
+						break;
+					case 2:	//主砲/魚雷
+						basepower *= 1.3;
+						break;
+					case 3:	//魚雷x2
+						basepower *= 1.5;
+						break;
+					case 4:	//主砲x2/副砲
+						basepower *= 1.75;
+						break;
+					case 5:	//主砲x3
+						basepower *= 2.0;
+						break;
+				}
+
+				basepower += GetLightCruiserDamageBonus();
+
+				//キャップ
+				if ( basepower > 300 ) {
+					basepower = 300 + Math.Sqrt( basepower - 300 );
+				}
+				basepower = Math.Floor( basepower );
+
+				return (int)basepower;
+			}
+		}
+
+
+		/// <summary>
+		/// 装備改修補正(砲撃戦)
+		/// </summary>
+		private double GetDayBattleEquipmentLevelBonus() {
+
+			double basepower = 0;
+			foreach ( var slot in SlotInstance ) {
+				if ( slot == null )
+					continue;
+
+				switch ( slot.MasterEquipment.CategoryType ) {
+					case 3:		//大口径主砲
+					case 38:
+						basepower += Math.Sqrt( slot.Level ) * 1.5;
+						break;
+					case 14:	//ソナー
+					case 15:	//爆雷
+						basepower += Math.Sqrt( slot.Level ) * 0.75;
+						break;
+					case 5:		//魚雷
+					case 12:	//小型電探
+					case 13:	//大型電探
+					case 32:	//潜水艦魚雷
+						break;	//無視
+					default:
+						basepower += Math.Sqrt( slot.Level );
+						break;
+				}
+			}
+			return basepower;
+		}
+
+		/// <summary>
+		/// 装備改修補正(雷撃戦)
+		/// </summary>
+		private double GetTorpedoEquipmentLevelBonus() {
+			double basepower = 0;
+			foreach ( var slot in SlotInstance ) {
+				if ( slot == null )
+					continue;
+
+				switch ( slot.MasterEquipment.CategoryType ) {
+					case 5:		//魚雷
+					case 32:	//潜水艦魚雷
+						basepower += Math.Sqrt( slot.Level ) * 1.2;
+						break;
+					case 15:	//機銃
+						basepower += Math.Sqrt( slot.Level );		// 2015/09/15 現在係数不明; とりあえず 1 とする
+						break;
+				}
+			}
+			return basepower;
+		}
+
+		/// <summary>
+		/// 装備改修補正(対潜)
+		/// </summary>
+		private double GetAntiSubmarineEquipmentLevelBonus() {
+
+			return SlotInstance.Sum( s => s == null ? 0.0 : ( s.MasterEquipment.CategoryType == 14 || s.MasterEquipment.CategoryType == 15 ) ? Math.Sqrt( s.Level ) : 0.0 );
+		}
+
+		/// <summary>
+		/// 装備改修補正(夜戦)
+		/// </summary>
+		private double GetNightBattleEquipmentLevelBonus() {
+			double basepower = 0;
+			foreach ( var slot in SlotInstance ) {
+				if ( slot == null )
+					continue;
+
+				switch ( slot.MasterEquipment.CategoryType ) {
+					case 1:		//小口径主砲
+					case 2:		//中口径主砲
+					case 3:		//大口径主砲
+					case 4:		//副砲
+					case 5:		//魚雷
+					case 19:	//徹甲弾
+					case 29:	//探照灯
+					case 32:	//潜水艦魚雷
+					case 36:	//高射装置
+					case 38:	//大口径主砲(II)
+						basepower += Math.Sqrt( slot.Level );
+						break;
+				}
+			}
+			return basepower;
+		}
+
+
+		/// <summary>
+		/// 耐久値による攻撃力補正
+		/// </summary>
+		private double GetHPDamageBonus() {
+			if ( HPRate < 0.25 )
+				return 0.4;
+			else if ( HPRate < 0.5 )
+				return 0.7;
+			else
+				return 1.0;
+		}
+
+
+		/// <summary>
+		/// 軽巡軽量砲補正
+		/// </summary>
+		private double GetLightCruiserDamageBonus() {
+			if ( MasterShip.ShipType == 3 ||
+				MasterShip.ShipType == 4 ||
+				MasterShip.ShipType == 21 ) {	//軽巡/雷巡/練巡
+
+				int single = 0;
+				int twin = 0;
+
+				foreach ( var slot in SlotInstanceMaster ) {
+					if ( slot == null ) continue;
+
+					switch ( slot.EquipmentID ) {
+						case 4:		//14cm単装砲
+						case 11:	//15.2cm単装砲
+							single++;
+							break;
+						case 65:	//15.2cm連装砲
+						case 119:	//14cm連装砲
+						case 139:	//15.2cm連装砲改
+							twin++;
+							break;
+					}
+				}
+
+				return Math.Sqrt( twin ) * 2.0 + Math.Sqrt( single );
+			}
+
+			return 0;
+		}
+
+
 
 
 		public int ID {
