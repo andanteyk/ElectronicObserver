@@ -33,32 +33,6 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.ShipView = new System.Windows.Forms.DataGridView();
-			this.MenuMember = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.MenuMember_AddToGroup = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_CreateGroup = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_AddCurrentFleet_Group = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuMember_ColumnFilter = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_ColumnAutoSize = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_LockShipNameScroll = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuMember_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuMember_Delete = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_Filter = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.MenuGroup_Add = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuGroup_Rename = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuGroup_AutoUpdate = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuGroup_ShowStatusBar = new System.Windows.Forms.ToolStripMenuItem();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.StatusBar = new System.Windows.Forms.StatusStrip();
-			this.Status_ShipCount = new System.Windows.Forms.ToolStripStatusLabel();
-			this.Status_LevelTotal = new System.Windows.Forms.ToolStripStatusLabel();
-			this.Status_LevelAverage = new System.Windows.Forms.ToolStripStatusLabel();
 			this.ShipView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,9 +40,7 @@
 			this.ShipView_Exp = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Next = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_NextRemodel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_HPCurrent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_HPMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_HPRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ShipView_HP = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Condition = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Fuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Ammo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -108,6 +80,7 @@
 			this.ShipView_Luck = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_LuckRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_LuckTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ShipView_BomberTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Speed = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Range = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_AirBattlePower = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -118,6 +91,24 @@
 			this.ShipView_NightBattlePower = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Locked = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_SallyArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.MenuMember = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.MenuMember_Filter = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMember_ColumnFilter = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuMember_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.MenuGroup_Add = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuGroup_Rename = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuGroup_AutoUpdate = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuGroup_ShowStatusBar = new System.Windows.Forms.ToolStripMenuItem();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.TabPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.StatusBar = new System.Windows.Forms.StatusStrip();
+			this.Status_ShipCount = new System.Windows.Forms.ToolStripStatusLabel();
+			this.Status_LevelTotal = new System.Windows.Forms.ToolStripStatusLabel();
+			this.Status_LevelAverage = new System.Windows.Forms.ToolStripStatusLabel();
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
 			this.MenuMember.SuspendLayout();
 			this.MenuGroup.SuspendLayout();
@@ -143,9 +134,7 @@
             this.ShipView_Exp,
             this.ShipView_Next,
             this.ShipView_NextRemodel,
-            this.ShipView_HPCurrent,
-            this.ShipView_HPMax,
-            this.ShipView_HPRate,
+            this.ShipView_HP,
             this.ShipView_Condition,
             this.ShipView_Fuel,
             this.ShipView_Ammo,
@@ -185,6 +174,7 @@
             this.ShipView_Luck,
             this.ShipView_LuckRemain,
             this.ShipView_LuckTotal,
+            this.ShipView_BomberTotal,
             this.ShipView_Speed,
             this.ShipView_Range,
             this.ShipView_AirBattlePower,
@@ -215,230 +205,6 @@
 			this.ShipView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ShipView_CellFormatting);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
 			this.ShipView.Sorted += new System.EventHandler(this.ShipView_Sorted);
-			// 
-			// MenuMember
-			// 
-			this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuMember_AddToGroup,
-            this.MenuMember_CreateGroup,
-            this.MenuMember_AddCurrentFleet_Group,
-            this.toolStripSeparator1,
-            this.MenuMember_ColumnFilter,
-            this.MenuMember_ColumnAutoSize,
-            this.MenuMember_LockShipNameScroll,
-            this.toolStripSeparator2,
-            this.MenuMember_CSVOutput,
-            this.toolStripSeparator3,
-            this.MenuMember_Delete,
-            this.MenuMember_Filter});
-			this.MenuMember.Name = "MenuMember";
-			this.MenuMember.Size = new System.Drawing.Size(284, 220);
-			this.MenuMember.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMember_Opening);
-			// 
-			// MenuMember_AddToGroup
-			// 
-			this.MenuMember_AddToGroup.Name = "MenuMember_AddToGroup";
-			this.MenuMember_AddToGroup.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-			this.MenuMember_AddToGroup.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_AddToGroup.Text = "グループへ追加(&A)...";
-			this.MenuMember_AddToGroup.Click += new System.EventHandler(this.MenuMember_AddToGroup_Click);
-			// 
-			// MenuMember_CreateGroup
-			// 
-			this.MenuMember_CreateGroup.Name = "MenuMember_CreateGroup";
-			this.MenuMember_CreateGroup.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-			this.MenuMember_CreateGroup.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_CreateGroup.Text = "新規グループを作成(&C)...";
-			this.MenuMember_CreateGroup.Click += new System.EventHandler(this.MenuMember_CreateGroup_Click);
-			// 
-			// MenuMember_AddCurrentFleet_Group
-			// 
-			this.MenuMember_AddCurrentFleet_Group.Name = "MenuMember_AddCurrentFleet_Group";
-			this.MenuMember_AddCurrentFleet_Group.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_AddCurrentFleet_Group.Text = "現在の艦隊を追加(&G)";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(280, 6);
-			// 
-			// MenuMember_ColumnFilter
-			// 
-			this.MenuMember_ColumnFilter.Name = "MenuMember_ColumnFilter";
-			this.MenuMember_ColumnFilter.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_ColumnFilter.Text = "列フィルタ(&F)...";
-			this.MenuMember_ColumnFilter.Click += new System.EventHandler(this.MenuMember_ColumnFilter_Click);
-			// 
-			// MenuMember_ColumnAutoSize
-			// 
-			this.MenuMember_ColumnAutoSize.CheckOnClick = true;
-			this.MenuMember_ColumnAutoSize.Name = "MenuMember_ColumnAutoSize";
-			this.MenuMember_ColumnAutoSize.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_ColumnAutoSize.Text = "列の自動調整(&D)";
-			this.MenuMember_ColumnAutoSize.Click += new System.EventHandler(this.MenuMember_ColumnAutoSize_Click);
-			// 
-			// MenuMember_LockShipNameScroll
-			// 
-			this.MenuMember_LockShipNameScroll.CheckOnClick = true;
-			this.MenuMember_LockShipNameScroll.Name = "MenuMember_LockShipNameScroll";
-			this.MenuMember_LockShipNameScroll.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_LockShipNameScroll.Text = "艦名をスクロールしない(&S)";
-			this.MenuMember_LockShipNameScroll.Click += new System.EventHandler(this.MenuMember_LockShipNameScroll_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(280, 6);
-			// 
-			// MenuMember_CSVOutput
-			// 
-			this.MenuMember_CSVOutput.Name = "MenuMember_CSVOutput";
-			this.MenuMember_CSVOutput.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_CSVOutput.Text = "CSV出力(&O)...";
-			this.MenuMember_CSVOutput.Click += new System.EventHandler(this.MenuMember_CSVOutput_Click);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(280, 6);
-			// 
-			// MenuMember_Delete
-			// 
-			this.MenuMember_Delete.Name = "MenuMember_Delete";
-			this.MenuMember_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-			this.MenuMember_Delete.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_Delete.Text = "削除(&D)";
-			this.MenuMember_Delete.Click += new System.EventHandler(this.MenuMember_Delete_Click);
-			// 
-			// MenuMember_Filter
-			// 
-			this.MenuMember_Filter.Name = "MenuMember_Filter";
-			this.MenuMember_Filter.Size = new System.Drawing.Size(283, 22);
-			this.MenuMember_Filter.Text = "フィルタ(&F)...";
-			this.MenuMember_Filter.Click += new System.EventHandler(this.MenuMember_Filter_Click);
-			// 
-			// MenuGroup
-			// 
-			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuGroup_Add,
-            this.MenuGroup_Rename,
-            this.MenuGroup_Delete,
-            this.toolStripSeparator4,
-            this.MenuGroup_AutoUpdate,
-            this.MenuGroup_ShowStatusBar});
-			this.MenuGroup.Name = "MenuGroup";
-			this.MenuGroup.Size = new System.Drawing.Size(192, 120);
-			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
-			// 
-			// MenuGroup_Add
-			// 
-			this.MenuGroup_Add.Name = "MenuGroup_Add";
-			this.MenuGroup_Add.Size = new System.Drawing.Size(191, 22);
-			this.MenuGroup_Add.Text = "グループを追加(&A)";
-			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
-			// 
-			// MenuGroup_Rename
-			// 
-			this.MenuGroup_Rename.Name = "MenuGroup_Rename";
-			this.MenuGroup_Rename.Size = new System.Drawing.Size(191, 22);
-			this.MenuGroup_Rename.Text = "グループ名の変更(&R)...";
-			this.MenuGroup_Rename.Click += new System.EventHandler(this.MenuGroup_Rename_Click);
-			// 
-			// MenuGroup_Delete
-			// 
-			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
-			this.MenuGroup_Delete.Size = new System.Drawing.Size(191, 22);
-			this.MenuGroup_Delete.Text = "グループを削除(&D)";
-			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
-			// 
-			// toolStripSeparator4
-			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(188, 6);
-			// 
-			// MenuGroup_AutoUpdate
-			// 
-			this.MenuGroup_AutoUpdate.CheckOnClick = true;
-			this.MenuGroup_AutoUpdate.Name = "MenuGroup_AutoUpdate";
-			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(191, 22);
-			this.MenuGroup_AutoUpdate.Text = "自動更新する";
-			// 
-			// MenuGroup_ShowStatusBar
-			// 
-			this.MenuGroup_ShowStatusBar.Checked = true;
-			this.MenuGroup_ShowStatusBar.CheckOnClick = true;
-			this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
-			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(191, 22);
-			this.MenuGroup_ShowStatusBar.Text = "ステータスバーを表示する";
-			this.MenuGroup_ShowStatusBar.CheckedChanged += new System.EventHandler(this.MenuGroup_ShowStatusBar_CheckedChanged);
-			// 
-			// splitContainer1
-			// 
-			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer1.Name = "splitContainer1";
-			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainer1.Panel1
-			// 
-			this.splitContainer1.Panel1.Controls.Add(this.TabPanel);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this.splitContainer1.Panel2.Controls.Add(this.ShipView);
-			this.splitContainer1.Panel2.Controls.Add(this.StatusBar);
-			this.splitContainer1.Size = new System.Drawing.Size(300, 200);
-			this.splitContainer1.SplitterDistance = 40;
-			this.splitContainer1.TabIndex = 1;
-			// 
-			// TabPanel
-			// 
-			this.TabPanel.AllowDrop = true;
-			this.TabPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.TabPanel.AutoScroll = true;
-			this.TabPanel.ContextMenuStrip = this.MenuGroup;
-			this.TabPanel.Location = new System.Drawing.Point(0, 0);
-			this.TabPanel.Name = "TabPanel";
-			this.TabPanel.Size = new System.Drawing.Size(300, 40);
-			this.TabPanel.TabIndex = 0;
-			this.TabPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragDrop);
-			this.TabPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragEnter);
-			this.TabPanel.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.TabPanel_QueryContinueDrag);
-			this.TabPanel.DoubleClick += new System.EventHandler(this.TabPanel_DoubleClick);
-			// 
-			// StatusBar
-			// 
-			this.StatusBar.ImageScalingSize = new System.Drawing.Size(32, 32);
-			this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Status_ShipCount,
-            this.Status_LevelTotal,
-            this.Status_LevelAverage});
-			this.StatusBar.Location = new System.Drawing.Point(0, 134);
-			this.StatusBar.Name = "StatusBar";
-			this.StatusBar.Size = new System.Drawing.Size(300, 22);
-			this.StatusBar.SizingGrip = false;
-			this.StatusBar.TabIndex = 1;
-			this.StatusBar.Text = "statusStrip1";
-			// 
-			// Status_ShipCount
-			// 
-			this.Status_ShipCount.Name = "Status_ShipCount";
-			this.Status_ShipCount.Size = new System.Drawing.Size(0, 17);
-			// 
-			// Status_LevelTotal
-			// 
-			this.Status_LevelTotal.Name = "Status_LevelTotal";
-			this.Status_LevelTotal.Size = new System.Drawing.Size(0, 17);
-			// 
-			// Status_LevelAverage
-			// 
-			this.Status_LevelAverage.Name = "Status_LevelAverage";
-			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 17);
 			// 
 			// ShipView_ID
 			// 
@@ -496,26 +262,12 @@
 			this.ShipView_NextRemodel.ReadOnly = true;
 			this.ShipView_NextRemodel.Width = 60;
 			// 
-			// ShipView_HPCurrent
+			// ShipView_HP
 			// 
-			this.ShipView_HPCurrent.HeaderText = "現在HP";
-			this.ShipView_HPCurrent.Name = "ShipView_HPCurrent";
-			this.ShipView_HPCurrent.ReadOnly = true;
-			this.ShipView_HPCurrent.Width = 40;
-			// 
-			// ShipView_HPMax
-			// 
-			this.ShipView_HPMax.HeaderText = "最大HP";
-			this.ShipView_HPMax.Name = "ShipView_HPMax";
-			this.ShipView_HPMax.ReadOnly = true;
-			this.ShipView_HPMax.Width = 40;
-			// 
-			// ShipView_HPRate
-			// 
-			this.ShipView_HPRate.HeaderText = "HP割合";
-			this.ShipView_HPRate.Name = "ShipView_HPRate";
-			this.ShipView_HPRate.ReadOnly = true;
-			this.ShipView_HPRate.Width = 40;
+			this.ShipView_HP.HeaderText = "HP";
+			this.ShipView_HP.Name = "ShipView_HP";
+			this.ShipView_HP.ReadOnly = true;
+			this.ShipView_HP.Width = 60;
 			// 
 			// ShipView_Condition
 			// 
@@ -805,6 +557,13 @@
 			this.ShipView_LuckTotal.ReadOnly = true;
 			this.ShipView_LuckTotal.Width = 40;
 			// 
+			// ShipView_BomberTotal
+			// 
+			this.ShipView_BomberTotal.HeaderText = "爆装合計";
+			this.ShipView_BomberTotal.Name = "ShipView_BomberTotal";
+			this.ShipView_BomberTotal.ReadOnly = true;
+			this.ShipView_BomberTotal.Width = 40;
+			// 
 			// ShipView_Speed
 			// 
 			this.ShipView_Speed.HeaderText = "速力";
@@ -875,6 +634,165 @@
 			this.ShipView_SallyArea.ReadOnly = true;
 			this.ShipView_SallyArea.Width = 40;
 			// 
+			// MenuMember
+			// 
+			this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuMember_Filter,
+            this.MenuMember_ColumnFilter,
+            this.toolStripSeparator3,
+            this.MenuMember_CSVOutput});
+			this.MenuMember.Name = "MenuMember";
+			this.MenuMember.Size = new System.Drawing.Size(175, 76);
+			this.MenuMember.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMember_Opening);
+			// 
+			// MenuMember_Filter
+			// 
+			this.MenuMember_Filter.Name = "MenuMember_Filter";
+			this.MenuMember_Filter.Size = new System.Drawing.Size(174, 22);
+			this.MenuMember_Filter.Text = "フィルタ(&F)...";
+			this.MenuMember_Filter.Click += new System.EventHandler(this.MenuMember_Filter_Click);
+			// 
+			// MenuMember_ColumnFilter
+			// 
+			this.MenuMember_ColumnFilter.Name = "MenuMember_ColumnFilter";
+			this.MenuMember_ColumnFilter.Size = new System.Drawing.Size(174, 22);
+			this.MenuMember_ColumnFilter.Text = "列の表示設定(&C)...";
+			this.MenuMember_ColumnFilter.Click += new System.EventHandler(this.MenuMember_ColumnFilter_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(171, 6);
+			// 
+			// MenuMember_CSVOutput
+			// 
+			this.MenuMember_CSVOutput.Name = "MenuMember_CSVOutput";
+			this.MenuMember_CSVOutput.Size = new System.Drawing.Size(174, 22);
+			this.MenuMember_CSVOutput.Text = "CSV出力(&O)...";
+			this.MenuMember_CSVOutput.Click += new System.EventHandler(this.MenuMember_CSVOutput_Click);
+			// 
+			// MenuGroup
+			// 
+			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuGroup_Add,
+            this.MenuGroup_Rename,
+            this.MenuGroup_Delete,
+            this.toolStripSeparator4,
+            this.MenuGroup_AutoUpdate,
+            this.MenuGroup_ShowStatusBar});
+			this.MenuGroup.Name = "MenuGroup";
+			this.MenuGroup.Size = new System.Drawing.Size(192, 142);
+			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
+			// 
+			// MenuGroup_Add
+			// 
+			this.MenuGroup_Add.Name = "MenuGroup_Add";
+			this.MenuGroup_Add.Size = new System.Drawing.Size(191, 22);
+			this.MenuGroup_Add.Text = "グループを追加(&A)";
+			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
+			// 
+			// MenuGroup_Rename
+			// 
+			this.MenuGroup_Rename.Name = "MenuGroup_Rename";
+			this.MenuGroup_Rename.Size = new System.Drawing.Size(191, 22);
+			this.MenuGroup_Rename.Text = "グループ名の変更(&R)...";
+			this.MenuGroup_Rename.Click += new System.EventHandler(this.MenuGroup_Rename_Click);
+			// 
+			// MenuGroup_Delete
+			// 
+			this.MenuGroup_Delete.Name = "MenuGroup_Delete";
+			this.MenuGroup_Delete.Size = new System.Drawing.Size(191, 22);
+			this.MenuGroup_Delete.Text = "グループを削除(&D)";
+			this.MenuGroup_Delete.Click += new System.EventHandler(this.MenuGroup_Delete_Click);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(188, 6);
+			// 
+			// MenuGroup_AutoUpdate
+			// 
+			this.MenuGroup_AutoUpdate.CheckOnClick = true;
+			this.MenuGroup_AutoUpdate.Name = "MenuGroup_AutoUpdate";
+			this.MenuGroup_AutoUpdate.Size = new System.Drawing.Size(191, 22);
+			this.MenuGroup_AutoUpdate.Text = "自動更新する";
+			// 
+			// MenuGroup_ShowStatusBar
+			// 
+			this.MenuGroup_ShowStatusBar.Checked = true;
+			this.MenuGroup_ShowStatusBar.CheckOnClick = true;
+			this.MenuGroup_ShowStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.MenuGroup_ShowStatusBar.Name = "MenuGroup_ShowStatusBar";
+			this.MenuGroup_ShowStatusBar.Size = new System.Drawing.Size(191, 22);
+			this.MenuGroup_ShowStatusBar.Text = "ステータスバーを表示する";
+			this.MenuGroup_ShowStatusBar.CheckedChanged += new System.EventHandler(this.MenuGroup_ShowStatusBar_CheckedChanged);
+			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Name = "splitContainer1";
+			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.TabPanel);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.ShipView);
+			this.splitContainer1.Panel2.Controls.Add(this.StatusBar);
+			this.splitContainer1.Size = new System.Drawing.Size(300, 200);
+			this.splitContainer1.SplitterDistance = 40;
+			this.splitContainer1.TabIndex = 1;
+			// 
+			// TabPanel
+			// 
+			this.TabPanel.AllowDrop = true;
+			this.TabPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TabPanel.AutoScroll = true;
+			this.TabPanel.ContextMenuStrip = this.MenuGroup;
+			this.TabPanel.Location = new System.Drawing.Point(0, 0);
+			this.TabPanel.Name = "TabPanel";
+			this.TabPanel.Size = new System.Drawing.Size(300, 40);
+			this.TabPanel.TabIndex = 0;
+			this.TabPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragDrop);
+			this.TabPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.TabPanel_DragEnter);
+			this.TabPanel.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.TabPanel_QueryContinueDrag);
+			this.TabPanel.DoubleClick += new System.EventHandler(this.TabPanel_DoubleClick);
+			// 
+			// StatusBar
+			// 
+			this.StatusBar.ImageScalingSize = new System.Drawing.Size(32, 32);
+			this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Status_ShipCount,
+            this.Status_LevelTotal,
+            this.Status_LevelAverage});
+			this.StatusBar.Location = new System.Drawing.Point(0, 134);
+			this.StatusBar.Name = "StatusBar";
+			this.StatusBar.Size = new System.Drawing.Size(300, 22);
+			this.StatusBar.SizingGrip = false;
+			this.StatusBar.TabIndex = 1;
+			this.StatusBar.Text = "statusStrip1";
+			// 
+			// Status_ShipCount
+			// 
+			this.Status_ShipCount.Name = "Status_ShipCount";
+			this.Status_ShipCount.Size = new System.Drawing.Size(0, 17);
+			// 
+			// Status_LevelTotal
+			// 
+			this.Status_LevelTotal.Name = "Status_LevelTotal";
+			this.Status_LevelTotal.Size = new System.Drawing.Size(0, 17);
+			// 
+			// Status_LevelAverage
+			// 
+			this.Status_LevelAverage.Name = "Status_LevelAverage";
+			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 17);
+			// 
 			// FormShipGroup
 			// 
 			this.AutoHidePortion = 150D;
@@ -911,25 +829,17 @@
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_Add;
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_Delete;
 		private System.Windows.Forms.ContextMenuStrip MenuMember;
-		private System.Windows.Forms.ToolStripMenuItem MenuMember_AddToGroup;
-		private System.Windows.Forms.ToolStripMenuItem MenuMember_CreateGroup;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripMenuItem MenuMember_Delete;
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_Rename;
 		private System.Windows.Forms.ToolStripMenuItem MenuMember_ColumnFilter;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem MenuMember_CSVOutput;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem MenuMember_ColumnAutoSize;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_AutoUpdate;
-		private System.Windows.Forms.ToolStripMenuItem MenuMember_LockShipNameScroll;
 		private System.Windows.Forms.StatusStrip StatusBar;
 		private System.Windows.Forms.ToolStripStatusLabel Status_ShipCount;
 		private System.Windows.Forms.ToolStripStatusLabel Status_LevelTotal;
 		private System.Windows.Forms.ToolStripStatusLabel Status_LevelAverage;
 		private System.Windows.Forms.ToolStripMenuItem MenuGroup_ShowStatusBar;
-		private System.Windows.Forms.ToolStripMenuItem MenuMember_AddCurrentFleet_Group;
 		private System.Windows.Forms.ToolStripMenuItem MenuMember_Filter;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_ID;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_ShipType;
@@ -938,9 +848,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Exp;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Next;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_NextRemodel;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_HPCurrent;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_HPMax;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_HPRate;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_HP;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Condition;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Fuel;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Ammo;
@@ -980,6 +888,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Luck;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_LuckRemain;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_LuckTotal;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_BomberTotal;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Speed;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Range;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_AirBattlePower;

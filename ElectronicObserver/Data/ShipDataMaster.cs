@@ -408,6 +408,14 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 搭載
+		/// </summary>
+		public int AircraftTotal {
+			get { return Aircraft.Sum( a => Math.Max( a, 0 ) ); }
+		}
+
+
+		/// <summary>
 		/// 初期装備のID
 		/// </summary>
 		public ReadOnlyCollection<int> DefaultSlot {
@@ -592,16 +600,6 @@ namespace ElectronicObserver.Data {
 		public bool IsLandBase {
 			get {
 				return Speed == 0;
-			}
-		}
-
-
-		/// <summary>
-		/// 搭載
-		/// </summary>
-		public int AircraftTotal {
-			get {
-				return Aircraft.Sum( i => Math.Max( i, 0 ) );
 			}
 		}
 

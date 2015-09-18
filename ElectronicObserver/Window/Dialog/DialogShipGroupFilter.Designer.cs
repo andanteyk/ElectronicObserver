@@ -26,21 +26,10 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.ExpressionView = new System.Windows.Forms.DataGridView();
-			this.ExpressionView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ExpressionView_ExternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.ExpressionView_Inverse = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ExpressionView_InternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.ExpressionView_Expression = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ExpressionView_Up = new System.Windows.Forms.DataGridViewButtonColumn();
-			this.ExpressionView_Down = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.Expression_Delete = new System.Windows.Forms.Button();
 			this.Expression_Add = new System.Windows.Forms.Button();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.ExpressionDetailView = new System.Windows.Forms.DataGridView();
-			this.ExpressionDetailView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ExpressionDetailView_LeftOperand = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.ExpressionDetailView_RightOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ExpressionDetailView_Operator = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.ExpressionDetail_Delete = new System.Windows.Forms.Button();
 			this.ExpressionDetail_Edit = new System.Windows.Forms.Button();
 			this.ExpressionDetail_Add = new System.Windows.Forms.Button();
@@ -53,6 +42,17 @@
 			this.LeftOperand = new System.Windows.Forms.ComboBox();
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
+			this.ExpressionView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ExpressionView_ExternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.ExpressionView_Inverse = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ExpressionView_InternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.ExpressionView_Expression = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ExpressionView_Up = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.ExpressionView_Down = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.ExpressionDetailView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ExpressionDetailView_LeftOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ExpressionDetailView_RightOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ExpressionDetailView_Operator = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -135,60 +135,11 @@
 			this.ExpressionView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.ExpressionView.Size = new System.Drawing.Size(240, 320);
 			this.ExpressionView.TabIndex = 0;
+			this.ExpressionView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpressionView_CellClick);
 			this.ExpressionView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpressionView_CellContentClick);
 			this.ExpressionView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpressionView_CellValueChanged);
 			this.ExpressionView.CurrentCellDirtyStateChanged += new System.EventHandler(this.ExpressionView_CurrentCellDirtyStateChanged);
 			this.ExpressionView.SelectionChanged += new System.EventHandler(this.ExpressionView_SelectionChanged);
-			// 
-			// ExpressionView_Enabled
-			// 
-			this.ExpressionView_Enabled.HeaderText = "";
-			this.ExpressionView_Enabled.Name = "ExpressionView_Enabled";
-			this.ExpressionView_Enabled.Width = 20;
-			// 
-			// ExpressionView_ExternalAndOr
-			// 
-			this.ExpressionView_ExternalAndOr.HeaderText = "";
-			this.ExpressionView_ExternalAndOr.Items.AddRange(new object[] {
-            "And",
-            "Or"});
-			this.ExpressionView_ExternalAndOr.Name = "ExpressionView_ExternalAndOr";
-			this.ExpressionView_ExternalAndOr.Width = 50;
-			// 
-			// ExpressionView_Inverse
-			// 
-			this.ExpressionView_Inverse.HeaderText = "Inv";
-			this.ExpressionView_Inverse.Name = "ExpressionView_Inverse";
-			this.ExpressionView_Inverse.Width = 20;
-			// 
-			// ExpressionView_InternalAndOr
-			// 
-			this.ExpressionView_InternalAndOr.HeaderText = "";
-			this.ExpressionView_InternalAndOr.Items.AddRange(new object[] {
-            "And",
-            "Or"});
-			this.ExpressionView_InternalAndOr.Name = "ExpressionView_InternalAndOr";
-			this.ExpressionView_InternalAndOr.Width = 50;
-			// 
-			// ExpressionView_Expression
-			// 
-			this.ExpressionView_Expression.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionView_Expression.HeaderText = "式";
-			this.ExpressionView_Expression.Name = "ExpressionView_Expression";
-			this.ExpressionView_Expression.ReadOnly = true;
-			this.ExpressionView_Expression.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// ExpressionView_Up
-			// 
-			this.ExpressionView_Up.HeaderText = "↑";
-			this.ExpressionView_Up.Name = "ExpressionView_Up";
-			this.ExpressionView_Up.Width = 20;
-			// 
-			// ExpressionView_Down
-			// 
-			this.ExpressionView_Down.HeaderText = "↓";
-			this.ExpressionView_Down.Name = "ExpressionView_Down";
-			this.ExpressionView_Down.Width = 20;
 			// 
 			// Expression_Delete
 			// 
@@ -254,41 +205,13 @@
 			this.ExpressionDetailView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.ExpressionDetailView.Size = new System.Drawing.Size(380, 320);
 			this.ExpressionDetailView.TabIndex = 0;
-			this.ExpressionDetailView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ExpressionDetailView_CellMouseClick);
-			// 
-			// ExpressionDetailView_Enabled
-			// 
-			this.ExpressionDetailView_Enabled.HeaderText = "";
-			this.ExpressionDetailView_Enabled.Name = "ExpressionDetailView_Enabled";
-			this.ExpressionDetailView_Enabled.Width = 20;
-			// 
-			// ExpressionDetailView_LeftOperand
-			// 
-			this.ExpressionDetailView_LeftOperand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionDetailView_LeftOperand.HeaderText = "Left";
-			this.ExpressionDetailView_LeftOperand.Name = "ExpressionDetailView_LeftOperand";
-			this.ExpressionDetailView_LeftOperand.ReadOnly = true;
-			this.ExpressionDetailView_LeftOperand.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			// 
-			// ExpressionDetailView_RightOperand
-			// 
-			this.ExpressionDetailView_RightOperand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionDetailView_RightOperand.HeaderText = "Right";
-			this.ExpressionDetailView_RightOperand.Name = "ExpressionDetailView_RightOperand";
-			this.ExpressionDetailView_RightOperand.ReadOnly = true;
-			this.ExpressionDetailView_RightOperand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// ExpressionDetailView_Operator
-			// 
-			this.ExpressionDetailView_Operator.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionDetailView_Operator.HeaderText = "Operator";
-			this.ExpressionDetailView_Operator.Name = "ExpressionDetailView_Operator";
-			this.ExpressionDetailView_Operator.ReadOnly = true;
-			this.ExpressionDetailView_Operator.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.ExpressionDetailView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ExpressionDetailView_CellFormatting);
+			this.ExpressionDetailView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpressionDetailView_CellValueChanged);
+			this.ExpressionDetailView.SelectionChanged += new System.EventHandler(this.ExpressionDetailView_SelectionChanged);
 			// 
 			// ExpressionDetail_Delete
 			// 
-			this.ExpressionDetail_Delete.Location = new System.Drawing.Point(165, 5);
+			this.ExpressionDetail_Delete.Location = new System.Drawing.Point(162, 82);
 			this.ExpressionDetail_Delete.Name = "ExpressionDetail_Delete";
 			this.ExpressionDetail_Delete.Size = new System.Drawing.Size(75, 23);
 			this.ExpressionDetail_Delete.TabIndex = 4;
@@ -298,16 +221,17 @@
 			// 
 			// ExpressionDetail_Edit
 			// 
-			this.ExpressionDetail_Edit.Location = new System.Drawing.Point(84, 5);
+			this.ExpressionDetail_Edit.Location = new System.Drawing.Point(81, 82);
 			this.ExpressionDetail_Edit.Name = "ExpressionDetail_Edit";
 			this.ExpressionDetail_Edit.Size = new System.Drawing.Size(75, 23);
 			this.ExpressionDetail_Edit.TabIndex = 3;
 			this.ExpressionDetail_Edit.Text = "上書き";
 			this.ExpressionDetail_Edit.UseVisualStyleBackColor = true;
+			this.ExpressionDetail_Edit.Click += new System.EventHandler(this.ExpressionDetail_Edit_Click);
 			// 
 			// ExpressionDetail_Add
 			// 
-			this.ExpressionDetail_Add.Location = new System.Drawing.Point(3, 5);
+			this.ExpressionDetail_Add.Location = new System.Drawing.Point(0, 82);
 			this.ExpressionDetail_Add.Name = "ExpressionDetail_Add";
 			this.ExpressionDetail_Add.Size = new System.Drawing.Size(75, 23);
 			this.ExpressionDetail_Add.TabIndex = 1;
@@ -325,7 +249,7 @@
 			this.GroupExpression.Controls.Add(this.Operator);
 			this.GroupExpression.Controls.Add(this.RightOperand_TextBox);
 			this.GroupExpression.Controls.Add(this.LeftOperand);
-			this.GroupExpression.Location = new System.Drawing.Point(3, 34);
+			this.GroupExpression.Location = new System.Drawing.Point(3, 5);
 			this.GroupExpression.Name = "GroupExpression";
 			this.GroupExpression.Size = new System.Drawing.Size(374, 71);
 			this.GroupExpression.TabIndex = 0;
@@ -354,6 +278,8 @@
 			// 
 			// RightOperand_NumericUpDown
 			// 
+			this.RightOperand_NumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.RightOperand_NumericUpDown.Location = new System.Drawing.Point(133, 22);
 			this.RightOperand_NumericUpDown.Name = "RightOperand_NumericUpDown";
 			this.RightOperand_NumericUpDown.Size = new System.Drawing.Size(108, 23);
@@ -411,6 +337,93 @@
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
+			// ExpressionView_Enabled
+			// 
+			this.ExpressionView_Enabled.HeaderText = "○";
+			this.ExpressionView_Enabled.Name = "ExpressionView_Enabled";
+			this.ExpressionView_Enabled.ToolTipText = "有効/無効";
+			this.ExpressionView_Enabled.Width = 20;
+			// 
+			// ExpressionView_ExternalAndOr
+			// 
+			this.ExpressionView_ExternalAndOr.HeaderText = "";
+			this.ExpressionView_ExternalAndOr.Items.AddRange(new object[] {
+            "And",
+            "Or"});
+			this.ExpressionView_ExternalAndOr.Name = "ExpressionView_ExternalAndOr";
+			this.ExpressionView_ExternalAndOr.Width = 50;
+			// 
+			// ExpressionView_Inverse
+			// 
+			this.ExpressionView_Inverse.HeaderText = "Inv";
+			this.ExpressionView_Inverse.Name = "ExpressionView_Inverse";
+			this.ExpressionView_Inverse.ToolTipText = "条件を反転するか";
+			this.ExpressionView_Inverse.Width = 20;
+			// 
+			// ExpressionView_InternalAndOr
+			// 
+			this.ExpressionView_InternalAndOr.HeaderText = "";
+			this.ExpressionView_InternalAndOr.Items.AddRange(new object[] {
+            "And",
+            "Or"});
+			this.ExpressionView_InternalAndOr.Name = "ExpressionView_InternalAndOr";
+			this.ExpressionView_InternalAndOr.Width = 50;
+			// 
+			// ExpressionView_Expression
+			// 
+			this.ExpressionView_Expression.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionView_Expression.HeaderText = "式";
+			this.ExpressionView_Expression.Name = "ExpressionView_Expression";
+			this.ExpressionView_Expression.ReadOnly = true;
+			this.ExpressionView_Expression.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ExpressionView_Up
+			// 
+			this.ExpressionView_Up.HeaderText = "↑";
+			this.ExpressionView_Up.Name = "ExpressionView_Up";
+			this.ExpressionView_Up.ToolTipText = "上へ";
+			this.ExpressionView_Up.Width = 20;
+			// 
+			// ExpressionView_Down
+			// 
+			this.ExpressionView_Down.HeaderText = "↓";
+			this.ExpressionView_Down.Name = "ExpressionView_Down";
+			this.ExpressionView_Down.ToolTipText = "下へ";
+			this.ExpressionView_Down.Width = 20;
+			// 
+			// ExpressionDetailView_Enabled
+			// 
+			this.ExpressionDetailView_Enabled.HeaderText = "○";
+			this.ExpressionDetailView_Enabled.Name = "ExpressionDetailView_Enabled";
+			this.ExpressionDetailView_Enabled.ToolTipText = "有効/無効";
+			this.ExpressionDetailView_Enabled.Width = 20;
+			// 
+			// ExpressionDetailView_LeftOperand
+			// 
+			this.ExpressionDetailView_LeftOperand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionDetailView_LeftOperand.HeaderText = "左辺";
+			this.ExpressionDetailView_LeftOperand.Name = "ExpressionDetailView_LeftOperand";
+			this.ExpressionDetailView_LeftOperand.ReadOnly = true;
+			this.ExpressionDetailView_LeftOperand.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.ExpressionDetailView_LeftOperand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ExpressionDetailView_RightOperand
+			// 
+			this.ExpressionDetailView_RightOperand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionDetailView_RightOperand.HeaderText = "右辺";
+			this.ExpressionDetailView_RightOperand.Name = "ExpressionDetailView_RightOperand";
+			this.ExpressionDetailView_RightOperand.ReadOnly = true;
+			this.ExpressionDetailView_RightOperand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ExpressionDetailView_Operator
+			// 
+			this.ExpressionDetailView_Operator.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionDetailView_Operator.HeaderText = "条件";
+			this.ExpressionDetailView_Operator.Name = "ExpressionDetailView_Operator";
+			this.ExpressionDetailView_Operator.ReadOnly = true;
+			this.ExpressionDetailView_Operator.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.ExpressionDetailView_Operator.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
 			// DialogShipGroupFilter
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -458,6 +471,9 @@
 		private System.Windows.Forms.ComboBox Operator;
 		private System.Windows.Forms.TextBox RightOperand_TextBox;
 		private System.Windows.Forms.ComboBox LeftOperand;
+		private System.Windows.Forms.Label Description;
+		private System.Windows.Forms.Button ButtonCancel;
+		private System.Windows.Forms.Button ButtonOK;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn ExpressionView_Enabled;
 		private System.Windows.Forms.DataGridViewComboBoxColumn ExpressionView_ExternalAndOr;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn ExpressionView_Inverse;
@@ -466,11 +482,8 @@
 		private System.Windows.Forms.DataGridViewButtonColumn ExpressionView_Up;
 		private System.Windows.Forms.DataGridViewButtonColumn ExpressionView_Down;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn ExpressionDetailView_Enabled;
-		private System.Windows.Forms.DataGridViewComboBoxColumn ExpressionDetailView_LeftOperand;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ExpressionDetailView_LeftOperand;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ExpressionDetailView_RightOperand;
-		private System.Windows.Forms.DataGridViewComboBoxColumn ExpressionDetailView_Operator;
-		private System.Windows.Forms.Label Description;
-		private System.Windows.Forms.Button ButtonCancel;
-		private System.Windows.Forms.Button ButtonOK;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ExpressionDetailView_Operator;
 	}
 }

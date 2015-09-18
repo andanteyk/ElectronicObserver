@@ -267,6 +267,14 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
+		/// 現在の航空機搭載量
+		/// </summary>
+		public int AircraftTotal {
+			get { return _aircraft.Sum( a => Math.Max( a, 0 ) ); }
+		}
+
+
+		/// <summary>
 		/// 搭載燃料
 		/// </summary>
 		public int Fuel { get; internal set; }
@@ -445,6 +453,13 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int LuckTotal {
 			get { return (int)RawData.api_lucky[0]; }
+		}
+
+		/// <summary>
+		/// 爆装総合値
+		/// </summary>
+		public int BomberTotal {
+			get { return AllSlotInstanceMaster.Sum( s => s == null ? 0 : Math.Max( s.Bomber, 0 ) ); }
 		}
 
 
@@ -631,7 +646,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 所属艦隊及びその位置
 		/// ex. 1-3 (位置も1から始まる)
-		/// 所属していなければ null
+		/// 所属していなければ 空文字列
 		/// </summary>
 		public string FleetWithIndex {
 			get {
@@ -642,7 +657,7 @@ namespace ElectronicObserver.Data {
 						return string.Format( "{0}-{1}", f.FleetID, index + 1 );
 					}
 				}
-				return null;
+				return "";
 			}
 
 		}
@@ -697,6 +712,63 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
+		/// 最大搭載燃料
+		/// </summary>
+		public int FuelMax {
+			get { return MasterShip.Fuel; }
+		}
+
+		/// <summary>
+		/// 最大搭載弾薬
+		/// </summary>
+		public int AmmoMax {
+			get { return MasterShip.Ammo; }
+		}
+
+
+		/// <summary>
+		/// 燃料残量割合
+		/// </summary>
+		public double FuelRate {
+			get { return (double)Fuel / Math.Max( FuelMax, 1 ); }
+		}
+
+		/// <summary>
+		/// 弾薬残量割合
+		/// </summary>
+		public double AmmoRate {
+			get { return (double)Ammo / Math.Max( AmmoMax, 1 ); }
+		}
+
+
+		/// <summary>
+		/// 搭載機残量割合
+		/// </summary>
+		public ReadOnlyCollection<double> AircraftRate {
+			get {
+				double[] airs = new double[_aircraft.Length];
+				var airmax = MasterShip.Aircraft;
+
+				for ( int i  = 0; i < airs.Length; i++ ) {
+					airs[i] = (double)_aircraft[i] / Math.Max( airmax[i], 1 );
+				}
+
+				return Array.AsReadOnly( airs );
+			}
+		}
+
+		/// <summary>
+		/// 搭載機残量割合
+		/// </summary>
+		public double AircraftTotalRate {
+			get { return (double)AircraftTotal / Math.Max( MasterShip.AircraftTotal, 1 ); }
+		}
+
+
+
+
+
+		/// <summary>
 		/// 補強装備スロットが使用可能か
 		/// </summary>
 		public bool IsExpansionSlotAvailable {
@@ -704,6 +776,8 @@ namespace ElectronicObserver.Data {
 		}
 
 
+
+		#region ダメージ威力計算
 
 		/// <summary>
 		/// 航空戦威力
@@ -786,7 +860,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int AircraftPower {
 			get {
-				double basepower = Math.Floor( ( FirepowerTotal + TorpedoTotal + Math.Floor( SlotInstance.Sum( s => s == null ? 0 : s.MasterEquipment.Bomber ) * 1.3 ) + GetDayBattleEquipmentLevelBonus() ) * 1.5 ) + 55;
+				double basepower = Math.Floor( ( FirepowerTotal + TorpedoTotal + Math.Floor( BomberTotal * 1.3 ) + GetDayBattleEquipmentLevelBonus() ) * 1.5 ) + 55;
 
 				basepower *= GetHPDamageBonus();
 
@@ -1021,10 +1095,10 @@ namespace ElectronicObserver.Data {
 				int single = 0;
 				int twin = 0;
 
-				foreach ( var slot in SlotInstanceMaster ) {
-					if ( slot == null ) continue;
+				foreach ( var slot in SlotMaster ) {
+					if ( slot == -1 ) continue;
 
-					switch ( slot.EquipmentID ) {
+					switch ( slot ) {
 						case 4:		//14cm単装砲
 						case 11:	//15.2cm単装砲
 							single++;
@@ -1042,6 +1116,8 @@ namespace ElectronicObserver.Data {
 
 			return 0;
 		}
+
+		#endregion
 
 
 

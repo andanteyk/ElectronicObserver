@@ -336,8 +336,8 @@ namespace ElectronicObserver.Window {
 
 			foreach ( var f in KCDatabase.Instance.Fleet.Fleets.Values.Where( f => _inSortie.Contains( f.FleetID ) ) ) {
 
-				fuel_supply += f.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( ( s.MasterShip.Fuel - s.Fuel ) * ( s.IsMarried ? 0.85 : 1.0 ) ) );
-				ammo += f.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( ( s.MasterShip.Ammo - s.Ammo ) * ( s.IsMarried ? 0.85 : 1.0 ) ) );
+				fuel_supply += f.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( ( s.FuelMax - s.Fuel ) * ( s.IsMarried ? 0.85 : 1.0 ) ) );
+				ammo += f.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( ( s.AmmoMax - s.Ammo ) * ( s.IsMarried ? 0.85 : 1.0 ) ) );
 				bauxite += f.MembersInstance.Sum( s => s == null ? 0 : s.Aircraft.Zip( s.MasterShip.Aircraft, ( current, max ) => new { Current = current, Max = max } ).Sum( a => ( a.Max - a.Current ) * 5 ) );
 
 				fuel_repair += f.MembersInstance.Sum( s => s == null ? 0 : s.RepairFuel );

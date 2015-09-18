@@ -47,8 +47,7 @@ namespace ElectronicObserver.Window {
 		/// <summary>選択中のタブ</summary>
 		private ImageLabel SelectedTab = null;
 
-		/// <summary>艦これ起動前にタブを選択した場合はtrue</summary>
-		private bool IsTabSelectedBeforeBoot = false;
+
 
 		public FormShipGroup( FormMain parent ) {
 			InitializeComponent();
@@ -220,14 +219,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void APIUpdated( string apiname, dynamic data ) {
-			if ( IsTabSelectedBeforeBoot ) {
-				// 空のShipViewでKCDatabase.Instance.ShipGroupを上書きしてしまうのを防ぐため、
-				// 艦これ起動前にタブを選択した後の最初の艦船データ受信時は、ShipViewの構築を行う
-				// checkme: システム変更によって不要になったかも?
-				BuildShipView( SelectedTab );
-				IsTabSelectedBeforeBoot = false;
-
-			} else if ( MenuGroup_AutoUpdate.Checked )
+			 if ( MenuGroup_AutoUpdate.Checked )
 				ChangeShipView( SelectedTab );
 		}
 
@@ -240,9 +232,10 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		private void ApplyGroupData( ImageLabel target ) {
 
+#if false
 			if ( target != null ) {
 
-				/*//checkme: これいる?
+				//*//checkme: これいる?
 				if ( KCDatabase.Instance.Ships.Count == 0 )
 					return;
 				//*/
@@ -256,12 +249,13 @@ namespace ElectronicObserver.Window {
 				for ( int i = 0; i < ShipView.Columns.Count; i++ ) {
 					g.ViewColumns.Add( new ShipGroupData.ViewColumnData( ShipView.Columns[i] ) );
 				}
-				g.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
+				
 				g.ScrollLockColumnCount = ShipView.Columns.OfType<DataGridViewColumn>().Count( c => c.Frozen );
 
 
 				//*/
 			}
+#endif
 		}
 
 
@@ -284,23 +278,21 @@ namespace ElectronicObserver.Window {
 				ship.ExpTotal,
 				ship.ExpNext,
 				ship.ExpNextRemodel,
-				ship.HPCurrent,
-				ship.HPMax,
-				ship.HPRate,
+				new Fraction( ship.HPCurrent, ship.HPMax ),
 				ship.Condition,
-				new Fraction( ship.Fuel, ship.MasterShip.Fuel ),
-				new Fraction( ship.Ammo, ship.MasterShip.Ammo ),
+				new Fraction( ship.Fuel, ship.FuelMax ),
+				new Fraction( ship.Ammo, ship.AmmoMax ),
 				GetEquipmentString( ship, 0 ),
 				GetEquipmentString( ship, 1 ),
 				GetEquipmentString( ship, 2 ),
 				GetEquipmentString( ship, 3 ),
 				GetEquipmentString( ship, 4 ),
 				GetEquipmentString( ship, 5 ),		//補強スロット
-				ship.Aircraft[0],
-				ship.Aircraft[1],
-				ship.Aircraft[2],
-				ship.Aircraft[3],
-				ship.Aircraft[4],
+				new Fraction( ship.Aircraft[0], ship.MasterShip.Aircraft[0] ),
+				new Fraction( ship.Aircraft[1], ship.MasterShip.Aircraft[1] ),
+				new Fraction( ship.Aircraft[2], ship.MasterShip.Aircraft[2] ),
+				new Fraction( ship.Aircraft[3], ship.MasterShip.Aircraft[3] ),
+				new Fraction( ship.Aircraft[4], ship.MasterShip.Aircraft[4] ),
 				ship.FleetWithIndex,
 				ship.RepairingDockID == -1 ? ship.RepairTime : -1000 + ship.RepairingDockID,
 				ship.RepairSteel,
@@ -326,6 +318,7 @@ namespace ElectronicObserver.Window {
 				ship.LuckBase,
 				ship.LuckRemain,
 				ship.LuckTotal,
+				ship.BomberTotal,
 				ship.MasterShip.Speed,
 				ship.Range,
 				ship.AirBattlePower,
@@ -343,6 +336,7 @@ namespace ElectronicObserver.Window {
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
 			row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
 
+
 			{
 				DataGridViewCellStyle cs;
 				double hprate = ship.HPRate;
@@ -357,9 +351,7 @@ namespace ElectronicObserver.Window {
 				else
 					cs = CSDefaultRight;
 
-				row.Cells[ShipView_HPCurrent.Index].Style =
-				row.Cells[ShipView_HPMax.Index].Style =
-				row.Cells[ShipView_HPRate.Index].Style = cs;
+				row.Cells[ShipView_HP.Index].Style = cs;
 			}
 			{
 				DataGridViewCellStyle cs;
@@ -376,8 +368,17 @@ namespace ElectronicObserver.Window {
 
 				row.Cells[ShipView_Condition.Index].Style = cs;
 			}
-			row.Cells[ShipView_Fuel.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
-			row.Cells[ShipView_Ammo.Index].Style = ship.Fuel < ship.MasterShip.Fuel ? CSYellowRight : CSDefaultRight;
+			row.Cells[ShipView_Fuel.Index].Style = ship.Fuel < ship.FuelMax ? CSYellowRight : CSDefaultRight;
+			row.Cells[ShipView_Ammo.Index].Style = ship.Ammo < ship.AmmoMax ? CSYellowRight : CSDefaultRight;
+			{
+				var current = ship.Aircraft;
+				var max = ship.MasterShip.Aircraft;
+				row.Cells[ShipView_Aircraft1.Index].Style = ( max[0] > 0 && current[0] == 0 ) ? CSRedRight : ( current[0] < max[0] ) ? CSYellowRight : CSDefaultRight;
+				row.Cells[ShipView_Aircraft2.Index].Style = ( max[1] > 0 && current[1] == 0 ) ? CSRedRight : ( current[1] < max[1] ) ? CSYellowRight : CSDefaultRight;
+				row.Cells[ShipView_Aircraft3.Index].Style = ( max[2] > 0 && current[2] == 0 ) ? CSRedRight : ( current[2] < max[2] ) ? CSYellowRight : CSDefaultRight;
+				row.Cells[ShipView_Aircraft4.Index].Style = ( max[3] > 0 && current[3] == 0 ) ? CSRedRight : ( current[3] < max[3] ) ? CSYellowRight : CSDefaultRight;
+				row.Cells[ShipView_Aircraft5.Index].Style = ( max[4] > 0 && current[4] == 0 ) ? CSRedRight : ( current[4] < max[4] ) ? CSYellowRight : CSDefaultRight;
+			}
 			{
 				DataGridViewCellStyle cs;
 				if ( ship.RepairTime == 0 )
@@ -442,14 +443,9 @@ namespace ElectronicObserver.Window {
 
 				for ( int i = 0; i < columnCount; i++ ) {
 					var view = group.ViewColumns[i];
-					ShipView.Columns[view.Index].DisplayIndex = view.DisplayIndex;
-					ShipView.Columns[view.Index].Visible = view.Visible;
-					ShipView.Columns[view.Index].Width = view.Width;
+					view.ToColumn( ShipView.Columns[view.Index] );
 				}
 			}
-
-			SetColumnAutoSize( group.ColumnAutoSize );
-			SetScrollLockColumn( group.ScrollLockColumnCount );
 
 
 			ShipView.ResumeLayout();
@@ -489,10 +485,7 @@ namespace ElectronicObserver.Window {
 				SelectedTab.BackColor = TabInactiveColor;
 
 			SelectedTab = target;
-			// 艦これ起動前にタブを選択した場合はフラグを立てておく(APIUpdatedで使う)
-			// checkme: 使う?
-			if ( KCDatabase.Instance.Ships.Count == 0 )
-				IsTabSelectedBeforeBoot = true;
+
 
 			BuildShipView( SelectedTab );
 			SelectedTab.BackColor = TabActiveColor;
@@ -545,6 +538,16 @@ namespace ElectronicObserver.Window {
 				e.Value = "MAX";
 				e.FormattingApplied = true;
 
+			} else if ( e.ColumnIndex == ShipView_Aircraft1.Index ||
+				 e.ColumnIndex == ShipView_Aircraft2.Index ||
+				 e.ColumnIndex == ShipView_Aircraft3.Index ||
+				 e.ColumnIndex == ShipView_Aircraft4.Index ||
+				 e.ColumnIndex == ShipView_Aircraft5.Index ) {
+				if ( ( (Fraction)e.Value ).Max == 0 ) {
+					e.Value = "";
+					e.FormattingApplied = true;
+				}
+
 			} else if ( e.ColumnIndex == ShipView_Locked.Index ) {
 				e.Value = (int)e.Value == 1 ? "❤" : (int)e.Value == 2 ? "■" : "";
 				e.FormattingApplied = true;
@@ -553,7 +556,15 @@ namespace ElectronicObserver.Window {
 				e.Value = "";
 				e.FormattingApplied = true;
 
-			}
+			} else if ( e.ColumnIndex == ShipView_Range.Index ) {
+				e.Value = Constants.GetRange( (int)e.Value );
+				e.FormattingApplied = true;
+
+			} else if ( e.ColumnIndex == ShipView_Speed.Index ) {
+				e.Value = Constants.GetSpeed( (int)e.Value );
+				e.FormattingApplied = true;
+
+			} 
 
 		}
 
@@ -640,7 +651,7 @@ namespace ElectronicObserver.Window {
 					for ( int i = 0; i < ShipView.Columns.Count; i++ ) {
 						group.ViewColumns.Add( new ShipGroupData.ViewColumnData( ShipView.Columns[i] ) );
 					}
-					group.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
+					//group.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
 					//scrollrockcolumncount
 					//filter, etc
 					//undone: 各種設定の引継ぎ
@@ -742,57 +753,26 @@ namespace ElectronicObserver.Window {
 
 			} else if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) == 0 ) {
 
-				MenuMember_AddToGroup.Enabled = false;
-				MenuMember_CreateGroup.Enabled = false;
-				MenuMember_Delete.Enabled = false;
 				MenuMember_CSVOutput.Enabled = false;
 
 			} else if ( KCDatabase.Instance.ShipGroup.ShipGroups.Count == 0 ) {
 
-				MenuMember_AddToGroup.Enabled = false;
-				MenuMember_CreateGroup.Enabled = true;
-				MenuMember_Delete.Enabled = true;
 				MenuMember_CSVOutput.Enabled = false;
 
 			} else {
 
-				MenuMember_AddToGroup.Enabled = true;
-				MenuMember_CreateGroup.Enabled = true;
-				MenuMember_Delete.Enabled = true;
 				MenuMember_CSVOutput.Enabled = true;
 
 			}
 
-			// 「現在の艦隊を追加」コンテキストメニュー
-			{
-				int groupID = (int)SelectedTab.Tag;
-
-				// fixme: 暫定的に封印
-				// 艦隊がロード済み
-				MenuMember_AddCurrentFleet_Group.Enabled = ( KCDatabase.Instance.Fleet.Fleets.Count > 0 ) && false;
-
-				if ( MenuMember_AddCurrentFleet_Group.Enabled ) {
-
-					MenuMember_AddCurrentFleet_Group.DropDownItems.Clear();
-					foreach ( FleetData fleet in KCDatabase.Instance.Fleet.Fleets.Values ) {
-
-						if ( fleet.MembersInstance.Count( s => s != null ) == 0 ) continue;
-
-						var newItem = new ToolStripMenuItem();
-						newItem.Name = "MenuMember_AddCurrentFleetChild_" + fleet.FleetID;
-						newItem.Text = string.Format( "#&{0} {1}", fleet.FleetID, fleet.Name );
-						newItem.Tag = fleet.FleetID;
-						newItem.Click += MenuMember_AddCurrentFleetChild_Click;
-						MenuMember_AddCurrentFleet_Group.DropDownItems.Add( newItem );
-					}
-				}
-			}
 		}
 		#endregion
 
 
 		#region メニュー:メンバー操作
 
+
+#if false
 		private void MenuMember_AddToGroup_Click( object sender, EventArgs e ) {
 
 			// fixme: 暫定的に封印
@@ -839,7 +819,7 @@ namespace ElectronicObserver.Window {
 						group.ViewColumns.Add( new ShipGroupData.ViewColumnData( ShipView.Columns[i] ) );
 					}
 
-					group.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
+					//group.ColumnAutoSize = MenuMember_ColumnAutoSize.Checked;
 					// fixme: 他のパラメータの設定
 
 					ImageLabel il = CreateTabLabel( group.GroupID );
@@ -876,7 +856,7 @@ namespace ElectronicObserver.Window {
 				group.Members = group.Members.Except( list ).ToList();
 			//*/
 		}
-
+#endif
 
 		private void MenuMember_ColumnFilter_Click( object sender, EventArgs e ) {
 
@@ -888,17 +868,14 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			using ( var dialog = new DialogShipGroupColumnFilter( ShipView ) ) {
+			using ( var dialog = new DialogShipGroupColumnFilter( ShipView, group ) ) {
 
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
-					bool[] checkedList = dialog.CheckedList;
+					group.ViewColumns = new IDDictionary<ShipGroupData.ViewColumnData>( dialog.Result );
+					group.ScrollLockColumnCount = dialog.ScrollLockColumnCount;
 
-					for ( int i = 0; i < checkedList.Length; i++ ) {
-						group.ViewColumns[i].Visible =
-						ShipView.Columns[i].Visible = checkedList[i];
-					}
-
+					ApplyViewData( group );
 				}
 			}
 
@@ -920,14 +897,37 @@ namespace ElectronicObserver.Window {
 
 					group.Expressions = dialog.ExportExpressionData();
 
-					//todo: メソッドに分離して更新時/初回ロード時にも行われるように
-
 					group.Expressions.Compile();
 					group.UpdateMembers();
+
+					ChangeShipView( SelectedTab );
 				}
 			}
 		}
 
+
+
+		/// <summary>
+		/// 表示設定を反映します。
+		/// </summary>
+		private void ApplyViewData( ShipGroupData group ) {
+
+			// いったん解除しないと列入れ替え時にエラーが起きる
+			foreach ( DataGridViewColumn column in ShipView.Columns ) {
+				column.Frozen = false;
+			}
+
+			foreach ( var data in group.ViewColumns.Values ) {
+				data.ToColumn( ShipView.Columns[data.Index] );
+			}
+
+			int count = 0;
+			foreach ( var column in ShipView.Columns.Cast<DataGridViewColumn>().OrderBy( c => c.DisplayIndex ) ) {
+				column.Frozen = count < group.ScrollLockColumnCount;
+				count++;
+			}
+
+		}
 
 
 
@@ -1163,52 +1163,6 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private void MenuMember_ColumnAutoSize_Click( object sender, EventArgs e ) {
-
-			SetColumnAutoSize();
-
-		}
-
-
-		/// <summary>
-		/// 列の自動調整設定を適用します。
-		/// </summary>
-		/// <param name="flag">設定。nullなら既定値を、そうでなければその値を設定します。</param>
-		private void SetColumnAutoSize( bool? flag = null ) {
-
-			if ( flag == null )
-				flag = MenuMember_ColumnAutoSize.Checked;
-			else
-				MenuMember_ColumnAutoSize.Checked = (bool)flag;
-
-			if ( flag == true ) {
-				ShipView.AutoResizeColumns( DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader );
-			}
-
-			foreach ( DataGridViewColumn column in ShipView.Columns ) {
-				column.AutoSizeMode = flag == true ? DataGridViewAutoSizeColumnMode.AllCellsExceptHeader : DataGridViewAutoSizeColumnMode.NotSet;
-			}
-		}
-
-
-		private void MenuMember_LockShipNameScroll_Click( object sender, EventArgs e ) {
-
-			//SetLockShipNameScroll();
-		}
-
-
-
-		/// <summary>
-		/// スクロールロックする列数を指定します。
-		/// </summary>
-		/// <param name="count">列数。</param>
-		private void SetScrollLockColumn( int count ) {
-
-			for ( int i = 0; i < ShipView.Columns.Count; i++ ) {
-				ShipView.Columns[i].Frozen = i < count;
-			}
-
-		}
 
 
 		/// <summary>

@@ -30,47 +30,75 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 列のプロパティを保持します。
 		/// </summary>
+		[DataContract( Name = "ViewColumnData" )]
 		public class ViewColumnData : IIdentifiable, ICloneable {
 
 			/// <summary>
 			/// 処理上の順番
 			/// </summary>
+			[DataMember]
 			public int Index { get; set; }
 
 			/// <summary>
 			/// 幅
 			/// </summary>
+			[DataMember]
 			public int Width { get; set; }
 
 			/// <summary>
 			/// 表示される順番
 			/// </summary>
+			[DataMember]
 			public int DisplayIndex { get; set; }
 
 			/// <summary>
 			/// 可視かどうか
 			/// </summary>
+			[DataMember]
 			public bool Visible { get; set; }
+
+			/// <summary>
+			/// 自動幅調整を行うか
+			/// </summary>
+			public bool AutoSize { get; set; }
+
 
 
 			public ViewColumnData( int index ) {
 				Index = index;
 			}
 
-			public ViewColumnData( int index, int width, int displayIndex, bool visible )
+			public ViewColumnData( int index, int width, int displayIndex, bool visible, bool autoSize )
 				: this( index ) {
 				Width = width;
 				DisplayIndex = displayIndex;
 				Visible = visible;
+				AutoSize = autoSize;
 			}
 
 			public ViewColumnData( DataGridViewColumn column ) {
+				FromColumn( column );
+			}
+
+
+			public void ToColumn( DataGridViewColumn column ) {
+				if ( column.Index != Index )
+					throw new ArgumentException( "設定する列と Index が異なります。" );
+
+				column.Width = Width;
+				column.DisplayIndex = DisplayIndex;
+				column.Visible = Visible;
+				column.AutoSizeMode = AutoSize ? DataGridViewAutoSizeColumnMode.AllCellsExceptHeader : DataGridViewAutoSizeColumnMode.NotSet;
+			}
+
+			public ViewColumnData FromColumn( DataGridViewColumn column ) {
 				Index = column.Index;
 				Width = column.Width;
 				DisplayIndex = column.DisplayIndex;
 				Visible = column.Visible;
+				AutoSize = column.AutoSizeMode == DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+				return this;
 			}
-
 
 			public int ID {
 				get { return Index; }
@@ -113,13 +141,6 @@ namespace ElectronicObserver.Data {
 			get { return ViewColumns.Values.OrderBy( v => v.ID ); }
 			set { ViewColumns = new IDDictionary<ViewColumnData>( value ); }
 		}
-
-		/// <summary>
-		/// 列幅を自動調整するか
-		/// </summary>
-		[DataMember]
-		public bool ColumnAutoSize { get; set; }
-
 
 		/// <summary>
 		/// ロックされる列数(左端から)
@@ -165,13 +186,15 @@ namespace ElectronicObserver.Data {
 			GroupID = groupID;
 			ViewColumns = new IDDictionary<ViewColumnData>();
 			Name = "notitle #" + groupID;
-			ColumnAutoSize = false;
 			ScrollLockColumnCount = 0;
 			Expressions = new ExpressionManager();
 			Members = new List<int>();
 		}
 
 
+		/// <summary>
+		/// フィルタに基づいて検索を実行し、Members に結果をセットします。
+		/// </summary>
 		public void UpdateMembers() {
 			if ( !Expressions.IsAvailable )
 				Expressions.Compile();

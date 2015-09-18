@@ -25,7 +25,11 @@ namespace ElectronicObserver.Window.Dialog {
 		private DataTable _dtOperator_string;
 		private DataTable _dtOperator_array;
 		private DataTable _dtRightOperand_bool;
+		private DataTable _dtRightOperand_shipname;
 		private DataTable _dtRightOperand_shiptype;
+		private DataTable _dtRightOperand_range;
+		private DataTable _dtRightOperand_speed;
+		private DataTable _dtRightOperand_rarity;
 		private DataTable _dtRightOperand_equipment;
 		#endregion
 
@@ -33,6 +37,7 @@ namespace ElectronicObserver.Window.Dialog {
 			InitializeComponent();
 
 
+			// FIXME: !オンメンテ等で艦娘が増えたら死ぬ! 必ず start2 経由で更新すること
 			#region init DataTable
 			{
 				_dtAndOr = new DataTable();
@@ -63,10 +68,6 @@ namespace ElectronicObserver.Window.Dialog {
 				LeftOperand.ValueMember = "Value";
 				LeftOperand.DisplayMember = "Display";
 				LeftOperand.DataSource = _dtLeftOperand;
-
-				ExpressionDetailView_LeftOperand.ValueMember = "Value";
-				ExpressionDetailView_LeftOperand.DisplayMember = "Display";
-				ExpressionDetailView_LeftOperand.DataSource = _dtLeftOperand;
 			}
 			{
 				_dtOperator = new DataTable();
@@ -80,10 +81,6 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.ValueMember = "Value";
 				Operator.DisplayMember = "Display";
 				Operator.DataSource = _dtOperator;
-
-				ExpressionDetailView_Operator.ValueMember = "Value";
-				ExpressionDetailView_Operator.DisplayMember = "Display";
-				ExpressionDetailView_Operator.DataSource = _dtOperator;
 			}
 			{
 				_dtOperator_bool = new DataTable();
@@ -141,20 +138,57 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_bool.AcceptChanges();
 			}
 			{
+				_dtRightOperand_shipname = new DataTable();
+				_dtRightOperand_shipname.Columns.AddRange( new DataColumn[]{ 
+					new DataColumn( "Value", typeof( int ) ), 
+					new DataColumn( "Display", typeof( string ) ) } );
+				foreach ( var s in KCDatabase.Instance.MasterShips.Values.Where( s => !s.IsAbyssalShip ) )
+					_dtRightOperand_shipname.Rows.Add( s.ShipID, s.Name );
+				_dtRightOperand_shipname.AcceptChanges();
+			}
+			{
 				_dtRightOperand_shiptype = new DataTable();
 				_dtRightOperand_shiptype.Columns.AddRange( new DataColumn[]{ 
-					new DataColumn( "Value", typeof( ExpressionData.ExpressionOperator ) ), 
+					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
 				foreach ( var st in KCDatabase.Instance.ShipTypes.Values )
 					_dtRightOperand_shiptype.Rows.Add( st.TypeID, st.Name );
 				_dtRightOperand_shiptype.AcceptChanges();
 			}
 			{
+				_dtRightOperand_range = new DataTable();
+				_dtRightOperand_range.Columns.AddRange( new DataColumn[]{ 
+					new DataColumn( "Value", typeof( int ) ), 
+					new DataColumn( "Display", typeof( string ) ) } );
+				for ( int i = 0; i <= 4; i++ )
+					_dtRightOperand_range.Rows.Add( i, Constants.GetRange( i ) );
+				_dtRightOperand_range.AcceptChanges();
+			}
+			{
+				_dtRightOperand_speed = new DataTable();
+				_dtRightOperand_speed.Columns.AddRange( new DataColumn[]{ 
+					new DataColumn( "Value", typeof( int ) ), 
+					new DataColumn( "Display", typeof( string ) ) } );
+				_dtRightOperand_speed.Rows.Add( 0, Constants.GetSpeed( 0 ) );
+				_dtRightOperand_speed.Rows.Add( 5, Constants.GetSpeed( 5 ) );
+				_dtRightOperand_speed.Rows.Add( 10, Constants.GetSpeed( 10 ) );
+				_dtRightOperand_speed.AcceptChanges();
+			}
+			{
+				_dtRightOperand_rarity = new DataTable();
+				_dtRightOperand_rarity.Columns.AddRange( new DataColumn[]{ 
+					new DataColumn( "Value", typeof( int ) ), 
+					new DataColumn( "Display", typeof( string ) ) } );
+				for ( int i = 1; i <= 8; i++ )
+					_dtRightOperand_rarity.Rows.Add( i, Constants.GetShipRarity( i ) );
+				_dtRightOperand_rarity.AcceptChanges();
+			}
+			{
 				_dtRightOperand_equipment = new DataTable();
 				_dtRightOperand_equipment.Columns.AddRange( new DataColumn[]{ 
-					new DataColumn( "Value", typeof( ExpressionData.ExpressionOperator ) ), 
+					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
-				foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values )
+				foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values.Where( eq => !eq.IsAbyssalEquipment ) )
 					_dtRightOperand_equipment.Rows.Add( eq.EquipmentID, eq.Name );
 				_dtRightOperand_equipment.AcceptChanges();
 			}
@@ -235,6 +269,11 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
 		private void SetExpressionSetter( string left, object right = null ) {
 
 			Type lefttype = ExpressionData.GetLeftOperandType( left );
@@ -243,10 +282,28 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( isenumerable )
 				lefttype = lefttype.GetElementType() ?? lefttype.GetGenericArguments().First();
 
+
+			LeftOperand.SelectedValue = left;
+
 			// 特殊判定(決め打ち)シリーズ
-			if ( left == ".MasterShip.ShipType" ) {
+			if ( left == ".MasterShip.NameWithClass" ) {
 				RightOperand_ComboBox.Visible = true;
 				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDown;
+				RightOperand_NumericUpDown.Visible = false;
+				RightOperand_NumericUpDown.Enabled = false;
+				RightOperand_TextBox.Visible = false;
+				RightOperand_TextBox.Enabled = false;
+				Operator.Enabled = true;
+				Operator.DataSource = _dtOperator_string;
+
+				RightOperand_ComboBox.DataSource = _dtRightOperand_shipname;
+				RightOperand_ComboBox.SelectedValue = right ?? _dtRightOperand_shipname.AsEnumerable().First()["Value"];
+
+			} else if ( left == ".MasterShip.ShipType" ) {
+				RightOperand_ComboBox.Visible = true;
+				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 				RightOperand_NumericUpDown.Visible = false;
 				RightOperand_NumericUpDown.Enabled = false;
 				RightOperand_TextBox.Visible = false;
@@ -260,6 +317,7 @@ namespace ElectronicObserver.Window.Dialog {
 			} else if ( left.Contains( "SlotMaster" ) ) {
 				RightOperand_ComboBox.Visible = true;
 				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 				RightOperand_NumericUpDown.Visible = false;
 				RightOperand_NumericUpDown.Enabled = false;
 				RightOperand_TextBox.Visible = false;
@@ -270,11 +328,54 @@ namespace ElectronicObserver.Window.Dialog {
 				RightOperand_ComboBox.DataSource = _dtRightOperand_equipment;
 				RightOperand_ComboBox.SelectedValue = right == null ? 1 : right;
 
+			} else if ( left == ".Range" ) {
+				RightOperand_ComboBox.Visible = true;
+				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+				RightOperand_NumericUpDown.Visible = false;
+				RightOperand_NumericUpDown.Enabled = false;
+				RightOperand_TextBox.Visible = false;
+				RightOperand_TextBox.Enabled = false;
+				Operator.Enabled = true;
+				Operator.DataSource = _dtOperator_number;
 
-			// 以下、汎用判定
+				RightOperand_ComboBox.DataSource = _dtRightOperand_range;
+				RightOperand_ComboBox.SelectedValue = right == null ? 1 : right;
+
+			} else if ( left == ".MasterShip.Speed" ) {
+				RightOperand_ComboBox.Visible = true;
+				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+				RightOperand_NumericUpDown.Visible = false;
+				RightOperand_NumericUpDown.Enabled = false;
+				RightOperand_TextBox.Visible = false;
+				RightOperand_TextBox.Enabled = false;
+				Operator.Enabled = true;
+				Operator.DataSource = _dtOperator_number;
+
+				RightOperand_ComboBox.DataSource = _dtRightOperand_speed;
+				RightOperand_ComboBox.SelectedValue = right == null ? 10 : right;
+
+			} else if ( left == ".MasterShip.Rarity" ) {
+				RightOperand_ComboBox.Visible = true;
+				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+				RightOperand_NumericUpDown.Visible = false;
+				RightOperand_NumericUpDown.Enabled = false;
+				RightOperand_TextBox.Visible = false;
+				RightOperand_TextBox.Enabled = false;
+				Operator.Enabled = true;
+				Operator.DataSource = _dtOperator_number;
+
+				RightOperand_ComboBox.DataSource = _dtRightOperand_rarity;
+				RightOperand_ComboBox.SelectedValue = right == null ? 1 : right;
+
+
+				// 以下、汎用判定
 			} else if ( lefttype == null ) {
 				RightOperand_ComboBox.Visible = false;
 				RightOperand_ComboBox.Enabled = false;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 				RightOperand_NumericUpDown.Visible = false;
 				RightOperand_NumericUpDown.Enabled = false;
 				RightOperand_TextBox.Visible = true;
@@ -287,6 +388,7 @@ namespace ElectronicObserver.Window.Dialog {
 			} else if ( lefttype == typeof( int ) ) {
 				RightOperand_ComboBox.Visible = false;
 				RightOperand_ComboBox.Enabled = false;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 				RightOperand_NumericUpDown.Visible = true;
 				RightOperand_NumericUpDown.Enabled = true;
 				RightOperand_TextBox.Visible = false;
@@ -294,13 +396,58 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.Enabled = true;
 				Operator.DataSource = _dtOperator_number;
 
-				RightOperand_NumericUpDown.Maximum = int.MaxValue;
-				RightOperand_NumericUpDown.Minimum = int.MinValue;
-				RightOperand_NumericUpDown.Value = right == null ? 0 : (int)right;
+				switch ( left ) {
+					case ".MasterID":
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = 999999;
+						break;
+					case ".Level":
+						RightOperand_NumericUpDown.Minimum = 1;
+						RightOperand_NumericUpDown.Maximum = 150;
+						break;
+					case ".ExpTotal":
+					case ".ExpNextRemodel":
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = 4360000;
+						break;
+					case ".ExpNext":
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = 195000;
+						break;
+					case ".HPCurrent":
+					case ".HPMax":
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = 999;
+						break;
+					case ".Condition":
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = 100;
+						break;
+					case ".RepairingDockID":
+						RightOperand_NumericUpDown.Minimum = -1;
+						RightOperand_NumericUpDown.Maximum = 4;
+						break;
+					case ".RepairTime":
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = int.MaxValue;
+						break;
+					case ".SlotSize":
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = 5;
+						break;
+					default:
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = 9999;
+						break;
+				}
+				RightOperand_NumericUpDown.DecimalPlaces = 0;
+				RightOperand_NumericUpDown.Increment = 1m;
+				RightOperand_NumericUpDown.Value = right == null ? RightOperand_NumericUpDown.Minimum : (int)right;
 
 			} else if ( lefttype == typeof( double ) ) {
 				RightOperand_ComboBox.Visible = false;
 				RightOperand_ComboBox.Enabled = false;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 				RightOperand_NumericUpDown.Visible = true;
 				RightOperand_NumericUpDown.Enabled = true;
 				RightOperand_TextBox.Visible = false;
@@ -308,13 +455,34 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.Enabled = true;
 				Operator.DataSource = _dtOperator_number;
 
-				RightOperand_NumericUpDown.Maximum = int.MaxValue;		// int_min - int_max もあれば十分では
-				RightOperand_NumericUpDown.Minimum = int.MinValue;		//fixme: 左辺値によってその有効な範囲は変化する、というか大体 0-1 で済む
-				RightOperand_NumericUpDown.Value = right == null ? 0 : (decimal)right;
+				switch ( left ) {
+					case ".HPRate":
+					case ".AircraftRate[0]":
+					case ".AircraftRate[1]":
+					case ".AircraftRate[2]":
+					case ".AircraftRate[3]":
+					case ".AircraftRate[4]":
+					case ".AircraftTotalRate":
+					case ".FuelRate":
+					case ".AmmoRate":
+						RightOperand_NumericUpDown.Minimum = 0;
+						RightOperand_NumericUpDown.Maximum = 1;
+						RightOperand_NumericUpDown.DecimalPlaces = 2;
+						RightOperand_NumericUpDown.Increment = 0.01m;
+						break;
+					default:
+						RightOperand_NumericUpDown.Maximum = int.MaxValue;
+						RightOperand_NumericUpDown.Minimum = int.MinValue;
+						RightOperand_NumericUpDown.DecimalPlaces = 0;
+						RightOperand_NumericUpDown.Increment = 1m;
+						break;
+				}
+				RightOperand_NumericUpDown.Value = right == null ? RightOperand_NumericUpDown.Minimum : Convert.ToDecimal( right );
 
 			} else if ( lefttype == typeof( bool ) ) {
 				RightOperand_ComboBox.Visible = true;
 				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 				RightOperand_NumericUpDown.Visible = false;
 				RightOperand_NumericUpDown.Enabled = false;
 				RightOperand_TextBox.Visible = false;
@@ -328,6 +496,7 @@ namespace ElectronicObserver.Window.Dialog {
 			} else if ( lefttype.IsEnum ) {
 				RightOperand_ComboBox.Visible = true;
 				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 				RightOperand_NumericUpDown.Visible = false;
 				RightOperand_NumericUpDown.Enabled = false;
 				RightOperand_TextBox.Visible = false;
@@ -343,12 +512,14 @@ namespace ElectronicObserver.Window.Dialog {
 				var values = lefttype.GetEnumValues();
 				for ( int i = 0; i < names.Length; i++ )
 					dt.Rows.Add( values.GetValue( i ), names[i] );
+				dt.AcceptChanges();
 				RightOperand_ComboBox.DataSource = dt;
 				RightOperand_ComboBox.SelectedValue = right;
 
 			} else {
 				RightOperand_ComboBox.Visible = false;
 				RightOperand_ComboBox.Enabled = false;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 				RightOperand_NumericUpDown.Visible = false;
 				RightOperand_NumericUpDown.Enabled = false;
 				RightOperand_TextBox.Visible = true;
@@ -369,7 +540,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-
+		// 選択を基にUIの更新
 		private void ExpressionView_SelectionChanged( object sender, EventArgs e ) {
 
 			int index = ExpressionView.SelectedRows.Count == 0 ? -1 : ExpressionView.SelectedRows[0].Index;
@@ -388,19 +559,20 @@ namespace ElectronicObserver.Window.Dialog {
 			for ( int i = 0; i < rows.Length; i++ ) {
 				rows[i] = GetExpressionDetailViewRow( ex.Expressions[i] );
 			}
+
 			ExpressionDetailView.Rows.AddRange( rows );
 
 		}
 
+		private void ExpressionDetailView_SelectionChanged( object sender, EventArgs e ) {
 
-
-		private void ExpressionDetailView_CellMouseClick( object sender, DataGridViewCellMouseEventArgs e ) {
-
-			if ( e.RowIndex < 0 || e.ColumnIndex == ExpressionDetailView_Enabled.Index ) return;
 			if ( ExpressionView.SelectedRows.Count == 0 || ExpressionView.SelectedRows[0].Index == -1 ) return;
 
-			ExpressionData exp = _target[ExpressionView.SelectedRows[0].Index][e.RowIndex];
-			Type lefttype = ExpressionData.GetLeftOperandType( exp.LeftOperand );
+			int index = ExpressionDetailView.SelectedRows.Count == 0 ? -1 : ExpressionDetailView.SelectedRows[0].Index;
+
+			if ( index < 0 ) return;
+
+			ExpressionData exp = _target[ExpressionView.SelectedRows[0].Index][index];
 
 			SetExpressionSetter( exp.LeftOperand, exp.RightOperand );
 
@@ -409,8 +581,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-
-
+		// Expression のボタン操作
 		private void Expression_Add_Click( object sender, EventArgs e ) {
 
 			int insertrow = GetSelectedRow( ExpressionView );
@@ -434,9 +605,55 @@ namespace ElectronicObserver.Window.Dialog {
 
 			_target.Expressions.RemoveAt( selectedrow );
 			ExpressionView.Rows.RemoveAt( selectedrow );
-
+			ExpressionDetailView.Rows.Clear();
 		}
 
+		private void ButtonOK_Click( object sender, EventArgs e ) {
+
+			DialogResult = System.Windows.Forms.DialogResult.OK;
+		}
+
+		private void ButtonCancel_Click( object sender, EventArgs e ) {
+
+			DialogResult = System.Windows.Forms.DialogResult.Cancel;
+		}
+
+
+
+
+		/// <summary>
+		/// UIの設定値からExpressionDataを構築します。
+		/// </summary>
+		private ExpressionData BuildExpressionDataFromUI() {
+
+			var exp = new ExpressionData();
+			exp.LeftOperand = (string)LeftOperand.SelectedValue ?? LeftOperand.Text;
+			exp.Operator = (ExpressionData.ExpressionOperator)Operator.SelectedValue;
+
+			Type type = exp.GetLeftOperandType();
+			if ( type != null && type != typeof( string ) && type.GetInterface( "IEnumerable" ) != null )
+				type = type.GetElementType() ?? type.GetGenericArguments().First();
+
+
+			if ( RightOperand_ComboBox.Enabled ) {
+				exp.RightOperand = Convert.ChangeType( RightOperand_ComboBox.SelectedValue ?? RightOperand_ComboBox.Text, type );
+
+			} else if ( RightOperand_NumericUpDown.Enabled ) {
+				exp.RightOperand = Convert.ChangeType( RightOperand_NumericUpDown.Value, type );
+
+			} else if ( RightOperand_TextBox.Enabled ) {
+				exp.RightOperand = Convert.ChangeType( RightOperand_TextBox.Text, type );
+
+			} else {
+				exp.RightOperand = null;
+			}
+
+			return exp;
+		}
+
+
+
+		// ExpressionDetail のボタン操作
 		private void ExpressionDetail_Add_Click( object sender, EventArgs e ) {
 
 			int procrow = GetSelectedRow( ExpressionView );
@@ -445,28 +662,32 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
-			var exp = new ExpressionData();
-			exp.LeftOperand = (string)LeftOperand.SelectedValue;
-			exp.Operator = (ExpressionData.ExpressionOperator)Operator.SelectedValue;
-
-			Type type = exp.GetLeftOperandType();
-			if ( type != null && type != typeof ( string ) && type.GetInterface( "IEnumerable" ) != null )
-				type = type.GetElementType() ?? type.GetGenericArguments().First();
-
-
-			if ( RightOperand_ComboBox.Enabled ) {
-				exp.RightOperand = Convert.ChangeType( RightOperand_ComboBox.SelectedValue, type );
-			} else if ( RightOperand_NumericUpDown.Enabled ) {
-				exp.RightOperand = Convert.ChangeType( RightOperand_NumericUpDown.Value, type );
-			} else if ( RightOperand_TextBox.Enabled ) {
-				exp.RightOperand = Convert.ChangeType( RightOperand_TextBox.Text, type );
-			} else {
-				exp.RightOperand = null;
-			}
-
+			var exp = BuildExpressionDataFromUI();
 
 			_target.Expressions[procrow].Expressions.Add( exp );
 			ExpressionDetailView.Rows.Add( GetExpressionDetailViewRow( exp ) );
+		}
+
+
+		private void ExpressionDetail_Edit_Click( object sender, EventArgs e ) {
+
+			int procrow = GetSelectedRow( ExpressionView );
+			if ( procrow == -1 ) {
+				MessageBox.Show( "対象となる式列(左側)を選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				return;
+			}
+
+			int selectedrow = GetSelectedRow( ExpressionDetailView );
+			if ( selectedrow == -1 ) {
+				MessageBox.Show( "対象となる行を選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				return;
+			}
+
+			var exp = BuildExpressionDataFromUI();
+
+			_target.Expressions[procrow].Expressions[selectedrow] = exp;
+			ExpressionDetailView.Rows.Insert( selectedrow, GetExpressionDetailViewRow( exp ) );
+			ExpressionDetailView.Rows.RemoveAt( selectedrow + 1 );
 		}
 
 
@@ -486,13 +707,12 @@ namespace ElectronicObserver.Window.Dialog {
 
 			_target.Expressions[procrow].Expressions.RemoveAt( selectedrow );
 			ExpressionDetailView.Rows.RemoveAt( selectedrow );
-
 		}
 
 
+		// 左辺値変更時のUI変更
 		private void LeftOperand_SelectedValueChanged( object sender, EventArgs e ) {
-			if ( LeftOperand.SelectedValue != null )
-				SetExpressionSetter( (string)LeftOperand.SelectedValue );
+			SetExpressionSetter( (string)LeftOperand.SelectedValue ?? LeftOperand.Text );
 		}
 
 
@@ -509,7 +729,17 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+		private void ExpressionDetailView_CurrentCellDirtyStateChanged( object sender, EventArgs e ) {
 
+			if ( ExpressionDetailView.Columns[ExpressionDetailView.CurrentCellAddress.X] is DataGridViewCheckBoxColumn ) {
+				if ( ExpressionDetailView.IsCurrentCellDirty ) {
+					ExpressionDetailView.CommitEdit( DataGridViewDataErrorContexts.Commit );
+				}
+			}
+		}
+
+
+		// UI 操作(チェックボックス/コンボボックス)の反映
 		private void ExpressionView_CellValueChanged( object sender, DataGridViewCellEventArgs e ) {
 
 			if ( e.RowIndex < 0 ) return;
@@ -529,6 +759,23 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
+		private void ExpressionDetailView_CellValueChanged( object sender, DataGridViewCellEventArgs e ) {
+
+			if ( e.RowIndex < 0 ) return;
+
+			int procrow = GetSelectedRow( ExpressionView );
+			if ( procrow == -1 ) {
+				return;
+			}
+
+			if ( e.ColumnIndex == ExpressionDetailView_Enabled.Index ) {
+				_target[procrow].Expressions[e.ColumnIndex].Enabled = (bool)ExpressionDetailView[e.ColumnIndex, e.RowIndex].Value;
+			}
+		}
+
+
+
+		// ボタン処理
 		private void ExpressionView_CellContentClick( object sender, DataGridViewCellEventArgs e ) {
 
 			if ( e.RowIndex < 0 ) return;
@@ -544,6 +791,17 @@ namespace ElectronicObserver.Window.Dialog {
 				_target.Expressions.RemoveAt( e.RowIndex );
 				ExpressionView.Rows.Insert( e.RowIndex, GetExpressionViewRow( _target[e.RowIndex] ) );
 				ExpressionView.Rows.RemoveAt( e.RowIndex + 2 );
+
+			}
+		}
+
+		// コンボボックスの即選択
+		private void ExpressionView_CellClick( object sender, DataGridViewCellEventArgs e ) {
+
+			if ( ExpressionView.Columns[e.ColumnIndex] is DataGridViewComboBoxColumn ) {
+				ExpressionView.BeginEdit( false );
+				var edit = ExpressionView.EditingControl as DataGridViewComboBoxEditingControl;
+				edit.DroppedDown = true;
 			}
 
 		}
@@ -553,19 +811,36 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void ButtonOK_Click( object sender, EventArgs e ) {
 
-			DialogResult = System.Windows.Forms.DialogResult.OK;
+
+
+
+		private void ExpressionDetailView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
+
+			if ( e.ColumnIndex == ExpressionDetailView_LeftOperand.Index ) {
+				var row = _dtLeftOperand.AsEnumerable().FirstOrDefault( r => r["Value"].Equals( (string)e.Value ) );
+				if ( row != null ) {
+					e.Value = row["Display"];
+					e.FormattingApplied = true;
+				}
+
+			} else if ( e.ColumnIndex == ExpressionDetailView_Operator.Index ) {
+				var row = _dtOperator.AsEnumerable().FirstOrDefault( r => r["Value"].Equals( (int)e.Value ) );
+				if ( row != null ) {
+					e.Value = row["Display"];
+					e.FormattingApplied = true;
+				}
+			}
 
 		}
 
-		private void ButtonCancel_Click( object sender, EventArgs e ) {
 
-			DialogResult = System.Windows.Forms.DialogResult.Cancel;
 
-		}
 
-	
+
+
+
+
 
 
 
