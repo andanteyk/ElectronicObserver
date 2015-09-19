@@ -235,6 +235,7 @@
     <Compile Include="Utility\SoftwareInformation.cs" />
     <Compile Include="Utility\Storage\SerializableColor.cs" />
     <Compile Include="Utility\Storage\SerializableFont.cs" />
+    <Compile Include="Utility\Storage\SerializableKeyValuePair.cs" />
     <Compile Include="Utility\Storage\SerializableList.cs" />
     <Compile Include="Utility\SystemEvents.cs" />
     <Compile Include="Utility\WinAPI.cs" />
@@ -358,6 +359,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogShipGroupFilter.Designer.cs">
       <DependentUpon>DialogShipGroupFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupSortOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupSortOrder.Designer.cs">
+      <DependentUpon>DialogShipGroupSortOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogTextInput.cs">
       <SubType>Form</SubType>
@@ -549,6 +556,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogShipGroupFilter.resx">
       <DependentUpon>DialogShipGroupFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogShipGroupSortOrder.resx">
+      <DependentUpon>DialogShipGroupSortOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogTextInput.resx">
       <DependentUpon>DialogTextInput.cs</DependentUpon>

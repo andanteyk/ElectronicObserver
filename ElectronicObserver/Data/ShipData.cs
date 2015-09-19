@@ -821,6 +821,9 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int ShellingPower {
 			get {
+				if ( Calculator.GetDayAttackKind( SlotMaster.ToArray(), ShipID, -1, false ) != 0 )
+					return 0;		//砲撃以外は除外
+
 				double basepower = FirepowerTotal + GetDayBattleEquipmentLevelBonus() + 5;
 
 				basepower *= GetHPDamageBonus();
@@ -860,6 +863,9 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int AircraftPower {
 			get {
+				if ( Calculator.GetDayAttackKind( SlotMaster.ToArray(), ShipID, -1, false ) != 7 )
+					return 0;		//空撃以外は除外
+
 				double basepower = Math.Floor( ( FirepowerTotal + TorpedoTotal + Math.Floor( BomberTotal * 1.3 ) + GetDayBattleEquipmentLevelBonus() ) * 1.5 ) + 55;
 
 				basepower *= GetHPDamageBonus();
@@ -879,6 +885,10 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int AntiSubmarinePower {
 			get {
+
+				if ( ASWBase == 0 ) 
+					return 0;		//対潜攻撃不能艦は除外
+
 				double eqpower = 0;
 				foreach ( var slot in SlotInstance ) {
 					if ( slot == null )
@@ -927,6 +937,9 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int TorpedoPower {
 			get {
+				if ( TorpedoBase == 0 )
+					return 0;		//雷撃不能艦は除外
+
 				double basepower = TorpedoTotal + GetTorpedoEquipmentLevelBonus() + 5;
 
 				basepower *= GetHPDamageBonus();		//開幕雷撃は補正が違うが見なかったことに

@@ -322,7 +322,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 
 		public ExpressionData Clone() {
-			var clone = MemberwiseClone();		//fixme: 右辺値に参照型を含む場合死ぬ
+			var clone = MemberwiseClone();		//checkme: 右辺値に参照型を含む場合死ぬ
 			return (ExpressionData)clone;
 		}
 

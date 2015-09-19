@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.ShipGroup;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,7 +38,6 @@ namespace ElectronicObserver.Window.Dialog {
 			InitializeComponent();
 
 
-			// FIXME: !オンメンテ等で艦娘が増えたら死ぬ! 必ず start2 経由で更新すること
 			#region init DataTable
 			{
 				_dtAndOr = new DataTable();
@@ -203,6 +203,12 @@ namespace ElectronicObserver.Window.Dialog {
 			_target = exp.Clone();
 		}
 
+		private void DialogShipGroupFilter_Load( object sender, EventArgs e ) {
+			if ( Owner != null )
+				Icon = Owner.Icon;
+		}
+
+
 
 		public void ImportExpressionData( ExpressionManager exm ) {
 
@@ -227,7 +233,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 		public ExpressionManager ExportExpressionData() {
 
-			//undone: gui 動作の適用
 			return _target;
 		}
 
@@ -281,6 +286,8 @@ namespace ElectronicObserver.Window.Dialog {
 			bool isenumerable = lefttype != null && lefttype != typeof( string ) && lefttype.GetInterface( "IEnumerable" ) != null;
 			if ( isenumerable )
 				lefttype = lefttype.GetElementType() ?? lefttype.GetGenericArguments().First();
+
+			string description = "";
 
 
 			LeftOperand.SelectedValue = left;
@@ -426,10 +433,12 @@ namespace ElectronicObserver.Window.Dialog {
 					case ".RepairingDockID":
 						RightOperand_NumericUpDown.Minimum = -1;
 						RightOperand_NumericUpDown.Maximum = 4;
+						description = "-1=未入渠, 1～4=入渠中(ドック番号)";
 						break;
 					case ".RepairTime":
 						RightOperand_NumericUpDown.Minimum = 0;
 						RightOperand_NumericUpDown.Maximum = int.MaxValue;
+						description = "(ミリ秒単位)";
 						break;
 					case ".SlotSize":
 						RightOperand_NumericUpDown.Minimum = 0;
@@ -536,6 +545,8 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.DataSource = _dtOperator_array;
 			}
 
+			Description.Text = description;
+
 		}
 
 
@@ -605,7 +616,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 			_target.Expressions.RemoveAt( selectedrow );
 			ExpressionView.Rows.RemoveAt( selectedrow );
-			ExpressionDetailView.Rows.Clear();
+
+			if ( ExpressionView.Rows.Count == 0 )
+				ExpressionDetailView.Rows.Clear();
 		}
 
 		private void ButtonOK_Click( object sender, EventArgs e ) {
@@ -666,6 +679,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			_target.Expressions[procrow].Expressions.Add( exp );
 			ExpressionDetailView.Rows.Add( GetExpressionDetailViewRow( exp ) );
+
+			UpdateExpressionViewRow( procrow );
 		}
 
 
@@ -688,6 +703,8 @@ namespace ElectronicObserver.Window.Dialog {
 			_target.Expressions[procrow].Expressions[selectedrow] = exp;
 			ExpressionDetailView.Rows.Insert( selectedrow, GetExpressionDetailViewRow( exp ) );
 			ExpressionDetailView.Rows.RemoveAt( selectedrow + 1 );
+
+			UpdateExpressionViewRow( procrow );
 		}
 
 
@@ -707,6 +724,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			_target.Expressions[procrow].Expressions.RemoveAt( selectedrow );
 			ExpressionDetailView.Rows.RemoveAt( selectedrow );
+
+			UpdateExpressionViewRow( procrow );
 		}
 
 
@@ -719,6 +738,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		// チェックボックスの更新を即時反映する
+		// コンボボックスも可能だけど今回は省略
 		private void ExpressionView_CurrentCellDirtyStateChanged( object sender, EventArgs e ) {
 
 			if ( ExpressionView.Columns[ExpressionView.CurrentCellAddress.X] is DataGridViewCheckBoxColumn ) {
@@ -757,6 +777,8 @@ namespace ElectronicObserver.Window.Dialog {
 				_target[e.RowIndex].InternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			}
+
+			UpdateExpressionViewRow( e.RowIndex );
 		}
 
 		private void ExpressionDetailView_CellValueChanged( object sender, DataGridViewCellEventArgs e ) {
@@ -771,7 +793,19 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( e.ColumnIndex == ExpressionDetailView_Enabled.Index ) {
 				_target[procrow].Expressions[e.ColumnIndex].Enabled = (bool)ExpressionDetailView[e.ColumnIndex, e.RowIndex].Value;
 			}
+
+			UpdateExpressionViewRow( procrow );
 		}
+
+
+		/// <summary>
+		/// ExpressionView の指定された行の式表示を更新します。
+		/// </summary>
+		/// <param name="index">行インデックス。</param>
+		private void UpdateExpressionViewRow( int index ) {
+			ExpressionView[ExpressionView_Expression.Index, index].Value = _target[index].ToString();
+		}
+
 
 
 
@@ -783,14 +817,16 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( e.ColumnIndex == ExpressionView_Up.Index && e.RowIndex > 0 ) {
 				_target.Expressions.Insert( e.RowIndex - 1, _target[e.RowIndex] );
 				_target.Expressions.RemoveAt( e.RowIndex + 1 );
-				ExpressionView.Rows.Insert( e.RowIndex + 1, GetExpressionViewRow( _target[e.RowIndex] ) );
-				ExpressionView.Rows.RemoveAt( e.RowIndex - 1 );
+				//ExpressionView.Rows.Insert( e.RowIndex + 1, GetExpressionViewRow( _target[e.RowIndex] ) );
+				//ExpressionView.Rows.RemoveAt( e.RowIndex - 1 );
+				ControlHelper.RowMoveUp( ExpressionView, e.RowIndex );
 
 			} else if ( e.ColumnIndex == ExpressionView_Down.Index && e.RowIndex < ExpressionView.Rows.Count - 1 ) {
 				_target.Expressions.Insert( e.RowIndex + 2, _target[e.RowIndex] );
 				_target.Expressions.RemoveAt( e.RowIndex );
-				ExpressionView.Rows.Insert( e.RowIndex, GetExpressionViewRow( _target[e.RowIndex] ) );
-				ExpressionView.Rows.RemoveAt( e.RowIndex + 2 );
+				//ExpressionView.Rows.Insert( e.RowIndex, GetExpressionViewRow( _target[e.RowIndex] ) );
+				//ExpressionView.Rows.RemoveAt( e.RowIndex + 2 );
+				ControlHelper.RowMoveDown( ExpressionView, e.RowIndex );
 
 			}
 		}
@@ -805,14 +841,6 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 		}
-
-
-
-
-
-
-
-
 
 
 		private void ExpressionDetailView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
@@ -836,13 +864,48 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		// Description の変更
+		private void RightOperand_NumericUpDown_ValueChanged( object sender, EventArgs e ) {
 
+			string left =  ( (string)LeftOperand.SelectedValue ) ?? LeftOperand.Text;
+			int intvalue = (int)RightOperand_NumericUpDown.Value;
 
+			switch ( left ) {
+				case ".MasterID": {
+						var ship = KCDatabase.Instance.Ships[intvalue];
+						if ( ship != null ) {
+							Description.Text = ship.NameWithLevel;
+						} else {
+							Description.Text = "(未在籍)";
+						}
+					} break;
 
+				case ".MasterShip.RemodelBeforeShipID": {
+						if ( intvalue == 0 ) {
+							Description.Text = "(未改装)";
+						} else {
+							var ship = KCDatabase.Instance.MasterShips[intvalue];
+							if ( ship == null )
+								Description.Text = "(無効)";
+							else
+								Description.Text = ship.NameWithClass;
+						}
+					} break;
 
+				case ".MasterShip.RemodelAfterShipID": {
+						if ( intvalue == 0 ) {
+							Description.Text = "(最終改装)";
+						} else {
+							var ship = KCDatabase.Instance.MasterShips[intvalue];
+							if ( ship == null )
+								Description.Text = "(無効)";
+							else
+								Description.Text = ship.NameWithClass;
+						}
+					} break;
+			}
 
-
-
+		}
 
 
 	}

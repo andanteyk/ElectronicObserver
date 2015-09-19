@@ -31,13 +31,13 @@ namespace ElectronicObserver.Data {
 		/// 列のプロパティを保持します。
 		/// </summary>
 		[DataContract( Name = "ViewColumnData" )]
-		public class ViewColumnData : IIdentifiable, ICloneable {
+		public class ViewColumnData : ICloneable {
 
 			/// <summary>
-			/// 処理上の順番
+			/// 列名
 			/// </summary>
 			[DataMember]
-			public int Index { get; set; }
+			public string Name { get; set; }
 
 			/// <summary>
 			/// 幅
@@ -64,12 +64,12 @@ namespace ElectronicObserver.Data {
 
 
 
-			public ViewColumnData( int index ) {
-				Index = index;
+			public ViewColumnData( string name ) {
+				Name = name;
 			}
 
-			public ViewColumnData( int index, int width, int displayIndex, bool visible, bool autoSize )
-				: this( index ) {
+			public ViewColumnData( string name, int width, int displayIndex, bool visible, bool autoSize ) {
+				Name = name;
 				Width = width;
 				DisplayIndex = displayIndex;
 				Visible = visible;
@@ -81,9 +81,13 @@ namespace ElectronicObserver.Data {
 			}
 
 
+			/// <summary>
+			/// 現在の設定を、列に対して適用します。
+			/// </summary>
+			/// <param name="column">対象となる列。</param>
 			public void ToColumn( DataGridViewColumn column ) {
-				if ( column.Index != Index )
-					throw new ArgumentException( "設定する列と Index が異なります。" );
+				if ( column.Name != Name )
+					throw new ArgumentException( "設定する列と Name が異なります。" );
 
 				column.Width = Width;
 				column.DisplayIndex = DisplayIndex;
@@ -91,8 +95,13 @@ namespace ElectronicObserver.Data {
 				column.AutoSizeMode = AutoSize ? DataGridViewAutoSizeColumnMode.AllCellsExceptHeader : DataGridViewAutoSizeColumnMode.NotSet;
 			}
 
+			/// <summary>
+			/// 現在の列の状態から、設定を生成します。
+			/// </summary>
+			/// <param name="column">対象となる列。</param>
+			/// <returns>このインスタンス自身を返します。</returns>
 			public ViewColumnData FromColumn( DataGridViewColumn column ) {
-				Index = column.Index;
+				Name = column.Name;
 				Width = column.Width;
 				DisplayIndex = column.DisplayIndex;
 				Visible = column.Visible;
@@ -100,9 +109,6 @@ namespace ElectronicObserver.Data {
 				return this;
 			}
 
-			public int ID {
-				get { return Index; }
-			}
 
 			public ViewColumnData Clone() {
 				return (ViewColumnData)MemberwiseClone();
@@ -134,13 +140,14 @@ namespace ElectronicObserver.Data {
 		/// 列の設定
 		/// </summary>
 		[IgnoreDataMember]
-		public IDDictionary<ViewColumnData> ViewColumns { get; set; }
+		public Dictionary<string, ViewColumnData> ViewColumns { get; set; }
 
 		[DataMember]
 		private IEnumerable<ViewColumnData> ViewColumnsSerializer {
-			get { return ViewColumns.Values.OrderBy( v => v.ID ); }
-			set { ViewColumns = new IDDictionary<ViewColumnData>( value ); }
+			get { return ViewColumns.Values; }
+			set { ViewColumns = value.ToDictionary( v => v.Name ); }
 		}
+
 
 		/// <summary>
 		/// ロックされる列数(左端から)
@@ -148,11 +155,25 @@ namespace ElectronicObserver.Data {
 		[DataMember]
 		public int ScrollLockColumnCount { get; set; }
 
+
 		/// <summary>
 		/// 自動ソートの順番
 		/// </summary>
+		[IgnoreDataMember]
+		public List<KeyValuePair<string, ListSortDirection>> SortOrder { get; set; }
+
 		[DataMember]
-		public List<KeyValuePair<int, ListSortDirection>> SortOrder { get; set; }
+		private List<SerializableKeyValuePair<string, ListSortDirection>> SerealizedSortOrder {
+			get { return SortOrder == null ? null : SortOrder.Select( s => new SerializableKeyValuePair<string, ListSortDirection>( s ) ).ToList(); }
+			set { SortOrder = value == null ? null : value.Select( s => new KeyValuePair<string, ListSortDirection>( s.Key, s.Value ) ).ToList(); }
+		}
+
+
+		/// <summary>
+		/// 自動ソートを行うか
+		/// </summary>
+		[DataMember]
+		public bool AutoSortEnabled { get; set; }
 
 
 		/// <summary>
@@ -184,9 +205,10 @@ namespace ElectronicObserver.Data {
 
 		public ShipGroupData( int groupID ) {
 			GroupID = groupID;
-			ViewColumns = new IDDictionary<ViewColumnData>();
+			ViewColumns = new Dictionary<string, ViewColumnData>();
 			Name = "notitle #" + groupID;
 			ScrollLockColumnCount = 0;
+			SortOrder = new List<KeyValuePair<string, ListSortDirection>>();
 			Expressions = new ExpressionManager();
 			Members = new List<int>();
 		}

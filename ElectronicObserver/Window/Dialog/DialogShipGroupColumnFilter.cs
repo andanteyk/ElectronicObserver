@@ -30,9 +30,9 @@ namespace ElectronicObserver.Window.Dialog {
 			foreach ( var c in group.ViewColumns.Values.OrderBy( c => c.DisplayIndex ) ) {
 				row = new DataGridViewRow();
 				row.CreateCells( ColumnView );
-				row.SetValues( target.Columns[c.Index].HeaderText, c.Visible, c.AutoSize, c.Width );
+				row.SetValues( target.Columns[c.Name].HeaderText, c.Visible, c.AutoSize, c.Width );
 				row.Cells[ColumnView_Width.Index].ValueType = typeof( int );
-				row.Tag = c.Index;
+				row.Tag = c.Name;
 				rows.AddLast( row );
 			}
 
@@ -43,6 +43,12 @@ namespace ElectronicObserver.Window.Dialog {
 			ScrLkColumnCount.Maximum = group.ViewColumns.Count;
 			ScrLkColumnCount.Value = group.ScrollLockColumnCount;
 		}
+
+		private void DialogShipGroupColumnFilter_Load( object sender, EventArgs e ) {
+			if ( Owner != null )
+				Icon = Owner.Icon;
+		}
+
 
 
 		// (全て)の処理
@@ -120,7 +126,7 @@ namespace ElectronicObserver.Window.Dialog {
 			for ( int i  = 1; i < ColumnView.Rows.Count; i++ ) {
 
 				var row = ColumnView.Rows[i];
-				var r = new ShipGroupData.ViewColumnData( (int)row.Tag );
+				var r = new ShipGroupData.ViewColumnData( (string)row.Tag );
 				r.DisplayIndex = row.Index - 1;
 				r.Visible = (bool)row.Cells[ColumnView_Visible.Index].Value;
 				r.AutoSize = (bool)row.Cells[ColumnView_AutoSize.Index].Value;
@@ -175,15 +181,8 @@ namespace ElectronicObserver.Window.Dialog {
 				allrow.Cells[ColumnView_AutoSize.Index].Value = null;
 			}
 
+
 		}
-
-
-
-
-
-
-
-
 
 
 	}

@@ -26,10 +26,23 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.ExpressionView = new System.Windows.Forms.DataGridView();
+			this.ExpressionView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ExpressionView_ExternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.ExpressionView_Inverse = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ExpressionView_InternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.ExpressionView_Expression = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ExpressionView_Up = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.ExpressionView_Down = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.ButtonCancel = new System.Windows.Forms.Button();
+			this.ButtonOK = new System.Windows.Forms.Button();
 			this.Expression_Delete = new System.Windows.Forms.Button();
 			this.Expression_Add = new System.Windows.Forms.Button();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.ExpressionDetailView = new System.Windows.Forms.DataGridView();
+			this.ExpressionDetailView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ExpressionDetailView_LeftOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ExpressionDetailView_RightOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ExpressionDetailView_Operator = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ExpressionDetail_Delete = new System.Windows.Forms.Button();
 			this.ExpressionDetail_Edit = new System.Windows.Forms.Button();
 			this.ExpressionDetail_Add = new System.Windows.Forms.Button();
@@ -40,19 +53,6 @@
 			this.Operator = new System.Windows.Forms.ComboBox();
 			this.RightOperand_TextBox = new System.Windows.Forms.TextBox();
 			this.LeftOperand = new System.Windows.Forms.ComboBox();
-			this.ButtonOK = new System.Windows.Forms.Button();
-			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.ExpressionView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ExpressionView_ExternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.ExpressionView_Inverse = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ExpressionView_InternalAndOr = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.ExpressionView_Expression = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ExpressionView_Up = new System.Windows.Forms.DataGridViewButtonColumn();
-			this.ExpressionView_Down = new System.Windows.Forms.DataGridViewButtonColumn();
-			this.ExpressionDetailView_Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ExpressionDetailView_LeftOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ExpressionDetailView_RightOperand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ExpressionDetailView_Operator = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -141,6 +141,82 @@
 			this.ExpressionView.CurrentCellDirtyStateChanged += new System.EventHandler(this.ExpressionView_CurrentCellDirtyStateChanged);
 			this.ExpressionView.SelectionChanged += new System.EventHandler(this.ExpressionView_SelectionChanged);
 			// 
+			// ExpressionView_Enabled
+			// 
+			this.ExpressionView_Enabled.HeaderText = "○";
+			this.ExpressionView_Enabled.Name = "ExpressionView_Enabled";
+			this.ExpressionView_Enabled.ToolTipText = "有効/無効";
+			this.ExpressionView_Enabled.Width = 20;
+			// 
+			// ExpressionView_ExternalAndOr
+			// 
+			this.ExpressionView_ExternalAndOr.HeaderText = "";
+			this.ExpressionView_ExternalAndOr.Items.AddRange(new object[] {
+            "And",
+            "Or"});
+			this.ExpressionView_ExternalAndOr.Name = "ExpressionView_ExternalAndOr";
+			this.ExpressionView_ExternalAndOr.Width = 50;
+			// 
+			// ExpressionView_Inverse
+			// 
+			this.ExpressionView_Inverse.HeaderText = "Inv";
+			this.ExpressionView_Inverse.Name = "ExpressionView_Inverse";
+			this.ExpressionView_Inverse.ToolTipText = "条件を反転するか";
+			this.ExpressionView_Inverse.Width = 20;
+			// 
+			// ExpressionView_InternalAndOr
+			// 
+			this.ExpressionView_InternalAndOr.HeaderText = "";
+			this.ExpressionView_InternalAndOr.Items.AddRange(new object[] {
+            "And",
+            "Or"});
+			this.ExpressionView_InternalAndOr.Name = "ExpressionView_InternalAndOr";
+			this.ExpressionView_InternalAndOr.Width = 50;
+			// 
+			// ExpressionView_Expression
+			// 
+			this.ExpressionView_Expression.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionView_Expression.HeaderText = "式";
+			this.ExpressionView_Expression.Name = "ExpressionView_Expression";
+			this.ExpressionView_Expression.ReadOnly = true;
+			this.ExpressionView_Expression.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ExpressionView_Up
+			// 
+			this.ExpressionView_Up.HeaderText = "↑";
+			this.ExpressionView_Up.Name = "ExpressionView_Up";
+			this.ExpressionView_Up.ToolTipText = "上へ";
+			this.ExpressionView_Up.Width = 20;
+			// 
+			// ExpressionView_Down
+			// 
+			this.ExpressionView_Down.HeaderText = "↓";
+			this.ExpressionView_Down.Name = "ExpressionView_Down";
+			this.ExpressionView_Down.ToolTipText = "下へ";
+			this.ExpressionView_Down.Width = 20;
+			// 
+			// ButtonCancel
+			// 
+			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ButtonCancel.Location = new System.Drawing.Point(84, 91);
+			this.ButtonCancel.Name = "ButtonCancel";
+			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
+			this.ButtonCancel.TabIndex = 9;
+			this.ButtonCancel.Text = "キャンセル";
+			this.ButtonCancel.UseVisualStyleBackColor = true;
+			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+			// 
+			// ButtonOK
+			// 
+			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ButtonOK.Location = new System.Drawing.Point(3, 91);
+			this.ButtonOK.Name = "ButtonOK";
+			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
+			this.ButtonOK.TabIndex = 8;
+			this.ButtonOK.Text = "OK";
+			this.ButtonOK.UseVisualStyleBackColor = true;
+			this.ButtonOK.Click += new System.EventHandler(this.ButtonOK_Click);
+			// 
 			// Expression_Delete
 			// 
 			this.Expression_Delete.Location = new System.Drawing.Point(84, 5);
@@ -208,6 +284,39 @@
 			this.ExpressionDetailView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ExpressionDetailView_CellFormatting);
 			this.ExpressionDetailView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExpressionDetailView_CellValueChanged);
 			this.ExpressionDetailView.SelectionChanged += new System.EventHandler(this.ExpressionDetailView_SelectionChanged);
+			// 
+			// ExpressionDetailView_Enabled
+			// 
+			this.ExpressionDetailView_Enabled.HeaderText = "○";
+			this.ExpressionDetailView_Enabled.Name = "ExpressionDetailView_Enabled";
+			this.ExpressionDetailView_Enabled.ToolTipText = "有効/無効";
+			this.ExpressionDetailView_Enabled.Width = 20;
+			// 
+			// ExpressionDetailView_LeftOperand
+			// 
+			this.ExpressionDetailView_LeftOperand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionDetailView_LeftOperand.HeaderText = "左辺";
+			this.ExpressionDetailView_LeftOperand.Name = "ExpressionDetailView_LeftOperand";
+			this.ExpressionDetailView_LeftOperand.ReadOnly = true;
+			this.ExpressionDetailView_LeftOperand.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.ExpressionDetailView_LeftOperand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ExpressionDetailView_RightOperand
+			// 
+			this.ExpressionDetailView_RightOperand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionDetailView_RightOperand.HeaderText = "右辺";
+			this.ExpressionDetailView_RightOperand.Name = "ExpressionDetailView_RightOperand";
+			this.ExpressionDetailView_RightOperand.ReadOnly = true;
+			this.ExpressionDetailView_RightOperand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ExpressionDetailView_Operator
+			// 
+			this.ExpressionDetailView_Operator.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ExpressionDetailView_Operator.HeaderText = "条件";
+			this.ExpressionDetailView_Operator.Name = "ExpressionDetailView_Operator";
+			this.ExpressionDetailView_Operator.ReadOnly = true;
+			this.ExpressionDetailView_Operator.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.ExpressionDetailView_Operator.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// ExpressionDetail_Delete
 			// 
@@ -285,6 +394,7 @@
 			this.RightOperand_NumericUpDown.Size = new System.Drawing.Size(108, 23);
 			this.RightOperand_NumericUpDown.TabIndex = 3;
 			this.RightOperand_NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.RightOperand_NumericUpDown.ValueChanged += new System.EventHandler(this.RightOperand_NumericUpDown_ValueChanged);
 			// 
 			// Operator
 			// 
@@ -315,115 +425,6 @@
 			this.LeftOperand.TabIndex = 0;
 			this.LeftOperand.SelectedValueChanged += new System.EventHandler(this.LeftOperand_SelectedValueChanged);
 			// 
-			// ButtonOK
-			// 
-			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.ButtonOK.Location = new System.Drawing.Point(3, 91);
-			this.ButtonOK.Name = "ButtonOK";
-			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
-			this.ButtonOK.TabIndex = 8;
-			this.ButtonOK.Text = "OK";
-			this.ButtonOK.UseVisualStyleBackColor = true;
-			this.ButtonOK.Click += new System.EventHandler(this.ButtonOK_Click);
-			// 
-			// ButtonCancel
-			// 
-			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.ButtonCancel.Location = new System.Drawing.Point(84, 91);
-			this.ButtonCancel.Name = "ButtonCancel";
-			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
-			this.ButtonCancel.TabIndex = 9;
-			this.ButtonCancel.Text = "キャンセル";
-			this.ButtonCancel.UseVisualStyleBackColor = true;
-			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
-			// 
-			// ExpressionView_Enabled
-			// 
-			this.ExpressionView_Enabled.HeaderText = "○";
-			this.ExpressionView_Enabled.Name = "ExpressionView_Enabled";
-			this.ExpressionView_Enabled.ToolTipText = "有効/無効";
-			this.ExpressionView_Enabled.Width = 20;
-			// 
-			// ExpressionView_ExternalAndOr
-			// 
-			this.ExpressionView_ExternalAndOr.HeaderText = "";
-			this.ExpressionView_ExternalAndOr.Items.AddRange(new object[] {
-            "And",
-            "Or"});
-			this.ExpressionView_ExternalAndOr.Name = "ExpressionView_ExternalAndOr";
-			this.ExpressionView_ExternalAndOr.Width = 50;
-			// 
-			// ExpressionView_Inverse
-			// 
-			this.ExpressionView_Inverse.HeaderText = "Inv";
-			this.ExpressionView_Inverse.Name = "ExpressionView_Inverse";
-			this.ExpressionView_Inverse.ToolTipText = "条件を反転するか";
-			this.ExpressionView_Inverse.Width = 20;
-			// 
-			// ExpressionView_InternalAndOr
-			// 
-			this.ExpressionView_InternalAndOr.HeaderText = "";
-			this.ExpressionView_InternalAndOr.Items.AddRange(new object[] {
-            "And",
-            "Or"});
-			this.ExpressionView_InternalAndOr.Name = "ExpressionView_InternalAndOr";
-			this.ExpressionView_InternalAndOr.Width = 50;
-			// 
-			// ExpressionView_Expression
-			// 
-			this.ExpressionView_Expression.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionView_Expression.HeaderText = "式";
-			this.ExpressionView_Expression.Name = "ExpressionView_Expression";
-			this.ExpressionView_Expression.ReadOnly = true;
-			this.ExpressionView_Expression.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// ExpressionView_Up
-			// 
-			this.ExpressionView_Up.HeaderText = "↑";
-			this.ExpressionView_Up.Name = "ExpressionView_Up";
-			this.ExpressionView_Up.ToolTipText = "上へ";
-			this.ExpressionView_Up.Width = 20;
-			// 
-			// ExpressionView_Down
-			// 
-			this.ExpressionView_Down.HeaderText = "↓";
-			this.ExpressionView_Down.Name = "ExpressionView_Down";
-			this.ExpressionView_Down.ToolTipText = "下へ";
-			this.ExpressionView_Down.Width = 20;
-			// 
-			// ExpressionDetailView_Enabled
-			// 
-			this.ExpressionDetailView_Enabled.HeaderText = "○";
-			this.ExpressionDetailView_Enabled.Name = "ExpressionDetailView_Enabled";
-			this.ExpressionDetailView_Enabled.ToolTipText = "有効/無効";
-			this.ExpressionDetailView_Enabled.Width = 20;
-			// 
-			// ExpressionDetailView_LeftOperand
-			// 
-			this.ExpressionDetailView_LeftOperand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionDetailView_LeftOperand.HeaderText = "左辺";
-			this.ExpressionDetailView_LeftOperand.Name = "ExpressionDetailView_LeftOperand";
-			this.ExpressionDetailView_LeftOperand.ReadOnly = true;
-			this.ExpressionDetailView_LeftOperand.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.ExpressionDetailView_LeftOperand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// ExpressionDetailView_RightOperand
-			// 
-			this.ExpressionDetailView_RightOperand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionDetailView_RightOperand.HeaderText = "右辺";
-			this.ExpressionDetailView_RightOperand.Name = "ExpressionDetailView_RightOperand";
-			this.ExpressionDetailView_RightOperand.ReadOnly = true;
-			this.ExpressionDetailView_RightOperand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// ExpressionDetailView_Operator
-			// 
-			this.ExpressionDetailView_Operator.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ExpressionDetailView_Operator.HeaderText = "条件";
-			this.ExpressionDetailView_Operator.Name = "ExpressionDetailView_Operator";
-			this.ExpressionDetailView_Operator.ReadOnly = true;
-			this.ExpressionDetailView_Operator.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.ExpressionDetailView_Operator.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
 			// DialogShipGroupFilter
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -431,7 +432,8 @@
 			this.Controls.Add(this.splitContainer1);
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.Name = "DialogShipGroupFilter";
-			this.Text = "DialogShipGroupFilter";
+			this.Text = "フィルタ";
+			this.Load += new System.EventHandler(this.DialogShipGroupFilter_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

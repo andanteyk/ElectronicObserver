@@ -79,6 +79,7 @@
             this.ColumnView_Up,
             this.ColumnView_Down});
 			this.ColumnView.Location = new System.Drawing.Point(12, 12);
+			this.ColumnView.MultiSelect = false;
 			this.ColumnView.Name = "ColumnView";
 			this.ColumnView.RowHeadersVisible = false;
 			this.ColumnView.RowTemplate.Height = 21;
@@ -166,6 +167,7 @@
 			this.MinimizeBox = false;
 			this.Name = "DialogShipGroupColumnFilter";
 			this.Text = "列の表示設定";
+			this.Load += new System.EventHandler(this.DialogShipGroupColumnFilter_Load);
 			((System.ComponentModel.ISupportInitialize)(this.ColumnView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ScrLkColumnCount)).EndInit();
 			this.ResumeLayout(false);
