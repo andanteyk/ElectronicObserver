@@ -197,10 +197,15 @@ namespace ElectronicObserver.Window.Dialog {
 			RightOperand_ComboBox.DisplayMember = "Display";
 			RightOperand_ComboBox.DataSource = _dtRightOperand_bool;
 
+			SetExpressionSetter( ExpressionData.LeftOperandNameTable.Keys.First() );
+
 			#endregion
 
 
 			_target = exp.Clone();
+
+			LabelResult.Tag = false;
+			UpdateExpressionLabel();
 		}
 
 		private void DialogShipGroupFilter_Load( object sender, EventArgs e ) {
@@ -287,9 +292,8 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( isenumerable )
 				lefttype = lefttype.GetElementType() ?? lefttype.GetGenericArguments().First();
 
-			string description = "";
-
-
+			Description.Text = "";
+			
 			LeftOperand.SelectedValue = left;
 
 			// 特殊判定(決め打ち)シリーズ
@@ -433,12 +437,12 @@ namespace ElectronicObserver.Window.Dialog {
 					case ".RepairingDockID":
 						RightOperand_NumericUpDown.Minimum = -1;
 						RightOperand_NumericUpDown.Maximum = 4;
-						description = "-1=未入渠, 1～4=入渠中(ドック番号)";
+						Description.Text = "-1=未入渠, 1～4=入渠中(ドック番号)";
 						break;
 					case ".RepairTime":
 						RightOperand_NumericUpDown.Minimum = 0;
 						RightOperand_NumericUpDown.Maximum = int.MaxValue;
-						description = "(ミリ秒単位)";
+						Description.Text = "(ミリ秒単位)";
 						break;
 					case ".SlotSize":
 						RightOperand_NumericUpDown.Minimum = 0;
@@ -452,6 +456,7 @@ namespace ElectronicObserver.Window.Dialog {
 				RightOperand_NumericUpDown.DecimalPlaces = 0;
 				RightOperand_NumericUpDown.Increment = 1m;
 				RightOperand_NumericUpDown.Value = right == null ? RightOperand_NumericUpDown.Minimum : (int)right;
+				UpdateDescriptionFromNumericUpDown();
 
 			} else if ( lefttype == typeof( double ) ) {
 				RightOperand_ComboBox.Visible = false;
@@ -487,6 +492,7 @@ namespace ElectronicObserver.Window.Dialog {
 						break;
 				}
 				RightOperand_NumericUpDown.Value = right == null ? RightOperand_NumericUpDown.Minimum : Convert.ToDecimal( right );
+				UpdateDescriptionFromNumericUpDown();
 
 			} else if ( lefttype == typeof( bool ) ) {
 				RightOperand_ComboBox.Visible = true;
@@ -544,8 +550,6 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( isenumerable ) {
 				Operator.DataSource = _dtOperator_array;
 			}
-
-			Description.Text = description;
 
 		}
 
@@ -671,7 +675,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			int procrow = GetSelectedRow( ExpressionView );
 			if ( procrow == -1 ) {
-				MessageBox.Show( "対象となる式列(左側)を選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				MessageBox.Show( "対象となる式(左側)の行を選択してください。\r\n行が存在しない場合は追加してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
 				return;
 			}
 
@@ -791,7 +795,7 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 			if ( e.ColumnIndex == ExpressionDetailView_Enabled.Index ) {
-				_target[procrow].Expressions[e.ColumnIndex].Enabled = (bool)ExpressionDetailView[e.ColumnIndex, e.RowIndex].Value;
+				_target[procrow].Expressions[e.RowIndex].Enabled = (bool)ExpressionDetailView[e.ColumnIndex, e.RowIndex].Value;
 			}
 
 			UpdateExpressionViewRow( procrow );
@@ -804,8 +808,19 @@ namespace ElectronicObserver.Window.Dialog {
 		/// <param name="index">行インデックス。</param>
 		private void UpdateExpressionViewRow( int index ) {
 			ExpressionView[ExpressionView_Expression.Index, index].Value = _target[index].ToString();
+			ExpressionUpdated();
 		}
 
+		/// <summary>
+		/// 式が更新されたときの動作を行います。
+		/// </summary>
+		private void ExpressionUpdated() {
+			UpdateExpressionLabel();
+		}
+
+		private void UpdateExpressionLabel() {
+			LabelResult.Text = (bool)LabelResult.Tag ? _target.ToExpressionString() : _target.ToString();
+		}
 
 
 
@@ -867,6 +882,12 @@ namespace ElectronicObserver.Window.Dialog {
 		// Description の変更
 		private void RightOperand_NumericUpDown_ValueChanged( object sender, EventArgs e ) {
 
+			UpdateDescriptionFromNumericUpDown();
+		}
+
+
+		private void UpdateDescriptionFromNumericUpDown() {
+
 			string left =  ( (string)LeftOperand.SelectedValue ) ?? LeftOperand.Text;
 			int intvalue = (int)RightOperand_NumericUpDown.Value;
 
@@ -905,6 +926,11 @@ namespace ElectronicObserver.Window.Dialog {
 					} break;
 			}
 
+		}
+
+		private void LabelResult_Click( object sender, EventArgs e ) {
+			LabelResult.Tag = !(bool)LabelResult.Tag;
+			UpdateExpressionLabel();
 		}
 
 

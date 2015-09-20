@@ -52,11 +52,15 @@ namespace ElectronicObserver.Data {
 
 		public ShipGroupData Add() {
 
-			int key = ShipGroups.Count > 0 ? ShipGroups.Keys.Max() + 1 : 1;
+			int key = GetUniqueID();
 			var group = new ShipGroupData( key );
 			ShipGroups.Add( group );
 			return group;
 
+		}
+
+		public int GetUniqueID() {
+			return ShipGroups.Count > 0 ? ShipGroups.Keys.Max() + 1 : 1;
 		}
 
 

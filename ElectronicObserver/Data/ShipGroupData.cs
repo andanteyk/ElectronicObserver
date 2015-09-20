@@ -22,7 +22,7 @@ namespace ElectronicObserver.Data {
 	/// </summary>
 	[DataContract( Name = "ShipGroupData" )]
 	[DebuggerDisplay( "[{GroupID}] : {Name} ({Members.Count} ships)" )]
-	public class ShipGroupData : IIdentifiable {
+	public class ShipGroupData : IIdentifiable, ICloneable {
 
 
 		// fixme: アクセサは要検討
@@ -233,6 +233,24 @@ namespace ElectronicObserver.Data {
 
 		public override string ToString() {
 			return Name;
+		}
+
+
+
+
+		public ShipGroupData Clone() {
+			var clone = (ShipGroupData)MemberwiseClone();
+			clone.GroupID = -1;
+			clone.ViewColumns = new Dictionary<string, ViewColumnData>( ViewColumns );
+			clone.SortOrder = new List<KeyValuePair<string, ListSortDirection>>( SortOrder );
+
+			clone.Members = new List<int>();		//とりあえず空に
+
+			return clone;
+		} 
+
+		object ICloneable.Clone() {
+			return Clone();
 		}
 
 	}

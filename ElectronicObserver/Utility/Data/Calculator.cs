@@ -647,6 +647,34 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+
+		/// <summary>
+		/// 対潜攻撃可能であるかを取得します。
+		/// </summary>
+		/// <param name="ship">対象の艦船データ。</param>
+		public static bool CanAttackSubmarine( ShipData ship ) {
+
+			switch ( ship.MasterShip.ShipType ) {
+				case 2:		//駆逐
+				case 3:		//軽巡
+				case 4:		//雷巡
+				case 21:	//練巡
+				case 22:	//補給
+					return ship.ASWBase > 0;
+
+				case 6:		//航巡
+				case 7:		//軽空母
+				case 10:	//航戦
+				case 16:	//水母
+				case 17:	//揚陸
+					return ship.SlotInstanceMaster.Count( eq => eq != null && IsAircraft( eq.EquipmentID, false ) && eq.ASW > 0 ) > 0;
+
+				default:
+					return false;
+			}
+
+		}
+
 	}
 
 

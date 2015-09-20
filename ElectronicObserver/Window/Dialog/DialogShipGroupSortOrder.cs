@@ -24,7 +24,8 @@ namespace ElectronicObserver.Window.Dialog {
 			var rows_enabled = new LinkedList<DataGridViewRow>();
 			var rows_disabled = new LinkedList<DataGridViewRow>();
 
-			var names = target.Columns.Cast<DataGridViewColumn>().Select( c => c.Name );
+			var columns = target.Columns.Cast<DataGridViewColumn>();
+			var names = columns.Select( c => c.Name );
 
 
 			if ( group.SortOrder == null )
@@ -36,18 +37,20 @@ namespace ElectronicObserver.Window.Dialog {
 
 				row.CreateCells( EnabledView );
 				row.SetValues( target.Columns[sort.Key].HeaderText, sort.Value );
-				row.Tag = sort.Key;
+				row.Cells[EnabledView_Name.Index].Tag = sort.Key;
+				row.Tag = columns.FirstOrDefault( c => c.Name == sort.Key ).DisplayIndex;
 
 				rows_enabled.AddLast( row );
 			}
 
-			foreach ( var sort in group.SortOrder.Where( s => !names.Contains( s.Key ) ) ) {
+			foreach ( var name in names.Where( n => group.SortOrder.Count( s => n == s.Key ) == 0 ) ) {
 
 				var row = new DataGridViewRow();
 
 				row.CreateCells( DisabledView );
-				row.SetValues( target.Columns[sort.Key].HeaderText );
-				row.Tag = sort.Key;
+				row.SetValues( target.Columns[name].HeaderText );
+				row.Cells[DisabledView_Name.Index].Tag = name;
+				row.Tag = columns.FirstOrDefault( c => c.Name == name ).DisplayIndex;
 
 				rows_disabled.AddLast( row );
 			}
@@ -76,13 +79,13 @@ namespace ElectronicObserver.Window.Dialog {
 			} else if ( e.ColumnIndex == EnabledView_Up.Index ) {
 
 				if ( !ControlHelper.RowMoveUp( EnabledView, e.RowIndex ) ) {
-					System.Media.SystemSounds.Asterisk.Play();
+					System.Media.SystemSounds.Exclamation.Play();
 				}
 
 			} else if ( e.ColumnIndex == EnabledView_Down.Index ) {
 
 				if ( !ControlHelper.RowMoveDown( EnabledView, e.RowIndex ) ) {
-					System.Media.SystemSounds.Asterisk.Play();
+					System.Media.SystemSounds.Exclamation.Play();
 				}
 
 			}
@@ -110,10 +113,20 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		private void DisabledView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
+
+			e.SortResult = (int)DisabledView.Rows[e.RowIndex1].Tag -
+				(int)DisabledView.Rows[e.RowIndex2].Tag;
+			e.Handled = true;
+
+		}
+
+
+
 		private void ButtonUp_Click( object sender, EventArgs e ) {
 
 			if ( EnabledView.SelectedRows.Count == 0 || !ControlHelper.RowMoveUp( EnabledView, EnabledView.SelectedRows[0].Index ) ) {
-				System.Media.SystemSounds.Asterisk.Play();
+				System.Media.SystemSounds.Exclamation.Play();
 			}
 		}
 
@@ -121,7 +134,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void ButtonDown_Click( object sender, EventArgs e ) {
 
 			if ( EnabledView.SelectedRows.Count == 0 || !ControlHelper.RowMoveDown( EnabledView, EnabledView.SelectedRows[0].Index ) ) {
-				System.Media.SystemSounds.Asterisk.Play();
+				System.Media.SystemSounds.Exclamation.Play();
 			}
 		}
 
@@ -143,13 +156,14 @@ namespace ElectronicObserver.Window.Dialog {
 				addrows[i] = new DataGridViewRow();
 				addrows[i].CreateCells( EnabledView );
 				addrows[i].SetValues( src.Cells[DisabledView_Name.Index].Value, ListSortDirection.Ascending );
+				addrows[i].Cells[EnabledView_Name.Index].Tag = src.Cells[DisabledView_Name.Index].Tag;
 				addrows[i].Tag = src.Tag;
 				DisabledView.Rows.Remove( src );
 				i++;
 			}
 
 			EnabledView.Rows.AddRange( addrows );
-
+			DisabledView.Sort( DisabledView_Name, ListSortDirection.Ascending );
 		}
 
 		private void ButtonRight_Click( object sender, EventArgs e ) {
@@ -168,12 +182,14 @@ namespace ElectronicObserver.Window.Dialog {
 				addrows[i] = new DataGridViewRow();
 				addrows[i].CreateCells( DisabledView );
 				addrows[i].SetValues( src.Cells[DisabledView_Name.Index].Value );
+				addrows[i].Cells[DisabledView_Name.Index].Tag = src.Cells[EnabledView_Name.Index].Tag;
 				addrows[i].Tag = src.Tag;
 				EnabledView.Rows.Remove( src );
 				i++;
 			}
 
 			DisabledView.Rows.AddRange( addrows );
+			DisabledView.Sort( DisabledView_Name, ListSortDirection.Ascending );
 		}
 
 
@@ -186,12 +202,14 @@ namespace ElectronicObserver.Window.Dialog {
 				addrows[i] = new DataGridViewRow();
 				addrows[i].CreateCells( EnabledView );
 				addrows[i].SetValues( src.Cells[DisabledView_Name.Index].Value, ListSortDirection.Ascending );
+				addrows[i].Cells[EnabledView_Name.Index].Tag = src.Cells[DisabledView_Name.Index].Tag;
 				addrows[i].Tag = src.Tag;
 				i++;
 			}
 
 			DisabledView.Rows.Clear();
 			EnabledView.Rows.AddRange( addrows );
+			DisabledView.Sort( DisabledView_Name, ListSortDirection.Ascending );
 
 		}
 
@@ -204,12 +222,14 @@ namespace ElectronicObserver.Window.Dialog {
 				addrows[i] = new DataGridViewRow();
 				addrows[i].CreateCells( DisabledView );
 				addrows[i].SetValues( src.Cells[DisabledView_Name.Index].Value );
+				addrows[i].Cells[DisabledView_Name.Index].Tag = src.Cells[EnabledView_Name.Index].Tag;
 				addrows[i].Tag = src.Tag;
 				i++;
 			}
 
 			EnabledView.Rows.Clear();
 			DisabledView.Rows.AddRange( addrows );
+			DisabledView.Sort( DisabledView_Name, ListSortDirection.Ascending );
 
 		}
 
@@ -221,7 +241,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Result = new List<KeyValuePair<string, ListSortDirection>>( EnabledView.Rows.Count );
 
 			foreach ( DataGridViewRow row in EnabledView.Rows ) {
-				Result.Add( new KeyValuePair<string, ListSortDirection>( (string)row.Tag, (ListSortDirection)row.Cells[1].Value ) );
+				Result.Add( new KeyValuePair<string, ListSortDirection>( (string)row.Cells[EnabledView_Name.Index].Tag, (ListSortDirection)row.Cells[EnabledView_SortDirection.Index].Value ) );
 			}
 
 

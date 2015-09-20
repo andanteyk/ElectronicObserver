@@ -886,8 +886,8 @@ namespace ElectronicObserver.Data {
 		public int AntiSubmarinePower {
 			get {
 
-				if ( ASWBase == 0 ) 
-					return 0;		//対潜攻撃不能艦は除外
+				if ( !Calculator.CanAttackSubmarine( this ) )
+					return 0;
 
 				double eqpower = 0;
 				foreach ( var slot in SlotInstance ) {

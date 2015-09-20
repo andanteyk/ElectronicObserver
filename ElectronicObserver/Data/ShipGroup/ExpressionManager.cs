@@ -37,7 +37,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 		public void Compile() {
 			Expression ex = null;
-			var paramex = Expression.Parameter( typeof( ShipData ) );
+			var paramex = Expression.Parameter( typeof( ShipData ), "ship" );
 
 			foreach ( var exlist in Expressions ) {
 				if ( !exlist.Enabled )
@@ -79,6 +79,26 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 
 		public override string ToString() {
+
+			if ( Expressions == null )
+				return "(なし)";
+			
+			StringBuilder sb = new StringBuilder();
+			foreach ( var ex in Expressions ) {
+				if ( !ex.Enabled )
+					continue;
+				else if ( sb.Length == 0 )
+					sb.Append( ex.ToString() );
+				else
+					sb.AppendFormat( " {0} {1}", ex.ExternalAnd ? "かつ" : "または", ex.ToString() );
+			}
+
+			if ( sb.Length == 0 )
+				sb.Append( "(なし)" );
+			return sb.ToString();
+		}
+
+		public string ToExpressionString() {
 			return expression.ToString();
 		}
 
