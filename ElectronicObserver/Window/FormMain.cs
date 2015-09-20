@@ -18,6 +18,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +27,16 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace ElectronicObserver.Window {
 	public partial class FormMain : Form {
+
+		[SecurityPermission( SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode )]
+		protected override void WndProc( ref Message m ) {
+			if ( m.Msg == 0x0112 ) // WM_SYSCOMMAND 
+				if ( m.WParam.ToInt32() == 0xF100 ) // SC_KEYMENU
+					return;
+
+			base.WndProc( ref m );
+		}
+
 
 		#region Properties
 
