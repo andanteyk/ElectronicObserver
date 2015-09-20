@@ -305,7 +305,7 @@ namespace ElectronicObserver.Window {
 
 
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
-			row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
+			//row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
 
 
 			{
@@ -547,17 +547,15 @@ namespace ElectronicObserver.Window {
 
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
-			//undone: 新しい行への対応
-
 			if ( e.Column.Index == ShipView_Name.Index ) {
 				e.SortResult =
 					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag].AlbumNo -
 					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag].AlbumNo;
 
-			} else if ( e.Column.Index == ShipView_Level.Index ) {
-				e.SortResult = (int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag - (int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag;	//exptotal
+			} else if ( e.Column.Index == ShipView_Exp.Index ) {
+				e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;
 				if ( e.SortResult == 0 )	//for Lv.99-100
-					e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;
+					e.SortResult = (int)ShipView[ShipView_Level.Index, e.RowIndex1].Value - (int)ShipView[ShipView_Level.Index, e.RowIndex2].Value;
 
 			} else if (
 				e.Column.Index == ShipView_HP.Index ||

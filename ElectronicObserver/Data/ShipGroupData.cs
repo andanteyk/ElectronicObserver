@@ -25,8 +25,6 @@ namespace ElectronicObserver.Data {
 	public class ShipGroupData : IIdentifiable, ICloneable {
 
 
-		// fixme: アクセサは要検討
-
 		/// <summary>
 		/// 列のプロパティを保持します。
 		/// </summary>
