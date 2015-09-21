@@ -206,6 +206,7 @@ namespace ElectronicObserver.Data {
 			ViewColumns = new Dictionary<string, ViewColumnData>();
 			Name = "notitle #" + groupID;
 			ScrollLockColumnCount = 0;
+			AutoSortEnabled = true;
 			SortOrder = new List<KeyValuePair<string, ListSortDirection>>();
 			Expressions = new ExpressionManager();
 			Members = new List<int>();

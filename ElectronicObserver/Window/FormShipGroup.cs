@@ -883,6 +883,7 @@ namespace ElectronicObserver.Window {
 			if ( !group.AutoSortEnabled || group.SortOrder == null )
 				return;
 
+			// 一番上/最後に実行したほうが優先度が高くなるので逆順で
 			for ( int i = group.SortOrder.Count - 1; i >= 0; i-- ) {
 
 				var order = group.SortOrder[i];
@@ -1147,7 +1148,7 @@ namespace ElectronicObserver.Window {
 										ship.LuckTotal,
 										Constants.GetRange( ship.Range ),
 										Constants.GetSpeed( ship.MasterShip.Speed ),
-										ship.IsLocked ? "❤" : ship.IsLockedByEquipment ? "■" : "-",
+										ship.IsLocked ? "●" : ship.IsLockedByEquipment ? "■" : "-",
 										ship.SallyArea,
 										ship.AirBattlePower,
 										ship.ShellingPower,

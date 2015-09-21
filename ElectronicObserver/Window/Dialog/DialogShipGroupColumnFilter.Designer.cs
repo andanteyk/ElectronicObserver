@@ -166,6 +166,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DialogShipGroupColumnFilter";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "列の表示設定";
 			this.Load += new System.EventHandler(this.DialogShipGroupColumnFilter_Load);
 			((System.ComponentModel.ISupportInitialize)(this.ColumnView)).EndInit();

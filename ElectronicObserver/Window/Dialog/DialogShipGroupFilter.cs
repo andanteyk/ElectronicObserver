@@ -293,7 +293,7 @@ namespace ElectronicObserver.Window.Dialog {
 				lefttype = lefttype.GetElementType() ?? lefttype.GetGenericArguments().First();
 
 			Description.Text = "";
-			
+
 			LeftOperand.SelectedValue = left;
 
 			// 特殊判定(決め打ち)シリーズ
@@ -607,6 +607,7 @@ namespace ElectronicObserver.Window.Dialog {
 			_target.Expressions.Insert( insertrow, exp );
 			ExpressionView.Rows.Insert( insertrow, GetExpressionViewRow( exp ) );
 
+			ExpressionUpdated();
 		}
 
 		private void Expression_Delete_Click( object sender, EventArgs e ) {
@@ -623,7 +624,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( ExpressionView.Rows.Count == 0 )
 				ExpressionDetailView.Rows.Clear();
+
+			ExpressionUpdated();
 		}
+
 
 		private void ButtonOK_Click( object sender, EventArgs e ) {
 
@@ -819,7 +823,12 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 		private void UpdateExpressionLabel() {
-			LabelResult.Text = (bool)LabelResult.Tag ? _target.ToExpressionString() : _target.ToString();
+			if ( LabelResult.Tag != null && (bool)LabelResult.Tag ) {
+				_target.Compile();
+				LabelResult.Text = _target.ToExpressionString();
+			} else {
+				LabelResult.Text = _target.ToString();
+			}
 		}
 
 
@@ -836,6 +845,8 @@ namespace ElectronicObserver.Window.Dialog {
 				//ExpressionView.Rows.RemoveAt( e.RowIndex - 1 );
 				ControlHelper.RowMoveUp( ExpressionView, e.RowIndex );
 
+				ExpressionUpdated();
+
 			} else if ( e.ColumnIndex == ExpressionView_Down.Index && e.RowIndex < ExpressionView.Rows.Count - 1 ) {
 				_target.Expressions.Insert( e.RowIndex + 2, _target[e.RowIndex] );
 				_target.Expressions.RemoveAt( e.RowIndex );
@@ -843,6 +854,7 @@ namespace ElectronicObserver.Window.Dialog {
 				//ExpressionView.Rows.RemoveAt( e.RowIndex + 2 );
 				ControlHelper.RowMoveDown( ExpressionView, e.RowIndex );
 
+				ExpressionUpdated();
 			}
 		}
 
@@ -901,6 +913,14 @@ namespace ElectronicObserver.Window.Dialog {
 						}
 					} break;
 
+				case ".ShipID": {
+						var ship = KCDatabase.Instance.MasterShips[intvalue];
+						if ( ship != null ) {
+							Description.Text = ship.ShipTypeName + " " + ship.Name;
+						} else {
+							Description.Text = "(存在せず)";
+						}
+					} break;
 				case ".MasterShip.RemodelBeforeShipID": {
 						if ( intvalue == 0 ) {
 							Description.Text = "(未改装)";

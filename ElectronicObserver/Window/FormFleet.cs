@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Data;
+﻿using Codeplex.Data;
+using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Data;
@@ -158,8 +159,8 @@ namespace ElectronicObserver.Window {
 						string.Format( "確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n",
 						(int)( airSuperiority / 3.0 ),
 						(int)( airSuperiority / 1.5 ),
-						(int)( airSuperiority * 1.5 ),
-						(int)( airSuperiority * 3.0 ) ) );
+						(int)( airSuperiority * 1.5 - 1 ),
+						(int)( airSuperiority * 3.0 - 1 ) ) );
 				}
 
 
@@ -346,13 +347,17 @@ namespace ElectronicObserver.Window {
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip( Name,
 						string.Format(
-							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
+							"{0} {1}\n火力: {2}/{3}{4}\n雷装: {5}/{6} ({7}夜戦: {8})\n対空: {9}/{10}{11}\n装甲: {12}/{13}\n対潜: {14}/{15}{16}\n回避: {17}/{18}\n索敵: {19}/{20}\n運: {21}\n射程: {22} / 速力: {23}\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase, ship.FirepowerTotal,
+							ship.ShellingPower > 0 ? ( ship.AircraftPower > 0 ? string.Format( " (砲撃: {0}, 空撃: {1})", ship.ShellingPower, ship.AircraftPower ) : string.Format( " (砲撃: {0})", ship.ShellingPower ) ) : ( ship.AircraftPower > 0 ? string.Format( " (空撃: {0})", ship.AircraftPower ) : "" ),
 							ship.TorpedoBase, ship.TorpedoTotal,
+							ship.TorpedoPower > 0 ? string.Format( "雷撃: {0}, ", ship.TorpedoPower ) : "", ship.NightBattlePower,
 							ship.AABase, ship.AATotal,
+							ship.AirBattlePower > 0 ? string.Format( " (航空: {0})", ship.AirBattlePower ) : "",
 							ship.ArmorBase, ship.ArmorTotal,
 							ship.ASWBase, ship.ASWTotal,
+							ship.AntiSubmarinePower > 0 ? string.Format( " (威力: {0})", ship.AntiSubmarinePower ) : "",
 							ship.EvasionBase, ship.EvasionTotal,
 							ship.LOSBase, ship.LOSTotal,
 							ship.LuckTotal,
@@ -749,33 +754,51 @@ namespace ElectronicObserver.Window {
 			StringBuilder sb = new StringBuilder();
 			KCDatabase db = KCDatabase.Instance;
 
-			sb.Append( "[" );
+			// 手書き json の悲しみ
 
+			sb.Append( @"{""version"":3," );
+			
 			foreach ( var fleet in db.Fleet.Fleets.Values ) {
 				if ( fleet == null ) continue;
+				
+				sb.AppendFormat( @"""f{0}"":{{", fleet.FleetID );
 
-				sb.Append( "[" );
-
+				int shipcount = 1;
 				foreach ( var ship in fleet.MembersInstance ) {
-					if ( ship == null ) continue;
+					if ( ship == null ) break;
 
-					sb.AppendFormat( "[\"{0}\",[{1},{2}],[", ship.ShipID, ship.Level, ship.LuckTotal );
+					sb.AppendFormat( @"""s{0}"":{{""id"":{1},""lv"":{2},""luck"":{3},""items"":{{",
+						shipcount,
+						ship.ShipID,
+						ship.Level,
+						ship.LuckBase );
+					
+					if ( ship.ExpansionSlot <= 0 )
+						sb.Append( @"""ix"":{}," );
+					else
+						sb.AppendFormat( @"""ix"":{{""id"":{0}}},", ship.ExpansionSlotMaster );
 
-					int length = ship.SlotMaster.Count( id => id != -1 );
-					sb.Append( string.Join( ",", ship.SlotMaster.Take( length ) ) );
-					sb.Append( "],[" );
-					sb.Append( string.Join( ",", ship.SlotInstance.Take( length ).Select( item => item.Level ) ) );
-					sb.Append( "]]," );
+					int eqcount = 1;
+					foreach ( var eq in ship.SlotInstance ) {
+						if ( eq == null ) break;
+						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2}}},", eqcount, eq.EquipmentID, Math.Max( eq.Level, eq.AircraftLevel ) );
+						
+						eqcount++;
+					}
+
+					sb.Remove( sb.Length - 1, 1 );		// remove ","
+					sb.Append( @"}}," );
+
+					shipcount++;
 				}
 
-				if ( fleet.MembersInstance.Count( s => s != null ) != 0 )
-					sb.Remove( sb.Length - 1, 1 );		// remove ","
+				sb.Remove( sb.Length - 1, 1 );		// remove ","
+				sb.Append( @"}," );
 
-				sb.Append( "]," );
 			}
 
 			sb.Remove( sb.Length - 1, 1 );		// remove ","
-			sb.Append( "]" );
+			sb.Append( @"}" );
 
 			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
 		}
