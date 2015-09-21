@@ -289,10 +289,13 @@ namespace Browser {
 				var document = Browser.Document;
 				if ( document == null ) return;
 
-				if ( document.Url.AbsolutePath.Contains( ".swf?" ) ) {
+				if ( document.Url.ToString().Contains( ".swf?" ) ) {
 
-					document.Body.SetAttribute( "width", "100%" );
-					document.Body.SetAttribute( "height", "100%" );
+					var swf = document.Body.Children.OfType<HtmlElement>().FirstOrDefault( e => e.TagName == "EMBED" );
+					if ( swf == null ) return;
+
+					swf.SetAttribute( "width", "100%" );
+					swf.SetAttribute( "height", "100%" );
 
 				} else {
 					var swf = getFrameElementById( document, "externalswf" );
@@ -326,7 +329,8 @@ namespace Browser {
 		/// ブラウザを再読み込みします。
 		/// </summary>
 		public void RefreshBrowser() {
-			Browser.Refresh( WebBrowserRefreshOption.Completely );
+			//Browser.Refresh( WebBrowserRefreshOption.Completely );
+			Browser.Navigate( Browser.Url );
 		}
 
 		/// <summary>
@@ -464,7 +468,7 @@ namespace Browser {
 				IViewObject viewobj = null;
 				//int width = 0, height = 0;
 
-				if ( wb.Document.Url.AbsolutePath.Contains( ".swf?" ) ) {
+				if ( wb.Document.Url.ToString().Contains( ".swf?" ) ) {
 
 					viewobj = wb.Document.GetElementsByTagName( "embed" )[0].DomElement as IViewObject;
 					if ( viewobj == null ) {
