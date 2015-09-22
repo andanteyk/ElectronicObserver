@@ -49,6 +49,8 @@ namespace ElectronicObserver.Data.Quest {
 			}
 		}
 
+		[DataMember]
+		public DateTime LastUpdateTime { get; set; }
 
 
 		public QuestProgressManager() {
@@ -59,7 +61,7 @@ namespace ElectronicObserver.Data.Quest {
 
 		public override void Initialize() {
 			Progresses = new IDDictionary<ProgressData>();
-
+			LastUpdateTime = DateTime.Now;
 
 			RemoveEvents();		//二重登録防止
 
@@ -226,6 +228,9 @@ namespace ElectronicObserver.Data.Quest {
 						case 302:	//|302|大規模演習|演習勝利20
 							Progresses.Add( new ProgressPractice( q.QuestID, 20, true ) );
 							break;
+						case 311:	//|311|精鋭艦隊演習|演習勝利7|マンスリーだが1日で進捗リセット
+							Progresses.Add( new ProgressPractice( q.QuestID, 7, true ) );
+							break;
 
 						case 402:	//|402|「遠征」を3回成功させよう！|遠征成功3
 							Progresses.Add( new ProgressExpedition( q.QuestID, 3, null ) );
@@ -295,6 +300,7 @@ namespace ElectronicObserver.Data.Quest {
 
 			}
 
+			LastUpdateTime = DateTime.Now;
 			OnProgressChanged();
 
 		}
@@ -487,6 +493,7 @@ namespace ElectronicObserver.Data.Quest {
 
 		public void Clear() {
 			Progresses.Clear();
+			LastUpdateTime = DateTime.Now;
 		}
 
 

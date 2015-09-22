@@ -334,7 +334,8 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
 		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
 		/// <param name="defenerShipID">防御艦の艦船ID。なければ-1</param>
-		public static int GetDayAttackKind( int[] slot, int attackerShipID, int defenerShipID ) {
+		/// <param name="includeSpecialAttack">弾着観測砲撃を含むか。falseなら除外して計算</param>
+		public static int GetDayAttackKind( int[] slot, int attackerShipID, int defenerShipID, bool includeSpecialAttack = true ) {
 
 			int reconcnt = 0;
 			int mainguncnt = 0;
@@ -378,7 +379,7 @@ namespace ElectronicObserver.Utility.Data {
 				}
 			}
 
-			if ( reconcnt > 0 ) {
+			if ( reconcnt > 0 && includeSpecialAttack ) {
 				if ( mainguncnt == 2 && apshellcnt == 1 )
 					return 6;		//カットイン(主砲/主砲)
 				else if ( mainguncnt == 1 && subguncnt == 1 && apshellcnt == 1 )
@@ -399,8 +400,24 @@ namespace ElectronicObserver.Utility.Data {
 
 				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
 					return 10;		//ロケット砲撃
-				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
+
+				else if ( attackerShipID == 352 ) {	//速吸改
+
+					if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) ) {
+						if ( slot.Select( id => KCDatabase.Instance.MasterEquipments[id] )
+							.Count( eq => eq != null && ( ( eq.CategoryType == 8 && eq.ASW > 0 ) || eq.CategoryType == 11 || eq.CategoryType == 25 ) ) > 0 )
+							return 7;		//空撃
+						else
+							return 8;	//爆雷攻撃
+
+					} else if ( slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).Count( eq => eq != null && eq.CategoryType == 8 ) > 0 )
+						return 7;		//空撃
+					else
+						return 0;		//砲撃
+
+				} else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
 					return 7;		//空撃
+
 				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
 					if ( atkship.ShipType == 6 || atkship.ShipType == 10 ||
 						 atkship.ShipType == 16 || atkship.ShipType == 17 )			//航空巡洋艦/航空戦艦/水上機母艦/揚陸艦
@@ -408,10 +425,10 @@ namespace ElectronicObserver.Utility.Data {
 					else
 						return 8;		//爆雷攻撃
 
-				//本来の雷撃は発生しえない
-
+				//本来の雷撃は発生しない
 				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )		//潜水艦/潜水空母
 					return 9;			//雷撃(特例措置, 本来のコード中には存在しない)
+
 			}
 
 			return 0;
@@ -481,16 +498,20 @@ namespace ElectronicObserver.Utility.Data {
 
 				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
 					return 10;		//ロケット砲撃
+
 				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
 					return 7;		//空撃
+
+				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
+					return 9;			//雷撃
+
 				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
 					if ( atkship.ShipType == 6 || atkship.ShipType == 10 ||
 						 atkship.ShipType == 16 || atkship.ShipType == 17 )			//航空巡洋艦/航空戦艦/水上機母艦/揚陸艦
 						return 7;		//空撃
 					else
 						return 8;		//爆雷攻撃
-				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
-					return 9;			//雷撃
+
 				else if ( slot.Length > 0 ) {
 					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[0]];
 					if ( eq != null && eq.EquipmentType[2] == 5 ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
@@ -645,6 +666,34 @@ namespace ElectronicObserver.Utility.Data {
 
 		}
 
+
+
+		/// <summary>
+		/// 対潜攻撃可能であるかを取得します。
+		/// </summary>
+		/// <param name="ship">対象の艦船データ。</param>
+		public static bool CanAttackSubmarine( ShipData ship ) {
+
+			switch ( ship.MasterShip.ShipType ) {
+				case 2:		//駆逐
+				case 3:		//軽巡
+				case 4:		//雷巡
+				case 21:	//練巡
+				case 22:	//補給
+					return ship.ASWBase > 0;
+
+				case 6:		//航巡
+				case 7:		//軽空母
+				case 10:	//航戦
+				case 16:	//水母
+				case 17:	//揚陸
+					return ship.SlotInstanceMaster.Count( eq => eq != null && IsAircraft( eq.EquipmentID, false ) && eq.ASW > 0 ) > 0;
+
+				default:
+					return false;
+			}
+
+		}
 
 	}
 

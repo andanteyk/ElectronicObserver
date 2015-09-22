@@ -40,17 +40,10 @@ namespace ElectronicObserver.Data {
 		public event Action QuestUpdated = delegate { };
 
 
-		/// <summary>
-		/// 前回任務読み込みをした日時
-		/// 時間切れ周期任務削除用
-		/// </summary>
-		private DateTime _prevTime;
-
 
 		public QuestManager() {
 			Quests = new IDDictionary<QuestData>();
 			IsLoaded = false;
-			_prevTime = DateTime.Now;
 		}
 
 
@@ -62,24 +55,27 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
+			var progress = KCDatabase.Instance.QuestProgress;
+
 
 			//周期任務削除
-			if ( DateTimeHelper.IsCrossedDay( _prevTime, 5, 0, 0 ) ) {
-				KCDatabase.Instance.QuestProgress.Progresses.RemoveAll( p => {
+			if ( DateTimeHelper.IsCrossedDay( progress.LastUpdateTime, 5, 0, 0 ) ) {
+				// 注: 311 = 精鋭艦隊演習; マンスリーだがデイリーで進捗リセット
+				progress.Progresses.RemoveAll( p => {
 					var q = Quests[p.QuestID];
-					return q != null && ( q.Type == 2 || q.Type == 4 || q.Type == 5 );
+					return q != null && ( q.Type == 2 || q.Type == 4 || q.Type == 5 || q.QuestID == 311 );
 				} );
-				Quests.RemoveAll( q => q.Type == 2 || q.Type == 4 || q.Type == 5 );
+				Quests.RemoveAll( q => q.Type == 2 || q.Type == 4 || q.Type == 5 || q.QuestID == 311 );
 			}
-			if ( DateTimeHelper.IsCrossedWeek( _prevTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
-				KCDatabase.Instance.QuestProgress.Progresses.RemoveAll( p => {
+			if ( DateTimeHelper.IsCrossedWeek( progress.LastUpdateTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
+				progress.Progresses.RemoveAll( p => {
 					var q = Quests[p.QuestID];
 					return q != null && ( q.Type == 3 );
 				} );
 				Quests.RemoveAll( q => q.Type == 3 );
 			}
-			if ( DateTimeHelper.IsCrossedMonth( _prevTime, 1, 5, 0, 0 ) ) {
-				KCDatabase.Instance.QuestProgress.Progresses.RemoveAll( p => {
+			if ( DateTimeHelper.IsCrossedMonth( progress.LastUpdateTime, 1, 5, 0, 0 ) ) {
+				progress.Progresses.RemoveAll( p => {
 					var q = Quests[p.QuestID];
 					return q != null && ( q.Type == 6 );
 				} );
@@ -112,7 +108,6 @@ namespace ElectronicObserver.Data {
 
 
 			IsLoaded = true;
-			_prevTime = DateTime.Now;
 
 		}
 
@@ -132,7 +127,6 @@ namespace ElectronicObserver.Data {
 		public void Clear() {
 			Quests.Clear();
 			IsLoaded = false;
-			_prevTime = DateTime.Now;
 		}
 
 

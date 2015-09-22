@@ -23,37 +23,20 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.FilterList = new System.Windows.Forms.CheckedListBox();
-			this.Description = new System.Windows.Forms.Label();
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.AllCheck = new System.Windows.Forms.CheckBox();
+			this.ColumnView = new System.Windows.Forms.DataGridView();
+			this.ColumnView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnView_Visible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ColumnView_AutoSize = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ColumnView_Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnView_Up = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.ColumnView_Down = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.label1 = new System.Windows.Forms.Label();
+			this.ScrLkColumnCount = new System.Windows.Forms.NumericUpDown();
+			((System.ComponentModel.ISupportInitialize)(this.ColumnView)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.ScrLkColumnCount)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// FilterList
-			// 
-			this.FilterList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.FilterList.CheckOnClick = true;
-			this.FilterList.FormattingEnabled = true;
-			this.FilterList.HorizontalScrollbar = true;
-			this.FilterList.IntegralHeight = false;
-			this.FilterList.Location = new System.Drawing.Point(16, 31);
-			this.FilterList.MultiColumn = true;
-			this.FilterList.Name = "FilterList";
-			this.FilterList.Size = new System.Drawing.Size(436, 290);
-			this.FilterList.TabIndex = 0;
-			this.FilterList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterList_ItemCheck);
-			// 
-			// Description
-			// 
-			this.Description.AutoSize = true;
-			this.Description.Location = new System.Drawing.Point(13, 13);
-			this.Description.Name = "Description";
-			this.Description.Size = new System.Drawing.Size(165, 15);
-			this.Description.TabIndex = 1;
-			this.Description.Text = "表示する列をチェックしてください：";
 			// 
 			// ButtonOK
 			// 
@@ -78,17 +61,94 @@
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
-			// AllCheck
+			// ColumnView
 			// 
-			this.AllCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.AllCheck.AutoSize = true;
-			this.AllCheck.Location = new System.Drawing.Point(16, 330);
-			this.AllCheck.Name = "AllCheck";
-			this.AllCheck.Size = new System.Drawing.Size(57, 19);
-			this.AllCheck.TabIndex = 4;
-			this.AllCheck.Text = "(全て)";
-			this.AllCheck.UseVisualStyleBackColor = true;
-			this.AllCheck.CheckedChanged += new System.EventHandler(this.AllCheck_CheckedChanged);
+			this.ColumnView.AllowUserToAddRows = false;
+			this.ColumnView.AllowUserToDeleteRows = false;
+			this.ColumnView.AllowUserToResizeColumns = false;
+			this.ColumnView.AllowUserToResizeRows = false;
+			this.ColumnView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ColumnView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.ColumnView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnView_Name,
+            this.ColumnView_Visible,
+            this.ColumnView_AutoSize,
+            this.ColumnView_Width,
+            this.ColumnView_Up,
+            this.ColumnView_Down});
+			this.ColumnView.Location = new System.Drawing.Point(12, 12);
+			this.ColumnView.MultiSelect = false;
+			this.ColumnView.Name = "ColumnView";
+			this.ColumnView.RowHeadersVisible = false;
+			this.ColumnView.RowTemplate.Height = 21;
+			this.ColumnView.Size = new System.Drawing.Size(440, 309);
+			this.ColumnView.TabIndex = 4;
+			this.ColumnView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ColumnView_CellContentClick);
+			this.ColumnView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.ColumnView_CellValidating);
+			this.ColumnView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ColumnView_CellValueChanged);
+			this.ColumnView.CurrentCellDirtyStateChanged += new System.EventHandler(this.ColumnView_CurrentCellDirtyStateChanged);
+			this.ColumnView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.ColumnView_DataError);
+			// 
+			// ColumnView_Name
+			// 
+			this.ColumnView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ColumnView_Name.HeaderText = "列名";
+			this.ColumnView_Name.Name = "ColumnView_Name";
+			this.ColumnView_Name.ReadOnly = true;
+			this.ColumnView_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ColumnView_Visible
+			// 
+			this.ColumnView_Visible.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.ColumnView_Visible.HeaderText = "表示";
+			this.ColumnView_Visible.Name = "ColumnView_Visible";
+			this.ColumnView_Visible.Width = 37;
+			// 
+			// ColumnView_AutoSize
+			// 
+			this.ColumnView_AutoSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.ColumnView_AutoSize.HeaderText = "自動サイズ";
+			this.ColumnView_AutoSize.Name = "ColumnView_AutoSize";
+			this.ColumnView_AutoSize.Width = 66;
+			// 
+			// ColumnView_Width
+			// 
+			this.ColumnView_Width.HeaderText = "幅";
+			this.ColumnView_Width.Name = "ColumnView_Width";
+			this.ColumnView_Width.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// ColumnView_Up
+			// 
+			this.ColumnView_Up.HeaderText = "↑";
+			this.ColumnView_Up.Name = "ColumnView_Up";
+			this.ColumnView_Up.Width = 20;
+			// 
+			// ColumnView_Down
+			// 
+			this.ColumnView_Down.HeaderText = "↓";
+			this.ColumnView_Down.Name = "ColumnView_Down";
+			this.ColumnView_Down.Width = 20;
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(12, 331);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(62, 15);
+			this.label1.TabIndex = 5;
+			this.label1.Text = "列の固定: ";
+			// 
+			// ScrLkColumnCount
+			// 
+			this.ScrLkColumnCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ScrLkColumnCount.Location = new System.Drawing.Point(80, 327);
+			this.ScrLkColumnCount.Name = "ScrLkColumnCount";
+			this.ScrLkColumnCount.Size = new System.Drawing.Size(60, 23);
+			this.ScrLkColumnCount.TabIndex = 6;
+			this.ScrLkColumnCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// DialogShipGroupColumnFilter
 			// 
@@ -96,16 +156,21 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CancelButton = this.ButtonCancel;
 			this.ClientSize = new System.Drawing.Size(464, 362);
-			this.Controls.Add(this.AllCheck);
+			this.Controls.Add(this.ScrLkColumnCount);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.ColumnView);
 			this.Controls.Add(this.ButtonCancel);
 			this.Controls.Add(this.ButtonOK);
-			this.Controls.Add(this.Description);
-			this.Controls.Add(this.FilterList);
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "DialogShipGroupColumnFilter";
-			this.Text = "列フィルタ";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.Text = "列の表示設定";
+			this.Load += new System.EventHandler(this.DialogShipGroupColumnFilter_Load);
+			((System.ComponentModel.ISupportInitialize)(this.ColumnView)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ScrLkColumnCount)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -113,10 +178,16 @@
 
 		#endregion
 
-		private System.Windows.Forms.CheckedListBox FilterList;
-		private System.Windows.Forms.Label Description;
 		private System.Windows.Forms.Button ButtonOK;
 		private System.Windows.Forms.Button ButtonCancel;
-		private System.Windows.Forms.CheckBox AllCheck;
+		private System.Windows.Forms.DataGridView ColumnView;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnView_Name;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnView_Visible;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnView_AutoSize;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnView_Width;
+		private System.Windows.Forms.DataGridViewButtonColumn ColumnView_Up;
+		private System.Windows.Forms.DataGridViewButtonColumn ColumnView_Down;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.NumericUpDown ScrLkColumnCount;
 	}
 }

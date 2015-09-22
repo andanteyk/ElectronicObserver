@@ -186,6 +186,7 @@
 			this.MinimizeBox = false;
 			this.Name = "DialogLocalAPILoader";
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "ファイルからAPIをロード";
 			this.Load += new System.EventHandler(this.DialogLocalAPILoader_Load);
 			((System.ComponentModel.ISupportInitialize)(this.PictureWarning)).EndInit();
