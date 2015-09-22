@@ -347,17 +347,13 @@ namespace ElectronicObserver.Window {
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip( Name,
 						string.Format(
-							"{0} {1}\n火力: {2}/{3}{4}\n雷装: {5}/{6} ({7}夜戦: {8})\n対空: {9}/{10}{11}\n装甲: {12}/{13}\n対潜: {14}/{15}{16}\n回避: {17}/{18}\n索敵: {19}/{20}\n運: {21}\n射程: {22} / 速力: {23}\n(右クリックで図鑑)\n",
+							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase, ship.FirepowerTotal,
-							ship.ShellingPower > 0 ? ( ship.AircraftPower > 0 ? string.Format( " (砲撃: {0}, 空撃: {1})", ship.ShellingPower, ship.AircraftPower ) : string.Format( " (砲撃: {0})", ship.ShellingPower ) ) : ( ship.AircraftPower > 0 ? string.Format( " (空撃: {0})", ship.AircraftPower ) : "" ),
 							ship.TorpedoBase, ship.TorpedoTotal,
-							ship.TorpedoPower > 0 ? string.Format( "雷撃: {0}, ", ship.TorpedoPower ) : "", ship.NightBattlePower,
 							ship.AABase, ship.AATotal,
-							ship.AirBattlePower > 0 ? string.Format( " (航空: {0})", ship.AirBattlePower ) : "",
 							ship.ArmorBase, ship.ArmorTotal,
 							ship.ASWBase, ship.ASWTotal,
-							ship.AntiSubmarinePower > 0 ? string.Format( " (威力: {0})", ship.AntiSubmarinePower ) : "",
 							ship.EvasionBase, ship.EvasionTotal,
 							ship.LOSBase, ship.LOSTotal,
 							ship.LuckTotal,
@@ -500,9 +496,41 @@ namespace ElectronicObserver.Window {
 
 				int[] slotmaster = ship.SlotMaster.ToArray();
 
-				sb.AppendFormat( "\r\n昼戦: {0}\r\n夜戦: {1}\r\n",
-					Constants.GetDayAttackKind( Calculator.GetDayAttackKind( slotmaster, ship.ShipID, -1 ) ),
-					Constants.GetNightAttackKind( Calculator.GetNightAttackKind( slotmaster, ship.ShipID, -1 ) ) );
+				sb.AppendFormat( "\r\n昼戦: {0}", Constants.GetDayAttackKind( Calculator.GetDayAttackKind( slotmaster, ship.ShipID, -1 ) ) );
+				{
+					int shelling = ship.ShellingPower;
+					int aircraft = ship.AircraftPower;
+					if ( shelling > 0 ) {
+						if ( aircraft > 0 )
+							sb.AppendFormat( " - 砲撃: {0} / 空撃: {1}", shelling, aircraft );
+						else
+							sb.AppendFormat( " - 威力: {0}", shelling );
+					} else if ( aircraft > 0 )
+							sb.AppendFormat( " - 威力: {0}", aircraft );
+				}
+				sb.AppendLine();
+
+				sb.AppendFormat( "夜戦: {0}", Constants.GetNightAttackKind( Calculator.GetNightAttackKind( slotmaster, ship.ShipID, -1 ) ) );
+				{
+					int night = ship.NightBattlePower;
+					if ( night > 0 ) {
+						sb.AppendFormat( " - 威力: {0}", night );
+					}
+				}
+				sb.AppendLine();
+
+				{
+					int torpedo = ship.TorpedoPower;
+					int asw = ship.AntiSubmarinePower;
+					if ( torpedo > 0 ) {
+						if ( asw > 0 )
+							sb.AppendFormat( "雷撃: {0} / 対潜: {1}\r\n", torpedo, asw );
+						else
+							sb.AppendFormat( "雷撃: {0}\r\n", torpedo );
+					} else if ( asw > 0 )
+						sb.AppendFormat( "対潜: {0}\r\n", asw );
+				}
+
 				{
 					int aacutin = Calculator.GetAACutinKind( ship.ShipID, slotmaster );
 					if ( aacutin != 0 ) {
@@ -511,9 +539,14 @@ namespace ElectronicObserver.Window {
 				}
 				{
 					int airsup = Calculator.GetAirSuperiority( ship );
+					int airbattle = ship.AirBattlePower;
 					if ( airsup > 0 ) {
-						sb.AppendFormat( "制空戦力: {0}\r\n", airsup );
-					}
+						if ( airbattle > 0 )
+							sb.AppendFormat( "制空戦力: {0} / 航空威力: {1}\r\n", airsup, airbattle );
+						else
+							sb.AppendFormat( "制空戦力: {0}\r\n", airsup );
+					} else if ( airbattle > 0 )
+						sb.AppendFormat( "航空威力: {0}\r\n", airbattle );
 				}
 
 				return sb.ToString();
@@ -757,10 +790,10 @@ namespace ElectronicObserver.Window {
 			// 手書き json の悲しみ
 
 			sb.Append( @"{""version"":3," );
-			
+
 			foreach ( var fleet in db.Fleet.Fleets.Values ) {
 				if ( fleet == null ) continue;
-				
+
 				sb.AppendFormat( @"""f{0}"":{{", fleet.FleetID );
 
 				int shipcount = 1;
@@ -772,7 +805,7 @@ namespace ElectronicObserver.Window {
 						ship.ShipID,
 						ship.Level,
 						ship.LuckBase );
-					
+
 					if ( ship.ExpansionSlot <= 0 )
 						sb.Append( @"""ix"":{}," );
 					else
@@ -782,7 +815,7 @@ namespace ElectronicObserver.Window {
 					foreach ( var eq in ship.SlotInstance ) {
 						if ( eq == null ) break;
 						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2}}},", eqcount, eq.EquipmentID, Math.Max( eq.Level, eq.AircraftLevel ) );
-						
+
 						eqcount++;
 					}
 

@@ -127,6 +127,21 @@ namespace ElectronicObserver.Window {
 			ShipGroupManager groups = KCDatabase.Instance.ShipGroup;
 
 
+			// 空(≒初期状態)の時、おなじみ全所属艦を追加
+			if ( groups.ShipGroups.Count == 0 ) {
+
+				var group = KCDatabase.Instance.ShipGroup.Add();
+				group.Name = "全所属艦";
+
+				for ( int i = 0; i < ShipView.Columns.Count; i++ ) {
+					var newdata = new ShipGroupData.ViewColumnData( ShipView.Columns[i] );
+					if ( SelectedTab == null )
+						newdata.Visible = true;		//初期状態では全行が非表示のため
+					group.ViewColumns.Add( ShipView.Columns[i].Name, newdata );
+				}
+			}
+
+
 			foreach ( var g in groups.ShipGroups.Values ) {
 				TabPanel.Controls.Add( CreateTabLabel( g.GroupID ) );
 			}
