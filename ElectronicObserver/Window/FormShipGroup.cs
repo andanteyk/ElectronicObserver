@@ -47,12 +47,23 @@ namespace ElectronicObserver.Window {
 		/// <summary>選択中のタブ</summary>
 		private ImageLabel SelectedTab = null;
 
+		/// <summary>選択中のグループ</summary>
+		private ShipGroupData CurrentGroup {
+			get {
+				return SelectedTab == null ? null : KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
+			}
+		}
+
+		private bool IsRowsUpdating;
+
 
 
 		public FormShipGroup( FormMain parent ) {
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( ShipView );
+
+			IsRowsUpdating = true;
 
 
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
@@ -169,6 +180,7 @@ namespace ElectronicObserver.Window {
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
+			IsRowsUpdating = false;
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormShipGroup] );
 
 		}
@@ -401,10 +413,13 @@ namespace ElectronicObserver.Window {
 
 			ShipGroupData group = KCDatabase.Instance.ShipGroup[(int)target.Tag];
 
+			IsRowsUpdating = true;
 			ShipView.SuspendLayout();
+
+			group.UpdateMembers( ShipView.Rows.Cast<DataGridViewRow>().Select( r => (int)r.Cells[ShipView_ID.Index].Value ) );
+
 			ShipView.Rows.Clear();
 
-			group.UpdateMembers();
 			var ships = group.MembersInstance;
 			var rows = new List<DataGridViewRow>( ships.Count() );
 
@@ -445,7 +460,7 @@ namespace ElectronicObserver.Window {
 			ApplyAutoSort( group );
 
 			ShipView.ResumeLayout();
-
+			IsRowsUpdating = false;
 
 			//status bar
 			if ( KCDatabase.Instance.Ships.Count > 0 ) {
@@ -595,13 +610,13 @@ namespace ElectronicObserver.Window {
 					e.SortResult = frac1.Current - frac2.Current;
 
 			} else if ( e.Column.Index == ShipView_Fleet.Index ) {
-				if ( e.CellValue1 == null ) {
-					if ( e.CellValue2 == null )
+				if ( (string)e.CellValue1 == "" ) {
+					if ( (string)e.CellValue2 == "" )
 						e.SortResult = 0;
 					else
 						e.SortResult = 1;
 				} else {
-					if ( e.CellValue2 == null )
+					if ( (string)e.CellValue2 == "" )
 						e.SortResult = -1;
 					else
 						e.SortResult = ( (string)e.CellValue1 ).CompareTo( e.CellValue2 );
@@ -628,6 +643,38 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+
+		// 列のサイズ変更関連
+		private void ShipView_ColumnWidthChanged( object sender, DataGridViewColumnEventArgs e ) {
+
+			if ( IsRowsUpdating )
+				return;
+
+			var group = CurrentGroup;
+			if ( group != null ) {
+
+				if ( !group.ViewColumns[e.Column.Name].AutoSize ) {
+					group.ViewColumns[e.Column.Name].Width = e.Column.Width;
+				}
+			}
+
+		}
+
+		private void ShipView_ColumnDisplayIndexChanged( object sender, DataGridViewColumnEventArgs e ) {
+
+			if ( IsRowsUpdating )
+				return;
+
+			var group = CurrentGroup;
+			if ( group != null ) {
+
+				foreach ( DataGridViewColumn column in ShipView.Columns ) {
+					group.ViewColumns[column.Name].DisplayIndex = column.DisplayIndex;
+				}
+			}
+
+		}
 
 
 
@@ -782,7 +829,7 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_ColumnFilter_Click( object sender, EventArgs e ) {
 
-			ShipGroupData group = SelectedTab != null ? KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag] : null;
+			ShipGroupData group = CurrentGroup;
 
 			if ( group == null ) {
 				MessageBox.Show( "このグループは変更できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
@@ -816,8 +863,8 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_Filter_Click( object sender, EventArgs e ) {
 
-			if ( SelectedTab != null ) {
-				var group = KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
+			var group = CurrentGroup;
+			if ( group != null ) {
 
 				try {
 					using ( var dialog = new DialogShipGroupFilter( group.Expressions ) ) {
@@ -829,7 +876,7 @@ namespace ElectronicObserver.Window {
 							group.Expressions = dialog.ExportExpressionData();
 
 							group.Expressions.Compile();
-							group.UpdateMembers();
+							group.UpdateMembers( ShipView.Rows.Cast<DataGridViewRow>().Select( r => (int)r.Cells[ShipView_ID.Index].Value ) );
 
 							ChangeShipView( SelectedTab );
 						}
@@ -869,8 +916,9 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMember_SortOrder_Click( object sender, EventArgs e ) {
 
-			if ( SelectedTab != null ) {
-				var group = KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
+			var group = CurrentGroup;
+
+			if ( group != null ) {
 
 				try {
 					using ( var dialog = new DialogShipGroupSortOrder( ShipView, group ) ) {
@@ -1379,11 +1427,6 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "ShipGroup";
 		}
-
-
-
-
-
 
 
 	}

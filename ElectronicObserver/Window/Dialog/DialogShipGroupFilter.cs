@@ -284,7 +284,7 @@ namespace ElectronicObserver.Window.Dialog {
 		/// </summary>
 		/// <param name="left"></param>
 		/// <param name="right"></param>
-		private void SetExpressionSetter( string left, object right = null ) {
+		private void SetExpressionSetter( string left, object right = null, ExpressionData.ExpressionOperator? ope = null ) {
 
 			Type lefttype = ExpressionData.GetLeftOperandType( left );
 
@@ -309,7 +309,7 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.DataSource = _dtOperator_string;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_shipname;
-				RightOperand_ComboBox.SelectedValue = right ?? _dtRightOperand_shipname.AsEnumerable().First()["Value"];
+				RightOperand_ComboBox.Text = (string)( right ?? _dtRightOperand_shipname.AsEnumerable().First()["Display"] );
 
 			} else if ( left == ".MasterShip.ShipType" ) {
 				RightOperand_ComboBox.Visible = true;
@@ -551,6 +551,14 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.DataSource = _dtOperator_array;
 			}
 
+
+			if ( Operator.DataSource as DataTable != null ) {
+				if ( ope == null ) {
+					Operator.SelectedValue = ( (DataTable)Operator.DataSource ).AsEnumerable().First()["Value"];
+				} else {
+					Operator.SelectedValue = (ExpressionData.ExpressionOperator)ope;
+				}
+			}
 		}
 
 
@@ -589,7 +597,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ExpressionData exp = _target[ExpressionView.SelectedRows[0].Index][index];
 
-			SetExpressionSetter( exp.LeftOperand, exp.RightOperand );
+			SetExpressionSetter( exp.LeftOperand, exp.RightOperand, exp.Operator );
 
 		}
 
