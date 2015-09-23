@@ -58,6 +58,7 @@ namespace ElectronicObserver.Data {
 			/// <summary>
 			/// 自動幅調整を行うか
 			/// </summary>
+			[DataMember]
 			public bool AutoSize { get; set; }
 
 
@@ -87,10 +88,12 @@ namespace ElectronicObserver.Data {
 				if ( column.Name != Name )
 					throw new ArgumentException( "設定する列と Name が異なります。" );
 
+				column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;		//width 変更のためいったん戻す
 				column.Width = Width;
 				column.DisplayIndex = DisplayIndex;
 				column.Visible = Visible;
 				column.AutoSizeMode = AutoSize ? DataGridViewAutoSizeColumnMode.AllCellsExceptHeader : DataGridViewAutoSizeColumnMode.NotSet;
+
 			}
 
 			/// <summary>
@@ -161,9 +164,17 @@ namespace ElectronicObserver.Data {
 		public List<KeyValuePair<string, ListSortDirection>> SortOrder { get; set; }
 
 		[DataMember]
-		private List<SerializableKeyValuePair<string, ListSortDirection>> SerealizedSortOrder {
+		private List<SerializableKeyValuePair<string, ListSortDirection>> SortOrderSerializer {
 			get { return SortOrder == null ? null : SortOrder.Select( s => new SerializableKeyValuePair<string, ListSortDirection>( s ) ).ToList(); }
 			set { SortOrder = value == null ? null : value.Select( s => new KeyValuePair<string, ListSortDirection>( s.Key, s.Value ) ).ToList(); }
+		}
+
+		//fixme: 以降のバージョンで削除すること
+		[Obsolete( "悲しみのスペルミス：互換性維持のため残されています。", false )]
+		[DataMember]
+		private List<SerializableKeyValuePair<string, ListSortDirection>> SerealizedSortOrder {
+			get { return null; }
+			set { if ( value != null ) SortOrder = value.Select( s => new KeyValuePair<string, ListSortDirection>( s.Key, s.Value ) ).ToList(); }
 		}
 
 
@@ -183,13 +194,13 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 艦船IDリスト（キャッシュ）
+		/// 艦船IDリスト
 		/// </summary>
 		[IgnoreDataMember]
 		public List<int> Members { get; private set; }
 
 		/// <summary>
-		/// 艦船リスト（キャッシュ）
+		/// 艦船リスト
 		/// </summary>
 		[IgnoreDataMember]
 		public IEnumerable<ShipData> MembersInstance {
@@ -198,6 +209,12 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		[DataMember]
+		private SerializableList<int> MembersSerializer {
+			get { return (SerializableList<int>)Members; }
+			set { Members = (List<int>)value; }
+		}
 
 
 
@@ -216,11 +233,17 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// フィルタに基づいて検索を実行し、Members に結果をセットします。
 		/// </summary>
-		public void UpdateMembers() {
+		/// <param name="previousOrder">直前の並び替え順。なるべくこの順番を維持するように結果が生成されます。nullの場合は適当に生成されます。</param>
+		public void UpdateMembers( IEnumerable<int> previousOrder = null ) {
 			if ( !Expressions.IsAvailable )
 				Expressions.Compile();
 
-			Members = Expressions.GetResult( KCDatabase.Instance.Ships.Values ).Select( s => s.MasterID ).ToList();
+			var newdata = Expressions.GetResult( KCDatabase.Instance.Ships.Values ).Select( s => s.MasterID );
+
+			IEnumerable<int> prev = previousOrder ?? Members;
+			
+			// ソート順序を維持するため
+			Members = prev.Except( prev.Except( newdata ) ).Union( newdata ).ToList();
 		}
 
 
@@ -246,7 +269,7 @@ namespace ElectronicObserver.Data {
 			clone.Members = new List<int>();		//とりあえず空に
 
 			return clone;
-		} 
+		}
 
 		object ICloneable.Clone() {
 			return Clone();

@@ -93,6 +93,8 @@
 			this.ShipView_Locked = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_SallyArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.MenuMember = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.MenuMember_CreateFromSelection = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMember_Filter = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMember_ColumnFilter = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMember_SortOrder = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,6 +102,7 @@
 			this.MenuMember_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuGroup_Add = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuGroup_Copy = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuGroup_Rename = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuGroup_Delete = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -111,9 +114,6 @@
 			this.Status_ShipCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Status_LevelTotal = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Status_LevelAverage = new System.Windows.Forms.ToolStripStatusLabel();
-			this.MenuGroup_Copy = new System.Windows.Forms.ToolStripMenuItem();
-			this.MenuMember_CreateFromSelection = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).BeginInit();
 			this.MenuMember.SuspendLayout();
 			this.MenuGroup.SuspendLayout();
@@ -128,6 +128,7 @@
 			// 
 			this.ShipView.AllowUserToAddRows = false;
 			this.ShipView.AllowUserToDeleteRows = false;
+			this.ShipView.AllowUserToOrderColumns = true;
 			this.ShipView.AllowUserToResizeRows = false;
 			this.ShipView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.ShipView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -209,6 +210,8 @@
 			this.ShipView.Size = new System.Drawing.Size(300, 134);
 			this.ShipView.TabIndex = 0;
 			this.ShipView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ShipView_CellFormatting);
+			this.ShipView.ColumnDisplayIndexChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.ShipView_ColumnDisplayIndexChanged);
+			this.ShipView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.ShipView_ColumnWidthChanged);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
 			this.ShipView.Sorted += new System.EventHandler(this.ShipView_Sorted);
 			// 
@@ -655,8 +658,20 @@
             this.toolStripSeparator3,
             this.MenuMember_CSVOutput});
 			this.MenuMember.Name = "MenuMember";
-			this.MenuMember.Size = new System.Drawing.Size(255, 148);
+			this.MenuMember.Size = new System.Drawing.Size(255, 126);
 			this.MenuMember.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMember_Opening);
+			// 
+			// MenuMember_CreateFromSelection
+			// 
+			this.MenuMember_CreateFromSelection.Name = "MenuMember_CreateFromSelection";
+			this.MenuMember_CreateFromSelection.Size = new System.Drawing.Size(254, 22);
+			this.MenuMember_CreateFromSelection.Text = "選択範囲から固定グループを作成(&D)";
+			this.MenuMember_CreateFromSelection.Click += new System.EventHandler(this.MenuMember_CreateFromSelection_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(251, 6);
 			// 
 			// MenuMember_Filter
 			// 
@@ -711,6 +726,13 @@
 			this.MenuGroup_Add.Size = new System.Drawing.Size(191, 22);
 			this.MenuGroup_Add.Text = "グループを追加(&A)";
 			this.MenuGroup_Add.Click += new System.EventHandler(this.MenuGroup_Add_Click);
+			// 
+			// MenuGroup_Copy
+			// 
+			this.MenuGroup_Copy.Name = "MenuGroup_Copy";
+			this.MenuGroup_Copy.Size = new System.Drawing.Size(191, 22);
+			this.MenuGroup_Copy.Text = "グループをコピー(&C)";
+			this.MenuGroup_Copy.Click += new System.EventHandler(this.MenuGroup_Copy_Click);
 			// 
 			// MenuGroup_Rename
 			// 
@@ -813,25 +835,6 @@
 			// 
 			this.Status_LevelAverage.Name = "Status_LevelAverage";
 			this.Status_LevelAverage.Size = new System.Drawing.Size(0, 17);
-			// 
-			// MenuGroup_Copy
-			// 
-			this.MenuGroup_Copy.Name = "MenuGroup_Copy";
-			this.MenuGroup_Copy.Size = new System.Drawing.Size(191, 22);
-			this.MenuGroup_Copy.Text = "グループをコピー(&C)";
-			this.MenuGroup_Copy.Click += new System.EventHandler(this.MenuGroup_Copy_Click);
-			// 
-			// MenuMember_CreateFromSelection
-			// 
-			this.MenuMember_CreateFromSelection.Name = "MenuMember_CreateFromSelection";
-			this.MenuMember_CreateFromSelection.Size = new System.Drawing.Size(254, 22);
-			this.MenuMember_CreateFromSelection.Text = "選択範囲から固定グループを作成(&D)";
-			this.MenuMember_CreateFromSelection.Click += new System.EventHandler(this.MenuMember_CreateFromSelection_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(251, 6);
 			// 
 			// FormShipGroup
 			// 
