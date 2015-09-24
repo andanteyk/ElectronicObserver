@@ -630,18 +630,27 @@ namespace ElectronicObserver.Window {
 
 			if ( e.SortResult == 0 ) {
 				e.SortResult = (int)ShipView.Rows[e.RowIndex1].Tag - (int)ShipView.Rows[e.RowIndex2].Tag;
+
+				if ( ShipView.SortOrder == SortOrder.Descending )
+					e.SortResult = -e.SortResult;
 			}
 
 			e.Handled = true;
 		}
 
 
+
 		private void ShipView_Sorted( object sender, EventArgs e ) {
 
-			for ( int i = 0; i < ShipView.Rows.Count; i++ )
+			int count = ShipView.Rows.Count;
+			var direction = ShipView.SortOrder;
+
+			for ( int i = 0; i < count; i++ )
 				ShipView.Rows[i].Tag = i;
 
 		}
+
+
 
 
 
@@ -951,11 +960,6 @@ namespace ElectronicObserver.Window {
 
 				var order = group.SortOrder[i];
 				ListSortDirection dir = order.Value;
-
-				// ex. Desc -> Asc だった場合、見た目上 2番目が 1番目の Desc によって逆順に(Desc)になるため
-				if ( group.SortOrder.Take( i ).Count( s => s.Value == ListSortDirection.Descending ) % 2 == 1 ) {
-					dir = dir == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
-				}
 
 				if ( ShipView.Columns[order.Key].SortMode != DataGridViewColumnSortMode.NotSortable )
 					ShipView.Sort( ShipView.Columns[order.Key], dir );

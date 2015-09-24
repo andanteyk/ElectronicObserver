@@ -73,7 +73,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 					continue;
 
 				if ( ex == null ) {
-					ex = exdata.Compile( paramex  );
+					ex = exdata.Compile( paramex );
 
 				} else {
 					if ( InternalAnd ) {
@@ -84,6 +84,9 @@ namespace ElectronicObserver.Data.ShipGroup {
 				}
 			}
 
+			if ( ex == null )
+				ex = Expression.Constant( true );
+
 			if ( Inverse )
 				ex = Expression.Not( ex );
 
@@ -93,14 +96,14 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 		public override string ToString() {
 			var exp = Expressions.Where( p => p.Enabled );
-			return string.Format( "({0}){1}", exp.Count() == 0 ? "なし" : string.Join( InternalAnd ? " かつ " : " または ", exp ), Inverse ? " を満たさない" : "" );			
+			return string.Format( "({0}){1}", exp.Count() == 0 ? "なし" : string.Join( InternalAnd ? " かつ " : " または ", exp ), Inverse ? " を満たさない" : "" );
 		}
 
 
 
 		public ExpressionList Clone() {
 			var clone = (ExpressionList)MemberwiseClone();
-			clone.Expressions = Expressions == null ? null : new List<ExpressionData>( Expressions );
+			clone.Expressions = Expressions == null ? null : Expressions.Select( e => e.Clone() ).ToList();
 			return clone;
 		}
 
