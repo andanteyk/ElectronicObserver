@@ -142,7 +142,7 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_shipname.Columns.AddRange( new DataColumn[]{ 
 					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
-				foreach ( var s in KCDatabase.Instance.MasterShips.Values.Where( s => !s.IsAbyssalShip ) )
+				foreach ( var s in KCDatabase.Instance.MasterShips.Values.Where( s => !s.IsAbyssalShip ).OrderBy( s => s.NameWithClass ).OrderBy( s => s.NameReading ) )
 					_dtRightOperand_shipname.Rows.Add( s.ShipID, s.Name );
 				_dtRightOperand_shipname.AcceptChanges();
 			}
@@ -188,7 +188,7 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_equipment.Columns.AddRange( new DataColumn[]{ 
 					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
-				foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values.Where( eq => !eq.IsAbyssalEquipment ) )
+				foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values.Where( eq => !eq.IsAbyssalEquipment ).OrderBy( eq => eq.CategoryType ) )
 					_dtRightOperand_equipment.Rows.Add( eq.EquipmentID, eq.Name );
 				_dtRightOperand_equipment.AcceptChanges();
 			}
@@ -608,12 +608,12 @@ namespace ElectronicObserver.Window.Dialog {
 		private void Expression_Add_Click( object sender, EventArgs e ) {
 
 			int insertrow = GetSelectedRow( ExpressionView );
-			if ( insertrow == -1 ) insertrow = ExpressionView.Rows.Count;
+			if ( insertrow == -1 ) insertrow = ExpressionView.Rows.Count - 1;
 
 			var exp = new ExpressionList();
 
-			_target.Expressions.Insert( insertrow, exp );
-			ExpressionView.Rows.Insert( insertrow, GetExpressionViewRow( exp ) );
+			_target.Expressions.Insert( insertrow + 1, exp );
+			ExpressionView.Rows.Insert( insertrow + 1, GetExpressionViewRow( exp ) );
 
 			ExpressionUpdated();
 		}
@@ -665,7 +665,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			if ( RightOperand_ComboBox.Enabled ) {
-				exp.RightOperand = Convert.ChangeType( RightOperand_ComboBox.SelectedValue ?? RightOperand_ComboBox.Text, type );
+				if ( RightOperand_ComboBox.DropDownStyle == ComboBoxStyle.DropDownList )
+					exp.RightOperand = Convert.ChangeType( RightOperand_ComboBox.SelectedValue ?? RightOperand_ComboBox.Text, type );
+				else
+					exp.RightOperand = Convert.ChangeType( RightOperand_ComboBox.Text, type );
 
 			} else if ( RightOperand_NumericUpDown.Enabled ) {
 				exp.RightOperand = Convert.ChangeType( RightOperand_NumericUpDown.Value, type );

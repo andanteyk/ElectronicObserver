@@ -21,6 +21,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 			int shipID = int.Parse( data["api_ship_id"] );
 			ShipData ship = db.Ships[shipID];
 
+
+			db.Material.Fuel -= ship.RepairFuel;
+			db.Material.Steel -= ship.RepairSteel;
+
+
 			if ( data["api_highspeed"] == "1" ) {
 
 				ship.Repair();
@@ -41,12 +46,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 
 			}
 
-			db.Material.Fuel -= ship.RepairFuel;
-			db.Material.Steel -= ship.RepairSteel;
-
 
 			db.Fleet.LoadFromRequest( APIName, data );
-			
+
 			base.OnRequestReceived( data );
 		}
 
