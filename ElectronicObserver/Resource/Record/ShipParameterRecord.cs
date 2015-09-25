@@ -654,9 +654,12 @@ namespace ElectronicObserver.Resource.Record {
 
 				{	//図鑑説明文登録(図鑑に載っていない改装艦に関してはその改装前の艦の説明文を設定する)
 					e.MessageAlbum = elem.api_sinfo;
+					LinkedList<int> processedIDs = new LinkedList<int>();
 
 					ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
-					while ( ship != null && ship.RemodelAfterShipID > 0 ) {
+					while ( ship != null && !processedIDs.Contains( ship.ShipID ) && ship.RemodelAfterShipID > 0 ) {
+
+						processedIDs.AddLast( ship.ID );
 						ShipParameterElement e2 = this[ship.RemodelAfterShipID];
 						if ( e2 == null ) {
 							e2 = new ShipParameterElement();
