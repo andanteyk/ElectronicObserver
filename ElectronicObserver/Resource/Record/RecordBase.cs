@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,7 +61,6 @@ namespace ElectronicObserver.Resource.Record {
 						
 						try {
 							LoadLine( line );
-
 						} catch ( Exception ex ) {
 							Utility.Logger.Add( 3, string.Format( "{0}: エラーが発生したため行 {1} をスキップしました。 {2}", path, linecount, ex.Message ) );
 						}
@@ -80,12 +80,12 @@ namespace ElectronicObserver.Resource.Record {
 
 			} catch ( FileNotFoundException ) {
 
-				Utility.Logger.Add( 1, "记录 " + path + " 不存在。" );
+				Utility.Logger.Add( 1, "レコード " + path + " は存在しません。" );
 
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "记录 " + path + " 读取失败。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の読み込みに失敗しました。" );
 
 			}
 
@@ -143,6 +143,52 @@ namespace ElectronicObserver.Resource.Record {
 		/// レコードをクリアします。ロード直前に呼ばれます。
 		/// </summary>
 		protected virtual void ClearRecord() { }
+
+
+		/// <summary>
+		/// アセットからデフォルトのレコードをコピーします。
+		/// </summary>
+		/// <param name="path">アセットファイルへのパス。</param>
+		/// <param name="checkexist">ファイルの存在を確認するか。trueなら既にファイルが存在した場合上書きしません。</param>
+		/// <returns>成功すれば true を返します。</returns>
+		public bool CopyFromAssets( string path, bool checkexist = true ) {
+
+			string destination = RecordManager.Instance.MasterPath + "\\" + FileName;
+
+			if ( checkexist && File.Exists( destination ) ) {
+				return false;
+			}
+
+
+			using ( var stream = File.OpenRead( path ) ) {
+
+				using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
+
+					string entrypath = @"Assets/Record/" + FileName;
+
+					var entry = archive.GetEntry( entrypath );
+
+					if ( entry == null ) {
+						Utility.Logger.Add( 3, string.Format( "デフォルトレコード {0} は存在しません。", entrypath ) );
+						return false;
+					}
+
+
+					try {
+
+						entry.ExtractToFile( destination );
+						Utility.Logger.Add( 2, string.Format( "デフォルトレコード {0} をコピーしました。", FileName ) );
+
+					} catch ( Exception ex ) {
+
+						Utility.Logger.Add( 3, string.Format( "デフォルトレコード {0} のコピーに失敗しました。{1}", FileName, ex.Message ) );
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
 
 
 		/// <summary>

@@ -142,7 +142,7 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_shipname.Columns.AddRange( new DataColumn[]{ 
 					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
-				foreach ( var s in KCDatabase.Instance.MasterShips.Values.Where( s => !s.IsAbyssalShip ) )
+				foreach ( var s in KCDatabase.Instance.MasterShips.Values.Where( s => !s.IsAbyssalShip ).OrderBy( s => s.NameWithClass ).OrderBy( s => s.NameReading ) )
 					_dtRightOperand_shipname.Rows.Add( s.ShipID, s.Name );
 				_dtRightOperand_shipname.AcceptChanges();
 			}
@@ -188,7 +188,7 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_equipment.Columns.AddRange( new DataColumn[]{ 
 					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
-				foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values.Where( eq => !eq.IsAbyssalEquipment ) )
+				foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values.Where( eq => !eq.IsAbyssalEquipment ).OrderBy( eq => eq.CategoryType ) )
 					_dtRightOperand_equipment.Rows.Add( eq.EquipmentID, eq.Name );
 				_dtRightOperand_equipment.AcceptChanges();
 			}
@@ -284,7 +284,7 @@ namespace ElectronicObserver.Window.Dialog {
 		/// </summary>
 		/// <param name="left"></param>
 		/// <param name="right"></param>
-		private void SetExpressionSetter( string left, object right = null ) {
+		private void SetExpressionSetter( string left, object right = null, ExpressionData.ExpressionOperator? ope = null ) {
 
 			Type lefttype = ExpressionData.GetLeftOperandType( left );
 
@@ -293,7 +293,7 @@ namespace ElectronicObserver.Window.Dialog {
 				lefttype = lefttype.GetElementType() ?? lefttype.GetGenericArguments().First();
 
 			Description.Text = "";
-			
+
 			LeftOperand.SelectedValue = left;
 
 			// 特殊判定(決め打ち)シリーズ
@@ -309,7 +309,7 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.DataSource = _dtOperator_string;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_shipname;
-				RightOperand_ComboBox.SelectedValue = right ?? _dtRightOperand_shipname.AsEnumerable().First()["Value"];
+				RightOperand_ComboBox.Text = (string)( right ?? _dtRightOperand_shipname.AsEnumerable().First()["Display"] );
 
 			} else if ( left == ".MasterShip.ShipType" ) {
 				RightOperand_ComboBox.Visible = true;
@@ -551,6 +551,14 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.DataSource = _dtOperator_array;
 			}
 
+
+			if ( Operator.DataSource as DataTable != null ) {
+				if ( ope == null ) {
+					Operator.SelectedValue = ( (DataTable)Operator.DataSource ).AsEnumerable().First()["Value"];
+				} else {
+					Operator.SelectedValue = (ExpressionData.ExpressionOperator)ope;
+				}
+			}
 		}
 
 
@@ -589,7 +597,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ExpressionData exp = _target[ExpressionView.SelectedRows[0].Index][index];
 
-			SetExpressionSetter( exp.LeftOperand, exp.RightOperand );
+			SetExpressionSetter( exp.LeftOperand, exp.RightOperand, exp.Operator );
 
 		}
 
@@ -600,13 +608,14 @@ namespace ElectronicObserver.Window.Dialog {
 		private void Expression_Add_Click( object sender, EventArgs e ) {
 
 			int insertrow = GetSelectedRow( ExpressionView );
-			if ( insertrow == -1 ) insertrow = ExpressionView.Rows.Count;
+			if ( insertrow == -1 ) insertrow = ExpressionView.Rows.Count - 1;
 
 			var exp = new ExpressionList();
 
-			_target.Expressions.Insert( insertrow, exp );
-			ExpressionView.Rows.Insert( insertrow, GetExpressionViewRow( exp ) );
+			_target.Expressions.Insert( insertrow + 1, exp );
+			ExpressionView.Rows.Insert( insertrow + 1, GetExpressionViewRow( exp ) );
 
+			ExpressionUpdated();
 		}
 
 		private void Expression_Delete_Click( object sender, EventArgs e ) {
@@ -623,7 +632,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( ExpressionView.Rows.Count == 0 )
 				ExpressionDetailView.Rows.Clear();
+
+			ExpressionUpdated();
 		}
+
 
 		private void ButtonOK_Click( object sender, EventArgs e ) {
 
@@ -653,7 +665,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			if ( RightOperand_ComboBox.Enabled ) {
-				exp.RightOperand = Convert.ChangeType( RightOperand_ComboBox.SelectedValue ?? RightOperand_ComboBox.Text, type );
+				if ( RightOperand_ComboBox.DropDownStyle == ComboBoxStyle.DropDownList )
+					exp.RightOperand = Convert.ChangeType( RightOperand_ComboBox.SelectedValue ?? RightOperand_ComboBox.Text, type );
+				else
+					exp.RightOperand = Convert.ChangeType( RightOperand_ComboBox.Text, type );
 
 			} else if ( RightOperand_NumericUpDown.Enabled ) {
 				exp.RightOperand = Convert.ChangeType( RightOperand_NumericUpDown.Value, type );
@@ -819,7 +834,12 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 		private void UpdateExpressionLabel() {
-			LabelResult.Text = (bool)LabelResult.Tag ? _target.ToExpressionString() : _target.ToString();
+			if ( LabelResult.Tag != null && (bool)LabelResult.Tag ) {
+				_target.Compile();
+				LabelResult.Text = _target.ToExpressionString();
+			} else {
+				LabelResult.Text = _target.ToString();
+			}
 		}
 
 
@@ -836,6 +856,8 @@ namespace ElectronicObserver.Window.Dialog {
 				//ExpressionView.Rows.RemoveAt( e.RowIndex - 1 );
 				ControlHelper.RowMoveUp( ExpressionView, e.RowIndex );
 
+				ExpressionUpdated();
+
 			} else if ( e.ColumnIndex == ExpressionView_Down.Index && e.RowIndex < ExpressionView.Rows.Count - 1 ) {
 				_target.Expressions.Insert( e.RowIndex + 2, _target[e.RowIndex] );
 				_target.Expressions.RemoveAt( e.RowIndex );
@@ -843,6 +865,7 @@ namespace ElectronicObserver.Window.Dialog {
 				//ExpressionView.Rows.RemoveAt( e.RowIndex + 2 );
 				ControlHelper.RowMoveDown( ExpressionView, e.RowIndex );
 
+				ExpressionUpdated();
 			}
 		}
 
@@ -901,6 +924,14 @@ namespace ElectronicObserver.Window.Dialog {
 						}
 					} break;
 
+				case ".ShipID": {
+						var ship = KCDatabase.Instance.MasterShips[intvalue];
+						if ( ship != null ) {
+							Description.Text = ship.ShipTypeName + " " + ship.Name;
+						} else {
+							Description.Text = "(存在せず)";
+						}
+					} break;
 				case ".MasterShip.RemodelBeforeShipID": {
 						if ( intvalue == 0 ) {
 							Description.Text = "(未改装)";

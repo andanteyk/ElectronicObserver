@@ -199,7 +199,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 						int index;
 						if ( int.TryParse( match.Groups["index"].Value, out index ) ) {
-							memberex = Expression.ArrayAccess( memberex, Expression.Constant( index, typeof( int ) ) );
+							memberex = Expression.Property( memberex, "Item", Expression.Constant( index, typeof( int ) ) );
 						}
 
 					} while ( ( match = match.NextMatch() ).Success );

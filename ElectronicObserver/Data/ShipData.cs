@@ -846,7 +846,7 @@ namespace ElectronicObserver.Data {
 
 				//キャップ
 				if ( basepower > 150 ) {
-					basepower = 100 + Math.Sqrt( basepower - 150 );
+					basepower = 150 + Math.Sqrt( basepower - 150 );
 				}
 				basepower = Math.Floor( basepower );
 
