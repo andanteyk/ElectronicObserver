@@ -417,14 +417,9 @@ namespace ElectronicObserver.Window {
 
 							// 判断隔代改装的经验
 							var ship_m = ship.MasterShip.RemodelAfterShip;
-							int lastlv = 0;
 							while ( ship_m != null && ship_m.RemodelAfterShipID != 0 )
 							{
 								int level = ship_m.RemodelAfterLevel;
-								if ( level <= lastlv )
-									break;
-
-								lastlv = level;
 								if ( ship.Level < level )
 									tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.\n", level - ship.Level, Math.Max( ExpTable.ShipExp[level].Total - ship.ExpTotal, 0 ) );
 
