@@ -106,7 +106,9 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 		public ExpressionManager Clone() {
 			var clone = (ExpressionManager)MemberwiseClone();
-			clone.Expressions = Expressions == null ? null : new List<ExpressionList>( Expressions );
+			clone.Expressions = Expressions == null ? null : Expressions.Select( e => e.Clone() ).ToList();
+			clone.predicate = null;
+			clone.expression = null;
 			return clone;
 		}
 

@@ -37,6 +37,8 @@
 			this.ImagePathSearch = new System.Windows.Forms.Button();
 			this.ImagePath = new System.Windows.Forms.TextBox();
 			this.GroupDialog = new System.Windows.Forms.GroupBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.CloseList = new System.Windows.Forms.CheckedListBox();
 			this.ShowWithActivation = new System.Windows.Forms.CheckBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.DrawsMessage = new System.Windows.Forms.CheckBox();
@@ -72,8 +74,6 @@
 			this.DialogOpenSound = new System.Windows.Forms.OpenFileDialog();
 			this.DialogOpenImage = new System.Windows.Forms.OpenFileDialog();
 			this.ToolTipText = new System.Windows.Forms.ToolTip(this.components);
-			this.CloseList = new System.Windows.Forms.CheckedListBox();
-			this.label5 = new System.Windows.Forms.Label();
 			this.GroupSound.SuspendLayout();
 			this.GroupImage.SuspendLayout();
 			this.GroupDialog.SuspendLayout();
@@ -708,6 +708,7 @@
 			this.MinimizeBox = false;
 			this.Name = "DialogConfigurationNotifier";
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "通知的设置";
 			this.Load += new System.EventHandler(this.DialogConfigurationNotifier_Load);
 			this.GroupSound.ResumeLayout(false);

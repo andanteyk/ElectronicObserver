@@ -268,14 +268,41 @@ namespace ElectronicObserver.Window {
 			}
 			FlowPanelFleet.ResumeLayout();
 
+
+
+			var resday = RecordManager.Instance.Resource.GetRecord( DateTime.Now.AddHours( -5 ).Date.AddHours( 5 ) );
+			var resweek = RecordManager.Instance.Resource.GetRecord( DateTime.Now.AddHours( -5 ).Date.AddDays( -( ( (int)DateTime.Now.AddHours( -5 ).DayOfWeek + 6 ) % 7 ) ).AddHours( 5 ) );	//月曜日起点
+			var resmonth = RecordManager.Instance.Resource.GetRecord( new DateTime( DateTime.Now.Year, DateTime.Now.Month, 1 ).AddHours( 5 ) );
+
+
 			//UseItems
 			FlowPanelUseItem.SuspendLayout();
-			InstantRepair.Text = db.Material.InstantRepair.ToString();
-			InstantConstruction.Text = db.Material.InstantConstruction.ToString();
-			DevelopmentMaterial.Text = db.Material.DevelopmentMaterial.ToString();
-			ModdingMaterial.Text = db.Material.ModdingMaterial.ToString();
-			FurnitureCoin.Text = db.Admiral.FurnitureCoin.ToString();
 
+			InstantRepair.Text = db.Material.InstantRepair.ToString();
+			ToolTipInfo.SetToolTip( InstantRepair, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+					resday == null ? 0 : ( db.Material.InstantRepair - resday.InstantRepair ),
+					resweek == null ? 0 : ( db.Material.InstantRepair - resweek.InstantRepair ),
+					resmonth == null ? 0 : ( db.Material.InstantRepair - resmonth.InstantRepair ) ) );
+			
+			InstantConstruction.Text = db.Material.InstantConstruction.ToString();
+			ToolTipInfo.SetToolTip( InstantConstruction, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+					resday == null ? 0 : ( db.Material.InstantConstruction - resday.InstantConstruction ),
+					resweek == null ? 0 : ( db.Material.InstantConstruction - resweek.InstantConstruction ),
+					resmonth == null ? 0 : ( db.Material.InstantConstruction - resmonth.InstantConstruction ) ) ); 
+			
+			DevelopmentMaterial.Text = db.Material.DevelopmentMaterial.ToString();
+			ToolTipInfo.SetToolTip( DevelopmentMaterial, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+					resday == null ? 0 : ( db.Material.DevelopmentMaterial - resday.DevelopmentMaterial ),
+					resweek == null ? 0 : ( db.Material.DevelopmentMaterial - resweek.DevelopmentMaterial ),
+					resmonth == null ? 0 : ( db.Material.DevelopmentMaterial - resmonth.DevelopmentMaterial ) ) ); 
+			
+			ModdingMaterial.Text = db.Material.ModdingMaterial.ToString();
+			ToolTipInfo.SetToolTip( ModdingMaterial, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
+					resday == null ? 0 : ( db.Material.ModdingMaterial - resday.ModdingMaterial ),
+					resweek == null ? 0 : ( db.Material.ModdingMaterial - resweek.ModdingMaterial ),
+					resmonth == null ? 0 : ( db.Material.ModdingMaterial - resmonth.ModdingMaterial ) ) ); 
+			
+			FurnitureCoin.Text = db.Admiral.FurnitureCoin.ToString();
 			{
 				int small = db.UseItems[10] != null ? db.UseItems[10].Count : 0;
 				int medium = db.UseItems[11] != null ? db.UseItems[11].Count : 0;
@@ -296,11 +323,6 @@ namespace ElectronicObserver.Window {
 				Color overcolor = Color.Moccasin;
 				Color fore = Utility.Configuration.Config.UI.ForeColor;
 				Color back = Utility.Configuration.Config.UI.HighlightForeColor;
-
-				var resday = RecordManager.Instance.Resource.GetRecord( DateTime.Now.AddHours( -5 ).Date.AddHours( 5 ) );
-				var resweek = RecordManager.Instance.Resource.GetRecord( DateTime.Now.AddHours( -5 ).Date.AddDays( -( ( (int)DateTime.Now.AddHours( -5 ).DayOfWeek + 6 ) % 7 ) ).AddHours( 5 ) );	//月曜日起点
-				var resmonth = RecordManager.Instance.Resource.GetRecord( new DateTime( DateTime.Now.Year, DateTime.Now.Month, 1 ).AddHours( 5 ) );
-
 
 				Fuel.Text = db.Material.Fuel.ToString();
 				Fuel.BackColor = db.Material.Fuel < db.Admiral.MaxResourceRegenerationAmount ? Color.Transparent : overcolor;

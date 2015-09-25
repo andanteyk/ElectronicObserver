@@ -37,6 +37,13 @@ namespace ElectronicObserver.Resource {
 		#endregion
 
 
+		#region Constants
+
+		public static string AssetFilePath { get { return "Assets.zip"; } }
+		
+		#endregion
+
+
 		public enum IconContent {
 			Nothing = -1,
 			AppIcon,
@@ -175,7 +182,7 @@ namespace ElectronicObserver.Resource {
 
 			try {
 
-				LoadFromArchive( "Assets.zip" );
+				LoadFromArchive( AssetFilePath );
 				return true;
 
 			} catch ( Exception ex ) {
@@ -400,7 +407,7 @@ namespace ElectronicObserver.Resource {
 
 			} catch ( Exception ) {
 
-				Utility.Logger.Add( 3, string.Format( "图片资源 {0} 读取失败。" ) );
+				Utility.Logger.Add( 3, string.Format( "图片资源 {0} 读取失败。", path ) );
 				imglist.Images.Add( name, CreateBlankImage() );
 				return;
 			}
