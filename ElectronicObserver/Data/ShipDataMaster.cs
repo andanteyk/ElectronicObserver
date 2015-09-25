@@ -68,7 +68,17 @@ namespace ElectronicObserver.Data {
 		/// 0=なし
 		/// </summary>
 		public int RemodelAfterShipID {
-			get { return !RawData.api_aftershipid() ? 0 : int.Parse( (string)RawData.api_aftershipid ); }
+			get {
+				int id;
+				if ( RawData.api_aftershipid() ) {
+					id = int.Parse( (string)RawData.api_aftershipid );
+					if ( id == 466 ) {
+						id = 0;
+					}
+				} else
+					id = 0;
+				return id;
+			}
 		}
 		/// <summary>
 		/// 改装後の艦船
