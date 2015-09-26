@@ -905,12 +905,14 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		private void ApplyViewData( ShipGroupData group ) {
 
+			IsRowsUpdating = true;
+
 			// いったん解除しないと列入れ替え時にエラーが起きる
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
 				column.Frozen = false;
 			}
 
-			foreach ( var data in group.ViewColumns.Values ) {
+			foreach ( var data in group.ViewColumns.Values.OrderBy( g => g.DisplayIndex ) ) {
 				data.ToColumn( ShipView.Columns[data.Name] );
 			}
 
@@ -920,6 +922,7 @@ namespace ElectronicObserver.Window {
 				count++;
 			}
 
+			IsRowsUpdating = false;
 		}
 
 

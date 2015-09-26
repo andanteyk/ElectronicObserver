@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -79,13 +80,10 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( e.RowIndex < 1 ) return;
 
 			if ( e.ColumnIndex == ColumnView_Up.Index && e.RowIndex > 1 ) {
-				CopyRow( ColumnView, e.RowIndex - 1, e.RowIndex + 1 );
-				ColumnView.Rows.RemoveAt( e.RowIndex - 1 );
+				ControlHelper.RowMoveUp( ColumnView, e.RowIndex );
 
 			} else if ( e.ColumnIndex == ColumnView_Down.Index && e.RowIndex < ColumnView.Rows.Count - 1 ) {
-				CopyRow( ColumnView, e.RowIndex + 1, e.RowIndex );
-				ColumnView.Rows.RemoveAt( e.RowIndex + 2 );
-
+				ControlHelper.RowMoveDown( ColumnView, e.RowIndex );
 			}
 		}
 
@@ -123,7 +121,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			Result = new List<ShipGroupData.ViewColumnData>( ColumnView.Rows.Count - 1 );
 
-			for ( int i  = 1; i < ColumnView.Rows.Count; i++ ) {
+			for ( int i = 1; i < ColumnView.Rows.Count; i++ ) {
 
 				var row = ColumnView.Rows[i];
 				var r = new ShipGroupData.ViewColumnData( (string)row.Tag );
