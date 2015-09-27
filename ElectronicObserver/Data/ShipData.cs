@@ -159,6 +159,9 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int ExpansionSlotMaster {
 			get {
+				if ( ExpansionSlot == 0 )
+					return 0;
+
 				EquipmentData eq = KCDatabase.Instance.Equipments[ExpansionSlot];
 				if ( eq != null )
 					return eq.EquipmentID;

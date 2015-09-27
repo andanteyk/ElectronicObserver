@@ -474,6 +474,11 @@ namespace ElectronicObserver.Utility {
 				public SerializableList<bool> ColumnFilter { get; set; }
 
 				/// <summary>
+				/// 列の幅
+				/// </summary>
+				public SerializableList<int> ColumnWidth { get; set; }
+
+				/// <summary>
 				/// どの行をソートしていたか
 				/// </summary>
 				public int SortParameter { get; set; }
@@ -485,6 +490,7 @@ namespace ElectronicObserver.Utility {
 					ShowWeekly = true;
 					ShowMonthly = true;
 					ColumnFilter = null;		//実際の初期化は FormQuest で行う
+					ColumnWidth = null;			//上に同じ
 					SortParameter = 3 << 1 | 0;
 				}
 			}

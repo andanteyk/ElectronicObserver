@@ -687,7 +687,8 @@ namespace ElectronicObserver.Window {
 					ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
 
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
+						string.Format( "{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]\r\n与ダメージ: {8}",
+							ship.MasterShip.ShipTypeName,
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
@@ -706,7 +707,8 @@ namespace ElectronicObserver.Window {
 					ShipDataMaster ship = bd.Initial.EnemyMembersInstance[i];
 
 					ToolTipInfo.SetToolTip( HPBars[i + 6],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
+						string.Format( "{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]",
+							ship.ShipTypeName,
 							ship.NameWithClass,
 							bd.Initial.EnemyLevels[i],
 							Math.Max( HPBars[i + 6].PrevValue, 0 ),

@@ -188,8 +188,10 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_equipment.Columns.AddRange( new DataColumn[]{ 
 					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
+				_dtRightOperand_equipment.Rows.Add( -1, "(なし)" );
 				foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values.Where( eq => !eq.IsAbyssalEquipment ).OrderBy( eq => eq.CategoryType ) )
 					_dtRightOperand_equipment.Rows.Add( eq.EquipmentID, eq.Name );
+				_dtRightOperand_equipment.Rows.Add( 0, "(未開放)" );
 				_dtRightOperand_equipment.AcceptChanges();
 			}
 

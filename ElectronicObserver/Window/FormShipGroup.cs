@@ -876,6 +876,9 @@ namespace ElectronicObserver.Window {
 			if ( group != null ) {
 
 				try {
+					if ( group.Expressions == null )
+						group.Expressions = new ExpressionManager();
+
 					using ( var dialog = new DialogShipGroupFilter( group.Expressions ) ) {
 
 						dialog.ImportExpressionData( group.Expressions );

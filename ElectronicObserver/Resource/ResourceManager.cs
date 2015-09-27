@@ -61,6 +61,7 @@ namespace ElectronicObserver.Resource {
 			ItemModdingMaterial,
 			ItemFurnitureCoin,
 			ItemBlueprint,
+			ItemCatapult,
 			FormArsenal,
 			FormBattle,
 			FormCompass,
@@ -236,6 +237,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/ModdingMaterial.png", "Item_ModdingMaterial" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/FurnitureCoin.png", "Item_FurnitureCoin" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Blueprint.png", "Item_Blueprint" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Catapult.png", "Item_Catapult" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Arsenal.png", "Form_Arsenal" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Battle.png", "Form_Battle" );
