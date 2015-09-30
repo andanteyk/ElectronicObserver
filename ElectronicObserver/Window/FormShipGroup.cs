@@ -479,13 +479,20 @@ namespace ElectronicObserver.Window {
 			if ( target == null ) return;
 
 
-			int groupID = (int)target.Tag;
-			var group = KCDatabase.Instance.ShipGroup[groupID];
-
+			var group = KCDatabase.Instance.ShipGroup[(int)target.Tag];
+			var currentGroup = CurrentGroup;
 
 			if ( group == null ) {
 				Utility.Logger.Add( 3, "エラー：存在しないグループを参照しようとしました。開発者に連絡してください" );
 				return;
+			}
+
+			if ( currentGroup != null ) {
+
+				UpdateMembers( currentGroup );
+
+				if ( CurrentGroup.GroupID != group.GroupID )
+					ShipView.Rows.Clear();		//別グループの行の並び順を引き継がせないようにする
 			}
 
 
@@ -520,6 +527,7 @@ namespace ElectronicObserver.Window {
 		private IEnumerable<int> GetSelectedShipID() {
 			return ShipView.SelectedRows.Cast<DataGridViewRow>().OrderBy( r => r.Index ).Select( r => (int)r.Cells[ShipView_ID.Index].Value );
 		}
+
 
 		/// <summary>
 		/// 現在の表を基に、グループメンバーを更新します。
@@ -906,14 +914,18 @@ namespace ElectronicObserver.Window {
 					if ( group.Expressions == null )
 						group.Expressions = new ExpressionManager();
 
-					using ( var dialog = new DialogShipGroupFilter( group.Expressions ) ) {
-
-						dialog.ImportExpressionData( group.Expressions );
+					using ( var dialog = new DialogShipGroupFilter( group ) ) {
 
 						if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
-							group.Expressions = dialog.ExportExpressionData();
+							// replace
+							int id = group.GroupID;
+							group = dialog.ExportGroupData();
+							group.GroupID = id;
 							group.Expressions.Compile();
+
+							KCDatabase.Instance.ShipGroup.ShipGroups.Remove( id );
+							KCDatabase.Instance.ShipGroup.ShipGroups.Add( group );
 
 							ChangeShipView( SelectedTab );
 						}

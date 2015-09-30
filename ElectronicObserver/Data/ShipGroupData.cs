@@ -252,7 +252,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// フィルタに基づいて検索を実行し、Members に結果をセットします。
 		/// </summary>
-		/// <param name="previousOrder">直前の並び替え順。なるべくこの順番を維持するように結果が生成されます。nullの場合は適当に生成されます。</param>
+		/// <param name="previousOrder">直前の並び替え順。なるべくこの順番を維持するように結果が生成されます。null もしくは 要素数 0 の場合は適当に生成されます。</param>
 		public void UpdateMembers( IEnumerable<int> previousOrder = null ) {
 
 			if ( Expressions == null )
@@ -272,7 +272,7 @@ namespace ElectronicObserver.Data {
 
 			var newdata = Expressions.GetResult( KCDatabase.Instance.Ships.Values ).Select( s => s.MasterID ).Union( InclusionFilter ).Except( ExclusionFilter );
 
-			IEnumerable<int> prev = previousOrder ?? Members ?? new List<int>();
+			IEnumerable<int> prev = ( previousOrder != null && previousOrder.Count() > 0 ) ? previousOrder : ( Members ?? new List<int>() );
 
 			// ソート順序を維持するため
 			Members = prev.Except( prev.Except( newdata ) ).Union( newdata ).ToList();
@@ -309,13 +309,18 @@ namespace ElectronicObserver.Data {
 
 
 
-
+		/// <summary>
+		/// このオブジェクトの複製(ディープ コピー)を作成します。
+		/// </summary>
+		/// <remarks>複製したオブジェクトのIDは必ず -1 になります。適宜再設定してください。</remarks>
 		public ShipGroupData Clone() {
 			var clone = (ShipGroupData)MemberwiseClone();
 			clone.GroupID = -1;
 			clone.ViewColumns = ViewColumns.Select( p => p.Value.Clone() ).ToDictionary( p => p.Name );
 			clone.SortOrder = new List<KeyValuePair<string, ListSortDirection>>( SortOrder );
 			clone.Expressions = Expressions.Clone();
+			clone.InclusionFilter = new List<int>( InclusionFilter );
+			clone.ExclusionFilter = new List<int>( ExclusionFilter );
 			clone.Members = new List<int>( Members );
 
 			return clone;
