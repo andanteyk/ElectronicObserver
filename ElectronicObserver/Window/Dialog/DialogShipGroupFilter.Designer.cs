@@ -24,7 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.ExpressionView = new System.Windows.Forms.DataGridView();
@@ -58,17 +58,17 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.OptimizeConstFilter = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.ClearConstFilter = new System.Windows.Forms.Button();
 			this.ConstFilterView = new System.Windows.Forms.DataGridView();
-			this.ConstFilterSelector = new System.Windows.Forms.ComboBox();
-			this.OptimizeConstFilter = new System.Windows.Forms.Button();
-			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.ConstFilterView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ConstFilterView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ConstFilterView_Up = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.ConstFilterView_Down = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.ConstFilterView_Delete = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.ConstFilterSelector = new System.Windows.Forms.ComboBox();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -423,7 +423,7 @@
 			// 
 			// ButtonCancel
 			// 
-			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.ButtonCancel.Location = new System.Drawing.Point(537, 406);
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
@@ -434,7 +434,7 @@
 			// 
 			// ButtonOK
 			// 
-			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.ButtonOK.Location = new System.Drawing.Point(456, 406);
 			this.ButtonOK.Name = "ButtonOK";
 			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
@@ -475,13 +475,25 @@
 			this.tabPage2.Controls.Add(this.ClearConstFilter);
 			this.tabPage2.Controls.Add(this.ConstFilterView);
 			this.tabPage2.Controls.Add(this.ConstFilterSelector);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(616, 375);
+			this.tabPage2.Size = new System.Drawing.Size(616, 377);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "包含/除外リスト";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// OptimizeConstFilter
+			// 
+			this.OptimizeConstFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.OptimizeConstFilter.Location = new System.Drawing.Point(452, 42);
+			this.OptimizeConstFilter.Name = "OptimizeConstFilter";
+			this.OptimizeConstFilter.Size = new System.Drawing.Size(75, 23);
+			this.OptimizeConstFilter.TabIndex = 2;
+			this.OptimizeConstFilter.Text = "最適化";
+			this.toolTip1.SetToolTip(this.OptimizeConstFilter, "存在しない艦娘をリストから削除します。");
+			this.OptimizeConstFilter.UseVisualStyleBackColor = true;
+			this.OptimizeConstFilter.Click += new System.EventHandler(this.OptimizeConstFilter_Click);
 			// 
 			// label1
 			// 
@@ -531,37 +543,10 @@
 			this.ConstFilterView.TabIndex = 4;
 			this.ConstFilterView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ConstFilterView_CellContentClick);
 			// 
-			// ConstFilterSelector
-			// 
-			this.ConstFilterSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConstFilterSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.ConstFilterSelector.FormattingEnabled = true;
-			this.ConstFilterSelector.Items.AddRange(new object[] {
-            "包含リスト",
-            "除外リスト"});
-			this.ConstFilterSelector.Location = new System.Drawing.Point(8, 42);
-			this.ConstFilterSelector.Name = "ConstFilterSelector";
-			this.ConstFilterSelector.Size = new System.Drawing.Size(438, 23);
-			this.ConstFilterSelector.TabIndex = 1;
-			this.ConstFilterSelector.SelectedIndexChanged += new System.EventHandler(this.ConstFilterSelector_SelectedIndexChanged);
-			// 
-			// OptimizeConstFilter
-			// 
-			this.OptimizeConstFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.OptimizeConstFilter.Location = new System.Drawing.Point(452, 42);
-			this.OptimizeConstFilter.Name = "OptimizeConstFilter";
-			this.OptimizeConstFilter.Size = new System.Drawing.Size(75, 23);
-			this.OptimizeConstFilter.TabIndex = 2;
-			this.OptimizeConstFilter.Text = "最適化";
-			this.toolTip1.SetToolTip(this.OptimizeConstFilter, "存在しない艦娘をリストから削除します。");
-			this.OptimizeConstFilter.UseVisualStyleBackColor = true;
-			this.OptimizeConstFilter.Click += new System.EventHandler(this.OptimizeConstFilter_Click);
-			// 
 			// ConstFilterView_ID
 			// 
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ConstFilterView_ID.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ConstFilterView_ID.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ConstFilterView_ID.HeaderText = "ID";
 			this.ConstFilterView_ID.Name = "ConstFilterView_ID";
 			this.ConstFilterView_ID.ReadOnly = true;
@@ -601,6 +586,21 @@
 			this.ConstFilterView_Delete.ReadOnly = true;
 			this.ConstFilterView_Delete.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.ConstFilterView_Delete.Width = 20;
+			// 
+			// ConstFilterSelector
+			// 
+			this.ConstFilterSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ConstFilterSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.ConstFilterSelector.FormattingEnabled = true;
+			this.ConstFilterSelector.Items.AddRange(new object[] {
+            "包含リスト",
+            "除外リスト"});
+			this.ConstFilterSelector.Location = new System.Drawing.Point(8, 42);
+			this.ConstFilterSelector.Name = "ConstFilterSelector";
+			this.ConstFilterSelector.Size = new System.Drawing.Size(438, 23);
+			this.ConstFilterSelector.TabIndex = 1;
+			this.ConstFilterSelector.SelectedIndexChanged += new System.EventHandler(this.ConstFilterSelector_SelectedIndexChanged);
 			// 
 			// DialogShipGroupFilter
 			// 

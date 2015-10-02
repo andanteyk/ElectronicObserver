@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.ShipGroup;
+using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace ElectronicObserver.Window.Dialog {
 				ExpressionDetailView_Enabled.HeaderCell.Style =
 				ConstFilterView_Up.HeaderCell.Style =
 				ConstFilterView_Down.HeaderCell.Style =
-				ConstFilterView_Delete.HeaderCell.Style = 
+				ConstFilterView_Delete.HeaderCell.Style =
 				headercenter;
 			}
 
@@ -457,6 +458,9 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.Enabled = true;
 				Operator.DataSource = _dtOperator_number;
 
+				RightOperand_NumericUpDown.DecimalPlaces = 0;
+				RightOperand_NumericUpDown.Increment = 1m;
+
 				switch ( left ) {
 					case ".MasterID":
 						RightOperand_NumericUpDown.Minimum = 0;
@@ -492,7 +496,7 @@ namespace ElectronicObserver.Window.Dialog {
 					case ".RepairTime":
 						RightOperand_NumericUpDown.Minimum = 0;
 						RightOperand_NumericUpDown.Maximum = int.MaxValue;
-						Description.Text = "(ミリ秒単位)";
+						RightOperand_NumericUpDown.Increment = 60000;
 						break;
 					case ".SlotSize":
 						RightOperand_NumericUpDown.Minimum = 0;
@@ -503,8 +507,6 @@ namespace ElectronicObserver.Window.Dialog {
 						RightOperand_NumericUpDown.Maximum = 9999;
 						break;
 				}
-				RightOperand_NumericUpDown.DecimalPlaces = 0;
-				RightOperand_NumericUpDown.Increment = 1m;
 				RightOperand_NumericUpDown.Value = right == null ? RightOperand_NumericUpDown.Minimum : (int)right;
 				UpdateDescriptionFromNumericUpDown();
 
@@ -591,6 +593,9 @@ namespace ElectronicObserver.Window.Dialog {
 				RightOperand_TextBox.Enabled = true;
 				Operator.Enabled = true;
 				Operator.DataSource = _dtOperator_string;
+
+				if ( left == ".FleetWithIndex" )
+					Description.Text = "例: \"1-1\" =第一艦隊旗艦, \"1-\" =第一艦隊, \r\n\"-\" =艦隊所属艦";
 
 				RightOperand_TextBox.Text = right == null ? "" : right.ToString();
 
@@ -958,19 +963,24 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void ExpressionDetailView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
+			if ( e.RowIndex < 0 ) return;
+
+			int procrow = GetSelectedRow( ExpressionView );
+			if ( procrow == -1 ) {
+				return;
+			}
+
 			if ( e.ColumnIndex == ExpressionDetailView_LeftOperand.Index ) {
-				var row = _dtLeftOperand.AsEnumerable().FirstOrDefault( r => r["Value"].Equals( (string)e.Value ) );
-				if ( row != null ) {
-					e.Value = row["Display"];
-					e.FormattingApplied = true;
-				}
+				e.Value = _group.Expressions[procrow].Expressions[e.RowIndex].LeftOperandToString();
+				e.FormattingApplied = true;
 
 			} else if ( e.ColumnIndex == ExpressionDetailView_Operator.Index ) {
-				var row = _dtOperator.AsEnumerable().FirstOrDefault( r => r["Value"].Equals( (int)e.Value ) );
-				if ( row != null ) {
-					e.Value = row["Display"];
-					e.FormattingApplied = true;
-				}
+				e.Value = _group.Expressions[procrow].Expressions[e.RowIndex].OperatorToString();
+				e.FormattingApplied = true;
+
+			} else if ( e.ColumnIndex == ExpressionDetailView_RightOperand.Index ) {
+				e.Value = _group.Expressions[procrow].Expressions[e.RowIndex].RightOperandToString();
+				e.FormattingApplied = true;
 			}
 
 		}
@@ -1002,20 +1012,36 @@ namespace ElectronicObserver.Window.Dialog {
 				case ".ShipID": {
 						var ship = KCDatabase.Instance.MasterShips[intvalue];
 						if ( ship != null ) {
-							Description.Text = ship.ShipTypeName + " " + ship.Name;
+							Description.Text = ship.ShipTypeName + " " + ship.NameWithClass;
 						} else {
 							Description.Text = "(存在せず)";
 						}
 					} break;
+
+				case ".RepairTime": {
+						Description.Text = string.Format( "(ミリ秒単位) {0}", DateTimeHelper.ToTimeRemainString( DateTimeHelper.FromAPITimeSpan( intvalue ) ) );
+					} break;
+
+				case ".MasterShip.AlbumNo": {
+						var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault( s => s.AlbumNo == intvalue );
+						if ( ship == null )
+							Description.Text = "(存在せず)";
+						else
+							Description.Text = ship.ShipTypeName + " " + ship.NameWithClass;
+
+					} break;
+
 				case ".MasterShip.RemodelBeforeShipID": {
 						if ( intvalue == 0 ) {
 							Description.Text = "(未改装)";
 						} else {
 							var ship = KCDatabase.Instance.MasterShips[intvalue];
 							if ( ship == null )
-								Description.Text = "(無効)";
+								Description.Text = "(存在せず)";
+							else if ( ship.RemodelAfterShipID == 0 )
+								Description.Text = ship.ShipTypeName + " " + ship.NameWithClass + " (該当艦なし)";
 							else
-								Description.Text = ship.NameWithClass;
+								Description.Text = ship.ShipTypeName + " " + ship.NameWithClass;
 						}
 					} break;
 
@@ -1025,11 +1051,17 @@ namespace ElectronicObserver.Window.Dialog {
 						} else {
 							var ship = KCDatabase.Instance.MasterShips[intvalue];
 							if ( ship == null )
-								Description.Text = "(無効)";
+								Description.Text = "(存在せず)";
+							else if ( ship.RemodelBeforeShipID == 0 )
+								Description.Text = ship.ShipTypeName + " " + ship.NameWithClass + " (該当艦なし)";
 							else
-								Description.Text = ship.NameWithClass;
+								Description.Text = ship.ShipTypeName + " " + ship.NameWithClass;
 						}
 					} break;
+			}
+
+			if ( left.Contains( "Rate" ) ) {
+				Description.Text = RightOperand_NumericUpDown.Value.ToString( "P0" );
 			}
 
 		}
