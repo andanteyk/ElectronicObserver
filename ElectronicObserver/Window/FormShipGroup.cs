@@ -537,6 +537,30 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ShipView_SelectionChanged( object sender, EventArgs e ) {
+
+			var group = CurrentGroup;
+			if ( KCDatabase.Instance.Ships.Count > 0 && group != null ) {
+				if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) >= 2 ) {
+					var ships = ShipView.SelectedRows.Cast<DataGridViewRow>().Select( r => KCDatabase.Instance.Ships[(int)r.Cells[ShipView_ID.Index].Value] );
+					Status_ShipCount.Text = string.Format( "選択: {0} / {1}隻", ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ), group.Members.Count );
+					Status_LevelTotal.Text = string.Format( "合計Lv: {0}", ships.Sum( s => s.Level ) );
+					Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", ships.Average( s => s.Level ) );
+
+				} else {
+					Status_ShipCount.Text = string.Format( "所属: {0}隻", group.Members.Count );
+					Status_LevelTotal.Text = string.Format( "合計Lv: {0}", group.MembersInstance.Where( s => s != null ).Sum( s => s.Level ) );
+					Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", group.Members.Count > 0 ? group.MembersInstance.Where( s => s != null ).Average( s => s.Level ) : 0 );
+				}
+
+			} else {
+				Status_ShipCount.Text =
+				Status_LevelTotal.Text =
+				Status_LevelAverage.Text = "";
+			}
+		}
+
+
 		private void ShipView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
 			if ( e.ColumnIndex == ShipView_ShipType.Index ) {
@@ -853,11 +877,20 @@ namespace ElectronicObserver.Window {
 				return;
 			}
 
+			if ( KCDatabase.Instance.Ships.Count == 0 ) {
+				MenuMember_Filter.Enabled = false;
+				MenuMember_CSVOutput.Enabled = false;
+
+			} else {
+				MenuMember_Filter.Enabled = true;
+				MenuMember_CSVOutput.Enabled = true;
+			}
+
 			if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) == 0 ) {
 				MenuMember_AddToGroup.Enabled = false;
 				MenuMember_CreateGroup.Enabled = false;
 				MenuMember_Exclude.Enabled = false;
-
+				
 			} else {
 				MenuMember_AddToGroup.Enabled = true;
 				MenuMember_CreateGroup.Enabled = true;
@@ -1082,58 +1115,6 @@ namespace ElectronicObserver.Window {
 
 		}
 
-
-		private void MenuMember_ConvertToExpression_Click( object sender, EventArgs e ) {
-
-			var group = CurrentGroup;
-			if ( group != null ) {
-
-				if ( MessageBox.Show( "現在の包含/除外リストを式に変換します。\r\n変換後に包含/除外リストは空になります。\r\nよろしいですか？", "確認",
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
-					== System.Windows.Forms.DialogResult.Yes ) {
-
-					if ( group.InclusionFilter.Count > 0 ) {
-						group.Expressions.Expressions.Add( new ExpressionList( false, false, false ) );
-						var exlist = group.Expressions.Expressions.Last();
-						foreach ( var id in group.InclusionFilter ) {
-							exlist.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
-						}
-						group.InclusionFilter.Clear();
-					}
-					if ( group.ExclusionFilter.Count > 0 ) {
-						group.Expressions.Expressions.Add( new ExpressionList( false, true, true ) );
-						var exlist = group.Expressions.Expressions.Last();
-
-						foreach ( var id in group.ExclusionFilter ) {
-							exlist.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
-						}
-						group.ExclusionFilter.Clear();
-					}
-					group.Expressions.Compile();
-
-					ChangeShipView( SelectedTab );
-				}
-
-			}
-
-		}
-
-		private void MenuMember_InitList_Click( object sender, EventArgs e ) {
-
-			var group = CurrentGroup;
-			if ( group != null ) {
-
-				if ( MessageBox.Show( "包含/除外リストを初期化します。\r\nこの操作は元に戻せません。\r\nよろしいですか？", "確認",
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
-					== System.Windows.Forms.DialogResult.Yes ) {
-
-					group.InclusionFilter.Clear();
-					group.ExclusionFilter.Clear();
-
-					ChangeShipView( SelectedTab );
-				}
-			}
-		}
 
 
 

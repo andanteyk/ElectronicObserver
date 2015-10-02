@@ -234,6 +234,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		/// <summary>
+		/// グループデータをコピーし、UIを初期化します。
+		/// </summary>
+		/// <param name="group">対象となるグループ。コピーされるためこのインスタンスには変更は適用されません。</param>
 		public void ImportGroupData( ShipGroupData group ) {
 
 			_group = group.Clone();
@@ -259,12 +263,13 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-
+		/// <summary>
+		/// 編集したグループデータを出力します。
+		/// </summary>
 		public ShipGroupData ExportGroupData() {
 
 			return _group;
 		}
-
 
 
 		private DataGridViewRow GetExpressionViewRow( ExpressionList exp ) {
@@ -593,9 +598,6 @@ namespace ElectronicObserver.Window.Dialog {
 				RightOperand_TextBox.Enabled = true;
 				Operator.Enabled = true;
 				Operator.DataSource = _dtOperator_string;
-
-				if ( left == ".FleetWithIndex" )
-					Description.Text = "例: \"1-1\" =第一艦隊旗艦, \"1-\" =第一艦隊, \r\n\"-\" =艦隊所属艦";
 
 				RightOperand_TextBox.Text = right == null ? "" : right.ToString();
 
@@ -1038,10 +1040,10 @@ namespace ElectronicObserver.Window.Dialog {
 							var ship = KCDatabase.Instance.MasterShips[intvalue];
 							if ( ship == null )
 								Description.Text = "(存在せず)";
-							else if ( ship.RemodelAfterShipID == 0 )
-								Description.Text = ship.ShipTypeName + " " + ship.NameWithClass + " (該当艦なし)";
-							else
-								Description.Text = ship.ShipTypeName + " " + ship.NameWithClass;
+							else {
+								var before = ship.RemodelBeforeShip;
+								Description.Text = ship.NameWithClass + " ← " + ( before == null ? "×" : before.NameWithClass );
+							}
 						}
 					} break;
 
@@ -1052,10 +1054,10 @@ namespace ElectronicObserver.Window.Dialog {
 							var ship = KCDatabase.Instance.MasterShips[intvalue];
 							if ( ship == null )
 								Description.Text = "(存在せず)";
-							else if ( ship.RemodelBeforeShipID == 0 )
-								Description.Text = ship.ShipTypeName + " " + ship.NameWithClass + " (該当艦なし)";
-							else
-								Description.Text = ship.ShipTypeName + " " + ship.NameWithClass;
+							else {
+								var after = ship.RemodelAfterShip;
+								Description.Text = ship.NameWithClass + " → " + ( after == null ? "×" : after.NameWithClass );
+							}
 						}
 					} break;
 			}
@@ -1112,6 +1114,37 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 
 				UpdateConstFilterView();
+			}
+		}
+
+		private void ConvertToExpression_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "現在の包含/除外リストを式に変換します。\r\n逆変換はできません。\r\nよろしいですか？", "確認",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
+					== System.Windows.Forms.DialogResult.Yes ) {
+
+				if ( _group.InclusionFilter.Count > 0 ) {
+					_group.Expressions.Expressions.Add( new ExpressionList( false, false, false ) );
+					var exlist = _group.Expressions.Expressions.Last();
+					foreach ( var id in _group.InclusionFilter ) {
+						exlist.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
+					}
+					_group.InclusionFilter.Clear();
+				}
+				if ( _group.ExclusionFilter.Count > 0 ) {
+					_group.Expressions.Expressions.Add( new ExpressionList( false, true, true ) );
+					var exlist = _group.Expressions.Expressions.Last();
+
+					foreach ( var id in _group.ExclusionFilter ) {
+						exlist.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
+					}
+					_group.ExclusionFilter.Clear();
+				}
+
+
+				// UI初期化が面倒だった。今は反省している
+				ImportGroupData( _group );
+
 			}
 		}
 

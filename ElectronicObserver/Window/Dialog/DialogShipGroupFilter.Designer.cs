@@ -24,7 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.ExpressionView = new System.Windows.Forms.DataGridView();
@@ -69,6 +69,7 @@
 			this.ConstFilterView_Delete = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.ConstFilterSelector = new System.Windows.Forms.ComboBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.ConvertToExpression = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -470,15 +471,16 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.ConvertToExpression);
 			this.tabPage2.Controls.Add(this.OptimizeConstFilter);
 			this.tabPage2.Controls.Add(this.label1);
 			this.tabPage2.Controls.Add(this.ClearConstFilter);
 			this.tabPage2.Controls.Add(this.ConstFilterView);
 			this.tabPage2.Controls.Add(this.ConstFilterSelector);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(616, 377);
+			this.tabPage2.Size = new System.Drawing.Size(616, 375);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "包含/除外リスト";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -486,7 +488,7 @@
 			// OptimizeConstFilter
 			// 
 			this.OptimizeConstFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.OptimizeConstFilter.Location = new System.Drawing.Point(452, 42);
+			this.OptimizeConstFilter.Location = new System.Drawing.Point(371, 42);
 			this.OptimizeConstFilter.Name = "OptimizeConstFilter";
 			this.OptimizeConstFilter.Size = new System.Drawing.Size(75, 23);
 			this.OptimizeConstFilter.TabIndex = 2;
@@ -511,7 +513,7 @@
 			this.ClearConstFilter.Location = new System.Drawing.Point(533, 42);
 			this.ClearConstFilter.Name = "ClearConstFilter";
 			this.ClearConstFilter.Size = new System.Drawing.Size(75, 23);
-			this.ClearConstFilter.TabIndex = 3;
+			this.ClearConstFilter.TabIndex = 4;
 			this.ClearConstFilter.Text = "初期化";
 			this.toolTip1.SetToolTip(this.ClearConstFilter, "リストの内容をすべて削除します。");
 			this.ClearConstFilter.UseVisualStyleBackColor = true;
@@ -539,14 +541,14 @@
 			this.ConstFilterView.RowHeadersVisible = false;
 			this.ConstFilterView.RowTemplate.Height = 21;
 			this.ConstFilterView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ConstFilterView.Size = new System.Drawing.Size(600, 292);
-			this.ConstFilterView.TabIndex = 4;
+			this.ConstFilterView.Size = new System.Drawing.Size(600, 290);
+			this.ConstFilterView.TabIndex = 5;
 			this.ConstFilterView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ConstFilterView_CellContentClick);
 			// 
 			// ConstFilterView_ID
 			// 
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ConstFilterView_ID.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ConstFilterView_ID.DefaultCellStyle = dataGridViewCellStyle3;
 			this.ConstFilterView_ID.HeaderText = "ID";
 			this.ConstFilterView_ID.Name = "ConstFilterView_ID";
 			this.ConstFilterView_ID.ReadOnly = true;
@@ -598,9 +600,21 @@
             "除外リスト"});
 			this.ConstFilterSelector.Location = new System.Drawing.Point(8, 42);
 			this.ConstFilterSelector.Name = "ConstFilterSelector";
-			this.ConstFilterSelector.Size = new System.Drawing.Size(438, 23);
+			this.ConstFilterSelector.Size = new System.Drawing.Size(357, 23);
 			this.ConstFilterSelector.TabIndex = 1;
 			this.ConstFilterSelector.SelectedIndexChanged += new System.EventHandler(this.ConstFilterSelector_SelectedIndexChanged);
+			// 
+			// ConvertToExpression
+			// 
+			this.ConvertToExpression.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ConvertToExpression.Location = new System.Drawing.Point(452, 42);
+			this.ConvertToExpression.Name = "ConvertToExpression";
+			this.ConvertToExpression.Size = new System.Drawing.Size(75, 23);
+			this.ConvertToExpression.TabIndex = 3;
+			this.ConvertToExpression.Text = "式に変換";
+			this.toolTip1.SetToolTip(this.ConvertToExpression, "包含/除外リストを式に変換します。\r\n逆変換はできないのでご注意ください。");
+			this.ConvertToExpression.UseVisualStyleBackColor = true;
+			this.ConvertToExpression.Click += new System.EventHandler(this.ConvertToExpression_Click);
 			// 
 			// DialogShipGroupFilter
 			// 
@@ -614,7 +628,7 @@
 			this.MinimizeBox = false;
 			this.Name = "DialogShipGroupFilter";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "フィルタ";
+			this.Text = "フィルタ設定";
 			this.Load += new System.EventHandler(this.DialogShipGroupFilter_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
@@ -687,5 +701,6 @@
 		private System.Windows.Forms.DataGridViewButtonColumn ConstFilterView_Up;
 		private System.Windows.Forms.DataGridViewButtonColumn ConstFilterView_Down;
 		private System.Windows.Forms.DataGridViewButtonColumn ConstFilterView_Delete;
+		private System.Windows.Forms.Button ConvertToExpression;
 	}
 }
