@@ -416,7 +416,7 @@ namespace ElectronicObserver.Window {
 			IsRowsUpdating = true;
 			ShipView.SuspendLayout();
 
-			group.UpdateMembers( ShipView.Rows.Cast<DataGridViewRow>().Select( r => (int)r.Cells[ShipView_ID.Index].Value ) );
+			UpdateMembers( group );
 
 			ShipView.Rows.Clear();
 
@@ -479,13 +479,20 @@ namespace ElectronicObserver.Window {
 			if ( target == null ) return;
 
 
-			int groupID = (int)target.Tag;
-			var group = KCDatabase.Instance.ShipGroup[groupID];
-
+			var group = KCDatabase.Instance.ShipGroup[(int)target.Tag];
+			var currentGroup = CurrentGroup;
 
 			if ( group == null ) {
 				Utility.Logger.Add( 3, "エラー：存在しないグループを参照しようとしました。開発者に連絡してください" );
 				return;
+			}
+
+			if ( currentGroup != null ) {
+
+				UpdateMembers( currentGroup );
+
+				if ( CurrentGroup.GroupID != group.GroupID )
+					ShipView.Rows.Clear();		//別グループの行の並び順を引き継がせないようにする
 			}
 
 
@@ -511,6 +518,22 @@ namespace ElectronicObserver.Window {
 					ship.ExpansionSlotInstance == null ? "(なし)" : ship.ExpansionSlotInstance.NameWithLevel;
 			}
 
+		}
+
+
+		/// <summary>
+		/// 現在選択している艦船のIDリストを求めます。
+		/// </summary>
+		private IEnumerable<int> GetSelectedShipID() {
+			return ShipView.SelectedRows.Cast<DataGridViewRow>().OrderBy( r => r.Index ).Select( r => (int)r.Cells[ShipView_ID.Index].Value );
+		}
+
+
+		/// <summary>
+		/// 現在の表を基に、グループメンバーを更新します。
+		/// </summary>
+		private void UpdateMembers( ShipGroupData group ) {
+			group.UpdateMembers( ShipView.Rows.Cast<DataGridViewRow>().Select( r => (int)r.Cells[ShipView_ID.Index].Value ) );
 		}
 
 
@@ -830,6 +853,18 @@ namespace ElectronicObserver.Window {
 				return;
 			}
 
+			if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) == 0 ) {
+				MenuMember_AddToGroup.Enabled = false;
+				MenuMember_CreateGroup.Enabled = false;
+				MenuMember_Exclude.Enabled = false;
+
+			} else {
+				MenuMember_AddToGroup.Enabled = true;
+				MenuMember_CreateGroup.Enabled = true;
+				MenuMember_Exclude.Enabled = true;
+
+			}
+
 		}
 		#endregion
 
@@ -879,16 +914,18 @@ namespace ElectronicObserver.Window {
 					if ( group.Expressions == null )
 						group.Expressions = new ExpressionManager();
 
-					using ( var dialog = new DialogShipGroupFilter( group.Expressions ) ) {
-
-						dialog.ImportExpressionData( group.Expressions );
+					using ( var dialog = new DialogShipGroupFilter( group ) ) {
 
 						if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
-							group.Expressions = dialog.ExportExpressionData();
-
+							// replace
+							int id = group.GroupID;
+							group = dialog.ExportGroupData();
+							group.GroupID = id;
 							group.Expressions.Compile();
-							group.UpdateMembers( ShipView.Rows.Cast<DataGridViewRow>().Select( r => (int)r.Cells[ShipView_ID.Index].Value ) );
+
+							KCDatabase.Instance.ShipGroup.ShipGroups.Remove( id );
+							KCDatabase.Instance.ShipGroup.ShipGroups.Add( group );
 
 							ChangeShipView( SelectedTab );
 						}
@@ -976,12 +1013,35 @@ namespace ElectronicObserver.Window {
 
 
 
-		private void MenuMember_CreateFromSelection_Click( object sender, EventArgs e ) {
 
-			if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) == 0 )
+
+		private void MenuMember_AddToGroup_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogTextSelect( "グループの選択", "追加するグループを選択してください：",
+				KCDatabase.Instance.ShipGroup.ShipGroups.Values.ToArray() ) ) {
+
+				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
+
+					var group = (ShipGroupData)dialog.SelectedItem;
+					if ( group != null ) {
+						group.AddInclusionFilter( GetSelectedShipID() );
+
+						if ( group.ID == CurrentGroup.ID )
+							ChangeShipView( SelectedTab );
+					}
+
+				}
+			}
+
+		}
+
+		private void MenuMember_CreateGroup_Click( object sender, EventArgs e ) {
+
+			var ships = GetSelectedShipID();
+			if ( ships.Count() == 0 )
 				return;
 
-			using ( var dialog = new DialogTextInput( "選択範囲から固定グループを作成", "グループ名を入力してください：" ) ) {
+			using ( var dialog = new DialogTextInput( "グループの追加", "グループ名を入力してください：" ) ) {
 
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
@@ -996,20 +1056,85 @@ namespace ElectronicObserver.Window {
 						group.ViewColumns.Add( ShipView.Columns[i].Name, newdata );
 					}
 
+					// 艦船ID == 0 を作成(空リストを作る)
 					group.Expressions.Expressions.Add( new ExpressionList( false, true, false ) );
+					group.Expressions.Expressions[0].Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, 0 ) );
+					group.Expressions.Compile();
 
-					var exp = group.Expressions.Expressions[0];
-					foreach ( int id in ShipView.SelectedRows.Cast<DataGridViewRow>().Select( r => (int)r.Cells[ShipView_ID.Index].Value ) ) {
-						exp.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
-					}
+					group.AddInclusionFilter( ships );
 
 					TabPanel.Controls.Add( CreateTabLabel( group.GroupID ) );
 
 				}
 
 			}
+		}
+
+		private void MenuMember_Exclude_Click( object sender, EventArgs e ) {
+
+			var group = CurrentGroup;
+			if ( group != null ) {
+
+				group.AddExclusionFilter( GetSelectedShipID() );
+
+				ChangeShipView( SelectedTab );
+			}
 
 		}
+
+
+		private void MenuMember_ConvertToExpression_Click( object sender, EventArgs e ) {
+
+			var group = CurrentGroup;
+			if ( group != null ) {
+
+				if ( MessageBox.Show( "現在の包含/除外リストを式に変換します。\r\n変換後に包含/除外リストは空になります。\r\nよろしいですか？", "確認",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
+					== System.Windows.Forms.DialogResult.Yes ) {
+
+					if ( group.InclusionFilter.Count > 0 ) {
+						group.Expressions.Expressions.Add( new ExpressionList( false, false, false ) );
+						var exlist = group.Expressions.Expressions.Last();
+						foreach ( var id in group.InclusionFilter ) {
+							exlist.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
+						}
+						group.InclusionFilter.Clear();
+					}
+					if ( group.ExclusionFilter.Count > 0 ) {
+						group.Expressions.Expressions.Add( new ExpressionList( false, true, true ) );
+						var exlist = group.Expressions.Expressions.Last();
+
+						foreach ( var id in group.ExclusionFilter ) {
+							exlist.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
+						}
+						group.ExclusionFilter.Clear();
+					}
+					group.Expressions.Compile();
+
+					ChangeShipView( SelectedTab );
+				}
+
+			}
+
+		}
+
+		private void MenuMember_InitList_Click( object sender, EventArgs e ) {
+
+			var group = CurrentGroup;
+			if ( group != null ) {
+
+				if ( MessageBox.Show( "包含/除外リストを初期化します。\r\nこの操作は元に戻せません。\r\nよろしいですか？", "確認",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+					== System.Windows.Forms.DialogResult.Yes ) {
+
+					group.InclusionFilter.Clear();
+					group.ExclusionFilter.Clear();
+
+					ChangeShipView( SelectedTab );
+				}
+			}
+		}
+
 
 
 

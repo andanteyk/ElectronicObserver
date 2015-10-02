@@ -14,7 +14,7 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogShipGroupFilter : Form {
 
-		private ExpressionManager _target;
+		private ShipGroupData _group;
 
 
 		#region DataTable
@@ -34,8 +34,25 @@ namespace ElectronicObserver.Window.Dialog {
 		private DataTable _dtRightOperand_equipment;
 		#endregion
 
-		public DialogShipGroupFilter( ExpressionManager exp ) {
+		public DialogShipGroupFilter( ShipGroupData group ) {
 			InitializeComponent();
+
+			{
+				// 一部の列ヘッダを中央揃えにする
+				var headercenter = new DataGridViewCellStyle( ExpressionView_Enabled.HeaderCell.Style );
+				headercenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
+				ExpressionView_Enabled.HeaderCell.Style =
+				ExpressionView_InternalAndOr.HeaderCell.Style =
+				ExpressionView_ExternalAndOr.HeaderCell.Style =
+				ExpressionView_Inverse.HeaderCell.Style =
+				ExpressionView_Up.HeaderCell.Style =
+				ExpressionView_Down.HeaderCell.Style =
+				ExpressionDetailView_Enabled.HeaderCell.Style =
+				ConstFilterView_Up.HeaderCell.Style =
+				ConstFilterView_Down.HeaderCell.Style =
+				ConstFilterView_Delete.HeaderCell.Style = 
+				headercenter;
+			}
 
 
 			#region init DataTable
@@ -204,10 +221,9 @@ namespace ElectronicObserver.Window.Dialog {
 			#endregion
 
 
-			_target = exp.Clone();
+			ConstFilterSelector.SelectedIndex = 0;
 
-			LabelResult.Tag = false;
-			UpdateExpressionLabel();
+			ImportGroupData( group );
 		}
 
 		private void DialogShipGroupFilter_Load( object sender, EventArgs e ) {
@@ -217,30 +233,35 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		public void ImportExpressionData( ExpressionManager exm ) {
+		public void ImportGroupData( ShipGroupData group ) {
 
-			_target = exm.Clone();
+			_group = group.Clone();
 
 			ExpressionView.Rows.Clear();
 
 
-			var rows = new DataGridViewRow[exm.Expressions.Count];
+			var rows = new DataGridViewRow[group.Expressions.Expressions.Count];
 			for ( int i = 0; i < rows.Length; i++ ) {
-				rows[i] = GetExpressionViewRow( exm.Expressions[i] );
+				rows[i] = GetExpressionViewRow( group.Expressions.Expressions[i] );
 			}
 
 			ExpressionView.Rows.AddRange( rows.ToArray() );
 
-
 			ExpressionDetailView.Rows.Clear();
+
+			LabelResult.Tag = false;
+			UpdateExpressionLabel();
+
+
+			UpdateConstFilterView();
 
 		}
 
 
 
-		public ExpressionManager ExportExpressionData() {
+		public ShipGroupData ExportGroupData() {
 
-			return _target;
+			return _group;
 		}
 
 
@@ -280,12 +301,39 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		/// <summary>
+		/// 包含/除外フィルタの表示を更新します。
+		/// </summary>
+		private void UpdateConstFilterView() {
+
+			List<int> values = ConstFilterSelector.SelectedIndex == 0 ? _group.InclusionFilter : _group.ExclusionFilter;
+
+			ConstFilterView.Rows.Clear();
+
+			var rows = new DataGridViewRow[values.Count];
+			for ( int i = 0; i < rows.Length; i++ ) {
+				rows[i] = new DataGridViewRow();
+				rows[i].CreateCells( ConstFilterView );
+
+				var ship = KCDatabase.Instance.Ships[values[i]];
+				rows[i].SetValues( values[i], ship == null ? "(未在籍)" : ship.NameWithLevel );
+			}
+
+			ConstFilterView.Rows.AddRange( rows );
+
+		}
+
+		private List<int> GetConstFilterFromUI() {
+			return ConstFilterSelector.SelectedIndex == 0 ? _group.InclusionFilter : _group.ExclusionFilter;
+		}
+
 
 		/// <summary>
-		/// 
+		/// 指定された式から、式UIを初期化します。
 		/// </summary>
-		/// <param name="left"></param>
-		/// <param name="right"></param>
+		/// <param name="left">左辺値。</param>
+		/// <param name="right">右辺値。指定しなければ null。</param>
+		/// <param name="ope">演算子。指定しなければ null。</param>
 		private void SetExpressionSetter( string left, object right = null, ExpressionData.ExpressionOperator? ope = null ) {
 
 			Type lefttype = ExpressionData.GetLeftOperandType( left );
@@ -570,9 +618,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 			int index = ExpressionView.SelectedRows.Count == 0 ? -1 : ExpressionView.SelectedRows[0].Index;
 
-			if ( index < 0 || _target.Expressions.Count <= index ) return;
+			if ( index < 0 || _group.Expressions.Expressions.Count <= index ) return;
 
-			var ex = _target.Expressions[index];
+			var ex = _group.Expressions.Expressions[index];
 
 
 
@@ -597,7 +645,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( index < 0 ) return;
 
-			ExpressionData exp = _target[ExpressionView.SelectedRows[0].Index][index];
+			ExpressionData exp = _group.Expressions[ExpressionView.SelectedRows[0].Index][index];
 
 			SetExpressionSetter( exp.LeftOperand, exp.RightOperand, exp.Operator );
 
@@ -614,7 +662,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			var exp = new ExpressionList();
 
-			_target.Expressions.Insert( insertrow + 1, exp );
+			_group.Expressions.Expressions.Insert( insertrow + 1, exp );
 			ExpressionView.Rows.Insert( insertrow + 1, GetExpressionViewRow( exp ) );
 
 			ExpressionUpdated();
@@ -629,7 +677,7 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
-			_target.Expressions.RemoveAt( selectedrow );
+			_group.Expressions.Expressions.RemoveAt( selectedrow );
 			ExpressionView.Rows.RemoveAt( selectedrow );
 
 			if ( ExpressionView.Rows.Count == 0 )
@@ -698,7 +746,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			var exp = BuildExpressionDataFromUI();
 
-			_target.Expressions[procrow].Expressions.Add( exp );
+			_group.Expressions.Expressions[procrow].Expressions.Add( exp );
 			ExpressionDetailView.Rows.Add( GetExpressionDetailViewRow( exp ) );
 
 			UpdateExpressionViewRow( procrow );
@@ -721,7 +769,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			var exp = BuildExpressionDataFromUI();
 
-			_target.Expressions[procrow].Expressions[selectedrow] = exp;
+			_group.Expressions.Expressions[procrow].Expressions[selectedrow] = exp;
 			ExpressionDetailView.Rows.Insert( selectedrow, GetExpressionDetailViewRow( exp ) );
 			ExpressionDetailView.Rows.RemoveAt( selectedrow + 1 );
 
@@ -743,7 +791,7 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
-			_target.Expressions[procrow].Expressions.RemoveAt( selectedrow );
+			_group.Expressions.Expressions[procrow].Expressions.RemoveAt( selectedrow );
 			ExpressionDetailView.Rows.RemoveAt( selectedrow );
 
 			UpdateExpressionViewRow( procrow );
@@ -786,16 +834,16 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( e.RowIndex < 0 ) return;
 
 			if ( e.ColumnIndex == ExpressionView_Enabled.Index ) {
-				_target[e.RowIndex].Enabled = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[e.RowIndex].Enabled = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			} else if ( e.ColumnIndex == ExpressionView_ExternalAndOr.Index ) {
-				_target[e.RowIndex].ExternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[e.RowIndex].ExternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			} else if ( e.ColumnIndex == ExpressionView_Inverse.Index ) {
-				_target[e.RowIndex].Inverse = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[e.RowIndex].Inverse = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			} else if ( e.ColumnIndex == ExpressionView_InternalAndOr.Index ) {
-				_target[e.RowIndex].InternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[e.RowIndex].InternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			}
 
@@ -812,7 +860,7 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 			if ( e.ColumnIndex == ExpressionDetailView_Enabled.Index ) {
-				_target[procrow].Expressions[e.RowIndex].Enabled = (bool)ExpressionDetailView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[procrow].Expressions[e.RowIndex].Enabled = (bool)ExpressionDetailView[e.ColumnIndex, e.RowIndex].Value;
 			}
 
 			UpdateExpressionViewRow( procrow );
@@ -824,7 +872,7 @@ namespace ElectronicObserver.Window.Dialog {
 		/// </summary>
 		/// <param name="index">行インデックス。</param>
 		private void UpdateExpressionViewRow( int index ) {
-			ExpressionView[ExpressionView_Expression.Index, index].Value = _target[index].ToString();
+			ExpressionView[ExpressionView_Expression.Index, index].Value = _group.Expressions[index].ToString();
 			ExpressionUpdated();
 		}
 
@@ -837,10 +885,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void UpdateExpressionLabel() {
 			if ( LabelResult.Tag != null && (bool)LabelResult.Tag ) {
-				_target.Compile();
-				LabelResult.Text = _target.ToExpressionString();
+				_group.Expressions.Compile();
+				LabelResult.Text = _group.Expressions.ToExpressionString();
 			} else {
-				LabelResult.Text = _target.ToString();
+				LabelResult.Text = _group.Expressions.ToString();
 			}
 		}
 
@@ -852,24 +900,49 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( e.RowIndex < 0 ) return;
 
 			if ( e.ColumnIndex == ExpressionView_Up.Index && e.RowIndex > 0 ) {
-				_target.Expressions.Insert( e.RowIndex - 1, _target[e.RowIndex] );
-				_target.Expressions.RemoveAt( e.RowIndex + 1 );
-				//ExpressionView.Rows.Insert( e.RowIndex + 1, GetExpressionViewRow( _target[e.RowIndex] ) );
-				//ExpressionView.Rows.RemoveAt( e.RowIndex - 1 );
+				_group.Expressions.Expressions.Insert( e.RowIndex - 1, _group.Expressions[e.RowIndex] );
+				_group.Expressions.Expressions.RemoveAt( e.RowIndex + 1 );
+
 				ControlHelper.RowMoveUp( ExpressionView, e.RowIndex );
 
 				ExpressionUpdated();
 
 			} else if ( e.ColumnIndex == ExpressionView_Down.Index && e.RowIndex < ExpressionView.Rows.Count - 1 ) {
-				_target.Expressions.Insert( e.RowIndex + 2, _target[e.RowIndex] );
-				_target.Expressions.RemoveAt( e.RowIndex );
-				//ExpressionView.Rows.Insert( e.RowIndex, GetExpressionViewRow( _target[e.RowIndex] ) );
-				//ExpressionView.Rows.RemoveAt( e.RowIndex + 2 );
+				_group.Expressions.Expressions.Insert( e.RowIndex + 2, _group.Expressions[e.RowIndex] );
+				_group.Expressions.Expressions.RemoveAt( e.RowIndex );
+
 				ControlHelper.RowMoveDown( ExpressionView, e.RowIndex );
 
 				ExpressionUpdated();
 			}
 		}
+
+		private void ConstFilterView_CellContentClick( object sender, DataGridViewCellEventArgs e ) {
+
+			// 上下動に意味があるかはおいておいて
+			if ( e.ColumnIndex == ConstFilterView_Up.Index && e.RowIndex > 0 ) {
+				var list = GetConstFilterFromUI();
+				list.Insert( e.RowIndex - 1, list[e.RowIndex] );
+				list.RemoveAt( e.RowIndex + 1 );
+
+				ControlHelper.RowMoveUp( ConstFilterView, e.RowIndex );
+
+			} else if ( e.ColumnIndex == ConstFilterView_Down.Index && e.RowIndex < ConstFilterView.Rows.Count - 1 ) {
+				var list = GetConstFilterFromUI();
+				list.Insert( e.RowIndex + 2, list[e.RowIndex] );
+				list.RemoveAt( e.RowIndex );
+
+				ControlHelper.RowMoveDown( ConstFilterView, e.RowIndex );
+
+			} else if ( e.ColumnIndex == ConstFilterView_Delete.Index && e.RowIndex >= 0 ) {
+				var list = GetConstFilterFromUI();
+				list.RemoveAt( e.RowIndex );
+
+				ConstFilterView.Rows.RemoveAt( e.RowIndex );
+			}
+
+		}
+
 
 		// コンボボックスの即選択
 		private void ExpressionView_CellClick( object sender, DataGridViewCellEventArgs e ) {
@@ -964,6 +1037,50 @@ namespace ElectronicObserver.Window.Dialog {
 		private void LabelResult_Click( object sender, EventArgs e ) {
 			LabelResult.Tag = !(bool)LabelResult.Tag;
 			UpdateExpressionLabel();
+		}
+
+
+
+
+
+		// ConstFilter 関連
+		private void ConstFilterSelector_SelectedIndexChanged( object sender, EventArgs e ) {
+
+			if ( _group != null ) {
+				UpdateConstFilterView();
+			}
+
+		}
+
+		private void OptimizeConstFilter_Click( object sender, EventArgs e ) {
+
+			if ( ConstFilterSelector.SelectedIndex == 0 ) {
+
+				_group.InclusionFilter = _group.InclusionFilter.Intersect( KCDatabase.Instance.Ships.Keys ).ToList();
+
+			} else {
+
+				_group.ExclusionFilter = _group.ExclusionFilter.Intersect( KCDatabase.Instance.Ships.Keys ).ToList();
+			}
+
+			UpdateConstFilterView();
+		}
+
+		private void ClearConstFilter_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( ConstFilterSelector.Text + " を初期化します。\r\nよろしいですか?", "初期化の確認",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				if ( ConstFilterSelector.SelectedIndex == 0 ) {
+					_group.InclusionFilter.Clear();
+
+				} else {
+					_group.ExclusionFilter.Clear();
+				}
+
+				UpdateConstFilterView();
+			}
 		}
 
 
