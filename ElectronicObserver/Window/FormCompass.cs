@@ -425,6 +425,9 @@ namespace ElectronicObserver.Window {
 						case 2:
 							tiptext = "攻撃目標発見！";
 							break;
+						case 3:
+							tiptext = "針路哨戒！";
+							break;
 						default:
 							tiptext = "索敵機発艦！";
 							break;
@@ -700,19 +703,20 @@ namespace ElectronicObserver.Window {
 
 		private void TextEnemyFleetName_MouseDown( object sender, MouseEventArgs e ) {
 
-			if ( e.Button != System.Windows.Forms.MouseButtons.Left ) return;
-
-			NextEnemyFleetCandidate();
+			if ( e.Button == System.Windows.Forms.MouseButtons.Left )
+				NextEnemyFleetCandidate();
+			else if ( e.Button == System.Windows.Forms.MouseButtons.Right )
+				NextEnemyFleetCandidate( -1 );
 		}
 
 
-		private void NextEnemyFleetCandidate() {
+		private void NextEnemyFleetCandidate( int offset = 1 ) {
 
 			if ( _enemyFleetCandidate != null && _enemyFleetCandidate.Count != 0 ) {
 
-				_enemyFleetCandidateIndex++;
-				if ( _enemyFleetCandidateIndex >= _enemyFleetCandidate.Count )
-					_enemyFleetCandidateIndex = 0;
+				_enemyFleetCandidateIndex = ( _enemyFleetCandidateIndex + offset ) % _enemyFleetCandidate.Count;
+				if ( _enemyFleetCandidateIndex < 0 )
+					_enemyFleetCandidateIndex += _enemyFleetCandidate.Count;
 
 
 				var candidate = _enemyFleetCandidate[_enemyFleetCandidateIndex];

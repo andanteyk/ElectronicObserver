@@ -22,7 +22,7 @@ namespace ElectronicObserver.Data {
 	/// </summary>
 	[DataContract( Name = "ShipGroupData" )]
 	[DebuggerDisplay( "[{GroupID}] : {Name} ({Members.Count} ships)" )]
-	public class ShipGroupData : IIdentifiable, ICloneable {
+	public class ShipGroupData : DataStorage, IIdentifiable, ICloneable {
 
 
 		/// <summary>
@@ -169,7 +169,7 @@ namespace ElectronicObserver.Data {
 			set { SortOrder = value == null ? null : value.Select( s => new KeyValuePair<string, ListSortDirection>( s.Key, s.Value ) ).ToList(); }
 		}
 
-		
+
 		/// <summary>
 		/// 自動ソートを行うか
 		/// </summary>
@@ -182,6 +182,31 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		[DataMember]
 		public ExpressionManager Expressions { get; set; }
+
+
+		/// <summary>
+		/// 包含フィルタ
+		/// </summary>
+		[IgnoreDataMember]
+		public List<int> InclusionFilter { get; set; }
+
+		[DataMember]
+		private SerializableList<int> InclusionFilterSerializer {
+			get { return InclusionFilter; }
+			set { InclusionFilter = value; }
+		}
+
+		/// <summary>
+		/// 除外フィルタ
+		/// </summary>
+		[IgnoreDataMember]
+		public List<int> ExclusionFilter { get; set; }
+
+		[DataMember]
+		private SerializableList<int> ExclusionFilterSerializer {
+			get { return ExclusionFilter; }
+			set { ExclusionFilter = value; }
+		}
 
 
 
@@ -203,20 +228,27 @@ namespace ElectronicObserver.Data {
 
 		[DataMember]
 		private SerializableList<int> MembersSerializer {
-			get { return (SerializableList<int>)Members; }
-			set { Members = (List<int>)value; }
+			get { return Members; }
+			set { Members = value; }
 		}
 
 
 
-		public ShipGroupData( int groupID ) {
+		public ShipGroupData( int groupID )
+			: base() {
 			GroupID = groupID;
+		}
+
+		public override void Initialize() {
+			GroupID = -1;
 			ViewColumns = new Dictionary<string, ViewColumnData>();
-			Name = "notitle #" + groupID;
+			Name = "no title";
 			ScrollLockColumnCount = 0;
 			AutoSortEnabled = true;
 			SortOrder = new List<KeyValuePair<string, ListSortDirection>>();
 			Expressions = new ExpressionManager();
+			InclusionFilter = new List<int>();
+			ExclusionFilter = new List<int>();
 			Members = new List<int>();
 		}
 
@@ -224,23 +256,50 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// フィルタに基づいて検索を実行し、Members に結果をセットします。
 		/// </summary>
-		/// <param name="previousOrder">直前の並び替え順。なるべくこの順番を維持するように結果が生成されます。nullの場合は適当に生成されます。</param>
+		/// <param name="previousOrder">直前の並び替え順。なるべくこの順番を維持するように結果が生成されます。null もしくは 要素数 0 の場合は適当に生成されます。</param>
 		public void UpdateMembers( IEnumerable<int> previousOrder = null ) {
 
 			if ( Expressions == null )
-				return;		// 念のため
-			
+				Expressions = new ExpressionManager();
+
+			if ( InclusionFilter == null )
+				InclusionFilter = new List<int>();
+
+			if ( ExclusionFilter == null )
+				ExclusionFilter = new List<int>();
+
+			ValidateFilter();
+
+
 			if ( !Expressions.IsAvailable )
 				Expressions.Compile();
 
-			var newdata = Expressions.GetResult( KCDatabase.Instance.Ships.Values ).Select( s => s.MasterID );
+			var newdata = Expressions.GetResult( KCDatabase.Instance.Ships.Values ).Select( s => s.MasterID ).Union( InclusionFilter ).Except( ExclusionFilter );
 
-			IEnumerable<int> prev = previousOrder ?? Members ?? new List<int>();
-			
+			IEnumerable<int> prev = ( previousOrder != null && previousOrder.Count() > 0 ) ? previousOrder : ( Members ?? new List<int>() );
+
 			// ソート順序を維持するため
 			Members = prev.Except( prev.Except( newdata ) ).Union( newdata ).ToList();
 		}
 
+
+		public void AddInclusionFilter( IEnumerable<int> list ) {
+			InclusionFilter = InclusionFilter.Union( list ).ToList();
+			ExclusionFilter = ExclusionFilter.Except( list ).ToList();
+		}
+
+		public void AddExclusionFilter( IEnumerable<int> list ) {
+			InclusionFilter = InclusionFilter.Except( list ).ToList();
+			ExclusionFilter = ExclusionFilter.Union( list ).ToList();
+		}
+
+		public void ValidateFilter() {
+			if ( KCDatabase.Instance.Ships.Count > 0 ) {
+				var ships = KCDatabase.Instance.Ships.Keys;
+				InclusionFilter = InclusionFilter.Intersect( ships ).Distinct().ToList();
+				ExclusionFilter = ExclusionFilter.Intersect( ships ).Distinct().ToList();
+			}
+		}
 
 
 		public int ID {
@@ -254,13 +313,18 @@ namespace ElectronicObserver.Data {
 
 
 
-
+		/// <summary>
+		/// このオブジェクトの複製(ディープ コピー)を作成します。
+		/// </summary>
+		/// <remarks>複製したオブジェクトのIDは必ず -1 になります。適宜再設定してください。</remarks>
 		public ShipGroupData Clone() {
 			var clone = (ShipGroupData)MemberwiseClone();
 			clone.GroupID = -1;
 			clone.ViewColumns = ViewColumns.Select( p => p.Value.Clone() ).ToDictionary( p => p.Name );
 			clone.SortOrder = new List<KeyValuePair<string, ListSortDirection>>( SortOrder );
 			clone.Expressions = Expressions.Clone();
+			clone.InclusionFilter = new List<int>( InclusionFilter );
+			clone.ExclusionFilter = new List<int>( ExclusionFilter );
 			clone.Members = new List<int>( Members );
 
 			return clone;
@@ -269,6 +333,8 @@ namespace ElectronicObserver.Data {
 		object ICloneable.Clone() {
 			return Clone();
 		}
+
+
 
 	}
 

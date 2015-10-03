@@ -1,11 +1,13 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.ShipGroup;
+using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +16,7 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogShipGroupFilter : Form {
 
-		private ExpressionManager _target;
+		private ShipGroupData _group;
 
 
 		#region DataTable
@@ -34,8 +36,25 @@ namespace ElectronicObserver.Window.Dialog {
 		private DataTable _dtRightOperand_equipment;
 		#endregion
 
-		public DialogShipGroupFilter( ExpressionManager exp ) {
+		public DialogShipGroupFilter( ShipGroupData group ) {
 			InitializeComponent();
+
+			{
+				// 一部の列ヘッダを中央揃えにする
+				var headercenter = new DataGridViewCellStyle( ExpressionView_Enabled.HeaderCell.Style );
+				headercenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
+				ExpressionView_Enabled.HeaderCell.Style =
+				ExpressionView_InternalAndOr.HeaderCell.Style =
+				ExpressionView_ExternalAndOr.HeaderCell.Style =
+				ExpressionView_Inverse.HeaderCell.Style =
+				ExpressionView_Up.HeaderCell.Style =
+				ExpressionView_Down.HeaderCell.Style =
+				ExpressionDetailView_Enabled.HeaderCell.Style =
+				ConstFilterView_Up.HeaderCell.Style =
+				ConstFilterView_Down.HeaderCell.Style =
+				ConstFilterView_Delete.HeaderCell.Style =
+				headercenter;
+			}
 
 
 			#region init DataTable
@@ -188,8 +207,10 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_equipment.Columns.AddRange( new DataColumn[]{ 
 					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
+				_dtRightOperand_equipment.Rows.Add( -1, "(なし)" );
 				foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values.Where( eq => !eq.IsAbyssalEquipment ).OrderBy( eq => eq.CategoryType ) )
 					_dtRightOperand_equipment.Rows.Add( eq.EquipmentID, eq.Name );
+				_dtRightOperand_equipment.Rows.Add( 0, "(未開放)" );
 				_dtRightOperand_equipment.AcceptChanges();
 			}
 
@@ -202,10 +223,9 @@ namespace ElectronicObserver.Window.Dialog {
 			#endregion
 
 
-			_target = exp.Clone();
+			ConstFilterSelector.SelectedIndex = 0;
 
-			LabelResult.Tag = false;
-			UpdateExpressionLabel();
+			ImportGroupData( group );
 		}
 
 		private void DialogShipGroupFilter_Load( object sender, EventArgs e ) {
@@ -215,32 +235,26 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		public void ImportExpressionData( ExpressionManager exm ) {
+		/// <summary>
+		/// グループデータをコピーし、UIを初期化します。
+		/// </summary>
+		/// <param name="group">対象となるグループ。コピーされるためこのインスタンスには変更は適用されません。</param>
+		public void ImportGroupData( ShipGroupData group ) {
 
-			_target = exm.Clone();
+			_group = group.Clone();
 
-			ExpressionView.Rows.Clear();
-
-
-			var rows = new DataGridViewRow[exm.Expressions.Count];
-			for ( int i = 0; i < rows.Length; i++ ) {
-				rows[i] = GetExpressionViewRow( exm.Expressions[i] );
-			}
-
-			ExpressionView.Rows.AddRange( rows.ToArray() );
-
-
-			ExpressionDetailView.Rows.Clear();
-
+			UpdateExpressionView();
+			UpdateConstFilterView();
 		}
 
 
+		/// <summary>
+		/// 編集したグループデータを出力します。
+		/// </summary>
+		public ShipGroupData ExportGroupData() {
 
-		public ExpressionManager ExportExpressionData() {
-
-			return _target;
+			return _group;
 		}
-
 
 
 		private DataGridViewRow GetExpressionViewRow( ExpressionList exp ) {
@@ -279,11 +293,59 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		private void UpdateExpressionView() {
+
+			ExpressionView.Rows.Clear();
+
+
+			var rows = new DataGridViewRow[_group.Expressions.Expressions.Count];
+			for ( int i = 0; i < rows.Length; i++ ) {
+				rows[i] = GetExpressionViewRow( _group.Expressions.Expressions[i] );
+			}
+
+			ExpressionView.Rows.AddRange( rows.ToArray() );
+
+			ExpressionDetailView.Rows.Clear();
+
+			LabelResult.Tag = false;
+			UpdateExpressionLabel();
+
+		}
+
+
 		/// <summary>
-		/// 
+		/// 包含/除外フィルタの表示を更新します。
 		/// </summary>
-		/// <param name="left"></param>
-		/// <param name="right"></param>
+		private void UpdateConstFilterView() {
+
+			List<int> values = ConstFilterSelector.SelectedIndex == 0 ? _group.InclusionFilter : _group.ExclusionFilter;
+
+			ConstFilterView.Rows.Clear();
+
+			var rows = new DataGridViewRow[values.Count];
+			for ( int i = 0; i < rows.Length; i++ ) {
+				rows[i] = new DataGridViewRow();
+				rows[i].CreateCells( ConstFilterView );
+
+				var ship = KCDatabase.Instance.Ships[values[i]];
+				rows[i].SetValues( values[i], ship == null ? "(未在籍)" : ship.NameWithLevel );
+			}
+
+			ConstFilterView.Rows.AddRange( rows );
+
+		}
+
+		private List<int> GetConstFilterFromUI() {
+			return ConstFilterSelector.SelectedIndex == 0 ? _group.InclusionFilter : _group.ExclusionFilter;
+		}
+
+
+		/// <summary>
+		/// 指定された式から、式UIを初期化します。
+		/// </summary>
+		/// <param name="left">左辺値。</param>
+		/// <param name="right">右辺値。指定しなければ null。</param>
+		/// <param name="ope">演算子。指定しなければ null。</param>
 		private void SetExpressionSetter( string left, object right = null, ExpressionData.ExpressionOperator? ope = null ) {
 
 			Type lefttype = ExpressionData.GetLeftOperandType( left );
@@ -407,6 +469,9 @@ namespace ElectronicObserver.Window.Dialog {
 				Operator.Enabled = true;
 				Operator.DataSource = _dtOperator_number;
 
+				RightOperand_NumericUpDown.DecimalPlaces = 0;
+				RightOperand_NumericUpDown.Increment = 1m;
+
 				switch ( left ) {
 					case ".MasterID":
 						RightOperand_NumericUpDown.Minimum = 0;
@@ -442,7 +507,7 @@ namespace ElectronicObserver.Window.Dialog {
 					case ".RepairTime":
 						RightOperand_NumericUpDown.Minimum = 0;
 						RightOperand_NumericUpDown.Maximum = int.MaxValue;
-						Description.Text = "(ミリ秒単位)";
+						RightOperand_NumericUpDown.Increment = 60000;
 						break;
 					case ".SlotSize":
 						RightOperand_NumericUpDown.Minimum = 0;
@@ -453,8 +518,6 @@ namespace ElectronicObserver.Window.Dialog {
 						RightOperand_NumericUpDown.Maximum = 9999;
 						break;
 				}
-				RightOperand_NumericUpDown.DecimalPlaces = 0;
-				RightOperand_NumericUpDown.Increment = 1m;
 				RightOperand_NumericUpDown.Value = right == null ? RightOperand_NumericUpDown.Minimum : (int)right;
 				UpdateDescriptionFromNumericUpDown();
 
@@ -568,9 +631,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 			int index = ExpressionView.SelectedRows.Count == 0 ? -1 : ExpressionView.SelectedRows[0].Index;
 
-			if ( index < 0 || _target.Expressions.Count <= index ) return;
+			if ( index < 0 || _group.Expressions.Expressions.Count <= index ) return;
 
-			var ex = _target.Expressions[index];
+			var ex = _group.Expressions.Expressions[index];
 
 
 
@@ -595,7 +658,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( index < 0 ) return;
 
-			ExpressionData exp = _target[ExpressionView.SelectedRows[0].Index][index];
+			ExpressionData exp = _group.Expressions[ExpressionView.SelectedRows[0].Index][index];
 
 			SetExpressionSetter( exp.LeftOperand, exp.RightOperand, exp.Operator );
 
@@ -612,7 +675,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			var exp = new ExpressionList();
 
-			_target.Expressions.Insert( insertrow + 1, exp );
+			_group.Expressions.Expressions.Insert( insertrow + 1, exp );
 			ExpressionView.Rows.Insert( insertrow + 1, GetExpressionViewRow( exp ) );
 
 			ExpressionUpdated();
@@ -627,7 +690,7 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
-			_target.Expressions.RemoveAt( selectedrow );
+			_group.Expressions.Expressions.RemoveAt( selectedrow );
 			ExpressionView.Rows.RemoveAt( selectedrow );
 
 			if ( ExpressionView.Rows.Count == 0 )
@@ -696,7 +759,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			var exp = BuildExpressionDataFromUI();
 
-			_target.Expressions[procrow].Expressions.Add( exp );
+			_group.Expressions.Expressions[procrow].Expressions.Add( exp );
 			ExpressionDetailView.Rows.Add( GetExpressionDetailViewRow( exp ) );
 
 			UpdateExpressionViewRow( procrow );
@@ -719,7 +782,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			var exp = BuildExpressionDataFromUI();
 
-			_target.Expressions[procrow].Expressions[selectedrow] = exp;
+			_group.Expressions.Expressions[procrow].Expressions[selectedrow] = exp;
 			ExpressionDetailView.Rows.Insert( selectedrow, GetExpressionDetailViewRow( exp ) );
 			ExpressionDetailView.Rows.RemoveAt( selectedrow + 1 );
 
@@ -741,7 +804,7 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
-			_target.Expressions[procrow].Expressions.RemoveAt( selectedrow );
+			_group.Expressions.Expressions[procrow].Expressions.RemoveAt( selectedrow );
 			ExpressionDetailView.Rows.RemoveAt( selectedrow );
 
 			UpdateExpressionViewRow( procrow );
@@ -784,16 +847,16 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( e.RowIndex < 0 ) return;
 
 			if ( e.ColumnIndex == ExpressionView_Enabled.Index ) {
-				_target[e.RowIndex].Enabled = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[e.RowIndex].Enabled = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			} else if ( e.ColumnIndex == ExpressionView_ExternalAndOr.Index ) {
-				_target[e.RowIndex].ExternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[e.RowIndex].ExternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			} else if ( e.ColumnIndex == ExpressionView_Inverse.Index ) {
-				_target[e.RowIndex].Inverse = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[e.RowIndex].Inverse = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			} else if ( e.ColumnIndex == ExpressionView_InternalAndOr.Index ) {
-				_target[e.RowIndex].InternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[e.RowIndex].InternalAnd = (bool)ExpressionView[e.ColumnIndex, e.RowIndex].Value;
 
 			}
 
@@ -810,7 +873,7 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 			if ( e.ColumnIndex == ExpressionDetailView_Enabled.Index ) {
-				_target[procrow].Expressions[e.RowIndex].Enabled = (bool)ExpressionDetailView[e.ColumnIndex, e.RowIndex].Value;
+				_group.Expressions[procrow].Expressions[e.RowIndex].Enabled = (bool)ExpressionDetailView[e.ColumnIndex, e.RowIndex].Value;
 			}
 
 			UpdateExpressionViewRow( procrow );
@@ -822,7 +885,7 @@ namespace ElectronicObserver.Window.Dialog {
 		/// </summary>
 		/// <param name="index">行インデックス。</param>
 		private void UpdateExpressionViewRow( int index ) {
-			ExpressionView[ExpressionView_Expression.Index, index].Value = _target[index].ToString();
+			ExpressionView[ExpressionView_Expression.Index, index].Value = _group.Expressions[index].ToString();
 			ExpressionUpdated();
 		}
 
@@ -835,10 +898,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void UpdateExpressionLabel() {
 			if ( LabelResult.Tag != null && (bool)LabelResult.Tag ) {
-				_target.Compile();
-				LabelResult.Text = _target.ToExpressionString();
+				_group.Expressions.Compile();
+				LabelResult.Text = _group.Expressions.ToExpressionString();
 			} else {
-				LabelResult.Text = _target.ToString();
+				LabelResult.Text = _group.Expressions.ToString();
 			}
 		}
 
@@ -850,27 +913,54 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( e.RowIndex < 0 ) return;
 
 			if ( e.ColumnIndex == ExpressionView_Up.Index && e.RowIndex > 0 ) {
-				_target.Expressions.Insert( e.RowIndex - 1, _target[e.RowIndex] );
-				_target.Expressions.RemoveAt( e.RowIndex + 1 );
-				//ExpressionView.Rows.Insert( e.RowIndex + 1, GetExpressionViewRow( _target[e.RowIndex] ) );
-				//ExpressionView.Rows.RemoveAt( e.RowIndex - 1 );
+				_group.Expressions.Expressions.Insert( e.RowIndex - 1, _group.Expressions[e.RowIndex] );
+				_group.Expressions.Expressions.RemoveAt( e.RowIndex + 1 );
+
 				ControlHelper.RowMoveUp( ExpressionView, e.RowIndex );
 
 				ExpressionUpdated();
 
 			} else if ( e.ColumnIndex == ExpressionView_Down.Index && e.RowIndex < ExpressionView.Rows.Count - 1 ) {
-				_target.Expressions.Insert( e.RowIndex + 2, _target[e.RowIndex] );
-				_target.Expressions.RemoveAt( e.RowIndex );
-				//ExpressionView.Rows.Insert( e.RowIndex, GetExpressionViewRow( _target[e.RowIndex] ) );
-				//ExpressionView.Rows.RemoveAt( e.RowIndex + 2 );
+				_group.Expressions.Expressions.Insert( e.RowIndex + 2, _group.Expressions[e.RowIndex] );
+				_group.Expressions.Expressions.RemoveAt( e.RowIndex );
+
 				ControlHelper.RowMoveDown( ExpressionView, e.RowIndex );
 
 				ExpressionUpdated();
 			}
 		}
 
+		private void ConstFilterView_CellContentClick( object sender, DataGridViewCellEventArgs e ) {
+
+			// 上下動に意味があるかはおいておいて
+			if ( e.ColumnIndex == ConstFilterView_Up.Index && e.RowIndex > 0 ) {
+				var list = GetConstFilterFromUI();
+				list.Insert( e.RowIndex - 1, list[e.RowIndex] );
+				list.RemoveAt( e.RowIndex + 1 );
+
+				ControlHelper.RowMoveUp( ConstFilterView, e.RowIndex );
+
+			} else if ( e.ColumnIndex == ConstFilterView_Down.Index && e.RowIndex < ConstFilterView.Rows.Count - 1 ) {
+				var list = GetConstFilterFromUI();
+				list.Insert( e.RowIndex + 2, list[e.RowIndex] );
+				list.RemoveAt( e.RowIndex );
+
+				ControlHelper.RowMoveDown( ConstFilterView, e.RowIndex );
+
+			} else if ( e.ColumnIndex == ConstFilterView_Delete.Index && e.RowIndex >= 0 ) {
+				var list = GetConstFilterFromUI();
+				list.RemoveAt( e.RowIndex );
+
+				ConstFilterView.Rows.RemoveAt( e.RowIndex );
+			}
+
+		}
+
+
 		// コンボボックスの即選択
 		private void ExpressionView_CellClick( object sender, DataGridViewCellEventArgs e ) {
+
+			if ( e.RowIndex < 0 ) return;
 
 			if ( ExpressionView.Columns[e.ColumnIndex] is DataGridViewComboBoxColumn ) {
 				ExpressionView.BeginEdit( false );
@@ -883,19 +973,24 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void ExpressionDetailView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
+			if ( e.RowIndex < 0 ) return;
+
+			int procrow = GetSelectedRow( ExpressionView );
+			if ( procrow == -1 ) {
+				return;
+			}
+
 			if ( e.ColumnIndex == ExpressionDetailView_LeftOperand.Index ) {
-				var row = _dtLeftOperand.AsEnumerable().FirstOrDefault( r => r["Value"].Equals( (string)e.Value ) );
-				if ( row != null ) {
-					e.Value = row["Display"];
-					e.FormattingApplied = true;
-				}
+				e.Value = _group.Expressions[procrow].Expressions[e.RowIndex].LeftOperandToString();
+				e.FormattingApplied = true;
 
 			} else if ( e.ColumnIndex == ExpressionDetailView_Operator.Index ) {
-				var row = _dtOperator.AsEnumerable().FirstOrDefault( r => r["Value"].Equals( (int)e.Value ) );
-				if ( row != null ) {
-					e.Value = row["Display"];
-					e.FormattingApplied = true;
-				}
+				e.Value = _group.Expressions[procrow].Expressions[e.RowIndex].OperatorToString();
+				e.FormattingApplied = true;
+
+			} else if ( e.ColumnIndex == ExpressionDetailView_RightOperand.Index ) {
+				e.Value = _group.Expressions[procrow].Expressions[e.RowIndex].RightOperandToString();
+				e.FormattingApplied = true;
 			}
 
 		}
@@ -927,20 +1022,36 @@ namespace ElectronicObserver.Window.Dialog {
 				case ".ShipID": {
 						var ship = KCDatabase.Instance.MasterShips[intvalue];
 						if ( ship != null ) {
-							Description.Text = ship.ShipTypeName + " " + ship.Name;
+							Description.Text = ship.ShipTypeName + " " + ship.NameWithClass;
 						} else {
 							Description.Text = "(存在せず)";
 						}
 					} break;
+
+				case ".RepairTime": {
+						Description.Text = string.Format( "(ミリ秒単位) {0}", DateTimeHelper.ToTimeRemainString( DateTimeHelper.FromAPITimeSpan( intvalue ) ) );
+					} break;
+
+				case ".MasterShip.AlbumNo": {
+						var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault( s => s.AlbumNo == intvalue );
+						if ( ship == null )
+							Description.Text = "(存在せず)";
+						else
+							Description.Text = ship.ShipTypeName + " " + ship.NameWithClass;
+
+					} break;
+
 				case ".MasterShip.RemodelBeforeShipID": {
 						if ( intvalue == 0 ) {
 							Description.Text = "(未改装)";
 						} else {
 							var ship = KCDatabase.Instance.MasterShips[intvalue];
 							if ( ship == null )
-								Description.Text = "(無効)";
-							else
-								Description.Text = ship.NameWithClass;
+								Description.Text = "(存在せず)";
+							else {
+								var before = ship.RemodelBeforeShip;
+								Description.Text = ship.NameWithClass + " ← " + ( before == null ? "×" : before.NameWithClass );
+							}
 						}
 					} break;
 
@@ -950,11 +1061,17 @@ namespace ElectronicObserver.Window.Dialog {
 						} else {
 							var ship = KCDatabase.Instance.MasterShips[intvalue];
 							if ( ship == null )
-								Description.Text = "(無効)";
-							else
-								Description.Text = ship.NameWithClass;
+								Description.Text = "(存在せず)";
+							else {
+								var after = ship.RemodelAfterShip;
+								Description.Text = ship.NameWithClass + " → " + ( after == null ? "×" : after.NameWithClass );
+							}
 						}
 					} break;
+			}
+
+			if ( left.Contains( "Rate" ) ) {
+				Description.Text = RightOperand_NumericUpDown.Value.ToString( "P0" );
 			}
 
 		}
@@ -962,6 +1079,140 @@ namespace ElectronicObserver.Window.Dialog {
 		private void LabelResult_Click( object sender, EventArgs e ) {
 			LabelResult.Tag = !(bool)LabelResult.Tag;
 			UpdateExpressionLabel();
+		}
+
+
+
+
+
+		// ConstFilter 関連
+		private void ConstFilterSelector_SelectedIndexChanged( object sender, EventArgs e ) {
+
+			if ( _group != null ) {
+				UpdateConstFilterView();
+			}
+
+		}
+
+		private void OptimizeConstFilter_Click( object sender, EventArgs e ) {
+
+			if ( ConstFilterSelector.SelectedIndex == 0 ) {
+
+				_group.InclusionFilter = _group.InclusionFilter.Intersect( KCDatabase.Instance.Ships.Keys ).ToList();
+
+			} else {
+
+				_group.ExclusionFilter = _group.ExclusionFilter.Intersect( KCDatabase.Instance.Ships.Keys ).ToList();
+			}
+
+			UpdateConstFilterView();
+		}
+
+		private void ClearConstFilter_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( ConstFilterSelector.Text + " を初期化します。\r\nよろしいですか?", "初期化の確認",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
+				== System.Windows.Forms.DialogResult.Yes ) {
+
+				if ( ConstFilterSelector.SelectedIndex == 0 ) {
+					_group.InclusionFilter.Clear();
+
+				} else {
+					_group.ExclusionFilter.Clear();
+				}
+
+				UpdateConstFilterView();
+			}
+		}
+
+		private void ConvertToExpression_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "現在の包含/除外リストを式に変換します。\r\n逆変換はできません。\r\nよろしいですか？", "確認",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
+					== System.Windows.Forms.DialogResult.Yes ) {
+
+				if ( _group.InclusionFilter.Count > 0 ) {
+					_group.Expressions.Expressions.Add( new ExpressionList( false, false, false ) );
+					var exlist = _group.Expressions.Expressions.Last();
+					foreach ( var id in _group.InclusionFilter ) {
+						exlist.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
+					}
+					_group.InclusionFilter.Clear();
+				}
+				if ( _group.ExclusionFilter.Count > 0 ) {
+					_group.Expressions.Expressions.Add( new ExpressionList( false, true, true ) );
+					var exlist = _group.Expressions.Expressions.Last();
+
+					foreach ( var id in _group.ExclusionFilter ) {
+						exlist.Expressions.Add( new ExpressionData( ".MasterID", ExpressionData.ExpressionOperator.Equal, id ) );
+					}
+					_group.ExclusionFilter.Clear();
+				}
+
+
+				UpdateExpressionView();
+				UpdateConstFilterView();
+
+			}
+		}
+
+
+		private void ButtonMenu_Click( object sender, EventArgs e ) {
+			Menu.Show( ButtonMenu, ButtonMenu.Width / 2, ButtonMenu.Height / 2 );
+		}
+
+		private void Menu_ImportFilter_Click( object sender, EventArgs e ) {
+
+
+			if ( MessageBox.Show( "クリップボードからフィルタをインポートします。\r\n現在のフィルタは破棄されます。(包含/除外フィルタは維持されます)\r\nよろしいですか？\r\n",
+					"フィルタのインポートの確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question )
+				== System.Windows.Forms.DialogResult.No )
+				return;
+
+			string data = Clipboard.GetText();
+
+			if ( string.IsNullOrEmpty( data ) ) {
+				MessageBox.Show( "クリップボードが空です。\r\nフィルタデータをコピーしたうえで再度選択してください。\r\n",
+					"インポートできません", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
+
+			try {
+
+				using ( var str = new StringReader( data ) ) {
+					var exp = (ExpressionManager)_group.Expressions.Load( str );
+					if ( exp == null )
+						throw new ArgumentException( "インポートできないデータ形式です。" );
+					else
+						_group.Expressions = exp;
+				}
+
+				UpdateExpressionView();
+
+			} catch ( Exception ex ) {
+
+				MessageBox.Show( "フィルタのインポートに失敗しました。\r\n" + ex.Message, "インポートできません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+			}
+
+		}
+
+		private void Menu_ExportFilter_Click( object sender, EventArgs e ) {
+
+			try {
+
+				StringBuilder str = new StringBuilder();
+				_group.Expressions.Save( str );
+
+				Clipboard.SetText( str.ToString() );
+
+				MessageBox.Show( "フィルタをクリップボードにエクスポートしました。\r\n「フィルタのインポート」で取り込んだり、\r\nメモ帳等に貼り付けて保存したりしてください。\r\n",
+					"フィルタのエクスポート", MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+			} catch ( Exception ex ) {
+
+				MessageBox.Show( "フィルタのエクスポートに失敗しました。\r\n" + ex.Message, "エクスポートできません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+			}
+
 		}
 
 

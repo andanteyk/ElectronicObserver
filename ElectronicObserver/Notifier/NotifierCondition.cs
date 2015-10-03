@@ -44,8 +44,7 @@ namespace ElectronicObserver.Notifier {
 
 		private void ClearFlags( string apiname, dynamic data ) {
 
-			var keys = _processedFlags.Keys.ToArray();
-			foreach ( int key in keys ) {
+			foreach ( int key in _processedFlags.Keys.ToArray() ) {		//列挙中の変更によるエラーを防ぐため
 				_processedFlags[key] = false;
 			}
 		}
@@ -57,13 +56,10 @@ namespace ElectronicObserver.Notifier {
 
 				if ( fleet.ExpeditionState > 0 || fleet.IsInSortie ) continue;
 
-				if ( _processedFlags[fleet.FleetID] ) {
-					if ( fleet.ConditionTime > DateTime.Now )
-						_processedFlags[fleet.FleetID] = false;
-					else
-						continue;
-				}
-
+				if ( _processedFlags[fleet.FleetID] )
+					continue;
+				
+				
 				if ( fleet.ConditionTime != null && !fleet.IsConditionTimeLocked ) {
 
 					if ( ( (DateTime)fleet.ConditionTime - DateTime.Now ).TotalMilliseconds <= AccelInterval ) {
