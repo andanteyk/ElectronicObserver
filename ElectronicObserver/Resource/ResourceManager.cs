@@ -424,6 +424,64 @@ namespace ElectronicObserver.Resource {
 
 
 		/// <summary>
+		/// アーカイブの中からファイルをコピーします。
+		/// </summary>
+		/// <param name="archivePath">アーカイブの場所。</param>
+		/// <param name="source">アーカイブ内のファイルのパス。</param>
+		/// <param name="destination">出力するファイルのパス。</param>
+		/// <param name="checkexist">true の場合、ファイルが既に存在するときコピーを中止します。</param>
+		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
+		public static bool CopyFromArchive( string archivePath, string source, string destination, bool checkexist = true ) {
+
+			if ( checkexist && File.Exists( destination ) ) {
+				return false;
+			}
+
+
+			using ( var stream = File.OpenRead( archivePath ) ) {
+
+				using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
+
+					string entrypath = @"Assets/" + source;
+
+					var entry = archive.GetEntry( entrypath );
+
+					if ( entry == null ) {
+						Utility.Logger.Add( 3, string.Format( "{0} は存在しません。", entrypath ) );
+						return false;
+					}
+
+
+					try {
+
+						entry.ExtractToFile( destination );
+						Utility.Logger.Add( 2, string.Format( "{0} をコピーしました。", entrypath ) );
+
+					} catch ( Exception ex ) {
+
+						Utility.Logger.Add( 3, string.Format( "{0} のコピーに失敗しました。{1}", entrypath, ex.Message ) );
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+
+
+		/// <summary>
+		/// アーカイブの中からファイルをコピーします。
+		/// </summary>
+		/// <param name="source">アーカイブ内のファイルのパス。</param>
+		/// <param name="destination">出力するファイルのパス。</param>
+		/// <param name="checkexist">true の場合、ファイルが既に存在するときコピーを中止します。</param>
+		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
+		public static bool CopyFromArchive( string source, string destination, bool checkexist = true ) {
+			return CopyFromArchive( AssetFilePath, source, destination, checkexist );
+		}
+
+
+		/// <summary>
 		/// エラーが発生しないよう、ダミーの画像で領域を埋めます。
 		/// </summary>
 		private static void FillWithBlankImage( ImageList list, int length ) {

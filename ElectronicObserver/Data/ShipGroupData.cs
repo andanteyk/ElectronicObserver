@@ -22,7 +22,7 @@ namespace ElectronicObserver.Data {
 	/// </summary>
 	[DataContract( Name = "ShipGroupData" )]
 	[DebuggerDisplay( "[{GroupID}] : {Name} ({Members.Count} ships)" )]
-	public class ShipGroupData : IIdentifiable, ICloneable {
+	public class ShipGroupData : DataStorage, IIdentifiable, ICloneable {
 
 
 		/// <summary>
@@ -234,11 +234,15 @@ namespace ElectronicObserver.Data {
 
 
 
-
-		public ShipGroupData( int groupID ) {
+		public ShipGroupData( int groupID )
+			: base() {
 			GroupID = groupID;
+		}
+
+		public override void Initialize() {
+			GroupID = -1;
 			ViewColumns = new Dictionary<string, ViewColumnData>();
-			Name = "notitle #" + groupID;
+			Name = "no title";
 			ScrollLockColumnCount = 0;
 			AutoSortEnabled = true;
 			SortOrder = new List<KeyValuePair<string, ListSortDirection>>();
@@ -329,6 +333,8 @@ namespace ElectronicObserver.Data {
 		object ICloneable.Clone() {
 			return Clone();
 		}
+
+
 
 	}
 

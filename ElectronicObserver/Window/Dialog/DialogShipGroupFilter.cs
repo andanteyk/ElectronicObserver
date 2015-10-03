@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -242,24 +243,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			_group = group.Clone();
 
-			ExpressionView.Rows.Clear();
-
-
-			var rows = new DataGridViewRow[group.Expressions.Expressions.Count];
-			for ( int i = 0; i < rows.Length; i++ ) {
-				rows[i] = GetExpressionViewRow( group.Expressions.Expressions[i] );
-			}
-
-			ExpressionView.Rows.AddRange( rows.ToArray() );
-
-			ExpressionDetailView.Rows.Clear();
-
-			LabelResult.Tag = false;
-			UpdateExpressionLabel();
-
-
+			UpdateExpressionView();
 			UpdateConstFilterView();
-
 		}
 
 
@@ -304,6 +289,27 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private int GetSelectedRow( DataGridView dgv ) {
 			return dgv.SelectedRows.Count == 0 ? -1 : dgv.SelectedRows[0].Index;
+		}
+
+
+
+		private void UpdateExpressionView() {
+
+			ExpressionView.Rows.Clear();
+
+
+			var rows = new DataGridViewRow[_group.Expressions.Expressions.Count];
+			for ( int i = 0; i < rows.Length; i++ ) {
+				rows[i] = GetExpressionViewRow( _group.Expressions.Expressions[i] );
+			}
+
+			ExpressionView.Rows.AddRange( rows.ToArray() );
+
+			ExpressionDetailView.Rows.Clear();
+
+			LabelResult.Tag = false;
+			UpdateExpressionLabel();
+
 		}
 
 
@@ -954,6 +960,8 @@ namespace ElectronicObserver.Window.Dialog {
 		// コンボボックスの即選択
 		private void ExpressionView_CellClick( object sender, DataGridViewCellEventArgs e ) {
 
+			if ( e.RowIndex < 0 ) return;
+
 			if ( ExpressionView.Columns[e.ColumnIndex] is DataGridViewComboBoxColumn ) {
 				ExpressionView.BeginEdit( false );
 				var edit = ExpressionView.EditingControl as DataGridViewComboBoxEditingControl;
@@ -1142,10 +1150,69 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 
 
-				// UI初期化が面倒だった。今は反省している
-				ImportGroupData( _group );
+				UpdateExpressionView();
+				UpdateConstFilterView();
 
 			}
+		}
+
+
+		private void ButtonMenu_Click( object sender, EventArgs e ) {
+			Menu.Show( ButtonMenu, ButtonMenu.Width / 2, ButtonMenu.Height / 2 );
+		}
+
+		private void Menu_ImportFilter_Click( object sender, EventArgs e ) {
+
+
+			if ( MessageBox.Show( "クリップボードからフィルタをインポートします。\r\n現在のフィルタは破棄されます。(包含/除外フィルタは維持されます)\r\nよろしいですか？\r\n",
+					"フィルタのインポートの確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question )
+				== System.Windows.Forms.DialogResult.No )
+				return;
+
+			string data = Clipboard.GetText();
+
+			if ( string.IsNullOrEmpty( data ) ) {
+				MessageBox.Show( "クリップボードが空です。\r\nフィルタデータをコピーしたうえで再度選択してください。\r\n",
+					"インポートできません", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				return;
+			}
+
+			try {
+
+				using ( var str = new StringReader( data ) ) {
+					var exp = (ExpressionManager)_group.Expressions.Load( str );
+					if ( exp == null )
+						throw new ArgumentException( "インポートできないデータ形式です。" );
+					else
+						_group.Expressions = exp;
+				}
+
+				UpdateExpressionView();
+
+			} catch ( Exception ex ) {
+
+				MessageBox.Show( "フィルタのインポートに失敗しました。\r\n" + ex.Message, "インポートできません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+			}
+
+		}
+
+		private void Menu_ExportFilter_Click( object sender, EventArgs e ) {
+
+			try {
+
+				StringBuilder str = new StringBuilder();
+				_group.Expressions.Save( str );
+
+				Clipboard.SetText( str.ToString() );
+
+				MessageBox.Show( "フィルタをクリップボードにエクスポートしました。\r\n「フィルタのインポート」で取り込んだり、\r\nメモ帳等に貼り付けて保存したりしてください。\r\n",
+					"フィルタのエクスポート", MessageBoxButtons.OK, MessageBoxIcon.Information );
+
+			} catch ( Exception ex ) {
+
+				MessageBox.Show( "フィルタのエクスポートに失敗しました。\r\n" + ex.Message, "エクスポートできません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+			}
+
 		}
 
 

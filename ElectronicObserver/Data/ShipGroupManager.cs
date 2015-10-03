@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Utility.Storage;
+﻿using ElectronicObserver.Resource;
+using ElectronicObserver.Utility.Storage;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,8 @@ namespace ElectronicObserver.Data {
 
 
 		public ShipGroupManager Load() {
+			ResourceManager.CopyFromArchive( DefaultFilePath.Replace( "\\", "/" ), DefaultFilePath );
+
 			return (ShipGroupManager)Load( DefaultFilePath );
 		}
 

@@ -58,6 +58,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.ConvertToExpression = new System.Windows.Forms.Button();
 			this.OptimizeConstFilter = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.ClearConstFilter = new System.Windows.Forms.Button();
@@ -69,7 +70,10 @@
 			this.ConstFilterView_Delete = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.ConstFilterSelector = new System.Windows.Forms.ComboBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.ConvertToExpression = new System.Windows.Forms.Button();
+			this.ButtonMenu = new System.Windows.Forms.Button();
+			this.Menu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.Menu_ImportFilter = new System.Windows.Forms.ToolStripMenuItem();
+			this.Menu_ExportFilter = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -89,6 +93,7 @@
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ConstFilterView)).BeginInit();
+			this.Menu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -477,13 +482,25 @@
 			this.tabPage2.Controls.Add(this.ClearConstFilter);
 			this.tabPage2.Controls.Add(this.ConstFilterView);
 			this.tabPage2.Controls.Add(this.ConstFilterSelector);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(616, 375);
+			this.tabPage2.Size = new System.Drawing.Size(616, 377);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "包含/除外リスト";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// ConvertToExpression
+			// 
+			this.ConvertToExpression.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ConvertToExpression.Location = new System.Drawing.Point(452, 42);
+			this.ConvertToExpression.Name = "ConvertToExpression";
+			this.ConvertToExpression.Size = new System.Drawing.Size(75, 23);
+			this.ConvertToExpression.TabIndex = 3;
+			this.ConvertToExpression.Text = "式に変換";
+			this.toolTip1.SetToolTip(this.ConvertToExpression, "包含/除外リストを式に変換します。\r\n逆変換はできないのでご注意ください。");
+			this.ConvertToExpression.UseVisualStyleBackColor = true;
+			this.ConvertToExpression.Click += new System.EventHandler(this.ConvertToExpression_Click);
 			// 
 			// OptimizeConstFilter
 			// 
@@ -604,22 +621,44 @@
 			this.ConstFilterSelector.TabIndex = 1;
 			this.ConstFilterSelector.SelectedIndexChanged += new System.EventHandler(this.ConstFilterSelector_SelectedIndexChanged);
 			// 
-			// ConvertToExpression
+			// ButtonMenu
 			// 
-			this.ConvertToExpression.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ConvertToExpression.Location = new System.Drawing.Point(452, 42);
-			this.ConvertToExpression.Name = "ConvertToExpression";
-			this.ConvertToExpression.Size = new System.Drawing.Size(75, 23);
-			this.ConvertToExpression.TabIndex = 3;
-			this.ConvertToExpression.Text = "式に変換";
-			this.toolTip1.SetToolTip(this.ConvertToExpression, "包含/除外リストを式に変換します。\r\n逆変換はできないのでご注意ください。");
-			this.ConvertToExpression.UseVisualStyleBackColor = true;
-			this.ConvertToExpression.Click += new System.EventHandler(this.ConvertToExpression_Click);
+			this.ButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ButtonMenu.Location = new System.Drawing.Point(12, 406);
+			this.ButtonMenu.Name = "ButtonMenu";
+			this.ButtonMenu.Size = new System.Drawing.Size(75, 23);
+			this.ButtonMenu.TabIndex = 10;
+			this.ButtonMenu.Text = "メニュー ▼";
+			this.ButtonMenu.UseVisualStyleBackColor = true;
+			this.ButtonMenu.Click += new System.EventHandler(this.ButtonMenu_Click);
+			// 
+			// Menu
+			// 
+			this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_ImportFilter,
+            this.Menu_ExportFilter});
+			this.Menu.Name = "Menu";
+			this.Menu.Size = new System.Drawing.Size(189, 70);
+			// 
+			// Menu_ImportFilter
+			// 
+			this.Menu_ImportFilter.Name = "Menu_ImportFilter";
+			this.Menu_ImportFilter.Size = new System.Drawing.Size(188, 22);
+			this.Menu_ImportFilter.Text = "フィルタのインポート(&I)";
+			this.Menu_ImportFilter.Click += new System.EventHandler(this.Menu_ImportFilter_Click);
+			// 
+			// Menu_ExportFilter
+			// 
+			this.Menu_ExportFilter.Name = "Menu_ExportFilter";
+			this.Menu_ExportFilter.Size = new System.Drawing.Size(188, 22);
+			this.Menu_ExportFilter.Text = "フィルタのエクスポート(&E)";
+			this.Menu_ExportFilter.Click += new System.EventHandler(this.Menu_ExportFilter_Click);
 			// 
 			// DialogShipGroupFilter
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(624, 441);
+			this.Controls.Add(this.ButtonMenu);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.ButtonCancel);
 			this.Controls.Add(this.ButtonOK);
@@ -651,6 +690,7 @@
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ConstFilterView)).EndInit();
+			this.Menu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -702,5 +742,9 @@
 		private System.Windows.Forms.DataGridViewButtonColumn ConstFilterView_Down;
 		private System.Windows.Forms.DataGridViewButtonColumn ConstFilterView_Delete;
 		private System.Windows.Forms.Button ConvertToExpression;
+		private System.Windows.Forms.Button ButtonMenu;
+		private System.Windows.Forms.ContextMenuStrip Menu;
+		private System.Windows.Forms.ToolStripMenuItem Menu_ImportFilter;
+		private System.Windows.Forms.ToolStripMenuItem Menu_ExportFilter;
 	}
 }
