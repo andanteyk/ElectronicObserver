@@ -690,12 +690,12 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
+			ExpressionDetailView.Rows.Clear();
+
 			_group.Expressions.Expressions.RemoveAt( selectedrow );
 			ExpressionView.Rows.RemoveAt( selectedrow );
-
-			if ( ExpressionView.Rows.Count == 0 )
-				ExpressionDetailView.Rows.Clear();
-
+			
+			
 			ExpressionUpdated();
 		}
 
