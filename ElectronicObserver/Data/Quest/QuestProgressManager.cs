@@ -130,6 +130,9 @@ namespace ElectronicObserver.Data.Quest {
 
 		}
 
+		public ProgressData this[int key] {
+			get { return Progresses[key]; }
+		}
 
 
 		void QuestUpdated( string apiname, dynamic data ) {

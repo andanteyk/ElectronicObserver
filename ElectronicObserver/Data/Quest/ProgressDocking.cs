@@ -17,5 +17,8 @@ namespace ElectronicObserver.Data.Quest {
 			: base( questID, maxCount ) {
 		}
 
+		public override string GetClearCondition() {
+			return "入渠" + ProgressMax;
+		}
 	}
 }

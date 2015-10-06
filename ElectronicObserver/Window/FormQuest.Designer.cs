@@ -106,7 +106,7 @@
             this.toolStripSeparator1,
             this.MenuMain_Initialize});
 			this.MenuMain.Name = "MenuMain";
-			this.MenuMain.Size = new System.Drawing.Size(205, 176);
+			this.MenuMain.Size = new System.Drawing.Size(205, 198);
 			// 
 			// MenuMain_ShowRunningOnly
 			// 
@@ -261,19 +261,19 @@
 			// 
 			// QuestView_Name
 			// 
-			this.QuestView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
 			this.QuestView_Name.FillWeight = 200F;
 			this.QuestView_Name.HeaderText = "任務名";
 			this.QuestView_Name.Name = "QuestView_Name";
 			this.QuestView_Name.ReadOnly = true;
+			this.QuestView_Name.Width = 143;
 			// 
 			// QuestView_Progress
 			// 
+			this.QuestView_Progress.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
 			this.QuestView_Progress.HeaderText = "進捗";
 			this.QuestView_Progress.Name = "QuestView_Progress";
 			this.QuestView_Progress.ReadOnly = true;
 			this.QuestView_Progress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.QuestView_Progress.Width = 72;
 			// 
 			// FormQuest
 			// 

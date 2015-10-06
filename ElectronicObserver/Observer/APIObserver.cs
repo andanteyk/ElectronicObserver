@@ -175,6 +175,10 @@ namespace ElectronicObserver.Observer {
 
 					try {
 
+						if ( !Directory.Exists( c.SaveDataPath ) )
+							Directory.CreateDirectory( c.SaveDataPath );
+
+
 						if ( c.SaveResponse && oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 
 							// 非同期で書き出し処理するので取っておく

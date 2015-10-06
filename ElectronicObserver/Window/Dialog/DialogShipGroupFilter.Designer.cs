@@ -24,7 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.ExpressionView = new System.Windows.Forms.DataGridView();
@@ -71,9 +71,9 @@
 			this.ConstFilterSelector = new System.Windows.Forms.ComboBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonMenu = new System.Windows.Forms.Button();
-			this.Menu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.Menu_ImportFilter = new System.Windows.Forms.ToolStripMenuItem();
-			this.Menu_ExportFilter = new System.Windows.Forms.ToolStripMenuItem();
+			this.SubMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.SubMenu_ImportFilter = new System.Windows.Forms.ToolStripMenuItem();
+			this.SubMenu_ExportFilter = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -93,7 +93,7 @@
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ConstFilterView)).BeginInit();
-			this.Menu.SuspendLayout();
+			this.SubMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -433,7 +433,7 @@
 			this.ButtonCancel.Location = new System.Drawing.Point(537, 406);
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
-			this.ButtonCancel.TabIndex = 9;
+			this.ButtonCancel.TabIndex = 3;
 			this.ButtonCancel.Text = "キャンセル";
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
@@ -444,7 +444,7 @@
 			this.ButtonOK.Location = new System.Drawing.Point(456, 406);
 			this.ButtonOK.Name = "ButtonOK";
 			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
-			this.ButtonOK.TabIndex = 8;
+			this.ButtonOK.TabIndex = 2;
 			this.ButtonOK.Text = "OK";
 			this.ButtonOK.UseVisualStyleBackColor = true;
 			this.ButtonOK.Click += new System.EventHandler(this.ButtonOK_Click);
@@ -461,7 +461,7 @@
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(624, 403);
-			this.tabControl1.TabIndex = 1;
+			this.tabControl1.TabIndex = 0;
 			// 
 			// tabPage1
 			// 
@@ -482,10 +482,10 @@
 			this.tabPage2.Controls.Add(this.ClearConstFilter);
 			this.tabPage2.Controls.Add(this.ConstFilterView);
 			this.tabPage2.Controls.Add(this.ConstFilterSelector);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(616, 377);
+			this.tabPage2.Size = new System.Drawing.Size(616, 375);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "包含/除外リスト";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -558,14 +558,14 @@
 			this.ConstFilterView.RowHeadersVisible = false;
 			this.ConstFilterView.RowTemplate.Height = 21;
 			this.ConstFilterView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ConstFilterView.Size = new System.Drawing.Size(600, 290);
+			this.ConstFilterView.Size = new System.Drawing.Size(600, 288);
 			this.ConstFilterView.TabIndex = 5;
 			this.ConstFilterView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ConstFilterView_CellContentClick);
 			// 
 			// ConstFilterView_ID
 			// 
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ConstFilterView_ID.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ConstFilterView_ID.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ConstFilterView_ID.HeaderText = "ID";
 			this.ConstFilterView_ID.Name = "ConstFilterView_ID";
 			this.ConstFilterView_ID.ReadOnly = true;
@@ -627,32 +627,32 @@
 			this.ButtonMenu.Location = new System.Drawing.Point(12, 406);
 			this.ButtonMenu.Name = "ButtonMenu";
 			this.ButtonMenu.Size = new System.Drawing.Size(75, 23);
-			this.ButtonMenu.TabIndex = 10;
+			this.ButtonMenu.TabIndex = 1;
 			this.ButtonMenu.Text = "メニュー ▼";
 			this.ButtonMenu.UseVisualStyleBackColor = true;
 			this.ButtonMenu.Click += new System.EventHandler(this.ButtonMenu_Click);
 			// 
-			// Menu
+			// SubMenu
 			// 
-			this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_ImportFilter,
-            this.Menu_ExportFilter});
-			this.Menu.Name = "Menu";
-			this.Menu.Size = new System.Drawing.Size(189, 70);
+			this.SubMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SubMenu_ImportFilter,
+            this.SubMenu_ExportFilter});
+			this.SubMenu.Name = "Menu";
+			this.SubMenu.Size = new System.Drawing.Size(189, 48);
 			// 
-			// Menu_ImportFilter
+			// SubMenu_ImportFilter
 			// 
-			this.Menu_ImportFilter.Name = "Menu_ImportFilter";
-			this.Menu_ImportFilter.Size = new System.Drawing.Size(188, 22);
-			this.Menu_ImportFilter.Text = "フィルタのインポート(&I)";
-			this.Menu_ImportFilter.Click += new System.EventHandler(this.Menu_ImportFilter_Click);
+			this.SubMenu_ImportFilter.Name = "SubMenu_ImportFilter";
+			this.SubMenu_ImportFilter.Size = new System.Drawing.Size(188, 22);
+			this.SubMenu_ImportFilter.Text = "フィルタのインポート(&I)";
+			this.SubMenu_ImportFilter.Click += new System.EventHandler(this.Menu_ImportFilter_Click);
 			// 
-			// Menu_ExportFilter
+			// SubMenu_ExportFilter
 			// 
-			this.Menu_ExportFilter.Name = "Menu_ExportFilter";
-			this.Menu_ExportFilter.Size = new System.Drawing.Size(188, 22);
-			this.Menu_ExportFilter.Text = "フィルタのエクスポート(&E)";
-			this.Menu_ExportFilter.Click += new System.EventHandler(this.Menu_ExportFilter_Click);
+			this.SubMenu_ExportFilter.Name = "SubMenu_ExportFilter";
+			this.SubMenu_ExportFilter.Size = new System.Drawing.Size(188, 22);
+			this.SubMenu_ExportFilter.Text = "フィルタのエクスポート(&E)";
+			this.SubMenu_ExportFilter.Click += new System.EventHandler(this.Menu_ExportFilter_Click);
 			// 
 			// DialogShipGroupFilter
 			// 
@@ -690,7 +690,7 @@
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ConstFilterView)).EndInit();
-			this.Menu.ResumeLayout(false);
+			this.SubMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -743,8 +743,8 @@
 		private System.Windows.Forms.DataGridViewButtonColumn ConstFilterView_Delete;
 		private System.Windows.Forms.Button ConvertToExpression;
 		private System.Windows.Forms.Button ButtonMenu;
-		private System.Windows.Forms.ContextMenuStrip Menu;
-		private System.Windows.Forms.ToolStripMenuItem Menu_ImportFilter;
-		private System.Windows.Forms.ToolStripMenuItem Menu_ExportFilter;
+		private System.Windows.Forms.ContextMenuStrip SubMenu;
+		private System.Windows.Forms.ToolStripMenuItem SubMenu_ImportFilter;
+		private System.Windows.Forms.ToolStripMenuItem SubMenu_ExportFilter;
 	}
 }

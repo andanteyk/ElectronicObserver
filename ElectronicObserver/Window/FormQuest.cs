@@ -218,8 +218,10 @@ namespace ElectronicObserver.Window {
 				row.Cells[QuestView_Category.Index].Value = q.Category;
 				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min( q.Category - 1, 8 - 1 )];
 				row.Cells[QuestView_Name.Index].Value = q.QuestID;
-				row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}", q.QuestID, q.Name, q.Description );
-
+				{
+					var progress = KCDatabase.Instance.QuestProgress[q.QuestID];
+					row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}\r\n{3}", q.QuestID, q.Name, q.Description, progress != null ? progress.GetClearCondition() : "" );
+				}
 				{
 					string value;
 					double tag;
@@ -231,7 +233,7 @@ namespace ElectronicObserver.Window {
 					} else {
 
 						if ( KCDatabase.Instance.QuestProgress.Progresses.ContainsKey( q.QuestID ) ) {
-							var p = KCDatabase.Instance.QuestProgress.Progresses[q.QuestID];
+							var p = KCDatabase.Instance.QuestProgress[q.QuestID];
 
 							value = p.ToString();
 							tag = p.ProgressPercentage;
@@ -433,11 +435,6 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		protected override string GetPersistString() {
-			return "Quest";
-		}
-
-
 
 		private void MenuMain_ColumnFilter_Click( object sender, EventArgs e ) {
 
@@ -458,6 +455,11 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Config.FormQuest.ColumnFilter.List[index] = menu.Checked;
 		}
 
+
+
+		protected override string GetPersistString() {
+			return "Quest";
+		}
 
 
 	}
