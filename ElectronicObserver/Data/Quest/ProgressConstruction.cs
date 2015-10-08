@@ -17,5 +17,9 @@ namespace ElectronicObserver.Data.Quest {
 			: base( questID, maxCount ) {
 		}
 
+
+		public override string GetClearCondition() {
+			return "建造" + ProgressMax;
+		}
 	}
 }

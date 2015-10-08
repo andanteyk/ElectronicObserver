@@ -16,5 +16,9 @@ namespace ElectronicObserver.Data.Quest {
 		public ProgressModernization( int questID, int maxCount )
 			: base( questID, maxCount ) {
 		}
+
+		public override string GetClearCondition() {
+			return "近代化改修" + ProgressMax;
+		}
 	}
 }

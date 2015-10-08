@@ -219,6 +219,10 @@ namespace ElectronicObserver.Data.Quest {
 			var slist = list.Where( elem => elem.Key < 1.0 ).OrderBy( elem => elem.Key ).Select( elem => elem.Value );
 			return string.Format( "{0:p1} ({1})", ProgressPercentage, slist.Count() > 0 ? string.Join( ", ", slist ) : "達成" );
 		}
+
+		public override string GetClearCondition() {
+			return string.Format( "出撃 {0}, S勝利 {1}, ボス {2}, ボス勝利 {3}", sortieMax, sWinMax, bossMax, bossWinMax );
+		}
 	}
 
 }

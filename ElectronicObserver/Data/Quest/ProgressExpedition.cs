@@ -27,8 +27,6 @@ namespace ElectronicObserver.Data.Quest {
 		}
 
 
-		
-
 		public void Increment( int areaID ) {
 
 			if ( TargetArea != null && !TargetArea.Contains( areaID ) )
@@ -37,5 +35,17 @@ namespace ElectronicObserver.Data.Quest {
 			Increment();
 		}
 
+
+		public override string GetClearCondition() {
+			StringBuilder sb = new StringBuilder();
+			if ( TargetArea != null ) {
+				sb.Append( string.Join( "・", TargetArea.OrderBy( s => s ).Select( s => KCDatabase.Instance.Mission[s].Name ) ) );
+			} else {
+				sb.Append( "遠征" );
+			}
+			sb.Append( ProgressMax );
+
+			return sb.ToString();
+		}
 	}
 }

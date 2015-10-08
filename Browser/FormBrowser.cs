@@ -79,6 +79,12 @@ namespace Browser {
 #endif
 
 
+		private NumericUpDown ToolMenu_Other_Volume_VolumeControl {
+			get { return (NumericUpDown)( (ToolStripControlHost)ToolMenu_Other_Volume.DropDownItems["ToolMenu_Other_Volume_VolumeControlHost"] ).Control; }
+		}
+
+
+
 
 		/// <summary>
 		/// </summary>
@@ -93,6 +99,26 @@ namespace Browser {
 			_volumeManager = new VolumeManager( (uint)System.Diagnostics.Process.GetCurrentProcess().Id );
 #endif
 			Browser.ReplacedKeyDown += Browser_ReplacedKeyDown;
+
+			// 音量設定用コントロールの追加
+			{
+				var control = new NumericUpDown();
+				control.Name = "ToolMenu_Other_Volume_VolumeControl";
+				control.Maximum = 100;
+				control.TextAlign = HorizontalAlignment.Right;
+				control.Font = ToolMenu_Other_Volume.Font;
+
+				control.ValueChanged += ToolMenu_Other_Volume_ValueChanged;
+				control.Tag = false;
+			
+				var host = new ToolStripControlHost( control, "ToolMenu_Other_Volume_VolumeControlHost" );
+
+				control.Size = new Size( host.Width - control.Margin.Horizontal, host.Height - control.Margin.Vertical );
+				control.Location = new Point( control.Margin.Left, control.Margin.Top );
+				
+
+				ToolMenu_Other_Volume.DropDownItems.Add( host );
+			}
 
 			if ( File.Exists( "PageScript.js" ) ) {
 				PageScript = File.ReadAllText( "PageScript.js" );
@@ -111,6 +137,7 @@ namespace Browser {
 			this.AutoScaleMode = AutoScaleMode.Dpi;
 			this.AutoScaleDimensions = new SizeF( 96F, 96F );
 			ResumeLayout();
+
 		}
 
 
@@ -198,7 +225,7 @@ namespace Browser {
 			ApplyZoom();
 
 			//起動直後はまだ音声が鳴っていないのでミュートできないため、この時点で有効化
-			SetMuteIcon();
+			SetVolumeState();
 		}
 
 
@@ -459,10 +486,11 @@ namespace Browser {
 
 			var wb = Browser;
 
-			//if ( !IsKanColleLoaded ) {
-			//	AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
-			//	return;
-			//}
+			if ( !IsKanColleLoaded ) {
+				AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
+				System.Media.SystemSounds.Beep.Play();
+				return;
+			}
 
 			try {
 				IViewObject viewobj = null;
@@ -533,6 +561,8 @@ namespace Browser {
 
 				BrowserHost.AsyncRemoteRun( () =>
 					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スクリーンショットの保存時にエラーが発生しました。" ) );
+				System.Media.SystemSounds.Beep.Play();
+
 			}
 
 
@@ -678,19 +708,20 @@ namespace Browser {
 				Icons.Images["Browser_Navigate"];
 			ToolMenu_Other.Image =
 				Icons.Images["Browser_Other"];
-			SetMuteIcon();
+
+			SetVolumeState();
 		}
 
 
-		private void SetMuteIcon() {
+		private void SetVolumeState() {
 
 			bool mute;
-			bool isEnabled;
+			float volume;
 
 			try {
 #if !NOVOL
 				mute = _volumeManager.IsMute;
-				isEnabled = true;
+				volume = _volumeManager.Volume * 100;
 #else
 				mute = false;
 				isEnabled = false;
@@ -699,15 +730,18 @@ namespace Browser {
 			} catch ( Exception ) {
 				// 音量データ取得不能時
 				mute = false;
-				isEnabled = false;
+				volume = 100;
 			}
 
 			ToolMenu_Mute.Image = ToolMenu_Other_Mute.Image =
 				Icons.Images[mute ? "Browser_Mute" : "Browser_Unmute"];
 
-
-			ToolMenu_Mute.Enabled = ToolMenu_Other_Mute.Enabled = ToolMenu_Mute_Track.Enabled =
-				isEnabled;
+			{
+				var control = ToolMenu_Other_Volume_VolumeControl;
+				control.Tag = false;
+				control.Value = (decimal)volume;
+				control.Tag = true;
+			}
 		}
 
 
@@ -786,11 +820,29 @@ namespace Browser {
 				_volumeManager.ToggleMute();
 
 			} catch ( Exception ) {
+				System.Media.SystemSounds.Beep.Play();
 			}
 #endif
 
-			SetMuteIcon();
+			SetVolumeState();
 		}
+
+		void ToolMenu_Other_Volume_ValueChanged( object sender, EventArgs e ) {
+
+			var control = ToolMenu_Other_Volume_VolumeControl;
+				
+			try {
+				if ( (bool)control.Tag )
+					_volumeManager.Volume = (float)( control.Value / 100 );
+				control.BackColor = SystemColors.Window;
+
+			} catch ( Exception ) {
+				control.BackColor = Color.MistyRose;
+				
+			}
+
+		}
+
 
 		private void ToolMenu_Other_Refresh_Click( object sender, EventArgs e ) {
 

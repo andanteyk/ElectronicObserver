@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Window.Support;
+﻿using ElectronicObserver.Data;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,46 +13,128 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogShipGroupColumnFilter : Form {
 
-		public bool[] CheckedList {
-			get {
-				bool[] checkedList = new bool[FilterList.Items.Count];
-				for ( int i = 0; i < checkedList.Length; i++ ) {
-					checkedList[i] = FilterList.GetItemChecked( i );
-				}
+		public List<ShipGroupData.ViewColumnData> Result { get; private set; }
+		public int ScrollLockColumnCount { get; private set; }
 
-				return checkedList;
-			}
-		}
-
-		public DialogShipGroupColumnFilter( DataGridView target ) {
-			this.SuspendLayoutForDpiScale();
+		public DialogShipGroupColumnFilter( DataGridView target, ShipGroupData group ) {
 			InitializeComponent();
 
-			AllCheck.Tag = false;
 
-			foreach ( DataGridViewColumn c in target.Columns ) {
-				FilterList.Items.Add( c.HeaderText, c.Visible );
+			var rows = new LinkedList<DataGridViewRow>();
+			var row = new DataGridViewRow();
+
+			row.CreateCells( ColumnView );
+			row.SetValues( "(全て)", null, null, "-" );
+			row.Cells[ColumnView_Width.Index].ReadOnly = true;
+			rows.AddLast( row );
+
+			foreach ( var c in group.ViewColumns.Values.OrderBy( c => c.DisplayIndex ) ) {
+				row = new DataGridViewRow();
+				row.CreateCells( ColumnView );
+				row.SetValues( target.Columns[c.Name].HeaderText, c.Visible, c.AutoSize, c.Width );
+				row.Cells[ColumnView_Width.Index].ValueType = typeof( int );
+				row.Tag = c.Name;
+				rows.AddLast( row );
 			}
 
+			ColumnView.Rows.AddRange( rows.ToArray() );
 
-			{
-				int count = FilterList.CheckedItems.Count;
-				if ( count == 0 )
-					AllCheck.CheckState = CheckState.Unchecked;
-				else if ( count == FilterList.Items.Count )
-					AllCheck.CheckState = CheckState.Checked;
-				else
-					AllCheck.CheckState = CheckState.Indeterminate;
 
-			}
-			AllCheck.Tag = true;
-
-			this.ResumeLayoutForDpiScale();
+			ScrLkColumnCount.Minimum = 0;
+			ScrLkColumnCount.Maximum = group.ViewColumns.Count;
+			ScrLkColumnCount.Value = group.ScrollLockColumnCount;
 		}
 
+		private void DialogShipGroupColumnFilter_Load( object sender, EventArgs e ) {
+			if ( Owner != null )
+				Icon = Owner.Icon;
+		}
+
+
+
+		// (全て)の処理
+		private void ColumnView_CellValueChanged( object sender, DataGridViewCellEventArgs e ) {
+
+			if ( e.RowIndex == 0 ) {
+
+				if ( e.ColumnIndex == ColumnView_Visible.Index ) {
+					for ( int i = 1; i < ColumnView.Rows.Count; i++ ) {
+						ColumnView.Rows[i].Cells[ColumnView_Visible.Index].Value =
+							ColumnView.Rows[0].Cells[ColumnView_Visible.Index].Value;
+					}
+				}
+
+				if ( e.ColumnIndex == ColumnView_AutoSize.Index ) {
+					for ( int i = 1; i < ColumnView.Rows.Count; i++ ) {
+						ColumnView.Rows[i].Cells[ColumnView_AutoSize.Index].Value =
+							ColumnView.Rows[0].Cells[ColumnView_AutoSize.Index].Value;
+					}
+				}
+			}
+
+		}
+
+		// ボタン処理
+		private void ColumnView_CellContentClick( object sender, DataGridViewCellEventArgs e ) {
+
+			if ( e.RowIndex < 1 ) return;
+
+			if ( e.ColumnIndex == ColumnView_Up.Index && e.RowIndex > 1 ) {
+				ControlHelper.RowMoveUp( ColumnView, e.RowIndex );
+
+			} else if ( e.ColumnIndex == ColumnView_Down.Index && e.RowIndex < ColumnView.Rows.Count - 1 ) {
+				ControlHelper.RowMoveDown( ColumnView, e.RowIndex );
+			}
+		}
+
+		// チェックボックスを即時反映
+		private void ColumnView_CurrentCellDirtyStateChanged( object sender, EventArgs e ) {
+
+			if ( ColumnView.Columns[ColumnView.CurrentCellAddress.X] is DataGridViewCheckBoxColumn ) {
+				if ( ColumnView.IsCurrentCellDirty ) {
+					ColumnView.CommitEdit( DataGridViewDataErrorContexts.Commit );
+				}
+			}
+		}
+
+		// エラー値は元に戻す
+		private void ColumnView_DataError( object sender, DataGridViewDataErrorEventArgs e ) {
+			e.Cancel = false;
+		}
+
+		// 幅には数値以外の入力を拒否
+		private void ColumnView_CellValidating( object sender, DataGridViewCellValidatingEventArgs e ) {
+
+			if ( e.ColumnIndex == ColumnView_Width.Index ) {
+
+				int value;
+				if ( !int.TryParse( e.FormattedValue.ToString(), out value ) ) {
+					ColumnView.CancelEdit();
+				}
+
+			}
+
+		}
 
 
 		private void ButtonOK_Click( object sender, EventArgs e ) {
+
+			Result = new List<ShipGroupData.ViewColumnData>( ColumnView.Rows.Count - 1 );
+
+			for ( int i = 1; i < ColumnView.Rows.Count; i++ ) {
+
+				var row = ColumnView.Rows[i];
+				var r = new ShipGroupData.ViewColumnData( (string)row.Tag );
+				r.DisplayIndex = row.Index - 1;
+				r.Visible = (bool)row.Cells[ColumnView_Visible.Index].Value;
+				r.AutoSize = (bool)row.Cells[ColumnView_AutoSize.Index].Value;
+				r.Width = Convert.ToInt32( row.Cells[ColumnView_Width.Index].Value );
+
+				Result.Add( r );
+			}
+
+			ScrollLockColumnCount = (int)ScrLkColumnCount.Value;
+
 			DialogResult = System.Windows.Forms.DialogResult.OK;
 		}
 
@@ -61,28 +144,44 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void AllCheck_CheckedChanged( object sender, EventArgs e ) {
+		private void CopyRow( DataGridView dgv, int source, int destination ) {
+			var clone = new DataGridViewRow();
+			var src = dgv.Rows[source];
+			clone.CreateCells( dgv );
 
-			if ( AllCheck.CheckState == CheckState.Indeterminate )
-				return;
-
-			bool check = AllCheck.Checked;
-			AllCheck.Tag = false;
-
-			for ( int i = 0; i < FilterList.Items.Count; i++ ) {
-				FilterList.SetItemChecked( i, check );
+			for ( int i = 0; i < clone.Cells.Count; i++ ) {
+				clone.Cells[i].Value = src.Cells[i].Value;
 			}
-			AllCheck.Tag = true;
+			clone.Tag = src.Tag;
 
+			dgv.Rows.Insert( destination, clone );
 		}
 
 
-		private void FilterList_ItemCheck( object sender, ItemCheckEventArgs e ) {
+		private void CheckRow() {
 
-			if ( (bool)AllCheck.Tag )
-				AllCheck.CheckState = CheckState.Indeterminate;
+			var rows = ColumnView.Rows.Cast<DataGridViewRow>();
+			var allrow = ColumnView.Rows[0];
+
+			if ( rows.All( r => r.Cells[ColumnView_Visible.Index].Value as bool? ?? false == true ) ) {
+				allrow.Cells[ColumnView_Visible.Index].Value = true;
+			} else if ( rows.All( r => r.Cells[ColumnView_Visible.Index].Value as bool? ?? true == false ) ) {
+				allrow.Cells[ColumnView_Visible.Index].Value = false;
+			} else {
+				allrow.Cells[ColumnView_Visible.Index].Value = null;
+			}
+
+			if ( rows.All( r => r.Cells[ColumnView_AutoSize.Index].Value as bool? ?? false == true ) ) {
+				allrow.Cells[ColumnView_AutoSize.Index].Value = true;
+			} else if ( rows.All( r => r.Cells[ColumnView_AutoSize.Index].Value as bool? ?? true == false ) ) {
+				allrow.Cells[ColumnView_AutoSize.Index].Value = false;
+			} else {
+				allrow.Cells[ColumnView_AutoSize.Index].Value = null;
+			}
+
 
 		}
+
 
 	}
 }
