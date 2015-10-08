@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,7 +69,7 @@ namespace ElectronicObserver.Resource.Record {
 						/*/
 
 						LoadLine( line );
-						
+
 						//*/
 
 						linecount++;
@@ -143,6 +144,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// レコードをクリアします。ロード直前に呼ばれます。
 		/// </summary>
 		protected virtual void ClearRecord() { }
+
 
 
 		/// <summary>

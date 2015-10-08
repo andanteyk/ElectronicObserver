@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -199,7 +200,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 						int index;
 						if ( int.TryParse( match.Groups["index"].Value, out index ) ) {
-							memberex = Expression.ArrayAccess( memberex, Expression.Constant( index, typeof( int ) ) );
+							memberex = Expression.Property( memberex, "Item", Expression.Constant( index, typeof( int ) ) );
 						}
 
 					} while ( ( match = match.NextMatch() ).Success );
@@ -316,9 +317,113 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 
 		public override string ToString() {
-			return string.Format( "{0} は {1} {2}", LeftOperandNameTable.ContainsKey( LeftOperand ) ? LeftOperandNameTable[LeftOperand] : LeftOperand, RightOperand.ToString(), OperatorNameTable[Operator] );
+			return string.Format( "{0} は {1} {2}", LeftOperandToString(), RightOperandToString(), OperatorToString() );
 		}
 
+
+		/// <summary>
+		/// 左辺値の文字列表現を求めます。
+		/// </summary>
+		public string LeftOperandToString() {
+			if ( LeftOperandNameTable.ContainsKey( LeftOperand ) )
+				return LeftOperandNameTable[LeftOperand];
+			else
+				return LeftOperand;
+		}
+
+		/// <summary>
+		/// 演算子の文字列表現を求めます。
+		/// </summary>
+		public string OperatorToString() {
+			return OperatorNameTable[Operator];
+		}
+
+		/// <summary>
+		/// 右辺値の文字列表現を求めます。
+		/// </summary>
+		public string RightOperandToString() {
+
+			if ( LeftOperand == ".MasterID" ) {
+				var ship = KCDatabase.Instance.Ships[(int)RightOperand];
+				if ( ship != null )
+					return string.Format( "{0} ({1})", ship.MasterID, ship.NameWithLevel );
+				else
+					return string.Format( "{0} (未在籍)", (int)RightOperand );
+
+			} else if ( LeftOperand == ".ShipID" ) {
+				var ship = KCDatabase.Instance.MasterShips[(int)RightOperand];
+				if ( ship != null )
+					return string.Format( "{0} ({1})", ship.ShipID, ship.NameWithClass );
+				else
+					return string.Format( "{0} (存在せず)", (int)RightOperand );
+
+			} else if ( LeftOperand == ".MasterShip.ShipType" ) {
+				var shiptype = KCDatabase.Instance.ShipTypes[(int)RightOperand];
+				if ( shiptype != null )
+					return shiptype.Name;
+				else
+					return string.Format( "{0} (未定義)", (int)RightOperand );
+
+			} else if ( LeftOperand.Contains( "SlotMaster" ) ) {
+				var eq = KCDatabase.Instance.MasterEquipments[(int)RightOperand];
+				if ( eq != null )
+					return eq.Name;
+				else
+					return string.Format( "{0} (未定義)", (int)RightOperand );
+
+			} else if ( LeftOperand.Contains( "Rate" ) && RightOperand is double ) {
+				return ( (double)RightOperand ).ToString( "P0" );
+
+			} else if ( LeftOperand == ".RepairTime" ) {
+				return DateTimeHelper.ToTimeRemainString( DateTimeHelper.FromAPITimeSpan( (int)RightOperand ) );
+
+			} else if ( LeftOperand == ".Range" ) {
+				return Constants.GetRange( (int)RightOperand );
+
+			} else if ( LeftOperand == ".MasterShip.Speed" ) {
+				return Constants.GetSpeed( (int)RightOperand );
+
+			} else if ( LeftOperand == ".MasterShip.Rarity" ) {
+				return Constants.GetShipRarity( (int)RightOperand );
+
+			} else if ( LeftOperand == ".MasterShip.AlbumNo" ) {
+				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault( s => s.AlbumNo == (int)RightOperand );
+				if ( ship != null )
+					return string.Format( "{0} ({1})", (int)RightOperand, ship.NameWithClass );
+				else
+					return string.Format( "{0} (存在せず)", (int)RightOperand );
+
+			} else if ( LeftOperand == ".MasterShip.RemodelAfterShipID" ) {
+
+				if ( ( (int)RightOperand ) == 0 )
+					return "最終改装";
+
+				var ship = KCDatabase.Instance.MasterShips[(int)RightOperand];
+				if ( ship != null )
+					return string.Format( "{0} ({1})", ship.ShipID, ship.NameWithClass );
+				else
+					return string.Format( "{0} (存在せず)", (int)RightOperand );
+
+			} else if ( LeftOperand == ".MasterShip.RemodelBeforeShipID" ) {
+
+				if ( ( (int)RightOperand ) == 0 )
+					return "未改装";
+
+				var ship = KCDatabase.Instance.MasterShips[(int)RightOperand];
+				if ( ship != null )
+					return string.Format( "{0} ({1})", ship.ShipID, ship.NameWithClass );
+				else
+					return string.Format( "{0} (存在せず)", (int)RightOperand );
+
+			} else if ( RightOperand is bool ) {
+				return ( (bool)RightOperand ) ? "○" : "×";
+
+			} else {
+				return RightOperand.ToString();
+
+			}
+
+		}
 
 
 		public ExpressionData Clone() {

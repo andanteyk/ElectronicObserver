@@ -40,9 +40,9 @@
 			this.ButtonRightAll = new System.Windows.Forms.Button();
 			this.ButtonLeftAll = new System.Windows.Forms.Button();
 			this.DisabledView = new System.Windows.Forms.DataGridView();
+			this.DisabledView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
-			this.DisabledView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.EnabledView)).BeginInit();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.panel3.SuspendLayout();
@@ -263,6 +263,13 @@
 			this.DisabledView.TabIndex = 8;
 			this.DisabledView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.DisabledView_SortCompare);
 			// 
+			// DisabledView_Name
+			// 
+			this.DisabledView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.DisabledView_Name.HeaderText = "列名";
+			this.DisabledView_Name.Name = "DisabledView_Name";
+			this.DisabledView_Name.ReadOnly = true;
+			// 
 			// ButtonOK
 			// 
 			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -285,13 +292,6 @@
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
-			// DisabledView_Name
-			// 
-			this.DisabledView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.DisabledView_Name.HeaderText = "列名";
-			this.DisabledView_Name.Name = "DisabledView_Name";
-			this.DisabledView_Name.ReadOnly = true;
-			// 
 			// DialogShipGroupSortOrder
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -304,6 +304,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DialogShipGroupSortOrder";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "自動ソート順";
 			this.Load += new System.EventHandler(this.DialogShipGroupSortOrder_Load);
 			((System.ComponentModel.ISupportInitialize)(this.EnabledView)).EndInit();

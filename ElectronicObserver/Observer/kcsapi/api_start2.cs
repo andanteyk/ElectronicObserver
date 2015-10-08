@@ -149,13 +149,28 @@ namespace ElectronicObserver.Observer.kcsapi {
 
 
 			//api_mst_shipupgrade
+			Dictionary<int, int> upgradeLevels = new Dictionary<int, int>();
 			foreach ( var elem in data.api_mst_shipupgrade ) {
 
-				if ( elem.api_drawing_count > 0 ) {
-					int id = db.MasterShips[(int)elem.api_id].RemodelBeforeShipID;
-					if ( id != 0 ) {
-						db.MasterShips[id].NeedBlueprint = (int)elem.api_drawing_count;
+				int idbefore = (int)elem.api_current_ship_id;
+				int idafter = (int)elem.api_id;
+				var shipbefore = db.MasterShips[idbefore];
+				var shipafter = db.MasterShips[idafter];
+				int level = (int)elem.api_upgrade_level;
+				
+				if ( upgradeLevels.ContainsKey( idafter ) ) {
+					if ( level < upgradeLevels[idafter] ) {
+						shipafter.RemodelBeforeShipID = idbefore;
+						upgradeLevels[idafter] = level;
 					}
+				} else {
+					shipafter.RemodelBeforeShipID = idbefore;
+					upgradeLevels.Add( idafter, level );
+				}
+
+				if ( shipbefore != null ) {
+					shipbefore.NeedBlueprint = (int)elem.api_drawing_count;
+					shipbefore.NeedCatapult = (int)elem.api_catapult_count;
 				}
 			}
 

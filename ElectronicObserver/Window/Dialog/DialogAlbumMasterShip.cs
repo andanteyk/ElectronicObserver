@@ -489,13 +489,15 @@ namespace ElectronicObserver.Window.Dialog {
 					RemodelBeforeShipName.Text = "(なし)";
 					RemodelBeforeLevel.Text = "";
 					RemodelBeforeLevel.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( RemodelBeforeLevel, null );
 					RemodelBeforeAmmo.Text = "-";
 					RemodelBeforeSteel.Text = "-";
 				} else {
 					ShipDataMaster sbefore = ship.RemodelBeforeShip;
 					RemodelBeforeShipName.Text = sbefore.Name;
 					RemodelBeforeLevel.Text = string.Format( "Lv. {0}", sbefore.RemodelAfterLevel );
-					RemodelBeforeLevel.ImageIndex = sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
+					RemodelBeforeLevel.ImageIndex = sbefore.NeedCatapult > 0 ? (int)ResourceManager.IconContent.ItemCatapult : sbefore.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
+					ToolTipInfo.SetToolTip( RemodelBeforeLevel, GetRemodelItem( sbefore ) );
 					RemodelBeforeAmmo.Text = sbefore.RemodelAmmo.ToString();
 					RemodelBeforeSteel.Text = sbefore.RemodelSteel.ToString();
 				}
@@ -504,12 +506,14 @@ namespace ElectronicObserver.Window.Dialog {
 					RemodelAfterShipName.Text = "(なし)";
 					RemodelAfterLevel.Text = "";
 					RemodelAfterLevel.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( RemodelAfterLevel, null );
 					RemodelAfterAmmo.Text = "-";
 					RemodelAfterSteel.Text = "-";
 				} else {
 					RemodelAfterShipName.Text = ship.RemodelAfterShip.Name;
 					RemodelAfterLevel.Text = string.Format( "Lv. {0}", ship.RemodelAfterLevel );
-					RemodelAfterLevel.ImageIndex = ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
+					RemodelAfterLevel.ImageIndex = ship.NeedCatapult > 0 ? (int)ResourceManager.IconContent.ItemCatapult : ship.NeedBlueprint > 0 ? (int)ResourceManager.IconContent.ItemBlueprint : -1;
+					ToolTipInfo.SetToolTip( RemodelAfterLevel, GetRemodelItem( ship ) );
 					RemodelAfterAmmo.Text = ship.RemodelAmmo.ToString();
 					RemodelAfterSteel.Text = ship.RemodelSteel.ToString();
 				}
@@ -709,6 +713,15 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		private string GetRemodelItem( ShipDataMaster ship ) {
+			StringBuilder sb = new StringBuilder();
+			if ( ship.NeedBlueprint > 0 )
+				sb.AppendLine( "改装設計図: " + ship.NeedBlueprint );
+			if ( ship.NeedCatapult > 0 )
+				sb.AppendLine( "試製甲板カタパルト: " + ship.NeedCatapult );
+
+			return sb.ToString();
+		}
 
 
 		private void StripMenu_File_OutputCSVUser_Click( object sender, EventArgs e ) {

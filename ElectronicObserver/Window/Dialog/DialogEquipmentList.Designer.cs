@@ -70,7 +70,7 @@
 			this.EquipmentView.RowHeadersVisible = false;
 			this.EquipmentView.RowTemplate.Height = 21;
 			this.EquipmentView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.EquipmentView.Size = new System.Drawing.Size(320, 442);
+			this.EquipmentView.Size = new System.Drawing.Size(320, 456);
 			this.EquipmentView.TabIndex = 0;
 			this.EquipmentView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.EquipmentView_CellFormatting);
 			this.EquipmentView.SelectionChanged += new System.EventHandler(this.EquipmentView_SelectionChanged);
@@ -122,7 +122,7 @@
             this.TopMenu_File});
 			this.TopMenu.Location = new System.Drawing.Point(0, 0);
 			this.TopMenu.Name = "TopMenu";
-			this.TopMenu.Size = new System.Drawing.Size(640, 38);
+			this.TopMenu.Size = new System.Drawing.Size(640, 24);
 			this.TopMenu.TabIndex = 1;
 			this.TopMenu.Text = "menuStrip1";
 			// 
@@ -132,14 +132,14 @@
             this.TopMenu_File_CSVOutput,
             this.TopMenu_File_Update});
 			this.TopMenu_File.Name = "TopMenu_File";
-			this.TopMenu_File.Size = new System.Drawing.Size(128, 34);
+			this.TopMenu_File.Size = new System.Drawing.Size(70, 20);
 			this.TopMenu_File.Text = "ファイル(&F)";
 			// 
 			// TopMenu_File_CSVOutput
 			// 
 			this.TopMenu_File_CSVOutput.Name = "TopMenu_File_CSVOutput";
 			this.TopMenu_File_CSVOutput.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.TopMenu_File_CSVOutput.Size = new System.Drawing.Size(331, 34);
+			this.TopMenu_File_CSVOutput.Size = new System.Drawing.Size(198, 22);
 			this.TopMenu_File_CSVOutput.Text = "CSV出力(&C)...";
 			this.TopMenu_File_CSVOutput.Click += new System.EventHandler(this.Menu_File_CSVOutput_Click);
 			// 
@@ -147,7 +147,7 @@
 			// 
 			this.TopMenu_File_Update.Name = "TopMenu_File_Update";
 			this.TopMenu_File_Update.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-			this.TopMenu_File_Update.Size = new System.Drawing.Size(331, 34);
+			this.TopMenu_File_Update.Size = new System.Drawing.Size(198, 22);
 			this.TopMenu_File_Update.Text = "更新(&U)";
 			this.TopMenu_File_Update.Click += new System.EventHandler(this.TopMenu_File_Update_Click);
 			// 
@@ -159,7 +159,7 @@
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 38);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -169,7 +169,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.DetailView);
-			this.splitContainer1.Size = new System.Drawing.Size(640, 442);
+			this.splitContainer1.Size = new System.Drawing.Size(640, 456);
 			this.splitContainer1.SplitterDistance = 320;
 			this.splitContainer1.TabIndex = 2;
 			// 
@@ -193,7 +193,7 @@
 			this.DetailView.RowHeadersVisible = false;
 			this.DetailView.RowTemplate.Height = 21;
 			this.DetailView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.DetailView.Size = new System.Drawing.Size(316, 442);
+			this.DetailView.Size = new System.Drawing.Size(316, 456);
 			this.DetailView.TabIndex = 1;
 			this.DetailView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DetailView_CellFormatting);
 			this.DetailView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DetailView_CellPainting);
@@ -244,6 +244,7 @@
 			this.Font = Program.Window_Font;
 			this.MainMenuStrip = this.TopMenu;
 			this.Name = "DialogEquipmentList";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "装备一览";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogEquipmentList_FormClosed);
 			this.Load += new System.EventHandler(this.DialogEquipmentList_Load);

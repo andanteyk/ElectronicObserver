@@ -1328,7 +1328,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					DamageLabels[i].Text = ( attackAirDamages[i] + attackDamages[i] ) > 0 ? ( attackAirDamages[i] + attackDamages[i] ).ToString() : string.Empty;
 
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n造成伤害: {7}",
+						string.Format( "{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]\r\n造成伤害: {8}",
+							ship.MasterShip.ShipTypeName,
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
@@ -1347,7 +1348,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					ShipDataMaster ship = bd.Initial.EnemyMembersInstance[i];
 
 					ToolTipInfo.SetToolTip( HPBars[i + 6],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]",
+						string.Format( "{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]",
+							ship.ShipTypeName,
 							ship.NameWithClass,
 							bd.Initial.EnemyLevels[i],
 							Math.Max( HPBars[i + 6].PrevValue, 0 ),

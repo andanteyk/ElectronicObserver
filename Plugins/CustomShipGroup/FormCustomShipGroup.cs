@@ -1157,7 +1157,7 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			using ( var dialog = new DialogShipGroupColumnFilter( ShipView ) ) {
+			using ( var dialog = new CustomDialogShipGroupColumnFilter( ShipView ) ) {
 
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
@@ -1282,7 +1282,7 @@ namespace ElectronicObserver.Window {
 
 
 
-			using ( var dialog = new DialogShipGroupCSVOutput() ) {
+			using ( var dialog = new CustomDialogShipGroupCSVOutput() ) {
 
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
@@ -1290,7 +1290,7 @@ namespace ElectronicObserver.Window {
 
 						using ( StreamWriter sw = new StreamWriter( dialog.OutputPath, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-							string[] header = dialog.OutputFormat == DialogShipGroupCSVOutput.OutputFormatConstants.User ? ShipCSVHeaderUser : ShipCSVHeaderData;
+							string[] header = dialog.OutputFormat == CustomDialogShipGroupCSVOutput.OutputFormatConstants.User ? ShipCSVHeaderUser : ShipCSVHeaderData;
 
 							sw.WriteLine( string.Join( ",", header ) );
 
@@ -1301,7 +1301,7 @@ namespace ElectronicObserver.Window {
 								if ( ship == null ) continue;
 
 
-								if ( dialog.OutputFormat == DialogShipGroupCSVOutput.OutputFormatConstants.User ) {
+								if ( dialog.OutputFormat == CustomDialogShipGroupCSVOutput.OutputFormatConstants.User ) {
 
 									sw.WriteLine( arg,
 										ship.MasterID,

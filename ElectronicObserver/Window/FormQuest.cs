@@ -162,65 +162,23 @@ namespace ElectronicObserver.Window {
 					conf.UI.ForeColor;
 			}
 
-			if ( CSCategories != null && CSCategories.Length >= 8 ) {
-				for ( int i = 0; i < 8; i++ ) {
-
-					Color c;
-					switch ( i + 1 ) {
-						case 1:		//編成
-							c = conf.UI.QuestOrganization;
-							break;
-						case 2:		//出撃
-							c = conf.UI.QuestSortie;
-							break;
-						case 3:		//演習
-							c = conf.UI.QuestExercise;
-							break;
-						case 4:		//遠征
-							c = conf.UI.QuestExpedition;
-							break;
-						case 5:		//補給/入渠
-							c = conf.UI.QuestSupplyDocking;
-							break;
-						case 6:		//工廠
-							c = conf.UI.QuestArsenal;
-							break;
-						case 7:		//改装
-							c = conf.UI.QuestRenovated;
-							break;
-						case 8:		//その他
-						default:
-							c = CSDefaultCenter.BackColor;
-							break;
-					}
-
-					CSCategories[i].BackColor =
-					CSCategories[i].SelectionBackColor = c;
-					CSCategories[i].ForeColor =
-					CSCategories[i].SelectionForeColor =
-						SystemColors.ControlText;
-				}
+			if ( conf.FormQuest.ColumnFilter == null || ( (List<bool>)conf.FormQuest.ColumnFilter ).Count != QuestView.Columns.Count ) {
+				conf.FormQuest.ColumnFilter = Enumerable.Repeat( true, QuestView.Columns.Count ).ToList();
 			}
-
-			QuestView.Font = Font = conf.UI.MainFont;
-
-			MenuMain_ShowRunningOnly.Checked = conf.FormQuest.ShowRunningOnly;
-			MenuMain_ShowOnce.Checked = conf.FormQuest.ShowOnce;
-			MenuMain_ShowDaily.Checked = conf.FormQuest.ShowDaily;
-			MenuMain_ShowWeekly.Checked = conf.FormQuest.ShowWeekly;
-			MenuMain_ShowMonthly.Checked = conf.FormQuest.ShowMonthly;
-
-			if ( conf.FormQuest.ColumnFilter == null ) {
-				conf.FormQuest.ColumnFilter = new Utility.Storage.SerializableList<bool>( Enumerable.Repeat( true, QuestView.Columns.Count ).ToList() );
+			if ( conf.FormQuest.ColumnWidth == null || ( (List<int>)conf.FormQuest.ColumnWidth ).Count != QuestView.Columns.Count ) {
+				conf.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( column => column.Width ).ToList();
 			}
 			{
 				List<bool> list = conf.FormQuest.ColumnFilter;
+				List<int> width = conf.FormQuest.ColumnWidth;
 
 				for ( int i = 0; i < QuestView.Columns.Count; i++ ) {
 					QuestView.Columns[i].Visible =
 					( (ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i] ).Checked = list[i];
+					QuestView.Columns[i].Width = width[i];
 				}
 			}
+
 			Updated();
 
 		}
@@ -232,6 +190,8 @@ namespace ElectronicObserver.Window {
 
 				if ( QuestView.SortedColumn != null )
 					Utility.Configuration.Config.FormQuest.SortParameter = QuestView.SortedColumn.Index << 1 | ( QuestView.SortOrder == SortOrder.Ascending ? 0 : 1 );
+
+				Utility.Configuration.Config.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( c => c.Width ).ToList();
 
 			} catch ( Exception ) {
 				// *ぷちっ*				
@@ -280,8 +240,10 @@ namespace ElectronicObserver.Window {
 				row.Cells[QuestView_Category.Index].Value = q.Category;
 				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min( q.Category - 1, 8 - 1 )];
 				row.Cells[QuestView_Name.Index].Value = q.QuestID;
-				row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}", q.QuestID, q.Name, q.Description );
-
+				{
+					var progress = KCDatabase.Instance.QuestProgress[q.QuestID];
+					row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}\r\n{3}", q.QuestID, q.Name, q.Description, progress != null ? progress.GetClearCondition() : "" );
+				}
 				{
 					string value;
 					double tag;
@@ -293,7 +255,7 @@ namespace ElectronicObserver.Window {
 					} else {
 
 						if ( KCDatabase.Instance.QuestProgress.Progresses.ContainsKey( q.QuestID ) ) {
-							var p = KCDatabase.Instance.QuestProgress.Progresses[q.QuestID];
+							var p = KCDatabase.Instance.QuestProgress[q.QuestID];
 
 							value = p.ToString();
 							tag = p.ProgressPercentage;
@@ -500,13 +462,6 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		public override string GetPersistString()
-		{
-			return "Quest";
-		}
-
-
-
 		private void MenuMain_ColumnFilter_Click( object sender, EventArgs e ) {
 
 			var menu = sender as ToolStripMenuItem;
@@ -526,6 +481,11 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Config.FormQuest.ColumnFilter.List[index] = menu.Checked;
 		}
 
+
+
+		public override string GetPersistString() {
+			return "Quest";
+		}
 
 
 	}

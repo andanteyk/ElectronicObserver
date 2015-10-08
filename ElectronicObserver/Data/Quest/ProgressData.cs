@@ -20,13 +20,13 @@ namespace ElectronicObserver.Data.Quest {
 		[DataMember]
 		public int QuestID { get; protected set; }
 
-	
+
 		/// <summary>
 		/// 進捗現在値
 		/// </summary>
 		[DataMember]
 		public int Progress { get; protected set; }
-		
+
 		/// <summary>
 		/// 進捗最大値
 		/// </summary>
@@ -91,13 +91,13 @@ namespace ElectronicObserver.Data.Quest {
 		/// 進捗を1増やします。
 		/// </summary>
 		public virtual void Increment() {
-			
+
 			var q = KCDatabase.Instance.Quest[QuestID];
 
 			if ( q == null ) {
 				TemporaryProgress++;
 				return;
-			} 
+			}
 
 			if ( q.State != 2 )
 				return;
@@ -108,7 +108,7 @@ namespace ElectronicObserver.Data.Quest {
 
 
 			Progress = Math.Min( Progress + 1, ProgressMax );
-			
+
 			//DEBUG
 			//Utility.Logger.Add( 1, string.Format( "Quest++: [{0}] {1} {2}/{3}", QuestID, this.GetType().Name, Progress, ProgressMax ) );
 		}
@@ -144,6 +144,12 @@ namespace ElectronicObserver.Data.Quest {
 
 		}
 
+
+		/// <summary>
+		/// この任務の達成に必要な条件を表す文字列を返します。
+		/// </summary>
+		/// <returns></returns>
+		public abstract string GetClearCondition();
 
 		[IgnoreDataMember]
 		public int ID {

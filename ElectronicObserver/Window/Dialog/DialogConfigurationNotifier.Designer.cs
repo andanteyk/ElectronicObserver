@@ -37,6 +37,8 @@
 			this.ImagePathSearch = new System.Windows.Forms.Button();
 			this.ImagePath = new System.Windows.Forms.TextBox();
 			this.GroupDialog = new System.Windows.Forms.GroupBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.CloseList = new System.Windows.Forms.CheckedListBox();
 			this.ShowWithActivation = new System.Windows.Forms.CheckBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.DrawsMessage = new System.Windows.Forms.CheckBox();
@@ -72,8 +74,6 @@
 			this.DialogOpenSound = new System.Windows.Forms.OpenFileDialog();
 			this.DialogOpenImage = new System.Windows.Forms.OpenFileDialog();
 			this.ToolTipText = new System.Windows.Forms.ToolTip(this.components);
-			this.CloseList = new System.Windows.Forms.CheckedListBox();
-			this.label5 = new System.Windows.Forms.Label();
 			this.GroupSound.SuspendLayout();
 			this.GroupImage.SuspendLayout();
 			this.GroupDialog.SuspendLayout();
@@ -252,6 +252,33 @@
 			this.GroupDialog.TabIndex = 3;
 			this.GroupDialog.TabStop = false;
 			this.GroupDialog.Text = "通知对话框";
+			// 
+			// CloseList
+			// 
+			this.CloseList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.CloseList.CheckOnClick = true;
+			this.CloseList.FormattingEnabled = true;
+			this.CloseList.Items.AddRange(new object[] {
+            "左键单击",
+            "左键双击",
+            "右键单击",
+            "右键双击",
+            "中键单击",
+            "中键双击",
+            "鼠标移过"});
+			this.CloseList.Location = new System.Drawing.Point(476, 35);
+			this.CloseList.Name = "CloseList";
+			this.CloseList.Size = new System.Drawing.Size(120, 130);
+			this.CloseList.TabIndex = 20;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(473, 18);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(49, 15);
+			this.label5.TabIndex = 21;
+			this.label5.Text = "关闭：";
 			// 
 			// ShowWithActivation
 			// 
@@ -663,33 +690,6 @@
 			this.ToolTipText.InitialDelay = 500;
 			this.ToolTipText.ReshowDelay = 100;
 			// 
-			// CloseList
-			// 
-			this.CloseList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.CloseList.CheckOnClick = true;
-			this.CloseList.FormattingEnabled = true;
-			this.CloseList.Items.AddRange(new object[] {
-            "左键单击",
-            "左键双击",
-            "右键单击",
-            "右键双击",
-            "中键单击",
-            "中键双击",
-            "鼠标移过"});
-			this.CloseList.Location = new System.Drawing.Point(476, 35);
-			this.CloseList.Name = "CloseList";
-			this.CloseList.Size = new System.Drawing.Size(120, 130);
-			this.CloseList.TabIndex = 20;
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(473, 18);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(49, 15);
-			this.label5.TabIndex = 21;
-			this.label5.Text = "关闭：";
-			// 
 			// DialogConfigurationNotifier
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -708,6 +708,7 @@
 			this.MinimizeBox = false;
 			this.Name = "DialogConfigurationNotifier";
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "通知的设置";
 			this.Load += new System.EventHandler(this.DialogConfigurationNotifier_Load);
 			this.GroupSound.ResumeLayout(false);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,7 +11,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 
 	[DataContract( Name = "ExpressionManager" )]
-	public class ExpressionManager : ICloneable {
+	public class ExpressionManager : DataStorage, ICloneable {
 
 		[DataMember]
 		public List<ExpressionList> Expressions { get; set; }
@@ -22,7 +23,11 @@ namespace ElectronicObserver.Data.ShipGroup {
 		private Expression expression;
 
 
-		public ExpressionManager() {
+		public ExpressionManager()
+			: base() {
+		}
+
+		public override void Initialize() {
 			Expressions = new List<ExpressionList>();
 			predicate = null;
 			expression = null;
@@ -82,7 +87,7 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 			if ( Expressions == null )
 				return "(なし)";
-			
+
 			StringBuilder sb = new StringBuilder();
 			foreach ( var ex in Expressions ) {
 				if ( !ex.Enabled )
@@ -106,13 +111,17 @@ namespace ElectronicObserver.Data.ShipGroup {
 
 		public ExpressionManager Clone() {
 			var clone = (ExpressionManager)MemberwiseClone();
-			clone.Expressions = Expressions == null ? null : new List<ExpressionList>( Expressions );
+			clone.Expressions = Expressions == null ? null : Expressions.Select( e => e.Clone() ).ToList();
+			clone.predicate = null;
+			clone.expression = null;
 			return clone;
 		}
 
 		object ICloneable.Clone() {
 			return Clone();
 		}
+
+
 	}
 
 }

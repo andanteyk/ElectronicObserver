@@ -369,6 +369,18 @@
     <Compile Include="Window\Dialog\DialogShipGroupCSVOutput.Designer.cs">
       <DependentUpon>DialogShipGroupCSVOutput.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupFilter.Designer.cs">
+      <DependentUpon>DialogShipGroupFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupSortOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogShipGroupSortOrder.Designer.cs">
+      <DependentUpon>DialogShipGroupSortOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogTextInput.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -503,6 +515,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogShipGroupCSVOutput.resx">
       <DependentUpon>DialogShipGroupCSVOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogShipGroupFilter.resx">
+      <DependentUpon>DialogShipGroupFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogShipGroupSortOrder.resx">
+      <DependentUpon>DialogShipGroupSortOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogTextInput.resx">
       <DependentUpon>DialogTextInput.cs</DependentUpon>

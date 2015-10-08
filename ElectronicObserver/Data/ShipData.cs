@@ -159,6 +159,9 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int ExpansionSlotMaster {
 			get {
+				if ( ExpansionSlot == 0 )
+					return 0;
+
 				EquipmentData eq = KCDatabase.Instance.Equipments[ExpansionSlot];
 				if ( eq != null )
 					return eq.EquipmentID;
@@ -846,7 +849,7 @@ namespace ElectronicObserver.Data {
 
 				//キャップ
 				if ( basepower > 150 ) {
-					basepower = 100 + Math.Sqrt( basepower - 150 );
+					basepower = 150 + Math.Sqrt( basepower - 150 );
 				}
 				basepower = Math.Floor( basepower );
 

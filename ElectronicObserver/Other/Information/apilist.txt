@@ -406,13 +406,15 @@ api_start2	：艦娘・装備固有データその他
 			api_string_value	：
 			api_int_value		：1?
 
-	api_mst_shipupgrade	：改装設計図
-		api_id					：艦船ID
-		api_original_ship_id	：未改装艦船ID
+	api_mst_shipupgrade	：特殊改装設定
+		api_id					：改装後の艦船ID
+		api_current_ship_id		：改装前の艦船ID　0=なし
+		api_original_ship_id	：初期改装の艦船ID
 		api_upgrade_type		：1
 		api_upgrade_level		：改装回数
 		api_drawing_count		：要改装設計図
-		api_sortno				：並べ替え順
+		api_catapult_count		：要試製甲板カタパルト
+		api_sortno				：図鑑ID
 
 	api_mst_bgm			：母港BGMデータ？
 		api_id			：音楽ID？

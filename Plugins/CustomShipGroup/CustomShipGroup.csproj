@@ -67,6 +67,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialog\CustomDialogShipGroupColumnFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\CustomDialogShipGroupColumnFilter.Designer.cs">
+      <DependentUpon>CustomDialogShipGroupColumnFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\CustomDialogShipGroupCSVOutput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\CustomDialogShipGroupCSVOutput.Designer.cs">
+      <DependentUpon>CustomDialogShipGroupCSVOutput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="FormCustomShipGroup.cs">
       <SubType>Form</SubType>
@@ -80,6 +92,12 @@
     <Compile Include="Model\CustomShipGroupManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Dialog\CustomDialogShipGroupColumnFilter.resx">
+      <DependentUpon>CustomDialogShipGroupColumnFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\CustomDialogShipGroupCSVOutput.resx">
+      <DependentUpon>CustomDialogShipGroupCSVOutput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormCustomShipGroup.resx">
       <DependentUpon>FormCustomShipGroup.cs</DependentUpon>
     </EmbeddedResource>

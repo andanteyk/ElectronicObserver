@@ -37,6 +37,13 @@ namespace ElectronicObserver.Resource {
 		#endregion
 
 
+		#region Constants
+
+		public static string AssetFilePath { get { return "Assets.zip"; } }
+		
+		#endregion
+
+
 		public enum IconContent {
 			Nothing = -1,
 			AppIcon,
@@ -55,6 +62,7 @@ namespace ElectronicObserver.Resource {
 			ItemModdingMaterial,
 			ItemFurnitureCoin,
 			ItemBlueprint,
+			ItemCatapult,
 			FormArsenal,
 			FormBattle,
 			FormCompass,
@@ -175,7 +183,7 @@ namespace ElectronicObserver.Resource {
 
 			try {
 
-				LoadFromArchive( "Assets.zip" );
+				LoadFromArchive( AssetFilePath );
 				return true;
 
 			} catch ( Exception ex ) {
@@ -227,6 +235,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/ModdingMaterial.png", "Item_ModdingMaterial" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/FurnitureCoin.png", "Item_FurnitureCoin" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Blueprint.png", "Item_Blueprint" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Catapult.png", "Item_Catapult" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Arsenal.png", "Form_Arsenal" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Battle.png", "Form_Battle" );
@@ -400,7 +409,7 @@ namespace ElectronicObserver.Resource {
 
 			} catch ( Exception ) {
 
-				Utility.Logger.Add( 3, string.Format( "图片资源 {0} 读取失败。" ) );
+				Utility.Logger.Add( 3, string.Format( "图片资源 {0} 读取失败。", path ) );
 				imglist.Images.Add( name, CreateBlankImage() );
 				return;
 			}
@@ -444,6 +453,74 @@ namespace ElectronicObserver.Resource {
 			}
 
 			return null;
+		}
+
+
+		/// <summary>
+		/// アーカイブの中からファイルをコピーします。
+		/// </summary>
+		/// <param name="archivePath">アーカイブの場所。</param>
+		/// <param name="source">アーカイブ内のファイルのパス。</param>
+		/// <param name="destination">出力するファイルのパス。</param>
+		/// <param name="checkexist">true の場合、ファイルが既に存在するときコピーを中止します。</param>
+		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
+		public static bool CopyFromArchive( string archivePath, string source, string destination, bool checkexist = true ) {
+
+			if ( checkexist && File.Exists( destination ) ) {
+				return false;
+			}
+
+
+			using ( var stream = File.OpenRead( archivePath ) ) {
+
+				using ( var archive = new ZipFile( stream ) ) {
+
+					string entrypath = @"Assets/" + source;
+
+					var entry = archive.GetEntry( entrypath );
+
+					if ( entry == null ) {
+						Utility.Logger.Add( 3, string.Format( "{0} は存在しません。", entrypath ) );
+						return false;
+					}
+
+
+					try {
+
+						//entry.ExtractToFile( destination );
+						using ( FileStream fs = File.OpenWrite( destination ) )
+						using ( Stream ins = archive.GetInputStream( entry ) ) {
+							byte[] buffer = new byte[1024];
+							int count;
+							while ( ( count = ins.Read( buffer, 0, 1024 ) ) > 0 )
+							{
+								fs.Write( buffer, 0, count );
+							}
+							fs.Flush();
+						}
+						Utility.Logger.Add( 2, string.Format( "{0} をコピーしました。", entrypath ) );
+
+					} catch ( Exception ex ) {
+
+						Utility.Logger.Add( 3, string.Format( "{0} のコピーに失敗しました。{1}", entrypath, ex.Message ) );
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+
+
+		/// <summary>
+		/// アーカイブの中からファイルをコピーします。
+		/// </summary>
+		/// <param name="source">アーカイブ内のファイルのパス。</param>
+		/// <param name="destination">出力するファイルのパス。</param>
+		/// <param name="checkexist">true の場合、ファイルが既に存在するときコピーを中止します。</param>
+		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
+		public static bool CopyFromArchive( string source, string destination, bool checkexist = true ) {
+			return CopyFromArchive( AssetFilePath, source, destination, checkexist );
 		}
 
 

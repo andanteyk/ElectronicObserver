@@ -16,5 +16,9 @@ namespace ElectronicObserver.Data.Quest {
 		public ProgressDiscard( int questID, int maxCount )
 			: base( questID, maxCount ) {
 		}
+
+		public override string GetClearCondition() {
+			return "廃棄" + ProgressMax;
+		}
 	}
 }

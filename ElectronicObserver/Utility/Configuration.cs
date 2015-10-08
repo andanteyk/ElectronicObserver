@@ -630,6 +630,11 @@ namespace ElectronicObserver.Utility {
 				public SerializableList<bool> ColumnFilter { get; set; }
 
 				/// <summary>
+				/// 列の幅
+				/// </summary>
+				public SerializableList<int> ColumnWidth { get; set; }
+
+				/// <summary>
 				/// どの行をソートしていたか
 				/// </summary>
 				public int SortParameter { get; set; }
@@ -641,6 +646,7 @@ namespace ElectronicObserver.Utility {
 					ShowWeekly = true;
 					ShowMonthly = true;
 					ColumnFilter = null;		//実際の初期化は FormQuest で行う
+					ColumnWidth = null;			//上に同じ
 					SortParameter = 3 << 1 | 0;
 				}
 			}
@@ -1185,6 +1191,32 @@ namespace ElectronicObserver.Utility {
 				}
 
 
+			}
+
+			// version 1.5.0 or earlier
+			if ( dt <= DateTimeHelper.CSVStringToTime( "2015/09/04 21:00:00" ) ) {
+
+				if ( MessageBox.Show(
+					"バージョンアップが検出されました。\r\n艦船グループデータの互換性がなくなったため、当該データを初期化します。\r\n(古いファイルは Settings_Backup フォルダに退避されます。)\r\nよろしいですか？\r\n(初期化せずに続行した場合、エラーが発生します。)\r\n",
+					"バージョンアップに伴う確認(～1.5.0)",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
+					 == DialogResult.Yes ) {
+
+					try {
+
+						Directory.CreateDirectory( "Settings_Backup" );
+						File.Move( "Settings\\ShipGroups.xml", "Settings_Backup\\ShipGroups.xml" );
+
+					} catch ( Exception ex ) {
+
+						Utility.ErrorReporter.SendErrorReport( ex, "バージョンアップに伴うグループデータの削除に失敗しました。" );
+
+						// エラーが出るだけなのでシャットダウンは不要
+						MessageBox.Show( "削除に失敗しました。\r\n" + ex.Message,
+							"エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+
+					}
+				}
 			}
 
 

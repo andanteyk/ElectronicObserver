@@ -65,7 +65,7 @@
 			this.APIView.RowHeadersVisible = false;
 			this.APIView.RowTemplate.Height = 21;
 			this.APIView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.APIView.Size = new System.Drawing.Size(624, 320);
+			this.APIView.Size = new System.Drawing.Size(624, 331);
 			this.APIView.TabIndex = 0;
 			// 
 			// APIView_FileName
@@ -83,12 +83,12 @@
             this.ViewMenu_Execute,
             this.ViewMenu_Delete});
 			this.ViewMenu.Name = "ContextMenu";
-			this.ViewMenu.Size = new System.Drawing.Size(226, 72);
+			this.ViewMenu.Size = new System.Drawing.Size(144, 48);
 			// 
 			// ViewMenu_Execute
 			// 
 			this.ViewMenu_Execute.Name = "ViewMenu_Execute";
-			this.ViewMenu_Execute.Size = new System.Drawing.Size(225, 34);
+			this.ViewMenu_Execute.Size = new System.Drawing.Size(143, 22);
 			this.ViewMenu_Execute.Text = "実行(&E)";
 			this.ViewMenu_Execute.Click += new System.EventHandler(this.ViewMenu_Execute_Click);
 			// 
@@ -96,7 +96,7 @@
 			// 
 			this.ViewMenu_Delete.Name = "ViewMenu_Delete";
 			this.ViewMenu_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-			this.ViewMenu_Delete.Size = new System.Drawing.Size(225, 34);
+			this.ViewMenu_Delete.Size = new System.Drawing.Size(143, 22);
 			this.ViewMenu_Delete.Text = "削除(&D)";
 			this.ViewMenu_Delete.Click += new System.EventHandler(this.ViewMenu_Delete_Click);
 			// 
@@ -107,7 +107,7 @@
             this.Menu_File});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(624, 38);
+			this.menuStrip1.Size = new System.Drawing.Size(624, 24);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -117,27 +117,27 @@
             this.Menu_File_OpenFolder,
             this.Menu_File_Reload});
 			this.Menu_File.Name = "Menu_File";
-			this.Menu_File.Size = new System.Drawing.Size(128, 34);
+			this.Menu_File.Size = new System.Drawing.Size(70, 20);
 			this.Menu_File.Text = "ファイル(&F)";
 			// 
 			// Menu_File_OpenFolder
 			// 
 			this.Menu_File_OpenFolder.Name = "Menu_File_OpenFolder";
-			this.Menu_File_OpenFolder.Size = new System.Drawing.Size(273, 34);
+			this.Menu_File_OpenFolder.Size = new System.Drawing.Size(167, 22);
 			this.Menu_File_OpenFolder.Text = "フォルダを開く(&O)...";
 			this.Menu_File_OpenFolder.Click += new System.EventHandler(this.Menu_File_OpenFolder_Click);
 			// 
 			// Menu_File_Reload
 			// 
 			this.Menu_File_Reload.Name = "Menu_File_Reload";
-			this.Menu_File_Reload.Size = new System.Drawing.Size(273, 34);
+			this.Menu_File_Reload.Size = new System.Drawing.Size(167, 22);
 			this.Menu_File_Reload.Text = "再読み込み(&R)";
 			this.Menu_File_Reload.Click += new System.EventHandler(this.Menu_File_Reload_Click);
 			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 38);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
 			this.splitContainer1.Name = "splitContainer1";
 			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
@@ -151,8 +151,8 @@
 			this.splitContainer1.Panel2.Controls.Add(this.TextFilter);
 			this.splitContainer1.Panel2.Controls.Add(this.ButtonExecuteNext);
 			this.splitContainer1.Panel2.Controls.Add(this.ButtonExecute);
-			this.splitContainer1.Size = new System.Drawing.Size(624, 403);
-			this.splitContainer1.SplitterDistance = 320;
+			this.splitContainer1.Size = new System.Drawing.Size(624, 417);
+			this.splitContainer1.SplitterDistance = 331;
 			this.splitContainer1.TabIndex = 2;
 			// 
 			// ButtonSearch
@@ -210,6 +210,7 @@
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "DialogLocalAPILoader2";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "ファイルからAPIをロード";
 			this.Load += new System.EventHandler(this.DialogLocalAPILoader2_Load);
 			((System.ComponentModel.ISupportInitialize)(this.APIView)).EndInit();

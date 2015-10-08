@@ -47,16 +47,18 @@ namespace ElectronicObserver.Resource.Record {
 
 		public void Load() {
 
-			bool successed = true;
+			bool succeeded = true;
 
-			successed &= EnemyFleet.Load( MasterPath );
-			successed &= ShipParameter.Load( MasterPath );
-			successed &= Construction.Load( MasterPath );
-			successed &= ShipDrop.Load( MasterPath );
-			successed &= Development.Load( MasterPath );
-			successed &= Resource.Load( MasterPath );
+			ResourceManager.CopyFromArchive( "Record/" + ShipParameter.FileName, MasterPath + "\\" + ShipParameter.FileName );
 
-			if ( successed )
+			succeeded &= EnemyFleet.Load( MasterPath );
+			succeeded &= ShipParameter.Load( MasterPath );
+			succeeded &= Construction.Load( MasterPath );
+			succeeded &= ShipDrop.Load( MasterPath );
+			succeeded &= Development.Load( MasterPath );
+			succeeded &= Resource.Load( MasterPath );
+
+			if ( succeeded )
 				Utility.Logger.Add( 2, "记录已读取。" );
 			else
 				Utility.Logger.Add( 3, "记录读取失败。" );
@@ -67,17 +69,17 @@ namespace ElectronicObserver.Resource.Record {
 			//api_start2がロード済みのときのみ
 			if ( KCDatabase.Instance.MasterShips.Count == 0 ) return;
 
-			bool successed = true;
+			bool succeeded = true;
 
 
-			successed &= EnemyFleet.Save( MasterPath );
-			successed &= ShipParameter.Save( MasterPath );
-			successed &= Construction.Save( MasterPath );
-			successed &= ShipDrop.Save( MasterPath );
-			successed &= Development.Save( MasterPath );
-			successed &= Resource.Save( MasterPath );
+			succeeded &= EnemyFleet.Save( MasterPath );
+			succeeded &= ShipParameter.Save( MasterPath );
+			succeeded &= Construction.Save( MasterPath );
+			succeeded &= ShipDrop.Save( MasterPath );
+			succeeded &= Development.Save( MasterPath );
+			succeeded &= Resource.Save( MasterPath );
 
-			if ( successed )
+			if ( succeeded )
 				Utility.Logger.Add( 2, "记录已保存。" );
 			else
 				Utility.Logger.Add( 2, "记录保存失败。" );
