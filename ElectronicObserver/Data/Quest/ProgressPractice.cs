@@ -27,8 +27,6 @@ namespace ElectronicObserver.Data.Quest {
 		}
 
 
-		
-
 		public void Increment( string rank ) {
 
 			if ( WinOnly && Constants.GetWinRank( rank ) < Constants.GetWinRank( "B" ) )
@@ -37,5 +35,9 @@ namespace ElectronicObserver.Data.Quest {
 			Increment();
 		}
 
+
+		public override string GetClearCondition() {
+			return "演習" + ( WinOnly ? "勝利" : "" ) + ProgressMax;
+		}
 	}
 }

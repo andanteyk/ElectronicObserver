@@ -690,12 +690,12 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
+			ExpressionDetailView.Rows.Clear();
+
 			_group.Expressions.Expressions.RemoveAt( selectedrow );
 			ExpressionView.Rows.RemoveAt( selectedrow );
-
-			if ( ExpressionView.Rows.Count == 0 )
-				ExpressionDetailView.Rows.Clear();
-
+			
+			
 			ExpressionUpdated();
 		}
 
@@ -1158,7 +1158,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void ButtonMenu_Click( object sender, EventArgs e ) {
-			Menu.Show( ButtonMenu, ButtonMenu.Width / 2, ButtonMenu.Height / 2 );
+			SubMenu.Show( ButtonMenu, ButtonMenu.Width / 2, ButtonMenu.Height / 2 );
 		}
 
 		private void Menu_ImportFilter_Click( object sender, EventArgs e ) {

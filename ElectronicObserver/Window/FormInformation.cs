@@ -189,7 +189,7 @@ namespace ElectronicObserver.Window {
 
 				} else {
 					//装備図鑑
-					const int bound = 50;		// 図鑑1ページあたりの装備数
+					const int bound = 70;		// 図鑑1ページあたりの装備数
 					int startIndex = ( ( (int)data.api_list[0].api_index_no - 1 ) / bound ) * bound + 1;
 					bool[] flags = Enumerable.Repeat<bool>( false, bound ).ToArray();
 
