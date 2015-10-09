@@ -1012,6 +1012,8 @@ namespace ElectronicObserver.Utility {
 
 						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv" ) ) {
 
+							Directory.CreateDirectory( "Record_Backup" );
+						
 							if ( File.Exists( "Record_Backup\\ShipDropRecord.csv" ) ) {
 								var result = MessageBox.Show( "バックアップ先に既にファイルが存在します。\r\n上書きしますか？\r\n(キャンセルした場合、コンバート処理を中止します。)",
 									"バックアップの上書き確認", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question );
