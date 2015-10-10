@@ -486,11 +486,11 @@ namespace Browser {
 
 			var wb = Browser;
 
-			if ( !IsKanColleLoaded ) {
-				AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
-				System.Media.SystemSounds.Beep.Play();
-				return;
-			}
+			//if ( !IsKanColleLoaded ) {
+			//	AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
+			//	System.Media.SystemSounds.Beep.Play();
+			//	return;
+			//}
 
 			try {
 				IViewObject viewobj = null;
@@ -847,7 +847,7 @@ namespace Browser {
 		private void ToolMenu_Other_Refresh_Click( object sender, EventArgs e ) {
 
 			if ( !Configuration.ConfirmAtRefresh ||
-				MessageBox.Show( "再読み込みします。\r\nよろしいですか？", "確認",
+				MessageBox.Show( "是否确定刷新网页？", "确认",
 				MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.OK ) {
 
@@ -857,7 +857,7 @@ namespace Browser {
 
 		private void ToolMenu_Other_NavigateToLogInPage_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "ログインページへ移動します。\r\nよろしいですか？", "確認",
+			if ( MessageBox.Show( "是否确认移动到初始页面？", "确认",
 				MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.OK ) {
 

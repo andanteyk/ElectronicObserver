@@ -93,8 +93,7 @@ namespace ElectronicObserver.Window {
 
 			QuestView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-			if ( Utility.Configuration.Config.UI.ThemeID == 1 )
-			{
+			if ( Utility.Configuration.Config.UI.ThemeID == 1 ) {
 				QuestView.EnableHeadersVisualStyles = false;
 				QuestView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 				QuestView.ColumnHeadersDefaultCellStyle = CSDefaultLeft;
@@ -178,7 +177,11 @@ namespace ElectronicObserver.Window {
 					QuestView.Columns[i].Width = width[i];
 				}
 			}
-
+			MenuMain_ShowRunningOnly.Checked = Utility.Configuration.Config.FormQuest.ShowRunningOnly;
+			MenuMain_ShowOnce.Checked = Utility.Configuration.Config.FormQuest.ShowOnce;
+			MenuMain_ShowDaily.Checked = Utility.Configuration.Config.FormQuest.ShowDaily;
+			MenuMain_ShowWeekly.Checked = Utility.Configuration.Config.FormQuest.ShowWeekly;
+			MenuMain_ShowMonthly.Checked = Utility.Configuration.Config.FormQuest.ShowMonthly;
 			Updated();
 
 		}
@@ -241,8 +244,15 @@ namespace ElectronicObserver.Window {
 				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min( q.Category - 1, 8 - 1 )];
 				row.Cells[QuestView_Name.Index].Value = q.QuestID;
 				{
+					QuestInfo info = QuestLib.GetQuest( q.QuestID );
 					var progress = KCDatabase.Instance.QuestProgress[q.QuestID];
-					row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}\r\n{3}", q.QuestID, q.Name, q.Description, progress != null ? progress.GetClearCondition() : "" );
+					if ( info != null ) {
+						string tip = info.Tips;
+						string award = info.Award;
+						row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}\r\n\r\n奖励:{3}\r\n\r\n{4}\r\n{5}", q.QuestID, q.Name, q.Description, award, tip, progress != null ? progress.GetClearCondition() : "" );
+					} else {
+						row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}\r\n{3}", q.QuestID, q.Name, q.Description, progress != null ? progress.GetClearCondition() : "" );
+					}
 				}
 				{
 					string value;
