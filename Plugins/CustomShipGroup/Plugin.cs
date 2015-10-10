@@ -1,4 +1,6 @@
 ﻿using CustomShipGroup.Model;
+using ElectronicObserver.Data;
+using ElectronicObserver.Window;
 using ElectronicObserver.Window.Plugins;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,21 @@ namespace CustomShipGroup
 		public override string Version
 		{
 			get { return "1.0.0.0"; }
+		}
+	}
+
+	public class PluginServer : ServerPlugin
+	{
+		public override string MenuTitle
+		{
+			get { return "舰船编成服务"; }
+		}
+
+		public override bool RunService( FormMain main )
+		{
+			main.FormClosing += ( sender, e ) => Plugin.ShipGroupManager.Save();
+
+			return true;
 		}
 	}
 }

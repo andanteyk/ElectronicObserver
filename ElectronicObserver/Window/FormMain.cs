@@ -170,13 +170,16 @@ namespace ElectronicObserver.Window {
 						try
 						{
 							var assembly = Assembly.LoadFile( file );
-							var pluginType = assembly.ExportedTypes.FirstOrDefault( t => t.GetInterface( typeof( IPluginHost ).FullName ) != null );
-							if ( pluginType != null )
+							var pluginTypes = assembly.ExportedTypes.Where( t => t.GetInterface( typeof( IPluginHost ).FullName ) != null );
+							if ( pluginTypes != null && pluginTypes.Count() > 0 )
 							{
-								var plugin = (IPluginHost)assembly.CreateInstance( pluginType.FullName );
-								lock ( _sync )
+								foreach ( var pluginType in pluginTypes )
 								{
-									Plugins.Add( plugin );
+									var plugin = (IPluginHost)assembly.CreateInstance( pluginType.FullName );
+									lock ( _sync )
+									{
+										Plugins.Add( plugin );
+									}
 								}
 							}
 						}

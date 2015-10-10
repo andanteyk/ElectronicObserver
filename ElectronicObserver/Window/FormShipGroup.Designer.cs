@@ -866,7 +866,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Name = "FormShipGroup";
-			this.Text = "グループ";
+			this.Text = "舰队编成";
 			this.Load += new System.EventHandler(this.FormShipGroup_Load);
 			((System.ComponentModel.ISupportInitialize)(this.ShipView)).EndInit();
 			this.MenuMember.ResumeLayout(false);
