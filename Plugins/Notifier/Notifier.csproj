@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{78E761E9-08D9-4348-B75D-6B12DE826312}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Notifier</RootNamespace>
+    <AssemblyName>Notifier</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PLUGIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;PLUGIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ElectronicObserver">
+      <HintPath>..\..\output\ElectronicObserver.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierBase.cs">
+      <Link>Notifier\NotifierBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierCondition.cs">
+      <Link>Notifier\NotifierCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierConstruction.cs">
+      <Link>Notifier\NotifierConstruction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierDamage.cs">
+      <Link>Notifier\NotifierDamage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierDialogData.cs">
+      <Link>Notifier\NotifierDialogData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierExpedition.cs">
+      <Link>Notifier\NotifierExpedition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierManager.cs">
+      <Link>Notifier\NotifierManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierRepair.cs">
+      <Link>Notifier\NotifierRepair.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogConfigurationNotifier.cs">
+      <Link>Dialog\DialogConfigurationNotifier.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogConfigurationNotifier.designer.cs">
+      <Link>Dialog\DialogConfigurationNotifier.designer.cs</Link>
+      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogNotifier.cs">
+      <Link>Dialog\DialogNotifier.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\ElectronicObserver\Window\Dialog\DialogNotifier.designer.cs">
+      <Link>Dialog\DialogNotifier.designer.cs</Link>
+      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\Dialog\DialogConfigurationNotifier.resx">
+      <Link>Dialog\DialogConfigurationNotifier.resx</Link>
+      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\ElectronicObserver\Window\Dialog\DialogNotifier.resx">
+      <Link>Dialog\DialogNotifier.resx</Link>
+      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(ProjectDir)..\..\output\Plugins\"
+copy "$(TargetDir)$(TargetName).pdb" "$(ProjectDir)..\..\output\Plugins\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

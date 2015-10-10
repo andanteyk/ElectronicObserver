@@ -117,7 +117,7 @@
 			// 
 			// TopMenu
 			// 
-			this.TopMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
+			ToolStripCustomizer.ToolStripRender.SetRender(this.TopMenu);
 			this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TopMenu_File});
 			this.TopMenu.Location = new System.Drawing.Point(0, 0);
@@ -241,11 +241,11 @@
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.TopMenu);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.MainMenuStrip = this.TopMenu;
 			this.Name = "DialogEquipmentList";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "装備一覧";
+			this.Text = "装备一览";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogEquipmentList_FormClosed);
 			this.Load += new System.EventHandler(this.DialogEquipmentList_Load);
 			((System.ComponentModel.ISupportInitialize)(this.EquipmentView)).EndInit();

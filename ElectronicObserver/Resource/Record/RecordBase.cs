@@ -61,7 +61,6 @@ namespace ElectronicObserver.Resource.Record {
 						
 						try {
 							LoadLine( line );
-
 						} catch ( Exception ex ) {
 							Utility.Logger.Add( 3, string.Format( "{0}: エラーが発生したため行 {1} をスキップしました。 {2}", path, linecount, ex.Message ) );
 						}
@@ -144,7 +143,6 @@ namespace ElectronicObserver.Resource.Record {
 		/// レコードをクリアします。ロード直前に呼ばれます。
 		/// </summary>
 		protected virtual void ClearRecord() { }
-
 
 
 		/// <summary>

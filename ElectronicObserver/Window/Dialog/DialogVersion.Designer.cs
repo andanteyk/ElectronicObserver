@@ -24,6 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.TextVersion = new System.Windows.Forms.Label();
+			this.label_ = new System.Windows.Forms.Label();
+			this.Text_ = new System.Windows.Forms.LinkLabel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.TextAuthor = new System.Windows.Forms.LinkLabel();
 			this.ButtonClose = new System.Windows.Forms.Button();
@@ -40,6 +42,27 @@
 			this.TextVersion.Size = new System.Drawing.Size(208, 15);
 			this.TextVersion.TabIndex = 1;
 			this.TextVersion.Text = "試製七四式電子観測儀零型 (ver. 0.0)";
+			// 
+			// label_
+			// 
+			this.label_.AutoSize = true;
+			this.label_.Location = new System.Drawing.Point(12, 93);
+			this.label_.Margin = new System.Windows.Forms.Padding(3);
+			this.label_.Name = "label_";
+			this.label_.Size = new System.Drawing.Size(43, 15);
+			this.label_.TabIndex = 6;
+			this.label_.Text = "魔改：";
+			// 
+			// Text_
+			// 
+			this.Text_.AutoSize = true;
+			this.Text_.Location = new System.Drawing.Point(61, 93);
+			this.Text_.Name = "Text_";
+			this.Text_.Size = new System.Drawing.Size(55, 15);
+			this.Text_.TabIndex = 7;
+			this.Text_.TabStop = true;
+			this.Text_.Text = "https://github.com/tsanie/ElectronicObserver";
+			this.Text_.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Text__LinkClicked);
 			// 
 			// label1
 			// 
@@ -104,8 +127,10 @@
 			this.Controls.Add(this.ButtonClose);
 			this.Controls.Add(this.TextAuthor);
 			this.Controls.Add(this.label1);
+			this.Controls.Add(this.Text_);
+			this.Controls.Add(this.label_);
 			this.Controls.Add(this.TextVersion);
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.MaximizeBox = false;
@@ -113,7 +138,7 @@
 			this.Name = "DialogVersion";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "バージョン";
+			this.Text = "版本";
 			this.Load += new System.EventHandler(this.DialogVersion_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -122,6 +147,8 @@
 
 		#endregion
 
+		private System.Windows.Forms.LinkLabel Text_;
+		private System.Windows.Forms.Label label_;
 		private System.Windows.Forms.Label TextVersion;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.LinkLabel TextAuthor;

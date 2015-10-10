@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Data;
+﻿using Codeplex.Data;
+using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Data;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,10 +55,42 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
+		private bool ShowFailedDevelopment;
 
 		void ConfigurationChanged() {
 
 			Font = TextInformation.Font = Utility.Configuration.Config.UI.MainFont;
+
+			TextInformation.BackColor = Utility.Configuration.Config.UI.BackColor;
+			TextInformation.ForeColor = Utility.Configuration.Config.UI.ForeColor;
+
+			var settings = Information.Settings.settings;
+
+			if ( settings == null )
+			{
+				try
+				{
+					if ( File.Exists( Information.Settings.PLUGIN_SETTINGS ) )
+						settings = DynamicJson.Parse( File.ReadAllText( Information.Settings.PLUGIN_SETTINGS ) );
+					else
+						settings = DynamicJson.Parse( Information.Settings.DEFAULT_SETTINGS );
+				}
+				catch
+				{
+					settings = DynamicJson.Parse( Information.Settings.DEFAULT_SETTINGS );
+				}
+
+				Information.Settings.settings = settings;
+			}
+
+			if ( settings != null )
+			{
+				ShowFailedDevelopment = settings.ShowFailedDevelopment;
+			}
+			else
+			{
+				ShowFailedDevelopment = true;
+			}
 		}
 
 
@@ -154,6 +188,7 @@ namespace ElectronicObserver.Window {
 			if ( data != null && data.api_list() && data.api_list != null ) {
 
 				if ( data.api_list[0].api_yomi() ) {
+
 					//艦娘図鑑
 					const int bound = 70;		// 図鑑1ページあたりの艦船数
 					int startIndex = ( ( (int)data.api_list[0].api_index_no - 1 ) / bound ) * bound + 1;
@@ -168,7 +203,6 @@ namespace ElectronicObserver.Window {
 						dynamic[] state = elem.api_state;
 						for ( int i = 0; i < state.Length; i++ ) {
 							if ( (int)state[i][1] == 0 ) {
-
 								var target = KCDatabase.Instance.MasterShips[(int)elem.api_table_id[i]];
 								if ( target != null )		//季節の衣替え艦娘の場合存在しないことがある
 									sb.AppendLine( target.Name );
@@ -188,6 +222,7 @@ namespace ElectronicObserver.Window {
 					}
 
 				} else {
+
 					//装備図鑑
 					const int bound = 70;		// 図鑑1ページあたりの装備数
 					int startIndex = ( ( (int)data.api_list[0].api_index_no - 1 ) / bound ) * bound + 1;
@@ -222,9 +257,12 @@ namespace ElectronicObserver.Window {
 				sb.AppendLine( "[開発失敗]" );
 				sb.AppendLine( data.api_fdata );
 
-				EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse( ( (string)data.api_fdata ).Split( ",".ToCharArray() )[1] )];
-				if ( eqm != null )
-					sb.AppendLine( eqm.Name );
+				if ( ShowFailedDevelopment )
+				{
+					EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[int.Parse( ( (string)data.api_fdata ).Split( ",".ToCharArray() )[1] )];
+					if ( eqm != null )
+						sb.AppendLine( eqm.Name );
+				}
 
 
 				return sb.ToString();
@@ -251,12 +289,14 @@ namespace ElectronicObserver.Window {
 
 					} else if ( elem.api_eventmap() ) {
 
-						string difficulty = "";
-						if ( elem.api_eventmap.api_selected_rank() ) {
-							difficulty = "[" + Constants.GetDifficulty( (int)elem.api_eventmap.api_selected_rank ) + "] ";
+						int now_maphp = (int)elem.api_eventmap.api_now_maphp;
+						if ( now_maphp > 0 ) {
+							string difficulty = "";
+							if ( elem.api_eventmap.api_selected_rank() ) {
+								difficulty = "[" + Constants.GetDifficulty( (int)elem.api_eventmap.api_selected_rank ) + "] ";
+							}
+							sb.AppendFormat( "{0}-{1} {2}: HP {3}/{4}\r\n", map.MapAreaID, map.MapInfoID, difficulty, now_maphp, (int)elem.api_eventmap.api_max_maphp );
 						}
-
-						sb.AppendFormat( "{0}-{1} {2}: HP {3}/{4}\r\n", map.MapAreaID, map.MapInfoID, difficulty, (int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
 
 					}
 				}
@@ -351,10 +391,7 @@ namespace ElectronicObserver.Window {
 			return sb.ToString();
 		}
 
-
-
-
-		protected override string GetPersistString() {
+		public override string GetPersistString() {
 			return "Information";
 		}
 

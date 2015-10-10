@@ -193,14 +193,14 @@
 			this.Controls.Add(this.ButtonCancel);
 			this.Controls.Add(this.ButtonOK);
 			this.Controls.Add(this.groupBox1);
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DialogShipGroupCSVOutput";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "グループをCSVに出力";
+			this.Text = "输出舰队编成到CSV";
 			this.Load += new System.EventHandler(this.DialogShipGroupCSVOutput_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

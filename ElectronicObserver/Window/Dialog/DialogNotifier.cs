@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Notifier;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		public DialogNotifier( NotifierDialogData data ) {
+			this.SuspendLayoutForDpiScale();
 
 			InitializeComponent();
 
@@ -45,6 +47,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( !DialogData.HasFormBorder )
 				FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+			this.ResumeLayoutForDpiScale();
 
 		}
 

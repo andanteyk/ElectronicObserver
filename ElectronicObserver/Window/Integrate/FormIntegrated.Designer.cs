@@ -213,7 +213,7 @@
 			this.ClientSize = new System.Drawing.Size(284, 261);
 			this.Controls.Add(this.settingPanel);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.Name = "FormIntegrate";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIntegrated_FormClosing);
 			this.Resize += new System.EventHandler(this.FormIntegrated_Resize);

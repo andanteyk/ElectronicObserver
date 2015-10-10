@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ElectronicObserver</RootNamespace>
     <AssemblyName>ElectronicObserver</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -26,6 +26,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,15 +37,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release_452\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>74eo.ico</ApplicationIcon>
@@ -52,13 +55,17 @@
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EO|AnyCPU'">
+    <OutputPath>bin\EO\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BCMakeCert">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\BCMakeCert.dll</HintPath>
-    </Reference>
-    <Reference Include="CertMaker">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\CertMaker.dll</HintPath>
-    </Reference>
     <Reference Include="FiddlerCore4">
       <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
     </Reference>
@@ -151,15 +158,12 @@
     <Compile Include="Data\ShipGroup\ExpressionManager.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
-    <Compile Include="Notifier\NotifierBase.cs" />
-    <Compile Include="Notifier\NotifierCondition.cs" />
-    <Compile Include="Notifier\NotifierConstruction.cs" />
     <Compile Include="Notifier\NotifierDialogData.cs" />
-    <Compile Include="Notifier\NotifierDamage.cs" />
-    <Compile Include="Notifier\NotifierRepair.cs" />
-    <Compile Include="Notifier\NotifierExpedition.cs" />
-    <Compile Include="Notifier\NotifierManager.cs" />
-    <Compile Include="Observer\APIKancolleDB.cs" />
+    <Compile Include="Observer\APIGraphicList.cs" />
+    <Compile Include="Observer\Cache\CacheCore.cs" />
+    <Compile Include="Observer\Cache\Extensions.cs" />
+    <Compile Include="Observer\Cache\GMTHelper.cs" />
+    <Compile Include="Observer\Cache\TaskRecord.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
@@ -169,7 +173,9 @@
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
+    <Compile Include="Resource\ImageCollection.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
+    <Compile Include="Utility\Modify\ModifyConfiguration.cs" />
     <Compile Include="Utility\PathHelper.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />
     <Compile Include="Observer\APIBase.cs" />
@@ -240,6 +246,12 @@
     <Compile Include="Utility\Storage\SerializableList.cs" />
     <Compile Include="Utility\SystemEvents.cs" />
     <Compile Include="Utility\WinAPI.cs" />
+    <Compile Include="Window\Control\ColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Control\ColorPicker.Designer.cs">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -301,23 +313,11 @@
     <Compile Include="Window\Dialog\DialogConfiguration.Designer.cs">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\Dialog\DialogConfigurationNotifier.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\Dialog\DialogConfigurationNotifier.Designer.cs">
-      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
-    </Compile>
     <Compile Include="Window\Dialog\DialogEquipmentList.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Window\Dialog\DialogEquipmentList.Designer.cs">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Window\Dialog\DialogLocalAPILoader.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\Dialog\DialogLocalAPILoader.Designer.cs">
-      <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
     </Compile>
     <Compile Include="Observer\APIObserver.cs" />
     <Compile Include="Observer\kcsapi\api_start2.cs" />
@@ -325,17 +325,11 @@
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
     <Compile Include="DynamicJson.cs" />
-    <Compile Include="Window\Dialog\DialogLocalAPILoader2.cs">
+    <Compile Include="Window\Dialog\DialogPlugins.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Window\Dialog\DialogLocalAPILoader2.Designer.cs">
-      <DependentUpon>DialogLocalAPILoader2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Window\Dialog\DialogNotifier.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\Dialog\DialogNotifier.Designer.cs">
-      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    <Compile Include="Window\Dialog\DialogPlugins.Designer.cs">
+      <DependentUpon>DialogPlugins.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogResourceChart.cs">
       <SubType>Form</SubType>
@@ -391,29 +385,11 @@
     <Compile Include="Window\Dialog\DialogWhitecap.Designer.cs">
       <DependentUpon>DialogWhitecap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\FormArsenal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormArsenal.Designer.cs">
-      <DependentUpon>FormArsenal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Window\FormBattle.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormBattle.Designer.cs">
-      <DependentUpon>FormBattle.cs</DependentUpon>
-    </Compile>
     <Compile Include="Window\FormBrowserHost.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Window\FormBrowserHost.Designer.cs">
       <DependentUpon>FormBrowserHost.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Window\FormCompass.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormCompass.Designer.cs">
-      <DependentUpon>FormCompass.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\FormWindowCapture.cs">
       <SubType>Form</SubType>
@@ -421,41 +397,11 @@
     <Compile Include="Window\FormWindowCapture.Designer.cs">
       <DependentUpon>FormWindowCapture.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\FormDock.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormDock.Designer.cs">
-      <DependentUpon>FormDock.cs</DependentUpon>
-    </Compile>
     <Compile Include="Window\FormFleet.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Window\FormFleet.Designer.cs">
       <DependentUpon>FormFleet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Window\FormFleetOverview.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormFleetOverview.Designer.cs">
-      <DependentUpon>FormFleetOverview.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Window\FormHeadquarters.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormHeadquarters.Designer.cs">
-      <DependentUpon>FormHeadquarters.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Window\FormInformation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormInformation.Designer.cs">
-      <DependentUpon>FormInformation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Window\FormLog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormLog.Designer.cs">
-      <DependentUpon>FormLog.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\FormMain.cs">
       <SubType>Form</SubType>
@@ -466,12 +412,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Data\Calculator.cs" />
-    <Compile Include="Window\FormQuest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\FormQuest.Designer.cs">
-      <DependentUpon>FormQuest.cs</DependentUpon>
-    </Compile>
     <Compile Include="Window\FormShipGroup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -496,11 +436,21 @@
     <Compile Include="Window\Integrate\FormIntegrated.Designer.cs">
       <DependentUpon>FormIntegrated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Plugins\PluginSettingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Plugins\ServerPlugin.cs" />
+    <Compile Include="Window\Plugins\DialogPlugin.cs" />
+    <Compile Include="Window\Plugins\DockPlugin.cs" />
+    <Compile Include="Window\Plugins\IPluginHost.cs" />
     <Compile Include="Window\Support\ControlHelper.cs" />
     <Compile Include="Window\Support\CustomFloatWindowFactory.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
+    <EmbeddedResource Include="Window\Control\ColorPicker.resx">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ImageLabel.resx">
       <DependentUpon>ImageLabel.cs</DependentUpon>
     </EmbeddedResource>
@@ -531,20 +481,11 @@
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\Dialog\DialogConfigurationNotifier.resx">
-      <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.resx">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
-      <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader2.resx">
-      <DependentUpon>DialogLocalAPILoader2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\Dialog\DialogNotifier.resx">
-      <DependentUpon>DialogNotifier.cs</DependentUpon>
+    <EmbeddedResource Include="Window\Dialog\DialogPlugins.resx">
+      <DependentUpon>DialogPlugins.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogResourceChart.resx">
       <DependentUpon>DialogResourceChart.cs</DependentUpon>
@@ -573,38 +514,14 @@
     <EmbeddedResource Include="Window\Dialog\DialogWhitecap.resx">
       <DependentUpon>DialogWhitecap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormArsenal.resx">
-      <DependentUpon>FormArsenal.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormBattle.resx">
-      <DependentUpon>FormBattle.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormBrowserHost.resx">
       <DependentUpon>FormBrowserHost.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormCompass.resx">
-      <DependentUpon>FormCompass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormWindowCapture.resx">
       <DependentUpon>FormWindowCapture.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormDock.resx">
-      <DependentUpon>FormDock.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormFleet.resx">
       <DependentUpon>FormFleet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormFleetOverview.resx">
-      <DependentUpon>FormFleetOverview.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormHeadquarters.resx">
-      <DependentUpon>FormHeadquarters.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormInformation.resx">
-      <DependentUpon>FormInformation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\FormLog.resx">
-      <DependentUpon>FormLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -617,10 +534,8 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Window\FormQuest.resx">
-      <DependentUpon>FormQuest.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormShipGroup.resx">
       <DependentUpon>FormShipGroup.cs</DependentUpon>
     </EmbeddedResource>
@@ -633,6 +548,9 @@
     <EmbeddedResource Include="Window\Integrate\FormIntegrated.resx">
       <DependentUpon>FormIntegrated.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Assets.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -684,6 +602,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)*.*" "$(ProjectDir)..\output\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

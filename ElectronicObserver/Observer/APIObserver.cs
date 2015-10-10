@@ -1,4 +1,5 @@
 ﻿using Codeplex.Data;
+using ElectronicObserver.Observer.Cache;
 using ElectronicObserver.Observer.kcsapi;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Mathematics;
@@ -11,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using FiddlerFlags = Fiddler.FiddlerCoreStartupFlags;
 
 namespace ElectronicObserver.Observer {
 
@@ -28,6 +30,7 @@ namespace ElectronicObserver.Observer {
 
 		#endregion
 
+		private CacheCore Cache;
 
 		public APIDictionary APIList { get; private set; }
 
@@ -38,7 +41,6 @@ namespace ElectronicObserver.Observer {
 		public event ProxyStartedEventHandler ProxyStarted = delegate { };
 
 		private Control UIControl;
-		private APIKancolleDB DBSender;
 
 		private APIObserver() {
 
@@ -105,12 +107,11 @@ namespace ElectronicObserver.Observer {
 
 			ServerAddress = null;
 
-			DBSender = new APIKancolleDB();
-
 			Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
 			Fiddler.FiddlerApplication.BeforeResponse += FiddlerApplication_BeforeResponse;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
 
+			Cache = new CacheCore();
 		}
 
 
@@ -121,10 +122,14 @@ namespace ElectronicObserver.Observer {
 		/// <param name="UIControl">GUI スレッドで実行するためのオブジェクト。中身は何でもいい</param>
 		/// <returns>実際に使用されるポート番号。</returns>
 		public int Start( int portID, Control UIControl ) {
+
 			this.UIControl = UIControl;
 
-			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
-				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
+			var flag = FiddlerFlags.ChainToUpstreamGateway; // | FiddlerFlags.OptimizeThreadPool;
+			if ( Utility.Configuration.Config.Connection.RegisterAsSystemProxy )
+				flag |= FiddlerFlags.RegisterAsSystemProxy;
+
+			Fiddler.FiddlerApplication.Startup( portID, flag );
 
 			/*
 			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}",
@@ -132,12 +137,18 @@ namespace ElectronicObserver.Observer {
 			*/
 			ProxyStarted();
 
-			Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
+			Utility.Logger.Add( 2, string.Format( "APIObserver: 端口 {0} 开始监听。", Fiddler.FiddlerApplication.oProxy.ListenPort ) );
 
 
 			//checkme: 一応警告をつけてみる
 			if ( portID != Fiddler.FiddlerApplication.oProxy.ListenPort ) {
-				Utility.Logger.Add( 3, "APIObserver: 実際に受信を開始したポート番号が指定されたポート番号とは異なります。" );
+				Utility.Logger.Add( 3, "APIObserver: 实际监听端口号与指定的端口号不一致。" );
+
+				if ( Fiddler.FiddlerApplication.oProxy.ListenPort == 0 ) {
+					MessageBox.Show(
+						"当前监听端口被占用，请在设置对话框中更换。",
+						"启动", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				}
 			}
 
 			return Fiddler.FiddlerApplication.oProxy.ListenPort;
@@ -152,7 +163,10 @@ namespace ElectronicObserver.Observer {
 			Fiddler.URLMonInterop.ResetProxyInProcessToDefault();
 			Fiddler.FiddlerApplication.Shutdown();
 
-			Utility.Logger.Add( 2, "APIObserver: 受信を停止しました。" );
+			Utility.Logger.Add( 2, "APIObserver: 监听终止。" );
+
+			if ( Utility.Configuration.Config.CacheSettings.CacheEnabled )
+				Cache.SaveCacheList();
 		}
 
 
@@ -230,11 +244,11 @@ namespace ElectronicObserver.Observer {
 										}
 									}
 
-									Utility.Logger.Add( 1, string.Format( "通信からファイル {0} を保存しました。", tpath.Remove( 0, saveDataPath.Length + 1 ) ) );
+									Utility.Logger.Add( 1, string.Format( "通信文件 {0} 已保存。", tpath.Remove( 0, saveDataPath.Length + 1 ) ) );
 
 								} catch ( IOException ex ) {	//ファイルがロックされている; 頻繁に出るのでエラーレポートを残さない
 
-									Utility.Logger.Add( 3, "通信内容の保存に失敗しました。 " + ex.Message );
+									Utility.Logger.Add( 3, "通信内容保存失败。 " + ex.Message );
 								}
 							} ) );
 
@@ -242,7 +256,7 @@ namespace ElectronicObserver.Observer {
 
 					} catch ( Exception ex ) {
 
-						Utility.ErrorReporter.SendErrorReport( ex, "通信内容の保存に失敗しました。" );
+						Utility.ErrorReporter.SendErrorReport( ex, "通信内容保存失败。" );
 					}
 
 				}
@@ -258,11 +272,28 @@ namespace ElectronicObserver.Observer {
 				string body = oSession.GetResponseBodyAsString();
 				UIControl.BeginInvoke( (Action)( () => { LoadResponse( url, body ); } ) );
 
-				// kancolle-db.netに送信する
-				if ( Utility.Configuration.Config.Connection.SendDataToKancolleDB ) {
-					Task.Run( (Action)( () => DBSender.ExecuteSession( oSession ) ) );
-				}
+			} else if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.responseCode == 200 ) {
 
+				string filepath = TaskRecord.GetAndRemove( oSession.fullUrl );
+				if ( !string.IsNullOrEmpty( filepath ) ) {
+					if ( File.Exists( filepath ) )
+						File.Delete( filepath );
+
+					//保存下载文件并记录Modified-Time
+					try {
+
+						if ( Configuration.Config.Log.ShowCacheLog ) {
+
+							Utility.Logger.Add( 2, string.Format( "更新缓存文件： {0}.", filepath ) );
+						}
+
+						oSession.SaveResponseBody( filepath );
+						_SaveModifiedTime( filepath, oSession.oResponse.headers["Last-Modified"] );
+						//Debug.WriteLine("CACHR> 【下载文件】" + oSession.PathAndQuery);
+					} catch ( Exception ex ) {
+						Utility.ErrorReporter.SendErrorReport( ex, "会话结束时，保存返回文件时发生异常：" + oSession.fullUrl );
+					}
+				}
 			}
 
 
@@ -281,39 +312,169 @@ namespace ElectronicObserver.Observer {
 
 		}
 
-
 		// regex
 		private Regex _wmodeRegex = new Regex( @"""wmode""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
 		private Regex _qualityRegex = new Regex( @"""quality""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
 
 		private void FiddlerApplication_BeforeResponse( Fiddler.Session oSession ) {
-
-			//flash 品質設定
-			if ( oSession.bBufferResponse && oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
-
-				string js = oSession.GetResponseBodyAsString();
-				bool flag = false;
-
-				var wmode = _wmodeRegex.Match( js );
-				if ( wmode.Success ) {
-					js = js.Replace( wmode.Value, string.Format( @"""wmode"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashWMode ) );
-					flag = true;
+			if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.PathAndQuery.StartsWith( "/kcs/" ) && oSession.responseCode == 304 ) {
+				string filepath = TaskRecord.GetAndRemove( oSession.fullUrl );
+				//只有TaskRecord中有记录的文件才是验证的文件，才需要修改Header
+				if ( !string.IsNullOrEmpty( filepath ) ) {
+					//服务器返回304，文件没有修改 -> 返回本地文件
+					oSession.bBufferResponse = true;
+					oSession.ResponseBody = File.ReadAllBytes( filepath );
+					oSession.oResponse.headers.HTTPResponseCode = 200;
+					oSession.oResponse.headers.HTTPResponseStatus = "200 OK";
+					oSession.oResponse.headers["Last-Modified"] = oSession.oRequest.headers["If-Modified-Since"];
+					oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+					oSession.oResponse.headers.Remove( "If-Modified-Since" );
+					oSession.oRequest.headers.Remove( "If-Modified-Since" );
+					if ( filepath.EndsWith( ".swf" ) )
+						oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
 				}
 
-				var quality = _qualityRegex.Match( js );
-				if ( quality.Success ) {
-					js = js.Replace( quality.Value, string.Format( @"""quality"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashQuality ) );
-					flag = true;
-				}
+			} else if ( oSession.PathAndQuery.StartsWith( "/kcs" ) && oSession.responseCode >= 400 ) {
 
-				if ( flag ) {
-					oSession.utilSetResponseBody( js );
+				Utility.ErrorReporter.SendErrorReport( new Exception( oSession.fullUrl ), "返回错误状态码：" + oSession.responseCode, oSession.fullUrl, oSession.GetResponseBodyAsString() );
 
-					Utility.Logger.Add( 1, "flashの品質設定を行いました。" );
+			} else if ( oSession.bBufferResponse ) {
+
+				if ( oSession.fullUrl.Contains( "/kcsapi/api_start2" ) ) {
+					string api_start2 = oSession.GetResponseBodyAsString();
+
+					// output list
+					string filename = @"Settings\GraphicList.csv";
+					if ( Utility.Configuration.Config.Log.OutputGraphicList && !File.Exists( filename ) ) {
+
+						Task.Factory.StartNew( (Action)( () => APIGraphicList.Instance.OutputGraphicList( api_start2, filename ) ) )
+							.ContinueWith( t => Utility.Logger.Add( 2, "输出舰船列表至: " + filename ) );
+					}
+
+					var mod = Utility.Modify.ModifyConfiguration.Instance;
+					bool changed = false;
+
+					for ( int i = 0; i < mod.Count; i++ ) {
+
+						var node = mod[i];
+						string pattern = @"{""api_id"":[\d]+?,""api_sortno"":[\d]+?,""api_filename"":""" + node.api_filename + @""",""api_version"":""[\d]+?"",""api_boko_n"":\[[\d-,]+?\],""api_boko_d"":\[[\d-,]+?\],""api_kaisyu_n"":\[[\d-,]+?\],""api_kaisyu_d"":\[[\d-,]+?\],""api_kaizo_n"":\[[\d-,]+?\],""api_kaizo_d"":\[[\d-,]+?\],""api_map_n"":\[[\d-,]+?\],""api_map_d"":\[[\d-,]+?\],""api_ensyuf_n"":\[[\d-,]+?\],""api_ensyuf_d"":\[[\d-,]+?\],""api_ensyue_n"":\[[\d-,]+?\],""api_battle_n"":\[[\d-,]+?\],""api_battle_d"":\[[\d-,]+?\],""api_weda"":\[[\d-,]+?\],""api_wedb"":\[[\d-,]+?\]}";
+
+						var m = Regex.Match( api_start2, pattern );
+						if ( m.Success ) {
+
+							var json = Codeplex.Data.DynamicJson.Parse( m.Value );
+
+							// 魔改立绘坐标
+							bool flag = ModifyIt( "api_boko_n", json, node.api_parameter );
+							flag |= ModifyIt( "api_boko_d", json, node.api_parameter );
+							flag |= ModifyIt( "api_kaisyu_n", json, node.api_parameter );
+							flag |= ModifyIt( "api_kaisyu_d", json, node.api_parameter );
+							flag |= ModifyIt( "api_kaizo_n", json, node.api_parameter );
+							flag |= ModifyIt( "api_kaizo_d", json, node.api_parameter );
+							flag |= ModifyIt( "api_map_n", json, node.api_parameter );
+							flag |= ModifyIt( "api_map_d", json, node.api_parameter );
+							flag |= ModifyIt( "api_ensyuf_n", json, node.api_parameter );
+							flag |= ModifyIt( "api_ensyuf_d", json, node.api_parameter );
+							flag |= ModifyIt( "api_ensyue_n", json, node.api_parameter );
+							flag |= ModifyIt( "api_battle_n", json, node.api_parameter );
+							flag |= ModifyIt( "api_battle_d", json, node.api_parameter );
+							flag |= ModifyIt( "api_weda", json, node.api_parameter );
+							flag |= ModifyIt( "api_wedb", json, node.api_parameter );
+
+							if ( flag ) {
+								api_start2 = api_start2.Replace( m.Value, json.ToString() );
+								changed = true;
+							}
+
+							// 魔改名称
+							if ( !string.IsNullOrEmpty( node.api_name ) ) {
+
+
+								pattern = @"{""api_id"":" + json.api_id + @",""api_sortno"":" + json.api_sortno + @",""api_name"":""";
+								m = Regex.Match( api_start2, pattern + @"[^""]+?"",""api_yomi"":""" );
+								if ( m.Success ) {
+
+									api_start2 = api_start2.Replace( m.Value, pattern + node.Raw_api_name + @""",""api_yomi"":""" );
+									changed = true;
+								}
+							}
+
+							if ( changed ) {
+								Utility.Logger.Add( 2, string.Format( "应用魔改: {0} → {1}", node.api_filename, node.api_name ) );
+							}
+						}
+					}
+
+					// 如果有变动
+					if ( changed ) {
+						oSession.utilSetResponseBody( api_start2 );
+					}
+
+				} else if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+
+					string js = oSession.GetResponseBodyAsString();
+					bool flag = false;
+
+					var wmode = _wmodeRegex.Match( js );
+					if ( wmode.Success ) {
+						js = js.Replace( wmode.Value, string.Format( @"""wmode"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashWmode ) );
+						flag = true;
+					}
+
+					var quality = _qualityRegex.Match( js );
+					if ( quality.Success ) {
+						js = js.Replace( quality.Value, string.Format( @"""quality"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashQuality ) );
+						flag = true;
+					}
+
+					if ( flag ) {
+						oSession.utilSetResponseBody( js );
+
+						Utility.Logger.Add( 1, "应用自定义flash模式/质量" );
+					}
 				}
 			}
 		}
 
+		private bool ModifyIt( string parameter, dynamic source, dynamic dest ) {
+
+			var g = new Utility.Modify.ModifyBinder( parameter );
+			object o;
+
+			if ( dest.TryGetMember( g, out o ) ) {
+
+				try {
+					if ( o is Codeplex.Data.DynamicJson ) {
+						int[] rst = ( (Codeplex.Data.DynamicJson)o ).Deserialize<int[]>();
+
+						if ( rst.Length == 2 ) {
+
+							return source.TrySetMember( new Utility.Modify.ModifySetBinder( parameter ), rst );
+						}
+					}
+
+				} catch ( Exception e ) {
+					Utility.ErrorReporter.SendErrorReport( e, string.Format( "魔改参数错误，{0}.{1}", source.api_filename, parameter ) );
+				}
+			}
+
+			return false;
+		}
+
+
+		/// <summary>
+		/// セッションが SSL 接続を使用しているかどうかを返します。
+		/// </summary>
+		/// <param name="session">セッション。</param>
+		/// <returns>セッションが SSL 接続を使用する場合は true、そうでない場合は false。</returns>
+		private bool IsSessionSSL( Fiddler.Session session ) {
+			// 「http://www.dmm.com:433/」の場合もあり、これは Session.isHTTPS では判定できない
+			return session.isHTTPS || session.fullUrl.StartsWith( "https:" ) || session.fullUrl.Contains( ":443" );
+		}
+
+		// regex
+		private Regex _cookieRegionRegex = new Regex(@"ckcy=\d+", RegexOptions.Compiled);
+		private Regex _cookieLanguageRegex = new Regex(@"cklg=[^;]+", RegexOptions.Compiled);
 
 		private void FiddlerApplication_BeforeRequest( Fiddler.Session oSession ) {
 
@@ -322,14 +483,38 @@ namespace ElectronicObserver.Observer {
 
 			// 上流プロキシ設定
 			if ( c.UseUpstreamProxy ) {
-				oSession["X-OverrideGateway"] = string.Format( "{0}:{1}", c.UpstreamProxyAddress, c.UpstreamProxyPort );
+				if ( c.EnableSslUpstreamProxy || !IsSessionSSL( oSession ) ) {
+					oSession["X-OverrideGateway"] = string.Format( "{0}:{1}", c.UpstreamProxyAddress, c.UpstreamProxyPort );
+				}
 			}
 
+			// 修改Cookie
+			if (Utility.Configuration.Config.FormBrowser.ModifyCookieRegion) {
+				string cookie = oSession.oRequest["Cookie"];
+
+				var cookieRegion = _cookieRegionRegex.Match(cookie);
+				if (cookieRegion.Success) {
+					cookie = cookie.Replace(cookieRegion.Value, "ckcy=1");
+				}
+
+				var cookieLanguage = _cookieLanguageRegex.Match(cookie);
+				if (cookieLanguage.Success) {
+					cookie = cookie.Replace(cookieLanguage.Value, "cklg=welcome");
+				}
+				oSession.oRequest["Cookie"] = cookie;
+			}
 
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 
 				string url = oSession.fullUrl;
 				string body = oSession.GetRequestBodyAsString();
+
+				// 魔改api_start2
+				{
+					if ( oSession.fullUrl.Contains( "/kcsapi/api_start2" ) && Utility.Modify.ModifyConfiguration.Instance.Count > 0 ) {
+						oSession.bBufferResponse = true;
+					}
+				}
 
 				//保存
 				{
@@ -342,18 +527,138 @@ namespace ElectronicObserver.Observer {
 				}
 
 				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
+			} else if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.fullUrl.Contains( "/kcs/" ) ) {
+
+				// = KanColleCacher =
+				string filepath;
+				var direction = Cache.GotNewRequest( oSession.fullUrl, out filepath );
+
+				if ( direction == Direction.Return_LocalFile ) {
+
+					//返回本地文件
+					oSession.utilCreateResponseAndBypassServer();
+					oSession.ResponseBody = File.ReadAllBytes( filepath );
+					oSession.oResponse.headers["Server"] = "Apache";
+					oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
+					oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
+					oSession.oResponse.headers["Connection"] = "close";
+					oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+
+					filepath = filepath.ToLower();
+					if ( filepath.EndsWith( ".swf" ) )
+						oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
+					else if ( filepath.EndsWith( ".mp3" ) )
+						oSession.oResponse.headers["Content-Type"] = "audio/mpeg";
+					else if ( filepath.EndsWith( ".png" ) )
+						oSession.oResponse.headers["Content-Type"] = "image/png";
+
+					//Debug.WriteLine("CACHR> 【返回本地】" + result);
+
+				} else if ( direction == Direction.Verify_LocalFile ) {
+
+					//请求服务器验证文件
+					oSession.oRequest.headers["If-Modified-Since"] = _GetModifiedTime( filepath );
+					oSession.bBufferResponse = true;
+
+					//Debug.WriteLine("CACHR> 【验证文件】" + oSession.PathAndQuery);
+
+				} else if ( Configuration.Config.Log.ShowCacheLog && ( Configuration.Config.Log.ShowMainD2Link || !oSession.fullUrl.Contains( "mainD2.swf" ) ) ) {
+
+					//下载文件
+					Utility.Logger.Add( 2, string.Format( "重新下载缓存文件: {0}", oSession.fullUrl ) );
+				}
+
+			}
+
+			// use cache js
+			else if ( Utility.Configuration.Config.CacheSettings.UseCacheJs && oSession.fullUrl.StartsWith( "http://203.104.209.7/" ) ) {
+
+				string filepath = Path.Combine( Utility.Configuration.Config.CacheSettings.CacheFolder, "kcs" ) + oSession.PathAndQuery.Replace( '/', '\\' );
+				if ( File.Exists( filepath ) ) {
+
+					//返回本地文件
+					oSession.utilCreateResponseAndBypassServer();
+					oSession.ResponseBody = File.ReadAllBytes( filepath );
+					oSession.oResponse.headers["Server"] = "Apache";
+					oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
+					oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
+					oSession.oResponse.headers["Connection"] = "close";
+					oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+
+					filepath = filepath.ToLower();
+					if ( filepath.EndsWith( ".js" ) )
+						oSession.oResponse.headers["Content-Type"] = "application/x-javascript";
+				}
+
 			}
 
 			// flash wmode & quality
-			{
-				if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+			else if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
 
-					oSession.bBufferResponse = true;
+				oSession.bBufferResponse = true;
+			}
+
+			// block media
+			else if ( Utility.Configuration.Config.Connection.BlockMedia )
+			{
+				string file = oSession.PathAndQuery;
+				int n = file.IndexOf( '?' );
+				if ( n > 0 )
+					file = file.Substring( 0, n );
+
+				string ext = file.Substring( file.LastIndexOf( '.' ) + 1 ).ToLower();
+				if ( ext == "jpg" || ext == "gif" || ext == "png" )
+				{
+					// 直接返回204
+					oSession.utilCreateResponseAndBypassServer();
+					oSession.responseCode = 204;
+				}
+				else if ( ext == "css" )
+				{
+					string path = Path.Combine( Utility.Configuration.Config.CacheSettings.CacheFolder, "kcs" ) + file.Replace( '/', '\\' );
+					if ( File.Exists( path ) )
+					{
+						// 返回缓存
+						oSession.utilCreateResponseAndBypassServer();
+						oSession.ResponseBody = File.ReadAllBytes( path );
+						oSession.oResponse.headers["Server"] = "Apache";
+						oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
+						oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
+						oSession.oResponse.headers["Connection"] = "close";
+						oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+						oSession.oResponse.headers["Content-Type"] = "text/css";
+					}
 				}
 			}
 
 		}
 
+
+		private string _GetModifiedTime( string filepath ) {
+			FileInfo fi;
+			DateTime dt = default( DateTime );
+			try {
+				fi = new FileInfo( filepath );
+				dt = fi.LastWriteTime;
+				return GMTHelper.ToGMTString( dt );
+			} catch ( Exception ex ) {
+				Utility.ErrorReporter.SendErrorReport( ex, "在读取文件修改时间时发生异常：" + dt );
+				return "";
+			}
+		}
+
+		private void _SaveModifiedTime( string filepath, string gmTime ) {
+			FileInfo fi;
+			try {
+				fi = new FileInfo( filepath );
+				DateTime dt = GMTHelper.GMT2Local( gmTime );
+				if ( dt.Year > 1900 ) {
+					fi.LastWriteTime = dt;
+				}
+			} catch ( Exception ex ) {
+				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "在保存文件修改时间时发生异常。filepath: {0}, gmTime: {1}", filepath, gmTime ) );
+			}
+		}
 
 
 		public void LoadRequest( string path, string data ) {
@@ -362,7 +667,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				Utility.Logger.Add( 1, "Request を受信しました : " + shortpath );
+				Utility.Logger.Add( 1, "开始处理 Request : " + shortpath );
 
 				SystemEvents.UpdateTimerEnabled = false;
 
@@ -381,7 +686,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				ErrorReporter.SendErrorReport( ex, "Request の受信中にエラーが発生しました。", shortpath, data );
+				ErrorReporter.SendErrorReport( ex, "处理 Request 时发生错误。", shortpath, data );
 
 			} finally {
 
@@ -398,7 +703,7 @@ namespace ElectronicObserver.Observer {
 
 			try {
 
-				Utility.Logger.Add( 1, "Responseを受信しました : " + shortpath );
+				Utility.Logger.Add( 1, "开始处理 Response : " + shortpath );
 
 				SystemEvents.UpdateTimerEnabled = false;
 
@@ -407,8 +712,8 @@ namespace ElectronicObserver.Observer {
 
 				if ( (int)json.api_result != 1 ) {
 
-					var ex = new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
-					Utility.ErrorReporter.SendErrorReport( ex, "エラーコードを含むメッセージを受信しました。" );
+					var ex = new ArgumentException( "返回信息中含有错误码。" );
+					Utility.ErrorReporter.SendErrorReport( ex, "返回信息中含有错误码。" );
 					throw ex;
 				}
 
@@ -423,7 +728,7 @@ namespace ElectronicObserver.Observer {
 
 			} catch ( Exception ex ) {
 
-				ErrorReporter.SendErrorReport( ex, "Responseの受信中にエラーが発生しました。", shortpath, data );
+				ErrorReporter.SendErrorReport( ex, "处理 Response 时发生错误。", shortpath, data );
 
 			} finally {
 
@@ -437,6 +742,10 @@ namespace ElectronicObserver.Observer {
 		private void SaveRequest( string url, string body ) {
 
 			try {
+
+				if ( !Directory.Exists( Utility.Configuration.Config.Connection.SaveDataPath ) ) {
+					Directory.CreateDirectory( Utility.Configuration.Config.Connection.SaveDataPath );
+				}
 
 				string tpath = string.Format( "{0}\\{1}Q@{2}.json", Utility.Configuration.Config.Connection.SaveDataPath, DateTimeHelper.GetTimeStamp(), url.Substring( url.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
 
@@ -456,6 +765,10 @@ namespace ElectronicObserver.Observer {
 		private void SaveResponse( string url, string body ) {
 
 			try {
+
+				if ( !Directory.Exists( Utility.Configuration.Config.Connection.SaveDataPath ) ) {
+					Directory.CreateDirectory( Utility.Configuration.Config.Connection.SaveDataPath );
+				}
 
 				string tpath = string.Format( "{0}\\{1}S@{2}.json", Utility.Configuration.Config.Connection.SaveDataPath, DateTimeHelper.GetTimeStamp(), url.Substring( url.LastIndexOf( "/kcsapi/" ) + 8 ).Replace( "/", "@" ) );
 

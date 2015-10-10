@@ -280,6 +280,13 @@ namespace ElectronicObserver.Window.Control {
 
 			} else {
 
+				// dangerous
+				if ( Value > 0 && Value <= MaximumValue * 0.25 && BackColor != Color.Silver ) {	// 不在退避中
+					g.Clear( Utility.Configuration.Config.UI.FleetDamageColor.ColorData );
+				}
+
+				//
+
 				Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
 				Size sz_hpmax = TextRenderer.MeasureText( Math.Max( MaximumValue, MaximumDigit ).ToString(), SubFont, maxsize, TextFormatHP );
 				Size sz_slash = TextRenderer.MeasureText( " / ", SubFont, maxsize, TextFormatHP );

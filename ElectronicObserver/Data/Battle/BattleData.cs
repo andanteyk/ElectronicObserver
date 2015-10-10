@@ -25,6 +25,12 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public ReadOnlyCollection<int> AttackDamages { get { return Array.AsReadOnly( _attackDamages ); } }
 
+		protected int[] _attackAirDamages;
+		/// <summary>
+		/// 各艦の航空戦の与ダメージ
+		/// </summary>
+		public ReadOnlyCollection<int> AttackAirDamages { get { return Array.AsReadOnly( _attackAirDamages ); } }
+
 
 		public PhaseInitial Initial { get; protected set; }
 		public PhaseSearching Searching { get; protected set; }
@@ -39,6 +45,8 @@ namespace ElectronicObserver.Data.Battle {
 			_resultHPs = Initial.InitialHPs.ToArray();
 			if ( _attackDamages == null )
 				_attackDamages = new int[_resultHPs.Length];
+			if ( _attackAirDamages == null )
+				_attackAirDamages = new int[_resultHPs.Length];
 
 		}
 
@@ -48,15 +56,15 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public int MVPShipIndex {
 			get {
-				int index = -1;
-				int max = 1;
+				int index = 0;
+				int max = -1;
 				for ( int i = 0; i < 6; i++ ) {
-					if ( _attackDamages[i] >= max ) {
-						max = _attackDamages[i];
+					if ( _attackDamages[i] + _attackAirDamages[i] > max ) {
+						max = _attackDamages[i] + _attackAirDamages[i];
 						index = i;
 					}
 				}
-				return index == -1 ? 0 : index;
+				return index < 0 ? 0 : index;
 			}
 		}
 
@@ -75,15 +83,15 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public int MVPShipCombinedIndex {
 			get {
-				int index = -1;
-				int max = 1;
+				int index = 0;
+				int max = -1;
 				for ( int i = 0; i < 6; i++ ) {
-					if ( _attackDamages[i + 12] >= max ) {
-						max = _attackDamages[i + 12];
+					if ( _attackDamages[i + 12] + _attackAirDamages[i + 12] > max ) {
+						max = _attackDamages[i + 12] + _attackAirDamages[i + 12];
 						index = i;
 					}
 				}
-				return index == -1 ? 0 : index;
+				return index < 0 ? 0 : index;
 			}
 		}
 
@@ -102,6 +110,7 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		internal void TakeOverParameters( BattleData prev ) {
 			_attackDamages = (int[])prev._attackDamages.Clone();
+			_attackAirDamages = (int[])prev._attackAirDamages.Clone();
 		}
 
 

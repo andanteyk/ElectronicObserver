@@ -55,6 +55,7 @@ namespace ElectronicObserver.Window.Control {
 			/// </summary>
 			public int AircraftMax { get; set; }
 
+			public bool IsExpansionSlot { get; set; }
 
 			/// <summary>
 			/// 改修レベル
@@ -70,7 +71,8 @@ namespace ElectronicObserver.Window.Control {
 			public SlotItem() {
 				EquipmentID = -1;
 				AircraftCurrent = AircraftMax = 0;
-				Level = AircraftLevel = 0;
+				Level =
+				AircraftLevel = 0;
 			}
 		}
 
@@ -81,7 +83,7 @@ namespace ElectronicObserver.Window.Control {
 
 		private SlotItem[] SlotList;
 		private int SlotSize { get; set; }
-
+		private bool IsExpansionSlotAvailable { get; set; }
 
 
 		[Browsable( true )]
@@ -107,6 +109,10 @@ namespace ElectronicObserver.Window.Control {
 				PropertyChanged();
 			}
 		}
+
+		private Pen _aircraftOne = new Pen( Color.FromArgb( 154, 181, 208 ), 1 );
+		private Pen _aircraftTwo = new Pen( Color.FromArgb( 213, 157, 18 ), 1 );
+		private Pen _aircraftThree = new Pen( Color.FromArgb( 38, 181, 50 ), 1 );
 
 		private Color _aircraftColorLost;
 		/// <summary>
@@ -237,6 +243,17 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+		private bool _textProficiency;
+		[Browsable( true )]
+		[DefaultValue( false )]
+		public bool TextProficiency
+		{
+			get { return _textProficiency; }
+			set {
+				_textProficiency = value;
+				PropertyChanged();
+			}
+		}
 
 		private bool _showEquipmentLevel = true;
 		/// <summary>
@@ -304,7 +321,7 @@ namespace ElectronicObserver.Window.Control {
 			_aircraftColorDisabled = Color.FromArgb( 0xAA, 0xAA, 0xAA );
 			_aircraftColorLost = Color.FromArgb( 0xFF, 0x00, 0xFF );
 			_aircraftColorDamaged = Color.FromArgb( 0xFF, 0x00, 0x00 );
-			_aircraftColorFull = Color.FromArgb( 0x00, 0x00, 0x00 );
+			_aircraftColorFull = Utility.Configuration.Config.UI.ForeColor;
 
 			_equipmentLevelColor = Color.FromArgb( 0x00, 0x66, 0x66 );
 			_aircraftLevelColorLow = Color.FromArgb( 0x66, 0x99, 0xEE );
@@ -329,6 +346,7 @@ namespace ElectronicObserver.Window.Control {
 
 			int slotCount = Math.Max( ship.SlotSize + ( ship.IsExpansionSlotAvailable ? 1 : 0 ), 4 );
 
+			IsExpansionSlotAvailable = ship.IsExpansionSlotAvailable;
 
 			if ( SlotList.Length != slotCount ) {
 				SlotList = new SlotItem[slotCount];
@@ -339,20 +357,23 @@ namespace ElectronicObserver.Window.Control {
 
 			for ( int i = 0; i < Math.Min( slotCount, 5 ); i++ ) {
 				var eq = ship.SlotInstance[i];
+
 				SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[i].AircraftCurrent = ship.Aircraft[i];
 				SlotList[i].AircraftMax = ship.MasterShip.Aircraft[i];
 				SlotList[i].Level = eq != null ? eq.Level : 0;
 				SlotList[i].AircraftLevel = eq != null ? eq.AircraftLevel : 0;
+				SlotList[i].IsExpansionSlot = false;
 			}
 
 			if ( ship.IsExpansionSlotAvailable ) {
 				var eq = ship.ExpansionSlotInstance;
 				SlotList[ship.SlotSize].EquipmentID = eq != null ? eq.EquipmentID : -1;
 				SlotList[ship.SlotSize].AircraftCurrent =
-				SlotList[ship.SlotSize].AircraftMax = 0;
-				SlotList[ship.SlotSize].Level = eq != null ? eq.Level : 0;
-				SlotList[ship.SlotSize].AircraftLevel = eq != null ? eq.AircraftLevel : 0;
+				SlotList[ship.SlotSize].AircraftMax =
+				SlotList[ship.SlotSize].Level =
+				SlotList[ship.SlotSize].AircraftLevel = 0;
+				SlotList[ship.SlotSize].IsExpansionSlot = true;
 			}
 
 
@@ -431,11 +452,10 @@ namespace ElectronicObserver.Window.Control {
 
 		private void ShipStatusEquipment_Paint( object sender, PaintEventArgs e ) {
 
-
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
 			//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
 
-			ImageList eqimages = ResourceManager.Instance.Equipments;
+			ImageCollection eqimages = ResourceManager.Instance.Equipments;
 
 			TextFormatFlags textformat = TextFormatFlags.NoPadding;
 			if ( !OverlayAircraft ) {
@@ -478,6 +498,16 @@ namespace ElectronicObserver.Window.Control {
 					}
 				}
 
+				if ( slot.IsExpansionSlot )
+				{
+					// expansion slot spliter
+					e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
+					using ( var b = new SolidBrush( AircraftColorDisabled ) )
+					{
+						e.Graphics.FillRectangle( b, new Rectangle( basearea.X + sz_unit.Width * 4, basearea.Y, 1, sz_unit.Height ) );
+					}
+				}
+
 
 				if ( slot.EquipmentID == -1 ) {
 					if ( slotindex < SlotSize ) {
@@ -499,7 +529,11 @@ namespace ElectronicObserver.Window.Control {
 
 
 				if ( image != null ) {
-					Rectangle imagearea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
+					Rectangle imagearea;
+					if ( slot.IsExpansionSlot )
+						imagearea = new Rectangle( basearea.X + sz_unit.Width * 4 + 3, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
+					else
+						imagearea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
 
 					e.Graphics.DrawImage( image, imagearea );
 					//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
@@ -509,12 +543,15 @@ namespace ElectronicObserver.Window.Control {
 				Color aircraftColor = AircraftColorDisabled;
 				bool drawEquipmentLevel = ShowEquipmentLevel;
 				bool drawAircraftSlot = ShowAircraft;
+				bool drawAircraftProficiency = ( slot.AircraftLevel > 0 );
 
 				if ( slot.EquipmentID != -1 ) { //装備有
 
 					if ( Calculator.IsAircraft( slot.EquipmentID, true ) ) { //装備有り、艦載機の場合
 
-						if ( slot.AircraftMax == 0 ) {
+						if ( slot.AircraftMax < 0 )
+							drawAircraftSlot = false;
+						else if ( slot.AircraftMax == 0 ) {
 							aircraftColor = AircraftColorDisabled;
 
 						} else if ( slot.AircraftCurrent == 0 ) {
@@ -529,11 +566,11 @@ namespace ElectronicObserver.Window.Control {
 
 					} else {
 
-						if ( slot.AircraftMax == 0 )
+						if ( slot.AircraftMax <= 0 )
 							drawAircraftSlot = false;
 					}
 
-				} else if ( slot.AircraftMax == 0 ) {
+				} else if ( slot.AircraftMax <= 0 ) {
 					drawAircraftSlot = false;
 				}
 
@@ -581,10 +618,73 @@ namespace ElectronicObserver.Window.Control {
 
 					}
 
-
+					textarea.Height = Math.Max( textarea.Height, Height - 1 );
 					TextRenderer.DrawText( e.Graphics, slot.AircraftCurrent.ToString(), Font, textarea, aircraftColor, textformat );
 				}
 
+				if ( drawAircraftProficiency )
+				{
+					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width - SlotMargin, sz_unit.Height );
+					if ( TextProficiency )
+					{
+						textarea.Y -= 5;
+						TextFormatFlags format = TextFormatFlags.NoPadding | TextFormatFlags.Top | TextFormatFlags.Right;
+						Color color = AircraftColorDisabled;
+						//if ( slot.AircraftProficiency < 4 )
+						//	color = _aircraftPenOne.Color;
+						//else if ( slot.AircraftProficiency < 7 )
+						//	color = _aircraftPenTwo.Color;
+						//else
+						//	color = _aircraftPenThree.Color;
+						TextRenderer.DrawText( e.Graphics, slot.AircraftLevel.ToString(), Font, textarea, color, format );
+					}
+					else
+					{
+						e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+						int h = sz_unit.Height / 2;
+
+						int x = textarea.Right - 3;
+						int y = textarea.Y;
+						int pro = slot.AircraftLevel;
+						if ( pro < 4 )
+						{
+							for ( int i = 0; i < pro; i++ )
+							{
+								e.Graphics.DrawLine( _aircraftOne, x, 0, x, h );
+								x -= 3;
+							}
+						}
+						else if ( pro < 7 )
+						{
+							for ( int i = 0; i < pro - 3; i++ )
+							{
+								e.Graphics.DrawLine( _aircraftTwo, x - 2, 0, x + 2, h );
+								x -= 4;
+							}
+						}
+						else
+						{
+							for ( int i = 0; i < 2; i++ )
+							{
+								e.Graphics.DrawLine( _aircraftThree, x - 2, 0, x + 1, h / 2 );
+								e.Graphics.DrawLine( _aircraftThree, x - 2, h, x + 1, h / 2 );
+								x -= 4;
+							}
+						}
+						//Brush brush;
+						//if ( pro < 4 )
+						//	brush = _aircraftBrushOne;
+						//else if ( pro < 7 )
+						//	brush = _aircraftBrushTwo;
+						//else
+						//	brush = _aircraftBrushThree;
+						//for ( int i = 0; i < pro; i++ )
+						//{
+						//	e.Graphics.FillRectangle( brush, x + 2, y, 1, 5 );
+						//	x -= 2;
+						//}
+					}
+				}
 
 				if ( drawEquipmentLevel ) {
 
@@ -593,6 +693,7 @@ namespace ElectronicObserver.Window.Control {
 					//e.Graphics.DrawRectangle( Pens.Cyan, textarea );
 
 
+					/*
 					if ( slot.AircraftLevel > 0 ) {
 
 						string leveltext;
@@ -616,6 +717,7 @@ namespace ElectronicObserver.Window.Control {
 
 						TextRenderer.DrawText( e.Graphics, leveltext, Font, textarea, levelcol, textformatLevel );
 					}
+					//*/
 
 
 					if ( slot.Level > 0 ) {
@@ -635,7 +737,7 @@ namespace ElectronicObserver.Window.Control {
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
 			//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 );
 
-			ImageList eqimages = ResourceManager.Instance.Equipments;
+			ImageCollection eqimages = ResourceManager.Instance.Equipments;
 
 			TextFormatFlags textformat = TextFormatFlags.NoPadding;
 			if ( !OverlayAircraft ) {
@@ -654,8 +756,13 @@ namespace ElectronicObserver.Window.Control {
 				sz_unit.Height = Math.Max( sz_unit.Height, sz_eststr.Height );
 			}
 
+			int width;
+			if ( IsExpansionSlotAvailable )
+				width = Padding.Horizontal + sz_unit.Width * 5 + 3;
+			else
+				width = Padding.Horizontal + sz_unit.Width * SlotList.Length;
 
-			return new Size( Padding.Horizontal + sz_unit.Width * SlotList.Length, Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
+			return new Size( width, Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
 
 		}
 

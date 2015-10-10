@@ -160,7 +160,7 @@ namespace ElectronicObserver.Data {
 
 					_escapedShipList.Clear();
 					if ( IsInSortie ) {
-						Utility.Logger.Add( 2, string.Format( "#{0}「{1}」が帰投しました。", FleetID, Name ) );
+						Utility.Logger.Add( 2, string.Format( "#{0}「{1}」回到母港。", FleetID, Name ) );
 					}
 					IsInSortie = false;
 
@@ -353,8 +353,32 @@ namespace ElectronicObserver.Data {
 		/// 疲労回復にかかる時間を取得します。
 		/// </summary>
 		/// <param name="cond">コンディション。</param>
-		private int GetConditionRecoveryMinute( int cond ) {
-			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
+		private int GetConditionRecoverySecond( int cond ) {
+			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 180, 0 );
+		}
+
+		/// <summary>
+		/// 验证已有疲劳值
+		/// </summary>
+		/// <param name="minute"></param>
+		private bool CheckSolongConditionTimer( ref int second )
+		{
+			// 判断是否已有 ConditionTime
+			if ( ConditionTime != null )
+			{
+				int soffset = (int)Math.Ceiling( ConditionTime.Value.Subtract( DateTime.Now ).TotalSeconds );
+				if ( second > soffset )
+				{
+					second = soffset;
+					if ( soffset <= 0 )
+					{
+						ConditionTime = null;
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 
 		//*/
@@ -364,10 +388,15 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		private void SetConditionTimer() {
 
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
+			int sec = GetConditionRecoverySecond( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
 
-			if ( minute > 0 )
-				ConditionTime = DateTime.Now.AddMinutes( minute );
+			if ( sec > 0 )
+			{
+				if ( CheckSolongConditionTimer( ref sec ) )
+					return;
+
+				ConditionTime = DateTime.Now.AddSeconds( sec );
+			}
 			else
 				ConditionTime = null;
 
@@ -400,13 +429,17 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		private void ShortenConditionTimer() {
 
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
+			int sec = GetConditionRecoverySecond( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
 
-			if ( minute == 0 ) {
+			if ( sec == 0 ) {
 				ConditionTime = null;
 
 			} else {
-				DateTime target = DateTime.Now.AddMinutes( minute );
+
+				if ( CheckSolongConditionTimer( ref sec ) )
+					return;
+
+				DateTime target = DateTime.Now.AddSeconds( sec );
 
 				if ( ConditionTime != null && ConditionTime < DateTime.Now ) {
 					ConditionTime = null;
@@ -454,12 +487,20 @@ namespace ElectronicObserver.Data {
 			_escapedShipList.Add( _members[index] );
 		}
 
+		/// <summary>
+		/// 获取计算了舰载机熟练度的制空值
+		/// </summary>
+		/// <returns></returns>
+		public int GetAirSuperiority()
+		{
+			return CalculatorEx.GetAirSuperiorityEnhance( this );
+		}
 
 		/// <summary>
 		/// 制空戦力を取得します。
 		/// </summary>
 		/// <returns>制空戦力。</returns>
-		public int GetAirSuperiority() {
+		public int GetAirSuperiority_Old() {
 
 			return Calculator.GetAirSuperiority( this );
 		}
@@ -723,7 +764,7 @@ namespace ElectronicObserver.Data {
 			switch ( state ) {
 				case FleetStates.Damaged:
 				case FleetStates.SortieDamaged:
-					label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+					label.BackColor = DateTime.Now.Second % 2 == 0 ? Utility.Configuration.Config.UI.FleetDamageColor.ColorData : Color.Transparent;
 					break;
 				case FleetStates.Docking:
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );

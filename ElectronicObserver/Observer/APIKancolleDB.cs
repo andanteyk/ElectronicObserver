@@ -75,7 +75,7 @@ namespace ElectronicObserver.Observer {
 		/// <summary>
 		/// read the after-session, determinate whether it will send to kancolle-db.net
 		/// </summary>
-		public void ExecuteSession( Session oSession ) {
+		public void ExecuteSession( Session oSession, bool sendWithProxy ) {
 
 			if ( string.IsNullOrEmpty( OAuth ) ) {
 				return;
@@ -85,14 +85,14 @@ namespace ElectronicObserver.Observer {
 			string url = oSession.PathAndQuery;
 
 			if ( apis.Contains( url ) ) {
-				PostToServer( oSession );
+				PostToServer( oSession, sendWithProxy );
 			}
 
 		}
 
 		private static Regex RequestRegex = new Regex( @"&api(_|%5F)token=[0-9a-f]+|api(_|%5F)token=[0-9a-f]+&?", RegexOptions.Compiled );
 
-		private void PostToServer( Session oSession ) {
+		private void PostToServer( Session oSession, bool sendWithProxy ) {
 
 			string oauth = OAuth;
 			string url = oSession.fullUrl;
@@ -107,7 +107,7 @@ namespace ElectronicObserver.Observer {
 				using ( System.Net.WebClient wc = new System.Net.WebClient() ) {
 					wc.Headers["User-Agent"] = "ElectronicObserver/v" + SoftwareInformation.VersionEnglish;
 
-					if ( Proxy != null ) {
+					if ( sendWithProxy && Proxy != null ) {
 						wc.Proxy = Proxy;
 					}
 

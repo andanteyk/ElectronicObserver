@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,48 @@ namespace ElectronicObserver.Window.Support {
 
 			System.Reflection.PropertyInfo prop = control.GetType().GetProperty( "DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
 			prop.SetValue( control, flag, null );
+
+		}
+
+		public static int GetDpiHeight( this Form form, int height ) {
+
+			if ( form == null ) {
+				return height;
+			}
+
+			Graphics g = form.CreateGraphics();
+			float dy;
+			try {
+
+				dy = g.DpiY;
+
+			} catch {
+				dy = 96f;
+			} finally {
+
+				g.Dispose();
+
+			}
+			return (int)Math.Round( dy / 96 * height );
+
+		}
+
+		public static void SuspendLayoutForDpiScale( this ContainerControl container ) {
+
+			if ( Utility.Configuration.Config.UI.AutoScaleDpi ) {
+				container.SuspendLayout();
+			}
+
+		}
+
+		public static void ResumeLayoutForDpiScale( this ContainerControl container ) {
+
+			if ( Utility.Configuration.Config.UI.AutoScaleDpi ) {
+				container.AutoScaleMode = AutoScaleMode.Dpi;
+				container.AutoScaleDimensions = new SizeF( 96f, 96f );
+
+				container.ResumeLayout();
+			}
 
 		}
 
@@ -58,6 +101,7 @@ namespace ElectronicObserver.Window.Support {
 
 			return true;
 		}
+
 	}
 
 }

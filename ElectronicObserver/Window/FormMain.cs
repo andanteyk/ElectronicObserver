@@ -1,12 +1,12 @@
 ﻿using Codeplex.Data;
 using ElectronicObserver.Data;
-using ElectronicObserver.Notifier;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Integrate;
+using ElectronicObserver.Window.Plugins;
 using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
@@ -16,13 +16,26 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
+using System.Security.Permissions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace ElectronicObserver.Window {
 	public partial class FormMain : Form {
+
+		[SecurityPermission( SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode )]
+		protected override void WndProc( ref Message m ) {
+			if ( m.Msg == 0x0112 ) // WM_SYSCOMMAND 
+				if ( m.WParam.ToInt32() == 0xF100 ) // SC_KEYMENU
+					return;
+
+			base.WndProc( ref m );
+		}
+
 
 		#region Properties
 
@@ -36,33 +49,31 @@ namespace ElectronicObserver.Window {
 
 		public List<DockContent> SubForms { get; private set; }
 
+		public List<IPluginHost> Plugins { get; private set; }
+
 		public FormFleet[] fFleet;
-		public FormDock fDock;
-		public FormArsenal fArsenal;
-		public FormHeadquarters fHeadquarters;
-		public FormInformation fInformation;
-		public FormCompass fCompass;
-		public FormLog fLog;
-		public FormQuest fQuest;
-		public FormBattle fBattle;
-		public FormFleetOverview fFleetOverview;
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
 		public FormWindowCapture fWindowCapture;
 
+		public Form Browser { get { return fBrowser; } }
+
 		#endregion
 
 
-
+		private const string LAYOUT_FILE1 = @"Settings\WindowLayout.zip";
+		private const string LAYOUT_FILE2 = @"Settings\WindowLayout2.zip";
 
 		public FormMain() {
+			this.SuspendLayoutForDpiScale();
+			this.BackColor = Utility.Configuration.Config.UI.BackColor.ColorData;
+			this.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
+
 			InitializeComponent();
+			this.ResumeLayoutForDpiScale();
 		}
 
-		private async void FormMain_Load( object sender, EventArgs e ) {
-
-			Utility.Configuration.Instance.Load();
-
+		private void FormMain_Load( object sender, EventArgs e ) {
 
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
 				if ( InvokeRequired ) {
@@ -76,18 +87,25 @@ namespace ElectronicObserver.Window {
 			} );
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を起動しています…" );
+			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " 开始启动…" );
 
 
-			this.Text = SoftwareInformation.VersionJapanese;
+			this.Text = SoftwareInformation.VersionJapanese + "（迷彩型）";
 
-			ResourceManager.Instance.Load();
-			RecordManager.Instance.Load();
-			KCDatabase.Instance.Load();
-			NotifierManager.Instance.Initialize( this );
+		}
 
+		private async void FormMain_Shown( object sender, EventArgs e ) {
+
+			// 并行加载
+			var task = Task.Factory.StartNew( () => Utility.Modify.ModifyConfiguration.Instance.LoadSettings() );	// 不等待完成
+			task = Task.Factory.StartNew( () => ResourceManager.Instance.Load() );	// 保证与以下两个任务一起完毕
+
+			await Task.Factory.StartNew( () => RecordManager.Instance.Load() );
+			await Task.Factory.StartNew( () => KCDatabase.Instance.Load() );
+			await task;
 
 			Icon = ResourceManager.Instance.AppIcon;
+			StripMenu_Tool_PluginManager.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration];
 
 			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port, this );
 
@@ -98,50 +116,201 @@ namespace ElectronicObserver.Window {
 			SubForms = new List<DockContent>();
 
 			//form init
-			//注：一度全てshowしないとイベントを受け取れないので注意	
+			//注：一度全てshowしないとイベントを受け取れないので注意
 			fFleet = new FormFleet[4];
 			for ( int i = 0; i < fFleet.Length; i++ ) {
 				SubForms.Add( fFleet[i] = new FormFleet( this, i + 1 ) );
 			}
 
-			SubForms.Add( fDock = new FormDock( this ) );
-			SubForms.Add( fArsenal = new FormArsenal( this ) );
-			SubForms.Add( fHeadquarters = new FormHeadquarters( this ) );
-			SubForms.Add( fInformation = new FormInformation( this ) );
-			SubForms.Add( fCompass = new FormCompass( this ) );
-			SubForms.Add( fLog = new FormLog( this ) );
-			SubForms.Add( fQuest = new FormQuest( this ) );
-			SubForms.Add( fBattle = new FormBattle( this ) );
-			SubForms.Add( fFleetOverview = new FormFleetOverview( this ) );
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 
+			await LoadPlugins();
+
+			// layout
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
+
+			string lower = Configuration.Config.Life.LayoutFilePath.ToLower();
+			if ( lower == LAYOUT_FILE1.ToLower() ) {
+				StripMenu_File_Layout1.Checked = true;
+			} else if ( lower == LAYOUT_FILE2.ToLower() ) {
+				StripMenu_File_Layout2.Checked = true;
+			}
 
 			ConfigurationChanged();		//設定から初期化
 
-			SoftwareInformation.CheckUpdate();
-
-			// デバッグ: 開始時にAPIリストを読み込む
-			if ( Configuration.Config.Debug.LoadAPIListOnLoad ) {
-
-				try {
-
-					await Task.Factory.StartNew( () => LoadAPIList( Configuration.Config.Debug.APIListPath ) );
-
-				} catch ( Exception ex ) {
-
-					Utility.Logger.Add( 3, "API読み込みに失敗しました。" + ex.Message );
-				}
-			}
+			task = Task.Factory.StartNew( () => SoftwareInformation.CheckUpdate() );
 
 			// 完了通知（ログインページを開く）
 			fBrowser.InitializeApiCompleted();
 
 			UIUpdateTimer.Start();
 
-			Utility.Logger.Add( 2, "起動処理が完了しました。" );
+			Utility.Logger.Add( 2, "启动处理完毕。" );
+		}
+
+		private object _sync = new object();
+
+		private async Task LoadPlugins()
+		{
+			Plugins = new List<IPluginHost>();
+
+			var path = this.GetType().Assembly.Location;
+			path = path.Substring( 0, path.LastIndexOf( '\\' ) + 1 ) + "Plugins";
+			if ( Directory.Exists( path ) )
+			{
+				bool flag = false;
+
+				// load dlls
+				await Task.Factory.StartNew( () =>
+				{
+					foreach ( var file in Directory.GetFiles( path, "*.dll", SearchOption.TopDirectoryOnly ) )
+					{
+						try
+						{
+							var assembly = Assembly.LoadFile( file );
+							var pluginTypes = assembly.ExportedTypes.Where( t => t.GetInterface( typeof( IPluginHost ).FullName ) != null );
+							if ( pluginTypes != null && pluginTypes.Count() > 0 )
+							{
+								foreach ( var pluginType in pluginTypes )
+								{
+									var plugin = (IPluginHost)assembly.CreateInstance( pluginType.FullName );
+									lock ( _sync )
+									{
+										Plugins.Add( plugin );
+									}
+								}
+							}
+						}
+						catch ( ReflectionTypeLoadException refEx )
+						{
+							Utility.ErrorReporter.SendLoadErrorReport( refEx, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
+						}
+						catch ( Exception ex )
+						{
+							Utility.ErrorReporter.SendErrorReport( ex, "载入插件时出错：" + file.Substring( file.LastIndexOf( '\\' ) + 1 ) );
+						}
+					}
+				} );
+
+				// instance them
+				foreach ( var plugin in Plugins )
+				{
+					try
+					{
+						if ( !flag )
+						{
+							var sep = new ToolStripSeparator();
+							StripMenu_View.DropDownItems.Add( sep );
+							flag = true;
+						}
+
+						if ( plugin.PluginType == PluginType.DockContent )
+						{
+							List<DockContent> plugins = new List<DockContent>();
+							foreach ( var type in plugin.GetType().Assembly.ExportedTypes.Where( t => t.BaseType == typeof( DockContent ) ) )
+							{
+								if ( type != null )
+								{
+									var form = (DockContent)type.GetConstructor( new[] { typeof( FormMain ) } ).Invoke( new object[] { this } );
+									plugins.Add( form );
+								}
+							}
+							if ( plugins.Count == 1 )
+							{
+								var p = plugins[0];
+								var item = new ToolStripMenuItem
+								{
+									Text = plugin.MenuTitle ?? p.Text,
+									Tag = p
+								};
+								item.Click += menuitem_Click;
+								StripMenu_View.DropDownItems.Add( item );
+							}
+							else if ( plugins.Count > 1 )
+							{
+								var item = new ToolStripMenuItem
+								{
+									Text = plugin.MenuTitle ?? plugins.First().Text
+								};
+								foreach ( var p in plugins )
+								{
+									var subItem = new ToolStripMenuItem
+									{
+										Text = p.Text,
+										Tag = p
+									};
+									subItem.Click += menuitem_Click;
+									item.DropDownItems.Add( subItem );
+								}
+								StripMenu_View.DropDownItems.Add( item );
+							}
+
+							SubForms.AddRange( plugins );
+						}
+
+						// service
+						else if ( plugin.PluginType == PluginType.Service )
+						{
+							if ( plugin.RunService( this ) )
+							{
+								Utility.Logger.Add( 2, string.Format( "服务 {0}({1}) 已加载。", plugin.MenuTitle, plugin.Version ) );
+							}
+							else
+							{
+								Utility.Logger.Add( 3, string.Format( "服务 {0}({1}, {2}) 加载时返回异常结果。", plugin.MenuTitle, plugin.Version, plugin.GetType().Name ) );
+							}
+						}
+
+						// dialog
+						else if ( plugin.PluginType == PluginType.Dialog )
+						{
+							var item = new ToolStripMenuItem
+							{
+								Text = plugin.MenuTitle,
+								Tag = plugin
+							};
+							item.Click += dialogPlugin_Click;
+							StripMenu_Tool.DropDownItems.Add( item );
+						}
+
+					}
+					catch ( Exception ex )
+					{
+						Utility.ErrorReporter.SendErrorReport( ex, "载入插件时出错：" + plugin );
+					}
+
+				}
+			}
+		}
+
+
+		void dialogPlugin_Click( object sender, EventArgs e )
+		{
+			var plugin = (IPluginHost)( (ToolStripMenuItem)sender ).Tag;
+			if ( plugin != null )
+			{
+				try
+				{
+					plugin.GetToolWindow().Show( this );
+				}
+				catch ( ObjectDisposedException ) { }
+				catch ( Exception ex )
+				{
+					Utility.ErrorReporter.SendErrorReport( ex, string.Format( "插件显示出错：{0}({1})", plugin.MenuTitle, plugin.Version ) );
+				}
+			}
+		}
+
+
+		void menuitem_Click( object sender, EventArgs e )
+		{
+			var f = ((ToolStripMenuItem)sender).Tag as DockContent;
+			if ( f != null )
+			{
+				f.Show( this.MainDockPanel );
+			}
 		}
 
 
@@ -150,8 +319,10 @@ namespace ElectronicObserver.Window {
 
 			var c = Utility.Configuration.Config;
 
-			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = c.Debug.EnableDebugMenu;
 			StripStatus.Visible = c.Life.ShowStatusBar;
+
+			if ( !c.Log.AutoSave )
+				nowSeconds = 0;
 
 			TopMost = c.Life.TopMost;
 
@@ -161,41 +332,40 @@ namespace ElectronicObserver.Window {
 			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
 			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
-		}
+			MainDockPanel.AllowEndUserDocking =
+			MainDockPanel.AllowSplitterDrag = !c.Life.IsLocked;
+			StripMenu_File_Layout_Lock.Checked = c.Life.IsLocked;
 
-
-
-
-
-
-		private void StripMenu_Debug_LoadAPIFromFile_Click( object sender, EventArgs e ) {
-
-			/*/
-			using ( var dialog = new DialogLocalAPILoader() ) {
-
-				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
-					if ( APIObserver.Instance.APIList.ContainsKey( dialog.APIName ) ) {
-
-						if ( dialog.IsResponse ) {
-							APIObserver.Instance.LoadResponse( dialog.APIPath, dialog.FileData );
-						}
-						if ( dialog.IsRequest ) {
-							APIObserver.Instance.LoadRequest( dialog.APIPath, dialog.FileData );
-						}
-
-					}
+			// color theme
+			foreach ( var f in SubForms ) {
+				if ( f is FormShipGroup ) {
+					f.BackColor = SystemColors.Control;
+					f.ForeColor = SystemColors.ControlText;
+				} else {
+					f.BackColor = this.BackColor;
+					f.ForeColor = this.ForeColor;
 				}
 			}
-			/*/
-			new DialogLocalAPILoader2().Show( this );
-			//*/
 		}
 
 
+
+
+
+
+		private int nowSeconds = 0;
 
 		private void UIUpdateTimer_Tick( object sender, EventArgs e ) {
 
 			SystemEvents.OnUpdateTimerTick();
+
+			// 自动保存
+			if ( Utility.Configuration.Config.Log.AutoSave && ++nowSeconds >= Utility.Configuration.Config.Log.AutoSaveMinutes * 60 )
+			{
+				RecordManager.Instance.Save();
+				KCDatabase.Instance.Save();
+				nowSeconds = 0;
+			}
 
 			// 東京標準時で表示
 			DateTime now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId( DateTime.UtcNow, "Tokyo Standard Time" );
@@ -214,8 +384,18 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			if ( !SaveLayout( Configuration.Config.Life.LayoutFilePath ) )
+			{
+				if ( MessageBox.Show( "布局保存失败，是否继续关闭？\r\n详情请查看 ErrorReport 目录中的错误日志。", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
+					== System.Windows.Forms.DialogResult.No )
+				{
+					e.Cancel = true;
+					return;
+				}
+			}
 
-			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " を終了しています…" );
+
+			Utility.Logger.Add( 2, SoftwareInformation.SoftwareNameJapanese + " 即将结束…" );
 
 			UIUpdateTimer.Stop();
 
@@ -227,20 +407,17 @@ namespace ElectronicObserver.Window {
 			SystemEvents.OnSystemShuttingDown();
 
 
-			SaveLayout( Configuration.Config.Life.LayoutFilePath );
-
 		}
 
 		private void FormMain_FormClosed( object sender, FormClosedEventArgs e ) {
 
-			NotifierManager.Instance.ApplyToConfiguration();
 			Utility.Configuration.Instance.Save();
 			APIObserver.Instance.Stop();
 			RecordManager.Instance.Save();
 			KCDatabase.Instance.Save();
 
 
-			Utility.Logger.Add( 2, "終了処理が完了しました。" );
+			Utility.Logger.Add( 2, "结束处理完毕。" );
 
 			if ( Utility.Configuration.Config.Log.SaveLogFlag )
 				Utility.Logger.Save( @"eolog.log" );
@@ -260,24 +437,6 @@ namespace ElectronicObserver.Window {
 					return fFleet[2];
 				case "Fleet #4":
 					return fFleet[3];
-				case "Dock":
-					return fDock;
-				case "Arsenal":
-					return fArsenal;
-				case "HeadQuarters":
-					return fHeadquarters;
-				case "Information":
-					return fInformation;
-				case "Compass":
-					return fCompass;
-				case "Log":
-					return fLog;
-				case "Quest":
-					return fQuest;
-				case "Battle":
-					return fBattle;
-				case "FleetOverview":
-					return fFleetOverview;
 				case "ShipGroup":
 					return fShipGroup;
 				case "Browser":
@@ -285,8 +444,17 @@ namespace ElectronicObserver.Window {
 				case "WindowCapture":
 					return fWindowCapture;
 				default:
-					if ( persistString.StartsWith( FormIntegrate.PREFIX ) ) {
+					if ( persistString.StartsWith( FormIntegrate.PREFIX ) )
+					{
 						return FormIntegrate.FromPersistString( this, persistString );
+					}
+					else
+					{
+						var form = SubForms.FirstOrDefault( f => f.GetPersistString() == persistString );
+						if ( form != null )
+						{
+							return form;
+						}
 					}
 					return null;
 			}
@@ -310,7 +478,7 @@ namespace ElectronicObserver.Window {
 
 					MainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
-					//一度全ウィンドウを読み込むことでフォームを初期化する
+					/* 一度全ウィンドウを読み込むことでフォームを初期化する
 					foreach ( var x in MainDockPanel.Contents ) {
 						if ( x.DockHandler.DockState == DockState.Hidden ) {
 							x.DockHandler.Show( MainDockPanel );
@@ -319,6 +487,7 @@ namespace ElectronicObserver.Window {
 							x.DockHandler.Activate();
 						}
 					}
+					//*/
 
 					// checkme: このコードの存在意義
 					/*/
@@ -341,7 +510,7 @@ namespace ElectronicObserver.Window {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの復元に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "子窗口布局恢复失败。" );
 			}
 
 		}
@@ -355,14 +524,13 @@ namespace ElectronicObserver.Window {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "サブウィンドウ レイアウトの保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "子窗口布局保存失败。" );
 			}
 
 		}
 
 
-
-		private void LoadLayout( string path ) {
+		private bool LoadLayout( string path ) {
 
 			try {
 
@@ -377,32 +545,34 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "ウィンドウ レイアウトを復元しました。" );
+				Utility.Logger.Add( 2, "窗口布局已恢复。" );
+				return true;
 
 			} catch ( FileNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
-				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
+				Utility.Logger.Add( 3, string.Format( "窗口布局文件不存在。" ) );
+				MessageBox.Show( "已初始化布局。\r\n请在「显示」菜单中添加想要的窗口。", "窗口布局文件不存在",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
 				fBrowser.Show( MainDockPanel );
 
 			} catch ( DirectoryNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "ウィンドウ レイアウト ファイルは存在しません。" ) );
-				MessageBox.Show( "レイアウトが初期化されました。\r\n「表示」メニューからお好みのウィンドウを追加してください。", "ウィンドウ レイアウト ファイルが存在しません",
+				Utility.Logger.Add( 3, string.Format( "窗口布局文件不存在。" ) );
+				MessageBox.Show( "已初始化布局。\r\n请在「显示」菜单中添加想要的窗口。", "窗口布局文件不存在",
 					MessageBoxButtons.OK, MessageBoxIcon.Information );
 
 				fBrowser.Show( MainDockPanel );
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "窗口布局恢复失败。" );
 			}
 
+			return false;
 		}
 
-		private void SaveLayout( string path ) {
+		private bool SaveLayout( string path ) {
 
 			try {
 
@@ -420,13 +590,15 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "ウィンドウ レイアウトを保存しました。" );
+				Utility.Logger.Add( 2, "窗口布局已保存。" );
+				return true;
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, "窗口布局保存失败。" );
 			}
 
+			return false;
 		}
 
 		private void CreateParentDirectories( string path ) {
@@ -462,6 +634,7 @@ namespace ElectronicObserver.Window {
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
 
 					dialog.ToConfiguration( Utility.Configuration.Config );
+					Utility.Configuration.Instance.Save();
 					Utility.Configuration.Instance.OnConfigurationChanged();
 
 				}
@@ -491,186 +664,6 @@ namespace ElectronicObserver.Window {
 
 
 
-		private async void StripMenu_Debug_LoadInitialAPI_Click( object sender, EventArgs e ) {
-
-			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
-
-				ofd.Title = "APIリストをロード";
-				ofd.Filter = "API List|*.txt|File|*";
-				ofd.InitialDirectory = Utility.Configuration.Config.Connection.SaveDataPath;
-
-				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
-
-					try {
-
-						await Task.Factory.StartNew( () => LoadAPIList( ofd.FileName ) );
-
-					} catch ( Exception ex ) {
-
-						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
-							MessageBoxButtons.OK, MessageBoxIcon.Error );
-
-					}
-
-				}
-
-			}
-
-		}
-
-
-
-		private void LoadAPIList( string path ) {
-
-			string parent =  Path.GetDirectoryName( path );
-
-			using ( StreamReader sr = new StreamReader( path ) ) {
-				string line;
-				while ( ( line = sr.ReadLine() ) != null ) {
-
-					bool isRequest = false;
-					{
-						int slashindex = line.IndexOf( '/' );
-						if ( slashindex != -1 ) {
-
-							switch ( line.Substring( 0, slashindex ).ToLower() ) {
-								case "q":
-								case "request":
-									isRequest = true;
-									goto case "s";
-								case "":
-								case "s":
-								case "response":
-									line = line.Substring( Math.Min( slashindex + 1, line.Length ) );
-									break;
-							}
-
-						}
-					}
-
-					if ( APIObserver.Instance.APIList.ContainsKey( line ) ) {
-						APIBase api = APIObserver.Instance.APIList[line];
-
-						if ( isRequest ? api.IsRequestSupported : api.IsResponseSupported ) {
-
-							string[] files = Directory.GetFiles( parent, string.Format( "*{0}@{1}.json", isRequest ? "Q" : "S", line.Replace( '/', '@' ) ), SearchOption.TopDirectoryOnly );
-
-							if ( files.Length == 0 )
-								continue;
-
-							Array.Sort( files );
-
-							using ( StreamReader sr2 = new StreamReader( files[files.Length - 1] ) ) {
-								if ( isRequest ) {
-									Invoke( (Action)( () => {
-										APIObserver.Instance.LoadRequest( "/kcsapi/" + line, sr2.ReadToEnd() );
-									} ) );
-								} else {
-									Invoke( (Action)( () => {
-										APIObserver.Instance.LoadResponse( "/kcsapi/" + line, sr2.ReadToEnd() );
-									} ) );
-								}
-							}
-
-							//System.Diagnostics.Debug.WriteLine( "APIList Loader: API " + line + " File " + files[files.Length-1] + " Loaded." );
-						}
-					}
-				}
-
-			}
-
-		}
-
-
-
-
-
-		private void StripMenu_Debug_LoadRecordFromOld_Click( object sender, EventArgs e ) {
-
-			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
-				MessageBox.Show( "先に通常の api_start2 を読み込んでください。", "大変ご迷惑をおかけしております", MessageBoxButtons.OK, MessageBoxIcon.Information );
-				return;
-			}
-
-
-			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
-
-				ofd.Title = "旧 api_start2 からレコードを構築";
-				ofd.Filter = "api_start2|*api_start2*.json|JSON|*.json|File|*";
-
-				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
-
-					try {
-
-						using ( StreamReader sr = new StreamReader( ofd.FileName ) ) {
-
-							dynamic json = DynamicJson.Parse( sr.ReadToEnd().Remove( 0, 7 ) );
-
-							foreach ( dynamic elem in json.api_data.api_mst_ship ) {
-								if ( elem.api_name != "なし" && KCDatabase.Instance.MasterShips.ContainsKey( (int)elem.api_id ) && KCDatabase.Instance.MasterShips[(int)elem.api_id].Name == elem.api_name ) {
-									RecordManager.Instance.ShipParameter.UpdateParameter( (int)elem.api_id, 1, (int)elem.api_tais[0], (int)elem.api_tais[1], (int)elem.api_kaih[0], (int)elem.api_kaih[1], (int)elem.api_saku[0], (int)elem.api_saku[1] );
-
-									int[] defaultslot = Enumerable.Repeat( -1, 5 ).ToArray();
-									( (int[])elem.api_defeq ).CopyTo( defaultslot, 0 );
-									RecordManager.Instance.ShipParameter.UpdateDefaultSlot( (int)elem.api_id, defaultslot );
-								}
-							}
-						}
-
-					} catch ( Exception ex ) {
-
-						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
-							MessageBoxButtons.OK, MessageBoxIcon.Error );
-					}
-				}
-			}
-		}
-
-
-		private void StripMenu_Debug_LoadDataFromOld_Click( object sender, EventArgs e ) {
-
-			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
-				MessageBox.Show( "先に通常の api_start2 を読み込んでください。", "大変ご迷惑をおかけしております", MessageBoxButtons.OK, MessageBoxIcon.Information );
-				return;
-			}
-
-
-			using ( OpenFileDialog ofd = new OpenFileDialog() ) {
-
-				ofd.Title = "旧 api_start2 から深海棲艦を復元";
-				ofd.Filter = "api_start2|*api_start2*.json|JSON|*.json|File|*";
-				ofd.InitialDirectory = Utility.Configuration.Config.Connection.SaveDataPath;
-
-				if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
-
-					try {
-
-						using ( StreamReader sr = new StreamReader( ofd.FileName ) ) {
-
-							dynamic json = DynamicJson.Parse( sr.ReadToEnd().Remove( 0, 7 ) );
-
-							foreach ( dynamic elem in json.api_data.api_mst_ship ) {
-
-								var ship = KCDatabase.Instance.MasterShips[ (int)elem.api_id ];
-
-								if ( elem.api_name != "なし" && ship != null && ship.IsAbyssalShip ) {
-
-									KCDatabase.Instance.MasterShips[(int)elem.api_id].LoadFromResponse( "api_start2", elem );
-								}
-							}
-						}
-
-						Utility.Logger.Add( 1, "旧 api_start2 からデータを復元しました。" );
-
-					} catch ( Exception ex ) {
-
-						MessageBox.Show( "API読み込みに失敗しました。\r\n" + ex.Message, "エラー",
-							MessageBoxButtons.OK, MessageBoxIcon.Error );
-					}
-				}
-			}
-
-		}
 
 
 		private void StripMenu_Tool_AlbumMasterShip_Click( object sender, EventArgs e ) {
@@ -695,61 +688,21 @@ namespace ElectronicObserver.Window {
 
 		}
 
-
-		private async void StripMenu_Debug_DeleteOldAPI_Click( object sender, EventArgs e ) {
-
-			if ( MessageBox.Show( "古いAPIデータを削除します。\r\n本当によろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
-				== System.Windows.Forms.DialogResult.Yes ) {
-
-				try {
-
-					int count = await Task.Factory.StartNew( () => DeleteOldAPI() );
-
-					MessageBox.Show( "削除が完了しました。\r\n" + count + " 個のファイルを削除しました。", "削除成功", MessageBoxButtons.OK, MessageBoxIcon.Information );
-
-				} catch ( Exception ex ) {
-
-					MessageBox.Show( "削除に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				}
-
-
-			}
-
+		private void StripMenu_Tool_PluginManager_Click( object sender, EventArgs e )
+		{
+			new DialogPlugins( this ).Show( this );
 		}
 
-		private int DeleteOldAPI() {
+		private void StripMenu_Tool_CopyEOBrowserExecute_Click( object sender, EventArgs e ) {
 
+			var eobrowser = Path.Combine( Path.GetDirectoryName( System.Reflection.Assembly.GetExecutingAssembly().Location ), "EOBrowser.exe" );
+			var parameter = "net.pipe://localhost/" + System.Diagnostics.Process.GetCurrentProcess().Id + "/ElectronicObserver";
 
-			//適当極まりない
-			int count = 0;
+			string path = eobrowser + " \"" + parameter + "\"";
 
-			var apilist = new Dictionary<string, List<KeyValuePair<string, string>>>();
+			MessageBox.Show( this, "已复制以下启动参数至剪贴板：\r\n" + path + "\r\n请打开“运行”对话框粘贴执行。", "启动 EOBrowser", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			Clipboard.SetText( path );
 
-			foreach ( string s in Directory.EnumerateFiles( Utility.Configuration.Config.Connection.SaveDataPath, "*.json", SearchOption.TopDirectoryOnly ) ) {
-
-				int start = s.IndexOf( '@' );
-				int end = s.LastIndexOf( '.' );
-
-				start--;
-				string key = s.Substring( start, end - start + 1 );
-				string date = s.Substring( 0, start );
-
-
-				if ( !apilist.ContainsKey( key ) ) {
-					apilist.Add( key, new List<KeyValuePair<string, string>>() );
-				}
-				apilist[key].Add( new KeyValuePair<string, string>( date, s ) );
-			}
-
-			foreach ( var l in apilist.Values ) {
-				var l2 = l.OrderBy( el => el.Key ).ToList();
-				for ( int i = 0; i < l2.Count - 1; i++ ) {
-					File.Delete( l2[i].Value );
-					count++;
-				}
-			}
-
-			return count;
 		}
 
 
@@ -760,111 +713,6 @@ namespace ElectronicObserver.Window {
 
 		}
 
-
-		private async void StripMenu_Debug_RenameShipResource_Click( object sender, EventArgs e ) {
-
-			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
-				MessageBox.Show( "艦船データが読み込まれていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
-				return;
-			}
-
-			if ( MessageBox.Show( "通信から保存した艦船リソース名を持つファイル及びフォルダを、艦船名に置換します。\r\n" +
-				"対象は指定されたフォルダ以下のすべてのファイル及びフォルダです。\r\n" +
-				"続行しますか？", "艦船リソースをリネーム", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
-				== System.Windows.Forms.DialogResult.Yes ) {
-
-				string path = null;
-
-				using ( FolderBrowserDialog dialog = new FolderBrowserDialog() ) {
-					dialog.SelectedPath = Configuration.Config.Connection.SaveDataPath;
-					if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
-						path = dialog.SelectedPath;
-					}
-				}
-
-				if ( path == null ) return;
-
-
-
-				try {
-
-					int count = await Task.Factory.StartNew( () => RenameShipResource( path ) );
-
-					MessageBox.Show( string.Format( "リネーム処理が完了しました。\r\n{0} 個のアイテムをリネームしました。", count ), "処理完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
-
-
-				} catch ( Exception ex ) {
-
-					Utility.ErrorReporter.SendErrorReport( ex, "艦船リソースのリネームに失敗しました。" );
-					MessageBox.Show( "艦船リソースのリネームに失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
-
-				}
-
-
-
-			}
-
-		}
-
-
-		private int RenameShipResource( string path ) {
-
-			int count = 0;
-
-			foreach ( var p in Directory.EnumerateFiles( path, "*", SearchOption.AllDirectories ) ) {
-
-				string name = Path.GetFileName( p );
-
-				foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
-
-					if ( name.Contains( ship.ResourceName ) ) {
-
-						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
-
-						try {
-
-							File.Move( p, Path.Combine( Path.GetDirectoryName( p ), name ) );
-							count++;
-							break;
-
-						} catch ( IOException ) {
-							//ファイルが既に存在する：＊にぎりつぶす＊
-						}
-
-					}
-
-				}
-
-			}
-
-			foreach ( var p in Directory.EnumerateDirectories( path, "*", SearchOption.AllDirectories ) ) {
-
-				string name = Path.GetFileName( p );		//GetDirectoryName だと親フォルダへのパスになってしまうため
-
-				foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
-
-					if ( name.Contains( ship.ResourceName ) ) {
-
-						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
-
-						try {
-
-							Directory.Move( p, Path.Combine( Path.GetDirectoryName( p ), name ) );
-							count++;
-							break;
-
-						} catch ( IOException ) {
-							//フォルダが既に存在する：＊にぎりつぶす＊
-						}
-					}
-
-				}
-
-			}
-
-
-			return count;
-		}
 
 
 		private void StripMenu_Help_Help_Click( object sender, EventArgs e ) {
@@ -897,6 +745,19 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_File_Layout_Lock_Click( object sender, EventArgs e ) {
+
+			bool locked = !StripMenu_File_Layout_Lock.Checked;
+
+			MainDockPanel.AllowEndUserDocking =
+			MainDockPanel.AllowSplitterDrag = !locked;
+
+			Utility.Configuration.Config.Life.IsLocked = locked;
+
+			StripMenu_File_Layout_Lock.Checked = locked;
+
+		}
+
 		private void StripMenu_File_Layout_Open_Click( object sender, EventArgs e ) {
 
 			using ( var dialog = new OpenFileDialog() ) {
@@ -924,59 +785,36 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private bool SwitchLayout( string path )
+		{
+			if ( !File.Exists( path ) ) {
+				MessageBox.Show( string.Format( "布局文件 {0} 不存在。", path ), "切换布局", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+				return false;
+			}
 
 
-		private void StripMenu_Browser_ScreenShot_Click( object sender, EventArgs e ) {
-
-			fBrowser.SaveScreenShot();
-
+			Utility.Configuration.Config.Life.LayoutFilePath = path;
+			return LoadLayout( path );
 		}
 
-		private void StripMenu_Browser_Refresh_Click( object sender, EventArgs e ) {
-
-			fBrowser.RefreshBrowser();
-
-		}
-
-		private void StripMenu_Browser_NavigateToLogInPage_Click( object sender, EventArgs e ) {
-
-			if ( MessageBox.Show( "ログインページへ移動します。\r\nよろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question )
-				== System.Windows.Forms.DialogResult.Yes ) {
-
-				fBrowser.NavigateToLogInPage();
+		private void StripMenu_File_Layout1_Click( object sender, EventArgs e )
+		{
+			if ( SwitchLayout( LAYOUT_FILE1 ) ) {
+				StripMenu_File_Layout1.Checked = true;
+				StripMenu_File_Layout2.Checked = false;
 			}
 		}
 
-		private void StripMenu_Browser_Navigate_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new Window.Dialog.DialogTextInput( "移動先の入力", "移動先の URL を入力してください。" ) ) {
-
-				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
-
-					fBrowser.Navigate( dialog.InputtedText );
-				}
+		private void StripMenu_File_Layout2_Click( object sender, EventArgs e )
+		{
+			if ( SwitchLayout( LAYOUT_FILE2 ) ) {
+				StripMenu_File_Layout1.Checked = false;
+				StripMenu_File_Layout2.Checked = true;
 			}
 		}
 
 
-		private void StripMenu_Browser_Zoom_Decr20_Click( object sender, EventArgs e ) {
 
-			Utility.Configuration.Config.FormBrowser.ZoomRate =
-				Math.Max( Utility.Configuration.Config.FormBrowser.ZoomRate - 20, 10 );
-
-			fBrowser.ApplyZoom();
-		}
-
-		private void StripMenu_Browser_Zoom_Incr20_Click( object sender, EventArgs e ) {
-
-			Utility.Configuration.Config.FormBrowser.ZoomRate =
-				Math.Min( Utility.Configuration.Config.FormBrowser.ZoomRate + 20, 1000 );
-
-			fBrowser.ApplyZoom();
-		}
-
-
-		
 		private void StripMenu_WindowCapture_AttachAll_Click( object sender, EventArgs e ) {
 			fWindowCapture.AttachAll();
 		}
@@ -1002,42 +840,6 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_View_Fleet_4_Click( object sender, EventArgs e ) {
 			fFleet[3].Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Dock_Click( object sender, EventArgs e ) {
-			fDock.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Arsenal_Click( object sender, EventArgs e ) {
-			fArsenal.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Headquarters_Click( object sender, EventArgs e ) {
-			fHeadquarters.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Information_Click( object sender, EventArgs e ) {
-			fInformation.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Compass_Click( object sender, EventArgs e ) {
-			fCompass.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Log_Click( object sender, EventArgs e ) {
-			fLog.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Quest_Click( object sender, EventArgs e ) {
-			fQuest.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_Battle_Click( object sender, EventArgs e ) {
-			fBattle.Show( MainDockPanel );
-		}
-
-		private void StripMenu_View_FleetOverview_Click( object sender, EventArgs e ) {
-			fFleetOverview.Show( MainDockPanel );
 		}
 
 		private void StripMenu_View_ShipGroup_Click( object sender, EventArgs e ) {

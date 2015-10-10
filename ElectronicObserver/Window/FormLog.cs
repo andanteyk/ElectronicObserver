@@ -49,6 +49,11 @@ namespace ElectronicObserver.Window {
 		void ConfigurationChanged() {
 
 			LogList.Font = Font = Utility.Configuration.Config.UI.MainFont;
+
+			LogList.BackColor = Utility.Configuration.Config.UI.BackColor;
+			LogList.ForeColor = Utility.Configuration.Config.UI.ForeColor;
+
+			LogList.TopIndex = LogList.Items.Count - 1;
 		}
 
 
@@ -67,9 +72,19 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void ContextMenuLog_Copy_Click( object sender, EventArgs e ) {
+
+			if (LogList.SelectedItem == null )
+				return;
+
+			Clipboard.SetText( LogList.SelectedItem.ToString() );
+
+		}
 
 
-		protected override string GetPersistString() {
+
+		public override string GetPersistString()
+		{
 			return "Log";
 		}
 

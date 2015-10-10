@@ -95,12 +95,21 @@ namespace ElectronicObserver.Window {
 			public void Refresh() {
 
 				FleetData.RefreshFleetState( State, (FleetData.FleetStates)State.Tag, (DateTime?)Number.Tag ?? DateTime.Now );
+
 			}
 		}
 
 
 		private List<TableFleetControl> ControlFleet;
 		private ImageLabel CombinedTag;
+
+		private Pen LinePen = Pens.Silver;
+
+		private Brush fleetReady;
+		private Brush fleetExpedition;
+		private Brush fleetSortie;
+		private Brush fleetNotReady;
+		private Brush fleetDamage;
 
 
 		public FormFleetOverview( FormMain parent ) {
@@ -191,6 +200,14 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 			Font = Utility.Configuration.Config.UI.MainFont;
+			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
+
+			fleetReady = new SolidBrush( Utility.Configuration.Config.UI.FleetReadyColor );
+			fleetExpedition = new SolidBrush( Utility.Configuration.Config.UI.FleetExpeditionColor );
+			fleetSortie = new SolidBrush( Utility.Configuration.Config.UI.FleetSortieColor );
+			fleetNotReady = new SolidBrush( Utility.Configuration.Config.UI.FleetNotReadyColor );
+			fleetDamage = new SolidBrush( Utility.Configuration.Config.UI.FleetDamageColor );
+
 		}
 
 
@@ -206,6 +223,8 @@ namespace ElectronicObserver.Window {
 			} else {
 				CombinedTag.Visible = false;
 			}
+
+			TableFleet.Invalidate();
 		}
 
 		void ChangeOrganization( string apiname, dynamic data ) {
@@ -219,19 +238,75 @@ namespace ElectronicObserver.Window {
 		void UpdateTimerTick() {
 			for ( int i = 0; i < ControlFleet.Count; i++ ) {
 				ControlFleet[i].Refresh();
+
+				if ( i > 0 && Utility.Configuration.Config.UI.NotExpeditionBlink ) {
+					FleetData.FleetStates state = (FleetData.FleetStates)ControlFleet[i].State.Tag;
+
+					if ( state == FleetData.FleetStates.Ready
+						|| state == FleetData.FleetStates.NotReplenished
+						|| state == FleetData.FleetStates.Sparkled ) {
+
+						TableFleet.Invalidate( false );
+					}
+				}
 			}
 		}
 
-
-
 		private void TableFleet_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+
+			Rectangle bounds = e.CellBounds;
+
+			if ( e.Row < ControlFleet.Count ) {
+
+				var state = (FleetData.FleetStates)ControlFleet[e.Row].State.Tag;
+				Brush brush = null;
+
+				switch ( state ) {
+					case FleetData.FleetStates.Ready:
+					case FleetData.FleetStates.Sparkled:
+						if ( e.Row > 0 ) {
+							brush = DateTime.Now.Second % 2 == 0 ? fleetReady : null;
+						} else {
+							brush = fleetReady;
+						}
+						break;
+
+					case FleetData.FleetStates.Expedition:
+						brush = fleetExpedition;
+						break;
+
+					case FleetData.FleetStates.Sortie:
+						brush = fleetSortie;
+						break;
+
+					case FleetData.FleetStates.Damaged:
+					case FleetData.FleetStates.SortieDamaged:
+						brush = DateTime.Now.Second % 2 == 0 ? fleetDamage : null;
+						break;
+
+					case FleetData.FleetStates.NotReplenished:
+					case FleetData.FleetStates.Tired:
+						if ( e.Row > 0 ) {
+							brush = DateTime.Now.Second % 2 == 0 ? fleetNotReady : null;
+						} else {
+							brush = fleetNotReady;
+						}
+						break;
+				}
+
+				if ( brush != null ) {
+					e.Graphics.FillRectangle( brush, bounds.X, bounds.Top, bounds.Width, bounds.Height - 1 );
+				}
+			}
+
+			e.Graphics.DrawLine( LinePen, bounds.X, bounds.Bottom - 1, bounds.Right - 1, bounds.Bottom - 1 );
 
 		}
 
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "FleetOverview";
 		}
 

@@ -509,7 +509,7 @@ namespace ElectronicObserver.Resource.Record {
 			if ( e == null ) {
 				e = new ShipParameterElement();
 				e.ShipID = shipID;
-				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを記録しました。" );
+				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "的参数已记录。" );
 			}
 
 			e.ASW.SetEstParameter( level, aswMin, aswMax );
@@ -540,7 +540,7 @@ namespace ElectronicObserver.Resource.Record {
 			if ( e == null ) {
 				e = new ShipParameterElement();
 				e.ShipID = shipID;
-				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "の初期装備を記録しました。" );
+				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "的初始装备信息已记录。" );
 			}
 
 			e.DefaultSlot = slot;
@@ -645,7 +645,7 @@ namespace ElectronicObserver.Resource.Record {
 				if ( e == null ) {
 					e = new ShipParameterElement();
 					e.ShipID = shipID;
-					Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを記録しました。" );
+					Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "的参数已记录。" );
 				}
 
 				e.ASW.SetEstParameter( 1, (int)elem.api_tais, Parameter.MaximumDefault );
@@ -676,7 +676,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 				Update( e );
-				Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを更新しました。" );
+				Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "的参数已更新。" );
 			}
 		}
 

@@ -16,7 +16,6 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		protected readonly string suffix;
 
-
 		public PhaseAirBattle( BattleData data, string suffix = "" )
 			: base( data ) {
 
@@ -247,6 +246,19 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 					return ret;
 				}
+			}
+		}
+
+		/// <summary>
+		/// 总伤害
+		/// </summary>
+		public int TotalDamage {
+			get {
+				if ( IsStage3Available ) {
+					return Damages.Skip( 6 ).Take( 6 ).Sum();
+				}
+
+				return 0;
 			}
 		}
 

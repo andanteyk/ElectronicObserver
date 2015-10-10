@@ -24,6 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
+			ElectronicObserver.Utility.Storage.SerializableColor serializableColor1 = new ElectronicObserver.Utility.Storage.SerializableColor();
 			this.FlowPanelMaster = new System.Windows.Forms.FlowLayoutPanel();
 			this.FlowPanelAdmiral = new System.Windows.Forms.FlowLayoutPanel();
 			this.AdmiralName = new System.Windows.Forms.Label();
@@ -75,7 +76,7 @@
 			this.FlowPanelAdmiral.Location = new System.Drawing.Point(0, 0);
 			this.FlowPanelAdmiral.Margin = new System.Windows.Forms.Padding(0);
 			this.FlowPanelAdmiral.Name = "FlowPanelAdmiral";
-			this.FlowPanelAdmiral.Size = new System.Drawing.Size(139, 20);
+			this.FlowPanelAdmiral.Size = new System.Drawing.Size(154, 17);
 			this.FlowPanelAdmiral.TabIndex = 0;
 			// 
 			// AdmiralName
@@ -84,7 +85,7 @@
 			this.AdmiralName.Location = new System.Drawing.Point(3, 0);
 			this.AdmiralName.Name = "AdmiralName";
 			this.AdmiralName.Padding = new System.Windows.Forms.Padding(0, 3, 0, 2);
-			this.AdmiralName.Size = new System.Drawing.Size(53, 20);
+			this.AdmiralName.Size = new System.Drawing.Size(53, 17);
 			this.AdmiralName.TabIndex = 0;
 			this.AdmiralName.Text = "(提督名)";
 			this.AdmiralName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -95,7 +96,7 @@
 			this.AdmiralComment.Location = new System.Drawing.Point(62, 0);
 			this.AdmiralComment.Name = "AdmiralComment";
 			this.AdmiralComment.Padding = new System.Windows.Forms.Padding(0, 3, 0, 2);
-			this.AdmiralComment.Size = new System.Drawing.Size(74, 20);
+			this.AdmiralComment.Size = new System.Drawing.Size(89, 17);
 			this.AdmiralComment.TabIndex = 1;
 			this.AdmiralComment.Text = "(提督コメント)";
 			this.AdmiralComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -103,12 +104,15 @@
 			// HQLevel
 			// 
 			this.HQLevel.AutoSize = true;
-			this.HQLevel.Location = new System.Drawing.Point(142, 0);
-			this.HQLevel.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.HQLevel.Location = new System.Drawing.Point(157, 0);
+			serializableColor1.ColorCode = ((uint)(4278190080u));
+			serializableColor1.ColorData = System.Drawing.SystemColors.ControlText;
+			serializableColor1.SerializedColor = "FF000000";
+			this.HQLevel.MainFontColor = serializableColor1.ColorData;
 			this.HQLevel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.HQLevel.MaximumValue = 999;
 			this.HQLevel.Name = "HQLevel";
-			this.HQLevel.Size = new System.Drawing.Size(88, 20);
+			this.HQLevel.Size = new System.Drawing.Size(86, 20);
 			this.HQLevel.TabIndex = 0;
 			this.HQLevel.Text = "HQ Lv.";
 			// 
@@ -120,7 +124,7 @@
 			this.FlowPanelFleet.Location = new System.Drawing.Point(0, 20);
 			this.FlowPanelFleet.Margin = new System.Windows.Forms.Padding(0);
 			this.FlowPanelFleet.Name = "FlowPanelFleet";
-			this.FlowPanelFleet.Size = new System.Drawing.Size(144, 20);
+			this.FlowPanelFleet.Size = new System.Drawing.Size(148, 20);
 			this.FlowPanelFleet.TabIndex = 1;
 			// 
 			// ShipCount
@@ -130,18 +134,18 @@
 			this.ShipCount.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.ShipCount.Name = "ShipCount";
 			this.ShipCount.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.ShipCount.Size = new System.Drawing.Size(66, 20);
+			this.ShipCount.Size = new System.Drawing.Size(68, 20);
 			this.ShipCount.TabIndex = 0;
 			this.ShipCount.Text = "(艦船数)";
 			// 
 			// EquipmentCount
 			// 
 			this.EquipmentCount.BackColor = System.Drawing.Color.Transparent;
-			this.EquipmentCount.Location = new System.Drawing.Point(75, 0);
+			this.EquipmentCount.Location = new System.Drawing.Point(77, 0);
 			this.EquipmentCount.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.EquipmentCount.Name = "EquipmentCount";
 			this.EquipmentCount.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.EquipmentCount.Size = new System.Drawing.Size(66, 20);
+			this.EquipmentCount.Size = new System.Drawing.Size(68, 20);
 			this.EquipmentCount.TabIndex = 1;
 			this.EquipmentCount.Text = "(装備数)";
 			// 
@@ -156,7 +160,7 @@
 			this.FlowPanelUseItem.Location = new System.Drawing.Point(0, 40);
 			this.FlowPanelUseItem.Margin = new System.Windows.Forms.Padding(0);
 			this.FlowPanelUseItem.Name = "FlowPanelUseItem";
-			this.FlowPanelUseItem.Size = new System.Drawing.Size(300, 20);
+			this.FlowPanelUseItem.Size = new System.Drawing.Size(248, 40);
 			this.FlowPanelUseItem.TabIndex = 2;
 			// 
 			// InstantRepair
@@ -166,51 +170,51 @@
 			this.InstantRepair.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.InstantRepair.Name = "InstantRepair";
 			this.InstantRepair.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.InstantRepair.Size = new System.Drawing.Size(54, 20);
+			this.InstantRepair.Size = new System.Drawing.Size(56, 20);
 			this.InstantRepair.TabIndex = 1;
 			this.InstantRepair.Text = "(修復)";
 			// 
 			// InstantConstruction
 			// 
 			this.InstantConstruction.BackColor = System.Drawing.Color.Transparent;
-			this.InstantConstruction.Location = new System.Drawing.Point(63, 0);
+			this.InstantConstruction.Location = new System.Drawing.Point(65, 0);
 			this.InstantConstruction.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.InstantConstruction.Name = "InstantConstruction";
 			this.InstantConstruction.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.InstantConstruction.Size = new System.Drawing.Size(54, 20);
+			this.InstantConstruction.Size = new System.Drawing.Size(56, 20);
 			this.InstantConstruction.TabIndex = 2;
 			this.InstantConstruction.Text = "(建造)";
 			// 
 			// DevelopmentMaterial
 			// 
 			this.DevelopmentMaterial.BackColor = System.Drawing.Color.Transparent;
-			this.DevelopmentMaterial.Location = new System.Drawing.Point(123, 0);
+			this.DevelopmentMaterial.Location = new System.Drawing.Point(127, 0);
 			this.DevelopmentMaterial.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.DevelopmentMaterial.Name = "DevelopmentMaterial";
 			this.DevelopmentMaterial.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.DevelopmentMaterial.Size = new System.Drawing.Size(54, 20);
+			this.DevelopmentMaterial.Size = new System.Drawing.Size(56, 20);
 			this.DevelopmentMaterial.TabIndex = 3;
 			this.DevelopmentMaterial.Text = "(開発)";
 			// 
 			// ModdingMaterial
 			// 
 			this.ModdingMaterial.BackColor = System.Drawing.Color.Transparent;
-			this.ModdingMaterial.Location = new System.Drawing.Point(183, 0);
+			this.ModdingMaterial.Location = new System.Drawing.Point(189, 0);
 			this.ModdingMaterial.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.ModdingMaterial.Name = "ModdingMaterial";
 			this.ModdingMaterial.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.ModdingMaterial.Size = new System.Drawing.Size(54, 20);
+			this.ModdingMaterial.Size = new System.Drawing.Size(56, 20);
 			this.ModdingMaterial.TabIndex = 5;
 			this.ModdingMaterial.Text = "(改修)";
 			// 
 			// FurnitureCoin
 			// 
 			this.FurnitureCoin.BackColor = System.Drawing.Color.Transparent;
-			this.FurnitureCoin.Location = new System.Drawing.Point(243, 0);
+			this.FurnitureCoin.Location = new System.Drawing.Point(3, 20);
 			this.FurnitureCoin.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.FurnitureCoin.Name = "FurnitureCoin";
 			this.FurnitureCoin.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.FurnitureCoin.Size = new System.Drawing.Size(54, 20);
+			this.FurnitureCoin.Size = new System.Drawing.Size(56, 20);
 			this.FurnitureCoin.TabIndex = 4;
 			this.FurnitureCoin.Text = "(家具)";
 			// 
@@ -222,10 +226,10 @@
 			this.FlowPanelResource.Controls.Add(this.Steel);
 			this.FlowPanelResource.Controls.Add(this.Bauxite);
 			this.FlowPanelResource.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.FlowPanelResource.Location = new System.Drawing.Point(0, 60);
+			this.FlowPanelResource.Location = new System.Drawing.Point(0, 80);
 			this.FlowPanelResource.Margin = new System.Windows.Forms.Padding(0);
 			this.FlowPanelResource.Name = "FlowPanelResource";
-			this.FlowPanelResource.Size = new System.Drawing.Size(60, 80);
+			this.FlowPanelResource.Size = new System.Drawing.Size(62, 80);
 			this.FlowPanelResource.TabIndex = 5;
 			// 
 			// Fuel
@@ -235,7 +239,7 @@
 			this.Fuel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Fuel.Name = "Fuel";
 			this.Fuel.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.Fuel.Size = new System.Drawing.Size(54, 20);
+			this.Fuel.Size = new System.Drawing.Size(56, 20);
 			this.Fuel.TabIndex = 1;
 			this.Fuel.Text = "(燃料)";
 			this.Fuel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
@@ -247,7 +251,7 @@
 			this.Ammo.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Ammo.Name = "Ammo";
 			this.Ammo.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.Ammo.Size = new System.Drawing.Size(54, 20);
+			this.Ammo.Size = new System.Drawing.Size(56, 20);
 			this.Ammo.TabIndex = 2;
 			this.Ammo.Text = "(弾薬)";
 			this.Ammo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
@@ -259,7 +263,7 @@
 			this.Steel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Steel.Name = "Steel";
 			this.Steel.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.Steel.Size = new System.Drawing.Size(54, 20);
+			this.Steel.Size = new System.Drawing.Size(56, 20);
 			this.Steel.TabIndex = 3;
 			this.Steel.Text = "(鋼材)";
 			this.Steel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
@@ -271,7 +275,7 @@
 			this.Bauxite.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Bauxite.Name = "Bauxite";
 			this.Bauxite.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.Bauxite.Size = new System.Drawing.Size(54, 20);
+			this.Bauxite.Size = new System.Drawing.Size(56, 20);
 			this.Bauxite.TabIndex = 4;
 			this.Bauxite.Text = "(軽銀)";
 			this.Bauxite.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
@@ -290,7 +294,7 @@
 			this.ClientSize = new System.Drawing.Size(300, 200);
 			this.Controls.Add(this.FlowPanelMaster);
 			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.Font = Program.Window_Font;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.HideOnClose = true;
 			this.Name = "FormHeadquarters";

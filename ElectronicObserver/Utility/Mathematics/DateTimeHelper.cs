@@ -16,6 +16,11 @@ namespace ElectronicObserver.Utility.Mathematics {
 		/// </summary>
 		private static readonly long origin = new DateTime( 1970, 1, 1, 0, 0, 0 ).Ticks;
 
+		/// <summary>
+		/// 現在地点と東京標準時(艦これ時間)との時差を取得します。
+		/// </summary>
+		public static readonly TimeSpan GetTimeDifference = TimeZoneInfo.Local.BaseUtcOffset - TimeSpan.FromHours( 9 );
+
 
 		/// <summary>
 		/// APIに含まれている日時データから<see cref="System.DateTime"/>を生成します。
@@ -118,7 +123,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 			DateTime now = DateTime.Now;
 
 			TimeSpan nowtime = now.TimeOfDay;
-			TimeSpan bordertime = new TimeSpan( hours, minutes, seconds ) + GetTimeDifference();
+			TimeSpan bordertime = new TimeSpan( hours, minutes, seconds ) + GetTimeDifference;
 
 			return IsCrossed( prev, now.Subtract( new TimeSpan( nowtime < bordertime ? 1 : 0, nowtime.Hours, nowtime.Minutes, nowtime.Seconds ) ).Add( bordertime ) );
 		}
@@ -138,7 +143,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 			DateTime now = DateTime.Now;
 
 			TimeSpan nowtime = now.TimeOfDay;
-			TimeSpan bordertime = new TimeSpan( hours, minutes, seconds ) + GetTimeDifference();
+			TimeSpan bordertime = new TimeSpan( hours, minutes, seconds ) + GetTimeDifference;
 
 			int dayshift = now.DayOfWeek - dayOfWeek;
 			if ( dayshift < 0 )
@@ -165,7 +170,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 
 			DateTime now = DateTime.Now;
 
-			DateTime border = now.Subtract( new TimeSpan( now.Day, now.Hour, now.Minute, now.Second ) ).Add( new TimeSpan( days, hours, minutes, seconds ) + GetTimeDifference() );
+			DateTime border = now.Subtract( new TimeSpan( now.Day, now.Hour, now.Minute, now.Second ) ).Add( new TimeSpan( days, hours, minutes, seconds ) + GetTimeDifference );
 			if ( now < border )
 				border = border.AddMonths( -1 );
 
@@ -198,7 +203,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 		}
 
 		public static DateTime CSVStringToTime( string str ) {
-			string[] elem = str.Split( "/ :".ToCharArray() );
+			string[] elem = str.Split( "-/ :".ToCharArray() );
 
 			// Excel様が *うっかり* データを破損させることがあるので対応
 			return new DateTime(
@@ -210,13 +215,6 @@ namespace ElectronicObserver.Utility.Mathematics {
 				elem.Length > 5 ? int.Parse( elem[5] ) : 0 );
 		}
 
-
-		/// <summary>
-		/// 現在地点と東京標準時(艦これ時間)との時差を取得します。
-		/// </summary>
-		public static TimeSpan GetTimeDifference() {
-			return TimeZoneInfo.Local.BaseUtcOffset - TimeZoneInfo.FindSystemTimeZoneById( "Tokyo Standard Time" ).BaseUtcOffset;
-		}
 
 
 	}

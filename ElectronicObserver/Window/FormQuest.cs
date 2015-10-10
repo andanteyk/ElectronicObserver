@@ -23,6 +23,7 @@ namespace ElectronicObserver.Window {
 
 
 		public FormQuest( FormMain parent ) {
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( QuestView );
@@ -35,9 +36,9 @@ namespace ElectronicObserver.Window {
 			CSDefaultLeft = new DataGridViewCellStyle();
 			CSDefaultLeft.Alignment = DataGridViewContentAlignment.MiddleLeft;
 			CSDefaultLeft.BackColor =
-			CSDefaultLeft.SelectionBackColor = SystemColors.Control;
-			CSDefaultLeft.ForeColor = SystemColors.ControlText;
-			CSDefaultLeft.SelectionForeColor = SystemColors.ControlText;
+			CSDefaultLeft.SelectionBackColor = Utility.Configuration.Config.UI.BackColor;
+			CSDefaultLeft.ForeColor =
+			CSDefaultLeft.SelectionForeColor = Utility.Configuration.Config.UI.ForeColor;
 			CSDefaultLeft.WrapMode = DataGridViewTriState.False;
 
 			CSDefaultCenter = new DataGridViewCellStyle( CSDefaultLeft );
@@ -50,25 +51,25 @@ namespace ElectronicObserver.Window {
 				Color c;
 				switch ( i + 1 ) {
 					case 1:		//編成
-						c = Color.FromArgb( 0xAA, 0xFF, 0xAA );
+						c = Utility.Configuration.Config.UI.QuestOrganization;
 						break;
 					case 2:		//出撃
-						c = Color.FromArgb( 0xFF, 0xCC, 0xCC );
+						c = Utility.Configuration.Config.UI.QuestSortie;
 						break;
 					case 3:		//演習
-						c = Color.FromArgb( 0xDD, 0xFF, 0xAA );
+						c = Utility.Configuration.Config.UI.QuestExercise;
 						break;
 					case 4:		//遠征
-						c = Color.FromArgb( 0xCC, 0xFF, 0xFF );
+						c = Utility.Configuration.Config.UI.QuestExpedition;
 						break;
 					case 5:		//補給/入渠
-						c = Color.FromArgb( 0xFF, 0xFF, 0xCC );
+						c = Utility.Configuration.Config.UI.QuestSupplyDocking;
 						break;
 					case 6:		//工廠
-						c = Color.FromArgb( 0xDD, 0xCC, 0xBB );
+						c = Utility.Configuration.Config.UI.QuestArsenal;
 						break;
 					case 7:		//改装
-						c = Color.FromArgb( 0xDD, 0xCC, 0xFF );
+						c = Utility.Configuration.Config.UI.QuestRenovated;
 						break;
 					case 8:		//その他
 					default:
@@ -78,19 +79,32 @@ namespace ElectronicObserver.Window {
 
 				CSCategories[i].BackColor =
 				CSCategories[i].SelectionBackColor = c;
+				CSCategories[i].ForeColor =
+				CSCategories[i].SelectionForeColor =
+					Utility.Configuration.Config.UI.QuestForeColor;
 			}
 
 			QuestView.DefaultCellStyle = CSDefaultCenter;
+			QuestView.GridColor = Utility.Configuration.Config.UI.LineColor;
 			QuestView_Category.DefaultCellStyle = CSCategories[8 - 1];
 			QuestView_Name.DefaultCellStyle = CSDefaultLeft;
 			QuestView_Progress.DefaultCellStyle = CSDefaultLeft;
+			QuestView.ColumnHeadersHeight = this.GetDpiHeight( 24 );
+
+
+			QuestView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+			if ( Utility.Configuration.Config.UI.ThemeID == 1 ) {
+				QuestView.EnableHeadersVisualStyles = false;
+				QuestView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+				QuestView.ColumnHeadersDefaultCellStyle = CSDefaultLeft;
+			}
 
 			#endregion
 
-
+			this.ResumeLayoutForDpiScale();
 			SystemEvents.SystemShuttingDown += SystemEvents_SystemShuttingDown;
 		}
-
 
 
 		private void FormQuest_Load( object sender, EventArgs e ) {
@@ -130,25 +144,33 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 
-			var c = Utility.Configuration.Config;
+			var conf = Utility.Configuration.Config;
 
-			QuestView.Font = Font = c.UI.MainFont;
+			QuestView.BackgroundColor = conf.UI.BackColor;
+			QuestView.GridColor = conf.UI.LineColor;
 
-			MenuMain_ShowRunningOnly.Checked = c.FormQuest.ShowRunningOnly;
-			MenuMain_ShowOnce.Checked = c.FormQuest.ShowOnce;
-			MenuMain_ShowDaily.Checked = c.FormQuest.ShowDaily;
-			MenuMain_ShowWeekly.Checked = c.FormQuest.ShowWeekly;
-			MenuMain_ShowMonthly.Checked = c.FormQuest.ShowMonthly;
-
-			if ( c.FormQuest.ColumnFilter == null || ( (List<bool>)c.FormQuest.ColumnFilter ).Count != QuestView.Columns.Count ) {
-				c.FormQuest.ColumnFilter = Enumerable.Repeat( true, QuestView.Columns.Count ).ToList();
+			if ( CSDefaultCenter != null && CSDefaultLeft != null ) {
+				CSDefaultCenter.BackColor =
+				CSDefaultCenter.SelectionBackColor =
+				CSDefaultLeft.BackColor =
+				CSDefaultLeft.SelectionBackColor =
+					conf.UI.BackColor;
+				CSDefaultCenter.ForeColor =
+				CSDefaultCenter.SelectionForeColor =
+				CSDefaultLeft.ForeColor =
+				CSDefaultLeft.SelectionForeColor =
+					conf.UI.ForeColor;
 			}
-			if ( c.FormQuest.ColumnWidth == null || ( (List<int>)c.FormQuest.ColumnWidth ).Count != QuestView.Columns.Count ) {
-				c.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( column => column.Width ).ToList();
+
+			if ( conf.FormQuest.ColumnFilter == null || ( (List<bool>)conf.FormQuest.ColumnFilter ).Count != QuestView.Columns.Count ) {
+				conf.FormQuest.ColumnFilter = Enumerable.Repeat( true, QuestView.Columns.Count ).ToList();
+			}
+			if ( conf.FormQuest.ColumnWidth == null || ( (List<int>)conf.FormQuest.ColumnWidth ).Count != QuestView.Columns.Count ) {
+				conf.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( column => column.Width ).ToList();
 			}
 			{
-				List<bool> list = c.FormQuest.ColumnFilter;
-				List<int> width = c.FormQuest.ColumnWidth;
+				List<bool> list = conf.FormQuest.ColumnFilter;
+				List<int> width = conf.FormQuest.ColumnWidth;
 
 				for ( int i = 0; i < QuestView.Columns.Count; i++ ) {
 					QuestView.Columns[i].Visible =
@@ -156,7 +178,11 @@ namespace ElectronicObserver.Window {
 					QuestView.Columns[i].Width = width[i];
 				}
 			}
-
+			MenuMain_ShowRunningOnly.Checked = Utility.Configuration.Config.FormQuest.ShowRunningOnly;
+			MenuMain_ShowOnce.Checked = Utility.Configuration.Config.FormQuest.ShowOnce;
+			MenuMain_ShowDaily.Checked = Utility.Configuration.Config.FormQuest.ShowDaily;
+			MenuMain_ShowWeekly.Checked = Utility.Configuration.Config.FormQuest.ShowWeekly;
+			MenuMain_ShowMonthly.Checked = Utility.Configuration.Config.FormQuest.ShowMonthly;
 			Updated();
 
 		}
@@ -219,8 +245,15 @@ namespace ElectronicObserver.Window {
 				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min( q.Category - 1, 8 - 1 )];
 				row.Cells[QuestView_Name.Index].Value = q.QuestID;
 				{
+					QuestInfo info = QuestLib.GetQuest( q.QuestID );
 					var progress = KCDatabase.Instance.QuestProgress[q.QuestID];
-					row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}\r\n{3}", q.QuestID, q.Name, q.Description, progress != null ? progress.GetClearCondition() : "" );
+					if ( info != null ) {
+						string tip = info.Tips;
+						string award = info.Award;
+						row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}\r\n\r\n奖励:{3}\r\n\r\n{4}\r\n{5}", q.QuestID, q.Name, q.Description, award, tip, progress != null ? progress.GetClearCondition() : "" );
+					} else {
+						row.Cells[QuestView_Name.Index].ToolTipText = string.Format( "{0} : {1}\r\n{2}\r\n{3}", q.QuestID, q.Name, q.Description, progress != null ? progress.GetClearCondition() : "" );
+					}
 				}
 				{
 					string value;
@@ -386,6 +419,11 @@ namespace ElectronicObserver.Window {
 			Updated();
 		}
 
+		private void MenuMain_SaveNow_Click( object sender, EventArgs e ) {
+			KCDatabase.Instance.QuestProgress.Save();
+			Utility.Logger.Add( 2, "任务进度已保存。" );
+		}
+
 
 		private void MenuMain_ShowOnce_Click( object sender, EventArgs e ) {
 			Utility.Configuration.Config.FormQuest.ShowOnce = MenuMain_ShowOnce.Checked;
@@ -411,7 +449,7 @@ namespace ElectronicObserver.Window {
 
 		private void MenuMain_Initialize_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "任務データを初期化します。\r\nデータに齟齬が生じている場合以外での使用は推奨しません。\r\nよろしいですか？", "任務初期化の確認",
+			if ( MessageBox.Show( "任务进度即将初始化。\r\n推荐只在数据混乱的时候使用。\r\n确定吗？", "任务初始化确认",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 ) == System.Windows.Forms.DialogResult.Yes ) {
 
 				KCDatabase.Instance.Quest.Clear();
@@ -435,7 +473,6 @@ namespace ElectronicObserver.Window {
 
 		}
 
-
 		private void MenuMain_ColumnFilter_Click( object sender, EventArgs e ) {
 
 			var menu = sender as ToolStripMenuItem;
@@ -457,7 +494,7 @@ namespace ElectronicObserver.Window {
 
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString() {
 			return "Quest";
 		}
 

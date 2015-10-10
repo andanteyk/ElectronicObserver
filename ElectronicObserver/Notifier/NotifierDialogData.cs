@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Notifier {
 
+#if PLUGIN
 	public class NotifierDialogData {
 
 		/// <summary>
@@ -126,7 +127,7 @@ namespace ElectronicObserver.Notifier {
 		}
 
 
-		#region 通知画像
+#region 通知画像
 
 		/// <summary>
 		/// 通知画像を読み込みます。
@@ -166,7 +167,7 @@ namespace ElectronicObserver.Notifier {
 			ImagePath = "";
 		}
 
-		#endregion
+#endregion
 
 
 		public void ApplyToConfiguration( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
@@ -189,6 +190,7 @@ namespace ElectronicObserver.Notifier {
 
 	}
 
+#else
 
 	/// <summary>
 	/// 通知ダイアログの出現位置を表します。
@@ -250,4 +252,7 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>最高位ビット</summary>
 		HighestBit = 6,
 	}
+
+#endif
+
 }

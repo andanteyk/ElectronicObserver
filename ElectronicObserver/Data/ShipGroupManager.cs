@@ -26,7 +26,6 @@ namespace ElectronicObserver.Data {
 		[IgnoreDataMember]
 		public IDDictionary<ShipGroupData> ShipGroups { get; private set; }
 
-
 		[DataMember]
 		private IEnumerable<ShipGroupData> ShipGroupsSerializer {
 			get { return ShipGroups.Values.OrderBy( g => g.ID ); }

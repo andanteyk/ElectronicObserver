@@ -25,7 +25,7 @@ namespace ElectronicObserver.Data.Battle {
 			Shelling3 = new PhaseShelling( this, 4, "3", false );
 
 
-			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
+			AirBattle.EmulateBattle( _resultHPs, _attackAirDamages );
 			Support.EmulateBattle( _resultHPs, _attackDamages );
 			OpeningTorpedo.EmulateBattle( _resultHPs, _attackDamages );
 			Shelling1.EmulateBattle( _resultHPs, _attackDamages );

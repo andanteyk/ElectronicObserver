@@ -1,6 +1,7 @@
 ﻿using BrowserLib;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
+using ElectronicObserver.Window.Support;
 using mshtml;
 using System;
 using System.Collections.Generic;
@@ -53,9 +54,13 @@ namespace ElectronicObserver.Window {
 
 
 		public FormBrowserHost( FormMain parent ) {
+			this.SuspendLayoutForDpiScale();
+
 			InitializeComponent();
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
+
+			this.ResumeLayoutForDpiScale();
 		}
 
 		public void InitializeApiCompleted() {
@@ -180,6 +185,12 @@ namespace ElectronicObserver.Window {
 				config.ToolMenuDockStyle = (int)c.ToolMenuDockStyle;
 				config.IsToolMenuVisible = c.IsToolMenuVisible;
 				config.ConfirmAtRefresh = c.ConfirmAtRefresh;
+				config.EmbedHtml = c.EmbedHtml;
+				config.FlashWmode = c.FlashWmode;
+				config.FlashQuality = c.FlashQuality;
+				config.ThemeID = Utility.Configuration.Config.UI.ThemeID;
+				config.ShowURL = c.ShowURL;
+				config.ModifyCookieRegion = c.ModifyCookieRegion;
 
 				return config;
 			}
@@ -201,6 +212,11 @@ namespace ElectronicObserver.Window {
 			c.ToolMenuDockStyle = (DockStyle)config.ToolMenuDockStyle;
 			c.IsToolMenuVisible = config.IsToolMenuVisible;
 			c.ConfirmAtRefresh = config.ConfirmAtRefresh;
+			c.EmbedHtml = config.EmbedHtml;
+			c.FlashWmode = config.FlashWmode;
+			c.FlashQuality = config.FlashQuality;
+			c.ShowURL = config.ShowURL;
+			c.ModifyCookieRegion = config.ModifyCookieRegion;
 
 		}
 
@@ -295,9 +311,9 @@ namespace ElectronicObserver.Window {
 
 		void Browser_Faulted( Exception e ) {
 			if ( Browser.Proxy == null ) {
-				Utility.Logger.Add( 3, "ブラウザプロセスが予期せず終了しました。" );
+				Utility.Logger.Add( 3, "浏览器进程意外终止。" );
 			} else {
-				Utility.ErrorReporter.SendErrorReport( e, "ブラウザプロセス間で通信エラーが発生しました。" );
+				Utility.ErrorReporter.SendErrorReport( e, "与浏览器进程间的通信发生错误。" );
 			}
 		}
 
@@ -351,7 +367,8 @@ namespace ElectronicObserver.Window {
 			get { return this.Handle; }
 		}
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Browser";
 		}
 

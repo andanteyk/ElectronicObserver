@@ -1,4 +1,5 @@
-﻿using BrowserLib;
+﻿using Browser.Win32;
+using BrowserLib;
 using mshtml;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -25,6 +27,8 @@ namespace Browser {
 
 		private readonly Size KanColleSize = new Size( 800, 480 );
 
+		private string FrameScript;
+		private string PageScript;
 
 
 		// FormBrowserHostの通信サーバ
@@ -70,7 +74,9 @@ namespace Browser {
 		/// </summary>
 		private bool IsKanColleLoaded { get; set; }
 
+#if !NOVOL
 		private VolumeManager _volumeManager;
+#endif
 
 
 		private NumericUpDown ToolMenu_Other_Volume_VolumeControl {
@@ -84,11 +90,14 @@ namespace Browser {
 		/// </summary>
 		/// <param name="serverUri">ホストプロセスとの通信用URL</param>
 		public FormBrowser( string serverUri ) {
+			SuspendLayout();
 			InitializeComponent();
 
 			ServerUri = serverUri;
 			StyleSheetApplied = false;
+#if !NOVOL
 			_volumeManager = new VolumeManager( (uint)System.Diagnostics.Process.GetCurrentProcess().Id );
+#endif
 			Browser.ReplacedKeyDown += Browser_ReplacedKeyDown;
 
 			// 音量設定用コントロールの追加
@@ -110,6 +119,25 @@ namespace Browser {
 
 				ToolMenu_Other_Volume.DropDownItems.Add( host );
 			}
+
+			if ( File.Exists( "PageScript.js" ) ) {
+				PageScript = File.ReadAllText( "PageScript.js" );
+			}
+			if ( string.IsNullOrEmpty( PageScript ) ) {
+				PageScript = Properties.Resources.PageScript;
+			}
+
+			if ( File.Exists( "FrameScript.js" ) ) {
+				FrameScript = File.ReadAllText( "FrameScript.js" );
+			}
+			if ( string.IsNullOrEmpty( FrameScript ) ) {
+				FrameScript = Properties.Resources.FrameScript;
+			}
+
+			this.AutoScaleMode = AutoScaleMode.Dpi;
+			this.AutoScaleDimensions = new SizeF( 96F, 96F );
+			ResumeLayout();
+
 		}
 
 
@@ -169,9 +197,17 @@ namespace Browser {
 			ToolMenu.Dock = (DockStyle)Configuration.ToolMenuDockStyle;
 			ToolMenu.Visible = Configuration.IsToolMenuVisible;
 
+			ToolMenu_Url.Visible = conf.ShowURL && ( ToolMenu.Dock == DockStyle.Top || ToolMenu.Dock == DockStyle.Bottom );
+
+			ToolStripCustomizer.ToolStripRender.RendererTheme = (ToolStripCustomizer.ToolStripRenderTheme)Configuration.ThemeID;
+
+			ToolStripCustomizer.ToolStripRender.SetRender( this.ContextMenuTool );
+			ToolStripCustomizer.ToolStripRender.SetRender( this.ToolMenu );
 		}
 
 		private void ConfigurationUpdated() {
+			ToolMenu_Url.Visible = Configuration.ShowURL && ( ToolMenu.Dock == DockStyle.Top || ToolMenu.Dock == DockStyle.Bottom );
+
 			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.ConfigurationUpdated( Configuration ) );
 		}
 
@@ -231,12 +267,40 @@ namespace Browser {
 
 		}
 
+		private void Browser_Navigated( object sender, WebBrowserNavigatedEventArgs e ) {
+
+			ToolMenu_Url.Text = Browser.Url.ToString();
+
+		}
+
 		private void Browser_DocumentCompleted( object sender, WebBrowserDocumentCompletedEventArgs e ) {
+			ReplaceEmbedHtml();
 
 			StyleSheetApplied = false;
 			ApplyStyleSheet();
 
 			ApplyZoom();
+
+			ToolMenu_Url.Text = Browser.Url.ToString();
+		}
+
+		/// <summary>
+		/// 应用embed元素
+		/// </summary>
+		private void ReplaceEmbedHtml() {
+			if ( string.IsNullOrEmpty( Configuration.EmbedHtml ) )
+				return;
+
+			try {
+				var document = Browser.Document;
+				string url;
+				if ( document != null && ( url = document.Url.ToString() ).Contains( ".swf?" ) ) {
+					document.Body.InnerHtml = string.Format( Configuration.EmbedHtml, url, Configuration.FlashWmode, Configuration.FlashQuality );
+				}
+			} catch ( Exception ex ) {
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "embed元素应用失败。" ) );
+			}
 		}
 
 		/// <summary>
@@ -254,16 +318,19 @@ namespace Browser {
 
 				if ( document.Url.ToString().Contains( ".swf?" ) ) {
 
-					document.Body.SetAttribute( "width", "100%" );
-					document.Body.SetAttribute( "height", "100%" );
+					var swf = document.Body.Children.OfType<HtmlElement>().FirstOrDefault( e => e.TagName == "EMBED" );
+					if ( swf == null ) return;
+
+					swf.SetAttribute( "width", "100%" );
+					swf.SetAttribute( "height", "100%" );
 
 				} else {
 					var swf = getFrameElementById( document, "externalswf" );
 					if ( swf == null ) return;
 
 					// InvokeScriptは関数しか呼べないようなので、スクリプトをevalで渡す
-					document.InvokeScript( "eval", new object[] { Properties.Resources.PageScript } );
-					swf.Document.InvokeScript( "eval", new object[] { Properties.Resources.FrameScript } );
+					document.InvokeScript( "eval", new object[] { PageScript } );
+					swf.Document.InvokeScript( "eval", new object[] { FrameScript } );
 				}
 
 				StyleSheetApplied = true;
@@ -282,13 +349,15 @@ namespace Browser {
 		public void Navigate( string url ) {
 			StyleSheetApplied = false;
 			Browser.Navigate( url );
+			ToolMenu_Url.Text = url;
 		}
 
 		/// <summary>
 		/// ブラウザを再読み込みします。
 		/// </summary>
 		public void RefreshBrowser() {
-			Browser.Refresh( WebBrowserRefreshOption.Completely );
+			//Browser.Refresh( WebBrowserRefreshOption.Completely );
+			Browser.Navigate( Browser.Url );
 		}
 
 		/// <summary>
@@ -417,11 +486,11 @@ namespace Browser {
 
 			var wb = Browser;
 
-			if ( !IsKanColleLoaded ) {
-				AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
-				System.Media.SystemSounds.Beep.Play();
-				return;
-			}
+			//if ( !IsKanColleLoaded ) {
+			//	AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
+			//	System.Media.SystemSounds.Beep.Play();
+			//	return;
+			//}
 
 			try {
 				IViewObject viewobj = null;
@@ -441,7 +510,10 @@ namespace Browser {
 
 					var swf = getFrameElementById( wb.Document, "externalswf" );
 					if ( swf == null ) {
-						throw new InvalidOperationException( "対象の swf が見つかりませんでした。" );
+						viewobj = wb.Document.GetElementsByTagName( "embed" )[0].DomElement as IViewObject;
+						if ( viewobj == null ) {
+							throw new InvalidOperationException( "swf 对象未发现，并且获取 embed 元素失败。" );
+						}
 					}
 
 					Func<dynamic, bool> isvalid = target => {
@@ -454,8 +526,12 @@ namespace Browser {
 						return true;
 					};
 
-					if ( !isvalid( swf.DomElement as HTMLEmbed ) && !isvalid( swf.DomElement as HTMLObjectElement ) ) {
-						throw new InvalidOperationException( "対象の swf が見つかりませんでした。" );
+					if ( viewobj == null && !isvalid( swf.DomElement as HTMLEmbed ) && !isvalid( swf.DomElement as HTMLObjectElement ) ) {
+						string name = null;
+						if ( swf.DomElement != null ) {
+							name = swf.DomElement.GetType().FullName;
+						}
+						throw new InvalidOperationException( string.Format( "swf对象无效，该对象为：{0}.", name ) );
 					}
 				}
 
@@ -494,9 +570,27 @@ namespace Browser {
 
 
 		public void SetProxy( string address, int port ) {
-			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "{0}:{1}", address, port ), "<local>" );
+			//Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}", port ), "<local>" );
+			SetIESettings( "localhost:" + port );
 		}
 
+		private static void SetIESettings( string proxyUri ) {
+			// ReSharper disable InconsistentNaming
+			const int INTERNET_OPTION_PROXY = 38;
+			const int INTERNET_OPEN_TYPE_PROXY = 3;
+			// ReSharper restore InconsistentNaming
+
+			INTERNET_PROXY_INFO proxyInfo;
+			proxyInfo.dwAccessType = INTERNET_OPEN_TYPE_PROXY;
+			proxyInfo.proxy = Marshal.StringToHGlobalAnsi( proxyUri );
+			proxyInfo.proxyBypass = Marshal.StringToHGlobalAnsi( "local" );
+
+			var proxyInfoSize = Marshal.SizeOf( proxyInfo );
+			var proxyInfoPtr = Marshal.AllocCoTaskMem( proxyInfoSize );
+			Marshal.StructureToPtr( proxyInfo, proxyInfoPtr, true );
+
+			NativeMethods.InternetSetOption( IntPtr.Zero, INTERNET_OPTION_PROXY, proxyInfoPtr, proxyInfoSize );
+		}
 
 		/// <summary>
 		/// キャッシュを削除します。
@@ -625,8 +719,13 @@ namespace Browser {
 			float volume;
 
 			try {
+#if !NOVOL
 				mute = _volumeManager.IsMute;
 				volume = _volumeManager.Volume * 100;
+#else
+				mute = false;
+				isEnabled = false;
+#endif
 
 			} catch ( Exception ) {
 				// 音量データ取得不能時
@@ -716,12 +815,14 @@ namespace Browser {
 
 
 		private void ToolMenu_Other_Mute_Click( object sender, EventArgs e ) {
+#if !NOVOL
 			try {
 				_volumeManager.ToggleMute();
 
 			} catch ( Exception ) {
 				System.Media.SystemSounds.Beep.Play();
 			}
+#endif
 
 			SetVolumeState();
 		}
@@ -746,7 +847,7 @@ namespace Browser {
 		private void ToolMenu_Other_Refresh_Click( object sender, EventArgs e ) {
 
 			if ( !Configuration.ConfirmAtRefresh ||
-				MessageBox.Show( "再読み込みします。\r\nよろしいですか？", "確認",
+				MessageBox.Show( "是否确定刷新网页？", "确认",
 				MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.OK ) {
 
@@ -756,7 +857,7 @@ namespace Browser {
 
 		private void ToolMenu_Other_NavigateToLogInPage_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "ログインページへ移動します。\r\nよろしいですか？", "確認",
+			if ( MessageBox.Show( "是否确认移动到初始页面？", "确认",
 				MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2 )
 				== System.Windows.Forms.DialogResult.OK ) {
 
@@ -797,15 +898,19 @@ namespace Browser {
 		}
 
 
-		private void ToolMenu_Other_ClearCache_Click( object sender, EventArgs e ) {
+		private async void ToolMenu_Other_ClearCache_Click( object sender, EventArgs e ) {
 
 			if ( MessageBox.Show( "ブラウザのキャッシュを削除します。\nよろしいですか？", "キャッシュの削除", MessageBoxButtons.OKCancel, MessageBoxIcon.Question )
 				== System.Windows.Forms.DialogResult.OK ) {
 
-				BeginInvoke( (MethodInvoker)( () => {
-					ClearCache();
+				try {
+
+					await Task.Run( (Action)( () => ClearCache() ) );
 					MessageBox.Show( "キャッシュの削除が完了しました。", "削除完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
-				} ) );
+
+				} catch ( Exception ex ) {
+					BrowserHost.Proxy.SendErrorReport( ex.Message, "清除缓存时出错。" );
+				}
 
 			}
 		}
@@ -1032,7 +1137,24 @@ namespace Browser {
 
 		#endregion
 
+		private void ToolMenu_Mute_DropDownOpening( object sender, EventArgs e ) {
+#if !NOVOL
+			trackVolume.Value = (int)( _volumeManager.Volume * 100 );
+			trackVolume.Visible = !trackVolume.Visible;
+#endif
+		}
 
+		private void trackVolume_ValueChanged( object sender, EventArgs e ) {
+#if !NOVOL
+			_volumeManager.Volume = trackVolume.Value / 100f;
+#endif
+		}
+
+		private void trackVolume_LostFocus( object sender, EventArgs e ) {
+#if !NOVOL
+			trackVolume.Visible = false;
+#endif
+		}
 
 
 	}

@@ -43,7 +43,6 @@ namespace ElectronicObserver.Data {
 			get { return (int)RawData.api_level; }
 		}
 
-
 		/// <summary>
 		/// 艦載機熟練度
 		/// </summary>

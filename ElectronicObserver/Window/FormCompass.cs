@@ -43,7 +43,7 @@ namespace ElectronicObserver.Window {
 				ShipName.ImageAlign = ContentAlignment.MiddleCenter;
 				ShipName.Padding = new Padding( 0, 1, 0, 1 );
 				ShipName.Margin = new Padding( 2, 0, 2, 0 );
-				ShipName.MaximumSize = new Size( 60, 20 );
+				//ShipName.MaximumSize = new Size( 60, 20 );
 				ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
 				ShipName.Cursor = Cursors.Help;
@@ -78,7 +78,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( Equipments, 1, row );
 
 				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
+				RowStyle rs = new RowStyle( SizeType.AutoSize );
 
 				if ( table.RowStyles.Count > row )
 					table.RowStyles[row] = rs;
@@ -103,7 +103,7 @@ namespace ElectronicObserver.Window {
 				if ( shipID == -1 ) {
 					//なし
 					ShipName.Text = "-";
-					ShipName.ForeColor = Color.FromArgb( 0x00, 0x00, 0x00 );
+					ShipName.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 					Equipments.Visible = false;
 					ToolTipInfo.SetToolTip( ShipName, null );
 					ToolTipInfo.SetToolTip( Equipments, null );
@@ -118,13 +118,13 @@ namespace ElectronicObserver.Window {
 						case 0:
 						case 1:		//normal
 						default:
-							ShipName.ForeColor = Color.FromArgb( 0x00, 0x00, 0x00 ); break;
+							ShipName.ForeColor = Utility.Configuration.Config.UI.ForeColor; break;
 						case 2:		//elite
-							ShipName.ForeColor = Color.FromArgb( 0xFF, 0x00, 0x00 ); break;
+							ShipName.ForeColor = Utility.Configuration.Config.UI.EliteColor; break;
 						case 3:		//flagship
-							ShipName.ForeColor = Color.FromArgb( 0xFF, 0x88, 0x00 ); break;
+							ShipName.ForeColor = Utility.Configuration.Config.UI.FlagshipColor; break;
 						case 4:		//latemodel / flagship kai
-							ShipName.ForeColor = Color.FromArgb( 0x00, 0x88, 0xFF ); break;
+							ShipName.ForeColor = Utility.Configuration.Config.UI.LateModelColor; break;
 						case 5:		//latemodel elite
 							ShipName.ForeColor = Color.FromArgb( 0x88, 0x00, 0x00 ); break;
 						case 6:		//latemodel flagship
@@ -207,10 +207,17 @@ namespace ElectronicObserver.Window {
 				}
 
 				return string.Format(
-							"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n射程: {20} / 速力: {21}\n(右クリックで図鑑)\n",
+							"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n加权对空: {22:0.##}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n射程: {20} / 速力: {21}\n(右クリックで図鑑)\n",
 							ship.ShipTypeName, ship.NameWithClass, level < 1 ? "" : string.Format( " Lv. {0}", level ),
 							hp,
-							firepower_c, firepower,
+							firepower_c,
+
+							( ship.ShipType == 7 ||	// 轻空母
+							ship.ShipType == 11 ||	// 正规空母
+							ship.IsLandBase ) ?		// 陆基
+							string.Format( "{0}（空母火力：{1:F0}）", firepower, CalculatorEx.CalculateFireEnemy( shipID, slot, firepower_c, torpedo_c ) ) :
+							firepower.ToString(),
+
 							torpedo_c, torpedo,
 							aa_c, aa,
 							armor_c, armor,
@@ -219,7 +226,8 @@ namespace ElectronicObserver.Window {
 							los_c == -1 ? "???" : los_c.ToString(), los,
 							luck_c, luck,
 							Constants.GetRange( range ),
-							Constants.GetSpeed( ship.Speed )
+							Constants.GetSpeed( ship.Speed ),
+							CalculatorEx.CalculateWeightingAAEnemy( shipID, slot, aa_c )
 							);
 			}
 
@@ -276,6 +284,8 @@ namespace ElectronicObserver.Window {
 		public Color MainFontColor { get; set; }
 		public Color SubFontColor { get; set; }
 
+		private Pen LinePen = Pens.Silver;
+
 
 		private TableEnemyMemberControl[] ControlMember;
 
@@ -294,17 +304,14 @@ namespace ElectronicObserver.Window {
 
 
 		public FormCompass( FormMain parent ) {
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 
 			ConfigurationChanged();
 
-			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
-			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
-
 
 			ControlHelper.SetDoubleBuffered( BasePanel );
-			ControlHelper.SetDoubleBuffered( TableEnemyFleet );
 			ControlHelper.SetDoubleBuffered( TableEnemyMember );
 
 
@@ -320,19 +327,22 @@ namespace ElectronicObserver.Window {
 			BasePanel.SetFlowBreak( TextDestination, true );
 			//BasePanel.SetFlowBreak( TextEventKind, true );
 			BasePanel.SetFlowBreak( TextEventDetail, true );
+			BasePanel.SetFlowBreak( TextAA, true );
 
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
 			TextEventDetail.ImageList = ResourceManager.Instance.Equipments;
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
 
+			this.ResumeLayoutForDpiScale();
 		}
 
 
 		private void FormCompass_Load( object sender, EventArgs e ) {
 
 			BasePanel.Visible = false;
-			TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
+			TextAA.ImageList = TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
 			TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
+			TextAA.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
 
 
 			Font = MainFont;
@@ -370,7 +380,7 @@ namespace ElectronicObserver.Window {
 					case 0:
 					case 1:
 					default:	//昼夜戦・その他
-						return SystemColors.ControlText;
+						return Utility.Configuration.Config.UI.ForeColor;
 					case 2:
 					case 3:		//夜戦・夜昼戦
 						return Color.Navy;
@@ -404,6 +414,10 @@ namespace ElectronicObserver.Window {
 
 				BasePanel.SuspendLayout();
 				PanelEnemyFleet.Visible = false;
+				TextEnemyFleetName.Visible =
+				TextFormation.Visible =
+				TextAirSuperiority.Visible = false;
+				TextAA.Visible = false;
 
 				_enemyFleetCandidate = null;
 				_enemyFleetCandidateIndex = -1;
@@ -626,10 +640,11 @@ namespace ElectronicObserver.Window {
 
 			if ( _enemyFleetCandidate.Count == 0 ) {
 				TextEventDetail.Text = "(敵艦隊候補なし)";
-				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
+				TextEnemyFleetName.Text = string.Empty;	//			"(敵艦隊情報不明)";
 
 				TextFormation.Visible = false;
 				TextAirSuperiority.Visible = false;
+				TextAA.Visible = false;
 				TableEnemyMember.Visible = false;
 
 			} else {
@@ -680,8 +695,11 @@ namespace ElectronicObserver.Window {
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			TextFormation.Visible = true;
-			TextAirSuperiority.Text = Calculator.GetAirSuperiority( enemies, slots ).ToString();
-			TextAirSuperiority.Visible = true;
+			int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
+			TextAirSuperiority.Text = airSuperiority.ToString();
+			//string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
+			ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
+			TextAA.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, bd.Searching.FormationEnemy ).ToString();
 
 			TableEnemyMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
@@ -695,6 +713,10 @@ namespace ElectronicObserver.Window {
 			TableEnemyMember.Visible = true;
 
 			PanelEnemyFleet.Visible = true;
+			TextEnemyFleetName.Visible =
+			TextFormation.Visible =
+			TextAirSuperiority.Visible = true;
+			TextAA.Visible = true;
 			BasePanel.Visible = true;			//checkme
 
 		}
@@ -727,6 +749,7 @@ namespace ElectronicObserver.Window {
 				TextEnemyFleetName.Text = candidate.FleetName;
 				TextFormation.Text = Constants.GetFormationShort( candidate.Formation );
 				TextAirSuperiority.Text = Calculator.GetAirSuperiority( candidate.FleetMember ).ToString();
+				TextAA.Text = CalculatorEx.GetEnemyFleetAAValue( candidate.FleetMember, candidate.Formation ).ToString();
 
 				TableEnemyMember.SuspendLayout();
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
@@ -736,6 +759,7 @@ namespace ElectronicObserver.Window {
 
 				TextFormation.Visible = true;
 				TextAirSuperiority.Visible = true;
+				TextAA.Visible = true;
 				TableEnemyMember.Visible = true;
 
 
@@ -750,6 +774,10 @@ namespace ElectronicObserver.Window {
 			Font = PanelEnemyFleet.Font = MainFont = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 
+			MainFontColor = Utility.Configuration.Config.UI.ForeColor;
+			SubFontColor = Utility.Configuration.Config.UI.SubForeColor;
+
+			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
 
 			if ( ControlMember != null ) {
 				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;
@@ -761,12 +789,13 @@ namespace ElectronicObserver.Window {
 
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Compass";
 		}
 
 		private void TableEnemyMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+			e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 

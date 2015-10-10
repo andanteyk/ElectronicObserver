@@ -34,9 +34,9 @@ namespace ElectronicObserver.Window {
 				ShipName.Font = parent.Font;
 				ShipName.ForeColor = parent.ForeColor;
 				ShipName.TextAlign = ContentAlignment.MiddleLeft;
-				ShipName.Padding = new Padding( 0, 1, 0, 1 );
-				ShipName.Margin = new Padding( 2, 0, 2, 0 );
-				ShipName.MaximumSize = new Size( 60, 20 );
+				//ShipName.Padding = new Padding( 0, 1, 0, 1 );
+				ShipName.Margin = new Padding( 3, 2, 3, 2 );
+				//ShipName.MaximumSize = new Size( 60, 20 );
 				ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
 				ShipName.Visible = true;
@@ -48,8 +48,8 @@ namespace ElectronicObserver.Window {
 				RepairTime.ForeColor = parent.ForeColor;
 				RepairTime.Tag = null;
 				RepairTime.TextAlign = ContentAlignment.MiddleLeft;
-				RepairTime.Padding = new Padding( 0, 1, 0, 1 );
-				RepairTime.Margin = new Padding( 2, 0, 2, 0 );
+				//RepairTime.Padding = new Padding( 0, 1, 0, 1 );
+				RepairTime.Margin = new Padding( 3, 2, 3, 2 );
 				RepairTime.MinimumSize = new Size( 60, 10 );
 				RepairTime.AutoSize = true;
 				RepairTime.Visible = true;
@@ -73,7 +73,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( RepairTime, 1, row );
 
 				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
+				RowStyle rs = new RowStyle( SizeType.AutoSize );
 
 				if ( table.RowStyles.Count > row )
 					table.RowStyles[row] = rs;
@@ -134,6 +134,8 @@ namespace ElectronicObserver.Window {
 		private TableDockControl[] ControlDock;
 
 
+		private Pen LinePen = Pens.Silver;
+
 
 
 		public FormDock( FormMain parent ) {
@@ -158,7 +160,7 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		
+
 		private void FormDock_Load( object sender, EventArgs e ) {
 
 			APIObserver o = APIObserver.Instance;
@@ -196,17 +198,31 @@ namespace ElectronicObserver.Window {
 
 
 		private void TableDock_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+			e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 
 		void ConfigurationChanged() {
 
 			Font = Utility.Configuration.Config.UI.MainFont;
+
+			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
+
+			ForeColor = Utility.Configuration.Config.UI.ForeColor;
+
+			if ( ControlDock != null ) {
+				for ( int i = 0; i < ControlDock.Length; i++ ) {
+					if ( ControlDock[i].RepairTime != null && ControlDock[i].ShipName != null ) {
+						ControlDock[i].ShipName.ForeColor = ForeColor;
+						ControlDock[i].RepairTime.ForeColor = ForeColor;
+					}
+				}
+			}
 		}
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Dock";
 		}
 

@@ -47,6 +47,18 @@ namespace ElectronicObserver.Data.Quest {
 		[DataMember]
 		public int SharedCounterShift { get; set; }
 
+		/// <summary>
+		/// 开始进度时间戳
+		/// </summary>
+		[DataMember]
+		public long StartTimeTicks { get; set; }
+
+		/// <summary>
+		/// 任务类型
+		/// </summary>
+		[DataMember]
+		public int Type { get; set; }
+
 
 		/// <summary>
 		/// 進捗率
@@ -70,6 +82,7 @@ namespace ElectronicObserver.Data.Quest {
 			ProgressMax = maxCount;
 			TemporaryProgress = 0;
 			SharedCounterShift = 0;
+			StartTimeTicks = DateTime.Now.Ticks;
 		}
 
 
@@ -125,6 +138,9 @@ namespace ElectronicObserver.Data.Quest {
 					Progress = (int)Math.Max( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.8 ) - SharedCounterShift );
 					break;
 			}
+
+			if ( Progress < 0 )
+				Progress = 0;
 
 		}
 

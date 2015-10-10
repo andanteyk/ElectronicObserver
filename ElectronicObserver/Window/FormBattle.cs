@@ -20,37 +20,59 @@ namespace ElectronicObserver.Window {
 
 	public partial class FormBattle : DockContent {
 
-		private readonly Color WinRankColor_Win = SystemColors.ControlText;
-		private readonly Color WinRankColor_Lose = Color.Red;
-
-
 		private List<ShipStatusHP> HPBars;
+		private List<ImageLabel> DamageLabels;
 
 		public Font MainFont { get; set; }
 		public Font SubFont { get; set; }
 
-
+		private Pen LinePen = Pens.Silver;
 
 		public FormBattle( FormMain parent ) {
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			ControlHelper.SetDoubleBuffered( TableTop );
 			ControlHelper.SetDoubleBuffered( TableBottom );
 
-
 			ConfigurationChanged();
 
+
 			HPBars = new List<ShipStatusHP>( 18 );
+			DamageLabels = new List<ImageLabel>( 12 );
 
 
 			TableBottom.SuspendLayout();
+			for ( int i = 0; i < 12; i++ ) {
+				var lbl = new ImageLabel();
+				DamageLabels.Add( lbl );
+				{
+					lbl.ImageList = ResourceManager.Instance.Icons;
+					lbl.ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+					lbl.ImageAlign = ContentAlignment.MiddleLeft;
+					lbl.AutoSize = false;
+					lbl.ShowText = !Utility.Configuration.Config.FormBattle.IsShortDamage;
+					lbl.Size = new Size( 56, 20 );
+					lbl.Margin = new Padding( 2, 0, 2, 0 );
+					lbl.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+					lbl.Font = MainFont;
+				}
+				if ( i < 6 ) {
+					TableBottom.Controls.Add( lbl, 1, i + 1 );
+				} else {
+					TableBottom.Controls.Add( lbl, 3, i - 5 );
+				}
+			}
+
 			for ( int i = 0; i < 18; i++ ) {
 				HPBars.Add( new ShipStatusHP() );
 				HPBars[i].Size = new Size( 80, 20 );
 				HPBars[i].Margin = new Padding( 2, 0, 2, 0 );
-				HPBars[i].Anchor = AnchorStyles.None;
+				HPBars[i].Anchor = AnchorStyles.Left | AnchorStyles.Right;
 				HPBars[i].MainFont = MainFont;
 				HPBars[i].SubFont = SubFont;
+				HPBars[i].MainFontColor = Utility.Configuration.Config.UI.ForeColor;
+				HPBars[i].SubFontColor = Utility.Configuration.Config.UI.SubForeColor;
 				HPBars[i].UsePrevValue = true;
 				HPBars[i].ShowDifference = true;
 				HPBars[i].MaximumDigit = 9999;
@@ -58,9 +80,9 @@ namespace ElectronicObserver.Window {
 				if ( i < 6 ) {
 					TableBottom.Controls.Add( HPBars[i], 0, i + 1 );
 				} else if ( i < 12 ) {
-					TableBottom.Controls.Add( HPBars[i], 2, i - 5 );
+					TableBottom.Controls.Add( HPBars[i], 4, i - 5 );
 				} else {
-					TableBottom.Controls.Add( HPBars[i], 1, i - 11 );
+					TableBottom.Controls.Add( HPBars[i], 2, i - 11 );
 				}
 			}
 			TableBottom.ResumeLayout();
@@ -79,10 +101,12 @@ namespace ElectronicObserver.Window {
 
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
+			this.ResumeLayoutForDpiScale();
 
+			DamageWidth = TableBottom.ColumnStyles[1].Width;
 		}
 
-
+		float DamageWidth = 60;
 
 		private void FormBattle_Load( object sender, EventArgs e ) {
 
@@ -108,6 +132,598 @@ namespace ElectronicObserver.Window {
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
+		}
+
+		private void ContextMenuBattle_ExportReport_Click( object sender, EventArgs e ) {
+
+			BattleManager bm = KCDatabase.Instance.Battle;
+			if ( bm == null
+				|| bm.BattleMode == BattleManager.BattleModes.Undefined	// 无战斗
+				|| bm.BattleMode == BattleManager.BattleModes.NightDay )	// TODO: 夜转昼
+				//|| bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask )	// TODO：联合舰队
+				return;
+
+			bool isWater = ( ( bm.BattleMode & BattleManager.BattleModes.CombinedSurface ) > 0 );
+			bool isCombined = isWater || ( bm.BattleMode > BattleManager.BattleModes.BattlePhaseMask );
+
+			StringBuilder builder = new StringBuilder();
+			builder.AppendLine( @"<html>
+<head>
+<style type=""text/css"">
+body {font-family:""Microsoft JhengHei UI"";}
+table {border:none;}
+th {background:#eee;}
+td,th,tr {text-align:left; padding:2px 4px;}
+.changed {color:red;}
+.damage {background:#fcfcfc;color:#822;}
+</style>
+</head>
+<body>
+" );
+
+			var day = bm.BattleDay;
+			PhaseInitial init;
+			string[] enemys;
+
+			if ( bm.BattleDay == null ) {
+				init = bm.BattleNight.Initial;
+				enemys = ( (int[])bm.BattleNight.RawData.api_ship_ke ).Skip( 1 ).Select( id => id <= 0 ? null : KCDatabase.Instance.MasterShips[id].NameWithClass ).ToArray();
+			} else {
+				init = bm.BattleDay.Initial;
+				enemys = ( (int[])bm.BattleDay.RawData.api_ship_ke ).Skip( 1 ).Select( id => id <= 0 ? null : KCDatabase.Instance.MasterShips[id].NameWithClass ).ToArray();
+			}
+
+			// 基本信息
+			// 阵形
+			builder.AppendFormat( @"<h2>战斗阵形</h2>
+<hr />
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90"">我方</th><td>{0}</td>
+</tr>
+<tr>
+<th width=""90"">敌方</th><td>{1}</td>
+</tr>
+<tr>
+<th width=""90"">航向</th><td>{2}</td>
+</tr>
+</tbody>
+</table>
+", FormationFriend.Text, FormationEnemy.Text, Formation.Text );
+			// 索敌
+			if ( day != null && day.IsAvailable )
+			{
+				int searchFriend = day.Searching.SearchingFriend;
+				int searchEnemy = day.Searching.SearchingEnemy;
+				builder.AppendFormat( @"<hr/>
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90"">我方索敌</th><td>{0}</td><td>{1}</td>
+</tr>
+<tr>
+<th width=""90"">敌方索敌</th><td>{2}</td><td>{3}</td>
+</tr>
+</tbody>
+</table>
+", ( searchFriend < 4 ? "水上机" : "雷达" ), Constants.GetSearchingResult( searchFriend ),
+ ( searchEnemy < 4 ? "水上机" : "雷达" ), Constants.GetSearchingResult( searchEnemy ) );
+			}
+
+
+			// 战斗过程
+
+			string[] friends = init.FriendFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
+			string[] accompany = init.AccompanyFleet.MembersInstance.Select( s => s == null ? null : s.NameWithLevel ).ToArray();
+			int[] hps = (int[])init.InitialHPs.Clone();
+			int[] maxHps = init.MaxHPs;
+
+			// day
+			{
+				if ( day != null && day.IsAvailable )
+				{
+					try
+					{
+						var pd1 = day.AirBattle;
+						var pd2 = ( day is BattleAirBattle ? ( (BattleAirBattle)day ).AirBattle2 : null );
+
+						bool[] s1available = { pd1.IsStage1Available, ( pd2 != null && pd2.IsStage1Available ) };
+						bool[] s2available = { pd1.IsStage2Available, ( pd2 != null && pd2.IsStage2Available ) };
+						int[] touches =
+						{
+							pd1.TouchAircraftFriend, s1available[1] ? pd2.TouchAircraftFriend : -1,
+							pd1.TouchAircraftEnemy, s1available[1] ? pd2.TouchAircraftEnemy : -1
+						};
+						EquipmentDataMaster[] planes =
+						{
+							KCDatabase.Instance.MasterEquipments[touches[0]],
+							KCDatabase.Instance.MasterEquipments[touches[1]],
+							KCDatabase.Instance.MasterEquipments[touches[2]],
+							KCDatabase.Instance.MasterEquipments[touches[3]]
+						};
+						bool[] fire = new bool[] { s2available[0] && pd1.IsAACutinAvailable, s2available[1] && pd2.IsAACutinAvailable };
+						int[] cutinID = new int[]
+						{
+							fire[0] ? pd1.AACutInKind : -1,
+							fire[1] ? pd2.AACutInKind : -1,
+						};
+
+						// 接触信息
+						builder.AppendFormat( @"<h2>航空战</h2>
+<hr/>
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90""></th><th width=""110"">我方</th><th width=""110""></th><th width=""110"">敌方</th><th width=""110""></th>
+</tr>
+<tr>
+<th width=""90"">制空</th><td>{0}</td><td>{1}</td><td colspan=""2""></td>
+</tr>
+<tr>
+<th width=""90"">接触信息</th><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td>
+</tr>
+<tr>
+<th width=""90"">stage1</th><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td>
+</tr>
+<tr>
+<th width=""90"">stage2</th><td>{10}</td><td>{11}</td><td>{12}</td><td>{13}</td>
+</tr>
+<tr>
+<th width=""90"">对空</th><td>{14}</td><td>{15}</td><td colspan=""2""></td>
+</tr>
+</tbody>
+</table>
+", Constants.GetAirSuperiority( pd1.AirSuperiority ),
+	( pd2 == null ? null : Constants.GetAirSuperiority( pd2.AirSuperiority ) ),
+
+	( !s1available[0] || planes[0] == null ? "-" : planes[0].Name ),
+	( !s1available[1] || planes[1] == null ? null : planes[1].Name ),
+	( !s1available[0] || planes[2] == null ? "-" : planes[2].Name ),
+	( !s1available[1] || planes[3] == null ? null : planes[3].Name ),
+
+	( !s1available[0] ? "-" : string.Format( "-{0}/{1}", pd1.AircraftLostStage1Friend, pd1.AircraftTotalStage1Friend ) ),
+	( !s1available[1] ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage1Friend, pd2.AircraftTotalStage1Friend ) ),
+	( !s1available[0] ? null : string.Format( "-{0}/{1}", pd1.AircraftLostStage1Enemy, pd1.AircraftTotalStage1Enemy ) ),
+	( !s1available[1] ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage1Enemy, pd2.AircraftTotalStage1Enemy ) ),
+
+	( !s2available[0] ? "-" : string.Format( "-{0}/{1}", pd1.AircraftLostStage2Friend, pd1.AircraftTotalStage2Friend ) ),
+	( !s2available[1] ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage2Friend, pd2.AircraftTotalStage2Friend ) ),
+	( !s2available[0] ? null : string.Format( "-{0}/{1}", pd1.AircraftLostStage2Enemy, pd1.AircraftTotalStage2Enemy ) ),
+	( !s2available[1] ? null : string.Format( "-{0}/{1}", pd2.AircraftLostStage2Enemy, pd2.AircraftTotalStage2Enemy ) ),
+
+	( !fire[0] && !fire[1] ? "对空炮火" : ( !fire[0] ? "-" : string.Format( "{0}<br/>{1} (#{2})", pd1.AACutInShip.NameWithLevel, Constants.GetAACutinKind( cutinID[0] ), cutinID[0] ) ) ),
+	( !fire[1] || !s1available[1] ? "-" : string.Format( "{0}<br/>{1} (#{2})", pd2.AACutInShip.NameWithLevel, Constants.GetAACutinKind( cutinID[1] ), cutinID[1] ) )
+	);
+
+
+						// 航空战血量变化
+						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available )
+						{
+							var stage3 = day.RawData.api_kouku.api_stage3;
+							int[] flagsfriend = ( (int[])stage3.api_frai_flag ).Skip( 1 ).Concat( ( (int[])stage3.api_fbak_flag ).Skip( 1 ) ).ToArray();
+							int[] flagsenemy = ( (int[])stage3.api_erai_flag ).Skip( 1 ).Concat( ( (int[])stage3.api_ebak_flag ).Skip( 1 ) ).ToArray();
+							FillAirDamage( builder, flagsfriend, flagsenemy, day.AirBattle.Damages, friends, isCombined ? accompany : null, enemys, hps, maxHps );
+						}
+
+						// 支援
+						if ( day.Support != null && day.Support.SupportFlag > 0 )
+						{
+
+							string[] supportnames = day.Support.SupportFleet.MembersInstance.Select( m => m == null ? null : m.NameWithLevel ).ToArray();
+
+							switch ( day.Support.SupportFlag )
+							{
+								case 1:
+									FillSupportDamage( "航空支援", builder, day.Support.AirRaidDamages, supportnames, enemys, hps, maxHps );
+									break;
+
+								case 2:
+								case 3:
+									FillSupportDamage( "炮雷支援", builder, day.Support.ShellingTorpedoDamages, supportnames, enemys, hps, maxHps );
+									break;
+							}
+
+						}
+					}
+					catch ( Exception ex )
+					{
+
+						Utility.ErrorReporter.SendErrorReport( ex, "航空/支援解析出错。", "battle day", day.RawData.ToString() );
+
+					}
+
+					// 开幕雷击
+					if ( day.OpeningTorpedo != null && day.OpeningTorpedo.IsAvailable )
+					{
+						FillTorpedoDamage( "开幕雷击", builder, day.OpeningTorpedo.TorpedoData, isCombined ? accompany : friends, enemys, hps, maxHps );
+					}
+
+
+					// 炮击战
+					if ( day.Shelling1 != null && day.Shelling1.IsAvailable )
+					{
+						FillShellingDamage( "炮击战1回合", builder, day.Shelling1.ShellingData, ( isCombined && !isWater ) ? accompany : friends, enemys, hps, maxHps );
+					}
+
+					if ( isCombined && !isWater )
+					{
+						// 机动部队闭幕雷击
+						if ( day.Torpedo != null && day.Torpedo.IsAvailable )
+						{
+							FillTorpedoDamage( "闭幕雷击", builder, day.Torpedo.TorpedoData, accompany, enemys, hps, maxHps );
+						}
+					}
+
+					if ( day.Shelling2 != null && day.Shelling2.IsAvailable )
+					{
+						FillShellingDamage( "炮击战2回合", builder, day.Shelling2.ShellingData, friends, enemys, hps, maxHps );
+					}
+
+					if ( day.Shelling3 != null && day.Shelling3.IsAvailable )
+					{
+						FillShellingDamage( "炮击战3回合", builder, day.Shelling3.ShellingData, isWater ? accompany : friends, enemys, hps, maxHps );
+					}
+
+					// 闭幕雷击
+					if ( ( !isCombined || isWater ) && day.Torpedo != null && day.Torpedo.IsAvailable )
+					{
+						FillTorpedoDamage( "闭幕雷击", builder, day.Torpedo.TorpedoData, isCombined ? accompany : friends, enemys, hps, maxHps );
+					}
+				}
+			}
+
+			// night
+			{
+				var night = bm.BattleNight;
+				if ( night != null && night.IsAvailable ) {
+
+					var nightbattle = night.NightBattle;
+
+					// 夜战buff判定
+					var ship = ( nightbattle.SearchlightIndexFriend < 0 ? null : nightbattle.FriendFleet.MembersInstance[nightbattle.SearchlightIndexFriend] );
+					var enemy = nightbattle.SearchlightEnemyInstance;
+					EquipmentDataMaster[] touches =
+					{
+						KCDatabase.Instance.MasterEquipments[nightbattle.TouchAircraftFriend],
+						KCDatabase.Instance.MasterEquipments[nightbattle.TouchAircraftEnemy]
+					};
+					var flareFriend = ( nightbattle.FlareIndexFriend < 0 ? null : nightbattle.FriendFleet.MembersInstance[nightbattle.FlareIndexFriend] );
+					var flareEnemy = nightbattle.FlareEnemyInstance;
+
+					builder.AppendFormat( @"<h2>夜战</h2>
+<hr/>
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90""></th><th width=""110"">我方</th><th width=""110"">敌方</th>
+</tr>
+<tr>
+<th width=""90"">探照灯</th><td>{0}</td><td>{1}</td>
+</tr>
+<tr>
+<th width=""90"">夜间接触</th><td>{2}</td><td>{3}</td>
+</tr>
+<tr>
+<th width=""90"">照明弹</th><td>{4}</td><td>{5}</td>
+</tr>
+</tbody>
+</table>
+", ( ship == null ? "-" : ship.NameWithLevel ),
+	( enemy == null ? "-" : enemy.NameWithClass ),
+	( touches[0] == null ? "-" : touches[0].Name ),
+	( touches[1] == null ? "-" : touches[1].Name ),
+	( flareFriend == null ? "-" : flareFriend.NameWithLevel ),
+	( flareEnemy == null ? "-" : flareEnemy.NameWithClass )
+	);
+
+					// 战况
+					if ( nightbattle.ShellingData != null ) {
+						FillShellingDamage( null, builder, nightbattle.ShellingData, isCombined ? accompany : friends, enemys, hps, maxHps );
+					}
+
+				}
+			}
+
+			builder.AppendLine( "</body>\r\n</html>" );
+
+			new Dialog.DialogBattleReport( builder.ToString() ).Show();
+		}
+
+		private void FillAirDamage( StringBuilder builder, int[] flagsfriend, int[] flagsenemy, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
+		{
+			builder.AppendLine( @"<table cellspacing=""2"" cellpadding=""0"">
+<thead>
+<th width=""160"">我方</th>
+<th width=""90"">所受伤害</th>
+<th width=""90"">血量</th>" );
+			if ( accompany != null )
+			{
+				builder.AppendLine( @"<th width=""160"">伴随</th>
+<th width=""90"">所受伤害</th>
+<th width=""90"">血量</th>" );
+			}
+			builder.AppendLine( @"<th width=""160"">敌方</th>
+<th width=""90"">所受伤害</th>
+<th width=""90"">血量</th>
+</tr>
+</thead>
+<tbody>" );
+
+			for ( int i = 0; i < 6; i++ ) {
+				builder.AppendLine( "<tr>" );
+
+				// 航空开幕
+				if ( friends[i] != null ) {
+					int before = hps[i];
+					hps[i] = Math.Max( hps[i] - damages[i], 0 );
+					builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+						friends[i], before, hps[i], maxHps[i],
+						( before == hps[i] ? null : @" class=""changed""" ),
+						( i + 1 ),
+						( damages[i] > 0 ? damages[i].ToString() : ( ( flagsfriend[i] > 0 || flagsfriend[i + 6] > 0 ) ? "miss" : null ) ) );
+
+				} else {
+					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+				}
+
+				if ( accompany != null )
+				{
+					if ( accompany[i] != null )
+					{
+						int before = hps[i + 12];
+						hps[i + 12] = Math.Max( hps[i + 12] - damages[i + 12], 0 );
+						builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+							accompany[i], before, hps[i + 12], maxHps[i + 12],
+							( before == hps[i + 12] ? null : @" class=""changed""" ),
+							( i + 1 ),
+							( damages[i + 12] > 0 ? damages[i + 12].ToString() : null ) );
+					}
+					else
+					{
+						builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+					}
+				}
+
+				if ( enemys[i] != null ) {
+					int before = hps[i + 6];
+					hps[i + 6] = Math.Max( hps[i + 6] - damages[i + 6], 0 );
+					builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+						enemys[i], before, hps[i + 6], maxHps[i + 6],
+						( before == hps[i + 6] ? null : @" class=""changed""" ),
+						( i + 1 ),
+						( damages[i + 6] > 0 ? damages[i + 6].ToString() : ( ( flagsenemy[i] > 0 || flagsenemy[i + 6] > 0 ) ? "miss" : null ) ) );
+
+				} else {
+					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+				}
+
+				builder.AppendLine( "</tr>" );
+			}
+
+			builder.AppendLine( "</tbody>\r\n</table>" );
+
+		}
+
+		private void FillSupportDamage( string name, StringBuilder builder, int[] damages, string[] friends, string[] enemys, int[] hps, int[] maxHps )
+		{
+
+			builder.AppendFormat( @"<h2>{0} <small>（伤害无对应关系）</small></h2>
+<hr />
+<table cellspacing=""2"" cellpadding=""0"">
+<thead>
+<tr>
+<th width=""160"">我方</th>
+<th width=""40"">&nbsp;</th>
+<th width=""160"">敌方</th>
+<th width=""90"">伤害</th>
+<th width=""90"">血量</th>
+</tr>
+</thead>
+<tbody>
+", name );
+
+			for ( int i = 0; i < 6; i++ ) {
+				builder.AppendLine( "<tr>" );
+
+				// 支援
+				if ( friends[i] != null ) {
+					builder.AppendFormat( "<td>{0}.{1}</td><td></td>\r\n", ( i + 1 ), friends[i] );
+				} else {
+					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+				}
+
+				if ( enemys[i] != null ) {
+					int before = hps[i + 6];
+					hps[i + 6] = Math.Max( hps[i + 6] - damages[i], 0 );
+					builder.AppendFormat( "<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+						enemys[i], before, hps[i + 6], maxHps[i + 6],
+						( before == hps[i + 6] ? null : @" class=""changed""" ),
+						( i + 1 ),
+						( damages[i] > 0 ? damages[i].ToString() : "miss" ) );
+
+				} else {
+					builder.AppendLine( "<td>&nbsp;</td><td>&nbsp;</td>" );
+				}
+
+				builder.AppendLine( "</tr>" );
+			}
+
+			builder.AppendLine( "</tbody>\r\n</table>" );
+
+		}
+
+		private void FillTorpedoDamage( string name, StringBuilder builder, dynamic data, string[] friends, string[] enemys, int[] hps, int[] maxHps ) {
+
+			try {
+				builder.AppendFormat( @"<h2>{0}</h2>
+<hr />
+<table cellspacing=""2"" cellpadding=""0"">
+<thead>
+<tr>
+<th width=""160"">舰</th>
+<th width=""40"">&nbsp;</th>
+<th width=""160"">舰</th>
+<th width=""90"">伤害</th>
+<th width=""90"">暴击</th>
+</tr>
+</thead>
+<tbody>
+", name );
+
+				int[] friendTarget = ( (int[])data.api_frai ).Skip( 1 ).ToArray();
+				int[] friendDamages = ( (int[])data.api_fydam ).Skip( 1 ).ToArray();
+				int[] friendFlags = ( (int[])data.api_fcl ).Skip( 1 ).ToArray();
+				builder.AppendLine( @"<tr><th colspan=""5"">我方攻击</td></tr>" );
+				for ( int i = 0; i < 6; i++ ) {
+
+					if ( friendTarget[i] > 0 ) {
+						builder.AppendLine( "<tr>" );
+
+						builder.AppendFormat( "<td>{4}.{0}</td><td>→</td><td>{5}.{1}</td><td>{2}</td><td>{3}</td>\r\n",
+							friends[i], enemys[friendTarget[i] - 1],
+							( friendDamages[i] == 0 ? ( friendFlags[i] == 0 ? "miss" : "0" ) : friendDamages[i].ToString() ),
+							( friendFlags[i] == 2 ? "√" : "" ),
+							( i + 1 ), ( friendTarget[i] ) );
+
+						builder.AppendLine( "</tr>" );
+					}
+				}
+
+				int[] enemyTarget = ( (int[])data.api_erai ).Skip( 1 ).ToArray();
+				int[] enemyDamages = ( (int[])data.api_eydam ).Skip( 1 ).ToArray();
+				int[] enemyFlags = ( (int[])data.api_ecl ).Skip( 1 ).ToArray();
+				builder.AppendLine( @"<tr><th colspan=""5"">敌方攻击</td></tr>" );
+				for ( int i = 0; i < 6; i++ ) {
+
+					if ( enemyTarget[i] > 0 ) {
+						builder.AppendLine( "<tr>" );
+
+						builder.AppendFormat( "<td>{4}.{0}</td><td>→</td><td>{5}.{1}</td><td>{2}</td><td>{3}</td>\r\n",
+							enemys[i], friends[enemyTarget[i] - 1],
+							( enemyDamages[i] == 0 ? ( enemyFlags[i] == 0 ? "miss" : "0" ) : enemyDamages[i].ToString() ),
+							( enemyFlags[i] == 2 ? "√" : "" ),
+							( i + 1 ), ( enemyTarget[i] ) );
+
+						builder.AppendLine( "</tr>" );
+					}
+				}
+
+				builder.AppendLine( "</tbody>\r\n</table>" );
+
+				// 计算血量变化
+				int[] fdam = ( (int[])data.api_fdam ).Skip( 1 ).ToArray();
+				int[] edam = ( (int[])data.api_edam ).Skip( 1 ).ToArray();
+				for ( int i = 0; i < 6; i++ ) {
+					hps[i] -= fdam[i];
+					hps[i + 6] -= edam[i];
+				}
+
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, name + "解析出错。", "torpedo", data.ToString() );
+			}
+
+		}
+
+		private void FillShellingDamage( string name, StringBuilder builder, dynamic data, string[] friends, string[] enemys, int[] hps, int[] maxHps ) {
+
+			try {
+
+				if ( !string.IsNullOrEmpty( name ) )
+				{
+					builder.AppendFormat( @"<h2>{0}</h2>
+<hr />
+", name );
+				}
+
+				builder.AppendLine( @"<table cellspacing=""2"" cellpadding=""0"">
+<thead>
+<tr>
+<th width=""24"">&nbsp;</th>
+<th width=""160"">舰</th>
+<th width=""40"">&nbsp;</th>
+<th width=""24"">&nbsp;</th>
+<th width=""160"">舰</th>
+<th width=""90"">伤害</th>
+<th width=""90"">血量</th>
+<th width=""90"">暴击</th>
+<th width=""120"">装备</th>
+</tr>
+</thead>
+<tbody>" );
+
+				int[] at_list = (int[])data.api_at_list;
+
+				for ( int i = 1; i < at_list.Length; i++ ) {
+
+					int from = at_list[i] - 1;
+					int[] enemy_list = (int[])data.api_df_list[i];
+					int[] equips = (int[])data.api_si_list[i];
+					int[] flags = (int[])data.api_cl_list[i];
+					int[] damages = (int[])data.api_damage[i];
+
+					for ( int j = 0; j < enemy_list.Length; j++ ) {
+						int to = enemy_list[j] - 1;
+
+						if ( to < 0 ) {
+							// 3炮ci？
+							continue;
+						}
+
+						if ( to < 6 ) {
+							// 我方受到攻击
+							builder.AppendLine( @"<tr class=""damage"">" );
+						} else {
+							builder.AppendLine( "<tr>" );
+						}
+
+						if ( j > 0 ) {
+							builder.Append( @"<td colspan=""4"">&nbsp;</td>" );
+						} else {
+							builder.AppendFormat( "<td>{0}</td><td>{1}.{2}</td><td>→</td><td>{3}</td>",
+								( from < 6 ? "我" : "敌" ),
+								( from % 6 + 1 ),
+								( from < 6 ? friends[from] : enemys[from - 6] ),
+								( to < 6 ? "我" : "敌" ) );
+						}
+
+						int before = hps[to];
+						hps[to] -= damages[j];
+
+						builder.AppendFormat( "<td>{0}.{1}</td><td>{2}</td><td>{3}→{4}/{5}</td><td>{6}</td>",
+							( to % 6 + 1 ),
+							( to < 6 ? friends[to] : enemys[to - 6] ),
+							( damages[j] == 0 ? ( flags[j] == 0 ? "miss" : "0" ) : damages[j].ToString() ),
+							Math.Max( before, 0 ),
+							Math.Max( hps[to], 0 ), maxHps[to],
+							( flags[j] == 2 ? "√" : "" ) );
+
+						if ( ( enemy_list.Length == 1 && equips.Length > 1 ) || enemy_list.Any( el => el < 0 ) ) {	// 3炮ci貌似list后两个都是-1
+
+							var eqs = equips.Select( ei =>
+							{
+								var eq = KCDatabase.Instance.MasterEquipments[ei];
+								return eq == null ? "&lt;" + ei + "&gt;" : eq.Name;
+							} );
+							builder.AppendFormat( "<td>{0}</td>", string.Join( ", ", equips.Select( ei => KCDatabase.Instance.MasterEquipments[ei].Name ) ) );
+
+						} else {
+							int equipid = equips[j];
+							var eq = KCDatabase.Instance.MasterEquipments[equipid];
+							builder.AppendFormat( "<td>{0}</td>", ( eq == null ? "" : eq.Name ) );
+						}
+
+						builder.AppendLine( "</tr>" );
+					}
+
+				}
+
+				builder.AppendLine( "</tbody>\r\n</table>" );
+			} catch ( Exception ex ) {
+
+				Utility.ErrorReporter.SendErrorReport( ex, name + "解析出错。", "shelling", data.ToString() );
+			}
 		}
 
 
@@ -284,22 +900,23 @@ namespace ElectronicObserver.Window {
 			if ( pd.IsStage1Available ) {
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( pd.AirSuperiority );
+				ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "航空伤害: {0}", pd.TotalDamage ) );
 
 				int[] planeFriend = { pd.AircraftLostStage1Friend, pd.AircraftTotalStage1Friend };
 				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
 
 				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
-					AirStage1Friend.ForeColor = Color.Red;
+					AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
-					AirStage1Friend.ForeColor = SystemColors.ControlText;
+					AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 				int[] planeEnemy = { pd.AircraftLostStage1Enemy, pd.AircraftTotalStage1Enemy };
 				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
 
 				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
-					AirStage1Enemy.ForeColor = Color.Red;
+					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
-					AirStage1Enemy.ForeColor = SystemColors.ControlText;
+					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 
 				//触接
@@ -328,15 +945,16 @@ namespace ElectronicObserver.Window {
 			} else {		//空対空戦闘発生せず
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
+				ToolTipInfo.SetToolTip( AirSuperiority, null );
 
 				AirStage1Friend.Text = "-";
-				AirStage1Friend.ForeColor = SystemColors.ControlText;
+				AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 				AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
 				AirStage1Friend.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AirStage1Friend, null );
 
 				AirStage1Enemy.Text = "-";
-				AirStage1Enemy.ForeColor = SystemColors.ControlText;
+				AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 				AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 				AirStage1Enemy.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
@@ -349,17 +967,17 @@ namespace ElectronicObserver.Window {
 				AirStage2Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
 
 				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
-					AirStage2Friend.ForeColor = Color.Red;
+					AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
-					AirStage2Friend.ForeColor = SystemColors.ControlText;
+					AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 				int[] planeEnemy = { pd.AircraftLostStage2Enemy, pd.AircraftTotalStage2Enemy };
 				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
 
 				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
-					AirStage2Enemy.ForeColor = Color.Red;
+					AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
-					AirStage2Enemy.ForeColor = SystemColors.ControlText;
+					AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 
 				//対空カットイン
@@ -385,9 +1003,9 @@ namespace ElectronicObserver.Window {
 
 			} else {	//艦対空戦闘発生せず
 				AirStage2Friend.Text = "-";
-				AirStage2Friend.ForeColor = SystemColors.ControlText;
+				AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 				AirStage2Enemy.Text = "-";
-				AirStage2Enemy.ForeColor = SystemColors.ControlText;
+				AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 				AACutin.Text = "対空砲火";
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
 				AACutin.ImageIndex = -1;
@@ -419,9 +1037,11 @@ namespace ElectronicObserver.Window {
 
 				AirSuperiority.Text = Constants.GetAirSuperiority( pd1.AirSuperiority );
 				if ( isBattle2Enabled ) {
-					ToolTipInfo.SetToolTip( AirSuperiority, "第2次: " + Constants.GetAirSuperiority( pd2.AirSuperiority ) );
+					ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "第2次: {0}\r\n航空伤害: {1}",
+						Constants.GetAirSuperiority( pd2.AirSuperiority ),
+						pd1.TotalDamage + pd2.TotalDamage ) );
 				} else {
-					ToolTipInfo.SetToolTip( AirSuperiority, null );
+					ToolTipInfo.SetToolTip( AirSuperiority, string.Format( "航空伤害: {0}", pd1.TotalDamage ) );
 				}
 
 
@@ -437,9 +1057,9 @@ namespace ElectronicObserver.Window {
 
 				if ( ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] ) ||
 					 ( planeFriend[3] > 0 && planeFriend[2] == planeFriend[3] ) )
-					AirStage1Friend.ForeColor = Color.Red;
+					AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
-					AirStage1Friend.ForeColor = SystemColors.ControlText;
+					AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 
 				int[] planeEnemy = { 
@@ -454,9 +1074,9 @@ namespace ElectronicObserver.Window {
 
 				if ( ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] ) ||
 					 ( planeEnemy[3] > 0 && planeEnemy[2] == planeEnemy[3] ) )
-					AirStage1Enemy.ForeColor = Color.Red;
+					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
-					AirStage1Enemy.ForeColor = SystemColors.ControlText;
+					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 
 				//触接
@@ -506,10 +1126,10 @@ namespace ElectronicObserver.Window {
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
 				ToolTipInfo.SetToolTip( AirSuperiority, null );
 				AirStage1Friend.Text = "-";
-				AirStage1Friend.ForeColor = SystemColors.ControlText;
+				AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 				ToolTipInfo.SetToolTip( AirStage1Friend, null );
 				AirStage1Enemy.Text = "-";
-				AirStage1Enemy.ForeColor = SystemColors.ControlText;
+				AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 			}
 
@@ -532,9 +1152,9 @@ namespace ElectronicObserver.Window {
 
 				if ( ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] ) ||
 					 ( planeFriend[3] > 0 && planeFriend[2] == planeFriend[3] ) )
-					AirStage2Friend.ForeColor = Color.Red;
+					AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
-					AirStage2Friend.ForeColor = SystemColors.ControlText;
+					AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 
 				int[] planeEnemy = { 
@@ -550,9 +1170,9 @@ namespace ElectronicObserver.Window {
 
 				if ( ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] ) ||
 					 ( planeEnemy[3] > 0 && planeEnemy[2] == planeEnemy[3] ) )
-					AirStage2Enemy.ForeColor = Color.Red;
+					AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.FailedColor;
 				else
-					AirStage2Enemy.ForeColor = SystemColors.ControlText;
+					AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 
 				//対空カットイン
@@ -599,10 +1219,10 @@ namespace ElectronicObserver.Window {
 
 			} else {	//艦対空戦闘発生せず
 				AirStage2Friend.Text = "-";
-				AirStage2Friend.ForeColor = SystemColors.ControlText;
+				AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 				ToolTipInfo.SetToolTip( AirStage2Friend, null );
 				AirStage2Enemy.Text = "-";
-				AirStage2Enemy.ForeColor = SystemColors.ControlText;
+				AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 				ToolTipInfo.SetToolTip( AirStage2Enemy, null );
 				AACutin.Text = "対空砲火";
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
@@ -626,26 +1246,26 @@ namespace ElectronicObserver.Window {
 			ToolTipInfo.SetToolTip( AirSuperiority, null );
 
 			AirStage1Friend.Text = "-";
-			AirStage1Friend.ForeColor = SystemColors.ControlText;
+			AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 			AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage1Friend.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage1Friend, null );
 
 			AirStage1Enemy.Text = "-";
-			AirStage1Enemy.ForeColor = SystemColors.ControlText;
+			AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 			AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage1Enemy.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 
 			AirStage2Friend.Text = "-";
-			AirStage2Friend.ForeColor = SystemColors.ControlText;
+			AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 			AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
 			AirStage2Friend.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage2Friend, null );
 
 			AirStage2Enemy.Text = "-";
 			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
-			AirStage2Enemy.ForeColor = SystemColors.ControlText;
+			AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 			AirStage2Enemy.ImageIndex = -1;
 			ToolTipInfo.SetToolTip( AirStage2Enemy, null );
 
@@ -661,6 +1281,21 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		private void SetHPNormal( BattleData bd ) {
 
+			TableTop.SuspendLayout();
+			TableBottom.SuspendLayout();
+
+			float damageWidth = ( Utility.Configuration.Config.FormBattle.IsShortDamage ? DamageWidth / 2 : DamageWidth );
+			float singleWidth = TableBottom.ColumnStyles[0].Width;
+
+			TableTop.ColumnStyles[1].Width = singleWidth;
+			TableTop.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableTop.ClientSize.Height );
+
+			TableBottom.ColumnStyles[1].Width = damageWidth;
+			TableBottom.ColumnStyles[3].Width = 0;
+			TableBottom.ColumnStyles[2].Width = singleWidth - damageWidth;
+			TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableBottom.ClientSize.Height );
+
+
 			KCDatabase db = KCDatabase.Instance;
 			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0;
 
@@ -668,16 +1303,20 @@ namespace ElectronicObserver.Window {
 			var maxHPs = bd.Initial.MaxHPs;
 			var resultHPs = bd.ResultHPs;
 			var attackDamages = bd.AttackDamages;
+			var attackAirDamages = bd.AttackAirDamages;
 
 			for ( int i = 0; i < 12; i++ ) {
 				if ( initialHPs[i] != -1 ) {
 					HPBars[i].Value = resultHPs[i];
 					HPBars[i].PrevValue = initialHPs[i];
 					HPBars[i].MaximumValue = maxHPs[i];
-					HPBars[i].BackColor = SystemColors.Control;
+					HPBars[i].BackColor = Utility.Configuration.Config.UI.BackColor;
 					HPBars[i].Visible = true;
+					DamageLabels[i].ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+					DamageLabels[i].Visible = true;
 				} else {
 					HPBars[i].Visible = false;
+					DamageLabels[i].Visible = false;
 				}
 			}
 
@@ -686,8 +1325,10 @@ namespace ElectronicObserver.Window {
 				if ( initialHPs[i] != -1 ) {
 					ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
 
+					DamageLabels[i].Text = ( attackAirDamages[i] + attackDamages[i] ) > 0 ? ( attackAirDamages[i] + attackDamages[i] ).ToString() : string.Empty;
+
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]\r\n与ダメージ: {8}",
+						string.Format( "{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]\r\n造成伤害: {8}",
 							ship.MasterShip.ShipTypeName,
 							ship.MasterShip.NameWithClass,
 							ship.Level,
@@ -696,7 +1337,7 @@ namespace ElectronicObserver.Window {
 							HPBars[i].MaximumValue,
 							HPBars[i].Value - HPBars[i].PrevValue,
 							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase ),
-							attackDamages[i]
+							( attackAirDamages[i] > 0 ) ? string.Format( "{0} (+{1})", attackDamages[i], attackAirDamages[i] ) : attackDamages[i].ToString()
 							)
 						);
 				}
@@ -721,12 +1362,16 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
-			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
+			//HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
+			DamageLabels[bd.MVPShipIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 
 			FleetCombined.Visible = false;
 			for ( int i = 12; i < 18; i++ ) {
 				HPBars[i].Visible = false;
 			}
+
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
 
 		}
 
@@ -735,6 +1380,21 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		private void SetHPCombined( BattleData bd ) {
 
+			TableTop.SuspendLayout();
+			TableBottom.SuspendLayout();
+
+			float damageWidth = ( Utility.Configuration.Config.FormBattle.IsShortDamage ? DamageWidth / 2 : DamageWidth );
+			float singleWidth = TableBottom.ColumnStyles[0].Width;
+
+			TableTop.ColumnStyles[1].Width = singleWidth + 2 * damageWidth;
+			TableTop.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth + 2 * damageWidth ), TableTop.ClientSize.Height );
+
+			TableBottom.ColumnStyles[1].Width =
+			TableBottom.ColumnStyles[3].Width = damageWidth;
+			TableBottom.ColumnStyles[2].Width = singleWidth;
+			TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth + 2 * damageWidth ), TableBottom.ClientSize.Height );
+
+
 			KCDatabase db = KCDatabase.Instance;
 			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0;
 
@@ -742,6 +1402,7 @@ namespace ElectronicObserver.Window {
 			var maxHPs = bd.Initial.MaxHPs;
 			var resultHPs = bd.ResultHPs;
 			var attackDamages = bd.AttackDamages;
+			var attackAirDamages = bd.AttackAirDamages;
 
 
 			FleetCombined.Visible = true;
@@ -751,10 +1412,25 @@ namespace ElectronicObserver.Window {
 					HPBars[i].PrevValue = initialHPs[i];
 					HPBars[i].MaximumValue = maxHPs[i];
 					HPBars[i].Visible = true;
+					if ( i < 6 )
+					{
+						DamageLabels[i].ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+						DamageLabels[i].Visible = true;
+					}
+					else if ( i >= 12 )
+					{
+						DamageLabels[i - 6].ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+						DamageLabels[i - 6].Visible = true;
+					}
 				} else {
 					HPBars[i].Visible = false;
+					if ( i < 6 )
+						DamageLabels[i].Visible = false;
+					else if ( i >= 12 )
+						DamageLabels[i - 6].Visible = false;
 				}
 			}
+
 
 
 			for ( int i = 0; i < 6; i++ ) {
@@ -762,8 +1438,10 @@ namespace ElectronicObserver.Window {
 					ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
 					bool isEscaped =  bd.Initial.FriendFleet.EscapedShipList.Contains( ship.MasterID );
 
+					DamageLabels[i].Text = ( attackAirDamages[i] + attackDamages[i] ) > 0 ? ( attackAirDamages[i] + attackDamages[i] ).ToString() : string.Empty;
+
 					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n造成伤害: {7}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i].PrevValue, 0 ),
@@ -771,12 +1449,12 @@ namespace ElectronicObserver.Window {
 							HPBars[i].MaximumValue,
 							HPBars[i].Value - HPBars[i].PrevValue,
 							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
-							attackDamages[i]
+							( attackAirDamages[i] > 0 ) ? string.Format( "{0} (+{1})", attackDamages[i], attackAirDamages[i] ) : attackDamages[i].ToString()
 							)
 						);
 
 					if ( isEscaped ) HPBars[i].BackColor = Color.Silver;
-					else HPBars[i].BackColor = SystemColors.Control;
+					else HPBars[i].BackColor = Utility.Configuration.Config.UI.BackColor;
 				}
 			}
 
@@ -803,8 +1481,10 @@ namespace ElectronicObserver.Window {
 					ShipData ship = db.Fleet[2].MembersInstance[i];
 					bool isEscaped = db.Fleet[2].EscapedShipList.Contains( ship.MasterID );
 
+					DamageLabels[i + 6].Text = ( attackAirDamages[i + 12] + attackDamages[i + 12] ) > 0 ? ( attackAirDamages[i + 12] + attackDamages[i + 12] ).ToString() : string.Empty;
+
 					ToolTipInfo.SetToolTip( HPBars[i + 12],
-						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}",
+						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n造成伤害: {7}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
 							Math.Max( HPBars[i + 12].PrevValue, 0 ),
@@ -812,18 +1492,23 @@ namespace ElectronicObserver.Window {
 							HPBars[i + 12].MaximumValue,
 							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
 							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase, isEscaped ),
-							attackDamages[i + 12]
+							( attackAirDamages[i + 12] > 0 ) ? string.Format( "{0} (+{1})", attackDamages[i + 12], attackAirDamages[i + 12] ) : attackDamages[i + 12].ToString()
 							)
 						);
 
 					if ( isEscaped ) HPBars[i + 12].BackColor = Color.Silver;
-					else HPBars[i + 12].BackColor = SystemColors.Control;
+					else HPBars[i + 12].BackColor = Utility.Configuration.Config.UI.BackColor;
 				}
 			}
 
 
-			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
-			HPBars[12 + bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
+			//HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
+			//HPBars[12 + bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
+			DamageLabels[bd.MVPShipIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
+			DamageLabels[6 + bd.MVPShipCombinedIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
+
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
 		}
 
 
@@ -935,7 +1620,7 @@ namespace ElectronicObserver.Window {
 
 
 				WinRank.Text = Constants.GetWinRank( rank );
-				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
+				WinRank.ForeColor = rank >= 4 ? Utility.Configuration.Config.UI.ForeColor : Utility.Configuration.Config.UI.FailedColor;
 			}
 		}
 
@@ -981,7 +1666,7 @@ namespace ElectronicObserver.Window {
 
 
 				WinRank.Text = Constants.GetWinRank( rank );
-				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
+				WinRank.ForeColor = rank >= 4 ? Utility.Configuration.Config.UI.ForeColor : Utility.Configuration.Config.UI.FailedColor;
 			}
 		}
 
@@ -1004,7 +1689,7 @@ namespace ElectronicObserver.Window {
 					ShipData ship = fleet.MembersInstance[index];
 
 					AirStage1Friend.Text = "#" + ( index + 1 );
-					AirStage1Friend.ForeColor = SystemColors.ControlText;
+					AirStage1Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
 					ToolTipInfo.SetToolTip( AirStage1Friend, "探照灯照射: " + ship.NameWithLevel );
@@ -1018,7 +1703,7 @@ namespace ElectronicObserver.Window {
 				int index = pd.SearchlightIndexEnemy;
 				if ( index != -1 ) {
 					AirStage1Enemy.Text = "#" + ( index + 1 );
-					AirStage1Enemy.ForeColor = SystemColors.ControlText;	
+					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;	
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
 					ToolTipInfo.SetToolTip( AirStage1Enemy, "探照灯照射: " + pd.SearchlightEnemyInstance.NameWithClass );
@@ -1053,7 +1738,7 @@ namespace ElectronicObserver.Window {
 
 				if ( index != -1 ) {
 					AirStage2Friend.Text = "#" + ( index + 1 );
-					AirStage2Friend.ForeColor = SystemColors.ControlText;
+					AirStage2Friend.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 					AirStage2Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage2Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
 					ToolTipInfo.SetToolTip( AirStage2Friend, "照明弾投射: " + fleet.MembersInstance[index].NameWithLevel );
@@ -1068,7 +1753,7 @@ namespace ElectronicObserver.Window {
 
 				if ( index != -1 ) {
 					AirStage2Enemy.Text = "#" + ( index + 1 );
-					AirStage2Enemy.ForeColor = SystemColors.ControlText;
+					AirStage2Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;
 					AirStage2Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage2Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
 					ToolTipInfo.SetToolTip( AirStage2Enemy, "照明弾投射: " + pd.FlareEnemyInstance.NameWithClass );
@@ -1082,8 +1767,51 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 
+			TableTop.SuspendLayout();
+			TableBottom.SuspendLayout();
+
 			MainFont = TableTop.Font = TableBottom.Font = Font = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
+
+			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
+
+			bool shorten = Utility.Configuration.Config.FormBattle.IsShortDamage;
+			bool isCombined = ( KCDatabase.Instance.Battle.BattleMode & BattleManager.BattleModes.CombinedMask ) != 0;
+
+			float damageWidth = ( shorten ? DamageWidth / 2 : DamageWidth );
+			float singleWidth = TableBottom.ColumnStyles[0].Width;
+
+			if ( isCombined ) {
+
+				TableTop.ColumnStyles[1].Width = singleWidth + 2 * damageWidth;
+				TableTop.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth + 2 * damageWidth ), TableTop.ClientSize.Height );
+
+				TableBottom.ColumnStyles[1].Width =
+				TableBottom.ColumnStyles[3].Width = damageWidth;
+				TableBottom.ColumnStyles[2].Width = singleWidth;
+				TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth + 2 * damageWidth ), TableBottom.ClientSize.Height );
+			} else {
+
+				TableTop.ColumnStyles[1].Width = singleWidth;
+				TableTop.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableTop.ClientSize.Height );
+
+				TableBottom.ColumnStyles[1].Width = damageWidth;
+				TableBottom.ColumnStyles[3].Width = 0;
+				TableBottom.ColumnStyles[2].Width = singleWidth - damageWidth;
+				TableBottom.ClientSize = new System.Drawing.Size( (int)( 3 * singleWidth ), TableBottom.ClientSize.Height );
+			}
+
+			TableTop.ResumeLayout();
+			TableBottom.ResumeLayout();
+
+			if ( DamageLabels == null )
+				return;
+
+
+			for ( int i = 0; i < 12; i++ ) {
+
+				DamageLabels[i].ShowText = !shorten;
+			}
 
 		}
 
@@ -1091,16 +1819,17 @@ namespace ElectronicObserver.Window {
 
 		private void TableTop_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			if ( e.Row == 1 || e.Row == 3 )
-				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+				e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 		private void TableBottom_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			if ( e.Row == 7 )
-				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+				e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Battle";
 		}
 

@@ -581,6 +581,20 @@ namespace ElectronicObserver.Data {
 
 		#endregion
 
+		/// <summary>
+		/// 爆装综合值
+		/// </summary>
+		public int BombTotal {
+			get {
+				int bomb = 0;
+				for ( int i = 0; i < _slot.Length; i++ ) {
+					if ( _slot[i] != -1 && KCDatabase.Instance.Equipments[_slot[i]] != null ) {
+						bomb += KCDatabase.Instance.Equipments[_slot[i]].MasterEquipment.Bomber;
+					}
+				}
+				return bomb;
+			}
+		}
 
 		/// <summary>
 		/// 保護ロックの有無

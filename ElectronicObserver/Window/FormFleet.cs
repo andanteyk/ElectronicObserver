@@ -31,6 +31,7 @@ namespace ElectronicObserver.Window {
 			public ImageLabel StateMain;
 			public ImageLabel AirSuperiority;
 			public ImageLabel SearchingAbility;
+			public ImageLabel AAValue;
 			public ToolTip ToolTipInfo;
 			public ElectronicObserver.Data.FleetData.FleetStates State;
 			public DateTime Timer;
@@ -78,6 +79,16 @@ namespace ElectronicObserver.Window {
 				SearchingAbility.Margin = new Padding( 2, 0, 2, 0 );
 				SearchingAbility.AutoSize = true;
 
+				AAValue = new ImageLabel();
+				AAValue.Anchor = AnchorStyles.Left;
+				AAValue.Font = parent.MainFont;
+				AAValue.ForeColor = parent.MainFontColor;
+				AAValue.ImageList = ResourceManager.Instance.Equipments;
+				AAValue.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
+				AAValue.Padding = new Padding( 2, 2, 2, 2 );
+				AAValue.Margin = new Padding( 2, 0, 2, 0 );
+				AAValue.AutoSize = true;
+
 				ToolTipInfo = parent.ToolTipInfo;
 				State = FleetData.FleetStates.NoShip;
 				Timer = DateTime.Now;
@@ -98,6 +109,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( StateMain, 1, 0 );
 				table.Controls.Add( AirSuperiority, 2, 0 );
 				table.Controls.Add( SearchingAbility, 3, 0 );
+				table.Controls.Add( AAValue, 4, 0 );
 				table.ResumeLayout();
 
 				int row = 0;
@@ -154,9 +166,11 @@ namespace ElectronicObserver.Window {
 				//制空戦力計算	
 				{
 					int airSuperiority = fleet.GetAirSuperiority();
+					int airSuperiority_old = fleet.GetAirSuperiority_Old();
 					AirSuperiority.Text = airSuperiority.ToString();
 					ToolTipInfo.SetToolTip( AirSuperiority,
-						string.Format( "確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n",
+						string.Format( "旧制空值: {0}\r\n確保: {1}\r\n優勢: {2}\r\n均衡: {3}\r\n劣勢: {4}\r\n",
+						airSuperiority_old,
 						(int)( airSuperiority / 3.0 ),
 						(int)( airSuperiority / 1.5 ),
 						(int)( airSuperiority * 1.5 - 1 ),
@@ -171,6 +185,16 @@ namespace ElectronicObserver.Window {
 					fleet.GetSearchingAbilityString( 0 ),
 					fleet.GetSearchingAbilityString( 1 ),
 					fleet.GetSearchingAbilityString( 2 ) ) );
+
+				// 舰队防空值计算
+				AAValue.Text = CalculatorEx.GetFleetAAValue( fleet, 0 ).ToString();
+				ToolTipInfo.SetToolTip( AAValue,
+					string.Format( "单纵阵: {0}\r\n复纵阵: {1}\r\n轮形阵: {2}\r\n梯形阵: {3}\r\n单横阵: {4}\r\n",
+					CalculatorEx.GetFleetAAValue( fleet, 1 ),
+					CalculatorEx.GetFleetAAValue( fleet, 2 ),
+					CalculatorEx.GetFleetAAValue( fleet, 3 ),
+					CalculatorEx.GetFleetAAValue( fleet, 4 ),
+					CalculatorEx.GetFleetAAValue( fleet, 5 ) ) );
 
 			}
 
@@ -250,6 +274,7 @@ namespace ElectronicObserver.Window {
 				HP.SubFont = parent.SubFont;
 				HP.MainFontColor = parent.MainFontColor;
 				HP.SubFontColor = parent.SubFontColor;
+				HP.RepairFontColor = parent.SubFontColor;
 				HP.Padding = new Padding( 0, 0, 0, 0 );
 				HP.Margin = new Padding( 2, 1, 2, 2 );
 				HP.AutoSize = true;
@@ -333,6 +358,15 @@ namespace ElectronicObserver.Window {
 				#endregion
 			}
 
+			private double CalculateFire( ShipData ship ) {
+				return CalculatorEx.CalculateFire( ship );
+			}
+
+			private double CalculateWeightingAA( ShipData ship )
+			{
+				return CalculatorEx.CalculateWeightingAA( ship );
+			}
+
 			public void Update( int shipMasterID ) {
 
 				KCDatabase db = KCDatabase.Instance;
@@ -347,9 +381,14 @@ namespace ElectronicObserver.Window {
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip( Name,
 						string.Format(
-							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
+							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n加权对空: {19:0.##}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
-							ship.FirepowerBase, ship.FirepowerTotal,
+							ship.FirepowerBase,
+							(ship.MasterShip.ShipType == 7 ||	// 轻空母
+							ship.MasterShip.ShipType == 11 ||	// 正规空母
+							ship.MasterShip.ShipType == 18) ?	// 装甲空母
+							string.Format( "{0}（空母火力：{1:F0}）", ship.FirepowerTotal, CalculateFire( ship ) ) :
+							ship.FirepowerTotal.ToString(),
 							ship.TorpedoBase, ship.TorpedoTotal,
 							ship.AABase, ship.AATotal,
 							ship.ArmorBase, ship.ArmorTotal,
@@ -358,7 +397,8 @@ namespace ElectronicObserver.Window {
 							ship.LOSBase, ship.LOSTotal,
 							ship.LuckTotal,
 							Constants.GetRange( ship.Range ),
-							Constants.GetSpeed( ship.MasterShip.Speed )
+							Constants.GetSpeed( ship.MasterShip.Speed ),
+							CalculateWeightingAA( ship )
 							) );
 
 
@@ -374,6 +414,18 @@ namespace ElectronicObserver.Window {
 							tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.", ship.MasterShip.RemodelAfterLevel - ship.Level, ship.ExpNextRemodel );
 
 						} else if ( ship.Level <= 99 ) {
+
+							// 判断隔代改装的经验
+							var ship_m = ship.MasterShip.RemodelAfterShip;
+							while ( ship_m != null && ship_m.RemodelAfterShipID != 0 )
+							{
+								int level = ship_m.RemodelAfterLevel;
+								if ( ship.Level < level )
+									tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.\n", level - ship.Level, Math.Max( ExpTable.ShipExp[level].Total - ship.ExpTotal, 0 ) );
+
+								ship_m = ship_m.RemodelAfterShip;
+							}
+
 							tip.AppendFormat( "Lv99まで: {0} exp.", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
 
 						} else {
@@ -398,7 +450,7 @@ namespace ElectronicObserver.Window {
 					if ( isEscaped ) {
 						HP.BackColor = Color.Silver;
 					} else {
-						HP.BackColor = SystemColors.Control;
+						HP.BackColor = Utility.Configuration.Config.UI.BackColor;
 					}
 					{
 						StringBuilder sb = new StringBuilder();
@@ -494,6 +546,7 @@ namespace ElectronicObserver.Window {
 						sb.AppendFormat( "補強: {0}\r\n", exslot.NameWithLevel );
 				}
 
+
 				int[] slotmaster = ship.SlotMaster.ToArray();
 
 				sb.AppendFormat( "\r\n昼戦: {0}", Constants.GetDayAttackKind( Calculator.GetDayAttackKind( slotmaster, ship.ShipID, -1 ) ) );
@@ -570,8 +623,11 @@ namespace ElectronicObserver.Window {
 		private TableMemberControl[] ControlMember;
 
 
+		private Pen LinePen = Pens.Silver;
+
 
 		public FormFleet( FormMain parent, int fleetID ) {
+			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
 			FleetID = fleetID;
@@ -579,8 +635,8 @@ namespace ElectronicObserver.Window {
 
 			ConfigurationChanged();
 
-			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
-			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
+			MainFontColor = Utility.Configuration.Config.UI.ForeColor;
+			SubFontColor = Utility.Configuration.Config.UI.SubForeColor;
 
 
 			//ui init
@@ -608,6 +664,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
 
+			this.ResumeLayoutForDpiScale();
 		}
 
 
@@ -856,6 +913,8 @@ namespace ElectronicObserver.Window {
 			MainFont = Font = c.UI.MainFont;
 			SubFont = c.UI.SubFont;
 
+			LinePen = new Pen( c.UI.LineColor.ColorData );
+
 			AutoScroll = ContextMenuFleet_IsScrollable.Checked = c.FormFleet.IsScrollable;
 			ContextMenuFleet_FixShipNameWidth.Checked = c.FormFleet.FixShipNameWidth;
 
@@ -868,6 +927,7 @@ namespace ElectronicObserver.Window {
 				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
 				bool shortHPBar = c.FormFleet.ShortenHPBar;
 				bool showNext = c.FormFleet.ShowNextExp;
+				bool textProficiency = c.FormFleet.ShowTextProficiency;
 				bool showEquipmentLevel = c.FormFleet.ShowEquipmentLevel;
 
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
@@ -881,6 +941,7 @@ namespace ElectronicObserver.Window {
 
 					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
+					ControlMember[i].Equipments.TextProficiency = textProficiency;
 					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
 				}
 			}
@@ -904,11 +965,12 @@ namespace ElectronicObserver.Window {
 
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+			e.Graphics.DrawLine( LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 
-		protected override string GetPersistString() {
+		public override string GetPersistString()
+		{
 			return "Fleet #" + FleetID.ToString();
 		}
 

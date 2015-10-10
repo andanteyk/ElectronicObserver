@@ -45,13 +45,13 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 					int eqid = (int)data.api_slot_item.api_slotitem_id;
 
-					Utility.Logger.Add( 2, string.Format( "{0}「{1}」の開発に成功しました。({2}/{3}/{4}/{5} 秘書艦: {6})",
+					Utility.Logger.Add( 2, string.Format( "{0}「{1}」开发成功。({2}/{3}/{4}/{5} 秘书舰: {6})",
 						db.MasterEquipments[eqid].CategoryTypeInstance.Name, 
 						db.MasterEquipments[eqid].Name,
 						materials[0], materials[1], materials[2], materials[3],
 						db.Fleet[1].MembersInstance[0].NameWithLevel ) );
 				} else {
-					Utility.Logger.Add( 2, string.Format( "開発に失敗しました。({0}/{1}/{2}/{3} 秘書艦: {4})",
+					Utility.Logger.Add( 2, string.Format( "开发失败。({0}/{1}/{2}/{3} 秘书舰: {4})",
 						materials[0], materials[1], materials[2], materials[3],
 						db.Fleet[1].MembersInstance[0].NameWithLevel ) );
 				}
