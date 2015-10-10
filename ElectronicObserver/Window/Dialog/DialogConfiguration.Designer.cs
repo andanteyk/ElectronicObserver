@@ -152,9 +152,9 @@
 			this.FormBrowser_ApplyRegistry = new System.Windows.Forms.Button();
 			this.label19 = new System.Windows.Forms.Label();
 			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
-            this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
-            this.FormBrowser_ShowURL = new System.Windows.Forms.CheckBox();
-            this.FormBrowser_ModifyCookieRegion = new System.Windows.Forms.CheckBox();
+			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
+			this.FormBrowser_ShowURL = new System.Windows.Forms.CheckBox();
+			this.FormBrowser_ModifyCookieRegion = new System.Windows.Forms.CheckBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label18 = new System.Windows.Forms.Label();
 			this.FormBrowser_ScreenShotFormat_PNG = new System.Windows.Forms.RadioButton();
@@ -1543,9 +1543,9 @@
 			// 
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomFit);
 			this.tabPage12.Controls.Add(this.FormBrowser_AppliesStyleSheet);
-            this.tabPage12.Controls.Add(this.FormBrowser_ConfirmAtRefresh);
-            this.tabPage12.Controls.Add(this.FormBrowser_ModifyCookieRegion);
-            this.tabPage12.Controls.Add(this.FormBrowser_ShowURL);
+			this.tabPage12.Controls.Add(this.FormBrowser_ConfirmAtRefresh);
+			this.tabPage12.Controls.Add(this.FormBrowser_ModifyCookieRegion);
+			this.tabPage12.Controls.Add(this.FormBrowser_ShowURL);
 			this.tabPage12.Controls.Add(this.groupBox2);
 			this.tabPage12.Controls.Add(this.label17);
 			this.tabPage12.Controls.Add(this.label16);
@@ -2181,8 +2181,8 @@
 		private System.Windows.Forms.ComboBox FormBrowser_FlashQuality;
 		private System.Windows.Forms.CheckBox FormFleet_ShowEquipmentLevel;
 		private System.Windows.Forms.ComboBox FormFleet_AirSuperiorityMethod;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.CheckBox FormBrowser_ModifyCookieRegion;
-        private System.Windows.Forms.CheckBox FormBrowser_ShowURL;
+		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.CheckBox FormBrowser_ModifyCookieRegion;
+		private System.Windows.Forms.CheckBox FormBrowser_ShowURL;
 	}
 }
