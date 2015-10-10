@@ -187,13 +187,14 @@ namespace ElectronicObserver.Data.Battle {
 
 				//checkme: とてもアレな感じ
 
-				int dropID = Result.DroppedShipID;
+				int shipID = Result.DroppedShipID;
+				int itemID  = Result.DroppedItemID;
+				int eqID = Result.DroppedEquipmentID;
 				bool showLog = Utility.Configuration.Config.Log.ShowSpoiler;
 
-				if ( dropID != -1 ) {
+				if ( shipID != -1 ) {
 
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[dropID];
-
+					ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
 					DroppedShipCount++;
 
 					var defaultSlot = ship.DefaultSlot;
@@ -204,41 +205,30 @@ namespace ElectronicObserver.Data.Battle {
 						Utility.Logger.Add( 2, string.Format( "{0}「{1}」已加入队伍。", ship.ShipTypeName, ship.NameWithClass ) );
 				}
 
-				if ( dropID == -1 ) {
+				if ( itemID != -1 ) {
+					if ( showLog )
+						Utility.Logger.Add( 2, string.Format( "已获得物品「{0}」。", KCDatabase.Instance.MasterUseItems[itemID].Name ) );
+				}
 
-					int itemID = Result.DroppedItemID;
+				if ( eqID != -1 ) {
 
-					if ( itemID != -1 ) {
-						dropID = itemID + 1000;
-						if ( showLog )
-							Utility.Logger.Add( 2, string.Format( "已获得物品「{0}」。", KCDatabase.Instance.MasterUseItems[itemID].Name ) );
+					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[eqID];
+					DroppedEquipmentCount++;
+
+					if ( showLog ) {
+						Utility.Logger.Add( 2, string.Format( "{0}「{1}」已获得。", eq.CategoryTypeInstance.Name, eq.Name ) );
 					}
 				}
 
-				if ( dropID == -1 ) {
 
-					int eqID = Result.DroppedEquipmentID;
-
-					if ( eqID != -1 ) {
-						dropID = eqID + 2000;
-						if ( showLog ) {
-							EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[eqID];
-							Utility.Logger.Add( 2, string.Format( "{0}「{1}」已获得。", eq.CategoryTypeInstance.Name, eq.Name ) );
-						}
-
-						DroppedEquipmentCount++;
-					}
-
-				}
-
-
-				if ( dropID == -1 && (
+				// 満員判定
+				if ( shipID == -1 && (
 					KCDatabase.Instance.Admiral.MaxShipCount - ( KCDatabase.Instance.Ships.Count + DroppedShipCount ) <= 0 ||
 					KCDatabase.Instance.Admiral.MaxEquipmentCount - ( KCDatabase.Instance.Equipments.Count + DroppedEquipmentCount ) <= 0 ) ) {
-					dropID = -2;
+					shipID = -2;
 				}
 
-				RecordManager.Instance.ShipDrop.Add( dropID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.MapInfo.EventDifficulty, Compass.EventID == 5, enemyFleetData.FleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
+				RecordManager.Instance.ShipDrop.Add( shipID, itemID, eqID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.MapInfo.EventDifficulty, Compass.EventID == 5, enemyFleetData.FleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
 			}
 
 		}
