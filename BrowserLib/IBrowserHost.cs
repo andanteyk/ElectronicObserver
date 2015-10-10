@@ -167,7 +167,13 @@ namespace BrowserLib {
 		/// 是否显示URL地址
 		/// </summary>
 		[DataMember]
-		public bool ShowURL { get; set; }
+        public bool ShowURL { get; set; }
+
+        /// <summary>
+        /// 是否修改区域Cookie
+        /// </summary>
+        [DataMember]
+        public bool ModifyCookieRegion { get; set; }
 
 	}
 }

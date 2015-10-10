@@ -472,6 +472,10 @@ namespace ElectronicObserver.Observer {
 			return session.isHTTPS || session.fullUrl.StartsWith( "https:" ) || session.fullUrl.Contains( ":443" );
 		}
 
+        // regex
+        private Regex _cookieRegionRegex = new Regex(@"ckcy=\d+", RegexOptions.Compiled);
+        private Regex _cookieLanguageRegex = new Regex(@"cklg=[^;]+", RegexOptions.Compiled);
+
 		private void FiddlerApplication_BeforeRequest( Fiddler.Session oSession ) {
 
 			Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
@@ -484,6 +488,21 @@ namespace ElectronicObserver.Observer {
 				}
 			}
 
+            // 修改Cookie
+            if (Utility.Configuration.Config.FormBrowser.ModifyCookieRegion) {
+                string cookie = oSession.oRequest["Cookie"];
+
+                var cookieRegion = _cookieRegionRegex.Match(cookie);
+                if (cookieRegion.Success) {
+                    cookie = cookie.Replace(cookieRegion.Value, "ckcy=1");
+                }
+
+                var cookieLanguage = _cookieLanguageRegex.Match(cookie);
+                if (cookieLanguage.Success) {
+                    cookie = cookie.Replace(cookieLanguage.Value, "cklg=welcome");
+                }
+                oSession.oRequest["Cookie"] = cookie;
+            }
 
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) ) {
 

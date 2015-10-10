@@ -331,7 +331,9 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_ScreenShotFormat_PNG.Checked = config.FormBrowser.ScreenShotFormat == 2;
 			FormBrowser_ScreenShotPath.Text = config.FormBrowser.ScreenShotPath;
 			FormBrowser_ConfirmAtRefresh.Checked = config.FormBrowser.ConfirmAtRefresh;
-			FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
+            FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
+            FormBrowser_ShowURL.Checked = config.FormBrowser.ShowURL;
+            FormBrowser_ModifyCookieRegion.Checked = config.FormBrowser.ModifyCookieRegion;
 			{
 				FormBrowser_BrowserVersion.Enabled = false;
 				FormBrowser_GPURendering.Enabled = false;
@@ -519,7 +521,9 @@ namespace ElectronicObserver.Window.Dialog {
 				config.FormBrowser.ScreenShotFormat = 2;
 			config.FormBrowser.ScreenShotPath = FormBrowser_ScreenShotPath.Text;
 			config.FormBrowser.ConfirmAtRefresh = FormBrowser_ConfirmAtRefresh.Checked;
-			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
+            config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
+            config.FormBrowser.ShowURL = FormBrowser_ShowURL.Checked;
+            config.FormBrowser.ModifyCookieRegion = FormBrowser_ModifyCookieRegion.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWmode = FormBrowser_FlashWMode.Text;
 
