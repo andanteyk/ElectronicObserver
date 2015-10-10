@@ -190,6 +190,7 @@ namespace ElectronicObserver.Window {
 				config.FlashQuality = c.FlashQuality;
 				config.ThemeID = Utility.Configuration.Config.UI.ThemeID;
 				config.ShowURL = c.ShowURL;
+				config.ModifyCookieRegion = c.ModifyCookieRegion;
 
 				return config;
 			}
@@ -215,6 +216,7 @@ namespace ElectronicObserver.Window {
 			c.FlashWmode = config.FlashWmode;
 			c.FlashQuality = config.FlashQuality;
 			c.ShowURL = config.ShowURL;
+			c.ModifyCookieRegion = config.ModifyCookieRegion;
 
 		}
 

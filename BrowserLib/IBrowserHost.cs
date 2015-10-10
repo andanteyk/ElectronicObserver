@@ -169,5 +169,11 @@ namespace BrowserLib {
 		[DataMember]
 		public bool ShowURL { get; set; }
 
+		/// <summary>
+		/// 是否修改区域Cookie
+		/// </summary>
+		[DataMember]
+		public bool ModifyCookieRegion { get; set; }
+
 	}
 }

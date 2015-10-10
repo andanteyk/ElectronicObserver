@@ -153,6 +153,8 @@
 			this.label19 = new System.Windows.Forms.Label();
 			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
+			this.FormBrowser_ShowURL = new System.Windows.Forms.CheckBox();
+			this.FormBrowser_ModifyCookieRegion = new System.Windows.Forms.CheckBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label18 = new System.Windows.Forms.Label();
 			this.FormBrowser_ScreenShotFormat_PNG = new System.Windows.Forms.RadioButton();
@@ -1542,6 +1544,8 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomFit);
 			this.tabPage12.Controls.Add(this.FormBrowser_AppliesStyleSheet);
 			this.tabPage12.Controls.Add(this.FormBrowser_ConfirmAtRefresh);
+			this.tabPage12.Controls.Add(this.FormBrowser_ModifyCookieRegion);
+			this.tabPage12.Controls.Add(this.FormBrowser_ShowURL);
 			this.tabPage12.Controls.Add(this.groupBox2);
 			this.tabPage12.Controls.Add(this.label17);
 			this.tabPage12.Controls.Add(this.label16);
@@ -1668,6 +1672,28 @@
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_ConfirmAtRefresh, "刷新时提示确认，通过才会刷新。\r\n防止误操作。");
 			this.FormBrowser_ConfirmAtRefresh.UseVisualStyleBackColor = true;
 			// 
+			// FormBrowser_ShowURL
+			// 
+			this.FormBrowser_ShowURL.AutoSize = true;
+			this.FormBrowser_ShowURL.Location = new System.Drawing.Point(6, 85);
+			this.FormBrowser_ShowURL.Name = "FormBrowser_ShowURL";
+			this.FormBrowser_ShowURL.Size = new System.Drawing.Size(96, 17);
+			this.FormBrowser_ShowURL.TabIndex = 9;
+			this.FormBrowser_ShowURL.Text = "显示URL地址";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_ShowURL, "显示或者隐藏URL地址（保护隐私）。");
+			this.FormBrowser_ShowURL.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_ModifyCookieRegion
+			// 
+			this.FormBrowser_ModifyCookieRegion.AutoSize = true;
+			this.FormBrowser_ModifyCookieRegion.Location = new System.Drawing.Point(282, 85);
+			this.FormBrowser_ModifyCookieRegion.Name = "FormBrowser_ModifyCookieRegion";
+			this.FormBrowser_ModifyCookieRegion.Size = new System.Drawing.Size(107, 17);
+			this.FormBrowser_ModifyCookieRegion.TabIndex = 10;
+			this.FormBrowser_ModifyCookieRegion.Text = "修改Cookie区域";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_ModifyCookieRegion, "方便非日本的直连用户访问DMM网站。");
+			this.FormBrowser_ModifyCookieRegion.UseVisualStyleBackColor = true;
+			// 
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.label18);
@@ -1675,10 +1701,10 @@
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotPathSearch);
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotPath);
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_JPEG);
-			this.groupBox2.Location = new System.Drawing.Point(6, 88);
+			this.groupBox2.Location = new System.Drawing.Point(6, 108);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(470, 77);
-			this.groupBox2.TabIndex = 9;
+			this.groupBox2.TabIndex = 11;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "屏幕截图";
 			// 
@@ -2156,5 +2182,7 @@
 		private System.Windows.Forms.CheckBox FormFleet_ShowEquipmentLevel;
 		private System.Windows.Forms.ComboBox FormFleet_AirSuperiorityMethod;
 		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.CheckBox FormBrowser_ModifyCookieRegion;
+		private System.Windows.Forms.CheckBox FormBrowser_ShowURL;
 	}
 }

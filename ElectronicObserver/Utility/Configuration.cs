@@ -755,6 +755,11 @@ namespace ElectronicObserver.Utility {
 				public bool ShowURL { get; set; }
 
 				/// <summary>
+				/// 是否修改Cookie区域
+				/// </summary>
+				public bool ModifyCookieRegion { get; set; }
+
+				/// <summary>
 				/// flashのパラメータ指定 'wmode'
 				/// </summary>
 				public string FlashWmode { get; set; }
@@ -780,6 +785,7 @@ namespace ElectronicObserver.Utility {
 					ConfirmAtRefresh = true;
 					EmbedHtml = "<embed width=\"800\" height=\"480\" wmode=\"{1}\" quality=\"{2}\" bgcolor=\"#000\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" src=\"{0}\">";
 					ShowURL = true;
+					ModifyCookieRegion = false;
 					FlashWmode = "direct";
 					FlashQuality = "high";
 				}
@@ -965,8 +971,8 @@ namespace ElectronicObserver.Utility {
 				}
 			}
 
-            [DataMember]
-            public ConfigCacheSettings CacheSettings { get; private set; }
+			[DataMember]
+			public ConfigCacheSettings CacheSettings { get; private set; }
 
 
 			public class ConfigFormBattle : ConfigPartBase {
@@ -1017,7 +1023,7 @@ namespace ElectronicObserver.Utility {
 
 				Whitecap = new ConfigWhitecap();
 
-                CacheSettings = new ConfigCacheSettings();
+				CacheSettings = new ConfigCacheSettings();
 				FormBattle = new ConfigFormBattle();
 
 			}
@@ -1219,6 +1225,87 @@ namespace ElectronicObserver.Utility {
 				}
 			}
 
+
+			// version 1.6.3 or earlier
+			if ( dt <= DateTimeHelper.CSVStringToTime( "2015/10/03 22:00:00" ) ) {
+
+				if ( MessageBox.Show(
+					"バージョンアップが検出されました。\r\nアイテムドロップ仕様の変更に伴い、艦船ドロップレコードのフォーマットを変更します。\r\n(古いファイルは Record_Backup フォルダに退避されます。)\r\nよろしいですか？\r\n(初期化せずに続行した場合、エラーが発生します。)\r\n",
+					"バージョンアップに伴う確認(～1.6.3)",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 )
+					 == DialogResult.Yes ) {
+
+					try {
+
+						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv" ) ) {
+
+							Directory.CreateDirectory( "Record_Backup" );
+						
+							if ( File.Exists( "Record_Backup\\ShipDropRecord.csv" ) ) {
+								var result = MessageBox.Show( "バックアップ先に既にファイルが存在します。\r\n上書きしますか？\r\n(キャンセルした場合、コンバート処理を中止します。)",
+									"バックアップの上書き確認", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question );
+
+								switch ( result ) {
+									case DialogResult.Yes:
+										File.Copy( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", "Record_Backup\\ShipDropRecord.csv", true );
+										break;
+									case DialogResult.No:
+										break;
+									case DialogResult.Cancel:
+										throw new InvalidOperationException( "バックアップ処理がキャンセルされました。" );
+								}
+							} else {
+								File.Copy( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", "Record_Backup\\ShipDropRecord.csv", false );
+							}
+
+
+							using ( var reader = new StreamReader( "Record_Backup\\ShipDropRecord.csv", Config.Log.FileEncoding ) ) {
+								using ( var writer = new StreamWriter( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", false, Config.Log.FileEncoding ) ) {
+
+									while ( !reader.EndOfStream ) {
+										string line = reader.ReadLine();
+										var elem = line.Split( ",".ToCharArray() ).ToList();
+
+										// 旧IDの変換
+										int oldID;
+										if ( !int.TryParse( elem[0], out oldID ) )
+											oldID = -1;
+
+										if ( oldID > 2000 ) {
+											elem[0] = "-1";
+											elem[1] = "(なし)";
+											elem.InsertRange( 2, new string[] { "-1", "(なし)", ( oldID - 2000 ).ToString(), "???" } );
+
+										} else if ( oldID > 1000 ) {
+											elem[0] = "-1";
+											elem[1] = "(なし)";
+											elem.InsertRange( 2, new string[] { ( oldID - 1000 ).ToString(), "???", "-1", "(なし)" } );
+
+										} else {
+											elem.InsertRange( 2, new string[] { "-1", "(なし)", "-1", "(なし)" } );
+
+										}
+
+
+										writer.WriteLine( string.Join( ",", elem ) );
+									}
+								}
+							}
+						}
+
+
+					} catch ( Exception ex ) {
+
+						Utility.ErrorReporter.SendErrorReport( ex, "バージョンアップに伴うレコードのコンバートに失敗しました。" );
+
+						if ( MessageBox.Show( "コンバートに失敗しました。\r\n" + ex.Message + "\r\n起動処理を続行しますか？\r\n(データが破壊される可能性があります)\r\n",
+							"エラー", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2 )
+							== DialogResult.No )
+							Environment.Exit( -1 );
+
+					}
+				}
+			}
 
 
 			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );
