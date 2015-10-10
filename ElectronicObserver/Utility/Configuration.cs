@@ -752,12 +752,12 @@ namespace ElectronicObserver.Utility {
 				/// <summary>
 				/// 是否显示URL地址
 				/// </summary>
-                public bool ShowURL { get; set; }
+				public bool ShowURL { get; set; }
 
-                /// <summary>
-                /// 是否修改Cookie区域
-                /// </summary>
-                public bool ModifyCookieRegion { get; set; }
+				/// <summary>
+				/// 是否修改Cookie区域
+				/// </summary>
+				public bool ModifyCookieRegion { get; set; }
 
 				/// <summary>
 				/// flashのパラメータ指定 'wmode'
@@ -785,7 +785,7 @@ namespace ElectronicObserver.Utility {
 					ConfirmAtRefresh = true;
 					EmbedHtml = "<embed width=\"800\" height=\"480\" wmode=\"{1}\" quality=\"{2}\" bgcolor=\"#000\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" src=\"{0}\">";
 					ShowURL = true;
-                    ModifyCookieRegion = false;
+					ModifyCookieRegion = false;
 					FlashWmode = "direct";
 					FlashQuality = "high";
 				}
@@ -971,8 +971,8 @@ namespace ElectronicObserver.Utility {
 				}
 			}
 
-            [DataMember]
-            public ConfigCacheSettings CacheSettings { get; private set; }
+			[DataMember]
+			public ConfigCacheSettings CacheSettings { get; private set; }
 
 
 			public class ConfigFormBattle : ConfigPartBase {
@@ -1023,7 +1023,7 @@ namespace ElectronicObserver.Utility {
 
 				Whitecap = new ConfigWhitecap();
 
-                CacheSettings = new ConfigCacheSettings();
+				CacheSettings = new ConfigCacheSettings();
 				FormBattle = new ConfigFormBattle();
 
 			}

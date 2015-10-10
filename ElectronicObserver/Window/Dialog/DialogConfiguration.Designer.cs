@@ -1670,29 +1670,29 @@
 			this.FormBrowser_ConfirmAtRefresh.TabIndex = 5;
 			this.FormBrowser_ConfirmAtRefresh.Text = "刷新时确认";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_ConfirmAtRefresh, "刷新时提示确认，通过才会刷新。\r\n防止误操作。");
-            this.FormBrowser_ConfirmAtRefresh.UseVisualStyleBackColor = true;
-            // 
-            // FormBrowser_ShowURL
-            // 
-            this.FormBrowser_ShowURL.AutoSize = true;
-            this.FormBrowser_ShowURL.Location = new System.Drawing.Point(6, 85);
-            this.FormBrowser_ShowURL.Name = "FormBrowser_ShowURL";
-            this.FormBrowser_ShowURL.Size = new System.Drawing.Size(96, 17);
-            this.FormBrowser_ShowURL.TabIndex = 9;
-            this.FormBrowser_ShowURL.Text = "显示URL地址";
-            this.ToolTipInfo.SetToolTip(this.FormBrowser_ShowURL, "显示或者隐藏URL地址（保护隐私）。");
-            this.FormBrowser_ShowURL.UseVisualStyleBackColor = true;
-            // 
-            // FormBrowser_ModifyCookieRegion
-            // 
-            this.FormBrowser_ModifyCookieRegion.AutoSize = true;
-            this.FormBrowser_ModifyCookieRegion.Location = new System.Drawing.Point(282, 85);
-            this.FormBrowser_ModifyCookieRegion.Name = "FormBrowser_ModifyCookieRegion";
-            this.FormBrowser_ModifyCookieRegion.Size = new System.Drawing.Size(107, 17);
-            this.FormBrowser_ModifyCookieRegion.TabIndex = 10;
-            this.FormBrowser_ModifyCookieRegion.Text = "修改Cookie区域";
-            this.ToolTipInfo.SetToolTip(this.FormBrowser_ModifyCookieRegion, "方便非日本的直连用户访问DMM网站。");
-            this.FormBrowser_ModifyCookieRegion.UseVisualStyleBackColor = true;
+			this.FormBrowser_ConfirmAtRefresh.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_ShowURL
+			// 
+			this.FormBrowser_ShowURL.AutoSize = true;
+			this.FormBrowser_ShowURL.Location = new System.Drawing.Point(6, 85);
+			this.FormBrowser_ShowURL.Name = "FormBrowser_ShowURL";
+			this.FormBrowser_ShowURL.Size = new System.Drawing.Size(96, 17);
+			this.FormBrowser_ShowURL.TabIndex = 9;
+			this.FormBrowser_ShowURL.Text = "显示URL地址";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_ShowURL, "显示或者隐藏URL地址（保护隐私）。");
+			this.FormBrowser_ShowURL.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_ModifyCookieRegion
+			// 
+			this.FormBrowser_ModifyCookieRegion.AutoSize = true;
+			this.FormBrowser_ModifyCookieRegion.Location = new System.Drawing.Point(282, 85);
+			this.FormBrowser_ModifyCookieRegion.Name = "FormBrowser_ModifyCookieRegion";
+			this.FormBrowser_ModifyCookieRegion.Size = new System.Drawing.Size(107, 17);
+			this.FormBrowser_ModifyCookieRegion.TabIndex = 10;
+			this.FormBrowser_ModifyCookieRegion.Text = "修改Cookie区域";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_ModifyCookieRegion, "方便非日本的直连用户访问DMM网站。");
+			this.FormBrowser_ModifyCookieRegion.UseVisualStyleBackColor = true;
 			// 
 			// groupBox2
 			// 
