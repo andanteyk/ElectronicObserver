@@ -63,6 +63,7 @@ namespace ElectronicObserver.Window {
 
 		private const string LAYOUT_FILE1 = @"Settings\WindowLayout.zip";
 		private const string LAYOUT_FILE2 = @"Settings\WindowLayout2.zip";
+		internal const string START2_FILE = @"Record\api_start2.json";
 
 		public FormMain() {
 			this.SuspendLayoutForDpiScale();
@@ -146,6 +147,20 @@ namespace ElectronicObserver.Window {
 			fBrowser.InitializeApiCompleted();
 
 			UIUpdateTimer.Start();
+
+			// 初始加载本地 api_start2
+			if ( File.Exists( START2_FILE ) )
+			{
+				try
+				{
+					string data = File.ReadAllText( START2_FILE );
+					APIObserver.Instance.LoadResponse( "/kcsapi/api_start2", data );
+				}
+				catch ( Exception ex )
+				{
+					Utility.ErrorReporter.SendErrorReport( ex, "启动时加载本地 api_start2 失败。" );
+				}
+			}
 
 			Utility.Logger.Add( 2, "启动处理完毕。" );
 		}
