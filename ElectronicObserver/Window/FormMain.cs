@@ -347,9 +347,11 @@ namespace ElectronicObserver.Window {
 			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
 			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
-			MainDockPanel.AllowEndUserDocking =
-			MainDockPanel.AllowSplitterDrag = !c.Life.IsLocked;
-			StripMenu_File_Layout_Lock.Checked = c.Life.IsLocked;
+            MainDockPanel.CanClosePane =
+            MainDockPanel.CanHidePane =
+            MainDockPanel.AllowEndUserDocking =
+            MainDockPanel.AllowSplitterDrag = !c.Life.IsLocked;
+            StripMenu_File_Layout_Lock.Checked = c.Life.IsLocked;
 
 			// color theme
 			foreach ( var f in SubForms ) {
@@ -760,18 +762,23 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		private void StripMenu_File_Layout_Lock_Click( object sender, EventArgs e ) {
+        private void StripMenu_File_Layout_Lock_Click(object sender, EventArgs e)
+        {
 
-			bool locked = !StripMenu_File_Layout_Lock.Checked;
+            bool locked = !StripMenu_File_Layout_Lock.Checked;
 
-			MainDockPanel.AllowEndUserDocking =
-			MainDockPanel.AllowSplitterDrag = !locked;
+            MainDockPanel.CanClosePane =
+            MainDockPanel.CanHidePane =
+            MainDockPanel.AllowEndUserDocking =
+            MainDockPanel.AllowSplitterDrag = !locked;
+            MainDockPanel.AllowEndUserDocking =
+            MainDockPanel.AllowSplitterDrag = !locked;
 
-			Utility.Configuration.Config.Life.IsLocked = locked;
+            Utility.Configuration.Config.Life.IsLocked = locked;
 
-			StripMenu_File_Layout_Lock.Checked = locked;
+            StripMenu_File_Layout_Lock.Checked = locked;
 
-		}
+        }
 
 		private void StripMenu_File_Layout_Open_Click( object sender, EventArgs e ) {
 
