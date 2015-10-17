@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3963C117-D019-4D05-A006-CDE62ADEC724}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RecordView</RootNamespace>
+    <AssemblyName>RecordView</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\ShimakazeGo\74eo - Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\BattleExporter.cs" />
+    <Compile Include="Classes\BattleRecord.cs" />
+    <Compile Include="Classes\BindingList.cs" />
+    <Compile Include="Window\ConstructionViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\ConstructionViewer.Designer.cs">
+      <DependentUpon>ConstructionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\DevelopmentViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\DevelopmentViewer.Designer.cs">
+      <DependentUpon>DevelopmentViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\DialogBattleReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\DialogBattleReport.designer.cs">
+      <DependentUpon>DialogBattleReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\DropViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\DropViewer.Designer.cs">
+      <DependentUpon>DropViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\BattleViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\BattleViewer.Designer.cs">
+      <DependentUpon>BattleViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\PatternModifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\PatternModifier.Designer.cs">
+      <DependentUpon>PatternModifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\RecordViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\RecordViewer.Designer.cs">
+      <DependentUpon>RecordViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSelection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeSelection.Designer.cs">
+      <DependentUpon>TimeSelection.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Window\ConstructionViewer.resx">
+      <DependentUpon>ConstructionViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\DevelopmentViewer.resx">
+      <DependentUpon>DevelopmentViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\DialogBattleReport.resx">
+      <DependentUpon>DialogBattleReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\DropViewer.resx">
+      <DependentUpon>DropViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\BattleViewer.resx">
+      <DependentUpon>BattleViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\PatternModifier.resx">
+      <DependentUpon>PatternModifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\RecordViewer.resx">
+      <DependentUpon>RecordViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="TimeSelection.resx">
+      <DependentUpon>TimeSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ElectronicObserver\ElectronicObserver.csproj">
+      <Project>{a9abec50-1bfc-4c69-87ae-c68db6004f68}</Project>
+      <Name>ElectronicObserver</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
