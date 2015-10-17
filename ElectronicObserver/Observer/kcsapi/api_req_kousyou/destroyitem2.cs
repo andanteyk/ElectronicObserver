@@ -9,21 +9,27 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 	public class destroyitem2 : APIBase {
 
+		Dictionary<string, string> request;
 
 		public override void OnRequestReceived( Dictionary<string, string> data ) {
-
-			KCDatabase db = KCDatabase.Instance;
-
-			foreach ( string id in data["api_slotitem_ids"].Split( ",".ToCharArray() ) ) {
-
-				db.Equipments.Remove( int.Parse( id ) );
-			}
+			request = data;
 			
 			base.OnRequestReceived( data );
 		}
 
 
 		public override void OnResponseReceived( dynamic data ) {
+
+			if ( request != null )
+			{
+				KCDatabase db = KCDatabase.Instance;
+
+				foreach ( string id in request["api_slotitem_ids"].Split( ",".ToCharArray() ) )
+				{
+
+					db.Equipments.Remove( int.Parse( id ) );
+				}
+			}
 
 			KCDatabase.Instance.Material.LoadFromResponse( APIName, data );
 
