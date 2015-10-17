@@ -50,9 +50,9 @@ namespace KanProtector
                         Warning = HandleRequest.OnDestroyShip(oSession.GetRequestBodyAsString());
                         if (Warning != null)
                         {
-                            //oSession.oResponse.headers.HTTPResponseCode = 502;
-                            //oSession.utilCreateResponseAndBypassServer();
-                            //oSession.oResponse.headers.HTTPResponseCode = 502;
+                            oSession.oResponse.headers.HTTPResponseCode = 502;
+                            oSession.utilCreateResponseAndBypassServer();
+                            oSession.oResponse.headers.HTTPResponseCode = 502;
                             ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
                         }
                         else
@@ -64,9 +64,9 @@ namespace KanProtector
                         Warning = HandleRequest.OnDestroyItem(oSession.GetRequestBodyAsString());
                         if (Warning != null)
                         {
-                            //oSession.oResponse.headers.HTTPResponseCode = 502;
-                            //oSession.utilCreateResponseAndBypassServer();
-                            //oSession.oResponse.headers.HTTPResponseCode = 502;
+                            oSession.oResponse.headers.HTTPResponseCode = 502;
+                            oSession.utilCreateResponseAndBypassServer();
+                            oSession.oResponse.headers.HTTPResponseCode = 502;
                             ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
                         }
                         else
@@ -76,9 +76,9 @@ namespace KanProtector
                         Warning = HandleRequest.OnPowerUp(oSession.GetRequestBodyAsString());
                         if (Warning != null)
                         {
-                            //oSession.oResponse.headers.HTTPResponseCode = 502;
-                            //oSession.utilCreateResponseAndBypassServer();
-                            //oSession.oResponse.headers.HTTPResponseCode = 502;
+                            oSession.oResponse.headers.HTTPResponseCode = 502;
+                            oSession.utilCreateResponseAndBypassServer();
+                            oSession.oResponse.headers.HTTPResponseCode = 502;
                             ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
                         }
                         else
