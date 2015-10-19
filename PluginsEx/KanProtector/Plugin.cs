@@ -82,14 +82,14 @@ namespace KanProtector
                         }
 
                         break;
-                    //case "api_req_kaisou/lock":
-                    //    Warning = HandleRequest.OnLock(oSession.GetRequestBodyAsString());
-                    //    if (Warning != null)
-                    //    {
-                    //        ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
-                    //    }
+                    case "api_req_kaisou/lock":
+                        //Warning = HandleRequest.OnLock(oSession.GetRequestBodyAsString());
+                        //if (Warning != null)
+                        //{
+                        //    ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
+                        //}
 
-                    //    break;
+                        break;
                 }
             }
         }
