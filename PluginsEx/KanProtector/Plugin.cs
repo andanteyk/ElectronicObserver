@@ -31,6 +31,7 @@ namespace KanProtector
         public override bool RunService(ElectronicObserver.Window.FormMain main)
         {
             ProtectionData.Instance.LoadConfig();
+            //ElectronicObserver.Observer.APIObserver.Instance.APIList.
             Fiddler.FiddlerApplication.BeforeRequest += FiddlerApplication_BeforeRequest;
             return true;
         }
@@ -50,13 +51,12 @@ namespace KanProtector
                         Warning = HandleRequest.OnDestroyShip(oSession.GetRequestBodyAsString());
                         if (Warning != null)
                         {
+                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
                             oSession.oResponse.headers.HTTPResponseCode = 502;
                             oSession.utilCreateResponseAndBypassServer();
-                            oSession.oResponse.headers.HTTPResponseCode = 502;
-                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
+                            oSession.oResponse.headers.HTTPResponseCode = 502;  
                         }
-                        else
-                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", "拆船没有问题"));
+
                         break;
                     case "api_req_kousyou/destroyitem2":
                         if (!ProtectionData.Instance.EquipmentProtectionEnabled)
@@ -64,26 +64,32 @@ namespace KanProtector
                         Warning = HandleRequest.OnDestroyItem(oSession.GetRequestBodyAsString());
                         if (Warning != null)
                         {
+                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
                             oSession.oResponse.headers.HTTPResponseCode = 502;
                             oSession.utilCreateResponseAndBypassServer();
-                            oSession.oResponse.headers.HTTPResponseCode = 502;
-                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
+                            oSession.oResponse.headers.HTTPResponseCode = 502;                         
                         }
-                        else
-                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", "废弃没有问题"));
+
                         break;
                     case "api_req_kaisou/powerup":
                         Warning = HandleRequest.OnPowerUp(oSession.GetRequestBodyAsString());
                         if (Warning != null)
                         {
+                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
                             oSession.oResponse.headers.HTTPResponseCode = 502;
                             oSession.utilCreateResponseAndBypassServer();
-                            oSession.oResponse.headers.HTTPResponseCode = 502;
-                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
+                            oSession.oResponse.headers.HTTPResponseCode = 502;                          
                         }
-                        else
-                            ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", "强化没有问题"));
+
                         break;
+                    //case "api_req_kaisou/lock":
+                    //    Warning = HandleRequest.OnLock(oSession.GetRequestBodyAsString());
+                    //    if (Warning != null)
+                    //    {
+                    //        ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
+                    //    }
+
+                    //    break;
                 }
             }
         }

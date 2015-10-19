@@ -12,6 +12,8 @@ namespace KanProtector
         const string DestroyShipID = "api.ship.id";
         const string DestroyItemList = "api.slotitem.ids";
         const string PowerUpList = "api.id.items";
+        const string LockShipID = "api.ship.id";
+        const string LockItemID = "api.slotitem.id";
         public static string OnDestroyShip(string body)
         {
             try
@@ -104,6 +106,51 @@ namespace KanProtector
             return null;
         }
 
+        public static string OnLock(string body)
+        {
+            try
+            {
+                Dictionary<string, string> api = GetAPI(body);
+                if (api.ContainsKey(LockShipID))
+                {
+                    int shipID = int.Parse(api[LockShipID]);
+                    ShipData ship = KCDatabase.Instance.Ships[shipID];
+                    if (ship.IsLocked)
+                    {
+                        if (ship.IsLocked && ProtectionData.Instance.ShipProtectionEnabled && ProtectionData.Instance.isShipProtected(shipID))
+                            return "解锁了被保护的舰娘[" + ship.NameWithLevel + "]";
+                        //ship.IsLocked = !ship.IsLocked;
+                    }
+                    if (ProtectionData.Instance.EquipmentProtectionEnabled)
+                    {
+                        foreach (int ItemID in ship.SlotMaster)
+                        {
+                            if (ProtectionData.Instance.isEquipmentProtected(ItemID))
+                            {
+                                return "解锁的舰娘上存在被保护的装备[" + KCDatabase.Instance.MasterEquipments[ItemID].Name + "]";
+                            }
+                        }
+                    }
+                }
+                if (api.ContainsKey(LockItemID))
+                {
+                    string item = api[LockItemID];
+
+                    int ItemID = int.Parse(item);
+                    int ID = KCDatabase.Instance.Equipments[ItemID].EquipmentID;
+                    if (KCDatabase.Instance.Equipments[ItemID].IsLocked && ProtectionData.Instance.isEquipmentProtected(ID))
+                    {
+                        return "解锁了被保护的装备[" + KCDatabase.Instance.MasterEquipments[ID].Name + "]";
+                    }
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", e.Message + Environment.NewLine + e.StackTrace));
+            }
+            return null;
+        }
         static Dictionary<string, string> GetAPI(string body)
         {
             string str = body.Replace("%5F", ".");

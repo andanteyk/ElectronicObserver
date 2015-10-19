@@ -16,7 +16,7 @@ namespace KanProtector
         public bool ShipProtectionEnabled = false;
         public bool EquipmentProtectionEnabled = false;
 
-        const string DataFileName = "\\settings\\KanProtect.xml";
+        const string DataFileName = "\\settings\\KanProtector.xml";
         string DataFile;
         public List<ShipProtection> shipList;
         public List<int> equipmentList;
@@ -222,31 +222,14 @@ namespace KanProtector
 
         public int AddShip(int ID, bool derived, ProtectionType type, bool rewriten = false)
         {
-            ShipProtection protection = null;
-            for (int index = 0; index < shipList.Count; index++)
-            {
-                ShipProtection sp = shipList[index];
-                if (sp.shipID == ID )
-                {
-                    if (rewriten)
-                    {
-                        protection = shipList[index];
-                        break;
-                    }
-                    else
-                        return index;
-                }
-            }
-            if (protection == null)
-            {
-                protection = new ShipProtection();
+            ShipProtection               protection = new ShipProtection();
                 shipList.Add(protection);
-            }
+            
             protection.shipID = ID;
             protection.isContainDerived = derived;
             protection.protectionType = type;
             return -1;
-        }
+    }
 
         public int AddShip(ShipProtection shipProtection, bool rewriten = false)
         {
