@@ -296,6 +296,13 @@ namespace ElectronicObserver.Observer {
 				}
 			}
 
+			// 保存本地api_start2
+			if ( oSession.PathAndQuery == "/kcsapi/api_start2" )
+			{
+				if ( !Directory.Exists( "Record" ) )
+					Directory.CreateDirectory( "Record" );
+				oSession.SaveResponseBody( @"Record\api_start2.json" );
+			}
 
 
 			if ( ServerAddress == null ) {

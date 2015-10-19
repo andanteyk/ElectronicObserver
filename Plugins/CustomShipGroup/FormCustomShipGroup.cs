@@ -99,6 +99,7 @@ namespace ElectronicObserver.Window {
 				var label = new ImageLabel();
 				label.Text = ct.Key;
 				label.Font = ShipView.Font;
+                label.ForeColor = SystemColors.ControlText;
 				label.BackColor = TabInactiveColor;
 				label.BorderStyle = BorderStyle.FixedSingle;
 				label.Padding = new Padding( 4, 4, 7, 7 );
@@ -130,6 +131,11 @@ namespace ElectronicObserver.Window {
 
 			CSDefaultRight = new DataGridViewCellStyle( CSDefaultLeft );
 			CSDefaultRight.Alignment = DataGridViewContentAlignment.MiddleRight;
+            CSDefaultRight.BackColor = SystemColors.Control;
+            CSDefaultRight.Font = Font;
+            CSDefaultRight.ForeColor = SystemColors.ControlText;
+            CSDefaultRight.SelectionBackColor = Color.FromArgb(0xFF, 0xFF, 0xCC);
+            CSDefaultRight.SelectionForeColor = SystemColors.ControlText;
 
 			CSRedRight = new DataGridViewCellStyle( CSDefaultRight );
 			CSRedRight.BackColor =
@@ -167,6 +173,8 @@ namespace ElectronicObserver.Window {
 			ShipView_Equipment3.DefaultCellStyle = CSDefaultLeft;
 			ShipView_Equipment4.DefaultCellStyle = CSDefaultLeft;
 			ShipView_Equipment5.DefaultCellStyle = CSDefaultLeft;
+
+            ShipView.ForeColor = SystemColors.ControlText;
 
 			ShipView.ColumnHeadersHeight = this.GetDpiHeight( 24 );
 
@@ -248,9 +256,13 @@ namespace ElectronicObserver.Window {
 		{
 			foreach ( var type in KCDatabase.Instance.ShipTypes.Values.OrderBy( t => t.SortID ) )
 			{
-				// 敌方补给舰不显示
-				if ( type.TypeID == 15 )
+				// 敌方补给舰不显示 海防舰  超弩级 也不显示
+				if ( type.TypeID == 1 )
 					continue;
+                if (type.TypeID == 12)
+                    continue;
+                if (type.TypeID == 15)
+                    continue;
 
 				var check = new CheckBox();
 				check.AutoSize = true;
@@ -304,6 +316,7 @@ namespace ElectronicObserver.Window {
 			label.Anchor = AnchorStyles.Left;
 			label.Font = ShipView.Font;
 			label.BackColor = TabInactiveColor;
+            label.ForeColor = SystemColors.ControlText;
 			label.BorderStyle = BorderStyle.FixedSingle;
 			label.Padding = new Padding( 4, 4, 7, 7 );
 			label.Margin = new Padding( 0, 0, 0, 0 );
@@ -459,6 +472,10 @@ namespace ElectronicObserver.Window {
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
 			row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
 
+            //foreach(var cell in row.Cells)
+            //{
+            //    ((DataGridViewCell)cell).Style = CSDefaultRight;
+            //}
 			{
 				DataGridViewCellStyle cs;
 				double hprate = (double)ship.HPCurrent / Math.Max( ship.HPMax, 1 );
