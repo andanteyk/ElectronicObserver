@@ -98,7 +98,8 @@ namespace RecordView
         private void button2_Click(object sender, EventArgs e)
         {
             internalChange = true;
-            dateTimePicker1.Value = DateTime.Now.AddDays(-6);
+            DateTime dt1=DateTime.Now.AddDays(-6);
+            dateTimePicker1.Value = dt1 < dateTimePicker1.MinDate ? dateTimePicker1.MinDate : dt1;
             dateTimePicker2.Value = DateTime.Now;
             internalChange = false;
             OnDateChanged(new EventArgs());
