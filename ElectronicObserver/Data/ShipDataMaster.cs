@@ -72,7 +72,7 @@ namespace ElectronicObserver.Data {
 				int id;
 				if ( RawData.api_aftershipid() ) {
 					id = int.Parse( (string)RawData.api_aftershipid );
-					if ( id == 461 ) {
+					if ( id == 466 ) {
 						id = 0;
 					}
 				} else
