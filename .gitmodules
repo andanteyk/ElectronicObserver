@@ -1,3 +1,6 @@
 [submodule "DockPanelSuite"]
 	path = DockPanelSuite
 	url = https://github.com/tsanie/dockpanelsuite.git
+[submodule "dockpanelsuite"]
+	path = dockpanelsuite
+	url = ./dockpanelsuite

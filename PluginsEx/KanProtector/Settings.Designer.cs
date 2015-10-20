@@ -68,6 +68,7 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.cbPrimaryProtect = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -93,6 +94,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.cbPrimaryProtect);
             this.tabPage1.Controls.Add(this.dataGridView1);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.checkBox1);
@@ -237,7 +239,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(214, 6);
+            this.button1.Location = new System.Drawing.Point(245, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(77, 26);
             this.button1.TabIndex = 2;
@@ -273,7 +275,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(405, 8);
+            this.button3.Location = new System.Drawing.Point(328, 6);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 6;
@@ -455,6 +457,17 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
+            // cbPrimaryProtect
+            // 
+            this.cbPrimaryProtect.AutoSize = true;
+            this.cbPrimaryProtect.Location = new System.Drawing.Point(119, 12);
+            this.cbPrimaryProtect.Name = "cbPrimaryProtect";
+            this.cbPrimaryProtect.Size = new System.Drawing.Size(84, 16);
+            this.cbPrimaryProtect.TabIndex = 3;
+            this.cbPrimaryProtect.Text = "主力舰保护";
+            this.cbPrimaryProtect.UseVisualStyleBackColor = true;
+            this.cbPrimaryProtect.CheckedChanged += new System.EventHandler(this.cbPrimaryProtect_CheckedChanged);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -513,5 +526,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.CheckBox cbPrimaryProtect;
 	}
 }

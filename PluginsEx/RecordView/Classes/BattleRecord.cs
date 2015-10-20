@@ -323,66 +323,60 @@ namespace RecordView
                     try
                     {
                         fire[0] = pd1.IsAACutinAvailable;
-                    }
-                    catch
-                    {
 
-                    }
-                    try
-                    {
                         if (s1available[1])
                         {
                             if (pd2 != null)
                                 if (pd2.IsAACutinAvailable)
                                     fire[1] = true;
                         }
+
+                        int[] cutinID = new int[]
+						{
+							fire[0] ? pd1.AACutInKind : -1,
+							fire[1] ? pd2.AACutInKind : -1,
+						};
+                        Record.AirBattle1.AirSuperiority = pd1.AirSuperiority;
+                        Record.AirBattle1.AACutInKind = cutinID[0];
+                        if (cutinID[0] >= 0)
+                            Record.AirBattle1.AACutInID = pd1.AACutInShip.ShipID;
+
+                        Record.AirBattle1.FriendLostS1 = pd1.AircraftLostStage1Friend;
+                        Record.AirBattle1.FriendTotalS1 = pd1.AircraftTotalStage1Friend;
+                        Record.AirBattle1.EnemyLostS1 = pd1.AircraftLostStage1Enemy;
+                        Record.AirBattle1.EnemyTotalS1 = pd1.AircraftTotalStage1Enemy;
+                        if (pd1.IsStage2Available)
+                        {
+                            Record.AirBattle1.FriendLostS2 = pd1.AircraftLostStage2Friend;
+                            Record.AirBattle1.FriendTotalS2 = pd1.AircraftTotalStage2Friend;
+                            Record.AirBattle1.EnemyLostS2 = pd1.AircraftLostStage2Enemy;
+                            Record.AirBattle1.EnemyTotalS2 = pd1.AircraftTotalStage2Enemy;
+                        }
+                        if (pd2 != null)
+                        {
+                            Record.AirBattle2.AirSuperiority = pd2.AirSuperiority;
+                            Record.AirBattle2.AACutInKind = cutinID[1];
+
+                            if (cutinID[1] >= 0)
+                                Record.AirBattle2.AACutInID = pd2.AACutInShip.ShipID;
+
+                            Record.AirBattle2.FriendLostS1 = pd2.AircraftLostStage1Friend;
+                            Record.AirBattle2.FriendTotalS1 = pd2.AircraftTotalStage1Friend;
+                            Record.AirBattle2.EnemyLostS1 = pd2.AircraftLostStage1Enemy;
+                            Record.AirBattle2.EnemyTotalS1 = pd2.AircraftTotalStage1Enemy;
+                            if (pd2.IsStage2Available)
+                            {
+                                Record.AirBattle2.FriendLostS2 = pd2.AircraftLostStage2Friend;
+                                Record.AirBattle2.FriendTotalS2 = pd2.AircraftTotalStage2Friend;
+                                Record.AirBattle2.EnemyLostS2 = pd2.AircraftLostStage2Enemy;
+                                Record.AirBattle2.EnemyTotalS2 = pd2.AircraftTotalStage2Enemy;
+                            }
+                        }
                     }
                     catch
                     {
 
                     }
-                    int[] cutinID = new int[]
-						{
-							fire[0] ? pd1.AACutInKind : -1,
-							fire[1] ? pd2.AACutInKind : -1,
-						};
-                    Record.AirBattle1.AirSuperiority = pd1.AirSuperiority;
-                    Record.AirBattle1.AACutInKind = cutinID[0];
-                    if (cutinID[0] >= 0)
-                        Record.AirBattle1.AACutInID = pd1.AACutInShip.ShipID;
-
-                    Record.AirBattle1.FriendLostS1 = pd1.AircraftLostStage1Friend;
-                    Record.AirBattle1.FriendTotalS1 = pd1.AircraftTotalStage1Friend;
-                    Record.AirBattle1.EnemyLostS1 = pd1.AircraftLostStage1Enemy;
-                    Record.AirBattle1.EnemyTotalS1 = pd1.AircraftTotalStage1Enemy;
-                    if (pd1.IsStage2Available)
-                    {
-                        Record.AirBattle1.FriendLostS2 = pd1.AircraftLostStage2Friend;
-                        Record.AirBattle1.FriendTotalS2 = pd1.AircraftTotalStage2Friend;
-                        Record.AirBattle1.EnemyLostS2 = pd1.AircraftLostStage2Enemy;
-                        Record.AirBattle1.EnemyTotalS2 = pd1.AircraftTotalStage2Enemy;
-                    }
-                    if (pd2 != null)
-                    {
-                        Record.AirBattle2.AirSuperiority = pd2.AirSuperiority;
-                        Record.AirBattle2.AACutInKind = cutinID[1];
-
-                        if (cutinID[1] >= 0)
-                            Record.AirBattle2.AACutInID = pd2.AACutInShip.ShipID;
-
-                        Record.AirBattle2.FriendLostS1 = pd2.AircraftLostStage1Friend;
-                        Record.AirBattle2.FriendTotalS1 = pd2.AircraftTotalStage1Friend;
-                        Record.AirBattle2.EnemyLostS1 = pd2.AircraftLostStage1Enemy;
-                        Record.AirBattle2.EnemyTotalS1 = pd2.AircraftTotalStage1Enemy;
-                        if (pd2.IsStage2Available)
-                        {
-                            Record.AirBattle2.FriendLostS2 = pd2.AircraftLostStage2Friend;
-                            Record.AirBattle2.FriendTotalS2 = pd2.AircraftTotalStage2Friend;
-                            Record.AirBattle2.EnemyLostS2 = pd2.AircraftLostStage2Enemy;
-                            Record.AirBattle2.EnemyTotalS2 = pd2.AircraftTotalStage2Enemy;
-                        }
-                    }
-
                     //day.AirBattle.StageFlag
                     // 航空战血量变化
                     if (day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available)

@@ -12,8 +12,10 @@ using Fiddler;
 namespace KanProtector
 {
 
-    public class MissionPlugin : ServerPlugin
+    public class ProtectionPlugin : ServerPlugin
     {
+        public static bool DebugMode = false;
+
         public override string MenuTitle
         {
             get { return "侠客行"; }
@@ -21,7 +23,7 @@ namespace KanProtector
 
         public override string Version
         {
-            get { return "1.0.0.1"; }//MainDockPanel
+            get { return "1.0.0.2"; }//MainDockPanel
         }
         public override PluginSettingControl GetSettings()
         {
@@ -38,6 +40,7 @@ namespace KanProtector
 
         void FiddlerApplication_BeforeRequest(Session oSession)
         {
+            //ElectronicObserver.Data.KCDatabase.Instance.MasterShips[288].RemodelAfterShipID = 461;
             if (!ProtectionData.Instance.ShipProtectionEnabled && !ProtectionData.Instance.EquipmentProtectionEnabled)
                 return;
             int index = oSession.fullUrl.IndexOf("/kcsapi/");
@@ -52,9 +55,12 @@ namespace KanProtector
                         if (Warning != null)
                         {
                             ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
-                            oSession.oResponse.headers.HTTPResponseCode = 502;
-                            oSession.utilCreateResponseAndBypassServer();
-                            oSession.oResponse.headers.HTTPResponseCode = 502;  
+                            if (!DebugMode)
+                            {
+                                oSession.oResponse.headers.HTTPResponseCode = 502;
+                                oSession.utilCreateResponseAndBypassServer();
+                                oSession.oResponse.headers.HTTPResponseCode = 502;
+                            }
                         }
 
                         break;
@@ -65,9 +71,12 @@ namespace KanProtector
                         if (Warning != null)
                         {
                             ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
-                            oSession.oResponse.headers.HTTPResponseCode = 502;
-                            oSession.utilCreateResponseAndBypassServer();
-                            oSession.oResponse.headers.HTTPResponseCode = 502;                         
+                            if (!DebugMode)
+                            {
+                                oSession.oResponse.headers.HTTPResponseCode = 502;
+                                oSession.utilCreateResponseAndBypassServer();
+                                oSession.oResponse.headers.HTTPResponseCode = 502;
+                            }                        
                         }
 
                         break;
@@ -76,9 +85,12 @@ namespace KanProtector
                         if (Warning != null)
                         {
                             ElectronicObserver.Utility.Logger.Add(3, string.Format("{0}", Warning));
-                            oSession.oResponse.headers.HTTPResponseCode = 502;
-                            oSession.utilCreateResponseAndBypassServer();
-                            oSession.oResponse.headers.HTTPResponseCode = 502;                          
+                            if (!DebugMode)
+                            {
+                                oSession.oResponse.headers.HTTPResponseCode = 502;
+                                oSession.utilCreateResponseAndBypassServer();
+                                oSession.oResponse.headers.HTTPResponseCode = 502;
+                            }                     
                         }
 
                         break;

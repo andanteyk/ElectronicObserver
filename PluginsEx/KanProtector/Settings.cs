@@ -70,9 +70,12 @@ namespace KanProtector
                 this.Enabled = false;
                 return;
             }
+            button3.Visible = ProtectionPlugin.DebugMode;
+
             Initial = true;
             checkBox1.Checked = ProtectionData.Instance.ShipProtectionEnabled;
             checkBox2.Checked = ProtectionData.Instance.EquipmentProtectionEnabled;
+            cbPrimaryProtect.Checked = ProtectionData.Instance.ProtectPrimary;
 
             LoadShipData();
             LoadEquipmentData();
@@ -125,6 +128,12 @@ namespace KanProtector
             if (e.KeyCode == Keys.Delete)
             {
                 DeleteRows();
+            }
+            if (e.KeyCode == Keys.D && e.Control)
+            {
+                ProtectionPlugin.DebugMode = !ProtectionPlugin.DebugMode;
+                button3.Visible = ProtectionPlugin.DebugMode;
+                ElectronicObserver.Utility.Logger.Add(3, string.Format("侠客行调试模式已经{0}", ProtectionPlugin.DebugMode ? "开启" : "关闭"));
             }
         }
 
@@ -215,6 +224,12 @@ namespace KanProtector
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             ProtectionData.Instance.EquipmentProtectionEnabled = checkBox2.Checked;
+            ProtectionData.Instance.SaveConfig();
+        }
+
+        private void cbPrimaryProtect_CheckedChanged(object sender, EventArgs e)
+        {
+            ProtectionData.Instance.ProtectPrimary = cbPrimaryProtect.Checked;
             ProtectionData.Instance.SaveConfig();
         }
 
@@ -387,8 +402,10 @@ namespace KanProtector
             string Warning = HandleRequest.OnDestroyShip(s);
             s = System.IO.File.ReadAllText("d:\\2.json");
             Warning = HandleRequest.OnDestroyItem(s);
-            //s = System.IO.File.ReadAllText("d:\\3.json");
-            //Warning = HandleRequest.OnPowerUp(s);
+            s = System.IO.File.ReadAllText("d:\\3.json");
+            Warning = HandleRequest.OnPowerUp(s);
         }
+
+     
     }
 }

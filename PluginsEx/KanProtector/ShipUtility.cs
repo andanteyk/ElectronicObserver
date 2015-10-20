@@ -19,7 +19,12 @@ namespace KanProtector
             {
                 ships.Add(id);
                 var Ship = KCDatabase.Instance.MasterShips[id];
-                id = Ship.RemodelAfterShipID;
+                if (id == 288)
+                {
+                    id = 461;
+                }
+                else
+                    id = Ship.RemodelAfterShipID;
             }
             return ships;
         }
