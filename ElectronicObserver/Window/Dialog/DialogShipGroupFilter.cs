@@ -976,7 +976,8 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( e.RowIndex < 0 ) return;
 
 			int procrow = GetSelectedRow( ExpressionView );
-			if ( procrow == -1 ) {
+			if ( procrow < 0 || procrow >= _group.Expressions.Expressions.Count ||
+				e.RowIndex >= _group.Expressions[procrow].Expressions.Count ) {
 				return;
 			}
 
