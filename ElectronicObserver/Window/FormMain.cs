@@ -149,7 +149,7 @@ namespace ElectronicObserver.Window {
 			UIUpdateTimer.Start();
 
 			// 初始加载本地 api_start2
-			if ( File.Exists( START2_FILE ) )
+			if ( Utility.Configuration.Config.CacheSettings.SaveApiStart2 && File.Exists( START2_FILE ) )
 			{
 				try
 				{
