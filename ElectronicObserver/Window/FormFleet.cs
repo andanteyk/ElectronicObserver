@@ -819,13 +819,15 @@ namespace ElectronicObserver.Window {
 						eqcount++;
 					}
 
-					sb.Remove( sb.Length - 1, 1 );		// remove ","
+					if ( eqcount > 0 )
+						sb.Remove( sb.Length - 1, 1 );		// remove ","
 					sb.Append( @"}}," );
 
 					shipcount++;
 				}
 
-				sb.Remove( sb.Length - 1, 1 );		// remove ","
+				if ( shipcount > 0 )
+					sb.Remove( sb.Length - 1, 1 );		// remove ","
 				sb.Append( @"}," );
 
 			}
