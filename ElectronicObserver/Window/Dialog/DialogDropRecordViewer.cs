@@ -151,6 +151,14 @@ namespace ElectronicObserver.Window.Dialog {
 			return sb.ToString();
 		}
 
+		private string GetMapString( int serialID, bool insertEnemyFleetName = true ) {
+			return GetMapString( serialID >> 24 & 0xFF, serialID >> 16 & 0xFF, serialID >> 8 & 0xFF, ( serialID & 1 ) != 0, (sbyte)( ( serialID >> 1 & 0x7F ) << 1 ) >> 1, insertEnemyFleetName );
+		}
+
+		private int GetMapSerialID( int maparea, int mapinfo, int cell, bool isboss, int difficulty = -1 ) {
+			return ( maparea & 0xFF ) << 24 | ( mapinfo & 0xFF ) << 16 | ( cell & 0xFF ) << 8 | ( difficulty & 0x7F ) << 1 | ( isboss ? 1 : 0 );
+		}
+
 
 		private void ButtonRun_Click( object sender, EventArgs e ) {
 
@@ -191,7 +199,7 @@ namespace ElectronicObserver.Window.Dialog {
 				DropView_Date.Width = 150;
 				DropView_Date.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 				DropView_Map.HeaderText = "海域";
-				DropView_Map.Width = 120;
+				DropView_Map.Width = 240;
 				DropView_Map.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 				DropView_Rank.HeaderText = "ランク";
 				DropView_Rank.Width = 40;
@@ -351,7 +359,7 @@ namespace ElectronicObserver.Window.Dialog {
 								continue;
 							break;
 					}
-					if ( difficulty != MapAny && int.Parse( difficulty ) != r.Difficulty )
+					if ( difficulty != MapAny && difficulty != Constants.GetDifficulty( r.Difficulty ) )
 						continue;
 
 
@@ -360,7 +368,7 @@ namespace ElectronicObserver.Window.Dialog {
 						string key;
 
 						if ( priorityContent == 2 ) {
-							key = GetMapString( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, difficulty == MapAny ? -1 : r.Difficulty, false );
+							key = GetMapSerialID( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, difficulty == MapAny ? -1 : r.Difficulty ).ToString( "X8" );
 
 						} else {
 							key = GetContentString( r, priorityShip < priorityItem && priorityShip < 2, priorityShip >= priorityItem && priorityItem < 2 );
@@ -440,6 +448,8 @@ namespace ElectronicObserver.Window.Dialog {
 							Constants.GetWinRank( r.Rank )
 							);
 
+						row.Cells[3].Tag = GetMapSerialID( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, r.Difficulty );
+
 						rows.AddLast( row );
 
 
@@ -449,7 +459,7 @@ namespace ElectronicObserver.Window.Dialog {
 						string key;
 
 						if ( priorityContent == 2 ) {
-							key = GetMapString( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, difficulty == MapAny ? -1 : r.Difficulty, false );
+							key = GetMapSerialID( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, difficulty == MapAny ? -1 : r.Difficulty ).ToString( "X8" );
 
 						} else {
 							key = GetContentString( r, priorityShip < priorityItem && priorityShip < 2, priorityShip >= priorityItem && priorityItem < 2 );
@@ -492,9 +502,16 @@ namespace ElectronicObserver.Window.Dialog {
 					foreach ( var c in counts ) {
 						var row = (DataGridViewRow)origin.Clone();
 
+						string name = c.Key;
+
+						int serialID = 0;
+						if ( int.TryParse( name, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out serialID ) )
+							name = GetMapString( serialID );
+
+
 						row.SetValues(
 							c.Value[0],
-							c.Key,
+							name,
 							c.Value[1],
 							c.Value[2],
 							c.Value[3]
@@ -503,18 +520,20 @@ namespace ElectronicObserver.Window.Dialog {
 
 						if ( priorityContent == 2 ) {
 							row.Cells[0].Tag = allcounts[c.Key][0];
+							row.Cells[1].Tag = serialID;
 							row.Cells[2].Tag = allcounts[c.Key][1];
 							row.Cells[3].Tag = allcounts[c.Key][2];
 							row.Cells[4].Tag = allcounts[c.Key][3];
 
 						} else {
 							row.Cells[0].Tag = ( (double)c.Value[0] / Math.Max( allcountssum[0], 1 ) );
+							row.Cells[1].Tag = serialID;
 							row.Cells[2].Tag = ( (double)c.Value[1] / Math.Max( allcountssum[1], 1 ) );
 							row.Cells[3].Tag = ( (double)c.Value[2] / Math.Max( allcountssum[2], 1 ) );
 							row.Cells[4].Tag = ( (double)c.Value[3] / Math.Max( allcountssum[3], 1 ) );
 
 						}
-						
+
 						rows.AddLast( row );
 					}
 
@@ -567,6 +586,27 @@ namespace ElectronicObserver.Window.Dialog {
 						e.SortResult = 1;
 
 					e.Handled = true;
+
+				} else if ( e.Column.Index == DropView_Name.Index ) {
+					var cell1 = DropView[e.Column.Index, e.RowIndex1];
+					var cell2 = DropView[e.Column.Index, e.RowIndex2];
+
+					if ( cell1.Tag is int ) {		//serialID
+						e.SortResult = (int)cell1.Tag - (int)cell2.Tag;
+						e.Handled = true;
+					}
+				}
+
+			} else {
+
+				if ( e.Column.Index == DropView_Map.Index ) {
+					var cell1 = DropView[e.Column.Index, e.RowIndex1];
+					var cell2 = DropView[e.Column.Index, e.RowIndex2];
+
+					if ( cell1.Tag is int ) {		//serialID
+						e.SortResult = (int)cell1.Tag - (int)cell2.Tag;
+						e.Handled = true;
+					}
 				}
 			}
 
