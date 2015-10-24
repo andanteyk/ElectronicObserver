@@ -62,6 +62,7 @@ namespace ElectronicObserver.Resource {
 			ItemFurnitureCoin,
 			ItemBlueprint,
 			ItemCatapult,
+			ItemPresentBox,
 			FormArsenal,
 			FormBattle,
 			FormCompass,
@@ -79,6 +80,7 @@ namespace ElectronicObserver.Resource {
 			FormConfiguration,
 			FormEquipmentList,
 			FormWindowCapture,
+			FormDropRecord,
 			FleetNoShip,
 			FleetDocking,
 			FleetSortieDamaged,
@@ -238,6 +240,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/FurnitureCoin.png", "Item_FurnitureCoin" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Blueprint.png", "Item_Blueprint" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Catapult.png", "Item_Catapult" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/PresentBox.png", "Item_PresentBox" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Arsenal.png", "Form_Arsenal" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Battle.png", "Form_Battle" );
@@ -256,6 +259,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Configuration.png", "Form_Configuration" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/EquipmentList.png", "Form_EquipmentList" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/WindowCapture.png", "Form_WindowCapture" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/DropRecord.png", "Form_DropRecord" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NoShip.png", "Fleet_NoShip" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Docking.png", "Fleet_Docking" );

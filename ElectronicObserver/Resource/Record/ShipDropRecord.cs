@@ -12,7 +12,7 @@ namespace ElectronicObserver.Resource.Record {
 	[DebuggerDisplay( "{Record.Count} Records" )]
 	public class ShipDropRecord : RecordBase {
 
-		[DebuggerDisplay( "[{ShipID}] : {FleetName}" )]
+		[DebuggerDisplay( "[{Date}] : {ShipName} / {ItemName}" )]
 		public class ShipDropElement : RecordElementBase {
 
 			/// <summary>
