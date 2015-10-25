@@ -406,11 +406,10 @@ namespace ElectronicObserver.Observer {
 
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
 
-				if ( (int)json.api_result != 1 ) {
+				int result = (int)json.api_result;
+				if ( result != 1 ) {
 
-					var ex = new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
-					Utility.ErrorReporter.SendErrorReport( ex, "エラーコードを含むメッセージを受信しました。" );
-					throw ex;
+					throw new InvalidOperationException( "猫を検出しました。(エラーコード: " + result + ")" );
 				}
 
 
