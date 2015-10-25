@@ -136,6 +136,13 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+
+			// 🎃
+			if ( DateTime.Now.Month == 10 && DateTime.Now.Day == 31 ) {
+				APIObserver.Instance.APIList["api_port/port"].ResponseReceived += CallPumpkinHead;
+			}
+
+
 			// 完了通知（ログインページを開く）
 			fBrowser.InitializeApiCompleted();
 
@@ -143,7 +150,6 @@ namespace ElectronicObserver.Window {
 
 			Utility.Logger.Add( 2, "起動処理が完了しました。" );
 		}
-
 
 
 		private void ConfigurationChanged() {
@@ -940,6 +946,12 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+
+		private void CallPumpkinHead( string apiname, dynamic data ) {
+			new DialogHalloween().Show( this );
+			APIObserver.Instance.APIList["api_port/port"].ResponseReceived -= CallPumpkinHead;
+		}
 
 
 		private void StripMenu_WindowCapture_AttachAll_Click( object sender, EventArgs e ) {

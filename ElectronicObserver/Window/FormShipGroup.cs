@@ -204,6 +204,9 @@ namespace ElectronicObserver.Window {
 			CSIsLocked.Font =
 				config.UI.MainFont;
 
+			foreach ( System.Windows.Forms.Control c in TabPanel.Controls )
+				c.Font = Font;
+
 			splitContainer1.SplitterDistance = config.FormShipGroup.SplitterDistance;
 			MenuGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			MenuGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;

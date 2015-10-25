@@ -31,7 +31,6 @@ namespace ElectronicObserver.Window {
 				ShipName = new Label();
 				ShipName.Text = "???";
 				ShipName.Anchor = AnchorStyles.Left;
-				ShipName.Font = parent.Font;
 				ShipName.ForeColor = parent.ForeColor;
 				ShipName.TextAlign = ContentAlignment.MiddleLeft;
 				ShipName.Padding = new Padding( 0, 1, 0, 1 );
@@ -44,7 +43,6 @@ namespace ElectronicObserver.Window {
 				RepairTime = new Label();
 				RepairTime.Text = "";
 				RepairTime.Anchor = AnchorStyles.Left;
-				RepairTime.Font = parent.Font;
 				RepairTime.ForeColor = parent.ForeColor;
 				RepairTime.Tag = null;
 				RepairTime.TextAlign = ContentAlignment.MiddleLeft;
@@ -53,6 +51,8 @@ namespace ElectronicObserver.Window {
 				RepairTime.MinimumSize = new Size( 60, 10 );
 				RepairTime.AutoSize = true;
 				RepairTime.Visible = true;
+
+				ConfigurationChanged( parent );
 
 				ToolTipInfo = parent.ToolTipInfo;
 
@@ -127,6 +127,11 @@ namespace ElectronicObserver.Window {
 
 			}
 
+
+			public void ConfigurationChanged( FormDock parent ) {
+				ShipName.Font = parent.Font;
+				RepairTime.Font = parent.Font;
+			}
 		}
 
 
@@ -144,9 +149,7 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( TableDock );
 
-			ConfigurationChanged();
 
-			
 			TableDock.SuspendLayout();
 			ControlDock = new TableDockControl[4];
 			for ( int i = 0; i < ControlDock.Length; i++ ) {
@@ -154,11 +157,14 @@ namespace ElectronicObserver.Window {
 			}
 			TableDock.ResumeLayout();
 
+
+			ConfigurationChanged();
+
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormDock] );
 
 		}
 
-		
+
 		private void FormDock_Load( object sender, EventArgs e ) {
 
 			APIObserver o = APIObserver.Instance;
@@ -172,7 +178,7 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
-		
+
 
 		void Updated( string apiname, dynamic data ) {
 
@@ -203,6 +209,11 @@ namespace ElectronicObserver.Window {
 		void ConfigurationChanged() {
 
 			Font = Utility.Configuration.Config.UI.MainFont;
+
+			if ( ControlDock != null ) {
+				foreach ( var c in ControlDock )
+					c.ConfigurationChanged( this );
+			}
 		}
 
 

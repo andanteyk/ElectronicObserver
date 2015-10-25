@@ -166,6 +166,7 @@
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\open_exslot.cs" />
     <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />
+    <Compile Include="Observer\kcsapi\api_req_member\updatecomment.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
@@ -318,6 +319,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogEquipmentList.Designer.cs">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogHalloween.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogHalloween.Designer.cs">
+      <DependentUpon>DialogHalloween.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogLocalAPILoader.cs">
       <SubType>Form</SubType>
@@ -545,6 +552,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.resx">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogHalloween.resx">
+      <DependentUpon>DialogHalloween.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>

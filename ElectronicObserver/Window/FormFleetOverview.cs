@@ -32,18 +32,18 @@ namespace ElectronicObserver.Window {
 				Number = new ImageLabel();
 				Number.Anchor = AnchorStyles.Left;
 				Number.ImageAlign = ContentAlignment.MiddleCenter;
-				Number.Font = parent.Font;
 				Number.Margin = new Padding( 3, 2, 3, 2 );
 				Number.Text = string.Format( "#{0}:", fleetID );
 				Number.Tag = null;
 
 				State = new ImageLabel();
 				State.Anchor = AnchorStyles.Left;
-				State.Font = parent.Font;
 				State.Margin = new Padding( 3, 2, 3, 2 );
 				State.ImageList = ResourceManager.Instance.Icons;
 				State.Text = "-";
 				State.Tag = FleetData.FleetStates.NoShip;
+
+				ConfigurationChanged( parent );
 
 				this.fleetID = fleetID;
 				ToolTipInfo = parent.ToolTipInfo;
@@ -96,6 +96,13 @@ namespace ElectronicObserver.Window {
 
 				FleetData.RefreshFleetState( State, (FleetData.FleetStates)State.Tag, (DateTime?)Number.Tag ?? DateTime.Now );
 			}
+
+
+			public void ConfigurationChanged( FormFleetOverview parent ) {
+				Number.Font = parent.Font;
+				State.Font = parent.Font;
+
+			}
 		}
 
 
@@ -105,9 +112,6 @@ namespace ElectronicObserver.Window {
 
 		public FormFleetOverview( FormMain parent ) {
 			InitializeComponent();
-
-
-			ConfigurationChanged();
 
 			ControlHelper.SetDoubleBuffered( TableFleet );
 
@@ -122,13 +126,11 @@ namespace ElectronicObserver.Window {
 			{
 				CombinedTag = new ImageLabel();
 				CombinedTag.Anchor = AnchorStyles.Left;
-				CombinedTag.Font = Utility.Configuration.Config.UI.MainFont;
 				CombinedTag.Margin = new Padding( 3, 2, 3, 2 );
 				CombinedTag.ImageList = ResourceManager.Instance.Icons;
 				CombinedTag.ImageIndex = (int)ResourceManager.IconContent.FleetCombined;
 				CombinedTag.Text = "-";
 				CombinedTag.Visible = false;
-
 
 				TableFleet.Controls.Add( CombinedTag, 1, 4 );
 
@@ -145,6 +147,7 @@ namespace ElectronicObserver.Window {
 			}
 			#endregion
 
+			ConfigurationChanged();
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
 
@@ -191,6 +194,11 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 			Font = Utility.Configuration.Config.UI.MainFont;
+
+			foreach ( var c in ControlFleet )
+				c.ConfigurationChanged( this );
+
+			CombinedTag.Font = Font;
 		}
 
 

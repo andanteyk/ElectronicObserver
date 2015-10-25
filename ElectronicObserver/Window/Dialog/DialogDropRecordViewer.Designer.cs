@@ -52,13 +52,13 @@
 			this.MapCellID = new System.Windows.Forms.ComboBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.MergeRows = new System.Windows.Forms.CheckBox();
+			this.LabelShipName = new ElectronicObserver.Window.Control.ImageLabel();
+			this.LabelItemName = new ElectronicObserver.Window.Control.ImageLabel();
+			this.LabelEquipmentName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.StripLabel_RecordCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.Searcher = new System.ComponentModel.BackgroundWorker();
-			this.LabelShipName = new ElectronicObserver.Window.Control.ImageLabel();
-			this.LabelItemName = new ElectronicObserver.Window.Control.ImageLabel();
-			this.LabelEquipmentName = new ElectronicObserver.Window.Control.ImageLabel();
 			((System.ComponentModel.ISupportInitialize)(this.DropView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -390,35 +390,6 @@
 			this.ToolTipInfo.SetToolTip(this.MergeRows, "チェックすると同じドロップ項目をまとめて表示します。\r\n");
 			this.MergeRows.UseVisualStyleBackColor = true;
 			// 
-			// statusStrip1
-			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripLabel_RecordCount});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 419);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(624, 22);
-			this.statusStrip1.TabIndex = 3;
-			this.statusStrip1.Text = "statusStrip1";
-			// 
-			// StripLabel_RecordCount
-			// 
-			this.StripLabel_RecordCount.Name = "StripLabel_RecordCount";
-			this.StripLabel_RecordCount.Size = new System.Drawing.Size(12, 17);
-			this.StripLabel_RecordCount.Text = "-";
-			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
-			// 
-			// Searcher
-			// 
-			this.Searcher.WorkerSupportsCancellation = true;
-			this.Searcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Searcher_DoWork);
-			this.Searcher.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Searcher_RunWorkerCompleted);
-			// 
 			// LabelShipName
 			// 
 			this.LabelShipName.AutoSize = false;
@@ -454,6 +425,35 @@
 			this.LabelEquipmentName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.LabelEquipmentName.Visible = false;
 			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripLabel_RecordCount});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 419);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(624, 22);
+			this.statusStrip1.TabIndex = 3;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// StripLabel_RecordCount
+			// 
+			this.StripLabel_RecordCount.Name = "StripLabel_RecordCount";
+			this.StripLabel_RecordCount.Size = new System.Drawing.Size(12, 17);
+			this.StripLabel_RecordCount.Text = "-";
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
+			// Searcher
+			// 
+			this.Searcher.WorkerSupportsCancellation = true;
+			this.Searcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Searcher_DoWork);
+			this.Searcher.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Searcher_RunWorkerCompleted);
+			// 
 			// DialogDropRecordViewer
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -462,6 +462,7 @@
 			this.Controls.Add(this.statusStrip1);
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.Name = "DialogDropRecordViewer";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "ドロップ記録";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogDropRecordViewer_FormClosed);
 			this.Load += new System.EventHandler(this.DialogDropRecordViewer_Load);

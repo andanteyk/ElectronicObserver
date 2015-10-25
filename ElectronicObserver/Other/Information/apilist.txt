@@ -919,6 +919,13 @@ Request.api_req_member/updatedeckname	：艦隊名変更
 	api_deck_id			：艦隊ID
 
 
+Request.api_req_member/updatecomment	：提督コメント変更
+	api_cmt_id			：
+	api_cmt				：コメント
+
+api_req_member/updatecomment	：提督コメント変更
+	(情報なし)
+
 api_req_ranking/getlist	：ランキング
 	api_count			：最大読み込み可能数？
 	api_page_count		：最大ページ数
