@@ -10,7 +10,7 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 提督および司令部の情報を保持します。
 	/// </summary>
-	public class AdmiralData : ResponseWrapper {
+	public class AdmiralData : APIWrapper {
 
 		/// <summary>
 		/// 提督名
@@ -148,6 +148,15 @@ namespace ElectronicObserver.Data {
 			get { return Level * 250 + 750; }
 		}
 
+
+		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+			base.LoadFromRequest( apiname, data );
+
+			if ( apiname == "api_req_member/updatecomment" ) {
+				if ( RawData != null )
+					RawData.api_comment = data["api_cmt"];
+			}
+		}
 	}
 
 

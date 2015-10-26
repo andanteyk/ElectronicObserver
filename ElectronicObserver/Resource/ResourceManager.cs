@@ -39,7 +39,7 @@ namespace ElectronicObserver.Resource {
 		#region Constants
 
 		public static string AssetFilePath { get { return "Assets.zip"; } }
-		
+
 		#endregion
 
 
@@ -62,6 +62,7 @@ namespace ElectronicObserver.Resource {
 			ItemFurnitureCoin,
 			ItemBlueprint,
 			ItemCatapult,
+			ItemPresentBox,
 			FormArsenal,
 			FormBattle,
 			FormCompass,
@@ -79,6 +80,7 @@ namespace ElectronicObserver.Resource {
 			FormConfiguration,
 			FormEquipmentList,
 			FormWindowCapture,
+			FormDropRecord,
 			FleetNoShip,
 			FleetDocking,
 			FleetSortieDamaged,
@@ -238,6 +240,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/FurnitureCoin.png", "Item_FurnitureCoin" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Blueprint.png", "Item_Blueprint" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Item/Catapult.png", "Item_Catapult" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Item/PresentBox.png", "Item_PresentBox" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Arsenal.png", "Form_Arsenal" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Battle.png", "Form_Battle" );
@@ -256,6 +259,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Configuration.png", "Form_Configuration" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/EquipmentList.png", "Form_EquipmentList" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/WindowCapture.png", "Form_WindowCapture" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/DropRecord.png", "Form_DropRecord" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NoShip.png", "Fleet_NoShip" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Docking.png", "Fleet_Docking" );
@@ -478,6 +482,60 @@ namespace ElectronicObserver.Resource {
 		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
 		public static bool CopyFromArchive( string source, string destination, bool checkexist = true ) {
 			return CopyFromArchive( AssetFilePath, source, destination, checkexist );
+		}
+
+		/// <summary>
+		/// アーカイブからファイルを選択し、ストリームを開きます。
+		/// </summary>
+		/// <param name="archivePath">アーカイブの場所。</param>
+		/// <param name="source">アーカイブ内のファイルのパス。</param>
+		/// <returns>ファイルのストリーム。オープンに失敗した場合は null を返します。</returns>
+		public static MemoryStream GetStreamFromArchive( string archivePath, string source ) {
+
+			using ( var stream = File.OpenRead( archivePath ) ) {
+
+				using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
+
+					string entrypath = @"Assets/" + source;
+
+					var entry = archive.GetEntry( entrypath );
+
+					if ( entry == null ) {
+						Utility.Logger.Add( 3, string.Format( "{0} は存在しません。", entrypath ) );
+						return null;
+					}
+
+
+					try {
+
+						byte[] bytes;
+						using ( MemoryStream ms = new MemoryStream() ) {
+							var st = entry.Open();
+							st.CopyTo( ms );
+							bytes = ms.ToArray();
+							st.Close();
+						}
+
+						return new MemoryStream( bytes );
+
+					} catch ( Exception ex ) {
+
+						Utility.Logger.Add( 3, string.Format( "{0} の展開に失敗しました。{1}", entrypath, ex.Message ) );
+						return null;
+					}
+				}
+			}
+
+		}
+
+
+		/// <summary>
+		/// アーカイブからファイルを選択し、ストリームを開きます。
+		/// </summary>
+		/// <param name="source">アーカイブ内のファイルのパス。</param>
+		/// <returns>ファイルのストリーム。オープンに失敗した場合は null を返します。</returns>
+		public static MemoryStream GetStreamFromArchive( string source ) {
+			return GetStreamFromArchive( AssetFilePath, source );
 		}
 
 

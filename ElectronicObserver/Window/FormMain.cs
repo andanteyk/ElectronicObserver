@@ -136,6 +136,13 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+
+			// 🎃
+			if ( DateTime.Now.Month == 10 && DateTime.Now.Day == 31 ) {
+				APIObserver.Instance.APIList["api_port/port"].ResponseReceived += CallPumpkinHead;
+			}
+
+
 			// 完了通知（ログインページを開く）
 			fBrowser.InitializeApiCompleted();
 
@@ -143,7 +150,6 @@ namespace ElectronicObserver.Window {
 
 			Utility.Logger.Add( 2, "起動処理が完了しました。" );
 		}
-
 
 
 		private void ConfigurationChanged() {
@@ -651,7 +657,7 @@ namespace ElectronicObserver.Window {
 
 							foreach ( dynamic elem in json.api_data.api_mst_ship ) {
 
-								var ship = KCDatabase.Instance.MasterShips[ (int)elem.api_id ];
+								var ship = KCDatabase.Instance.MasterShips[(int)elem.api_id];
 
 								if ( elem.api_name != "なし" && ship != null && ship.IsAbyssalShip ) {
 
@@ -924,59 +930,30 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Tool_DropRecord_Click( object sender, EventArgs e ) {
 
-
-		private void StripMenu_Browser_ScreenShot_Click( object sender, EventArgs e ) {
-
-			fBrowser.SaveScreenShot();
-
-		}
-
-		private void StripMenu_Browser_Refresh_Click( object sender, EventArgs e ) {
-
-			fBrowser.RefreshBrowser();
-
-		}
-
-		private void StripMenu_Browser_NavigateToLogInPage_Click( object sender, EventArgs e ) {
-
-			if ( MessageBox.Show( "ログインページへ移動します。\r\nよろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question )
-				== System.Windows.Forms.DialogResult.Yes ) {
-
-				fBrowser.NavigateToLogInPage();
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦これを読み込んでから開いてください。", "マスターデータがありません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
 			}
-		}
 
-		private void StripMenu_Browser_Navigate_Click( object sender, EventArgs e ) {
-
-			using ( var dialog = new Window.Dialog.DialogTextInput( "移動先の入力", "移動先の URL を入力してください。" ) ) {
-
-				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
-
-					fBrowser.Navigate( dialog.InputtedText );
-				}
+			if ( RecordManager.Instance.ShipDrop.Record.Count == 0 ) {
+				MessageBox.Show( "ドロップレコードがありません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
 			}
+
+			new Dialog.DialogDropRecordViewer().Show( this );
+
 		}
 
 
-		private void StripMenu_Browser_Zoom_Decr20_Click( object sender, EventArgs e ) {
 
-			Utility.Configuration.Config.FormBrowser.ZoomRate =
-				Math.Max( Utility.Configuration.Config.FormBrowser.ZoomRate - 20, 10 );
-
-			fBrowser.ApplyZoom();
-		}
-
-		private void StripMenu_Browser_Zoom_Incr20_Click( object sender, EventArgs e ) {
-
-			Utility.Configuration.Config.FormBrowser.ZoomRate =
-				Math.Min( Utility.Configuration.Config.FormBrowser.ZoomRate + 20, 1000 );
-
-			fBrowser.ApplyZoom();
+		private void CallPumpkinHead( string apiname, dynamic data ) {
+			new DialogHalloween().Show( this );
+			APIObserver.Instance.APIList["api_port/port"].ResponseReceived -= CallPumpkinHead;
 		}
 
 
-		
 		private void StripMenu_WindowCapture_AttachAll_Click( object sender, EventArgs e ) {
 			fWindowCapture.AttachAll();
 		}
@@ -1054,7 +1031,9 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
+
+
+
 
 
 	}

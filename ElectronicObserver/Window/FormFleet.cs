@@ -42,7 +42,6 @@ namespace ElectronicObserver.Window {
 				Name = new Label();
 				Name.Text = "[" + parent.FleetID.ToString() + "]";
 				Name.Anchor = AnchorStyles.Left;
-				Name.Font = parent.MainFont;
 				Name.ForeColor = parent.MainFontColor;
 				Name.Padding = new Padding( 0, 1, 0, 1 );
 				Name.Margin = new Padding( 2, 0, 2, 0 );
@@ -51,7 +50,6 @@ namespace ElectronicObserver.Window {
 
 				StateMain = new ImageLabel();
 				StateMain.Anchor = AnchorStyles.Left;
-				StateMain.Font = parent.MainFont;
 				StateMain.ForeColor = parent.MainFontColor;
 				StateMain.ImageList = ResourceManager.Instance.Icons;
 				StateMain.Padding = new Padding( 2, 2, 2, 2 );
@@ -60,7 +58,6 @@ namespace ElectronicObserver.Window {
 
 				AirSuperiority = new ImageLabel();
 				AirSuperiority.Anchor = AnchorStyles.Left;
-				AirSuperiority.Font = parent.MainFont;
 				AirSuperiority.ForeColor = parent.MainFontColor;
 				AirSuperiority.ImageList = ResourceManager.Instance.Equipments;
 				AirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
@@ -70,13 +67,14 @@ namespace ElectronicObserver.Window {
 
 				SearchingAbility = new ImageLabel();
 				SearchingAbility.Anchor = AnchorStyles.Left;
-				SearchingAbility.Font = parent.MainFont;
 				SearchingAbility.ForeColor = parent.MainFontColor;
 				SearchingAbility.ImageList = ResourceManager.Instance.Equipments;
 				SearchingAbility.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedRecon;
 				SearchingAbility.Padding = new Padding( 2, 2, 2, 2 );
 				SearchingAbility.Margin = new Padding( 2, 0, 2, 0 );
 				SearchingAbility.AutoSize = true;
+
+				ConfigurationChanged( parent );
 
 				ToolTipInfo = parent.ToolTipInfo;
 				State = FleetData.FleetStates.NoShip;
@@ -185,6 +183,14 @@ namespace ElectronicObserver.Window {
 
 			}
 
+			public void ConfigurationChanged( FormFleet parent ) {
+				Name.Font = parent.MainFont;
+				StateMain.Font = parent.MainFont;
+				AirSuperiority.Font = parent.MainFont;
+				AirSuperiority.Font = parent.MainFont;
+				SearchingAbility.Font = parent.MainFont;
+				
+			}
 
 		}
 
@@ -211,7 +217,6 @@ namespace ElectronicObserver.Window {
 				Name.Anchor = AnchorStyles.Left;
 				Name.TextAlign = ContentAlignment.MiddleLeft;
 				Name.ImageAlign = ContentAlignment.MiddleCenter;
-				Name.Font = parent.MainFont;
 				Name.ForeColor = parent.MainFontColor;
 				Name.Padding = new Padding( 0, 1, 0, 1 );
 				Name.Margin = new Padding( 2, 0, 2, 0 );
@@ -228,8 +233,6 @@ namespace ElectronicObserver.Window {
 				Level.Value = 0;
 				Level.MaximumValue = 150;
 				Level.ValueNext = 0;
-				Level.MainFont = parent.MainFont;
-				Level.SubFont = parent.SubFont;
 				Level.MainFontColor = parent.MainFontColor;
 				Level.SubFontColor = parent.SubFontColor;
 				//Level.TextNext = "n.";
@@ -246,8 +249,6 @@ namespace ElectronicObserver.Window {
 				HP.MaximumValue = 0;
 				HP.MaximumDigit = 999;
 				HP.UsePrevValue = false;
-				HP.MainFont = parent.MainFont;
-				HP.SubFont = parent.SubFont;
 				HP.MainFontColor = parent.MainFontColor;
 				HP.SubFontColor = parent.SubFontColor;
 				HP.Padding = new Padding( 0, 0, 0, 0 );
@@ -260,7 +261,6 @@ namespace ElectronicObserver.Window {
 				Condition.SuspendLayout();
 				Condition.Text = "*";
 				Condition.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-				Condition.Font = parent.MainFont;
 				Condition.ForeColor = parent.MainFontColor;
 				Condition.TextAlign = ContentAlignment.BottomRight;
 				Condition.ImageAlign = ContentAlignment.MiddleLeft;
@@ -291,12 +291,12 @@ namespace ElectronicObserver.Window {
 				Equipments.Anchor = AnchorStyles.Left;
 				Equipments.Padding = new Padding( 0, 2, 0, 1 );
 				Equipments.Margin = new Padding( 2, 0, 2, 0 );
-				Equipments.Font = parent.SubFont;
 				Equipments.Size = new Size( 40, 20 );
 				Equipments.AutoSize = true;
 				Equipments.Visible = false;
 				Equipments.ResumeLayout();
 
+				ConfigurationChanged( parent );
 
 				ToolTipInfo = parent.ToolTipInfo;
 				Parent = parent;
@@ -367,17 +367,19 @@ namespace ElectronicObserver.Window {
 
 					{
 						StringBuilder tip = new StringBuilder();
+						tip.AppendFormat( "Total: {0} exp.\r\n", ship.ExpTotal );
+
 						if ( !Utility.Configuration.Config.FormFleet.ShowNextExp )
-							tip.AppendFormat( "次のレベルまで: {0} exp.\n", ship.ExpNext );
+							tip.AppendFormat( "次のレベルまで: {0} exp.\r\n", ship.ExpNext );
 
 						if ( ship.MasterShip.RemodelAfterShipID != 0 && ship.Level < ship.MasterShip.RemodelAfterLevel ) {
-							tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.", ship.MasterShip.RemodelAfterLevel - ship.Level, ship.ExpNextRemodel );
+							tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.\r\n", ship.MasterShip.RemodelAfterLevel - ship.Level, ship.ExpNextRemodel );
 
 						} else if ( ship.Level <= 99 ) {
-							tip.AppendFormat( "Lv99まで: {0} exp.", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
+							tip.AppendFormat( "Lv99まで: {0} exp.\r\n", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
 
 						} else {
-							tip.AppendFormat( "Lv150まで: {0} exp.", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) );
+							tip.AppendFormat( "Lv150まで: {0} exp.\r\n", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) );
 
 						}
 
@@ -552,6 +554,16 @@ namespace ElectronicObserver.Window {
 				return sb.ToString();
 			}
 
+
+			public void ConfigurationChanged( FormFleet parent ) {
+				Name.Font = parent.MainFont;
+				Level.MainFont = parent.MainFont;
+				Level.SubFont = parent.SubFont;
+				HP.MainFont = parent.MainFont;
+				HP.SubFont = parent.SubFont;
+				Condition.Font = parent.MainFont;
+				Equipments.Font = parent.SubFont;
+			}
 		}
 
 
@@ -819,13 +831,15 @@ namespace ElectronicObserver.Window {
 						eqcount++;
 					}
 
-					sb.Remove( sb.Length - 1, 1 );		// remove ","
+					if ( eqcount > 0 )
+						sb.Remove( sb.Length - 1, 1 );		// remove ","
 					sb.Append( @"}}," );
 
 					shipcount++;
 				}
 
-				sb.Remove( sb.Length - 1, 1 );		// remove ","
+				if ( shipcount > 0 )
+					sb.Remove( sb.Length - 1, 1 );		// remove ","
 				sb.Append( @"}," );
 
 			}
@@ -860,6 +874,7 @@ namespace ElectronicObserver.Window {
 			ContextMenuFleet_FixShipNameWidth.Checked = c.FormFleet.FixShipNameWidth;
 
 			if ( ControlFleet != null && KCDatabase.Instance.Fleet[FleetID] != null ) {
+				ControlFleet.ConfigurationChanged( this );
 				ControlFleet.Update( KCDatabase.Instance.Fleet[FleetID] );
 			}
 
@@ -882,6 +897,8 @@ namespace ElectronicObserver.Window {
 					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
 					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
+
+					ControlMember[i].ConfigurationChanged( this );
 				}
 			}
 			TableMember.PerformLayout();		//fixme:サイズ変更に親パネルが追随しない

@@ -101,6 +101,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_kaisou.open_exslot() );
 			APIList.Add( new kcsapi.api_req_map.select_eventmap_rank() );
 			APIList.Add( new kcsapi.api_req_hensei.combined() );
+			APIList.Add( new kcsapi.api_req_member.updatecomment() );
 
 
 			ServerAddress = null;
@@ -405,11 +406,10 @@ namespace ElectronicObserver.Observer {
 
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
 
-				if ( (int)json.api_result != 1 ) {
+				int result = (int)json.api_result;
+				if ( result != 1 ) {
 
-					var ex = new ArgumentException( "エラーコードを含むメッセージを受信しました。" );
-					Utility.ErrorReporter.SendErrorReport( ex, "エラーコードを含むメッセージを受信しました。" );
-					throw ex;
+					throw new InvalidOperationException( "猫を検出しました。(エラーコード: " + result + ")" );
 				}
 
 
