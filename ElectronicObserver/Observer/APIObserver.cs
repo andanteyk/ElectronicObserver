@@ -103,6 +103,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_kaisou.open_exslot() );
 			APIList.Add( new kcsapi.api_req_map.select_eventmap_rank() );
 			APIList.Add( new kcsapi.api_req_hensei.combined() );
+			APIList.Add( new kcsapi.api_req_member.updatecomment() );
 
 
 			ServerAddress = null;
@@ -717,11 +718,10 @@ namespace ElectronicObserver.Observer {
 
 				var json = DynamicJson.Parse( data.Substring( 7 ) );		//remove "svdata="
 
-				if ( (int)json.api_result != 1 ) {
+				int result = (int)json.api_result;
+				if ( result != 1 ) {
 
-					var ex = new ArgumentException( "返回信息中含有错误码。" );
-					Utility.ErrorReporter.SendErrorReport( ex, "返回信息中含有错误码。" );
-					throw ex;
+					throw new InvalidOperationException( "发现服务器猫错误。(错误代码: " + result + ")" );
 				}
 
 

@@ -35,8 +35,6 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetDoubleBuffered( TableTop );
 			ControlHelper.SetDoubleBuffered( TableBottom );
 
-			ConfigurationChanged();
-
 
 			HPBars = new List<ShipStatusHP>( 18 );
 			DamageLabels = new List<ImageLabel>( 12 );
@@ -97,6 +95,9 @@ namespace ElectronicObserver.Window {
 			AirStage2Enemy.ImageList =
 				ResourceManager.Instance.Equipments;
 
+
+			ConfigurationChanged();
+			
 			BaseLayoutPanel.Visible = false;
 
 
@@ -1773,6 +1774,12 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			MainFont = TableTop.Font = TableBottom.Font = Font = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 
+			if ( HPBars != null ) {
+				foreach ( var b in HPBars ) {
+					b.MainFont = MainFont;
+					b.SubFont = SubFont;
+				}
+			}
 			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
 
 			bool shorten = Utility.Configuration.Config.FormBattle.IsShortDamage;

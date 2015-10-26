@@ -38,7 +38,6 @@ namespace ElectronicObserver.Window {
 
 				ShipName = new ImageLabel();
 				ShipName.Anchor = AnchorStyles.Left;
-				ShipName.Font = parent.MainFont;
 				ShipName.ForeColor = parent.MainFontColor;
 				ShipName.ImageAlign = ContentAlignment.MiddleCenter;
 				ShipName.Padding = new Padding( 0, 1, 0, 1 );
@@ -52,12 +51,13 @@ namespace ElectronicObserver.Window {
 				Equipments = new ShipStatusEquipment();
 				Equipments.SuspendLayout();
 				Equipments.Anchor = AnchorStyles.Left;
-				Equipments.Font = parent.SubFont;
 				Equipments.Padding = new Padding( 0, 2, 0, 1 );
 				Equipments.Margin = new Padding( 2, 0, 2, 0 );
 				Equipments.Size = new Size( 40, 20 );	//checkme: 要る？
 				Equipments.AutoSize = true;
 				Equipments.ResumeLayout();
+
+				ConfigurationChanged( parent );
 
 				Parent = parent;
 				ToolTipInfo = parent.ToolTipInfo;
@@ -275,6 +275,12 @@ namespace ElectronicObserver.Window {
 			}
 
 
+			public void ConfigurationChanged( FormCompass parent ) {
+				ShipName.Font = parent.MainFont;
+				Equipments.Font = parent.SubFont;
+
+			}
+
 		}
 
 
@@ -308,7 +314,6 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 
-			ConfigurationChanged();
 
 
 			ControlHelper.SetDoubleBuffered( BasePanel );
@@ -331,6 +336,10 @@ namespace ElectronicObserver.Window {
 
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
 			TextEventDetail.ImageList = ResourceManager.Instance.Equipments;
+
+
+			ConfigurationChanged();
+
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass] );
 
 			this.ResumeLayoutForDpiScale();
@@ -774,9 +783,13 @@ namespace ElectronicObserver.Window {
 			Font = PanelEnemyFleet.Font = MainFont = Utility.Configuration.Config.UI.MainFont;
 			SubFont = Utility.Configuration.Config.UI.SubFont;
 
+			TextMapArea.Font =
+			TextDestination.Font =
+			TextEventKind.Font =
+			TextEventDetail.Font = Font;
+
 			MainFontColor = Utility.Configuration.Config.UI.ForeColor;
 			SubFontColor = Utility.Configuration.Config.UI.SubForeColor;
-
 			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );
 
 			if ( ControlMember != null ) {

@@ -204,6 +204,9 @@ namespace ElectronicObserver.Window {
 			CSIsLocked.Font =
 				config.UI.MainFont;
 
+			foreach ( System.Windows.Forms.Control c in TabPanel.Controls )
+				c.Font = Font;
+
 			splitContainer1.SplitterDistance = config.FormShipGroup.SplitterDistance;
 			MenuGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			MenuGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
@@ -482,6 +485,9 @@ namespace ElectronicObserver.Window {
 			var group = KCDatabase.Instance.ShipGroup[(int)target.Tag];
 			var currentGroup = CurrentGroup;
 
+			int headIndex = 0;
+			List<int> selectedIDList = new List<int>();
+
 			if ( group == null ) {
 				Utility.Logger.Add( 3, "エラー：存在しないグループを参照しようとしました。開発者に連絡してください" );
 				return;
@@ -491,8 +497,13 @@ namespace ElectronicObserver.Window {
 
 				UpdateMembers( currentGroup );
 
-				if ( CurrentGroup.GroupID != group.GroupID )
+				if ( CurrentGroup.GroupID != group.GroupID ) {
 					ShipView.Rows.Clear();		//別グループの行の並び順を引き継がせないようにする
+
+				} else {
+					headIndex = ShipView.FirstDisplayedScrollingRowIndex;
+					selectedIDList = ShipView.SelectedRows.Cast<DataGridViewRow>().Select( r => (int)r.Cells[ShipView_ID.Index].Value ).ToList();
+				}
 			}
 
 
@@ -505,6 +516,20 @@ namespace ElectronicObserver.Window {
 			BuildShipView( SelectedTab );
 			SelectedTab.BackColor = TabActiveColor;
 
+
+			if ( headIndex < ShipView.Rows.Count )
+				ShipView.FirstDisplayedScrollingRowIndex = headIndex;
+			
+			if ( selectedIDList.Count > 0 ) {
+				ShipView.ClearSelection();
+				for ( int i = 0; i < ShipView.Rows.Count; i++ ) {
+					var row = ShipView.Rows[i];
+					if ( selectedIDList.Contains( (int)row.Cells[ShipView_ID.Index].Value ) ) {
+						row.Selected = true;
+					}
+				}
+			}
+				
 		}
 
 
