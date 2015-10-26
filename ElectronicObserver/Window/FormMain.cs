@@ -143,6 +143,13 @@ namespace ElectronicObserver.Window {
 
 			task = Task.Factory.StartNew( () => SoftwareInformation.CheckUpdate() );
 
+
+			// 🎃
+			if ( DateTime.Now.Month == 10 && DateTime.Now.Day == 31 ) {
+				APIObserver.Instance.APIList["api_port/port"].ResponseReceived += CallPumpkinHead;
+			}
+
+
 			// 完了通知（ログインページを開く）
 			fBrowser.InitializeApiCompleted();
 
@@ -835,6 +842,29 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
+
+
+		private void StripMenu_Tool_DropRecord_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦これを読み込んでから開いてください。", "マスターデータがありません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			if ( RecordManager.Instance.ShipDrop.Record.Count == 0 ) {
+				MessageBox.Show( "ドロップレコードがありません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			new Dialog.DialogDropRecordViewer().Show( this );
+
+		}
+
+
+		private void CallPumpkinHead( string apiname, dynamic data ) {
+			new DialogHalloween().Show( this );
+			APIObserver.Instance.APIList["api_port/port"].ResponseReceived -= CallPumpkinHead;
+		}
 
 
 		private void StripMenu_WindowCapture_AttachAll_Click( object sender, EventArgs e ) {

@@ -207,7 +207,7 @@ namespace ElectronicObserver.Data.Battle {
 
 				if ( itemID != -1 ) {
 					if ( showLog )
-						Utility.Logger.Add( 2, string.Format( "已获得物品「{0}」。", KCDatabase.Instance.MasterUseItems[itemID].Name ) );
+						Utility.Logger.Add( 2, string.Format( "已获得物品「{0}」。( 合计: {1}个 )", KCDatabase.Instance.MasterUseItems[itemID].Name, KCDatabase.Instance.UseItems[itemID].Count + 1 ) );
 				}
 
 				if ( eqID != -1 ) {

@@ -1160,11 +1160,7 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 
 			switch ( apiname ) {
-				case "api_port/port":
-				case "api_get_member/ship2":
-				case "api_get_member/ship3":
-				case "api_req_kousyou/getship":
-				case "api_get_member/ship_deck":
+				default:
 					base.LoadFromResponse( apiname, (object)data );
 
 					HPCurrent = (int)RawData.api_nowhp;

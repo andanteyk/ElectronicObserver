@@ -31,7 +31,6 @@ namespace ElectronicObserver.Window {
 				ShipName = new Label();
 				ShipName.Text = "???";
 				ShipName.Anchor = AnchorStyles.Left;
-				ShipName.Font = parent.Font;
 				ShipName.ForeColor = parent.ForeColor;
 				ShipName.TextAlign = ContentAlignment.MiddleLeft;
 				//ShipName.Padding = new Padding( 0, 1, 0, 1 );
@@ -44,7 +43,6 @@ namespace ElectronicObserver.Window {
 				CompletionTime = new Label();
 				CompletionTime.Text = "";
 				CompletionTime.Anchor = AnchorStyles.Left;
-				CompletionTime.Font = parent.Font;
 				CompletionTime.ForeColor = parent.ForeColor;
 				CompletionTime.Tag = null;
 				CompletionTime.TextAlign = ContentAlignment.MiddleLeft;
@@ -54,6 +52,7 @@ namespace ElectronicObserver.Window {
 				CompletionTime.AutoSize = true;
 				CompletionTime.Visible = true;
 
+				ConfigurationChanged( parent );
 
 				tooltip = parent.ToolTipInfo;
 				#endregion
@@ -101,13 +100,13 @@ namespace ElectronicObserver.Window {
 					ShipName.Text = "";
 					CompletionTime.Text = "";
 					CompletionTime.Tag = null;
-					
+
 				} else if ( arsenal.State == 0 ) {
 					//empty
 					ShipName.Text = "----";
 					CompletionTime.Text = "";
 					CompletionTime.Tag = null;
-					
+
 				} else if ( arsenal.State == 2 ) {
 					//building
 					string name = showShipName ? db.MasterShips[arsenal.ShipID].Name : "???";
@@ -124,7 +123,7 @@ namespace ElectronicObserver.Window {
 					tooltip.SetToolTip( ShipName, name );
 					CompletionTime.Text = "完成！";
 					CompletionTime.Tag = null;
-					
+
 				}
 
 			}
@@ -135,6 +134,12 @@ namespace ElectronicObserver.Window {
 				if ( CompletionTime.Tag != null ) {
 					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( (DateTime)CompletionTime.Tag );
 				}
+			}
+
+
+			public void ConfigurationChanged( FormArsenal parent ) {
+				ShipName.Font = parent.Font;
+				CompletionTime.Font = parent.Font;
 			}
 
 		}
@@ -153,8 +158,6 @@ namespace ElectronicObserver.Window {
 
 			ControlHelper.SetDoubleBuffered( TableArsenal );
 
-			ConfigurationChanged();
-
 			TableArsenal.SuspendLayout();
 			ControlArsenal = new TableArsenalControl[4];
 			for ( int i = 0; i < ControlArsenal.Length; i++ ) {
@@ -163,6 +166,8 @@ namespace ElectronicObserver.Window {
 			TableArsenal.ResumeLayout();
 
 			_buildingID = -1;
+
+			ConfigurationChanged();
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormArsenal] );
 		}
@@ -191,7 +196,7 @@ namespace ElectronicObserver.Window {
 				ArsenalData arsenal = KCDatabase.Instance.Arsenals[_buildingID];
 				ShipDataMaster ship = KCDatabase.Instance.MasterShips[arsenal.ShipID];
 				string name;
-				
+
 				if ( Utility.Configuration.Config.Log.ShowSpoiler && Utility.Configuration.Config.FormArsenal.ShowShipName ) {
 
 					name = string.Format( "{0}「{1}」", ship.ShipTypeName, ship.NameWithClass );
@@ -218,7 +223,7 @@ namespace ElectronicObserver.Window {
 			if ( apiname == "api_req_kousyou/createship" ) {
 				_buildingID = int.Parse( data["api_kdock_id"] );
 			}
-			
+
 			UpdateUI();
 		}
 
@@ -280,7 +285,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		
+
 	}
 
 }
