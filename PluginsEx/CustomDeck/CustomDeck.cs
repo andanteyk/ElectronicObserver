@@ -33,7 +33,7 @@ namespace CustomDeck
         {
             InitializeComponent();
             TopLevel = false;
-
+            dataGridView1.ForeColor = SystemColors.ControlText;
             for (int i = 0; i < dataGridView1.Columns.Count; i++)
             {
                 dataGridView1.Columns[i].HeaderCell.Style = dataGridView1.ColumnHeadersDefaultCellStyle;

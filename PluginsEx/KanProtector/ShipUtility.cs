@@ -23,6 +23,10 @@ namespace KanProtector
                 {
                     id = 461;
                 }
+                else if (id == 461)
+                {
+                    id = 466;
+                }
                 else
                     id = Ship.RemodelAfterShipID;
             }

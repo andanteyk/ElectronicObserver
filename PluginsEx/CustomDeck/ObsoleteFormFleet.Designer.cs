@@ -145,7 +145,6 @@
 			// 
 			// FormFleet
 			// 
-			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(300, 200);
@@ -153,7 +152,6 @@
 			this.Controls.Add(this.TableMember);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.HideOnClose = true;
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "FormFleet";
 			this.Text = "*not loaded*";

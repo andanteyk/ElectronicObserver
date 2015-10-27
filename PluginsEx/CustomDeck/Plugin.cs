@@ -10,7 +10,7 @@ using Fiddler;
 
 namespace CustomDeck
 {
-    public class Plugin : DialogPlugin
+    public class Plugin : DockPlugin
     {
         public override string MenuTitle
         {
@@ -19,12 +19,7 @@ namespace CustomDeck
 
         public override string Version
         {
-            get { return "1.0.0.0"; }
-        }
-
-        public override System.Windows.Forms.Form GetToolWindow()
-        {
-            return new MainForm();
+            get { return "1.0.0.1"; }
         }
 
     }

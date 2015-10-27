@@ -48,12 +48,13 @@
             this.ColEquipment4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColEquipmentX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MenuShip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MenuEquipment = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.更换舰船ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.改造ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.复制CToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.粘贴VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.清除DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuEquipment = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.更换装备ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.设置等级ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +68,7 @@
             this.复制CToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.粘贴VToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.清除DToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.查看图鉴ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.MenuShip.SuspendLayout();
             this.MenuEquipment.SuspendLayout();
@@ -209,17 +210,6 @@
             this.MenuShip.Name = "MenuShip";
             this.MenuShip.Size = new System.Drawing.Size(134, 136);
             // 
-            // MenuEquipment
-            // 
-            this.MenuEquipment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.更换装备ToolStripMenuItem,
-            this.设置等级ToolStripMenuItem,
-            this.复制CToolStripMenuItem1,
-            this.粘贴VToolStripMenuItem1,
-            this.清除DToolStripMenuItem1});
-            this.MenuEquipment.Name = "contextMenuStrip1";
-            this.MenuEquipment.Size = new System.Drawing.Size(134, 114);
-            // 
             // 更换舰船ToolStripMenuItem
             // 
             this.更换舰船ToolStripMenuItem.Name = "更换舰船ToolStripMenuItem";
@@ -250,10 +240,28 @@
             this.清除DToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.清除DToolStripMenuItem.Text = "清除(&D)";
             // 
+            // toolStripMenuItem10
+            // 
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(133, 22);
+            this.toolStripMenuItem10.Text = "查看图鉴";
+            // 
+            // MenuEquipment
+            // 
+            this.MenuEquipment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.更换装备ToolStripMenuItem,
+            this.设置等级ToolStripMenuItem,
+            this.复制CToolStripMenuItem1,
+            this.粘贴VToolStripMenuItem1,
+            this.清除DToolStripMenuItem1,
+            this.查看图鉴ToolStripMenuItem});
+            this.MenuEquipment.Name = "contextMenuStrip1";
+            this.MenuEquipment.Size = new System.Drawing.Size(153, 158);
+            // 
             // 更换装备ToolStripMenuItem
             // 
             this.更换装备ToolStripMenuItem.Name = "更换装备ToolStripMenuItem";
-            this.更换装备ToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.更换装备ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.更换装备ToolStripMenuItem.Text = "更换装备...";
             // 
             // 设置等级ToolStripMenuItem
@@ -268,80 +276,80 @@
             this.toolStripMenuItem7,
             this.toolStripMenuItem8});
             this.设置等级ToolStripMenuItem.Name = "设置等级ToolStripMenuItem";
-            this.设置等级ToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.设置等级ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.设置等级ToolStripMenuItem.Text = "设置等级";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(83, 22);
             this.toolStripMenuItem1.Text = "0";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(83, 22);
             this.toolStripMenuItem2.Text = "1";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(83, 22);
             this.toolStripMenuItem3.Text = "2";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(83, 22);
             this.toolStripMenuItem4.Text = "3";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(83, 22);
             this.toolStripMenuItem5.Text = "4";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(83, 22);
             this.toolStripMenuItem6.Text = "5";
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(83, 22);
             this.toolStripMenuItem7.Text = "6";
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(83, 22);
             this.toolStripMenuItem8.Text = "7";
             // 
             // 复制CToolStripMenuItem1
             // 
             this.复制CToolStripMenuItem1.Name = "复制CToolStripMenuItem1";
-            this.复制CToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
+            this.复制CToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.复制CToolStripMenuItem1.Text = "复制(&C)";
             // 
             // 粘贴VToolStripMenuItem1
             // 
             this.粘贴VToolStripMenuItem1.Name = "粘贴VToolStripMenuItem1";
-            this.粘贴VToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
+            this.粘贴VToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.粘贴VToolStripMenuItem1.Text = "粘贴(&V)";
             // 
             // 清除DToolStripMenuItem1
             // 
             this.清除DToolStripMenuItem1.Name = "清除DToolStripMenuItem1";
-            this.清除DToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
+            this.清除DToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.清除DToolStripMenuItem1.Text = "清除(&D)";
             // 
-            // toolStripMenuItem10
+            // 查看图鉴ToolStripMenuItem
             // 
-            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(133, 22);
-            this.toolStripMenuItem10.Text = "111";
+            this.查看图鉴ToolStripMenuItem.Name = "查看图鉴ToolStripMenuItem";
+            this.查看图鉴ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.查看图鉴ToolStripMenuItem.Text = "查看图鉴";
             // 
             // CustomDeck
             // 
@@ -392,6 +400,7 @@
         private System.Windows.Forms.ToolStripMenuItem 粘贴VToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 清除DToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
+        private System.Windows.Forms.ToolStripMenuItem 查看图鉴ToolStripMenuItem;
 
     }
 }

@@ -26,7 +26,7 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace CustomDeck
 {
 
-    public partial class ObsoleteFormFleet : DockContent
+    public partial class ObsoleteFormFleet : Form
     {
 
         private class TableFleetControl
@@ -795,11 +795,6 @@ namespace CustomDeck
             e.Graphics.DrawLine(LinePen, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
         }
 
-
-        public override string GetPersistString()
-        {
-            return "Fleet #" + FleetID.ToString();
-        }
 
 
 
