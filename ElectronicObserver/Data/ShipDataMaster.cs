@@ -72,7 +72,8 @@ namespace ElectronicObserver.Data {
 				int id;
 				if ( RawData.api_aftershipid() ) {
 					id = int.Parse( (string)RawData.api_aftershipid );
-					if ( id == 461 ) {
+					//if ( id == 466 ) {
+					if ( ShipType == 18 ) {	// 如果是装甲空母则跳过
 						id = 0;
 					}
 				} else
@@ -106,13 +107,13 @@ namespace ElectronicObserver.Data {
 		/// 改装に必要な弾薬
 		/// </summary>
 		public int RemodelAmmo {
-			get { return !RawData.api_afterfuel() ? 0 : (int)RawData.api_afterfuel; }
+			get { return !RawData.api_afterbull() ? 0 : (int)RawData.api_afterbull; }
 		}
 		/// <summary>
 		/// 改装に必要な鋼材
 		/// </summary>
 		public int RemodelSteel {
-			get { return !RawData.api_afterbull() ? 0 : (int)RawData.api_afterbull; }
+			get { return !RawData.api_afterfuel() ? 0 : (int)RawData.api_afterfuel; }
 		}
 		/// <summary>
 		/// 改装に改装設計図が必要かどうか

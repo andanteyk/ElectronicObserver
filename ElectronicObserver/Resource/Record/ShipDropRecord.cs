@@ -12,7 +12,7 @@ namespace ElectronicObserver.Resource.Record {
 	[DebuggerDisplay( "{Record.Count} Records" )]
 	public class ShipDropRecord : RecordBase {
 
-		[DebuggerDisplay( "[{ShipID}] : {FleetName}" )]
+		[DebuggerDisplay( "[{Date}] : {ShipName} / {ItemName}" )]
 		public class ShipDropElement : RecordElementBase {
 
 			/// <summary>
@@ -23,33 +23,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// <summary>
 			/// ドロップした艦の名前
 			/// </summary>
-			public string ShipName {
-				get {
-					if ( ShipID == -1 ) return "(なし)";
-					if ( ShipID == -2 ) return "(満員)";
-
-					/*
-					if ( ShipID > 2000 ) {
-						var eq = KCDatabase.Instance.MasterEquipments[ShipID - 2000];
-						if ( eq != null )
-							return eq.Name;
-
-					} else if ( ShipID > 1000 ) {
-						var item = KCDatabase.Instance.MasterUseItems[ShipID - 1000];
-						if ( item != null )
-							return item.Name;
-
-					} else {
-					 */
-					var ship = KCDatabase.Instance.MasterShips[ShipID];
-					if ( ship != null )
-						return ship.NameWithClass;
-
-					//}
-
-					return "???";
-				}
-			}
+			public string ShipName { get; set; }
 
 			/// <summary>
 			/// ドロップしたアイテムのID　-1=なし
@@ -59,15 +33,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// <summary>
 			/// ドロップしたアイテムの名前
 			/// </summary>
-			public string ItemName {
-				get {
-					if ( ItemID == -1 ) return "(なし)";
-					var item = KCDatabase.Instance.MasterUseItems[ItemID];
-					if ( item != null )
-						return item.Name;
-					return "???";
-				}
-			}
+			public string ItemName { get; set; }
 
 			/// <summary>
 			/// ドロップした装備のID　-1=なし
@@ -77,15 +43,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// <summary>
 			/// ドロップした装備の名前
 			/// </summary>
-			public string EquipmentName {
-				get {
-					if ( EquipmentID == -1 ) return "(なし)";
-					var eq = KCDatabase.Instance.MasterEquipments[EquipmentID];
-					if ( eq != null )
-						return eq.Name;
-					return "???";
-				}
-			}
+			public string EquipmentName { get; set; }
 
 			/// <summary>
 			/// ドロップした日時
@@ -143,8 +101,40 @@ namespace ElectronicObserver.Resource.Record {
 
 			public ShipDropElement( int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, uint enemyFleetID, string rank, int hqLevel ) {
 				ShipID = shipID;
+				if ( shipID == -1 )
+					ShipName = "(なし)";
+				else if ( shipID == -2 )
+					ShipName = "(満員)";
+				else {
+					var ship = KCDatabase.Instance.MasterShips[shipID];
+					if ( ship != null )
+						ShipName = ship.NameWithClass;
+					else
+						ShipName = "???";
+				}
+
 				ItemID = itemID;
+				if ( itemID == -1 )
+					ItemName = "(なし)";
+				else {
+					var item = KCDatabase.Instance.MasterUseItems[itemID];
+					if ( item != null )
+						ItemName = item.Name;
+					else
+						ItemName = "???";
+				}
+
 				EquipmentID = equipmentID;
+				if ( equipmentID == -1 )
+					EquipmentName = "(なし)";
+				else {
+					var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
+					if ( eq != null )
+						EquipmentName = eq.Name;
+					else
+						EquipmentName = "???";
+				}
+
 				Date = DateTime.Now;
 				MapAreaID = mapAreaID;
 				MapInfoID = mapInfoID;
@@ -163,8 +153,11 @@ namespace ElectronicObserver.Resource.Record {
 				if ( elem.Length < 15 ) throw new ArgumentException( "要素数が少なすぎます。" );
 
 				ShipID = int.Parse( elem[0] );
+				ShipName = elem[1];
 				ItemID = int.Parse( elem[2] );
+				ItemName = elem[3];
 				EquipmentID = int.Parse( elem[4] );
+				EquipmentName = elem[5];
 				Date = DateTimeHelper.CSVStringToTime( elem[6] );
 				MapAreaID = int.Parse( elem[7] );
 				MapInfoID = int.Parse( elem[8] );
@@ -179,7 +172,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			public override string SaveLine() {
 
-				return string.Format( string.Join( ",", Enumerable.Range( 0, 15 ).Select( i => "{" + i + "}" )  ),
+				return string.Format( string.Join( ",", Enumerable.Range( 0, 15 ).Select( i => "{" + i + "}" ) ),
 					ShipID,
 					ShipName,
 					ItemID,
