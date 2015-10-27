@@ -97,12 +97,23 @@ namespace ElectronicObserver.Utility.Data {
 
 
 
-		private static readonly Dictionary<int, int> AirSuperiorityBonus = new Dictionary<int, int>() {
-			{ 6, 25 },		//艦上戦闘機
-			{ 7, 3 },		//艦上爆撃機
-			{ 8, 3 },		//艦上攻撃機
-			{ 11, 9 },		//水上爆撃機
+		/// <summary>
+		/// 各装備カテゴリにおける制空値の熟練度ボーナス
+		/// </summary>
+		private static readonly Dictionary<int, int[]> AircraftLevelBonus = new Dictionary<int, int[]>() {
+			{ 6, new int[8] { 0, 0, 2, 5, 9, 14, 14, 22 } },	//艦上戦闘機
+			{ 7, new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上爆撃機
+			{ 8, new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上攻撃機
+			{ 11, new int[8] { 0, 1, 1, 1, 1, 3, 3, 6 } },		//水上爆撃機
 		};
+
+		/// <summary>
+		/// 艦載機熟練度の内部値テーブル(仮)
+		/// </summary>
+		private static readonly List<int> AircraftExpTable = new List<int>() {
+			0, 10, 25, 40, 55, 70, 85, 100 
+		};
+
 
 		/// <summary>
 		/// 制空戦力を求めます。
@@ -114,7 +125,7 @@ namespace ElectronicObserver.Utility.Data {
 				return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
 			}
 
-			int air = 0;		//checkme: 場合によっては double にする必要があるかも
+			int air = 0;
 			var eqs = ship.SlotInstance;
 			var aircrafts = ship.Aircraft;
 
@@ -125,11 +136,8 @@ namespace ElectronicObserver.Utility.Data {
 
 					int category = eq.MasterEquipment.CategoryType;
 
-					if ( AirSuperiorityBonus.ContainsKey( category ) ) {
-						air += (int)( eq.MasterEquipment.AA * Math.Sqrt( aircrafts[i] ) );
-
-						if ( eq.AircraftLevel == 7 )
-							air += AirSuperiorityBonus[category];
+					if ( AircraftLevelBonus.ContainsKey( category ) ) {
+						air += (int)( eq.MasterEquipment.AA * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
 					}
 
 				}
