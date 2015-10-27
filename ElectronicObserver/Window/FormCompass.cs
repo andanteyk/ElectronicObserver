@@ -796,6 +796,7 @@ namespace ElectronicObserver.Window {
 				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
 					ControlMember[i].Equipments.ShowAircraft = flag;
+					ControlMember[i].ConfigurationChanged( this );
 				}
 			}
 		}
