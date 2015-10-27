@@ -18,27 +18,23 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou {
 		}
 
 
-		public override void OnResponseReceived( dynamic data )
-		{
+		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
 
+
 			if ( request != null )
 			{
-
-
 				db.Fleet.LoadFromRequest( APIName, request );
 
 
-				foreach ( string id in request["api_id_items"].Split( ",".ToCharArray() ) )
-				{
+				foreach ( string id in request["api_id_items"].Split( ",".ToCharArray() ) ) {
 
 					int shipID = int.Parse( id );
 
 
 					ShipData ship = db.Ships[shipID];
-					for ( int i = 0; i < ship.Slot.Count; i++ )
-					{
+					for ( int i = 0; i < ship.Slot.Count; i++ ) {
 						if ( ship.Slot[i] != -1 )
 							db.Equipments.Remove( ship.Slot[i] );
 					}
@@ -48,7 +44,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou {
 
 				}
 			}
-
 			{
 				var ship = db.Ships[(int)data.api_ship.api_id];
 				if ( ship != null )
