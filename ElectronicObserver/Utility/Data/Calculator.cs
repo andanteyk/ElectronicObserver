@@ -553,14 +553,54 @@ namespace ElectronicObserver.Utility.Data {
 			return air;
 		}
 
+
+
+		/// <summary>
+		/// 各装備カテゴリにおける制空値の熟練度ボーナス
+		/// </summary>
+		private static readonly Dictionary<int, int[]> AircraftLevelBonus = new Dictionary<int, int[]>() {
+			{ 6, new int[8] { 0, 0, 2, 5, 9, 14, 14, 22 } },	//艦上戦闘機
+			{ 7, new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上爆撃機
+			{ 8, new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上攻撃機
+			{ 11, new int[8] { 0, 1, 1, 1, 1, 3, 3, 6 } },		//水上爆撃機
+		};
+
+		/// <summary>
+		/// 艦載機熟練度の内部値テーブル(仮)
+		/// </summary>
+		private static readonly List<int> AircraftExpTable = new List<int>() {
+			0, 10, 25, 40, 55, 70, 85, 100 
+		};
+
+
 		/// <summary>
 		/// 制空戦力を求めます。
 		/// </summary>
 		/// <param name="ship">対象の艦船。</param>
 		public static int GetAirSuperiority( ShipData ship ) {
 
-			return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
+			if ( Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 0 ) {
+				return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
+			}
+			int air = 0;
+			var eqs = ship.SlotInstance;
+			var aircrafts = ship.Aircraft;
 
+
+			for ( int i = 0; i < eqs.Count; i++ ) {
+				var eq = eqs[i];
+				if ( eq != null && aircrafts[i] > 0 ) {
+
+					int category = eq.MasterEquipment.CategoryType;
+
+					if ( AircraftLevelBonus.ContainsKey( category ) ) {
+						air += (int)( eq.MasterEquipment.AA * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
+					}
+
+				}
+			}
+
+			return air;
 		}
 
 		/// <summary>

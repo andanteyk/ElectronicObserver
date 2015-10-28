@@ -517,7 +517,7 @@ namespace ElectronicObserver.Window {
 			SelectedTab.BackColor = TabActiveColor;
 
 
-			if ( headIndex < ShipView.Rows.Count )
+			if ( 0 <= headIndex && headIndex < ShipView.Rows.Count )
 				ShipView.FirstDisplayedScrollingRowIndex = headIndex;
 			
 			if ( selectedIDList.Count > 0 ) {

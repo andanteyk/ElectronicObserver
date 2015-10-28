@@ -181,7 +181,6 @@ namespace ElectronicObserver.Data.Battle {
 				RecordManager.Instance.EnemyFleet.Update( enemyFleetData );
 
 
-
 			//ドロップ艦記録
 			if ( ( BattleMode & BattleModes.BattlePhaseMask ) != BattleModes.Practice ) {
 
@@ -229,6 +228,30 @@ namespace ElectronicObserver.Data.Battle {
 				}
 
 				RecordManager.Instance.ShipDrop.Add( shipID, itemID, eqID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.MapInfo.EventDifficulty, Compass.EventID == 5, enemyFleetData.FleetID, Result.Rank, KCDatabase.Instance.Admiral.Level );
+			}
+
+
+			//DEBUG
+			if ( Utility.Configuration.Config.Log.LogLevel <= 1 && Utility.Configuration.Config.Connection.SaveReceivedData ) {
+				IEnumerable<int> damages;
+				switch ( BattleMode & BattleModes.BattlePhaseMask ) {
+					case BattleModes.Normal:
+					case BattleModes.AirBattle:
+					case BattleModes.Practice:
+					default:
+						damages = ( (BattleData)BattleNight ?? BattleDay ).AttackDamages;
+						break;
+					case BattleModes.NightOnly:
+					case BattleModes.NightDay:
+						damages = ( (BattleData)BattleDay ?? BattleNight ).AttackDamages;
+						break;
+				}
+
+				damages = damages.Take( 6 ).Where( i => i > 0 );
+
+				if ( damages.Count( i => i == damages.Max() ) > 1 ) {
+					Utility.Logger.Add( 1, "MVP候補が複数存在します。ログを確認してください。" );
+				}
 			}
 
 		}
