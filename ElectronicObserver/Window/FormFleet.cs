@@ -361,6 +361,36 @@ namespace ElectronicObserver.Window {
 				return CalculatorEx.CalculateFire( ship );
 			}
 
+            private string CalculateEvasion(ShipData ship)
+            {
+                double Evasion = 1.3 * ship.EvasionTotal;
+                double Evap = Evasion > 50 ? 3 + 100 * Evasion / (Evasion + 50) : 3 + Evasion;
+                return Evap.ToString("F1") + "%";
+            }
+
+            private string CalculateArmor(ShipData ship)
+            {
+                double ArmorMax = 0.7 * ship.ArmorTotal + 0.6 * (ship.ArmorTotal - 1);
+                double ArmorMin = 0.7 * ship.ArmorTotal;
+                return ArmorMin.ToString("F0") + "~" + ArmorMax.ToString("F0");
+            }
+
+            private string CalculateHitRatio(ShipData ship)
+            {
+                int EquipmentAccuracy = 0;
+                for (int i = 0; i < ship.Slot.Count; i++)
+                {
+                    if (ship.Slot[i] != -1 && KCDatabase.Instance.Equipments[ship.Slot[i]] != null)
+                    {
+                        EquipmentAccuracy += KCDatabase.Instance.Equipments[ship.Slot[i]].MasterEquipment.Accuracy;
+                    }
+                }
+
+                double Accuracy = 100 * Math.Sqrt(ship.Level) / 45 - 5;
+                double Total = Accuracy + EquipmentAccuracy;
+                return Accuracy.ToString("F1") + "+" + EquipmentAccuracy.ToString() + "=" + Total.ToString("F1");
+            }
+
 			private double CalculateWeightingAA( ShipData ship )
 			{
 				return CalculatorEx.CalculateWeightingAA( ship );
@@ -378,27 +408,30 @@ namespace ElectronicObserver.Window {
 
 					Name.Text = ship.MasterShip.NameWithClass;
 					Name.Tag = ship.ShipID;
-					ToolTipInfo.SetToolTip( Name,
-						string.Format(
-							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n加权对空: {19:0.##}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
-							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
-							ship.FirepowerBase,
-							(ship.MasterShip.ShipType == 7 ||	// 轻空母
-							ship.MasterShip.ShipType == 11 ||	// 正规空母
-							ship.MasterShip.ShipType == 18) ?	// 装甲空母
-							string.Format( "{0}（空母火力：{1:F0}）", ship.FirepowerTotal, CalculateFire( ship ) ) :
-							ship.FirepowerTotal.ToString(),
-							ship.TorpedoBase, ship.TorpedoTotal,
-							ship.AABase, ship.AATotal,
-							ship.ArmorBase, ship.ArmorTotal,
-							ship.ASWBase, ship.ASWTotal,
-							ship.EvasionBase, ship.EvasionTotal,
-							ship.LOSBase, ship.LOSTotal,
-							ship.LuckTotal,
-							Constants.GetRange( ship.Range ),
-							Constants.GetSpeed( ship.MasterShip.Speed ),
-							CalculateWeightingAA( ship )
-							) );
+                    ToolTipInfo.SetToolTip(Name,
+                        string.Format(
+                            "{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n加权对空: {19:0.##}\n装甲: {8}/{9}({22})\n対潜: {10}/{11}\n命中: {21}\n回避: {12}/{13}({20})\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
+                            ship.MasterShip.ShipTypeName, ship.NameWithLevel,
+                            ship.FirepowerBase,
+                            (ship.MasterShip.ShipType == 7 ||	// 轻空母
+                            ship.MasterShip.ShipType == 11 ||	// 正规空母
+                            ship.MasterShip.ShipType == 18) ?	// 装甲空母
+                            string.Format("{0}（空母火力：{1:F0}）", ship.FirepowerTotal, CalculateFire(ship)) :
+                            ship.FirepowerTotal.ToString(),
+                            ship.TorpedoBase, ship.TorpedoTotal,
+                            ship.AABase, ship.AATotal,
+                            ship.ArmorBase, ship.ArmorTotal,
+                            ship.ASWBase, ship.ASWTotal,
+                            ship.EvasionBase, ship.EvasionTotal,
+                            ship.LOSBase, ship.LOSTotal,
+                            ship.LuckTotal,
+                            Constants.GetRange(ship.Range),
+                            Constants.GetSpeed(ship.MasterShip.Speed),
+                            CalculateWeightingAA(ship),
+                            CalculateEvasion(ship),
+                            CalculateHitRatio(ship),
+                            CalculateArmor(ship)
+                            ));
 
 
 					Level.Value = ship.Level;
