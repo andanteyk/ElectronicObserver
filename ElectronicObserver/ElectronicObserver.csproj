@@ -163,8 +163,10 @@
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
+    <Compile Include="Observer\kcsapi\api_req_hensei\preset_select.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\open_exslot.cs" />
+    <Compile Include="Observer\kcsapi\api_req_kaisou\slot_exchange_index.cs" />
     <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\updatecomment.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
@@ -307,6 +309,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogConfigurationNotifier.Designer.cs">
       <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogDevelopmentRecordViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogDevelopmentRecordViewer.Designer.cs">
+      <DependentUpon>DialogDevelopmentRecordViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogDropRecordViewer.cs">
       <SubType>Form</SubType>
@@ -546,6 +554,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfigurationNotifier.resx">
       <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogDevelopmentRecordViewer.resx">
+      <DependentUpon>DialogDevelopmentRecordViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogDropRecordViewer.resx">
       <DependentUpon>DialogDropRecordViewer.cs</DependentUpon>

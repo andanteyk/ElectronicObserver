@@ -1163,6 +1163,10 @@ namespace ElectronicObserver.Data {
 					Ammo = (int)data.api_bull;
 					_aircraft = (int[])data.api_onslot;
 					break;
+
+				case "api_req_kaisou/slot_exchange_index":
+					_slot = (int[])data.api_slot;
+					break;
 			}
 
 		}
