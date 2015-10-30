@@ -206,6 +206,8 @@ namespace ElectronicObserver.Window.Dialog {
 				DropView_Rank.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
 			}
+			DropView.ColumnHeadersVisible = true;
+
 
 			Searcher.RunWorkerAsync( new object[] { 
 				ShipName.SelectedItem,
