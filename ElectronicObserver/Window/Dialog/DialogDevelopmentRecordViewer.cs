@@ -116,6 +116,14 @@ namespace ElectronicObserver.Window.Dialog {
 			return GetRecipeString( new int[] { fuel, ammo, steel, bauxite } );
 		}
 
+		private string GetRecipeStringForSorting( int[] resources ) {
+			return string.Join( "/", resources.Select( r => r.ToString( "D4" ) ) );
+		}
+
+		private string GetRecipeStringForSorting( int fuel, int ammo, int steel, int bauxite ) {
+			return GetRecipeStringForSorting( new int[] { fuel, ammo, steel, bauxite } );
+		}
+
 		private int[] GetResources( string recipe ) {
 			return recipe.Split( "/".ToCharArray() ).Select( s => int.Parse( s ) ).ToArray();
 		}
@@ -408,6 +416,7 @@ namespace ElectronicObserver.Window.Dialog {
 								);
 
 							row.Cells[0].Tag = allcounts[c.Key];
+							row.Cells[1].Tag = GetRecipeStringForSorting( GetResources( c.Key ) );
 
 						} else {
 
@@ -420,7 +429,9 @@ namespace ElectronicObserver.Window.Dialog {
 								"*"
 								);
 
+							var eq = KCDatabase.Instance.MasterEquipments.Values.FirstOrDefault( eqm => eqm.Name == c.Key );
 							row.Cells[0].Tag = (double)c.Value / sum;
+							row.Cells[1].Tag = ( eq != null ? eq.EquipmentID : 0 ) + 1000 * ( eq != null ? eq.CategoryType : 0 );
 						}
 
 						rows.AddLast( row );
@@ -448,10 +459,11 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void DevelopmentView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
-			if ( e.Column.Index == DevelopmentView_Header.Index ) {
-				object tag1 = DevelopmentView[e.Column.Index, e.RowIndex1].Tag;
-				object tag2 = DevelopmentView[e.Column.Index, e.RowIndex2].Tag;
+			object tag1 = DevelopmentView[e.Column.Index, e.RowIndex1].Tag;
+			object tag2 = DevelopmentView[e.Column.Index, e.RowIndex2].Tag;
 
+			if ( e.Column.Index == DevelopmentView_Header.Index ) {
+				
 				double c1 = 0 , c2 = 0;
 
 				if ( tag1 is double ) {
@@ -470,6 +482,17 @@ namespace ElectronicObserver.Window.Dialog {
 				else
 					e.SortResult = 1;
 				e.Handled = true;
+
+			} else if ( e.Column.Index == DevelopmentView_Name.Index ) {
+
+				if ( tag1 is string ) {
+					e.SortResult = ( (IComparable)tag1 ).CompareTo( tag2 );
+					e.Handled = true;
+				} else if ( tag1 is int ) {
+					e.SortResult = (int)tag1 - (int)tag2;
+					e.Handled = true;
+				}
+
 			}
 
 			if ( !e.Handled ) {
