@@ -747,7 +747,7 @@ api_get_member/questlist	：任務
 		api_get_material	：獲得資材
 		api_bonus_flag		：1=通常, 2=艦娘
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成
-		api_invalid_flag	：機種転換不能フラグ？
+		api_invalid_flag	：機種転換不能フラグ　0=可能, 1=不可能(装備がロックされている)
 	api_exec_count			：受領任務数
 	api_exec_type			：？
 
@@ -913,6 +913,38 @@ api_req_hensei/change				：艦隊編成変更
 	api_change_count	：旗艦以外全解除時のみ存在　除隊した艦船数
 
 
+api_get_member/preset_deck		：編成記録情報　編成画面を開くと呼ばれる
+	api_max_num		：最大記録可能数
+	api_deck		：編成一覧　空欄は存在しないものとして扱われる
+		1			：1つめの編成　数値キーなので読み込み注意
+			api_preset_no	：編成ID
+			api_name		：艦隊名
+			api_name_id		：
+			api_ship		：編成された艦船のIDリスト[6] 空きは -1
+		2			：2つめの編成　以降同様　歯抜け登録可能(2を飛ばして3とか)なので注意
+
+Request.api_req_hensei/preset_register		：編成登録
+	api_name_id		：
+	api_deck_id		：艦隊ID
+	api_preset_no	：登録先
+
+api_req_hensei/preset_register		：編成登録
+	api_data			：編成データ　preset_deck 参照
+
+Request.api_req_hensei/preset_select		：編成展開
+	api_deck_id		：展開する艦隊ID
+	api_preset_no	：展開する編成ID
+
+api_req_hensei/preset_select		：編成展開
+	api_data		：艦隊情報　該当する艦隊のみ　api_get_member/deck 参照
+
+Request.api_req_hensei/preset_delete		：編成削除
+	api_preset_no	：編成ID
+
+api_req_hensei/preset_delete		：編成削除
+	(情報なし)
+
+
 Request.api_req_member/updatedeckname	：艦隊名変更
 	api_name			：変更後の艦隊名
 	api_name_id			：
@@ -1040,6 +1072,14 @@ Request.api_req_kaisou/slotset_ex		：補強スロット装備
 
 api_req_kaisou/slotset_ex				：補強スロット装備
 	(情報なし)
+
+Request.api_req_kaisou/slot_exchange_index		：装備スロット交換
+	api_id			：対象の艦船ID
+	api_src_idx		：交換元のスロットインデックス　0から始まる
+	api_dst_idx		：交換先のスロットインデックス
+
+api_req_kaisou/slot_exchange_index		：装備スロット交換
+	api_slot		：交換後のスロット配置
 
 
 Request.api_req_kaisou/remodeling	：改装

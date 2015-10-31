@@ -91,6 +91,8 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_sortie.airbattle() );
 			APIList.Add( new kcsapi.api_get_member.ship_deck() );
 			APIList.Add( new kcsapi.api_req_kaisou.marriage() );
+			APIList.Add( new kcsapi.api_req_hensei.preset_select() );
+			APIList.Add( new kcsapi.api_req_kaisou.slot_exchange_index() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );
