@@ -747,7 +747,7 @@ api_get_member/questlist	：任務
 		api_get_material	：獲得資材
 		api_bonus_flag		：1=通常, 2=艦娘
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成
-		api_invalid_flag	：機種転換不能フラグ？
+		api_invalid_flag	：機種転換不能フラグ　0=可能, 1=不可能(装備がロックされている)
 	api_exec_count			：受領任務数
 	api_exec_type			：？
 
