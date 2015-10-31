@@ -81,6 +81,7 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+			this.StripMenu_Tool_DevelopmentRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -359,6 +360,7 @@
             this.StripMenu_Tool_EquipmentList,
             this.toolStripSeparator7,
             this.StripMenu_Tool_DropRecord,
+            this.StripMenu_Tool_DevelopmentRecord,
             this.StripMenu_Tool_ResourceChart,
             this.toolStripSeparator15,
             this.StripMenu_Tool_AlbumMasterShip,
@@ -373,45 +375,45 @@
 			// StripMenu_Tool_EquipmentList
 			// 
 			this.StripMenu_Tool_EquipmentList.Name = "StripMenu_Tool_EquipmentList";
-			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(151, 22);
+			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_Tool_EquipmentList.Text = "装备一览(&Q)";
 			this.StripMenu_Tool_EquipmentList.Click += new System.EventHandler(this.StripMenu_Tool_EquipmentList_Click);
 			// 
 			// toolStripSeparator7
 			// 
 			this.toolStripSeparator7.Name = "toolStripSeparator7";
-			this.toolStripSeparator7.Size = new System.Drawing.Size(148, 6);
+			this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_Tool_DropRecord
 			// 
 			this.StripMenu_Tool_DropRecord.Name = "StripMenu_Tool_DropRecord";
-			this.StripMenu_Tool_DropRecord.Size = new System.Drawing.Size(151, 22);
+			this.StripMenu_Tool_DropRecord.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_Tool_DropRecord.Text = "ドロップ記録(&D)";
 			this.StripMenu_Tool_DropRecord.Click += new System.EventHandler(this.StripMenu_Tool_DropRecord_Click);
 			// 
 			// StripMenu_Tool_ResourceChart
 			// 
 			this.StripMenu_Tool_ResourceChart.Name = "StripMenu_Tool_ResourceChart";
-			this.StripMenu_Tool_ResourceChart.Size = new System.Drawing.Size(151, 22);
+			this.StripMenu_Tool_ResourceChart.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_Tool_ResourceChart.Text = "资源 Chart(&C)";
 			this.StripMenu_Tool_ResourceChart.Click += new System.EventHandler(this.StripMenu_Tool_ResourceChart_Click);
 			// 
 			// toolStripSeparator15
 			// 
 			this.toolStripSeparator15.Name = "toolStripSeparator15";
-			this.toolStripSeparator15.Size = new System.Drawing.Size(148, 6);
+			this.toolStripSeparator15.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_Tool_AlbumMasterShip
 			// 
 			this.StripMenu_Tool_AlbumMasterShip.Name = "StripMenu_Tool_AlbumMasterShip";
-			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(151, 22);
+			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_Tool_AlbumMasterShip.Text = "舰船图鉴(&S)";
 			this.StripMenu_Tool_AlbumMasterShip.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterShip_Click);
 			// 
 			// StripMenu_Tool_AlbumMasterEquipment
 			// 
 			this.StripMenu_Tool_AlbumMasterEquipment.Name = "StripMenu_Tool_AlbumMasterEquipment";
-			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(151, 22);
+			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_Tool_AlbumMasterEquipment.Text = "装备图鉴(&E)";
 			this.StripMenu_Tool_AlbumMasterEquipment.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterEquipment_Click);
 			// 
@@ -520,6 +522,13 @@
 			}
 			this.MainDockPanel.TabIndex = 0;
 			// 
+			// StripMenu_Tool_DevelopmentRecord
+			// 
+			this.StripMenu_Tool_DevelopmentRecord.Name = "StripMenu_Tool_DevelopmentRecord";
+			this.StripMenu_Tool_DevelopmentRecord.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_DevelopmentRecord.Text = "開発記録(&V)";
+			this.StripMenu_Tool_DevelopmentRecord.Click += new System.EventHandler(this.StripMenu_Tool_DevelopmentRecord_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -604,5 +613,6 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ResourceChart;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DropRecord;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DevelopmentRecord;
 	}
 }
