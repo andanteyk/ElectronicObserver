@@ -215,7 +215,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 				elem.Length > 5 ? int.Parse( elem[5] ) : 0 );
 		}
 
-
+/*
 		/// <summary>
 		/// 現在地点と東京標準時(艦これ時間)との時差を取得します。
 		/// </summary>
@@ -228,6 +228,7 @@ namespace ElectronicObserver.Utility.Mathematics {
 				return TimeZoneInfo.Local.BaseUtcOffset - new TimeSpan( 9, 0, 0 );
 			}
 		}
+*/
 
 	}
 
