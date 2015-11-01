@@ -861,6 +861,28 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void StripMenu_Tool_DevelopmentRecord_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦これを読み込んでから開いてください。", "マスターデータがありません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			if ( RecordManager.Instance.Development.Record.Count == 0 ) {
+				MessageBox.Show( "開発レコードがありません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			new Dialog.DialogDevelopmentRecordViewer().Show( this );
+
+		}
+
+
+
+
+
+
+
 		private void CallPumpkinHead( string apiname, dynamic data ) {
 			new DialogHalloween().Show( this );
 			APIObserver.Instance.APIList["api_port/port"].ResponseReceived -= CallPumpkinHead;

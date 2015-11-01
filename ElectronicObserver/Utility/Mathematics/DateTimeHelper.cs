@@ -215,7 +215,20 @@ namespace ElectronicObserver.Utility.Mathematics {
 				elem.Length > 5 ? int.Parse( elem[5] ) : 0 );
 		}
 
+/*
+		/// <summary>
+		/// 現在地点と東京標準時(艦これ時間)との時差を取得します。
+		/// </summary>
+		public static TimeSpan GetTimeDifference() {
+			try {
+				return TimeZoneInfo.Local.BaseUtcOffset - TimeZoneInfo.FindSystemTimeZoneById( "Tokyo Standard Time" ).BaseUtcOffset;
 
+			} catch ( Exception ) {
+				// 一部の環境で東京標準時のデータが読めないらしいので念のため対策
+				return TimeZoneInfo.Local.BaseUtcOffset - new TimeSpan( 9, 0, 0 );
+			}
+		}
+*/
 
 	}
 
