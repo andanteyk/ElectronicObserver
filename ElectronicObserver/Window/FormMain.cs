@@ -204,9 +204,9 @@ namespace ElectronicObserver.Window {
 			SystemEvents.OnUpdateTimerTick();
 
 			// 東京標準時で表示
-			DateTime now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId( DateTime.UtcNow, "Tokyo Standard Time" );
-			StripStatus_Clock.Text = now.ToString( "HH:mm:ss" );
-			StripStatus_Clock.ToolTipText = now.ToString( "yyyy/MM/dd (ddd)" );
+			DateTime now = DateTime.UtcNow + new TimeSpan( 9, 0, 0 );
+			StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
+			StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
 		}
 
 
