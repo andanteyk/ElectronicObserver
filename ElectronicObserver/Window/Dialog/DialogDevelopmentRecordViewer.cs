@@ -148,7 +148,7 @@ namespace ElectronicObserver.Window.Dialog {
 			var row = new DataGridViewRow();
 			row.CreateCells( DevelopmentView );
 
-			
+
 			if ( !MergeRows.Checked ) {
 				DevelopmentView_Header.Width = 50;
 				DevelopmentView_Header.HeaderText = "";
@@ -463,7 +463,7 @@ namespace ElectronicObserver.Window.Dialog {
 			object tag2 = DevelopmentView[e.Column.Index, e.RowIndex2].Tag;
 
 			if ( e.Column.Index == DevelopmentView_Header.Index ) {
-				
+
 				double c1 = 0 , c2 = 0;
 
 				if ( tag1 is double ) {

@@ -197,7 +197,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 42);
+			this.label2.Location = new System.Drawing.Point(12, 13);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(41, 15);
 			this.label2.TabIndex = 3;
@@ -207,7 +207,7 @@
 			// 
 			this.EquipmentCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.EquipmentCategory.FormattingEnabled = true;
-			this.EquipmentCategory.Location = new System.Drawing.Point(61, 39);
+			this.EquipmentCategory.Location = new System.Drawing.Point(61, 10);
 			this.EquipmentCategory.Name = "EquipmentCategory";
 			this.EquipmentCategory.Size = new System.Drawing.Size(121, 23);
 			this.EquipmentCategory.TabIndex = 2;
@@ -216,7 +216,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 13);
+			this.label1.Location = new System.Drawing.Point(12, 42);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(43, 15);
 			this.label1.TabIndex = 1;
@@ -227,7 +227,7 @@
 			this.EquipmentName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.EquipmentName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
 			this.EquipmentName.FormattingEnabled = true;
-			this.EquipmentName.Location = new System.Drawing.Point(61, 10);
+			this.EquipmentName.Location = new System.Drawing.Point(61, 39);
 			this.EquipmentName.Name = "EquipmentName";
 			this.EquipmentName.Size = new System.Drawing.Size(121, 23);
 			this.EquipmentName.TabIndex = 0;
