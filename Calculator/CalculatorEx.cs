@@ -319,7 +319,7 @@ namespace ElectronicObserver.Utility.Data
 			for ( int s = 0; s < length; s++ )
 			{
 
-				if ( aircraft[s] < 0 )
+				if ( aircraft[s] <= 0 )
 					continue;
 
 				EquipmentData equip = slot[s];

@@ -64,6 +64,7 @@
 			this.StripMenu_Tool_EquipmentList = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_DropRecord = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_DevelopmentRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_ResourceChart = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
@@ -359,6 +360,7 @@
             this.StripMenu_Tool_EquipmentList,
             this.toolStripSeparator7,
             this.StripMenu_Tool_DropRecord,
+            this.StripMenu_Tool_DevelopmentRecord,
             this.StripMenu_Tool_ResourceChart,
             this.toolStripSeparator15,
             this.StripMenu_Tool_AlbumMasterShip,
@@ -388,6 +390,13 @@
 			this.StripMenu_Tool_DropRecord.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_DropRecord.Text = "ドロップ記録(&D)";
 			this.StripMenu_Tool_DropRecord.Click += new System.EventHandler(this.StripMenu_Tool_DropRecord_Click);
+			// 
+			// StripMenu_Tool_DevelopmentRecord
+			// 
+			this.StripMenu_Tool_DevelopmentRecord.Name = "StripMenu_Tool_DevelopmentRecord";
+			this.StripMenu_Tool_DevelopmentRecord.Size = new System.Drawing.Size(151, 22);
+			this.StripMenu_Tool_DevelopmentRecord.Text = "開発記録(&V)";
+			this.StripMenu_Tool_DevelopmentRecord.Click += new System.EventHandler(this.StripMenu_Tool_DevelopmentRecord_Click);
 			// 
 			// StripMenu_Tool_ResourceChart
 			// 
@@ -473,6 +482,7 @@
             this.StripStatus_Clock});
 			this.StripStatus.Location = new System.Drawing.Point(0, 458);
 			this.StripStatus.Name = "StripStatus";
+			this.StripStatus.ShowItemToolTips = true;
 			this.StripStatus.Size = new System.Drawing.Size(640, 22);
 			this.StripStatus.TabIndex = 3;
 			// 
@@ -485,7 +495,7 @@
 			// StripStatus_Padding
 			// 
 			this.StripStatus_Padding.Name = "StripStatus_Padding";
-			this.StripStatus_Padding.Size = new System.Drawing.Size(483, 17);
+			this.StripStatus_Padding.Size = new System.Drawing.Size(452, 17);
 			this.StripStatus_Padding.Spring = true;
 			// 
 			// StripStatus_Clock
@@ -604,5 +614,6 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ResourceChart;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DropRecord;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DevelopmentRecord;
 	}
 }

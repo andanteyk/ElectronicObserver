@@ -53,6 +53,19 @@ namespace ElectronicObserver.Data {
 					}
 					break;
 
+				case "api_req_hensei/preset_select": {
+						int id = (int)data.api_id;
+
+						if ( !Fleets.ContainsKey( id ) ) {
+							var a = new FleetData();
+							a.LoadFromResponse( apiname, data );
+							Fleets.Add( a );
+
+						} else {
+							Fleets[id].LoadFromResponse( apiname, data );
+						}
+					} break;
+
 				default:
 					base.LoadFromResponse( apiname, (object)data );
 

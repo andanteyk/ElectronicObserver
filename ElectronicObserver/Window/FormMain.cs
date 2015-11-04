@@ -392,9 +392,9 @@ namespace ElectronicObserver.Window {
 			}
 
 			// 東京標準時で表示
-			DateTime now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId( DateTime.UtcNow, "Tokyo Standard Time" );
-			StripStatus_Clock.Text = now.ToString( "HH:mm:ss" );
-			StripStatus_Clock.ToolTipText = now.ToString( "yyyy/MM/dd (ddd)" );
+			DateTime now = DateTime.UtcNow + new TimeSpan( 9, 0, 0 );
+			StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
+			StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
 		}
 
 
@@ -859,6 +859,28 @@ namespace ElectronicObserver.Window {
 			new Dialog.DialogDropRecordViewer().Show( this );
 
 		}
+
+
+		private void StripMenu_Tool_DevelopmentRecord_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦これを読み込んでから開いてください。", "マスターデータがありません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			if ( RecordManager.Instance.Development.Record.Count == 0 ) {
+				MessageBox.Show( "開発レコードがありません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			new Dialog.DialogDevelopmentRecordViewer().Show( this );
+
+		}
+
+
+
+
+
 
 
 		private void CallPumpkinHead( string apiname, dynamic data ) {

@@ -228,6 +228,7 @@
 			this.DropView.AllowUserToDeleteRows = false;
 			this.DropView.AllowUserToResizeRows = false;
 			this.DropView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			this.DropView.ColumnHeadersVisible = false;
 			this.DropView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DropView_Header,
             this.DropView_Name,
