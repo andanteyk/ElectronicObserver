@@ -177,6 +177,8 @@ namespace ElectronicObserver.Window {
 					( (ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i] ).Checked = list[i];
 					QuestView.Columns[i].Width = width[i];
 				}
+                if (QuestView_Progress.Width > 200)//修正进度过长无法调节的问题
+                    QuestView_Progress.Width = 60;
 			}
 			MenuMain_ShowRunningOnly.Checked = Utility.Configuration.Config.FormQuest.ShowRunningOnly;
 			MenuMain_ShowOnce.Checked = Utility.Configuration.Config.FormQuest.ShowOnce;

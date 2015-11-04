@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
+using Microsoft.Win32;
+
 using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Window;
@@ -23,16 +25,43 @@ namespace CustomDeck
         //DeckData DataList;
 
         CustomFleets Fleets = new CustomFleets();
-        CustomDeck[] Decks = new CustomDeck[4];
+        CustomDeckForm[] Decks = new CustomDeckForm[4];
         public MainForm(FormMain main)
         {
             InitializeComponent();
         }
 
+        void OnDeckChanged(CustomDeckForm sender)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                var item = listView1.SelectedItems[0];
+                FleetDeck deck = item.Tag as FleetDeck;
+
+                deck.Fleets = Fleets;
+
+                DeckData.Instance.SaveConfig();
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            string s = Clipboard.GetText();
-            ImportFleets(s);
+            if (listView1.SelectedItems.Count > 0)
+            {
+                var item = listView1.SelectedItems[0];
+                FleetDeck deck = item.Tag as FleetDeck;
+                string s = Clipboard.GetText();
+                CustomFleets fleets = new CustomFleets();
+                if (!fleets.ImportFromString(s))
+                {
+                    MessageBox.Show("配置字符串不正确!无法解析");
+                    return;
+                }
+                deck.Fleets = fleets;
+                item.ToolTipText = deck.ShipList;
+                listView1_SelectedIndexChanged(null, null);
+                DeckData.Instance.SaveConfig();
+            }
         }
 
         void ImportFleets(string s)
@@ -45,7 +74,7 @@ namespace CustomDeck
                     {
                         Decks[i].Fleet = Fleets.Fleets[i];
                     }
-                    splitContainer1.Panel2.Enabled = true;
+
                 }
                 else
                 {
@@ -73,9 +102,9 @@ namespace CustomDeck
             LoadList();
             if (listView1.Items.Count>0)
             {
-                this.listView1.Items[0].Selected = true;
-                this.listView1.Select();
-                this.listView1.Items[0].Focused = true; 
+                //this.listView1.Items[0].Selected = true;
+                //this.listView1.Select();
+                //this.listView1.Items[0].Focused = true; 
             }
         }
 
@@ -86,8 +115,7 @@ namespace CustomDeck
             {
                 var item = listView1.Items.Add(deck.Name);
                 item.Tag = deck;
-                item.SubItems.Add(deck.Flagship);
-                item.ToolTipText = "";
+                item.ToolTipText = deck.ShipList;
             }
             listView1.EndUpdate();
         }
@@ -99,6 +127,7 @@ namespace CustomDeck
                 var item = listView1.SelectedItems[0];
                 FleetDeck deck = item.Tag as FleetDeck;
                 ImportFleets(deck.Json);
+                splitContainer1.Panel2.Enabled = true;
             }
             else
             {
@@ -110,7 +139,8 @@ namespace CustomDeck
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             bool enabled = listView1.SelectedItems.Count > 0;
-            contextMenuStrip1.Enabled = enabled;
+
+            toolStripMenuItem1.Enabled = enabled;
             删除编成ToolStripMenuItem.Enabled = enabled;
             导入游戏当前舰队ToolStripMenuItem.Enabled = enabled;
         }
@@ -124,6 +154,7 @@ namespace CustomDeck
                 DeckData.Instance.RemoveDeck(index);
                 //ImportFleets(null);
                 splitContainer1.Panel2.Enabled = false;
+                DeckData.Instance.SaveConfig();
             }
         }
 
@@ -136,9 +167,8 @@ namespace CustomDeck
                 var deck = DeckData.Instance.AddDeck(input.InputText, null);
                 var item = listView1.Items.Add(deck.Name);
                 item.Tag = deck;
-                item.SubItems.Add(deck.Flagship);
-                item.ToolTipText = "";
-
+                item.ToolTipText = deck.ShipList;
+                DeckData.Instance.SaveConfig();
                 listView1.Items[item.Index].Focused = true;
                 listView1.Items[item.Index].Selected = true;
             }
@@ -147,9 +177,26 @@ namespace CustomDeck
 
         private void 导入游戏当前舰队ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var deck = DeckData.Instance.AddDeck(KCDatabase.Instance.Fleet.Fleets[1].Name, null);
+            var item = listView1.Items.Add(deck.Name);
+            item.Tag = deck;
+            listView1.Items[item.Index].Focused = true;
+            listView1.Items[item.Index].Selected = true;
+            ImportGameFleet(KCDatabase.Instance.Fleet.Fleets[1].Name);
+        }
+
+        void ImportGameFleet(string name = null)
+        {
             if (listView1.SelectedItems.Count > 0)
             {
-                ImportFleets(CopyFleetDeckBuilder());
+                var item = listView1.SelectedItems[0];
+                FleetDeck deck = item.Tag as FleetDeck;
+                if (name != null)
+                    deck.Name = name;
+                deck.Json = CopyFleetDeckBuilder();
+                item.ToolTipText = deck.ShipList;
+                listView1_SelectedIndexChanged(null, null);
+                DeckData.Instance.SaveConfig();
             }
         }
 
@@ -168,7 +215,7 @@ namespace CustomDeck
             }
         }
 
-        private string CopyFleetDeckBuilder()
+        private string CopyFleetDeckBuilder()//从主程序复制过来
         {
 
             StringBuilder sb = new StringBuilder();
@@ -230,7 +277,9 @@ namespace CustomDeck
         {
             for (int i = 0; i < Decks.Length; i++)
             {
-                Decks[i] = new CustomDeck();
+                Decks[i] = new CustomDeckForm();
+                Decks[i].DeckChanged += OnDeckChanged;
+                Decks[i].DeckNo = i;
                 Decks[i].Parent = tabControl1.TabPages[i];
                 Decks[i].Dock = DockStyle.Fill;
                 Decks[i].Show();
@@ -240,6 +289,35 @@ namespace CustomDeck
         private void button3_Click(object sender, EventArgs e)
         {
             contextMenuStrip1.Show(MousePosition);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ImportGameFleet();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string website = @"http://www.kancolle-calc.net/deckbuilder.html?predeck=";
+            string json = Fleets.Serialize();
+            website += System.Web.HttpUtility.UrlEncode(json);
+            //Clipboard.SetText(website);
+            RegistryKey key = Registry.ClassesRoot.OpenSubKey(@"http\shell\open\command\");
+            string s = key.GetValue("").ToString();
+            int i1 = s.IndexOf("\"", 0);
+            int i2 = s.IndexOf("\"", i1 + 1);
+            s = s.Substring(i1 + 1, i2 - i1 - 1);
+            System.Diagnostics.Process.Start(s, website); 
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            contextMenuStrip2.Show(MousePosition);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            contextMenuStrip3.Show(MousePosition);
         }
 
        

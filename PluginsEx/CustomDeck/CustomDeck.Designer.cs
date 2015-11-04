@@ -1,6 +1,6 @@
 ﻿namespace CustomDeck
 {
-    partial class CustomDeck
+    partial class CustomDeckForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ColData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,7 +53,7 @@
             this.复制CToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.粘贴VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.清除DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenu舰船图鉴 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuEquipment = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.更换装备ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.设置等级ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +69,7 @@
             this.粘贴VToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.清除DToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.查看图鉴ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.MenuShip.SuspendLayout();
             this.MenuEquipment.SuspendLayout();
@@ -79,14 +80,14 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColData,
@@ -97,14 +98,14 @@
             this.ColEquipment3,
             this.ColEquipment4,
             this.ColEquipmentX});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.MultiSelect = false;
@@ -129,8 +130,8 @@
             // ColName
             // 
             this.ColName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            this.ColName.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            this.ColName.DefaultCellStyle = dataGridViewCellStyle11;
             this.ColName.HeaderText = "名称";
             this.ColName.Name = "ColName";
             this.ColName.ReadOnly = true;
@@ -139,9 +140,9 @@
             // ColLevel
             // 
             this.ColLevel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            this.ColLevel.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            this.ColLevel.DefaultCellStyle = dataGridViewCellStyle12;
             this.ColLevel.HeaderText = "等级";
             this.ColLevel.Name = "ColLevel";
             this.ColLevel.ReadOnly = true;
@@ -150,8 +151,8 @@
             // ColEquipment1
             // 
             this.ColEquipment1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            this.ColEquipment1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            this.ColEquipment1.DefaultCellStyle = dataGridViewCellStyle13;
             this.ColEquipment1.HeaderText = "装备1";
             this.ColEquipment1.Name = "ColEquipment1";
             this.ColEquipment1.ReadOnly = true;
@@ -161,8 +162,8 @@
             // ColEquipment2
             // 
             this.ColEquipment2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            this.ColEquipment2.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            this.ColEquipment2.DefaultCellStyle = dataGridViewCellStyle14;
             this.ColEquipment2.HeaderText = "装备2";
             this.ColEquipment2.Name = "ColEquipment2";
             this.ColEquipment2.ReadOnly = true;
@@ -171,8 +172,8 @@
             // ColEquipment3
             // 
             this.ColEquipment3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            this.ColEquipment3.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            this.ColEquipment3.DefaultCellStyle = dataGridViewCellStyle15;
             this.ColEquipment3.HeaderText = "装备3";
             this.ColEquipment3.Name = "ColEquipment3";
             this.ColEquipment3.ReadOnly = true;
@@ -181,8 +182,8 @@
             // ColEquipment4
             // 
             this.ColEquipment4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            this.ColEquipment4.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            this.ColEquipment4.DefaultCellStyle = dataGridViewCellStyle16;
             this.ColEquipment4.HeaderText = "装备4";
             this.ColEquipment4.Name = "ColEquipment4";
             this.ColEquipment4.ReadOnly = true;
@@ -191,8 +192,8 @@
             // ColEquipmentX
             // 
             this.ColEquipmentX.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            this.ColEquipmentX.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            this.ColEquipmentX.DefaultCellStyle = dataGridViewCellStyle17;
             this.ColEquipmentX.HeaderText = "补强";
             this.ColEquipmentX.Name = "ColEquipmentX";
             this.ColEquipmentX.ReadOnly = true;
@@ -206,45 +207,51 @@
             this.复制CToolStripMenuItem,
             this.粘贴VToolStripMenuItem,
             this.清除DToolStripMenuItem,
-            this.toolStripMenuItem10});
+            this.toolStripMenu舰船图鉴});
             this.MenuShip.Name = "MenuShip";
-            this.MenuShip.Size = new System.Drawing.Size(134, 136);
+            this.MenuShip.Size = new System.Drawing.Size(153, 158);
+            this.MenuShip.Opening += new System.ComponentModel.CancelEventHandler(this.MenuShip_Opening);
             // 
             // 更换舰船ToolStripMenuItem
             // 
             this.更换舰船ToolStripMenuItem.Name = "更换舰船ToolStripMenuItem";
-            this.更换舰船ToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.更换舰船ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.更换舰船ToolStripMenuItem.Text = "更换舰船...";
+            this.更换舰船ToolStripMenuItem.Click += new System.EventHandler(this.更换舰船ToolStripMenuItem_Click);
             // 
             // 改造ToolStripMenuItem
             // 
             this.改造ToolStripMenuItem.Name = "改造ToolStripMenuItem";
-            this.改造ToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.改造ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.改造ToolStripMenuItem.Text = "改造";
             // 
             // 复制CToolStripMenuItem
             // 
+            this.复制CToolStripMenuItem.Enabled = false;
             this.复制CToolStripMenuItem.Name = "复制CToolStripMenuItem";
-            this.复制CToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.复制CToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.复制CToolStripMenuItem.Text = "复制(&C)";
             // 
             // 粘贴VToolStripMenuItem
             // 
+            this.粘贴VToolStripMenuItem.Enabled = false;
             this.粘贴VToolStripMenuItem.Name = "粘贴VToolStripMenuItem";
-            this.粘贴VToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.粘贴VToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.粘贴VToolStripMenuItem.Text = "粘贴(&V)";
             // 
             // 清除DToolStripMenuItem
             // 
             this.清除DToolStripMenuItem.Name = "清除DToolStripMenuItem";
-            this.清除DToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.清除DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.清除DToolStripMenuItem.Text = "清除(&D)";
+            this.清除DToolStripMenuItem.Click += new System.EventHandler(this.清除舰船_Click);
             // 
-            // toolStripMenuItem10
+            // toolStripMenu舰船图鉴
             // 
-            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(133, 22);
-            this.toolStripMenuItem10.Text = "查看图鉴";
+            this.toolStripMenu舰船图鉴.Name = "toolStripMenu舰船图鉴";
+            this.toolStripMenu舰船图鉴.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenu舰船图鉴.Text = "查看图鉴";
+            this.toolStripMenu舰船图鉴.Click += new System.EventHandler(this.toolStrip舰船图鉴_Click);
             // 
             // MenuEquipment
             // 
@@ -256,13 +263,15 @@
             this.清除DToolStripMenuItem1,
             this.查看图鉴ToolStripMenuItem});
             this.MenuEquipment.Name = "contextMenuStrip1";
-            this.MenuEquipment.Size = new System.Drawing.Size(153, 158);
+            this.MenuEquipment.Size = new System.Drawing.Size(134, 136);
+            this.MenuEquipment.Opening += new System.ComponentModel.CancelEventHandler(this.MenuEquipment_Opening);
             // 
             // 更换装备ToolStripMenuItem
             // 
             this.更换装备ToolStripMenuItem.Name = "更换装备ToolStripMenuItem";
-            this.更换装备ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.更换装备ToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.更换装备ToolStripMenuItem.Text = "更换装备...";
+            this.更换装备ToolStripMenuItem.Click += new System.EventHandler(this.更换装备ToolStripMenuItem_Click);
             // 
             // 设置等级ToolStripMenuItem
             // 
@@ -276,82 +285,107 @@
             this.toolStripMenuItem7,
             this.toolStripMenuItem8});
             this.设置等级ToolStripMenuItem.Name = "设置等级ToolStripMenuItem";
-            this.设置等级ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.设置等级ToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.设置等级ToolStripMenuItem.Text = "设置等级";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(83, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Tag = "0";
             this.toolStripMenuItem1.Text = "0";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.SetLevel_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(83, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Tag = "1";
             this.toolStripMenuItem2.Text = "1";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.SetLevel_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(83, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem3.Tag = "2";
             this.toolStripMenuItem3.Text = "2";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.SetLevel_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(83, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem4.Tag = "3";
             this.toolStripMenuItem4.Text = "3";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.SetLevel_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(83, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem5.Tag = "4";
             this.toolStripMenuItem5.Text = "4";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.SetLevel_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(83, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem6.Tag = "5";
             this.toolStripMenuItem6.Text = "5";
+            this.toolStripMenuItem6.Click += new System.EventHandler(this.SetLevel_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(83, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem7.Tag = "6";
             this.toolStripMenuItem7.Text = "6";
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.SetLevel_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(83, 22);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem8.Tag = "7";
             this.toolStripMenuItem8.Text = "7";
+            this.toolStripMenuItem8.Click += new System.EventHandler(this.SetLevel_Click);
             // 
             // 复制CToolStripMenuItem1
             // 
+            this.复制CToolStripMenuItem1.Enabled = false;
             this.复制CToolStripMenuItem1.Name = "复制CToolStripMenuItem1";
-            this.复制CToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.复制CToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.复制CToolStripMenuItem1.Text = "复制(&C)";
             // 
             // 粘贴VToolStripMenuItem1
             // 
+            this.粘贴VToolStripMenuItem1.Enabled = false;
             this.粘贴VToolStripMenuItem1.Name = "粘贴VToolStripMenuItem1";
-            this.粘贴VToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.粘贴VToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.粘贴VToolStripMenuItem1.Text = "粘贴(&V)";
             // 
             // 清除DToolStripMenuItem1
             // 
             this.清除DToolStripMenuItem1.Name = "清除DToolStripMenuItem1";
-            this.清除DToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.清除DToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.清除DToolStripMenuItem1.Text = "清除(&D)";
+            this.清除DToolStripMenuItem1.Click += new System.EventHandler(this.清除装备_Click);
             // 
             // 查看图鉴ToolStripMenuItem
             // 
             this.查看图鉴ToolStripMenuItem.Name = "查看图鉴ToolStripMenuItem";
-            this.查看图鉴ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.查看图鉴ToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.查看图鉴ToolStripMenuItem.Text = "查看图鉴";
+            this.查看图鉴ToolStripMenuItem.Click += new System.EventHandler(this.查看图鉴ToolStripMenuItem_Click);
             // 
-            // CustomDeck
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // CustomDeckForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -359,7 +393,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "CustomDeck";
+            this.Name = "CustomDeckForm";
             this.Text = "自定义编成";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.MenuShip.ResumeLayout(false);
@@ -399,8 +433,9 @@
         private System.Windows.Forms.ToolStripMenuItem 复制CToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 粘贴VToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 清除DToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenu舰船图鉴;
         private System.Windows.Forms.ToolStripMenuItem 查看图鉴ToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 
     }
 }

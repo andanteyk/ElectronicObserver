@@ -81,8 +81,9 @@ namespace CustomDeck
 
         public FleetDeck AddDeck(string name,string jsonstring)
         {
-            FleetDeck deck=new FleetDeck(name,jsonstring);
-            return null;
+            FleetDeck deck = new FleetDeck(name, jsonstring);
+            DeckList.Add(deck);
+            return deck;
         }
 
         public void RemoveDeck(int deckid)
@@ -104,19 +105,26 @@ namespace CustomDeck
             set;
         }
 
-        public string Flagship
+        public string ShipList
         {
             get
             {
+                string list = "";
                 if (_fleets == null)
                     return null;
                 if (_fleets.Fleets[0] == null)
                     return null;
                 if (_fleets.Fleets[0].Ships[0] == null)
                     return null;
-                if (_fleets.Fleets[0].Ships[0].Ship == null)
-                    return null;
-                return _fleets.Fleets[0].Ships[0].Ship.Name;
+                foreach (var ship in _fleets.Fleets[0].Ships)
+                {
+                    if (ship == null)
+                        continue;
+                    if (ship.Ship == null)
+                        continue;
+                    list += ship.Ship.Name + " ";
+                }
+                return list;
             }
         }
 
@@ -144,8 +152,15 @@ namespace CustomDeck
         CustomFleets _fleets;
         public CustomFleets Fleets
         {
-            get;
-            set;
+            get
+            {
+                return _fleets;
+            }
+            set
+            {
+                _fleets = value;
+                json = value.Serialize();
+            }
         }
     }
 }

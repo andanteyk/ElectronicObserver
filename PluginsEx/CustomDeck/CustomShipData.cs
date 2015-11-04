@@ -27,7 +27,7 @@ namespace CustomDeck
         {
             get
             {
-                return Level > 0 ? Equipmentment.Name + "+" + Level.ToString() : Equipmentment.Name;
+                return Level > 0 ? Equipmentment.Name + "☆" + Level.ToString() : Equipmentment.Name;
             }
         }
         public EquipmentDataMaster Equipmentment

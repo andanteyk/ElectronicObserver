@@ -14,7 +14,7 @@ namespace CustomDeck
     {
         public override string MenuTitle
         {
-            get { return "自定义编成"; }
+            get { return "历史编成"; }
         }
 
         public override string Version
