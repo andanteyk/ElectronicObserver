@@ -20,13 +20,12 @@ using ElectronicObserver.Window.Support;
 
 namespace CustomDeck
 {
-    public partial class MainForm : DockContent
+    public partial class DeckMainForm : DockContent
     {
-        //DeckData DataList;
 
         CustomFleets Fleets = new CustomFleets();
         CustomDeckForm[] Decks = new CustomDeckForm[4];
-        public MainForm(FormMain main)
+        public DeckMainForm(FormMain main)
         {
             InitializeComponent();
         }
@@ -100,12 +99,7 @@ namespace CustomDeck
         {
             DeckData.Instance.LoadConfig();
             LoadList();
-            if (listView1.Items.Count>0)
-            {
-                //this.listView1.Items[0].Selected = true;
-                //this.listView1.Select();
-                //this.listView1.Items[0].Focused = true; 
-            }
+
         }
 
         void LoadList()
@@ -142,7 +136,7 @@ namespace CustomDeck
 
             toolStripMenuItem1.Enabled = enabled;
             删除编成ToolStripMenuItem.Enabled = enabled;
-            导入游戏当前舰队ToolStripMenuItem.Enabled = enabled;
+            //导入游戏当前舰队ToolStripMenuItem.Enabled = enabled;
         }
 
         private void 删除编成ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -275,6 +269,7 @@ namespace CustomDeck
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
+
             for (int i = 0; i < Decks.Length; i++)
             {
                 Decks[i] = new CustomDeckForm();

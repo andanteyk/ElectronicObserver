@@ -329,11 +329,13 @@ namespace CustomDeck
         private void SetLevel_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem ti = sender as ToolStripMenuItem;
-            if (ti.Tag != null)
+            var Strip = ti.OwnerItem.Owner;
+            if (Strip.Tag != null)
             {
                 int Level = int.Parse(ti.Text);
-                int row = dataGridView1.CurrentCell.RowIndex;
-                int index = dataGridView1.CurrentCell.ColumnIndex - 3;
+                Point pt = (Point)Strip.Tag;
+                int row = pt.X;
+                int index = pt.Y;
 
                 if (index < 4)
                     Fleet.Ships[row].Equipmentments[index].Level = Level;

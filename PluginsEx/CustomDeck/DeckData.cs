@@ -109,22 +109,28 @@ namespace CustomDeck
         {
             get
             {
-                string list = "";
-                if (_fleets == null)
-                    return null;
-                if (_fleets.Fleets[0] == null)
-                    return null;
-                if (_fleets.Fleets[0].Ships[0] == null)
-                    return null;
-                foreach (var ship in _fleets.Fleets[0].Ships)
+                StringBuilder list = new StringBuilder(Name);
+
+                if (_fleets != null)
                 {
-                    if (ship == null)
-                        continue;
-                    if (ship.Ship == null)
-                        continue;
-                    list += ship.Ship.Name + " ";
+                    foreach (var fleet in _fleets.Fleets)
+                    {
+                        if (fleet == null)
+                            continue;
+                        list.Append(Environment.NewLine);
+
+                        foreach (var ship in fleet.Ships)
+                        {
+                            if (ship == null)
+                                continue;
+                            if (ship.Ship == null)
+                                continue;
+                            list.Append(ship.Ship.Name);
+                            list.Append(" ");
+                        }
+                    }
                 }
-                return list;
+                return list.ToString();
             }
         }
 

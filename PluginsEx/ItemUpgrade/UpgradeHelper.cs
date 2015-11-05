@@ -537,7 +537,9 @@ namespace ItemUpgrade
 
         public void SelectToday()
         {
-            int DayofWeek = (int)(DateTime.Now.DayOfWeek);
+            TimeZoneInfo TokyoZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+            DateTime time = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, TokyoZone);
+            int DayofWeek = (int)(time.DayOfWeek);
             SelectDayofWeek(DayofWeek);
         }
 

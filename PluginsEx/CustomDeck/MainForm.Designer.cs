@@ -1,6 +1,6 @@
 ﻿namespace CustomDeck
 {
-    partial class MainForm
+    partial class DeckMainForm
     {
         /// <summary>
         /// Required designer variable.

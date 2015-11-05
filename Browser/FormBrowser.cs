@@ -165,7 +165,9 @@ namespace Browser {
 			HeartbeatTimer.Start();
 
 
-			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.GetIconResource() );
+			//BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.GetIconResource() );
+
+
 		}
 
 		void Exit() {
@@ -733,8 +735,9 @@ namespace Browser {
 				volume = 100;
 			}
 
-			ToolMenu_Mute.Image = ToolMenu_Other_Mute.Image =
-				Icons.Images[mute ? "Browser_Mute" : "Browser_Unmute"];
+            ToolMenu_Mute.Image = ToolMenu_Other_Mute.Image =
+                imageList1.Images[mute ? "Mute" : "Unmute"];
+				//Icons.Images[mute ? "Browser_Mute" : "Browser_Unmute"];
 
 			{
 				var control = ToolMenu_Other_Volume_VolumeControl;
@@ -960,25 +963,39 @@ namespace Browser {
 
 
 		// ショートカットキーが反映されない問題の対策
-		void Browser_ReplacedKeyDown( object sender, KeyEventArgs e ) {
+        void Browser_ReplacedKeyDown(object sender, KeyEventArgs e)
+        {
 
-			foreach ( var item in ToolMenu_Other.DropDownItems ) {
+            foreach (var item in ToolMenu_Other.DropDownItems)
+            {
 
-				ToolStripMenuItem menu = item as ToolStripMenuItem;
+                ToolStripMenuItem menu = item as ToolStripMenuItem;
 
-				if ( menu != null ) {
-					if ( e.KeyData == menu.ShortcutKeys ) {
-						menu.PerformClick();
-						e.Handled = true;
-					}
-				}
-			}
+                if (menu != null)
+                {
+                    if (e.KeyData == menu.ShortcutKeys)
+                    {
+                        menu.PerformClick();
+                        e.Handled = true;
+                    }
 
-			/*// 有効にするとショートカットが完全に無効化できる代わりに提督コメント・艦隊名が入力不能に
-			if ( IsKanColleLoaded )
-				e.Handled = true;
-			//*/
-		}
+                  
+                }
+
+                /*// 有効にするとショートカットが完全に無効化できる代わりに提督コメント・艦隊名が入力不能に
+                if ( IsKanColleLoaded )
+                    e.Handled = true;
+                //*/
+            }
+            if (e.KeyData == Keys.F8)
+            {
+                if (Configuration.IsToolMenuVisible)
+                    ToolMenu_Other_Alignment_Invisible_Click(ToolMenu_Other_Alignment_Invisible, null);
+                else
+                    ContextMenuTool_ShowToolMenu_Click(ContextMenuTool_ShowToolMenu, null);
+                e.Handled = true;
+            }
+        }
 
 
 		private void FormBrowser_Activated( object sender, EventArgs e ) {

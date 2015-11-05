@@ -10,7 +10,7 @@ using Fiddler;
 
 namespace CustomDeck
 {
-    public class Plugin : DockPlugin
+    public class CustomDeckPlugin : DockPlugin
     {
         public override string MenuTitle
         {
