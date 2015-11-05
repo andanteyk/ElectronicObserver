@@ -194,7 +194,9 @@ namespace ElectronicObserver.Window.Dialog {
 			DateBegin.Value = DateBegin.MinDate = DateEnd.MinDate = _record.Record.First().Date.Date;
 			DateEnd.Value = DateBegin.MaxDate = DateEnd.MaxDate = DateTime.Now.AddDays( 1 ).Date;
 
-
+			// スクロールバーを非表示にするため(実際の幅は検索開始時に設定される)
+			foreach ( DataGridViewColumn column in RecordView.Columns )
+				column.Width = 20;
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormArsenal] );
 
@@ -318,13 +320,13 @@ namespace ElectronicObserver.Window.Dialog {
 				RecordView_Header.HeaderText = "回数";
 				RecordView_Material100.DisplayIndex = 2;
 				RecordView_Material100.Width = 120;
-				RecordView_Material100.HeaderText = "100";
+				RecordView_Material100.HeaderText = "開発資材x100";
 				RecordView_Material20.DisplayIndex = 3;
 				RecordView_Material20.Width = 120;
-				RecordView_Material20.HeaderText = "20";
+				RecordView_Material20.HeaderText = "開発資材x20";
 				RecordView_Material1.DisplayIndex = 4;
 				RecordView_Material1.Width = 120;
-				RecordView_Material1.HeaderText = "1";
+				RecordView_Material1.HeaderText = "開発資材x1";
 				if ( args.IsLargeConstruction == CheckState.Unchecked ||
 					( args.Recipe != NameAny && args.Recipe.IndexOf( "/" ) < 4 ) ||
 					args.DevelopmentMaterial != -1 ) {
@@ -424,7 +426,6 @@ namespace ElectronicObserver.Window.Dialog {
 				if ( r.Date < args.DateBegin || args.DateEnd < r.Date )
 					continue;
 
-				//checkme: 事前フィルタに含めてもよいのか
 				if ( args.DevelopmentMaterial != -1 && args.DevelopmentMaterial != r.DevelopmentMaterial )
 					continue;
 
@@ -490,12 +491,14 @@ namespace ElectronicObserver.Window.Dialog {
 						i + 1,
 						r.ShipName,
 						r.Date,
-						GetRecipeString( r ),
+						GetRecipeString( r, true ),
 						r.FlagshipName,
 						null,
 						null,
 						null
 						);
+
+					row.Cells[3].Tag = GetRecipeStringForSorting( r, true );
 
 					rows.AddLast( row );
 
@@ -552,6 +555,8 @@ namespace ElectronicObserver.Window.Dialog {
 							c.Value[3]
 							);
 
+						row.Cells[3].Tag = GetRecipeStringForSorting( c.Key.Split( "/".ToCharArray() ).Select( s => int.Parse( s ) ).ToArray() );
+
 						row.Cells[0].Tag = allcounts[c.Key][0];
 						row.Cells[5].Tag = allcounts[c.Key][1];
 						row.Cells[6].Tag = allcounts[c.Key][2];
@@ -571,16 +576,16 @@ namespace ElectronicObserver.Window.Dialog {
 							);
 
 						if ( args.Recipe != NameAny ) {
-							row.Cells[0].Tag = allcounts[args.Recipe][0];
-							row.Cells[5].Tag = allcounts[args.Recipe][1];
-							row.Cells[6].Tag = allcounts[args.Recipe][2];
-							row.Cells[7].Tag = allcounts[args.Recipe][3];
+							row.Cells[0].Tag = (double)c.Value[0] / Math.Max( allcounts[args.Recipe][0], 1 );
+							row.Cells[5].Tag = (double)c.Value[1] / Math.Max( allcounts[args.Recipe][1], 1 );
+							row.Cells[6].Tag = (double)c.Value[2] / Math.Max( allcounts[args.Recipe][2], 1 );
+							row.Cells[7].Tag = (double)c.Value[3] / Math.Max( allcounts[args.Recipe][3], 1 );
 
 						} else {
-							row.Cells[0].Tag = allcounts.Values.Sum( a => a[0] );
-							row.Cells[5].Tag = allcounts.Values.Sum( a => a[1] );
-							row.Cells[6].Tag = allcounts.Values.Sum( a => a[2] );
-							row.Cells[7].Tag = allcounts.Values.Sum( a => a[3] );
+							row.Cells[0].Tag = (double)c.Value[0] / Math.Max( allcounts.Values.Sum( a => a[0] ), 1 );
+							row.Cells[5].Tag = (double)c.Value[1] / Math.Max( allcounts.Values.Sum( a => a[1] ), 1 );
+							row.Cells[6].Tag = (double)c.Value[2] / Math.Max( allcounts.Values.Sum( a => a[2] ), 1 );
+							row.Cells[7].Tag = (double)c.Value[3] / Math.Max( allcounts.Values.Sum( a => a[3] ), 1 );
 						}
 
 					}
@@ -619,10 +624,37 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void RecordView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
-			// undone: comparing with tag
+			object tag1 = RecordView[e.Column.Index, e.RowIndex1].Tag;
+			object tag2 = RecordView[e.Column.Index, e.RowIndex2].Tag;
+
+			if ( tag1 != null && ( tag1 is double || tag1 is int ) && e.CellValue1 is int ) {
+				double c1 = 0, c2 = 0;
+
+				if ( tag1 is double ) {
+					c1 = (double)tag1;
+					c2 = (double)tag2;
+				} else if ( tag1 is int ) {
+					c1 = (double)(int)e.CellValue1 / Math.Max( (int)tag1, 1 );
+					c2 = (double)(int)e.CellValue2 / Math.Max( (int)tag2, 1 );
+				}
+
+
+				if ( Math.Abs( c1 - c2 ) < 0.000001 )
+					e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;
+				else if ( c1 < c2 )
+					e.SortResult = -1;
+				else
+					e.SortResult = 1;
+				e.Handled = true;
+			}
+
+			if ( tag1 is string ) {
+				e.SortResult = ( (IComparable)tag1 ).CompareTo( tag2 );
+				e.Handled = true;
+			}
 
 			if ( !e.Handled ) {
-				e.SortResult = ( (IComparable)e.CellValue1 ).CompareTo( e.CellValue2 );
+				e.SortResult = ( (IComparable)e.CellValue1 ?? 0 ).CompareTo( e.CellValue2 ?? 0 );
 				e.Handled = true;
 			}
 
@@ -640,8 +672,6 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 		private void RecordView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
-
-			// undone: special displaying
 
 			object tag = RecordView[e.ColumnIndex, e.RowIndex].Tag;
 
