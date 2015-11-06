@@ -422,7 +422,11 @@ namespace ElectronicObserver.Window {
 							{
 								int level = ship_m.RemodelAfterLevel;
 								if ( ship.Level < level )
+								{
 									tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.\n", level - ship.Level, Math.Max( ExpTable.ShipExp[level].Total - ship.ExpTotal, 0 ) );
+								
+									break;
+								}
 
 								ship_m = ship_m.RemodelAfterShip;
 							}
