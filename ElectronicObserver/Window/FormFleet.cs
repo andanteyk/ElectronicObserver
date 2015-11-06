@@ -421,16 +421,20 @@ namespace ElectronicObserver.Window {
 
 							// 判断隔代改装的经验
 							var ship_m = ship.MasterShip.RemodelAfterShip;
-							while ( ship_m != null && ship_m.RemodelAfterShipID != 0 && ship.Level < ship_m.RemodelAfterLevel )
+							int nextRemodelLevel = 0;
+							while ( ship_m != null && ship_m.RemodelAfterShipID != 0 )
 							{
 								int level = ship_m.RemodelAfterLevel;
-								if ( ship.Level < level )
-								{
+								if ( ship.Level < level ) {
 									tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.\n", level - ship.Level, Math.Max( ExpTable.ShipExp[level].Total - ship.ExpTotal, 0 ) );
-								
 									break;
 								}
 
+								if ( level <= nextRemodelLevel ) {
+									// 发现可能的循环改造，跳出
+									break;
+								}
+								nextRemodelLevel = level;
 								ship_m = ship_m.RemodelAfterShip;
 							}
 
