@@ -569,7 +569,7 @@ namespace ElectronicObserver.Utility.Data {
 		/// 艦載機熟練度の内部値テーブル(仮)
 		/// </summary>
 		private static readonly List<int> AircraftExpTable = new List<int>() {
-			0, 10, 25, 40, 55, 70, 85, 100 
+			0, 10, 25, 40, 55, 70, 85, 100, 120
 		};
 
 
@@ -577,32 +577,61 @@ namespace ElectronicObserver.Utility.Data {
 		/// 制空戦力を求めます。
 		/// </summary>
 		/// <param name="ship">対象の艦船。</param>
-		public static int GetAirSuperiority( ShipData ship ) {
+        public static int GetAirSuperiority(ShipData ship, int FullExp = 0)
+        {
 
-			if ( Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 0 ) {
-				return GetAirSuperiority( ship.SlotMaster.ToArray(), ship.Aircraft.ToArray() );
-			}
-			int air = 0;
-			var eqs = ship.SlotInstance;
-			var aircrafts = ship.Aircraft;
+            if (Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 0)
+            {
+                return GetAirSuperiority(ship.SlotMaster.ToArray(), ship.Aircraft.ToArray());
+            }
+            int air = 0;
+            var eqs = ship.SlotInstance;
+            var aircrafts = ship.Aircraft;
 
 
-			for ( int i = 0; i < eqs.Count; i++ ) {
-				var eq = eqs[i];
-				if ( eq != null && aircrafts[i] > 0 ) {
+            for (int i = 0; i < eqs.Count; i++)
+            {
+                var eq = eqs[i];
+                if (eq != null && aircrafts[i] > 0)
+                {
 
-					int category = eq.MasterEquipment.CategoryType;
+                    int category = eq.MasterEquipment.CategoryType;
 
-					if ( AircraftLevelBonus.ContainsKey( category ) ) {
-						air += (int)( eq.MasterEquipment.AA * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
-					}
+                    if (AircraftLevelBonus.ContainsKey(category))
+                    {
+                        if (CheckCategoryType(category, FullExp) && eq.AircraftLevel == 7)//如果选择了百战历练,对7级舰战应用120熟练度,其余情况不作处理
+                            air += (int)(eq.MasterEquipment.AA * Math.Sqrt(aircrafts[i]) + Math.Sqrt(AircraftExpTable[eq.AircraftLevel + 1] / 10.0) + AircraftLevelBonus[category][eq.AircraftLevel]);
+                        else
+                            air += (int)(eq.MasterEquipment.AA * Math.Sqrt(aircrafts[i]) + Math.Sqrt(AircraftExpTable[eq.AircraftLevel] / 10.0) + AircraftLevelBonus[category][eq.AircraftLevel]);
+                    }
 
-				}
-			}
+                }
+            }
 
-			return air;
-		}
-
+            return air;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="category">装备类别</param>
+        /// <param name="CategoryTypeList">1+2+4+8=舰战,舰爆,舰攻,水爆</param>
+        /// <returns></returns>
+        static bool CheckCategoryType(int category, int CategoryTypeList)
+        {
+           switch(category)
+           {
+               case 6:
+                   return (CategoryTypeList & 1) > 0;
+               case 7:
+                   return (CategoryTypeList & 2) > 0;
+               case 8:
+                   return (CategoryTypeList & 4) > 0;
+               case 11:
+                   return (CategoryTypeList & 8) > 0;
+               default:
+                   return false;
+           }
+        }
 		/// <summary>
 		/// 制空戦力を求めます。
 		/// </summary>
@@ -618,18 +647,20 @@ namespace ElectronicObserver.Utility.Data {
 		/// 制空戦力を求めます。
 		/// </summary>
 		/// <param name="fleet">対象の艦隊。</param>
-		public static int GetAirSuperiority( FleetData fleet ) {
+        public static int GetAirSuperiority(FleetData fleet, int FullExp = 0)
+        {
 
-			int air = 0;
+            int air = 0;
 
-			foreach ( var ship in fleet.MembersWithoutEscaped ) {
-				if ( ship == null ) continue;
+            foreach (var ship in fleet.MembersWithoutEscaped)
+            {
+                if (ship == null) continue;
 
-				air += GetAirSuperiority( ship );
-			}
+                air += GetAirSuperiority(ship, FullExp);
+            }
 
-			return air;
-		}
+            return air;
+        }
 
 
 		/// <summary>

@@ -121,79 +121,82 @@ namespace ElectronicObserver.Window {
 				#endregion
 			}
 
-			public void Update( FleetData fleet ) {
+            public void Update(FleetData fleet)
+            {
 
-				KCDatabase db = KCDatabase.Instance;
+                KCDatabase db = KCDatabase.Instance;
 
-				if ( fleet == null ) return;
-
-
-
-				Name.Text = fleet.Name;
-				{
-					int levelSum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
-
-					int fueltotal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.FuelMax * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-					int ammototal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.AmmoMax * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-
-					int fuelunit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Fuel * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-					int ammounit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Ammo * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-
-					int speed = fleet.MembersWithoutEscaped.Min( s => s == null ? 10 : s.MasterShip.Speed );
-					ToolTipInfo.SetToolTip( Name, string.Format(
-						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個\r\n総積載: 燃 {6} / 弾 {7}\r\n(1戦当たり 燃 {8} / 弾 {9})",
-						levelSum,
-						(double)levelSum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ),
-						Constants.GetSpeed( speed ),
-						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) ),
-						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) > 0 ),
-						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 24 ) ),
-						fueltotal,
-						ammototal,
-						fuelunit,
-						ammounit
-						) );
-
-				}
+                if (fleet == null) return;
 
 
-				State = FleetData.UpdateFleetState( fleet, StateMain, ToolTipInfo, State, ref Timer );
+
+                Name.Text = fleet.Name;
+                {
+                    int levelSum = fleet.MembersInstance.Sum(s => s != null ? s.Level : 0);
+
+                    int fueltotal = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.FuelMax * (s.IsMarried ? 0.85 : 1.00)));
+                    int ammototal = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.AmmoMax * (s.IsMarried ? 0.85 : 1.00)));
+
+                    int fuelunit = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.MasterShip.Fuel * 0.2 * (s.IsMarried ? 0.85 : 1.00)));
+                    int ammounit = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.MasterShip.Ammo * 0.2 * (s.IsMarried ? 0.85 : 1.00)));
+
+                    int speed = fleet.MembersWithoutEscaped.Min(s => s == null ? 10 : s.MasterShip.Speed);
+                    ToolTipInfo.SetToolTip(Name, string.Format(
+                        "Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個\r\n総積載: 燃 {6} / 弾 {7}\r\n(1戦当たり 燃 {8} / 弾 {9})",
+                        levelSum,
+                        (double)levelSum / Math.Max(fleet.Members.Count(id => id != -1), 1),
+                        Constants.GetSpeed(speed),
+                        fleet.MembersInstance.Sum(s => s == null ? 0 : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 30)),
+                        fleet.MembersInstance.Count(s => s == null ? false : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 30) > 0),
+                        fleet.MembersInstance.Sum(s => s == null ? 0 : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 24)),
+                        fueltotal,
+                        ammototal,
+                        fuelunit,
+                        ammounit
+                        ));
+
+                }
 
 
-				//制空戦力計算	
-				{
-					int airSuperiority = fleet.GetAirSuperiority();
-					int airSuperiority_old = fleet.GetAirSuperiority_Old();
-					AirSuperiority.Text = airSuperiority.ToString();
-					ToolTipInfo.SetToolTip( AirSuperiority,
-						string.Format( "旧制空值: {0}\r\n確保: {1}\r\n優勢: {2}\r\n均衡: {3}\r\n劣勢: {4}\r\n",
-						airSuperiority_old,
-						(int)( airSuperiority / 3.0 ),
-						(int)( airSuperiority / 1.5 ),
-						(int)( airSuperiority * 1.5 - 1 ),
-						(int)( airSuperiority * 3.0 - 1 ) ) );
-				}
+                State = FleetData.UpdateFleetState(fleet, StateMain, ToolTipInfo, State, ref Timer);
 
 
-				//索敵能力計算
-				SearchingAbility.Text = fleet.GetSearchingAbilityString();
-				ToolTipInfo.SetToolTip( SearchingAbility,
-					string.Format( "(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n",
-					fleet.GetSearchingAbilityString( 0 ),
-					fleet.GetSearchingAbilityString( 1 ),
-					fleet.GetSearchingAbilityString( 2 ) ) );
+                //制空戦力計算	
+                {
+                    int airSuperiority = fleet.GetAirSuperiority();
+                    int airSuperiority_old = fleet.GetAirSuperiority_Old(1);//对7星舰战使用120内部熟练度进行制空计算
+                    int airSuperiority_old2 = fleet.GetAirSuperiority_Old(15);//对7星所有有内部熟练制空使用120内部熟练度进行制空计算
+                    AirSuperiority.Text = airSuperiority.ToString();
+                    ToolTipInfo.SetToolTip(AirSuperiority,
+                        string.Format("满熟练制空值: {0}/{5}\r\n確保: {1}\r\n優勢: {2}\r\n均衡: {3}\r\n劣勢: {4}\r\n",
+                        airSuperiority_old,
+                        (int)(airSuperiority / 3.0),
+                        (int)(airSuperiority / 1.5),
+                        (int)(airSuperiority * 1.5 - 1),
+                        (int)(airSuperiority * 3.0 - 1),
+                        airSuperiority_old2));
+                }
 
-				// 舰队防空值计算
-				AAValue.Text = CalculatorEx.GetFleetAAValue( fleet, 0 ).ToString();
-				ToolTipInfo.SetToolTip( AAValue,
-					string.Format( "单纵阵: {0}\r\n复纵阵: {1}\r\n轮形阵: {2}\r\n梯形阵: {3}\r\n单横阵: {4}\r\n",
-					CalculatorEx.GetFleetAAValue( fleet, 1 ),
-					CalculatorEx.GetFleetAAValue( fleet, 2 ),
-					CalculatorEx.GetFleetAAValue( fleet, 3 ),
-					CalculatorEx.GetFleetAAValue( fleet, 4 ),
-					CalculatorEx.GetFleetAAValue( fleet, 5 ) ) );
 
-			}
+                //索敵能力計算
+                SearchingAbility.Text = fleet.GetSearchingAbilityString();
+                ToolTipInfo.SetToolTip(SearchingAbility,
+                    string.Format("(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n",
+                    fleet.GetSearchingAbilityString(0),
+                    fleet.GetSearchingAbilityString(1),
+                    fleet.GetSearchingAbilityString(2)));
+
+                // 舰队防空值计算
+                AAValue.Text = CalculatorEx.GetFleetAAValue(fleet, 0).ToString();
+                ToolTipInfo.SetToolTip(AAValue,
+                    string.Format("单纵阵: {0}\r\n复纵阵: {1}\r\n轮形阵: {2}\r\n梯形阵: {3}\r\n单横阵: {4}\r\n",
+                    CalculatorEx.GetFleetAAValue(fleet, 1),
+                    CalculatorEx.GetFleetAAValue(fleet, 2),
+                    CalculatorEx.GetFleetAAValue(fleet, 3),
+                    CalculatorEx.GetFleetAAValue(fleet, 4),
+                    CalculatorEx.GetFleetAAValue(fleet, 5)));
+
+            }
 
 
 			public void ResetState() {
