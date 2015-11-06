@@ -121,79 +121,82 @@ namespace ElectronicObserver.Window {
 				#endregion
 			}
 
-			public void Update( FleetData fleet ) {
+            public void Update(FleetData fleet)
+            {
 
-				KCDatabase db = KCDatabase.Instance;
+                KCDatabase db = KCDatabase.Instance;
 
-				if ( fleet == null ) return;
-
-
-
-				Name.Text = fleet.Name;
-				{
-					int levelSum = fleet.MembersInstance.Sum( s => s != null ? s.Level : 0 );
-
-					int fueltotal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.FuelMax * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-					int ammototal = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.AmmoMax * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-
-					int fuelunit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Fuel * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-					int ammounit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Ammo * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
-
-					int speed = fleet.MembersWithoutEscaped.Min( s => s == null ? 10 : s.MasterShip.Speed );
-					ToolTipInfo.SetToolTip( Name, string.Format(
-						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個\r\n総積載: 燃 {6} / 弾 {7}\r\n(1戦当たり 燃 {8} / 弾 {9})",
-						levelSum,
-						(double)levelSum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ),
-						Constants.GetSpeed( speed ),
-						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) ),
-						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) > 0 ),
-						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 24 ) ),
-						fueltotal,
-						ammototal,
-						fuelunit,
-						ammounit
-						) );
-
-				}
+                if (fleet == null) return;
 
 
-				State = FleetData.UpdateFleetState( fleet, StateMain, ToolTipInfo, State, ref Timer );
+
+                Name.Text = fleet.Name;
+                {
+                    int levelSum = fleet.MembersInstance.Sum(s => s != null ? s.Level : 0);
+
+                    int fueltotal = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.FuelMax * (s.IsMarried ? 0.85 : 1.00)));
+                    int ammototal = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.AmmoMax * (s.IsMarried ? 0.85 : 1.00)));
+
+                    int fuelunit = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.MasterShip.Fuel * 0.2 * (s.IsMarried ? 0.85 : 1.00)));
+                    int ammounit = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.MasterShip.Ammo * 0.2 * (s.IsMarried ? 0.85 : 1.00)));
+
+                    int speed = fleet.MembersWithoutEscaped.Min(s => s == null ? 10 : s.MasterShip.Speed);
+                    ToolTipInfo.SetToolTip(Name, string.Format(
+                        "Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個\r\n総積載: 燃 {6} / 弾 {7}\r\n(1戦当たり 燃 {8} / 弾 {9})",
+                        levelSum,
+                        (double)levelSum / Math.Max(fleet.Members.Count(id => id != -1), 1),
+                        Constants.GetSpeed(speed),
+                        fleet.MembersInstance.Sum(s => s == null ? 0 : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 30)),
+                        fleet.MembersInstance.Count(s => s == null ? false : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 30) > 0),
+                        fleet.MembersInstance.Sum(s => s == null ? 0 : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 24)),
+                        fueltotal,
+                        ammototal,
+                        fuelunit,
+                        ammounit
+                        ));
+
+                }
 
 
-				//制空戦力計算	
-				{
-					int airSuperiority = fleet.GetAirSuperiority();
-					int airSuperiority_old = fleet.GetAirSuperiority_Old();
-					AirSuperiority.Text = airSuperiority.ToString();
-					ToolTipInfo.SetToolTip( AirSuperiority,
-						string.Format( "旧制空值: {0}\r\n確保: {1}\r\n優勢: {2}\r\n均衡: {3}\r\n劣勢: {4}\r\n",
-						airSuperiority_old,
-						(int)( airSuperiority / 3.0 ),
-						(int)( airSuperiority / 1.5 ),
-						(int)( airSuperiority * 1.5 - 1 ),
-						(int)( airSuperiority * 3.0 - 1 ) ) );
-				}
+                State = FleetData.UpdateFleetState(fleet, StateMain, ToolTipInfo, State, ref Timer);
 
 
-				//索敵能力計算
-				SearchingAbility.Text = fleet.GetSearchingAbilityString();
-				ToolTipInfo.SetToolTip( SearchingAbility,
-					string.Format( "(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n",
-					fleet.GetSearchingAbilityString( 0 ),
-					fleet.GetSearchingAbilityString( 1 ),
-					fleet.GetSearchingAbilityString( 2 ) ) );
+                //制空戦力計算	
+                {
+                    int airSuperiority = fleet.GetAirSuperiority();
+                    int airSuperiority_old = fleet.GetAirSuperiority_Old(1);//对7星舰战使用120内部熟练度进行制空计算
+                    int airSuperiority_old2 = fleet.GetAirSuperiority_Old(15);//对7星所有有内部熟练制空使用120内部熟练度进行制空计算
+                    AirSuperiority.Text = airSuperiority.ToString();
+                    ToolTipInfo.SetToolTip(AirSuperiority,
+                        string.Format("满熟练制空值: {0}/{5}\r\n確保: {1}\r\n優勢: {2}\r\n均衡: {3}\r\n劣勢: {4}\r\n",
+                        airSuperiority_old,
+                        (int)(airSuperiority / 3.0),
+                        (int)(airSuperiority / 1.5),
+                        (int)(airSuperiority * 1.5 - 1),
+                        (int)(airSuperiority * 3.0 - 1),
+                        airSuperiority_old2));
+                }
 
-				// 舰队防空值计算
-				AAValue.Text = CalculatorEx.GetFleetAAValue( fleet, 0 ).ToString();
-				ToolTipInfo.SetToolTip( AAValue,
-					string.Format( "单纵阵: {0}\r\n复纵阵: {1}\r\n轮形阵: {2}\r\n梯形阵: {3}\r\n单横阵: {4}\r\n",
-					CalculatorEx.GetFleetAAValue( fleet, 1 ),
-					CalculatorEx.GetFleetAAValue( fleet, 2 ),
-					CalculatorEx.GetFleetAAValue( fleet, 3 ),
-					CalculatorEx.GetFleetAAValue( fleet, 4 ),
-					CalculatorEx.GetFleetAAValue( fleet, 5 ) ) );
 
-			}
+                //索敵能力計算
+                SearchingAbility.Text = fleet.GetSearchingAbilityString();
+                ToolTipInfo.SetToolTip(SearchingAbility,
+                    string.Format("(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n",
+                    fleet.GetSearchingAbilityString(0),
+                    fleet.GetSearchingAbilityString(1),
+                    fleet.GetSearchingAbilityString(2)));
+
+                // 舰队防空值计算
+                AAValue.Text = CalculatorEx.GetFleetAAValue(fleet, 0).ToString();
+                ToolTipInfo.SetToolTip(AAValue,
+                    string.Format("单纵阵: {0}\r\n复纵阵: {1}\r\n轮形阵: {2}\r\n梯形阵: {3}\r\n单横阵: {4}\r\n",
+                    CalculatorEx.GetFleetAAValue(fleet, 1),
+                    CalculatorEx.GetFleetAAValue(fleet, 2),
+                    CalculatorEx.GetFleetAAValue(fleet, 3),
+                    CalculatorEx.GetFleetAAValue(fleet, 4),
+                    CalculatorEx.GetFleetAAValue(fleet, 5)));
+
+            }
 
 
 			public void ResetState() {
@@ -361,36 +364,6 @@ namespace ElectronicObserver.Window {
 				return CalculatorEx.CalculateFire( ship );
 			}
 
-            private string CalculateEvasion(ShipData ship)
-            {
-                double Evasion = 1.3 * ship.EvasionTotal;
-                double Evap = Evasion > 50 ? 3 + 100 * Evasion / (Evasion + 50) : 3 + Evasion;
-                return Evap.ToString("F1") + "%";
-            }
-
-            private string CalculateArmor(ShipData ship)
-            {
-                double ArmorMax = 0.7 * ship.ArmorTotal + 0.6 * (ship.ArmorTotal - 1);
-                double ArmorMin = 0.7 * ship.ArmorTotal;
-                return ArmorMin.ToString("F0") + "~" + ArmorMax.ToString("F0");
-            }
-
-            private string CalculateHitRatio(ShipData ship)
-            {
-                int EquipmentAccuracy = 0;
-                for (int i = 0; i < ship.Slot.Count; i++)
-                {
-                    if (ship.Slot[i] != -1 && KCDatabase.Instance.Equipments[ship.Slot[i]] != null)
-                    {
-                        EquipmentAccuracy += KCDatabase.Instance.Equipments[ship.Slot[i]].MasterEquipment.Accuracy;
-                    }
-                }
-
-                double Accuracy = 100 * Math.Sqrt(ship.Level) / 45 - 5;
-                double Total = Accuracy + EquipmentAccuracy;
-                return Accuracy.ToString("F1") + "+" + EquipmentAccuracy.ToString() + "=" + Total.ToString("F1");
-            }
-
 			private double CalculateWeightingAA( ShipData ship )
 			{
 				return CalculatorEx.CalculateWeightingAA( ship );
@@ -408,31 +381,28 @@ namespace ElectronicObserver.Window {
 
 					Name.Text = ship.MasterShip.NameWithClass;
 					Name.Tag = ship.ShipID;
-                    ToolTipInfo.SetToolTip(Name,
-                        string.Format(
-                            "{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n加权对空: {19:0.##}\n装甲: {8}/{9}({22})\n対潜: {10}/{11}\n命中: {21}\n回避: {12}/{13}({20})\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
-                            ship.MasterShip.ShipTypeName, ship.NameWithLevel,
-                            ship.FirepowerBase,
-                            (ship.MasterShip.ShipType == 7 ||	// 轻空母
-                            ship.MasterShip.ShipType == 11 ||	// 正规空母
-                            ship.MasterShip.ShipType == 18) ?	// 装甲空母
-                            string.Format("{0}（空母火力：{1:F0}）", ship.FirepowerTotal, CalculateFire(ship)) :
-                            ship.FirepowerTotal.ToString(),
-                            ship.TorpedoBase, ship.TorpedoTotal,
-                            ship.AABase, ship.AATotal,
-                            ship.ArmorBase, ship.ArmorTotal,
-                            ship.ASWBase, ship.ASWTotal,
-                            ship.EvasionBase, ship.EvasionTotal,
-                            ship.LOSBase, ship.LOSTotal,
-                            ship.LuckTotal,
-                            Constants.GetRange(ship.Range),
-                            Constants.GetSpeed(ship.MasterShip.Speed),
-                            CalculateWeightingAA(ship),
-                            CalculateEvasion(ship),
-                            CalculateHitRatio(ship),
-                            CalculateArmor(ship)
-                            ));
-                    
+					ToolTipInfo.SetToolTip( Name,
+						string.Format(
+							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n加权对空: {19:0.##}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
+							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
+							ship.FirepowerBase,
+							(ship.MasterShip.ShipType == 7 ||	// 轻空母
+							ship.MasterShip.ShipType == 11 ||	// 正规空母
+							ship.MasterShip.ShipType == 18) ?	// 装甲空母
+							string.Format( "{0}（空母火力：{1:F0}）", ship.FirepowerTotal, CalculateFire( ship ) ) :
+							ship.FirepowerTotal.ToString(),
+							ship.TorpedoBase, ship.TorpedoTotal,
+							ship.AABase, ship.AATotal,
+							ship.ArmorBase, ship.ArmorTotal,
+							ship.ASWBase, ship.ASWTotal,
+							ship.EvasionBase, ship.EvasionTotal,
+							ship.LOSBase, ship.LOSTotal,
+							ship.LuckTotal,
+							Constants.GetRange( ship.Range ),
+							Constants.GetSpeed( ship.MasterShip.Speed ),
+							CalculateWeightingAA( ship )
+							) );
+
 
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
@@ -451,14 +421,20 @@ namespace ElectronicObserver.Window {
 
 							// 判断隔代改装的经验
 							var ship_m = ship.MasterShip.RemodelAfterShip;
-							while ( ship_m != null && ship_m.RemodelAfterShipID != 0 && ship.Level < ship_m.RemodelAfterLevel )
+							int nextRemodelLevel = 0;
+							while ( ship_m != null && ship_m.RemodelAfterShipID != 0 )
 							{
 								int level = ship_m.RemodelAfterLevel;
-                                if (ship.Level < level)
-                                {
-                                    tip.AppendFormat("改装まで: Lv. {0} / {1} exp.\n", level - ship.Level, Math.Max(ExpTable.ShipExp[level].Total - ship.ExpTotal, 0));
-                                    break;
-                                }
+								if ( ship.Level < level ) {
+									tip.AppendFormat( "改装まで: Lv. {0} / {1} exp.\n", level - ship.Level, Math.Max( ExpTable.ShipExp[level].Total - ship.ExpTotal, 0 ) );
+									break;
+								}
+
+								if ( level <= nextRemodelLevel ) {
+									// 发现可能的循环改造，跳出
+									break;
+								}
+								nextRemodelLevel = level;
 								ship_m = ship_m.RemodelAfterShip;
 							}
 

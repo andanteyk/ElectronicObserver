@@ -500,10 +500,10 @@ namespace ElectronicObserver.Data {
 		/// 制空戦力を取得します。
 		/// </summary>
 		/// <returns>制空戦力。</returns>
-		public int GetAirSuperiority_Old() {
-
-			return Calculator.GetAirSuperiority( this );
-		}
+        public int GetAirSuperiority_Old(int FullExp = 0)
+        {
+            return Calculator.GetAirSuperiority(this, FullExp);
+        }
 
 
 		/// <summary>
