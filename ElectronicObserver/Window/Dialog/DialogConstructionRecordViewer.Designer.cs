@@ -24,7 +24,10 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.StatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.label8 = new System.Windows.Forms.Label();
+			this.DevelopmentMaterial = new System.Windows.Forms.ComboBox();
 			this.IsLargeConstruction = new System.Windows.Forms.CheckBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.EmptyDock = new System.Windows.Forms.ComboBox();
@@ -44,9 +47,6 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.ShipName = new System.Windows.Forms.ComboBox();
 			this.RecordView = new System.Windows.Forms.DataGridView();
-			this.label8 = new System.Windows.Forms.Label();
-			this.DevelopmentMaterial = new System.Windows.Forms.ComboBox();
-			this.Searcher = new System.ComponentModel.BackgroundWorker();
 			this.RecordView_Header = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.RecordView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.RecordView_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,7 +55,7 @@
 			this.RecordView_Material100 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.RecordView_Material20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.RecordView_Material1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.StatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
+			this.Searcher = new System.ComponentModel.BackgroundWorker();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -74,10 +74,17 @@
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
+			// StatusInfo
+			// 
+			this.StatusInfo.Name = "StatusInfo";
+			this.StatusInfo.Size = new System.Drawing.Size(12, 17);
+			this.StatusInfo.Text = "-";
+			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainer1.IsSplitterFixed = true;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer1.Name = "splitContainer1";
 			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -111,6 +118,26 @@
 			this.splitContainer1.Size = new System.Drawing.Size(624, 419);
 			this.splitContainer1.SplitterDistance = 98;
 			this.splitContainer1.TabIndex = 1;
+			// 
+			// label8
+			// 
+			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(368, 42);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(55, 15);
+			this.label8.TabIndex = 42;
+			this.label8.Text = "開発資材";
+			// 
+			// DevelopmentMaterial
+			// 
+			this.DevelopmentMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.DevelopmentMaterial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.DevelopmentMaterial.FormattingEnabled = true;
+			this.DevelopmentMaterial.Location = new System.Drawing.Point(429, 39);
+			this.DevelopmentMaterial.Name = "DevelopmentMaterial";
+			this.DevelopmentMaterial.Size = new System.Drawing.Size(60, 23);
+			this.DevelopmentMaterial.TabIndex = 41;
 			// 
 			// IsLargeConstruction
 			// 
@@ -318,32 +345,6 @@
 			this.RecordView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.RecordView_SortCompare);
 			this.RecordView.Sorted += new System.EventHandler(this.RecordView_Sorted);
 			// 
-			// label8
-			// 
-			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(368, 42);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(55, 15);
-			this.label8.TabIndex = 42;
-			this.label8.Text = "開発資材";
-			// 
-			// DevelopmentMaterial
-			// 
-			this.DevelopmentMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.DevelopmentMaterial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.DevelopmentMaterial.FormattingEnabled = true;
-			this.DevelopmentMaterial.Location = new System.Drawing.Point(429, 39);
-			this.DevelopmentMaterial.Name = "DevelopmentMaterial";
-			this.DevelopmentMaterial.Size = new System.Drawing.Size(60, 23);
-			this.DevelopmentMaterial.TabIndex = 41;
-			// 
-			// Searcher
-			// 
-			this.Searcher.WorkerSupportsCancellation = true;
-			this.Searcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Searcher_DoWork);
-			this.Searcher.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Searcher_RunWorkerCompleted);
-			// 
 			// RecordView_Header
 			// 
 			this.RecordView_Header.HeaderText = "";
@@ -392,11 +393,11 @@
 			this.RecordView_Material1.Name = "RecordView_Material1";
 			this.RecordView_Material1.ReadOnly = true;
 			// 
-			// StatusInfo
+			// Searcher
 			// 
-			this.StatusInfo.Name = "StatusInfo";
-			this.StatusInfo.Size = new System.Drawing.Size(12, 17);
-			this.StatusInfo.Text = "-";
+			this.Searcher.WorkerSupportsCancellation = true;
+			this.Searcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Searcher_DoWork);
+			this.Searcher.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Searcher_RunWorkerCompleted);
 			// 
 			// DialogConstructionRecordViewer
 			// 

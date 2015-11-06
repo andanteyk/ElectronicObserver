@@ -46,7 +46,8 @@ namespace ElectronicObserver.Window.Dialog {
 		private void DialogConstructionRecordViewer_Load( object sender, EventArgs e ) {
 
 			var includedShipNames = _record.Record
-				.Select( r => r.ShipName ).Distinct();
+				.Select( r => r.ShipName )
+				.Distinct();
 
 			var includedShipObjects = includedShipNames
 				.Select( name => KCDatabase.Instance.MasterShips.Values.FirstOrDefault( ship => ship.NameWithClass == name ) )
@@ -275,7 +276,7 @@ namespace ElectronicObserver.Window.Dialog {
 			RecordView.Tag = args;
 
 
-			//column initialize
+			// column initialize
 			if ( !args.MergeRows ) {
 				RecordView_Header.DisplayIndex = 0;
 				RecordView_Header.Width = 50;
@@ -342,6 +343,7 @@ namespace ElectronicObserver.Window.Dialog {
 				RecordView_SecretaryShip.Visible = false;
 			}
 			RecordView.ColumnHeadersVisible = true;
+
 
 			StatusInfo.Text = "検索中です...";
 			StatusInfo.Tag = DateTime.Now;
@@ -423,6 +425,20 @@ namespace ElectronicObserver.Window.Dialog {
 
 				#region filtering
 
+				var ship = KCDatabase.Instance.MasterShips[r.ShipID];
+				var secretary = KCDatabase.Instance.MasterShips[r.FlagshipID];
+
+				if ( ship != null && ship.Name != r.ShipName ) ship = null;
+				if ( secretary != null && secretary.Name != r.FlagshipName ) secretary = null;
+
+
+				if ( args.SecretaryCategory != -1 && ( secretary == null || args.SecretaryCategory != secretary.ShipType ) )
+					continue;
+
+				if ( args.SecretaryName != NameAny && ( secretary == null || args.SecretaryName != secretary.NameWithClass ) )
+					continue;
+
+
 				if ( r.Date < args.DateBegin || args.DateEnd < r.Date )
 					continue;
 
@@ -461,19 +477,11 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 
 
-				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault( s => s.Name == r.ShipName );
-				var secretary = KCDatabase.Instance.MasterShips.Values.FirstOrDefault( s => s.Name == r.FlagshipName );
 
 				if ( args.ShipCategory != -1 && ( ship == null || args.ShipCategory != ship.ShipType ) )
 					continue;
 
-				if ( args.ShipName != NameAny && ( ship == null || args.ShipName != ship.NameWithClass ) )
-					continue;
-
-				if ( args.SecretaryCategory != -1 && ( secretary == null || args.SecretaryCategory != secretary.ShipType ) )
-					continue;
-
-				if ( args.SecretaryName != NameAny && ( secretary == null || args.SecretaryName != secretary.NameWithClass ) )
+				if ( args.ShipName != NameAny && args.ShipName != r.ShipName )
 					continue;
 
 
@@ -498,7 +506,9 @@ namespace ElectronicObserver.Window.Dialog {
 						null
 						);
 
+					row.Cells[1].Tag = ( ship != null ? ship.ShipType : 0 ).ToString( "D4" ) + ( ship != null ? ship.NameReading : r.ShipName );
 					row.Cells[3].Tag = GetRecipeStringForSorting( r, true );
+					row.Cells[4].Tag = ( secretary != null ? secretary.ShipType : 0 ).ToString( "D4" ) + ( secretary != null ? secretary.NameReading : r.FlagshipName );
 
 					rows.AddLast( row );
 
@@ -575,6 +585,9 @@ namespace ElectronicObserver.Window.Dialog {
 							c.Value[3]
 							);
 
+						var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault( s => s.Name == c.Key );
+						row.Cells[1].Tag = ( ship != null ? ship.ShipType : 0 ).ToString( "D4" ) + ( ship != null ? ship.NameReading : c.Key );
+
 						if ( args.Recipe != NameAny ) {
 							row.Cells[0].Tag = (double)c.Value[0] / Math.Max( allcounts[args.Recipe][0], 1 );
 							row.Cells[5].Tag = (double)c.Value[1] / Math.Max( allcounts[args.Recipe][1], 1 );
@@ -646,9 +659,8 @@ namespace ElectronicObserver.Window.Dialog {
 				else
 					e.SortResult = 1;
 				e.Handled = true;
-			}
 
-			if ( tag1 is string ) {
+			} else if ( tag1 is string ) {
 				e.SortResult = ( (IComparable)tag1 ).CompareTo( tag2 );
 				e.Handled = true;
 			}
