@@ -20,8 +20,8 @@ namespace ElectronicObserver.Data.Quest {
 		private HashSet<int> TargetArea { get; set; }
 
 
-		public ProgressExpedition( int questID, int maxCount, int[] targetArea )
-			: base( questID, maxCount ) {
+		public ProgressExpedition( QuestData quest, int maxCount, int[] targetArea )
+			: base( quest, maxCount ) {
 
 			TargetArea = targetArea == null ? null : new HashSet<int>( targetArea );
 		}

@@ -33,6 +33,11 @@ namespace ElectronicObserver.Data.Quest {
 		[DataMember]
 		public virtual int ProgressMax { get; protected set; }
 
+		/// <summary>
+		/// 任務出現タイプ
+		/// </summary>
+		[DataMember]
+		public int QuestType { get; protected set; }
 
 		/// <summary>
 		/// 未ロード時の進捗
@@ -65,9 +70,10 @@ namespace ElectronicObserver.Data.Quest {
 		}
 
 
-		public ProgressData( int questID, int maxCount ) {
-			QuestID = questID;
+		public ProgressData( QuestData quest, int maxCount ) {
+			QuestID = quest.QuestID;
 			ProgressMax = maxCount;
+			QuestType = quest.Type;
 			TemporaryProgress = 0;
 			SharedCounterShift = 0;
 		}
@@ -116,6 +122,9 @@ namespace ElectronicObserver.Data.Quest {
 					Progress = Math.Min( Progress + TemporaryProgress, ProgressMax );
 				TemporaryProgress = 0;
 			}
+
+			if ( QuestType == 0 )		// ver. 1.6.6 以前のデータとの互換性維持
+				QuestType = q.Type;
 
 			switch ( q.Progress ) {
 				case 1:		//50%

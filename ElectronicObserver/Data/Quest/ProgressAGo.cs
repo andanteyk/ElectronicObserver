@@ -117,8 +117,8 @@ namespace ElectronicObserver.Data.Quest {
 		#endregion
 
 
-		public ProgressAGo( int questID )
-			: base( questID, 0 ) {
+		public ProgressAGo( QuestData quest )
+			: base( quest, 0 ) {
 		}
 
 
