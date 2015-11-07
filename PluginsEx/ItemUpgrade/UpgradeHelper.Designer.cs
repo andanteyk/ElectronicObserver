@@ -40,6 +40,7 @@
             this.colType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colShip = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colMidnight = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.cmbDayofWeek = new System.Windows.Forms.ComboBox();
@@ -52,6 +53,7 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cbMidnight = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lvList
@@ -63,7 +65,8 @@
             this.colGraph,
             this.colType,
             this.colName,
-            this.colShip});
+            this.colShip,
+            this.colMidnight});
             this.lvList.FullRowSelect = true;
             this.lvList.GridLines = true;
             this.lvList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
@@ -72,6 +75,7 @@
             this.lvList.Location = new System.Drawing.Point(2, 41);
             this.lvList.MultiSelect = false;
             this.lvList.Name = "lvList";
+            this.lvList.ShowItemToolTips = true;
             this.lvList.Size = new System.Drawing.Size(558, 318);
             this.lvList.SmallImageList = this.imageList1;
             this.lvList.TabIndex = 0;
@@ -92,12 +96,17 @@
             // colName
             // 
             this.colName.Text = "名称";
-            this.colName.Width = 209;
+            this.colName.Width = 213;
             // 
             // colShip
             // 
             this.colShip.Text = "二号舰";
-            this.colShip.Width = 191;
+            this.colShip.Width = 131;
+            // 
+            // colMidnight
+            // 
+            this.colMidnight.Text = "";
+            this.colMidnight.Width = 70;
             // 
             // imageList1
             // 
@@ -108,7 +117,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 12);
+            this.label1.Location = new System.Drawing.Point(10, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 1;
@@ -126,19 +135,19 @@
             "星期四",
             "星期五",
             "星期六"});
-            this.cmbDayofWeek.Location = new System.Drawing.Point(78, 8);
+            this.cmbDayofWeek.Location = new System.Drawing.Point(64, 8);
             this.cmbDayofWeek.Name = "cmbDayofWeek";
-            this.cmbDayofWeek.Size = new System.Drawing.Size(115, 20);
+            this.cmbDayofWeek.Size = new System.Drawing.Size(78, 20);
             this.cmbDayofWeek.TabIndex = 2;
             this.cmbDayofWeek.TextChanged += new System.EventHandler(this.cmbDayofWeek_TextChanged);
             // 
             // btnNow
             // 
-            this.btnNow.Location = new System.Drawing.Point(209, 6);
+            this.btnNow.Location = new System.Drawing.Point(148, 6);
             this.btnNow.Name = "btnNow";
-            this.btnNow.Size = new System.Drawing.Size(75, 23);
+            this.btnNow.Size = new System.Drawing.Size(63, 23);
             this.btnNow.TabIndex = 3;
-            this.btnNow.Text = "选择今天";
+            this.btnNow.Text = "今天";
             this.btnNow.UseVisualStyleBackColor = true;
             this.btnNow.Click += new System.EventHandler(this.btnNow_Click);
             // 
@@ -170,7 +179,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(311, 12);
+            this.checkBox2.Location = new System.Drawing.Point(322, 12);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(96, 16);
             this.checkBox2.TabIndex = 6;
@@ -224,11 +233,23 @@
             this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader4.Width = 175;
             // 
+            // cbMidnight
+            // 
+            this.cbMidnight.AutoSize = true;
+            this.cbMidnight.Location = new System.Drawing.Point(246, 12);
+            this.cbMidnight.Name = "cbMidnight";
+            this.cbMidnight.Size = new System.Drawing.Size(72, 16);
+            this.cbMidnight.TabIndex = 8;
+            this.cbMidnight.Text = "半夜改修";
+            this.cbMidnight.UseVisualStyleBackColor = true;
+            this.cbMidnight.CheckedChanged += new System.EventHandler(this.cbMidnight_CheckedChanged);
+            // 
             // UpgradeHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(561, 442);
+            this.Controls.Add(this.cbMidnight);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -241,6 +262,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "装备改修助手";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UpgradeHelper_FormClosed);
             this.Load += new System.EventHandler(this.UpgradeHelper_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -266,6 +288,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.CheckBox cbMidnight;
+        private System.Windows.Forms.ColumnHeader colMidnight;
     }
 }
 

@@ -88,6 +88,9 @@ namespace ItemUpgrade
                     XmlDocument doc = new XmlDocument();
                     doc.Load(ConfigFile);
                     var Root = doc.DocumentElement;
+                    string Midnight = Root.GetAttribute("Midnight");
+                    if (Midnight == "1")
+                        cbMidnight.Checked = true;
                     foreach (XmlElement childElement in Root)
                     {
                         string name = childElement.GetAttribute("EquipmentName");
@@ -117,6 +120,7 @@ namespace ItemUpgrade
                 }
                 var Root = doc.DocumentElement;
                 Root.RemoveAll();
+                Root.SetAttribute("Midnight", cbMidnight.Checked ? "1" : "");
                 foreach (var filter in Filters)
                 {
                     XmlElement Element = doc.CreateElement("Filter");
@@ -167,7 +171,8 @@ namespace ItemUpgrade
             RequirementList.New();
             RequirementList.Initial.SetCondition(2, 3, null, 0);
             RequirementList.Steps.SetCondition(2, 4, "12.7cm連装砲B型改二", 1);
-            AddInformation(ItemType.小口径主砲, "12.7cm連装砲B型改二", new int[] { 1, 2, 3 }, "夕立改二 綾波改二", RequirementList);
+            AddInformation(ItemType.小口径主砲, "12.7cm連装砲B型改二", new int[] { 1, 2, 3 }, "夕立改二", RequirementList);
+            AddInformation(ItemType.小口径主砲, "12.7cm連装砲B型改二", new int[] { 1, 2, 3 }, "綾波改二", RequirementList);
 
             RequirementList.New();
             RequirementList.Initial.SetCondition(3, 4, null, 0);
@@ -326,7 +331,8 @@ namespace ItemUpgrade
             RequirementList.Initial.SetCondition(1, 2, null, 0);
             RequirementList.Steps.SetCondition(2, 4, "61cm四連装(酸素)魚雷", 1);
             RequirementList.Refresh.SetCondition(5, 11, "61cm四連装(酸素)魚雷", 3, "61cm五連装(酸素)魚雷");
-            AddInformation(ItemType.魚雷, "61cm四連装(酸素)魚雷", new int[] { 0, 1, 2, 3, 4, 5, 6 }, "大井 北上", RequirementList);
+            AddInformation(ItemType.魚雷, "61cm四連装(酸素)魚雷", new int[] { 0, 1, 2, 3, 4, 5, 6 }, "大井", RequirementList);
+            AddInformation(ItemType.魚雷, "61cm四連装(酸素)魚雷", new int[] { 0, 1, 2, 3, 4, 5, 6 }, "北上", RequirementList);
 
             RequirementList.New();
             RequirementList.Initial.SetCondition(3, 5, null, 0);
@@ -417,7 +423,7 @@ namespace ItemUpgrade
             AddInformation(ItemType.ソナー, "四式水中聴音機", new int[] { 4, 5, 6 }, "五十鈴改二", RequirementList);
             AddInformation(ItemType.ソナー, "四式水中聴音機", new int[] { 0 }, "秋月改", RequirementList);
             AddInformation(ItemType.ソナー, "四式水中聴音機", new int[] { 3 }, "照月改", RequirementList);
-            AddInformation(ItemType.ソナー, "四式水中聴音機", new int[] { 0, 1, 2 }, "香取改", RequirementList);
+            AddInformation(ItemType.ソナー, "四式水中聴音機", new int[] { 1, 2 }, "香取改", RequirementList);
 
             RequirementList.New();
             RequirementList.Initial.SetCondition(1, 2, null, 0);
@@ -465,14 +471,16 @@ namespace ItemUpgrade
             RequirementList.Initial.SetCondition(1, 2, null, 0);
             RequirementList.Steps.SetCondition(2, 4, "12.7cm連装高角砲", 1);
             RequirementList.Refresh.SetCondition(4, 7, "10cm連装高角砲", 2, "94式高射装置");
-            AddInformation(ItemType.高射装置, "91式高射装置", new int[] { 0, 1, 5, 6 }, "摩耶 秋月", RequirementList);
+            AddInformation(ItemType.高射装置, "91式高射装置", new int[] { 0, 1, 5, 6 }, "秋月", RequirementList);
+            AddInformation(ItemType.高射装置, "91式高射装置", new int[] { 0, 1, 5, 6 }, "摩耶", RequirementList);
             AddInformation(ItemType.高射装置, "91式高射装置", new int[] { 0, 4, 5, 6 }, "照月", RequirementList);
 
             RequirementList.New();
             RequirementList.Initial.SetCondition(2, 3, null, 0);
             RequirementList.Steps.SetCondition(3, 5, "10cm連装高角砲", 1);
             RequirementList.Refresh.SetCondition(5, 10, "10cm連装高角砲", 2, "10cm高角砲＋高射装置");
-            AddInformation(ItemType.高射装置, "94式高射装置", new int[] { 0, 1, 2, 3, 4, 5, 6 }, "秋月 照月", RequirementList);//照月
+            AddInformation(ItemType.高射装置, "94式高射装置", new int[] { 0, 1, 2, 3, 4, 5, 6 }, "秋月", RequirementList);//照月
+            AddInformation(ItemType.高射装置, "94式高射装置", new int[] { 0, 1, 2, 3, 4, 5, 6 }, "照月", RequirementList);
             AddInformation(ItemType.高射装置, "94式高射装置", new int[] { 0, 4, 5, 6 }, "吹雪改二", RequirementList);
 
             RequirementList.New();
@@ -487,7 +495,8 @@ namespace ItemUpgrade
             RequirementList.Refresh.SetCondition(3, 7, "熟練見張員", 1, "96式150cm探照灯");
             AddInformation(ItemType.探照灯, "探照灯", new int[] { 4, 5, 6 }, "暁", RequirementList);
             AddInformation(ItemType.探照灯, "探照灯", new int[] { 0, 5, 6 }, "神通", RequirementList);
-            AddInformation(ItemType.探照灯, "探照灯", new int[] { 1, 2, 3 }, "青葉 綾波", RequirementList);
+            AddInformation(ItemType.探照灯, "探照灯", new int[] { 1, 2, 3 }, "青葉", RequirementList);
+            AddInformation(ItemType.探照灯, "探照灯", new int[] { 1, 2, 3 }, "綾波", RequirementList);
 
             RequirementList.New();
             RequirementList.Initial.SetCondition(3, 4, "探照灯", 1);
@@ -508,7 +517,7 @@ namespace ItemUpgrade
                 inf.Type = Type;
                 inf.Name = Name;
                 inf.DayofWeek = DayofWeek;
-                inf.ShipList = ShipName;
+                inf.Ship = ShipName;
                 inf.Initial = list.Initial;
                 inf.Steps = list.Steps;
                 inf.Refresh = list.Refresh;
@@ -526,7 +535,7 @@ namespace ItemUpgrade
                 inf.Type = Type;
                 inf.Name = Name;
                 inf.DayofWeek = DayofWeek;
-                inf.ShipList = ShipName;
+                inf.Ship = ShipName;
                 inf.ExceptShips.AddRange(ExceptShip);
                 inf.Initial = list.Initial;
                 inf.Steps = list.Steps;
@@ -554,22 +563,62 @@ namespace ItemUpgrade
 
         public void RefreshList(int DayofWeek, bool Filtered, bool OnlyShowAvaible)
         {
+            bool MidnightWork = cbMidnight.Checked;
             OnlyShowAvaible = checkBox2.Checked;
             lvList.Items.Clear();
-
-            var result = UpgradeInformations.Where(x => x.DayofWeek == DayofWeek).ToList();
+            UpgradeInformations.ForEach(x=>x.ShipListDisplayed.List.Clear());
+            List<UpgradeInformation> result;
+            if (MidnightWork)
+            {
+                int nextDayofWeek = (DayofWeek + 1) % 7;
+                result = UpgradeInformations.Where(x => (x.DayofWeek == DayofWeek) || (x.DayofWeek == nextDayofWeek)).ToList();
+            }
+            else
+                result = UpgradeInformations.Where(x => x.DayofWeek == DayofWeek).ToList();
             int index = 0;
+
+            for (int id = result.Count - 1; id > 0; id--)//修改  提前删除不符合条件的改修条目
+            {
+                var inf = result[id];
+                if (Filtered && Filters[inf.Name])
+                {
+                    result.RemoveAt(id);
+                    continue;
+                }
+                if (inf.Ship != "無")
+                {
+                    if (OnlyShowAvaible && !ShipExists(inf.Ship, inf.ExceptShips))
+                    {
+                        result.RemoveAt(id);
+                        continue;
+                    }
+                    if (OnlyShowAvaible && !EquipmentExists(inf.Name))
+                    {
+                        result.RemoveAt(id);
+                        continue;
+                    }
+                }
+            }
 
             while (true)
             {
-                result[index].ShipListDisplayed.Add(result[index].ShipList);
+                result[index].ShipListDisplayed.Add(result[index].Ship);
                 if (index >= result.Count - 1)
                     break;
 
                 if ((result[index].Name == result[index + 1].Name) && (result[index].Steps.EquipName == result[index + 1].Steps.EquipName) && (result[index].Refresh.EquipName == result[index + 1].Refresh.EquipName))
                 {
-                    result[index].ShipListDisplayed.Add(result[index + 1].ShipList);
-                    result.RemoveAt(index + 1);
+                    if (result[index].DayofWeek == DayofWeek)
+                    {
+                        result[index].ShipListDisplayed.Add(result[index + 1].Ship);
+                        result.RemoveAt(index + 1);
+                    }
+                    else
+                    {
+                        result[index + 1].ShipListDisplayed.Add(result[index].Ship);
+                        result.RemoveAt(index);
+                    }
+
                 }
                 else
                 {
@@ -580,15 +629,15 @@ namespace ItemUpgrade
             lvList.BeginUpdate();
             foreach (UpgradeInformation inf in result)
             {
-                if (Filtered && Filters[inf.Name])
-                    continue;
-                if (inf.Name != "無")
-                {
-                    if (OnlyShowAvaible && !ShipExists(inf.ShipListDisplayed, inf.ExceptShips))
-                        continue;
-                    if (OnlyShowAvaible && !EquipmentExists(inf.Name))
-                        continue;
-                }
+                //if (Filtered && Filters[inf.Name])
+                //    continue;
+                //if (inf.Ship != "無")
+                //{
+                //    if (OnlyShowAvaible && !ShipExists(inf.ShipListDisplayed, inf.ExceptShips))
+                //        continue;
+                //    if (OnlyShowAvaible && !EquipmentExists(inf.Name))
+                //        continue;
+                //}
                 ListViewItem li = new ListViewItem("");
                 try
                 {
@@ -601,8 +650,9 @@ namespace ItemUpgrade
                 if (Type[0] == '_')
                     Type = Type.Substring(1);
                 li.SubItems.Add(Type);
-                li.SubItems.Add(inf.Name);
+                var item = li.SubItems.Add(inf.Name);
                 li.SubItems.Add(inf.ShipListDisplayed.ToString());
+                li.SubItems.Add(inf.DayofWeek != DayofWeek ? "半夜限定" : "");
                 li.ToolTipText = inf.GetHint();
                 lvList.Items.Add(li);
             }
@@ -637,6 +687,42 @@ namespace ItemUpgrade
                 while (Master != null)
                 {
                     if (ships.Contains(Master.Name))
+                    {
+                        return true;
+                    }
+                    Master = Master.RemodelBeforeShip;
+                }
+            }
+            return false;
+        }
+
+        bool ShipExists(string Ship, List<string> exceptions)
+        {
+            int Count = 0;
+            try
+            {
+                Count = ElectronicObserver.Data.KCDatabase.Instance.Ships.Count;
+            }
+            catch
+            {
+                return true;
+            }
+            if (Count <= 0)
+                return true;
+            foreach (var mship in ElectronicObserver.Data.KCDatabase.Instance.Ships)
+            {
+                if (mship.Value == null)
+                    continue;
+                ShipDataMaster Master = mship.Value.MasterShip;
+
+                if (exceptions.Contains(Master.Name))
+                {
+                    continue;
+                }
+
+                while (Master != null)
+                {
+                    if (Ship == Master.Name)
                     {
                         return true;
                     }
@@ -697,6 +783,16 @@ namespace ItemUpgrade
             }
             listView1.EndUpdate();
         }
+
+        private void cbMidnight_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshList(cmbDayofWeek.SelectedIndex, checkBox1.Checked, false);
+        }
+
+        private void UpgradeHelper_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SaveConfig();
+        }
     }
 
     public class UpgradeInformation
@@ -716,7 +812,12 @@ namespace ItemUpgrade
             get;
             set;
         }
-        public string ShipList
+        public bool Midnight
+        {
+            get;
+            set;
+        }
+        public string Ship
         {
             get;
             set;
