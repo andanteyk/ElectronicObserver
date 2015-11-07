@@ -612,7 +612,7 @@ namespace ElectronicObserver.Window {
 
 
 		private void BattleStarted( string apiname, dynamic data ) {
-			UpdateEnemyFleetInstant();
+			UpdateEnemyFleetInstant( apiname.Contains( "practice" ) );
 		}
 
 
@@ -651,7 +651,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private void UpdateEnemyFleetInstant() {
+		private void UpdateEnemyFleetInstant( bool isPractice = false ) {
 
 			BattleManager bm = KCDatabase.Instance.Battle;
 			BattleData bd;
@@ -689,7 +689,9 @@ namespace ElectronicObserver.Window {
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			TextFormation.Visible = true;
-			TextAirSuperiority.Text = Calculator.GetAirSuperiority( enemies, slots ).ToString();
+			TextAirSuperiority.Text = isPractice ?
+				Calculator.GetAirSuperiority( enemies, slots ).ToString() + " ～ " + Calculator.GetAirSuperiorityAtMaxLevel( enemies, slots ).ToString() :
+				Calculator.GetAirSuperiority( enemies, slots ).ToString();
 			TextAirSuperiority.Visible = true;
 
 			TableEnemyMember.SuspendLayout();

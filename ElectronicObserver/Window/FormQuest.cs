@@ -456,11 +456,18 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void QuestView_ColumnWidthChanged( object sender, DataGridViewColumnEventArgs e ) {
+
+			Utility.Configuration.Config.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( c => c.Width ).ToList();
+
+		}
+
+
 
 		protected override string GetPersistString() {
 			return "Quest";
 		}
 
-
+		
 	}
 }
