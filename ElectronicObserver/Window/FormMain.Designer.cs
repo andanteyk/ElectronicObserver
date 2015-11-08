@@ -81,6 +81,7 @@
 			this.StripMenu_Tool_EquipmentList = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_DropRecord = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_DevelopmentRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_ResourceChart = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +104,7 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.StripMenu_Tool_DevelopmentRecord = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_ConstructionRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -412,6 +413,7 @@
             this.toolStripSeparator7,
             this.StripMenu_Tool_DropRecord,
             this.StripMenu_Tool_DevelopmentRecord,
+            this.StripMenu_Tool_ConstructionRecord,
             this.StripMenu_Tool_ResourceChart,
             this.toolStripSeparator15,
             this.StripMenu_Tool_AlbumMasterShip,
@@ -438,6 +440,13 @@
 			this.StripMenu_Tool_DropRecord.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_Tool_DropRecord.Text = "ドロップ記録(&D)";
 			this.StripMenu_Tool_DropRecord.Click += new System.EventHandler(this.StripMenu_Tool_DropRecord_Click);
+			// 
+			// StripMenu_Tool_DevelopmentRecord
+			// 
+			this.StripMenu_Tool_DevelopmentRecord.Name = "StripMenu_Tool_DevelopmentRecord";
+			this.StripMenu_Tool_DevelopmentRecord.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_DevelopmentRecord.Text = "開発記録(&V)";
+			this.StripMenu_Tool_DevelopmentRecord.Click += new System.EventHandler(this.StripMenu_Tool_DevelopmentRecord_Click);
 			// 
 			// StripMenu_Tool_ResourceChart
 			// 
@@ -565,6 +574,7 @@
             this.StripStatus_Clock});
 			this.StripStatus.Location = new System.Drawing.Point(0, 458);
 			this.StripStatus.Name = "StripStatus";
+			this.StripStatus.ShowItemToolTips = true;
 			this.StripStatus.Size = new System.Drawing.Size(640, 22);
 			this.StripStatus.TabIndex = 3;
 			// 
@@ -652,12 +662,12 @@
 			this.MainDockPanel.Skin = dockPanelSkin1;
 			this.MainDockPanel.TabIndex = 0;
 			// 
-			// StripMenu_Tool_DevelopmentRecord
+			// StripMenu_Tool_ConstructionRecord
 			// 
-			this.StripMenu_Tool_DevelopmentRecord.Name = "StripMenu_Tool_DevelopmentRecord";
-			this.StripMenu_Tool_DevelopmentRecord.Size = new System.Drawing.Size(152, 22);
-			this.StripMenu_Tool_DevelopmentRecord.Text = "開発記録(&V)";
-			this.StripMenu_Tool_DevelopmentRecord.Click += new System.EventHandler(this.StripMenu_Tool_DevelopmentRecord_Click);
+			this.StripMenu_Tool_ConstructionRecord.Name = "StripMenu_Tool_ConstructionRecord";
+			this.StripMenu_Tool_ConstructionRecord.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_ConstructionRecord.Text = "建造記録(&R)";
+			this.StripMenu_Tool_ConstructionRecord.Click += new System.EventHandler(this.StripMenu_Tool_ConstructionRecord_Click);
 			// 
 			// FormMain
 			// 
@@ -750,5 +760,6 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadDataFromOld;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DropRecord;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DevelopmentRecord;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ConstructionRecord;
 	}
 }

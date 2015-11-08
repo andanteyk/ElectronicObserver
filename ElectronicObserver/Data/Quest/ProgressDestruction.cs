@@ -13,8 +13,8 @@ namespace ElectronicObserver.Data.Quest {
 	[DataContract( Name = "ProgressDestruction" )]
 	public class ProgressDestruction : ProgressData {
 
-		public ProgressDestruction( int questID, int maxCount )
-			: base( questID, maxCount ) {
+		public ProgressDestruction( QuestData quest, int maxCount )
+			: base( quest, maxCount ) {
 		}
 
 		public override string GetClearCondition() {

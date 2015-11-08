@@ -204,9 +204,9 @@ namespace ElectronicObserver.Window {
 			SystemEvents.OnUpdateTimerTick();
 
 			// 東京標準時で表示
-			DateTime now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId( DateTime.UtcNow, "Tokyo Standard Time" );
-			StripStatus_Clock.Text = now.ToString( "HH:mm:ss" );
-			StripStatus_Clock.ToolTipText = now.ToString( "yyyy/MM/dd (ddd)" );
+			DateTime now = DateTime.UtcNow + new TimeSpan( 9, 0, 0 );
+			StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
+			StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
 		}
 
 
@@ -963,6 +963,22 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Tool_ConstructionRecord_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦これを読み込んでから開いてください。", "マスターデータがありません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			if ( RecordManager.Instance.Construction.Record.Count == 0 ) {
+				MessageBox.Show( "建造レコードがありません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			new Dialog.DialogConstructionRecordViewer().Show( this );
+
+		}
+
 
 
 
@@ -1051,6 +1067,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
+
 
 
 

@@ -27,15 +27,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// <summary>
 			/// 開発した装備の名前
 			/// </summary>
-			public string EquipmentName {
-				get {
-					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[EquipmentID];
-					if ( eq != null )
-						return eq.Name;
-					else
-						return "(失敗)";
-				}
-			}
+			public string EquipmentName { get; set; }
 
 			/// <summary>
 			/// 開発日時
@@ -70,22 +62,12 @@ namespace ElectronicObserver.Resource.Record {
 			/// <summary>
 			/// 旗艦の艦名
 			/// </summary>
-			public string FlagshipName {
-				get {
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[FlagshipID];
-					return ship != null ? ship.NameWithClass : "???";
-				}
-			}
+			public string FlagshipName { get; set; }
 
 			/// <summary>
 			/// 旗艦の艦種
 			/// </summary>
-			public int FlagshipType {
-				get {
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[FlagshipID];
-					return ship != null ? ship.ShipType : -1;
-				}
-			}
+			public int FlagshipType { get; set; }
 
 			/// <summary>
 			/// 司令部Lv.
@@ -110,6 +92,8 @@ namespace ElectronicObserver.Resource.Record {
 				Bauxite = bauxite;
 				FlagshipID = flagshipID;
 				HQLevel = hqLevel;
+
+				SetSubParameters();
 			}
 
 
@@ -119,15 +103,15 @@ namespace ElectronicObserver.Resource.Record {
 				if ( elem.Length < 11 ) throw new ArgumentException( "要素数が少なすぎます。" );
 
 				EquipmentID = int.Parse( elem[0] );
-				//EquipmentName=elem[1]は読み飛ばす
+				EquipmentName = elem[1];
 				Date = DateTimeHelper.CSVStringToTime( elem[2] );
 				Fuel = int.Parse( elem[3] );
 				Ammo = int.Parse( elem[4] );
 				Steel = int.Parse( elem[5] );
 				Bauxite = int.Parse( elem[6] );
 				FlagshipID = int.Parse( elem[7] );
-				//FlagshipName = elem[8] は読み飛ばす
-				//FlagshipType = elem[9] は読み飛ばす
+				FlagshipName = elem[8];
+				FlagshipType = int.Parse( elem[9] );
 				HQLevel = int.Parse( elem[10] );
 
 			}
@@ -146,6 +130,18 @@ namespace ElectronicObserver.Resource.Record {
 					FlagshipName,
 					FlagshipType,
 					HQLevel );
+			}
+
+			/// <summary>
+			/// 艦名などのパラメータを現在のIDをもとに設定します。
+			/// </summary>
+			public void SetSubParameters() {
+				var eq = KCDatabase.Instance.MasterEquipments[EquipmentID];
+				var flagship = KCDatabase.Instance.MasterShips[FlagshipID];
+
+				EquipmentName = EquipmentID == -1 ? "(失敗)" : eq != null ? eq.Name : "???";
+				FlagshipName = flagship != null ? flagship.NameWithClass : "???";
+				FlagshipType = flagship != null ? flagship.ShipType : -1;
 			}
 		}
 
@@ -193,10 +189,11 @@ namespace ElectronicObserver.Resource.Record {
 				tempElement.EquipmentID = (int)data.api_slot_item.api_slotitem_id;
 			}
 
-			ShipData flagship = KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[1].Members[0]];
+			ShipData flagship =KCDatabase.Instance.Fleet[1].MembersInstance[0];
 			tempElement.FlagshipID = flagship.ShipID;
 			tempElement.HQLevel = KCDatabase.Instance.Admiral.Level;
 
+			tempElement.SetSubParameters();
 
 			Record.Add( tempElement );
 

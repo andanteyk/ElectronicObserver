@@ -27,12 +27,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// <summary>
 			/// 建造した艦の名前
 			/// </summary>
-			public string ShipName {
-				get {
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
-					return ship != null ? ship.NameWithClass : "???";
-				}
-			}
+			public string ShipName { get; set; }
 
 			/// <summary>
 			/// 建造日時
@@ -82,12 +77,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// <summary>
 			/// 旗艦の艦名
 			/// </summary>
-			public string FlagshipName {
-				get {
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[FlagshipID];
-					return ship != null ? ship.NameWithClass : "???";
-				}
-			}
+			public string FlagshipName { get; set; }
 
 			/// <summary>
 			/// 司令部Lv.
@@ -105,7 +95,10 @@ namespace ElectronicObserver.Resource.Record {
 				: base( line ) { }
 
 			public ConstructionElement( int shipID, int fuel, int ammo, int steel, int bauxite, int developmentMaterial, int emptyDock, int flagshipID, int hqLevel ) {
+				var ship =  KCDatabase.Instance.MasterShips[shipID];
+				var flagship = KCDatabase.Instance.MasterShips[flagshipID];
 				ShipID = shipID;
+				ShipName = ship != null ? ship.NameWithClass : "???";
 				Date = DateTime.Now;
 				Fuel = fuel;
 				Ammo = ammo;
@@ -114,6 +107,7 @@ namespace ElectronicObserver.Resource.Record {
 				DevelopmentMaterial = developmentMaterial;
 				EmptyDockAmount = emptyDock;
 				FlagshipID = flagshipID;
+				FlagshipName = flagship != null ? flagship.NameWithClass : "???";
 				HQLevel = hqLevel;
 			}
 
@@ -124,7 +118,7 @@ namespace ElectronicObserver.Resource.Record {
 				if ( elem.Length < 13 ) throw new ArgumentException( "要素数が少なすぎます。" );
 
 				ShipID = int.Parse( elem[0] );
-				//ShipName=elem[1]は読み飛ばす
+				ShipName = elem[1];
 				Date = DateTimeHelper.CSVStringToTime( elem[2] );
 				Fuel = int.Parse( elem[3] );
 				Ammo = int.Parse( elem[4] );
@@ -134,7 +128,7 @@ namespace ElectronicObserver.Resource.Record {
 				//IsLargeDock=elem[8]は読み飛ばす
 				EmptyDockAmount = int.Parse( elem[9] );
 				FlagshipID = int.Parse( elem[10] );
-				//FlagshipName=elem[11]は読み飛ばす
+				FlagshipName = elem[11];
 				HQLevel = int.Parse( elem[12] );
 
 			}
@@ -197,7 +191,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			ArsenalData a = KCDatabase.Instance.Arsenals[ConstructingDockID];
 			int emptyDock = KCDatabase.Instance.Arsenals.Values.Count( c => c.State == 0 );
-			ShipData flagship = KCDatabase.Instance.Ships[KCDatabase.Instance.Fleet[1].Members[0]];
+			ShipData flagship = KCDatabase.Instance.Fleet[1].MembersInstance[0];
 
 			Record.Add( new ConstructionElement( a.ShipID, a.Fuel, a.Ammo, a.Steel, a.Bauxite, a.DevelopmentMaterial,
 				emptyDock, flagship.ShipID, KCDatabase.Instance.Admiral.Level ) );

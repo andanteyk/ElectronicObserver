@@ -20,7 +20,7 @@ namespace ElectronicObserver.Window {
 
 		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter;
 		private DataGridViewCellStyle[] CSCategories;
-
+		private bool IsLoaded = false;
 
 		public FormQuest( FormMain parent ) {
 			InitializeComponent();
@@ -125,6 +125,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest] );
 
+			IsLoaded = true;
 		}
 
 
@@ -269,7 +270,7 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			if ( KCDatabase.Instance.Quest.Quests.Count != KCDatabase.Instance.Quest.Count ) {
+			if ( KCDatabase.Instance.Quest.Quests.Count < KCDatabase.Instance.Quest.Count ) {
 				int index = QuestView.Rows.Add();
 				QuestView.Rows[index].Cells[QuestView_State.Index].Value = null;
 				QuestView.Rows[index].Cells[QuestView_Name.Index].Value = string.Format( "(未取得の任務 x {0})", ( KCDatabase.Instance.Quest.Count - KCDatabase.Instance.Quest.Quests.Count ) );
@@ -453,6 +454,14 @@ namespace ElectronicObserver.Window {
 
 			QuestView.Columns[index].Visible =
 			Utility.Configuration.Config.FormQuest.ColumnFilter.List[index] = menu.Checked;
+		}
+
+
+		private void QuestView_ColumnWidthChanged( object sender, DataGridViewColumnEventArgs e ) {
+
+			if ( IsLoaded )
+				Utility.Configuration.Config.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( c => c.Width ).ToList();
+
 		}
 
 
