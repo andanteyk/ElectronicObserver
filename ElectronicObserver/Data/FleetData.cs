@@ -609,7 +609,7 @@ namespace ElectronicObserver.Data {
 
 			//泊地修理中
 			{
-				if ( db.Fleet.IsAnchorageRepairing && fleet.CanAnchorageRepairing &&
+				if ( fleet.CanAnchorageRepairing &&
 					fleet.MembersInstance.Take( 2 + KCDatabase.Instance.Ships[fleet[0]].SlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 31 ) )
 					.Any( s => s != null && s.HPRate < 1.0 && s.HPRate > 0.5 && s.RepairingDockID == -1 ) ) {
 
