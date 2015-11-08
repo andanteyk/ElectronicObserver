@@ -631,7 +631,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/destroyship"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
-
+			o.APIList["api_req_hensei/preset_select"].ResponseReceived += ChangeOrganization;
+			
 			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
 			o.APIList["api_req_hensei/change"].RequestReceived += Updated;

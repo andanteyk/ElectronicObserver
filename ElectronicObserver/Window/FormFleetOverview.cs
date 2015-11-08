@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Support;
 using System;
@@ -108,6 +109,7 @@ namespace ElectronicObserver.Window {
 
 		private List<TableFleetControl> ControlFleet;
 		private ImageLabel CombinedTag;
+		private ImageLabel AnchorageRepairingTimer;
 
 
 		public FormFleetOverview( FormMain parent ) {
@@ -121,6 +123,27 @@ namespace ElectronicObserver.Window {
 				ControlFleet.Add( new TableFleetControl( this, i + 1, TableFleet ) );
 			}
 
+			{
+				AnchorageRepairingTimer = new ImageLabel();
+				AnchorageRepairingTimer.Anchor = AnchorStyles.Left;
+				AnchorageRepairingTimer.Margin = new Padding( 3, 2, 3, 2 );
+				AnchorageRepairingTimer.ImageList = ResourceManager.Instance.Icons;
+				AnchorageRepairingTimer.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
+				AnchorageRepairingTimer.Text = "-";
+				AnchorageRepairingTimer.Visible = false;
+
+				TableFleet.Controls.Add( AnchorageRepairingTimer, 1, 4 );
+
+				#region set RowStyle
+				RowStyle rs = new RowStyle( SizeType.AutoSize, 0 );
+
+				if ( TableFleet.RowStyles.Count > 4 )
+					TableFleet.RowStyles[4] = rs;
+				else
+					while ( TableFleet.RowStyles.Count <= 4 )
+						TableFleet.RowStyles.Add( rs );
+				#endregion
+			}
 
 			#region CombinedTag
 			{
@@ -132,20 +155,22 @@ namespace ElectronicObserver.Window {
 				CombinedTag.Text = "-";
 				CombinedTag.Visible = false;
 
-				TableFleet.Controls.Add( CombinedTag, 1, 4 );
+				TableFleet.Controls.Add( CombinedTag, 1, 5 );
 
 				#region set RowStyle
 				RowStyle rs = new RowStyle( SizeType.AutoSize, 0 );
 
-				if ( TableFleet.RowStyles.Count > 4 )
-					TableFleet.RowStyles[4] = rs;
+				if ( TableFleet.RowStyles.Count > 5 )
+					TableFleet.RowStyles[5] = rs;
 				else
-					while ( TableFleet.RowStyles.Count <= 4 )
+					while ( TableFleet.RowStyles.Count <= 5 )
 						TableFleet.RowStyles.Add( rs );
 				#endregion
 
 			}
 			#endregion
+
+			
 
 			ConfigurationChanged();
 
@@ -167,6 +192,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/destroyship"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
+			o.APIList["api_req_hensei/preset_select"].ResponseReceived += ChangeOrganization;
 
 			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
@@ -201,6 +227,7 @@ namespace ElectronicObserver.Window {
 				c.ConfigurationChanged( this );
 
 			CombinedTag.Font = Font;
+			AnchorageRepairingTimer.Font = Font;
 		}
 
 
@@ -216,6 +243,17 @@ namespace ElectronicObserver.Window {
 			} else {
 				CombinedTag.Visible = false;
 			}
+
+			if ( KCDatabase.Instance.Fleet.IsAnchorageRepairing ) {
+				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
+				AnchorageRepairingTimer.Tag = KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
+				AnchorageRepairingTimer.Visible = true;
+				ToolTipInfo.SetToolTip( AnchorageRepairingTimer, "泊地修理タイマ\r\n開始: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) + "\r\n回復: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer.AddMinutes( 20 ) ) );
+			} else {
+				AnchorageRepairingTimer.Tag = null;
+				AnchorageRepairingTimer.Visible = false;
+				ToolTipInfo.SetToolTip( AnchorageRepairingTimer, null );
+			}
 		}
 
 		void ChangeOrganization( string apiname, dynamic data ) {
@@ -230,6 +268,9 @@ namespace ElectronicObserver.Window {
 			for ( int i = 0; i < ControlFleet.Count; i++ ) {
 				ControlFleet[i].Refresh();
 			}
+
+			if ( AnchorageRepairingTimer.Tag != null )
+				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( (DateTime)AnchorageRepairingTimer.Tag );
 		}
 
 

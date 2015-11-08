@@ -124,12 +124,6 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public bool IsConditionTimeLocked { get; internal set; }
 
-		/// <summary>
-		/// 泊地修理中かどうか
-		/// </summary>
-		public bool IsAnchorageRepairing { get; internal set; }
-
-
 
 		public int ID {
 			get { return FleetID; }
@@ -166,7 +160,6 @@ namespace ElectronicObserver.Data {
 
 					UnlockConditionTimer();
 					ShortenConditionTimer();
-					UpdateAnchorageRepairingState();
 					break;
 
 				case "api_get_member/ndock":
@@ -174,7 +167,6 @@ namespace ElectronicObserver.Data {
 				case "api_get_member/ship3":
 				case "api_req_kaisou/powerup":
 					ShortenConditionTimer();
-					UpdateAnchorageRepairingState();
 					break;
 
 				default:	//checkme
@@ -232,13 +224,12 @@ namespace ElectronicObserver.Data {
 									}
 								}
 
-
 							}
 
 
 							SetConditionTimer();
-							if ( IsAnchorageRepairing )
-								KCDatabase.Instance.Fleet.ResetAnchorageRepairing();
+							if ( CanAnchorageRepairing )
+								KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
 						} else {
 
@@ -252,8 +243,8 @@ namespace ElectronicObserver.Data {
 										else
 											RemoveShip( i );
 
-										if ( IsAnchorageRepairing )
-											KCDatabase.Instance.Fleet.ResetAnchorageRepairing();
+										if ( CanAnchorageRepairing )
+											KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
 										break;
 									}
@@ -264,13 +255,6 @@ namespace ElectronicObserver.Data {
 						}
 
 
-						
-						UpdateAnchorageRepairingState();
-						/*
-						if ( flagshipID != _members[0] && MembersInstance[0] != null && MembersInstance[0].MasterShip.ShipType == 19 ) {
-							KCDatabase.Instance.Fleet.ResetAnchorageRepairing();
-						}
-						*/
 					} break;
 
 
@@ -280,11 +264,11 @@ namespace ElectronicObserver.Data {
 						for ( int i = 0; i < _members.Length; i++ ) {
 							if ( _members[i] == shipID ) {
 								RemoveShip( i );
+
 								ShortenConditionTimer();
 								break;
 							}
 						}
-						UpdateAnchorageRepairingState();
 
 					} break;
 
@@ -293,25 +277,23 @@ namespace ElectronicObserver.Data {
 							for ( int i = 0; i < _members.Length; i++ ) {
 								if ( _members[i] == id ) {
 									RemoveShip( i );
+
 									ShortenConditionTimer();
 									break;
 								}
 							}
 						}
-						UpdateAnchorageRepairingState();
 					} break;
 
 				case "api_req_kaisou/remodeling":	//fixme: ここでリセットしてもまだデータが送られてきてないので無意味
 					if ( Members.Contains( int.Parse( data["api_id"] ) ) ) {
 						SetConditionTimer();
-						UpdateAnchorageRepairingState();
 					}
 					break;
 
 				case "api_req_nyukyo/start":
 				case "api_req_nyukyo/speedchange":
 					ShortenConditionTimer();
-					UpdateAnchorageRepairingState();
 					break;
 
 				case "api_req_mission/start":
@@ -627,7 +609,9 @@ namespace ElectronicObserver.Data {
 
 			//泊地修理中
 			{
-				if ( fleet.IsAnchorageRepairing ) {
+				if ( db.Fleet.IsAnchorageRepairing && fleet.CanAnchorageRepairing &&
+					fleet.MembersInstance.Take( 2 + KCDatabase.Instance.Ships[fleet[0]].SlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 31 ) )
+					.Any( s => s != null && s.HPRate < 1.0 && s.HPRate > 0.5 && s.RepairingDockID == -1 ) ) {
 
 					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
@@ -745,36 +729,15 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 泊地修理可能か
 		/// </summary>
-		private bool CanAnchorageRepair {
+		public bool CanAnchorageRepairing {
 			get {
-				KCDatabase db = KCDatabase.Instance;
-				ShipData flagship = MembersInstance[0];
-				return (
-					ExpeditionState == 0 &&
-					flagship != null &&
-					flagship.MasterShip.ShipType == 19 &&	//旗艦工作艦
-					flagship.HPRate > 0.5 &&				//旗艦が中破未満
-					flagship.RepairingDockID == -1 &&		//旗艦が入渠中でない
-					MembersInstance.Take( 2 + flagship.SlotInstanceMaster.Count( eq => eq != null && eq.EquipmentType[2] == 31 ) ).Count( ship => {		//(2+装備)以内に50%<HP<100%&&非入渠中の艦がいる
-						if ( ship == null ) return false;
-						if ( ship.RepairingDockID != -1 ) return false;
-						return 0.5 < ship.HPRate && ship.HPRate < 1.0;
-					} ) > 0 );
+				ShipData flagship = KCDatabase.Instance.Ships[_members[0]];
+				return flagship != null && flagship.MasterShip.ShipType == 19;		//旗艦工作艦
 			}
 		}
 
 
-		/// <summary>
-		/// 泊地修理中であるかを再判定・状態を更新します。
-		/// </summary>
-		public void UpdateAnchorageRepairingState() {
 
-			bool prev = IsAnchorageRepairing;
-			IsAnchorageRepairing = CanAnchorageRepair;
-			if ( !prev && IsAnchorageRepairing )
-				KCDatabase.Instance.Fleet.StartAnchorageRepairing();
-
-		}
 	}
 
 }

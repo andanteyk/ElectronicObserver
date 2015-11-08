@@ -22,7 +22,12 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 泊地修理タイマ
 		/// </summary>
-		public DateTime AnchorageRepairingTimer { get; set; }
+		public DateTime AnchorageRepairingTimer { get; private set; }
+
+		/// <summary>
+		/// 泊地修理タイマが有効かどうか
+		/// </summary>
+		public bool IsAnchorageRepairing { get { return AnchorageRepairingTimer != DateTime.MinValue; } }
 
 
 		public FleetManager() {
@@ -64,6 +69,10 @@ namespace ElectronicObserver.Data {
 						} else {
 							Fleets[id].LoadFromResponse( apiname, data );
 						}
+
+						if ( !IsAnchorageRepairing && Fleets[id].CanAnchorageRepairing )	// リセット(上書き)は行わず、スタートだけする?
+							StartAnchorageRepairingTimer();
+
 					} break;
 
 				default:
@@ -86,13 +95,22 @@ namespace ElectronicObserver.Data {
 					break;
 			}
 
-			//泊地修理関連
+
+			// 泊地修理の処理
 			if ( apiname == "api_port/port" ) {
-				if ( ( DateTime.Now - AnchorageRepairingTimer ).TotalMinutes >= 20 || AnchorageRepairingTimer == DateTime.MinValue ) {
-					ResetAnchorageRepairing();
+				if ( !IsAnchorageRepairing ) {
+					if ( Fleets.Values.Any( f => f.CanAnchorageRepairing ) )
+						StartAnchorageRepairingTimer();
+
+				} else {
+					if ( ( DateTime.Now - AnchorageRepairingTimer ).TotalMinutes >= 20 ) {
+						if ( Fleets.Values.Any( f => f.CanAnchorageRepairing ) )
+							StartAnchorageRepairingTimer();
+						else
+							StopAnchorageRepairingTimer();
+					}
 				}
 			}
-
 		}
 
 
@@ -132,24 +150,20 @@ namespace ElectronicObserver.Data {
 
 		}
 
+
 		/// <summary>
-		/// 泊地修理タイマをリセットします。
+		/// 泊地修理タイマを現在時刻にセットします。
 		/// </summary>
-		public void ResetAnchorageRepairing() {
+		public void StartAnchorageRepairingTimer() {
 			AnchorageRepairingTimer = DateTime.Now;
 		}
 
-
 		/// <summary>
-		/// 泊地修理を開始します。
+		/// 泊地修理タイマを初期化します。
 		/// </summary>
-		public void StartAnchorageRepairing() {
-			if ( Fleets.Values.Count( f => f.IsAnchorageRepairing ) == 1 ) {
-				ResetAnchorageRepairing();
-			}
+		public void StopAnchorageRepairingTimer() {
+			AnchorageRepairingTimer = DateTime.MinValue;
 		}
-
-
 	}
 
 }
