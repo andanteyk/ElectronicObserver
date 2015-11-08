@@ -228,7 +228,7 @@ namespace ElectronicObserver.Data {
 
 
 							SetConditionTimer();
-							if ( CanAnchorageRepairing )
+							if ( index != -1 && CanAnchorageRepairing )		//随伴艦一括解除を除く
 								KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
 						} else {
