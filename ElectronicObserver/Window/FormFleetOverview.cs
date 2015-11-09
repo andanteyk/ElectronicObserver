@@ -228,6 +228,7 @@ namespace ElectronicObserver.Window {
 
 			CombinedTag.Font = Font;
 			AnchorageRepairingTimer.Font = Font;
+			AnchorageRepairingTimer.Visible = Utility.Configuration.Config.FormFleet.ShowAnchorageRepairingTimer;
 		}
 
 
@@ -263,7 +264,7 @@ namespace ElectronicObserver.Window {
 				ControlFleet[i].Refresh();
 			}
 
-			if ( AnchorageRepairingTimer.Tag != null )
+			if ( AnchorageRepairingTimer.Visible && AnchorageRepairingTimer.Tag != null )
 				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( (DateTime)AnchorageRepairingTimer.Tag );
 		}
 

@@ -310,6 +310,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShowNextExp.Checked = config.FormFleet.ShowNextExp;
 			FormFleet_ShowEquipmentLevel.Checked = config.FormFleet.ShowEquipmentLevel;
 			FormFleet_AirSuperiorityMethod.SelectedIndex = config.FormFleet.AirSuperiorityMethod;
+			FormFleet_ShowAnchorageRepairingTimer.Checked = config.FormFleet.ShowAnchorageRepairingTimer;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 
@@ -451,6 +452,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowNextExp = FormFleet_ShowNextExp.Checked;
 			config.FormFleet.ShowEquipmentLevel = FormFleet_ShowEquipmentLevel.Checked;
 			config.FormFleet.AirSuperiorityMethod = FormFleet_AirSuperiorityMethod.SelectedIndex;
+			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 
