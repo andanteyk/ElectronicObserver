@@ -577,7 +577,7 @@ namespace ItemUpgrade
                 result = UpgradeInformations.Where(x => x.DayofWeek == DayofWeek).ToList();
             int index = 0;
 
-            for (int id = result.Count - 1; id > 0; id--)//修改  提前删除不符合条件的改修条目
+            for (int id = result.Count - 1; id >= 0; id--)//修改  提前删除不符合条件的改修条目
             {
                 var inf = result[id];
                 if (Filtered && Filters[inf.Name])
@@ -610,13 +610,27 @@ namespace ItemUpgrade
                 {
                     if (result[index].DayofWeek == DayofWeek)
                     {
-                        result[index].ShipListDisplayed.Add(result[index + 1].Ship);
-                        result.RemoveAt(index + 1);
+                        if (result[index + 1].DayofWeek == DayofWeek)
+                        {
+                            result[index].ShipListDisplayed.Add(result[index + 1].Ship);
+                            result.RemoveAt(index + 1);
+                        }
+                        else
+                        {
+                            result.RemoveAt(index + 1);
+                        }
                     }
                     else
                     {
-                        result[index + 1].ShipListDisplayed.Add(result[index].Ship);
-                        result.RemoveAt(index);
+                        if (result[index + 1].DayofWeek == DayofWeek)
+                        {
+                            result.RemoveAt(index);
+                        }
+                        else
+                        {
+                            result[index + 1].ShipListDisplayed.Add(result[index].Ship);
+                            result.RemoveAt(index);
+                        }
                     }
 
                 }

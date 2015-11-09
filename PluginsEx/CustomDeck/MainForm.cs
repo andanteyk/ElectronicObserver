@@ -84,7 +84,7 @@ namespace CustomDeck
             {
                 for (int i = 0; i < Decks.Length; i++)
                 {
-                    Fleets.Fleets[i] = null;
+                    Fleets.Fleets[i] = new CustomFleet();
                     Decks[i].Fleet = Fleets.Fleets[i];
                 }
             }

@@ -145,7 +145,7 @@ namespace CustomDeck
             {
                 json = value;
                 if (json == null)
-                    _fleets = null;
+                    _fleets = new CustomFleets();
                 else
                 {
                     if (_fleets == null)
