@@ -216,6 +216,7 @@ namespace ElectronicObserver.Window.Dialog {
 				RecordView_Name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 				RecordView_Name.HeaderText = "装備";
 				RecordView_Date.Width = 140;
+				RecordView_Date.Visible = true;
 				RecordView_Recipe.Width = 120;
 				RecordView_Recipe.Visible = true;
 				RecordView_FlagshipType.Width = 60;
