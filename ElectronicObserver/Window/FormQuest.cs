@@ -20,7 +20,7 @@ namespace ElectronicObserver.Window {
 
 		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter;
 		private DataGridViewCellStyle[] CSCategories;
-
+		private bool IsLoaded = false;
 
 		public FormQuest( FormMain parent ) {
 			this.SuspendLayoutForDpiScale();
@@ -139,6 +139,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest] );
 
+			IsLoaded = true;
 		}
 
 
@@ -177,8 +178,6 @@ namespace ElectronicObserver.Window {
 					( (ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i] ).Checked = list[i];
 					QuestView.Columns[i].Width = width[i];
 				}
-                if (QuestView_Progress.Width > 200)//修正进度过长无法调节的问题
-                    QuestView_Progress.Width = 60;
 			}
 			MenuMain_ShowRunningOnly.Checked = Utility.Configuration.Config.FormQuest.ShowRunningOnly;
 			MenuMain_ShowOnce.Checked = Utility.Configuration.Config.FormQuest.ShowOnce;
@@ -495,6 +494,11 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void QuestView_ColumnWidthChanged( object sender, DataGridViewColumnEventArgs e ) {
+			if ( IsLoaded )
+				Utility.Configuration.Config.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( c => c.Width ).ToList();
+
+		}
 
 		public override string GetPersistString() {
 			return "Quest";

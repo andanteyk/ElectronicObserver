@@ -32,8 +32,8 @@ namespace ElectronicObserver.Data.Quest {
 		private bool IsBossOnly { get; set; }
 
 
-		public ProgressBattle( int questID, int maxCount, string lowestRank, int[] targetArea, bool isBossOnly )
-			: base( questID, maxCount ) {
+		public ProgressBattle( QuestData quest, int maxCount, string lowestRank, int[] targetArea, bool isBossOnly )
+			: base( quest, maxCount ) {
 
 			LowestRank = Constants.GetWinRank( lowestRank );
 			TargetArea = targetArea == null ? null : new HashSet<int>( targetArea );

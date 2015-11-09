@@ -316,6 +316,12 @@
     <Compile Include="Window\Dialog\DialogConfiguration.Designer.cs">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogConstructionRecordViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogConstructionRecordViewer.Designer.cs">
+      <DependentUpon>DialogConstructionRecordViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogDevelopmentRecordViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -501,6 +507,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogConstructionRecordViewer.resx">
+      <DependentUpon>DialogConstructionRecordViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogDevelopmentRecordViewer.resx">
       <DependentUpon>DialogDevelopmentRecordViewer.cs</DependentUpon>
