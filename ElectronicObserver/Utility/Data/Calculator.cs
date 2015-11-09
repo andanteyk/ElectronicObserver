@@ -554,15 +554,14 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
-
 		/// <summary>
 		/// 各装備カテゴリにおける制空値の熟練度ボーナス
 		/// </summary>
 		private static readonly Dictionary<int, int[]> AircraftLevelBonus = new Dictionary<int, int[]>() {
-			{ 6, new int[8] { 0, 0, 2, 5, 9, 14, 14, 22 } },	//艦上戦闘機
-			{ 7, new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上爆撃機
-			{ 8, new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上攻撃機
-			{ 11, new int[8] { 0, 1, 1, 1, 1, 3, 3, 6 } },		//水上爆撃機
+			{ 6, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },	//艦上戦闘機
+			{ 7, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上爆撃機
+			{ 8, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上攻撃機
+			{ 11, new int[] { 0, 1, 1, 1, 1, 3, 3, 6, 6 } },		//水上爆撃機
 		};
 
 		/// <summary>
@@ -579,6 +578,8 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="ship">対象の艦船。</param>
         public static int GetAirSuperiority(ShipData ship, int FullExp = 0)
         {
+
+			if ( ship == null ) return 0;
 
             if (Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 0)
             {
@@ -632,6 +633,41 @@ namespace ElectronicObserver.Utility.Data {
                    return false;
            }
         }
+		/// <summary>
+		/// 制空戦力を求めます。
+		/// </summary>
+		/// <param name="slot">各スロットの装備IDリスト。</param>
+		/// <param name="aircraft">艦載機搭載量。</param>
+		/// <param name="level">各スロットの艦載機熟練度。</param>
+		/// <returns></returns>
+		public static int GetAirSuperiority( int[] slot, int[] aircraft, int[] level ) {
+			int air = 0;
+
+			for ( int i = 0; i < aircraft.Length; i++ ) {
+				var eq = KCDatabase.Instance.MasterEquipments[slot[i]];
+				if ( eq == null || aircraft[i] == 0 ) continue;
+
+				int category = eq.CategoryType;
+				if ( AircraftLevelBonus.ContainsKey( category ) ) {
+					air += (int)( eq.AA * Math.Sqrt( aircraft[i] ) + Math.Sqrt( AircraftExpTable[level[i]] / 10.0 ) + AircraftLevelBonus[category][level[i]] );
+				}
+			}
+
+			return air;
+		}
+
+
+		/// <summary>
+		/// 最大練度の艦載機を搭載している場合の制空戦力を求めます。
+		/// </summary>
+		/// <param name="fleet">艦船IDリスト。</param>
+		/// <param name="slot">各艦の装備IDリスト。</param>
+		/// <returns></returns>
+		public static int GetAirSuperiorityAtMaxLevel( int[] fleet, int[][] slot ) {
+			return fleet.Select( id => KCDatabase.Instance.MasterShips[id] )
+				.Select( ( ship, i ) => ship == null ? 0 : GetAirSuperiority( slot[i], ship.Aircraft.ToArray(), new int[] { 8, 8, 8, 8, 8 } ) ).Sum();
+		}
+
 		/// <summary>
 		/// 制空戦力を求めます。
 		/// </summary>

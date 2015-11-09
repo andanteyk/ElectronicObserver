@@ -53,7 +53,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// 最大値がデフォルト状態かどうか
 			/// </summary>
 			public bool IsMaximumDefault {
-				get { return MinimumEstMin == MinimumDefault && MinimumEstMax == MaximumDefault; }
+				get { return Maximum == MaximumDefault; }
 			}
 
 			/// <summary>

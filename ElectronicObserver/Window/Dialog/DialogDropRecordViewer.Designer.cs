@@ -24,8 +24,11 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.ItemName = new System.Windows.Forms.ComboBox();
 			this.ShipName = new System.Windows.Forms.ComboBox();
 			this.EquipmentName = new System.Windows.Forms.ComboBox();
@@ -40,12 +43,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.MapDifficulty = new System.Windows.Forms.ComboBox();
 			this.ButtonRun = new System.Windows.Forms.Button();
-			this.DropView = new System.Windows.Forms.DataGridView();
-			this.DropView_Header = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.DropView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.DropView_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.DropView_Map = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.DropView_Rank = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView = new System.Windows.Forms.DataGridView();
 			this.IsBossOnly = new System.Windows.Forms.CheckBox();
 			this.MapAreaID = new System.Windows.Forms.ComboBox();
 			this.MapInfoID = new System.Windows.Forms.ComboBox();
@@ -56,10 +54,18 @@
 			this.LabelItemName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.LabelEquipmentName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-			this.StripLabel_RecordCount = new System.Windows.Forms.ToolStripStatusLabel();
+			this.StatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.Searcher = new System.ComponentModel.BackgroundWorker();
-			((System.ComponentModel.ISupportInitialize)(this.DropView)).BeginInit();
+			this.RecordView_Header = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_Map = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_Rank = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_RankS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_RankA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_RankB = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			((System.ComponentModel.ISupportInitialize)(this.RecordView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -69,8 +75,7 @@
 			// 
 			// ItemName
 			// 
-			this.ItemName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.ItemName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.ItemName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.ItemName.FormattingEnabled = true;
 			this.ItemName.Location = new System.Drawing.Point(75, 39);
 			this.ItemName.Name = "ItemName";
@@ -80,8 +85,7 @@
 			// 
 			// ShipName
 			// 
-			this.ShipName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.ShipName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.ShipName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.ShipName.FormattingEnabled = true;
 			this.ShipName.Location = new System.Drawing.Point(75, 10);
 			this.ShipName.Name = "ShipName";
@@ -91,8 +95,7 @@
 			// 
 			// EquipmentName
 			// 
-			this.EquipmentName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.EquipmentName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.EquipmentName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.EquipmentName.Enabled = false;
 			this.EquipmentName.FormattingEnabled = true;
 			this.EquipmentName.Location = new System.Drawing.Point(75, 68);
@@ -222,76 +225,42 @@
 			this.ButtonRun.UseVisualStyleBackColor = true;
 			this.ButtonRun.Click += new System.EventHandler(this.ButtonRun_Click);
 			// 
-			// DropView
+			// RecordView
 			// 
-			this.DropView.AllowUserToAddRows = false;
-			this.DropView.AllowUserToDeleteRows = false;
-			this.DropView.AllowUserToResizeRows = false;
-			this.DropView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			this.DropView.ColumnHeadersVisible = false;
-			this.DropView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DropView_Header,
-            this.DropView_Name,
-            this.DropView_Date,
-            this.DropView_Map,
-            this.DropView_Rank});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(204)))));
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.DropView.DefaultCellStyle = dataGridViewCellStyle2;
-			this.DropView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.DropView.Location = new System.Drawing.Point(0, 0);
-			this.DropView.Name = "DropView";
-			this.DropView.ReadOnly = true;
-			this.DropView.RowHeadersVisible = false;
-			this.DropView.RowTemplate.Height = 21;
-			this.DropView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.DropView.Size = new System.Drawing.Size(624, 315);
-			this.DropView.TabIndex = 1;
-			this.DropView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DropView_CellFormatting);
-			this.DropView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.DropView_SortCompare);
-			this.DropView.Sorted += new System.EventHandler(this.DropView_Sorted);
-			// 
-			// DropView_Header
-			// 
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.DropView_Header.DefaultCellStyle = dataGridViewCellStyle1;
-			this.DropView_Header.HeaderText = "";
-			this.DropView_Header.Name = "DropView_Header";
-			this.DropView_Header.ReadOnly = true;
-			this.DropView_Header.Width = 50;
-			// 
-			// DropView_Name
-			// 
-			this.DropView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.DropView_Name.HeaderText = "名前";
-			this.DropView_Name.Name = "DropView_Name";
-			this.DropView_Name.ReadOnly = true;
-			// 
-			// DropView_Date
-			// 
-			this.DropView_Date.HeaderText = "日付";
-			this.DropView_Date.Name = "DropView_Date";
-			this.DropView_Date.ReadOnly = true;
-			this.DropView_Date.Width = 150;
-			// 
-			// DropView_Map
-			// 
-			this.DropView_Map.HeaderText = "海域";
-			this.DropView_Map.Name = "DropView_Map";
-			this.DropView_Map.ReadOnly = true;
-			this.DropView_Map.Width = 120;
-			// 
-			// DropView_Rank
-			// 
-			this.DropView_Rank.HeaderText = "ランク";
-			this.DropView_Rank.Name = "DropView_Rank";
-			this.DropView_Rank.ReadOnly = true;
-			this.DropView_Rank.Width = 40;
+			this.RecordView.AllowUserToAddRows = false;
+			this.RecordView.AllowUserToDeleteRows = false;
+			this.RecordView.AllowUserToResizeRows = false;
+			this.RecordView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			this.RecordView.ColumnHeadersVisible = false;
+			this.RecordView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.RecordView_Header,
+            this.RecordView_Name,
+            this.RecordView_Date,
+            this.RecordView_Map,
+            this.RecordView_Rank,
+            this.RecordView_RankS,
+            this.RecordView_RankA,
+            this.RecordView_RankB});
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle5.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(204)))));
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.RecordView.DefaultCellStyle = dataGridViewCellStyle5;
+			this.RecordView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.RecordView.Location = new System.Drawing.Point(0, 0);
+			this.RecordView.Name = "RecordView";
+			this.RecordView.ReadOnly = true;
+			this.RecordView.RowHeadersVisible = false;
+			this.RecordView.RowTemplate.Height = 21;
+			this.RecordView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.RecordView.Size = new System.Drawing.Size(624, 315);
+			this.RecordView.TabIndex = 1;
+			this.RecordView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.RecordView_CellFormatting);
+			this.RecordView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.RecordView_SortCompare);
+			this.RecordView.Sorted += new System.EventHandler(this.RecordView_Sorted);
 			// 
 			// IsBossOnly
 			// 
@@ -374,7 +343,7 @@
 			// 
 			// splitContainer1.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.DropView);
+			this.splitContainer1.Panel2.Controls.Add(this.RecordView);
 			this.splitContainer1.Size = new System.Drawing.Size(624, 419);
 			this.splitContainer1.SplitterDistance = 100;
 			this.splitContainer1.TabIndex = 2;
@@ -429,18 +398,18 @@
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripLabel_RecordCount});
+            this.StatusInfo});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 419);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(624, 22);
 			this.statusStrip1.TabIndex = 3;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
-			// StripLabel_RecordCount
+			// StatusInfo
 			// 
-			this.StripLabel_RecordCount.Name = "StripLabel_RecordCount";
-			this.StripLabel_RecordCount.Size = new System.Drawing.Size(12, 17);
-			this.StripLabel_RecordCount.Text = "-";
+			this.StatusInfo.Name = "StatusInfo";
+			this.StatusInfo.Size = new System.Drawing.Size(12, 17);
+			this.StatusInfo.Text = "-";
 			// 
 			// ToolTipInfo
 			// 
@@ -455,6 +424,67 @@
 			this.Searcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Searcher_DoWork);
 			this.Searcher.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Searcher_RunWorkerCompleted);
 			// 
+			// RecordView_Header
+			// 
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.RecordView_Header.DefaultCellStyle = dataGridViewCellStyle1;
+			this.RecordView_Header.HeaderText = "";
+			this.RecordView_Header.Name = "RecordView_Header";
+			this.RecordView_Header.ReadOnly = true;
+			this.RecordView_Header.Width = 50;
+			// 
+			// RecordView_Name
+			// 
+			this.RecordView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.RecordView_Name.HeaderText = "名前";
+			this.RecordView_Name.Name = "RecordView_Name";
+			this.RecordView_Name.ReadOnly = true;
+			// 
+			// RecordView_Date
+			// 
+			this.RecordView_Date.HeaderText = "日付";
+			this.RecordView_Date.Name = "RecordView_Date";
+			this.RecordView_Date.ReadOnly = true;
+			this.RecordView_Date.Width = 150;
+			// 
+			// RecordView_Map
+			// 
+			this.RecordView_Map.HeaderText = "海域";
+			this.RecordView_Map.Name = "RecordView_Map";
+			this.RecordView_Map.ReadOnly = true;
+			this.RecordView_Map.Width = 120;
+			// 
+			// RecordView_Rank
+			// 
+			this.RecordView_Rank.HeaderText = "ランク";
+			this.RecordView_Rank.Name = "RecordView_Rank";
+			this.RecordView_Rank.ReadOnly = true;
+			this.RecordView_Rank.Width = 40;
+			// 
+			// RecordView_RankS
+			// 
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.RecordView_RankS.DefaultCellStyle = dataGridViewCellStyle2;
+			this.RecordView_RankS.HeaderText = "S勝利";
+			this.RecordView_RankS.Name = "RecordView_RankS";
+			this.RecordView_RankS.ReadOnly = true;
+			// 
+			// RecordView_RankA
+			// 
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.RecordView_RankA.DefaultCellStyle = dataGridViewCellStyle3;
+			this.RecordView_RankA.HeaderText = "A勝利";
+			this.RecordView_RankA.Name = "RecordView_RankA";
+			this.RecordView_RankA.ReadOnly = true;
+			// 
+			// RecordView_RankB
+			// 
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.RecordView_RankB.DefaultCellStyle = dataGridViewCellStyle4;
+			this.RecordView_RankB.HeaderText = "B勝利";
+			this.RecordView_RankB.Name = "RecordView_RankB";
+			this.RecordView_RankB.ReadOnly = true;
+			// 
 			// DialogDropRecordViewer
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -467,7 +497,7 @@
 			this.Text = "ドロップ記録";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogDropRecordViewer_FormClosed);
 			this.Load += new System.EventHandler(this.DialogDropRecordViewer_Load);
-			((System.ComponentModel.ISupportInitialize)(this.DropView)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.RecordView)).EndInit();
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.PerformLayout();
 			this.splitContainer1.Panel2.ResumeLayout(false);
@@ -500,7 +530,7 @@
 		private Control.ImageLabel LabelEquipmentName;
 		private Control.ImageLabel LabelItemName;
 		private Control.ImageLabel LabelShipName;
-		private System.Windows.Forms.DataGridView DropView;
+		private System.Windows.Forms.DataGridView RecordView;
 		private System.Windows.Forms.ComboBox MapCellID;
 		private System.Windows.Forms.ComboBox MapInfoID;
 		private System.Windows.Forms.ComboBox MapAreaID;
@@ -508,12 +538,15 @@
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.CheckBox MergeRows;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
-		private System.Windows.Forms.ToolStripStatusLabel StripLabel_RecordCount;
-		private System.Windows.Forms.DataGridViewTextBoxColumn DropView_Header;
-		private System.Windows.Forms.DataGridViewTextBoxColumn DropView_Name;
-		private System.Windows.Forms.DataGridViewTextBoxColumn DropView_Date;
-		private System.Windows.Forms.DataGridViewTextBoxColumn DropView_Map;
-		private System.Windows.Forms.DataGridViewTextBoxColumn DropView_Rank;
+		private System.Windows.Forms.ToolStripStatusLabel StatusInfo;
 		private System.ComponentModel.BackgroundWorker Searcher;
+		private System.Windows.Forms.DataGridViewTextBoxColumn RecordView_Header;
+		private System.Windows.Forms.DataGridViewTextBoxColumn RecordView_Name;
+		private System.Windows.Forms.DataGridViewTextBoxColumn RecordView_Date;
+		private System.Windows.Forms.DataGridViewTextBoxColumn RecordView_Map;
+		private System.Windows.Forms.DataGridViewTextBoxColumn RecordView_Rank;
+		private System.Windows.Forms.DataGridViewTextBoxColumn RecordView_RankS;
+		private System.Windows.Forms.DataGridViewTextBoxColumn RecordView_RankA;
+		private System.Windows.Forms.DataGridViewTextBoxColumn RecordView_RankB;
 	}
 }
