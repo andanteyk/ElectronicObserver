@@ -884,6 +884,22 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Tool_ConstructionRecord_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦これを読み込んでから開いてください。", "マスターデータがありません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			if ( RecordManager.Instance.Construction.Record.Count == 0 ) {
+				MessageBox.Show( "建造レコードがありません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			new Dialog.DialogConstructionRecordViewer().Show( this );
+
+		}
+
 
 
 
@@ -938,6 +954,7 @@ namespace ElectronicObserver.Window {
 		#endregion
 
 		
+
 
 
 	}

@@ -920,7 +920,7 @@ api_get_member/preset_deck		：編成記録情報　編成画面を開くと呼�
 			api_preset_no	：編成ID
 			api_name		：艦隊名
 			api_name_id		：
-			api_ship		：編成された艦船のIDリスト[6] 空きは -1
+			api_ship		：編成された艦船のIDリスト[6] 空きは -1 除籍された艦のIDもそのまま残る
 		2			：2つめの編成　以降同様　歯抜け登録可能(2を飛ばして3とか)なので注意
 
 Request.api_req_hensei/preset_register		：編成登録

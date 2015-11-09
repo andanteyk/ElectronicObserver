@@ -19,8 +19,8 @@ namespace ElectronicObserver.Data.Quest {
 		[DataMember]
 		private HashSet<int> TargetShipType { get; set; }
 
-		public ProgressSlaughter( int questID, int maxCount, int[] targetShipType )
-			: base( questID, maxCount ) {
+		public ProgressSlaughter( QuestData quest, int maxCount, int[] targetShipType )
+			: base( quest, maxCount ) {
 
 			TargetShipType = targetShipType == null ? null : new HashSet<int>( targetShipType );
 
@@ -38,7 +38,7 @@ namespace ElectronicObserver.Data.Quest {
 			if ( TargetShipType != null ) {
 				sb.Append( string.Join( "・", TargetShipType.OrderBy( s => s ).Select( s => KCDatabase.Instance.ShipTypes[s].Name ) ) );
 			}
-			
+
 			sb.Append( "撃沈" );
 			sb.Append( ProgressMax );
 

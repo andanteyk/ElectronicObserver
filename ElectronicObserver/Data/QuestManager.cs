@@ -61,24 +61,15 @@ namespace ElectronicObserver.Data {
 			//周期任務削除
 			if ( DateTimeHelper.IsCrossedDay( progress.LastUpdateTime, 5, 0, 0 ) ) {
 				// 注: 311 = 精鋭艦隊演習; マンスリーだがデイリーで進捗リセット
-				progress.Progresses.RemoveAll( p => {
-					var q = Quests[p.QuestID];
-					return q != null && ( q.Type == 2 || q.Type == 4 || q.Type == 5 || q.QuestID == 311 );
-				} );
+				progress.Progresses.RemoveAll( p => ( p.QuestType == 2 || p.QuestType == 4 || p.QuestType == 5 || p.QuestID == 311 ) );
 				Quests.RemoveAll( q => q.Type == 2 || q.Type == 4 || q.Type == 5 || q.QuestID == 311 );
 			}
 			if ( DateTimeHelper.IsCrossedWeek( progress.LastUpdateTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
-				progress.Progresses.RemoveAll( p => {
-					var q = Quests[p.QuestID];
-					return q != null && ( q.Type == 3 );
-				} );
+				progress.Progresses.RemoveAll( p => p.QuestType == 3 );
 				Quests.RemoveAll( q => q.Type == 3 );
 			}
 			if ( DateTimeHelper.IsCrossedMonth( progress.LastUpdateTime, 1, 5, 0, 0 ) ) {
-				progress.Progresses.RemoveAll( p => {
-					var q = Quests[p.QuestID];
-					return q != null && ( q.Type == 6 );
-				} );
+				progress.Progresses.RemoveAll( p => p.QuestType == 6 );
 				Quests.RemoveAll( q => q.Type == 6 );
 			}
 

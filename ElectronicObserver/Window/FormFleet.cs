@@ -481,12 +481,9 @@ namespace ElectronicObserver.Window {
 
 						if ( ship.RepairTime > 0 ) {
 							var span = DateTimeHelper.FromAPITimeSpan( ship.RepairTime );
-							sb.AppendFormat( "入渠時間: {0}\n",
-								DateTimeHelper.ToTimeRemainString( span ) );
-							/*/
-							sb.AppendFormat( "( @ 1HP: {0} )\n",
-								DateTimeHelper.ToTimeRemainString( new TimeSpan( span.Ticks / ( ship.HPMax - ship.HPCurrent ) ) ) );
-							//*/
+							sb.AppendFormat( "入渠時間: {0} @ {1}",
+								DateTimeHelper.ToTimeRemainString( span ),
+								DateTimeHelper.ToTimeRemainString( new TimeSpan( span.Add( new TimeSpan( 0, 0, -30 ) ).Ticks / ( ship.HPMax - ship.HPCurrent ) ) ) );
 						}
 
 						ToolTipInfo.SetToolTip( HP, sb.ToString() );
@@ -701,7 +698,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/destroyship"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
-
+			o.APIList["api_req_hensei/preset_select"].ResponseReceived += ChangeOrganization;
+			
 			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
 			o.APIList["api_req_hensei/change"].RequestReceived += Updated;

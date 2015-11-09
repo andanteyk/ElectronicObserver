@@ -28,6 +28,11 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.QuestView = new System.Windows.Forms.DataGridView();
+			this.QuestView_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.QuestView_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.QuestView_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.QuestView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_SaveNow = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,11 +51,6 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.QuestView_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.QuestView_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.QuestView_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.QuestView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
 			this.MenuMain.SuspendLayout();
 			this.SuspendLayout();
@@ -90,6 +90,7 @@
 			this.QuestView.TabIndex = 0;
 			this.QuestView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.QuestView_CellFormatting);
 			this.QuestView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.QuestView_CellPainting);
+			this.QuestView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.QuestView_ColumnWidthChanged);
 			this.QuestView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.QuestView_SortCompare);
 			this.QuestView.Sorted += new System.EventHandler(this.QuestView_Sorted);
 			// 
@@ -109,7 +110,7 @@
             this.toolStripSeparator1,
             this.MenuMain_Initialize});
 			this.MenuMain.Name = "MenuMain";
-			this.MenuMain.Size = new System.Drawing.Size(205, 198);
+			this.MenuMain.Size = new System.Drawing.Size(205, 176);
 			// 
 			// MenuMain_ShowRunningOnly
 			// 

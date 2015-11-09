@@ -20,7 +20,7 @@ namespace ElectronicObserver.Window {
 
 		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter;
 		private DataGridViewCellStyle[] CSCategories;
-
+		private bool IsLoaded = false;
 
 		public FormQuest( FormMain parent ) {
 			this.SuspendLayoutForDpiScale();
@@ -138,6 +138,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest] );
 
+			IsLoaded = true;
 		}
 
 
@@ -492,6 +493,11 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void QuestView_ColumnWidthChanged( object sender, DataGridViewColumnEventArgs e ) {
+			if ( IsLoaded )
+				Utility.Configuration.Config.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( c => c.Width ).ToList();
+
+		}
 
 		public override string GetPersistString() {
 			return "Quest";
