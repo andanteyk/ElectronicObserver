@@ -24,11 +24,6 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public DateTime AnchorageRepairingTimer { get; private set; }
 
-		/// <summary>
-		/// 泊地修理タイマが有効かどうか
-		/// </summary>
-		public bool IsAnchorageRepairing { get { return AnchorageRepairingTimer != DateTime.MinValue; } }
-
 
 		public FleetManager() {
 			Fleets = new IDDictionary<FleetData>();
@@ -70,9 +65,6 @@ namespace ElectronicObserver.Data {
 							Fleets[id].LoadFromResponse( apiname, data );
 						}
 
-						if ( !IsAnchorageRepairing && Fleets[id].CanAnchorageRepairing )	// リセット(上書き)は行わず、スタートだけする?
-							StartAnchorageRepairingTimer();
-
 					} break;
 
 				default:
@@ -98,18 +90,10 @@ namespace ElectronicObserver.Data {
 
 			// 泊地修理の処理
 			if ( apiname == "api_port/port" ) {
-				if ( !IsAnchorageRepairing ) {
-					if ( Fleets.Values.Any( f => f.CanAnchorageRepairing ) )
-						StartAnchorageRepairingTimer();
 
-				} else {
-					if ( ( DateTime.Now - AnchorageRepairingTimer ).TotalMinutes >= 20 ) {
-						if ( Fleets.Values.Any( f => f.CanAnchorageRepairing ) )
-							StartAnchorageRepairingTimer();
-						else
-							StopAnchorageRepairingTimer();
-					}
-				}
+				if ( ( DateTime.Now - AnchorageRepairingTimer ).TotalMinutes >= 20 )
+					StartAnchorageRepairingTimer();
+
 			}
 		}
 
@@ -158,12 +142,6 @@ namespace ElectronicObserver.Data {
 			AnchorageRepairingTimer = DateTime.Now;
 		}
 
-		/// <summary>
-		/// 泊地修理タイマを初期化します。
-		/// </summary>
-		public void StopAnchorageRepairingTimer() {
-			AnchorageRepairingTimer = DateTime.MinValue;
-		}
 	}
 
 }

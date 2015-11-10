@@ -130,7 +130,7 @@ namespace ElectronicObserver.Window {
 				AnchorageRepairingTimer.ImageList = ResourceManager.Instance.Icons;
 				AnchorageRepairingTimer.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
 				AnchorageRepairingTimer.Text = "-";
-				AnchorageRepairingTimer.Visible = false;
+				//AnchorageRepairingTimer.Visible = false;
 
 				TableFleet.Controls.Add( AnchorageRepairingTimer, 1, 4 );
 
@@ -170,7 +170,7 @@ namespace ElectronicObserver.Window {
 			}
 			#endregion
 
-			
+
 
 			ConfigurationChanged();
 
@@ -228,6 +228,7 @@ namespace ElectronicObserver.Window {
 
 			CombinedTag.Font = Font;
 			AnchorageRepairingTimer.Font = Font;
+			AnchorageRepairingTimer.Visible = Utility.Configuration.Config.FormFleet.ShowAnchorageRepairingTimer;
 		}
 
 
@@ -244,16 +245,10 @@ namespace ElectronicObserver.Window {
 				CombinedTag.Visible = false;
 			}
 
-			if ( KCDatabase.Instance.Fleet.IsAnchorageRepairing ) {
-				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
-				AnchorageRepairingTimer.Tag = KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
-				AnchorageRepairingTimer.Visible = true;
-				ToolTipInfo.SetToolTip( AnchorageRepairingTimer, "泊地修理タイマ\r\n開始: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) + "\r\n回復: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer.AddMinutes( 20 ) ) );
-			} else {
-				AnchorageRepairingTimer.Tag = null;
-				AnchorageRepairingTimer.Visible = false;
-				ToolTipInfo.SetToolTip( AnchorageRepairingTimer, null );
-			}
+			AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
+			AnchorageRepairingTimer.Tag = KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
+			ToolTipInfo.SetToolTip( AnchorageRepairingTimer, "泊地修理タイマ\r\n開始: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) + "\r\n回復: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer.AddMinutes( 20 ) ) );
+
 		}
 
 		void ChangeOrganization( string apiname, dynamic data ) {
@@ -269,7 +264,7 @@ namespace ElectronicObserver.Window {
 				ControlFleet[i].Refresh();
 			}
 
-			if ( AnchorageRepairingTimer.Tag != null )
+			if ( AnchorageRepairingTimer.Visible && AnchorageRepairingTimer.Tag != null )
 				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( (DateTime)AnchorageRepairingTimer.Tag );
 		}
 
