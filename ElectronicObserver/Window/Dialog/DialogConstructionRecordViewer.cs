@@ -199,7 +199,7 @@ namespace ElectronicObserver.Window.Dialog {
 			foreach ( DataGridViewColumn column in RecordView.Columns )
 				column.Width = 20;
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormArsenal] );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConstructionRecord] );
 
 		}
 
