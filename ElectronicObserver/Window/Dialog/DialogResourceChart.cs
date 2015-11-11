@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 			SwitchMenuStrip( Menu_Graph, 0 );
 			SwitchMenuStrip( Menu_Span, 2 );
+
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormResourceChart] );
 
 			UpdateChart();
 		}
@@ -132,13 +136,6 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				if ( KCDatabase.Instance.Material.IsAvailable ) {
-					double now = DateTime.Now.ToOADate();
-					fuel.Points.AddXY( now, KCDatabase.Instance.Material.Fuel );
-					ammo.Points.AddXY( now, KCDatabase.Instance.Material.Ammo );
-					steel.Points.AddXY( now, KCDatabase.Instance.Material.Steel );
-					bauxite.Points.AddXY( now, KCDatabase.Instance.Material.Bauxite );
-				}
 
 				if ( fuel.Points.Count > 0 ) {
 					int min = (int)new[] { fuel.Points.Min( p => p.YValues[0] ), ammo.Points.Min( p => p.YValues[0] ), steel.Points.Min( p => p.YValues[0] ), bauxite.Points.Min( p => p.YValues[0] ) }.Min();
@@ -149,6 +146,8 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+
+			SetYBounds();
 		}
 
 
@@ -181,18 +180,22 @@ namespace ElectronicObserver.Window.Dialog {
 
 			setSeries( fuel );
 			fuel.Color = Color.FromArgb( 64, 0, 128, 0 );
+			fuel.BorderColor = Color.FromArgb( 255, 0, 128, 0 );
 			fuel.LegendText = "燃料";
 
 			setSeries( ammo );
 			ammo.Color = Color.FromArgb( 64, 255, 128, 0 );
+			ammo.BorderColor = Color.FromArgb( 255, 255, 128, 0 );
 			ammo.LegendText = "弾薬";
 
 			setSeries( steel );
 			steel.Color = Color.FromArgb( 64, 64, 64, 64 );
+			steel.BorderColor = Color.FromArgb( 255, 64, 64, 64 );
 			steel.LegendText = "鋼材";
 
 			setSeries( bauxite );
 			bauxite.Color = Color.FromArgb( 64, 255, 0, 0 );
+			bauxite.BorderColor = Color.FromArgb( 255, 255, 0, 0 );
 			bauxite.LegendText = "ボーキ";
 
 
@@ -209,22 +212,27 @@ namespace ElectronicObserver.Window.Dialog {
 						if ( ShouldSkipRecord( r.Date - prev.Date ) )
 							continue;
 
-						fuel.Points.AddXY( r.Date.ToOADate(), r.Fuel - prev.Fuel );
-						ammo.Points.AddXY( r.Date.ToOADate(), r.Ammo - prev.Ammo );
-						steel.Points.AddXY( r.Date.ToOADate(), r.Steel - prev.Steel );
-						bauxite.Points.AddXY( r.Date.ToOADate(), r.Bauxite - prev.Bauxite );
+						double[] ys = new double[] { r.Fuel - prev.Fuel, r.Ammo - prev.Ammo, r.Steel - prev.Steel, r.Bauxite - prev.Bauxite };
+						if ( Menu_Option_DivideByDay.Checked ) {
+							for ( int i = 0; i < 4; i++ )
+								ys[i] /= Math.Max( ( r.Date - prev.Date ).TotalDays, 1.0 / 1440.0 );
+						}
+
+						fuel.Points.AddXY( prev.Date.ToOADate(), ys[0] );
+						ammo.Points.AddXY( prev.Date.ToOADate(), ys[1] );
+						steel.Points.AddXY( prev.Date.ToOADate(), ys[2] );
+						bauxite.Points.AddXY( prev.Date.ToOADate(), ys[3] );
+
+						fuel.Points.AddXY( r.Date.ToOADate(), ys[0] );
+						ammo.Points.AddXY( r.Date.ToOADate(), ys[1] );
+						steel.Points.AddXY( r.Date.ToOADate(), ys[2] );
+						bauxite.Points.AddXY( r.Date.ToOADate(), ys[3] );
+
 
 						prev = r;
 					}
 				}
 
-				if ( KCDatabase.Instance.Material.IsAvailable ) {
-					double now = DateTime.Now.ToOADate();
-					fuel.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Fuel - prev.Fuel );
-					ammo.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Ammo - prev.Ammo );
-					steel.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Steel - prev.Steel );
-					bauxite.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.Bauxite - prev.Bauxite );
-				}
 
 				if ( fuel.Points.Count > 0 ) {
 					int min = (int)new[] { fuel.Points.Min( p => p.YValues[0] ), ammo.Points.Min( p => p.YValues[0] ), steel.Points.Min( p => p.YValues[0] ), bauxite.Points.Min( p => p.YValues[0] ) }.Min();
@@ -235,6 +243,8 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+
+			SetYBounds();
 		}
 
 
@@ -301,13 +311,6 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				if ( KCDatabase.Instance.Material.IsAvailable ) {
-					double now = DateTime.Now.ToOADate();
-					instantConstruction.Points.AddXY( now, KCDatabase.Instance.Material.InstantConstruction );
-					instantRepair.Points.AddXY( now, KCDatabase.Instance.Material.InstantRepair );
-					developmentMaterial.Points.AddXY( now, KCDatabase.Instance.Material.DevelopmentMaterial );
-					moddingMaterial.Points.AddXY( now, KCDatabase.Instance.Material.ModdingMaterial );
-				}
 
 				if ( instantConstruction.Points.Count > 0 ) {
 					int min = (int)new[] { instantConstruction.Points.Min( p => p.YValues[0] ), instantRepair.Points.Min( p => p.YValues[0] ), developmentMaterial.Points.Min( p => p.YValues[0] ), moddingMaterial.Points.Min( p => p.YValues[0] ) }.Min();
@@ -318,6 +321,8 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+
+			SetYBounds();
 		}
 
 
@@ -350,18 +355,22 @@ namespace ElectronicObserver.Window.Dialog {
 
 			setSeries( instantConstruction );
 			instantConstruction.Color = Color.FromArgb( 64, 255, 128, 0 );
+			instantConstruction.BorderColor = Color.FromArgb( 255, 255, 128, 0 );
 			instantConstruction.LegendText = "高速建造材";
 
 			setSeries( instantRepair );
 			instantRepair.Color = Color.FromArgb( 64, 0, 128, 0 );
+			instantRepair.BorderColor = Color.FromArgb( 255, 0, 128, 0 );
 			instantRepair.LegendText = "高速修復材";
 
 			setSeries( developmentMaterial );
 			developmentMaterial.Color = Color.FromArgb( 64, 0, 0, 255 );
+			developmentMaterial.BorderColor = Color.FromArgb( 255, 0, 0, 255 );
 			developmentMaterial.LegendText = "開発資材";
 
 			setSeries( moddingMaterial );
 			moddingMaterial.Color = Color.FromArgb( 64, 64, 64, 64 );
+			moddingMaterial.BorderColor = Color.FromArgb( 255, 64, 64, 64 );
 			moddingMaterial.LegendText = "改修資材";
 
 
@@ -378,22 +387,31 @@ namespace ElectronicObserver.Window.Dialog {
 						if ( ShouldSkipRecord( r.Date - prev.Date ) )
 							continue;
 
-						instantConstruction.Points.AddXY( r.Date.ToOADate(), r.InstantConstruction - prev.InstantConstruction );
-						instantRepair.Points.AddXY( r.Date.ToOADate(), r.InstantRepair - prev.InstantRepair );
-						developmentMaterial.Points.AddXY( r.Date.ToOADate(), r.DevelopmentMaterial - prev.DevelopmentMaterial );
-						moddingMaterial.Points.AddXY( r.Date.ToOADate(), r.ModdingMaterial - prev.ModdingMaterial );
+						double[] ys = new double[] { 
+							r.InstantConstruction - prev.InstantConstruction ,
+							r.InstantRepair - prev.InstantRepair,
+							r.DevelopmentMaterial - prev.DevelopmentMaterial ,
+							r.ModdingMaterial - prev.ModdingMaterial };
+
+						if ( Menu_Option_DivideByDay.Checked ) {
+							for ( int i  =0; i < 4; i++ )
+								ys[i] /= Math.Max( ( r.Date - prev.Date ).TotalDays, 1.0 / 1440.0 );
+						}
+
+						instantConstruction.Points.AddXY( prev.Date.ToOADate(), ys[0] );
+						instantRepair.Points.AddXY( prev.Date.ToOADate(), ys[1] );
+						developmentMaterial.Points.AddXY( prev.Date.ToOADate(), ys[2] );
+						moddingMaterial.Points.AddXY( prev.Date.ToOADate(), ys[3] );
+
+						instantConstruction.Points.AddXY( r.Date.ToOADate(), ys[0] );
+						instantRepair.Points.AddXY( r.Date.ToOADate(), ys[1] );
+						developmentMaterial.Points.AddXY( r.Date.ToOADate(), ys[2] );
+						moddingMaterial.Points.AddXY( r.Date.ToOADate(), ys[3] );
 
 						prev = r;
 					}
 				}
 
-				if ( KCDatabase.Instance.Material.IsAvailable ) {
-					double now = DateTime.Now.ToOADate();
-					instantConstruction.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.InstantConstruction - prev.InstantConstruction );
-					instantRepair.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.InstantRepair - prev.InstantRepair );
-					developmentMaterial.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.DevelopmentMaterial - prev.DevelopmentMaterial );
-					moddingMaterial.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Material.ModdingMaterial - prev.ModdingMaterial );
-				}
 
 				if ( instantConstruction.Points.Count > 0 ) {
 					int min = (int)new[] { instantConstruction.Points.Min( p => p.YValues[0] ), instantRepair.Points.Min( p => p.YValues[0] ), developmentMaterial.Points.Min( p => p.YValues[0] ), moddingMaterial.Points.Min( p => p.YValues[0] ) }.Min();
@@ -404,6 +422,8 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+
+			SetYBounds();
 		}
 
 
@@ -451,10 +471,6 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				if ( KCDatabase.Instance.Admiral.IsAvailable ) {
-					double now = DateTime.Now.ToOADate();
-					exp.Points.AddXY( now, KCDatabase.Instance.Admiral.Exp );
-				}
 
 				if ( exp.Points.Count > 0 ) {
 					int min = (int)exp.Points.Min( p => p.YValues[0] );
@@ -465,6 +481,8 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+
+			SetYBounds();
 		}
 
 
@@ -494,7 +512,8 @@ namespace ElectronicObserver.Window.Dialog {
 			} );
 
 			setSeries( exp );
-			exp.Color = Color.FromArgb( 192, 0, 0, 255 );
+			exp.Color = Color.FromArgb( 64, 0, 0, 255 );
+			exp.BorderColor = Color.FromArgb( 255, 0, 0, 255 );
 			exp.LegendText = "提督経験値";
 
 
@@ -511,16 +530,19 @@ namespace ElectronicObserver.Window.Dialog {
 						if ( ShouldSkipRecord( r.Date - prev.Date ) )
 							continue;
 
-						exp.Points.AddXY( r.Date.ToOADate(), r.HQExp - prev.HQExp );
+						double ys = r.HQExp - prev.HQExp;
+
+						if ( Menu_Option_DivideByDay.Checked )
+							ys /= Math.Max( ( r.Date - prev.Date ).TotalDays, 1.0 / 1440.0 );
+
+						exp.Points.AddXY( prev.Date.ToOADate(), ys );
+
+						exp.Points.AddXY( r.Date.ToOADate(), ys );
 
 						prev = r;
 					}
 				}
 
-				if ( KCDatabase.Instance.Admiral.IsAvailable ) {
-					double now = DateTime.Now.ToOADate();
-					exp.Points.AddXY( now, prev == null ? 0 : KCDatabase.Instance.Admiral.Exp - prev.HQExp );
-				}
 
 				if ( exp.Points.Count > 0 ) {
 					int min = (int)exp.Points.Min( p => p.YValues[0] );
@@ -531,6 +553,8 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+
+			SetYBounds();
 		}
 
 
@@ -601,7 +625,26 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( e.HitTestResult.ChartElementType == ChartElementType.DataPoint ) {
 				var dp = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
-				e.Text = string.Format( "{0:MM/dd HH:mm}\n{1} {2}", DateTime.FromOADate( dp.XValue ), e.HitTestResult.Series.LegendText, dp.YValues[0] );
+
+				switch ( SelectedChartType ) {
+					case ChartType.Resource:
+					case ChartType.Material:
+					case ChartType.Experience:
+						e.Text = string.Format( "{0:MM\\/dd HH\\:mm}\n{1} {2:F0}",
+							DateTime.FromOADate( dp.XValue ),
+							e.HitTestResult.Series.LegendText,
+							dp.YValues[0] );
+						break;
+					case ChartType.ResourceDiff:
+					case ChartType.MaterialDiff:
+					case ChartType.ExperienceDiff:
+						e.Text = string.Format( "{0:MM\\/dd HH\\:mm}\n{1} {2:+0;-0;±0}{3}",
+							DateTime.FromOADate( dp.XValue ),
+							e.HitTestResult.Series.LegendText,
+							dp.YValues[0],
+							Menu_Option_DivideByDay.Checked ? " / day" : "" );
+						break;
+				}
 			}
 
 		}
@@ -663,31 +706,47 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private IEnumerable<ResourceRecord.ResourceElement> GetRecords() {
 
-			var record = RecordManager.Instance.Resource.Record.AsEnumerable<ResourceRecord.ResourceElement>();
+			DateTime border = DateTime.MinValue;
 
 			switch ( SelectedChartSpan ) {
 				case ChartSpan.Day:
-					record = record.Where( r => r.Date >= DateTime.Now.AddDays( -1 ) );
+					border = DateTime.Now.AddDays( -1 );
 					break;
 				case ChartSpan.Week:
-					record = record.Where( r => r.Date >= DateTime.Now.AddDays( -7 ) );
+					border = DateTime.Now.AddDays( -7 );
 					break;
 				case ChartSpan.Month:
-					record = record.Where( r => r.Date >= DateTime.Now.AddMonths( -1 ) );
+					border = DateTime.Now.AddMonths( -1 );
 					break;
 				case ChartSpan.Season:
-					record = record.Where( r => r.Date >= DateTime.Now.AddMonths( -3 ) );
+					border = DateTime.Now.AddMonths( -3 );
 					break;
 				case ChartSpan.Year:
-					record = record.Where( r => r.Date >= DateTime.Now.AddYears( -1 ) );
+					border = DateTime.Now.AddYears( -1 );
 					break;
 			}
 
-			return record;
+			foreach ( var r in RecordManager.Instance.Resource.Record ) {
+				if ( r.Date >= border )
+					yield return r;
+			}
+
+			var material = KCDatabase.Instance.Material;
+			var admiral = KCDatabase.Instance.Admiral;
+			if ( material.IsAvailable && admiral.IsAvailable ) {
+				yield return new ResourceRecord.ResourceElement(
+					material.Fuel, material.Ammo, material.Steel, material.Bauxite,
+					material.InstantConstruction, material.InstantRepair, material.DevelopmentMaterial, material.ModdingMaterial,
+					admiral.Level, admiral.Exp );
+			}
+
 		}
 
 
 		private bool ShouldSkipRecord( TimeSpan span ) {
+
+			if ( Menu_Option_ShowAllData.Checked )
+				return false;
 
 			if ( span.Ticks == 0 )		//初回のデータ( prev == First )は無視しない
 				return false;
@@ -708,6 +767,83 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 		}
+
+
+
+		private void SetYBounds( double min, double max ) {
+
+			int order = (int)Math.Log10( Math.Max( max - min, 1 ) );
+			double powered = Math.Pow( 10, order );
+			double unitbase = Math.Round( ( max - min ) / powered );
+			double unit = powered * (
+				unitbase < 2 ? 0.2 :
+				unitbase < 5 ? 0.5 :
+				unitbase < 7 ? 1.0 : 2.0 );
+
+			ResourceChart.ChartAreas[0].AxisY.Minimum = Math.Floor( min / unit ) * unit;
+			ResourceChart.ChartAreas[0].AxisY.Maximum = Math.Ceiling( max / unit ) * unit;
+
+			ResourceChart.ChartAreas[0].AxisY.Interval = unit;
+			ResourceChart.ChartAreas[0].AxisY.MinorGrid.Interval = unit / 2;
+
+		}
+
+		private void SetYBounds() {
+			SetYBounds(
+				!ResourceChart.Series.Any( s => s.Enabled ) || SelectedChartType == ChartType.ExperienceDiff ? 0 : ResourceChart.Series.Where( s => s.Enabled ).Select( s => s.Points.Min( p => p.YValues[0] ) ).Min(),
+				!ResourceChart.Series.Any( s => s.Enabled ) ? 0 : ResourceChart.Series.Where( s => s.Enabled ).Select( s => s.Points.Max( p => p.YValues[0] ) ).Max()
+				);
+		}
+
+
+		private void ResourceChart_CustomizeLegend( object sender, CustomizeLegendEventArgs e ) {
+
+			e.LegendItems.Clear();
+
+			foreach ( var series in ResourceChart.Series ) {
+
+				var legendItem = new LegendItem();
+				legendItem.SeriesName = series.Name;
+				legendItem.ImageStyle = LegendImageStyle.Rectangle;
+				legendItem.BorderColor = Color.Empty;
+				legendItem.Name = series.Name + "_legendItem";
+
+				legendItem.Cells.Add( LegendCellType.SeriesSymbol, "", ContentAlignment.MiddleCenter );
+				legendItem.Cells.Add( LegendCellType.Text, series.LegendText, ContentAlignment.MiddleLeft );
+
+				var col = series.BorderColor != Color.Empty ? series.BorderColor : series.Color;
+
+				if ( series.Enabled ) {
+					legendItem.Color = col;
+					legendItem.Cells[1].ForeColor = SystemColors.ControlText;
+				} else {
+					legendItem.Color = Color.FromArgb( col.A / 4, col );
+					legendItem.Cells[1].ForeColor = SystemColors.GrayText;
+				}
+				e.LegendItems.Add( legendItem );
+			}
+		}
+
+
+		private void ResourceChart_MouseDown( object sender, MouseEventArgs e ) {
+
+			if ( e.Button != System.Windows.Forms.MouseButtons.Left )
+				return;
+
+			var hittest = ResourceChart.HitTest( e.X, e.Y, ChartElementType.LegendItem );
+
+			if ( hittest.Object != null ) {
+
+				var legend = (LegendItem)hittest.Object;
+				ResourceChart.Series[legend.SeriesName].Enabled ^= true;
+			}
+
+			SetYBounds();
+		}
+
+
+
+
 
 
 		private void Menu_Graph_Resource_Click( object sender, EventArgs e ) {
@@ -773,6 +909,19 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		private void Menu_Option_ShowAllData_Click( object sender, EventArgs e ) {
+			UpdateChart();
+		}
+
+		private void Menu_Option_DivideByDay_Click( object sender, EventArgs e ) {
+			UpdateChart();
+		}
+
+
+
+		private void DialogResourceChart_FormClosed( object sender, FormClosedEventArgs e ) {
+			ResourceManager.DestroyIcon( Icon );
+		}
 
 
 	}
