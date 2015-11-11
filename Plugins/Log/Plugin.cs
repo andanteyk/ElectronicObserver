@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Window.Plugins;
+﻿using ElectronicObserver.Resource;
+using ElectronicObserver.Window.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace Overview
 		public override string Version
 		{
 			get { return "1.0.0"; }
+		}
+
+		public override System.Drawing.Image MenuIcon
+		{
+			get { return ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormLog]; }
 		}
 	}
 }

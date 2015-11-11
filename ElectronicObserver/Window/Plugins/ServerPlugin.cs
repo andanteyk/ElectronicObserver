@@ -32,5 +32,10 @@ namespace ElectronicObserver.Window.Plugins
 		}
 
 		public abstract bool RunService( FormMain main );
+
+		public virtual System.Drawing.Image MenuIcon
+		{
+			get { return null; }
+		}
 	}
 }
