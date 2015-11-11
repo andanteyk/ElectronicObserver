@@ -65,6 +65,7 @@
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_DropRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_DevelopmentRecord = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_ConstructionRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_ResourceChart = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,7 +83,6 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.StripMenu_Tool_ConstructionRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -400,6 +400,13 @@
 			this.StripMenu_Tool_DevelopmentRecord.Text = "開発記録(&V)";
 			this.StripMenu_Tool_DevelopmentRecord.Click += new System.EventHandler(this.StripMenu_Tool_DevelopmentRecord_Click);
 			// 
+			// StripMenu_Tool_ConstructionRecord
+			// 
+			this.StripMenu_Tool_ConstructionRecord.Name = "StripMenu_Tool_ConstructionRecord";
+			this.StripMenu_Tool_ConstructionRecord.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_ConstructionRecord.Text = "建造記録(&R)";
+			this.StripMenu_Tool_ConstructionRecord.Click += new System.EventHandler(this.StripMenu_Tool_ConstructionRecord_Click);
+			// 
 			// StripMenu_Tool_ResourceChart
 			// 
 			this.StripMenu_Tool_ResourceChart.Name = "StripMenu_Tool_ResourceChart";
@@ -531,13 +538,6 @@
 				this.MainDockPanel.Theme = new WeifenLuo.WinFormsUI.Docking.VS2012LightTheme();
 			}
 			this.MainDockPanel.TabIndex = 0;
-			// 
-			// StripMenu_Tool_ConstructionRecord
-			// 
-			this.StripMenu_Tool_ConstructionRecord.Name = "StripMenu_Tool_ConstructionRecord";
-			this.StripMenu_Tool_ConstructionRecord.Size = new System.Drawing.Size(152, 22);
-			this.StripMenu_Tool_ConstructionRecord.Text = "建造記録(&R)";
-			this.StripMenu_Tool_ConstructionRecord.Click += new System.EventHandler(this.StripMenu_Tool_ConstructionRecord_Click);
 			// 
 			// FormMain
 			// 

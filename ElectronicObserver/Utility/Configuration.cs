@@ -576,6 +576,8 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int AirSuperiorityMethod { get; set; }
 
+				public bool ShowAnchorageRepairingTimer { get; set; }
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 0;
@@ -586,6 +588,7 @@ namespace ElectronicObserver.Utility {
 					ShowTextProficiency = false;
 					ShowEquipmentLevel = true;
 					AirSuperiorityMethod = 1;
+					ShowAnchorageRepairingTimer = true;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -1240,7 +1243,7 @@ namespace ElectronicObserver.Utility {
 						if ( File.Exists( RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv" ) ) {
 
 							Directory.CreateDirectory( "Record_Backup" );
-						
+
 							if ( File.Exists( "Record_Backup\\ShipDropRecord.csv" ) ) {
 								var result = MessageBox.Show( "バックアップ先に既にファイルが存在します。\r\n上書きしますか？\r\n(キャンセルした場合、コンバート処理を中止します。)",
 									"バックアップの上書き確認", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question );

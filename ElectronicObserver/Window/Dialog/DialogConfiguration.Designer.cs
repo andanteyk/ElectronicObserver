@@ -128,6 +128,7 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_ShowAnchorageRepairingTimer = new System.Windows.Forms.CheckBox();
 			this.FormFleet_AirSuperiorityMethod = new System.Windows.Forms.ComboBox();
 			this.label23 = new System.Windows.Forms.Label();
 			this.FormFleet_ShowEquipmentLevel = new System.Windows.Forms.CheckBox();
@@ -499,10 +500,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(456, 253);
+			this.tabPage2.Size = new System.Drawing.Size(456, 233);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -1078,13 +1079,14 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
+			this.tabPage3.Location = new System.Drawing.Point(4, 44);
 			this.tabPage3.Controls.Add(this.Log_AutoSave);
 			this.tabPage3.Controls.Add(this.Log_AutoSaveMinutes);
 			this.tabPage3.Controls.Add(this.labelAnother1);
 			this.tabPage3.Location = new System.Drawing.Point(4, 44);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(456, 253);
+			this.tabPage3.Size = new System.Drawing.Size(456, 233);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "日志";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -1095,7 +1097,7 @@
 			this.Log_ShowSpoiler.Location = new System.Drawing.Point(197, 32);
 			this.Log_ShowSpoiler.Name = "Log_ShowSpoiler";
 			this.Log_ShowSpoiler.Size = new System.Drawing.Size(115, 19);
-			this.Log_ShowSpoiler.TabIndex = 7;
+			this.Log_ShowSpoiler.TabIndex = 3;
 			this.Log_ShowSpoiler.Text = "允许显示名称";
 			this.ToolTipInfo.SetToolTip(this.Log_ShowSpoiler, "日志中显示开发装备以及掉落舰名。\r\n不喜剧透的话请关闭此设置。\r\n");
 			this.Log_ShowSpoiler.UseVisualStyleBackColor = true;
@@ -1141,7 +1143,7 @@
 			this.Log_SaveErrorReport.Location = new System.Drawing.Point(8, 60);
 			this.Log_SaveErrorReport.Name = "Log_SaveErrorReport";
 			this.Log_SaveErrorReport.Size = new System.Drawing.Size(142, 19);
-			this.Log_SaveErrorReport.TabIndex = 3;
+			this.Log_SaveErrorReport.TabIndex = 4;
 			this.Log_SaveErrorReport.Text = "保存错误报告";
 			this.ToolTipInfo.SetToolTip(this.Log_SaveErrorReport, "错误发生时会记录当前环境的数据。\r\n记录文件发送给开发者可以帮助修复BUG。\r\n错误文件保存在 ErrorReport 文件夹下。");
 			this.Log_SaveErrorReport.UseVisualStyleBackColor = true;
@@ -1224,10 +1226,10 @@
 			// 
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Location = new System.Drawing.Point(4, 44);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(456, 253);
+			this.tabPage4.Size = new System.Drawing.Size(456, 233);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "操作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -1264,10 +1266,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 253);
+			this.tabPage6.Size = new System.Drawing.Size(456, 233);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "窗口";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -1308,7 +1310,7 @@
 			this.Life_LayoutFilePathSearch.Location = new System.Drawing.Point(416, 6);
 			this.Life_LayoutFilePathSearch.Name = "Life_LayoutFilePathSearch";
 			this.Life_LayoutFilePathSearch.Size = new System.Drawing.Size(32, 23);
-			this.Life_LayoutFilePathSearch.TabIndex = 4;
+			this.Life_LayoutFilePathSearch.TabIndex = 2;
 			this.Life_LayoutFilePathSearch.Text = "...";
 			this.Life_LayoutFilePathSearch.UseVisualStyleBackColor = true;
 			this.Life_LayoutFilePathSearch.Click += new System.EventHandler(this.Life_LayoutFilePathSearch_Click);
@@ -1320,7 +1322,7 @@
 			this.Life_LayoutFilePath.Location = new System.Drawing.Point(103, 6);
 			this.Life_LayoutFilePath.Name = "Life_LayoutFilePath";
 			this.Life_LayoutFilePath.Size = new System.Drawing.Size(307, 23);
-			this.Life_LayoutFilePath.TabIndex = 3;
+			this.Life_LayoutFilePath.TabIndex = 1;
 			// 
 			// label14
 			// 
@@ -1328,7 +1330,7 @@
 			this.label14.Location = new System.Drawing.Point(8, 9);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(97, 15);
-			this.label14.TabIndex = 2;
+			this.label14.TabIndex = 0;
 			this.label14.Text = "布局文件：";
 			// 
 			// Life_TopMost
@@ -1337,7 +1339,7 @@
 			this.Life_TopMost.Location = new System.Drawing.Point(11, 60);
 			this.Life_TopMost.Name = "Life_TopMost";
 			this.Life_TopMost.Size = new System.Drawing.Size(114, 19);
-			this.Life_TopMost.TabIndex = 1;
+			this.Life_TopMost.TabIndex = 4;
 			this.Life_TopMost.Text = "窗口置顶";
 			this.Life_TopMost.UseVisualStyleBackColor = true;
 			// 
@@ -1347,17 +1349,17 @@
 			this.Life_ConfirmOnClosing.Location = new System.Drawing.Point(11, 35);
 			this.Life_ConfirmOnClosing.Name = "Life_ConfirmOnClosing";
 			this.Life_ConfirmOnClosing.Size = new System.Drawing.Size(114, 19);
-			this.Life_ConfirmOnClosing.TabIndex = 0;
+			this.Life_ConfirmOnClosing.TabIndex = 3;
 			this.Life_ConfirmOnClosing.Text = "退出时确认";
 			this.Life_ConfirmOnClosing.UseVisualStyleBackColor = true;
 			// 
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 24);
+			this.tabPage7.Location = new System.Drawing.Point(4, 44);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(456, 253);
+			this.tabPage7.Size = new System.Drawing.Size(456, 233);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "子窗口";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -1372,11 +1374,12 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(450, 247);
+			this.tabControl2.Size = new System.Drawing.Size(450, 227);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_ShowAnchorageRepairingTimer);
 			this.tabPage8.Controls.Add(this.FormFleet_AirSuperiorityMethod);
 			this.tabPage8.Controls.Add(this.label23);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowEquipmentLevel);
@@ -1392,10 +1395,21 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(442, 219);
+			this.tabPage8.Size = new System.Drawing.Size(442, 199);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "舰队";
 			this.tabPage8.UseVisualStyleBackColor = true;
+			// 
+			// FormFleet_ShowAnchorageRepairingTimer
+			// 
+			this.FormFleet_ShowAnchorageRepairingTimer.AutoSize = true;
+			this.FormFleet_ShowAnchorageRepairingTimer.Location = new System.Drawing.Point(156, 113);
+			this.FormFleet_ShowAnchorageRepairingTimer.Name = "FormFleet_ShowAnchorageRepairingTimer";
+			this.FormFleet_ShowAnchorageRepairingTimer.Size = new System.Drawing.Size(152, 19);
+			this.FormFleet_ShowAnchorageRepairingTimer.TabIndex = 10;
+			this.FormFleet_ShowAnchorageRepairingTimer.Text = "泊地修理タイマを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowAnchorageRepairingTimer, "装備の改修レベルと艦載機熟練度を表示するかを指定します。\r\n");
+			this.FormFleet_ShowAnchorageRepairingTimer.UseVisualStyleBackColor = true;
 			// 
 			// FormFleet_BlinkHPBar
 			// 
@@ -1435,7 +1449,7 @@
 			this.FormFleet_ShowNextExp.Location = new System.Drawing.Point(6, 163);
 			this.FormFleet_ShowNextExp.Name = "FormFleet_ShowNextExp";
 			this.FormFleet_ShowNextExp.Size = new System.Drawing.Size(112, 19);
-			this.FormFleet_ShowNextExp.TabIndex = 6;
+			this.FormFleet_ShowNextExp.TabIndex = 8;
 			this.FormFleet_ShowNextExp.Text = "显示next.经验";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowNextExp, "指定是否显示「到下一级需要的经验值」。\r\n不显示可节省空间。");
 			this.FormFleet_ShowNextExp.UseVisualStyleBackColor = true;
@@ -1446,7 +1460,7 @@
 			this.FormFleet_ShortenHPBar.Location = new System.Drawing.Point(6, 138);
 			this.FormFleet_ShortenHPBar.Name = "FormFleet_ShortenHPBar";
 			this.FormFleet_ShortenHPBar.Size = new System.Drawing.Size(114, 19);
-			this.FormFleet_ShortenHPBar.TabIndex = 5;
+			this.FormFleet_ShortenHPBar.TabIndex = 7;
 			this.FormFleet_ShortenHPBar.Text = "缩短HP条";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_ShortenHPBar, "缩短HP条，以节省空间。");
 			this.FormFleet_ShortenHPBar.UseVisualStyleBackColor = true;
@@ -1457,7 +1471,7 @@
 			this.FormFleet_FixShipNameWidth.Location = new System.Drawing.Point(6, 113);
 			this.FormFleet_FixShipNameWidth.Name = "FormFleet_FixShipNameWidth";
 			this.FormFleet_FixShipNameWidth.Size = new System.Drawing.Size(136, 19);
-			this.FormFleet_FixShipNameWidth.TabIndex = 4;
+			this.FormFleet_FixShipNameWidth.TabIndex = 6;
 			this.FormFleet_FixShipNameWidth.Text = "固定舰名长度";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_FixShipNameWidth, "舰名宽度固定，以节省空间。\r\n有些舰娘名字很长。");
 			this.FormFleet_FixShipNameWidth.UseVisualStyleBackColor = true;
@@ -1468,7 +1482,7 @@
 			this.FormFleet_IsScrollable.Location = new System.Drawing.Point(6, 88);
 			this.FormFleet_IsScrollable.Name = "FormFleet_IsScrollable";
 			this.FormFleet_IsScrollable.Size = new System.Drawing.Size(144, 19);
-			this.FormFleet_IsScrollable.TabIndex = 3;
+			this.FormFleet_IsScrollable.TabIndex = 5;
 			this.FormFleet_IsScrollable.Text = "显示滚动条";
 			this.ToolTipInfo.SetToolTip(this.FormFleet_IsScrollable, "指定超出显示区域时是否显示滚动条。\r\n默认不超出时不会显示。");
 			this.FormFleet_IsScrollable.UseVisualStyleBackColor = true;
@@ -1509,10 +1523,10 @@
 			// 
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 22);
+			this.tabPage13.Location = new System.Drawing.Point(4, 24);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 201);
+			this.tabPage13.Size = new System.Drawing.Size(442, 199);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "编成";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1553,10 +1567,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 22);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 201);
+			this.tabPage12.Size = new System.Drawing.Size(442, 199);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "浏览器";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1567,7 +1581,7 @@
 			this.FormBrowser_ZoomFit.Location = new System.Drawing.Point(173, 31);
 			this.FormBrowser_ZoomFit.Name = "FormBrowser_ZoomFit";
 			this.FormBrowser_ZoomFit.Size = new System.Drawing.Size(61, 19);
-			this.FormBrowser_ZoomFit.TabIndex = 4;
+			this.FormBrowser_ZoomFit.TabIndex = 5;
 			this.FormBrowser_ZoomFit.Text = "自适应";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_ZoomFit, "随着窗口扩大缩小自适应。");
 			this.FormBrowser_ZoomFit.UseVisualStyleBackColor = true;
@@ -1656,7 +1670,7 @@
 			this.FormBrowser_AppliesStyleSheet.Location = new System.Drawing.Point(282, 31);
 			this.FormBrowser_AppliesStyleSheet.Name = "FormBrowser_AppliesStyleSheet";
 			this.FormBrowser_AppliesStyleSheet.Size = new System.Drawing.Size(142, 19);
-			this.FormBrowser_AppliesStyleSheet.TabIndex = 6;
+			this.FormBrowser_AppliesStyleSheet.TabIndex = 7;
 			this.FormBrowser_AppliesStyleSheet.Text = "应用样式表";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_AppliesStyleSheet, "在艦これ页面中会生效。\r\n如果显示错乱，请禁用此项。");
 			this.FormBrowser_AppliesStyleSheet.UseVisualStyleBackColor = true;
@@ -1667,7 +1681,7 @@
 			this.FormBrowser_ConfirmAtRefresh.Location = new System.Drawing.Point(282, 6);
 			this.FormBrowser_ConfirmAtRefresh.Name = "FormBrowser_ConfirmAtRefresh";
 			this.FormBrowser_ConfirmAtRefresh.Size = new System.Drawing.Size(148, 19);
-			this.FormBrowser_ConfirmAtRefresh.TabIndex = 5;
+			this.FormBrowser_ConfirmAtRefresh.TabIndex = 6;
 			this.FormBrowser_ConfirmAtRefresh.Text = "刷新时确认";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_ConfirmAtRefresh, "刷新时提示确认，通过才会刷新。\r\n防止误操作。");
 			this.FormBrowser_ConfirmAtRefresh.UseVisualStyleBackColor = true;
@@ -1703,7 +1717,7 @@
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_JPEG);
 			this.groupBox2.Location = new System.Drawing.Point(6, 108);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(470, 77);
+			this.groupBox2.Size = new System.Drawing.Size(430, 77);
 			this.groupBox2.TabIndex = 11;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "屏幕截图";
@@ -1765,7 +1779,7 @@
 			this.label17.Location = new System.Drawing.Point(6, 62);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(72, 15);
-			this.label17.TabIndex = 7;
+			this.label17.TabIndex = 8;
 			this.label17.Text = "登录URL:";
 			// 
 			// label16
@@ -1774,7 +1788,7 @@
 			this.label16.Location = new System.Drawing.Point(148, 32);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(19, 15);
-			this.label16.TabIndex = 3;
+			this.label16.TabIndex = 4;
 			this.label16.Text = "％";
 			// 
 			// FormBrowser_IsEnabled
@@ -1792,7 +1806,7 @@
 			this.FormBrowser_LogInPageURL.Location = new System.Drawing.Point(82, 59);
 			this.FormBrowser_LogInPageURL.Name = "FormBrowser_LogInPageURL";
 			this.FormBrowser_LogInPageURL.Size = new System.Drawing.Size(394, 23);
-			this.FormBrowser_LogInPageURL.TabIndex = 8;
+			this.FormBrowser_LogInPageURL.TabIndex = 9;
 			// 
 			// FormBrowser_ZoomRate
 			// 
@@ -1830,10 +1844,10 @@
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
 			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 22);
+			this.tabPage14.Location = new System.Drawing.Point(4, 24);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 201);
+			this.tabPage14.Size = new System.Drawing.Size(442, 199);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "浏览器2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1847,7 +1861,7 @@
 			this.groupBox4.Location = new System.Drawing.Point(6, 58);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(200, 80);
-			this.groupBox4.TabIndex = 0;
+			this.groupBox4.TabIndex = 1;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Flash品质设定";
 			// 
@@ -1857,7 +1871,7 @@
 			this.label21.Location = new System.Drawing.Point(6, 54);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(46, 15);
-			this.label21.TabIndex = 3;
+			this.label21.TabIndex = 2;
 			this.label21.Text = "模式：";
 			// 
 			// FormBrowser_FlashWMode
@@ -1869,7 +1883,7 @@
 			this.FormBrowser_FlashWMode.Location = new System.Drawing.Point(73, 51);
 			this.FormBrowser_FlashWMode.Name = "FormBrowser_FlashWMode";
 			this.FormBrowser_FlashWMode.Size = new System.Drawing.Size(121, 23);
-			this.FormBrowser_FlashWMode.TabIndex = 2;
+			this.FormBrowser_FlashWMode.TabIndex = 3;
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_FlashWMode, "指定Flash模式。\r\n默认值是 opaque 。\r\n设置为 direct 时可以提高性能。");
 			// 
 			// label20
@@ -1878,7 +1892,7 @@
 			this.label20.Location = new System.Drawing.Point(6, 25);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(43, 15);
-			this.label20.TabIndex = 1;
+			this.label20.TabIndex = 0;
 			this.label20.Text = "品质：";
 			// 
 			// FormBrowser_FlashQuality
@@ -1892,7 +1906,7 @@
 			this.FormBrowser_FlashQuality.Location = new System.Drawing.Point(73, 22);
 			this.FormBrowser_FlashQuality.Name = "FormBrowser_FlashQuality";
 			this.FormBrowser_FlashQuality.Size = new System.Drawing.Size(121, 23);
-			this.FormBrowser_FlashQuality.TabIndex = 0;
+			this.FormBrowser_FlashQuality.TabIndex = 1;
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_FlashQuality, "设置Flash品质。\r\n默认值是 high 。");
 			// 
 			// ToolTipInfo
@@ -2182,6 +2196,7 @@
 		private System.Windows.Forms.CheckBox FormFleet_ShowEquipmentLevel;
 		private System.Windows.Forms.ComboBox FormFleet_AirSuperiorityMethod;
 		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.CheckBox FormFleet_ShowAnchorageRepairingTimer;
 		private System.Windows.Forms.CheckBox FormBrowser_ModifyCookieRegion;
 		private System.Windows.Forms.CheckBox FormBrowser_ShowURL;
 	}

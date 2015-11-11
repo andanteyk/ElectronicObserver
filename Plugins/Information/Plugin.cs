@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Window.Plugins;
+﻿using ElectronicObserver.Resource;
+using ElectronicObserver.Window.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,11 @@ namespace Information
 		public override PluginSettingControl GetSettings()
 		{
 			return new Settings();
+		}
+
+		public override System.Drawing.Image MenuIcon
+		{
+			get { return ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormInformation]; }
 		}
 	}
 }

@@ -32,5 +32,10 @@ namespace ElectronicObserver.Window.Plugins
 		{
 			return false;
 		}
+
+		public virtual System.Drawing.Image MenuIcon
+		{
+			get { return null; }
+		}
 	}
 }
