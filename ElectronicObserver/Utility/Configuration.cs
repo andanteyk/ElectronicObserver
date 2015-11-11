@@ -253,8 +253,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int ConditionBorder { get; set; }
 
+				/// <summary>
+				/// レコードを自動保存するか
+				/// 0=しない、1=1時間ごと、2=1日ごと
+				/// </summary>
+				public int RecordAutoSaving { get; set; }
+
 				public ConfigControl() {
 					ConditionBorder = 40;
+					RecordAutoSaving = 1;
 				}
 			}
 			/// <summary>動作</summary>

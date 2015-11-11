@@ -286,6 +286,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
+			Control_RecordAutoSaving.SelectedIndex = config.Control.RecordAutoSaving;
 
 			//[デバッグ]
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
@@ -428,6 +429,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[動作]
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
+			config.Control.RecordAutoSaving = Control_RecordAutoSaving.SelectedIndex;
 
 			//[デバッグ]
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
