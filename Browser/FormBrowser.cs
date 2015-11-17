@@ -1,5 +1,6 @@
 ﻿using BrowserLib;
 using mshtml;
+using Nekoxy;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -494,7 +495,7 @@ namespace Browser {
 
 
 		public void SetProxy( string address, int port ) {
-			Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "{0}:{1}", address, port ), "<local>" );
+			WinInetUtil.SetProxyInProcess( string.Format( "http={0}:{1}", address, port ), "local" );
 		}
 
 
