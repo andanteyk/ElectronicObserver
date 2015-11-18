@@ -193,13 +193,13 @@ namespace ElectronicObserver.Utility.Mathematics {
 		/// <returns>変換結果の文字列。</returns>
 		public static string GetTimeStamp( DateTime time ) {
 
-			return time.ToString( "yyyyMMdd_HHmmssff" );
+			return time.ToString( "yyyyMMdd_HHmmssff", System.Globalization.CultureInfo.InvariantCulture );
 		}
 
 
 
 		public static string TimeToCSVString( DateTime time ) {
-			return time.ToString( "yyyy\\/MM\\/dd HH\\:mm\\:ss" );
+			return time.ToString( "yyyy\\/MM\\/dd HH\\:mm\\:ss", System.Globalization.CultureInfo.InvariantCulture );
 		}
 
 		public static DateTime CSVStringToTime( string str ) {
