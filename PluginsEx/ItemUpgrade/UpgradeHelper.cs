@@ -127,7 +127,7 @@ namespace ItemUpgrade
                     Element.SetAttribute("EquipmentName", filter.Key);
                     Element.SetAttribute("Disabled", filter.Value.ToString());
                     Root.AppendChild(Element);
-
+                    
                 }
                 doc.Save(ConfigFile);
             }

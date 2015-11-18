@@ -33,6 +33,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -44,13 +45,15 @@
             this.新增编成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除编成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导入游戏当前舰队ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.上移CtrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.下移CtrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.导入游戏舰队数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导入剪切板数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbImageShow = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -74,6 +77,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.cbImageShow);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.button4);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
@@ -112,11 +116,23 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyDown);
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "配置名称";
             this.columnHeader1.Width = 200;
+            // 
+            // button1
+            // 
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button1.Location = new System.Drawing.Point(109, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(69, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "导出";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button4
             // 
@@ -190,9 +206,11 @@
             this.toolStripMenuItem1,
             this.新增编成ToolStripMenuItem,
             this.删除编成ToolStripMenuItem,
-            this.导入游戏当前舰队ToolStripMenuItem});
+            this.导入游戏当前舰队ToolStripMenuItem,
+            this.上移CtrlToolStripMenuItem,
+            this.下移CtrlToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(182, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(182, 136);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // toolStripMenuItem1
@@ -223,6 +241,20 @@
             this.导入游戏当前舰队ToolStripMenuItem.Text = "导入游戏当前舰队...";
             this.导入游戏当前舰队ToolStripMenuItem.Click += new System.EventHandler(this.导入游戏当前舰队ToolStripMenuItem_Click);
             // 
+            // 上移CtrlToolStripMenuItem
+            // 
+            this.上移CtrlToolStripMenuItem.Name = "上移CtrlToolStripMenuItem";
+            this.上移CtrlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.上移CtrlToolStripMenuItem.Text = "上移(Ctrl+↑)";
+            this.上移CtrlToolStripMenuItem.Click += new System.EventHandler(this.上移CtrlToolStripMenuItem_Click);
+            // 
+            // 下移CtrlToolStripMenuItem
+            // 
+            this.下移CtrlToolStripMenuItem.Name = "下移CtrlToolStripMenuItem";
+            this.下移CtrlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.下移CtrlToolStripMenuItem.Text = "下移(Ctrl+↓)";
+            this.下移CtrlToolStripMenuItem.Click += new System.EventHandler(this.下移CtrlToolStripMenuItem_Click);
+            // 
             // contextMenuStrip2
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -244,17 +276,6 @@
             this.导入剪切板数据ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.导入剪切板数据ToolStripMenuItem.Text = "导入剪切板数据";
             this.导入剪切板数据ToolStripMenuItem.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button1
-            // 
-            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button1.Location = new System.Drawing.Point(109, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(69, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "导出";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // contextMenuStrip3
             // 
@@ -278,7 +299,18 @@
             this.toolStripMenuItem5.Text = "导出至艦これ電子計算儀倉庫";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // MainForm
+            // cbImageShow
+            // 
+            this.cbImageShow.AutoSize = true;
+            this.cbImageShow.Location = new System.Drawing.Point(198, 17);
+            this.cbImageShow.Name = "cbImageShow";
+            this.cbImageShow.Size = new System.Drawing.Size(72, 16);
+            this.cbImageShow.TabIndex = 11;
+            this.cbImageShow.Text = "显示图标";
+            this.cbImageShow.UseVisualStyleBackColor = true;
+            this.cbImageShow.CheckedChanged += new System.EventHandler(this.cbImageShow_CheckedChanged);
+            // 
+            // DeckMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -286,12 +318,13 @@
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.HideOnClose = true;
-            this.Name = "MainForm";
+            this.Name = "DeckMainForm";
             this.Text = "历史编成";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -326,6 +359,9 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem 上移CtrlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 下移CtrlToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cbImageShow;
 
     }
 }

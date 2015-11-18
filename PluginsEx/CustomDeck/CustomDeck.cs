@@ -26,6 +26,24 @@ namespace CustomDeck
             set;
         }
 
+        public bool ShowEquipmentImage
+        {
+            set
+            {
+                ColEquipment1.Visible = !value;
+                ColEquipment2.Visible = !value;
+                ColEquipment3.Visible = !value;
+                ColEquipment4.Visible = !value;
+                ColEquipmentX.Visible = !value;
+
+                ColEquipmentG1.Visible = value;
+                ColEquipmentG2.Visible = value;
+                ColEquipmentG3.Visible = value;
+                ColEquipmentG4.Visible = value;
+                ColEquipmentGX.Visible = value;
+            }
+        }
+
         void OnDeckChanged()
         {
             if (DeckChanged != null)
@@ -77,23 +95,29 @@ namespace CustomDeck
             int MaxEquipment = index > 3 ? 5 : ship.Ship.SlotSize;
             CustomEquipmentment Equipmentment = index > 3 ? ship.EquipmentmentEx : ship.Equipmentments[index];
             string ColName = index > 3 ? "ColEquipmentX" : "ColEquipment" + (index + 1).ToString();
+            string ColGraph = index > 3 ? "ColEquipmentGX" : "ColEquipmentG" + (index + 1).ToString();
             if (MaxEquipment > index)
             {
-                dataGridView1.Rows[row].Cells[ColName].Tag = 1;
                 if (Equipmentment != null)
                 {
+                    dataGridView1.Rows[row].Cells[ColName].Tag = Equipmentment.EquipmentmentID;
                     if (index < 4 && Calculator.IsAircraft(Equipmentment.EquipmentmentID, true))
                         dataGridView1.Rows[row].Cells[ColName].Value = "[" + ship.Ship.Aircraft[index].ToString() + "]" + Equipmentment.Text;
                     else
                         dataGridView1.Rows[row].Cells[ColName].Value = Equipmentment.Text;
+                    dataGridView1.Rows[row].Cells[ColGraph].ToolTipText = dataGridView1.Rows[row].Cells[ColName].Value.ToString();
+
+                    int IconID = KCDatabase.Instance.MasterEquipments[Equipmentment.EquipmentmentID].IconType;
+                    dataGridView1.Rows[row].Cells[ColGraph].Value = ElectronicObserver.Resource.ResourceManager.GetEquipmentImage(IconID);
                 }
                 else
                 {
+                    dataGridView1.Rows[row].Cells[ColName].Tag = 0;
                     //if (index < 4 && Calculator.IsAircraft(Equipmentment.EquipmentmentID, true))
                     //    dataGridView1.Rows[row].Cells[ColName].Value = "[" + ship.Ship.Aircraft[index].ToString() + "]" + "(未装备)";
                     //else
                         dataGridView1.Rows[row].Cells[ColName].Value = "(未装备)";
-                  
+                        dataGridView1.Rows[row].Cells[ColGraph].Value = ElectronicObserver.Resource.ResourceManager.GetEquipmentImage(0);
                 }
             }
             else
@@ -101,7 +125,9 @@ namespace CustomDeck
                 dataGridView1.Rows[row].Cells[ColName].Value = "";
                 dataGridView1.Rows[row].Cells[ColName].ToolTipText = "";
                 dataGridView1.Rows[row].Cells[ColName].Tag = null;
+                dataGridView1.Rows[row].Cells[ColGraph].Value = null;
             }
+            dataGridView1.Rows[row].Cells[ColGraph].Tag = dataGridView1.Rows[row].Cells[ColName].Tag;
         }
         void LoadShip(int row, CustomShip ship)
         {
@@ -109,7 +135,7 @@ namespace CustomDeck
             {
                 dataGridView1.Rows[row].Tag = null;
                 dataGridView1.Rows[row].Cells["ColName"].Value = "(新舰船...)";
-                dataGridView1.Rows[row].Cells["ColName"].Tag = 1;
+                dataGridView1.Rows[row].Cells["ColName"].Tag = 0;
                 dataGridView1.Rows[row].Cells["ColLevel"].Value = "";
                 dataGridView1.Rows[row].Cells["ColEquipment1"].Value = "";
                 dataGridView1.Rows[row].Cells["ColEquipment1"].Tag = null;
@@ -127,12 +153,17 @@ namespace CustomDeck
                 dataGridView1.Rows[row].Tag = 1;
                 dataGridView1.Rows[row].Cells["ColName"].Value = ship.Ship.NameWithClass;
                 dataGridView1.Rows[row].Cells["ColLevel"].Value = ship.Level;
-                dataGridView1.Rows[row].Cells["ColName"].Tag = 1;
+                dataGridView1.Rows[row].Cells["ColName"].Tag = ship.ShipID;
                 for (int index = 0; index < 5; index++)
                     SetEquipment(row, ship, index);
             }
         }
 
+        int GetEquipmentIndex(string ColName)
+        {
+            string LastChar = ColName.Substring(ColName.Length - 1);
+            return LastChar == "X" ? 4 : int.Parse(LastChar) - 1;
+        }
 
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -148,7 +179,8 @@ namespace CustomDeck
                     }
                     else
                     {
-                        MenuEquipment.Tag = new Point(e.RowIndex, e.ColumnIndex - 3);
+                        int index = GetEquipmentIndex(dataGridView1.Columns[e.ColumnIndex].Name);
+                        MenuEquipment.Tag = new Point(e.RowIndex, index);
                         MenuEquipment.Show(dataGridView1, e.X + rect.X, e.Y + rect.Y);
                     }
                 }
@@ -167,7 +199,8 @@ namespace CustomDeck
                 }
                 else
                 {
-                    MenuEquipment.Tag = new Point(e.RowIndex, e.ColumnIndex - 3);
+                    int index = GetEquipmentIndex(dataGridView1.Columns[e.ColumnIndex].Name);
+                    MenuEquipment.Tag = new Point(e.RowIndex, index);
                     MenuEquipment.Show(dataGridView1, e.X + rect.X, e.Y + rect.Y);
                 }
             }

@@ -25,6 +25,8 @@ namespace CustomDeck
 
         CustomFleets Fleets = new CustomFleets();
         CustomDeckForm[] Decks = new CustomDeckForm[4];
+        bool Loading = false;
+        
         public DeckMainForm(FormMain main)
         {
             InitializeComponent();
@@ -97,9 +99,11 @@ namespace CustomDeck
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Loading = true;
             DeckData.Instance.LoadConfig();
             LoadList();
-
+            //cbImageShow.Checked = DeckData.Instance.ShowEquipmentImage;
+            Loading = false;
         }
 
         void LoadList()
@@ -136,6 +140,8 @@ namespace CustomDeck
 
             toolStripMenuItem1.Enabled = enabled;
             删除编成ToolStripMenuItem.Enabled = enabled;
+            上移CtrlToolStripMenuItem.Enabled = enabled;
+            下移CtrlToolStripMenuItem.Enabled = enabled;
             //导入游戏当前舰队ToolStripMenuItem.Enabled = enabled;
         }
 
@@ -279,6 +285,9 @@ namespace CustomDeck
                 Decks[i].Dock = DockStyle.Fill;
                 Decks[i].Show();
             }
+            Loading = true;
+            cbImageShow.Checked = DeckData.Instance.ShowEquipmentImage;
+            Loading = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -315,7 +324,79 @@ namespace CustomDeck
             contextMenuStrip3.Show(MousePosition);
         }
 
-       
+        private void listView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up && e.Modifiers == Keys.Control)
+            {
+                ListItemMoveUp();
+                e.Handled = true;
+            }
+
+            if (e.KeyCode == Keys.Down && e.Modifiers == Keys.Control)
+            {
+                ListItemMoveDown();
+                e.Handled = true;
+            }
+        }
+
+       void ListItemMoveUp()
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                var item = listView1.SelectedItems[0];
+                int indexSelectedItem = item.Index;
+                if (indexSelectedItem == 0)
+                    return;
+                listView1.Items.RemoveAt(indexSelectedItem);
+                listView1.Items.Insert(indexSelectedItem - 1, item);
+                item.Selected = true;
+                item.Focused = true;
+
+                var Deckitem = DeckData.Instance.DeckList[indexSelectedItem];
+                DeckData.Instance.DeckList.RemoveAt(indexSelectedItem);
+                DeckData.Instance.DeckList.Insert(indexSelectedItem - 1, Deckitem);
+            }
+        }
+
+        void ListItemMoveDown()
+       {
+           if (listView1.SelectedItems.Count > 0)
+           {
+               var item = listView1.SelectedItems[0];
+               int indexSelectedItem = item.Index;
+               if (indexSelectedItem == listView1.Items.Count - 1)
+                   return;
+               listView1.Items.RemoveAt(indexSelectedItem);
+               listView1.Items.Insert(indexSelectedItem + 1, item);
+               item.Selected = true;
+               item.Focused = true;
+
+               var Deckitem = DeckData.Instance.DeckList[indexSelectedItem];
+               DeckData.Instance.DeckList.RemoveAt(indexSelectedItem);
+               DeckData.Instance.DeckList.Insert(indexSelectedItem + 1, Deckitem);
+           }
+       }
+
+        private void 上移CtrlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListItemMoveUp();
+        }
+
+        private void 下移CtrlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListItemMoveDown();
+        }
+
+        private void cbImageShow_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Decks.Length; i++)
+            {
+                Decks[i].ShowEquipmentImage = cbImageShow.Checked;
+            }
+            DeckData.Instance.ShowEquipmentImage = cbImageShow.Checked;
+            if (!Loading)
+                DeckData.Instance.SaveConfig();
+        }
 
      
     }

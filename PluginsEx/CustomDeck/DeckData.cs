@@ -16,6 +16,8 @@ namespace CustomDeck
 
         public List<FleetDeck> DeckList;
 
+        public bool ShowEquipmentImage = false;
+
         static DeckData()
         {
             Instance = new DeckData();
@@ -35,7 +37,8 @@ namespace CustomDeck
                 XmlDocument doc = new XmlDocument();
                 doc.Load(ConfigFile);
                 var Root = doc.DocumentElement;
-
+                var isShowImage = Root.GetAttribute("ShowImage");
+                ShowEquipmentImage = isShowImage == "1";
                 foreach (XmlElement subnode in Root)
                 {
                     string DeckName = subnode.GetAttribute("DeckName");
@@ -64,6 +67,7 @@ namespace CustomDeck
                 var Root = doc.DocumentElement;
 
                 Root.RemoveAll();
+                Root.SetAttribute("ShowImage", ShowEquipmentImage ? "1" : "");
                 foreach (var deck in DeckList)
                 {
                     XmlElement Element = doc.CreateElement("Deck");
