@@ -158,6 +158,8 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
+			this.Life_ClockFormat = new System.Windows.Forms.ComboBox();
+			this.label24 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -783,6 +785,8 @@
 			// 
 			// tabPage6
 			// 
+			this.tabPage6.Controls.Add(this.label24);
+			this.tabPage6.Controls.Add(this.Life_ClockFormat);
 			this.tabPage6.Controls.Add(this.Life_ShowStatusBar);
 			this.tabPage6.Controls.Add(this.Life_CheckUpdateInformation);
 			this.tabPage6.Controls.Add(this.Life_LayoutFilePathSearch);
@@ -790,10 +794,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 253);
+			this.tabPage6.Size = new System.Drawing.Size(456, 233);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -1707,6 +1711,28 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
+			// Life_ClockFormat
+			// 
+			this.Life_ClockFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Life_ClockFormat.FormattingEnabled = true;
+			this.Life_ClockFormat.Items.AddRange(new object[] {
+            "現在時刻",
+            "演習更新まで",
+            "任務更新まで"});
+			this.Life_ClockFormat.Location = new System.Drawing.Point(81, 135);
+			this.Life_ClockFormat.Name = "Life_ClockFormat";
+			this.Life_ClockFormat.Size = new System.Drawing.Size(121, 23);
+			this.Life_ClockFormat.TabIndex = 7;
+			// 
+			// label24
+			// 
+			this.label24.AutoSize = true;
+			this.label24.Location = new System.Drawing.Point(8, 138);
+			this.label24.Name = "label24";
+			this.label24.Size = new System.Drawing.Size(67, 15);
+			this.label24.TabIndex = 8;
+			this.label24.Text = "時計表示：";
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1915,5 +1941,7 @@
 		private System.Windows.Forms.CheckBox FormFleet_ShowAnchorageRepairingTimer;
 		private System.Windows.Forms.ComboBox Control_RecordAutoSaving;
 		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label label24;
+		private System.Windows.Forms.ComboBox Life_ClockFormat;
 	}
 }

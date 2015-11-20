@@ -299,6 +299,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
 			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
+			Life_ClockFormat.SelectedIndex = config.Life.ClockFormat;
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
@@ -444,6 +445,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.LayoutFilePath = Life_LayoutFilePath.Text;
 			config.Life.CheckUpdateInformation = Life_CheckUpdateInformation.Checked;
 			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
+			config.Life.ClockFormat = Life_ClockFormat.SelectedIndex;
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;

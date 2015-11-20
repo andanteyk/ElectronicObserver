@@ -98,6 +98,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		internal void ConfigurationChanged() {
+			Font = label1.Font = Utility.Configuration.Config.UI.MainFont;
 			Browser.AsyncRemoteRun( () => Browser.Proxy.ConfigurationChanged( Configuration ) );
 		}
 

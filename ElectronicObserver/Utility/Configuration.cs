@@ -331,12 +331,18 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowStatusBar { get; set; }
 
+				/// <summary>
+				/// 時計表示のフォーマット
+				/// </summary>
+				public int ClockFormat { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
 					LayoutFilePath = @"Settings\WindowLayout.zip";
 					CheckUpdateInformation = true;
 					ShowStatusBar = true;
+					ClockFormat = 0;
 				}
 			}
 			/// <summary>起動と終了</summary>

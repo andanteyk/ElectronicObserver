@@ -29,6 +29,8 @@ namespace ElectronicObserver.Window {
 		public DockPanel MainPanel { get { return MainDockPanel; } }
 		public FormWindowCapture WindowCapture { get { return fWindowCapture; } }
 
+		private int ClockFormat;
+
 		#endregion
 
 
@@ -190,6 +192,8 @@ namespace ElectronicObserver.Window {
 
 			TopMost = c.Life.TopMost;
 
+			ClockFormat = c.Life.ClockFormat;
+
 			Font = c.UI.MainFont;
 			//StripMenu.Font = Font;
 			StripStatus.Font = Font;
@@ -232,11 +236,42 @@ namespace ElectronicObserver.Window {
 
 			SystemEvents.OnUpdateTimerTick();
 
-			// 東京標準時で表示
+			// 東京標準時
 			DateTime now = DateTime.UtcNow + new TimeSpan( 9, 0, 0 );
-			StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
-			StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
+
+			switch ( ClockFormat ) {
+				case 0:	//時計表示
+					StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
+					StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
+					break;
+
+				case 1:	//演習更新まで
+					{
+						DateTime border = now.Date.AddHours( 3 );
+						while ( border < now )
+							border = border.AddHours( 12 );
+
+						TimeSpan ts = border - now;
+						StripStatus_Clock.Text = string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)ts.TotalHours, ts.Minutes, ts.Seconds );
+						StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd) HH\\:mm\\:ss" );
+
+					} break;
+
+				case 2:	//任務更新まで
+					{
+						DateTime border = now.Date.AddHours( 5 );
+						if ( border < now )
+							border = border.AddHours( 24 );
+
+						TimeSpan ts = border - now;
+						StripStatus_Clock.Text = string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)ts.TotalHours, ts.Minutes, ts.Seconds );
+						StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd) HH\\:mm\\:ss" );
+
+					} break;
+			}
 		}
+
+
 
 
 		private void FormMain_FormClosing( object sender, FormClosingEventArgs e ) {
@@ -1096,6 +1131,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		#endregion
+
 
 
 
