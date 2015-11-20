@@ -406,7 +406,9 @@ namespace ElectronicObserver.Window.Dialog {
 				changed |= config.Connection.RegisterAsSystemProxy != Connection_RegisterAsSystemProxy.Checked;
 				config.Connection.RegisterAsSystemProxy = Connection_RegisterAsSystemProxy.Checked;
 
+				changed |= config.Connection.UseUpstreamProxy != Connection_UseUpstreamProxy.Checked;
 				config.Connection.UseUpstreamProxy = Connection_UseUpstreamProxy.Checked;
+				changed |= config.Connection.UpstreamProxyPort != (ushort)Connection_UpstreamProxyPort.Value;
 				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;
 
 				if ( changed ) {
