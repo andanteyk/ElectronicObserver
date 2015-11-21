@@ -141,7 +141,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// <summary>
 		/// 各艦船のパラメータを保持します。
 		/// </summary>
-		[DebuggerDisplay( "[{ID}] : {FleetName}" )]
+		[DebuggerDisplay( "[{ShipID}] : {ShipName}" )]
 		public class ShipParameterElement : RecordElementBase {
 
 			/// <summary>
@@ -696,6 +696,7 @@ namespace ElectronicObserver.Resource.Record {
 				if ( param == null ) {
 					param = new ShipParameterElement();
 					param.ShipID = efleet[i];
+					Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[param.ShipID].NameWithClass + "のパラメータを記録しました。" );
 				}
 
 				int[] baseparam = (int[])data.api_eParam[i - 1];
@@ -708,6 +709,7 @@ namespace ElectronicObserver.Resource.Record {
 
 				param.DefaultSlot = (int[])data.api_eSlot[i - 1];
 
+				Update( param );
 			}
 
 		}
