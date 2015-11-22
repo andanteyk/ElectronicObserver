@@ -818,6 +818,8 @@ namespace ElectronicObserver.Utility {
 
 				Whitecap = new ConfigWhitecap();
 
+				VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );
+
 			}
 		}
 		private static ConfigurationData _config;
