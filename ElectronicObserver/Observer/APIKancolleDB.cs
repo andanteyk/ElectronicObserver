@@ -1,5 +1,5 @@
 ﻿using ElectronicObserver.Utility;
-using Fiddler;
+using Nekoxy;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,29 +75,29 @@ namespace ElectronicObserver.Observer {
 		/// <summary>
 		/// read the after-session, determinate whether it will send to kancolle-db.net
 		/// </summary>
-		public void ExecuteSession( Session oSession ) {
+		public void ExecuteSession( Session session ) {
 
 			if ( string.IsNullOrEmpty( OAuth ) ) {
 				return;
 			}
 
 			// find the url in dict.
-			string url = oSession.PathAndQuery;
+			string url = session.Request.PathAndQuery;
 
 			if ( apis.Contains( url ) ) {
-				PostToServer( oSession );
+				PostToServer( session );
 			}
 
 		}
 
 		private static Regex RequestRegex = new Regex( @"&api(_|%5F)token=[0-9a-f]+|api(_|%5F)token=[0-9a-f]+&?", RegexOptions.Compiled );
 
-		private void PostToServer( Session oSession ) {
+		private void PostToServer( Session session ) {
 
 			string oauth = OAuth;
-			string url = oSession.fullUrl;
-			string request = oSession.GetRequestBodyAsString();
-			string response = oSession.GetResponseBodyAsString();
+			string url = session.Request.PathAndQuery;
+			string request = session.Request.BodyAsString;
+			string response = session.Response.BodyAsString;
 
 			request = RequestRegex.Replace( request, "" );
 

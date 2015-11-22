@@ -253,8 +253,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int ConditionBorder { get; set; }
 
+				/// <summary>
+				/// レコードを自動保存するか
+				/// 0=しない、1=1時間ごと、2=1日ごと
+				/// </summary>
+				public int RecordAutoSaving { get; set; }
+
 				public ConfigControl() {
 					ConditionBorder = 40;
+					RecordAutoSaving = 1;
 				}
 			}
 			/// <summary>動作</summary>
@@ -324,12 +331,18 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowStatusBar { get; set; }
 
+				/// <summary>
+				/// 時計表示のフォーマット
+				/// </summary>
+				public int ClockFormat { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
 					LayoutFilePath = @"Settings\WindowLayout.zip";
 					CheckUpdateInformation = true;
 					ShowStatusBar = true;
+					ClockFormat = 0;
 				}
 			}
 			/// <summary>起動と終了</summary>
@@ -804,6 +817,8 @@ namespace ElectronicObserver.Utility {
 				NotifierDamage = new ConfigNotifierDamage();
 
 				Whitecap = new ConfigWhitecap();
+
+				VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );
 
 			}
 		}

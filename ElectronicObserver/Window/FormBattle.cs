@@ -812,7 +812,7 @@ namespace ElectronicObserver.Window {
 							Math.Max( HPBars[i + 12].Value, 0 ),
 							HPBars[i + 12].MaximumValue,
 							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase, isEscaped ),
+							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
 							attackDamages[i + 12]
 							)
 						);

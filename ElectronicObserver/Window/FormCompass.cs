@@ -576,6 +576,9 @@ namespace ElectronicObserver.Window {
 							}
 							break;
 
+						case 9:		//揚陸地点
+							TextEventDetail.Text = "";
+							break;
 
 						default:
 							TextEventDetail.Text = "";
