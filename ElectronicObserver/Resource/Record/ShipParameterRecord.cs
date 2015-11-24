@@ -602,6 +602,8 @@ namespace ElectronicObserver.Resource.Record {
 				if ( elem.api_getmes() ) {
 					param.MessageGet = elem.api_getmes;
 				}
+
+				Update( param );
 			}
 
 		}
