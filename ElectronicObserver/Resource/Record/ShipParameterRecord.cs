@@ -566,6 +566,7 @@ namespace ElectronicObserver.Resource.Record {
 				if ( param == null ) {
 					param = new ShipParameterElement();
 					param.ShipID = (int)elem.api_id;
+					this[param.ShipID] = param;
 				}
 
 				if ( elem.api_taik() ) {
