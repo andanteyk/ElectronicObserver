@@ -75,6 +75,8 @@
 			this.Debug_APIListPathSearch = new System.Windows.Forms.Button();
 			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.label24 = new System.Windows.Forms.Label();
+			this.Life_ClockFormat = new System.Windows.Forms.ComboBox();
 			this.Life_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.Life_CheckUpdateInformation = new System.Windows.Forms.CheckBox();
 			this.Life_LayoutFilePathSearch = new System.Windows.Forms.Button();
@@ -158,8 +160,6 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.Life_ClockFormat = new System.Windows.Forms.ComboBox();
-			this.label24 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -794,13 +794,35 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 44);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 233);
+			this.tabPage6.Size = new System.Drawing.Size(456, 253);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
+			// 
+			// label24
+			// 
+			this.label24.AutoSize = true;
+			this.label24.Location = new System.Drawing.Point(8, 138);
+			this.label24.Name = "label24";
+			this.label24.Size = new System.Drawing.Size(67, 15);
+			this.label24.TabIndex = 8;
+			this.label24.Text = "時計表示：";
+			// 
+			// Life_ClockFormat
+			// 
+			this.Life_ClockFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Life_ClockFormat.FormattingEnabled = true;
+			this.Life_ClockFormat.Items.AddRange(new object[] {
+            "現在時刻",
+            "演習更新まで",
+            "任務更新まで"});
+			this.Life_ClockFormat.Location = new System.Drawing.Point(81, 135);
+			this.Life_ClockFormat.Name = "Life_ClockFormat";
+			this.Life_ClockFormat.Size = new System.Drawing.Size(121, 23);
+			this.Life_ClockFormat.TabIndex = 7;
 			// 
 			// Life_ShowStatusBar
 			// 
@@ -874,10 +896,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 24);
+			this.tabPage7.Location = new System.Drawing.Point(4, 44);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(456, 253);
+			this.tabPage7.Size = new System.Drawing.Size(456, 233);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -895,7 +917,7 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(450, 247);
+			this.tabControl2.Size = new System.Drawing.Size(450, 227);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
@@ -914,7 +936,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(442, 219);
+			this.tabPage8.Size = new System.Drawing.Size(442, 199);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -1382,10 +1404,10 @@
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
 			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 22);
+			this.tabPage14.Location = new System.Drawing.Point(4, 24);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 221);
+			this.tabPage14.Size = new System.Drawing.Size(442, 199);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1402,6 +1424,7 @@
 			this.groupBox4.TabIndex = 1;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Flash品質設定";
+			this.groupBox4.Visible = false;
 			// 
 			// label21
 			// 
@@ -1710,28 +1733,6 @@
 			// 
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
-			// 
-			// Life_ClockFormat
-			// 
-			this.Life_ClockFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.Life_ClockFormat.FormattingEnabled = true;
-			this.Life_ClockFormat.Items.AddRange(new object[] {
-            "現在時刻",
-            "演習更新まで",
-            "任務更新まで"});
-			this.Life_ClockFormat.Location = new System.Drawing.Point(81, 135);
-			this.Life_ClockFormat.Name = "Life_ClockFormat";
-			this.Life_ClockFormat.Size = new System.Drawing.Size(121, 23);
-			this.Life_ClockFormat.TabIndex = 7;
-			// 
-			// label24
-			// 
-			this.label24.AutoSize = true;
-			this.label24.Location = new System.Drawing.Point(8, 138);
-			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(67, 15);
-			this.label24.TabIndex = 8;
-			this.label24.Text = "時計表示：";
 			// 
 			// DialogConfiguration
 			// 
