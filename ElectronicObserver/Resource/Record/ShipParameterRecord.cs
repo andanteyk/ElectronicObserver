@@ -697,6 +697,7 @@ namespace ElectronicObserver.Resource.Record {
 				if ( param == null ) {
 					param = new ShipParameterElement();
 					param.ShipID = efleet[i];
+					this[param.ShipID] = param;
 				}
 
 				int[] baseparam = (int[])data.api_eParam[i - 1];
