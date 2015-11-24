@@ -1393,7 +1393,7 @@ api_get_member/mapinfo		：出撃準備　未出現海域は存在しない
 		api_max_maphp		：海域HP最大値
 		api_state			：状態？1=未攻略, 2=攻略済み
 		api_selected_rank	：(15冬イベ)作戦難易度 0=未設定, 1=丙, 2=乙, 3=甲
-		api_gauge_type		：3=揚陸(TP)ゲージ　HPゲージ時は存在しない
+		api_gauge_type		：2=HPゲージ 3=揚陸(TP)ゲージ　'15秋E-5のみ存在
 	api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
 	api_defeat_count		：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
 
