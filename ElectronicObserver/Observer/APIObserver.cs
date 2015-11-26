@@ -117,7 +117,6 @@ namespace ElectronicObserver.Observer {
 
 
 
-
 		/// <summary>
 		/// 通信の受信を開始します。
 		/// </summary>
@@ -132,20 +131,17 @@ namespace ElectronicObserver.Observer {
 			this.UIControl = UIControl;
 
 
-			/*
-			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
-				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
-			*/
-
 			HttpProxy.Shutdown();
 			try {
 				// checkme
-				HttpProxy.Startup( portID, false, true /*Utility.Configuration.Config.Connection.RegisterAsSystemProxy*/ );
-
 				if ( c.UseUpstreamProxy )
 					HttpProxy.UpstreamProxyConfig = new ProxyConfig( ProxyConfigType.SpecificProxy, c.UpstreamProxyAddress, c.UpstreamProxyPort );
 				else
 					HttpProxy.UpstreamProxyConfig = new ProxyConfig( ProxyConfigType.SystemProxy );
+
+				HttpProxy.Startup( portID, false, false );
+
+
 
 				ProxyStarted();
 
@@ -185,12 +181,12 @@ namespace ElectronicObserver.Observer {
 
 
 
-
 		void HttpProxy_AfterSessionComplete( Session session ) {
 
 			Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
 
 			string baseurl = session.Request.PathAndQuery;
+
 
 			// request
 			if ( baseurl.Contains( "/kcsapi/" ) ) {
@@ -209,6 +205,7 @@ namespace ElectronicObserver.Observer {
 
 				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
 			}
+
 
 
 			//response

@@ -345,7 +345,8 @@ namespace ElectronicObserver.Window.Dialog {
 					} else {
 						FormBrowser_BrowserVersion.Text = ( reg.GetValue( FormBrowserHost.BrowserExeName ) ?? DefaultBrowserVersion ).ToString();
 					}
-					reg.Close();
+					if ( reg != null )
+						reg.Close();
 
 					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey( RegistryPathMaster + RegistryPathGPURendering );
 					if ( reg == null ) {
