@@ -863,10 +863,11 @@ api_req_mission/result		：遠征帰投
 	api_quest_level			：難易度
 	api_get_material		：取得資源　存在しない場合-1
 	api_useitem_flag		：取得アイテムの存在フラグ [n]=0ならapi_get_item<n+1>は存在しない
+								0=なし, 1=高速修復材, 2=高速建造材, 3=開発資材, 4=アイテム, 5=家具コイン
 	api_get_item1			：取得アイテム
-		api_useitem_id		：取得アイテムID　取得失敗なら-1
-		api_useitem_name	：取得アイテム名
-		api_useitem_count	：取得アイテム数？
+		api_useitem_id		：取得アイテムID　api_useitem_flag==4 でなければ -1
+		api_useitem_name	：取得アイテム名　〃 null
+		api_useitem_count	：取得アイテム数
 	api_get_item2			：上に同じ
 
 
