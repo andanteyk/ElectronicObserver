@@ -63,6 +63,10 @@ namespace ElectronicObserver.Window {
 
 		private async void FormMain_Load( object sender, EventArgs e ) {
 
+			if ( !Directory.Exists( "Settings" ) )
+				Directory.CreateDirectory( "Settings" );
+
+
 			Utility.Configuration.Instance.Load();
 
 
@@ -291,8 +295,6 @@ namespace ElectronicObserver.Window {
 
 			fBrowser.CloseBrowser();
 
-			if ( !Directory.Exists( "Settings" ) )
-				Directory.CreateDirectory( "Settings" );
 
 			SystemEvents.OnSystemShuttingDown();
 

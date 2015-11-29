@@ -676,7 +676,8 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		/// <param name="equipmentID">装備ID。</param>
 		/// <param name="containsRecon">偵察機(非攻撃機)を含めるか。</param>
-		public static bool IsAircraft( int equipmentID, bool containsRecon ) {
+		/// <param name="containsASWAircraft">対潜可能機を含めるか。</param>
+		public static bool IsAircraft( int equipmentID, bool containsRecon, bool containsASWAircraft = false ) {
 
 			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
 
@@ -693,9 +694,10 @@ namespace ElectronicObserver.Utility.Data {
 
 				case 9:		//艦上偵察機
 				case 10:	//水上偵察機
-				case 41:	//大型飛行艇
 					return containsRecon;
 
+				case 41:	//大型飛行艇
+					return containsRecon || containsASWAircraft;
 				default:
 					return false;
 			}
@@ -723,7 +725,7 @@ namespace ElectronicObserver.Utility.Data {
 				case 10:	//航戦
 				case 16:	//水母
 				case 17:	//揚陸
-					return ship.SlotInstanceMaster.Count( eq => eq != null && IsAircraft( eq.EquipmentID, false ) && eq.ASW > 0 ) > 0;
+					return ship.SlotInstanceMaster.Count( eq => eq != null && IsAircraft( eq.EquipmentID, false, true ) && eq.ASW > 0 ) > 0;
 
 				default:
 					return false;

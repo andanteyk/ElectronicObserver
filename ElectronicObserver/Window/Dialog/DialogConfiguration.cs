@@ -25,6 +25,9 @@ namespace ElectronicObserver.Window.Dialog {
 		private static readonly bool DefaultGPURendering = false;
 
 
+		private System.Windows.Forms.Control _UIControl;
+
+
 		public DialogConfiguration() {
 			InitializeComponent();
 
@@ -112,7 +115,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
 
-
+			_UIControl = Owner;
 
 		}
 
@@ -345,7 +348,8 @@ namespace ElectronicObserver.Window.Dialog {
 					} else {
 						FormBrowser_BrowserVersion.Text = ( reg.GetValue( FormBrowserHost.BrowserExeName ) ?? DefaultBrowserVersion ).ToString();
 					}
-					reg.Close();
+					if ( reg != null )
+						reg.Close();
 
 					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey( RegistryPathMaster + RegistryPathGPURendering );
 					if ( reg == null ) {
@@ -414,7 +418,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				if ( changed ) {
 					APIObserver.Instance.Stop();
-					APIObserver.Instance.Start( config.Connection.Port, this );
+					APIObserver.Instance.Start( config.Connection.Port, _UIControl );
 				}
 
 			}

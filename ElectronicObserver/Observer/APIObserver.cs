@@ -43,8 +43,6 @@ namespace ElectronicObserver.Observer {
 
 		private APIObserver() {
 
-			// 注：重複登録するとあらぬところで落ちるので十分注意すること
-
 			APIList = new APIDictionary();
 			APIList.Add( new kcsapi.api_start2() );
 			APIList.Add( new kcsapi.api_get_member.basic() );
@@ -117,7 +115,6 @@ namespace ElectronicObserver.Observer {
 
 
 
-
 		/// <summary>
 		/// 通信の受信を開始します。
 		/// </summary>
@@ -132,25 +129,21 @@ namespace ElectronicObserver.Observer {
 			this.UIControl = UIControl;
 
 
-			/*
-			Fiddler.FiddlerApplication.Startup( portID, Fiddler.FiddlerCoreStartupFlags.ChainToUpstreamGateway |
-				( Utility.Configuration.Config.Connection.RegisterAsSystemProxy ? Fiddler.FiddlerCoreStartupFlags.RegisterAsSystemProxy : 0 ) );
-			*/
-
 			HttpProxy.Shutdown();
 			try {
 				// checkme
-				HttpProxy.Startup( portID, false, true /*Utility.Configuration.Config.Connection.RegisterAsSystemProxy*/ );
-
 				if ( c.UseUpstreamProxy )
 					HttpProxy.UpstreamProxyConfig = new ProxyConfig( ProxyConfigType.SpecificProxy, c.UpstreamProxyAddress, c.UpstreamProxyPort );
 				else
 					HttpProxy.UpstreamProxyConfig = new ProxyConfig( ProxyConfigType.SystemProxy );
 
+				HttpProxy.Startup( portID, false, false );
+				ProxyPort = portID;
+
+
 				ProxyStarted();
 
 				Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", portID ) );
-				ProxyPort = portID;
 
 			} catch ( Exception ex ) {
 
@@ -185,7 +178,6 @@ namespace ElectronicObserver.Observer {
 
 
 
-
 		void HttpProxy_AfterSessionComplete( Session session ) {
 
 			Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
@@ -209,6 +201,7 @@ namespace ElectronicObserver.Observer {
 
 				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
 			}
+
 
 
 			//response

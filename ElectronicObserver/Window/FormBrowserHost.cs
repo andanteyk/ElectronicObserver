@@ -55,7 +55,6 @@ namespace ElectronicObserver.Window {
 		public FormBrowserHost( FormMain parent ) {
 			InitializeComponent();
 
-			LabelWarning.Text = "ブラウザを起動しています。\r\nしばらくお待ちください。\r\n";
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser] );
 		}
 
@@ -65,8 +64,6 @@ namespace ElectronicObserver.Window {
 				if ( Utility.Configuration.Config.FormBrowser.IsEnabled ) {
 					NavigateToLogInPage();
 				}
-
-				LabelWarning.Text = "何らかの原因によってブラウザプロセスの起動に失敗したか、通信が途絶しました。\r\n申し訳ありませんが再起動してください。\r\n";
 			}
 		}
 
@@ -101,7 +98,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		internal void ConfigurationChanged() {
-			Font = LabelWarning.Font = Utility.Configuration.Config.UI.MainFont;
+			Font = Utility.Configuration.Config.UI.MainFont;
 			Browser.AsyncRemoteRun( () => Browser.Proxy.ConfigurationChanged( Configuration ) );
 		}
 

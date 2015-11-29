@@ -170,7 +170,12 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_shiptype.Columns.AddRange( new DataColumn[]{ 
 					new DataColumn( "Value", typeof( int ) ), 
 					new DataColumn( "Display", typeof( string ) ) } );
-				foreach ( var st in KCDatabase.Instance.ShipTypes.Values )
+				foreach ( var st in KCDatabase.Instance.MasterShips.Values
+					.Where( s => !s.IsAbyssalShip )
+					.Select( s => s.ShipType )
+					.Distinct()
+					.OrderBy( i => i )
+					.Select( i => KCDatabase.Instance.ShipTypes[i] ) )
 					_dtRightOperand_shiptype.Rows.Add( st.TypeID, st.Name );
 				_dtRightOperand_shiptype.AcceptChanges();
 			}
