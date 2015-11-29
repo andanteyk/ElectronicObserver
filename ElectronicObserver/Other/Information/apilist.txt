@@ -1,6 +1,6 @@
 
 艦これ APIリスト
-2014/08夏イベント～2015/03ごろのAPIの情報を参照
+2014/08夏イベント～2015/11ごろのAPIの情報を参照
 未記入は不明か使いどころなし
 推測・噂で書いてある点も多々ある、信じすぎないこと
 基本的に戦闘APIはapi_req_sortie/battleを参照すること。他の戦闘系APIの説明は情報が古い可能性がある、差分だけチェックすること
@@ -245,6 +245,7 @@ api_start2	：艦娘・装備固有データその他
 				43=戦闘糧食
 				44=補給物資
 				93=大型電探(II)
+				94=艦上偵察機(II)
 
 			[3]：アイコンID
 				 1=小口径主砲
@@ -360,11 +361,12 @@ api_start2	：艦娘・装備固有データその他
 		api_item		：獲得アイテム
 		api_max_maphp	：海域HPゲージ最大値？夏イベ海域は全て300, 他はnull ここに載っているHPはダミー？
 		api_required_defeat_count	：攻略に必要な撃破数 nullあり
-		api_sally_flag	：連合艦隊フラグ？
+		api_sally_flag	：出撃艦隊編成フラグ
 			(夏イベ時)通常海域, MI海域は[ 0, 1 ], AL海域, 本土防衛は[ 1, 0 ]
 			(2014/09現在)すべて[ 1, 0 ]
 			(秋イベ時)通常海域/E-2は[ 1, 0 ]、E-1/3は[ 0, 2 ], E-4は[ 0, 3 ]
 			{ 通常艦隊出撃フラグ, 連合艦隊出撃フラグ } と予想(それぞれビットフラグ)
+			'15 秋イベ: 通常艦隊出撃は [ 1, 0 ]、連合艦隊出撃は [ 0, n ] ( n : 1=機動部隊, 2=水上部隊, 4=輸送部隊 でビットOR )
 
 	api_mst_mapbgm		：海域BGMデータ
 		api_id			：海域ID
@@ -380,7 +382,7 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：海域セルユニークID(全海域の通し番号)
 		api_no			：海域セルID(同海域内限定)
 		api_color_no	：セルの状態
-							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった, api_req_map/start|nextにのみ存在, ここでは4として扱われる?), 7=航空戦, 8=船団護衛成功, 9=航空偵察
+							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった, api_req_map/start|nextにのみ存在, ここでは4として扱われる?) or 揚陸地点, 7=航空戦, 8=船団護衛成功, 9=航空偵察
 
 	api_mst_mission		：遠征データ
 		api_id			：遠征ID
@@ -506,7 +508,7 @@ api_port/port		：母港情報
 		api_sally_area		：出撃海域　イベント中のみ存在
 	
 	api_basic				：api_get_member/basicに同じ　以下追加メンバ
-		api_large_dock			：大型艦建造可否
+		api_large_dock		：大型艦建造可否
 
 	api_log					：母港下の通知欄
 		api_no				：通し番号
@@ -527,7 +529,7 @@ api_port/port		：母港情報
 			no				：ボスセル番号? 14
 			modified		：ボス撃破日時 夜戦突入時の(おそらく昼で撃沈したならその時の)時刻
 		api_m_flag			：1?
-								'15 秋イベだと 0=連合輸送部隊編成不可, 1=可能
+								'15 秋イベだと連合艦隊編成UIのフラグ 0=機動部隊/水上部隊のみ, 1=輸送部隊のみ(ページ切り替えで機動/水上も可), 2=全て可能
 	api_parallel_quest_count	：最大受領可能任務数
 
 api_get_member/slot_item	：装備品情報
@@ -819,7 +821,7 @@ api_get_member/picture_book	：装備図鑑　図鑑登録済みのもののみ�
 		api_state			：取得フラグ？[0]=図鑑登録
 		api_table_id		：装備ID
 		api_name			：装備名
-		api_type			：装備種別
+		api_type			：装備種別　api_start2 とは異なることがある((II)シリーズなど)
 		api_souk			：装甲
 		api_houg			：火力
 		api_raig			：雷装
@@ -1065,7 +1067,7 @@ api_req_kaisou/unsetslot_all			：装備全解除
 Request.api_req_kaisou/open_exslot		：補強スロット開放
 	api_id				：艦船ID
 
-api_req_kaisou/open_exslot				：補強スロット解放
+api_req_kaisou/open_exslot				：補強スロット開放
 	(情報なし)
 
 Request.api_req_kaisou/slotset_ex		：補強スロット装備
@@ -1141,7 +1143,7 @@ api_req_map/next		：進撃
 	api_maparea_id		：海域カテゴリID(2-3でいう2)
 	api_mapinfo_no		：海域カテゴリ内番号(2-3でいう3)
 	api_no				：次に向かうセルのID
-	api_color_no		：次のセルの色　api_mst_mapcell参照　3=青, 4=赤, 6=揚陸地点, 9=航空偵察
+	api_color_no		：次のセルの色　api_start2/api_mst_mapcell参照　3=青, 4=赤, 6=揚陸地点, 9=航空偵察
 	api_event_id		：イベント　0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=航空戦or航空偵察, 8=船団護衛成功, 9=揚陸地点
 	api_event_kind		：イベント種別　0=非戦闘セル 1=通常戦闘 2=夜戦 3=夜昼戦 4=航空戦
 							api_event_id=6(気のせいだった)時は　0="気のせいだった。", 1="敵影を見ず。", 2=能動分岐
@@ -1370,9 +1372,9 @@ api_req_sortie/battleresult	：戦闘結果
 	api_get_exmap_rate		：EO海域攻略時：獲得戦果(文字列) それ以外は0(数値)
 	api_get_exmap_useitem_id：EO海域攻略時：取得アイテムID(文字列) "57"=勲章　それ以外は0(数値)
 	api_landing_hp			：イベントの輸送作戦時のみ存在
-		api_now_hp		：現在のTP(減少前)　文字列型
-		api_max_hp		：最大TP　文字列型
-		api_sub_value	：減少したTP　文字列だったり数値だったりする
+		api_now_hp			：現在のTP(減少前)　文字列型
+		api_max_hp			：最大TP　文字列型
+		api_sub_value		：減少したTP　文字列だったり数値だったりする
 
 
 api_get_member/ship2		：旧進撃中(現在はケッコンカッコカリ・給糧艦使用(未確認)のみだと思われる)
@@ -1380,7 +1382,7 @@ api_get_member/ship2		：旧進撃中(現在はケッコンカッコカリ・給
 	api_data_deck	：deckに同じ
 
 Request.api_get_member/ship_deck	：進撃中
-	api_deck_rid	：出撃艦隊ID？艦隊の更新リクエストかも
+	api_deck_rid	：出撃艦隊ID 複数艦隊の時はつなげる? (ex. 連合艦隊時は 12)
 
 api_get_member/ship_deck	：進撃中 2015/05/18以降 更新された艦船/艦隊のみ存在
 	api_ship_data		：艦船データ portと同じ
@@ -1394,7 +1396,7 @@ api_get_member/mapinfo		：出撃準備　未出現海域は存在しない
 		api_max_maphp		：海域HP最大値
 		api_state			：状態？1=未攻略, 2=攻略済み
 		api_selected_rank	：(15冬イベ)作戦難易度 0=未設定, 1=丙, 2=乙, 3=甲
-		api_gauge_type		：2=HPゲージ 3=揚陸(TP)ゲージ　'15秋E-5のみ存在
+		api_gauge_type		：2=HPゲージ 3=揚陸(TP)ゲージ　2は '15秋E-5のみ存在
 	api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
 	api_defeat_count		：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
 
@@ -1469,7 +1471,7 @@ api_req_combined_battle/airbattle	：連合艦隊-機動部隊 航空戦
 	api_kouku2			：第二次航空戦情報　api_koukuと同じ
 
 
-api_req_combined_battle/battle	：連合艦隊-機動部隊 戦闘
+api_req_combined_battle/battle	：連合艦隊-機動部隊or輸送部隊 戦闘
 	api_deck_id			：こちらの出撃艦隊ID
 	api_ship_ke			：敵艦船ID -1から始まる
 	api_ship_lv			：敵艦船Lv.
@@ -1553,7 +1555,7 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊 戦闘
 	api_hougeki3	：砲撃戦3巡目(機動部隊本隊2巡目)　上に同じ
 
 
-api_req_combined_battle/midnight_battle		：連合艦隊-機動部隊/水上部隊 夜戦
+api_req_combined_battle/midnight_battle		：連合艦隊 夜戦
 	api_deck_id			：こちらの出撃艦隊ID 文字列
 	api_ship_ke			：敵艦船ID -1から始まる
 	api_ship_lv			：敵艦船Lv.
@@ -1629,9 +1631,9 @@ api_req_combined_battle/battleresult	：連合艦隊 戦闘結果
 	api_get_exmap_rate		：
 	api_get_exmap_useitem_id：
 	api_landing_hp			：イベントの輸送作戦時のみ存在
-		api_now_hp		：現在のTP(減少前)　文字列型
-		api_max_hp		：最大TP　文字列型
-		api_sub_value	：減少したTP　文字列だったり数値だったりする
+		api_now_hp			：現在のTP(減少前)　文字列型
+		api_max_hp			：最大TP　文字列型
+		api_sub_value		：減少したTP　文字列だったり数値だったりする
 	api_escape_flag			：退避艦の有無
 	api_escape				：退避艦
 		api_escape_idx		：退避艦のID

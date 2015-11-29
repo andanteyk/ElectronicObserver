@@ -43,8 +43,6 @@ namespace ElectronicObserver.Observer {
 
 		private APIObserver() {
 
-			// 注：重複登録するとあらぬところで落ちるので十分注意すること
-
 			APIList = new APIDictionary();
 			APIList.Add( new kcsapi.api_start2() );
 			APIList.Add( new kcsapi.api_get_member.basic() );
@@ -140,13 +138,12 @@ namespace ElectronicObserver.Observer {
 					HttpProxy.UpstreamProxyConfig = new ProxyConfig( ProxyConfigType.SystemProxy );
 
 				HttpProxy.Startup( portID, false, false );
-
+				ProxyPort = portID;
 
 
 				ProxyStarted();
 
 				Utility.Logger.Add( 2, string.Format( "APIObserver: ポート {0} 番で受信を開始しました。", portID ) );
-				ProxyPort = portID;
 
 			} catch ( Exception ex ) {
 
@@ -186,7 +183,6 @@ namespace ElectronicObserver.Observer {
 			Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
 
 			string baseurl = session.Request.PathAndQuery;
-
 
 			// request
 			if ( baseurl.Contains( "/kcsapi/" ) ) {
