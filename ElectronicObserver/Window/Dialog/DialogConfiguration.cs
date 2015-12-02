@@ -241,8 +241,12 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void Debug_EnableDebugMenu_CheckedChanged( object sender, EventArgs e ) {
-
-			Debug_SealingPanel.Visible = Debug_EnableDebugMenu.Checked;
+		
+			Debug_SealingPanel.Visible =
+			Connection_UpstreamProxyAddress.Visible =
+			Connection_DownstreamProxy.Visible =
+			Connection_DownstreamProxyLabel.Visible =
+				Debug_EnableDebugMenu.Checked;
 		}
 
 
@@ -263,7 +267,6 @@ namespace ElectronicObserver.Window.Dialog {
 			//[通信]
 			Connection_Port.Value = config.Connection.Port;
 			Connection_SaveReceivedData.Checked = config.Connection.SaveReceivedData;
-			Connection_SaveDataFilter.Text = config.Connection.SaveDataFilter;
 			Connection_SaveDataPath.Text = config.Connection.SaveDataPath;
 			Connection_SaveRequest.Checked = config.Connection.SaveRequest;
 			Connection_SaveResponse.Checked = config.Connection.SaveResponse;
@@ -273,6 +276,9 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_RegisterAsSystemProxy.Checked = config.Connection.RegisterAsSystemProxy;
 			Connection_UseUpstreamProxy.Checked = config.Connection.UseUpstreamProxy;
 			Connection_UpstreamProxyPort.Value = config.Connection.UpstreamProxyPort;
+			Connection_UpstreamProxyAddress.Text = config.Connection.UpstreamProxyAddress;
+			Connection_UseSystemProxy.Checked = config.Connection.UseSystemProxy;
+			Connection_DownstreamProxy.Text = config.Connection.DownstreamProxy;
 
 			//[UI]
 			UI_MainFont.Font = config.UI.MainFont.FontData;
@@ -400,7 +406,6 @@ namespace ElectronicObserver.Window.Dialog {
 				config.Connection.Port = (ushort)Connection_Port.Value;
 
 				config.Connection.SaveReceivedData = Connection_SaveReceivedData.Checked;
-				config.Connection.SaveDataFilter = Connection_SaveDataFilter.Text;
 				config.Connection.SaveDataPath = Connection_SaveDataPath.Text.Trim( @"\ """.ToCharArray() );
 				config.Connection.SaveRequest = Connection_SaveRequest.Checked;
 				config.Connection.SaveResponse = Connection_SaveResponse.Checked;
@@ -415,9 +420,16 @@ namespace ElectronicObserver.Window.Dialog {
 				config.Connection.UseUpstreamProxy = Connection_UseUpstreamProxy.Checked;
 				changed |= config.Connection.UpstreamProxyPort != (ushort)Connection_UpstreamProxyPort.Value;
 				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;
+				changed |= config.Connection.UpstreamProxyAddress != Connection_UpstreamProxyAddress.Text;
+				config.Connection.UpstreamProxyAddress = Connection_UpstreamProxyAddress.Text;
+
+				changed |= config.Connection.UseSystemProxy != Connection_UseSystemProxy.Checked;
+				config.Connection.UseSystemProxy = Connection_UseSystemProxy.Checked;
+
+				changed |= config.Connection.DownstreamProxy != Connection_DownstreamProxy.Text;
+				config.Connection.DownstreamProxy = Connection_DownstreamProxy.Text;
 
 				if ( changed ) {
-					APIObserver.Instance.Stop();
 					APIObserver.Instance.Start( config.Connection.Port, _UIControl );
 				}
 

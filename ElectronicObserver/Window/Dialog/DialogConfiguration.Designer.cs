@@ -40,8 +40,6 @@
 			this.Connection_SaveDataPathSearch = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
 			this.Connection_SaveDataPath = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.Connection_SaveDataFilter = new System.Windows.Forms.TextBox();
 			this.Connection_SaveReceivedData = new System.Windows.Forms.CheckBox();
 			this.Connection_Port = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
@@ -160,6 +158,10 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
+			this.Connection_UseSystemProxy = new System.Windows.Forms.CheckBox();
+			this.Connection_DownstreamProxy = new System.Windows.Forms.TextBox();
+			this.Connection_DownstreamProxyLabel = new System.Windows.Forms.Label();
+			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -214,6 +216,10 @@
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.Connection_UpstreamProxyAddress);
+			this.tabPage1.Controls.Add(this.Connection_DownstreamProxyLabel);
+			this.tabPage1.Controls.Add(this.Connection_DownstreamProxy);
+			this.tabPage1.Controls.Add(this.Connection_UseSystemProxy);
 			this.tabPage1.Controls.Add(this.Connection_UpstreamProxyPort);
 			this.tabPage1.Controls.Add(this.Connection_UseUpstreamProxy);
 			this.tabPage1.Controls.Add(this.Connection_RegisterAsSystemProxy);
@@ -259,7 +265,7 @@
 			// Connection_RegisterAsSystemProxy
 			// 
 			this.Connection_RegisterAsSystemProxy.AutoSize = true;
-			this.Connection_RegisterAsSystemProxy.Location = new System.Drawing.Point(147, 7);
+			this.Connection_RegisterAsSystemProxy.Location = new System.Drawing.Point(288, 7);
 			this.Connection_RegisterAsSystemProxy.Name = "Connection_RegisterAsSystemProxy";
 			this.Connection_RegisterAsSystemProxy.Size = new System.Drawing.Size(152, 19);
 			this.Connection_RegisterAsSystemProxy.TabIndex = 2;
@@ -271,7 +277,7 @@
 			// 
 			// Connection_OutputConnectionScript
 			// 
-			this.Connection_OutputConnectionScript.Location = new System.Drawing.Point(6, 182);
+			this.Connection_OutputConnectionScript.Location = new System.Drawing.Point(6, 181);
 			this.Connection_OutputConnectionScript.Name = "Connection_OutputConnectionScript";
 			this.Connection_OutputConnectionScript.Size = new System.Drawing.Size(200, 23);
 			this.Connection_OutputConnectionScript.TabIndex = 8;
@@ -282,7 +288,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(138, 69);
+			this.label4.Location = new System.Drawing.Point(138, 95);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(201, 15);
 			this.label4.TabIndex = 6;
@@ -300,17 +306,15 @@
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveDataPathSearch);
 			this.Connection_PanelSaveData.Controls.Add(this.label3);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveDataPath);
-			this.Connection_PanelSaveData.Controls.Add(this.label2);
-			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveDataFilter);
-			this.Connection_PanelSaveData.Location = new System.Drawing.Point(6, 93);
+			this.Connection_PanelSaveData.Location = new System.Drawing.Point(8, 119);
 			this.Connection_PanelSaveData.Name = "Connection_PanelSaveData";
-			this.Connection_PanelSaveData.Size = new System.Drawing.Size(442, 83);
+			this.Connection_PanelSaveData.Size = new System.Drawing.Size(442, 56);
 			this.Connection_PanelSaveData.TabIndex = 7;
 			// 
 			// Connection_ApplyVersion
 			// 
 			this.Connection_ApplyVersion.AutoSize = true;
-			this.Connection_ApplyVersion.Location = new System.Drawing.Point(299, 61);
+			this.Connection_ApplyVersion.Location = new System.Drawing.Point(296, 32);
 			this.Connection_ApplyVersion.Name = "Connection_ApplyVersion";
 			this.Connection_ApplyVersion.Size = new System.Drawing.Size(68, 19);
 			this.Connection_ApplyVersion.TabIndex = 9;
@@ -321,7 +325,7 @@
 			// Connection_SaveOtherFile
 			// 
 			this.Connection_SaveOtherFile.AutoSize = true;
-			this.Connection_SaveOtherFile.Location = new System.Drawing.Point(234, 61);
+			this.Connection_SaveOtherFile.Location = new System.Drawing.Point(231, 32);
 			this.Connection_SaveOtherFile.Name = "Connection_SaveOtherFile";
 			this.Connection_SaveOtherFile.Size = new System.Drawing.Size(59, 19);
 			this.Connection_SaveOtherFile.TabIndex = 8;
@@ -332,7 +336,7 @@
 			// Connection_SaveSWF
 			// 
 			this.Connection_SaveSWF.AutoSize = true;
-			this.Connection_SaveSWF.Location = new System.Drawing.Point(175, 61);
+			this.Connection_SaveSWF.Location = new System.Drawing.Point(172, 32);
 			this.Connection_SaveSWF.Name = "Connection_SaveSWF";
 			this.Connection_SaveSWF.Size = new System.Drawing.Size(53, 19);
 			this.Connection_SaveSWF.TabIndex = 7;
@@ -343,7 +347,7 @@
 			// Connection_SaveResponse
 			// 
 			this.Connection_SaveResponse.AutoSize = true;
-			this.Connection_SaveResponse.Location = new System.Drawing.Point(88, 61);
+			this.Connection_SaveResponse.Location = new System.Drawing.Point(85, 32);
 			this.Connection_SaveResponse.Name = "Connection_SaveResponse";
 			this.Connection_SaveResponse.Size = new System.Drawing.Size(81, 19);
 			this.Connection_SaveResponse.TabIndex = 6;
@@ -354,7 +358,7 @@
 			// Connection_SaveRequest
 			// 
 			this.Connection_SaveRequest.AutoSize = true;
-			this.Connection_SaveRequest.Location = new System.Drawing.Point(9, 61);
+			this.Connection_SaveRequest.Location = new System.Drawing.Point(6, 32);
 			this.Connection_SaveRequest.Name = "Connection_SaveRequest";
 			this.Connection_SaveRequest.Size = new System.Drawing.Size(73, 19);
 			this.Connection_SaveRequest.TabIndex = 5;
@@ -365,7 +369,7 @@
 			// Connection_SaveDataPathSearch
 			// 
 			this.Connection_SaveDataPathSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.Connection_SaveDataPathSearch.Location = new System.Drawing.Point(407, 32);
+			this.Connection_SaveDataPathSearch.Location = new System.Drawing.Point(404, 3);
 			this.Connection_SaveDataPathSearch.Name = "Connection_SaveDataPathSearch";
 			this.Connection_SaveDataPathSearch.Size = new System.Drawing.Size(32, 23);
 			this.Connection_SaveDataPathSearch.TabIndex = 4;
@@ -376,7 +380,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(6, 35);
+			this.label3.Location = new System.Drawing.Point(3, 6);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(55, 15);
 			this.label3.TabIndex = 2;
@@ -387,39 +391,16 @@
 			this.Connection_SaveDataPath.AllowDrop = true;
 			this.Connection_SaveDataPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.Connection_SaveDataPath.Location = new System.Drawing.Point(67, 32);
+			this.Connection_SaveDataPath.Location = new System.Drawing.Point(64, 3);
 			this.Connection_SaveDataPath.Name = "Connection_SaveDataPath";
 			this.Connection_SaveDataPath.Size = new System.Drawing.Size(334, 23);
 			this.Connection_SaveDataPath.TabIndex = 3;
 			this.Connection_SaveDataPath.TextChanged += new System.EventHandler(this.Connection_SaveDataPath_TextChanged);
 			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(6, 6);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(52, 15);
-			this.label2.TabIndex = 0;
-			this.label2.Text = "フィルタ：";
-			this.label2.Visible = false;
-			// 
-			// Connection_SaveDataFilter
-			// 
-			this.Connection_SaveDataFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Connection_SaveDataFilter.Enabled = false;
-			this.Connection_SaveDataFilter.Location = new System.Drawing.Point(67, 3);
-			this.Connection_SaveDataFilter.Name = "Connection_SaveDataFilter";
-			this.Connection_SaveDataFilter.ReadOnly = true;
-			this.Connection_SaveDataFilter.Size = new System.Drawing.Size(334, 23);
-			this.Connection_SaveDataFilter.TabIndex = 1;
-			this.ToolTipInfo.SetToolTip(this.Connection_SaveDataFilter, "＊未実装です＊");
-			this.Connection_SaveDataFilter.Visible = false;
-			// 
 			// Connection_SaveReceivedData
 			// 
 			this.Connection_SaveReceivedData.AutoSize = true;
-			this.Connection_SaveReceivedData.Location = new System.Drawing.Point(6, 68);
+			this.Connection_SaveReceivedData.Location = new System.Drawing.Point(6, 94);
 			this.Connection_SaveReceivedData.Name = "Connection_SaveReceivedData";
 			this.Connection_SaveReceivedData.Size = new System.Drawing.Size(126, 19);
 			this.Connection_SaveReceivedData.TabIndex = 5;
@@ -460,10 +441,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 44);
+			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(456, 233);
+			this.tabPage2.Size = new System.Drawing.Size(456, 253);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -1066,7 +1047,7 @@
 			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 201);
+			this.tabPage9.Size = new System.Drawing.Size(442, 221);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -1087,7 +1068,7 @@
 			this.tabPage16.Location = new System.Drawing.Point(4, 22);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(442, 201);
+			this.tabPage16.Size = new System.Drawing.Size(442, 221);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1109,7 +1090,7 @@
 			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 201);
+			this.tabPage10.Size = new System.Drawing.Size(442, 221);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1184,7 +1165,7 @@
 			this.tabPage13.Location = new System.Drawing.Point(4, 22);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 201);
+			this.tabPage13.Size = new System.Drawing.Size(442, 221);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1226,7 +1207,7 @@
 			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 201);
+			this.tabPage12.Size = new System.Drawing.Size(442, 221);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1407,7 +1388,7 @@
 			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 201);
+			this.tabPage14.Size = new System.Drawing.Size(442, 221);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1734,6 +1715,47 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
+			// Connection_UseSystemProxy
+			// 
+			this.Connection_UseSystemProxy.AutoSize = true;
+			this.Connection_UseSystemProxy.Location = new System.Drawing.Point(147, 7);
+			this.Connection_UseSystemProxy.Name = "Connection_UseSystemProxy";
+			this.Connection_UseSystemProxy.Size = new System.Drawing.Size(135, 19);
+			this.Connection_UseSystemProxy.TabIndex = 9;
+			this.Connection_UseSystemProxy.Text = "システムプロキシを利用";
+			this.ToolTipInfo.SetToolTip(this.Connection_UseSystemProxy, "システムのプロキシ設定を利用します。");
+			this.Connection_UseSystemProxy.UseVisualStyleBackColor = true;
+			// 
+			// Connection_DownstreamProxy
+			// 
+			this.Connection_DownstreamProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Connection_DownstreamProxy.Location = new System.Drawing.Point(164, 64);
+			this.Connection_DownstreamProxy.Name = "Connection_DownstreamProxy";
+			this.Connection_DownstreamProxy.Size = new System.Drawing.Size(286, 23);
+			this.Connection_DownstreamProxy.TabIndex = 10;
+			this.ToolTipInfo.SetToolTip(this.Connection_DownstreamProxy, "下流プロキシ設定を記述します。\r\nこの設定は上記のポート設定より優先されます。\r\n空欄の場合は上記の設定をもとに自動設定されます。\r\n動作を理解できる方のみ利用し" +
+        "てください。");
+			// 
+			// Connection_DownstreamProxyLabel
+			// 
+			this.Connection_DownstreamProxyLabel.AutoSize = true;
+			this.Connection_DownstreamProxyLabel.Location = new System.Drawing.Point(6, 67);
+			this.Connection_DownstreamProxyLabel.Name = "Connection_DownstreamProxyLabel";
+			this.Connection_DownstreamProxyLabel.Size = new System.Drawing.Size(149, 15);
+			this.Connection_DownstreamProxyLabel.TabIndex = 11;
+			this.Connection_DownstreamProxyLabel.Text = "下流プロキシ(上級者向け)：";
+			// 
+			// Connection_UpstreamProxyAddress
+			// 
+			this.Connection_UpstreamProxyAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Connection_UpstreamProxyAddress.Location = new System.Drawing.Point(250, 35);
+			this.Connection_UpstreamProxyAddress.Name = "Connection_UpstreamProxyAddress";
+			this.Connection_UpstreamProxyAddress.Size = new System.Drawing.Size(200, 23);
+			this.Connection_UpstreamProxyAddress.TabIndex = 12;
+			this.ToolTipInfo.SetToolTip(this.Connection_UpstreamProxyAddress, "上流プロキシのアドレスを指定します。\r\n既定値は 127.0.0.1 です。");
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1815,7 +1837,6 @@
 		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private System.Windows.Forms.Button Connection_SaveDataPathSearch;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.Button ButtonOK;
@@ -1855,7 +1876,6 @@
 		private System.Windows.Forms.CheckBox Connection_SaveResponse;
 		private System.Windows.Forms.CheckBox Connection_SaveRequest;
 		private System.Windows.Forms.TextBox Connection_SaveDataPath;
-		private System.Windows.Forms.TextBox Connection_SaveDataFilter;
 		private System.Windows.Forms.CheckBox Connection_SaveReceivedData;
 		private System.Windows.Forms.NumericUpDown Connection_Port;
 		private System.Windows.Forms.NumericUpDown Log_LogLevel;
@@ -1944,5 +1964,9 @@
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label24;
 		private System.Windows.Forms.ComboBox Life_ClockFormat;
+		private System.Windows.Forms.CheckBox Connection_UseSystemProxy;
+		private System.Windows.Forms.Label Connection_DownstreamProxyLabel;
+		private System.Windows.Forms.TextBox Connection_DownstreamProxy;
+		private System.Windows.Forms.TextBox Connection_UpstreamProxyAddress;
 	}
 }
