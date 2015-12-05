@@ -303,7 +303,7 @@ namespace ElectronicObserver.Window {
 				return APIObserver.Instance.ProxyPort.ToString();
 
 			} else {
-				return string.Format( "http={0}:{1}", config.UpstreamProxyAddress, APIObserver.Instance.ProxyPort );
+				return string.Format( "http=127.0.0.1:{0}", APIObserver.Instance.ProxyPort );
 			}
 		}
 
