@@ -1090,6 +1090,7 @@ namespace ElectronicObserver.Window {
 				foreach ( var b in HPBars ) {
 					b.MainFont = MainFont;
 					b.SubFont = SubFont;
+					b.HPBar.ColorMorphing = Utility.Configuration.Config.FormFleet.BarColorMorphing;
 				}
 			}
 		}

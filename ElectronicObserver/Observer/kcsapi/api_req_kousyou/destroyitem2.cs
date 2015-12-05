@@ -14,9 +14,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			foreach ( string id in data["api_slotitem_ids"].Split( ",".ToCharArray() ) ) {
+			foreach ( string sid in data["api_slotitem_ids"].Split( ",".ToCharArray() ) ) {
 
-				db.Equipments.Remove( int.Parse( id ) );
+				int id = int.Parse( sid );
+				Utility.Logger.Add( 2, KCDatabase.Instance.Equipments[id].NameWithLevel + " を廃棄しました。" );
+				db.Equipments.Remove( id );
 			}
 			
 			base.OnRequestReceived( data );

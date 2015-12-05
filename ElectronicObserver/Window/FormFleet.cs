@@ -882,6 +882,7 @@ namespace ElectronicObserver.Window {
 				bool showAircraft = c.FormFleet.ShowAircraft;
 				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
 				bool shortHPBar = c.FormFleet.ShortenHPBar;
+				bool colorMorphing = c.FormFleet.BarColorMorphing;
 				bool showNext = c.FormFleet.ShowNextExp;
 				bool showEquipmentLevel = c.FormFleet.ShowEquipmentLevel;
 
@@ -895,8 +896,11 @@ namespace ElectronicObserver.Window {
 					}
 
 					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
+					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
 					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
+					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
+					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;
 
 					ControlMember[i].ConfigurationChanged( this );
 				}

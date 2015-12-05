@@ -131,11 +131,13 @@ namespace ElectronicObserver.Observer {
 
 			HttpProxy.Shutdown();
 			try {
-				// checkme
+
 				if ( c.UseUpstreamProxy )
 					HttpProxy.UpstreamProxyConfig = new ProxyConfig( ProxyConfigType.SpecificProxy, c.UpstreamProxyAddress, c.UpstreamProxyPort );
-				else
+				else if ( c.UseSystemProxy )
 					HttpProxy.UpstreamProxyConfig = new ProxyConfig( ProxyConfigType.SystemProxy );
+				else
+					HttpProxy.UpstreamProxyConfig = new ProxyConfig( ProxyConfigType.DirectAccess );
 
 				HttpProxy.Startup( portID, false, false );
 				ProxyPort = portID;
@@ -183,6 +185,10 @@ namespace ElectronicObserver.Observer {
 			Utility.Configuration.ConfigurationData.ConfigConnection c = Utility.Configuration.Config.Connection;
 
 			string baseurl = session.Request.PathAndQuery;
+
+			//debug
+			//Utility.Logger.Add( 1, baseurl );
+
 
 			// request
 			if ( baseurl.Contains( "/kcsapi/" ) ) {

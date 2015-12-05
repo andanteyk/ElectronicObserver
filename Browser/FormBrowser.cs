@@ -494,9 +494,15 @@ namespace Browser {
 		}
 
 
-		public void SetProxy( string address, int port ) {
-			//AddLog( 1, "setproxy " + address + ":" + port );
-			WinInetUtil.SetProxyInProcess( string.Format( "http={0}:{1}", address, port ), "local" );
+		public void SetProxy( string proxy ) {
+			ushort port;
+			if ( ushort.TryParse( proxy, out port ) ) {
+				WinInetUtil.SetProxyInProcessForNekoxy( port );
+			} else {
+				WinInetUtil.SetProxyInProcess( proxy, "local" );
+			}
+
+			//AddLog( 1, "setproxy:" + proxy );
 		}
 
 

@@ -12,15 +12,15 @@ namespace ElectronicObserver.Window.Control {
 	public partial class ShipStatusResource : UserControl {
 
 		private ToolTip ResourceTip;
-		private StatusBarModule BarFuel;
-		private StatusBarModule BarAmmo;
+		public StatusBarModule BarFuel { get; private set; }
+		public StatusBarModule BarAmmo { get; private set; }
 
 
 		#region Properties
 
 		public int FuelCurrent {
 			get { return BarFuel.Value; }
-			set { 
+			set {
 				BarFuel.Value = value;
 				PropertyChanged();
 			}
@@ -28,7 +28,7 @@ namespace ElectronicObserver.Window.Control {
 
 		public int FuelMax {
 			get { return BarFuel.MaximumValue; }
-			set { 
+			set {
 				BarFuel.MaximumValue = value;
 				PropertyChanged();
 			}
@@ -36,7 +36,7 @@ namespace ElectronicObserver.Window.Control {
 
 		public int AmmoCurrent {
 			get { return BarAmmo.Value; }
-			set { 
+			set {
 				BarAmmo.Value = value;
 				PropertyChanged();
 			}
@@ -44,12 +44,12 @@ namespace ElectronicObserver.Window.Control {
 
 		public int AmmoMax {
 			get { return BarAmmo.MaximumValue; }
-			set { 
+			set {
 				BarAmmo.MaximumValue = value;
 				PropertyChanged();
 			}
 		}
-		
+
 		#endregion
 
 
@@ -60,18 +60,18 @@ namespace ElectronicObserver.Window.Control {
 			BarAmmo = new StatusBarModule();
 
 			BarFuel.UsePrevValue = BarAmmo.UsePrevValue = false;
-			
-			ResourceTip = resourceTip;			
+
+			ResourceTip = resourceTip;
 		}
 
 
-		
+
 		private void PropertyChanged() {
-			
+
 			//FIXME: サブウィンドウ状態のときToolTipが出現しない不具合を確認。
 
 			string tiptext = string.Format( "燃 : {0}/{1} ({2}%)\r\n弾 : {3}/{4} ({5}%)",
-				FuelCurrent, FuelMax, (int)Math.Ceiling( 100.0 * FuelCurrent / FuelMax ), 
+				FuelCurrent, FuelMax, (int)Math.Ceiling( 100.0 * FuelCurrent / FuelMax ),
 				AmmoCurrent, AmmoMax, (int)Math.Ceiling( 100.0 * AmmoCurrent / AmmoMax ) );
 
 			ResourceTip.SetToolTip( this, tiptext );
@@ -88,7 +88,7 @@ namespace ElectronicObserver.Window.Control {
 		/// <param name="ammoCurrent">弾薬の現在値。</param>
 		/// <param name="ammoMax">燃料の最大値。</param>
 		public void SetResources( int fuelCurrent, int fuelMax, int ammoCurrent, int ammoMax ) {
-			
+
 			BarFuel.Value = fuelCurrent;
 			BarFuel.MaximumValue = fuelMax;
 			BarAmmo.Value = ammoCurrent;

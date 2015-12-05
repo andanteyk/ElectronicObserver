@@ -278,11 +278,9 @@ namespace ElectronicObserver.Window {
 					( string apiname, dynamic data ) => InitialAPIReceived( apiname, data );
 
 				// プロキシをセット
-				Browser.AsyncRemoteRun( () =>
-					Browser.Proxy.SetProxy( Utility.Configuration.Config.Connection.UpstreamProxyAddress, Observer.APIObserver.Instance.ProxyPort ) );
+				Browser.AsyncRemoteRun( () => Browser.Proxy.SetProxy( BuildDownstreamProxy() ) );
 				Observer.APIObserver.Instance.ProxyStarted += () => {
-					Browser.AsyncRemoteRun( () =>
-						Browser.Proxy.SetProxy( Utility.Configuration.Config.Connection.UpstreamProxyAddress, Observer.APIObserver.Instance.ProxyPort ) );
+					Browser.AsyncRemoteRun( () => Browser.Proxy.SetProxy( BuildDownstreamProxy() ) );
 				};
 
 				++initializeCompletionCount;
@@ -293,6 +291,24 @@ namespace ElectronicObserver.Window {
 				}
 			} ) );
 		}
+
+		private string BuildDownstreamProxy() {
+			var config = Utility.Configuration.Config.Connection;
+
+			if ( !string.IsNullOrEmpty( config.DownstreamProxy ) ) {
+				return config.DownstreamProxy;
+
+			} else if ( config.UseUpstreamProxy ) {
+				return string.Format( "http={0}:{1}", config.UpstreamProxyAddress, config.UpstreamProxyPort );
+
+			} else if ( config.UseSystemProxy ) {
+				return Observer.APIObserver.Instance.ProxyPort.ToString();
+
+			} else {
+				return "http=127.0.0.1:" + Observer.APIObserver.Instance.ProxyPort;
+			}
+		}
+
 
 		void Browser_Faulted( Exception e ) {
 			if ( Browser.Proxy == null ) {
