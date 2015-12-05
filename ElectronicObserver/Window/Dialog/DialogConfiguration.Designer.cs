@@ -26,6 +26,10 @@
 			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
+			this.Connection_DownstreamProxyLabel = new System.Windows.Forms.Label();
+			this.Connection_DownstreamProxy = new System.Windows.Forms.TextBox();
+			this.Connection_UseSystemProxy = new System.Windows.Forms.CheckBox();
 			this.Connection_UpstreamProxyPort = new System.Windows.Forms.NumericUpDown();
 			this.Connection_UseUpstreamProxy = new System.Windows.Forms.CheckBox();
 			this.Connection_RegisterAsSystemProxy = new System.Windows.Forms.CheckBox();
@@ -158,10 +162,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.Connection_UseSystemProxy = new System.Windows.Forms.CheckBox();
-			this.Connection_DownstreamProxy = new System.Windows.Forms.TextBox();
-			this.Connection_DownstreamProxyLabel = new System.Windows.Forms.Label();
-			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
+			this.FormFleet_BarColorMorphing = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -236,6 +237,47 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "通信";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// Connection_UpstreamProxyAddress
+			// 
+			this.Connection_UpstreamProxyAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Connection_UpstreamProxyAddress.Location = new System.Drawing.Point(250, 35);
+			this.Connection_UpstreamProxyAddress.Name = "Connection_UpstreamProxyAddress";
+			this.Connection_UpstreamProxyAddress.Size = new System.Drawing.Size(200, 23);
+			this.Connection_UpstreamProxyAddress.TabIndex = 12;
+			this.ToolTipInfo.SetToolTip(this.Connection_UpstreamProxyAddress, "上流プロキシのアドレスを指定します。\r\n既定値は 127.0.0.1 です。");
+			// 
+			// Connection_DownstreamProxyLabel
+			// 
+			this.Connection_DownstreamProxyLabel.AutoSize = true;
+			this.Connection_DownstreamProxyLabel.Location = new System.Drawing.Point(6, 67);
+			this.Connection_DownstreamProxyLabel.Name = "Connection_DownstreamProxyLabel";
+			this.Connection_DownstreamProxyLabel.Size = new System.Drawing.Size(149, 15);
+			this.Connection_DownstreamProxyLabel.TabIndex = 11;
+			this.Connection_DownstreamProxyLabel.Text = "下流プロキシ(上級者向け)：";
+			// 
+			// Connection_DownstreamProxy
+			// 
+			this.Connection_DownstreamProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Connection_DownstreamProxy.Location = new System.Drawing.Point(164, 64);
+			this.Connection_DownstreamProxy.Name = "Connection_DownstreamProxy";
+			this.Connection_DownstreamProxy.Size = new System.Drawing.Size(286, 23);
+			this.Connection_DownstreamProxy.TabIndex = 10;
+			this.ToolTipInfo.SetToolTip(this.Connection_DownstreamProxy, "下流プロキシ設定を記述します。\r\nこの設定は上記のポート設定より優先されます。\r\n空欄の場合は上記の設定をもとに自動設定されます。\r\n動作を理解できる方のみ利用し" +
+        "てください。");
+			// 
+			// Connection_UseSystemProxy
+			// 
+			this.Connection_UseSystemProxy.AutoSize = true;
+			this.Connection_UseSystemProxy.Location = new System.Drawing.Point(147, 7);
+			this.Connection_UseSystemProxy.Name = "Connection_UseSystemProxy";
+			this.Connection_UseSystemProxy.Size = new System.Drawing.Size(135, 19);
+			this.Connection_UseSystemProxy.TabIndex = 9;
+			this.Connection_UseSystemProxy.Text = "システムプロキシを利用";
+			this.ToolTipInfo.SetToolTip(this.Connection_UseSystemProxy, "システムのプロキシ設定を利用します。");
+			this.Connection_UseSystemProxy.UseVisualStyleBackColor = true;
 			// 
 			// Connection_UpstreamProxyPort
 			// 
@@ -877,10 +919,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 24);
+			this.tabPage7.Location = new System.Drawing.Point(4, 44);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(456, 253);
+			this.tabPage7.Size = new System.Drawing.Size(456, 233);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -898,11 +940,12 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(450, 247);
+			this.tabControl2.Size = new System.Drawing.Size(450, 227);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_BarColorMorphing);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowAnchorageRepairingTimer);
 			this.tabPage8.Controls.Add(this.FormFleet_AirSuperiorityMethod);
 			this.tabPage8.Controls.Add(this.label23);
@@ -917,7 +960,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(442, 219);
+			this.tabPage8.Size = new System.Drawing.Size(442, 199);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -1162,10 +1205,10 @@
 			// 
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 22);
+			this.tabPage13.Location = new System.Drawing.Point(4, 24);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 221);
+			this.tabPage13.Size = new System.Drawing.Size(442, 199);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1204,10 +1247,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 22);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 221);
+			this.tabPage12.Size = new System.Drawing.Size(442, 199);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1715,46 +1758,16 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// Connection_UseSystemProxy
+			// FormFleet_BarColorMorphing
 			// 
-			this.Connection_UseSystemProxy.AutoSize = true;
-			this.Connection_UseSystemProxy.Location = new System.Drawing.Point(147, 7);
-			this.Connection_UseSystemProxy.Name = "Connection_UseSystemProxy";
-			this.Connection_UseSystemProxy.Size = new System.Drawing.Size(135, 19);
-			this.Connection_UseSystemProxy.TabIndex = 9;
-			this.Connection_UseSystemProxy.Text = "システムプロキシを利用";
-			this.ToolTipInfo.SetToolTip(this.Connection_UseSystemProxy, "システムのプロキシ設定を利用します。");
-			this.Connection_UseSystemProxy.UseVisualStyleBackColor = true;
-			// 
-			// Connection_DownstreamProxy
-			// 
-			this.Connection_DownstreamProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Connection_DownstreamProxy.Location = new System.Drawing.Point(164, 64);
-			this.Connection_DownstreamProxy.Name = "Connection_DownstreamProxy";
-			this.Connection_DownstreamProxy.Size = new System.Drawing.Size(286, 23);
-			this.Connection_DownstreamProxy.TabIndex = 10;
-			this.ToolTipInfo.SetToolTip(this.Connection_DownstreamProxy, "下流プロキシ設定を記述します。\r\nこの設定は上記のポート設定より優先されます。\r\n空欄の場合は上記の設定をもとに自動設定されます。\r\n動作を理解できる方のみ利用し" +
-        "てください。");
-			// 
-			// Connection_DownstreamProxyLabel
-			// 
-			this.Connection_DownstreamProxyLabel.AutoSize = true;
-			this.Connection_DownstreamProxyLabel.Location = new System.Drawing.Point(6, 67);
-			this.Connection_DownstreamProxyLabel.Name = "Connection_DownstreamProxyLabel";
-			this.Connection_DownstreamProxyLabel.Size = new System.Drawing.Size(149, 15);
-			this.Connection_DownstreamProxyLabel.TabIndex = 11;
-			this.Connection_DownstreamProxyLabel.Text = "下流プロキシ(上級者向け)：";
-			// 
-			// Connection_UpstreamProxyAddress
-			// 
-			this.Connection_UpstreamProxyAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Connection_UpstreamProxyAddress.Location = new System.Drawing.Point(250, 35);
-			this.Connection_UpstreamProxyAddress.Name = "Connection_UpstreamProxyAddress";
-			this.Connection_UpstreamProxyAddress.Size = new System.Drawing.Size(200, 23);
-			this.Connection_UpstreamProxyAddress.TabIndex = 12;
-			this.ToolTipInfo.SetToolTip(this.Connection_UpstreamProxyAddress, "上流プロキシのアドレスを指定します。\r\n既定値は 127.0.0.1 です。");
+			this.FormFleet_BarColorMorphing.AutoSize = true;
+			this.FormFleet_BarColorMorphing.Location = new System.Drawing.Point(156, 138);
+			this.FormFleet_BarColorMorphing.Name = "FormFleet_BarColorMorphing";
+			this.FormFleet_BarColorMorphing.Size = new System.Drawing.Size(167, 19);
+			this.FormFleet_BarColorMorphing.TabIndex = 11;
+			this.FormFleet_BarColorMorphing.Text = "バーの色を滑らかに変化させる";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_BarColorMorphing, "HP・資源等のバーの色を、艦これUIと同様に滑らかに変化させるか指定します。");
+			this.FormFleet_BarColorMorphing.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -1968,5 +1981,6 @@
 		private System.Windows.Forms.Label Connection_DownstreamProxyLabel;
 		private System.Windows.Forms.TextBox Connection_DownstreamProxy;
 		private System.Windows.Forms.TextBox Connection_UpstreamProxyAddress;
+		private System.Windows.Forms.CheckBox FormFleet_BarColorMorphing;
 	}
 }

@@ -450,7 +450,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int AirSuperiorityMethod { get; set; }
 
+				/// <summary>
+				/// 泊地修理タイマを表示するか
+				/// </summary>
 				public bool ShowAnchorageRepairingTimer { get; set; }
+
+				/// <summary>
+				/// バーの色を滑らかに変化させるか
+				/// </summary>
+				public bool BarColorMorphing { get; set; }
+
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
@@ -462,6 +471,7 @@ namespace ElectronicObserver.Utility {
 					ShowEquipmentLevel = true;
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
+					BarColorMorphing = false;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>

@@ -277,12 +277,6 @@
     <Compile Include="Window\Control\ShipStatusResource.Designer.cs">
       <DependentUpon>ShipStatusResource.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\Control\StatusBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Window\Control\StatusBar.Designer.cs">
-      <DependentUpon>StatusBar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Window\Control\StatusBarModule.cs" />
     <Compile Include="Window\Control\WindowCaptureButton.cs">
       <SubType>Component</SubType>
@@ -545,9 +539,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ShipStatusResource.resx">
       <DependentUpon>ShipStatusResource.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\Control\StatusBar.resx">
-      <DependentUpon>StatusBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\WindowCaptureButton.resx">
       <DependentUpon>WindowCaptureButton.cs</DependentUpon>
