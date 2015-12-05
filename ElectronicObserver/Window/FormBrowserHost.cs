@@ -1,4 +1,5 @@
 ﻿using BrowserLib;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
 using mshtml;
@@ -274,12 +275,12 @@ namespace ElectronicObserver.Window {
 
 				Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-				Observer.APIObserver.Instance.APIList["api_start2"].ResponseReceived +=
+				APIObserver.Instance.APIList["api_start2"].ResponseReceived +=
 					( string apiname, dynamic data ) => InitialAPIReceived( apiname, data );
 
 				// プロキシをセット
 				Browser.AsyncRemoteRun( () => Browser.Proxy.SetProxy( BuildDownstreamProxy() ) );
-				Observer.APIObserver.Instance.ProxyStarted += () => {
+				APIObserver.Instance.ProxyStarted += () => {
 					Browser.AsyncRemoteRun( () => Browser.Proxy.SetProxy( BuildDownstreamProxy() ) );
 				};
 
@@ -298,14 +299,11 @@ namespace ElectronicObserver.Window {
 			if ( !string.IsNullOrEmpty( config.DownstreamProxy ) ) {
 				return config.DownstreamProxy;
 
-			} else if ( config.UseUpstreamProxy ) {
-				return string.Format( "http={0}:{1}", config.UpstreamProxyAddress, config.UpstreamProxyPort );
-
 			} else if ( config.UseSystemProxy ) {
-				return Observer.APIObserver.Instance.ProxyPort.ToString();
+				return APIObserver.Instance.ProxyPort.ToString();
 
 			} else {
-				return "http=127.0.0.1:" + Observer.APIObserver.Instance.ProxyPort;
+				return string.Format( "http={0}:{1}", config.UpstreamProxyAddress, APIObserver.Instance.ProxyPort );
 			}
 		}
 
