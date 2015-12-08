@@ -55,16 +55,16 @@ namespace ElectronicObserver.Utility.Data {
 		/// <summary>
 		/// 次のレベルに上がるのに必要な経験値の量を取得します。
 		/// </summary>
-		/// <param name="exp">経験値テーブル。</param>
+		/// <param name="expTable">経験値テーブル。</param>
 		/// <param name="current">現在の累積経験値。</param>
-		private static int GetNextExp( ReadOnlyDictionary<int, Experience> exp, int current ) {
+		private static int GetNextExp( ReadOnlyDictionary<int, Experience> expTable, int current ) {
 
-			Experience l = exp.Values.FirstOrDefault( e => e.Total + e.Next > current );
+			Experience l = expTable.Values.FirstOrDefault( e => e.Total + e.Next > current );
 
-			if ( l == null || !exp.ContainsKey( l.Level + 1 ) )
+			if ( l == null || !expTable.ContainsKey( l.Level + 1 ) )
 				return 0;
 
-			return exp[l.Level + 1].Total - current;
+			return expTable[l.Level + 1].Total - current;
 		}
 
 
@@ -88,17 +88,15 @@ namespace ElectronicObserver.Utility.Data {
 		/// <summary>
 		/// 指定したレベルに上がるのに必要な経験値の量を取得します。
 		/// </summary>
-		/// <param name="exp">経験値テーブル。</param>
+		/// <param name="expTable">経験値テーブル。</param>
 		/// <param name="current">現在の累積経験値。</param>
 		/// <param name="level">対象のレベル。</param>
-		private static int GetExpToLevel( ReadOnlyDictionary<int, Experience> exp, int current, int level ) {
+		private static int GetExpToLevel( ReadOnlyDictionary<int, Experience> expTable, int current, int level ) {
 
-			Experience l = exp[level];
+			if ( !expTable.ContainsKey( level ) )
+				return 0;
 
-			if ( l == null ) return 0;
-
-			return l.Total - current;
-
+			return expTable[level].Total - current;
 		}
 
 		/// <summary>

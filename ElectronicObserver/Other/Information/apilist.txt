@@ -35,7 +35,8 @@ api_start2	：艦娘・装備固有データその他
 		api_afterbull	：改装弾薬
 		api_fuel_max	：消費燃料
 		api_bull_max	：消費弾薬
-		api_voicef		：ボイス設定フラグ ビットフラグ; 1=放置ボイス, 2=時報
+		api_voicef		：ボイス設定フラグ ビットフラグ; 1=放置ボイス, 2=時報, 4=特殊放置ボイス
+							放置ボイスは5分おきに発声する(cond>=50でかつ特殊放置ボイス利用可能ならそれを発声)
 
 	api_mst_ship		：艦船データ(深海棲艦)
 		api_id			：艦船固有ID
