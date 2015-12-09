@@ -51,6 +51,16 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		public static ReadOnlyDictionary<int, Experience> AdmiralExp { get; private set; }
 
+		/// <summary>
+		/// 艦娘レベル最大値
+		/// </summary>
+		public static int ShipMaximumLevel { get { return 155; } }
+
+		/// <summary>
+		/// 提督レベル最大値
+		/// </summary>
+		public static int AdmiralMaximumLevel { get { return 120; } }
+
 
 		/// <summary>
 		/// 次のレベルに上がるのに必要な経験値の量を取得します。
@@ -123,7 +133,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			#region Initialize table
 
-			Experience[] shipexp = new Experience[150] {
+			Experience[] shipexp = new Experience[] {
 				new Experience( 1, 0, 100 ), 
 				new Experience( 2, 100, 200 ), 
 				new Experience( 3, 300, 300 ), 
@@ -273,11 +283,16 @@ namespace ElectronicObserver.Utility.Data {
 				new Experience( 147, 3799000, 179000 ), 
 				new Experience( 148, 3978000, 187000 ), 
 				new Experience( 149, 4165000, 195000 ), 
-				new Experience( 150, 4360000, 0 )
+				new Experience( 150, 4360000, 204000 ),
+				new Experience( 151, 4564000, 213000 ),
+				new Experience( 152, 4777000, 222000 ),
+				new Experience( 153, 4999000, 231000 ),
+				new Experience( 154, 5230000, 240000 ),
+				new Experience( 155, 5470000, 0 )
 			};
 
 
-			Experience[] admiralexp = new Experience[120] {
+			Experience[] admiralexp = new Experience[] {
 				new Experience( 1, 0, 100 ), 
 				new Experience( 2, 100, 200 ), 
 				new Experience( 3, 300, 300 ), 

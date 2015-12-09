@@ -264,15 +264,27 @@ namespace ElectronicObserver.Window.Control {
 
 
 
-		public void SetBarColor( Color[] colors ) {
-			if ( colors.Length < 5 )
+		public void SetBarColor( IEnumerable<Color> colors ) {
+
+			int length = colors.Count();
+
+			if ( length < 5 )
 				return;
 
-			_barColor0 = colors[0];
-			_barColor1 = colors[1];
-			_barColor2 = colors[2];
-			_barColor3 = colors[3];
-			_barColor4 = colors[4];
+			_barColor0 = colors.ElementAt( 0 );
+			_barColor1 = colors.ElementAt( 1 );
+			_barColor2 = colors.ElementAt( 2 );
+			_barColor3 = colors.ElementAt( 3 );
+			_barColor4 = colors.ElementAt( 4 );
+
+			if ( length >= 7 ) {
+				_barColorIncrement = colors.ElementAt( 5 );
+				_barColorDecrement = colors.ElementAt( 6 ); ;
+			}
+
+			if ( length >= 8 )
+				_barColorBackground = colors.ElementAt( 7 );
+
 
 			Refresh();
 		}
