@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.ShipGroup;
+using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Support;
 using System;
@@ -484,7 +485,7 @@ namespace ElectronicObserver.Window.Dialog {
 						break;
 					case ".Level":
 						RightOperand_NumericUpDown.Minimum = 1;
-						RightOperand_NumericUpDown.Maximum = 150;
+						RightOperand_NumericUpDown.Maximum = ExpTable.ShipMaximumLevel;
 						break;
 					case ".ExpTotal":
 					case ".ExpNextRemodel":

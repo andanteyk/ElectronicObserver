@@ -264,6 +264,32 @@ namespace ElectronicObserver.Window.Control {
 
 
 
+		public void SetBarColor( IEnumerable<Color> colors ) {
+
+			int length = colors.Count();
+
+			if ( length < 5 )
+				return;
+
+			_barColor0 = colors.ElementAt( 0 );
+			_barColor1 = colors.ElementAt( 1 );
+			_barColor2 = colors.ElementAt( 2 );
+			_barColor3 = colors.ElementAt( 3 );
+			_barColor4 = colors.ElementAt( 4 );
+
+			if ( length >= 7 ) {
+				_barColorIncrement = colors.ElementAt( 5 );
+				_barColorDecrement = colors.ElementAt( 6 ); ;
+			}
+
+			if ( length >= 8 )
+				_barColorBackground = colors.ElementAt( 7 );
+
+
+			Refresh();
+		}
+
+
 		private static double GetPercentage( int value, int max ) {
 			if ( max <= 0 || value <= 0 )
 				return 0.0;
@@ -285,6 +311,7 @@ namespace ElectronicObserver.Window.Control {
 			else
 				return BarColor4;
 		}
+
 
 
 		private static Color FromArgb( uint color ) {

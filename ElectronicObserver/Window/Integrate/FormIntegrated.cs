@@ -326,10 +326,6 @@ namespace ElectronicObserver.Window.Integrate {
 					origWindowRect.bottom - origWindowRect.top, true );
 				attachingWindow = IntPtr.Zero;
 
-				if ( Icon != null ) {
-					Icon.Dispose();
-					Icon = null;
-				}
 			}
 		}
 

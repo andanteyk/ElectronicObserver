@@ -51,20 +51,30 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		public static ReadOnlyDictionary<int, Experience> AdmiralExp { get; private set; }
 
+		/// <summary>
+		/// 艦娘レベル最大値
+		/// </summary>
+		public static int ShipMaximumLevel { get { return 155; } }
+
+		/// <summary>
+		/// 提督レベル最大値
+		/// </summary>
+		public static int AdmiralMaximumLevel { get { return 120; } }
+
 
 		/// <summary>
 		/// 次のレベルに上がるのに必要な経験値の量を取得します。
 		/// </summary>
-		/// <param name="exp">経験値テーブル。</param>
+		/// <param name="expTable">経験値テーブル。</param>
 		/// <param name="current">現在の累積経験値。</param>
-		private static int GetNextExp( ReadOnlyDictionary<int, Experience> exp, int current ) {
+		private static int GetNextExp( ReadOnlyDictionary<int, Experience> expTable, int current ) {
 
-			Experience l = exp.Values.FirstOrDefault( e => e.Total + e.Next > current );
+			Experience l = expTable.Values.FirstOrDefault( e => e.Total + e.Next > current );
 
-			if ( l == null || !exp.ContainsKey( l.Level + 1 ) )
+			if ( l == null || !expTable.ContainsKey( l.Level + 1 ) )
 				return 0;
 
-			return exp[l.Level + 1].Total - current;
+			return expTable[l.Level + 1].Total - current;
 		}
 
 
@@ -88,17 +98,15 @@ namespace ElectronicObserver.Utility.Data {
 		/// <summary>
 		/// 指定したレベルに上がるのに必要な経験値の量を取得します。
 		/// </summary>
-		/// <param name="exp">経験値テーブル。</param>
+		/// <param name="expTable">経験値テーブル。</param>
 		/// <param name="current">現在の累積経験値。</param>
 		/// <param name="level">対象のレベル。</param>
-		private static int GetExpToLevel( ReadOnlyDictionary<int, Experience> exp, int current, int level ) {
+		private static int GetExpToLevel( ReadOnlyDictionary<int, Experience> expTable, int current, int level ) {
 
-			Experience l = exp[level];
+			if ( !expTable.ContainsKey( level ) )
+				return 0;
 
-			if ( l == null ) return 0;
-
-			return l.Total - current;
-
+			return expTable[level].Total - current;
 		}
 
 		/// <summary>
@@ -125,7 +133,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			#region Initialize table
 
-			Experience[] shipexp = new Experience[150] {
+			Experience[] shipexp = new Experience[] {
 				new Experience( 1, 0, 100 ), 
 				new Experience( 2, 100, 200 ), 
 				new Experience( 3, 300, 300 ), 
@@ -275,11 +283,16 @@ namespace ElectronicObserver.Utility.Data {
 				new Experience( 147, 3799000, 179000 ), 
 				new Experience( 148, 3978000, 187000 ), 
 				new Experience( 149, 4165000, 195000 ), 
-				new Experience( 150, 4360000, 0 )
+				new Experience( 150, 4360000, 204000 ),
+				new Experience( 151, 4564000, 213000 ),
+				new Experience( 152, 4777000, 222000 ),
+				new Experience( 153, 4999000, 231000 ),
+				new Experience( 154, 5230000, 240000 ),
+				new Experience( 155, 5470000, 0 )
 			};
 
 
-			Experience[] admiralexp = new Experience[120] {
+			Experience[] admiralexp = new Experience[] {
 				new Experience( 1, 0, 100 ), 
 				new Experience( 2, 100, 200 ), 
 				new Experience( 3, 300, 300 ), 
