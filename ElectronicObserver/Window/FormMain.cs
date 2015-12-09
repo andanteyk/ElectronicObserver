@@ -204,6 +204,14 @@ namespace ElectronicObserver.Window {
 			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
 			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
+
+			if ( c.Life.LockLayout ) {
+				MainDockPanel.AllowChangeLayout = false;
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			} else {
+				MainDockPanel.AllowChangeLayout = true;
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+			}
 		}
 
 
@@ -442,9 +450,10 @@ namespace ElectronicObserver.Window {
 
 					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
 
+						MainDockPanel.SuspendLayout( true );
+
 						WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
 						LoadSubWindowsLayout( archive.GetEntry( "SubWindowLayout.xml" ).Open() );
-
 					}
 				}
 
@@ -470,6 +479,10 @@ namespace ElectronicObserver.Window {
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );
+
+			} finally {
+
+				MainDockPanel.ResumeLayout( true, true );
 			}
 
 		}
@@ -998,7 +1011,7 @@ namespace ElectronicObserver.Window {
 				dialog.Title = "レイアウト ファイルの保存";
 
 
-				PathHelper.InitSaveFileDialog ( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+				PathHelper.InitSaveFileDialog( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
@@ -1066,6 +1079,14 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+
+		private void StripMenu_File_Layout_LockLayout_Click( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.Life.LockLayout = StripMenu_File_Layout_LockLayout.Checked;
+			ConfigurationChanged();
+
+		}
 
 
 
@@ -1155,7 +1176,8 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
+
+
 
 
 	}

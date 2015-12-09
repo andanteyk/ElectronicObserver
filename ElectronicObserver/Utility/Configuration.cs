@@ -352,6 +352,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int ClockFormat { get; set; }
 
+				/// <summary>
+				/// レイアウトをロックするか
+				/// </summary>
+				public bool LockLayout { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
@@ -359,6 +364,7 @@ namespace ElectronicObserver.Utility {
 					CheckUpdateInformation = true;
 					ShowStatusBar = true;
 					ClockFormat = 0;
+					LockLayout = false;
 				}
 			}
 			/// <summary>起動と終了</summary>
