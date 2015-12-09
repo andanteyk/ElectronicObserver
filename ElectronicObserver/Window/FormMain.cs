@@ -449,7 +449,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "ウィンドウ レイアウトを復元しました。" );
+				Utility.Logger.Add( 2, path + " からウィンドウ レイアウトを復元しました。" );
 
 			} catch ( FileNotFoundException ) {
 
@@ -492,7 +492,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "ウィンドウ レイアウトを保存しました。" );
+				Utility.Logger.Add( 2, path + " へウィンドウ レイアウトを保存しました。" );
 
 			} catch ( Exception ex ) {
 
@@ -990,6 +990,27 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_File_Layout_Change_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new SaveFileDialog() ) {
+
+				dialog.Filter = "Layout Archive|*.zip|File|*";
+				dialog.Title = "レイアウト ファイルの保存";
+
+
+				PathHelper.InitSaveFileDialog ( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					Utility.Configuration.Config.Life.LayoutFilePath = PathHelper.GetPathFromSaveFileDialog( dialog );
+					SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+				}
+			}
+
+		}
+
+
 		private void StripMenu_Tool_ResourceChart_Click( object sender, EventArgs e ) {
 
 			new Dialog.DialogResourceChart().Show( this );
@@ -1134,8 +1155,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-
-
+		
 
 
 	}
