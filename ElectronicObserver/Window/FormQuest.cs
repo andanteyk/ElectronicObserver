@@ -168,7 +168,7 @@ namespace ElectronicObserver.Window {
 			bool applyWidth = false;
 			if ( conf.FormQuest.ColumnWidth != null && ( (List<int>)conf.FormQuest.ColumnWidth ).Count == QuestView.Columns.Count ) {
 				//conf.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( column => column.Width ).ToList();
-				applyWidth = true;
+				//applyWidth = true;
 			}
 			{
 				List<bool> list = conf.FormQuest.ColumnFilter;
