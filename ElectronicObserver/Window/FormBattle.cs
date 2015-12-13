@@ -1492,7 +1492,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 							Math.Max( HPBars[i + 12].Value, 0 ),
 							HPBars[i + 12].MaximumValue,
 							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, ship.MasterShip.IsLandBase, isEscaped ),
+							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
 							( attackAirDamages[i + 12] > 0 ) ? string.Format( "{0} (+{1})", attackDamages[i + 12], attackAirDamages[i + 12] ) : attackDamages[i + 12].ToString()
 							)
 						);
@@ -1778,6 +1778,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				foreach ( var b in HPBars ) {
 					b.MainFont = MainFont;
 					b.SubFont = SubFont;
+					b.HPBar.ColorMorphing = Utility.Configuration.Config.FormFleet.BarColorMorphing;
 				}
 			}
 			LinePen = new Pen( Utility.Configuration.Config.UI.LineColor.ColorData );

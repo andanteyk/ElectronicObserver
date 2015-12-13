@@ -570,11 +570,20 @@ namespace Browser {
 
 		}
 
+        public void SetProxy(string proxy)
+        {
+            ushort port;
+            if (ushort.TryParse(proxy, out port))
+            {
+                SetIESettings("localhost:" + port);
+            }
+            else
+            {
+                SetIESettings(proxy);
+            }
 
-		public void SetProxy( string address, int port ) {
-			//Fiddler.URLMonInterop.SetProxyInProcess( string.Format( "127.0.0.1:{0}", port ), "<local>" );
-			SetIESettings( "localhost:" + port );
-		}
+            //AddLog( 1, "setproxy:" + proxy );
+        }
 
 		private static void SetIESettings( string proxyUri ) {
 			// ReSharper disable InconsistentNaming

@@ -47,17 +47,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>1</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EO|AnyCPU'">
-    <OutputPath>bin\EO\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <WarningLevel>1</WarningLevel>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CoreAudioApi">
       <HintPath>..\assemblies\CoreAudioApi.dll</HintPath>
@@ -148,7 +137,7 @@
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
   <ItemGroup>

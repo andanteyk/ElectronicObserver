@@ -55,16 +55,6 @@
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EO|AnyCPU'">
-    <OutputPath>bin\EO\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FiddlerCore4">
       <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
@@ -285,12 +275,6 @@
     <Compile Include="Window\Control\ShipStatusResource.Designer.cs">
       <DependentUpon>ShipStatusResource.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\Control\StatusBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Window\Control\StatusBar.Designer.cs">
-      <DependentUpon>StatusBar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Window\Control\StatusBarModule.cs" />
     <Compile Include="Window\Control\WindowCaptureButton.cs">
       <SubType>Component</SubType>
@@ -492,9 +476,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ShipStatusResource.resx">
       <DependentUpon>ShipStatusResource.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Window\Control\StatusBar.resx">
-      <DependentUpon>StatusBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\WindowCaptureButton.resx">
       <DependentUpon>WindowCaptureButton.cs</DependentUpon>

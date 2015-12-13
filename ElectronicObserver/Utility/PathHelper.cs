@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ElectronicObserver.Utility {
-	
+
 	public static class PathHelper {
 
 
@@ -31,7 +31,7 @@ namespace ElectronicObserver.Utility {
 			} else if ( Directory.Exists( parent ) ) {
 				dialog.InitialDirectory = parent;
 				dialog.FileName = "";
-			
+
 			}
 
 		}
@@ -67,6 +67,68 @@ namespace ElectronicObserver.Utility {
 
 			return path;
 		}
+
+
+
+		/// <summary>
+		/// SaveFileDialog を、指定されたパスで初期化します。
+		/// </summary>
+		public static void InitSaveFileDialog( string path, SaveFileDialog dialog ) {
+
+			if ( path == null || path.Trim().Length == 0 ) return;
+
+			string parent = Path.GetDirectoryName( Path.GetFullPath( path ) );
+
+			if ( File.Exists( path ) ) {
+				dialog.InitialDirectory = parent;
+				dialog.FileName = Path.GetFileName( path );
+
+			} else if ( Directory.Exists( path ) ) {
+				dialog.InitialDirectory = path;
+				dialog.FileName = "";
+
+			} else if ( Directory.Exists( parent ) ) {
+				dialog.InitialDirectory = parent;
+				dialog.FileName = "";
+
+			}
+
+		}
+
+
+		/// <summary>
+		/// SaveFileDialog からパスを取得します。
+		/// </summary>
+		public static string GetPathFromSaveFileDialog( SaveFileDialog dialog ) {
+
+			string path = dialog.FileName;
+
+			// カレントディレクトリ以下にあるなら相対パスとして記録する
+			string currentDir = Directory.GetCurrentDirectory();
+			if ( path != null && path.IndexOf( currentDir ) == 0 ) {
+				path = path.Remove( 0, currentDir.Length + 1 );		//+1 は \ の分
+			}
+
+			return path;
+		}
+
+
+		/// <summary>
+		/// SaveFileDialog を利用し、パスを取得します。
+		/// </summary>
+		/// <returns>指定されたファイル名。キャンセルされた場合は null を返します。</returns>
+		public static string ProcessSaveFileDialog( string path, SaveFileDialog dialog ) {
+
+			InitSaveFileDialog( path, dialog );
+
+			if ( dialog.ShowDialog() == DialogResult.OK ) {
+				return GetPathFromSaveFileDialog( dialog );
+			}
+
+			return null;
+		}
+
+
 
 
 		/// <summary>

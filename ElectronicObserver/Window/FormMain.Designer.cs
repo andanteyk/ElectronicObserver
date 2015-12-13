@@ -83,6 +83,7 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+			this.StripMenu_File_Layout_Change = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -123,7 +124,7 @@
             this.StripMenu_File_Record_Save,
             this.StripMenu_File_Record_Load});
 			this.StripMenu_File_Record.Name = "StripMenu_File_Record";
-			this.StripMenu_File_Record.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Record.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Record.Text = "记录(&R)";
 			// 
 			// StripMenu_File_Record_Save
@@ -147,10 +148,11 @@
             this.StripMenu_File_Layout_Open,
 			this.toolStripSeparatorAnother2,
             this.StripMenu_File_Layout_Save,
+            this.StripMenu_File_Layout_Change,
 			this.toolStripSeparatorAnother3,
 			this.StripMenu_File_Layout_Lock} );
 			this.StripMenu_File_Layout.Name = "StripMenu_File_Layout";
-			this.StripMenu_File_Layout.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Layout.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Layout.Text = "布局(&L)";
 			// 
 			// StripMenu_File_Layout_Load
@@ -175,7 +177,7 @@
 			// StripMenu_File_Layout_Open
 			// 
 			this.StripMenu_File_Layout_Open.Name = "StripMenu_File_Layout_Open";
-			this.StripMenu_File_Layout_Open.Size = new System.Drawing.Size(206, 22);
+			this.StripMenu_File_Layout_Open.Size = new System.Drawing.Size(203, 22);
 			this.StripMenu_File_Layout_Open.Text = "载入其他布局文件(&O)...";
 			this.StripMenu_File_Layout_Open.Click += new System.EventHandler(this.StripMenu_File_Layout_Open_Click);
 			// 
@@ -213,24 +215,24 @@
 			// toolStripSeparator6
 			// 
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(132, 6);
+			this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_File_Configuration
 			// 
 			this.StripMenu_File_Configuration.Name = "StripMenu_File_Configuration";
-			this.StripMenu_File_Configuration.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Configuration.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Configuration.Text = "设置(&C)...";
 			this.StripMenu_File_Configuration.Click += new System.EventHandler(this.StripMenu_File_Configuration_Click);
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(132, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_File_Close
 			// 
 			this.StripMenu_File_Close.Name = "StripMenu_File_Close";
-			this.StripMenu_File_Close.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Close.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Close.Text = "结束(&X)";
 			this.StripMenu_File_Close.Click += new System.EventHandler(this.StripMenu_File_Close_Click);
 			// 
@@ -377,59 +379,59 @@
 			// StripMenu_Tool_EquipmentList
 			// 
 			this.StripMenu_Tool_EquipmentList.Name = "StripMenu_Tool_EquipmentList";
-			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_EquipmentList.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_EquipmentList.Text = "装备一览(&Q)";
 			this.StripMenu_Tool_EquipmentList.Click += new System.EventHandler(this.StripMenu_Tool_EquipmentList_Click);
 			// 
 			// toolStripSeparator7
 			// 
 			this.toolStripSeparator7.Name = "toolStripSeparator7";
-			this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator7.Size = new System.Drawing.Size(148, 6);
 			// 
 			// StripMenu_Tool_DropRecord
 			// 
 			this.StripMenu_Tool_DropRecord.Name = "StripMenu_Tool_DropRecord";
-			this.StripMenu_Tool_DropRecord.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_DropRecord.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_DropRecord.Text = "ドロップ記録(&D)";
 			this.StripMenu_Tool_DropRecord.Click += new System.EventHandler(this.StripMenu_Tool_DropRecord_Click);
 			// 
 			// StripMenu_Tool_DevelopmentRecord
 			// 
 			this.StripMenu_Tool_DevelopmentRecord.Name = "StripMenu_Tool_DevelopmentRecord";
-			this.StripMenu_Tool_DevelopmentRecord.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_DevelopmentRecord.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_DevelopmentRecord.Text = "開発記録(&V)";
 			this.StripMenu_Tool_DevelopmentRecord.Click += new System.EventHandler(this.StripMenu_Tool_DevelopmentRecord_Click);
 			// 
 			// StripMenu_Tool_ConstructionRecord
 			// 
 			this.StripMenu_Tool_ConstructionRecord.Name = "StripMenu_Tool_ConstructionRecord";
-			this.StripMenu_Tool_ConstructionRecord.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_ConstructionRecord.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_ConstructionRecord.Text = "建造記録(&R)";
 			this.StripMenu_Tool_ConstructionRecord.Click += new System.EventHandler(this.StripMenu_Tool_ConstructionRecord_Click);
 			// 
 			// StripMenu_Tool_ResourceChart
 			// 
 			this.StripMenu_Tool_ResourceChart.Name = "StripMenu_Tool_ResourceChart";
-			this.StripMenu_Tool_ResourceChart.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_ResourceChart.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_ResourceChart.Text = "资源 Chart(&C)";
 			this.StripMenu_Tool_ResourceChart.Click += new System.EventHandler(this.StripMenu_Tool_ResourceChart_Click);
 			// 
 			// toolStripSeparator15
 			// 
 			this.toolStripSeparator15.Name = "toolStripSeparator15";
-			this.toolStripSeparator15.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator15.Size = new System.Drawing.Size(148, 6);
 			// 
 			// StripMenu_Tool_AlbumMasterShip
 			// 
 			this.StripMenu_Tool_AlbumMasterShip.Name = "StripMenu_Tool_AlbumMasterShip";
-			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_AlbumMasterShip.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_AlbumMasterShip.Text = "舰船图鉴(&S)";
 			this.StripMenu_Tool_AlbumMasterShip.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterShip_Click);
 			// 
 			// StripMenu_Tool_AlbumMasterEquipment
 			// 
 			this.StripMenu_Tool_AlbumMasterEquipment.Name = "StripMenu_Tool_AlbumMasterEquipment";
-			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_Tool_AlbumMasterEquipment.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_AlbumMasterEquipment.Text = "装备图鉴(&E)";
 			this.StripMenu_Tool_AlbumMasterEquipment.Click += new System.EventHandler(this.StripMenu_Tool_AlbumMasterEquipment_Click);
 			// 
@@ -539,6 +541,13 @@
 			}
 			this.MainDockPanel.TabIndex = 0;
 			// 
+			// StripMenu_File_Layout_Change
+			// 
+			this.StripMenu_File_Layout_Change.Name = "StripMenu_File_Layout_Change";
+			this.StripMenu_File_Layout_Change.Size = new System.Drawing.Size(203, 22);
+			this.StripMenu_File_Layout_Change.Text = "別のファイルへ保存(&C)...";
+			this.StripMenu_File_Layout_Change.Click += new System.EventHandler(this.StripMenu_File_Layout_Change_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -625,5 +634,6 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DropRecord;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DevelopmentRecord;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ConstructionRecord;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Change;
 	}
 }

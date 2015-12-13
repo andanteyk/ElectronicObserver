@@ -1,4 +1,5 @@
 ﻿using BrowserLib;
+using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Support;
@@ -103,6 +104,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		internal void ConfigurationChanged() {
+			Font = Utility.Configuration.Config.UI.MainFont;
 			Browser.AsyncRemoteRun( () => Browser.Proxy.ConfigurationChanged( Configuration ) );
 		}
 
@@ -289,15 +291,15 @@ namespace ElectronicObserver.Window {
 
 				Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-				Observer.APIObserver.Instance.APIList["api_start2"].ResponseReceived +=
+				APIObserver.Instance.APIList["api_start2"].ResponseReceived +=
 					( string apiname, dynamic data ) => InitialAPIReceived( apiname, data );
 
 				// プロキシをセット
 				Browser.AsyncRemoteRun( () =>
-					Browser.Proxy.SetProxy( Utility.Configuration.Config.Connection.UpstreamProxyAddress, Observer.APIObserver.Instance.ProxyPort ) );
+					Browser.Proxy.SetProxy( Observer.APIObserver.Instance.ProxyPort.ToString() ) );
 				Observer.APIObserver.Instance.ProxyStarted += () => {
 					Browser.AsyncRemoteRun( () =>
-						Browser.Proxy.SetProxy( Utility.Configuration.Config.Connection.UpstreamProxyAddress, Observer.APIObserver.Instance.ProxyPort ) );
+						Browser.Proxy.SetProxy( Observer.APIObserver.Instance.ProxyPort.ToString() ) );
 				};
 
 				++initializeCompletionCount;
@@ -308,6 +310,7 @@ namespace ElectronicObserver.Window {
 				}
 			} ) );
 		}
+
 
 		void Browser_Faulted( Exception e ) {
 			if ( Browser.Proxy == null ) {
