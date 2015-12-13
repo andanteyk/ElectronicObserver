@@ -1435,8 +1435,8 @@
 			this.FormFleet_ShowAnchorageRepairingTimer.Name = "FormFleet_ShowAnchorageRepairingTimer";
 			this.FormFleet_ShowAnchorageRepairingTimer.Size = new System.Drawing.Size(152, 19);
 			this.FormFleet_ShowAnchorageRepairingTimer.TabIndex = 10;
-			this.FormFleet_ShowAnchorageRepairingTimer.Text = "泊地修理タイマを表示する";
-			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowAnchorageRepairingTimer, "艦隊一覧の泊地修理タイマを表示するかを指定します。");
+			this.FormFleet_ShowAnchorageRepairingTimer.Text = "显示泊地修理计时器";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowAnchorageRepairingTimer, "指定是否显示舰队一览中的泊地修理计时器。");
 			this.FormFleet_ShowAnchorageRepairingTimer.UseVisualStyleBackColor = true;
 			// 
 			// FormFleet_BlinkHPBar
@@ -1999,8 +1999,8 @@
 			this.FormFleet_BarColorMorphing.Name = "FormFleet_BarColorMorphing";
 			this.FormFleet_BarColorMorphing.Size = new System.Drawing.Size(167, 19);
 			this.FormFleet_BarColorMorphing.TabIndex = 11;
-			this.FormFleet_BarColorMorphing.Text = "バーの色を滑らかに変化させる";
-			this.ToolTipInfo.SetToolTip(this.FormFleet_BarColorMorphing, "HP・資源等のバーの色を、艦これUIと同様に滑らかに変化させるか指定します。");
+			this.FormFleet_BarColorMorphing.Text = "计量条的颜色平滑改变";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_BarColorMorphing, "HP・资源等计量条的颜色与艦これUI一样按百分比平滑改变，而不是固定分4档颜色。");
 			this.FormFleet_BarColorMorphing.UseVisualStyleBackColor = true;
 			// 
 			// label23
