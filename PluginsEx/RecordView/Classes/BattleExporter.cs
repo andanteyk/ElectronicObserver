@@ -21,11 +21,17 @@ namespace RecordView
             
         }
 
-        unsafe  static string GetMapPoint(BattleRecord* record)
+        unsafe static string GetMapPoint(BattleRecord* record)
         {
             if (record->BattleResult.AreaID < 1)
                 return "演习";
-            return record->BattleResult.AreaID.ToString() + "-" + record->BattleResult.InfoID.ToString() + "-" + record->BattleResult.CellID.ToString();
+
+            string s = record->BattleResult.AreaID.ToString() + "-" + record->BattleResult.InfoID.ToString() + "-" + (record->BattleResult.CellID & 0xff).ToString();
+            int Difficulty = record->BattleResult.CellID >> 20;
+            if (Difficulty > 0)
+                s += Constants.GetDifficulty(Difficulty);
+
+            return s;
         }
         unsafe public static StringBuilder AnalyseRecord(BattleRecord record)
         {
@@ -374,11 +380,11 @@ td,th,tr {text-align:left; padding:1px 2px;}
                     FlareFriend = KCDatabase.Instance.MasterShips[record.FriendFleet.ShipID[record.NightInformation.FriendFlare]].Name;
 
                 if (record.NightInformation.EnemySearchlight >= 0)
-                    LightEnemy = KCDatabase.Instance.MasterShips[record.NightInformation.EnemySearchlight].Name;
+                    LightEnemy = KCDatabase.Instance.MasterShips[record.EnemyFleet.ShipID[record.NightInformation.EnemySearchlight]].Name;
                 if (record.NightInformation.EnemyTouchAircraft >= 0)
                     EnemyPlane = KCDatabase.Instance.MasterEquipments[record.NightInformation.EnemyTouchAircraft].Name;
                 if (record.NightInformation.EnemyFlare >= 0)
-                    FlareEnemy = KCDatabase.Instance.MasterShips[record.NightInformation.EnemyFlare].Name;
+                    FlareEnemy = KCDatabase.Instance.MasterShips[record.EnemyFleet.ShipID[record.NightInformation.EnemyFlare]].Name;
 
                 builderBottom.AppendFormat(@"<h2>夜战</h2>
 <hr/>

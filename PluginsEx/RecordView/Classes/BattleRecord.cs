@@ -55,6 +55,7 @@ namespace RecordView
                 {
                     Record.BattleResult.CellID |= 0x10000;
                 }
+                Record.BattleResult.CellID |= (bm.Compass.MapInfo.EventDifficulty << 20);
                 Record.BattleResult.DroppedShipID = bm.Result.DroppedShipID == -1 ? 0 : bm.Result.DroppedShipID;
 
                 if (bm.Result.DroppedItemID >= 0)

@@ -154,11 +154,18 @@ namespace RecordView
                     data.Area = "演习";
                 else
                     data.Area = record.BattleResult.AreaID.ToString().PadLeft(2) + "-" + record.BattleResult.InfoID.ToString();
+
+                int Difficulty = record.BattleResult.CellID >> 20;
+                if (Difficulty > 0)
+                    data.Area += Constants.GetDifficulty(Difficulty);
+
                 if (!AreaFilter.Contains(data.Area))
                     AreaFilter.Add(data.Area);
 
                 int Cell = record.BattleResult.CellID & 0xffff;
-                bool BossBattle = (record.BattleResult.CellID & 0xff0000) > 0;
+                bool BossBattle = (record.BattleResult.CellID & 0x10000) > 0;
+               
+
                 data.Flagship = KCDatabase.Instance.MasterShips[record.FriendFleet.ShipID[0]].Name;
                 if (isCombined)
                     data.Flagship += "/" + KCDatabase.Instance.MasterShips[record.AccompanyFleet.ShipID[0]].Name;

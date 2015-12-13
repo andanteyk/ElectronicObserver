@@ -32,9 +32,10 @@ namespace RecordView
         {
             InitializeComponent();
             Difficulty.Add(-1, "常规图");
-            Difficulty.Add(0, "丙");
-            Difficulty.Add(1, "乙");
-            Difficulty.Add(2, "甲");
+            Difficulty.Add(0, "");
+            Difficulty.Add(1, "丙");
+            Difficulty.Add(2, "乙");
+            Difficulty.Add(3, "甲");
         }
 
         private void DropViewer_Shown(object sender, EventArgs e)
