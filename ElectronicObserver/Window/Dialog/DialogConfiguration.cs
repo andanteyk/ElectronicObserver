@@ -432,6 +432,7 @@ namespace ElectronicObserver.Window.Dialog {
 				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;
 
 				if ( changed ) {
+					APIObserver.Instance.Stop();
 					APIObserver.Instance.Start( config.Connection.Port, _UIControl );
 				}
 
