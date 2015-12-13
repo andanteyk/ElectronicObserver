@@ -56,9 +56,6 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DynamicJson">
-      <HintPath>..\Libraries\DynamicJson.dll</HintPath>
-    </Reference>
     <Reference Include="FiddlerCore4">
       <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
     </Reference>
@@ -358,6 +355,7 @@
     <Compile Include="Data\ShipData.cs" />
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />
+    <Compile Include="DynamicJson.cs" />
     <Compile Include="Window\Dialog\DialogPlugins.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -477,9 +475,7 @@
     <Compile Include="Window\Plugins\DockPlugin.cs" />
     <Compile Include="Window\Plugins\IPluginHost.cs" />
     <Compile Include="Window\Support\ControlHelper.cs" />
-    <Compile Include="Window\Support\CustomFloatWindowFactory.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Window\Support\CustomFloatWindowFactory.cs" />
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
     <EmbeddedResource Include="Window\Control\ColorPicker.resx">
       <DependentUpon>ColorPicker.cs</DependentUpon>

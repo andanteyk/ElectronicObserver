@@ -426,8 +426,8 @@ namespace ElectronicObserver.Window.Dialog {
 				changed |= config.Connection.EnableSslUpstreamProxy != Connection_EnableSslUpstreamProxy.Checked;
 				config.Connection.EnableSslUpstreamProxy = Connection_EnableSslUpstreamProxy.Checked;
 
-				changed |= config.Connection.UpstreamProxyAddress != Connection_UpstreamProxyAddress.Text;
-				config.Connection.UpstreamProxyAddress = Connection_UpstreamProxyAddress.Text;
+				changed |= config.Connection.UpstreamProxyAddress != Connection_UpstreamProxyHost.Text;
+				config.Connection.UpstreamProxyAddress = Connection_UpstreamProxyHost.Text;
 				changed |= config.Connection.UpstreamProxyPort != (ushort)Connection_UpstreamProxyPort.Value;
 				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;
 

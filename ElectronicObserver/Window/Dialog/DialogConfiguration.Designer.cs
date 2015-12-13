@@ -113,7 +113,7 @@
 			this.label6 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.Control_RecordAutoSaving = new System.Windows.Forms.ComboBox();
-			this.label9 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
 			this.label7 = new System.Windows.Forms.Label();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
@@ -1204,7 +1204,7 @@
 			// tabPage4
 			// 
 			this.tabPage4.Controls.Add(this.Control_RecordAutoSaving);
-			this.tabPage4.Controls.Add(this.label9);
+			this.tabPage4.Controls.Add(this.label10);
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
 			this.tabPage4.Location = new System.Drawing.Point(4, 24);
@@ -1220,22 +1220,22 @@
 			this.Control_RecordAutoSaving.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.Control_RecordAutoSaving.FormattingEnabled = true;
 			this.Control_RecordAutoSaving.Items.AddRange(new object[] {
-            "しない",
-            "1時間ごと",
-            "1日ごと"});
+            "不自动保存",
+            "1小时",
+            "1日"});
 			this.Control_RecordAutoSaving.Location = new System.Drawing.Point(124, 35);
 			this.Control_RecordAutoSaving.Name = "Control_RecordAutoSaving";
 			this.Control_RecordAutoSaving.Size = new System.Drawing.Size(121, 23);
 			this.Control_RecordAutoSaving.TabIndex = 3;
 			// 
-			// label9
+			// label10
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(6, 38);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(112, 15);
-			this.label9.TabIndex = 2;
-			this.label9.Text = "レコードの自動保存：";
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(6, 38);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(112, 15);
+			this.label10.TabIndex = 2;
+			this.label10.Text = "自动保存记录：";
 			// 
 			// Control_ConditionBorder
 			// 
@@ -1306,7 +1306,7 @@
 			this.Life_AutoScaleDpi.AutoSize = true;
 			this.Life_AutoScaleDpi.Location = new System.Drawing.Point(11, 135);
 			this.Life_AutoScaleDpi.Name = "Life_AutoScaleDpi";
-			this.Life_AutoScaleDpi.Size = new System.Drawing.Size(156, 27);
+			this.Life_AutoScaleDpi.Size = new System.Drawing.Size(156, 35);
 			this.Life_AutoScaleDpi.TabIndex = 7;
 			this.Life_AutoScaleDpi.Text = "根据 DPI 自动缩放布局";
 			this.Life_AutoScaleDpi.UseVisualStyleBackColor = true;
@@ -2235,7 +2235,7 @@
 		private System.Windows.Forms.Label label23;
 		private System.Windows.Forms.CheckBox FormFleet_ShowAnchorageRepairingTimer;
 		private System.Windows.Forms.ComboBox Control_RecordAutoSaving;
-		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label24;
 		private System.Windows.Forms.ComboBox Life_ClockFormat;
 		private System.Windows.Forms.CheckBox FormFleet_BarColorMorphing;
