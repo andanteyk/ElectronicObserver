@@ -34,7 +34,7 @@ namespace BrowserLib {
 		/// プロキシをセット
 		/// </summary>
 		[OperationContract]
-		void SetProxy( string address, int port );
+		void SetProxy( string proxy );
 
 		[OperationContract]
 		void ApplyStyleSheet();

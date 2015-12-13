@@ -168,13 +168,75 @@ namespace ElectronicObserver.Window {
 				int ship1lv = (int)data.api_deck.api_ships[0].api_id != -1 ? (int)data.api_deck.api_ships[0].api_level : 1;
 				int ship2lv = (int)data.api_deck.api_ships[1].api_id != -1 ? (int)data.api_deck.api_ships[1].api_level : 1;
 
+				// 経験値テーブルが拡張されたとき用の対策
+				ship1lv = Math.Min( ship1lv, ExpTable.ShipExp.Keys.Max() );
+				ship2lv = Math.Min( ship2lv, ExpTable.ShipExp.Keys.Max() );
+
 				double expbase = ExpTable.ShipExp[ship1lv].Total / 100.0 + ExpTable.ShipExp[ship2lv].Total / 300.0;
 				if ( expbase >= 500.0 )
 					expbase = 500.0 + Math.Sqrt( expbase - 500.0 );
 
-				sb.AppendLine( "獲得経験値 : " + (int)expbase );
-				sb.AppendLine( "S勝利 : " + (int)( (int)expbase * 1.2 ) );
+				expbase = (int)expbase;
 
+				sb.AppendFormat( "獲得経験値: {0} / S勝利: {1}\r\n", expbase, (int)( expbase * 1.2 ) );
+
+
+				// 練巡ボーナス計算 - きたない
+				var fleet = KCDatabase.Instance.Fleet[1];
+				if ( fleet.MembersInstance.Any( s => s != null && s.MasterShip.ShipType == 21 ) ) {
+					var members = fleet.MembersInstance;
+					var subCT = members.Skip( 1 ).Where( s => s != null && s.MasterShip.ShipType == 21 );
+
+					double bonus;
+
+					// 旗艦が練巡
+					if ( members[0] != null && members[0].MasterShip.ShipType == 21 ) {
+
+						int level = members[0].Level;
+
+						if ( subCT != null && subCT.Any() ) {
+							// 旗艦+随伴
+							if ( level < 10 ) bonus = 1.10;
+							else if ( level < 30 ) bonus = 1.13;
+							else if ( level < 60 ) bonus = 1.16;
+							else if ( level < 100 ) bonus = 1.20;
+							else bonus = 1.25;
+
+						} else {
+							// 旗艦のみ
+							if ( level < 10 ) bonus = 1.05;
+							else if ( level < 30 ) bonus = 1.08;
+							else if ( level < 60 ) bonus = 1.12;
+							else if ( level < 100 ) bonus = 1.15;
+							else bonus = 1.20;
+						}
+
+					} else {
+
+						int level = subCT.Max( s => s.Level );
+
+						if ( subCT.Count() > 1 ) {
+							// 随伴複数	
+							if ( level < 10 ) bonus = 1.04;
+							else if ( level < 30 ) bonus = 1.06;
+							else if ( level < 60 ) bonus = 1.08;
+							else if ( level < 100 ) bonus = 1.12;
+							else bonus = 1.175;
+
+						} else {
+							// 随伴単艦
+							if ( level < 10 ) bonus = 1.03;
+							else if ( level < 30 ) bonus = 1.05;
+							else if ( level < 60 ) bonus = 1.07;
+							else if ( level < 100 ) bonus = 1.10;
+							else bonus = 1.15;
+						}
+					}
+
+					sb.AppendFormat( "(練巡強化: {0} / S勝利: {1})\r\n", (int)( expbase * bonus ), (int)( (int)( expbase * 1.2 ) * bonus ) );
+
+
+				}
 			}
 
 			return sb.ToString();
@@ -297,6 +359,11 @@ namespace ElectronicObserver.Window {
 							}
 							sb.AppendFormat( "{0}-{1} {2}: HP {3}/{4}\r\n", map.MapAreaID, map.MapInfoID, difficulty, now_maphp, (int)elem.api_eventmap.api_max_maphp );
 						}
+
+						sb.AppendFormat( "{0}-{1} {2}: {3} {4}/{5}\r\n",
+							map.MapAreaID, map.MapInfoID, difficulty,
+							elem.api_eventmap.api_gauge_type() && (int)elem.api_eventmap.api_gauge_type == 3 ? "TP" : "HP",
+							(int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp );
 
 					}
 				}

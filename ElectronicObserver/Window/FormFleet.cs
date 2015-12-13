@@ -257,7 +257,7 @@ namespace ElectronicObserver.Window {
 				Level.SuspendLayout();
 				Level.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
 				Level.Value = 0;
-				Level.MaximumValue = 150;
+				Level.MaximumValue = ExpTable.ShipMaximumLevel;
 				Level.ValueNext = 0;
 				Level.MainFontColor = parent.MainFontColor;
 				Level.SubFontColor = parent.SubFontColor;
@@ -441,7 +441,7 @@ namespace ElectronicObserver.Window {
 							tip.AppendFormat( "Lv99まで: {0} exp.", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
 
 						} else {
-							tip.AppendFormat( "Lv150まで: {0} exp.\r\n", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) );
+							tip.AppendFormat( "Lv{0}まで: {1} exp.\r\n", ExpTable.ShipMaximumLevel, Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, ExpTable.ShipMaximumLevel ), 0 ) );
 
 						}
 
@@ -951,6 +951,7 @@ namespace ElectronicObserver.Window {
 				bool showAircraft = c.FormFleet.ShowAircraft;
 				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
 				bool shortHPBar = c.FormFleet.ShortenHPBar;
+				bool colorMorphing = c.FormFleet.BarColorMorphing;
 				bool showNext = c.FormFleet.ShowNextExp;
 				bool textProficiency = c.FormFleet.ShowTextProficiency;
 				bool showEquipmentLevel = c.FormFleet.ShowEquipmentLevel;
@@ -965,9 +966,12 @@ namespace ElectronicObserver.Window {
 					}
 
 					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
+					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
 					ControlMember[i].Equipments.TextProficiency = textProficiency;
 					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
+					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
+					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;
 
 					ControlMember[i].ConfigurationChanged( this );
 				}

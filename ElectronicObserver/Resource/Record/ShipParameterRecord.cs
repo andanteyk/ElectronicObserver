@@ -141,7 +141,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// <summary>
 		/// 各艦船のパラメータを保持します。
 		/// </summary>
-		[DebuggerDisplay( "[{ID}] : {FleetName}" )]
+		[DebuggerDisplay( "[{ShipID}] : {ShipName}" )]
 		public class ShipParameterElement : RecordElementBase {
 
 			/// <summary>
@@ -603,6 +603,8 @@ namespace ElectronicObserver.Resource.Record {
 				if ( elem.api_getmes() ) {
 					param.MessageGet = elem.api_getmes;
 				}
+
+				Update( param );
 			}
 
 		}
@@ -710,6 +712,7 @@ namespace ElectronicObserver.Resource.Record {
 
 				param.DefaultSlot = (int[])data.api_eSlot[i - 1];
 
+				Update( param );
 			}
 
 		}

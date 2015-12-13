@@ -61,6 +61,7 @@ namespace ElectronicObserver.Utility {
 				/// <summary>
 				/// 通信内容保存：フィルタ
 				/// </summary>
+				[Obsolete]
 				public string SaveDataFilter { get; set; }
 
 				/// <summary>
@@ -397,8 +398,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int ConditionBorder { get; set; }
 
+				/// <summary>
+				/// レコードを自動保存するか
+				/// 0=しない、1=1時間ごと、2=1日ごと
+				/// </summary>
+				public int RecordAutoSaving { get; set; }
+
 				public ConfigControl() {
 					ConditionBorder = 40;
+					RecordAutoSaving = 1;
 				}
 			}
 			/// <summary>動作</summary>
@@ -473,6 +481,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowStatusBar { get; set; }
 
+				/// <summary>
+				/// 時計表示のフォーマット
+				/// </summary>
+				public int ClockFormat { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
@@ -480,6 +493,7 @@ namespace ElectronicObserver.Utility {
 					CheckUpdateInformation = true;
 					IsLocked = false;
 					ShowStatusBar = true;
+					ClockFormat = 0;
 				}
 			}
 			/// <summary>起動と終了</summary>
@@ -576,7 +590,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int AirSuperiorityMethod { get; set; }
 
+				/// <summary>
+				/// 泊地修理タイマを表示するか
+				/// </summary>
 				public bool ShowAnchorageRepairingTimer { get; set; }
+
+				/// <summary>
+				/// バーの色を滑らかに変化させるか
+				/// </summary>
+				public bool BarColorMorphing { get; set; }
+
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
@@ -589,6 +612,7 @@ namespace ElectronicObserver.Utility {
 					ShowEquipmentLevel = true;
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
+					BarColorMorphing = false;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -1028,7 +1052,7 @@ namespace ElectronicObserver.Utility {
 
 				CacheSettings = new ConfigCacheSettings();
 				FormBattle = new ConfigFormBattle();
-
+				VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );
 			}
 		}
 		private static ConfigurationData _config;

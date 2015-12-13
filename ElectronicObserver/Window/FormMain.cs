@@ -43,6 +43,8 @@ namespace ElectronicObserver.Window {
 		public DockPanel MainPanel { get { return MainDockPanel; } }
 		public FormWindowCapture WindowCapture { get { return fWindowCapture; } }
 
+		private int ClockFormat;
+
 		#endregion
 
 
@@ -76,6 +78,13 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void FormMain_Load( object sender, EventArgs e ) {
+
+			if ( !Directory.Exists( "Settings" ) )
+				Directory.CreateDirectory( "Settings" );
+
+
+			Utility.Configuration.Instance.Load();
+
 
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
 				if ( InvokeRequired ) {
@@ -385,6 +394,8 @@ namespace ElectronicObserver.Window {
 
 			TopMost = c.Life.TopMost;
 
+			ClockFormat = c.Life.ClockFormat;
+
 			Font = c.UI.MainFont;
 			//StripMenu.Font = Font;
 			StripStatus.Font = Font;
@@ -428,11 +439,42 @@ namespace ElectronicObserver.Window {
 				nowSeconds = 0;
 			}
 
-			// 東京標準時で表示
+			// 東京標準時
 			DateTime now = DateTime.UtcNow + new TimeSpan( 9, 0, 0 );
-			StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
-			StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
+
+			switch ( ClockFormat ) {
+				case 0:	//時計表示
+					StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
+					StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
+					break;
+
+				case 1:	//演習更新まで
+					{
+						DateTime border = now.Date.AddHours( 3 );
+						while ( border < now )
+							border = border.AddHours( 12 );
+
+						TimeSpan ts = border - now;
+						StripStatus_Clock.Text = string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)ts.TotalHours, ts.Minutes, ts.Seconds );
+						StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd) HH\\:mm\\:ss" );
+
+					} break;
+
+				case 2:	//任務更新まで
+					{
+						DateTime border = now.Date.AddHours( 5 );
+						if ( border < now )
+							border = border.AddHours( 24 );
+
+						TimeSpan ts = border - now;
+						StripStatus_Clock.Text = string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)ts.TotalHours, ts.Minutes, ts.Seconds );
+						StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd) HH\\:mm\\:ss" );
+
+					} break;
+			}
 		}
+
+
 
 
 		private void FormMain_FormClosing( object sender, FormClosingEventArgs e ) {
@@ -462,8 +504,6 @@ namespace ElectronicObserver.Window {
 
 			fBrowser.CloseBrowser();
 
-			if ( !Directory.Exists( "Settings" ) )
-				Directory.CreateDirectory( "Settings" );
 
 			SystemEvents.OnSystemShuttingDown();
 
@@ -606,7 +646,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "窗口布局已恢复。" );
+				Utility.Logger.Add( 2, "窗口布局已恢复。" + path );
 				return true;
 
 			} catch ( FileNotFoundException ) {
@@ -657,7 +697,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "窗口布局已保存。" );
+				Utility.Logger.Add( 2, "窗口布局已保存。" + path );
 				return true;
 
 			} catch ( Exception ex ) {
@@ -851,6 +891,27 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_File_Layout_Change_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new SaveFileDialog() ) {
+
+				dialog.Filter = "Layout Archive|*.zip|File|*";
+				dialog.Title = "レイアウト ファイルの保存";
+
+
+				PathHelper.InitSaveFileDialog ( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					Utility.Configuration.Config.Life.LayoutFilePath = PathHelper.GetPathFromSaveFileDialog( dialog );
+					SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+				}
+			}
+
+		}
+
+
 		private void StripMenu_Tool_ResourceChart_Click( object sender, EventArgs e ) {
 
 			new Dialog.DialogResourceChart().Show( this );
@@ -990,7 +1051,6 @@ namespace ElectronicObserver.Window {
 		#endregion
 
 		
-
 
 
 	}
