@@ -357,6 +357,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool LockLayout { get; set; }
 
+				/// <summary>
+				/// レイアウトロック中でもフロートウィンドウを閉じられるようにするか
+				/// </summary>
+				public bool CanCloseFloatWindowInLock { get; set; }
+
 				public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
@@ -365,6 +370,7 @@ namespace ElectronicObserver.Utility {
 					ShowStatusBar = true;
 					ClockFormat = 0;
 					LockLayout = false;
+					CanCloseFloatWindowInLock = false;
 				}
 			}
 			/// <summary>起動と終了</summary>

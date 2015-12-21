@@ -310,6 +310,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
 			Life_ClockFormat.SelectedIndex = config.Life.ClockFormat;
 			Life_LockLayout.Checked = config.Life.LockLayout;
+			Life_CanCloseFloatWindowInLock.Checked = config.Life.CanCloseFloatWindowInLock;
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
@@ -465,6 +466,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
 			config.Life.ClockFormat = Life_ClockFormat.SelectedIndex;
 			config.Life.LockLayout = Life_LockLayout.Checked;
+			config.Life.CanCloseFloatWindowInLock = Life_CanCloseFloatWindowInLock.Checked;
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;

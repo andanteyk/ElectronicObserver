@@ -212,6 +212,9 @@ namespace ElectronicObserver.Window {
 				MainDockPanel.AllowChangeLayout = true;
 				FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
 			}
+
+			StripMenu_File_Layout_LockLayout.Checked = c.Life.LockLayout;
+			MainDockPanel.CanCloseFloatWindowInLock = c.Life.CanCloseFloatWindowInLock;
 		}
 
 
@@ -390,21 +393,6 @@ namespace ElectronicObserver.Window {
 
 					MainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
-					//一度全ウィンドウを読み込むことでフォームを初期化する
-					foreach ( var x in MainDockPanel.Contents ) {
-						if ( x.DockHandler.DockState == DockState.Hidden ) {
-							x.DockHandler.Show( MainDockPanel );
-							x.DockHandler.Hide();
-						} else {
-							x.DockHandler.Activate();
-						}
-					}
-
-					// checkme: このコードの存在意義
-					/*/
-					if ( MainDockPanel.Contents.Count > 0 )
-						MainDockPanel.Contents.First().DockHandler.Activate();
-					//*/
 
 					fWindowCapture.AttachAll();
 
