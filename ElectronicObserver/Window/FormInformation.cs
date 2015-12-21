@@ -134,12 +134,14 @@ namespace ElectronicObserver.Window {
 				case "api_req_ranking/getlist":
 					TextInformation.Text = GetRankingData( data );
 					break;
+                case "api_req_practice/battle_result":
+                    TextInformation.Text = GetPracticeBattleResult(data);
+                    break;
 
-				case "api_req_practice/battle_result":
-				case "api_req_sortie/battleresult":
-				case "api_req_combined_battle/battleresult":
-					TextInformation.Text = GetBattleResult( data );
-					break;
+                case "api_req_sortie/battleresult":
+                case "api_req_combined_battle/battleresult":
+                    TextInformation.Text = GetBattleResult(data);
+                    break;
 
 				case "api_req_hokyu/charge":
 					TextInformation.Text = GetSupplyInformation( data );
@@ -329,8 +331,20 @@ namespace ElectronicObserver.Window {
 
 				return sb.ToString();
 
-			} else
-				return "";
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("[開発成功]\r\n");
+                int id = (int)data.api_slot_item.api_slotitem_id;
+
+
+                EquipmentDataMaster eqm = KCDatabase.Instance.MasterEquipments[id];
+                if (eqm != null)
+                    sb.AppendLine(eqm.Name);
+
+                return sb.ToString();
+            }
 		}
 
 
@@ -405,16 +419,38 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private string GetBattleResult( dynamic data ) {
-			StringBuilder sb = new StringBuilder();
+        private string GetBattleResult(dynamic data)
+        {
+            StringBuilder sb = new StringBuilder();
 
-			sb.AppendLine( "[戦闘終了]" );
-			sb.AppendFormat( "敵艦隊名: {0}\r\n", data.api_enemy_info.api_deck_name );
-			sb.AppendFormat( "勝敗判定: {0}\r\n", data.api_win_rank );
-			sb.AppendFormat( "提督経験値: +{0}\r\n", (int)data.api_get_exp );
+            sb.AppendLine("[戦闘終了]");
+            sb.AppendFormat("敵艦隊名: {0}\r\n", data.api_enemy_info.api_deck_name);
+            sb.AppendFormat("勝敗判定: {0}\r\n", data.api_win_rank);
+            sb.AppendFormat("提督経験値: +{0}\r\n", (int)data.api_get_exp);
+            if ((int)data.api_get_flag[1] != 0)
+            {
+                int id = (int)data.api_get_ship.api_ship_id;
+                sb.AppendFormat("获得舰船: [{0}]\r\n", KCDatabase.Instance.MasterShips[id].Name);
+            }
+            if ((int)data.api_get_flag[0] != 0)
+            {
+                int id = (int)data.api_get_useitem.api_useitem_id;
+                sb.AppendFormat("获得道具: [{0}]\r\n", KCDatabase.Instance.MasterUseItems[id].Name);
+            }
+            return sb.ToString();
+        }
 
-			return sb.ToString();
-		}
+        private string GetPracticeBattleResult(dynamic data)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("[戦闘終了]");
+            sb.AppendFormat("敵艦隊名: {0}\r\n", data.api_enemy_info.api_deck_name);
+            sb.AppendFormat("勝敗判定: {0}\r\n", data.api_win_rank);
+            sb.AppendFormat("提督経験値: +{0}\r\n", (int)data.api_get_exp);
+         
+            return sb.ToString();
+        }
 
 
 		private string GetSupplyInformation( dynamic data ) {
@@ -451,8 +487,12 @@ namespace ElectronicObserver.Window {
 
 			}
 
-			sb.AppendFormat( "燃料: {0} (補給) + {1} (入渠) = {2}\r\n弾薬: {3}\r\n鋼材: {4}\r\nボーキ: {5} ( {6}機 )\r\n",
-				fuel_supply, fuel_repair, fuel_supply + fuel_repair, ammo, steel, bauxite, bauxite / 5 );
+            if (fuel_repair > 0)
+                sb.AppendFormat("燃料: {0} (補給) + {1} (入渠) = {2}\r\n弾薬: {3}\r\n鋼材: {4}\r\nボーキ: {5} ( {6}機 )\r\n",
+                    fuel_supply, fuel_repair, fuel_supply + fuel_repair, ammo, steel, bauxite, bauxite / 5);
+            else
+                sb.AppendFormat("燃料: {0}\r\n弾薬: {1}\r\n鋼材: {2}\r\nボーキ: {3} ( {4}機 )\r\n",
+                    fuel_supply, ammo, steel, bauxite, bauxite / 5);
 
 			return sb.ToString();
 		}

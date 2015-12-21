@@ -124,8 +124,10 @@ namespace CustomDeck
             {
                 dataGridView1.Rows[row].Cells[ColName].Value = "";
                 dataGridView1.Rows[row].Cells[ColName].ToolTipText = "";
+                
                 dataGridView1.Rows[row].Cells[ColName].Tag = null;
-                dataGridView1.Rows[row].Cells[ColGraph].Value = null;
+                dataGridView1.Rows[row].Cells[ColGraph].Value = ElectronicObserver.Resource.ResourceManager.GetEquipmentImage(-1);
+                dataGridView1.Rows[row].Cells[ColGraph].ToolTipText = "";
             }
             dataGridView1.Rows[row].Cells[ColGraph].Tag = dataGridView1.Rows[row].Cells[ColName].Tag;
         }
@@ -139,14 +141,19 @@ namespace CustomDeck
                 dataGridView1.Rows[row].Cells["ColLevel"].Value = "";
                 dataGridView1.Rows[row].Cells["ColEquipment1"].Value = "";
                 dataGridView1.Rows[row].Cells["ColEquipment1"].Tag = null;
+                dataGridView1.Rows[row].Cells["ColEquipment1"].ToolTipText = "";
                 dataGridView1.Rows[row].Cells["ColEquipment2"].Value = "";
                 dataGridView1.Rows[row].Cells["ColEquipment2"].Tag = null;
+                dataGridView1.Rows[row].Cells["ColEquipment2"].ToolTipText = "";
                 dataGridView1.Rows[row].Cells["ColEquipment3"].Value = "";
                 dataGridView1.Rows[row].Cells["ColEquipment3"].Tag = null;
+                dataGridView1.Rows[row].Cells["ColEquipment3"].ToolTipText = "";
                 dataGridView1.Rows[row].Cells["ColEquipment4"].Value = "";
                 dataGridView1.Rows[row].Cells["ColEquipment4"].Tag = null;
+                dataGridView1.Rows[row].Cells["ColEquipment4"].ToolTipText = "";
                 dataGridView1.Rows[row].Cells["ColEquipmentX"].Value = "";
                 dataGridView1.Rows[row].Cells["ColEquipmentX"].Tag = null;
+                dataGridView1.Rows[row].Cells["ColEquipmentX"].ToolTipText = "";
             }
             else
             {
