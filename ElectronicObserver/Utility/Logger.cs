@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace ElectronicObserver.Utility {
 
 
 			public override string ToString() {
-				return string.Format( "[{0}][{1}] : {2}", Time.ToString( "G" ), Priority, Message );
+				return string.Format( "[{0}][{1}] : {2}", DateTimeHelper.TimeToCSVString( Time ), Priority, Message );
 			}
 
 		}

@@ -43,6 +43,8 @@ namespace ElectronicObserver.Window {
 		public DockPanel MainPanel { get { return MainDockPanel; } }
 		public FormWindowCapture WindowCapture { get { return fWindowCapture; } }
 
+		private int ClockFormat;
+
 		#endregion
 
 
@@ -77,6 +79,13 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_Load( object sender, EventArgs e ) {
 
+			if ( !Directory.Exists( "Settings" ) )
+				Directory.CreateDirectory( "Settings" );
+
+
+			Utility.Configuration.Instance.Load();
+
+
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
 				if ( InvokeRequired ) {
 					// Invokeはメッセージキューにジョブを投げて待つので、別のBeginInvokeされたジョブが既にキューにあると、
@@ -107,7 +116,37 @@ namespace ElectronicObserver.Window {
 			await task;
 
 			Icon = ResourceManager.Instance.AppIcon;
+
+			#region Icon settings
 			StripMenu_Tool_PluginManager.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration];
+
+			StripMenu_File_Configuration.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration];
+
+			StripMenu_View_Fleet.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet];
+			//StripMenu_View_FleetOverview.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet];
+			StripMenu_View_ShipGroup.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormShipGroup];
+			//StripMenu_View_Dock.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormDock];
+			//StripMenu_View_Arsenal.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormArsenal];
+			//StripMenu_View_Headquarters.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormHeadQuarters];
+			//StripMenu_View_Quest.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest];
+			//StripMenu_View_Information.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormInformation];
+			//StripMenu_View_Compass.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormCompass];
+			//StripMenu_View_Battle.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle];
+			StripMenu_View_Browser.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser];
+			//StripMenu_View_Log.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormLog];
+			StripMenu_WindowCapture.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormWindowCapture];
+
+			StripMenu_Tool_EquipmentList.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormEquipmentList];
+			StripMenu_Tool_DropRecord.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormDropRecord];
+			StripMenu_Tool_DevelopmentRecord.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormDevelopmentRecord];
+			StripMenu_Tool_ConstructionRecord.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConstructionRecord];
+			StripMenu_Tool_ResourceChart.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormResourceChart];
+			StripMenu_Tool_AlbumMasterShip.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumShip];
+			StripMenu_Tool_AlbumMasterEquipment.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumEquipment];
+
+			StripMenu_Help_Version.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.AppIcon];
+			#endregion
+
 
 			APIObserver.Instance.Start( Utility.Configuration.Config.Connection.Port, this );
 
@@ -170,7 +209,7 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
-			Utility.Logger.Add( 2, "启动处理完毕。" );
+			Utility.Logger.Add( 3, "启动处理完毕。" );
 		}
 
 		private object _sync = new object();
@@ -248,6 +287,8 @@ namespace ElectronicObserver.Window {
 									Text = plugin.MenuTitle ?? p.Text,
 									Tag = p
 								};
+								if ( plugin.MenuIcon != null )
+									item.Image = plugin.MenuIcon;
 								item.Click += menuitem_Click;
 								StripMenu_View.DropDownItems.Add( item );
 							}
@@ -264,6 +305,8 @@ namespace ElectronicObserver.Window {
 										Text = p.Text,
 										Tag = p
 									};
+									if ( p.ShowIcon && p.Icon != null )
+										subItem.Image = p.Icon.ToBitmap();
 									subItem.Click += menuitem_Click;
 									item.DropDownItems.Add( subItem );
 								}
@@ -294,6 +337,8 @@ namespace ElectronicObserver.Window {
 								Text = plugin.MenuTitle,
 								Tag = plugin
 							};
+							if ( plugin.MenuIcon != null )
+								item.Image = plugin.MenuIcon;
 							item.Click += dialogPlugin_Click;
 							StripMenu_Tool.DropDownItems.Add( item );
 						}
@@ -349,6 +394,8 @@ namespace ElectronicObserver.Window {
 
 			TopMost = c.Life.TopMost;
 
+			ClockFormat = c.Life.ClockFormat;
+
 			Font = c.UI.MainFont;
 			//StripMenu.Font = Font;
 			StripStatus.Font = Font;
@@ -392,11 +439,42 @@ namespace ElectronicObserver.Window {
 				nowSeconds = 0;
 			}
 
-			// 東京標準時で表示
+			// 東京標準時
 			DateTime now = DateTime.UtcNow + new TimeSpan( 9, 0, 0 );
-			StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
-			StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
+
+			switch ( ClockFormat ) {
+				case 0:	//時計表示
+					StripStatus_Clock.Text = now.ToString( "HH\\:mm\\:ss" );
+					StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd)" );
+					break;
+
+				case 1:	//演習更新まで
+					{
+						DateTime border = now.Date.AddHours( 3 );
+						while ( border < now )
+							border = border.AddHours( 12 );
+
+						TimeSpan ts = border - now;
+						StripStatus_Clock.Text = string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)ts.TotalHours, ts.Minutes, ts.Seconds );
+						StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd) HH\\:mm\\:ss" );
+
+					} break;
+
+				case 2:	//任務更新まで
+					{
+						DateTime border = now.Date.AddHours( 5 );
+						if ( border < now )
+							border = border.AddHours( 24 );
+
+						TimeSpan ts = border - now;
+						StripStatus_Clock.Text = string.Format( "{0:D2}:{1:D2}:{2:D2}", (int)ts.TotalHours, ts.Minutes, ts.Seconds );
+						StripStatus_Clock.ToolTipText = now.ToString( "yyyy\\/MM\\/dd (ddd) HH\\:mm\\:ss" );
+
+					} break;
+			}
 		}
+
+
 
 
 		private void FormMain_FormClosing( object sender, FormClosingEventArgs e ) {
@@ -426,8 +504,6 @@ namespace ElectronicObserver.Window {
 
 			fBrowser.CloseBrowser();
 
-			if ( !Directory.Exists( "Settings" ) )
-				Directory.CreateDirectory( "Settings" );
 
 			SystemEvents.OnSystemShuttingDown();
 
@@ -570,7 +646,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "窗口布局已恢复。" );
+				Utility.Logger.Add( 2, "窗口布局已恢复。" + path );
 				return true;
 
 			} catch ( FileNotFoundException ) {
@@ -621,7 +697,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				Utility.Logger.Add( 2, "窗口布局已保存。" );
+				Utility.Logger.Add( 2, "窗口布局已保存。" + path );
 				return true;
 
 			} catch ( Exception ex ) {
@@ -815,6 +891,27 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_File_Layout_Change_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new SaveFileDialog() ) {
+
+				dialog.Filter = "Layout Archive|*.zip|File|*";
+				dialog.Title = "レイアウト ファイルの保存";
+
+
+				PathHelper.InitSaveFileDialog ( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+
+				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+
+					Utility.Configuration.Config.Life.LayoutFilePath = PathHelper.GetPathFromSaveFileDialog( dialog );
+					SaveLayout( Utility.Configuration.Config.Life.LayoutFilePath );
+
+				}
+			}
+
+		}
+
+
 		private void StripMenu_Tool_ResourceChart_Click( object sender, EventArgs e ) {
 
 			new Dialog.DialogResourceChart().Show( this );
@@ -881,6 +978,22 @@ namespace ElectronicObserver.Window {
 			}
 
 			new Dialog.DialogDevelopmentRecordViewer().Show( this );
+
+		}
+
+		private void StripMenu_Tool_ConstructionRecord_Click( object sender, EventArgs e ) {
+
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) {
+				MessageBox.Show( "艦これを読み込んでから開いてください。", "マスターデータがありません", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			if ( RecordManager.Instance.Construction.Record.Count == 0 ) {
+				MessageBox.Show( "建造レコードがありません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			new Dialog.DialogConstructionRecordViewer().Show( this );
 
 		}
 

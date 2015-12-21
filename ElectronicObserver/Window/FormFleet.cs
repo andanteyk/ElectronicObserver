@@ -257,7 +257,7 @@ namespace ElectronicObserver.Window {
 				Level.SuspendLayout();
 				Level.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
 				Level.Value = 0;
-				Level.MaximumValue = 150;
+				Level.MaximumValue = ExpTable.ShipMaximumLevel;
 				Level.ValueNext = 0;
 				Level.MainFontColor = parent.MainFontColor;
 				Level.SubFontColor = parent.SubFontColor;
@@ -441,7 +441,7 @@ namespace ElectronicObserver.Window {
 							tip.AppendFormat( "Lv99まで: {0} exp.", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
 
 						} else {
-							tip.AppendFormat( "Lv150まで: {0} exp.\r\n", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) );
+							tip.AppendFormat( "Lv{0}まで: {1} exp.\r\n", ExpTable.ShipMaximumLevel, Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, ExpTable.ShipMaximumLevel ), 0 ) );
 
 						}
 
@@ -481,12 +481,9 @@ namespace ElectronicObserver.Window {
 
 						if ( ship.RepairTime > 0 ) {
 							var span = DateTimeHelper.FromAPITimeSpan( ship.RepairTime );
-							sb.AppendFormat( "入渠時間: {0}\n",
-								DateTimeHelper.ToTimeRemainString( span ) );
-							/*/
-							sb.AppendFormat( "( @ 1HP: {0} )\n",
-								DateTimeHelper.ToTimeRemainString( new TimeSpan( span.Ticks / ( ship.HPMax - ship.HPCurrent ) ) ) );
-							//*/
+							sb.AppendFormat( "入渠時間: {0} @ {1}",
+								DateTimeHelper.ToTimeRemainString( span ),
+								DateTimeHelper.ToTimeRemainString( new TimeSpan( span.Add( new TimeSpan( 0, 0, -30 ) ).Ticks / ( ship.HPMax - ship.HPCurrent ) ) ) );
 						}
 
 						ToolTipInfo.SetToolTip( HP, sb.ToString() );
@@ -701,7 +698,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/destroyship"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
-
+			o.APIList["api_req_hensei/preset_select"].ResponseReceived += ChangeOrganization;
+			
 			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
 			o.APIList["api_req_hensei/change"].RequestReceived += Updated;
@@ -953,6 +951,7 @@ namespace ElectronicObserver.Window {
 				bool showAircraft = c.FormFleet.ShowAircraft;
 				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
 				bool shortHPBar = c.FormFleet.ShortenHPBar;
+				bool colorMorphing = c.FormFleet.BarColorMorphing;
 				bool showNext = c.FormFleet.ShowNextExp;
 				bool textProficiency = c.FormFleet.ShowTextProficiency;
 				bool showEquipmentLevel = c.FormFleet.ShowEquipmentLevel;
@@ -967,9 +966,12 @@ namespace ElectronicObserver.Window {
 					}
 
 					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
+					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
 					ControlMember[i].Equipments.TextProficiency = textProficiency;
 					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
+					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
+					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;
 
 					ControlMember[i].ConfigurationChanged( this );
 				}

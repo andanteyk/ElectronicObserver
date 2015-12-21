@@ -65,6 +65,7 @@
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_DropRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_DevelopmentRecord = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_ConstructionRecord = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_ResourceChart = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AlbumMasterShip = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,6 +83,7 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+			this.StripMenu_File_Layout_Change = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -122,7 +124,7 @@
             this.StripMenu_File_Record_Save,
             this.StripMenu_File_Record_Load});
 			this.StripMenu_File_Record.Name = "StripMenu_File_Record";
-			this.StripMenu_File_Record.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Record.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Record.Text = "记录(&R)";
 			// 
 			// StripMenu_File_Record_Save
@@ -146,10 +148,11 @@
             this.StripMenu_File_Layout_Open,
 			this.toolStripSeparatorAnother2,
             this.StripMenu_File_Layout_Save,
+            this.StripMenu_File_Layout_Change,
 			this.toolStripSeparatorAnother3,
 			this.StripMenu_File_Layout_Lock} );
 			this.StripMenu_File_Layout.Name = "StripMenu_File_Layout";
-			this.StripMenu_File_Layout.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Layout.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Layout.Text = "布局(&L)";
 			// 
 			// StripMenu_File_Layout_Load
@@ -174,7 +177,7 @@
 			// StripMenu_File_Layout_Open
 			// 
 			this.StripMenu_File_Layout_Open.Name = "StripMenu_File_Layout_Open";
-			this.StripMenu_File_Layout_Open.Size = new System.Drawing.Size(206, 22);
+			this.StripMenu_File_Layout_Open.Size = new System.Drawing.Size(203, 22);
 			this.StripMenu_File_Layout_Open.Text = "载入其他布局文件(&O)...";
 			this.StripMenu_File_Layout_Open.Click += new System.EventHandler(this.StripMenu_File_Layout_Open_Click);
 			// 
@@ -212,24 +215,24 @@
 			// toolStripSeparator6
 			// 
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(132, 6);
+			this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_File_Configuration
 			// 
 			this.StripMenu_File_Configuration.Name = "StripMenu_File_Configuration";
-			this.StripMenu_File_Configuration.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Configuration.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Configuration.Text = "设置(&C)...";
 			this.StripMenu_File_Configuration.Click += new System.EventHandler(this.StripMenu_File_Configuration_Click);
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(132, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_File_Close
 			// 
 			this.StripMenu_File_Close.Name = "StripMenu_File_Close";
-			this.StripMenu_File_Close.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Close.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Close.Text = "结束(&X)";
 			this.StripMenu_File_Close.Click += new System.EventHandler(this.StripMenu_File_Close_Click);
 			// 
@@ -361,6 +364,7 @@
             this.toolStripSeparator7,
             this.StripMenu_Tool_DropRecord,
             this.StripMenu_Tool_DevelopmentRecord,
+            this.StripMenu_Tool_ConstructionRecord,
             this.StripMenu_Tool_ResourceChart,
             this.toolStripSeparator15,
             this.StripMenu_Tool_AlbumMasterShip,
@@ -397,6 +401,13 @@
 			this.StripMenu_Tool_DevelopmentRecord.Size = new System.Drawing.Size(151, 22);
 			this.StripMenu_Tool_DevelopmentRecord.Text = "開発記録(&V)";
 			this.StripMenu_Tool_DevelopmentRecord.Click += new System.EventHandler(this.StripMenu_Tool_DevelopmentRecord_Click);
+			// 
+			// StripMenu_Tool_ConstructionRecord
+			// 
+			this.StripMenu_Tool_ConstructionRecord.Name = "StripMenu_Tool_ConstructionRecord";
+			this.StripMenu_Tool_ConstructionRecord.Size = new System.Drawing.Size(151, 22);
+			this.StripMenu_Tool_ConstructionRecord.Text = "建造記録(&R)";
+			this.StripMenu_Tool_ConstructionRecord.Click += new System.EventHandler(this.StripMenu_Tool_ConstructionRecord_Click);
 			// 
 			// StripMenu_Tool_ResourceChart
 			// 
@@ -495,7 +506,7 @@
 			// StripStatus_Padding
 			// 
 			this.StripStatus_Padding.Name = "StripStatus_Padding";
-			this.StripStatus_Padding.Size = new System.Drawing.Size(452, 17);
+			this.StripStatus_Padding.Size = new System.Drawing.Size(483, 17);
 			this.StripStatus_Padding.Spring = true;
 			// 
 			// StripStatus_Clock
@@ -529,6 +540,13 @@
 				this.MainDockPanel.Theme = new WeifenLuo.WinFormsUI.Docking.VS2012LightTheme();
 			}
 			this.MainDockPanel.TabIndex = 0;
+			// 
+			// StripMenu_File_Layout_Change
+			// 
+			this.StripMenu_File_Layout_Change.Name = "StripMenu_File_Layout_Change";
+			this.StripMenu_File_Layout_Change.Size = new System.Drawing.Size(203, 22);
+			this.StripMenu_File_Layout_Change.Text = "別のファイルへ保存(&C)...";
+			this.StripMenu_File_Layout_Change.Click += new System.EventHandler(this.StripMenu_File_Layout_Change_Click);
 			// 
 			// FormMain
 			// 
@@ -615,5 +633,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DropRecord;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_DevelopmentRecord;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ConstructionRecord;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Change;
 	}
 }

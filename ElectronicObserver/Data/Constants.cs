@@ -195,6 +195,8 @@ namespace ElectronicObserver.Data {
 					return "航空戦";
 				case 8:
 					return "船団護衛成功";
+				case 9:
+					return "揚陸地点";
 				default:
 					return "不明";
 			}
@@ -734,6 +736,8 @@ namespace ElectronicObserver.Data {
 					return "機動部隊";
 				case 2:
 					return "水上部隊";
+				case 3:
+					return "輸送部隊";
 				default:
 					return "不明";
 			}

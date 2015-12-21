@@ -365,12 +365,15 @@ namespace ElectronicObserver.Data.ShipGroup {
 					return string.Format( "{0} (未定義)", (int)RightOperand );
 
 			} else if ( LeftOperand.Contains( "SlotMaster" ) ) {
-				var eq = KCDatabase.Instance.MasterEquipments[(int)RightOperand];
-				if ( eq != null )
-					return eq.Name;
-				else
-					return string.Format( "{0} (未定義)", (int)RightOperand );
-
+				if ( (int)RightOperand == -1 ) {
+					return "(なし)";
+				} else {
+					var eq = KCDatabase.Instance.MasterEquipments[(int)RightOperand];
+					if ( eq != null )
+						return eq.Name;
+					else
+						return string.Format( "{0} (未定義)", (int)RightOperand );
+				}
 			} else if ( LeftOperand.Contains( "Rate" ) && RightOperand is double ) {
 				return ( (double)RightOperand ).ToString( "P0" );
 

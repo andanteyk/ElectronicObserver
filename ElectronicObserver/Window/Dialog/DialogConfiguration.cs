@@ -26,6 +26,9 @@ namespace ElectronicObserver.Window.Dialog {
 		private static readonly bool DefaultGPURendering = false;
 
 
+		private System.Windows.Forms.Control _UIControl;
+
+
 		public DialogConfiguration() {
 			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
@@ -128,7 +131,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
 
-
+			_UIControl = Owner;
 
 		}
 
@@ -229,7 +232,6 @@ namespace ElectronicObserver.Window.Dialog {
 			//[通信]
 			Connection_Port.Value = config.Connection.Port;
 			Connection_SaveReceivedData.Checked = config.Connection.SaveReceivedData;
-			Connection_SaveDataFilter.Text = config.Connection.SaveDataFilter;
 			Connection_SaveDataPath.Text = config.Connection.SaveDataPath;
 			Connection_SaveRequest.Checked = config.Connection.SaveRequest;
 			Connection_SaveResponse.Checked = config.Connection.SaveResponse;
@@ -299,6 +301,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
+			Control_RecordAutoSaving.SelectedIndex = config.Control.RecordAutoSaving;
 
 			//[起動と終了]
 			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
@@ -306,6 +309,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
 			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
+			Life_ClockFormat.SelectedIndex = config.Life.ClockFormat;
 			Life_AutoScaleDpi.Checked = config.UI.AutoScaleDpi;
 
 			//[サブウィンドウ]
@@ -319,6 +323,8 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_TextProficiency.Checked = config.FormFleet.ShowTextProficiency;
 			FormFleet_ShowEquipmentLevel.Checked = config.FormFleet.ShowEquipmentLevel;
 			FormFleet_AirSuperiorityMethod.SelectedIndex = config.FormFleet.AirSuperiorityMethod;
+			FormFleet_ShowAnchorageRepairingTimer.Checked = config.FormFleet.ShowAnchorageRepairingTimer;
+			FormFleet_BarColorMorphing.Checked = config.FormFleet.BarColorMorphing;
 
 			FormShipGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			FormShipGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
@@ -349,7 +355,8 @@ namespace ElectronicObserver.Window.Dialog {
 						FormBrowser_BrowserVersion.Text = ( reg.GetValue( FormBrowserHost.BrowserExeName ) ?? DefaultBrowserVersion ).ToString();
 					}
 					FormBrowser_BrowserVersion.Enabled = true;
-					reg.Close();
+					if ( reg != null )
+						reg.Close();
 
 					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey( RegistryPathMaster + RegistryPathGPURendering );
 					if ( reg == null ) {
@@ -404,7 +411,6 @@ namespace ElectronicObserver.Window.Dialog {
 				config.Connection.Port = (ushort)Connection_Port.Value;
 
 				config.Connection.SaveReceivedData = Connection_SaveReceivedData.Checked;
-				config.Connection.SaveDataFilter = Connection_SaveDataFilter.Text;
 				config.Connection.SaveDataPath = Connection_SaveDataPath.Text.Trim( @"\ """.ToCharArray() );
 				config.Connection.SaveRequest = Connection_SaveRequest.Checked;
 				config.Connection.SaveResponse = Connection_SaveResponse.Checked;
@@ -415,14 +421,18 @@ namespace ElectronicObserver.Window.Dialog {
 				changed |= config.Connection.RegisterAsSystemProxy != Connection_RegisterAsSystemProxy.Checked;
 				config.Connection.RegisterAsSystemProxy = Connection_RegisterAsSystemProxy.Checked;
 
+				changed |= config.Connection.UseUpstreamProxy != Connection_UseUpstreamProxy.Checked;
 				config.Connection.UseUpstreamProxy = Connection_UseUpstreamProxy.Checked;
+				changed |= config.Connection.EnableSslUpstreamProxy != Connection_EnableSslUpstreamProxy.Checked;
 				config.Connection.EnableSslUpstreamProxy = Connection_EnableSslUpstreamProxy.Checked;
+
+				changed |= config.Connection.UpstreamProxyAddress != Connection_UpstreamProxyHost.Text;
 				config.Connection.UpstreamProxyAddress = Connection_UpstreamProxyHost.Text;
+				changed |= config.Connection.UpstreamProxyPort != (ushort)Connection_UpstreamProxyPort.Value;
 				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;
 
 				if ( changed ) {
-					APIObserver.Instance.Stop();
-					APIObserver.Instance.Start( config.Connection.Port, this );
+					APIObserver.Instance.Start( config.Connection.Port, _UIControl );
 				}
 
 			}
@@ -487,6 +497,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[動作]
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
+			config.Control.RecordAutoSaving = Control_RecordAutoSaving.SelectedIndex;
 
 			//[起動と終了]
 			config.Life.ConfirmOnClosing = Life_ConfirmOnClosing.Checked;
@@ -494,6 +505,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.LayoutFilePath = Life_LayoutFilePath.Text;
 			config.Life.CheckUpdateInformation = Life_CheckUpdateInformation.Checked;
 			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
+			config.Life.ClockFormat = Life_ClockFormat.SelectedIndex;
 			config.UI.AutoScaleDpi = Life_AutoScaleDpi.Checked;
 
 			//[サブウィンドウ]
@@ -507,6 +519,8 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowTextProficiency = FormFleet_TextProficiency.Checked;
 			config.FormFleet.ShowEquipmentLevel = FormFleet_ShowEquipmentLevel.Checked;
 			config.FormFleet.AirSuperiorityMethod = FormFleet_AirSuperiorityMethod.SelectedIndex;
+			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
+			config.FormFleet.BarColorMorphing = FormFleet_BarColorMorphing.Checked;
 
 			config.FormShipGroup.AutoUpdate = FormShipGroup_AutoUpdate.Checked;
 			config.FormShipGroup.ShowStatusBar = FormShipGroup_ShowStatusBar.Checked;

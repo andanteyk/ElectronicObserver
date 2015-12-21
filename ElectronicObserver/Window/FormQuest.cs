@@ -20,7 +20,7 @@ namespace ElectronicObserver.Window {
 
 		private DataGridViewCellStyle CSDefaultLeft, CSDefaultCenter;
 		private DataGridViewCellStyle[] CSCategories;
-
+		private bool IsLoaded = false;
 
 		public FormQuest( FormMain parent ) {
 			this.SuspendLayoutForDpiScale();
@@ -138,6 +138,7 @@ namespace ElectronicObserver.Window {
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormQuest] );
 
+			IsLoaded = true;
 		}
 
 
@@ -164,8 +165,10 @@ namespace ElectronicObserver.Window {
 			if ( conf.FormQuest.ColumnFilter == null || ( (List<bool>)conf.FormQuest.ColumnFilter ).Count != QuestView.Columns.Count ) {
 				conf.FormQuest.ColumnFilter = Enumerable.Repeat( true, QuestView.Columns.Count ).ToList();
 			}
-			if ( conf.FormQuest.ColumnWidth == null || ( (List<int>)conf.FormQuest.ColumnWidth ).Count != QuestView.Columns.Count ) {
-				conf.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( column => column.Width ).ToList();
+			bool applyWidth = false;
+			if ( conf.FormQuest.ColumnWidth != null && ( (List<int>)conf.FormQuest.ColumnWidth ).Count == QuestView.Columns.Count ) {
+				//conf.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( column => column.Width ).ToList();
+				//applyWidth = true;
 			}
 			{
 				List<bool> list = conf.FormQuest.ColumnFilter;
@@ -174,7 +177,8 @@ namespace ElectronicObserver.Window {
 				for ( int i = 0; i < QuestView.Columns.Count; i++ ) {
 					QuestView.Columns[i].Visible =
 					( (ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i] ).Checked = list[i];
-					QuestView.Columns[i].Width = width[i];
+					if ( applyWidth )
+						QuestView.Columns[i].Width = width[i];
 				}
 			}
 			MenuMain_ShowRunningOnly.Checked = Utility.Configuration.Config.FormQuest.ShowRunningOnly;
@@ -492,6 +496,11 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void QuestView_ColumnWidthChanged( object sender, DataGridViewColumnEventArgs e ) {
+			if ( IsLoaded )
+				Utility.Configuration.Config.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( c => c.Width ).ToList();
+
+		}
 
 		public override string GetPersistString() {
 			return "Quest";

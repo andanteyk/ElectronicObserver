@@ -519,7 +519,7 @@ namespace ElectronicObserver.Window {
 
 			if ( 0 <= headIndex && headIndex < ShipView.Rows.Count )
 				ShipView.FirstDisplayedScrollingRowIndex = headIndex;
-			
+
 			if ( selectedIDList.Count > 0 ) {
 				ShipView.ClearSelection();
 				for ( int i = 0; i < ShipView.Rows.Count; i++ ) {
@@ -529,7 +529,7 @@ namespace ElectronicObserver.Window {
 					}
 				}
 			}
-				
+
 		}
 
 
@@ -915,7 +915,7 @@ namespace ElectronicObserver.Window {
 				MenuMember_AddToGroup.Enabled = false;
 				MenuMember_CreateGroup.Enabled = false;
 				MenuMember_Exclude.Enabled = false;
-				
+
 			} else {
 				MenuMember_AddToGroup.Enabled = true;
 				MenuMember_CreateGroup.Enabled = true;

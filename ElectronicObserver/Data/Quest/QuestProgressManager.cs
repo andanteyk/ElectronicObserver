@@ -52,6 +52,14 @@ namespace ElectronicObserver.Data.Quest {
 		[DataMember]
 		public DateTime LastUpdateTime { get; set; }
 
+		/*
+		[DataMember]
+		private string LastUpdateTimeSerializer {
+			get { return DateTimeHelper.TimeToCSVString( LastUpdateTime ); }
+			set { LastUpdateTime = DateTimeHelper.CSVStringToTime( value ); }
+		}
+		*/
+
 
 		public QuestProgressManager() {
 
@@ -175,136 +183,134 @@ namespace ElectronicObserver.Data.Quest {
 					switch ( q.QuestID ) {
 
 						case 201:	//|201|敵艦隊を撃破せよ！|勝利1
-							Progresses.Add( new ProgressBattle( q.QuestID, 1, "B", null, false ) );
+							Progresses.Add( new ProgressBattle( q, 1, "B", null, false ) );
 							break;
 						case 216:	//|216|敵艦隊主力を撃滅せよ！|戦闘1
-							Progresses.Add( new ProgressBattle( q.QuestID, 1, "E", null, false ) );
+							Progresses.Add( new ProgressBattle( q, 1, "E", null, false ) );
 							break;
 						case 210:	//|210|敵艦隊を10回邀撃せよ！|戦闘10
-							Progresses.Add( new ProgressBattle( q.QuestID, 10, "E", null, false ) );
+							Progresses.Add( new ProgressBattle( q, 10, "E", null, false ) );
 							break;
 						case 211:	//|211|敵空母を3隻撃沈せよ！|空母3
-							Progresses.Add( new ProgressSlaughter( q.QuestID, 3, new int[] { 7, 11 } ) );
+							Progresses.Add( new ProgressSlaughter( q, 3, new int[] { 7, 11 } ) );
 							break;
 						case 212:	//|212|敵輸送船団を叩け！|輸送5
-							Progresses.Add( new ProgressSlaughter( q.QuestID, 5, new int[] { 15 } ) );
+							Progresses.Add( new ProgressSlaughter( q, 5, new int[] { 15 } ) );
 							break;
 						case 218:	//|218|敵補給艦を3隻撃沈せよ！|輸送3
-							Progresses.Add( new ProgressSlaughter( q.QuestID, 3, new int[] { 15 } ) );
+							Progresses.Add( new ProgressSlaughter( q, 3, new int[] { 15 } ) );
 							break;
 						case 226:	//|226|南西諸島海域の制海権を握れ！|2-(1~5)ボス勝利5
-							Progresses.Add( new ProgressBattle( q.QuestID, 5, "B", new int[] { 21, 22, 23, 24, 25 }, true ) );
+							Progresses.Add( new ProgressBattle( q, 5, "B", new int[] { 21, 22, 23, 24, 25 }, true ) );
 							break;
 						case 230:	//|230|敵潜水艦を制圧せよ！|潜水6
-							Progresses.Add( new ProgressSlaughter( q.QuestID, 6, new int[] { 13 } ) );
+							Progresses.Add( new ProgressSlaughter( q, 6, new int[] { 13 } ) );
 							break;
 
 						case 213:	//|213|海上通商破壊作戦|輸送20
-							Progresses.Add( new ProgressSlaughter( q.QuestID, 20, new int[] { 15 } ) );
+							Progresses.Add( new ProgressSlaughter( q, 20, new int[] { 15 } ) );
 							break;
 						case 214:	//|214|あ号作戦|出撃36/S勝利6/ボス24/ボス勝利12
-							Progresses.Add( new ProgressAGo( q.QuestID ) );
+							Progresses.Add( new ProgressAGo( q ) );
 							break;
 						case 220:	//|220|い号作戦|空母20
-							Progresses.Add( new ProgressSlaughter( q.QuestID, 20, new int[] { 7, 11 } ) );
+							Progresses.Add( new ProgressSlaughter( q, 20, new int[] { 7, 11 } ) );
 							break;
 						case 221:	//|221|ろ号作戦|輸送50
-							Progresses.Add( new ProgressSlaughter( q.QuestID, 50, new int[] { 15 } ) );
+							Progresses.Add( new ProgressSlaughter( q, 50, new int[] { 15 } ) );
 							break;
 						case 228:	//|228|海上護衛戦|潜水15
-							Progresses.Add( new ProgressSlaughter( q.QuestID, 15, new int[] { 13 } ) );
+							Progresses.Add( new ProgressSlaughter( q, 15, new int[] { 13 } ) );
 							break;
-						case 229:	//|229|敵東方艦隊を撃滅せよ！|4-(1~4)ボス勝利12
-							Progresses.Add( new ProgressBattle( q.QuestID, 12, "B", new int[] { 41, 42, 43, 44, 45 }, true ) );
+						case 229:	//|229|敵東方艦隊を撃滅せよ！|4-(1~5)ボス勝利12
+							Progresses.Add( new ProgressBattle( q, 12, "B", new int[] { 41, 42, 43, 44, 45 }, true ) );
 							break;
 						case 242:	//|242|敵東方中枢艦隊を撃破せよ！|4-4ボス勝利1
-							Progresses.Add( new ProgressBattle( q.QuestID, 1, "B", new int[] { 44 }, true ) );
+							Progresses.Add( new ProgressBattle( q, 1, "B", new int[] { 44 }, true ) );
 							break;
 						case 243:	//|243|南方海域珊瑚諸島沖の制空権を握れ！|5-2ボスS勝利2
-							Progresses.Add( new ProgressBattle( q.QuestID, 2, "S", new int[] { 52 }, true ) );
+							Progresses.Add( new ProgressBattle( q, 2, "S", new int[] { 52 }, true ) );
 							break;
 						case 261:	//|261|海上輸送路の安全確保に努めよ！|1-5ボスA勝利3
-							Progresses.Add( new ProgressBattle( q.QuestID, 3, "A", new int[] { 15 }, true ) );
+							Progresses.Add( new ProgressBattle( q, 3, "A", new int[] { 15 }, true ) );
 							break;
 						case 241:	//|241|敵北方艦隊主力を撃滅せよ！|3-(3~5)ボス勝利5
-							Progresses.Add( new ProgressBattle( q.QuestID, 5, "B", new int[] { 33, 34, 35 }, true ) );
+							Progresses.Add( new ProgressBattle( q, 5, "B", new int[] { 33, 34, 35 }, true ) );
 							break;
 
 						case 256:	//|256|「潜水艦隊」出撃せよ！|6-1ボスS勝利3
-							Progresses.Add( new ProgressBattle( q.QuestID, 3, "S", new int[] { 61 }, true ) );
+							Progresses.Add( new ProgressBattle( q, 3, "S", new int[] { 61 }, true ) );
 							break;
 						case 265:	//|265|海上護衛強化月間|1-5ボスA勝利10
-							Progresses.Add( new ProgressBattle( q.QuestID, 10, "A", new int[] { 15 }, true ) );
+							Progresses.Add( new ProgressBattle( q, 10, "A", new int[] { 15 }, true ) );
 							break;
-
-						//undone: その他の条件付きマンスリー任務
 
 						case 303:	//|303|「演習」で練度向上！|演習3
-							Progresses.Add( new ProgressPractice( q.QuestID, 3, false ) );
+							Progresses.Add( new ProgressPractice( q, 3, false ) );
 							break;
 						case 304:	//|304|「演習」で他提督を圧倒せよ！|演習勝利5
-							Progresses.Add( new ProgressPractice( q.QuestID, 5, true ) );
+							Progresses.Add( new ProgressPractice( q, 5, true ) );
 							break;
 						case 302:	//|302|大規模演習|演習勝利20
-							Progresses.Add( new ProgressPractice( q.QuestID, 20, true ) );
+							Progresses.Add( new ProgressPractice( q, 20, true ) );
 							break;
 						case 311:	//|311|精鋭艦隊演習|演習勝利7|マンスリーだが1日で進捗リセット
-							Progresses.Add( new ProgressPractice( q.QuestID, 7, true ) );
+							Progresses.Add( new ProgressPractice( q, 7, true ) );
 							break;
 
 						case 402:	//|402|「遠征」を3回成功させよう！|遠征成功3
-							Progresses.Add( new ProgressExpedition( q.QuestID, 3, null ) );
+							Progresses.Add( new ProgressExpedition( q, 3, null ) );
 							break;
 						case 403:	//|403|「遠征」を10回成功させよう！|遠征成功10
-							Progresses.Add( new ProgressExpedition( q.QuestID, 10, null ) );
+							Progresses.Add( new ProgressExpedition( q, 10, null ) );
 							break;
 						case 404:	//|404|大規模遠征作戦、発令！|遠征成功30
-							Progresses.Add( new ProgressExpedition( q.QuestID, 30, null ) );
+							Progresses.Add( new ProgressExpedition( q, 30, null ) );
 							break;
 						case 410:	//|410|南方への輸送作戦を成功させよ！|「東京急行」「東京急行(弐)」成功1
-							Progresses.Add( new ProgressExpedition( q.QuestID, 1, new int[] { 37, 38 } ) );
+							Progresses.Add( new ProgressExpedition( q, 1, new int[] { 37, 38 } ) );
 							break;
 						case 411:	//|411|南方への鼠輸送を継続実施せよ！|「東京急行」「東京急行(弐)」成功6
-							Progresses.Add( new ProgressExpedition( q.QuestID, 6, new int[] { 37, 38 } ) );
+							Progresses.Add( new ProgressExpedition( q, 6, new int[] { 37, 38 } ) );
 							Progresses[q.QuestID].SharedCounterShift = 1;
 							break;
 
 						case 503:	//|503|艦隊大整備！|入渠5
-							Progresses.Add( new ProgressDocking( q.QuestID, 5 ) );
+							Progresses.Add( new ProgressDocking( q, 5 ) );
 							break;
 						case 504:	//|504|艦隊酒保祭り！|補給15回
-							Progresses.Add( new ProgressSupply( q.QuestID, 15 ) );
+							Progresses.Add( new ProgressSupply( q, 15 ) );
 							break;
 
 						case 605:	//|605|新装備「開発」指令|開発1
-							Progresses.Add( new ProgressDevelopment( q.QuestID, 1 ) );
+							Progresses.Add( new ProgressDevelopment( q, 1 ) );
 							break;
 						case 606:	//|606|新造艦「建造」指令|建造1
-							Progresses.Add( new ProgressConstruction( q.QuestID, 1 ) );
+							Progresses.Add( new ProgressConstruction( q, 1 ) );
 							break;
 						case 607:	//|607|装備「開発」集中強化！|開発3
-							Progresses.Add( new ProgressDevelopment( q.QuestID, 3 ) );
+							Progresses.Add( new ProgressDevelopment( q, 3 ) );
 							Progresses[q.QuestID].SharedCounterShift = 1;
 							break;
 						case 608:	//|608|艦娘「建造」艦隊強化！|建造3
-							Progresses.Add( new ProgressConstruction( q.QuestID, 3 ) );
+							Progresses.Add( new ProgressConstruction( q, 3 ) );
 							Progresses[q.QuestID].SharedCounterShift = 1;
 							break;
 						case 609:	//|609|軍縮条約対応！|解体2
-							Progresses.Add( new ProgressDestruction( q.QuestID, 2 ) );
+							Progresses.Add( new ProgressDestruction( q, 2 ) );
 							break;
 						case 619:	//|619|装備の改修強化|装備改修1(失敗可)
-							Progresses.Add( new ProgressImprovement( q.QuestID, 1 ) );
+							Progresses.Add( new ProgressImprovement( q, 1 ) );
 							break;
 						case 613:	//|613|資源の再利用|廃棄24回
-							Progresses.Add( new ProgressDiscard( q.QuestID, 24 ) );
+							Progresses.Add( new ProgressDiscard( q, 24 ) );
 							break;
 
 						case 702:	//|702|艦の「近代化改修」を実施せよ！|改修成功2
-							Progresses.Add( new ProgressModernization( q.QuestID, 2 ) );
+							Progresses.Add( new ProgressModernization( q, 2 ) );
 							break;
 						case 703:	//|703|「近代化改修」を進め、戦備を整えよ！|改修成功15
-							Progresses.Add( new ProgressModernization( q.QuestID, 15 ) );
+							Progresses.Add( new ProgressModernization( q, 15 ) );
 							break;
 
 					}

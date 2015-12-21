@@ -24,6 +24,29 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private const string MapAny = "*";
 
+		private Dictionary<int, DataTable> MapCellTable;
+
+
+		private class SearchArgument {
+			public string ShipName;
+			public string ItemName;
+			public string EquipmentName;
+			public DateTime DateBegin;
+			public DateTime DateEnd;
+			public int MapAreaID;
+			public int MapInfoID;
+			public int MapCellID;
+			public int MapDifficulty;
+			public CheckState IsBossOnly;
+			public bool RankS;
+			public bool RankA;
+			public bool RankB;
+			public bool RankX;
+			public bool MergeRows;
+			public DataGridViewRow BaseRow;
+		}
+
+
 		public DialogDropRecordViewer() {
 			InitializeComponent();
 
@@ -32,26 +55,84 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void DialogDropRecordViewer_Load( object sender, EventArgs e ) {
 
+			var includedShipNames = _record.Record
+				.Select( r => r.ShipName )
+				.Distinct()
+				.Except( new[] { NameNotExist, NameFullPort } );
+
+			var includedShipObjects = includedShipNames
+				.Select( name => KCDatabase.Instance.MasterShips.Values.FirstOrDefault( ship => ship.NameWithClass == name ) )
+				.Where( s => s != null );
+
+			var removedShipNames = includedShipNames.Except( includedShipObjects.Select( s => s.NameWithClass ) );
+
+
+			var includedItemNames = _record.Record
+				.Select( r => r.ItemName )
+				.Distinct()
+				.Except( new[] { NameNotExist } );
+
+			var includedItemObjects = includedItemNames
+				.Select( name => KCDatabase.Instance.MasterUseItems.Values.FirstOrDefault( item => item.Name == name ) )
+				.Where( s => s != null );
+
+			var removedItemNames = includedItemNames.Except( includedItemObjects.Select( item => item.Name ) );
+
+			var dtbase = new DataTable();
+			dtbase.Columns.AddRange( new DataColumn[] {
+				new DataColumn( "Value", typeof( int ) ),
+				new DataColumn( "Display", typeof( string ) ),
+			} );
+
+
+
+			MapCellTable = new Dictionary<int, DataTable>();
+			{
+				var dict = new Dictionary<int, HashSet<int>>();
+
+				foreach ( var r in _record.Record ) {
+					int id = r.MapAreaID * 10 + r.MapInfoID;
+
+					if ( !dict.ContainsKey( id ) ) {
+						dict.Add( id, new HashSet<int>() );
+					}
+
+					dict[id].Add( r.CellID );
+				}
+
+				foreach ( var p in dict ) {
+					MapCellTable.Add( p.Key, dtbase.Clone() );
+					MapCellTable[p.Key].Rows.Add( -1, MapAny );
+					foreach ( var c in p.Value.OrderBy( k => k ) )
+						MapCellTable[p.Key].Rows.Add( c, c.ToString() );
+					MapCellTable[p.Key].AcceptChanges();
+				}
+			}
+
+
+
 			ShipName.Items.Add( NameAny );
 			ShipName.Items.Add( NameExist );
 			ShipName.Items.Add( NameNotExist );
 			ShipName.Items.Add( NameFullPort );
-			ShipName.Items.AddRange( KCDatabase.Instance.MasterShips.Values
-				.Where( s => !s.IsAbyssalShip && s.RemodelBeforeShipID == 0 )
-				.OrderBy( s => s.Name )
+			ShipName.Items.AddRange( includedShipObjects
 				.OrderBy( s => s.NameReading )
-				.Select( s => s.NameWithClass ).ToArray() );
+				.OrderBy( s => s.ShipType )
+				.Select( s => s.NameWithClass )
+				.Union( removedShipNames.OrderBy( s => s ) )
+				.ToArray()
+				);
 			ShipName.SelectedIndex = 0;
 
-			// アイテムは殆どがドロップしないのでレコードにあるやつだけ
 			ItemName.Items.Add( NameAny );
 			ItemName.Items.Add( NameExist );
 			ItemName.Items.Add( NameNotExist );
-			ItemName.Items.AddRange( _record.Record
-				.Where( r => r.ItemID != -1 )
-				.OrderBy( r => r.ItemID )
-				.Select( r => r.ItemName )
-				.Distinct().ToArray() );
+			ItemName.Items.AddRange( includedItemObjects
+				.OrderBy( i => i.ItemID )
+				.Select( i => i.Name )
+				.Union( removedItemNames.OrderBy( i => i ) )
+				.ToArray()
+				);
 			ItemName.SelectedIndex = 0;
 
 			// not implemented: eq
@@ -60,25 +141,66 @@ namespace ElectronicObserver.Window.Dialog {
 			DateBegin.Value = DateBegin.MinDate = DateEnd.MinDate = _record.Record.First().Date.Date;
 			DateEnd.Value = DateBegin.MaxDate = DateEnd.MaxDate = DateTime.Now.AddDays( 1 ).Date;
 
+			{
+				DataTable dt = dtbase.Clone();
+				dt.Rows.Add( -1, MapAny );
+				foreach ( var i in _record.Record
+					.Select( r => r.MapAreaID )
+					.Distinct()
+					.OrderBy( i => i ) )
+					dt.Rows.Add( i, i.ToString() );
+				dt.AcceptChanges();
+				MapAreaID.DisplayMember = "Display";
+				MapAreaID.ValueMember = "Value";
+				MapAreaID.DataSource = dt;
+				MapAreaID.SelectedIndex = 0;
+			}
 
-			MapAreaID.Items.Add( MapAny );
-			MapAreaID.Items.AddRange( _record.Record.Select( r => r.MapAreaID ).Distinct().OrderBy( i => i ).Select( i => i.ToString() ).ToArray() );
-			MapAreaID.SelectedIndex = 0;
+			{
+				DataTable dt = dtbase.Clone();
+				dt.Rows.Add( -1, MapAny );
+				foreach ( var i in _record.Record
+					.Select( r => r.MapInfoID )
+					.Distinct()
+					.OrderBy( i => i ) )
+					dt.Rows.Add( i, i.ToString() );
+				dt.AcceptChanges();
+				MapInfoID.DisplayMember = "Display";
+				MapInfoID.ValueMember = "Value";
+				MapInfoID.DataSource = dt;
+				MapInfoID.SelectedIndex = 0;
+			}
 
-			MapInfoID.Items.Add( MapAny );
-			MapInfoID.Items.AddRange( _record.Record.Select( r => r.MapInfoID ).Distinct().OrderBy( i => i ).Select( i => i.ToString() ).ToArray() );
-			MapInfoID.SelectedIndex = 0;
+			{
+				DataTable dt = dtbase.Clone();
+				dt.Rows.Add( -1, MapAny );
+				// 残りは都度生成する
+				dt.AcceptChanges();
+				MapCellID.DisplayMember = "Display";
+				MapCellID.ValueMember = "Value";
+				MapCellID.DataSource = dt;
+				MapCellID.SelectedIndex = 0;
+			}
 
-			// fixme: 都度生成のほうがよさげ
-			MapCellID.Items.Add( MapAny );
-			//MapCellID.Items.AddRange( _record.Record.Select( r => r.CellID ).Distinct().OrderBy( i => i ).Select( i => i.ToString() ).ToArray() );
-			MapCellID.SelectedIndex = 0;
-			MapCellID.Enabled = false;
+			{
+				DataTable dt = dtbase.Clone();
+				dt.Rows.Add( 0, MapAny );
+				foreach ( var diff in _record.Record
+					.Select( r => r.Difficulty )
+					.Distinct()
+					.Except( new[] { 0 } )
+					.OrderBy( i => i ) )
+					dt.Rows.Add( diff, Constants.GetDifficulty( diff ) );
+				dt.AcceptChanges();
+				MapDifficulty.DisplayMember = "Display";
+				MapDifficulty.ValueMember = "Value";
+				MapDifficulty.DataSource = dt;
+				MapDifficulty.SelectedIndex = 0;
+			}
 
-			MapDifficulty.Items.Add( MapAny );
-			MapDifficulty.Items.AddRange( _record.Record.Select( r => r.Difficulty ).Distinct().OrderBy( i => i ).Select( i => Constants.GetDifficulty( i ) ).ToArray() );
-			MapDifficulty.SelectedIndex = 0;
 
+			foreach ( DataGridViewColumn column in RecordView.Columns )
+				column.Width = 20;
 
 			LabelShipName.ImageList = ResourceManager.Instance.Icons;
 			LabelShipName.ImageIndex = (int)ResourceManager.IconContent.HeadQuartersShip;
@@ -128,6 +250,65 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+		private string GetContentStringForSorting( ShipDropRecord.ShipDropElement elem, bool ignoreShip = false, bool ignoreItem = false, bool ignoreEquipment = false ) {
+
+			var ship = KCDatabase.Instance.MasterShips[elem.ShipID];
+			var item = KCDatabase.Instance.MasterUseItems[elem.ItemID];
+			var eq = KCDatabase.Instance.MasterEquipments[elem.EquipmentID];
+
+			if ( ship != null && ship.Name != elem.ShipName ) ship = null;
+			if ( item != null && item.Name != elem.ItemName ) item = null;
+			if ( eq != null && eq.Name != elem.EquipmentName ) eq = null;
+
+			StringBuilder sb = new StringBuilder();
+
+
+			if ( elem.ShipID > 0 && !ignoreShip ) {
+				sb.AppendFormat( "0{0:D4}{1}/{2}", ship != null ? ship.ShipType : 0, ship != null ? ship.NameReading : elem.ShipName, elem.ShipName );
+			}
+
+			if ( elem.ItemID > 0 && !ignoreItem ) {
+				if ( sb.Length > 0 ) sb.Append( "," );
+				sb.AppendFormat( "1{0:D4}{1}", item != null ? item.ItemID : 0, elem.ItemName );
+			}
+
+			if ( elem.EquipmentID > 0 && !ignoreEquipment ) {
+				if ( sb.Length > 0 ) sb.Append( "," );
+				sb.AppendFormat( "2{0:D4}{1}", eq != null ? eq.EquipmentID : 0, elem.EquipmentName );
+			}
+
+			return sb.ToString();
+		}
+
+
+		private string ConvertContentString( string str ) {
+
+			if ( str.Length == 0 )
+				return NameNotExist;
+
+			StringBuilder sb = new StringBuilder();
+
+			foreach ( var s in str.Split( ",".ToCharArray() ) ) {
+
+				if ( sb.Length > 0 )
+					sb.Append( " + " );
+
+				switch ( s[0] ) {
+					case '0':
+						sb.Append( s.Substring( s.IndexOf( "/" ) + 1 ) );
+						break;
+					case '1':
+					case '2':
+						sb.Append( s.Substring( 5 ) );
+						break;
+				}
+			}
+
+			return sb.ToString();
+		}
+
+
+
 		private string GetMapString( int maparea, int mapinfo, int cell = -1, bool isboss = false, int difficulty = -1, bool insertEnemyFleetName = true ) {
 			var sb = new StringBuilder();
 			sb.Append( maparea );
@@ -160,6 +341,28 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		private void MapAreaID_SelectedIndexChanged( object sender, EventArgs e ) {
+
+			int maparea = (int)( MapAreaID.SelectedValue ?? -1 );
+			int mapinfo = (int)( MapInfoID.SelectedValue ?? -1 );
+
+			if ( maparea == -1 || mapinfo == -1 ) {
+				MapCellID.Enabled = false;
+				if ( MapCellID.Items.Count > 0 )
+					MapCellID.SelectedIndex = 0;
+
+			} else {
+				MapCellID.Enabled = true;
+				if ( MapCellTable.ContainsKey( maparea * 10 + mapinfo ) ) {
+					MapCellID.DataSource = MapCellTable[maparea * 10 + mapinfo];
+				} else {
+					MapCellID.Enabled = false;
+				}
+				MapCellID.SelectedIndex = 0;
+			}
+		}
+
+
 		private void ButtonRun_Click( object sender, EventArgs e ) {
 
 			if ( Searcher.IsBusy ) {
@@ -170,152 +373,86 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
-			DropView.Rows.Clear();
+			RecordView.Rows.Clear();
 
 			var row = new DataGridViewRow();
-			row.CreateCells( DropView );
+			row.CreateCells( RecordView );
 
-			DropView.Tag = MergeRows.Checked;
+			var args = new SearchArgument();
+			args.ShipName = (string)ShipName.SelectedItem;
+			args.ItemName = (string)ItemName.SelectedItem;
+			args.EquipmentName = (string)EquipmentName.SelectedItem;
+			args.DateBegin = DateBegin.Value;
+			args.DateEnd = DateEnd.Value;
+			args.MapAreaID = (int)MapAreaID.SelectedValue;
+			args.MapInfoID = (int)MapInfoID.SelectedValue;
+			args.MapCellID = (int)MapCellID.SelectedValue;
+			args.MapDifficulty = (int)MapDifficulty.SelectedValue;
+			args.IsBossOnly = IsBossOnly.CheckState;
+			args.RankS = RankS.Checked;
+			args.RankA = RankA.Checked;
+			args.RankB = RankB.Checked;
+			args.RankX = RankX.Checked;
+			args.MergeRows = MergeRows.Checked;
+			args.BaseRow = row;
 
+			RecordView.Tag = args;
+
+
+			// column initialize
 			if ( MergeRows.Checked ) {
-				DropView_Header.HeaderText = "回数";
-				DropView_Header.Width = 100;
-				DropView_Header.DisplayIndex = 1;
-				DropView_Date.HeaderText = "S勝利";
-				DropView_Date.Width = 100;
-				DropView_Date.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-				DropView_Map.HeaderText = "A勝利";
-				DropView_Map.Width = 100;
-				DropView_Map.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-				DropView_Rank.HeaderText = "B勝利";
-				DropView_Rank.Width = 100;
-				DropView_Rank.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+				RecordView_Name.DisplayIndex = 0;
+				RecordView_Header.HeaderText = "回数";
+				RecordView_Header.Width = 100;
+				RecordView_Header.DisplayIndex = 1;
+				RecordView_RankS.Width = 100;
+				RecordView_RankS.Visible = true;
+				RecordView_RankA.Width = 100;
+				RecordView_RankA.Visible = true;
+				RecordView_RankB.Width = 100;
+				RecordView_RankB.Visible = true;
+
+				RecordView_Date.Visible = false;
+				RecordView_Map.Visible = false;
+				RecordView_Rank.Visible = false;
 
 			} else {
-				DropView_Header.HeaderText = "";
-				DropView_Header.Width = 50;
-				DropView_Header.DisplayIndex = 0;
-				DropView_Date.HeaderText = "日付";
-				DropView_Date.Width = 150;
-				DropView_Date.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-				DropView_Map.HeaderText = "海域";
-				DropView_Map.Width = 240;
-				DropView_Map.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-				DropView_Rank.HeaderText = "ランク";
-				DropView_Rank.Width = 40;
-				DropView_Rank.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+				RecordView_Header.HeaderText = "";
+				RecordView_Header.Width = 50;
+				RecordView_Header.DisplayIndex = 0;
+				RecordView_Date.Width = 150;
+				RecordView_Date.Visible = true;
+				RecordView_Map.Width = 240;
+				RecordView_Map.Visible = true;
+				RecordView_Rank.Width = 40;
+				RecordView_Rank.Visible = true;
+
+				RecordView_RankS.Visible = false;
+				RecordView_RankA.Visible = false;
+				RecordView_RankB.Visible = false;
 
 			}
-			DropView.ColumnHeadersVisible = true;
+			RecordView.ColumnHeadersVisible = true;
 
 
-			Searcher.RunWorkerAsync( new object[] { 
-				ShipName.SelectedItem,
-				ItemName.SelectedItem,
-				EquipmentName.SelectedItem,
-				DateBegin.Value,
-				DateEnd.Value,
-				RankS.Checked,
-				RankA.Checked,
-				RankB.Checked,
-				RankX.Checked,
-				MapAreaID.SelectedItem,
-				MapInfoID.SelectedItem,
-				MapCellID.SelectedItem,
-				IsBossOnly.CheckState,
-				MapDifficulty.SelectedItem,
-				MergeRows.Checked,
-				row
-				} );
+			StatusInfo.Text = "検索中です...";
+			StatusInfo.Tag = DateTime.Now;
+
+			Searcher.RunWorkerAsync( args );
 		}
-
-
-		private void DropView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
-
-			if ( (bool)DropView.Tag ) {
-				// merged
-
-				if ( e.ColumnIndex == DropView_Header.Index ||
-					 e.ColumnIndex == DropView_Date.Index ||
-					 e.ColumnIndex == DropView_Map.Index ||
-					 e.ColumnIndex == DropView_Rank.Index ) {
-
-					if ( DropView[e.ColumnIndex, e.RowIndex].Tag is double ) {
-						e.Value = string.Format( "{0} ({1:p1})", e.Value, (double)DropView[e.ColumnIndex, e.RowIndex].Tag );
-					} else {
-						int max = (int)DropView[e.ColumnIndex, e.RowIndex].Tag;
-						e.Value = string.Format( "{0}/{1} ({2:p1})", e.Value, max, (double)( (int)e.Value ) / Math.Max( max, 1 ) );
-					}
-					e.FormattingApplied = true;
-				}
-
-			} else {
-				//not merged
-
-				if ( e.ColumnIndex == DropView_Date.Index ) {
-					e.Value = DateTimeHelper.TimeToCSVString( (DateTime)e.Value );
-					e.FormattingApplied = true;
-
-				} else if ( e.ColumnIndex == DropView_Rank.Index ) {
-					e.Value = Constants.GetWinRank( (int)e.Value );
-					e.FormattingApplied = true;
-				}
-			}
-		}
-
-
-		private void MapAreaID_SelectedIndexChanged( object sender, EventArgs e ) {
-			if ( (string)MapAreaID.SelectedItem == MapAny || (string)MapInfoID.SelectedItem == MapAny ) {
-				MapCellID.Enabled = false;
-				if ( MapCellID.Items.Count > 0 )
-					MapCellID.SelectedIndex = 0;
-
-			} else {
-				MapCellID.Enabled = true;
-				MapCellID.Items.Clear();
-				MapCellID.Items.Add( MapAny );
-				MapCellID.Items.AddRange( _record.Record
-					.Where( r => r.MapAreaID == int.Parse( (string)MapAreaID.SelectedItem ) && r.MapInfoID == int.Parse( (string)MapInfoID.SelectedItem ) )
-					.Select( r => r.CellID )
-					.Distinct()
-					.OrderBy( i => i )
-					.Select( i => i.ToString() ).ToArray() );
-				MapCellID.SelectedIndex = 0;
-			}
-		}
-
-
-
 
 
 		private void Searcher_DoWork( object sender, DoWorkEventArgs e ) {
 
-			object[] args = (object[])e.Argument;
-
-			string shipName = (string)args[0];
-			string itemName = (string)args[1];
-			string equipmentName = (string)args[2];
-			DateTime dateBegin = (DateTime)args[3];
-			DateTime dateEnd = (DateTime)args[4];
-			bool rankS = (bool)args[5];
-			bool rankA = (bool)args[6];
-			bool rankB = (bool)args[7];
-			bool rankX = (bool)args[8];
-			string mapArea = (string)args[9];
-			string mapInfo = (string)args[10];
-			string mapCell = (string)args[11];
-			CheckState isBoss = (CheckState)args[12];
-			string difficulty = (string)args[13];
-			bool mergeRows = (bool)args[14];
-			DataGridViewRow origin = (DataGridViewRow)args[15];
+			SearchArgument args = (SearchArgument)e.Argument;
 
 
 			int priorityShip = 
-				shipName == NameAny ? 0 :
-				shipName == NameExist ? 1 : 2;
+				args.ShipName == NameAny ? 0 :
+				args.ShipName == NameExist ? 1 : 2;
 			int priorityItem =
-				itemName == NameAny ? 0 :
-				itemName == NameExist ? 1 : 2;
+				args.ItemName == NameAny ? 0 :
+				args.ItemName == NameExist ? 1 : 2;
 			int priorityContent = Math.Max( priorityShip, priorityItem );
 
 			var records = RecordManager.Instance.ShipDrop.Record;
@@ -325,33 +462,31 @@ namespace ElectronicObserver.Window.Dialog {
 			//lock ( records ) 
 			{
 				int i = 0;
-				var allcounts = new Dictionary<string, int[]>();
 				var counts = new Dictionary<string, int[]>();
+				var allcounts = new Dictionary<string, int[]>();
 
 
 				foreach ( var r in records ) {
 
 					#region Filtering
 
-
-
-					if ( r.Date < dateBegin || dateEnd < r.Date )
+					if ( r.Date < args.DateBegin || args.DateEnd < r.Date )
 						continue;
 
-					if ( ( ( r.Rank == "SS" || r.Rank == "S" ) && !rankS ) ||
-						 ( ( r.Rank == "A" ) && !rankA ) ||
-						 ( ( r.Rank == "B" ) && !rankB ) ||
-						 ( ( Constants.GetWinRank( r.Rank ) <= 3 ) && !rankX ) )
+					if ( ( ( r.Rank == "SS" || r.Rank == "S" ) && !args.RankS ) ||
+						 ( ( r.Rank == "A" ) && !args.RankA ) ||
+						 ( ( r.Rank == "B" ) && !args.RankB ) ||
+						 ( ( Constants.GetWinRank( r.Rank ) <= 3 ) && !args.RankX ) )
 						continue;
 
 
-					if ( mapArea != MapAny && int.Parse( mapArea ) != r.MapAreaID )
+					if ( args.MapAreaID != -1 && args.MapAreaID != r.MapAreaID )
 						continue;
-					if ( mapInfo != MapAny && int.Parse( mapInfo ) != r.MapInfoID )
+					if ( args.MapInfoID != -1 && args.MapInfoID != r.MapInfoID )
 						continue;
-					if ( mapCell != MapAny && int.Parse( mapCell ) != r.CellID )
+					if ( args.MapCellID != -1 && args.MapCellID != r.CellID )
 						continue;
-					switch ( isBoss ) {
+					switch ( args.IsBossOnly ) {
 						case CheckState.Unchecked:
 							if ( r.IsBossNode )
 								continue;
@@ -361,16 +496,16 @@ namespace ElectronicObserver.Window.Dialog {
 								continue;
 							break;
 					}
-					if ( difficulty != MapAny && difficulty != Constants.GetDifficulty( r.Difficulty ) )
+					if ( args.MapDifficulty != 0 && args.MapDifficulty != r.Difficulty )
 						continue;
 
 
 
-					if ( mergeRows ) {
+					if ( args.MergeRows ) {
 						string key;
 
 						if ( priorityContent == 2 ) {
-							key = GetMapSerialID( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, difficulty == MapAny ? -1 : r.Difficulty ).ToString( "X8" );
+							key = GetMapSerialID( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, args.MapDifficulty == 0 ? -1 : r.Difficulty ).ToString( "X8" );
 
 						} else {
 							key = GetContentString( r, priorityShip < priorityItem && priorityShip < 2, priorityShip >= priorityItem && priorityItem < 2 );
@@ -398,7 +533,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-					switch ( shipName ) {
+					switch ( args.ShipName ) {
 						case NameAny:
 							break;
 						case NameExist:
@@ -414,12 +549,12 @@ namespace ElectronicObserver.Window.Dialog {
 								continue;
 							break;
 						default:
-							if ( r.ShipName != shipName )
+							if ( r.ShipName != args.ShipName )
 								continue;
 							break;
 					}
 
-					switch ( itemName ) {
+					switch ( args.ItemName ) {
 						case NameAny:
 							break;
 						case NameExist:
@@ -431,7 +566,7 @@ namespace ElectronicObserver.Window.Dialog {
 								continue;
 							break;
 						default:
-							if ( r.ItemName != itemName )
+							if ( r.ItemName != args.ItemName )
 								continue;
 							break;
 					}
@@ -439,17 +574,21 @@ namespace ElectronicObserver.Window.Dialog {
 					#endregion
 
 
-					if ( !mergeRows ) {
-						var row = (DataGridViewRow)origin.Clone();
+					if ( !args.MergeRows ) {
+						var row = (DataGridViewRow)args.BaseRow.Clone();
 
 						row.SetValues(
 							i + 1,
 							GetContentString( r ),
 							r.Date,
 							GetMapString( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, r.Difficulty ),
-							Constants.GetWinRank( r.Rank )
+							Constants.GetWinRank( r.Rank ),
+							null,
+							null,
+							null
 							);
 
+						row.Cells[1].Tag = GetContentStringForSorting( r );
 						row.Cells[3].Tag = GetMapSerialID( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, r.Difficulty );
 
 						rows.AddLast( row );
@@ -461,10 +600,10 @@ namespace ElectronicObserver.Window.Dialog {
 						string key;
 
 						if ( priorityContent == 2 ) {
-							key = GetMapSerialID( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, difficulty == MapAny ? -1 : r.Difficulty ).ToString( "X8" );
+							key = GetMapSerialID( r.MapAreaID, r.MapInfoID, r.CellID, r.IsBossNode, args.MapDifficulty == 0 ? -1 : r.Difficulty ).ToString( "X8" );
 
 						} else {
-							key = GetContentString( r, priorityShip < priorityItem && priorityShip < 2, priorityShip >= priorityItem && priorityItem < 2 );
+							key = GetContentStringForSorting( r, priorityShip < priorityItem && priorityShip < 2, priorityShip >= priorityItem && priorityItem < 2 );
 						}
 
 
@@ -497,12 +636,12 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 
 
-				if ( mergeRows ) {
+				if ( args.MergeRows ) {
 
 					int[] allcountssum = Enumerable.Range( 0, 4 ).Select( k => allcounts.Values.Sum( a => a[k] ) ).ToArray();
 
 					foreach ( var c in counts ) {
-						var row = (DataGridViewRow)origin.Clone();
+						var row = (DataGridViewRow)args.BaseRow.Clone();
 
 						string name = c.Key;
 
@@ -510,10 +649,14 @@ namespace ElectronicObserver.Window.Dialog {
 						if ( int.TryParse( name, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out serialID ) )
 							name = GetMapString( serialID );
 
+						// fixme: name != map だった時にソートキーが入れられない
 
 						row.SetValues(
 							c.Value[0],
-							name,
+							serialID != 0 ? name : ConvertContentString( name ),
+							null,
+							null,
+							null,
 							c.Value[1],
 							c.Value[2],
 							c.Value[3]
@@ -522,17 +665,23 @@ namespace ElectronicObserver.Window.Dialog {
 
 						if ( priorityContent == 2 ) {
 							row.Cells[0].Tag = allcounts[c.Key][0];
-							row.Cells[1].Tag = serialID;
-							row.Cells[2].Tag = allcounts[c.Key][1];
-							row.Cells[3].Tag = allcounts[c.Key][2];
-							row.Cells[4].Tag = allcounts[c.Key][3];
+							if ( serialID != 0 )
+								row.Cells[1].Tag = serialID;
+							else
+								row.Cells[1].Tag = name;
+							row.Cells[5].Tag = allcounts[c.Key][1];
+							row.Cells[6].Tag = allcounts[c.Key][2];
+							row.Cells[7].Tag = allcounts[c.Key][3];
 
 						} else {
 							row.Cells[0].Tag = ( (double)c.Value[0] / Math.Max( allcountssum[0], 1 ) );
-							row.Cells[1].Tag = serialID;
-							row.Cells[2].Tag = ( (double)c.Value[1] / Math.Max( allcountssum[1], 1 ) );
-							row.Cells[3].Tag = ( (double)c.Value[2] / Math.Max( allcountssum[2], 1 ) );
-							row.Cells[4].Tag = ( (double)c.Value[3] / Math.Max( allcountssum[3], 1 ) );
+							if ( serialID != 0 )
+								row.Cells[1].Tag = serialID;
+							else
+								row.Cells[1].Tag = name;
+							row.Cells[5].Tag = ( (double)c.Value[1] / Math.Max( allcountssum[1], 1 ) );
+							row.Cells[6].Tag = ( (double)c.Value[2] / Math.Max( allcountssum[2], 1 ) );
+							row.Cells[7].Tag = ( (double)c.Value[3] / Math.Max( allcountssum[3], 1 ) );
 
 						}
 
@@ -553,84 +702,110 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( !e.Cancelled ) {
 				var rows = (DataGridViewRow[])e.Result;
 
-				DropView.Rows.AddRange( rows );
+				RecordView.Rows.AddRange( rows );
 
-				DropView.Sort( DropView.SortedColumn ?? DropView_Header, DropView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
+				RecordView.Sort( RecordView.SortedColumn ?? RecordView_Header,
+					RecordView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
+
+				StatusInfo.Text = "検索が完了しました。(" + (int)( DateTime.Now - (DateTime)StatusInfo.Tag ).TotalMilliseconds + " ms)";
+
+			} else {
+
+				StatusInfo.Text = "検索がキャンセルされました。";
 			}
 
 		}
 
 
-		private void DropView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
+		private void RecordView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
-			if ( (bool)DropView.Tag ) {
-				if ( e.Column.Index == DropView_Header.Index ||
-					 e.Column.Index == DropView_Date.Index ||
-					 e.Column.Index == DropView_Map.Index ||
-					 e.Column.Index == DropView_Rank.Index ) {
-					var cell1 = DropView[e.Column.Index, e.RowIndex1];
-					var cell2 = DropView[e.Column.Index, e.RowIndex2];
+			object tag1 = RecordView[e.Column.Index, e.RowIndex1].Tag;
+			object tag2 = RecordView[e.Column.Index, e.RowIndex2].Tag;
 
-					double c1, c2;
-					if ( cell1.Tag is double ) {
-						c1 = (double)cell1.Tag;
-						c2 = (double)cell2.Tag;
-					} else {
-						c1 = (double)(int)cell1.Value / Math.Max( (int)cell1.Tag, 1 );
-						c2 = (double)(int)cell2.Value / Math.Max( (int)cell2.Tag, 1 );
-					}
+			if ( tag1 != null && ( tag1 is double || tag1 is int ) && e.CellValue1 is int ) {
+				double c1 = 0 , c2 = 0;
 
-					if ( Math.Abs( c1 - c2 ) < 0.000001 )		// 誤差がこれ以下なら一致とみなして分子で比較
-						e.SortResult = (int)cell1.Value - (int)cell2.Value;
-					else if ( c1 < c2 )
-						e.SortResult = -1;
-					else
-						e.SortResult = 1;
-
-					e.Handled = true;
-
-				} else if ( e.Column.Index == DropView_Name.Index ) {
-					var cell1 = DropView[e.Column.Index, e.RowIndex1];
-					var cell2 = DropView[e.Column.Index, e.RowIndex2];
-
-					if ( cell1.Tag is int ) {		//serialID
-						e.SortResult = (int)cell1.Tag - (int)cell2.Tag;
-						e.Handled = true;
-					}
+				if ( tag1 is double ) {
+					c1 = (double)tag1;
+					c2 = (double)tag2;
+				} else if ( tag1 is int ) {
+					c1 = (double)(int)e.CellValue1 / Math.Max( (int)tag1, 1 );
+					c2 = (double)(int)e.CellValue2 / Math.Max( (int)tag2, 1 );
 				}
 
-			} else {
 
-				if ( e.Column.Index == DropView_Map.Index ) {
-					var cell1 = DropView[e.Column.Index, e.RowIndex1];
-					var cell2 = DropView[e.Column.Index, e.RowIndex2];
+				if ( Math.Abs( c1 - c2 ) < 0.000001 )
+					e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;
+				else if ( c1 < c2 )
+					e.SortResult = -1;
+				else
+					e.SortResult = 1;
+				e.Handled = true;
 
-					if ( cell1.Tag is int ) {		//serialID
-						e.SortResult = (int)cell1.Tag - (int)cell2.Tag;
-						e.Handled = true;
-					}
-				}
+			} else if ( tag1 is string ) {
+				e.SortResult = ( (IComparable)tag1 ).CompareTo( tag2 );
+				e.Handled = true;
+			} else if ( tag1 is int ) {
+				e.SortResult = (int)tag1 - (int)tag2;
+				e.Handled = true;
 			}
 
+
 			if ( !e.Handled ) {
-				e.SortResult = ( (IComparable)e.CellValue1 ).CompareTo( e.CellValue2 );
+				e.SortResult = ( (IComparable)e.CellValue1 ?? 0 ).CompareTo( e.CellValue2 ?? 0 );
 				e.Handled = true;
 			}
 
 			if ( e.SortResult == 0 ) {
-				e.SortResult = (int)( DropView.Rows[e.RowIndex1].Tag ?? 0 ) - (int)( DropView.Rows[e.RowIndex2].Tag ?? 0 );
+				e.SortResult = (int)( RecordView.Rows[e.RowIndex1].Tag ?? 0 ) - (int)( RecordView.Rows[e.RowIndex2].Tag ?? 0 );
 			}
 
 		}
 
-		private void DropView_Sorted( object sender, EventArgs e ) {
+		private void RecordView_Sorted( object sender, EventArgs e ) {
 
-			for ( int i = 0; i < DropView.Rows.Count; i++ ) {
-				DropView.Rows[i].Tag = i;
+			for ( int i = 0; i < RecordView.Rows.Count; i++ ) {
+				RecordView.Rows[i].Tag = i;
 			}
 
 		}
 
+
+		private void RecordView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
+
+			SearchArgument args = (SearchArgument)RecordView.Tag;
+
+			if ( args.MergeRows ) {
+				// merged
+
+				if ( e.ColumnIndex == RecordView_Header.Index ||
+					 e.ColumnIndex == RecordView_RankS.Index ||
+					 e.ColumnIndex == RecordView_RankA.Index ||
+					 e.ColumnIndex == RecordView_RankB.Index ) {
+
+					if ( RecordView[e.ColumnIndex, e.RowIndex].Tag is double ) {
+						e.Value = string.Format( "{0} ({1:p1})", e.Value, (double)RecordView[e.ColumnIndex, e.RowIndex].Tag );
+					} else {
+						int max = (int)RecordView[e.ColumnIndex, e.RowIndex].Tag;
+						e.Value = string.Format( "{0}/{1} ({2:p1})", e.Value, max, (double)( (int)e.Value ) / Math.Max( max, 1 ) );
+					}
+					e.FormattingApplied = true;
+				}
+
+			} else {
+				//not merged
+
+				if ( e.ColumnIndex == RecordView_Date.Index ) {
+					e.Value = DateTimeHelper.TimeToCSVString( (DateTime)e.Value );
+					e.FormattingApplied = true;
+
+				} else if ( e.ColumnIndex == RecordView_Rank.Index ) {
+					e.Value = Constants.GetWinRank( (int)e.Value );
+					e.FormattingApplied = true;
+				}
+			}
+
+		}
 
 	}
 }

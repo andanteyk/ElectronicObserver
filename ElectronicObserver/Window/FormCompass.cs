@@ -590,6 +590,9 @@ namespace ElectronicObserver.Window {
 							}
 							break;
 
+						case 9:		//揚陸地点
+							TextEventDetail.Text = "";
+							break;
 
 						default:
 							TextEventDetail.Text = "";
@@ -626,7 +629,7 @@ namespace ElectronicObserver.Window {
 
 
 		private void BattleStarted( string apiname, dynamic data ) {
-			UpdateEnemyFleetInstant();
+			UpdateEnemyFleetInstant( apiname.Contains( "practice" ) );
 		}
 
 
@@ -666,7 +669,7 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private void UpdateEnemyFleetInstant() {
+		private void UpdateEnemyFleetInstant( bool isPractice = false ) {
 
 			BattleManager bm = KCDatabase.Instance.Battle;
 			BattleData bd;
@@ -705,8 +708,10 @@ namespace ElectronicObserver.Window {
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			TextFormation.Visible = true;
 			int airSuperiority = Calculator.GetAirSuperiority( enemies, slots );
-			TextAirSuperiority.Text = airSuperiority.ToString();
-			//string.Format( "{0}，优势 {1:F0}，确保 {2:F0}", airSuperiority, airSuperiority * 1.5, airSuperiority * 3 );
+			TextAirSuperiority.Text = isPractice ?
+				airSuperiority.ToString() + " ～ " + Calculator.GetAirSuperiorityAtMaxLevel( enemies, slots ).ToString() :
+				airSuperiority.ToString();
+			TextAirSuperiority.Visible = true;
 			ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
 			TextAA.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, bd.Searching.FormationEnemy ).ToString();
 

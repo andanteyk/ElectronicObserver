@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Notifier;
+using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Window.Support;
 using System;
 using System.Collections.Generic;
@@ -62,6 +63,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ShowWithActivation.Checked = notifier.DialogData.ShowWithActivation;
 			ForeColorPreview.ForeColor = notifier.DialogData.ForeColor;
 			BackColorPreview.ForeColor = notifier.DialogData.BackColor;
+			LevelBorder.Maximum = ExpTable.ShipMaximumLevel;
 
 			NotifierDamage ndmg = notifier as NotifierDamage;
 			if ( ndmg != null ) {

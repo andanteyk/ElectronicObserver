@@ -22,7 +22,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 泊地修理タイマ
 		/// </summary>
-		public DateTime AnchorageRepairingTimer { get; set; }
+		public DateTime AnchorageRepairingTimer { get; private set; }
 
 
 		public FleetManager() {
@@ -64,6 +64,7 @@ namespace ElectronicObserver.Data {
 						} else {
 							Fleets[id].LoadFromResponse( apiname, data );
 						}
+
 					} break;
 
 				default:
@@ -86,13 +87,14 @@ namespace ElectronicObserver.Data {
 					break;
 			}
 
-			//泊地修理関連
-			if ( apiname == "api_port/port" ) {
-				if ( ( DateTime.Now - AnchorageRepairingTimer ).TotalMinutes >= 20 || AnchorageRepairingTimer == DateTime.MinValue ) {
-					ResetAnchorageRepairing();
-				}
-			}
 
+			// 泊地修理の処理
+			if ( apiname == "api_port/port" ) {
+
+				if ( ( DateTime.Now - AnchorageRepairingTimer ).TotalMinutes >= 20 )
+					StartAnchorageRepairingTimer();
+
+			}
 		}
 
 
@@ -132,23 +134,13 @@ namespace ElectronicObserver.Data {
 
 		}
 
+
 		/// <summary>
-		/// 泊地修理タイマをリセットします。
+		/// 泊地修理タイマを現在時刻にセットします。
 		/// </summary>
-		public void ResetAnchorageRepairing() {
+		public void StartAnchorageRepairingTimer() {
 			AnchorageRepairingTimer = DateTime.Now;
 		}
-
-
-		/// <summary>
-		/// 泊地修理を開始します。
-		/// </summary>
-		public void StartAnchorageRepairing() {
-			if ( Fleets.Values.Count( f => f.IsAnchorageRepairing ) == 1 ) {
-				ResetAnchorageRepairing();
-			}
-		}
-
 
 	}
 

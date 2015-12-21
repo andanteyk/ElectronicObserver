@@ -116,6 +116,7 @@ namespace ElectronicObserver.Window.Integrate {
 			}
 			set {
 				Text = value.CurrentTitle;
+				//TabText = value.CurrentTitle.Length > 16 ? value.CurrentTitle.Substring( 0, 16 ) + "..." : value.CurrentTitle;
 				titleTextBox.Text = value.Title.Name;
 				titleComboBox.SelectedIndex = (int)value.Title.MatchControl;
 				classNameTextBox.Text = value.ClassName.Name;
@@ -330,6 +331,7 @@ namespace ElectronicObserver.Window.Integrate {
 					origWindowRect.right - origWindowRect.left,
 					origWindowRect.bottom - origWindowRect.top, true );
 				attachingWindow = IntPtr.Zero;
+
 			}
 		}
 
