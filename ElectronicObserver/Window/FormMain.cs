@@ -203,6 +203,17 @@ namespace ElectronicObserver.Window {
 			MainDockPanel.Skin.AutoHideStripSkin.TextFont = Font;
 			MainDockPanel.Skin.DockPaneStripSkin.TextFont = Font;
 
+
+			if ( c.Life.LockLayout ) {
+				MainDockPanel.AllowChangeLayout = false;
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			} else {
+				MainDockPanel.AllowChangeLayout = true;
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+			}
+
+			StripMenu_File_Layout_LockLayout.Checked = c.Life.LockLayout;
+			MainDockPanel.CanCloseFloatWindowInLock = c.Life.CanCloseFloatWindowInLock;
 		}
 
 
@@ -381,21 +392,6 @@ namespace ElectronicObserver.Window {
 
 					MainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
-					//一度全ウィンドウを読み込むことでフォームを初期化する
-					foreach ( var x in MainDockPanel.Contents ) {
-						if ( x.DockHandler.DockState == DockState.Hidden ) {
-							x.DockHandler.Show( MainDockPanel );
-							x.DockHandler.Hide();
-						} else {
-							x.DockHandler.Activate();
-						}
-					}
-
-					// checkme: このコードの存在意義
-					/*/
-					if ( MainDockPanel.Contents.Count > 0 )
-						MainDockPanel.Contents.First().DockHandler.Activate();
-					//*/
 
 					fWindowCapture.AttachAll();
 
@@ -441,9 +437,10 @@ namespace ElectronicObserver.Window {
 
 					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Read ) ) {
 
+						MainDockPanel.SuspendLayout( true );
+
 						WindowPlacementManager.LoadWindowPlacement( this, archive.GetEntry( "WindowPlacement.xml" ).Open() );
 						LoadSubWindowsLayout( archive.GetEntry( "SubWindowLayout.xml" ).Open() );
-
 					}
 				}
 
@@ -469,6 +466,10 @@ namespace ElectronicObserver.Window {
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ レイアウトの復元に失敗しました。" );
+
+			} finally {
+
+				MainDockPanel.ResumeLayout( true, true );
 			}
 
 		}
@@ -1067,6 +1068,14 @@ namespace ElectronicObserver.Window {
 
 
 
+		private void StripMenu_File_Layout_LockLayout_Click( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.Life.LockLayout = StripMenu_File_Layout_LockLayout.Checked;
+			ConfigurationChanged();
+
+		}
+
+
 
 
 
@@ -1154,6 +1163,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
+		
 
 
 

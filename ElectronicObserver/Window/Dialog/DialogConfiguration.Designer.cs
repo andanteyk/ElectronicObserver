@@ -77,6 +77,7 @@
 			this.Debug_APIListPathSearch = new System.Windows.Forms.Button();
 			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.Life_LockLayout = new System.Windows.Forms.CheckBox();
 			this.label24 = new System.Windows.Forms.Label();
 			this.Life_ClockFormat = new System.Windows.Forms.ComboBox();
 			this.Life_ShowStatusBar = new System.Windows.Forms.CheckBox();
@@ -163,6 +164,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
+			this.Life_CanCloseFloatWindowInLock = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -809,6 +811,8 @@
 			// 
 			// tabPage6
 			// 
+			this.tabPage6.Controls.Add(this.Life_CanCloseFloatWindowInLock);
+			this.tabPage6.Controls.Add(this.Life_LockLayout);
 			this.tabPage6.Controls.Add(this.label24);
 			this.tabPage6.Controls.Add(this.Life_ClockFormat);
 			this.tabPage6.Controls.Add(this.Life_ShowStatusBar);
@@ -825,6 +829,17 @@
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
+			// 
+			// Life_LockLayout
+			// 
+			this.Life_LockLayout.AutoSize = true;
+			this.Life_LockLayout.Location = new System.Drawing.Point(213, 35);
+			this.Life_LockLayout.Name = "Life_LockLayout";
+			this.Life_LockLayout.Size = new System.Drawing.Size(122, 19);
+			this.Life_LockLayout.TabIndex = 9;
+			this.Life_LockLayout.Text = "レイアウトをロックする";
+			this.ToolTipInfo.SetToolTip(this.Life_LockLayout, "サイズやレイアウトの変更を防止するかを指定します。");
+			this.Life_LockLayout.UseVisualStyleBackColor = true;
 			// 
 			// label24
 			// 
@@ -920,10 +935,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 44);
+			this.tabPage7.Location = new System.Drawing.Point(4, 24);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(456, 233);
+			this.tabPage7.Size = new System.Drawing.Size(456, 253);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -941,7 +956,7 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(450, 227);
+			this.tabControl2.Size = new System.Drawing.Size(450, 247);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
@@ -960,7 +975,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(442, 199);
+			this.tabPage8.Size = new System.Drawing.Size(442, 219);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -1219,7 +1234,7 @@
 			this.tabPage13.Location = new System.Drawing.Point(4, 22);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 201);
+			this.tabPage13.Size = new System.Drawing.Size(442, 221);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1261,7 +1276,7 @@
 			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 201);
+			this.tabPage12.Size = new System.Drawing.Size(442, 221);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1769,6 +1784,18 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
+			// Life_CanCloseFloatWindowInLock
+			// 
+			this.Life_CanCloseFloatWindowInLock.AutoSize = true;
+			this.Life_CanCloseFloatWindowInLock.Location = new System.Drawing.Point(213, 60);
+			this.Life_CanCloseFloatWindowInLock.Name = "Life_CanCloseFloatWindowInLock";
+			this.Life_CanCloseFloatWindowInLock.Size = new System.Drawing.Size(197, 19);
+			this.Life_CanCloseFloatWindowInLock.TabIndex = 10;
+			this.Life_CanCloseFloatWindowInLock.Text = "ロック中でもフロートウィンドウを閉じる";
+			this.ToolTipInfo.SetToolTip(this.Life_CanCloseFloatWindowInLock, "上記「レイアウトをロックする」が有効な時でも、\r\nフロートウィンドウ(本体とは分離したウィンドウ)を閉じられるようにするかを指定します。\r\nよくウィンドウを一時的" +
+        "に開く方は有効にすると便利です。");
+			this.Life_CanCloseFloatWindowInLock.UseVisualStyleBackColor = true;
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1981,6 +2008,8 @@
 		private System.Windows.Forms.Label Connection_DownstreamProxyLabel;
 		private System.Windows.Forms.TextBox Connection_DownstreamProxy;
 		private System.Windows.Forms.TextBox Connection_UpstreamProxyAddress;
+		private System.Windows.Forms.CheckBox Life_LockLayout;
+		private System.Windows.Forms.CheckBox Life_CanCloseFloatWindowInLock;
 		private System.Windows.Forms.CheckBox UI_BarColorMorphing;
 	}
 }
