@@ -89,6 +89,7 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.UI_BarColorMorphing = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ShowAnchorageRepairingTimer = new System.Windows.Forms.CheckBox();
 			this.FormFleet_AirSuperiorityMethod = new System.Windows.Forms.ComboBox();
 			this.label23 = new System.Windows.Forms.Label();
@@ -162,7 +163,6 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.FormFleet_BarColorMorphing = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -475,6 +475,7 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.UI_BarColorMorphing);
 			this.tabPage2.Controls.Add(this.UI_SubFontApply);
 			this.tabPage2.Controls.Add(this.UI_MainFontApply);
 			this.tabPage2.Controls.Add(this.UI_SubFontSelect);
@@ -483,10 +484,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(456, 253);
+			this.tabPage2.Size = new System.Drawing.Size(456, 233);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -817,10 +818,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 253);
+			this.tabPage6.Size = new System.Drawing.Size(456, 233);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -945,7 +946,6 @@
 			// 
 			// tabPage8
 			// 
-			this.tabPage8.Controls.Add(this.FormFleet_BarColorMorphing);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowAnchorageRepairingTimer);
 			this.tabPage8.Controls.Add(this.FormFleet_AirSuperiorityMethod);
 			this.tabPage8.Controls.Add(this.label23);
@@ -964,6 +964,17 @@
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
+			// 
+			// UI_BarColorMorphing
+			// 
+			this.UI_BarColorMorphing.AutoSize = true;
+			this.UI_BarColorMorphing.Location = new System.Drawing.Point(8, 64);
+			this.UI_BarColorMorphing.Name = "UI_BarColorMorphing";
+			this.UI_BarColorMorphing.Size = new System.Drawing.Size(167, 19);
+			this.UI_BarColorMorphing.TabIndex = 11;
+			this.UI_BarColorMorphing.Text = "バーの色を滑らかに変化させる";
+			this.ToolTipInfo.SetToolTip(this.UI_BarColorMorphing, "HP・資源等のバーの色を、艦これUIと同様に滑らかに変化させるか指定します。");
+			this.UI_BarColorMorphing.UseVisualStyleBackColor = true;
 			// 
 			// FormFleet_ShowAnchorageRepairingTimer
 			// 
@@ -1090,7 +1101,7 @@
 			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 221);
+			this.tabPage9.Size = new System.Drawing.Size(442, 201);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -1111,7 +1122,7 @@
 			this.tabPage16.Location = new System.Drawing.Point(4, 22);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(442, 221);
+			this.tabPage16.Size = new System.Drawing.Size(442, 201);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1133,7 +1144,7 @@
 			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 221);
+			this.tabPage10.Size = new System.Drawing.Size(442, 201);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1205,10 +1216,10 @@
 			// 
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 24);
+			this.tabPage13.Location = new System.Drawing.Point(4, 22);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 199);
+			this.tabPage13.Size = new System.Drawing.Size(442, 201);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1247,10 +1258,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 24);
+			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 199);
+			this.tabPage12.Size = new System.Drawing.Size(442, 201);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1431,7 +1442,7 @@
 			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 221);
+			this.tabPage14.Size = new System.Drawing.Size(442, 201);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1758,17 +1769,6 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// FormFleet_BarColorMorphing
-			// 
-			this.FormFleet_BarColorMorphing.AutoSize = true;
-			this.FormFleet_BarColorMorphing.Location = new System.Drawing.Point(156, 138);
-			this.FormFleet_BarColorMorphing.Name = "FormFleet_BarColorMorphing";
-			this.FormFleet_BarColorMorphing.Size = new System.Drawing.Size(167, 19);
-			this.FormFleet_BarColorMorphing.TabIndex = 11;
-			this.FormFleet_BarColorMorphing.Text = "バーの色を滑らかに変化させる";
-			this.ToolTipInfo.SetToolTip(this.FormFleet_BarColorMorphing, "HP・資源等のバーの色を、艦これUIと同様に滑らかに変化させるか指定します。");
-			this.FormFleet_BarColorMorphing.UseVisualStyleBackColor = true;
-			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -1981,6 +1981,6 @@
 		private System.Windows.Forms.Label Connection_DownstreamProxyLabel;
 		private System.Windows.Forms.TextBox Connection_DownstreamProxy;
 		private System.Windows.Forms.TextBox Connection_UpstreamProxyAddress;
-		private System.Windows.Forms.CheckBox FormFleet_BarColorMorphing;
+		private System.Windows.Forms.CheckBox UI_BarColorMorphing;
 	}
 }

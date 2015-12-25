@@ -177,7 +177,6 @@ namespace ElectronicObserver.Window {
 				APIObserver.Instance.APIList["api_port/port"].ResponseReceived += CallPumpkinHead;
 			}
 
-
 			// 完了通知（ログインページを開く）
 			fBrowser.InitializeApiCompleted();
 
@@ -998,7 +997,7 @@ namespace ElectronicObserver.Window {
 				dialog.Title = "レイアウト ファイルの保存";
 
 
-				PathHelper.InitSaveFileDialog ( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+				PathHelper.InitSaveFileDialog( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
@@ -1155,7 +1154,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
+
 
 
 	}
