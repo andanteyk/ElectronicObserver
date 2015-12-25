@@ -241,7 +241,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void Debug_EnableDebugMenu_CheckedChanged( object sender, EventArgs e ) {
-		
+
 			Debug_SealingPanel.Visible =
 			Connection_UpstreamProxyAddress.Visible =
 			Connection_DownstreamProxy.Visible =
@@ -285,6 +285,7 @@ namespace ElectronicObserver.Window.Dialog {
 			UI_MainFont.Text = config.UI.MainFont.SerializeFontAttribute;
 			UI_SubFont.Font = config.UI.SubFont.FontData;
 			UI_SubFont.Text = config.UI.SubFont.SerializeFontAttribute;
+			UI_BarColorMorphing.Checked = config.UI.BarColorMorphing;
 
 			//[ログ]
 			Log_LogLevel.Value = config.Log.LogLevel;
@@ -322,7 +323,6 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShowEquipmentLevel.Checked = config.FormFleet.ShowEquipmentLevel;
 			FormFleet_AirSuperiorityMethod.SelectedIndex = config.FormFleet.AirSuperiorityMethod;
 			FormFleet_ShowAnchorageRepairingTimer.Checked = config.FormFleet.ShowAnchorageRepairingTimer;
-			FormFleet_BarColorMorphing.Checked = config.FormFleet.BarColorMorphing;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 
@@ -439,6 +439,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//[UI]
 			config.UI.MainFont = UI_MainFont.Font;
 			config.UI.SubFont = UI_SubFont.Font;
+			config.UI.BarColorMorphing = UI_BarColorMorphing.Checked;
 
 			//[ログ]
 			config.Log.LogLevel = (int)Log_LogLevel.Value;
@@ -476,7 +477,6 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowEquipmentLevel = FormFleet_ShowEquipmentLevel.Checked;
 			config.FormFleet.AirSuperiorityMethod = FormFleet_AirSuperiorityMethod.SelectedIndex;
 			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
-			config.FormFleet.BarColorMorphing = FormFleet_BarColorMorphing.Checked;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 

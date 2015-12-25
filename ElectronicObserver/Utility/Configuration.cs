@@ -59,12 +59,6 @@ namespace ElectronicObserver.Utility {
 				public bool SaveReceivedData { get; set; }
 
 				/// <summary>
-				/// 通信内容保存：フィルタ
-				/// </summary>
-				[Obsolete]
-				public string SaveDataFilter { get; set; }
-
-				/// <summary>
 				/// 通信内容保存：保存先
 				/// </summary>
 				public string SaveDataPath { get; set; }
@@ -142,7 +136,6 @@ namespace ElectronicObserver.Utility {
 
 					Port = 40620;
 					SaveReceivedData = false;
-					SaveDataFilter = "";
 					SaveDataPath = @"KCAPI";
 					SaveRequest = false;
 					SaveResponse = true;
@@ -178,12 +171,66 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public SerializableFont SubFont { get; set; }
 
+				[IgnoreDataMember]
+				private bool _barColorMorphing;
+
+				/// <summary>
+				/// HPバーの色を滑らかに変化させるか
+				/// </summary>
+				public bool BarColorMorphing {
+					get { return _barColorMorphing; }
+					set {
+						_barColorMorphing = value;
+
+						if ( !_barColorMorphing )
+							BarColorScheme = new List<SerializableColor>( DefaultBarColorScheme[0] );
+						else
+							BarColorScheme = new List<SerializableColor>( DefaultBarColorScheme[1] );
+					}
+				}
+
+				/// <summary>
+				/// HPバーのカラーリング
+				/// </summary>
+				public List<SerializableColor> BarColorScheme { get; set; }
+
+
+				[IgnoreDataMember]
+				private readonly List<SerializableColor>[] DefaultBarColorScheme = new List<SerializableColor>[] {
+					new List<SerializableColor>() {
+						SerializableColor.UIntToColor( 0xFFFF0000 ),
+						SerializableColor.UIntToColor( 0xFFFF0000 ),
+						SerializableColor.UIntToColor( 0xFFFF8800 ),
+						SerializableColor.UIntToColor( 0xFFFF8800 ),
+						SerializableColor.UIntToColor( 0xFFFFCC00 ),
+						SerializableColor.UIntToColor( 0xFFFFCC00 ),
+						SerializableColor.UIntToColor( 0xFF00CC00 ),
+						SerializableColor.UIntToColor( 0xFF00CC00 ),
+						SerializableColor.UIntToColor( 0xFF0044CC ),
+						SerializableColor.UIntToColor( 0xFF44FF00 ),
+						SerializableColor.UIntToColor( 0xFF882222 ),
+						SerializableColor.UIntToColor( 0xFF888888 ),
+					},
+					new List<SerializableColor>() {
+						SerializableColor.UIntToColor( 0xFFCC0000 ),
+						SerializableColor.UIntToColor( 0xFFCC0000 ),
+						SerializableColor.UIntToColor( 0xFFFF4000 ),
+						SerializableColor.UIntToColor( 0xFFFFA000 ),
+						SerializableColor.UIntToColor( 0xFFFFC000 ),
+						SerializableColor.UIntToColor( 0xFFFFFF00 ),
+						SerializableColor.UIntToColor( 0xFFC0FF00 ),
+						SerializableColor.UIntToColor( 0xFF00CC00 ),
+						SerializableColor.UIntToColor( 0xFF0044CC ),
+						SerializableColor.UIntToColor( 0xFF44FF00 ),
+						SerializableColor.UIntToColor( 0xFF800000 ),
+						SerializableColor.UIntToColor( 0xFF888888 ),
+					},
+				};
 
 				public ConfigUI() {
-					//*/
 					MainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 					SubFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
-					//*/
+					BarColorMorphing = false;
 				}
 			}
 			/// <summary>UI</summary>
@@ -458,6 +505,7 @@ namespace ElectronicObserver.Utility {
 				/// <summary>
 				/// バーの色を滑らかに変化させるか
 				/// </summary>
+				[Obsolete]
 				public bool BarColorMorphing { get; set; }
 
 
