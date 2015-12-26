@@ -211,20 +211,37 @@ namespace ElectronicObserver.Utility {
 						SerializableColor.UIntToColor( 0xFF882222 ),
 						SerializableColor.UIntToColor( 0xFF888888 ),
 					},
+					/*/// recognize
 					new List<SerializableColor>() {
-						SerializableColor.UIntToColor( 0xFFCC0000 ),
-						SerializableColor.UIntToColor( 0xFFCC0000 ),
-						SerializableColor.UIntToColor( 0xFFFF4000 ),
-						SerializableColor.UIntToColor( 0xFFFFA000 ),
-						SerializableColor.UIntToColor( 0xFFFFC000 ),
-						SerializableColor.UIntToColor( 0xFFFFFF00 ),
-						SerializableColor.UIntToColor( 0xFFC0FF00 ),
+						SerializableColor.UIntToColor( 0xFFFF0000 ),
+						SerializableColor.UIntToColor( 0xFFFF0000 ),
+						SerializableColor.UIntToColor( 0xFFFF6600 ),
+						SerializableColor.UIntToColor( 0xFFFF9900 ),
+						SerializableColor.UIntToColor( 0xFFFFCC00 ),
+						SerializableColor.UIntToColor( 0xFFEEEE00 ),
+						SerializableColor.UIntToColor( 0xFFAAEE00 ),
 						SerializableColor.UIntToColor( 0xFF00CC00 ),
 						SerializableColor.UIntToColor( 0xFF0044CC ),
-						SerializableColor.UIntToColor( 0xFF44FF00 ),
-						SerializableColor.UIntToColor( 0xFF800000 ),
+						SerializableColor.UIntToColor( 0xFF00FF44 ),
+						SerializableColor.UIntToColor( 0xFF882222 ),
 						SerializableColor.UIntToColor( 0xFF888888 ),
 					},
+					/*/// gradation
+					new List<SerializableColor>() {
+						SerializableColor.UIntToColor( 0xFFFF0000 ),
+						SerializableColor.UIntToColor( 0xFFFF0000 ),
+						SerializableColor.UIntToColor( 0xFFFF4400 ),
+						SerializableColor.UIntToColor( 0xFFFF8800 ),
+						SerializableColor.UIntToColor( 0xFFFFAA00 ),
+						SerializableColor.UIntToColor( 0xFFEEEE00 ),
+						SerializableColor.UIntToColor( 0xFFCCEE00 ),
+						SerializableColor.UIntToColor( 0xFF00CC00 ),
+						SerializableColor.UIntToColor( 0xFF0044CC ),
+						SerializableColor.UIntToColor( 0xFF00FF44 ),
+						SerializableColor.UIntToColor( 0xFF882222 ),
+						SerializableColor.UIntToColor( 0xFF888888 ),
+					},
+					//*/
 				};
 
 				public ConfigUI() {
