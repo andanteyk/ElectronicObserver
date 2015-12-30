@@ -758,6 +758,10 @@ namespace ElectronicObserver.Utility {
 
 				public bool PlaysSound { get; set; }
 
+				public int SoundVolume { get; set; }
+
+				public bool LoopsSound { get; set; }
+
 				public bool DrawsMessage { get; set; }
 
 				public int ClosingInterval { get; set; }
@@ -790,6 +794,8 @@ namespace ElectronicObserver.Utility {
 					DrawsImage = false;
 					SoundPath = "";
 					PlaysSound = false;
+					SoundVolume = 100;
+					LoopsSound = false;
 					DrawsMessage = true;
 					ClosingInterval = 10000;
 					AccelInterval = 0;

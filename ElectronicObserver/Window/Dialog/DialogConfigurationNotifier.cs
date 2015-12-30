@@ -42,6 +42,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			PlaysSound.Checked = notifier.PlaysSound;
 			SoundPath.Text = notifier.SoundPath;
+			SoundVolume.Value = notifier.SoundVolume;
+			LoopsSound.Checked = notifier.LoopsSound;
 
 			DrawsImage.Checked = notifier.DialogData.DrawsImage;
 			ImagePath.Text = notifier.DialogData.ImagePath;
@@ -78,6 +80,9 @@ namespace ElectronicObserver.Window.Dialog {
 				GroupDamage.Visible = false;
 				GroupDamage.Enabled = false;
 			}
+
+
+			DialogOpenSound.Filter = "音楽ファイル|" + string.Join( ";", Utility.MediaPlayer.SupportedExtensions.Select( s => "*." + s ) ) + "|File|*";
 
 		}
 
@@ -231,6 +236,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			_notifier.PlaysSound = PlaysSound.Checked;
 			_notifier.DialogData.DrawsImage = DrawsImage.Checked;
+			_notifier.SoundVolume = (int)SoundVolume.Value;
+			_notifier.LoopsSound = LoopsSound.Checked;
 
 			_notifier.ShowsDialog = ShowsDialog.Checked;
 			_notifier.DialogData.TopMost = TopMostFlag.Checked;

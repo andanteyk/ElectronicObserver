@@ -252,6 +252,7 @@ namespace ElectronicObserver.Data.Battle {
 
 
 			//DEBUG
+			/*/
 			if ( Utility.Configuration.Config.Log.LogLevel <= 1 && Utility.Configuration.Config.Connection.SaveReceivedData ) {
 				IEnumerable<int> damages;
 				switch ( BattleMode & BattleModes.BattlePhaseMask ) {
@@ -273,6 +274,7 @@ namespace ElectronicObserver.Data.Battle {
 					Utility.Logger.Add( 1, "MVP候補が複数存在します。ログを確認してください。" );
 				}
 			}
+			//*/
 
 		}
 

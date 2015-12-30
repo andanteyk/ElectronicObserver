@@ -4,6 +4,7 @@ using ElectronicObserver.Window.Dialog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -30,7 +31,7 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知音
 		/// </summary>
-		public SoundPlayer Sound { get; protected set; }
+		public MediaPlayer Sound { get; protected set; }
 
 		/// <summary>
 		/// 通知音のパス
@@ -43,10 +44,20 @@ namespace ElectronicObserver.Notifier {
 		public bool PlaysSound { get; set; }
 
 		/// <summary>
-		/// undone
 		/// 通知音をループさせるか
 		/// </summary>
-		public bool LoopsSound { get; set; }
+		public bool LoopsSound {
+			get { return Sound.IsLoop; }
+			set { Sound.IsLoop = value; }
+		}
+
+		/// <summary>
+		/// 通知音の音量 (0-100)
+		/// </summary>
+		public int SoundVolume {
+			get { return Sound.Volume; }
+			set { Sound.Volume = value; }
+		}
 
 		/// <summary>
 		/// 通知ダイアログを表示するか
@@ -58,6 +69,7 @@ namespace ElectronicObserver.Notifier {
 		/// 通知を早める時間(ミリ秒)
 		/// </summary>
 		public int AccelInterval { get; set; }
+
 
 
 		public NotifierBase() {
@@ -76,6 +88,8 @@ namespace ElectronicObserver.Notifier {
 
 			IsEnabled = config.IsEnabled;
 			PlaysSound = config.PlaysSound;
+			SoundVolume = config.SoundVolume;
+			LoopsSound = config.LoopsSound;
 			ShowsDialog = config.ShowsDialog;
 			AccelInterval = config.AccelInterval;
 
@@ -84,9 +98,12 @@ namespace ElectronicObserver.Notifier {
 		private void Initialize() {
 
 			SystemEvents.UpdateTimerTick += UpdateTimerTick;
-			Sound = null;
+			Sound = new MediaPlayer();
+			Sound.IsShuffle = true;
+			Sound.MediaEnded += Sound_MediaEnded;
 			SoundPath = "";
 		}
+
 
 
 		protected virtual void UpdateTimerTick() { }
@@ -103,7 +120,18 @@ namespace ElectronicObserver.Notifier {
 			try {
 
 				DisposeSound();
-				Sound = new SoundPlayer( path );
+
+				if ( File.Exists( path ) ) {
+					Sound.SetPlaylist( null );
+					Sound.SourcePath = path;
+
+				} else if ( Directory.Exists( path ) ) {
+					Sound.SetPlaylistFromDirectory( path );
+
+				} else {
+					throw new FileNotFoundException( "指定されたファイルまたはディレクトリが見つかりませんでした。" );
+				}
+
 				SoundPath = path;
 
 				return true;
@@ -125,6 +153,13 @@ namespace ElectronicObserver.Notifier {
 			try {
 
 				if ( Sound != null && PlaysSound ) {
+					if ( Sound.PlayState == 3 ) {		//playing
+						if ( Sound.GetPlaylist().Any() )
+							Sound.Next();
+
+						Sound.Stop();
+					}
+
 					Sound.Play();
 				}
 
@@ -138,12 +173,16 @@ namespace ElectronicObserver.Notifier {
 		/// 通知音を破棄します。
 		/// </summary>
 		public void DisposeSound() {
-			if ( Sound != null ) {
-				Sound.Dispose();
-				Sound = null;
-			}
-			SoundPath = "";
+			Sound.Close();
+			Sound.SourcePath = SoundPath = "";
 		}
+
+
+		void Sound_MediaEnded() {
+			if ( Sound.GetPlaylist().Any() && !LoopsSound )
+				Sound.Next();
+		}
+
 
 		#endregion
 
@@ -154,9 +193,18 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		public void ShowDialog() {
 
-			if ( ShowsDialog )
-				NotifierManager.Instance.ShowNotifier( new DialogNotifier( DialogData ) );
+			if ( ShowsDialog ) {
+				var dialog = new DialogNotifier( DialogData );
+				dialog.FormClosing += dialog_FormClosing;
+				NotifierManager.Instance.ShowNotifier( dialog );
+			}
+		}
 
+		void dialog_FormClosing( object sender, System.Windows.Forms.FormClosingEventArgs e ) {
+			if ( LoopsSound ) {
+				Sound.Stop();
+				Sound.Next();
+			}
 		}
 
 		/// <summary>
@@ -177,6 +225,8 @@ namespace ElectronicObserver.Notifier {
 			DialogData.ApplyToConfiguration( config );
 			config.PlaysSound = PlaysSound;
 			config.SoundPath = SoundPath;
+			config.SoundVolume = SoundVolume;
+			config.LoopsSound = LoopsSound;
 			config.IsEnabled = IsEnabled;
 			config.ShowsDialog = ShowsDialog;
 			config.AccelInterval = AccelInterval;
