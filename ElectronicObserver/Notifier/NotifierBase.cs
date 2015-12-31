@@ -43,12 +43,17 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		public bool PlaysSound { get; set; }
 
+
+		private bool _loopsSound;
 		/// <summary>
 		/// 通知音をループさせるか
 		/// </summary>
 		public bool LoopsSound {
-			get { return Sound.IsLoop; }
-			set { Sound.IsLoop = value; }
+			get { return _loopsSound; }
+			set {
+				_loopsSound = value;
+				SetIsLoop();
+			}
 		}
 
 		/// <summary>
@@ -59,16 +64,28 @@ namespace ElectronicObserver.Notifier {
 			set { Sound.Volume = value; }
 		}
 
+		private bool _showsDialog;
 		/// <summary>
 		/// 通知ダイアログを表示するか
 		/// </summary>
-		public bool ShowsDialog { get; set; }
+		public bool ShowsDialog {
+			get { return _showsDialog; }
+			set {
+				_showsDialog = value;
+				SetIsLoop();
+			}
+		}
+
+		private void SetIsLoop() {
+			Sound.IsLoop = LoopsSound && ShowsDialog;
+		}
 
 
 		/// <summary>
 		/// 通知を早める時間(ミリ秒)
 		/// </summary>
 		public int AccelInterval { get; set; }
+
 
 
 
