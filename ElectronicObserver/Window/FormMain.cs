@@ -91,7 +91,7 @@ namespace ElectronicObserver.Window {
 			RecordManager.Instance.Load();
 			KCDatabase.Instance.Load();
 			NotifierManager.Instance.Initialize( this );
-
+			SyncBGMPlayer.Instance.ConfigurationChanged();
 
 			#region Icon settings
 			Icon = ResourceManager.Instance.AppIcon;

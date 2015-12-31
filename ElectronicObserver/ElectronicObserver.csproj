@@ -165,18 +165,22 @@
     <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\APIKancolleDB.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\payitem.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\record.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\preset_select.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\open_exslot.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\slot_exchange_index.cs" />
+    <Compile Include="Observer\kcsapi\api_req_kousyou\remodel_slotlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\updatecomment.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
+    <Compile Include="Utility\SyncBGMPlayer.cs" />
     <Compile Include="Utility\MediaPlayer.cs" />
     <Compile Include="Utility\PathHelper.cs" />
     <Compile Include="Utility\Storage\DataStorage.cs" />
@@ -302,6 +306,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogConfiguration.Designer.cs">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogConfigurationBGMPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogConfigurationBGMPlayer.Designer.cs">
+      <DependentUpon>DialogConfigurationBGMPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogConfigurationNotifier.cs">
       <SubType>Form</SubType>
@@ -552,6 +562,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogConfigurationBGMPlayer.resx">
+      <DependentUpon>DialogConfigurationBGMPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfigurationNotifier.resx">
       <DependentUpon>DialogConfigurationNotifier.cs</DependentUpon>

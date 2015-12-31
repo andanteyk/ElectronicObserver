@@ -24,6 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
@@ -48,6 +49,7 @@
 			this.Connection_Port = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.UI_BarColorMorphing = new System.Windows.Forms.CheckBox();
 			this.UI_SubFontApply = new System.Windows.Forms.Button();
 			this.UI_MainFontApply = new System.Windows.Forms.Button();
 			this.UI_SubFontSelect = new System.Windows.Forms.Button();
@@ -77,6 +79,7 @@
 			this.Debug_APIListPathSearch = new System.Windows.Forms.Button();
 			this.Debug_EnableDebugMenu = new System.Windows.Forms.CheckBox();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.Life_CanCloseFloatWindowInLock = new System.Windows.Forms.CheckBox();
 			this.Life_LockLayout = new System.Windows.Forms.CheckBox();
 			this.label24 = new System.Windows.Forms.Label();
 			this.Life_ClockFormat = new System.Windows.Forms.ComboBox();
@@ -90,7 +93,6 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
-			this.UI_BarColorMorphing = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ShowAnchorageRepairingTimer = new System.Windows.Forms.CheckBox();
 			this.FormFleet_AirSuperiorityMethod = new System.Windows.Forms.ComboBox();
 			this.label23 = new System.Windows.Forms.Label();
@@ -157,6 +159,9 @@
 			this.Database_SendKancolleOAuth = new System.Windows.Forms.TextBox();
 			this.labelKdb = new System.Windows.Forms.Label();
 			this.Database_SendDataToKancolleDB = new System.Windows.Forms.CheckBox();
+			this.tabPage17 = new System.Windows.Forms.TabPage();
+			this.BGMPlayer_Enabled = new System.Windows.Forms.CheckBox();
+			this.BGMPlayer_ControlGrid = new System.Windows.Forms.DataGridView();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ButtonOK = new System.Windows.Forms.Button();
 			this.ButtonCancel = new System.Windows.Forms.Button();
@@ -164,7 +169,12 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.Life_CanCloseFloatWindowInLock = new System.Windows.Forms.CheckBox();
+			this.BGMPlayer_ColumnEnabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.BGMPlayer_ColumnContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.BGMPlayer_ColumnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.BGMPlayer_ColumnSetting = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.BGMPlayer_VolumeAll = new System.Windows.Forms.NumericUpDown();
+			this.BGMPlayer_SetVolumeAll = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -194,6 +204,9 @@
 			this.groupBox3.SuspendLayout();
 			this.tabPage11.SuspendLayout();
 			this.tabPage15.SuspendLayout();
+			this.tabPage17.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -210,6 +223,7 @@
 			this.tabControl1.Controls.Add(this.tabPage7);
 			this.tabControl1.Controls.Add(this.tabPage11);
 			this.tabControl1.Controls.Add(this.tabPage15);
+			this.tabControl1.Controls.Add(this.tabPage17);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
@@ -486,13 +500,24 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 44);
+			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(456, 233);
+			this.tabPage2.Size = new System.Drawing.Size(456, 253);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// UI_BarColorMorphing
+			// 
+			this.UI_BarColorMorphing.AutoSize = true;
+			this.UI_BarColorMorphing.Location = new System.Drawing.Point(8, 64);
+			this.UI_BarColorMorphing.Name = "UI_BarColorMorphing";
+			this.UI_BarColorMorphing.Size = new System.Drawing.Size(167, 19);
+			this.UI_BarColorMorphing.TabIndex = 11;
+			this.UI_BarColorMorphing.Text = "バーの色を滑らかに変化させる";
+			this.ToolTipInfo.SetToolTip(this.UI_BarColorMorphing, "HP・資源等のバーの色を、艦これUIと同様に滑らかに変化させるか指定します。");
+			this.UI_BarColorMorphing.UseVisualStyleBackColor = true;
 			// 
 			// UI_SubFontApply
 			// 
@@ -822,13 +847,25 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 44);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 233);
+			this.tabPage6.Size = new System.Drawing.Size(456, 253);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
+			// 
+			// Life_CanCloseFloatWindowInLock
+			// 
+			this.Life_CanCloseFloatWindowInLock.AutoSize = true;
+			this.Life_CanCloseFloatWindowInLock.Location = new System.Drawing.Point(213, 60);
+			this.Life_CanCloseFloatWindowInLock.Name = "Life_CanCloseFloatWindowInLock";
+			this.Life_CanCloseFloatWindowInLock.Size = new System.Drawing.Size(197, 19);
+			this.Life_CanCloseFloatWindowInLock.TabIndex = 10;
+			this.Life_CanCloseFloatWindowInLock.Text = "ロック中でもフロートウィンドウを閉じる";
+			this.ToolTipInfo.SetToolTip(this.Life_CanCloseFloatWindowInLock, "上記「レイアウトをロックする」が有効な時でも、\r\nフロートウィンドウ(本体とは分離したウィンドウ)を閉じられるようにするかを指定します。\r\nよくウィンドウを一時的" +
+        "に開く方は有効にすると便利です。");
+			this.Life_CanCloseFloatWindowInLock.UseVisualStyleBackColor = true;
 			// 
 			// Life_LockLayout
 			// 
@@ -980,17 +1017,6 @@
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
 			// 
-			// UI_BarColorMorphing
-			// 
-			this.UI_BarColorMorphing.AutoSize = true;
-			this.UI_BarColorMorphing.Location = new System.Drawing.Point(8, 64);
-			this.UI_BarColorMorphing.Name = "UI_BarColorMorphing";
-			this.UI_BarColorMorphing.Size = new System.Drawing.Size(167, 19);
-			this.UI_BarColorMorphing.TabIndex = 11;
-			this.UI_BarColorMorphing.Text = "バーの色を滑らかに変化させる";
-			this.ToolTipInfo.SetToolTip(this.UI_BarColorMorphing, "HP・資源等のバーの色を、艦これUIと同様に滑らかに変化させるか指定します。");
-			this.UI_BarColorMorphing.UseVisualStyleBackColor = true;
-			// 
 			// FormFleet_ShowAnchorageRepairingTimer
 			// 
 			this.FormFleet_ShowAnchorageRepairingTimer.AutoSize = true;
@@ -1116,7 +1142,7 @@
 			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 201);
+			this.tabPage9.Size = new System.Drawing.Size(442, 221);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -1137,7 +1163,7 @@
 			this.tabPage16.Location = new System.Drawing.Point(4, 22);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(442, 201);
+			this.tabPage16.Size = new System.Drawing.Size(442, 221);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1159,7 +1185,7 @@
 			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 201);
+			this.tabPage10.Size = new System.Drawing.Size(442, 221);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1457,7 +1483,7 @@
 			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 201);
+			this.tabPage14.Size = new System.Drawing.Size(442, 221);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1737,6 +1763,66 @@
 			this.Database_SendDataToKancolleDB.Text = "艦これ統計データベースに送信する";
 			this.Database_SendDataToKancolleDB.UseVisualStyleBackColor = true;
 			// 
+			// tabPage17
+			// 
+			this.tabPage17.Controls.Add(this.BGMPlayer_SetVolumeAll);
+			this.tabPage17.Controls.Add(this.BGMPlayer_VolumeAll);
+			this.tabPage17.Controls.Add(this.BGMPlayer_Enabled);
+			this.tabPage17.Controls.Add(this.BGMPlayer_ControlGrid);
+			this.tabPage17.Location = new System.Drawing.Point(4, 44);
+			this.tabPage17.Name = "tabPage17";
+			this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage17.Size = new System.Drawing.Size(456, 233);
+			this.tabPage17.TabIndex = 9;
+			this.tabPage17.Text = "BGM";
+			this.tabPage17.UseVisualStyleBackColor = true;
+			// 
+			// BGMPlayer_Enabled
+			// 
+			this.BGMPlayer_Enabled.AutoSize = true;
+			this.BGMPlayer_Enabled.Location = new System.Drawing.Point(8, 9);
+			this.BGMPlayer_Enabled.Name = "BGMPlayer_Enabled";
+			this.BGMPlayer_Enabled.Size = new System.Drawing.Size(161, 19);
+			this.BGMPlayer_Enabled.TabIndex = 1;
+			this.BGMPlayer_Enabled.Text = "BGMプレイヤーを有効にする";
+			this.ToolTipInfo.SetToolTip(this.BGMPlayer_Enabled, "現在の場面に合わせてお好みのBGMを再生する機能です。");
+			this.BGMPlayer_Enabled.UseVisualStyleBackColor = true;
+			// 
+			// BGMPlayer_ControlGrid
+			// 
+			this.BGMPlayer_ControlGrid.AllowUserToAddRows = false;
+			this.BGMPlayer_ControlGrid.AllowUserToDeleteRows = false;
+			this.BGMPlayer_ControlGrid.AllowUserToResizeColumns = false;
+			this.BGMPlayer_ControlGrid.AllowUserToResizeRows = false;
+			this.BGMPlayer_ControlGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.BGMPlayer_ControlGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.BGMPlayer_ControlGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.BGMPlayer_ColumnEnabled,
+            this.BGMPlayer_ColumnContent,
+            this.BGMPlayer_ColumnPath,
+            this.BGMPlayer_ColumnSetting});
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle2;
+			this.BGMPlayer_ControlGrid.Location = new System.Drawing.Point(6, 35);
+			this.BGMPlayer_ControlGrid.MultiSelect = false;
+			this.BGMPlayer_ControlGrid.Name = "BGMPlayer_ControlGrid";
+			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
+			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
+			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 188);
+			this.BGMPlayer_ControlGrid.TabIndex = 0;
+			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
+			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
+			this.BGMPlayer_ControlGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.BGMPlayer_ControlGrid_CurrentCellDirtyStateChanged);
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 60000;
@@ -1784,17 +1870,57 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// Life_CanCloseFloatWindowInLock
+			// BGMPlayer_ColumnEnabled
 			// 
-			this.Life_CanCloseFloatWindowInLock.AutoSize = true;
-			this.Life_CanCloseFloatWindowInLock.Location = new System.Drawing.Point(213, 60);
-			this.Life_CanCloseFloatWindowInLock.Name = "Life_CanCloseFloatWindowInLock";
-			this.Life_CanCloseFloatWindowInLock.Size = new System.Drawing.Size(197, 19);
-			this.Life_CanCloseFloatWindowInLock.TabIndex = 10;
-			this.Life_CanCloseFloatWindowInLock.Text = "ロック中でもフロートウィンドウを閉じる";
-			this.ToolTipInfo.SetToolTip(this.Life_CanCloseFloatWindowInLock, "上記「レイアウトをロックする」が有効な時でも、\r\nフロートウィンドウ(本体とは分離したウィンドウ)を閉じられるようにするかを指定します。\r\nよくウィンドウを一時的" +
-        "に開く方は有効にすると便利です。");
-			this.Life_CanCloseFloatWindowInLock.UseVisualStyleBackColor = true;
+			this.BGMPlayer_ColumnEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.BGMPlayer_ColumnEnabled.HeaderText = "○";
+			this.BGMPlayer_ColumnEnabled.Name = "BGMPlayer_ColumnEnabled";
+			this.BGMPlayer_ColumnEnabled.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.BGMPlayer_ColumnEnabled.Width = 25;
+			// 
+			// BGMPlayer_ColumnContent
+			// 
+			this.BGMPlayer_ColumnContent.HeaderText = "シーン";
+			this.BGMPlayer_ColumnContent.Name = "BGMPlayer_ColumnContent";
+			this.BGMPlayer_ColumnContent.ReadOnly = true;
+			this.BGMPlayer_ColumnContent.Width = 80;
+			// 
+			// BGMPlayer_ColumnPath
+			// 
+			this.BGMPlayer_ColumnPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.BGMPlayer_ColumnPath.HeaderText = "ファイル名";
+			this.BGMPlayer_ColumnPath.Name = "BGMPlayer_ColumnPath";
+			this.BGMPlayer_ColumnPath.ReadOnly = true;
+			this.BGMPlayer_ColumnPath.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// BGMPlayer_ColumnSetting
+			// 
+			this.BGMPlayer_ColumnSetting.HeaderText = "設定";
+			this.BGMPlayer_ColumnSetting.Name = "BGMPlayer_ColumnSetting";
+			this.BGMPlayer_ColumnSetting.Width = 40;
+			// 
+			// BGMPlayer_VolumeAll
+			// 
+			this.BGMPlayer_VolumeAll.Location = new System.Drawing.Point(287, 6);
+			this.BGMPlayer_VolumeAll.Name = "BGMPlayer_VolumeAll";
+			this.BGMPlayer_VolumeAll.Size = new System.Drawing.Size(60, 23);
+			this.BGMPlayer_VolumeAll.TabIndex = 2;
+			this.BGMPlayer_VolumeAll.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.BGMPlayer_VolumeAll.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			// 
+			// BGMPlayer_SetVolumeAll
+			// 
+			this.BGMPlayer_SetVolumeAll.Location = new System.Drawing.Point(353, 6);
+			this.BGMPlayer_SetVolumeAll.Name = "BGMPlayer_SetVolumeAll";
+			this.BGMPlayer_SetVolumeAll.Size = new System.Drawing.Size(100, 23);
+			this.BGMPlayer_SetVolumeAll.TabIndex = 3;
+			this.BGMPlayer_SetVolumeAll.Text = "音量一括適用";
+			this.BGMPlayer_SetVolumeAll.UseVisualStyleBackColor = true;
+			this.BGMPlayer_SetVolumeAll.Click += new System.EventHandler(this.BGMPlayer_SetVolumeAll_Click);
 			// 
 			// DialogConfiguration
 			// 
@@ -1864,6 +1990,10 @@
 			this.tabPage11.PerformLayout();
 			this.tabPage15.ResumeLayout(false);
 			this.tabPage15.PerformLayout();
+			this.tabPage17.ResumeLayout(false);
+			this.tabPage17.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -2011,5 +2141,14 @@
 		private System.Windows.Forms.CheckBox Life_LockLayout;
 		private System.Windows.Forms.CheckBox Life_CanCloseFloatWindowInLock;
 		private System.Windows.Forms.CheckBox UI_BarColorMorphing;
+		private System.Windows.Forms.TabPage tabPage17;
+		private System.Windows.Forms.CheckBox BGMPlayer_Enabled;
+		private System.Windows.Forms.DataGridView BGMPlayer_ControlGrid;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn BGMPlayer_ColumnEnabled;
+		private System.Windows.Forms.DataGridViewTextBoxColumn BGMPlayer_ColumnContent;
+		private System.Windows.Forms.DataGridViewTextBoxColumn BGMPlayer_ColumnPath;
+		private System.Windows.Forms.DataGridViewButtonColumn BGMPlayer_ColumnSetting;
+		private System.Windows.Forms.Button BGMPlayer_SetVolumeAll;
+		private System.Windows.Forms.NumericUpDown BGMPlayer_VolumeAll;
 	}
 }

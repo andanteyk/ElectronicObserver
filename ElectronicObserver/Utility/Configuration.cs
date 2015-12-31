@@ -861,6 +861,26 @@ namespace ElectronicObserver.Utility {
 			public ConfigNotifierDamage NotifierDamage { get; private set; }
 
 
+			/// <summary>
+			/// SyncBGMPlayer の設定を扱います。
+			/// </summary>
+			public class ConfigBGMPlayer : ConfigPartBase {
+
+				public bool Enabled { get; set; }
+				public List<SyncBGMPlayer.SoundHandle> Handles { get; set; }
+
+				public ConfigBGMPlayer()
+					: base() {
+					// 初期値定義は SyncBGMPlayer 内でも
+					Enabled = false;
+					Handles = new List<SyncBGMPlayer.SoundHandle>();
+					foreach ( SyncBGMPlayer.SoundHandleID id in Enum.GetValues( typeof( SyncBGMPlayer.SoundHandleID ) ) )
+						Handles.Add( new SyncBGMPlayer.SoundHandle( id ) );
+				}
+			}
+			[DataMember]
+			public ConfigBGMPlayer BGMPlayer { get; private set; }
+
 
 			public class ConfigWhitecap : ConfigPartBase {
 
@@ -925,6 +945,7 @@ namespace ElectronicObserver.Utility {
 				NotifierCondition = new ConfigNotifierBase();
 				NotifierDamage = new ConfigNotifierDamage();
 
+				BGMPlayer = new ConfigBGMPlayer();
 				Whitecap = new ConfigWhitecap();
 
 				VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );

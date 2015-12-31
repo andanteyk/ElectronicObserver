@@ -13,7 +13,6 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 
 	/// <summary>
-	/// undone
 	/// 通知システムの設定ダイアログを扱います。
 	/// </summary>
 	public partial class DialogConfigurationNotifier : Form {

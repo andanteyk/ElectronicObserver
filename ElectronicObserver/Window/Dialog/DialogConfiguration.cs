@@ -27,6 +27,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private System.Windows.Forms.Control _UIControl;
 
+		private Dictionary<SyncBGMPlayer.SoundHandleID, SyncBGMPlayer.SoundHandle> BGMHandles;
+
+
+
 
 		public DialogConfiguration() {
 			InitializeComponent();
@@ -389,6 +393,10 @@ namespace ElectronicObserver.Window.Dialog {
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
 
+			//[BGM]
+			BGMPlayer_Enabled.Checked = config.BGMPlayer.Enabled;
+			BGMHandles = config.BGMPlayer.Handles.ToDictionary( h => h.HandleID );
+			UpdateBGMPlayerUI();
 
 			//finalize
 			UpdateParameter();
@@ -511,6 +519,29 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
 			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
 
+			//[BGM]
+			config.BGMPlayer.Enabled = BGMPlayer_Enabled.Checked;
+			config.BGMPlayer.Handles = new List<SyncBGMPlayer.SoundHandle>( BGMHandles.Values.ToList() );
+
+		}
+
+
+		private void UpdateBGMPlayerUI() {
+
+			BGMPlayer_ControlGrid.Rows.Clear();
+
+			var rows = new DataGridViewRow[BGMHandles.Count];
+
+			int i = 0;
+			foreach ( var h in BGMHandles.Values ) {
+				var row = new DataGridViewRow();
+				row.CreateCells( BGMPlayer_ControlGrid );
+				row.SetValues( h.Enabled, h.HandleID, h.Path );
+				rows[i] = row;
+				i++;
+			}
+
+			BGMPlayer_ControlGrid.Rows.AddRange( rows );
 		}
 
 
@@ -576,6 +607,56 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void Database_LinkKCDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
 			System.Diagnostics.Process.Start( "http://kancolle-db.net/" );
+		}
+
+
+
+		// BGMPlayer
+		private void BGMPlayer_ControlGrid_CellContentClick( object sender, DataGridViewCellEventArgs e ) {
+			if ( e.ColumnIndex == BGMPlayer_ColumnSetting.Index ) {
+
+				var handleID = (SyncBGMPlayer.SoundHandleID)BGMPlayer_ControlGrid[BGMPlayer_ColumnContent.Index, e.RowIndex].Value;
+
+				using ( var dialog = new DialogConfigurationBGMPlayer( BGMHandles[handleID] ) ) {
+					if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
+						BGMHandles[handleID] = dialog.ResultHandle;
+					}
+				}
+
+				UpdateBGMPlayerUI();
+			}
+		}
+
+		private void BGMPlayer_ControlGrid_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
+
+			if ( e.ColumnIndex == BGMPlayer_ColumnContent.Index ) {
+				e.Value = SyncBGMPlayer.SoundHandleIDToString( (SyncBGMPlayer.SoundHandleID)e.Value );
+				e.FormattingApplied = true;
+			}
+
+		}
+
+		//for checkbox
+		private void BGMPlayer_ControlGrid_CurrentCellDirtyStateChanged( object sender, EventArgs e ) {
+			if ( BGMPlayer_ControlGrid.Columns[BGMPlayer_ControlGrid.CurrentCellAddress.X] is DataGridViewCheckBoxColumn ) {
+				if ( BGMPlayer_ControlGrid.IsCurrentCellDirty ) {
+					BGMPlayer_ControlGrid.CommitEdit( DataGridViewDataErrorContexts.Commit );
+				}
+			}
+		}
+
+		private void BGMPlayer_SetVolumeAll_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "すべてのBGMに対して音量 " + (int)BGMPlayer_VolumeAll.Value + " を適用します。\r\nよろしいですか？\r\n", "音量一括設定の確認",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 ) == System.Windows.Forms.DialogResult.Yes ) {
+
+				foreach ( var h in BGMHandles.Values ) {
+					h.Volume = (int)BGMPlayer_VolumeAll.Value;
+				}
+
+				UpdateBGMPlayerUI();
+			}
+
 		}
 
 	}
