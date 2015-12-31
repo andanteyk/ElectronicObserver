@@ -159,11 +159,12 @@ namespace ElectronicObserver.Utility {
 			var c = Utility.Configuration.Config.BGMPlayer;
 
 			Enabled = c.Enabled;
-			if ( !Enabled )
-				_mp.Close();
-
+			
 			if ( c.Handles != null )
 				Handles = new IDDictionary<SoundHandle>( c.Handles );
+
+			// 設定変更を適用するためいったん閉じる
+			_mp.Close();
 		}
 
 		void SystemEvents_SystemShuttingDown() {

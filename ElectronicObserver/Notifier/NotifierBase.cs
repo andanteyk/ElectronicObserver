@@ -56,12 +56,15 @@ namespace ElectronicObserver.Notifier {
 			}
 		}
 
+		private int _soundVolume;
 		/// <summary>
 		/// 通知音の音量 (0-100)
 		/// </summary>
 		public int SoundVolume {
-			get { return Sound.Volume; }
-			set { Sound.Volume = value; }
+			get { return _soundVolume; }
+			set {
+				Sound.Volume = _soundVolume = value;
+			}
 		}
 
 		private bool _showsDialog;
@@ -177,6 +180,8 @@ namespace ElectronicObserver.Notifier {
 						Sound.Stop();
 					}
 
+					//音量の再設定(システム側の音量変更によって設定が変わることがあるので)
+					Sound.Volume = SoundVolume;
 					Sound.Play();
 				}
 
