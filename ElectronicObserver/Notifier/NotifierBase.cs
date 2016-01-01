@@ -63,7 +63,9 @@ namespace ElectronicObserver.Notifier {
 		public int SoundVolume {
 			get { return _soundVolume; }
 			set {
-				Sound.Volume = _soundVolume = value;
+				_soundVolume = value;
+				if ( !Utility.Configuration.Config.Control.UseSystemVolume )
+					Sound.Volume = _soundVolume;
 			}
 		}
 
@@ -181,7 +183,7 @@ namespace ElectronicObserver.Notifier {
 					}
 
 					//音量の再設定(システム側の音量変更によって設定が変わることがあるので)
-					Sound.Volume = SoundVolume;
+					SoundVolume = _soundVolume;
 					Sound.Play();
 				}
 

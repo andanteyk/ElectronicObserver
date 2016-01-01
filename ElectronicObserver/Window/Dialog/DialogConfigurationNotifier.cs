@@ -281,6 +281,16 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+		private void SoundPathDirectorize_Click( object sender, EventArgs e ) {
+			if ( !string.IsNullOrWhiteSpace( SoundPath.Text ) ) {
+				try {
+					SoundPath.Text = System.IO.Path.GetDirectoryName( SoundPath.Text );
+				} catch ( Exception ) {
+					// *ぷちっ*
+				}
+			}
+		}
+
 
 	}
 }

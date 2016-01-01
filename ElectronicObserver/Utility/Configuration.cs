@@ -339,9 +339,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int RecordAutoSaving { get; set; }
 
+				/// <summary>
+				/// システムの音量設定を利用するか
+				/// </summary>
+				public bool UseSystemVolume { get; set; }
+
+
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
+					UseSystemVolume = true;
 				}
 			}
 			/// <summary>動作</summary>

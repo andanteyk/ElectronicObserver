@@ -223,6 +223,8 @@ namespace ElectronicObserver.Window {
 		void ConfigurationChanged() {
 			Font = Utility.Configuration.Config.UI.MainFont;
 
+			AutoScroll = Utility.Configuration.Config.FormFleet.IsScrollable;
+
 			foreach ( var c in ControlFleet )
 				c.ConfigurationChanged( this );
 

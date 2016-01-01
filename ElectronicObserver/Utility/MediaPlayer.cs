@@ -43,7 +43,6 @@ namespace ElectronicObserver.Utility {
 			"au",
 			"snd",
 			"wav",
-			"cda",
 			"m4a",
 			"aac",
 		} );
@@ -88,6 +87,7 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// 音量
 		/// 0-100
+		/// 注: システムの音量設定と連動しているようなので注意が必要
 		/// </summary>
 		public int Volume {
 			get { return _wmp.settings.volume; }

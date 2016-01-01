@@ -159,7 +159,7 @@ namespace ElectronicObserver.Utility {
 			var c = Utility.Configuration.Config.BGMPlayer;
 
 			Enabled = c.Enabled;
-			
+
 			if ( c.Handles != null )
 				Handles = new IDDictionary<SoundHandle>( c.Handles );
 
@@ -174,9 +174,10 @@ namespace ElectronicObserver.Utility {
 			c.Handles = Handles.Values.ToList();
 		}
 
-		
+
 
 		void PlayPort( string apiname, dynamic data ) {
+			_isBoss = false;
 			Play( Handles[(int)SoundHandleID.Port] );
 		}
 
@@ -264,7 +265,8 @@ namespace ElectronicObserver.Utility {
 				_mp.SourcePath = sh.Path;
 				_mp.IsLoop = sh.IsLoop;
 				_mp.LoopHeadPosition = sh.LoopHeadPosition;
-				_mp.Volume = sh.Volume;
+				if ( !Utility.Configuration.Config.Control.UseSystemVolume )
+					_mp.Volume = sh.Volume;
 				_mp.Play();
 
 				return true;
