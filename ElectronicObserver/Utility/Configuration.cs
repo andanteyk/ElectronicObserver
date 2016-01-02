@@ -348,7 +348,7 @@ namespace ElectronicObserver.Utility {
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
-					UseSystemVolume = true;
+					UseSystemVolume = false;
 				}
 			}
 			/// <summary>動作</summary>
