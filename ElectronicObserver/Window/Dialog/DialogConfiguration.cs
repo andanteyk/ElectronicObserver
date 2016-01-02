@@ -27,6 +27,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private System.Windows.Forms.Control _UIControl;
 
+		private Dictionary<SyncBGMPlayer.SoundHandleID, SyncBGMPlayer.SoundHandle> BGMHandles;
+
+
+
 
 		public DialogConfiguration() {
 			InitializeComponent();
@@ -241,7 +245,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void Debug_EnableDebugMenu_CheckedChanged( object sender, EventArgs e ) {
-		
+
 			Debug_SealingPanel.Visible =
 			Connection_UpstreamProxyAddress.Visible =
 			Connection_DownstreamProxy.Visible =
@@ -285,6 +289,7 @@ namespace ElectronicObserver.Window.Dialog {
 			UI_MainFont.Text = config.UI.MainFont.SerializeFontAttribute;
 			UI_SubFont.Font = config.UI.SubFont.FontData;
 			UI_SubFont.Text = config.UI.SubFont.SerializeFontAttribute;
+			UI_BarColorMorphing.Checked = config.UI.BarColorMorphing;
 
 			//[ログ]
 			Log_LogLevel.Value = config.Log.LogLevel;
@@ -296,6 +301,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
 			Control_RecordAutoSaving.SelectedIndex = config.Control.RecordAutoSaving;
+			Control_UseSystemVolume.Checked = config.Control.UseSystemVolume;
 
 			//[デバッグ]
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
@@ -309,6 +315,8 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
 			Life_ClockFormat.SelectedIndex = config.Life.ClockFormat;
+			Life_LockLayout.Checked = config.Life.LockLayout;
+			Life_CanCloseFloatWindowInLock.Checked = config.Life.CanCloseFloatWindowInLock;
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
@@ -322,7 +330,6 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShowEquipmentLevel.Checked = config.FormFleet.ShowEquipmentLevel;
 			FormFleet_AirSuperiorityMethod.SelectedIndex = config.FormFleet.AirSuperiorityMethod;
 			FormFleet_ShowAnchorageRepairingTimer.Checked = config.FormFleet.ShowAnchorageRepairingTimer;
-			FormFleet_BarColorMorphing.Checked = config.FormFleet.BarColorMorphing;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 
@@ -387,6 +394,10 @@ namespace ElectronicObserver.Window.Dialog {
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
 
+			//[BGM]
+			BGMPlayer_Enabled.Checked = config.BGMPlayer.Enabled;
+			BGMHandles = config.BGMPlayer.Handles.ToDictionary( h => h.HandleID );
+			UpdateBGMPlayerUI();
 
 			//finalize
 			UpdateParameter();
@@ -439,6 +450,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//[UI]
 			config.UI.MainFont = UI_MainFont.Font;
 			config.UI.SubFont = UI_SubFont.Font;
+			config.UI.BarColorMorphing = UI_BarColorMorphing.Checked;
 
 			//[ログ]
 			config.Log.LogLevel = (int)Log_LogLevel.Value;
@@ -450,6 +462,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//[動作]
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
 			config.Control.RecordAutoSaving = Control_RecordAutoSaving.SelectedIndex;
+			config.Control.UseSystemVolume = Control_UseSystemVolume.Checked;
 
 			//[デバッグ]
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
@@ -463,6 +476,8 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.CheckUpdateInformation = Life_CheckUpdateInformation.Checked;
 			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
 			config.Life.ClockFormat = Life_ClockFormat.SelectedIndex;
+			config.Life.LockLayout = Life_LockLayout.Checked;
+			config.Life.CanCloseFloatWindowInLock = Life_CanCloseFloatWindowInLock.Checked;
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
@@ -476,7 +491,6 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowEquipmentLevel = FormFleet_ShowEquipmentLevel.Checked;
 			config.FormFleet.AirSuperiorityMethod = FormFleet_AirSuperiorityMethod.SelectedIndex;
 			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
-			config.FormFleet.BarColorMorphing = FormFleet_BarColorMorphing.Checked;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 
@@ -507,6 +521,29 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
 			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
 
+			//[BGM]
+			config.BGMPlayer.Enabled = BGMPlayer_Enabled.Checked;
+			config.BGMPlayer.Handles = new List<SyncBGMPlayer.SoundHandle>( BGMHandles.Values.ToList() );
+
+		}
+
+
+		private void UpdateBGMPlayerUI() {
+
+			BGMPlayer_ControlGrid.Rows.Clear();
+
+			var rows = new DataGridViewRow[BGMHandles.Count];
+
+			int i = 0;
+			foreach ( var h in BGMHandles.Values ) {
+				var row = new DataGridViewRow();
+				row.CreateCells( BGMPlayer_ControlGrid );
+				row.SetValues( h.Enabled, h.HandleID, h.Path );
+				rows[i] = row;
+				i++;
+			}
+
+			BGMPlayer_ControlGrid.Rows.AddRange( rows );
 		}
 
 
@@ -572,6 +609,56 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void Database_LinkKCDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
 			System.Diagnostics.Process.Start( "http://kancolle-db.net/" );
+		}
+
+
+
+		// BGMPlayer
+		private void BGMPlayer_ControlGrid_CellContentClick( object sender, DataGridViewCellEventArgs e ) {
+			if ( e.ColumnIndex == BGMPlayer_ColumnSetting.Index ) {
+
+				var handleID = (SyncBGMPlayer.SoundHandleID)BGMPlayer_ControlGrid[BGMPlayer_ColumnContent.Index, e.RowIndex].Value;
+
+				using ( var dialog = new DialogConfigurationBGMPlayer( BGMHandles[handleID] ) ) {
+					if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
+						BGMHandles[handleID] = dialog.ResultHandle;
+					}
+				}
+
+				UpdateBGMPlayerUI();
+			}
+		}
+
+		private void BGMPlayer_ControlGrid_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
+
+			if ( e.ColumnIndex == BGMPlayer_ColumnContent.Index ) {
+				e.Value = SyncBGMPlayer.SoundHandleIDToString( (SyncBGMPlayer.SoundHandleID)e.Value );
+				e.FormattingApplied = true;
+			}
+
+		}
+
+		//for checkbox
+		private void BGMPlayer_ControlGrid_CurrentCellDirtyStateChanged( object sender, EventArgs e ) {
+			if ( BGMPlayer_ControlGrid.Columns[BGMPlayer_ControlGrid.CurrentCellAddress.X] is DataGridViewCheckBoxColumn ) {
+				if ( BGMPlayer_ControlGrid.IsCurrentCellDirty ) {
+					BGMPlayer_ControlGrid.CommitEdit( DataGridViewDataErrorContexts.Commit );
+				}
+			}
+		}
+
+		private void BGMPlayer_SetVolumeAll_Click( object sender, EventArgs e ) {
+
+			if ( MessageBox.Show( "すべてのBGMに対して音量 " + (int)BGMPlayer_VolumeAll.Value + " を適用します。\r\nよろしいですか？\r\n", "音量一括設定の確認",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1 ) == System.Windows.Forms.DialogResult.Yes ) {
+
+				foreach ( var h in BGMHandles.Values ) {
+					h.Volume = (int)BGMPlayer_VolumeAll.Value;
+				}
+
+				UpdateBGMPlayerUI();
+			}
+
 		}
 
 	}

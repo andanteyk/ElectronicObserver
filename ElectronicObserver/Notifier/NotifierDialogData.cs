@@ -94,6 +94,15 @@ namespace ElectronicObserver.Notifier {
 		public Color BackColor { get; set; }
 
 
+
+		/// <summary>
+		/// イベント発動時に全ウィンドウを閉じる
+		/// </summary>
+		public event EventHandler CloseAll = delegate { };
+
+
+
+
 		public NotifierDialogData() {
 
 			Image = null;
@@ -185,6 +194,11 @@ namespace ElectronicObserver.Notifier {
 			config.ForeColor = ForeColor;
 			config.BackColor = BackColor;
 
+		}
+
+
+		public void OnCloseAll() {
+			CloseAll( this, new EventArgs() );
 		}
 
 	}
