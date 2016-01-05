@@ -98,6 +98,10 @@ namespace ElectronicObserver.Utility {
 		public SyncBGMPlayer() {
 
 			_mp = new MediaPlayer();
+
+			if ( !_mp.IsAvailable )
+				Utility.Logger.Add( 3, "Windows Media Player のロードに失敗しました。音声の再生はできません。" );
+
 			_mp.AutoPlay = false;
 
 			_isBoss = false;
