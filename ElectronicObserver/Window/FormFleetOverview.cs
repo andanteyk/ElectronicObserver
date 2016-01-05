@@ -239,6 +239,8 @@ namespace ElectronicObserver.Window {
 			fleetNotReady = new SolidBrush( Utility.Configuration.Config.UI.FleetNotReadyColor );
 			fleetDamage = new SolidBrush( Utility.Configuration.Config.UI.FleetDamageColor );
 
+			AutoScroll = Utility.Configuration.Config.FormFleet.IsScrollable;
+
 			foreach ( var c in ControlFleet )
 				c.ConfigurationChanged( this );
 

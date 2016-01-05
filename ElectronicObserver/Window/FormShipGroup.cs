@@ -567,10 +567,11 @@ namespace ElectronicObserver.Window {
 			var group = CurrentGroup;
 			if ( KCDatabase.Instance.Ships.Count > 0 && group != null ) {
 				if ( ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ) >= 2 ) {
-					var ships = ShipView.SelectedRows.Cast<DataGridViewRow>().Select( r => KCDatabase.Instance.Ships[(int)r.Cells[ShipView_ID.Index].Value] );
+					var levels = ShipView.SelectedRows.Cast<DataGridViewRow>().Select( r => (int)r.Cells[ShipView_Level.Index].Value );
 					Status_ShipCount.Text = string.Format( "選択: {0} / {1}隻", ShipView.Rows.GetRowCount( DataGridViewElementStates.Selected ), group.Members.Count );
-					Status_LevelTotal.Text = string.Format( "合計Lv: {0}", ships.Sum( s => s.Level ) );
-					Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", ships.Average( s => s.Level ) );
+					Status_LevelTotal.Text = string.Format( "合計Lv: {0}", levels.Sum() );
+					Status_LevelAverage.Text = string.Format( "平均Lv: {0:F2}", levels.Average() );
+
 
 				} else {
 					Status_ShipCount.Text = string.Format( "所属: {0}隻", group.Members.Count );

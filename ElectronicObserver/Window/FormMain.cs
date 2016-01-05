@@ -102,6 +102,7 @@ namespace ElectronicObserver.Window {
 
 
 			this.Text = SoftwareInformation.VersionJapanese + "（迷彩型）";
+			SyncBGMPlayer.Instance.ConfigurationChanged();
 
 		}
 
@@ -353,7 +354,6 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
-
 		void dialogPlugin_Click( object sender, EventArgs e )
 		{
 			var plugin = (IPluginHost)( (ToolStripMenuItem)sender ).Tag;
@@ -418,6 +418,17 @@ namespace ElectronicObserver.Window {
 					f.ForeColor = this.ForeColor;
 				}
 			}
+
+			if ( c.Life.LockLayout ) {
+				//MainDockPanel.AllowChangeLayout = false;
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			} else {
+				//MainDockPanel.AllowChangeLayout = true;
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+			}
+
+			StripMenu_File_Layout_LockLayout.Checked = c.Life.LockLayout;
+			//MainDockPanel.CanCloseFloatWindowInLock = c.Life.CanCloseFloatWindowInLock;
 		}
 
 
@@ -590,12 +601,6 @@ namespace ElectronicObserver.Window {
 					}
 					//*/
 
-					// checkme: このコードの存在意義
-					/*/
-					if ( MainDockPanel.Contents.Count > 0 )
-						MainDockPanel.Contents.First().DockHandler.Activate();
-					//*/
-
 					fWindowCapture.AttachAll();
 
 				} else {
@@ -639,6 +644,7 @@ namespace ElectronicObserver.Window {
 
 					using ( var archive = new ZipFile( stream ) ) {
 
+						MainDockPanel.SuspendLayout( true );
 						WindowPlacementManager.LoadWindowPlacement( this, archive.GetInputStream( archive.GetEntry( "WindowPlacement.xml" ) ) );
 						LoadSubWindowsLayout( archive.GetInputStream( archive.GetEntry( "SubWindowLayout.xml" ) ) );
 
@@ -668,6 +674,10 @@ namespace ElectronicObserver.Window {
 			} catch ( Exception ex ) {
 
 				Utility.ErrorReporter.SendErrorReport( ex, "窗口布局恢复失败。" );
+
+			} finally {
+
+				MainDockPanel.ResumeLayout( true, true );
 			}
 
 			return false;
@@ -899,7 +909,7 @@ namespace ElectronicObserver.Window {
 				dialog.Title = "レイアウト ファイルの保存";
 
 
-				PathHelper.InitSaveFileDialog ( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
+				PathHelper.InitSaveFileDialog( Utility.Configuration.Config.Life.LayoutFilePath, dialog );
 
 				if ( dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 
@@ -999,6 +1009,14 @@ namespace ElectronicObserver.Window {
 
 
 
+		private void StripMenu_File_Layout_LockLayout_Click( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.Life.LockLayout = StripMenu_File_Layout_LockLayout.Checked;
+			ConfigurationChanged();
+
+		}
+
+
 
 
 
@@ -1051,6 +1069,7 @@ namespace ElectronicObserver.Window {
 		#endregion
 
 		
+
 
 
 	}

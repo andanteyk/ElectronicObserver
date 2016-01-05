@@ -86,62 +86,122 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 
-		private Color _barColor0 = FromArgb( 0xFFFF0000 );
+		private Color _barColor0Begin = FromArgb( 0xFFFF0000 );
 		/// <summary>
-		/// バーの色(0%～25%)
+		/// バーの色(0%～25% - 始点)
 		/// </summary>
 		[Browsable( true )]
-		[Description( "0%～25%の時のバーの色を指定します。" )]
+		[Description( "0%～25%エリアの始点の色を指定します。" )]
 		[DefaultValue( typeof( Color ), "255, 0, 0" )]
-		public Color BarColor0 {
-			get { return _barColor0; }
+		public Color BarColor0Begin {
+			get { return _barColor0Begin; }
 			set {
-				_barColor0 = value;
+				_barColor0Begin = value;
 				Refresh();
 			}
 		}
 
-		private Color _barColor1 = FromArgb( 0xFFFF8800 );
+		private Color _barColor0End = FromArgb( 0xFFFF0000 );
 		/// <summary>
-		/// バーの色(25%～50%)
+		/// バーの色(0%～25% - 終点)
 		/// </summary>
 		[Browsable( true )]
-		[Description( "25%～50%の時のバーの色を指定します。" )]
+		[Description( "0%～25%エリアの終点の色を指定します。" )]
+		[DefaultValue( typeof( Color ), "255, 0, 0" )]
+		public Color BarColor0End {
+			get { return _barColor0End; }
+			set {
+				_barColor0End = value;
+				Refresh();
+			}
+		}
+
+		private Color _barColor1Begin = FromArgb( 0xFFFF8800 );
+		/// <summary>
+		/// バーの色(25%～50% - 始点)
+		/// </summary>
+		[Browsable( true )]
+		[Description( "25～50%エリアの始点の色を指定します。" )]
 		[DefaultValue( typeof( Color ), "255, 136, 0" )]
-		public Color BarColor1 {
-			get { return _barColor1; }
+		public Color BarColor1Begin {
+			get { return _barColor1Begin; }
 			set {
-				_barColor1 = value;
+				_barColor1Begin = value;
 				Refresh();
 			}
 		}
 
-		private Color _barColor2 = FromArgb( 0xFFFFCC00 );
+		private Color _barColor1End = FromArgb( 0xFFFF8800 );
 		/// <summary>
-		/// バーの色(50%～75%)
+		/// バーの色(25%～50% - 終点)
 		/// </summary>
 		[Browsable( true )]
-		[Description( "50%～75%の時のバーの色を指定します。" )]
+		[Description( "25～50%エリアの終点の色を指定します。" )]
+		[DefaultValue( typeof( Color ), "255, 136, 0" )]
+		public Color BarColor1End {
+			get { return _barColor1End; }
+			set {
+				_barColor1End = value;
+				Refresh();
+			}
+		}
+
+		private Color _barColor2Begin = FromArgb( 0xFFFFCC00 );
+		/// <summary>
+		/// バーの色(50%～75% - 始点)
+		/// </summary>
+		[Browsable( true )]
+		[Description( "50～75%エリアの始点の色を指定します。" )]
 		[DefaultValue( typeof( Color ), "255, 204, 0" )]
-		public Color BarColor2 {
-			get { return _barColor2; }
+		public Color BarColor2Begin {
+			get { return _barColor2Begin; }
 			set {
-				_barColor2 = value;
+				_barColor2Begin = value;
 				Refresh();
 			}
 		}
 
-		private Color _barColor3 = FromArgb( 0xFF00CC00 );
+		private Color _barColor2End = FromArgb( 0xFFFFCC00 );
 		/// <summary>
-		/// バーの色(75%～100%)
+		/// バーの色(50%～75% - 終点)
 		/// </summary>
 		[Browsable( true )]
-		[Description( "75%～100%の時のバーの色を指定します。" )]
-		[DefaultValue( typeof( Color ), "0, 204, 0" )]
-		public Color BarColor3 {
-			get { return _barColor3; }
+		[Description( "50～75%エリアの終点の色を指定します。" )]
+		[DefaultValue( typeof( Color ), "255, 204, 0" )]
+		public Color BarColor2End {
+			get { return _barColor2End; }
 			set {
-				_barColor3 = value;
+				_barColor2End = value;
+				Refresh();
+			}
+		}
+
+		private Color _barColor3Begin = FromArgb( 0xFF00CC00 );
+		/// <summary>
+		/// バーの色(75%～100% - 始点)
+		/// </summary>
+		[Browsable( true )]
+		[Description( "75～100%エリアの始点の色を指定します。" )]
+		[DefaultValue( typeof( Color ), "0, 204, 0" )]
+		public Color BarColor3Begin {
+			get { return _barColor3Begin; }
+			set {
+				_barColor3Begin = value;
+				Refresh();
+			}
+		}
+
+		private Color _barColor3End = FromArgb( 0xFF00CC00 );
+		/// <summary>
+		/// バーの色(75%～100% - 終点)
+		/// </summary>
+		[Browsable( true )]
+		[Description( "75～100%エリアの終点の色を指定します。" )]
+		[DefaultValue( typeof( Color ), "0, 204, 0" )]
+		public Color BarColor3End {
+			get { return _barColor3End; }
+			set {
+				_barColor3End = value;
 				Refresh();
 			}
 		}
@@ -197,7 +257,7 @@ namespace ElectronicObserver.Window.Control {
 		/// </summary>
 		[Browsable( true )]
 		[Description( "バーの背景色を指定します。" )]
-		[DefaultValue( typeof( Color ), "68, 68, 68" )]
+		[DefaultValue( typeof( Color ), "136, 136, 136" )]
 		public Color BarColorBackground {
 			get { return _barColorBackground; }
 			set {
@@ -260,10 +320,10 @@ namespace ElectronicObserver.Window.Control {
 
 		public StatusBarModule() {
 
-			_barColor0 = Utility.Configuration.Config.UI.Hp0Color.ColorData;
-			_barColor1 = Utility.Configuration.Config.UI.Hp25Color.ColorData;
-			_barColor2 = Utility.Configuration.Config.UI.Hp50Color.ColorData;
-			_barColor3 = Utility.Configuration.Config.UI.Hp75Color.ColorData;
+			_barColor0Begin = Utility.Configuration.Config.UI.Hp0Color.ColorData;
+			_barColor1Begin = Utility.Configuration.Config.UI.Hp25Color.ColorData;
+			_barColor2Begin = Utility.Configuration.Config.UI.Hp50Color.ColorData;
+			_barColor3Begin = Utility.Configuration.Config.UI.Hp75Color.ColorData;
 			_barColor4 = Utility.Configuration.Config.UI.Hp100Color.ColorData;
 			_barColorIncrement = Utility.Configuration.Config.UI.HpIncrementColor.ColorData;
 			_barColorDecrement = Utility.Configuration.Config.UI.HpDecrementColor.ColorData;
@@ -276,26 +336,41 @@ namespace ElectronicObserver.Window.Control {
 
 
 
-		public void SetBarColor( IEnumerable<Color> colors ) {
+		public Color[] GetBarColorScheme() {
+			return new Color[] {
+				_barColor0Begin,
+				_barColor0End,
+				_barColor1Begin,
+				_barColor1End,
+				_barColor2Begin,
+				_barColor2End,
+				_barColor3Begin,
+				_barColor3End,
+				_barColor4,
+				_barColorIncrement,
+				_barColorDecrement,
+				_barColorBackground,
+			};
+		}
 
-			int length = colors.Count();
+		public void SetBarColorScheme( Color[] colors ) {
 
-			if ( length < 5 )
-				return;
+			if ( colors.Length < 12 )
+				throw new ArgumentOutOfRangeException( "colors の配列長が足りません。" );
 
-			_barColor0 = colors.ElementAt( 0 );
-			_barColor1 = colors.ElementAt( 1 );
-			_barColor2 = colors.ElementAt( 2 );
-			_barColor3 = colors.ElementAt( 3 );
-			_barColor4 = colors.ElementAt( 4 );
 
-			if ( length >= 7 ) {
-				_barColorIncrement = colors.ElementAt( 5 );
-				_barColorDecrement = colors.ElementAt( 6 ); ;
-			}
-
-			if ( length >= 8 )
-				_barColorBackground = colors.ElementAt( 7 );
+			_barColor0Begin = colors[0];
+			_barColor0End = colors[1];
+			_barColor1Begin = colors[2];
+			_barColor1End = colors[3];
+			_barColor2Begin = colors[4];
+			_barColor2End = colors[5];
+			_barColor3Begin = colors[6];
+			_barColor3End = colors[7];
+			_barColor4 = colors[8];
+			_barColorIncrement = colors[9];
+			_barColorDecrement = colors[10];
+			_barColorBackground = colors[11];
 
 
 			Refresh();
@@ -311,20 +386,6 @@ namespace ElectronicObserver.Window.Control {
 				return (double)value / max;
 		}
 
-		private Color GetBarColor() {
-			if ( Value <= MaximumValue * 0.25 )
-				return BarColor0;
-			else if ( Value <= MaximumValue * 0.50 )
-				return BarColor1;
-			else if ( Value <= MaximumValue * 0.75 )
-				return BarColor2;
-			else if ( Value < MaximumValue )
-				return BarColor3;
-			else
-				return BarColor4;
-		}
-
-
 
 		private static Color FromArgb( uint color ) {
 			return Color.FromArgb( unchecked( (int)color ) );
@@ -336,10 +397,10 @@ namespace ElectronicObserver.Window.Control {
 				throw new ArgumentOutOfRangeException( "weight は 0.0 - 1.0 の範囲内でなければなりません。指定値: " + weight );
 
 			return Color.FromArgb(
-				(int)( a.A * weight + b.A * ( 1 - weight ) ),
-				(int)( a.R * weight + b.R * ( 1 - weight ) ),
-				(int)( a.G * weight + b.G * ( 1 - weight ) ),
-				(int)( a.B * weight + b.B * ( 1 - weight ) ) );
+				(int)( a.A * ( 1 - weight ) + b.A * weight ),
+				(int)( a.R * ( 1 - weight ) + b.R * weight ),
+				(int)( a.G * ( 1 - weight ) + b.G * weight ),
+				(int)( a.B * ( 1 - weight ) + b.B * weight ) );
 		}
 
 
@@ -359,35 +420,34 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 			Color barColor;
+			double p = GetPercentage( Value, MaximumValue );
+
 			if ( !ColorMorphing ) {
-				barColor = GetBarColor();
+
+				if ( p <= 0.25 )
+					barColor = BarColor0Begin;
+				else if ( p <= 0.50 )
+					barColor = BarColor1Begin;
+				else if ( p <= 0.75 )
+					barColor = BarColor2Begin;
+				else if ( p < 1.00 )
+					barColor = BarColor3Begin;
+				else
+					barColor = BarColor4;
 
 			} else {
-				double p = GetPercentage( Value, MaximumValue );
 
-				/*/
-				if ( p <= 0.25 ) {
-					barColor = BarColor0;
-				} else if ( p <= 0.5 ) {
-					barColor = BlendColor( BarColor0, BarColor1, ( 0.5 - p ) * 4.0 );
-				} else if ( p <= 0.75 ) {
-					barColor = BlendColor( BarColor1, BarColor2, ( 0.75 - p ) * 4.0 );
-				} else if ( p < 1.0 ) {
-					barColor = BlendColor( BarColor2, BarColor3, ( 1.0 - p ) * 4.0 );
-				} else {
+				if ( p <= 0.25 )
+					barColor = BlendColor( BarColor0Begin, BarColor0End, p * 4.0 );
+				else if ( p <= 0.50 )
+					barColor = BlendColor( BarColor1Begin, BarColor1End, ( p - 0.25 ) * 4.0 );
+				else if ( p <= 0.75 )
+					barColor = BlendColor( BarColor2Begin, BarColor2End, ( p - 0.50 ) * 4.0 );
+				else if ( p < 1.00 )
+					barColor = BlendColor( BarColor3Begin, BarColor3End, ( p - 0.75 ) * 4.0 );
+				else
 					barColor = BarColor4;
-				}
-				/*/
-				if ( p <= 1.0 / 3.0 ) {
-					barColor = BlendColor( BarColor0, BarColor1, ( 1.0 / 3.0 - p ) * 3.0 );
-				} else if ( p <= 2.0 / 3.0 ) {
-					barColor = BlendColor( BarColor1, BarColor2, ( 2.0 / 3.0 - p ) * 3.0 );
-				} else if ( p < 1.0 ) {
-					barColor = BlendColor( BarColor2, BarColor3, ( 1.0 - p ) * 3.0 );
-				} else {
-					barColor = BarColor4;
-				}
-				//*/
+
 			}
 
 			using ( var b = new SolidBrush( barColor ) ) {
