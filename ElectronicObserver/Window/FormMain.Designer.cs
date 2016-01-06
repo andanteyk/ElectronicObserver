@@ -40,7 +40,7 @@
 			this.StripMenu_File_Layout1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_Layout2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_Layout_Change = new System.Windows.Forms.ToolStripMenuItem();
-
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Configuration = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Close = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,8 +153,9 @@
             this.StripMenu_File_Layout_Change,
 			this.toolStripSeparatorAnother3,
 			this.StripMenu_File_Layout_Lock,
-            this.toolStripSeparator9,
-            this.StripMenu_File_Layout_LockLayout});
+            //this.toolStripSeparator9,
+            //this.StripMenu_File_Layout_LockLayout
+			});
 
 			this.StripMenu_File_Layout.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Layout.Text = "布局(&L)";

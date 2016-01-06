@@ -507,7 +507,7 @@
 			// UI_BarColorMorphing
 			// 
 			this.UI_BarColorMorphing.AutoSize = true;
-			this.UI_BarColorMorphing.Location = new System.Drawing.Point(8, 64);
+			this.UI_BarColorMorphing.Location = new System.Drawing.Point(400, 64);
 			this.UI_BarColorMorphing.Name = "UI_BarColorMorphing";
 			this.UI_BarColorMorphing.Size = new System.Drawing.Size(167, 19);
 			this.UI_BarColorMorphing.TabIndex = 11;
@@ -1358,7 +1358,7 @@
 			// Life_AutoScaleDpi
 			// 
 			this.Life_AutoScaleDpi.AutoSize = true;
-			this.Life_AutoScaleDpi.Location = new System.Drawing.Point(11, 135);
+			this.Life_AutoScaleDpi.Location = new System.Drawing.Point(213, 85);
 			this.Life_AutoScaleDpi.Name = "Life_AutoScaleDpi";
 			this.Life_AutoScaleDpi.Size = new System.Drawing.Size(156, 35);
 			this.Life_AutoScaleDpi.TabIndex = 7;
@@ -1495,7 +1495,7 @@
 			// FormFleet_BlinkHPBar
 			// 
 			this.FormFleet_BlinkHPBar.AutoSize = true;
-			this.FormFleet_BlinkHPBar.Location = new System.Drawing.Point(6, 160);
+			this.FormFleet_BlinkHPBar.Location = new System.Drawing.Point(156, 138);
 			this.FormFleet_BlinkHPBar.Name = "FormFleet_BlinkHPBar";
 			this.FormFleet_BlinkHPBar.Size = new System.Drawing.Size(125, 27);
 			this.FormFleet_BlinkHPBar.TabIndex = 7;
