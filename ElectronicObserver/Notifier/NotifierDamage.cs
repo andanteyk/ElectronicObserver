@@ -81,6 +81,8 @@ namespace ElectronicObserver.Notifier {
 
 			APIObserver o = APIObserver.Instance;
 
+			o["api_port/port"].ResponseReceived += CloseAll;
+
 			o["api_req_map/start"].ResponseReceived += InSortie;
 			o["api_req_map/next"].ResponseReceived += InSortie;
 
@@ -99,6 +101,10 @@ namespace ElectronicObserver.Notifier {
 			o["api_req_combined_battle/midnight_battle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
 
+		}
+
+		void CloseAll( string apiname, dynamic data ) {
+			DialogData.OnCloseAll();
 		}
 
 

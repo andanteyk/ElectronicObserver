@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ElectronicObserver.Window.Dialog {
+
+	/// <summary>
+	/// 通知ダイアログ
+	/// </summary>
 	public partial class DialogNotifier : Form {
 
 
@@ -22,6 +26,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private bool IsLayeredWindow { get { return DialogData != null ? !DialogData.HasFormBorder && DialogData.DrawsImage : false; } }
 
 		protected override bool ShowWithoutActivation { get { return !DialogData.ShowWithActivation; } }
+
 
 
 		public DialogNotifier( NotifierDialogData data ) {
@@ -48,9 +53,12 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( !DialogData.HasFormBorder )
 				FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
+			data.CloseAll += data_CloseAll;
 			this.ResumeLayoutForDpiScale();
 
 		}
+
+
 
 
 		private void DialogNotifier_Load( object sender, EventArgs e ) {
@@ -225,7 +233,9 @@ namespace ElectronicObserver.Window.Dialog {
 			Close();
 		}
 
-
+		void data_CloseAll( object sender, EventArgs e ) {
+			Close();
+		}
 
 
 		// 以下 レイヤードウィンドウ用の呪文
