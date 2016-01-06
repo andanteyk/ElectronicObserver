@@ -951,7 +951,8 @@ namespace ElectronicObserver.Window {
 				bool showAircraft = c.FormFleet.ShowAircraft;
 				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
 				bool shortHPBar = c.FormFleet.ShortenHPBar;
-				bool colorMorphing = c.FormFleet.BarColorMorphing;
+				bool colorMorphing = c.UI.BarColorMorphing;
+				Color[] colorScheme = c.UI.BarColorScheme.Select( col => col.ColorData ).ToArray();
 				bool showNext = c.FormFleet.ShowNextExp;
 				bool textProficiency = c.FormFleet.ShowTextProficiency;
 				bool showEquipmentLevel = c.FormFleet.ShowEquipmentLevel;
@@ -967,11 +968,14 @@ namespace ElectronicObserver.Window {
 
 					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
 					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
+					ControlMember[i].HP.HPBar.SetBarColorScheme( colorScheme );
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
 					ControlMember[i].Equipments.TextProficiency = textProficiency;
 					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
 					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
 					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;
+					ControlMember[i].ShipResource.BarFuel.SetBarColorScheme( colorScheme );
+					ControlMember[i].ShipResource.BarAmmo.SetBarColorScheme( colorScheme );
 
 					ControlMember[i].ConfigurationChanged( this );
 				}

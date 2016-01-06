@@ -44,8 +44,8 @@ namespace ElectronicObserver.Window {
 			CSDefaultCenter = new DataGridViewCellStyle( CSDefaultLeft );
 			CSDefaultCenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-			CSCategories = new DataGridViewCellStyle[8];
-			for ( int i = 0; i < 8; i++ ) {
+			CSCategories = new DataGridViewCellStyle[9];
+			for ( int i = 0; i < CSCategories.Length; i++ ) {
 				CSCategories[i] = new DataGridViewCellStyle( CSDefaultCenter );
 
 				Color c;
@@ -71,7 +71,10 @@ namespace ElectronicObserver.Window {
 					case 7:		//改装
 						c = Utility.Configuration.Config.UI.QuestRenovated;
 						break;
-					case 8:		//その他
+					case 8:		//出撃(2)
+						c = Color.FromArgb( 0xFF, 0xCC, 0xCC );
+						break;
+					case 9:		//その他
 					default:
 						c = CSDefaultCenter.BackColor;
 						break;
@@ -86,7 +89,7 @@ namespace ElectronicObserver.Window {
 
 			QuestView.DefaultCellStyle = CSDefaultCenter;
 			QuestView.GridColor = Utility.Configuration.Config.UI.LineColor;
-			QuestView_Category.DefaultCellStyle = CSCategories[8 - 1];
+			QuestView_Category.DefaultCellStyle = CSCategories[CSCategories.Length - 1];
 			QuestView_Name.DefaultCellStyle = CSDefaultLeft;
 			QuestView_Progress.DefaultCellStyle = CSDefaultLeft;
 			QuestView.ColumnHeadersHeight = this.GetDpiHeight( 24 );
