@@ -360,18 +360,23 @@ namespace ElectronicObserver.Window {
 					return fBattle;
 				case "FleetOverview":
 					return fFleetOverview;
-				case "ShipGroup":
-					return fShipGroup;
+				//case "ShipGroup":
+				//	return fShipGroup;
 				case "Browser":
 					return fBrowser;
 				case "WindowCapture":
 					return fWindowCapture;
 				default:
+					if ( persistString.StartsWith( "ShipGroup" ) ) {
+						fShipGroup.ConfigureFromPersistString( persistString );
+						return fShipGroup;
+					}
 					if ( persistString.StartsWith( FormIntegrate.PREFIX ) ) {
 						return FormIntegrate.FromPersistString( this, persistString );
 					}
 					return null;
 			}
+
 		}
 
 
@@ -1163,7 +1168,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
+
 
 
 

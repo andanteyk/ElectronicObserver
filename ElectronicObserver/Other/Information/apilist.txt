@@ -1680,21 +1680,24 @@ Request.api_req_member/payitemuse	：課金アイテム使用
 	api_force_flag			：
 
 api_req_member/payitemuse	：課金アイテム使用
-	api_caution_flag		：0?
+	api_caution_flag		：確認ダイアログ(資源上限により無駄が出ますが本当に使いますか？)表示フラグ？　0=非表示 1=表示?
 
 
 Request.api_req_member/itemuse		：アイテム使用
 	api_exchange_type		：勲章のみ存在？　1=設計図と交換
 	api_useitem_id			：使用したアイテムのID
-	api_force_flag			：
+	api_force_flag			：0=資源上限確認ダイアログを表示 1=非表示
+								上限突破する場合、これが 0 なら response で api_caution_flag が 1 になる(まだ使われない)。それで確認ダイアログを出し、yes ならば api_force_flag=1 で再送する(ここで実際に消費される)
 
 api_req_member/itemuse				：アイテム使用
-	api_caution_flag	：0
-	api_flag			：1
-	api_getitem			：入手アイテム
-		api_usemst		：? 設計図=6
-		api_mst_id		：ID
-		api_getcount	：入手個数
+	api_caution_flag	：確認ダイアログ(資源上限により無駄が出ますが本当に使いますか？)表示フラグ？　0=非表示 1=表示?
+	api_flag			：1=アイテム 2=資源
+	api_getitem			：入手アイテム　アイテム入手時のみ存在
+		api_usemst		：? 設計図=6　2=装備? 5・6=アイテム
+		api_mst_id		：入手アイテムID
+		api_getcount	：入手アイテム個数
+	api_material		：入手資源　資源入手時のみ存在　[燃料, 弾薬, 鋼材, ボーキ, 高速建造材, 高速修復材, 開発資材, 改修資材]
+	api_slotitem		：入手装備アイテム?
 
 
 api_req_furniture/music_list	：ジュークボックスメニュー
@@ -1741,7 +1744,7 @@ api_req_furniture/buy				：家具購入
 	(情報なし)
 
 api_dmm_payment/paycheck			：アイテム購入
-	api_check_value		：購入個数?
+	api_check_value		：2=成功
 
 
 

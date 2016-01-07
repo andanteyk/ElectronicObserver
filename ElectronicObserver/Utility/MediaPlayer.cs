@@ -45,6 +45,8 @@ namespace ElectronicObserver.Utility {
 			"wav",
 			"m4a",
 			"aac",
+			"flac",
+			"mka",
 		} );
 
 		private static readonly Regex SupportedFileName = new Regex( ".*\\.(" + string.Join( "|", SupportedExtensions ) + ")", RegexOptions.Compiled );
@@ -52,10 +54,14 @@ namespace ElectronicObserver.Utility {
 
 		public MediaPlayer() {
 			var type = Type.GetTypeFromProgID( "WMPlayer.OCX.7" );
-			_wmp = Activator.CreateInstance( type );
-			_wmp.uiMode = "none";
-			_wmp.settings.autoStart = false;
-			_wmp.PlayStateChange += new Action<int>( wmp_PlayStateChange );
+			if ( type != null ) {
+				_wmp = Activator.CreateInstance( type );
+				_wmp.uiMode = "none";
+				_wmp.settings.autoStart = false;
+				_wmp.PlayStateChange += new Action<int>( wmp_PlayStateChange );
+			} else {
+				_wmp = null;
+			}
 
 			IsLoop = false;
 			_isShuffle = false;
@@ -70,16 +76,22 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-
+		/// <summary>
+		/// 利用可能かどうか
+		/// false の場合全機能が使用不可能
+		/// </summary>
+		public bool IsAvailable {
+			get { return _wmp != null; }
+		}
 
 		/// <summary>
 		/// メディアファイルのパス。
 		/// 再生中に変更された場合停止します。
 		/// </summary>
 		public string SourcePath {
-			get { return _wmp.URL; }
+			get { return !IsAvailable ? string.Empty : _wmp.URL; }
 			set {
-				if ( _wmp.URL != value )
+				if ( IsAvailable && _wmp.URL != value )
 					_wmp.URL = value;
 			}
 		}
@@ -90,16 +102,16 @@ namespace ElectronicObserver.Utility {
 		/// 注: システムの音量設定と連動しているようなので注意が必要
 		/// </summary>
 		public int Volume {
-			get { return _wmp.settings.volume; }
-			set { _wmp.settings.volume = value; }
+			get { return !IsAvailable ? 0 : _wmp.settings.volume; }
+			set { if ( IsAvailable ) _wmp.settings.volume = value; }
 		}
 
 		/// <summary>
 		/// ミュート
 		/// </summary>
 		public bool IsMute {
-			get { return _wmp.settings.mute; }
-			set { _wmp.settings.mute = value; }
+			get { return !IsAvailable ? false : _wmp.settings.mute; }
+			set { if ( IsAvailable ) _wmp.settings.mute = value; }
 		}
 
 
@@ -111,7 +123,8 @@ namespace ElectronicObserver.Utility {
 			get { return _isLoop; }
 			set {
 				_isLoop = value;
-				_wmp.settings.setMode( "loop", _isLoop );
+				if ( IsAvailable )
+					_wmp.settings.setMode( "loop", _isLoop );
 			}
 		}
 
@@ -125,22 +138,22 @@ namespace ElectronicObserver.Utility {
 		/// 現在の再生地点 (秒単位)
 		/// </summary>
 		public double CurrentPosition {
-			get { return _wmp.controls.currentPosition; }
-			set { _wmp.controls.currentPosition = value; }
+			get { return !IsAvailable ? 0.0 : _wmp.controls.currentPosition; }
+			set { if ( IsAvailable ) _wmp.controls.currentPosition = value; }
 		}
 
 		/// <summary>
 		/// 再生状態
 		/// </summary>
 		public int PlayState {
-			get { return _wmp.playState; }
+			get { return !IsAvailable ? 0 : _wmp.playState; }
 		}
 
 		/// <summary>
 		/// 現在のメディアの名前
 		/// </summary>
 		public string MediaName {
-			get { return _wmp.currentMedia != null ? _wmp.currentMedia.name : null; }
+			get { return !IsAvailable ? string.Empty : _wmp.currentMedia != null ? _wmp.currentMedia.name : null; }
 		}
 
 		/// <summary>
@@ -148,7 +161,7 @@ namespace ElectronicObserver.Utility {
 		/// なければ 0
 		/// </summary>
 		public double Duration {
-			get { return _wmp.currentMedia != null ? _wmp.currentMedia.duration : 0; }
+			get { return !IsAvailable ? 0.0 : _wmp.currentMedia != null ? _wmp.currentMedia.duration : 0; }
 		}
 
 
@@ -169,7 +182,7 @@ namespace ElectronicObserver.Utility {
 			if ( list == null )
 				_playlist = new List<string>();
 			else
-				_playlist = list.Distinct().Where( s => SupportedFileName.IsMatch( s ) ).ToList();
+				_playlist = list.Distinct().ToList();
 
 			UpdateRealPlaylist();
 		}
@@ -240,6 +253,8 @@ namespace ElectronicObserver.Utility {
 		/// 再生
 		/// </summary>
 		public void Play() {
+			if ( !IsAvailable ) return;
+			
 			if ( _realPlaylist.Count > 0 && SourcePath != _realPlaylist[_playingIndex] )
 				SourcePath = _realPlaylist[_playingIndex];
 
@@ -250,6 +265,8 @@ namespace ElectronicObserver.Utility {
 		/// ポーズ
 		/// </summary>
 		public void Pause() {
+			if ( !IsAvailable ) return;
+
 			_wmp.controls.pause();
 		}
 
@@ -257,6 +274,8 @@ namespace ElectronicObserver.Utility {
 		/// 停止
 		/// </summary>
 		public void Stop() {
+			if ( !IsAvailable ) return;
+
 			_wmp.controls.stop();
 		}
 
@@ -264,6 +283,8 @@ namespace ElectronicObserver.Utility {
 		/// ファイルを閉じる
 		/// </summary>
 		public void Close() {
+			if ( !IsAvailable ) return;
+
 			_wmp.close();
 		}
 
@@ -272,6 +293,7 @@ namespace ElectronicObserver.Utility {
 		/// 次の曲へ
 		/// </summary>
 		public void Next() {
+			if ( !IsAvailable ) return;
 
 			int prevState = PlayState;
 
@@ -291,6 +313,8 @@ namespace ElectronicObserver.Utility {
 		/// 前の曲へ
 		/// </summary>
 		public void Prev() {
+			if ( !IsAvailable ) return;
+
 			if ( IsShuffle )
 				return;
 
@@ -306,6 +330,7 @@ namespace ElectronicObserver.Utility {
 		}
 
 		private void UpdateRealPlaylist() {
+			if ( !IsAvailable ) return;
 
 			if ( !IsShuffle ) {
 				_realPlaylist = new List<string>( _playlist );
