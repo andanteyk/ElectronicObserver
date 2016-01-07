@@ -348,7 +348,7 @@ namespace ElectronicObserver.Utility {
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
-					UseSystemVolume = false;
+					UseSystemVolume = true;
 				}
 			}
 			/// <summary>動作</summary>
@@ -630,6 +630,7 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigFormShipGroup : ConfigPartBase {
 
+				[Obsolete]
 				public int SplitterDistance { get; set; }
 
 				public bool AutoUpdate { get; set; }
