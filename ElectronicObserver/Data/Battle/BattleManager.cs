@@ -62,6 +62,17 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public int DroppedEquipmentCount { get; internal set; }
 
+		/// <summary>
+		/// 出撃中に入手したアイテム - ID と 個数 のペア
+		/// </summary>
+		public Dictionary<int, int> DroppedItemCount { get; internal set; }
+
+
+
+		public BattleManager() {
+			DroppedItemCount = new Dictionary<int, int>();
+		}
+
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			//base.LoadFromResponse( apiname, data );	//不要
@@ -158,6 +169,7 @@ namespace ElectronicObserver.Data.Battle {
 					Result = null;
 					BattleMode = BattleModes.Undefined;
 					DroppedShipCount = DroppedEquipmentCount = 0;
+					DroppedItemCount.Clear();
 					break;
 
 				case "api_get_member/slot_item":
@@ -205,9 +217,15 @@ namespace ElectronicObserver.Data.Battle {
 				}
 
 				if ( itemID != -1 ) {
+
+					if ( !DroppedItemCount.ContainsKey( itemID ) )
+						DroppedItemCount.Add( itemID, 0 );
+					DroppedItemCount[itemID]++;
+
 					if ( showLog ) {
 						var item = KCDatabase.Instance.UseItems[itemID];
-						Utility.Logger.Add( 2, string.Format( "已获得物品「{0}」。( 合计: {1}个 )", KCDatabase.Instance.MasterUseItems[itemID].Name, item != null ? item.Count + 1 : 1 ) );
+						var itemmaster = KCDatabase.Instance.MasterUseItems[itemID];
+						Utility.Logger.Add( 2, string.Format( "已获得物品「{0}」。( 合计: {1}个 )", itemmaster != null ? itemmaster.Name : ( "不明物品 - ID:" + itemID ), ( item != null ? item.Count : 0 ) + DroppedItemCount[itemID] ) );
 					}
 				}
 
@@ -234,6 +252,7 @@ namespace ElectronicObserver.Data.Battle {
 
 
 			//DEBUG
+			/*/
 			if ( Utility.Configuration.Config.Log.LogLevel <= 1 && Utility.Configuration.Config.Connection.SaveReceivedData ) {
 				IEnumerable<int> damages;
 				switch ( BattleMode & BattleModes.BattlePhaseMask ) {
@@ -255,6 +274,7 @@ namespace ElectronicObserver.Data.Battle {
 					Utility.Logger.Add( 1, "MVP候補が複数存在します。ログを確認してください。" );
 				}
 			}
+			//*/
 
 		}
 

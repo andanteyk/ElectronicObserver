@@ -701,6 +701,8 @@ namespace ElectronicObserver.Data {
 				case 7:
 					return "改装";
 				case 8:
+					return "出撃";
+				case 9:
 					return "他";
 				default:
 					return "不明";
