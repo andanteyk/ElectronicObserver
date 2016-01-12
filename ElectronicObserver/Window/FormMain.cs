@@ -152,10 +152,12 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 
-			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 			ConfigurationChanged();		//設定から初期化
 
+			LoadLayout( Configuration.Config.Life.LayoutFilePath );
+
+			
 			SoftwareInformation.CheckUpdate();
 
 			// デバッグ: 開始時にAPIリストを読み込む
