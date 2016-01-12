@@ -538,12 +538,6 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowAnchorageRepairingTimer { get; set; }
 
-				/// <summary>
-				/// バーの色を滑らかに変化させるか
-				/// </summary>
-				[Obsolete]
-				public bool BarColorMorphing { get; set; }
-
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
@@ -555,7 +549,6 @@ namespace ElectronicObserver.Utility {
 					ShowEquipmentLevel = true;
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
-					BarColorMorphing = false;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -630,15 +623,11 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigFormShipGroup : ConfigPartBase {
 
-				[Obsolete]
-				public int SplitterDistance { get; set; }
-
 				public bool AutoUpdate { get; set; }
 
 				public bool ShowStatusBar { get; set; }
 
 				public ConfigFormShipGroup() {
-					SplitterDistance = 40;
 					AutoUpdate = true;
 					ShowStatusBar = true;
 				}
