@@ -209,6 +209,13 @@ namespace ElectronicObserver.Data {
 							} else {
 								//入隊
 
+								for ( int y = index - 1; y >= 0; y-- ) {		// 変更位置よりも前に空欄があれば位置をずらす
+									if ( _members[y] != -1 ) {
+										index = y + 1;
+										break;
+									}
+								}
+
 								_members[index] = shipID;
 
 								//入れ替え
