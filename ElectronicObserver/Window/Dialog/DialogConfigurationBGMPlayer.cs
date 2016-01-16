@@ -22,12 +22,12 @@ namespace ElectronicObserver.Window.Dialog {
 			LoopHeadPosition.Value = (decimal)handle.LoopHeadPosition;
 			Volume.Value = handle.Volume;
 
-			Text = "BGMの設定 - " + SyncBGMPlayer.SoundHandleIDToString( handle.HandleID );
+			Text = "BGM设定 - " + SyncBGMPlayer.SoundHandleIDToString( handle.HandleID );
 			ResultHandle = handle.Clone();
 		}
 
 		private void DialogConfigurationBGMPlayer_Load( object sender, EventArgs e ) {
-			OpenMusicDialog.Filter = "音楽ファイル|" + string.Join( ";", MediaPlayer.SupportedExtensions.Select( s => "*." + s ) ) + "|ファイル|*";
+			OpenMusicDialog.Filter = "音乐文件|" + string.Join( ";", MediaPlayer.SupportedExtensions.Select( s => "*." + s ) ) + "|所有文件|*";
 		}
 
 		private void ButtonAccept_Click( object sender, EventArgs e ) {

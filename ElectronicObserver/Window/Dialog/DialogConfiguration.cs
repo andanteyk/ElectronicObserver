@@ -317,7 +317,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
 			Life_ClockFormat.SelectedIndex = config.Life.ClockFormat;
 			Life_AutoScaleDpi.Checked = config.UI.AutoScaleDpi;
-			Life_LockLayout.Checked = config.Life.LockLayout;
+			Life_LockLayout.Checked = config.Life.IsLocked;
 			Life_CanCloseFloatWindowInLock.Checked = config.Life.CanCloseFloatWindowInLock;
 
 			//[サブウィンドウ]
@@ -521,7 +521,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
 			config.Life.ClockFormat = Life_ClockFormat.SelectedIndex;
 			config.UI.AutoScaleDpi = Life_AutoScaleDpi.Checked;
-			config.Life.LockLayout = Life_LockLayout.Checked;
+			config.Life.IsLocked = Life_LockLayout.Checked;
 			config.Life.CanCloseFloatWindowInLock = Life_CanCloseFloatWindowInLock.Checked;
 
 			//[サブウィンドウ]

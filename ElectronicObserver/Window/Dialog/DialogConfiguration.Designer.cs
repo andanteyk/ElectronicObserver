@@ -511,8 +511,8 @@
 			this.UI_BarColorMorphing.Name = "UI_BarColorMorphing";
 			this.UI_BarColorMorphing.Size = new System.Drawing.Size(167, 19);
 			this.UI_BarColorMorphing.TabIndex = 11;
-			this.UI_BarColorMorphing.Text = "バーの色を滑らかに変化させる";
-			this.ToolTipInfo.SetToolTip(this.UI_BarColorMorphing, "HP・資源等のバーの色を、艦これUIと同様に滑らかに変化させるか指定します。");
+			this.UI_BarColorMorphing.Text = "渐变颜色条";
+			this.ToolTipInfo.SetToolTip(this.UI_BarColorMorphing, "指定HP・资源等颜色条的颜色是否像艦これUI那样平滑改变。");
 			this.UI_BarColorMorphing.UseVisualStyleBackColor = true;
 			// 
 			// tabControlUIColor
@@ -1317,7 +1317,8 @@
 			this.Life_CanCloseFloatWindowInLock.Name = "Life_CanCloseFloatWindowInLock";
 			this.Life_CanCloseFloatWindowInLock.Size = new System.Drawing.Size(197, 19);
 			this.Life_CanCloseFloatWindowInLock.TabIndex = 10;
-			this.Life_CanCloseFloatWindowInLock.Text = "ロック中でもフロートウィンドウを閉じる";
+			this.Life_CanCloseFloatWindowInLock.Visible = false;
+			this.Life_CanCloseFloatWindowInLock.Text = "锁定布局时可以关闭浮动窗口";
 			this.ToolTipInfo.SetToolTip(this.Life_CanCloseFloatWindowInLock, "上記「レイアウトをロックする」が有効な時でも、\r\nフロートウィンドウ(本体とは分離したウィンドウ)を閉じられるようにするかを指定します。\r\nよくウィンドウを一時的" +
         "に開く方は有効にすると便利です。");
 			this.Life_CanCloseFloatWindowInLock.UseVisualStyleBackColor = true;
@@ -1329,8 +1330,8 @@
 			this.Life_LockLayout.Name = "Life_LockLayout";
 			this.Life_LockLayout.Size = new System.Drawing.Size(122, 19);
 			this.Life_LockLayout.TabIndex = 9;
-			this.Life_LockLayout.Text = "レイアウトをロックする";
-			this.ToolTipInfo.SetToolTip(this.Life_LockLayout, "サイズやレイアウトの変更を防止するかを指定します。");
+			this.Life_LockLayout.Text = "锁定布局";
+			this.ToolTipInfo.SetToolTip(this.Life_LockLayout, "设定是否锁定布局，禁止改变大小。");
 			this.Life_LockLayout.UseVisualStyleBackColor = true;
 			// 
 			// label24
@@ -2010,7 +2011,7 @@
 			this.BGMPlayer_SetVolumeAll.Name = "BGMPlayer_SetVolumeAll";
 			this.BGMPlayer_SetVolumeAll.Size = new System.Drawing.Size(100, 23);
 			this.BGMPlayer_SetVolumeAll.TabIndex = 3;
-			this.BGMPlayer_SetVolumeAll.Text = "音量一括適用";
+			this.BGMPlayer_SetVolumeAll.Text = "音量批量设置";
 			this.BGMPlayer_SetVolumeAll.UseVisualStyleBackColor = true;
 			this.BGMPlayer_SetVolumeAll.Click += new System.EventHandler(this.BGMPlayer_SetVolumeAll_Click);
 			// 
@@ -2034,8 +2035,8 @@
 			this.BGMPlayer_Enabled.Name = "BGMPlayer_Enabled";
 			this.BGMPlayer_Enabled.Size = new System.Drawing.Size(161, 19);
 			this.BGMPlayer_Enabled.TabIndex = 1;
-			this.BGMPlayer_Enabled.Text = "BGMプレイヤーを有効にする";
-			this.ToolTipInfo.SetToolTip(this.BGMPlayer_Enabled, "現在の場面に合わせてお好みのBGMを再生する機能です。");
+			this.BGMPlayer_Enabled.Text = "启用BGM播放器";
+			this.ToolTipInfo.SetToolTip(this.BGMPlayer_Enabled, "根据场景可以选择自己喜爱的BGM播放。");
 			this.BGMPlayer_Enabled.UseVisualStyleBackColor = true;
 			// 
 			// BGMPlayer_ControlGrid
@@ -2083,7 +2084,7 @@
 			// 
 			// BGMPlayer_ColumnContent
 			// 
-			this.BGMPlayer_ColumnContent.HeaderText = "シーン";
+			this.BGMPlayer_ColumnContent.HeaderText = "场景";
 			this.BGMPlayer_ColumnContent.Name = "BGMPlayer_ColumnContent";
 			this.BGMPlayer_ColumnContent.ReadOnly = true;
 			this.BGMPlayer_ColumnContent.Width = 80;
@@ -2091,14 +2092,14 @@
 			// BGMPlayer_ColumnPath
 			// 
 			this.BGMPlayer_ColumnPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.BGMPlayer_ColumnPath.HeaderText = "ファイル名";
+			this.BGMPlayer_ColumnPath.HeaderText = "文件名";
 			this.BGMPlayer_ColumnPath.Name = "BGMPlayer_ColumnPath";
 			this.BGMPlayer_ColumnPath.ReadOnly = true;
 			this.BGMPlayer_ColumnPath.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// BGMPlayer_ColumnSetting
 			// 
-			this.BGMPlayer_ColumnSetting.HeaderText = "設定";
+			this.BGMPlayer_ColumnSetting.HeaderText = "设定";
 			this.BGMPlayer_ColumnSetting.Name = "BGMPlayer_ColumnSetting";
 			this.BGMPlayer_ColumnSetting.Width = 40;
 			// 
@@ -2164,7 +2165,7 @@
 			this.Control_UseSystemVolume.Name = "Control_UseSystemVolume";
 			this.Control_UseSystemVolume.Size = new System.Drawing.Size(230, 19);
 			this.Control_UseSystemVolume.TabIndex = 4;
-			this.Control_UseSystemVolume.Text = "通知・BGM音量にシステム設定を利用する";
+			this.Control_UseSystemVolume.Text = "通知・BGM音量使用系统设置";
 			this.ToolTipInfo.SetToolTip(this.Control_UseSystemVolume, "通知・BGM等の本体音量設定に、システム音量設定を利用するかを指定します。\r\n無効の場合は個別に音量を設定できますが、音量ミキサ等で調整できなくなります。\r\n有効" +
         "の場合は音量ミキサ等で調整できますが、個別の音量設定は無視されます。");
 			this.Control_UseSystemVolume.UseVisualStyleBackColor = true;

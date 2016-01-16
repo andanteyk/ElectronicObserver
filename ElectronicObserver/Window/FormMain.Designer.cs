@@ -404,7 +404,7 @@
 			// 
 			this.StripMenu_Tool_DropRecord.Name = "StripMenu_Tool_DropRecord";
 			this.StripMenu_Tool_DropRecord.Size = new System.Drawing.Size(152, 22);
-			this.StripMenu_Tool_DropRecord.Text = "ドロップ記録(&D)";
+			this.StripMenu_Tool_DropRecord.Text = "掉落记录(&D)";
 			this.StripMenu_Tool_DropRecord.Click += new System.EventHandler(this.StripMenu_Tool_DropRecord_Click);
 			// 
 			// StripMenu_Tool_DevelopmentRecord
