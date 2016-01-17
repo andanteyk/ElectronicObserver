@@ -172,6 +172,9 @@ namespace ElectronicObserver.Utility {
 			if ( c.Handles != null )
 				Handles = new IDDictionary<SoundHandle>( c.Handles );
 
+			if ( !c.SyncBrowserMute )
+				IsMute = false;
+
 			// 設定変更を適用するためいったん閉じる
 			_mp.Close();
 		}
