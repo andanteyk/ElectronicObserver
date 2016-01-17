@@ -91,6 +91,11 @@ namespace ElectronicObserver.Utility {
 
 		public IDDictionary<SoundHandle> Handles { get; internal set; }
 		public bool Enabled;
+		public bool IsMute {
+			get { return _mp.IsMute; }
+			set { _mp.IsMute = value; }
+		}
+
 		private MediaPlayer _mp;
 		private bool _isBoss;
 
@@ -166,6 +171,9 @@ namespace ElectronicObserver.Utility {
 
 			if ( c.Handles != null )
 				Handles = new IDDictionary<SoundHandle>( c.Handles );
+
+			if ( !c.SyncBrowserMute )
+				IsMute = false;
 
 			// 設定変更を適用するためいったん閉じる
 			_mp.Close();

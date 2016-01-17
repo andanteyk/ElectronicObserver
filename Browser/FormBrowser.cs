@@ -655,6 +655,10 @@ namespace Browser {
 				control.Value = (decimal)volume;
 				control.Tag = true;
 			}
+
+			Configuration.Volume = volume;
+			Configuration.IsMute = mute;
+			ConfigurationUpdated();
 		}
 
 
@@ -828,7 +832,7 @@ namespace Browser {
 
 
 
-		private void SizeAdjuster_Click( object sender, EventArgs e ) {
+		private void SizeAdjuster_DoubleClick( object sender, EventArgs e ) {
 			ToolMenu.Visible =
 			Configuration.IsToolMenuVisible = true;
 			ConfigurationUpdated();

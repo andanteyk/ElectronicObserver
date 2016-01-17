@@ -61,7 +61,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void DialogNotifier_Load( object sender, EventArgs e ) {
 
 
-			Rectangle screen = System.Windows.Forms.Screen.GetWorkingArea( this );
+			Rectangle screen = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
 			switch ( DialogData.Alignment ) {
 
 				case NotifierDialogAlignment.TopLeft:
