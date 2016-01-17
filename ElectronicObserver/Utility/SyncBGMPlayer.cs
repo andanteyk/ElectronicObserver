@@ -91,6 +91,11 @@ namespace ElectronicObserver.Utility {
 
 		public IDDictionary<SoundHandle> Handles { get; internal set; }
 		public bool Enabled;
+		public bool IsMute {
+			get { return _mp.IsMute; }
+			set { _mp.IsMute = value; }
+		}
+
 		private MediaPlayer _mp;
 		private bool _isBoss;
 

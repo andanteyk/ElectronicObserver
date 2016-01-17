@@ -344,11 +344,22 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool UseSystemVolume { get; set; }
 
+				/// <summary>
+				/// 前回終了時の音量
+				/// </summary>
+				public float LastVolume { get; set; }
+
+				/// <summary>
+				/// 前回終了時にミュート状態だったか
+				/// </summary>
+				public bool LastIsMute { get; set; }
 
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
 					UseSystemVolume = true;
+					LastVolume = 0.8f;
+					LastIsMute = false;
 				}
 			}
 			/// <summary>動作</summary>
@@ -865,6 +876,7 @@ namespace ElectronicObserver.Utility {
 
 				public bool Enabled { get; set; }
 				public List<SyncBGMPlayer.SoundHandle> Handles { get; set; }
+				public bool SyncBrowserMute { get; set; }
 
 				public ConfigBGMPlayer()
 					: base() {
@@ -873,6 +885,7 @@ namespace ElectronicObserver.Utility {
 					Handles = new List<SyncBGMPlayer.SoundHandle>();
 					foreach ( SyncBGMPlayer.SoundHandleID id in Enum.GetValues( typeof( SyncBGMPlayer.SoundHandleID ) ) )
 						Handles.Add( new SyncBGMPlayer.SoundHandle( id ) );
+					SyncBrowserMute = false;
 				}
 			}
 			[DataMember]

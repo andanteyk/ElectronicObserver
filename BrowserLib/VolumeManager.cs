@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Browser {
+namespace BrowserLib {
 
 	/// <summary>
 	/// 音量やミュートを管理します。
