@@ -171,8 +171,8 @@ namespace ElectronicObserver.Observer {
 
 			Utility.Logger.Add( 2, "APIObserver: 监听终止。" );
 
-			if ( Utility.Configuration.Config.CacheSettings.CacheEnabled )
-				Cache.SaveCacheList();
+			//if ( Utility.Configuration.Config.CacheSettings.CacheEnabled )
+				//Cache.SaveCacheList();
 		}
 
 

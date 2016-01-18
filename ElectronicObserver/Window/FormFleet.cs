@@ -968,14 +968,14 @@ namespace ElectronicObserver.Window {
 
 					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
 					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
-					//ControlMember[i].HP.HPBar.SetBarColorScheme( colorScheme );
+					ControlMember[i].HP.HPBar.ReloadBarSettings();
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
 					ControlMember[i].Equipments.TextProficiency = textProficiency;
 					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
 					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
 					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;
-					//ControlMember[i].ShipResource.BarFuel.SetBarColorScheme( colorScheme );
-					//ControlMember[i].ShipResource.BarAmmo.SetBarColorScheme( colorScheme );
+					ControlMember[i].ShipResource.BarFuel.ReloadBarSettings();
+					ControlMember[i].ShipResource.BarAmmo.ReloadBarSettings();
 
 					ControlMember[i].ConfigurationChanged( this );
 				}

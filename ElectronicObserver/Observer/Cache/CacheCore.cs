@@ -46,7 +46,7 @@ namespace ElectronicObserver.Observer.Cache {
 
 	class CacheCore {
 
-
+		/*/ - 缓存列表 -
 		private Dictionary<string, string> _cacheList;
 
 		private const string CACHE_LIST_FILE = @"\CacheList.txt";
@@ -118,6 +118,7 @@ namespace ElectronicObserver.Observer.Cache {
 				Utility.ErrorReporter.SendErrorReport( ex, "保存缓存列表时出错。" );
 			}
 		}
+		//*/
 
 
 		/// <summary>
@@ -181,7 +182,7 @@ namespace ElectronicObserver.Observer.Cache {
 				  type == filetype.image ) && Configuration.Config.CacheSettings.CacheResourceFiles > 0 ) ) {
 				filepath = Configuration.Config.CacheSettings.CacheFolder + uri.AbsolutePath.Replace( '/', '\\' );
 
-				// 检查缓存列表中是否有对应版本
+				/*/ 检查缓存列表中是否有对应版本
 				string query = uri.PathAndQuery;
 				int index = query.LastIndexOf( '?' );
 				bool changed = false;
@@ -200,6 +201,7 @@ namespace ElectronicObserver.Observer.Cache {
 						_cacheList[key] = value;
 					}
 				}
+				//*/
 
 				//检查Hack文件地址
 				if ( Configuration.Config.CacheSettings.HackEnabled ) {
@@ -217,11 +219,11 @@ namespace ElectronicObserver.Observer.Cache {
 				//检查缓存文件
 				if ( File.Exists( filepath ) ) {
 
-					if ( changed ) {
-						// 版本发生变动，则重新下载
-						_RecordTask( url, filepath );
-						return Direction.Discharge_Response;
-					}
+					//if ( changed ) {
+					//	// 版本发生变动，则重新下载
+					//	_RecordTask( url, filepath );
+					//	return Direction.Discharge_Response;
+					//}
 
 					//存在本地缓存文件 -> 检查文件的最后修改时间
 					//（验证所有文件 或 只验证非资源文件）

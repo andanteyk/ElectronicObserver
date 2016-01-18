@@ -320,6 +320,11 @@ namespace ElectronicObserver.Window.Control {
 
 		public StatusBarModule() {
 
+			ReloadBarSettings();
+
+		}
+
+		public void ReloadBarSettings() {
 			_barColor0Begin = Utility.Configuration.Config.UI.Hp0Color.ColorData;
 			_barColor1Begin = Utility.Configuration.Config.UI.Hp25Color.ColorData;
 			_barColor2Begin = Utility.Configuration.Config.UI.Hp50Color.ColorData;

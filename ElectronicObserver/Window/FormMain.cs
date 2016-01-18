@@ -83,7 +83,7 @@ namespace ElectronicObserver.Window {
 				Directory.CreateDirectory( "Settings" );
 
 
-			Utility.Configuration.Instance.Load();
+			//Utility.Configuration.Instance.Load();
 
 
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
@@ -861,23 +861,31 @@ namespace ElectronicObserver.Window {
 
 		}
 
-        private void StripMenu_File_Layout_Lock_Click(object sender, EventArgs e)
-        {
+		private void StripMenu_File_Layout_Lock_Click(object sender, EventArgs e)
+		{
 
-            bool locked = !StripMenu_File_Layout_Lock.Checked;
+			bool locked = !StripMenu_File_Layout_Lock.Checked;
 
-            MainDockPanel.CanClosePane =
-            MainDockPanel.CanHidePane =
-            MainDockPanel.AllowEndUserDocking =
-            MainDockPanel.AllowSplitterDrag = !locked;
-            MainDockPanel.AllowEndUserDocking =
-            MainDockPanel.AllowSplitterDrag = !locked;
+			MainDockPanel.CanClosePane =
+			MainDockPanel.CanHidePane =
+			MainDockPanel.AllowEndUserDocking =
+			MainDockPanel.AllowSplitterDrag = !locked;
+			MainDockPanel.AllowEndUserDocking =
+			MainDockPanel.AllowSplitterDrag = !locked;
 
-            Utility.Configuration.Config.Life.IsLocked = locked;
+			if ( locked ) {
+				//MainDockPanel.AllowChangeLayout = false;
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			} else {
+				//MainDockPanel.AllowChangeLayout = true;
+				FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+			}
 
-            StripMenu_File_Layout_Lock.Checked = locked;
+			Utility.Configuration.Config.Life.IsLocked = locked;
 
-        }
+			StripMenu_File_Layout_Lock.Checked = locked;
+
+		}
 
 		private void StripMenu_File_Layout_Open_Click( object sender, EventArgs e ) {
 
