@@ -25,16 +25,19 @@ namespace ElectronicObserver.Window.Support {
 
 		public CustomFloatWindow( DockPanel dockPanel, DockPane pane )
 			: base( dockPanel, pane ) {
-
-			FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-			DoubleClickTitleBarToDock = false;
+			Init();
 		}
 
 		public CustomFloatWindow( DockPanel dockPanel, DockPane pane, Rectangle bounds )
 			: base( dockPanel, pane, bounds ) {
+			Init();
+		}
 
+		private void Init() {
 			FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-			DoubleClickTitleBarToDock = false;
+			ShowInTaskbar = true;
+			Owner = null;
+			//DoubleClickTitleBarToDock = false;
 		}
 
 	}
