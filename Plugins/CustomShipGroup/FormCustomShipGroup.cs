@@ -298,7 +298,7 @@ namespace ElectronicObserver.Window {
 			CSIsLocked.Font =
 				config.UI.MainFont;
 
-			splitContainer1.SplitterDistance = config.FormShipGroup.SplitterDistance;
+			//splitContainer1.SplitterDistance = config.FormShipGroup.SplitterDistance;
 			MenuGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			MenuGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
 
@@ -1598,7 +1598,7 @@ namespace ElectronicObserver.Window {
 		void SystemShuttingDown() {
 
 
-			Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
+			//Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
 			Utility.Configuration.Config.FormShipGroup.AutoUpdate = MenuGroup_AutoUpdate.Checked;
 			Utility.Configuration.Config.FormShipGroup.ShowStatusBar = MenuGroup_ShowStatusBar.Checked;
 

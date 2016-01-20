@@ -55,7 +55,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		private bool IsRowsUpdating;
-
+		private int _splitterDistance;
 
 
 		public FormShipGroup( FormMain parent ) {
@@ -64,7 +64,7 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetDoubleBuffered( ShipView );
 
 			IsRowsUpdating = true;
-
+			_splitterDistance = -1;
 
 			foreach ( DataGridViewColumn column in ShipView.Columns ) {
 				column.MinimumWidth = 2;
@@ -207,12 +207,32 @@ namespace ElectronicObserver.Window {
 			foreach ( System.Windows.Forms.Control c in TabPanel.Controls )
 				c.Font = Font;
 
-			splitContainer1.SplitterDistance = config.FormShipGroup.SplitterDistance;
 			MenuGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			MenuGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
 
 		}
 
+
+		// レイアウトロード時に呼ばれる
+		public void ConfigureFromPersistString( string persistString ) {
+
+			string[] args = persistString.Split( "?=&".ToCharArray() );
+
+			for ( int i = 1; i < args.Length - 1; i += 2 ) {
+				switch ( args[i] ) {
+					case "SplitterDistance":
+						// 直接変えるとサイズが足りないか何かで変更が適用されないことがあるため、 Resize イベント中に変更する(ために値を記録する)
+						// しかし Resize イベントだけだと呼ばれないことがあるため、直接変えてもおく
+						// つらい
+						splitContainer1.SplitterDistance = _splitterDistance = int.Parse( args[i + 1] );
+						break;
+				}
+			}
+		}
+
+		public override string GetPersistString() {
+			return "ShipGroup?SplitterDistance=" + splitContainer1.SplitterDistance;
+		}
 
 
 		/// <summary>
@@ -1544,8 +1564,6 @@ namespace ElectronicObserver.Window {
 
 		void SystemShuttingDown() {
 
-
-			Utility.Configuration.Config.FormShipGroup.SplitterDistance = splitContainer1.SplitterDistance;
 			Utility.Configuration.Config.FormShipGroup.AutoUpdate = MenuGroup_AutoUpdate.Checked;
 			Utility.Configuration.Config.FormShipGroup.ShowStatusBar = MenuGroup_ShowStatusBar.Checked;
 
@@ -1566,8 +1584,16 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		public override string GetPersistString() {
-			return "ShipGroup";
+		private void FormShipGroup_Resize( object sender, EventArgs e ) {
+			if ( _splitterDistance != -1 && splitContainer1.Height > 0 ) {
+				try {
+					splitContainer1.SplitterDistance = _splitterDistance;
+					_splitterDistance = -1;
+
+				} catch ( Exception ) {
+					// *ぷちっ*
+				}
+			}
 		}
 
 

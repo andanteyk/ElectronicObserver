@@ -40,6 +40,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CoreAudioApi">
+      <HintPath>..\assemblies\CoreAudioApi.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -76,6 +79,7 @@
     <Compile Include="IBrowserHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PipeCommunicator.cs" />
+    <Compile Include="VolumeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

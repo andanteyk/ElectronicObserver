@@ -473,11 +473,22 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool UseSystemVolume { get; set; }
 
+				/// <summary>
+				/// 前回終了時の音量
+				/// </summary>
+				public float LastVolume { get; set; }
+
+				/// <summary>
+				/// 前回終了時にミュート状態だったか
+				/// </summary>
+				public bool LastIsMute { get; set; }
 
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
-					UseSystemVolume = false;
+					UseSystemVolume = true;
+					LastVolume = 0.8f;
+					LastIsMute = false;
 				}
 			}
 			/// <summary>動作</summary>
@@ -678,12 +689,6 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowAnchorageRepairingTimer { get; set; }
 
-				/// <summary>
-				/// バーの色を滑らかに変化させるか
-				/// </summary>
-				[Obsolete]
-				public bool BarColorMorphing { get; set; }
-
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
@@ -696,7 +701,6 @@ namespace ElectronicObserver.Utility {
 					ShowEquipmentLevel = true;
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
-					BarColorMorphing = false;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -771,14 +775,11 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigFormShipGroup : ConfigPartBase {
 
-				public int SplitterDistance { get; set; }
-
 				public bool AutoUpdate { get; set; }
 
 				public bool ShowStatusBar { get; set; }
 
 				public ConfigFormShipGroup() {
-					SplitterDistance = 40;
 					AutoUpdate = true;
 					ShowStatusBar = true;
 				}
@@ -1034,6 +1035,7 @@ namespace ElectronicObserver.Utility {
 
 				public bool Enabled { get; set; }
 				public List<SyncBGMPlayer.SoundHandle> Handles { get; set; }
+				public bool SyncBrowserMute { get; set; }
 
 				public ConfigBGMPlayer()
 					: base() {
@@ -1042,6 +1044,7 @@ namespace ElectronicObserver.Utility {
 					Handles = new List<SyncBGMPlayer.SoundHandle>();
 					foreach ( SyncBGMPlayer.SoundHandleID id in Enum.GetValues( typeof( SyncBGMPlayer.SoundHandleID ) ) )
 						Handles.Add( new SyncBGMPlayer.SoundHandle( id ) );
+					SyncBrowserMute = false;
 				}
 			}
 			[DataMember]

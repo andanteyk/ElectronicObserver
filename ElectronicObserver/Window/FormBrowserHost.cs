@@ -220,6 +220,10 @@ namespace ElectronicObserver.Window {
 			c.ShowURL = config.ShowURL;
 			c.ModifyCookieRegion = config.ModifyCookieRegion;
 
+			// volume
+			if ( Utility.Configuration.Config.BGMPlayer.SyncBrowserMute ) {
+				Utility.SyncBGMPlayer.Instance.IsMute = config.IsMute;
+			}
 		}
 
 		public void GetIconResource() {

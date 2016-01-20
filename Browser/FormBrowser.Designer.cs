@@ -102,7 +102,7 @@
 			this.SizeAdjuster.Size = new System.Drawing.Size(284, 236);
 			this.SizeAdjuster.TabIndex = 0;
 			this.SizeAdjuster.SizeChanged += new System.EventHandler(this.SizeAdjuster_SizeChanged);
-			this.SizeAdjuster.Click += new System.EventHandler(this.SizeAdjuster_Click);
+			this.SizeAdjuster.DoubleClick += new System.EventHandler(this.SizeAdjuster_DoubleClick);
 			// 
 			// trackVolume
 			// 

@@ -44,6 +44,12 @@ namespace ElectronicObserver.Window {
 		public FormWindowCapture WindowCapture { get { return fWindowCapture; } }
 
 		private int ClockFormat;
+		
+		/// <summary>
+		/// 音量設定用フラグ
+		/// -1 = 無効, そうでなければ現在の試行回数
+		/// </summary>
+		private int _volumeUpdateState = 0;
 
 		#endregion
 
@@ -170,9 +176,6 @@ namespace ElectronicObserver.Window {
 
 			await LoadPlugins();
 
-			// layout
-			LoadLayout( Configuration.Config.Life.LayoutFilePath );
-
 			string lower = Configuration.Config.Life.LayoutFilePath.ToLower();
 			if ( lower == LAYOUT_FILE1.ToLower() ) {
 				StripMenu_File_Layout1.Checked = true;
@@ -182,6 +185,9 @@ namespace ElectronicObserver.Window {
 
 			ConfigurationChanged();		//設定から初期化
 
+
+			// layout
+			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 			task = Task.Factory.StartNew( () => SoftwareInformation.CheckUpdate() );
 
 
@@ -428,6 +434,9 @@ namespace ElectronicObserver.Window {
 
 			StripMenu_File_Layout_Lock.Checked = c.Life.IsLocked;
 			//MainDockPanel.CanCloseFloatWindowInLock = c.Life.CanCloseFloatWindowInLock;
+
+			if ( !c.Control.UseSystemVolume )
+				_volumeUpdateState = -1;
 		}
 
 
@@ -482,6 +491,26 @@ namespace ElectronicObserver.Window {
 
 					} break;
 			}
+
+
+			// WMP コントロールによって音量が勝手に変えられてしまうため、前回終了時の音量の再設定を試みる。
+			// 10回試行してダメなら諦める(例外によるラグを防ぐため)
+			// 起動直後にやらないのはちょっと待たないと音量設定が有効にならないから
+			if ( _volumeUpdateState != -1 && _volumeUpdateState < 10 && Utility.Configuration.Config.Control.UseSystemVolume ) {
+				
+				try {
+					uint id = (uint)System.Diagnostics.Process.GetCurrentProcess().Id;
+					BrowserLib.VolumeManager.SetApplicationVolume( id, Utility.Configuration.Config.Control.LastVolume );
+					BrowserLib.VolumeManager.SetApplicationMute( id, Utility.Configuration.Config.Control.LastIsMute );
+
+					_volumeUpdateState = -1;
+
+				} catch ( Exception ) {
+
+					_volumeUpdateState++;
+				}
+			}
+			
 		}
 
 
@@ -518,6 +547,18 @@ namespace ElectronicObserver.Window {
 			SystemEvents.OnSystemShuttingDown();
 
 
+			// 音量の保存
+			{
+				try {
+					uint id = (uint)System.Diagnostics.Process.GetCurrentProcess().Id;
+					Utility.Configuration.Config.Control.LastVolume = BrowserLib.VolumeManager.GetApplicationVolume( id );
+					Utility.Configuration.Config.Control.LastIsMute = BrowserLib.VolumeManager.GetApplicationMute( id );
+
+				} catch ( Exception ) {
+					/* ぷちっ */
+				}
+				
+			}
 		}
 
 		private void FormMain_FormClosed( object sender, FormClosedEventArgs e ) {
@@ -548,13 +589,17 @@ namespace ElectronicObserver.Window {
 					return fFleet[2];
 				case "Fleet #4":
 					return fFleet[3];
-				case "ShipGroup":
-					return fShipGroup;
+				//case "ShipGroup":
+				//	return fShipGroup;
 				case "Browser":
 					return fBrowser;
 				case "WindowCapture":
 					return fWindowCapture;
 				default:
+					if ( persistString.StartsWith( "ShipGroup" ) ) {
+						fShipGroup.ConfigureFromPersistString( persistString );
+						return fShipGroup;
+					}
 					if ( persistString.StartsWith( FormIntegrate.PREFIX ) )
 					{
 						return FormIntegrate.FromPersistString( this, persistString );
@@ -569,6 +614,7 @@ namespace ElectronicObserver.Window {
 					}
 					return null;
 			}
+
 		}
 
 
@@ -1075,7 +1121,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
+
 
 
 
