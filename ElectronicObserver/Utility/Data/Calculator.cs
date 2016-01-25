@@ -535,10 +535,14 @@ namespace ElectronicObserver.Utility.Data {
 				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
 					return 10;		//ロケット砲撃
 
-				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
-					return 7;		//空撃
+				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 ) {		//軽空母/正規空母/装甲空母
 
-				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
+					if ( attackerShipID == 432 || attackerShipID == 353 )		//Graf Zeppelin(改)
+						return 0;		//砲撃
+					else
+						return 7;		//空撃
+
+				} else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
 					return 9;			//雷撃
 
 				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
@@ -640,8 +644,21 @@ namespace ElectronicObserver.Utility.Data {
 			}
 
 			if ( shipID == 141 ) {		//五十鈴改二限定
-				if ( highangle >= 1 && aagun >= 1 && aaradar >= 1 )
-					return 14;
+				if ( highangle >= 1 && aagun >= 1 ) {
+					if ( aaradar >= 1 )
+						return 14;
+					else
+						return 15;
+				}
+			}
+
+			if ( shipID == 470 ) {		//霞改二乙限定
+				if ( highangle >= 1 && aagun >= 1 ) {
+					if ( aaradar >= 1 )
+						return 16;
+					else
+						return 17;
+				}
 			}
 
 			if ( maingunl >= 1 && aashell >= 1 && director >= 1 && aaradar >= 1 ) {
