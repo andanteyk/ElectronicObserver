@@ -124,8 +124,13 @@ namespace ElectronicObserver.Notifier {
 			Sound.IsShuffle = true;
 			Sound.MediaEnded += Sound_MediaEnded;
 			SoundPath = "";
+
 		}
 
+
+		public void SetInitialVolume( int volume ) {
+			Sound.Volume = volume;
+		}
 
 
 		protected virtual void UpdateTimerTick() { }
