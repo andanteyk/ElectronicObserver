@@ -104,7 +104,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TitleNightAttack.ImageIndex = (int)ResourceManager.EquipmentContent.Torpedo;
 
 			ParameterLevel.Value = ParameterLevel.Maximum = ExpTable.ShipMaximumLevel;
-			
+
 
 			TableBattle.Visible = false;
 			BasePanelShipGirl.Visible = false;
@@ -353,7 +353,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Speed.Text = Constants.GetSpeed( ship.Speed );
 			Range.Text = Constants.GetRange( ship.Range );
 			Rarity.Text = Constants.GetShipRarity( ship.Rarity );
-			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + ship.Rarity;		//checkme
+			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + ship.Rarity;
 
 			TableParameterSub.ResumeLayout();
 
