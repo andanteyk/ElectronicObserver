@@ -548,6 +548,8 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 			BGMPlayer_ControlGrid.Rows.AddRange( rows );
+
+			BGMPlayer_VolumeAll.Value = (int)BGMHandles.Values.Average( h => h.Volume );
 		}
 
 

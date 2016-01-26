@@ -44,55 +44,39 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		/// <summary>
-		/// MVPを取得した艦のインデックス
+		/// MVP 取得候補艦のインデックス [0-5]
 		/// </summary>
-		public int MVPShipIndex {
+		public IEnumerable<int> MVPShipIndexes {
 			get {
-				int index = -1;
-				int max = 1;
-				for ( int i = 0; i < 6; i++ ) {
-					if ( _attackDamages[i] >= max ) {
-						max = _attackDamages[i];
-						index = i;
+				int max = _attackDamages.Take( 6 ).Max();
+				if ( max == 0 ) {		// 全員ノーダメージなら旗艦MVP
+					yield return 0;
+
+				} else {
+					for ( int i = 0; i < 6; i++ ) {
+						if ( _attackDamages[i] == max )
+							yield return i;
 					}
 				}
-				return index == -1 ? 0 : index;
-			}
-		}
-
-		/// <summary>
-		/// MVPを取得した艦
-		/// </summary>
-		public ShipData MVPShip {
-			get {
-				return Initial.FriendFleet.MembersInstance[MVPShipIndex];
 			}
 		}
 
 
 		/// <summary>
-		/// MVPを取得した艦のインデックス(随伴護衛部隊)
+		/// 連合艦隊随伴艦隊の MVP 取得候補艦のインデックス [0-5]
 		/// </summary>
-		public int MVPShipCombinedIndex {
+		public IEnumerable<int> MVPShipCombinedIndexes {
 			get {
-				int index = -1;
-				int max = 1;
-				for ( int i = 0; i < 6; i++ ) {
-					if ( _attackDamages[i + 12] >= max ) {
-						max = _attackDamages[i + 12];
-						index = i;
+				int max = _attackDamages.Skip( 12 ).Take( 6 ).Max();
+				if ( max == 0 ) {		// 全員ノーダメージなら旗艦MVP
+					yield return 0;
+
+				} else {
+					for ( int i = 0; i < 6; i++ ) {
+						if ( _attackDamages[i + 12] == max )
+							yield return i;
 					}
 				}
-				return index == -1 ? 0 : index;
-			}
-		}
-
-		/// <summary>
-		/// MVPを取得した艦(随伴護衛部隊)
-		/// </summary>
-		public ShipData MVPShipCombined {
-			get {
-				return KCDatabase.Instance.Fleet[2].MembersInstance[MVPShipCombinedIndex];
 			}
 		}
 

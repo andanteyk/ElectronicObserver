@@ -75,7 +75,7 @@ namespace ElectronicObserver.Window {
 
 
 			ConfigurationChanged();
-			
+
 			BaseLayoutPanel.Visible = false;
 
 
@@ -722,7 +722,8 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
-			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
+			foreach ( int i in bd.MVPShipIndexes )
+				HPBars[i].BackColor = Color.Moccasin;
 
 			FleetCombined.Visible = false;
 			for ( int i = 12; i < 18; i++ ) {
@@ -823,8 +824,10 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
-			HPBars[12 + bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
+			foreach ( int i in bd.MVPShipIndexes )
+				HPBars[i].BackColor = Color.Moccasin;
+			foreach ( int i in bd.MVPShipCombinedIndexes )
+				HPBars[12 + i].BackColor = Color.Moccasin;
 		}
 
 
@@ -1019,7 +1022,7 @@ namespace ElectronicObserver.Window {
 				int index = pd.SearchlightIndexEnemy;
 				if ( index != -1 ) {
 					AirStage1Enemy.Text = "#" + ( index + 1 );
-					AirStage1Enemy.ForeColor = SystemColors.ControlText;	
+					AirStage1Enemy.ForeColor = SystemColors.ControlText;
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;
 					ToolTipInfo.SetToolTip( AirStage1Enemy, "探照灯照射: " + pd.SearchlightEnemyInstance.NameWithClass );
