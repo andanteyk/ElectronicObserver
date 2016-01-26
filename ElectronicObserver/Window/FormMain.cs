@@ -162,7 +162,6 @@ namespace ElectronicObserver.Window {
 			ConfigurationChanged();		//設定から初期化
 
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
-			TopMost = Utility.Configuration.Config.Life.TopMost;	//レイアウトが終わってから設定する
 
 
 			SoftwareInformation.CheckUpdate();
@@ -196,6 +195,13 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void FormMain_Shown( object sender, EventArgs e ) {
+			//Load で設定すると無視されるかバグる(タスクバーに出なくなる)のでここで設定
+			TopMost = Utility.Configuration.Config.Life.TopMost;	
+		}
+
+
+
 		private void ConfigurationChanged() {
 
 			var c = Utility.Configuration.Config;
@@ -203,8 +209,7 @@ namespace ElectronicObserver.Window {
 			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = c.Debug.EnableDebugMenu;
 			StripStatus.Visible = c.Life.ShowStatusBar;
 
-			// レイアウトを読み込む前に TopMost を設定すると *不思議なチカラによって* タスクバーに出なくなってしまうため
-			// fixme: 原因がわからないので暫定対処
+			// Load で TopMost を変更するとバグるため(前述)
 			if ( UIUpdateTimer.Enabled )
 				TopMost = c.Life.TopMost;
 
