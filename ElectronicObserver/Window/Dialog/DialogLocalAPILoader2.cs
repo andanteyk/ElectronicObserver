@@ -211,6 +211,19 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
+		private void ButtonSearchLastStart2_Click( object sender, EventArgs e ) {
+			for ( int i = APIView.Rows.Count - 1; i >= 0; i-- ) {
+				if ( APIView[APIView_FileName.Index, i].Value.ToString().ToLower().Contains( "s@api_start2." ) ) {
+					APIView.ClearSelection();
+					APIView.Rows[i].Selected = true;
+					APIView.FirstDisplayedScrollingRowIndex = i;
+					return;
+				}
+			}
+
+			//failed
+			System.Media.SystemSounds.Asterisk.Play();
+		}
 
 
 		private void TextFilter_KeyDown( object sender, KeyEventArgs e ) {
@@ -219,6 +232,8 @@ namespace ElectronicObserver.Window.Dialog {
 				ButtonSearch.PerformClick();
 			}
 		}
+
+		
 
 	}
 }

@@ -40,6 +40,7 @@
 			this.ButtonExecute = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.APICaller = new System.ComponentModel.BackgroundWorker();
+			this.ButtonSearchLastStart2 = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.APIView)).BeginInit();
 			this.ViewMenu.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -147,6 +148,7 @@
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.ButtonSearchLastStart2);
 			this.splitContainer1.Panel2.Controls.Add(this.ButtonSearch);
 			this.splitContainer1.Panel2.Controls.Add(this.TextFilter);
 			this.splitContainer1.Panel2.Controls.Add(this.ButtonExecuteNext);
@@ -201,6 +203,16 @@
 			this.APICaller.WorkerSupportsCancellation = true;
 			this.APICaller.DoWork += new System.ComponentModel.DoWorkEventHandler(this.APICaller_DoWork);
 			// 
+			// ButtonSearchLastStart2
+			// 
+			this.ButtonSearchLastStart2.Location = new System.Drawing.Point(174, 3);
+			this.ButtonSearchLastStart2.Name = "ButtonSearchLastStart2";
+			this.ButtonSearchLastStart2.Size = new System.Drawing.Size(80, 23);
+			this.ButtonSearchLastStart2.TabIndex = 4;
+			this.ButtonSearchLastStart2.Text = "Last start2";
+			this.ButtonSearchLastStart2.UseVisualStyleBackColor = true;
+			this.ButtonSearchLastStart2.Click += new System.EventHandler(this.ButtonSearchLastStart2_Click);
+			// 
 			// DialogLocalAPILoader2
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -245,5 +257,6 @@
 		private System.Windows.Forms.ToolStripMenuItem Menu_File_Reload;
 		private System.Windows.Forms.Button ButtonSearch;
 		private System.Windows.Forms.TextBox TextFilter;
+		private System.Windows.Forms.Button ButtonSearchLastStart2;
 	}
 }

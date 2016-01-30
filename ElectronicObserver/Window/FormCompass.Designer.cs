@@ -29,6 +29,8 @@
 			this.TextDestination = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextEventKind = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TextEventDetail = new ElectronicObserver.Window.Control.ImageLabel();
+			this.PanelEnemyCandidate = new System.Windows.Forms.Panel();
+			this.TableEnemyCandidate = new System.Windows.Forms.TableLayoutPanel();
 			this.PanelEnemyFleet = new System.Windows.Forms.Panel();
 			this.TableEnemyMember = new System.Windows.Forms.TableLayoutPanel();
 			this.TableEnemyFleet = new System.Windows.Forms.TableLayoutPanel();
@@ -37,6 +39,7 @@
 			this.TextAirSuperiority = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.BasePanel.SuspendLayout();
+			this.PanelEnemyCandidate.SuspendLayout();
 			this.PanelEnemyFleet.SuspendLayout();
 			this.TableEnemyFleet.SuspendLayout();
 			this.SuspendLayout();
@@ -50,6 +53,7 @@
 			this.BasePanel.Controls.Add(this.TextDestination);
 			this.BasePanel.Controls.Add(this.TextEventKind);
 			this.BasePanel.Controls.Add(this.TextEventDetail);
+			this.BasePanel.Controls.Add(this.PanelEnemyCandidate);
 			this.BasePanel.Controls.Add(this.PanelEnemyFleet);
 			this.BasePanel.Location = new System.Drawing.Point(0, 0);
 			this.BasePanel.Name = "BasePanel";
@@ -96,6 +100,33 @@
 			this.TextEventDetail.TabIndex = 8;
 			this.TextEventDetail.Text = "(イベント詳細)";
 			this.TextEventDetail.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TextEnemyFleetName_MouseDown);
+			// 
+			// PanelEnemyCandidate
+			// 
+			this.PanelEnemyCandidate.AutoSize = true;
+			this.PanelEnemyCandidate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.PanelEnemyCandidate.Controls.Add(this.TableEnemyCandidate);
+			this.PanelEnemyCandidate.Location = new System.Drawing.Point(224, 3);
+			this.PanelEnemyCandidate.Name = "PanelEnemyCandidate";
+			this.PanelEnemyCandidate.Size = new System.Drawing.Size(0, 0);
+			this.PanelEnemyCandidate.TabIndex = 10;
+			// 
+			// TableEnemyCandidate
+			// 
+			this.TableEnemyCandidate.AutoSize = true;
+			this.TableEnemyCandidate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableEnemyCandidate.ColumnCount = 2;
+			this.TableEnemyCandidate.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.TableEnemyCandidate.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.TableEnemyCandidate.Location = new System.Drawing.Point(0, 0);
+			this.TableEnemyCandidate.Margin = new System.Windows.Forms.Padding(0);
+			this.TableEnemyCandidate.Name = "TableEnemyCandidate";
+			this.TableEnemyCandidate.RowCount = 2;
+			this.TableEnemyCandidate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.TableEnemyCandidate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.TableEnemyCandidate.Size = new System.Drawing.Size(0, 0);
+			this.TableEnemyCandidate.TabIndex = 9;
+			this.TableEnemyCandidate.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableEnemyCandidateMember_CellPaint);
 			// 
 			// PanelEnemyFleet
 			// 
@@ -197,6 +228,8 @@
 			this.Load += new System.EventHandler(this.FormCompass_Load);
 			this.BasePanel.ResumeLayout(false);
 			this.BasePanel.PerformLayout();
+			this.PanelEnemyCandidate.ResumeLayout(false);
+			this.PanelEnemyCandidate.PerformLayout();
 			this.PanelEnemyFleet.ResumeLayout(false);
 			this.PanelEnemyFleet.PerformLayout();
 			this.TableEnemyFleet.ResumeLayout(false);
@@ -219,5 +252,7 @@
 		private Control.ImageLabel TextDestination;
 		private Control.ImageLabel TextEventKind;
 		private Control.ImageLabel TextEventDetail;
+		private System.Windows.Forms.Panel PanelEnemyCandidate;
+		private System.Windows.Forms.TableLayoutPanel TableEnemyCandidate;
 	}
 }
