@@ -187,6 +187,11 @@ namespace ElectronicObserver.Utility {
 		}
 
 
+		public void SetInitialVolume( int volume ) {
+			_mp.Volume = volume;
+		}
+
+
 
 		void PlayPort( string apiname, dynamic data ) {
 			_isBoss = false;
