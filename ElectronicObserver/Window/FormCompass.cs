@@ -1035,7 +1035,7 @@ namespace ElectronicObserver.Window {
 
 		private void TableEnemyCandidateMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 
-			if ( _enemyFleetCandidateIndex + e.Column >= _enemyFleetCandidate.Count )
+			if ( _enemyFleetCandidate == null || _enemyFleetCandidateIndex + e.Column >= _enemyFleetCandidate.Count )
 				return;
 
 
