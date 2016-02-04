@@ -317,7 +317,7 @@ namespace ElectronicObserver.Window.Control {
 
 
 
-		public override Size GetPreferredSize( Size proposedSize ) {
+		public Size GetPreferredSize() {
 
 			Size ret = new Size( Padding.Horizontal, Padding.Vertical );
 
@@ -354,6 +354,19 @@ namespace ElectronicObserver.Window.Control {
 			return ret;
 		}
 
+
+		public override Size GetPreferredSize( Size proposedSize ) {
+			var size = GetPreferredSize();
+			if ( !MaximumSize.IsEmpty ) {
+				size.Width = Math.Min( MaximumSize.Width, size.Width );
+				size.Height = Math.Min( MaximumSize.Height, size.Height );
+			}
+			if ( !MinimumSize.IsEmpty ) {
+				size.Width = Math.Max( MinimumSize.Width, size.Width );
+				size.Height = Math.Max( MinimumSize.Height, size.Height );
+			}
+			return size;
+		}
 
 
 		private static TextFormatFlags GetTextFormat( ContentAlignment align, bool autowrap, bool autoellipsis ) {
