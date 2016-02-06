@@ -189,7 +189,7 @@ namespace ElectronicObserver.Window {
 				AirSuperiority.Font = parent.MainFont;
 				AirSuperiority.Font = parent.MainFont;
 				SearchingAbility.Font = parent.MainFont;
-				
+
 			}
 
 		}
@@ -505,7 +505,7 @@ namespace ElectronicObserver.Window {
 						else
 							sb.AppendFormat( " - 威力: {0}", shelling );
 					} else if ( aircraft > 0 )
-							sb.AppendFormat( " - 威力: {0}", aircraft );
+						sb.AppendFormat( " - 威力: {0}", aircraft );
 				}
 				sb.AppendLine();
 
@@ -632,7 +632,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
 			o.APIList["api_req_hensei/preset_select"].ResponseReceived += ChangeOrganization;
-			
+
 			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
 			o.APIList["api_req_hensei/change"].RequestReceived += Updated;
