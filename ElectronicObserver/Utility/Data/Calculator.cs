@@ -362,6 +362,72 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		/// <summary>
+		/// 艦隊の触接開始率を求めます。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		public static double GetContactProbability( FleetData fleet ) {
+
+			double successProb = 0.0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null ) continue;
+
+				var eqs = ship.SlotInstanceMaster;
+
+				for ( int i = 0; i < ship.Slot.Count; i++ ) {
+					if ( eqs[i] == null )
+						continue;
+
+					if ( eqs[i].CategoryType == 9 ||	// 艦上偵察機
+						eqs[i].CategoryType == 10 ) {	// 水上偵察機
+
+						successProb += 0.04 * eqs[i].LOS * Math.Sqrt( ship.Aircraft[i] );
+					}
+				}
+			}
+
+			return successProb;
+		}
+
+		/// <summary>
+		/// 機体命中率別の触接選択率を求めます。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		/// <returns>機体の命中をキー, 触接選択率を値とした Dictionary 。</returns>
+		public static Dictionary<int, double> GetContactSelectionProbability( FleetData fleet ) {
+
+			var probs = new Dictionary<int, double>();
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null )
+					continue;
+
+				foreach ( var eq in ship.SlotInstanceMaster ) {
+					if ( eq == null )
+						continue;
+
+					switch ( eq.CategoryType ) {
+						case 8:		// 艦上攻撃機
+						case 9:		// 艦上偵察機
+						case 10:	// 水上偵察機
+
+							if ( !probs.ContainsKey( eq.Accuracy ) )
+								probs.Add( eq.Accuracy, 1.0 );
+
+							probs[eq.Accuracy] *= 1.0 - ( 0.07 * eq.LOS );
+							break;
+					}
+				}
+			}
+
+			foreach ( int key in probs.Keys.ToArray() ) {		//列挙中の変更エラーを防ぐため 
+				probs[key] = 1.0 - probs[key];
+			}
+
+			return probs;
+		}
+
 
 
 		/// <summary>

@@ -39,6 +39,7 @@ namespace ElectronicObserver.Data.Battle {
 			NightOnly,						//夜戦
 			NightDay,						//夜昼戦
 			AirBattle,						//航空戦
+			AirRaid,						//長距離空襲戦
 			Practice,						//演習
 			BattlePhaseMask = 0xFFFF,		//戦闘形態マスク
 			CombinedTaskForce = 0x10000,	//機動部隊
@@ -112,6 +113,12 @@ namespace ElectronicObserver.Data.Battle {
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
 
+				case "api_req_sortie/ld_airbattle":
+					BattleMode = BattleModes.AirBattle;
+					BattleDay = new BattleAirRaid();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+
 				case "api_req_combined_battle/battle":
 					BattleMode = BattleModes.Normal | BattleModes.CombinedTaskForce;
 					BattleDay = new BattleCombinedNormalDay();
@@ -139,6 +146,12 @@ namespace ElectronicObserver.Data.Battle {
 				case "api_req_combined_battle/battle_water":
 					BattleMode = BattleModes.Normal | BattleModes.CombinedSurface;
 					BattleDay = new BattleCombinedWater();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+
+				case "api_req_combined_battle/ld_airbattle":
+					BattleMode = BattleModes.AirRaid | BattleModes.CombinedTaskForce;
+					BattleDay = new BattleCombinedAirRaid();
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
 

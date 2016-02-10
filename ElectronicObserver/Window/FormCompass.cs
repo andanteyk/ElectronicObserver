@@ -248,6 +248,7 @@ namespace ElectronicObserver.Window {
 						ShipNames[i].Visible = false;
 					Formation.Visible = false;
 					AirSuperiority.Visible = false;
+					ToolTipInfo.SetToolTip( AirSuperiority, null );
 
 					return;
 				}
@@ -263,6 +264,7 @@ namespace ElectronicObserver.Window {
 						ShipNames[i].Text = "-";
 						ShipNames[i].ForeColor = Color.Black;
 						ShipNames[i].Tag = -1;
+						ShipNames[i].Cursor = Cursors.Default;
 						ToolTipInfo.SetToolTip( ShipNames[i], null );
 
 					} else {
@@ -270,6 +272,7 @@ namespace ElectronicObserver.Window {
 						ShipNames[i].Text = ship.Name;
 						ShipNames[i].ForeColor = GetShipNameColor( ship );
 						ShipNames[i].Tag = ship.ShipID;
+						ShipNames[i].Cursor = Cursors.Help;
 						ToolTipInfo.SetToolTip( ShipNames[i], GetShipString( ship.ShipID, ship.DefaultSlot.ToArray() ) );
 					}
 
@@ -279,10 +282,14 @@ namespace ElectronicObserver.Window {
 
 				Formation.Text = Constants.GetFormationShort( fleet.Formation );
 				//Formation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + fleet.Formation - 1;
-
 				Formation.Visible = true;
-				AirSuperiority.Text = Calculator.GetAirSuperiority( fleet.FleetMember ).ToString();
-				AirSuperiority.Visible = true;
+
+				{
+					int air = Calculator.GetAirSuperiority( fleet.FleetMember );
+					AirSuperiority.Text = air.ToString();
+					ToolTipInfo.SetToolTip( AirSuperiority, GetAirSuperiorityString( air ) );
+					AirSuperiority.Visible = true;
+				}
 
 			}
 
@@ -489,6 +496,17 @@ namespace ElectronicObserver.Window {
 			return sb.ToString();
 		}
 
+		private static string GetAirSuperiorityString( int air ) {
+			if ( air > 0 ) {
+				return string.Format( "確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n",
+							(int)( air * 3.0 ),
+							(int)Math.Ceiling( air * 1.5 ),
+							(int)( air / 1.5 + 1 ),
+							(int)( air / 3.0 + 1 ) );
+			}
+			return null;
+		}
+
 		#endregion
 
 
@@ -503,6 +521,7 @@ namespace ElectronicObserver.Window {
 		private TableEnemyMemberControl[] ControlMembers;
 		private TableEnemyCandidateControl[] ControlCandidates;
 
+		private int _candidatesDisplayCount;
 
 
 		/// <summary>
@@ -540,9 +559,24 @@ namespace ElectronicObserver.Window {
 			TableEnemyMember.ResumeLayout();
 
 			TableEnemyCandidate.SuspendLayout();
-			ControlCandidates = new TableEnemyCandidateControl[4];
+			ControlCandidates = new TableEnemyCandidateControl[6];
 			for ( int i  = 0; i < ControlCandidates.Length; i++ ) {
 				ControlCandidates[i] = new TableEnemyCandidateControl( this, TableEnemyCandidate, i );
+			}
+			//row/column style init
+			for ( int y = 0; y < TableEnemyCandidate.RowCount; y++ ) {
+				var rs = new RowStyle( SizeType.AutoSize );
+				if ( TableEnemyCandidate.RowStyles.Count <= y )
+					TableEnemyCandidate.RowStyles.Add( rs );
+				else
+					TableEnemyCandidate.RowStyles[y] = rs;
+			}
+			for ( int x = 0; x < TableEnemyCandidate.ColumnCount; x++ ) {
+				var cs = new ColumnStyle( SizeType.AutoSize );
+				if ( TableEnemyCandidate.ColumnStyles.Count <= x )
+					TableEnemyCandidate.ColumnStyles.Add( cs );
+				else
+					TableEnemyCandidate.ColumnStyles[x] = cs;
 			}
 			TableEnemyCandidate.ResumeLayout();
 
@@ -583,10 +617,12 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_sortie/battle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_sortie/airbattle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_practice/battle"].ResponseReceived += BattleStarted;
 
 
@@ -606,6 +642,7 @@ namespace ElectronicObserver.Window {
 					case 3:		//夜戦・夜昼戦
 						return Color.Navy;
 					case 4:		//航空戦
+					case 6:		//長距離空襲戦
 						return Color.DarkGreen;
 				}
 			};
@@ -644,6 +681,20 @@ namespace ElectronicObserver.Window {
 
 				TextMapArea.Text = string.Format( "出撃海域 : {0}-{1}{2}", compass.MapAreaID, compass.MapInfoID,
 					compass.MapInfo.EventDifficulty > 0 ? " [" + Constants.GetDifficulty( compass.MapInfo.EventDifficulty ) + "]" : "" );
+				{
+					var mapinfo = compass.MapInfo;
+
+					if ( mapinfo.RequiredDefeatedCount != -1 ) {
+						ToolTipInfo.SetToolTip( TextMapArea, string.Format( "撃破: {0} / {1} 回", mapinfo.CurrentDefeatedCount, mapinfo.RequiredDefeatedCount ) );
+
+					} else if ( mapinfo.MapHPMax > 0 ) {
+						ToolTipInfo.SetToolTip( TextMapArea, string.Format( "{0}: {1} / {2}", mapinfo.GaugeType == 3 ? "TP" : "HP", mapinfo.MapHPCurrent, mapinfo.MapHPMax ) );
+
+					} else {
+						ToolTipInfo.SetToolTip( TextMapArea, null );
+					}
+				}
+
 
 				TextDestination.Text = string.Format( "次のセル : {0}{1}", compass.Destination, ( compass.IsEndPoint ? " (終点)" : "" ) );
 				if ( compass.LaunchedRecon != 0 ) {
@@ -677,7 +728,7 @@ namespace ElectronicObserver.Window {
 				TextEventDetail.ImageAlign = ContentAlignment.MiddleCenter;
 				TextEventDetail.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( TextEventDetail, null );
-				
+
 
 				TextEventKind.ForeColor = getColorFromEventKind( 0 );
 
@@ -863,12 +914,21 @@ namespace ElectronicObserver.Window {
 
 			if ( _enemyFleetCandidate.Count == 0 ) {
 				TextEventDetail.Text = "(敵艦隊候補なし)";
-				TextEnemyFleetName.Text = "(敵艦隊情報不明)";
+				TextEnemyFleetName.Text = "(敵艦隊名不明)";
 
 
 				TableEnemyCandidate.Visible = false;
 
 			} else {
+				_enemyFleetCandidate.Sort( ( a, b ) => {
+					for ( int i = 0; i < a.FleetMember.Length; i++ ) {
+						int diff = a.FleetMember[i] - b.FleetMember[i];
+						if ( diff != 0 )
+							return diff;
+					}
+					return a.Formation - b.Formation;
+				} );
+
 				NextEnemyFleetCandidate( 0 );
 			}
 
@@ -918,10 +978,14 @@ namespace ElectronicObserver.Window {
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
 			//TextFormation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + bd.Searching.FormationEnemy - 1;
 			TextFormation.Visible = true;
-			TextAirSuperiority.Text = isPractice ?
-				Calculator.GetAirSuperiority( enemies, slots ).ToString() + " ～ " + Calculator.GetAirSuperiorityAtMaxLevel( enemies, slots ).ToString() :
-				Calculator.GetAirSuperiority( enemies, slots ).ToString();
-			TextAirSuperiority.Visible = true;
+			{
+				int air = Calculator.GetAirSuperiority( enemies, slots );
+				TextAirSuperiority.Text = isPractice ?
+					air.ToString() + " ～ " + Calculator.GetAirSuperiorityAtMaxLevel( enemies, slots ).ToString() :
+					air.ToString();
+				ToolTipInfo.SetToolTip( TextAirSuperiority, GetAirSuperiorityString( isPractice ? 0 : air ) );
+				TextAirSuperiority.Visible = true;
+			}
 
 			TableEnemyMember.SuspendLayout();
 			for ( int i = 0; i < ControlMembers.Length; i++ ) {
@@ -949,21 +1013,21 @@ namespace ElectronicObserver.Window {
 			if ( e.Button == System.Windows.Forms.MouseButtons.Left )
 				NextEnemyFleetCandidate();
 			else if ( e.Button == System.Windows.Forms.MouseButtons.Right )
-				NextEnemyFleetCandidate( -ControlCandidates.Length );
+				NextEnemyFleetCandidate( -_candidatesDisplayCount );
 		}
 
 
 		private void NextEnemyFleetCandidate() {
-			NextEnemyFleetCandidate( ControlCandidates.Length );
+			NextEnemyFleetCandidate( _candidatesDisplayCount );
 		}
 
 		private void NextEnemyFleetCandidate( int offset ) {
 
 			if ( _enemyFleetCandidate != null && _enemyFleetCandidate.Count != 0 ) {
 
-				_enemyFleetCandidateIndex = _enemyFleetCandidateIndex + offset;
+				_enemyFleetCandidateIndex += offset;
 				if ( _enemyFleetCandidateIndex < 0 )
-					_enemyFleetCandidateIndex = _enemyFleetCandidate.Count - _enemyFleetCandidate.Count % ControlCandidates.Count();
+					_enemyFleetCandidateIndex = ( _enemyFleetCandidate.Count - 1 ) - ( _enemyFleetCandidate.Count - 1 ) % _candidatesDisplayCount;
 				else if ( _enemyFleetCandidateIndex >= _enemyFleetCandidate.Count )
 					_enemyFleetCandidateIndex = 0;
 
@@ -971,9 +1035,9 @@ namespace ElectronicObserver.Window {
 				var candidate = _enemyFleetCandidate[_enemyFleetCandidateIndex];
 
 
-				TextEventDetail.Text = candidate.FleetName;
+				TextEventDetail.Text = TextEnemyFleetName.Text = candidate.FleetName;
 
-				if ( _enemyFleetCandidate.Count > ControlCandidates.Length ) {
+				if ( _enemyFleetCandidate.Count > _candidatesDisplayCount ) {
 					TextEventDetail.Text += " ▼";
 					ToolTipInfo.SetToolTip( TextEventDetail, string.Format( "候補: {0} / {1}\r\n(左右クリックでページめくり)\r\n", _enemyFleetCandidateIndex + 1, _enemyFleetCandidate.Count ) );
 				} else {
@@ -982,7 +1046,7 @@ namespace ElectronicObserver.Window {
 
 				TableEnemyCandidate.SuspendLayout();
 				for ( int i = 0; i < ControlCandidates.Length; i++ ) {
-					if ( i + _enemyFleetCandidateIndex >= _enemyFleetCandidate.Count ) {
+					if ( i + _enemyFleetCandidateIndex >= _enemyFleetCandidate.Count || i >= _candidatesDisplayCount ) {
 						ControlCandidates[i].Update( null );
 						continue;
 					}
@@ -1007,6 +1071,11 @@ namespace ElectronicObserver.Window {
 			TextDestination.Font =
 			TextEventKind.Font =
 			TextEventDetail.Font = Font;
+
+			_candidatesDisplayCount = Utility.Configuration.Config.FormCompass.CandidateDisplayCount;
+			_enemyFleetCandidateIndex = 0;
+			if ( PanelEnemyCandidate.Visible )
+				NextEnemyFleetCandidate( 0 );
 
 			if ( ControlMembers != null ) {
 				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;

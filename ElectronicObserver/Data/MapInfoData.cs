@@ -101,6 +101,11 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int EventDifficulty { get; private set; }
 
+		/// <summary>
+		/// 海域ゲージの種別
+		/// 2=HP制(デフォルト), 3=TP制
+		/// </summary>
+		public int GaugeType { get; private set; }
 
 
 
@@ -112,6 +117,7 @@ namespace ElectronicObserver.Data {
 			CurrentDefeatedCount = 0;
 			MapHPCurrent = MapHPMax = 0;
 			EventDifficulty = -1;
+			GaugeType = 2;
 		}
 
 
@@ -129,6 +135,7 @@ namespace ElectronicObserver.Data {
 						MapHPCurrent = data.api_eventmap.api_now_maphp() ? (int)data.api_eventmap.api_now_maphp : 0;
 						MapHPMax = data.api_eventmap.api_max_maphp() ? (int)data.api_eventmap.api_max_maphp : 0;
 						EventDifficulty = data.api_eventmap.api_selected_rank() ? (int)data.api_eventmap.api_selected_rank : -1;
+						GaugeType = data.api_eventmap.api_gauge_type() ? (int)data.api_eventmap.api_gauge_type : 2;
 					}
 					break;
 			}
