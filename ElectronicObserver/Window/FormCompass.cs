@@ -617,10 +617,12 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_sortie/battle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_sortie/airbattle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_practice/battle"].ResponseReceived += BattleStarted;
 
 
@@ -640,6 +642,7 @@ namespace ElectronicObserver.Window {
 					case 3:		//夜戦・夜昼戦
 						return Color.Navy;
 					case 4:		//航空戦
+					case 6:		//長距離空襲戦
 						return Color.DarkGreen;
 				}
 			};
