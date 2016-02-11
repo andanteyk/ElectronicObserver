@@ -383,7 +383,7 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：海域セルユニークID(全海域の通し番号)
 		api_no			：海域セルID(同海域内限定)
 		api_color_no	：セルの状態
-							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった, api_req_map/start|nextにのみ存在, ここでは4として扱われる?) or 揚陸地点, 7=航空戦, 8=船団護衛成功, 9=航空偵察
+							0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=(気のせいだった, api_req_map/start|nextにのみ存在, ここでは4として扱われる?) or 揚陸地点, 7=航空戦, 8=船団護衛成功, 9=航空偵察, 10=長距離空襲戦
 
 	api_mst_mission		：遠征データ
 		api_id			：遠征ID
@@ -1133,6 +1133,7 @@ api_req_map/start		：出撃　同じメンバはnextのほうが情報が新し
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値　常に最大値に等しい
 		api_dmg			：＊ダメージ倍率? =6だとHP90の旗艦撃沈で540減少?
+	api_from_no			：スタート地点のセルID startにのみ存在
 
 Request.api_req_map/next	：進撃
 	api_recovery_type	：旗艦大破進撃フラグ　0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃?
@@ -1145,10 +1146,10 @@ api_req_map/next		：進撃
 	api_mapinfo_no		：海域カテゴリ内番号(2-3でいう3)
 	api_no				：次に向かうセルのID
 	api_color_no		：次のセルの色　api_start2/api_mst_mapcell参照　3=青, 4=赤, 6=揚陸地点, 9=航空偵察
-	api_event_id		：イベント　0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=航空戦or航空偵察, 8=船団護衛成功, 9=揚陸地点
-	api_event_kind		：イベント種別　0=非戦闘セル 1=通常戦闘 2=夜戦 3=夜昼戦 4=航空戦
+	api_event_id		：イベント　0=初期位置, 1=(存在せず), 2=資源獲得, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=航空戦or航空偵察, 8=船団護衛成功, 9=揚陸地点, 10=長距離空襲戦
+	api_event_kind		：イベント種別　0=非戦闘セル 1=通常戦闘 2=夜戦 3=夜昼戦 4=航空戦, 6=長距離空襲戦
 							api_event_id=6(気のせいだった)時は　0="気のせいだった。", 1="敵影を見ず。", 2=能動分岐
-							api_event_id=7(航空戦)時は　0=航空偵察, 4=航空戦 
+							api_event_id=7(航空戦)時は　0=航空偵察, 4=航空戦
 	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？コード中にスペルミスがあり未使用
@@ -1231,6 +1232,10 @@ api_req_sortie/battle	：戦闘(昼戦)
 									10：高角砲/集中機銃/電探
 									11：高角砲/集中機銃
 									12：集中機銃/機銃/電探
+									14：高角砲/対空機銃/電探
+									15：高角砲/対空機銃
+									16：高角砲/対空機銃/電探
+									17：高角砲/対空機銃
 				api_use_items	：表示装備IDリスト
 		api_stage3		：航空攻撃
 			api_frai_flag	：味方被雷撃フラグ
@@ -1331,6 +1336,23 @@ api_req_sortie/airbattle	：航空戦
 	api_raigeki			：(存在せず)
 	api_stage_flag2		：第二次航空戦フラグ
 	api_kouku2			：第二次航空戦 api_koukuに準じる
+
+
+api_req_sortie/ld_airbattle		：長距離空襲戦　存在するメンバを記載、各値の構成と意味は api_req_sortie/battle と同じ
+	api_dock_id			：数値型
+	api_ship_ke
+	api_ship_lv
+	api_nowhps
+	api_maxhps
+	api_midnight_flag	：敵生存でも0
+	api_eSlot
+	api_eKyouka
+	api_fParam
+	api_eParam
+	api_search
+	api_formation
+	api_stage_flag
+	api_kouku			：こちらからは攻撃できない模様(ダメージの項目は通常通り存在する)
 
 
 api_req_sortie/battleresult	：戦闘結果
@@ -1594,6 +1616,10 @@ api_req_combined_battle/battle_water	：連合艦隊-水上部隊 戦闘
 	api_hougeki2		：砲撃戦2巡目(水上部隊本隊)
 	api_hougeki3		：砲撃戦3巡目(随伴艦隊)
 	api_raigeki			：雷撃戦
+
+
+api_req_combined_battle/ld_airbattle		：連合艦隊　長距離空襲戦
+	(調査中)
 
 
 api_req_combined_battle/battleresult	：連合艦隊 戦闘結果

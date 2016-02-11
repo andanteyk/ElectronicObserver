@@ -394,6 +394,8 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
 			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWmode;
 
+			FormCompass_CandidateDisplayCount.Value = config.FormCompass.CandidateDisplayCount;
+
 			// [缓存]
 			textCacheFolder.Text = config.CacheSettings.CacheFolder;
 			checkCache.Checked = config.CacheSettings.CacheEnabled;
@@ -557,6 +559,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWmode = FormBrowser_FlashWMode.Text;
 
+			config.FormCompass.CandidateDisplayCount = (int)FormCompass_CandidateDisplayCount.Value;
 
 			//[BGM]
 			config.BGMPlayer.Enabled = BGMPlayer_Enabled.Checked;
@@ -597,6 +600,8 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 			BGMPlayer_ControlGrid.Rows.AddRange( rows );
+
+			BGMPlayer_VolumeAll.Value = (int)BGMHandles.Values.Average( h => h.Volume );
 		}
 
 

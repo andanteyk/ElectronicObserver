@@ -537,6 +537,17 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 触接開始率を取得します。
+		/// </summary>
+		/// <returns></returns>
+		public double GetContactProbability() {
+			return Calculator.GetContactProbability( this );
+		}
+
+		public Dictionary<int, double> GetContactSelectionProbability() {
+			return Calculator.GetContactSelectionProbability( this );
+		}
 
 
 		/// <summary>

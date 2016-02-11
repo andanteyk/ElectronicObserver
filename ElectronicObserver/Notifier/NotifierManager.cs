@@ -70,6 +70,14 @@ namespace ElectronicObserver.Notifier {
 			form.Show();
 		}
 
+		public IEnumerable<NotifierBase> GetNotifiers() {
+			yield return Expedition;
+			yield return Construction;
+			yield return Repair;
+			yield return Condition;
+			yield return Damage;
+		}
+
 	}
 
 }

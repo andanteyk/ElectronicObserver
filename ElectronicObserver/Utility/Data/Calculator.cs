@@ -857,6 +857,72 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		/// <summary>
+		/// 艦隊の触接開始率を求めます。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		public static double GetContactProbability( FleetData fleet ) {
+
+			double successProb = 0.0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null ) continue;
+
+				var eqs = ship.SlotInstanceMaster;
+
+				for ( int i = 0; i < ship.Slot.Count; i++ ) {
+					if ( eqs[i] == null )
+						continue;
+
+					if ( eqs[i].CategoryType == 9 ||	// 艦上偵察機
+						eqs[i].CategoryType == 10 ) {	// 水上偵察機
+
+						successProb += 0.04 * eqs[i].LOS * Math.Sqrt( ship.Aircraft[i] );
+					}
+				}
+			}
+
+			return successProb;
+		}
+
+		/// <summary>
+		/// 機体命中率別の触接選択率を求めます。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		/// <returns>機体の命中をキー, 触接選択率を値とした Dictionary 。</returns>
+		public static Dictionary<int, double> GetContactSelectionProbability( FleetData fleet ) {
+
+			var probs = new Dictionary<int, double>();
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null )
+					continue;
+
+				foreach ( var eq in ship.SlotInstanceMaster ) {
+					if ( eq == null )
+						continue;
+
+					switch ( eq.CategoryType ) {
+						case 8:		// 艦上攻撃機
+						case 9:		// 艦上偵察機
+						case 10:	// 水上偵察機
+
+							if ( !probs.ContainsKey( eq.Accuracy ) )
+								probs.Add( eq.Accuracy, 1.0 );
+
+							probs[eq.Accuracy] *= 1.0 - ( 0.07 * eq.LOS );
+							break;
+					}
+				}
+			}
+
+			foreach ( int key in probs.Keys.ToArray() ) {		//列挙中の変更エラーを防ぐため 
+				probs[key] = 1.0 - probs[key];
+			}
+
+			return probs;
+		}
+
 
 
 		/// <summary>
@@ -1030,10 +1096,14 @@ namespace ElectronicObserver.Utility.Data {
 				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
 					return 10;		//ロケット砲撃
 
-				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
-					return 7;		//空撃
+				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 ) {		//軽空母/正規空母/装甲空母
 
-				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
+					if ( attackerShipID == 432 || attackerShipID == 353 )		//Graf Zeppelin(改)
+						return 0;		//砲撃
+					else
+						return 7;		//空撃
+
+				} else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
 					return 9;			//雷撃
 
 				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
@@ -1135,8 +1205,21 @@ namespace ElectronicObserver.Utility.Data {
 			}
 
 			if ( shipID == 141 ) {		//五十鈴改二限定
-				if ( highangle >= 1 && aagun >= 1 && aaradar >= 1 )
-					return 14;
+				if ( highangle >= 1 && aagun >= 1 ) {
+					if ( aaradar >= 1 )
+						return 14;
+					else
+						return 15;
+				}
+			}
+
+			if ( shipID == 470 ) {		//霞改二乙限定
+				if ( highangle >= 1 && aagun >= 1 ) {
+					if ( aaradar >= 1 )
+						return 16;
+					else
+						return 17;
+				}
 			}
 
 			if ( maingunl >= 1 && aashell >= 1 && director >= 1 && aaradar >= 1 ) {

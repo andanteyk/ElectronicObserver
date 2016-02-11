@@ -95,11 +95,13 @@ namespace ElectronicObserver.Notifier {
 			o["api_req_battle_midnight/battle"].ResponseReceived += BattleStarted;
 			o["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
 			o["api_req_sortie/airbattle"].ResponseReceived += BattleStarted;
+			o["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/midnight_battle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStarted;
 
 		}
 

@@ -97,7 +97,7 @@ namespace ElectronicObserver.Window {
 
 
 			ConfigurationChanged();
-			
+
 			BaseLayoutPanel.Visible = false;
 
 
@@ -121,11 +121,13 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_battle_midnight/battle"].ResponseReceived += Updated;
 			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += Updated;
 			o.APIList["api_req_sortie/airbattle"].ResponseReceived += Updated;
+			o.APIList["api_req_sortie/ld_airbattle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/battle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += Updated;
+			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
 			o.APIList["api_req_practice/battle"].ResponseReceived += Updated;
 			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += Updated;
@@ -747,7 +749,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 
 				case "api_req_sortie/battle":
-				case "api_req_practice/battle": {
+				case "api_req_practice/battle":
+				case "api_req_sortie/ld_airbattle": {
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );
@@ -792,7 +795,8 @@ td,th,tr {text-align:left; padding:2px 4px;}
 					} break;
 
 				case "api_req_combined_battle/battle":
-				case "api_req_combined_battle/battle_water": {
+				case "api_req_combined_battle/battle_water":
+				case "api_req_combined_battle/ld_airbattle": {
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );
@@ -1363,9 +1367,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				}
 			}
 
-			//HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
-			DamageLabels[bd.MVPShipIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
-
+			foreach ( int i in bd.MVPShipIndexes )
+				//HPBars[i].BackColor = Color.Moccasin;
+				DamageLabels[i].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 			FleetCombined.Visible = false;
 			for ( int i = 12; i < 18; i++ ) {
 				HPBars[i].Visible = false;
@@ -1503,10 +1507,12 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			}
 
 
-			//HPBars[bd.MVPShipIndex].BackColor = Color.Moccasin;
-			//HPBars[12 + bd.MVPShipCombinedIndex].BackColor = Color.Moccasin;
-			DamageLabels[bd.MVPShipIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
-			DamageLabels[6 + bd.MVPShipCombinedIndex].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
+			foreach ( int i in bd.MVPShipIndexes )
+				//HPBars[i].BackColor = Color.Moccasin;
+				DamageLabels[i].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
+			foreach ( int i in bd.MVPShipCombinedIndexes )
+				//HPBars[12 + i].BackColor = Color.Moccasin;
+				DamageLabels[6 + i].ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
 
 			TableTop.ResumeLayout();
 			TableBottom.ResumeLayout();
@@ -1704,6 +1710,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				int index = pd.SearchlightIndexEnemy;
 				if ( index != -1 ) {
 					AirStage1Enemy.Text = "#" + ( index + 1 );
+					//AirStage1Enemy.ForeColor = SystemColors.ControlText;	
 					AirStage1Enemy.ForeColor = Utility.Configuration.Config.UI.ForeColor;	
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Searchlight;

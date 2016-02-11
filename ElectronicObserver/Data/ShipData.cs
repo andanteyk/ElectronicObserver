@@ -935,8 +935,9 @@ namespace ElectronicObserver.Data {
 				basepower *= GetHPDamageBonus();
 
 				//対潜シナジー
-				if ( SlotInstanceMaster.Where( s => s != null && s.CategoryType == 14 ).Count() > 0 &&
-					 SlotInstanceMaster.Where( s => s != null && s.CategoryType == 15 ).Count() > 0 )
+				if ( ( SlotInstanceMaster.Where( s => s != null && s.CategoryType == 14 ).Any() ||		//ソナー
+					 SlotInstanceMaster.Where( s => s != null && s.CategoryType == 40 ).Any() ) &&		//大型ソナー
+					 SlotInstanceMaster.Where( s => s != null && s.CategoryType == 15 ).Any() )			//爆雷
 					basepower *= 1.15;
 
 				//キャップ

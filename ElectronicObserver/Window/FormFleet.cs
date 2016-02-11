@@ -178,23 +178,41 @@ namespace ElectronicObserver.Window {
                 }
 
 
-                //索敵能力計算
-                SearchingAbility.Text = fleet.GetSearchingAbilityString();
-                ToolTipInfo.SetToolTip(SearchingAbility,
-                    string.Format("(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n",
-                    fleet.GetSearchingAbilityString(0),
-                    fleet.GetSearchingAbilityString(1),
-                    fleet.GetSearchingAbilityString(2)));
+				//索敵能力計算
+				SearchingAbility.Text = fleet.GetSearchingAbilityString();
+				{
+					StringBuilder sb = new StringBuilder();
+					double probStart = fleet.GetContactProbability();
+					var probSelect = fleet.GetContactSelectionProbability();
 
-                // 舰队防空值计算
-                AAValue.Text = CalculatorEx.GetFleetAAValue(fleet, 0).ToString();
-                ToolTipInfo.SetToolTip(AAValue,
-                    string.Format("单纵阵: {0}\r\n复纵阵: {1}\r\n轮形阵: {2}\r\n梯形阵: {3}\r\n单横阵: {4}\r\n",
-                    CalculatorEx.GetFleetAAValue(fleet, 1),
-                    CalculatorEx.GetFleetAAValue(fleet, 2),
-                    CalculatorEx.GetFleetAAValue(fleet, 3),
-                    CalculatorEx.GetFleetAAValue(fleet, 4),
-                    CalculatorEx.GetFleetAAValue(fleet, 5)));
+					sb.AppendFormat("(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n\r\n触接開始率: \r\n　確保 {3:p1} / 優勢 {4:p1}\r\n",
+						fleet.GetSearchingAbilityString( 0 ),
+						fleet.GetSearchingAbilityString( 1 ),
+						fleet.GetSearchingAbilityString( 2 ),
+						probStart,
+						probStart * 0.6 );
+
+					if ( probSelect.Count > 0 ) {
+						sb.AppendLine( "触接選択率: " );
+
+						foreach ( var p in probSelect.OrderBy( p => p.Key ) ) {
+							sb.AppendFormat( "　命中{0} : {1:p1}\r\n", p.Key, p.Value );
+						}
+					}
+
+					ToolTipInfo.SetToolTip( SearchingAbility, sb.ToString() );
+
+					// 舰队防空值计算
+					AAValue.Text = CalculatorEx.GetFleetAAValue(fleet, 0).ToString();
+					ToolTipInfo.SetToolTip(AAValue,
+					string.Format("单纵阵: {0}\r\n复纵阵: {1}\r\n轮形阵: {2}\r\n梯形阵: {3}\r\n单横阵: {4}\r\n",
+						CalculatorEx.GetFleetAAValue(fleet, 1),
+						CalculatorEx.GetFleetAAValue(fleet, 2),
+						CalculatorEx.GetFleetAAValue(fleet, 3),
+						CalculatorEx.GetFleetAAValue(fleet, 4),
+						CalculatorEx.GetFleetAAValue(fleet, 5)));
+				}
+			}
 
             }
 
@@ -215,7 +233,7 @@ namespace ElectronicObserver.Window {
 				AirSuperiority.Font = parent.MainFont;
 				AirSuperiority.Font = parent.MainFont;
 				SearchingAbility.Font = parent.MainFont;
-				
+
 			}
 
 		}
@@ -568,7 +586,7 @@ namespace ElectronicObserver.Window {
 						else
 							sb.AppendFormat( " - 威力: {0}", shelling );
 					} else if ( aircraft > 0 )
-							sb.AppendFormat( " - 威力: {0}", aircraft );
+						sb.AppendFormat( " - 威力: {0}", aircraft );
 				}
 				sb.AppendLine();
 
@@ -699,7 +717,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
 			o.APIList["api_req_hensei/preset_select"].ResponseReceived += ChangeOrganization;
-			
+
 			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
 			o.APIList["api_req_hensei/change"].RequestReceived += Updated;

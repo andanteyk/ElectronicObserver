@@ -907,6 +907,24 @@ namespace ElectronicObserver.Utility {
 			public ConfigFormBrowser FormBrowser { get; private set; }
 
 
+			/// <summary>
+			/// [羅針盤]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormCompass : ConfigPartBase {
+
+				/// <summary>
+				/// 一度に表示する敵艦隊候補数
+				/// </summary>
+				public int CandidateDisplayCount { get; set; }
+
+				public ConfigFormCompass() {
+					CandidateDisplayCount = 4;
+				}
+			}
+			/// <summary>[羅針盤]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormCompass FormCompass { get; private set; }
+
 
 			/// <summary>
 			/// 各[通知]ウィンドウの設定を扱います。
@@ -1154,6 +1172,7 @@ namespace ElectronicObserver.Utility {
 				FormQuest = new ConfigFormQuest();
 				FormShipGroup = new ConfigFormShipGroup();
 				FormBrowser = new ConfigFormBrowser();
+				FormCompass = new ConfigFormCompass();
 
 				NotifierExpedition = new ConfigNotifierBase();
 				NotifierConstruction = new ConfigNotifierBase();

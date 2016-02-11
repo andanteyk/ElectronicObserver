@@ -131,6 +131,11 @@ namespace ElectronicObserver.Resource {
 			ParameterAircraft,
 			ParameterSpeed,
 			ParameterRange,
+			BattleFormationEnemyLineAhead,
+			BattleFormationEnemyDoubleLine,
+			BattleFormationEnemyDiamond,
+			BattleFormationEnemyEchelon,
+			BattleFormationEnemyLineAbreast,
 		}
 
 		public enum EquipmentContent {
@@ -316,6 +321,11 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Speed.png", "Parameter_Speed" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Range.png", "Parameter_Range" );
 
+					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy01.png", "Battle_FormationEnemy_LineAhead" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy02.png", "Battle_FormationEnemy_DoubleLine" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy03.png", "Battle_FormationEnemy_Diamond" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy04.png", "Battle_FormationEnemy_Echelon" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy05.png", "Battle_FormationEnemy_LineAbreast" );
 
 
 					// ------------------------ equipments ------------------------
