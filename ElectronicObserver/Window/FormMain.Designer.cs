@@ -580,7 +580,6 @@
 			this.Text = "試製七四式電子観測儀";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
-			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.StripMenu.ResumeLayout(false);
