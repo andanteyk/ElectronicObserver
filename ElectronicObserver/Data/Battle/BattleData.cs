@@ -66,7 +66,7 @@ namespace ElectronicObserver.Data.Battle {
 							yield return i;
 					}
 				}
-				return index < 0 ? 0 : index;
+				//return index < 0 ? 0 : index;
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace ElectronicObserver.Data.Battle {
 							yield return i;
 					}
 				}
-				return index < 0 ? 0 : index;
+				//return index < 0 ? 0 : index;
 			}
 		}
 

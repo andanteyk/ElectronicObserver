@@ -513,8 +513,10 @@ namespace ElectronicObserver.Window {
 					BrowserLib.VolumeManager.SetApplicationMute( id, mute );
 
 					SyncBGMPlayer.Instance.SetInitialVolume( (int)( volume * 100 ) );
+                    /* no NotifierManager
 					foreach ( var not in NotifierManager.Instance.GetNotifiers() )
 						not.SetInitialVolume( (int)( volume * 100 ) );
+                    //*/
 
 					_volumeUpdateState = -1;
 

@@ -420,6 +420,12 @@ namespace ElectronicObserver.Window {
 			sb.Append( "火力: " ).Append( firepower_c );
 			if ( firepower_c != firepower )
 				sb.Append( "/" ).Append( firepower );
+            if ( ship.ShipType == 7 ||	// 轻空母
+				 ship.ShipType == 11 ||	// 正规空母
+                 ship.IsLandBase)
+            {
+                sb.Append( CalculatorEx.CalculateFireEnemy( shipID, slot, firepower_c, torpedo_c ) );
+            }
 			sb.AppendLine();
 
 			sb.Append( "雷装: " ).Append( torpedo_c );
@@ -431,6 +437,8 @@ namespace ElectronicObserver.Window {
 			if ( aa_c != aa )
 				sb.Append( "/" ).Append( aa );
 			sb.AppendLine();
+
+            sb.Append( "加权对空: " ).Append( CalculatorEx.CalculateWeightingAAEnemy( shipID, slot, aa_c ) ).AppendLine();
 
 			sb.Append( "装甲: " ).Append( armor_c );
 			if ( armor_c != armor )
@@ -995,9 +1003,9 @@ namespace ElectronicObserver.Window {
 					air.ToString() + " ～ " + Calculator.GetAirSuperiorityAtMaxLevel( enemies, slots ).ToString() :
 					air.ToString();
 				ToolTipInfo.SetToolTip( TextAirSuperiority, GetAirSuperiorityString( isPractice ? 0 : air ) );
-				TextAirSuperiority.Visible = true;
+                //ToolTipInfo.SetToolTip(TextAirSuperiority, string.Format("优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3));
+                TextAirSuperiority.Visible = true;
 			}
-			ToolTipInfo.SetToolTip( TextAirSuperiority, string.Format( "优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3 ) );
 			TextAA.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, bd.Searching.FormationEnemy ).ToString();
 
 			TableEnemyMember.SuspendLayout();

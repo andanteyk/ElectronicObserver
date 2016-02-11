@@ -212,7 +212,6 @@ namespace ElectronicObserver.Window {
 						CalculatorEx.GetFleetAAValue(fleet, 4),
 						CalculatorEx.GetFleetAAValue(fleet, 5)));
 				}
-			}
 
             }
 
