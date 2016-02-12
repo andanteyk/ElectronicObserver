@@ -437,17 +437,23 @@ namespace ElectronicObserver.Window {
 				sb.Append( "/" ).Append( armor );
 			sb.AppendLine();
 
-			sb.Append( "対潜: " ).Append( asw_c );
+			sb.Append( "対潜: " );
+			if ( asw_c < 0 ) sb.Append( "???" );
+			else sb.Append( asw_c );
 			if ( asw_c != asw )
 				sb.Append( "/" ).Append( asw );
 			sb.AppendLine();
 
-			sb.Append( "回避: " ).Append( evasion_c );
+			sb.Append( "回避: " );
+			if ( evasion_c < 0 ) sb.Append( "???" );
+			else sb.Append( evasion_c );
 			if ( evasion_c != evasion )
 				sb.Append( "/" ).Append( evasion );
 			sb.AppendLine();
 
-			sb.Append( "索敵: " ).Append( los_c );
+			sb.Append( "索敵: " );
+			if ( los_c < 0 ) sb.Append( "???" );
+			else sb.Append( los_c );
 			if ( los_c != los )
 				sb.Append( "/" ).Append( los );
 			sb.AppendLine();
@@ -684,7 +690,10 @@ namespace ElectronicObserver.Window {
 				{
 					var mapinfo = compass.MapInfo;
 
-					if ( mapinfo.RequiredDefeatedCount != -1 ) {
+					if ( mapinfo.IsCleared ) {
+						ToolTipInfo.SetToolTip( TextMapArea, null );
+
+					} else if ( mapinfo.RequiredDefeatedCount != -1 ) {
 						ToolTipInfo.SetToolTip( TextMapArea, string.Format( "撃破: {0} / {1} 回", mapinfo.CurrentDefeatedCount, mapinfo.RequiredDefeatedCount ) );
 
 					} else if ( mapinfo.MapHPMax > 0 ) {
