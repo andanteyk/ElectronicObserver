@@ -307,6 +307,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
 			Debug_LoadAPIListOnLoad.Checked = config.Debug.LoadAPIListOnLoad;
 			Debug_APIListPath.Text = config.Debug.APIListPath;
+			Debug_AlertOnError.Checked = config.Debug.AlertOnError;
 
 			//[起動と終了]
 			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
@@ -471,6 +472,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
 			config.Debug.LoadAPIListOnLoad = Debug_LoadAPIListOnLoad.Checked;
 			config.Debug.APIListPath = Debug_APIListPath.Text;
+			config.Debug.AlertOnError = Debug_AlertOnError.Checked;
 
 			//[起動と終了]
 			config.Life.ConfirmOnClosing = Life_ConfirmOnClosing.Checked;

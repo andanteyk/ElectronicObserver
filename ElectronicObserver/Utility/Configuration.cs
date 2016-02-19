@@ -387,11 +387,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public string APIListPath { get; set; }
 
+				/// <summary>
+				/// エラー発生時に警告音を鳴らすか
+				/// </summary>
+				public bool AlertOnError { get; set; }
 
 				public ConfigDebug() {
 					EnableDebugMenu = false;
 					LoadAPIListOnLoad = false;
 					APIListPath = "";
+					AlertOnError = false;
 				}
 			}
 			/// <summary>デバッグ</summary>

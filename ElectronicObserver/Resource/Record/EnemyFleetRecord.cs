@@ -160,6 +160,7 @@ namespace ElectronicObserver.Resource.Record {
 				switch ( battle.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) {
 					case BattleManager.BattleModes.Normal:
 					case BattleManager.BattleModes.AirBattle:
+					case BattleManager.BattleModes.AirRaid:
 						return new EnemyFleetElement(
 							fleetName,
 							battle.Compass.MapAreaID,

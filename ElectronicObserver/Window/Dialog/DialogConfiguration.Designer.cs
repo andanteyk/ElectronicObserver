@@ -109,6 +109,9 @@
 			this.FormArsenal_ShowShipName = new System.Windows.Forms.CheckBox();
 			this.tabPage16 = new System.Windows.Forms.TabPage();
 			this.FormHeadquarters_BlinkAtMaximum = new System.Windows.Forms.CheckBox();
+			this.tabPage18 = new System.Windows.Forms.TabPage();
+			this.FormCompass_CandidateDisplayCount = new System.Windows.Forms.NumericUpDown();
+			this.label2 = new System.Windows.Forms.Label();
 			this.tabPage10 = new System.Windows.Forms.TabPage();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.FormQuest_ShowMonthly = new System.Windows.Forms.CheckBox();
@@ -177,9 +180,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.tabPage18 = new System.Windows.Forms.TabPage();
-			this.FormCompass_CandidateDisplayCount = new System.Windows.Forms.NumericUpDown();
-			this.label2 = new System.Windows.Forms.Label();
+			this.Debug_AlertOnError = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -198,6 +199,8 @@
 			this.tabPage8.SuspendLayout();
 			this.tabPage9.SuspendLayout();
 			this.tabPage16.SuspendLayout();
+			this.tabPage18.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.FormCompass_CandidateDisplayCount)).BeginInit();
 			this.tabPage10.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPage13.SuspendLayout();
@@ -212,8 +215,6 @@
 			this.tabPage17.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).BeginInit();
-			this.tabPage18.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.FormCompass_CandidateDisplayCount)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -789,24 +790,28 @@
 			// 
 			// tabPage5
 			// 
+			this.tabPage5.Controls.Add(this.Debug_AlertOnError);
 			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Location = new System.Drawing.Point(4, 44);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(456, 253);
+			this.tabPage5.Size = new System.Drawing.Size(456, 233);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
 			// 
 			// Debug_SealingPanel
 			// 
+			this.Debug_SealingPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPath);
 			this.Debug_SealingPanel.Controls.Add(this.Debug_LoadAPIListOnLoad);
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
-			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 31);
+			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 222);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 177);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -867,10 +872,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 44);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 233);
+			this.tabPage6.Size = new System.Drawing.Size(456, 253);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -992,10 +997,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 44);
+			this.tabPage7.Location = new System.Drawing.Point(4, 24);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(456, 233);
+			this.tabPage7.Size = new System.Drawing.Size(456, 253);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -1014,7 +1019,7 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(450, 227);
+			this.tabControl2.Size = new System.Drawing.Size(450, 247);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
@@ -1033,7 +1038,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(442, 199);
+			this.tabPage8.Size = new System.Drawing.Size(442, 219);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -1160,10 +1165,10 @@
 			// tabPage9
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 24);
+			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 199);
+			this.tabPage9.Size = new System.Drawing.Size(442, 201);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -1181,10 +1186,10 @@
 			// tabPage16
 			// 
 			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
-			this.tabPage16.Location = new System.Drawing.Point(4, 24);
+			this.tabPage16.Location = new System.Drawing.Point(4, 22);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(442, 199);
+			this.tabPage16.Size = new System.Drawing.Size(442, 201);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1199,14 +1204,58 @@
 			this.FormHeadquarters_BlinkAtMaximum.Text = "艦船/装備が満タンの時点滅する";
 			this.FormHeadquarters_BlinkAtMaximum.UseVisualStyleBackColor = true;
 			// 
+			// tabPage18
+			// 
+			this.tabPage18.Controls.Add(this.FormCompass_CandidateDisplayCount);
+			this.tabPage18.Controls.Add(this.label2);
+			this.tabPage18.Location = new System.Drawing.Point(4, 22);
+			this.tabPage18.Name = "tabPage18";
+			this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage18.Size = new System.Drawing.Size(442, 201);
+			this.tabPage18.TabIndex = 7;
+			this.tabPage18.Text = "羅針盤";
+			this.tabPage18.UseVisualStyleBackColor = true;
+			// 
+			// FormCompass_CandidateDisplayCount
+			// 
+			this.FormCompass_CandidateDisplayCount.Location = new System.Drawing.Point(143, 6);
+			this.FormCompass_CandidateDisplayCount.Maximum = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+			this.FormCompass_CandidateDisplayCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.FormCompass_CandidateDisplayCount.Name = "FormCompass_CandidateDisplayCount";
+			this.FormCompass_CandidateDisplayCount.Size = new System.Drawing.Size(60, 23);
+			this.FormCompass_CandidateDisplayCount.TabIndex = 4;
+			this.FormCompass_CandidateDisplayCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.FormCompass_CandidateDisplayCount.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(6, 8);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(131, 15);
+			this.label2.TabIndex = 3;
+			this.label2.Text = "一度に表示する候補数：";
+			// 
 			// tabPage10
 			// 
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 24);
+			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 199);
+			this.tabPage10.Size = new System.Drawing.Size(442, 201);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1278,10 +1327,10 @@
 			// 
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 24);
+			this.tabPage13.Location = new System.Drawing.Point(4, 22);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 199);
+			this.tabPage13.Size = new System.Drawing.Size(442, 201);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1320,10 +1369,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 24);
+			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 199);
+			this.tabPage12.Size = new System.Drawing.Size(442, 201);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1501,10 +1550,10 @@
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
 			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 24);
+			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 199);
+			this.tabPage14.Size = new System.Drawing.Size(442, 201);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1873,7 +1922,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 172);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 168);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -1955,49 +2004,15 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// tabPage18
+			// Debug_AlertOnError
 			// 
-			this.tabPage18.Controls.Add(this.FormCompass_CandidateDisplayCount);
-			this.tabPage18.Controls.Add(this.label2);
-			this.tabPage18.Location = new System.Drawing.Point(4, 24);
-			this.tabPage18.Name = "tabPage18";
-			this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage18.Size = new System.Drawing.Size(442, 199);
-			this.tabPage18.TabIndex = 7;
-			this.tabPage18.Text = "羅針盤";
-			this.tabPage18.UseVisualStyleBackColor = true;
-			// 
-			// FormCompass_CandidateDisplayCount
-			// 
-			this.FormCompass_CandidateDisplayCount.Location = new System.Drawing.Point(143, 6);
-			this.FormCompass_CandidateDisplayCount.Maximum = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
-			this.FormCompass_CandidateDisplayCount.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.FormCompass_CandidateDisplayCount.Name = "FormCompass_CandidateDisplayCount";
-			this.FormCompass_CandidateDisplayCount.Size = new System.Drawing.Size(60, 23);
-			this.FormCompass_CandidateDisplayCount.TabIndex = 4;
-			this.FormCompass_CandidateDisplayCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.FormCompass_CandidateDisplayCount.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(6, 8);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(131, 15);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "一度に表示する候補数：";
+			this.Debug_AlertOnError.AutoSize = true;
+			this.Debug_AlertOnError.Location = new System.Drawing.Point(8, 31);
+			this.Debug_AlertOnError.Name = "Debug_AlertOnError";
+			this.Debug_AlertOnError.Size = new System.Drawing.Size(104, 19);
+			this.Debug_AlertOnError.TabIndex = 2;
+			this.Debug_AlertOnError.Text = "エラー音を鳴らす";
+			this.Debug_AlertOnError.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -2047,6 +2062,9 @@
 			this.tabPage9.PerformLayout();
 			this.tabPage16.ResumeLayout(false);
 			this.tabPage16.PerformLayout();
+			this.tabPage18.ResumeLayout(false);
+			this.tabPage18.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.FormCompass_CandidateDisplayCount)).EndInit();
 			this.tabPage10.ResumeLayout(false);
 			this.tabPage10.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
@@ -2071,9 +2089,6 @@
 			this.tabPage17.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).EndInit();
-			this.tabPage18.ResumeLayout(false);
-			this.tabPage18.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.FormCompass_CandidateDisplayCount)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -2235,5 +2250,6 @@
 		private System.Windows.Forms.TabPage tabPage18;
 		private System.Windows.Forms.NumericUpDown FormCompass_CandidateDisplayCount;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.CheckBox Debug_AlertOnError;
 	}
 }
