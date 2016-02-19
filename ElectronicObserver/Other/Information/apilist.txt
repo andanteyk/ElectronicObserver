@@ -1349,6 +1349,7 @@ api_req_sortie/ld_airbattle		：長距離空襲戦　存在するメンバを記
 	api_eKyouka
 	api_fParam
 	api_eParam
+	api_combat_ration
 	api_search
 	api_formation
 	api_stage_flag
@@ -1618,8 +1619,26 @@ api_req_combined_battle/battle_water	：連合艦隊-水上部隊 戦闘
 	api_raigeki			：雷撃戦
 
 
-api_req_combined_battle/ld_airbattle		：連合艦隊　長距離空襲戦
-	(調査中)
+api_req_combined_battle/ld_airbattle		：連合艦隊 長距離空襲戦　存在するメンバを記載、各値の構成と意味は api_req_combined_battle/battle と同じ
+	api_deck_id			：文字列
+	api_ship_ke
+	api_ship_lv
+	api_nowhps
+	api_maxhps
+	api_nowhps_combined
+	api_maxhps_combined
+	api_midnight_flag	：常に 0 ?
+	api_eSlot			：存在する艦の分のみ存在
+	api_eKyouka
+	api_fParam
+	api_eParam
+	api_fParam_combined
+	api_combat_ration
+	api_combat_ration_combined
+	api_search
+	api_formation
+	api_stage_flag
+	api_kouku
 
 
 api_req_combined_battle/battleresult	：連合艦隊 戦闘結果

@@ -906,6 +906,35 @@ namespace ElectronicObserver.Window {
 
 
 		/// <summary>
+		/// 空襲戦における勝利ランクを計算します。情報不足のため正確ではありません。
+		/// </summary>
+		/// <param name="countFriend">戦闘に参加した自軍艦数。</param>
+		/// <param name="sunkFriend">撃沈された自軍艦数。</param>
+		/// <param name="friendrate">自軍損害率。</param>
+		private static int GetWinRankAirRaid( int countFriend, int sunkFriend, double friendrate ) {
+			int rank;
+
+			if ( friendrate == 0.0 )
+				rank = 7;	//SS
+			else if ( friendrate < 0.1 )
+				rank = 5;	//A
+			else if ( friendrate < 0.2 )
+				rank = 4;	//B
+			else if ( friendrate < 0.5 )
+				rank = 3;	//C
+			else
+				rank = 2;	//D
+
+			/*/// 撃沈艦があってもランクは変わらない(撃沈ありA勝利が確認されている)
+			if ( sunkFriend > 0 )
+				rank--;
+			//*/
+
+			return rank;
+		}
+
+
+		/// <summary>
 		/// 損害率と戦績予測を設定します。
 		/// </summary>
 		private void SetDamageRateNormal( BattleData bd, int[] initialHPs ) {
@@ -939,7 +968,11 @@ namespace ElectronicObserver.Window {
 				int sunkFriend = resultHPs.Take( countFriend ).Count( v => v <= 0 );
 				int sunkEnemy = resultHPs.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
 
-				int rank = GetWinRank( countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, resultHPs[6] <= 0 );
+				int rank;
+				if ( bd is BattleAirRaid )
+					rank = GetWinRankAirRaid( countFriend, sunkFriend, friendrate );
+				else
+					rank = GetWinRank( countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, resultHPs[6] <= 0 );
 
 
 				WinRank.Text = Constants.GetWinRank( rank );
@@ -985,7 +1018,11 @@ namespace ElectronicObserver.Window {
 				int sunkFriend = resultHPs.Take( countFriend ).Count( v => v <= 0 ) + resultHPs.Skip( 12 ).Take( countFriendCombined ).Count( v => v <= 0 );
 				int sunkEnemy = resultHPs.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
 
-				int rank = GetWinRank( countFriend + countFriendCombined, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, resultHPs[6] <= 0 );
+				int rank;
+				if ( bd is BattleCombinedAirRaid )
+					rank = GetWinRankAirRaid( countFriend, sunkFriend, friendrate );
+				else
+					rank = GetWinRank( countFriend + countFriendCombined, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, resultHPs[6] <= 0 );
 
 
 				WinRank.Text = Constants.GetWinRank( rank );
