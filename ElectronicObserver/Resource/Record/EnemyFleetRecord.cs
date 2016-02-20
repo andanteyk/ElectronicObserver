@@ -187,8 +187,6 @@ namespace ElectronicObserver.Resource.Record {
 					case BattleManager.BattleModes.Practice:
 						return null;
 
-					default:
-						throw new NotImplementedException();
 				}
 			}
 
