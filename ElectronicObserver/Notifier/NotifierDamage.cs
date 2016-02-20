@@ -169,6 +169,8 @@ namespace ElectronicObserver.Notifier {
 			switch ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) {
 				case BattleManager.BattleModes.Normal:
 				case BattleManager.BattleModes.AirBattle:
+				case BattleManager.BattleModes.AirRaid:
+				default:
 					if ( bm.BattleNight != null ) {
 						list.AddRange( GetDamagedShips( bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray() ) );
 					} else {
@@ -190,6 +192,8 @@ namespace ElectronicObserver.Notifier {
 				switch ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) {
 					case BattleManager.BattleModes.Normal:
 					case BattleManager.BattleModes.AirBattle:
+					case BattleManager.BattleModes.AirRaid:
+					default:
 						if ( bm.BattleNight != null ) {
 							list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip( 12 ).ToArray() ) );
 						} else {

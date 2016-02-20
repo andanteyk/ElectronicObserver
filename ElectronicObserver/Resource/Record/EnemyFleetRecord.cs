@@ -161,6 +161,7 @@ namespace ElectronicObserver.Resource.Record {
 					case BattleManager.BattleModes.Normal:
 					case BattleManager.BattleModes.AirBattle:
 					case BattleManager.BattleModes.AirRaid:
+					default:
 						return new EnemyFleetElement(
 							fleetName,
 							battle.Compass.MapAreaID,
