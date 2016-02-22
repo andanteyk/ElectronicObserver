@@ -262,7 +262,7 @@ namespace ElectronicObserver.Window {
 					if ( ship == null ) {
 						// nothing
 						ShipNames[i].Text = "-";
-						ShipNames[i].ForeColor = Color.Black;
+						ShipNames[i].ForeColor = Utility.Configuration.Config.UI.ForeColor;
 						ShipNames[i].Tag = -1;
 						ShipNames[i].Cursor = Cursors.Default;
 						ToolTipInfo.SetToolTip( ShipNames[i], null );
@@ -315,13 +315,13 @@ namespace ElectronicObserver.Window {
 				case 0:
 				case 1:		//normal
 				default:
-					return Color.FromArgb( 0x00, 0x00, 0x00 );
+					return Utility.Configuration.Config.UI.ForeColor; // Color.FromArgb( 0x00, 0x00, 0x00 );
 				case 2:		//elite
-					return Color.FromArgb( 0xFF, 0x00, 0x00 );
+					return Utility.Configuration.Config.UI.EliteColor; // Color.FromArgb( 0xFF, 0x00, 0x00 );
 				case 3:		//flagship
-					return Color.FromArgb( 0xFF, 0x88, 0x00 );
+                    return Utility.Configuration.Config.UI.FlagshipColor; // Color.FromArgb( 0xFF, 0x88, 0x00 );
 				case 4:		//latemodel / flagship kai
-					return Color.FromArgb( 0x00, 0x88, 0xFF );
+                    return Utility.Configuration.Config.UI.LateModelColor; // Color.FromArgb( 0x00, 0x88, 0xFF );
 				case 5:		//latemodel elite
 					return Color.FromArgb( 0x88, 0x00, 0x00 );
 				case 6:		//latemodel flagship
