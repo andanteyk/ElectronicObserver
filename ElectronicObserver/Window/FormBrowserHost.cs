@@ -317,7 +317,7 @@ namespace ElectronicObserver.Window {
 		private string BuildDownstreamProxy() {
 			var config = Utility.Configuration.Config.Connection;
 
-			if ( config.UseUpstreamProxy ) {
+			if ( config.UseUpstreamProxy && config.EnableSslUpstreamProxy ) {
 				return string.Format(
 					"http=127.0.0.1:{0};https={1}:{2}",
 					APIObserver.Instance.ProxyPort,

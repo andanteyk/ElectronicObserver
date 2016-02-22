@@ -267,6 +267,8 @@ namespace ElectronicObserver.Window.Dialog {
 			colorFailedColor.SelectedColor = config.UI.FailedColor.ColorData;
 			colorEliteColor.SelectedColor = config.UI.EliteColor.ColorData;
 			colorFlagshipColor.SelectedColor = config.UI.FlagshipColor.ColorData;
+			colorLateModelEliteColor.SelectedColor = config.UI.LateModelEliteColor.ColorData;
+			colorLateModelFlagshipColor.SelectedColor = config.UI.LateModelFlagshipColor.ColorData;
 			colorLateModelColor.SelectedColor = config.UI.LateModelColor.ColorData;
 
 			colorHp0Color.SelectedColor = config.UI.Hp0Color.ColorData;
@@ -471,6 +473,8 @@ namespace ElectronicObserver.Window.Dialog {
 			config.UI.FailedColor = colorFailedColor.SelectedColor;
 			config.UI.EliteColor = colorEliteColor.SelectedColor;
 			config.UI.FlagshipColor = colorFlagshipColor.SelectedColor;
+			config.UI.LateModelEliteColor = colorLateModelEliteColor.SelectedColor;
+			config.UI.LateModelFlagshipColor = colorLateModelFlagshipColor.SelectedColor;
 			config.UI.LateModelColor = colorLateModelColor.SelectedColor;
 
 			config.UI.Hp0Color = colorHp0Color.SelectedColor;

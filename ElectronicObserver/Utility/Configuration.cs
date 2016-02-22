@@ -253,6 +253,8 @@ namespace ElectronicObserver.Utility {
 				public SerializableColor FailedColor { get; set; }
 				public SerializableColor EliteColor { get; set; }
 				public SerializableColor FlagshipColor { get; set; }
+				public SerializableColor LateModelEliteColor { get; set; }
+				public SerializableColor LateModelFlagshipColor { get; set; }
 				public SerializableColor LateModelColor { get; set; }
 				public SerializableColor Hp0Color { get; set; }
 				public SerializableColor Hp25Color { get; set; }
@@ -311,6 +313,8 @@ namespace ElectronicObserver.Utility {
 					FailedColor = new SerializableColor( Color.Red );
 					EliteColor = new SerializableColor( Color.FromArgb( 0xFF, 0x00, 0x00 ) );
 					FlagshipColor = new SerializableColor( Color.FromArgb( 0xFF, 0x88, 0x00 ) );
+					LateModelEliteColor = new SerializableColor( Color.FromArgb( 0x88, 0x00, 0x00 ) );
+					LateModelFlagshipColor = new SerializableColor( Color.FromArgb( 0x88, 0x44, 0x00 ) );
 					LateModelColor = new SerializableColor( Color.FromArgb( 0x00, 0x88, 0xFF ) );
 
 					NotExpeditionBlink = true;

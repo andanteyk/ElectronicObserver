@@ -42,6 +42,8 @@
 			this.colorEliteColor = new ElectronicObserver.Window.Control.ColorPicker();
 			this.colorFlagshipColor = new ElectronicObserver.Window.Control.ColorPicker();
 			this.colorLateModelColor = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorLateModelEliteColor = new ElectronicObserver.Window.Control.ColorPicker();
+			this.colorLateModelFlagshipColor = new ElectronicObserver.Window.Control.ColorPicker();
 			this.tabPageColorHp = new System.Windows.Forms.TabPage();
 			this.colorHp0Color = new ElectronicObserver.Window.Control.ColorPicker();
 			this.colorHp25Color = new ElectronicObserver.Window.Control.ColorPicker();
@@ -561,6 +563,8 @@
 			this.tabPageColorBattle.Controls.Add(this.colorLateModelColor);
 			this.tabPageColorBattle.Controls.Add(this.colorFlagshipColor);
 			this.tabPageColorBattle.Controls.Add(this.colorEliteColor);
+			this.tabPageColorBattle.Controls.Add(this.colorLateModelEliteColor);
+			this.tabPageColorBattle.Controls.Add(this.colorLateModelFlagshipColor);
 			this.tabPageColorBattle.Controls.Add(this.colorFailedColor);
 			this.tabPageColorBattle.Location = new System.Drawing.Point(4, 24);
 			this.tabPageColorBattle.Name = "tabPageColorBattle";
@@ -681,6 +685,24 @@
 			this.colorFlagshipColor.Size = new System.Drawing.Size(200, 23);
 			this.colorFlagshipColor.TabIndex = 2;
 			this.colorFlagshipColor.Text = "Flagship：";
+			// 
+			// colorLateModelEliteColor
+			// 
+			this.colorLateModelEliteColor.Location = new System.Drawing.Point(228, 35);
+			this.colorLateModelEliteColor.MinimumSize = new System.Drawing.Size(190, 23);
+			this.colorLateModelEliteColor.Name = "colorLateModelEliteColor";
+			this.colorLateModelEliteColor.Size = new System.Drawing.Size(200, 23);
+			this.colorLateModelEliteColor.TabIndex = 4;
+			this.colorLateModelEliteColor.Text = "后期Elite：";
+			// 
+			// colorLateModelFlagshipColor
+			// 
+			this.colorLateModelFlagshipColor.Location = new System.Drawing.Point(228, 64);
+			this.colorLateModelFlagshipColor.MinimumSize = new System.Drawing.Size(190, 23);
+			this.colorLateModelFlagshipColor.Name = "colorLateModelFlagshipColor";
+			this.colorLateModelFlagshipColor.Size = new System.Drawing.Size(200, 23);
+			this.colorLateModelFlagshipColor.TabIndex = 5;
+			this.colorLateModelFlagshipColor.Text = "后期Flagship：";
 			// 
 			// colorLateModelColor
 			// 
@@ -2355,6 +2377,8 @@
 		private Control.ColorPicker colorLateModelColor;
 		private Control.ColorPicker colorFlagshipColor;
 		private Control.ColorPicker colorEliteColor;
+        private Control.ColorPicker colorLateModelEliteColor;
+        private Control.ColorPicker colorLateModelFlagshipColor;
 		private System.Windows.Forms.TabPage tabPageColorHp;
 		private Control.ColorPicker colorHp75Color;
 		private Control.ColorPicker colorHp50Color;

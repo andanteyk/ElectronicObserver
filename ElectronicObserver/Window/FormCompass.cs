@@ -319,13 +319,13 @@ namespace ElectronicObserver.Window {
 				case 2:		//elite
 					return Utility.Configuration.Config.UI.EliteColor; // Color.FromArgb( 0xFF, 0x00, 0x00 );
 				case 3:		//flagship
-                    return Utility.Configuration.Config.UI.FlagshipColor; // Color.FromArgb( 0xFF, 0x88, 0x00 );
+					return Utility.Configuration.Config.UI.FlagshipColor; // Color.FromArgb( 0xFF, 0x88, 0x00 );
 				case 4:		//latemodel / flagship kai
-                    return Utility.Configuration.Config.UI.LateModelColor; // Color.FromArgb( 0x00, 0x88, 0xFF );
+					return Utility.Configuration.Config.UI.LateModelColor; // Color.FromArgb( 0x00, 0x88, 0xFF );
 				case 5:		//latemodel elite
-					return Color.FromArgb( 0x88, 0x00, 0x00 );
+					return Utility.Configuration.Config.UI.LateModelEliteColor; // Color.FromArgb( 0x88, 0x00, 0x00 );
 				case 6:		//latemodel flagship
-					return Color.FromArgb( 0x88, 0x44, 0x00 );
+					return Utility.Configuration.Config.UI.LateModelFlagshipColor; // Color.FromArgb( 0x88, 0x44, 0x00 );
 			}
 		}
 
