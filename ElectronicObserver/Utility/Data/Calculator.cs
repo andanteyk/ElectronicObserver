@@ -924,6 +924,76 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		/// <summary>
+		/// 輸送作戦成功時の輸送量(減少TP)を求めます。
+		/// (S勝利時のもの。A勝利時は int( value * 0.7 ) )
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		/// <returns>減少TP。</returns>
+		public static int GetTPDamage( FleetData fleet ) {
+
+			int tp = 0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped.Where( s => s != null && s.HPRate > 0.25 ) ) {
+
+				// 装備ボーナス
+				foreach ( var eq in ship.AllSlotInstanceMaster.Where( q => q != null ) ) {
+
+					switch ( eq.CategoryType ) {
+
+						case 24:	// 上陸用舟艇
+							tp += 8;
+							break;
+						case 30:	// 簡易輸送部材
+							tp += 5;
+							break;
+						case 43:	// 戦闘糧食
+							tp += 1;
+							break;
+					}
+				}
+
+
+				// 艦種ボーナス
+				switch ( ship.MasterShip.ShipType ) {
+
+					case 2:		// 駆逐艦
+						tp += 5;
+						break;
+					case 3:		// 軽巡洋艦
+						tp += 2;
+						break;
+					case 5:		// 重巡洋艦
+						tp += 0;
+						break;
+					case 6:		// 航空巡洋艦
+						tp += 4;
+						break;
+					case 10:	// 航空戦艦
+						tp += 7;
+						break;
+					case 16:	// 水上機母艦
+						tp += 9;
+						break;
+					case 17:	// 揚陸艦
+						tp += 12;
+						break;
+					case 20:	// 潜水母艦
+						tp += 7;
+						break;
+					case 21:	// 練習巡洋艦
+						tp += 6;
+						break;
+					case 22:	// 補給艦
+						tp += 15;
+						break;
+				}
+			}
+
+
+			return tp;
+		}
+
 
 		/// <summary>
 		/// 昼戦における攻撃種別を取得します。
@@ -1181,46 +1251,55 @@ namespace ElectronicObserver.Utility.Data {
 			}
 
 
-			//秋月/秋月改/照月/照月改限定
-			if ( shipID == 421 || shipID == 330 || shipID == 422 || shipID == 346 ) {
+			// 固有カットイン
+			switch ( shipID ) {
 
-				if ( highangle >= 2 && radar >= 1 ) {
-					return 1;
-				}
-				if ( highangle >= 1 && radar >= 1 ) {
-					return 2;
-				}
-				if ( highangle >= 2 ) {
-					return 3;
-				}
+				case 421:	//秋月
+				case 330:	//秋月改
+				case 422:	//照月
+				case 346:	//照月改
+				case 423:	//初月
+				case 357:	//初月改
+					if ( highangle >= 2 && radar >= 1 ) {
+						return 1;
+					}
+					if ( highangle >= 1 && radar >= 1 ) {
+						return 2;
+					}
+					if ( highangle >= 2 ) {
+						return 3;
+					}
+					break;
+
+				case 428:	//摩耶改二
+					if ( highangle >= 1 && aagun_concentrated >= 1 ) {
+						if ( aaradar >= 1 )
+							return 10;
+
+						return 11;
+					}
+					break;
+
+				case 141:	//五十鈴改二
+					if ( highangle >= 1 && aagun >= 1 ) {
+						if ( aaradar >= 1 )
+							return 14;
+						else
+							return 15;
+					}
+					break;
+
+				case 470:	//霞改二乙
+					if ( highangle >= 1 && aagun >= 1 ) {
+						if ( aaradar >= 1 )
+							return 16;
+						else
+							return 17;
+					}
+					break;
 			}
 
-			if ( shipID == 428 ) {		//摩耶改二限定
-				if ( highangle >= 1 && aagun_concentrated >= 1 ) {
-					if ( aaradar >= 1 )
-						return 10;
 
-					return 11;
-				}
-			}
-
-			if ( shipID == 141 ) {		//五十鈴改二限定
-				if ( highangle >= 1 && aagun >= 1 ) {
-					if ( aaradar >= 1 )
-						return 14;
-					else
-						return 15;
-				}
-			}
-
-			if ( shipID == 470 ) {		//霞改二乙限定
-				if ( highangle >= 1 && aagun >= 1 ) {
-					if ( aaradar >= 1 )
-						return 16;
-					else
-						return 17;
-				}
-			}
 
 			if ( maingunl >= 1 && aashell >= 1 && director >= 1 && aaradar >= 1 ) {
 				return 4;

@@ -1609,8 +1609,10 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			else
 				rank = 2;	//D
 
-			if ( sunkFriend > 0 )		//知らないので適当
+			/*/// 撃沈艦があってもランクは変わらない(撃沈ありA勝利が確認されている)
+			if ( sunkFriend > 0 )
 				rank--;
+			//*/
 
 			return rank;
 		}

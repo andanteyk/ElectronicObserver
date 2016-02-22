@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
+using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Support;
@@ -260,11 +261,12 @@ namespace ElectronicObserver.Window {
 				CombinedTag.Text = Constants.GetCombinedFleet( KCDatabase.Instance.Fleet.CombinedFlag );
 
 				if ( KCDatabase.Instance.Fleet.CombinedFlag == 3 ) {
-					ToolTipInfo.SetToolTip( CombinedTag, string.Format( "ドラム缶搭載: {0}個\r\n大発動艇搭載: {1}個\r\n",
+					ToolTipInfo.SetToolTip( CombinedTag, string.Format( "ドラム缶搭載: {0}個\r\n大発動艇搭載: {1}個\r\n輸送量(TP): {2}\r\n",
 						KCDatabase.Instance.Fleet[1].MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 30 ) ) +
 						KCDatabase.Instance.Fleet[2].MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 30 ) ),
 						KCDatabase.Instance.Fleet[1].MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 24 ) ) +
-						KCDatabase.Instance.Fleet[2].MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 24 ) )
+						KCDatabase.Instance.Fleet[2].MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 24 ) ),
+						Calculator.GetTPDamage( KCDatabase.Instance.Fleet[1] ) + Calculator.GetTPDamage( KCDatabase.Instance.Fleet[2] )
 						) );
 				} else {
 					ToolTipInfo.SetToolTip( CombinedTag, null );

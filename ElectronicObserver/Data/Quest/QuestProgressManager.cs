@@ -348,6 +348,8 @@ namespace ElectronicObserver.Data.Quest {
 			switch ( bm.BattleMode & Battle.BattleManager.BattleModes.BattlePhaseMask ) {
 				case Battle.BattleManager.BattleModes.Normal:
 				case Battle.BattleManager.BattleModes.AirBattle:
+				case Battle.BattleManager.BattleModes.AirRaid:
+				default:
 					if ( bm.BattleNight != null ) hps = bm.BattleNight.ResultHPs;
 					else hps = bm.BattleDay.ResultHPs;
 					break;

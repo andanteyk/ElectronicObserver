@@ -106,6 +106,9 @@ namespace ElectronicObserver.Utility {
 				Utility.Logger.Add( 3, string.Format( "错误报告文件写入失败。\r\n{0}\r\n{1}", ex.Message, ex.StackTrace ) );
 			}
 
+
+			if ( Utility.Configuration.Config.Debug.AlertOnError )
+				System.Media.SystemSounds.Hand.Play();
 		}
 
 	}

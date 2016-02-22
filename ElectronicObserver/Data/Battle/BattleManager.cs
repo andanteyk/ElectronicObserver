@@ -114,7 +114,7 @@ namespace ElectronicObserver.Data.Battle {
 					break;
 
 				case "api_req_sortie/ld_airbattle":
-					BattleMode = BattleModes.AirBattle;
+					BattleMode = BattleModes.AirRaid;
 					BattleDay = new BattleAirRaid();
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
