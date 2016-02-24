@@ -180,11 +180,11 @@ namespace ElectronicObserver.Window {
 
 				Formation = InitializeImageLabel();
 				Formation.Anchor = AnchorStyles.None;
-				/*
+				
 				Formation.ImageAlign = ContentAlignment.MiddleLeft;
 				Formation.ImageList = ResourceManager.Instance.Icons;
 				Formation.ImageIndex = -1;
-				*/
+				
 
 				AirSuperiority = InitializeImageLabel();
 				AirSuperiority.Anchor = AnchorStyles.Right;
@@ -262,7 +262,7 @@ namespace ElectronicObserver.Window {
 					if ( ship == null ) {
 						// nothing
 						ShipNames[i].Text = "-";
-						ShipNames[i].ForeColor = Utility.Configuration.Config.UI.ForeColor;
+						ShipNames[i].ForeColor = Color.Black;
 						ShipNames[i].Tag = -1;
 						ShipNames[i].Cursor = Cursors.Default;
 						ToolTipInfo.SetToolTip( ShipNames[i], null );
@@ -281,7 +281,7 @@ namespace ElectronicObserver.Window {
 				}
 
 				Formation.Text = Constants.GetFormationShort( fleet.Formation );
-				//Formation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + fleet.Formation - 1;
+				Formation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + fleet.Formation - 1;
 				Formation.Visible = true;
 
 				{
@@ -315,17 +315,17 @@ namespace ElectronicObserver.Window {
 				case 0:
 				case 1:		//normal
 				default:
-					return Utility.Configuration.Config.UI.ForeColor; // Color.FromArgb( 0x00, 0x00, 0x00 );
+                    return Utility.Configuration.Config.UI.ForeColor;
 				case 2:		//elite
-					return Utility.Configuration.Config.UI.EliteColor; // Color.FromArgb( 0xFF, 0x00, 0x00 );
+					return Color.FromArgb( 0xFF, 0x00, 0x00 );
 				case 3:		//flagship
-					return Utility.Configuration.Config.UI.FlagshipColor; // Color.FromArgb( 0xFF, 0x88, 0x00 );
+					return Color.FromArgb( 0xFF, 0x88, 0x00 );
 				case 4:		//latemodel / flagship kai
-					return Utility.Configuration.Config.UI.LateModelColor; // Color.FromArgb( 0x00, 0x88, 0xFF );
+					return Color.FromArgb( 0x00, 0x88, 0xFF );
 				case 5:		//latemodel elite
-					return Utility.Configuration.Config.UI.LateModelEliteColor; // Color.FromArgb( 0x88, 0x00, 0x00 );
+					return Color.FromArgb( 0x88, 0x00, 0x00 );
 				case 6:		//latemodel flagship
-					return Utility.Configuration.Config.UI.LateModelFlagshipColor; // Color.FromArgb( 0x88, 0x44, 0x00 );
+					return Color.FromArgb( 0x88, 0x44, 0x00 );
 			}
 		}
 
@@ -420,12 +420,7 @@ namespace ElectronicObserver.Window {
 			sb.Append( "火力: " ).Append( firepower_c );
 			if ( firepower_c != firepower )
 				sb.Append( "/" ).Append( firepower );
-            if ( ship.ShipType == 7 ||	// 轻空母
-				 ship.ShipType == 11 ||	// 正规空母
-                 ship.IsLandBase)
-            {
-                sb.Append( "/ 空母火力: " ).Append( CalculatorEx.CalculateFireEnemy( shipID, slot, firepower_c, torpedo_c ) );
-            }
+
 			sb.AppendLine();
 
 			sb.Append( "雷装: " ).Append( torpedo_c );
@@ -445,23 +440,17 @@ namespace ElectronicObserver.Window {
 				sb.Append( "/" ).Append( armor );
 			sb.AppendLine();
 
-			sb.Append( "対潜: " );
-			if ( asw_c < 0 ) sb.Append( "???" );
-			else sb.Append( asw_c );
+			sb.Append( "対潜: " ).Append( asw_c );
 			if ( asw_c != asw )
 				sb.Append( "/" ).Append( asw );
 			sb.AppendLine();
 
-			sb.Append( "回避: " );
-			if ( evasion_c < 0 ) sb.Append( "???" );
-			else sb.Append( evasion_c );
+			sb.Append( "回避: " ).Append( evasion_c );
 			if ( evasion_c != evasion )
 				sb.Append( "/" ).Append( evasion );
 			sb.AppendLine();
 
-			sb.Append( "索敵: " );
-			if ( los_c < 0 ) sb.Append( "???" );
-			else sb.Append( los_c );
+			sb.Append( "索敵: " ).Append( los_c );
 			if ( los_c != los )
 				sb.Append( "/" ).Append( los );
 			sb.AppendLine();
@@ -619,9 +608,9 @@ namespace ElectronicObserver.Window {
 		private void FormCompass_Load( object sender, EventArgs e ) {
 
 			BasePanel.Visible = false;
-			//TextAA.ImageList = TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
-			//TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
-			//TextAA.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
+            TextAA.ImageList = TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
+            TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
+            TextAA.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
 
 
 			APIObserver o = APIObserver.Instance;
@@ -691,10 +680,10 @@ namespace ElectronicObserver.Window {
 				BasePanel.SuspendLayout();
 				PanelEnemyFleet.Visible = false;
 				PanelEnemyCandidate.Visible = false;
-				//TextEnemyFleetName.Visible =
-				//TextFormation.Visible =
-				//TextAirSuperiority.Visible = false;
-				//TextAA.Visible = false;
+                TextEnemyFleetName.Visible =
+                TextFormation.Visible =
+                TextAirSuperiority.Visible = false;
+                TextAA.Visible = false;
 
 				_enemyFleetCandidate = null;
 				_enemyFleetCandidateIndex = -1;
@@ -705,10 +694,7 @@ namespace ElectronicObserver.Window {
 				{
 					var mapinfo = compass.MapInfo;
 
-					if ( mapinfo.IsCleared ) {
-						ToolTipInfo.SetToolTip( TextMapArea, null );
-
-					} else if ( mapinfo.RequiredDefeatedCount != -1 ) {
+					if ( mapinfo.RequiredDefeatedCount != -1 ) {
 						ToolTipInfo.SetToolTip( TextMapArea, string.Format( "撃破: {0} / {1} 回", mapinfo.CurrentDefeatedCount, mapinfo.RequiredDefeatedCount ) );
 
 					} else if ( mapinfo.MapHPMax > 0 ) {
@@ -1004,7 +990,7 @@ namespace ElectronicObserver.Window {
 			}
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
-			//TextFormation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + bd.Searching.FormationEnemy - 1;
+			TextFormation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + bd.Searching.FormationEnemy - 1;
 			TextFormation.Visible = true;
 			{
 				int air = Calculator.GetAirSuperiority( enemies, slots );
@@ -1030,10 +1016,10 @@ namespace ElectronicObserver.Window {
 
 			PanelEnemyFleet.Visible = true;
 			PanelEnemyCandidate.Visible = false;
-			//TextEnemyFleetName.Visible =
-			//TextFormation.Visible =
-			//TextAirSuperiority.Visible = true;
-			//TextAA.Visible = true;
+            TextEnemyFleetName.Visible =
+            TextFormation.Visible =
+            TextAirSuperiority.Visible = true;
+            TextAA.Visible = true;
 			BasePanel.Visible = true;			//checkme
 
 		}

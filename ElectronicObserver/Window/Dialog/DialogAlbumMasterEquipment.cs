@@ -187,129 +187,144 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void UpdateAlbumPage( int equipmentID ) {
+        private void UpdateAlbumPage(int equipmentID)
+        {
 
-			KCDatabase db = KCDatabase.Instance;
-			EquipmentDataMaster eq = db.MasterEquipments[equipmentID];
+            KCDatabase db = KCDatabase.Instance;
+            EquipmentDataMaster eq = db.MasterEquipments[equipmentID];
 
-			if ( eq == null ) return;
-
-
-			BasePanelEquipment.SuspendLayout();
+            if (eq == null) return;
 
 
-			//header
-			EquipmentID.Tag = equipmentID;
-			EquipmentID.Text = eq.EquipmentID.ToString();
-			ToolTipInfo.SetToolTip( EquipmentID, string.Format( "Type: [{0}, {1}, {2}, {3}]",
-				eq.EquipmentType[0], eq.EquipmentType[1], eq.EquipmentType[2], eq.EquipmentType[3] ) );
-			AlbumNo.Text = eq.AlbumNo.ToString();
+            BasePanelEquipment.SuspendLayout();
 
 
-			TableEquipmentName.SuspendLayout();
-
-			EquipmentType.Text = db.EquipmentTypes[eq.EquipmentType[2]].Name;
-
-			{
-				int eqicon = eq.EquipmentType[3];
-				if ( eqicon >= (int)ResourceManager.EquipmentContent.Locked )
-					eqicon = (int)ResourceManager.EquipmentContent.Unknown;
-				EquipmentType.ImageIndex = eqicon;
-
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine( "装備可能艦種:" );
-				foreach ( var stype in KCDatabase.Instance.ShipTypes.Values ) {
-					if ( stype.EquipmentType.Contains( eq.EquipmentType[2] ) )
-						sb.AppendLine( stype.Name );
-				}
-				ToolTipInfo.SetToolTip( EquipmentType, sb.ToString() );
-			}
-			EquipmentName.Text = eq.Name;
-
-			TableEquipmentName.ResumeLayout();
+            //header
+            EquipmentID.Tag = equipmentID;
+            EquipmentID.Text = eq.EquipmentID.ToString();
+            ToolTipInfo.SetToolTip(EquipmentID, string.Format("Type: [{0}, {1}, {2}, {3}]",
+                eq.EquipmentType[0], eq.EquipmentType[1], eq.EquipmentType[2], eq.EquipmentType[3]));
+            AlbumNo.Text = eq.AlbumNo.ToString();
 
 
-			//main parameter
-			TableParameterMain.SuspendLayout();
+            TableEquipmentName.SuspendLayout();
 
-			SetParameterText( Firepower, eq.Firepower );
-			SetParameterText( Torpedo, eq.Torpedo );
-			SetParameterText( AA, eq.AA );
-			SetParameterText( Armor, eq.Armor );
-			SetParameterText( ASW, eq.ASW );
-			SetParameterText( Evasion, eq.Evasion );
-			SetParameterText( LOS, eq.LOS );
-			SetParameterText( Accuracy, eq.Accuracy );
-			SetParameterText( Bomber, eq.Bomber );
+            EquipmentType.Text = db.EquipmentTypes[eq.EquipmentType[2]].Name;
 
-			TableParameterMain.ResumeLayout();
+            {
+                int eqicon = eq.EquipmentType[3];
+                if (eqicon >= (int)ResourceManager.EquipmentContent.Locked)
+                    eqicon = (int)ResourceManager.EquipmentContent.Unknown;
+                EquipmentType.ImageIndex = eqicon;
 
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("装備可能艦種:");
+                foreach (var stype in KCDatabase.Instance.ShipTypes.Values)
+                {
+                    if (stype.EquipmentType.Contains(eq.EquipmentType[2]))
+                        sb.AppendLine(stype.Name);
+                }
+                ToolTipInfo.SetToolTip(EquipmentType, sb.ToString());
+            }
+            EquipmentName.Text = eq.Name;
 
-			//sub parameter
-			TableParameterSub.SuspendLayout();
-
-			Speed.Text = "なし"; //Constants.GetSpeed( eq.Speed );
-			Range.Text = Constants.GetRange( eq.Range );
-			Rarity.Text = Constants.GetEquipmentRarity( eq.Rarity );
-			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + Constants.GetEquipmentRarityID( eq.Rarity );		//checkme
-
-			TableParameterSub.ResumeLayout();
+            TableEquipmentName.ResumeLayout();
 
 
-			//default equipment
-			DefaultSlots.BeginUpdate();
-			DefaultSlots.Items.Clear();
-			foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
-				if ( ship.DefaultSlot != null && ship.DefaultSlot.Contains( equipmentID ) ) {
-					DefaultSlots.Items.Add( ship );
-				}
-			}
-			DefaultSlots.EndUpdate();
+            //main parameter
+            TableParameterMain.SuspendLayout();
+
+            SetParameterText(Firepower, eq.Firepower);
+            SetParameterText(Torpedo, eq.Torpedo);
+            SetParameterText(AA, eq.AA);
+            SetParameterText(Armor, eq.Armor);
+            SetParameterText(ASW, eq.ASW);
+            SetParameterText(Evasion, eq.Evasion);
+            SetParameterText(LOS, eq.LOS);
+            SetParameterText(Accuracy, eq.Accuracy);
+            SetParameterText(Bomber, eq.Bomber);
+
+            TableParameterMain.ResumeLayout();
 
 
-			Description.Text = eq.Message + "\r\n\r\n[" + string.Join( ", ", eq.EquipmentType ) + "]";
+            //sub parameter
+            TableParameterSub.SuspendLayout();
+
+            Speed.Text = "なし"; //Constants.GetSpeed( eq.Speed );
+            Range.Text = Constants.GetRange(eq.Range);
+            Rarity.Text = Constants.GetEquipmentRarity(eq.Rarity);
+            Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + Constants.GetEquipmentRarityID(eq.Rarity);		//checkme
+
+            TableParameterSub.ResumeLayout();
 
 
-			//arsenal
-			TableArsenal.SuspendLayout();
-
-			MaterialFuel.Text = eq.Material[0].ToString();
-			MaterialAmmo.Text = eq.Material[1].ToString();
-			MaterialSteel.Text = eq.Material[2].ToString();
-			MaterialBauxite.Text = eq.Material[3].ToString();
-
-			TableArsenal.ResumeLayout();
-
-
-
-			//装備画像を読み込んでみる
-			{
-				string path = string.Format( @"{0}\\resources\\image\\slotitem\\card\\{1:D3}.png", Utility.Configuration.Config.Connection.SaveDataPath, equipmentID );
-				if ( File.Exists( path ) ) {
-					try {
-
-						EquipmentImage.Image = new Bitmap( path );
-
-					} catch ( Exception ) {
-						if ( EquipmentImage.Image != null )
-							EquipmentImage.Image.Dispose();
-						EquipmentImage.Image = null;
-					}
-				} else {
-					if ( EquipmentImage.Image != null )
-						EquipmentImage.Image.Dispose();
-					EquipmentImage.Image = null;
-				}
-			}
+            //default equipment
+            DefaultSlots.BeginUpdate();
+            DefaultSlots.Items.Clear();
+            foreach (var ship in KCDatabase.Instance.MasterShips.Values)
+            {
+                if (ship.DefaultSlot != null && ship.DefaultSlot.Contains(equipmentID))
+                {
+                    DefaultSlots.Items.Add(ship);
+                }
+            }
+            DefaultSlots.EndUpdate();
 
 
-			BasePanelEquipment.ResumeLayout();
-			BasePanelEquipment.Visible = true;
+            Description.Text = eq.Message + "\r\n\r\n[" + string.Join(", ", eq.EquipmentType) + "]";
 
 
-			this.Text = "装備図鑑 - " + eq.Name;
+            //arsenal
+            TableArsenal.SuspendLayout();
 
-		}
+            MaterialFuel.Text = eq.Material[0].ToString();
+            MaterialAmmo.Text = eq.Material[1].ToString();
+            MaterialSteel.Text = eq.Material[2].ToString();
+            MaterialBauxite.Text = eq.Material[3].ToString();
+
+            TableArsenal.ResumeLayout();
+
+
+
+            //装備画像を読み込んでみる
+            {
+                string path = string.Format(@"{0}\\resources\\image\\slotitem\\card\\{1:D3}.png", Utility.Configuration.Config.Connection.SaveDataPath, equipmentID);
+                string pathCache = string.Format(@"{0}\\kcs\\resources\\image\\slotitem\\card\\{1:D3}.png", Utility.Configuration.Config.CacheSettings.CacheFolder, equipmentID);
+                if (File.Exists(pathCache))
+                    path = pathCache;
+                if (File.Exists(path))
+                {
+                    try
+                    {
+
+                        EquipmentImage.Image = new Bitmap(path);
+
+                    }
+                    catch (Exception)
+                    {
+                        if (EquipmentImage.Image != null)
+                            EquipmentImage.Image.Dispose();
+                        EquipmentImage.Image = null;
+                    }
+                }
+                else
+                {
+
+                    if (EquipmentImage.Image != null)
+                        EquipmentImage.Image.Dispose();
+                    EquipmentImage.Image = null;
+
+                }
+            }
+
+
+            BasePanelEquipment.ResumeLayout();
+            BasePanelEquipment.Visible = true;
+
+
+            this.Text = "装備図鑑 - " + eq.Name;
+
+        }
 
 
 		private void SetParameterText( ImageLabel label, int value ) {
