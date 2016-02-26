@@ -280,8 +280,9 @@ namespace ElectronicObserver.Window {
 
 				}
 
-				Formation.Text = Constants.GetFormationShort( fleet.Formation );
+				//Formation.Text = Constants.GetFormationShort( fleet.Formation );
 				Formation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + fleet.Formation - 1;
+				ToolTipInfo.SetToolTip( Formation, Constants.GetFormationShort( fleet.Formation ) );
 				Formation.Visible = true;
 
 				{
@@ -941,10 +942,10 @@ namespace ElectronicObserver.Window {
 				TextEventDetail.Text = "(敵艦隊候補なし)";
 				TextEnemyFleetName.Text = string.Empty;	//			"(敵艦隊情報不明)";
 
-				//TextFormation.Visible = false;
-				//TextAirSuperiority.Visible = false;
-				//TextAA.Visible = false;
-				//TableEnemyMember.Visible = false;
+				TextFormation.Visible = false;
+				TextAirSuperiority.Visible = false;
+				TextAA.Visible = false;
+				TableEnemyMember.Visible = false;
 
 				TableEnemyCandidate.Visible = false;
 
@@ -1004,8 +1005,10 @@ namespace ElectronicObserver.Window {
 				ToolTipInfo.SetToolTip( TextEventDetail, null );
 			}
 
-			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
+			//TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
+			TextFormation.Text = string.Empty;
 			TextFormation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + bd.Searching.FormationEnemy - 1;
+			ToolTipInfo.SetToolTip( TextFormation, Constants.GetFormationShort( (int)bd.Searching.FormationEnemy ) );
 			TextFormation.Visible = true;
 			{
 				int air = Calculator.GetAirSuperiority( enemies, slots );
@@ -1013,7 +1016,6 @@ namespace ElectronicObserver.Window {
 					air.ToString() + " ～ " + Calculator.GetAirSuperiorityAtMaxLevel( enemies, slots ).ToString() :
 					air.ToString();
 				ToolTipInfo.SetToolTip( TextAirSuperiority, GetAirSuperiorityString( isPractice ? 0 : air ) );
-                //ToolTipInfo.SetToolTip(TextAirSuperiority, string.Format("优势 {0:F0}，确保 {1:F0}", airSuperiority * 1.5, airSuperiority * 3));
                 TextAirSuperiority.Visible = true;
 			}
 			TextAA.Text = CalculatorEx.GetEnemyFleetAAValue( enemies, bd.Searching.FormationEnemy ).ToString();
