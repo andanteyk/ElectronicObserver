@@ -52,12 +52,12 @@
 			this.BasePanel.Controls.Add(this.TextDestination);
 			this.BasePanel.Controls.Add(this.TextEventKind);
 			this.BasePanel.Controls.Add(this.TextEventDetail);
+			this.BasePanel.Controls.Add(this.TextEnemyFleetName);
+			this.BasePanel.Controls.Add(this.TextFormation);
+			this.BasePanel.Controls.Add(this.TextAirSuperiority);
+			this.BasePanel.Controls.Add(this.TextAA);
 			this.BasePanel.Controls.Add(this.PanelEnemyCandidate);
 			this.BasePanel.Controls.Add(this.PanelEnemyFleet);
-			//this.BasePanel.Controls.Add(this.TextEnemyFleetName);
-			//this.BasePanel.Controls.Add(this.TextFormation);
-			//this.BasePanel.Controls.Add(this.TextAirSuperiority);
-			//this.BasePanel.Controls.Add(this.TextAA);
 			this.BasePanel.Location = new System.Drawing.Point(0, 0);
 			this.BasePanel.Name = "BasePanel";
 			this.BasePanel.Size = new System.Drawing.Size(300, 200);

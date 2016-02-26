@@ -180,11 +180,11 @@ namespace ElectronicObserver.Window {
 
 				Formation = InitializeImageLabel();
 				Formation.Anchor = AnchorStyles.None;
-				/*
+
 				Formation.ImageAlign = ContentAlignment.MiddleLeft;
 				Formation.ImageList = ResourceManager.Instance.Icons;
 				Formation.ImageIndex = -1;
-				*/
+
 
 				AirSuperiority = InitializeImageLabel();
 				AirSuperiority.Anchor = AnchorStyles.Right;
@@ -281,7 +281,7 @@ namespace ElectronicObserver.Window {
 				}
 
 				Formation.Text = Constants.GetFormationShort( fleet.Formation );
-				//Formation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + fleet.Formation - 1;
+				Formation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + fleet.Formation - 1;
 				Formation.Visible = true;
 
 				{
@@ -420,12 +420,13 @@ namespace ElectronicObserver.Window {
 			sb.Append( "火力: " ).Append( firepower_c );
 			if ( firepower_c != firepower )
 				sb.Append( "/" ).Append( firepower );
+			/*
             if ( ship.ShipType == 7 ||	// 轻空母
 				 ship.ShipType == 11 ||	// 正规空母
-                 ship.IsLandBase)
-            {
+                 ship.IsLandBase) {
                 sb.Append( "/ 空母火力: " ).Append( CalculatorEx.CalculateFireEnemy( shipID, slot, firepower_c, torpedo_c ) );
             }
+			*/
 			sb.AppendLine();
 
 			sb.Append( "雷装: " ).Append( torpedo_c );
@@ -619,9 +620,9 @@ namespace ElectronicObserver.Window {
 		private void FormCompass_Load( object sender, EventArgs e ) {
 
 			BasePanel.Visible = false;
-			//TextAA.ImageList = TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
-			//TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
-			//TextAA.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
+			TextAA.ImageList = TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
+			TextAirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
+			TextAA.ImageIndex = (int)ResourceManager.EquipmentContent.AADirector;
 
 
 			APIObserver o = APIObserver.Instance;
@@ -691,10 +692,10 @@ namespace ElectronicObserver.Window {
 				BasePanel.SuspendLayout();
 				PanelEnemyFleet.Visible = false;
 				PanelEnemyCandidate.Visible = false;
-				//TextEnemyFleetName.Visible =
-				//TextFormation.Visible =
-				//TextAirSuperiority.Visible = false;
-				//TextAA.Visible = false;
+				TextEnemyFleetName.Visible =
+				TextFormation.Visible =
+				TextAirSuperiority.Visible = false;
+				TextAA.Visible = false;
 
 				_enemyFleetCandidate = null;
 				_enemyFleetCandidateIndex = -1;
@@ -1004,7 +1005,7 @@ namespace ElectronicObserver.Window {
 			}
 
 			TextFormation.Text = Constants.GetFormationShort( (int)bd.Searching.FormationEnemy );
-			//TextFormation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + bd.Searching.FormationEnemy - 1;
+			TextFormation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + bd.Searching.FormationEnemy - 1;
 			TextFormation.Visible = true;
 			{
 				int air = Calculator.GetAirSuperiority( enemies, slots );
@@ -1030,10 +1031,10 @@ namespace ElectronicObserver.Window {
 
 			PanelEnemyFleet.Visible = true;
 			PanelEnemyCandidate.Visible = false;
-			//TextEnemyFleetName.Visible =
-			//TextFormation.Visible =
-			//TextAirSuperiority.Visible = true;
-			//TextAA.Visible = true;
+			TextEnemyFleetName.Visible =
+			TextFormation.Visible =
+			TextAirSuperiority.Visible = true;
+			TextAA.Visible = true;
 			BasePanel.Visible = true;			//checkme
 
 		}

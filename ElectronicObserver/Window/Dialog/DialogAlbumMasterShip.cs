@@ -124,7 +124,14 @@ namespace ElectronicObserver.Window.Dialog {
 			ControlHelper.SetDoubleBuffered( ShipView );
 
 
-			//ShipView Initialize
+			LoadShips(null);
+
+			this.ResumeLayoutForDpiScale();
+		}
+
+		private void LoadShips(string filter) {
+
+            //ShipView Initialize
 			ShipView.SuspendLayout();
 
 			ShipView_ShipID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -138,6 +145,7 @@ namespace ElectronicObserver.Window.Dialog {
 			foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
 
 				if ( ship.Name == "なし" ) continue;
+				if ( filter != null && filter.Length > 0 && !ship.Name.Contains( filter ) ) continue;
 
 				DataGridViewRow row = new DataGridViewRow();
 				row.CreateCells( ShipView );
@@ -150,10 +158,10 @@ namespace ElectronicObserver.Window.Dialog {
 			ShipView_ShipID.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 			ShipView_ShipType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 
-			ShipView.Sort( ShipView_ShipID, ListSortDirection.Ascending );
-			ShipView.ResumeLayout();
+			if ( filter == null )
+				ShipView.Sort( ShipView_ShipID, ListSortDirection.Ascending );
 
-			this.ResumeLayoutForDpiScale();
+            ShipView.ResumeLayout();
 		}
 
 		public DialogAlbumMasterShip( int shipID )
@@ -729,6 +737,11 @@ namespace ElectronicObserver.Window.Dialog {
 			return sb.ToString();
 		}
 
+
+        private void StripMenu_Search_TextChanged(object sender, EventArgs e)
+        {
+            LoadShips(StripMenu_Search.Text);
+        }
 
 		private void StripMenu_File_OutputCSVUser_Click( object sender, EventArgs e ) {
 

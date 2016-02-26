@@ -30,6 +30,7 @@
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_OutputCSVData = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Search = new System.Windows.Forms.ToolStripTextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.ShipView = new System.Windows.Forms.DataGridView();
 			this.ShipView_ShipID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -174,7 +175,8 @@
 			// 
 			ToolStripCustomizer.ToolStripRender.SetRender(this.menuStrip1);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_File});
+            this.StripMenu_File,
+            this.StripMenu_Search});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -203,6 +205,12 @@
 			this.StripMenu_File_OutputCSVData.Size = new System.Drawing.Size(203, 22);
 			this.StripMenu_File_OutputCSVData.Text = "CSV出力(データ用)(&D)...";
 			this.StripMenu_File_OutputCSVData.Click += new System.EventHandler(this.StripMenu_File_OutputCSVData_Click);
+			// 
+			// StripMenu_Search
+			// 
+			this.StripMenu_Search.Name = "StripMenu_Search";
+			this.StripMenu_Search.Size = new System.Drawing.Size(120, 20);
+			this.StripMenu_Search.TextChanged += new System.EventHandler(this.StripMenu_Search_TextChanged);
 			// 
 			// splitContainer1
 			// 
@@ -1948,6 +1956,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_OutputCSVUser;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_OutputCSVData;
+		private System.Windows.Forms.ToolStripTextBox StripMenu_Search;
 		private System.Windows.Forms.SaveFileDialog SaveCSVDialog;
 		private Control.ImageLabel AlbumNo;
 		private Control.ImageLabel imageLabel2;
