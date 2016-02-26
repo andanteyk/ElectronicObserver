@@ -1598,7 +1598,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 		private static int GetWinRankAirRaid( int countFriend, int sunkFriend, double friendrate ) {
 			int rank;
 
-			if ( friendrate == 0.0 )
+			if ( friendrate <= 0.0 )
 				rank = 7;	//SS
 			else if ( friendrate < 0.1 )
 				rank = 5;	//A

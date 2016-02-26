@@ -324,6 +324,7 @@ namespace ElectronicObserver.Window {
 			if ( QuestView.SortedColumn != null )
 				QuestView.Sort( QuestView.SortedColumn, QuestView.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending );
 
+
 			QuestView.ResumeLayout();
 		}
 
@@ -505,10 +506,74 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+
+
+		private void QuestView_CellMouseDown( object sender, DataGridViewCellMouseEventArgs e ) {
+
+			if ( e.Button == System.Windows.Forms.MouseButtons.Right && e.RowIndex >= 0 ) {
+				QuestView.ClearSelection();
+				QuestView.Rows[e.RowIndex].Selected = true;
+			}
+
+		}
+
+		private void MenuProgress_Increment_Click( object sender, EventArgs e ) {
+
+			var rows = QuestView.SelectedRows;
+
+			if ( rows != null && rows.Count > 0 && rows[0].Index != -1 ) {
+
+				int id = rows[0].Cells[QuestView_Name.Index].Value as int? ?? -1;
+
+				var quest = KCDatabase.Instance.Quest[id];
+				var progress = KCDatabase.Instance.QuestProgress[id];
+
+				if ( id != -1 && quest != null && progress != null ) {
+
+					try {
+						progress.Increment();
+						Updated();
+
+					} catch ( Exception ) {
+						Utility.Logger.Add( 3, "この任務の進捗を変更することはできません。" );
+						System.Media.SystemSounds.Hand.Play();
+					}
+				}
+			}
+		}
+
+		private void MenuProgress_Decrement_Click( object sender, EventArgs e ) {
+
+			var rows = QuestView.SelectedRows;
+
+			if ( rows != null && rows.Count > 0 && rows[0].Index != -1 ) {
+
+				int id = rows[0].Cells[QuestView_Name.Index].Value as int? ?? -1;
+
+				var quest = KCDatabase.Instance.Quest[id];
+				var progress = KCDatabase.Instance.QuestProgress[id];
+
+				if ( id != -1 && quest != null && progress != null ) {
+
+					try {
+						progress.Decrement();
+						Updated();
+
+					} catch ( Exception ) {
+						Utility.Logger.Add( 3, "この任務の進捗を変更することはできません。" );
+						System.Media.SystemSounds.Hand.Play();
+					}
+				}
+			}
+		}
+
+
+
+
 		public override string GetPersistString() {
 			return "Quest";
 		}
-
 
 	}
 }

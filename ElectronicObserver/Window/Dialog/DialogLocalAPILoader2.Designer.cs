@@ -34,13 +34,14 @@
 			this.Menu_File_OpenFolder = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_File_Reload = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.ButtonSearchLastStart2 = new System.Windows.Forms.Button();
 			this.ButtonSearch = new System.Windows.Forms.Button();
 			this.TextFilter = new System.Windows.Forms.TextBox();
 			this.ButtonExecuteNext = new System.Windows.Forms.Button();
 			this.ButtonExecute = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.APICaller = new System.ComponentModel.BackgroundWorker();
-			this.ButtonSearchLastStart2 = new System.Windows.Forms.Button();
+			this.ButtonSearchPrev = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.APIView)).BeginInit();
 			this.ViewMenu.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -148,6 +149,7 @@
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.ButtonSearchPrev);
 			this.splitContainer1.Panel2.Controls.Add(this.ButtonSearchLastStart2);
 			this.splitContainer1.Panel2.Controls.Add(this.ButtonSearch);
 			this.splitContainer1.Panel2.Controls.Add(this.TextFilter);
@@ -157,10 +159,20 @@
 			this.splitContainer1.SplitterDistance = 331;
 			this.splitContainer1.TabIndex = 2;
 			// 
+			// ButtonSearchLastStart2
+			// 
+			this.ButtonSearchLastStart2.Location = new System.Drawing.Point(174, 3);
+			this.ButtonSearchLastStart2.Name = "ButtonSearchLastStart2";
+			this.ButtonSearchLastStart2.Size = new System.Drawing.Size(80, 23);
+			this.ButtonSearchLastStart2.TabIndex = 4;
+			this.ButtonSearchLastStart2.Text = "Last start2";
+			this.ButtonSearchLastStart2.UseVisualStyleBackColor = true;
+			this.ButtonSearchLastStart2.Click += new System.EventHandler(this.ButtonSearchLastStart2_Click);
+			// 
 			// ButtonSearch
 			// 
 			this.ButtonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonSearch.Location = new System.Drawing.Point(537, 31);
+			this.ButtonSearch.Location = new System.Drawing.Point(456, 32);
 			this.ButtonSearch.Name = "ButtonSearch";
 			this.ButtonSearch.Size = new System.Drawing.Size(75, 23);
 			this.ButtonSearch.TabIndex = 3;
@@ -174,7 +186,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextFilter.Location = new System.Drawing.Point(12, 32);
 			this.TextFilter.Name = "TextFilter";
-			this.TextFilter.Size = new System.Drawing.Size(519, 23);
+			this.TextFilter.Size = new System.Drawing.Size(438, 23);
 			this.TextFilter.TabIndex = 2;
 			this.TextFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFilter_KeyDown);
 			// 
@@ -203,15 +215,16 @@
 			this.APICaller.WorkerSupportsCancellation = true;
 			this.APICaller.DoWork += new System.ComponentModel.DoWorkEventHandler(this.APICaller_DoWork);
 			// 
-			// ButtonSearchLastStart2
+			// ButtonSearchPrev
 			// 
-			this.ButtonSearchLastStart2.Location = new System.Drawing.Point(174, 3);
-			this.ButtonSearchLastStart2.Name = "ButtonSearchLastStart2";
-			this.ButtonSearchLastStart2.Size = new System.Drawing.Size(80, 23);
-			this.ButtonSearchLastStart2.TabIndex = 4;
-			this.ButtonSearchLastStart2.Text = "Last start2";
-			this.ButtonSearchLastStart2.UseVisualStyleBackColor = true;
-			this.ButtonSearchLastStart2.Click += new System.EventHandler(this.ButtonSearchLastStart2_Click);
+			this.ButtonSearchPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonSearchPrev.Location = new System.Drawing.Point(537, 32);
+			this.ButtonSearchPrev.Name = "ButtonSearchPrev";
+			this.ButtonSearchPrev.Size = new System.Drawing.Size(75, 23);
+			this.ButtonSearchPrev.TabIndex = 5;
+			this.ButtonSearchPrev.Text = "前に検索";
+			this.ButtonSearchPrev.UseVisualStyleBackColor = true;
+			this.ButtonSearchPrev.Click += new System.EventHandler(this.ButtonSearchPrev_Click);
 			// 
 			// DialogLocalAPILoader2
 			// 
@@ -258,5 +271,6 @@
 		private System.Windows.Forms.Button ButtonSearch;
 		private System.Windows.Forms.TextBox TextFilter;
 		private System.Windows.Forms.Button ButtonSearchLastStart2;
+		private System.Windows.Forms.Button ButtonSearchPrev;
 	}
 }
