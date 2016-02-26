@@ -1,5 +1,4 @@
 ﻿using Codeplex.Data;
-using ElectronicObserver.Observer.Cache;
 using ElectronicObserver.Observer.kcsapi;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Mathematics;
@@ -30,7 +29,6 @@ namespace ElectronicObserver.Observer {
 
 		#endregion
 
-		private CacheCore Cache;
 
 		public APIDictionary APIList { get; private set; }
 
@@ -119,7 +117,6 @@ namespace ElectronicObserver.Observer {
 			Fiddler.FiddlerApplication.BeforeResponse += FiddlerApplication_BeforeResponse;
 			Fiddler.FiddlerApplication.AfterSessionComplete += FiddlerApplication_AfterSessionComplete;
 
-			Cache = new CacheCore();
 		}
 
 
@@ -173,8 +170,6 @@ namespace ElectronicObserver.Observer {
 
 			Utility.Logger.Add( 2, "APIObserver: 监听终止。" );
 
-			//if ( Utility.Configuration.Config.CacheSettings.CacheEnabled )
-				//Cache.SaveCacheList();
 		}
 
 
@@ -280,28 +275,17 @@ namespace ElectronicObserver.Observer {
 				string body = oSession.GetResponseBodyAsString();
 				UIControl.BeginInvoke( (Action)( () => { LoadResponse( url, body ); } ) );
 
-			} else if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.responseCode == 200 ) {
-
-				string filepath = TaskRecord.GetAndRemove( oSession.fullUrl );
-				if ( !string.IsNullOrEmpty( filepath ) ) {
-					if ( File.Exists( filepath ) )
-						File.Delete( filepath );
-
-					//保存下载文件并记录Modified-Time
-					try {
-
-						if ( Configuration.Config.Log.ShowCacheLog ) {
-
-							Utility.Logger.Add( 2, string.Format( "更新缓存文件： {0}.", filepath ) );
-						}
-
-						oSession.SaveResponseBody( filepath );
-						_SaveModifiedTime( filepath, oSession.oResponse.headers["Last-Modified"] );
-						//Debug.WriteLine("CACHR> 【下载文件】" + oSession.PathAndQuery);
-					} catch ( Exception ex ) {
-						Utility.ErrorReporter.SendErrorReport( ex, "会话结束时，保存返回文件时发生异常：" + oSession.fullUrl );
-					}
+			} else if ( Configuration.Instance.ObserverPlugins.Select( p => {
+				try {
+					return p.OnAfterSessionComplete( oSession );
+				} catch ( Exception oe ) {
+					Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnAfterSessionComplete 时出错！", p.MenuTitle, p.Version ) );
+					ErrorReporter.SendErrorReport( oe, p.MenuTitle );
+					return false;
 				}
+			} ).Any( b => b ) ) {
+
+				// do nothing.
 			}
 
 			// 保存本地api_start2
@@ -332,22 +316,17 @@ namespace ElectronicObserver.Observer {
 		private Regex _qualityRegex = new Regex( @"""quality""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
 
 		private void FiddlerApplication_BeforeResponse( Fiddler.Session oSession ) {
-			if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.PathAndQuery.StartsWith( "/kcs/" ) && oSession.responseCode == 304 ) {
-				string filepath = TaskRecord.GetAndRemove( oSession.fullUrl );
-				//只有TaskRecord中有记录的文件才是验证的文件，才需要修改Header
-				if ( !string.IsNullOrEmpty( filepath ) ) {
-					//服务器返回304，文件没有修改 -> 返回本地文件
-					oSession.bBufferResponse = true;
-					oSession.ResponseBody = File.ReadAllBytes( filepath );
-					oSession.oResponse.headers.HTTPResponseCode = 200;
-					oSession.oResponse.headers.HTTPResponseStatus = "200 OK";
-					oSession.oResponse.headers["Last-Modified"] = oSession.oRequest.headers["If-Modified-Since"];
-					oSession.oResponse.headers["Accept-Ranges"] = "bytes";
-					oSession.oResponse.headers.Remove( "If-Modified-Since" );
-					oSession.oRequest.headers.Remove( "If-Modified-Since" );
-					if ( filepath.EndsWith( ".swf" ) )
-						oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
+			if ( Configuration.Instance.ObserverPlugins.Select( p => {
+				try {
+					return p.OnBeforeResponse( oSession );
+				} catch ( Exception oe ) {
+					Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnBeforeResponse 时出错！", p.MenuTitle, p.Version ) );
+					ErrorReporter.SendErrorReport( oe, p.MenuTitle );
+					return false;
 				}
+			} ).Any( b => b ) ) {
+
+				// do nothing
 
 			} else if ( oSession.PathAndQuery.StartsWith( "/kcs" ) && oSession.responseCode >= 400 ) {
 
@@ -542,47 +521,17 @@ namespace ElectronicObserver.Observer {
 				}
 
 				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
-			} else if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.fullUrl.Contains( "/kcs/" ) ) {
-
-				// = KanColleCacher =
-				string filepath;
-				var direction = Cache.GotNewRequest( oSession.fullUrl, out filepath );
-
-				if ( direction == Direction.Return_LocalFile ) {
-
-					//返回本地文件
-					oSession.utilCreateResponseAndBypassServer();
-					oSession.ResponseBody = File.ReadAllBytes( filepath );
-					oSession.oResponse.headers["Server"] = "Apache";
-					oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
-					oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
-					oSession.oResponse.headers["Connection"] = "close";
-					oSession.oResponse.headers["Accept-Ranges"] = "bytes";
-
-					filepath = filepath.ToLower();
-					if ( filepath.EndsWith( ".swf" ) )
-						oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
-					else if ( filepath.EndsWith( ".mp3" ) )
-						oSession.oResponse.headers["Content-Type"] = "audio/mpeg";
-					else if ( filepath.EndsWith( ".png" ) )
-						oSession.oResponse.headers["Content-Type"] = "image/png";
-
-					//Debug.WriteLine("CACHR> 【返回本地】" + result);
-
-				} else if ( direction == Direction.Verify_LocalFile ) {
-
-					//请求服务器验证文件
-					oSession.oRequest.headers["If-Modified-Since"] = _GetModifiedTime( filepath );
-					oSession.bBufferResponse = true;
-
-					//Debug.WriteLine("CACHR> 【验证文件】" + oSession.PathAndQuery);
-
-				} else if ( Configuration.Config.Log.ShowCacheLog && ( Configuration.Config.Log.ShowMainD2Link || !oSession.fullUrl.Contains( "mainD2.swf" ) ) ) {
-
-					//下载文件
-					Utility.Logger.Add( 2, string.Format( "重新下载缓存文件: {0}", oSession.fullUrl ) );
+			} else if ( Configuration.Instance.ObserverPlugins.Select( p => {
+				try {
+					return p.OnBeforeRequest( oSession );
+				} catch ( Exception oe ) {
+					Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnBeforeRequest 时出错！", p.MenuTitle, p.Version ) );
+					ErrorReporter.SendErrorReport( oe, p.MenuTitle );
+					return false;
 				}
+			} ).Any( b => b ) ) {
 
+				// just skip the control flow: ObserverPlugin applied.
 			}
 
 			// use cache js
@@ -614,25 +563,20 @@ namespace ElectronicObserver.Observer {
 			}
 
 			// block media
-			else if ( Utility.Configuration.Config.Connection.BlockMedia )
-			{
+			else if ( Utility.Configuration.Config.Connection.BlockMedia ) {
 				string file = oSession.PathAndQuery;
 				int n = file.IndexOf( '?' );
 				if ( n > 0 )
 					file = file.Substring( 0, n );
 
 				string ext = file.Substring( file.LastIndexOf( '.' ) + 1 ).ToLower();
-				if ( ext == "jpg" || ext == "gif" || ext == "png" )
-				{
+				if ( ext == "jpg" || ext == "gif" || ext == "png" ) {
 					// 直接返回204
 					oSession.utilCreateResponseAndBypassServer();
 					oSession.responseCode = 204;
-				}
-				else if ( ext == "css" )
-				{
+				} else if ( ext == "css" ) {
 					string path = Path.Combine( Utility.Configuration.Config.CacheSettings.CacheFolder, "kcs" ) + file.Replace( '/', '\\' );
-					if ( File.Exists( path ) )
-					{
+					if ( File.Exists( path ) ) {
 						// 返回缓存
 						oSession.utilCreateResponseAndBypassServer();
 						oSession.ResponseBody = File.ReadAllBytes( path );
@@ -648,32 +592,6 @@ namespace ElectronicObserver.Observer {
 
 		}
 
-
-		private string _GetModifiedTime( string filepath ) {
-			FileInfo fi;
-			DateTime dt = default( DateTime );
-			try {
-				fi = new FileInfo( filepath );
-				dt = fi.LastWriteTime;
-				return GMTHelper.ToGMTString( dt );
-			} catch ( Exception ex ) {
-				Utility.ErrorReporter.SendErrorReport( ex, "在读取文件修改时间时发生异常：" + dt );
-				return "";
-			}
-		}
-
-		private void _SaveModifiedTime( string filepath, string gmTime ) {
-			FileInfo fi;
-			try {
-				fi = new FileInfo( filepath );
-				DateTime dt = GMTHelper.GMT2Local( gmTime );
-				if ( dt.Year > 1900 ) {
-					fi.LastWriteTime = dt;
-				}
-			} catch ( Exception ex ) {
-				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "在保存文件修改时间时发生异常。filepath: {0}, gmTime: {1}", filepath, gmTime ) );
-			}
-		}
 
 
 		public void LoadRequest( string path, string data ) {

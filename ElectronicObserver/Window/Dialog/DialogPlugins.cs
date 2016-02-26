@@ -50,15 +50,22 @@ namespace ElectronicObserver.Window.Dialog
 					case Plugins.PluginType.DockContent:
 						item.Group = listViewPlugins.Groups["groupDockContent"];
 						break;
+
 					case Plugins.PluginType.Service:
 						item.Group = listViewPlugins.Groups["groupService"];
 						break;
+
 					case Plugins.PluginType.Dialog:
 						item.Group = listViewPlugins.Groups["groupDialog"];
+						break;
+
+					case Plugins.PluginType.Observer:
+						item.Group = listViewPlugins.Groups["groupObserver"];
 						break;
 				}
 				listViewPlugins.Items.Add( item );
 			}
+
 		}
 
 		private void listViewPlugins_SelectedIndexChanged( object sender, EventArgs e )

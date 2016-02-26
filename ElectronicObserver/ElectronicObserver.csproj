@@ -172,10 +172,6 @@
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Notifier\NotifierDialogData.cs" />
     <Compile Include="Observer\APIGraphicList.cs" />
-    <Compile Include="Observer\Cache\CacheCore.cs" />
-    <Compile Include="Observer\Cache\Extensions.cs" />
-    <Compile Include="Observer\Cache\GMTHelper.cs" />
-    <Compile Include="Observer\Cache\TaskRecord.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\payitem.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\record.cs" />
@@ -195,6 +191,7 @@
     <Compile Include="Observer\kcsapi\api_req_sortie\ld_airbattle.cs" />
     <Compile Include="Resource\ImageCollection.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
+    <Compile Include="Utility\Mathematics\GMTHelper.cs" />
     <Compile Include="Utility\SyncBGMPlayer.cs" />
     <Compile Include="Utility\MediaPlayer.cs" />
     <Compile Include="Utility\Modify\ModifyConfiguration.cs" />
@@ -485,12 +482,15 @@
     <Compile Include="Window\Plugins\PluginSettingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Window\Plugins\ObserverPlugin.cs" />
     <Compile Include="Window\Plugins\ServerPlugin.cs" />
     <Compile Include="Window\Plugins\DialogPlugin.cs" />
     <Compile Include="Window\Plugins\DockPlugin.cs" />
     <Compile Include="Window\Plugins\IPluginHost.cs" />
     <Compile Include="Window\Support\ControlHelper.cs" />
-    <Compile Include="Window\Support\CustomFloatWindowFactory.cs" />
+    <Compile Include="Window\Support\CustomFloatWindowFactory.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
     <EmbeddedResource Include="Window\Control\ColorPicker.resx">
       <DependentUpon>ColorPicker.cs</DependentUpon>

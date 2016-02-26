@@ -5,6 +5,7 @@ using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Utility.Storage;
 using ElectronicObserver.Window.Dialog;
+using ElectronicObserver.Window.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -1203,6 +1204,21 @@ namespace ElectronicObserver.Utility {
 			get { return _config; }
 		}
 
+
+		private List<ObserverPlugin> _observerPlugins = new List<ObserverPlugin>();
+		
+		public List<ObserverPlugin> ObserverPlugins {
+			get { return _observerPlugins; }
+		}
+
+		public void ClearObserverPlugins() {
+			_observerPlugins.Clear();
+		}
+
+		public void AddObserverPlugin( ObserverPlugin plugin ) {
+			if ( plugin != null )
+				_observerPlugins.Add( plugin );
+		}
 
 
 		private Configuration()

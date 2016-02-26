@@ -350,6 +350,15 @@ namespace ElectronicObserver.Window {
 							StripMenu_Tool.DropDownItems.Add( item );
 						}
 
+						// observer
+						else if ( plugin.PluginType == PluginType.Observer ) {
+
+							if ( plugin is ObserverPlugin )
+								Utility.Configuration.Instance.AddObserverPlugin( (ObserverPlugin)plugin );
+							else
+								Utility.Logger.Add( 3, string.Format( "观察器 {0}({1}) 类型无效。", plugin.MenuTitle, plugin.Version ) );
+						}
+
 					}
 					catch ( Exception ex )
 					{

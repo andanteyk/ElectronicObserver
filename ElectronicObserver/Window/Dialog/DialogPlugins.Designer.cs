@@ -31,6 +31,7 @@
 			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("浮动内容", System.Windows.Forms.HorizontalAlignment.Left);
 			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("服务类", System.Windows.Forms.HorizontalAlignment.Left);
 			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("对话框类", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("观察器", System.Windows.Forms.HorizontalAlignment.Left);
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.listViewPlugins = new ElectronicObserver.Window.Dialog.PluginListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -76,7 +77,10 @@
 			listViewGroup2.Name = "groupService";
 			listViewGroup3.Header = "对话框类";
 			listViewGroup3.Name = "groupDialog";
+			listViewGroup4.Header = "观察器";
+			listViewGroup4.Name = "groupObserver";
 			this.listViewPlugins.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup4,
             listViewGroup1,
             listViewGroup2,
             listViewGroup3});

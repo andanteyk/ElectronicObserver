@@ -12,7 +12,8 @@ namespace ElectronicObserver.Window.Plugins
 	{
 		DockContent = 0,
 		Dialog,
-		Service
+		Service,
+		Observer
 	}
 
 	public interface IPluginHost

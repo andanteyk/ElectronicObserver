@@ -56,13 +56,13 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public IEnumerable<int> MVPShipIndexes {
 			get {
-				int max = _attackDamages.Take( 6 ).Max();
+				int max = _attackDamages.Take( 6 ).Zip( _attackAirDamages.Take( 6 ), ( dmg, air ) => ( dmg + air ) ).Max();
 				if ( max == 0 ) {		// 全員ノーダメージなら旗艦MVP
 					yield return 0;
 
 				} else {
 					for ( int i = 0; i < 6; i++ ) {
-						if ( _attackDamages[i] == max )
+						if ( _attackDamages[i] + _attackAirDamages[i] == max )
 							yield return i;
 					}
 				}
@@ -76,13 +76,13 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public IEnumerable<int> MVPShipCombinedIndexes {
 			get {
-				int max = _attackDamages.Skip( 12 ).Take( 6 ).Max();
+				int max = _attackDamages.Skip( 12 ).Take( 6 ).Zip( _attackAirDamages.Skip( 12 ).Take( 6 ), ( dmg, air ) => ( dmg + air ) ).Max();
 				if ( max == 0 ) {		// 全員ノーダメージなら旗艦MVP
 					yield return 0;
 
 				} else {
 					for ( int i = 0; i < 6; i++ ) {
-						if ( _attackDamages[i + 12] == max )
+						if ( _attackDamages[i + 12] + _attackAirDamages[i + 12] == max )
 							yield return i;
 					}
 				}
