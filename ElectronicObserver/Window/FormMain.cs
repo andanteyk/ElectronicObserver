@@ -164,6 +164,7 @@ namespace ElectronicObserver.Window {
 			LoadLayout( Configuration.Config.Life.LayoutFilePath );
 
 
+
 			SoftwareInformation.CheckUpdate();
 
 			// デバッグ: 開始時にAPIリストを読み込む
@@ -192,12 +193,16 @@ namespace ElectronicObserver.Window {
 
 
 			Utility.Logger.Add( 3, "起動処理が完了しました。" );
+
 		}
 
 
 		private void FormMain_Shown( object sender, EventArgs e ) {
-			//Load で設定すると無視されるかバグる(タスクバーに出なくなる)のでここで設定
-			TopMost = Utility.Configuration.Config.Life.TopMost;	
+			// Load で設定すると無視されるかバグる(タスクバーに出なくなる)のでここで設定
+			TopMost = Utility.Configuration.Config.Life.TopMost;
+
+			// HACK: タスクバーに表示されなくなる不具合への応急処置　効くかは知らない
+			Show();
 		}
 
 
