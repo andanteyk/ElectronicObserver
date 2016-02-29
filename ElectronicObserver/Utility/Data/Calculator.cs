@@ -502,10 +502,11 @@ namespace ElectronicObserver.Utility.Data {
 				if ( eq == null ) continue;
 
 				switch ( eq.EquipmentType[2] ) {
-					case 6:
-					case 7:
-					case 8:
-					case 11:
+					case 6:		// 艦上戦闘機
+					case 7:		// 艦上爆撃機
+					case 8:		// 艦上攻撃機
+					case 11:	// 水上爆撃機
+					case 45:	// 水上戦闘機
 						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
 						break;
 				}
@@ -561,7 +562,8 @@ namespace ElectronicObserver.Utility.Data {
 			{ 6, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },	//艦上戦闘機
 			{ 7, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上爆撃機
 			{ 8, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上攻撃機
-			{ 11, new int[] { 0, 1, 1, 1, 1, 3, 3, 6, 6 } },		//水上爆撃機
+			{ 11, new int[] { 0, 1, 1, 1, 1, 3, 3, 6, 6 } },	//水上爆撃機
+			{ 45, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },	//水上戦闘機
 		};
 
 		/// <summary>
@@ -1297,6 +1299,11 @@ namespace ElectronicObserver.Utility.Data {
 							return 17;
 					}
 					break;
+
+				case 418:	//皐月改二
+					if ( aagun_concentrated >= 1 )
+						return 18;
+					break;
 			}
 
 
@@ -1347,6 +1354,7 @@ namespace ElectronicObserver.Utility.Data {
 				case 11:	//水上爆撃機
 				case 25:	//オートジャイロ
 				case 26:	//対潜哨戒機
+				case 45:	//水上戦闘機
 					return true;
 
 				case 9:		//艦上偵察機
