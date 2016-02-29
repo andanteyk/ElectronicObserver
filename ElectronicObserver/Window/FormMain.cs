@@ -191,10 +191,6 @@ namespace ElectronicObserver.Window {
 			task = Task.Factory.StartNew( () => SoftwareInformation.CheckUpdate() );
 
 
-			// 🎃
-			if ( DateTime.Now.Month == 10 && DateTime.Now.Day == 31 ) {
-				APIObserver.Instance.APIList["api_port/port"].ResponseReceived += CallPumpkinHead;
-			}
 
 
 			// 完了通知（ログインページを開く）
@@ -217,6 +213,9 @@ namespace ElectronicObserver.Window {
 			}
 
 			Utility.Logger.Add( 3, "启动处理完毕。" );
+
+			// HACK: タスクバーに表示されなくなる不具合への応急処置　効くかは知らない
+			Show();
 		}
 
 		private object _sync = new object();
@@ -367,6 +366,7 @@ namespace ElectronicObserver.Window {
 
 				}
 			}
+
 		}
 
 		void dialogPlugin_Click( object sender, EventArgs e )

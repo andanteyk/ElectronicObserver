@@ -915,10 +915,11 @@ namespace ElectronicObserver.Data {
 						case 7:		//艦爆
 						case 8:		//艦攻
 						case 11:	//水爆
-						case 14:	//爆雷
-						case 15:	//ソナー
+						case 14:	//ソナー
+						case 15:	//爆雷
 						case 25:	//オートジャイロ
 						case 26:	//対潜哨戒機
+						case 40:	//大型ソナー
 							eqpower += slot.MasterEquipment.ASW;
 							break;
 					}
@@ -935,8 +936,7 @@ namespace ElectronicObserver.Data {
 				basepower *= GetHPDamageBonus();
 
 				//対潜シナジー
-				if ( ( SlotInstanceMaster.Where( s => s != null && s.CategoryType == 14 ).Any() ||		//ソナー
-					 SlotInstanceMaster.Where( s => s != null && s.CategoryType == 40 ).Any() ) &&		//大型ソナー
+				if ( SlotInstanceMaster.Where( s => s != null && ( s.CategoryType == 14 || s.CategoryType == 40 ) ).Any() &&		//ソナー or 大型ソナー
 					 SlotInstanceMaster.Where( s => s != null && s.CategoryType == 15 ).Any() )			//爆雷
 					basepower *= 1.15;
 
