@@ -988,6 +988,16 @@ namespace Browser {
 				}
 			}
 
+            if (e.KeyData == Keys.F8)
+            {
+                if (Configuration.IsToolMenuVisible)
+                    ToolMenu_Other_Alignment_Invisible_Click(ToolMenu_Other_Alignment_Invisible, null);
+                else
+                    ContextMenuTool_ShowToolMenu_Click(ContextMenuTool_ShowToolMenu, null);
+                e.Handled = true;
+            }
+
+
 			/*// 有効にするとショートカットが完全に無効化できる代わりに提督コメント・艦隊名が入力不能に
 			if ( IsKanColleLoaded )
 				e.Handled = true;

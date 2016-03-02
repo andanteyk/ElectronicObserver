@@ -227,6 +227,16 @@ namespace ElectronicObserver.Window {
 						ControlDock[i].ShipName.ForeColor = ForeColor;
 						ControlDock[i].RepairTime.ForeColor = ForeColor;
 					}
+
+                    if (Utility.Configuration.Config.FormFleet.FixShipNameWidth)
+                    {
+                        ControlDock[i].ShipName.AutoSize = false;
+                        ControlDock[i].ShipName.Width = 40;
+                    }
+                    else
+                    {
+                        ControlDock[i].ShipName.AutoSize = true;
+                    }
 				}
 			}
 		}
