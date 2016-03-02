@@ -135,7 +135,7 @@ namespace ElectronicObserver.Observer
 			}
 			catch ( Exception ex )
 			{
-				Utility.ErrorReporter.SendErrorReport( ex, "送信至 poi-statistics 失败" );
+                Utility.Logger.Add(1, "送信至 poi-statistics 失败 : " + ex.Message);
 			}
 #endif
 		}
