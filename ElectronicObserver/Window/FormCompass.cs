@@ -992,7 +992,7 @@ namespace ElectronicObserver.Window {
 
 			_enemyFleetCandidate = null;
 			_enemyFleetCandidateIndex = -1;
-
+            PanelEnemyCandidate.Visible = false;
 
 
 			if ( ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) != BattleManager.BattleModes.Practice ) {
@@ -1032,7 +1032,7 @@ namespace ElectronicObserver.Window {
 			TableEnemyMember.Visible = true;
 
 			PanelEnemyFleet.Visible = true;
-			PanelEnemyCandidate.Visible = false;
+			
 			TextEnemyFleetName.Visible =
 			TextFormation.Visible =
 			TextAirSuperiority.Visible = true;
