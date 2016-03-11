@@ -543,7 +543,7 @@ namespace ElectronicObserver.Observer {
 					//返回本地文件
 					oSession.utilCreateResponseAndBypassServer();
 					oSession.ResponseBody = File.ReadAllBytes( filepath );
-					oSession.oResponse.headers["Server"] = "Apache";
+					oSession.oResponse.headers["Server"] = "nginx";
 					oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
 					oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
 					oSession.oResponse.headers["Connection"] = "close";
@@ -580,7 +580,7 @@ namespace ElectronicObserver.Observer {
 						// 返回缓存
 						oSession.utilCreateResponseAndBypassServer();
 						oSession.ResponseBody = File.ReadAllBytes( path );
-						oSession.oResponse.headers["Server"] = "Apache";
+						oSession.oResponse.headers["Server"] = "nginx";
 						oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
 						oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
 						oSession.oResponse.headers["Connection"] = "close";

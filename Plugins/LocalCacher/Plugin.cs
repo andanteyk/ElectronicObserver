@@ -31,80 +31,84 @@ namespace LocalCacher {
 		}
 
 
-		public override bool OnBeforeRequest( Fiddler.Session oSession ) {
+        public override bool OnBeforeRequest( Fiddler.Session oSession ) {
 
-			if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.fullUrl.Contains( "/kcs/" ) ) {
+            if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.fullUrl.Contains( "/kcs/" ) ) {
 
-				// = KanColleCacher =
-				string filepath;
-				var direction = Cache.GotNewRequest( oSession.fullUrl, out filepath );
+                // = KanColleCacher =
+                string filepath;
+                var direction = Cache.GotNewRequest( oSession.fullUrl, out filepath );
 
-				if ( direction == Direction.Return_LocalFile ) {
+                if ( direction == Direction.Return_LocalFile ) {
 
-					//返回本地文件
-					oSession.utilCreateResponseAndBypassServer();
-					oSession.ResponseBody = File.ReadAllBytes( filepath );
-					oSession.oResponse.headers["Server"] = "Apache";
-					oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
-					oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
-					oSession.oResponse.headers["Connection"] = "close";
-					oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+                    //返回本地文件
+                    oSession.utilCreateResponseAndBypassServer();
+                    oSession.oResponse.headers["Server"] = "nginx";
+                    oSession.oResponse.headers["Date"] = GMTHelper.ToGMTString( DateTime.Now );
 
-					filepath = filepath.ToLower();
-					if ( filepath.EndsWith( ".swf" ) )
-						oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
-					else if ( filepath.EndsWith( ".mp3" ) )
-						oSession.oResponse.headers["Content-Type"] = "audio/mpeg";
-					else if ( filepath.EndsWith( ".png" ) )
-						oSession.oResponse.headers["Content-Type"] = "image/png";
+                    filepath = filepath.ToLower();
+                    if ( filepath.EndsWith( ".swf" ) )
+                        oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
+                    else if ( filepath.EndsWith( ".mp3" ) )
+                        oSession.oResponse.headers["Content-Type"] = "audio/mpeg";
+                    else if ( filepath.EndsWith( ".png" ) )
+                        oSession.oResponse.headers["Content-Type"] = "image/png";
 
-					//Debug.WriteLine("CACHR> 【返回本地】" + result);
+                    oSession.oResponse.headers["Last-Modified"] = _GetModifiedTime( filepath );
+                    oSession.oResponse.headers["Connection"] = "close";
+                    oSession.oResponse.headers["Pragma"] = "public";
+                    oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
+                    oSession.oResponse.headers["Accept-Ranges"] = "bytes";
 
-				} else if ( direction == Direction.Verify_LocalFile ) {
+                    oSession.ResponseBody = File.ReadAllBytes( filepath );
 
-					//请求服务器验证文件
-					oSession.oRequest.headers["If-Modified-Since"] = _GetModifiedTime( filepath );
-					oSession.bBufferResponse = true;
+                    //Debug.WriteLine("CACHR> 【返回本地】" + result);
 
-					//Debug.WriteLine("CACHR> 【验证文件】" + oSession.PathAndQuery);
+                } else if ( direction == Direction.Verify_LocalFile ) {
 
-				} else if ( Configuration.Config.Log.ShowCacheLog && ( Configuration.Config.Log.ShowMainD2Link || !oSession.fullUrl.Contains( "mainD2.swf" ) ) ) {
+                    //请求服务器验证文件
+                    oSession.oRequest.headers["If-Modified-Since"] = _GetModifiedTime( filepath );
+                    oSession.bBufferResponse = true;
 
-					//下载文件
-					ElectronicObserver.Utility.Logger.Add( 2, string.Format( "重新下载缓存文件: {0}", oSession.fullUrl ) );
-				}
+                    //Debug.WriteLine("CACHR> 【验证文件】" + oSession.PathAndQuery);
+
+                } else if ( Configuration.Config.Log.ShowCacheLog && ( Configuration.Config.Log.ShowMainD2Link || !oSession.fullUrl.Contains( "mainD2.swf" ) ) ) {
+
+                    //下载文件
+                    ElectronicObserver.Utility.Logger.Add( 2, string.Format( "重新下载缓存文件: {0}", oSession.fullUrl ) );
+                }
 
 
-				return true;
-			}
-			return false;
-		}
+                return true;
+            }
+            return false;
+        }
 
-		public override bool OnBeforeResponse( Fiddler.Session oSession ) {
+        public override bool OnBeforeResponse( Fiddler.Session oSession ) {
 
-			if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.PathAndQuery.StartsWith( "/kcs/" ) && oSession.responseCode == 304 ) {
+            if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.PathAndQuery.StartsWith( "/kcs/" ) && oSession.responseCode == 304 ) {
 
-				string filepath = TaskRecord.GetAndRemove( oSession.fullUrl );
-				//只有TaskRecord中有记录的文件才是验证的文件，才需要修改Header
-				if ( !string.IsNullOrEmpty( filepath ) ) {
-					//服务器返回304，文件没有修改 -> 返回本地文件
-					oSession.bBufferResponse = true;
-					oSession.ResponseBody = File.ReadAllBytes( filepath );
-					oSession.oResponse.headers.HTTPResponseCode = 200;
-					oSession.oResponse.headers.HTTPResponseStatus = "200 OK";
-					oSession.oResponse.headers["Last-Modified"] = oSession.oRequest.headers["If-Modified-Since"];
-					oSession.oResponse.headers["Accept-Ranges"] = "bytes";
-					oSession.oResponse.headers.Remove( "If-Modified-Since" );
-					oSession.oRequest.headers.Remove( "If-Modified-Since" );
-					if ( filepath.EndsWith( ".swf" ) )
-						oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
-				}
+                string filepath = TaskRecord.GetAndRemove( oSession.fullUrl );
+                //只有TaskRecord中有记录的文件才是验证的文件，才需要修改Header
+                if ( !string.IsNullOrEmpty( filepath ) ) {
 
-				return true;
-			}
+                    //服务器返回304，文件没有修改 -> 返回本地文件
+                    oSession.ResponseBody = File.ReadAllBytes( filepath );
+                    oSession.oResponse.headers.HTTPResponseCode = 200;
+                    oSession.oResponse.headers.HTTPResponseStatus = "200 OK";
+                    oSession.oResponse.headers["Last-Modified"] = oSession.oRequest.headers["If-Modified-Since"];
+                    oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+                    oSession.oResponse.headers.Remove( "If-Modified-Since" );
+                    oSession.oRequest.headers.Remove( "If-Modified-Since" );
+                    if ( filepath.EndsWith( ".swf" ) )
+                        oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
+                }
 
-			return false;
-		}
+                return true;
+            }
+
+            return false;
+        }
 
 		public override bool OnAfterSessionComplete( Fiddler.Session oSession ) {
 
