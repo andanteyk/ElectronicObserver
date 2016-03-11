@@ -222,6 +222,8 @@ namespace ElectronicObserver.Window {
 			ForeColor = Utility.Configuration.Config.UI.ForeColor;
 
 			if ( ControlDock != null ) {
+                TableDock.SuspendLayout();
+
 				for ( int i = 0; i < ControlDock.Length; i++ ) {
 					if ( ControlDock[i].RepairTime != null && ControlDock[i].ShipName != null ) {
 						ControlDock[i].ShipName.ForeColor = ForeColor;
@@ -231,13 +233,15 @@ namespace ElectronicObserver.Window {
                     if (Utility.Configuration.Config.FormFleet.FixShipNameWidth)
                     {
                         ControlDock[i].ShipName.AutoSize = false;
-                        ControlDock[i].ShipName.Width = 40;
+                        ControlDock[i].ShipName.Size = new Size( 40, 20 );
                     }
                     else
                     {
                         ControlDock[i].ShipName.AutoSize = true;
                     }
 				}
+
+                TableDock.ResumeLayout();
 			}
 		}
 
