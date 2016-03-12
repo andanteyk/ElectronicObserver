@@ -75,6 +75,8 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyHost = new System.Windows.Forms.TextBox();
 			this.Connection_UpstreamProxyPort = new System.Windows.Forms.NumericUpDown();
+			this.Connection_UpstreamProxySSLHost = new System.Windows.Forms.TextBox();
+			this.Connection_UpstreamProxySSLPort = new System.Windows.Forms.NumericUpDown();
 			this.Connection_UseUpstreamProxy = new System.Windows.Forms.CheckBox();
 			this.Connection_EnableSslUpstreamProxy = new System.Windows.Forms.CheckBox();
 			this.Connection_RegisterAsSystemProxy = new System.Windows.Forms.CheckBox();
@@ -263,6 +265,8 @@
 			// 
 			this.tabPage1.Controls.Add(this.Connection_UpstreamProxyHost);
 			this.tabPage1.Controls.Add(this.Connection_UpstreamProxyPort);
+			this.tabPage1.Controls.Add(this.Connection_UpstreamProxySSLHost);
+			this.tabPage1.Controls.Add(this.Connection_UpstreamProxySSLPort);
 			this.tabPage1.Controls.Add(this.Connection_UseUpstreamProxy);
 			this.tabPage1.Controls.Add(this.Connection_EnableSslUpstreamProxy);
 			this.tabPage1.Controls.Add(this.Connection_RegisterAsSystemProxy);
@@ -302,6 +306,28 @@
 			this.Connection_UpstreamProxyPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.ToolTipInfo.SetToolTip(this.Connection_UpstreamProxyPort, "指定上流代理的端口号。");
 			// 
+			// Connection_UpstreamProxySSLHost
+			// 
+			this.Connection_UpstreamProxySSLHost.Location = new System.Drawing.Point(176, 63);
+			this.Connection_UpstreamProxySSLHost.Name = "Connection_UpstreamProxySSLHost";
+			this.Connection_UpstreamProxySSLHost.Size = new System.Drawing.Size(145, 23);
+			this.Connection_UpstreamProxySSLHost.TabIndex = 4;
+			this.Connection_UpstreamProxySSLHost.Text = "localhost";
+			// 
+			// Connection_UpstreamProxySSLPort
+			// 
+			this.Connection_UpstreamProxySSLPort.Location = new System.Drawing.Point(327, 63);
+			this.Connection_UpstreamProxySSLPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+			this.Connection_UpstreamProxySSLPort.Name = "Connection_UpstreamProxySSLPort";
+			this.Connection_UpstreamProxySSLPort.Size = new System.Drawing.Size(80, 23);
+			this.Connection_UpstreamProxySSLPort.TabIndex = 4;
+			this.Connection_UpstreamProxySSLPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.Connection_UpstreamProxySSLPort, "指定SSL连接的上流代理的端口号。");
+			// 
 			// Connection_UseUpstreamProxy
 			// 
 			this.Connection_UseUpstreamProxy.AutoSize = true;
@@ -317,7 +343,7 @@
 			// Connection_EnableSslUpstreamProxy
 			// 
 			this.Connection_EnableSslUpstreamProxy.AutoSize = true;
-			this.Connection_EnableSslUpstreamProxy.Location = new System.Drawing.Point(300, 7);
+			this.Connection_EnableSslUpstreamProxy.Location = new System.Drawing.Point(6, 63);
 			this.Connection_EnableSslUpstreamProxy.Name = "Connection_EnableSslUpstreamProxy";
 			this.Connection_EnableSslUpstreamProxy.Size = new System.Drawing.Size(152, 19);
 			this.Connection_EnableSslUpstreamProxy.TabIndex = 2;
@@ -2453,6 +2479,8 @@
 		private System.Windows.Forms.ComboBox FormFleet_SearchingAbilityMethod;
 		private System.Windows.Forms.TextBox Connection_UpstreamProxyHost;
 		private System.Windows.Forms.NumericUpDown Connection_UpstreamProxyPort;
+		private System.Windows.Forms.TextBox Connection_UpstreamProxySSLHost;
+		private System.Windows.Forms.NumericUpDown Connection_UpstreamProxySSLPort;
 		private System.Windows.Forms.CheckBox Connection_UseUpstreamProxy;
 		private System.Windows.Forms.CheckBox Connection_EnableSslUpstreamProxy;
 		private System.Windows.Forms.CheckBox Connection_RegisterAsSystemProxy;

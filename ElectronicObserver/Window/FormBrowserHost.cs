@@ -321,10 +321,10 @@ namespace ElectronicObserver.Window {
 				return string.Format(
 					"http=127.0.0.1:{0};https={1}:{2}",
 					APIObserver.Instance.ProxyPort,
-					config.UpstreamProxyAddress,
-					config.UpstreamProxyPort );
+					config.UpstreamProxyPortSSL == 0 ? config.UpstreamProxyAddress : config.UpstreamProxyAddressSSL,
+					config.UpstreamProxyPortSSL == 0 ? config.UpstreamProxyPort : config.UpstreamProxyPortSSL );
 			} else {
-				return string.Format( "http=127.0.0.1:{0}", APIObserver.Instance.ProxyPort );
+				return string.Format( "127.0.0.1:{0}", APIObserver.Instance.ProxyPort );
 			}
 		}
 

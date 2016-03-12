@@ -59,6 +59,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void Connection_EnableSslUpstreamProxy_CheckedChanged( object sender, EventArgs e ) {
 
+			Connection_UpstreamProxySSLHost.Visible =
+			Connection_UpstreamProxySSLPort.Visible = Connection_EnableSslUpstreamProxy.Checked;
+
 			if ( Connection_EnableSslUpstreamProxy.Checked ) {
 				Connection_UseUpstreamProxy.Checked = true;
 			}
@@ -245,6 +248,16 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_UseUpstreamProxy.Checked = config.Connection.UseUpstreamProxy;
 			Connection_UpstreamProxyHost.Text = config.Connection.UpstreamProxyAddress;
 			Connection_UpstreamProxyPort.Value = config.Connection.UpstreamProxyPort;
+            if ( config.Connection.UpstreamProxyPortSSL == 0 ) {
+                Connection_UpstreamProxySSLHost.Text = config.Connection.UpstreamProxyAddress;
+                Connection_UpstreamProxySSLPort.Value = config.Connection.UpstreamProxyPort;
+            } else {
+                Connection_UpstreamProxySSLHost.Text = config.Connection.UpstreamProxyAddressSSL;
+                Connection_UpstreamProxySSLPort.Value = config.Connection.UpstreamProxyPortSSL;
+            }
+			Connection_UpstreamProxySSLHost.Visible =
+			Connection_UpstreamProxySSLPort.Visible = config.Connection.EnableSslUpstreamProxy;
+
 
 			//[UI]
 			UI_MainFont.Font = config.UI.MainFont.FontData;
@@ -437,8 +450,14 @@ namespace ElectronicObserver.Window.Dialog {
 				config.Connection.UseUpstreamProxy = Connection_UseUpstreamProxy.Checked;
 				changed |= config.Connection.EnableSslUpstreamProxy != Connection_EnableSslUpstreamProxy.Checked;
 				config.Connection.EnableSslUpstreamProxy = Connection_EnableSslUpstreamProxy.Checked;
+                if ( config.Connection.EnableSslUpstreamProxy ) {
+                    changed |= config.Connection.UpstreamProxyAddressSSL != Connection_UpstreamProxySSLHost.Text;
+                    config.Connection.UpstreamProxyAddressSSL = Connection_UpstreamProxySSLPort.Value == 0 ? Connection_UpstreamProxyHost.Text : Connection_UpstreamProxySSLHost.Text;
+                    changed |= config.Connection.UpstreamProxyPortSSL != (ushort)Connection_UpstreamProxySSLPort.Value;
+                    config.Connection.UpstreamProxyPortSSL = Connection_UpstreamProxySSLPort.Value == 0 ? (ushort)Connection_UpstreamProxyPort.Value : (ushort)Connection_UpstreamProxySSLPort.Value;
+                }
 
-				changed |= config.Connection.UpstreamProxyAddress != Connection_UpstreamProxyHost.Text;
+                changed |= config.Connection.UpstreamProxyAddress != Connection_UpstreamProxyHost.Text;
 				config.Connection.UpstreamProxyAddress = Connection_UpstreamProxyHost.Text;
 				changed |= config.Connection.UpstreamProxyPort != (ushort)Connection_UpstreamProxyPort.Value;
 				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;

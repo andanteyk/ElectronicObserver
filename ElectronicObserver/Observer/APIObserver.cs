@@ -477,8 +477,10 @@ namespace ElectronicObserver.Observer {
 
 			// 上流プロキシ設定
 			if ( c.UseUpstreamProxy ) {
-				if ( c.EnableSslUpstreamProxy || !IsSessionSSL( oSession ) ) {
+				if ( !IsSessionSSL( oSession ) || ( c.EnableSslUpstreamProxy && c.UpstreamProxyPortSSL == 0) ) {
 					oSession["X-OverrideGateway"] = string.Format( "{0}:{1}", c.UpstreamProxyAddress, c.UpstreamProxyPort );
+				} else if ( c.EnableSslUpstreamProxy ) { 
+					oSession["X-OverrideGateway"] = string.Format( "{0}:{1}", c.UpstreamProxyAddressSSL, c.UpstreamProxyPortSSL );
 				}
 			}
 
