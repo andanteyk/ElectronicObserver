@@ -39,7 +39,8 @@ namespace LocalCacher {
                 string filepath;
                 var direction = Cache.GotNewRequest( oSession.fullUrl, out filepath );
 
-                if ( direction == Direction.Return_LocalFile ) {
+                if ( direction == Direction.Return_LocalFile
+                    || direction == Direction.NoCache_LocalFile ) {
 
                     //返回本地文件
                     oSession.utilCreateResponseAndBypassServer();
@@ -56,8 +57,13 @@ namespace LocalCacher {
 
                     oSession.oResponse.headers["Last-Modified"] = _GetModifiedTime( filepath );
                     oSession.oResponse.headers["Connection"] = "close";
-                    oSession.oResponse.headers["Pragma"] = "public";
-                    oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
+                    if ( direction == Direction.NoCache_LocalFile ) {
+                        oSession.oResponse.headers["Pragma"] = "no-cache";
+                        oSession.oResponse.headers["Cache-Control"] = "no-cache";
+                    } else {
+                        oSession.oResponse.headers["Pragma"] = "public";
+                        oSession.oResponse.headers["Cache-Control"] = "max-age=18000, public";
+                    }
                     oSession.oResponse.headers["Accept-Ranges"] = "bytes";
 
                     oSession.ResponseBody = File.ReadAllBytes( filepath );
@@ -86,25 +92,38 @@ namespace LocalCacher {
 
         public override bool OnBeforeResponse( Fiddler.Session oSession ) {
 
-            if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.PathAndQuery.StartsWith( "/kcs/" ) && oSession.responseCode == 304 ) {
+            if ( Configuration.Config.CacheSettings.CacheEnabled && oSession.PathAndQuery.StartsWith( "/kcs/" ) ) {
 
-                string filepath = TaskRecord.GetAndRemove( oSession.fullUrl );
-                //只有TaskRecord中有记录的文件才是验证的文件，才需要修改Header
-                if ( !string.IsNullOrEmpty( filepath ) ) {
+                if ( oSession.responseCode == 304 ) {
 
-                    //服务器返回304，文件没有修改 -> 返回本地文件
-                    oSession.ResponseBody = File.ReadAllBytes( filepath );
-                    oSession.oResponse.headers.HTTPResponseCode = 200;
-                    oSession.oResponse.headers.HTTPResponseStatus = "200 OK";
-                    oSession.oResponse.headers["Last-Modified"] = oSession.oRequest.headers["If-Modified-Since"];
-                    oSession.oResponse.headers["Accept-Ranges"] = "bytes";
-                    oSession.oResponse.headers.Remove( "If-Modified-Since" );
-                    oSession.oRequest.headers.Remove( "If-Modified-Since" );
-                    if ( filepath.EndsWith( ".swf" ) )
-                        oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
+                    string filepath = TaskRecord.GetAndRemove( oSession.fullUrl );
+                    //只有TaskRecord中有记录的文件才是验证的文件，才需要修改Header
+                    if ( !string.IsNullOrEmpty( filepath ) ) {
+
+                        //服务器返回304，文件没有修改 -> 返回本地文件
+                        oSession.ResponseBody = File.ReadAllBytes( filepath );
+                        oSession.oResponse.headers.HTTPResponseCode = 200;
+                        oSession.oResponse.headers.HTTPResponseStatus = "200 OK";
+                        oSession.oResponse.headers["Last-Modified"] = oSession.oRequest.headers["If-Modified-Since"];
+                        oSession.oResponse.headers["Accept-Ranges"] = "bytes";
+                        oSession.oResponse.headers.Remove( "If-Modified-Since" );
+                        oSession.oRequest.headers.Remove( "If-Modified-Since" );
+                        if ( filepath.EndsWith( ".swf" ) )
+                            oSession.oResponse.headers["Content-Type"] = "application/x-shockwave-flash";
+                    }
+
+                    return true;
+                } else if ( oSession.responseCode == 200 ) {
+
+                    // 由服务器下载所得
+                    if ( oSession.PathAndQuery.StartsWith( "/kcs/sound" ) && oSession.PathAndQuery.IndexOf( "titlecall/" ) < 0 ) {
+
+                        oSession.oResponse.headers["Pragma"] = "no-cache";
+                        oSession.oResponse.headers["Cache-Control"] = "no-cache";
+                    }
+                    return true;
                 }
 
-                return true;
             }
 
             return false;

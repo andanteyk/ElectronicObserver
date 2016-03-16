@@ -266,7 +266,6 @@ namespace ElectronicObserver.Observer {
 
 			}
 
-
 			if ( oSession.fullUrl.Contains( "/kcsapi/" ) && oSession.oResponse.MIMEType == "text/plain" ) {
 
 				// 非同期でGUIスレッドに渡すので取っておく
@@ -275,15 +274,15 @@ namespace ElectronicObserver.Observer {
 				string body = oSession.GetResponseBodyAsString();
 				UIControl.BeginInvoke( (Action)( () => { LoadResponse( url, body ); } ) );
 
-			} else if ( Configuration.Instance.ObserverPlugins.Select( p => {
-				try {
-					return p.OnAfterSessionComplete( oSession );
-				} catch ( Exception oe ) {
-					Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnAfterSessionComplete 时出错！", p.MenuTitle, p.Version ) );
-					ErrorReporter.SendErrorReport( oe, p.MenuTitle );
-					return false;
-				}
-			} ).Any( b => b ) ) {
+			} else if ( ObserverResult( p => {
+                try {
+                    return p.OnAfterSessionComplete( oSession );
+                } catch ( Exception oe ) {
+                    Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnAfterSessionComplete 时出错！", p.MenuTitle, p.Version ) );
+                    ErrorReporter.SendErrorReport( oe, p.MenuTitle );
+                    return false;
+                }
+            } ) ) {
 
 				// do nothing.
 			}
@@ -315,16 +314,28 @@ namespace ElectronicObserver.Observer {
 		private Regex _wmodeRegex = new Regex( @"""wmode""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
 		private Regex _qualityRegex = new Regex( @"""quality""[\s]*?:[\s]*?""[^""]+?""", RegexOptions.Compiled );
 
+        private bool ObserverResult( Func<Window.Plugins.ObserverPlugin, bool> func ) {
+
+            bool b = false;
+
+            foreach (var p in Configuration.Instance.ObserverPlugins) {
+                b |= func( p );
+            }
+
+            return b;
+        }
+
 		private void FiddlerApplication_BeforeResponse( Fiddler.Session oSession ) {
-			if ( Configuration.Instance.ObserverPlugins.Select( p => {
-				try {
-					return p.OnBeforeResponse( oSession );
-				} catch ( Exception oe ) {
-					Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnBeforeResponse 时出错！", p.MenuTitle, p.Version ) );
-					ErrorReporter.SendErrorReport( oe, p.MenuTitle );
-					return false;
-				}
-			} ).Any( b => b ) ) {
+
+            if ( ObserverResult( p => {
+                try {
+                    return p.OnBeforeResponse( oSession );
+                } catch ( Exception oe ) {
+                    Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnBeforeResponse 时出错！", p.MenuTitle, p.Version ) );
+                    ErrorReporter.SendErrorReport( oe, p.MenuTitle );
+                    return false;
+                }
+            } ) ) {
 
 				// do nothing
 
@@ -523,15 +534,15 @@ namespace ElectronicObserver.Observer {
 				}
 
 				UIControl.BeginInvoke( (Action)( () => { LoadRequest( url, body ); } ) );
-			} else if ( Configuration.Instance.ObserverPlugins.Select( p => {
-				try {
-					return p.OnBeforeRequest( oSession );
-				} catch ( Exception oe ) {
-					Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnBeforeRequest 时出错！", p.MenuTitle, p.Version ) );
-					ErrorReporter.SendErrorReport( oe, p.MenuTitle );
-					return false;
-				}
-			} ).Any( b => b ) ) {
+			} else if ( ObserverResult( p => {
+                try {
+                    return p.OnBeforeRequest( oSession );
+                } catch ( Exception oe ) {
+                    Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnBeforeRequest 时出错！", p.MenuTitle, p.Version ) );
+                    ErrorReporter.SendErrorReport( oe, p.MenuTitle );
+                    return false;
+                }
+            } ) ) {
 
 				// just skip the control flow: ObserverPlugin applied.
 			}

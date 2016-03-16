@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicObserver", "ElectronicObserver\ElectronicObserver.csproj", "{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -81,10 +81,17 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Calculator.csproj", "{3A71A62E-21C6-474C-8918-B1E9DB8826FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomShipGroup", "Plugins\CustomShipGroup\CustomShipGroup.csproj", "{6B28F88B-CDA9-4DCF-A751-736E8A9F5C3B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68} = {A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Observer", "Observer", "{0BE1A2EE-B32D-4B73-880A-F0CEBE8247EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalCacher", "Plugins\LocalCacher\LocalCacher.csproj", "{69C19ACA-61CD-4177-8C26-19B1967118F5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68} = {A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1} = {C75532C4-765B-418E-B09B-46D36B2ABDB1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -36,7 +36,7 @@ namespace ElectronicObserver.Window {
 				//ShipName.Padding = new Padding( 0, 1, 0, 1 );
 				ShipName.Margin = new Padding( 3, 2, 3, 2 );
 				//ShipName.MaximumSize = new Size( 60, 20 );
-				ShipName.AutoEllipsis = true;
+				//ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
 				ShipName.Visible = true;
 
@@ -233,7 +233,7 @@ namespace ElectronicObserver.Window {
                     if (Utility.Configuration.Config.FormFleet.FixShipNameWidth)
                     {
                         ControlDock[i].ShipName.AutoSize = false;
-                        ControlDock[i].ShipName.Size = new Size( 40, 20 );
+                        ControlDock[i].ShipName.Size = new Size( 40, 17 );
                     }
                     else
                     {

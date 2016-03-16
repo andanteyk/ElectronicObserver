@@ -607,17 +607,8 @@ namespace Browser {
 		/// </summary>
 		private void ClearCache() {
 
-            // Indicates that all of the cache groups in the user's system should be enumerated
-            const int CACHEGROUP_SEARCH_ALL = 0x0;
-            // Indicates that all the cache entries that are associated with the cache group
-            // should be deleted, unless the entry belongs to another cache group.
-            const int CACHEGROUP_FLAG_FLUSHURL_ONDELETE = 0x2;
-            // File not found.
-            const int ERROR_FILE_NOT_FOUND = 0x2;
             // No more items have been found.
             const int ERROR_NO_MORE_ITEMS = 259;
-            // Pointer to a GROUPID variable
-            long groupId = 0;
             // Local variables
             int cacheEntryInfoBufferSizeInitial = 0;
             int cacheEntryInfoBufferSize = 0;

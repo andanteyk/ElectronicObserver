@@ -488,9 +488,7 @@
     <Compile Include="Window\Plugins\DockPlugin.cs" />
     <Compile Include="Window\Plugins\IPluginHost.cs" />
     <Compile Include="Window\Support\ControlHelper.cs" />
-    <Compile Include="Window\Support\CustomFloatWindowFactory.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Window\Support\CustomFloatWindowFactory.cs" />
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
     <EmbeddedResource Include="Window\Control\ColorPicker.resx">
       <DependentUpon>ColorPicker.cs</DependentUpon>

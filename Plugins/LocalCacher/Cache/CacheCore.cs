@@ -8,9 +8,10 @@ using Configuration = ElectronicObserver.Utility.Configuration;
 
 namespace ElectronicObserver.Observer.Cache {
 	enum Direction {
-		Discharge_Response,		//无关请求，或需要下载文件 -> 忽略请求
-		Return_LocalFile,		//存在无需验证的本地文件 -> 返回本地文件
-		Verify_LocalFile,		//验证文件有效性 -> 向服务器发送验证请求
+		Discharge_Response,		// 无关请求，或需要下载文件 -> 忽略请求
+		Return_LocalFile,		// 存在无需验证的本地文件 -> 返回本地文件
+		Verify_LocalFile,		// 验证文件有效性 -> 向服务器发送验证请求
+		NoCache_LocalFile,		// 返回本地文件并禁止缓存
 	}
 
 	enum filetype {
@@ -242,7 +243,7 @@ namespace ElectronicObserver.Observer.Cache {
 					//文件不需验证
 					//->返回本地缓存文件
 					result = filepath;
-					return Direction.Return_LocalFile;
+					return type == filetype.sound ? Direction.NoCache_LocalFile : Direction.Return_LocalFile;
 
 				} else {
 
