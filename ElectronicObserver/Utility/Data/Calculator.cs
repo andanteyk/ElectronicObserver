@@ -375,7 +375,7 @@ namespace ElectronicObserver.Utility.Data {
 				}
 
 			}
-			return Math.Floor( aatotal * FormationAA[formation] * 20 / 45 ) / 10;
+			return Math.Floor( aatotal * FormationAA[formation] * 10 / 45 ) / 10;
 		}
 
 
@@ -434,7 +434,7 @@ namespace ElectronicObserver.Utility.Data {
 			for ( int s = 0; s < length; s++ )
 			{
 
-				if ( aircraft[s] < 0 )
+				if ( aircraft[s] <= 0 )
 					continue;
 
 				EquipmentData equip = slot[s];
@@ -461,6 +461,290 @@ namespace ElectronicObserver.Utility.Data {
 			return air;
 		}
 
+		/// <summary>
+		/// 获取舰队索敌值
+		/// </summary>
+		/// <param name="fleet">当前舰队</param>
+		/// <param name="searchMethod">索敌公式</param>
+		/// <returns></returns>
+		public static double GetSearchingAbility( FleetData fleet, int searchMethod ) {
+
+			RefreshMethods();
+			MethodInfo m;
+			if ( methodInfos.TryGetValue( "GetSearchingAbility,ElectronicObserver.Data.FleetData,System.Int32", out m ) )
+				return (double)m.Invoke( null, new object[] { fleet, searchMethod } );
+
+			switch ( searchMethod ) {
+				default:
+				case 0:
+					return GetSearchingAbility_33( fleet );
+
+				case 1:
+					return GetSearchingAbility_Autumn( fleet );
+
+				case 2:
+					return GetSearchingAbility_TinyAutumn( fleet );
+
+				case 3:
+					return GetSearchingAbility_Old( fleet );
+			}
+
+		}
+
+
+		/// <summary>
+		/// 33式索敌公式
+		/// </summary>
+		/// <param name="fleet"></param>
+		/// <returns></returns>
+		private static double GetSearchingAbility_33( FleetData fleet ) {
+
+			double ret = 0.0;
+
+			var members = fleet.MembersWithoutEscaped;
+			foreach ( var ship in members ) {
+				if ( ship == null )
+					continue;
+
+				ret += Math.Sqrt( ship.LOSBase );
+
+				foreach ( var e in ship.SlotInstance ) {
+					if ( e == null )
+						continue;
+
+					var eq = e.MasterEquipment;
+					if ( eq == null )
+						continue;
+
+					switch ( eq.CategoryType ) {
+
+						case 6:		// 舰上战斗机
+						case 7:		//艦爆
+							ret += eq.LOS * 0.6;
+							break;
+
+						case 8:		//艦攻
+							ret += eq.LOS * 0.8;
+							break;
+
+						case 9:		//艦偵
+							ret += eq.LOS;
+							break;
+
+						case 10:	//水偵
+							ret += ( eq.LOS + 1.2 * Math.Sqrt( e.Level ) ) * 1.2;
+							break;
+
+						case 11:	//水爆
+							ret += eq.LOS * 1.1;
+							break;
+
+						case 12:	//小型電探
+						case 13:	//大型電探
+							ret += ( eq.LOS + 1.25 * Math.Sqrt( e.Level ) ) * 0.6;
+							break;
+
+						case 26:	// 对潜哨戒机
+						case 29:	//探照灯
+						case 34:	// 司令部
+						case 35:	// 航空要员
+						case 39:	// 水上舰要员
+						case 40:	// 大型声纳
+						case 41:	// 大型飞行艇
+						case 42:	// 大型探照灯
+						case 45:	// 水上战斗机
+							ret += eq.LOS * 0.6;
+							break;
+
+					}
+				}
+			}
+
+			ret -= Math.Round( KCDatabase.Instance.Admiral.Level * 0.4 );
+			ret += 2 * ( 6 - members.Count );
+
+			return Math.Round( ret, 1 );
+		}
+
+
+		/// <summary>
+		/// 索敵能力を求めます。「2-5式」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		private static int GetSearchingAbility_Old( FleetData fleet ) {
+
+			KCDatabase db = KCDatabase.Instance;
+
+			int los_reconplane = 0;
+			int los_radar = 0;
+			int los_other = 0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+
+				if ( ship == null )
+					continue;
+
+				los_other += ship.LOSBase;
+
+				var slot = ship.SlotInstanceMaster;
+
+				for ( int j = 0; j < slot.Count; j++ ) {
+
+					if ( slot[j] == null )
+						continue;
+
+					switch ( slot[j].EquipmentType[2] ) {
+						case 9:		//艦偵
+						case 10:	//水偵
+						case 11:	//水爆
+							if ( ship.Aircraft[j] > 0 )
+								los_reconplane += slot[j].LOS * 2;
+							break;
+
+						case 12:	//小型電探
+						case 13:	//大型電探
+							los_radar += slot[j].LOS;
+							break;
+
+						default:
+							los_other += slot[j].LOS;
+							break;
+					}
+				}
+			}
+
+
+			return (int)Math.Sqrt( los_other ) + los_radar + los_reconplane;
+		}
+
+
+		/// <summary>
+		/// 索敵能力を求めます。「2-5式(秋)」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		private static double GetSearchingAbility_Autumn( FleetData fleet ) {
+
+			double ret = 0.0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null )
+					continue;
+
+				ret += Math.Sqrt( ship.LOSBase ) * 1.6841056;
+
+				foreach ( var eq in ship.SlotInstanceMaster ) {
+					if ( eq == null )
+						continue;
+
+					switch ( eq.CategoryType ) {
+
+						case 7:		//艦爆
+							ret += eq.LOS * 1.0376255;
+							break;
+
+						case 8:		//艦攻
+							ret += eq.LOS * 1.3677954;
+							break;
+
+						case 9:		//艦偵
+							ret += eq.LOS * 1.6592780;
+							break;
+
+						case 10:	//水偵
+							ret += eq.LOS * 2.0000000;
+							break;
+
+						case 11:	//水爆
+							ret += eq.LOS * 1.7787282;
+							break;
+
+						case 12:	//小型電探
+							ret += eq.LOS * 1.0045358;
+							break;
+
+						case 13:	//大型電探
+							ret += eq.LOS * 0.9906638;
+							break;
+
+						case 29:	//探照灯
+							ret += eq.LOS * 0.9067950;
+							break;
+
+					}
+				}
+			}
+
+			ret -= Math.Ceiling( KCDatabase.Instance.Admiral.Level / 5.0 ) * 5.0 * 0.6142467;
+
+			return Math.Round( ret, 1 );
+		}
+
+
+		/// <summary>
+		/// 索敵能力を求めます。「2-5式(秋)簡易式」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		private static double GetSearchingAbility_TinyAutumn( FleetData fleet ) {
+
+			double ret = 0.0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null )
+					continue;
+
+				double cur = Math.Sqrt( ship.LOSBase );
+
+				foreach ( var eq in ship.SlotInstanceMaster ) {
+					if ( eq == null )
+						continue;
+
+					switch ( eq.CategoryType ) {
+
+						case 7:		//艦爆
+							cur += eq.LOS * 0.6;
+							break;
+
+						case 8:		//艦攻
+							cur += eq.LOS * 0.8;
+							break;
+
+						case 9:		//艦偵
+							cur += eq.LOS * 1.0;
+							break;
+
+						case 10:	//水偵
+							cur += eq.LOS * 1.2;
+							break;
+
+						case 11:	//水爆
+							cur += eq.LOS * 1.0;
+							break;
+
+						case 12:	//小型電探
+							cur += eq.LOS * 0.6;
+							break;
+
+						case 13:	//大型電探
+							cur += eq.LOS * 0.6;
+							break;
+
+						case 29:	//探照灯
+							cur += eq.LOS * 0.5;
+							break;
+
+						default:	//その他
+							cur += eq.LOS * 0.5;
+							break;
+					}
+				}
+
+				ret += Math.Floor( cur );
+			}
+
+			ret -= Math.Floor( KCDatabase.Instance.Admiral.Level * 0.4 );
+
+			return Math.Round( ret, 1 );
+		}
 	}
 
 	/// <summary>
@@ -700,163 +984,6 @@ namespace ElectronicObserver.Utility.Data {
             return air;
         }
 
-
-		/// <summary>
-		/// 索敵能力を求めます。「2-5式」です。
-		/// </summary>
-		/// <param name="fleet">対象の艦隊。</param>
-		public static int GetSearchingAbility_Old( FleetData fleet ) {
-
-			KCDatabase db = KCDatabase.Instance;
-
-			int los_reconplane = 0;
-			int los_radar = 0;
-			int los_other = 0;
-
-			foreach ( var ship in fleet.MembersWithoutEscaped ) {
-
-				if ( ship == null )
-					continue;
-
-				los_other += ship.LOSBase;
-
-				var slot = ship.SlotInstanceMaster;
-
-				for ( int j = 0; j < slot.Count; j++ ) {
-
-					if ( slot[j] == null ) continue;
-
-					switch ( slot[j].EquipmentType[2] ) {
-						case 9:		//艦偵
-						case 10:	//水偵
-						case 11:	//水爆
-							if ( ship.Aircraft[j] > 0 )
-								los_reconplane += slot[j].LOS * 2;
-							break;
-
-						case 12:	//小型電探
-						case 13:	//大型電探
-							los_radar += slot[j].LOS;
-							break;
-
-						default:
-							los_other += slot[j].LOS;
-							break;
-					}
-				}
-			}
-
-
-			return (int)Math.Sqrt( los_other ) + los_radar + los_reconplane;
-		}
-
-
-		/// <summary>
-		/// 索敵能力を求めます。「2-5式(秋)」です。
-		/// </summary>
-		/// <param name="fleet">対象の艦隊。</param>
-		public static double GetSearchingAbility_Autumn( FleetData fleet ) {
-
-			double ret = 0.0;
-
-			foreach ( var ship in fleet.MembersWithoutEscaped ) {
-				if ( ship == null ) continue;
-
-				ret += Math.Sqrt( ship.LOSBase ) * 1.6841056;
-
-				foreach ( var eq in ship.SlotInstanceMaster ) {
-					if ( eq == null ) continue;
-
-					switch ( eq.CategoryType ) {
-
-						case 7:		//艦爆
-							ret += eq.LOS * 1.0376255; break;
-
-						case 8:		//艦攻
-							ret += eq.LOS * 1.3677954; break;
-
-						case 9:		//艦偵
-							ret += eq.LOS * 1.6592780; break;
-
-						case 10:	//水偵
-							ret += eq.LOS * 2.0000000; break;
-
-						case 11:	//水爆
-							ret += eq.LOS * 1.7787282; break;
-
-						case 12:	//小型電探
-							ret += eq.LOS * 1.0045358; break;
-
-						case 13:	//大型電探
-							ret += eq.LOS * 0.9906638; break;
-
-						case 29:	//探照灯
-							ret += eq.LOS * 0.9067950; break;
-
-					}
-				}
-			}
-
-			ret -= Math.Ceiling( KCDatabase.Instance.Admiral.Level / 5.0 ) * 5.0 * 0.6142467;
-
-			return Math.Round( ret, 1 );
-		}
-
-
-		/// <summary>
-		/// 索敵能力を求めます。「2-5式(秋)簡易式」です。
-		/// </summary>
-		/// <param name="fleet">対象の艦隊。</param>
-		public static double GetSearchingAbility_TinyAutumn( FleetData fleet ) {
-
-			double ret = 0.0;
-
-			foreach ( var ship in fleet.MembersWithoutEscaped ) {
-				if ( ship == null ) continue;
-
-				double cur = Math.Sqrt( ship.LOSBase );
-
-				foreach ( var eq in ship.SlotInstanceMaster ) {
-					if ( eq == null ) continue;
-
-					switch ( eq.CategoryType ) {
-
-						case 7:		//艦爆
-							cur += eq.LOS * 0.6; break;
-
-						case 8:		//艦攻
-							cur += eq.LOS * 0.8; break;
-
-						case 9:		//艦偵
-							cur += eq.LOS * 1.0; break;
-
-						case 10:	//水偵
-							cur += eq.LOS * 1.2; break;
-
-						case 11:	//水爆
-							cur += eq.LOS * 1.0; break;
-
-						case 12:	//小型電探
-							cur += eq.LOS * 0.6; break;
-
-						case 13:	//大型電探
-							cur += eq.LOS * 0.6; break;
-
-						case 29:	//探照灯
-							cur += eq.LOS * 0.5; break;
-
-						default:	//その他
-							cur += eq.LOS * 0.5; break;
-					}
-				}
-
-				ret += Math.Floor( cur );
-			}
-
-			ret -= Math.Floor( KCDatabase.Instance.Admiral.Level * 0.4 );
-
-			return Math.Round( ret, 1 );
-		}
 
 
 		/// <summary>

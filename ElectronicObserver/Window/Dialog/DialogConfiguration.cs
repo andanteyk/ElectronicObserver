@@ -37,6 +37,9 @@ namespace ElectronicObserver.Window.Dialog {
 			this.SuspendLayoutForDpiScale();
 			InitializeComponent();
 
+			// 加载索敌式列表
+			FormFleet_SearchingAbilityMethod.Items.AddRange( Configuration.Config.FormFleet.SearchingAbilities.Split( ';' ) );
+
 			this.ResumeLayoutForDpiScale();
 		}
 

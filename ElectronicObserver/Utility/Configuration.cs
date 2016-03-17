@@ -672,6 +672,11 @@ namespace ElectronicObserver.Utility {
 				public int SearchingAbilityMethod { get; set; }
 
 				/// <summary>
+				/// 索敵式列表
+				/// </summary>
+				public string SearchingAbilities { get; set; }
+
+				/// <summary>
 				/// スクロール可能か
 				/// </summary>
 				public bool IsScrollable { get; set; }
@@ -715,6 +720,7 @@ namespace ElectronicObserver.Utility {
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 0;
+					SearchingAbilities = "33式;2-5式(秋);2-5新秋簡易式;(旧)2-5式";
 					IsScrollable = true;
 					FixShipNameWidth = false;
 					ShortenHPBar = false;

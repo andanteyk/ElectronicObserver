@@ -1651,10 +1651,6 @@
 			// 
 			this.FormFleet_SearchingAbilityMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.FormFleet_SearchingAbilityMethod.FormattingEnabled = true;
-			this.FormFleet_SearchingAbilityMethod.Items.AddRange(new object[] {
-            "(旧)2-5式",
-            "2-5式(秋)",
-            "2-5新秋簡易式"});
 			this.FormFleet_SearchingAbilityMethod.Location = new System.Drawing.Point(115, 31);
 			this.FormFleet_SearchingAbilityMethod.Name = "FormFleet_SearchingAbilityMethod";
 			this.FormFleet_SearchingAbilityMethod.Size = new System.Drawing.Size(121, 23);
