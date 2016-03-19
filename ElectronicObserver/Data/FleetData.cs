@@ -493,6 +493,9 @@ namespace ElectronicObserver.Data {
 
 				case 2:
 					return Calculator.GetSearchingAbility_TinyAutumn( this ).ToString();
+
+				case 3:
+					return Calculator.GetSearchingAbility_33( this ).ToString( "F2" );
 			}
 		}
 
