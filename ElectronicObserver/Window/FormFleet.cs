@@ -169,7 +169,7 @@ namespace ElectronicObserver.Window {
 					double probStart = fleet.GetContactProbability();
 					var probSelect = fleet.GetContactSelectionProbability();
 
-					sb.AppendFormat("(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n判定式(33): {3}\r\n\r\n触接開始率: \r\n　確保 {4:p1} / 優勢 {5:p1}\r\n",
+					sb.AppendFormat( "(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n判定式(33): {3}\r\n\r\n触接開始率: \r\n　確保 {4:p1} / 優勢 {5:p1}\r\n",
 						fleet.GetSearchingAbilityString( 0 ),
 						fleet.GetSearchingAbilityString( 1 ),
 						fleet.GetSearchingAbilityString( 2 ),
@@ -844,7 +844,9 @@ namespace ElectronicObserver.Window {
 					int eqcount = 1;
 					foreach ( var eq in ship.SlotInstance ) {
 						if ( eq == null ) break;
-						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2}}},", eqcount, eq.EquipmentID, Math.Max( eq.Level, eq.AircraftLevel ) );
+
+						// 水偵は改修レベル優先(熟練度にすると改修レベルに誤解されて 33式 の結果がずれるため)
+						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2}}},", eqcount, eq.EquipmentID, eq.MasterEquipment.CategoryType == 10 ? eq.Level : Math.Max( eq.Level, eq.AircraftLevel ) );
 
 						eqcount++;
 					}
