@@ -103,7 +103,7 @@ namespace ElectronicObserver.Window {
 			public void ConfigurationChanged( FormFleetOverview parent ) {
 				Number.Font = parent.Font;
 				State.Font = parent.Font;
-
+				State.BackColor = Color.Transparent;
 			}
 		}
 

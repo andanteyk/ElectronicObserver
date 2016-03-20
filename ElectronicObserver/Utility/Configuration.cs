@@ -475,13 +475,38 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowShipName { get; set; }
 
+				/// <summary>
+				/// 完了時に点滅させるか
+				/// </summary>
+				public bool BlinkAtCompletion { get; set; }
+
 				public ConfigFormArsenal() {
 					ShowShipName = true;
+					BlinkAtCompletion = true;
 				}
 			}
 			/// <summary>[工廠]ウィンドウ</summary>
 			[DataMember]
 			public ConfigFormArsenal FormArsenal { get; private set; }
+
+
+			/// <summary>
+			/// [入渠]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormDock : ConfigPartBase {
+
+				/// <summary>
+				/// 完了時に点滅させるか
+				/// </summary>
+				public bool BlinkAtCompletion { get; set; }
+
+				public ConfigFormDock() {
+					BlinkAtCompletion = true;
+				}
+			}
+			/// <summary>[入渠]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormDock FormDock { get; private set; }
 
 
 			/// <summary>
@@ -554,6 +579,10 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowAnchorageRepairingTimer { get; set; }
 
+				/// <summary>
+				/// タイマー完了時に点滅させるか
+				/// </summary>
+				public bool BlinkAtCompletion { get; set; }
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
@@ -565,6 +594,7 @@ namespace ElectronicObserver.Utility {
 					ShowEquipmentLevel = true;
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
+					BlinkAtCompletion = true;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -966,6 +996,7 @@ namespace ElectronicObserver.Utility {
 				Life = new ConfigLife();
 
 				FormArsenal = new ConfigFormArsenal();
+				FormDock = new ConfigFormDock();
 				FormFleet = new ConfigFormFleet();
 				FormHeadquarters = new ConfigFormHeadquarters();
 				FormQuest = new ConfigFormQuest();

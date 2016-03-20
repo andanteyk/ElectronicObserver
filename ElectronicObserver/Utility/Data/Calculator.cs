@@ -417,7 +417,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			ret -= Math.Ceiling( 0.4 * KCDatabase.Instance.Admiral.Level );
 
-			ret += 2 * ( 6 - fleet.MembersWithoutEscaped.Count( s => s != null ) );
+			ret += 2.0 * ( 6 - fleet.MembersWithoutEscaped.Count( s => s != null ) );
 
 			return ret;
 		}
