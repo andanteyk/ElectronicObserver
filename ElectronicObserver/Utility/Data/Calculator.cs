@@ -365,6 +365,65 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		/// <summary>
+		/// 索敵能力を求めます。「判定式(33)」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		public static double GetSearchingAbility_33( FleetData fleet ) {
+
+			double ret = 0.0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null ) continue;
+
+				//equipments
+				foreach ( var slot in ship.SlotInstance ) {
+
+					if ( slot == null )
+						continue;
+
+					switch ( slot.MasterEquipment.CategoryType ) {
+
+						case 8:		//艦上攻撃機
+							ret += 0.8 * slot.MasterEquipment.LOS;
+							break;
+
+						case 9:		//艦上偵察機
+						case 94:	//艦上偵察機(II) 存在しないが念のため
+							ret += 1.0 * slot.MasterEquipment.LOS;
+							break;
+
+						case 10:	//水上偵察機
+							ret += 1.2 * ( slot.MasterEquipment.LOS + 1.2 * Math.Sqrt( slot.Level ) );
+							break;
+
+						case 11:	//水上爆撃機
+							ret += 1.1 * slot.MasterEquipment.LOS;
+							break;
+
+						case 12:	//小型電探
+						case 13:	//大型電探
+							ret += 0.6 * ( slot.MasterEquipment.LOS + 1.25 * Math.Sqrt( slot.Level ) );
+							break;
+
+						default:
+							ret += 0.6 * slot.MasterEquipment.LOS;
+							break;
+					}
+				}
+
+				ret += Math.Sqrt( ship.LOSBase );
+
+			}
+
+			ret -= Math.Ceiling( 0.4 * KCDatabase.Instance.Admiral.Level );
+
+			ret += 2.0 * ( 6 - fleet.MembersWithoutEscaped.Count( s => s != null ) );
+
+			return ret;
+		}
+
+
+		/// <summary>
 		/// 艦隊の触接開始率を求めます。
 		/// </summary>
 		/// <param name="fleet">対象の艦隊。</param>

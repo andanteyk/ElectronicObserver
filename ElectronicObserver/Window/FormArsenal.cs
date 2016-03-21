@@ -91,7 +91,7 @@ namespace ElectronicObserver.Window {
 				ArsenalData arsenal = db.Arsenals[arsenalID];
 				bool showShipName = Utility.Configuration.Config.FormArsenal.ShowShipName;
 
-
+				CompletionTime.BackColor = Color.Transparent;
 				tooltip.SetToolTip( ShipName, null );
 				tooltip.SetToolTip( CompletionTime, null );
 
@@ -132,7 +132,18 @@ namespace ElectronicObserver.Window {
 			public void Refresh( int arsenalID ) {
 
 				if ( CompletionTime.Tag != null ) {
-					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( (DateTime)CompletionTime.Tag );
+
+					var time = (DateTime)CompletionTime.Tag;
+
+					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( time );
+
+					if ( Utility.Configuration.Config.FormArsenal.BlinkAtCompletion && ( time - DateTime.Now ).TotalMilliseconds <= Utility.Configuration.Config.NotifierConstruction.AccelInterval ) {
+						CompletionTime.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
+					}
+
+				} else if ( Utility.Configuration.Config.FormArsenal.BlinkAtCompletion && !string.IsNullOrWhiteSpace( CompletionTime.Text ) ) {
+					//完成しているので
+					CompletionTime.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
 				}
 			}
 
@@ -140,6 +151,7 @@ namespace ElectronicObserver.Window {
 			public void ConfigurationChanged( FormArsenal parent ) {
 				ShipName.Font = parent.Font;
 				CompletionTime.Font = parent.Font;
+				CompletionTime.BackColor = Color.Transparent;
 			}
 
 		}

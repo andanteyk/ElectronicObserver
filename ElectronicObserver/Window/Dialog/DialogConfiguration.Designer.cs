@@ -74,6 +74,7 @@
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
 			this.label7 = new System.Windows.Forms.Label();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.Debug_AlertOnError = new System.Windows.Forms.CheckBox();
 			this.Debug_SealingPanel = new System.Windows.Forms.Panel();
 			this.Debug_APIListPath = new System.Windows.Forms.TextBox();
 			this.Debug_LoadAPIListOnLoad = new System.Windows.Forms.CheckBox();
@@ -180,7 +181,10 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.Debug_AlertOnError = new System.Windows.Forms.CheckBox();
+			this.FormFleet_BlinkAtCompletion = new System.Windows.Forms.CheckBox();
+			this.FormArsenal_BlinkAtCompletion = new System.Windows.Forms.CheckBox();
+			this.tabPage19 = new System.Windows.Forms.TabPage();
+			this.FormDock_BlinkAtCompletion = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -215,6 +219,7 @@
 			this.tabPage17.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).BeginInit();
+			this.tabPage19.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -619,10 +624,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Location = new System.Drawing.Point(4, 44);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(456, 253);
+			this.tabPage3.Size = new System.Drawing.Size(456, 233);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -724,10 +729,10 @@
 			this.tabPage4.Controls.Add(this.label9);
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Location = new System.Drawing.Point(4, 44);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(456, 253);
+			this.tabPage4.Size = new System.Drawing.Size(456, 233);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -801,6 +806,16 @@
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
 			// 
+			// Debug_AlertOnError
+			// 
+			this.Debug_AlertOnError.AutoSize = true;
+			this.Debug_AlertOnError.Location = new System.Drawing.Point(8, 31);
+			this.Debug_AlertOnError.Name = "Debug_AlertOnError";
+			this.Debug_AlertOnError.Size = new System.Drawing.Size(104, 19);
+			this.Debug_AlertOnError.TabIndex = 2;
+			this.Debug_AlertOnError.Text = "エラー音を鳴らす";
+			this.Debug_AlertOnError.UseVisualStyleBackColor = true;
+			// 
 			// Debug_SealingPanel
 			// 
 			this.Debug_SealingPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -811,7 +826,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 177);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 173);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -872,10 +887,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 253);
+			this.tabPage6.Size = new System.Drawing.Size(456, 233);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -997,10 +1012,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 24);
+			this.tabPage7.Location = new System.Drawing.Point(4, 44);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(456, 253);
+			this.tabPage7.Size = new System.Drawing.Size(456, 233);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -1009,6 +1024,7 @@
 			// 
 			this.tabControl2.Controls.Add(this.tabPage8);
 			this.tabControl2.Controls.Add(this.tabPage9);
+			this.tabControl2.Controls.Add(this.tabPage19);
 			this.tabControl2.Controls.Add(this.tabPage16);
 			this.tabControl2.Controls.Add(this.tabPage18);
 			this.tabControl2.Controls.Add(this.tabPage10);
@@ -1019,11 +1035,12 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(450, 247);
+			this.tabControl2.Size = new System.Drawing.Size(450, 227);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_BlinkAtCompletion);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowAnchorageRepairingTimer);
 			this.tabPage8.Controls.Add(this.FormFleet_AirSuperiorityMethod);
 			this.tabPage8.Controls.Add(this.label23);
@@ -1038,7 +1055,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(442, 219);
+			this.tabPage8.Size = new System.Drawing.Size(442, 199);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -1137,7 +1154,8 @@
 			this.FormFleet_SearchingAbilityMethod.Items.AddRange(new object[] {
             "(旧)2-5式",
             "2-5式(秋)",
-            "2-5新秋簡易式"});
+            "2-5新秋簡易式",
+            "判定式(33)"});
 			this.FormFleet_SearchingAbilityMethod.Location = new System.Drawing.Point(115, 31);
 			this.FormFleet_SearchingAbilityMethod.Name = "FormFleet_SearchingAbilityMethod";
 			this.FormFleet_SearchingAbilityMethod.Size = new System.Drawing.Size(121, 23);
@@ -1164,11 +1182,12 @@
 			// 
 			// tabPage9
 			// 
+			this.tabPage9.Controls.Add(this.FormArsenal_BlinkAtCompletion);
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 22);
+			this.tabPage9.Location = new System.Drawing.Point(4, 24);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 201);
+			this.tabPage9.Size = new System.Drawing.Size(442, 199);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -1186,10 +1205,10 @@
 			// tabPage16
 			// 
 			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
-			this.tabPage16.Location = new System.Drawing.Point(4, 22);
+			this.tabPage16.Location = new System.Drawing.Point(4, 24);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(442, 201);
+			this.tabPage16.Size = new System.Drawing.Size(442, 199);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1208,10 +1227,10 @@
 			// 
 			this.tabPage18.Controls.Add(this.FormCompass_CandidateDisplayCount);
 			this.tabPage18.Controls.Add(this.label2);
-			this.tabPage18.Location = new System.Drawing.Point(4, 22);
+			this.tabPage18.Location = new System.Drawing.Point(4, 24);
 			this.tabPage18.Name = "tabPage18";
 			this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage18.Size = new System.Drawing.Size(442, 201);
+			this.tabPage18.Size = new System.Drawing.Size(442, 199);
 			this.tabPage18.TabIndex = 7;
 			this.tabPage18.Text = "羅針盤";
 			this.tabPage18.UseVisualStyleBackColor = true;
@@ -1252,10 +1271,10 @@
 			// 
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 22);
+			this.tabPage10.Location = new System.Drawing.Point(4, 24);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 201);
+			this.tabPage10.Size = new System.Drawing.Size(442, 199);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1327,10 +1346,10 @@
 			// 
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 22);
+			this.tabPage13.Location = new System.Drawing.Point(4, 24);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 201);
+			this.tabPage13.Size = new System.Drawing.Size(442, 199);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1369,10 +1388,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 22);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 201);
+			this.tabPage12.Size = new System.Drawing.Size(442, 199);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1550,10 +1569,10 @@
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
 			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 22);
+			this.tabPage14.Location = new System.Drawing.Point(4, 24);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 201);
+			this.tabPage14.Size = new System.Drawing.Size(442, 199);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1922,7 +1941,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 168);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 164);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2004,15 +2023,46 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// Debug_AlertOnError
+			// FormFleet_BlinkAtCompletion
 			// 
-			this.Debug_AlertOnError.AutoSize = true;
-			this.Debug_AlertOnError.Location = new System.Drawing.Point(8, 31);
-			this.Debug_AlertOnError.Name = "Debug_AlertOnError";
-			this.Debug_AlertOnError.Size = new System.Drawing.Size(104, 19);
-			this.Debug_AlertOnError.TabIndex = 2;
-			this.Debug_AlertOnError.Text = "エラー音を鳴らす";
-			this.Debug_AlertOnError.UseVisualStyleBackColor = true;
+			this.FormFleet_BlinkAtCompletion.AutoSize = true;
+			this.FormFleet_BlinkAtCompletion.Location = new System.Drawing.Point(156, 138);
+			this.FormFleet_BlinkAtCompletion.Name = "FormFleet_BlinkAtCompletion";
+			this.FormFleet_BlinkAtCompletion.Size = new System.Drawing.Size(158, 19);
+			this.FormFleet_BlinkAtCompletion.TabIndex = 11;
+			this.FormFleet_BlinkAtCompletion.Text = "タイマー完了時に点滅させる";
+			this.FormFleet_BlinkAtCompletion.UseVisualStyleBackColor = true;
+			// 
+			// FormArsenal_BlinkAtCompletion
+			// 
+			this.FormArsenal_BlinkAtCompletion.AutoSize = true;
+			this.FormArsenal_BlinkAtCompletion.Location = new System.Drawing.Point(6, 31);
+			this.FormArsenal_BlinkAtCompletion.Name = "FormArsenal_BlinkAtCompletion";
+			this.FormArsenal_BlinkAtCompletion.Size = new System.Drawing.Size(122, 19);
+			this.FormArsenal_BlinkAtCompletion.TabIndex = 2;
+			this.FormArsenal_BlinkAtCompletion.Text = "完了時に点滅させる";
+			this.FormArsenal_BlinkAtCompletion.UseVisualStyleBackColor = true;
+			// 
+			// tabPage19
+			// 
+			this.tabPage19.Controls.Add(this.FormDock_BlinkAtCompletion);
+			this.tabPage19.Location = new System.Drawing.Point(4, 24);
+			this.tabPage19.Name = "tabPage19";
+			this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage19.Size = new System.Drawing.Size(442, 199);
+			this.tabPage19.TabIndex = 8;
+			this.tabPage19.Text = "入渠";
+			this.tabPage19.UseVisualStyleBackColor = true;
+			// 
+			// FormDock_BlinkAtCompletion
+			// 
+			this.FormDock_BlinkAtCompletion.AutoSize = true;
+			this.FormDock_BlinkAtCompletion.Location = new System.Drawing.Point(6, 6);
+			this.FormDock_BlinkAtCompletion.Name = "FormDock_BlinkAtCompletion";
+			this.FormDock_BlinkAtCompletion.Size = new System.Drawing.Size(122, 19);
+			this.FormDock_BlinkAtCompletion.TabIndex = 3;
+			this.FormDock_BlinkAtCompletion.Text = "完了時に点滅させる";
+			this.FormDock_BlinkAtCompletion.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -2089,6 +2139,8 @@
 			this.tabPage17.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).EndInit();
+			this.tabPage19.ResumeLayout(false);
+			this.tabPage19.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -2251,5 +2303,9 @@
 		private System.Windows.Forms.NumericUpDown FormCompass_CandidateDisplayCount;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.CheckBox Debug_AlertOnError;
+		private System.Windows.Forms.CheckBox FormFleet_BlinkAtCompletion;
+		private System.Windows.Forms.CheckBox FormArsenal_BlinkAtCompletion;
+		private System.Windows.Forms.TabPage tabPage19;
+		private System.Windows.Forms.CheckBox FormDock_BlinkAtCompletion;
 	}
 }

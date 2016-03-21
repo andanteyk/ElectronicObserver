@@ -321,6 +321,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
+			FormArsenal_BlinkAtCompletion.Checked = config.FormArsenal.BlinkAtCompletion;
+
+			FormDock_BlinkAtCompletion.Checked = config.FormDock.BlinkAtCompletion;
 
 			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
 			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
@@ -331,6 +334,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShowEquipmentLevel.Checked = config.FormFleet.ShowEquipmentLevel;
 			FormFleet_AirSuperiorityMethod.SelectedIndex = config.FormFleet.AirSuperiorityMethod;
 			FormFleet_ShowAnchorageRepairingTimer.Checked = config.FormFleet.ShowAnchorageRepairingTimer;
+			FormFleet_BlinkAtCompletion.Checked = config.FormFleet.BlinkAtCompletion;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 
@@ -486,6 +490,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
+			config.FormArsenal.BlinkAtCompletion = FormArsenal_BlinkAtCompletion.Checked;
+
+			config.FormDock.BlinkAtCompletion = FormDock_BlinkAtCompletion.Checked;
 
 			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
 			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
@@ -496,6 +503,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowEquipmentLevel = FormFleet_ShowEquipmentLevel.Checked;
 			config.FormFleet.AirSuperiorityMethod = FormFleet_AirSuperiorityMethod.SelectedIndex;
 			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
+			config.FormFleet.BlinkAtCompletion = FormFleet_BlinkAtCompletion.Checked;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 
