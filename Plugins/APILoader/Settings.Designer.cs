@@ -32,6 +32,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip( this.components );
 			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.Debug_AlertOnError = new System.Windows.Forms.CheckBox();
 			this.Debug_SealingPanel = new System.Windows.Forms.Panel();
 			this.Debug_APIListPath = new System.Windows.Forms.TextBox();
 			this.Debug_LoadAPIListOnLoad = new System.Windows.Forms.CheckBox();
@@ -63,6 +64,7 @@
 			// 
 			// tabPage5
 			// 
+			this.tabPage5.Controls.Add( this.Debug_AlertOnError );
 			this.tabPage5.Controls.Add( this.Debug_SealingPanel );
 			this.tabPage5.Controls.Add( this.Debug_EnableDebugMenu );
 			this.tabPage5.Location = new System.Drawing.Point( 4, 24 );
@@ -72,6 +74,16 @@
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "调试";
 			this.tabPage5.UseVisualStyleBackColor = true;
+			// 
+			// Debug_AlertOnError
+			// 
+			this.Debug_AlertOnError.AutoSize = true;
+			this.Debug_AlertOnError.Location = new System.Drawing.Point(8, 31);
+			this.Debug_AlertOnError.Name = "Debug_AlertOnError";
+			this.Debug_AlertOnError.Size = new System.Drawing.Size(104, 19);
+			this.Debug_AlertOnError.TabIndex = 2;
+			this.Debug_AlertOnError.Text = "エラー音を鳴らす";
+			this.Debug_AlertOnError.UseVisualStyleBackColor = true;
 			// 
 			// Debug_SealingPanel
 			// 
@@ -161,5 +173,6 @@
 		private System.Windows.Forms.CheckBox Debug_LoadAPIListOnLoad;
 		private System.Windows.Forms.OpenFileDialog APIListBrowser;
 		private System.Windows.Forms.Panel Debug_SealingPanel;
+		private System.Windows.Forms.CheckBox Debug_AlertOnError;
 	}
 }

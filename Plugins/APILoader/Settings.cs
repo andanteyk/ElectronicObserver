@@ -33,6 +33,7 @@ namespace APILoader
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
 			config.Debug.LoadAPIListOnLoad = Debug_LoadAPIListOnLoad.Checked;
 			config.Debug.APIListPath = Debug_APIListPath.Text;
+			config.Debug.AlertOnError = Debug_AlertOnError.Checked;
 
 			plugin.ConfigurationChanged();
 			return true;
@@ -46,6 +47,7 @@ namespace APILoader
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
 			Debug_LoadAPIListOnLoad.Checked = config.Debug.LoadAPIListOnLoad;
 			Debug_APIListPath.Text = config.Debug.APIListPath;
+			Debug_AlertOnError.Checked = config.Debug.AlertOnError;
 
 			Debug_EnableDebugMenu_CheckedChanged( null, null );
 		}

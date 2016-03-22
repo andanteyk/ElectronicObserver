@@ -394,7 +394,7 @@ namespace ElectronicObserver.Window.Control {
 
 		private static TextFormatFlags GetTextFormat( ContentAlignment align, bool autowrap, bool autoellipsis ) {
 
-			TextFormatFlags textformat = TextFormatFlags.NoPadding;
+			TextFormatFlags textformat = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
 
 			if ( autowrap )
 				textformat |= TextFormatFlags.WordBreak;

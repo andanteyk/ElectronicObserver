@@ -515,7 +515,7 @@ namespace ElectronicObserver.Data {
 		/// <param name="index">計算式。0-2</param>
 		public string GetSearchingAbilityString( int index ) {
 
-			return CalculatorEx.GetSearchingAbility( this, index ).ToString( "F1" );
+			return CalculatorEx.GetSearchingAbility( this, index ).ToString( "F2" );
 		}
 
 		/// <summary>
@@ -751,12 +751,18 @@ namespace ElectronicObserver.Data {
 					break;
 				case FleetStates.Docking:
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
+					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= Utility.Configuration.Config.NotifierRepair.AccelInterval )
+						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
 					break;
 				case FleetStates.Expedition:
 					label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
+					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= Utility.Configuration.Config.NotifierExpedition.AccelInterval )
+						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
 					break;
 				case FleetStates.Tired:
 					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
+					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= 0 )
+						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
 					break;
 				case FleetStates.AnchorageRepairing:
 					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );

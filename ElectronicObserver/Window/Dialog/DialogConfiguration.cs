@@ -325,7 +325,6 @@ namespace ElectronicObserver.Window.Dialog {
 			Control_RecordAutoSaving.SelectedIndex = config.Control.RecordAutoSaving;
 			Control_UseSystemVolume.Checked = config.Control.UseSystemVolume;
 
-			//Debug_AlertOnError.Checked = config.Debug.AlertOnError;
 
 			//[起動と終了]
 			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
@@ -350,6 +349,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShowEquipmentLevel.Checked = config.FormFleet.ShowEquipmentLevel;
 			FormFleet_AirSuperiorityMethod.SelectedIndex = config.FormFleet.AirSuperiorityMethod;
 			FormFleet_ShowAnchorageRepairingTimer.Checked = config.FormFleet.ShowAnchorageRepairingTimer;
+			FormFleet_BlinkAtCompletion.Checked = config.FormFleet.BlinkAtCompletion;
 
 			FormShipGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			FormShipGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
@@ -538,7 +538,6 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Control.RecordAutoSaving = Control_RecordAutoSaving.SelectedIndex;
 			config.Control.UseSystemVolume = Control_UseSystemVolume.Checked;
 
-			//config.Debug.AlertOnError = Debug_AlertOnError.Checked;
 
 			//[起動と終了]
 			config.Life.ConfirmOnClosing = Life_ConfirmOnClosing.Checked;
@@ -563,6 +562,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowEquipmentLevel = FormFleet_ShowEquipmentLevel.Checked;
 			config.FormFleet.AirSuperiorityMethod = FormFleet_AirSuperiorityMethod.SelectedIndex;
 			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
+			config.FormFleet.BlinkAtCompletion = FormFleet_BlinkAtCompletion.Checked;
 
 			config.FormShipGroup.AutoUpdate = FormShipGroup_AutoUpdate.Checked;
 			config.FormShipGroup.ShowStatusBar = FormShipGroup_ShowStatusBar.Checked;

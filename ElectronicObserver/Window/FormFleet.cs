@@ -230,6 +230,7 @@ namespace ElectronicObserver.Window {
 			public void ConfigurationChanged( FormFleet parent ) {
 				Name.Font = parent.MainFont;
 				StateMain.Font = parent.MainFont;
+				StateMain.BackColor = Color.Transparent;
 				AirSuperiority.Font = parent.MainFont;
 				AirSuperiority.Font = parent.MainFont;
 				SearchingAbility.Font = parent.MainFont;
@@ -911,7 +912,9 @@ namespace ElectronicObserver.Window {
 					int eqcount = 1;
 					foreach ( var eq in ship.SlotInstance ) {
 						if ( eq == null ) break;
-						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2}}},", eqcount, eq.EquipmentID, Math.Max( eq.Level, eq.AircraftLevel ) );
+
+						// 水偵は改修レベル優先(熟練度にすると改修レベルに誤解されて 33式 の結果がずれるため)
+						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2}}},", eqcount, eq.EquipmentID, eq.MasterEquipment.CategoryType == 10 ? eq.Level : Math.Max( eq.Level, eq.AircraftLevel ) );
 
 						eqcount++;
 					}
