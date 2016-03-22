@@ -12,7 +12,7 @@ namespace ElectronicObserver.Utility
         static string[] voiceName = new string[] { "获得", "母港1", "母港2", "母港3", "建成提示", "修理结束", "回港", "查看战绩", "换装", "强化", "小破入渠", "中破入渠", "编成", "出击", "开战", "攻击", "攻击2", "夜战突入", "小破", "小破2", "中破", "击沉", "MVP", "结婚", "图鉴", "远征/物资", "补给", "回港2", "放置" };
         static List<string> voiceList;
         public delegate string GetVoiceTextEvent(int shipID, int voiceID);
-        static event GetVoiceTextEvent OnGetVoiceText;
+        public static event GetVoiceTextEvent OnGetVoiceText;
 
         static KanVoice()
         {
