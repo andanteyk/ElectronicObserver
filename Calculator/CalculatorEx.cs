@@ -443,8 +443,8 @@ namespace ElectronicObserver.Utility.Data {
 				}
 			}
 
-			ret -= Math.Round( KCDatabase.Instance.Admiral.Level * 0.4 );
-			ret += 2 * ( 6 - members.Count );
+			ret -= Math.Ceiling( KCDatabase.Instance.Admiral.Level * 0.4 );
+			ret += 2 * ( 6 - members.Count( m => m != null ) );
 
 			return Math.Round( ret, 1 );
 		}
