@@ -602,6 +602,11 @@ namespace Browser {
 			NativeMethods.InternetSetOption( IntPtr.Zero, INTERNET_OPTION_PROXY, proxyInfoPtr, proxyInfoSize );
 		}
 
+        private void ClearTemporaryInternetFiles()
+        {
+            System.Diagnostics.Process.Start("rundll32.exe", "InetCpl.cpl,ClearMyTracksByProcess 8").WaitForExit();
+        }
+
 		/// <summary>
 		/// キャッシュを削除します。
 		/// </summary>
@@ -906,21 +911,24 @@ namespace Browser {
 		}
 
 
-		private async void ToolMenu_Other_ClearCache_Click( object sender, EventArgs e ) {
+		private void ToolMenu_Other_ClearCache_Click( object sender, EventArgs e ) {
 
-			if ( MessageBox.Show( "ブラウザのキャッシュを削除します。\nよろしいですか？", "キャッシュの削除", MessageBoxButtons.OKCancel, MessageBoxIcon.Question )
-				== System.Windows.Forms.DialogResult.OK ) {
+            if (MessageBox.Show("这将会删除浏览器缓存的临时文件,可能需要花费一些时间\n确认要这么做？", "删除缓存", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+                == System.Windows.Forms.DialogResult.OK)
+            {
 
-				try {
+                //try {
 
-					await Task.Factory.StartNew( (Action)( () => ClearCache() ) );
-					MessageBox.Show( "キャッシュの削除が完了しました。", "削除完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
+                //    await Task.Factory.StartNew( (Action)( () => ClearCache() ) );
+                //    MessageBox.Show( "キャッシュの削除が完了しました。", "削除完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
 
-				} catch ( Exception ex ) {
-					BrowserHost.Proxy.SendErrorReport( ex.Message, "清除缓存时出错。" );
-				}
+                //} catch ( Exception ex ) {
+                //    BrowserHost.Proxy.SendErrorReport( ex.Message, "清除缓存时出错。" );
+                //}
 
-			}
+                ClearTemporaryInternetFiles();
+                MessageBox.Show("浏览器缓存已经清空。", "删除缓存成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 		}
 
 
