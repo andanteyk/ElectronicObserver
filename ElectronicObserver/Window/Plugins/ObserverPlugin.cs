@@ -9,7 +9,7 @@ namespace ElectronicObserver.Window.Plugins
 {
 	public abstract class ObserverPlugin : IPluginHost
 	{
-		public PluginType PluginType
+		public virtual PluginType PluginType
 		{
 			get { return PluginType.Observer; }
 		}
@@ -40,6 +40,11 @@ namespace ElectronicObserver.Window.Plugins
 		{
 			get { return null; }
 		}
+
+        public virtual PluginUpdateInformation UpdateInformation
+        {
+            get { return new PluginUpdateInformation(PluginUpdateInformation.UpdateType.None); }
+        }
 
 		public abstract bool OnBeforeRequest( Fiddler.Session oSession );
 
