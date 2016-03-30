@@ -45,9 +45,11 @@ namespace ElectronicObserver.Window.Plugins
                         break;
                     case PluginUpdateInformation.UpdateType.Manual:
                         UpdateProgress.Progress = PluginUpdateProgress.UpdatingProgress.手动更新;
+                        UpdateProgress.Messages = "点击按钮手动下载该插件";
                         break;
                     default:
                         UpdateProgress.Progress = PluginUpdateProgress.UpdatingProgress.尚未开始;
+                        UpdateProgress.Messages = "点击按钮检查更新";
                         break;
                 }
             }
@@ -79,6 +81,11 @@ namespace ElectronicObserver.Window.Plugins
                     UpdateThread.IsBackground = true;
                     UpdateThread.Start(this);
                     return true;
+                }
+
+                if (UpdateProgress.Progress == PluginUpdateProgress.UpdatingProgress.手动更新)
+                {
+                    System.Diagnostics.Process.Start(UpdateProgress.Updater.UpdateInformation.PluginDownloadURI);
                 }
                 return false;
             }
@@ -126,6 +133,12 @@ namespace ElectronicObserver.Window.Plugins
                             UpdateProgress.Version = data["Version"].ToString();
 
                             int ver = CompareVersion(UpdateProgress.Version, PluginUpdater.PluginHost.Version);
+                            if (ver <= 0)
+                            {
+                                UpdateProgress.Messages = "该插件已经是最新";
+                                UpdateProgress.Progress = PluginUpdateProgress.UpdatingProgress.无需更新;
+                                return;
+                            }
 
                             UpdateProgress.PluginFileName = data["PluginFileName"].ToString();
 
@@ -148,6 +161,7 @@ namespace ElectronicObserver.Window.Plugins
 
                         if (UpdateProgress.DownloadLink == null)
                         {
+                            UpdateProgress.Updater.UpdateInformation.PluginDownloadURI = UpdateProgress.DownloadSite;
                             UpdateProgress.Messages = "发现新版本(" + UpdateProgress.Version + ")!手动下载该插件";
                             UpdateProgress.Progress = PluginUpdateProgress.UpdatingProgress.手动更新;
                             return;
