@@ -9,7 +9,7 @@ namespace ElectronicObserver.Window.Plugins
 {
 	public abstract class DockPlugin : IPluginHost
 	{
-		public PluginType PluginType
+        public virtual PluginType PluginType
 		{
 			get { return Plugins.PluginType.DockContent; }
 		}
@@ -40,5 +40,10 @@ namespace ElectronicObserver.Window.Plugins
 		{
 			get { return null; }
 		}
+
+        public virtual PluginUpdateInformation UpdateInformation
+        {
+            get { return new PluginUpdateInformation(PluginUpdateInformation.UpdateType.None); }
+        }
 	}
 }

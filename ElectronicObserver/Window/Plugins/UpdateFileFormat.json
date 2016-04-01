@@ -1,0 +1,7 @@
+{
+		"PluginFileName": "TestUpdate.dll",/*插件文件名,只能有一个 如果是多个文件,那么必须用zip打包,扩展名改成.Plugin,更新后会自动解压*/
+        "Version": "1.0.0.1",/*版本号*/
+        "DownloadLink": "http://herix001.github.io/Files/TestUpdate.dll",/*直接自动下载的地址,http://之类的必须加 不然下载不了*/
+        "DownloadSite": "",/*手动下载的网址,用户可以点击这个网址去手动下 */
+        "Changelog": "ElectronicObserver Plugins AutoUpdate" /*更新日志*/
+}

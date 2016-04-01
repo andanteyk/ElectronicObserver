@@ -8,13 +8,18 @@ using System.Windows.Forms;
 
 namespace ElectronicObserver.Window.Plugins
 {
-	public enum PluginType
-	{
-		DockContent = 0,
-		Dialog,
-		Service,
-		Observer
-	}
+    public enum PluginType
+    {
+        DockContent = 0,
+        Dialog,
+        Service,
+        Observer,
+
+        DockContentPlugin = 4,
+        DialogPlugin = 8,
+        ServicePlugin = 16,
+        ObserverPlugin = 32
+    }
 
 	public interface IPluginHost
 	{
@@ -31,5 +36,9 @@ namespace ElectronicObserver.Window.Plugins
 		string Version { get; }
 
 		Image MenuIcon { get; }
+
+        PluginUpdateInformation UpdateInformation { get; }
 	}
+
+
 }

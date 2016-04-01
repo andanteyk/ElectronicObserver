@@ -36,6 +36,14 @@ namespace ElectronicObserver.Window.Dialog
 		{
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormConfiguration] );
 
+            var MenuItem = new ListViewItem(new[]
+				{
+					"插件更新",
+					""
+				});
+            MenuItem.Group = listViewPlugins.Groups["GroupUpdate"];
+            listViewPlugins.Items.Add(MenuItem);
+
 			foreach ( var p in mainForm.Plugins )
 			{
 				var item = new ListViewItem( new[]
@@ -45,24 +53,28 @@ namespace ElectronicObserver.Window.Dialog
 				} );
 
 				item.Tag = p;
-				switch ( p.PluginType )
-				{
-					case Plugins.PluginType.DockContent:
-						item.Group = listViewPlugins.Groups["groupDockContent"];
-						break;
+                switch (p.PluginType)
+                {
+                    case Plugins.PluginType.DockContent:
+                        item.Group = listViewPlugins.Groups["groupDockContent"];
+                        break;
 
-					case Plugins.PluginType.Service:
-						item.Group = listViewPlugins.Groups["groupService"];
-						break;
+                    case Plugins.PluginType.Service:
+                        item.Group = listViewPlugins.Groups["groupService"];
+                        break;
 
-					case Plugins.PluginType.Dialog:
-						item.Group = listViewPlugins.Groups["groupDialog"];
-						break;
+                    case Plugins.PluginType.Dialog:
+                        item.Group = listViewPlugins.Groups["groupDialog"];
+                        break;
 
-					case Plugins.PluginType.Observer:
-						item.Group = listViewPlugins.Groups["groupObserver"];
-						break;
-				}
+                    case Plugins.PluginType.Observer:
+                        item.Group = listViewPlugins.Groups["groupObserver"];
+                        break;
+
+                    default:
+                        item.Group = listViewPlugins.Groups["groupCombo"];
+                        break;
+                }
 				listViewPlugins.Items.Add( item );
 			}
 
@@ -75,9 +87,17 @@ namespace ElectronicObserver.Window.Dialog
 
 			var item = listViewPlugins.SelectedItems[0];
 			var plugin = (IPluginHost)item.Tag;
-			if ( plugin == null )
-				return;
-
+            if (plugin == null)
+            {
+                DialogPluginUpdate DialogPluginUpdateForm = new DialogPluginUpdate();
+                panelSettings.Controls.Clear();
+                DialogPluginUpdateForm.TopLevel = false;
+                DialogPluginUpdateForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                DialogPluginUpdateForm.Dock = DockStyle.Fill;
+                panelSettings.Controls.Add(DialogPluginUpdateForm);
+                DialogPluginUpdateForm.Show();
+                return;
+            }
 			PluginSettingControl control;
 			if ( !settings.TryGetValue( plugin, out control ) )
 			{

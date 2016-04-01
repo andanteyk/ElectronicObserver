@@ -60,6 +60,8 @@ namespace ElectronicObserver.Window {
 
 		public List<IPluginHost> Plugins { get; private set; }
 
+        public static PluginUpdateManager UpdateManager;
+
 		public FormFleet[] fFleet;
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
@@ -174,6 +176,8 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 
+            PluginUpdateManager.ApplyUpdates();
+
 			await LoadPlugins();
 
 			string lower = Configuration.Config.Life.LayoutFilePath.ToLower();
@@ -224,6 +228,8 @@ namespace ElectronicObserver.Window {
 		{
 			Plugins = new List<IPluginHost>();
 
+            //pluginManager = new PluginManager(this);
+
 			var path = this.GetType().Assembly.Location;
 			path = path.Substring( 0, path.LastIndexOf( '\\' ) + 1 ) + "Plugins";
 			if ( Directory.Exists( path ) )
@@ -237,6 +243,7 @@ namespace ElectronicObserver.Window {
 					{
 						try
 						{
+
 							var assembly = Assembly.LoadFile( file );
 							var pluginTypes = assembly.GetExportedTypes().Where( t => t.GetInterface( typeof( IPluginHost ).FullName ) != null );
 							if ( pluginTypes != null && pluginTypes.Count() > 0 )
@@ -250,6 +257,7 @@ namespace ElectronicObserver.Window {
 									}
 								}
 							}
+
 						}
 						catch ( ReflectionTypeLoadException refEx )
 						{
@@ -261,6 +269,8 @@ namespace ElectronicObserver.Window {
 						}
 					}
 				} );
+
+                UpdateManager = new PluginUpdateManager(Plugins);
 
 				// instance them
 				foreach ( var plugin in Plugins )
@@ -274,7 +284,7 @@ namespace ElectronicObserver.Window {
 							flag = true;
 						}
 
-						if ( plugin.PluginType == PluginType.DockContent )
+                        if (plugin.PluginType == PluginType.DockContent || (plugin.PluginType & PluginType.DockContentPlugin) == PluginType.DockContentPlugin)
 						{
 							List<DockContent> plugins = new List<DockContent>();
 							foreach ( var type in plugin.GetType().Assembly.GetExportedTypes().Where( t => t.BaseType == typeof( DockContent ) ) )
@@ -323,7 +333,7 @@ namespace ElectronicObserver.Window {
 						}
 
 						// service
-						else if ( plugin.PluginType == PluginType.Service )
+                        if (plugin.PluginType == PluginType.Service || (plugin.PluginType & PluginType.ServicePlugin) == PluginType.ServicePlugin)
 						{
 							if ( plugin.RunService( this ) )
 							{
@@ -336,7 +346,7 @@ namespace ElectronicObserver.Window {
 						}
 
 						// dialog
-						else if ( plugin.PluginType == PluginType.Dialog )
+                        if (plugin.PluginType == PluginType.Dialog || (plugin.PluginType & PluginType.DialogPlugin) == PluginType.DialogPlugin)
 						{
 							var item = new ToolStripMenuItem
 							{
@@ -350,7 +360,8 @@ namespace ElectronicObserver.Window {
 						}
 
 						// observer
-						else if ( plugin.PluginType == PluginType.Observer ) {
+                        else if (plugin.PluginType == PluginType.Observer || (plugin.PluginType & PluginType.ObserverPlugin) == PluginType.ObserverPlugin)
+                        {
 
 							if ( plugin is ObserverPlugin )
 								Utility.Configuration.Instance.AddObserverPlugin( (ObserverPlugin)plugin );
@@ -588,6 +599,7 @@ namespace ElectronicObserver.Window {
 
 		private void FormMain_FormClosed( object sender, FormClosedEventArgs e ) {
 
+            UpdateManager.Stop();
 			Utility.Configuration.Instance.Save();
 			APIObserver.Instance.Stop();
 			RecordManager.Instance.Save();
