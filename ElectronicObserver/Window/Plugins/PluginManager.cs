@@ -231,6 +231,9 @@ namespace ElectronicObserver.Window.Plugins
         public static void ApplyUpdates()
         {
             string lstFile = UpdatesFolder + "\\Updates.lst";
+			if (!File.Exists(lstFile))
+				return;
+
             var files = File.ReadAllLines(lstFile);
             foreach (var file in files)
             {
