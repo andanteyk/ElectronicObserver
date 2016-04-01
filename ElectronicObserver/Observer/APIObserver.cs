@@ -46,7 +46,6 @@ namespace ElectronicObserver.Observer {
 
 			APIList = new APIDictionary();
 			APIList.Add( new kcsapi.api_start2() );
-			APIList.Add( new kcsapi.api_get_member.require_info() );
 			APIList.Add( new kcsapi.api_get_member.basic() );
 			APIList.Add( new kcsapi.api_get_member.slot_item() );
 			APIList.Add( new kcsapi.api_get_member.useitem() );
@@ -97,6 +96,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_kousyou.remodel_slotlist() );
 			APIList.Add( new kcsapi.api_req_sortie.ld_airbattle() );
 			APIList.Add( new kcsapi.api_req_combined_battle.ld_airbattle() );
+			APIList.Add( new kcsapi.api_get_member.require_info() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );

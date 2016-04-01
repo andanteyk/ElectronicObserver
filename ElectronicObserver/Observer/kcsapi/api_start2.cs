@@ -47,7 +47,7 @@ namespace ElectronicObserver.Observer.kcsapi {
 				ShipDataMaster ship = db.MasterShips[id];
 				if ( ship != null ) {
 					ship.ResourceName = elem.api_filename;
-					ship.ResourceVersion = elem.api_version;
+					ship.ResourceVersion = elem.api_version.IsArray ? elem.api_version[0] : elem.api_version;		//undone
 				}
 			}
 

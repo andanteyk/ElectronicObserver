@@ -226,6 +226,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/ship_deck"].ResponseReceived += Updated;
 			o.APIList["api_req_hensei/preset_select"].ResponseReceived += Updated;
 			o.APIList["api_req_kaisou/slot_exchange_index"].ResponseReceived += Updated;
+			o.APIList["api_get_member/require_info"].ResponseReceived += Updated;
+
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}

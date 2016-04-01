@@ -16,17 +16,17 @@ api_start2	：艦娘・装備固有データその他
 		api_stype		：艦種
 		api_afterlv		：改装Lv
 		api_aftershipid	：改装後ID 文字列 "0"=なし
-		api_taik		：耐久
+		api_taik		：耐久 [0]=初期値, [1]=最大値
 		api_souk		：装甲
 		api_houg		：火力
 		api_raig		：雷装
 		api_tyku		：対空
 		api_luck		：運
 		api_soku		：速力　0=陸上基地, 5=低速, 10=高速
-		api_leng		：射程
+		api_leng		：射程 0=無, 1=短, 2=中, 3=長, 4=超長
 		api_slot_num	：スロット数
 		api_maxeq		：艦載機搭載数
-		api_buildtime	：建造時間
+		api_buildtime	：建造時間 分単位
 		api_broken		：解体資材
 		api_powup		：近代化改修強化値
 		api_backs		：レアリティ
@@ -50,7 +50,7 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：艦船ID
 		api_sortno		：図鑑番号
 		api_filename	：ファイル名
-		api_version		：ファイルのバージョン string
+		api_version		：ファイルのバージョン string[3]
 		api_boko_n		：母港での座標(無傷)？
 		api_boko_d		：〃(中破)？
 		api_kaisyu_n	：近代化改修
@@ -415,7 +415,7 @@ api_start2	：艦娘・装備固有データその他
 			api_int_value		：「最大保有艦娘数」最大値
 		api_dpflag_quest		：
 			api_string_value	：
-			api_int_value		：1?
+			api_int_value		：0, 1?
 
 	api_mst_shipupgrade	：特殊改装設定
 		api_id					：改装後の艦船ID
@@ -441,8 +441,18 @@ api_req_member/get_incentive	：褒賞関連
 		api_getmes		：獲得時メッセージ
 
 
+api_get_member/require_info	：起動時情報群
+	api_basic
+		api_member_id	：提督ID
+		api_firstflag	：1?
+	api_slot_item		：保有装備リスト slot_item と同じ
+	api_unsetslot		：カテゴリ別未装備品リスト unsetslot と同じ
+	api_kdock			：工廠ドック状態 kdock と同じ
+	api_useitem			：消費アイテムリスト useitem と同じ
+	api_furniture		：家具リスト furniture と同じ
+
 api_get_member/basic		：艦隊司令部情報
-	api_member_id			：提督固有ID
+	api_member_id			：提督固有ID string
 	api_nickname			：提督名
 	api_nickname_id			：
 	api_active_flag			：
@@ -549,9 +559,9 @@ api_get_member/slot_item	：装備品情報
 	api_alv					：艦載機熟練度　1以上の時のみ存在
 
 
-api_get_member/unsetslot	：未装備武器のカテゴリ分け？
-	api_slottype<id>		：id=装備カテゴリ
-		装備固有ID？
+api_get_member/unsetslot	：カテゴリ別の装備されていない装備リスト
+	api_slottype<id>		：id=装備カテゴリ api_slottype4 など 空配列なら代わりに -1
+		<装備固有IDリスト>
 
 
 api_get_member/useitem		：アイテム情報
@@ -1811,12 +1821,7 @@ Request.api_req_member/registration_sp		：艦これAndroid版 事前登録
 《ログイン》
 api_start2
 api_req_member/get_incentive
-api_get_member/basic
-api_get_member/furniture
-api_get_member/slot_item
-api_get_member/useitem
-api_get_member/kdock
-api_get_member/unsetslot
+api_get_member/require_info
 api_port/port
 
 《出撃》

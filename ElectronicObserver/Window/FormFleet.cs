@@ -738,12 +738,12 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kaisou/powerup"].ResponseReceived += Updated;		//requestのほうは面倒なのでこちらでまとめてやる
 			o.APIList["api_get_member/deck"].ResponseReceived += Updated;
 			o.APIList["api_get_member/slot_item"].ResponseReceived += Updated;
-			o.APIList["api_get_member/require_info"].ResponseReceived += Updated;
 			o.APIList["api_req_map/start"].ResponseReceived += Updated;
 			o.APIList["api_req_map/next"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ship_deck"].ResponseReceived += Updated;
 			o.APIList["api_req_hensei/preset_select"].ResponseReceived += Updated;
 			o.APIList["api_req_kaisou/slot_exchange_index"].ResponseReceived += Updated;
+			o.APIList["api_get_member/require_info"].ResponseReceived += Updated;
 
 
 			//追加するときは FormFleetOverview にも同様に追加してください
@@ -755,8 +755,8 @@ namespace ElectronicObserver.Window {
 		void Updated( string apiname, dynamic data ) {
 
 			if ( IsRemodeling ) {
-				if ( apiname == "api_get_member/slot_item"
-					|| apiname == "api_get_member/require_info")
+				if ( apiname == "api_get_member/slot_item" ||
+					 apiname == "api_get_member/require_info" )
 					IsRemodeling = false;
 				else
 					return;

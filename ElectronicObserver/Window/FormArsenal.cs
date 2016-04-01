@@ -190,11 +190,12 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			o.APIList["api_req_kousyou/createship"].RequestReceived += Updated;
-			o.APIList["api_req_kousyou/createship_speedchange"].RequestReceived += Updated;
+			o["api_req_kousyou/createship"].RequestReceived += Updated;
+			o["api_req_kousyou/createship_speedchange"].RequestReceived += Updated;
 
-			o.APIList["api_get_member/kdock"].ResponseReceived += Updated;
-			o.APIList["api_req_kousyou/getship"].ResponseReceived += Updated;
+			o["api_get_member/kdock"].ResponseReceived += Updated;
+			o["api_req_kousyou/getship"].ResponseReceived += Updated;
+			o["api_get_member/require_info"].ResponseReceived += Updated;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
