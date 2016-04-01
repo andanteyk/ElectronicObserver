@@ -531,7 +531,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// リソースのバージョン
 		/// </summary>
-		public string ResourceVersion { get; internal set; }
+		public string[] ResourceVersion { get; internal set; }
 
 
 

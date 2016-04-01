@@ -46,6 +46,7 @@ namespace ElectronicObserver.Observer {
 
 			APIList = new APIDictionary();
 			APIList.Add( new kcsapi.api_start2() );
+			APIList.Add( new kcsapi.api_get_member.require_info() );
 			APIList.Add( new kcsapi.api_get_member.basic() );
 			APIList.Add( new kcsapi.api_get_member.slot_item() );
 			APIList.Add( new kcsapi.api_get_member.useitem() );
