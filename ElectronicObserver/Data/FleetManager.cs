@@ -27,7 +27,7 @@ namespace ElectronicObserver.Data {
 
 		public FleetManager() {
 			Fleets = new IDDictionary<FleetData>();
-			AnchorageRepairingTimer = DateTime.MinValue;
+			AnchorageRepairingTimer = DateTime.Now;
 		}
 
 
