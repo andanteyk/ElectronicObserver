@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
             this.ColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColUpdate = new ElectronicObserver.Window.Control.DataGridViewDisableButtonColumn();
-            this.label1 = new System.Windows.Forms.Label();
+            this.ColManual = new ElectronicObserver.Window.Control.DataGridViewDisableButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +50,8 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColName,
             this.ColStatus,
-            this.ColUpdate});
+            this.ColUpdate,
+            this.ColManual});
             this.dataGridView1.Location = new System.Drawing.Point(0, 34);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -59,6 +61,15 @@
             this.dataGridView1.Size = new System.Drawing.Size(714, 444);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(119, 12);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "支持更新功能的插件:";
             // 
             // ColName
             // 
@@ -80,14 +91,12 @@
             this.ColUpdate.ReadOnly = true;
             this.ColUpdate.Width = 80;
             // 
-            // label1
+            // ColManual
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 12);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "支持更新功能的插件:";
+            this.ColManual.HeaderText = "手动";
+            this.ColManual.Name = "ColManual";
+            this.ColManual.ReadOnly = true;
+            this.ColManual.Width = 80;
             // 
             // DialogPluginUpdate
             // 
@@ -110,9 +119,10 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColStatus;
         private Control.DataGridViewDisableButtonColumn ColUpdate;
-        private System.Windows.Forms.Label label1;
+        private Control.DataGridViewDisableButtonColumn ColManual;
     }
 }

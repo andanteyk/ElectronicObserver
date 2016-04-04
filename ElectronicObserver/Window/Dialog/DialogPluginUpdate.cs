@@ -23,6 +23,7 @@ namespace ElectronicObserver.Window.Dialog
         {
             public string ButtonCaption;
             public bool Enabled;
+            public bool ManualEnabled;
         }
 
         Dictionary<string, int> RowList = new Dictionary<string, int>();
@@ -36,7 +37,7 @@ namespace ElectronicObserver.Window.Dialog
                     ds.ButtonCaption = "重新更新";
                     break;
                 case Plugins.PluginUpdateProgress.UpdatingProgress.手动更新:
-                    ds.Enabled = true;
+                    ds.Enabled = false;
                     ds.ButtonCaption = "手动下载";
                     break;
                 case Plugins.PluginUpdateProgress.UpdatingProgress.等待下载:
@@ -44,8 +45,8 @@ namespace ElectronicObserver.Window.Dialog
                     ds.ButtonCaption = "开始下载";
                     break;
                 case Plugins.PluginUpdateProgress.UpdatingProgress.更新成功:
-                    ds.Enabled = false;
-                    ds.ButtonCaption = "更新成功";
+                    ds.Enabled = true;
+                    ds.ButtonCaption = "再次检查";
                     break;
                 case Plugins.PluginUpdateProgress.UpdatingProgress.尚未开始:
                     ds.Enabled = true;
@@ -70,6 +71,9 @@ namespace ElectronicObserver.Window.Dialog
             }
             return ds;
         }
+
+
+
         private void DialogPluginUpdate_Load(object sender, EventArgs e)
         {
 
@@ -82,8 +86,10 @@ namespace ElectronicObserver.Window.Dialog
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView1);
                     var Status = GetButtonStatus(Updater.Value.UpdateProgress.Progress);
-                    row.SetValues(Updater.Key, Updater.Value.UpdateProgress.Messages, Status.ButtonCaption);
+                    row.SetValues(Updater.Key, Updater.Value.UpdateProgress.Messages, Status.ButtonCaption, "手动下载");
+                    row.Cells[1].ToolTipText = Updater.Value.UpdateProgress.Changelog;
                     ((DataGridViewDisableButtonCell)row.Cells[2]).Enabled = Status.Enabled;
+                    ((DataGridViewDisableButtonCell)row.Cells[3]).Enabled = !string.IsNullOrWhiteSpace(Updater.Value.UpdateInformation.PluginDownloadURI);
                     rows.Add(row);
                     RowList[Updater.Key] = Row;
                     Row++;
@@ -106,6 +112,12 @@ namespace ElectronicObserver.Window.Dialog
                 FormMain.UpdateManager.PluginUpdaters[name].Start();
                 
             }
+
+            if (e.ColumnIndex == ColManual.Index)
+            {
+                string name = dataGridView1.Rows[e.RowIndex].Cells["ColName"].Value.ToString();
+                FormMain.UpdateManager.PluginUpdaters[name].ManualStart();
+            }
         }
 
         void UpdateProgress_OnUpdateProgressChanged(Plugins.PluginUpdateProgress UpdateProgress)
@@ -114,11 +126,15 @@ namespace ElectronicObserver.Window.Dialog
             var Status = GetButtonStatus(UpdateProgress.Progress);
             if (Status.ButtonCaption == null)
                 return;
-            this.Invoke(new MethodInvoker(() =>
+
+            FormMain.ActiveForm.Invoke(new MethodInvoker(() =>
             {
                 dataGridView1.Rows[Row].Cells["ColStatus"].Value = UpdateProgress.Messages;
                 dataGridView1.Rows[Row].Cells["ColUpdate"].Value = Status.ButtonCaption;
+                dataGridView1.Rows[Row].Cells[1].ToolTipText = UpdateProgress.Updater.UpdateProgress.Changelog;
                 ((DataGridViewDisableButtonCell)dataGridView1.Rows[Row].Cells["ColUpdate"]).Enabled = Status.Enabled;
+                ((DataGridViewDisableButtonCell)dataGridView1.Rows[Row].Cells[3]).Enabled = !string.IsNullOrWhiteSpace(UpdateProgress.Updater.UpdateInformation.PluginDownloadURI);
+                dataGridView1.Refresh();
             }));
         }
 

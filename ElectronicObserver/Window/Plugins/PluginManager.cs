@@ -12,16 +12,60 @@ using ICSharpCode.SharpZipLib.Zip;
 
 namespace ElectronicObserver.Window.Plugins
 {
+    class PluginVer
+    {
+        public string Name { get; set; }
+        public string Ver { get; set; }
+        public PluginVer(string name, string ver)
+        {
+            Name = name;
+            Ver = ver;
+        }
+
+        public override string ToString()
+        {
+            return Name + "," + Ver;
+        }
+    }
+
+    class PluginVerList
+    {
+        List<PluginVer> File2Update = new List<PluginVer>();
+        public void Add(string name, string ver)
+        {
+            var version = File2Update.FirstOrDefault(e => e.Name == name);
+            if (version != null)
+            {
+                version.Ver = ver;
+            }
+            else
+            {
+                File2Update.Add(new PluginVer(name, ver));
+            }
+        }
+
+        public IEnumerable<string> ToList()
+        {
+            return File2Update.Select(e => e.ToString());
+        }
+
+        public string GetVersion(string name)
+        {
+            var version = File2Update.FirstOrDefault(e => e.Name == name);
+            return version == null ? null : version.Ver;
+        }
+    }
+
     public class PluginUpdateManager
     {
         public Dictionary<string, PluginUpdater> PluginUpdaters { get; private set; }
-        static List<string> File2Update = new List<string>();
+        static PluginVerList File2Update = new PluginVerList();
         public static string UpdatesFolder;
         public static string PluginsFolder;
-        static void Wait2Update(string tempfile, string name)
+        static void Wait2Update(string tempfile, string name,string ver)
         {
             File.Copy(tempfile, UpdatesFolder + "\\" + name, true);
-            File2Update.Add(name);
+            File2Update.Add(name, ver);
         }
         public class PluginUpdater
         {
@@ -53,10 +97,17 @@ namespace ElectronicObserver.Window.Plugins
                         break;
                 }
             }
+
+            public void ManualStart()
+            {
+                System.Diagnostics.Process.Start(this.UpdateInformation.PluginDownloadURI);
+            }
+
             public bool Start()
             {
                 if (UpdateProgress.Progress == PluginUpdateProgress.UpdatingProgress.尚未开始 ||
-                    UpdateProgress.Progress == PluginUpdateProgress.UpdatingProgress.更新失败)
+                    UpdateProgress.Progress == PluginUpdateProgress.UpdatingProgress.更新失败 ||
+                    UpdateProgress.Progress == PluginUpdateProgress.UpdatingProgress.更新成功)
                 {
                     UpdateProgress.Progress = PluginUpdateProgress.UpdatingProgress.正在开始;
                     if (UpdateThread != null && UpdateThread.IsAlive)
@@ -131,16 +182,19 @@ namespace ElectronicObserver.Window.Plugins
                                 UpdateProgress.Changelog = null;
 
                             UpdateProgress.Version = data["Version"].ToString();
+                            UpdateProgress.PluginFileName = data["PluginFileName"].ToString();
 
-                            int ver = CompareVersion(UpdateProgress.Version, PluginUpdater.PluginHost.Version);
-                            if (ver <= 0)
+                            string VerBuffered = File2Update.GetVersion(UpdateProgress.PluginFileName);
+                            int newVer = CompareVersion(UpdateProgress.Version, PluginUpdater.PluginHost.Version);
+                            int newVerBuffered = CompareVersion(UpdateProgress.Version, VerBuffered);
+
+                            if (newVer <= 0 || newVerBuffered <= 0)
                             {
                                 UpdateProgress.Messages = "该插件已经是最新";
                                 UpdateProgress.Progress = PluginUpdateProgress.UpdatingProgress.无需更新;
                                 return;
                             }
-
-                            UpdateProgress.PluginFileName = data["PluginFileName"].ToString();
+                        
 
                             if (data.ContainsKey("DownloadLink"))
                                 UpdateProgress.DownloadLink = data["DownloadLink"].ToString();
@@ -148,7 +202,9 @@ namespace ElectronicObserver.Window.Plugins
                                 UpdateProgress.DownloadLink = null;
 
                             if (data.ContainsKey("DownloadSite"))
+                            {
                                 UpdateProgress.DownloadSite = data["DownloadSite"].ToString();
+                            }
                             else
                                 UpdateProgress.DownloadSite = null;
                         }
@@ -168,6 +224,10 @@ namespace ElectronicObserver.Window.Plugins
                         }
                         else
                         {
+                            if(!string.IsNullOrWhiteSpace(UpdateProgress.DownloadSite))
+                            {
+                                UpdateProgress.Updater.UpdateInformation.PluginDownloadURI = UpdateProgress.DownloadSite;
+                            }
                             UpdateProgress.Messages = "发现新版本(" + UpdateProgress.Version + ")!";
                             UpdateProgress.Progress = PluginUpdateProgress.UpdatingProgress.等待下载;
                             return;
@@ -179,7 +239,7 @@ namespace ElectronicObserver.Window.Plugins
                         try
                         {
                             client.DownloadFile(UpdateProgress.DownloadLink, temp);
-                            PluginUpdateManager.Wait2Update(temp, UpdateProgress.PluginFileName);
+                            PluginUpdateManager.Wait2Update(temp, UpdateProgress.PluginFileName, UpdateProgress.Version);
                         }
                         catch
                         {
@@ -212,7 +272,7 @@ namespace ElectronicObserver.Window.Plugins
                 PluginUpdater updater = new PluginUpdater(plugin);
                 PluginUpdaters[plugin.MenuTitle] = updater;
             }
-           
+
             if (!Directory.Exists(UpdatesFolder))
             {
                 Directory.CreateDirectory(UpdatesFolder);
@@ -225,20 +285,29 @@ namespace ElectronicObserver.Window.Plugins
             {
                 pluginUpdater.Stop();
             }
-            File.WriteAllLines(UpdatesFolder + "\\Updates.lst", File2Update);
+            if (!Directory.Exists(UpdatesFolder))
+            {
+                Directory.CreateDirectory(UpdatesFolder);
+            }
+            File.WriteAllLines(UpdatesFolder + "\\Updates.lst", File2Update.ToList());
         }
 
         public static void ApplyUpdates()
         {
             string lstFile = UpdatesFolder + "\\Updates.lst";
-			if (!File.Exists(lstFile))
-				return;
+            if (!File.Exists(lstFile))
+                return;
 
             var files = File.ReadAllLines(lstFile);
-            foreach (var file in files)
+            foreach (var fileandver in files)
             {
+                var strings = fileandver.Split(',');
+                if (strings.Length < 1)
+                    continue;
+                string file = strings[0];
                 string updateFile = UpdatesFolder + "\\" + file;
-                
+                string ver = strings.Length > 1 ? "(" + strings[1] + ")" : null;
+
                 if (File.Exists(updateFile))
                 {
                     if (Path.GetExtension(file).ToUpper() == ".PLUGIN")
@@ -264,13 +333,11 @@ namespace ElectronicObserver.Window.Plugins
                     {
                         File.Copy(updateFile, PluginsFolder + "\\" + file, true);
                     }
-                    ElectronicObserver.Utility.Logger.Add(2, "已经成功更新插件:" + file);
+                    Utility.Logger.Add(2, "已经成功更新插件:" + file + ver);
                     File.Delete(updateFile);
                 }
             }
             File.Delete(lstFile);
-          
-            //zip.
         }
 
         static void SaveStreamToFile(Stream stream, string file)
@@ -278,7 +345,7 @@ namespace ElectronicObserver.Window.Plugins
             byte[] buffer = new byte[65536];
             string name = Path.Combine(PluginsFolder, file);
             string dir = Path.GetDirectoryName(name);
-            
+
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             var streamWriter = new FileStream(name, FileMode.Create, FileAccess.Write);
@@ -299,6 +366,10 @@ namespace ElectronicObserver.Window.Plugins
         //From SoftwareInformation.cs
         private static int CompareVersion(string verRemote, string verLocal)
         {
+            if (verLocal == null)
+            {
+                return 1;
+            }
             if (verRemote == verLocal)
                 return 0;
 
