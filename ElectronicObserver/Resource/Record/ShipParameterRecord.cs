@@ -88,7 +88,8 @@ namespace ElectronicObserver.Resource.Record {
 			/// <param name="level">艦船のレベル。</param>
 			/// <param name="current">現在値。</param>
 			/// <param name="max">最大値。</param>
-			public void SetEstParameter( int level, int current, int max ) {
+			/// <returns>予測パラメータが範囲外の値をとったとき true 。</returns>
+			public bool SetEstParameter( int level, int current, int max ) {
 
 				Func<int, int, int, int> clamp = ( int _value, int _min, int _max ) => _value < _min ? _min : ( _value > _max ? _max : _value );
 
@@ -110,6 +111,8 @@ namespace ElectronicObserver.Resource.Record {
 					if ( emax < MinimumEstMin || MinimumEstMax < emin ) {		//明らかに範囲から外れた場合
 						MinimumEstMin = emin;
 						MinimumEstMax = emax;
+						return true;
+
 					} else {
 						MinimumEstMin = Math.Max( MinimumEstMin, emin );
 						MinimumEstMax = Math.Min( MinimumEstMax, emax );
@@ -117,6 +120,7 @@ namespace ElectronicObserver.Resource.Record {
 
 				}
 
+				return false;
 			}
 
 
@@ -514,9 +518,19 @@ namespace ElectronicObserver.Resource.Record {
 				Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを記録しました。" );
 			}
 
-			e.ASW.SetEstParameter( level, aswMin, aswMax );
-			e.Evasion.SetEstParameter( level, evasionMin, evasionMax );
-			e.LOS.SetEstParameter( level, losMin, losMax );
+
+			if ( e.ASW.SetEstParameter( level, aswMin, aswMax ) )
+				Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の対潜値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
+					e.ASW.MinimumEstMin, e.ASW.MinimumEstMax, e.ASW.Maximum ) );
+
+			if ( e.Evasion.SetEstParameter( level, evasionMin, evasionMax ) )
+				Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の回避値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
+					e.Evasion.MinimumEstMin, e.Evasion.MinimumEstMax, e.Evasion.Maximum ) );
+
+			if ( e.LOS.SetEstParameter( level, losMin, losMax ) )
+				Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の索敵値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
+					e.LOS.MinimumEstMin, e.LOS.MinimumEstMax, e.LOS.Maximum ) );
+
 
 			Update( e );
 		}
@@ -652,8 +666,14 @@ namespace ElectronicObserver.Resource.Record {
 					Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを記録しました。" );
 				}
 
-				e.ASW.SetEstParameter( 1, (int)elem.api_tais, Parameter.MaximumDefault );
-				e.Evasion.SetEstParameter( 1, (int)elem.api_kaih, Parameter.MaximumDefault );
+
+				if ( e.ASW.SetEstParameter( 1, (int)elem.api_tais, Parameter.MaximumDefault ) )
+					Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の対潜値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
+						e.ASW.MinimumEstMin, e.ASW.MinimumEstMax, e.ASW.Maximum ) );
+
+				if ( e.Evasion.SetEstParameter( 1, (int)elem.api_kaih, Parameter.MaximumDefault ) )
+					Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の回避値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
+						e.Evasion.MinimumEstMin, e.Evasion.MinimumEstMax, e.Evasion.Maximum ) );
 
 
 				{	//図鑑説明文登録(図鑑に載っていない改装艦に関してはその改装前の艦の説明文を設定する)

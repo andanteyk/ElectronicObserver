@@ -36,7 +36,6 @@
 			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.BasePanelShipGirl = new System.Windows.Forms.Panel();
-			this.imageLabel1 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ResourceName = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TableBattle = new System.Windows.Forms.TableLayoutPanel();
 			this.TitleDayAttack = new ElectronicObserver.Window.Control.ImageLabel();
@@ -283,7 +282,6 @@
 			// 
 			// BasePanelShipGirl
 			// 
-			this.BasePanelShipGirl.Controls.Add(this.imageLabel1);
 			this.BasePanelShipGirl.Controls.Add(this.ResourceName);
 			this.BasePanelShipGirl.Controls.Add(this.TableBattle);
 			this.BasePanelShipGirl.Controls.Add(this.AlbumNo);
@@ -307,21 +305,11 @@
 			this.BasePanelShipGirl.Size = new System.Drawing.Size(546, 456);
 			this.BasePanelShipGirl.TabIndex = 0;
 			// 
-			// imageLabel1
-			// 
-			this.imageLabel1.BackColor = System.Drawing.Color.Transparent;
-			this.imageLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel1.Location = new System.Drawing.Point(211, 6);
-			this.imageLabel1.Name = "imageLabel1";
-			this.imageLabel1.Size = new System.Drawing.Size(41, 16);
-			this.imageLabel1.TabIndex = 25;
-			this.imageLabel1.Text = "リソース:";
-			// 
 			// ResourceName
 			// 
 			this.ResourceName.BackColor = System.Drawing.Color.Transparent;
 			this.ResourceName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.ResourceName.Location = new System.Drawing.Point(258, 6);
+			this.ResourceName.Location = new System.Drawing.Point(210, 6);
 			this.ResourceName.Name = "ResourceName";
 			this.ResourceName.Size = new System.Drawing.Size(113, 16);
 			this.ResourceName.TabIndex = 24;
@@ -1959,6 +1947,5 @@
 		private Control.ImageLabel AirSuperiority;
 		private Control.ImageLabel TitleAirSuperiority;
 		private Control.ImageLabel ResourceName;
-		private Control.ImageLabel imageLabel1;
 	}
 }

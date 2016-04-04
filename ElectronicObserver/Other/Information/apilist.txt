@@ -50,9 +50,9 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：艦船ID
 		api_sortno		：図鑑番号
 		api_filename	：ファイル名
-		api_version		：ファイルのバージョン string[3]
-		api_boko_n		：母港での座標(無傷)？
-		api_boko_d		：〃(中破)？
+		api_version		：ファイルのバージョン [グラフィック, ボイス, 母港ボイス]
+		api_boko_n		：母港での表示座標(無傷)
+		api_boko_d		：〃(中破)
 		api_kaisyu_n	：近代化改修
 		api_kaisyu_d	：
 		api_kaizo_n		：改装
@@ -64,8 +64,8 @@ api_start2	：艦娘・装備固有データその他
 		api_ensyue_n	：演習(敵軍側)
 		api_battle_n	：戦闘
 		api_battle_d	：
-		api_weda		：ケッコンカッコカリ
-		api_wedb		：
+		api_weda		：ケッコンカッコカリの顔枠の左上?
+		api_wedb		：〃右下?
 	
 	api_mst_slotitem_equiptype		：装備カテゴリ
 		api_id			：カテゴリID(装備のtype[2]に対応)
