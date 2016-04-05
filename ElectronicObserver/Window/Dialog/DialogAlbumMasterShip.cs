@@ -135,6 +135,8 @@ namespace ElectronicObserver.Window.Dialog
             this.ResumeLayoutForDpiScale();
 
             VoiceCachePath = Utility.Configuration.Config.CacheSettings.CacheFolder + "\\kcs\\sound";
+
+            this.ResourceName.DoubleClick += new EventHandler(this.ResourceName_DoubleClick);
         }
 
         private void LoadShips(string filter)
@@ -1125,9 +1127,22 @@ namespace ElectronicObserver.Window.Dialog
                 MediaPlayer.IsLoop = false;
                 MediaPlayer.Play();
             }
-            if (e.ColumnIndex ==VoiceColPath.Index)
+            if (e.ColumnIndex == VoiceColPath.Index)
             {
-                System.Diagnostics.Process.Start("Explorer.exe", "/e,/select," + dataGridView1.Rows[e.RowIndex].Tag.ToString());
+                System.Diagnostics.Process.Start("Explorer.exe", "/n,/select, " + dataGridView1.Rows[e.RowIndex].Tag.ToString());
+            }
+        }
+
+        private void ResourceName_DoubleClick(object sender, EventArgs e)
+        {
+            var ship = KCDatabase.Instance.MasterShips[_shipID];
+            if (ship != null)
+            {
+                string shipResourceFolder = Utility.Configuration.Config.CacheSettings.CacheFolder + @"\kcs\resources\swf\ships";
+                if (Directory.Exists(shipResourceFolder))
+                {
+                    System.Diagnostics.Process.Start("Explorer.exe", "/n,/select, " + shipResourceFolder + "\\" + ship.ResourceName + ".swf");
+                }
             }
         }
     }
