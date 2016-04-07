@@ -230,10 +230,8 @@ namespace ElectronicObserver.Notifier {
 		}
 
 		void dialog_FormClosing( object sender, System.Windows.Forms.FormClosingEventArgs e ) {
-			if ( LoopsSound ) {
+
 				Sound.Stop();
-				Sound.Next();
-			}
 		}
 
 		/// <summary>
