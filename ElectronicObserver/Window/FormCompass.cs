@@ -648,6 +648,11 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
+        string GetWikiName(int MapAreaID,int MapNo,int CellID)
+        {
+            string Point = MapCell2WikiPoint.GetWikiPointName(MapAreaID, MapNo, CellID);
+            return Point == null ? "" : "(" + Point + ")";
+        }
 
 		private void Updated( string apiname, dynamic data ) {
 
@@ -722,7 +727,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				TextDestination.Text = string.Format( "次のセル : {0}{1}", compass.Destination, ( compass.IsEndPoint ? " (終点)" : "" ) );
+                TextDestination.Text = string.Format("下一点 : {0}{1}{2}", compass.Destination, GetWikiName(compass.MapAreaID, compass.MapInfoID, compass.Destination), (compass.IsEndPoint ? " (終点)" : ""));
 				if ( compass.LaunchedRecon != 0 ) {
 					TextDestination.ImageAlign = ContentAlignment.MiddleRight;
 					TextDestination.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
