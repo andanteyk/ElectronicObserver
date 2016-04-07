@@ -107,16 +107,21 @@ namespace ElectronicObserver.Window.Dialog
         {
             if (e.ColumnIndex == ColUpdate.Index)
             {
-                string name = dataGridView1.Rows[e.RowIndex].Cells["ColName"].Value.ToString();
-               
-                FormMain.UpdateManager.PluginUpdaters[name].Start();
+                if (((DataGridViewDisableButtonCell)dataGridView1.Rows[e.RowIndex].Cells["ColUpdate"]).Enabled)
+                {
+                    string name = dataGridView1.Rows[e.RowIndex].Cells["ColName"].Value.ToString();
+                    FormMain.UpdateManager.PluginUpdaters[name].Start();
+                }
                 
             }
 
             if (e.ColumnIndex == ColManual.Index)
             {
-                string name = dataGridView1.Rows[e.RowIndex].Cells["ColName"].Value.ToString();
-                FormMain.UpdateManager.PluginUpdaters[name].ManualStart();
+                if (((DataGridViewDisableButtonCell)dataGridView1.Rows[e.RowIndex].Cells["ColManual"]).Enabled)
+                {
+                    string name = dataGridView1.Rows[e.RowIndex].Cells["ColName"].Value.ToString();
+                    FormMain.UpdateManager.PluginUpdaters[name].ManualStart();
+                }
             }
         }
 

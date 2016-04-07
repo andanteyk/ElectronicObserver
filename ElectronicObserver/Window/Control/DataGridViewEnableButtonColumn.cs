@@ -29,6 +29,18 @@ namespace ElectronicObserver.Window.Control
                 enabledValue = value;
             }
         }
+        //cant prevent datagridview OnCellClick
+        protected override void OnClick(DataGridViewCellEventArgs e)
+        {
+            if (this.enabledValue)
+                base.OnClick(e);
+        }
+        //cant prevent datagridview OnCellClick
+        protected override void OnMouseClick(DataGridViewCellMouseEventArgs e)
+        {
+            if (this.enabledValue)
+                base.OnMouseClick(e);
+        }
 
         // Override the Clone method so that the Enabled property is copied.
         public override object Clone()
