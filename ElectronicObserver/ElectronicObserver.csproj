@@ -77,6 +77,9 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="SwfDotNet">
+      <HintPath>..\assemblies\SwfDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO">
@@ -198,6 +201,7 @@
     <Compile Include="Utility\Data\MapCell2WikiPoint.cs" />
     <Compile Include="Utility\KanVoice.cs" />
     <Compile Include="Utility\Mathematics\GMTHelper.cs" />
+    <Compile Include="Utility\SwfDecompiler.cs" />
     <Compile Include="Utility\SyncBGMPlayer.cs" />
     <Compile Include="Utility\MediaPlayer.cs" />
     <Compile Include="Utility\Modify\ModifyConfiguration.cs" />

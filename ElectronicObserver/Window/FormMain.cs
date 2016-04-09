@@ -87,18 +87,23 @@ namespace ElectronicObserver.Window {
 			this.ResumeLayoutForDpiScale();
 
             MediaPlayer = new MediaPlayer();
-            //InsertBGMPlayerMenu();
+            InsertBGMPlayerMenu();
 
         }
 
         void InsertBGMPlayerMenu()
         {
-            ToolStripMenuItem Menu = new ToolStripMenuItem("BGM播放器");
-            Menu.Click += BGMPlayerMenu_Click;
-            StripMenu_Tool.DropDownItems.Insert(0, Menu);
+            var BgmCachePath = Utility.Configuration.Config.CacheSettings.CacheFolder + @"\kcs\resources\bgm_p";
+            if (Directory.Exists(BgmCachePath))
+            {
+                ToolStripMenuItem Menu = new ToolStripMenuItem("BGM播放器");
+                Menu.DropDownItems.Add("-");
+                Menu.DropDownOpened += BGMPlayerMenu_DropDownOpened;
+                StripMenu_Tool.DropDownItems.Insert(0, Menu);
+            }
         }
 
-        private void BGMPlayerMenu_Click(object sender, EventArgs e)
+        private void BGMPlayerMenu_DropDownOpened(object sender, EventArgs e)
         {
             //StringBuilder builder = new StringBuilder();
             //builder.Append("{");
@@ -119,10 +124,38 @@ namespace ElectronicObserver.Window {
             Menu.DropDownItems.Clear();
             Menu.DropDownItems.Add("停止(&S)").Click += StopBGM_Click;
             Menu.DropDownItems.Add("-");
-            var BgmCachePath = Utility.Configuration.Config.CacheSettings.CacheFolder + @"kcs\resources\bgm_p";
-            foreach(var bgm in KCDatabase.Instance.BGM_List.Values)
+
+
+            foreach (var bgm in KCDatabase.Instance.BGM_List)
             {
-                Menu.DropDownItems.Add(bgm);
+                var item = Menu.DropDownItems.Add(bgm.Value);
+                item.Tag = bgm.Key;
+                item.Click += PlayBGM_Click;
+            }
+        }
+
+        private void PlayBGM_Click(object sender, EventArgs e)
+        {
+            var item = sender as ToolStripMenuItem;
+            if (item.Tag == null)
+                return;
+            int bgmid = (int)item.Tag;
+            string shortname = bgmid.ToString();
+            var BgmCachePath = Utility.Configuration.Config.CacheSettings.CacheFolder + @"\kcs\resources\bgm_p";
+            var files = Directory.GetFiles(BgmCachePath, shortname + "?.swf");
+            if (files.Length > 0)
+            {
+                string bgm_name = KCDatabase.Instance.BGM_List[bgmid];
+                var mp3 = Utility.SwfDecompiler.GetSoundFile(files[0], bgm_name);
+                MediaPlayer.Stop();
+                MediaPlayer.IsLoop = true;
+                MediaPlayer.SourcePath = mp3;
+                MediaPlayer.Play();
+                Utility.Logger.Add(2, "正在播放BGM: " + KCDatabase.Instance.BGM_List[bgmid]);
+            }
+            else
+            {
+                Utility.Logger.Add(2, "找不到BGM文件: " + KCDatabase.Instance.BGM_List[bgmid]);
             }
         }
 
