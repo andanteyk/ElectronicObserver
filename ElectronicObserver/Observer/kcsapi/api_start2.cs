@@ -174,8 +174,12 @@ namespace ElectronicObserver.Observer.kcsapi {
 				}
 			}
 
+            foreach (var elem in data.api_mst_bgm)
+            {
+                db.BGM_List[(int)elem.api_id] = elem.api_name;
+            }
 
-			Utility.Logger.Add( 2, "提督が鎮守府に着任しました。これより艦隊の指揮を執ります。" );
+            Utility.Logger.Add(2, "提督が鎮守府に着任しました。これより艦隊の指揮を執ります。");
 
 			base.OnResponseReceived( (object)data );
 		}

@@ -28,7 +28,6 @@ namespace ElectronicObserver.Window.Dialog
 
         bool ShowVoice = false;
         string VoiceCachePath = "";
-        Utility.MediaPlayer MediaPlayer;
 
         public DialogAlbumMasterShip()
         {
@@ -1119,8 +1118,9 @@ namespace ElectronicObserver.Window.Dialog
                 string text = Utility.KanVoice.GetVoiceText(_shipID, (int)(dataGridView1.Rows[e.RowIndex].Cells[0].Tag));
                 if (text != null)
                     Description.Text = text;
-                if (MediaPlayer == null)
-                    MediaPlayer = new Utility.MediaPlayer();
+
+                var MediaPlayer = FormMain.MediaPlayer;
+                   
                 if (MediaPlayer.PlayState > 0)
                     MediaPlayer.Stop();
                 MediaPlayer.SourcePath = dataGridView1.Rows[e.RowIndex].Tag.ToString();

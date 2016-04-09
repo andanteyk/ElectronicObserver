@@ -76,16 +76,62 @@ namespace ElectronicObserver.Window {
 		private const string LAYOUT_FILE2 = @"Settings\WindowLayout2.zip";
 		internal const string START2_FILE = @"Record\api_start2.json";
 
-		public FormMain() {
+        public static Utility.MediaPlayer MediaPlayer;
+
+        public FormMain() {
 			this.SuspendLayoutForDpiScale();
 			this.BackColor = Utility.Configuration.Config.UI.BackColor.ColorData;
 			this.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
 
 			InitializeComponent();
 			this.ResumeLayoutForDpiScale();
-		}
 
-		private void FormMain_Load( object sender, EventArgs e ) {
+            MediaPlayer = new MediaPlayer();
+            //InsertBGMPlayerMenu();
+
+        }
+
+        void InsertBGMPlayerMenu()
+        {
+            ToolStripMenuItem Menu = new ToolStripMenuItem("BGM播放器");
+            Menu.Click += BGMPlayerMenu_Click;
+            StripMenu_Tool.DropDownItems.Insert(0, Menu);
+        }
+
+        private void BGMPlayerMenu_Click(object sender, EventArgs e)
+        {
+            //StringBuilder builder = new StringBuilder();
+            //builder.Append("{");
+            //bool First = true;
+            //foreach (var ship in KCDatabase.Instance.MasterShips.Values)
+            //{
+            //    if (ship.IsAbyssalShip)
+            //        continue;
+            //    if (!First)
+            //        builder.AppendFormat(",");
+            //    builder.AppendFormat("\"{0}\":[\"{1}\",\"{2}\"]", ship.ShipID, ship.Name, ship.ResourceName);
+            //    First = false;
+            //}
+            //builder.Append("}");
+            //File.WriteAllText("d:\\1.json", builder.ToString(), Encoding.UTF8);
+            //return;
+            ToolStripMenuItem Menu = sender as ToolStripMenuItem;
+            Menu.DropDownItems.Clear();
+            Menu.DropDownItems.Add("停止(&S)").Click += StopBGM_Click;
+            Menu.DropDownItems.Add("-");
+            var BgmCachePath = Utility.Configuration.Config.CacheSettings.CacheFolder + @"kcs\resources\bgm_p";
+            foreach(var bgm in KCDatabase.Instance.BGM_List.Values)
+            {
+                Menu.DropDownItems.Add(bgm);
+            }
+        }
+
+        private void StopBGM_Click(object sender, EventArgs e)
+        {
+            MediaPlayer.Stop();
+        }
+
+        private void FormMain_Load( object sender, EventArgs e ) {
 
 			if ( !Directory.Exists( "Settings" ) )
 				Directory.CreateDirectory( "Settings" );

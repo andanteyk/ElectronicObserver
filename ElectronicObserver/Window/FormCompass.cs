@@ -727,7 +727,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-                TextDestination.Text = string.Format("下一点 : {0}{1}{2}", compass.Destination, GetWikiName(compass.MapAreaID, compass.MapInfoID, compass.Destination), (compass.IsEndPoint ? " (終点)" : ""));
+                TextDestination.Text = string.Format("路线 : {0}{1}{2}", compass.Destination, GetWikiName(compass.MapAreaID, compass.MapInfoID, compass.Destination), (compass.IsEndPoint ? " (終点)" : ""));
 				if ( compass.LaunchedRecon != 0 ) {
 					TextDestination.ImageAlign = ContentAlignment.MiddleRight;
 					TextDestination.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;

@@ -133,9 +133,9 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public ShipGroupManager ShipGroup { get; private set; }
 
+        public Dictionary<int, string> BGM_List { get; private set; }
 
-
-		private KCDatabase() {
+        private KCDatabase() {
 
 			MasterShips = new IDDictionary<ShipDataMaster>();
 			ShipTypes = new IDDictionary<ShipType>();
@@ -156,8 +156,9 @@ namespace ElectronicObserver.Data {
 			MapInfo = new IDDictionary<MapInfoData>();
 			Mission = new IDDictionary<MissionData>();
 			ShipGroup = new ShipGroupManager();
+            BGM_List = new Dictionary<int, string>();
 
-		}
+        }
 
 
 		public void Load() {
