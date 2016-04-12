@@ -110,10 +110,10 @@ namespace ElectronicObserver.Window {
 				table.ResumeLayout();
 
 				int row = 0;
-				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.AutoSize, 21 );
+                #region set RowStyle
+                RowStyle rs = new RowStyle(SizeType.Absolute, Utility.Configuration.Config.UI.MainFont.FontData.Height + 6);
 
-				if ( table.RowStyles.Count > row )
+                if ( table.RowStyles.Count > row )
 					table.RowStyles[row] = rs;
 				else
 					while ( table.RowStyles.Count <= row )
@@ -368,10 +368,10 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( Equipments, 5, row );
 				table.ResumeLayout();
 
-				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.AutoSize, 21 );
+                #region set RowStyle
+                RowStyle rs = new RowStyle(SizeType.Absolute, Utility.Configuration.Config.UI.MainFont.FontData.Height + 6);
 
-				if ( table.RowStyles.Count > row )
+                if ( table.RowStyles.Count > row )
 					table.RowStyles[row] = rs;
 				else
 					while ( table.RowStyles.Count <= row )
