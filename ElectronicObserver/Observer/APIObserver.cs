@@ -363,7 +363,7 @@ namespace ElectronicObserver.Observer {
 					for ( int i = 0; i < mod.Count; i++ ) {
 
 						var node = mod[i];
-						string pattern = @"{""api_id"":[\d]+?,""api_sortno"":[\d]+?,""api_filename"":""" + node.api_filename + @""",""api_version"":""[\d]+?"",""api_boko_n"":\[[\d-,]+?\],""api_boko_d"":\[[\d-,]+?\],""api_kaisyu_n"":\[[\d-,]+?\],""api_kaisyu_d"":\[[\d-,]+?\],""api_kaizo_n"":\[[\d-,]+?\],""api_kaizo_d"":\[[\d-,]+?\],""api_map_n"":\[[\d-,]+?\],""api_map_d"":\[[\d-,]+?\],""api_ensyuf_n"":\[[\d-,]+?\],""api_ensyuf_d"":\[[\d-,]+?\],""api_ensyue_n"":\[[\d-,]+?\],""api_battle_n"":\[[\d-,]+?\],""api_battle_d"":\[[\d-,]+?\],""api_weda"":\[[\d-,]+?\],""api_wedb"":\[[\d-,]+?\]}";
+						string pattern = @"{""api_id"":[\d]+?,""api_sortno"":[\d]+?,""api_filename"":""" + node.api_filename + @""",""api_version"":\[""[\d]+?"",""[\d]+?"",""[\d]+?""\],""api_boko_n"":\[[\d-,]+?\],""api_boko_d"":\[[\d-,]+?\],""api_kaisyu_n"":\[[\d-,]+?\],""api_kaisyu_d"":\[[\d-,]+?\],""api_kaizo_n"":\[[\d-,]+?\],""api_kaizo_d"":\[[\d-,]+?\],""api_map_n"":\[[\d-,]+?\],""api_map_d"":\[[\d-,]+?\],""api_ensyuf_n"":\[[\d-,]+?\],""api_ensyuf_d"":\[[\d-,]+?\],""api_ensyue_n"":\[[\d-,]+?\],""api_battle_n"":\[[\d-,]+?\],""api_battle_d"":\[[\d-,]+?\],""api_weda"":\[[\d-,]+?\],""api_wedb"":\[[\d-,]+?\]}";
 
 						var m = Regex.Match( api_start2, pattern );
 						if ( m.Success ) {
