@@ -199,6 +199,7 @@
     <Compile Include="Resource\ImageCollection.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Utility\Data\MapCell2WikiPoint.cs" />
+    <Compile Include="Utility\iniFiles.cs" />
     <Compile Include="Utility\KanVoice.cs" />
     <Compile Include="Utility\Mathematics\GMTHelper.cs" />
     <Compile Include="Utility\SwfDecompiler.cs" />

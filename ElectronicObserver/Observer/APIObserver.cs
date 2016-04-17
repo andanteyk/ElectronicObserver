@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
 using FiddlerFlags = Fiddler.FiddlerCoreStartupFlags;
+using System.Web.Script.Serialization;
+using ElectronicObserver.Utility.Modify;
 
 namespace ElectronicObserver.Observer {
 
@@ -39,8 +41,9 @@ namespace ElectronicObserver.Observer {
 		public event ProxyStartedEventHandler ProxyStarted = delegate { };
 
 		private Control UIControl;
+        private JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
 
-		private APIObserver() {
+        private APIObserver() {
 
 			// 注：重複登録するとあらぬところで落ちるので十分注意すること
 
@@ -326,154 +329,265 @@ namespace ElectronicObserver.Observer {
             return b;
         }
 
-		private void FiddlerApplication_BeforeResponse( Fiddler.Session oSession ) {
+        private void FiddlerApplication_BeforeResponse(Fiddler.Session oSession)
+        {
 
-            if ( ObserverResult( p => {
-                try {
-                    return p.OnBeforeResponse( oSession );
-                } catch ( Exception oe ) {
-                    Logger.Add( 3, string.Format( "插件 {0}({1}) 执行 OnBeforeResponse 时出错！", p.MenuTitle, p.Version ) );
-                    ErrorReporter.SendErrorReport( oe, p.MenuTitle );
+            if (ObserverResult(p =>
+            {
+                try
+                {
+                    return p.OnBeforeResponse(oSession);
+                }
+                catch (Exception oe)
+                {
+                    Logger.Add(3, string.Format("插件 {0}({1}) 执行 OnBeforeResponse 时出错！", p.MenuTitle, p.Version));
+                    ErrorReporter.SendErrorReport(oe, p.MenuTitle);
                     return false;
                 }
-            } ) ) {
+            }))
+            {
 
-				// do nothing
+                // do nothing
 
-			} else if ( oSession.PathAndQuery.StartsWith( "/kcs" ) && oSession.responseCode >= 400 ) {
+            }
+            else if (oSession.PathAndQuery.StartsWith("/kcs") && oSession.responseCode >= 400)
+            {
 
-				Utility.ErrorReporter.SendErrorReport( new Exception( oSession.fullUrl ), "返回错误状态码：" + oSession.responseCode, oSession.fullUrl, oSession.GetResponseBodyAsString() );
+                Utility.ErrorReporter.SendErrorReport(new Exception(oSession.fullUrl), "返回错误状态码：" + oSession.responseCode, oSession.fullUrl, oSession.GetResponseBodyAsString());
 
-			} else if ( oSession.bBufferResponse ) {
+            }
+            else if (oSession.bBufferResponse)
+            {
 
-				if ( oSession.fullUrl.Contains( "/kcsapi/api_start2" ) ) {
-					string api_start2 = oSession.GetResponseBodyAsString();
+                if (oSession.fullUrl.Contains("/kcsapi/api_start2"))
+                {
+                    string api_start2full = oSession.GetResponseBodyAsString();
 
-					// output list
-					string filename = @"Settings\GraphicList.csv";
-					if ( Utility.Configuration.Config.Log.OutputGraphicList && !File.Exists( filename ) ) {
+                    // output list
+                    string filename = @"Settings\GraphicList.csv";
+                    if (Utility.Configuration.Config.Log.OutputGraphicList && !File.Exists(filename))
+                    {
 
-						Task.Factory.StartNew( (Action)( () => APIGraphicList.Instance.OutputGraphicList( api_start2, filename ) ) )
-							.ContinueWith( t => Utility.Logger.Add( 2, "输出舰船列表至: " + filename ) );
-					}
+                        Task.Factory.StartNew((Action)(() => APIGraphicList.Instance.OutputGraphicList(api_start2full, filename)))
+                            .ContinueWith(t => Utility.Logger.Add(2, "输出舰船列表至: " + filename));
+                    }
 
-					var mod = Utility.Modify.ModifyConfiguration.Instance;
-					bool changed = false;
+                    var mod = Utility.Modify.ModifyConfiguration.Instance;
+                    bool changed = false;
+                    string api_start2_json = api_start2full.Substring(7);
+                    Dictionary<string, object> api_start2 = JavaScriptSerializer.DeserializeObject(api_start2_json) as Dictionary<string, object>;
+                    try
+                    {
+                        var api_data = api_start2["api_data"] as Dictionary<string, object>;
+                        var api_mst_ship = api_data["api_mst_ship"] as object[];
+                        var api_mst_shipgraph = api_data["api_mst_shipgraph"] as object[];
 
-					for ( int i = 0; i < mod.Count; i++ ) {
+                        string shipCache = Path.Combine(Configuration.Config.CacheSettings.CacheFolder, @"kcs\resources\swf\ships");
 
-						var node = mod[i];
-						string pattern = @"{""api_id"":[\d]+?,""api_sortno"":[\d]+?,""api_filename"":""" + node.api_filename + @""",""api_version"":\[""[\d]+?"",""[\d]+?"",""[\d]+?""\],""api_boko_n"":\[[\d-,]+?\],""api_boko_d"":\[[\d-,]+?\],""api_kaisyu_n"":\[[\d-,]+?\],""api_kaisyu_d"":\[[\d-,]+?\],""api_kaizo_n"":\[[\d-,]+?\],""api_kaizo_d"":\[[\d-,]+?\],""api_map_n"":\[[\d-,]+?\],""api_map_d"":\[[\d-,]+?\],""api_ensyuf_n"":\[[\d-,]+?\],""api_ensyuf_d"":\[[\d-,]+?\],""api_ensyue_n"":\[[\d-,]+?\],""api_battle_n"":\[[\d-,]+?\],""api_battle_d"":\[[\d-,]+?\],""api_weda"":\[[\d-,]+?\],""api_wedb"":\[[\d-,]+?\]}";
+                        foreach (var shipgraph_data_obj in api_mst_shipgraph)
+                        {
+                            var shipgraph_data = shipgraph_data_obj as Dictionary<string, object>;
+                            if (shipgraph_data["api_sortno"].ToString() == "0")
+                                continue;
+                            string shipid = shipgraph_data["api_id"].ToString();
+                            string api_filename = shipgraph_data["api_filename"].ToString();
+                            var ship_data = api_mst_ship.FirstOrDefault(e => (e as Dictionary<string, object>)["api_id"].ToString() == shipid) as Dictionary<string, object>;
 
-						var m = Regex.Match( api_start2, pattern );
-						if ( m.Success ) {
+                            string configFile = null;
+                            //if (Configuration.Config.CacheSettings.CacheEnabled)
+                            {
+                                configFile = Path.Combine(shipCache, api_filename + ".config.ini");
+                            }
+                            if (File.Exists(configFile))//岛风GO格式
+                            {
+                                IniFile iniFile = new IniFile(configFile);
+                                ModifyConfigurationIniNode IniNode = new ModifyConfigurationIniNode();
+                                IniNode.api_filename = api_filename;
+                                IniNode.api_name = iniFile.ReadString("info", "ship_name", null);
+                                IniNode.api_getmes = iniFile.ReadString("info", "getmes", null);
+                                //IniNode.api_info = iniFile.ReadString("info", "sinfo", null);
+                                IniNode.api_config_parameter = iniFile.ReadSectionValues("graph");
 
-							var json = Codeplex.Data.DynamicJson.Parse( m.Value );
+                                bool flag = ModifyIt("api_boko_n", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_boko_d", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_kaisyu_n", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_kaisyu_d", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_kaizo_n", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_kaizo_d", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_map_n", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_map_d", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_ensyuf_n", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_ensyuf_d", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_ensyue_n", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_battle_n", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_battle_d", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_weda", shipgraph_data, IniNode);
+                                flag |= ModifyIt("api_wedb", shipgraph_data, IniNode);
 
-							// 魔改立绘坐标
-							bool flag = ModifyIt( "api_boko_n", json, node.api_parameter );
-							flag |= ModifyIt( "api_boko_d", json, node.api_parameter );
-							flag |= ModifyIt( "api_kaisyu_n", json, node.api_parameter );
-							flag |= ModifyIt( "api_kaisyu_d", json, node.api_parameter );
-							flag |= ModifyIt( "api_kaizo_n", json, node.api_parameter );
-							flag |= ModifyIt( "api_kaizo_d", json, node.api_parameter );
-							flag |= ModifyIt( "api_map_n", json, node.api_parameter );
-							flag |= ModifyIt( "api_map_d", json, node.api_parameter );
-							flag |= ModifyIt( "api_ensyuf_n", json, node.api_parameter );
-							flag |= ModifyIt( "api_ensyuf_d", json, node.api_parameter );
-							flag |= ModifyIt( "api_ensyue_n", json, node.api_parameter );
-							flag |= ModifyIt( "api_battle_n", json, node.api_parameter );
-							flag |= ModifyIt( "api_battle_d", json, node.api_parameter );
-							flag |= ModifyIt( "api_weda", json, node.api_parameter );
-							flag |= ModifyIt( "api_wedb", json, node.api_parameter );
+                                if (flag)
+                                {
+                                    changed = true;
+                                }
 
-							if ( flag ) {
-								api_start2 = api_start2.Replace( m.Value, json.ToString() );
-								changed = true;
-							}
+                                // 魔改名称
+                                if (!string.IsNullOrEmpty(IniNode.api_name))
+                                {
+                                    ship_data["api_name"] = IniNode.api_name;
+                                    flag = true;
+                                    changed = true;
+                                }
+                                // 魔改获得信息
+                                if (!string.IsNullOrEmpty(IniNode.api_getmes))
+                                {
+                                    ship_data["api_getmes"] = IniNode.api_getmes;
+                                    flag = true;
+                                    changed = true;
+                                }
 
-							// 魔改名称
-							if ( !string.IsNullOrEmpty( node.api_name ) ) {
+                                if (flag)
+                                {
+                                    Utility.Logger.Add(2, string.Format("应用魔改: {0} → {1}", IniNode.api_filename, IniNode.api_name));
+                                }
+                            }
+                            else//ApiModify.json格式
+                            {
+                                var ModifyNode = Utility.Modify.ModifyConfiguration.Instance.GetModifyNode(api_filename);
+                                if (ModifyNode == null)
+                                    continue;
 
+                                // 魔改立绘坐标
+                                bool flag = ModifyIt("api_boko_n", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_boko_d", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_kaisyu_n", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_kaisyu_d", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_kaizo_n", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_kaizo_d", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_map_n", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_map_d", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_ensyuf_n", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_ensyuf_d", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_ensyue_n", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_battle_n", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_battle_d", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_weda", shipgraph_data, ModifyNode.api_parameter);
+                                flag |= ModifyIt("api_wedb", shipgraph_data, ModifyNode.api_parameter);
 
-								pattern = @"{""api_id"":" + json.api_id + @",""api_sortno"":" + json.api_sortno + @",""api_name"":""";
-								m = Regex.Match( api_start2, pattern + @"[^""]+?"",""api_yomi"":""" );
-								if ( m.Success ) {
+                                if (flag)
+                                {
+                                    changed = true;
+                                }
 
-									api_start2 = api_start2.Replace( m.Value, pattern + node.Raw_api_name + @""",""api_yomi"":""" );
-									changed = true;
-								}
-							}
+                                // 魔改名称
+                                if (!string.IsNullOrEmpty(ModifyNode.api_name))
+                                {
+                                    ship_data["api_name"] = ModifyNode.api_name;
+                                    flag = true;
+                                    changed = true;
+                                }
+                                if (flag)
+                                {
+                                    Utility.Logger.Add(2, string.Format("应用魔改: {0} → {1}", ModifyNode.api_filename, ModifyNode.api_name));
+                                }
+                            }
 
-							if ( changed ) {
-								Utility.Logger.Add( 2, string.Format( "应用魔改: {0} → {1}", node.api_filename, node.api_name ) );
-							}
-						}
-					}
+                        }
 
-					// 如果有变动
-					if ( changed ) {
-						oSession.utilSetResponseBody( api_start2 );
-					}
+                        // 如果有变动
+                        if (changed)
+                        {
+                            StringBuilder builder = new StringBuilder("svdata=");
+                            builder.Append(JavaScriptSerializer.Serialize(api_start2));
+                            oSession.utilSetResponseBody(builder.ToString());
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        Utility.Logger.Add(3, "应用魔改过程中出现错误:" + e.Message + Environment.NewLine + e.StackTrace);
+                    }
+                }
+                else if (oSession.fullUrl.Contains("/gadget/js/kcs_flash.js"))
+                {
 
-				} else if ( oSession.fullUrl.Contains( "/gadget/js/kcs_flash.js" ) ) {
+                    string js = oSession.GetResponseBodyAsString();
+                    bool flag = false;
 
-					string js = oSession.GetResponseBodyAsString();
-					bool flag = false;
+                    var wmode = _wmodeRegex.Match(js);
+                    if (wmode.Success)
+                    {
+                        js = js.Replace(wmode.Value, string.Format(@"""wmode"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashWmode));
+                        flag = true;
+                    }
 
-					var wmode = _wmodeRegex.Match( js );
-					if ( wmode.Success ) {
-						js = js.Replace( wmode.Value, string.Format( @"""wmode"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashWmode ) );
-						flag = true;
-					}
+                    var quality = _qualityRegex.Match(js);
+                    if (quality.Success)
+                    {
+                        js = js.Replace(quality.Value, string.Format(@"""quality"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashQuality));
+                        flag = true;
+                    }
 
-					var quality = _qualityRegex.Match( js );
-					if ( quality.Success ) {
-						js = js.Replace( quality.Value, string.Format( @"""quality"":""{0}""", Utility.Configuration.Config.FormBrowser.FlashQuality ) );
-						flag = true;
-					}
+                    if (flag)
+                    {
+                        oSession.utilSetResponseBody(js);
 
-					if ( flag ) {
-						oSession.utilSetResponseBody( js );
+                        Utility.Logger.Add(1, "应用自定义flash模式/质量");
+                    }
+                }
+            }
+        }
 
-						Utility.Logger.Add( 1, "应用自定义flash模式/质量" );
-					}
-				}
-			}
-		}
+        private bool ModifyIt(string parameter, Dictionary<string, object> source, Dictionary<string, object> dest)
+        {
+            try
+            {
+                var ModifyData = source[parameter] as object[];
+                var NewModifyData = dest[parameter] as object[];
+                ModifyData[0] = NewModifyData[0];
+                ModifyData[1] = NewModifyData[1];
+                return true;
+            }
+            catch (Exception e)
+            {
+                Utility.ErrorReporter.SendErrorReport(e, string.Format("魔改参数错误，{0}.{1}", source["api_filename"], parameter));
+            }
 
-		private bool ModifyIt( string parameter, dynamic source, dynamic dest ) {
+            return false;
+        }
 
-			var g = new Utility.Modify.ModifyBinder( parameter );
-			object o;
+        private bool ModifyIt(string parameter, Dictionary<string, object> source, ModifyConfigurationIniNode iniNode)
+        {
+            try
+            {
+                var ModifyData = source[parameter] as object[];
+                string strLeft = parameter.Substring(4) + "_left";
+                string strTop = parameter.Substring(4) + "_top";
+                int Left, Top;
+                bool Modified = false;
+                if (int.TryParse(iniNode.Get(strLeft), out Left))
+                {
+                    ModifyData[0] = Left;
+                    Modified = true;
+                }
+                if (int.TryParse(iniNode.Get(strTop), out Top))
+                {
+                    ModifyData[1] = Top;
+                    Modified = true;
+                }
+                return Modified;
+            }
+            catch (Exception e)
+            {
+                Utility.ErrorReporter.SendErrorReport(e, string.Format("魔改参数错误，{0}.{1}", source["api_filename"], parameter));
+            }
 
-			if ( dest.TryGetMember( g, out o ) ) {
+            return false;
+        }
 
-				try {
-					if ( o is Codeplex.Data.DynamicJson ) {
-						int[] rst = ( (Codeplex.Data.DynamicJson)o ).Deserialize<int[]>();
-
-						if ( rst.Length == 2 ) {
-
-							return source.TrySetMember( new Utility.Modify.ModifySetBinder( parameter ), rst );
-						}
-					}
-
-				} catch ( Exception e ) {
-					Utility.ErrorReporter.SendErrorReport( e, string.Format( "魔改参数错误，{0}.{1}", source.api_filename, parameter ) );
-				}
-			}
-
-			return false;
-		}
-
-
-		/// <summary>
-		/// セッションが SSL 接続を使用しているかどうかを返します。
-		/// </summary>
-		/// <param name="session">セッション。</param>
-		/// <returns>セッションが SSL 接続を使用する場合は true、そうでない場合は false。</returns>
-		private bool IsSessionSSL( Fiddler.Session session ) {
+        /// <summary>
+        /// セッションが SSL 接続を使用しているかどうかを返します。
+        /// </summary>
+        /// <param name="session">セッション。</param>
+        /// <returns>セッションが SSL 接続を使用する場合は true、そうでない場合は false。</returns>
+        private bool IsSessionSSL( Fiddler.Session session ) {
 			// 「http://www.dmm.com:433/」の場合もあり、これは Session.isHTTPS では判定できない
 			return session.isHTTPS || session.fullUrl.StartsWith( "https:" ) || session.fullUrl.Contains( ":443" );
 		}
