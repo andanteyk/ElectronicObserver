@@ -586,7 +586,7 @@ namespace ElectronicObserver.Utility {
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
-					SearchingAbilityMethod = 0;
+					SearchingAbilityMethod = 3;
 					IsScrollable = true;
 					FixShipNameWidth = false;
 					ShortenHPBar = false;
