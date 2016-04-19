@@ -383,7 +383,7 @@ namespace ElectronicObserver.Observer {
                         var api_mst_shipgraph = api_data["api_mst_shipgraph"] as object[];
 
                         string shipCache = Path.Combine(Configuration.Config.CacheSettings.CacheFolder, @"kcs\resources\swf\ships");
-
+                        //for debug//shipCache = Path.Combine(Application.StartupPath, "Settings");
                         foreach (var shipgraph_data_obj in api_mst_shipgraph)
                         {
                             var shipgraph_data = shipgraph_data_obj as Dictionary<string, object>;
@@ -539,11 +539,14 @@ namespace ElectronicObserver.Observer {
         {
             try
             {
-                var ModifyData = source[parameter] as object[];
-                var NewModifyData = dest[parameter] as object[];
-                ModifyData[0] = NewModifyData[0];
-                ModifyData[1] = NewModifyData[1];
-                return true;
+                if (dest.ContainsKey(parameter))
+                {
+                    var ModifyData = source[parameter] as object[];
+                    var NewModifyData = dest[parameter] as object[];
+                    ModifyData[0] = NewModifyData[0];
+                    ModifyData[1] = NewModifyData[1];
+                    return true;
+                }
             }
             catch (Exception e)
             {
