@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ElectronicObserver.Data;
+using ElectronicObserver.Observer;
 
 namespace ElectronicObserver.Utility
 {
@@ -49,6 +50,33 @@ namespace ElectronicObserver.Utility
         public static string GetVoicePath(int ShipId, int VoiceId)
         {
             return string.Format("kc{0}\\{1}.mp3", KCDatabase.Instance.MasterShips[ShipId].ResourceName, ConvertFilename(ShipId, VoiceId));
+        }
+
+        public static string GetVoiceServerPath(int shipId, int voiceId)
+        {
+            string filePath = string.Format("http://{0}/kcs/sound/kc{1}/{2}.mp3",
+                APIObserver.Instance.ServerAddress, KCDatabase.Instance.MasterShips[shipId].ResourceName, ConvertFilename(shipId, voiceId));
+
+            string version = GetShipVoiceVersion(shipId, voiceId);
+            if (version == null || version == "1")
+                return filePath;
+            else
+                return filePath + "?version=" + version;
+        }
+
+        public static string GetShipVoiceVersion(int shipId, int voiceId)
+        {
+            int versionIndex;
+            if (voiceId == 2 || voiceId == 3)
+                versionIndex = 2;
+            else
+                versionIndex = 1;
+
+            string[] versios = KCDatabase.Instance.MasterShips[shipId].ResourceVersions;
+            if (versios.Length < versionIndex)
+                return null;
+            else
+                return versios[versionIndex];
         }
     }
 }
