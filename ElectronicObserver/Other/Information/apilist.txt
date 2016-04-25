@@ -132,6 +132,7 @@ api_start2	：艦娘・装備固有データその他
 				18=戦闘糧食
 				19=補給物資
 				20=特型内火艇
+				21=陸上攻撃機
 
 			[1]：図鑑表示
 				 1=Primary Armament
@@ -168,6 +169,7 @@ api_start2	：艦娘・装備固有データその他
 				35=Supply
 				36=Multi-purpose Seaplane
 				37=Amphibious Vehicle
+				38=Land Attacker
 
 				 1=主砲
 				 2=副砲
@@ -203,6 +205,7 @@ api_start2	：艦娘・装備固有データその他
 				35=補給物資
 				36=多用途水上機/水上戦闘機
 				37=特型内火艇
+				38=陸上攻撃機
 
 			[2]：カテゴリ
 				(api_mst_slotitem_equiptype を参照)
@@ -252,6 +255,7 @@ api_start2	：艦娘・装備固有データその他
 				44=補給物資
 				45=水上戦闘機
 				46=特型内火艇
+				47=陸上攻撃機
 				93=大型電探(II)
 				94=艦上偵察機(II)
 
@@ -292,6 +296,7 @@ api_start2	：艦娘・装備固有データその他
 				34=戦闘糧食
 				35=補給物資
 				36=特型内火艇
+				37=陸上攻撃機
 
 		api_taik		：耐久(0)
 		api_souk		：装甲
@@ -1205,6 +1210,17 @@ api_req_map/next		：進撃
 	api_airsearch		：次が航空偵察マスのときのみ存在
 		api_plane_type	：発艦した索敵機の種別　0=なし, 1=大型飛行艇, 2=水上偵察機
 		api_result		：偵察結果　0=失敗, 1=成功, 2=大成功
+	api_ration_flag		：戦闘糧食使用確認フラグ　0=表示しない, 1=表示する　ボス前以外では存在しない
+	api_offshore_supply	：洋上補給　ボス前で発動した場合は確認される?　発動しなければ存在しない
+		api_supply_ship	：補給艦(艦船固有ID)
+		api_given_ship	：補給対象艦(〃)
+		api_use_num		：洋上補給アイテム使用個数
+
+Request.api_req_sortie/battle	：戦闘(昼戦)
+	api_formation		：陣形
+	api_recovery_type	：応急修理要員/女神進撃フラグ 0=なし, 1=要員, 2=女神
+	api_supply_flag		：洋上補給フラグ 使用すれば1?, 使用しなければ存在しない
+	api_ration_flag		：戦闘糧食フラグ 使用すれば1?, 使用しなければ存在しない
 
 api_req_sortie/battle	：戦闘(昼戦)
 	api_dock_id			：こちらの出撃艦隊ID

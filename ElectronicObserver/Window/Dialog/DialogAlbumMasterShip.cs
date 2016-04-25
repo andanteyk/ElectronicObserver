@@ -244,7 +244,7 @@ namespace ElectronicObserver.Window.Dialog {
 			ToolTipInfo.SetToolTip( ResourceName, string.Format( "リソース名: {0}\r\nグラフィック ver. {1}\r\nボイス ver. {2}\r\n母港ボイス ver. {3}",
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion ) );
 
-			ShipType.Text = ship.IsLandBase ? "陸上基地" : db.ShipTypes[ship.ShipType].Name;
+			ShipType.Text = ship.IsLandBase ? "陸上施設" : db.ShipTypes[ship.ShipType].Name;
 			ShipName.Text = ship.NameWithClass;
 			ToolTipInfo.SetToolTip( ShipName, !ship.IsAbyssalShip ? ship.NameReading : null );
 			TableShipName.ResumeLayout();

@@ -124,19 +124,27 @@ namespace ElectronicObserver.Resource.Record {
 			}
 
 
+
+			// level > 99 のとき、最小値と最大値が反転するため
 			public int GetEstParameterMin( int level ) {
-				return MinimumEstMin + (int)( ( Maximum - MinimumEstMin ) * level / 99.0 );
+				int min = CalculateParameter( level, MinimumEstMin, Maximum );
+				int max = CalculateParameter( level, MinimumEstMax, Maximum );
+				return Math.Min( min, max );
 			}
 
 			public int GetEstParameterMax( int level ) {
-				return MinimumEstMax + (int)( ( Maximum - MinimumEstMax ) * level / 99.0 );
+				int min = CalculateParameter( level, MinimumEstMin, Maximum );
+				int max = CalculateParameter( level, MinimumEstMax, Maximum );
+				return Math.Max( min, max );
 			}
-
 
 			public int GetParameter( int level ) {
-				return Minimum + (int)( ( Maximum - Minimum ) * level / 99.0 );
+				return CalculateParameter( level, Minimum, Maximum );
 			}
 
+			private int CalculateParameter( int level, int min, int max ) {
+				return min + (int)( ( max - min ) * level / 99.0 );
+			}
 		}
 
 
@@ -521,15 +529,15 @@ namespace ElectronicObserver.Resource.Record {
 
 			if ( e.ASW.SetEstParameter( level, aswMin, aswMax ) )
 				Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の対潜値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
-					e.ASW.MinimumEstMin, e.ASW.MinimumEstMax, e.ASW.Maximum ) );
+					KCDatabase.Instance.MasterShips[e.ShipID].NameWithClass, e.ASW.MinimumEstMin, e.ASW.MinimumEstMax, e.ASW.Maximum ) );
 
 			if ( e.Evasion.SetEstParameter( level, evasionMin, evasionMax ) )
 				Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の回避値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
-					e.Evasion.MinimumEstMin, e.Evasion.MinimumEstMax, e.Evasion.Maximum ) );
+					KCDatabase.Instance.MasterShips[e.ShipID].NameWithClass, e.Evasion.MinimumEstMin, e.Evasion.MinimumEstMax, e.Evasion.Maximum ) );
 
 			if ( e.LOS.SetEstParameter( level, losMin, losMax ) )
 				Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の索敵値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
-					e.LOS.MinimumEstMin, e.LOS.MinimumEstMax, e.LOS.Maximum ) );
+					KCDatabase.Instance.MasterShips[e.ShipID].NameWithClass, e.LOS.MinimumEstMin, e.LOS.MinimumEstMax, e.LOS.Maximum ) );
 
 
 			Update( e );
@@ -658,29 +666,29 @@ namespace ElectronicObserver.Resource.Record {
 
 
 				int shipID = (int)elem.api_table_id[0];
+				var ship = KCDatabase.Instance.MasterShips[shipID];
 
 				ShipParameterElement e = this[shipID];
 				if ( e == null ) {
 					e = new ShipParameterElement();
 					e.ShipID = shipID;
-					Utility.Logger.Add( 2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを記録しました。" );
+					Utility.Logger.Add( 2, ship.NameWithClass + "のパラメータを記録しました。" );
 				}
 
 
 				if ( e.ASW.SetEstParameter( 1, (int)elem.api_tais, Parameter.MaximumDefault ) )
 					Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の対潜値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
-						e.ASW.MinimumEstMin, e.ASW.MinimumEstMax, e.ASW.Maximum ) );
+						ship.NameWithClass, e.ASW.MinimumEstMin, e.ASW.MinimumEstMax, e.ASW.Maximum ) );
 
 				if ( e.Evasion.SetEstParameter( 1, (int)elem.api_kaih, Parameter.MaximumDefault ) )
 					Utility.Logger.Add( 1, string.Format( "ShipParameter: {0} の回避値が予測範囲から外れました( [{1} ~ {2}] ~ {3} )。",
-						e.Evasion.MinimumEstMin, e.Evasion.MinimumEstMax, e.Evasion.Maximum ) );
+						ship.NameWithClass, e.Evasion.MinimumEstMin, e.Evasion.MinimumEstMax, e.Evasion.Maximum ) );
 
 
 				{	//図鑑説明文登録(図鑑に載っていない改装艦に関してはその改装前の艦の説明文を設定する)
 					e.MessageAlbum = elem.api_sinfo;
 					LinkedList<int> processedIDs = new LinkedList<int>();
 
-					ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
 					while ( ship != null && !processedIDs.Contains( ship.ShipID ) && ship.RemodelAfterShipID > 0 ) {
 
 						processedIDs.AddLast( ship.ID );
@@ -700,7 +708,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 				Update( e );
-				Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを更新しました。" );
+				//Utility.Logger.Add( 1, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを更新しました。" );
 			}
 		}
 
