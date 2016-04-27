@@ -87,6 +87,8 @@ namespace ElectronicObserver.Window
             this.BackColor = Utility.Configuration.Config.UI.BackColor.ColorData;
             this.ForeColor = Utility.Configuration.Config.UI.ForeColor.ColorData;
 
+            StopRectTimer = new System.Windows.Forms.Timer();
+
             InitializeComponent();
             this.ResumeLayoutForDpiScale();
 
@@ -311,13 +313,15 @@ namespace ElectronicObserver.Window
             }
 
             Utility.Logger.Add(3, "启动处理完毕。");
-            System.Windows.Forms.Timer StopRectTimer = new System.Windows.Forms.Timer();
-            StopRectTimer.Tick += new EventHandler(StopRectTimer_Tick);
+
             StopRectTimer.Interval = 100;
-            StopRectTimer.Enabled = true;
+            StopRectTimer.Tick += new EventHandler(StopRectTimer_Tick);
+            StopRectTimer.Enabled = Configuration.Config.Life.CanScreenDock;
             // HACK: タスクバーに表示されなくなる不具合への応急処置　効くかは知らない
             Show();
         }
+
+        System.Windows.Forms.Timer StopRectTimer;
 
         private object _sync = new object();
 
@@ -568,6 +572,9 @@ namespace ElectronicObserver.Window
             StripMenu_File_Layout_Lock.Checked = c.Life.IsLocked;
             //MainDockPanel.CanCloseFloatWindowInLock = c.Life.CanCloseFloatWindowInLock;
 
+            if (c.Life.CanScreenDock)
+                StopRectTimer.Enabled = true;
+
             if (!c.Control.UseSystemVolume)
                 _volumeUpdateState = -1;
         }
@@ -720,7 +727,7 @@ namespace ElectronicObserver.Window
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-
+            StopRectTimer.Enabled = false;
             UpdateManager.Stop();
             Utility.Configuration.Instance.Save();
             APIObserver.Instance.Stop();
@@ -1406,9 +1413,17 @@ namespace ElectronicObserver.Window
                             height = 0;
                         }
                     }
+                    if (!Configuration.Config.Life.CanScreenDock)
+                    {
+                        StopRectTimer.Enabled = false;
+                    }
                 }
                 else
                 {
+                    if (!Configuration.Config.Life.CanScreenDock)
+                    {
+                        return;
+                    }
                     if (height < 1)
                     {
                         height = Height;

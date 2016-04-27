@@ -125,6 +125,7 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.Life_CanCloseFloatWindowInLock = new System.Windows.Forms.CheckBox();
+            this.Life_ScreenDock = new System.Windows.Forms.CheckBox();
 			this.Life_LockLayout = new System.Windows.Forms.CheckBox();
 			this.label24 = new System.Windows.Forms.Label();
 			this.Life_ClockFormat = new System.Windows.Forms.ComboBox();
@@ -1354,10 +1355,11 @@
 			this.label7.Size = new System.Drawing.Size(94, 15);
 			this.label7.TabIndex = 0;
 			this.label7.Text = "疲劳度界限：";
-			// 
-			// tabPage6
-			// 
-			this.tabPage6.Controls.Add(this.Life_CanCloseFloatWindowInLock);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.Life_ScreenDock);
+            this.tabPage6.Controls.Add(this.Life_CanCloseFloatWindowInLock);
 			this.tabPage6.Controls.Add(this.Life_LockLayout);
 			this.tabPage6.Controls.Add(this.label24);
 			this.tabPage6.Controls.Add(this.Life_ClockFormat);
@@ -1376,10 +1378,18 @@
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "窗口";
 			this.tabPage6.UseVisualStyleBackColor = true;
-			// 
-			// Life_CanCloseFloatWindowInLock
-			// 
-			this.Life_CanCloseFloatWindowInLock.AutoSize = true;
+            //
+            // Life_ScreenDock
+            //
+            this.Life_ScreenDock.AutoSize = true;
+            this.Life_ScreenDock.Location = new System.Drawing.Point(213, 60);
+            this.Life_ScreenDock.Name = "Life_ScreenDock";
+            this.Life_ScreenDock.Size = new System.Drawing.Size(120, 19);
+            this.Life_ScreenDock.Text = "启用屏幕边缘吸附";
+            // 
+            // Life_CanCloseFloatWindowInLock
+            // 
+            this.Life_CanCloseFloatWindowInLock.AutoSize = true;
 			this.Life_CanCloseFloatWindowInLock.Location = new System.Drawing.Point(213, 60);
 			this.Life_CanCloseFloatWindowInLock.Name = "Life_CanCloseFloatWindowInLock";
 			this.Life_CanCloseFloatWindowInLock.Size = new System.Drawing.Size(197, 19);
@@ -2537,7 +2547,8 @@
 		private System.Windows.Forms.ComboBox Life_ClockFormat;
 		private System.Windows.Forms.CheckBox Life_LockLayout;
 		private System.Windows.Forms.CheckBox Life_CanCloseFloatWindowInLock;
-		private System.Windows.Forms.CheckBox UI_BarColorMorphing;
+        private System.Windows.Forms.CheckBox Life_ScreenDock;
+        private System.Windows.Forms.CheckBox UI_BarColorMorphing;
 		private System.Windows.Forms.TabPage tabPage17;
 		private System.Windows.Forms.CheckBox BGMPlayer_Enabled;
 		private System.Windows.Forms.DataGridView BGMPlayer_ControlGrid;

@@ -600,7 +600,12 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool CanCloseFloatWindowInLock { get; set; }
 
-				public ConfigLife() {
+                /// <summary>
+				/// 屏幕边缘吸附
+				/// </summary>
+				public bool CanScreenDock { get; set; }
+
+                public ConfigLife() {
 					ConfirmOnClosing = true;
 					TopMost = false;
 					LayoutFilePath = @"Settings\WindowLayout.zip";
@@ -609,7 +614,8 @@ namespace ElectronicObserver.Utility {
 					ShowStatusBar = true;
 					ClockFormat = 0;
 					LockLayout = false;
-					CanCloseFloatWindowInLock = false;
+                    CanScreenDock = false;
+                    CanCloseFloatWindowInLock = false;
 				}
 			}
 			/// <summary>起動と終了</summary>

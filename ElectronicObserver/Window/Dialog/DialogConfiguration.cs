@@ -336,9 +336,10 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_AutoScaleDpi.Checked = config.UI.AutoScaleDpi;
 			Life_LockLayout.Checked = config.Life.IsLocked;
 			Life_CanCloseFloatWindowInLock.Checked = config.Life.CanCloseFloatWindowInLock;
+            Life_ScreenDock.Checked = config.Life.CanScreenDock;
 
-			//[サブウィンドウ]
-			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
+            //[サブウィンドウ]
+            FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
 			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
 			FormFleet_IsScrollable.Checked = config.FormFleet.IsScrollable;
 			FormFleet_FixShipNameWidth.Checked = config.FormFleet.FixShipNameWidth;
@@ -549,9 +550,10 @@ namespace ElectronicObserver.Window.Dialog {
 			config.UI.AutoScaleDpi = Life_AutoScaleDpi.Checked;
 			config.Life.IsLocked = Life_LockLayout.Checked;
 			config.Life.CanCloseFloatWindowInLock = Life_CanCloseFloatWindowInLock.Checked;
+            config.Life.CanScreenDock = Life_ScreenDock.Checked;
 
-			//[サブウィンドウ]
-			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
+            //[サブウィンドウ]
+            config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
 			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
 			config.FormFleet.IsScrollable = FormFleet_IsScrollable.Checked;
 			config.FormFleet.FixShipNameWidth = FormFleet_FixShipNameWidth.Checked;
