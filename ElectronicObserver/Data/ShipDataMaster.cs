@@ -534,6 +534,11 @@ namespace ElectronicObserver.Data {
 		public string ResourceVersion { get; internal set; }
 
 
+        /// <summary>
+        /// リソースのバージョン
+        /// </summary>
+        public string[] ResourceVersions { get; internal set; }
+
 
 
 		//以下、自作計算プロパティ群

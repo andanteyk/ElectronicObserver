@@ -268,7 +268,7 @@ namespace ElectronicObserver.Window.Integrate {
 				StripMenu_Detach.Enabled = true;
 			}
 
-			origStyle = (uint)WinAPI.GetWindowLong( hWnd, WinAPI.GWL_STYLE );
+			origStyle = (uint)(long)WinAPI.GetWindowLong( hWnd, WinAPI.GWL_STYLE );
 			origOwner = WinAPI.GetWindowLong( hWnd, WinAPI.GWL_HWNDPARENT );
 
 			// ターゲットが最大化されていたら戻す

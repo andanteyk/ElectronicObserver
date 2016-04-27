@@ -54,6 +54,7 @@
             this.VoiceColAction = new System.Windows.Forms.DataGridViewButtonColumn();
             this.VoiceColPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblVoice = new System.Windows.Forms.Label();
+            this.lblDownloadAllVoice = new System.Windows.Forms.Label();
             this.imageLabel1 = new ElectronicObserver.Window.Control.ImageLabel();
             this.ResourceName = new ElectronicObserver.Window.Control.ImageLabel();
             this.TitleDayAttack = new ElectronicObserver.Window.Control.ImageLabel();
@@ -296,6 +297,7 @@
             // BasePanelShipGirl
             // 
             this.BasePanelShipGirl.Controls.Add(this.lblVoice);
+            this.BasePanelShipGirl.Controls.Add(this.lblDownloadAllVoice);
             this.BasePanelShipGirl.Controls.Add(this.dataGridView1);
             this.BasePanelShipGirl.Controls.Add(this.imageLabel1);
             this.BasePanelShipGirl.Controls.Add(this.ResourceName);
@@ -654,6 +656,17 @@
             this.lblVoice.TabIndex = 27;
             this.lblVoice.Text = "语音试听";
             this.lblVoice.Click += new System.EventHandler(this.lblVoice_Click);
+            // 
+            // lblDowloadAllVoice
+            // 
+            this.lblDownloadAllVoice.AutoSize = true;
+            this.lblDownloadAllVoice.Font = this.lblVoice.Font;
+            this.lblDownloadAllVoice.Location = new System.Drawing.Point(361, 28);
+            this.lblDownloadAllVoice.Name = "lblDowloadAllVoice";
+            this.lblDownloadAllVoice.Size = new System.Drawing.Size(53, 12);
+            this.lblDownloadAllVoice.TabIndex = 27;
+            this.lblDownloadAllVoice.Text = "下载所有语音";
+            this.lblDownloadAllVoice.Click += new System.EventHandler(this.lblDownloadAllVoice_Click);
             // 
             // imageLabel1
             // 
@@ -2031,5 +2044,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn VoiceColAction;
         private System.Windows.Forms.DataGridViewTextBoxColumn VoiceColPath;
         private System.Windows.Forms.Label lblVoice;
+        private System.Windows.Forms.Label lblDownloadAllVoice;
 	}
 }

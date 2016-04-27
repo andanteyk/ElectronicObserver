@@ -48,6 +48,7 @@ namespace ElectronicObserver.Observer.kcsapi {
 				if ( ship != null ) {
 					ship.ResourceName = elem.api_filename;
 					ship.ResourceVersion = elem.api_version.IsArray ? elem.api_version[0] : elem.api_version;		//undone
+                    ship.ResourceVersions = elem.api_version.IsArray ? elem.api_version : new string[] { elem.api_version };
 				}
 			}
 
