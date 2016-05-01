@@ -35,7 +35,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static string VersionJapanese {
 			get {
-				return "試製" + SoftwareNameJapanese + "二二型";
+				return SoftwareNameJapanese + "二二型";
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static string VersionEnglish {
 			get {
-				return "2.2.0 beta";
+				return "2.2.0";
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static DateTime UpdateTime {
 			get {
-				return DateTimeHelper.CSVStringToTime( "2016/05/01 19:00:00" );
+				return DateTimeHelper.CSVStringToTime( "2016/05/01 21:00:00" );
 			}
 		}
 

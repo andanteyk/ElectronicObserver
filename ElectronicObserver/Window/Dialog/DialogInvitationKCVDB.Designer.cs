@@ -80,9 +80,9 @@
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(12, 115);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(279, 60);
+			this.label2.Size = new System.Drawing.Size(283, 60);
 			this.label2.TabIndex = 4;
-			this.label2.Text = "\r\n艦これ検証データベースへプレイデータを送信しますか？\r\n\r\n（[設定→データベース]からいつでも on/off できます。）";
+			this.label2.Text = "\r\n艦これ検証データベースへプレイデータを送信しますか？\r\n\r\n（[設定→データベース] からいつでも on/off できます。）";
 			// 
 			// DialogInvitationKCVDB
 			// 
@@ -98,6 +98,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DialogInvitationKCVDB";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "艦これ検証データベース連携";
 			this.ResumeLayout(false);
 			this.PerformLayout();
