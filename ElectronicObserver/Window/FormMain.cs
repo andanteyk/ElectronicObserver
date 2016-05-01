@@ -73,7 +73,7 @@ namespace ElectronicObserver.Window {
 				Directory.CreateDirectory( "Settings" );
 
 
-			Utility.Configuration.Instance.Load();
+			Utility.Configuration.Instance.Load( this );
 
 
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler( ( Utility.Logger.LogData data ) => {
