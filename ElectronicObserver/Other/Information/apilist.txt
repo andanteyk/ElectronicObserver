@@ -448,7 +448,7 @@ api_req_member/get_incentive	：褒賞関連
 
 api_get_member/require_info	：起動時情報群
 	api_basic
-		api_member_id	：提督ID
+		api_member_id	：提督ID int
 		api_firstflag	：1?
 	api_slot_item		：保有装備リスト slot_item と同じ
 	api_unsetslot		：カテゴリ別未装備品リスト unsetslot と同じ

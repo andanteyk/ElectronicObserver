@@ -13,6 +13,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			KCDatabase db = KCDatabase.Instance;
 
+			// Admiral - 各所でバグるので封印
+			//db.Admiral.LoadFromResponse( APIName, data.api_basic );
+
 
 			// Equipments
 			db.Equipments.Clear();

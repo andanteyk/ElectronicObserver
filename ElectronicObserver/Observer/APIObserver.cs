@@ -30,6 +30,7 @@ namespace ElectronicObserver.Observer {
 		#endregion
 
 
+
 		public APIDictionary APIList { get; private set; }
 
 		public string ServerAddress { get; private set; }
@@ -40,6 +41,8 @@ namespace ElectronicObserver.Observer {
 
 		private Control UIControl;
 		private APIKancolleDB DBSender;
+		private APIKCVDB KCVDBSender;
+
 
 		private APIObserver() {
 
@@ -114,6 +117,7 @@ namespace ElectronicObserver.Observer {
 			ServerAddress = null;
 
 			DBSender = new APIKancolleDB();
+			KCVDBSender = new APIKCVDB();
 
 			HttpProxy.AfterSessionComplete += HttpProxy_AfterSessionComplete;
 		}
@@ -311,8 +315,12 @@ namespace ElectronicObserver.Observer {
 					Task.Run( (Action)( () => DBSender.ExecuteSession( session ) ) );
 				}
 
-			}
+				// 艦これ検証DBに送信する
+				if ( Utility.Configuration.Config.Connection.SendDataToKCVDB ) {
+					Task.Run( (Action)( () => KCVDBSender.PostToServer( session ) ) );
+				}
 
+			}
 
 
 			if ( ServerAddress == null && baseurl.Contains( "/kcsapi/" ) ) {
