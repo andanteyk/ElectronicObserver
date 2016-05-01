@@ -254,7 +254,7 @@ namespace ElectronicObserver.Resource.Record {
 		//*/
 
 
-		protected override string RecordHeader {
+		public override string RecordHeader {
 			get { return "艦船ID,艦名,アイテムID,アイテム名,装備ID,装備名,入手日時,海域,海域,セル,難易度,ボス,敵編成,ランク,司令部Lv"; }
 		}
 

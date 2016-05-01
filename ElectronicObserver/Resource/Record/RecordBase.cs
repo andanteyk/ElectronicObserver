@@ -155,7 +155,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// <summary>
 		/// レコードのヘッダを取得します。
 		/// </summary>
-		protected abstract string RecordHeader { get; }
+		public abstract string RecordHeader { get; }
 
 		/// <summary>
 		/// 保存するファイル名を取得します。

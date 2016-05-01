@@ -400,6 +400,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//[データベース]
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
+			Database_SendDataToKCVDB.Checked = config.Connection.SendDataToKCVDB;
 
 			//[BGM]
 			BGMPlayer_Enabled.Checked = config.BGMPlayer.Enabled;
@@ -535,6 +536,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//[データベース]
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
 			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
+			config.Connection.SendDataToKCVDB = Database_SendDataToKCVDB.Checked;
 
 			//[BGM]
 			config.BGMPlayer.Enabled = BGMPlayer_Enabled.Checked;
@@ -679,6 +681,11 @@ namespace ElectronicObserver.Window.Dialog {
 				UpdateBGMPlayerUI();
 			}
 
+		}
+
+
+		private void Database_LinkKCVDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+			System.Diagnostics.Process.Start( "http://kcvdb.jp/guidelines" );
 		}
 
 	}

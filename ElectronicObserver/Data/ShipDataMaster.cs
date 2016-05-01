@@ -523,10 +523,19 @@ namespace ElectronicObserver.Data {
 		public string ResourceName { get; internal set; }
 
 		/// <summary>
-		/// リソースのバージョン
+		/// 画像リソースのバージョン
 		/// </summary>
-		public string ResourceVersion { get; internal set; }
+		public string ResourceGraphicVersion { get; internal set; }
 
+		/// <summary>
+		/// ボイスリソースのバージョン
+		/// </summary>
+		public string ResourceVoiceVersion { get; internal set; }
+
+		/// <summary>
+		/// 母港ボイスリソースのバージョン
+		/// </summary>
+		public string ResourcePortVoiceVersion { get; internal set; }
 
 
 

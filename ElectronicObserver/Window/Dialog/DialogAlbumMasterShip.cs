@@ -239,9 +239,12 @@ namespace ElectronicObserver.Window.Dialog {
 			_shipID = shipID;
 			ShipID.Text = ship.ShipID.ToString();
 			AlbumNo.Text = ship.AlbumNo.ToString();
-			ResourceName.Text = string.Format( "{0} ver. {1}", ship.ResourceName, ship.ResourceVersion );
+			ResourceName.Text = string.Format( "{0} ver. {1}/{2}/{3}",
+				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion );
+			ToolTipInfo.SetToolTip( ResourceName, string.Format( "リソース名: {0}\r\nグラフィック ver. {1}\r\nボイス ver. {2}\r\n母港ボイス ver. {3}",
+				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion ) );
 
-			ShipType.Text = ship.IsLandBase ? "陸上基地" : db.ShipTypes[ship.ShipType].Name;
+			ShipType.Text = ship.IsLandBase ? "陸上施設" : db.ShipTypes[ship.ShipType].Name;
 			ShipName.Text = ship.NameWithClass;
 			ToolTipInfo.SetToolTip( ShipName, !ship.IsAbyssalShip ? ship.NameReading : null );
 			TableShipName.ResumeLayout();
@@ -416,7 +419,7 @@ namespace ElectronicObserver.Window.Dialog {
 					{
 						StringBuilder sb = new StringBuilder();
 
-						sb.AppendFormat( "{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name );
+						sb.AppendFormat( "{0} {1} (ID: {2})\r\n", eq.CategoryTypeInstance.Name, eq.Name, eq.EquipmentID );
 						if ( eq.Firepower != 0 ) sb.AppendFormat( "火力 {0}{1}\r\n", eq.Firepower > 0 ? "+" : "", eq.Firepower );
 						if ( eq.Torpedo != 0 ) sb.AppendFormat( "雷装 {0}{1}\r\n", eq.Torpedo > 0 ? "+" : "", eq.Torpedo );
 						if ( eq.AA != 0 ) sb.AppendFormat( "対空 {0}{1}\r\n", eq.AA > 0 ? "+" : "", eq.AA );
@@ -716,8 +719,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "艦船ID,図鑑番号,艦種,艦名,読み,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,耐久初期,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期,対潜最大,回避初期,回避最大,索敵初期,索敵最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,バージョン" );
-						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 59 ) ) );
+						sw.WriteLine( "艦船ID,図鑑番号,艦種,艦名,読み,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,耐久初期,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期,対潜最大,回避初期,回避最大,索敵初期,索敵最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン" );
+						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 62 ) ) );
 
 						foreach ( ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values ) {
 
@@ -735,6 +738,7 @@ namespace ElectronicObserver.Window.Dialog {
 								ship.RemodelAmmo,
 								ship.RemodelSteel,
 								ship.NeedBlueprint > 0 ? ship.NeedBlueprint + "枚" : "-",
+								ship.NeedCatapult > 0 ? ship.NeedCatapult + "個" : "-",
 								ship.HPMin,
 								ship.HPMaxMarried,
 								ship.FirepowerMin,
@@ -782,7 +786,9 @@ namespace ElectronicObserver.Window.Dialog {
 								ship.Ammo,
 								Constants.GetVoiceFlag( ship.VoiceFlag ),
 								ship.ResourceName,
-								ship.ResourceVersion
+								ship.ResourceGraphicVersion,
+								ship.ResourceVoiceVersion,
+								ship.ResourcePortVoiceVersion
 								);
 
 						}
@@ -808,8 +814,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( string.Format( "艦船ID,図鑑番号,艦名,読み,艦種,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,耐久初期,耐久最大,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期最小,対潜初期最大,対潜最大,対潜{0}最小,対潜{0}最大,回避初期最小,回避初期最大,回避最大,回避{0}最小,回避{0}最大,索敵初期最小,索敵初期最大,索敵最大,索敵{0}最小,索敵{0}最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,バージョン", ExpTable.ShipMaximumLevel ) );
-						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 69 ) ) );
+						sw.WriteLine( string.Format( "艦船ID,図鑑番号,艦名,読み,艦種,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,耐久初期,耐久最大,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期最小,対潜初期最大,対潜最大,対潜{0}最小,対潜{0}最大,回避初期最小,回避初期最大,回避最大,回避{0}最小,回避{0}最大,索敵初期最小,索敵初期最大,索敵最大,索敵{0}最小,索敵{0}最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン", ExpTable.ShipMaximumLevel ) );
+						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 72 ) ) );
 
 						foreach ( ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values ) {
 
@@ -825,6 +831,7 @@ namespace ElectronicObserver.Window.Dialog {
 								ship.RemodelAmmo,
 								ship.RemodelSteel,
 								ship.NeedBlueprint,
+								ship.NeedCatapult,
 								ship.HPMin,
 								ship.HPMax,
 								ship.HPMaxMarried,
@@ -882,7 +889,9 @@ namespace ElectronicObserver.Window.Dialog {
 								ship.Ammo,
 								ship.VoiceFlag,
 								ship.ResourceName,
-								ship.ResourceVersion
+								ship.ResourceGraphicVersion,
+								ship.ResourceVoiceVersion,
+								ship.ResourcePortVoiceVersion
 								);
 
 						}
@@ -937,6 +946,21 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+		}
+
+
+
+		private void StripMenu_Edit_EditParameter_Click( object sender, EventArgs e ) {
+
+			if ( _shipID <= 0 ) {
+				MessageBox.Show( "艦船を選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				return;
+			}
+
+			using ( var dialog = new DialogAlbumShipParameter( _shipID ) ) {
+				dialog.ShowDialog( this );
+				UpdateAlbumPage( _shipID );
+			}
 		}
 
 	}
