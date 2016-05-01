@@ -419,7 +419,7 @@ namespace ElectronicObserver.Window.Dialog {
 					{
 						StringBuilder sb = new StringBuilder();
 
-						sb.AppendFormat( "{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name );
+						sb.AppendFormat( "{0} {1} (ID: {2})\r\n", eq.CategoryTypeInstance.Name, eq.Name, eq.EquipmentID );
 						if ( eq.Firepower != 0 ) sb.AppendFormat( "火力 {0}{1}\r\n", eq.Firepower > 0 ? "+" : "", eq.Firepower );
 						if ( eq.Torpedo != 0 ) sb.AppendFormat( "雷装 {0}{1}\r\n", eq.Torpedo > 0 ? "+" : "", eq.Torpedo );
 						if ( eq.AA != 0 ) sb.AppendFormat( "対空 {0}{1}\r\n", eq.AA > 0 ? "+" : "", eq.AA );
@@ -946,6 +946,21 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
+		}
+
+
+
+		private void StripMenu_Edit_EditParameter_Click( object sender, EventArgs e ) {
+
+			if ( _shipID <= 0 ) {
+				MessageBox.Show( "艦船を選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Asterisk );
+				return;
+			}
+
+			using ( var dialog = new DialogAlbumShipParameter( _shipID ) ) {
+				dialog.ShowDialog( this );
+				UpdateAlbumPage( _shipID );
+			}
 		}
 
 	}

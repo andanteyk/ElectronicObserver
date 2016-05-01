@@ -845,7 +845,7 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Clear();
 		}
 
-		protected override string RecordHeader {
+		public override string RecordHeader {
 			get { return "艦船ID,艦船名,耐久初期,耐久最大,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期下限,対潜初期上限,対潜最大,回避初期下限,回避初期上限,回避最大,索敵初期下限,索敵初期上限,索敵最大,運初期,運最大,射程,装備1,装備2,装備3,装備4,装備5,機数1,機数2,機数3,機数4,機数5,ドロップ説明,図鑑説明"; }
 		}
 
