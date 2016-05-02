@@ -526,8 +526,11 @@ namespace ElectronicObserver.Utility {
 				public bool BlinkAtMaximum { get; set; }
 
 
+				public SerializableList<bool> Visibility { get; set; }
+
 				public ConfigFormHeadquarters() {
 					BlinkAtMaximum = true;
+					Visibility = null;		// フォーム側で設定します
 				}
 			}
 			/// <summary>[司令部]ウィンドウ</summary>

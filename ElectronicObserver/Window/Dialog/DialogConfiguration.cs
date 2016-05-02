@@ -337,6 +337,12 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_BlinkAtCompletion.Checked = config.FormFleet.BlinkAtCompletion;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
+			FormHeadquarters_Visibility.Items.Clear();
+			FormHeadquarters_Visibility.Items.AddRange( FormHeadquarters.GetItemNames().ToArray() );
+			FormHeadquarters.CheckVisibilityConfiguration();
+			for ( int i = 0; i < FormHeadquarters_Visibility.Items.Count; i++ ) {
+				FormHeadquarters_Visibility.SetItemChecked( i, config.FormHeadquarters.Visibility.List[i] );
+			}
 
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
@@ -506,7 +512,13 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
 			config.FormFleet.BlinkAtCompletion = FormFleet_BlinkAtCompletion.Checked;
 
-			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
+			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked; 
+			{
+				var list = new List<bool>();
+				for ( int i = 0; i < FormHeadquarters_Visibility.Items.Count; i++ )
+					list.Add( FormHeadquarters_Visibility.GetItemChecked( i ) );
+				config.FormHeadquarters.Visibility.List = list;
+			}
 
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;

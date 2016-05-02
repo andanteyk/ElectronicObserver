@@ -163,9 +163,14 @@
 			this.Notification_Construction = new System.Windows.Forms.Button();
 			this.Notification_Expedition = new System.Windows.Forms.Button();
 			this.tabPage15 = new System.Windows.Forms.TabPage();
-			this.Database_LinkKCDB = new System.Windows.Forms.LinkLabel();
+			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.label25 = new System.Windows.Forms.Label();
+			this.Database_LinkKCVDB = new System.Windows.Forms.LinkLabel();
+			this.Database_SendDataToKCVDB = new System.Windows.Forms.CheckBox();
+			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.label22 = new System.Windows.Forms.Label();
 			this.Database_SendKancolleOAuth = new System.Windows.Forms.TextBox();
+			this.Database_LinkKCDB = new System.Windows.Forms.LinkLabel();
 			this.labelKdb = new System.Windows.Forms.Label();
 			this.Database_SendDataToKancolleDB = new System.Windows.Forms.CheckBox();
 			this.tabPage17 = new System.Windows.Forms.TabPage();
@@ -185,11 +190,8 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
-			this.groupBox6 = new System.Windows.Forms.GroupBox();
-			this.label25 = new System.Windows.Forms.Label();
-			this.Database_LinkKCVDB = new System.Windows.Forms.LinkLabel();
-			this.Database_SendDataToKCVDB = new System.Windows.Forms.CheckBox();
+			this.FormHeadquarters_Visibility = new System.Windows.Forms.CheckedListBox();
+			this.label26 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -222,11 +224,11 @@
 			this.groupBox3.SuspendLayout();
 			this.tabPage11.SuspendLayout();
 			this.tabPage15.SuspendLayout();
+			this.groupBox6.SuspendLayout();
+			this.groupBox5.SuspendLayout();
 			this.tabPage17.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).BeginInit();
-			this.groupBox5.SuspendLayout();
-			this.groupBox6.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -833,7 +835,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 189);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 205);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1019,10 +1021,10 @@
 			// tabPage7
 			// 
 			this.tabPage7.Controls.Add(this.tabControl2);
-			this.tabPage7.Location = new System.Drawing.Point(4, 24);
+			this.tabPage7.Location = new System.Drawing.Point(4, 44);
 			this.tabPage7.Name = "tabPage7";
 			this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage7.Size = new System.Drawing.Size(456, 253);
+			this.tabPage7.Size = new System.Drawing.Size(456, 233);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "サブウィンドウ";
 			this.tabPage7.UseVisualStyleBackColor = true;
@@ -1042,7 +1044,7 @@
 			this.tabControl2.Location = new System.Drawing.Point(3, 3);
 			this.tabControl2.Name = "tabControl2";
 			this.tabControl2.SelectedIndex = 0;
-			this.tabControl2.Size = new System.Drawing.Size(450, 247);
+			this.tabControl2.Size = new System.Drawing.Size(450, 227);
 			this.tabControl2.TabIndex = 0;
 			// 
 			// tabPage8
@@ -1062,7 +1064,7 @@
 			this.tabPage8.Location = new System.Drawing.Point(4, 24);
 			this.tabPage8.Name = "tabPage8";
 			this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage8.Size = new System.Drawing.Size(442, 219);
+			this.tabPage8.Size = new System.Drawing.Size(442, 199);
 			this.tabPage8.TabIndex = 0;
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
@@ -1204,7 +1206,7 @@
 			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 201);
+			this.tabPage9.Size = new System.Drawing.Size(442, 221);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -1235,7 +1237,7 @@
 			this.tabPage19.Location = new System.Drawing.Point(4, 22);
 			this.tabPage19.Name = "tabPage19";
 			this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage19.Size = new System.Drawing.Size(442, 201);
+			this.tabPage19.Size = new System.Drawing.Size(442, 221);
 			this.tabPage19.TabIndex = 8;
 			this.tabPage19.Text = "入渠";
 			this.tabPage19.UseVisualStyleBackColor = true;
@@ -1252,11 +1254,13 @@
 			// 
 			// tabPage16
 			// 
+			this.tabPage16.Controls.Add(this.label26);
+			this.tabPage16.Controls.Add(this.FormHeadquarters_Visibility);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
-			this.tabPage16.Location = new System.Drawing.Point(4, 22);
+			this.tabPage16.Location = new System.Drawing.Point(4, 24);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(442, 201);
+			this.tabPage16.Size = new System.Drawing.Size(442, 199);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1278,7 +1282,7 @@
 			this.tabPage18.Location = new System.Drawing.Point(4, 22);
 			this.tabPage18.Name = "tabPage18";
 			this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage18.Size = new System.Drawing.Size(442, 201);
+			this.tabPage18.Size = new System.Drawing.Size(442, 221);
 			this.tabPage18.TabIndex = 7;
 			this.tabPage18.Text = "羅針盤";
 			this.tabPage18.UseVisualStyleBackColor = true;
@@ -1322,7 +1326,7 @@
 			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 201);
+			this.tabPage10.Size = new System.Drawing.Size(442, 221);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1394,10 +1398,10 @@
 			// 
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 22);
+			this.tabPage13.Location = new System.Drawing.Point(4, 24);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 201);
+			this.tabPage13.Size = new System.Drawing.Size(442, 199);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1436,10 +1440,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 22);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 201);
+			this.tabPage12.Size = new System.Drawing.Size(442, 199);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1620,7 +1624,7 @@
 			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 201);
+			this.tabPage14.Size = new System.Drawing.Size(442, 221);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1849,16 +1853,65 @@
 			this.tabPage15.Text = "データベース";
 			this.tabPage15.UseVisualStyleBackColor = true;
 			// 
-			// Database_LinkKCDB
+			// groupBox6
 			// 
-			this.Database_LinkKCDB.AutoSize = true;
-			this.Database_LinkKCDB.Location = new System.Drawing.Point(6, 49);
-			this.Database_LinkKCDB.Name = "Database_LinkKCDB";
-			this.Database_LinkKCDB.Size = new System.Drawing.Size(141, 15);
-			this.Database_LinkKCDB.TabIndex = 1;
-			this.Database_LinkKCDB.TabStop = true;
-			this.Database_LinkKCDB.Text = "http://kancolle-db.net/";
-			this.Database_LinkKCDB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Database_LinkKCDB_LinkClicked);
+			this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox6.Controls.Add(this.label25);
+			this.groupBox6.Controls.Add(this.Database_LinkKCVDB);
+			this.groupBox6.Controls.Add(this.Database_SendDataToKCVDB);
+			this.groupBox6.Location = new System.Drawing.Point(6, 129);
+			this.groupBox6.Name = "groupBox6";
+			this.groupBox6.Size = new System.Drawing.Size(444, 98);
+			this.groupBox6.TabIndex = 6;
+			this.groupBox6.TabStop = false;
+			this.groupBox6.Text = "艦これ検証データベース";
+			// 
+			// label25
+			// 
+			this.label25.AutoSize = true;
+			this.label25.Location = new System.Drawing.Point(6, 19);
+			this.label25.Name = "label25";
+			this.label25.Size = new System.Drawing.Size(314, 30);
+			this.label25.TabIndex = 3;
+			this.label25.Text = "「艦これ検証データベース」へデータを送信できます。\r\n詳細は以下のサイトを参照してください。(外部ブラウザが開きます)";
+			// 
+			// Database_LinkKCVDB
+			// 
+			this.Database_LinkKCVDB.AutoSize = true;
+			this.Database_LinkKCVDB.Location = new System.Drawing.Point(6, 49);
+			this.Database_LinkKCVDB.Name = "Database_LinkKCVDB";
+			this.Database_LinkKCVDB.Size = new System.Drawing.Size(158, 15);
+			this.Database_LinkKCVDB.TabIndex = 4;
+			this.Database_LinkKCVDB.TabStop = true;
+			this.Database_LinkKCVDB.Text = "http://kcvdb.jp/guidelines";
+			this.Database_LinkKCVDB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Database_LinkKCVDB_LinkClicked);
+			// 
+			// Database_SendDataToKCVDB
+			// 
+			this.Database_SendDataToKCVDB.AutoSize = true;
+			this.Database_SendDataToKCVDB.Location = new System.Drawing.Point(9, 67);
+			this.Database_SendDataToKCVDB.Name = "Database_SendDataToKCVDB";
+			this.Database_SendDataToKCVDB.Size = new System.Drawing.Size(190, 19);
+			this.Database_SendDataToKCVDB.TabIndex = 5;
+			this.Database_SendDataToKCVDB.Text = "艦これ検証データベースに送信する";
+			this.Database_SendDataToKCVDB.UseVisualStyleBackColor = true;
+			// 
+			// groupBox5
+			// 
+			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox5.Controls.Add(this.label22);
+			this.groupBox5.Controls.Add(this.Database_SendKancolleOAuth);
+			this.groupBox5.Controls.Add(this.Database_LinkKCDB);
+			this.groupBox5.Controls.Add(this.labelKdb);
+			this.groupBox5.Controls.Add(this.Database_SendDataToKancolleDB);
+			this.groupBox5.Location = new System.Drawing.Point(6, 6);
+			this.groupBox5.Name = "groupBox5";
+			this.groupBox5.Size = new System.Drawing.Size(444, 117);
+			this.groupBox5.TabIndex = 5;
+			this.groupBox5.TabStop = false;
+			this.groupBox5.Text = "艦これ統計データベース";
 			// 
 			// label22
 			// 
@@ -1877,6 +1930,17 @@
 			this.Database_SendKancolleOAuth.Name = "Database_SendKancolleOAuth";
 			this.Database_SendKancolleOAuth.Size = new System.Drawing.Size(351, 23);
 			this.Database_SendKancolleOAuth.TabIndex = 4;
+			// 
+			// Database_LinkKCDB
+			// 
+			this.Database_LinkKCDB.AutoSize = true;
+			this.Database_LinkKCDB.Location = new System.Drawing.Point(6, 49);
+			this.Database_LinkKCDB.Name = "Database_LinkKCDB";
+			this.Database_LinkKCDB.Size = new System.Drawing.Size(141, 15);
+			this.Database_LinkKCDB.TabIndex = 1;
+			this.Database_LinkKCDB.TabStop = true;
+			this.Database_LinkKCDB.Text = "http://kancolle-db.net/";
+			this.Database_LinkKCDB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Database_LinkKCDB_LinkClicked);
 			// 
 			// labelKdb
 			// 
@@ -1986,7 +2050,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 160);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 156);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2068,65 +2132,26 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// groupBox5
+			// FormHeadquarters_Visibility
 			// 
-			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox5.Controls.Add(this.label22);
-			this.groupBox5.Controls.Add(this.Database_SendKancolleOAuth);
-			this.groupBox5.Controls.Add(this.Database_LinkKCDB);
-			this.groupBox5.Controls.Add(this.labelKdb);
-			this.groupBox5.Controls.Add(this.Database_SendDataToKancolleDB);
-			this.groupBox5.Location = new System.Drawing.Point(6, 6);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(444, 117);
-			this.groupBox5.TabIndex = 5;
-			this.groupBox5.TabStop = false;
-			this.groupBox5.Text = "艦これ統計データベース";
+			this.FormHeadquarters_Visibility.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+			this.FormHeadquarters_Visibility.CheckOnClick = true;
+			this.FormHeadquarters_Visibility.FormattingEnabled = true;
+			this.FormHeadquarters_Visibility.IntegralHeight = false;
+			this.FormHeadquarters_Visibility.Location = new System.Drawing.Point(6, 46);
+			this.FormHeadquarters_Visibility.Name = "FormHeadquarters_Visibility";
+			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 147);
+			this.FormHeadquarters_Visibility.TabIndex = 1;
 			// 
-			// groupBox6
+			// label26
 			// 
-			this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox6.Controls.Add(this.label25);
-			this.groupBox6.Controls.Add(this.Database_LinkKCVDB);
-			this.groupBox6.Controls.Add(this.Database_SendDataToKCVDB);
-			this.groupBox6.Location = new System.Drawing.Point(6, 129);
-			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(444, 98);
-			this.groupBox6.TabIndex = 6;
-			this.groupBox6.TabStop = false;
-			this.groupBox6.Text = "艦これ検証データベース";
-			// 
-			// label25
-			// 
-			this.label25.AutoSize = true;
-			this.label25.Location = new System.Drawing.Point(6, 19);
-			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(314, 30);
-			this.label25.TabIndex = 3;
-			this.label25.Text = "「艦これ検証データベース」へデータを送信できます。\r\n詳細は以下のサイトを参照してください。(外部ブラウザが開きます)";
-			// 
-			// Database_LinkKCVDB
-			// 
-			this.Database_LinkKCVDB.AutoSize = true;
-			this.Database_LinkKCVDB.Location = new System.Drawing.Point(6, 49);
-			this.Database_LinkKCVDB.Name = "Database_LinkKCVDB";
-			this.Database_LinkKCVDB.Size = new System.Drawing.Size(158, 15);
-			this.Database_LinkKCVDB.TabIndex = 4;
-			this.Database_LinkKCVDB.TabStop = true;
-			this.Database_LinkKCVDB.Text = "http://kcvdb.jp/guidelines";
-			this.Database_LinkKCVDB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Database_LinkKCVDB_LinkClicked);
-			// 
-			// Database_SendDataToKCVDB
-			// 
-			this.Database_SendDataToKCVDB.AutoSize = true;
-			this.Database_SendDataToKCVDB.Location = new System.Drawing.Point(9, 67);
-			this.Database_SendDataToKCVDB.Name = "Database_SendDataToKCVDB";
-			this.Database_SendDataToKCVDB.Size = new System.Drawing.Size(190, 19);
-			this.Database_SendDataToKCVDB.TabIndex = 5;
-			this.Database_SendDataToKCVDB.Text = "艦これ検証データベースに送信する";
-			this.Database_SendDataToKCVDB.UseVisualStyleBackColor = true;
+			this.label26.AutoSize = true;
+			this.label26.Location = new System.Drawing.Point(6, 28);
+			this.label26.Name = "label26";
+			this.label26.Size = new System.Drawing.Size(108, 15);
+			this.label26.TabIndex = 2;
+			this.label26.Text = "表示/非表示設定：";
 			// 
 			// DialogConfiguration
 			// 
@@ -2200,14 +2225,14 @@
 			this.tabPage11.ResumeLayout(false);
 			this.tabPage11.PerformLayout();
 			this.tabPage15.ResumeLayout(false);
+			this.groupBox6.ResumeLayout(false);
+			this.groupBox6.PerformLayout();
+			this.groupBox5.ResumeLayout(false);
+			this.groupBox5.PerformLayout();
 			this.tabPage17.ResumeLayout(false);
 			this.tabPage17.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).EndInit();
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox5.PerformLayout();
-			this.groupBox6.ResumeLayout(false);
-			this.groupBox6.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -2379,5 +2404,7 @@
 		private System.Windows.Forms.LinkLabel Database_LinkKCVDB;
 		private System.Windows.Forms.CheckBox Database_SendDataToKCVDB;
 		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.CheckedListBox FormHeadquarters_Visibility;
+		private System.Windows.Forms.Label label26;
 	}
 }
