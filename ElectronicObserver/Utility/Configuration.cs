@@ -910,6 +910,20 @@ namespace ElectronicObserver.Utility {
 			}
 
 
+			/// <summary>
+			/// [泊地修理通知]の設定を扱います。
+			/// </summary>
+			public class ConfigNotifierAnchorageRepair : ConfigNotifierBase {
+			
+				public int NotificationLevel { get; set; }
+
+				public ConfigNotifierAnchorageRepair()
+					: base() {
+						NotificationLevel = 2;
+				}
+			}
+
+
 			/// <summary>[遠征帰投通知]</summary>
 			[DataMember]
 			public ConfigNotifierBase NotifierExpedition { get; private set; }
@@ -929,6 +943,11 @@ namespace ElectronicObserver.Utility {
 			/// <summary>[大破進撃通知]</summary>
 			[DataMember]
 			public ConfigNotifierDamage NotifierDamage { get; private set; }
+
+			/// <summary>[泊地修理通知]</summary>
+			[DataMember]
+			public ConfigNotifierAnchorageRepair NotifierAnchorageRepair { get; private set; }
+
 
 
 			/// <summary>
@@ -1018,6 +1037,7 @@ namespace ElectronicObserver.Utility {
 				NotifierRepair = new ConfigNotifierBase();
 				NotifierCondition = new ConfigNotifierBase();
 				NotifierDamage = new ConfigNotifierDamage();
+				NotifierAnchorageRepair = new ConfigNotifierAnchorageRepair();
 
 				BGMPlayer = new ConfigBGMPlayer();
 				Whitecap = new ConfigWhitecap();

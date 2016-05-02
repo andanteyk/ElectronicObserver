@@ -457,7 +457,7 @@ api_get_member/require_info	：起動時情報群
 	api_furniture		：家具リスト furniture と同じ
 
 api_get_member/basic		：艦隊司令部情報
-	api_member_id			：提督固有ID string
+	api_member_id			：提督ID string
 	api_nickname			：提督名
 	api_nickname_id			：
 	api_active_flag			：
@@ -570,24 +570,16 @@ api_get_member/unsetslot	：カテゴリ別の装備されていない装備リ�
 
 
 api_get_member/useitem		：アイテム情報
-	api_member_id		：
 	api_id				：アイテムID
-	api_value			：所有個数
-	api_usetype			：使用種別　0=使用不能, 4=使用可能
-	api_category		：カテゴリ？0=その他, 6=家具箱
-	api_name			：アイテム名
-	api_description		：
-	api_price			：(0)
 	api_count			：所有個数
 
 
 api_get_member/material		：資源情報
-	api_member_id	：
+	api_member_id	：提督ID
 	api_id			：ID 1から 燃料, 弾薬, 鋼材, ボーキサイト, 高速建造材, 高速修復材, 開発資材, 改修資材
 	api_value		：保有数
 
 api_get_member/kdock		：工廠ドック
-	api_member_id			：
 	api_id					：ドック番号
 	api_state				：状態 -1=ロック, 0=空, 2=建造中, 3=完成
 	api_created_ship_id		：建造艦ID
@@ -695,7 +687,7 @@ api_req_kousyou/remodel_slot	：改修工廠　改修実行
 	api_use_slot_id		：消費された装備のID　使ったときのみ存在
 
 api_get_member/ndock		：入渠ドック
-	api_member_id			：
+	api_member_id			：提督ID
 	api_id					：ドック番号
 	api_state				：状態　-1=ロック?, 0=空き, 1=入渠中
 	api_ship_id				：入渠中艦船ID　空きは0
@@ -727,7 +719,7 @@ api_get_member/mission	：遠征達成状況
 
 
 api_get_member/record	：戦績表示
-	api_member_id		：
+	api_member_id		：提督ID
 	api_nickname		：提督名
 	api_nickname_id		：
 	api_cmt				：コメント
@@ -924,7 +916,7 @@ api_req_mission/start	：遠征開始
 
 
 api_get_member/deck		：艦隊情報 個数はそのまま保有艦隊数と同じになる(パディング等はない)
-	api_member_id		：
+	api_member_id		：提督ID
 	api_id				：艦隊番号
 	api_name			：艦隊名
 	api_name_id			：
@@ -1007,7 +999,7 @@ api_req_ranking/getlist	：ランキング
 
 
 api_get_member/practice		：演習ロビー
-	api_member_id			：
+	api_member_id			：自分の提督ID
 	api_id					：演習ID
 	api_enemy_id			：敵提督ID
 	api_enemy_name			：敵提督名
@@ -1022,7 +1014,7 @@ api_get_member/practice		：演習ロビー
 	api_medals				：甲種勲章保有数
 
 api_req_member/get_practice_enemyinfo		：演習詳細
-	api_member_id		：
+	api_member_id		：敵提督ID
 	api_nickname		：敵提督名
 	api_nickname_id		：
 	api_cmt				：敵コメント
@@ -1461,7 +1453,6 @@ api_get_member/mapinfo		：出撃準備　未出現海域は存在しない
 
 
 api_get_member/furniture	：所有家具データ
-	api_member_id		：
 	api_id				：家具ID
 	api_furniture_type	：家具カテゴリ？
 	api_furniture_no	：

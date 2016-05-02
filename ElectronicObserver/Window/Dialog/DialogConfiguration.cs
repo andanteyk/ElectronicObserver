@@ -229,6 +229,12 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
+		private void Notification_AnchorageRepair_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.AnchorageRepair ) ) {
+				dialog.ShowDialog( this );
+			}
+		}
 
 		private void Life_LayoutFilePathSearch_Click( object sender, EventArgs e ) {
 
@@ -699,6 +705,8 @@ namespace ElectronicObserver.Window.Dialog {
 		private void Database_LinkKCVDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
 			System.Diagnostics.Process.Start( "http://kcvdb.jp/guidelines" );
 		}
+
+		
 
 	}
 }

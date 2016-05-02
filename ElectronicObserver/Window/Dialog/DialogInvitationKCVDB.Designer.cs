@@ -36,7 +36,7 @@
 			this.ButtonYes.Location = new System.Drawing.Point(296, 166);
 			this.ButtonYes.Name = "ButtonYes";
 			this.ButtonYes.Size = new System.Drawing.Size(75, 23);
-			this.ButtonYes.TabIndex = 0;
+			this.ButtonYes.TabIndex = 1;
 			this.ButtonYes.Text = "はい";
 			this.ButtonYes.UseVisualStyleBackColor = true;
 			this.ButtonYes.Click += new System.EventHandler(this.ButtonYes_Click);
@@ -47,7 +47,7 @@
 			this.ButtonNo.Location = new System.Drawing.Point(377, 166);
 			this.ButtonNo.Name = "ButtonNo";
 			this.ButtonNo.Size = new System.Drawing.Size(75, 23);
-			this.ButtonNo.TabIndex = 1;
+			this.ButtonNo.TabIndex = 0;
 			this.ButtonNo.Text = "いいえ";
 			this.ButtonNo.UseVisualStyleBackColor = true;
 			this.ButtonNo.Click += new System.EventHandler(this.ButtonNo_Click);
