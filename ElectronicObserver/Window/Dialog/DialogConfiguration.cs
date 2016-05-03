@@ -215,6 +215,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+
 		private void Life_LayoutFilePathSearch_Click( object sender, EventArgs e ) {
 
 			Life_LayoutFilePath.Text = PathHelper.ProcessOpenFileDialog( Life_LayoutFilePath.Text, LayoutFileBrowser );
@@ -415,6 +416,11 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FormCompass_CandidateDisplayCount.Value = config.FormCompass.CandidateDisplayCount;
 
+			//[データベース]
+			//Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
+			//Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
+			//Database_SendDataToKCVDB.Checked = config.Connection.SendDataToKCVDB;
+
 			//[BGM]
 			BGMPlayer_Enabled.Checked = config.BGMPlayer.Enabled;
 			BGMHandles = config.BGMPlayer.Handles.ToDictionary( h => h.HandleID );
@@ -587,6 +593,11 @@ namespace ElectronicObserver.Window.Dialog {
 
 			config.FormCompass.CandidateDisplayCount = (int)FormCompass_CandidateDisplayCount.Value;
 
+			//[データベース]
+			//config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
+			//config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
+			//config.Connection.SendDataToKCVDB = Database_SendDataToKCVDB.Checked;
+
 			//[BGM]
 			config.BGMPlayer.Enabled = BGMPlayer_Enabled.Checked;
 			for ( int i = 0; i < BGMPlayer_ControlGrid.Rows.Count; i++ ) {
@@ -728,6 +739,13 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 		}
+
+
+		private void Database_LinkKCVDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+			System.Diagnostics.Process.Start( "http://kcvdb.jp/guidelines" );
+		}
+
+		
 
 	}
 

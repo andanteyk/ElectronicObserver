@@ -139,6 +139,10 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool BlockMedia { get; set; }
 
+				/// <summary>
+				/// 艦これ検証データベースへ送信するか
+				/// </summary>
+				public bool SendDataToKCVDB { get; set; }
 
 				public ConfigConnection() {
 
@@ -161,7 +165,7 @@ namespace ElectronicObserver.Utility {
 					SendDataToKancolleDB = false;
 					SendKancolleOAuth = "";
 					BlockMedia = false;
-
+					SendDataToKCVDB = false;
 				}
 
 			}
@@ -678,8 +682,11 @@ namespace ElectronicObserver.Utility {
 				public bool BlinkAtMaximum { get; set; }
 
 
+				public SerializableList<bool> Visibility { get; set; }
+
 				public ConfigFormHeadquarters() {
 					BlinkAtMaximum = true;
+					Visibility = null;		// フォーム側で設定します
 				}
 			}
 			/// <summary>[司令部]ウィンドウ</summary>
@@ -818,6 +825,12 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int SortParameter { get; set; }
 
+				/// <summary>
+				/// 進捗を自動保存するか
+				/// 0 = しない、1 = 一時間ごと、2 = 一日ごと
+				/// </summary>
+				public int ProgressAutoSaving { get; set; }
+
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
 					ShowOnce = true;
@@ -827,6 +840,7 @@ namespace ElectronicObserver.Utility {
 					ColumnFilter = null;		//実際の初期化は FormQuest で行う
 					ColumnWidth = null;			//上に同じ
 					SortParameter = 3 << 1 | 0;
+					ProgressAutoSaving = 1;
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
@@ -1089,6 +1103,20 @@ namespace ElectronicObserver.Utility {
 			}
 
 
+			/// <summary>
+			/// [泊地修理通知]の設定を扱います。
+			/// </summary>
+			public class ConfigNotifierAnchorageRepair : ConfigNotifierBase {
+
+				public int NotificationLevel { get; set; }
+
+				public ConfigNotifierAnchorageRepair()
+					: base() {
+					NotificationLevel = 2;
+				}
+			}
+
+
 			/// <summary>[遠征帰投通知]</summary>
 			[DataMember]
 			public ConfigNotifierBase NotifierExpedition { get; private set; }
@@ -1108,6 +1136,11 @@ namespace ElectronicObserver.Utility {
 			/// <summary>[大破進撃通知]</summary>
 			[DataMember]
 			public ConfigNotifierDamage NotifierDamage { get; private set; }
+
+			/// <summary>[泊地修理通知]</summary>
+			[DataMember]
+			public ConfigNotifierAnchorageRepair NotifierAnchorageRepair { get; private set; }
+
 
 
 			/// <summary>
@@ -1244,6 +1277,7 @@ namespace ElectronicObserver.Utility {
 				NotifierRepair = new ConfigNotifierBase();
 				NotifierCondition = new ConfigNotifierBase();
 				NotifierDamage = new ConfigNotifierDamage();
+				NotifierAnchorageRepair = new ConfigNotifierAnchorageRepair();
 
 				BGMPlayer = new ConfigBGMPlayer();
 				Whitecap = new ConfigWhitecap();
@@ -1288,11 +1322,11 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-		public void Load() {
+		public void Load( Form mainForm ) {
 			var temp = (ConfigurationData)_config.Load( SaveFileName );
 			if ( temp != null ) {
 				_config = temp;
-				CheckUpdate();
+				CheckUpdate( mainForm );
 				OnConfigurationChanged();
 				if ( temp.CacheSettings.CacheEnabled ) {
 					Utility.Logger.Add( 2, string.Format( "CacheCore: 缓存设置载入。“{0}”", temp.CacheSettings.CacheFolder ) );
@@ -1309,7 +1343,7 @@ namespace ElectronicObserver.Utility {
 
 
 
-		private void CheckUpdate() {
+		private void CheckUpdate( Form mainForm ) {
 			DateTime dt = Config.VersionUpdateTime == null ? new DateTime( 0 ) : DateTimeHelper.CSVStringToTime( Config.VersionUpdateTime );
 
 			// version 1.4.6 or earlier

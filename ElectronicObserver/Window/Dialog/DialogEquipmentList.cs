@@ -125,7 +125,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void EquipmentView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
 
 			if ( e.ColumnIndex == EquipmentView_Icon.Index ) {
-				e.Value = ResourceManager.Instance.Equipments.Images[(int)e.Value];
+				e.Value = ResourceManager.GetEquipmentImage( (int)e.Value );
 				e.FormattingApplied = true;
 			}
 

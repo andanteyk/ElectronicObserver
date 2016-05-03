@@ -82,6 +82,15 @@ namespace ElectronicObserver.Window.Dialog {
 				GroupDamage.Enabled = false;
 			}
 
+			NotifierAnchorageRepair nanc = notifier as NotifierAnchorageRepair;
+			if ( nanc != null ) {
+				AnchorageRepairNotificationLevel.SelectedIndex = nanc.NotificationLevel;
+
+			} else {
+				GroupAnchorageRepair.Visible = false;
+				GroupAnchorageRepair.Enabled = false;
+			}
+
 
 			DialogOpenSound.Filter = "音楽ファイル|" + string.Join( ";", Utility.MediaPlayer.SupportedExtensions.Select( s => "*." + s ) ) + "|File|*";
 
@@ -260,7 +269,7 @@ namespace ElectronicObserver.Window.Dialog {
 			_notifier.DialogData.BackColor = BackColorPreview.ForeColor;
 			_notifier.DialogData.ShowWithActivation = ShowWithActivation.Checked;
 
-			NotifierDamage ndmg = _notifier as NotifierDamage;
+			var ndmg = _notifier as NotifierDamage;
 			if ( ndmg != null ) {
 				ndmg.NotifiesBefore = NotifiesBefore.Checked;
 				ndmg.NotifiesNow = NotifiesNow.Checked;
@@ -270,6 +279,11 @@ namespace ElectronicObserver.Window.Dialog {
 				ndmg.ContainsFlagship = ContainsFlagship.Checked;
 				ndmg.LevelBorder = (int)LevelBorder.Value;
 				ndmg.NotifiesAtEndpoint = NotifiesAtEndpoint.Checked;
+			}
+
+			var nanc = _notifier as NotifierAnchorageRepair;
+			if ( nanc != null ) {
+				nanc.NotificationLevel = AnchorageRepairNotificationLevel.SelectedIndex;
 			}
 
 			return true;

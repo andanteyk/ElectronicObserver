@@ -19,7 +19,7 @@ namespace ElectronicObserver {
 			//Application.SetUnhandledExceptionMode( UnhandledExceptionMode.CatchException );
 			Application.ThreadException += Application_ThreadException;
 
-			Utility.Configuration.Instance.Load();
+			Utility.Configuration.Instance.Load( null );
 			Window_Font = ToolStripCustomizer.ToolStripRender.Window_Font = Utility.Configuration.Config.UI.MainFont.FontData;
 
 			ToolStripCustomizer.ToolStripRender.RendererTheme = (ToolStripCustomizer.ToolStripRenderTheme)Utility.Configuration.Config.UI.ThemeID;

@@ -1429,7 +1429,8 @@ namespace ElectronicObserver.Utility.Data {
 					aashell++;
 
 				} else if ( eq.CategoryType == 21 ) {	//対空機銃
-					if ( eq.EquipmentID == 131 ) {		//25mm三連装機銃 集中配備
+					// 25mm三連装機銃 集中配備 or Bofors 40mm四連装機関砲
+					if ( eq.EquipmentID == 131 || eq.EquipmentID == 173 ) {
 						aagun_concentrated++;
 					}
 					aagun++;

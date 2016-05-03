@@ -194,6 +194,10 @@ namespace ElectronicObserver.Window {
 			KCDatabase db = KCDatabase.Instance;
 
 
+			if ( !db.Admiral.IsAvailable )
+				return;
+
+
 			FlowPanelMaster.SuspendLayout();
 
 			//Admiral
@@ -284,25 +288,25 @@ namespace ElectronicObserver.Window {
 					resday == null ? 0 : ( db.Material.InstantRepair - resday.InstantRepair ),
 					resweek == null ? 0 : ( db.Material.InstantRepair - resweek.InstantRepair ),
 					resmonth == null ? 0 : ( db.Material.InstantRepair - resmonth.InstantRepair ) ) );
-			
+
 			InstantConstruction.Text = db.Material.InstantConstruction.ToString();
 			ToolTipInfo.SetToolTip( InstantConstruction, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
 					resday == null ? 0 : ( db.Material.InstantConstruction - resday.InstantConstruction ),
 					resweek == null ? 0 : ( db.Material.InstantConstruction - resweek.InstantConstruction ),
-					resmonth == null ? 0 : ( db.Material.InstantConstruction - resmonth.InstantConstruction ) ) ); 
-			
+					resmonth == null ? 0 : ( db.Material.InstantConstruction - resmonth.InstantConstruction ) ) );
+
 			DevelopmentMaterial.Text = db.Material.DevelopmentMaterial.ToString();
 			ToolTipInfo.SetToolTip( DevelopmentMaterial, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
 					resday == null ? 0 : ( db.Material.DevelopmentMaterial - resday.DevelopmentMaterial ),
 					resweek == null ? 0 : ( db.Material.DevelopmentMaterial - resweek.DevelopmentMaterial ),
-					resmonth == null ? 0 : ( db.Material.DevelopmentMaterial - resmonth.DevelopmentMaterial ) ) ); 
-			
+					resmonth == null ? 0 : ( db.Material.DevelopmentMaterial - resmonth.DevelopmentMaterial ) ) );
+
 			ModdingMaterial.Text = db.Material.ModdingMaterial.ToString();
 			ToolTipInfo.SetToolTip( ModdingMaterial, string.Format( "今日: {0:+##;-##;±0}\n今週: {1:+##;-##;±0}\n今月: {2:+##;-##;±0}",
 					resday == null ? 0 : ( db.Material.ModdingMaterial - resday.ModdingMaterial ),
 					resweek == null ? 0 : ( db.Material.ModdingMaterial - resweek.ModdingMaterial ),
-					resmonth == null ? 0 : ( db.Material.ModdingMaterial - resmonth.ModdingMaterial ) ) ); 
-			
+					resmonth == null ? 0 : ( db.Material.ModdingMaterial - resmonth.ModdingMaterial ) ) );
+
 			FurnitureCoin.Text = db.Admiral.FurnitureCoin.ToString();
 			{
 				int small = db.UseItems[10] != null ? db.UseItems[10].Count : 0;

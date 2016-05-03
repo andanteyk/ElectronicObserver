@@ -290,7 +290,7 @@ namespace ElectronicObserver.Resource.Record {
 		//*/
 
 
-		protected override string RecordHeader {
+		public override string RecordHeader {
 			get { return "日時,燃料,弾薬,鋼材,ボーキ,高速建造材,高速修復材,開発資材,改修資材,司令部Lv,提督Exp"; }
 		}
 

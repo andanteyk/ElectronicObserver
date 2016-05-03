@@ -110,9 +110,53 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+
+		/// <summary>
+		/// 資源セルで入手できる資源のデータです。
+		/// </summary>
+		public class GetItemData {
+			public int ItemID { get; set; }
+			public int Metadata { get; set; }
+			public int Amount { get; set; }
+
+			public GetItemData( int itemID, int metadata, int amount ) {
+				ItemID = itemID;
+				Metadata = metadata;
+				Amount = amount;
+			}
+		}
+
+		/// <summary>
+		/// 入手するアイテムリスト
+		/// </summary>
+		public IEnumerable<GetItemData> GetItems {
+			get {
+				dynamic item;
+				if ( RawData.api_itemget() )
+					item = RawData.api_itemget;
+				else if ( RawData.api_itemget_eo_comment() )
+					item = RawData.api_itemget_eo_comment;
+				else
+					yield break;
+
+				// item.IsArray だと参照できないため
+				if ( !( ( (dynamic)item ).IsArray ) ) {
+					yield return new GetItemData( (int)item.api_usemst, (int)item.api_id, (int)item.api_getcount );
+
+				} else {
+					foreach ( dynamic i in item ) {
+						yield return new GetItemData( (int)i.api_usemst, (int)i.api_id, (int)i.api_getcount );
+					}
+				}
+			}
+
+		}
+
+
 		/// <summary>
 		/// 入手するアイテムのID
 		/// </summary>
+		[Obsolete( "GetItem を利用してください。", false )]
 		public int GetItemID {
 			get {
 				if ( RawData.api_itemget() ) {
@@ -129,6 +173,7 @@ namespace ElectronicObserver.Data {
 		/// 入手するアイテムのメタデータ
 		/// GetItemID==4のとき、1=燃, 2=弾, 3=鋼, 4=ボ, 5=バーナー, 6=バケツ, 7=開発, 8=改修
 		/// </summary>
+		[Obsolete( "GetItem を利用してください。", false )]
 		public int GetItemIDMetadata {
 			get {
 				if ( RawData.api_itemget() ) {
@@ -144,6 +189,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 入手するアイテムの量
 		/// </summary>
+		[Obsolete( "GetItem を利用してください。", false )]
 		public int GetItemAmount {
 			get {
 				if ( RawData.api_itemget() ) {

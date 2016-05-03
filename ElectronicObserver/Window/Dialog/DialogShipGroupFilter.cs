@@ -665,13 +665,13 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void ExpressionDetailView_SelectionChanged( object sender, EventArgs e ) {
 
-			if ( ExpressionView.SelectedRows.Count == 0 || ExpressionView.SelectedRows[0].Index == -1 ) return;
+			int index = ExpressionView.SelectedRows.Count == 0 ? -1 : ExpressionView.SelectedRows[0].Index;
+			int detailIndex = ExpressionDetailView.SelectedRows.Count == 0 ? -1 : ExpressionDetailView.SelectedRows[0].Index;
 
-			int index = ExpressionDetailView.SelectedRows.Count == 0 ? -1 : ExpressionDetailView.SelectedRows[0].Index;
+			if ( index < 0 || _group.Expressions.Expressions.Count <= index ||
+				detailIndex < 0 || _group.Expressions[index].Expressions.Count <= detailIndex ) return;
 
-			if ( index < 0 ) return;
-
-			ExpressionData exp = _group.Expressions[ExpressionView.SelectedRows[0].Index][index];
+			ExpressionData exp = _group.Expressions[index][detailIndex];
 
 			SetExpressionSetter( exp.LeftOperand, exp.RightOperand, exp.Operator );
 
@@ -925,25 +925,32 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( e.RowIndex < 0 ) return;
 
+			// fixme: 非選択セルで上下させると選択がちょっとちらつく  :(
+
 			if ( e.ColumnIndex == ExpressionView_Up.Index && e.RowIndex > 0 ) {
 				_group.Expressions.Expressions.Insert( e.RowIndex - 1, _group.Expressions[e.RowIndex] );
 				_group.Expressions.Expressions.RemoveAt( e.RowIndex + 1 );
 
 				ControlHelper.RowMoveUp( ExpressionView, e.RowIndex );
+				ExpressionView.Rows[e.RowIndex - 1].Selected = true;
 
 				ExpressionUpdated();
+
 
 			} else if ( e.ColumnIndex == ExpressionView_Down.Index && e.RowIndex < ExpressionView.Rows.Count - 1 ) {
 				_group.Expressions.Expressions.Insert( e.RowIndex + 2, _group.Expressions[e.RowIndex] );
 				_group.Expressions.Expressions.RemoveAt( e.RowIndex );
 
 				ControlHelper.RowMoveDown( ExpressionView, e.RowIndex );
+				ExpressionView.Rows[e.RowIndex + 1].Selected = true;
 
 				ExpressionUpdated();
+
 			}
 
-			
-			UpdateExpressionDetailView( e.RowIndex );
+
+			if ( ExpressionView.SelectedRows.Count > 0 )
+				UpdateExpressionDetailView( ExpressionView.SelectedRows[0].Index );
 		}
 
 		private void ConstFilterView_CellContentClick( object sender, DataGridViewCellEventArgs e ) {

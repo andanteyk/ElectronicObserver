@@ -512,7 +512,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 指定の計算式で、索敵能力を表す文字列を取得します。
 		/// </summary>
-		/// <param name="index">計算式。0-2</param>
+		/// <param name="index">計算式。0-3</param>
 		public string GetSearchingAbilityString( int index ) {
 
 			return CalculatorEx.GetSearchingAbility( this, index ).ToString( "F2" );
@@ -592,7 +592,7 @@ namespace ElectronicObserver.Data {
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
 
-					tooltip.SetToolTip( label, "完了日時 : " + timer );
+					tooltip.SetToolTip( label, "完了日時 : " + DateTimeHelper.TimeToCSVString( timer ) );
 
 					return FleetStates.Docking;
 				}
@@ -630,7 +630,10 @@ namespace ElectronicObserver.Data {
 				label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetExpedition;
 
-				tooltip.SetToolTip( label, string.Format( "{0} : {1}\r\n完了日時 : {2}", KCDatabase.Instance.Mission[fleet.ExpeditionDestination].ID, KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name, timer ) );
+				tooltip.SetToolTip( label, string.Format( "{0} : {1}\r\n完了日時 : {2}",
+					KCDatabase.Instance.Mission[fleet.ExpeditionDestination].ID,
+					KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name,
+					DateTimeHelper.TimeToCSVString( timer ) ) );
 
 				return FleetStates.Expedition;
 			}
@@ -656,7 +659,8 @@ namespace ElectronicObserver.Data {
 					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
 
-					tooltip.SetToolTip( label, string.Format( "開始日時 : {0}", KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) );
+					tooltip.SetToolTip( label, string.Format( "開始日時 : {0}",
+						DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) ) );
 
 					return FleetStates.AnchorageRepairing;
 				}
@@ -709,7 +713,7 @@ namespace ElectronicObserver.Data {
 						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
 
 
-					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}", timer ) );
+					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}", DateTimeHelper.TimeToCSVString( timer ) ) );
 
 					return FleetStates.Tired;
 

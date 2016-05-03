@@ -32,6 +32,7 @@ namespace ElectronicObserver.Observer {
 		#endregion
 
 
+
 		public APIDictionary APIList { get; private set; }
 
 		public string ServerAddress { get; private set; }
@@ -43,7 +44,8 @@ namespace ElectronicObserver.Observer {
 		private Control UIControl;
         private JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
 
-        private APIObserver() {
+
+		private APIObserver() {
 
 			// 注：重複登録するとあらぬところで落ちるので十分注意すること
 

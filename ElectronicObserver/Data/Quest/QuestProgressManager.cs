@@ -60,6 +60,9 @@ namespace ElectronicObserver.Data.Quest {
 		}
 		*/
 
+		[IgnoreDataMember]
+		private DateTime _prevTime;
+
 
 		public QuestProgressManager() {
 
@@ -103,7 +106,12 @@ namespace ElectronicObserver.Data.Quest {
 
 			ao.APIList["api_req_kaisou/powerup"].ResponseReceived += Modernized;
 
+			ao.APIList["api_port/port"].ResponseReceived += TimerSave;
+
+
+			_prevTime = DateTime.Now;
 		}
+
 
 		public void RemoveEvents() {
 
@@ -136,10 +144,41 @@ namespace ElectronicObserver.Data.Quest {
 
 			ao.APIList["api_req_kaisou/powerup"].ResponseReceived -= Modernized;
 
+			ao.APIList["api_port/port"].ResponseReceived -= TimerSave;
+
 		}
 
 		public ProgressData this[int key] {
 			get { return Progresses[key]; }
+		}
+
+
+
+		void TimerSave( string apiname, dynamic data ) {
+
+			bool iscleared;
+
+			switch ( Utility.Configuration.Config.FormQuest.ProgressAutoSaving ) {
+				case 0:
+				default:
+					iscleared = false;
+					break;
+				case 1:
+					iscleared = DateTimeHelper.IsCrossedHour( _prevTime );
+					break;
+				case 2:
+					iscleared = DateTimeHelper.IsCrossedDay( _prevTime, 0, 0, 0 );
+					break;
+			}
+
+
+			if ( iscleared ) {
+				_prevTime = DateTime.Now;
+
+				Save();
+				Utility.Logger.Add( 1, "任務進捗のオートセーブを行いました。" );
+			}
+
 		}
 
 

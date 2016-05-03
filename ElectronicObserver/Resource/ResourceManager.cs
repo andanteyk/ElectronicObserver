@@ -176,6 +176,8 @@ namespace ElectronicObserver.Resource {
 			Ration,
 			Supplies,
 			AmphibiousVehicle,
+			LandAttacker,
+			Interceptor,
 			Locked,
 			Unknown,
 		}
@@ -368,6 +370,8 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Ration.png", "Equipment_Ration" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Supplies.png", "Equipment_Supplies" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/AmphibiousVehicle.png", "Equipment_AmphibiousVehicle" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/LandAttacker.png", "Equipment_LandAttacker" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Interceptor.png", "Equipment_Interceptor" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Locked.png", "Equipment_Locked" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Unknown.png", "Equipment_Unknown" );
 

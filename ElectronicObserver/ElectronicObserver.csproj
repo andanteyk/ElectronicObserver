@@ -332,6 +332,12 @@
     <Compile Include="Window\Dialog\DialogAlbumMasterShip.Designer.cs">
       <DependentUpon>DialogAlbumMasterShip.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogAlbumShipParameter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogAlbumShipParameter.Designer.cs">
+      <DependentUpon>DialogAlbumShipParameter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -536,6 +542,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAlbumMasterShip.resx">
       <DependentUpon>DialogAlbumMasterShip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogAlbumShipParameter.resx">
+      <DependentUpon>DialogAlbumShipParameter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>

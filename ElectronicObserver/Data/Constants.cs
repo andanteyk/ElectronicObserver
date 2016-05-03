@@ -123,6 +123,7 @@ namespace ElectronicObserver.Data {
 		/// 艦船のボイス設定フラグを表す文字列を取得します。
 		/// </summary>
 		public static string GetVoiceFlag( int value ) {
+
 			switch ( value ) {
 				case 0:
 					return "-";
@@ -132,6 +133,14 @@ namespace ElectronicObserver.Data {
 					return "放置";
 				case 3:
 					return "時報+放置";
+				case 4:
+					return "特殊放置";
+				case 5:
+					return "時報+特殊放置";
+				case 6:
+					return "放置+特殊放置";
+				case 7:
+					return "時報+放置+特殊放置";
 				default:
 					return "不明";
 			}

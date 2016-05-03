@@ -29,7 +29,7 @@ namespace ElectronicObserver.Notifier {
 		public NotifierRepair Repair { get; private set; }
 		public NotifierCondition Condition { get; private set; }
 		public NotifierDamage Damage { get; private set; }
-
+		public NotifierAnchorageRepair AnchorageRepair { get; private set; }
 
 		private NotifierManager() {
 		}
@@ -39,22 +39,27 @@ namespace ElectronicObserver.Notifier {
 
 			_parentForm = parent;
 
-			Expedition = new NotifierExpedition( Utility.Configuration.Config.NotifierExpedition );
-			Construction = new NotifierConstruction( Utility.Configuration.Config.NotifierConstruction );
-			Repair = new NotifierRepair( Utility.Configuration.Config.NotifierRepair );
-			Condition = new NotifierCondition( Utility.Configuration.Config.NotifierCondition );
-			Damage = new NotifierDamage( Utility.Configuration.Config.NotifierDamage );
-			
+			var c = Utility.Configuration.Config;
+
+			Expedition = new NotifierExpedition( c.NotifierExpedition );
+			Construction = new NotifierConstruction( c.NotifierConstruction );
+			Repair = new NotifierRepair( c.NotifierRepair );
+			Condition = new NotifierCondition( c.NotifierCondition );
+			Damage = new NotifierDamage( c.NotifierDamage );
+			AnchorageRepair = new NotifierAnchorageRepair( c.NotifierAnchorageRepair );
+
 		}
 
 		public void ApplyToConfiguration() {
 
-			Expedition.ApplyToConfiguration( Utility.Configuration.Config.NotifierExpedition );
-			Construction.ApplyToConfiguration( Utility.Configuration.Config.NotifierConstruction );
-			Repair.ApplyToConfiguration( Utility.Configuration.Config.NotifierRepair );
-			Condition.ApplyToConfiguration( Utility.Configuration.Config.NotifierCondition );
-			Damage.ApplyToConfiguration( Utility.Configuration.Config.NotifierDamage );
+			var c = Utility.Configuration.Config;
 
+			Expedition.ApplyToConfiguration( c.NotifierExpedition );
+			Construction.ApplyToConfiguration( c.NotifierConstruction );
+			Repair.ApplyToConfiguration( c.NotifierRepair );
+			Condition.ApplyToConfiguration( c.NotifierCondition );
+			Damage.ApplyToConfiguration( c.NotifierDamage );
+			AnchorageRepair.ApplyToConfiguration( c.NotifierAnchorageRepair );
 		}
 
 		public void ShowNotifier( ElectronicObserver.Window.Dialog.DialogNotifier form ) {
@@ -63,7 +68,7 @@ namespace ElectronicObserver.Notifier {
 				Point p = _parentForm.Browser.PointToScreen( new Point( _parentForm.Browser.ClientSize.Width / 2, _parentForm.Browser.ClientSize.Height / 2 ) );
 				p.Offset( new Point( -form.Width / 2, -form.Height / 2 ) );
 				p.Offset( form.DialogData.Location );
-				
+
 				form.DialogData.Location = p;
 			}
 
@@ -76,6 +81,7 @@ namespace ElectronicObserver.Notifier {
 			yield return Repair;
 			yield return Condition;
 			yield return Damage;
+			yield return AnchorageRepair;
 		}
 
 	}
