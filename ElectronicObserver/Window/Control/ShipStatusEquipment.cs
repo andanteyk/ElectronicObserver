@@ -292,6 +292,8 @@ namespace ElectronicObserver.Window.Control {
 		public ShipStatusEquipment() {
 			InitializeComponent();
 
+			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
+
 			SlotList = new SlotItem[6];
 			for ( int i = 0; i < SlotList.Length; i++ ) {
 				SlotList[i] = new SlotItem();
@@ -417,6 +419,15 @@ namespace ElectronicObserver.Window.Control {
 			SlotSize = ship != null ? ship.SlotSize : 0;
 
 			PropertyChanged();
+		}
+
+
+		void UpdateTimerTick() {
+
+			this.SuspendLayout();
+			Refresh();
+			this.ResumeLayout();
+
 		}
 
 
@@ -592,13 +603,10 @@ namespace ElectronicObserver.Window.Control {
 					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y - AircraftMargin - 1, sz_unit.Width - SlotMargin, sz_unit.Height + AircraftMargin * 2 );
 					//e.Graphics.DrawRectangle( Pens.Cyan, textarea );
 
+					string leveltext;
+					Color levelcol;
 
-					if ( slot.AircraftLevel > 0 ) {
-
-						string leveltext;
-						Color levelcol;
-
-						if ( slot.AircraftLevel <= 3 )
+					if ( slot.AircraftLevel <= 3 )
 							levelcol = AircraftLevelColorLow;
 						else
 							levelcol = AircraftLevelColorHigh;
@@ -612,14 +620,24 @@ namespace ElectronicObserver.Window.Control {
 							case 6: leveltext = "///"; break;
 							case 7: leveltext = ">>"; break;
 							default: leveltext = "x"; break;
-						}
-
-						TextRenderer.DrawText( e.Graphics, leveltext, Font, textarea, levelcol, textformatLevel );
 					}
 
+					if ( slot.AircraftLevel > 0 & slot.Level > 0 ) {
 
-					if ( slot.Level > 0 ) {
-						TextRenderer.DrawText( e.Graphics, slot.Level >= 10 ? "★" : "+" + slot.Level, Font, textarea, EquipmentLevelColor, textformatLevel );
+						if (DateTime.Now.Second % 2 == 0) {
+							TextRenderer.DrawText( e.Graphics, leveltext, Font, textarea, levelcol, textformatLevel );
+						} else {
+							TextRenderer.DrawText( e.Graphics, slot.Level >= 10 ? "★" : "+" + slot.Level, Font, textarea, EquipmentLevelColor, textformatLevel );
+						}
+					} else {
+
+						if ( slot.AircraftLevel > 0 ) {
+							TextRenderer.DrawText( e.Graphics, leveltext, Font, textarea, levelcol, textformatLevel );
+						}
+
+						if ( slot.Level > 0 ) {
+							TextRenderer.DrawText( e.Graphics, slot.Level >= 10 ? "★" : "+" + slot.Level, Font, textarea, EquipmentLevelColor, textformatLevel );
+						}
 					}
 
 				}
