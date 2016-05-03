@@ -753,7 +753,7 @@ namespace ElectronicObserver.Window {
 
 						case 2:		//資源
 						case 8:		//船団護衛成功
-							TextEventDetail.Text = GetMaterialName( compass ) + " x " + compass.GetItemAmount;
+							TextEventDetail.Text = GetMaterialInfo( compass );
 							break;
 
 						case 3:		//渦潮
@@ -848,8 +848,8 @@ namespace ElectronicObserver.Window {
 											break;
 									}
 
-									if ( compass.GetItemID != -1 ) {
-										TextEventDetail.Text += string.Format( "　{0} x {1}", GetMaterialName( compass ), compass.GetItemAmount );
+									if ( compass.GetItems.Any() ) {
+										TextEventDetail.Text += "　" + GetMaterialInfo( compass );
 									}
 
 									break;
@@ -882,18 +882,33 @@ namespace ElectronicObserver.Window {
 		}
 
 
-		private string GetMaterialName( CompassData compass ) {
+		private string GetMaterialInfo( CompassData compass ) {
 
-			if ( compass.GetItemID == 4 ) {		//"※"　大方資源専用ID
+			var strs = new LinkedList<string>();
 
-				return Constants.GetMaterialName( compass.GetItemIDMetadata );
+			foreach ( var item in compass.GetItems ) {
+
+				string itemName;
+
+				if ( item.ItemID == 4 ) {
+					itemName = Constants.GetMaterialName( item.Metadata );
+
+				} else {
+					var itemMaster = KCDatabase.Instance.MasterUseItems[item.ItemID];
+					if ( itemMaster != null )
+						itemName = itemMaster.Name;
+					else
+						itemName = "謎のアイテム";
+				}
+
+				strs.AddLast( itemName + " x " + item.Amount );
+			}
+
+			if ( !strs.Any() ) {
+				return "(なし)";
 
 			} else {
-				UseItemMaster item =  KCDatabase.Instance.MasterUseItems[compass.GetItemIDMetadata];
-				if ( item != null )
-					return item.Name;
-				else
-					return "謎のアイテム";
+				return string.Join( ", ", strs );
 			}
 		}
 

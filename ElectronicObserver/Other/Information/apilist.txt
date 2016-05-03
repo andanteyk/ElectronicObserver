@@ -133,6 +133,7 @@ api_start2	：艦娘・装備固有データその他
 				19=補給物資
 				20=特型内火艇
 				21=陸上攻撃機
+				22=局地戦闘機
 
 			[1]：図鑑表示
 				 1=Primary Armament
@@ -170,6 +171,7 @@ api_start2	：艦娘・装備固有データその他
 				36=Multi-purpose Seaplane
 				37=Amphibious Vehicle
 				38=Land Attacker
+				39=Interceptor
 
 				 1=主砲
 				 2=副砲
@@ -206,6 +208,7 @@ api_start2	：艦娘・装備固有データその他
 				36=多用途水上機/水上戦闘機
 				37=特型内火艇
 				38=陸上攻撃機
+				39=局地戦闘機
 
 			[2]：カテゴリ
 				(api_mst_slotitem_equiptype を参照)
@@ -256,6 +259,7 @@ api_start2	：艦娘・装備固有データその他
 				45=水上戦闘機
 				46=特型内火艇
 				47=陸上攻撃機
+				48=局地戦闘機
 				93=大型電探(II)
 				94=艦上偵察機(II)
 
@@ -297,6 +301,7 @@ api_start2	：艦娘・装備固有データその他
 				35=補給物資
 				36=特型内火艇
 				37=陸上攻撃機
+				38=局地戦闘機
 
 		api_taik		：耐久(0)
 		api_souk		：装甲
@@ -320,6 +325,8 @@ api_start2	：艦娘・装備固有データその他
 		api_broken		：廃棄資材
 		api_info		：図鑑情報
 		api_usebull		：
+		api_cost		：航空機コスト　非航空機は(ID - 1)の値と同じになる、前に航空機がなければ(ID:1~15)存在しない
+		api_distance	：航空機の航続距離　上に同じ
 		
 	api_mst_furniture	：家具データ
 		api_id			：家具ID
@@ -1175,7 +1182,7 @@ api_req_map/next		：進撃
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値　startとは異なり実際の値が入る
 		api_dmg			：ダメージ倍率？
-	api_itemget			：次が資源マス/航空偵察マスのときのみ存在
+	api_itemget			：次が資源マス/航空偵察マスのときのみ存在　オブジェクトの配列
 		api_usemst		：4=資源, 11=家具箱(中), 12=家具箱(大) 
 		api_id			：1=燃料, 2=弾薬, 4=ボーキ, 11=家具箱(中), 12=家具箱(大)
 		api_getcount	：入手資源量

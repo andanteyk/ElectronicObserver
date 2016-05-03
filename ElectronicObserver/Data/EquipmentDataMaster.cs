@@ -21,14 +21,14 @@ namespace ElectronicObserver.Data {
 		public int EquipmentID {
 			get { return (int)RawData.api_id; }
 		}
-		
+
 		/// <summary>
 		/// 図鑑番号
 		/// </summary>
 		public int AlbumNo {
 			get { return (int)RawData.api_sortno; }
 		}
-		
+
 		/// <summary>
 		/// 名前
 		/// </summary>
@@ -134,19 +134,38 @@ namespace ElectronicObserver.Data {
 		public int Rarity {
 			get { return (int)RawData.api_rare; }
 		}
-		
+
 		/// <summary>
 		/// 廃棄資材
 		/// </summary>
 		public ReadOnlyCollection<int> Material {
-			get { return Array.AsReadOnly<int>((int[])RawData.api_broken); }
+			get { return Array.AsReadOnly<int>( (int[])RawData.api_broken ); }
 		}
-		
+
 		/// <summary>
 		/// 図鑑説明
 		/// </summary>
 		public string Message {
 			get { return ( (string)RawData.api_info ).Replace( "<br>", "\n" ); }
+		}
+
+
+		/// <summary>
+		/// 艦載機コスト
+		/// </summary>
+		public int AircraftCost {
+			get {
+				return RawData.api_cost() ? (int)RawData.api_cost : 0;
+			}
+		}
+
+		/// <summary>
+		/// 艦載機航続距離
+		/// </summary>
+		public int AircraftDistance {
+			get {
+				return RawData.api_distance() ? (int)RawData.api_distance : 0;
+			}
 		}
 
 

@@ -657,6 +657,12 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int SortParameter { get; set; }
 
+				/// <summary>
+				/// 進捗を自動保存するか
+				/// 0 = しない、1 = 一時間ごと、2 = 一日ごと
+				/// </summary>
+				public int ProgressAutoSaving { get; set; }
+
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
 					ShowOnce = true;
@@ -666,6 +672,7 @@ namespace ElectronicObserver.Utility {
 					ColumnFilter = null;		//実際の初期化は FormQuest で行う
 					ColumnWidth = null;			//上に同じ
 					SortParameter = 3 << 1 | 0;
+					ProgressAutoSaving = 1;
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
@@ -914,12 +921,12 @@ namespace ElectronicObserver.Utility {
 			/// [泊地修理通知]の設定を扱います。
 			/// </summary>
 			public class ConfigNotifierAnchorageRepair : ConfigNotifierBase {
-			
+
 				public int NotificationLevel { get; set; }
 
 				public ConfigNotifierAnchorageRepair()
 					: base() {
-						NotificationLevel = 2;
+					NotificationLevel = 2;
 				}
 			}
 

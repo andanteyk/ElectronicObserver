@@ -87,7 +87,7 @@ namespace ElectronicObserver.Notifier {
 		}
 
 
-		public void Notify() {
+		public override void Notify() {
 
 			DialogData.Message = "泊地修理の開始から20分が経過しました。";
 
