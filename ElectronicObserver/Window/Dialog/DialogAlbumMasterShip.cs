@@ -277,7 +277,7 @@ namespace ElectronicObserver.Window.Dialog
             _shipID = shipID;
             ShipID.Text = ship.ShipID.ToString();
             AlbumNo.Text = ship.AlbumNo.ToString();
-            ResourceName.Text = string.Format( "{0} ver. {1}", ship.ResourceName, string.Join( ",", ship.ResourceVersions ) );
+            ResourceName.Text = string.Format( "{0} ver. {1}", ship.ResourceName, ship.ResourceGraphicVersion );
 
             ShipType.Text = ship.IsLandBase ? "陸上基地" : db.ShipTypes[ship.ShipType].Name;
             ShipName.Text = ship.NameWithClass;
@@ -902,7 +902,7 @@ namespace ElectronicObserver.Window.Dialog
                                 ship.Ammo,
                                 Constants.GetVoiceFlag(ship.VoiceFlag),
                                 ship.ResourceName,
-                                string.Join( ",", ship.ResourceVersions )
+                                ship.ResourceGraphicVersion
                                 );
 
                         }
@@ -1009,7 +1009,7 @@ namespace ElectronicObserver.Window.Dialog
                                 ship.Ammo,
                                 ship.VoiceFlag,
                                 ship.ResourceName,
-                                string.Join( ",", ship.ResourceVersions )
+                                ship.ResourceGraphicVersion
                                 );
 
                         }
