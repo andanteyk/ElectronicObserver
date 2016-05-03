@@ -65,7 +65,16 @@ namespace Notifier
 			}
 		}
 
-		public override bool Save()
+        private void Notification_AnchorageRepair_Click( object sender, EventArgs e )
+        {
+
+            using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.AnchorageRepair ) )
+            {
+                dialog.ShowDialog( this );
+            }
+        }
+
+        public override bool Save()
 		{
 			NotifierManager.Instance.ApplyToConfiguration();
 

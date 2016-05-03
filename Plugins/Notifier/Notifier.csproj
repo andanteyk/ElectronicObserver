@@ -64,6 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ElectronicObserver\Notifier\NotifierAnchorageRepair.cs">
+      <Link>Notifier\NotifierAnchorageRepair.cs</Link>
+    </Compile>
     <Compile Include="..\..\ElectronicObserver\Notifier\NotifierBase.cs">
       <Link>Notifier\NotifierBase.cs</Link>
     </Compile>

@@ -33,7 +33,8 @@
 			this.tabPage11 = new System.Windows.Forms.TabPage();
 			this.label10 = new System.Windows.Forms.Label();
 			this.Notification_Damage = new System.Windows.Forms.Button();
-			this.Notification_Condition = new System.Windows.Forms.Button();
+            this.Notification_AnchorageRepair = new System.Windows.Forms.Button();
+            this.Notification_Condition = new System.Windows.Forms.Button();
 			this.Notification_Repair = new System.Windows.Forms.Button();
 			this.Notification_Construction = new System.Windows.Forms.Button();
 			this.Notification_Expedition = new System.Windows.Forms.Button();
@@ -60,6 +61,7 @@
 			this.tabPage11.Controls.Add( this.Notification_Repair );
 			this.tabPage11.Controls.Add( this.Notification_Construction );
 			this.tabPage11.Controls.Add( this.Notification_Expedition );
+            this.tabPage11.Controls.Add( this.Notification_AnchorageRepair );
 			this.tabPage11.Location = new System.Drawing.Point( 4, 24 );
 			this.tabPage11.Name = "tabPage11";
 			this.tabPage11.Padding = new System.Windows.Forms.Padding( 3 );
@@ -78,6 +80,16 @@
 			this.label10.Size = new System.Drawing.Size( 238, 15 );
 			this.label10.TabIndex = 5;
 			this.label10.Text = "＊每个设置对话框点OK时生效";
+			// 
+			// Notification_AnchorageRepair
+			// 
+			this.Notification_AnchorageRepair.Location = new System.Drawing.Point(8, 151);
+			this.Notification_AnchorageRepair.Name = "Notification_AnchorageRepair";
+			this.Notification_AnchorageRepair.Size = new System.Drawing.Size(150, 23);
+			this.Notification_AnchorageRepair.TabIndex = 6;
+			this.Notification_AnchorageRepair.Text = "泊地修理通知の設定...";
+			this.Notification_AnchorageRepair.UseVisualStyleBackColor = true;
+			this.Notification_AnchorageRepair.Click += new System.EventHandler(this.Notification_AnchorageRepair_Click);
 			// 
 			// Notification_Damage
 			// 
@@ -147,7 +159,8 @@
 		private System.Windows.Forms.Button Notification_Construction;
 		private System.Windows.Forms.Button Notification_Repair;
 		private System.Windows.Forms.Button Notification_Damage;
-		private System.Windows.Forms.Button Notification_Condition;
+        private System.Windows.Forms.Button Notification_AnchorageRepair;
+        private System.Windows.Forms.Button Notification_Condition;
 		private System.Windows.Forms.Label label10;
 	}
 }
