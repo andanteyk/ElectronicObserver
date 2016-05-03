@@ -229,6 +229,12 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
+		private void Notification_AnchorageRepair_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogConfigurationNotifier( NotifierManager.Instance.AnchorageRepair ) ) {
+				dialog.ShowDialog( this );
+			}
+		}
 
 		private void Life_LayoutFilePathSearch_Click( object sender, EventArgs e ) {
 
@@ -337,12 +343,19 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_BlinkAtCompletion.Checked = config.FormFleet.BlinkAtCompletion;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
+			FormHeadquarters_Visibility.Items.Clear();
+			FormHeadquarters_Visibility.Items.AddRange( FormHeadquarters.GetItemNames().ToArray() );
+			FormHeadquarters.CheckVisibilityConfiguration();
+			for ( int i = 0; i < FormHeadquarters_Visibility.Items.Count; i++ ) {
+				FormHeadquarters_Visibility.SetItemChecked( i, config.FormHeadquarters.Visibility.List[i] );
+			}
 
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
 			FormQuest_ShowWeekly.Checked = config.FormQuest.ShowWeekly;
 			FormQuest_ShowMonthly.Checked = config.FormQuest.ShowMonthly;
+			FormQuest_ProgressAutoSaving.SelectedIndex = config.FormQuest.ProgressAutoSaving;
 
 			FormShipGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			FormShipGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
@@ -506,13 +519,20 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
 			config.FormFleet.BlinkAtCompletion = FormFleet_BlinkAtCompletion.Checked;
 
-			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
+			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked; 
+			{
+				var list = new List<bool>();
+				for ( int i = 0; i < FormHeadquarters_Visibility.Items.Count; i++ )
+					list.Add( FormHeadquarters_Visibility.GetItemChecked( i ) );
+				config.FormHeadquarters.Visibility.List = list;
+			}
 
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;
 			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
 			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
 			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
+			config.FormQuest.ProgressAutoSaving = FormQuest_ProgressAutoSaving.SelectedIndex;
 
 			config.FormShipGroup.AutoUpdate = FormShipGroup_AutoUpdate.Checked;
 			config.FormShipGroup.ShowStatusBar = FormShipGroup_ShowStatusBar.Checked;
@@ -687,6 +707,8 @@ namespace ElectronicObserver.Window.Dialog {
 		private void Database_LinkKCVDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
 			System.Diagnostics.Process.Start( "http://kcvdb.jp/guidelines" );
 		}
+
+		
 
 	}
 }

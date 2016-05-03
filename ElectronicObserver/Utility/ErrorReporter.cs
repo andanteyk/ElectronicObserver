@@ -24,6 +24,14 @@ namespace ElectronicObserver.Utility {
 
 			Utility.Logger.Add( 3, string.Format( "{0} : {1}", message, ex.Message ) );
 
+			if ( Utility.Configuration.Config.Debug.AlertOnError )
+				System.Media.SystemSounds.Hand.Play();
+
+
+			if ( !Utility.Configuration.Config.Log.SaveErrorReport )
+				return;
+
+
 			string path = _basePath;
 
 			if ( !Directory.Exists( path ) )
@@ -41,7 +49,7 @@ namespace ElectronicObserver.Utility {
 					sw.WriteLine( "追加情報 : {0}", message );
 					sw.WriteLine( "スタックトレース：" );
 					sw.WriteLine( ex.StackTrace );
-					
+
 					if ( connectionName != null && connectionData != null ) {
 						sw.WriteLine();
 						sw.WriteLine( "通信内容 : {0}", connectionName );
@@ -54,9 +62,6 @@ namespace ElectronicObserver.Utility {
 				Utility.Logger.Add( 3, string.Format( "エラーレポートの書き込みに失敗しました。\r\n{0}\r\n{1}", ex.Message, ex.StackTrace ) );
 			}
 
-
-			if ( Utility.Configuration.Config.Debug.AlertOnError )
-				System.Media.SystemSounds.Hand.Play();
 		}
 
 	}

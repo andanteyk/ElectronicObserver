@@ -121,7 +121,66 @@ namespace ElectronicObserver.Window {
 					EquipmentCount.BackColor = Color.LightCoral;
 				}
 			}
+
+			//visibility
+			CheckVisibilityConfiguration();
+			{
+				var visibility = Utility.Configuration.Config.FormHeadquarters.Visibility.List;
+				AdmiralName.Visible = visibility[0];
+				AdmiralComment.Visible = visibility[1];
+				HQLevel.Visible = visibility[2];
+				ShipCount.Visible = visibility[3];
+				EquipmentCount.Visible = visibility[4];
+				InstantRepair.Visible = visibility[5];
+				InstantConstruction.Visible = visibility[6];
+				DevelopmentMaterial.Visible = visibility[7];
+				ModdingMaterial.Visible = visibility[8];
+				FurnitureCoin.Visible = visibility[9];
+				Fuel.Visible = visibility[10];
+				Ammo.Visible = visibility[11];
+				Steel.Visible = visibility[12];
+				Bauxite.Visible = visibility[13];
+			}
+
 		}
+
+
+		/// <summary>
+		/// VisibleFlags 設定をチェックし、不正な値だった場合は初期値に戻します。
+		/// </summary>
+		public static void CheckVisibilityConfiguration() {
+			const int count = 14;
+			var config = Utility.Configuration.Config.FormHeadquarters;
+
+			if ( config.Visibility == null )
+				config.Visibility = new Utility.Storage.SerializableList<bool>( Enumerable.Repeat( true, count ).ToList() );
+
+			for ( int i = config.Visibility.List.Count; i < count; i++ ) {
+				config.Visibility.List.Add( true );
+			}
+
+		}
+
+		/// <summary>
+		/// 各表示項目の名称を返します。
+		/// </summary>
+		public static IEnumerable<string> GetItemNames() {
+			yield return "提督名";
+			yield return "提督コメント";
+			yield return "司令部Lv";
+			yield return "艦船数";
+			yield return "装備数";
+			yield return "高速修復材";
+			yield return "高速建造材";
+			yield return "開発資材";
+			yield return "改修資材";
+			yield return "家具コイン";
+			yield return "燃料";
+			yield return "弾薬";
+			yield return "鋼材";
+			yield return "ボーキサイト";
+		}
+
 
 		void Updated( string apiname, dynamic data ) {
 
