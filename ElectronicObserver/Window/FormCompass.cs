@@ -894,7 +894,7 @@ namespace ElectronicObserver.Window {
 					itemName = Constants.GetMaterialName( item.Metadata );
 
 				} else {
-					var itemMaster = KCDatabase.Instance.MasterUseItems[item.ItemID];
+					var itemMaster = KCDatabase.Instance.MasterUseItems[item.Metadata];
 					if ( itemMaster != null )
 						itemName = itemMaster.Name;
 					else

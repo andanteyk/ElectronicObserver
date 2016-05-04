@@ -24,10 +24,10 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.ParameterView = new System.Windows.Forms.DataGridView();
-			this.ButtonOK = new System.Windows.Forms.Button();
-			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.ParameterView_Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ParameterView_Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ButtonOK = new System.Windows.Forms.Button();
+			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.ParameterView)).BeginInit();
 			this.SuspendLayout();
@@ -52,6 +52,20 @@
 			this.ParameterView.Size = new System.Drawing.Size(359, 507);
 			this.ParameterView.TabIndex = 0;
 			// 
+			// ParameterView_Key
+			// 
+			this.ParameterView_Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.ParameterView_Key.HeaderText = "項目";
+			this.ParameterView_Key.Name = "ParameterView_Key";
+			this.ParameterView_Key.ReadOnly = true;
+			this.ParameterView_Key.Width = 56;
+			// 
+			// ParameterView_Value
+			// 
+			this.ParameterView_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ParameterView_Value.HeaderText = "値";
+			this.ParameterView_Value.Name = "ParameterView_Value";
+			// 
 			// ButtonOK
 			// 
 			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -74,20 +88,6 @@
 			this.ButtonCancel.UseVisualStyleBackColor = true;
 			this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
-			// ParameterView_Key
-			// 
-			this.ParameterView_Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.ParameterView_Key.HeaderText = "項目";
-			this.ParameterView_Key.Name = "ParameterView_Key";
-			this.ParameterView_Key.ReadOnly = true;
-			this.ParameterView_Key.Width = 56;
-			// 
-			// ParameterView_Value
-			// 
-			this.ParameterView_Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ParameterView_Value.HeaderText = "値";
-			this.ParameterView_Value.Name = "ParameterView_Value";
-			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -108,6 +108,7 @@
 			this.Controls.Add(this.ParameterView);
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.Name = "DialogAlbumShipParameter";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "艦船パラメータの編集";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogAlbumShipParameter_FormClosed);
 			this.Load += new System.EventHandler(this.DialogAlbumShipParameter_Load);

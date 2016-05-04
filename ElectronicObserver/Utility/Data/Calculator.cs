@@ -516,6 +516,9 @@ namespace ElectronicObserver.Utility.Data {
 						case 43:	// 戦闘糧食
 							tp += 1;
 							break;
+						case 46:	// 特型内火艇
+							tp += 2;
+							break;
 					}
 				}
 
