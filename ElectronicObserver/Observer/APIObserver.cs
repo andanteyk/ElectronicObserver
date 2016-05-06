@@ -638,7 +638,7 @@ namespace ElectronicObserver.Observer {
 
 				// 魔改api_start2
 				{
-					if ( oSession.fullUrl.Contains( "/kcsapi/api_start2" ) && Utility.Modify.ModifyConfiguration.Instance.Count > 0 ) {
+					if ( oSession.fullUrl.Contains( "/kcsapi/api_start2" )  ) {
 						oSession.bBufferResponse = true;
 					}
 				}

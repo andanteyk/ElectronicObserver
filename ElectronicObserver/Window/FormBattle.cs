@@ -226,6 +226,20 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			{
 				if ( day != null && day.IsAvailable )
 				{
+                    try
+                    {
+                        if (day.AirBaseAttack.IsAvailable)
+                        {
+                            for (int i = 0; i < day.AirBaseAttack.AirBaseAttacks.Length; i++)
+                            {
+                                FillAirBaseDamage(i, builder, day, enemys, hps, maxHps);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Utility.ErrorReporter.SendErrorReport(ex, "陆航支援解析出错。", "battle day", day.RawData.ToString());
+                    }
 					try
 					{
 						var pd1 = day.AirBattle;
@@ -299,7 +313,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 	( !fire[1] || !s1available[1] ? "-" : string.Format( "{0}<br/>{1} (#{2})", pd2.AACutInShip.NameWithLevel, Constants.GetAACutinKind( cutinID[1] ), cutinID[1] ) )
 	);
 
-
+                        
 						// 航空战血量变化
 						if ( day.AirBattle.IsAvailable && day.AirBattle.IsStage3Available )
 						{
@@ -433,7 +447,118 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			new Dialog.DialogBattleReport( builder.ToString() ).Show();
 		}
 
-		private void FillAirDamage( StringBuilder builder, int[] flagsfriend, int[] flagsenemy, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
+        private void FillAirBaseDamage(int index, StringBuilder builder, BattleDay day, string[] enemys, int[] hps, int[] maxHps)
+        {
+
+            var AirBaseAttack = day.AirBaseAttack.AirBaseAttacks[index];
+
+            bool s1available = AirBaseAttack.IsStage1Available;
+            bool s2available = AirBaseAttack.IsStage2Available;
+            int[] touches =
+            {
+                            AirBaseAttack.TouchAircraftFriend,
+                            AirBaseAttack.TouchAircraftEnemy
+                        };
+            EquipmentDataMaster[] planes =
+            {
+                            KCDatabase.Instance.MasterEquipments[touches[0]],
+                            KCDatabase.Instance.MasterEquipments[touches[1]]
+                        };
+
+
+            // 接触信息
+            builder.AppendFormat(@"<h2>第{0}基地航空队支援</h2>
+<hr/>
+<table cellspacing=""2"" cellpadding=""0"">
+<tbody>
+<tr>
+<th width=""90""></th><th width=""110"">我方</th><th width=""110""></th><th width=""110"">敌方</th><th width=""110""></th>
+</tr>", AirBaseAttack.BaseId);
+
+            for (int i = 0; i < AirBaseAttack.SquadronPlane.Length; i++)
+            {
+                builder.AppendFormat(@"
+<tr><th width=""90""></th><td>{0}</td><td>{1}</td><td colspan=""2""></td>
+</tr>", 
+  KCDatabase.Instance.MasterEquipments[ AirBaseAttack.SquadronPlane[i].Plane].Name,
+   AirBaseAttack.SquadronPlane[i].Count
+ );
+            }
+            builder.AppendFormat(@"
+< tr><th width=""90"">制空</th><td>{0}</td><td></td><td colspan=""2""></td>
+</tr>
+<tr>
+<th width=""90"">接触信息</th><td>{1}</td><td></td><td>{2}</td><td></td>
+</tr>
+<tr>
+<th width=""90"">stage1</th><td>{3}</td><td></td><td>{4}</td><td></td>
+</tr>
+<tr>
+<th width=""90"">stage2</th><td>{5}</td><td></td><td>{6}</td><td></td>
+</tr>
+</tbody>
+</table>
+",
+Constants.GetAirSuperiority(AirBaseAttack.AirSuperiority),
+
+(!s1available || planes[0] == null ? "-" : planes[0].Name),
+(!s1available || planes[1] == null ? null : planes[1].Name),
+
+
+(!s1available ? "-" : string.Format("-{0}/{1}", AirBaseAttack.AircraftLostStage1Friend, AirBaseAttack.AircraftTotalStage1Friend)),
+
+(!s1available ? null : string.Format("-{0}/{1}", AirBaseAttack.AircraftLostStage1Enemy, AirBaseAttack.AircraftTotalStage1Enemy)),
+
+
+(!s2available ? "-" : string.Format("-{0}/{1}", AirBaseAttack.AircraftLostStage2Friend, AirBaseAttack.AircraftTotalStage2Friend)),
+
+(!s2available ? null : string.Format("-{0}/{1}", AirBaseAttack.AircraftLostStage2Enemy, AirBaseAttack.AircraftTotalStage2Enemy))
+
+
+);
+
+            if (AirBaseAttack.IsStage3Available)
+            {
+
+                builder.AppendLine(@"<table cellspacing = ""2"" cellpadding = ""0"" >
+<thead><th width=""160"">敌方</th>
+<th width=""90"">所受伤害</th>
+<th width=""90"">血量</th>
+</tr>
+</thead>
+<tbody>");
+
+           
+                var damages = AirBaseAttack.Damages;
+                for (int i = 0; i < 6; i++)
+                {
+                    builder.AppendLine("<tr>");
+
+                    if (enemys[i] != null)
+                    {
+                        int before = hps[i + 6];
+                        hps[i + 6] = Math.Max(hps[i + 6] - damages[i + 6], 0);
+                        builder.AppendFormat("<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+                            enemys[i], before, hps[i + 6], maxHps[i + 6],
+                            (before == hps[i + 6] ? null : @" class=""changed"""),
+                            (i + 1),
+                            (damages[i + 6] > 0 ? damages[i + 6].ToString() : null));
+
+                    }
+                    else
+                    {
+                        builder.AppendLine("<td>&nbsp;</td><td>&nbsp;</td>");
+                    }
+
+                    builder.AppendLine("</tr>");
+                }
+            }
+            builder.AppendLine("</tbody>\r\n</table>");
+
+        }
+
+
+        private void FillAirDamage( StringBuilder builder, int[] flagsfriend, int[] flagsenemy, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
 		{
 			builder.AppendLine( @"<table cellspacing=""2"" cellpadding=""0"">
 <thead>
@@ -1307,7 +1432,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 			var initialHPs = bd.Initial.InitialHPs;
 			var maxHPs = bd.Initial.MaxHPs;
 			var resultHPs = bd.ResultHPs;
-			var attackDamages = bd.AttackDamages;
+            var attackDamages = bd.AttackDamages;
 			var attackAirDamages = bd.AttackAirDamages;
 
 			for ( int i = 0; i < 12; i++ ) {

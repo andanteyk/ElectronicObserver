@@ -205,6 +205,11 @@ namespace Codeplex.Data
             return IsObject && (xml.Element(name) != null);
         }
 
+        public int GetCount()
+        {
+            return IsArray ? xml.Elements().Count() : -1;
+        }
+
         /// <summary>has property or not</summary>
         public bool IsDefined(int index)
         {

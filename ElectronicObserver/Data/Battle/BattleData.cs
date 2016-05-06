@@ -31,8 +31,13 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public ReadOnlyCollection<int> AttackAirDamages { get { return Array.AsReadOnly( _attackAirDamages ); } }
 
+        protected int[] _attackAirBaseDamages;
+        /// <summary>
+        /// AirBaseダメージ
+        /// </summary>
+        public ReadOnlyCollection<int> AttackAirBaseDamages { get { return Array.AsReadOnly(_attackAirBaseDamages); } }
 
-		public PhaseInitial Initial { get; protected set; }
+        public PhaseInitial Initial { get; protected set; }
 		public PhaseSearching Searching { get; protected set; }
 
 
@@ -47,8 +52,9 @@ namespace ElectronicObserver.Data.Battle {
 				_attackDamages = new int[_resultHPs.Length];
 			if ( _attackAirDamages == null )
 				_attackAirDamages = new int[_resultHPs.Length];
-
-		}
+            if (_attackAirBaseDamages == null)
+                _attackAirBaseDamages = new int[_resultHPs.Length];
+        }
 
 
 		/// <summary>
@@ -97,7 +103,8 @@ namespace ElectronicObserver.Data.Battle {
 		internal void TakeOverParameters( BattleData prev ) {
 			_attackDamages = (int[])prev._attackDamages.Clone();
 			_attackAirDamages = (int[])prev._attackAirDamages.Clone();
-		}
+            _attackAirBaseDamages = (int[])prev._attackAirBaseDamages.Clone();
+        }
 
 
 

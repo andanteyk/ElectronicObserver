@@ -15,10 +15,12 @@ namespace ElectronicObserver.Data.Battle {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			AirBattle = new PhaseAirBattle( this );
-			// 支援はないものとする
+            AirBaseAttack = new PhaseAirBaseAttack(this);
+            AirBattle = new PhaseAirBattle( this );
+            // 支援はないものとする
 
-			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
+            AirBaseAttack.EmulateBattle(_resultHPs, _attackAirBaseDamages);
+            AirBattle.EmulateBattle( _resultHPs, _attackDamages );
 
 		}
 
