@@ -178,7 +178,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				get {
 					// 敵のみです
 
-					int[] ret =　new int[AirBattleData.api_stage3_combined() ? 18 : 12];
+					int[] ret =　new int[IsCombined ? 18 : 12];
 					int[] enemy = (int[])AirBattleData.api_stage3.api_edam;
 
 					for ( int i = 0; i < 6; i++ ) {
