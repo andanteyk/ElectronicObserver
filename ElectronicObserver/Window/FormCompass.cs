@@ -594,6 +594,7 @@ namespace ElectronicObserver.Window {
 
 
 			TextDestination.ImageList = ResourceManager.Instance.Equipments;
+			TextEventKind.ImageList = ResourceManager.Instance.Equipments;
 			TextEventDetail.ImageList = ResourceManager.Instance.Equipments;
 			TextFormation.ImageList = ResourceManager.Instance.Icons;
 			TextAirSuperiority.ImageList = ResourceManager.Instance.Equipments;
@@ -666,6 +667,9 @@ namespace ElectronicObserver.Window {
 				ToolTipInfo.SetToolTip( TextDestination, null );
 				TextEventKind.Text = data.api_cmt;
 				TextEventKind.ForeColor = getColorFromEventKind( 0 );
+				TextEventKind.ImageAlign = ContentAlignment.MiddleCenter;
+				TextEventKind.ImageIndex = -1;
+				ToolTipInfo.SetToolTip( TextEventKind, null );
 				TextEventDetail.Text = string.Format( "Lv. {0} / {1} exp.", data.api_level, data.api_experience[0] );
 				TextEventDetail.ImageAlign = ContentAlignment.MiddleCenter;
 				TextEventDetail.ImageIndex = -1;
@@ -872,6 +876,18 @@ namespace ElectronicObserver.Window {
 					}
 					TextEventKind.Text = eventkind;
 				}
+
+
+				if ( compass.HasAirRaid ) {
+					TextEventKind.ImageAlign = ContentAlignment.MiddleRight;
+					TextEventKind.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedBomber;
+					ToolTipInfo.SetToolTip( TextEventKind, Constants.GetAirRaidDamage( compass.AirRaidDamageKind ) );
+				} else {
+					TextEventKind.ImageAlign = ContentAlignment.MiddleCenter;
+					TextEventKind.ImageIndex = -1;
+					ToolTipInfo.SetToolTip( TextEventKind, null );
+				}
+
 
 				BasePanel.ResumeLayout();
 
