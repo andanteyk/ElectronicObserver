@@ -51,8 +51,12 @@ namespace ElectronicObserver.Window {
 			o["api_req_hokyu/charge"].ResponseReceived += Updated;
 			o["api_req_map/start"].ResponseReceived += Updated;
 			o["api_req_practice/battle"].ResponseReceived += Updated;
+            o["api_req_map/next"].ResponseReceived += Updated;
+            o["api_req_sortie/battle"].ResponseReceived += Updated;
+            o["api_req_combined_battle/battle"].ResponseReceived += Updated;
+            o["api_req_combined_battle/battle_water"].ResponseReceived += Updated;
 
-			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+            Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
 		private bool ShowFailedDevelopment;
@@ -152,10 +156,81 @@ namespace ElectronicObserver.Window {
 				case "api_req_practice/battle":
 					_inSortie = new List<int>() { KCDatabase.Instance.Battle.BattleDay.Initial.FriendFleetID };
 					break;
-			}
+
+                case "api_req_map/next":
+                    var info = GetAirBaseAttackImformation(data);
+                    if (info != null)
+                        TextInformation.Text = info;
+                    break;
+
+                case "api_req_sortie/battle":
+                case "api_req_combined_battle/battle":
+                case "api_req_combined_battle/battle_water":
+                    var Damaged = GetBossDamaged(data);
+                    if (Damaged != null)
+                        TextInformation.Text = Damaged;
+                    break;
+            }
 
 		}
 
+        private string GetBossDamaged(dynamic data)
+        {
+            if (data.api_boss_damaged())
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("[BOSS受损情报]");
+                int BossDamaged = (int)(data.api_boss_damaged);
+                sb.AppendFormat("BOSS受损状态:{0}", BossDamaged == 1 ? "是" : "否");
+                return sb.ToString();
+            }
+            return null;
+        }
+
+        private string GetAirBaseAttackImformation(dynamic data)
+        {
+            if (data.api_destruction_battle())
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("[基地遭受空袭]");
+
+                int[] NowHP = (int[])(data.api_destruction_battle.api_nowhps);
+                int[] MaxHP = (int[])(data.api_destruction_battle.api_maxhps);
+                var air_base_attack = data.api_destruction_battle.api_air_base_attack;
+                int[] stageFlag = (int[])(air_base_attack.api_stage_flag);
+                if ((int)stageFlag[0] == 1)
+                {
+                    int seiku = (int)(air_base_attack.api_stage1.api_disp_seiku);
+                    sb.AppendLine(Constants.GetAirSuperiority(seiku));
+                    int fcount = (int)(air_base_attack.api_stage1.api_f_count);
+                    int flost = (int)(air_base_attack.api_stage1.api_f_lostcount);
+                    int ecount = (int)(air_base_attack.api_stage1.api_e_count);
+                    int elost = (int)(air_base_attack.api_stage1.api_e_lostcount);
+                    if (fcount > 0)
+                    {
+                        sb.AppendFormat("我方:{0}->{1}", fcount, fcount - flost);
+                        sb.AppendLine();
+                    }
+                    sb.AppendFormat("敌方:{0}->{1}", ecount, ecount - elost);
+                    sb.AppendLine();
+
+                    if ((int)stageFlag[2] == 1)
+                    {
+                        int[] dam = (int[])(air_base_attack.api_stage3.api_fdam);
+                        for (int index = 1; index <= 6; index++)
+                        {
+                            if (MaxHP[index] == -1)
+                                break;
+                            sb.AppendFormat("基地{0}:{1}->{2}/{3}", index, NowHP[index], NowHP[index] - dam[index], MaxHP[index]);
+                            sb.AppendLine();
+                        }
+                    }
+                }
+                return sb.ToString();
+            }
+
+            return null;
+        }
 
 		private string GetPracticeEnemyInfo( dynamic data ) {
 
