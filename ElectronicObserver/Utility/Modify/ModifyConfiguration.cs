@@ -55,10 +55,11 @@ namespace ElectronicObserver.Utility.Modify {
 				return;
 			}
 
-			if ( File.Exists( ModifyFileName ) ) {
+            modifies = new List<ModifyConfigurationNode>();
 
-				modifies = new List<ModifyConfigurationNode>();
+            if ( File.Exists( ModifyFileName ) ) {
 
+				
 				try {
 
 					var array = JavaScriptSerializer.DeserializeObject( File.ReadAllText( ModifyFileName ) );
