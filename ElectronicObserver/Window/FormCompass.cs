@@ -675,6 +675,7 @@ namespace ElectronicObserver.Window {
 				TextEventDetail.ImageIndex = -1;
 				ToolTipInfo.SetToolTip( TextEventDetail, null );
 				TextEnemyFleetName.Text = data.api_deckname;
+                Utility.Logger.Add(2, string.Format("「{0}」と交戦しました。", TextEnemyFleetName.Text));
 
 			} else {
 
@@ -1010,6 +1011,7 @@ namespace ElectronicObserver.Window {
 				var efrecord = RecordManager.Instance.EnemyFleet[efcurrent.FleetID];
 				if ( efrecord != null ) {
 					TextEnemyFleetName.Text = efrecord.FleetName;
+                    Utility.Logger.Add(2, string.Format("「{0}」と交戦しました。", TextEnemyFleetName.Text));
 				}
 				TextEventDetail.Text = "敵艦隊ID: " + efcurrent.FleetID.ToString( "x8" );
 				ToolTipInfo.SetToolTip( TextEventDetail, null );
