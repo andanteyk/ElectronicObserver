@@ -228,7 +228,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				{
                     try
                     {
-                        if (day.AirBaseAttack.IsAvailable)
+                        if (day.AirBaseAttack != null && day.AirBaseAttack.IsAvailable)
                         {
                             for (int i = 0; i < day.AirBaseAttack.AirBaseAttacks.Length; i++)
                             {
