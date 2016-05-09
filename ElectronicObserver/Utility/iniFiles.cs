@@ -117,8 +117,15 @@ namespace ElectronicObserver.Utility
             //Note:必须得用Bytes来实现，StringBuilder只能取到第一个Indent
             byte[] Buffer = new byte[10000];
             int bufLen = GetPrivateProfileString(Section, null, null, Buffer, Buffer.Length, FileName);
-            string a = System.Text.Encoding.Default.GetString(Buffer, 0, bufLen - 1);
-            return a.Split('\0');
+            if(bufLen>0)
+            {
+                string a = System.Text.Encoding.Default.GetString(Buffer, 0, bufLen - 1);
+                return a.Split('\0');
+            }
+            else
+            {
+                return new string[0];
+            }
         }
 
         /// <summary>
