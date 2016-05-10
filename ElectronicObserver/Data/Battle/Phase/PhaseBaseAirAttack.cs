@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Codeplex.Data;
 
 namespace ElectronicObserver.Data.Battle.Phase {
 
@@ -12,19 +13,41 @@ namespace ElectronicObserver.Data.Battle.Phase {
 	public class PhaseBaseAirAttack : PhaseBase {
 
 
-		/// <summary>
-		/// 基地航空隊攻撃フェーズの、個々の攻撃フェーズの処理を行います。
-		/// </summary>
-		public class PhaseBaseAirAttackUnit : PhaseBase {
+        public class SquadronPlane
+        {
+            public int Plane { get; set; }
+            public int Count { get; set; }
+
+            public SquadronPlane(int plane, int count)
+            {
+                Plane = plane;
+                Count = count;
+            }
+        }
+        /// <summary>
+        /// 基地航空隊攻撃フェーズの、個々の攻撃フェーズの処理を行います。
+        /// </summary>
+        public class PhaseBaseAirAttackUnit : PhaseBase {
 
 
 			public PhaseBaseAirAttackUnit( BattleData data, int index )
 				: base( data ) {
 				AirBattleData = data.RawData.api_air_base_attack[index];
-			}
+                int count = ((DynamicJson)AirBattleData.api_squadron_plane).GetCount();
+                SquadronPlane = new PhaseBaseAirAttack.SquadronPlane[count];
+                for (int i = 0; i < count; i++)
+                {
+                    SquadronPlane[i] = new PhaseBaseAirAttack.SquadronPlane((int)AirBattleData.api_squadron_plane[i].api_mst_id, (int)AirBattleData.api_squadron_plane[i].api_count);
+                }
+            }
 
+            public SquadronPlane[] SquadronPlane
+            {
+                get;
+                set;
+            }
 
-			public override bool IsAvailable {
+            public override bool IsAvailable {
 				get {
 					int[] stageFlag = StageFlag;
 					return StageFlag != null && !stageFlag.All( i => i == 0 );

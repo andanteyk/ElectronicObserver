@@ -228,9 +228,9 @@ td,th,tr {text-align:left; padding:2px 4px;}
 				{
                     try
                     {
-                        if (day.AirBaseAttack != null && day.AirBaseAttack.IsAvailable)
+                        if (day.BaseAirAttack != null && day.BaseAirAttack.IsAvailable)
                         {
-                            for (int i = 0; i < day.AirBaseAttack.AirBaseAttacks.Length; i++)
+                            for (int i = 0; i < day.BaseAirAttack.AirAttackUnits.Count; i++)
                             {
                                 FillAirBaseDamage(i, builder, day, enemys, hps, maxHps);
                             }
@@ -450,7 +450,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
         private void FillAirBaseDamage(int index, StringBuilder builder, BattleDay day, string[] enemys, int[] hps, int[] maxHps)
         {
 
-            var AirBaseAttack = day.AirBaseAttack.AirBaseAttacks[index];
+            var AirBaseAttack = day.BaseAirAttack.AirAttackUnits[index];
 
             bool s1available = AirBaseAttack.IsStage1Available;
             bool s2available = AirBaseAttack.IsStage2Available;
@@ -473,7 +473,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
 <tbody>
 <tr>
 <th width=""90""></th><th width=""110"">我方</th><th width=""110""></th><th width=""110"">敌方</th><th width=""110""></th>
-</tr>", AirBaseAttack.BaseId);
+</tr>", AirBaseAttack.AirUnitID);
 
             for (int i = 0; i < AirBaseAttack.SquadronPlane.Length; i++)
             {
@@ -485,7 +485,7 @@ td,th,tr {text-align:left; padding:2px 4px;}
  );
             }
             builder.AppendFormat(@"
-< tr><th width=""90"">制空</th><td>{0}</td><td></td><td colspan=""2""></td>
+<tr><th width=""90"">制空</th><td>{0}</td><td></td><td colspan=""2""></td>
 </tr>
 <tr>
 <th width=""90"">接触信息</th><td>{1}</td><td></td><td>{2}</td><td></td>
@@ -524,6 +524,7 @@ Constants.GetAirSuperiority(AirBaseAttack.AirSuperiority),
 <thead><th width=""160"">敌方</th>
 <th width=""90"">所受伤害</th>
 <th width=""90"">血量</th>
+<th width=""90"">雷 爆 暴击</th>
 </tr>
 </thead>
 <tbody>");
@@ -538,11 +539,12 @@ Constants.GetAirSuperiority(AirBaseAttack.AirSuperiority),
                     {
                         int before = hps[i + 6];
                         hps[i + 6] = Math.Max(hps[i + 6] - damages[i + 6], 0);
-                        builder.AppendFormat("<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td>\r\n",
+                        builder.AppendFormat("<td>{5}.{0}</td><td>{6}</td><td{4}>{1}→{2}/{3}</td><td>{7}</td>\r\n",
                             enemys[i], before, hps[i + 6], maxHps[i + 6],
                             (before == hps[i + 6] ? null : @" class=""changed"""),
                             (i + 1),
-                            (damages[i + 6] > 0 ? damages[i + 6].ToString() : null));
+                            (damages[i + 6] > 0 ? damages[i + 6].ToString() : null),
+                            GetAirFlag(AirBaseAttack,i));
 
                     }
                     else
@@ -557,6 +559,16 @@ Constants.GetAirSuperiority(AirBaseAttack.AirSuperiority),
 
         }
 
+        string GetAirFlag(PhaseBaseAirAttack.PhaseBaseAirAttackUnit Unit, int index)
+        {
+            int[] raiFlag = (int[])Unit.AirBattleData.api_stage3.api_erai_flag;
+            int[] bakFlag = (int[])Unit.AirBattleData.api_stage3.api_ebak_flag;
+            int[] clFlag = (int[])Unit.AirBattleData.api_stage3.api_ecl_flag;
+            string flag = raiFlag[index + 1] == 1 ? "√" : "×";
+            flag+=" "+ (bakFlag[index + 1] == 1 ? "√" : "×");
+            flag += " " + (clFlag[index + 1] == 1 ? "√" : "×");
+            return flag;
+        }
 
         private void FillAirDamage( StringBuilder builder, int[] flagsfriend, int[] flagsenemy, int[] damages, string[] friends, string[] accompany, string[] enemys, int[] hps, int[] maxHps )
 		{
