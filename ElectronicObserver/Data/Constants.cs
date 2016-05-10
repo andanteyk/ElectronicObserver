@@ -276,6 +276,25 @@ namespace ElectronicObserver.Data {
 
 		}
 
+		/// <summary>
+		/// 空襲被害の状態を表す文字列を取得します。
+		/// </summary>
+		public static string GetAirRaidDamage( int value ) {
+			switch ( value ) {
+				case 1:
+					return "空襲発生 - 資源に損害";
+				case 2:
+					return "空襲発生 - 資源・航空隊に損害";
+				case 3:
+					return "空襲発生 - 航空隊に損害";
+				case 4:
+					return "空襲発生 - 被害なし";
+				default:
+					return "空襲発生せず";
+			}
+		}
+
+
 		#endregion
 
 

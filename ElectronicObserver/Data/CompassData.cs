@@ -285,6 +285,25 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 空襲が存在したか
+		/// </summary>
+		public bool HasAirRaid {
+			get {
+				return RawData.api_destruction_battle();
+			}
+		}
+
+
+		/// <summary>
+		/// 空襲被害の種別
+		/// 1=資源に被害, 2=資源・航空隊に被害, 3=航空隊に被害, 4=損害なし
+		/// </summary>
+		public int AirRaidDamageKind {
+			get {
+				return HasAirRaid && RawData.api_destruction_battle.api_lost_kind() ? (int)RawData.api_destruction_battle.api_lost_kind : 0;
+			}
+		}
 
 
 		/// <summary>

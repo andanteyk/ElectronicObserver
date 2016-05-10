@@ -54,7 +54,7 @@ namespace ElectronicObserver.Notifier {
 
 			if ( !processedFlag ) {
 
-				if ( ( DateTime.Now - fleets.AnchorageRepairingTimer ).TotalMinutes >= 20 ) {
+				if ( ( DateTime.Now - fleets.AnchorageRepairingTimer ).TotalMilliseconds + AccelInterval >= 20 * 60 * 1000 ) {
 
 					bool clear;
 					switch ( NotificationLevel ) {

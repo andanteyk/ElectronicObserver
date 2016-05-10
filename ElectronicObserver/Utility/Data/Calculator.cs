@@ -847,7 +847,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 7, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上爆撃機
 			{ 8, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		//艦上攻撃機
 			{ 11, new int[] { 0, 1, 1, 1, 1, 3, 3, 6, 6 } },	//水上爆撃機
-			{ 45, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },	//水上戦闘機
+			{ 45, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 }},	//水上戦闘機
 		};
 
 		/// <summary>
@@ -1137,6 +1137,9 @@ namespace ElectronicObserver.Utility.Data {
 							break;
 						case 43:	// 戦闘糧食
 							tp += 1;
+							break;
+						case 46:	// 特型内火艇
+							tp += 2;
 							break;
 					}
 				}
