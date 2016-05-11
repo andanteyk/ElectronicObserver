@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
-	
+
 	/// <summary>
 	/// 戦闘結果のデータを扱います。
 	/// </summary>
@@ -15,6 +15,19 @@ namespace ElectronicObserver.Data.Battle {
 		/// 現在保存されているAPIの名前
 		/// </summary>
 		private string _APIName { get; set; }
+
+
+
+		// :(
+		/// <summary>
+		/// 演習の結果かどうか
+		/// </summary>
+		private bool IsPractice {
+			get {
+				return _APIName == "api_req_practice/battle_result";
+			}
+		}
+
 
 
 		/// <summary>
@@ -65,7 +78,7 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public int DroppedShipID {
 			get {
-				if ( _APIName == "api_req_practice/battle_result" )
+				if ( IsPractice )
 					return -1;
 				if ( (int)RawData.api_get_flag[1] == 0 )
 					return -1;
@@ -80,7 +93,7 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public int DroppedItemID {
 			get {
-				if ( _APIName == "api_req_practice/battle_result" )
+				if ( IsPractice )
 					return -1;
 				if ( (int)RawData.api_get_flag[0] == 0 )
 					return -1;
@@ -95,7 +108,7 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public int DroppedEquipmentID {
 			get {
-				if ( _APIName == "api_req_practice/battle_result" )
+				if ( IsPractice )
 					return -1;
 				if ( (int)RawData.api_get_flag[2] == 0 )
 					return -1;
@@ -134,11 +147,12 @@ namespace ElectronicObserver.Data.Battle {
 			}
 		}
 
-		
+
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
 			_APIName = apiname;
+
 		}
 	}
 
