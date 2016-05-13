@@ -726,6 +726,10 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			if ( bd.Initial.IsBossDamaged )
+				HPBars[6].BackColor = Color.MistyRose;
+
+
 			foreach ( int i in bd.MVPShipIndexes )
 				HPBars[i].BackColor = Color.Moccasin;
 
@@ -827,6 +831,8 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			if ( bd.Initial.IsBossDamaged )
+				HPBars[6].BackColor = Color.MistyRose;
 
 			foreach ( int i in bd.MVPShipIndexes )
 				HPBars[i].BackColor = Color.Moccasin;
