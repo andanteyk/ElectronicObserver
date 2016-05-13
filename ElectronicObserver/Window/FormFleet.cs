@@ -906,7 +906,7 @@ namespace ElectronicObserver.Window {
 				bool colorMorphing = c.UI.BarColorMorphing;
 				Color[] colorScheme = c.UI.BarColorScheme.Select( col => col.ColorData ).ToArray();
 				bool showNext = c.FormFleet.ShowNextExp;
-				bool showEquipmentLevel = c.FormFleet.ShowEquipmentLevel;
+				var levelVisibility = c.FormFleet.EquipmentLevelVisibility;
 
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
 					ControlMember[i].Equipments.ShowAircraft = showAircraft;
@@ -921,7 +921,7 @@ namespace ElectronicObserver.Window {
 					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
 					ControlMember[i].HP.HPBar.SetBarColorScheme( colorScheme );
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
-					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
+					ControlMember[i].Equipments.LevelVisibility = levelVisibility;
 					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
 					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;
 					ControlMember[i].ShipResource.BarFuel.SetBarColorScheme( colorScheme );

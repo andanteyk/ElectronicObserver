@@ -922,8 +922,10 @@ namespace ElectronicObserver.Window {
 				rank = 4;	//B
 			else if ( friendrate < 0.5 )
 				rank = 3;	//C
-			else
+			else if ( friendrate < 0.8 )
 				rank = 2;	//D
+			else
+				rank = 1;	//E
 
 			/*/// 撃沈艦があってもランクは変わらない(撃沈ありA勝利が確認されている)
 			if ( sunkFriend > 0 )

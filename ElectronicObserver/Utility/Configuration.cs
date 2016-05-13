@@ -574,9 +574,9 @@ namespace ElectronicObserver.Utility {
 				public bool ShowNextExp { get; set; }
 
 				/// <summary>
-				/// 装備の改修レベル・艦載機熟練度を表示するか
+				/// 装備の改修レベル・艦載機熟練度の表示フラグ
 				/// </summary>
-				public bool ShowEquipmentLevel { get; set; }
+				public Window.Control.ShipStatusEquipment.LevelVisibilityFlag EquipmentLevelVisibility { get; set; }
 
 				/// <summary>
 				/// 制空戦力の計算方法
@@ -600,7 +600,7 @@ namespace ElectronicObserver.Utility {
 					FixShipNameWidth = false;
 					ShortenHPBar = false;
 					ShowNextExp = true;
-					ShowEquipmentLevel = true;
+					EquipmentLevelVisibility = Window.Control.ShipStatusEquipment.LevelVisibilityFlag.Both;
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
 					BlinkAtCompletion = true;
@@ -1335,6 +1335,8 @@ namespace ElectronicObserver.Utility {
 			if ( dt <= DateTimeHelper.CSVStringToTime( "2016/04/01 22:00:00" ) ) {
 				new DialogInvitationKCVDB().Show( mainForm );
 			}
+
+
 
 			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );
 		}
