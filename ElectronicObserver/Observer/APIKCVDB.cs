@@ -53,11 +53,11 @@ namespace ElectronicObserver.Observer {
 
 			_client = KCVDBClientService.Instance.CreateClient( agentID, sessionID.ToString() );
 
-			Logger.Add( 1, "KCVDB sender: 送信準備を開始します。セッションID: " + sessionID.ToString() );
+			Logger.Add( 2, "KCVDB sender: 送信準備を開始します。セッションID: " + sessionID.ToString() );
 
 			_client.ApiDataSent += ( _, e ) => {
 				foreach ( var api in e.ApiData )
-					Logger.Add( 1, "KCVDB sender: " + api.RequestUri + " を送信しました。" );
+					Logger.Add( 0, "KCVDB sender: " + api.RequestUri + " を送信しました。" );
 			};
 
 			_client.SendingError += ( _, e ) => {

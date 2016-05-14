@@ -121,5 +121,15 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 		}
 
+
+		/// <summary>
+		/// 装甲破壊されているか
+		/// </summary>
+		public bool IsBossDamaged {
+			get {
+				return RawData.api_boss_damaged() && (int)RawData.api_boss_damaged > 0;
+			}
+		}
+
 	}
 }

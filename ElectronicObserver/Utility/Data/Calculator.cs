@@ -441,7 +441,8 @@ namespace ElectronicObserver.Utility.Data {
 						continue;
 
 					if ( eqs[i].CategoryType == 9 ||	// 艦上偵察機
-						eqs[i].CategoryType == 10 ) {	// 水上偵察機
+						eqs[i].CategoryType == 10 ||	// 水上偵察機
+						eqs[i].CategoryType == 41 ) {	// 大型飛行艇
 
 						successProb += 0.04 * eqs[i].LOS * Math.Sqrt( ship.Aircraft[i] );
 					}
@@ -472,7 +473,7 @@ namespace ElectronicObserver.Utility.Data {
 						case 8:		// 艦上攻撃機
 						case 9:		// 艦上偵察機
 						case 10:	// 水上偵察機
-
+						case 41:	// 大型飛行艇
 							if ( !probs.ContainsKey( eq.Accuracy ) )
 								probs.Add( eq.Accuracy, 1.0 );
 
@@ -788,8 +789,8 @@ namespace ElectronicObserver.Utility.Data {
 				if ( eq == null ) continue;
 
 				if ( eq.IconType == 16 ) {	//高角砲
-					// 10cm連装高角砲+高射装置 or 12.7cm高角砲+高射装置 or 90mm単装高角砲
-					if ( eq.EquipmentID == 122 || eq.EquipmentID == 130 || eq.EquipmentID == 135 ) {
+					// 10cm連装高角砲+高射装置 or 12.7cm高角砲+高射装置 or 90mm単装高角砲 or 5inch連装砲 Mk.28 mod.2
+					if ( eq.EquipmentID == 122 || eq.EquipmentID == 130 || eq.EquipmentID == 135 || eq.EquipmentID == 172 ) {
 						highangle_director++;
 					}
 					highangle++;

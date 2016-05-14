@@ -726,6 +726,10 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			if ( bd.Initial.IsBossDamaged )
+				HPBars[6].BackColor = Color.MistyRose;
+
+
 			foreach ( int i in bd.MVPShipIndexes )
 				HPBars[i].BackColor = Color.Moccasin;
 
@@ -756,6 +760,7 @@ namespace ElectronicObserver.Window {
 					HPBars[i].Value = resultHPs[i];
 					HPBars[i].PrevValue = initialHPs[i];
 					HPBars[i].MaximumValue = maxHPs[i];
+					HPBars[i].BackColor = SystemColors.Control;
 					HPBars[i].Visible = true;
 				} else {
 					HPBars[i].Visible = false;
@@ -827,6 +832,8 @@ namespace ElectronicObserver.Window {
 				}
 			}
 
+			if ( bd.Initial.IsBossDamaged )
+				HPBars[6].BackColor = Color.MistyRose;
 
 			foreach ( int i in bd.MVPShipIndexes )
 				HPBars[i].BackColor = Color.Moccasin;
@@ -922,8 +929,10 @@ namespace ElectronicObserver.Window {
 				rank = 4;	//B
 			else if ( friendrate < 0.5 )
 				rank = 3;	//C
-			else
+			else if ( friendrate < 0.8 )
 				rank = 2;	//D
+			else
+				rank = 1;	//E
 
 			/*/// 撃沈艦があってもランクは変わらない(撃沈ありA勝利が確認されている)
 			if ( sunkFriend > 0 )

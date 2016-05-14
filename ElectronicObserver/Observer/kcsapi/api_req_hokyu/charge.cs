@@ -25,8 +25,34 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_hokyu {
 			}
 
 
+			int[] material = new int[]{
+				db.Material.Fuel,
+				db.Material.Ammo,
+				db.Material.Steel,
+				db.Material.Bauxite,
+			};
+
 			//api_material
 			db.Material.LoadFromResponse( APIName, data.api_material );
+
+			material[0] -= db.Material.Fuel;
+			material[1] -= db.Material.Ammo;
+			material[2] -= db.Material.Steel;
+			material[3] -= db.Material.Bauxite;
+
+			{
+				var sb = new StringBuilder( "補給を行いました。消費: " );
+
+				for ( int i = 0; i < 4; i++ ) {
+					if ( material[i] > 0 ) {
+						sb.Append( Constants.GetMaterialName( i + 1 ) ).Append( "x" ).Append( material[i] ).Append( ", " );
+					}
+				}
+
+
+				sb.Remove( sb.Length - 2, 2 );
+				Utility.Logger.Add( 2, sb.ToString() );
+			}
 
 
 			base.OnResponseReceived( (object)data );

@@ -151,7 +151,7 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 艦載機コスト
+		/// 基地航空隊：配置コスト
 		/// </summary>
 		public int AircraftCost {
 			get {
@@ -160,7 +160,7 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 艦載機航続距離
+		/// 基地航空隊：戦闘行動半径
 		/// </summary>
 		public int AircraftDistance {
 			get {
@@ -214,7 +214,8 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		public string ResourceVersion { get; internal set; }
+		//[Obsolete]
+		//public string ResourceVersion { get; internal set; }
 
 
 		public int ID {

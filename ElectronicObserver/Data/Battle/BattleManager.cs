@@ -69,6 +69,17 @@ namespace ElectronicObserver.Data.Battle {
 		public Dictionary<int, int> DroppedItemCount { get; internal set; }
 
 
+		/// <summary>
+		/// 演習の敵提督名
+		/// </summary>
+		public string EnemyAdmiralName { get; internal set; }
+
+		/// <summary>
+		/// 演習の敵提督階級
+		/// </summary>
+		public string EnemyAdmiralRank { get; internal set; }
+
+
 
 		public BattleManager() {
 			DroppedItemCount = new Dictionary<int, int>();
@@ -155,6 +166,11 @@ namespace ElectronicObserver.Data.Battle {
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
 
+				case "api_req_member/get_practice_enemyinfo":
+					EnemyAdmiralName = data.api_nickname;
+					EnemyAdmiralRank = Constants.GetAdmiralRank( (int)data.api_rank );
+					break;
+
 				case "api_req_practice/battle":
 					BattleMode = BattleModes.Practice;
 					BattleDay = new BattlePracticeDay();
@@ -204,6 +220,19 @@ namespace ElectronicObserver.Data.Battle {
 
 			if ( enemyFleetData != null )
 				RecordManager.Instance.EnemyFleet.Update( enemyFleetData );
+
+
+			// ロギング
+			if ( ( BattleMode & BattleModes.BattlePhaseMask ) == BattleModes.Practice ) {
+				Utility.Logger.Add( 2,
+					string.Format( "演習 で「{0}」{1}の「{2}」と交戦しました。( ランク: {3}, 提督Exp+{4}, 艦娘Exp+{5} )",
+						EnemyAdmiralName, EnemyAdmiralRank, Result.EnemyFleetName, Result.Rank, Result.AdmiralExp, Result.BaseExp ) );
+			} else {
+				Utility.Logger.Add( 2,
+					string.Format( "{0}-{1}-{2} で「{3}」と交戦しました。( ランク: {4}, 提督Exp+{5}, 艦娘Exp+{6} )",
+						Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Result.EnemyFleetName, Result.Rank, Result.AdmiralExp, Result.BaseExp ) );
+			}
+
 
 
 			//ドロップ艦記録
