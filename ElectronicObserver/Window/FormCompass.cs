@@ -273,7 +273,7 @@ namespace ElectronicObserver.Window {
 						ShipNames[i].ForeColor = GetShipNameColor( ship );
 						ShipNames[i].Tag = ship.ShipID;
 						ShipNames[i].Cursor = Cursors.Help;
-						ToolTipInfo.SetToolTip( ShipNames[i], GetShipString( ship.ShipID, ship.DefaultSlot.ToArray() ) );
+						ToolTipInfo.SetToolTip( ShipNames[i], GetShipString( ship.ShipID, ship.DefaultSlot != null ? ship.DefaultSlot.ToArray() : null ) );
 					}
 
 					ShipNames[i].Visible = true;
