@@ -57,6 +57,7 @@ namespace ElectronicObserver.Window {
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
 		public FormWindowCapture fWindowCapture;
+		public FormBaseAirCorps fBaseAirCorps;
 
 		#endregion
 
@@ -157,7 +158,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
-
+			SubForms.Add( fBaseAirCorps = new FormBaseAirCorps( this ) );
 
 			ConfigurationChanged();		//設定から初期化
 
@@ -432,6 +433,8 @@ namespace ElectronicObserver.Window {
 					return fBrowser;
 				case "WindowCapture":
 					return fWindowCapture;
+				case "BaseAirCorps":
+					return fBaseAirCorps;
 				default:
 					if ( persistString.StartsWith( "ShipGroup" ) ) {
 						fShipGroup.ConfigureFromPersistString( persistString );
@@ -1244,7 +1247,13 @@ namespace ElectronicObserver.Window {
 			ShowForm( fWindowCapture );
 		}
 
+		private void StripMenu_View_BaseAirCorps_Click( object sender, EventArgs e ) {
+			ShowForm( fBaseAirCorps );
+		}
+
 		#endregion
+
+		
 
 
 

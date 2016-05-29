@@ -93,6 +93,7 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+			this.StripMenu_View_BaseAirCorps = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -234,6 +235,7 @@
             this.toolStripSeparator1,
             this.StripMenu_View_Dock,
             this.StripMenu_View_Arsenal,
+            this.StripMenu_View_BaseAirCorps,
             this.toolStripSeparator2,
             this.StripMenu_View_Headquarters,
             this.StripMenu_View_Quest,
@@ -633,6 +635,13 @@
 			this.MainDockPanel.Size = new System.Drawing.Size(640, 434);
 			this.MainDockPanel.TabIndex = 0;
 			// 
+			// StripMenu_View_BaseAirCorps
+			// 
+			this.StripMenu_View_BaseAirCorps.Name = "StripMenu_View_BaseAirCorps";
+			this.StripMenu_View_BaseAirCorps.Size = new System.Drawing.Size(182, 22);
+			this.StripMenu_View_BaseAirCorps.Text = "基地航空隊(&S)";
+			this.StripMenu_View_BaseAirCorps.Click += new System.EventHandler(this.StripMenu_View_BaseAirCorps_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -729,5 +738,6 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Change;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_LockLayout;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_BaseAirCorps;
 	}
 }

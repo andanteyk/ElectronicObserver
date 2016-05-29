@@ -96,6 +96,8 @@
   <ItemGroup>
     <Compile Include="Data\AdmiralData.cs" />
     <Compile Include="Data\ArsenalData.cs" />
+    <Compile Include="Data\BaseAirCorpsData.cs" />
+    <Compile Include="Data\BaseAirCorpsSquadron.cs" />
     <Compile Include="Data\Battle\BattleAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirRaid.cs" />
@@ -174,11 +176,16 @@
     <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\APIKancolleDB.cs" />
     <Compile Include="Observer\APIKCVDB.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\base_air_corps.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\payitem.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\record.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\require_info.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
+    <Compile Include="Observer\kcsapi\api_req_air_corps\change_name.cs" />
+    <Compile Include="Observer\kcsapi\api_req_air_corps\set_action.cs" />
+    <Compile Include="Observer\kcsapi\api_req_air_corps\set_plane.cs" />
+    <Compile Include="Observer\kcsapi\api_req_air_corps\supply.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ld_airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\preset_select.cs" />
@@ -457,6 +464,12 @@
     <Compile Include="Window\FormArsenal.Designer.cs">
       <DependentUpon>FormArsenal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormBaseAirCorps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormBaseAirCorps.Designer.cs">
+      <DependentUpon>FormBaseAirCorps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormBattle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -654,6 +667,9 @@
     <EmbeddedResource Include="Window\FormArsenal.resx">
       <DependentUpon>FormArsenal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormBaseAirCorps.resx">
+      <DependentUpon>FormBaseAirCorps.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\FormBattle.resx">
       <DependentUpon>FormBattle.cs</DependentUpon>
     </EmbeddedResource>
@@ -764,6 +780,7 @@
       <Name>WinFormsUI</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -99,6 +99,10 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_sortie.ld_airbattle() );
 			APIList.Add( new kcsapi.api_req_combined_battle.ld_airbattle() );
 			APIList.Add( new kcsapi.api_get_member.require_info() );
+			APIList.Add( new kcsapi.api_get_member.base_air_corps() );
+			APIList.Add( new kcsapi.api_req_air_corps.set_plane() );
+			APIList.Add( new kcsapi.api_req_air_corps.set_action() );
+			APIList.Add( new kcsapi.api_req_air_corps.supply() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );
@@ -112,7 +116,8 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_map.select_eventmap_rank() );
 			APIList.Add( new kcsapi.api_req_hensei.combined() );
 			APIList.Add( new kcsapi.api_req_member.updatecomment() );
-
+			APIList.Add( new kcsapi.api_req_air_corps.change_name() );
+			
 
 			ServerAddress = null;
 
