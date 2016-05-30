@@ -152,13 +152,16 @@ namespace ElectronicObserver.Window {
 				//制空戦力計算	
 				{
 					int airSuperiority = fleet.GetAirSuperiority();
+					bool includeLevel = Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 1;
 					AirSuperiority.Text = airSuperiority.ToString();
 					ToolTipInfo.SetToolTip( AirSuperiority,
-						string.Format( "確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n",
+						string.Format( "確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n({4}: {5})\r\n",
 						(int)( airSuperiority / 3.0 ),
 						(int)( airSuperiority / 1.5 ),
-						(int)( airSuperiority * 1.5 - 1 ),
-						(int)( airSuperiority * 3.0 - 1 ) ) );
+						Math.Max( (int)( airSuperiority * 1.5 - 1 ), 0 ),
+						Math.Max( (int)( airSuperiority * 3.0 - 1 ), 0 ),
+						includeLevel ? "熟練度なし" : "熟練度あり",
+						includeLevel ? Calculator.GetAirSuperiorityIgnoreLevel( fleet ) : Calculator.GetAirSuperiority( fleet ) ) );
 				}
 
 
@@ -555,7 +558,12 @@ namespace ElectronicObserver.Window {
 					}
 				}
 				{
-					int airsup = Calculator.GetAirSuperiority( ship );
+					int airsup;
+					if ( Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 1 )
+						airsup = Calculator.GetAirSuperiority( ship );
+					else
+						airsup = Calculator.GetAirSuperiorityIgnoreLevel( ship );
+
 					int airbattle = ship.AirBattlePower;
 					if ( airsup > 0 ) {
 						if ( airbattle > 0 )

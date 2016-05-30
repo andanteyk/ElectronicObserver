@@ -449,8 +449,13 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		/// <returns>制空戦力。</returns>
 		public int GetAirSuperiority() {
-
-			return Calculator.GetAirSuperiority( this );
+			switch ( Utility.Configuration.Config.FormFleet.AirSuperiorityMethod ) {
+				case 0:
+				default:
+					return Calculator.GetAirSuperiorityIgnoreLevel( this );
+				case 1:
+					return Calculator.GetAirSuperiority( this );
+			}
 		}
 
 

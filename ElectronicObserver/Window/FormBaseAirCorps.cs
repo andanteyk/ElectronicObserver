@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ namespace ElectronicObserver.Window {
 			var aircorps = KCDatabase.Instance.BaseAirCorps.Values;
 
 			foreach ( var corp in aircorps ) {
-				sb.AppendFormat( "{0} [{1}]\r\n", corp.Name, Constants.GetBaseAirCorpsActionKind( corp.ActionKind )  );
+				sb.AppendFormat( "{0} [{1}] 制空: {2}\r\n", corp.Name, Constants.GetBaseAirCorpsActionKind( corp.ActionKind ), Calculator.GetAirSuperiority( corp ) );
 
 				foreach ( var sq in corp.Squadrons.Values ) {
 					var eq = sq.EquipmentInstance;
