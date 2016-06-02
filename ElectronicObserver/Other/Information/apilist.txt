@@ -1112,6 +1112,22 @@ Request.api_req_kaisou/slot_exchange_index		：装備スロット交換
 api_req_kaisou/slot_exchange_index		：装備スロット交換
 	api_slot		：交換後のスロット配置
 
+Request.api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
+	api_unset_ship		：送信元の艦船固有ID
+	api_set_ship		：送信先の艦船固有ID
+	api_unset_slot_kind	：送信元のスロット種別　0=通常スロット, 1=拡張スロット
+	api_set_slot_kind	：送信先のスロット種別　0=通常スロット, 1=拡張スロット
+	api_unset_idx		：送信元のスロットインデックス　0から始まる　拡張スロットの時は0
+	api_set_idx			：送信先のスロットインデックス　〃
+
+api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
+	api_ship_data		：更新した艦船データ
+		api_set_ship	：送信先の艦船データ　port に準じる
+		api_unset_ship	：送信元の艦船データ　〃
+	api_unset_list		：未装備の装備リスト
+		api_type3No		：受け渡した装備のカテゴリ
+		api_slot_list	：未装備の装備固有IDリスト
+
 
 Request.api_req_kaisou/remodeling	：改装
 	api_id				：艦船ID
