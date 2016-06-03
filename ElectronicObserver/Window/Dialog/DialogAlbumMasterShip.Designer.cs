@@ -682,7 +682,7 @@
             // 
             this.ResourceName.BackColor = System.Drawing.Color.Transparent;
             this.ResourceName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ResourceName.Location = new System.Drawing.Point(258, 6);
+            this.ResourceName.Location = new System.Drawing.Point(272, 6);
             this.ResourceName.Name = "ResourceName";
             this.ResourceName.Size = new System.Drawing.Size(121, 16);
             this.ResourceName.TabIndex = 24;
