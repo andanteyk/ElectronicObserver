@@ -346,9 +346,9 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_FixShipNameWidth.Checked = config.FormFleet.FixShipNameWidth;
 			FormFleet_ShortenHPBar.Checked = config.FormFleet.ShortenHPBar;
 			FormFleet_ShowNextExp.Checked = config.FormFleet.ShowNextExp;
+			FormFleet_EquipmentLevelVisibility.SelectedIndex = (int)config.FormFleet.EquipmentLevelVisibility;
 			FormFleet_BlinkHPBar.Checked = config.UI.NotExpeditionBlink;
 			FormFleet_TextProficiency.Checked = config.FormFleet.ShowTextProficiency;
-			FormFleet_ShowEquipmentLevel.Checked = config.FormFleet.ShowEquipmentLevel;
 			FormFleet_AirSuperiorityMethod.SelectedIndex = config.FormFleet.AirSuperiorityMethod;
 			FormFleet_ShowAnchorageRepairingTimer.Checked = config.FormFleet.ShowAnchorageRepairingTimer;
 			FormFleet_BlinkAtCompletion.Checked = config.FormFleet.BlinkAtCompletion;
@@ -565,9 +565,9 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.FixShipNameWidth = FormFleet_FixShipNameWidth.Checked;
 			config.FormFleet.ShortenHPBar = FormFleet_ShortenHPBar.Checked;
 			config.FormFleet.ShowNextExp = FormFleet_ShowNextExp.Checked;
+			config.FormFleet.EquipmentLevelVisibility = (Window.Control.ShipStatusEquipment.LevelVisibilityFlag)FormFleet_EquipmentLevelVisibility.SelectedIndex;
 			config.UI.NotExpeditionBlink = FormFleet_BlinkHPBar.Checked;
 			config.FormFleet.ShowTextProficiency = FormFleet_TextProficiency.Checked;
-			config.FormFleet.ShowEquipmentLevel = FormFleet_ShowEquipmentLevel.Checked;
 			config.FormFleet.AirSuperiorityMethod = FormFleet_AirSuperiorityMethod.SelectedIndex;
 			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
 			config.FormFleet.BlinkAtCompletion = FormFleet_BlinkAtCompletion.Checked;
@@ -745,7 +745,7 @@ namespace ElectronicObserver.Window.Dialog {
 			System.Diagnostics.Process.Start( "http://kcvdb.jp/guidelines" );
 		}
 
-		
+
 
 	}
 

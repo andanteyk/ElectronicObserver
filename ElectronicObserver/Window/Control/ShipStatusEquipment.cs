@@ -85,6 +85,7 @@ namespace ElectronicObserver.Window.Control {
 		private int SlotSize { get; set; }
 		private bool IsExpansionSlotAvailable { get; set; }
 
+		private bool _onMouse;
 
 		[Browsable( true )]
 		[DefaultValue( typeof( Font ), "Meiryo UI, 10px" )]
@@ -200,6 +201,7 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 		private Color _invalidSlotColor;
+		private Brush _invalidSlotBrush;
 		/// <summary>
 		/// 不正スロットの背景色
 		/// </summary>
@@ -209,6 +211,11 @@ namespace ElectronicObserver.Window.Control {
 			get { return _invalidSlotColor; }
 			set {
 				_invalidSlotColor = value;
+
+				if ( _invalidSlotBrush != null )
+					_invalidSlotBrush.Dispose();
+				_invalidSlotBrush = new SolidBrush( _invalidSlotColor );
+
 				PropertyChanged();
 			}
 		}
@@ -261,10 +268,50 @@ namespace ElectronicObserver.Window.Control {
 		/// </summary>
 		[Browsable( true )]
 		[DefaultValue( true )]
+		[Obsolete( "EquipmentLevelVisibility を利用してください。", false )]
 		public bool ShowEquipmentLevel {
 			get { return _showEquipmentLevel; }
 			set {
 				_showEquipmentLevel = value;
+				PropertyChanged();
+			}
+		}
+
+
+		/// <summary>
+		/// 装備改修レベル・艦載機熟練度の表示フラグ
+		/// </summary>
+		public enum LevelVisibilityFlag {
+
+			/// <summary> 非表示 </summary>
+			Invisible,
+
+			/// <summary> 改修レベルのみ </summary>
+			LevelOnly,
+
+			/// <summary> 艦載機熟練度のみ </summary>
+			AircraftLevelOnly,
+
+			/// <summary> 改修レベル優先 </summary>
+			LevelPriority,
+
+			/// <summary> 艦載機熟練度優先 </summary>
+			AircraftLevelPriority,
+
+			/// <summary> 両方表示 </summary>
+			Both,
+		}
+
+		private LevelVisibilityFlag _levelVisibility;
+		/// <summary>
+		/// 装備改修レベル・艦載機熟練度の表示フラグ
+		/// </summary>
+		[Browsable( true )]
+		[DefaultValue( LevelVisibilityFlag.Both )]
+		public LevelVisibilityFlag LevelVisibility {
+			get { return _levelVisibility; }
+			set {
+				_levelVisibility = value;
 				PropertyChanged();
 			}
 		}
@@ -302,6 +349,9 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+
+		private Brush _overlayBrush = new SolidBrush( Color.FromArgb( 0xC0, 0xF0, 0xF0, 0xF0 ) );
+
 		#endregion
 
 
@@ -315,6 +365,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 			SlotSize = 0;
 
+			_onMouse = false;
 
 			base.Font = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
 
@@ -328,15 +379,18 @@ namespace ElectronicObserver.Window.Control {
 			_aircraftLevelColorHigh = Color.FromArgb( 0xFF, 0xAA, 0x00 );
 
 			_invalidSlotColor = Color.FromArgb( 0x40, 0xFF, 0x00, 0x00 );
+			_invalidSlotBrush = new SolidBrush( _invalidSlotColor );
 
 			_showAircraft = true;
 			_overlayAircraft = false;
 
+			_levelVisibility = LevelVisibilityFlag.Both;
+
 			_slotMargin = 3;
 			_aircraftMargin = 3;
 
+			Disposed += ShipStatusEquipment_Disposed;
 		}
-
 
 		/// <summary>
 		/// スロット情報を設定します。主に味方艦用です。
@@ -477,7 +531,7 @@ namespace ElectronicObserver.Window.Control {
 
 			// スロット1つ当たりのサイズ(右の余白含む)
 			Size sz_unit = new Size( eqimages.ImageSize.Width + SlotMargin, eqimages.ImageSize.Height );
-			if ( ShowAircraft || ShowEquipmentLevel ) {
+			if ( ShowAircraft || LevelVisibility != LevelVisibilityFlag.Invisible ) {
 				if ( !OverlayAircraft )
 					sz_unit.Width += sz_eststr.Width;
 				sz_unit.Height = Math.Max( sz_unit.Height, sz_eststr.Height );
@@ -493,9 +547,7 @@ namespace ElectronicObserver.Window.Control {
 
 				if ( slotindex >= SlotSize && slot.EquipmentID != -1 ) {
 					//invalid!
-					using ( SolidBrush b = new SolidBrush( InvalidSlotColor ) ) {
-						e.Graphics.FillRectangle( b, new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width, sz_unit.Height ) );
-					}
+					e.Graphics.FillRectangle( _invalidSlotBrush, new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width, sz_unit.Height ) );
 				}
 
 				if ( slot.IsExpansionSlot )
@@ -541,7 +593,6 @@ namespace ElectronicObserver.Window.Control {
 
 
 				Color aircraftColor = AircraftColorDisabled;
-				bool drawEquipmentLevel = ShowEquipmentLevel;
 				bool drawAircraftSlot = ShowAircraft;
 				bool drawAircraftProficiency = ( slot.AircraftLevel > 0 );
 
@@ -575,12 +626,6 @@ namespace ElectronicObserver.Window.Control {
 				}
 
 
-				if ( slot.AircraftLevel == 0 && slot.Level == 0 ) {
-					drawEquipmentLevel = false;
-				}
-
-
-
 
 				if ( drawAircraftSlot ) {
 
@@ -589,10 +634,9 @@ namespace ElectronicObserver.Window.Control {
 
 
 					if ( OverlayAircraft ) {
-						using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0xC0, 0xF0, 0xF0, 0xF0 ) ) ) {
-							//e.Graphics.FillRectangle( b, new Rectangle( textarea.X, textarea.Y, sz_eststr.Width, sz_eststr.Height ) );
-							e.Graphics.FillRectangle( b, textarea );
-						}
+						//e.Graphics.FillRectangle( _overlayBrush, new Rectangle( textarea.X, textarea.Y, sz_eststr.Width, sz_eststr.Height ) );
+						e.Graphics.FillRectangle( _overlayBrush, textarea );
+
 
 					} else {
 
@@ -607,12 +651,11 @@ namespace ElectronicObserver.Window.Control {
 							Size sz_realstr = TextRenderer.MeasureText( slot.AircraftCurrent.ToString(), Font, new Size( int.MaxValue, int.MaxValue ), textformat );
 							sz_realstr.Width -= (int)( Font.Size / 2.0 );
 
-							using ( SolidBrush b = new SolidBrush( Color.FromArgb( 0xC0, 0xF0, 0xF0, 0xF0 ) ) ) {
-								e.Graphics.FillRectangle( b, new Rectangle(
-									textarea.X + sz_unit.Width - sz_realstr.Width - SlotMargin,
-									textarea.Bottom - sz_realstr.Height + AircraftMargin,
-									sz_realstr.Width, sz_realstr.Height ) );
-							}
+							e.Graphics.FillRectangle( _overlayBrush, new Rectangle(
+								textarea.X + sz_unit.Width - sz_realstr.Width - SlotMargin,
+								textarea.Bottom - sz_realstr.Height + AircraftMargin,
+								sz_realstr.Width, sz_realstr.Height ) );
+
 
 						}
 
@@ -622,79 +665,16 @@ namespace ElectronicObserver.Window.Control {
 					TextRenderer.DrawText( e.Graphics, slot.AircraftCurrent.ToString(), Font, textarea, aircraftColor, textformat );
 				}
 
-				if ( drawAircraftProficiency )
-				{
-					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, sz_unit.Width - SlotMargin, sz_unit.Height );
-					if ( TextProficiency )
-					{
-						textarea.Y -= 5;
-						TextFormatFlags format = TextFormatFlags.NoPadding | TextFormatFlags.Top | TextFormatFlags.Right;
-						Color color = AircraftColorDisabled;
-						//if ( slot.AircraftProficiency < 4 )
-						//	color = _aircraftPenOne.Color;
-						//else if ( slot.AircraftProficiency < 7 )
-						//	color = _aircraftPenTwo.Color;
-						//else
-						//	color = _aircraftPenThree.Color;
-						TextRenderer.DrawText( e.Graphics, slot.AircraftLevel.ToString(), Font, textarea, color, format );
-					}
-					else
-					{
-						e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-						int h = sz_unit.Height / 2;
-
-						int x = textarea.Right - 3;
-						int y = textarea.Y;
-						int pro = slot.AircraftLevel;
-						if ( pro < 4 )
-						{
-							for ( int i = 0; i < pro; i++ )
-							{
-								e.Graphics.DrawLine( _aircraftOne, x, 0, x, h );
-								x -= 3;
-							}
-						}
-						else if ( pro < 7 )
-						{
-							for ( int i = 0; i < pro - 3; i++ )
-							{
-								e.Graphics.DrawLine( _aircraftTwo, x - 2, 0, x + 2, h );
-								x -= 4;
-							}
-						}
-						else
-						{
-							for ( int i = 0; i < 2; i++ )
-							{
-								e.Graphics.DrawLine( _aircraftThree, x - 2, 0, x + 1, h / 2 );
-								e.Graphics.DrawLine( _aircraftThree, x - 2, h, x + 1, h / 2 );
-								x -= 4;
-							}
-						}
-						//Brush brush;
-						//if ( pro < 4 )
-						//	brush = _aircraftBrushOne;
-						//else if ( pro < 7 )
-						//	brush = _aircraftBrushTwo;
-						//else
-						//	brush = _aircraftBrushThree;
-						//for ( int i = 0; i < pro; i++ )
-						//{
-						//	e.Graphics.FillRectangle( brush, x + 2, y, 1, 5 );
-						//	x -= 2;
-						//}
-					}
-				}
-
-				if ( drawEquipmentLevel ) {
+				if ( ( slot.AircraftLevel > 0 || slot.Level > 0 ) && LevelVisibility != LevelVisibilityFlag.Invisible ) {
 
 					//Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y - ( AircraftMargin + SlotMargin ), sz_unit.Width - AircraftMargin, sz_unit.Height + 7 );
 					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y - AircraftMargin - 1, sz_unit.Width - SlotMargin, sz_unit.Height + AircraftMargin * 2 );
 					//e.Graphics.DrawRectangle( Pens.Cyan, textarea );
 
 
-					/*
-					if ( slot.AircraftLevel > 0 ) {
+					if ( slot.AircraftLevel > 0 &&
+						!( slot.Level > 0 && ( LevelVisibility == LevelVisibilityFlag.LevelPriority ^ _onMouse ) ) &&
+						LevelVisibility != LevelVisibilityFlag.LevelOnly ) {
 
 						string leveltext;
 						Color levelcol;
@@ -720,7 +700,9 @@ namespace ElectronicObserver.Window.Control {
 					//*/
 
 
-					if ( slot.Level > 0 ) {
+					if ( slot.Level > 0 &&
+						!( slot.AircraftLevel > 0 && ( LevelVisibility == LevelVisibilityFlag.AircraftLevelPriority ^ _onMouse ) ) &&
+						LevelVisibility != LevelVisibilityFlag.AircraftLevelOnly ) {
 						TextRenderer.DrawText( e.Graphics, slot.Level >= 10 ? "★" : "+" + slot.Level, Font, textarea, EquipmentLevelColor, textformatLevel );
 					}
 
@@ -750,7 +732,7 @@ namespace ElectronicObserver.Window.Control {
 			sz_eststr.Width -= (int)( Font.Size / 2.0 );
 
 			Size sz_unit = new Size( eqimages.ImageSize.Width + SlotMargin, eqimages.ImageSize.Height );
-			if ( ShowAircraft || ShowEquipmentLevel ) {
+			if ( ShowAircraft || LevelVisibility != LevelVisibilityFlag.Invisible ) {
 				if ( !OverlayAircraft )
 					sz_unit.Width += sz_eststr.Width;
 				sz_unit.Height = Math.Max( sz_unit.Height, sz_eststr.Height );
@@ -764,6 +746,25 @@ namespace ElectronicObserver.Window.Control {
 
 			return new Size( width, Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
 
+		}
+
+		private void ShipStatusEquipment_MouseEnter( object sender, EventArgs e ) {
+			_onMouse = true;
+			if ( LevelVisibility == LevelVisibilityFlag.LevelPriority || LevelVisibility == LevelVisibilityFlag.AircraftLevelPriority )
+				PropertyChanged();
+		}
+
+		private void ShipStatusEquipment_MouseLeave( object sender, EventArgs e ) {
+			_onMouse = false;
+			if ( LevelVisibility == LevelVisibilityFlag.LevelPriority || LevelVisibility == LevelVisibilityFlag.AircraftLevelPriority )
+				PropertyChanged();
+		}
+
+
+
+		void ShipStatusEquipment_Disposed( object sender, EventArgs e ) {
+			_overlayBrush.Dispose();
+			_invalidSlotBrush.Dispose();
 		}
 
 	}

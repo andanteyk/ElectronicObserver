@@ -356,7 +356,8 @@ namespace ElectronicObserver.Resource.Record {
 					DefaultSlot = new int[5];
 
 					for ( int i = 0; i < DefaultSlot.Length; i++ ) {
-						DefaultSlot[i] = int.Parse( elem[i + 24] );
+
+						DefaultSlot[i] = elem[i + 24] == "null" ? -1 : int.Parse( elem[i + 24] );
 					}
 				}
 
@@ -367,7 +368,7 @@ namespace ElectronicObserver.Resource.Record {
 					Aircraft = new int[5];
 
 					for ( int i = 0; i < Aircraft.Length; i++ ) {
-						Aircraft[i] = int.Parse( elem[i + 29] );
+						Aircraft[i] = elem[i + 29] == "null" ? 0 : int.Parse( elem[i + 29] );
 					}
 				}
 
@@ -631,6 +632,24 @@ namespace ElectronicObserver.Resource.Record {
 				Update( param );
 			}
 
+
+			// validation
+			foreach ( var record in Record.Values ) {
+
+				// 無効な装備を持っていた場合、初期装備データを初期化
+				if ( record.DefaultSlot != null ) {
+
+					var keys = KCDatabase.Instance.MasterEquipments.Keys;
+
+					foreach ( int eq in record.DefaultSlot.ToArray() ) {
+						if ( eq != -1 && !keys.Contains( eq ) ) {
+							record.DefaultSlot = null;
+							break;
+						}
+					}
+				}
+			}
+
 		}
 
 
@@ -753,7 +772,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// </summary>
 		private void SortieStart( string apiname, dynamic data ) {
 
-			newShipIDBorder = KCDatabase.Instance.Ships.Max( ( KeyValuePair<int, ShipData> s ) => s.Value.MasterID );
+			newShipIDBorder = KCDatabase.Instance.Ships.Keys.Max();
 
 		}
 
@@ -765,7 +784,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			if ( newShipIDBorder == -1 ) return;
 
-			foreach ( ShipData s in KCDatabase.Instance.Ships.Values.Where( ( ShipData s ) => s.MasterID > newShipIDBorder ) ) {
+			foreach ( ShipData s in KCDatabase.Instance.Ships.Values.Where( s => s.MasterID > newShipIDBorder ) ) {
 
 				UpdateParameter( s );
 				UpdateDefaultSlot( s );
@@ -782,7 +801,7 @@ namespace ElectronicObserver.Resource.Record {
 		private void ConstructionReceived( string apiname, dynamic data ) {
 
 			int shipID = (int)data.api_id;
-			ShipData ship = KCDatabase.Instance.Ships.Values.FirstOrDefault( ( ShipData s ) => s.MasterID == shipID );
+			ShipData ship = KCDatabase.Instance.Ships.Values.FirstOrDefault( s => s.MasterID == shipID );
 
 			if ( ship != null ) {
 				UpdateParameter( ship );

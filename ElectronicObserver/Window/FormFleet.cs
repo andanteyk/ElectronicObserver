@@ -744,6 +744,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_hensei/preset_select"].ResponseReceived += Updated;
 			o.APIList["api_req_kaisou/slot_exchange_index"].ResponseReceived += Updated;
 			o.APIList["api_get_member/require_info"].ResponseReceived += Updated;
+			o.APIList["api_req_kaisou/slot_deprive"].ResponseReceived += Updated;
 
 
 			//追加するときは FormFleetOverview にも同様に追加してください
@@ -977,9 +978,8 @@ namespace ElectronicObserver.Window {
 				bool colorMorphing = c.UI.BarColorMorphing;
 				//Color[] colorScheme = c.UI.BarColorScheme.Select( col => col.ColorData ).ToArray();
 				bool showNext = c.FormFleet.ShowNextExp;
+				var levelVisibility = c.FormFleet.EquipmentLevelVisibility;
 				bool textProficiency = c.FormFleet.ShowTextProficiency;
-				bool showEquipmentLevel = c.FormFleet.ShowEquipmentLevel;
-
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
 					ControlMember[i].Equipments.ShowAircraft = showAircraft;
 					if ( fixShipNameWidth ) {
@@ -993,8 +993,8 @@ namespace ElectronicObserver.Window {
 					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
 					ControlMember[i].HP.HPBar.ReloadBarSettings();
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
+					ControlMember[i].Equipments.LevelVisibility = levelVisibility;
 					ControlMember[i].Equipments.TextProficiency = textProficiency;
-					ControlMember[i].Equipments.ShowEquipmentLevel = showEquipmentLevel;
 					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
 					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;
 					ControlMember[i].ShipResource.BarFuel.ReloadBarSettings();

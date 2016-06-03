@@ -102,6 +102,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_sortie.ld_airbattle() );
 			APIList.Add( new kcsapi.api_req_combined_battle.ld_airbattle() );
 			APIList.Add( new kcsapi.api_get_member.require_info() );
+			APIList.Add( new kcsapi.api_req_kaisou.slot_deprive() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );

@@ -129,7 +129,7 @@ namespace ElectronicObserver.Observer {
 							Utility.Logger.Add( 1, string.Format( "艦これ統計データベースへの {0} の送信に失敗しました。{1}", url.Substring( url.IndexOf( "/api" ) + 1 ), e.Error.Message ) );
 
 						} else {
-							Utility.Logger.Add( 1, string.Format( "艦これ統計データベースへ {0} を送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
+							Utility.Logger.Add( 0, string.Format( "艦これ統計データベースへ {0} を送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
 						}
 					};
 
