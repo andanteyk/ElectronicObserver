@@ -1605,17 +1605,6 @@
 			this.label23.Text = "制空战力算式：";
 			this.label23.Visible = false;
 			// 
-			// FormFleet_ShowEquipmentLevel
-			// 
-			this.FormFleet_ShowEquipmentLevel.AutoSize = true;
-			this.FormFleet_ShowEquipmentLevel.Location = new System.Drawing.Point(156, 60);
-			this.FormFleet_ShowEquipmentLevel.Name = "FormFleet_ShowEquipmentLevel";
-			this.FormFleet_ShowEquipmentLevel.Size = new System.Drawing.Size(173, 19);
-			this.FormFleet_ShowEquipmentLevel.TabIndex = 9;
-			this.FormFleet_ShowEquipmentLevel.Text = "显示改修等级";
-			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowEquipmentLevel, "指定是否显示装备改修等级。\r\n");
-			this.FormFleet_ShowEquipmentLevel.UseVisualStyleBackColor = true;
-			// 
 			// FormFleet_TextProficiency
 			// 
 			this.FormFleet_TextProficiency.AutoSize = true;
