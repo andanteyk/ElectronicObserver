@@ -328,6 +328,7 @@ namespace ElectronicObserver.Utility.Data {
 					case 7:
 					case 8:
 					case 11:
+					case 45:
 						air += (int)( eq.AA * Math.Sqrt( aircraft[s] ) );
 						if ( equip.AircraftLevel > 0 && equip.AircraftLevel <= 7 )
 							air += Calculator.AircraftLevelBonus[eq.EquipmentType[2]][equip.AircraftLevel];
