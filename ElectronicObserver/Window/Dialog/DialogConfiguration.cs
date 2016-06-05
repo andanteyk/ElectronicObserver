@@ -308,6 +308,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
 			Control_RecordAutoSaving.SelectedIndex = config.Control.RecordAutoSaving;
 			Control_UseSystemVolume.Checked = config.Control.UseSystemVolume;
+			Control_PowerEngagementForm.SelectedIndex = config.Control.PowerEngagementForm - 1;
 
 			//[デバッグ]
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
@@ -485,6 +486,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
 			config.Control.RecordAutoSaving = Control_RecordAutoSaving.SelectedIndex;
 			config.Control.UseSystemVolume = Control_UseSystemVolume.Checked;
+			config.Control.PowerEngagementForm = Control_PowerEngagementForm.SelectedIndex + 1;
 
 			//[デバッグ]
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;

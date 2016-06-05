@@ -360,12 +360,18 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool LastIsMute { get; set; }
 
+				/// <summary>
+				/// 威力表示の基準となる交戦形態
+				/// </summary>
+				public int PowerEngagementForm { get; set; }
+
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
 					UseSystemVolume = true;
 					LastVolume = 0.8f;
 					LastIsMute = false;
+					PowerEngagementForm = 1;
 				}
 			}
 			/// <summary>動作</summary>
