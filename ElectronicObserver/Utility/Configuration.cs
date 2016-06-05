@@ -132,12 +132,6 @@ namespace ElectronicObserver.Utility {
 				public string SendKancolleOAuth { get; set; }
 
 
-				/// <summary>
-				/// 艦これ検証データベースへ送信するか
-				/// </summary>
-				public bool SendDataToKCVDB { get; set; }
-
-
 				public ConfigConnection() {
 
 					Port = 40620;
@@ -156,7 +150,6 @@ namespace ElectronicObserver.Utility {
 					DownstreamProxy = "";
 					SendDataToKancolleDB = false;
 					SendKancolleOAuth = "";
-					SendDataToKCVDB = false;
 				}
 
 			}
@@ -1088,7 +1081,6 @@ namespace ElectronicObserver.Utility {
 			} else {
 				MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " をご利用いただきありがとうございます。\r\n設定や使用方法については「ヘルプ」→「オンラインヘルプ」を参照してください。\r\nご使用の前に必ずご一読ください。",
 					"初回起動メッセージ", MessageBoxButtons.OK, MessageBoxIcon.Information );
-				new DialogInvitationKCVDB().Show( mainForm );
 			}
 		}
 
@@ -1336,11 +1328,6 @@ namespace ElectronicObserver.Utility {
 				}
 			}
 
-
-			// version 2.1.8 or earlier
-			if ( dt <= DateTimeHelper.CSVStringToTime( "2016/04/01 22:00:00" ) ) {
-				new DialogInvitationKCVDB().Show( mainForm );
-			}
 
 
 
