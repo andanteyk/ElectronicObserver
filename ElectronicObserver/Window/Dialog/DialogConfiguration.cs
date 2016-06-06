@@ -308,6 +308,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
 			Control_RecordAutoSaving.SelectedIndex = config.Control.RecordAutoSaving;
 			Control_UseSystemVolume.Checked = config.Control.UseSystemVolume;
+			Control_PowerEngagementForm.SelectedIndex = config.Control.PowerEngagementForm - 1;
 
 			//[デバッグ]
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
@@ -413,7 +414,6 @@ namespace ElectronicObserver.Window.Dialog {
 			//[データベース]
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
-			Database_SendDataToKCVDB.Checked = config.Connection.SendDataToKCVDB;
 
 			//[BGM]
 			BGMPlayer_Enabled.Checked = config.BGMPlayer.Enabled;
@@ -485,6 +485,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
 			config.Control.RecordAutoSaving = Control_RecordAutoSaving.SelectedIndex;
 			config.Control.UseSystemVolume = Control_UseSystemVolume.Checked;
+			config.Control.PowerEngagementForm = Control_PowerEngagementForm.SelectedIndex + 1;
 
 			//[デバッグ]
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
@@ -556,7 +557,6 @@ namespace ElectronicObserver.Window.Dialog {
 			//[データベース]
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
 			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
-			config.Connection.SendDataToKCVDB = Database_SendDataToKCVDB.Checked;
 
 			//[BGM]
 			config.BGMPlayer.Enabled = BGMPlayer_Enabled.Checked;
@@ -702,12 +702,6 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 		}
-
-
-		private void Database_LinkKCVDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
-			System.Diagnostics.Process.Start( "http://kcvdb.jp/guidelines" );
-		}
-
 
 
 	}
