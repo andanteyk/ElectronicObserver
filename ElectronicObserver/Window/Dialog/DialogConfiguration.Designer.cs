@@ -24,7 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
@@ -169,10 +169,6 @@
 			this.Notification_Construction = new System.Windows.Forms.Button();
 			this.Notification_Expedition = new System.Windows.Forms.Button();
 			this.tabPage15 = new System.Windows.Forms.TabPage();
-			this.groupBox6 = new System.Windows.Forms.GroupBox();
-			this.label25 = new System.Windows.Forms.Label();
-			this.Database_LinkKCVDB = new System.Windows.Forms.LinkLabel();
-			this.Database_SendDataToKCVDB = new System.Windows.Forms.CheckBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.label22 = new System.Windows.Forms.Label();
 			this.Database_SendKancolleOAuth = new System.Windows.Forms.TextBox();
@@ -230,7 +226,6 @@
 			this.groupBox3.SuspendLayout();
 			this.tabPage11.SuspendLayout();
 			this.tabPage15.SuspendLayout();
-			this.groupBox6.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			this.tabPage17.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
@@ -528,10 +523,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 44);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(456, 253);
+			this.tabPage2.Size = new System.Drawing.Size(456, 233);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -1924,7 +1919,6 @@
 			// 
 			// tabPage15
 			// 
-			this.tabPage15.Controls.Add(this.groupBox6);
 			this.tabPage15.Controls.Add(this.groupBox5);
 			this.tabPage15.Location = new System.Drawing.Point(4, 44);
 			this.tabPage15.Name = "tabPage15";
@@ -1933,50 +1927,6 @@
 			this.tabPage15.TabIndex = 8;
 			this.tabPage15.Text = "データベース";
 			this.tabPage15.UseVisualStyleBackColor = true;
-			// 
-			// groupBox6
-			// 
-			this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox6.Controls.Add(this.label25);
-			this.groupBox6.Controls.Add(this.Database_LinkKCVDB);
-			this.groupBox6.Controls.Add(this.Database_SendDataToKCVDB);
-			this.groupBox6.Location = new System.Drawing.Point(6, 129);
-			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(444, 98);
-			this.groupBox6.TabIndex = 6;
-			this.groupBox6.TabStop = false;
-			this.groupBox6.Text = "艦これ検証データベース";
-			// 
-			// label25
-			// 
-			this.label25.AutoSize = true;
-			this.label25.Location = new System.Drawing.Point(6, 19);
-			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(314, 30);
-			this.label25.TabIndex = 3;
-			this.label25.Text = "「艦これ検証データベース」へデータを送信できます。\r\n詳細は以下のサイトを参照してください。(外部ブラウザが開きます)";
-			// 
-			// Database_LinkKCVDB
-			// 
-			this.Database_LinkKCVDB.AutoSize = true;
-			this.Database_LinkKCVDB.Location = new System.Drawing.Point(6, 49);
-			this.Database_LinkKCVDB.Name = "Database_LinkKCVDB";
-			this.Database_LinkKCVDB.Size = new System.Drawing.Size(158, 15);
-			this.Database_LinkKCVDB.TabIndex = 4;
-			this.Database_LinkKCVDB.TabStop = true;
-			this.Database_LinkKCVDB.Text = "http://kcvdb.jp/guidelines";
-			this.Database_LinkKCVDB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Database_LinkKCVDB_LinkClicked);
-			// 
-			// Database_SendDataToKCVDB
-			// 
-			this.Database_SendDataToKCVDB.AutoSize = true;
-			this.Database_SendDataToKCVDB.Location = new System.Drawing.Point(9, 67);
-			this.Database_SendDataToKCVDB.Name = "Database_SendDataToKCVDB";
-			this.Database_SendDataToKCVDB.Size = new System.Drawing.Size(190, 19);
-			this.Database_SendDataToKCVDB.TabIndex = 5;
-			this.Database_SendDataToKCVDB.Text = "艦これ検証データベースに送信する";
-			this.Database_SendDataToKCVDB.UseVisualStyleBackColor = true;
 			// 
 			// groupBox5
 			// 
@@ -2117,14 +2067,14 @@
             this.BGMPlayer_ColumnContent,
             this.BGMPlayer_ColumnPath,
             this.BGMPlayer_ColumnSetting});
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle4;
 			this.BGMPlayer_ControlGrid.Location = new System.Drawing.Point(6, 35);
 			this.BGMPlayer_ControlGrid.MultiSelect = false;
 			this.BGMPlayer_ControlGrid.Name = "BGMPlayer_ControlGrid";
@@ -2309,8 +2259,6 @@
 			this.tabPage11.ResumeLayout(false);
 			this.tabPage11.PerformLayout();
 			this.tabPage15.ResumeLayout(false);
-			this.groupBox6.ResumeLayout(false);
-			this.groupBox6.PerformLayout();
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox5.PerformLayout();
 			this.tabPage17.ResumeLayout(false);
@@ -2482,10 +2430,6 @@
 		private System.Windows.Forms.CheckBox FormArsenal_BlinkAtCompletion;
 		private System.Windows.Forms.TabPage tabPage19;
 		private System.Windows.Forms.CheckBox FormDock_BlinkAtCompletion;
-		private System.Windows.Forms.GroupBox groupBox6;
-		private System.Windows.Forms.Label label25;
-		private System.Windows.Forms.LinkLabel Database_LinkKCVDB;
-		private System.Windows.Forms.CheckBox Database_SendDataToKCVDB;
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.CheckedListBox FormHeadquarters_Visibility;
 		private System.Windows.Forms.Label label26;
