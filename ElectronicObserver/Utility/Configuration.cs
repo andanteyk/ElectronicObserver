@@ -662,6 +662,8 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int ProgressAutoSaving { get; set; }
 
+				public bool AllowUserToSortRows { get; set; }
+
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
 					ShowOnce = true;
@@ -672,6 +674,7 @@ namespace ElectronicObserver.Utility {
 					ColumnWidth = null;			//上に同じ
 					SortParameter = 3 << 1 | 0;
 					ProgressAutoSaving = 1;
+					AllowUserToSortRows = true;
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
