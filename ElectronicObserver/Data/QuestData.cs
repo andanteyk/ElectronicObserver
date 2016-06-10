@@ -29,7 +29,7 @@ namespace ElectronicObserver.Data {
 
 		/// <summary>
 		/// 任務出現タイプ
-		/// 1=一回限り, 2=デイリー, 3=ウィークリー, 6=マンスリー
+		/// 1=デイリー, 2=ウィークリー, 3=マンスリー, 4=単発, 5=他
 		/// </summary>
 		public int Type {
 			get { return (int)RawData.api_type; }
