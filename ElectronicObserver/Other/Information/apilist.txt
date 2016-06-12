@@ -614,11 +614,11 @@ Request.api_req_kousyou/createship	：建造開始
 api_req_kousyou/createship			：建造開始
 	(情報なし)
 
-Request.api_req_kousyou/createship_speedchage	：高速建造材使用
+Request.api_req_kousyou/createship_speedchange	：高速建造材使用
 	api_highspeed		：使用フラグ
 	api_kdock_id		：工廠ドックID
 
-api_req_kousyou/createship_speedchage			：高速建造材使用
+api_req_kousyou/createship_speedchange			：高速建造材使用
 	(情報なし)
 
 api_req_kousyou/getship		：建造した艦娘を受け取る
