@@ -192,5 +192,8 @@
 		private System.Windows.Forms.CheckBox FormQuest_ShowDaily;
 		private System.Windows.Forms.CheckBox FormQuest_ShowOnce;
 		private System.Windows.Forms.TabPage tabPage10;
+		private System.Windows.Forms.ComboBox FormQuest_ProgressAutoSaving;
+		private System.Windows.Forms.Label label27;
+		private System.Windows.Forms.CheckBox FormQuest_AllowUserToSortRows;
 	}
 }

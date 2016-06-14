@@ -147,48 +147,48 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 
-			var conf = Utility.Configuration.Config;
+			var c = Utility.Configuration.Config;
 
-			QuestView.BackgroundColor = conf.UI.BackColor;
-			QuestView.GridColor = conf.UI.LineColor;
+			QuestView.BackgroundColor = c.UI.BackColor;
+			QuestView.GridColor = c.UI.LineColor;
+			QuestView.Font = Font = c.UI.MainFont;
+
+			MenuMain_ShowRunningOnly.Checked = c.FormQuest.ShowRunningOnly;
+			MenuMain_ShowOnce.Checked = c.FormQuest.ShowOnce;
+			MenuMain_ShowDaily.Checked = c.FormQuest.ShowDaily;
+			MenuMain_ShowWeekly.Checked = c.FormQuest.ShowWeekly;
+			MenuMain_ShowMonthly.Checked = c.FormQuest.ShowMonthly;
 
 			if ( CSDefaultCenter != null && CSDefaultLeft != null ) {
 				CSDefaultCenter.BackColor =
 				CSDefaultCenter.SelectionBackColor =
 				CSDefaultLeft.BackColor =
 				CSDefaultLeft.SelectionBackColor =
-					conf.UI.BackColor;
+					c.UI.BackColor;
 				CSDefaultCenter.ForeColor =
 				CSDefaultCenter.SelectionForeColor =
 				CSDefaultLeft.ForeColor =
 				CSDefaultLeft.SelectionForeColor =
-					conf.UI.ForeColor;
+					c.UI.ForeColor;
 			}
 
-			if ( conf.FormQuest.ColumnFilter == null || ( (List<bool>)conf.FormQuest.ColumnFilter ).Count != QuestView.Columns.Count ) {
-				conf.FormQuest.ColumnFilter = Enumerable.Repeat( true, QuestView.Columns.Count ).ToList();
+			if ( c.FormQuest.ColumnFilter == null || ( (List<bool>)c.FormQuest.ColumnFilter ).Count != QuestView.Columns.Count ) {
+				c.FormQuest.ColumnFilter = Enumerable.Repeat( true, QuestView.Columns.Count ).ToList();
 			}
-			bool applyWidth = false;
-			if ( conf.FormQuest.ColumnWidth != null && ( (List<int>)conf.FormQuest.ColumnWidth ).Count == QuestView.Columns.Count ) {
-				//conf.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( column => column.Width ).ToList();
-				//applyWidth = true;
+			if ( c.FormQuest.ColumnWidth == null || ( (List<int>)c.FormQuest.ColumnWidth ).Count != QuestView.Columns.Count ) {
+				c.FormQuest.ColumnWidth = QuestView.Columns.Cast<DataGridViewColumn>().Select( column => column.Width ).ToList();
 			}
 			{
-				List<bool> list = conf.FormQuest.ColumnFilter;
-				List<int> width = conf.FormQuest.ColumnWidth;
+				List<bool> list = c.FormQuest.ColumnFilter;
+				List<int> width = c.FormQuest.ColumnWidth;
 
 				for ( int i = 0; i < QuestView.Columns.Count; i++ ) {
 					QuestView.Columns[i].Visible =
 					( (ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i] ).Checked = list[i];
-					if ( applyWidth )
-						QuestView.Columns[i].Width = width[i];
+					QuestView.Columns[i].Width = width[i];
 				}
 			}
-			MenuMain_ShowRunningOnly.Checked = Utility.Configuration.Config.FormQuest.ShowRunningOnly;
-			MenuMain_ShowOnce.Checked = Utility.Configuration.Config.FormQuest.ShowOnce;
-			MenuMain_ShowDaily.Checked = Utility.Configuration.Config.FormQuest.ShowDaily;
-			MenuMain_ShowWeekly.Checked = Utility.Configuration.Config.FormQuest.ShowWeekly;
-			MenuMain_ShowMonthly.Checked = Utility.Configuration.Config.FormQuest.ShowMonthly;
+
 			foreach ( DataGridViewColumn column in QuestView.Columns ) {
 				column.SortMode = c.FormQuest.AllowUserToSortRows ? DataGridViewColumnSortMode.Automatic : DataGridViewColumnSortMode.NotSortable; 
 			}

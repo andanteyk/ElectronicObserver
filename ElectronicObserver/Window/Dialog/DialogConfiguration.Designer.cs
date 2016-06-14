@@ -2640,7 +2640,6 @@
 		private System.Windows.Forms.Label label28;
 		private System.Windows.Forms.ComboBox Control_PowerEngagementForm;
 		private System.Windows.Forms.Label label29;
-		private System.Windows.Forms.CheckBox FormQuest_AllowUserToSortRows;
 		private System.Windows.Forms.ComboBox FormShipGroup_ShipNameSortMethod;
 		private System.Windows.Forms.Label label25;
 	}
