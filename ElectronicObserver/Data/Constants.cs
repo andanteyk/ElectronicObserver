@@ -700,18 +700,16 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public static string GetQuestType( int id ) {
 			switch ( id ) {
-				case 1:		//一回限り
-					return "1";
-				case 2:		//デイリー
+				case 1:		//デイリー
 					return "日";
-				case 3:		//ウィークリー
+				case 2:		//ウィークリー
 					return "週";
-				case 4:		//敵空母を3隻撃沈せよ！(日付下一桁0|3|7)
-					return "変";
-				case 5:		//敵輸送船団を叩け！(日付下一桁2|8)
-					return "変";
-				case 6:		//マンスリー
+				case 3:		//マンスリー
 					return "月";
+				case 4:		//単発
+					return "単";
+				case 5:		//その他(輸送5/空母3)
+					return "他";
 				default:
 					return "?";
 			}

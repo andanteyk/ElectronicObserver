@@ -56,6 +56,7 @@ namespace ElectronicObserver.Window {
 
 		private bool IsRowsUpdating;
 		private int _splitterDistance;
+		private int _shipNameSortMethod;
 
 
 		public FormShipGroup( FormMain parent ) {
@@ -209,6 +210,7 @@ namespace ElectronicObserver.Window {
 
 			MenuGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			MenuGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
+			_shipNameSortMethod = config.FormShipGroup.ShipNameSortMethod;
 
 		}
 
@@ -671,9 +673,23 @@ namespace ElectronicObserver.Window {
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
 			if ( e.Column.Index == ShipView_Name.Index ) {
-				e.SortResult =
-					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag].AlbumNo -
-					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag].AlbumNo;
+
+				ShipDataMaster	ship1 = KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag],
+								ship2 = KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag];
+
+				switch ( _shipNameSortMethod ) {
+					case 0:		// 図鑑番号順
+					default:
+						e.SortResult = ship1.AlbumNo - ship2.AlbumNo;
+						break;
+
+					case 1:		// あいうえお順
+						e.SortResult = ship1.NameReading.CompareTo( ship2.NameReading );
+
+						if ( e.SortResult == 0 )
+							e.SortResult = ship1.Name.CompareTo( ship2.Name );
+						break;
+				}
 
 			} else if ( e.Column.Index == ShipView_Exp.Index ) {
 				e.SortResult = (int)e.CellValue1 - (int)e.CellValue2;

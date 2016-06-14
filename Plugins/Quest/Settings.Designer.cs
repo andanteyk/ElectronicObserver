@@ -31,6 +31,9 @@
 			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage10 = new System.Windows.Forms.TabPage();
+			this.FormQuest_AllowUserToSortRows = new System.Windows.Forms.CheckBox();
+			this.FormQuest_ProgressAutoSaving = new System.Windows.Forms.ComboBox();
+			this.label27 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.FormQuest_ShowMonthly = new System.Windows.Forms.CheckBox();
 			this.FormQuest_ShowWeekly = new System.Windows.Forms.CheckBox();
@@ -55,6 +58,9 @@
 			// 
 			// tabPage10
 			// 
+			this.tabPage10.Controls.Add(this.FormQuest_AllowUserToSortRows);
+			this.tabPage10.Controls.Add(this.FormQuest_ProgressAutoSaving);
+			this.tabPage10.Controls.Add(this.label27);
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
 			this.tabPage10.Location = new System.Drawing.Point(4, 24);
@@ -64,6 +70,38 @@
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
+			// 
+			// FormQuest_AllowUserToSortRows
+			// 
+			this.FormQuest_AllowUserToSortRows.AutoSize = true;
+			this.FormQuest_AllowUserToSortRows.Location = new System.Drawing.Point(141, 35);
+			this.FormQuest_AllowUserToSortRows.Name = "FormQuest_AllowUserToSortRows";
+			this.FormQuest_AllowUserToSortRows.Size = new System.Drawing.Size(150, 19);
+			this.FormQuest_AllowUserToSortRows.TabIndex = 6;
+			this.FormQuest_AllowUserToSortRows.Text = "ソート順を変更可能にする";
+			this.FormQuest_AllowUserToSortRows.UseVisualStyleBackColor = true;
+			// 
+			// FormQuest_ProgressAutoSaving
+			// 
+			this.FormQuest_ProgressAutoSaving.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormQuest_ProgressAutoSaving.FormattingEnabled = true;
+			this.FormQuest_ProgressAutoSaving.Items.AddRange(new object[] {
+            "しない",
+            "1時間ごと",
+            "1日ごと"});
+			this.FormQuest_ProgressAutoSaving.Location = new System.Drawing.Point(269, 6);
+			this.FormQuest_ProgressAutoSaving.Name = "FormQuest_ProgressAutoSaving";
+			this.FormQuest_ProgressAutoSaving.Size = new System.Drawing.Size(121, 23);
+			this.FormQuest_ProgressAutoSaving.TabIndex = 5;
+			// 
+			// label27
+			// 
+			this.label27.AutoSize = true;
+			this.label27.Location = new System.Drawing.Point(138, 9);
+			this.label27.Name = "label27";
+			this.label27.Size = new System.Drawing.Size(125, 15);
+			this.label27.TabIndex = 4;
+			this.label27.Text = "任務進捗の自動保存：";
 			// 
 			// groupBox1
 			// 

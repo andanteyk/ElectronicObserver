@@ -189,6 +189,10 @@ namespace ElectronicObserver.Window {
 			MenuMain_ShowDaily.Checked = Utility.Configuration.Config.FormQuest.ShowDaily;
 			MenuMain_ShowWeekly.Checked = Utility.Configuration.Config.FormQuest.ShowWeekly;
 			MenuMain_ShowMonthly.Checked = Utility.Configuration.Config.FormQuest.ShowMonthly;
+			foreach ( DataGridViewColumn column in QuestView.Columns ) {
+				column.SortMode = c.FormQuest.AllowUserToSortRows ? DataGridViewColumnSortMode.Automatic : DataGridViewColumnSortMode.NotSortable; 
+			}
+
 			Updated();
 
 		}
@@ -224,15 +228,14 @@ namespace ElectronicObserver.Window {
 					continue;
 
 				switch ( q.Type ) {
-					case 2:
-					case 4:
+					case 1:
 					case 5:
 						if ( !MenuMain_ShowDaily.Checked ) continue;
 						break;
-					case 3:
+					case 2:
 						if ( !MenuMain_ShowWeekly.Checked ) continue;
 						break;
-					case 6:
+					case 3:
 						if ( !MenuMain_ShowMonthly.Checked ) continue;
 						break;
 					default:

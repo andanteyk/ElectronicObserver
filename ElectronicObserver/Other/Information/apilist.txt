@@ -614,11 +614,11 @@ Request.api_req_kousyou/createship	：建造開始
 api_req_kousyou/createship			：建造開始
 	(情報なし)
 
-Request.api_req_kousyou/createship_speedchage	：高速建造材使用
+Request.api_req_kousyou/createship_speedchange	：高速建造材使用
 	api_highspeed		：使用フラグ
 	api_kdock_id		：工廠ドックID
 
-api_req_kousyou/createship_speedchage			：高速建造材使用
+api_req_kousyou/createship_speedchange			：高速建造材使用
 	(情報なし)
 
 api_req_kousyou/getship		：建造した艦娘を受け取る
@@ -761,6 +761,9 @@ api_get_member/record	：戦績表示
 	api_large_dock		：大型艦建造可否？
 	api_material_max	：資源の自然回復上限
 
+Request.api_get_member/questlist	：任務
+	api_tab_id		：開いたタブの種別　0=全て, 1=デイリー, 2=ウィークリー, 3=マンスリー, 4=単発, 5=他, 9=遂行中
+	api_page_no		：開いたページ　1から始まる
 
 api_get_member/questlist	：任務
 	api_count				：任務数
@@ -770,7 +773,7 @@ api_get_member/questlist	：任務
 	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂時, ページ遷移時はnull
 		api_no				：任務ID
 		api_category		：任務カテゴリ　1=編成, 2=出撃, 3=演習, 4=遠征, 5=補給/入渠, 6=工廠, 7=改装, 8=出撃(2), 9=その他?
-		api_type			：任務出現タイプ　1=一回限り, 2=デイリー, 3=ウィークリー, 4=敵空母を3隻撃沈せよ!(日付下一桁0|3|7), 5=敵輸送船団を叩け!(日付下一桁2|8), 6=マンスリー
+		api_type			：任務出現タイプ　1=デイリー, 2=ウィークリー, 3=マンスリー, 4=単発, 5=他(輸送5と空母3)
 		api_state			：状態　1=未受領, 2=遂行中, 3=達成
 		api_title			：タイトル
 		api_detail			：説明

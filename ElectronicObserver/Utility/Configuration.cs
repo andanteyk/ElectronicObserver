@@ -139,11 +139,6 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool BlockMedia { get; set; }
 
-				/// <summary>
-				/// 艦これ検証データベースへ送信するか
-				/// </summary>
-				public bool SendDataToKCVDB { get; set; }
-
 				public ConfigConnection() {
 
 					Port = 40620;
@@ -165,7 +160,6 @@ namespace ElectronicObserver.Utility {
 					SendDataToKancolleDB = false;
 					SendKancolleOAuth = "";
 					BlockMedia = false;
-					SendDataToKCVDB = false;
 				}
 
 			}
@@ -504,12 +498,19 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool LastIsMute { get; set; }
 
+				/// <summary>
+				/// 威力表示の基準となる交戦形態
+				/// </summary>
+				public int PowerEngagementForm { get; set; }
+
+
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
 					UseSystemVolume = true;
 					LastVolume = 0.8f;
 					LastIsMute = false;
+					PowerEngagementForm = 1;
 				}
 			}
 			/// <summary>動作</summary>
@@ -830,6 +831,8 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int ProgressAutoSaving { get; set; }
 
+				public bool AllowUserToSortRows { get; set; }
+
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
 					ShowOnce = true;
@@ -840,6 +843,7 @@ namespace ElectronicObserver.Utility {
 					ColumnWidth = null;			//上に同じ
 					SortParameter = 3 << 1 | 0;
 					ProgressAutoSaving = 1;
+					AllowUserToSortRows = true;
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
@@ -852,13 +856,27 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigFormShipGroup : ConfigPartBase {
 
+				/// <summary>
+				/// 自動更新するか
+				/// </summary>
 				public bool AutoUpdate { get; set; }
 
+				/// <summary>
+				/// ステータスバーを表示するか
+				/// </summary>
 				public bool ShowStatusBar { get; set; }
+
+
+				/// <summary>
+				/// 艦名列のソート方法
+				/// 0 = 図鑑番号順, 1 = あいうえお順
+				/// </summary>
+				public int ShipNameSortMethod { get; set; }
 
 				public ConfigFormShipGroup() {
 					AutoUpdate = true;
 					ShowStatusBar = true;
+					ShipNameSortMethod = 0;
 				}
 			}
 			/// <summary>[艦船グループ]ウィンドウ</summary>

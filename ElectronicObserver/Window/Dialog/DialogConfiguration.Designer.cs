@@ -24,7 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabControlUIColor = new System.Windows.Forms.TabControl();
 			this.tabPageColorUI = new System.Windows.Forms.TabPage();
@@ -118,6 +118,8 @@
 			this.labelAnother1 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.Control_PowerEngagementForm = new System.Windows.Forms.ComboBox();
+			this.label29 = new System.Windows.Forms.Label();
 			this.Control_UseSystemVolume = new System.Windows.Forms.CheckBox();
 			this.Control_RecordAutoSaving = new System.Windows.Forms.ComboBox();
 			this.label10 = new System.Windows.Forms.Label();
@@ -140,6 +142,8 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_EquipmentLevelVisibility = new System.Windows.Forms.ComboBox();
+			this.label28 = new System.Windows.Forms.Label();
 			this.FormFleet_ShowAnchorageRepairingTimer = new System.Windows.Forms.CheckBox();
 			this.FormFleet_AirSuperiorityMethod = new System.Windows.Forms.ComboBox();
 			this.label23 = new System.Windows.Forms.Label();
@@ -204,8 +208,8 @@
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.FormFleet_EquipmentLevelVisibility = new System.Windows.Forms.ComboBox();
-			this.label28 = new System.Windows.Forms.Label();
+			this.FormShipGroup_ShipNameSortMethod = new System.Windows.Forms.ComboBox();
+			this.label25 = new System.Windows.Forms.Label();
 			this.FormFleet_BlinkAtCompletion = new System.Windows.Forms.CheckBox();
 			this.tabControlUIColor.SuspendLayout();
 			this.tabPageColorUI.SuspendLayout();
@@ -1288,6 +1292,8 @@
 			// 
 			// tabPage4
 			// 
+			this.tabPage4.Controls.Add(this.Control_PowerEngagementForm);
+			this.tabPage4.Controls.Add(this.label29);
 			this.tabPage4.Controls.Add(this.Control_UseSystemVolume);
 			this.tabPage4.Controls.Add(this.Control_RecordAutoSaving);
 			this.tabPage4.Controls.Add(this.label10);
@@ -1301,13 +1307,37 @@
 			this.tabPage4.Text = "操作";
 			this.tabPage4.UseVisualStyleBackColor = true;
 			// 
+			// Control_PowerEngagementForm
+			// 
+			this.Control_PowerEngagementForm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Control_PowerEngagementForm.FormattingEnabled = true;
+			this.Control_PowerEngagementForm.Items.AddRange(new object[] {
+            "同航戦",
+            "反航戦",
+            "T字有利",
+            "T字不利"});
+			this.Control_PowerEngagementForm.Location = new System.Drawing.Point(124, 64);
+			this.Control_PowerEngagementForm.Name = "Control_PowerEngagementForm";
+			this.Control_PowerEngagementForm.Size = new System.Drawing.Size(121, 23);
+			this.Control_PowerEngagementForm.TabIndex = 5;
+			this.ToolTipInfo.SetToolTip(this.Control_PowerEngagementForm, "威力（戦闘における攻撃力）を計算する際の、基準となる交戦形態を設定します。");
+			// 
+			// label29
+			// 
+			this.label29.AutoSize = true;
+			this.label29.Location = new System.Drawing.Point(6, 67);
+			this.label29.Name = "label29";
+			this.label29.Size = new System.Drawing.Size(115, 15);
+			this.label29.TabIndex = 4;
+			this.label29.Text = "威力表示交戦形態：";
+			// 
 			// Control_UseSystemVolume
 			// 
 			this.Control_UseSystemVolume.AutoSize = true;
-			this.Control_UseSystemVolume.Location = new System.Drawing.Point(6, 64);
+			this.Control_UseSystemVolume.Location = new System.Drawing.Point(9, 93);
 			this.Control_UseSystemVolume.Name = "Control_UseSystemVolume";
 			this.Control_UseSystemVolume.Size = new System.Drawing.Size(230, 19);
-			this.Control_UseSystemVolume.TabIndex = 4;
+			this.Control_UseSystemVolume.TabIndex = 6;
 			this.Control_UseSystemVolume.Text = "通知・BGM音量使用系统设置";
 			this.ToolTipInfo.SetToolTip(this.Control_UseSystemVolume, "通知・BGM等の本体音量設定に、システム音量設定を利用するかを指定します。\r\n無効の場合は個別に音量を設定できますが、音量ミキサ等で調整できなくなります。\r\n有効" +
         "の場合は音量ミキサ等で調整できますが、個別の音量設定は無視されます。");
@@ -1372,10 +1402,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 44);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 233);
+			this.tabPage6.Size = new System.Drawing.Size(456, 253);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "窗口";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -1563,6 +1593,33 @@
 			this.tabPage8.Text = "舰队";
 			this.tabPage8.UseVisualStyleBackColor = true;
 			// 
+			// FormFleet_EquipmentLevelVisibility
+			// 
+			this.FormFleet_EquipmentLevelVisibility.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormFleet_EquipmentLevelVisibility.FormattingEnabled = true;
+			this.FormFleet_EquipmentLevelVisibility.Items.AddRange(new object[] {
+            "非表示",
+            "改修レベルのみ",
+            "艦載機熟練度のみ",
+            "改修レベル優先",
+            "艦載機熟練度優先",
+            "両方表示"});
+			this.FormFleet_EquipmentLevelVisibility.Location = new System.Drawing.Point(253, 86);
+			this.FormFleet_EquipmentLevelVisibility.Name = "FormFleet_EquipmentLevelVisibility";
+			this.FormFleet_EquipmentLevelVisibility.Size = new System.Drawing.Size(160, 23);
+			this.FormFleet_EquipmentLevelVisibility.TabIndex = 13;
+			this.ToolTipInfo.SetToolTip(this.FormFleet_EquipmentLevelVisibility, "装備の改修レベルや艦載機熟練度の表示を指定します。\r\n「非表示」の場合は表示しません。\r\n「～優先」の場合、どちらもLv.1以上の時にそれぞれを優先して表示します" +
+        "。\r\n「両方表示」の場合は常にどちらも表示します。");
+			// 
+			// label28
+			// 
+			this.label28.AutoSize = true;
+			this.label28.Location = new System.Drawing.Point(156, 89);
+			this.label28.Name = "label28";
+			this.label28.Size = new System.Drawing.Size(91, 15);
+			this.label28.TabIndex = 12;
+			this.label28.Text = "装備情報表示：";
+			// 
 			// FormFleet_BlinkAtCompletion
 			// 
 			this.FormFleet_BlinkAtCompletion.AutoSize = true;
@@ -1733,12 +1790,14 @@
 			// 
 			// tabPage13
 			// 
+			this.tabPage13.Controls.Add(this.FormShipGroup_ShipNameSortMethod);
+			this.tabPage13.Controls.Add(this.label25);
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 22);
+			this.tabPage13.Location = new System.Drawing.Point(4, 24);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 201);
+			this.tabPage13.Size = new System.Drawing.Size(442, 199);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "编成";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -2196,21 +2255,21 @@
             this.BGMPlayer_ColumnContent,
             this.BGMPlayer_ColumnPath,
             this.BGMPlayer_ColumnSetting});
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle1;
 			this.BGMPlayer_ControlGrid.Location = new System.Drawing.Point(6, 35);
 			this.BGMPlayer_ControlGrid.MultiSelect = false;
 			this.BGMPlayer_ControlGrid.Name = "BGMPlayer_ControlGrid";
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 148);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 136);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2300,32 +2359,26 @@
 			this.FormFleet_AirSuperiorityMethod.TabIndex = 9;
 			this.FormFleet_AirSuperiorityMethod.Visible = false;
 			// 
-			// FormFleet_EquipmentLevelVisibility
+			// FormShipGroup_ShipNameSortMethod
 			// 
-			this.FormFleet_EquipmentLevelVisibility.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.FormFleet_EquipmentLevelVisibility.FormattingEnabled = true;
-			this.FormFleet_EquipmentLevelVisibility.Items.AddRange(new object[] {
-            "非表示",
-            "改修レベルのみ",
-            "艦載機熟練度のみ",
-            "改修レベル優先",
-            "艦載機熟練度優先",
-            "両方表示"});
-			this.FormFleet_EquipmentLevelVisibility.Location = new System.Drawing.Point(253, 86);
-			this.FormFleet_EquipmentLevelVisibility.Name = "FormFleet_EquipmentLevelVisibility";
-			this.FormFleet_EquipmentLevelVisibility.Size = new System.Drawing.Size(160, 23);
-			this.FormFleet_EquipmentLevelVisibility.TabIndex = 13;
-			this.ToolTipInfo.SetToolTip(this.FormFleet_EquipmentLevelVisibility, "装備の改修レベルや艦載機熟練度の表示を指定します。\r\n「非表示」の場合は表示しません。\r\n「～優先」の場合、どちらもLv.1以上の時にそれぞれを優先して表示します" +
-        "。\r\n「両方表示」の場合は常にどちらも表示します。");
+			this.FormShipGroup_ShipNameSortMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormShipGroup_ShipNameSortMethod.FormattingEnabled = true;
+			this.FormShipGroup_ShipNameSortMethod.Items.AddRange(new object[] {
+            "図鑑番号順",
+            "あいうえお順"});
+			this.FormShipGroup_ShipNameSortMethod.Location = new System.Drawing.Point(116, 56);
+			this.FormShipGroup_ShipNameSortMethod.Name = "FormShipGroup_ShipNameSortMethod";
+			this.FormShipGroup_ShipNameSortMethod.Size = new System.Drawing.Size(121, 23);
+			this.FormShipGroup_ShipNameSortMethod.TabIndex = 7;
 			// 
-			// label28
+			// label25
 			// 
-			this.label28.AutoSize = true;
-			this.label28.Location = new System.Drawing.Point(156, 89);
-			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(91, 15);
-			this.label28.TabIndex = 12;
-			this.label28.Text = "装備情報表示：";
+			this.label25.AutoSize = true;
+			this.label25.Location = new System.Drawing.Point(6, 59);
+			this.label25.Name = "label25";
+			this.label25.Size = new System.Drawing.Size(104, 15);
+			this.label25.TabIndex = 6;
+			this.label25.Text = "艦名列のソート順：";
 			// 
 			// DialogConfiguration
 			// 
@@ -2585,5 +2638,10 @@
 		private System.Windows.Forms.CheckBox FormFleet_BlinkAtCompletion;
 		private System.Windows.Forms.ComboBox FormFleet_EquipmentLevelVisibility;
 		private System.Windows.Forms.Label label28;
+		private System.Windows.Forms.ComboBox Control_PowerEngagementForm;
+		private System.Windows.Forms.Label label29;
+		private System.Windows.Forms.CheckBox FormQuest_AllowUserToSortRows;
+		private System.Windows.Forms.ComboBox FormShipGroup_ShipNameSortMethod;
+		private System.Windows.Forms.Label label25;
 	}
 }

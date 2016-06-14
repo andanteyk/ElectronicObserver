@@ -39,7 +39,7 @@
 
 *このリンクの更新は遅れる可能性があります。最新版は[こちら](http://electronicobserver.blog.fc2.com/)で確認してください。*  
 
-[ver. 2.2.4 (2016/06/02)](http://bit.ly/1r3CRhi)  
+[ver. 2.3.1 (2016/06/10)](http://bit.ly/24FrlWO)  
 
 [更新内容・履歴はこちらで確認できます。](https://github.com/andanteyk/ElectronicObserver/wiki/ChangeLog)  
 
@@ -62,7 +62,6 @@ Assets.zip をプログラムと同じ場所にコピーするか、実行フォ
 * [Nekoxy](https://github.com/veigr/Nekoxy) (通信キャプチャ) - [MIT License](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/Nekoxy.txt)
     * [TrotiNet](http://trotinet.sourceforge.net/) - [GNU Lesser General Public License v3.0](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/LGPL.txt)
         * [log4net](https://logging.apache.org/log4net/) - [Apache License version 2.0](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/Apache.txt)
-* [KCVDB.Client](https://github.com/KancolleVerificationTeam/KCVDB.Client) (検証データベース送信) - [MIT Licence](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/KCVDBClient.txt)
 
 ### 連絡先など
 ---
