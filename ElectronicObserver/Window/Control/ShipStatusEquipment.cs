@@ -676,26 +676,65 @@ namespace ElectronicObserver.Window.Control {
 						!( slot.Level > 0 && ( LevelVisibility == LevelVisibilityFlag.LevelPriority ^ _onMouse ) ) &&
 						LevelVisibility != LevelVisibilityFlag.LevelOnly ) {
 
-						string leveltext;
-						Color levelcol;
-
-						if ( slot.AircraftLevel <= 3 )
-							levelcol = AircraftLevelColorLow;
-						else
-							levelcol = AircraftLevelColorHigh;
-
-						switch ( slot.AircraftLevel ) {
-							case 1: leveltext = "|"; break;
-							case 2: leveltext = "||"; break;
-							case 3: leveltext = "|||"; break;
-							case 4: leveltext = "/"; break;
-							case 5: leveltext = "//"; break;
-							case 6: leveltext = "///"; break;
-							case 7: leveltext = ">>"; break;
-							default: leveltext = "x"; break;
+						if ( TextProficiency )
+						{
+							//textarea.Y -= 5;
+							TextFormatFlags format = TextFormatFlags.NoPadding | TextFormatFlags.Top | TextFormatFlags.Right;
+							Color color = AircraftColorDisabled;
+							//if ( slot.AircraftProficiency < 4 )
+							//	color = _aircraftPenOne.Color;
+							//else if ( slot.AircraftProficiency < 7 )
+							//	color = _aircraftPenTwo.Color;
+							//else
+							//	color = _aircraftPenThree.Color;
+							TextRenderer.DrawText( e.Graphics, slot.AircraftLevel.ToString(), Font, textarea, color, format );
 						}
+						else
+						{
+							e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+							int h = sz_unit.Height / 2;
 
-						TextRenderer.DrawText( e.Graphics, leveltext, Font, textarea, levelcol, textformatLevel );
+							int x = textarea.Right - 3;
+							int y = textarea.Y;
+							int pro = slot.AircraftLevel;
+							if ( pro < 4 )
+							{
+								for ( int i = 0; i < pro; i++ )
+								{
+									e.Graphics.DrawLine( _aircraftOne, x, 0, x, h );
+									x -= 3;
+								}
+							}
+							else if ( pro < 7 )
+							{
+								for ( int i = 0; i < pro - 3; i++ )
+								{
+									e.Graphics.DrawLine( _aircraftTwo, x - 2, 0, x + 2, h );
+									x -= 4;
+								}
+							}
+							else
+							{
+								for ( int i = 0; i < 2; i++ )
+								{
+									e.Graphics.DrawLine( _aircraftThree, x - 2, 0, x + 1, h / 2 );
+									e.Graphics.DrawLine( _aircraftThree, x - 2, h, x + 1, h / 2 );
+									x -= 4;
+								}
+							}
+							//Brush brush;
+							//if ( pro < 4 )
+							//	brush = _aircraftBrushOne;
+							//else if ( pro < 7 )
+							//	brush = _aircraftBrushTwo;
+							//else
+							//	brush = _aircraftBrushThree;
+							//for ( int i = 0; i < pro; i++ )
+							//{
+							//	e.Graphics.FillRectangle( brush, x + 2, y, 1, 5 );
+							//	x -= 2;
+							//}
+						}
 					}
 					//*/
 
