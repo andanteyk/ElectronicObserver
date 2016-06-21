@@ -269,6 +269,11 @@ namespace Browser {
 					// InvokeScriptは関数しか呼べないようなので、スクリプトをevalで渡す
 					document.InvokeScript( "eval", new object[] { Properties.Resources.PageScript } );
 					swf.Document.InvokeScript( "eval", new object[] { Properties.Resources.FrameScript } );
+					
+					
+					HtmlElement css = swf.Document.CreateElement("style");
+					css.InnerHtml = "div#main-ntg {display: block !important;}div#page {display: block !important;}div#area-game {display: block !important;}iframe#game_frame {display: block !important;}div#w {display: block !important;}body * { display: none; }";
+					document.Body.AppendChild(css);
 				}
 
 				StyleSheetApplied = true;
