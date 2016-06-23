@@ -187,22 +187,6 @@ namespace ElectronicObserver.Data.Quest {
 
 			var quests = KCDatabase.Instance.Quest;
 
-			// 周期性任务消除
-			Progresses.RemoveAll( p => {
-				if ( p.StartTimeTicks <= 0 )
-					return false;
-
-				if ( p.Type == 2 || p.Type == 4 || p.Type == 5 ) {
-					return DateTimeHelper.IsCrossedDay( new DateTime( p.StartTimeTicks ), 5, 0, 0 );
-				} else if ( p.Type == 3 ) {
-					return DateTimeHelper.IsCrossedWeek( new DateTime( p.StartTimeTicks ), DayOfWeek.Monday, 5, 0, 0 );
-				} else if ( p.Type == 5 ) {
-					return DateTimeHelper.IsCrossedMonth( new DateTime( p.StartTimeTicks ), 1, 5, 0, 0 );
-				}
-
-				return false;
-			} );
-
 
 			//消えている・達成済みの任務の進捗情報を削除
 			if ( quests.IsLoadCompleted )
