@@ -358,6 +358,7 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int PowerEngagementForm { get; set; }
 
+
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
@@ -687,13 +688,27 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigFormShipGroup : ConfigPartBase {
 
+				/// <summary>
+				/// 自動更新するか
+				/// </summary>
 				public bool AutoUpdate { get; set; }
 
+				/// <summary>
+				/// ステータスバーを表示するか
+				/// </summary>
 				public bool ShowStatusBar { get; set; }
+
+
+				/// <summary>
+				/// 艦名列のソート方法
+				/// 0 = 図鑑番号順, 1 = あいうえお順
+				/// </summary>
+				public int ShipNameSortMethod { get; set; }
 
 				public ConfigFormShipGroup() {
 					AutoUpdate = true;
 					ShowStatusBar = true;
+					ShipNameSortMethod = 0;
 				}
 			}
 			/// <summary>[艦船グループ]ウィンドウ</summary>
