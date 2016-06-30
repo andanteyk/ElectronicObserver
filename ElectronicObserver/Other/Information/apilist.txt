@@ -1390,6 +1390,14 @@ api_req_sortie/battle	：戦闘(昼戦)
 			api_undressing_flag	：中破グラフィックフラグ
 			api_cl_list			：クリティカル判定　0=ミス, 1=命中, 2=クリティカル　-1から
 			api_damage			：敵被ダメージ　-1から
+	api_opening_taisen_flag	：開幕対潜攻撃フラグ 0=なし 1=あり
+	api_opening_taisen		：開幕対潜攻撃　api_opening_taisen_flag = 0 のとき null　フォーマットは砲撃戦と同じ
+		api_at_list			：行動順
+		api_at_type			：特殊攻撃フラグ
+		api_df_list			：防御側ID
+		api_si_list			：表示装備ID
+		api_cl_list			：クリティカルフラグ
+		api_damage			：ダメージ
 	api_opening_flag	：開幕雷撃フラグ
 	api_opening_atack	：開幕雷撃戦 *スペルミスあり、注意
 		api_frai		：雷撃ターゲット
