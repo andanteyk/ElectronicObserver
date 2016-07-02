@@ -66,17 +66,10 @@ namespace ElectronicObserver.Utility
 
         public static string GetShipVoiceVersion(int shipId, int voiceId)
         {
-            int versionIndex;
             if (voiceId == 2 || voiceId == 3)
-                versionIndex = 2;
+                return KCDatabase.Instance.MasterShips[shipId].ResourcePortVoiceVersion;
             else
-                versionIndex = 1;
-
-            string[] versios = KCDatabase.Instance.MasterShips[shipId].ResourceVersions;
-            if (versios.Length < versionIndex)
-                return null;
-            else
-                return versios[versionIndex];
+                return KCDatabase.Instance.MasterShips[shipId].ResourceVoiceVersion;
         }
     }
 }
