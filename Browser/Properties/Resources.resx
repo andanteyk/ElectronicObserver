@@ -158,6 +158,7 @@ try {
 	$("#main-ntg").css(fillStyle);
 	$("#page").css(fillStyle);
 	$("#area-game").css(fillStyle);
+	$("#ntg-recommend").css(hideStyle);
 	var jqGameFrame=$("#game_frame");
 	jqGameFrame.css(fillStyle);
 	jqGameFrame.attr("scrolling","no");

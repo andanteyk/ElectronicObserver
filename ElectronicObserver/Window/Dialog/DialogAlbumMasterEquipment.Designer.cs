@@ -363,7 +363,7 @@
 			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableParameterSub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.TableParameterSub.Controls.Add(this.imageLabel76, 3, 1);
 			this.TableParameterSub.Controls.Add(this.Rarity, 3, 0);
 			this.TableParameterSub.Controls.Add(this.Range, 1, 1);
@@ -377,7 +377,7 @@
 			this.TableParameterSub.RowCount = 2;
 			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterSub.Size = new System.Drawing.Size(214, 44);
+			this.TableParameterSub.Size = new System.Drawing.Size(234, 44);
 			this.TableParameterSub.TabIndex = 15;
 			this.TableParameterSub.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableParameterSub_CellPaint);
 			// 
@@ -386,7 +386,7 @@
 			this.imageLabel76.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.imageLabel76.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel76.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel76.Location = new System.Drawing.Point(189, 25);
+			this.imageLabel76.Location = new System.Drawing.Point(209, 25);
 			this.imageLabel76.Name = "imageLabel76";
 			this.imageLabel76.Size = new System.Drawing.Size(22, 16);
 			this.imageLabel76.TabIndex = 17;
@@ -400,7 +400,7 @@
 			this.Rarity.BackColor = System.Drawing.Color.Transparent;
 			this.Rarity.Location = new System.Drawing.Point(157, 3);
 			this.Rarity.Name = "Rarity";
-			this.Rarity.Size = new System.Drawing.Size(54, 16);
+			this.Rarity.Size = new System.Drawing.Size(74, 16);
 			this.Rarity.TabIndex = 16;
 			this.Rarity.Text = "123";
 			this.Rarity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

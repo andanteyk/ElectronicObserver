@@ -133,6 +133,7 @@
     <Compile Include="Data\Battle\Phase\PhaseBaseAirAttack.cs" />
     <Compile Include="Data\Battle\Phase\PhaseInitial.cs" />
     <Compile Include="Data\Battle\Phase\PhaseNightBattle.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseOpeningASW.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSearching.cs" />
     <Compile Include="Data\Battle\Phase\PhaseShelling.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSupport.cs" />

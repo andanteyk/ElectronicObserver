@@ -161,6 +161,8 @@ namespace ElectronicObserver.Window.Dialog
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(ShipView);
                 row.SetValues(ship.ShipID, KCDatabase.Instance.ShipTypes[ship.ShipType].Name, ship.NameWithClass);
+                row.Cells[ShipView_ShipType.Index].Tag = ship.ShipType;
+                row.Cells[ShipView_Name.Index].Tag = ship.IsAbyssalShip ? null : ship.NameReading;
                 rows.Add(row);
 
             }
@@ -206,11 +208,34 @@ namespace ElectronicObserver.Window.Dialog
         private void ShipView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
 
-            if (e.Column.Name == ShipView_ShipType.Name)
+            if (e.Column.Index == ShipView_ShipType.Index)
             {
-                e.SortResult =
-                    KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[0].Value].ShipType -
-                    KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[0].Value].ShipType;
+                e.SortResult = (int)ShipView[e.Column.Index, e.RowIndex1].Tag - (int)ShipView[e.Column.Index, e.RowIndex2].Tag;
+            }
+            else if (e.Column.Index == ShipView_Name.Index)
+            {
+                // 艦娘優先; 艦娘同士なら読みで比べる、深海棲艦同士なら名前で比べる
+
+                string tag1 = ShipView[e.Column.Index, e.RowIndex1].Tag as string;
+                string tag2 = ShipView[e.Column.Index, e.RowIndex2].Tag as string;
+
+                if (tag1 != null)
+                {
+                    if (tag2 != null)
+                        e.SortResult = tag1.CompareTo(tag2);
+                    else
+                        e.SortResult = -1;
+                }
+                else
+                {
+                    if (tag2 != null)
+                        e.SortResult = 1;
+                    else
+                        e.SortResult = 0;
+                }
+
+                if (e.SortResult == 0)
+                    e.SortResult = ((string)e.CellValue1).CompareTo(e.CellValue2);
             }
             else
             {

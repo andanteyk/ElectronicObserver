@@ -11,9 +11,9 @@ namespace ElectronicObserver.Data.Battle.Phase {
 	/// </summary>
 	public class PhaseShelling : PhaseBase {
 
-		private readonly int phaseID;
-		private readonly string suffix;
-		private readonly bool isEscort;
+		protected readonly int phaseID;
+		protected readonly string suffix;
+		protected readonly bool isEscort;
 
 		public PhaseShelling( BattleData data, int phaseID, string suffix, bool isEscort )
 			: base( data ) {
@@ -29,7 +29,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		}
 
 
-		public dynamic ShellingData {
+		public virtual dynamic ShellingData {
 			get { return RawData["api_hougeki" + suffix]; }
 		}
 
