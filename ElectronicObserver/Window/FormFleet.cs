@@ -163,9 +163,9 @@ namespace ElectronicObserver.Window {
 
                 //制空戦力計算	
                 {
-                    int airSuperiority = fleet.GetAirSuperiority();
-                    int airSuperiority_old = fleet.GetAirSuperiority_Old(1);//对7星舰战使用120内部熟练度进行制空计算
-                    int airSuperiority_old2 = fleet.GetAirSuperiority_Old(15);//对7星所有有内部熟练制空使用120内部熟练度进行制空计算
+                    int airSuperiority = fleet.GetAirSuperiority_New();
+                    int airSuperiority_old = fleet.GetAirSuperiority_New(1);//对7星舰战使用120内部熟练度进行制空计算
+                    int airSuperiority_old2 = fleet.GetAirSuperiority_New(15);//对7星所有有内部熟练制空使用120内部熟练度进行制空计算
                     AirSuperiority.Text = airSuperiority.ToString();
                     ToolTipInfo.SetToolTip(AirSuperiority,
                         string.Format("满熟练制空值: {0}/{5}\r\n確保: {1}\r\n優勢: {2}\r\n均衡: {3}\r\n劣勢: {4}\r\n",
