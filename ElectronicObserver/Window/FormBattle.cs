@@ -350,8 +350,14 @@ td,th,tr {text-align:left; padding:2px 4px;}
 
 					}
 
-					// 开幕雷击
-					if ( day.OpeningTorpedo != null && day.OpeningTorpedo.IsAvailable )
+                    // 开幕反潜
+                    if (day.OpeningASW != null && day.OpeningASW.IsAvailable)
+                    {
+                        FillShellingDamage("开幕反潜", builder, day.OpeningASW.ShellingData, isCombined ? accompany : friends, enemys, hps, maxHps);
+                    }
+
+                    // 开幕雷击
+                    if ( day.OpeningTorpedo != null && day.OpeningTorpedo.IsAvailable )
 					{
 						FillTorpedoDamage( "开幕雷击", builder, day.OpeningTorpedo.TorpedoData, isCombined ? accompany : friends, enemys, hps, maxHps );
 					}
