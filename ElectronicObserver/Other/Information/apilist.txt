@@ -1353,6 +1353,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 									15：高角砲/対空機銃
 									16：高角砲/対空機銃/電探
 									17：高角砲/対空機銃
+									18：集中機銃
 				api_use_items	：表示装備IDリスト
 		api_stage3		：航空攻撃
 			api_frai_flag	：味方被雷撃フラグ
@@ -1395,7 +1396,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 		api_at_list			：行動順
 		api_at_type			：特殊攻撃フラグ
 		api_df_list			：防御側ID
-		api_si_list			：表示装備ID
+		api_si_list			：表示装備ID　文字列
 		api_cl_list			：クリティカルフラグ
 		api_damage			：ダメージ
 	api_opening_flag	：開幕雷撃フラグ

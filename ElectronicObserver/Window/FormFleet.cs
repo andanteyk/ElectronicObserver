@@ -821,7 +821,7 @@ namespace ElectronicObserver.Window {
 
 			// 手書き json の悲しみ
 
-			sb.Append( @"{""version"":3," );
+			sb.Append( @"{""version"":4," );
 
 			foreach ( var fleet in db.Fleet.Fleets.Values ) {
 				if ( fleet == null ) continue;
@@ -847,8 +847,7 @@ namespace ElectronicObserver.Window {
 					foreach ( var eq in ship.SlotInstance ) {
 						if ( eq == null ) break;
 
-						// 水偵は改修レベル優先(熟練度にすると改修レベルに誤解されて 33式 の結果がずれるため)
-						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2}}},", eqcount, eq.EquipmentID, eq.MasterEquipment.CategoryType == 10 ? eq.Level : Math.Max( eq.Level, eq.AircraftLevel ) );
+						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2},""mas"":{3}}},", eqcount, eq.EquipmentID, eq.Level, eq.AircraftLevel );
 
 						eqcount++;
 					}
