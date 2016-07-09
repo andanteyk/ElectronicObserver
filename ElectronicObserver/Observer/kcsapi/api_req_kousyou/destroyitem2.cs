@@ -11,8 +11,12 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 
 		public override void OnRequestReceived( Dictionary<string, string> data ) {
-
+			
 			KCDatabase db = KCDatabase.Instance;
+
+			// 削除処理が終わってからだと装備データが取れないため
+			db.QuestProgress.EquipmentDiscarded( APIName, data );
+
 
 			foreach ( string sid in data["api_slotitem_ids"].Split( ",".ToCharArray() ) ) {
 
