@@ -55,7 +55,7 @@ namespace ElectronicObserver.Data {
 		/// 説明
 		/// </summary>
 		public string Description {
-			get { return (string)RawData.api_detail; }
+			get { return ( (string)RawData.api_detail ).Replace( "<br>", "\r\n" ); }
 		}
 
 		//undone:api_bonus_flag

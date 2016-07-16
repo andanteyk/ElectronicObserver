@@ -129,14 +129,26 @@ namespace ElectronicObserver.Window {
 					int ammounit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Ammo * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
 
 					int speed = fleet.MembersWithoutEscaped.Min( s => s == null ? 10 : s.MasterShip.Speed );
+
+					var slots = fleet.MembersWithoutEscaped
+						.Where( s => s != null )
+						.SelectMany( s => s.SlotInstance )
+						.Where( e => e != null );
+					var daihatsu = slots.Where( e => e.EquipmentID == 68 );
+					var daihatsu_tank = slots.Where( e => e.EquipmentID == 166 );
+					var landattacker = slots.Where( e => e.EquipmentID == 167 );
+					double expeditionBonus = Math.Min( daihatsu.Count() * 0.05 + daihatsu_tank.Count() * 0.02 + landattacker.Count() * 0.01, 0.20 );
+
 					ToolTipInfo.SetToolTip( Name, string.Format(
-						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個\r\n総積載: 燃 {6} / 弾 {7}\r\n(1戦当たり 燃 {8} / 弾 {9})",
+						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個 ({6}艦, +{7:p1})\r\n総積載: 燃 {8} / 弾 {9}\r\n(1戦当たり 燃 {10} / 弾 {11})",
 						levelSum,
 						(double)levelSum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ),
 						Constants.GetSpeed( speed ),
 						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) ),
-						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) > 0 ),
-						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 24 ) ),
+						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Any( q => q == null ? false : q.CategoryType == 30 ) ),
+						daihatsu.Count() + daihatsu_tank.Count() + landattacker.Count(),
+						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Any( q => q == null ? false : q.CategoryType == 24 || q.CategoryType == 46 ) ),
+						expeditionBonus + 0.01 * expeditionBonus * ( daihatsu.Sum( e => e.Level ) + daihatsu_tank.Sum( e => e.Level ) + landattacker.Sum( e => e.Level ) ) / Math.Max( daihatsu.Count() + daihatsu_tank.Count() + landattacker.Count(), 1 ),
 						fueltotal,
 						ammototal,
 						fuelunit,
