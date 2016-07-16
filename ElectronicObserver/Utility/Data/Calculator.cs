@@ -140,7 +140,7 @@ namespace ElectronicObserver.Utility.Data {
 					int category = eq.MasterEquipment.CategoryType;
 
 					if ( AircraftLevelBonus.ContainsKey( category ) ) {
-						air += (int)( eq.MasterEquipment.AA * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
+						air += (int)( ( eq.MasterEquipment.AA + 0.2 * eq.Level ) * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
 					}
 
 				}

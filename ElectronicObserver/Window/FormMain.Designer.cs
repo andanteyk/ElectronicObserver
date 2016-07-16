@@ -36,6 +36,8 @@
 			this.StripMenu_File_Layout_Change = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Layout_LockLayout = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_File_Layout_TopMost = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_File_Configuration = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -130,7 +132,7 @@
             this.StripMenu_File_Record_Save,
             this.StripMenu_File_Record_Load});
 			this.StripMenu_File_Record.Name = "StripMenu_File_Record";
-			this.StripMenu_File_Record.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Record.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Record.Text = "レコード(&R)";
 			// 
 			// StripMenu_File_Record_Save
@@ -155,9 +157,11 @@
             this.StripMenu_File_Layout_Open,
             this.StripMenu_File_Layout_Change,
             this.toolStripSeparator9,
-            this.StripMenu_File_Layout_LockLayout});
+            this.StripMenu_File_Layout_LockLayout,
+            this.toolStripSeparator10,
+            this.StripMenu_File_Layout_TopMost});
 			this.StripMenu_File_Layout.Name = "StripMenu_File_Layout";
-			this.StripMenu_File_Layout.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Layout.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Layout.Text = "レイアウト(&L)";
 			// 
 			// StripMenu_File_Layout_Load
@@ -201,27 +205,40 @@
 			this.StripMenu_File_Layout_LockLayout.Text = "レイアウトのロック(&T)";
 			this.StripMenu_File_Layout_LockLayout.Click += new System.EventHandler(this.StripMenu_File_Layout_LockLayout_Click);
 			// 
+			// toolStripSeparator10
+			// 
+			this.toolStripSeparator10.Name = "toolStripSeparator10";
+			this.toolStripSeparator10.Size = new System.Drawing.Size(200, 6);
+			// 
+			// StripMenu_File_Layout_TopMost
+			// 
+			this.StripMenu_File_Layout_TopMost.CheckOnClick = true;
+			this.StripMenu_File_Layout_TopMost.Name = "StripMenu_File_Layout_TopMost";
+			this.StripMenu_File_Layout_TopMost.Size = new System.Drawing.Size(203, 22);
+			this.StripMenu_File_Layout_TopMost.Text = "最前面に表示(&M)";
+			this.StripMenu_File_Layout_TopMost.Click += new System.EventHandler(this.StripMenu_File_Layout_TopMost_Click);
+			// 
 			// toolStripSeparator6
 			// 
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(132, 6);
+			this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_File_Configuration
 			// 
 			this.StripMenu_File_Configuration.Name = "StripMenu_File_Configuration";
-			this.StripMenu_File_Configuration.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Configuration.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Configuration.Text = "設定(&C)...";
 			this.StripMenu_File_Configuration.Click += new System.EventHandler(this.StripMenu_File_Configuration_Click);
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(132, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_File_Close
 			// 
 			this.StripMenu_File_Close.Name = "StripMenu_File_Close";
-			this.StripMenu_File_Close.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Close.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Close.Text = "終了(&X)";
 			this.StripMenu_File_Close.Click += new System.EventHandler(this.StripMenu_File_Close_Click);
 			// 
@@ -729,5 +746,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_Change;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_LockLayout;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Layout_TopMost;
 	}
 }

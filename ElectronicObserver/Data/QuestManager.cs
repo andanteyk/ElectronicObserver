@@ -106,10 +106,15 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
 			base.LoadFromRequest( apiname, data );
 
-			//api_req_quest/clearitemget
-
-			Quests.Remove( int.Parse( RequestData["api_quest_id"] ) );
-			Count--;
+			switch ( apiname ) {
+				case "api_req_quest/clearitemget":
+					Quests.Remove( int.Parse( data["api_quest_id"] ) );
+					Count--;
+					break;
+				case "api_req_quest/stop":
+					Quests[int.Parse( data["api_quest_id"] )].State = 1;
+					break;
+			}
 
 			QuestUpdated();
 		}
