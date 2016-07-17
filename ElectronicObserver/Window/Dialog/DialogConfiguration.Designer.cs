@@ -133,6 +133,8 @@
 			this.FormQuest_ShowOnce = new System.Windows.Forms.CheckBox();
 			this.FormQuest_ShowRunningOnly = new System.Windows.Forms.CheckBox();
 			this.tabPage13 = new System.Windows.Forms.TabPage();
+			this.FormShipGroup_ShipNameSortMethod = new System.Windows.Forms.ComboBox();
+			this.label25 = new System.Windows.Forms.Label();
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
@@ -195,8 +197,8 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.FormShipGroup_ShipNameSortMethod = new System.Windows.Forms.ComboBox();
-			this.label25 = new System.Windows.Forms.Label();
+			this.label30 = new System.Windows.Forms.Label();
+			this.FormBrowser_ToolMenuDockStyle = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -865,7 +867,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 265);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 281);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1394,10 +1396,10 @@
 			this.tabPage10.Controls.Add(this.label27);
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 24);
+			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 199);
+			this.tabPage10.Size = new System.Drawing.Size(442, 201);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1503,13 +1505,34 @@
 			this.tabPage13.Controls.Add(this.label25);
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 24);
+			this.tabPage13.Location = new System.Drawing.Point(4, 22);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 199);
+			this.tabPage13.Size = new System.Drawing.Size(442, 201);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
+			// 
+			// FormShipGroup_ShipNameSortMethod
+			// 
+			this.FormShipGroup_ShipNameSortMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormShipGroup_ShipNameSortMethod.FormattingEnabled = true;
+			this.FormShipGroup_ShipNameSortMethod.Items.AddRange(new object[] {
+            "図鑑番号順",
+            "あいうえお順"});
+			this.FormShipGroup_ShipNameSortMethod.Location = new System.Drawing.Point(116, 56);
+			this.FormShipGroup_ShipNameSortMethod.Name = "FormShipGroup_ShipNameSortMethod";
+			this.FormShipGroup_ShipNameSortMethod.Size = new System.Drawing.Size(121, 23);
+			this.FormShipGroup_ShipNameSortMethod.TabIndex = 7;
+			// 
+			// label25
+			// 
+			this.label25.AutoSize = true;
+			this.label25.Location = new System.Drawing.Point(6, 59);
+			this.label25.Name = "label25";
+			this.label25.Size = new System.Drawing.Size(104, 15);
+			this.label25.TabIndex = 6;
+			this.label25.Text = "艦名列のソート順：";
 			// 
 			// FormShipGroup_ShowStatusBar
 			// 
@@ -1535,6 +1558,8 @@
 			// 
 			// tabPage12
 			// 
+			this.tabPage12.Controls.Add(this.FormBrowser_ToolMenuDockStyle);
+			this.tabPage12.Controls.Add(this.label30);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomFit);
 			this.tabPage12.Controls.Add(this.FormBrowser_AppliesStyleSheet);
 			this.tabPage12.Controls.Add(this.FormBrowser_ConfirmAtRefresh);
@@ -1545,10 +1570,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 22);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 201);
+			this.tabPage12.Size = new System.Drawing.Size(442, 199);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1595,7 +1620,7 @@
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotPathSearch);
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotPath);
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_JPEG);
-			this.groupBox2.Location = new System.Drawing.Point(6, 88);
+			this.groupBox2.Location = new System.Drawing.Point(6, 116);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(430, 77);
 			this.groupBox2.TabIndex = 0;
@@ -1726,10 +1751,10 @@
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
 			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 22);
+			this.tabPage14.Location = new System.Drawing.Point(4, 24);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 201);
+			this.tabPage14.Size = new System.Drawing.Size(442, 199);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -2121,7 +2146,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 136);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 132);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2203,26 +2228,29 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// FormShipGroup_ShipNameSortMethod
+			// label30
 			// 
-			this.FormShipGroup_ShipNameSortMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.FormShipGroup_ShipNameSortMethod.FormattingEnabled = true;
-			this.FormShipGroup_ShipNameSortMethod.Items.AddRange(new object[] {
-            "図鑑番号順",
-            "あいうえお順"});
-			this.FormShipGroup_ShipNameSortMethod.Location = new System.Drawing.Point(116, 56);
-			this.FormShipGroup_ShipNameSortMethod.Name = "FormShipGroup_ShipNameSortMethod";
-			this.FormShipGroup_ShipNameSortMethod.Size = new System.Drawing.Size(121, 23);
-			this.FormShipGroup_ShipNameSortMethod.TabIndex = 7;
+			this.label30.AutoSize = true;
+			this.label30.Location = new System.Drawing.Point(6, 91);
+			this.label30.Name = "label30";
+			this.label30.Size = new System.Drawing.Size(117, 15);
+			this.label30.TabIndex = 10;
+			this.label30.Text = "ツールメニューの配置：";
 			// 
-			// label25
+			// FormBrowser_ToolMenuDockStyle
 			// 
-			this.label25.AutoSize = true;
-			this.label25.Location = new System.Drawing.Point(6, 59);
-			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(104, 15);
-			this.label25.TabIndex = 6;
-			this.label25.Text = "艦名列のソート順：";
+			this.FormBrowser_ToolMenuDockStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormBrowser_ToolMenuDockStyle.FormattingEnabled = true;
+			this.FormBrowser_ToolMenuDockStyle.Items.AddRange(new object[] {
+            "上",
+            "下",
+            "左",
+            "右",
+            "非表示"});
+			this.FormBrowser_ToolMenuDockStyle.Location = new System.Drawing.Point(129, 88);
+			this.FormBrowser_ToolMenuDockStyle.Name = "FormBrowser_ToolMenuDockStyle";
+			this.FormBrowser_ToolMenuDockStyle.Size = new System.Drawing.Size(121, 23);
+			this.FormBrowser_ToolMenuDockStyle.TabIndex = 11;
 			// 
 			// DialogConfiguration
 			// 
@@ -2480,5 +2508,7 @@
 		private System.Windows.Forms.CheckBox FormQuest_AllowUserToSortRows;
 		private System.Windows.Forms.ComboBox FormShipGroup_ShipNameSortMethod;
 		private System.Windows.Forms.Label label25;
+		private System.Windows.Forms.ComboBox FormBrowser_ToolMenuDockStyle;
+		private System.Windows.Forms.Label label30;
 	}
 }
