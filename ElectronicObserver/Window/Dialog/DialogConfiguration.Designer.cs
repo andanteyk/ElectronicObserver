@@ -24,7 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
@@ -138,6 +138,8 @@
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.FormBrowser_ToolMenuDockStyle = new System.Windows.Forms.ComboBox();
+			this.label30 = new System.Windows.Forms.Label();
 			this.FormBrowser_ZoomFit = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
@@ -197,8 +199,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.label30 = new System.Windows.Forms.Label();
-			this.FormBrowser_ToolMenuDockStyle = new System.Windows.Forms.ComboBox();
+			this.FormQuest_ShowOther = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -867,7 +868,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 281);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(456, 297);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1396,10 +1397,10 @@
 			this.tabPage10.Controls.Add(this.label27);
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 22);
+			this.tabPage10.Location = new System.Drawing.Point(4, 24);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 201);
+			this.tabPage10.Size = new System.Drawing.Size(442, 199);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1438,13 +1439,14 @@
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.FormQuest_ShowOther);
 			this.groupBox1.Controls.Add(this.FormQuest_ShowMonthly);
 			this.groupBox1.Controls.Add(this.FormQuest_ShowWeekly);
 			this.groupBox1.Controls.Add(this.FormQuest_ShowDaily);
 			this.groupBox1.Controls.Add(this.FormQuest_ShowOnce);
 			this.groupBox1.Location = new System.Drawing.Point(6, 31);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(126, 123);
+			this.groupBox1.Size = new System.Drawing.Size(126, 152);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "フィルタ";
@@ -1484,9 +1486,9 @@
 			this.FormQuest_ShowOnce.AutoSize = true;
 			this.FormQuest_ShowOnce.Location = new System.Drawing.Point(6, 22);
 			this.FormQuest_ShowOnce.Name = "FormQuest_ShowOnce";
-			this.FormQuest_ShowOnce.Size = new System.Drawing.Size(107, 19);
+			this.FormQuest_ShowOnce.Size = new System.Drawing.Size(50, 19);
 			this.FormQuest_ShowOnce.TabIndex = 1;
-			this.FormQuest_ShowOnce.Text = "一回限り・その他";
+			this.FormQuest_ShowOnce.Text = "単発";
 			this.FormQuest_ShowOnce.UseVisualStyleBackColor = true;
 			// 
 			// FormQuest_ShowRunningOnly
@@ -1570,13 +1572,37 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 24);
+			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 199);
+			this.tabPage12.Size = new System.Drawing.Size(442, 201);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_ToolMenuDockStyle
+			// 
+			this.FormBrowser_ToolMenuDockStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormBrowser_ToolMenuDockStyle.FormattingEnabled = true;
+			this.FormBrowser_ToolMenuDockStyle.Items.AddRange(new object[] {
+            "上",
+            "下",
+            "左",
+            "右",
+            "非表示"});
+			this.FormBrowser_ToolMenuDockStyle.Location = new System.Drawing.Point(129, 88);
+			this.FormBrowser_ToolMenuDockStyle.Name = "FormBrowser_ToolMenuDockStyle";
+			this.FormBrowser_ToolMenuDockStyle.Size = new System.Drawing.Size(121, 23);
+			this.FormBrowser_ToolMenuDockStyle.TabIndex = 11;
+			// 
+			// label30
+			// 
+			this.label30.AutoSize = true;
+			this.label30.Location = new System.Drawing.Point(6, 91);
+			this.label30.Name = "label30";
+			this.label30.Size = new System.Drawing.Size(117, 15);
+			this.label30.TabIndex = 10;
+			this.label30.Text = "ツールメニューの配置：";
 			// 
 			// FormBrowser_ZoomFit
 			// 
@@ -1751,10 +1777,10 @@
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
 			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 24);
+			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 199);
+			this.tabPage14.Size = new System.Drawing.Size(442, 201);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -2132,21 +2158,21 @@
             this.BGMPlayer_ColumnContent,
             this.BGMPlayer_ColumnPath,
             this.BGMPlayer_ColumnSetting});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle2;
 			this.BGMPlayer_ControlGrid.Location = new System.Drawing.Point(6, 35);
 			this.BGMPlayer_ControlGrid.MultiSelect = false;
 			this.BGMPlayer_ControlGrid.Name = "BGMPlayer_ControlGrid";
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 132);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(444, 128);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2228,29 +2254,15 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// label30
+			// FormQuest_ShowOther
 			// 
-			this.label30.AutoSize = true;
-			this.label30.Location = new System.Drawing.Point(6, 91);
-			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(117, 15);
-			this.label30.TabIndex = 10;
-			this.label30.Text = "ツールメニューの配置：";
-			// 
-			// FormBrowser_ToolMenuDockStyle
-			// 
-			this.FormBrowser_ToolMenuDockStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.FormBrowser_ToolMenuDockStyle.FormattingEnabled = true;
-			this.FormBrowser_ToolMenuDockStyle.Items.AddRange(new object[] {
-            "上",
-            "下",
-            "左",
-            "右",
-            "非表示"});
-			this.FormBrowser_ToolMenuDockStyle.Location = new System.Drawing.Point(129, 88);
-			this.FormBrowser_ToolMenuDockStyle.Name = "FormBrowser_ToolMenuDockStyle";
-			this.FormBrowser_ToolMenuDockStyle.Size = new System.Drawing.Size(121, 23);
-			this.FormBrowser_ToolMenuDockStyle.TabIndex = 11;
+			this.FormQuest_ShowOther.AutoSize = true;
+			this.FormQuest_ShowOther.Location = new System.Drawing.Point(6, 122);
+			this.FormQuest_ShowOther.Name = "FormQuest_ShowOther";
+			this.FormQuest_ShowOther.Size = new System.Drawing.Size(57, 19);
+			this.FormQuest_ShowOther.TabIndex = 5;
+			this.FormQuest_ShowOther.Text = "その他";
+			this.FormQuest_ShowOther.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -2510,5 +2522,6 @@
 		private System.Windows.Forms.Label label25;
 		private System.Windows.Forms.ComboBox FormBrowser_ToolMenuDockStyle;
 		private System.Windows.Forms.Label label30;
+		private System.Windows.Forms.CheckBox FormQuest_ShowOther;
 	}
 }

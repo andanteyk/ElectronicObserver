@@ -356,6 +356,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
 			FormQuest_ShowWeekly.Checked = config.FormQuest.ShowWeekly;
 			FormQuest_ShowMonthly.Checked = config.FormQuest.ShowMonthly;
+			FormQuest_ShowOther.Checked = config.FormQuest.ShowOther;
 			FormQuest_ProgressAutoSaving.SelectedIndex = config.FormQuest.ProgressAutoSaving;
 			FormQuest_AllowUserToSortRows.Checked = config.FormQuest.AllowUserToSortRows;
 
@@ -539,6 +540,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
 			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
 			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
+			config.FormQuest.ShowOther = FormQuest_ShowOther.Checked;
 			config.FormQuest.ProgressAutoSaving = FormQuest_ProgressAutoSaving.SelectedIndex;
 			config.FormQuest.AllowUserToSortRows = FormQuest_AllowUserToSortRows.Checked;
 
