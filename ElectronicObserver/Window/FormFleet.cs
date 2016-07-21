@@ -884,6 +884,54 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ContextMenuFleet_CopyKanmusuList_Click( object sender, EventArgs e ) {
+
+			StringBuilder sb = new StringBuilder();
+			KCDatabase db = KCDatabase.Instance;
+
+			// version
+			sb.Append( ".2" );
+
+			Dictionary<int, List<ShipData>> shiplist = new Dictionary<int, List<ShipData>>();
+
+			foreach ( var ship in db.Ships.Values ) {
+				var master = ship.MasterShip;
+				while ( master.RemodelBeforeShip != null )
+					master = master.RemodelBeforeShip;
+
+				if ( !shiplist.ContainsKey( master.ShipID ) ) {
+					shiplist.Add( master.ShipID, new List<ShipData>() { ship } );
+				} else {
+					shiplist[master.ShipID].Add( ship );
+				}
+			}
+
+			foreach ( var sl in shiplist ) {
+				sb.Append( "|" ).Append( sl.Key ).Append( ":" );
+
+				foreach ( var ship in sl.Value ) {
+					sb.Append( ship.Level );
+
+					if ( ship.MasterShip.RemodelAfterShipID != 0 && ship.ExpNextRemodel == 0 ) {
+						sb.Append( "." );
+						int count = 1;
+						var master = ship.MasterShip;
+						while ( master.RemodelBeforeShip != null ) {
+							master = master.RemodelBeforeShip;
+							count++;
+						}
+						sb.Append( count );
+					}
+					sb.Append( "," );
+				}
+
+				sb.Remove( sb.Length - 1, 1 );
+			}
+
+			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
+		}
+
+
 		private void ContextMenuFleet_Capture_Click( object sender, EventArgs e ) {
 
 			using ( Bitmap bitmap = new Bitmap( this.ClientSize.Width, this.ClientSize.Height ) ) {
@@ -970,7 +1018,7 @@ namespace ElectronicObserver.Window {
 			return "Fleet #" + FleetID.ToString();
 		}
 
-
+	
 
 
 	}
