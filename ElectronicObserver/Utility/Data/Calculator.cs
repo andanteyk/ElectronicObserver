@@ -140,7 +140,21 @@ namespace ElectronicObserver.Utility.Data {
 					int category = eq.MasterEquipment.CategoryType;
 
 					if ( AircraftLevelBonus.ContainsKey( category ) ) {
-						air += (int)( ( eq.MasterEquipment.AA + 0.2 * eq.Level ) * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
+
+						double levelRate;
+						switch ( category ) {
+							case 6:		// 艦上戦闘機
+								levelRate = 0.2;
+								break;
+							case 7:		// 艦上爆撃機
+								levelRate = 0.25;
+								break;
+							default:
+								levelRate = 0;
+								break;
+						}
+
+						air += (int)( ( eq.MasterEquipment.AA + levelRate * eq.Level ) * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
 					}
 
 				}

@@ -884,6 +884,62 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		/// <summary>
+		/// 「艦隊晒しページ」用編成コピー
+		/// <see cref="http://kancolle-calc.net/kanmusu_list.html"/>
+		/// </summary>
+		private void ContextMenuFleet_CopyKanmusuList_Click( object sender, EventArgs e ) {
+
+			StringBuilder sb = new StringBuilder();
+			KCDatabase db = KCDatabase.Instance;
+
+			// version
+			sb.Append( ".2" );
+
+			// <たね艦娘(完全未改造時)のID, 艦娘リスト>　に分類
+			Dictionary<int, List<ShipData>> shiplist = new Dictionary<int, List<ShipData>>();
+
+			foreach ( var ship in db.Ships.Values.Where( s => s.IsLocked ) ) {
+				var master = ship.MasterShip;
+				while ( master.RemodelBeforeShip != null )
+					master = master.RemodelBeforeShip;
+
+				if ( !shiplist.ContainsKey( master.ShipID ) ) {
+					shiplist.Add( master.ShipID, new List<ShipData>() { ship } );
+				} else {
+					shiplist[master.ShipID].Add( ship );
+				}
+			}
+
+			// 上で作った分類の各項を文字列化
+			foreach ( var sl in shiplist ) {
+				sb.Append( "|" ).Append( sl.Key ).Append( ":" );
+
+				foreach ( var ship in sl.Value ) {
+					sb.Append( ship.Level );
+
+					// 改造レベルに達しているのに未改造の艦は ".<たね=1, 改=2, 改二=3, ...>" を付加
+					if ( ship.MasterShip.RemodelAfterShipID != 0 && ship.ExpNextRemodel == 0 ) {
+						sb.Append( "." );
+						int count = 1;
+						var master = ship.MasterShip;
+						while ( master.RemodelBeforeShip != null ) {
+							master = master.RemodelBeforeShip;
+							count++;
+						}
+						sb.Append( count );
+					}
+					sb.Append( "," );
+				}
+
+				// 余った "," を削除
+				sb.Remove( sb.Length - 1, 1 );
+			}
+
+			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
+		}
+
+
 		private void ContextMenuFleet_Capture_Click( object sender, EventArgs e ) {
 
 			using ( Bitmap bitmap = new Bitmap( this.ClientSize.Width, this.ClientSize.Height ) ) {

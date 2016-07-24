@@ -356,6 +356,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
 			FormQuest_ShowWeekly.Checked = config.FormQuest.ShowWeekly;
 			FormQuest_ShowMonthly.Checked = config.FormQuest.ShowMonthly;
+			FormQuest_ShowOther.Checked = config.FormQuest.ShowOther;
 			FormQuest_ProgressAutoSaving.SelectedIndex = config.FormQuest.ProgressAutoSaving;
 			FormQuest_AllowUserToSortRows.Checked = config.FormQuest.AllowUserToSortRows;
 
@@ -410,6 +411,10 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
 			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWMode;
+			if ( !config.FormBrowser.IsToolMenuVisible )
+				FormBrowser_ToolMenuDockStyle.SelectedIndex = 4;
+			else
+				FormBrowser_ToolMenuDockStyle.SelectedIndex = (int)config.FormBrowser.ToolMenuDockStyle - 1;
 
 			FormCompass_CandidateDisplayCount.Value = config.FormCompass.CandidateDisplayCount;
 
@@ -535,6 +540,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
 			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
 			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
+			config.FormQuest.ShowOther = FormQuest_ShowOther.Checked;
 			config.FormQuest.ProgressAutoSaving = FormQuest_ProgressAutoSaving.SelectedIndex;
 			config.FormQuest.AllowUserToSortRows = FormQuest_AllowUserToSortRows.Checked;
 
@@ -555,6 +561,12 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWMode = FormBrowser_FlashWMode.Text;
+			if ( FormBrowser_ToolMenuDockStyle.SelectedIndex == 4 ) {
+				config.FormBrowser.IsToolMenuVisible = false;
+			} else {
+				config.FormBrowser.IsToolMenuVisible = true;
+				config.FormBrowser.ToolMenuDockStyle = (DockStyle)( FormBrowser_ToolMenuDockStyle.SelectedIndex + 1 );
+			}
 
 			config.FormCompass.CandidateDisplayCount = (int)FormCompass_CandidateDisplayCount.Value;
 
