@@ -138,9 +138,12 @@ namespace Browser {
 				host.AutoSize = false;
 				control.Location = new Point( control.Margin.Left, control.Margin.Top );
 
+				host.Click += ToolMenu_Other_LastScreenShot_ImageHost_Click;
+
 				ToolMenu_Other_LastScreenShot.DropDownItems.Insert( 0, host );
 			}
 		}
+
 
 
 		private void FormBrowser_Load( object sender, EventArgs e ) {
@@ -972,8 +975,14 @@ namespace Browser {
 
 		}
 
+		void ToolMenu_Other_LastScreenShot_ImageHost_Click( object sender, EventArgs e ) {
+			if ( _lastScreenShotPath != null && System.IO.File.Exists( _lastScreenShotPath ) )
+				System.Diagnostics.Process.Start( _lastScreenShotPath );
+		}
+
 		private void ToolMenu_Other_LastScreenShot_OpenScreenShotFolder_Click( object sender, EventArgs e ) {
-			System.Diagnostics.Process.Start( Configuration.ScreenShotPath );
+			if ( System.IO.Directory.Exists( Configuration.ScreenShotPath ) )
+				System.Diagnostics.Process.Start( Configuration.ScreenShotPath );
 		}
 
 
