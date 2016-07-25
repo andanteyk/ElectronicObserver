@@ -196,6 +196,7 @@
     <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\updatecomment.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
+    <Compile Include="Observer\kcsapi\api_req_quest\stop.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\ld_airbattle.cs" />

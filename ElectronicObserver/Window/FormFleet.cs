@@ -140,20 +140,32 @@ namespace ElectronicObserver.Window {
                     int fuelunit = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.MasterShip.Fuel * 0.2 * (s.IsMarried ? 0.85 : 1.00)));
                     int ammounit = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.MasterShip.Ammo * 0.2 * (s.IsMarried ? 0.85 : 1.00)));
 
-                    int speed = fleet.MembersWithoutEscaped.Min(s => s == null ? 10 : s.MasterShip.Speed);
-                    ToolTipInfo.SetToolTip(Name, string.Format(
-                        "Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個\r\n総積載: 燃 {6} / 弾 {7}\r\n(1戦当たり 燃 {8} / 弾 {9})",
-                        levelSum,
-                        (double)levelSum / Math.Max(fleet.Members.Count(id => id != -1), 1),
-                        Constants.GetSpeed(speed),
-                        fleet.MembersInstance.Sum(s => s == null ? 0 : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 30)),
-                        fleet.MembersInstance.Count(s => s == null ? false : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 30) > 0),
-                        fleet.MembersInstance.Sum(s => s == null ? 0 : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 24)),
-                        fueltotal,
-                        ammototal,
-                        fuelunit,
-                        ammounit
-                        ));
+					int speed = fleet.MembersWithoutEscaped.Min( s => s == null ? 10 : s.MasterShip.Speed );
+
+					var slots = fleet.MembersWithoutEscaped
+						.Where( s => s != null )
+						.SelectMany( s => s.SlotInstance )
+						.Where( e => e != null );
+					var daihatsu = slots.Where( e => e.EquipmentID == 68 );
+					var daihatsu_tank = slots.Where( e => e.EquipmentID == 166 );
+					var landattacker = slots.Where( e => e.EquipmentID == 167 );
+					double expeditionBonus = Math.Min( daihatsu.Count() * 0.05 + daihatsu_tank.Count() * 0.02 + landattacker.Count() * 0.01, 0.20 );
+
+					ToolTipInfo.SetToolTip( Name, string.Format(
+						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個 ({6}艦, +{7:p1})\r\n総積載: 燃 {8} / 弾 {9}\r\n(1戦当たり 燃 {10} / 弾 {11})",
+						levelSum,
+						(double)levelSum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ),
+						Constants.GetSpeed( speed ),
+						fleet.MembersInstance.Sum( s => s == null ? 0 : s.SlotInstanceMaster.Count( q => q == null ? false : q.CategoryType == 30 ) ),
+						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Any( q => q == null ? false : q.CategoryType == 30 ) ),
+						daihatsu.Count() + daihatsu_tank.Count() + landattacker.Count(),
+						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Any( q => q == null ? false : q.CategoryType == 24 || q.CategoryType == 46 ) ),
+						expeditionBonus + 0.01 * expeditionBonus * ( daihatsu.Sum( e => e.Level ) + daihatsu_tank.Sum( e => e.Level ) + landattacker.Sum( e => e.Level ) ) / Math.Max( daihatsu.Count() + daihatsu_tank.Count() + landattacker.Count(), 1 ),
+						fueltotal,
+						ammototal,
+						fuelunit,
+						ammounit
+						) );
 
                 }
 
@@ -890,7 +902,7 @@ namespace ElectronicObserver.Window {
 
 			// 手書き json の悲しみ
 
-			sb.Append( @"{""version"":3," );
+			sb.Append( @"{""version"":4," );
 
 			foreach ( var fleet in db.Fleet.Fleets.Values ) {
 				if ( fleet == null ) continue;
@@ -916,8 +928,7 @@ namespace ElectronicObserver.Window {
 					foreach ( var eq in ship.SlotInstance ) {
 						if ( eq == null ) break;
 
-						// 水偵は改修レベル優先(熟練度にすると改修レベルに誤解されて 33式 の結果がずれるため)
-						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2}}},", eqcount, eq.EquipmentID, eq.MasterEquipment.CategoryType == 10 ? eq.Level : Math.Max( eq.Level, eq.AircraftLevel ) );
+						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2},""mas"":{3}}},", eqcount, eq.EquipmentID, eq.Level, eq.AircraftLevel );
 
 						eqcount++;
 					}
@@ -937,6 +948,62 @@ namespace ElectronicObserver.Window {
 
 			sb.Remove( sb.Length - 1, 1 );		// remove ","
 			sb.Append( @"}" );
+
+			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
+		}
+
+
+		/// <summary>
+		/// 「艦隊晒しページ」用編成コピー
+		/// <see cref="http://kancolle-calc.net/kanmusu_list.html"/>
+		/// </summary>
+		private void ContextMenuFleet_CopyKanmusuList_Click( object sender, EventArgs e ) {
+
+			StringBuilder sb = new StringBuilder();
+			KCDatabase db = KCDatabase.Instance;
+
+			// version
+			sb.Append( ".2" );
+
+			// <たね艦娘(完全未改造時)のID, 艦娘リスト>　に分類
+			Dictionary<int, List<ShipData>> shiplist = new Dictionary<int, List<ShipData>>();
+
+			foreach ( var ship in db.Ships.Values.Where( s => s.IsLocked ) ) {
+				var master = ship.MasterShip;
+				while ( master.RemodelBeforeShip != null )
+					master = master.RemodelBeforeShip;
+
+				if ( !shiplist.ContainsKey( master.ShipID ) ) {
+					shiplist.Add( master.ShipID, new List<ShipData>() { ship } );
+				} else {
+					shiplist[master.ShipID].Add( ship );
+				}
+			}
+
+			// 上で作った分類の各項を文字列化
+			foreach ( var sl in shiplist ) {
+				sb.Append( "|" ).Append( sl.Key ).Append( ":" );
+
+				foreach ( var ship in sl.Value ) {
+					sb.Append( ship.Level );
+
+					// 改造レベルに達しているのに未改造の艦は ".<たね=1, 改=2, 改二=3, ...>" を付加
+					if ( ship.MasterShip.RemodelAfterShipID != 0 && ship.ExpNextRemodel == 0 ) {
+						sb.Append( "." );
+						int count = 1;
+						var master = ship.MasterShip;
+						while ( master.RemodelBeforeShip != null ) {
+							master = master.RemodelBeforeShip;
+							count++;
+						}
+						sb.Append( count );
+					}
+					sb.Append( "," );
+				}
+
+				// 余った "," を削除
+				sb.Remove( sb.Length - 1, 1 );
+			}
 
 			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
 		}

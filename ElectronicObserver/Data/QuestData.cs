@@ -41,6 +41,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int State {
 			get { return (int)RawData.api_state; }
+			set { RawData.api_state = value; }
 		}
 
 		/// <summary>
@@ -54,7 +55,7 @@ namespace ElectronicObserver.Data {
 		/// 説明
 		/// </summary>
 		public string Description {
-			get { return (string)RawData.api_detail; }
+			get { return ( (string)RawData.api_detail ).Replace( "<br>", "\r\n" ); }
 		}
 
 		//undone:api_bonus_flag

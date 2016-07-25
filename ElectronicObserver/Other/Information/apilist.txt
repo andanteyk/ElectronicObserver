@@ -773,10 +773,11 @@ api_get_member/questlist	：任務
 	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂時, ページ遷移時はnull
 		api_no				：任務ID
 		api_category		：任務カテゴリ　1=編成, 2=出撃, 3=演習, 4=遠征, 5=補給/入渠, 6=工廠, 7=改装, 8=出撃(2), 9=その他?
-		api_type			：任務出現タイプ　1=デイリー, 2=ウィークリー, 3=マンスリー, 4=単発, 5=他(輸送5と空母3)
+		api_type			：任務出現タイプ　1=デイリー, 2=ウィークリー, 3=マンスリー, 4=単発, 5=他(輸送5と空母3,クォータリー)
 		api_state			：状態　1=未受領, 2=遂行中, 3=達成
 		api_title			：タイトル
-		api_detail			：説明
+		api_detail			：説明 "<br>"で改行
+		api_lost_badges		：消費勲章数　消費するときのみ存在
 		api_get_material	：獲得資材
 		api_bonus_flag		：1=通常, 2=艦娘
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成
@@ -998,17 +999,12 @@ api_req_ranking/getlist	：ランキング
 	api_disp_page		：表示中のページ
 	api_list			：提督リスト
 		api_no			：順位
-		api_member_id	：提督ID
-		api_level		：艦隊司令部Lv.
 		api_rank		：階級
 		api_nickname	：提督名
-		api_experience	：提督経験値
 		api_comment		：コメント
-		api_rate		：戦果
+		api_rate		：戦果　暗号化されている
 		api_flag		：旗アイコン? 0=金色
 		api_medals		：甲種勲章保有数
-		api_nickname_id	：
-		api_comment_id	：
 
 
 api_get_member/practice		：演習ロビー
@@ -1353,6 +1349,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 									15：高角砲/対空機銃
 									16：高角砲/対空機銃/電探
 									17：高角砲/対空機銃
+									18：集中機銃
 				api_use_items	：表示装備IDリスト
 		api_stage3		：航空攻撃
 			api_frai_flag	：味方被雷撃フラグ
@@ -1395,7 +1392,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 		api_at_list			：行動順
 		api_at_type			：特殊攻撃フラグ
 		api_df_list			：防御側ID
-		api_si_list			：表示装備ID
+		api_si_list			：表示装備ID　文字列
 		api_cl_list			：クリティカルフラグ
 		api_damage			：ダメージ
 	api_opening_flag	：開幕雷撃フラグ

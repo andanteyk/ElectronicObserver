@@ -49,6 +49,9 @@
 			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
 			this.ToolMenu_Other = new System.Windows.Forms.ToolStripDropDownButton();
 			this.ToolMenu_Other_ScreenShot = new System.Windows.Forms.ToolStripMenuItem();
+			this.ToolMenu_Other_LastScreenShot = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+			this.ToolMenu_Other_LastScreenShot_OpenScreenShotFolder = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.ToolMenu_Other_Zoom = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolMenu_Other_Zoom_Current = new System.Windows.Forms.ToolStripMenuItem();
@@ -260,6 +263,7 @@
 			this.ToolMenu_Other.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.ToolMenu_Other.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolMenu_Other_ScreenShot,
+            this.ToolMenu_Other_LastScreenShot,
             this.toolStripSeparator4,
             this.ToolMenu_Other_Zoom,
             this.toolStripSeparator3,
@@ -284,14 +288,36 @@
 			// 
 			this.ToolMenu_Other_ScreenShot.Name = "ToolMenu_Other_ScreenShot";
 			this.ToolMenu_Other_ScreenShot.ShortcutKeys = System.Windows.Forms.Keys.F2;
-			this.ToolMenu_Other_ScreenShot.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_ScreenShot.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_ScreenShot.Text = "屏幕截图(&S)";
 			this.ToolMenu_Other_ScreenShot.Click += new System.EventHandler(this.ToolMenu_Other_ScreenShot_Click);
+			// 
+			// ToolMenu_Other_LastScreenShot
+			// 
+			this.ToolMenu_Other_LastScreenShot.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSeparator15,
+            this.ToolMenu_Other_LastScreenShot_OpenScreenShotFolder});
+			this.ToolMenu_Other_LastScreenShot.Name = "ToolMenu_Other_LastScreenShot";
+			this.ToolMenu_Other_LastScreenShot.Size = new System.Drawing.Size(199, 22);
+			this.ToolMenu_Other_LastScreenShot.Text = "直前のスクリーンショット(&P)";
+			this.ToolMenu_Other_LastScreenShot.DropDownOpening += new System.EventHandler(this.ToolMenu_Other_LastScreenShot_DropDownOpening);
+			// 
+			// toolStripSeparator15
+			// 
+			this.toolStripSeparator15.Name = "toolStripSeparator15";
+			this.toolStripSeparator15.Size = new System.Drawing.Size(176, 6);
+			// 
+			// ToolMenu_Other_LastScreenShot_OpenScreenShotFolder
+			// 
+			this.ToolMenu_Other_LastScreenShot_OpenScreenShotFolder.Name = "ToolMenu_Other_LastScreenShot_OpenScreenShotFolder";
+			this.ToolMenu_Other_LastScreenShot_OpenScreenShotFolder.Size = new System.Drawing.Size(179, 22);
+			this.ToolMenu_Other_LastScreenShot_OpenScreenShotFolder.Text = "保存フォルダを開く(&O)";
+			this.ToolMenu_Other_LastScreenShot_OpenScreenShotFolder.Click += new System.EventHandler(this.ToolMenu_Other_LastScreenShot_OpenScreenShotFolder_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(188, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(196, 6);
 			// 
 			// ToolMenu_Other_Zoom
 			// 
@@ -315,7 +341,7 @@
             this.ToolMenu_Other_Zoom_300,
             this.ToolMenu_Other_Zoom_400});
 			this.ToolMenu_Other_Zoom.Name = "ToolMenu_Other_Zoom";
-			this.ToolMenu_Other_Zoom.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_Zoom.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_Zoom.Text = "缩放(&Z)";
 			// 
 			// ToolMenu_Other_Zoom_Current
@@ -438,32 +464,32 @@
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(188, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(196, 6);
 			// 
 			// ToolMenu_Other_Volume
 			// 
 			this.ToolMenu_Other_Volume.Name = "ToolMenu_Other_Volume";
-			this.ToolMenu_Other_Volume.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_Volume.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_Volume.Text = "音量(&V)";
 			// 
 			// ToolMenu_Other_Mute
 			// 
 			this.ToolMenu_Other_Mute.Name = "ToolMenu_Other_Mute";
 			this.ToolMenu_Other_Mute.ShortcutKeys = System.Windows.Forms.Keys.F7;
-			this.ToolMenu_Other_Mute.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_Mute.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_Mute.Text = "静音(&M)";
 			this.ToolMenu_Other_Mute.Click += new System.EventHandler(this.ToolMenu_Other_Mute_Click);
 			// 
 			// toolStripSeparator7
 			// 
 			this.toolStripSeparator7.Name = "toolStripSeparator7";
-			this.toolStripSeparator7.Size = new System.Drawing.Size(188, 6);
+			this.toolStripSeparator7.Size = new System.Drawing.Size(196, 6);
 			// 
 			// ToolMenu_Other_Refresh
 			// 
 			this.ToolMenu_Other_Refresh.Name = "ToolMenu_Other_Refresh";
 			this.ToolMenu_Other_Refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-			this.ToolMenu_Other_Refresh.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_Refresh.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_Refresh.Text = "刷新(&R)";
 			this.ToolMenu_Other_Refresh.Click += new System.EventHandler(this.ToolMenu_Other_Refresh_Click);
 			// 
@@ -471,7 +497,7 @@
 			// 
 			this.ToolMenu_Other_NavigateToLogInPage.Name = "ToolMenu_Other_NavigateToLogInPage";
 			this.ToolMenu_Other_NavigateToLogInPage.ShortcutKeys = System.Windows.Forms.Keys.F6;
-			this.ToolMenu_Other_NavigateToLogInPage.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_NavigateToLogInPage.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_NavigateToLogInPage.Text = "ログインページへ移動(&L)";
 			this.ToolMenu_Other_NavigateToLogInPage.Text = "移动至登录页(&L)";
 			this.ToolMenu_Other_NavigateToLogInPage.Click += new System.EventHandler(this.ToolMenu_Other_NavigateToLogInPage_Click);
@@ -479,27 +505,27 @@
 			// ToolMenu_Other_Navigate
 			// 
 			this.ToolMenu_Other_Navigate.Name = "ToolMenu_Other_Navigate";
-			this.ToolMenu_Other_Navigate.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_Navigate.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_Navigate.Text = "移动(&N)...";
 			this.ToolMenu_Other_Navigate.Click += new System.EventHandler(this.ToolMenu_Other_Navigate_Click);
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(188, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(196, 6);
 			// 
 			// ToolMenu_Other_AppliesStyleSheet
 			// 
 			this.ToolMenu_Other_AppliesStyleSheet.CheckOnClick = true;
 			this.ToolMenu_Other_AppliesStyleSheet.Name = "ToolMenu_Other_AppliesStyleSheet";
-			this.ToolMenu_Other_AppliesStyleSheet.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_AppliesStyleSheet.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_AppliesStyleSheet.Text = "应用样式表";
 			this.ToolMenu_Other_AppliesStyleSheet.Click += new System.EventHandler(this.ToolMenu_Other_AppliesStyleSheet_Click);
 			// 
 			// toolStripSeparator6
 			// 
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(188, 6);
+			this.toolStripSeparator6.Size = new System.Drawing.Size(196, 6);
 			// 
 			// ToolMenu_Other_Alignment
 			// 
@@ -510,7 +536,7 @@
             this.ToolMenu_Other_Alignment_Right,
             this.ToolMenu_Other_Alignment_Invisible});
 			this.ToolMenu_Other_Alignment.Name = "ToolMenu_Other_Alignment";
-			this.ToolMenu_Other_Alignment.Size = new System.Drawing.Size(191, 22);
+			this.ToolMenu_Other_Alignment.Size = new System.Drawing.Size(199, 22);
 			this.ToolMenu_Other_Alignment.Text = "位置(&A)";
 			this.ToolMenu_Other_Alignment.DropDownOpening += new System.EventHandler(this.ToolMenu_Other_Alignment_DropDownOpening);
 			// 
@@ -643,6 +669,9 @@
 		private System.Windows.Forms.ToolStripMenuItem ToolMenu_Other_Zoom_Fit;
 		private System.Windows.Forms.ToolStripMenuItem ToolMenu_Other_ClearCache;
 		private System.Windows.Forms.ToolStripMenuItem ToolMenu_Other_Volume;
+		private System.Windows.Forms.ToolStripMenuItem ToolMenu_Other_LastScreenShot;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+		private System.Windows.Forms.ToolStripMenuItem ToolMenu_Other_LastScreenShot_OpenScreenShotFolder;
 
     }
 }

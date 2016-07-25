@@ -60,9 +60,8 @@ namespace ElectronicObserver.Data {
 
 			//周期任務削除
 			if ( DateTimeHelper.IsCrossedDay( progress.LastUpdateTime, 5, 0, 0 ) ) {
-				// 注: 311 = 精鋭艦隊演習; マンスリーだがデイリーで進捗リセット
-				progress.Progresses.RemoveAll( p => ( p.QuestType == 1 || p.QuestType == 5 || p.QuestID == 311 ) );
-				Quests.RemoveAll( q => q.Type == 1 || q.Type == 5 || q.QuestID == 311 );
+				progress.Progresses.RemoveAll( p => ( p.QuestType == 1 || p.QuestID == 211 /* 空母3 */ || p.QuestID == 212 /* 輸送5 */ || p.QuestID == 311 /* 演習勝利7 */ ) );
+				Quests.RemoveAll( q => q.Type == 1 || q.QuestID == 211 /* 空母3 */ || q.QuestID == 212 /* 輸送5 */ || q.QuestID == 311 /* 演習勝利7 */  );
 			}
 			if ( DateTimeHelper.IsCrossedWeek( progress.LastUpdateTime, DayOfWeek.Monday, 5, 0, 0 ) ) {
 				progress.Progresses.RemoveAll( p => p.QuestType == 2 );
@@ -106,10 +105,15 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
 			base.LoadFromRequest( apiname, data );
 
-			//api_req_quest/clearitemget
-
-			Quests.Remove( int.Parse( RequestData["api_quest_id"] ) );
-			Count--;
+			switch ( apiname ) {
+				case "api_req_quest/clearitemget":
+					Quests.Remove( int.Parse( data["api_quest_id"] ) );
+					Count--;
+					break;
+				case "api_req_quest/stop":
+					Quests[int.Parse( data["api_quest_id"] )].State = 1;
+					break;
+			}
 
 			QuestUpdated();
 		}

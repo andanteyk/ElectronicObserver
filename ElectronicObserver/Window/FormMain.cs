@@ -575,6 +575,8 @@ namespace ElectronicObserver.Window
             if (c.Life.CanScreenDock)
                 StopRectTimer.Enabled = true;
 
+			StripMenu_File_Layout_TopMost.Checked = c.Life.TopMost;
+
             if (!c.Control.UseSystemVolume)
                 _volumeUpdateState = -1;
         }
@@ -1381,6 +1383,12 @@ namespace ElectronicObserver.Window
         #endregion
 
 
+
+
+		private void CallPumpkinHead( string apiname, dynamic data ) {
+			new DialogHalloween().Show( this );
+			APIObserver.Instance.APIList["api_port/port"].ResponseReceived -= CallPumpkinHead;
+		}
 
         private void StopRectTimer_Tick(object sender, EventArgs e)
         {

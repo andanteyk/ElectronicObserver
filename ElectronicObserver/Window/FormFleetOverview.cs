@@ -280,10 +280,11 @@ namespace ElectronicObserver.Window {
 				CombinedTag.Visible = false;
 			}
 
-			AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
-			AnchorageRepairingTimer.Tag = KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
-			ToolTipInfo.SetToolTip( AnchorageRepairingTimer, "泊地修理タイマ\r\n開始: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) + "\r\n回復: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer.AddMinutes( 20 ) ) );
-
+			if ( KCDatabase.Instance.Fleet.AnchorageRepairingTimer > DateTime.MinValue ) {
+				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
+				AnchorageRepairingTimer.Tag = KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
+				ToolTipInfo.SetToolTip( AnchorageRepairingTimer, "泊地修理タイマ\r\n開始: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) + "\r\n回復: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer.AddMinutes( 20 ) ) );
+			}
 			TableFleet.Invalidate();
 		}
 

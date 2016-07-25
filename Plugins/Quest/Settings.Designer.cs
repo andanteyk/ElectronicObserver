@@ -105,13 +105,14 @@
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.FormQuest_ShowOther);
 			this.groupBox1.Controls.Add(this.FormQuest_ShowMonthly);
 			this.groupBox1.Controls.Add(this.FormQuest_ShowWeekly);
 			this.groupBox1.Controls.Add(this.FormQuest_ShowDaily);
 			this.groupBox1.Controls.Add(this.FormQuest_ShowOnce);
 			this.groupBox1.Location = new System.Drawing.Point(6, 31);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(126, 123);
+			this.groupBox1.Size = new System.Drawing.Size(126, 152);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "フィルタ";
@@ -151,9 +152,9 @@
 			this.FormQuest_ShowOnce.AutoSize = true;
 			this.FormQuest_ShowOnce.Location = new System.Drawing.Point(6, 22);
 			this.FormQuest_ShowOnce.Name = "FormQuest_ShowOnce";
-			this.FormQuest_ShowOnce.Size = new System.Drawing.Size(107, 19);
+			this.FormQuest_ShowOnce.Size = new System.Drawing.Size(50, 19);
 			this.FormQuest_ShowOnce.TabIndex = 1;
-			this.FormQuest_ShowOnce.Text = "一回限り・その他";
+			this.FormQuest_ShowOnce.Text = "単発";
 			this.FormQuest_ShowOnce.UseVisualStyleBackColor = true;
 			// 
 			// FormQuest_ShowRunningOnly

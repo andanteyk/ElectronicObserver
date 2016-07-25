@@ -44,7 +44,6 @@ namespace ElectronicObserver.Window {
 			o["api_req_kousyou/createitem"].ResponseReceived += Updated;
 			o["api_get_member/mapinfo"].ResponseReceived += Updated;
 			o["api_req_mission/result"].ResponseReceived += Updated;
-			o["api_req_ranking/getlist"].ResponseReceived += Updated;
 			o["api_req_practice/battle_result"].ResponseReceived += Updated;
 			o["api_req_sortie/battleresult"].ResponseReceived += Updated;
 			o["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
@@ -133,10 +132,6 @@ namespace ElectronicObserver.Window {
 				case "api_req_mission/result":
 					TextInformation.Text = GetExpeditionResult( data );
 					_ignorePort = 1;
-					break;
-
-				case "api_req_ranking/getlist":
-					TextInformation.Text = GetRankingData( data );
 					break;
 
 				case "api_req_practice/battle_result":
@@ -455,26 +450,6 @@ namespace ElectronicObserver.Window {
 			sb.AppendFormat( "結果: {0}\r\n", Constants.GetExpeditionResult( (int)data.api_clear_result ) );
 			sb.AppendFormat( "提督経験値: +{0}\r\n", (int)data.api_get_exp );
 			sb.AppendFormat( "艦娘経験値: +{0}\r\n", ( (int[])data.api_get_ship_exp ).Min() );
-
-			return sb.ToString();
-		}
-
-
-		private string GetRankingData( dynamic data ) {
-
-			StringBuilder sb = new StringBuilder();
-
-			foreach ( dynamic elem in data.api_list ) {
-
-				sb.AppendFormat( "{0}: {1} {2} Lv. {3} / {4} exp.\r\n",
-					(int)elem.api_no,
-					elem.api_nickname,
-					Constants.GetAdmiralRank( (int)elem.api_rank ),
-					(int)elem.api_level,
-					(int)elem.api_experience
-					);
-
-			}
 
 			return sb.ToString();
 		}

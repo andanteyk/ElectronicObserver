@@ -116,6 +116,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_map.select_eventmap_rank() );
 			APIList.Add( new kcsapi.api_req_hensei.combined() );
 			APIList.Add( new kcsapi.api_req_member.updatecomment() );
+			APIList.Add( new kcsapi.api_req_quest.stop() );
 
 
 			ServerAddress = null;

@@ -415,6 +415,10 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
 			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWmode;
+			if ( !config.FormBrowser.IsToolMenuVisible )
+				FormBrowser_ToolMenuDockStyle.SelectedIndex = 4;
+			else
+				FormBrowser_ToolMenuDockStyle.SelectedIndex = (int)config.FormBrowser.ToolMenuDockStyle - 1;
 
 			FormCompass_CandidateDisplayCount.Value = config.FormCompass.CandidateDisplayCount;
 
@@ -591,6 +595,12 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.ModifyCookieRegion = FormBrowser_ModifyCookieRegion.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWmode = FormBrowser_FlashWMode.Text;
+			if ( FormBrowser_ToolMenuDockStyle.SelectedIndex == 4 ) {
+				config.FormBrowser.IsToolMenuVisible = false;
+			} else {
+				config.FormBrowser.IsToolMenuVisible = true;
+				config.FormBrowser.ToolMenuDockStyle = (DockStyle)( FormBrowser_ToolMenuDockStyle.SelectedIndex + 1 );
+			}
 
 			config.FormCompass.CandidateDisplayCount = (int)FormCompass_CandidateDisplayCount.Value;
 

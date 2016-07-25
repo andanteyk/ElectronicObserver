@@ -100,7 +100,7 @@ namespace ElectronicObserver.Data.Quest {
 
 			ao.APIList["api_req_kousyou/destroyship"].ResponseReceived += ShipDestructed;
 
-			ao.APIList["api_req_kousyou/destroyitem2"].ResponseReceived += EquipmentDiscarded;
+			// 装備廃棄はイベント前に装備データが削除されてしまうので destroyitem2 から直接呼ばれる
 
 			ao.APIList["api_req_kousyou/remodel_slot"].ResponseReceived += EquipmentRemodeled;
 
@@ -138,7 +138,7 @@ namespace ElectronicObserver.Data.Quest {
 
 			ao.APIList["api_req_kousyou/destroyship"].ResponseReceived -= ShipDestructed;
 
-			ao.APIList["api_req_kousyou/destroyitem2"].ResponseReceived -= EquipmentDiscarded;
+			// 装備廃棄は(ry
 
 			ao.APIList["api_req_kousyou/remodel_slot"].ResponseReceived -= EquipmentRemodeled;
 
@@ -326,7 +326,10 @@ namespace ElectronicObserver.Data.Quest {
 							Progresses.Add( new ProgressImprovement( q, 1 ) );
 							break;
 						case 613:	//|613|資源の再利用|廃棄24回
-							Progresses.Add( new ProgressDiscard( q, 24 ) );
+							Progresses.Add( new ProgressDiscard( q, 24, false, null ) );
+							break;
+						case 638:	//|638|対空機銃量産|機銃廃棄6個|回ではない
+							Progresses.Add( new ProgressDiscard( q, 6, true, new int[] { 21 } ) );
 							break;
 
 						case 702:	//|702|艦の「近代化改修」を実施せよ！|改修成功2
@@ -499,10 +502,15 @@ namespace ElectronicObserver.Data.Quest {
 			OnProgressChanged();
 		}
 
-		void EquipmentDiscarded( string apiname, dynamic data ) {
+		public void EquipmentDiscarded( string apiname, Dictionary<string, string> data ) {
+
+			var ids = data["api_slotitem_ids"].Split( ",".ToCharArray() ).Select( s => int.Parse( s ) );
+
 			foreach ( var p in Progresses.Values ) {
 				var pi = p as ProgressDiscard;
-				if ( pi != null ) pi.Increment();
+				if ( pi != null ) {
+					pi.Increment( ids );
+				}
 			}
 
 			OnProgressChanged();
