@@ -321,7 +321,7 @@
 			this.MenuMain_ShowOther.CheckOnClick = true;
 			this.MenuMain_ShowOther.Name = "MenuMain_ShowOther";
 			this.MenuMain_ShowOther.Size = new System.Drawing.Size(204, 22);
-			this.MenuMain_ShowOther.Text = "その他の任務を表示(&R)";
+			this.MenuMain_ShowOther.Text = "显示其他任务(&R)";
 			this.MenuMain_ShowOther.Click += new System.EventHandler(this.MenuMain_ShowOther_Click);
 			// 
 			// FormQuest
