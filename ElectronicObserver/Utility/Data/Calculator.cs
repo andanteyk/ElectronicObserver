@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Resource.Record;
+using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -979,6 +980,11 @@ namespace ElectronicObserver.Utility.Data {
 					return false;
 			}
 
+		}
+
+
+		public static TimeSpan CalculateDockingUnitTime( ShipData ship ) {
+			return new TimeSpan( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).Add( TimeSpan.FromSeconds( -30 ) ).Ticks / ( ship.HPMax - ship.HPCurrent ) );
 		}
 
 	}
