@@ -1321,6 +1321,13 @@ namespace ElectronicObserver.Window
         }
 
 
+        private void StripMenu_File_Layout_TopMost_Click(object sender, EventArgs e)
+        {
+
+            Utility.Configuration.Config.Life.TopMost = StripMenu_File_Layout_TopMost.Checked;
+            ConfigurationChanged();
+
+        }
 
 
 
@@ -1384,11 +1391,6 @@ namespace ElectronicObserver.Window
 
 
 
-
-		private void CallPumpkinHead( string apiname, dynamic data ) {
-			new DialogHalloween().Show( this );
-			APIObserver.Instance.APIList["api_port/port"].ResponseReceived -= CallPumpkinHead;
-		}
 
         private void StopRectTimer_Tick(object sender, EventArgs e)
         {

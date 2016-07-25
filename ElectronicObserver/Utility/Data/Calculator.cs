@@ -855,12 +855,13 @@ namespace ElectronicObserver.Utility.Data {
         public static int GetAirSuperiority(ShipData ship, int FullExp = 0)
         {
 
-			if ( ship == null ) return 0;
+            if (ship == null) return 0;
 
             if (Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 0)
             {
                 return GetAirSuperiority(ship.SlotMaster.ToArray(), ship.Aircraft.ToArray());
             }
+
             int air = 0;
             var eqs = ship.SlotInstance;
             var aircrafts = ship.Aircraft;
@@ -876,10 +877,22 @@ namespace ElectronicObserver.Utility.Data {
 
                     if (AircraftLevelBonus.ContainsKey(category))
                     {
-                        if (CheckCategoryType(category, FullExp) && eq.AircraftLevel == 7)//如果选择了百战历练,对7级舰战应用120熟练度,其余情况不作处理
-                            air += (int)(eq.MasterEquipment.AA * Math.Sqrt(aircrafts[i]) + Math.Sqrt(AircraftExpTable[eq.AircraftLevel + 1] / 10.0) + AircraftLevelBonus[category][eq.AircraftLevel]);
-                        else
-                            air += (int)(eq.MasterEquipment.AA * Math.Sqrt(aircrafts[i]) + Math.Sqrt(AircraftExpTable[eq.AircraftLevel] / 10.0) + AircraftLevelBonus[category][eq.AircraftLevel]);
+
+                        double levelRate;
+                        switch (category)
+                        {
+                            case 6:     // 艦上戦闘機
+                                levelRate = 0.2;
+                                break;
+                            case 7:     // 艦上爆撃機
+                                levelRate = 0.25;
+                                break;
+                            default:
+                                levelRate = 0;
+                                break;
+                        }
+
+                        air += (int)((eq.MasterEquipment.AA + levelRate * eq.Level) * Math.Sqrt(aircrafts[i]) + Math.Sqrt(AircraftExpTable[eq.AircraftLevel] / 10.0) + AircraftLevelBonus[category][eq.AircraftLevel]);
                     }
 
                 }
@@ -917,34 +930,22 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="level">各スロットの艦載機熟練度。</param>
 		/// <returns></returns>
 		public static int GetAirSuperiority( int[] slot, int[] aircraft, int[] level ) {
-			int air = 0;
+            int air = 0;
 
-			for ( int i = 0; i < aircraft.Length; i++ ) {
-				var eq = KCDatabase.Instance.MasterEquipments[slot[i]];
-				if ( eq == null || aircraft[i] == 0 ) continue;
+            for (int i = 0; i < aircraft.Length; i++)
+            {
+                var eq = KCDatabase.Instance.MasterEquipments[slot[i]];
+                if (eq == null || aircraft[i] == 0) continue;
 
-				int category = eq.CategoryType;
-				if ( AircraftLevelBonus.ContainsKey( category ) ) {
+                int category = eq.CategoryType;
+                if (AircraftLevelBonus.ContainsKey(category))
+                {
+                    air += (int)(eq.AA * Math.Sqrt(aircraft[i]) + Math.Sqrt(AircraftExpTable[level[i]] / 10.0) + AircraftLevelBonus[category][level[i]]);
+                }
+            }
 
-					double levelRate;
-					switch ( category ) {
-						case 6:		// 艦上戦闘機
-							levelRate = 0.2;
-							break;
-						case 7:		// 艦上爆撃機
-							levelRate = 0.25;
-							break;
-						default:
-							levelRate = 0;
-							break;
-					}
-
-					air += (int)( ( eq.MasterEquipment.AA + levelRate * eq.Level ) * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
-				}
-			}
-
-			return air;
-		}
+            return air;
+        }
 
 
 		/// <summary>
