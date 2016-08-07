@@ -1172,6 +1172,7 @@ api_get_member/mapcell		：マップデータ
 Request.api_req_map/start	：出撃
 	api_deck_id			：出撃艦隊ID
 	api_formation_id	：
+	api_serial_cid		：
 	api_maparea_id		：海域カテゴリID
 	api_mapinfo_no		：海域カテゴリ内番号
 

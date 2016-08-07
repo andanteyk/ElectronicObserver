@@ -42,6 +42,9 @@ namespace ElectronicObserver.Observer {
 		private Control UIControl;
 		private APIKancolleDB DBSender;
 
+		public event APIReceivedEventHandler RequestReceived = delegate { };
+		public event APIReceivedEventHandler ResponseReceived = delegate { };
+
 
 		private APIObserver() {
 
@@ -347,7 +350,7 @@ namespace ElectronicObserver.Observer {
 
 
 				APIList.OnRequestReceived( shortpath, parsedData );
-
+				RequestReceived( shortpath, parsedData );
 
 			} catch ( Exception ex ) {
 
@@ -382,13 +385,18 @@ namespace ElectronicObserver.Observer {
 				}
 
 
-				if ( shortpath == "api_get_member/ship2" )
+				if ( shortpath == "api_get_member/ship2" ) {
 					APIList.OnResponseReceived( shortpath, json );
-				else if ( json.IsDefined( "api_data" ) )
-					APIList.OnResponseReceived( shortpath, json.api_data );
-				else
-					APIList.OnResponseReceived( shortpath, null );
+					ResponseReceived( shortpath, json );
 
+				} else if ( json.IsDefined( "api_data" ) ) {
+					APIList.OnResponseReceived( shortpath, json.api_data );
+					ResponseReceived( shortpath, json.api_data );
+
+				} else {
+					APIList.OnResponseReceived( shortpath, null );
+					ResponseReceived( shortpath, null );
+				}
 
 			} catch ( Exception ex ) {
 

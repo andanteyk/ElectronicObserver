@@ -57,6 +57,7 @@ namespace ElectronicObserver.Window {
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
 		public FormWindowCapture fWindowCapture;
+		public FormJson fJson;
 
 		#endregion
 
@@ -157,7 +158,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
-
+			SubForms.Add( fJson = new FormJson( this ) );
 
 			ConfigurationChanged();		//設定から初期化
 
@@ -434,6 +435,8 @@ namespace ElectronicObserver.Window {
 					return fBrowser;
 				case "WindowCapture":
 					return fWindowCapture;
+				case "Json":
+					return fJson;
 				default:
 					if ( persistString.StartsWith( "ShipGroup" ) ) {
 						fShipGroup.ConfigureFromPersistString( persistString );
@@ -1252,7 +1255,13 @@ namespace ElectronicObserver.Window {
 			ShowForm( fWindowCapture );
 		}
 
+		private void StripMenu_View_Json_Click( object sender, EventArgs e ) {
+			ShowForm( fJson );
+		}
+
 		#endregion
+
+		
 
 
 

@@ -842,6 +842,38 @@ namespace ElectronicObserver.Utility {
 
 
 			/// <summary>
+			/// [JSON]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormJson : ConfigPartBase {
+
+				/// <summary>
+				/// 自動更新するか
+				/// </summary>
+				public bool AutoUpdate { get; set; }
+
+				/// <summary>
+				/// TreeView を更新するか
+				/// </summary>
+				public bool UpdatesTree { get; set; }
+
+				/// <summary>
+				/// 自動更新時のフィルタ
+				/// </summary>
+				public string AutoUpdateFilter { get; set; }
+
+
+				public ConfigFormJson() {
+					AutoUpdate = false;
+					UpdatesTree = true;
+					AutoUpdateFilter = "";
+				}
+			}
+			/// <summary>[JSON]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormJson FormJson { get; private set; }
+
+
+			/// <summary>
 			/// 各[通知]ウィンドウの設定を扱います。
 			/// </summary>
 			public class ConfigNotifierBase : ConfigPartBase {
@@ -1061,6 +1093,7 @@ namespace ElectronicObserver.Utility {
 				FormShipGroup = new ConfigFormShipGroup();
 				FormBrowser = new ConfigFormBrowser();
 				FormCompass = new ConfigFormCompass();
+				FormJson = new ConfigFormJson();
 
 				NotifierExpedition = new ConfigNotifierBase();
 				NotifierConstruction = new ConfigNotifierBase();
