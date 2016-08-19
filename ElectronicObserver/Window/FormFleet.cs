@@ -915,7 +915,7 @@ namespace ElectronicObserver.Window {
 			foreach ( var sl in shiplist ) {
 				sb.Append( "|" ).Append( sl.Key ).Append( ":" );
 
-				foreach ( var ship in sl.Value ) {
+				foreach ( var ship in sl.Value.OrderByDescending( s => s.Level ) ) {
 					sb.Append( ship.Level );
 
 					// 改造レベルに達しているのに未改造の艦は ".<たね=1, 改=2, 改二=3, ...>" を付加

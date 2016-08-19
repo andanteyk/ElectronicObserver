@@ -355,7 +355,7 @@ namespace ElectronicObserver.Window.Dialog {
 								if ( GetCell( 1 - currentDim, x, y ) != 0 ) {
 									col = prev;
 								} else {
-									col = FromHsv( (int)(rand.NextDouble() * 12 ) * 30, 0.75, 1 );
+									col = FromHsv( (int)( rand.NextDouble() * 12 ) * 30, 0.75, 1 );
 								}
 							}
 							break;
@@ -367,6 +367,35 @@ namespace ElectronicObserver.Window.Dialog {
 								col = FromHsv( 0, 0, rand.NextDouble() * 0.5 );
 							break;
 
+						case 24: {
+								int prevcell = GetCell( 1 - currentDim, x, y );
+								if ( value != 0 ) {
+									if ( prevcell != 0 )
+										col = FromRgb( 0xFFFFFF );
+									else
+										col = FromRgb( 0x00FF00 );
+								} else {
+									if ( prevcell != 0 )
+										col = FromRgb( 0xFF0000 );
+									else
+										col = FromRgb( 0x000000 );
+								}
+							} break;
+
+						case 25: {
+								int prevcell = GetCell( 1 - currentDim, x, y );
+								if ( value != 0 ) {
+									if ( prevcell != 0 )
+										col = FromRgb( 0x222222 );
+									else
+										col = FromRgb( 0x00FF00 );
+								} else {
+									if ( prevcell != 0 )
+										col = FromRgb( 0xFF0000 );
+									else
+										col = FromRgb( 0x000000 );
+								}
+							} break;
 
 						default:
 							col = value != 0 ? FromRgb( 0xFFFFFF ) : FromRgb( 0x000000 );
@@ -483,7 +512,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			UpdateTimer.Stop();
 			colortheme = rand.Next( 64 );
-			//colortheme = 23;
+			//colortheme = 24;
 			Start();
 		}
 

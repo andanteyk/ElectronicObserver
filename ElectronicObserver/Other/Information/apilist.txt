@@ -564,6 +564,9 @@ api_port/port		：母港情報
 	api_event_object		：('16 春イベ版データ)
 		api_m_flag
 		api_base_convert_slot	：配置転換中の装備固有ID　1つ以上あるときのみ存在
+	api_event_object		：('16 夏イベ版データ)
+		api_m_flag			：
+		api_m_flag2			：0=なし　1=ギミック解除SE再生
 	api_parallel_quest_count	：最大受領可能任務数
 
 api_get_member/slot_item	：装備品情報
@@ -807,7 +810,7 @@ api_req_quest/clearitemget		：任務達成
 	api_material		：獲得資源量(基本4種)
 	api_bounus_count	：api_bounus の数 *スペルミス注意*
 	api_bounus			：アイテム *スペルミス注意*
-		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換, 99=イベント海域解放
+		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換, 16=装備消費, 99=イベント海域解放
 		api_count		：取得個数
 		api_item		：アイテム追加情報 一般アイテムはnull イベント海域解放時は api_count = 1 にもかかわらず null
 			(アイテムの場合)
@@ -816,6 +819,10 @@ api_req_quest/clearitemget		：任務達成
 			(機種転換の場合)
 			api_id_from	：転換前の装備ID(マスター)
 			api_id_to	：転換後の装備ID
+			api_message	：メッセージ
+			(装備消費の場合)
+			api_id_from	：消費した装備ID(≠マスター)　存在しなければ9999(六連装魚雷任務など)
+			api_id_to	：獲得した装備ID　存在しなければ9999(熟練搭乗員任務など)
 			api_message	：メッセージ
 
 
@@ -1005,6 +1012,19 @@ api_req_ranking/getlist	：ランキング
 		api_rate		：戦果　暗号化されている
 		api_flag		：旗アイコン? 0=金色
 		api_medals		：甲種勲章保有数
+
+api_req_ranking/mxltvkpyuklh	：ランキング(2016/08/01~)
+	api_count			：最大読み込み可能数？
+	api_page_count		：最大ページ数
+	api_disp_page		：表示中のページ
+	api_list			：提督リスト
+		api_mxltvkpyuklh		：順位
+		api_mtjmdcwtvhdr		：提督名
+		api_pbgkfylkbjuy		：???
+		api_pcumlrymlujh		：???
+		api_itbrdpdbkynm		：コメント
+		api_itslcqtmrxtf		：???
+		api_wuhnhojjxmke		：???
 
 
 api_get_member/practice		：演習ロビー

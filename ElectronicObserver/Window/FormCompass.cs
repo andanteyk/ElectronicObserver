@@ -478,8 +478,9 @@ namespace ElectronicObserver.Window {
 			if ( ship == null || slot == null ) return null;
 
 			for ( int i = 0; i < slot.Length; i++ ) {
-				if ( slot[i] != -1 )
-					sb.AppendFormat( "[{0}] {1}\r\n", ship.Aircraft[i], KCDatabase.Instance.MasterEquipments[slot[i]].Name );
+				var eq = KCDatabase.Instance.MasterEquipments[slot[i]];
+				if ( eq != null )
+					sb.AppendFormat( "[{0}] {1}\r\n", ship.Aircraft[i], eq.Name );
 			}
 
 			sb.AppendFormat( "\r\n昼戦: {0}\r\n夜戦: {1}\r\n",
