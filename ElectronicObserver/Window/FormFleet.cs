@@ -139,8 +139,10 @@ namespace ElectronicObserver.Window {
 					var landattacker = slots.Where( e => e.EquipmentID == 167 );
 					double expeditionBonus = Math.Min( daihatsu.Count() * 0.05 + daihatsu_tank.Count() * 0.02 + landattacker.Count() * 0.01, 0.20 );
 
+					int tp = Calculator.GetTPDamage( fleet );
+
 					ToolTipInfo.SetToolTip( Name, string.Format(
-						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個 ({6}艦, +{7:p1})\r\n総積載: 燃 {8} / 弾 {9}\r\n(1戦当たり 燃 {10} / 弾 {11})",
+						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個 ({6}艦, +{7:p1})\r\n輸送量(TP): S {8} / A {9}\r\n総積載: 燃 {10} / 弾 {11}\r\n(1戦当たり 燃 {12} / 弾 {13})",
 						levelSum,
 						(double)levelSum / Math.Max( fleet.Members.Count( id => id != -1 ), 1 ),
 						Constants.GetSpeed( speed ),
@@ -149,6 +151,8 @@ namespace ElectronicObserver.Window {
 						daihatsu.Count() + daihatsu_tank.Count() + landattacker.Count(),
 						fleet.MembersInstance.Count( s => s == null ? false : s.SlotInstanceMaster.Any( q => q == null ? false : q.CategoryType == 24 || q.CategoryType == 46 ) ),
 						expeditionBonus + 0.01 * expeditionBonus * ( daihatsu.Sum( e => e.Level ) + daihatsu_tank.Sum( e => e.Level ) + landattacker.Sum( e => e.Level ) ) / Math.Max( daihatsu.Count() + daihatsu_tank.Count() + landattacker.Count(), 1 ),
+						tp,
+						(int)( tp * 0.7 ),
 						fueltotal,
 						ammototal,
 						fuelunit,
