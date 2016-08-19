@@ -524,7 +524,10 @@ namespace ElectronicObserver.Utility.Data {
 					switch ( eq.CategoryType ) {
 
 						case 24:	// 上陸用舟艇
-							tp += 8;
+							if ( eq.EquipmentID == 166 )	// 陸戦隊
+								tp += 13;
+							else
+								tp += 8;
 							break;
 						case 30:	// 簡易輸送部材
 							tp += 5;
@@ -533,7 +536,7 @@ namespace ElectronicObserver.Utility.Data {
 							tp += 1;
 							break;
 						case 46:	// 特型内火艇
-							tp += 2;
+							tp += 10;
 							break;
 					}
 				}
@@ -826,8 +829,8 @@ namespace ElectronicObserver.Utility.Data {
 					aashell++;
 
 				} else if ( eq.CategoryType == 21 ) {	//対空機銃
-					// 25mm三連装機銃 集中配備 or Bofors 40mm四連装機関砲
-					if ( eq.EquipmentID == 131 || eq.EquipmentID == 173 ) {
+					// 25mm三連装機銃 集中配備 or Bofors 40mm四連装機関砲 or QF 2ポンド8連装ポンポン砲
+					if ( eq.EquipmentID == 131 || eq.EquipmentID == 173 || eq.EquipmentID == 191 ) {
 						aagun_concentrated++;
 					}
 					aagun++;
