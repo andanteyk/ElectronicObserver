@@ -467,6 +467,12 @@
     <Compile Include="Window\FormCompass.Designer.cs">
       <DependentUpon>FormCompass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormJson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormJson.Designer.cs">
+      <DependentUpon>FormJson.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormWindowCapture.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -651,6 +657,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormCompass.resx">
       <DependentUpon>FormCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormJson.resx">
+      <DependentUpon>FormJson.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormWindowCapture.resx">
       <DependentUpon>FormWindowCapture.cs</DependentUpon>

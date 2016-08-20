@@ -57,6 +57,7 @@ namespace ElectronicObserver.Window {
 		public FormShipGroup fShipGroup;
 		public FormBrowserHost fBrowser;
 		public FormWindowCapture fWindowCapture;
+		public FormJson fJson;
 
 		#endregion
 
@@ -117,6 +118,7 @@ namespace ElectronicObserver.Window {
 			StripMenu_View_Browser.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser];
 			StripMenu_View_Log.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormLog];
 			StripMenu_WindowCapture.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormWindowCapture];
+			StripMenu_View_Json.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormJson];
 
 			StripMenu_Tool_EquipmentList.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormEquipmentList];
 			StripMenu_Tool_DropRecord.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormDropRecord];
@@ -157,7 +159,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fShipGroup = new FormShipGroup( this ) );
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
-
+			SubForms.Add( fJson = new FormJson( this ) );
 
 			ConfigurationChanged();		//設定から初期化
 
@@ -211,7 +213,10 @@ namespace ElectronicObserver.Window {
 
 			var c = Utility.Configuration.Config;
 
-			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = c.Debug.EnableDebugMenu;
+			StripMenu_Debug.Enabled = StripMenu_Debug.Visible =
+			StripMenu_View_Json.Enabled = StripMenu_View_Json.Visible =
+				c.Debug.EnableDebugMenu;
+
 			StripStatus.Visible = c.Life.ShowStatusBar;
 
 			// Load で TopMost を変更するとバグるため(前述)
@@ -434,6 +439,8 @@ namespace ElectronicObserver.Window {
 					return fBrowser;
 				case "WindowCapture":
 					return fWindowCapture;
+				case "Json":
+					return fJson;
 				default:
 					if ( persistString.StartsWith( "ShipGroup" ) ) {
 						fShipGroup.ConfigureFromPersistString( persistString );
@@ -1252,7 +1259,13 @@ namespace ElectronicObserver.Window {
 			ShowForm( fWindowCapture );
 		}
 
+		private void StripMenu_View_Json_Click( object sender, EventArgs e ) {
+			ShowForm( fJson );
+		}
+
 		#endregion
+
+
 
 
 
