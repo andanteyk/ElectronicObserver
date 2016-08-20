@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Observer;
+using ElectronicObserver.Resource;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,12 +18,12 @@ namespace ElectronicObserver.Window {
 
 
 		// yyyyMMdd_hhmmssff[S|Q]@api_path.json
-		private static readonly Regex _filenamePattern = new Regex( @"\d{8}_\d{8}([SQ])@(.*)\.json$", RegexOptions.Compiled );
+		private static readonly Regex FileNamePattern = new Regex( @"\d{8}_\d{8}([SQ])@(.*)\.json$", RegexOptions.Compiled );
+		private const string AutoUpdateDisabledMessage =  "<自動更新が無効になっています。Configから有効化してください。>";
 
 		private Regex _apiPattern;
 
 		private string _currentAPIPath;
-		private dynamic _currentData;
 
 
 		public FormJson( FormMain parent ) {
@@ -30,6 +31,8 @@ namespace ElectronicObserver.Window {
 
 
 			ConfigurationChanged();
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormJson] );
 		}
 
 		private void FormJson_Load( object sender, EventArgs e ) {
@@ -99,7 +102,6 @@ namespace ElectronicObserver.Window {
 
 
 			JsonRawData.Text = ( _currentAPIPath == apiname ? JsonRawData.Text + "\r\n\r\n" : "" ) + apiname + " : Response\r\n" + ( data == null ? "" : data.ToString() );
-			_currentData = data;
 
 			if ( !UpdatesTree.Checked )
 				return;
@@ -113,10 +115,9 @@ namespace ElectronicObserver.Window {
 				JsonTreeView.Nodes.Add( apiname );
 			}
 
-			TreeNode root = new TreeNode( "<root>" );
-			AddNode( root, "<Response>", -1, data );
-
-			JsonTreeView.Nodes.Add( root.FirstNode );
+			var node = CreateNode( "<Response>", data );
+			CreateChildNode( node );
+			JsonTreeView.Nodes.Add( node );
 
 
 			JsonTreeView.EndUpdate();
@@ -130,7 +131,7 @@ namespace ElectronicObserver.Window {
 		private void LoadFromFile( string path ) {
 
 
-			var match = _filenamePattern.Match( path );
+			var match = FileNamePattern.Match( path );
 
 			if ( match.Success ) {
 
@@ -179,53 +180,74 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void CreateChildNode( TreeNode root ) {
+			dynamic json = root.Tag;
 
-		/// <summary>
-		/// JSON データから、TreeNodeを構成します。
-		/// </summary>
-		/// <param name="root">親になるノード。</param>
-		/// <param name="name">生成するノード名。</param>
-		/// <param name="index">生成するノードが配列の要素だった場合、そのインデックス。そうでなければ -1</param>
-		/// <param name="data">もととなる JSON データ。</param>
-		private TreeNode AddNode( TreeNode root, string name, int index, dynamic data ) {
+			if ( json == null || !( json is Codeplex.Data.DynamicJson ) ) {
+				return;
 
-			TreeNode self = root.Nodes.Add( string.IsNullOrEmpty( name ) ? "" : ( name + " : " ) );
-			self.Name = name + ( index >= 0 ? "[" + index + "]" : "" );
+			} else if ( json.IsArray ) {
+				foreach ( var elem in json ) {
+					root.Nodes.Add( CreateNode( "", elem ) );
+				}
+
+			} else if ( json.IsObject ) {
+				foreach ( KeyValuePair<string, dynamic> elem in json ) {
+					root.Nodes.Add( CreateNode( elem.Key, elem.Value ) );
+				}
+			}
+		}
+
+		private TreeNode CreateNode( string name, dynamic data ) {
+			TreeNode node = new TreeNode();
+			node.Tag = data;
+			node.Name = name;
+			node.Text = string.IsNullOrEmpty( name ) ? "" : ( name + " : " );
 
 			if ( data == null ) {
-				self.Text += "null";
+				node.Text += "null";
 
 			} else if ( data is string ) {
-				self.Text += "\"" + data + "\"";
+				node.Text += "\"" + data + "\"";
 
 			} else if ( data is bool || data is double ) {
-				self.Text += data.ToString();
+				node.Text += data.ToString();
 
 			} else if ( data.IsArray ) {
 				int count = 0;
-				foreach ( var elem in data ) {
-					AddNode( self, null, count, elem );
+				foreach ( var elem in data )
 					count++;
-				}
-				self.Text += "[" + count + "]";
-				self.Tag = 1;
+				node.Text += "[" + count + "]";
 
 			} else if ( data.IsObject ) {
 				int count = 0;
-				foreach ( KeyValuePair<string, dynamic> elem in data ) {
-					AddNode( self, elem.Key, -1, elem.Value );
+				foreach ( var elem in data )
 					count++;
-				}
-				self.Text += "{" + count + "}";
-				self.Tag = 2;
+				node.Text += "{" + count + "}";
 
 			} else {
 				throw new NotImplementedException();
+
 			}
 
-			return root;
+			return node;
 		}
 
+
+		// ノードが展開されたときに、孫ノードを生成する(子ノードは生成済みという前提)
+		// 子ノードまでだと [+] [-] が表示されないため孫まで生成しておく
+		private void JsonTreeView_BeforeExpand( object sender, TreeViewCancelEventArgs e ) {
+
+			// Checked は展開済みフラグ :(
+			if ( e.Node.Checked )
+				return;
+
+			foreach ( TreeNode child in e.Node.Nodes ) {
+				CreateChildNode( child );
+			}
+
+			e.Node.Checked = true;
+		}
 
 
 
@@ -239,11 +261,19 @@ namespace ElectronicObserver.Window {
 			UpdatesTree.Checked = c.FormJson.UpdatesTree;
 			AutoUpdateFilter.Text = c.FormJson.AutoUpdateFilter;
 
+
+			JsonTreeView.Nodes.Clear();
+
+			if ( !AutoUpdate.Checked || !UpdatesTree.Checked )
+				JsonTreeView.Nodes.Add( AutoUpdateDisabledMessage );
+
+
 			try {
 				_apiPattern = new Regex( c.FormJson.AutoUpdateFilter );
+				AutoUpdateFilter.BackColor = SystemColors.Window;
 
 			} catch ( Exception ) {
-				Utility.Logger.Add( 3, "JSON ウィンドウ：フィルタが不正です。" );
+				AutoUpdateFilter.BackColor = Color.MistyRose;
 				_apiPattern = null;
 			}
 		}
@@ -270,18 +300,24 @@ namespace ElectronicObserver.Window {
 
 			JsonTreeView.Nodes.Clear();
 
-			if ( !UpdatesTree.Checked ) {
-				JsonTreeView.Nodes.Add( "<更新が無効になっています。Configから有効化してください。>" );
+			if ( !AutoUpdate.Checked || !UpdatesTree.Checked )
+				JsonTreeView.Nodes.Add( AutoUpdateDisabledMessage );
 
-			}
 
 			Utility.Configuration.Config.FormJson.UpdatesTree = UpdatesTree.Checked;
-
 		}
 
 		private void AutoUpdate_CheckedChanged( object sender, EventArgs e ) {
+
+			JsonTreeView.Nodes.Clear();
+
+			if ( !AutoUpdate.Checked || !UpdatesTree.Checked )
+				JsonTreeView.Nodes.Add( AutoUpdateDisabledMessage );
+
+
 			Utility.Configuration.Config.FormJson.AutoUpdate = AutoUpdate.Checked;
 		}
+
 
 		private void AutoUpdateFilter_Validated( object sender, EventArgs e ) {
 			var c = Utility.Configuration.Config.FormJson;
@@ -289,10 +325,10 @@ namespace ElectronicObserver.Window {
 
 			try {
 				_apiPattern = new Regex( c.AutoUpdateFilter );
+				AutoUpdateFilter.BackColor = SystemColors.Window;
 
 			} catch ( Exception ) {
-				Utility.Logger.Add( 3, "JSON ウィンドウ：フィルタが不正です。フィルタはクリアされます。" );
-				c.AutoUpdateFilter = AutoUpdateFilter.Text = "";
+				AutoUpdateFilter.BackColor = Color.MistyRose;
 				_apiPattern = null;
 			}
 		}
@@ -314,14 +350,19 @@ namespace ElectronicObserver.Window {
 		private void TreeContextMenu_Opening( object sender, CancelEventArgs e ) {
 
 			var root = JsonTreeView.SelectedNode;
+			dynamic json = root.Tag;
 
 			// root is array, children > 0, root[0](=child) is object or array
-			if ( ( root.Tag as int? ?? 0 ) == 1 && root.Nodes.Count > 0 && ( root.FirstNode.Tag as int? ?? 0 ) != 0 ) {
+			if (
+				root.GetNodeCount( false ) > 0 &&
+				json != null && json is Codeplex.Data.DynamicJson && json.IsArray &&
+				root.FirstNode.Tag != null && root.FirstNode.Tag is Codeplex.Data.DynamicJson && ( ( (dynamic)root.FirstNode.Tag ).IsArray || ( (dynamic)root.FirstNode.Tag ).IsObject ) ) {
 				TreeContextMenu_OutputCSV.Enabled = true;
 
 			} else {
 				TreeContextMenu_OutputCSV.Enabled = false;
 			}
+
 		}
 
 		private void TreeContextMenu_OutputCSV_Click( object sender, EventArgs e ) {
@@ -333,44 +374,11 @@ namespace ElectronicObserver.Window {
 					using ( var sw = new StreamWriter( CSVSaver.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
 						var root = JsonTreeView.SelectedNode;
-						var data = _currentData;
 
+						sw.WriteLine( BuildCSVHeader( new StringBuilder(), "", ( (dynamic)root.Tag )[0] ).ToString() );
 
-						// root にあたる実データの取得
-						List<string> revpath = new List<string>();
-						var ptr = root;
-
-						while ( ptr.Parent != null ) {
-							revpath.Add( ptr.Name );
-							ptr = ptr.Parent;
-						}
-
-						foreach ( var path in revpath.Reverse<string>() ) {
-							int index = path.IndexOf( '[' );
-							if ( index != -1 ) {
-								int indexer = int.Parse( path.Substring( index + 1, path.Length - index - 2 ) );
-								data = data[path.Substring( 0, index - 1 )][indexer];
-
-							} else {
-								data = data[path];
-							}
-						}
-
-
-						// ヘッダーの取得
-						var content = new StringBuilder();
-						BuildCSVHeader( content, "", data[0] );
-						content.Remove( content.Length - 1, 1 );
-
-						sw.WriteLine( content.ToString() );
-
-
-						foreach ( dynamic elem in data ) {
-							content.Clear();
-							BuildCSVContent( content, elem );
-							content.Remove( content.Length - 1, 1 );
-
-							sw.WriteLine( content.ToString() );
+						foreach ( dynamic elem in (dynamic)root.Tag ) {
+							sw.WriteLine( BuildCSVContent( new StringBuilder(), elem ).ToString() );
 						}
 					}
 
@@ -385,7 +393,8 @@ namespace ElectronicObserver.Window {
 
 		}
 
-		private void BuildCSVHeader( StringBuilder sb, string currentPath, dynamic data ) {
+
+		private StringBuilder BuildCSVHeader( StringBuilder sb, string currentPath, dynamic data ) {
 
 			if ( data is Codeplex.Data.DynamicJson ) {
 
@@ -393,7 +402,7 @@ namespace ElectronicObserver.Window {
 					foreach ( string p in data.GetDynamicMemberNames() ) {
 						BuildCSVHeader( sb, currentPath + "." + p, data[p] );
 					}
-					return;
+					return sb;
 
 				} else if ( data.IsArray ) {
 					int index = 0;
@@ -401,15 +410,16 @@ namespace ElectronicObserver.Window {
 						BuildCSVHeader( sb, currentPath + "[" + index + "]", elem );
 						index++;
 					}
-					return;
+					return sb;
 
 				}
 			}
 
 			sb.Append( currentPath ).Append( "," );
+			return sb;
 		}
 
-		private void BuildCSVContent( StringBuilder sb, dynamic data ) {
+		private StringBuilder BuildCSVContent( StringBuilder sb, dynamic data ) {
 
 			if ( data is Codeplex.Data.DynamicJson ) {
 
@@ -417,18 +427,19 @@ namespace ElectronicObserver.Window {
 					foreach ( string p in data.GetDynamicMemberNames() ) {
 						BuildCSVContent( sb, data[p] );
 					}
-					return;
+					return sb;
 
 				} else if ( data.IsArray ) {
 					foreach ( dynamic elem in data ) {
 						BuildCSVContent( sb, elem );
 					}
-					return;
+					return sb;
 
 				}
 			}
 
 			sb.Append( data ).Append( "," );
+			return sb;
 		}
 
 
@@ -447,9 +458,5 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Json";
 		}
-
-
-
-
 	}
 }
