@@ -204,7 +204,7 @@ namespace ElectronicObserver.Window {
 			TopMost = Utility.Configuration.Config.Life.TopMost;
 
 			// HACK: タスクバーに表示されなくなる不具合への応急処置　効くかは知らない
-			Show();
+			ShowInTaskbar = true;
 		}
 
 

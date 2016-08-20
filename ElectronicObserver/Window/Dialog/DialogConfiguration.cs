@@ -17,12 +17,12 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogConfiguration : Form {
 
-		private static readonly string RegistryPathMaster = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\";
-		private static readonly string RegistryPathBrowserVersion = @"FEATURE_BROWSER_EMULATION\";
-		private static readonly string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";
+		public const string RegistryPathMaster = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\";
+		public const string RegistryPathBrowserVersion = @"FEATURE_BROWSER_EMULATION\";
+		public const  string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";
 
-		private static readonly int DefaultBrowserVersion = 7000;
-		private static readonly bool DefaultGPURendering = false;
+		public const int DefaultBrowserVersion = 11001;
+		public const bool DefaultGPURendering = false;
 
 
 		private System.Windows.Forms.Control _UIControl;
@@ -256,7 +256,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_UpstreamProxyAddress.Visible =
 			Connection_DownstreamProxy.Visible =
 			Connection_DownstreamProxyLabel.Visible =
-			SubWindow_Json_SealingPanel.Visible = 
+			SubWindow_Json_SealingPanel.Visible =
 				Debug_EnableDebugMenu.Checked;
 
 		}

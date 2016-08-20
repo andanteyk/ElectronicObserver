@@ -1709,7 +1709,7 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊or輸送部隊 戦闘
 	api_fParam			：味方艦船基礎ステータス
 	api_eParam			：敵艦船基礎ステータス
 	api_fParam_combined	：味方随伴護衛艦隊基礎ステータス
-	api_boss_damaged	：1=装甲破壊状態 そうでなければ存在しない
+	api_xal01			：1=装甲破壊状態 そうでなければ存在しない
 	api_escape_idx		：機動部隊本隊退避艦座標(1-6)
 	api_escape_idx_combined		：随伴護衛艦隊退避艦座標(1-6)
 	api_combat_ration	：本隊戦闘糧食補給　発動時のみ存在　艦船IDの数値配列
@@ -1718,6 +1718,7 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊or輸送部隊 戦闘
 	api_formation		：陣形/交戦形態?　[0]=味方, [1]=敵, [2]=交戦形態
 							[0|1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣?, 5=単横陣?, "11"-"14"=第n警戒航行序列
 							[2]：2=反航戦？
+	api_air_base_attack	：基地航空隊攻撃　通常戦闘を参照
 	api_stage_flag		：航空戦フラグ？
 	api_kouku			：航空戦情報
 		api_plane_from	：艦載機を飛ばせる艦　[0]=味方, [1]=敵　いなければ{-1}
