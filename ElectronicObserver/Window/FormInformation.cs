@@ -73,6 +73,12 @@ namespace ElectronicObserver.Window {
 						TextInformation.Text = GetConsumptionResource( data );
 					}
 					_inSortie = null;
+
+					// '16 summer event
+					if ( data.api_event_object() && data.api_event_object.api_m_flag2() && (int)data.api_event_object.api_m_flag2 > 0 ) {
+						TextInformation.Text += "＊ギミック解除＊\r\n";
+						Utility.Logger.Add( 2, "敵勢力の弱体化を確認しました！" );
+					}
 					break;
 
 				case "api_req_member/get_practice_enemyinfo":
