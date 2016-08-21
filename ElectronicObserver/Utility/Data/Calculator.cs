@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Resource.Record;
+using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,7 +132,37 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( ship == null ) return 0;
 
-			return ship.SlotInstance.Select( ( eq, i ) => eq == null ? 0 : GetAirSuperiority( eq.EquipmentID, ship.Aircraft[i], eq.AircraftLevel ) ).Sum();
+			int air = 0;
+			var eqs = ship.SlotInstance;
+			var aircrafts = ship.Aircraft;
+
+
+			for ( int i = 0; i < eqs.Count; i++ ) {
+				var eq = eqs[i];
+				if ( eq != null && aircrafts[i] > 0 ) {
+
+					int category = eq.MasterEquipment.CategoryType;
+
+					if ( AircraftLevelBonus.ContainsKey( category ) ) {
+
+						double levelRate;
+						switch ( category ) {
+							case 6:		// 艦上戦闘機
+								levelRate = 0.2;
+								break;
+							case 7:		// 艦上爆撃機
+								levelRate = 0.25;
+								break;
+							default:
+								levelRate = 0;
+								break;
+						}
+
+						air += (int)( ( eq.MasterEquipment.AA + levelRate * eq.Level ) * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
+					}
+
+				}
+			}
 		}
 
 		/// <summary>
@@ -520,7 +551,10 @@ namespace ElectronicObserver.Utility.Data {
 					switch ( eq.CategoryType ) {
 
 						case 24:	// 上陸用舟艇
-							tp += 8;
+							if ( eq.EquipmentID == 166 )	// 陸戦隊
+								tp += 13;
+							else
+								tp += 8;
 							break;
 						case 30:	// 簡易輸送部材
 							tp += 5;
@@ -529,7 +563,7 @@ namespace ElectronicObserver.Utility.Data {
 							tp += 1;
 							break;
 						case 46:	// 特型内火艇
-							tp += 2;
+							tp += 10;
 							break;
 					}
 				}
@@ -822,8 +856,8 @@ namespace ElectronicObserver.Utility.Data {
 					aashell++;
 
 				} else if ( eq.CategoryType == 21 ) {	//対空機銃
-					// 25mm三連装機銃 集中配備 or Bofors 40mm四連装機関砲
-					if ( eq.EquipmentID == 131 || eq.EquipmentID == 173 ) {
+					// 25mm三連装機銃 集中配備 or Bofors 40mm四連装機関砲 or QF 2ポンド8連装ポンポン砲
+					if ( eq.EquipmentID == 131 || eq.EquipmentID == 173 || eq.EquipmentID == 191 ) {
 						aagun_concentrated++;
 					}
 					aagun++;
@@ -976,6 +1010,11 @@ namespace ElectronicObserver.Utility.Data {
 					return false;
 			}
 
+		}
+
+
+		public static TimeSpan CalculateDockingUnitTime( ShipData ship ) {
+			return new TimeSpan( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).Add( TimeSpan.FromSeconds( -30 ) ).Ticks / ( ship.HPMax - ship.HPCurrent ) );
 		}
 
 	}

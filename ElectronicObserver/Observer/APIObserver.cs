@@ -41,7 +41,9 @@ namespace ElectronicObserver.Observer {
 
 		private Control UIControl;
 		private APIKancolleDB DBSender;
-		private APIKCVDB KCVDBSender;
+
+		public event APIReceivedEventHandler RequestReceived = delegate { };
+		public event APIReceivedEventHandler ResponseReceived = delegate { };
 
 
 		private APIObserver() {
@@ -103,6 +105,7 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_air_corps.set_plane() );
 			APIList.Add( new kcsapi.api_req_air_corps.set_action() );
 			APIList.Add( new kcsapi.api_req_air_corps.supply() );
+			APIList.Add( new kcsapi.api_req_kaisou.slot_deprive() );
 
 			APIList.Add( new kcsapi.api_req_quest.clearitemget() );
 			APIList.Add( new kcsapi.api_req_nyukyo.start() );
@@ -117,12 +120,12 @@ namespace ElectronicObserver.Observer {
 			APIList.Add( new kcsapi.api_req_hensei.combined() );
 			APIList.Add( new kcsapi.api_req_member.updatecomment() );
 			APIList.Add( new kcsapi.api_req_air_corps.change_name() );
-			
+			APIList.Add( new kcsapi.api_req_quest.stop() );
+
 
 			ServerAddress = null;
 
 			DBSender = new APIKancolleDB();
-			KCVDBSender = new APIKCVDB();
 
 			HttpProxy.AfterSessionComplete += HttpProxy_AfterSessionComplete;
 		}
@@ -320,12 +323,7 @@ namespace ElectronicObserver.Observer {
 					Task.Run( (Action)( () => DBSender.ExecuteSession( session ) ) );
 				}
 
-				// 艦これ検証DBに送信する
-				if ( Utility.Configuration.Config.Connection.SendDataToKCVDB ) {
-					Task.Run( (Action)( () => KCVDBSender.PostToServer( session ) ) );
 				}
-
-			}
 
 
 			if ( ServerAddress == null && baseurl.Contains( "/kcsapi/" ) ) {
@@ -357,7 +355,7 @@ namespace ElectronicObserver.Observer {
 
 
 				APIList.OnRequestReceived( shortpath, parsedData );
-
+				RequestReceived( shortpath, parsedData );
 
 			} catch ( Exception ex ) {
 
@@ -392,13 +390,18 @@ namespace ElectronicObserver.Observer {
 				}
 
 
-				if ( shortpath == "api_get_member/ship2" )
+				if ( shortpath == "api_get_member/ship2" ) {
 					APIList.OnResponseReceived( shortpath, json );
-				else if ( json.IsDefined( "api_data" ) )
-					APIList.OnResponseReceived( shortpath, json.api_data );
-				else
-					APIList.OnResponseReceived( shortpath, null );
+					ResponseReceived( shortpath, json );
 
+				} else if ( json.IsDefined( "api_data" ) ) {
+					APIList.OnResponseReceived( shortpath, json.api_data );
+					ResponseReceived( shortpath, json.api_data );
+
+				} else {
+					APIList.OnResponseReceived( shortpath, null );
+					ResponseReceived( shortpath, null );
+				}
 
 			} catch ( Exception ex ) {
 

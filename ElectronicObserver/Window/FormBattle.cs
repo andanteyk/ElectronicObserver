@@ -64,6 +64,7 @@ namespace ElectronicObserver.Window {
 			TableBottom.ResumeLayout();
 
 
+			Searching.ImageList = 
 			SearchingFriend.ImageList =
 			SearchingEnemy.ImageList =
 			AACutin.ImageList =
@@ -138,6 +139,7 @@ namespace ElectronicObserver.Window {
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );
+						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfare( bm.BattleDay.AirBattle );
 						SetHPNormal( bm.BattleDay );
 						SetDamageRateNormal( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
@@ -158,6 +160,7 @@ namespace ElectronicObserver.Window {
 				case "api_req_battle_midnight/sp_midnight": {
 
 						SetFormation( bm.BattleNight );
+						ClearBaseAirAttack();
 						ClearAerialWarfare();
 						ClearSearchingResult();
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
@@ -171,6 +174,7 @@ namespace ElectronicObserver.Window {
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );
+						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleAirBattle)bm.BattleDay ).AirBattle2 );
 						SetHPNormal( bm.BattleDay );
 						SetDamageRateNormal( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
@@ -184,6 +188,7 @@ namespace ElectronicObserver.Window {
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );
+						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfare( bm.BattleDay.AirBattle );
 						SetHPCombined( bm.BattleDay );
 						SetDamageRateCombined( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
@@ -195,6 +200,7 @@ namespace ElectronicObserver.Window {
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );
+						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleCombinedAirBattle)bm.BattleDay ).AirBattle2 );
 						SetHPCombined( bm.BattleDay );
 						SetDamageRateCombined( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
@@ -216,6 +222,7 @@ namespace ElectronicObserver.Window {
 						SetFormation( bm.BattleNight );
 						ClearAerialWarfare();
 						ClearSearchingResult();
+						ClearBaseAirAttack();
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPCombined( bm.BattleNight );
 						SetDamageRateCombined( bm.BattleNight, bm.BattleNight.Initial.InitialHPs );
@@ -279,6 +286,60 @@ namespace ElectronicObserver.Window {
 			ToolTipInfo.SetToolTip( SearchingEnemy, null );
 
 		}
+
+		/// <summary>
+		/// 基地航空隊フェーズの結果を設定します。
+		/// </summary>
+		private void SetBaseAirAttack( PhaseBaseAirAttack pd ) {
+
+			if ( pd.IsAvailable ) {
+
+				Searching.Text = "基地航空隊";
+				Searching.ImageAlign = ContentAlignment.MiddleLeft;
+				Searching.ImageIndex = (int)ResourceManager.EquipmentContent.LandAttacker;
+
+				var sb = new StringBuilder();
+				int index = 1;
+
+				foreach ( var phase in pd.AirAttackUnits ) {
+
+					sb.AppendFormat( "{0} 回目 - #{1} :\r\n",
+						index, phase.AirUnitID );
+
+					if ( phase.IsStage1Available ) {
+						sb.AppendFormat( "　St1: 自軍 -{0}/{1} | 敵軍 -{2}/{3} | {4}\r\n",
+							phase.AircraftLostStage1Friend, phase.AircraftTotalStage1Friend,
+							phase.AircraftLostStage1Enemy, phase.AircraftTotalStage1Enemy,
+							Constants.GetAirSuperiority( phase.AirSuperiority ) );
+					}
+					if ( phase.IsStage2Available ) {
+						sb.AppendFormat( "　St2: 自軍 -{0}/{1} | 敵軍 -{2}/{3}\r\n",
+							phase.AircraftLostStage2Friend, phase.AircraftTotalStage2Friend,
+							phase.AircraftLostStage2Enemy, phase.AircraftTotalStage2Enemy );
+					}
+
+					index++;
+				}
+
+				ToolTipInfo.SetToolTip( Searching, sb.ToString() );
+
+
+			} else {
+				ClearBaseAirAttack();
+			}
+
+		}
+
+		/// <summary>
+		/// 基地航空隊フェーズの結果をクリアします。
+		/// </summary>
+		private void ClearBaseAirAttack() {
+			Searching.Text = "索敵";
+			Searching.ImageAlign = ContentAlignment.MiddleCenter;
+			Searching.ImageIndex = -1;
+			ToolTipInfo.SetToolTip( Searching, null );
+		}
+
 
 		/// <summary>
 		/// 航空戦情報を設定します。

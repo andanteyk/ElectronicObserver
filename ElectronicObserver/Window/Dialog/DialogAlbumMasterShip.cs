@@ -140,6 +140,8 @@ namespace ElectronicObserver.Window.Dialog {
 				DataGridViewRow row = new DataGridViewRow();
 				row.CreateCells( ShipView );
 				row.SetValues( ship.ShipID, KCDatabase.Instance.ShipTypes[ship.ShipType].Name, ship.NameWithClass );
+				row.Cells[ShipView_ShipType.Index].Tag = ship.ShipType;
+				row.Cells[ShipView_Name.Index].Tag = ship.IsAbyssalShip ? null : ship.NameReading;
 				rows.Add( row );
 
 			}
@@ -179,10 +181,31 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void ShipView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
 
-			if ( e.Column.Name == ShipView_ShipType.Name ) {
-				e.SortResult =
-					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex1].Cells[0].Value].ShipType -
-					KCDatabase.Instance.MasterShips[(int)ShipView.Rows[e.RowIndex2].Cells[0].Value].ShipType;
+			if ( e.Column.Index == ShipView_ShipType.Index ) {
+				e.SortResult = (int)ShipView[e.Column.Index, e.RowIndex1].Tag - (int)ShipView[e.Column.Index, e.RowIndex2].Tag;
+
+			} else if ( e.Column.Index == ShipView_Name.Index ) {
+
+				// 艦娘優先; 艦娘同士なら読みで比べる、深海棲艦同士なら名前で比べる
+
+				string tag1 = ShipView[e.Column.Index, e.RowIndex1].Tag as string;
+				string tag2 = ShipView[e.Column.Index, e.RowIndex2].Tag as string;
+
+				if ( tag1 != null ) {
+					if ( tag2 != null )
+						e.SortResult = tag1.CompareTo( tag2 );
+					else
+						e.SortResult = -1;
+				} else {
+					if ( tag2 != null )
+						e.SortResult = 1;
+					else
+						e.SortResult = 0;
+				}
+
+				if ( e.SortResult == 0 )
+					e.SortResult = ( (string)e.CellValue1 ).CompareTo( e.CellValue2 );
+
 			} else {
 				e.SortResult = ( (IComparable)e.CellValue1 ).CompareTo( e.CellValue2 );
 			}
@@ -408,30 +431,38 @@ namespace ElectronicObserver.Window.Dialog {
 
 				} else if ( ship.DefaultSlot[i] != -1 ) {
 					EquipmentDataMaster eq = db.MasterEquipments[ship.DefaultSlot[i]];
-					Equipments[i].Text = eq.Name;
+					if ( eq == null ) {
+						// 破損データが入っていた場合
+						Equipments[i].Text = "(なし)";
+						Equipments[i].ImageIndex = (int)ResourceManager.EquipmentContent.Nothing;
 
-					int eqicon = eq.EquipmentType[3];
-					if ( eqicon >= (int)ResourceManager.EquipmentContent.Locked )
-						eqicon = (int)ResourceManager.EquipmentContent.Unknown;
+					} else {
 
-					Equipments[i].ImageIndex = eqicon;
+						Equipments[i].Text = eq.Name;
 
-					{
-						StringBuilder sb = new StringBuilder();
+						int eqicon = eq.EquipmentType[3];
+						if ( eqicon >= (int)ResourceManager.EquipmentContent.Locked )
+							eqicon = (int)ResourceManager.EquipmentContent.Unknown;
 
-						sb.AppendFormat( "{0} {1} (ID: {2})\r\n", eq.CategoryTypeInstance.Name, eq.Name, eq.EquipmentID );
-						if ( eq.Firepower != 0 ) sb.AppendFormat( "火力 {0}{1}\r\n", eq.Firepower > 0 ? "+" : "", eq.Firepower );
-						if ( eq.Torpedo != 0 ) sb.AppendFormat( "雷装 {0}{1}\r\n", eq.Torpedo > 0 ? "+" : "", eq.Torpedo );
-						if ( eq.AA != 0 ) sb.AppendFormat( "対空 {0}{1}\r\n", eq.AA > 0 ? "+" : "", eq.AA );
-						if ( eq.Armor != 0 ) sb.AppendFormat( "装甲 {0}{1}\r\n", eq.Armor > 0 ? "+" : "", eq.Armor );
-						if ( eq.ASW != 0 ) sb.AppendFormat( "対潜 {0}{1}\r\n", eq.ASW > 0 ? "+" : "", eq.ASW );
-						if ( eq.Evasion != 0 ) sb.AppendFormat( "回避 {0}{1}\r\n", eq.Evasion > 0 ? "+" : "", eq.Evasion );
-						if ( eq.LOS != 0 ) sb.AppendFormat( "索敵 {0}{1}\r\n", eq.LOS > 0 ? "+" : "", eq.LOS );
-						if ( eq.Accuracy != 0 ) sb.AppendFormat( "命中 {0}{1}\r\n", eq.Accuracy > 0 ? "+" : "", eq.Accuracy );
-						if ( eq.Bomber != 0 ) sb.AppendFormat( "爆装 {0}{1}\r\n", eq.Bomber > 0 ? "+" : "", eq.Bomber );
-						sb.AppendLine( "(右クリックで図鑑)" );
+						Equipments[i].ImageIndex = eqicon;
 
-						ToolTipInfo.SetToolTip( Equipments[i], sb.ToString() );
+						{
+							StringBuilder sb = new StringBuilder();
+
+							sb.AppendFormat( "{0} {1} (ID: {2})\r\n", eq.CategoryTypeInstance.Name, eq.Name, eq.EquipmentID );
+							if ( eq.Firepower != 0 ) sb.AppendFormat( "火力 {0}{1}\r\n", eq.Firepower > 0 ? "+" : "", eq.Firepower );
+							if ( eq.Torpedo != 0 ) sb.AppendFormat( "雷装 {0}{1}\r\n", eq.Torpedo > 0 ? "+" : "", eq.Torpedo );
+							if ( eq.AA != 0 ) sb.AppendFormat( "対空 {0}{1}\r\n", eq.AA > 0 ? "+" : "", eq.AA );
+							if ( eq.Armor != 0 ) sb.AppendFormat( "装甲 {0}{1}\r\n", eq.Armor > 0 ? "+" : "", eq.Armor );
+							if ( eq.ASW != 0 ) sb.AppendFormat( "対潜 {0}{1}\r\n", eq.ASW > 0 ? "+" : "", eq.ASW );
+							if ( eq.Evasion != 0 ) sb.AppendFormat( "回避 {0}{1}\r\n", eq.Evasion > 0 ? "+" : "", eq.Evasion );
+							if ( eq.LOS != 0 ) sb.AppendFormat( "索敵 {0}{1}\r\n", eq.LOS > 0 ? "+" : "", eq.LOS );
+							if ( eq.Accuracy != 0 ) sb.AppendFormat( "命中 {0}{1}\r\n", eq.Accuracy > 0 ? "+" : "", eq.Accuracy );
+							if ( eq.Bomber != 0 ) sb.AppendFormat( "爆装 {0}{1}\r\n", eq.Bomber > 0 ? "+" : "", eq.Bomber );
+							sb.AppendLine( "(右クリックで図鑑)" );
+
+							ToolTipInfo.SetToolTip( Equipments[i], sb.ToString() );
+						}
 					}
 
 				} else if ( i < ship.SlotSize ) {
@@ -687,7 +718,7 @@ namespace ElectronicObserver.Window.Dialog {
 						if ( _shipID != -1 ) {
 							ShipDataMaster ship = KCDatabase.Instance.MasterShips[_shipID];
 
-							if ( ship != null && ship.DefaultSlot != null && i < ship.DefaultSlot.Count && ship.DefaultSlot[i] != -1 ) {
+							if ( ship != null && ship.DefaultSlot != null && i < ship.DefaultSlot.Count && KCDatabase.Instance.MasterEquipments.ContainsKey( ship.DefaultSlot[i] ) ) {
 								Cursor = Cursors.AppStarting;
 								new DialogAlbumMasterEquipment( ship.DefaultSlot[i] ).Show( Owner );
 								Cursor = Cursors.Default;

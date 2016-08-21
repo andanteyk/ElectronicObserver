@@ -132,12 +132,6 @@ namespace ElectronicObserver.Utility {
 				public string SendKancolleOAuth { get; set; }
 
 
-				/// <summary>
-				/// 艦これ検証データベースへ送信するか
-				/// </summary>
-				public bool SendDataToKCVDB { get; set; }
-
-
 				public ConfigConnection() {
 
 					Port = 40620;
@@ -156,7 +150,6 @@ namespace ElectronicObserver.Utility {
 					DownstreamProxy = "";
 					SendDataToKancolleDB = false;
 					SendKancolleOAuth = "";
-					SendDataToKCVDB = false;
 				}
 
 			}
@@ -360,12 +353,19 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool LastIsMute { get; set; }
 
+				/// <summary>
+				/// 威力表示の基準となる交戦形態
+				/// </summary>
+				public int PowerEngagementForm { get; set; }
+
+
 				public ConfigControl() {
 					ConditionBorder = 40;
 					RecordAutoSaving = 1;
 					UseSystemVolume = true;
 					LastVolume = 0.8f;
 					LastIsMute = false;
+					PowerEngagementForm = 1;
 				}
 			}
 			/// <summary>動作</summary>
@@ -623,7 +623,7 @@ namespace ElectronicObserver.Utility {
 
 
 				/// <summary>
-				/// 一回限り(+その他)を表示
+				/// 単発を表示
 				/// </summary>
 				public bool ShowOnce { get; set; }
 
@@ -641,6 +641,11 @@ namespace ElectronicObserver.Utility {
 				/// マンスリーを表示
 				/// </summary>
 				public bool ShowMonthly { get; set; }
+
+				/// <summary>
+				/// その他を表示
+				/// </summary>
+				public bool ShowOther { get; set; }
 
 				/// <summary>
 				/// 列の可視性
@@ -663,16 +668,20 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int ProgressAutoSaving { get; set; }
 
+				public bool AllowUserToSortRows { get; set; }
+
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
 					ShowOnce = true;
 					ShowDaily = true;
 					ShowWeekly = true;
 					ShowMonthly = true;
+					ShowOther = true;
 					ColumnFilter = null;		//実際の初期化は FormQuest で行う
 					ColumnWidth = null;			//上に同じ
 					SortParameter = 3 << 1 | 0;
 					ProgressAutoSaving = 1;
+					AllowUserToSortRows = true;
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
@@ -685,13 +694,27 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigFormShipGroup : ConfigPartBase {
 
+				/// <summary>
+				/// 自動更新するか
+				/// </summary>
 				public bool AutoUpdate { get; set; }
 
+				/// <summary>
+				/// ステータスバーを表示するか
+				/// </summary>
 				public bool ShowStatusBar { get; set; }
+
+
+				/// <summary>
+				/// 艦名列のソート方法
+				/// 0 = 図鑑番号順, 1 = あいうえお順
+				/// </summary>
+				public int ShipNameSortMethod { get; set; }
 
 				public ConfigFormShipGroup() {
 					AutoUpdate = true;
 					ShowStatusBar = true;
+					ShipNameSortMethod = 0;
 				}
 			}
 			/// <summary>[艦船グループ]ウィンドウ</summary>
@@ -816,6 +839,38 @@ namespace ElectronicObserver.Utility {
 			/// <summary>[羅針盤]ウィンドウ</summary>
 			[DataMember]
 			public ConfigFormCompass FormCompass { get; private set; }
+
+
+			/// <summary>
+			/// [JSON]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormJson : ConfigPartBase {
+
+				/// <summary>
+				/// 自動更新するか
+				/// </summary>
+				public bool AutoUpdate { get; set; }
+
+				/// <summary>
+				/// TreeView を更新するか
+				/// </summary>
+				public bool UpdatesTree { get; set; }
+
+				/// <summary>
+				/// 自動更新時のフィルタ
+				/// </summary>
+				public string AutoUpdateFilter { get; set; }
+
+
+				public ConfigFormJson() {
+					AutoUpdate = false;
+					UpdatesTree = true;
+					AutoUpdateFilter = "";
+				}
+			}
+			/// <summary>[JSON]ウィンドウ</summary>
+			[DataMember]
+			public ConfigFormJson FormJson { get; private set; }
 
 
 			/// <summary>
@@ -1038,6 +1093,7 @@ namespace ElectronicObserver.Utility {
 				FormShipGroup = new ConfigFormShipGroup();
 				FormBrowser = new ConfigFormBrowser();
 				FormCompass = new ConfigFormCompass();
+				FormJson = new ConfigFormJson();
 
 				NotifierExpedition = new ConfigNotifierBase();
 				NotifierConstruction = new ConfigNotifierBase();
@@ -1082,7 +1138,30 @@ namespace ElectronicObserver.Utility {
 			} else {
 				MessageBox.Show( SoftwareInformation.SoftwareNameJapanese + " をご利用いただきありがとうございます。\r\n設定や使用方法については「ヘルプ」→「オンラインヘルプ」を参照してください。\r\nご使用の前に必ずご一読ください。",
 					"初回起動メッセージ", MessageBoxButtons.OK, MessageBoxIcon.Information );
-				new DialogInvitationKCVDB().Show( mainForm );
+
+
+				// そのままだと正常に動作しなくなった(らしい)ので、ブラウザバージョンの書き込み
+				Microsoft.Win32.RegistryKey reg = null;
+				try {
+
+					reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey( DialogConfiguration.RegistryPathMaster + DialogConfiguration.RegistryPathBrowserVersion );
+					reg.SetValue( Window.FormBrowserHost.BrowserExeName, DialogConfiguration.DefaultBrowserVersion, Microsoft.Win32.RegistryValueKind.DWord );
+					reg.Close();
+
+					reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey( DialogConfiguration.RegistryPathMaster + DialogConfiguration.RegistryPathGPURendering );
+					reg.SetValue( Window.FormBrowserHost.BrowserExeName, DialogConfiguration.DefaultGPURendering ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord );
+
+					Utility.Logger.Add( 2, "ブラウザバージョンをレジストリに書き込みました。削除したい場合は「設定→サブウィンドウ→ブラウザ2→削除」を押してください。" );
+
+
+				} catch ( Exception ex ) {
+					Utility.ErrorReporter.SendErrorReport( ex, "ブラウザバージョンをレジストリに書き込めませんでした。" );
+
+				} finally {
+					if ( reg != null )
+						reg.Close();
+				}
+
 			}
 		}
 
@@ -1330,11 +1409,6 @@ namespace ElectronicObserver.Utility {
 				}
 			}
 
-
-			// version 2.1.8 or earlier
-			if ( dt <= DateTimeHelper.CSVStringToTime( "2016/04/01 22:00:00" ) ) {
-				new DialogInvitationKCVDB().Show( mainForm );
-			}
 
 
 

@@ -19,6 +19,7 @@ namespace ElectronicObserver.Data.Battle {
 			BaseAirAttack = new PhaseBaseAirAttack( this );
 			AirBattle = new PhaseAirBattle( this );
 			Support = new PhaseSupport( this );
+			OpeningASW = new PhaseOpeningASW( this, false );
 			OpeningTorpedo = new PhaseTorpedo( this, 0 );
 			Shelling1 = new PhaseShelling( this, 1, "1", false );
 			Shelling2 = new PhaseShelling( this, 2, "2", false );
@@ -29,6 +30,7 @@ namespace ElectronicObserver.Data.Battle {
 			BaseAirAttack.EmulateBattle( _resultHPs, _attackDamages );
 			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
 			Support.EmulateBattle( _resultHPs, _attackDamages );
+			OpeningASW.EmulateBattle( _resultHPs, _attackDamages );
 			OpeningTorpedo.EmulateBattle( _resultHPs, _attackDamages );
 			Shelling1.EmulateBattle( _resultHPs, _attackDamages );
 			Shelling2.EmulateBattle( _resultHPs, _attackDamages );

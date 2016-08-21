@@ -17,12 +17,12 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogConfiguration : Form {
 
-		private static readonly string RegistryPathMaster = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\";
-		private static readonly string RegistryPathBrowserVersion = @"FEATURE_BROWSER_EMULATION\";
-		private static readonly string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";
+		public const string RegistryPathMaster = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\";
+		public const string RegistryPathBrowserVersion = @"FEATURE_BROWSER_EMULATION\";
+		public const  string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";
 
-		private static readonly int DefaultBrowserVersion = 7000;
-		private static readonly bool DefaultGPURendering = false;
+		public const int DefaultBrowserVersion = 11001;
+		public const bool DefaultGPURendering = false;
 
 
 		private System.Windows.Forms.Control _UIControl;
@@ -256,7 +256,9 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_UpstreamProxyAddress.Visible =
 			Connection_DownstreamProxy.Visible =
 			Connection_DownstreamProxyLabel.Visible =
+			SubWindow_Json_SealingPanel.Visible =
 				Debug_EnableDebugMenu.Checked;
+
 		}
 
 
@@ -308,6 +310,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
 			Control_RecordAutoSaving.SelectedIndex = config.Control.RecordAutoSaving;
 			Control_UseSystemVolume.Checked = config.Control.UseSystemVolume;
+			Control_PowerEngagementForm.SelectedIndex = config.Control.PowerEngagementForm - 1;
 
 			//[デバッグ]
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
@@ -355,10 +358,13 @@ namespace ElectronicObserver.Window.Dialog {
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
 			FormQuest_ShowWeekly.Checked = config.FormQuest.ShowWeekly;
 			FormQuest_ShowMonthly.Checked = config.FormQuest.ShowMonthly;
+			FormQuest_ShowOther.Checked = config.FormQuest.ShowOther;
 			FormQuest_ProgressAutoSaving.SelectedIndex = config.FormQuest.ProgressAutoSaving;
+			FormQuest_AllowUserToSortRows.Checked = config.FormQuest.AllowUserToSortRows;
 
 			FormShipGroup_AutoUpdate.Checked = config.FormShipGroup.AutoUpdate;
 			FormShipGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
+			FormShipGroup_ShipNameSortMethod.SelectedIndex = config.FormShipGroup.ShipNameSortMethod;
 
 			FormBrowser_IsEnabled.Checked = config.FormBrowser.IsEnabled;
 			FormBrowser_ZoomRate.Value = config.FormBrowser.ZoomRate;
@@ -407,13 +413,20 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
 			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWMode;
+			if ( !config.FormBrowser.IsToolMenuVisible )
+				FormBrowser_ToolMenuDockStyle.SelectedIndex = 4;
+			else
+				FormBrowser_ToolMenuDockStyle.SelectedIndex = (int)config.FormBrowser.ToolMenuDockStyle - 1;
 
 			FormCompass_CandidateDisplayCount.Value = config.FormCompass.CandidateDisplayCount;
+
+			FormJson_AutoUpdate.Checked = config.FormJson.AutoUpdate;
+			FormJson_UpdatesTree.Checked = config.FormJson.UpdatesTree;
+			FormJson_AutoUpdateFilter.Text = config.FormJson.AutoUpdateFilter;
 
 			//[データベース]
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
-			Database_SendDataToKCVDB.Checked = config.Connection.SendDataToKCVDB;
 
 			//[BGM]
 			BGMPlayer_Enabled.Checked = config.BGMPlayer.Enabled;
@@ -485,6 +498,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
 			config.Control.RecordAutoSaving = Control_RecordAutoSaving.SelectedIndex;
 			config.Control.UseSystemVolume = Control_UseSystemVolume.Checked;
+			config.Control.PowerEngagementForm = Control_PowerEngagementForm.SelectedIndex + 1;
 
 			//[デバッグ]
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;
@@ -532,10 +546,13 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormQuest.ShowDaily = FormQuest_ShowDaily.Checked;
 			config.FormQuest.ShowWeekly = FormQuest_ShowWeekly.Checked;
 			config.FormQuest.ShowMonthly = FormQuest_ShowMonthly.Checked;
+			config.FormQuest.ShowOther = FormQuest_ShowOther.Checked;
 			config.FormQuest.ProgressAutoSaving = FormQuest_ProgressAutoSaving.SelectedIndex;
+			config.FormQuest.AllowUserToSortRows = FormQuest_AllowUserToSortRows.Checked;
 
 			config.FormShipGroup.AutoUpdate = FormShipGroup_AutoUpdate.Checked;
 			config.FormShipGroup.ShowStatusBar = FormShipGroup_ShowStatusBar.Checked;
+			config.FormShipGroup.ShipNameSortMethod = FormShipGroup_ShipNameSortMethod.SelectedIndex;
 
 			config.FormBrowser.IsEnabled = FormBrowser_IsEnabled.Checked;
 			config.FormBrowser.ZoomRate = (int)FormBrowser_ZoomRate.Value;
@@ -550,13 +567,22 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWMode = FormBrowser_FlashWMode.Text;
+			if ( FormBrowser_ToolMenuDockStyle.SelectedIndex == 4 ) {
+				config.FormBrowser.IsToolMenuVisible = false;
+			} else {
+				config.FormBrowser.IsToolMenuVisible = true;
+				config.FormBrowser.ToolMenuDockStyle = (DockStyle)( FormBrowser_ToolMenuDockStyle.SelectedIndex + 1 );
+			}
 
 			config.FormCompass.CandidateDisplayCount = (int)FormCompass_CandidateDisplayCount.Value;
+
+			config.FormJson.AutoUpdate = FormJson_AutoUpdate.Checked;
+			config.FormJson.UpdatesTree = FormJson_UpdatesTree.Checked;
+			config.FormJson.AutoUpdateFilter = FormJson_AutoUpdateFilter.Text;
 
 			//[データベース]
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
 			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
-			config.Connection.SendDataToKCVDB = Database_SendDataToKCVDB.Checked;
 
 			//[BGM]
 			config.BGMPlayer.Enabled = BGMPlayer_Enabled.Checked;
@@ -702,12 +728,6 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 		}
-
-
-		private void Database_LinkKCVDB_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
-			System.Diagnostics.Process.Start( "http://kcvdb.jp/guidelines" );
-		}
-
 
 
 	}

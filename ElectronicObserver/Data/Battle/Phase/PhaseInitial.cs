@@ -127,7 +127,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		public bool IsBossDamaged {
 			get {
-				return RawData.api_boss_damaged() && (int)RawData.api_boss_damaged > 0;
+				return RawData.api_xal01() && (int)RawData.api_xal01 > 0;
 			}
 		}
 

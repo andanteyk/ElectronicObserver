@@ -58,6 +58,7 @@ namespace ElectronicObserver.Window {
 		public FormBrowserHost fBrowser;
 		public FormWindowCapture fWindowCapture;
 		public FormBaseAirCorps fBaseAirCorps;
+		public FormJson fJson;
 
 		#endregion
 
@@ -118,6 +119,7 @@ namespace ElectronicObserver.Window {
 			StripMenu_View_Browser.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBrowser];
 			StripMenu_View_Log.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormLog];
 			StripMenu_WindowCapture.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormWindowCapture];
+			StripMenu_View_Json.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormJson];
 
 			StripMenu_Tool_EquipmentList.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormEquipmentList];
 			StripMenu_Tool_DropRecord.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormDropRecord];
@@ -159,6 +161,7 @@ namespace ElectronicObserver.Window {
 			SubForms.Add( fBrowser = new FormBrowserHost( this ) );
 			SubForms.Add( fWindowCapture = new FormWindowCapture( this ) );
 			SubForms.Add( fBaseAirCorps = new FormBaseAirCorps( this ) );
+			SubForms.Add( fJson = new FormJson( this ) );
 
 			ConfigurationChanged();		//設定から初期化
 
@@ -203,7 +206,7 @@ namespace ElectronicObserver.Window {
 			TopMost = Utility.Configuration.Config.Life.TopMost;
 
 			// HACK: タスクバーに表示されなくなる不具合への応急処置　効くかは知らない
-			Show();
+			ShowInTaskbar = true;
 		}
 
 
@@ -212,7 +215,10 @@ namespace ElectronicObserver.Window {
 
 			var c = Utility.Configuration.Config;
 
-			StripMenu_Debug.Enabled = StripMenu_Debug.Visible = c.Debug.EnableDebugMenu;
+			StripMenu_Debug.Enabled = StripMenu_Debug.Visible =
+			StripMenu_View_Json.Enabled = StripMenu_View_Json.Visible =
+				c.Debug.EnableDebugMenu;
+
 			StripStatus.Visible = c.Life.ShowStatusBar;
 
 			// Load で TopMost を変更するとバグるため(前述)
@@ -238,6 +244,8 @@ namespace ElectronicObserver.Window {
 
 			StripMenu_File_Layout_LockLayout.Checked = c.Life.LockLayout;
 			MainDockPanel.CanCloseFloatWindowInLock = c.Life.CanCloseFloatWindowInLock;
+
+			StripMenu_File_Layout_TopMost.Checked = c.Life.TopMost;
 
 			if ( !c.Control.UseSystemVolume )
 				_volumeUpdateState = -1;
@@ -435,6 +443,8 @@ namespace ElectronicObserver.Window {
 					return fWindowCapture;
 				case "BaseAirCorps":
 					return fBaseAirCorps;
+				case "Json":
+					return fJson;
 				default:
 					if ( persistString.StartsWith( "ShipGroup" ) ) {
 						fShipGroup.ConfigureFromPersistString( persistString );
@@ -1149,6 +1159,12 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_File_Layout_TopMost_Click( object sender, EventArgs e ) {
+
+			Utility.Configuration.Config.Life.TopMost = StripMenu_File_Layout_TopMost.Checked;
+			ConfigurationChanged();
+
+		}
 
 
 
@@ -1251,9 +1267,13 @@ namespace ElectronicObserver.Window {
 			ShowForm( fBaseAirCorps );
 		}
 
+		private void StripMenu_View_Json_Click( object sender, EventArgs e ) {
+			ShowForm( fJson );
+		}
+
 		#endregion
 
-		
+
 
 
 

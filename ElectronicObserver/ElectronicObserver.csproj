@@ -56,10 +56,6 @@
     <Reference Include="DynamicJson">
       <HintPath>..\Libraries\DynamicJson.dll</HintPath>
     </Reference>
-    <Reference Include="KCVDB.Client, Version=0.0.17.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KCVDB.Client.0.0.17.0\lib\net45\KCVDB.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="log4net, Version=1.2.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.4\lib\net45-full\log4net.dll</HintPath>
@@ -121,6 +117,7 @@
     <Compile Include="Data\Battle\Phase\PhaseBaseAirAttack.cs" />
     <Compile Include="Data\Battle\Phase\PhaseInitial.cs" />
     <Compile Include="Data\Battle\Phase\PhaseNightBattle.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseOpeningASW.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSearching.cs" />
     <Compile Include="Data\Battle\Phase\PhaseShelling.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSupport.cs" />
@@ -175,7 +172,7 @@
     <Compile Include="Notifier\NotifierExpedition.cs" />
     <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\APIKancolleDB.cs" />
-    <Compile Include="Observer\APIKCVDB.cs" />
+
     <Compile Include="Observer\kcsapi\api_get_member\base_air_corps.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\payitem.cs" />
@@ -191,11 +188,13 @@
     <Compile Include="Observer\kcsapi\api_req_hensei\preset_select.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\open_exslot.cs" />
+    <Compile Include="Observer\kcsapi\api_req_kaisou\slot_deprive.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\slot_exchange_index.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\remodel_slotlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\updatecomment.cs" />
     <Compile Include="Observer\kcsapi\api_req_mission\result.cs" />
+    <Compile Include="Observer\kcsapi\api_req_quest\stop.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\ld_airbattle.cs" />
@@ -375,12 +374,6 @@
     <Compile Include="Window\Dialog\DialogHalloween.Designer.cs">
       <DependentUpon>DialogHalloween.cs</DependentUpon>
     </Compile>
-    <Compile Include="Window\Dialog\DialogInvitationKCVDB.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Window\Dialog\DialogInvitationKCVDB.Designer.cs">
-      <DependentUpon>DialogInvitationKCVDB.cs</DependentUpon>
-    </Compile>
     <Compile Include="Window\Dialog\DialogLocalAPILoader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -487,6 +480,12 @@
     </Compile>
     <Compile Include="Window\FormCompass.Designer.cs">
       <DependentUpon>FormCompass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\FormJson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormJson.Designer.cs">
+      <DependentUpon>FormJson.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\FormWindowCapture.cs">
       <SubType>Form</SubType>
@@ -625,9 +624,6 @@
     <EmbeddedResource Include="Window\Dialog\DialogHalloween.resx">
       <DependentUpon>DialogHalloween.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Window\Dialog\DialogInvitationKCVDB.resx">
-      <DependentUpon>DialogInvitationKCVDB.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogLocalAPILoader.resx">
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
     </EmbeddedResource>
@@ -678,6 +674,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormCompass.resx">
       <DependentUpon>FormCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormJson.resx">
+      <DependentUpon>FormJson.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormWindowCapture.resx">
       <DependentUpon>FormWindowCapture.cs</DependentUpon>

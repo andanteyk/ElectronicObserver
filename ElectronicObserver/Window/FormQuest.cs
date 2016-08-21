@@ -143,6 +143,7 @@ namespace ElectronicObserver.Window {
 			MenuMain_ShowDaily.Checked = c.FormQuest.ShowDaily;
 			MenuMain_ShowWeekly.Checked = c.FormQuest.ShowWeekly;
 			MenuMain_ShowMonthly.Checked = c.FormQuest.ShowMonthly;
+			MenuMain_ShowOther.Checked = c.FormQuest.ShowOther;
 
 			if ( c.FormQuest.ColumnFilter == null || ( (List<bool>)c.FormQuest.ColumnFilter ).Count != QuestView.Columns.Count ) {
 				c.FormQuest.ColumnFilter = Enumerable.Repeat( true, QuestView.Columns.Count ).ToList();
@@ -159,6 +160,10 @@ namespace ElectronicObserver.Window {
 					( (ToolStripMenuItem)MenuMain_ColumnFilter.DropDownItems[i] ).Checked = list[i];
 					QuestView.Columns[i].Width = width[i];
 				}
+			}
+
+			foreach ( DataGridViewColumn column in QuestView.Columns ) {
+				column.SortMode = c.FormQuest.AllowUserToSortRows ? DataGridViewColumnSortMode.Automatic : DataGridViewColumnSortMode.NotSortable; 
 			}
 
 			Updated();
@@ -196,19 +201,25 @@ namespace ElectronicObserver.Window {
 					continue;
 
 				switch ( q.Type ) {
-					case 2:
-					case 4:
-					case 5:
+					case 1:
 						if ( !MenuMain_ShowDaily.Checked ) continue;
 						break;
-					case 3:
+					case 2:
 						if ( !MenuMain_ShowWeekly.Checked ) continue;
 						break;
-					case 6:
+					case 3:
 						if ( !MenuMain_ShowMonthly.Checked ) continue;
 						break;
+					case 4:
 					default:
 						if ( !MenuMain_ShowOnce.Checked ) continue;
+						break;
+					case 5:
+						if ( q.QuestID == 211 || q.QuestID == 212 ) {	// 空母3か輸送5
+							if ( !MenuMain_ShowDaily.Checked ) continue;
+						} else {
+							if ( !MenuMain_ShowOther.Checked ) continue;
+						}
 						break;
 				}
 
@@ -412,6 +423,11 @@ namespace ElectronicObserver.Window {
 			Updated();
 		}
 
+		private void MenuMain_ShowOther_Click( object sender, EventArgs e ) {
+			Utility.Configuration.Config.FormQuest.ShowOther = MenuMain_ShowOther.Checked;
+			Updated();
+		}
+
 
 
 		private void MenuMain_Initialize_Click( object sender, EventArgs e ) {
@@ -537,5 +553,6 @@ namespace ElectronicObserver.Window {
 			return "Quest";
 		}
 
+	
 	}
 }
