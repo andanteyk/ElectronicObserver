@@ -47,28 +47,45 @@ namespace ElectronicObserver.Utility.Data {
 			0, 10, 25, 40, 55, 70, 85, 100, 120
 		};
 
+		/// <summary>
+		/// 各装備カテゴリにおける制空値の改修ボーナス
+		/// </summary>
+		private static readonly Dictionary<int, double> LevelBonus = new Dictionary<int, double>() { 
+			{ 6, 0.2 },		// 艦上戦闘機
+			{ 7, 0.25 },	// 艦上爆撃機
+		};
+
+
 
 		/// <summary>
 		/// 制空戦力を求めます。
 		/// </summary>
-		/// <param name="slot">装備ID。</param>
-		/// <param name="aircraft">搭載機数。</param>
-		/// <param name="level">艦載機熟練度。既定値は 0 です。</param>
-		public static int GetAirSuperiority( int slot, int aircraft, int level = 0 ) {
-			var eq = KCDatabase.Instance.MasterEquipments[slot];
-			if ( eq == null || aircraft == 0 )
+		/// <param name="equipmentID">装備ID。</param>
+		/// <param name="count">搭載機数。</param>
+		/// <param name="aircraftLevel">艦載機熟練度。既定値は 0 です。</param>
+		/// <param name="level">改修レベル。既定値は 0 です。</param>
+		/// <returns></returns>
+		public static int GetAirSuperiority( int equipmentID, int count, int aircraftLevel = 0, int level = 0 ) {
+
+			if ( count <= 0 )
+				return 0;
+
+			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
+			if ( eq == null )
 				return 0;
 
 			int category = eq.CategoryType;
-			if ( AircraftLevelBonus.ContainsKey( category ) ) {
-				return (int)( ( eq.AA + ( category == 48 ? ( eq.Evasion * 1.5 ) : 0 ) )
-					* Math.Sqrt( aircraft )
-					+ Math.Sqrt( AircraftExpTable[level] / 10.0 )
-					+ AircraftLevelBonus[category][level] );
-			}
+			if ( !AircraftLevelBonus.ContainsKey( category ) )
+				return 0;
 
-			return 0;
+			double interceptorBonus = category == 48 ? ( eq.Evasion * 1.5 ) : 0;				// 局地戦闘機の迎撃補正
+			double levelBonus = LevelBonus.ContainsKey( category ) ? LevelBonus[category] : 0;	// 改修レベル補正
+
+
+			return (int)( ( eq.AA + levelBonus * level + interceptorBonus ) * Math.Sqrt( count ) + Math.Sqrt( AircraftExpTable[aircraftLevel] / 10.0 ) + AircraftLevelBonus[category][aircraftLevel] );
 		}
+
+
 
 		/// <summary>
 		/// 制空戦力を求めます。
@@ -79,6 +96,19 @@ namespace ElectronicObserver.Utility.Data {
 
 			return slot.Select( ( eq, i ) => GetAirSuperiority( eq, aircraft[i] ) ).Sum();
 		}
+
+		/// <summary>
+		/// 制空戦力を求めます。
+		/// </summary>
+		/// <param name="slot">各スロットの装備IDリスト。</param>
+		/// <param name="aircraft">艦載機搭載量。</param>
+		/// <param name="level">各スロットの艦載機熟練度。</param>
+		/// <returns></returns>
+		public static int GetAirSuperiority( int[] slot, int[] aircraft, int[] level ) {
+
+			return slot.Select( ( eq, i ) => GetAirSuperiority( eq, aircraft[i], level[i] ) ).Sum();
+		}
+
 
 		/// <summary>
 		/// 制空戦力を求めます。
@@ -110,18 +140,6 @@ namespace ElectronicObserver.Utility.Data {
 			return air;
 		}
 
-		/// <summary>
-		/// 制空戦力を求めます。
-		/// </summary>
-		/// <param name="slot">各スロットの装備IDリスト。</param>
-		/// <param name="aircraft">艦載機搭載量。</param>
-		/// <param name="level">各スロットの艦載機熟練度。</param>
-		/// <returns></returns>
-		public static int GetAirSuperiority( int[] slot, int[] aircraft, int[] level ) {
-
-			return slot.Select( ( eq, i ) => GetAirSuperiority( eq, aircraft[i], level[i] ) ).Sum();
-		}
-
 
 
 		/// <summary>
@@ -132,37 +150,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( ship == null ) return 0;
 
-			int air = 0;
-			var eqs = ship.SlotInstance;
-			var aircrafts = ship.Aircraft;
-
-
-			for ( int i = 0; i < eqs.Count; i++ ) {
-				var eq = eqs[i];
-				if ( eq != null && aircrafts[i] > 0 ) {
-
-					int category = eq.MasterEquipment.CategoryType;
-
-					if ( AircraftLevelBonus.ContainsKey( category ) ) {
-
-						double levelRate;
-						switch ( category ) {
-							case 6:		// 艦上戦闘機
-								levelRate = 0.2;
-								break;
-							case 7:		// 艦上爆撃機
-								levelRate = 0.25;
-								break;
-							default:
-								levelRate = 0;
-								break;
-						}
-
-						air += (int)( ( eq.MasterEquipment.AA + levelRate * eq.Level ) * Math.Sqrt( aircrafts[i] ) + Math.Sqrt( AircraftExpTable[eq.AircraftLevel] / 10.0 ) + AircraftLevelBonus[category][eq.AircraftLevel] );
-					}
-
-				}
-			}
+			return ship.SlotInstance.Select( ( eq, i ) => eq == null ? 0 : GetAirSuperiority( eq.EquipmentID, ship.Aircraft[i], eq.AircraftLevel, eq.Level ) ).Sum();
 		}
 
 		/// <summary>
