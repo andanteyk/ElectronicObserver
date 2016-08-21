@@ -23,13 +23,13 @@ namespace ElectronicObserver.Data.Battle
         /// so return attacker - 1
         /// The same as defender
         /// </summary>
-        public int Attacker { get { return attacker - 1; } }
+        public int Attacker { get { return attacker - 1; } set { attacker = value + 1; } }
 
         /// <summary>
         /// Though there mutiple defenders in API, but they are the same so it
         /// uses one defender
         /// </summary>
-        public int Defender { get { return defender - 1; } }
+        public int Defender { get { return defender - 1; } set { defender = value + 1; } }
         public enum CriticalType
         {
             Miss = 0,
@@ -117,6 +117,7 @@ namespace ElectronicObserver.Data.Battle
                     case CriticalType.Critical: builder.Append("Critical"); break;
                 }
             }
+            builder.AppendLine("");
             return builder.ToString();
 
         }
