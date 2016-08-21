@@ -17,9 +17,11 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public PhaseBase( BattleData data ) {
 
 			_battleData = data;
+            battleDetails = new List<BattleDetail>();
 
 		}
 
+        public List<BattleDetail> battleDetails;
 
 		protected dynamic RawData { get { return _battleData.RawData; } }
 

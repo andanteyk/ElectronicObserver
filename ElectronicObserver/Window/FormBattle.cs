@@ -688,23 +688,82 @@ namespace ElectronicObserver.Window {
 
 
 			for ( int i = 0; i < 6; i++ ) {
-				if ( initialHPs[i] != -1 ) {
-					ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
+                if (initialHPs[i] != -1)
+                {
+                    ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
+                    if (bd is BattleDay)
+                    {
+                        List<BattleDetail> shipOpeningASWDetail = SelectBattleDetail(((BattleDay)bd).OpeningASW.battleDetails, i);
+                        List<BattleDetail> shipOpeningTorpedoDetail = SelectBattleDetail(((BattleDay)bd).OpeningTorpedo.battleDetails, i);
+                        List<BattleDetail> shipShelling1Detail = SelectBattleDetail(((BattleDay)bd).Shelling1.battleDetails, i);
+                        List<BattleDetail> shipShelling2Detail = SelectBattleDetail(((BattleDay)bd).Shelling2.battleDetails, i);
+                        List<BattleDetail> shipTorpedoDetail = SelectBattleDetail(((BattleDay)bd).Torpedo.battleDetails, i);
 
-					ToolTipInfo.SetToolTip( HPBars[i],
-						string.Format( "{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]\r\n与ダメージ: {8}",
-							ship.MasterShip.ShipTypeName,
-							ship.MasterShip.NameWithClass,
-							ship.Level,
-							Math.Max( HPBars[i].PrevValue, 0 ),
-							Math.Max( HPBars[i].Value, 0 ),
-							HPBars[i].MaximumValue,
-							HPBars[i].Value - HPBars[i].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase ),
-							attackDamages[i]
-							)
-						);
-				}
+                        StringBuilder builder = new StringBuilder();
+                        string sum = string.Format("{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]\r\n与ダメージ: {8}",
+                                ship.MasterShip.ShipTypeName,
+                                ship.MasterShip.NameWithClass,
+                                ship.Level,
+                                Math.Max(HPBars[i].PrevValue, 0),
+                                Math.Max(HPBars[i].Value, 0),
+                                HPBars[i].MaximumValue,
+                                HPBars[i].Value - HPBars[i].PrevValue,
+                                Constants.GetDamageState((double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase),
+                                attackDamages[i]
+                                );
+                        builder.AppendLine(sum).AppendLine("");
+                        if (shipOpeningASWDetail.Count > 0)
+                        {
+                            builder.AppendLine("開幕対潜");
+                            builder.AppendLine(FriendShipBattleDetail(bd, shipOpeningASWDetail));
+                        }
+                        if (shipOpeningTorpedoDetail.Count > 0)
+                        {
+                            builder.AppendLine("開幕雷撃");
+                            builder.AppendLine(FriendShipBattleDetail(bd, shipOpeningTorpedoDetail));
+                        }
+                        if (shipShelling1Detail.Count > 0)
+                        {
+                            builder.AppendLine("砲撃戦");
+                            builder.AppendLine(FriendShipBattleDetail(bd, shipShelling1Detail));
+                            if (shipShelling2Detail.Count > 0)
+                            {
+                                builder.AppendLine(FriendShipBattleDetail(bd, shipShelling2Detail));
+                            }
+                        }
+                        if (shipTorpedoDetail.Count > 0)
+                        {
+                            builder.AppendLine("雷撃");
+                            builder.AppendLine(FriendShipBattleDetail(bd, shipTorpedoDetail));
+                        }
+                        ToolTipInfo.SetToolTip(HPBars[i], builder.ToString());
+                    }
+
+                    if (bd is BattleNight)
+                    {
+                        List<BattleDetail> shipNightBattleDetail = SelectBattleDetail(((BattleNight)bd).NightBattle.battleDetails, i);
+
+                        StringBuilder builder = new StringBuilder();
+                        string sum = string.Format("{0} {1} Lv. {2}\r\nHP: ({3} → {4})/{5} ({6}) [{7}]\r\n与ダメージ: {8}",
+                                ship.MasterShip.ShipTypeName,
+                                ship.MasterShip.NameWithClass,
+                                ship.Level,
+                                Math.Max(HPBars[i].PrevValue, 0),
+                                Math.Max(HPBars[i].Value, 0),
+                                HPBars[i].MaximumValue,
+                                HPBars[i].Value - HPBars[i].PrevValue,
+                                Constants.GetDamageState((double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase),
+                                attackDamages[i]
+                                );
+                        builder.AppendLine(sum).AppendLine("");
+                        if (shipNightBattleDetail.Count > 0)
+                        {
+                            builder.AppendLine("夜戦");
+                            builder.AppendLine(FriendShipBattleDetail(bd, shipNightBattleDetail));
+                        }
+                        ToolTipInfo.SetToolTip(HPBars[i], builder.ToString());
+                    }
+                }
 			}
 
 			for ( int i = 0; i < 6; i++ ) {
@@ -1166,6 +1225,54 @@ namespace ElectronicObserver.Window {
 			return "Battle";
 		}
 
+        private string FriendShipBattleDetail(BattleData bd, IEnumerable<BattleDetail> details)
+        {
+
+            StringBuilder builder = new StringBuilder();
+            foreach (BattleDetail detail in details)
+            {
+                if (detail != null)
+                {
+                    builder.AppendLine(string.Format(detail.BattleDescription(), GetShipName(bd, detail.Attacker), GetShipName(bd, detail.Defender)));
+                }
+            }
+            return builder.ToString();
+
+        }
+
+        private string GetShipName(BattleData bd, int i)
+        {
+            int index = i;
+            if (index > -1 && index < 6)
+            {
+                return bd.Initial.FriendFleet.MembersInstance[index].Name;
+            }
+            else if (index >= 6 && index < 12)
+            {
+                index -= 6;
+                return bd.Initial.EnemyMembersInstance[index].NameWithClass;
+            }
+            else if (index >= 12 && index < 18)
+            {
+                index -= 12;
+                KCDatabase db = KCDatabase.Instance;
+                return db.Fleet[2].MembersInstance[index].Name;
+            }
+            return "";
+        }
+
+        private List<BattleDetail> SelectBattleDetail(List<BattleDetail> details, int index)
+        {
+            List<BattleDetail> results = new List<BattleDetail>();
+            foreach (BattleDetail detail in details)
+            {
+                if (detail.Attacker.Equals(index) || detail.Defender.Equals(index))
+                {
+                    results.Add(detail);
+                }
+            }
+            return results;
+        }
 
 	}
 
