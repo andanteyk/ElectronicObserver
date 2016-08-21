@@ -34,6 +34,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 		}
 
+        public dynamic ShellingData { get { return phaseID ==0 ? RawData.api_opening_atack : RawData.api_raigeki; } }
 		public override void EmulateBattle( int[] hps, int[] damages ) {
 
 			if ( !IsAvailable ) return;
@@ -49,6 +50,30 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					damages[i] += dmg[i];
 				}
 			}
+            {
+                int[] friendTargets = (int[])ShellingData.api_frai;
+                int[] enemyTargets = (int[])ShellingData.api_erai;
+                int[] friendTargetDams = (int[])ShellingData.api_fydam;
+                int[] enemyTargetDam = (int[])ShellingData.api_eydam;
+                int[] friendCritical = (int[])ShellingData.api_fcl;
+                int[] enemyCritical = (int[])ShellingData.api_ecl;
+                for (int i = 1; i < friendTargets.Length; i++)
+                {		//skip header(-1)
+                    if (friendTargets[i] > 0)
+                    {
+                        BattleDayDetail detail = new BattleDayDetail(i, friendTargets[i] + 6, new int[] { friendTargetDams[i] }, new int[] { friendCritical[i] }, (int) BattleDayDetail.DayCutinType.Torpedo);
+                        battleDetails.Add(detail);
+                    }  
+                }
+                for (int i = 1; i < enemyTargets.Length; i++)
+                {
+                    if (enemyTargets[i] > 0)
+                    {
+                        BattleDayDetail detail = new BattleDayDetail(i + 6, enemyTargets[i], new int[] { enemyTargetDam[i] }, new int[] { enemyCritical[i] }, (int)BattleDayDetail.DayCutinType.Torpedo);
+                        battleDetails.Add(detail);
+                    }
+                }
+            }
 		}
 
 
