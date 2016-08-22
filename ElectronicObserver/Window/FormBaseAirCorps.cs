@@ -1,15 +1,10 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace ElectronicObserver.Window {
@@ -19,6 +14,8 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 			ConfigurationChanged();
+
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBaseAirCorps] );
 		}
 
 		private void FormBaseAirCorps_Load( object sender, EventArgs e ) {
