@@ -13,15 +13,15 @@ namespace ElectronicObserver.Data.Battle.Phase {
 	public abstract class PhaseBase {
 
 		protected BattleData _battleData;
+		public List<BattleDetail> BattleDetails { get; protected set; }
 
 		public PhaseBase( BattleData data ) {
 
 			_battleData = data;
-            battleDetails = new List<BattleDetail>();
+			BattleDetails = new List<BattleDetail>();
 
 		}
 
-        public List<BattleDetail> battleDetails;
 
 		protected dynamic RawData { get { return _battleData.RawData; } }
 

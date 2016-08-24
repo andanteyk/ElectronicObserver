@@ -37,22 +37,18 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 				int[] defenders = (int[])( ShellingData.api_df_list[i] );
 				int[] unitDamages = (int[])( ShellingData.api_damage[i] );
-                int tempDefender = -1;
 
 				for ( int j = 0; j < defenders.Length; j++ ) {
-                    if (defenders[j] != -1)
-                    {
-                        tempDamages[GetIndex(defenders[j])] += Math.Max(unitDamages[j], 0);
-                        if (tempDefender != defenders[j]) tempDefender = defenders[j];
-                    }
+					if ( defenders[j] != -1 ) {
+						tempDamages[GetIndex( defenders[j] )] += Math.Max( unitDamages[j], 0 );
+					}
 				}
 
 				for ( int j = 0; j < tempDamages.Length; j++ )
 					AddDamage( hps, j, tempDamages[j] );
 
 
-                BattleNightDetail detail = new BattleNightDetail(attackers[i], tempDefender, unitDamages, (int[])ShellingData.api_cl_list[i], (int)ShellingData.api_sp_list[i]);
-                battleDetails.Add(detail);
+				BattleDetails.Add( new BattleNightDetail( _battleData, attackers[i] + ( isEscort && attackers[i] <= 6 ? 12 : 0 ), defenders.LastOrDefault() + ( isEscort && defenders.LastOrDefault() <= 6 ? 12 : 0 ), unitDamages, (int[])ShellingData.api_cl_list[i], (int)ShellingData.api_sp_list[i] ) );
 
 				damages[GetIndex( attackers[i] )] += tempDamages.Sum();
 			}
