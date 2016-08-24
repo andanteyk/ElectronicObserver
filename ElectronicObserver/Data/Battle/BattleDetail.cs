@@ -1,177 +1,178 @@
-﻿using System;
+﻿using ElectronicObserver.Utility.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data.Battle
-{
-    /// <summary>
-    /// Save the battle detail information
-    /// </summary>
-    public abstract class BattleDetail
-    {
-        // Save id rather than ship name here
-        protected int attacker;
-        protected int defender;
-        public int[] damage;
-        public CriticalType[] critical;
+namespace ElectronicObserver.Data.Battle {
+	/// <summary>
+	/// 戦闘詳細のデータを保持します。
+	/// </summary>
+	public abstract class BattleDetail {
 
-        /// <summary>
-        /// The first id in battle data's id list is always -1
-        /// Skip it automatically
-        /// so return attacker - 1
-        /// The same as defender
-        /// </summary>
-        public int Attacker { get { return attacker - 1; } set { attacker = value + 1; } }
+		protected int attackerIndex;
+		protected int defenderIndex;
+		public int[] Damages { get; protected set; }
+		public CriticalType[] CriticalTypes { get; protected set; }
+		public int AttackType { get; protected set; }
 
-        /// <summary>
-        /// Though there mutiple defenders in API, but they are the same so it
-        /// uses one defender
-        /// </summary>
-        public int Defender { get { return defender - 1; } set { defender = value + 1; } }
-        public enum CriticalType
-        {
-            Miss = 0,
-            Hit = 1,
-            Critical = 2, 
-            Unknown = -1
-        }
+		public ShipDataMaster Attacker { get; protected set; }
+		public ShipDataMaster Defender { get; protected set; }
 
-        public BattleDetail(int attackerId, int defenderId, int[] d, int[] c)
-        {
-            attacker = attackerId;
-            defender = defenderId;
-            damage = d;
-            List<CriticalType> ct = new List<CriticalType>();
-            foreach (int i in c)
-            {
-                ct.Add((CriticalType)i);
-            }
-            critical = ct.ToArray();
-        }
 
-        /// <summary>
-        /// Because BattleDetail doesn't save ship's name
-        /// It can't return the final string of the description
-        /// So name it BattleDescription rether than ToString()
-        /// </summary>
-        /// <returns>Description with parameters</returns>
-        public virtual string BattleDescription()
-        {
-            return "Unsupported";
-        }
-    }
+		/// <summary>
+		/// The first id in battle data's id list is always -1
+		/// Skip it automatically
+		/// so return attacker - 1
+		/// The same as defender
+		/// </summary>
+		public int AttackerIndex { get { return attackerIndex - 1; } set { attackerIndex = value + 1; } }
 
-    /// <summary>
-    /// Cutin types are different in day battle and night battle
-    /// </summary>
-    public class BattleDayDetail : BattleDetail
-    {
-        public enum DayCutinType
-        {
-            Normal = 0,
-            Laser = 1,
-            Double = 2,
-            Cutin_Main_Sub = 3,
-            Cutin_Main_Radar = 4,
-            Cutin_Main_Bomb = 5,
-            Cutin_Main_Main = 6,
+		/// <summary>
+		/// Though there mutiple defenders in API, but they are the same so it
+		/// uses one defender
+		/// </summary>
+		public int DefenderIndex { get { return defenderIndex - 1; } set { defenderIndex = value + 1; } }
 
-            Torpedo = 10
-        }
-        public DayCutinType dayCutin;
 
-        public BattleDayDetail(int attackerId, int defenderId, int[] d, int[] c, int cutin)
-            : base(attackerId, defenderId, d, c)
-        {
-            dayCutin = (DayCutinType)cutin;
-        }
+		public enum CriticalType {
+			Miss = 0,
+			Hit = 1,
+			Critical = 2,
+			Unknown = -1
+		}
 
-        public override string BattleDescription()
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine("{0} → {1}");
-            builder.Append("Attack Type : ");
-            switch (dayCutin)
-            {
-                case DayCutinType.Normal: builder.AppendLine("通常"); break;
-                case DayCutinType.Laser: builder.AppendLine("レーザー"); break;
-                case DayCutinType.Double: builder.AppendLine("連撃"); break;
-                case DayCutinType.Cutin_Main_Sub: builder.AppendLine("カットイン(主砲/副砲)"); break;
-                case DayCutinType.Cutin_Main_Radar: builder.AppendLine("カットイン(主砲/電探)"); break;
-                case DayCutinType.Cutin_Main_Bomb: builder.AppendLine("カットイン(主砲/徹甲)"); break;
-                case DayCutinType.Cutin_Main_Main: builder.AppendLine("カットイン(主砲/主砲)"); break;
-                case DayCutinType.Torpedo: builder.AppendLine("雷撃"); break;
-            }
-            builder.Append("Damage:    ");
-            for (int i = 0; i < damage.Length; i++)
-            {
-                if (i > 0) builder.AppendLine("").Append("                 ");
-                builder.Append(damage[i]);
-                builder.Append("  ");
-                switch (critical[i])
-                {
-                    case CriticalType.Miss: builder.Append("Miss"); break;
-                    case CriticalType.Hit: builder.Append("Hit"); break;
-                    case CriticalType.Critical: builder.Append("Critical"); break;
-                }
-            }
-            builder.AppendLine("");
-            return builder.ToString();
 
-        }
-    }
+		/// <param name="bd">戦闘情報。</param>
+		/// <param name="attackerIndex">攻撃側のインデックス。 1-18</param>
+		/// <param name="defenderIndex">防御側のインデックス。 1-18</param>
+		/// <param name="damages">ダメージの配列。</param>
+		/// <param name="criticalTypes">命中判定の配列。</param>
+		/// <param name="attackType">攻撃種別。</param>
+		public BattleDetail( BattleData bd, int attackerIndex, int defenderIndex, int[] damages, int[] criticalTypes, int attackType ) {
 
-    public class BattleNightDetail : BattleDetail
-    {
-        public enum NightCutin
-        {
-            Normal = 0,
-            Double = 1,
-            Cutin_Main_Tor = 2,
-            Cutin_Tor = 3,
-            Cutin_Main_Sub = 4,
-            Cutin_Main_Main = 5
-        }
+			this.attackerIndex = attackerIndex;
+			this.defenderIndex = defenderIndex;
+			Damages = damages;
+			CriticalTypes = criticalTypes.Select( i => (CriticalType)i ).ToArray();
+			AttackType = attackType;
 
-        public NightCutin nightCutin;
 
-        public BattleNightDetail(int attackerId, int defenderId, int[] d, int[] c, int cutin)
-            : base(attackerId, defenderId, d, c)
-        {
-            nightCutin = (NightCutin)cutin;
-        }
+			int[] slots;
 
-        public override string BattleDescription()
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine("{0} → {1}");
-            builder.Append("Attack Type : ");
-            switch (nightCutin)
-            {
-                case NightCutin.Normal: builder.AppendLine("通常"); break;
-                case NightCutin.Double: builder.AppendLine("連撃"); break;
-                case NightCutin.Cutin_Main_Tor: builder.AppendLine("カットイン(主砲/魚雷)"); break;
-                case NightCutin.Cutin_Tor: builder.AppendLine("カットイン(魚雷/魚雷)"); break;
-                case NightCutin.Cutin_Main_Sub: builder.AppendLine("カットイン(主砲/副砲)"); break;
-                case NightCutin.Cutin_Main_Main: builder.AppendLine("カットイン(主砲/主砲)"); break;
-            }
-            builder.Append("Damage:    ");
-            for (int i = 0; i < damage.Length; i++)
-            {
-                if (i > 0) builder.AppendLine("").Append("                 ");
-                builder.Append(damage[i]);
-                builder.Append("  ");
-                switch (critical[i])
-                {
-                    case CriticalType.Miss: builder.Append("Miss"); break;
-                    case CriticalType.Hit: builder.Append("Hit"); break;
-                    case CriticalType.Critical: builder.Append("Critical"); break;
-                }
-            }
-            return builder.ToString();
+			if ( AttackerIndex < 6 ) {
+				var atk = bd.Initial.FriendFleet.MembersInstance[AttackerIndex];
+				Attacker = atk.MasterShip;
+				slots = atk.SlotMaster.ToArray();
 
-        }
-    }
+			} else if ( AttackerIndex < 12 ) {
+				Attacker = bd.Initial.EnemyMembersInstance[AttackerIndex - 6];
+				slots = bd.Initial.EnemySlots[AttackerIndex - 6];
+
+			} else {
+				var atk = KCDatabase.Instance.Fleet[2].MembersInstance[AttackerIndex - 12];
+				Attacker = atk.MasterShip;
+				slots = atk.SlotMaster.ToArray();
+			}
+
+
+			if ( DefenderIndex < 6 )
+				Defender = bd.Initial.FriendFleet.MembersInstance[DefenderIndex].MasterShip;
+			else if ( DefenderIndex < 12 )
+				Defender = bd.Initial.EnemyMembersInstance[DefenderIndex - 6];
+			else
+				Defender = KCDatabase.Instance.Fleet[2].MembersInstance[DefenderIndex - 12].MasterShip;
+
+
+			if ( AttackType == 0 ) {
+				AttackType = CaclulateAttackKind( slots, Attacker.ShipID, Defender.ShipID );
+			}
+
+		}
+
+		/// <summary>
+		/// 戦闘詳細の情報を出力します。
+		/// </summary>
+		public virtual string BattleDescription() {
+
+			StringBuilder builder = new StringBuilder();
+			builder.Append( Attacker.NameWithClass );
+			if ( 6 <= AttackerIndex && AttackerIndex < 12 )
+				builder.Append( " #" ).Append( AttackerIndex - 6 + 1 );
+
+			builder.Append( " → " ).Append( Defender.NameWithClass );
+			if ( 6 <= DefenderIndex && DefenderIndex < 12 )
+				builder.Append( " #" ).Append( DefenderIndex - 6 + 1 );
+
+			builder.AppendLine();
+
+			if ( AttackType >= 0 )
+				builder.Append( "[" ).Append( GetAttackKind() ).Append( "] " );
+
+			for ( int i = 0; i < Damages.Length; i++ ) {
+				if ( i > 0 )
+					builder.Append( " , " );
+
+				switch ( CriticalTypes[i] ) {
+					case CriticalType.Miss:
+						builder.Append( "Miss" );
+						break;
+					case CriticalType.Hit:
+						builder.Append( Damages[i] ).Append( " Dmg" );
+						break;
+					case CriticalType.Critical:
+						builder.Append( Damages[i] ).Append( " Critical!" );
+						break;
+				}
+			}
+
+			builder.AppendLine();
+			return builder.ToString();
+		}
+
+
+		protected abstract int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID );
+		protected abstract string GetAttackKind();
+
+	}
+
+
+	/// <summary>
+	/// 昼戦の戦闘詳細データを保持します。
+	/// </summary>
+	public class BattleDayDetail : BattleDetail {
+
+		public BattleDayDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType )
+			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType ) {
+
+		}
+
+		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
+			return Calculator.GetDayAttackKind( slots, attackerShipID, defenderShipID, false );
+		}
+
+		protected override string GetAttackKind() {
+			return Constants.GetDayAttackKind( AttackType );
+		}
+	}
+
+	/// <summary>
+	/// 夜戦における戦闘詳細データを保持します。
+	/// </summary>
+	public class BattleNightDetail : BattleDetail {
+
+		public BattleNightDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType )
+			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType ) {
+
+		}
+
+		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
+			return Calculator.GetNightAttackKind( slots, attackerShipID, defenderShipID, false );
+		}
+
+		protected override string GetAttackKind() {
+			return Constants.GetNightAttackKind( AttackType );
+		}
+	}
 }

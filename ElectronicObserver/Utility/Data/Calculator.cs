@@ -584,6 +584,17 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		/// <summary>
+		/// ハードスキン型陸上基地の名前リスト
+		/// IDではなく名前なのは本家の処理に倣ったため
+		/// </summary>
+		private static readonly HashSet<string> HardInstallationNames = new HashSet<string>() { 
+			"離島棲姫",
+			"砲台小鬼",
+			"集積地棲姫",
+			"集積地棲姫-壊",
+		};
+
+		/// <summary>
 		/// 昼戦における攻撃種別を取得します。
 		/// </summary>
 		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
@@ -598,6 +609,8 @@ namespace ElectronicObserver.Utility.Data {
 			int apshellcnt = 0;
 			int radarcnt = 0;
 			int rocketcnt = 0;
+			int landingcnt = 0;
+			int uchibicnt = 0;
 
 			if ( slot == null ) return -1;
 
@@ -609,27 +622,34 @@ namespace ElectronicObserver.Utility.Data {
 				int eqtype = eq.CategoryType;
 
 				switch ( eqtype ) {
-					case 1:
-					case 2:
-					case 3:
+					case 1:		// 小口径主砲
+					case 2:		// 中口径主砲
+					case 3:		// 大口径主砲
 						mainguncnt++;
 						break;
-					case 4:
+					case 4:		// 副砲
 						subguncnt++;
 						break;
-					case 10:
-					case 11:
+					case 10:	// 水上偵察機
+					case 11:	// 水上爆撃機
 						reconcnt++;
 						break;
-					case 12:
-					case 13:
+					case 12:	// 小型電探
+					case 13:	// 大型電探
 						radarcnt++;
 						break;
-					case 19:
+					case 19:	// 対艦強化弾
 						apshellcnt++;
 						break;
-					case 37:
+					case 24:	// 上陸用舟艇
+						if ( eq.EquipmentID == 166 )		// 陸戦隊
+							landingcnt++;
+						break;
+					case 37:	// 対地装備
 						rocketcnt++;
+						break;
+					case 46:	// 特型内火艇
+						uchibicnt++;
 						break;
 				}
 			}
@@ -653,10 +673,20 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( atkship != null ) {
 
-				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
-					return 10;		//ロケット砲撃
+				if ( defship != null ) {
 
-				else if ( attackerShipID == 352 ) {	//速吸改
+					if ( uchibicnt > 0 && ( ( ( atkship.ShipType == 13 || atkship.ShipType == 14 ) && defship.IsLandBase ) || HardInstallationNames.Contains( defship.Name ) ) )
+						return 12;		// 揚陸攻撃(内火艇)
+
+					if ( landingcnt > 0 && HardInstallationNames.Contains( defship.Name ) )
+						return 11;		// 揚陸攻撃(大発動艇)
+
+					if ( rocketcnt > 0 && defship.IsLandBase )
+						return 10;		//ロケット砲撃
+				}
+
+
+				if ( attackerShipID == 352 ) {	//速吸改
 
 					if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) ) {
 						if ( slot.Select( id => KCDatabase.Instance.MasterEquipments[id] )
@@ -686,7 +716,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			}
 
-			return 0;
+			return 0;		//砲撃
 		}
 
 
@@ -696,12 +726,15 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
 		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
 		/// <param name="defenerShipID">防御艦の艦船ID。なければ-1</param>
-		public static int GetNightAttackKind( int[] slot, int attackerShipID, int defenerShipID ) {
+		/// <param name="includeSpecialAttack">カットイン/連撃の判定を含むか。falseなら除外して計算</param>
+		public static int GetNightAttackKind( int[] slot, int attackerShipID, int defenerShipID, bool includeSpecialAttack = true ) {
 
 			int mainguncnt = 0;
 			int subguncnt = 0;
 			int torpcnt = 0;
 			int rocketcnt = 0;
+			int landingcnt = 0;
+			int uchibicnt = 0;
 
 			if ( slot == null ) return -1;
 
@@ -731,18 +764,22 @@ namespace ElectronicObserver.Utility.Data {
 			}
 
 
-			if ( torpcnt >= 2 )
-				return 3;			//カットイン(魚雷/魚雷)
-			else if ( mainguncnt >= 3 )
-				return 5;			//カットイン(主砲x3)
-			else if ( mainguncnt == 2 && subguncnt > 0 )
-				return 4;			//カットイン(主砲x2/副砲)
-			else if ( ( mainguncnt == 2 && subguncnt == 0 && torpcnt == 1 ) || ( mainguncnt == 1 && torpcnt == 1 ) )
-				return 2;			//カットイン(主砲/魚雷)
-			else if ( ( mainguncnt == 2 && subguncnt == 0 & torpcnt == 0 ) ||
-				( mainguncnt == 1 && subguncnt > 0 ) ||
-				( subguncnt >= 2 && torpcnt <= 1 ) ) {
-				return 1;			//連撃
+			if ( includeSpecialAttack ) {
+
+				if ( torpcnt >= 2 )
+					return 3;			//カットイン(魚雷/魚雷)
+				else if ( mainguncnt >= 3 )
+					return 5;			//カットイン(主砲x3)
+				else if ( mainguncnt == 2 && subguncnt > 0 )
+					return 4;			//カットイン(主砲x2/副砲)
+				else if ( ( mainguncnt == 2 && subguncnt == 0 && torpcnt == 1 ) || ( mainguncnt == 1 && torpcnt == 1 ) )
+					return 2;			//カットイン(主砲/魚雷)
+				else if ( ( mainguncnt == 2 && subguncnt == 0 & torpcnt == 0 ) ||
+					( mainguncnt == 1 && subguncnt > 0 ) ||
+					( subguncnt >= 2 && torpcnt <= 1 ) ) {
+					return 1;			//連撃
+				}
+
 			}
 
 
@@ -751,12 +788,24 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( atkship != null ) {
 
-				if ( defship != null && defship.IsLandBase && rocketcnt > 0 )
-					return 10;		//ロケット砲撃
+				if ( defship != null ) {
 
-				else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 ) {		//軽空母/正規空母/装甲空母
+					if ( uchibicnt > 0 && ( ( ( atkship.ShipType == 13 || atkship.ShipType == 14 ) && defship.IsLandBase ) || HardInstallationNames.Contains( defship.Name ) ) )
+						return 12;		// 揚陸攻撃(内火艇)
+
+					if ( landingcnt > 0 && HardInstallationNames.Contains( defship.Name ) )
+						return 11;		// 揚陸攻撃(大発動艇)
+
+					if ( rocketcnt > 0 && defship.IsLandBase )
+						return 10;		//ロケット砲撃
+				}
+
+
+				if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 ) {		//軽空母/正規空母/装甲空母
 
 					if ( attackerShipID == 432 || attackerShipID == 353 )		//Graf Zeppelin(改)
+						return 0;		//砲撃
+					else if ( atkship.Name == "リコリス棲姫" )
 						return 0;		//砲撃
 					else
 						return 7;		//空撃
@@ -773,7 +822,7 @@ namespace ElectronicObserver.Utility.Data {
 
 				else if ( slot.Length > 0 ) {
 					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[0]];
-					if ( eq != null && eq.EquipmentType[2] == 5 ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
+					if ( eq != null && ( eq.CategoryType == 5 || eq.CategoryType == 32 ) ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
 						return 9;		//雷撃
 					}
 				}
