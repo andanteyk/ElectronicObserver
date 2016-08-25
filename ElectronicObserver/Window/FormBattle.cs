@@ -769,12 +769,19 @@ namespace ElectronicObserver.Window {
 
 
 					if ( bd is BattleNormalDay || bd is BattlePracticeDay ) {
+                        var shipAirBattleDetail = SelectBattleDetail( ( (BattleDay)bd ).AirBattle.BattleDetails, i );
 						var shipOpeningASWDetail = SelectBattleDetail( ( (BattleDay)bd ).OpeningASW.BattleDetails, i );
 						var shipOpeningTorpedoDetail = SelectBattleDetail( ( (BattleDay)bd ).OpeningTorpedo.BattleDetails, i );
 						var shipShelling1Detail = SelectBattleDetail( ( (BattleDay)bd ).Shelling1.BattleDetails, i );
 						var shipShelling2Detail = SelectBattleDetail( ( (BattleDay)bd ).Shelling2.BattleDetails, i );
 						var shipShelling3Detail = SelectBattleDetail( ( (BattleDay)bd ).Shelling3.BattleDetails, i );
 						var shipTorpedoDetail = SelectBattleDetail( ( (BattleDay)bd ).Torpedo.BattleDetails, i );
+
+                        if (shipAirBattleDetail.Any()) {
+                            //TODO please translate it to Japanese
+                            builder.AppendLine("《Air Battle》");
+                            builder.Append(FriendShipBattleDetail(bd, shipAirBattleDetail));
+                        }
 
 						if ( shipOpeningASWDetail.Any() ) {
 							builder.AppendLine( "《開幕対潜》" );
@@ -896,6 +903,16 @@ namespace ElectronicObserver.Window {
 						attackDamages[i]
 						);
 
+                    if ( bd is BattleCombinedAirRaid ) {
+                        var shipAirBattleDetail = SelectBattleDetail(((BattleDay)bd).AirBattle.BattleDetails, i);
+
+                        if (shipAirBattleDetail.Any()) {
+                            //TODO please translate it to Japanese
+                            builder.AppendLine("《Air Battle》");
+                            builder.Append(FriendShipBattleDetail(bd, shipAirBattleDetail));
+                        }
+
+                    }
 
 					if ( bd is BattleCombinedWater ) {
 						var shipShelling1Detail = SelectBattleDetail( ( (BattleDay)bd ).Shelling1.BattleDetails, i );
@@ -975,6 +992,16 @@ namespace ElectronicObserver.Window {
 						attackDamages[i + 12]
 						);
 
+                    if (bd is BattleCombinedAirRaid) {
+                        var shipAirBattleDetail = SelectBattleDetail(((BattleDay)bd).AirBattle.BattleDetails, i);
+
+                        if (shipAirBattleDetail.Any()) {
+                            //TODO please translate it to Japanese
+                            builder.AppendLine("《Air Battle》");
+                            builder.Append(FriendShipBattleDetail(bd, shipAirBattleDetail));
+                        }
+
+                    }
 
 					if ( bd is BattleCombinedNormalDay ) {
 						var shipOpeningASWDetail = SelectBattleDetail( ( (BattleDay)bd ).OpeningASW.BattleDetails, i + 12 );

@@ -11,6 +11,8 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public abstract class BattleDetail {
 
+        public static readonly int AIR_ATTACKER = -999;
+
 		protected int attackerIndex;
 		protected int defenderIndex;
 		public int[] Damages { get; protected set; }
@@ -61,7 +63,11 @@ namespace ElectronicObserver.Data.Battle {
 
 			int[] slots;
 
-			if ( AttackerIndex < 6 ) {
+            if (attackerIndex.Equals(AIR_ATTACKER)) {
+                Attacker = null;
+                slots = null;
+
+            } else if ( AttackerIndex < 6 ) {
 				var atk = bd.Initial.FriendFleet.MembersInstance[AttackerIndex];
 				Attacker = atk.MasterShip;
 				slots = atk.SlotMaster.ToArray();
@@ -94,18 +100,23 @@ namespace ElectronicObserver.Data.Battle {
 		/// <summary>
 		/// 戦闘詳細の情報を出力します。
 		/// </summary>
-		public virtual string BattleDescription() {
+		public string BattleDescription() {
 
 			StringBuilder builder = new StringBuilder();
-			builder.Append( Attacker.NameWithClass );
-			if ( 6 <= AttackerIndex && AttackerIndex < 12 )
-				builder.Append( " #" ).Append( AttackerIndex - 6 + 1 );
+            if (Attacker == null) {
+                //TODO please translate it to Japanese
+                builder.Append("Damage from air battle").AppendLine();
+            } else {
+                builder.Append(Attacker.NameWithClass);
+                if (6 <= AttackerIndex && AttackerIndex < 12)
+                    builder.Append(" #").Append(AttackerIndex - 6 + 1);
 
-			builder.Append( " → " ).Append( Defender.NameWithClass );
-			if ( 6 <= DefenderIndex && DefenderIndex < 12 )
-				builder.Append( " #" ).Append( DefenderIndex - 6 + 1 );
+                builder.Append(" → ").Append(Defender.NameWithClass);
+                if (6 <= DefenderIndex && DefenderIndex < 12)
+                    builder.Append(" #").Append(DefenderIndex - 6 + 1);
 
-			builder.AppendLine();
+                builder.AppendLine();
+            }
 
 			if ( AttackType >= 0 )
 				builder.Append( "[" ).Append( GetAttackKind() ).Append( "] " );
@@ -175,4 +186,21 @@ namespace ElectronicObserver.Data.Battle {
 			return Constants.GetNightAttackKind( AttackType );
 		}
 	}
+
+    public class BattleAirDetail : BattleDayDetail {
+
+        public BattleAirDetail( BattleData bd, int defenderId, int[] damages, int[] criticalTypes )
+            : base(bd, AIR_ATTACKER, defenderId, damages, criticalTypes, -1) {
+
+        }
+
+        protected override int CaclulateAttackKind(int[] slots, int attackerShipID, int defenderShipID) {
+            return -1;
+        }
+
+        protected override string GetAttackKind() {
+            return null;
+        }
+
+    }
 }

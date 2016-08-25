@@ -43,6 +43,20 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				}
 			}
 
+            {
+
+                for (int i = 0; i < Damages.Length; i++) {
+                    if (Damages[i] > 0) {
+                        if (i < 6) {
+                            // 0 in criticals stands both hit and miss, 1 stands for critical
+                            BattleDetails.Add(new BattleAirDetail(_battleData, i + 1, new int[] { Damages[i] }, new int[] { Criticals[i] + 1 }));
+                        } else if (i >= 12) {
+                            BattleDetails.Add(new BattleAirDetail(_battleData, i + 1, new int[] { Damages[i] }, new int[] { Criticals[i] + 1 }));
+                        }
+                    }
+                }
+            }
+
 			CalculateAttackDamage( damages );
 
 		}
@@ -249,6 +263,38 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				}
 			}
 		}
+        public int[] Criticals {
+            get {
+                if (AirBattleData.api_stage3_combined()) {
+                    int[] ret = new int[18];
+
+                    int[] friend = (int[])AirBattleData.api_stage3.api_fcl_flag;
+                    int[] enemy = (int[])AirBattleData.api_stage3.api_ecl_flag;
+                    int[] escort = (int[])AirBattleData.api_stage3_combined.api_fcl_flag;
+
+                    for (int i = 0; i < 6; i++) {
+                        ret[i] = Math.Max(friend[i + 1], 0);
+                        ret[i + 6] = Math.Max(enemy[i + 1], 0);
+                        ret[i + 12] = Math.Max(escort[i + 1], 0);
+                    }
+
+                    return ret;
+
+                } else {
+                    int[] ret = new int[12];
+
+                    int[] friend = (int[])AirBattleData.api_stage3.api_fcl_flag;
+                    int[] enemy = (int[])AirBattleData.api_stage3.api_ecl_flag;
+
+                    for (int i = 0; i < 6; i++) {
+                        ret[i] = Math.Max(friend[i + 1], 0);
+                        ret[i + 6] = Math.Max(enemy[i + 1], 0);
+                    }
+
+                    return ret;
+                }
+            }
+        }
 
 	}
 }
