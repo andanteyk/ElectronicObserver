@@ -11,7 +11,7 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public abstract class BattleDetail {
 
-        public static readonly int AIR_ATTACKER = -999;
+		public static readonly int AIR_ATTACKER = -999;
 
 		protected int attackerIndex;
 		protected int defenderIndex;
@@ -42,7 +42,7 @@ namespace ElectronicObserver.Data.Battle {
 			Miss = 0,
 			Hit = 1,
 			Critical = 2,
-			Unknown = -1
+			Invalid = -1
 		}
 
 
@@ -63,11 +63,11 @@ namespace ElectronicObserver.Data.Battle {
 
 			int[] slots;
 
-            if (attackerIndex.Equals(AIR_ATTACKER)) {
-                Attacker = null;
-                slots = null;
+			if ( attackerIndex.Equals( AIR_ATTACKER ) ) {
+				Attacker = null;
+				slots = null;
 
-            } else if ( AttackerIndex < 6 ) {
+			} else if ( AttackerIndex < 6 ) {
 				var atk = bd.Initial.FriendFleet.MembersInstance[AttackerIndex];
 				Attacker = atk.MasterShip;
 				slots = atk.SlotMaster.ToArray();
@@ -103,25 +103,30 @@ namespace ElectronicObserver.Data.Battle {
 		public string BattleDescription() {
 
 			StringBuilder builder = new StringBuilder();
-            if (Attacker == null) {
-                //TODO please translate it to Japanese
-                builder.Append("Damage from air battle").AppendLine();
-            } else {
-                builder.Append(Attacker.NameWithClass);
-                if (6 <= AttackerIndex && AttackerIndex < 12)
-                    builder.Append(" #").Append(AttackerIndex - 6 + 1);
+			if ( Attacker == null ) {
+				builder.Append( "敵航空隊 → " ).Append( Defender.NameWithClass );
+				if ( 6 <= DefenderIndex && DefenderIndex < 12 )
+					builder.Append( " #" ).Append( DefenderIndex - 6 + 1 );
 
-                builder.Append(" → ").Append(Defender.NameWithClass);
-                if (6 <= DefenderIndex && DefenderIndex < 12)
-                    builder.Append(" #").Append(DefenderIndex - 6 + 1);
+			} else {
+				builder.Append( Attacker.NameWithClass );
+				if ( 6 <= AttackerIndex && AttackerIndex < 12 )
+					builder.Append( " #" ).Append( AttackerIndex - 6 + 1 );
 
-                builder.AppendLine();
-            }
+				builder.Append( " → " ).Append( Defender.NameWithClass );
+				if ( 6 <= DefenderIndex && DefenderIndex < 12 )
+					builder.Append( " #" ).Append( DefenderIndex - 6 + 1 );
+
+			}
+			builder.AppendLine();
 
 			if ( AttackType >= 0 )
 				builder.Append( "[" ).Append( GetAttackKind() ).Append( "] " );
 
 			for ( int i = 0; i < Damages.Length; i++ ) {
+				if ( CriticalTypes[i] ==  CriticalType.Invalid )	// カットイン(主砲/主砲)、カットイン(主砲/副砲)時に発生する
+					continue;
+
 				if ( i > 0 )
 					builder.Append( " , " );
 
@@ -187,20 +192,32 @@ namespace ElectronicObserver.Data.Battle {
 		}
 	}
 
-    public class BattleAirDetail : BattleDayDetail {
+	/// <summary>
+	/// 航空戦における戦闘詳細データを保持します。
+	/// </summary>
+	public class BattleAirDetail : BattleDayDetail {
 
-        public BattleAirDetail( BattleData bd, int defenderId, int[] damages, int[] criticalTypes )
-            : base(bd, AIR_ATTACKER, defenderId, damages, criticalTypes, -1) {
+		public BattleAirDetail( BattleData bd, int defenderId, int[] damages, int[] criticalTypes, int attackType )
+			: base( bd, AIR_ATTACKER, defenderId, damages, criticalTypes, attackType ) {
 
-        }
+		}
 
-        protected override int CaclulateAttackKind(int[] slots, int attackerShipID, int defenderShipID) {
-            return -1;
-        }
+		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
+			return -1;
+		}
 
-        protected override string GetAttackKind() {
-            return null;
-        }
+		protected override string GetAttackKind() {
+			switch ( AttackType ) {
+				case 1:
+					return "雷撃";
+				case 2:
+					return "爆撃";
+				case 3:
+					return "雷撃+爆撃";
+				default:
+					return "不明";
+			}
+		}
 
-    }
+	}
 }

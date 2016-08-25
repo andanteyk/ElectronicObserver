@@ -48,7 +48,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					AddDamage( hps, j, tempDamages[j] );
 
 
-				BattleDetails.Add( new BattleNightDetail( _battleData, attackers[i] + ( isEscort && attackers[i] <= 6 ? 12 : 0 ), defenders.LastOrDefault() + ( isEscort && defenders.LastOrDefault() <= 6 ? 12 : 0 ), unitDamages, (int[])ShellingData.api_cl_list[i], (int)ShellingData.api_sp_list[i] ) );
+				BattleDetails.Add( new BattleNightDetail( _battleData, attackers[i] + ( isEscort && attackers[i] <= 6 ? 12 : 0 ), defenders.LastOrDefault( x => x != -1 ) + ( isEscort && defenders.LastOrDefault( x => x != -1 ) <= 6 ? 12 : 0 ), unitDamages, (int[])ShellingData.api_cl_list[i], (int)ShellingData.api_sp_list[i] ) );
 
 				damages[GetIndex( attackers[i] )] += tempDamages.Sum();
 			}
