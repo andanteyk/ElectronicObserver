@@ -473,6 +473,49 @@ namespace ElectronicObserver.Window.Control {
 			PropertyChanged();
 		}
 
+		public void SetSlotList( BaseAirCorpsData corps ) {
+
+			int slotLength = corps != null ? corps.Squadrons.Count() : 0;
+
+			if ( SlotList.Length != slotLength ) {
+				SlotList = new SlotItem[slotLength];
+				for ( int i = 0; i < SlotList.Length; i++ ) {
+					SlotList[i] = new SlotItem();
+				}
+			}
+
+			for ( int i = 0; i < SlotList.Length; i++ ) {
+				var squadron = corps[i + 1];
+				var eq = squadron.EquipmentInstance;
+
+				switch ( squadron.State ) {
+					case 0:		// 未配属
+					case 2:		// 配置転換中
+					default:
+						SlotList[i].EquipmentID = -1;
+						SlotList[i].AircraftCurrent = 
+						SlotList[i].AircraftMax = 
+						SlotList[i].Level = 
+						SlotList[i].AircraftLevel = 0;
+						break;
+					case 1:		// 配属済み
+						if ( eq == null )
+							goto case 0;
+						SlotList[i].EquipmentID = eq.EquipmentID;
+						SlotList[i].AircraftCurrent = squadron.AircraftCurrent;
+						SlotList[i].AircraftMax = squadron.AircraftMax;
+						SlotList[i].Level = eq.Level;
+						SlotList[i].AircraftLevel = eq.AircraftLevel;
+						break;
+				}
+
+			}
+
+			SlotSize = slotLength;
+
+			PropertyChanged();
+		}
+
 
 		private void PropertyChanged() {
 

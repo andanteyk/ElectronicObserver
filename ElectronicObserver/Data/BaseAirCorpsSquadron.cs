@@ -35,7 +35,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 装備固有ID
 		/// </summary>
-		public int EquipmentID {
+		public int EquipmentMasterID {
 			get {
 				return (int)RawData.api_slotid;
 			}
@@ -46,7 +46,17 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public EquipmentData EquipmentInstance {
 			get {
-				return KCDatabase.Instance.Equipments[EquipmentID];
+				return KCDatabase.Instance.Equipments[EquipmentMasterID];
+			}
+		}
+
+		/// <summary>
+		/// 装備ID
+		/// </summary>
+		public int EquipmentID {
+			get {
+				var eq = EquipmentInstance;
+				return eq != null ? eq.EquipmentID : -1;
 			}
 		}
 
@@ -56,7 +66,7 @@ namespace ElectronicObserver.Data {
 		public EquipmentDataMaster EquipmentInstanceMaster {
 			get {
 				var eq = EquipmentInstance;
-				return eq != null ? eq.MasterEquipment : null;				
+				return eq != null ? eq.MasterEquipment : null;
 			}
 		}
 
@@ -98,7 +108,7 @@ namespace ElectronicObserver.Data {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 
 			int prevState = RawData != null ? State : 0;
-			
+
 			base.LoadFromResponse( apiname, (object)data );
 
 			// 配置転換中になったとき

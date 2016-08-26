@@ -23,24 +23,42 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.label1 = new System.Windows.Forms.Label();
+			this.components = new System.ComponentModel.Container();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.TableMember = new System.Windows.Forms.TableLayoutPanel();
 			this.SuspendLayout();
 			// 
-			// label1
+			// ToolTipInfo
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 9);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(41, 15);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "label1";
+			this.ToolTipInfo.AutoPopDelay = 60000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
+			// TableMember
+			// 
+			this.TableMember.AutoSize = true;
+			this.TableMember.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableMember.ColumnCount = 5;
+			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableMember.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableMember.Location = new System.Drawing.Point(0, 0);
+			this.TableMember.Name = "TableMember";
+			this.TableMember.RowCount = 1;
+			this.TableMember.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
+			this.TableMember.Size = new System.Drawing.Size(0, 21);
+			this.TableMember.TabIndex = 0;
+			this.TableMember.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableMember_CellPaint);
 			// 
 			// FormBaseAirCorps
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(300, 200);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.TableMember);
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -55,6 +73,8 @@
 
 		#endregion
 
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ToolTip ToolTipInfo;
+		private System.Windows.Forms.TableLayoutPanel TableMember;
+
 	}
 }

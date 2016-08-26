@@ -957,6 +957,8 @@ namespace ElectronicObserver.Utility.Data {
 				case 25:	//オートジャイロ
 				case 26:	//対潜哨戒機
 				case 45:	//水上戦闘機
+				case 47:	//陸上攻撃機
+				case 48:	//局地戦闘機
 					return true;
 
 				case 9:		//艦上偵察機

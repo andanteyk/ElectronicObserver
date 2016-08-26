@@ -68,7 +68,11 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public IDDictionary<BaseAirCorpsSquadron> Squadrons { get; private set; }
 
-
+		public BaseAirCorpsSquadron this[int i] {
+			get {
+				return Squadrons[i];
+			}
+		}
 
 		/// <summary>
 		/// 配置転換中の装備固有IDリスト
@@ -120,10 +124,10 @@ namespace ElectronicObserver.Data {
 					break;
 
 				case "api_req_air_corps/set_plane": {
-						var prev = Squadrons.Values.Select( sq => sq != null ? sq.EquipmentID : 0 ).ToArray();
+						var prev = Squadrons.Values.Select( sq => sq != null ? sq.EquipmentMasterID : 0 ).ToArray();
 						SetSquadrons( apiname, data.api_plane_info );
 						
-						foreach ( var deleted in prev.Except( Squadrons.Values.Select( sq => sq != null && sq.State == 1 ? sq.EquipmentID : 0 ) ) ) {
+						foreach ( var deleted in prev.Except( Squadrons.Values.Select( sq => sq != null && sq.State == 1 ? sq.EquipmentMasterID : 0 ) ) ) {
 							var eq = KCDatabase.Instance.Equipments[deleted];
 
 							if ( eq != null ) {

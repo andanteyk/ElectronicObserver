@@ -566,6 +566,7 @@ api_port/port		：母港情報
 		api_base_convert_slot	：配置転換中の装備固有ID　1つ以上あるときのみ存在
 	api_event_object		：('16 夏イベ版データ)
 		api_m_flag			：
+		api_base_conver_slot：配置転換中の装備固有ID　1つ以上あるときのみ存在
 		api_m_flag2			：0=なし　1=ギミック解除SE再生
 	api_parallel_quest_count	：最大受領可能任務数
 
