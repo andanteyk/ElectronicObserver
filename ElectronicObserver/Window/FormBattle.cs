@@ -292,7 +292,7 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		private void SetBaseAirAttack( PhaseBaseAirAttack pd ) {
 
-			if ( pd.IsAvailable ) {
+			if ( pd != null && pd.IsAvailable ) {
 
 				Searching.Text = "基地航空隊";
 				Searching.ImageAlign = ContentAlignment.MiddleLeft;

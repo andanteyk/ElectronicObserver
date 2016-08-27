@@ -45,7 +45,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			SetSize( Utility.Configuration.Config.Whitecap.BoardWidth, Utility.Configuration.Config.Whitecap.BoardHeight );
 			ShowInTaskbar = Utility.Configuration.Config.Whitecap.ShowInTaskbar;
-			TopMost = Utility.Configuration.Config.Whitecap.ShowInTaskbar;
+			TopMost = Utility.Configuration.Config.Whitecap.TopMost;
 		}
 
 		private void DialogWhitecap_Load( object sender, EventArgs e ) {

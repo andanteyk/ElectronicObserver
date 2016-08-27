@@ -84,6 +84,7 @@ namespace ElectronicObserver.Resource {
 			FormDevelopmentRecord,
 			FormConstructionRecord,
 			FormResourceChart,
+			FormBaseAirCorps,
 			FormJson,
 			FleetNoShip,
 			FleetDocking,
@@ -130,6 +131,8 @@ namespace ElectronicObserver.Resource {
 			ParameterAircraft,
 			ParameterSpeed,
 			ParameterRange,
+			ParameterAircraftCost,
+			ParameterAircraftDistance,
 			BattleFormationEnemyLineAhead,
 			BattleFormationEnemyDoubleLine,
 			BattleFormationEnemyDiamond,
@@ -275,6 +278,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/DevelopmentRecord.png", "Form_DevelopmentRecord" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/ConstructionRecord.png", "Form_ConstructionRecord" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/ResourceChart.png", "Form_ResourceChart" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/BaseAirCorps.png", "Form_BaseAirCorps" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Json.png", "Form_Json" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NoShip.png", "Fleet_NoShip" );
@@ -326,6 +330,8 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Aircraft.png", "Parameter_Aircraft" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Speed.png", "Parameter_Speed" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/Range.png", "Parameter_Range" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/AircraftCost.png", "Parameter_AircraftCost" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Parameter/AircraftDistance.png", "Parameter_AircraftDistance" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy01.png", "Battle_FormationEnemy_LineAhead" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy02.png", "Battle_FormationEnemy_DoubleLine" );

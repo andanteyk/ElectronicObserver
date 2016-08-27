@@ -220,6 +220,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 			}
 
+			foreach ( int id in BaseAirCorpsData.RelocatedEquipments ) {
+				var eq = KCDatabase.Instance.Equipments[id];
+				if ( eq == null )
+					continue;
+				remainCount[eq.EquipmentID]--;
+			}
+
+
 
 			//表示処理
 			EquipmentView.SuspendLayout();
@@ -338,6 +346,25 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
+			}
+
+			// 基地航空隊 - 配置転換中の装備を集計
+			foreach ( int id in BaseAirCorpsData.RelocatedEquipments ) {
+				var eq = KCDatabase.Instance.Equipments[id];
+				if ( eq == null || eq.EquipmentID != equipmentID ) continue;
+
+				countlist[DetailCounter.CalculateID( eq )].countRemain--;
+			}
+
+			foreach ( var c in countlist.Values ) {
+				if ( c.countRemain != c.countRemainPrev ) {
+
+					int diff = c.countRemainPrev - c.countRemain;
+
+					c.equippedShips.Add( "配置転換中" + ( diff > 1 ? ( " x" + diff ) : "" ) );
+
+					c.countRemainPrev = c.countRemain;
+				}
 			}
 
 
