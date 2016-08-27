@@ -86,6 +86,18 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 配置転換された時刻
+		/// されていなければ DateTime.MinValue
+		/// </summary>
+		public DateTime RelocatedTime { get; internal set; }
+
+		/// <summary>
+		/// 配置転換中かどうか
+		/// </summary>
+		public bool IsRelocated { get { return RelocatedTime != DateTime.MinValue; } }
+
+
 
 		public int ID {
 			get { return MasterID; }

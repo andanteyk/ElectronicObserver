@@ -35,13 +35,30 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			if ( !IsAvailable || !IsStage3Available ) return;
 
-			{
-				int[] dmg = Damages;
 
-				for ( int i = 0; i < hps.Length; i++ ) {
-					AddDamage( hps, i, dmg[i] );
+			// キャッシュ
+			int[] torp = TorpedoFlags;
+			int[] bomb = BomberFlags;
+			int[] crit = Criticals;
+			int[] dmg = Damages;
+
+			for ( int i = 0; i < hps.Length; i++ ) {
+				AddDamage( hps, i, dmg[i] );
+			}
+
+
+			for ( int i = 0; i < dmg.Length; i++ ) {
+				if ( torp[i] > 0 || bomb[i] > 0 ) {
+					if ( i < 6 ) {
+						// 0 in criticals stands both hit and miss, 1 stands for critical
+						BattleDetails.Add( new BattleAirDetail( _battleData, i + 1, new int[] { dmg[i] }, new int[] { crit[i] + 1 }, ( torp[i] > 0 ? 1 : 0 ) | ( bomb[i] > 0 ? 2 : 0 ) ) );
+
+					} else if ( i >= 12 ) {
+						BattleDetails.Add( new BattleAirDetail( _battleData, i + 1, new int[] { dmg[i] }, new int[] { crit[i] + 1 }, ( torp[i] > 0 ? 1 : 0 ) | ( bomb[i] > 0 ? 2 : 0 ) ) );
+					}
 				}
 			}
+
 
 			CalculateAttackDamage( damages );
 
@@ -214,41 +231,59 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		public bool IsStage3Available { get { return StageFlag != null && StageFlag[2] != 0 && AirBattleData.api_stage3() && AirBattleData.api_stage3 != null; } }
 
+
+
+		private int[] ConcatStage3Array( string friendName, string enemyName ) {
+			if ( AirBattleData.api_stage3_combined() ) {
+				int[] ret = new int[18];
+
+				int[] friend = (int[])AirBattleData.api_stage3[friendName];
+				int[] enemy = (int[])AirBattleData.api_stage3[enemyName];
+				int[] escort = (int[])AirBattleData.api_stage3_combined[friendName];
+
+				for ( int i = 0; i < 6; i++ ) {
+					ret[i] = Math.Max( friend[i + 1], 0 );
+					ret[i + 6] = Math.Max( enemy[i + 1], 0 );
+					ret[i + 12] = Math.Max( escort[i + 1], 0 );
+				}
+
+				return ret;
+
+			} else {
+				int[] ret = new int[12];
+
+				int[] friend = (int[])AirBattleData.api_stage3[friendName];
+				int[] enemy = (int[])AirBattleData.api_stage3[enemyName];
+
+				for ( int i = 0; i < 6; i++ ) {
+					ret[i] = Math.Max( friend[i + 1], 0 );
+					ret[i + 6] = Math.Max( enemy[i + 1], 0 );
+				}
+
+				return ret;
+			}
+		}
+
+
+		/// <summary>
+		/// 被雷撃フラグ
+		/// </summary>
+		public int[] TorpedoFlags { get { return ConcatStage3Array( "api_frai_flag", "api_erai_flag" ); } }
+
+		/// <summary>
+		/// 被爆撃フラグ
+		/// </summary>
+		public int[] BomberFlags { get { return ConcatStage3Array( "api_fbak_flag", "api_ebak_flag" ); } }
+
+		/// <summary>
+		/// 各艦のクリティカルフラグ
+		/// </summary>
+		public int[] Criticals { get { return ConcatStage3Array( "api_fcl_flag", "api_ecl_flag" ); } }
+
 		/// <summary>
 		/// 各艦の被ダメージ
 		/// </summary>
-		public int[] Damages {
-			get {
-				if ( AirBattleData.api_stage3_combined() ) {
-					int[] ret = new int[18];
-
-					int[] friend = (int[])AirBattleData.api_stage3.api_fdam;
-					int[] enemy = (int[])AirBattleData.api_stage3.api_edam;
-					int[] escort = (int[])AirBattleData.api_stage3_combined.api_fdam;
-
-					for ( int i = 0; i < 6; i++ ) {
-						ret[i] = Math.Max( friend[i + 1], 0 );
-						ret[i + 6] = Math.Max( enemy[i + 1], 0 );
-						ret[i + 12] = Math.Max( escort[i + 1], 0 );
-					}
-
-					return ret;
-
-				} else {
-					int[] ret = new int[12];
-
-					int[] friend = (int[])AirBattleData.api_stage3.api_fdam;
-					int[] enemy = (int[])AirBattleData.api_stage3.api_edam;
-
-					for ( int i = 0; i < 6; i++ ) {
-						ret[i] = Math.Max( friend[i + 1], 0 );
-						ret[i + 6] = Math.Max( enemy[i + 1], 0 );
-					}
-
-					return ret;
-				}
-			}
-		}
+		public int[] Damages { get { return ConcatStage3Array( "api_fdam", "api_edam" ); } }
 
 	}
 }

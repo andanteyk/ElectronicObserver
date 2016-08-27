@@ -38,6 +38,11 @@
 			this.EquipmentView_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.EquipmentView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.BasePanelEquipment = new System.Windows.Forms.Panel();
+			this.TableAircraft = new System.Windows.Forms.TableLayoutPanel();
+			this.TitleAircraftDistance = new ElectronicObserver.Window.Control.ImageLabel();
+			this.AircraftDistance = new ElectronicObserver.Window.Control.ImageLabel();
+			this.AircraftCost = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TitleAircraftCost = new ElectronicObserver.Window.Control.ImageLabel();
 			this.AlbumNo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel1 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel2 = new ElectronicObserver.Window.Control.ImageLabel();
@@ -93,6 +98,7 @@
 			this.splitContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.EquipmentView)).BeginInit();
 			this.BasePanelEquipment.SuspendLayout();
+			this.TableAircraft.SuspendLayout();
 			this.TableEquipmentName.SuspendLayout();
 			this.TableParameterSub.SuspendLayout();
 			this.TableArsenal.SuspendLayout();
@@ -232,6 +238,7 @@
 			// 
 			// BasePanelEquipment
 			// 
+			this.BasePanelEquipment.Controls.Add(this.TableAircraft);
 			this.BasePanelEquipment.Controls.Add(this.AlbumNo);
 			this.BasePanelEquipment.Controls.Add(this.imageLabel1);
 			this.BasePanelEquipment.Controls.Add(this.imageLabel2);
@@ -249,6 +256,74 @@
 			this.BasePanelEquipment.Name = "BasePanelEquipment";
 			this.BasePanelEquipment.Size = new System.Drawing.Size(546, 456);
 			this.BasePanelEquipment.TabIndex = 0;
+			// 
+			// TableAircraft
+			// 
+			this.TableAircraft.AutoSize = true;
+			this.TableAircraft.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TableAircraft.ColumnCount = 5;
+			this.TableAircraft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableAircraft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.TableAircraft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 16F));
+			this.TableAircraft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableAircraft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.TableAircraft.Controls.Add(this.AircraftCost, 1, 0);
+			this.TableAircraft.Controls.Add(this.TitleAircraftCost, 0, 0);
+			this.TableAircraft.Controls.Add(this.AircraftDistance, 4, 0);
+			this.TableAircraft.Controls.Add(this.TitleAircraftDistance, 3, 0);
+			this.TableAircraft.Location = new System.Drawing.Point(3, 325);
+			this.TableAircraft.Name = "TableAircraft";
+			this.TableAircraft.RowCount = 1;
+			this.TableAircraft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.TableAircraft.Size = new System.Drawing.Size(269, 22);
+			this.TableAircraft.TabIndex = 26;
+			this.TableAircraft.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableAircraft_CellPaint);
+			// 
+			// TitleAircraftDistance
+			// 
+			this.TitleAircraftDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.TitleAircraftDistance.BackColor = System.Drawing.Color.Transparent;
+			this.TitleAircraftDistance.Location = new System.Drawing.Point(134, 3);
+			this.TitleAircraftDistance.Name = "TitleAircraftDistance";
+			this.TitleAircraftDistance.Size = new System.Drawing.Size(92, 16);
+			this.TitleAircraftDistance.TabIndex = 27;
+			this.TitleAircraftDistance.Text = "戦闘行動半径";
+			this.TitleAircraftDistance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// AircraftDistance
+			// 
+			this.AircraftDistance.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.AircraftDistance.BackColor = System.Drawing.Color.Transparent;
+			this.AircraftDistance.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.AircraftDistance.Location = new System.Drawing.Point(244, 3);
+			this.AircraftDistance.Name = "AircraftDistance";
+			this.AircraftDistance.Size = new System.Drawing.Size(22, 16);
+			this.AircraftDistance.TabIndex = 27;
+			this.AircraftDistance.Text = "123";
+			this.AircraftDistance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// AircraftCost
+			// 
+			this.AircraftCost.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.AircraftCost.BackColor = System.Drawing.Color.Transparent;
+			this.AircraftCost.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.AircraftCost.Location = new System.Drawing.Point(90, 3);
+			this.AircraftCost.Name = "AircraftCost";
+			this.AircraftCost.Size = new System.Drawing.Size(22, 16);
+			this.AircraftCost.TabIndex = 18;
+			this.AircraftCost.Text = "123";
+			this.AircraftCost.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// TitleAircraftCost
+			// 
+			this.TitleAircraftCost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.TitleAircraftCost.BackColor = System.Drawing.Color.Transparent;
+			this.TitleAircraftCost.Location = new System.Drawing.Point(3, 3);
+			this.TitleAircraftCost.Name = "TitleAircraftCost";
+			this.TitleAircraftCost.Size = new System.Drawing.Size(69, 16);
+			this.TitleAircraftCost.TabIndex = 17;
+			this.TitleAircraftCost.Text = "配備コスト";
+			this.TitleAircraftCost.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// AlbumNo
 			// 
@@ -371,7 +446,7 @@
 			this.TableParameterSub.Controls.Add(this.imageLabel71, 2, 0);
 			this.TableParameterSub.Controls.Add(this.TitleRange, 0, 1);
 			this.TableParameterSub.Controls.Add(this.TitleSpeed, 0, 0);
-			this.TableParameterSub.Location = new System.Drawing.Point(3, 300);
+			this.TableParameterSub.Location = new System.Drawing.Point(3, 275);
 			this.TableParameterSub.Name = "TableParameterSub";
 			this.TableParameterSub.RowCount = 2;
 			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -490,7 +565,7 @@
 			this.TableArsenal.Controls.Add(this.MaterialSteel, 3, 0);
 			this.TableArsenal.Controls.Add(this.MaterialAmmo, 2, 0);
 			this.TableArsenal.Controls.Add(this.imageLabel59, 0, 0);
-			this.TableArsenal.Location = new System.Drawing.Point(300, 300);
+			this.TableArsenal.Location = new System.Drawing.Point(283, 275);
 			this.TableArsenal.Name = "TableArsenal";
 			this.TableArsenal.RowCount = 1;
 			this.TableArsenal.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -879,6 +954,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.EquipmentView)).EndInit();
 			this.BasePanelEquipment.ResumeLayout(false);
 			this.BasePanelEquipment.PerformLayout();
+			this.TableAircraft.ResumeLayout(false);
+			this.TableAircraft.PerformLayout();
 			this.TableEquipmentName.ResumeLayout(false);
 			this.TableEquipmentName.PerformLayout();
 			this.TableParameterSub.ResumeLayout(false);
@@ -954,5 +1031,10 @@
 		private System.Windows.Forms.DataGridViewImageColumn EquipmentView_Icon;
 		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_Type;
 		private System.Windows.Forms.DataGridViewTextBoxColumn EquipmentView_Name;
+		private System.Windows.Forms.TableLayoutPanel TableAircraft;
+		private Control.ImageLabel TitleAircraftDistance;
+		private Control.ImageLabel AircraftDistance;
+		private Control.ImageLabel AircraftCost;
+		private Control.ImageLabel TitleAircraftCost;
 	}
 }

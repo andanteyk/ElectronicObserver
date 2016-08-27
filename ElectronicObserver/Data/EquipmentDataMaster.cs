@@ -91,14 +91,14 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
-		/// 命中
+		/// 命中 / 対爆
 		/// </summary>
 		public int Accuracy {
 			get { return (int)RawData.api_houm; }
 		}
 
 		/// <summary>
-		/// 回避
+		/// 回避 / 迎撃
 		/// </summary>
 		public int Evasion {
 			get { return (int)RawData.api_houk; }
