@@ -817,8 +817,8 @@ namespace ElectronicObserver.Window {
 
 
 					} else if ( bd is BattleAirBattle ) {
-						var shipAirBattle1Detail = SelectBattleDetail( ( (BattleCombinedAirBattle)bd ).AirBattle.BattleDetails, i );
-						var shipAirBattle2Detail = SelectBattleDetail( ( (BattleCombinedAirBattle)bd ).AirBattle2.BattleDetails, i );
+						var shipAirBattle1Detail = SelectBattleDetail( ( (BattleAirBattle)bd ).AirBattle.BattleDetails, i );
+						var shipAirBattle2Detail = SelectBattleDetail( ( (BattleAirBattle)bd ).AirBattle2.BattleDetails, i );
 
 						if ( shipAirBattle1Detail.Any() ) {
 							builder.AppendLine( "《第一次航空戦》" );
