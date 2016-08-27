@@ -64,8 +64,9 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="count">搭載機数。</param>
 		/// <param name="aircraftLevel">艦載機熟練度。既定値は 0 です。</param>
 		/// <param name="level">改修レベル。既定値は 0 です。</param>
+		/// <param name="isAirDefense">基地航空隊による防空戦かどうか。</param>
 		/// <returns></returns>
-		public static int GetAirSuperiority( int equipmentID, int count, int aircraftLevel = 0, int level = 0 ) {
+		public static int GetAirSuperiority( int equipmentID, int count, int aircraftLevel = 0, int level = 0, bool isAirDefense = false ) {
 
 			if ( count <= 0 )
 				return 0;
@@ -78,8 +79,14 @@ namespace ElectronicObserver.Utility.Data {
 			if ( !AircraftLevelBonus.ContainsKey( category ) )
 				return 0;
 
-			double interceptorBonus = category == 48 ? ( eq.Evasion * 1.5 ) : 0;				// 局地戦闘機の迎撃補正
 			double levelBonus = LevelBonus.ContainsKey( category ) ? LevelBonus[category] : 0;	// 改修レベル補正
+			double interceptorBonus = 0;	// 局地戦闘機の迎撃補正
+			if ( category == 48 ) {
+				if ( isAirDefense )
+					interceptorBonus = eq.Accuracy * 2 + eq.Evasion;
+				else
+					interceptorBonus = eq.Evasion * 1.5;
+			}
 
 
 			return (int)( ( eq.AA + levelBonus * level + interceptorBonus ) * Math.Sqrt( count ) + Math.Sqrt( AircraftExpTable[aircraftLevel] / 10.0 ) + AircraftLevelBonus[category][aircraftLevel] );
@@ -183,14 +190,14 @@ namespace ElectronicObserver.Utility.Data {
 			if ( aircorps == null )
 				return 0;
 
-			return aircorps.Squadrons.Values.Sum( sq => GetAirSuperiority( sq ) );
+			return aircorps.Squadrons.Values.Sum( sq => GetAirSuperiority( sq, aircorps.ActionKind == 2 ) );
 		}
 
 		/// <summary>
 		/// 基地航空中隊の制空戦力を求めます。
 		/// </summary>
 		/// <param name="squadron">対象の基地航空中隊。</param>
-		public static int GetAirSuperiority( BaseAirCorpsSquadron squadron ) {
+		public static int GetAirSuperiority( BaseAirCorpsSquadron squadron, bool isAirDefense = false ) {
 			if ( squadron == null || squadron.State != 1 )
 				return 0;
 
@@ -198,7 +205,7 @@ namespace ElectronicObserver.Utility.Data {
 			if ( eq == null )
 				return 0;
 
-			return GetAirSuperiority( eq.EquipmentID, squadron.AircraftCurrent, eq.AircraftLevel );
+			return GetAirSuperiority( eq.EquipmentID, squadron.AircraftCurrent, eq.AircraftLevel, eq.Level, isAirDefense );
 		}
 
 
