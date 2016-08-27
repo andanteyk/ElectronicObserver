@@ -13,7 +13,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 		// 砲撃戦とフォーマットが同じなので流用
 
-		public PhaseOpeningASW( BattleData data, bool isEscort  )
+		public PhaseOpeningASW( BattleData data, bool isEscort )
 			: base( data, 0, "", isEscort ) {
 
 		}

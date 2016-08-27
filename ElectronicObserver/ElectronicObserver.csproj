@@ -104,6 +104,7 @@
     <Compile Include="Data\Battle\BattleData.cs" />
     <Compile Include="Data\Battle\BattleDay.cs" />
     <Compile Include="Data\Battle\BattleAirRaid.cs" />
+    <Compile Include="Data\Battle\BattleDetail.cs" />
     <Compile Include="Data\Battle\BattleManager.cs" />
     <Compile Include="Data\Battle\BattleNight.cs" />
     <Compile Include="Data\Battle\BattleNightOnly.cs" />
@@ -752,7 +753,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 および x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
