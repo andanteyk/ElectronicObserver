@@ -92,6 +92,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_kousyou/remodel_slot"].ResponseReceived += Updated;
 			o.APIList["api_get_member/material"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ship_deck"].ResponseReceived += Updated;
+			o.APIList["api_req_air_corps/set_plane"].ResponseReceived += Updated;
+			o.APIList["api_req_air_corps/supply"].ResponseReceived += Updated;
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;

@@ -37,6 +37,7 @@ namespace ElectronicObserver.Window {
 				Name.Padding = new Padding( 0, 1, 0, 1 );
 				Name.Margin = new Padding( 2, 0, 2, 0 );
 				Name.AutoSize = true;
+				Name.ContextMenuStrip = parent.ContextMenuBaseAirCorps;
 				Name.Visible = false;
 
 				ActionKind = new ImageLabel();
@@ -316,6 +317,53 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ContextMenuBaseAirCorps_CopyOrganization_Click( object sender, EventArgs e ) {
+
+			var sb = new StringBuilder();
+
+			foreach ( var corps in KCDatabase.Instance.BaseAirCorps.Values ) {
+
+				sb.AppendFormat( "{0}\t[{1}] 制空戦力{2}\r\n",
+					corps.Name, Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
+					Calculator.GetAirSuperiority( corps ) );
+
+				var sq = corps.Squadrons.Values.ToArray();
+
+				for ( int i = 0; i < sq.Length; i++ ) {
+					if ( i > 0 )
+						sb.Append( "/" );
+
+					if ( sq[i] == null ) {
+						sb.Append( "(消息不明)" );
+						continue;
+					}
+
+					switch ( sq[i].State ) {
+						case 0:
+							sb.Append( "(未配属)" );
+							break;
+						case 1: {
+								var eq = sq[i].EquipmentInstance;
+
+								sb.Append( eq == null ? "(なし)" : eq.NameWithLevel );
+
+								if ( sq[i].AircraftCurrent < sq[i].AircraftMax )
+									sb.AppendFormat( "[{0}/{1}]", sq[i].AircraftCurrent, sq[i].AircraftMax );
+							} break;
+						case 2:
+							sb.Append( "(配置転換中)" );
+							break;
+					}
+				}
+
+				sb.AppendLine().AppendLine();
+			}
+
+			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
+		}
+
+
+
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
@@ -323,6 +371,7 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "BaseAirCorps";
 		}
+
 
 	}
 }

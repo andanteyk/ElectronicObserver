@@ -98,6 +98,15 @@ namespace ElectronicObserver.Data {
 					ModdingMaterial = (int)data[7];
 					break;
 
+				case "api_req_air_corps/supply":
+					Fuel = (int)data.api_after_fuel;
+					Bauxite = (int)data.api_after_bauxite;
+					break;
+
+				case "api_req_air_corps/set_plane":
+					if ( data.api_after_bauxite() )
+						Bauxite = (int)data.api_after_bauxite;
+					break;
 			}
 		}
 

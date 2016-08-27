@@ -26,6 +26,9 @@
 			this.components = new System.ComponentModel.Container();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.TableMember = new System.Windows.Forms.TableLayoutPanel();
+			this.ContextMenuBaseAirCorps = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.ContextMenuBaseAirCorps_CopyOrganization = new System.Windows.Forms.ToolStripMenuItem();
+			this.ContextMenuBaseAirCorps.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ToolTipInfo
@@ -53,6 +56,20 @@
 			this.TableMember.TabIndex = 0;
 			this.TableMember.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableMember_CellPaint);
 			// 
+			// ContextMenuBaseAirCorps
+			// 
+			this.ContextMenuBaseAirCorps.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ContextMenuBaseAirCorps_CopyOrganization});
+			this.ContextMenuBaseAirCorps.Name = "ContextMenuBaseAirCorps";
+			this.ContextMenuBaseAirCorps.Size = new System.Drawing.Size(188, 48);
+			// 
+			// ContextMenuBaseAirCorps_CopyOrganization
+			// 
+			this.ContextMenuBaseAirCorps_CopyOrganization.Name = "ContextMenuBaseAirCorps_CopyOrganization";
+			this.ContextMenuBaseAirCorps_CopyOrganization.Size = new System.Drawing.Size(187, 22);
+			this.ContextMenuBaseAirCorps_CopyOrganization.Text = "クリップボードにコピー(&C)";
+			this.ContextMenuBaseAirCorps_CopyOrganization.Click += new System.EventHandler(this.ContextMenuBaseAirCorps_CopyOrganization_Click);
+			// 
 			// FormBaseAirCorps
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -66,6 +83,7 @@
 			this.Name = "FormBaseAirCorps";
 			this.Text = "基地航空隊";
 			this.Load += new System.EventHandler(this.FormBaseAirCorps_Load);
+			this.ContextMenuBaseAirCorps.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -75,6 +93,8 @@
 
 		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private System.Windows.Forms.TableLayoutPanel TableMember;
+		private System.Windows.Forms.ContextMenuStrip ContextMenuBaseAirCorps;
+		private System.Windows.Forms.ToolStripMenuItem ContextMenuBaseAirCorps_CopyOrganization;
 
 	}
 }

@@ -28,6 +28,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps {
 			if ( corps.ContainsKey( _aircorpsID ) )
 				corps[_aircorpsID].LoadFromResponse( APIName, data );
 
+
+			KCDatabase.Instance.Material.LoadFromResponse( APIName, data );
+
 			base.OnResponseReceived( (object)data );
 		}
 
