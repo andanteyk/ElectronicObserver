@@ -61,7 +61,7 @@
 			this.ContextMenuBaseAirCorps.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ContextMenuBaseAirCorps_CopyOrganization});
 			this.ContextMenuBaseAirCorps.Name = "ContextMenuBaseAirCorps";
-			this.ContextMenuBaseAirCorps.Size = new System.Drawing.Size(188, 48);
+			this.ContextMenuBaseAirCorps.Size = new System.Drawing.Size(188, 26);
 			// 
 			// ContextMenuBaseAirCorps_CopyOrganization
 			// 
@@ -72,6 +72,7 @@
 			// 
 			// FormBaseAirCorps
 			// 
+			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(300, 200);
@@ -79,6 +80,7 @@
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.HideOnClose = true;
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.Name = "FormBaseAirCorps";
 			this.Text = "基地航空隊";
