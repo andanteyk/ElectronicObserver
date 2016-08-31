@@ -202,8 +202,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//header
 			EquipmentID.Tag = equipmentID;
 			EquipmentID.Text = eq.EquipmentID.ToString();
-			ToolTipInfo.SetToolTip( EquipmentID, string.Format( "Type: [{0}, {1}, {2}, {3}]",
-				eq.EquipmentType[0], eq.EquipmentType[1], eq.EquipmentType[2], eq.EquipmentType[3] ) );
+			ToolTipInfo.SetToolTip( EquipmentID, string.Format( "Type: [ {0} ]", string.Join( ", ", eq.EquipmentType ) ) );
 			AlbumNo.Text = eq.AlbumNo.ToString();
 
 
@@ -396,8 +395,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "装備ID,図鑑番号,装備種,装備名,装備種1,装備種2,装備種3,装備種4,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
-						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 27 ) ) );
+						sw.WriteLine( "装備ID,図鑑番号,装備種,装備名,装備種1,装備種2,装備種3,装備種4,装備種5,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
+						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 28 ) ) );
 
 						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
 
@@ -410,6 +409,7 @@ namespace ElectronicObserver.Window.Dialog {
 								eq.EquipmentType[1],
 								eq.EquipmentType[2],
 								eq.EquipmentType[3],
+								eq.EquipmentType[4],
 								eq.Firepower,
 								eq.Torpedo,
 								eq.AA,
@@ -455,8 +455,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "装備ID,図鑑番号,装備名,装備種1,装備種2,装備種3,装備種4,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
-						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 26 ) ) );
+						sw.WriteLine( "装備ID,図鑑番号,装備名,装備種1,装備種2,装備種3,装備種4,装備種5,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
+						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 27 ) ) );
 
 						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
 
@@ -468,6 +468,7 @@ namespace ElectronicObserver.Window.Dialog {
 								eq.EquipmentType[1],
 								eq.EquipmentType[2],
 								eq.EquipmentType[3],
+								eq.EquipmentType[4],
 								eq.Firepower,
 								eq.Torpedo,
 								eq.AA,
