@@ -348,14 +348,7 @@ namespace ElectronicObserver.Window.Control {
 
 		private string GetDifferenceString() {
 
-			int diff = Value - PrevValue;
-
-			if ( diff < 0 )
-				return diff.ToString();
-			else if ( diff == 0 )
-				return "-0";
-			else
-				return "+" + diff.ToString();
+			return ( Value - PrevValue ).ToString( "+0;-0;-0" );
 		}
 
 	}
