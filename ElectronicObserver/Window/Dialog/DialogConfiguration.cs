@@ -34,6 +34,18 @@ namespace ElectronicObserver.Window.Dialog {
 
 		public DialogConfiguration() {
 			InitializeComponent();
+            
+            foreach (NotifierBase no in NotifierManager.Instance.GetNotifiers()) {
+                if (no.IsSilenced) {
+                    continue;
+                } else {
+                    silencio.Checked = false;
+                    setSilencioConfig(false);
+                    return;
+                }
+            }
+            silencio.Checked = true;
+            setSilencioConfig(true);
 
 		}
 
@@ -728,6 +740,16 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 		}
+
+        private void silencio_CheckedChanged(object sender, EventArgs e) {
+            setSilencioConfig(silencio.Checked);
+        }
+
+        private void setSilencioConfig(bool silenced) {
+            foreach (NotifierBase no in NotifierManager.Instance.GetNotifiers()) {
+                no.IsSilenced = silenced;
+            }
+        }
 
 
 	}
