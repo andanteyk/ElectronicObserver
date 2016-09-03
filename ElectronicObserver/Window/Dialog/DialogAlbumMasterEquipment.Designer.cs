@@ -24,9 +24,9 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,10 +39,10 @@
 			this.EquipmentView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.BasePanelEquipment = new System.Windows.Forms.Panel();
 			this.TableAircraft = new System.Windows.Forms.TableLayoutPanel();
-			this.TitleAircraftDistance = new ElectronicObserver.Window.Control.ImageLabel();
-			this.AircraftDistance = new ElectronicObserver.Window.Control.ImageLabel();
 			this.AircraftCost = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TitleAircraftCost = new ElectronicObserver.Window.Control.ImageLabel();
+			this.AircraftDistance = new ElectronicObserver.Window.Control.ImageLabel();
+			this.TitleAircraftDistance = new ElectronicObserver.Window.Control.ImageLabel();
 			this.AlbumNo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel1 = new ElectronicObserver.Window.Control.ImageLabel();
 			this.imageLabel2 = new ElectronicObserver.Window.Control.ImageLabel();
@@ -164,28 +164,28 @@
 			this.EquipmentView.AllowUserToResizeRows = false;
 			this.EquipmentView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.EquipmentView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.EquipmentView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.EquipmentView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
 			this.EquipmentView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.EquipmentView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.EquipmentView_ID,
             this.EquipmentView_Icon,
             this.EquipmentView_Type,
             this.EquipmentView_Name});
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.EquipmentView.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.EquipmentView.DefaultCellStyle = dataGridViewCellStyle6;
 			this.EquipmentView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.EquipmentView.Location = new System.Drawing.Point(0, 0);
 			this.EquipmentView.MultiSelect = false;
@@ -204,8 +204,8 @@
 			// EquipmentView_ID
 			// 
 			this.EquipmentView_ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.EquipmentView_ID.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.EquipmentView_ID.DefaultCellStyle = dataGridViewCellStyle5;
 			this.EquipmentView_ID.HeaderText = "ID";
 			this.EquipmentView_ID.Name = "EquipmentView_ID";
 			this.EquipmentView_ID.ReadOnly = true;
@@ -275,39 +275,15 @@
 			this.TableAircraft.Name = "TableAircraft";
 			this.TableAircraft.RowCount = 1;
 			this.TableAircraft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.TableAircraft.Size = new System.Drawing.Size(269, 22);
+			this.TableAircraft.Size = new System.Drawing.Size(269, 16);
 			this.TableAircraft.TabIndex = 26;
 			this.TableAircraft.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableAircraft_CellPaint);
-			// 
-			// TitleAircraftDistance
-			// 
-			this.TitleAircraftDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.TitleAircraftDistance.BackColor = System.Drawing.Color.Transparent;
-			this.TitleAircraftDistance.Location = new System.Drawing.Point(134, 3);
-			this.TitleAircraftDistance.Name = "TitleAircraftDistance";
-			this.TitleAircraftDistance.Size = new System.Drawing.Size(92, 16);
-			this.TitleAircraftDistance.TabIndex = 27;
-			this.TitleAircraftDistance.Text = "戦闘行動半径";
-			this.TitleAircraftDistance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// AircraftDistance
-			// 
-			this.AircraftDistance.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.AircraftDistance.BackColor = System.Drawing.Color.Transparent;
-			this.AircraftDistance.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.AircraftDistance.Location = new System.Drawing.Point(244, 3);
-			this.AircraftDistance.Name = "AircraftDistance";
-			this.AircraftDistance.Size = new System.Drawing.Size(22, 16);
-			this.AircraftDistance.TabIndex = 27;
-			this.AircraftDistance.Text = "123";
-			this.AircraftDistance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// AircraftCost
 			// 
 			this.AircraftCost.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.AircraftCost.BackColor = System.Drawing.Color.Transparent;
 			this.AircraftCost.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.AircraftCost.Location = new System.Drawing.Point(90, 3);
+			this.AircraftCost.Location = new System.Drawing.Point(90, 0);
 			this.AircraftCost.Name = "AircraftCost";
 			this.AircraftCost.Size = new System.Drawing.Size(22, 16);
 			this.AircraftCost.TabIndex = 18;
@@ -317,28 +293,45 @@
 			// TitleAircraftCost
 			// 
 			this.TitleAircraftCost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.TitleAircraftCost.BackColor = System.Drawing.Color.Transparent;
-			this.TitleAircraftCost.Location = new System.Drawing.Point(3, 3);
+			this.TitleAircraftCost.Location = new System.Drawing.Point(3, 0);
 			this.TitleAircraftCost.Name = "TitleAircraftCost";
 			this.TitleAircraftCost.Size = new System.Drawing.Size(69, 16);
 			this.TitleAircraftCost.TabIndex = 17;
 			this.TitleAircraftCost.Text = "配備コスト";
 			this.TitleAircraftCost.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
+			// AircraftDistance
+			// 
+			this.AircraftDistance.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.AircraftDistance.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.AircraftDistance.Location = new System.Drawing.Point(244, 0);
+			this.AircraftDistance.Name = "AircraftDistance";
+			this.AircraftDistance.Size = new System.Drawing.Size(22, 16);
+			this.AircraftDistance.TabIndex = 27;
+			this.AircraftDistance.Text = "123";
+			this.AircraftDistance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// TitleAircraftDistance
+			// 
+			this.TitleAircraftDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.TitleAircraftDistance.Location = new System.Drawing.Point(134, 0);
+			this.TitleAircraftDistance.Name = "TitleAircraftDistance";
+			this.TitleAircraftDistance.Size = new System.Drawing.Size(92, 16);
+			this.TitleAircraftDistance.TabIndex = 27;
+			this.TitleAircraftDistance.Text = "戦闘行動半径";
+			this.TitleAircraftDistance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
 			// AlbumNo
 			// 
-			this.AlbumNo.AutoSize = false;
-			this.AlbumNo.BackColor = System.Drawing.Color.Transparent;
 			this.AlbumNo.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.AlbumNo.Location = new System.Drawing.Point(165, 6);
 			this.AlbumNo.Name = "AlbumNo";
-			this.AlbumNo.Size = new System.Drawing.Size(40, 16);
+			this.AlbumNo.Size = new System.Drawing.Size(22, 16);
 			this.AlbumNo.TabIndex = 25;
 			this.AlbumNo.Text = "123";
 			// 
 			// imageLabel1
 			// 
-			this.imageLabel1.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.imageLabel1.Location = new System.Drawing.Point(124, 52);
 			this.imageLabel1.Name = "imageLabel1";
@@ -348,7 +341,6 @@
 			// 
 			// imageLabel2
 			// 
-			this.imageLabel2.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.imageLabel2.Location = new System.Drawing.Point(105, 6);
 			this.imageLabel2.Name = "imageLabel2";
@@ -379,7 +371,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.Description.AutoSize = false;
 			this.Description.AutoWrap = true;
-			this.Description.BackColor = System.Drawing.Color.Transparent;
 			this.Description.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.Description.Location = new System.Drawing.Point(9, 361);
 			this.Description.Name = "Description";
@@ -397,13 +388,12 @@
 			this.TableEquipmentName.Controls.Add(this.EquipmentName);
 			this.TableEquipmentName.Location = new System.Drawing.Point(3, 25);
 			this.TableEquipmentName.Name = "TableEquipmentName";
-			this.TableEquipmentName.Size = new System.Drawing.Size(262, 22);
+			this.TableEquipmentName.Size = new System.Drawing.Size(262, 16);
 			this.TableEquipmentName.TabIndex = 19;
 			// 
 			// EquipmentType
 			// 
-			this.EquipmentType.BackColor = System.Drawing.Color.Transparent;
-			this.EquipmentType.Location = new System.Drawing.Point(3, 3);
+			this.EquipmentType.Location = new System.Drawing.Point(3, 0);
 			this.EquipmentType.Name = "EquipmentType";
 			this.EquipmentType.Size = new System.Drawing.Size(83, 16);
 			this.EquipmentType.TabIndex = 7;
@@ -411,9 +401,8 @@
 			// 
 			// EquipmentName
 			// 
-			this.EquipmentName.BackColor = System.Drawing.Color.Transparent;
 			this.EquipmentName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.EquipmentName.Location = new System.Drawing.Point(92, 3);
+			this.EquipmentName.Location = new System.Drawing.Point(92, 0);
 			this.EquipmentName.Name = "EquipmentName";
 			this.EquipmentName.Size = new System.Drawing.Size(167, 16);
 			this.EquipmentName.TabIndex = 8;
@@ -421,7 +410,6 @@
 			// 
 			// EquipmentID
 			// 
-			this.EquipmentID.BackColor = System.Drawing.Color.Transparent;
 			this.EquipmentID.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.EquipmentID.Location = new System.Drawing.Point(35, 6);
 			this.EquipmentID.Name = "EquipmentID";
@@ -451,16 +439,15 @@
 			this.TableParameterSub.RowCount = 2;
 			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TableParameterSub.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TableParameterSub.Size = new System.Drawing.Size(234, 44);
+			this.TableParameterSub.Size = new System.Drawing.Size(234, 32);
 			this.TableParameterSub.TabIndex = 15;
 			this.TableParameterSub.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableParameterSub_CellPaint);
 			// 
 			// imageLabel76
 			// 
 			this.imageLabel76.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.imageLabel76.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel76.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel76.Location = new System.Drawing.Point(209, 25);
+			this.imageLabel76.Location = new System.Drawing.Point(209, 16);
 			this.imageLabel76.Name = "imageLabel76";
 			this.imageLabel76.Size = new System.Drawing.Size(22, 16);
 			this.imageLabel76.TabIndex = 17;
@@ -471,8 +458,7 @@
 			// Rarity
 			// 
 			this.Rarity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.Rarity.BackColor = System.Drawing.Color.Transparent;
-			this.Rarity.Location = new System.Drawing.Point(157, 3);
+			this.Rarity.Location = new System.Drawing.Point(157, 0);
 			this.Rarity.Name = "Rarity";
 			this.Rarity.Size = new System.Drawing.Size(74, 16);
 			this.Rarity.TabIndex = 16;
@@ -482,9 +468,8 @@
 			// Range
 			// 
 			this.Range.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.Range.BackColor = System.Drawing.Color.Transparent;
 			this.Range.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.Range.Location = new System.Drawing.Point(85, 25);
+			this.Range.Location = new System.Drawing.Point(85, 16);
 			this.Range.Name = "Range";
 			this.Range.Size = new System.Drawing.Size(22, 16);
 			this.Range.TabIndex = 16;
@@ -494,10 +479,9 @@
 			// Speed
 			// 
 			this.Speed.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.Speed.BackColor = System.Drawing.Color.Transparent;
 			this.Speed.ForeColor = System.Drawing.Color.Silver;
 			this.Speed.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.Speed.Location = new System.Drawing.Point(85, 3);
+			this.Speed.Location = new System.Drawing.Point(85, 0);
 			this.Speed.Name = "Speed";
 			this.Speed.Size = new System.Drawing.Size(22, 16);
 			this.Speed.TabIndex = 16;
@@ -507,8 +491,7 @@
 			// imageLabel72
 			// 
 			this.imageLabel72.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.imageLabel72.BackColor = System.Drawing.Color.Transparent;
-			this.imageLabel72.Location = new System.Drawing.Point(113, 25);
+			this.imageLabel72.Location = new System.Drawing.Point(113, 16);
 			this.imageLabel72.Name = "imageLabel72";
 			this.imageLabel72.Size = new System.Drawing.Size(38, 16);
 			this.imageLabel72.TabIndex = 16;
@@ -519,8 +502,7 @@
 			// imageLabel71
 			// 
 			this.imageLabel71.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.imageLabel71.BackColor = System.Drawing.Color.Transparent;
-			this.imageLabel71.Location = new System.Drawing.Point(113, 3);
+			this.imageLabel71.Location = new System.Drawing.Point(113, 0);
 			this.imageLabel71.Name = "imageLabel71";
 			this.imageLabel71.Size = new System.Drawing.Size(38, 16);
 			this.imageLabel71.TabIndex = 16;
@@ -530,8 +512,7 @@
 			// TitleRange
 			// 
 			this.TitleRange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.TitleRange.BackColor = System.Drawing.Color.Transparent;
-			this.TitleRange.Location = new System.Drawing.Point(3, 25);
+			this.TitleRange.Location = new System.Drawing.Point(3, 16);
 			this.TitleRange.Name = "TitleRange";
 			this.TitleRange.Size = new System.Drawing.Size(44, 16);
 			this.TitleRange.TabIndex = 16;
@@ -541,9 +522,8 @@
 			// TitleSpeed
 			// 
 			this.TitleSpeed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.TitleSpeed.BackColor = System.Drawing.Color.Transparent;
 			this.TitleSpeed.ForeColor = System.Drawing.Color.Silver;
-			this.TitleSpeed.Location = new System.Drawing.Point(3, 3);
+			this.TitleSpeed.Location = new System.Drawing.Point(3, 0);
 			this.TitleSpeed.Name = "TitleSpeed";
 			this.TitleSpeed.Size = new System.Drawing.Size(44, 16);
 			this.TitleSpeed.TabIndex = 14;
@@ -570,15 +550,14 @@
 			this.TableArsenal.RowCount = 1;
 			this.TableArsenal.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TableArsenal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableArsenal.Size = new System.Drawing.Size(223, 22);
+			this.TableArsenal.Size = new System.Drawing.Size(223, 16);
 			this.TableArsenal.TabIndex = 9;
 			this.TableArsenal.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableArsenal_CellPaint);
 			// 
 			// MaterialBauxite
 			// 
 			this.MaterialBauxite.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.MaterialBauxite.BackColor = System.Drawing.Color.Transparent;
-			this.MaterialBauxite.Location = new System.Drawing.Point(178, 3);
+			this.MaterialBauxite.Location = new System.Drawing.Point(178, 0);
 			this.MaterialBauxite.Name = "MaterialBauxite";
 			this.MaterialBauxite.Size = new System.Drawing.Size(41, 16);
 			this.MaterialBauxite.TabIndex = 18;
@@ -588,8 +567,7 @@
 			// MaterialFuel
 			// 
 			this.MaterialFuel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.MaterialFuel.BackColor = System.Drawing.Color.Transparent;
-			this.MaterialFuel.Location = new System.Drawing.Point(34, 3);
+			this.MaterialFuel.Location = new System.Drawing.Point(34, 0);
 			this.MaterialFuel.Name = "MaterialFuel";
 			this.MaterialFuel.Size = new System.Drawing.Size(41, 16);
 			this.MaterialFuel.TabIndex = 15;
@@ -599,8 +577,7 @@
 			// MaterialSteel
 			// 
 			this.MaterialSteel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.MaterialSteel.BackColor = System.Drawing.Color.Transparent;
-			this.MaterialSteel.Location = new System.Drawing.Point(130, 3);
+			this.MaterialSteel.Location = new System.Drawing.Point(130, 0);
 			this.MaterialSteel.Name = "MaterialSteel";
 			this.MaterialSteel.Size = new System.Drawing.Size(41, 16);
 			this.MaterialSteel.TabIndex = 17;
@@ -610,8 +587,7 @@
 			// MaterialAmmo
 			// 
 			this.MaterialAmmo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.MaterialAmmo.BackColor = System.Drawing.Color.Transparent;
-			this.MaterialAmmo.Location = new System.Drawing.Point(82, 3);
+			this.MaterialAmmo.Location = new System.Drawing.Point(82, 0);
 			this.MaterialAmmo.Name = "MaterialAmmo";
 			this.MaterialAmmo.Size = new System.Drawing.Size(41, 16);
 			this.MaterialAmmo.TabIndex = 16;
@@ -621,9 +597,8 @@
 			// imageLabel59
 			// 
 			this.imageLabel59.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.imageLabel59.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel59.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel59.Location = new System.Drawing.Point(3, 3);
+			this.imageLabel59.Location = new System.Drawing.Point(3, 0);
 			this.imageLabel59.Name = "imageLabel59";
 			this.imageLabel59.Size = new System.Drawing.Size(25, 16);
 			this.imageLabel59.TabIndex = 15;
@@ -632,7 +607,6 @@
 			// 
 			// imageLabel45
 			// 
-			this.imageLabel45.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel45.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.imageLabel45.Location = new System.Drawing.Point(9, 6);
 			this.imageLabel45.Name = "imageLabel45";
@@ -684,18 +658,17 @@
 			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TableParameterMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableParameterMain.Size = new System.Drawing.Size(110, 216);
+			this.TableParameterMain.Size = new System.Drawing.Size(110, 174);
 			this.TableParameterMain.TabIndex = 5;
 			this.TableParameterMain.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableParameterMain_CellPaint);
 			// 
 			// Bomber
 			// 
 			this.Bomber.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.Bomber.BackColor = System.Drawing.Color.Transparent;
 			this.Bomber.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.Bomber.Location = new System.Drawing.Point(85, 199);
+			this.Bomber.Location = new System.Drawing.Point(85, 156);
 			this.Bomber.Name = "Bomber";
-			this.Bomber.Size = new System.Drawing.Size(22, 14);
+			this.Bomber.Size = new System.Drawing.Size(22, 16);
 			this.Bomber.TabIndex = 20;
 			this.Bomber.Text = "123";
 			this.Bomber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -703,10 +676,9 @@
 			// TitleBomber
 			// 
 			this.TitleBomber.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleBomber.BackColor = System.Drawing.Color.Transparent;
-			this.TitleBomber.Location = new System.Drawing.Point(3, 199);
+			this.TitleBomber.Location = new System.Drawing.Point(3, 156);
 			this.TitleBomber.Name = "TitleBomber";
-			this.TitleBomber.Size = new System.Drawing.Size(44, 14);
+			this.TitleBomber.Size = new System.Drawing.Size(44, 16);
 			this.TitleBomber.TabIndex = 14;
 			this.TitleBomber.Text = "爆装";
 			this.TitleBomber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -714,9 +686,8 @@
 			// LOS
 			// 
 			this.LOS.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.LOS.BackColor = System.Drawing.Color.Transparent;
 			this.LOS.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.LOS.Location = new System.Drawing.Point(85, 157);
+			this.LOS.Location = new System.Drawing.Point(85, 118);
 			this.LOS.Name = "LOS";
 			this.LOS.Size = new System.Drawing.Size(22, 16);
 			this.LOS.TabIndex = 12;
@@ -726,9 +697,8 @@
 			// ASW
 			// 
 			this.ASW.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.ASW.BackColor = System.Drawing.Color.Transparent;
 			this.ASW.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.ASW.Location = new System.Drawing.Point(85, 113);
+			this.ASW.Location = new System.Drawing.Point(85, 86);
 			this.ASW.Name = "ASW";
 			this.ASW.Size = new System.Drawing.Size(22, 16);
 			this.ASW.TabIndex = 10;
@@ -739,7 +709,6 @@
 			// 
 			this.imageLabel14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.imageLabel14.BackColor = System.Drawing.Color.Transparent;
 			this.imageLabel14.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.imageLabel14.Location = new System.Drawing.Point(56, 3);
 			this.imageLabel14.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
@@ -752,8 +721,7 @@
 			// TitleLOS
 			// 
 			this.TitleLOS.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleLOS.BackColor = System.Drawing.Color.Transparent;
-			this.TitleLOS.Location = new System.Drawing.Point(3, 157);
+			this.TitleLOS.Location = new System.Drawing.Point(3, 118);
 			this.TitleLOS.Name = "TitleLOS";
 			this.TitleLOS.Size = new System.Drawing.Size(44, 16);
 			this.TitleLOS.TabIndex = 12;
@@ -763,9 +731,8 @@
 			// Armor
 			// 
 			this.Armor.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.Armor.BackColor = System.Drawing.Color.Transparent;
 			this.Armor.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.Armor.Location = new System.Drawing.Point(85, 91);
+			this.Armor.Location = new System.Drawing.Point(85, 70);
 			this.Armor.Name = "Armor";
 			this.Armor.Size = new System.Drawing.Size(22, 16);
 			this.Armor.TabIndex = 9;
@@ -775,9 +742,8 @@
 			// AA
 			// 
 			this.AA.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.AA.BackColor = System.Drawing.Color.Transparent;
 			this.AA.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.AA.Location = new System.Drawing.Point(85, 69);
+			this.AA.Location = new System.Drawing.Point(85, 54);
 			this.AA.Name = "AA";
 			this.AA.Size = new System.Drawing.Size(22, 16);
 			this.AA.TabIndex = 8;
@@ -787,9 +753,8 @@
 			// Torpedo
 			// 
 			this.Torpedo.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.Torpedo.BackColor = System.Drawing.Color.Transparent;
 			this.Torpedo.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.Torpedo.Location = new System.Drawing.Point(85, 47);
+			this.Torpedo.Location = new System.Drawing.Point(85, 38);
 			this.Torpedo.Name = "Torpedo";
 			this.Torpedo.Size = new System.Drawing.Size(22, 16);
 			this.Torpedo.TabIndex = 7;
@@ -799,9 +764,8 @@
 			// Firepower
 			// 
 			this.Firepower.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.Firepower.BackColor = System.Drawing.Color.Transparent;
 			this.Firepower.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.Firepower.Location = new System.Drawing.Point(85, 25);
+			this.Firepower.Location = new System.Drawing.Point(85, 22);
 			this.Firepower.Name = "Firepower";
 			this.Firepower.Size = new System.Drawing.Size(22, 16);
 			this.Firepower.TabIndex = 6;
@@ -811,8 +775,7 @@
 			// TitleFirepower
 			// 
 			this.TitleFirepower.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleFirepower.BackColor = System.Drawing.Color.Transparent;
-			this.TitleFirepower.Location = new System.Drawing.Point(3, 25);
+			this.TitleFirepower.Location = new System.Drawing.Point(3, 22);
 			this.TitleFirepower.Name = "TitleFirepower";
 			this.TitleFirepower.Size = new System.Drawing.Size(44, 16);
 			this.TitleFirepower.TabIndex = 6;
@@ -822,8 +785,7 @@
 			// TitleTorpedo
 			// 
 			this.TitleTorpedo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleTorpedo.BackColor = System.Drawing.Color.Transparent;
-			this.TitleTorpedo.Location = new System.Drawing.Point(3, 47);
+			this.TitleTorpedo.Location = new System.Drawing.Point(3, 38);
 			this.TitleTorpedo.Name = "TitleTorpedo";
 			this.TitleTorpedo.Size = new System.Drawing.Size(44, 16);
 			this.TitleTorpedo.TabIndex = 7;
@@ -833,8 +795,7 @@
 			// TitleAA
 			// 
 			this.TitleAA.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleAA.BackColor = System.Drawing.Color.Transparent;
-			this.TitleAA.Location = new System.Drawing.Point(3, 69);
+			this.TitleAA.Location = new System.Drawing.Point(3, 54);
 			this.TitleAA.Name = "TitleAA";
 			this.TitleAA.Size = new System.Drawing.Size(44, 16);
 			this.TitleAA.TabIndex = 8;
@@ -844,8 +805,7 @@
 			// TitleArmor
 			// 
 			this.TitleArmor.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleArmor.BackColor = System.Drawing.Color.Transparent;
-			this.TitleArmor.Location = new System.Drawing.Point(3, 91);
+			this.TitleArmor.Location = new System.Drawing.Point(3, 70);
 			this.TitleArmor.Name = "TitleArmor";
 			this.TitleArmor.Size = new System.Drawing.Size(44, 16);
 			this.TitleArmor.TabIndex = 9;
@@ -855,8 +815,7 @@
 			// TitleASW
 			// 
 			this.TitleASW.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleASW.BackColor = System.Drawing.Color.Transparent;
-			this.TitleASW.Location = new System.Drawing.Point(3, 113);
+			this.TitleASW.Location = new System.Drawing.Point(3, 86);
 			this.TitleASW.Name = "TitleASW";
 			this.TitleASW.Size = new System.Drawing.Size(44, 16);
 			this.TitleASW.TabIndex = 10;
@@ -866,8 +825,7 @@
 			// TitleEvasion
 			// 
 			this.TitleEvasion.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleEvasion.BackColor = System.Drawing.Color.Transparent;
-			this.TitleEvasion.Location = new System.Drawing.Point(3, 135);
+			this.TitleEvasion.Location = new System.Drawing.Point(3, 102);
 			this.TitleEvasion.Name = "TitleEvasion";
 			this.TitleEvasion.Size = new System.Drawing.Size(44, 16);
 			this.TitleEvasion.TabIndex = 11;
@@ -877,9 +835,8 @@
 			// Evasion
 			// 
 			this.Evasion.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.Evasion.BackColor = System.Drawing.Color.Transparent;
 			this.Evasion.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.Evasion.Location = new System.Drawing.Point(85, 135);
+			this.Evasion.Location = new System.Drawing.Point(85, 102);
 			this.Evasion.Name = "Evasion";
 			this.Evasion.Size = new System.Drawing.Size(22, 16);
 			this.Evasion.TabIndex = 11;
@@ -889,10 +846,9 @@
 			// TitleAccuracy
 			// 
 			this.TitleAccuracy.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.TitleAccuracy.BackColor = System.Drawing.Color.Transparent;
-			this.TitleAccuracy.Location = new System.Drawing.Point(3, 179);
+			this.TitleAccuracy.Location = new System.Drawing.Point(3, 136);
 			this.TitleAccuracy.Name = "TitleAccuracy";
-			this.TitleAccuracy.Size = new System.Drawing.Size(44, 14);
+			this.TitleAccuracy.Size = new System.Drawing.Size(44, 16);
 			this.TitleAccuracy.TabIndex = 13;
 			this.TitleAccuracy.Text = "命中";
 			this.TitleAccuracy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -900,11 +856,10 @@
 			// Accuracy
 			// 
 			this.Accuracy.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.Accuracy.BackColor = System.Drawing.Color.Transparent;
 			this.Accuracy.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.Accuracy.Location = new System.Drawing.Point(85, 179);
+			this.Accuracy.Location = new System.Drawing.Point(85, 136);
 			this.Accuracy.Name = "Accuracy";
-			this.Accuracy.Size = new System.Drawing.Size(22, 14);
+			this.Accuracy.Size = new System.Drawing.Size(22, 16);
 			this.Accuracy.TabIndex = 15;
 			this.Accuracy.Text = "123";
 			this.Accuracy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

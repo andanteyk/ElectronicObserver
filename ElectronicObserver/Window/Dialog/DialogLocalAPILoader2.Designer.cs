@@ -34,6 +34,7 @@
 			this.Menu_File_OpenFolder = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_File_Reload = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.ButtonSearchPrev = new System.Windows.Forms.Button();
 			this.ButtonSearchLastStart2 = new System.Windows.Forms.Button();
 			this.ButtonSearch = new System.Windows.Forms.Button();
 			this.TextFilter = new System.Windows.Forms.TextBox();
@@ -41,7 +42,6 @@
 			this.ButtonExecute = new System.Windows.Forms.Button();
 			this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.APICaller = new System.ComponentModel.BackgroundWorker();
-			this.ButtonSearchPrev = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.APIView)).BeginInit();
 			this.ViewMenu.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -159,6 +159,17 @@
 			this.splitContainer1.SplitterDistance = 331;
 			this.splitContainer1.TabIndex = 2;
 			// 
+			// ButtonSearchPrev
+			// 
+			this.ButtonSearchPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonSearchPrev.Location = new System.Drawing.Point(537, 32);
+			this.ButtonSearchPrev.Name = "ButtonSearchPrev";
+			this.ButtonSearchPrev.Size = new System.Drawing.Size(75, 23);
+			this.ButtonSearchPrev.TabIndex = 5;
+			this.ButtonSearchPrev.Text = "前に検索";
+			this.ButtonSearchPrev.UseVisualStyleBackColor = true;
+			this.ButtonSearchPrev.Click += new System.EventHandler(this.ButtonSearchPrev_Click);
+			// 
 			// ButtonSearchLastStart2
 			// 
 			this.ButtonSearchLastStart2.Location = new System.Drawing.Point(174, 3);
@@ -188,6 +199,7 @@
 			this.TextFilter.Name = "TextFilter";
 			this.TextFilter.Size = new System.Drawing.Size(438, 23);
 			this.TextFilter.TabIndex = 2;
+			this.TextFilter.Text = "S@api_start2";
 			this.TextFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFilter_KeyDown);
 			// 
 			// ButtonExecuteNext
@@ -214,17 +226,6 @@
 			// 
 			this.APICaller.WorkerSupportsCancellation = true;
 			this.APICaller.DoWork += new System.ComponentModel.DoWorkEventHandler(this.APICaller_DoWork);
-			// 
-			// ButtonSearchPrev
-			// 
-			this.ButtonSearchPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonSearchPrev.Location = new System.Drawing.Point(537, 32);
-			this.ButtonSearchPrev.Name = "ButtonSearchPrev";
-			this.ButtonSearchPrev.Size = new System.Drawing.Size(75, 23);
-			this.ButtonSearchPrev.TabIndex = 5;
-			this.ButtonSearchPrev.Text = "前に検索";
-			this.ButtonSearchPrev.UseVisualStyleBackColor = true;
-			this.ButtonSearchPrev.Click += new System.EventHandler(this.ButtonSearchPrev_Click);
 			// 
 			// DialogLocalAPILoader2
 			// 

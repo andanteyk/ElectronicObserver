@@ -173,7 +173,6 @@
     <Compile Include="Notifier\NotifierExpedition.cs" />
     <Compile Include="Notifier\NotifierManager.cs" />
     <Compile Include="Observer\APIKancolleDB.cs" />
-
     <Compile Include="Observer\kcsapi\api_get_member\base_air_corps.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\material.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\payitem.cs" />
@@ -273,7 +272,7 @@
     <Compile Include="Utility\SystemEvents.cs" />
     <Compile Include="Utility\WinAPI.cs" />
     <Compile Include="Window\Control\ImageLabel.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Window\Control\ImageLabel.Designer.cs">
       <DependentUpon>ImageLabel.cs</DependentUpon>
