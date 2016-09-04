@@ -34,7 +34,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 		public DialogConfiguration() {
 			InitializeComponent();
-
 		}
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
@@ -424,6 +423,13 @@ namespace ElectronicObserver.Window.Dialog {
 			FormJson_UpdatesTree.Checked = config.FormJson.UpdatesTree;
 			FormJson_AutoUpdateFilter.Text = config.FormJson.AutoUpdateFilter;
 
+			//[通知]
+			{
+				bool issilenced = NotifierManager.Instance.GetNotifiers().All( no => no.IsSilenced );
+				Notification_Silencio.Checked = issilenced;
+				setSilencioConfig( issilenced );
+			}
+
 			//[データベース]
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
@@ -580,6 +586,9 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormJson.UpdatesTree = FormJson_UpdatesTree.Checked;
 			config.FormJson.AutoUpdateFilter = FormJson_AutoUpdateFilter.Text;
 
+			//[通知]
+			setSilencioConfig( Notification_Silencio.Checked );
+
 			//[データベース]
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
 			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
@@ -727,6 +736,13 @@ namespace ElectronicObserver.Window.Dialog {
 				UpdateBGMPlayerUI();
 			}
 
+		}
+
+
+		private void setSilencioConfig( bool silenced ) {
+			foreach ( NotifierBase no in NotifierManager.Instance.GetNotifiers() ) {
+				no.IsSilenced = silenced;
+			}
 		}
 
 

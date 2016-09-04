@@ -177,6 +177,8 @@
 			this.label31 = new System.Windows.Forms.Label();
 			this.label33 = new System.Windows.Forms.Label();
 			this.tabPage11 = new System.Windows.Forms.TabPage();
+			this.silenceFullscreen = new System.Windows.Forms.CheckBox();
+			this.Notification_Silencio = new System.Windows.Forms.CheckBox();
 			this.Notification_AnchorageRepair = new System.Windows.Forms.Button();
 			this.label10 = new System.Windows.Forms.Label();
 			this.Notification_Damage = new System.Windows.Forms.Button();
@@ -878,7 +880,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 231);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 261);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1798,10 +1800,10 @@
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
 			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 24);
+			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(562, 258);
+			this.tabPage14.Size = new System.Drawing.Size(562, 260);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1949,10 +1951,10 @@
 			// 
 			this.SubWindow_Json.Controls.Add(this.SubWindow_Json_SealingPanel);
 			this.SubWindow_Json.Controls.Add(this.label33);
-			this.SubWindow_Json.Location = new System.Drawing.Point(4, 24);
+			this.SubWindow_Json.Location = new System.Drawing.Point(4, 22);
 			this.SubWindow_Json.Name = "SubWindow_Json";
 			this.SubWindow_Json.Padding = new System.Windows.Forms.Padding(3);
-			this.SubWindow_Json.Size = new System.Drawing.Size(562, 258);
+			this.SubWindow_Json.Size = new System.Drawing.Size(562, 260);
 			this.SubWindow_Json.TabIndex = 9;
 			this.SubWindow_Json.Text = "JSON";
 			this.SubWindow_Json.UseVisualStyleBackColor = true;
@@ -1969,7 +1971,7 @@
 			this.SubWindow_Json_SealingPanel.Location = new System.Drawing.Point(3, 3);
 			this.SubWindow_Json_SealingPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.SubWindow_Json_SealingPanel.Name = "SubWindow_Json_SealingPanel";
-			this.SubWindow_Json_SealingPanel.Size = new System.Drawing.Size(556, 252);
+			this.SubWindow_Json_SealingPanel.Size = new System.Drawing.Size(556, 254);
 			this.SubWindow_Json_SealingPanel.TabIndex = 6;
 			// 
 			// FormJson_AutoUpdate
@@ -2034,6 +2036,8 @@
 			// 
 			// tabPage11
 			// 
+			this.tabPage11.Controls.Add(this.silenceFullscreen);
+			this.tabPage11.Controls.Add(this.Notification_Silencio);
 			this.tabPage11.Controls.Add(this.Notification_AnchorageRepair);
 			this.tabPage11.Controls.Add(this.label10);
 			this.tabPage11.Controls.Add(this.Notification_Damage);
@@ -2049,9 +2053,32 @@
 			this.tabPage11.Text = "通知";
 			this.tabPage11.UseVisualStyleBackColor = true;
 			// 
+			// silenceFullscreen
+			// 
+			this.silenceFullscreen.AutoSize = true;
+			this.silenceFullscreen.Enabled = false;
+			this.silenceFullscreen.Location = new System.Drawing.Point(8, 207);
+			this.silenceFullscreen.Name = "silenceFullscreen";
+			this.silenceFullscreen.Size = new System.Drawing.Size(160, 19);
+			this.silenceFullscreen.TabIndex = 8;
+			this.silenceFullscreen.Text = "Silence while fullscreen";
+			this.silenceFullscreen.UseVisualStyleBackColor = true;
+			this.silenceFullscreen.Visible = false;
+			// 
+			// Notification_Silencio
+			// 
+			this.Notification_Silencio.AutoSize = true;
+			this.Notification_Silencio.Location = new System.Drawing.Point(8, 181);
+			this.Notification_Silencio.Name = "Notification_Silencio";
+			this.Notification_Silencio.Size = new System.Drawing.Size(131, 19);
+			this.Notification_Silencio.TabIndex = 7;
+			this.Notification_Silencio.Text = "すべての通知をミュート";
+			this.ToolTipInfo.SetToolTip(this.Notification_Silencio, "すべての通知を非表示にし、通知音の発声も停止します。\r\n\r\n「シレンシオ！黙れ！」");
+			this.Notification_Silencio.UseVisualStyleBackColor = true;
+			// 
 			// Notification_AnchorageRepair
 			// 
-			this.Notification_AnchorageRepair.Location = new System.Drawing.Point(8, 151);
+			this.Notification_AnchorageRepair.Location = new System.Drawing.Point(8, 152);
 			this.Notification_AnchorageRepair.Name = "Notification_AnchorageRepair";
 			this.Notification_AnchorageRepair.Size = new System.Drawing.Size(150, 23);
 			this.Notification_AnchorageRepair.TabIndex = 6;
@@ -2063,7 +2090,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 272);
+			this.label10.Location = new System.Drawing.Point(3, 302);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2283,7 +2310,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 249);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 279);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2636,5 +2663,7 @@
 		private System.Windows.Forms.Label label32;
 		private System.Windows.Forms.Panel SubWindow_Json_SealingPanel;
 		private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.CheckBox silenceFullscreen;
+        private System.Windows.Forms.CheckBox Notification_Silencio;
 	}
 }
