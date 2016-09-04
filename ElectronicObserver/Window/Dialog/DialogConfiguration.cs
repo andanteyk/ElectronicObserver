@@ -34,19 +34,6 @@ namespace ElectronicObserver.Window.Dialog {
 
 		public DialogConfiguration() {
 			InitializeComponent();
-            
-            foreach (NotifierBase no in NotifierManager.Instance.GetNotifiers()) {
-                if (no.IsSilenced) {
-                    continue;
-                } else {
-                    silencio.Checked = false;
-                    setSilencioConfig(false);
-                    return;
-                }
-            }
-            silencio.Checked = true;
-            setSilencioConfig(true);
-
 		}
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
@@ -436,6 +423,13 @@ namespace ElectronicObserver.Window.Dialog {
 			FormJson_UpdatesTree.Checked = config.FormJson.UpdatesTree;
 			FormJson_AutoUpdateFilter.Text = config.FormJson.AutoUpdateFilter;
 
+			//[通知]
+			{
+				bool issilenced = NotifierManager.Instance.GetNotifiers().All( no => no.IsSilenced );
+				Notification_Silencio.Checked = issilenced;
+				setSilencioConfig( issilenced );
+			}
+
 			//[データベース]
 			Database_SendDataToKancolleDB.Checked = config.Connection.SendDataToKancolleDB;
 			Database_SendKancolleOAuth.Text = config.Connection.SendKancolleOAuth;
@@ -592,6 +586,9 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormJson.UpdatesTree = FormJson_UpdatesTree.Checked;
 			config.FormJson.AutoUpdateFilter = FormJson_AutoUpdateFilter.Text;
 
+			//[通知]
+			setSilencioConfig( Notification_Silencio.Checked );
+
 			//[データベース]
 			config.Connection.SendDataToKancolleDB = Database_SendDataToKancolleDB.Checked;
 			config.Connection.SendKancolleOAuth = Database_SendKancolleOAuth.Text;
@@ -741,15 +738,12 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-        private void silencio_CheckedChanged(object sender, EventArgs e) {
-            setSilencioConfig(silencio.Checked);
-        }
 
-        private void setSilencioConfig(bool silenced) {
-            foreach (NotifierBase no in NotifierManager.Instance.GetNotifiers()) {
-                no.IsSilenced = silenced;
-            }
-        }
+		private void setSilencioConfig( bool silenced ) {
+			foreach ( NotifierBase no in NotifierManager.Instance.GetNotifiers() ) {
+				no.IsSilenced = silenced;
+			}
+		}
 
 
 	}

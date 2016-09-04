@@ -878,9 +878,9 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			public class ConfigNotifierBase : ConfigPartBase {
 
-                public bool IsSilenced { get; set; }
-
 				public bool IsEnabled { get; set; }
+
+				public bool IsSilenced { get; set; }
 
 				public bool ShowsDialog { get; set; }
 
@@ -922,8 +922,8 @@ namespace ElectronicObserver.Utility {
 
 
 				public ConfigNotifierBase() {
-                    IsSilenced = false;
 					IsEnabled = true;
+					IsSilenced = false;
 					ShowsDialog = true;
 					ImagePath = "";
 					DrawsImage = false;
