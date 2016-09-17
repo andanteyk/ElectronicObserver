@@ -85,8 +85,7 @@ namespace ElectronicObserver.Window.Control {
 		private bool _onMouse;
 
 
-		[Browsable( true )]
-		[DefaultValue( typeof( Font ), "Meiryo UI, 10px" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Font ), "Meiryo UI, 10px" )]
 		public override Font Font {
 			get { return base.Font; }
 			set {
@@ -99,8 +98,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 艦載機非搭載スロットの文字色
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( typeof( Color ), "170, 170, 170" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "170, 170, 170" )]
+		[Description( "艦載機非搭載スロットの文字色を指定します。" )]
 		public Color AircraftColorDisabled {
 			get { return _aircraftColorDisabled; }
 			set {
@@ -113,8 +112,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 艦載機全滅スロットの文字色
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( typeof( Color ), "255, 0, 255" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 0, 255" )]
+		[Description( "艦載機全滅スロットの文字色を指定します。" )]
 		public Color AircraftColorLost {
 			get { return _aircraftColorLost; }
 			set {
@@ -127,8 +126,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 艦載機被撃墜スロットの文字色
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( typeof( Color ), "255, 0, 0" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 0, 0" )]
+		[Description( "艦載機被撃墜スロットの文字色を指定します。" )]
 		public Color AircraftColorDamaged {
 			get { return _aircraftColorDamaged; }
 			set {
@@ -141,8 +140,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 艦載機満載スロットの文字色
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( typeof( Color ), "0, 0, 0" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "0, 0, 0" )]
+		[Description( "艦載機満載スロットの文字色を指定します。" )]
 		public Color AircraftColorFull {
 			get { return _aircraftColorFull; }
 			set {
@@ -156,8 +155,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 改修レベルの色
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( typeof( Color ), "0, 102, 102" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "0, 102, 102" )]
+		[Description( "改修レベルの文字色を指定します。" )]
 		public Color EquipmentLevelColor {
 			get { return _equipmentLevelColor; }
 			set {
@@ -170,8 +169,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 艦載機熟練度の色 ( Lv. 1 ~ Lv. 3 )
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( typeof( Color ), "102, 153, 238" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "102, 153, 238" )]
+		[Description( "艦載機熟練度の文字色( Lv. 1 ~ 3 )を指定します。" )]
 		public Color AircraftLevelColorLow {
 			get { return _aircraftLevelColorLow; }
 			set {
@@ -184,8 +183,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 艦載機熟練度の色 ( Lv. 4 ~ Lv. 7 )
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( typeof( Color ), "255, 170, 0" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 170, 0" )]
+		[Description( "艦載機熟練度の文字色( Lv. 4 ~ 7 )を指定します。" )]
 		public Color AircraftLevelColorHigh {
 			get { return _aircraftLevelColorHigh; }
 			set {
@@ -199,8 +198,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 不正スロットの背景色
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( typeof( Color ), "64, 255, 0, 0" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "64, 255, 0, 0" )]
+		[Description( "不正スロットの文字色を指定します。" )]
 		public Color InvalidSlotColor {
 			get { return _invalidSlotColor; }
 			set {
@@ -219,8 +218,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 艦載機搭載数を表示するか
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( true )]
+		[Browsable( true ), Category( "Behavior" ), DefaultValue( true )]
+		[Description( "艦載機搭載数を表示するかを指定します。" )]
 		public bool ShowAircraft {
 			get { return _showAircraft; }
 			set {
@@ -234,28 +233,12 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 艦載機搭載数をアイコンの上に表示するか
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( false )]
+		[Browsable( true ), Category( "Behavior" ), DefaultValue( false )]
+		[Description( "艦載機搭載数をアイコンの上に表示するかを指定します。" )]
 		public bool OverlayAircraft {
 			get { return _overlayAircraft; }
 			set {
 				_overlayAircraft = value;
-				PropertyChanged();
-			}
-		}
-
-
-		private bool _showEquipmentLevel = true;
-		/// <summary>
-		/// 装備改修レベル・艦載機熟練度を表示するか
-		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( true )]
-		[Obsolete( "EquipmentLevelVisibility を利用してください。", false )]
-		public bool ShowEquipmentLevel {
-			get { return _showEquipmentLevel; }
-			set {
-				_showEquipmentLevel = value;
 				PropertyChanged();
 			}
 		}
@@ -289,8 +272,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 装備改修レベル・艦載機熟練度の表示フラグ
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( LevelVisibilityFlag.Both )]
+		[Browsable( true ), Category( "Behavior" ), DefaultValue( LevelVisibilityFlag.Both )]
+		[Description( "装備改修レベル・艦載機熟練度の表示方法を指定します。" )]
 		public LevelVisibilityFlag LevelVisibility {
 			get { return _levelVisibility; }
 			set {
@@ -304,10 +287,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// スロット間の空きスペース
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( 3 )]
-		[Description( "スロット間のスペースを指定します。" )]
-		[Category( "表示" )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( 3 )]
+		[Description( "装備改修レベル・艦載機熟練度の表示方法を指定します。" )]
 		public int SlotMargin {
 			get { return _slotMargin; }
 			set {
@@ -320,10 +301,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 搭載数表示位置のスペース
 		/// </summary>
-		[Browsable( true )]
-		[DefaultValue( 3 )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( 3 )]
 		[Description( "搭載数表示位置のスペースを指定します。" )]
-		[Category( "表示" )]
 		public int AircraftMargin {
 			get { return _aircraftMargin; }
 			set {
@@ -334,6 +313,15 @@ namespace ElectronicObserver.Window.Control {
 
 
 		private Brush _overlayBrush = new SolidBrush( Color.FromArgb( 0xC0, 0xF0, 0xF0, 0xF0 ) );
+
+
+		private Size? _estimatedSlotSizeCache;
+		private Size EstimatedSlotSizeCache {
+			get {
+				return _estimatedSlotSizeCache ??
+					( _estimatedSlotSizeCache = TextRenderer.MeasureText( "99", Font, new Size( int.MaxValue, int.MaxValue ), GetTextFormat() ) - new Size( (int)( Font.Size / 2.0 ), 0 ) ).Value;
+			}
+		}
 
 		#endregion
 
@@ -430,7 +418,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 			for ( int i = 0; i < SlotList.Length; i++ ) {
-				SlotList[i].EquipmentID = ship.DefaultSlot == null ? -1 : ( ship.DefaultSlot.Count < i ? ship.DefaultSlot[i] : -1 );
+				SlotList[i].EquipmentID = ship.DefaultSlot == null ? -1 : ( i < ship.DefaultSlot.Count ? ship.DefaultSlot[i] : -1 );
 				SlotList[i].AircraftCurrent =
 				SlotList[i].AircraftMax = ship.Aircraft[i];
 				SlotList[i].Level =
@@ -493,9 +481,9 @@ namespace ElectronicObserver.Window.Control {
 					case 2:		// 配置転換中
 					default:
 						SlotList[i].EquipmentID = -1;
-						SlotList[i].AircraftCurrent = 
-						SlotList[i].AircraftMax = 
-						SlotList[i].Level = 
+						SlotList[i].AircraftCurrent =
+						SlotList[i].AircraftMax =
+						SlotList[i].Level =
 						SlotList[i].AircraftLevel = 0;
 						break;
 					case 1:		// 配属済み
@@ -534,12 +522,7 @@ namespace ElectronicObserver.Window.Control {
 
 			ImageList eqimages = ResourceManager.Instance.Equipments;
 
-			TextFormatFlags textformat = TextFormatFlags.NoPadding;
-			if ( !OverlayAircraft ) {
-				textformat |= TextFormatFlags.Bottom | TextFormatFlags.Right;
-			} else {
-				textformat |= TextFormatFlags.Bottom | TextFormatFlags.Left;
-			}
+			TextFormatFlags textformat = GetTextFormat();
 
 			TextFormatFlags textformatLevel = TextFormatFlags.NoPadding;
 			if ( !OverlayAircraft ) {
@@ -549,8 +532,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 			// 艦載機スロット表示の予測サイズ(2桁)
-			Size sz_eststr = TextRenderer.MeasureText( "99", Font, new Size( int.MaxValue, int.MaxValue ), textformat );
-			sz_eststr.Width -= (int)( Font.Size / 2.0 );
+			Size sz_eststr = EstimatedSlotSizeCache;
 
 			// スロット1つ当たりのサイズ(右の余白含む)
 			Size sz_unit = new Size( eqimages.ImageSize.Width + SlotMargin, eqimages.ImageSize.Height );
@@ -727,15 +709,8 @@ namespace ElectronicObserver.Window.Control {
 
 			ImageList eqimages = ResourceManager.Instance.Equipments;
 
-			TextFormatFlags textformat = TextFormatFlags.NoPadding;
-			if ( !OverlayAircraft ) {
-				textformat |= TextFormatFlags.Bottom | TextFormatFlags.Right;
-			} else {
-				textformat |= TextFormatFlags.Top | TextFormatFlags.Left;
-			}
 
-			Size sz_eststr = TextRenderer.MeasureText( "99", Font, new Size( int.MaxValue, int.MaxValue ), textformat );
-			sz_eststr.Width -= (int)( Font.Size / 2.0 );
+			Size sz_eststr = EstimatedSlotSizeCache;
 
 			Size sz_unit = new Size( eqimages.ImageSize.Width + SlotMargin, eqimages.ImageSize.Height );
 			if ( ShowAircraft || LevelVisibility != LevelVisibilityFlag.Invisible ) {
@@ -748,6 +723,20 @@ namespace ElectronicObserver.Window.Control {
 			return new Size( Padding.Horizontal + sz_unit.Width * SlotList.Length, Padding.Vertical + Math.Max( eqimages.ImageSize.Height, sz_unit.Height ) );
 
 		}
+
+
+		private TextFormatFlags GetTextFormat() {
+			TextFormatFlags textformat = TextFormatFlags.NoPadding;
+			if ( !OverlayAircraft ) {
+				textformat |= TextFormatFlags.Bottom | TextFormatFlags.Right;
+			} else {
+				textformat |= TextFormatFlags.Bottom | TextFormatFlags.Left;
+			}
+
+			return textformat;
+		}
+
+
 
 		private void ShipStatusEquipment_MouseEnter( object sender, EventArgs e ) {
 			_onMouse = true;

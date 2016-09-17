@@ -17,27 +17,28 @@ namespace ElectronicObserver.Window.Control {
 		private const TextFormatFlags TextFormatText = TextFormatFlags.NoPadding | TextFormatFlags.Bottom | TextFormatFlags.Left;
 		private const TextFormatFlags TextFormatHP = TextFormatFlags.NoPadding | TextFormatFlags.Bottom | TextFormatFlags.Right;
 
+		private static readonly Size MaxSize = new Size( int.MaxValue, int.MaxValue );
+		private const string SlashText = " / ";
+
+
 		private StatusBarModule _HPBar;
-			
+
 
 		#region Property
 
-		[Browsable( true )]
+		[Browsable( true ), Category( "Data" ), DefaultValue( 66 )]
 		[Description( "HPの現在値です。" )]
-		[Category( "データ" )]
-		[DefaultValue( 66 )]
 		public int Value {
 			get { return _HPBar.Value; }
 			set {
 				_HPBar.Value = value;
+				_valueSizeCache = null;
 				Refresh();
 			}
 		}
 
-		[Browsable( true )]
+		[Browsable( true ), Category( "Data" ), DefaultValue( 88 )]
 		[Description( "以前のHPです。" )]
-		[Category( "データ" )]
-		[DefaultValue( 88 )]
 		public int PrevValue {
 			get { return _HPBar.PrevValue; }
 			set {
@@ -46,23 +47,20 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
-		[Browsable( true )]
+		[Browsable( true ), Category( "Data" ), DefaultValue( 100 )]
 		[Description( "HPの最大値です。" )]
-		[Category( "データ" )]
-		[DefaultValue( 100 )]
 		public int MaximumValue {
 			get { return _HPBar.MaximumValue; }
 			set {
 				_HPBar.MaximumValue = value;
+				_maximumValueSizeCache = null;
 				Refresh();
 			}
 		}
 
 		private DateTime? _repairTime;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Data" ), DefaultValue( null )]
 		[Description( "修復が完了する日時です。" )]
-		[Category( "データ" )]
-		[DefaultValue( null )]
 		public DateTime? RepairTime {
 			get { return _repairTime; }
 			set {
@@ -74,24 +72,22 @@ namespace ElectronicObserver.Window.Control {
 
 
 		private int _maximumDigit;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Data" ), DefaultValue( 999 )]
 		[Description( "想定されるHPの最大値です。この値に応じてレイアウトされます。" )]
-		[Category( "データ" )]
-		[DefaultValue( 999 )]
 		public int MaximumDigit {
 			get { return _maximumDigit; }
 			set {
 				_maximumDigit = value;
+				_valueSizeCache =
+				_maximumValueSizeCache = null;
 				Refresh();
 			}
 		}
 
 
 		private Color _mainFontColor;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "0, 0, 0" )]
 		[Description( "主要テキストの色を指定します。" )]
-		[Category( "表示" )]
-		[DefaultValue( typeof( Color ), "0, 0, 0" )]
 		public Color MainFontColor {
 			get {
 				return _mainFontColor;
@@ -103,10 +99,8 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 		private Color _subFontColor;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "136, 136, 136" )]
 		[Description( "補助テキストの色を指定します。" )]
-		[Category( "表示" )]
-		[DefaultValue( typeof( Color ), "136, 136, 136" )]
 		public Color SubFontColor {
 			get {
 				return _subFontColor;
@@ -118,10 +112,8 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 		private Color _repairFontColor;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "0, 0, 136" )]
 		[Description( "修復時間テキストの色を指定します。" )]
-		[Category( "表示" )]
-		[DefaultValue( typeof( Color ), "0, 0, 136" )]
 		public Color RepairFontColor {
 			get {
 				return _repairFontColor;
@@ -134,41 +126,39 @@ namespace ElectronicObserver.Window.Control {
 
 
 		private Font _mainFont;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Font ), "Meiryo UI, 12px" )]
 		[Description( "主要テキストのフォントを指定します。" )]
-		[Category( "表示" )]
-		[DefaultValue( typeof( Font ), "Meiryo UI, 12px" )]
 		public Font MainFont {
 			get {
 				return _mainFont;
 			}
 			set {
 				_mainFont = value;
+				_valueSizeCache = null;
 				Refresh();
 			}
 		}
 
 		private Font _subFont;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Font ), "Meiryo UI, 10px" )]
 		[Description( "補助テキストの色を指定します。" )]
-		[Category( "表示" )]
-		[DefaultValue( typeof( Font ), "Meiryo UI, 10px" )]
 		public Font SubFont {
 			get {
 				return _subFont;
 			}
 			set {
 				_subFont = value;
+				_textSizeCache =
+				_maximumValueSizeCache =
+				_slashSizeCache = null;
 				Refresh();
 			}
 		}
 
 
 		private string _text;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( "HP:" )]
 		[Description( "説明文となるテキストを指定します。" )]
-		[Category( "表示" )]
-		[DefaultValue( "HP:" )]
 		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
 		[EditorBrowsable( EditorBrowsableState.Always )]
 		[Bindable( BindableSupport.Default )]
@@ -176,15 +166,14 @@ namespace ElectronicObserver.Window.Control {
 			get { return _text; }
 			set {
 				_text = value;
+				_textSizeCache = null;
 				Refresh();
 			}
 		}
 
 
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( true )]
 		[Description( "以前の値との差分を表示するかを指定します。" )]
-		[Category( "表示" )]
-		[DefaultValue( true )]
 		public bool UsePrevValue {
 			get { return HPBar.UsePrevValue; }
 			set {
@@ -195,10 +184,8 @@ namespace ElectronicObserver.Window.Control {
 
 
 		private bool _showDifference;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( false )]
 		[Description( "最大値の代わりに以前の値を表示するかを指定します。" )]
-		[Category( "表示" )]
-		[DefaultValue( false )]
 		public bool ShowDifference {
 			get { return _showDifference; }
 			set {
@@ -208,21 +195,53 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" )]
 		[Description( "HPバーへの参照です。" )]
-		[Category( "表示" )]
 		[DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
 		public StatusBarModule HPBar {
 			get { return _HPBar; }
 			set { _HPBar = value; }
 		}
-		
 
 
+
+		// size cache
+
+		private Size? _textSizeCache;
+		private Size TextSizeCache {
+			get {
+				return _textSizeCache ??
+					( _textSizeCache = TextRenderer.MeasureText( Text, SubFont, MaxSize, TextFormatText ) - new Size( string.IsNullOrEmpty( Text ) ? (int)( SubFont.Size / 2.0 ) : 0, 0 ) ).Value;
+			}
+		}
+
+		private Size? _valueSizeCache;
+		private Size ValueSizeCache {
+			get {
+				return _valueSizeCache ??
+					( _valueSizeCache = TextRenderer.MeasureText( Math.Max( Value, MaximumDigit ).ToString(), MainFont, MaxSize, TextFormatHP ) - new Size( (int)( MainFont.Size / 2.0 ), 0 ) ).Value;
+			}
+		}
+
+		private Size? _maximumValueSizeCache;
+		private Size MaximumValueSizeCache {
+			get {
+				return _maximumValueSizeCache ??
+					( _maximumValueSizeCache = TextRenderer.MeasureText( Math.Max( MaximumValue, MaximumDigit ).ToString(), SubFont, MaxSize, TextFormatHP ) - new Size( (int)( SubFont.Size / 2.0 ), 0 ) ).Value;
+			}
+		}
+
+		private Size? _slashSizeCache;
+		private Size SlashSizeCache {
+			get {
+				return _slashSizeCache ??
+					( _slashSizeCache = TextRenderer.MeasureText( SlashText, SubFont, MaxSize, TextFormatHP ) - new Size( (int)( SubFont.Size / 2.0 ), 0 ) ).Value;
+			}
+		}
 
 		#endregion
 
-		
+
 
 
 		public ShipStatusHP() {
@@ -235,12 +254,12 @@ namespace ElectronicObserver.Window.Control {
 			_HPBar.PrevValue = 88;
 			_HPBar.MaximumValue = 100;
 			_repairTime = null;
-			
+
 			_maximumDigit = 999;
 
 			_mainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 			_mainFontColor = FromArgb( 0xFF000000 );
-			
+
 			_subFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
 			_subFontColor = FromArgb( 0xFF888888 );
 
@@ -257,9 +276,6 @@ namespace ElectronicObserver.Window.Control {
 
 		private void ShipStatusHP_Paint( object sender, PaintEventArgs e ) {
 
-			Size maxsize = new Size( 99999, 99999 );
-
-
 			Graphics g = e.Graphics;
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
 			Size barSize = _HPBar.GetPreferredSize( new Size( basearea.Width, 0 ) );
@@ -268,8 +284,6 @@ namespace ElectronicObserver.Window.Control {
 
 			if ( RepairTime != null ) {
 				string timestr = DateTimeHelper.ToTimeRemainString( (DateTime)RepairTime );
-				
-				Size sz_time = TextRenderer.MeasureText( timestr, MainFont, maxsize, TextFormatTime );
 
 				TextRenderer.DrawText( g, timestr, MainFont, new Rectangle( basearea.X, basearea.Y, basearea.Width, basearea.Height - barSize.Height ), RepairFontColor, TextFormatTime );
 
@@ -280,35 +294,22 @@ namespace ElectronicObserver.Window.Control {
 
 			} else {
 
-				Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
-				Size sz_hpmax = TextRenderer.MeasureText( Math.Max( MaximumValue, MaximumDigit ).ToString(), SubFont, maxsize, TextFormatHP );
-				Size sz_slash = TextRenderer.MeasureText( " / ", SubFont, maxsize, TextFormatHP );
-				Size sz_hpnow = TextRenderer.MeasureText( Math.Max( Value, MaximumDigit ).ToString(), MainFont, maxsize, TextFormatHP );
+				Point p = new Point( basearea.X, basearea.Bottom - barSize.Height - Math.Max( TextSizeCache.Height, MaximumValueSizeCache.Height ) + 1 );
+				TextRenderer.DrawText( g, Text, SubFont, new Rectangle( p, TextSizeCache ), SubFontColor, TextFormatText );
+				//g.DrawRectangle( Pens.Orange, new Rectangle( p, TextSizeCache ) );
 
-				if ( Text.Length > 0 )
-					sz_text.Width -= (int)( SubFont.Size / 2.0 );
-				sz_hpmax.Width -= (int)( SubFont.Size / 2.0 );
-				sz_slash.Width -= (int)( SubFont.Size / 2.0 );
-				sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );
+				p.X = basearea.Right - MaximumValueSizeCache.Width;
+				TextRenderer.DrawText( g, !ShowDifference ? MaximumValue.ToString() : GetDifferenceString(), SubFont, new Rectangle( p, MaximumValueSizeCache ), SubFontColor, TextFormatHP );
+				//g.DrawRectangle( Pens.Orange, new Rectangle( p, MaximumValueSizeCache ) );
 
+				p.X -= SlashSizeCache.Width;
+				TextRenderer.DrawText( g, SlashText, SubFont, new Rectangle( p, SlashSizeCache ), SubFontColor, TextFormatHP );
+				//g.DrawRectangle( Pens.Orange, new Rectangle( p, SlashSizeCache ) );
 
-
-				Point p = new Point( basearea.X, basearea.Bottom - barSize.Height - Math.Max( sz_text.Height, sz_hpmax.Height ) + 1 );
-				TextRenderer.DrawText( g, Text, SubFont, new Rectangle( p, sz_text ), SubFontColor, TextFormatText );
-				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_text ) );
-
-				p.X = basearea.Right - sz_hpmax.Width;
-				TextRenderer.DrawText( g, !ShowDifference ? MaximumValue.ToString() : GetDifferenceString(), SubFont, new Rectangle( p, sz_hpmax ), SubFontColor, TextFormatHP );
-				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_hpmax ) );
-
-				p.X -= sz_slash.Width;
-				TextRenderer.DrawText( g, " / ", SubFont, new Rectangle( p, sz_slash ), SubFontColor, TextFormatHP );
-				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_slash ) );
-
-				p.X -= sz_hpnow.Width;
-				p.Y = basearea.Bottom - barSize.Height - sz_hpnow.Height + 1;
-				TextRenderer.DrawText( g, Math.Max( Value, 0 ).ToString(), MainFont, new Rectangle( p, sz_hpnow ), MainFontColor, TextFormatHP );
-				//g.DrawRectangle( Pens.Orange, new Rectangle( p, sz_hpnow ) );
+				p.X -= ValueSizeCache.Width;
+				p.Y = basearea.Bottom - barSize.Height - ValueSizeCache.Height + 1;
+				TextRenderer.DrawText( g, Math.Max( Value, 0 ).ToString(), MainFont, new Rectangle( p, ValueSizeCache ), MainFontColor, TextFormatHP );
+				//g.DrawRectangle( Pens.Orange, new Rectangle( p, ValueSizeCache ) );
 
 			}
 
@@ -323,19 +324,9 @@ namespace ElectronicObserver.Window.Control {
 
 			Size barSize = _HPBar.GetPreferredSize();
 
-			Size sz_text = TextRenderer.MeasureText( Text, SubFont, maxsize, TextFormatText );
-			Size sz_hpmax = TextRenderer.MeasureText( Math.Max( MaximumValue, MaximumDigit ).ToString(), SubFont, maxsize, TextFormatHP );
-			Size sz_slash = TextRenderer.MeasureText( " / ", SubFont, maxsize, TextFormatHP );
-			Size sz_hpnow = TextRenderer.MeasureText( Math.Max( Value, MaximumDigit ).ToString(), MainFont, maxsize, TextFormatHP );
 
-			if ( Text.Length > 0 )
-				sz_text.Width -= (int)( SubFont.Size / 2.0 );
-			sz_hpmax.Width -= (int)( SubFont.Size / 2.0 );
-			sz_slash.Width -= (int)( SubFont.Size / 2.0 );
-			sz_hpnow.Width -= (int)( MainFont.Size / 2.0 );
-
-			return new Size( sz_text.Width + sz_hpnow.Width + sz_slash.Width + sz_hpmax.Width + Padding.Horizontal,
-				Math.Max( sz_text.Height, sz_hpnow.Height ) + barSize.Height + Padding.Vertical );
+			return new Size( TextSizeCache.Width + ValueSizeCache.Width + SlashSizeCache.Width + MaximumValueSizeCache.Width + Padding.Horizontal,
+				Math.Max( TextSizeCache.Height, ValueSizeCache.Height ) + barSize.Height + Padding.Vertical );
 		}
 
 
