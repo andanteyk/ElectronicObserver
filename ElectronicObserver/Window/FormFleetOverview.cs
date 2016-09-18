@@ -36,6 +36,7 @@ namespace ElectronicObserver.Window {
 				Number.ImageAlign = ContentAlignment.MiddleCenter;
 				Number.Margin = new Padding( 3, 2, 3, 2 );
 				Number.Text = string.Format( "#{0}:", fleetID );
+				Number.AutoSize = true;
 				Number.Tag = null;
 
 				State = new ImageLabel();
@@ -43,6 +44,7 @@ namespace ElectronicObserver.Window {
 				State.Margin = new Padding( 3, 2, 3, 2 );
 				State.ImageList = ResourceManager.Instance.Icons;
 				State.Text = "-";
+				State.AutoSize = true;
 				State.Tag = FleetData.FleetStates.NoShip;
 
 				ConfigurationChanged( parent );
@@ -131,6 +133,7 @@ namespace ElectronicObserver.Window {
 				AnchorageRepairingTimer.ImageList = ResourceManager.Instance.Icons;
 				AnchorageRepairingTimer.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
 				AnchorageRepairingTimer.Text = "-";
+				AnchorageRepairingTimer.AutoSize = true;
 				//AnchorageRepairingTimer.Visible = false;
 
 				TableFleet.Controls.Add( AnchorageRepairingTimer, 1, 4 );
@@ -154,6 +157,7 @@ namespace ElectronicObserver.Window {
 				CombinedTag.ImageList = ResourceManager.Instance.Icons;
 				CombinedTag.ImageIndex = (int)ResourceManager.IconContent.FleetCombined;
 				CombinedTag.Text = "-";
+				CombinedTag.AutoSize = true;
 				CombinedTag.Visible = false;
 
 				TableFleet.Controls.Add( CombinedTag, 1, 5 );

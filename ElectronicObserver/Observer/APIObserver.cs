@@ -323,7 +323,7 @@ namespace ElectronicObserver.Observer {
 					Task.Run( (Action)( () => DBSender.ExecuteSession( session ) ) );
 				}
 
-				}
+			}
 
 
 			if ( ServerAddress == null && baseurl.Contains( "/kcsapi/" ) ) {

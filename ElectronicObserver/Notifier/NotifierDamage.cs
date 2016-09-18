@@ -166,49 +166,37 @@ namespace ElectronicObserver.Notifier {
 
 			List<string> list = new List<string>();
 
-			switch ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) {
-				case BattleManager.BattleModes.Normal:
-				case BattleManager.BattleModes.AirBattle:
-				case BattleManager.BattleModes.AirRaid:
-				default:
-					if ( bm.BattleNight != null ) {
-						list.AddRange( GetDamagedShips( bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray() ) );
-					} else {
-						list.AddRange( GetDamagedShips( bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray() ) );
-					}
-					break;
+			if ( bm.StartsFromDayBattle ) {
+				if ( bm.BattleNight != null ) {
+					list.AddRange( GetDamagedShips( bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray() ) );
+				} else {
+					list.AddRange( GetDamagedShips( bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray() ) );
+				}
 
-				case BattleManager.BattleModes.NightDay:
-				case BattleManager.BattleModes.NightOnly:
-					if ( bm.BattleDay != null ) {
-						list.AddRange( GetDamagedShips( bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray() ) );
-					} else {
-						list.AddRange( GetDamagedShips( bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray() ) );
-					}
-					break;
+			} else {
+				if ( bm.BattleDay != null ) {
+					list.AddRange( GetDamagedShips( bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray() ) );
+				} else {
+					list.AddRange( GetDamagedShips( bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray() ) );
+				}
+
 			}
 
-			if ( ( bm.BattleMode & BattleManager.BattleModes.CombinedMask ) != 0 ) {
-				switch ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) {
-					case BattleManager.BattleModes.Normal:
-					case BattleManager.BattleModes.AirBattle:
-					case BattleManager.BattleModes.AirRaid:
-					default:
-						if ( bm.BattleNight != null ) {
-							list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip( 12 ).ToArray() ) );
-						} else {
-							list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip( 12 ).ToArray() ) );
-						}
-						break;
+			if ( bm.IsCombinedBattle ) {
+				if ( bm.StartsFromDayBattle ) {
+					if ( bm.BattleNight != null ) {
+						list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip( 12 ).ToArray() ) );
+					} else {
+						list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip( 12 ).ToArray() ) );
+					}
 
-					case BattleManager.BattleModes.NightDay:
-					case BattleManager.BattleModes.NightOnly:
-						if ( bm.BattleDay != null ) {
-							list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip( 12 ).ToArray() ) );
-						} else {
-							list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip( 12 ).ToArray() ) );
-						}
-						break;
+				} else {
+					if ( bm.BattleDay != null ) {
+						list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip( 12 ).ToArray() ) );
+					} else {
+						list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip( 12 ).ToArray() ) );
+					}
+
 				}
 			}
 

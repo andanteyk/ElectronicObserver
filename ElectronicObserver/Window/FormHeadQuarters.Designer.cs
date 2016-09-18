@@ -125,7 +125,6 @@
 			// 
 			// ShipCount
 			// 
-			this.ShipCount.BackColor = System.Drawing.Color.Transparent;
 			this.ShipCount.Location = new System.Drawing.Point(3, 0);
 			this.ShipCount.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.ShipCount.Name = "ShipCount";
@@ -136,7 +135,6 @@
 			// 
 			// EquipmentCount
 			// 
-			this.EquipmentCount.BackColor = System.Drawing.Color.Transparent;
 			this.EquipmentCount.Location = new System.Drawing.Point(75, 0);
 			this.EquipmentCount.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.EquipmentCount.Name = "EquipmentCount";
@@ -161,7 +159,6 @@
 			// 
 			// InstantRepair
 			// 
-			this.InstantRepair.BackColor = System.Drawing.Color.Transparent;
 			this.InstantRepair.Location = new System.Drawing.Point(3, 0);
 			this.InstantRepair.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.InstantRepair.Name = "InstantRepair";
@@ -172,7 +169,6 @@
 			// 
 			// InstantConstruction
 			// 
-			this.InstantConstruction.BackColor = System.Drawing.Color.Transparent;
 			this.InstantConstruction.Location = new System.Drawing.Point(63, 0);
 			this.InstantConstruction.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.InstantConstruction.Name = "InstantConstruction";
@@ -183,7 +179,6 @@
 			// 
 			// DevelopmentMaterial
 			// 
-			this.DevelopmentMaterial.BackColor = System.Drawing.Color.Transparent;
 			this.DevelopmentMaterial.Location = new System.Drawing.Point(123, 0);
 			this.DevelopmentMaterial.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.DevelopmentMaterial.Name = "DevelopmentMaterial";
@@ -194,7 +189,6 @@
 			// 
 			// ModdingMaterial
 			// 
-			this.ModdingMaterial.BackColor = System.Drawing.Color.Transparent;
 			this.ModdingMaterial.Location = new System.Drawing.Point(183, 0);
 			this.ModdingMaterial.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.ModdingMaterial.Name = "ModdingMaterial";
@@ -205,7 +199,6 @@
 			// 
 			// FurnitureCoin
 			// 
-			this.FurnitureCoin.BackColor = System.Drawing.Color.Transparent;
 			this.FurnitureCoin.Location = new System.Drawing.Point(243, 0);
 			this.FurnitureCoin.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.FurnitureCoin.Name = "FurnitureCoin";
@@ -230,7 +223,6 @@
 			// 
 			// Fuel
 			// 
-			this.Fuel.BackColor = System.Drawing.Color.Transparent;
 			this.Fuel.Location = new System.Drawing.Point(3, 0);
 			this.Fuel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Fuel.Name = "Fuel";
@@ -242,7 +234,6 @@
 			// 
 			// Ammo
 			// 
-			this.Ammo.BackColor = System.Drawing.Color.Transparent;
 			this.Ammo.Location = new System.Drawing.Point(3, 20);
 			this.Ammo.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Ammo.Name = "Ammo";
@@ -254,7 +245,6 @@
 			// 
 			// Steel
 			// 
-			this.Steel.BackColor = System.Drawing.Color.Transparent;
 			this.Steel.Location = new System.Drawing.Point(3, 40);
 			this.Steel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Steel.Name = "Steel";
@@ -266,7 +256,6 @@
 			// 
 			// Bauxite
 			// 
-			this.Bauxite.BackColor = System.Drawing.Color.Transparent;
 			this.Bauxite.Location = new System.Drawing.Point(3, 60);
 			this.Bauxite.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Bauxite.Name = "Bauxite";

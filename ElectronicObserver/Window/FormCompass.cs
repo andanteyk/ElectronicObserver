@@ -205,7 +205,7 @@ namespace ElectronicObserver.Window {
 				label.ForeColor = Parent.MainFontColor;
 				label.ImageAlign = ContentAlignment.MiddleCenter;
 				label.Padding = new Padding( 0, 1, 0, 1 );
-				label.Margin = new Padding( 4, 0, 4, 0 );
+				label.Margin = new Padding( 4, 0, 4, 1 );
 				label.MaximumSize = new Size( 60, 20 );
 				label.AutoEllipsis = true;
 				label.AutoSize = true;
@@ -982,17 +982,7 @@ namespace ElectronicObserver.Window {
 		private void UpdateEnemyFleetInstant( bool isPractice = false ) {
 
 			BattleManager bm = KCDatabase.Instance.Battle;
-			BattleData bd;
-
-			switch ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) {
-				case BattleManager.BattleModes.NightOnly:
-				case BattleManager.BattleModes.NightDay:
-					bd = bm.BattleNight;
-					break;
-				default:
-					bd = bm.BattleDay;
-					break;
-			}
+			BattleData bd = bm.StartsFromDayBattle ? (BattleData)bm.BattleDay : (BattleData)bm.BattleNight;
 
 			int[] enemies = bd.Initial.EnemyMembers;
 			int[][] slots = bd.Initial.EnemySlots;
@@ -1006,7 +996,7 @@ namespace ElectronicObserver.Window {
 
 
 
-			if ( ( bm.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) != BattleManager.BattleModes.Practice ) {
+			if ( !bm.IsPractice ) {
 				var efcurrent = EnemyFleetRecord.EnemyFleetElement.CreateFromCurrentState();
 				var efrecord = RecordManager.Instance.EnemyFleet[efcurrent.FleetID];
 				if ( efrecord != null ) {

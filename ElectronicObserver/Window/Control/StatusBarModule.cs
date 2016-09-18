@@ -24,9 +24,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 現在値
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( 66 )]
 		[Description( "現在値を指定します。" )]
-		[DefaultValue( 66 )]
 		public int Value {
 			get { return _value; }
 			set {
@@ -41,9 +40,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 直前の現在値
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( 88 )]
 		[Description( "直前の値を指定します。" )]
-		[DefaultValue( 88 )]
 		public int PrevValue {
 			get { return _prevValue; }
 			set {
@@ -57,9 +55,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 最大値
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( 100 )]
 		[Description( "最大値を指定します。" )]
-		[DefaultValue( 100 )]
 		public int MaximumValue {
 			get { return _maximumValue; }
 			set {
@@ -72,9 +69,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// 直前の値を利用するかどうか
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( true )]
 		[Description( "直前の値を利用するかを指定します。" )]
-		[DefaultValue( true )]
 		public bool UsePrevValue {
 			get { return _usePrevValue; }
 			set {
@@ -90,9 +86,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(0%～25% - 始点)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 0, 0" )]
 		[Description( "0%～25%エリアの始点の色を指定します。" )]
-		[DefaultValue( typeof( Color ), "255, 0, 0" )]
 		public Color BarColor0Begin {
 			get { return _barColor0Begin; }
 			set {
@@ -105,9 +100,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(0%～25% - 終点)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 0, 0" )]
 		[Description( "0%～25%エリアの終点の色を指定します。" )]
-		[DefaultValue( typeof( Color ), "255, 0, 0" )]
 		public Color BarColor0End {
 			get { return _barColor0End; }
 			set {
@@ -120,9 +114,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(25%～50% - 始点)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 136, 0" )]
 		[Description( "25～50%エリアの始点の色を指定します。" )]
-		[DefaultValue( typeof( Color ), "255, 136, 0" )]
 		public Color BarColor1Begin {
 			get { return _barColor1Begin; }
 			set {
@@ -135,9 +128,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(25%～50% - 終点)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 136, 0" )]
 		[Description( "25～50%エリアの終点の色を指定します。" )]
-		[DefaultValue( typeof( Color ), "255, 136, 0" )]
 		public Color BarColor1End {
 			get { return _barColor1End; }
 			set {
@@ -150,9 +142,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(50%～75% - 始点)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 204, 0" )]
 		[Description( "50～75%エリアの始点の色を指定します。" )]
-		[DefaultValue( typeof( Color ), "255, 204, 0" )]
 		public Color BarColor2Begin {
 			get { return _barColor2Begin; }
 			set {
@@ -165,9 +156,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(50%～75% - 終点)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "255, 204, 0" )]
 		[Description( "50～75%エリアの終点の色を指定します。" )]
-		[DefaultValue( typeof( Color ), "255, 204, 0" )]
 		public Color BarColor2End {
 			get { return _barColor2End; }
 			set {
@@ -180,9 +170,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(75%～100% - 始点)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "0, 204, 0" )]
 		[Description( "75～100%エリアの始点の色を指定します。" )]
-		[DefaultValue( typeof( Color ), "0, 204, 0" )]
 		public Color BarColor3Begin {
 			get { return _barColor3Begin; }
 			set {
@@ -195,9 +184,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(75%～100% - 終点)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "0, 204, 0" )]
 		[Description( "75～100%エリアの終点の色を指定します。" )]
-		[DefaultValue( typeof( Color ), "0, 204, 0" )]
 		public Color BarColor3End {
 			get { return _barColor3End; }
 			set {
@@ -210,9 +198,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(100%)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "0, 68, 204" )]
 		[Description( "100%の時のバーの色を指定します。" )]
-		[DefaultValue( typeof( Color ), "0, 68, 204" )]
 		public Color BarColor4 {
 			get { return _barColor4; }
 			set {
@@ -225,9 +212,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(増加分)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "68, 255, 0" )]
 		[Description( "現在値が増加した時のバーの色を指定します。" )]
-		[DefaultValue( typeof( Color ), "68, 255, 0" )]
 		public Color BarColorIncrement {
 			get { return _barColorIncrement; }
 			set {
@@ -240,9 +226,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの色(減少分)
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "136, 34, 34" )]
 		[Description( "現在値が減少した時のバーの色を指定します。" )]
-		[DefaultValue( typeof( Color ), "136, 34, 34" )]
 		public Color BarColorDecrement {
 			get { return _barColorDecrement; }
 			set {
@@ -255,9 +240,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの背景色
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( typeof( Color ), "136, 136, 136" )]
 		[Description( "バーの背景色を指定します。" )]
-		[DefaultValue( typeof( Color ), "136, 136, 136" )]
 		public Color BarColorBackground {
 			get { return _barColorBackground; }
 			set {
@@ -271,9 +255,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの太さ
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( 4 )]
 		[Description( "バーの太さ(高さ)を指定します。" )]
-		[DefaultValue( 4 )]
 		public int BarThickness {
 			get { return _barThickness; }
 			set {
@@ -286,9 +269,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <summary>
 		/// バーの前景と背景とのずれの大きさ
 		/// </summary>
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( 1 )]
 		[Description( "バーの前景と背景のずれの大きさを指定します。影のような表現に利用します。" )]
-		[DefaultValue( 1 )]
 		public int BarBackgroundOffset {
 			get { return _barBackgroundOffset; }
 			set {
@@ -298,9 +280,8 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 		private bool _colorMorphing = false;
-		[Browsable( true )]
+		[Browsable( true ), Category( "Appearance" ), DefaultValue( false )]
 		[Description( "バーの色を割合に応じて滑らかに変化させるかを指定します。" )]
-		[DefaultValue( false )]
 		/// <summary>
 		/// 色を滑らかに変化させるか
 		/// </summary>
@@ -311,7 +292,6 @@ namespace ElectronicObserver.Window.Control {
 				Refresh();
 			}
 		}
-
 
 
 		#endregion

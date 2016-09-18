@@ -45,11 +45,19 @@ namespace ElectronicObserver.Data.Battle {
 		}
 
 		/// <summary>
-		/// MVP艦のインデックス(1-6)
+		/// MVP艦のインデックス (1-6, -1=なし)
 		/// </summary>
-		public int MVP {
+		public int MVPIndex {
 			get { return (int)RawData.api_mvp; }
 		}
+
+		/// <summary>
+		/// 随伴艦隊 MVP 艦のインデックス (1-6, -1=なし)
+		/// </summary>
+		public int MVPIndexCombined {
+			get { return RawData.api_mvp_combined() ? (int)RawData.api_mvp_combined : -1; }
+		}
+
 
 		/// <summary>
 		/// 獲得基本経験値

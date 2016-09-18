@@ -54,6 +54,40 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		/// <summary>
+		/// 昼戦から開始する戦闘かどうか
+		/// </summary>
+		public bool StartsFromDayBattle { get {	return !StartsFromNightBattle; } }
+
+		/// <summary>
+		/// 夜戦から開始する戦闘かどうか
+		/// </summary>
+		public bool StartsFromNightBattle {
+			get {
+				var phase = BattleMode & BattleModes.BattlePhaseMask;
+				return phase == BattleModes.NightOnly || phase == BattleModes.NightDay;
+			}
+		}
+
+		/// <summary>
+		/// 連合艦隊戦かどうか
+		/// </summary>
+		public bool IsCombinedBattle {
+			get {
+				return ( BattleMode & BattleModes.CombinedMask ) != 0;
+			}
+		}
+
+		/// <summary>
+		/// 演習かどうか
+		/// </summary>
+		public bool IsPractice {
+			get {
+				return ( BattleMode & BattleModes.BattlePhaseMask ) == BattleModes.Practice;
+			}
+		}
+
+
+		/// <summary>
 		/// 出撃中に入手した艦船数
 		/// </summary>
 		public int DroppedShipCount { get; internal set; }
@@ -223,7 +257,7 @@ namespace ElectronicObserver.Data.Battle {
 
 
 			// ロギング
-			if ( ( BattleMode & BattleModes.BattlePhaseMask ) == BattleModes.Practice ) {
+			if ( IsPractice ) {
 				Utility.Logger.Add( 2,
 					string.Format( "演習 で「{0}」{1}の「{2}」と交戦しました。( ランク: {3}, 提督Exp+{4}, 艦娘Exp+{5} )",
 						EnemyAdmiralName, EnemyAdmiralRank, Result.EnemyFleetName, Result.Rank, Result.AdmiralExp, Result.BaseExp ) );
@@ -236,7 +270,7 @@ namespace ElectronicObserver.Data.Battle {
 
 
 			//ドロップ艦記録
-			if ( ( BattleMode & BattleModes.BattlePhaseMask ) != BattleModes.Practice ) {
+			if ( !IsPractice ) {
 
 				//checkme: とてもアレな感じ
 

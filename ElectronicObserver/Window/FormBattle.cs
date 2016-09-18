@@ -231,6 +231,15 @@ namespace ElectronicObserver.Window {
 					} break;
 
 
+				case "api_req_sortie/battleresult":
+				case "api_req_combined_battle/battleresult":
+				case "api_req_practice/battle_result": {
+
+						SetMVPShip( bm );
+
+						BaseLayoutPanel.Visible = true;
+					} break;
+
 			}
 			TableTop.ResumeLayout();
 			TableBottom.ResumeLayout();
@@ -1288,12 +1297,18 @@ namespace ElectronicObserver.Window {
 			double enemyrate;
 
 			var resultHPs = bd.ResultHPs;
+			var friend = bd.Initial.FriendFleet.MembersWithoutEscaped;
+			var escort = KCDatabase.Instance.Fleet[2].MembersWithoutEscaped;
 
 			for ( int i = 0; i < 6; i++ ) {
-				friendbefore += Math.Max( initialHPs[i], 0 );
-				friendafter += Math.Max( resultHPs[i], 0 );
-				friendbefore += Math.Max( initialHPs[i + 12], 0 );
-				friendafter += Math.Max( resultHPs[i + 12], 0 );
+				if ( friend[i] != null ) {
+					friendbefore += Math.Max( initialHPs[i], 0 );
+					friendafter += Math.Max( resultHPs[i], 0 );
+				}
+				if ( escort[i] != null ) {
+					friendbefore += Math.Max( initialHPs[i + 12], 0 );
+					friendafter += Math.Max( resultHPs[i + 12], 0 );
+				}
 				enemybefore += Math.Max( initialHPs[i + 6], 0 );
 				enemyafter += Math.Max( resultHPs[i + 6], 0 );
 			}
@@ -1306,8 +1321,8 @@ namespace ElectronicObserver.Window {
 
 			//戦績判定
 			{
-				int countFriend = bd.Initial.FriendFleet.Members.Count( v => v != -1 );
-				int countFriendCombined = KCDatabase.Instance.Fleet[2].Members.Count( v => v != -1 );
+				int countFriend = friend.Count( s => s != null );
+				int countFriendCombined = escort.Count( s => s != null );
 				int countEnemy = ( bd.Initial.EnemyMembers.Count( v => v != -1 ) );
 				int sunkFriend = resultHPs.Take( countFriend ).Count( v => v <= 0 ) + resultHPs.Skip( 12 ).Take( countFriendCombined ).Count( v => v <= 0 );
 				int sunkEnemy = resultHPs.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
@@ -1416,6 +1431,62 @@ namespace ElectronicObserver.Window {
 				}
 			}
 		}
+
+
+		/// <summary>
+		/// 戦闘終了後に、MVP艦の表示を更新します。
+		/// </summary>
+		/// <param name="bm">戦闘データ。</param>
+		private void SetMVPShip( BattleManager bm ) {
+
+			bool isCombined = bm.IsCombinedBattle;
+
+			var bd = bm.StartsFromDayBattle ? (BattleData)bm.BattleDay : (BattleData)bm.BattleNight;
+			var br = bm.Result;
+
+			var friend = bd.Initial.FriendFleet;
+			var escort = !isCombined ? null : KCDatabase.Instance.Fleet[2];
+
+
+			/*// DEBUG
+			{
+				BattleData lastbattle = bm.StartsFromDayBattle ? (BattleData)bm.BattleNight ?? bm.BattleDay : (BattleData)bm.BattleDay ?? bm.BattleNight;
+				if ( lastbattle.MVPShipIndexes.Count() > 1 || !lastbattle.MVPShipIndexes.Contains( br.MVPIndex - 1 ) ) {
+					Utility.Logger.Add( 1, "MVP is wrong : [" + string.Join( ",", lastbattle.MVPShipIndexes ) + "] => " + ( br.MVPIndex - 1 ) );
+				}
+				if ( isCombined && ( lastbattle.MVPShipCombinedIndexes.Count() > 1 || !lastbattle.MVPShipCombinedIndexes.Contains( br.MVPIndexCombined - 1 ) ) ) {
+					Utility.Logger.Add( 1, "MVP is wrong (escort) : [" + string.Join( ",", lastbattle.MVPShipCombinedIndexes ) + "] => " + ( br.MVPIndexCombined - 1 ) );
+				}
+			}
+			//*/
+
+
+			for ( int i = 0; i < 6; i++ ) {
+				if ( friend.EscapedShipList.Contains( friend.Members[i] ) ) {
+					HPBars[i].BackColor = Color.Silver;
+
+				} else if ( br.MVPIndex == i + 1 ) {
+					HPBars[i].BackColor = Color.Moccasin;
+
+				} else {
+					HPBars[i].BackColor = SystemColors.Control;
+				}
+
+				if ( escort != null ) {
+					if ( escort.EscapedShipList.Contains( escort.Members[i] ) ) {
+						HPBars[i + 12].BackColor = Color.Silver;
+
+					} else if ( br.MVPIndexCombined == i + 1 ) {
+						HPBars[i + 12].BackColor = Color.Moccasin;
+
+					} else {
+						HPBars[i + 12].BackColor = SystemColors.Control;
+					}
+				}
+			}
+
+		}
+
 
 
 		private string FriendShipBattleDetail( BattleData bd, IEnumerable<BattleDetail> details ) {
