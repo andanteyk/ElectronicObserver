@@ -1526,7 +1526,7 @@ api_req_sortie/battleresult	：戦闘結果
 	api_member_exp			：提督経験値
 	api_get_base_exp		：獲得基本経験値
 	api_get_ship_exp		：各艦の獲得経験値
-	api_get_exp_lvup		：各艦の[0]獲得前経験値, [1]次のレベルの経験値(Lv99|150の場合存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ...
+	api_get_exp_lvup		：各艦の[0]獲得前経験値, [1]次のレベルの経験値(Lv99|155の場合存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ...
 	api_dests				：敵艦撃沈数？
 	api_destsf				：旗艦撃沈フラグ？
 	api_lost_flag			：味方艦撃沈フラグ？-1から始まる
