@@ -218,9 +218,6 @@ namespace ElectronicObserver.Window.Control {
 
 		private void ShipStatusLevel_Paint( object sender, PaintEventArgs e ) {
 
-
-			Size maxsize = new Size( int.MaxValue, int.MaxValue );
-
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
 			//e.Graphics.DrawRectangle( Pens.Magenta, new Rectangle( basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 ) );
 
