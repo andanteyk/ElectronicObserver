@@ -163,7 +163,7 @@ namespace ElectronicObserver.Window {
 			}
 
 			foreach ( DataGridViewColumn column in QuestView.Columns ) {
-				column.SortMode = c.FormQuest.AllowUserToSortRows ? DataGridViewColumnSortMode.Automatic : DataGridViewColumnSortMode.NotSortable; 
+				column.SortMode = c.FormQuest.AllowUserToSortRows ? DataGridViewColumnSortMode.Automatic : DataGridViewColumnSortMode.NotSortable;
 			}
 
 			Updated();
@@ -546,6 +546,33 @@ namespace ElectronicObserver.Window {
 			}
 		}
 
+		private void MenuProgress_Reset_Click( object sender, EventArgs e ) {
+
+			var rows = QuestView.SelectedRows;
+
+			if ( rows != null && rows.Count > 0 && rows[0].Index != -1 ) {
+
+				int id = rows[0].Cells[QuestView_Name.Index].Value as int? ?? -1;
+
+				var quest = KCDatabase.Instance.Quest[id];
+				var progress = KCDatabase.Instance.QuestProgress[id];
+
+				if ( id != -1 && ( quest != null || progress != null ) ) {
+
+					if ( MessageBox.Show( "任務" + ( quest != null ? ( "『" + quest.Name + "』" ) : ( "ID: " + id.ToString() + " " ) ) + "を一覧から削除し、進捗をリセットします。\r\nよろしいですか？\r\n(艦これ本体の任務画面を開くと正しく更新されます。)", "任務削除の確認",
+						MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1 ) == System.Windows.Forms.DialogResult.Yes ) {
+
+						if ( quest != null )
+							KCDatabase.Instance.Quest.Quests.Remove( quest );
+
+						if ( progress != null )
+							KCDatabase.Instance.QuestProgress.Progresses.Remove( progress );
+
+						Updated();
+					}
+				}
+			}
+		}
 
 
 
@@ -553,6 +580,5 @@ namespace ElectronicObserver.Window {
 			return "Quest";
 		}
 
-	
 	}
 }

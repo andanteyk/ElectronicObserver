@@ -238,6 +238,7 @@
 			this.Name = "DialogLocalAPILoader2";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "ファイルからAPIをロード";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DialogLocalAPILoader2_FormClosing);
 			this.Load += new System.EventHandler(this.DialogLocalAPILoader2_Load);
 			((System.ComponentModel.ISupportInitialize)(this.APIView)).EndInit();
 			this.ViewMenu.ResumeLayout(false);

@@ -874,6 +874,29 @@ namespace ElectronicObserver.Utility {
 
 
 			/// <summary>
+			/// [戦闘]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormBattle : ConfigPartBase {
+
+				/// <summary>
+				/// スクロール可能か
+				/// </summary>
+				public bool IsScrollable { get; set; }
+
+
+				public ConfigFormBattle() {
+					IsScrollable = false;
+				}
+			}
+
+			/// <summary>
+			/// [戦闘]ウィンドウ
+			/// </summary>
+			[DataMember]
+			public ConfigFormBattle FormBattle { get; private set; }
+
+
+			/// <summary>
 			/// 各[通知]ウィンドウの設定を扱います。
 			/// </summary>
 			public class ConfigNotifierBase : ConfigPartBase {
@@ -1094,6 +1117,7 @@ namespace ElectronicObserver.Utility {
 				FormHeadquarters = new ConfigFormHeadquarters();
 				FormQuest = new ConfigFormQuest();
 				FormShipGroup = new ConfigFormShipGroup();
+				FormBattle = new ConfigFormBattle();
 				FormBrowser = new ConfigFormBrowser();
 				FormCompass = new ConfigFormCompass();
 				FormJson = new ConfigFormJson();
