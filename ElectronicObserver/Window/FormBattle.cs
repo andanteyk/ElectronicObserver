@@ -1509,15 +1509,19 @@ namespace ElectronicObserver.Window {
 
 		void ConfigurationChanged() {
 
-			MainFont = TableTop.Font = TableBottom.Font = Font = Utility.Configuration.Config.UI.MainFont;
-			SubFont = Utility.Configuration.Config.UI.SubFont;
+			var config = Utility.Configuration.Config;
+
+			MainFont = TableTop.Font = TableBottom.Font = Font = config.UI.MainFont;
+			SubFont = config.UI.SubFont;
+
+			BaseLayoutPanel.AutoScroll = config.FormBattle.IsScrollable;
 
 			if ( HPBars != null ) {
 				foreach ( var b in HPBars ) {
 					b.MainFont = MainFont;
 					b.SubFont = SubFont;
-					b.HPBar.ColorMorphing = Utility.Configuration.Config.UI.BarColorMorphing;
-					b.HPBar.SetBarColorScheme( Utility.Configuration.Config.UI.BarColorScheme.Select( col => col.ColorData ).ToArray() );
+					b.HPBar.ColorMorphing = config.UI.BarColorMorphing;
+					b.HPBar.SetBarColorScheme( config.UI.BarColorScheme.Select( col => col.ColorData ).ToArray() );
 				}
 			}
 		}

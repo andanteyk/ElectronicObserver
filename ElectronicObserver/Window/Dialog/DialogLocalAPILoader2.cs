@@ -182,6 +182,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+		private void DialogLocalAPILoader2_FormClosing( object sender, FormClosingEventArgs e ) {
+			if ( APICaller.IsBusy ) {
+				e.Cancel = true;
+				System.Media.SystemSounds.Exclamation.Play();
+			}
+		}
+
+
 		private void ButtonSearch_Click( object sender, EventArgs e ) {
 
 			int count = APIView.Rows.Count;
@@ -263,9 +271,6 @@ namespace ElectronicObserver.Window.Dialog {
 				ButtonSearch.PerformClick();
 			}
 		}
-
-
-
 		
 
 	}

@@ -248,7 +248,7 @@ namespace ElectronicObserver.Window {
 			label.Font = ShipView.Font;
 			label.BackColor = TabInactiveColor;
 			label.BorderStyle = BorderStyle.FixedSingle;
-			label.Padding = new Padding( 4, 4, 7, 7 );
+			label.Padding = new Padding( 4, 4, 4, 4 );
 			label.Margin = new Padding( 0, 0, 0, 0 );
 			label.ImageAlign = ContentAlignment.MiddleCenter;
 			label.AutoSize = true;

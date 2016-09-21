@@ -120,6 +120,15 @@ namespace ElectronicObserver.Window.Control {
 			set { base.Margin = value; }
 		}
 
+		public new BorderStyle BorderStyle {
+			get { return base.BorderStyle; }
+			set {
+				base.BorderStyle = value;
+				AdjustSize();
+			}
+		}
+
+		
 
 		private Size? _measureTextCache = null;
 		private Size MeasureTextCache {
@@ -156,6 +165,11 @@ namespace ElectronicObserver.Window.Control {
 			_measureTextCache = null;
 			AdjustSize();
 			base.OnFontChanged( e );
+		}
+
+		protected override void OnPaddingChanged( EventArgs e ) {
+			AdjustSize();
+			base.OnPaddingChanged( e );
 		}
 
 
@@ -351,7 +365,9 @@ namespace ElectronicObserver.Window.Control {
 					textcolor = SystemColors.ControlDark;
 			}
 
-			TextRenderer.DrawText( e.Graphics, Text, Font, GetTextArea( basearea ), textcolor, GetTextFormat() );
+			var textarea = GetTextArea( basearea );
+			//e.Graphics.DrawRectangle( Pens.Orange, textrect.X, textrect.Y, textrect.Width - 1, textrect.Height - 1 );
+			TextRenderer.DrawText( e.Graphics, Text, Font, textarea, textcolor, GetTextFormat() );
 
 			//base.OnPaint( e );
 		}

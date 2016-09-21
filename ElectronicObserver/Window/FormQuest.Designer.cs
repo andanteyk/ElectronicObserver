@@ -43,6 +43,7 @@
 			this.MenuMain_ShowDaily = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowWeekly = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowMonthly = new System.Windows.Forms.ToolStripMenuItem();
+			this.MenuMain_ShowOther = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMain_ColumnFilter = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ColumnFilter_State = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,8 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.MenuMain_ShowOther = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuProgress_Reset = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
 			this.MenuProgress.SuspendLayout();
 			this.MenuMain.SuspendLayout();
@@ -150,21 +152,23 @@
 			// 
 			this.MenuProgress.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuProgress_Increment,
-            this.MenuProgress_Decrement});
+            this.MenuProgress_Decrement,
+            this.toolStripSeparator3,
+            this.MenuProgress_Reset});
 			this.MenuProgress.Name = "MenuProgress";
-			this.MenuProgress.Size = new System.Drawing.Size(135, 48);
+			this.MenuProgress.Size = new System.Drawing.Size(153, 98);
 			// 
 			// MenuProgress_Increment
 			// 
 			this.MenuProgress_Increment.Name = "MenuProgress_Increment";
-			this.MenuProgress_Increment.Size = new System.Drawing.Size(134, 22);
+			this.MenuProgress_Increment.Size = new System.Drawing.Size(152, 22);
 			this.MenuProgress_Increment.Text = "進捗 +1(&I)";
 			this.MenuProgress_Increment.Click += new System.EventHandler(this.MenuProgress_Increment_Click);
 			// 
 			// MenuProgress_Decrement
 			// 
 			this.MenuProgress_Decrement.Name = "MenuProgress_Decrement";
-			this.MenuProgress_Decrement.Size = new System.Drawing.Size(134, 22);
+			this.MenuProgress_Decrement.Size = new System.Drawing.Size(152, 22);
 			this.MenuProgress_Decrement.Text = "進捗 -1(&D)";
 			this.MenuProgress_Decrement.Click += new System.EventHandler(this.MenuProgress_Decrement_Click);
 			// 
@@ -183,7 +187,7 @@
             this.toolStripSeparator1,
             this.MenuMain_Initialize});
 			this.MenuMain.Name = "MenuMain";
-			this.MenuMain.Size = new System.Drawing.Size(205, 220);
+			this.MenuMain.Size = new System.Drawing.Size(205, 198);
 			// 
 			// MenuMain_ShowRunningOnly
 			// 
@@ -229,6 +233,14 @@
 			this.MenuMain_ShowMonthly.Size = new System.Drawing.Size(204, 22);
 			this.MenuMain_ShowMonthly.Text = "マンスリー任務を表示(&M)";
 			this.MenuMain_ShowMonthly.Click += new System.EventHandler(this.MenuMain_ShowMonthly_Click);
+			// 
+			// MenuMain_ShowOther
+			// 
+			this.MenuMain_ShowOther.CheckOnClick = true;
+			this.MenuMain_ShowOther.Name = "MenuMain_ShowOther";
+			this.MenuMain_ShowOther.Size = new System.Drawing.Size(204, 22);
+			this.MenuMain_ShowOther.Text = "その他の任務を表示(&R)";
+			this.MenuMain_ShowOther.Click += new System.EventHandler(this.MenuMain_ShowOther_Click);
 			// 
 			// toolStripMenuItem1
 			// 
@@ -306,13 +318,17 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
-			// MenuMain_ShowOther
+			// toolStripSeparator3
 			// 
-			this.MenuMain_ShowOther.CheckOnClick = true;
-			this.MenuMain_ShowOther.Name = "MenuMain_ShowOther";
-			this.MenuMain_ShowOther.Size = new System.Drawing.Size(204, 22);
-			this.MenuMain_ShowOther.Text = "その他の任務を表示(&R)";
-			this.MenuMain_ShowOther.Click += new System.EventHandler(this.MenuMain_ShowOther_Click);
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+			// 
+			// MenuProgress_Reset
+			// 
+			this.MenuProgress_Reset.Name = "MenuProgress_Reset";
+			this.MenuProgress_Reset.Size = new System.Drawing.Size(152, 22);
+			this.MenuProgress_Reset.Text = "進捗リセット(&R)";
+			this.MenuProgress_Reset.Click += new System.EventHandler(this.MenuProgress_Reset_Click);
 			// 
 			// FormQuest
 			// 
@@ -363,5 +379,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Name;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Progress;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_ShowOther;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem MenuProgress_Reset;
 	}
 }

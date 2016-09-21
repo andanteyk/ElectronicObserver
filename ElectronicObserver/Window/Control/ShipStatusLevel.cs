@@ -153,7 +153,7 @@ namespace ElectronicObserver.Window.Control {
 		private Size TextSizeCache {
 			get {
 				return _textSizeCache ??
-					( _textSizeCache = TextRenderer.MeasureText( Text, SubFont, MaxSize, TextFormatText ) - new Size( string.IsNullOrEmpty( Text ) ? (int)( SubFont.Size / 2.0 ) : 0, 0 ) ).Value;
+					( _textSizeCache = TextRenderer.MeasureText( Text, SubFont, MaxSize, TextFormatText ) - new Size( !string.IsNullOrEmpty( Text ) ? (int)( SubFont.Size / 2.0 ) : 0, 0 ) ).Value;
 			}
 		}
 
@@ -171,7 +171,7 @@ namespace ElectronicObserver.Window.Control {
 				return _textNextSizeCache ??
 					( _textNextSizeCache = TextNext == null ?
 						Size.Empty :
-						( TextRenderer.MeasureText( TextNext, SubFont, MaxSize, TextFormatText ) - new Size( string.IsNullOrEmpty( TextNext ) ? (int)( SubFont.Size / 2.0 ) : 0, 0 ) ) ).Value;
+						( TextRenderer.MeasureText( TextNext, SubFont, MaxSize, TextFormatText ) - new Size( !string.IsNullOrEmpty( TextNext ) ? (int)( SubFont.Size / 2.0 ) : 0, 0 ) ) ).Value;
 			}
 		}
 
@@ -217,9 +217,6 @@ namespace ElectronicObserver.Window.Control {
 
 
 		private void ShipStatusLevel_Paint( object sender, PaintEventArgs e ) {
-
-
-			Size maxsize = new Size( int.MaxValue, int.MaxValue );
 
 			Rectangle basearea = new Rectangle( Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical );
 			//e.Graphics.DrawRectangle( Pens.Magenta, new Rectangle( basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - 1 ) );
