@@ -593,6 +593,12 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool BlinkAtCompletion { get; set; }
 
+				/// <summary>
+				/// 疲労度アイコンを表示するか
+				/// </summary>
+				public bool ShowConditionIcon { get; set; }
+
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 3;
@@ -604,6 +610,7 @@ namespace ElectronicObserver.Utility {
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
 					BlinkAtCompletion = true;
+					ShowConditionIcon = true;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
