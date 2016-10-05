@@ -1517,6 +1517,13 @@ api_req_sortie/ld_airbattle		：長距離空襲戦　存在するメンバを記
 	api_kouku			：こちらからは攻撃できない模様(ダメージの項目は通常通り存在する)
 
 
+api_req_combined_battle/ec_battle	：通常艦隊昼戦（敵連合艦隊）
+	(詳細不明)
+
+api_req_combiend_battle/ec_midnight_battle	：通常艦隊夜戦（敵連合艦隊）
+	(詳細不明)
+
+
 api_req_sortie/battleresult	：戦闘結果
 	api_ship_id				：敵艦船ID
 	api_win_rank			：勝利ランク
@@ -1573,18 +1580,19 @@ api_get_member/ship_deck	：進撃中 2015/05/18以降 更新された艦船/艦
 	api_ship_data		：艦船データ portと同じ
 	api_deck_data		：艦隊データ deckと同じ
 
-api_get_member/mapinfo		：出撃準備　未出現海域は存在しない
-	api_id					：海域ID
-	api_cleared				：攻略フラグ
-	api_eventmap			：イベント海域のみ存在
-		api_now_maphp		：海域HP現在値
-		api_max_maphp		：海域HP最大値
-		api_state			：状態？1=未攻略, 2=攻略済み
-		api_selected_rank	：(15冬イベ)作戦難易度 0=未設定, 1=丙, 2=乙, 3=甲
-		api_gauge_type		：2=HPゲージ 3=揚陸(TP)ゲージ　2は '15秋E-5のみ存在
-		api_airbase_enabled	：基地航空隊が使用可能か?
-	api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
-	api_defeat_count		：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
+api_get_member/mapinfo			：出撃準備　未出現海域は存在しない
+	api_map_info				：海域データ
+		api_id					：海域ID
+		api_cleared				：攻略フラグ
+		api_eventmap			：イベント海域のみ存在
+			api_now_maphp		：海域HP現在値
+			api_max_maphp		：海域HP最大値
+			api_state			：状態？1=未攻略, 2=攻略済み
+			api_selected_rank	：(15冬イベ)作戦難易度 0=未設定, 1=丙, 2=乙, 3=甲
+			api_gauge_type		：2=HPゲージ 3=揚陸(TP)ゲージ　2は '15秋E-5のみ存在
+			api_airbase_enabled	：基地航空隊が使用可能か?
+		api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
+		api_defeat_count		：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
 
 
 api_get_member/furniture	：所有家具データ

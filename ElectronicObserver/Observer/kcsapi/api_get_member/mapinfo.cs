@@ -13,7 +13,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			foreach ( var elem in data ) {
+			foreach ( var elem in data.api_map_info ) {
 
 				int id = (int)elem.api_id;
 
