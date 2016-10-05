@@ -467,17 +467,9 @@ namespace ElectronicObserver.Window {
 
 
 					Condition.Text = ship.Condition.ToString();
-					if ( ship.Condition < 20 ) {
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-					} else if ( ship.Condition < 30 ) {
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
-					} else if ( ship.Condition < 40 ) {
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
-					} else if ( ship.Condition < 50 ) {
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
-					} else {
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
-					}
+					Condition.Tag = ship.Condition;
+					SetConditionDesign( ship.Condition );
+					
 					if ( ship.Condition < 49 ) {
 						TimeSpan ts = new TimeSpan( 0, (int)Math.Ceiling( ( 49 - ship.Condition ) / 3.0 ) * 3, 0 );
 						ToolTipInfo.SetToolTip( Condition, string.Format( "完全回復まで 約 {0:D2}:{1:D2}", (int)ts.TotalMinutes, (int)ts.Seconds ) );
@@ -593,6 +585,39 @@ namespace ElectronicObserver.Window {
 				return sb.ToString();
 			}
 
+			private void SetConditionDesign( int cond ) {
+
+				if ( Condition.ImageAlign == ContentAlignment.MiddleCenter ) {
+					// icon invisible
+					Condition.ImageIndex = -1;
+
+					if ( cond < 20 )
+						Condition.BackColor = Color.LightCoral;
+					else if ( cond < 30 )
+						Condition.BackColor = Color.LightSalmon;
+					else if ( cond < 40 )
+						Condition.BackColor = Color.Moccasin;
+					else if ( cond < 50 )
+						Condition.BackColor = SystemColors.Control;
+					else
+						Condition.BackColor = Color.LightGreen;
+
+				} else {
+					Condition.BackColor = SystemColors.Control;
+
+					if ( cond < 20 )
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
+					else if ( cond < 30 )
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
+					else if ( cond < 40 )
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
+					else if ( cond < 50 )
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
+					else
+						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
+
+				}
+			}
 
 			public void ConfigurationChanged( FormFleet parent ) {
 				Name.Font = parent.MainFont;
@@ -601,6 +626,7 @@ namespace ElectronicObserver.Window {
 				HP.MainFont = parent.MainFont;
 				HP.SubFont = parent.SubFont;
 				Condition.Font = parent.MainFont;
+				SetConditionDesign( ( Condition.Tag as int? ) ?? 49 );
 				Equipments.Font = parent.SubFont;
 			}
 		}
@@ -986,6 +1012,7 @@ namespace ElectronicObserver.Window {
 				bool colorMorphing = c.UI.BarColorMorphing;
 				Color[] colorScheme = c.UI.BarColorScheme.Select( col => col.ColorData ).ToArray();
 				bool showNext = c.FormFleet.ShowNextExp;
+				bool showConditionIcon = c.FormFleet.ShowConditionIcon;
 				var levelVisibility = c.FormFleet.EquipmentLevelVisibility;
 
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
@@ -1001,6 +1028,7 @@ namespace ElectronicObserver.Window {
 					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
 					ControlMember[i].HP.HPBar.SetBarColorScheme( colorScheme );
 					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
+					ControlMember[i].Condition.ImageAlign = showConditionIcon ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter;
 					ControlMember[i].Equipments.LevelVisibility = levelVisibility;
 					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
 					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;

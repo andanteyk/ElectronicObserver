@@ -138,6 +138,8 @@
 			this.label25 = new System.Windows.Forms.Label();
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
+			this.tabPage20 = new System.Windows.Forms.TabPage();
+			this.FormBattle_IsScrollable = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
 			this.FormBrowser_ToolMenuDockStyle = new System.Windows.Forms.ComboBox();
 			this.label30 = new System.Windows.Forms.Label();
@@ -210,8 +212,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.tabPage20 = new System.Windows.Forms.TabPage();
-			this.FormBattle_IsScrollable = new System.Windows.Forms.CheckBox();
+			this.FormFleet_ShowConditionIcon = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -236,6 +237,7 @@
 			this.tabPage10.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPage13.SuspendLayout();
+			this.tabPage20.SuspendLayout();
 			this.tabPage12.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).BeginInit();
@@ -250,7 +252,6 @@
 			this.tabPage17.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).BeginInit();
-			this.tabPage20.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -883,7 +884,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 259);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 257);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1099,6 +1100,7 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_ShowConditionIcon);
 			this.tabPage8.Controls.Add(this.FormFleet_EquipmentLevelVisibility);
 			this.tabPage8.Controls.Add(this.label28);
 			this.tabPage8.Controls.Add(this.FormFleet_BlinkAtCompletion);
@@ -1270,10 +1272,10 @@
 			// 
 			this.tabPage9.Controls.Add(this.FormArsenal_BlinkAtCompletion);
 			this.tabPage9.Controls.Add(this.FormArsenal_ShowShipName);
-			this.tabPage9.Location = new System.Drawing.Point(4, 24);
+			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(562, 258);
+			this.tabPage9.Size = new System.Drawing.Size(562, 260);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -1301,10 +1303,10 @@
 			// tabPage19
 			// 
 			this.tabPage19.Controls.Add(this.FormDock_BlinkAtCompletion);
-			this.tabPage19.Location = new System.Drawing.Point(4, 24);
+			this.tabPage19.Location = new System.Drawing.Point(4, 22);
 			this.tabPage19.Name = "tabPage19";
 			this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage19.Size = new System.Drawing.Size(562, 258);
+			this.tabPage19.Size = new System.Drawing.Size(562, 260);
 			this.tabPage19.TabIndex = 8;
 			this.tabPage19.Text = "入渠";
 			this.tabPage19.UseVisualStyleBackColor = true;
@@ -1324,10 +1326,10 @@
 			this.tabPage16.Controls.Add(this.label26);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_Visibility);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
-			this.tabPage16.Location = new System.Drawing.Point(4, 24);
+			this.tabPage16.Location = new System.Drawing.Point(4, 22);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(562, 258);
+			this.tabPage16.Size = new System.Drawing.Size(562, 260);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1350,7 +1352,7 @@
 			this.FormHeadquarters_Visibility.IntegralHeight = false;
 			this.FormHeadquarters_Visibility.Location = new System.Drawing.Point(6, 46);
 			this.FormHeadquarters_Visibility.Name = "FormHeadquarters_Visibility";
-			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 206);
+			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 208);
 			this.FormHeadquarters_Visibility.TabIndex = 1;
 			// 
 			// FormHeadquarters_BlinkAtMaximum
@@ -1367,10 +1369,10 @@
 			// 
 			this.tabPage18.Controls.Add(this.FormCompass_CandidateDisplayCount);
 			this.tabPage18.Controls.Add(this.label2);
-			this.tabPage18.Location = new System.Drawing.Point(4, 24);
+			this.tabPage18.Location = new System.Drawing.Point(4, 22);
 			this.tabPage18.Name = "tabPage18";
 			this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage18.Size = new System.Drawing.Size(562, 258);
+			this.tabPage18.Size = new System.Drawing.Size(562, 260);
 			this.tabPage18.TabIndex = 7;
 			this.tabPage18.Text = "羅針盤";
 			this.tabPage18.UseVisualStyleBackColor = true;
@@ -1414,10 +1416,10 @@
 			this.tabPage10.Controls.Add(this.label27);
 			this.tabPage10.Controls.Add(this.groupBox1);
 			this.tabPage10.Controls.Add(this.FormQuest_ShowRunningOnly);
-			this.tabPage10.Location = new System.Drawing.Point(4, 24);
+			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(562, 258);
+			this.tabPage10.Size = new System.Drawing.Size(562, 260);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1534,10 +1536,10 @@
 			this.tabPage13.Controls.Add(this.label25);
 			this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
 			this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-			this.tabPage13.Location = new System.Drawing.Point(4, 24);
+			this.tabPage13.Location = new System.Drawing.Point(4, 22);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(562, 258);
+			this.tabPage13.Size = new System.Drawing.Size(562, 260);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1585,6 +1587,28 @@
 			this.ToolTipInfo.SetToolTip(this.FormShipGroup_AutoUpdate, "艦船データを自動更新するかを指定します。\r\n");
 			this.FormShipGroup_AutoUpdate.UseVisualStyleBackColor = true;
 			// 
+			// tabPage20
+			// 
+			this.tabPage20.Controls.Add(this.FormBattle_IsScrollable);
+			this.tabPage20.Location = new System.Drawing.Point(4, 22);
+			this.tabPage20.Name = "tabPage20";
+			this.tabPage20.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage20.Size = new System.Drawing.Size(562, 260);
+			this.tabPage20.TabIndex = 10;
+			this.tabPage20.Text = "戦闘";
+			this.tabPage20.UseVisualStyleBackColor = true;
+			// 
+			// FormBattle_IsScrollable
+			// 
+			this.FormBattle_IsScrollable.AutoSize = true;
+			this.FormBattle_IsScrollable.Location = new System.Drawing.Point(6, 6);
+			this.FormBattle_IsScrollable.Name = "FormBattle_IsScrollable";
+			this.FormBattle_IsScrollable.Size = new System.Drawing.Size(144, 19);
+			this.FormBattle_IsScrollable.TabIndex = 6;
+			this.FormBattle_IsScrollable.Text = "スクロールバーを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormBattle_IsScrollable, "表示エリアがはみ出した場合にスクロールバーを表示するかを指定します。\r\n収まりきった場合は表示しません。");
+			this.FormBattle_IsScrollable.UseVisualStyleBackColor = true;
+			// 
 			// tabPage12
 			// 
 			this.tabPage12.Controls.Add(this.FormBrowser_ToolMenuDockStyle);
@@ -1599,10 +1623,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 24);
+			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(562, 258);
+			this.tabPage12.Size = new System.Drawing.Size(562, 260);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1804,10 +1828,10 @@
 			// 
 			this.tabPage14.Controls.Add(this.groupBox4);
 			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 24);
+			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(562, 258);
+			this.tabPage14.Size = new System.Drawing.Size(562, 260);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1955,10 +1979,10 @@
 			// 
 			this.SubWindow_Json.Controls.Add(this.SubWindow_Json_SealingPanel);
 			this.SubWindow_Json.Controls.Add(this.label33);
-			this.SubWindow_Json.Location = new System.Drawing.Point(4, 24);
+			this.SubWindow_Json.Location = new System.Drawing.Point(4, 22);
 			this.SubWindow_Json.Name = "SubWindow_Json";
 			this.SubWindow_Json.Padding = new System.Windows.Forms.Padding(3);
-			this.SubWindow_Json.Size = new System.Drawing.Size(562, 258);
+			this.SubWindow_Json.Size = new System.Drawing.Size(562, 260);
 			this.SubWindow_Json.TabIndex = 9;
 			this.SubWindow_Json.Text = "JSON";
 			this.SubWindow_Json.UseVisualStyleBackColor = true;
@@ -1975,7 +1999,7 @@
 			this.SubWindow_Json_SealingPanel.Location = new System.Drawing.Point(3, 3);
 			this.SubWindow_Json_SealingPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.SubWindow_Json_SealingPanel.Name = "SubWindow_Json_SealingPanel";
-			this.SubWindow_Json_SealingPanel.Size = new System.Drawing.Size(556, 252);
+			this.SubWindow_Json_SealingPanel.Size = new System.Drawing.Size(556, 254);
 			this.SubWindow_Json_SealingPanel.TabIndex = 6;
 			// 
 			// FormJson_AutoUpdate
@@ -2094,7 +2118,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 300);
+			this.label10.Location = new System.Drawing.Point(3, 298);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2314,7 +2338,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 277);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 275);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2396,27 +2420,16 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// tabPage20
+			// FormFleet_ShowConditionIcon
 			// 
-			this.tabPage20.Controls.Add(this.FormBattle_IsScrollable);
-			this.tabPage20.Location = new System.Drawing.Point(4, 24);
-			this.tabPage20.Name = "tabPage20";
-			this.tabPage20.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage20.Size = new System.Drawing.Size(562, 258);
-			this.tabPage20.TabIndex = 10;
-			this.tabPage20.Text = "戦闘";
-			this.tabPage20.UseVisualStyleBackColor = true;
-			// 
-			// FormBattle_IsScrollable
-			// 
-			this.FormBattle_IsScrollable.AutoSize = true;
-			this.FormBattle_IsScrollable.Location = new System.Drawing.Point(6, 6);
-			this.FormBattle_IsScrollable.Name = "FormBattle_IsScrollable";
-			this.FormBattle_IsScrollable.Size = new System.Drawing.Size(144, 19);
-			this.FormBattle_IsScrollable.TabIndex = 6;
-			this.FormBattle_IsScrollable.Text = "スクロールバーを表示する";
-			this.ToolTipInfo.SetToolTip(this.FormBattle_IsScrollable, "表示エリアがはみ出した場合にスクロールバーを表示するかを指定します。\r\n収まりきった場合は表示しません。");
-			this.FormBattle_IsScrollable.UseVisualStyleBackColor = true;
+			this.FormFleet_ShowConditionIcon.AutoSize = true;
+			this.FormFleet_ShowConditionIcon.Location = new System.Drawing.Point(6, 188);
+			this.FormFleet_ShowConditionIcon.Name = "FormFleet_ShowConditionIcon";
+			this.FormFleet_ShowConditionIcon.Size = new System.Drawing.Size(149, 19);
+			this.FormFleet_ShowConditionIcon.TabIndex = 14;
+			this.FormFleet_ShowConditionIcon.Text = "疲労度アイコンを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowConditionIcon, "疲労度のアイコンを表示するかを指定します。\r\n表示しない場合、背景色で区別されます。");
+			this.FormFleet_ShowConditionIcon.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -2477,6 +2490,8 @@
 			this.groupBox1.PerformLayout();
 			this.tabPage13.ResumeLayout(false);
 			this.tabPage13.PerformLayout();
+			this.tabPage20.ResumeLayout(false);
+			this.tabPage20.PerformLayout();
 			this.tabPage12.ResumeLayout(false);
 			this.tabPage12.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -2500,8 +2515,6 @@
 			this.tabPage17.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).EndInit();
-			this.tabPage20.ResumeLayout(false);
-			this.tabPage20.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -2695,5 +2708,6 @@
         private System.Windows.Forms.CheckBox Notification_Silencio;
 		private System.Windows.Forms.TabPage tabPage20;
 		private System.Windows.Forms.CheckBox FormBattle_IsScrollable;
+		private System.Windows.Forms.CheckBox FormFleet_ShowConditionIcon;
 	}
 }
