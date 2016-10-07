@@ -15,6 +15,14 @@ namespace ElectronicObserver.Data {
 	public class BaseAirCorpsData : APIWrapper, IIdentifiable {
 
 
+		/// <summary>
+		/// 飛行場が存在する海域ID
+		/// </summary>
+		public int MapAreaID {
+			get {
+				return RawData.api_area_id() ? (int)RawData.api_area_id : -1;
+			}
+		}
 
 		/// <summary>
 		/// 航空隊ID

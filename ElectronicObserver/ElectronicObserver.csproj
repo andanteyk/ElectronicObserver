@@ -182,6 +182,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\require_info.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\change_name.cs" />
+    <Compile Include="Observer\kcsapi\api_req_air_corps\expand_base.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_action.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_plane.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\supply.cs" />

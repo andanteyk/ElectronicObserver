@@ -1709,7 +1709,9 @@ api_get_member/mapinfo			：出撃準備　未出現海域は存在しない
 			api_airbase_enabled	：基地航空隊が使用可能か?
 		api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
 		api_defeat_count		：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
-
+	api_air_base				：基地航空隊データ なければ存在しない
+		api_area_id				：出撃可能海域
+		(以降のメンバは api_get_member/base_air_corps と同じ)
 
 api_get_member/furniture	：所有家具データ
 	api_id				：家具ID
@@ -1780,6 +1782,8 @@ api_req_air_corps/supply		：基地航空隊 - 補給
 	api_after_bauxite	：補給後のボーキサイト値
 	api_plane_info		：更新された中隊情報　base_air_corpsと同じ
 
+api_req_air_corps/expand_base		：基地航空隊 - 飛行場拡張
+	(拡張した航空隊のデータ[1?]。 api_get_member/base_air_corps に同じ)
 
 
 api_req_combined_battle/airbattle	：連合艦隊-機動部隊 航空戦

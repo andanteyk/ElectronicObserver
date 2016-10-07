@@ -281,11 +281,13 @@ namespace ElectronicObserver.Window {
 			var api = Observer.APIObserver.Instance;
 
 			api["api_port/port"].ResponseReceived += Updated;
+			api["api_get_member/mapinfo"].ResponseReceived += Updated;
 			api["api_get_member/base_air_corps"].ResponseReceived += Updated;
 			api["api_req_air_corps/change_name"].ResponseReceived += Updated;
 			api["api_req_air_corps/set_action"].ResponseReceived += Updated;
 			api["api_req_air_corps/set_plane"].ResponseReceived += Updated;
 			api["api_req_air_corps/supply"].ResponseReceived += Updated;
+			api["api_req_air_corps/expand_base"].ResponseReceived += Updated;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
