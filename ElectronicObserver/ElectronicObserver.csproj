@@ -781,6 +781,10 @@
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>WinFormsUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DockPanelSuite\WinFormsUI\ThemeVS2012Light.csproj">
+      <Project>{4ed4fdb5-9fd0-49e6-876d-1635f727c755}</Project>
+      <Name>ThemeVS2012Light</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
