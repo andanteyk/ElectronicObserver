@@ -182,6 +182,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\require_info.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\change_name.cs" />
+    <Compile Include="Observer\kcsapi\api_req_air_corps\expand_base.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_action.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_plane.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\supply.cs" />
@@ -780,9 +781,16 @@
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>WinFormsUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DockPanelSuite\WinFormsUI\ThemeVS2012Light.csproj">
+      <Project>{4ed4fdb5-9fd0-49e6-876d-1635f727c755}</Project>
+      <Name>ThemeVS2012Light</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)*.*" "$(ProjectDir)..\output\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
