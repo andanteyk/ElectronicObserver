@@ -58,6 +58,7 @@ namespace ElectronicObserver.Window {
 		void ConfigurationChanged() {
 
 			Font = TextInformation.Font = Utility.Configuration.Config.UI.MainFont;
+			TextInformation.LanguageOption = RichTextBoxLanguageOptions.UIFonts;
 		}
 
 
