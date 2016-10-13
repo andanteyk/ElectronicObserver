@@ -27,9 +27,10 @@
 			this.TableBottom = new System.Windows.Forms.TableLayoutPanel();
 			this.FleetFriend = new ElectronicObserver.Window.Control.ImageLabel();
 			this.DamageFriend = new ElectronicObserver.Window.Control.ImageLabel();
+			this.FleetEnemyEscort = new ElectronicObserver.Window.Control.ImageLabel();
 			this.WinRank = new ElectronicObserver.Window.Control.ImageLabel();
 			this.DamageEnemy = new ElectronicObserver.Window.Control.ImageLabel();
-			this.FleetCombined = new ElectronicObserver.Window.Control.ImageLabel();
+			this.FleetFriendEscort = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FleetEnemy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.BaseLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -53,17 +54,20 @@
 			// 
 			// TableBottom
 			// 
+			this.TableBottom.AutoSize = true;
 			this.TableBottom.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableBottom.ColumnCount = 3;
-			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+			this.TableBottom.ColumnCount = 4;
+			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableBottom.Controls.Add(this.FleetFriend, 0, 0);
 			this.TableBottom.Controls.Add(this.DamageFriend, 0, 7);
+			this.TableBottom.Controls.Add(this.FleetEnemyEscort, 2, 0);
 			this.TableBottom.Controls.Add(this.WinRank, 1, 7);
-			this.TableBottom.Controls.Add(this.DamageEnemy, 2, 7);
-			this.TableBottom.Controls.Add(this.FleetCombined, 1, 0);
-			this.TableBottom.Controls.Add(this.FleetEnemy, 2, 0);
+			this.TableBottom.Controls.Add(this.DamageEnemy, 4, 7);
+			this.TableBottom.Controls.Add(this.FleetFriendEscort, 1, 0);
+			this.TableBottom.Controls.Add(this.FleetEnemy, 3, 0);
 			this.TableBottom.Location = new System.Drawing.Point(3, 90);
 			this.TableBottom.Name = "TableBottom";
 			this.TableBottom.RowCount = 8;
@@ -75,12 +79,7 @@
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TableBottom.Size = new System.Drawing.Size(252, 168);
+			this.TableBottom.Size = new System.Drawing.Size(220, 168);
 			this.TableBottom.TabIndex = 1;
 			this.TableBottom.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableBottom_CellPaint);
 			// 
@@ -90,7 +89,7 @@
 			this.FleetFriend.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.FleetFriend.Location = new System.Drawing.Point(3, 3);
 			this.FleetFriend.Name = "FleetFriend";
-			this.FleetFriend.Size = new System.Drawing.Size(78, 15);
+			this.FleetFriend.Size = new System.Drawing.Size(49, 15);
 			this.FleetFriend.TabIndex = 0;
 			this.FleetFriend.Text = "自軍艦隊";
 			this.FleetFriend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -101,18 +100,31 @@
 			this.DamageFriend.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.DamageFriend.Location = new System.Drawing.Point(3, 150);
 			this.DamageFriend.Name = "DamageFriend";
-			this.DamageFriend.Size = new System.Drawing.Size(78, 15);
+			this.DamageFriend.Size = new System.Drawing.Size(49, 15);
 			this.DamageFriend.TabIndex = 3;
 			this.DamageFriend.Text = "損害率";
 			this.DamageFriend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// FleetEnemyEscort
+			// 
+			this.FleetEnemyEscort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.FleetEnemyEscort.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.FleetEnemyEscort.Location = new System.Drawing.Point(113, 3);
+			this.FleetEnemyEscort.Name = "FleetEnemyEscort";
+			this.FleetEnemyEscort.Size = new System.Drawing.Size(49, 15);
+			this.FleetEnemyEscort.TabIndex = 19;
+			this.FleetEnemyEscort.Text = "敵軍随伴";
+			this.FleetEnemyEscort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// WinRank
 			// 
 			this.WinRank.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.TableBottom.SetColumnSpan(this.WinRank, 2);
 			this.WinRank.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.WinRank.Location = new System.Drawing.Point(87, 150);
+			this.WinRank.Location = new System.Drawing.Point(58, 150);
+			this.WinRank.MinimumSize = new System.Drawing.Size(80, 0);
 			this.WinRank.Name = "WinRank";
-			this.WinRank.Size = new System.Drawing.Size(78, 15);
+			this.WinRank.Size = new System.Drawing.Size(104, 15);
 			this.WinRank.TabIndex = 4;
 			this.WinRank.Text = "戦績判定";
 			this.WinRank.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -121,31 +133,31 @@
 			// 
 			this.DamageEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.DamageEnemy.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.DamageEnemy.Location = new System.Drawing.Point(171, 150);
+			this.DamageEnemy.Location = new System.Drawing.Point(168, 150);
 			this.DamageEnemy.Name = "DamageEnemy";
-			this.DamageEnemy.Size = new System.Drawing.Size(78, 15);
+			this.DamageEnemy.Size = new System.Drawing.Size(49, 15);
 			this.DamageEnemy.TabIndex = 5;
 			this.DamageEnemy.Text = "損害率";
 			this.DamageEnemy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// FleetCombined
+			// FleetFriendEscort
 			// 
-			this.FleetCombined.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.FleetCombined.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.FleetCombined.Location = new System.Drawing.Point(87, 3);
-			this.FleetCombined.Name = "FleetCombined";
-			this.FleetCombined.Size = new System.Drawing.Size(78, 15);
-			this.FleetCombined.TabIndex = 1;
-			this.FleetCombined.Text = "随伴艦隊";
-			this.FleetCombined.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.FleetFriendEscort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.FleetFriendEscort.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.FleetFriendEscort.Location = new System.Drawing.Point(58, 3);
+			this.FleetFriendEscort.Name = "FleetFriendEscort";
+			this.FleetFriendEscort.Size = new System.Drawing.Size(49, 15);
+			this.FleetFriendEscort.TabIndex = 1;
+			this.FleetFriendEscort.Text = "自軍随伴";
+			this.FleetFriendEscort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// FleetEnemy
 			// 
 			this.FleetEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.FleetEnemy.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.FleetEnemy.Location = new System.Drawing.Point(171, 3);
+			this.FleetEnemy.Location = new System.Drawing.Point(168, 3);
 			this.FleetEnemy.Name = "FleetEnemy";
-			this.FleetEnemy.Size = new System.Drawing.Size(78, 15);
+			this.FleetEnemy.Size = new System.Drawing.Size(49, 15);
 			this.FleetEnemy.TabIndex = 2;
 			this.FleetEnemy.Text = "敵軍艦隊";
 			this.FleetEnemy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -356,6 +368,7 @@
 			this.TableBottom.ResumeLayout(false);
 			this.TableBottom.PerformLayout();
 			this.BaseLayoutPanel.ResumeLayout(false);
+			this.BaseLayoutPanel.PerformLayout();
 			this.TableTop.ResumeLayout(false);
 			this.TableTop.PerformLayout();
 			this.ResumeLayout(false);
@@ -381,10 +394,11 @@
 		private Control.ImageLabel DamageFriend;
 		private Control.ImageLabel WinRank;
 		private Control.ImageLabel DamageEnemy;
-		private Control.ImageLabel FleetCombined;
+		private Control.ImageLabel FleetFriendEscort;
 		private Control.ImageLabel FleetEnemy;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private System.Windows.Forms.FlowLayoutPanel BaseLayoutPanel;
 		private System.Windows.Forms.TableLayoutPanel TableTop;
+		private Control.ImageLabel FleetEnemyEscort;
 	}
 }

@@ -11,10 +11,6 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public abstract class BattleDetail {
 
-		public static readonly int AIR_ATTACKER = -999;
-
-		protected int attackerIndex;
-		protected int defenderIndex;
 		public int[] Damages { get; protected set; }
 		public CriticalType[] CriticalTypes { get; protected set; }
 		public int AttackType { get; protected set; }
@@ -24,18 +20,14 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		/// <summary>
-		/// The first id in battle data's id list is always -1
-		/// Skip it automatically
-		/// so return attacker - 1
-		/// The same as defender
+		/// 攻撃側インデックス [0-23]
 		/// </summary>
-		public int AttackerIndex { get { return attackerIndex - 1; } set { attackerIndex = value + 1; } }
+		public int AttackerIndex { get; protected set; }
 
 		/// <summary>
-		/// Though there mutiple defenders in API, but they are the same so it
-		/// uses one defender
+		/// 防御側インデックス [0-23]
 		/// </summary>
-		public int DefenderIndex { get { return defenderIndex - 1; } set { defenderIndex = value + 1; } }
+		public int DefenderIndex { get; protected set; }
 
 
 		public enum CriticalType {
@@ -47,15 +39,15 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		/// <param name="bd">戦闘情報。</param>
-		/// <param name="attackerIndex">攻撃側のインデックス。 1-18</param>
-		/// <param name="defenderIndex">防御側のインデックス。 1-18</param>
+		/// <param name="attackerIndex">攻撃側のインデックス。 [0-23]</param>
+		/// <param name="defenderIndex">防御側のインデックス。 [0-23]</param>
 		/// <param name="damages">ダメージの配列。</param>
 		/// <param name="criticalTypes">命中判定の配列。</param>
 		/// <param name="attackType">攻撃種別。</param>
 		public BattleDetail( BattleData bd, int attackerIndex, int defenderIndex, int[] damages, int[] criticalTypes, int attackType ) {
 
-			this.attackerIndex = attackerIndex;
-			this.defenderIndex = defenderIndex;
+			AttackerIndex = attackerIndex;
+			DefenderIndex = defenderIndex;
 			Damages = damages;
 			CriticalTypes = criticalTypes.Select( i => (CriticalType)i ).ToArray();
 			AttackType = attackType;
@@ -63,7 +55,7 @@ namespace ElectronicObserver.Data.Battle {
 
 			int[] slots;
 
-			if ( attackerIndex.Equals( AIR_ATTACKER ) ) {
+			if ( AttackerIndex < 0 ) {
 				Attacker = null;
 				slots = null;
 
@@ -76,10 +68,15 @@ namespace ElectronicObserver.Data.Battle {
 				Attacker = bd.Initial.EnemyMembersInstance[AttackerIndex - 6];
 				slots = bd.Initial.EnemySlots[AttackerIndex - 6];
 
-			} else {
-				var atk = KCDatabase.Instance.Fleet[2].MembersInstance[AttackerIndex - 12];
+			} else if ( attackerIndex < 18 ) {
+				var atk = bd.Initial.FriendFleetEscort.MembersInstance[AttackerIndex - 12];
 				Attacker = atk.MasterShip;
 				slots = atk.SlotMaster.ToArray();
+
+			} else {
+				Attacker = bd.Initial.EnemyMembersEscortInstance[AttackerIndex - 18];
+				slots = bd.Initial.EnemySlotsEscort[AttackerIndex - 18];
+
 			}
 
 
@@ -87,9 +84,10 @@ namespace ElectronicObserver.Data.Battle {
 				Defender = bd.Initial.FriendFleet.MembersInstance[DefenderIndex].MasterShip;
 			else if ( DefenderIndex < 12 )
 				Defender = bd.Initial.EnemyMembersInstance[DefenderIndex - 6];
+			else if ( DefenderIndex < 18 )
+				Defender = bd.Initial.FriendFleetEscort.MembersInstance[DefenderIndex - 12].MasterShip;
 			else
-				Defender = KCDatabase.Instance.Fleet[2].MembersInstance[DefenderIndex - 12].MasterShip;
-
+				Defender = bd.Initial.EnemyMembersEscortInstance[DefenderIndex - 18];
 
 			if ( AttackType == 0 ) {
 				AttackType = CaclulateAttackKind( slots, Attacker.ShipID, Defender.ShipID );
@@ -97,34 +95,22 @@ namespace ElectronicObserver.Data.Battle {
 
 		}
 
+
 		/// <summary>
 		/// 戦闘詳細の情報を出力します。
 		/// </summary>
-		public string BattleDescription() {
+		public override string ToString() {
 
 			StringBuilder builder = new StringBuilder();
-			if ( Attacker == null ) {
-				builder.Append( "敵航空隊 → " ).Append( Defender.NameWithClass );
-				if ( 6 <= DefenderIndex && DefenderIndex < 12 )
-					builder.Append( " #" ).Append( DefenderIndex - 6 + 1 );
 
-			} else {
-				builder.Append( Attacker.NameWithClass );
-				if ( 6 <= AttackerIndex && AttackerIndex < 12 )
-					builder.Append( " #" ).Append( AttackerIndex - 6 + 1 );
+			builder.AppendFormat( "{0} → {1} #{2}\r\n", GetAttackerName(), Defender.NameWithClass, GetDisplayIndex( DefenderIndex ) );
 
-				builder.Append( " → " ).Append( Defender.NameWithClass );
-				if ( 6 <= DefenderIndex && DefenderIndex < 12 )
-					builder.Append( " #" ).Append( DefenderIndex - 6 + 1 );
-
-			}
-			builder.AppendLine();
 
 			if ( AttackType >= 0 )
 				builder.Append( "[" ).Append( GetAttackKind() ).Append( "] " );
 
 			for ( int i = 0; i < Damages.Length; i++ ) {
-				if ( CriticalTypes[i] ==  CriticalType.Invalid )	// カットイン(主砲/主砲)、カットイン(主砲/副砲)時に発生する
+				if ( CriticalTypes[i] == CriticalType.Invalid )	// カットイン(主砲/主砲)、カットイン(主砲/副砲)時に発生する
 					continue;
 
 				if ( i > 0 )
@@ -147,6 +133,24 @@ namespace ElectronicObserver.Data.Battle {
 			return builder.ToString();
 		}
 
+		protected static bool IsFriendIndex( int i ) {
+			return ( 0 <= i && i < 6 ) || ( 12 <= i && i < 18 );
+		}
+
+		protected static bool IsEnemyIndex( int i ) {
+			return ( 6 <= i && i < 12 ) || ( 18 <= i && i < 24 );
+		}
+
+		protected static int GetDisplayIndex( int i ) {
+			return i % 6 + ( i / 12 ) * 6 + 1;
+		}
+
+
+		protected virtual string GetAttackerName() {
+			if ( Attacker == null )
+				return "#" + GetDisplayIndex( AttackerIndex );
+			return Attacker.NameWithClass + " #" + GetDisplayIndex( AttackerIndex );
+		}
 
 		protected abstract int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID );
 		protected abstract string GetAttackKind();
@@ -161,7 +165,6 @@ namespace ElectronicObserver.Data.Battle {
 
 		public BattleDayDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType )
 			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType ) {
-
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
@@ -174,13 +177,44 @@ namespace ElectronicObserver.Data.Battle {
 	}
 
 	/// <summary>
+	/// 支援攻撃の戦闘詳細データを保持します。
+	/// </summary>
+	public class BattleSupportDetail : BattleDetail {
+
+		public BattleSupportDetail( BattleData bd, int defenderId, int damage, int criticalType, int attackType )
+			: base( bd, attackType, defenderId, new int[] { damage }, new int[] { criticalType }, -1 ) {
+		}
+
+		protected override string GetAttackerName() {
+			return "支援" + GetAttackKind();
+		}
+
+		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
+			return -1;
+		}
+
+		protected override string GetAttackKind() {
+			switch ( AttackerIndex ) {
+				case 1:
+					return "空撃";
+				case 2:
+					return "砲撃";
+				case 3:
+					return "雷撃";
+				default:
+					return "不明";
+			}
+		}
+
+	}
+
+	/// <summary>
 	/// 夜戦における戦闘詳細データを保持します。
 	/// </summary>
 	public class BattleNightDetail : BattleDetail {
 
 		public BattleNightDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType )
 			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType ) {
-
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
@@ -197,9 +231,21 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public class BattleAirDetail : BattleDayDetail {
 
-		public BattleAirDetail( BattleData bd, int defenderId, int[] damages, int[] criticalTypes, int attackType )
-			: base( bd, AIR_ATTACKER, defenderId, damages, criticalTypes, attackType ) {
+		public BattleAirDetail( BattleData bd, int attackerId, int defenderId, int damage, int criticalType, int attackType )
+			: base( bd, attackerId, defenderId, new int[] { damage }, new int[] { criticalType }, attackType ) {
 
+		}
+
+		protected override string GetAttackerName() {
+			if ( AttackerIndex == 0 ) {
+				return "航空隊";
+
+			} else if ( AttackerIndex > 0 ) {
+				return string.Format( "基地航空隊 第{0}波", AttackerIndex );
+
+			} else {
+				return "未確認飛行物体";
+			}
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {

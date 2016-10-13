@@ -55,7 +55,7 @@ namespace ElectronicObserver.Data.Battle {
 		/// 随伴艦隊 MVP 艦のインデックス (1-6, -1=なし)
 		/// </summary>
 		public int MVPIndexCombined {
-			get { return RawData.api_mvp_combined() ? (int)RawData.api_mvp_combined : -1; }
+			get { return RawData.api_mvp_combined() && RawData.api_mvp_combined != null ? (int)RawData.api_mvp_combined : -1; }
 		}
 
 

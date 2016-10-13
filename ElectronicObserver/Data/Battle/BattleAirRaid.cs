@@ -30,5 +30,19 @@ namespace ElectronicObserver.Data.Battle {
 		public override BattleTypeFlag BattleType {
 			get { return BattleTypeFlag.Day; }
 		}
+
+		public override string GetBattleDetail( int index ) {
+			var sb = new StringBuilder();
+
+			string baseair = BaseAirAttack.GetBattleDetail( index );
+			string airbattle = AirBattle.GetBattleDetail( index );
+			
+			if ( baseair != null )
+				sb.AppendLine( "《基地航空隊攻撃》" ).Append( baseair );
+			if ( airbattle != null )
+				sb.AppendLine( "《航空戦》" ).Append( airbattle );
+			
+			return sb.ToString();
+		}
 	}
 }

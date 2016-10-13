@@ -34,17 +34,18 @@ namespace ElectronicObserver.Data.Battle {
 
 		[Flags]
 		public enum BattleModes {
-			Undefined,						//未定義
-			Normal,							//昼夜戦(通常戦闘)
-			NightOnly,						//夜戦
-			NightDay,						//夜昼戦
-			AirBattle,						//航空戦
-			AirRaid,						//長距離空襲戦
-			Practice,						//演習
-			BattlePhaseMask = 0xFFFF,		//戦闘形態マスク
-			CombinedTaskForce = 0x10000,	//機動部隊
-			CombinedSurface = 0x20000,		//水上部隊
-			CombinedMask = 0x7FFF0000,		//連合艦隊仕様
+			Undefined,						// 未定義
+			Normal,							// 昼夜戦(通常戦闘)
+			NightOnly,						// 夜戦
+			NightDay,						// 夜昼戦
+			AirBattle,						// 航空戦
+			AirRaid,						// 長距離空襲戦
+			Practice,						// 演習
+			BattlePhaseMask = 0xFF,			// 戦闘形態マスク
+			CombinedTaskForce = 0x100,		// 機動部隊
+			CombinedSurface = 0x200,		// 水上部隊
+			CombinedMask = 0xFF00,			// 連合艦隊仕様
+			EnemyCombinedFleet = 0x10000,	// 敵連合艦隊
 		}
 
 		/// <summary>
@@ -56,7 +57,7 @@ namespace ElectronicObserver.Data.Battle {
 		/// <summary>
 		/// 昼戦から開始する戦闘かどうか
 		/// </summary>
-		public bool StartsFromDayBattle { get {	return !StartsFromNightBattle; } }
+		public bool StartsFromDayBattle { get { return !StartsFromNightBattle; } }
 
 		/// <summary>
 		/// 夜戦から開始する戦闘かどうか
@@ -71,20 +72,17 @@ namespace ElectronicObserver.Data.Battle {
 		/// <summary>
 		/// 連合艦隊戦かどうか
 		/// </summary>
-		public bool IsCombinedBattle {
-			get {
-				return ( BattleMode & BattleModes.CombinedMask ) != 0;
-			}
-		}
+		public bool IsCombinedBattle { get { return ( BattleMode & BattleModes.CombinedMask ) != 0;	} }
 
 		/// <summary>
 		/// 演習かどうか
 		/// </summary>
-		public bool IsPractice {
-			get {
-				return ( BattleMode & BattleModes.BattlePhaseMask ) == BattleModes.Practice;
-			}
-		}
+		public bool IsPractice { get { return ( BattleMode & BattleModes.BattlePhaseMask ) == BattleModes.Practice; } }
+
+		/// <summary>
+		/// 敵が連合艦隊かどうか
+		/// </summary>
+		public bool IsEnemyCombined { get { return ( BattleMode & BattleModes.EnemyCombinedFleet ) != 0; } }
 
 
 		/// <summary>
@@ -198,6 +196,18 @@ namespace ElectronicObserver.Data.Battle {
 					BattleMode = BattleModes.AirRaid | BattleModes.CombinedTaskForce;
 					BattleDay = new BattleCombinedAirRaid();
 					BattleDay.LoadFromResponse( apiname, data );
+					break;
+
+				case "api_req_combined_battle/ec_battle":
+					BattleMode = BattleModes.Normal | BattleModes.EnemyCombinedFleet;
+					BattleDay = new BattleEnemyCombinedDay();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+
+				case "api_req_combined_battle/ec_midnight_battle":
+					BattleNight = new BattleEnemyCombinedNight();
+					//BattleNight.TakeOverParameters( BattleDay );		//undone: これで正しいかは未検証
+					BattleNight.LoadFromResponse( apiname, data );
 					break;
 
 				case "api_req_member/get_practice_enemyinfo":

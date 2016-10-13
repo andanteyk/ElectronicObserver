@@ -107,6 +107,8 @@
     <Compile Include="Data\Battle\BattleDay.cs" />
     <Compile Include="Data\Battle\BattleAirRaid.cs" />
     <Compile Include="Data\Battle\BattleDetail.cs" />
+    <Compile Include="Data\Battle\BattleEnemyCombinedDay.cs" />
+    <Compile Include="Data\Battle\BattleEnemyCombinedNight.cs" />
     <Compile Include="Data\Battle\BattleManager.cs" />
     <Compile Include="Data\Battle\BattleNight.cs" />
     <Compile Include="Data\Battle\BattleNightOnly.cs" />
@@ -186,6 +188,8 @@
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_action.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_plane.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\supply.cs" />
+    <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_battle.cs" />
+    <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_midnight_battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ld_airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\preset_select.cs" />
