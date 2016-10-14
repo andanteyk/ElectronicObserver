@@ -146,7 +146,7 @@ namespace ElectronicObserver.Window {
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfare( bm.BattleDay.AirBattle );
 						SetHPBar( bm.BattleDay );
-						SetDamageRateNormal( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
+						SetDamageRate( bm.BattleDay );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -156,7 +156,7 @@ namespace ElectronicObserver.Window {
 
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPBar( bm.BattleNight );
-						SetDamageRateNormal( bm.BattleNight, bm.BattleDay.Initial.InitialHPs );
+						SetDamageRate( bm.BattleNight );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -169,7 +169,7 @@ namespace ElectronicObserver.Window {
 						ClearSearchingResult();
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPBar( bm.BattleNight );
-						SetDamageRateNormal( bm.BattleNight, bm.BattleNight.Initial.InitialHPs );
+						SetDamageRate( bm.BattleNight );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -181,7 +181,7 @@ namespace ElectronicObserver.Window {
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleAirBattle)bm.BattleDay ).AirBattle2 );
 						SetHPBar( bm.BattleDay );
-						SetDamageRateNormal( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
+						SetDamageRate( bm.BattleDay );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -196,7 +196,7 @@ namespace ElectronicObserver.Window {
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfare( bm.BattleDay.AirBattle );
 						SetHPBar( bm.BattleDay );
-						SetDamageRateCombined( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
+						SetDamageRate( bm.BattleDay );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -208,7 +208,7 @@ namespace ElectronicObserver.Window {
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleCombinedAirBattle)bm.BattleDay ).AirBattle2 );
 						SetHPBar( bm.BattleDay );
-						SetDamageRateCombined( bm.BattleDay, bm.BattleDay.Initial.InitialHPs );
+						SetDamageRate( bm.BattleDay );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -218,7 +218,7 @@ namespace ElectronicObserver.Window {
 
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPBar( bm.BattleNight );
-						SetDamageRateCombined( bm.BattleNight, bm.BattleDay.Initial.InitialHPs );
+						SetDamageRate( bm.BattleNight );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -231,7 +231,7 @@ namespace ElectronicObserver.Window {
 						ClearBaseAirAttack();
 						SetNightBattleEvent( bm.BattleNight.NightBattle );
 						SetHPBar( bm.BattleNight );
-						SetDamageRateCombined( bm.BattleNight, bm.BattleNight.Initial.InitialHPs );
+						SetDamageRate( bm.BattleNight );
 
 						BaseLayoutPanel.Visible = true;
 					} break;
@@ -923,45 +923,31 @@ namespace ElectronicObserver.Window {
 			bool borderC = rienemy > ( 0.9 * rifriend );
 			bool borderB = rienemy > ( 2.5 * rifriend );
 
-			if ( sunkFriend == 0 ) {	// 味方轟沈数ゼロ
-				if ( enemyrate >= 1.0 ) {	// 敵を殲滅した
-					if ( friendrate <= 0.0 ) {	// 味方ダメージゼロ
+
+			// 轟沈艦なし
+			if ( sunkFriend == 0 ) {
+
+				// 敵艦全撃沈
+				if ( sunkEnemy == countEnemy ) {
+					if ( friendrate <= 0 )
 						return 7;	// SS
-					}
-					return 6;	// S
+					else
+						return 6;	// S
 
-				} else if ( sunkEnemy >= (int)Math.Round( countEnemy * 0.6 ) ) {	// 半数以上撃破
+				} else if ( sunkEnemy >= countEnemy * 2 / 3 )		// 敵の 2/3 以上を撃沈
 					return 5;	// A
-
-				} else if ( defeatFlagship || borderB ) {	// 敵旗艦を撃沈 or 戦果ゲージが2.5倍以上
-					return 4;	// B
-				}
-
-			} else {
-				if ( enemyrate >= 1.0 ) {	// 敵を殲滅した
-					return 4;	// B
-				}
-				// 敵旗艦を撃沈 and 味方轟沈数 < 敵撃沈数
-				if ( defeatFlagship && ( sunkFriend < sunkEnemy ) ) {
-					return 4;	// B
-				}
-				// 戦果ゲージが2.5倍以上
-				if ( borderB ) {
-					return 4;	// B
-				}
-				// 敵旗艦を撃沈
-				// TODO: 味方の轟沈艦が２隻以上ある場合、敵旗艦を撃沈してもDになる場合がある
-				if ( defeatFlagship ) {
-					return 3;	// C
-				}
 			}
 
-			// 戦果ゲージが0.9倍以上
-			if ( borderC ) {
+			// 敵旗艦撃沈 かつ 轟沈艦が敵より少ない、もしくはゲージが 2.5 倍以上
+			if ( ( defeatFlagship && sunkFriend < sunkEnemy ) || borderB )
+				return 4;	// B
+
+			// ゲージが 0.9 倍以上
+			if ( borderC )
 				return 3;	// C
-			}
-			// 轟沈艦があり かつ 残った艦が１隻のみ
-			if ( ( sunkFriend > 0 ) && ( ( countFriend - sunkFriend ) == 1 ) ) {
+
+			// 敵旗艦生存, 轟沈艦あり, 残った艦が１隻のみ
+			if ( !defeatFlagship && ( sunkFriend > 0 ) && ( ( countFriend - sunkFriend ) == 1 ) ) {
 				return 1;	// E
 			}
 
@@ -1001,106 +987,80 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
 		/// <summary>
 		/// 損害率と戦績予測を設定します。
 		/// </summary>
-		private void SetDamageRateNormal( BattleData bd, int[] initialHPs ) {
+		private void SetDamageRate( BattleData bd ) {
 
 			int friendbefore = 0;
 			int friendafter = 0;
+			int friendcount = 0;
+			int friendsunk = 0;
 			double friendrate;
+
 			int enemybefore = 0;
 			int enemyafter = 0;
+			int enemycount = 0;
+			int enemysunk = 0;
 			double enemyrate;
 
-			var resultHPs = bd.ResultHPs;
-
-			for ( int i = 0; i < 6; i++ ) {
-				friendbefore += Math.Max( initialHPs[i], 0 );
-				friendafter += Math.Max( resultHPs[i], 0 );
-				enemybefore += Math.Max( initialHPs[i + 6], 0 );
-				enemyafter += Math.Max( resultHPs[i + 6], 0 );
-			}
-
-			friendrate = ( (double)( friendbefore - friendafter ) / friendbefore );
-			DamageFriend.Text = string.Format( "{0:p1}", friendrate );
-			enemyrate = ( (double)( enemybefore - enemyafter ) / enemybefore );
-			DamageEnemy.Text = string.Format( "{0:p1}", enemyrate );
-
-
-			//戦績判定
-			{
-				int countFriend = bd.Initial.FriendFleet.Members.Count( v => v != -1 );
-				int countEnemy = ( bd.Initial.EnemyMembers.Count( v => v != -1 ) );
-				int sunkFriend = resultHPs.Take( countFriend ).Count( v => v <= 0 );
-				int sunkEnemy = resultHPs.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
-
-				int rank;
-				if ( bd is BattleAirRaid )
-					rank = GetWinRankAirRaid( countFriend, sunkFriend, friendrate );
-				else
-					rank = GetWinRank( countFriend, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, resultHPs[6] <= 0 );
-
-
-				WinRank.Text = Constants.GetWinRank( rank );
-				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
-			}
-		}
-
-
-		/// <summary>
-		/// 損害率と戦績予測を設定します(連合艦隊用)。
-		/// </summary>
-		private void SetDamageRateCombined( BattleData bd, int[] initialHPs ) {
-
-			int friendbefore = 0;
-			int friendafter = 0;
-			double friendrate;
-			int enemybefore = 0;
-			int enemyafter = 0;
-			double enemyrate;
-
-			var resultHPs = bd.ResultHPs;
 			var friend = bd.Initial.FriendFleet.MembersWithoutEscaped;
-			var escort = bd.Initial.FriendFleetEscort.MembersWithoutEscaped;
+			var friendescort = bd.Initial.FriendFleetEscort == null ? null : bd.Initial.FriendFleetEscort.MembersWithoutEscaped;
+
+			var initialHPs = bd.Initial.InitialHPs;
+			var resultHPs = bd.ResultHPs;
+
 
 			for ( int i = 0; i < 6; i++ ) {
 				if ( friend[i] != null ) {
 					friendbefore += Math.Max( initialHPs[i], 0 );
 					friendafter += Math.Max( resultHPs[i], 0 );
+					friendcount++;
+					if ( resultHPs[i] <= 0 )
+						friendsunk++;
 				}
-				if ( escort[i] != null ) {
+				if ( friendescort != null && friendescort[i] != null ) {
 					friendbefore += Math.Max( initialHPs[i + 12], 0 );
 					friendafter += Math.Max( resultHPs[i + 12], 0 );
+					friendcount++;
+					if ( resultHPs[i + 12] <= 0 )
+						friendsunk++;
 				}
-				enemybefore += Math.Max( initialHPs[i + 6], 0 );
-				enemyafter += Math.Max( resultHPs[i + 6], 0 );
+
+				if ( initialHPs[i + 6] >= 0 ) {
+					enemybefore += Math.Max( initialHPs[i + 6], 0 );
+					enemyafter += Math.Max( resultHPs[i + 6], 0 );
+					enemycount++;
+					if ( resultHPs[i + 6] <= 0 )
+						enemysunk++;
+				}
+				if ( initialHPs[i + 18] >= 0 ) {
+					enemybefore += Math.Max( initialHPs[i + 18], 0 );
+					enemyafter += Math.Max( resultHPs[i + 18], 0 );
+					enemycount++;
+					if ( resultHPs[i + 18] <= 0 )
+						enemysunk++;
+				}
 			}
 
-			friendrate = ( (double)( friendbefore - friendafter ) / friendbefore );
-			DamageFriend.Text = string.Format( "{0:p1}", friendrate );
-			enemyrate = ( (double)( enemybefore - enemyafter ) / enemybefore );
-			DamageEnemy.Text = string.Format( "{0:p1}", enemyrate );
+			friendrate = (double)( friendbefore - friendafter ) / friendbefore;
+			DamageFriend.Text = friendrate.ToString( "p1" );
+			enemyrate = (double)( enemybefore - enemyafter ) / enemybefore;
+			DamageEnemy.Text = enemyrate.ToString( "p1" );
 
 
 			//戦績判定
-			{
-				int countFriend = friend.Count( s => s != null );
-				int countFriendCombined = escort.Count( s => s != null );
-				int countEnemy = ( bd.Initial.EnemyMembers.Count( v => v != -1 ) );
-				int sunkFriend = resultHPs.Take( countFriend ).Count( v => v <= 0 ) + resultHPs.Skip( 12 ).Take( countFriendCombined ).Count( v => v <= 0 );
-				int sunkEnemy = resultHPs.Skip( 6 ).Take( countEnemy ).Count( v => v <= 0 );
-
-				int rank;
-				if ( bd is BattleCombinedAirRaid )
-					rank = GetWinRankAirRaid( countFriend, sunkFriend, friendrate );
-				else
-					rank = GetWinRank( countFriend + countFriendCombined, countEnemy, sunkFriend, sunkEnemy, friendrate, enemyrate, resultHPs[6] <= 0 );
+			int rank;
+			if ( bd is BattleCombinedAirRaid )
+				rank = GetWinRankAirRaid( friendcount, friendsunk, friendrate );
+			else
+				rank = GetWinRank( friendcount, enemycount, friendsunk, enemysunk, friendrate, enemyrate, resultHPs[6] <= 0 );
 
 
-				WinRank.Text = Constants.GetWinRank( rank );
-				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
-			}
+			WinRank.Text = Constants.GetWinRank( rank );
+			WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
+
 		}
 
 
