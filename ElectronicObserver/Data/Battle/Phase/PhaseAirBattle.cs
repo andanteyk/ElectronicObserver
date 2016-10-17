@@ -238,10 +238,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			if ( IsStage3CombinedAvailable ) {
 
-				int[] friend = (int[])AirBattleData.api_stage3[friendName];
-				int[] enemy = (int[])AirBattleData.api_stage3[enemyName];
-				int[] friendescort = (int[])AirBattleData.api_stage3_combined[friendName];
-				int[] enemyescort = (int[])AirBattleData.api_stage3_combined[enemyName];
+				int[] friend = AirBattleData.api_stage3.IsDefined( friendName ) ? (int[])AirBattleData.api_stage3[friendName] : new int[7];
+				int[] enemy = AirBattleData.api_stage3.IsDefined( enemyName ) ? (int[])AirBattleData.api_stage3[enemyName] : new int[7];
+				int[] friendescort = AirBattleData.api_stage3_combined.IsDefined( friendName ) ? (int[])AirBattleData.api_stage3_combined[friendName] : new int[7];
+				int[] enemyescort = AirBattleData.api_stage3_combined.IsDefined( enemyName ) ? (int[])AirBattleData.api_stage3_combined[enemyName] : new int[7];
 
 				for ( int i = 0; i < 6; i++ ) {
 					ret[i] = Math.Max( friend[i + 1], 0 );

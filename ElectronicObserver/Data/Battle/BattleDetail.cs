@@ -89,7 +89,7 @@ namespace ElectronicObserver.Data.Battle {
 			else
 				Defender = bd.Initial.EnemyMembersEscortInstance[DefenderIndex - 18];
 
-			if ( AttackType == 0 ) {
+			if ( AttackType == 0 && Attacker != null ) {
 				AttackType = CaclulateAttackKind( slots, Attacker.ShipID, Defender.ShipID );
 			}
 
@@ -182,7 +182,7 @@ namespace ElectronicObserver.Data.Battle {
 	public class BattleSupportDetail : BattleDetail {
 
 		public BattleSupportDetail( BattleData bd, int defenderId, int damage, int criticalType, int attackType )
-			: base( bd, attackType, defenderId, new int[] { damage }, new int[] { criticalType }, -1 ) {
+			: base( bd, -1, defenderId, new int[] { damage }, new int[] { criticalType }, attackType ) {
 		}
 
 		protected override string GetAttackerName() {
@@ -194,7 +194,7 @@ namespace ElectronicObserver.Data.Battle {
 		}
 
 		protected override string GetAttackKind() {
-			switch ( AttackerIndex ) {
+			switch ( AttackType ) {
 				case 1:
 					return "空撃";
 				case 2:

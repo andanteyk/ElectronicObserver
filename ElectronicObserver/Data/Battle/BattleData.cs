@@ -111,7 +111,7 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public abstract BattleTypeFlag BattleType { get; }
 
-		
+
 		public abstract string GetBattleDetail( int index );
 	}
 
