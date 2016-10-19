@@ -20,7 +20,18 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			: base( data ) {
 
 			this.phaseID = phaseID;
+
+			if ( !IsAvailable )
+				return;
+
+
+			Damages = GetConcatArray( "api_fdam", "api_edam" );
+			AttackDamages = GetConcatArray( "api_fydam", "api_eydam" );
+			Targets = GetConcatArray( "api_frai", "api_erai" );
+			CriticalFlags = GetConcatArray( "api_fcl", "api_ecl" );
+
 		}
+
 
 		public override bool IsAvailable {
 			get {
@@ -38,37 +49,24 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public override void EmulateBattle( int[] hps, int[] damages ) {
 
 			if ( !IsAvailable ) return;
-			{
-				int[] dmg = Damages;
-				for ( int i = 0; i < hps.Length; i++ ) {
-					AddDamage( hps, i, dmg[i] );
-				}
-			}
-			{
-				int[] dmg = AttackDamages;
-				for ( int i = 0; i < damages.Length; i++ ) {
-					damages[i] += dmg[i];
-				}
-			}
-			{
-				int[] friendTargets = (int[])TorpedoData.api_frai;
-				int[] enemyTargets = (int[])TorpedoData.api_erai;
-				int[] friendTargetDamages = (int[])TorpedoData.api_fydam;
-				int[] enemyTargetDamages = (int[])TorpedoData.api_eydam;
-				int[] friendCritical = (int[])TorpedoData.api_fcl;
-				int[] enemyCritical = (int[])TorpedoData.api_ecl;
 
-				bool isEscort = ( _battleData.BattleType & BattleData.BattleTypeFlag.Combined ) > 0;
+			for ( int i = 0; i < hps.Length; i++ ) {
+				AddDamage( hps, i, Damages[i] );
+			}
 
-				for ( int i = 1; i < friendTargets.Length; i++ ) {		//skip header(-1)
-					if ( friendTargets[i] > 0 ) {
-						BattleDetails.Add( new BattleDayDetail( _battleData, i + ( isEscort ? 12 : 0 ), friendTargets[i] + 6, new int[] { friendTargetDamages[i] }, new int[] { friendCritical[i] }, -1 ) );
-					}
-				}
-				for ( int i = 1; i < enemyTargets.Length; i++ ) {
-					if ( enemyTargets[i] > 0 ) {
-						BattleDetails.Add( new BattleDayDetail( _battleData, i + 6, enemyTargets[i] + ( isEscort ? 12 : 0 ), new int[] { enemyTargetDamages[i] }, new int[] { enemyCritical[i] }, -1 ) );
-					}
+			for ( int i = 0; i < damages.Length; i++ ) {
+				damages[i] += AttackDamages[i];
+			}
+
+			for ( int i = 0; i < Targets.Length; i++ ) {
+				if ( Targets[i] > 0 ) {
+					int target = Targets[i] - 1;
+					if ( target >= 6 )
+						target += 6;
+					if ( PhaseBase.IsIndexFriend( i ) )
+						target += 6;
+
+					BattleDetails.Add( new BattleDayDetail( _battleData, i, target, new int[] { AttackDamages[i] }, new int[] { CriticalFlags[i] }, -1 ) );
 				}
 			}
 		}
@@ -78,34 +76,52 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			get { return phaseID == 0 ? RawData.api_opening_atack : RawData.api_raigeki; }
 		}
 
+
 		/// <summary>
 		/// 各艦の被ダメージ
 		/// </summary>
-		public int[] Damages {
-			get {
-				if ( IsCombined ) {
-					return Enumerable.Repeat( 0, 6 )
-						.Concat( ( (int[])TorpedoData.api_edam ).Skip( 1 ) )
-						.Concat( ( (int[])TorpedoData.api_fdam ).Skip( 1 ) ).ToArray();
-				} else {
-					return ( (int[])TorpedoData.api_fdam ).Skip( 1 )
-						.Concat( ( (int[])TorpedoData.api_edam ).Skip( 1 ) ).ToArray();
-				}
-			}
-		}
+		public int[] Damages { get; private set; }
 
 		/// <summary>
 		/// 各艦の与ダメージ
 		/// </summary>
-		public int[] AttackDamages {
-			get {
+		public int[] AttackDamages { get; private set; }
+
+		/// <summary>
+		/// 各艦のターゲットインデックス
+		/// </summary>
+		public int[] Targets { get; private set; }
+
+		/// <summary>
+		/// クリティカルフラグ(攻撃側)
+		/// </summary>
+		public int[] CriticalFlags { get; private set; }
+
+
+		private int[] GetConcatArray( string friendName, string enemyName ) {
+			var friend = ( (int[])TorpedoData[friendName] ).Skip( 1 );
+			var enemy = ( (int[])TorpedoData[enemyName] ).Skip( 1 );
+
+			// 敵連合艦隊
+			if ( friend.Count() == 12 && enemy.Count() == 12 ) {
+				return friend.Take( 6 )
+					.Concat( enemy.Take( 6 ) )
+					.Concat( friend.Skip( 6 ) )
+					.Concat( enemy.Skip( 6 ) ).ToArray();
+
+			} else {
 				if ( IsCombined ) {
 					return Enumerable.Repeat( 0, 6 )
-						.Concat( ( (int[])TorpedoData.api_eydam ).Skip( 1 ) )
-						.Concat( ( (int[])TorpedoData.api_fydam ).Skip( 1 ) ).ToArray();
+						.Concat( enemy )
+						.Concat( friend )
+						.Concat( Enumerable.Repeat( 0, 6 ) )
+						.ToArray();
+
 				} else {
-					return ( (int[])TorpedoData.api_fydam ).Skip( 1 )
-						.Concat( ( (int[])TorpedoData.api_eydam ).Skip( 1 ) ).ToArray();
+					return friend
+						.Concat( enemy )
+						.Concat( Enumerable.Repeat( 0, 12 ) )
+						.ToArray();
 				}
 			}
 		}

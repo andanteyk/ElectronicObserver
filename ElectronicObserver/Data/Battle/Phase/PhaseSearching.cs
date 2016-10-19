@@ -28,22 +28,18 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// 自軍索敵結果
 		/// </summary>
-		public int SearchingFriend { 
+		public int SearchingFriend {
 			get {
-				if ( RawData.api_search() )
-					return (int)RawData.api_search[0];
-				else return -1;
+				return !RawData.api_search() ? -1 : (int)RawData.api_search[0];
 			}
 		}
 
 		/// <summary>
 		/// 敵軍索敵結果
 		/// </summary>
-		public int SearchingEnemy { 
+		public int SearchingEnemy {
 			get {
-				if ( RawData.api_search() )
-					return (int)RawData.api_search[1];
-				else return -1;
+				return !RawData.api_search() ? -1 : (int)RawData.api_search[1];
 			}
 		}
 

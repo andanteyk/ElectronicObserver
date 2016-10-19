@@ -12,6 +12,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 	public class PhaseOpeningASW : PhaseShelling {
 
 		// 砲撃戦とフォーマットが同じなので流用
+		// undone: 敵連合艦隊時にどちらを狙うか/誰が参加するか不明
 
 		public PhaseOpeningASW( BattleData data, bool isEscort )
 			: base( data, 0, "", isEscort ) {

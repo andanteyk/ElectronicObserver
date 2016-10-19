@@ -31,6 +31,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 		protected bool IsPractice { get { return ( _battleData.BattleType & BattleData.BattleTypeFlag.Practice ) != 0; } }
 		protected bool IsCombined { get { return ( _battleData.BattleType & BattleData.BattleTypeFlag.Combined ) != 0; } }
+		protected bool IsEnemyCombined { get { return ( _battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined ) != 0; } }
+
+		protected static bool IsIndexFriend( int index ) { return ( 0 <= index && index < 6 ) || ( 12 <= index && index < 18 ); }
+		protected static bool IsIndexEnemy( int index ) { return ( 6 <= index && index < 12 ) || ( 18 <= index && index < 24 ); }
 
 
 		/// <summary>
@@ -44,7 +48,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			hps[index] -= Math.Max( damage, 0 );
 
 			//自軍艦の撃沈が発生した場合(ダメコン処理)
-			if ( hps[index] <= 0 && !( 6 <= index && index < 12 ) && !IsPractice ) {
+			if ( hps[index] <= 0 && IsIndexFriend( index ) && !IsPractice ) {
 				ShipData ship = KCDatabase.Instance.Fleet[index < 6 ? _battleData.Initial.FriendFleetID : 2].MembersInstance[index % 6];
 				if ( ship == null ) return;
 
@@ -67,6 +71,22 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					}
 				}
 			}
+		}
+
+
+		protected virtual IEnumerable<BattleDetail> SearchBattleDetails( int index ) {
+			return BattleDetails.Where( d => d.AttackerIndex == index || d.DefenderIndex == index );
+		}
+		public virtual string GetBattleDetail( int index ) {
+			var list = SearchBattleDetails( index );
+			if ( list.Any() ) {
+				return string.Join( "\r\n", list ) + "\r\n";
+			} else return null;
+		}
+
+
+		public override string ToString() {
+			return string.Join( " / \r\n", BattleDetails );
 		}
 
 
