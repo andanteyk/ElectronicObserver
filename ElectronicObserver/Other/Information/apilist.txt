@@ -1725,6 +1725,7 @@ api_get_member/mapinfo			：出撃準備　未出現海域は存在しない
 			api_airbase_enabled	：基地航空隊が使用可能か?
 		api_air_base_decks		：基地航空隊出撃可能数 1以上の時のみ存在
 		api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
+		api_air_base_decks		：出撃可能飛行隊数
 		api_defeat_count		：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
 	api_air_base				：基地航空隊データ なければ存在しない
 		api_area_id				：出撃可能海域
