@@ -176,11 +176,36 @@ namespace ElectronicObserver.Window.Dialog {
 				Invoke( act, file );
 				System.Threading.Thread.Sleep( 10 );		//ゆるして
 
-				if ( APICaller.CancellationPending )
+				if ( APICaller.CancellationPending ) {
+					e.Result = file;
 					break;
+				}
 			}
 
 		}
+
+		private void APICaller_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
+
+			if ( e.Result != null ) {	//canceled	
+				int count = APIView.Rows.Count;
+				int result = -1;
+				string canceledFile = e.Result as string;
+
+				for ( int i = 0; i < count; i++ ) {
+					if ( APIView[APIView_FileName.Index, i].Value.ToString() == canceledFile ) {
+						result = i + 1;		// 探知結果までは処理済みのため
+						break;
+					}
+				}
+
+				if ( result != -1 && result < count ) {
+					APIView.ClearSelection();
+					APIView.Rows[result].Selected = true;
+					APIView.FirstDisplayedScrollingRowIndex = result;
+				}
+			}
+		}
+
 
 		private void DialogLocalAPILoader2_FormClosing( object sender, FormClosingEventArgs e ) {
 			if ( APICaller.IsBusy ) {
@@ -271,7 +296,7 @@ namespace ElectronicObserver.Window.Dialog {
 				ButtonSearch.PerformClick();
 			}
 		}
-		
+
 
 	}
 }

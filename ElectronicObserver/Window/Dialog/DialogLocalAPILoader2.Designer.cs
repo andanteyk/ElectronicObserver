@@ -226,6 +226,7 @@
 			// 
 			this.APICaller.WorkerSupportsCancellation = true;
 			this.APICaller.DoWork += new System.ComponentModel.DoWorkEventHandler(this.APICaller_DoWork);
+			this.APICaller.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.APICaller_RunWorkerCompleted);
 			// 
 			// DialogLocalAPILoader2
 			// 

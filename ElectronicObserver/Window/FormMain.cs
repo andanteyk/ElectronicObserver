@@ -37,6 +37,8 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		private int _volumeUpdateState = 0;
 
+		private DateTime _prevPlayTimeRecorded = DateTime.MinValue;
+
 		#endregion
 
 
@@ -184,6 +186,8 @@ namespace ElectronicObserver.Window {
 					Utility.Logger.Add( 3, "API読み込みに失敗しました。" + ex.Message );
 				}
 			}
+
+			APIObserver.Instance.ResponseReceived += ( a, b ) => UpdatePlayTime();
 
 
 			// 🎃
@@ -367,6 +371,8 @@ namespace ElectronicObserver.Window {
 			UIUpdateTimer.Stop();
 
 			fBrowser.CloseBrowser();
+
+			UpdatePlayTime();
 
 
 			SystemEvents.OnSystemShuttingDown();
@@ -614,6 +620,8 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void StripMenu_File_Configuration_Click( object sender, EventArgs e ) {
+
+			UpdatePlayTime();
 
 			using ( var dialog = new DialogConfiguration( Utility.Configuration.Config ) ) {
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
@@ -1184,6 +1192,22 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_WindowCapture_DetachAll_Click( object sender, EventArgs e ) {
 			fWindowCapture.DetachAll();
 		}
+
+
+
+		private void UpdatePlayTime() {
+			var c =  Utility.Configuration.Config.Log;
+			DateTime now = DateTime.Now;
+
+			double span = ( now - _prevPlayTimeRecorded ).TotalSeconds;
+			if ( span < c.PlayTimeIgnoreInterval ) {
+				c.PlayTime += span;
+			}
+
+			_prevPlayTimeRecorded = now;
+		}
+
+
 
 
 		#region フォーム表示

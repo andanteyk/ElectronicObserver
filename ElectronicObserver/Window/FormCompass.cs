@@ -631,6 +631,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_practice/battle"].ResponseReceived += BattleStarted;
 
 
@@ -652,6 +653,8 @@ namespace ElectronicObserver.Window {
 					case 4:		//航空戦
 					case 6:		//長距離空襲戦
 						return Color.DarkGreen;
+					case 5:		// 敵連合
+						return Color.DarkRed;
 				}
 			};
 
@@ -797,7 +800,12 @@ namespace ElectronicObserver.Window {
 
 						case 5:		//ボス戦闘
 							TextEventKind.ForeColor = Color.Red;
-							goto case 4;
+
+							if ( compass.EventKind >= 2 ) {
+								eventkind += "/" + Constants.GetMapEventKind( compass.EventKind );
+							}
+							UpdateEnemyFleet();
+							break;
 
 						case 6:		//気のせいだった
 							switch ( compass.EventKind ) {

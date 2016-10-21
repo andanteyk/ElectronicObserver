@@ -700,22 +700,33 @@ api_req_kousyou/remodel_slotlist	：改修工廠　装備選択
 	api_req_slot_id			：0
 	api_req_slot_num		：0
 
+Request.api_req_kousyou/remodel_slotlist_detail		：改修工廠　実行確認
+	api_id		：レシピID
+	api_slot_id	：対象装備固有ID
+
 api_req_kousyou/remodel_slotlist_detail		：改修工廠　実行確認
 	api_req_buildkit		：消費開発資材
 	api_req_remodelkit		：消費改修資材
 	api_certain_buildkit	：確実化時の消費開発資材
 	api_certain_remodelkit	：確実化時の消費改修資材
-	api_req_slot_id			：消費する装備のマスターID
+	api_req_slot_id			：消費する装備のID　なければ0
 	api_req_slot_num		：消費する装備の個数
 	api_change_flag			：装備更新(アップグレード)フラグ
+
+Request.api_req_kousyou/remodel_slot	：改修工廠　改修実行
+	api_id				：レシピID
+	api_certain_flag	：確実化フラグ
+	api_slot_id			：改修する装備の固有ID
 
 api_req_kousyou/remodel_slot	：改修工廠　改修実行
 	api_remodel_flag	：成功フラグ
 	api_remodel_id		：改修装備マスターID　[0]=変化前, [1]=変化後
 	api_after_material	：現在の各種資源
-	api_voice_id		：2番艦と改装した時のボイス番号 string
+	api_voice_ship_id	：2番艦の艦船マスターID　発声したときのみ存在?
+	api_voice_id		：2番艦と改装した時のボイス番号
 	api_after_slot		：更新された装備データ api_get_member/slot_item参照　失敗時存在せず
 	api_use_slot_id		：消費された装備のID　使ったときのみ存在
+
 
 api_get_member/ndock		：入渠ドック
 	api_member_id			：提督ID

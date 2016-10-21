@@ -29,11 +29,15 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private Dictionary<SyncBGMPlayer.SoundHandleID, SyncBGMPlayer.SoundHandle> BGMHandles;
 
-
+		private DateTime _shownTime;
+		private double _playTimeCache;
+		
 
 
 		public DialogConfiguration() {
 			InitializeComponent();
+
+			_shownTime = DateTime.Now;
 		}
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
@@ -304,6 +308,8 @@ namespace ElectronicObserver.Window.Dialog {
 			Log_SaveErrorReport.Checked = config.Log.SaveErrorReport;
 			Log_FileEncodingID.SelectedIndex = config.Log.FileEncodingID;
 			Log_ShowSpoiler.Checked = config.Log.ShowSpoiler;
+			_playTimeCache = config.Log.PlayTime;
+			UpdatePlayTime();
 
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
@@ -749,6 +755,16 @@ namespace ElectronicObserver.Window.Dialog {
 			foreach ( NotifierBase no in NotifierManager.Instance.GetNotifiers() ) {
 				no.IsSilenced = silenced;
 			}
+		}
+
+
+		private void UpdatePlayTime() {
+			double elapsed = ( DateTime.Now - _shownTime ).TotalSeconds;
+			Log_PlayTime.Text = "プレイ時間: " + ElectronicObserver.Utility.Mathematics.DateTimeHelper.ToTimeElapsedString( TimeSpan.FromSeconds( _playTimeCache + elapsed ) );
+		}
+
+		private void PlayTimeTimer_Tick( object sender, EventArgs e ) {
+			UpdatePlayTime();
 		}
 
 

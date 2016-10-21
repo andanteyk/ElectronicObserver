@@ -308,12 +308,25 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowSpoiler { get; set; }
 
+				/// <summary>
+				/// プレイ時間
+				/// </summary>
+				public double PlayTime { get; set; }
+
+				/// <summary>
+				/// これ以上の無通信時間があったときプレイ時間にカウントしない
+				/// </summary>
+				public double PlayTimeIgnoreInterval { get; set; }
+
+
 				public ConfigLog() {
 					LogLevel = 2;
 					SaveLogFlag = true;
 					SaveErrorReport = true;
 					FileEncodingID = 4;
 					ShowSpoiler = true;
+					PlayTime = 0;
+					PlayTimeIgnoreInterval = 10 * 60;
 				}
 
 			}
