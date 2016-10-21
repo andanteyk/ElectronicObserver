@@ -31,7 +31,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private DateTime _shownTime;
 		private double _playTimeCache;
-		
+
 
 
 		public DialogConfiguration() {
@@ -359,6 +359,20 @@ namespace ElectronicObserver.Window.Dialog {
 				FormHeadquarters_Visibility.SetItemChecked( i, config.FormHeadquarters.Visibility.List[i] );
 			}
 
+			{
+				FormHeadquarters_DisplayUseItemID.Items.AddRange(
+					ElectronicObserver.Data.KCDatabase.Instance.MasterUseItems.Values
+						.Where( i => i.Name.Length > 0 && i.Description.Length > 0 )
+						.Select( i => i.Name ).ToArray() );
+				var item = ElectronicObserver.Data.KCDatabase.Instance.MasterUseItems[config.FormHeadquarters.DisplayUseItemID];
+
+				if ( item != null ) {
+					FormHeadquarters_DisplayUseItemID.Text = item.Name;
+				} else {
+					FormHeadquarters_DisplayUseItemID.Text = config.FormHeadquarters.DisplayUseItemID.ToString();
+				}
+			}
+
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
 			FormQuest_ShowDaily.Checked = config.FormQuest.ShowDaily;
@@ -555,6 +569,26 @@ namespace ElectronicObserver.Window.Dialog {
 				for ( int i = 0; i < FormHeadquarters_Visibility.Items.Count; i++ )
 					list.Add( FormHeadquarters_Visibility.GetItemChecked( i ) );
 				config.FormHeadquarters.Visibility.List = list;
+			}
+			{
+				string name = FormHeadquarters_DisplayUseItemID.Text;
+				if ( string.IsNullOrEmpty( name ) ) {
+					config.FormHeadquarters.DisplayUseItemID = -1;
+
+				} else {
+					var item = ElectronicObserver.Data.KCDatabase.Instance.MasterUseItems.Values.FirstOrDefault( p => p.Name == name );
+
+					if ( item != null ) {
+						config.FormHeadquarters.DisplayUseItemID = item.ItemID;
+
+					} else {
+						int val;
+						if ( int.TryParse( name, out val ) )
+							config.FormHeadquarters.DisplayUseItemID = val;
+						else
+							config.FormHeadquarters.DisplayUseItemID = -1;
+					}
+				}
 			}
 
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;

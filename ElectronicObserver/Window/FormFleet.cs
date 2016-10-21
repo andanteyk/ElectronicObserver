@@ -874,7 +874,7 @@ namespace ElectronicObserver.Window {
 			sb.Append( @"{""version"":4," );
 
 			foreach ( var fleet in db.Fleet.Fleets.Values ) {
-				if ( fleet == null ) continue;
+				if ( fleet == null || fleet.MembersInstance.All( m => m == null ) ) continue;
 
 				sb.AppendFormat( @"""f{0}"":{{", fleet.FleetID );
 
