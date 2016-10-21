@@ -29,11 +29,15 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private Dictionary<SyncBGMPlayer.SoundHandleID, SyncBGMPlayer.SoundHandle> BGMHandles;
 
+		private DateTime _shownTime;
+		private double _playTimeCache;
 
 
 
 		public DialogConfiguration() {
 			InitializeComponent();
+
+			_shownTime = DateTime.Now;
 		}
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
@@ -304,6 +308,8 @@ namespace ElectronicObserver.Window.Dialog {
 			Log_SaveErrorReport.Checked = config.Log.SaveErrorReport;
 			Log_FileEncodingID.SelectedIndex = config.Log.FileEncodingID;
 			Log_ShowSpoiler.Checked = config.Log.ShowSpoiler;
+			_playTimeCache = config.Log.PlayTime;
+			UpdatePlayTime();
 
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
@@ -351,6 +357,20 @@ namespace ElectronicObserver.Window.Dialog {
 			FormHeadquarters.CheckVisibilityConfiguration();
 			for ( int i = 0; i < FormHeadquarters_Visibility.Items.Count; i++ ) {
 				FormHeadquarters_Visibility.SetItemChecked( i, config.FormHeadquarters.Visibility.List[i] );
+			}
+
+			{
+				FormHeadquarters_DisplayUseItemID.Items.AddRange(
+					ElectronicObserver.Data.KCDatabase.Instance.MasterUseItems.Values
+						.Where( i => i.Name.Length > 0 && i.Description.Length > 0 )
+						.Select( i => i.Name ).ToArray() );
+				var item = ElectronicObserver.Data.KCDatabase.Instance.MasterUseItems[config.FormHeadquarters.DisplayUseItemID];
+
+				if ( item != null ) {
+					FormHeadquarters_DisplayUseItemID.Text = item.Name;
+				} else {
+					FormHeadquarters_DisplayUseItemID.Text = config.FormHeadquarters.DisplayUseItemID.ToString();
+				}
 			}
 
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
@@ -549,6 +569,26 @@ namespace ElectronicObserver.Window.Dialog {
 				for ( int i = 0; i < FormHeadquarters_Visibility.Items.Count; i++ )
 					list.Add( FormHeadquarters_Visibility.GetItemChecked( i ) );
 				config.FormHeadquarters.Visibility.List = list;
+			}
+			{
+				string name = FormHeadquarters_DisplayUseItemID.Text;
+				if ( string.IsNullOrEmpty( name ) ) {
+					config.FormHeadquarters.DisplayUseItemID = -1;
+
+				} else {
+					var item = ElectronicObserver.Data.KCDatabase.Instance.MasterUseItems.Values.FirstOrDefault( p => p.Name == name );
+
+					if ( item != null ) {
+						config.FormHeadquarters.DisplayUseItemID = item.ItemID;
+
+					} else {
+						int val;
+						if ( int.TryParse( name, out val ) )
+							config.FormHeadquarters.DisplayUseItemID = val;
+						else
+							config.FormHeadquarters.DisplayUseItemID = -1;
+					}
+				}
 			}
 
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
@@ -749,6 +789,16 @@ namespace ElectronicObserver.Window.Dialog {
 			foreach ( NotifierBase no in NotifierManager.Instance.GetNotifiers() ) {
 				no.IsSilenced = silenced;
 			}
+		}
+
+
+		private void UpdatePlayTime() {
+			double elapsed = ( DateTime.Now - _shownTime ).TotalSeconds;
+			Log_PlayTime.Text = "プレイ時間: " + ElectronicObserver.Utility.Mathematics.DateTimeHelper.ToTimeElapsedString( TimeSpan.FromSeconds( _playTimeCache + elapsed ) );
+		}
+
+		private void PlayTimeTimer_Tick( object sender, EventArgs e ) {
+			UpdatePlayTime();
 		}
 
 

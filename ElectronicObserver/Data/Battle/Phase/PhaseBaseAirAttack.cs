@@ -20,7 +20,15 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			public PhaseBaseAirAttackUnit( BattleData data, int index )
 				: base( data ) {
+
+				AirAttackIndex = index;
 				AirBattleData = data.RawData.api_air_base_attack[index];
+
+				TorpedoFlags = ConcatStage3Array( "api_erai_flag" );
+				BomberFlags = ConcatStage3Array( "api_ebak_flag" );
+				Criticals = ConcatStage3Array( "api_ecl_flag" );
+				Damages = ConcatStage3Array( "api_edam" );
+
 			}
 
 
@@ -33,18 +41,25 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			public override void EmulateBattle( int[] hps, int[] damages ) {
 
-				if ( !IsAvailable || !IsStage3Available ) return;
+				if ( !IsAvailable ) return;
 
-				{
-					int[] dmg = Damages;
 
-					for ( int i = 0; i < hps.Length; i++ ) {
-						AddDamage( hps, i, dmg[i] );
+				for ( int i = 0; i < hps.Length; i++ ) {
+					AddDamage( hps, i, Damages[i] );
+
+					if ( TorpedoFlags[i] > 0 || BomberFlags[i] > 0 ) {
+						BattleDetails.Add( new BattleAirDetail( _battleData, AirAttackIndex + 1, i, Damages[i], Criticals[i] + 1, ( TorpedoFlags[i] > 0 ? 1 : 0 ) | ( BomberFlags[i] > 0 ? 2 : 0 ) ) );
 					}
 				}
 
 			}
 
+			protected override IEnumerable<BattleDetail> SearchBattleDetails( int index ) {
+				return BattleDetails.Where( d => d.DefenderIndex == index );
+			}
+
+
+			public int AirAttackIndex { get; private set; }
 
 			/// <summary>
 			/// 各Stageが存在するか
@@ -172,22 +187,59 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			public bool IsStage3Available { get { return StageFlag != null && StageFlag[2] != 0 && AirBattleData.api_stage3() && AirBattleData.api_stage3 != null; } }
 
 			/// <summary>
-			/// 各艦の被ダメージ
+			/// Stage3(航空攻撃)(対随伴艦隊)が存在するか
 			/// </summary>
-			public int[] Damages {
-				get {
-					// 敵のみです
+			public bool IsStage3CombinedAvailable { get { return StageFlag != null && StageFlag[2] != 0 && AirBattleData.api_stage3_combined() && AirBattleData.api_stage3_combined != null; } }
 
-					int[] ret =　new int[IsCombined ? 18 : 12];
-					int[] enemy = (int[])AirBattleData.api_stage3.api_edam;
+
+			private int[] ConcatStage3Array( string enemyName ) {
+
+				int[] ret = new int[24];
+
+				if ( IsStage3CombinedAvailable ) {
+
+					int[] enemy = (int[])AirBattleData.api_stage3[enemyName];
+					int[] enemyescort = (int[])AirBattleData.api_stage3_combined[enemyName];
 
 					for ( int i = 0; i < 6; i++ ) {
 						ret[i + 6] = Math.Max( enemy[i + 1], 0 );
+						ret[i + 18] = Math.Max( enemyescort[i + 1], 0 );
+						ret[i] = ret[i + 12] = 0;
 					}
 
-					return ret;
+				} else if ( IsStage3Available ) {
+					int[] enemy = (int[])AirBattleData.api_stage3[enemyName];
+
+					for ( int i = 0; i < 6; i++ ) {
+						ret[i + 6] = Math.Max( enemy[i + 1], 0 );
+						ret[i] = ret[i + 12] = ret[i + 18] = 0;
+					}
+
 				}
+
+				return ret;
 			}
+
+
+			/// <summary>
+			/// 被雷撃フラグ
+			/// </summary>
+			public int[] TorpedoFlags { get; private set; }
+
+			/// <summary>
+			/// 被爆撃フラグ
+			/// </summary>
+			public int[] BomberFlags { get; private set; }
+
+			/// <summary>
+			/// 各艦のクリティカルフラグ
+			/// </summary>
+			public int[] Criticals { get; private set; }
+
+			/// <summary>
+			/// 各艦の被ダメージ
+			/// </summary>
+			public int[] Damages { get; private set; }
 
 		}
 
@@ -201,7 +253,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			if ( !IsAvailable )
 				return;
 
-			
+
 			int i = 0;
 			foreach ( var unit in RawData.api_air_base_attack ) {
 				AirAttackUnits.Add( new PhaseBaseAirAttackUnit( data, i ) );
@@ -222,15 +274,22 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			get { return RawData.api_air_base_attack(); }
 		}
 
+
 		public override void EmulateBattle( int[] hps, int[] damages ) {
 
 			if ( !IsAvailable )
 				return;
 
 			foreach ( var a in AirAttackUnits ) {
-				
+
 				a.EmulateBattle( hps, damages );
 			}
 		}
+
+		protected override IEnumerable<BattleDetail> SearchBattleDetails( int index ) {
+			return AirAttackUnits.SelectMany( p => p.BattleDetails ).Where( d => d.DefenderIndex == index );
+		}
+
+
 	}
 }

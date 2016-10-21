@@ -503,7 +503,7 @@ namespace ElectronicObserver.Data {
 					return Calculator.GetSearchingAbility_TinyAutumn( this ).ToString();
 
 				case 3:
-					return ( (int)( Calculator.GetSearchingAbility_33( this ) * 100 ) / 100 ).ToString( "F2" );
+					return ( Math.Floor( Calculator.GetSearchingAbility_33( this ) * 100 ) / 100 ).ToString( "F2" );
 			}
 		}
 

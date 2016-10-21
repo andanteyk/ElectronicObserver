@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
 
-	/// <summary>
-	/// 通常艦隊夜戦
-	/// </summary>
-	public class BattleNormalNight : BattleNight {
+	public class BattleEnemyCombinedNight : BattleNight {
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
@@ -23,11 +20,11 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		public override string APIName {
-			get { return "api_req_battle_midnight/battle"; }
+			get { return "api_req_combined_battle/ec_midnight_battle"; }
 		}
 
-		public override BattleTypeFlag BattleType {
-			get { return BattleTypeFlag.Night; }
+		public override BattleData.BattleTypeFlag BattleType {
+			get { return BattleTypeFlag.Night | BattleTypeFlag.EnemyCombined; }
 		}
 
 		public override string GetBattleDetail( int index ) {

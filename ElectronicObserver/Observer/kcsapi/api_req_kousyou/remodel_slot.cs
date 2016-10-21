@@ -9,6 +9,17 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 	public class remodel_slot : APIBase {
 
+		private int _equipmentID;
+
+		public override bool IsRequestSupported { get { return true; } }
+
+		public override void OnRequestReceived( Dictionary<string, string> data ) {
+
+			_equipmentID = int.Parse( data["api_slot_id"] );
+
+			base.OnRequestReceived( data );
+		}
+
 		public override void OnResponseReceived( dynamic data ) {
 
 			KCDatabase db = KCDatabase.Instance;
@@ -22,11 +33,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 					eq.LoadFromResponse( APIName, data.api_after_slot );
 
 					if ( Utility.Configuration.Config.Log.ShowSpoiler )
-						Utility.Logger.Add( 2, string.Format( "{0} の改修に成功しました。", eq.NameWithLevel ) );
+						Utility.Logger.Add( 2, string.Format( "{0} への改修に成功しました。", eq.NameWithLevel ) );
 				}
 
 			} else if ( Utility.Configuration.Config.Log.ShowSpoiler ) {
-				Utility.Logger.Add( 2, string.Format( "{0} の改修に失敗しました。", db.MasterEquipments[(int)data.api_remodel_id[0]].Name ) );
+				Utility.Logger.Add( 2, string.Format( "{0} の改修に失敗しました。", db.Equipments[_equipmentID].NameWithLevel ) );
 			}
 
 

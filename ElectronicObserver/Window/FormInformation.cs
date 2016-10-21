@@ -58,6 +58,7 @@ namespace ElectronicObserver.Window {
 		void ConfigurationChanged() {
 
 			Font = TextInformation.Font = Utility.Configuration.Config.UI.MainFont;
+			TextInformation.LanguageOption = RichTextBoxLanguageOptions.UIFonts;
 		}
 
 
@@ -309,7 +310,9 @@ namespace ElectronicObserver.Window {
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine( "[海域ゲージ]" );
 
-			foreach ( dynamic elem in data.api_map_info ) {
+			var list = data.api_map_info() ? data.api_map_info : data;
+
+			foreach ( dynamic elem in list ) {
 
 				int mapID = (int)elem.api_id;
 				MapInfoData map = KCDatabase.Instance.MapInfo[mapID];

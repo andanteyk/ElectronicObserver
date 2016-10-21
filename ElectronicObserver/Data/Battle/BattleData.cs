@@ -103,6 +103,7 @@ namespace ElectronicObserver.Data.Battle {
 			Night,
 			Practice = 0x1000,
 			Combined = 0x2000,
+			EnemyCombined = 0x4000,
 		}
 
 		/// <summary>
@@ -110,6 +111,8 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public abstract BattleTypeFlag BattleType { get; }
 
+
+		public abstract string GetBattleDetail( int index );
 	}
 
 }

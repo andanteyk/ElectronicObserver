@@ -17,6 +17,37 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			: base( data ) {
 
 			this.isEscort = isEscort;
+
+			if ( !IsAvailable )
+				return;
+
+
+			int[] attackers = ( (int[])ShellingData.api_at_list ).Skip( 1 ).ToArray();
+			int[] attackTypes = ( (int[])ShellingData.api_sp_list ).Skip( 1 ).ToArray();
+			int[][] defenders = ( (dynamic[])ShellingData.api_df_list ).Skip( 1 ).Select( elem => ( (int[])elem ).Where( e => e != -1 ).ToArray() ).ToArray();
+			int[][] criticals = ( (dynamic[])ShellingData.api_cl_list ).Skip( 1 ).Select( elem => ( (int[])elem ).Where( e => e != -1 ).ToArray() ).ToArray();
+			int[][] damages = ( (dynamic[])ShellingData.api_damage ).Skip( 1 ).Select( elem => ( (int[])elem ).Where( e => e != -1 ).ToArray() ).ToArray();
+
+			Attacks = new List<PhaseNightBattleAttack>();
+
+			for ( int i = 0; i < attackers.Length; i++ ) {
+				var attack = new PhaseNightBattleAttack();
+
+				attack.Attacker = GetIndex( attackers[i] );
+				attack.AttackType = attackTypes[i];
+
+				attack.Defenders = new List<PhaseNightBattleDefender>();
+				for ( int k = 0; k < defenders[i].Length; k++ ) {
+					var defender = new PhaseNightBattleDefender();
+					defender.Defender = GetIndex( defenders[i][k] );
+					defender.CriticalFlag = criticals[i][k];
+					defender.Damage = damages[i][k];
+					attack.Defenders.Add( defender );
+				}
+
+				Attacks.Add( attack );
+			}
+
 		}
 
 		public override bool IsAvailable {
@@ -25,41 +56,112 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 		public dynamic ShellingData { get { return RawData.api_hougeki; } }
 
+
 		public override void EmulateBattle( int[] hps, int[] damages ) {
 
 			if ( !IsAvailable ) return;
 
-			int[] attackers = (int[])ShellingData.api_at_list;
 
-			for ( int i = 1; i < attackers.Length; i++ ) {		//skip header(-1)
+			foreach ( var attack in Attacks ) {
 
-				int[] tempDamages = Enumerable.Repeat( 0, hps.Length ).ToArray();
+				int[] tempdmg = new int[24];
 
-				int[] defenders = (int[])( ShellingData.api_df_list[i] );
-				int[] unitDamages = (int[])( ShellingData.api_damage[i] );
+				foreach ( var def in attack.Defenders )
+					tempdmg[def.Defender] += def.Damage;
 
-				for ( int j = 0; j < defenders.Length; j++ ) {
-					if ( defenders[j] != -1 ) {
-						tempDamages[GetIndex( defenders[j] )] += Math.Max( unitDamages[j], 0 );
-					}
+
+				for ( int i = 0; i < tempdmg.Length; i++ )
+					AddDamage( hps, i, tempdmg[i] );
+
+				damages[attack.Attacker] += tempdmg.Sum();
+
+				foreach ( var def in attack.Defenders.GroupBy( d => d.Defender ) ) {
+					BattleDetails.Add( new BattleNightDetail( _battleData, attack.Attacker, def.Key, def.Select( d => d.Damage ).ToArray(), def.Select( d => d.CriticalFlag ).ToArray(), attack.AttackType ) );
 				}
-
-				for ( int j = 0; j < tempDamages.Length; j++ )
-					AddDamage( hps, j, tempDamages[j] );
-
-
-				BattleDetails.Add( new BattleNightDetail( _battleData, attackers[i] + ( isEscort && attackers[i] <= 6 ? 12 : 0 ), defenders.LastOrDefault( x => x != -1 ) + ( isEscort && defenders.LastOrDefault( x => x != -1 ) <= 6 ? 12 : 0 ), unitDamages, (int[])ShellingData.api_cl_list[i], (int)ShellingData.api_sp_list[i] ) );
-
-				damages[GetIndex( attackers[i] )] += tempDamages.Sum();
 			}
 
 		}
 
 
+		public List<PhaseNightBattleAttack> Attacks { get; private set; }
+		public class PhaseNightBattleAttack {
+			public int Attacker;
+			public int AttackType;
+			public List<PhaseNightBattleDefender> Defenders;
+
+			public PhaseNightBattleAttack() { }
+
+			public override string ToString() {
+				return string.Format( "{0}[{1}] -> [{2}]", Attacker, AttackType, string.Join( ", ", Defenders ) );
+			}
+		}
+		public class PhaseNightBattleDefender {
+			public int Defender;
+			public int CriticalFlag;
+			public int Damage;
+
+			public override string ToString() {
+				return string.Format( "{0};{1}-{2}", Defender, Damage, CriticalFlag == 0 ? "miss" : CriticalFlag == 1 ? "dmg" : CriticalFlag == 2 ? "crit" : "INVALID" );
+			}
+		}
+
+
+		/// <summary>
+		/// 自軍艦隊ID
+		/// </summary>
+		public int FriendFleetID {
+			get {
+				if ( RawData.api_active_deck() )
+					return (int)RawData.api_active_deck[0];
+				else
+					return isEscort ? 2 : _battleData.Initial.FriendFleetID;
+			}
+		}
+
 		/// <summary>
 		/// 自軍艦隊
 		/// </summary>
-		public FleetData FriendFleet { get { return KCDatabase.Instance.Fleet[isEscort ? 2 : _battleData.Initial.FriendFleetID]; } }
+		public FleetData FriendFleet { get { return KCDatabase.Instance.Fleet[FriendFleetID]; } }
+
+		/// <summary>
+		/// 自軍が随伴艦隊かどうか
+		/// </summary>
+		public bool IsFriendEscort {
+			get {
+				if ( RawData.api_active_deck() )
+					return (int)RawData.api_active_deck[0] != 1;
+				else
+					return isEscort;
+			}
+		}
+
+
+		/// <summary>
+		/// 敵軍艦隊ID
+		/// </summary>
+		public int EnemyFleetID { get { return !RawData.api_active_deck() ? 1 : (int)RawData.api_active_deck[1]; } }
+
+		/// <summary>
+		/// 敵軍艦隊
+		/// </summary>
+		public int[] EnemyMembers { get { return EnemyFleetID == 1 ? _battleData.Initial.EnemyMembers : _battleData.Initial.EnemyMembersEscort; } }
+
+		/// <summary>
+		/// 敵軍艦隊
+		/// </summary>
+		public ShipDataMaster[] EnemyMembersInstance { get { return EnemyFleetID == 1 ? _battleData.Initial.EnemyMembersInstance : _battleData.Initial.EnemyMembersEscortInstance; } }
+
+		/// <summary>
+		/// 敵軍が随伴艦隊かどうか
+		/// </summary>
+		public bool IsEnemyEscort {
+			get {
+				if ( RawData.api_active_deck() )
+					return (int)RawData.api_active_deck[1] != 1;
+				else
+					return false;
+			}
+		}
 
 
 		/// <summary>
@@ -73,7 +175,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public int TouchAircraftEnemy { get { return (int)RawData.api_touch_plane[1]; } }
 
 		/// <summary>
-		/// 自軍照明弾投射艦番号
+		/// 自軍照明弾投射艦番号(0-5, -1=発動せず)
 		/// </summary>
 		public int FlareIndexFriend {
 			get {
@@ -98,7 +200,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public ShipDataMaster FlareEnemyInstance {
 			get {
 				int index = FlareIndexEnemy;
-				return index == -1 ? null : _battleData.Initial.EnemyMembersInstance[index];
+				return index == -1 ? null : EnemyMembersInstance[index];
 			}
 		}
 
@@ -107,7 +209,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		public int SearchlightIndexFriend {
 			get {
-				var ships = KCDatabase.Instance.Fleet[isEscort ? 2 : _battleData.Initial.FriendFleetID].MembersWithoutEscaped;
+				var ships = FriendFleet.MembersWithoutEscaped;
 				int index = -1;
 
 				for ( int i = 0; i < ships.Count; i++ ) {
@@ -154,15 +256,21 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public ShipDataMaster SearchlightEnemyInstance {
 			get {
 				int index = SearchlightIndexEnemy;
-				return index == -1 ? null : _battleData.Initial.EnemyMembersInstance[index];
+				return index == -1 ? null : EnemyMembersInstance[index];
 			}
 		}
 
 
 		private int GetIndex( int index ) {
-			if ( isEscort && index <= 6 )
-				return 12 + index - 1;
-			return index - 1;
+			index--;
+			if ( index < 6 ) {
+				if ( IsFriendEscort )
+					index += 12;
+			} else {
+				if ( IsEnemyEscort )
+					index += 12;
+			}
+			return index;
 		}
 	}
 }

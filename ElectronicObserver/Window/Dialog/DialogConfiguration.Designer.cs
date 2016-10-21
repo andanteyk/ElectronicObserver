@@ -97,6 +97,7 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_ShowConditionIcon = new System.Windows.Forms.CheckBox();
 			this.FormFleet_EquipmentLevelVisibility = new System.Windows.Forms.ComboBox();
 			this.label28 = new System.Windows.Forms.Label();
 			this.FormFleet_BlinkAtCompletion = new System.Windows.Forms.CheckBox();
@@ -212,7 +213,10 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.FormFleet_ShowConditionIcon = new System.Windows.Forms.CheckBox();
+			this.Log_PlayTime = new System.Windows.Forms.Label();
+			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
+			this.FormHeadquarters_DisplayUseItemID = new System.Windows.Forms.ComboBox();
+			this.label34 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -884,7 +888,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 257);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 253);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1122,6 +1126,17 @@
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
 			// 
+			// FormFleet_ShowConditionIcon
+			// 
+			this.FormFleet_ShowConditionIcon.AutoSize = true;
+			this.FormFleet_ShowConditionIcon.Location = new System.Drawing.Point(6, 188);
+			this.FormFleet_ShowConditionIcon.Name = "FormFleet_ShowConditionIcon";
+			this.FormFleet_ShowConditionIcon.Size = new System.Drawing.Size(149, 19);
+			this.FormFleet_ShowConditionIcon.TabIndex = 14;
+			this.FormFleet_ShowConditionIcon.Text = "疲労度アイコンを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowConditionIcon, "疲労度のアイコンを表示するかを指定します。\r\n表示しない場合、背景色で区別されます。");
+			this.FormFleet_ShowConditionIcon.UseVisualStyleBackColor = true;
+			// 
 			// FormFleet_EquipmentLevelVisibility
 			// 
 			this.FormFleet_EquipmentLevelVisibility.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1323,13 +1338,15 @@
 			// 
 			// tabPage16
 			// 
+			this.tabPage16.Controls.Add(this.label34);
+			this.tabPage16.Controls.Add(this.FormHeadquarters_DisplayUseItemID);
 			this.tabPage16.Controls.Add(this.label26);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_Visibility);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
-			this.tabPage16.Location = new System.Drawing.Point(4, 22);
+			this.tabPage16.Location = new System.Drawing.Point(4, 24);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(562, 260);
+			this.tabPage16.Size = new System.Drawing.Size(562, 258);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1352,7 +1369,7 @@
 			this.FormHeadquarters_Visibility.IntegralHeight = false;
 			this.FormHeadquarters_Visibility.Location = new System.Drawing.Point(6, 46);
 			this.FormHeadquarters_Visibility.Name = "FormHeadquarters_Visibility";
-			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 208);
+			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 206);
 			this.FormHeadquarters_Visibility.TabIndex = 1;
 			// 
 			// FormHeadquarters_BlinkAtMaximum
@@ -2118,7 +2135,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 298);
+			this.label10.Location = new System.Drawing.Point(3, 294);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2338,7 +2355,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 275);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 271);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2420,16 +2437,37 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// FormFleet_ShowConditionIcon
+			// Log_PlayTime
 			// 
-			this.FormFleet_ShowConditionIcon.AutoSize = true;
-			this.FormFleet_ShowConditionIcon.Location = new System.Drawing.Point(6, 188);
-			this.FormFleet_ShowConditionIcon.Name = "FormFleet_ShowConditionIcon";
-			this.FormFleet_ShowConditionIcon.Size = new System.Drawing.Size(149, 19);
-			this.FormFleet_ShowConditionIcon.TabIndex = 14;
-			this.FormFleet_ShowConditionIcon.Text = "疲労度アイコンを表示する";
-			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowConditionIcon, "疲労度のアイコンを表示するかを指定します。\r\n表示しない場合、背景色で区別されます。");
-			this.FormFleet_ShowConditionIcon.UseVisualStyleBackColor = true;
+			this.Log_PlayTime.AutoSize = true;
+			this.Log_PlayTime.Location = new System.Drawing.Point(12, 330);
+			this.Log_PlayTime.Name = "Log_PlayTime";
+			this.Log_PlayTime.Size = new System.Drawing.Size(58, 15);
+			this.Log_PlayTime.TabIndex = 3;
+			this.Log_PlayTime.Text = "プレイ時間";
+			// 
+			// PlayTimeTimer
+			// 
+			this.PlayTimeTimer.Enabled = true;
+			this.PlayTimeTimer.Interval = 1000;
+			this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
+			// 
+			// FormHeadquarters_DisplayUseItemID
+			// 
+			this.FormHeadquarters_DisplayUseItemID.FormattingEnabled = true;
+			this.FormHeadquarters_DisplayUseItemID.Location = new System.Drawing.Point(322, 6);
+			this.FormHeadquarters_DisplayUseItemID.Name = "FormHeadquarters_DisplayUseItemID";
+			this.FormHeadquarters_DisplayUseItemID.Size = new System.Drawing.Size(121, 23);
+			this.FormHeadquarters_DisplayUseItemID.TabIndex = 3;
+			// 
+			// label34
+			// 
+			this.label34.AutoSize = true;
+			this.label34.Location = new System.Drawing.Point(200, 7);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(116, 15);
+			this.label34.TabIndex = 4;
+			this.label34.Text = "自由アイテム表示欄：";
 			// 
 			// DialogConfiguration
 			// 
@@ -2437,6 +2475,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CancelButton = this.ButtonCancel;
 			this.ClientSize = new System.Drawing.Size(584, 361);
+			this.Controls.Add(this.Log_PlayTime);
 			this.Controls.Add(this.ButtonCancel);
 			this.Controls.Add(this.ButtonOK);
 			this.Controls.Add(this.tabControl1);
@@ -2516,6 +2555,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -2709,5 +2749,9 @@
 		private System.Windows.Forms.TabPage tabPage20;
 		private System.Windows.Forms.CheckBox FormBattle_IsScrollable;
 		private System.Windows.Forms.CheckBox FormFleet_ShowConditionIcon;
+		private System.Windows.Forms.Label Log_PlayTime;
+		private System.Windows.Forms.Timer PlayTimeTimer;
+		private System.Windows.Forms.Label label34;
+		private System.Windows.Forms.ComboBox FormHeadquarters_DisplayUseItemID;
 	}
 }

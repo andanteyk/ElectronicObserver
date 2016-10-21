@@ -51,6 +51,8 @@ namespace ElectronicObserver.Window {
 			Steel.ImageIndex = (int)ResourceManager.IconContent.ResourceSteel;
 			Bauxite.ImageList = icons;
 			Bauxite.ImageIndex = (int)ResourceManager.IconContent.ResourceBauxite;
+			DisplayUseItem.ImageList = icons;
+			DisplayUseItem.ImageIndex = (int)ResourceManager.IconContent.ItemPresentBox;
 
 
 			ControlHelper.SetDoubleBuffered( FlowPanelMaster );
@@ -142,8 +144,10 @@ namespace ElectronicObserver.Window {
 				Ammo.Visible = visibility[11];
 				Steel.Visible = visibility[12];
 				Bauxite.Visible = visibility[13];
+				DisplayUseItem.Visible = visibility[14];
 			}
 
+			UpdateDisplayUseItem();
 		}
 
 
@@ -151,7 +155,7 @@ namespace ElectronicObserver.Window {
 		/// VisibleFlags 設定をチェックし、不正な値だった場合は初期値に戻します。
 		/// </summary>
 		public static void CheckVisibilityConfiguration() {
-			const int count = 14;
+			const int count = 15;
 			var config = Utility.Configuration.Config.FormHeadquarters;
 
 			if ( config.Visibility == null )
@@ -181,6 +185,7 @@ namespace ElectronicObserver.Window {
 			yield return "弾薬";
 			yield return "鋼材";
 			yield return "ボーキサイト";
+			yield return "任意のアイテム";
 		}
 
 
@@ -310,6 +315,7 @@ namespace ElectronicObserver.Window {
 							medium, medium * 400,
 							large, large * 700 ) );
 			}
+			UpdateDisplayUseItem();
 			FlowPanelUseItem.ResumeLayout();
 
 
@@ -383,6 +389,26 @@ namespace ElectronicObserver.Window {
 
 		}
 
+
+		private void UpdateDisplayUseItem() {
+			var db = KCDatabase.Instance;
+			var item = db.UseItems[Utility.Configuration.Config.FormHeadquarters.DisplayUseItemID];
+			var itemMaster = db.MasterUseItems[Utility.Configuration.Config.FormHeadquarters.DisplayUseItemID];
+			string tail = "\r\n(設定から変更可能)";
+
+			if ( item != null ) {
+				DisplayUseItem.Text = item.Count.ToString();
+				ToolTipInfo.SetToolTip( DisplayUseItem, itemMaster.Name + tail );
+
+			} else if ( itemMaster != null ) {
+				DisplayUseItem.Text = "0";
+				ToolTipInfo.SetToolTip( DisplayUseItem, itemMaster.Name + tail );
+
+			} else {
+				DisplayUseItem.Text = "???";
+				ToolTipInfo.SetToolTip( DisplayUseItem, "不明なアイテム (ID: " + Utility.Configuration.Config.FormHeadquarters.DisplayUseItemID + ")" + tail );
+			}
+		}
 
 		private int RealShipCount {
 			get {

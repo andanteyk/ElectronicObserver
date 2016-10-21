@@ -44,6 +44,7 @@
 			this.Steel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Bauxite = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.DisplayUseItem = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FlowPanelMaster.SuspendLayout();
 			this.FlowPanelAdmiral.SuspendLayout();
 			this.FlowPanelFleet.SuspendLayout();
@@ -151,10 +152,11 @@
 			this.FlowPanelUseItem.Controls.Add(this.DevelopmentMaterial);
 			this.FlowPanelUseItem.Controls.Add(this.ModdingMaterial);
 			this.FlowPanelUseItem.Controls.Add(this.FurnitureCoin);
+			this.FlowPanelUseItem.Controls.Add(this.DisplayUseItem);
 			this.FlowPanelUseItem.Location = new System.Drawing.Point(0, 40);
 			this.FlowPanelUseItem.Margin = new System.Windows.Forms.Padding(0);
 			this.FlowPanelUseItem.Name = "FlowPanelUseItem";
-			this.FlowPanelUseItem.Size = new System.Drawing.Size(300, 20);
+			this.FlowPanelUseItem.Size = new System.Drawing.Size(300, 40);
 			this.FlowPanelUseItem.TabIndex = 2;
 			// 
 			// InstantRepair
@@ -215,7 +217,7 @@
 			this.FlowPanelResource.Controls.Add(this.Steel);
 			this.FlowPanelResource.Controls.Add(this.Bauxite);
 			this.FlowPanelResource.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.FlowPanelResource.Location = new System.Drawing.Point(0, 60);
+			this.FlowPanelResource.Location = new System.Drawing.Point(0, 80);
 			this.FlowPanelResource.Margin = new System.Windows.Forms.Padding(0);
 			this.FlowPanelResource.Name = "FlowPanelResource";
 			this.FlowPanelResource.Size = new System.Drawing.Size(60, 80);
@@ -272,6 +274,16 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
+			// DisplayUseItem
+			// 
+			this.DisplayUseItem.Location = new System.Drawing.Point(3, 20);
+			this.DisplayUseItem.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			this.DisplayUseItem.Name = "DisplayUseItem";
+			this.DisplayUseItem.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+			this.DisplayUseItem.Size = new System.Drawing.Size(54, 20);
+			this.DisplayUseItem.TabIndex = 6;
+			this.DisplayUseItem.Text = "(任意)";
+			// 
 			// FormHeadquarters
 			// 
 			this.AutoHidePortion = 150D;
@@ -321,5 +333,6 @@
 		private Control.ImageLabel Bauxite;
 		private Control.ImageLabel ModdingMaterial;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
+		private Control.ImageLabel DisplayUseItem;
 	}
 }
