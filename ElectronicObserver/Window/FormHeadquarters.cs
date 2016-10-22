@@ -96,7 +96,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_get_member/ship_deck"].ResponseReceived += Updated;
 			o.APIList["api_req_air_corps/set_plane"].ResponseReceived += Updated;
 			o.APIList["api_req_air_corps/supply"].ResponseReceived += Updated;
-
+			o.APIList["api_get_member/useitem"].ResponseReceived += Updated;
+			
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 			Utility.SystemEvents.UpdateTimerTick += SystemEvents_UpdateTimerTick;

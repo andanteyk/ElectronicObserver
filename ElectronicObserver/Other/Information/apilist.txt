@@ -722,8 +722,8 @@ api_req_kousyou/remodel_slot	：改修工廠　改修実行
 	api_remodel_flag	：成功フラグ
 	api_remodel_id		：改修装備マスターID　[0]=変化前, [1]=変化後
 	api_after_material	：現在の各種資源
-	api_voice_ship_id	：2番艦の艦船マスターID　発声したときのみ存在?
-	api_voice_id		：2番艦と改装した時のボイス番号
+	api_voice_ship_id	：2番艦の艦船マスターID　いなければ0
+	api_voice_id		：2番艦と改装した時のボイス番号　なければ0
 	api_after_slot		：更新された装備データ api_get_member/slot_item参照　失敗時存在せず
 	api_use_slot_id		：消費された装備のID　使ったときのみ存在
 
@@ -834,6 +834,7 @@ api_req_quest/stop			：任務中止
 Request.api_req_quest/clearitemget：任務達成
 	api_quest			：
 	api_quest_id		：任務ID
+	api_select_no		：報酬番号 1から始まる 報酬が選択できる場合のみ存在
 	
 api_req_quest/clearitemget		：任務達成
 	api_material		：獲得資源量(基本4種)
