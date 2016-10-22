@@ -490,8 +490,8 @@ namespace ElectronicObserver.Data.Battle {
 			if ( rienemy > ( 0.9 * rifriend ) )
 				return 3;	// C
 
-			// 敵旗艦生存, 轟沈艦あり, 残った艦が１隻のみ
-			if ( !defeatFlagship && ( sunkFriend > 0 ) && ( ( countFriend - sunkFriend ) == 1 ) ) {
+			// 轟沈艦あり かつ 残った艦が１隻のみ
+			if ( sunkFriend > 0 && ( countFriend - sunkFriend ) == 1 ) {
 				return 1;	// E
 			}
 
