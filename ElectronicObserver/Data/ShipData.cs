@@ -856,6 +856,26 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 装備改修補正(空撃)
+		/// </summary>
+		/// <returns></returns>
+		private double GetAircraftEquipmentLevelBonus() {
+
+			double basepower = 0;
+			foreach ( var slot in SlotInstance ) {
+				if ( slot == null )
+					continue;
+
+				switch ( slot.MasterEquipment.CategoryType ) {
+					case 4:		// 副砲
+						basepower += Math.Sqrt( slot.Level );
+						break;
+				}
+			}
+			return basepower;
+		}
+
+		/// <summary>
 		/// 装備改修補正(雷撃戦)
 		/// </summary>
 		private double GetTorpedoEquipmentLevelBonus() {
@@ -1124,7 +1144,7 @@ namespace ElectronicObserver.Data {
 			if ( Calculator.GetDayAttackKind( SlotMaster.ToArray(), ShipID, -1, false ) != 7 )
 				return 0;		//空撃以外は除外
 
-			double basepower = Math.Floor( ( FirepowerTotal + TorpedoTotal + Math.Floor( BomberTotal * 1.3 ) + GetDayBattleEquipmentLevelBonus() + GetCombinedFleetShellingDamageBonus() ) * 1.5 ) + 55;
+			double basepower = Math.Floor( ( FirepowerTotal + TorpedoTotal + Math.Floor( BomberTotal * 1.3 ) + GetAircraftEquipmentLevelBonus() + GetCombinedFleetShellingDamageBonus() ) * 1.5 ) + 55;
 
 			basepower *= GetHPDamageBonus() * GetEngagementFormDamageRate( engagementForm );
 
