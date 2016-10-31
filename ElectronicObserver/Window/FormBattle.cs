@@ -81,6 +81,12 @@ namespace ElectronicObserver.Window {
 
 			BaseLayoutPanel.Visible = false;
 
+            //Hide horizontal scroll bar
+            this.HorizontalScroll.Maximum = 0;
+            this.AutoScroll = false;
+            this.VerticalScroll.Visible = false;
+            this.AutoScroll = true;
+
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
 
@@ -147,7 +153,7 @@ namespace ElectronicObserver.Window {
                         SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
                         SetAerialWarfare(bm.BattleDay.AirBattle);
                         SetHPBar(bm.BattleDay);
-                        SetBattleDetailTextBos(bm.BattleDay);
+                        SetBattleDetailLabel(bm.BattleDay);
                         SetDamageRate(bm);
 
                         BaseLayoutPanel.Visible = true;
@@ -159,7 +165,7 @@ namespace ElectronicObserver.Window {
 
                         SetNightBattleEvent(bm.BattleNight.NightBattle);
                         SetHPBar(bm.BattleNight);
-                        SetBattleDetailTextBos(bm.BattleNight);
+                        SetBattleDetailLabel(bm.BattleNight);
                         SetDamageRate(bm);
 
                         BaseLayoutPanel.Visible = true;
@@ -174,7 +180,7 @@ namespace ElectronicObserver.Window {
                         ClearSearchingResult();
                         SetNightBattleEvent(bm.BattleNight.NightBattle);
                         SetHPBar(bm.BattleNight);
-                        SetBattleDetailTextBos(bm.BattleNight);
+                        SetBattleDetailLabel(bm.BattleNight);
                         SetDamageRate(bm);
 
                         BaseLayoutPanel.Visible = true;
@@ -188,7 +194,7 @@ namespace ElectronicObserver.Window {
                         SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
                         SetAerialWarfareAirBattle(bm.BattleDay.AirBattle, ((BattleAirBattle)bm.BattleDay).AirBattle2);
                         SetHPBar(bm.BattleDay);
-                        SetBattleDetailTextBos(bm.BattleDay);
+                        SetBattleDetailLabel(bm.BattleDay);
                         SetDamageRate(bm);
 
                         BaseLayoutPanel.Visible = true;
@@ -205,7 +211,7 @@ namespace ElectronicObserver.Window {
                         SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
                         SetAerialWarfare(bm.BattleDay.AirBattle);
                         SetHPBar(bm.BattleDay);
-                        SetBattleDetailTextBos(bm.BattleDay);
+                        SetBattleDetailLabel(bm.BattleDay);
                         SetDamageRate(bm);
 
                         BaseLayoutPanel.Visible = true;
@@ -219,7 +225,7 @@ namespace ElectronicObserver.Window {
                         SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
                         SetAerialWarfareAirBattle(bm.BattleDay.AirBattle, ((BattleCombinedAirBattle)bm.BattleDay).AirBattle2);
                         SetHPBar(bm.BattleDay);
-                        SetBattleDetailTextBos(bm.BattleDay);
+                        SetBattleDetailLabel(bm.BattleDay);
                         SetDamageRate(bm);
 
                         BaseLayoutPanel.Visible = true;
@@ -231,7 +237,7 @@ namespace ElectronicObserver.Window {
 
                         SetNightBattleEvent(bm.BattleNight.NightBattle);
                         SetHPBar(bm.BattleNight);
-                        SetBattleDetailTextBos(bm.BattleNight);
+                        SetBattleDetailLabel(bm.BattleNight);
                         SetDamageRate(bm);
 
                         BaseLayoutPanel.Visible = true;
@@ -246,7 +252,7 @@ namespace ElectronicObserver.Window {
                         ClearBaseAirAttack();
                         SetNightBattleEvent(bm.BattleNight.NightBattle);
                         SetHPBar(bm.BattleNight);
-                        SetBattleDetailTextBos(bm.BattleNight);
+                        SetBattleDetailLabel(bm.BattleNight);
                         SetDamageRate(bm);
 
                         BaseLayoutPanel.Visible = true;
@@ -916,7 +922,7 @@ namespace ElectronicObserver.Window {
 				HPBars[12 + i].BackColor = Color.Moccasin;
 		}
 
-        private void SetBattleDetailTextBos(BattleData bd) {
+        private void SetBattleDetailLabel(BattleData bd) {
 
             battleDetailLabel.Text = bd.GetBattleDetail();
 

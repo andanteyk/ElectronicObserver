@@ -93,17 +93,17 @@
             // 
             // BaseLayoutPanel
             // 
-            this.BaseLayoutPanel.AutoScroll = true;
+            this.BaseLayoutPanel.AutoSize = true;
             this.BaseLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BaseLayoutPanel.Controls.Add(this.TableTop);
             this.BaseLayoutPanel.Controls.Add(this.TableBottom);
             this.BaseLayoutPanel.Controls.Add(this.battleDetailLabel);
-            this.BaseLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BaseLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.BaseLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.BaseLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.BaseLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.BaseLayoutPanel.Name = "BaseLayoutPanel";
-            this.BaseLayoutPanel.Size = new System.Drawing.Size(300, 300);
+            this.BaseLayoutPanel.Size = new System.Drawing.Size(300, 282);
             this.BaseLayoutPanel.TabIndex = 2;
             this.BaseLayoutPanel.WrapContents = false;
             // 
@@ -370,10 +370,11 @@
             // 
             this.AutoHidePortion = 150D;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(300, 300);
             this.Controls.Add(this.BaseLayoutPanel);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.HideOnClose = true;
             this.Name = "FormBattle";
@@ -386,6 +387,7 @@
             this.TableTop.ResumeLayout(false);
             this.TableTop.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
