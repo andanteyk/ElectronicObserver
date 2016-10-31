@@ -118,54 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FrameScript" xml:space="preserve">
-    <value>// KCRDBと競合しないように同じように処理
+    <value>
 try {
-	var hideStyle = {width:"0px",height:"0px",visibility:"hidden",display:"none"};
-	var fillStyle = {margin:"0px",padding:"0px",position:"fixed",left:"0px",top:"0px",width:"100%",height:"100%",overflow:"hidden"};
-	var jqBody=document.body;
-	$(jqBody).css("zoom","normal");
-	$(jqBody).css({margin:"0px",padding:"0px",overflow:"hidden"});
-	$("#spacing_top").css(hideStyle);
-	$("#adFlashWrap").css(fillStyle);
-	$("#wsFlashWrap").css(fillStyle);
-	$("#flashWrap").css(fillStyle);
-	var elmExternalSwf=document.getElementById("externalswf");
-	if(elmExternalSwf != null) {
-		elmExternalSwf.setAttribute("width","100%");
-		elmExternalSwf.setAttribute("height","100%");
-	}
-	$("#sectionWrap").css(hideStyle);
-	$("#globalNavi").css(hideStyle);
-	$(".rollover").css(hideStyle);
-	$("img").css(hideStyle);
-	$(".badge").css(hideStyle);
-	$("#contentsWrap").css(hideStyle);
+$(document.body).css({visibility:"hidden"});
+$("#flashWrap").css({position:"fixed",left:0,top:0,width:"100%",height:"100%"});
+$("#externalswf").css({visibility:"visible",width:"100%",height:"100%"});
 }
 catch(e) {
 	alert("フレームCSS適用に失敗しました: "+e);
 }</value>
   </data>
   <data name="PageScript" xml:space="preserve">
-    <value>// KCRDBと競合しないように同じように処理
+    <value>
 try {
-	var hideStyle = {width:"0px",height:"0px",visibility:"hidden",display:"none"};
-	var fillStyle = {margin:"0px",padding:"0px",position:"fixed",left:"0px",top:"0px",width:"100%",height:"100%",overflow:"hidden"};
-	$(document.body).css({margin:"0px",padding:"0px",overflow:"hidden"});
-	$("img").css(hideStyle);
-	//$("#dmm_ntgnavi").css(hideStyle);
-	$("#dmm-ntgnavi-renew").css(hideStyle);
-	$("#w").css(fillStyle);
-	$("#main-ntg").css(fillStyle);
-	$("#page").css(fillStyle);
-	$("#area-game").css(fillStyle);
-	$("#ntg-recommend").css(hideStyle);
-	var jqGameFrame=$("#game_frame");
-	jqGameFrame.css(fillStyle);
-	jqGameFrame.attr("scrolling","no");
-	jqGameFrame.attr("width","100%");
-	jqGameFrame.attr("height","100%");
-	$("[class^=area-naviapp]").css(hideStyle);
-	$("#foot").css(hideStyle);
+$(document.body).css({visibility:"hidden",overflow:"hidden"});
+$(".dmm-ntgnavi").css({display:"none"});
+$("#area-game").css({position:"fixed",left:0,top:0,width:"100%",height:"100%"});
+$("#game_frame").css({visibility:"visible",width:"100%",height:"100%"});
 }
 catch(e) {
 	alert("ページCSS適用に失敗しました: "+e);
