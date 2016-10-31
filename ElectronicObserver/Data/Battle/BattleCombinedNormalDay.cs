@@ -82,6 +82,42 @@ namespace ElectronicObserver.Data.Battle {
 
 			return sb.ToString();
 		}
+
+        public override string GetBattleDetail()
+        {
+            var sb = new StringBuilder();
+
+            string baseair = BaseAirAttack.GetBattleDetail();
+            string airbattle = AirBattle.GetBattleDetail();
+            string support = Support.GetBattleDetail();
+            string asw = OpeningASW.GetBattleDetail();
+            string openingTorpedo = OpeningTorpedo.GetBattleDetail();
+            string shelling1 = Shelling1.GetBattleDetail();
+            string torpedo = Torpedo.GetBattleDetail();
+            string shelling2 = Shelling2.GetBattleDetail();
+            string shelling3 = Shelling3.GetBattleDetail();
+
+            if (baseair != null)
+                sb.AppendLine("《基地航空隊攻撃》").Append(baseair);
+            if (airbattle != null)
+                sb.AppendLine("《航空戦》").Append(airbattle);
+            if (support != null)
+                sb.AppendLine("《支援攻撃》").Append(support);
+            if (asw != null)
+                sb.AppendLine("《開幕対潜》").Append(asw);
+            if (openingTorpedo != null)
+                sb.AppendLine("《開幕雷撃》").Append(openingTorpedo);
+            if (shelling1 != null)
+                sb.AppendLine("《第一次砲撃戦》").Append(shelling1);
+            if (torpedo != null)
+                sb.AppendLine("《雷撃戦》").Append(torpedo);
+            if (shelling2 != null)
+                sb.AppendLine("《第二次砲撃戦》").Append(shelling2);
+            if (shelling3 != null)
+                sb.AppendLine("《第三次砲撃戦》").Append(shelling3);
+
+            return sb.ToString();
+        }
 	}
 
 }

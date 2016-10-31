@@ -113,6 +113,8 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		public abstract string GetBattleDetail( int index );
+
+        public abstract string GetBattleDetail();
 	}
 
 }

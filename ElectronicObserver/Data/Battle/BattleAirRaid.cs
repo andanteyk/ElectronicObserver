@@ -44,5 +44,20 @@ namespace ElectronicObserver.Data.Battle {
 			
 			return sb.ToString();
 		}
+
+        public override string GetBattleDetail()
+        {
+            var sb = new StringBuilder();
+
+            string baseair = BaseAirAttack.GetBattleDetail();
+            string airbattle = AirBattle.GetBattleDetail();
+
+            if (baseair != null)
+                sb.AppendLine("《基地航空隊攻撃》").Append(baseair);
+            if (airbattle != null)
+                sb.AppendLine("《航空戦》").Append(airbattle);
+
+            return sb.ToString();
+        }
 	}
 }
