@@ -81,6 +81,12 @@ namespace ElectronicObserver.Window {
 
 			BaseLayoutPanel.Visible = false;
 
+            //Hide horizontal scroll bar
+            this.HorizontalScroll.Maximum = 0;
+            this.AutoScroll = false;
+            this.VerticalScroll.Visible = false;
+            this.AutoScroll = true;
+
 
 			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBattle] );
 
@@ -127,126 +133,143 @@ namespace ElectronicObserver.Window {
 			BaseLayoutPanel.SuspendLayout();
 			TableTop.SuspendLayout();
 			TableBottom.SuspendLayout();
-			switch ( apiname ) {
+            switch (apiname) {
 
-				case "api_req_map/start":
-				case "api_req_map/next":
-				case "api_port/port":
-					BaseLayoutPanel.Visible = false;
-					ToolTipInfo.RemoveAll();
-					break;
-
-
-				case "api_req_sortie/battle":
-				case "api_req_practice/battle":
-				case "api_req_sortie/ld_airbattle": {
-
-						SetFormation( bm.BattleDay );
-						SetSearchingResult( bm.BattleDay );
-						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
-						SetAerialWarfare( bm.BattleDay.AirBattle );
-						SetHPBar( bm.BattleDay );
-						SetDamageRate( bm );
-
-						BaseLayoutPanel.Visible = true;
-					} break;
-
-				case "api_req_battle_midnight/battle":
-				case "api_req_practice/midnight_battle": {
-
-						SetNightBattleEvent( bm.BattleNight.NightBattle );
-						SetHPBar( bm.BattleNight );
-						SetDamageRate( bm );
-
-						BaseLayoutPanel.Visible = true;
-					} break;
-
-				case "api_req_battle_midnight/sp_midnight": {
-
-						SetFormation( bm.BattleNight );
-						ClearBaseAirAttack();
-						ClearAerialWarfare();
-						ClearSearchingResult();
-						SetNightBattleEvent( bm.BattleNight.NightBattle );
-						SetHPBar( bm.BattleNight );
-						SetDamageRate( bm );
-
-						BaseLayoutPanel.Visible = true;
-					} break;
-
-				case "api_req_sortie/airbattle": {
-
-						SetFormation( bm.BattleDay );
-						SetSearchingResult( bm.BattleDay );
-						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
-						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleAirBattle)bm.BattleDay ).AirBattle2 );
-						SetHPBar( bm.BattleDay );
-						SetDamageRate( bm );
-
-						BaseLayoutPanel.Visible = true;
-					} break;
-
-				case "api_req_combined_battle/battle":
-				case "api_req_combined_battle/battle_water":
-				case "api_req_combined_battle/ld_airbattle":
-				case "api_req_combined_battle/ec_battle": {
-
-						SetFormation( bm.BattleDay );
-						SetSearchingResult( bm.BattleDay );
-						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
-						SetAerialWarfare( bm.BattleDay.AirBattle );
-						SetHPBar( bm.BattleDay );
-						SetDamageRate( bm );
-
-						BaseLayoutPanel.Visible = true;
-					} break;
-
-				case "api_req_combined_battle/airbattle": {
-
-						SetFormation( bm.BattleDay );
-						SetSearchingResult( bm.BattleDay );
-						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
-						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleCombinedAirBattle)bm.BattleDay ).AirBattle2 );
-						SetHPBar( bm.BattleDay );
-						SetDamageRate( bm );
-
-						BaseLayoutPanel.Visible = true;
-					} break;
-
-				case "api_req_combined_battle/midnight_battle":
-				case "api_req_combined_battle/ec_midnight_battle": {
-
-						SetNightBattleEvent( bm.BattleNight.NightBattle );
-						SetHPBar( bm.BattleNight );
-						SetDamageRate( bm );
-
-						BaseLayoutPanel.Visible = true;
-					} break;
-
-				case "api_req_combined_battle/sp_midnight": {
-
-						SetFormation( bm.BattleNight );
-						ClearAerialWarfare();
-						ClearSearchingResult();
-						ClearBaseAirAttack();
-						SetNightBattleEvent( bm.BattleNight.NightBattle );
-						SetHPBar( bm.BattleNight );
-						SetDamageRate( bm );
-
-						BaseLayoutPanel.Visible = true;
-					} break;
+                case "api_req_map/start":
+                case "api_req_map/next":
+                case "api_port/port":
+                    BaseLayoutPanel.Visible = false;
+                    ToolTipInfo.RemoveAll();
+                    break;
 
 
-				case "api_req_sortie/battleresult":
-				case "api_req_combined_battle/battleresult":
-				case "api_req_practice/battle_result": {
+                case "api_req_sortie/battle":
+                case "api_req_practice/battle":
+                case "api_req_sortie/ld_airbattle":
+                    {
 
-						SetMVPShip( bm );
+                        SetFormation(bm.BattleDay);
+                        SetSearchingResult(bm.BattleDay);
+                        SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
+                        SetAerialWarfare(bm.BattleDay.AirBattle);
+                        SetHPBar(bm.BattleDay);
+                        SetBattleDetailLabel(bm.BattleDay);
+                        SetDamageRate(bm);
 
-						BaseLayoutPanel.Visible = true;
-					} break;
+                        BaseLayoutPanel.Visible = true;
+                    } break;
 
-			}
+                case "api_req_battle_midnight/battle":
+                case "api_req_practice/midnight_battle":
+                    {
+
+                        SetNightBattleEvent(bm.BattleNight.NightBattle);
+                        SetHPBar(bm.BattleNight);
+                        SetBattleDetailLabel(bm.BattleNight);
+                        SetDamageRate(bm);
+
+                        BaseLayoutPanel.Visible = true;
+                    } break;
+
+                case "api_req_battle_midnight/sp_midnight":
+                    {
+
+                        SetFormation(bm.BattleNight);
+                        ClearBaseAirAttack();
+                        ClearAerialWarfare();
+                        ClearSearchingResult();
+                        SetNightBattleEvent(bm.BattleNight.NightBattle);
+                        SetHPBar(bm.BattleNight);
+                        SetBattleDetailLabel(bm.BattleNight);
+                        SetDamageRate(bm);
+
+                        BaseLayoutPanel.Visible = true;
+                    } break;
+
+                case "api_req_sortie/airbattle":
+                    {
+
+                        SetFormation(bm.BattleDay);
+                        SetSearchingResult(bm.BattleDay);
+                        SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
+                        SetAerialWarfareAirBattle(bm.BattleDay.AirBattle, ((BattleAirBattle)bm.BattleDay).AirBattle2);
+                        SetHPBar(bm.BattleDay);
+                        SetBattleDetailLabel(bm.BattleDay);
+                        SetDamageRate(bm);
+
+                        BaseLayoutPanel.Visible = true;
+                    } break;
+
+                case "api_req_combined_battle/battle":
+                case "api_req_combined_battle/battle_water":
+                case "api_req_combined_battle/ld_airbattle":
+                case "api_req_combined_battle/ec_battle":
+                    {
+
+                        SetFormation(bm.BattleDay);
+                        SetSearchingResult(bm.BattleDay);
+                        SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
+                        SetAerialWarfare(bm.BattleDay.AirBattle);
+                        SetHPBar(bm.BattleDay);
+                        SetBattleDetailLabel(bm.BattleDay);
+                        SetDamageRate(bm);
+
+                        BaseLayoutPanel.Visible = true;
+                    } break;
+
+                case "api_req_combined_battle/airbattle":
+                    {
+
+                        SetFormation(bm.BattleDay);
+                        SetSearchingResult(bm.BattleDay);
+                        SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
+                        SetAerialWarfareAirBattle(bm.BattleDay.AirBattle, ((BattleCombinedAirBattle)bm.BattleDay).AirBattle2);
+                        SetHPBar(bm.BattleDay);
+                        SetBattleDetailLabel(bm.BattleDay);
+                        SetDamageRate(bm);
+
+                        BaseLayoutPanel.Visible = true;
+                    } break;
+
+                case "api_req_combined_battle/midnight_battle":
+                case "api_req_combined_battle/ec_midnight_battle":
+                    {
+
+                        SetNightBattleEvent(bm.BattleNight.NightBattle);
+                        SetHPBar(bm.BattleNight);
+                        SetBattleDetailLabel(bm.BattleNight);
+                        SetDamageRate(bm);
+
+                        BaseLayoutPanel.Visible = true;
+                    } break;
+
+                case "api_req_combined_battle/sp_midnight":
+                    {
+
+                        SetFormation(bm.BattleNight);
+                        ClearAerialWarfare();
+                        ClearSearchingResult();
+                        ClearBaseAirAttack();
+                        SetNightBattleEvent(bm.BattleNight.NightBattle);
+                        SetHPBar(bm.BattleNight);
+                        SetBattleDetailLabel(bm.BattleNight);
+                        SetDamageRate(bm);
+
+                        BaseLayoutPanel.Visible = true;
+                    } break;
+
+
+                case "api_req_sortie/battleresult":
+                case "api_req_combined_battle/battleresult":
+                case "api_req_practice/battle_result":
+                    {
+
+                        SetMVPShip(bm);
+
+                        BaseLayoutPanel.Visible = true;
+                    } break;
+
+            }
 			TableTop.ResumeLayout();
 			TableBottom.ResumeLayout();
 			BaseLayoutPanel.ResumeLayout();
@@ -898,6 +921,12 @@ namespace ElectronicObserver.Window {
 			foreach ( int i in bd.MVPShipCombinedIndexes )
 				HPBars[12 + i].BackColor = Color.Moccasin;
 		}
+
+        private void SetBattleDetailLabel(BattleData bd) {
+
+            battleDetailLabel.Text = bd.GetBattleDetail();
+
+        }
 
 
 

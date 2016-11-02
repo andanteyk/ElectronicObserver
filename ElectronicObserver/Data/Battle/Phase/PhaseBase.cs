@@ -83,7 +83,15 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				return string.Join( "\r\n", list ) + "\r\n";
 			} else return null;
 		}
-
+        public virtual string GetBattleDetail()
+        {
+            var list = BattleDetails;
+            if (list.Any())
+            {
+                return string.Join("\r\n", list) + "\r\n";
+            }
+            else return null;
+        }
 
 		public override string ToString() {
 			return string.Join( " / \r\n", BattleDetails );

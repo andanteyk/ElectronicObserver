@@ -43,6 +43,18 @@ namespace ElectronicObserver.Data.Battle {
 			
 			return sb.ToString();
 		}
+
+        public override string GetBattleDetail()
+        {
+            var sb = new StringBuilder();
+
+            string night = NightBattle.GetBattleDetail();
+
+            if (night != null)
+                sb.AppendLine("《夜戦》").Append(night);
+
+            return sb.ToString();
+        }
 	}
 
 }
