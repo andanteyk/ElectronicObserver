@@ -1093,13 +1093,13 @@ namespace ElectronicObserver.Window {
 
 
 			if ( bm.StartsFromDayBattle ) {
-				text = bm.BattleDay.GetBattleDetail( -1 );
+				text = bm.BattleDay.GetBattleDetail();
 				if ( bm.BattleNight != null )
-					text += bm.BattleNight.GetBattleDetail( -1 );
+					text += bm.BattleNight.GetBattleDetail();
 			} else {
-				text = bm.BattleNight.GetBattleDetail( -1 );
+				text = bm.BattleNight.GetBattleDetail();
 				if ( bm.BattleDay != null )
-					text += bm.BattleDay.GetBattleDetail( -1 );
+					text += bm.BattleDay.GetBattleDetail();
 			}
 
 			dialog.BattleDetailText = text;
