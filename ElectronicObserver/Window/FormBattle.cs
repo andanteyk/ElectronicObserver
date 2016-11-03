@@ -1072,6 +1072,43 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void RightClickMenu_Opening( object sender, CancelEventArgs e ) {
+
+			var bm = KCDatabase.Instance.Battle;
+
+			if ( bm == null || bm.BattleMode == BattleManager.BattleModes.Undefined ) {
+				e.Cancel = true;
+			}
+
+		}
+
+		private void RightClickMenu_ShowBattleDetail_Click( object sender, EventArgs e ) {
+			var bm = KCDatabase.Instance.Battle;
+
+			if ( bm == null || bm.BattleMode == BattleManager.BattleModes.Undefined )
+				return;
+
+			var dialog = new Dialog.DialogBattleDetail();
+			string text;
+
+
+			if ( bm.StartsFromDayBattle ) {
+				text = bm.BattleDay.GetBattleDetail();
+				if ( bm.BattleNight != null )
+					text += bm.BattleNight.GetBattleDetail();
+			} else {
+				text = bm.BattleNight.GetBattleDetail();
+				if ( bm.BattleDay != null )
+					text += bm.BattleDay.GetBattleDetail();
+			}
+
+			dialog.BattleDetailText = text;
+			dialog.Location = RightClickMenu.Location;
+			dialog.Show( this );
+
+		}
+
+
 
 		void ConfigurationChanged() {
 
@@ -1108,6 +1145,7 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Battle";
 		}
+
 
 	}
 

@@ -78,7 +78,12 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			return BattleDetails.Where( d => d.AttackerIndex == index || d.DefenderIndex == index );
 		}
 		public virtual string GetBattleDetail( int index ) {
-			var list = SearchBattleDetails( index );
+			IEnumerable<BattleDetail> list;
+			if ( index == -1 )
+				list = BattleDetails;
+			else
+				list = SearchBattleDetails( index );
+
 			if ( list.Any() ) {
 				return string.Join( "\r\n", list ) + "\r\n";
 			} else return null;

@@ -112,7 +112,19 @@ namespace ElectronicObserver.Data.Battle {
 		public abstract BattleTypeFlag BattleType { get; }
 
 
+		/// <summary>
+		/// すべての戦闘詳細データを取得します。
+		/// </summary>
+		public string GetBattleDetail() {
+			return GetBattleDetail( -1 );
+		}
+
+		/// <summary>
+		/// 指定したインデックスの艦の戦闘詳細データを取得します。
+		/// </summary>
+		/// <param name="index">インデックス。[0-23]</param>
 		public abstract string GetBattleDetail( int index );
+
 	}
 
 }

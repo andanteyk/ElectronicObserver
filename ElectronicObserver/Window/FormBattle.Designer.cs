@@ -25,16 +25,11 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			this.TableBottom = new System.Windows.Forms.TableLayoutPanel();
-			this.FleetFriend = new ElectronicObserver.Window.Control.ImageLabel();
-			this.DamageFriend = new ElectronicObserver.Window.Control.ImageLabel();
-			this.FleetEnemyEscort = new ElectronicObserver.Window.Control.ImageLabel();
-			this.WinRank = new ElectronicObserver.Window.Control.ImageLabel();
-			this.DamageEnemy = new ElectronicObserver.Window.Control.ImageLabel();
-			this.FleetFriendEscort = new ElectronicObserver.Window.Control.ImageLabel();
-			this.FleetEnemy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.BaseLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.TableTop = new System.Windows.Forms.TableLayoutPanel();
+			this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.RightClickMenu_ShowBattleDetail = new System.Windows.Forms.ToolStripMenuItem();
 			this.FormationFriend = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Formation = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FormationEnemy = new ElectronicObserver.Window.Control.ImageLabel();
@@ -47,9 +42,17 @@
 			this.AirStage1Friend = new ElectronicObserver.Window.Control.ImageLabel();
 			this.SearchingEnemy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.AirSuperiority = new ElectronicObserver.Window.Control.ImageLabel();
+			this.FleetFriend = new ElectronicObserver.Window.Control.ImageLabel();
+			this.DamageFriend = new ElectronicObserver.Window.Control.ImageLabel();
+			this.FleetEnemyEscort = new ElectronicObserver.Window.Control.ImageLabel();
+			this.WinRank = new ElectronicObserver.Window.Control.ImageLabel();
+			this.DamageEnemy = new ElectronicObserver.Window.Control.ImageLabel();
+			this.FleetFriendEscort = new ElectronicObserver.Window.Control.ImageLabel();
+			this.FleetEnemy = new ElectronicObserver.Window.Control.ImageLabel();
 			this.TableBottom.SuspendLayout();
 			this.BaseLayoutPanel.SuspendLayout();
 			this.TableTop.SuspendLayout();
+			this.RightClickMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TableBottom
@@ -82,85 +85,6 @@
 			this.TableBottom.Size = new System.Drawing.Size(220, 168);
 			this.TableBottom.TabIndex = 1;
 			this.TableBottom.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableBottom_CellPaint);
-			// 
-			// FleetFriend
-			// 
-			this.FleetFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.FleetFriend.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.FleetFriend.Location = new System.Drawing.Point(3, 3);
-			this.FleetFriend.Name = "FleetFriend";
-			this.FleetFriend.Size = new System.Drawing.Size(49, 15);
-			this.FleetFriend.TabIndex = 0;
-			this.FleetFriend.Text = "自軍艦隊";
-			this.FleetFriend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// DamageFriend
-			// 
-			this.DamageFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.DamageFriend.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.DamageFriend.Location = new System.Drawing.Point(3, 150);
-			this.DamageFriend.Name = "DamageFriend";
-			this.DamageFriend.Size = new System.Drawing.Size(49, 15);
-			this.DamageFriend.TabIndex = 3;
-			this.DamageFriend.Text = "損害率";
-			this.DamageFriend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// FleetEnemyEscort
-			// 
-			this.FleetEnemyEscort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.FleetEnemyEscort.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.FleetEnemyEscort.Location = new System.Drawing.Point(113, 3);
-			this.FleetEnemyEscort.Name = "FleetEnemyEscort";
-			this.FleetEnemyEscort.Size = new System.Drawing.Size(49, 15);
-			this.FleetEnemyEscort.TabIndex = 19;
-			this.FleetEnemyEscort.Text = "敵軍随伴";
-			this.FleetEnemyEscort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// WinRank
-			// 
-			this.WinRank.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.TableBottom.SetColumnSpan(this.WinRank, 2);
-			this.WinRank.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.WinRank.Location = new System.Drawing.Point(58, 150);
-			this.WinRank.MinimumSize = new System.Drawing.Size(80, 0);
-			this.WinRank.Name = "WinRank";
-			this.WinRank.Size = new System.Drawing.Size(104, 15);
-			this.WinRank.TabIndex = 4;
-			this.WinRank.Text = "戦績判定";
-			this.WinRank.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// DamageEnemy
-			// 
-			this.DamageEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.DamageEnemy.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.DamageEnemy.Location = new System.Drawing.Point(168, 150);
-			this.DamageEnemy.Name = "DamageEnemy";
-			this.DamageEnemy.Size = new System.Drawing.Size(49, 15);
-			this.DamageEnemy.TabIndex = 5;
-			this.DamageEnemy.Text = "損害率";
-			this.DamageEnemy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// FleetFriendEscort
-			// 
-			this.FleetFriendEscort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.FleetFriendEscort.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.FleetFriendEscort.Location = new System.Drawing.Point(58, 3);
-			this.FleetFriendEscort.Name = "FleetFriendEscort";
-			this.FleetFriendEscort.Size = new System.Drawing.Size(49, 15);
-			this.FleetFriendEscort.TabIndex = 1;
-			this.FleetFriendEscort.Text = "自軍随伴";
-			this.FleetFriendEscort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// FleetEnemy
-			// 
-			this.FleetEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.FleetEnemy.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.FleetEnemy.Location = new System.Drawing.Point(168, 3);
-			this.FleetEnemy.Name = "FleetEnemy";
-			this.FleetEnemy.Size = new System.Drawing.Size(49, 15);
-			this.FleetEnemy.TabIndex = 2;
-			this.FleetEnemy.Text = "敵軍艦隊";
-			this.FleetEnemy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ToolTipInfo
 			// 
@@ -220,6 +144,21 @@
 			this.TableTop.Size = new System.Drawing.Size(252, 84);
 			this.TableTop.TabIndex = 18;
 			this.TableTop.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.TableTop_CellPaint);
+			// 
+			// RightClickMenu
+			// 
+			this.RightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RightClickMenu_ShowBattleDetail});
+			this.RightClickMenu.Name = "RightClickMenu";
+			this.RightClickMenu.Size = new System.Drawing.Size(187, 26);
+			this.RightClickMenu.Opening += new System.ComponentModel.CancelEventHandler(this.RightClickMenu_Opening);
+			// 
+			// RightClickMenu_ShowBattleDetail
+			// 
+			this.RightClickMenu_ShowBattleDetail.Name = "RightClickMenu_ShowBattleDetail";
+			this.RightClickMenu_ShowBattleDetail.Size = new System.Drawing.Size(186, 22);
+			this.RightClickMenu_ShowBattleDetail.Text = "戦闘詳細を表示(&D)...";
+			this.RightClickMenu_ShowBattleDetail.Click += new System.EventHandler(this.RightClickMenu_ShowBattleDetail_Click);
 			// 
 			// FormationFriend
 			// 
@@ -352,11 +291,91 @@
 			this.AirSuperiority.Text = "制空権";
 			this.AirSuperiority.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// FleetFriend
+			// 
+			this.FleetFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.FleetFriend.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.FleetFriend.Location = new System.Drawing.Point(3, 3);
+			this.FleetFriend.Name = "FleetFriend";
+			this.FleetFriend.Size = new System.Drawing.Size(49, 15);
+			this.FleetFriend.TabIndex = 0;
+			this.FleetFriend.Text = "自軍艦隊";
+			this.FleetFriend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// DamageFriend
+			// 
+			this.DamageFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.DamageFriend.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.DamageFriend.Location = new System.Drawing.Point(3, 150);
+			this.DamageFriend.Name = "DamageFriend";
+			this.DamageFriend.Size = new System.Drawing.Size(49, 15);
+			this.DamageFriend.TabIndex = 3;
+			this.DamageFriend.Text = "損害率";
+			this.DamageFriend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// FleetEnemyEscort
+			// 
+			this.FleetEnemyEscort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.FleetEnemyEscort.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.FleetEnemyEscort.Location = new System.Drawing.Point(113, 3);
+			this.FleetEnemyEscort.Name = "FleetEnemyEscort";
+			this.FleetEnemyEscort.Size = new System.Drawing.Size(49, 15);
+			this.FleetEnemyEscort.TabIndex = 19;
+			this.FleetEnemyEscort.Text = "敵軍随伴";
+			this.FleetEnemyEscort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// WinRank
+			// 
+			this.WinRank.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.TableBottom.SetColumnSpan(this.WinRank, 2);
+			this.WinRank.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.WinRank.Location = new System.Drawing.Point(58, 150);
+			this.WinRank.MinimumSize = new System.Drawing.Size(80, 0);
+			this.WinRank.Name = "WinRank";
+			this.WinRank.Size = new System.Drawing.Size(104, 15);
+			this.WinRank.TabIndex = 4;
+			this.WinRank.Text = "戦績判定";
+			this.WinRank.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// DamageEnemy
+			// 
+			this.DamageEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.DamageEnemy.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.DamageEnemy.Location = new System.Drawing.Point(168, 150);
+			this.DamageEnemy.Name = "DamageEnemy";
+			this.DamageEnemy.Size = new System.Drawing.Size(49, 15);
+			this.DamageEnemy.TabIndex = 5;
+			this.DamageEnemy.Text = "損害率";
+			this.DamageEnemy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// FleetFriendEscort
+			// 
+			this.FleetFriendEscort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.FleetFriendEscort.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.FleetFriendEscort.Location = new System.Drawing.Point(58, 3);
+			this.FleetFriendEscort.Name = "FleetFriendEscort";
+			this.FleetFriendEscort.Size = new System.Drawing.Size(49, 15);
+			this.FleetFriendEscort.TabIndex = 1;
+			this.FleetFriendEscort.Text = "自軍随伴";
+			this.FleetFriendEscort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// FleetEnemy
+			// 
+			this.FleetEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.FleetEnemy.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.FleetEnemy.Location = new System.Drawing.Point(168, 3);
+			this.FleetEnemy.Name = "FleetEnemy";
+			this.FleetEnemy.Size = new System.Drawing.Size(49, 15);
+			this.FleetEnemy.TabIndex = 2;
+			this.FleetEnemy.Text = "敵軍艦隊";
+			this.FleetEnemy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// FormBattle
 			// 
 			this.AutoHidePortion = 150D;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(300, 300);
+			this.ContextMenuStrip = this.RightClickMenu;
 			this.Controls.Add(this.BaseLayoutPanel);
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -371,6 +390,7 @@
 			this.BaseLayoutPanel.PerformLayout();
 			this.TableTop.ResumeLayout(false);
 			this.TableTop.PerformLayout();
+			this.RightClickMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -400,5 +420,7 @@
 		private System.Windows.Forms.FlowLayoutPanel BaseLayoutPanel;
 		private System.Windows.Forms.TableLayoutPanel TableTop;
 		private Control.ImageLabel FleetEnemyEscort;
+		private System.Windows.Forms.ContextMenuStrip RightClickMenu;
+		private System.Windows.Forms.ToolStripMenuItem RightClickMenu_ShowBattleDetail;
 	}
 }
