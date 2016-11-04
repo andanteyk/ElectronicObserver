@@ -16,6 +16,32 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		protected readonly bool isEscort;
 		protected readonly bool isEnemyEscort;
 
+		public List<PhaseShellingAttack> Attacks { get; private set; }
+
+
+		public class PhaseShellingAttack {
+			public int Attacker;
+			public int AttackType;
+			public List<PhaseShellingDefender> Defenders;
+
+			public PhaseShellingAttack() { }
+
+			public override string ToString() {
+				return string.Format( "{0}[{1}] -> [{2}]", Attacker, AttackType, string.Join( ", ", Defenders ) );
+			}
+		}
+		public class PhaseShellingDefender {
+			public int Defender;
+			public int CriticalFlag;
+			public int Damage;
+
+			public override string ToString() {
+				return string.Format( "{0};{1}-{2}", Defender, Damage, CriticalFlag == 0 ? "miss" : CriticalFlag == 1 ? "dmg" : CriticalFlag == 2 ? "crit" : "INVALID" );
+			}
+		}
+
+
+
 		public PhaseShelling( BattleData data, int phaseID, string suffix, bool isEscort, bool isEnemyEscort = false )
 			: base( data ) {
 
@@ -125,29 +151,6 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		}
 
 
-		public List<PhaseShellingAttack> Attacks { get; private set; }
-		public class PhaseShellingAttack {
-			public int Attacker;
-			public int AttackType;
-			public List<PhaseShellingDefender> Defenders;
-
-			public PhaseShellingAttack() {}
-
-			public override string ToString() {
-				return string.Format( "{0}[{1}] -> [{2}]", Attacker, AttackType, string.Join( ", ", Defenders ) );
-			}
-		}
-		public class PhaseShellingDefender {
-			public int Defender;
-			public int CriticalFlag;
-			public int Damage;
-
-			public override string ToString() {
-				return string.Format( "{0};{1}-{2}", Defender, Damage, CriticalFlag == 0 ? "miss" : CriticalFlag == 1 ? "dmg" : CriticalFlag == 2 ? "crit" : "INVALID" );
-			}
-		}
-
-
 		public override void EmulateBattle( int[] hps, int[] damages ) {
 
 			if ( !IsAvailable ) return;
@@ -155,20 +158,13 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			foreach ( var attack in Attacks ) {
 
-				int[] tempdmg = new int[24];
+				foreach ( var defs in attack.Defenders.GroupBy( d => d.Defender ) ) {
+					BattleDetails.Add( new BattleDayDetail( _battleData, attack.Attacker, defs.Key, defs.Select( d => d.Damage ).ToArray(), defs.Select( d => d.CriticalFlag ).ToArray(), attack.AttackType, hps[defs.Key] ) );
+					AddDamage( hps, defs.Key, defs.Sum( d => d.Damage ) );
+				}
 
-				foreach ( var def in attack.Defenders )
-					tempdmg[def.Defender] += def.Damage;
-
-				for ( int i = 0; i < tempdmg.Length; i++ )
-					AddDamage( hps, i, tempdmg[i] );
-
-				damages[attack.Attacker] += tempdmg.Sum();
-
-				foreach ( var def in attack.Defenders.GroupBy( d => d.Defender ) )
-					BattleDetails.Add( new BattleDayDetail( _battleData, attack.Attacker, def.Key, def.Select( d => d.Damage ).ToArray(), def.Select( d => d.CriticalFlag ).ToArray(), attack.AttackType ) );
+				damages[attack.Attacker] += attack.Defenders.Sum( d => d.Damage );
 			}
-
 
 		}
 

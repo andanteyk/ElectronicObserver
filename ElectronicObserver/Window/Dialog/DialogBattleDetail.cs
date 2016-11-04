@@ -20,6 +20,7 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogBattleDetail() {
 			InitializeComponent();
 
+			Font = Utility.Configuration.Config.UI.MainFont;
 		}
 
 		private void DialogBattleDetail_Load( object sender, EventArgs e ) {

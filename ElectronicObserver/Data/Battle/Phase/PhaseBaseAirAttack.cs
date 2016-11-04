@@ -45,10 +45,11 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 
 				for ( int i = 0; i < hps.Length; i++ ) {
-					AddDamage( hps, i, Damages[i] );
-
-					if ( TorpedoFlags[i] > 0 || BomberFlags[i] > 0 ) {
-						BattleDetails.Add( new BattleAirDetail( _battleData, AirAttackIndex + 1, i, Damages[i], Criticals[i] + 1, ( TorpedoFlags[i] > 0 ? 1 : 0 ) | ( BomberFlags[i] > 0 ? 2 : 0 ) ) );
+					
+					int attackType = ( TorpedoFlags[i] > 0 ? 1 : 0 ) | ( BomberFlags[i] > 0 ? 2 : 0 );
+					if ( attackType > 0 ) {
+						BattleDetails.Add( new BattleAirDetail( _battleData, AirAttackIndex + 1, i, Damages[i], Criticals[i] + 1, attackType, hps[i] ) );
+						AddDamage( hps, i, Damages[i] );
 					}
 				}
 

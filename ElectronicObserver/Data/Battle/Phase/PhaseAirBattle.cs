@@ -43,12 +43,13 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 
 			for ( int i = 0; i < hps.Length; i++ ) {
-				AddDamage( hps, i, Damages[i] );
 
-				if ( TorpedoFlags[i] > 0 || BomberFlags[i] > 0 ) {
+				int attackType = ( TorpedoFlags[i] > 0 ? 1 : 0 ) | ( BomberFlags[i] > 0 ? 2 : 0 );
+				if ( attackType > 0 ) {
 
 					// 航空戦は miss/hit=0, critical=1 のため +1 する(通常は miss=0, hit=1, critical=2) 
-					BattleDetails.Add( new BattleAirDetail( _battleData, 0, i, Damages[i], Criticals[i] + 1, ( TorpedoFlags[i] > 0 ? 1 : 0 ) | ( BomberFlags[i] > 0 ? 2 : 0 ) ) );
+					BattleDetails.Add( new BattleAirDetail( _battleData, 0, i, Damages[i], Criticals[i] + 1, attackType, hps[i] ) );
+					AddDamage( hps, i, Damages[i] );
 				}
 			}
 

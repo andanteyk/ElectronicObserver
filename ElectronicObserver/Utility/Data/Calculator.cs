@@ -633,6 +633,7 @@ namespace ElectronicObserver.Utility.Data {
 			int radarcnt = 0;
 			int rocketcnt = 0;
 			int landingcnt = 0;
+			int tokudaihatsucnt = 0;
 			int uchibicnt = 0;
 
 			if ( slot == null ) return -1;
@@ -667,6 +668,8 @@ namespace ElectronicObserver.Utility.Data {
 					case 24:	// 上陸用舟艇
 						if ( eq.EquipmentID == 166 )		// 陸戦隊
 							landingcnt++;
+						if ( eq.EquipmentID == 193 )		// 特大発
+							tokudaihatsucnt++;
 						break;
 					case 37:	// 対地装備
 						rocketcnt++;
@@ -702,7 +705,10 @@ namespace ElectronicObserver.Utility.Data {
 						return 12;		// 揚陸攻撃(内火艇)
 
 					if ( landingcnt > 0 && HardInstallationNames.Contains( defship.Name ) )
-						return 11;		// 揚陸攻撃(大発動艇)
+						return 11;		// 揚陸攻撃(大発戦車)
+
+					if ( tokudaihatsucnt > 0 && HardInstallationNames.Contains( defship.Name ) )
+						return 13;		// 揚陸攻撃(特大発)
 
 					if ( rocketcnt > 0 && defship.IsLandBase )
 						return 10;		//ロケット砲撃
@@ -758,6 +764,7 @@ namespace ElectronicObserver.Utility.Data {
 			int rocketcnt = 0;
 			int landingcnt = 0;
 			int uchibicnt = 0;
+			int tokudaihatsucnt = 0;
 
 			if ( slot == null ) return -1;
 
@@ -780,8 +787,18 @@ namespace ElectronicObserver.Utility.Data {
 					case 32:
 						torpcnt++; break;		//魚雷
 
-					case 37:					//対地装備
-						rocketcnt++; break;
+					case 24:	// 上陸用舟艇
+						if ( eq.EquipmentID == 166 )		// 陸戦隊
+							landingcnt++;
+						if ( eq.EquipmentID == 193 )		// 特大発
+							tokudaihatsucnt++;
+						break;
+					case 37:	// 対地装備
+						rocketcnt++;
+						break;
+					case 46:	// 特型内火艇
+						uchibicnt++;
+						break;
 				}
 
 			}
@@ -817,7 +834,10 @@ namespace ElectronicObserver.Utility.Data {
 						return 12;		// 揚陸攻撃(内火艇)
 
 					if ( landingcnt > 0 && HardInstallationNames.Contains( defship.Name ) )
-						return 11;		// 揚陸攻撃(大発動艇)
+						return 11;		// 揚陸攻撃(大発戦車)
+
+					if ( tokudaihatsucnt > 0 && HardInstallationNames.Contains( defship.Name ) )
+						return 13;		// 揚陸攻撃(特大発)
 
 					if ( rocketcnt > 0 && defship.IsLandBase )
 						return 10;		//ロケット砲撃
@@ -879,17 +899,16 @@ namespace ElectronicObserver.Utility.Data {
 				if ( eq == null ) continue;
 
 				if ( eq.IconType == 16 ) {	//高角砲
-					// 10cm連装高角砲+高射装置 or 12.7cm高角砲+高射装置 or 90mm単装高角砲 or 5inch連装砲 Mk.28 mod.2
-					if ( eq.EquipmentID == 122 || eq.EquipmentID == 130 || eq.EquipmentID == 135 || eq.EquipmentID == 172 ) {
+					if ( eq.AA >= 8 )
 						highangle_director++;
-					}
+
 					highangle++;
 
 				} else if ( eq.CategoryType == 36 ) {	//高射装置
 					director++;
 
 				} else if ( eq.CardType == 8 ) {	//電探
-					if ( eq.AA > 0 ) {
+					if ( eq.AA >= 2 ) {
 						aaradar++;
 					}
 					radar++;
@@ -901,10 +920,9 @@ namespace ElectronicObserver.Utility.Data {
 					aashell++;
 
 				} else if ( eq.CategoryType == 21 ) {	//対空機銃
-					// 25mm三連装機銃 集中配備 or Bofors 40mm四連装機関砲 or QF 2ポンド8連装ポンポン砲
-					if ( eq.EquipmentID == 131 || eq.EquipmentID == 173 || eq.EquipmentID == 191 ) {
+					if ( eq.AA >= 9 )
 						aagun_concentrated++;
-					}
+
 					aagun++;
 
 				}

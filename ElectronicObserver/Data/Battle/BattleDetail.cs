@@ -14,19 +14,16 @@ namespace ElectronicObserver.Data.Battle {
 		public int[] Damages { get; protected set; }
 		public CriticalType[] CriticalTypes { get; protected set; }
 		public int AttackType { get; protected set; }
+		public int DefenderHP { get; protected set; }
 
 		public ShipDataMaster Attacker { get; protected set; }
 		public ShipDataMaster Defender { get; protected set; }
 
 
-		/// <summary>
-		/// 攻撃側インデックス [0-23]
-		/// </summary>
+		/// <summary> 攻撃側インデックス [0-23] </summary>
 		public int AttackerIndex { get; protected set; }
 
-		/// <summary>
-		/// 防御側インデックス [0-23]
-		/// </summary>
+		/// <summary> 防御側インデックス [0-23] </summary>
 		public int DefenderIndex { get; protected set; }
 
 
@@ -44,14 +41,15 @@ namespace ElectronicObserver.Data.Battle {
 		/// <param name="damages">ダメージの配列。</param>
 		/// <param name="criticalTypes">命中判定の配列。</param>
 		/// <param name="attackType">攻撃種別。</param>
-		public BattleDetail( BattleData bd, int attackerIndex, int defenderIndex, int[] damages, int[] criticalTypes, int attackType ) {
+		/// <param name="defenderHP">防御側の攻撃を受ける直前のHP。</param>
+		public BattleDetail( BattleData bd, int attackerIndex, int defenderIndex, int[] damages, int[] criticalTypes, int attackType, int defenderHP ) {
 
 			AttackerIndex = attackerIndex;
 			DefenderIndex = defenderIndex;
 			Damages = damages;
 			CriticalTypes = criticalTypes.Select( i => (CriticalType)i ).ToArray();
 			AttackType = attackType;
-
+			DefenderHP = defenderHP;
 
 			int[] slots;
 
@@ -129,6 +127,14 @@ namespace ElectronicObserver.Data.Battle {
 				}
 			}
 
+			{
+				int before = Math.Max( DefenderHP, 0 );
+				int after = Math.Max( DefenderHP - Damages.Sum(), 0 );
+				if ( before != after )
+					builder.AppendFormat( " ( {0} → {1} )", before, after );
+			}
+
+
 			builder.AppendLine();
 			return builder.ToString();
 		}
@@ -163,8 +169,8 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public class BattleDayDetail : BattleDetail {
 
-		public BattleDayDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType )
-			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType ) {
+		public BattleDayDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType, int defenderHP )
+			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType, defenderHP ) {
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
@@ -181,12 +187,12 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public class BattleSupportDetail : BattleDetail {
 
-		public BattleSupportDetail( BattleData bd, int defenderId, int damage, int criticalType, int attackType )
-			: base( bd, -1, defenderId, new int[] { damage }, new int[] { criticalType }, attackType ) {
+		public BattleSupportDetail( BattleData bd, int defenderId, int damage, int criticalType, int attackType, int defenderHP )
+			: base( bd, -1, defenderId, new int[] { damage }, new int[] { criticalType }, attackType, defenderHP ) {
 		}
 
 		protected override string GetAttackerName() {
-			return "支援" + GetAttackKind();
+			return "支援艦隊";
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
@@ -213,8 +219,8 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public class BattleNightDetail : BattleDetail {
 
-		public BattleNightDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType )
-			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType ) {
+		public BattleNightDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType, int defenderHP )
+			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType, defenderHP ) {
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
@@ -233,14 +239,17 @@ namespace ElectronicObserver.Data.Battle {
 
 		public int WaveIndex { get; protected set; }
 
-		public BattleAirDetail( BattleData bd, int waveIndex, int defenderId, int damage, int criticalType, int attackType )
-			: base( bd, -1, defenderId, new int[] { damage }, new int[] { criticalType }, attackType ) {
+		public BattleAirDetail( BattleData bd, int waveIndex, int defenderId, int damage, int criticalType, int attackType, int defenderHP )
+			: base( bd, -1, defenderId, new int[] { damage }, new int[] { criticalType }, attackType, defenderHP ) {
 			WaveIndex = waveIndex;
 		}
 
 		protected override string GetAttackerName() {
 			if ( WaveIndex == 0 ) {
-				return "航空隊";
+				if ( IsFriendIndex( DefenderIndex ) )
+					return "敵軍航空隊";
+				else
+					return "自軍航空隊";
 
 			} else if ( WaveIndex > 0 ) {
 				return string.Format( "基地航空隊 第{0}波", WaveIndex );

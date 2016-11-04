@@ -523,9 +523,11 @@ namespace ElectronicObserver.Data {
 				case 10:
 					return "ロケット砲撃";
 				case 11:
-					return "揚陸攻撃(大発動艇)";
+					return "揚陸攻撃(大発戦車)";
 				case 12:
 					return "揚陸攻撃(内火艇)";
+				case 13:
+					return "揚陸攻撃(特大発)";
 				default:
 					return "不明";
 			}
@@ -560,9 +562,11 @@ namespace ElectronicObserver.Data {
 				case 10:
 					return "ロケット砲撃";
 				case 11:
-					return "揚陸攻撃(大発動艇)";
+					return "揚陸攻撃(大発戦車)";
 				case 12:
 					return "揚陸攻撃(内火艇)";
+				case 13:
+					return "揚陸攻撃(特大発)";
 				default:
 					return "不明";
 			}
