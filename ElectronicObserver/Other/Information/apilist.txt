@@ -2172,6 +2172,10 @@ api_dmm_payment/paycheck			：アイテム購入
 Request.api_req_member/registration_sp		：艦これAndroid版 事前登録
 	api_register_type	：0=解除, 1=登録
 
+api_req_furniture/radio_play	：母港ラジオ再生
+	(情報なし)
+
+
 
 
 ◇APIが呼ばれる順番
