@@ -244,6 +244,7 @@ namespace Browser {
 		}
 
 		private void CenteringBrowser() {
+			if (SizeAdjuster.Width == 0 || SizeAdjuster.Height == 0) return;
 			int x = Browser.Location.X, y = Browser.Location.Y;
 			bool isScrollable = Configuration.IsScrollable;
 
@@ -317,7 +318,8 @@ namespace Browser {
 		/// 指定した URL のページを開きます。
 		/// </summary>
 		public void Navigate( string url ) {
-			StyleSheetApplied = false;
+			if (url == Configuration.LogInPageURL && !Configuration.AppliesStyleSheet)
+				StyleSheetApplied = false;
 			Browser.Navigate( url );
 		}
 
