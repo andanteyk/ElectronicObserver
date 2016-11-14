@@ -120,9 +120,14 @@
   <data name="FrameScript" xml:space="preserve">
     <value>
 try {
-$(document.body).css({visibility:"hidden"});
-$("#flashWrap").css({position:"fixed",left:0,top:0,width:"100%",height:"100%"});
-$("#externalswf").css({visibility:"visible",width:"100%",height:"100%"});
+document.body.style.visibility = "hidden";
+var flashWrap = document.getElementById("flashWrap");
+flashWrap.style.position = "fixed";
+flashWrap.style.left = 0; flashWrap.style.top = 0;
+flashWrap.style.width = "100%"; flashWrap.style.height = "100%";
+var externalswf = document.getElementById("externalswf");
+externalswf.style.visibility = "visible";
+externalswf.style.width = "100%"; externalswf.style.height = "100%";
 }
 catch(e) {
 	alert("フレームCSS適用に失敗しました: "+e);
@@ -131,10 +136,16 @@ catch(e) {
   <data name="PageScript" xml:space="preserve">
     <value>
 try {
-$(document.body).css({visibility:"hidden",overflow:"hidden"});
-$(".dmm-ntgnavi").css({display:"none"});
-$("#area-game").css({position:"fixed",left:0,top:0,width:"100%",height:"100%"});
-$("#game_frame").css({visibility:"visible",width:"100%",height:"100%"});
+document.body.style.visibility = "hidden";
+document.body.style.overflow = "hidden";
+document.getElementsByClassName("dmm-ntgnavi")[0].style.display = "none";
+var area_game = document.getElementById("area-game");
+area_game.style.position = "fixed";
+area_game.style.left = 0; area_game.style.top = 0;
+area_game.style.width = "100%"; area_game.style.height = "100%";
+var game_frame = document.getElementById("game_frame");
+game_frame.style.visibility = "visible";
+game_frame.style.width = "100%"; game_frame.style.height = "100%";
 }
 catch(e) {
 	alert("ページCSS適用に失敗しました: "+e);
