@@ -106,7 +106,7 @@
     <Compile Include="Data\Battle\BattleData.cs" />
     <Compile Include="Data\Battle\BattleDay.cs" />
     <Compile Include="Data\Battle\BattleAirRaid.cs" />
-    <Compile Include="Data\Battle\BattleDetail.cs" />
+    <Compile Include="Data\Battle\Detail\BattleDetail.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedDay.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedNight.cs" />
     <Compile Include="Data\Battle\BattleManager.cs" />
@@ -117,6 +117,7 @@
     <Compile Include="Data\Battle\BattlePracticeDay.cs" />
     <Compile Include="Data\Battle\BattlePracticeNight.cs" />
     <Compile Include="Data\Battle\BattleResultData.cs" />
+    <Compile Include="Data\Battle\Detail\BattleDetailDescriptor.cs" />
     <Compile Include="Data\Battle\Phase\PhaseAirBattle.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBase.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirAttack.cs" />

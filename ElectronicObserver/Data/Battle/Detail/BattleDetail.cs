@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data.Battle {
+namespace ElectronicObserver.Data.Battle.Detail {
 	/// <summary>
 	/// 戦闘詳細のデータを保持します。
 	/// </summary>
@@ -277,4 +277,5 @@ namespace ElectronicObserver.Data.Battle {
 		}
 
 	}
+
 }

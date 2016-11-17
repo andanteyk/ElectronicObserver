@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.Battle;
+using ElectronicObserver.Data.Battle.Detail;
 using ElectronicObserver.Data.Battle.Phase;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
@@ -1089,20 +1090,8 @@ namespace ElectronicObserver.Window {
 				return;
 
 			var dialog = new Dialog.DialogBattleDetail();
-			string text;
 
-
-			if ( bm.StartsFromDayBattle ) {
-				text = bm.BattleDay.GetBattleDetail();
-				if ( bm.BattleNight != null )
-					text += bm.BattleNight.GetBattleDetail();
-			} else {
-				text = bm.BattleNight.GetBattleDetail();
-				if ( bm.BattleDay != null )
-					text += bm.BattleDay.GetBattleDetail();
-			}
-
-			dialog.BattleDetailText = text;
+			dialog.BattleDetailText = BattleDetailDescriptor.GetBattleDetail( bm );
 			dialog.Location = RightClickMenu.Location;
 			dialog.Show( this );
 

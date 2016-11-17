@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Data.Battle.Detail;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 	public class PhaseSupport : PhaseBase {
 
 
-		public PhaseSupport( BattleData data )
-			: base( data ) {
+		public PhaseSupport( BattleData data, string title )
+			: base( data, title ) {
 
 			var empty = Enumerable.Repeat( 0, 6 );
 
