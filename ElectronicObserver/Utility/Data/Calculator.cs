@@ -76,7 +76,7 @@ namespace ElectronicObserver.Utility.Data {
 				return 0;
 
 			int category = eq.CategoryType;
-			if ( !AircraftLevelBonus.ContainsKey( category ) )
+			if ( !isAirDefense && !AircraftLevelBonus.ContainsKey( category ) )		// 防空の場合は全航空機が参加する
 				return 0;
 
 			double levelBonus = LevelBonus.ContainsKey( category ) ? LevelBonus[category] : 0;	// 改修レベル補正
@@ -88,8 +88,9 @@ namespace ElectronicObserver.Utility.Data {
 					interceptorBonus = eq.Evasion * 1.5;
 			}
 
-
-			return (int)( ( eq.AA + levelBonus * level + interceptorBonus ) * Math.Sqrt( count ) + Math.Sqrt( AircraftExpTable[aircraftLevel] / 10.0 ) + AircraftLevelBonus[category][aircraftLevel] );
+			return (int)( ( eq.AA + levelBonus * level + interceptorBonus ) * Math.Sqrt( count )
+				+ Math.Sqrt( AircraftExpTable[aircraftLevel] / 10.0 )
+				+ ( AircraftLevelBonus.ContainsKey( category ) ? AircraftLevelBonus[category][aircraftLevel] : 0 ) );
 		}
 
 
@@ -190,7 +191,31 @@ namespace ElectronicObserver.Utility.Data {
 			if ( aircorps == null )
 				return 0;
 
-			return aircorps.Squadrons.Values.Sum( sq => GetAirSuperiority( sq, aircorps.ActionKind == 2 ) );
+			int air = 0;
+			double rate = 1.0;
+
+			foreach ( var sq in aircorps.Squadrons.Values ) {
+				air += GetAirSuperiority( sq, aircorps.ActionKind == 2 );
+
+				if ( aircorps.ActionKind != 2 )
+					continue;
+
+				// 偵察機補正計算
+				int category = sq.EquipmentInstanceMaster.CategoryType;
+				int losrate = Math.Min( Math.Max( sq.EquipmentInstanceMaster.LOS - 7, 0 ), 2 );		// ~7, 8, 9~
+
+				switch ( category ) {
+					case 10:	// 水上偵察機
+					case 41:	// 大型飛行艇
+						rate = Math.Max( rate, 1.1 + losrate * 0.03 );
+						break;
+					case 9:		// 艦上偵察機
+						rate = Math.Max( rate, 1.2 + losrate * 0.05 );
+						break;
+				}
+			}
+			
+			return (int)( air * rate );
 		}
 
 		/// <summary>
