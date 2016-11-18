@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Data.Battle.Detail;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// </summary>
 		private readonly int phaseID;
 
-		public PhaseTorpedo( BattleData data, int phaseID )
-			: base( data ) {
+		public PhaseTorpedo( BattleData data, string title, int phaseID )
+			: base( data, title ) {
 
 			this.phaseID = phaseID;
 

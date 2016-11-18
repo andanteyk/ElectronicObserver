@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Data.Battle.Detail;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 		private readonly bool isEscort;
 
-		public PhaseNightBattle( BattleData data, bool isEscort )
-			: base( data ) {
+		public PhaseNightBattle( BattleData data, string title, bool isEscort )
+			: base( data, title ) {
 
 			this.isEscort = isEscort;
 
@@ -264,5 +265,6 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 			return index;
 		}
+
 	}
 }

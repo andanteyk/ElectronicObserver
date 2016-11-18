@@ -12,8 +12,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 	public class PhaseSearching : PhaseBase {
 
 
-		public PhaseSearching( BattleData data )
-			: base( data ) { }
+		public PhaseSearching( BattleData data, string title )
+			: base( data, title ) { }
 
 
 		public override bool IsAvailable {

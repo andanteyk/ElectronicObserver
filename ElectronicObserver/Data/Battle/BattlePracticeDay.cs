@@ -15,13 +15,13 @@ namespace ElectronicObserver.Data.Battle {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			AirBattle = new PhaseAirBattle( this );
-			OpeningASW = new PhaseOpeningASW( this, false );
-			OpeningTorpedo = new PhaseTorpedo( this, 0 );
-			Shelling1 = new PhaseShelling( this, 1, "1", false );
-			Shelling2 = new PhaseShelling( this, 2, "2", false );
-			Shelling3 = new PhaseShelling( this, 3, "3", false );
-			Torpedo = new PhaseTorpedo( this, 4 );
+			AirBattle = new PhaseAirBattle( this, "航空戦" );
+			OpeningASW = new PhaseOpeningASW( this, "先制対潜", false );
+			OpeningTorpedo = new PhaseTorpedo( this, "先制雷撃", 0 );
+			Shelling1 = new PhaseShelling( this, "第一次砲撃戦", 1, "1", false );
+			Shelling2 = new PhaseShelling( this, "第二次砲撃戦", 2, "2", false );
+			Shelling3 = new PhaseShelling( this, "第三次砲撃戦", 3, "3", false );
+			Torpedo = new PhaseTorpedo( this, "雷撃戦", 4 );
 
 
 			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
@@ -43,33 +43,17 @@ namespace ElectronicObserver.Data.Battle {
 			get { return BattleTypeFlag.Day | BattleTypeFlag.Practice; }
 		}
 
-		public override string GetBattleDetail( int index ) {
-			var sb = new StringBuilder();
 
-			string airbattle = AirBattle.GetBattleDetail( index );
-			string asw = OpeningASW.GetBattleDetail( index );
-			string openingTorpedo = OpeningTorpedo.GetBattleDetail( index );
-			string shelling1 = Shelling1.GetBattleDetail( index );
-			string shelling2 = Shelling2.GetBattleDetail( index );
-			string shelling3 = Shelling3.GetBattleDetail( index );
-			string torpedo = Torpedo.GetBattleDetail( index );
-
-			if ( airbattle != null )
-				sb.AppendLine( "《航空戦》" ).Append( airbattle );
-			if ( asw != null )
-				sb.AppendLine( "《開幕対潜》" ).Append( asw );
-			if ( openingTorpedo != null )
-				sb.AppendLine( "《開幕雷撃》" ).Append( openingTorpedo );
-			if ( shelling1 != null )
-				sb.AppendLine( "《第一次砲撃戦》" ).Append( shelling1 );
-			if ( shelling2 != null )
-				sb.AppendLine( "《第二次砲撃戦》" ).Append( shelling2 );
-			if ( shelling3 != null )
-				sb.AppendLine( "《第三次砲撃戦》" ).Append( shelling3 );
-			if ( torpedo != null )
-				sb.AppendLine( "《雷撃戦》" ).Append( torpedo );
-
-			return sb.ToString();
+		public override IEnumerable<PhaseBase> GetPhases() {
+			yield return Initial;
+			yield return Searching;
+			yield return AirBattle;
+			yield return OpeningASW;
+			yield return OpeningTorpedo;
+			yield return Shelling1;
+			yield return Shelling2;
+			yield return Shelling3;
+			yield return Torpedo;
 		}
 	}
 

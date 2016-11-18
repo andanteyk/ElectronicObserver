@@ -12,7 +12,6 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 装備のマスターデータを保持します。
 	/// </summary>
-	[DebuggerDisplay( "[{ID}] : {Name}" )]
 	public class EquipmentDataMaster : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
@@ -222,6 +221,9 @@ namespace ElectronicObserver.Data {
 			get { return EquipmentID; }
 		}
 
+		public override string ToString() {
+			return string.Format( "[{0}] {1}", EquipmentID, Name );
+		}
 	}
 
 }

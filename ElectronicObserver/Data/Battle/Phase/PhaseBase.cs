@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Data.Battle.Detail;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,12 +15,13 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 		protected BattleData _battleData;
 		public List<BattleDetail> BattleDetails { get; protected set; }
+		public readonly string Title;
 
-		public PhaseBase( BattleData data ) {
+		public PhaseBase( BattleData data, string title ) {
 
 			_battleData = data;
 			BattleDetails = new List<BattleDetail>();
-
+			Title = title;
 		}
 
 
@@ -88,6 +90,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				return string.Join( "\r\n", list ) + "\r\n";
 			} else return null;
 		}
+		public virtual string GetBattleDetail() { return GetBattleDetail( -1 ); }
 
 
 		public override string ToString() {

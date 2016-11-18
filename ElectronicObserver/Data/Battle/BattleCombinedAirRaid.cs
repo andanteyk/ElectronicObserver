@@ -15,8 +15,8 @@ namespace ElectronicObserver.Data.Battle {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			BaseAirAttack = new PhaseBaseAirAttack( this );
-			AirBattle = new PhaseAirBattle( this );
+			BaseAirAttack = new PhaseBaseAirAttack( this, "基地航空隊攻撃" );
+			AirBattle = new PhaseAirBattle( this, "空襲戦" );
 			// 支援はないものとする
 
 			BaseAirAttack.EmulateBattle( _resultHPs, _attackDamages );
@@ -33,18 +33,13 @@ namespace ElectronicObserver.Data.Battle {
 			get { return BattleTypeFlag.Day | BattleTypeFlag.Combined; }
 		}
 
-		public override string GetBattleDetail( int index ) {
-			var sb = new StringBuilder();
 
-			string baseair = BaseAirAttack.GetBattleDetail( index );
-			string airbattle = AirBattle.GetBattleDetail( index );
-
-			if ( baseair != null )
-				sb.AppendLine( "《基地航空隊攻撃》" ).Append( baseair );
-			if ( airbattle != null )
-				sb.AppendLine( "《航空戦》" ).Append( airbattle );
-
-			return sb.ToString();
+		public override IEnumerable<PhaseBase> GetPhases() {
+			yield return Initial;
+			yield return Searching;
+			yield return BaseAirAttack;
+			yield return AirBattle;
 		}
+
 	}
 }

@@ -33,8 +33,8 @@ namespace ElectronicObserver.Data.Battle {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			Initial = new PhaseInitial( this );
-			Searching = new PhaseSearching( this );
+			Initial = new PhaseInitial( this, "戦力" );
+			Searching = new PhaseSearching( this, "索敵" );
 
 			_resultHPs = Initial.InitialHPs.ToArray();
 			if ( _attackDamages == null )
@@ -123,7 +123,21 @@ namespace ElectronicObserver.Data.Battle {
 		/// 指定したインデックスの艦の戦闘詳細データを取得します。
 		/// </summary>
 		/// <param name="index">インデックス。[0-23]</param>
-		public abstract string GetBattleDetail( int index );
+		public string GetBattleDetail( int index ) {
+			var sb = new StringBuilder();
+
+			foreach ( var phase in GetPhases() ) {
+				string bd = phase.GetBattleDetail( index );
+
+				if ( !string.IsNullOrEmpty( bd ) ) {
+					sb.AppendLine( "《" + phase.Title + "》" ).Append( bd );
+				}
+			}
+			return sb.ToString();
+		}
+
+
+		public abstract IEnumerable<PhaseBase> GetPhases();
 
 	}
 

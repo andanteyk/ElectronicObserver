@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Data.Battle.Detail;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,8 +43,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 
 
-		public PhaseShelling( BattleData data, int phaseID, string suffix, bool isEscort, bool isEnemyEscort = false )
-			: base( data ) {
+		public PhaseShelling( BattleData data, string title, int phaseID, string suffix, bool isEscort, bool isEnemyEscort = false )
+			: base( data, title ) {
 
 			this.phaseID = phaseID;
 			this.suffix = suffix;
