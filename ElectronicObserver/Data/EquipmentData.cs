@@ -74,7 +74,7 @@ namespace ElectronicObserver.Data {
 			get {
 				if ( Level > 0 )
 					if ( AircraftLevel > 0 )
-						return string.Format( "{0}+{1} Lv. {2}", Name, Level, AircraftLevel );		//念のため
+						return string.Format( "{0}+{1} Lv. {2}", Name, Level, AircraftLevel );
 					else
 						return string.Format( "{0}+{1}", Name, Level );
 				else
