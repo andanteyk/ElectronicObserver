@@ -214,7 +214,7 @@ namespace ElectronicObserver.Utility.Data {
 						break;
 				}
 			}
-			
+
 			return (int)( air * rate );
 		}
 
@@ -628,6 +628,50 @@ namespace ElectronicObserver.Utility.Data {
 
 
 			return tp;
+		}
+
+
+		private static readonly Dictionary<int, double> EquipmentExpeditionBonus = new Dictionary<int, double>() {
+			{ 68, 0.05 },	// 大発動艇
+			{ 166, 0.02 },	// 大発戦車
+			{ 167, 0.01 },	// 内火艇
+			{ 193, 0.05 },	//特大発動艇
+		};
+		/// <summary>
+		/// 遠征資源の大発ボーナスを取得します。
+		/// </summary>
+		public static double GetExpeditionBonus( FleetData fleet ) {
+			var eqs = fleet.MembersInstance
+				.Where( s => s != null )
+				.SelectMany( s => s.SlotInstance )
+				.Where( eq => eq != null && EquipmentExpeditionBonus.ContainsKey( eq.EquipmentID ) );
+
+			double normalBonus = eqs.Sum( eq => EquipmentExpeditionBonus[eq.EquipmentID] )
+				+ fleet.MembersInstance.Count( s => s != null && s.ShipID == 487 ) * 0.05;		// 鬼怒改二
+
+			normalBonus = Math.Min( normalBonus, 0.2 );
+			double levelBonus = eqs.Any() ? ( 0.01 * normalBonus * eqs.Average( eq => eq.Level ) ) : 0;
+
+			int tokuCount = eqs.Count( eq => eq.EquipmentID == 193 );
+			int daihatsuCount = eqs.Count( eq => eq.EquipmentID == 68 );
+			double tokuBonus;
+
+			if ( tokuCount <= 2 )
+				tokuBonus = 0.02 * tokuCount;
+			else if ( tokuCount == 3 )
+				tokuBonus = 0.05 + 0.002 * Math.Min( Math.Max( daihatsuCount - 1, 0 ), 2 );
+			else {
+				if ( daihatsuCount <= 2 )
+					tokuBonus = 0.054 + 0.002 * daihatsuCount;
+				else if ( daihatsuCount == 3 )
+					tokuBonus = 0.059;
+				else
+					tokuBonus = 0.060;
+			}
+
+			// 厳密には tokuBonus は別の補正として扱われるが気にしないことにする
+
+			return normalBonus + levelBonus + tokuBonus;
 		}
 
 
