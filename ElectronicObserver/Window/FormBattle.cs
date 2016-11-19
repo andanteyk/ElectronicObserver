@@ -759,7 +759,7 @@ namespace ElectronicObserver.Window {
 				if ( initialHPs[i] != -1 ) {
 					HPBars[i].Value = resultHPs[i];
 					HPBars[i].PrevValue = initialHPs[i];
-					HPBars[i].MaximumValue = GetBattleShipMaxHP( bd, i );		// todo: 暫定処理 メソッドのコメント参照
+					HPBars[i].MaximumValue = Math.Max( maxHPs[i], GetBattleShipMaxHP( bd, i ) );		// todo: 暫定処理 メソッドのコメント参照
 					HPBars[i].BackColor = SystemColors.Control;
 					HPBars[i].Visible = true;
 				} else {
@@ -901,7 +901,7 @@ namespace ElectronicObserver.Window {
 				HPBars[12 + i].BackColor = Color.Moccasin;
 		}
 
-	
+
 		/// <summary>
 		/// 2016/11/19 現在、連合艦隊夜戦において 最大HP = 現在HP となる不具合が存在するため、
 		/// 暫定的にマスターデータから最大HPを取得する
