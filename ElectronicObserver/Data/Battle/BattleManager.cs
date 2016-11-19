@@ -210,6 +210,19 @@ namespace ElectronicObserver.Data.Battle {
 					BattleNight.LoadFromResponse( apiname, data );
 					break;
 
+				case "api_req_combined_battle/each_battle":
+					BattleMode = BattleModes.Normal | BattleModes.CombinedTaskForce | BattleModes.EnemyCombinedFleet;
+					BattleDay = new BattleCombinedEachDay();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+					
+				case "api_req_combined_battle/each_battle_water":
+					BattleMode = BattleModes.Normal | BattleModes.CombinedSurface | BattleModes.EnemyCombinedFleet;
+					BattleDay = new BattleCombinedEachWater();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+					
+
 				case "api_req_member/get_practice_enemyinfo":
 					EnemyAdmiralName = data.api_nickname;
 					EnemyAdmiralRank = Constants.GetAdmiralRank( (int)data.api_rank );
