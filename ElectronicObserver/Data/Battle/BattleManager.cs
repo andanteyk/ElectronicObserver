@@ -210,6 +210,19 @@ namespace ElectronicObserver.Data.Battle {
 					BattleNight.LoadFromResponse( apiname, data );
 					break;
 
+				case "api_req_combined_battle/each_battle":
+					BattleMode = BattleModes.Normal | BattleModes.CombinedTaskForce | BattleModes.EnemyCombinedFleet;
+					BattleDay = new BattleCombinedEachDay();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+					
+				case "api_req_combined_battle/each_battle_water":
+					BattleMode = BattleModes.Normal | BattleModes.CombinedSurface | BattleModes.EnemyCombinedFleet;
+					BattleDay = new BattleCombinedEachWater();
+					BattleDay.LoadFromResponse( apiname, data );
+					break;
+					
+
 				case "api_req_member/get_practice_enemyinfo":
 					EnemyAdmiralName = data.api_nickname;
 					EnemyAdmiralRank = Constants.GetAdmiralRank( (int)data.api_rank );
@@ -441,7 +454,7 @@ namespace ElectronicObserver.Data.Battle {
 			if ( ( BattleMode & BattleModes.BattlePhaseMask ) == BattleModes.AirRaid )
 				return GetWinRankAirRaid( friendcount, friendsunk, friendrate );
 			else
-				return GetWinRank( friendcount, enemycount, friendsunk, enemysunk, friendrate, enemyrate, resultHPs[6] <= 0 );
+				return GetWinRank( friendcount, enemycount, friendsunk, enemysunk, friendrate, enemyrate, friend[0].HPRate <= 0.25, resultHPs[6] <= 0 );
 
 
 		}
@@ -456,13 +469,14 @@ namespace ElectronicObserver.Data.Battle {
 		/// <param name="sunkEnemy">撃沈した敵軍艦数。</param>
 		/// <param name="friendrate">自軍損害率。</param>
 		/// <param name="enemyrate">敵軍損害率。</param>
-		/// <param name="defeatFlagship">敵旗艦を撃沈しているか。</param>
+		/// <param name="isfriendFlagshipHeavilyDamaged">自艦隊の旗艦が大破しているか。</param>
+		/// <param name="defeatEnemyFlagship">敵旗艦を撃沈しているか。</param>
 		/// <remarks>thanks: nekopanda</remarks>
 		private static int GetWinRank(
 			int countFriend, int countEnemy,
 			int sunkFriend, int sunkEnemy,
 			double friendrate, double enemyrate,
-			bool defeatFlagship ) {
+			bool isfriendFlagshipHeavilyDamaged, bool defeatEnemyFlagship ) {
 
 			int rifriend = (int)( friendrate * 100 );
 			int rienemy = (int)( enemyrate * 100 );
@@ -478,12 +492,20 @@ namespace ElectronicObserver.Data.Battle {
 					else
 						return 6;	// S
 
-				} else if ( sunkEnemy > 0 && sunkEnemy >= countEnemy * 2 / 3 )		// 敵の 2/3 以上を撃沈
+				} else if ( countEnemy > 1 && sunkEnemy >= (int)( countEnemy * 0.7 ) )		// 敵の 70% 以上を撃沈
 					return 5;	// A
 			}
 
-			// 敵旗艦撃沈 かつ 轟沈艦が敵より少ない、もしくはゲージが 2.5 倍以上
-			if ( ( defeatFlagship && sunkFriend < sunkEnemy ) || rienemy > ( 2.5 * rifriend ) )
+			// 敵旗艦撃沈 かつ 轟沈艦が敵より少ない
+			if ( defeatEnemyFlagship && sunkFriend < sunkEnemy )
+				return 4;	// B
+
+			// 自艦隊1隻 かつ 旗艦大破
+			if ( countFriend == 1 && isfriendFlagshipHeavilyDamaged )
+				return 2;	// D
+
+			// ゲージが 2.5 倍以上
+			if ( rienemy > ( 2.5 * rifriend ) )
 				return 4;	// B
 
 			// ゲージが 0.9 倍以上

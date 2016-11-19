@@ -1,5 +1,6 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.Battle;
+using ElectronicObserver.Data.Battle.Detail;
 using ElectronicObserver.Data.Battle.Phase;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
@@ -109,6 +110,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/ec_battle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/ec_midnight_battle"].ResponseReceived += Updated;
+			o.APIList["api_req_combined_battle/each_battle"].ResponseReceived += Updated;
+			o.APIList["api_req_combined_battle/each_battle_water"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
 			o.APIList["api_req_practice/battle"].ResponseReceived += Updated;
 			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += Updated;
@@ -123,6 +126,7 @@ namespace ElectronicObserver.Window {
 
 			KCDatabase db = KCDatabase.Instance;
 			BattleManager bm = db.Battle;
+			bool hideDuringBattle = Utility.Configuration.Config.FormBattle.HideDuringBattle;
 
 			BaseLayoutPanel.SuspendLayout();
 			TableTop.SuspendLayout();
@@ -148,7 +152,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_battle_midnight/battle":
@@ -158,7 +162,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleNight );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_battle_midnight/sp_midnight": {
@@ -171,7 +175,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleNight );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_sortie/airbattle": {
@@ -183,13 +187,15 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_combined_battle/battle":
 				case "api_req_combined_battle/battle_water":
 				case "api_req_combined_battle/ld_airbattle":
-				case "api_req_combined_battle/ec_battle": {
+				case "api_req_combined_battle/ec_battle": 
+				case "api_req_combined_battle/each_battle":	
+				case "api_req_combined_battle/each_battle_water":	{
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );
@@ -198,7 +204,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_combined_battle/airbattle": {
@@ -210,7 +216,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_combined_battle/midnight_battle":
@@ -220,7 +226,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleNight );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_combined_battle/sp_midnight": {
@@ -233,7 +239,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleNight );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 
@@ -757,7 +763,7 @@ namespace ElectronicObserver.Window {
 				if ( initialHPs[i] != -1 ) {
 					HPBars[i].Value = resultHPs[i];
 					HPBars[i].PrevValue = initialHPs[i];
-					HPBars[i].MaximumValue = maxHPs[i];
+					HPBars[i].MaximumValue = Math.Max( maxHPs[i], GetBattleShipMaxHP( bd, i ) );		// todo: 暫定処理 メソッドのコメント参照
 					HPBars[i].BackColor = SystemColors.Control;
 					HPBars[i].Visible = true;
 				} else {
@@ -899,6 +905,23 @@ namespace ElectronicObserver.Window {
 				HPBars[12 + i].BackColor = Color.Moccasin;
 		}
 
+
+		/// <summary>
+		/// 2016/11/19 現在、連合艦隊夜戦において 最大HP = 現在HP となる不具合が存在するため、
+		/// 暫定的にマスターデータから最大HPを取得する
+		/// </summary>
+		private int GetBattleShipMaxHP( BattleData bd, int index ) {
+			if ( index < 6 ) {
+				return bd.Initial.FriendFleet.MembersInstance[index].HPMax;
+			} else if ( index < 12 ) {
+				return bd.Initial.EnemyMembersInstance[index - 6].HPMax;
+			} else if ( index < 18 ) {
+				return bd.Initial.FriendFleetEscort.MembersInstance[index - 12].HPMax;
+			} else if ( index < 24 ) {
+				return bd.Initial.EnemyMembersEscortInstance[index - 18].HPMax;
+			}
+			throw new ArgumentException( "Wrong index" );
+		}
 
 
 		/// <summary>
@@ -1072,6 +1095,31 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void RightClickMenu_Opening( object sender, CancelEventArgs e ) {
+
+			var bm = KCDatabase.Instance.Battle;
+
+			if ( bm == null || bm.BattleMode == BattleManager.BattleModes.Undefined ) {
+				e.Cancel = true;
+			}
+
+		}
+
+		private void RightClickMenu_ShowBattleDetail_Click( object sender, EventArgs e ) {
+			var bm = KCDatabase.Instance.Battle;
+
+			if ( bm == null || bm.BattleMode == BattleManager.BattleModes.Undefined )
+				return;
+
+			var dialog = new Dialog.DialogBattleDetail();
+
+			dialog.BattleDetailText = BattleDetailDescriptor.GetBattleDetail( bm );
+			dialog.Location = RightClickMenu.Location;
+			dialog.Show( this );
+
+		}
+
+
 
 		void ConfigurationChanged() {
 
@@ -1108,6 +1156,7 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Battle";
 		}
+
 
 	}
 

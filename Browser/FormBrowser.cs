@@ -92,6 +92,7 @@ namespace Browser {
 		/// <param name="serverUri">ホストプロセスとの通信用URL</param>
 		public FormBrowser( string serverUri ) {
 			InitializeComponent();
+			CoInternetSetFeatureEnabled(21, 0x00000002, true);
 
 			ServerUri = serverUri;
 			StyleSheetApplied = false;
@@ -243,6 +244,7 @@ namespace Browser {
 		}
 
 		private void CenteringBrowser() {
+			if (SizeAdjuster.Width == 0 || SizeAdjuster.Height == 0) return;
 			int x = Browser.Location.X, y = Browser.Location.Y;
 			bool isScrollable = Configuration.IsScrollable;
 
@@ -270,7 +272,6 @@ namespace Browser {
 
 		private void Browser_DocumentCompleted( object sender, WebBrowserDocumentCompletedEventArgs e ) {
 
-			StyleSheetApplied = false;
 			ApplyStyleSheet();
 
 			ApplyZoom();
@@ -317,7 +318,8 @@ namespace Browser {
 		/// 指定した URL のページを開きます。
 		/// </summary>
 		public void Navigate( string url ) {
-			StyleSheetApplied = false;
+			if (url == Configuration.LogInPageURL && !Configuration.AppliesStyleSheet)
+				StyleSheetApplied = false;
 			Browser.Navigate( url );
 		}
 
@@ -325,6 +327,8 @@ namespace Browser {
 		/// ブラウザを再読み込みします。
 		/// </summary>
 		public void RefreshBrowser() {
+			if (!Configuration.AppliesStyleSheet)
+				StyleSheetApplied = false;
 			Browser.Refresh( WebBrowserRefreshOption.Completely );
 		}
 
@@ -998,6 +1002,11 @@ namespace Browser {
 
 
 		#region 呪文
+
+		[DllImport("urlmon.dll")]
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		static extern int CoInternetSetFeatureEnabled(int FeatureEntry, [MarshalAs(UnmanagedType.U4)] int dwFlags, bool fEnable);
 
 		[DllImport( "user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true )]
 		private static extern uint GetWindowLong( IntPtr hwnd, int nIndex );

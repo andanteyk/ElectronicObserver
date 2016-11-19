@@ -99,6 +99,8 @@
     <Compile Include="Data\Battle\BattleAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirRaid.cs" />
+    <Compile Include="Data\Battle\BattleCombinedEachDay.cs" />
+    <Compile Include="Data\Battle\BattleCombinedEachWater.cs" />
     <Compile Include="Data\Battle\BattleCombinedNightOnly.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalDay.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalNight.cs" />
@@ -106,7 +108,7 @@
     <Compile Include="Data\Battle\BattleData.cs" />
     <Compile Include="Data\Battle\BattleDay.cs" />
     <Compile Include="Data\Battle\BattleAirRaid.cs" />
-    <Compile Include="Data\Battle\BattleDetail.cs" />
+    <Compile Include="Data\Battle\Detail\BattleDetail.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedDay.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedNight.cs" />
     <Compile Include="Data\Battle\BattleManager.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Data\Battle\BattlePracticeDay.cs" />
     <Compile Include="Data\Battle\BattlePracticeNight.cs" />
     <Compile Include="Data\Battle\BattleResultData.cs" />
+    <Compile Include="Data\Battle\Detail\BattleDetailDescriptor.cs" />
     <Compile Include="Data\Battle\Phase\PhaseAirBattle.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBase.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirAttack.cs" />
@@ -188,6 +191,8 @@
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_action.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_plane.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\supply.cs" />
+    <Compile Include="Observer\kcsapi\api_req_combined_battle\each_battle.cs" />
+    <Compile Include="Observer\kcsapi\api_req_combined_battle\each_battle_water.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_midnight_battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ld_airbattle.cs" />
@@ -332,6 +337,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogAlbumShipParameter.Designer.cs">
       <DependentUpon>DialogAlbumShipParameter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogBattleDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogBattleDetail.Designer.cs">
+      <DependentUpon>DialogBattleDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogConfiguration.cs">
       <SubType>Form</SubType>
@@ -606,6 +617,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAlbumShipParameter.resx">
       <DependentUpon>DialogAlbumShipParameter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogBattleDetail.resx">
+      <DependentUpon>DialogBattleDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogConfiguration.resx">
       <DependentUpon>DialogConfiguration.cs</DependentUpon>

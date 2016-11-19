@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicObserver.Data.Battle.Detail;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,22 +12,16 @@ namespace ElectronicObserver.Data.Battle.Phase {
 	/// </summary>
 	public class PhaseAirBattle : PhaseBase {
 
-		/// <summary>
-		/// API データの接尾辞(第二次航空戦用)
-		/// </summary>
-		protected readonly string suffix;
+		public PhaseAirBattle( BattleData data, string title, string suffix = "" )
+			: base( data, title ) {
 
-
-		public PhaseAirBattle( BattleData data, string suffix = "" )
-			: base( data ) {
-
-			this.suffix = suffix;
+			AirBattleData = RawData.IsDefined( "api_kouku" + suffix ) ? RawData["api_kouku" + suffix] : null;
+			StageFlag = RawData.IsDefined( "api_stage_flag" + suffix ) ? (int[])RawData["api_stage_flag" + suffix] : null;
 
 			TorpedoFlags = ConcatStage3Array( "api_frai_flag", "api_erai_flag" );
 			BomberFlags = ConcatStage3Array( "api_fbak_flag", "api_ebak_flag" );
 			Criticals = ConcatStage3Array( "api_fcl_flag", "api_ecl_flag" );
 			Damages = ConcatStage3Array( "api_fdam", "api_edam" );
-
 		}
 
 
@@ -37,23 +32,31 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 		}
 
+
 		public override void EmulateBattle( int[] hps, int[] damages ) {
 
 			if ( !IsAvailable ) return;
 
-
-			for ( int i = 0; i < hps.Length; i++ ) {
-				AddDamage( hps, i, Damages[i] );
-
-				if ( TorpedoFlags[i] > 0 || BomberFlags[i] > 0 ) {
-
-					// 航空戦は miss/hit=0, critical=1 のため +1 する(通常は miss=0, hit=1, critical=2) 
-					BattleDetails.Add( new BattleAirDetail( _battleData, 0, i, Damages[i], Criticals[i] + 1, ( TorpedoFlags[i] > 0 ? 1 : 0 ) | ( BomberFlags[i] > 0 ? 2 : 0 ) ) );
-				}
-			}
-
+			CalculateAttack( 0, hps, damages );
 			CalculateAttackDamage( damages );
 		}
+
+		/// <summary>
+		/// 攻撃の共通処理を行います。
+		/// </summary>
+		protected void CalculateAttack( int waveIndex, int[] hps, int[] damages ) {
+			for ( int i = 0; i < hps.Length; i++ ) {
+
+				int attackType = ( TorpedoFlags[i] > 0 ? 1 : 0 ) | ( BomberFlags[i] > 0 ? 2 : 0 );
+				if ( attackType > 0 ) {
+
+					// 航空戦は miss/hit=0, critical=1 のため +1 する(通常は miss=0, hit=1, critical=2) 
+					BattleDetails.Add( new BattleAirDetail( _battleData, waveIndex, i, Damages[i], Criticals[i] + 1, attackType, hps[i] ) );
+					AddDamage( hps, i, Damages[i] );
+				}
+			}
+		}
+
 
 		/// <summary>
 		/// 航空戦での与ダメージを推測します。
@@ -107,16 +110,12 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// 各Stageが存在するか
 		/// </summary>
-		public int[] StageFlag {
-			get {
-				return RawData.IsDefined( "api_stage_flag" + suffix ) ? (int[])RawData["api_stage_flag" + suffix] : null;
-			}
-		}
+		public int[] StageFlag { get; protected set; }
 
 		/// <summary>
 		/// 航空戦の生データ
 		/// </summary>
-		public dynamic AirBattleData { get { return RawData["api_kouku" + suffix]; } }
+		public virtual dynamic AirBattleData { get; protected set; }
 
 
 		//stage 1
@@ -232,7 +231,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public bool IsStage3CombinedAvailable { get { return StageFlag != null && StageFlag[2] != 0 && AirBattleData.api_stage3_combined() && AirBattleData.api_stage3_combined != null; } }
 
 
-		private int[] ConcatStage3Array( string friendName, string enemyName ) {
+		protected int[] ConcatStage3Array( string friendName, string enemyName ) {
 
 			int[] ret = new int[24];
 
@@ -269,22 +268,22 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// 被雷撃フラグ
 		/// </summary>
-		public int[] TorpedoFlags { get; private set; }
+		public int[] TorpedoFlags { get; protected set; }
 
 		/// <summary>
 		/// 被爆撃フラグ
 		/// </summary>
-		public int[] BomberFlags { get; private set; }
+		public int[] BomberFlags { get; protected set; }
 
 		/// <summary>
 		/// 各艦のクリティカルフラグ
 		/// </summary>
-		public int[] Criticals { get; private set; }
+		public int[] Criticals { get; protected set; }
 
 		/// <summary>
 		/// 各艦の被ダメージ
 		/// </summary>
-		public int[] Damages { get; private set; }
+		public int[] Damages { get; protected set; }
 
 	}
 }

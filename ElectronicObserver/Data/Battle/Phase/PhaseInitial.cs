@@ -127,8 +127,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 
 
-		public PhaseInitial( BattleData data )
-			: base( data ) {
+		public PhaseInitial( BattleData data, string title )
+			: base( data, title ) {
 
 			if ( RawData.api_active_deck() ) {
 				FriendFleetID = (int)RawData.api_active_deck[0];

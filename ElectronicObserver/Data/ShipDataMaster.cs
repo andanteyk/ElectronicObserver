@@ -13,7 +13,6 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 艦船のマスターデータを保持します。
 	/// </summary>
-	[DebuggerDisplay( "[{ID}] {NameWithClass}" )]
 	public class ShipDataMaster : ResponseWrapper, IIdentifiable {
 
 		/// <summary>

@@ -76,7 +76,7 @@ namespace ElectronicObserver.Utility.Data {
 				return 0;
 
 			int category = eq.CategoryType;
-			if ( !AircraftLevelBonus.ContainsKey( category ) )
+			if ( !isAirDefense && !AircraftLevelBonus.ContainsKey( category ) )		// 防空の場合は全航空機が参加する
 				return 0;
 
 			double levelBonus = LevelBonus.ContainsKey( category ) ? LevelBonus[category] : 0;	// 改修レベル補正
@@ -88,8 +88,9 @@ namespace ElectronicObserver.Utility.Data {
 					interceptorBonus = eq.Evasion * 1.5;
 			}
 
-
-			return (int)( ( eq.AA + levelBonus * level + interceptorBonus ) * Math.Sqrt( count ) + Math.Sqrt( AircraftExpTable[aircraftLevel] / 10.0 ) + AircraftLevelBonus[category][aircraftLevel] );
+			return (int)( ( eq.AA + levelBonus * level + interceptorBonus ) * Math.Sqrt( count )
+				+ Math.Sqrt( AircraftExpTable[aircraftLevel] / 10.0 )
+				+ ( AircraftLevelBonus.ContainsKey( category ) ? AircraftLevelBonus[category][aircraftLevel] : 0 ) );
 		}
 
 
@@ -190,7 +191,31 @@ namespace ElectronicObserver.Utility.Data {
 			if ( aircorps == null )
 				return 0;
 
-			return aircorps.Squadrons.Values.Sum( sq => GetAirSuperiority( sq, aircorps.ActionKind == 2 ) );
+			int air = 0;
+			double rate = 1.0;
+
+			foreach ( var sq in aircorps.Squadrons.Values ) {
+				air += GetAirSuperiority( sq, aircorps.ActionKind == 2 );
+
+				if ( aircorps.ActionKind != 2 )
+					continue;
+
+				// 偵察機補正計算
+				int category = sq.EquipmentInstanceMaster.CategoryType;
+				int losrate = Math.Min( Math.Max( sq.EquipmentInstanceMaster.LOS - 7, 0 ), 2 );		// ~7, 8, 9~
+
+				switch ( category ) {
+					case 10:	// 水上偵察機
+					case 41:	// 大型飛行艇
+						rate = Math.Max( rate, 1.1 + losrate * 0.03 );
+						break;
+					case 9:		// 艦上偵察機
+						rate = Math.Max( rate, 1.2 + losrate * 0.05 );
+						break;
+				}
+			}
+
+			return (int)( air * rate );
 		}
 
 		/// <summary>
@@ -547,9 +572,9 @@ namespace ElectronicObserver.Utility.Data {
 					switch ( eq.CategoryType ) {
 
 						case 24:	// 上陸用舟艇
-							if ( eq.EquipmentID == 166 )	// 陸戦隊
-								tp += 13;
-							else
+							//if ( eq.EquipmentID == 166 )	// 陸戦隊
+							//	tp += 13;
+							//else
 								tp += 8;
 							break;
 						case 30:	// 簡易輸送部材
@@ -559,7 +584,7 @@ namespace ElectronicObserver.Utility.Data {
 							tp += 1;
 							break;
 						case 46:	// 特型内火艇
-							tp += 10;
+							tp += 2;
 							break;
 					}
 				}
@@ -573,6 +598,8 @@ namespace ElectronicObserver.Utility.Data {
 						break;
 					case 3:		// 軽巡洋艦
 						tp += 2;
+						if ( ship.ShipID == 487 )	// 鬼怒改二
+							tp += 8;
 						break;
 					case 5:		// 重巡洋艦
 						tp += 0;
@@ -606,6 +633,50 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		private static readonly Dictionary<int, double> EquipmentExpeditionBonus = new Dictionary<int, double>() {
+			{ 68, 0.05 },	// 大発動艇
+			{ 166, 0.02 },	// 大発戦車
+			{ 167, 0.01 },	// 内火艇
+			{ 193, 0.05 },	//特大発動艇
+		};
+		/// <summary>
+		/// 遠征資源の大発ボーナスを取得します。
+		/// </summary>
+		public static double GetExpeditionBonus( FleetData fleet ) {
+			var eqs = fleet.MembersInstance
+				.Where( s => s != null )
+				.SelectMany( s => s.SlotInstance )
+				.Where( eq => eq != null && EquipmentExpeditionBonus.ContainsKey( eq.EquipmentID ) );
+
+			double normalBonus = eqs.Sum( eq => EquipmentExpeditionBonus[eq.EquipmentID] )
+				+ fleet.MembersInstance.Count( s => s != null && s.ShipID == 487 ) * 0.05;		// 鬼怒改二
+
+			normalBonus = Math.Min( normalBonus, 0.2 );
+			double levelBonus = eqs.Any() ? ( 0.01 * normalBonus * eqs.Average( eq => eq.Level ) ) : 0;
+
+			int tokuCount = eqs.Count( eq => eq.EquipmentID == 193 );
+			int daihatsuCount = eqs.Count( eq => eq.EquipmentID == 68 );
+			double tokuBonus;
+
+			if ( tokuCount <= 2 )
+				tokuBonus = 0.02 * tokuCount;
+			else if ( tokuCount == 3 )
+				tokuBonus = 0.05 + 0.002 * Math.Min( Math.Max( daihatsuCount - 1, 0 ), 2 );
+			else {
+				if ( daihatsuCount <= 2 )
+					tokuBonus = 0.054 + 0.002 * daihatsuCount;
+				else if ( daihatsuCount == 3 )
+					tokuBonus = 0.059;
+				else
+					tokuBonus = 0.060;
+			}
+
+			// 厳密には tokuBonus は別の補正として扱われるが気にしないことにする
+
+			return normalBonus + levelBonus + tokuBonus;
+		}
+
+
 		/// <summary>
 		/// ハードスキン型陸上基地の名前リスト
 		/// IDではなく名前なのは本家の処理に倣ったため
@@ -633,6 +704,7 @@ namespace ElectronicObserver.Utility.Data {
 			int radarcnt = 0;
 			int rocketcnt = 0;
 			int landingcnt = 0;
+			int tokudaihatsucnt = 0;
 			int uchibicnt = 0;
 
 			if ( slot == null ) return -1;
@@ -667,6 +739,8 @@ namespace ElectronicObserver.Utility.Data {
 					case 24:	// 上陸用舟艇
 						if ( eq.EquipmentID == 166 )		// 陸戦隊
 							landingcnt++;
+						if ( eq.EquipmentID == 193 )		// 特大発
+							tokudaihatsucnt++;
 						break;
 					case 37:	// 対地装備
 						rocketcnt++;
@@ -702,7 +776,10 @@ namespace ElectronicObserver.Utility.Data {
 						return 12;		// 揚陸攻撃(内火艇)
 
 					if ( landingcnt > 0 && HardInstallationNames.Contains( defship.Name ) )
-						return 11;		// 揚陸攻撃(大発動艇)
+						return 11;		// 揚陸攻撃(大発戦車)
+
+					if ( tokudaihatsucnt > 0 && HardInstallationNames.Contains( defship.Name ) )
+						return 13;		// 揚陸攻撃(特大発)
 
 					if ( rocketcnt > 0 && defship.IsLandBase )
 						return 10;		//ロケット砲撃
@@ -758,6 +835,7 @@ namespace ElectronicObserver.Utility.Data {
 			int rocketcnt = 0;
 			int landingcnt = 0;
 			int uchibicnt = 0;
+			int tokudaihatsucnt = 0;
 
 			if ( slot == null ) return -1;
 
@@ -780,8 +858,18 @@ namespace ElectronicObserver.Utility.Data {
 					case 32:
 						torpcnt++; break;		//魚雷
 
-					case 37:					//対地装備
-						rocketcnt++; break;
+					case 24:	// 上陸用舟艇
+						if ( eq.EquipmentID == 166 )		// 陸戦隊
+							landingcnt++;
+						if ( eq.EquipmentID == 193 )		// 特大発
+							tokudaihatsucnt++;
+						break;
+					case 37:	// 対地装備
+						rocketcnt++;
+						break;
+					case 46:	// 特型内火艇
+						uchibicnt++;
+						break;
 				}
 
 			}
@@ -817,7 +905,10 @@ namespace ElectronicObserver.Utility.Data {
 						return 12;		// 揚陸攻撃(内火艇)
 
 					if ( landingcnt > 0 && HardInstallationNames.Contains( defship.Name ) )
-						return 11;		// 揚陸攻撃(大発動艇)
+						return 11;		// 揚陸攻撃(大発戦車)
+
+					if ( tokudaihatsucnt > 0 && HardInstallationNames.Contains( defship.Name ) )
+						return 13;		// 揚陸攻撃(特大発)
 
 					if ( rocketcnt > 0 && defship.IsLandBase )
 						return 10;		//ロケット砲撃
@@ -879,17 +970,16 @@ namespace ElectronicObserver.Utility.Data {
 				if ( eq == null ) continue;
 
 				if ( eq.IconType == 16 ) {	//高角砲
-					// 10cm連装高角砲+高射装置 or 12.7cm高角砲+高射装置 or 90mm単装高角砲 or 5inch連装砲 Mk.28 mod.2
-					if ( eq.EquipmentID == 122 || eq.EquipmentID == 130 || eq.EquipmentID == 135 || eq.EquipmentID == 172 ) {
+					if ( eq.AA >= 8 )
 						highangle_director++;
-					}
+
 					highangle++;
 
 				} else if ( eq.CategoryType == 36 ) {	//高射装置
 					director++;
 
 				} else if ( eq.CardType == 8 ) {	//電探
-					if ( eq.AA > 0 ) {
+					if ( eq.AA >= 2 ) {
 						aaradar++;
 					}
 					radar++;
@@ -901,10 +991,9 @@ namespace ElectronicObserver.Utility.Data {
 					aashell++;
 
 				} else if ( eq.CategoryType == 21 ) {	//対空機銃
-					// 25mm三連装機銃 集中配備 or Bofors 40mm四連装機関砲 or QF 2ポンド8連装ポンポン砲
-					if ( eq.EquipmentID == 131 || eq.EquipmentID == 173 || eq.EquipmentID == 191 ) {
+					if ( eq.AA >= 9 )
 						aagun_concentrated++;
-					}
+
 					aagun++;
 
 				}

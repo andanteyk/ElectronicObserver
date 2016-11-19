@@ -19,15 +19,18 @@ namespace ElectronicObserver.Window.Dialog {
 
 		public const string RegistryPathMaster = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\";
 		public const string RegistryPathBrowserVersion = @"FEATURE_BROWSER_EMULATION\";
-		public const  string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";
+		public const string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";
 
 		public const int DefaultBrowserVersion = 11001;
 		public const bool DefaultGPURendering = false;
 
+		/// <summary> 司令部「任意アイテム表示」から除外するアイテムのIDリスト </summary>
+		private readonly HashSet<int> IgnoredItems = new HashSet<int>() { 1, 2, 3, 4, 50, 51, 66, 67, 69 };
 
 		private System.Windows.Forms.Control _UIControl;
 
 		private Dictionary<SyncBGMPlayer.SoundHandleID, SyncBGMPlayer.SoundHandle> BGMHandles;
+
 
 		private DateTime _shownTime;
 		private double _playTimeCache;
@@ -362,7 +365,7 @@ namespace ElectronicObserver.Window.Dialog {
 			{
 				FormHeadquarters_DisplayUseItemID.Items.AddRange(
 					ElectronicObserver.Data.KCDatabase.Instance.MasterUseItems.Values
-						.Where( i => i.Name.Length > 0 && i.Description.Length > 0 )
+						.Where( i => i.Name.Length > 0 && i.Description.Length > 0 && !IgnoredItems.Contains( i.ItemID ) )
 						.Select( i => i.Name ).ToArray() );
 				var item = ElectronicObserver.Data.KCDatabase.Instance.MasterUseItems[config.FormHeadquarters.DisplayUseItemID];
 
@@ -387,6 +390,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormShipGroup_ShipNameSortMethod.SelectedIndex = config.FormShipGroup.ShipNameSortMethod;
 
 			FormBattle_IsScrollable.Checked = config.FormBattle.IsScrollable;
+			FormBattle_HideDuringBattle.Checked = config.FormBattle.HideDuringBattle;
 
 			FormBrowser_IsEnabled.Checked = config.FormBrowser.IsEnabled;
 			FormBrowser_ZoomRate.Value = config.FormBrowser.ZoomRate;
@@ -605,6 +609,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormShipGroup.ShipNameSortMethod = FormShipGroup_ShipNameSortMethod.SelectedIndex;
 
 			config.FormBattle.IsScrollable = FormBattle_IsScrollable.Checked;
+			config.FormBattle.HideDuringBattle = FormBattle_HideDuringBattle.Checked;
 
 			config.FormBrowser.IsEnabled = FormBrowser_IsEnabled.Checked;
 			config.FormBrowser.ZoomRate = (int)FormBrowser_ZoomRate.Value;
