@@ -195,6 +195,9 @@ namespace ElectronicObserver.Utility.Data {
 			double rate = 1.0;
 
 			foreach ( var sq in aircorps.Squadrons.Values ) {
+				if ( sq == null || sq.State != 1 )
+					continue;
+
 				air += GetAirSuperiority( sq, aircorps.ActionKind == 2 );
 
 				if ( aircorps.ActionKind != 2 )

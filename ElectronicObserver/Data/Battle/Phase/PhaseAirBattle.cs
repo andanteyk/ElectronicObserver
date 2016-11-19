@@ -250,9 +250,9 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				}
 
 			} else if ( IsStage3Available ) {
-				int[] friend = (int[])AirBattleData.api_stage3[friendName];
-				int[] enemy = (int[])AirBattleData.api_stage3[enemyName];
-
+				int[] friend = AirBattleData.api_stage3.IsDefined( friendName ) ? (int[])AirBattleData.api_stage3[friendName] : new int[7];
+				int[] enemy = AirBattleData.api_stage3.IsDefined( enemyName ) ? (int[])AirBattleData.api_stage3[enemyName] : new int[7];
+				
 				for ( int i = 0; i < 6; i++ ) {
 					ret[i] = Math.Max( friend[i + 1], 0 );
 					ret[i + 6] = Math.Max( enemy[i + 1], 0 );

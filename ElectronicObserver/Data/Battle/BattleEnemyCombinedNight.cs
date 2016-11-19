@@ -24,7 +24,7 @@ namespace ElectronicObserver.Data.Battle {
 		}
 
 		public override BattleData.BattleTypeFlag BattleType {
-			get { return BattleTypeFlag.Night | BattleTypeFlag.EnemyCombined; }
+			get { return BattleTypeFlag.Night | BattleTypeFlag.EnemyCombined | ( NightBattle.IsFriendEscort ? BattleTypeFlag.Combined : 0 ); }
 		}
 
 
