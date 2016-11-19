@@ -572,9 +572,9 @@ namespace ElectronicObserver.Utility.Data {
 					switch ( eq.CategoryType ) {
 
 						case 24:	// 上陸用舟艇
-							if ( eq.EquipmentID == 166 )	// 陸戦隊
-								tp += 13;
-							else
+							//if ( eq.EquipmentID == 166 )	// 陸戦隊
+							//	tp += 13;
+							//else
 								tp += 8;
 							break;
 						case 30:	// 簡易輸送部材
@@ -584,7 +584,7 @@ namespace ElectronicObserver.Utility.Data {
 							tp += 1;
 							break;
 						case 46:	// 特型内火艇
-							tp += 10;
+							tp += 2;
 							break;
 					}
 				}
@@ -598,6 +598,8 @@ namespace ElectronicObserver.Utility.Data {
 						break;
 					case 3:		// 軽巡洋艦
 						tp += 2;
+						if ( ship.ShipID == 487 )	// 鬼怒改二
+							tp += 8;
 						break;
 					case 5:		// 重巡洋艦
 						tp += 0;
