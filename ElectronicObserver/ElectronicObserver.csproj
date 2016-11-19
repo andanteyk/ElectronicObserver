@@ -99,6 +99,8 @@
     <Compile Include="Data\Battle\BattleAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirRaid.cs" />
+    <Compile Include="Data\Battle\BattleCombinedEachDay.cs" />
+    <Compile Include="Data\Battle\BattleCombinedEachWater.cs" />
     <Compile Include="Data\Battle\BattleCombinedNightOnly.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalDay.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalNight.cs" />

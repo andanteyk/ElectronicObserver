@@ -110,6 +110,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/ec_battle"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/ec_midnight_battle"].ResponseReceived += Updated;
+			o.APIList["api_req_combined_battle/each_battle"].ResponseReceived += Updated;
+			o.APIList["api_req_combined_battle/each_battle_water"].ResponseReceived += Updated;
 			o.APIList["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
 			o.APIList["api_req_practice/battle"].ResponseReceived += Updated;
 			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += Updated;
@@ -190,7 +192,9 @@ namespace ElectronicObserver.Window {
 				case "api_req_combined_battle/battle":
 				case "api_req_combined_battle/battle_water":
 				case "api_req_combined_battle/ld_airbattle":
-				case "api_req_combined_battle/ec_battle": {
+				case "api_req_combined_battle/ec_battle": 
+				case "api_req_combined_battle/each_battle":	
+				case "api_req_combined_battle/each_battle_water":	{
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );

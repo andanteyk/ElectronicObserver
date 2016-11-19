@@ -132,6 +132,8 @@ namespace ElectronicObserver.Utility {
 			o["api_req_combined_battle/battle"].ResponseReceived += PlayBattleDay;
 			o["api_req_combined_battle/battle_water"].ResponseReceived += PlayBattleDay;
 			o["api_req_combined_battle/ec_battle"].ResponseReceived += PlayBattleDay;
+			o["api_req_combined_battle/each_battle"].ResponseReceived += PlayBattleDay;
+			o["api_req_combined_battle/each_battle_water"].ResponseReceived += PlayBattleDay;
 
 			o["api_req_battle_midnight/battle"].ResponseReceived += PlayBattleNight;
 			o["api_req_battle_midnight/sp_midnight"].ResponseReceived += PlayBattleNight;

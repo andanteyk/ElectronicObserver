@@ -632,6 +632,8 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/each_battle"].ResponseReceived += BattleStarted;
+			o.APIList["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStarted;
 			o.APIList["api_req_practice/battle"].ResponseReceived += BattleStarted;
 
 

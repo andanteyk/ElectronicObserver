@@ -468,6 +468,9 @@ namespace ElectronicObserver.Resource.Record {
 			ao.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_combined_battle/each_battle"].ResponseReceived += BattleStart;
+			ao.APIList["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStart;
 
 			ao.APIList["api_req_map/start"].ResponseReceived += SortieStart;
 			//ao.APIList["api_port/port"].ResponseReceived += SortieEnd;
