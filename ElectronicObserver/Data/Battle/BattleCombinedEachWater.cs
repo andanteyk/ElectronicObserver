@@ -57,9 +57,9 @@ namespace ElectronicObserver.Data.Battle {
 			yield return OpeningASW;
 			yield return OpeningTorpedo;
 			yield return Shelling1;
-			yield return Torpedo;
 			yield return Shelling2;
 			yield return Shelling3;
+			yield return Torpedo;
 		}
 
 	}
