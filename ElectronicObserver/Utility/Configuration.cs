@@ -912,9 +912,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool IsScrollable { get; set; }
 
+				public bool HideDuringBattle { get; set; }
 
 				public ConfigFormBattle() {
 					IsScrollable = false;
+					HideDuringBattle = false;
 				}
 			}
 

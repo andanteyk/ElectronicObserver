@@ -124,6 +124,7 @@ namespace ElectronicObserver.Window {
 
 			KCDatabase db = KCDatabase.Instance;
 			BattleManager bm = db.Battle;
+			bool hideDuringBattle = Utility.Configuration.Config.FormBattle.HideDuringBattle;
 
 			BaseLayoutPanel.SuspendLayout();
 			TableTop.SuspendLayout();
@@ -149,7 +150,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_battle_midnight/battle":
@@ -159,7 +160,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleNight );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_battle_midnight/sp_midnight": {
@@ -172,7 +173,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleNight );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_sortie/airbattle": {
@@ -184,7 +185,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_combined_battle/battle":
@@ -199,7 +200,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_combined_battle/airbattle": {
@@ -211,7 +212,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_combined_battle/midnight_battle":
@@ -221,7 +222,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleNight );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 				case "api_req_combined_battle/sp_midnight": {
@@ -234,7 +235,7 @@ namespace ElectronicObserver.Window {
 						SetHPBar( bm.BattleNight );
 						SetDamageRate( bm );
 
-						BaseLayoutPanel.Visible = true;
+						BaseLayoutPanel.Visible = !hideDuringBattle;
 					} break;
 
 
