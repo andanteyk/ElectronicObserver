@@ -759,7 +759,7 @@ namespace ElectronicObserver.Window {
 				if ( initialHPs[i] != -1 ) {
 					HPBars[i].Value = resultHPs[i];
 					HPBars[i].PrevValue = initialHPs[i];
-					HPBars[i].MaximumValue = maxHPs[i];
+					HPBars[i].MaximumValue = GetBattleShipMaxHP(bd, i);
 					HPBars[i].BackColor = SystemColors.Control;
 					HPBars[i].Visible = true;
 				} else {
@@ -901,7 +901,18 @@ namespace ElectronicObserver.Window {
 				HPBars[12 + i].BackColor = Color.Moccasin;
 		}
 
-
+		private int GetBattleShipMaxHP(BattleData bd,  int index) {
+			if ( index < 6 ) {
+				return bd.Initial.FriendFleet.MembersInstance[index].HPMax;
+			} else if ( index >=6 && index < 12 ) {
+				return bd.Initial.EnemyMembersInstance[index - 6].HPMax;
+			} else if ( index >= 12 && index < 18 ) {
+				return bd.Initial.FriendFleetEscort.MembersInstance[index-12].HPMax;
+			} else if ( index >= 18 && index < 24 ) {
+				return bd.Initial.EnemyMembersEscortInstance[index-18].HPMax;
+			}
+			throw new ArgumentException("Wrong index");
+		}
 
 		/// <summary>
 		/// 損害率と戦績予測を設定します。
