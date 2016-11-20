@@ -27,7 +27,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			if ( data.api_air_base() ) {
 				foreach ( var elem in data.api_air_base ) {
-					int id = (int)elem.api_rid;
+					int id = BaseAirCorpsData.GetID( elem );
 
 					if ( db.BaseAirCorps[id] == null ) {
 						var inst = new BaseAirCorpsData();

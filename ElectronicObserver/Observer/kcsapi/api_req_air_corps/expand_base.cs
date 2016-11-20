@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps {
-	
+
 	public class expand_base : APIBase {
 
 		public override void OnResponseReceived( dynamic data ) {
@@ -14,7 +14,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps {
 			KCDatabase db = KCDatabase.Instance;
 
 			foreach ( var elem in data ) {
-				int id = (int)elem.api_rid;
+				int id = BaseAirCorpsData.GetID( elem );
 
 				if ( db.BaseAirCorps[id] == null ) {
 					var inst = new BaseAirCorpsData();
@@ -25,7 +25,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps {
 					db.BaseAirCorps[id].LoadFromResponse( APIName, elem );
 				}
 			}
-			
+
 			base.OnResponseReceived( (object)data );
 		}
 

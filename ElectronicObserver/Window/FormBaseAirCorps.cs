@@ -131,13 +131,15 @@ namespace ElectronicObserver.Window {
 				} else {
 
 					Name.Text = corps.Name;
+					var sb = new StringBuilder();
+					sb.AppendLine( "所属海域ID: " + corps.MapAreaID );		//todo: 文字列に直せるように
 
 					// state 
 					if ( corps.Squadrons.Values.Any( sq => sq != null && sq.AircraftCurrent < sq.AircraftMax ) ) {
 						// 未補給
 						Name.ImageAlign = ContentAlignment.MiddleRight;
 						Name.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
-						ToolTipInfo.SetToolTip( Name, "未補給" );
+						sb.AppendLine( "未補給" );
 
 					} else if ( corps.Squadrons.Values.Any( sq => sq != null && sq.Condition > 1 ) ) {
 						// 疲労
@@ -146,21 +148,21 @@ namespace ElectronicObserver.Window {
 						if ( tired == 2 ) {
 							Name.ImageAlign = ContentAlignment.MiddleRight;
 							Name.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
-							ToolTipInfo.SetToolTip( Name, "疲労" );
+							sb.AppendLine( "疲労" );
 
 						} else {
 							Name.ImageAlign = ContentAlignment.MiddleRight;
 							Name.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-							ToolTipInfo.SetToolTip( Name, "過労" );
+							sb.AppendLine( "過労" );
 
 						}
 
 					} else {
 						Name.ImageAlign = ContentAlignment.MiddleCenter;
 						Name.ImageIndex = -1;
-						ToolTipInfo.SetToolTip( Name, null );
-
+						
 					}
+					ToolTipInfo.SetToolTip( Name, sb.ToString() );
 
 
 					ActionKind.Text = "[" + Constants.GetBaseAirCorpsActionKind( corps.ActionKind ) + "]";
@@ -264,7 +266,7 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 
-			ControlMember = new TableBaseAirCorpsControl[3];
+			ControlMember = new TableBaseAirCorpsControl[6];
 			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i] = new TableBaseAirCorpsControl( this, TableMember, i );
@@ -308,11 +310,11 @@ namespace ElectronicObserver.Window {
 
 		void Updated( string apiname, dynamic data ) {
 
-			var db = KCDatabase.Instance;
+			var keys = KCDatabase.Instance.BaseAirCorps.Keys;
 
 			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
-				ControlMember[i].Update( i + 1 );
+				ControlMember[i].Update( i < keys.Count() ? keys.ElementAt( i ) : -1 );
 			}
 			TableMember.ResumeLayout();
 

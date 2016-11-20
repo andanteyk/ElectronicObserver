@@ -11,7 +11,6 @@ namespace ElectronicObserver.Data {
 	/// <summary>
 	/// 基地航空隊のデータを扱います。
 	/// </summary>
-	[DebuggerDisplay( "[{AirCorpsID}] {Name}" )]
 	public class BaseAirCorpsData : APIWrapper, IIdentifiable {
 
 
@@ -134,7 +133,7 @@ namespace ElectronicObserver.Data {
 				case "api_req_air_corps/set_plane": {
 						var prev = Squadrons.Values.Select( sq => sq != null ? sq.EquipmentMasterID : 0 ).ToArray();
 						SetSquadrons( apiname, data.api_plane_info );
-						
+
 						foreach ( var deleted in prev.Except( Squadrons.Values.Select( sq => sq != null && sq.State == 1 ? sq.EquipmentMasterID : 0 ) ) ) {
 							var eq = KCDatabase.Instance.Equipments[deleted];
 
@@ -176,8 +175,18 @@ namespace ElectronicObserver.Data {
 				RelocatedEquipments = new HashSet<int>( values );
 		}
 
+
+		public override string ToString() {
+			return string.Format( "[{0}:{1}] {2}", MapAreaID, AirCorpsID, Name );
+		}
+
+
 		public int ID {
-			get { return AirCorpsID; }
+			get { return GetID( RawData ); }
+		}
+
+		public static int GetID( dynamic data ) {
+			return ( data.api_area_id() ? (int)data.api_area_id : -1 ) * 10 + (int)data.api_rid;
 		}
 	}
 }
