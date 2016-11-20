@@ -318,7 +318,7 @@ namespace Browser {
 		/// 指定した URL のページを開きます。
 		/// </summary>
 		public void Navigate( string url ) {
-			if (url == Configuration.LogInPageURL && !Configuration.AppliesStyleSheet)
+			if (url != Configuration.LogInPageURL || !Configuration.AppliesStyleSheet)
 				StyleSheetApplied = false;
 			Browser.Navigate( url );
 		}
