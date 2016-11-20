@@ -146,6 +146,13 @@ area_game.style.width = "100%"; area_game.style.height = "100%";
 var game_frame = document.getElementById("game_frame");
 game_frame.style.visibility = "visible";
 game_frame.style.width = "100%"; game_frame.style.height = "100%";
+document.getElementById("block_background").style.visibility = "visible";
+var alert = document.getElementById("alert");
+alert.style.visibility = "visible";
+alert.style.overflow = "scroll";
+alert.style.padding = "2%";
+alert.style.left = "3%"; alert.style.top = 0;
+alert.style.width = "90%"; alert.style.height = "100%";
 }
 catch(e) {
 	alert("ページCSS適用に失敗しました: "+e);
