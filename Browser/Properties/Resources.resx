@@ -119,43 +119,37 @@
   </resheader>
   <data name="FrameScript" xml:space="preserve">
     <value>
-try {
-document.body.style.visibility = "hidden";
-var flashWrap = document.getElementById("flashWrap");
-flashWrap.style.position = "fixed";
-flashWrap.style.left = 0; flashWrap.style.top = 0;
-flashWrap.style.width = "100%"; flashWrap.style.height = "100%";
-var externalswf = document.getElementById("externalswf");
-externalswf.style.visibility = "visible";
-externalswf.style.width = "100%"; externalswf.style.height = "100%";
-}
-catch(e) {
+try {{
+var node = document.getElementById('{0}');
+if (node) document.head.removeChild(node);
+node = document.createElement('style');
+node.id = '{0}';
+node.innerHTML = 'body {{ visibility: hidden; }} \
+#flashWrap {{ position: fixed; left: 0; top: 0; width: 100%; height: 100%; }} \
+#externalswf {{ visibility: visible; width: 100%; height: 100%; }}';
+document.head.appendChild(node);
+}}
+catch(e) {{
 	alert("フレームCSS適用に失敗しました: "+e);
-}</value>
+}}</value>
   </data>
   <data name="PageScript" xml:space="preserve">
     <value>
-try {
-document.body.style.visibility = "hidden";
-document.body.style.overflow = "hidden";
-document.getElementsByClassName("dmm-ntgnavi")[0].style.display = "none";
-var area_game = document.getElementById("area-game");
-area_game.style.position = "fixed";
-area_game.style.left = 0; area_game.style.top = 0;
-area_game.style.width = "100%"; area_game.style.height = "100%";
-var game_frame = document.getElementById("game_frame");
-game_frame.style.visibility = "visible";
-game_frame.style.width = "100%"; game_frame.style.height = "100%";
-document.getElementById("block_background").style.visibility = "visible";
-var alert = document.getElementById("alert");
-alert.style.visibility = "visible";
-alert.style.overflow = "scroll";
-alert.style.padding = "2%";
-alert.style.left = "3%"; alert.style.top = 0;
-alert.style.width = "90%"; alert.style.height = "100%";
-}
-catch(e) {
+try {{
+var node = document.getElementById('{0}');
+if (node) document.head.removeChild(node);
+node = document.createElement('style');
+node.id = '{0}';
+node.innerHTML = 'body {{ visibility: hidden; overflow: hidden; }} \
+div #block_background {{ visibility: visible; }} \
+div #alert {{ visibility: visible; overflow: scroll; top: 0 !important; left: 3% !important; width: 90% !important; height: 100%; padding:2%;}} \
+div.dmm-ntgnavi {{ display: none; }} \
+#area-game {{ position: fixed; left: 0; top: 0; width: 100%; height: 100%; }} \
+#game_frame {{ visibility: visible; width: 100%; height: 100%; }}';
+document.head.appendChild(node);
+}}
+catch(e) {{
 	alert("ページCSS適用に失敗しました: "+e);
-}</value>
+}}</value>
   </data>
 </root>

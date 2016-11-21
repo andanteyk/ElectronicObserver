@@ -28,6 +28,9 @@ namespace Browser {
 		private readonly Size KanColleSize = new Size( 800, 480 );
 
 
+		private readonly string StyleClassID = Guid.NewGuid().ToString().Substring(0, 8);
+		private readonly string RestoreScript = @"var node = document.getElementById('{0}'); if (node) document.head.removeChild(node);";
+		private bool RestoreStyleSheet = false;
 
 		// FormBrowserHostの通信サーバ
 		private string ServerUri;
@@ -282,7 +285,7 @@ namespace Browser {
 		/// </summary>
 		public void ApplyStyleSheet() {
 
-			if ( !Configuration.AppliesStyleSheet )
+			if (!Configuration.AppliesStyleSheet && !RestoreStyleSheet)
 				return;
 
 			try {
@@ -298,9 +301,16 @@ namespace Browser {
 					var swf = getFrameElementById( document, "externalswf" );
 					if ( swf == null ) return;
 
+					if (RestoreStyleSheet) {
+						document.InvokeScript( "eval", new object[] { string.Format(RestoreScript, StyleClassID) } );
+						swf.Document.InvokeScript( "eval", new object[] { string.Format(RestoreScript, StyleClassID) } );
+						StyleSheetApplied = false;
+						RestoreStyleSheet = false;
+						return;
+					}
 					// InvokeScriptは関数しか呼べないようなので、スクリプトをevalで渡す
-					document.InvokeScript( "eval", new object[] { Properties.Resources.PageScript } );
-					swf.Document.InvokeScript( "eval", new object[] { Properties.Resources.FrameScript } );
+					document.InvokeScript( "eval", new object[] { string.Format(Properties.Resources.PageScript, StyleClassID) } );
+					swf.Document.InvokeScript( "eval", new object[] { string.Format(Properties.Resources.FrameScript, StyleClassID) } );
 				}
 
 				StyleSheetApplied = true;
@@ -822,9 +832,10 @@ namespace Browser {
 
 		private void ToolMenu_Other_AppliesStyleSheet_Click( object sender, EventArgs e ) {
 			Configuration.AppliesStyleSheet = ToolMenu_Other_AppliesStyleSheet.Checked;
-			if ( Configuration.AppliesStyleSheet ) {
-				ApplyStyleSheet();
-			}
+			if (!Configuration.AppliesStyleSheet)
+				RestoreStyleSheet = true;
+			ApplyStyleSheet();
+			ApplyZoom();
 			ConfigurationUpdated();
 		}
 
