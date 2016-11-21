@@ -292,8 +292,7 @@ namespace Browser {
 
 				if ( document.Url.ToString().Contains( ".swf?" ) ) {
 
-					document.Body.SetAttribute( "width", "100%" );
-					document.Body.SetAttribute( "height", "100%" );
+					document.InvokeScript("eval", new object[] {"document.body.style.margin=0;"});
 
 				} else {
 					var swf = getFrameElementById( document, "externalswf" );
