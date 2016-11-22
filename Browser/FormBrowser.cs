@@ -29,7 +29,7 @@ namespace Browser {
 
 
 		private readonly string StyleClassID = Guid.NewGuid().ToString().Substring( 0, 8 );
-		private readonly string RestoreScript = @"var node = document.getElementById('{0}'); if (node) document.head.removeChild(node);";
+		private readonly string RestoreScript = @"var node = document.getElementById('{0}'); if (node) document.getElementsByTagName('head')[0].removeChild(node);";
 		private bool RestoreStyleSheet = false;
 
 		// FormBrowserHostの通信サーバ
