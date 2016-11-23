@@ -91,6 +91,23 @@ namespace ElectronicObserver.Data.Battle.Detail {
 
 					sb.AppendLine();
 
+					if ( p.RationIndexes.Length > 0 ) {
+						sb.AppendLine( "〈戦闘糧食補給〉" );
+						foreach ( var index in p.RationIndexes ) {
+							ShipData ship;
+
+							if ( index < 6 )
+								ship = p.FriendFleet.MembersInstance[index];
+							else
+								ship = p.FriendFleetEscort.MembersInstance[index - 6];
+
+							if ( ship != null ) {
+								sb.AppendFormat( "　{0} #{1}\r\n", ship.NameWithLevel, index );
+							}
+						}
+						sb.AppendLine();
+					}
+
 
 				} else if ( phase is PhaseNightBattle ) {
 					var p = phase as PhaseNightBattle;

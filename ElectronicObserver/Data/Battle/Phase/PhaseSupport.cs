@@ -27,9 +27,9 @@ namespace ElectronicObserver.Data.Battle.Phase {
 							var escortdmg = !RawData.api_support_info.api_support_airatack.api_stage3_combined() ? empty :
 								( (int[])RawData.api_support_info.api_support_airatack.api_stage3_combined.api_edam ).Skip( 1 );
 
-							var maincl = ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_ecl ).Skip( 1 );
+							var maincl = ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_ecl_flag ).Skip( 1 );
 							var escortcl = !RawData.api_support_info.api_support_airatack.api_stage3_combined() ? empty :
-								( (int[])RawData.api_support_info.api_support_airatack.api_stage3_combined.api_ecl ).Skip( 1 );
+								( (int[])RawData.api_support_info.api_support_airatack.api_stage3_combined.api_ecl_flag ).Skip( 1 );
 
 
 							Damages = maindmg.Concat( escortdmg ).ToArray();
@@ -78,12 +78,16 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			if ( !IsAvailable ) return;
 
 			for ( int i = 0; i < 6; i++ ) {
-				BattleDetails.Add( new BattleSupportDetail( _battleData, i + 6, Damages[i], Criticals[i], SupportFlag, hps[i + 6] ) );
-				AddDamage( hps, i + 6, Damages[i] );
+				if ( _battleData.Initial.EnemyMembers[i] > 0 ) {
+					BattleDetails.Add( new BattleSupportDetail( _battleData, i + 6, Damages[i], Criticals[i], SupportFlag, hps[i + 6] ) );
+					AddDamage( hps, i + 6, Damages[i] );
+				}
 
 				if ( ( _battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined ) != 0 ) {
-					BattleDetails.Add( new BattleSupportDetail( _battleData, i + 18, Damages[i + 6], Criticals[i + 6], SupportFlag, hps[i + 18] ) );
-					AddDamage( hps, i + 18, Damages[i + 6] );
+					if ( _battleData.Initial.EnemyMembersEscort[i] > 0 ) {
+						BattleDetails.Add( new BattleSupportDetail( _battleData, i + 18, Damages[i + 6], Criticals[i + 6], SupportFlag, hps[i + 18] ) );
+						AddDamage( hps, i + 18, Damages[i + 6] );
+					}
 				}
 			}
 		}

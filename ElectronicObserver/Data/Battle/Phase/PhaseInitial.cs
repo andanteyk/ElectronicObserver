@@ -125,6 +125,12 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 		}
 
+		/// <summary>
+		/// 戦闘糧食を食べた艦娘のインデックス [0-11]
+		/// </summary>
+		public int[] RationIndexes { get; private set; }
+
+
 
 
 		public PhaseInitial( BattleData data, string title )
@@ -158,6 +164,16 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			EnemyParameters = ( (dynamic[])RawData.api_eParam ).Select( d => (int[])d ).ToArray();
 			EnemyParametersEscort = !RawData.api_eParam_combined() ? null : ( (dynamic[])RawData.api_eParam_combined ).Select( d => (int[])d ).ToArray();
 
+			{
+				var rations = new List<int>();
+				if ( RawData.api_combat_ration() ) {
+					rations.AddRange( ( (int[])RawData.api_combat_ration ).Select( i => FriendFleet.Members.IndexOf( i ) ) );
+				}
+				if ( RawData.api_combat_ration_combined() ) {
+					rations.AddRange( ( (int[])RawData.api_combat_ration_combined ).Select( i => FriendFleetEscort.Members.IndexOf( i ) + 6 ) );
+				}
+				RationIndexes = rations.ToArray();
+			}
 		}
 
 
