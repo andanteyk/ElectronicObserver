@@ -321,6 +321,24 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 空襲被害の状態を表す文字列を取得します。(短縮版)
+		/// </summary>
+		public static string GetAirRaidDamageShort( int value ) {
+			switch ( value ) {
+				case 1:
+					return "資源損害";
+				case 2:
+					return "資源・航空";
+				case 3:
+					return "航空隊損害";
+				case 4:
+					return "被害なし";
+				default:
+					return "-";
+			}
+		}
+
 
 		#endregion
 

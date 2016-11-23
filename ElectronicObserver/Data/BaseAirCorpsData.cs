@@ -185,8 +185,16 @@ namespace ElectronicObserver.Data {
 			get { return GetID( RawData ); }
 		}
 
-		public static int GetID( dynamic data ) {
-			return ( data.api_area_id() ? (int)data.api_area_id : -1 ) * 10 + (int)data.api_rid;
+
+		public static int GetID( int mapAreaID, int airCorpsID ) {
+			return mapAreaID * 10 + airCorpsID;
 		}
+		public static int GetID( Dictionary<string, string> request ) {
+			return GetID( int.Parse( request["api_area_id"] ), int.Parse( request["api_base_id"] ) );
+		}
+		public static int GetID( dynamic response ) {
+			return GetID( response.api_area_id() ? (int)response.api_area_id : -1, (int)response.api_rid );
+		}
+
 	}
 }

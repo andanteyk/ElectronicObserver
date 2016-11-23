@@ -61,7 +61,8 @@
 			this.ContextMenuBaseAirCorps.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ContextMenuBaseAirCorps_CopyOrganization});
 			this.ContextMenuBaseAirCorps.Name = "ContextMenuBaseAirCorps";
-			this.ContextMenuBaseAirCorps.Size = new System.Drawing.Size(188, 26);
+			this.ContextMenuBaseAirCorps.Size = new System.Drawing.Size(188, 48);
+			this.ContextMenuBaseAirCorps.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuBaseAirCorps_Opening);
 			// 
 			// ContextMenuBaseAirCorps_CopyOrganization
 			// 

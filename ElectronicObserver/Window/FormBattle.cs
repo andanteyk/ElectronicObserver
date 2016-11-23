@@ -956,8 +956,9 @@ namespace ElectronicObserver.Window {
 			DamageEnemy.Text = enemyrate.ToString( "p1" );
 
 			if ( bm.IsBaseAirRaid ) {
-				WinRank.Text = "-";
-				WinRank.ForeColor = WinRankColor_Win;
+				int kind = bm.Compass.AirRaidDamageKind;
+				WinRank.Text = Constants.GetAirRaidDamageShort( kind );
+				WinRank.ForeColor = ( 1 <= kind && kind <= 3 ) ? WinRankColor_Lose : WinRankColor_Win;
 			} else {
 				WinRank.Text = Constants.GetWinRank( rank );
 				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;

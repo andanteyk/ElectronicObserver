@@ -131,6 +131,7 @@ namespace ElectronicObserver.Window {
 				} else {
 
 					Name.Text = string.Format( "#{0} - {1}", corps.MapAreaID, corps.Name );
+					Name.Tag = corps.MapAreaID;
 					var sb = new StringBuilder();
 					sb.AppendLine( "所属海域: " + KCDatabase.Instance.MapArea[corps.MapAreaID].Name );
 
@@ -266,7 +267,7 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 
-			ControlMember = new TableBaseAirCorpsControl[6];
+			ControlMember = new TableBaseAirCorpsControl[9];
 			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i] = new TableBaseAirCorpsControl( this, TableMember, i );
@@ -321,11 +322,23 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ContextMenuBaseAirCorps_Opening( object sender, System.ComponentModel.CancelEventArgs e ) {
+			var menu = ( sender as ContextMenuStrip );
+			if ( menu != null ) {
+				ContextMenuBaseAirCorps_CopyOrganization.Tag = menu.SourceControl.Tag as int? ?? -1;
+			}
+		}
+
 		private void ContextMenuBaseAirCorps_CopyOrganization_Click( object sender, EventArgs e ) {
 
 			var sb = new StringBuilder();
+			int areaid = ContextMenuBaseAirCorps_CopyOrganization.Tag as int? ?? -1;
 
-			foreach ( var corps in KCDatabase.Instance.BaseAirCorps.Values ) {
+			var baseaircorps = KCDatabase.Instance.BaseAirCorps.Values;
+			if ( areaid != -1 )
+				baseaircorps = baseaircorps.Where( c => c.MapAreaID == areaid );
+
+			foreach ( var corps in baseaircorps ) {
 
 				sb.AppendFormat( "{0}\t[{1}] 制空戦力{2}\r\n",
 					corps.Name, Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
@@ -376,6 +389,6 @@ namespace ElectronicObserver.Window {
 			return "BaseAirCorps";
 		}
 
-
+		
 	}
 }

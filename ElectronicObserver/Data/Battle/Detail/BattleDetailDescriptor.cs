@@ -265,6 +265,10 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				sb.AppendFormat( "　自軍: -{0}/{1}\r\n　敵軍: -{2}/{3}\r\n",
 					p.AircraftLostStage1Friend, p.AircraftTotalStage1Friend,
 					p.AircraftLostStage1Enemy, p.AircraftTotalStage1Enemy );
+				if ( p.TouchAircraftFriend > 0 )
+					sb.AppendFormat( "　自軍触接: {0}\r\n", KCDatabase.Instance.MasterEquipments[p.TouchAircraftFriend].Name );
+				if ( p.TouchAircraftEnemy > 0 )
+					sb.AppendFormat( "　敵軍触接: {0}\r\n", KCDatabase.Instance.MasterEquipments[p.TouchAircraftEnemy].Name );
 			}
 			if ( p.IsStage2Available ) {
 				sb.Append( "Stage2: " );

@@ -1774,6 +1774,7 @@ api_get_member/base_air_corps	：基地航空隊情報
 		api_cond			：コンディション　1=通常, 2=黄疲労, 3=赤疲労？　未配属なら存在しない
 
 Request.api_req_air_corps/set_plane		：基地航空隊 - 中隊設定
+	api_area_id		：所属海域ID
 	api_base_id		：航空隊ID
 	api_squadron_id	：中隊ID
 	api_item_id		：配属装備固有ID　-1=はずす
@@ -1784,6 +1785,7 @@ api_req_air_corps/set_plane		：基地航空隊 - 中隊設定
 	api_after_bauxite	：消費後のボーキサイト　配備時(消費時)のみ存在
 
 Request.api_req_air_corps/change_name		：基地航空隊 - 航空隊名変更
+	api_area_id		：所属海域ID
 	api_base_id		：航空隊ID
 	api_name		：変更後の名前
 
@@ -1791,7 +1793,8 @@ api_req_air_corps/change_name	：基地航空隊 - 航空隊名変更
 	(情報なし)
 
 Request.api_req_air_corps/set_action	：基地航空隊 - 行動指示変更
-	api_base_id		：航空隊ID　コンマ区切り配列になるかも
+	api_area_id		：所属海域ID
+	api_base_id		：航空隊ID　コンマ区切り配列
 	api_action_kind	：行動指示　〃
 
 api_req_air_corps/set_action	：基地航空隊 - 行動指示変更
@@ -1807,6 +1810,7 @@ api_req_map/start_air_base		：基地航空隊 - 出撃
 	(情報なし)
 
 Request.api_req_air_corps/supply		：基地航空隊 - 補給
+	api_area_id		：所属海域ID
 	api_base_id		：航空隊ID
 	api_squadron_id	：補給する中隊IDリスト　コンマ区切り
 
