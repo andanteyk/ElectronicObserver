@@ -340,9 +340,10 @@ namespace ElectronicObserver.Window {
 
 			foreach ( var corps in baseaircorps ) {
 
-				sb.AppendFormat( "{0}\t[{1}] 制空戦力{2}\r\n",
+				sb.AppendFormat( "{0}\t[{1}] 制空戦力{2}/戦闘行動半径{3}\r\n",
 					corps.Name, Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
-					Calculator.GetAirSuperiority( corps ) );
+					Calculator.GetAirSuperiority( corps ),
+					corps.Distance );
 
 				var sq = corps.Squadrons.Values.ToArray();
 
@@ -373,7 +374,7 @@ namespace ElectronicObserver.Window {
 					}
 				}
 
-				sb.AppendLine().AppendLine();
+				sb.AppendLine();
 			}
 
 			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
