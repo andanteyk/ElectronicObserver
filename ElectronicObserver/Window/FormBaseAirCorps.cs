@@ -130,9 +130,9 @@ namespace ElectronicObserver.Window {
 
 				} else {
 
-					Name.Text = corps.Name;
+					Name.Text = string.Format( "#{0} - {1}", corps.MapAreaID, corps.Name );
 					var sb = new StringBuilder();
-					sb.AppendLine( "所属海域ID: " + corps.MapAreaID );		//todo: 文字列に直せるように
+					sb.AppendLine( "所属海域: " + KCDatabase.Instance.MapArea[corps.MapAreaID].Name );
 
 					// state 
 					if ( corps.Squadrons.Values.Any( sq => sq != null && sq.AircraftCurrent < sq.AircraftMax ) ) {
@@ -160,7 +160,7 @@ namespace ElectronicObserver.Window {
 					} else {
 						Name.ImageAlign = ContentAlignment.MiddleCenter;
 						Name.ImageIndex = -1;
-						
+
 					}
 					ToolTipInfo.SetToolTip( Name, sb.ToString() );
 

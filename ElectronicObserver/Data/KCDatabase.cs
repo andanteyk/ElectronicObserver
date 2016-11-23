@@ -117,6 +117,11 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
+		/// 海域カテゴリデータ
+		/// </summary>
+		public IDDictionary<MapAreaData> MapArea { get; private set; }
+
+		/// <summary>
 		/// 海域データ
 		/// </summary>
 		public IDDictionary<MapInfoData> MapInfo { get; private set; }
@@ -159,6 +164,7 @@ namespace ElectronicObserver.Data {
 			Quest = new QuestManager();
 			QuestProgress = new QuestProgressManager();
 			Battle = new BattleManager();
+			MapArea = new IDDictionary<MapAreaData>();
 			MapInfo = new IDDictionary<MapInfoData>();
 			Mission = new IDDictionary<MissionData>();
 			ShipGroup = new ShipGroupManager();

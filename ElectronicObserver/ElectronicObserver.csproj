@@ -142,6 +142,7 @@
     <Compile Include="Data\IIdentifiable.cs" />
     <Compile Include="Data\KCDatabase.cs" />
     <Compile Include="Data\FleetData.cs" />
+    <Compile Include="Data\MapAreaData.cs" />
     <Compile Include="Data\MapInfoData.cs" />
     <Compile Include="Data\MaterialData.cs" />
     <Compile Include="Data\MissionData.cs" />

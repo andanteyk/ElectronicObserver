@@ -121,6 +121,17 @@ namespace ElectronicObserver.Observer.kcsapi {
 				}
 			}
 
+			//api_mst_maparea
+			foreach ( var elem in data.api_mst_maparea ) {
+				int id = (int)elem.api_id;
+				if ( db.MapArea[id] == null ) {
+					var item = new MapAreaData();
+					item.LoadFromResponse( APIName, elem );
+					db.MapArea.Add( item );
+				} else {
+					db.MapArea[id].LoadFromResponse( APIName, elem );
+				}
+			}
 
 			//api_mst_mapinfo
 			foreach ( var elem in data.api_mst_mapinfo ) {
