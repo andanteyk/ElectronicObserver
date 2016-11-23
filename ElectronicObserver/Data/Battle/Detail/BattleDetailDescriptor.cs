@@ -13,14 +13,14 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			var sb = new StringBuilder();
 
 			if ( bm.StartsFromDayBattle ) {
-				sb.AppendLine( "◆ 昼戦 ◆" ).Append( GetBattleDetail( bm.BattleDay ) );
+				sb.AppendLine( "◆ 昼戦 ◆" ).AppendLine( GetBattleDetail( bm.BattleDay ) );
 				if ( bm.BattleNight != null )
-					sb.AppendLine( "◆ 夜戦 ◆" ).Append( GetBattleDetail( bm.BattleNight ) );
+					sb.AppendLine( "◆ 夜戦 ◆" ).AppendLine( GetBattleDetail( bm.BattleNight ) );
 
 			} else {
-				sb.AppendLine( "◆ 夜戦 ◆" ).Append( GetBattleDetail( bm.BattleNight ) );
+				sb.AppendLine( "◆ 夜戦 ◆" ).AppendLine( GetBattleDetail( bm.BattleNight ) );
 				if ( bm.BattleDay != null )
-					sb.AppendLine( "◆ 昼戦 ◆" ).Append( GetBattleDetail( bm.BattleDay ) );
+					sb.AppendLine( "◆ 昼戦 ◆" ).AppendLine( GetBattleDetail( bm.BattleDay ) );
 			}
 
 			return sb.ToString();
@@ -30,6 +30,8 @@ namespace ElectronicObserver.Data.Battle.Detail {
 		public static string GetBattleDetail( BattleData battle ) {
 
 			var sbmaster = new StringBuilder();
+			bool isBaseAirRaid = ( battle.BattleType & BattleData.BattleTypeFlag.BaseAirRaid ) != 0;
+
 
 			foreach ( var phase in battle.GetPhases() ) {
 
@@ -59,7 +61,10 @@ namespace ElectronicObserver.Data.Battle.Detail {
 					else
 						sb.AppendLine( "〈味方艦隊〉" );
 
-					OutputFriendData( sb, p.FriendFleet, p.InitialHPs.Take( 6 ).ToArray(), p.MaxHPs.Take( 6 ).ToArray() );
+					if ( isBaseAirRaid )
+						OutputFriendBase( sb, p.InitialHPs.Take( 6 ).ToArray(), p.MaxHPs.Take( 6 ).ToArray() );
+					else
+						OutputFriendData( sb, p.FriendFleet, p.InitialHPs.Take( 6 ).ToArray(), p.MaxHPs.Take( 6 ).ToArray() );
 
 					if ( p.FriendFleetEscort != null ) {
 						sb.AppendLine();
@@ -167,6 +172,88 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				}
 			}
 
+
+			{
+				sbmaster.AppendLine( "《戦闘終了》" );
+
+				var friend = battle.Initial.FriendFleet;
+				var friendescort = battle.Initial.FriendFleetEscort;
+				var enemy = battle.Initial.EnemyMembersInstance;
+				var enemyescort = battle.Initial.EnemyMembersEscortInstance;
+
+				if ( friendescort != null )
+					sbmaster.AppendLine( "〈味方主力艦隊〉" );
+				else
+					sbmaster.AppendLine( "〈味方艦隊〉" );
+
+				if ( isBaseAirRaid ) {
+
+					for ( int i = 0; i < 6; i++ ) {
+						if ( battle.Initial.MaxHPs[i] <= 0 )
+							continue;
+
+						OutputResultData( sbmaster, i, string.Format( "第{0}基地", i + 1 ),
+							battle.Initial.InitialHPs[i], battle.ResultHPs[i], battle.Initial.MaxHPs[i] );
+					}
+
+				} else {
+					for ( int i = 0; i < friend.Members.Count(); i++ ) {
+						var ship = friend.MembersInstance[i];
+						if ( ship == null )
+							continue;
+
+						OutputResultData( sbmaster, i, ship.Name,
+							battle.Initial.InitialHPs[i], battle.ResultHPs[i], battle.Initial.MaxHPs[i] );
+					}
+				}
+
+				if ( friendescort != null ) {
+					sbmaster.AppendLine().AppendLine( "〈味方随伴艦隊〉" );
+
+					for ( int i = 0; i < friendescort.Members.Count(); i++ ) {
+						var ship = friendescort.MembersInstance[i];
+						if ( ship == null )
+							continue;
+
+						OutputResultData( sbmaster, i + 6, ship.Name,
+							battle.Initial.InitialHPs[i + 12], battle.ResultHPs[i + 12], battle.Initial.MaxHPs[i + 12] );
+					}
+
+				}
+
+
+				sbmaster.AppendLine();
+				if ( enemyescort != null )
+					sbmaster.AppendLine( "〈敵主力艦隊〉" );
+				else
+					sbmaster.AppendLine( "〈敵艦隊〉" );
+
+				for ( int i = 0; i < enemy.Length; i++ ) {
+					var ship = enemy[i];
+					if ( ship == null )
+						continue;
+
+					OutputResultData( sbmaster, i,
+						ship.NameWithClass,
+						battle.Initial.InitialHPs[i + 6], battle.ResultHPs[i + 6], battle.Initial.MaxHPs[i + 6] );
+				}
+
+				if ( enemyescort != null ) {
+					sbmaster.AppendLine().AppendLine( "〈敵随伴艦隊〉" );
+
+					for ( int i = 0; i < enemyescort.Length; i++ ) {
+						var ship = enemyescort[i];
+						if ( ship == null )
+							continue;
+
+						OutputResultData( sbmaster, i + 6, ship.NameWithClass,
+							battle.Initial.InitialHPs[i + 18], battle.ResultHPs[i + 18], battle.Initial.MaxHPs[i + 18] );
+					}
+				}
+
+				sbmaster.AppendLine();
+			}
+
 			return sbmaster.ToString();
 		}
 
@@ -201,9 +288,8 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				if ( ship == null )
 					continue;
 
-				sb.AppendFormat( "#{0}: ", i + 1 );
-
-				sb.AppendFormat( "{0} {1} HP: {2} / {3} - 火力{4}, 雷装{5}, 対空{6}, 装甲{7}\r\n",
+				sb.AppendFormat( "#{0}: {1} {2} HP: {3} / {4} - 火力{5}, 雷装{6}, 対空{7}, 装甲{8}\r\n",
+					i + 1,
 					ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 					initialHPs[i], maxHPs[i],
 					ship.FirepowerBase, ship.TorpedoBase, ship.AABase, ship.ArmorBase );
@@ -221,21 +307,38 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			}
 		}
 
+		private static void OutputFriendBase( StringBuilder sb, int[] initialHPs, int[] maxHPs ) {
+
+			for ( int i = 0; i < initialHPs.Length; i++ ) {
+				if ( maxHPs[i] <= 0 )
+					continue;
+
+				sb.AppendFormat( "#{0}: 陸上施設 第{1}基地 HP: {2} / {3}\r\n\r\n",
+					i + 1,
+					i + 1,
+					initialHPs[i], maxHPs[i] );
+			}
+
+		}
+
 		private static void OutputEnemyData( StringBuilder sb, ShipDataMaster[] members, int[] levels, int[] initialHPs, int[] maxHPs, EquipmentDataMaster[][] slots, int[][] parameters ) {
 
 			for ( int i = 0; i < members.Length; i++ ) {
 				if ( members[i] == null )
 					continue;
 
-				sb.AppendFormat( "#{0}: ", i + 1 );
-
-				sb.AppendFormat( "{0} {1} Lv. {2} HP: {3} / {4} - 火力{5}, 雷装{6}, 対空{7}, 装甲{8}\r\n",
+				sb.AppendFormat( "#{0}: {1} {2} Lv. {3} HP: {4} / {5}",
+					i + 1,
 					members[i].ShipTypeName, members[i].NameWithClass,
 					levels[i],
-					initialHPs[i], maxHPs[i],
-					parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3] );
+					initialHPs[i], maxHPs[i] );
 
-				sb.Append( "　" );
+				if ( parameters != null ) {
+					sb.AppendFormat( " - 火力{0}, 雷装{1}, 対空{2}, 装甲{3}",
+					parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3] );
+				}
+
+				sb.AppendLine().Append( "　" );
 				for ( int k = 0; k < slots[i].Length; k++ ) {
 					var eq = slots[i][k];
 					if ( eq != null ) {
@@ -247,5 +350,17 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				sb.AppendLine();
 			}
 		}
+
+
+		private static void OutputResultData( StringBuilder sb, int index, string name, int initialHP, int resultHP, int maxHP ) {
+			sb.AppendFormat( "#{0}: {1} HP: ({2} → {3})/{4} ({5})\r\n",
+				index + 1, name,
+				Math.Max( initialHP, 0 ),
+				Math.Max( resultHP, 0 ),
+				Math.Max( maxHP, 0 ),
+				resultHP - initialHP );
+		}
+
+
 	}
 }

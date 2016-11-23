@@ -139,7 +139,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			if ( RawData.api_active_deck() ) {
 				FriendFleetID = (int)RawData.api_active_deck[0];
 			} else {
-				dynamic id = RawData.api_dock_id() ? RawData.api_dock_id : RawData.api_deck_id;
+				dynamic id = RawData.api_dock_id() ? RawData.api_dock_id :
+					RawData.api_deck_id() ? RawData.api_deck_id : 1;
 				FriendFleetID = id is string ? int.Parse( (string)id ) : (int)id;
 			}
 
@@ -161,7 +162,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			EnemySlotsEscort = !RawData.api_eSlot_combined() ? null : ( (dynamic[])RawData.api_eSlot_combined ).Select( d => (int[])d ).ToArray();
 			EnemySlotsEscortInstance = EnemySlotsEscort == null ? null : EnemySlotsEscort.Select( part => part.Select( id => KCDatabase.Instance.MasterEquipments[id] ).ToArray() ).ToArray();
 
-			EnemyParameters = ( (dynamic[])RawData.api_eParam ).Select( d => (int[])d ).ToArray();
+			EnemyParameters = !RawData.api_eParam() ? null : ( (dynamic[])RawData.api_eParam ).Select( d => (int[])d ).ToArray();
 			EnemyParametersEscort = !RawData.api_eParam_combined() ? null : ( (dynamic[])RawData.api_eParam_combined ).Select( d => (int[])d ).ToArray();
 
 			{

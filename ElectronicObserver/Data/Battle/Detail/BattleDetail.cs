@@ -101,7 +101,7 @@ namespace ElectronicObserver.Data.Battle.Detail {
 
 			StringBuilder builder = new StringBuilder();
 
-			builder.AppendFormat( "{0} → {1} #{2}\r\n", GetAttackerName(), Defender.NameWithClass, GetDisplayIndex( DefenderIndex ) );
+			builder.AppendFormat( "{0} → {1}\r\n", GetAttackerName(), GetDefenderName() );
 
 
 			if ( AttackType >= 0 )
@@ -156,6 +156,12 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			if ( Attacker == null )
 				return "#" + GetDisplayIndex( AttackerIndex );
 			return Attacker.NameWithClass + " #" + GetDisplayIndex( AttackerIndex );
+		}
+
+		protected virtual string GetDefenderName() {
+			if ( Defender == null )
+				return "#" + GetDisplayIndex( DefenderIndex );
+			return Defender.NameWithClass + " #" + GetDisplayIndex( DefenderIndex );
 		}
 
 		protected abstract int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID );
@@ -245,18 +251,23 @@ namespace ElectronicObserver.Data.Battle.Detail {
 		}
 
 		protected override string GetAttackerName() {
-			if ( WaveIndex == 0 ) {
+			if ( WaveIndex <= 0 ) {
 				if ( IsFriendIndex( DefenderIndex ) )
 					return "敵軍航空隊";
 				else
 					return "自軍航空隊";
 
-			} else if ( WaveIndex > 0 ) {
+			} else {
 				return string.Format( "基地航空隊 第{0}波", WaveIndex );
 
-			} else {
-				return "未確認飛行物体";
 			}
+		}
+
+		protected override string GetDefenderName() {
+			if ( WaveIndex < 0 && IsFriendIndex( DefenderIndex ) )
+				return string.Format( "第{0}基地", DefenderIndex + 1 );
+
+			return base.GetDefenderName();
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {

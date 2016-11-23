@@ -133,11 +133,23 @@ namespace ElectronicObserver.Window {
 			TableBottom.SuspendLayout();
 			switch ( apiname ) {
 
-				case "api_req_map/start":
-				case "api_req_map/next":
 				case "api_port/port":
 					BaseLayoutPanel.Visible = false;
 					ToolTipInfo.RemoveAll();
+					break;
+
+				case "api_req_map/start":
+				case "api_req_map/next":
+					if ( !bm.Compass.HasAirRaid )
+						goto case "api_port/port";
+
+					SetFormation( bm.BattleDay );
+					SetSearchingResult( bm.BattleDay );
+					SetAerialWarfare( bm.BattleDay.AirBattle );
+					SetHPBar( bm.BattleDay );
+					SetDamageRate( bm );
+
+					BaseLayoutPanel.Visible = !hideDuringBattle;
 					break;
 
 
@@ -193,9 +205,9 @@ namespace ElectronicObserver.Window {
 				case "api_req_combined_battle/battle":
 				case "api_req_combined_battle/battle_water":
 				case "api_req_combined_battle/ld_airbattle":
-				case "api_req_combined_battle/ec_battle": 
-				case "api_req_combined_battle/each_battle":	
-				case "api_req_combined_battle/each_battle_water":	{
+				case "api_req_combined_battle/ec_battle":
+				case "api_req_combined_battle/each_battle":
+				case "api_req_combined_battle/each_battle_water": {
 
 						SetFormation( bm.BattleDay );
 						SetSearchingResult( bm.BattleDay );
@@ -278,14 +290,14 @@ namespace ElectronicObserver.Window {
 
 			int searchFriend = bd.Searching.SearchingFriend;
 			SearchingFriend.Text = Constants.GetSearchingResultShort( searchFriend );
-			SearchingFriend.ImageAlign = ContentAlignment.MiddleLeft;
-			SearchingFriend.ImageIndex = (int)( searchFriend < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
+			SearchingFriend.ImageAlign = searchFriend > 0 ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter;
+			SearchingFriend.ImageIndex = searchFriend > 0 ? (int)( searchFriend < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar ) : -1;
 			ToolTipInfo.SetToolTip( SearchingFriend, null );
 
 			int searchEnemy = bd.Searching.SearchingEnemy;
 			SearchingEnemy.Text = Constants.GetSearchingResultShort( searchEnemy );
-			SearchingEnemy.ImageAlign = ContentAlignment.MiddleLeft;
-			SearchingEnemy.ImageIndex = (int)( searchEnemy < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar );
+			SearchingEnemy.ImageAlign = searchEnemy > 0 ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter;
+			SearchingEnemy.ImageIndex = searchEnemy > 0 ? (int)( searchEnemy < 4 ? ResourceManager.EquipmentContent.Seaplane : ResourceManager.EquipmentContent.Radar ) : -1;
 			ToolTipInfo.SetToolTip( SearchingEnemy, null );
 
 		}
@@ -752,6 +764,7 @@ namespace ElectronicObserver.Window {
 			bool isPractice = ( bd.BattleType & BattleData.BattleTypeFlag.Practice ) != 0;
 			bool isCombined = ( bd.BattleType & BattleData.BattleTypeFlag.Combined ) != 0;
 			bool isEnemyCombined = ( bd.BattleType & BattleData.BattleTypeFlag.EnemyCombined ) != 0;
+			bool isBaseAirRaid = ( bd.BattleType & BattleData.BattleTypeFlag.BaseAirRaid ) != 0;
 
 			var initialHPs = bd.Initial.InitialHPs;
 			// var maxHPs = bd.Initial.MaxHPs;
@@ -763,7 +776,7 @@ namespace ElectronicObserver.Window {
 				if ( initialHPs[i] != -1 ) {
 					HPBars[i].Value = resultHPs[i];
 					HPBars[i].PrevValue = initialHPs[i];
-					HPBars[i].MaximumValue =  GetBattleShipMaxHP( bd, i );		// todo: 暫定処理 メソッドのコメント参照
+					HPBars[i].MaximumValue = GetBattleShipMaxHP( bd, i );		// todo: 暫定処理 メソッドのコメント参照
 					HPBars[i].BackColor = SystemColors.Control;
 					HPBars[i].Visible = true;
 				} else {
@@ -775,19 +788,29 @@ namespace ElectronicObserver.Window {
 			// friend main
 			for ( int i = 0; i < 6; i++ ) {
 				if ( initialHPs[i] != -1 ) {
-					ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
-					bool isEscaped =  bd.Initial.FriendFleet.EscapedShipList.Contains( ship.MasterID );
+					string name;
+					bool isEscaped;
+					bool isLandBase;
 
+					if ( isBaseAirRaid ) {
+						name = string.Format( "第{0}基地", i + 1 );
+						isEscaped = false;
+						isLandBase = true;
+					} else {
+						ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
+						name = string.Format( "{0} Lv. {1}", ship.MasterShip.NameWithClass, ship.Level );
+						isEscaped = bd.Initial.FriendFleet.EscapedShipList.Contains( ship.MasterID );
+						isLandBase = ship.MasterShip.IsLandBase;
+					}
 
 					ToolTipInfo.SetToolTip( HPBars[i], string.Format
-						( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}\r\n\r\n{8}",
-						ship.MasterShip.NameWithClass,
-						ship.Level,
+						( "{0}\r\nHP: ({1} → {2})/{3} ({4}) [{5}]\r\n与ダメージ: {6}\r\n\r\n{7}",
+						name,
 						Math.Max( HPBars[i].PrevValue, 0 ),
 						Math.Max( HPBars[i].Value, 0 ),
 						HPBars[i].MaximumValue,
 						HPBars[i].Value - HPBars[i].PrevValue,
-						Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
+						Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, isLandBase, isEscaped ),
 						attackDamages[i],
 						bd.GetBattleDetail( i )
 						) );
@@ -899,10 +922,12 @@ namespace ElectronicObserver.Window {
 			if ( bd.Initial.IsBossDamaged )
 				HPBars[6].BackColor = Color.MistyRose;
 
-			foreach ( int i in bd.MVPShipIndexes )
-				HPBars[i].BackColor = Color.Moccasin;
-			foreach ( int i in bd.MVPShipCombinedIndexes )
-				HPBars[12 + i].BackColor = Color.Moccasin;
+			if ( !isBaseAirRaid ) {
+				foreach ( int i in bd.MVPShipIndexes )
+					HPBars[i].BackColor = Color.Moccasin;
+				foreach ( int i in bd.MVPShipCombinedIndexes )
+					HPBars[12 + i].BackColor = Color.Moccasin;
+			}
 		}
 
 		/// <summary>
@@ -913,7 +938,7 @@ namespace ElectronicObserver.Window {
 		private int GetBattleShipMaxHP( BattleData bd, int index ) {
 			//TODO Don't know if the enemy escort fleet has the same error
 			if ( index >= 12 && index < 18 ) {
-				return bd.Initial.FriendFleetEscort.MembersInstance[index-12].HPMax;
+				return bd.Initial.FriendFleetEscort.MembersInstance[index - 12].HPMax;
 			}
 			return bd.Initial.MaxHPs[index];
 		}
@@ -930,9 +955,13 @@ namespace ElectronicObserver.Window {
 			DamageFriend.Text = friendrate.ToString( "p1" );
 			DamageEnemy.Text = enemyrate.ToString( "p1" );
 
-			WinRank.Text = Constants.GetWinRank( rank );
-			WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
-
+			if ( bm.IsBaseAirRaid ) {
+				WinRank.Text = "-";
+				WinRank.ForeColor = WinRankColor_Win;
+			} else {
+				WinRank.Text = Constants.GetWinRank( rank );
+				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
+			}
 		}
 
 

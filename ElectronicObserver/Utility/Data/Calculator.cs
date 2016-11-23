@@ -578,7 +578,7 @@ namespace ElectronicObserver.Utility.Data {
 							//if ( eq.EquipmentID == 166 )	// 陸戦隊
 							//	tp += 13;
 							//else
-								tp += 8;
+							tp += 8;
 							break;
 						case 30:	// 簡易輸送部材
 							tp += 5;

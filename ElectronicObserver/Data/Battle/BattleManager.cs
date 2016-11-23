@@ -41,6 +41,7 @@ namespace ElectronicObserver.Data.Battle {
 			AirBattle,						// 航空戦
 			AirRaid,						// 長距離空襲戦
 			Practice,						// 演習
+			BaseAirRaid,					// 基地空襲戦
 			BattlePhaseMask = 0xFF,			// 戦闘形態マスク
 			CombinedTaskForce = 0x100,		// 機動部隊
 			CombinedSurface = 0x200,		// 水上部隊
@@ -83,6 +84,11 @@ namespace ElectronicObserver.Data.Battle {
 		/// 敵が連合艦隊かどうか
 		/// </summary>
 		public bool IsEnemyCombined { get { return ( BattleMode & BattleModes.EnemyCombinedFleet ) != 0; } }
+
+		/// <summary>
+		/// 基地空襲戦かどうか
+		/// </summary>
+		public bool IsBaseAirRaid { get { return ( BattleMode & BattleModes.BattlePhaseMask ) == BattleModes.BaseAirRaid; } }
 
 
 		/// <summary>
@@ -130,6 +136,12 @@ namespace ElectronicObserver.Data.Battle {
 					BattleMode = BattleModes.Undefined;
 					Compass = new CompassData();
 					Compass.LoadFromResponse( apiname, data );
+
+					if ( Compass.HasAirRaid ) {
+						BattleMode = BattleModes.BaseAirRaid;
+						BattleDay = new BattleBaseAirRaid();
+						BattleDay.LoadFromResponse( apiname, Compass.AirRaidData );
+					}
 					break;
 
 				case "api_req_sortie/battle":
@@ -146,6 +158,7 @@ namespace ElectronicObserver.Data.Battle {
 
 				case "api_req_battle_midnight/sp_midnight":
 					BattleMode = BattleModes.NightOnly;
+					BattleDay = null;
 					BattleNight = new BattleNightOnly();
 					BattleNight.LoadFromResponse( apiname, data );
 					break;
@@ -176,6 +189,7 @@ namespace ElectronicObserver.Data.Battle {
 
 				case "api_req_combined_battle/sp_midnight":
 					BattleMode = BattleModes.NightOnly | BattleModes.CombinedMask;
+					BattleDay = null;
 					BattleNight = new BattleCombinedNightOnly();
 					BattleNight.LoadFromResponse( apiname, data );
 					break;
@@ -215,13 +229,13 @@ namespace ElectronicObserver.Data.Battle {
 					BattleDay = new BattleCombinedEachDay();
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
-					
+
 				case "api_req_combined_battle/each_battle_water":
 					BattleMode = BattleModes.Normal | BattleModes.CombinedSurface | BattleModes.EnemyCombinedFleet;
 					BattleDay = new BattleCombinedEachWater();
 					BattleDay.LoadFromResponse( apiname, data );
 					break;
-					
+
 
 				case "api_req_member/get_practice_enemyinfo":
 					EnemyAdmiralName = data.api_nickname;

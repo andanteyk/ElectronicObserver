@@ -294,6 +294,15 @@ namespace ElectronicObserver.Data {
 			}
 		}
 
+		/// <summary>
+		/// 基地空襲戦データ
+		/// </summary>
+		public dynamic AirRaidData {
+			get {
+				return HasAirRaid ? RawData.api_destruction_battle : null;
+			}
+		}
+
 
 		/// <summary>
 		/// 空襲被害の種別

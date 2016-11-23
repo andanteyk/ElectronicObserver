@@ -1311,25 +1311,25 @@ api_req_map/next		：進撃
 		api_air_base_attack
 			api_stage_flag
 			api_plane_from	：[2][]
-		api_squadron_plane	：[1+航空隊保有数] +1は先頭の -1 の分
-		api_stage1
-			api_f_count
-			api_f_lostcount
-			api_e_count
-			api_e_lostcount
-			api_disp_seiku
-			api_touch_plane	：[2]
-		api_stage2
-			???(null)
-		api_stage3
-			api_frai_flag
-			api_erai_flag
-			api_fbak_flag
-			api_ebak_flag
-			api_fcl_flag
-			api_ecl_flag
-			api_fdam
-			api_edam
+			api_squadron_plane	：[1+航空隊保有数] +1は先頭の -1 の分　防空でない航空隊は{0}
+			api_stage1
+				api_f_count
+				api_f_lostcount
+				api_e_count
+				api_e_lostcount
+				api_disp_seiku
+				api_touch_plane	：[2]
+			api_stage2
+				???(null)
+			api_stage3
+				api_frai_flag
+				api_erai_flag
+				api_fbak_flag
+				api_ebak_flag
+				api_fcl_flag
+				api_ecl_flag
+				api_fdam
+				api_edam
 		api_lost_kind		：基地被害状況
 			1=「空襲により備蓄資源に損害を受けました！」
 			2=「空襲により備蓄資源に損害を受け、基地航空隊にも地上撃破の損害が発生しました！」

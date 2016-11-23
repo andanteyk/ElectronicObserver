@@ -104,6 +104,7 @@ namespace ElectronicObserver.Data.Battle {
 			Practice = 0x1000,
 			Combined = 0x2000,
 			EnemyCombined = 0x4000,
+			BaseAirRaid = 0x8000,
 		}
 
 		/// <summary>
