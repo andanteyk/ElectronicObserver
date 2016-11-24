@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data.Battle.Detail;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				AirAttackIndex = index;
 				AirBattleData = data.RawData.api_air_base_attack[index];
 				StageFlag = AirBattleData.api_stage_flag() ? (int[])AirBattleData.api_stage_flag : null;
+
+				_squadrons = GetSquadrons().ToArray();
 
 				TorpedoFlags = ConcatStage3Array( "api_frai_flag", "api_erai_flag" );
 				BomberFlags = ConcatStage3Array( "api_fbak_flag", "api_ebak_flag" );
@@ -56,27 +59,39 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 
 
-			/*/
-			public class SquadronData {
-				public int EquipmentID;
-				public int AircraftCount;
-
-				public SquadronData( dynamic data ) {
-					EquipmentID = (int)data.api_mst_id;
-					AircraftCount = (int)data.api_count;
-				}
+			private SquadronData[] _squadrons;
+			/// <summary>
+			/// 参加した航空中隊データ
+			/// </summary>
+			public ReadOnlyCollection<SquadronData> Squadrons {
+				get { return Array.AsReadOnly( _squadrons ); }
 			}
 
-			public IEnumerable<SquadronData> Squadrons {
-				get {
-					foreach ( dynamic d in AirBattleData.api_squadron_plane )
-						yield return new SquadronData( d );
-				}
+			private IEnumerable<SquadronData> GetSquadrons() {
+				foreach ( dynamic d in AirBattleData.api_squadron_plane )
+					yield return new SquadronData( d );
 			}
-			//*/
 
 		}
 
+
+		/// <summary>
+		/// 戦闘に参加した基地航空隊中隊のデータ
+		/// </summary>
+		public class SquadronData {
+			public int EquipmentID { get; private set; }
+			public int AircraftCount { get; private set; }
+			public EquipmentDataMaster EquipmentInstance { get { return KCDatabase.Instance.MasterEquipments[EquipmentID]; } }
+
+			public SquadronData( dynamic data ) {
+				EquipmentID = (int)data.api_mst_id;
+				AircraftCount = (int)data.api_count;
+			}
+
+			public override string ToString() {
+				return string.Format( "{0} x {1}", EquipmentInstance != null ? EquipmentInstance.Name : "未確認飛行物体", AircraftCount );
+			}
+		}
 
 
 		public PhaseBaseAirAttack( BattleData data, string title )

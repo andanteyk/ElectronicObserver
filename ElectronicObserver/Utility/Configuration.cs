@@ -318,6 +318,10 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public double PlayTimeIgnoreInterval { get; set; }
 
+				/// <summary>
+				/// 戦闘ログを保存するか
+				/// </summary>
+				public bool SaveBattleLog { get; set; }
 
 				public ConfigLog() {
 					LogLevel = 2;
@@ -327,6 +331,7 @@ namespace ElectronicObserver.Utility {
 					ShowSpoiler = true;
 					PlayTime = 0;
 					PlayTimeIgnoreInterval = 10 * 60;
+					SaveBattleLog = false;
 				}
 
 			}

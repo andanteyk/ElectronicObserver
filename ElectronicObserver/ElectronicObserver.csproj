@@ -97,6 +97,7 @@
     <Compile Include="Data\BaseAirCorpsData.cs" />
     <Compile Include="Data\BaseAirCorpsSquadron.cs" />
     <Compile Include="Data\Battle\BattleAirBattle.cs" />
+    <Compile Include="Data\Battle\BattleBaseAirRaid.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirBattle.cs" />
     <Compile Include="Data\Battle\BattleCombinedAirRaid.cs" />
     <Compile Include="Data\Battle\BattleCombinedEachDay.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Data\Battle\Phase\PhaseAirBattle.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBase.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirAttack.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseBaseAirRaid.cs" />
     <Compile Include="Data\Battle\Phase\PhaseInitial.cs" />
     <Compile Include="Data\Battle\Phase\PhaseNightBattle.cs" />
     <Compile Include="Data\Battle\Phase\PhaseOpeningASW.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Data\IIdentifiable.cs" />
     <Compile Include="Data\KCDatabase.cs" />
     <Compile Include="Data\FleetData.cs" />
+    <Compile Include="Data\MapAreaData.cs" />
     <Compile Include="Data\MapInfoData.cs" />
     <Compile Include="Data\MaterialData.cs" />
     <Compile Include="Data\MissionData.cs" />

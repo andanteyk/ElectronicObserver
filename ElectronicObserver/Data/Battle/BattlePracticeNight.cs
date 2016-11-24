@@ -26,6 +26,10 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_practice/midnight_battle"; }
 		}
 
+		public override string BattleName {
+			get { return "演習 夜戦"; }
+		}
+
 		public override BattleTypeFlag BattleType {
 			get { return BattleTypeFlag.Night | BattleTypeFlag.Practice; }
 		}

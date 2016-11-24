@@ -578,7 +578,7 @@ namespace ElectronicObserver.Utility.Data {
 							//if ( eq.EquipmentID == 166 )	// 陸戦隊
 							//	tp += 13;
 							//else
-								tp += 8;
+							tp += 8;
 							break;
 						case 30:	// 簡易輸送部材
 							tp += 5;
@@ -1054,6 +1054,14 @@ namespace ElectronicObserver.Utility.Data {
 				case 418:	//皐月改二
 					if ( aagun_concentrated >= 1 )
 						return 18;
+					break;
+
+				case 487:	//鬼怒改二
+					if ( aagun_concentrated >= 1 ) {
+						if ( highangle - highangle_director >= 1 )
+							return 19;
+						return 20;
+					}
 					break;
 			}
 

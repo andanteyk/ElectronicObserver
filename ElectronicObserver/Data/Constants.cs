@@ -315,9 +315,27 @@ namespace ElectronicObserver.Data {
 				case 3:
 					return "空襲発生 - 航空隊に損害";
 				case 4:
-					return "空襲発生 - 被害なし";
+					return "空襲発生 - 損害なし";
 				default:
 					return "空襲発生せず";
+			}
+		}
+
+		/// <summary>
+		/// 空襲被害の状態を表す文字列を取得します。(短縮版)
+		/// </summary>
+		public static string GetAirRaidDamageShort( int value ) {
+			switch ( value ) {
+				case 1:
+					return "資源損害";
+				case 2:
+					return "資源・航空";
+				case 3:
+					return "航空隊損害";
+				case 4:
+					return "損害なし";
+				default:
+					return "-";
 			}
 		}
 
@@ -613,6 +631,10 @@ namespace ElectronicObserver.Data {
 				case 17:
 					return "高角砲/機銃";
 				case 18:
+					return "集中機銃";
+				case 19:
+					return "高角砲/集中機銃";
+				case 20:
 					return "集中機銃";
 				default:
 					return "不明";

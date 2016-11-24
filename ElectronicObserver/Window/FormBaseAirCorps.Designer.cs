@@ -28,6 +28,8 @@
 			this.TableMember = new System.Windows.Forms.TableLayoutPanel();
 			this.ContextMenuBaseAirCorps = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ContextMenuBaseAirCorps_CopyOrganization = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.ContextMenuBaseAirCorps_DisplayRelocatedEquipments = new System.Windows.Forms.ToolStripMenuItem();
 			this.ContextMenuBaseAirCorps.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -59,16 +61,31 @@
 			// ContextMenuBaseAirCorps
 			// 
 			this.ContextMenuBaseAirCorps.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ContextMenuBaseAirCorps_CopyOrganization});
+            this.ContextMenuBaseAirCorps_CopyOrganization,
+            this.toolStripSeparator1,
+            this.ContextMenuBaseAirCorps_DisplayRelocatedEquipments});
 			this.ContextMenuBaseAirCorps.Name = "ContextMenuBaseAirCorps";
-			this.ContextMenuBaseAirCorps.Size = new System.Drawing.Size(188, 26);
+			this.ContextMenuBaseAirCorps.Size = new System.Drawing.Size(220, 54);
+			this.ContextMenuBaseAirCorps.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuBaseAirCorps_Opening);
 			// 
 			// ContextMenuBaseAirCorps_CopyOrganization
 			// 
 			this.ContextMenuBaseAirCorps_CopyOrganization.Name = "ContextMenuBaseAirCorps_CopyOrganization";
-			this.ContextMenuBaseAirCorps_CopyOrganization.Size = new System.Drawing.Size(187, 22);
+			this.ContextMenuBaseAirCorps_CopyOrganization.Size = new System.Drawing.Size(219, 22);
 			this.ContextMenuBaseAirCorps_CopyOrganization.Text = "クリップボードにコピー(&C)";
 			this.ContextMenuBaseAirCorps_CopyOrganization.Click += new System.EventHandler(this.ContextMenuBaseAirCorps_CopyOrganization_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(216, 6);
+			// 
+			// ContextMenuBaseAirCorps_DisplayRelocatedEquipments
+			// 
+			this.ContextMenuBaseAirCorps_DisplayRelocatedEquipments.Name = "ContextMenuBaseAirCorps_DisplayRelocatedEquipments";
+			this.ContextMenuBaseAirCorps_DisplayRelocatedEquipments.Size = new System.Drawing.Size(219, 22);
+			this.ContextMenuBaseAirCorps_DisplayRelocatedEquipments.Text = "配置転換中の装備を確認(&R)";
+			this.ContextMenuBaseAirCorps_DisplayRelocatedEquipments.Click += new System.EventHandler(this.ContextMenuBaseAirCorps_DisplayRelocatedEquipments_Click);
 			// 
 			// FormBaseAirCorps
 			// 
@@ -76,6 +93,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(300, 200);
+			this.ContextMenuStrip = this.ContextMenuBaseAirCorps;
 			this.Controls.Add(this.TableMember);
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -97,6 +115,8 @@
 		private System.Windows.Forms.TableLayoutPanel TableMember;
 		private System.Windows.Forms.ContextMenuStrip ContextMenuBaseAirCorps;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenuBaseAirCorps_CopyOrganization;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem ContextMenuBaseAirCorps_DisplayRelocatedEquipments;
 
 	}
 }

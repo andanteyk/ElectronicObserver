@@ -192,38 +192,30 @@ namespace ElectronicObserver.Window.Dialog {
 			var masterEquipments = KCDatabase.Instance.MasterEquipments;
 			int masterCount = masterEquipments.Values.Count( eq => !eq.IsAbyssalEquipment );
 
-			var allCount = new Dictionary<int, int>( masterCount );
-
-			//全個数計算
-			foreach ( var e in equipments ) {
-
-				if ( !allCount.ContainsKey( e.EquipmentID ) ) {
-					allCount.Add( e.EquipmentID, 1 );
-
-				} else {
-					allCount[e.EquipmentID]++;
-				}
-
-			}
-
+			var allCount = equipments.GroupBy( eq => eq.EquipmentID ).ToDictionary( group => group.Key, group => group.Count() );
 
 			var remainCount = new Dictionary<int, int>( allCount );
 
 
 			//剰余数計算
-			foreach ( var ship in ships ) {
+			foreach ( var eq in ships
+				.SelectMany( s => s.AllSlotInstanceMaster )
+				.Where( eq => eq != null ) ) {
 
-				foreach ( var eq in ship.AllSlotInstanceMaster ) {
-					if ( eq == null ) continue;
-					remainCount[eq.EquipmentID]--;
-				}
-
+				remainCount[eq.EquipmentID]--;
 			}
 
-			foreach ( int id in BaseAirCorpsData.RelocatedEquipments ) {
-				var eq = KCDatabase.Instance.Equipments[id];
-				if ( eq == null )
-					continue;
+			foreach ( var eq in KCDatabase.Instance.BaseAirCorps.Values
+				.SelectMany( corps => corps.Squadrons.Values.Select( sq => sq.EquipmentInstance ) )
+				.Where( eq => eq != null ) ) {
+
+				remainCount[eq.EquipmentID]--;
+			}
+
+			foreach ( var eq in BaseAirCorpsData.RelocatedEquipments
+				.Select( i => KCDatabase.Instance.Equipments[i] )
+				.Where( eq => eq != null ) ) {
+
 				remainCount[eq.EquipmentID]--;
 			}
 
@@ -332,7 +324,6 @@ namespace ElectronicObserver.Window.Dialog {
 				foreach ( var eq in ship.AllSlotInstance.Where( s => s != null && s.EquipmentID == equipmentID ) ) {
 
 					countlist[DetailCounter.CalculateID( eq )].countRemain--;
-
 				}
 
 				foreach ( var c in countlist.Values ) {
@@ -348,12 +339,32 @@ namespace ElectronicObserver.Window.Dialog {
 
 			}
 
-			// 基地航空隊 - 配置転換中の装備を集計
-			foreach ( int id in BaseAirCorpsData.RelocatedEquipments ) {
-				var eq = KCDatabase.Instance.Equipments[id];
-				if ( eq == null || eq.EquipmentID != equipmentID ) continue;
+			// 基地航空隊 - 配備中の装備を集計
+			foreach ( var corps in KCDatabase.Instance.BaseAirCorps.Values ) {
 
-				countlist[DetailCounter.CalculateID( eq )].countRemain--;
+				foreach ( var sq in corps.Squadrons.Values.Where( sq => sq != null && sq.EquipmentID == equipmentID ) ) {
+
+					countlist[DetailCounter.CalculateID( sq.EquipmentInstance )].countRemain--;
+				}
+
+				foreach ( var c in countlist.Values ) {
+					if ( c.countRemain != c.countRemainPrev ) {
+						int diff = c.countRemainPrev - c.countRemain;
+
+						c.equippedShips.Add( string.Format( "{0} {1}{2}", KCDatabase.Instance.MapArea[corps.MapAreaID].Name, corps.Name, diff > 1 ? ( " x" + diff ) : "" ) );
+
+						c.countRemainPrev = c.countRemain;
+					}
+				}
+
+			}
+
+			// 基地航空隊 - 配置転換中の装備を集計
+			foreach ( var eq in BaseAirCorpsData.RelocatedEquipments
+				.Select( id => KCDatabase.Instance.Equipments[id] )
+				.Where( eq => eq != null && eq.EquipmentID == equipmentID ) ) {
+				
+					countlist[DetailCounter.CalculateID( eq )].countRemain--;
 			}
 
 			foreach ( var c in countlist.Values ) {

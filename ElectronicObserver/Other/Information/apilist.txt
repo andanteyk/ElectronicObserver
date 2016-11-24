@@ -1310,26 +1310,29 @@ api_req_map/next		：進撃
 		api_maxhps
 		api_air_base_attack
 			api_stage_flag
-			api_plane_from	：[2][]
-		api_squadron_plane	：[1+航空隊保有数] +1は先頭の -1 の分
-		api_stage1
-			api_f_count
-			api_f_lostcount
-			api_e_count
-			api_e_lostcount
-			api_disp_seiku
-			api_touch_plane	：[2]
-		api_stage2
-			???(null)
-		api_stage3
-			api_frai_flag
-			api_erai_flag
-			api_fbak_flag
-			api_ebak_flag
-			api_fcl_flag
-			api_ecl_flag
-			api_fdam
-			api_edam
+			api_plane_from		：[2][]　[0][]には防空状態の基地のインデックス(1から)が入る
+			api_squadron_plane	：[1+航空隊保有数] -1から始まる　
+				[]				：防空状態の基地の場合　[参加した中隊数]
+					api_mst_id	：装備ID
+					api_count	：参加機数
+				{}				：その他の状態の基地の場合　空オブジェクト
+			api_stage1
+				api_f_count
+				api_f_lostcount
+				api_e_count
+				api_e_lostcount
+				api_disp_seiku
+				api_touch_plane	：[2]
+			api_stage2			：null
+			api_stage3
+				api_frai_flag
+				api_erai_flag
+				api_fbak_flag
+				api_ebak_flag
+				api_fcl_flag
+				api_ecl_flag
+				api_fdam
+				api_edam
 		api_lost_kind		：基地被害状況
 			1=「空襲により備蓄資源に損害を受けました！」
 			2=「空襲により備蓄資源に損害を受け、基地航空隊にも地上撃破の損害が発生しました！」
@@ -1774,6 +1777,7 @@ api_get_member/base_air_corps	：基地航空隊情報
 		api_cond			：コンディション　1=通常, 2=黄疲労, 3=赤疲労？　未配属なら存在しない
 
 Request.api_req_air_corps/set_plane		：基地航空隊 - 中隊設定
+	api_area_id		：所属海域ID
 	api_base_id		：航空隊ID
 	api_squadron_id	：中隊ID
 	api_item_id		：配属装備固有ID　-1=はずす
@@ -1784,6 +1788,7 @@ api_req_air_corps/set_plane		：基地航空隊 - 中隊設定
 	api_after_bauxite	：消費後のボーキサイト　配備時(消費時)のみ存在
 
 Request.api_req_air_corps/change_name		：基地航空隊 - 航空隊名変更
+	api_area_id		：所属海域ID
 	api_base_id		：航空隊ID
 	api_name		：変更後の名前
 
@@ -1791,7 +1796,8 @@ api_req_air_corps/change_name	：基地航空隊 - 航空隊名変更
 	(情報なし)
 
 Request.api_req_air_corps/set_action	：基地航空隊 - 行動指示変更
-	api_base_id		：航空隊ID　コンマ区切り配列になるかも
+	api_area_id		：所属海域ID
+	api_base_id		：航空隊ID　コンマ区切り配列
 	api_action_kind	：行動指示　〃
 
 api_req_air_corps/set_action	：基地航空隊 - 行動指示変更
@@ -1807,6 +1813,7 @@ api_req_map/start_air_base		：基地航空隊 - 出撃
 	(情報なし)
 
 Request.api_req_air_corps/supply		：基地航空隊 - 補給
+	api_area_id		：所属海域ID
 	api_base_id		：航空隊ID
 	api_squadron_id	：補給する中隊IDリスト　コンマ区切り
 
@@ -2021,8 +2028,58 @@ api_req_combined_battle/ld_airbattle		：連合艦隊 長距離空襲戦　存�
 	api_kouku
 
 
-api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合艦隊　昼戦
-	(詳細不明)
+api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合艦隊　昼戦　構成的には ec_battle と combined_battle/battle の合併版のようなもの
+	api_deck_id				：数値型
+	api_ship_ke
+	api_ship_ke_combined
+	api_ship_lv
+	api_ship_lv_combined
+	api_nowhps				：[13]
+	api_maxhps				：[13]
+	api_nowhps_combined		：[13]
+	api_maxhps_combined		：[13]
+	api_eSlot
+	api_eSlot_combined
+	api_fParam
+	api_fParam_combined
+	api_eParam
+	api_eParam_combined
+	api_midnight_flag
+	api_search
+	api_formation
+	api_stage_flag
+	api_kouku
+		api_plane_from
+		api_stage1
+		api_stage2
+		api_stage3
+		api_stage3_combined
+	api_support_flag
+	api_support_info
+	api_opening_taisen_flag
+	api_opening_taisen
+	api_opening_flag
+	api_opening_atack
+		api_frai
+		api_erai
+		api_fdam
+		api_edam
+		api_fydam
+		api_eydam
+		api_fcl
+		api_ecl
+	api_hourai_flag
+	api_hougeki1
+		api_at_eflag
+		api_at_list
+		api_at_type
+		api_df_list
+		api_si_list
+		api_cl_list
+		api_damage
+	api_hougeki2
+	api_raigeki
+	api_hougeki3
 
 
 api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵連合艦隊　昼戦

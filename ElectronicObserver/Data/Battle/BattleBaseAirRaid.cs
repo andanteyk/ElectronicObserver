@@ -6,35 +6,37 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
-
-	public class BattleEnemyCombinedNight : BattleNight {
+	
+	/// <summary>
+	/// 基地空襲戦
+	/// </summary>
+	public class BattleBaseAirRaid : BattleDay {
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			NightBattle = new PhaseNightBattle( this, "夜戦", false );
+			AirBattle = new PhaseBaseAirRaid( this, "空襲戦" );
 
-			NightBattle.EmulateBattle( _resultHPs, _attackDamages );
-
+			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
 		}
 
 
 		public override string APIName {
-			get { return "api_req_combined_battle/ec_midnight_battle"; }
+			get { return "api_req_map/next"; }
 		}
 
 		public override string BattleName {
-			get { return "対連合艦隊 夜戦"; }
+			get { return "基地空襲戦"; }
 		}
 
 		public override BattleData.BattleTypeFlag BattleType {
-			get { return BattleTypeFlag.Night | BattleTypeFlag.EnemyCombined | ( NightBattle.IsFriendEscort ? BattleTypeFlag.Combined : 0 ); }
+			get { return BattleTypeFlag.Day | BattleTypeFlag.BaseAirRaid; }
 		}
 
-
-		public override IEnumerable<PhaseBase> GetPhases() {
+		public override IEnumerable<Phase.PhaseBase> GetPhases() {
 			yield return Initial;
-			yield return NightBattle;
+			yield return Searching;
+			yield return AirBattle;
 		}
 	}
 }

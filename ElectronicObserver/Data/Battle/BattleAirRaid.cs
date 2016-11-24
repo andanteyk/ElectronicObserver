@@ -27,6 +27,10 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_sortie/ld_airbattle"; }
 		}
 
+		public override string BattleName {
+			get { return "通常艦隊 長距離空襲戦"; }
+		}
+
 		public override BattleTypeFlag BattleType {
 			get { return BattleTypeFlag.Day; }
 		}

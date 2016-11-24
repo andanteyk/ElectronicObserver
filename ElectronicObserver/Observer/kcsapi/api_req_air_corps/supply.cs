@@ -15,7 +15,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps {
 
 		public override void OnRequestReceived( Dictionary<string, string> data ) {
 
-			_aircorpsID = int.Parse( data["api_base_id"] );
+			_aircorpsID = BaseAirCorpsData.GetID( data );
 
 			base.OnRequestReceived( data );
 		}

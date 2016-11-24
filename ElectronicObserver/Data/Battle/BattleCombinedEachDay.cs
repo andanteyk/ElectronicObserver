@@ -43,6 +43,10 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_combined_battle/each_battle"; }
 		}
 
+		public override string BattleName {
+			get { return "連合艦隊-機動部隊 対連合艦隊 昼戦"; }
+		}
+
 		public override BattleData.BattleTypeFlag BattleType {
 			get { return BattleTypeFlag.Day | BattleTypeFlag.Combined | BattleTypeFlag.EnemyCombined; }
 		}

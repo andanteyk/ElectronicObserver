@@ -29,6 +29,7 @@ namespace ElectronicObserver.Window {
 				#region Initialize
 
 				Name = new ImageLabel();
+				Name.Name = "Name";
 				Name.Text = "*";
 				Name.Anchor = AnchorStyles.Left;
 				Name.TextAlign = ContentAlignment.MiddleLeft;
@@ -39,6 +40,7 @@ namespace ElectronicObserver.Window {
 				Name.AutoSize = true;
 				Name.ContextMenuStrip = parent.ContextMenuBaseAirCorps;
 				Name.Visible = false;
+				Name.Cursor = Cursors.Help;
 
 				ActionKind = new ImageLabel();
 				ActionKind.Text = "*";
@@ -130,14 +132,17 @@ namespace ElectronicObserver.Window {
 
 				} else {
 
-					Name.Text = corps.Name;
+					Name.Text = string.Format( "#{0} - {1}", corps.MapAreaID, corps.Name );
+					Name.Tag = corps.MapAreaID;
+					var sb = new StringBuilder();
+					sb.AppendLine( "所属海域: " + KCDatabase.Instance.MapArea[corps.MapAreaID].Name );
 
 					// state 
 					if ( corps.Squadrons.Values.Any( sq => sq != null && sq.AircraftCurrent < sq.AircraftMax ) ) {
 						// 未補給
 						Name.ImageAlign = ContentAlignment.MiddleRight;
 						Name.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
-						ToolTipInfo.SetToolTip( Name, "未補給" );
+						sb.AppendLine( "未補給" );
 
 					} else if ( corps.Squadrons.Values.Any( sq => sq != null && sq.Condition > 1 ) ) {
 						// 疲労
@@ -146,21 +151,21 @@ namespace ElectronicObserver.Window {
 						if ( tired == 2 ) {
 							Name.ImageAlign = ContentAlignment.MiddleRight;
 							Name.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
-							ToolTipInfo.SetToolTip( Name, "疲労" );
+							sb.AppendLine( "疲労" );
 
 						} else {
 							Name.ImageAlign = ContentAlignment.MiddleRight;
 							Name.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-							ToolTipInfo.SetToolTip( Name, "過労" );
+							sb.AppendLine( "過労" );
 
 						}
 
 					} else {
 						Name.ImageAlign = ContentAlignment.MiddleCenter;
 						Name.ImageIndex = -1;
-						ToolTipInfo.SetToolTip( Name, null );
 
 					}
+					ToolTipInfo.SetToolTip( Name, sb.ToString() );
 
 
 					ActionKind.Text = "[" + Constants.GetBaseAirCorpsActionKind( corps.ActionKind ) + "]";
@@ -264,7 +269,7 @@ namespace ElectronicObserver.Window {
 			InitializeComponent();
 
 
-			ControlMember = new TableBaseAirCorpsControl[3];
+			ControlMember = new TableBaseAirCorpsControl[9];
 			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i] = new TableBaseAirCorpsControl( this, TableMember, i );
@@ -308,26 +313,45 @@ namespace ElectronicObserver.Window {
 
 		void Updated( string apiname, dynamic data ) {
 
-			var db = KCDatabase.Instance;
+			var keys = KCDatabase.Instance.BaseAirCorps.Keys;
 
 			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
-				ControlMember[i].Update( i + 1 );
+				ControlMember[i].Update( i < keys.Count() ? keys.ElementAt( i ) : -1 );
 			}
 			TableMember.ResumeLayout();
 
 		}
 
 
+		private void ContextMenuBaseAirCorps_Opening( object sender, System.ComponentModel.CancelEventArgs e ) {
+			if ( KCDatabase.Instance.BaseAirCorps.Count == 0 ) {
+				e.Cancel = true;
+				return;
+			}
+
+			if ( ContextMenuBaseAirCorps.SourceControl.Name == "Name" )
+				ContextMenuBaseAirCorps_CopyOrganization.Tag = ContextMenuBaseAirCorps.SourceControl.Tag as int? ?? -1;
+			else
+				ContextMenuBaseAirCorps_CopyOrganization.Tag = -1;
+		}
+
 		private void ContextMenuBaseAirCorps_CopyOrganization_Click( object sender, EventArgs e ) {
 
 			var sb = new StringBuilder();
+			int areaid = ContextMenuBaseAirCorps_CopyOrganization.Tag as int? ?? -1;
 
-			foreach ( var corps in KCDatabase.Instance.BaseAirCorps.Values ) {
+			var baseaircorps = KCDatabase.Instance.BaseAirCorps.Values;
+			if ( areaid != -1 )
+				baseaircorps = baseaircorps.Where( c => c.MapAreaID == areaid );
 
-				sb.AppendFormat( "{0}\t[{1}] 制空戦力{2}\r\n",
-					corps.Name, Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
-					Calculator.GetAirSuperiority( corps ) );
+			foreach ( var corps in baseaircorps ) {
+
+				sb.AppendFormat( "{0}\t[{1}] 制空戦力{2}/戦闘行動半径{3}\r\n",
+					( areaid == -1 ? ( KCDatabase.Instance.MapArea[corps.MapAreaID].Name + "：" ) : "" ) + corps.Name,
+					Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
+					Calculator.GetAirSuperiority( corps ),
+					corps.Distance );
 
 				var sq = corps.Squadrons.Values.ToArray();
 
@@ -358,12 +382,24 @@ namespace ElectronicObserver.Window {
 					}
 				}
 
-				sb.AppendLine().AppendLine();
+				sb.AppendLine();
 			}
 
 			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
 		}
 
+		private void ContextMenuBaseAirCorps_DisplayRelocatedEquipments_Click( object sender, EventArgs e ) {
+
+			string message = string.Join( "\r\n", BaseAirCorpsData.RelocatedEquipments
+				.Select( id => KCDatabase.Instance.Equipments[id] )
+				.Where( eq => eq != null )
+				.Select( eq => string.Format( "{0} ({1}～)", eq.NameWithLevel, DateTimeHelper.TimeToCSVString( eq.RelocatedTime ) ) ) );
+
+			if ( message.Length == 0 )
+				message = "現在配置転換中の装備はありません。";
+
+			MessageBox.Show( message, "配置転換中装備", MessageBoxButtons.OK, MessageBoxIcon.Information );
+		}
 
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
@@ -373,6 +409,8 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "BaseAirCorps";
 		}
+
+
 
 
 	}
