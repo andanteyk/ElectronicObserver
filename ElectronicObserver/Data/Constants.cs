@@ -315,7 +315,7 @@ namespace ElectronicObserver.Data {
 				case 3:
 					return "空襲発生 - 航空隊に損害";
 				case 4:
-					return "空襲発生 - 被害なし";
+					return "空襲発生 - 損害なし";
 				default:
 					return "空襲発生せず";
 			}
@@ -333,7 +333,7 @@ namespace ElectronicObserver.Data {
 				case 3:
 					return "航空隊損害";
 				case 4:
-					return "被害なし";
+					return "損害なし";
 				default:
 					return "-";
 			}
@@ -631,6 +631,10 @@ namespace ElectronicObserver.Data {
 				case 17:
 					return "高角砲/機銃";
 				case 18:
+					return "集中機銃";
+				case 19:
+					return "高角砲/集中機銃";
+				case 20:
 					return "集中機銃";
 				default:
 					return "不明";

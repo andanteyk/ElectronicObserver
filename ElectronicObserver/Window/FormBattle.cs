@@ -144,7 +144,8 @@ namespace ElectronicObserver.Window {
 						goto case "api_port/port";
 
 					SetFormation( bm.BattleDay );
-					SetSearchingResult( bm.BattleDay );
+					ClearSearchingResult();
+					ClearBaseAirAttack();
 					SetAerialWarfare( bm.BattleDay.AirBattle );
 					SetHPBar( bm.BattleDay );
 					SetDamageRate( bm );

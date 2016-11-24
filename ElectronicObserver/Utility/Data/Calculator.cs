@@ -1055,6 +1055,14 @@ namespace ElectronicObserver.Utility.Data {
 					if ( aagun_concentrated >= 1 )
 						return 18;
 					break;
+
+				case 487:	//鬼怒改二
+					if ( aagun_concentrated >= 1 ) {
+						if ( highangle - highangle_director >= 1 )
+							return 19;
+						return 20;
+					}
+					break;
 			}
 
 
