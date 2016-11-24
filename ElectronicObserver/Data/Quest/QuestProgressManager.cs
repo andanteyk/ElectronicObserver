@@ -365,12 +365,15 @@ namespace ElectronicObserver.Data.Quest {
 
 			#region Slaughter
 
+			bool isEnemyCombined = false;
 
 			if ( bm.StartsFromDayBattle ) {
+				isEnemyCombined = (bm.BattleDay.BattleType & ElectronicObserver.Data.Battle.BattleData.BattleTypeFlag.EnemyCombined ) != 0;
 				if ( bm.BattleNight != null ) hps = bm.BattleNight.ResultHPs;
 				else hps = bm.BattleDay.ResultHPs;
 
 			} else {
+				isEnemyCombined = (bm.BattleNight.BattleType & ElectronicObserver.Data.Battle.BattleData.BattleTypeFlag.EnemyCombined ) != 0;
 				if ( bm.BattleDay != null ) hps = bm.BattleDay.ResultHPs;
 				else hps = bm.BattleNight.ResultHPs;
 			}
@@ -388,6 +391,14 @@ namespace ElectronicObserver.Data.Quest {
 
 					foreach ( var p in slaughterList )
 						p.Increment( ship.ShipType );
+				}
+
+				if(isEnemyCombined && hps[i + 18] <= 0) {
+					var ship = bm.BattleDay != null ? bm.BattleDay.Initial.EnemyMembersEscortInstance[i] : bm.BattleNight.Initial.EnemyMembersEscortInstance[i];
+					if ( ship == null ) continue;
+
+					foreach ( var p in slaughterList )
+						p.Increment( ship.ShipType );					
 				}
 
 			}
