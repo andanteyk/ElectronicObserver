@@ -39,6 +39,7 @@ namespace ElectronicObserver.Window {
 				Name.AutoSize = true;
 				Name.ContextMenuStrip = parent.ContextMenuBaseAirCorps;
 				Name.Visible = false;
+				Name.Cursor = Cursors.Help;
 
 				ActionKind = new ImageLabel();
 				ActionKind.Text = "*";

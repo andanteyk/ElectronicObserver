@@ -1310,8 +1310,12 @@ api_req_map/next		：進撃
 		api_maxhps
 		api_air_base_attack
 			api_stage_flag
-			api_plane_from	：[2][]
-			api_squadron_plane	：[1+航空隊保有数] +1は先頭の -1 の分　防空でない航空隊は{0}
+			api_plane_from		：[2][]　[0][]には防空状態の基地のインデックス(1から)が入る
+			api_squadron_plane	：[1+航空隊保有数] -1から始まる　
+				[]				：防空状態の基地の場合　[参加した中隊数]
+					api_mst_id	：装備ID
+					api_count	：参加機数
+				{}				：その他の状態の基地の場合　空オブジェクト
 			api_stage1
 				api_f_count
 				api_f_lostcount
@@ -1319,8 +1323,7 @@ api_req_map/next		：進撃
 				api_e_lostcount
 				api_disp_seiku
 				api_touch_plane	：[2]
-			api_stage2
-				???(null)
+			api_stage2			：null
 			api_stage3
 				api_frai_flag
 				api_erai_flag

@@ -47,6 +47,7 @@ namespace ElectronicObserver.Window {
 				Name.Margin = new Padding( 2, 0, 2, 0 );
 				Name.AutoSize = true;
 				//Name.Visible = false;
+				Name.Cursor = Cursors.Help;
 
 				StateMain = new ImageLabel();
 				StateMain.Anchor = AnchorStyles.Left;

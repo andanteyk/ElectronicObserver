@@ -50,7 +50,15 @@ namespace ElectronicObserver.Data.Battle.Detail {
 
 				var sb = new StringBuilder();
 
-				if ( phase is PhaseAirBattle ) {
+				if ( phase is PhaseBaseAirRaid ) {
+					var p = phase as PhaseBaseAirRaid;
+
+					sb.AppendLine( "味方基地航空隊 参加中隊:" );
+					sb.Append( "　" ).AppendLine( string.Join( ", ", p.Squadrons.Where( sq => sq.EquipmentInstance != null ).Select( sq => sq.ToString() ) ) );
+
+					GetBattleDetailPhaseAirBattle( sb, p );
+
+				} else if ( phase is PhaseAirBattle ) {
 					var p = phase as PhaseAirBattle;
 
 					GetBattleDetailPhaseAirBattle( sb, p );
@@ -61,6 +69,10 @@ namespace ElectronicObserver.Data.Battle.Detail {
 
 					foreach ( var a in p.AirAttackUnits ) {
 						sb.AppendFormat( "〈第{0}波〉\r\n", a.AirAttackIndex + 1 );
+
+						sb.AppendLine( "味方基地航空隊 参加中隊:" );
+						sb.Append( "　" ).AppendLine( string.Join( ", ", a.Squadrons.Where( sq => sq.EquipmentInstance != null ).Select( sq => sq.ToString() ) ) );
+
 						GetBattleDetailPhaseAirBattle( sb, a );
 						sb.Append( a.GetBattleDetail() );
 					}
@@ -108,6 +120,12 @@ namespace ElectronicObserver.Data.Battle.Detail {
 					}
 
 					sb.AppendLine();
+
+					if ( battle.GetPhases().Where( ph => ph is PhaseBaseAirAttack || ph is PhaseBaseAirRaid ).Any( ph => ph != null && ph.IsAvailable )) {
+						sb.AppendLine( "〈基地航空隊〉" );
+						GetBattleDetailBaseAirCorps( sb, KCDatabase.Instance.Battle.Compass.MapAreaID );		// :(
+						sb.AppendLine();
+					}
 
 					if ( p.RationIndexes.Length > 0 ) {
 						sb.AppendLine( "〈戦闘糧食補給〉" );
@@ -271,6 +289,16 @@ namespace ElectronicObserver.Data.Battle.Detail {
 		}
 
 
+		private static void GetBattleDetailBaseAirCorps( StringBuilder sb, int mapAreaID ) {
+			foreach ( var corps in KCDatabase.Instance.BaseAirCorps.Values.Where( corps => corps.MapAreaID == mapAreaID ) ) {
+				sb.AppendFormat( "{0} [{1}]\r\n　{2}\r\n",
+					corps.Name, Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
+					string.Join( ", ", corps.Squadrons.Values
+						.Where( sq => sq.State == 1 && sq.EquipmentInstance != null )
+						.Select( sq => sq.EquipmentInstance.NameWithLevel ) ) );
+			}
+		}
+
 		private static void GetBattleDetailPhaseAirBattle( StringBuilder sb, PhaseAirBattle p ) {
 
 			if ( p.IsStage1Available ) {
@@ -412,12 +440,12 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				if ( ship != null ) {
 					sb.AppendFormat( "　{0} {1}\r\n", ship.ShipTypeName, ship.NameWithClass );
 				}
-			
+
 				var eq = KCDatabase.Instance.MasterEquipments[result.DroppedEquipmentID];
 				if ( eq != null ) {
 					sb.AppendFormat( "　{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name );
 				}
-			
+
 				var item = KCDatabase.Instance.MasterUseItems[result.DroppedItemID];
 				if ( item != null ) {
 					sb.Append( "　" ).AppendLine( item.Name );
