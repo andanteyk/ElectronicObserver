@@ -82,8 +82,9 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					BattleDetails.Add( new BattleSupportDetail( _battleData, i + 6, Damages[i], Criticals[i], SupportFlag, hps[i + 6] ) );
 					AddDamage( hps, i + 6, Damages[i] );
 				}
-
-				if ( ( _battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined ) != 0 ) {
+			}
+			if ( ( _battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined ) != 0 ) {
+				for ( int i = 0; i < 6; i++ ) {
 					if ( _battleData.Initial.EnemyMembersEscort[i] > 0 ) {
 						BattleDetails.Add( new BattleSupportDetail( _battleData, i + 18, Damages[i + 6], Criticals[i + 6], SupportFlag, hps[i + 18] ) );
 						AddDamage( hps, i + 18, Damages[i + 6] );

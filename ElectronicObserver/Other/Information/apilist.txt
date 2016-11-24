@@ -2028,8 +2028,58 @@ api_req_combined_battle/ld_airbattle		：連合艦隊 長距離空襲戦　存�
 	api_kouku
 
 
-api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合艦隊　昼戦
-	(詳細不明)
+api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合艦隊　昼戦　構成的には ec_battle と combined_battle/battle の合併版のようなもの
+	api_deck_id				：数値型
+	api_ship_ke
+	api_ship_ke_combined
+	api_ship_lv
+	api_ship_lv_combined
+	api_nowhps				：[13]
+	api_maxhps				：[13]
+	api_nowhps_combined		：[13]
+	api_maxhps_combined		：[13]
+	api_eSlot
+	api_eSlot_combined
+	api_fParam
+	api_fParam_combined
+	api_eParam
+	api_eParam_combined
+	api_midnight_flag
+	api_search
+	api_formation
+	api_stage_flag
+	api_kouku
+		api_plane_from
+		api_stage1
+		api_stage2
+		api_stage3
+		api_stage3_combined
+	api_support_flag
+	api_support_info
+	api_opening_taisen_flag
+	api_opening_taisen
+	api_opening_flag
+	api_opening_atack
+		api_frai
+		api_erai
+		api_fdam
+		api_edam
+		api_fydam
+		api_eydam
+		api_fcl
+		api_ecl
+	api_hourai_flag
+	api_hougeki1
+		api_at_eflag
+		api_at_list
+		api_at_type
+		api_df_list
+		api_si_list
+		api_cl_list
+		api_damage
+	api_hougeki2
+	api_raigeki
+	api_hougeki3
 
 
 api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵連合艦隊　昼戦
