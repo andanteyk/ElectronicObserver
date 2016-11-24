@@ -313,6 +313,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Log_ShowSpoiler.Checked = config.Log.ShowSpoiler;
 			_playTimeCache = config.Log.PlayTime;
 			UpdatePlayTime();
+			Log_SaveBattleLog.Checked = config.Log.SaveBattleLog;
 
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
@@ -526,6 +527,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Log.SaveErrorReport = Log_SaveErrorReport.Checked;
 			config.Log.FileEncodingID = Log_FileEncodingID.SelectedIndex;
 			config.Log.ShowSpoiler = Log_ShowSpoiler.Checked;
+			config.Log.SaveBattleLog = Log_SaveBattleLog.Checked;
 
 			//[動作]
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;

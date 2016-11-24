@@ -19,18 +19,21 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				sb.AppendFormat( "{0} ({1}-{2})", bm.Compass.MapInfo.Name, bm.Compass.MapAreaID, bm.Compass.MapInfoID );
 				if ( bm.Compass.MapInfo.EventDifficulty > 0 )
 					sb.AppendFormat( " [{0}]", Constants.GetDifficulty( bm.Compass.MapInfo.EventDifficulty ) );
-				sb.Append( " セル: " ).AppendLine( bm.Compass.Destination.ToString() );
+				sb.Append( " セル: " ).Append( bm.Compass.Destination.ToString() );
+				if ( bm.Compass.EventID == 5 )
+					sb.Append( " (ボス)" );
+				sb.AppendLine();
+			}
+			if ( bm.Result != null ) {
+				sb.AppendLine( bm.Result.EnemyFleetName );
 			}
 			sb.AppendLine();
 
-			{
-				var battle1 = bm.StartsFromDayBattle ? (BattleData)bm.BattleDay : bm.BattleNight;
-				var battle2 = bm.StartsFromDayBattle ? (BattleData)bm.BattleNight : bm.BattleDay;
 
-				sb.AppendFormat( "◆ {0} ◆\r\n", battle1.BattleName ).AppendLine( GetBattleDetail( battle1 ) );
-				if ( battle2 != null )
-					sb.AppendFormat( "◆ {0} ◆\r\n", battle2.BattleName ).AppendLine( GetBattleDetail( battle2 ) );
-			}
+			sb.AppendFormat( "◆ {0} ◆\r\n", bm.FirstBattle.BattleName ).AppendLine( GetBattleDetail( bm.FirstBattle ) );
+			if ( bm.SecondBattle != null )
+				sb.AppendFormat( "◆ {0} ◆\r\n", bm.SecondBattle.BattleName ).AppendLine( GetBattleDetail( bm.SecondBattle ) );
+
 
 			if ( bm.Result != null ) {
 				sb.AppendLine( GetBattleResult( bm ) );
@@ -121,7 +124,7 @@ namespace ElectronicObserver.Data.Battle.Detail {
 
 					sb.AppendLine();
 
-					if ( battle.GetPhases().Where( ph => ph is PhaseBaseAirAttack || ph is PhaseBaseAirRaid ).Any( ph => ph != null && ph.IsAvailable )) {
+					if ( battle.GetPhases().Where( ph => ph is PhaseBaseAirAttack || ph is PhaseBaseAirRaid ).Any( ph => ph != null && ph.IsAvailable ) ) {
 						sb.AppendLine( "〈基地航空隊〉" );
 						GetBattleDetailBaseAirCorps( sb, KCDatabase.Instance.Battle.Compass.MapAreaID );		// :(
 						sb.AppendLine();
@@ -430,10 +433,11 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			sb.AppendFormat( "提督経験値: +{0}\r\n艦娘基本経験値: +{1}\r\n",
 				result.AdmiralExp, result.BaseExp );
 
-			sb.AppendLine().AppendLine( "ドロップ：" );
+
+			if ( !bm.IsPractice ) {
+				sb.AppendLine().AppendLine( "ドロップ：" );
 
 
-			{
 				int length = sb.Length;
 
 				var ship = KCDatabase.Instance.MasterShips[result.DroppedShipID];

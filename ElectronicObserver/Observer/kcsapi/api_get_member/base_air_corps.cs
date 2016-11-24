@@ -12,6 +12,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			var db = KCDatabase.Instance;
 
+			db.BaseAirCorps.Clear();
 			foreach ( var elem in data ) {
 
 				int id = BaseAirCorpsData.GetID( elem );
