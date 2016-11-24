@@ -377,7 +377,7 @@ namespace ElectronicObserver.Data.Quest {
 
 			if ( hps == null ) return;
 
-			IEnumerable<ProgressSlaughter> slaughterList = Progresses.Values.Where( p => p is ProgressSlaughter ).Cast<ProgressSlaughter>();
+			var slaughterList = Progresses.Values.Where( p => p is ProgressSlaughter ).Cast<ProgressSlaughter>();
 
 			for ( int i = 0; i < 6; i++ ) {
 
@@ -390,6 +390,14 @@ namespace ElectronicObserver.Data.Quest {
 						p.Increment( ship.ShipType );
 				}
 
+				if ( bm.IsEnemyCombined && hps[i + 18] <= 0 ) {
+
+					var ship = bm.BattleDay != null ? bm.BattleDay.Initial.EnemyMembersEscortInstance[i] : bm.BattleNight.Initial.EnemyMembersEscortInstance[i];
+					if ( ship == null ) continue;
+
+					foreach ( var p in slaughterList )
+						p.Increment( ship.ShipType );
+				}
 			}
 
 

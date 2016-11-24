@@ -12,15 +12,28 @@ namespace ElectronicObserver.Data.Battle.Detail {
 		public static string GetBattleDetail( BattleManager bm ) {
 			var sb = new StringBuilder();
 
-			if ( bm.StartsFromDayBattle ) {
-				sb.AppendLine( "◆ 昼戦 ◆" ).AppendLine( GetBattleDetail( bm.BattleDay ) );
-				if ( bm.BattleNight != null )
-					sb.AppendLine( "◆ 夜戦 ◆" ).AppendLine( GetBattleDetail( bm.BattleNight ) );
+			if ( bm.IsPractice ) {
+				sb.AppendLine( "演習" );
 
 			} else {
-				sb.AppendLine( "◆ 夜戦 ◆" ).AppendLine( GetBattleDetail( bm.BattleNight ) );
-				if ( bm.BattleDay != null )
-					sb.AppendLine( "◆ 昼戦 ◆" ).AppendLine( GetBattleDetail( bm.BattleDay ) );
+				sb.AppendFormat( "{0} ({1}-{2})", bm.Compass.MapInfo.Name, bm.Compass.MapAreaID, bm.Compass.MapInfoID );
+				if ( bm.Compass.MapInfo.EventDifficulty > 0 )
+					sb.AppendFormat( " [{0}]", Constants.GetDifficulty( bm.Compass.MapInfo.EventDifficulty ) );
+				sb.Append( " セル: " ).AppendLine( bm.Compass.Destination.ToString() );
+			}
+			sb.AppendLine();
+
+			{
+				var battle1 = bm.StartsFromDayBattle ? (BattleData)bm.BattleDay : bm.BattleNight;
+				var battle2 = bm.StartsFromDayBattle ? (BattleData)bm.BattleNight : bm.BattleDay;
+
+				sb.AppendFormat( "◆ {0} ◆\r\n", battle1.BattleName ).AppendLine( GetBattleDetail( battle1 ) );
+				if ( battle2 != null )
+					sb.AppendFormat( "◆ {0} ◆\r\n", battle2.BattleName ).AppendLine( GetBattleDetail( battle2 ) );
+			}
+
+			if ( bm.Result != null ) {
+				sb.AppendLine( GetBattleResult( bm ) );
 			}
 
 			return sb.ToString();
@@ -365,6 +378,59 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				resultHP - initialHP );
 		}
 
+
+		private static string GetBattleResult( BattleManager bm ) {
+			var result = bm.Result;
+
+			var sb = new StringBuilder();
+
+
+			sb.AppendLine( "◆ 戦闘結果 ◆" );
+			sb.AppendFormat( "ランク: {0}\r\n", result.Rank );
+
+			if ( bm.IsCombinedBattle ) {
+				sb.AppendFormat( "MVP(主力艦隊): {0}\r\n",
+					result.MVPIndex == -1 ? "(なし)" : bm.FirstBattle.Initial.FriendFleet.MembersInstance[result.MVPIndex - 1].NameWithLevel );
+				sb.AppendFormat( "MVP(随伴艦隊): {0}\r\n",
+					result.MVPIndexCombined == -1 ? "(なし)" : bm.FirstBattle.Initial.FriendFleetEscort.MembersInstance[result.MVPIndexCombined - 1].NameWithLevel );
+
+			} else {
+				sb.AppendFormat( "MVP: {0}\r\n",
+					result.MVPIndex == -1 ? "(なし)" : bm.FirstBattle.Initial.FriendFleet.MembersInstance[result.MVPIndex - 1].NameWithLevel );
+			}
+
+			sb.AppendFormat( "提督経験値: +{0}\r\n艦娘基本経験値: +{1}\r\n",
+				result.AdmiralExp, result.BaseExp );
+
+			sb.AppendLine().AppendLine( "ドロップ：" );
+
+
+			{
+				int length = sb.Length;
+
+				var ship = KCDatabase.Instance.MasterShips[result.DroppedShipID];
+				if ( ship != null ) {
+					sb.AppendFormat( "　{0} {1}\r\n", ship.ShipTypeName, ship.NameWithClass );
+				}
+			
+				var eq = KCDatabase.Instance.MasterEquipments[result.DroppedEquipmentID];
+				if ( eq != null ) {
+					sb.AppendFormat( "　{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name );
+				}
+			
+				var item = KCDatabase.Instance.MasterUseItems[result.DroppedItemID];
+				if ( item != null ) {
+					sb.Append( "　" ).AppendLine( item.Name );
+				}
+
+				if ( length == sb.Length ) {
+					sb.AppendLine( "　(なし)" );
+				}
+			}
+
+
+			return sb.ToString();
+		}
 
 	}
 }

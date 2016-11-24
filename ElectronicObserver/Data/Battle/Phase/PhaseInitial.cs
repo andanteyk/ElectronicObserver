@@ -60,6 +60,17 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 
 		/// <summary>
+		/// 敵艦隊メンバ [0-5]=主力艦隊 [6-11]=随伴艦隊
+		/// </summary>
+		public int[] AllEnemyMembers { get; private set; }
+
+		/// <summary>
+		/// 敵艦隊メンバ [0-5]=主力艦隊 [6-11]=随伴艦隊
+		/// </summary>
+		public ShipDataMaster[] AllEnemyMembersInstance { get; private set; }
+
+
+		/// <summary>
 		/// 敵艦のレベル
 		/// </summary>
 		public int[] EnemyLevels { get; private set; }
@@ -149,6 +160,9 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			EnemyMembersEscort = !RawData.api_ship_ke_combined() ? null : ArraySkip( (int[])RawData.api_ship_ke_combined );
 			EnemyMembersEscortInstance = EnemyMembersEscort == null ? null : EnemyMembersEscort.Select( id => KCDatabase.Instance.MasterShips[id] ).ToArray();
+
+			AllEnemyMembers = EnemyMembers.Concat( EnemyMembersEscort ?? Enumerable.Repeat( -1, 6 ) ).ToArray();
+			AllEnemyMembersInstance = EnemyMembersInstance.Concat( EnemyMembersEscortInstance ?? Enumerable.Repeat<ShipDataMaster>( null, 6 ) ).ToArray();
 
 			EnemyLevels = ArraySkip( (int[])RawData.api_ship_lv );
 			EnemyLevelsEscort = !RawData.api_ship_lv_combined() ? null : ArraySkip( (int[])RawData.api_ship_lv_combined );

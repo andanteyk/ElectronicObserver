@@ -23,6 +23,10 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_combined_battle/ec_midnight_battle"; }
 		}
 
+		public override string BattleName {
+			get { return "対連合艦隊 夜戦"; }
+		}
+
 		public override BattleData.BattleTypeFlag BattleType {
 			get { return BattleTypeFlag.Night | BattleTypeFlag.EnemyCombined | ( NightBattle.IsFriendEscort ? BattleTypeFlag.Combined : 0 ); }
 		}

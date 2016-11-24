@@ -95,6 +95,11 @@ namespace ElectronicObserver.Data.Battle {
 		/// </summary>
 		public abstract string APIName { get; }
 
+		/// <summary>
+		/// 戦闘形態の名称
+		/// </summary>
+		public abstract string BattleName { get; }
+
 
 		[Flags]
 		public enum BattleTypeFlag {

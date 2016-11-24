@@ -1125,10 +1125,10 @@ namespace ElectronicObserver.Window {
 
 			var bm = KCDatabase.Instance.Battle;
 
-			if ( bm == null || bm.BattleMode == BattleManager.BattleModes.Undefined ) {
+			if ( bm == null || bm.BattleMode == BattleManager.BattleModes.Undefined )
 				e.Cancel = true;
-			}
 
+			RightClickMenu_ShowBattleResult.Enabled = !BaseLayoutPanel.Visible;
 		}
 
 		private void RightClickMenu_ShowBattleDetail_Click( object sender, EventArgs e ) {
@@ -1144,6 +1144,11 @@ namespace ElectronicObserver.Window {
 			dialog.Show( this );
 
 		}
+
+		private void RightClickMenu_ShowBattleResult_Click( object sender, EventArgs e ) {
+			BaseLayoutPanel.Visible = true;
+		}
+
 
 
 
@@ -1183,7 +1188,7 @@ namespace ElectronicObserver.Window {
 			return "Battle";
 		}
 
-
+	
 	}
 
 }

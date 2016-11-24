@@ -25,6 +25,10 @@ namespace ElectronicObserver.Data.Battle {
 			get { return "api_req_map/next"; }
 		}
 
+		public override string BattleName {
+			get { return "基地空襲戦"; }
+		}
+
 		public override BattleData.BattleTypeFlag BattleType {
 			get { return BattleTypeFlag.Day | BattleTypeFlag.BaseAirRaid; }
 		}

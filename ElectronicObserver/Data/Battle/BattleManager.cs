@@ -92,6 +92,31 @@ namespace ElectronicObserver.Data.Battle {
 
 
 		/// <summary>
+		/// 1回目の戦闘
+		/// </summary>
+		public BattleData FirstBattle { 
+			get {
+				if ( StartsFromDayBattle )
+					return BattleDay;
+				else
+					return BattleNight;
+			}
+		}
+
+		/// <summary>
+		/// 2回目の戦闘
+		/// </summary>
+		public BattleData SecondBattle {
+			get {
+				if ( StartsFromDayBattle )
+					return BattleNight;
+				else
+					return BattleDay;
+			}
+		}
+
+
+		/// <summary>
 		/// 出撃中に入手した艦船数
 		/// </summary>
 		public int DroppedShipCount { get; internal set; }
