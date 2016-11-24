@@ -29,6 +29,7 @@ namespace ElectronicObserver.Window {
 				#region Initialize
 
 				Name = new ImageLabel();
+				Name.Name = "Name";
 				Name.Text = "*";
 				Name.Anchor = AnchorStyles.Left;
 				Name.TextAlign = ContentAlignment.MiddleLeft;
@@ -324,10 +325,15 @@ namespace ElectronicObserver.Window {
 
 
 		private void ContextMenuBaseAirCorps_Opening( object sender, System.ComponentModel.CancelEventArgs e ) {
-			var menu = ( sender as ContextMenuStrip );
-			if ( menu != null ) {
-				ContextMenuBaseAirCorps_CopyOrganization.Tag = menu.SourceControl.Tag as int? ?? -1;
+			if ( KCDatabase.Instance.BaseAirCorps.Count == 0 ) {
+				e.Cancel = true;
+				return;
 			}
+
+			if ( ContextMenuBaseAirCorps.SourceControl.Name == "Name" )
+				ContextMenuBaseAirCorps_CopyOrganization.Tag = ContextMenuBaseAirCorps.SourceControl.Tag as int? ?? -1;
+			else
+				ContextMenuBaseAirCorps_CopyOrganization.Tag = -1;
 		}
 
 		private void ContextMenuBaseAirCorps_CopyOrganization_Click( object sender, EventArgs e ) {
@@ -342,7 +348,8 @@ namespace ElectronicObserver.Window {
 			foreach ( var corps in baseaircorps ) {
 
 				sb.AppendFormat( "{0}\t[{1}] 制空戦力{2}/戦闘行動半径{3}\r\n",
-					corps.Name, Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
+					( areaid == -1 ? ( KCDatabase.Instance.MapArea[corps.MapAreaID].Name + "：" ) : "" ) + corps.Name,
+					Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
 					Calculator.GetAirSuperiority( corps ),
 					corps.Distance );
 
@@ -381,6 +388,18 @@ namespace ElectronicObserver.Window {
 			Clipboard.SetData( DataFormats.StringFormat, sb.ToString() );
 		}
 
+		private void ContextMenuBaseAirCorps_DisplayRelocatedEquipments_Click( object sender, EventArgs e ) {
+
+			string message = string.Join( "\r\n", BaseAirCorpsData.RelocatedEquipments
+				.Select( id => KCDatabase.Instance.Equipments[id] )
+				.Where( eq => eq != null )
+				.Select( eq => string.Format( "{0} ({1}～)", eq.NameWithLevel, DateTimeHelper.TimeToCSVString( eq.RelocatedTime ) ) ) );
+
+			if ( message.Length == 0 )
+				message = "現在配置転換中の装備はありません。";
+
+			MessageBox.Show( message, "配置転換中装備", MessageBoxButtons.OK, MessageBoxIcon.Information );
+		}
 
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
@@ -391,6 +410,8 @@ namespace ElectronicObserver.Window {
 			return "BaseAirCorps";
 		}
 
-		
+
+
+
 	}
 }
