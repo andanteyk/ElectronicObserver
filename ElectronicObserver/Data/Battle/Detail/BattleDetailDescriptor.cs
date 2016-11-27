@@ -141,7 +141,7 @@ namespace ElectronicObserver.Data.Battle.Detail {
 								ship = p.FriendFleetEscort.MembersInstance[index - 6];
 
 							if ( ship != null ) {
-								sb.AppendFormat( "　{0} #{1}\r\n", ship.NameWithLevel, index );
+								sb.AppendFormat( "　{0} #{1}\r\n", ship.NameWithLevel, index + 1 );
 							}
 						}
 						sb.AppendLine();
