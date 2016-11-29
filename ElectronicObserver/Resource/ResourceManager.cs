@@ -500,7 +500,15 @@ namespace ElectronicObserver.Resource {
 
 					try {
 
-						entry.ExtractToFile( destination );
+						if (source.StartsWith("Record/") && Utility.Configuration.Config.Log.FileEncodingID != 4) {
+							using (var filetoconvert = GetStreamFromArchive(source)) {
+								filetoconvert.Position = 0;
+								string fileread = new StreamReader(filetoconvert, Encoding.GetEncoding(932)).ReadToEnd();
+								File.WriteAllText(destination, fileread, Utility.Configuration.Config.Log.FileEncoding);
+							}
+						} else {
+							entry.ExtractToFile( destination );
+						}
 						Utility.Logger.Add( 2, string.Format( "{0} をコピーしました。", entrypath ) );
 
 					} catch ( Exception ex ) {
