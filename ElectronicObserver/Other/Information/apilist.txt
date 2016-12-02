@@ -1647,20 +1647,21 @@ api_req_combined_battle/ec_battle	：通常艦隊昼戦（敵連合艦隊）
 	api_hougeki3			：第三次砲撃戦 api_hougeki1 と同じ なければ存在しない
 
 
-api_req_combiend_battle/ec_midnight_battle	：通常艦隊夜戦（敵連合艦隊）
-	api_active_deck			：出撃艦隊ID [2] [0]=味方側(api_deck_id に相当), [1]=敵側(1=主力艦隊, 2=随伴艦隊)
-	api_deck_id				：0
+api_req_combiend_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（敵連合艦隊）
+	api_active_deck			：戦闘参加艦隊フラグ [2] [0]=味方側, [1]=敵側 1=主力艦隊, 2=随伴艦隊 
+	api_deck_id				：出撃艦隊ID 味方連合なら1
 	api_ship_ke				：敵主力艦隊艦船ID [7] (-1から始まる)
 	api_ship_ke_combined	：敵随伴艦隊艦船ID [7] (-1から始まる)
 	api_ship_lv				：敵主力艦隊Lv [7] (-1から始まる)
 	api_ship_lv_combined	：敵随伴艦隊Lv [7] (-1から始まる)
 	api_nowhps				：味方/敵主力艦隊現在HP [13] (-1から始まる)
 	api_maxhps				：味方/敵主力艦隊最大HP [13] (-1から始まる)
-	api_nowhps_combined		：味方/敵随伴艦隊現在HP [13] (-1から始まる, 味方側は -1 で埋められる)
-	api_maxhps_combined		：味方/敵随伴艦隊最大HP [13] (-1から始まる, 味方側は -1 で埋められる)
+	api_nowhps_combined		：味方/敵随伴艦隊現在HP [13] (-1から始まる, 味方通常艦隊の場合 -1 で埋められる)
+	api_maxhps_combined		：味方/敵随伴艦隊最大HP [13] (-1から始まる, 味方通常艦隊の場合 -1 で埋められる)
 	api_eSlot				：敵主力艦隊装備IDリスト [6][5]
 	api_eSlot_combined		：敵随伴艦隊装備IDリスト [6][5]
-	api_fParam				：味方パラメータ [6][4] (火雷空甲)
+	api_fParam				：味方主力艦隊パラメータ [6][4] (火雷空甲)
+	api_fParam_combined		：味方随伴艦隊パラメータ [6][4] (火雷空甲) 味方随伴艦隊がいるときのみ存在
 	api_eParam				：敵主力艦隊パラメータ [6][4] (火雷空甲)
 	api_eParam_combined		：敵随伴艦隊パラメータ [6][4] (火雷空甲)
 	api_touch_plane			：夜間触接機ID [2]

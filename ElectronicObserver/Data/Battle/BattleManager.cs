@@ -217,6 +217,7 @@ namespace ElectronicObserver.Data.Battle {
 					BattleNight = new BattleCombinedNormalNight();
 					//BattleNight.TakeOverParameters( BattleDay );		//checkme: 連合艦隊夜戦では昼戦での与ダメージがMVPに反映されない仕様？
 					BattleNight.LoadFromResponse( apiname, data );
+					BattleNight.Initial.TakeOverMaxHPs( BattleDay );
 					break;
 
 				case "api_req_combined_battle/sp_midnight":
@@ -252,8 +253,9 @@ namespace ElectronicObserver.Data.Battle {
 
 				case "api_req_combined_battle/ec_midnight_battle":
 					BattleNight = new BattleEnemyCombinedNight();
-					//BattleNight.TakeOverParameters( BattleDay );		//undone: これで正しいかは未検証
+					BattleNight.TakeOverParameters( BattleDay );
 					BattleNight.LoadFromResponse( apiname, data );
+					BattleNight.Initial.TakeOverMaxHPs( BattleDay );
 					break;
 
 				case "api_req_combined_battle/each_battle":

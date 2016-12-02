@@ -99,15 +99,22 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		}
 
 
+
+		/// <summary>
+		/// 戦闘する自軍艦隊
+		/// 1=主力艦隊, 2=随伴艦隊
+		/// </summary>
+		public int ActiveFriendFleet { get { return !RawData.api_active_deck() ? 1 : (int)RawData.api_active_deck[0]; } }
+
 		/// <summary>
 		/// 自軍艦隊ID
 		/// </summary>
 		public int FriendFleetID {
 			get {
-				if ( RawData.api_active_deck() )
-					return (int)RawData.api_active_deck[0];
+				if ( IsFriendEscort )
+					return 2;
 				else
-					return isEscort ? 2 : _battleData.Initial.FriendFleetID;
+					return _battleData.Initial.FriendFleetID;
 			}
 		}
 
@@ -119,14 +126,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// 自軍が随伴艦隊かどうか
 		/// </summary>
-		public bool IsFriendEscort {
-			get {
-				if ( RawData.api_active_deck() )
-					return (int)RawData.api_active_deck[0] != 1;
-				else
-					return isEscort;
-			}
-		}
+		public bool IsFriendEscort { get { return isEscort || ActiveFriendFleet != 1; } }
 
 
 		/// <summary>
@@ -137,24 +137,17 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// 敵軍艦隊
 		/// </summary>
-		public int[] EnemyMembers { get { return EnemyFleetID == 1 ? _battleData.Initial.EnemyMembers : _battleData.Initial.EnemyMembersEscort; } }
+		public int[] EnemyMembers { get { return !IsEnemyEscort ? _battleData.Initial.EnemyMembers : _battleData.Initial.EnemyMembersEscort; } }
 
 		/// <summary>
 		/// 敵軍艦隊
 		/// </summary>
-		public ShipDataMaster[] EnemyMembersInstance { get { return EnemyFleetID == 1 ? _battleData.Initial.EnemyMembersInstance : _battleData.Initial.EnemyMembersEscortInstance; } }
+		public ShipDataMaster[] EnemyMembersInstance { get { return !IsEnemyEscort ? _battleData.Initial.EnemyMembersInstance : _battleData.Initial.EnemyMembersEscortInstance; } }
 
 		/// <summary>
 		/// 敵軍が随伴艦隊かどうか
 		/// </summary>
-		public bool IsEnemyEscort {
-			get {
-				if ( RawData.api_active_deck() )
-					return (int)RawData.api_active_deck[1] != 1;
-				else
-					return false;
-			}
-		}
+		public bool IsEnemyEscort { get { return EnemyFleetID != 1; } }
 
 
 		/// <summary>
