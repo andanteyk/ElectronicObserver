@@ -44,12 +44,34 @@ namespace ElectronicObserver.Window {
 
 		private IntPtr BrowserWnd = IntPtr.Zero;
 
+
+
+		[Flags]
+		private enum InitializationStageFlag {
+			InitialAPILoaded = 1,
+			BrowserConnected = 2,
+			SetProxyCompleted = 4,
+			Completed = 7,
+		}
+
 		/// <summary>
 		/// 初期化ステージカウント
-		/// デバッグ用初期APIロードが完了した後に、艦これページを開くようにするため
-		/// APIロードの完了で+1、ブラウザ起動の完了で+1、最終的に2になる
+		/// 完了したらログインページを開く (各処理が終わらないと正常にロードできないため)
 		/// </summary>
-		private int initializeCompletionCount = 0;
+		private InitializationStageFlag _initializationStage = 0;
+		private InitializationStageFlag InitializationStage {
+			get { return _initializationStage; }
+			set {
+				//AddLog( 1, _initializationStage + " -> " + value );
+				if ( _initializationStage != InitializationStageFlag.Completed && value == InitializationStageFlag.Completed ) {
+					if ( Utility.Configuration.Config.FormBrowser.IsEnabled ) {
+						NavigateToLogInPage();
+					}
+				}
+
+				_initializationStage = value;
+			}
+		}
 
 
 
@@ -60,12 +82,7 @@ namespace ElectronicObserver.Window {
 		}
 
 		public void InitializeApiCompleted() {
-			++initializeCompletionCount;
-			if ( initializeCompletionCount == 2 ) { // ブラウザ起動も完了していたら実行
-				if ( Utility.Configuration.Config.FormBrowser.IsEnabled ) {
-					NavigateToLogInPage();
-				}
-			}
+			InitializationStage |= InitializationStageFlag.InitialAPILoaded;
 		}
 
 		private void FormBrowser_Load( object sender, EventArgs e ) {
@@ -106,7 +123,9 @@ namespace ElectronicObserver.Window {
 
 		//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 		void InitialAPIReceived( string apiname, dynamic data ) {
-			if ( initializeCompletionCount < 2 ) return; // 未初期化状態なので、まだ
+			if ( InitializationStage != InitializationStageFlag.Completed )		// 初期化が終わってから
+				return;
+
 			Browser.AsyncRemoteRun( () => Browser.Proxy.InitialAPIReceived() );
 		}
 
@@ -288,12 +307,8 @@ namespace ElectronicObserver.Window {
 					Browser.AsyncRemoteRun( () => Browser.Proxy.SetProxy( BuildDownstreamProxy() ) );
 				};
 
-				++initializeCompletionCount;
-				if ( initializeCompletionCount == 2 ) { // APIロードも完了していたら実行
-					if ( Utility.Configuration.Config.FormBrowser.IsEnabled ) {
-						NavigateToLogInPage();
-					}
-				}
+				InitializationStage |= InitializationStageFlag.BrowserConnected;
+				
 			} ) );
 		}
 
@@ -315,6 +330,11 @@ namespace ElectronicObserver.Window {
 			} else {
 				return string.Format( "http=127.0.0.1:{0}", APIObserver.Instance.ProxyPort );
 			}
+		}
+
+
+		public void SetProxyCompleted() {
+			InitializationStage |= InitializationStageFlag.SetProxyCompleted;
 		}
 
 
