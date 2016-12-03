@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window {
 					tooltip.SetToolTip( ShipName, name );
 					CompletionTime.Text = DateTimeHelper.ToTimeRemainString( arsenal.CompletionTime );
 					CompletionTime.Tag = arsenal.CompletionTime;
-					tooltip.SetToolTip( CompletionTime, "完了日時 : " + arsenal.CompletionTime.ToString() );
+					tooltip.SetToolTip( CompletionTime, "完了日時 : " + DateTimeHelper.TimeToCSVString( arsenal.CompletionTime ) );
 
 				} else if ( arsenal.State == 3 ) {
 					//complete!
