@@ -574,9 +574,17 @@ api_port/port		：母港情報
 		api_base_convert_slot	：配置転換中の装備固有ID　1つ以上あるときのみ存在
 	api_event_object		：('16 夏イベ版データ)
 		api_m_flag			：
-		api_base_conver_slot：配置転換中の装備固有ID　1つ以上あるときのみ存在
+		api_base_convert_slot：配置転換中の装備固有ID　1つ以上あるときのみ存在
 		api_m_flag2			：0=なし　1=ギミック解除SE再生
+	api_event_object		：('16 秋イベ版データ)
+		api_m_flag			：2
+		api_m_flag2			：ギミック解除時に1
 	api_parallel_quest_count	：最大受領可能任務数
+	api_plane_info				：基地航空隊関連データ　要素があるときのみ存在（メンバも然り）
+		api_unset_slot			：更新された unsetslot? []　基地航空隊が更新されたときに増える？
+			api_type3No			：装備カテゴリID
+			api_slot_list		：装備IDリスト []
+		api_base_convert_slot	：配置転換中の装備IDリスト []
 
 api_get_member/slot_item	：装備品情報
 	api_id					：装備固有ID
@@ -1338,6 +1346,7 @@ api_req_map/next		：進撃
 			2=「空襲により備蓄資源に損害を受け、基地航空隊にも地上撃破の損害が発生しました！」
 			3=「空襲により基地航空隊に地上撃破の損害が発生しました！」
 			4=「空襲による基地の損害はありません。」
+		api_m1		：('16秋イベ) 1=スタート地点解放ギミック発動　それ以外の場合は存在しない
 
 Request.api_req_sortie/battle	：戦闘(昼戦)
 	api_formation		：陣形
@@ -1647,20 +1656,21 @@ api_req_combined_battle/ec_battle	：通常艦隊昼戦（敵連合艦隊）
 	api_hougeki3			：第三次砲撃戦 api_hougeki1 と同じ なければ存在しない
 
 
-api_req_combiend_battle/ec_midnight_battle	：通常艦隊夜戦（敵連合艦隊）
-	api_active_deck			：出撃艦隊ID [2] [0]=味方側(api_deck_id に相当), [1]=敵側(1=主力艦隊, 2=随伴艦隊)
-	api_deck_id				：0
+api_req_combiend_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（敵連合艦隊）
+	api_active_deck			：戦闘参加艦隊フラグ [2] [0]=味方側, [1]=敵側 1=主力艦隊, 2=随伴艦隊 
+	api_deck_id				：出撃艦隊ID 味方連合なら1
 	api_ship_ke				：敵主力艦隊艦船ID [7] (-1から始まる)
 	api_ship_ke_combined	：敵随伴艦隊艦船ID [7] (-1から始まる)
 	api_ship_lv				：敵主力艦隊Lv [7] (-1から始まる)
 	api_ship_lv_combined	：敵随伴艦隊Lv [7] (-1から始まる)
 	api_nowhps				：味方/敵主力艦隊現在HP [13] (-1から始まる)
 	api_maxhps				：味方/敵主力艦隊最大HP [13] (-1から始まる)
-	api_nowhps_combined		：味方/敵随伴艦隊現在HP [13] (-1から始まる, 味方側は -1 で埋められる)
-	api_maxhps_combined		：味方/敵随伴艦隊最大HP [13] (-1から始まる, 味方側は -1 で埋められる)
+	api_nowhps_combined		：味方/敵随伴艦隊現在HP [13] (-1から始まる, 味方通常艦隊の場合 -1 で埋められる)
+	api_maxhps_combined		：味方/敵随伴艦隊最大HP [13] (-1から始まる, 味方通常艦隊の場合 -1 で埋められる)
 	api_eSlot				：敵主力艦隊装備IDリスト [6][5]
 	api_eSlot_combined		：敵随伴艦隊装備IDリスト [6][5]
-	api_fParam				：味方パラメータ [6][4] (火雷空甲)
+	api_fParam				：味方主力艦隊パラメータ [6][4] (火雷空甲)
+	api_fParam_combined		：味方随伴艦隊パラメータ [6][4] (火雷空甲) 味方随伴艦隊がいるときのみ存在
 	api_eParam				：敵主力艦隊パラメータ [6][4] (火雷空甲)
 	api_eParam_combined		：敵随伴艦隊パラメータ [6][4] (火雷空甲)
 	api_touch_plane			：夜間触接機ID [2]
@@ -1707,7 +1717,7 @@ api_req_sortie/battleresult	：戦闘結果
 	api_get_slotitem		：ドロップ装備情報？ api_get_flag[2]=1のときのみ存在
 		api_slotitem_id		：装備ID
 	api_get_eventitem		：海域攻略報酬　イベント海域突破時のみ存在
-		api_type			：報酬種別 1=アイテム, 2=艦娘, 3=装備
+		api_type			：報酬種別 1=アイテム, 2=艦娘, 3=装備, 5=家具
 		api_id				：ID
 		api_value			：個数？
 	api_get_eventflag		：？ api_get_eventitem存在時に消滅
@@ -1717,7 +1727,7 @@ api_req_sortie/battleresult	：戦闘結果
 		api_now_hp			：現在のTP(減少前)　文字列型
 		api_max_hp			：最大TP　文字列型
 		api_sub_value		：減少したTP　文字列だったり数値だったりする
-
+	api_m1					：('16秋イベ)ギミック解除フラグ?　1=解除　それ以外の場合存在しない
 
 api_get_member/ship2		：旧進撃中(現在はケッコンカッコカリ・給糧艦使用(未確認)のみだと思われる)
 	api_data		：portに同じ
@@ -2083,7 +2093,79 @@ api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合�
 
 
 api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵連合艦隊　昼戦
-	(詳細不明)
+	api_deck_id					：数値型
+	api_ship_ke
+	api_ship_ke_combined
+	api_ship_lv
+	api_ship_lv_combined
+	api_nowhps
+	api_maxhps
+	api_nowhps_combined
+	api_maxhps_combined
+	api_eSlot
+	api_eSlot_combined
+	api_fParam
+	api_fParam_combined
+	api_eParam
+	api_eParam_combined
+	api_midnight_flag
+	api_search
+	api_formation				：味方陣形のみ文字列型、ほかは数値型
+	api_stage_flag
+	api_kouku
+		api_plane_from
+		api_stage1
+			api_f_count
+			api_f_lostcount
+			api_e_count
+			api_e_lostcount
+			api_disp_seiku
+			api_touch_plane
+		api_stage2
+			api_f_count
+			api_f_lostcount
+			api_e_count
+			api_e_lostcount
+			api_air_fire
+				api_idx
+				api_kind
+				api_use_items
+		api_stage3
+			api_frai_flag
+			api_erai_flag
+			api_fbak_flag
+			api_ebak_flag
+			api_fcl_flag
+			api_ecl_flag
+			api_fdam
+			api_edam
+		api_stage3_combined
+	api_support_flag
+	api_support_info
+	api_opening_taisen_flag
+	api_opening_taisen
+	api_opening_flag
+	api_opening_atack			：スペルミスに注意
+		api_frai
+		api_erai
+		api_fdam
+		api_edam
+		api_fydam
+		api_eydam
+		api_fcl
+		api_ecl
+	api_hourai_flag
+	api_hougeki1				：第一次砲撃戦（主力艦隊vs主力艦隊）
+		api_at_eflag
+		api_at_list
+		api_at_type
+		api_df_list
+		api_si_list
+		api_cl_list
+		api_damage
+	api_hougeki2				：第二次砲撃戦（随伴艦隊vs随伴艦隊）
+	api_hougeki3				：第三次砲撃戦（主力艦隊vs主力艦隊, 対全体）
+	api_raigeki					：雷撃戦
 
 
 api_req_combined_battle/battleresult	：連合艦隊 戦闘結果 (味方通常艦隊-敵連合艦隊を含む)

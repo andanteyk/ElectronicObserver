@@ -212,11 +212,10 @@ namespace ElectronicObserver.Window.Dialog {
 				remainCount[eq.EquipmentID]--;
 			}
 
-			foreach ( var eq in BaseAirCorpsData.RelocatedEquipments
-				.Select( i => KCDatabase.Instance.Equipments[i] )
-				.Where( eq => eq != null ) ) {
+			foreach ( var eq in KCDatabase.Instance.RelocatedEquipments.Values
+				.Where( eq => eq.EquipmentInstance != null ) ) {
 
-				remainCount[eq.EquipmentID]--;
+				remainCount[eq.EquipmentInstance.EquipmentID]--;
 			}
 
 
@@ -351,7 +350,7 @@ namespace ElectronicObserver.Window.Dialog {
 					if ( c.countRemain != c.countRemainPrev ) {
 						int diff = c.countRemainPrev - c.countRemain;
 
-						c.equippedShips.Add( string.Format( "{0} {1}{2}", KCDatabase.Instance.MapArea[corps.MapAreaID].Name, corps.Name, diff > 1 ? ( " x" + diff ) : "" ) );
+						c.equippedShips.Add( string.Format( "#{0} {1}{2}", corps.MapAreaID, corps.Name, diff > 1 ? ( " x" + diff ) : "" ) );
 
 						c.countRemainPrev = c.countRemain;
 					}
@@ -360,11 +359,11 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 			// 基地航空隊 - 配置転換中の装備を集計
-			foreach ( var eq in BaseAirCorpsData.RelocatedEquipments
-				.Select( id => KCDatabase.Instance.Equipments[id] )
+			foreach ( var eq in KCDatabase.Instance.RelocatedEquipments.Values
+				.Select( v => v.EquipmentInstance )
 				.Where( eq => eq != null && eq.EquipmentID == equipmentID ) ) {
-				
-					countlist[DetailCounter.CalculateID( eq )].countRemain--;
+
+				countlist[DetailCounter.CalculateID( eq )].countRemain--;
 			}
 
 			foreach ( var c in countlist.Values ) {
