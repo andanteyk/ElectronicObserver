@@ -3,6 +3,7 @@ using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -920,9 +921,9 @@ namespace ElectronicObserver.Utility.Data {
 
 				if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 ) {		//軽空母/正規空母/装甲空母
 
-					if ( attackerShipID == 432 || attackerShipID == 353 )		//Graf Zeppelin(改)
+					if ( attackerShipID == 432 || attackerShipID == 353 || attackerShipID == 433 )		//Graf Zeppelin(改), Saratoga
 						return 0;		//砲撃
-					else if ( atkship.Name == "リコリス棲姫" )
+					else if ( atkship.Name == "リコリス棲姫" || atkship.Name == "深海海月姫" )
 						return 0;		//砲撃
 					else
 						return 7;		//空撃
@@ -1098,7 +1099,7 @@ namespace ElectronicObserver.Utility.Data {
 		/// <summary>
 		/// 加重対空値を求めます。
 		/// </summary>
-		public double GetAdjustedAAValue( ShipData ship ) {
+		public static double GetAdjustedAAValue( ShipData ship ) {
 			int equippedModifier = ship.SlotInstance.Any( s => s != null ) ? 2 : 1;
 
 			double x = ship.AABase;
@@ -1127,18 +1128,16 @@ namespace ElectronicObserver.Utility.Data {
 				else
 					levelBonus = 0;
 
-				x += eqmaster.AA * equipmentBonus + eq.Level * levelBonus;
+				x += eqmaster.AA * equipmentBonus + Math.Sqrt( eq.Level ) * levelBonus;
 
 			}
 
 			return equippedModifier * Math.Floor( x / equippedModifier );
 		}
 
-		/// <summary>
-		/// 艦隊防空値を求めます。
-		/// </summary>
-		public double GetAdjustedFleetAAValue( FleetData fleet, int formation ) {
 
+
+		public static double GetAdjustedFleetAAValue( IEnumerable<ShipData> ships, int formation ) {
 			double formationBonus;
 			if ( formation == 2 )	// 複縦陣
 				formationBonus = 1.2;
@@ -1149,7 +1148,7 @@ namespace ElectronicObserver.Utility.Data {
 
 
 			double fleetAABonus = 0;
-			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+			foreach ( var ship in ships ) {
 				if ( ship == null )
 					continue;
 
@@ -1179,7 +1178,7 @@ namespace ElectronicObserver.Utility.Data {
 					else
 						levelBonus = 0.0;
 
-					shipAABonus += eqmaster.AA * equipmentBonus + eq.Level * levelBonus;
+					shipAABonus += eqmaster.AA * equipmentBonus + Math.Sqrt( eq.Level ) * levelBonus;
 				}
 
 				fleetAABonus += Math.Floor( shipAABonus );
@@ -1189,16 +1188,25 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 		/// <summary>
+		/// 艦隊防空値を求めます。
+		/// </summary>
+		public static double GetAdjustedFleetAAValue( FleetData fleet, int formation ) {
+			return GetAdjustedFleetAAValue( fleet.MembersWithoutEscaped, formation );
+		}
+
+
+		/// <summary>
 		/// 割合撃墜(の割合)を求めます。
 		/// </summary>
-		public double GetProportionalAirDefense( double adjustedAAValue ) {
+		public static double GetProportionalAirDefense( double adjustedAAValue ) {
 			return adjustedAAValue / 400;
 		}
 
 		/// <summary>
 		/// 固定撃墜を求めます。
 		/// </summary>
-		public int GetFixedAirDefense( double adjustedAAValue, double adjustedFleetAAValue, double cutinBonus ) {
+		public static int GetFixedAirDefense( double adjustedAAValue, double adjustedFleetAAValue, int cutinKind ) {
+			double cutinBonus = Calculator.AACutinVariableBonus.ContainsKey( cutinKind ) ? Calculator.AACutinVariableBonus[cutinKind] : 1.0;
 			return (int)Math.Floor( ( adjustedAAValue + adjustedFleetAAValue ) * cutinBonus / 10 );
 		}
 
@@ -1206,7 +1214,7 @@ namespace ElectronicObserver.Utility.Data {
 		/// <summary>
 		/// 対空カットイン固定ボーナス
 		/// </summary>
-		private static readonly Dictionary<int, int> AACutinFixedBonus = new Dictionary<int, int>() { 
+		public static readonly ReadOnlyDictionary<int, int> AACutinFixedBonus = new ReadOnlyDictionary<int, int>( new Dictionary<int, int>() { 
 			{  1, 7 },
 			{  2, 6 },
 			{  3, 4 },
@@ -1227,13 +1235,13 @@ namespace ElectronicObserver.Utility.Data {
 			{ 18, 2 },
 			{ 19, 5 },
 			{ 20, 3 },
-		};
+		} );
 
 		// ?=vita, ???=unknown
 		/// <summary>
 		/// 対空カットイン変動ボーナス
 		/// </summary>
-		private static readonly Dictionary<int, double> AACutinVariableBonus = new Dictionary<int, double>() {
+		public static readonly ReadOnlyDictionary<int, double> AACutinVariableBonus = new ReadOnlyDictionary<int, double>( new Dictionary<int, double>() {
 			{  1, 1.7 },
 			{  2, 1.7 },	//?
 			{  3, 1.6 },
@@ -1254,7 +1262,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 18, 1.2 },
 			{ 19, 1.45 },
 			{ 20, 1.25 },
-		};
+		} );
 
 
 		/// <summary>
@@ -1264,34 +1272,10 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="proportionalAirDefense">割合撃墜の割合</param>
 		/// <param name="fixedAirDefense">固定撃墜</param>
 		/// <param name="aaCutinKind">発動した対空カットインの種類</param>
-		public int GetShootDownCount( int enemyAircraftCount, double proportionalAirDefense, int fixedAirDefense, int aaCutinKind ) {
+		public static int GetShootDownCount( int enemyAircraftCount, double proportionalAirDefense, int fixedAirDefense, int aaCutinKind ) {
 			return (int)Math.Floor( enemyAircraftCount * proportionalAirDefense ) + fixedAirDefense + 1 + ( AACutinFixedBonus.ContainsKey( aaCutinKind ) ? AACutinFixedBonus[aaCutinKind] : 0 );
 		}
 
-		/// <summary>
-		/// 撃墜数の推定値を求めます。
-		/// </summary>
-		/// <param name="fleet">対象の艦隊</param>
-		/// <param name="ship">対象の艦船</param>
-		/// <param name="formation">陣形</param>
-		/// <param name="enemyAircraftCount">敵航空中隊の機数</param>
-		/// <param name="isProportionalAirDefenseSucceeded">割合撃墜が成功したか</param>
-		/// <param name="isFixedAirDefenseSucceeded">固定撃墜が成功したか</param>
-		/// <returns></returns>
-		public int GetShootDownCount( FleetData fleet, ShipData ship, int formation, int enemyAircraftCount, bool isProportionalAirDefenseSucceeded, bool isFixedAirDefenseSucceeded ) {
-			// すごーく面倒なので単純に API 値が大きいのを選択する
-			int aaCutinKind = fleet.MembersWithoutEscaped.Where( s => s != null ).Max( s => GetAACutinKind( s.ShipID, s.SlotMaster.ToArray() ) );
-
-			double ashipaa = GetAdjustedAAValue( ship );
-			double afleetaa = GetAdjustedFleetAAValue( fleet, formation );
-
-			return GetShootDownCount(
-				enemyAircraftCount,
-				isProportionalAirDefenseSucceeded ? GetProportionalAirDefense( ashipaa ) : 0,
-				isFixedAirDefenseSucceeded ? GetFixedAirDefense( ashipaa, afleetaa, ( AACutinFixedBonus.ContainsKey( aaCutinKind ) ? AACutinFixedBonus[aaCutinKind] : 0 ) ) : 0,
-				aaCutinKind
-				);
-		}
 
 
 

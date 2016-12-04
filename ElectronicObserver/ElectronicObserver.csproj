@@ -342,6 +342,12 @@
     <Compile Include="Window\Dialog\DialogAlbumShipParameter.Designer.cs">
       <DependentUpon>DialogAlbumShipParameter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogAntiAirDefense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogAntiAirDefense.Designer.cs">
+      <DependentUpon>DialogAntiAirDefense.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogBattleDetail.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -621,6 +627,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAlbumShipParameter.resx">
       <DependentUpon>DialogAlbumShipParameter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogAntiAirDefense.resx">
+      <DependentUpon>DialogAntiAirDefense.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogBattleDetail.resx">
       <DependentUpon>DialogBattleDetail.cs</DependentUpon>
