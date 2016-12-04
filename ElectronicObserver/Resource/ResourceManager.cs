@@ -86,6 +86,7 @@ namespace ElectronicObserver.Resource {
 			FormResourceChart,
 			FormBaseAirCorps,
 			FormJson,
+			FormAntiAirDefense,
 			FleetNoShip,
 			FleetDocking,
 			FleetSortieDamaged,
@@ -280,6 +281,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/ResourceChart.png", "Form_ResourceChart" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/BaseAirCorps.png", "Form_BaseAirCorps" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Json.png", "Form_Json" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AntiAirDefense.png", "Form_AntiAirDefense" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NoShip.png", "Fleet_NoShip" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Docking.png", "Fleet_Docking" );

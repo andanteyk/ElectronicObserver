@@ -31,8 +31,9 @@ namespace ElectronicObserver.Window {
 			public ImageLabel StateMain;
 			public ImageLabel AirSuperiority;
 			public ImageLabel SearchingAbility;
+			public ImageLabel AntiAirPower;
 			public ToolTip ToolTipInfo;
-			public ElectronicObserver.Data.FleetData.FleetStates State;
+			public FleetData.FleetStates State;
 			public DateTime Timer;
 
 			public TableFleetControl( FormFleet parent ) {
@@ -75,6 +76,16 @@ namespace ElectronicObserver.Window {
 				SearchingAbility.Margin = new Padding( 2, 0, 2, 0 );
 				SearchingAbility.AutoSize = true;
 
+				AntiAirPower = new ImageLabel();
+				AntiAirPower.Anchor = AnchorStyles.Left;
+				AntiAirPower.ForeColor = parent.MainFontColor;
+				AntiAirPower.ImageList = ResourceManager.Instance.Equipments;
+				AntiAirPower.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
+				AntiAirPower.Padding = new Padding( 2, 2, 2, 2 );
+				AntiAirPower.Margin = new Padding( 2, 0, 2, 0 );
+				AntiAirPower.AutoSize = true;
+
+
 				ConfigurationChanged( parent );
 
 				ToolTipInfo = parent.ToolTipInfo;
@@ -97,6 +108,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( StateMain, 1, 0 );
 				table.Controls.Add( AirSuperiority, 2, 0 );
 				table.Controls.Add( SearchingAbility, 3, 0 );
+				table.Controls.Add( AntiAirPower, 4, 0 );
 				table.ResumeLayout();
 
 				int row = 0;
@@ -198,6 +210,21 @@ namespace ElectronicObserver.Window {
 					}
 
 					ToolTipInfo.SetToolTip( SearchingAbility, sb.ToString() );
+				}
+
+				// 対空能力計算
+				{
+					var sb = new StringBuilder();
+					double lineahead = Calculator.GetAdjustedFleetAAValue( fleet, 1 );
+
+					AntiAirPower.Text = lineahead.ToString( "0.0" );
+
+					sb.AppendFormat( "艦隊防空\r\n単縦陣: {0:0.0} / 複縦陣: {1:0.0} / 輪形陣: {2:0.0}\r\n",
+						lineahead,
+						Calculator.GetAdjustedFleetAAValue( fleet, 2 ),
+						Calculator.GetAdjustedFleetAAValue( fleet, 3 ) );
+
+					ToolTipInfo.SetToolTip( AntiAirPower, sb.ToString() );
 				}
 			}
 
@@ -557,7 +584,14 @@ namespace ElectronicObserver.Window {
 					if ( aacutin != 0 ) {
 						sb.AppendFormat( "対空: {0}\r\n", Constants.GetAACutinKind( aacutin ) );
 					}
+					double adjustedaa = Calculator.GetAdjustedAAValue( ship );
+					sb.AppendFormat( "加重対空: {0} (割合撃墜: {1:p2})\r\n",
+						adjustedaa,
+						Calculator.GetProportionalAirDefense( adjustedaa )
+						);
+
 				}
+
 				{
 					int airsup;
 					if ( Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 1 )
@@ -971,6 +1005,16 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ContextMenuFleet_AntiAirDetails_Click( object sender, EventArgs e ) {
+
+			var dialog = new DialogAntiAirDefense();
+
+			dialog.SetFleetID( FleetID );
+			dialog.Show( this );
+
+		}
+
+
 		private void ContextMenuFleet_Capture_Click( object sender, EventArgs e ) {
 
 			using ( Bitmap bitmap = new Bitmap( this.ClientSize.Width, this.ClientSize.Height ) ) {
@@ -990,8 +1034,8 @@ namespace ElectronicObserver.Window {
 			MainFont = Font = c.UI.MainFont;
 			SubFont = c.UI.SubFont;
 
-			AutoScroll = ContextMenuFleet_IsScrollable.Checked = c.FormFleet.IsScrollable;
-			ContextMenuFleet_FixShipNameWidth.Checked = c.FormFleet.FixShipNameWidth;
+			AutoScroll = c.FormFleet.IsScrollable;
+
 
 			if ( ControlFleet != null && KCDatabase.Instance.Fleet[FleetID] != null ) {
 				ControlFleet.ConfigurationChanged( this );
@@ -1038,17 +1082,6 @@ namespace ElectronicObserver.Window {
 
 
 
-		//よく考えたら別の艦隊タブと同期しないといけないので封印
-		private void ContextMenuFleet_IsScrollable_Click( object sender, EventArgs e ) {
-			Utility.Configuration.Config.FormFleet.IsScrollable = ContextMenuFleet_IsScrollable.Checked;
-			ConfigurationChanged();
-		}
-
-		private void ContextMenuFleet_FixShipNameWidth_Click( object sender, EventArgs e ) {
-			Utility.Configuration.Config.FormFleet.FixShipNameWidth = ContextMenuFleet_FixShipNameWidth.Checked;
-			ConfigurationChanged();
-		}
-
 
 		private void TableMember_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
@@ -1058,7 +1091,6 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Fleet #" + FleetID.ToString();
 		}
-
 
 
 
