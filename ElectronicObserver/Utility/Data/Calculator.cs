@@ -491,6 +491,63 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		/// <summary>
+		/// 索敵能力を求めます。「新判定式(33)」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		/// <param name="branchWeight">分岐点係数。2-5では1</param>
+		public static double GetSearchingAbility_New33( FleetData fleet, int branchWeight ) {
+
+			double ret = 0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null ) {
+					ret += 2.0;
+					continue;
+				}
+
+				ret += Math.Sqrt( ship.LOSBase );
+
+				double equipmentBonus = 0;
+				foreach ( var eq in ship.SlotInstance.Where( eq => eq != null ) ) {
+
+					int category = eq.MasterEquipment.CategoryType;
+
+					double equipmentRate;
+					if ( category == 8 )		// 艦上攻撃機
+						equipmentRate = 0.8;
+					else if ( category == 9 )	// 艦上偵察機
+						equipmentRate = 1.0;
+					else if ( category == 10 )	// 水上偵察機
+						equipmentRate = 1.2;
+					else if ( category == 11 )	// 水上爆撃機
+						equipmentRate = 1.1;
+					else
+						equipmentRate = 0.6;
+
+					double levelRate;
+					if ( category == 10 )		// 水上偵察機
+						levelRate = 1.2;
+					else if ( category == 12 )	// 小型電探
+						levelRate = 1.25;
+					else if ( category == 13 )	// 大型電探
+						levelRate = 1.4;
+					else
+						levelRate = 0.0;
+
+					equipmentBonus += equipmentRate * ( eq.MasterEquipment.LOS + levelRate * Math.Sqrt( eq.Level ) );
+				}
+
+				ret += equipmentBonus * branchWeight;
+			}
+
+			// 司令部Lv補正
+			ret -= Math.Ceiling( KCDatabase.Instance.Admiral.Level * 0.4 );
+
+			return ret;
+		}
+
+
+		/// <summary>
 		/// 艦隊の触接開始率を求めます。
 		/// </summary>
 		/// <param name="fleet">対象の艦隊。</param>
@@ -1136,7 +1193,9 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
-
+		/// <summary>
+		/// 加重対空値を求めます。
+		/// </summary>
 		public static double GetAdjustedFleetAAValue( IEnumerable<ShipData> ships, int formation ) {
 			double formationBonus;
 			if ( formation == 2 )	// 複縦陣
