@@ -3,6 +3,7 @@ using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -490,6 +491,63 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		/// <summary>
+		/// 索敵能力を求めます。「新判定式(33)」です。
+		/// </summary>
+		/// <param name="fleet">対象の艦隊。</param>
+		/// <param name="branchWeight">分岐点係数。2-5では1</param>
+		public static double GetSearchingAbility_New33( FleetData fleet, int branchWeight ) {
+
+			double ret = 0;
+
+			foreach ( var ship in fleet.MembersWithoutEscaped ) {
+				if ( ship == null ) {
+					ret += 2.0;
+					continue;
+				}
+
+				ret += Math.Sqrt( ship.LOSBase );
+
+				double equipmentBonus = 0;
+				foreach ( var eq in ship.SlotInstance.Where( eq => eq != null ) ) {
+
+					int category = eq.MasterEquipment.CategoryType;
+
+					double equipmentRate;
+					if ( category == 8 )		// 艦上攻撃機
+						equipmentRate = 0.8;
+					else if ( category == 9 )	// 艦上偵察機
+						equipmentRate = 1.0;
+					else if ( category == 10 )	// 水上偵察機
+						equipmentRate = 1.2;
+					else if ( category == 11 )	// 水上爆撃機
+						equipmentRate = 1.1;
+					else
+						equipmentRate = 0.6;
+
+					double levelRate;
+					if ( category == 10 )		// 水上偵察機
+						levelRate = 1.2;
+					else if ( category == 12 )	// 小型電探
+						levelRate = 1.25;
+					else if ( category == 13 )	// 大型電探
+						levelRate = 1.4;
+					else
+						levelRate = 0.0;
+
+					equipmentBonus += equipmentRate * ( eq.MasterEquipment.LOS + levelRate * Math.Sqrt( eq.Level ) );
+				}
+
+				ret += equipmentBonus * branchWeight;
+			}
+
+			// 司令部Lv補正
+			ret -= Math.Ceiling( KCDatabase.Instance.Admiral.Level * 0.4 );
+
+			return ret;
+		}
+
+
+		/// <summary>
 		/// 艦隊の触接開始率を求めます。
 		/// </summary>
 		/// <param name="fleet">対象の艦隊。</param>
@@ -920,9 +978,9 @@ namespace ElectronicObserver.Utility.Data {
 
 				if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 ) {		//軽空母/正規空母/装甲空母
 
-					if ( attackerShipID == 432 || attackerShipID == 353 )		//Graf Zeppelin(改)
+					if ( attackerShipID == 432 || attackerShipID == 353 || attackerShipID == 433 )		//Graf Zeppelin(改), Saratoga
 						return 0;		//砲撃
-					else if ( atkship.Name == "リコリス棲姫" )
+					else if ( atkship.Name == "リコリス棲姫" || atkship.Name == "深海海月姫" )
 						return 0;		//砲撃
 					else
 						return 7;		//空撃
@@ -1092,6 +1150,192 @@ namespace ElectronicObserver.Utility.Data {
 
 			return 0;
 		}
+
+
+
+		/// <summary>
+		/// 加重対空値を求めます。
+		/// </summary>
+		public static double GetAdjustedAAValue( ShipData ship ) {
+			int equippedModifier = ship.SlotInstance.Any( s => s != null ) ? 2 : 1;
+
+			double x = ship.AABase;
+
+			foreach ( var eq in ship.SlotInstance ) {
+				if ( eq == null )
+					continue;
+
+				var eqmaster = eq.MasterEquipment;
+
+				double equipmentBonus;
+				if ( eqmaster.IconType == 16 )	// 高角砲
+					equipmentBonus = 4;
+				else if ( eqmaster.CategoryType == 21 )		// 機銃
+					equipmentBonus = 6;
+				else if ( eqmaster.CategoryType == 12 || eqmaster.CategoryType == 13 )		// 小型電探・大型電探
+					equipmentBonus = 3;
+				else
+					equipmentBonus = 0;
+
+				double levelBonus;
+				if ( eqmaster.IconType == 16 )	// 高角砲
+					levelBonus = 3;
+				else if ( eqmaster.CategoryType == 21 )		// 機銃
+					levelBonus = 4;
+				else
+					levelBonus = 0;
+
+				x += eqmaster.AA * equipmentBonus + Math.Sqrt( eq.Level ) * levelBonus;
+
+			}
+
+			return equippedModifier * Math.Floor( x / equippedModifier );
+		}
+
+
+		/// <summary>
+		/// 加重対空値を求めます。
+		/// </summary>
+		public static double GetAdjustedFleetAAValue( IEnumerable<ShipData> ships, int formation ) {
+			double formationBonus;
+			if ( formation == 2 )	// 複縦陣
+				formationBonus = 1.2;
+			else if ( formation == 3 )	// 輪形陣
+				formationBonus = 1.6;
+			else
+				formationBonus = 1.0;
+
+
+			double fleetAABonus = 0;
+			foreach ( var ship in ships ) {
+				if ( ship == null )
+					continue;
+
+				double shipAABonus = 0;
+				foreach ( var eq in ship.SlotInstance ) {
+					if ( eq == null )
+						continue;
+
+					var eqmaster = eq.MasterEquipment;
+					double equipmentBonus;
+					if ( eqmaster.IconType == 16 )		// 高角砲
+						equipmentBonus = 0.35;
+					else if ( eqmaster.CategoryType == 36 )		// 高射装置
+						equipmentBonus = 0.35;
+					else if ( eqmaster.CategoryType == 12 || eqmaster.CategoryType == 13 )	// 小型電探・大型電探
+						equipmentBonus = 0.4;
+					else if ( eqmaster.CategoryType == 18 )		// 対空強化弾
+						equipmentBonus = 0.6;
+					else
+						equipmentBonus = 0.2;
+
+					double levelBonus;
+					if ( eqmaster.IconType == 16 )		// 高角砲
+						levelBonus = 3.0;
+					else if ( eqmaster.CategoryType == 12 || eqmaster.CategoryType == 13 )	// 小型電探・大型電探
+						levelBonus = 1.5;
+					else
+						levelBonus = 0.0;
+
+					shipAABonus += eqmaster.AA * equipmentBonus + Math.Sqrt( eq.Level ) * levelBonus;
+				}
+
+				fleetAABonus += Math.Floor( shipAABonus );
+			}
+
+			return Math.Floor( formationBonus * fleetAABonus ) * 2 / 1.3;
+		}
+
+		/// <summary>
+		/// 艦隊防空値を求めます。
+		/// </summary>
+		public static double GetAdjustedFleetAAValue( FleetData fleet, int formation ) {
+			return GetAdjustedFleetAAValue( fleet.MembersWithoutEscaped, formation );
+		}
+
+
+		/// <summary>
+		/// 割合撃墜(の割合)を求めます。
+		/// </summary>
+		public static double GetProportionalAirDefense( double adjustedAAValue ) {
+			return adjustedAAValue / 400;
+		}
+
+		/// <summary>
+		/// 固定撃墜を求めます。
+		/// </summary>
+		public static int GetFixedAirDefense( double adjustedAAValue, double adjustedFleetAAValue, int cutinKind ) {
+			double cutinBonus = Calculator.AACutinVariableBonus.ContainsKey( cutinKind ) ? Calculator.AACutinVariableBonus[cutinKind] : 1.0;
+			return (int)Math.Floor( ( adjustedAAValue + adjustedFleetAAValue ) * cutinBonus / 10 );
+		}
+
+
+		/// <summary>
+		/// 対空カットイン固定ボーナス
+		/// </summary>
+		public static readonly ReadOnlyDictionary<int, int> AACutinFixedBonus = new ReadOnlyDictionary<int, int>( new Dictionary<int, int>() { 
+			{  1, 7 },
+			{  2, 6 },
+			{  3, 4 },
+			{  4, 6 },
+			{  5, 4 },
+			{  6, 4 },
+			{  7, 3 },
+			{  8, 4 },
+			{  9, 2 },
+			{ 10, 8 },
+			{ 11, 6 },
+			{ 12, 3 },
+			{ 13, 4 },
+			{ 14, 4 },
+			{ 15, 3 },
+			{ 16, 4 },
+			{ 17, 2 },
+			{ 18, 2 },
+			{ 19, 5 },
+			{ 20, 3 },
+		} );
+
+		// ?=vita, ???=unknown
+		/// <summary>
+		/// 対空カットイン変動ボーナス
+		/// </summary>
+		public static readonly ReadOnlyDictionary<int, double> AACutinVariableBonus = new ReadOnlyDictionary<int, double>( new Dictionary<int, double>() {
+			{  1, 1.7 },
+			{  2, 1.7 },	//?
+			{  3, 1.6 },
+			{  4, 1.5 },	//?
+			{  5, 1.5 },
+			{  6, 1.5 },
+			{  7, 1.35 },	//?
+			{  8, 1.4 },
+			{  9, 1.3 },
+			{ 10, 1.65 },
+			{ 11, 1.5 },
+			{ 12, 1.25 },	//?
+			{ 13, 1.35 },	//?
+			{ 14, 1.0 },	//???
+			{ 15, 1.0 },	//???
+			{ 16, 1.0 },	//???
+			{ 17, 1.0 },	//???
+			{ 18, 1.2 },
+			{ 19, 1.45 },
+			{ 20, 1.25 },
+		} );
+
+
+		/// <summary>
+		/// 撃墜数の推定値を求めます。
+		/// </summary>
+		/// <param name="enemyAircraftCount">敵航空中隊の機数</param>
+		/// <param name="proportionalAirDefense">割合撃墜の割合</param>
+		/// <param name="fixedAirDefense">固定撃墜</param>
+		/// <param name="aaCutinKind">発動した対空カットインの種類</param>
+		public static int GetShootDownCount( int enemyAircraftCount, double proportionalAirDefense, int fixedAirDefense, int aaCutinKind ) {
+			return (int)Math.Floor( enemyAircraftCount * proportionalAirDefense ) + fixedAirDefense + 1 + ( AACutinFixedBonus.ContainsKey( aaCutinKind ) ? AACutinFixedBonus[aaCutinKind] : 0 );
+		}
+
+
 
 
 		/// <summary>

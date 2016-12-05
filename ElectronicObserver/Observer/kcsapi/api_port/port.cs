@@ -53,26 +53,22 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 
 
 			// 基地航空隊　配置転換系の処理
-			if ( data.api_event_object() && data.api_event_object.api_base_convert_slot() ) {
+			if ( data.api_plane_info() && data.api_plane_info.api_base_convert_slot() ) {
 
-				var prev = new HashSet<int>( BaseAirCorpsData.RelocatedEquipments );
-				BaseAirCorpsData.SetRelocatedEquipments( (int[])data.api_event_object.api_base_convert_slot );
+				var prev = db.RelocatedEquipments.Keys.ToArray();
+				var current = (int[])data.api_plane_info.api_base_convert_slot;
 
-				foreach ( int deleted in prev.Except( BaseAirCorpsData.RelocatedEquipments ) ) {
-					db.Equipments[deleted].RelocatedTime = DateTime.MinValue;
+				foreach ( int deleted in prev.Except( current ) ) {
+					db.RelocatedEquipments.Remove( deleted );
 				}
 
-				foreach ( int added in BaseAirCorpsData.RelocatedEquipments.Except( prev ) ) {
-					db.Equipments[added].RelocatedTime = DateTime.Now;
+				foreach ( int added in current.Except( prev ) ) {
+					db.RelocatedEquipments.Add( new RelocationData( added, DateTime.Now ) );
 				}
 
 			} else {
 
-				foreach ( int deleted in BaseAirCorpsData.RelocatedEquipments ) {
-					db.Equipments[deleted].RelocatedTime = DateTime.MinValue;
-				}
-
-				BaseAirCorpsData.RelocatedEquipments.Clear();
+				db.RelocatedEquipments.Clear();
 			}
 
 			db.Battle.LoadFromResponse( APIName, data );

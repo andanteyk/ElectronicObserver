@@ -476,6 +476,9 @@ namespace ElectronicObserver.Data {
 
 				case 3:
 					return Calculator.GetSearchingAbility_33( this );
+
+				case 4:
+					return Calculator.GetSearchingAbility_New33( this, 1 );
 			}
 		}
 
@@ -504,6 +507,9 @@ namespace ElectronicObserver.Data {
 
 				case 3:
 					return ( Math.Floor( Calculator.GetSearchingAbility_33( this ) * 100 ) / 100 ).ToString( "F2" );
+
+				case 4:
+					return ( Math.Floor( Calculator.GetSearchingAbility_New33( this, 1 ) * 100 ) / 100 ).ToString( "F2" );
 			}
 		}
 

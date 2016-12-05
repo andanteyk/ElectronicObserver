@@ -57,6 +57,8 @@ namespace BrowserLib {
 		[OperationContract]
 		void RequestNavigation( string baseurl );
 
+		[OperationContract]
+		void SetProxyCompleted();
 	}
 
 	/// <summary>

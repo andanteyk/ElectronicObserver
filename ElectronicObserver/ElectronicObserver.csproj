@@ -164,6 +164,7 @@
     <Compile Include="Data\Quest\ProgressSlaughter.cs" />
     <Compile Include="Data\Quest\ProgressSupply.cs" />
     <Compile Include="Data\Quest\QuestProgressManager.cs" />
+    <Compile Include="Data\RelocationData.cs" />
     <Compile Include="Data\ResponseWrapper.cs" />
     <Compile Include="Data\CompassData.cs" />
     <Compile Include="Data\ShipGroupData.cs" />
@@ -340,6 +341,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogAlbumShipParameter.Designer.cs">
       <DependentUpon>DialogAlbumShipParameter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogAntiAirDefense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogAntiAirDefense.Designer.cs">
+      <DependentUpon>DialogAntiAirDefense.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogBattleDetail.cs">
       <SubType>Form</SubType>
@@ -620,6 +627,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAlbumShipParameter.resx">
       <DependentUpon>DialogAlbumShipParameter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogAntiAirDefense.resx">
+      <DependentUpon>DialogAntiAirDefense.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogBattleDetail.resx">
       <DependentUpon>DialogBattleDetail.cs</DependentUpon>

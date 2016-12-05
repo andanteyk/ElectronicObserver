@@ -147,13 +147,13 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public PhaseInitial( BattleData data, string title )
 			: base( data, title ) {
 
-			if ( RawData.api_active_deck() ) {
-				FriendFleetID = (int)RawData.api_active_deck[0];
-			} else {
+			{
 				dynamic id = RawData.api_dock_id() ? RawData.api_dock_id :
 					RawData.api_deck_id() ? RawData.api_deck_id : 1;
 				FriendFleetID = id is string ? int.Parse( (string)id ) : (int)id;
 			}
+			if ( FriendFleetID <= 0 )
+				FriendFleetID = 1;
 
 			EnemyMembers = ArraySkip( (int[])RawData.api_ship_ke );
 			EnemyMembersInstance = EnemyMembers.Select( id => KCDatabase.Instance.MasterShips[id] ).ToArray();
@@ -208,6 +208,14 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				return main.Concat( Enumerable.Repeat( -1, 12 ) ).ToArray();
 		}
 
+
+		/// <summary>
+		/// 2016/11/19 現在、連合艦隊夜戦において味方随伴艦隊が 最大HP = 現在HP となる不具合が存在するため、
+		/// 昼戦データから最大HPを取得する
+		/// </summary>
+		public void TakeOverMaxHPs( BattleData bd ) {
+			Array.Copy( bd.Initial.MaxHPs, 12, MaxHPs, 12, 6 );
+		}
 
 	}
 }

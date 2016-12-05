@@ -390,10 +390,9 @@ namespace ElectronicObserver.Window {
 
 		private void ContextMenuBaseAirCorps_DisplayRelocatedEquipments_Click( object sender, EventArgs e ) {
 
-			string message = string.Join( "\r\n", BaseAirCorpsData.RelocatedEquipments
-				.Select( id => KCDatabase.Instance.Equipments[id] )
-				.Where( eq => eq != null )
-				.Select( eq => string.Format( "{0} ({1}～)", eq.NameWithLevel, DateTimeHelper.TimeToCSVString( eq.RelocatedTime ) ) ) );
+			string message = string.Join( "\r\n", KCDatabase.Instance.RelocatedEquipments.Values
+				.Where( eq => eq.EquipmentInstance != null )
+				.Select( eq => string.Format( "{0} ({1}～)", eq.EquipmentInstance.NameWithLevel, DateTimeHelper.TimeToCSVString( eq.RelocatedTime ) ) ) );
 
 			if ( message.Length == 0 )
 				message = "現在配置転換中の装備はありません。";

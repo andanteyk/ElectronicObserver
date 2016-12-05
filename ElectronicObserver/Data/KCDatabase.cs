@@ -144,7 +144,10 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public IDDictionary<BaseAirCorpsData> BaseAirCorps { get; private set; }
 
-
+		/// <summary>
+		/// 配置転換中装備データ
+		/// </summary>
+		public IDDictionary<RelocationData> RelocatedEquipments { get; private set; }
 
 		private KCDatabase() {
 
@@ -169,6 +172,7 @@ namespace ElectronicObserver.Data {
 			Mission = new IDDictionary<MissionData>();
 			ShipGroup = new ShipGroupManager();
 			BaseAirCorps = new IDDictionary<BaseAirCorpsData>();
+			RelocatedEquipments = new IDDictionary<RelocationData>();
 		}
 
 
