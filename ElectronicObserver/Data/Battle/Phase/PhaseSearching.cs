@@ -21,7 +21,6 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		}
 
 		public override void EmulateBattle( int[] hps, int[] damages ) {
-			throw new NotSupportedException();
 		}
 
 

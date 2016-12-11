@@ -81,6 +81,26 @@ namespace ElectronicObserver.Data.Battle.Detail {
 					}
 
 
+				} else if ( phase is PhaseJetAirBattle ) {
+					var p = phase as PhaseJetAirBattle;
+
+					GetBattleDetailPhaseAirBattle( sb, p );
+
+
+				} else if ( phase is PhaseJetBaseAirAttack ) {
+					var p = phase as PhaseJetBaseAirAttack;
+
+					foreach ( var a in p.AirAttackUnits ) {
+						sb.AppendFormat( "〈第{0}波〉\r\n", a.AirAttackIndex + 1 );
+
+						sb.AppendLine( "味方基地航空隊 参加中隊:" );
+						sb.Append( "　" ).AppendLine( string.Join( ", ", a.Squadrons.Where( sq => sq.EquipmentInstance != null ).Select( sq => sq.ToString() ) ) );
+
+						GetBattleDetailPhaseAirBattle( sb, a );
+						sb.Append( a.GetBattleDetail() );
+					}
+
+
 				} else if ( phase is PhaseInitial ) {
 					var p = phase as PhaseInitial;
 
@@ -198,7 +218,7 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				}
 
 
-				if ( !( phase is PhaseBaseAirAttack ) )		// 通常出力と重複するため
+				if ( !( phase is PhaseBaseAirAttack || phase is PhaseJetBaseAirAttack ) )		// 通常出力と重複するため
 					sb.Append( phase.GetBattleDetail() );
 
 				if ( sb.Length > 0 ) {
@@ -302,7 +322,7 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			}
 		}
 
-		private static void GetBattleDetailPhaseAirBattle( StringBuilder sb, PhaseAirBattle p ) {
+		private static void GetBattleDetailPhaseAirBattle( StringBuilder sb, PhaseAirBattleBase p ) {
 
 			if ( p.IsStage1Available ) {
 				sb.Append( "Stage1: " ).AppendLine( Constants.GetAirSuperiority( p.AirSuperiority ) );
@@ -324,7 +344,9 @@ namespace ElectronicObserver.Data.Battle.Detail {
 					p.AircraftLostStage2Friend, p.AircraftTotalStage2Friend,
 					p.AircraftLostStage2Enemy, p.AircraftTotalStage2Enemy );
 			}
-			sb.AppendLine();
+
+			if ( p.IsStage1Available || p.IsStage2Available )
+				sb.AppendLine();
 		}
 
 
