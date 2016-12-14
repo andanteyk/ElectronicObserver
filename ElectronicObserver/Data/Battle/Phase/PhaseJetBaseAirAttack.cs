@@ -69,7 +69,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 
 			private IEnumerable<BattleBaseAirCorpsSquadron> GetSquadrons() {
-				foreach ( dynamic d in AirBattleData.api_base_air_data )
+				foreach ( dynamic d in AirBattleData.api_air_base_data )
 					yield return new BattleBaseAirCorpsSquadron( d );
 			}
 

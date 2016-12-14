@@ -1382,7 +1382,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 							[2]：1=同航戦, 2=反航戦, 3=T字有利, 4=T字不利
 	api_air_base_injection	：噴式強襲基地航空隊攻撃　概ね基地航空隊攻撃に準じる　stage_flagは存在せず、各stage項目の有無で判断する　将来的に配列になる可能性あり
 		api_plane_from		：[1][]　値は[[-1]]?
-		api_base_air_data	：[] api_squadron_plane に相当　噴式機(参加機)のみ
+		api_air_base_data	：[] api_squadron_plane に相当　噴式機(参加機)のみ
 			api_mst_id
 			api_count
 		api_stage1			：制空権と触接の値がない　制空権は追加される可能性がある
