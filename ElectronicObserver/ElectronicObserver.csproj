@@ -122,10 +122,13 @@
     <Compile Include="Data\Battle\BattleResultData.cs" />
     <Compile Include="Data\Battle\Detail\BattleDetailDescriptor.cs" />
     <Compile Include="Data\Battle\Phase\PhaseAirBattle.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseAirBattleBase.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBase.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirAttack.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirRaid.cs" />
     <Compile Include="Data\Battle\Phase\PhaseInitial.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseJetAirBattle.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseJetBaseAirAttack.cs" />
     <Compile Include="Data\Battle\Phase\PhaseNightBattle.cs" />
     <Compile Include="Data\Battle\Phase\PhaseOpeningASW.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSearching.cs" />

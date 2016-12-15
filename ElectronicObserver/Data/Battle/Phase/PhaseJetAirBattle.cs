@@ -8,15 +8,21 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Data.Battle.Phase {
 
 	/// <summary>
-	/// 航空戦フェーズの処理を行います。
+	/// 噴式強襲航空攻撃フェーズの処理を行います。
 	/// </summary>
-	public class PhaseAirBattle : PhaseAirBattleBase {
+	public class PhaseJetAirBattle : PhaseAirBattleBase {
 
-		public PhaseAirBattle( BattleData data, string title, string suffix = "" )
+		public PhaseJetAirBattle( BattleData data, string title )
 			: base( data, title ) {
 
-			AirBattleData = RawData.IsDefined( "api_kouku" + suffix ) ? RawData["api_kouku" + suffix] : null;
-			StageFlag = RawData.IsDefined( "api_stage_flag" + suffix ) ? (int[])RawData["api_stage_flag" + suffix] : null;
+			AirBattleData = RawData.api_injection_kouku() ? RawData.api_injection_kouku : null;
+			if ( AirBattleData != null ) {
+				StageFlag = new int[] { 
+					AirBattleData.api_stage1() ? 1 : 0,
+					AirBattleData.api_stage2() ? 1 : 0,
+					AirBattleData.api_stage3() ? 1 : 0,
+				};
+			}
 
 			LaunchedShipIndexFriend = GetLaunchedShipIndex( 0 );
 			LaunchedShipIndexEnemy = GetLaunchedShipIndex( 1 );
@@ -27,7 +33,6 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			Damages = ConcatStage3Array( "api_fdam", "api_edam" );
 		}
 
-
 		public override void EmulateBattle( int[] hps, int[] damages ) {
 
 			if ( !IsAvailable ) return;
@@ -35,7 +40,6 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			CalculateAttack( 0, hps );
 			CalculateAttackDamage( damages );
 		}
-
 
 
 		/// <summary>
@@ -69,14 +73,11 @@ namespace ElectronicObserver.Data.Battle.Phase {
 						continue;
 
 					switch ( slots[s].CategoryType ) {
-						case 7:		// 艦上爆撃機
-						case 11:	// 水上爆撃機
 						case 57:	// 噴式戦闘爆撃機
 							firepower[i] += (int)( 1.0 * ( slots[s].Bomber * Math.Sqrt( aircrafts[s] ) + 25 ) );
 							break;
 
-						case 8:		// 艦上攻撃機 (80%と150%はランダムのため係数は平均値)
-						case 58:	// 噴式攻撃機
+						case 58:	// 噴式攻撃機 (80%と150%はランダムのため係数は平均値)
 							firepower[i] += (int)( 1.15 * ( slots[s].Torpedo * Math.Sqrt( aircrafts[s] ) + 25 ) );
 							break;
 					}
@@ -91,9 +92,11 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 		}
 
+
 		protected override IEnumerable<BattleDetail> SearchBattleDetails( int index ) {
 			return BattleDetails.Where( d => d.DefenderIndex == index );
 		}
 
 	}
+
 }

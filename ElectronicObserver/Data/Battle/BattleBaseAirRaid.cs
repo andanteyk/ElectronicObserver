@@ -6,18 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle {
-	
+
 	/// <summary>
-	/// 基地空襲戦
+	/// 基地防空戦
 	/// </summary>
 	public class BattleBaseAirRaid : BattleDay {
+
+		public PhaseBaseAirRaid BaseAirRaid { get; protected set; }
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
-			AirBattle = new PhaseBaseAirRaid( this, "空襲戦" );
+			BaseAirRaid = new PhaseBaseAirRaid( this, "防空戦" );
 
-			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
+			foreach ( var phase in GetPhases() )
+				phase.EmulateBattle( _resultHPs, _attackDamages );
+
 		}
 
 
@@ -26,17 +30,17 @@ namespace ElectronicObserver.Data.Battle {
 		}
 
 		public override string BattleName {
-			get { return "基地空襲戦"; }
+			get { return "基地防空戦"; }
 		}
 
 		public override BattleData.BattleTypeFlag BattleType {
 			get { return BattleTypeFlag.Day | BattleTypeFlag.BaseAirRaid; }
 		}
 
-		public override IEnumerable<Phase.PhaseBase> GetPhases() {
+		public override IEnumerable<PhaseBase> GetPhases() {
 			yield return Initial;
 			yield return Searching;
-			yield return AirBattle;
+			yield return BaseAirRaid;
 		}
 	}
 }

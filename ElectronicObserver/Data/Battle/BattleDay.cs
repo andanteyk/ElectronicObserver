@@ -12,6 +12,8 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public abstract class BattleDay : BattleData {
 
+		public PhaseJetBaseAirAttack JetBaseAirAttack { get; protected set; }
+		public PhaseJetAirBattle JetAirBattle { get; protected set; }
 		public PhaseBaseAirAttack BaseAirAttack { get; protected set; }
 		public PhaseAirBattle AirBattle { get; protected set; }
 		public PhaseSupport Support { get; protected set; }
