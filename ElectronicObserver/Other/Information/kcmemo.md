@@ -53,6 +53,18 @@ value = min + ceil( ( max - min ) * ( 0.4 or 0.8 ) * Lv / 99 )
 
 |ID|艦名|
 |--:|:--|
+|829|Xmas鈴谷|
+|830|Xmas熊野|
+|831|Xmas朝雲|
+|832|Xmas山雲|
+|833|Xmas瑞穂|
+|834|Xmas筑摩改二|
+|835|Xmas利根改二|
+|836|Xmasまるゆ|
+|837|Xmas球磨|
+|838|XmasCommandant Teste|
+|839|Xmas明石改|
+|840|Xmas明石|
 |841|Xmas漣改|
 |842|浴衣由良|
 |843|浴衣白露|

@@ -133,7 +133,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				list = GetShips()
 					.Where( s => s != null )
-					.Select( s => Calculator.GetAACutinKind( s.ShipID, s.SlotMaster.ToArray() ) )
+					.Select( s => Calculator.GetAACutinKind( s.ShipID, s.AllSlotMaster.ToArray() ) )
 					.Concat( Enumerable.Repeat( 0, 1 ) )
 					.Distinct()
 					.OrderBy( i => i )

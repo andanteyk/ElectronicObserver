@@ -1564,7 +1564,7 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
 	api_fParam			：味方艦船基礎ステータス
 	api_eParam			：敵艦船基礎ステータス
-	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵
+	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵　文字列型になることがある
 	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵　敵でも1-6
 	api_hougeki			：夜間砲雷撃戦
 		api_at_list		：行動順

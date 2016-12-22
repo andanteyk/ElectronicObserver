@@ -512,7 +512,7 @@ namespace ElectronicObserver.Utility.Data {
 				ret += Math.Sqrt( ship.LOSBase );
 
 				double equipmentBonus = 0;
-				foreach ( var eq in ship.SlotInstance.Where( eq => eq != null ) ) {
+				foreach ( var eq in ship.AllSlotInstance.Where( eq => eq != null ) ) {
 
 					int category = eq.MasterEquipment.CategoryType;
 
@@ -1168,14 +1168,14 @@ namespace ElectronicObserver.Utility.Data {
 
 			double x = ship.AABase;
 
-			foreach ( var eq in ship.SlotInstance ) {
+			foreach ( var eq in ship.AllSlotInstance ) {
 				if ( eq == null )
 					continue;
 
 				var eqmaster = eq.MasterEquipment;
 
 				double equipmentBonus;
-				if ( eqmaster.IconType == 16 )	// 高角砲
+				if ( eqmaster.IconType == 16 || eqmaster.CategoryType == 36 )	// 高角砲・高射装置
 					equipmentBonus = 4;
 				else if ( eqmaster.CategoryType == 21 )		// 機銃
 					equipmentBonus = 6;
@@ -1201,7 +1201,7 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		/// <summary>
-		/// 加重対空値を求めます。
+		/// 艦隊防空値を求めます。
 		/// </summary>
 		public static double GetAdjustedFleetAAValue( IEnumerable<ShipData> ships, int formation ) {
 			double formationBonus;
@@ -1219,13 +1219,13 @@ namespace ElectronicObserver.Utility.Data {
 					continue;
 
 				double shipAABonus = 0;
-				foreach ( var eq in ship.SlotInstance ) {
+				foreach ( var eq in ship.AllSlotInstance ) {
 					if ( eq == null )
 						continue;
 
 					var eqmaster = eq.MasterEquipment;
 					double equipmentBonus;
-					if ( eqmaster.IconType == 16 )		// 高角砲
+					if ( eqmaster.IconType == 16 || eqmaster.CategoryType == 36 )		// 高角砲・高射装置
 						equipmentBonus = 0.35;
 					else if ( eqmaster.CategoryType == 36 )		// 高射装置
 						equipmentBonus = 0.35;
