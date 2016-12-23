@@ -153,12 +153,20 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// 自軍触接機ID
 		/// </summary>
-		public int TouchAircraftFriend { get { return (int)RawData.api_touch_plane[0]; } }
+		public int TouchAircraftFriend {
+			get {
+				return ( RawData.api_touch_plane[0] is string ) ? int.Parse( RawData.api_touch_plane[0] ) : (int)RawData.api_touch_plane[0];
+			}
+		}
 
 		/// <summary>
 		/// 敵軍触接機ID
 		/// </summary>
-		public int TouchAircraftEnemy { get { return (int)RawData.api_touch_plane[1]; } }
+		public int TouchAircraftEnemy {
+			get {
+				return ( RawData.api_touch_plane[1] is string ) ? int.Parse( RawData.api_touch_plane[1] ) : (int)RawData.api_touch_plane[1];
+			}
+		}
 
 		/// <summary>
 		/// 自軍照明弾投射艦番号(0-5, -1=発動せず)

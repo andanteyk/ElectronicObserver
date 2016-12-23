@@ -77,7 +77,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_SaveReceivedData_CheckedChanged( null, new EventArgs() );
 			Connection_SaveDataPath_TextChanged( null, new EventArgs() );
 			Debug_EnableDebugMenu_CheckedChanged( null, new EventArgs() );
-
+			FormFleet_FixShipNameWidth_CheckedChanged( null, new EventArgs() );
 		}
 
 
@@ -354,6 +354,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShowAnchorageRepairingTimer.Checked = config.FormFleet.ShowAnchorageRepairingTimer;
 			FormFleet_BlinkAtCompletion.Checked = config.FormFleet.BlinkAtCompletion;
 			FormFleet_ShowConditionIcon.Checked = config.FormFleet.ShowConditionIcon;
+			FormFleet_FixedShipNameWidth.Value = config.FormFleet.FixedShipNameWidth;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 			FormHeadquarters_Visibility.Items.Clear();
@@ -568,6 +569,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowAnchorageRepairingTimer = FormFleet_ShowAnchorageRepairingTimer.Checked;
 			config.FormFleet.BlinkAtCompletion = FormFleet_BlinkAtCompletion.Checked;
 			config.FormFleet.ShowConditionIcon = FormFleet_ShowConditionIcon.Checked;
+			config.FormFleet.FixedShipNameWidth = (int)FormFleet_FixedShipNameWidth.Value;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 			{
@@ -806,6 +808,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void PlayTimeTimer_Tick( object sender, EventArgs e ) {
 			UpdatePlayTime();
+		}
+
+		private void FormFleet_FixShipNameWidth_CheckedChanged( object sender, EventArgs e ) {
+			FormFleet_FixedShipNameWidth.Enabled = FormFleet_FixShipNameWidth.Checked;
 		}
 
 
