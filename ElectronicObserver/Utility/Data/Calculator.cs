@@ -1303,28 +1303,28 @@ namespace ElectronicObserver.Utility.Data {
 			{ 20, 3 },
 		} );
 
-		// ?=vita, ???=unknown
+		
 		/// <summary>
 		/// 対空カットイン変動ボーナス
 		/// </summary>
 		public static readonly ReadOnlyDictionary<int, double> AACutinVariableBonus = new ReadOnlyDictionary<int, double>( new Dictionary<int, double>() {
 			{  1, 1.7 },
-			{  2, 1.7 },	//?
+			{  2, 1.7 },
 			{  3, 1.6 },
-			{  4, 1.5 },	//?
+			{  4, 1.5 },
 			{  5, 1.5 },
-			{  6, 1.5 },
-			{  7, 1.35 },	//?
+			{  6, 1.45 },
+			{  7, 1.35 },
 			{  8, 1.4 },
 			{  9, 1.3 },
 			{ 10, 1.65 },
 			{ 11, 1.5 },
-			{ 12, 1.25 },	//?
-			{ 13, 1.35 },	//?
-			{ 14, 1.0 },	//???
-			{ 15, 1.0 },	//???
-			{ 16, 1.0 },	//???
-			{ 17, 1.0 },	//???
+			{ 12, 1.25 },
+			{ 13, 1.35 },
+			{ 14, 1.45 },
+			{ 15, 1.3 },
+			{ 16, 1.4 },
+			{ 17, 1.25 },
 			{ 18, 1.2 },
 			{ 19, 1.45 },
 			{ 20, 1.25 },
