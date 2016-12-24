@@ -10,17 +10,17 @@ namespace ElectronicObserver.Data.Battle.Phase {
 	/// <summary>
 	/// 基地空襲戦フェーズ
 	/// </summary>
-	public class PhaseBaseAirRaid : PhaseAirBattle {
+	public class PhaseBaseAirRaid : PhaseAirBattleBase {
 
-		private PhaseBaseAirAttack.SquadronData[] _squadrons;
+		private BattleBaseAirCorpsSquadron[] _squadrons;
 		/// <summary>
 		/// 参加した航空中隊データ
 		/// </summary>
-		public ReadOnlyCollection<PhaseBaseAirAttack.SquadronData> Squadrons {
+		public ReadOnlyCollection<BattleBaseAirCorpsSquadron> Squadrons {
 			get { return Array.AsReadOnly( _squadrons ); }
 		}
 
-		private IEnumerable<PhaseBaseAirAttack.SquadronData> GetSquadrons() {
+		private IEnumerable<BattleBaseAirCorpsSquadron> GetSquadrons() {
 			foreach ( dynamic d in AirBattleData.api_squadron_plane ) {
 				if ( !( d is Codeplex.Data.DynamicJson ) )
 					continue;
@@ -28,16 +28,19 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					continue;
 
 				foreach ( dynamic e in d )
-					yield return new PhaseBaseAirAttack.SquadronData( e );
+					yield return new BattleBaseAirCorpsSquadron( e );
 			}
 		}
 
 
 		public PhaseBaseAirRaid( BattleData data, string title )
-			: base( data, title, "_it_will_never_be_processed_" ) {
+			: base( data, title ) {
 
 			AirBattleData = data.RawData.api_air_base_attack;
 			StageFlag = AirBattleData.api_stage_flag() ? (int[])AirBattleData.api_stage_flag : null;
+
+			LaunchedShipIndexFriend = GetLaunchedShipIndex( 0 );
+			LaunchedShipIndexEnemy = GetLaunchedShipIndex( 1 );
 
 			_squadrons = GetSquadrons().ToArray();
 
@@ -51,7 +54,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			if ( !IsAvailable ) return;
 
-			CalculateAttack( -1, hps, damages );
+			CalculateAttack( -1, hps );
 		}
 
 	}

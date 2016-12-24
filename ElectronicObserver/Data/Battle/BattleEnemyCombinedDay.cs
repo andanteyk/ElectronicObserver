@@ -15,6 +15,8 @@ namespace ElectronicObserver.Data.Battle {
 		public override void LoadFromResponse( string apiname, dynamic data ) {
 			base.LoadFromResponse( apiname, (object)data );
 
+			JetBaseAirAttack = new PhaseJetBaseAirAttack( this, "噴式基地航空隊攻撃" );
+			JetAirBattle = new PhaseJetAirBattle( this, "噴式航空戦" );
 			BaseAirAttack = new PhaseBaseAirAttack( this, "基地航空隊攻撃" );
 			AirBattle = new PhaseAirBattle( this, "航空戦" );
 			Support = new PhaseSupport( this, "支援攻撃" );
@@ -25,17 +27,9 @@ namespace ElectronicObserver.Data.Battle {
 			Shelling2 = new PhaseShelling( this, "第二次砲撃戦", 3, "2", false, false );
 			Shelling3 = new PhaseShelling( this, "第三次砲撃戦", 4, "3", false, false );
 
+			foreach ( var phase in GetPhases() )
+				phase.EmulateBattle( _resultHPs, _attackDamages );
 
-			BaseAirAttack.EmulateBattle( _resultHPs, _attackDamages );
-			AirBattle.EmulateBattle( _resultHPs, _attackDamages );
-			Support.EmulateBattle( _resultHPs, _attackDamages );
-			OpeningASW.EmulateBattle( _resultHPs, _attackDamages );
-			OpeningTorpedo.EmulateBattle( _resultHPs, _attackDamages );
-			Shelling1.EmulateBattle( _resultHPs, _attackDamages );
-			Torpedo.EmulateBattle( _resultHPs, _attackDamages );
-			Shelling2.EmulateBattle( _resultHPs, _attackDamages );
-			Shelling3.EmulateBattle( _resultHPs, _attackDamages );
-			
 		}
 
 
@@ -55,6 +49,8 @@ namespace ElectronicObserver.Data.Battle {
 		public override IEnumerable<PhaseBase> GetPhases() {
 			yield return Initial;
 			yield return Searching;
+			yield return JetBaseAirAttack;
+			yield return JetAirBattle;
 			yield return BaseAirAttack;
 			yield return AirBattle;
 			yield return Support;

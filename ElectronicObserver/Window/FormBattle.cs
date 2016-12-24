@@ -146,7 +146,7 @@ namespace ElectronicObserver.Window {
 					SetFormation( bm.BattleDay );
 					ClearSearchingResult();
 					ClearBaseAirAttack();
-					SetAerialWarfare( bm.BattleDay.AirBattle );
+					SetAerialWarfare( ( (BattleBaseAirRaid)bm.BattleDay ).BaseAirRaid );
 					SetHPBar( bm.BattleDay );
 					SetDamageRate( bm );
 
@@ -378,7 +378,7 @@ namespace ElectronicObserver.Window {
 		/// <summary>
 		/// 航空戦情報を設定します。
 		/// </summary>
-		private void SetAerialWarfare( PhaseAirBattle pd ) {
+		private void SetAerialWarfare( PhaseAirBattleBase pd ) {
 
 			//空対空戦闘
 			if ( pd.IsStage1Available ) {
@@ -1176,7 +1176,7 @@ namespace ElectronicObserver.Window {
 			return "Battle";
 		}
 
-	
+
 	}
 
 }

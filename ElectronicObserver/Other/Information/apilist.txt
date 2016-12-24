@@ -172,6 +172,7 @@ api_start2	：艦娘・装備固有データその他
 				37=Amphibious Vehicle
 				38=Land Attacker
 				39=Interceptor
+				40=Jet Fighting Bomber
 
 				 1=主砲
 				 2=副砲
@@ -209,6 +210,7 @@ api_start2	：艦娘・装備固有データその他
 				37=特型内火艇
 				38=陸上攻撃機
 				39=局地戦闘機
+				40=噴式戦闘爆撃機
 
 			[2]：カテゴリ
 				(api_mst_slotitem_equiptype を参照)
@@ -260,6 +262,10 @@ api_start2	：艦娘・装備固有データその他
 				46=特型内火艇
 				47=陸上攻撃機
 				48=局地戦闘機
+				56=噴式戦闘機
+				57=噴式戦闘爆撃機
+				58=噴式攻撃機
+				59=噴式偵察機
 				93=大型電探(II)
 				94=艦上偵察機(II)
 
@@ -302,6 +308,8 @@ api_start2	：艦娘・装備固有データその他
 				36=特型内火艇
 				37=陸上攻撃機
 				38=局地戦闘機
+				39=噴式戦闘爆撃機(噴式景雲改)
+				40=噴式戦闘爆撃機(橘花改)
 
 			[4]: 航空機カテゴリ
 				 0=非航空機
@@ -319,6 +327,9 @@ api_start2	：艦娘・装備固有データその他
 				18=局地戦闘機
 				19=大型飛行艇
 				20=震電改
+				21=米艦載機
+				22=噴式景雲改
+				23=橘花改
 
 		api_taik		：耐久(0)
 		api_souk		：装甲
@@ -1309,7 +1320,7 @@ api_req_map/next		：進撃
 		api_supply_ship	：補給艦(艦船固有ID)
 		api_given_ship	：補給対象艦(〃)
 		api_use_num		：洋上補給アイテム使用個数
-	api_destruction_battle		：空襲データ　ほぼ戦闘APIに準じる　発生した時のみ存在
+	api_destruction_battle		：基地防空戦データ　ほぼ戦闘APIに準じる　発生した時のみ存在
 		api_formation
 		api_ship_ke
 		api_ship_lv
@@ -1355,20 +1366,66 @@ Request.api_req_sortie/battle	：戦闘(昼戦)
 	api_ration_flag		：戦闘糧食フラグ 使用すれば1?, 使用しなければ存在しない
 
 api_req_sortie/battle	：戦闘(昼戦)
-	api_dock_id			：こちらの出撃艦隊ID
-	api_ship_ke			：敵艦船ID -1(ダミー)から始まる。空きは-1
+	api_dock_id			：こちらの出撃艦隊ID　数値型
+	api_ship_ke			：敵艦船ID -1(ダミー)から始まる 空きは-1
 	api_ship_lv			：敵艦船Lv. -1から
 	api_nowhps			：味方/敵艦船の現在HP -1から
 	api_maxhps			：〃最大HP
-	api_midnight_flag	：夜戦突入可否　昼戦で全滅させれば0(不可)になる
+	api_midnight_flag	：夜戦突入可否　0=不可(昼戦で敵全滅など), 1=可能
 	api_eSlot			：敵艦船装備スロット　[6][5]　空きスロットは-1
-	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
-	api_fParam			：味方艦船基礎ステータス [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
-	api_eParam			：敵艦船基礎ステータス
+	api_eKyouka			：敵艦船パラメータ強化(近代化改修)　[6][4]
+	api_fParam			：味方艦船基礎ステータス [6][4] [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
+	api_eParam			：敵艦船基礎ステータス [6][4]
 	api_search			：索敵成否　[0]=味方, [1]=敵　1=成功, 2=成功(未帰還機あり), 3=未帰還, 4=失敗, 5=成功(艦載機使用せず), 6=失敗(艦載機使用せず)
 	api_formation		：陣形/交戦形態　[0]=味方, [1]=敵, [2]=交戦形態
-							[0|1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣
+							[0,1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣
 							[2]：1=同航戦, 2=反航戦, 3=T字有利, 4=T字不利
+	api_air_base_injection	：噴式強襲基地航空隊攻撃　概ね基地航空隊攻撃に準じる　stage_flagは存在せず、各stage項目の有無で判断する　将来的に配列になる可能性あり
+		api_plane_from		：[1][]　値は[[-1]]?
+		api_air_base_data	：[] api_squadron_plane に相当　噴式機(参加機)のみ
+			api_mst_id
+			api_count
+		api_stage1			：制空権と触接の値がない　制空権は追加される可能性がある
+			api_f_count
+			api_f_lostcount
+			api_e_count
+			api_e_lostcount
+		api_stage2
+			api_f_count
+			api_f_lostcount
+			api_e_count
+			api_e_lostcount
+		api_stage3
+			api_frai_flag
+			api_erai_flag
+			api_fbak_flag
+			api_ebak_flag
+			api_fcl_flag
+			api_ecl_flag
+			api_fdam
+			api_edam
+	api_injection_kouku		：噴式強襲航空攻撃　概ね航空戦データに準じる　stage_flagは存在せず、各stage項目の有無で判断する
+		api_plane_from		：[2][]
+		api_stage1			：制空権と触接の値がない　触接は追加される可能性がある
+			api_f_count
+			api_f_lostcount
+			api_e_count
+			api_e_lostcount
+		api_stage2
+			api_f_count
+			api_f_lostcount
+			api_e_count
+			api_e_lostcount
+			api_air_fire	：存在不明
+		api_stage3
+			api_frai_flag
+			api_erai_flag
+			api_fbak_flag
+			api_ebak_flag
+			api_fcl_flag
+			api_ecl_flag
+			api_fdam
+			api_edam
 	api_air_base_attack		：基地航空隊攻撃　概ね航空戦データに準じる　[発動した回数]
 		api_base_id			：航空隊ID
 		api_stage_flag		：
@@ -1507,7 +1564,7 @@ api_req_battle_midnight/battle		：戦闘(夜戦)
 	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
 	api_fParam			：味方艦船基礎ステータス
 	api_eParam			：敵艦船基礎ステータス
-	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵
+	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵　文字列型になることがある
 	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵　敵でも1-6
 	api_hougeki			：夜間砲雷撃戦
 		api_at_list		：行動順

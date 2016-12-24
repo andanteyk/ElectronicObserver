@@ -60,7 +60,7 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			} else if ( AttackerIndex < 6 ) {
 				var atk = bd.Initial.FriendFleet.MembersInstance[AttackerIndex];
 				Attacker = atk.MasterShip;
-				slots = atk.SlotMaster.ToArray();
+				slots = atk.AllSlotMaster.ToArray();
 
 			} else if ( AttackerIndex < 12 ) {
 				Attacker = bd.Initial.EnemyMembersInstance[AttackerIndex - 6];
@@ -69,7 +69,7 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			} else if ( attackerIndex < 18 ) {
 				var atk = bd.Initial.FriendFleetEscort.MembersInstance[AttackerIndex - 12];
 				Attacker = atk.MasterShip;
-				slots = atk.SlotMaster.ToArray();
+				slots = atk.AllSlotMaster.ToArray();
 
 			} else {
 				Attacker = bd.Initial.EnemyMembersEscortInstance[AttackerIndex - 18];

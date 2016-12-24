@@ -32,13 +32,16 @@ namespace ElectronicObserver.Utility.Data {
 		/// 各装備カテゴリにおける制空値の熟練度ボーナス
 		/// </summary>
 		private static readonly Dictionary<int, int[]> AircraftLevelBonus = new Dictionary<int, int[]>() {
-			{ 6, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },		//艦上戦闘機
-			{ 7, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },			//艦上爆撃機
-			{ 8, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },			//艦上攻撃機
-			{ 11, new int[] { 0, 1, 1, 1, 1, 3, 3, 6, 6 } },		//水上爆撃機
-			{ 45, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },	//水上戦闘機
-			{ 47, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		//陸上攻撃機
-			{ 48, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },	//局地戦闘機
+			{ 6, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },		// 艦上戦闘機
+			{ 7, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },			// 艦上爆撃機
+			{ 8, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },			// 艦上攻撃機
+			{ 11, new int[] { 0, 1, 1, 1, 1, 3, 3, 6, 6 } },		// 水上爆撃機
+			{ 45, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },	// 水上戦闘機
+			{ 47, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		// 陸上攻撃機
+			{ 48, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },	// 局地戦闘機
+			{ 56, new int[] { 0, 0, 2, 5, 9, 14, 14, 22, 22 } },	// 噴式戦闘機
+			{ 57, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		// 噴式戦闘爆撃機
+			{ 58, new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 } },		// 噴式攻撃機
 		};
 
 		/// <summary>
@@ -214,6 +217,7 @@ namespace ElectronicObserver.Utility.Data {
 						rate = Math.Max( rate, 1.1 + losrate * 0.03 );
 						break;
 					case 9:		// 艦上偵察機
+					case 59:	// 噴式偵察機
 						rate = Math.Max( rate, 1.2 + losrate * 0.05 );
 						break;
 				}
@@ -508,14 +512,14 @@ namespace ElectronicObserver.Utility.Data {
 				ret += Math.Sqrt( ship.LOSBase );
 
 				double equipmentBonus = 0;
-				foreach ( var eq in ship.SlotInstance.Where( eq => eq != null ) ) {
+				foreach ( var eq in ship.AllSlotInstance.Where( eq => eq != null ) ) {
 
 					int category = eq.MasterEquipment.CategoryType;
 
 					double equipmentRate;
-					if ( category == 8 )		// 艦上攻撃機
+					if ( category == 8 || category == 58 )		// 艦上攻撃機・噴式攻撃機
 						equipmentRate = 0.8;
-					else if ( category == 9 )	// 艦上偵察機
+					else if ( category == 9 || category == 59 )	// 艦上偵察機・噴式偵察機
 						equipmentRate = 1.0;
 					else if ( category == 10 )	// 水上偵察機
 						equipmentRate = 1.2;
@@ -566,7 +570,8 @@ namespace ElectronicObserver.Utility.Data {
 
 					if ( eqs[i].CategoryType == 9 ||	// 艦上偵察機
 						eqs[i].CategoryType == 10 ||	// 水上偵察機
-						eqs[i].CategoryType == 41 ) {	// 大型飛行艇
+						eqs[i].CategoryType == 41 ||	// 大型飛行艇
+						eqs[i].CategoryType == 59 ) {	// 噴式偵察機
 
 						successProb += 0.04 * eqs[i].LOS * Math.Sqrt( ship.Aircraft[i] );
 					}
@@ -598,6 +603,8 @@ namespace ElectronicObserver.Utility.Data {
 						case 9:		// 艦上偵察機
 						case 10:	// 水上偵察機
 						case 41:	// 大型飛行艇
+						case 58:	// 噴式攻撃機
+						case 59:	// 噴式偵察機
 							if ( !probs.ContainsKey( eq.Accuracy ) )
 								probs.Add( eq.Accuracy, 1.0 );
 
@@ -698,7 +705,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 68, 0.05 },	// 大発動艇
 			{ 166, 0.02 },	// 大発戦車
 			{ 167, 0.01 },	// 内火艇
-			{ 193, 0.05 },	//特大発動艇
+			{ 193, 0.05 },	// 特大発動艇
 		};
 		/// <summary>
 		/// 遠征資源の大発ボーナスを取得します。
@@ -1161,14 +1168,14 @@ namespace ElectronicObserver.Utility.Data {
 
 			double x = ship.AABase;
 
-			foreach ( var eq in ship.SlotInstance ) {
+			foreach ( var eq in ship.AllSlotInstance ) {
 				if ( eq == null )
 					continue;
 
 				var eqmaster = eq.MasterEquipment;
 
 				double equipmentBonus;
-				if ( eqmaster.IconType == 16 )	// 高角砲
+				if ( eqmaster.IconType == 16 || eqmaster.CategoryType == 36 )	// 高角砲・高射装置
 					equipmentBonus = 4;
 				else if ( eqmaster.CategoryType == 21 )		// 機銃
 					equipmentBonus = 6;
@@ -1194,17 +1201,27 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		/// <summary>
-		/// 加重対空値を求めます。
+		/// 艦隊防空値を求めます。
 		/// </summary>
 		public static double GetAdjustedFleetAAValue( IEnumerable<ShipData> ships, int formation ) {
 			double formationBonus;
-			if ( formation == 2 )	// 複縦陣
-				formationBonus = 1.2;
-			else if ( formation == 3 )	// 輪形陣
-				formationBonus = 1.6;
-			else
-				formationBonus = 1.0;
-
+			switch ( formation ) {
+				case 2:		// 複縦陣
+					formationBonus = 1.2;
+					break;
+				case 3:		// 輪形陣
+					formationBonus = 1.6;
+					break;
+				case 11:	// 第一警戒航行序列
+					formationBonus = 1.1;
+					break;
+				case 13:	// 第三警戒航行序列
+					formationBonus = 1.5;
+					break;
+				default:
+					formationBonus = 1.0;
+					break;
+			}
 
 			double fleetAABonus = 0;
 			foreach ( var ship in ships ) {
@@ -1212,15 +1229,13 @@ namespace ElectronicObserver.Utility.Data {
 					continue;
 
 				double shipAABonus = 0;
-				foreach ( var eq in ship.SlotInstance ) {
+				foreach ( var eq in ship.AllSlotInstance ) {
 					if ( eq == null )
 						continue;
 
 					var eqmaster = eq.MasterEquipment;
 					double equipmentBonus;
-					if ( eqmaster.IconType == 16 )		// 高角砲
-						equipmentBonus = 0.35;
-					else if ( eqmaster.CategoryType == 36 )		// 高射装置
+					if ( eqmaster.IconType == 16 || eqmaster.CategoryType == 36 )		// 高角砲・高射装置
 						equipmentBonus = 0.35;
 					else if ( eqmaster.CategoryType == 12 || eqmaster.CategoryType == 13 )	// 小型電探・大型電探
 						equipmentBonus = 0.4;
@@ -1232,6 +1247,8 @@ namespace ElectronicObserver.Utility.Data {
 					double levelBonus;
 					if ( eqmaster.IconType == 16 )		// 高角砲
 						levelBonus = 3.0;
+					else if ( eqmaster.CategoryType == 36 )		// 高射装置
+						levelBonus = 2.0;
 					else if ( eqmaster.CategoryType == 12 || eqmaster.CategoryType == 13 )	// 小型電探・大型電探
 						levelBonus = 1.5;
 					else
@@ -1264,9 +1281,24 @@ namespace ElectronicObserver.Utility.Data {
 		/// <summary>
 		/// 固定撃墜を求めます。
 		/// </summary>
-		public static int GetFixedAirDefense( double adjustedAAValue, double adjustedFleetAAValue, int cutinKind ) {
+		/// <param name="adjustedAAValue">加重対空値</param>
+		/// <param name="adjustedFleetAAValue">艦隊防空値</param>
+		/// <param name="combinedFleetFlag">連合艦隊フラグ。 -1=連合艦隊でない, 1=連合艦隊主力艦隊, 2=連合艦隊随伴艦隊</param>
+		public static int GetFixedAirDefense( double adjustedAAValue, double adjustedFleetAAValue, int cutinKind, int combinedFleetFlag = -1 ) {
 			double cutinBonus = Calculator.AACutinVariableBonus.ContainsKey( cutinKind ) ? Calculator.AACutinVariableBonus[cutinKind] : 1.0;
-			return (int)Math.Floor( ( adjustedAAValue + adjustedFleetAAValue ) * cutinBonus / 10 );
+			double combinedBonus;
+			switch ( combinedFleetFlag ) {
+				case 1:
+					combinedBonus = 0.72;
+					break;
+				case 2:
+					combinedBonus = 0.48;
+					break;
+				default:
+					combinedBonus = 1.0;
+					break;
+			}
+			return (int)Math.Floor( ( adjustedAAValue + adjustedFleetAAValue ) * combinedBonus * cutinBonus / 10 );
 		}
 
 
@@ -1296,28 +1328,28 @@ namespace ElectronicObserver.Utility.Data {
 			{ 20, 3 },
 		} );
 
-		// ?=vita, ???=unknown
+
 		/// <summary>
 		/// 対空カットイン変動ボーナス
 		/// </summary>
 		public static readonly ReadOnlyDictionary<int, double> AACutinVariableBonus = new ReadOnlyDictionary<int, double>( new Dictionary<int, double>() {
 			{  1, 1.7 },
-			{  2, 1.7 },	//?
+			{  2, 1.7 },
 			{  3, 1.6 },
-			{  4, 1.5 },	//?
+			{  4, 1.5 },
 			{  5, 1.5 },
-			{  6, 1.5 },
-			{  7, 1.35 },	//?
+			{  6, 1.45 },
+			{  7, 1.35 },
 			{  8, 1.4 },
 			{  9, 1.3 },
 			{ 10, 1.65 },
 			{ 11, 1.5 },
-			{ 12, 1.25 },	//?
-			{ 13, 1.35 },	//?
-			{ 14, 1.0 },	//???
-			{ 15, 1.0 },	//???
-			{ 16, 1.0 },	//???
-			{ 17, 1.0 },	//???
+			{ 12, 1.25 },
+			{ 13, 1.35 },
+			{ 14, 1.45 },
+			{ 15, 1.3 },
+			{ 16, 1.4 },
+			{ 17, 1.25 },
 			{ 18, 1.2 },
 			{ 19, 1.45 },
 			{ 20, 1.25 },
@@ -1351,19 +1383,23 @@ namespace ElectronicObserver.Utility.Data {
 			if ( eq == null ) return false;
 
 			switch ( eq.CategoryType ) {
-				case 6:		//艦上戦闘機
-				case 7:		//艦上爆撃機
-				case 8:		//艦上攻撃機
-				case 11:	//水上爆撃機
-				case 25:	//オートジャイロ
-				case 26:	//対潜哨戒機
-				case 45:	//水上戦闘機
-				case 47:	//陸上攻撃機
-				case 48:	//局地戦闘機
+				case 6:		// 艦上戦闘機
+				case 7:		// 艦上爆撃機
+				case 8:		// 艦上攻撃機
+				case 11:	// 水上爆撃機
+				case 25:	// オートジャイロ
+				case 26:	// 対潜哨戒機
+				case 45:	// 水上戦闘機
+				case 47:	// 陸上攻撃機
+				case 48:	// 局地戦闘機
+				case 56:	// 噴式戦闘機
+				case 57:	// 噴式戦闘爆撃機
+				case 58:	// 噴式攻撃機
 					return true;
 
-				case 9:		//艦上偵察機
-				case 10:	//水上偵察機
+				case 9:		// 艦上偵察機
+				case 10:	// 水上偵察機
+				case 59:	// 噴式偵察機
 					return containsRecon;
 
 				case 41:	//大型飛行艇
