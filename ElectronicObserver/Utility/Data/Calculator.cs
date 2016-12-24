@@ -1205,13 +1205,23 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		public static double GetAdjustedFleetAAValue( IEnumerable<ShipData> ships, int formation ) {
 			double formationBonus;
-			if ( formation == 2 )	// 複縦陣
-				formationBonus = 1.2;
-			else if ( formation == 3 )	// 輪形陣
-				formationBonus = 1.6;
-			else
-				formationBonus = 1.0;
-
+			switch ( formation ) {
+				case 2:		// 複縦陣
+					formationBonus = 1.2;
+					break;
+				case 3:		// 輪形陣
+					formationBonus = 1.6;
+					break;
+				case 11:	// 第一警戒航行序列
+					formationBonus = 1.1;
+					break;
+				case 13:	// 第三警戒航行序列
+					formationBonus = 1.5;
+					break;
+				default:
+					formationBonus = 1.0;
+					break;
+			}
 
 			double fleetAABonus = 0;
 			foreach ( var ship in ships ) {
@@ -1227,8 +1237,6 @@ namespace ElectronicObserver.Utility.Data {
 					double equipmentBonus;
 					if ( eqmaster.IconType == 16 || eqmaster.CategoryType == 36 )		// 高角砲・高射装置
 						equipmentBonus = 0.35;
-					else if ( eqmaster.CategoryType == 36 )		// 高射装置
-						equipmentBonus = 0.35;
 					else if ( eqmaster.CategoryType == 12 || eqmaster.CategoryType == 13 )	// 小型電探・大型電探
 						equipmentBonus = 0.4;
 					else if ( eqmaster.CategoryType == 18 )		// 対空強化弾
@@ -1239,6 +1247,8 @@ namespace ElectronicObserver.Utility.Data {
 					double levelBonus;
 					if ( eqmaster.IconType == 16 )		// 高角砲
 						levelBonus = 3.0;
+					else if ( eqmaster.CategoryType == 36 )		// 高射装置
+						levelBonus = 2.0;
 					else if ( eqmaster.CategoryType == 12 || eqmaster.CategoryType == 13 )	// 小型電探・大型電探
 						levelBonus = 1.5;
 					else
@@ -1271,9 +1281,24 @@ namespace ElectronicObserver.Utility.Data {
 		/// <summary>
 		/// 固定撃墜を求めます。
 		/// </summary>
-		public static int GetFixedAirDefense( double adjustedAAValue, double adjustedFleetAAValue, int cutinKind ) {
+		/// <param name="adjustedAAValue">加重対空値</param>
+		/// <param name="adjustedFleetAAValue">艦隊防空値</param>
+		/// <param name="combinedFleetFlag">連合艦隊フラグ。 -1=連合艦隊でない, 1=連合艦隊主力艦隊, 2=連合艦隊随伴艦隊</param>
+		public static int GetFixedAirDefense( double adjustedAAValue, double adjustedFleetAAValue, int cutinKind, int combinedFleetFlag = -1 ) {
 			double cutinBonus = Calculator.AACutinVariableBonus.ContainsKey( cutinKind ) ? Calculator.AACutinVariableBonus[cutinKind] : 1.0;
-			return (int)Math.Floor( ( adjustedAAValue + adjustedFleetAAValue ) * cutinBonus / 10 );
+			double combinedBonus;
+			switch ( combinedFleetFlag ) {
+				case 1:
+					combinedBonus = 0.72;
+					break;
+				case 2:
+					combinedBonus = 0.48;
+					break;
+				default:
+					combinedBonus = 1.0;
+					break;
+			}
+			return (int)Math.Floor( ( adjustedAAValue + adjustedFleetAAValue ) * combinedBonus * cutinBonus / 10 );
 		}
 
 
@@ -1303,7 +1328,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 20, 3 },
 		} );
 
-		
+
 		/// <summary>
 		/// 対空カットイン変動ボーナス
 		/// </summary>
