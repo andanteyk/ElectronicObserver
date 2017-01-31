@@ -221,6 +221,7 @@
 			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
 			this.FormFleet_FixedShipNameWidth = new System.Windows.Forms.NumericUpDown();
 			this.label35 = new System.Windows.Forms.Label();
+			this.FormFleet_ShowTextAircraftLevel = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -1121,6 +1122,7 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_ShowTextAircraftLevel);
 			this.tabPage8.Controls.Add(this.label35);
 			this.tabPage8.Controls.Add(this.FormFleet_FixedShipNameWidth);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowConditionIcon);
@@ -2533,6 +2535,17 @@
 			this.label35.Size = new System.Drawing.Size(21, 15);
 			this.label35.TabIndex = 8;
 			this.label35.Text = "px";
+			//
+			// FormFleet_ShowTextAircraftLevel
+			//
+			this.FormFleet_ShowTextAircraftLevel.AutoSize = true;
+			this.FormFleet_ShowTextAircraftLevel.Location = new System.Drawing.Point(159, 188);
+			this.FormFleet_ShowTextAircraftLevel.Name = "FormFleet_ShowTextAircraftLevel";
+			this.FormFleet_ShowTextAircraftLevel.Size = new System.Drawing.Size(184, 19);
+			this.FormFleet_ShowTextAircraftLevel.TabIndex = 16;
+			this.FormFleet_ShowTextAircraftLevel.Text = "艦載機熟練度を数字で表示する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowTextAircraftLevel, "艦載機熟練度を記号（|, || など）でなく数字（1, 2 など）で表示する");
+			this.FormFleet_ShowTextAircraftLevel.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -2823,5 +2836,6 @@
 		private System.Windows.Forms.CheckBox Log_SaveBattleLog;
 		private System.Windows.Forms.Label label35;
 		private System.Windows.Forms.NumericUpDown FormFleet_FixedShipNameWidth;
+		private System.Windows.Forms.CheckBox FormFleet_ShowTextAircraftLevel;
 	}
 }
