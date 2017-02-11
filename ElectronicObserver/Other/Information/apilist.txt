@@ -532,6 +532,7 @@ api_port/port		：母港情報
 		api_exp				：経験値　[0]=累積, [1]=次のレベルまで, [2]=経験値バー割合
 		api_nowhp			：現在HP
 		api_maxhp			：最大HP
+		api_soku			：速力　0=基地, 5=低速, 10=高速, 15=高速+, 20=最速
 		api_leng			：射程
 		api_slot			：装備　-1=空き
 		api_onslot			：艦載機搭載数
@@ -1068,19 +1069,21 @@ api_req_ranking/mxltvkpyuklh	：ランキング(2016/08/01~)
 
 
 api_get_member/practice		：演習ロビー
-	api_member_id			：自分の提督ID
-	api_id					：演習ID
-	api_enemy_id			：敵提督ID
-	api_enemy_name			：敵提督名
-	api_enemy_name_id		：
-	api_enemy_level			：敵艦隊司令部Lv.
-	api_enemy_rank			：敵階級 int
-	api_enemy_flag			：
-	api_enemy_flag_ship		：敵艦隊旗艦ID
-	api_enemy_comment		：敵コメント
-	api_enemy_comment_id	：
-	api_state				：0=未挑戦, 1=E敗北?, 2=D敗北?, 3=C敗北, 4=B勝利, 5=A勝利, 6=S勝利
-	api_medals				：甲種勲章保有数
+	api_create_kind			：今回のマッチングモード
+	api_selected_kind		：次回のマッチングモード
+	api_entry_limit			：
+	api_list				：敵提督リスト
+		api_enemy_id			：敵提督ID
+		api_enemy_name			：敵提督名
+		api_enemy_name_id		：
+		api_enemy_level			：敵艦隊司令部Lv.
+		api_enemy_rank			：敵階級 string
+		api_enemy_flag			：旗フラグ?　1=銅, 2=銀, 3=金
+		api_enemy_flag_ship		：敵艦隊旗艦ID
+		api_enemy_comment		：敵コメント
+		api_enemy_comment_id	：
+		api_state				：0=未挑戦, 1=E敗北?, 2=D敗北?, 3=C敗北, 4=B勝利, 5=A勝利, 6=S勝利
+		api_medals				：甲種勲章保有数
 
 api_req_member/get_practice_enemyinfo		：演習詳細
 	api_member_id		：敵提督ID
@@ -1103,6 +1106,13 @@ api_req_member/get_practice_enemyinfo		：演習詳細
 			api_ship_id	：艦船ID
 			api_level	：Lv
 			api_star	：改装☆
+
+
+Request.api_req_practice/change_matching_kind	：演習マッチングモード切替
+	api_selected_kind			：更新先　0=第一群, 1=第二群, 2=全体
+
+api_req_practice/change_matching_kind			：演習マッチングモード切替
+	api_update_flag				：1?
 
 
 api_req_practice/battle	：演習

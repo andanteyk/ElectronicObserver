@@ -74,6 +74,14 @@ namespace ElectronicObserver.Data {
 			get { return (int)RawData.api_maxhp; }
 		}
 
+
+		/// <summary>
+		/// 速力
+		/// </summary>
+		public int Speed {
+			get { return (int)RawData.api_soku; }
+		}
+
 		/// <summary>
 		/// 射程
 		/// </summary>

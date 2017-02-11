@@ -197,6 +197,8 @@ namespace ElectronicObserver.Window.Dialog {
 				_dtRightOperand_speed.Rows.Add( 0, Constants.GetSpeed( 0 ) );
 				_dtRightOperand_speed.Rows.Add( 5, Constants.GetSpeed( 5 ) );
 				_dtRightOperand_speed.Rows.Add( 10, Constants.GetSpeed( 10 ) );
+				_dtRightOperand_speed.Rows.Add( 15, Constants.GetSpeed( 15 ) );
+				_dtRightOperand_speed.Rows.Add( 20, Constants.GetSpeed( 20 ) );
 				_dtRightOperand_speed.AcceptChanges();
 			}
 			{
@@ -421,7 +423,7 @@ namespace ElectronicObserver.Window.Dialog {
 				RightOperand_ComboBox.DataSource = _dtRightOperand_range;
 				RightOperand_ComboBox.SelectedValue = right == null ? 1 : right;
 
-			} else if ( left == ".MasterShip.Speed" ) {
+			} else if ( left == ".Speed" || left == ".MasterShip.Speed" ) {
 				RightOperand_ComboBox.Visible = true;
 				RightOperand_ComboBox.Enabled = true;
 				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;

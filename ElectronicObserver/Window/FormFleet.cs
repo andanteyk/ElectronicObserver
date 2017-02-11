@@ -141,7 +141,7 @@ namespace ElectronicObserver.Window {
 					int fuelunit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Fuel * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
 					int ammounit = fleet.MembersInstance.Sum( s => s == null ? 0 : (int)Math.Floor( s.MasterShip.Ammo * 0.2 * ( s.IsMarried ? 0.85 : 1.00 ) ) );
 
-					int speed = fleet.MembersWithoutEscaped.Min( s => s == null ? 10 : s.MasterShip.Speed );
+					int speed = fleet.MembersWithoutEscaped.Min( s => s == null ? 10 : s.Speed );
 
 					double expeditionBonus = Calculator.GetExpeditionBonus( fleet );
 					int tp = Calculator.GetTPDamage( fleet );
@@ -418,7 +418,7 @@ namespace ElectronicObserver.Window {
 							ship.LOSBase, ship.LOSTotal,
 							ship.LuckTotal,
 							Constants.GetRange( ship.Range ),
-							Constants.GetSpeed( ship.MasterShip.Speed )
+							Constants.GetSpeed( ship.Speed )
 							) );
 
 
