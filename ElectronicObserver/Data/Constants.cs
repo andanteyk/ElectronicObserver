@@ -45,6 +45,8 @@ namespace ElectronicObserver.Data {
 					return "長";
 				case 4:
 					return "超長";
+				case 5:
+					return "超長+";
 				default:
 					return "不明";
 			}

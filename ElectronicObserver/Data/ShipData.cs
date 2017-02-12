@@ -79,7 +79,7 @@ namespace ElectronicObserver.Data {
 		/// 速力
 		/// </summary>
 		public int Speed {
-			get { return (int)RawData.api_soku; }
+			get { return RawData.api_soku() ? (int)RawData.api_soku : MasterShip.Speed; }
 		}
 
 		/// <summary>
