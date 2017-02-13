@@ -1308,6 +1308,10 @@ api_req_map/next		：進撃
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値
 		api_dmg			：ダメージ倍率？
+		api_itemget		：海域突破報酬一覧[]　海域突破時に最終セルが非戦闘系イベント(輸送セルなど)だった場合存在
+			api_type	：1=アイテム, 3=装備, 5=家具
+			api_id		：ID
+			api_value	：個数
 	api_itemget			：次が資源マス/航空偵察マスのときのみ存在　オブジェクトの配列
 		api_usemst		：4=資源, 11=家具箱(中), 12=家具箱(大) 
 		api_id			：1=燃料, 2=弾薬, 4=ボーキ, 11=家具箱(中), 12=家具箱(大)
