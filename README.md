@@ -37,7 +37,7 @@
 
 *このリンクの更新は遅れる可能性があります。最新版は[こちら](http://electronicobserver.blog.fc2.com/)で確認してください。*  
 
-[ver. 2.5.2 (2016/12/25)](http://bit.ly/2ioVqgt)  
+[ver. 2.5.3 (2017/02/14)](http://bit.ly/2lLL2x3)  
 
 [更新内容・履歴はこちらで確認できます。](https://github.com/andanteyk/ElectronicObserver/wiki/ChangeLog)  
 

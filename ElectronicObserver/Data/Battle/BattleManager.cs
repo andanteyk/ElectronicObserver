@@ -337,6 +337,33 @@ namespace ElectronicObserver.Data.Battle {
 					string.Format( "{0}-{1}-{2} で「{3}」と交戦しました。( ランク: {4}, 提督Exp+{5}, 艦娘Exp+{6} )",
 						Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Result.EnemyFleetName, Result.Rank, Result.AdmiralExp, Result.BaseExp ) );
 			}
+			
+			// Level up
+			{
+				var exps = Result.ExpList;
+				var lvup = Result.LevelUpList;
+				for ( int i = 0; i < lvup.Length; i++ ) {
+					if ( lvup[i].Length >= 2 && lvup[i][0] + exps[i] >= lvup[i][1] ) {
+						var ship = FirstBattle.Initial.FriendFleet.MembersInstance[i];
+						int increment = Math.Max( lvup[i].Length - 2, 1 );
+
+						Utility.Logger.Add( 2, string.Format( "{0} が Lv. {1} になりました。", ship.Name, ship.Level + increment ) );
+					}
+				}
+
+				if ( IsCombinedBattle ) {
+					exps = Result.ExpListCombined;
+					lvup = Result.LevelUpListCombined;
+					for ( int i = 0; i < lvup.Length; i++ ) {
+						if ( lvup[i].Length >= 2 && lvup[i][0] + exps[i] >= lvup[i][1] ) {
+							var ship = FirstBattle.Initial.FriendFleetEscort.MembersInstance[i];
+							int increment = Math.Max( lvup[i].Length - 2, 1 );
+
+							Utility.Logger.Add( 2, string.Format( "{0} が Lv. {1} になりました。", ship.Name, ship.Level + increment ) );
+						}
+					}
+				}
+			}
 
 
 

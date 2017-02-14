@@ -707,7 +707,10 @@ namespace ElectronicObserver.Window {
 						ToolTipInfo.SetToolTip( TextMapArea, string.Format( "撃破: {0} / {1} 回", mapinfo.CurrentDefeatedCount, mapinfo.RequiredDefeatedCount ) );
 
 					} else if ( mapinfo.MapHPMax > 0 ) {
-						ToolTipInfo.SetToolTip( TextMapArea, string.Format( "{0}: {1} / {2}", mapinfo.GaugeType == 3 ? "TP" : "HP", mapinfo.MapHPCurrent, mapinfo.MapHPMax ) );
+						int current = compass.MapHPCurrent > 0 ? compass.MapHPCurrent : mapinfo.MapHPCurrent;
+						int max = compass.MapHPMax > 0 ? compass.MapHPMax : mapinfo.MapHPMax;
+						
+						ToolTipInfo.SetToolTip( TextMapArea, string.Format( "{0}: {1} / {2}", mapinfo.GaugeType == 3 ? "TP" : "HP", current, max ) );
 
 					} else {
 						ToolTipInfo.SetToolTip( TextMapArea, null );
@@ -823,6 +826,10 @@ namespace ElectronicObserver.Window {
 								case 2:		//能動分岐
 									eventkind = "能動分岐";
 									TextEventDetail.Text = string.Join( "/", compass.RouteChoices );
+									break;
+								case 3:		//穏やかな海
+									eventkind = "穏やかな海";
+									TextEventDetail.Text = "";
 									break;
 							}
 							break;

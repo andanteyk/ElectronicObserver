@@ -23,6 +23,19 @@ namespace ElectronicObserver.Data.Battle.Detail {
 				if ( bm.Compass.EventID == 5 )
 					sb.Append( " (ボス)" );
 				sb.AppendLine();
+
+				var mapinfo = bm.Compass.MapInfo;
+				if ( !mapinfo.IsCleared ) {
+					if ( mapinfo.RequiredDefeatedCount != -1 ) {
+						sb.AppendFormat( "撃破: {0} / {1} 回", mapinfo.CurrentDefeatedCount, mapinfo.RequiredDefeatedCount )
+							.AppendLine();
+					} else if ( mapinfo.MapHPMax > 0 ) {
+						int current = bm.Compass.MapHPCurrent > 0 ? bm.Compass.MapHPCurrent : mapinfo.MapHPCurrent;
+						int max = bm.Compass.MapHPMax > 0 ? bm.Compass.MapHPMax : mapinfo.MapHPMax;
+						sb.AppendFormat( "{0}: {1} / {2}", mapinfo.GaugeType == 3 ? "TP" : "HP", current, max )
+							.AppendLine();
+					}
+				}
 			}
 			if ( bm.Result != null ) {
 				sb.AppendLine( bm.Result.EnemyFleetName );
