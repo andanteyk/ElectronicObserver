@@ -43,7 +43,7 @@ namespace ElectronicObserver.Utility {
 			try {
 				using ( StreamWriter sw = new StreamWriter( path, false, new System.Text.UTF8Encoding( false ) ) ) {
 
-					sw.WriteLine( "エラーレポート : {0}", DateTime.Now );
+					sw.WriteLine( "エラーレポート [ver. {0}] : {1}", SoftwareInformation.VersionEnglish, DateTimeHelper.TimeToCSVString( DateTime.Now ) );
 					sw.WriteLine( "エラー : {0}", ex.GetType().Name );
 					sw.WriteLine( ex.Message );
 					sw.WriteLine( "追加情報 : {0}", message );

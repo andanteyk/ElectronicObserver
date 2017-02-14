@@ -66,7 +66,71 @@ namespace ElectronicObserver.Data.Battle {
 			get { return (int)RawData.api_get_base_exp; }
 		}
 
-		//exp
+
+		/// <summary>
+		/// 主力艦隊の入手経験値リスト [0-5]
+		/// 欠番は -1
+		/// </summary>
+		public int[] ExpList {
+			get {
+				int[] ret = new int[6];
+				if ( RawData.api_get_ship_exp() ) {
+					var src = (int[])RawData.api_get_ship_exp;
+					Array.Copy( src, 1, ret, 0, src.Length - 1 );
+				}
+				return ret;
+			}
+		}
+
+		/// <summary>
+		/// 随伴艦隊の入手経験値リスト [0-5]
+		/// 欠番は -1
+		/// </summary>
+		public int[] ExpListCombined {
+			get {
+				int[] ret = new int[6];
+				if ( RawData.api_get_ship_exp_combined() ) {
+					var src = (int[])RawData.api_get_ship_exp_combined;
+					Array.Copy( src, 1, ret, 0, src.Length - 1 );
+				}
+				return ret;
+			}
+		}
+
+		/// <summary>
+		/// 主力艦隊のレベルアップリスト [所属艦船数]
+		/// [0]=現在のexp, [1]=(あれば)次のレベルの経験値, [2]=(あれば)その次のレベルの経験値, ...
+		/// </summary>
+		public int[][] LevelUpList {
+			get {
+				if ( !RawData.api_get_exp_lvup() )
+					return new int[0][];
+
+				var ret = new List<int[]>();
+				foreach ( var data in RawData.api_get_exp_lvup ) {
+					ret.Add( (int[])data );
+				}
+				return ret.ToArray();
+			}
+		}
+
+		/// <summary>
+		/// 随伴艦隊のレベルアップリスト [所属艦船数]
+		/// [0]=現在のexp, [1]=(あれば)次のレベルの経験値, [2]=(あれば)その次のレベルの経験値, ...
+		/// </summary>
+		public int[][] LevelUpListCombined {
+			get {
+				if ( !RawData.api_get_exp_lvup_combined() )
+					return new int[0][];
+
+				var ret = new List<int[]>();
+				foreach ( var data in RawData.api_get_exp_lvup_combined ) {
+					ret.Add( (int[])data );
+				}
+				return ret.ToArray();
+			}
+		}
+
 
 		//lostflag
 
