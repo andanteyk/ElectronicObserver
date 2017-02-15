@@ -21,6 +21,10 @@ namespace ElectronicObserver.Data {
 					return "低速";
 				case 10:
 					return "高速";
+				case 15:
+					return "高速+";
+				case 20:
+					return "最速";
 				default:
 					return "不明";
 			}
@@ -41,6 +45,8 @@ namespace ElectronicObserver.Data {
 					return "長";
 				case 4:
 					return "超長";
+				case 5:
+					return "超長+";
 				default:
 					return "不明";
 			}

@@ -134,6 +134,8 @@ api_start2	：艦娘・装備固有データその他
 				20=特型内火艇
 				21=陸上攻撃機
 				22=局地戦闘機
+				23=輸送機材
+				24=潜水艦装備
 
 			[1]：図鑑表示
 				 1=Primary Armament
@@ -173,6 +175,8 @@ api_start2	：艦娘・装備固有データその他
 				38=Land Attacker
 				39=Interceptor
 				40=Jet Fighting Bomber
+				41=Transport Materials
+				42=Submarine Equipment
 
 				 1=主砲
 				 2=副砲
@@ -211,6 +215,8 @@ api_start2	：艦娘・装備固有データその他
 				38=陸上攻撃機
 				39=局地戦闘機
 				40=噴式戦闘爆撃機
+				41=輸送機材
+				42=潜水艦装備
 
 			[2]：カテゴリ
 				(api_mst_slotitem_equiptype を参照)
@@ -262,6 +268,8 @@ api_start2	：艦娘・装備固有データその他
 				46=特型内火艇
 				47=陸上攻撃機
 				48=局地戦闘機
+				50=輸送機材
+				51=潜水艦装備
 				56=噴式戦闘機
 				57=噴式戦闘爆撃機
 				58=噴式攻撃機
@@ -310,6 +318,8 @@ api_start2	：艦娘・装備固有データその他
 				38=局地戦闘機
 				39=噴式戦闘爆撃機(噴式景雲改)
 				40=噴式戦闘爆撃機(橘花改)
+				41=輸送機材
+				42=潜水艦装備
 
 			[4]: 航空機カテゴリ
 				 0=非航空機
@@ -532,6 +542,7 @@ api_port/port		：母港情報
 		api_exp				：経験値　[0]=累積, [1]=次のレベルまで, [2]=経験値バー割合
 		api_nowhp			：現在HP
 		api_maxhp			：最大HP
+		api_soku			：速力　0=基地, 5=低速, 10=高速, 15=高速+, 20=最速
 		api_leng			：射程
 		api_slot			：装備　-1=空き
 		api_onslot			：艦載機搭載数
@@ -1068,19 +1079,21 @@ api_req_ranking/mxltvkpyuklh	：ランキング(2016/08/01~)
 
 
 api_get_member/practice		：演習ロビー
-	api_member_id			：自分の提督ID
-	api_id					：演習ID
-	api_enemy_id			：敵提督ID
-	api_enemy_name			：敵提督名
-	api_enemy_name_id		：
-	api_enemy_level			：敵艦隊司令部Lv.
-	api_enemy_rank			：敵階級 int
-	api_enemy_flag			：
-	api_enemy_flag_ship		：敵艦隊旗艦ID
-	api_enemy_comment		：敵コメント
-	api_enemy_comment_id	：
-	api_state				：0=未挑戦, 1=E敗北?, 2=D敗北?, 3=C敗北, 4=B勝利, 5=A勝利, 6=S勝利
-	api_medals				：甲種勲章保有数
+	api_create_kind			：今回のマッチングモード
+	api_selected_kind		：次回のマッチングモード
+	api_entry_limit			：マッチングモード変更期限(変更不能になるまで残り何秒か)　変更不能な時(14:00ごろなど)は存在しない
+	api_list				：敵提督リスト
+		api_enemy_id			：敵提督ID
+		api_enemy_name			：敵提督名
+		api_enemy_name_id		：
+		api_enemy_level			：敵艦隊司令部Lv.
+		api_enemy_rank			：敵階級 string
+		api_enemy_flag			：旗フラグ?　1=銅, 2=銀, 3=金
+		api_enemy_flag_ship		：敵艦隊旗艦ID
+		api_enemy_comment		：敵コメント
+		api_enemy_comment_id	：
+		api_state				：0=未挑戦, 1=E敗北?, 2=D敗北?, 3=C敗北, 4=B勝利, 5=A勝利, 6=S勝利
+		api_medals				：甲種勲章保有数
 
 api_req_member/get_practice_enemyinfo		：演習詳細
 	api_member_id		：敵提督ID
@@ -1103,6 +1116,13 @@ api_req_member/get_practice_enemyinfo		：演習詳細
 			api_ship_id	：艦船ID
 			api_level	：Lv
 			api_star	：改装☆
+
+
+Request.api_req_practice/change_matching_kind	：演習マッチングモード切替
+	api_selected_kind			：更新先　0=第一群, 1=第二群, 2=全体
+
+api_req_practice/change_matching_kind			：演習マッチングモード切替
+	api_update_flag				：1=切り替え成功 0=失敗?
 
 
 api_req_practice/battle	：演習
@@ -1244,7 +1264,7 @@ api_req_map/start		：出撃　同じメンバはnextのほうが情報が新し
 	api_bosscomp		：
 	api_eventmap		：イベント海域ゲージ情報
 		api_max_maphp	：ゲージ最大値
-		api_now_maphp	：ゲージ現在値　常に最大値に等しい
+		api_now_maphp	：ゲージ現在値
 		api_dmg			：＊ダメージ倍率? =6だとHP90の旗艦撃沈で540減少?
 	api_airsearch		：
 	api_from_no			：スタート地点のセルID
@@ -1277,7 +1297,7 @@ api_req_map/next		：進撃
 							10=長距離空襲戦
 	api_event_kind		：イベント種別　
 							0=非戦闘セル, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦, 5=敵連合艦隊戦, 6=長距離空襲戦
-							api_event_id=6(気のせいだった)時は　0="気のせいだった。", 1="敵影を見ず。", 2=能動分岐
+							api_event_id=6(気のせいだった)時は　0="気のせいだった。", 1="敵影を見ず。", 2=能動分岐, 3="穏やかな海です。"
 							api_event_id=7(航空戦)時は　0=航空偵察, 4=航空戦
 	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
@@ -1286,8 +1306,12 @@ api_req_map/next		：進撃
 	api_production_kind	：0=なし 1=索敵機発艦　startにはないので注意
 	api_eventmap		：イベント海域ゲージ情報
 		api_max_maphp	：ゲージ最大値
-		api_now_maphp	：ゲージ現在値　startとは異なり実際の値が入る
+		api_now_maphp	：ゲージ現在値
 		api_dmg			：ダメージ倍率？
+		api_itemget		：海域突破報酬一覧[]　海域突破時に最終セルが非戦闘系イベント(輸送セルなど)だった場合存在
+			api_type	：1=アイテム, 3=装備, 5=家具
+			api_id		：ID
+			api_value	：個数
 	api_itemget			：次が資源マス/航空偵察マスのときのみ存在　オブジェクトの配列
 		api_usemst		：4=資源, 11=家具箱(中), 12=家具箱(大) 
 		api_id			：1=燃料, 2=弾薬, 4=ボーキ, 11=家具箱(中), 12=家具箱(大)
@@ -1742,15 +1766,15 @@ api_req_combiend_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（
 
 
 api_req_sortie/battleresult	：戦闘結果
-	api_ship_id				：敵艦船ID
+	api_ship_id				：敵艦船ID [7]
 	api_win_rank			：勝利ランク
 	api_get_exp				：獲得提督経験値
 	api_mvp					：MVP　1から始まる, -1=なし
 	api_member_lv			：艦隊司令部Lv.
 	api_member_exp			：提督経験値
 	api_get_base_exp		：獲得基本経験値
-	api_get_ship_exp		：各艦の獲得経験値
-	api_get_exp_lvup		：各艦の[0]獲得前経験値, [1]次のレベルの経験値(Lv99|155の場合存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ...
+	api_get_ship_exp		：各艦の獲得経験値 [7]
+	api_get_exp_lvup		：[味方艦船数][] 各艦の[0]獲得前経験値, [1]次のレベルの経験値(Lv99|155の場合存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ...
 	api_dests				：敵艦撃沈数？
 	api_destsf				：旗艦撃沈フラグ？
 	api_lost_flag			：味方艦撃沈フラグ？-1から始まる

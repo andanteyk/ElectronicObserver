@@ -95,6 +95,28 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_mission {
 			}
 
 
+			// レベルアップ表示
+			{
+				int[] exps = new int[6];
+				var src = (int[])data.api_get_ship_exp;
+				Array.Copy( src, exps, src.Length );
+
+				var lvup = new List<int[]>();
+				foreach ( var elem in data.api_get_exp_lvup ) {
+					lvup.Add( (int[])elem );
+				}
+
+				for ( int i = 0; i < lvup.Count; i++ ) {
+					if ( lvup[i].Length >= 2 && lvup[i][0] + exps[i] >= lvup[i][1] ) {
+						var ship = fleet.MembersInstance[i];
+						int increment = Math.Max( lvup[i].Length - 2, 1 );
+
+						Utility.Logger.Add( 2, string.Format( "{0} が Lv. {1} になりました。", ship.Name, ship.Level + increment ) );
+					}
+				}
+			}
+
+
 			base.OnResponseReceived( (object)data );
 		}
 

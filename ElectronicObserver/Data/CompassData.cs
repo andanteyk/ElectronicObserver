@@ -97,21 +97,6 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 交戦する敵艦隊ID
-		/// </summary>
-		[Obsolete( "この API 項目は廃止されました。", true )]
-		public int EnemyFleetID {
-			get {
-				if ( RawData.api_enemy() ) {
-					return (int)RawData.api_enemy.api_enemy_id;
-				} else {
-					return -1;
-				}
-			}
-		}
-
-
-		/// <summary>
 		/// 資源セルで入手できる資源のデータです。
 		/// </summary>
 		public class GetItemData {
@@ -152,55 +137,6 @@ namespace ElectronicObserver.Data {
 
 		}
 
-
-		/// <summary>
-		/// 入手するアイテムのID
-		/// </summary>
-		[Obsolete( "GetItem を利用してください。", false )]
-		public int GetItemID {
-			get {
-				if ( RawData.api_itemget() ) {
-					return (int)RawData.api_itemget.api_usemst;
-				} else if ( RawData.api_itemget_eo_comment() ) {
-					return (int)RawData.api_itemget_eo_comment.api_usemst;
-				} else {
-					return -1;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 入手するアイテムのメタデータ
-		/// GetItemID==4のとき、1=燃, 2=弾, 3=鋼, 4=ボ, 5=バーナー, 6=バケツ, 7=開発, 8=改修
-		/// </summary>
-		[Obsolete( "GetItem を利用してください。", false )]
-		public int GetItemIDMetadata {
-			get {
-				if ( RawData.api_itemget() ) {
-					return (int)RawData.api_itemget.api_id;
-				} else if ( RawData.api_itemget_eo_comment() ) {
-					return (int)RawData.api_itemget_eo_comment.api_id;
-				} else {
-					return 0;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 入手するアイテムの量
-		/// </summary>
-		[Obsolete( "GetItem を利用してください。", false )]
-		public int GetItemAmount {
-			get {
-				if ( RawData.api_itemget() ) {
-					return (int)RawData.api_itemget.api_getcount;
-				} else if ( RawData.api_itemget_eo_comment() ) {
-					return (int)RawData.api_itemget_eo_comment.api_getcount;
-				} else {
-					return 0;
-				}
-			}
-		}
 
 		/// <summary>
 		/// 渦潮で失うアイテムのID
@@ -311,6 +247,27 @@ namespace ElectronicObserver.Data {
 		public int AirRaidDamageKind {
 			get {
 				return HasAirRaid && RawData.api_destruction_battle.api_lost_kind() ? (int)RawData.api_destruction_battle.api_lost_kind : 0;
+			}
+		}
+
+
+		/// <summary>
+		/// 海域HP の現在値
+		/// 取得不能なら 0
+		/// </summary>
+		public int MapHPCurrent {
+			get {
+				return RawData.api_eventmap() ? (int)RawData.api_eventmap.api_now_maphp : 0;
+			}
+		}
+
+		/// <summary>
+		/// 海域HP の最大値
+		/// 取得不能なら 0
+		/// </summary>
+		public int MapHPMax {
+			get {
+				return RawData.api_eventmap() ? (int)RawData.api_eventmap.api_max_maphp : 0;
 			}
 		}
 

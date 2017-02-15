@@ -37,7 +37,21 @@ namespace ElectronicObserver.Window.Dialog {
 				Math.Min( TextBattleDetail.Location.X * 2 + TextBattleDetail.Width + TextBattleDetail.Margin.Horizontal, 800 ),
 				Math.Min( TextBattleDetail.Location.Y * 2 + TextBattleDetail.Height + TextBattleDetail.Margin.Vertical, 600 ) );
 
-			//Location -= new Size( Width / 2, Height / 2 );
+ 			var workingScreen = Screen.GetWorkingArea( Location );
+			var dialogRectangle = new Rectangle( Left, Top, Right, Bottom );
+
+			if ( !workingScreen.Contains( dialogRectangle ) ) {
+
+				if ( Right > workingScreen.Right && Bottom > workingScreen.Bottom ) {
+					Location = new Point( workingScreen.Right - Width, workingScreen.Bottom - Height );
+				} else if ( Right > workingScreen.Right ) {
+					Location = new Point( workingScreen.Right - Width, Top );
+				} else if ( Bottom > workingScreen.Bottom ) {
+					Location = new Point( Left, workingScreen.Bottom - Height );
+				} else {
+					return; // モニターを Location で指定してあるので例外はないはず。
+				}
+			}
 		}
 	}
 }
