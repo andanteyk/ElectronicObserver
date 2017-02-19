@@ -985,7 +985,7 @@ namespace ElectronicObserver.Data {
 		/// 残り弾薬量による威力補正
 		/// <returns></returns>
 		private double GetAmmoDamageRate() {
-			return Math.Min( AmmoRate * 2, 1 );
+			return Math.Min( Math.Floor( AmmoRate * 100 ) / 50.0, 1.0 );
 		}
 
 		/// <summary>
