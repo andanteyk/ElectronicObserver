@@ -224,6 +224,7 @@ namespace Browser {
 			//ロード直後の適用ではレイアウトがなぜか崩れるのでこのタイミングでも適用
 			ApplyStyleSheet();
 			ApplyZoom();
+			DestroyDMMreloadDialog();
 
 			//起動直後はまだ音声が鳴っていないのでミュートできないため、この時点で有効化
 			SetVolumeState();
@@ -278,6 +279,7 @@ namespace Browser {
 			ApplyStyleSheet();
 
 			ApplyZoom();
+			DestroyDMMreloadDialog();
 		}
 
 		/// <summary>
@@ -319,6 +321,32 @@ namespace Browser {
 
 				BrowserHost.AsyncRemoteRun( () =>
 					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" ) );
+			}
+
+		}
+		
+		/// <summary>
+		/// DMMによるページ更新ダイアログを非表示にします。
+		/// </summary>
+		public void DestroyDMMreloadDialog() {
+
+			if ( !Configuration.IsDMMreloadDialogDestroyable  )
+				return;
+
+			try {
+
+				var document = Browser.Document;
+				if ( document == null ) return;
+
+				var swf = getFrameElementById( document, "externalswf" );
+				if ( swf == null ) return;
+
+				document.InvokeScript( "eval", new object[] { Properties.Resources.DMMScript } );
+				
+			} catch ( Exception ex ) {
+
+				BrowserHost.AsyncRemoteRun( () =>
+					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "DMMによるページ更新ダイアログの非表示に失敗しました。" ) );
 			}
 
 		}

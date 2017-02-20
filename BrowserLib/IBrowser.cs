@@ -38,6 +38,9 @@ namespace BrowserLib {
 
 		[OperationContract]
 		void ApplyStyleSheet();
+		
+		[OperationContract]
+		void DestroyDMMreloadDialog();
 
 		[OperationContract]
 		void CloseBrowser();

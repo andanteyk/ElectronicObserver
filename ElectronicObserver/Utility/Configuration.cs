@@ -812,6 +812,11 @@ namespace ElectronicObserver.Utility {
 				/// スタイルシートを適用するか
 				/// </summary>
 				public bool AppliesStyleSheet { get; set; }
+				
+				/// <summary>
+				/// DMMによるページ更新ダイアログを非表示にするか
+				/// </summary>
+				public bool IsDMMreloadDialogDestroyable { get; set; }
 
 				/// <summary>
 				/// ツールメニューの配置

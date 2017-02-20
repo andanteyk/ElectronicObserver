@@ -403,6 +403,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_ScreenShotPath.Text = config.FormBrowser.ScreenShotPath;
 			FormBrowser_ConfirmAtRefresh.Checked = config.FormBrowser.ConfirmAtRefresh;
 			FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
+			FormBrowser_IsDMMreloadDialogDestroyable.Checked = config.FormBrowser.IsDMMreloadDialogDestroyable;
 			{
 				Microsoft.Win32.RegistryKey reg = null;
 				try {
@@ -626,6 +627,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.ScreenShotPath = FormBrowser_ScreenShotPath.Text;
 			config.FormBrowser.ConfirmAtRefresh = FormBrowser_ConfirmAtRefresh.Checked;
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
+			config.FormBrowser.IsDMMreloadDialogDestroyable = FormBrowser_IsDMMreloadDialogDestroyable.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWMode = FormBrowser_FlashWMode.Text;
 			if ( FormBrowser_ToolMenuDockStyle.SelectedIndex == 4 ) {
