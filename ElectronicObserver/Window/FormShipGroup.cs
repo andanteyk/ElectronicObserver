@@ -539,8 +539,14 @@ namespace ElectronicObserver.Window {
 			SelectedTab.BackColor = TabActiveColor;
 
 
-			if ( 0 <= headIndex && headIndex < ShipView.Rows.Count )
-				ShipView.FirstDisplayedScrollingRowIndex = headIndex;
+			if ( 0 <= headIndex && headIndex < ShipView.Rows.Count ) {
+				try {
+					ShipView.FirstDisplayedScrollingRowIndex = headIndex;
+
+				} catch ( InvalidOperationException ) {
+					// 1行も表示できないサイズのときに例外が出るので握りつぶす
+				}
+			}
 
 			if ( selectedIDList.Count > 0 ) {
 				ShipView.ClearSelection();
