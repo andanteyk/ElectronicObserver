@@ -121,6 +121,12 @@ namespace BrowserLib {
 		/// </summary>
 		[DataMember]
 		public bool AppliesStyleSheet { get; set; }
+		
+		/// <summary>
+		/// DMMによるページ更新ダイアログを表示するか
+		/// </summary>
+		[DataMember]
+		public bool IsDMMreloadDialogDestroyable { get; set; }
 
 		/// <summary>
 		/// ツールメニューの配置
