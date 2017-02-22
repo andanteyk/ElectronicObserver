@@ -324,13 +324,13 @@ namespace Browser {
 			}
 
 		}
-		
+
 		/// <summary>
 		/// DMMによるページ更新ダイアログを非表示にします。
 		/// </summary>
 		public void DestroyDMMreloadDialog() {
 
-			if ( !Configuration.IsDMMreloadDialogDestroyable  )
+			if ( !Configuration.IsDMMreloadDialogDestroyable )
 				return;
 
 			try {
@@ -342,7 +342,7 @@ namespace Browser {
 				if ( swf == null ) return;
 
 				document.InvokeScript( "eval", new object[] { Properties.Resources.DMMScript } );
-				
+
 			} catch ( Exception ex ) {
 
 				BrowserHost.AsyncRemoteRun( () =>
