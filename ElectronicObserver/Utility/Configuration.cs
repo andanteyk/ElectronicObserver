@@ -877,8 +877,14 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int CandidateDisplayCount { get; set; }
 
+				/// <summary>
+				/// スクロール可能か
+				/// </summary>
+				public bool IsScrollable { get; set; }
+
 				public ConfigFormCompass() {
 					CandidateDisplayCount = 4;
+					IsScrollable = false;
 				}
 			}
 			/// <summary>[羅針盤]ウィンドウ</summary>
@@ -928,6 +934,9 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool IsScrollable { get; set; }
 
+				/// <summary>
+				/// 戦闘中は表示を隠し、戦闘後のみ表示する
+				/// </summary>
 				public bool HideDuringBattle { get; set; }
 
 				public ConfigFormBattle() {

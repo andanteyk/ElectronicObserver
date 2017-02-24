@@ -443,6 +443,16 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void TreeContextMenu_CopyToClipboard_Click( object sender, EventArgs e ) {
+			if ( JsonTreeView.SelectedNode != null && JsonTreeView.SelectedNode.Tag != null ) {
+				Clipboard.SetData( DataFormats.StringFormat, JsonTreeView.SelectedNode.Tag.ToString() );
+			} else {
+				System.Media.SystemSounds.Exclamation.Play();
+			}
+		}
+
+
+
 		// 右クリックでも選択するように
 		private void JsonTreeView_MouseClick( object sender, MouseEventArgs e ) {
 			var node = JsonTreeView.GetNodeAt( e.Location );
@@ -453,10 +463,10 @@ namespace ElectronicObserver.Window {
 
 
 
-
-
 		protected override string GetPersistString() {
 			return "Json";
 		}
+
+
 	}
 }
