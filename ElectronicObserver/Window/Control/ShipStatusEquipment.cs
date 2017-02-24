@@ -283,6 +283,23 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 
+		private bool _showTextAircraftLevel;
+		/// <summary>
+		/// 艦載機熟練度を数字で表示するか
+		/// </summary>
+		[Browsable(true), Category("Behavior"), DefaultValue(false)]
+		[Description("艦載機熟練度の表示モードを指定します。")]
+		public bool ShowTextAircraftLevel
+		{
+			get { return _showTextAircraftLevel; }
+			set
+			{
+				_showTextAircraftLevel = value;
+				PropertyChanged();
+			}
+		}
+
+
 		private int _slotMargin;
 		/// <summary>
 		/// スロット間の空きスペース
@@ -356,6 +373,7 @@ namespace ElectronicObserver.Window.Control {
 			_overlayAircraft = false;
 
 			_levelVisibility = LevelVisibilityFlag.Both;
+			_showTextAircraftLevel = false;
 
 			_slotMargin = 3;
 			_aircraftMargin = 3;
@@ -673,16 +691,19 @@ namespace ElectronicObserver.Window.Control {
 						else
 							levelcol = AircraftLevelColorHigh;
 
-						switch ( slot.AircraftLevel ) {
-							case 1: leveltext = "|"; break;
-							case 2: leveltext = "||"; break;
-							case 3: leveltext = "|||"; break;
-							case 4: leveltext = "/"; break;
-							case 5: leveltext = "//"; break;
-							case 6: leveltext = "///"; break;
-							case 7: leveltext = ">>"; break;
-							default: leveltext = "x"; break;
-						}
+						if (ShowTextAircraftLevel)
+							leveltext = slot.AircraftLevel.ToString();
+						else
+							switch ( slot.AircraftLevel ) {
+								case 1: leveltext = "|"; break;
+								case 2: leveltext = "||"; break;
+								case 3: leveltext = "|||"; break;
+								case 4: leveltext = "/"; break;
+								case 5: leveltext = "//"; break;
+								case 6: leveltext = "///"; break;
+								case 7: leveltext = ">>"; break;
+								default: leveltext = "x"; break;
+							}
 
 						TextRenderer.DrawText( e.Graphics, leveltext, Font, textarea, levelcol, textformatLevel );
 					}
