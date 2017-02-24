@@ -150,4 +150,13 @@ catch(e) {{
 	alert("ページCSS適用に失敗しました: "+e);
 }}</value>
   </data>
+  <data name="DMMScript" xml:space="preserve">
+    <value>
+try {
+	if ( DMM.netgame.reloadDialog ) DMM.netgame.reloadDialog = function (){};
+}
+catch(e) {
+	alert("DMMによるページ更新ダイアログの非表示に失敗しました: "+e);
+}</value>
+  </data>
 </root>
