@@ -53,13 +53,20 @@ namespace ElectronicObserver.Utility {
 
 
 		public MediaPlayer() {
-			var type = Type.GetTypeFromProgID( "WMPlayer.OCX.7" );
-			if ( type != null ) {
-				_wmp = Activator.CreateInstance( type );
-				_wmp.uiMode = "none";
-				_wmp.settings.autoStart = false;
-				_wmp.PlayStateChange += new Action<int>( wmp_PlayStateChange );
-			} else {
+			try
+			{
+				var type = Type.GetTypeFromProgID( "WMPlayer.OCX.7" );
+				if ( type != null ) {
+					_wmp = Activator.CreateInstance( type );
+					_wmp.uiMode = "none";
+					_wmp.settings.autoStart = false;
+					_wmp.PlayStateChange += new Action<int>( wmp_PlayStateChange );
+				} else {
+					_wmp = null;
+				}
+			}
+			catch
+			{
 				_wmp = null;
 			}
 
