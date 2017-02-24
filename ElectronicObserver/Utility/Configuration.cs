@@ -606,9 +606,9 @@ namespace ElectronicObserver.Utility {
 				public Window.Control.ShipStatusEquipment.LevelVisibilityFlag EquipmentLevelVisibility { get; set; }
 
 				/// <summary>
-				/// 艦載機熟練度を数字で表示フラグ
+				/// 艦載機熟練度を数字で表示するフラグ
 				/// </summary>
-				public bool ShowTextAircraftLevel { get; set; }
+				public bool ShowAircraftLevelByNumber { get; set; }
 
 				/// <summary>
 				/// 制空戦力の計算方法
@@ -643,7 +643,7 @@ namespace ElectronicObserver.Utility {
 					ShortenHPBar = false;
 					ShowNextExp = true;
 					EquipmentLevelVisibility = Window.Control.ShipStatusEquipment.LevelVisibilityFlag.Both;
-					ShowTextAircraftLevel = false;
+					ShowAircraftLevelByNumber = false;
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
 					BlinkAtCompletion = true;
