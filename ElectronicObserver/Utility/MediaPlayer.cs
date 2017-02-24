@@ -53,8 +53,7 @@ namespace ElectronicObserver.Utility {
 
 
 		public MediaPlayer() {
-			try
-			{
+			try {
 				var type = Type.GetTypeFromProgID( "WMPlayer.OCX.7" );
 				if ( type != null ) {
 					_wmp = Activator.CreateInstance( type );
@@ -64,9 +63,7 @@ namespace ElectronicObserver.Utility {
 				} else {
 					_wmp = null;
 				}
-			}
-			catch
-			{
+			} catch {
 				_wmp = null;
 			}
 
@@ -261,7 +258,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public void Play() {
 			if ( !IsAvailable ) return;
-			
+
 			if ( _realPlaylist.Count > 0 && SourcePath != _realPlaylist[_playingIndex] )
 				SourcePath = _realPlaylist[_playingIndex];
 
