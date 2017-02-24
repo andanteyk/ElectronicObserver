@@ -43,7 +43,7 @@ namespace ElectronicObserver.Window.Dialog {
 				rows_enabled.AddLast( row );
 			}
 
-			foreach ( var name in names.Where( n => group.SortOrder.Count( s => n == s.Key ) == 0 ) ) {
+			foreach ( var name in names.Where( n => !group.SortOrder.Any( s => n == s.Key ) ) ) {
 
 				var row = new DataGridViewRow();
 
