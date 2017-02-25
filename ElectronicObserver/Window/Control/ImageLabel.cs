@@ -128,6 +128,22 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+		public override Size MinimumSize {
+			get { return base.MinimumSize; }
+			set {
+				base.MinimumSize = value;
+				AdjustSize();
+			}
+		}
+
+		public override Size MaximumSize {
+			get { return base.MaximumSize; }
+			set {
+				base.MaximumSize = value;
+				AdjustSize();
+			}
+		}
+
 		
 
 		private Size? _measureTextCache = null;

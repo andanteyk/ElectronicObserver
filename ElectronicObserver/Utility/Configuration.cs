@@ -504,9 +504,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool BlinkAtCompletion { get; set; }
 
+				/// <summary>
+				/// 艦名表示の最大幅
+				/// </summary>
+				public int MaxShipNameWidth { get; set; }
+
 				public ConfigFormArsenal() {
 					ShowShipName = true;
 					BlinkAtCompletion = true;
+					MaxShipNameWidth = 60;
 				}
 			}
 			/// <summary>[工廠]ウィンドウ</summary>
@@ -524,8 +530,14 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool BlinkAtCompletion { get; set; }
 
+				/// <summary>
+				/// 艦名表示の最大幅
+				/// </summary>
+				public int MaxShipNameWidth { get; set; }
+
 				public ConfigFormDock() {
 					BlinkAtCompletion = true;
+					MaxShipNameWidth = 60;
 				}
 			}
 			/// <summary>[入渠]ウィンドウ</summary>
