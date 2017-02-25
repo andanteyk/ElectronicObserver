@@ -34,6 +34,7 @@
 			this.TextInformation.AutoWordSelection = true;
 			this.TextInformation.BackColor = System.Drawing.SystemColors.Control;
 			this.TextInformation.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.TextInformation.DetectUrls = false;
 			this.TextInformation.Location = new System.Drawing.Point(3, 3);
 			this.TextInformation.Name = "TextInformation";
 			this.TextInformation.ReadOnly = true;

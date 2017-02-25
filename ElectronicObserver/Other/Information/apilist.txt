@@ -1711,8 +1711,32 @@ api_req_combined_battle/ec_battle	：通常艦隊昼戦（敵連合艦隊）
 		api_stage3_combined	：航空攻撃(対随伴艦隊) api_stage3 と同じ
 	api_support_flag		：支援攻撃フラグ
 	api_support_info		：支援攻撃
+		api_support_airatack	：支援空撃　それ以外なら null
+			api_deck_id			：参加艦隊ID
+			api_ship_id			：参加艦船固有ID [6]
+			api_undressing_flag	：中破フラグ [6]
+			api_stage_flag		：航空戦フラグ [3] 航空戦のものに同じ
+			api_stage1			：空対空戦闘
+				api_f_count			：味方参加機数
+				api_f_lostcount		：味方撃墜機数
+				api_e_count			：敵参加機数
+				api_e_lostcount		：敵撃墜機数
+			api_stage2			：艦対空戦闘
+				api_f_count			：味方参加機数
+				api_f_lostcount		：味方撃墜機数
+			api_stage3			：航空攻撃 api_stage3_combined は存在しないため注意
+				api_erai_flag		：敵被雷撃フラグ [13]
+				api_ebak_flag		：敵被爆撃フラグ [13]
+				api_ecl_flag		：敵被クリティカルフラグ [13]
+				api_edam			：敵被ダメージ [13]
+		api_support_hourai		：支援砲雷撃　空撃なら null
+			api_deck_id			：参加艦隊ID
+			api_ship_id			：参加艦船固有ID [6]
+			api_undressing_flag	：中破フラグ [6]
+			api_cl_list			：クリティカルフラグ [13] 0=ミス, 1=命中, 2=クリティカル
+			api_damage			：与ダメージ [13]
 	api_opening_taisen_flag	：開幕対潜攻撃フラグ
-	api_opening_taisen		：開幕対潜攻撃
+	api_opening_taisen		：開幕対潜攻撃 api_hougekiX と同じ
 	api_opening_flag		：開幕雷撃フラグ
 	api_opening_atack		：開幕雷撃 api_raigeki と同じ
 	api_hourai_flag			：砲雷撃戦フラグ
