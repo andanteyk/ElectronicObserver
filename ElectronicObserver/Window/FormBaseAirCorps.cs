@@ -199,14 +199,21 @@ namespace ElectronicObserver.Window {
 
 
 			public void ConfigurationChanged( FormBaseAirCorps parent ) {
-				var mainfont = Utility.Configuration.Config.UI.MainFont;
-				var subfont = Utility.Configuration.Config.UI.SubFont;
+
+				var config = Utility.Configuration.Config;
+
+				var mainfont = config.UI.MainFont;
+				var subfont = config.UI.SubFont;
 
 				Name.Font = mainfont;
 				ActionKind.Font = mainfont;
 				AirSuperiority.Font = mainfont;
 				Distance.Font = mainfont;
 				Squadrons.Font = subfont;
+
+				Squadrons.ShowAircraft = config.FormFleet.ShowAircraft;
+				Squadrons.ShowAircraftLevelByNumber = config.FormFleet.ShowAircraftLevelByNumber;
+				Squadrons.LevelVisibility = config.FormFleet.EquipmentLevelVisibility;
 			}
 
 
