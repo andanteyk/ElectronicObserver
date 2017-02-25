@@ -919,6 +919,21 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		private void Menu_File_SaveImage_Click( object sender, EventArgs e ) {
+
+			if ( SaveImageDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				try {
+
+					ResourceChart.SaveImage( SaveImageDialog.FileName, ChartImageFormat.Png );
+
+				} catch ( Exception ex ) {
+					Utility.ErrorReporter.SendErrorReport( ex, "資源チャート画像の保存に失敗しました。" );
+				}
+			}
+		}
+
+
+
 		private void DialogResourceChart_FormClosed( object sender, FormClosedEventArgs e ) {
 			ResourceManager.DestroyIcon( Icon );
 		}
