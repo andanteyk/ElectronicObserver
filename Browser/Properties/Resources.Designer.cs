@@ -98,5 +98,12 @@ namespace Browser.Properties {
                 return ResourceManager.GetString("PageScript", resourceCulture);
             }
         }
+		
+        internal static string DMMScript {
+            get {
+                return ResourceManager.GetString("DMMScript", resourceCulture);
+            }
+        }
+		
     }
 }

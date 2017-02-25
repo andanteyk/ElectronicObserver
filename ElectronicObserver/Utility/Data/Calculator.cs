@@ -1272,10 +1272,28 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		/// <summary>
+		/// 対空砲火における連合艦隊補正を求めます。
+		/// </summary>
+		/// <param name="combinedFleetFlag">連合艦隊フラグ。 -1=連合艦隊でない, 1=連合艦隊主力艦隊, 2=連合艦隊随伴艦隊</param>
+		public static double GetAirDefenseCombinedFleetCoefficient( int combinedFleetFlag ) {
+			switch ( combinedFleetFlag ) {
+				case 1:
+					return 0.72;
+				case 2:
+					return 0.48;
+				default:
+					return 1.0;
+			}
+		}
+
+
+		/// <summary>
 		/// 割合撃墜(の割合)を求めます。
 		/// </summary>
-		public static double GetProportionalAirDefense( double adjustedAAValue ) {
-			return adjustedAAValue / 400;
+		/// <param name="adjustedAAValue">加重対空値</param>
+		/// <param name="combinedFleetFlag">連合艦隊フラグ。 -1=連合艦隊でない, 1=連合艦隊主力艦隊, 2=連合艦隊随伴艦隊</param>
+		public static double GetProportionalAirDefense( double adjustedAAValue, int combinedFleetFlag = -1 ) {
+			return adjustedAAValue * GetAirDefenseCombinedFleetCoefficient( combinedFleetFlag ) / 400;
 		}
 
 		/// <summary>
@@ -1283,23 +1301,15 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		/// <param name="adjustedAAValue">加重対空値</param>
 		/// <param name="adjustedFleetAAValue">艦隊防空値</param>
+		/// <param name="cutinKind">対空カットイン種別</param>
 		/// <param name="combinedFleetFlag">連合艦隊フラグ。 -1=連合艦隊でない, 1=連合艦隊主力艦隊, 2=連合艦隊随伴艦隊</param>
 		public static int GetFixedAirDefense( double adjustedAAValue, double adjustedFleetAAValue, int cutinKind, int combinedFleetFlag = -1 ) {
 			double cutinBonus = Calculator.AACutinVariableBonus.ContainsKey( cutinKind ) ? Calculator.AACutinVariableBonus[cutinKind] : 1.0;
-			double combinedBonus;
-			switch ( combinedFleetFlag ) {
-				case 1:
-					combinedBonus = 0.72;
-					break;
-				case 2:
-					combinedBonus = 0.48;
-					break;
-				default:
-					combinedBonus = 1.0;
-					break;
-			}
-			return (int)Math.Floor( ( adjustedAAValue + adjustedFleetAAValue ) * combinedBonus * cutinBonus / 10 );
+
+			return (int)Math.Floor( ( adjustedAAValue + adjustedFleetAAValue ) * GetAirDefenseCombinedFleetCoefficient( combinedFleetFlag ) * cutinBonus / 10 );
 		}
+
+
 
 
 		/// <summary>

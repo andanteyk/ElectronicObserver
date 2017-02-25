@@ -504,9 +504,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool BlinkAtCompletion { get; set; }
 
+				/// <summary>
+				/// 艦名表示の最大幅
+				/// </summary>
+				public int MaxShipNameWidth { get; set; }
+
 				public ConfigFormArsenal() {
 					ShowShipName = true;
 					BlinkAtCompletion = true;
+					MaxShipNameWidth = 60;
 				}
 			}
 			/// <summary>[工廠]ウィンドウ</summary>
@@ -524,8 +530,14 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool BlinkAtCompletion { get; set; }
 
+				/// <summary>
+				/// 艦名表示の最大幅
+				/// </summary>
+				public int MaxShipNameWidth { get; set; }
+
 				public ConfigFormDock() {
 					BlinkAtCompletion = true;
+					MaxShipNameWidth = 60;
 				}
 			}
 			/// <summary>[入渠]ウィンドウ</summary>
@@ -606,6 +618,11 @@ namespace ElectronicObserver.Utility {
 				public Window.Control.ShipStatusEquipment.LevelVisibilityFlag EquipmentLevelVisibility { get; set; }
 
 				/// <summary>
+				/// 艦載機熟練度を数字で表示するフラグ
+				/// </summary>
+				public bool ShowAircraftLevelByNumber { get; set; }
+
+				/// <summary>
 				/// 制空戦力の計算方法
 				/// </summary>
 				public int AirSuperiorityMethod { get; set; }
@@ -638,6 +655,7 @@ namespace ElectronicObserver.Utility {
 					ShortenHPBar = false;
 					ShowNextExp = true;
 					EquipmentLevelVisibility = Window.Control.ShipStatusEquipment.LevelVisibilityFlag.Both;
+					ShowAircraftLevelByNumber = false;
 					AirSuperiorityMethod = 1;
 					ShowAnchorageRepairingTimer = true;
 					BlinkAtCompletion = true;
@@ -814,6 +832,11 @@ namespace ElectronicObserver.Utility {
 				public bool AppliesStyleSheet { get; set; }
 
 				/// <summary>
+				/// DMMによるページ更新ダイアログを非表示にするか
+				/// </summary>
+				public bool IsDMMreloadDialogDestroyable { get; set; }
+
+				/// <summary>
 				/// ツールメニューの配置
 				/// </summary>
 				public DockStyle ToolMenuDockStyle { get; set; }
@@ -849,6 +872,7 @@ namespace ElectronicObserver.Utility {
 					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
 					IsScrollable = false;
 					AppliesStyleSheet = true;
+					IsDMMreloadDialogDestroyable = false;
 					ToolMenuDockStyle = DockStyle.Top;
 					IsToolMenuVisible = true;
 					ConfirmAtRefresh = true;
@@ -871,8 +895,14 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int CandidateDisplayCount { get; set; }
 
+				/// <summary>
+				/// スクロール可能か
+				/// </summary>
+				public bool IsScrollable { get; set; }
+
 				public ConfigFormCompass() {
 					CandidateDisplayCount = 4;
+					IsScrollable = false;
 				}
 			}
 			/// <summary>[羅針盤]ウィンドウ</summary>
@@ -922,6 +952,9 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool IsScrollable { get; set; }
 
+				/// <summary>
+				/// 戦闘中は表示を隠し、戦闘後のみ表示する
+				/// </summary>
 				public bool HideDuringBattle { get; set; }
 
 				public ConfigFormBattle() {

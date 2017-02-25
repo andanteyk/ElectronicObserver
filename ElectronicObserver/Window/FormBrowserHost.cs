@@ -164,6 +164,13 @@ namespace ElectronicObserver.Window {
 		public void ApplyStyleSheet() {
 			Browser.AsyncRemoteRun( () => Browser.Proxy.ApplyStyleSheet() );
 		}
+		
+		/// <summary>
+		/// DMMによるページ更新ダイアログを非表示にします。
+		/// </summary>
+		public void DestroyDMMreloadDialog() {
+			Browser.AsyncRemoteRun( () => Browser.Proxy.DestroyDMMreloadDialog() );
+		}
 
 
 		/// <summary>
@@ -198,6 +205,7 @@ namespace ElectronicObserver.Window {
 				config.StyleSheet = c.StyleSheet;
 				config.IsScrollable = c.IsScrollable;
 				config.AppliesStyleSheet = c.AppliesStyleSheet;
+				config.IsDMMreloadDialogDestroyable = c.IsDMMreloadDialogDestroyable;
 				config.ToolMenuDockStyle = (int)c.ToolMenuDockStyle;
 				config.IsToolMenuVisible = c.IsToolMenuVisible;
 				config.ConfirmAtRefresh = c.ConfirmAtRefresh;
@@ -219,6 +227,7 @@ namespace ElectronicObserver.Window {
 			c.StyleSheet = config.StyleSheet;
 			c.IsScrollable = config.IsScrollable;
 			c.AppliesStyleSheet = config.AppliesStyleSheet;
+			c.IsDMMreloadDialogDestroyable = config.IsDMMreloadDialogDestroyable;
 			c.ToolMenuDockStyle = (DockStyle)config.ToolMenuDockStyle;
 			c.IsToolMenuVisible = config.IsToolMenuVisible;
 			c.ConfirmAtRefresh = config.ConfirmAtRefresh;

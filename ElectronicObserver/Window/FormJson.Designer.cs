@@ -36,13 +36,14 @@
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.JsonRawData = new System.Windows.Forms.TextBox();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.UpdatesTree = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.AutoUpdateFilter = new System.Windows.Forms.TextBox();
 			this.AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.CSVSaver = new System.Windows.Forms.SaveFileDialog();
-			this.label3 = new System.Windows.Forms.Label();
+			this.TreeContextMenu_CopyToClipboard = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.TreeContextMenu.SuspendLayout();
@@ -98,51 +99,52 @@
             this.TreeContextMenu_Shrink,
             this.TreeContextMenu_ShrinkParent,
             this.toolStripSeparator1,
-            this.TreeContextMenu_OutputCSV});
+            this.TreeContextMenu_OutputCSV,
+            this.TreeContextMenu_CopyToClipboard});
 			this.TreeContextMenu.Name = "TreeContextMenu";
-			this.TreeContextMenu.Size = new System.Drawing.Size(197, 98);
+			this.TreeContextMenu.Size = new System.Drawing.Size(224, 142);
 			this.TreeContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TreeContextMenu_Opening);
 			// 
 			// TreeContextMenu_Expand
 			// 
 			this.TreeContextMenu_Expand.Name = "TreeContextMenu_Expand";
-			this.TreeContextMenu_Expand.Size = new System.Drawing.Size(196, 22);
+			this.TreeContextMenu_Expand.Size = new System.Drawing.Size(223, 22);
 			this.TreeContextMenu_Expand.Text = "全て展開";
 			this.TreeContextMenu_Expand.Click += new System.EventHandler(this.TreeContextMenu_Expand_Click);
 			// 
 			// TreeContextMenu_Shrink
 			// 
 			this.TreeContextMenu_Shrink.Name = "TreeContextMenu_Shrink";
-			this.TreeContextMenu_Shrink.Size = new System.Drawing.Size(196, 22);
+			this.TreeContextMenu_Shrink.Size = new System.Drawing.Size(223, 22);
 			this.TreeContextMenu_Shrink.Text = "全て格納";
 			this.TreeContextMenu_Shrink.Click += new System.EventHandler(this.TreeContextMenu_Shrink_Click);
 			// 
 			// TreeContextMenu_ShrinkParent
 			// 
 			this.TreeContextMenu_ShrinkParent.Name = "TreeContextMenu_ShrinkParent";
-			this.TreeContextMenu_ShrinkParent.Size = new System.Drawing.Size(196, 22);
+			this.TreeContextMenu_ShrinkParent.Size = new System.Drawing.Size(223, 22);
 			this.TreeContextMenu_ShrinkParent.Text = "親ノードを格納";
 			this.TreeContextMenu_ShrinkParent.Click += new System.EventHandler(this.TreeContextMenu_ShrinkParent_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(193, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(220, 6);
 			// 
 			// TreeContextMenu_OutputCSV
 			// 
 			this.TreeContextMenu_OutputCSV.Name = "TreeContextMenu_OutputCSV";
-			this.TreeContextMenu_OutputCSV.Size = new System.Drawing.Size(196, 22);
+			this.TreeContextMenu_OutputCSV.Size = new System.Drawing.Size(223, 22);
 			this.TreeContextMenu_OutputCSV.Text = "このノードをCSVに出力...";
 			this.TreeContextMenu_OutputCSV.Click += new System.EventHandler(this.TreeContextMenu_OutputCSV_Click);
 			// 
 			// tabPage2
 			// 
 			this.tabPage2.Controls.Add(this.JsonRawData);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(292, 172);
+			this.tabPage2.Size = new System.Drawing.Size(292, 174);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Raw";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -156,7 +158,7 @@
 			this.JsonRawData.Name = "JsonRawData";
 			this.JsonRawData.ReadOnly = true;
 			this.JsonRawData.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.JsonRawData.Size = new System.Drawing.Size(286, 166);
+			this.JsonRawData.Size = new System.Drawing.Size(286, 168);
 			this.JsonRawData.TabIndex = 0;
 			this.JsonRawData.WordWrap = false;
 			// 
@@ -168,13 +170,24 @@
 			this.tabPage3.Controls.Add(this.label1);
 			this.tabPage3.Controls.Add(this.AutoUpdateFilter);
 			this.tabPage3.Controls.Add(this.AutoUpdate);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(292, 172);
+			this.tabPage3.Size = new System.Drawing.Size(292, 174);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Config";
 			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// label3
+			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(6, 152);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(249, 15);
+			this.label3.TabIndex = 5;
+			this.label3.Text = "◆ D&D で保存した json ファイル を読み込めます";
+			this.label3.UseMnemonic = false;
 			// 
 			// label2
 			// 
@@ -232,16 +245,12 @@
 			this.CSVSaver.Filter = "CSV|*.csv|File|*";
 			this.CSVSaver.Title = "ノードを CSV に出力";
 			// 
-			// label3
+			// TreeContextMenu_CopyToClipboard
 			// 
-			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(6, 152);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(249, 15);
-			this.label3.TabIndex = 5;
-			this.label3.Text = "◆ D&D で保存した json ファイル を読み込めます";
-			this.label3.UseMnemonic = false;
+			this.TreeContextMenu_CopyToClipboard.Name = "TreeContextMenu_CopyToClipboard";
+			this.TreeContextMenu_CopyToClipboard.Size = new System.Drawing.Size(223, 22);
+			this.TreeContextMenu_CopyToClipboard.Text = "このノードをクリップボードへコピー";
+			this.TreeContextMenu_CopyToClipboard.Click += new System.EventHandler(this.TreeContextMenu_CopyToClipboard_Click);
 			// 
 			// FormJson
 			// 
@@ -287,5 +296,6 @@
 		private System.Windows.Forms.SaveFileDialog CSVSaver;
 		private System.Windows.Forms.ToolStripMenuItem TreeContextMenu_ShrinkParent;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.ToolStripMenuItem TreeContextMenu_CopyToClipboard;
 	}
 }

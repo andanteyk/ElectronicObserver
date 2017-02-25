@@ -228,6 +228,16 @@ namespace ElectronicObserver.Data.Battle.Detail {
 					sb.Append( " / 敵軍索敵: " ).AppendLine( Constants.GetSearchingResult( p.SearchingEnemy ) );
 
 					sb.AppendLine();
+
+
+				} else if ( phase is PhaseSupport ) {
+					var p = phase as PhaseSupport;
+
+					if ( p.IsAvailable ) {
+						sb.AppendLine( "〈支援艦隊〉" );
+						OutputSupportData( sb, p.SupportFleet );
+						sb.AppendLine();
+					}
 				}
 
 
@@ -400,6 +410,33 @@ namespace ElectronicObserver.Data.Battle.Detail {
 					i + 1,
 					i + 1,
 					initialHPs[i], maxHPs[i] );
+			}
+
+		}
+
+		public static void OutputSupportData( StringBuilder sb, FleetData fleet ) {
+
+			for ( int i = 0; i < fleet.MembersInstance.Count; i++ ) {
+				var ship = fleet.MembersInstance[i];
+
+				if ( ship == null )
+					continue;
+
+				sb.AppendFormat( "#{0}: {1} {2} - 火力{3}, 雷装{4}, 対空{5}, 装甲{6}\r\n",
+					i + 1,
+					ship.MasterShip.ShipTypeName, ship.NameWithLevel,
+					ship.FirepowerBase, ship.TorpedoBase, ship.AABase, ship.ArmorBase );
+
+				sb.Append( "　" );
+				for ( int k = 0; k < ship.SlotInstance.Count; k++ ) {
+					var eq = ship.SlotInstance[k];
+					if ( eq != null ) {
+						if ( k > 0 )
+							sb.Append( ", " );
+						sb.Append( eq.ToString() );
+					}
+				}
+				sb.AppendLine();
 			}
 
 		}

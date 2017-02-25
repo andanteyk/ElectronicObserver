@@ -82,7 +82,7 @@ namespace ElectronicObserver.Window.Dialog {
 		private void Updated() {
 
 			ShipData[] ships = GetShips().ToArray();
-			int formation = Formation.SelectedIndex + 1;
+			int formation = Formation.SelectedItem as FormationComboBoxData;
 			int aaCutinKind = AACutinKind.SelectedItem as AACutinComboBoxData;
 			int enemyAircraftCount = (int)EnemySlotCount.Value;
 
@@ -94,7 +94,7 @@ namespace ElectronicObserver.Window.Dialog {
 			double adjustedFleetAA = Calculator.GetAdjustedFleetAAValue( ships, formation );
 
 			// 割合撃墜
-			double[] proportionalAAs = adjustedAAs.Select( val => Calculator.GetProportionalAirDefense( val ) ).ToArray();
+			double[] proportionalAAs = adjustedAAs.Select( ( val, i ) => Calculator.GetProportionalAirDefense( val, IsCombined ? ( i < 6 ? 1 : 2 ) : -1 ) ).ToArray();
 
 			// 固定撃墜
 			int[] fixedAAs = adjustedAAs.Select( ( val, i ) => Calculator.GetFixedAirDefense( val, adjustedFleetAA, aaCutinKind, IsCombined ? ( i < 6 ? 1 : 2 ) : -1 ) ).ToArray();

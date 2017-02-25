@@ -27,7 +27,6 @@ namespace ElectronicObserver.Window.Dialog {
 			var columns = target.Columns.Cast<DataGridViewColumn>();
 			var names = columns.Select( c => c.Name );
 
-
 			if ( group.SortOrder == null )
 				group.SortOrder = new List<KeyValuePair<string, ListSortDirection>>();
 
@@ -43,7 +42,8 @@ namespace ElectronicObserver.Window.Dialog {
 				rows_enabled.AddLast( row );
 			}
 
-			foreach ( var name in names.Where( n => group.SortOrder.Count( s => n == s.Key ) == 0 ) ) {
+			foreach ( var name in columns.Where( c => c.SortMode != DataGridViewColumnSortMode.NotSortable && !group.SortOrder.Any( s => c.Name == s.Key ) )
+				.Select( c => c.Name ) ) {
 
 				var row = new DataGridViewRow();
 

@@ -24,6 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
+			this.Menu_File_SaveImage = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Graph = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Graph_Resource = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Graph_ResourceDiff = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +46,7 @@
 			this.Menu_Option_ShowAllData = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Option_DivideByDay = new System.Windows.Forms.ToolStripMenuItem();
 			this.ResourceChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+			this.SaveImageDialog = new System.Windows.Forms.SaveFileDialog();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ResourceChart)).BeginInit();
 			this.SuspendLayout();
@@ -51,6 +54,7 @@
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_File,
             this.Menu_Graph,
             this.Menu_Span,
             this.Menu_Option});
@@ -59,6 +63,21 @@
 			this.menuStrip1.Size = new System.Drawing.Size(774, 24);
 			this.menuStrip1.TabIndex = 0;
 			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// Menu_File
+			// 
+			this.Menu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_File_SaveImage});
+			this.Menu_File.Name = "Menu_File";
+			this.Menu_File.Size = new System.Drawing.Size(70, 20);
+			this.Menu_File.Text = "ファイル(&F)";
+			// 
+			// Menu_File_SaveImage
+			// 
+			this.Menu_File_SaveImage.Name = "Menu_File_SaveImage";
+			this.Menu_File_SaveImage.Size = new System.Drawing.Size(196, 22);
+			this.Menu_File_SaveImage.Text = "チャート画像を保存(&S)...";
+			this.Menu_File_SaveImage.Click += new System.EventHandler(this.Menu_File_SaveImage_Click);
 			// 
 			// Menu_Graph
 			// 
@@ -219,6 +238,11 @@
 			this.ResourceChart.CustomizeLegend += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.CustomizeLegendEventArgs>(this.ResourceChart_CustomizeLegend);
 			this.ResourceChart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ResourceChart_MouseDown);
 			// 
+			// SaveImageDialog
+			// 
+			this.SaveImageDialog.Filter = "PNG|*.png|File|*";
+			this.SaveImageDialog.Title = "チャートを保存";
+			// 
 			// DialogResourceChart
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -262,5 +286,8 @@
 		private System.Windows.Forms.ToolStripMenuItem Menu_Option;
 		private System.Windows.Forms.ToolStripMenuItem Menu_Option_ShowAllData;
 		private System.Windows.Forms.ToolStripMenuItem Menu_Option_DivideByDay;
+		private System.Windows.Forms.ToolStripMenuItem Menu_File;
+		private System.Windows.Forms.ToolStripMenuItem Menu_File_SaveImage;
+		private System.Windows.Forms.SaveFileDialog SaveImageDialog;
 	}
 }
