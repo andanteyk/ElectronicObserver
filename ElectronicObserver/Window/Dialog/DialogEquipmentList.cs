@@ -407,6 +407,28 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		private void DetailView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
+
+			e.SortResult = ( (IComparable)e.CellValue1 ).CompareTo( e.CellValue2 );
+
+			if ( e.SortResult == 0 ) {
+				e.SortResult = ( DetailView.Rows[e.RowIndex1].Tag as int? ?? 0 ) - ( DetailView.Rows[e.RowIndex2].Tag as int? ?? 0 );
+
+				if ( DetailView.SortOrder == SortOrder.Descending )
+					e.SortResult = -e.SortResult;
+			}
+
+			e.Handled = true;
+		}
+
+		private void DetailView_Sorted( object sender, EventArgs e ) {
+
+			for ( int i = 0; i < DetailView.Rows.Count; i++ )
+				DetailView.Rows[i].Tag = i;
+
+		}
+
+
 
 		private void Menu_File_CSVOutput_Click( object sender, EventArgs e ) {
 
