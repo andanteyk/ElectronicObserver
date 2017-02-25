@@ -400,9 +400,9 @@ namespace ElectronicObserver.Window {
 
 			NotifierManager.Instance.ApplyToConfiguration();
 			Utility.Configuration.Instance.Save();
-			APIObserver.Instance.Stop();
 			RecordManager.Instance.Save();
 			KCDatabase.Instance.Save();
+			APIObserver.Instance.Stop();
 
 
 			Utility.Logger.Add( 2, "終了処理が完了しました。" );
