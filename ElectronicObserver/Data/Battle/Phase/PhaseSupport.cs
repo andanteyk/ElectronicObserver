@@ -23,17 +23,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					{
 						if ( (int)RawData.api_support_info.api_support_airatack.api_stage_flag[2] != 0 ) {
 
-							var maindmg = ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_edam ).Skip( 1 );
-							var escortdmg = !RawData.api_support_info.api_support_airatack.api_stage3_combined() ? empty :
-								( (int[])RawData.api_support_info.api_support_airatack.api_stage3_combined.api_edam ).Skip( 1 );
+							// 敵連合でも api_stage3_combined は存在せず、[13] になる
 
-							var maincl = ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_ecl_flag ).Skip( 1 );
-							var escortcl = !RawData.api_support_info.api_support_airatack.api_stage3_combined() ? empty :
-								( (int[])RawData.api_support_info.api_support_airatack.api_stage3_combined.api_ecl_flag ).Skip( 1 );
-
-
-							Damages = maindmg.Concat( escortdmg ).ToArray();
-							Criticals = maincl.Concat( escortcl ).ToArray();
+							Damages = ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_edam ).Skip( 1 ).ToArray();
+							Criticals = ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_ecl_flag ).Skip( 1 ).ToArray();
 
 							// 航空戦なので crit フラグが違う
 							for ( int i = 0; i < Criticals.Length; i++ )
