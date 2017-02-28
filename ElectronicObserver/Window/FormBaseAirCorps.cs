@@ -135,7 +135,11 @@ namespace ElectronicObserver.Window {
 					Name.Text = string.Format( "#{0} - {1}", corps.MapAreaID, corps.Name );
 					Name.Tag = corps.MapAreaID;
 					var sb = new StringBuilder();
-					sb.AppendLine( "所属海域: " + KCDatabase.Instance.MapArea[corps.MapAreaID].Name );
+
+
+					string areaName = KCDatabase.Instance.MapArea.ContainsKey( corps.MapAreaID ) ? KCDatabase.Instance.MapArea[corps.MapAreaID].Name : "バミューダ海域";
+
+					sb.AppendLine( "所属海域: " + areaName );
 
 					// state 
 					if ( corps.Squadrons.Values.Any( sq => sq != null && sq.AircraftCurrent < sq.AircraftMax ) ) {
@@ -354,8 +358,10 @@ namespace ElectronicObserver.Window {
 
 			foreach ( var corps in baseaircorps ) {
 
+				string areaName = KCDatabase.Instance.MapArea.ContainsKey( corps.MapAreaID ) ? KCDatabase.Instance.MapArea[corps.MapAreaID].Name : "バミューダ海域";
+
 				sb.AppendFormat( "{0}\t[{1}] 制空戦力{2}/戦闘行動半径{3}\r\n",
-					( areaid == -1 ? ( KCDatabase.Instance.MapArea[corps.MapAreaID].Name + "：" ) : "" ) + corps.Name,
+					( areaid == -1 ? ( areaName + "：" ) : "" ) + corps.Name,
 					Constants.GetBaseAirCorpsActionKind( corps.ActionKind ),
 					Calculator.GetAirSuperiority( corps ),
 					corps.Distance );
