@@ -1,3 +1,6 @@
 [submodule "DockPanelSuite"]
 	path = DockPanelSuite
 	url = https://github.com/andanteyk/dockpanelsuite.git
+[submodule "SwfExtractor"]
+	path = SwfExtractor
+	url = https://github.com/andanteyk/SwfExtractor.git
