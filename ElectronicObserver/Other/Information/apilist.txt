@@ -340,6 +340,7 @@ api_start2	：艦娘・装備固有データその他
 				21=米艦載機
 				22=噴式景雲改
 				23=橘花改
+				24=試作機
 
 		api_taik		：耐久(0)
 		api_souk		：装甲
@@ -947,7 +948,7 @@ api_req_mission/result		：遠征帰投
 	api_member_lv			：艦隊司令部Lv.
 	api_member_exp			：提督経験値
 	api_get_ship_exp		：各艦船の取得経験値
-	api_get_exp_lvup		：各艦船の[0]=現在経験値, [1]=次のレベルの経験値
+	api_get_exp_lvup		：各艦船の[0]=現在経験値, [1]=次のレベルの経験値(Lv99/155の時は -1)
 	api_maparea_name		：海域カテゴリ名
 	api_detail				：詳細
 	api_quest_name			：遠征名
