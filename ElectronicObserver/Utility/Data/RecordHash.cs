@@ -14,39 +14,63 @@ namespace ElectronicObserver.Utility.Data {
 	/// <remarks>http://support.microsoft.com/kb/811833</remarks>
 	public static class RecordHash {
 
+		// こちらが使えればそのほうが2.5倍ぐらい処理が速い
+		private static System.Security.Cryptography.MD5 originalHasher;
+
 		private static readonly uint[] k;
-		private static readonly int[] s = { 
-			7, 12, 17, 22,
-			7, 12, 17, 22,
-			7, 12, 17, 22,
-			7, 12, 17, 22,
-
-			5, 9, 14, 20,
-			5, 9, 14, 20,
-			5, 9, 14, 20,
-			5, 9, 14, 20,
-
-			4, 11, 16, 23,
-			4, 11, 16, 23,
-			4, 11, 16, 23,
-			4, 11, 16, 23,
-
-			6, 10, 15, 21,
-			6, 10, 15, 21,
-			6, 10, 15, 21,
-			6, 10, 15, 21,
-		};
+		private static readonly int[] s;
 
 		static RecordHash() {
-			k = new uint[64];
 
-			for ( int i = 0; i < 64; i++ ) {
-				k[i] = (uint)Math.Floor( Math.Abs( Math.Sin( i + 1 ) ) * 4294967296.0 );
+			try {
+
+				originalHasher = System.Security.Cryptography.MD5.Create();
+
+
+			} catch ( InvalidOperationException ) {
+
+				Utility.Logger.Add( 1, "RecordHash: System.Security.Cryptography.MD5 ハッシュが利用できません。独自実装を利用します。" );
+
+				k = new uint[64];
+
+				for ( int i = 0; i < 64; i++ ) {
+					k[i] = (uint)Math.Floor( Math.Abs( Math.Sin( i + 1 ) ) * 4294967296.0 );
+				}
+
+				s = new int[] { 
+					7, 12, 17, 22,
+					7, 12, 17, 22,
+					7, 12, 17, 22,
+					7, 12, 17, 22,
+
+					5, 9, 14, 20,
+					5, 9, 14, 20,
+					5, 9, 14, 20,
+					5, 9, 14, 20,
+
+					4, 11, 16, 23,
+					4, 11, 16, 23,
+					4, 11, 16, 23,
+					4, 11, 16, 23,
+
+					6, 10, 15, 21,
+					6, 10, 15, 21,
+					6, 10, 15, 21,
+					6, 10, 15, 21,
+				};
 			}
+
 		}
 
 
 		public static byte[] ComputeHash( byte[] input ) {
+
+			if ( originalHasher != null ) {
+				return originalHasher.ComputeHash( input );
+			}
+
+
+			// 既存実装が使えなかったら自前実装で計算
 
 			uint a0 = 0x67452301;
 			uint b0 = 0xefcdab89;
