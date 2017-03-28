@@ -918,16 +918,11 @@ namespace ElectronicObserver.Window {
 						ship.Level,
 						ship.LuckBase );
 
-					if ( ship.ExpansionSlot <= 0 )
-						sb.Append( @"""ix"":{}," );
-					else
-						sb.AppendFormat( @"""ix"":{{""id"":{0}}},", ship.ExpansionSlotMaster );
-
 					int eqcount = 1;
-					foreach ( var eq in ship.SlotInstance ) {
+					foreach ( var eq in ship.AllSlotInstance.Where( eq => eq != null ) ) {
 						if ( eq == null ) break;
 
-						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2},""mas"":{3}}},", eqcount, eq.EquipmentID, eq.Level, eq.AircraftLevel );
+						sb.AppendFormat( @"""i{0}"":{{""id"":{1},""rf"":{2},""mas"":{3}}},", eqcount >= 5 ? "x" : eqcount.ToString(), eq.EquipmentID, eq.Level, eq.AircraftLevel );
 
 						eqcount++;
 					}
