@@ -112,8 +112,9 @@ namespace ElectronicObserver.Resource.Record {
 
 				ExpShip = int.Parse( elem[19] );
 
-				//if ( FleetID != uint.Parse( elem[0] ) ) //???
 
+				if ( FleetID != uint.Parse( elem[0] ) )
+					Utility.Logger.Add( 1, string.Format( "EnemyFleetRecord: 敵編成IDに誤りがあります。 ({0:x8} -> {1:x8})", uint.Parse( elem[0] ), FleetID ) );
 			}
 
 			public override string SaveLine() {
@@ -140,9 +141,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// <returns></returns>
 			private uint ComputeHash() {
 
-				var md5 = System.Security.Cryptography.MD5.Create();
-				byte[] hash = md5.ComputeHash( Encoding.UTF8.GetBytes( SaveLinePart() ) );
-				md5.Clear();
+				byte[] hash = ElectronicObserver.Utility.Data.RecordHash.ComputeHash( SaveLinePart() );
 				return (uint)hash[0] << 24 | (uint)hash[1] << 16 | (uint)hash[2] << 8 | (uint)hash[3];
 
 			}

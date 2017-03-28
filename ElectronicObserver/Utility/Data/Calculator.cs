@@ -904,6 +904,8 @@ namespace ElectronicObserver.Utility.Data {
 			int landingcnt = 0;
 			int uchibicnt = 0;
 			int tokudaihatsucnt = 0;
+			int latetorpcnt = 0;
+			int subeqcnt = 0;
 
 			if ( slot == null ) return -1;
 
@@ -916,16 +918,18 @@ namespace ElectronicObserver.Utility.Data {
 				switch ( eqtype ) {
 					case 1:
 					case 2:
-					case 3:
-						mainguncnt++; break;	//主砲
-
-					case 4:
-						subguncnt++; break;		//副砲
-
+					case 3:		//主砲
+						mainguncnt++;
+						break;
+					case 4:		//副砲
+						subguncnt++; 
+						break;
 					case 5:
-					case 32:
-						torpcnt++; break;		//魚雷
-
+					case 32:	//魚雷
+						torpcnt++;
+						if ( LateModelTorpedoIDs.Contains( eq.EquipmentID ) )	// 後期魚雷
+							latetorpcnt++;
+						break;
 					case 24:	// 上陸用舟艇
 						if ( eq.EquipmentID == 166 )		// 陸戦隊
 							landingcnt++;
@@ -938,6 +942,9 @@ namespace ElectronicObserver.Utility.Data {
 					case 46:	// 特型内火艇
 						uchibicnt++;
 						break;
+					case 51:	// 潜水艦装備
+						subeqcnt++;
+						break;
 				}
 
 			}
@@ -945,7 +952,7 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( includeSpecialAttack ) {
 
-				if ( torpcnt >= 2 )
+				if ( torpcnt >= 2 || ( latetorpcnt >= 1 && subeqcnt >= 1 ) )
 					return 3;			//カットイン(魚雷/魚雷)
 				else if ( mainguncnt >= 3 )
 					return 5;			//カットイン(主砲x3)
@@ -1013,6 +1020,37 @@ namespace ElectronicObserver.Utility.Data {
 
 			return 0;		//砲撃
 
+		}
+
+
+		/// <summary>
+		/// 夜戦魚雷カットインにおいて後期魚雷として扱われる装備のID群
+		/// </summary>
+		public static readonly int[] LateModelTorpedoIDs = new int[] { 
+			213,		// 後期型艦首魚雷(6門)
+			214,		// 熟練聴音員+後期型艦首魚雷(6門)
+		};
+
+
+		/// <summary>
+		/// 夜戦カットインにおける魚雷カットインの種別を取得します。
+		/// </summary>
+		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
+		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
+		/// <param name="defenerShipID">防御艦の艦船ID。なければ-1</param>
+		/// <returns> 0=その他, 1=後期魚雷+潜水艦装備(x1.75), 2=後期魚雷x2(x1.6)</returns>
+		public static int GetNightTorpedoCutinKind( int[] slot, int attackerShipID, int defenderShipID ) {
+
+			// note: 発動優先度については要検証
+			int latetorp = slot.Intersect( LateModelTorpedoIDs ).Count();
+			int subeq = slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).Count( eq => eq != null && eq.CategoryType == 51 );
+
+			if ( latetorp >= 1 && subeq >= 1 )
+				return 1;		// x1.75
+			else if ( latetorp >= 2 )
+				return 2;		// x1.6
+
+			return 0;
 		}
 
 

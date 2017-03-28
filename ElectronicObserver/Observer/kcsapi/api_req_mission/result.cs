@@ -107,7 +107,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_mission {
 				}
 
 				for ( int i = 0; i < lvup.Count; i++ ) {
-					if ( lvup[i].Length >= 2 && lvup[i][0] + exps[i] >= lvup[i][1] ) {
+					if ( lvup[i].Length >= 2 && lvup[i][1] > 0 && lvup[i][0] + exps[i] >= lvup[i][1] ) {
 						var ship = fleet.MembersInstance[i];
 						int increment = Math.Max( lvup[i].Length - 2, 1 );
 
