@@ -1122,7 +1122,7 @@ namespace ElectronicObserver.Data {
 			basepower += GetLightCruiserDamageBonus();
 
 			//キャップ
-			basepower = Math.Floor( CapDamage( basepower, 150 ) );
+			basepower = Math.Floor( CapDamage( basepower, 180 ) );
 
 			//弾着
 			switch ( Calculator.GetDayAttackKind( AllSlotMaster.ToArray(), ShipID, -1 ) ) {
@@ -1157,7 +1157,7 @@ namespace ElectronicObserver.Data {
 			basepower *= GetHPDamageBonus() * GetEngagementFormDamageRate( engagementForm );
 
 			//キャップ
-			basepower = Math.Floor( CapDamage( basepower, 150 ) );
+			basepower = Math.Floor( CapDamage( basepower, 180 ) );
 
 			return (int)( basepower * GetAmmoDamageRate() );
 		}
@@ -1245,8 +1245,19 @@ namespace ElectronicObserver.Data {
 					basepower *= 1.3;
 					break;
 				case 3:	//魚雷x2
-					basepower *= 1.5;
-					break;
+					{
+						switch ( Calculator.GetNightTorpedoCutinKind( AllSlotMaster.ToArray(), ShipID, -1 ) ) {
+							case 1:
+								basepower *= 1.75;
+								break;
+							case 2:
+								basepower *= 1.6;
+								break;
+							default:
+								basepower *= 1.5;
+								break;
+						}
+					} break;
 				case 4:	//主砲x2/副砲
 					basepower *= 1.75;
 					break;
