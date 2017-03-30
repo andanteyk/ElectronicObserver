@@ -927,7 +927,7 @@ namespace ElectronicObserver.Window {
 						eqcount++;
 					}
 
-					if ( eqcount > 0 )
+					if ( eqcount > 1 )
 						sb.Remove( sb.Length - 1, 1 );		// remove ","
 					sb.Append( @"}}," );
 
