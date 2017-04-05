@@ -561,7 +561,7 @@ namespace ElectronicObserver.Data {
 		/// 深海棲艦かどうか
 		/// </summary>
 		public bool IsAbyssalShip {
-			get { return 500 < ShipID && ShipID <= 900; }
+			get { return ShipID > 1500; }
 		}
 
 		/// <summary>
