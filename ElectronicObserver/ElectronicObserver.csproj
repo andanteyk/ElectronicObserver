@@ -218,6 +218,7 @@
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\ld_airbattle.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
+    <Compile Include="Utility\FleetImageGenerator.cs" />
     <Compile Include="Utility\SyncBGMPlayer.cs" />
     <Compile Include="Utility\MediaPlayer.cs" />
     <Compile Include="Utility\PathHelper.cs" />
@@ -814,6 +815,10 @@
     <ProjectReference Include="..\DockPanelSuite\WinFormsUI\WinFormsUI.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>WinFormsUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SwfExtractor\SwfExtractor\SwfExtractor.csproj">
+      <Project>{44244148-d3fe-4d71-aa8f-cacb54ac53c1}</Project>
+      <Name>SwfExtractor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
