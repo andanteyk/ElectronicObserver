@@ -1111,7 +1111,7 @@ namespace ElectronicObserver.Window {
 			var args = new Utility.FleetImageArgument();
 			args.FleetIDs = new int[] { 1, 2 };
 			args.HorizontalFleetCount = 2;
-			args.HorizontalShipCount = 1;
+			args.HorizontalShipCount = 2;
 			args.ReflectDamageGraphic = true;
 			args.AvoidTwitterDeterioration = true;
 			args.TitleFont = new Font( "Meiryo UI", 32, FontStyle.Bold, GraphicsUnit.Pixel );
@@ -1124,7 +1124,7 @@ namespace ElectronicObserver.Window {
 			args.Title = "適当にタイトルを入力";
 			args.Comment = "コメント部分です。\r\nここに適当な文字列を入力することができます。ねこです　\r\nよろしくおねがいします";
 
-			using ( var image = Utility.FleetImageGenerator.GenerateCutinBitmap( args ) ) {
+			using ( var image = Utility.FleetImageGenerator.GenerateBannerBitmap( args ) ) {
 				string savePath = System.Environment.GetFolderPath( Environment.SpecialFolder.Desktop ) + @"\test.png";
 				image.Save( savePath, System.Drawing.Imaging.ImageFormat.Png );
 				System.Diagnostics.Process.Start( savePath );
@@ -1140,7 +1140,7 @@ namespace ElectronicObserver.Window {
 
 
 			// layout testing
-			switch ( 2 ) {
+			switch ( 3 ) {
 				case 1:		// card
 
 					using ( var image = new Bitmap( 900, 900 ) ) {

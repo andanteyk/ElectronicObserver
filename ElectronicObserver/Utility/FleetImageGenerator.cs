@@ -940,7 +940,7 @@ namespace ElectronicObserver.Utility {
 						}
 
 					}
-		
+
 				}
 
 
@@ -981,7 +981,297 @@ namespace ElectronicObserver.Utility {
 
 
 
+		public static Bitmap GenerateBannerBitmap( FleetImageArgument args ) {
 
+			var formatMiddleLeft = GetStringFormat( ContentAlignment.MiddleLeft );
+			var formatMiddleCenter = GetStringFormat( ContentAlignment.MiddleCenter );
+			var formatMiddleRight = GetStringFormat( ContentAlignment.MiddleRight );
+
+			Color backgroundColor = Color.FromArgb( 0xff, 0xff, 0xff );
+			Color mainTextColor = Color.FromArgb( 0x0f, 0x0f, 0x0f );
+			Color subTextColor = Color.FromArgb( 0x00, 0x88, 0x88 );
+			Color shadowColor = Color.FromArgb( 0x88, 0x88, 0x88 );
+			Color disabledColor = Color.FromArgb( 0xaa, 0xaa, 0xaa );
+			Color aircraftLevelLowColor = Color.FromArgb( 0x00, 0xff, 0xff );
+			Color aircraftLevelHighColor = Color.FromArgb( 0xff, 0x88, 0x00 );
+
+			var mainTextBrush = new SolidBrush( mainTextColor );
+			var subTextBrush = new SolidBrush( subTextColor );
+			var shadowBrush = new SolidBrush( shadowColor );
+			var disabledBrush = new SolidBrush( disabledColor );
+			var aircraftLevelLowBrush = new SolidBrush( aircraftLevelLowColor );
+			var aircraftLevelHighBrush = new SolidBrush( aircraftLevelHighColor );
+
+			var linePen = new Pen( subTextColor );
+
+
+			string fleetAirSuperiorityTitle = "制空戦力";
+			string fleetSearchingAbilityTitle = "索敵能力";
+
+			// for measure space of strings
+			Bitmap preimage = new Bitmap( 1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+			Graphics preg = Graphics.FromImage( preimage );
+
+			// Size Calculation
+			Size titleSize = string.IsNullOrWhiteSpace( args.Title ) ? Size.Empty : MeasureString( preg, args.Title, args.TitleFont, MaxValueSize, formatMiddleCenter );
+			Size commentSize = string.IsNullOrWhiteSpace( args.Comment ) ? Size.Empty : MeasureString( preg, args.Comment, args.MediumFont, MaxValueSize, formatMiddleLeft );
+
+			Size fleetNameSize = MeasureString( preg, "大正義日独伊三国褐色同盟", args.LargeFont, MaxValueSize, formatMiddleLeft );		// kanji 12 char
+			Size fleetAirSuperiorityTitleSize = MeasureString( preg, fleetAirSuperiorityTitle, args.SmallFont, MaxValueSize, formatMiddleLeft );
+			Size fleetAirSuperiorityValueEstimatedSize = MeasureString( preg, "8888", args.MediumDigitFont, MaxValueSize, formatMiddleRight );
+			Size fleetSearchingAbilityTitleSize = MeasureString( preg, fleetSearchingAbilityTitle, args.SmallFont, MaxValueSize, formatMiddleLeft );
+			Size fleetSearchingAbilityValueEstimatedSize = MeasureString( preg, "-888.88", args.MediumDigitFont, MaxValueSize, formatMiddleRight );
+
+			Size shipIndexSize = MeasureString( preg, "#4:", args.MediumDigitFont, MaxValueSize, formatMiddleLeft );
+			Size equipmentNameSize = MeasureString( preg, "61cm五連装(酸素)魚雷", args.SmallFont, MaxValueSize, formatMiddleLeft );		// kanji 9 char
+			Size mediumDigit3Size = MeasureString( preg, "888", args.MediumDigitFont, MaxValueSize, formatMiddleRight );
+			Size smallDigit3Size = MeasureString( preg, "888", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
+			Size levelSize = MeasureString( preg, "Lv.", args.SmallDigitFont, MaxValueSize, formatMiddleLeft );
+			Size equipmentLevelSize = MeasureString( preg, "+10", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
+
+			Size fleetParameterAreaInnerMargin = new Size( 16, 0 );
+			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
+			Padding equipmentAreaMargin = new Padding( 0, 0, 0, 2 );
+			Padding shipPaneUnitMargin = new Padding( 2 );
+			Padding shipPaneMargin = new Padding();
+			Padding fleetParameterAreaMargin = new Padding( 8, 0, 0, 4 );
+			Padding fleetPaneUnitMargin = new Padding( 4 );
+			Padding fleetPaneMargin = new Padding();
+			Padding titleMargin = new Padding( 0, 0, 0, 2 );
+			Padding commentMargin = new Padding( 2 );
+			Padding commentPadding = new Padding( 2 );
+			Padding entireMargin = new Padding();
+			int lineMargin = 4;
+
+			Size shipBannerSize = ShipBannerSize;
+			Size shipNameAreaSize = SumWidthMaxHeight( ShipBannerSize, smallDigit3Size );
+			Size equipmentAreaUnitSize = SumWidthMaxHeight( EquipmentIconSize, equipmentNameSize, equipmentLevelSize );
+			Size equipmentAreaSize = new Size( equipmentAreaUnitSize.Width, equipmentAreaUnitSize.Height * 6 );
+
+			Size shipPaneUnitSize = MaxWidthSumHeight( shipNameAreaSize, equipmentAreaSize );
+			Size shipPaneSize = new Size(
+				( shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalShipCount, 6 ),
+				( shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical ) * (int)Math.Ceiling( 6.0 / args.HorizontalShipCount ) );
+
+			Size fleetParameterAreaSize = SumWidthMaxHeight(
+				EquipmentIconSize, fleetAirSuperiorityTitleSize, fleetAirSuperiorityValueEstimatedSize, fleetParameterAreaInnerMargin,
+				EquipmentIconSize, fleetSearchingAbilityTitleSize, fleetSearchingAbilityValueEstimatedSize );
+
+			Size fleetPaneUnitSize;
+			bool isFleetNameAndParametersAreSameLine = fleetNameSize.Width + fleetParameterAreaSize.Width + fleetParameterAreaMargin.Horizontal < shipPaneSize.Width + shipPaneMargin.Horizontal;
+			if ( isFleetNameAndParametersAreSameLine ) {
+				fleetPaneUnitSize = MaxWidthSumHeight( SumWidthMaxHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size ), shipPaneSize + shipPaneMargin.Size );
+			} else {
+				fleetPaneUnitSize = MaxWidthSumHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size, shipPaneSize + shipPaneMargin.Size );
+			}
+
+			Size fleetPaneSize = new Size( ( fleetPaneUnitSize.Width + fleetPaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalFleetCount, args.FleetIDs.Length ),
+				( fleetPaneUnitSize.Height + fleetPaneUnitMargin.Vertical ) * (int)Math.Ceiling( (double)args.FleetIDs.Length / args.HorizontalFleetCount ) );
+
+			Size commentAreaSize = commentSize + commentPadding.Size;
+
+			Size entireSize = MaxWidthSumHeight( titleSize + titleMargin.Size, fleetPaneSize + fleetPaneMargin.Size, commentAreaSize + commentMargin.Size );
+
+
+			Size equipmentNameSizeExtended = SumWidthMaxHeight( equipmentNameSize, equipmentLevelSize );
+
+			var equipmentNameBrush = new LinearGradientBrush( new Rectangle( 0, 0, equipmentNameSize.Width * 2 + equipmentLevelSize.Width, equipmentAreaUnitSize.Height ), Color.Black, Color.Black, LinearGradientMode.Horizontal );		// color is ignored
+			{
+				var blend = new ColorBlend();
+				blend.Positions = new[] { 0f, (float)( equipmentNameSizeExtended.Width - EquipmentIconSize.Width ) / equipmentNameBrush.Rectangle.Width, (float)( equipmentNameSizeExtended.Width ) / equipmentNameBrush.Rectangle.Width, 1f };
+				blend.Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb( 0, mainTextColor ), Color.FromArgb( 0, mainTextColor ) };
+				equipmentNameBrush.InterpolationColors = blend;
+			}
+			equipmentNameBrush.GammaCorrection = true;
+
+
+			preg.Dispose();
+			preimage.Dispose();
+
+
+			var bitmap = new Bitmap( entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+			using ( var g = Graphics.FromImage( bitmap ) ) {
+
+				g.Clear( backgroundColor );
+				if ( !string.IsNullOrEmpty( args.BackgroundImagePath ) && System.IO.File.Exists( args.BackgroundImagePath ) ) {
+					try {
+						using ( var backgroundImage = new Bitmap( args.BackgroundImagePath ) ) {
+							using ( var backgroundBrush = new TextureBrush( backgroundImage, WrapMode.Tile ) ) {
+								g.FillRectangle( backgroundBrush, new Rectangle( 0, 0, bitmap.Width, bitmap.Height ) );
+							}
+						}
+
+					} catch ( Exception ) {
+					}
+				}
+
+
+				Point masterPointer = new Point( entireMargin.Left, entireMargin.Top );
+
+				// title
+				if ( !titleSize.IsEmpty ) {
+					g.DrawString( args.Title, args.TitleFont, shadowBrush, new Rectangle( masterPointer + GetAlignmentOffset( ContentAlignment.TopCenter, titleSize, entireSize ) + new Size( 2, 2 ), titleSize ), formatMiddleCenter );
+					g.DrawString( args.Title, args.TitleFont, mainTextBrush, new Rectangle( masterPointer + GetAlignmentOffset( ContentAlignment.TopCenter, titleSize, entireSize ), titleSize ), formatMiddleCenter );
+				}
+				masterPointer.Y += titleSize.Height;
+
+
+				for ( int fleetIndex = 0; fleetIndex < args.FleetIDs.Length; fleetIndex++ ) {
+					int fleetID = args.FleetIDs[fleetIndex];
+					FleetData fleet = KCDatabase.Instance.Fleet[fleetID];
+					Point fleetPointerOrigin = masterPointer + new Size(
+						( fleetPaneUnitSize.Width + fleetPaneUnitMargin.Horizontal ) * ( fleetIndex % args.HorizontalFleetCount ) + fleetPaneUnitMargin.Left,
+						( fleetPaneUnitSize.Height + fleetPaneUnitMargin.Vertical ) * ( fleetIndex / args.HorizontalFleetCount ) + fleetPaneUnitMargin.Top );
+					Point fleetPointer = fleetPointerOrigin;
+
+					if ( fleet == null )
+						continue;
+
+					// fleet name
+					g.DrawString( fleet.Name, args.LargeFont, mainTextBrush, new Rectangle( fleetPointer, fleetNameSize ), formatMiddleLeft );
+					if ( isFleetNameAndParametersAreSameLine ) {
+						fleetPointer.X += fleetNameSize.Width;
+						fleetPointer.Y += fleetNameSize.Height - fleetParameterAreaSize.Height;
+					} else {
+						fleetPointer.Y += fleetNameSize.Height;
+					}
+
+					// fleet specs
+					fleetPointer.X += fleetParameterAreaMargin.Left;
+					fleetPointer.Y += fleetParameterAreaMargin.Top;
+					{	// fighter power
+						var iconpos = fleetPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, EquipmentIconSize, fleetParameterAreaSize );
+						g.DrawImage( ResourceManager.Instance.Equipments.Images[(int)ResourceManager.EquipmentContent.CarrierBasedFighter], iconpos.X, iconpos.Y, EquipmentIconSize.Width, EquipmentIconSize.Height );
+						fleetPointer.X += EquipmentIconSize.Width;
+
+						g.DrawString( fleetAirSuperiorityTitle, args.SmallFont, subTextBrush, new Rectangle( fleetPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, fleetAirSuperiorityTitleSize, fleetParameterAreaSize ), fleetAirSuperiorityTitleSize ), formatMiddleLeft );
+						fleetPointer.X += fleetAirSuperiorityTitleSize.Width;
+
+						Size paramValueSize = MeasureString( g, fleet.GetAirSuperiority().ToString(), args.MediumDigitFont, MaxValueSize, formatMiddleLeft );
+						g.DrawString( fleet.GetAirSuperiority().ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle( fleetPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, paramValueSize, fleetParameterAreaSize ), paramValueSize ), formatMiddleLeft );
+						fleetPointer.X += paramValueSize.Width + fleetParameterAreaInnerMargin.Width;
+					}
+					{	// searching ability
+						var iconpos = fleetPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, EquipmentIconSize, fleetParameterAreaSize );
+						g.DrawImage( ResourceManager.Instance.Equipments.Images[(int)ResourceManager.EquipmentContent.CarrierBasedRecon], iconpos.X, iconpos.Y, EquipmentIconSize.Width, EquipmentIconSize.Height );
+						fleetPointer.X += EquipmentIconSize.Width;
+
+						g.DrawString( fleetSearchingAbilityTitle, args.SmallFont, subTextBrush, new Rectangle( fleetPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, fleetSearchingAbilityTitleSize, fleetParameterAreaSize ), fleetSearchingAbilityTitleSize ), formatMiddleLeft );
+						fleetPointer.X += fleetAirSuperiorityTitleSize.Width;
+
+						Size paramValueSize = MeasureString( g, fleet.GetSearchingAbilityString(), args.MediumDigitFont, MaxValueSize, formatMiddleLeft );
+						g.DrawString( fleet.GetSearchingAbilityString(), args.MediumDigitFont, mainTextBrush, new Rectangle( fleetPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, paramValueSize, fleetParameterAreaSize ), paramValueSize ), formatMiddleLeft );
+						fleetPointer.X += paramValueSize.Width + fleetParameterAreaInnerMargin.Width;
+					}
+
+					fleetPointer.X = fleetPointerOrigin.X;
+					fleetPointer.Y += fleetParameterAreaSize.Height;
+
+					g.DrawLine( linePen, fleetPointer + new Size( lineMargin, 0 ), fleetPointer + new Size( shipPaneSize.Width - lineMargin, 0 ) );
+					fleetPointer.Y += fleetParameterAreaMargin.Bottom;
+
+
+					for ( int shipIndex = 0; shipIndex < 6; shipIndex++ ) {
+						ShipData ship = fleet.MembersInstance[shipIndex];
+						Point shipPointerOrigin = fleetPointer + new Size(
+							( shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal ) * ( shipIndex % args.HorizontalShipCount ) + shipPaneUnitMargin.Left,
+							( shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical ) * ( shipIndex / args.HorizontalShipCount ) + shipPaneUnitMargin.Top );
+						Point shipPointer = shipPointerOrigin;
+
+						//g.DrawRectangle( Pens.Teal, new Rectangle( shipPointer, shipPaneUnitSize ) );
+
+						if ( ship == null )
+							continue;
+
+						//g.DrawString( string.Format( "#{0}:", shipIndex + 1 ), args.MediumDigitFont, subTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize ), shipIndexSize ), formatMiddleLeft );
+						//shipPointer.X += shipIndexSize.Width;
+
+						DrawShipSwfImage( g, ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? ShipBannerDamagedID : ShipBannerNormalID, shipPointer.X, shipPointer.Y, ShipBannerSize );
+						shipPointer.X += shipBannerSize.Width;
+
+						g.DrawString( ship.Level.ToString(), args.SmallDigitFont, subTextBrush, new Rectangle( shipPointer, smallDigit3Size ), formatMiddleLeft );
+
+						shipPointer.X = shipPointerOrigin.X;
+						shipPointer.Y += shipNameAreaSize.Height;
+
+
+						// equipments
+						Point equipmentPointerOrigin = shipPointer;
+						for ( int equipmentIndex = 0; equipmentIndex < 6; equipmentIndex++ ) {
+							EquipmentData eq = ship.AllSlotInstance[equipmentIndex];
+							Point equipmentPointer = equipmentPointerOrigin + new Size( 0, equipmentAreaUnitSize.Height * equipmentIndex );
+
+							
+							bool isOutOfSlot = equipmentIndex >= ship.SlotSize && !( equipmentIndex == 5 && ship.IsExpansionSlotAvailable );
+
+							Size equipmentIconOffset = GetAlignmentOffset( ContentAlignment.MiddleLeft, EquipmentIconSize, equipmentAreaUnitSize );
+							g.DrawImage( GetEquipmentIcon( eq != null ? eq.EquipmentID : -1, isOutOfSlot ),
+								equipmentPointer.X + equipmentIconOffset.Width, equipmentPointer.Y + equipmentIconOffset.Height, EquipmentIconSize.Width, EquipmentIconSize.Height );
+							equipmentPointer.X += EquipmentIconSize.Width;
+
+							string equipmentName;
+							if ( eq != null ) {
+								equipmentName = eq.Name;
+							} else if ( isOutOfSlot ) {
+								equipmentName = "";
+							} else {
+								equipmentName = "(なし)";
+							}
+							equipmentNameBrush.ResetTransform();
+							if ( eq != null && eq.Level > 0 ) {
+								equipmentNameBrush.TranslateTransform( equipmentPointer.X - EquipmentIconSize.Width, 0 );
+							} else {
+								equipmentNameBrush.TranslateTransform( equipmentPointer.X, 0 );
+							}
+							g.DrawString( equipmentName, args.SmallFont, equipmentNameBrush, new Rectangle( equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, equipmentNameSizeExtended, equipmentAreaUnitSize ), equipmentNameSizeExtended ), formatMiddleLeft );
+							equipmentPointer.X += equipmentNameSize.Width;
+
+							if ( eq != null ) {
+
+								if ( eq.Level > 0 ) {
+									g.DrawString( "+" + eq.Level, args.SmallDigitFont, subTextBrush, new Rectangle( equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, equipmentLevelSize, equipmentAreaUnitSize ), equipmentLevelSize ), formatMiddleRight );
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+
+				masterPointer.Y += fleetPaneSize.Height;
+				g.DrawLine( linePen, masterPointer + new Size( lineMargin, 0 ), masterPointer + new Size( fleetPaneSize.Width - commentMargin.Horizontal - lineMargin, 0 ) );
+
+
+				if ( !commentSize.IsEmpty ) {
+					var commentPointer = masterPointer + new Size( commentMargin.Left, commentMargin.Top );
+					commentPointer += new Size( commentPadding.Left, commentPadding.Top );
+					g.DrawString( args.Comment, args.MediumFont, mainTextBrush, new Rectangle( commentPointer, commentSize ), formatMiddleLeft );
+				}
+			}
+
+			if ( args.AvoidTwitterDeterioration ) {
+				// 不透明ピクセルのみだと jpeg 化されてしまうため、1px だけわずかに透明にする
+				Color temp = bitmap.GetPixel( bitmap.Width - 1, bitmap.Height - 1 );
+				bitmap.SetPixel( bitmap.Width - 1, bitmap.Height - 1, Color.FromArgb( 252, temp.R, temp.G, temp.B ) );
+			}
+
+
+			mainTextBrush.Dispose();
+			shadowBrush.Dispose();
+			disabledBrush.Dispose();
+			subTextBrush.Dispose();
+			aircraftLevelLowBrush.Dispose();
+			aircraftLevelHighBrush.Dispose();
+
+			equipmentNameBrush.Dispose();
+
+			linePen.Dispose();
+
+			return bitmap;
+		}
 
 
 
