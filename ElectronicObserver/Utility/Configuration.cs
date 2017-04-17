@@ -1565,7 +1565,7 @@ namespace ElectronicObserver.Utility {
 
 						Directory.CreateDirectory( defaultRecordPath );
 
-						ElectronicObserver.Resource.ResourceManager.CopyFromArchive( "Record/" + currentRecord.FileName, Path.Combine( defaultRecordPath, currentRecord.FileName ) );
+						ElectronicObserver.Resource.ResourceManager.CopyDocumentFromArchive( "Record/" + currentRecord.FileName, Path.Combine( defaultRecordPath, currentRecord.FileName ) );
 
 						var defaultRecord = new ShipParameterRecord();
 						defaultRecord.Load( defaultRecordPath );
