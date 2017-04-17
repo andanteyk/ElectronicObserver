@@ -358,6 +358,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_BlinkAtCompletion.Checked = config.FormFleet.BlinkAtCompletion;
 			FormFleet_ShowConditionIcon.Checked = config.FormFleet.ShowConditionIcon;
 			FormFleet_FixedShipNameWidth.Value = config.FormFleet.FixedShipNameWidth;
+			FormFleet_ShowAirSuperiorityRange.Checked = config.FormFleet.ShowAirSuperiorityRange;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 			FormHeadquarters_Visibility.Items.Clear();
@@ -578,6 +579,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.BlinkAtCompletion = FormFleet_BlinkAtCompletion.Checked;
 			config.FormFleet.ShowConditionIcon = FormFleet_ShowConditionIcon.Checked;
 			config.FormFleet.FixedShipNameWidth = (int)FormFleet_FixedShipNameWidth.Value;
+			config.FormFleet.ShowAirSuperiorityRange = FormFleet_ShowAirSuperiorityRange.Checked;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 			{
