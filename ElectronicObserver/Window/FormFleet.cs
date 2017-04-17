@@ -174,7 +174,7 @@ namespace ElectronicObserver.Window {
 				{
 					int airSuperiority = fleet.GetAirSuperiority();
 					bool includeLevel = Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 1;
-					AirSuperiority.Text = airSuperiority.ToString();
+					AirSuperiority.Text = fleet.GetAirSuperiorityString();
 					ToolTipInfo.SetToolTip( AirSuperiority,
 						string.Format( "確保: {0}\r\n優勢: {1}\r\n均衡: {2}\r\n劣勢: {3}\r\n({4}: {5})\r\n",
 						(int)( airSuperiority / 3.0 ),
@@ -596,18 +596,29 @@ namespace ElectronicObserver.Window {
 				}
 
 				{
-					int airsup;
-					if ( Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 1 )
-						airsup = Calculator.GetAirSuperiority( ship );
-					else
-						airsup = Calculator.GetAirSuperiorityIgnoreLevel( ship );
+					int airsup_min;
+					int airsup_max;
+					if ( Utility.Configuration.Config.FormFleet.AirSuperiorityMethod == 1 ) {
+						airsup_min = Calculator.GetAirSuperiority( ship, false );
+						airsup_max = Calculator.GetAirSuperiority( ship, true );
+					} else {
+						airsup_min = airsup_max = Calculator.GetAirSuperiorityIgnoreLevel( ship );
+					}
 
 					int airbattle = ship.AirBattlePower;
-					if ( airsup > 0 ) {
+					if ( airsup_min > 0 ) {
+
+						string airsup_str;
+						if ( Utility.Configuration.Config.FormFleet.ShowAirSuperiorityRange && airsup_min < airsup_max ) {
+							airsup_str = string.Format( "{0} ～ {1}", airsup_min, airsup_max );
+						} else {
+							airsup_str = airsup_min.ToString();
+						}
+
 						if ( airbattle > 0 )
-							sb.AppendFormat( "制空戦力: {0} / 航空威力: {1}\r\n", airsup, airbattle );
+							sb.AppendFormat( "制空戦力: {0} / 航空威力: {1}\r\n", airsup_str, airbattle );
 						else
-							sb.AppendFormat( "制空戦力: {0}\r\n", airsup );
+							sb.AppendFormat( "制空戦力: {0}\r\n", airsup_str );
 					} else if ( airbattle > 0 )
 						sb.AppendFormat( "航空威力: {0}\r\n", airbattle );
 				}
