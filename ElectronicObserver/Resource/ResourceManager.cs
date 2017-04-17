@@ -476,8 +476,9 @@ namespace ElectronicObserver.Resource {
 		/// <param name="source">アーカイブ内のファイルのパス。</param>
 		/// <param name="destination">出力するファイルのパス。</param>
 		/// <param name="checkexist">true の場合、ファイルが既に存在するときコピーを中止します。</param>
+		/// <param name="convertEncoding">エンコーディングを shift-jis から現在設定に合わせて変換するか。</param>
 		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
-		public static bool CopyFromArchive( string archivePath, string source, string destination, bool checkexist = true ) {
+		public static bool CopyFromArchive( string archivePath, string source, string destination, bool checkexist = true, bool convertEncoding = false ) {
 
 			if ( checkexist && File.Exists( destination ) ) {
 				return false;
@@ -500,11 +501,13 @@ namespace ElectronicObserver.Resource {
 
 					try {
 
-						if (source.StartsWith("Record/") && Utility.Configuration.Config.Log.FileEncodingID != 4) {
-							using (var filetoconvert = GetStreamFromArchive(source)) {
+						if ( convertEncoding && Utility.Configuration.Config.Log.FileEncodingID != 4 ) {
+							using ( var filetoconvert = GetStreamFromArchive( source ) ) {
 								filetoconvert.Position = 0;
-								string fileread = new StreamReader(filetoconvert, Encoding.GetEncoding(932)).ReadToEnd();
-								File.WriteAllText(destination, fileread, Utility.Configuration.Config.Log.FileEncoding);
+								using ( var convertStream = new StreamReader( filetoconvert, Encoding.GetEncoding( 932 ) ) ) {
+									string fileread = convertStream.ReadToEnd();
+									File.WriteAllText( destination, fileread, Utility.Configuration.Config.Log.FileEncoding );
+								}
 							}
 						} else {
 							entry.ExtractToFile( destination );
@@ -529,10 +532,23 @@ namespace ElectronicObserver.Resource {
 		/// <param name="source">アーカイブ内のファイルのパス。</param>
 		/// <param name="destination">出力するファイルのパス。</param>
 		/// <param name="checkexist">true の場合、ファイルが既に存在するときコピーを中止します。</param>
+		/// <param name="convertEncoding">エンコーディングを shift-jis から現在設定に合わせて変換するか。</param>
 		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
-		public static bool CopyFromArchive( string source, string destination, bool checkexist = true ) {
+		public static bool CopyFromArchive( string source, string destination, bool checkexist = true, bool convertEncoding = false ) {
 			return CopyFromArchive( AssetFilePath, source, destination, checkexist );
 		}
+
+
+		/// <summary>
+		/// アーカイブの中から文書ファイルをコピーします。エンコーディングは現在設定に合わせて自動で変更されます。
+		/// </summary>
+		/// <param name="source">アーカイブ内のファイルのパス。</param>
+		/// <param name="destination">出力するファイルのパス。</param>
+		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
+		public static bool CopyDocumentFromArchive( string source, string destination ) {
+			return CopyFromArchive( AssetFilePath, source, destination, true, true );
+		}
+
 
 		/// <summary>
 		/// アーカイブからファイルを選択し、ストリームを開きます。
