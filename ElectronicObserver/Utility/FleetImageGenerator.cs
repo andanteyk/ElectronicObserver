@@ -12,13 +12,17 @@ using ElectronicObserver.Resource;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using ElectronicObserver.Utility.Storage;
 
 namespace ElectronicObserver.Utility {
 
 	public class FleetImageGenerator {
 
+		/// <summary> 幅・高さともに int.MaxValue の Size </summary>
 		protected static readonly Size MaxValueSize = new Size( int.MaxValue, int.MaxValue );
 
+		// 各種画像リソースのサイズ
 		protected static readonly Size ShipBannerSize = new Size( 160, 40 );
 		protected static readonly Size ShipCardSize = new Size( 218, 300 );
 		protected static readonly Size ShipCutinSize = new Size( 665, 121 );
@@ -28,6 +32,8 @@ namespace ElectronicObserver.Utility {
 		protected static readonly Size EquipmentCardSize = new Size( 260, 260 );
 		protected static readonly Size EquipmentIconSize = new Size( 16, 16 );
 
+
+		// 各種画像リソースの CharacterID
 		protected static readonly int ShipBannerNormalID = 1;
 		protected static readonly int ShipBannerDamagedID = 3;
 		protected static readonly int ShipCardNormalID = 5;
@@ -41,220 +47,14 @@ namespace ElectronicObserver.Utility {
 
 
 
-		public static Bitmap GenerateImageTest() {
-			throw new NotImplementedException();
-		}
-
-
-		protected static Size RenderShipTest( Bitmap bmp, Graphics g, FleetImageArgument args, Point origin, ShipData ship ) {
-
-			var formatMiddleLeft = GetTextFormat( ContentAlignment.MiddleLeft );
-			var formatMiddleCenter = GetTextFormat( ContentAlignment.MiddleCenter );
-			var formatMiddleRight = GetTextFormat( ContentAlignment.MiddleRight );
-
-			Color mainColor = Color.FromArgb( 0xf0, 0xf0, 0xf0 );
-			Color parameterNameColor = Color.Teal;
-			Color aircraftEnableColor = mainColor;
-			Color aircraftDisableColor = Color.Gray;
-
-			Size shipNameSize = TextRenderer.MeasureText( g, "千代田航改二", args.LargeFont, MaxValueSize, formatMiddleLeft );
-			Size equipmentNameSize = TextRenderer.MeasureText( g, "三式戦 飛燕一型丁", args.MediumFont, MaxValueSize, formatMiddleLeft );
-			Size parameterSize = TextRenderer.MeasureText( g, "999", args.MediumFont, MaxValueSize, formatMiddleRight );
-			Size levelSize = TextRenderer.MeasureText( g, "Lv", args.SmallFont, MaxValueSize, formatMiddleLeft );
-			Size parameterNameSize = TextRenderer.MeasureText( g, "耐久", args.SmallFont, MaxValueSize, formatMiddleCenter );
-
-			Size nameAreaSize = new Size( shipNameSize.Width + levelSize.Width + parameterSize.Width, Max( shipNameSize.Height, levelSize.Height, parameterSize.Height ) );
-			Size equipmentAreaUnitSize = new Size( parameterSize.Width + EquipmentIconSize.Width + equipmentNameSize.Width, Max( parameterSize.Height, EquipmentIconSize.Height, equipmentNameSize.Height ) );
-			Size equipmentAreaSize = new Size( equipmentAreaUnitSize.Width, equipmentAreaUnitSize.Height * 6 );
-			Size parameterAreaUnitSize = new Size( EquipmentIconSize.Width + parameterNameSize.Width + parameterSize.Width, Max( EquipmentIconSize.Height + parameterNameSize.Height + parameterSize.Height ) );
-			Size parameterAreaSize = new Size( parameterAreaUnitSize.Width * 2, parameterAreaUnitSize.Height * 6 );
-
-			Size leftPaneSize = new Size( Max( nameAreaSize.Width, equipmentAreaSize.Width, parameterSize.Width ), nameAreaSize.Height + equipmentAreaSize.Height + parameterSize.Height );
-
-			Size entireSize = new Size( leftPaneSize.Width + ShipCardSize.Width, Max( leftPaneSize.Height, ShipCardSize.Height ) );
-
-
-			Point ptr = new Point( origin.X, origin.Y );
-			TextRenderer.DrawText( g, ship.Name, args.LargeFont, new Rectangle( ptr.X, ptr.Y, shipNameSize.Width, nameAreaSize.Height ), mainColor, formatMiddleLeft );
-			ptr.X += leftPaneSize.Width - levelSize.Width - parameterSize.Width;
-			TextRenderer.DrawText( g, "Lv", args.SmallFont, new Rectangle( ptr.X, ptr.Y, levelSize.Width, nameAreaSize.Height ), parameterNameColor, formatMiddleLeft );
-			ptr.X -= levelSize.Width;
-			TextRenderer.DrawText( g, ship.Level.ToString(), args.SmallFont, new Rectangle( ptr.X, ptr.Y, parameterSize.Width, nameAreaSize.Height ), mainColor, formatMiddleRight );
-
-			ptr.X = origin.X;
-			ptr.Y += nameAreaSize.Height;
-
-
-			for ( int i = 0; i < 6; i++ ) {
-
-				int aircraftCurrent, aircraftMax;
-				EquipmentData eq;
-				bool isInvalid;
-
-				if ( i < 5 ) {
-					aircraftCurrent = ship.Aircraft[i];
-					aircraftMax = ship.MasterShip.Aircraft[i];
-					eq = ship.SlotInstance[i];
-					isInvalid = i >= ship.SlotSize;
-				} else {
-					aircraftCurrent = aircraftMax = 0;
-					eq = ship.ExpansionSlotInstance;
-					isInvalid = ship.IsExpansionSlotAvailable;
-				}
-
-				ptr.X = origin.X;
-
-				// aircraft slot
-				if ( !isInvalid ) {
-					if ( aircraftMax > 0 ) {
-						Color col;
-						if ( Calculator.IsAircraft( eq == null ? -1 : eq.EquipmentID, true, true ) ) {
-							col = aircraftEnableColor;
-						} else {
-							col = aircraftDisableColor;
-						}
-
-						TextRenderer.DrawText( g, aircraftMax.ToString(), args.SmallFont, new Rectangle( ptr.X, ptr.Y, parameterSize.Width, equipmentAreaUnitSize.Height ), col, formatMiddleRight );
-					}
-
-					ptr.X += parameterSize.Width;
-				}
-
-
-				// icon
-				{
-					int index;
-
-					if ( eq == null ) {
-						if ( isInvalid )
-							index = (int)ResourceManager.EquipmentContent.Locked;
-						else
-							index = (int)ResourceManager.EquipmentContent.Nothing;
-					} else if ( (int)ResourceManager.EquipmentContent.Nothing < eq.MasterEquipment.IconType && eq.MasterEquipment.IconType < (int)ResourceManager.EquipmentContent.Locked ) {
-						index = eq.MasterEquipment.IconType;
-					} else {
-						index = (int)ResourceManager.EquipmentContent.Unknown;
-					}
-
-					g.DrawImage( ResourceManager.Instance.Equipments.Images[index], ptr.X, ptr.Y + equipmentAreaUnitSize.Height / 2 - EquipmentIconSize.Height / 2 );
-
-					ptr.X += EquipmentIconSize.Width;
-				}
-
-				// equipment name
-				{
-					TextRenderer.DrawText( g, eq.Name, args.MediumFont, new Rectangle( ptr.X, ptr.Y, equipmentNameSize.Width, equipmentAreaUnitSize.Height ), mainColor, formatMiddleRight );
-				}
-
-				ptr.Y += parameterAreaUnitSize.Height;
-			}
-
-
-			ptr.X = origin.X;
-
-
-			var parameterList = new[] { 
-				new {
-					image = (int)ResourceManager.IconContent.ParameterHP,
-					name = "耐久",
-					value = ship.HPMax.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterFirepower,
-					name = "火力",
-					value = ship.FirepowerTotal.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterArmor,
-					name = "装甲",
-					value = ship.ArmorTotal.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterTorpedo,
-					name = "雷装",
-					value = ship.TorpedoTotal.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterEvasion,
-					name = "回避",
-					value = ship.EvasionTotal.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterAA,
-					name = "対空",
-					value = ship.AATotal.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterAircraft,
-					name = "搭載",
-					value = ship.MasterShip.AircraftTotal.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterASW,
-					name = "対潜",
-					value = ship.ASWTotal.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterSpeed,
-					name = "速力",
-					value = Constants.GetSpeed( ship.Speed ),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterLOS,
-					name = "索敵",
-					value = ship.LOSTotal.ToString(),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterRange,
-					name = "射程",
-					value = Constants.GetRange( ship.Range ),
-				},
-				new {
-					image = (int)ResourceManager.IconContent.ParameterLuck,
-					name = "運",
-					value = ship.LuckTotal.ToString(),
-				},
-			};
-
-
-			for ( int i = 0; i < parameterList.Length; i++ ) {
-				Point pttr = new Point( ptr.X + parameterAreaUnitSize.Width * ( i % 2 ), ptr.Y + parameterAreaUnitSize.Height * ( i / 2 ) );
-
-				g.DrawImage( ResourceManager.Instance.Icons.Images[parameterList[i].image], pttr.X, pttr.Y + parameterAreaUnitSize.Height / 2 - EquipmentIconSize.Height / 2 );
-				pttr.X += EquipmentIconSize.Width;
-
-				TextRenderer.DrawText( g, parameterList[i].name, args.SmallFont, new Rectangle( pttr.X, pttr.Y, parameterNameSize.Width, parameterAreaUnitSize.Height ), parameterNameColor, formatMiddleCenter );
-				pttr.X += parameterNameSize.Width;
-
-				TextRenderer.DrawText( g, parameterList[i].value, args.MediumFont, new Rectangle( pttr.X, pttr.Y, parameterSize.Width, parameterAreaUnitSize.Height ), mainColor, formatMiddleRight );
-			}
-
-
-			ptr.X = origin.X + leftPaneSize.Width;
-			ptr.Y = origin.Y;
-
-			try {
-				string shipSwfPath = Utility.Configuration.Config.Connection.SaveDataPath + @"\resources\swf\ships\" + ship.MasterShip.ResourceName + ".swf";
-				if ( System.IO.File.Exists( shipSwfPath ) ) {
-
-					var shipSwf = new SwfParser();
-					shipSwf.Parse( shipSwfPath );
-
-					var imgtag = shipSwf.FindTags<SwfExtractor.Tags.ImageTag>().FirstOrDefault( t => t.CharacterID == ShipCardNormalID );
-					using ( var shipImage = imgtag.ExtractImage() ) {
-						g.DrawImage( shipImage, new Rectangle( ptr.X, ptr.Y, ShipCardSize.Width, ShipCardSize.Height ) );
-					}
-				}
-			} catch ( Exception ) {
-			}
-
-			return entireSize;
-		}
+		private FleetImageGenerator() { }
 
 
 
-
-		public static Bitmap GenerateTestBitmap( FleetImageArgument args ) {
+		/// <summary>
+		/// 詳細な情報を表示する、カード式の編成画像を出力します。
+		/// </summary>
+		public static Bitmap GenerateCardBitmap( FleetImageArgument args ) {
 
 			var formatMiddleLeft = GetStringFormat( ContentAlignment.MiddleLeft );
 			var formatMiddleCenter = GetStringFormat( ContentAlignment.MiddleCenter );
@@ -310,13 +110,9 @@ namespace ElectronicObserver.Utility {
 			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
 			Padding equipmentAreaMargin = new Padding( 0, 0, 0, 2 );
 			Padding parameterAreaMargin = new Padding( 0, 0, 0, 2 );
-			Padding shipValuePaneMargin = new Padding();
-			Padding shipImagePaneMargin = new Padding();
 			Padding shipPaneUnitMargin = new Padding( 2 );
-			Padding shipPaneMargin = new Padding();
 			Padding fleetParameterAreaMargin = new Padding( 8, 0, 0, 4 );
 			Padding fleetPaneUnitMargin = new Padding( 4 );
-			Padding fleetPaneMargin = new Padding();
 			Padding titleMargin = new Padding( 0, 0, 0, 2 );
 			Padding commentMargin = new Padding( 2 );
 			Padding commentPadding = new Padding( 2 );
@@ -331,7 +127,7 @@ namespace ElectronicObserver.Utility {
 
 			Size shipValuePaneSize = MaxWidthSumHeight( shipNameAreaSize + shipNameAreaMargin.Size, equipmentAreaSize + equipmentAreaMargin.Size, parameterAreaSize + parameterAreaMargin.Size );
 			Size shipImagePaneSize = ShipCardSize;
-			Size shipPaneUnitSize = SumWidthMaxHeight( shipValuePaneSize + shipValuePaneMargin.Size, shipImagePaneSize + shipImagePaneMargin.Size );
+			Size shipPaneUnitSize = SumWidthMaxHeight( shipValuePaneSize, shipImagePaneSize );
 			Size shipPaneSize = new Size(
 				( shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalShipCount, 6 ),
 				( shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical ) * (int)Math.Ceiling( 6.0 / args.HorizontalShipCount ) );
@@ -341,11 +137,11 @@ namespace ElectronicObserver.Utility {
 				EquipmentIconSize, fleetSearchingAbilityTitleSize, fleetSearchingAbilityValueEstimatedSize );
 
 			Size fleetPaneUnitSize;
-			bool isFleetNameAndParametersAreSameLine = fleetNameSize.Width + fleetParameterAreaSize.Width + fleetParameterAreaMargin.Horizontal < shipPaneSize.Width + shipPaneMargin.Horizontal;
+			bool isFleetNameAndParametersAreSameLine = fleetNameSize.Width + fleetParameterAreaSize.Width + fleetParameterAreaMargin.Horizontal < shipPaneSize.Width;
 			if ( isFleetNameAndParametersAreSameLine ) {
-				fleetPaneUnitSize = MaxWidthSumHeight( SumWidthMaxHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size ), shipPaneSize + shipPaneMargin.Size );
+				fleetPaneUnitSize = MaxWidthSumHeight( SumWidthMaxHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size ), shipPaneSize );
 			} else {
-				fleetPaneUnitSize = MaxWidthSumHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size, shipPaneSize + shipPaneMargin.Size );
+				fleetPaneUnitSize = MaxWidthSumHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size, shipPaneSize );
 			}
 
 			Size fleetPaneSize = new Size( ( fleetPaneUnitSize.Width + fleetPaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalFleetCount, args.FleetIDs.Length ),
@@ -353,7 +149,7 @@ namespace ElectronicObserver.Utility {
 
 			Size commentAreaSize = commentSize + commentPadding.Size;
 
-			Size entireSize = MaxWidthSumHeight( titleSize + titleMargin.Size, fleetPaneSize + fleetPaneMargin.Size, commentAreaSize + commentMargin.Size );
+			Size entireSize = MaxWidthSumHeight( titleSize + titleMargin.Size, fleetPaneSize, commentAreaSize + commentMargin.Size );
 
 			// anchor
 			shipNameSize.Width = shipValuePaneSize.Width - shipIndexSize.Width - levelSize.Width - mediumDigit3Size.Width;
@@ -615,7 +411,9 @@ namespace ElectronicObserver.Utility {
 
 
 
-
+		/// <summary>
+		/// カットイン式の編成画像を出力します。
+		/// </summary>
 		public static Bitmap GenerateCutinBitmap( FleetImageArgument args ) {
 
 			var formatMiddleLeft = GetStringFormat( ContentAlignment.MiddleLeft );
@@ -669,10 +467,8 @@ namespace ElectronicObserver.Utility {
 			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
 			Padding equipmentAreaMargin = new Padding( 0, 0, 0, 2 );
 			Padding shipPaneUnitMargin = new Padding( 2 );
-			Padding shipPaneMargin = new Padding();
 			Padding fleetParameterAreaMargin = new Padding( 8, 0, 0, 4 );
 			Padding fleetPaneUnitMargin = new Padding( 4 );
-			Padding fleetPaneMargin = new Padding();
 			Padding titleMargin = new Padding( 0, 0, 0, 2 );
 			Padding commentMargin = new Padding( 2 );
 			Padding commentPadding = new Padding( 2 );
@@ -695,11 +491,11 @@ namespace ElectronicObserver.Utility {
 				EquipmentIconSize, fleetSearchingAbilityTitleSize, fleetSearchingAbilityValueEstimatedSize );
 
 			Size fleetPaneUnitSize;
-			bool isFleetNameAndParametersAreSameLine = fleetNameSize.Width + fleetParameterAreaSize.Width + fleetParameterAreaMargin.Horizontal < shipPaneSize.Width + shipPaneMargin.Horizontal;
+			bool isFleetNameAndParametersAreSameLine = fleetNameSize.Width + fleetParameterAreaSize.Width + fleetParameterAreaMargin.Horizontal < shipPaneSize.Width;
 			if ( isFleetNameAndParametersAreSameLine ) {
-				fleetPaneUnitSize = MaxWidthSumHeight( SumWidthMaxHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size ), shipPaneSize + shipPaneMargin.Size );
+				fleetPaneUnitSize = MaxWidthSumHeight( SumWidthMaxHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size ), shipPaneSize );
 			} else {
-				fleetPaneUnitSize = MaxWidthSumHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size, shipPaneSize + shipPaneMargin.Size );
+				fleetPaneUnitSize = MaxWidthSumHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size, shipPaneSize );
 			}
 
 			Size fleetPaneSize = new Size( ( fleetPaneUnitSize.Width + fleetPaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalFleetCount, args.FleetIDs.Length ),
@@ -707,7 +503,7 @@ namespace ElectronicObserver.Utility {
 
 			Size commentAreaSize = commentSize + commentPadding.Size;
 
-			Size entireSize = MaxWidthSumHeight( titleSize + titleMargin.Size, fleetPaneSize + fleetPaneMargin.Size, commentAreaSize + commentMargin.Size );
+			Size entireSize = MaxWidthSumHeight( titleSize + titleMargin.Size, fleetPaneSize, commentAreaSize + commentMargin.Size );
 
 
 			Size equipmentNameSizeExtended = SumWidthMaxHeight( equipmentNameSize, equipmentLevelSize );
@@ -980,7 +776,9 @@ namespace ElectronicObserver.Utility {
 
 
 
-
+		/// <summary>
+		/// コンパクトにまとめた、バナー式の編成画像を出力します。
+		/// </summary>
 		public static Bitmap GenerateBannerBitmap( FleetImageArgument args ) {
 
 			var formatMiddleLeft = GetStringFormat( ContentAlignment.MiddleLeft );
@@ -1033,10 +831,8 @@ namespace ElectronicObserver.Utility {
 			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
 			Padding equipmentAreaMargin = new Padding( 0, 0, 0, 2 );
 			Padding shipPaneUnitMargin = new Padding( 2 );
-			Padding shipPaneMargin = new Padding();
 			Padding fleetParameterAreaMargin = new Padding( 8, 0, 0, 4 );
 			Padding fleetPaneUnitMargin = new Padding( 4 );
-			Padding fleetPaneMargin = new Padding();
 			Padding titleMargin = new Padding( 0, 0, 0, 2 );
 			Padding commentMargin = new Padding( 2 );
 			Padding commentPadding = new Padding( 2 );
@@ -1058,11 +854,11 @@ namespace ElectronicObserver.Utility {
 				EquipmentIconSize, fleetSearchingAbilityTitleSize, fleetSearchingAbilityValueEstimatedSize );
 
 			Size fleetPaneUnitSize;
-			bool isFleetNameAndParametersAreSameLine = fleetNameSize.Width + fleetParameterAreaSize.Width + fleetParameterAreaMargin.Horizontal < shipPaneSize.Width + shipPaneMargin.Horizontal;
+			bool isFleetNameAndParametersAreSameLine = fleetNameSize.Width + fleetParameterAreaSize.Width + fleetParameterAreaMargin.Horizontal < shipPaneSize.Width;
 			if ( isFleetNameAndParametersAreSameLine ) {
-				fleetPaneUnitSize = MaxWidthSumHeight( SumWidthMaxHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size ), shipPaneSize + shipPaneMargin.Size );
+				fleetPaneUnitSize = MaxWidthSumHeight( SumWidthMaxHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size ), shipPaneSize );
 			} else {
-				fleetPaneUnitSize = MaxWidthSumHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size, shipPaneSize + shipPaneMargin.Size );
+				fleetPaneUnitSize = MaxWidthSumHeight( fleetNameSize, fleetParameterAreaSize + fleetParameterAreaMargin.Size, shipPaneSize );
 			}
 
 			Size fleetPaneSize = new Size( ( fleetPaneUnitSize.Width + fleetPaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalFleetCount, args.FleetIDs.Length ),
@@ -1070,7 +866,7 @@ namespace ElectronicObserver.Utility {
 
 			Size commentAreaSize = commentSize + commentPadding.Size;
 
-			Size entireSize = MaxWidthSumHeight( titleSize + titleMargin.Size, fleetPaneSize + fleetPaneMargin.Size, commentAreaSize + commentMargin.Size );
+			Size entireSize = MaxWidthSumHeight( titleSize + titleMargin.Size, fleetPaneSize, commentAreaSize + commentMargin.Size );
 
 
 			Size equipmentNameSizeExtended = SumWidthMaxHeight( equipmentNameSize, equipmentLevelSize );
@@ -1178,7 +974,6 @@ namespace ElectronicObserver.Utility {
 							( shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical ) * ( shipIndex / args.HorizontalShipCount ) + shipPaneUnitMargin.Top );
 						Point shipPointer = shipPointerOrigin;
 
-						//g.DrawRectangle( Pens.Teal, new Rectangle( shipPointer, shipPaneUnitSize ) );
 
 						if ( ship == null )
 							continue;
@@ -1201,7 +996,7 @@ namespace ElectronicObserver.Utility {
 							EquipmentData eq = ship.AllSlotInstance[equipmentIndex];
 							Point equipmentPointer = equipmentPointerOrigin + new Size( 0, equipmentAreaUnitSize.Height * equipmentIndex );
 
-							
+
 							bool isOutOfSlot = equipmentIndex >= ship.SlotSize && !( equipmentIndex == 5 && ship.IsExpansionSlotAvailable );
 
 							Size equipmentIconOffset = GetAlignmentOffset( ContentAlignment.MiddleLeft, EquipmentIconSize, equipmentAreaUnitSize );
@@ -1368,6 +1163,17 @@ namespace ElectronicObserver.Utility {
 		};
 
 
+
+		/// <summary>
+		/// 艦船画像を swf ファイルから読み込んで描画します。
+		/// </summary>
+		/// <param name="g">対象となる Graphics。</param>
+		/// <param name="resourceID">艦船のリソース名(ファイル名)。</param>
+		/// <param name="characterID">描画する画像の CharacterID 。</param>
+		/// <param name="x">描画先の X 座標。</param>
+		/// <param name="y">描画先の Y 座標。</param>
+		/// <param name="size">描画する画像のサイズ。</param>
+		/// <returns>描画に成功したかを返します。ファイルが存在しない場合などには false が返ります。</returns>
 		protected static bool DrawShipSwfImage( Graphics g, string resourceID, int characterID, int x, int y, Size size ) {
 			try {
 				using ( var shipImage = GetShipSwfImage( resourceID, characterID ) ) {
@@ -1383,10 +1189,19 @@ namespace ElectronicObserver.Utility {
 			}
 		}
 
+		/// <summary>
+		/// 艦船画像を swf ファイルから読み込みます。
+		/// </summary>
+		/// <param name="resourceID">艦船のリソース名(ファイル名)。</param>
+		/// <param name="characterID">描画する画像の CharacterID 。</param>
+		/// <returns>成功した場合は対象の Bitmap オブジェクト、失敗した場合は null を返します。</returns>
 		protected static Bitmap GetShipSwfImage( string resourceID, int characterID ) {
 			try {
-				string shipSwfPath = Utility.Configuration.Config.Connection.SaveDataPath + @"\resources\swf\ships\" + resourceID + ".swf";
-				if ( System.IO.File.Exists( shipSwfPath ) ) {
+
+				string shipSwfPath = System.IO.Directory.GetFiles( Utility.Configuration.Config.Connection.SaveDataPath + @"\resources\swf\ships\", "*.swf", System.IO.SearchOption.TopDirectoryOnly )
+					.Where( path => path.Contains( resourceID ) ).LastOrDefault();
+
+				if ( shipSwfPath != null ) {
 
 					var shipSwf = new SwfParser();
 					shipSwf.Parse( shipSwfPath );
@@ -1401,6 +1216,13 @@ namespace ElectronicObserver.Utility {
 			}
 		}
 
+
+		/// <summary>
+		/// 矩形範囲にコントロールを配置した際の座標を求めます。
+		/// </summary>
+		/// <param name="alignment">配置方法。</param>
+		/// <param name="content">配置するコントロールのサイズ。</param>
+		/// <param name="container">配置されるコンテナのサイズ。</param>
 		protected static Size GetAlignmentOffset( ContentAlignment alignment, Size content, Size container ) {
 			switch ( alignment ) {
 				case ContentAlignment.TopLeft:
@@ -1426,36 +1248,9 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-
-		protected static TextFormatFlags GetTextFormat( ContentAlignment alignment ) {
-
-			TextFormatFlags textformat = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
-
-			switch ( alignment ) {
-				case ContentAlignment.TopLeft:
-					textformat |= TextFormatFlags.Top | TextFormatFlags.Left; break;
-				case ContentAlignment.TopCenter:
-					textformat |= TextFormatFlags.Top | TextFormatFlags.HorizontalCenter; break;
-				case ContentAlignment.TopRight:
-					textformat |= TextFormatFlags.Top | TextFormatFlags.Right; break;
-				case ContentAlignment.MiddleLeft:
-					textformat |= TextFormatFlags.VerticalCenter | TextFormatFlags.Left; break;
-				case ContentAlignment.MiddleCenter:
-					textformat |= TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter; break;
-				case ContentAlignment.MiddleRight:
-					textformat |= TextFormatFlags.VerticalCenter | TextFormatFlags.Right; break;
-				case ContentAlignment.BottomLeft:
-					textformat |= TextFormatFlags.Bottom | TextFormatFlags.Left; break;
-				case ContentAlignment.BottomCenter:
-					textformat |= TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter; break;
-				case ContentAlignment.BottomRight:
-					textformat |= TextFormatFlags.Bottom | TextFormatFlags.Right; break;
-			}
-
-			return textformat;
-
-		}
-
+		/// <summary>
+		/// 配置に合わせた文字列のフォーマットを返します。
+		/// </summary>
 		protected static StringFormat GetStringFormat( ContentAlignment alignment ) {
 
 			var format = new StringFormat( StringFormat.GenericDefault );
@@ -1505,26 +1300,110 @@ namespace ElectronicObserver.Utility {
 		}
 	}
 
+
+	/// <summary>
+	/// FleetImageGenerator クラスのメソッドに与えるパラメータ群を保持します。
+	/// </summary>
+	[DataContract( Name = "FleetImageArgument" )]
 	public class FleetImageArgument {
 
+		/// <summary> 対象となる艦隊IDのリスト </summary>
+		[DataMember]
 		public int[] FleetIDs;
+
+		/// <summary> 艦隊を横に並べる最大数 </summary>
+		[DataMember]
 		public int HorizontalFleetCount;
+
+		/// <summary> 艦船を横に並べる最大数 </summary>
+		[DataMember]
 		public int HorizontalShipCount;
 
+
+		/// <summary> HP に応じて中破グラフィックを適用するか </summary>
+		[DataMember]
 		public bool ReflectDamageGraphic;
+
+		/// <summary> Twitter の画像圧縮を回避する情報を埋め込むか </summary>
+		[DataMember]
 		public bool AvoidTwitterDeterioration;
 
+
+
+		/// <summary> タイトルのフォント </summary>
+		[IgnoreDataMember]
 		public Font TitleFont;
+
+		/// <summary> 大きい文字のフォント(艦隊名など) </summary>
+		[IgnoreDataMember]
 		public Font LargeFont;
+
+		/// <summary> 通常の文字のフォント(艦船・装備など) </summary>
+		[IgnoreDataMember]
 		public Font MediumFont;
+
+		/// <summary> 小さな文字のフォント() </summary>
+		[IgnoreDataMember]
 		public Font SmallFont;
+
+		/// <summary> 通常の英数字フォント(Lvなど) </summary>	
+		[IgnoreDataMember]
 		public Font MediumDigitFont;
+
+		/// <summary> 小さな英数字フォント(搭載機数など) </summary>
+		[IgnoreDataMember]
 		public Font SmallDigitFont;
 
+
+		[DataMember]
+		private SerializableFont SerializedTitleFont {
+			get { return TitleFont; }
+			set { TitleFont = value; }
+		}
+		[DataMember]
+		private SerializableFont SerializedLargeFont {
+			get { return LargeFont; }
+			set { LargeFont = value; }
+		}
+		[DataMember]
+		private SerializableFont SerializedMediumFont {
+			get { return MediumFont; }
+			set { MediumFont = value; }
+		}
+		[DataMember]
+		private SerializableFont SerializedSmallFont {
+			get { return SmallFont; }
+			set { SmallFont = value; }
+		}
+		[DataMember]
+		private SerializableFont SerializedMediumDigitFont {
+			get { return MediumDigitFont; }
+			set { MediumDigitFont = value; }
+		}
+		[DataMember]
+		private SerializableFont SerializedSmallDigitFont {
+			get { return SmallDigitFont; }
+			set { SmallDigitFont = value; }
+		}
+		
+
+		/// <summary> 背景画像ファイルへのパス(空白の場合描画されません) </summary>
+		[DataMember]
 		public string BackgroundImagePath;
 
+
+		/// <summary> ユーザ指定のタイトル </summary>
+		[DataMember]
 		public string Title;
+
+		/// <summary> ユーザ指定のコメント </summary>
+		[DataMember]
 		public string Comment;
+
+
+		
+		public FleetImageArgument() { 
+		}
 	}
 
 }
