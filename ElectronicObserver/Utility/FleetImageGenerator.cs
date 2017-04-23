@@ -1072,6 +1072,34 @@ namespace ElectronicObserver.Utility {
 
 
 
+		public static bool HasShipSwfImage( int[] fleets ) {
+
+			try {
+
+				var swfFiles = System.IO.Directory.GetFiles( Utility.Configuration.Config.Connection.SaveDataPath + @"\resources\swf\ships\", "*.swf", System.IO.SearchOption.TopDirectoryOnly )
+					.Select( path => System.IO.Path.GetFileNameWithoutExtension( path ) )
+					.Select( path => {
+						int index = path.IndexOf( '_' );
+						if ( index != -1 )
+							path = path.Remove( index );
+						return path;
+					} );
+
+				var resourceIDs = fleets.Select( f => KCDatabase.Instance.Fleet[f] )
+					.Where( f => f != null )
+					.SelectMany( f => f.MembersInstance )
+					.Where( s => s != null )
+					.Select( s => s.MasterShip.ResourceName )
+					.Distinct();
+
+				return !resourceIDs.Except( swfFiles ).Any();
+
+			} catch ( Exception ) {
+
+				return false;
+			}
+		}
+
 
 
 
@@ -1356,36 +1384,36 @@ namespace ElectronicObserver.Utility {
 
 
 		[DataMember]
-		private SerializableFont SerializedTitleFont {
+		public SerializableFont SerializedTitleFont {
 			get { return TitleFont; }
 			set { TitleFont = value; }
 		}
 		[DataMember]
-		private SerializableFont SerializedLargeFont {
+		public SerializableFont SerializedLargeFont {
 			get { return LargeFont; }
 			set { LargeFont = value; }
 		}
 		[DataMember]
-		private SerializableFont SerializedMediumFont {
+		public SerializableFont SerializedMediumFont {
 			get { return MediumFont; }
 			set { MediumFont = value; }
 		}
 		[DataMember]
-		private SerializableFont SerializedSmallFont {
+		public SerializableFont SerializedSmallFont {
 			get { return SmallFont; }
 			set { SmallFont = value; }
 		}
 		[DataMember]
-		private SerializableFont SerializedMediumDigitFont {
+		public SerializableFont SerializedMediumDigitFont {
 			get { return MediumDigitFont; }
 			set { MediumDigitFont = value; }
 		}
 		[DataMember]
-		private SerializableFont SerializedSmallDigitFont {
+		public SerializableFont SerializedSmallDigitFont {
 			get { return SmallDigitFont; }
 			set { SmallDigitFont = value; }
 		}
-		
+
 
 		/// <summary> 背景画像ファイルへのパス(空白の場合描画されません) </summary>
 		[DataMember]
@@ -1401,9 +1429,73 @@ namespace ElectronicObserver.Utility {
 		public string Comment;
 
 
-		
-		public FleetImageArgument() { 
+
+		public FleetImageArgument() {
 		}
+
+
+		public static FleetImageArgument GetDefaultInstance() {
+			var ret = new FleetImageArgument();
+			ret.FleetIDs = new int[0];
+			ret.HorizontalFleetCount = 2;
+			ret.HorizontalShipCount = 2;
+			ret.AvoidTwitterDeterioration = true;
+
+			string baseFont = DefaultFontFamily;
+			var fonts = ret.Fonts;
+			for ( int i = 0; i < fonts.Length; i++ ) {
+				fonts[i] = new Font( baseFont, DefaultFontPixels[i], FontStyle.Regular, GraphicsUnit.Pixel );
+			}
+			ret.Fonts = fonts;
+
+			return ret;
+		}
+
+		public static readonly string DefaultFontFamily = "Meiryo UI";
+		public static readonly float[] DefaultFontPixels = new float[] { 32, 24, 16, 12, 16, 12 };
+
+		public FleetImageArgument Clone() {
+
+			var clone = (FleetImageArgument)MemberwiseClone();
+
+			clone.FleetIDs = FleetIDs.ToArray();
+
+			clone.Fonts = Fonts.Select( f => f != null ? (Font)f.Clone() : null ).ToArray();
+
+			return clone;
+		}
+
+
+		public void DisposeResources() {
+			foreach ( var font in Fonts ) {
+				if ( font != null )
+					font.Dispose();
+			}
+		}
+
+
+		public Font[] Fonts {
+			get {
+				return new Font[] { 
+					TitleFont,
+					LargeFont,
+					MediumFont,
+					SmallFont,
+					MediumDigitFont,
+					SmallDigitFont,
+				};
+			}
+			set {
+				TitleFont = value[0];
+				LargeFont = value[1];
+				MediumFont = value[2];
+				SmallFont = value[3];
+				MediumDigitFont = value[4];
+				SmallDigitFont = value[5];
+			}
+
+		}
+
 	}
 
 }

@@ -400,6 +400,12 @@
     <Compile Include="Window\Dialog\DialogEquipmentList.Designer.cs">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogFleetImageGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogFleetImageGenerator.Designer.cs">
+      <DependentUpon>DialogFleetImageGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogHalloween.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -658,6 +664,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.resx">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogFleetImageGenerator.resx">
+      <DependentUpon>DialogFleetImageGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogHalloween.resx">
       <DependentUpon>DialogHalloween.cs</DependentUpon>

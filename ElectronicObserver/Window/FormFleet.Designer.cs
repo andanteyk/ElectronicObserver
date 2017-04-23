@@ -33,8 +33,8 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.ContextMenuFleet_AntiAirDetails = new System.Windows.Forms.ToolStripMenuItem();
 			this.ContextMenuFleet_Capture = new System.Windows.Forms.ToolStripMenuItem();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet_OutputFleetImage = new System.Windows.Forms.ToolStripMenuItem();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -130,19 +130,19 @@
 			this.ContextMenuFleet_Capture.Text = "この画面をキャプチャ(&S)";
 			this.ContextMenuFleet_Capture.Click += new System.EventHandler(this.ContextMenuFleet_Capture_Click);
 			// 
+			// ContextMenuFleet_OutputFleetImage
+			// 
+			this.ContextMenuFleet_OutputFleetImage.Name = "ContextMenuFleet_OutputFleetImage";
+			this.ContextMenuFleet_OutputFleetImage.Size = new System.Drawing.Size(227, 22);
+			this.ContextMenuFleet_OutputFleetImage.Text = "編成画像を出力(&I)";
+			this.ContextMenuFleet_OutputFleetImage.Click += new System.EventHandler(this.ContextMenuFleet_OutputFleetImage_Click);
+			// 
 			// ToolTipInfo
 			// 
 			this.ToolTipInfo.AutoPopDelay = 30000;
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
-			// 
-			// ContextMenuFleet_OutputFleetImage
-			// 
-			this.ContextMenuFleet_OutputFleetImage.Name = "ContextMenuFleet_OutputFleetImage";
-			this.ContextMenuFleet_OutputFleetImage.Size = new System.Drawing.Size(227, 22);
-			this.ContextMenuFleet_OutputFleetImage.Text = "編成画像を出力(仮)";
-			this.ContextMenuFleet_OutputFleetImage.Click += new System.EventHandler(this.ContextMenuFleet_OutputFleetImage_Click);
 			// 
 			// FormFleet
 			// 

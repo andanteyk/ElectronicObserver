@@ -647,6 +647,7 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int FixedShipNameWidth { get; set; }
 
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 4;
@@ -1135,6 +1136,31 @@ namespace ElectronicObserver.Utility {
 			public ConfigBGMPlayer BGMPlayer { get; private set; }
 
 
+			/// <summary>
+			/// 編成画像出力の設定を扱います。
+			/// </summary>
+			public class ConfigFleetImageGenerator : ConfigPartBase {
+
+				public FleetImageArgument Argument { get; set; }
+				public int ImageType { get; set; }
+				public int OutputType { get; set; }
+				public bool OpenImageAfterOutput { get; set; }
+				public string LastOutputPath { get; set; }
+
+				public ConfigFleetImageGenerator()
+					: base() {
+					Argument = FleetImageArgument.GetDefaultInstance();
+					ImageType = 0;
+					OutputType = 0;
+					OpenImageAfterOutput = false;
+					LastOutputPath = "";
+				}
+			}
+			[DataMember]
+			public ConfigFleetImageGenerator FleetImageGenerator { get; private set; }
+
+
+
 			public class ConfigWhitecap : ConfigPartBase {
 
 				public bool ShowInTaskbar { get; set; }
@@ -1164,7 +1190,7 @@ namespace ElectronicObserver.Utility {
 			public ConfigWhitecap Whitecap { get; private set; }
 
 
-
+			
 			[DataMember]
 			public string Version {
 				get { return SoftwareInformation.VersionEnglish; }
@@ -1204,6 +1230,7 @@ namespace ElectronicObserver.Utility {
 				NotifierAnchorageRepair = new ConfigNotifierAnchorageRepair();
 
 				BGMPlayer = new ConfigBGMPlayer();
+				FleetImageGenerator = new ConfigFleetImageGenerator();
 				Whitecap = new ConfigWhitecap();
 
 				VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );
