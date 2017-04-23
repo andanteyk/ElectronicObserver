@@ -47,10 +47,13 @@
 [Other/Information/](https://github.com/andanteyk/ElectronicObserver/tree/develop/ElectronicObserver/Other/Information) に艦これのAPIや仕様についての情報を掲載しています。  
 ご自由にお持ちください。但し内容は保証しません。  
 
-また、実行する際は実行フォルダに気を付けてください。  
-Assets.zip をプログラムと同じ場所にコピーするか、実行フォルダの設定を変更してください。
-
 [ライセンスは MIT License です。](https://github.com/andanteyk/ElectronicObserver/blob/master/LICENSE)  
+
+#### 実行方法
+
+1. `git clone`
+2. `git submodule init`
+3. `git submodule update`
 
 ### 使用しているライブラリ
 ---
@@ -60,6 +63,8 @@ Assets.zip をプログラムと同じ場所にコピーするか、実行フォ
 * [Nekoxy](https://github.com/veigr/Nekoxy) (通信キャプチャ) - [MIT License](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/Nekoxy.txt)
     * [TrotiNet](http://trotinet.sourceforge.net/) - [GNU Lesser General Public License v3.0](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/LGPL.txt)
         * [log4net](https://logging.apache.org/log4net/) - [Apache License version 2.0](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/Apache.txt)
+* [SwfExtractor](https://github.com/andanteyk/SwfExtractor) (swf からファイル抽出) - [MIT License](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/SwfExtractor.txt)
+	* [LZMA SDK (Software Development Kit)](http://www.7-zip.org/sdk.html) - Public Domain
 
 ### 連絡先など
 ---

@@ -1,6 +1,6 @@
 
 艦これ APIリスト
-2014/08夏イベント～2015/11ごろのAPIの情報を参照
+2014/08夏イベント～のAPIの情報を参照
 未記入は不明か使いどころなし
 推測・噂で書いてある点も多々ある、信じすぎないこと
 基本的に戦闘APIはapi_req_sortie/battleを参照すること。他の戦闘系APIの説明は情報が古い可能性がある、差分だけチェックすること
@@ -13,7 +13,79 @@ api_start2	：艦娘・装備固有データその他
 		api_sortno		：図鑑番号
 		api_name		：艦娘名
 		api_yomi		：艦娘名読み
-		api_stype		：艦種
+		api_stype		：艦種ID
+		api_ctype		：艦型ID　以下図鑑より
+			 1=綾波型, 深海棲艦
+			 2=伊勢型
+			 3=加賀型
+			 4=球磨型
+			 5=暁型
+			 6=金剛型
+			 7=古鷹型
+			 8=高雄型
+			 9=最上型
+			10=初春型
+			11=祥鳳型
+			12=吹雪型
+			13=青葉型
+			14=赤城型
+			15=千歳型
+			16=川内型
+			17=蒼龍型
+			18=朝潮型
+			19=長門型
+			20=長良型
+			21=天龍型
+			22=島風型
+			23=白露型
+			24=飛鷹型
+			25=飛龍型
+			26=扶桑型
+			27=鳳翔型
+			28=睦月型
+			29=妙高型
+			30=陽炎型
+			31=利根型
+			32=龍驤型
+			33=翔鶴型
+			34=夕張型
+			35=海大VI型
+			36=巡潜乙型改二
+			37=大和型
+			38=夕雲型
+			39=巡潜乙型
+			40=巡潜3型
+			41=阿賀野型
+			42=(欠番)
+			43=大鳳型
+			44=潜特型(伊400型潜水艦)
+			45=特種船丙型
+			46=三式潜航輸送艇
+			47=Bismarck級
+			48=Z1型
+			49=工作艦
+			50=大鯨型
+			51=龍鳳型
+			52=大淀型
+			53=雲龍型
+			54=秋月型
+			55=Admiral Hipper級
+			56=香取型
+			57=UボートIXC型/呂号潜水艦
+			58=V.Veneto級
+			59=秋津洲型
+			60=改風早型
+			61=Maestrale級
+			62=瑞穂型
+			63=Graf Zeppelin級
+			64=Zara級
+			65=Iowa級
+			66=神風型
+			67=Queen Elizabeth級
+			68=Aquila級
+			69=Lexington級
+			70=C.Teste級
+			71=巡潜甲型改二
 		api_afterlv		：改装Lv
 		api_aftershipid	：改装後ID 文字列 "0"=なし
 		api_taik		：耐久 [0]=初期値, [1]=最大値
@@ -73,6 +145,10 @@ api_start2	：艦娘・装備固有データその他
 		api_show_flg	：
 	
 	api_mst_equip_exslot：補強スロットに装備可能なカテゴリ
+
+	api_mst_equip_exslot_ship		：拡張スロットへの特殊装備
+		api_slotitem_id		：装備ID
+		api_ship_ids		：対象となる艦娘ID []
 
 	api_mst_stype		：艦船カテゴリ
 		api_id			：カテゴリID(艦船のstypeに対応)
@@ -177,6 +253,7 @@ api_start2	：艦娘・装備固有データその他
 				40=Jet Fighting Bomber
 				41=Transport Materials
 				42=Submarine Equipment
+				43=Multi-purpose Seaplane
 
 				 1=主砲
 				 2=副砲
@@ -217,6 +294,7 @@ api_start2	：艦娘・装備固有データその他
 				40=噴式戦闘爆撃機
 				41=輸送機材
 				42=潜水艦装備
+				43=多用途水上機/水上爆撃機
 
 			[2]：カテゴリ
 				(api_mst_slotitem_equiptype を参照)

@@ -55,7 +55,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			bool succeeded = true;
 
-			ResourceManager.CopyFromArchive( "Record/" + ShipParameter.FileName, MasterPath + "\\" + ShipParameter.FileName );
+			ResourceManager.CopyDocumentFromArchive( "Record/" + ShipParameter.FileName, MasterPath + "\\" + ShipParameter.FileName );
 
 			succeeded &= EnemyFleet.Load( MasterPath );
 			succeeded &= ShipParameter.Load( MasterPath );

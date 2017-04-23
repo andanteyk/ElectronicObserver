@@ -219,6 +219,7 @@
     <Compile Include="Observer\kcsapi\api_req_sortie\ld_airbattle.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Utility\Data\RecordHash.cs" />
+    <Compile Include="Utility\FleetImageGenerator.cs" />
     <Compile Include="Utility\SyncBGMPlayer.cs" />
     <Compile Include="Utility\MediaPlayer.cs" />
     <Compile Include="Utility\PathHelper.cs" />
@@ -399,6 +400,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogEquipmentList.Designer.cs">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogFleetImageGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogFleetImageGenerator.Designer.cs">
+      <DependentUpon>DialogFleetImageGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogHalloween.cs">
       <SubType>Form</SubType>
@@ -659,6 +666,9 @@
     <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.resx">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogFleetImageGenerator.resx">
+      <DependentUpon>DialogFleetImageGenerator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogHalloween.resx">
       <DependentUpon>DialogHalloween.cs</DependentUpon>
     </EmbeddedResource>
@@ -815,6 +825,10 @@
     <ProjectReference Include="..\DockPanelSuite\WinFormsUI\WinFormsUI.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>WinFormsUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SwfExtractor\SwfExtractor\SwfExtractor.csproj">
+      <Project>{44244148-d3fe-4d71-aa8f-cacb54ac53c1}</Project>
+      <Name>SwfExtractor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

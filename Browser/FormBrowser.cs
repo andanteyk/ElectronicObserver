@@ -587,7 +587,7 @@ namespace Browser {
 		/// <summary>
 		/// キャッシュを削除します。
 		/// </summary>
-		private void ClearCache() {
+		private bool ClearCache( long timeoutMilliseconds = 5000 ) {
 
 			const int CACHEGROUP_SEARCH_ALL = 0x0;
 			const int ERROR_NO_MORE_ITEMS = 259;
@@ -605,7 +605,7 @@ namespace Browser {
 			enumHandle = FindFirstUrlCacheGroup( 0, CACHEGROUP_SEARCH_ALL, IntPtr.Zero, 0, ref groupId, IntPtr.Zero );
 
 			if ( enumHandle != IntPtr.Zero && ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error() )
-				return;
+				return true;
 
 			/*/
 			while ( true ) {
@@ -621,13 +621,15 @@ namespace Browser {
 
 			enumHandle = FindFirstUrlCacheEntry( null, IntPtr.Zero, ref cacheEntryInfoBufferSizeInitial );
 			if ( enumHandle != IntPtr.Zero && ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error() )
-				return;
+				return true;
 
 			cacheEntryInfoBufferSize = cacheEntryInfoBufferSizeInitial;
 			cacheEntryInfoBuffer = Marshal.AllocHGlobal( cacheEntryInfoBufferSize );
 			enumHandle = FindFirstUrlCacheEntry( null, cacheEntryInfoBuffer, ref cacheEntryInfoBufferSizeInitial );
 
-			while ( true ) {
+
+			Stopwatch sw = Stopwatch.StartNew();
+			while ( sw.ElapsedMilliseconds < timeoutMilliseconds ) {
 				var internetCacheEntry = (INTERNET_CACHE_ENTRY_INFOA)Marshal.PtrToStructure( cacheEntryInfoBuffer, typeof( INTERNET_CACHE_ENTRY_INFOA ) );
 
 				cacheEntryInfoBufferSizeInitial = cacheEntryInfoBufferSize;
@@ -651,10 +653,11 @@ namespace Browser {
 					returnValue = FindNextUrlCacheEntry( enumHandle, cacheEntryInfoBuffer, ref cacheEntryInfoBufferSizeInitial );
 				}
 			}
-
-
+			sw.Stop();
 			Marshal.FreeHGlobal( cacheEntryInfoBuffer );
 
+
+			return sw.ElapsedMilliseconds < timeoutMilliseconds;
 		}
 
 
@@ -897,8 +900,11 @@ namespace Browser {
 				== System.Windows.Forms.DialogResult.OK ) {
 
 				BeginInvoke( (MethodInvoker)( () => {
-					ClearCache();
-					MessageBox.Show( "キャッシュの削除が完了しました。", "削除完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					bool succeeded = ClearCache();
+					if ( succeeded )
+						MessageBox.Show( "キャッシュの削除が完了しました。", "削除完了", MessageBoxButtons.OK, MessageBoxIcon.Information );
+					else
+						MessageBox.Show( "時間がかかりすぎたため、キャッシュの削除を中断しました。\r\n削除しきれていない可能性があります。", "削除中断", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
 				} ) );
 
 			}
