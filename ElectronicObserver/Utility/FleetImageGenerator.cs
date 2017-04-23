@@ -1431,6 +1431,9 @@ namespace ElectronicObserver.Utility {
 
 
 		public FleetImageArgument() {
+			BackgroundImagePath = "";
+			Title = "";
+			Comment = "";
 		}
 
 
