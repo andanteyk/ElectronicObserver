@@ -781,6 +781,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static Bitmap GenerateBannerBitmap( FleetImageArgument args ) {
 
+			var formatTopLeft = GetStringFormat( ContentAlignment.TopLeft );
 			var formatMiddleLeft = GetStringFormat( ContentAlignment.MiddleLeft );
 			var formatMiddleCenter = GetStringFormat( ContentAlignment.MiddleCenter );
 			var formatMiddleRight = GetStringFormat( ContentAlignment.MiddleRight );
@@ -981,7 +982,10 @@ namespace ElectronicObserver.Utility {
 						//g.DrawString( string.Format( "#{0}:", shipIndex + 1 ), args.MediumDigitFont, subTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize ), shipIndexSize ), formatMiddleLeft );
 						//shipPointer.X += shipIndexSize.Width;
 
-						DrawShipSwfImage( g, ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? ShipBannerDamagedID : ShipBannerNormalID, shipPointer.X, shipPointer.Y, ShipBannerSize );
+						if ( !DrawShipSwfImage( g, ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? ShipBannerDamagedID : ShipBannerNormalID, shipPointer.X, shipPointer.Y, ShipBannerSize ) ) {
+							// alternate drawing
+							g.DrawString( ship.Name, args.MediumFont, mainTextBrush, new RectangleF( shipPointer.X, shipPointer.Y, ShipBannerSize.Width, ShipBannerSize.Height ), formatTopLeft );
+						}
 						shipPointer.X += shipBannerSize.Width;
 
 						g.DrawString( ship.Level.ToString(), args.SmallDigitFont, subTextBrush, new Rectangle( shipPointer, smallDigit3Size ), formatMiddleLeft );
