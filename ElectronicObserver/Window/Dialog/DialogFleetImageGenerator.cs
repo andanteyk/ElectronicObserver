@@ -386,7 +386,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			bool visibility = false;
 
-			if ( !Utility.Configuration.Config.Connection.SaveSWF ) {
+			if ( !Utility.Configuration.Config.Connection.SaveReceivedData || !Utility.Configuration.Config.Connection.SaveSWF ) {
 
 				visibility = true;
 				ButtonAlert.Text = "艦船画像保存設定が無効です(詳細表示...)";
@@ -407,12 +407,16 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void ButtonAlert_Click( object sender, EventArgs e ) {
 
-			if ( !Utility.Configuration.Config.Connection.SaveSWF ) {
+			if ( !Utility.Configuration.Config.Connection.SaveReceivedData || !Utility.Configuration.Config.Connection.SaveSWF ) {
 
 				if ( MessageBox.Show( "編成画像を出力するためには、艦船画像を保存する設定を有効にする必要があります。\r\n有効にしますか？",
-					"艦船画像保存設定が無効です", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
+					"艦船画像保存設定が無効です", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1 )
 					== System.Windows.Forms.DialogResult.Yes ) {
 
+					if ( !Utility.Configuration.Config.Connection.SaveReceivedData ) {
+						Utility.Configuration.Config.Connection.SaveReceivedData = true;
+						Utility.Configuration.Config.Connection.SaveResponse = false;		// もともと不要にしていたユーザーには res は邪魔なだけだと思うので
+					}
 					Utility.Configuration.Config.Connection.SaveSWF = true;
 
 					UpdateButtonAlert();
