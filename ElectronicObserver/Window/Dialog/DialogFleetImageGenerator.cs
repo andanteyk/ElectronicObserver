@@ -90,7 +90,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			OpenImageAfterOutput.Checked = config.OpenImageAfterOutput;
 
-			SaveImageDialog.FileName = config.LastOutputPath;
+			SaveImageDialog.FileName = System.IO.Path.GetFileName( config.LastOutputPath );
+			SaveImageDialog.InitialDirectory = System.IO.Path.GetDirectoryName( config.LastOutputPath );
 		}
 
 		private void SaveConfiguration() {
