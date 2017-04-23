@@ -37,7 +37,7 @@
 
 *このリンクの更新は遅れる可能性があります。最新版は[こちら](http://electronicobserver.blog.fc2.com/)で確認してください。*  
 
-[ver. 2.5.6 (2017/04/06)](http://bit.ly/2oDyYU0)  
+[ver. 2.6.0 (2017/04/23)](http://bit.ly/2pTlkfz)  
 
 [更新内容・履歴はこちらで確認できます。](https://github.com/andanteyk/ElectronicObserver/wiki/ChangeLog)  
 
@@ -49,11 +49,12 @@
 
 [ライセンスは MIT License です。](https://github.com/andanteyk/ElectronicObserver/blob/master/LICENSE)  
 
-#### 実行方法
+#### ビルド・実行方法
 
-1. `git clone`
+1. `git clone` (もしくはその他の方法でソースコードを入手)
 2. `git submodule init`
 3. `git submodule update`
+4. 「全てリビルド」して実行
 
 ### 使用しているライブラリ
 ---

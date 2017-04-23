@@ -133,7 +133,7 @@ namespace ElectronicObserver.Window.Dialog {
 			TargetFleet4.Checked = fleetIDs.Contains( 4 );
 
 			Title.Text = args.Title;
-			Comment.Text = LFtoCRLF.Replace( args.Comment, "\r\n" );		// 保存データからのロード時に \n に変換されてしまっているため
+			Comment.Text = string.IsNullOrWhiteSpace( args.Comment ) ? "" : LFtoCRLF.Replace( args.Comment, "\r\n" );		// 保存データからのロード時に \n に変換されてしまっているため
 
 
 			HorizontalFleetCount.Value = args.HorizontalFleetCount;
