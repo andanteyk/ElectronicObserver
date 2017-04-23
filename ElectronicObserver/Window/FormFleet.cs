@@ -7,6 +7,7 @@ using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Support;
+using SwfExtractor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1030,6 +1031,13 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ContextMenuFleet_OutputFleetImage_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogFleetImageGenerator( FleetID ) ) {
+				dialog.ShowDialog( this );
+			}
+		}
+
 
 
 		void ConfigurationChanged() {
@@ -1099,7 +1107,6 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Fleet #" + FleetID.ToString();
 		}
-
 
 
 	}

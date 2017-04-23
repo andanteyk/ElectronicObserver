@@ -139,6 +139,14 @@ namespace ElectronicObserver.Resource {
 			BattleFormationEnemyDiamond,
 			BattleFormationEnemyEchelon,
 			BattleFormationEnemyLineAbreast,
+			AircraftLevel0,
+			AircraftLevel1,
+			AircraftLevel2,
+			AircraftLevel3,
+			AircraftLevel4,
+			AircraftLevel5,
+			AircraftLevel6,
+			AircraftLevel7,
 		}
 
 		public enum EquipmentContent {
@@ -345,6 +353,15 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy03.png", "Battle_FormationEnemy_Diamond" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy04.png", "Battle_FormationEnemy_Echelon" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Battle/FormationEnemy05.png", "Battle_FormationEnemy_LineAbreast" );
+
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel0.png", "Level_AircraftLevel_0" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel1.png", "Level_AircraftLevel_1" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel2.png", "Level_AircraftLevel_2" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel3.png", "Level_AircraftLevel_3" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel4.png", "Level_AircraftLevel_4" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel5.png", "Level_AircraftLevel_5" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel6.png", "Level_AircraftLevel_6" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel7.png", "Level_AircraftLevel_7" );
 
 
 					// ------------------------ equipments ------------------------

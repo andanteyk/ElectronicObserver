@@ -30,10 +30,11 @@
 			this.ContextMenuFleet_CopyFleet = new System.Windows.Forms.ToolStripMenuItem();
 			this.ContextMenuFleet_CopyFleetDeckBuilder = new System.Windows.Forms.ToolStripMenuItem();
 			this.ContextMenuFleet_CopyKanmusuList = new System.Windows.Forms.ToolStripMenuItem();
-			this.ContextMenuFleet_Capture = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet_AntiAirDetails = new System.Windows.Forms.ToolStripMenuItem();
+			this.ContextMenuFleet_Capture = new System.Windows.Forms.ToolStripMenuItem();
+			this.ContextMenuFleet_OutputFleetImage = new System.Windows.Forms.ToolStripMenuItem();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ContextMenuFleet.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -83,9 +84,10 @@
             this.ContextMenuFleet_CopyKanmusuList,
             this.toolStripSeparator1,
             this.ContextMenuFleet_AntiAirDetails,
-            this.ContextMenuFleet_Capture});
+            this.ContextMenuFleet_Capture,
+            this.ContextMenuFleet_OutputFleetImage});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(228, 142);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(228, 164);
 			this.ContextMenuFleet.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuFleet_Opening);
 			// 
 			// ContextMenuFleet_CopyFleet
@@ -109,24 +111,10 @@
 			this.ContextMenuFleet_CopyKanmusuList.Text = "艦隊晒しページへコピー(&R)";
 			this.ContextMenuFleet_CopyKanmusuList.Click += new System.EventHandler(this.ContextMenuFleet_CopyKanmusuList_Click);
 			// 
-			// ContextMenuFleet_Capture
-			// 
-			this.ContextMenuFleet_Capture.Name = "ContextMenuFleet_Capture";
-			this.ContextMenuFleet_Capture.Size = new System.Drawing.Size(227, 22);
-			this.ContextMenuFleet_Capture.Text = "この画面をキャプチャ(&S)";
-			this.ContextMenuFleet_Capture.Click += new System.EventHandler(this.ContextMenuFleet_Capture_Click);
-			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(224, 6);
-			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// ContextMenuFleet_AntiAirDetails
 			// 
@@ -134,6 +122,27 @@
 			this.ContextMenuFleet_AntiAirDetails.Size = new System.Drawing.Size(227, 22);
 			this.ContextMenuFleet_AntiAirDetails.Text = "対空砲火の詳細表示(&A)";
 			this.ContextMenuFleet_AntiAirDetails.Click += new System.EventHandler(this.ContextMenuFleet_AntiAirDetails_Click);
+			// 
+			// ContextMenuFleet_Capture
+			// 
+			this.ContextMenuFleet_Capture.Name = "ContextMenuFleet_Capture";
+			this.ContextMenuFleet_Capture.Size = new System.Drawing.Size(227, 22);
+			this.ContextMenuFleet_Capture.Text = "この画面をキャプチャ(&S)";
+			this.ContextMenuFleet_Capture.Click += new System.EventHandler(this.ContextMenuFleet_Capture_Click);
+			// 
+			// ContextMenuFleet_OutputFleetImage
+			// 
+			this.ContextMenuFleet_OutputFleetImage.Name = "ContextMenuFleet_OutputFleetImage";
+			this.ContextMenuFleet_OutputFleetImage.Size = new System.Drawing.Size(227, 22);
+			this.ContextMenuFleet_OutputFleetImage.Text = "編成画像を出力(&I)";
+			this.ContextMenuFleet_OutputFleetImage.Click += new System.EventHandler(this.ContextMenuFleet_OutputFleetImage_Click);
+			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// FormFleet
 			// 
@@ -170,5 +179,6 @@
 		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_CopyFleetDeckBuilder;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_CopyKanmusuList;
 		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_AntiAirDetails;
+		private System.Windows.Forms.ToolStripMenuItem ContextMenuFleet_OutputFleetImage;
 	}
 }
