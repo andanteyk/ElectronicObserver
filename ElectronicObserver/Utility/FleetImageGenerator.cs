@@ -436,6 +436,8 @@ namespace ElectronicObserver.Utility {
 			var aircraftLevelHighBrush = new SolidBrush( aircraftLevelHighColor );
 
 			var linePen = new Pen( subTextColor );
+			var subLinePen = new Pen( subTextColor );
+			subLinePen.DashStyle = DashStyle.Dash;
 
 
 			string fleetAirSuperiorityTitle = "制空戦力";
@@ -444,6 +446,13 @@ namespace ElectronicObserver.Utility {
 			// for measure space of strings
 			Bitmap preimage = new Bitmap( 1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
 			Graphics preg = Graphics.FromImage( preimage );
+
+			bool has5thSlot = args.FleetIDs
+				.Select( id => KCDatabase.Instance.Fleet[id] )
+				.Where( f => f != null )
+				.SelectMany( f => f.MembersInstance )
+				.Any( s => s != null && s.SlotSize >= 5 );
+			int slotCount = has5thSlot ? 6 : 5;
 
 			// Size Calculation
 			Size titleSize = string.IsNullOrWhiteSpace( args.Title ) ? Size.Empty : MeasureString( preg, args.Title, args.TitleFont, MaxValueSize, formatMiddleCenter );
@@ -465,6 +474,7 @@ namespace ElectronicObserver.Utility {
 
 			Size fleetParameterAreaInnerMargin = new Size( 16, 0 );
 			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
+			Padding equipmentAreaUnitMargin = new Padding( 2, 1, 2, 0 );
 			Padding equipmentAreaMargin = new Padding( 0, 0, 0, 2 );
 			Padding shipPaneUnitMargin = new Padding( 2 );
 			Padding fleetParameterAreaMargin = new Padding( 8, 0, 0, 4 );
@@ -476,9 +486,10 @@ namespace ElectronicObserver.Utility {
 			int lineMargin = 4;
 
 			Size shipNameSize = shipNameImageAvailableArea.Size;
-			Size shipNameAreaSize = SumWidthMaxHeight( shipIndexSize, shipNameSize, levelSize, mediumDigit3Size );
+			Size shipParameterSize = new Size( Max( levelSize.Width, EquipmentIconSize.Width ) + mediumDigit3Size.Width, Max( levelSize.Height, EquipmentIconSize.Height, mediumDigit3Size.Height ) * 2 );
+			Size shipNameAreaSize = SumWidthMaxHeight( shipIndexSize, shipNameSize, shipParameterSize );
 			Size equipmentAreaUnitSize = SumWidthMaxHeight( smallDigit3Size, EquipmentIconSize, equipmentNameSize, equipmentLevelSize );
-			Size equipmentAreaSize = new Size( equipmentAreaUnitSize.Width, equipmentAreaUnitSize.Height * 6 );
+			Size equipmentAreaSize = new Size( ( equipmentAreaUnitSize.Width + equipmentAreaUnitMargin.Horizontal ), ( equipmentAreaUnitSize.Height + equipmentAreaUnitMargin.Vertical ) * slotCount );
 
 			Size shipPaneUnitSize = new Size( Max( shipNameAreaSize.Width + equipmentAreaSize.Width, ShipCutinSize.Width ),
 				Max( shipNameAreaSize.Height + ShipCutinSize.Height, equipmentAreaSize.Height ) ); // SumWidthMaxHeight( MaxWidthSumHeight( shipNameAreaSize, ShipCutinSize ), equipmentAreaSize + equipmentAreaMargin.Size );
@@ -631,50 +642,63 @@ namespace ElectronicObserver.Utility {
 							if ( shipNameImage != null ) {
 								g.DrawImage( shipNameImage, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize ), shipNameSize ),
 									shipNameImageAvailableArea, GraphicsUnit.Pixel );
+							} else {
+								// 画像がなければ文字列で艦名を描画する
+								g.DrawString( ship.Name, args.LargeFont, mainTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize ), shipNameSize ), formatMiddleLeft );
 							}
 						}
 						shipPointer.X += shipNameSize.Width;
 
-						g.DrawString( "Lv.", args.SmallDigitFont, subTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.BottomLeft, levelSize, shipNameAreaSize ), levelSize ), formatMiddleLeft );
-						shipPointer.X += levelSize.Width;
 
-						g.DrawString( ship.Level.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.BottomLeft, mediumDigit3Size, shipNameAreaSize ), mediumDigit3Size ), formatMiddleRight );
+						{
+							Size paramNameSize = new Size( Max( levelSize.Width, EquipmentIconSize.Width ), Max( levelSize.Height, EquipmentIconSize.Height, mediumDigit3Size.Height ) );
 
+							g.DrawString( "Lv.", args.SmallDigitFont, subTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.BottomLeft, levelSize, paramNameSize ), levelSize ), formatMiddleLeft );
+							g.DrawString( ship.Level.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle( shipPointer + new Size( paramNameSize.Width, 0 ), mediumDigit3Size ), formatMiddleRight );
+
+							var luckRect = new Rectangle( shipPointer + new Size( 0, paramNameSize.Height ) + GetAlignmentOffset( ContentAlignment.MiddleCenter, EquipmentIconSize, paramNameSize ), EquipmentIconSize );
+							g.DrawImage( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.ParameterLuck],
+								luckRect );
+							g.DrawString( ship.LuckTotal.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle( shipPointer + new Size( paramNameSize.Width, paramNameSize.Height ), mediumDigit3Size ), formatMiddleRight );
+
+						}
 						shipPointer.X = shipPointerOrigin.X;
 
 
 						using ( var shipImageOriginal = GetShipSwfImage( ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? ShipCutinDamagedID : ShipCutinNormalID ) ) {
-							using ( var shipImage = shipImageOriginal.Clone( new Rectangle( 0, 0, shipImageOriginal.Width, shipImageOriginal.Height ), PixelFormat.Format32bppArgb ) ) {
-								using ( var maskImage = new Bitmap( ShipCutinSize.Width, ShipCutinSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) ) {						// move to top
-									using ( var maskg = Graphics.FromImage( maskImage ) ) {
-										maskg.Clear( Color.Black );
-										maskg.FillRectangle( shipImageMaskBrush, new Rectangle( 0, 0, maskImage.Width, maskImage.Height ) );
-									}
-
-									BitmapData imageData = shipImage.LockBits( new Rectangle( 0, 0, shipImage.Width, shipImage.Height ), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb );
-									byte[] imageCanvas = new byte[imageData.Width * imageData.Height * 4];
-									Marshal.Copy( imageData.Scan0, imageCanvas, 0, imageCanvas.Length );
-
-									BitmapData maskData = maskImage.LockBits( new Rectangle( 0, 0, maskImage.Width, maskImage.Height ), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb );
-									byte[] maskCanvas = new byte[maskData.Width * maskData.Height * 4];
-									Marshal.Copy( maskData.Scan0, maskCanvas, 0, maskCanvas.Length );
-
-
-									for ( int y = 0; y < imageData.Height; y++ ) {
-										for ( int x = 0; x < imageData.Width; x++ ) {
-											imageCanvas[( y * imageData.Width + x ) * 4 + 3] = (byte)( (int)imageCanvas[( y * imageData.Width + x ) * 4 + 3] * maskCanvas[( y * maskData.Width + x ) * 4 + 0] / 255 );
+							if ( shipImageOriginal != null ) {
+								using ( var shipImage = shipImageOriginal.Clone( new Rectangle( 0, 0, shipImageOriginal.Width, shipImageOriginal.Height ), PixelFormat.Format32bppArgb ) ) {
+									using ( var maskImage = new Bitmap( ShipCutinSize.Width, ShipCutinSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) ) {						// move to top
+										using ( var maskg = Graphics.FromImage( maskImage ) ) {
+											maskg.Clear( Color.Black );
+											maskg.FillRectangle( shipImageMaskBrush, new Rectangle( 0, 0, maskImage.Width, maskImage.Height ) );
 										}
+
+										BitmapData imageData = shipImage.LockBits( new Rectangle( 0, 0, shipImage.Width, shipImage.Height ), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb );
+										byte[] imageCanvas = new byte[imageData.Width * imageData.Height * 4];
+										Marshal.Copy( imageData.Scan0, imageCanvas, 0, imageCanvas.Length );
+
+										BitmapData maskData = maskImage.LockBits( new Rectangle( 0, 0, maskImage.Width, maskImage.Height ), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb );
+										byte[] maskCanvas = new byte[maskData.Width * maskData.Height * 4];
+										Marshal.Copy( maskData.Scan0, maskCanvas, 0, maskCanvas.Length );
+
+
+										for ( int y = 0; y < imageData.Height; y++ ) {
+											for ( int x = 0; x < imageData.Width; x++ ) {
+												imageCanvas[( y * imageData.Width + x ) * 4 + 3] = (byte)( (int)imageCanvas[( y * imageData.Width + x ) * 4 + 3] * maskCanvas[( y * maskData.Width + x ) * 4 + 0] / 255 );
+											}
+										}
+
+										Marshal.Copy( imageCanvas, 0, imageData.Scan0, imageCanvas.Length );
+										shipImage.UnlockBits( imageData );
+										maskImage.UnlockBits( maskData );
+
 									}
 
-									Marshal.Copy( imageCanvas, 0, imageData.Scan0, imageCanvas.Length );
-									shipImage.UnlockBits( imageData );
-									maskImage.UnlockBits( maskData );
+									var shipOffset = GetAlignmentOffset( ContentAlignment.BottomLeft, ShipCutinSize, shipPaneUnitSize );
+									g.DrawImage( shipImage, shipPointer.X + shipOffset.Width, shipPointer.Y + shipOffset.Height, ShipCutinSize.Width, ShipCutinSize.Height );
 
 								}
-
-								var shipOffset = GetAlignmentOffset( ContentAlignment.BottomLeft, ShipCutinSize, shipPaneUnitSize );
-								g.DrawImage( shipImage, shipPointer.X + shipOffset.Width, shipPointer.Y + shipOffset.Height, ShipCutinSize.Width, ShipCutinSize.Height );
-
 							}
 						}
 
@@ -684,7 +708,16 @@ namespace ElectronicObserver.Utility {
 						Point equipmentPointerOrigin = shipPointer + GetAlignmentOffset( ContentAlignment.BottomRight, equipmentAreaSize, shipPaneUnitSize );
 						for ( int equipmentIndex = 0; equipmentIndex < 6; equipmentIndex++ ) {
 							EquipmentData eq = ship.AllSlotInstance[equipmentIndex];
-							Point equipmentPointer = equipmentPointerOrigin + new Size( 0, equipmentAreaUnitSize.Height * equipmentIndex );
+
+							int yIndex = equipmentIndex;
+							if ( !has5thSlot && equipmentIndex >= 5 )		// 5スロ目がないとき、そのスペースを省略
+								yIndex--;
+
+							Point equipmentPointer = equipmentPointerOrigin + new Size( equipmentAreaUnitMargin.Left, equipmentAreaUnitMargin.Top + ( equipmentAreaUnitSize.Height + equipmentAreaUnitMargin.Vertical ) * yIndex );
+
+							if ( equipmentIndex == 5 && ship.IsExpansionSlotAvailable ) {
+								g.DrawLine( subLinePen, equipmentPointer.X + lineMargin, equipmentPointer.Y - 1, equipmentPointer.X + equipmentAreaUnitSize.Width - lineMargin, equipmentPointer.Y - 1 );
+							}
 
 
 							int aircraftMax = equipmentIndex < 5 ? ship.MasterShip.Aircraft[equipmentIndex] : 0;
@@ -735,6 +768,9 @@ namespace ElectronicObserver.Utility {
 
 						}
 
+
+						g.DrawLine( linePen, shipPointerOrigin.X + lineMargin, shipPointerOrigin.Y + shipPaneUnitSize.Height, shipPointerOrigin.X + shipPaneUnitSize.Width - lineMargin, shipPointerOrigin.Y + shipPaneUnitSize.Height );
+
 					}
 
 				}
@@ -769,6 +805,7 @@ namespace ElectronicObserver.Utility {
 			shipImageMaskBrush.Dispose();
 
 			linePen.Dispose();
+			subLinePen.Dispose();
 
 			return bitmap;
 		}
@@ -802,7 +839,8 @@ namespace ElectronicObserver.Utility {
 			var aircraftLevelHighBrush = new SolidBrush( aircraftLevelHighColor );
 
 			var linePen = new Pen( subTextColor );
-
+			var subLinePen = new Pen( subTextColor );
+			subLinePen.DashStyle = DashStyle.Dash;
 
 			string fleetAirSuperiorityTitle = "制空戦力";
 			string fleetSearchingAbilityTitle = "索敵能力";
@@ -810,6 +848,13 @@ namespace ElectronicObserver.Utility {
 			// for measure space of strings
 			Bitmap preimage = new Bitmap( 1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
 			Graphics preg = Graphics.FromImage( preimage );
+
+			bool has5thSlot = args.FleetIDs
+				.Select( id => KCDatabase.Instance.Fleet[id] )
+				.Where( f => f != null )
+				.SelectMany( f => f.MembersInstance )
+				.Any( s => s != null && s.SlotSize >= 5 );
+			int slotCount = has5thSlot ? 6 : 5;
 
 			// Size Calculation
 			Size titleSize = string.IsNullOrWhiteSpace( args.Title ) ? Size.Empty : MeasureString( preg, args.Title, args.TitleFont, MaxValueSize, formatMiddleCenter );
@@ -829,8 +874,7 @@ namespace ElectronicObserver.Utility {
 			Size equipmentLevelSize = MeasureString( preg, "+10", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
 
 			Size fleetParameterAreaInnerMargin = new Size( 16, 0 );
-			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
-			Padding equipmentAreaMargin = new Padding( 0, 0, 0, 2 );
+			Padding equipmentAreaUnitMargin = new Padding( 2, 1, 2, 0 );
 			Padding shipPaneUnitMargin = new Padding( 2 );
 			Padding fleetParameterAreaMargin = new Padding( 8, 0, 0, 4 );
 			Padding fleetPaneUnitMargin = new Padding( 4 );
@@ -841,9 +885,9 @@ namespace ElectronicObserver.Utility {
 			int lineMargin = 4;
 
 			Size shipBannerSize = ShipBannerSize;
-			Size shipNameAreaSize = SumWidthMaxHeight( ShipBannerSize, smallDigit3Size );
+			Size shipNameAreaSize = SumWidthMaxHeight( ShipBannerSize, MaxWidthSumHeight( SumWidthMaxHeight( levelSize, smallDigit3Size ), SumWidthMaxHeight( EquipmentIconSize, smallDigit3Size ) ) );
 			Size equipmentAreaUnitSize = SumWidthMaxHeight( EquipmentIconSize, equipmentNameSize, equipmentLevelSize );
-			Size equipmentAreaSize = new Size( equipmentAreaUnitSize.Width, equipmentAreaUnitSize.Height * 6 );
+			Size equipmentAreaSize = new Size( equipmentAreaUnitSize.Width + equipmentAreaUnitMargin.Horizontal, ( equipmentAreaUnitSize.Height + equipmentAreaUnitMargin.Vertical ) * slotCount );
 
 			Size shipPaneUnitSize = MaxWidthSumHeight( shipNameAreaSize, equipmentAreaSize );
 			Size shipPaneSize = new Size(
@@ -869,6 +913,10 @@ namespace ElectronicObserver.Utility {
 
 			Size entireSize = MaxWidthSumHeight( titleSize + titleMargin.Size, fleetPaneSize, commentAreaSize + commentMargin.Size );
 
+
+			// anchor
+			equipmentNameSize.Width = shipPaneUnitSize.Width - EquipmentIconSize.Width - equipmentLevelSize.Width;
+			equipmentAreaUnitSize.Width = shipPaneUnitSize.Width - equipmentAreaUnitMargin.Horizontal;
 
 			Size equipmentNameSizeExtended = SumWidthMaxHeight( equipmentNameSize, equipmentLevelSize );
 
@@ -988,7 +1036,21 @@ namespace ElectronicObserver.Utility {
 						}
 						shipPointer.X += shipBannerSize.Width;
 
-						g.DrawString( ship.Level.ToString(), args.SmallDigitFont, subTextBrush, new Rectangle( shipPointer, smallDigit3Size ), formatMiddleLeft );
+						{
+							var shipParameterPointer = shipPointer;
+							Size paramNameSize = new Size( Max( levelSize, EquipmentIconSize ).Width, 0 );
+							//lv.
+							g.DrawString( "Lv.", args.SmallDigitFont, subTextBrush, new Rectangle( shipParameterPointer, smallDigit3Size ), formatMiddleLeft );
+							g.DrawString( ship.Level.ToString(), args.SmallDigitFont, mainTextBrush, new Rectangle( shipParameterPointer + paramNameSize, smallDigit3Size ), formatMiddleRight );
+
+							shipParameterPointer.Y += levelSize.Height;
+
+							//luck
+							g.DrawImage( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.ParameterLuck],
+								shipParameterPointer.X, shipParameterPointer.Y, EquipmentIconSize.Width, EquipmentIconSize.Height );
+							g.DrawString( ship.LuckTotal.ToString(), args.SmallDigitFont, mainTextBrush, new Rectangle( shipParameterPointer + paramNameSize, smallDigit3Size ), formatMiddleRight );
+						}
+
 
 						shipPointer.X = shipPointerOrigin.X;
 						shipPointer.Y += shipNameAreaSize.Height;
@@ -998,8 +1060,16 @@ namespace ElectronicObserver.Utility {
 						Point equipmentPointerOrigin = shipPointer;
 						for ( int equipmentIndex = 0; equipmentIndex < 6; equipmentIndex++ ) {
 							EquipmentData eq = ship.AllSlotInstance[equipmentIndex];
-							Point equipmentPointer = equipmentPointerOrigin + new Size( 0, equipmentAreaUnitSize.Height * equipmentIndex );
 
+							int yIndex = equipmentIndex;
+							if ( !has5thSlot && equipmentIndex >= 5 )		// 5スロ目がないとき、そのスペースを省略
+								yIndex--;
+
+							Point equipmentPointer = equipmentPointerOrigin + new Size( equipmentAreaUnitMargin.Left, equipmentAreaUnitMargin.Top + ( equipmentAreaUnitSize.Height + equipmentAreaUnitMargin.Vertical ) * yIndex );
+
+							if ( equipmentIndex == 5 && ship.IsExpansionSlotAvailable ) {
+								g.DrawLine( subLinePen, equipmentPointer.X + lineMargin, equipmentPointer.Y - 1, equipmentPointer.X + equipmentAreaUnitSize.Width - lineMargin, equipmentPointer.Y - 1 );
+							}
 
 							bool isOutOfSlot = equipmentIndex >= ship.SlotSize && !( equipmentIndex == 5 && ship.IsExpansionSlotAvailable );
 
@@ -1023,18 +1093,21 @@ namespace ElectronicObserver.Utility {
 								equipmentNameBrush.TranslateTransform( equipmentPointer.X, 0 );
 							}
 							g.DrawString( equipmentName, args.SmallFont, equipmentNameBrush, new Rectangle( equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, equipmentNameSizeExtended, equipmentAreaUnitSize ), equipmentNameSizeExtended ), formatMiddleLeft );
-							equipmentPointer.X += equipmentNameSize.Width;
+							//equipmentPointer.X += equipmentNameSize.Width;
 
 							if ( eq != null ) {
-
 								if ( eq.Level > 0 ) {
+									var currentEquipmentNameSize = MeasureString( g, equipmentName, args.SmallFont, MaxValueSize, formatMiddleLeft );
+									equipmentPointer.X += currentEquipmentNameSize.Width;
 									g.DrawString( "+" + eq.Level, args.SmallDigitFont, subTextBrush, new Rectangle( equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, equipmentLevelSize, equipmentAreaUnitSize ), equipmentLevelSize ), formatMiddleRight );
 								}
 
 							}
 
 						}
+						shipPointer.Y += equipmentAreaSize.Height;
 
+						g.DrawLine( linePen, shipPointer.X + lineMargin, shipPointer.Y, shipPointer.X + shipPaneUnitSize.Width - lineMargin, shipPointer.Y );
 					}
 
 				}
@@ -1068,6 +1141,7 @@ namespace ElectronicObserver.Utility {
 			equipmentNameBrush.Dispose();
 
 			linePen.Dispose();
+			subLinePen.Dispose();
 
 			return bitmap;
 		}
@@ -1448,18 +1522,21 @@ namespace ElectronicObserver.Utility {
 			ret.HorizontalShipCount = 2;
 			ret.AvoidTwitterDeterioration = true;
 
-			string baseFont = DefaultFontFamily;
-			var fonts = ret.Fonts;
-			for ( int i = 0; i < fonts.Length; i++ ) {
-				fonts[i] = new Font( baseFont, DefaultFontPixels[i], FontStyle.Regular, GraphicsUnit.Pixel );
-			}
-			ret.Fonts = fonts;
+			ret.Fonts = GetDefaultFonts();
 
 			return ret;
 		}
 
 		public static readonly string DefaultFontFamily = "Meiryo UI";
 		public static readonly float[] DefaultFontPixels = new float[] { 32, 24, 16, 12, 16, 12 };
+
+		public static Font[] GetDefaultFonts() {
+			var fonts = new Font[DefaultFontPixels.Length];
+			for ( int i = 0; i < fonts.Length; i++ ) {
+				fonts[i] = new Font( DefaultFontFamily, DefaultFontPixels[i], i == 0 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel );
+			}
+			return fonts;
+		}
 
 		public FleetImageArgument Clone() {
 
