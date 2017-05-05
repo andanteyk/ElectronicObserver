@@ -634,6 +634,14 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
+		/// 潜水艦系か
+		/// </summary>
+		public bool IsSubmarine {
+			get { return ShipType == 13 || ShipType == 14; }
+		}
+
+
+		/// <summary>
 		/// 自身のパラメータレコードを取得します。
 		/// </summary>
 		/// <returns></returns>

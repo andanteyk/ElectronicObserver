@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -78,20 +79,20 @@ namespace ElectronicObserver.Window.Dialog {
 					break;
 			}
 
-			switch ( config.OutputType ) {
-				case 0:
-				default:
-					OutputTypeFile.Checked = true;
-					break;
-				case 1:
-					OutputTypeClipboard.Checked = true;
-					break;
+			OutputToClipboard.Checked = config.OutputType == 1;
+			OpenImageAfterOutput.Checked = config.OpenImageAfterOutput;
+			DisableOverwritePrompt.Checked = config.DisableOverwritePrompt;
+
+			OutputPath.Text = config.LastOutputPath;
+			try {
+				SaveImageDialog.FileName = System.IO.Path.GetFileName( config.LastOutputPath );
+				SaveImageDialog.InitialDirectory = string.IsNullOrWhiteSpace( config.LastOutputPath ) ? "" : System.IO.Path.GetDirectoryName( config.LastOutputPath );
+			} catch ( Exception ) {
 			}
 
-			OpenImageAfterOutput.Checked = config.OpenImageAfterOutput;
+			SyncronizeTitleAndFileName.Checked = config.SyncronizeTitleAndFileName;
+			AutoSetFileNameToDate.Checked = config.AutoSetFileNameToDate;
 
-			SaveImageDialog.FileName = System.IO.Path.GetFileName( config.LastOutputPath );
-			SaveImageDialog.InitialDirectory = string.IsNullOrWhiteSpace( config.LastOutputPath ) ? "" : System.IO.Path.GetDirectoryName( config.LastOutputPath );
 		}
 
 		private void SaveConfiguration() {
@@ -109,21 +110,18 @@ namespace ElectronicObserver.Window.Dialog {
 			else if ( ImageTypeBanner.Checked )
 				config.ImageType = 2;
 
-			if ( OutputTypeFile.Checked )
-				config.OutputType = 0;
-			else if ( OutputTypeClipboard.Checked )
-				config.OutputType = 1;
-
+			config.OutputType = OutputToClipboard.Checked ? 1 : 0;
 			config.OpenImageAfterOutput = OpenImageAfterOutput.Checked;
+			config.DisableOverwritePrompt = DisableOverwritePrompt.Checked;
+			config.AutoSetFileNameToDate = AutoSetFileNameToDate.Checked;
+			config.SyncronizeTitleAndFileName = SyncronizeTitleAndFileName.Checked;
 
-			config.LastOutputPath = SaveImageDialog.FileName;
+			config.LastOutputPath = OutputPath.Text;
 		}
 
 
 
 		private void ApplyToUI( FleetImageArgument args ) {
-
-			// undone: プリセットはなしで
 
 			int[] fleetIDs = args.FleetIDs ?? new int[0];
 
@@ -132,7 +130,8 @@ namespace ElectronicObserver.Window.Dialog {
 			TargetFleet3.Checked = fleetIDs.Contains( 3 );
 			TargetFleet4.Checked = fleetIDs.Contains( 4 );
 
-			Title.Text = args.Title;
+			if ( !SyncronizeTitleAndFileName.Checked )
+				Title.Text = args.Title;
 			Comment.Text = string.IsNullOrWhiteSpace( args.Comment ) ? "" : LFtoCRLF.Replace( args.Comment, "\r\n" );		// 保存データからのロード時に \n に変換されてしまっているため
 
 
@@ -280,6 +279,15 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
+			if ( !OutputToClipboard.Checked && !DisableOverwritePrompt.Checked && File.Exists( OutputPath.Text ) ) {
+				if ( MessageBox.Show( Path.GetFileName( OutputPath.Text ) + "\r\nは既に存在します。\r\n上書きしますか？", "上書き確認",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
+					== System.Windows.Forms.DialogResult.No ) {
+					args.DisposeResources();
+					return;
+				}
+			}
+
 
 			int mode;
 			if ( ImageTypeCard.Checked )
@@ -294,32 +302,53 @@ namespace ElectronicObserver.Window.Dialog {
 
 			try {
 
-				if ( OutputTypeFile.Checked ) {
+				if ( !OutputToClipboard.Checked ) {
 
-					if ( SaveImageDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
-
-						using ( var image = GenerateFleetImage( args, mode ) ) {
+					using ( var image = GenerateFleetImage( args, mode ) ) {
 
 
-							switch ( SaveImageDialog.FilterIndex ) {
-								case 1:
-								default:
-									image.Save( SaveImageDialog.FileName, System.Drawing.Imaging.ImageFormat.Png );
-									break;
-								case 2:
-									image.Save( SaveImageDialog.FileName, System.Drawing.Imaging.ImageFormat.Jpeg );
-									break;
-							}
+						switch ( Path.GetExtension( OutputPath.Text ).ToLower() ) {
+							case ".png":
+							default:
+								image.Save( OutputPath.Text, System.Drawing.Imaging.ImageFormat.Png );
+								break;
 
-							if ( OpenImageAfterOutput.Checked )
-								System.Diagnostics.Process.Start( SaveImageDialog.FileName );
+							case ".bmp":
+							case ".dib":
+								image.Save( OutputPath.Text, System.Drawing.Imaging.ImageFormat.Bmp );
+								break;
 
+							case ".gif":
+								image.Save( OutputPath.Text, System.Drawing.Imaging.ImageFormat.Gif );
+								break;
 
+							case ".tif":
+							case ".tiff":
+								image.Save( OutputPath.Text, System.Drawing.Imaging.ImageFormat.Tiff );
+								break;
+
+							case ".jpg":
+							case ".jpeg":
+							case ".jpe":
+							case ".jfif": {
+									// jpeg quality settings
+									var encoderParams = new System.Drawing.Imaging.EncoderParameters();
+									encoderParams.Param[0] = new System.Drawing.Imaging.EncoderParameter( System.Drawing.Imaging.Encoder.Quality, 90L );
+
+									var codecInfo = System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders().FirstOrDefault( codec => codec.MimeType == "image/jpeg" );
+
+									image.Save( OutputPath.Text, codecInfo, encoderParams );
+								} break;
 						}
 
-					} else return;
+						if ( OpenImageAfterOutput.Checked )
+							System.Diagnostics.Process.Start( OutputPath.Text );
 
-				} else if ( OutputTypeClipboard.Checked ) {
+
+					}
+
+
+				} else {
 
 					using ( var image = GenerateFleetImage( args, mode ) ) {
 
@@ -334,9 +363,12 @@ namespace ElectronicObserver.Window.Dialog {
 				CurrentArgument = args;
 				SaveConfiguration();
 
+				Utility.Logger.Add( 2, "編成画像を出力しました。" );
+
 			} catch ( Exception ex ) {
 
-				MessageBox.Show( "画像の出力に失敗しました。\r\n" + ex.GetType().Name + "\r\n" + ex.Message, "編成画像出力失敗", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				ErrorReporter.SendErrorReport( ex, "編成画像の出力に失敗しました。" );
+				MessageBox.Show( "編成画像の出力に失敗しました。\r\n" + ex.GetType().Name + "\r\n" + ex.Message, "編成画像出力失敗", MessageBoxButtons.OK, MessageBoxIcon.Error );
 
 			} finally {
 				args.DisposeResources();
@@ -452,18 +484,113 @@ namespace ElectronicObserver.Window.Dialog {
 				GeneralFont = null;
 				TextGeneralFont.Text = "";
 
+				var defaultFonts = FleetImageArgument.GetDefaultFonts();
 				for ( int i = 0; i < TextFontList.Length; i++ ) {
-					using ( var font = new Font( FleetImageArgument.DefaultFontFamily, FleetImageArgument.DefaultFontPixels[i], FontStyle.Regular, GraphicsUnit.Pixel ) ) {
-						TextFontList[i].Text = SerializableFont.FontToString( font );
-					}
+					TextFontList[i].Text = SerializableFont.FontToString( defaultFonts[i] );
+					defaultFonts[i].Dispose();
 				}
 			}
 		}
 
 
 
+
+		private void Title_TextChanged( object sender, EventArgs e ) {
+			if ( SyncronizeTitleAndFileName.Checked ) {
+				try {
+
+					string replaceTo = Path.GetDirectoryName( OutputPath.Text ) + "\\" + Title.Text + Path.GetExtension( OutputPath.Text );
+
+					if ( OutputPath.Text != replaceTo )
+						OutputPath.Text = replaceTo;
+
+				} catch ( Exception ) {
+				}
+			}
+		}
+
+		private void OutputPath_TextChanged( object sender, EventArgs e ) {
+
+			if ( SyncronizeTitleAndFileName.Checked ) {
+				try {
+					string replaceTo = Path.GetFileNameWithoutExtension( OutputPath.Text );
+
+					if ( Title.Text != replaceTo )
+						Title.Text = replaceTo;
+
+				} catch ( Exception ) {		// path contains invalid char.
+				}
+			}
+
+			if ( OutputPath.Text.ToCharArray().Intersect( Path.GetInvalidPathChars() ).Any() || File.Exists( OutputPath.Text ) ) {
+				OutputPath.BackColor = Color.MistyRose;
+			} else {
+				OutputPath.BackColor = SystemColors.Window;
+			}
+		}
+
+
+
+		private void AutoSetFileNameToDate_CheckedChanged( object sender, EventArgs e ) {
+
+			if ( AutoSetFileNameToDate.Checked ) {
+				try {
+
+					OutputPath.Text = Path.GetDirectoryName( OutputPath.Text ) + "\\" + Utility.Mathematics.DateTimeHelper.GetTimeStamp() + Path.GetExtension( OutputPath.Text );
+
+				} catch ( Exception ) {
+				}
+			}
+
+		}
+
+
+		private void SyncronizeTitleAndFileName_CheckedChanged( object sender, EventArgs e ) {
+
+			if ( SyncronizeTitleAndFileName.Checked ) {
+
+				if ( string.IsNullOrWhiteSpace( OutputPath.Text ) ) {
+					Title_TextChanged( sender, e );
+
+				} else {
+					OutputPath_TextChanged( sender, e );
+				}
+
+			}
+
+		}
+
+		private void SearchOutputPath_Click( object sender, EventArgs e ) {
+
+			try {
+				SaveImageDialog.FileName = System.IO.Path.GetFileName( OutputPath.Text );
+				SaveImageDialog.InitialDirectory = string.IsNullOrWhiteSpace( OutputPath.Text ) ? "" : System.IO.Path.GetDirectoryName( OutputPath.Text );
+			} catch ( Exception ) {
+			}
+			if ( SaveImageDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+				OutputPath.Text = SaveImageDialog.FileName;
+			}
+
+		}
+
+
+
 		private void DialogFleetImageGenerator_FormClosing( object sender, FormClosingEventArgs e ) {
 			CurrentArgument.DisposeResources();
+		}
+
+
+
+		private void OutputToClipboard_CheckedChanged( object sender, EventArgs e ) {
+			OutputPath.Enabled =
+			SearchOutputPath.Enabled =
+			OpenImageAfterOutput.Enabled =
+			DisableOverwritePrompt.Enabled =
+			AutoSetFileNameToDate.Enabled = 
+			SyncronizeTitleAndFileName.Enabled =
+				!OutputToClipboard.Checked;
+
+			ToolTipInfo.SetToolTip( GroupOutputPath, OutputToClipboard.Checked ? "クリップボードに出力されます。\r\nファイルに出力したい場合は、詳細タブの「クリップボードに出力する」を外してください。" : null );
 		}
 
 

@@ -180,11 +180,11 @@ namespace ElectronicObserver.Data.Battle.Detail {
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
-			return Calculator.GetDayAttackKind( slots, attackerShipID, defenderShipID, false );
+			return (int)Calculator.GetDayAttackKind( slots, attackerShipID, defenderShipID, false );
 		}
 
 		protected override string GetAttackKind() {
-			return Constants.GetDayAttackKind( AttackType );
+			return Constants.GetDayAttackKind( (DayAttackKind)AttackType );
 		}
 	}
 
@@ -230,11 +230,11 @@ namespace ElectronicObserver.Data.Battle.Detail {
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
-			return Calculator.GetNightAttackKind( slots, attackerShipID, defenderShipID, false );
+			return (int)Calculator.GetNightAttackKind( slots, attackerShipID, defenderShipID, false );
 		}
 
 		protected override string GetAttackKind() {
-			return Constants.GetNightAttackKind( AttackType );
+			return Constants.GetNightAttackKind( (NightAttackKind)AttackType );
 		}
 	}
 

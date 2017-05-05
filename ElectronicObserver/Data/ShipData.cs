@@ -1126,17 +1126,17 @@ namespace ElectronicObserver.Data {
 
 			//弾着
 			switch ( Calculator.GetDayAttackKind( AllSlotMaster.ToArray(), ShipID, -1 ) ) {
-				case 2:		//連撃
-				case 4:		//主砲/電探
+				case DayAttackKind.DoubleShelling:
+				case DayAttackKind.CutinMainLadar:
 					basepower *= 1.2;
 					break;
-				case 3:		//主砲/副砲
+				case DayAttackKind.CutinMainSub:
 					basepower *= 1.1;
 					break;
-				case 5:		//主砲/徹甲弾
+				case DayAttackKind.CutinMainAP:
 					basepower *= 1.3;
 					break;
-				case 6:		//主砲/主砲
+				case DayAttackKind.CutinMainMain:
 					basepower *= 1.5;
 					break;
 			}
@@ -1149,7 +1149,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		/// <param name="engagementForm">交戦形態。既定値は 1 (同航戦) です。</param>
 		private int CalculateAircraftPower( int engagementForm = 1 ) {
-			if ( Calculator.GetDayAttackKind( AllSlotMaster.ToArray(), ShipID, -1, false ) != 7 )
+			if ( Calculator.GetDayAttackKind( AllSlotMaster.ToArray(), ShipID, -1, false ) != DayAttackKind.AirAttack )
 				return 0;		//空撃以外は除外
 
 			double basepower = Math.Floor( ( FirepowerTotal + TorpedoTotal + Math.Floor( BomberTotal * 1.3 ) + GetAircraftEquipmentLevelBonus() + GetCombinedFleetShellingDamageBonus() ) * 1.5 ) + 55;
@@ -1190,7 +1190,7 @@ namespace ElectronicObserver.Data {
 			}
 
 			double basepower = Math.Sqrt( ASWBase ) * 2 + eqpower * 1.5 + GetAntiSubmarineEquipmentLevelBonus();
-			if ( Calculator.GetDayAttackKind( AllSlotMaster.ToArray(), ShipID, 126, false ) == 7 ) {		//126=伊168; 対潜攻撃が空撃なら
+			if ( Calculator.GetDayAttackKind( AllSlotMaster.ToArray(), ShipID, 126, false ) == DayAttackKind.AirAttack ) {		//126=伊168; 対潜攻撃が空撃なら
 				basepower += 8;
 			} else {	//爆雷攻撃なら
 				basepower += 13;
@@ -1238,14 +1238,13 @@ namespace ElectronicObserver.Data {
 			basepower *= GetHPDamageBonus();
 
 			switch ( Calculator.GetNightAttackKind( AllSlotMaster.ToArray(), ShipID, -1 ) ) {
-				case 1:	//連撃
+				case NightAttackKind.DoubleShelling:
 					basepower *= 1.2;
 					break;
-				case 2:	//主砲/魚雷
+				case NightAttackKind.CutinMainTorpedo:
 					basepower *= 1.3;
 					break;
-				case 3:	//魚雷x2
-					{
+				case NightAttackKind.CutinTorpedoTorpedo: {
 						switch ( Calculator.GetNightTorpedoCutinKind( AllSlotMaster.ToArray(), ShipID, -1 ) ) {
 							case 1:
 								basepower *= 1.75;
@@ -1258,10 +1257,10 @@ namespace ElectronicObserver.Data {
 								break;
 						}
 					} break;
-				case 4:	//主砲x2/副砲
+				case NightAttackKind.CutinMainSub:
 					basepower *= 1.75;
 					break;
-				case 5:	//主砲x3
+				case NightAttackKind.CutinMainMain:
 					basepower *= 2.0;
 					break;
 			}
