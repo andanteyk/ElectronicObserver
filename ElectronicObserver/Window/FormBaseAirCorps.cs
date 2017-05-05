@@ -267,7 +267,7 @@ namespace ElectronicObserver.Window {
 									break;
 							}
 
-							sb.AppendLine( eq.NameWithLevel );
+							sb.AppendFormat( "{0} (半径: {1})\r\n", eq.NameWithLevel, eq.MasterEquipment.AircraftDistance );
 							break;
 
 						case 2:		// 配置転換中
