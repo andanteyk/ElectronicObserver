@@ -1098,7 +1098,7 @@ namespace ElectronicObserver.Utility {
 							if ( eq != null ) {
 								if ( eq.Level > 0 ) {
 									var currentEquipmentNameSize = MeasureString( g, equipmentName, args.SmallFont, MaxValueSize, formatMiddleLeft );
-									equipmentPointer.X += currentEquipmentNameSize.Width;
+									equipmentPointer.X += Math.Min( currentEquipmentNameSize.Width, equipmentNameSize.Width );
 									g.DrawString( "+" + eq.Level, args.SmallDigitFont, subTextBrush, new Rectangle( equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, equipmentLevelSize, equipmentAreaUnitSize ), equipmentLevelSize ), formatMiddleRight );
 								}
 
