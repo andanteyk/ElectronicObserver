@@ -24,6 +24,8 @@ namespace ElectronicObserver.Window.Dialog {
 		private ImageLabel[] Aircrafts;
 		private ImageLabel[] Equipments;
 
+		private int loadingResourceShipID;
+
 
 		public DialogAlbumMasterShip() {
 			InitializeComponent();
@@ -31,6 +33,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Aircrafts = new ImageLabel[] { Aircraft1, Aircraft2, Aircraft3, Aircraft4, Aircraft5 };
 			Equipments = new ImageLabel[] { Equipment1, Equipment2, Equipment3, Equipment4, Equipment5 };
 
+			loadingResourceShipID = -1;
 
 			TitleHP.ImageList =
 			TitleFirepower.ImageList =
@@ -269,6 +272,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			ShipType.Text = ship.IsLandBase ? "陸上施設" : db.ShipTypes[ship.ShipType].Name;
 			ShipName.Text = ship.NameWithClass;
+			ShipName.ForeColor = ship.GetShipNameColor();
 			ToolTipInfo.SetToolTip( ShipName, !ship.IsAbyssalShip ? ship.NameReading : null );
 			TableShipName.ResumeLayout();
 
@@ -555,6 +559,16 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 
+			if ( ShipBanner.Image != null ) {
+				var img = ShipBanner.Image;
+				ShipBanner.Image = null;
+				img.Dispose();
+			}
+			if ( !ImageLoader.IsBusy ) {
+				loadingResourceShipID = ship.ShipID;
+				ImageLoader.RunWorkerAsync( ship.ResourceName );
+			}
+
 
 
 			BasePanelShipGirl.ResumeLayout();
@@ -643,6 +657,7 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( _shipID != -1 )
 				UpdateLevelParameter( _shipID );
 		}
+
 
 
 		private void TableParameterMain_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
@@ -992,6 +1007,54 @@ namespace ElectronicObserver.Window.Dialog {
 				dialog.ShowDialog( this );
 				UpdateAlbumPage( _shipID );
 			}
+
+		}
+
+
+
+		private void ImageLoader_DoWork( object sender, DoWorkEventArgs e ) {
+
+			string resourceName = e.Argument as string;
+
+			//System.Threading.Thread.Sleep( 2000 );		// for test
+
+			try {
+
+				e.Result = SwfHelper.GetShipSwfImage( resourceName, SwfHelper.ShipResourceCharacterID.BannerNormal );
+
+			} catch ( Exception ) {
+				e.Result = null;
+			}
+
+		}
+
+		private void ImageLoader_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
+
+			if ( ShipBanner.Image != null ) {
+				var img = ShipBanner.Image;
+				ShipBanner.Image = null;
+				img.Dispose();
+			}
+
+			if ( loadingResourceShipID != _shipID ) {
+				if ( e.Result != null )
+					( (Bitmap)e.Result ).Dispose();
+
+				if ( !ImageLoader.IsBusy ) {
+					loadingResourceShipID = _shipID;
+					var ship =  KCDatabase.Instance.MasterShips[_shipID];
+					if ( ship != null )
+						ImageLoader.RunWorkerAsync( ship.ResourceName );
+				}
+
+				return;
+			}
+
+			if ( e.Result != null ) {
+				ShipBanner.Image = e.Result as Bitmap;
+				loadingResourceShipID = -1;
+			}
+
 		}
 
 	}

@@ -1484,6 +1484,7 @@ namespace ElectronicObserver.Utility.Data {
 		public static bool CanAttackSubmarine( ShipData ship ) {
 
 			switch ( ship.MasterShip.ShipType ) {
+				case 1:		//海防
 				case 2:		//駆逐
 				case 3:		//軽巡
 				case 4:		//雷巡
