@@ -218,6 +218,7 @@
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\ld_airbattle.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
+    <Compile Include="Resource\SwfHelper.cs" />
     <Compile Include="Utility\Data\RecordHash.cs" />
     <Compile Include="Utility\FleetImageGenerator.cs" />
     <Compile Include="Utility\SyncBGMPlayer.cs" />

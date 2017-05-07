@@ -1,4 +1,5 @@
-﻿using ElectronicObserver.Utility;
+﻿using ElectronicObserver.Data;
+using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,10 @@ namespace ElectronicObserver.Window.Dialog {
 		public DialogFleetImageGenerator( int fleetID )
 			: this() {
 
-			CurrentArgument.FleetIDs = new int[] { fleetID };
+			if ( KCDatabase.Instance.Fleet.CombinedFlag > 0 && fleetID <= 2 )
+				CurrentArgument.FleetIDs = new int[] { 1, 2 };
+			else
+				CurrentArgument.FleetIDs = new int[] { fleetID };
 		}
 
 
@@ -279,15 +283,28 @@ namespace ElectronicObserver.Window.Dialog {
 				return;
 			}
 
-			if ( !OutputToClipboard.Checked && !DisableOverwritePrompt.Checked && File.Exists( OutputPath.Text ) ) {
-				if ( MessageBox.Show( Path.GetFileName( OutputPath.Text ) + "\r\nは既に存在します。\r\n上書きしますか？", "上書き確認",
-					MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
-					== System.Windows.Forms.DialogResult.No ) {
+			if ( !OutputToClipboard.Checked ) {
+				if ( string.IsNullOrWhiteSpace( OutputPath.Text ) ) {
+					MessageBox.Show( "出力先ファイル名が入力されていません。", "入力値エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
 					args.DisposeResources();
 					return;
 				}
-			}
 
+				if ( OutputPath.Text.ToCharArray().Intersect( Path.GetInvalidPathChars() ).Any() ) {
+					MessageBox.Show( "出力先に使用できない文字が含まれています。", "入力値エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+					args.DisposeResources();
+					return;
+				}
+
+				if ( !DisableOverwritePrompt.Checked && File.Exists( OutputPath.Text ) ) {
+					if ( MessageBox.Show( Path.GetFileName( OutputPath.Text ) + "\r\nは既に存在します。\r\n上書きしますか？", "上書き確認",
+						MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2 )
+						== System.Windows.Forms.DialogResult.No ) {
+						args.DisposeResources();
+						return;
+					}
+				}
+			}
 
 			int mode;
 			if ( ImageTypeCard.Checked )
@@ -522,8 +539,10 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
-			if ( OutputPath.Text.ToCharArray().Intersect( Path.GetInvalidPathChars() ).Any() || File.Exists( OutputPath.Text ) ) {
+			if ( string.IsNullOrWhiteSpace( OutputPath.Text ) || OutputPath.Text.ToCharArray().Intersect( Path.GetInvalidPathChars() ).Any() ) {
 				OutputPath.BackColor = Color.MistyRose;
+			} else if ( File.Exists( OutputPath.Text ) ) {
+				OutputPath.BackColor = Color.Moccasin;
 			} else {
 				OutputPath.BackColor = SystemColors.Window;
 			}
@@ -586,11 +605,24 @@ namespace ElectronicObserver.Window.Dialog {
 			SearchOutputPath.Enabled =
 			OpenImageAfterOutput.Enabled =
 			DisableOverwritePrompt.Enabled =
-			AutoSetFileNameToDate.Enabled = 
+			AutoSetFileNameToDate.Enabled =
 			SyncronizeTitleAndFileName.Enabled =
 				!OutputToClipboard.Checked;
 
 			ToolTipInfo.SetToolTip( GroupOutputPath, OutputToClipboard.Checked ? "クリップボードに出力されます。\r\nファイルに出力したい場合は、詳細タブの「クリップボードに出力する」を外してください。" : null );
+		}
+
+		private void Comment_KeyDown( object sender, KeyEventArgs e ) {
+
+			// Multiline == true の TextBox では、 Ctrl-A ショートカットが無効化されるらしいので自家実装
+
+			if ( e.Control && e.KeyCode == Keys.A ) {
+				if ( sender != null ) {
+					( (TextBox)sender ).SelectAll();
+				}
+				e.SuppressKeyPress = true;
+				e.Handled = true;
+			}
 		}
 
 

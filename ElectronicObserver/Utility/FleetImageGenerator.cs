@@ -23,26 +23,8 @@ namespace ElectronicObserver.Utility {
 		protected static readonly Size MaxValueSize = new Size( int.MaxValue, int.MaxValue );
 
 		// 各種画像リソースのサイズ
-		protected static readonly Size ShipBannerSize = new Size( 160, 40 );
-		protected static readonly Size ShipCardSize = new Size( 218, 300 );
-		protected static readonly Size ShipCutinSize = new Size( 665, 121 );
-		protected static readonly Size ShipNameSize = new Size( 436, 63 );
-		protected static readonly Size ShipSupplySize = new Size( 474, 47 );
-
 		protected static readonly Size EquipmentCardSize = new Size( 260, 260 );
 		protected static readonly Size EquipmentIconSize = new Size( 16, 16 );
-
-
-		// 各種画像リソースの CharacterID
-		protected static readonly int ShipBannerNormalID = 1;
-		protected static readonly int ShipBannerDamagedID = 3;
-		protected static readonly int ShipCardNormalID = 5;
-		protected static readonly int ShipCardDamagedID = 7;
-		protected static readonly int ShipCutinNormalID = 21;
-		protected static readonly int ShipCutinDamagedID = 23;
-		protected static readonly int ShipNameID = 25;
-		protected static readonly int ShipSupplyNormalID = 27;
-		protected static readonly int ShipSupplyDamagedID = 29;
 
 
 
@@ -126,7 +108,7 @@ namespace ElectronicObserver.Utility {
 			Size parameterAreaSize = new Size( parameterAreaUnitSize.Width * 2, parameterAreaUnitSize.Height * 6 ) + parameterAreaInnerMargin;
 
 			Size shipValuePaneSize = MaxWidthSumHeight( shipNameAreaSize + shipNameAreaMargin.Size, equipmentAreaSize + equipmentAreaMargin.Size, parameterAreaSize + parameterAreaMargin.Size );
-			Size shipImagePaneSize = ShipCardSize;
+			Size shipImagePaneSize = SwfHelper.ShipCardSize;
 			Size shipPaneUnitSize = SumWidthMaxHeight( shipValuePaneSize, shipImagePaneSize );
 			Size shipPaneSize = new Size(
 				( shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalShipCount, 6 ),
@@ -371,7 +353,7 @@ namespace ElectronicObserver.Utility {
 						// ship image
 						shipPointer.X = shipPointerOrigin.X + shipValuePaneSize.Width;
 						shipPointer.Y = shipPointerOrigin.Y;
-						DrawShipSwfImage( g, ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? ShipCardDamagedID : ShipCardNormalID, shipPointer.X, shipPointer.Y, ShipCardSize );
+						DrawShipSwfImage( g, ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? SwfHelper.ShipResourceCharacterID.CardDamaged : SwfHelper.ShipResourceCharacterID.CardNormal, shipPointer.X, shipPointer.Y, SwfHelper.ShipCardSize );
 					}
 				}
 
@@ -470,7 +452,7 @@ namespace ElectronicObserver.Utility {
 			Size smallDigit3Size = MeasureString( preg, "888", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
 			Size levelSize = MeasureString( preg, "Lv.", args.SmallDigitFont, MaxValueSize, formatMiddleLeft );
 			Size equipmentLevelSize = MeasureString( preg, "+10", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
-			Rectangle shipNameImageAvailableArea = new Rectangle( 100, 0, ShipNameSize.Width - 124, ShipNameSize.Height - 16 );
+			Rectangle shipNameImageAvailableArea = new Rectangle( 100, 0, SwfHelper.ShipNameSize.Width - 124, SwfHelper.ShipNameSize.Height - 16 );
 
 			Size fleetParameterAreaInnerMargin = new Size( 16, 0 );
 			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
@@ -491,8 +473,8 @@ namespace ElectronicObserver.Utility {
 			Size equipmentAreaUnitSize = SumWidthMaxHeight( smallDigit3Size, EquipmentIconSize, equipmentNameSize, equipmentLevelSize );
 			Size equipmentAreaSize = new Size( ( equipmentAreaUnitSize.Width + equipmentAreaUnitMargin.Horizontal ), ( equipmentAreaUnitSize.Height + equipmentAreaUnitMargin.Vertical ) * slotCount );
 
-			Size shipPaneUnitSize = new Size( Max( shipNameAreaSize.Width + equipmentAreaSize.Width, ShipCutinSize.Width ),
-				Max( shipNameAreaSize.Height + ShipCutinSize.Height, equipmentAreaSize.Height ) ); // SumWidthMaxHeight( MaxWidthSumHeight( shipNameAreaSize, ShipCutinSize ), equipmentAreaSize + equipmentAreaMargin.Size );
+			Size shipPaneUnitSize = new Size( Max( shipNameAreaSize.Width + equipmentAreaSize.Width, SwfHelper.ShipCutinSize.Width ),
+				Max( shipNameAreaSize.Height + SwfHelper.ShipCutinSize.Height, equipmentAreaSize.Height ) ); // SumWidthMaxHeight( MaxWidthSumHeight( shipNameAreaSize, ShipCutinSize ), equipmentAreaSize + equipmentAreaMargin.Size );
 			Size shipPaneSize = new Size(
 				( shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalShipCount, 6 ),
 				( shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical ) * (int)Math.Ceiling( 6.0 / args.HorizontalShipCount ) );
@@ -528,10 +510,10 @@ namespace ElectronicObserver.Utility {
 			}
 			equipmentNameBrush.GammaCorrection = true;
 
-			var shipImageMaskBrush = new LinearGradientBrush( new Rectangle( 0, 0, ShipCutinSize.Width, ShipCutinSize.Height ), Color.Black, Color.Black, LinearGradientMode.Horizontal );
+			var shipImageMaskBrush = new LinearGradientBrush( new Rectangle( 0, 0, SwfHelper.ShipCutinSize.Width, SwfHelper.ShipCutinSize.Height ), Color.Black, Color.Black, LinearGradientMode.Horizontal );
 			{
 				var blend = new ColorBlend();
-				blend.Positions = new[] { 0f, Math.Min( (float)( shipPaneUnitSize.Width - equipmentAreaSize.Width - 16 ) / ShipCutinSize.Width, 1f ), Math.Min( (float)( shipPaneUnitSize.Width - equipmentAreaSize.Width + 16 ) / ShipCutinSize.Width, 1f ), 1f };
+				blend.Positions = new[] { 0f, Math.Min( (float)( shipPaneUnitSize.Width - equipmentAreaSize.Width - 16 ) / SwfHelper.ShipCutinSize.Width, 1f ), Math.Min( (float)( shipPaneUnitSize.Width - equipmentAreaSize.Width + 16 ) / SwfHelper.ShipCutinSize.Width, 1f ), 1f };
 				blend.Colors = new[] { Color.White, Color.White, Color.FromArgb( 0xff, 0x11, 0x11, 0x11 ), Color.FromArgb( 0xff, 0x11, 0x11, 0x11 ) };
 				shipImageMaskBrush.InterpolationColors = blend;
 			}
@@ -638,7 +620,7 @@ namespace ElectronicObserver.Utility {
 						g.DrawString( string.Format( "#{0}:", shipIndex + 1 ), args.MediumDigitFont, subTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize ), shipIndexSize ), formatMiddleLeft );
 						shipPointer.X += shipIndexSize.Width;
 
-						using ( var shipNameImage = GetShipSwfImage( ship.MasterShip.ResourceName, ShipNameID ) ) {
+						using ( var shipNameImage = SwfHelper.GetShipSwfImage( ship.MasterShip.ResourceName, SwfHelper.ShipResourceCharacterID.Name ) ) {
 							if ( shipNameImage != null ) {
 								g.DrawImage( shipNameImage, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize ), shipNameSize ),
 									shipNameImageAvailableArea, GraphicsUnit.Pixel );
@@ -665,10 +647,10 @@ namespace ElectronicObserver.Utility {
 						shipPointer.X = shipPointerOrigin.X;
 
 
-						using ( var shipImageOriginal = GetShipSwfImage( ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? ShipCutinDamagedID : ShipCutinNormalID ) ) {
+						using ( var shipImageOriginal = SwfHelper.GetShipSwfImage( ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? SwfHelper.ShipResourceCharacterID.CutinDamaged : SwfHelper.ShipResourceCharacterID.CutinNormal ) ) {
 							if ( shipImageOriginal != null ) {
 								using ( var shipImage = shipImageOriginal.Clone( new Rectangle( 0, 0, shipImageOriginal.Width, shipImageOriginal.Height ), PixelFormat.Format32bppArgb ) ) {
-									using ( var maskImage = new Bitmap( ShipCutinSize.Width, ShipCutinSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) ) {						// move to top
+									using ( var maskImage = new Bitmap( SwfHelper.ShipCutinSize.Width, SwfHelper.ShipCutinSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) ) {						// move to top
 										using ( var maskg = Graphics.FromImage( maskImage ) ) {
 											maskg.Clear( Color.Black );
 											maskg.FillRectangle( shipImageMaskBrush, new Rectangle( 0, 0, maskImage.Width, maskImage.Height ) );
@@ -695,8 +677,8 @@ namespace ElectronicObserver.Utility {
 
 									}
 
-									var shipOffset = GetAlignmentOffset( ContentAlignment.BottomLeft, ShipCutinSize, shipPaneUnitSize );
-									g.DrawImage( shipImage, shipPointer.X + shipOffset.Width, shipPointer.Y + shipOffset.Height, ShipCutinSize.Width, ShipCutinSize.Height );
+									var shipOffset = GetAlignmentOffset( ContentAlignment.BottomLeft, SwfHelper.ShipCutinSize, shipPaneUnitSize );
+									g.DrawImage( shipImage, shipPointer.X + shipOffset.Width, shipPointer.Y + shipOffset.Height, SwfHelper.ShipCutinSize.Width, SwfHelper.ShipCutinSize.Height );
 
 								}
 							}
@@ -884,8 +866,8 @@ namespace ElectronicObserver.Utility {
 			Padding entireMargin = new Padding();
 			int lineMargin = 4;
 
-			Size shipBannerSize = ShipBannerSize;
-			Size shipNameAreaSize = SumWidthMaxHeight( ShipBannerSize, MaxWidthSumHeight( SumWidthMaxHeight( levelSize, smallDigit3Size ), SumWidthMaxHeight( EquipmentIconSize, smallDigit3Size ) ) );
+			Size shipBannerSize = SwfHelper.ShipBannerSize;
+			Size shipNameAreaSize = SumWidthMaxHeight( SwfHelper.ShipBannerSize, MaxWidthSumHeight( SumWidthMaxHeight( levelSize, smallDigit3Size ), SumWidthMaxHeight( EquipmentIconSize, smallDigit3Size ) ) );
 			Size equipmentAreaUnitSize = SumWidthMaxHeight( EquipmentIconSize, equipmentNameSize, equipmentLevelSize );
 			Size equipmentAreaSize = new Size( equipmentAreaUnitSize.Width + equipmentAreaUnitMargin.Horizontal, ( equipmentAreaUnitSize.Height + equipmentAreaUnitMargin.Vertical ) * slotCount );
 
@@ -1030,9 +1012,9 @@ namespace ElectronicObserver.Utility {
 						//g.DrawString( string.Format( "#{0}:", shipIndex + 1 ), args.MediumDigitFont, subTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize ), shipIndexSize ), formatMiddleLeft );
 						//shipPointer.X += shipIndexSize.Width;
 
-						if ( !DrawShipSwfImage( g, ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? ShipBannerDamagedID : ShipBannerNormalID, shipPointer.X, shipPointer.Y, ShipBannerSize ) ) {
+						if ( !DrawShipSwfImage( g, ship.MasterShip.ResourceName, args.ReflectDamageGraphic && ship.HPRate <= 0.5 ? SwfHelper.ShipResourceCharacterID.BannerDamaged : SwfHelper.ShipResourceCharacterID.BannerNormal, shipPointer.X, shipPointer.Y, SwfHelper.ShipBannerSize ) ) {
 							// alternate drawing
-							g.DrawString( ship.Name, args.MediumFont, mainTextBrush, new RectangleF( shipPointer.X, shipPointer.Y, ShipBannerSize.Width, ShipBannerSize.Height ), formatTopLeft );
+							g.DrawString( ship.Name, args.MediumFont, mainTextBrush, new RectangleF( shipPointer.X, shipPointer.Y, SwfHelper.ShipBannerSize.Width, SwfHelper.ShipBannerSize.Height ), formatTopLeft );
 						}
 						shipPointer.X += shipBannerSize.Width;
 
@@ -1280,9 +1262,9 @@ namespace ElectronicObserver.Utility {
 		/// <param name="y">描画先の Y 座標。</param>
 		/// <param name="size">描画する画像のサイズ。</param>
 		/// <returns>描画に成功したかを返します。ファイルが存在しない場合などには false が返ります。</returns>
-		protected static bool DrawShipSwfImage( Graphics g, string resourceID, int characterID, int x, int y, Size size ) {
+		protected static bool DrawShipSwfImage( Graphics g, string resourceID, SwfHelper.ShipResourceCharacterID characterID, int x, int y, Size size ) {
 			try {
-				using ( var shipImage = GetShipSwfImage( resourceID, characterID ) ) {
+				using ( var shipImage = SwfHelper.GetShipSwfImage( resourceID, characterID ) ) {
 					if ( shipImage == null )
 						return false;
 
@@ -1292,33 +1274,6 @@ namespace ElectronicObserver.Utility {
 				return true;
 			} catch ( Exception ) {
 				return false;
-			}
-		}
-
-		/// <summary>
-		/// 艦船画像を swf ファイルから読み込みます。
-		/// </summary>
-		/// <param name="resourceID">艦船のリソース名(ファイル名)。</param>
-		/// <param name="characterID">描画する画像の CharacterID 。</param>
-		/// <returns>成功した場合は対象の Bitmap オブジェクト、失敗した場合は null を返します。</returns>
-		protected static Bitmap GetShipSwfImage( string resourceID, int characterID ) {
-			try {
-
-				string shipSwfPath = System.IO.Directory.GetFiles( Utility.Configuration.Config.Connection.SaveDataPath + @"\resources\swf\ships\", "*.swf", System.IO.SearchOption.TopDirectoryOnly )
-					.Where( path => path.Contains( resourceID ) ).LastOrDefault();
-
-				if ( shipSwfPath != null ) {
-
-					var shipSwf = new SwfParser();
-					shipSwf.Parse( shipSwfPath );
-
-					var imgtag = shipSwf.FindTags<SwfExtractor.Tags.ImageTag>().FirstOrDefault( t => t.CharacterID == characterID );
-					return imgtag.ExtractImage();
-				}
-
-				return null;
-			} catch ( Exception ) {
-				return null;
 			}
 		}
 

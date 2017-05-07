@@ -24,8 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,10 +148,11 @@
 			this.ASWSeparater = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ASWLevel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.EvasionMin = new ElectronicObserver.Window.Control.ImageLabel();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.ShipBanner = new System.Windows.Forms.PictureBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.LevelTimer = new System.Windows.Forms.Timer(this.components);
 			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
+			this.ImageLoader = new System.ComponentModel.BackgroundWorker();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -168,7 +169,7 @@
 			this.TableEquipment.SuspendLayout();
 			this.TableParameterMain.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ParameterLevel)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.ShipBanner)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -251,14 +252,14 @@
             this.ShipView_ShipID,
             this.ShipView_ShipType,
             this.ShipView_Name});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ShipView.DefaultCellStyle = dataGridViewCellStyle4;
 			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ShipView.Location = new System.Drawing.Point(0, 0);
 			this.ShipView.MultiSelect = false;
@@ -276,8 +277,8 @@
 			// ShipView_ShipID
 			// 
 			this.ShipView_ShipID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ShipView_ShipID.DefaultCellStyle = dataGridViewCellStyle3;
 			this.ShipView_ShipID.HeaderText = "ID";
 			this.ShipView_ShipID.Name = "ShipView_ShipID";
 			this.ShipView_ShipID.ReadOnly = true;
@@ -316,7 +317,7 @@
 			this.BasePanelShipGirl.Controls.Add(this.TableEquipment);
 			this.BasePanelShipGirl.Controls.Add(this.imageLabel45);
 			this.BasePanelShipGirl.Controls.Add(this.TableParameterMain);
-			this.BasePanelShipGirl.Controls.Add(this.pictureBox1);
+			this.BasePanelShipGirl.Controls.Add(this.ShipBanner);
 			this.BasePanelShipGirl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BasePanelShipGirl.Location = new System.Drawing.Point(0, 0);
 			this.BasePanelShipGirl.Name = "BasePanelShipGirl";
@@ -1663,14 +1664,14 @@
 			this.EvasionMin.Text = "123";
 			this.EvasionMin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// pictureBox1
+			// ShipBanner
 			// 
-			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox1.Location = new System.Drawing.Point(383, 3);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(160, 40);
-			this.pictureBox1.TabIndex = 4;
-			this.pictureBox1.TabStop = false;
+			this.ShipBanner.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ShipBanner.Location = new System.Drawing.Point(383, 3);
+			this.ShipBanner.Name = "ShipBanner";
+			this.ShipBanner.Size = new System.Drawing.Size(160, 40);
+			this.ShipBanner.TabIndex = 4;
+			this.ShipBanner.TabStop = false;
 			// 
 			// ToolTipInfo
 			// 
@@ -1688,6 +1689,11 @@
 			// 
 			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
 			this.SaveCSVDialog.Title = "CSVに出力";
+			// 
+			// ImageLoader
+			// 
+			this.ImageLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ImageLoader_DoWork);
+			this.ImageLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.ImageLoader_RunWorkerCompleted);
 			// 
 			// DialogAlbumMasterShip
 			// 
@@ -1730,7 +1736,7 @@
 			this.TableParameterMain.ResumeLayout(false);
 			this.TableParameterMain.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ParameterLevel)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ShipBanner)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1742,7 +1748,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.DataGridView ShipView;
 		private System.Windows.Forms.Panel BasePanelShipGirl;
-		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.PictureBox ShipBanner;
 		private System.Windows.Forms.TableLayoutPanel TableParameterMain;
 		private Control.ImageLabel TitleLuck;
 		private System.Windows.Forms.NumericUpDown ParameterLevel;
@@ -1864,5 +1870,6 @@
 		private Control.ImageLabel ResourceName;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Edit;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Edit_EditParameter;
+		private System.ComponentModel.BackgroundWorker ImageLoader;
 	}
 }
