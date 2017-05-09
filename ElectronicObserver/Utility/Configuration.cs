@@ -1151,6 +1151,9 @@ namespace ElectronicObserver.Utility {
 				public int OutputType { get; set; }
 				public bool OpenImageAfterOutput { get; set; }
 				public string LastOutputPath { get; set; }
+				public bool DisableOverwritePrompt { get; set; }
+				public bool AutoSetFileNameToDate { get; set; }
+				public bool SyncronizeTitleAndFileName { get; set; }
 
 				public ConfigFleetImageGenerator()
 					: base() {
@@ -1159,6 +1162,9 @@ namespace ElectronicObserver.Utility {
 					OutputType = 0;
 					OpenImageAfterOutput = false;
 					LastOutputPath = "";
+					DisableOverwritePrompt = false;
+					AutoSetFileNameToDate = false;
+					SyncronizeTitleAndFileName = false;
 				}
 			}
 			[DataMember]

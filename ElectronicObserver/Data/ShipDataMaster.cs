@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -564,36 +565,6 @@ namespace ElectronicObserver.Data {
 			get { return ShipID > 1500; }
 		}
 
-		/// <summary>
-		/// 深海棲艦のクラス
-		/// 0=その他, 1=通常, 2=elite, 3=flagship, 4=改flagship|後期型, 5=後期型elite, 6=後期型flagship
-		/// </summary>
-		public int AbyssalShipClass {
-			get {
-				if ( !IsAbyssalShip )
-					return 0;
-
-				else if ( Name.Contains( "後期型" ) ) {
-					if ( NameReading == "flagship" )
-						return 6;
-					else if ( NameReading == "elite" )
-						return 5;
-					else
-						return 4;
-
-				} else if ( Name.Contains( "改" ) && NameReading == "flagship" )
-					return 4;
-				else if ( NameReading == "flagship" )
-					return 3;
-				else if ( NameReading == "elite" )
-					return 2;
-				else if ( NameReading == "" ||
-						  NameReading == "-" )
-					return 1;
-				else
-					return 0;
-			}
-		}
 
 		/// <summary>
 		/// クラスも含めた艦名
@@ -634,6 +605,14 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
+		/// 潜水艦系か
+		/// </summary>
+		public bool IsSubmarine {
+			get { return ShipType == 13 || ShipType == 14; }
+		}
+
+
+		/// <summary>
 		/// 自身のパラメータレコードを取得します。
 		/// </summary>
 		/// <returns></returns>
@@ -642,6 +621,62 @@ namespace ElectronicObserver.Data {
 		}
 
 
+
+		private static readonly Color[] ShipNameColors = new Color[] { 
+			Color.FromArgb( 0x00, 0x00, 0x00 ),
+			Color.FromArgb( 0xFF, 0x00, 0x00 ),
+			Color.FromArgb( 0xFF, 0x88, 0x00 ),
+			Color.FromArgb( 0x00, 0x66, 0x00 ),
+			Color.FromArgb( 0x88, 0x00, 0x00 ),
+			Color.FromArgb( 0x00, 0x88, 0xFF ),
+			Color.FromArgb( 0x00, 0x00, 0xFF ),
+		};
+
+		public Color GetShipNameColor() {
+
+			if ( !IsAbyssalShip ) {
+				return SystemColors.ControlText;
+			}
+
+			bool isLateModel = Name.Contains( "後期型" );
+			bool isRemodeled = Name.Contains( "改" );
+			bool isDestroyed = Name.EndsWith( "-壊" );
+			bool isDemon = Name.EndsWith( "鬼" );
+			bool isPrincess = Name.EndsWith( "姫" );
+			bool isWaterDemon = Name.EndsWith( "水鬼" );
+			bool isWaterPrincess = Name.EndsWith( "水姫" );
+			bool isElite = NameReading == "elite";
+			bool isFlagship = NameReading == "flagship";
+
+		
+			if ( isDestroyed )
+				return Color.FromArgb( 0xFF, 0x00, 0xFF );
+
+			else if ( isWaterPrincess )
+				return ShipNameColors[6];
+			else if ( isWaterDemon )
+				return ShipNameColors[5];
+			else if ( isPrincess )
+				return ShipNameColors[4];
+			else if ( isDemon )
+				return ShipNameColors[3];
+			else {
+
+				int tier;
+
+				if ( isFlagship )
+					tier = 2;
+				else if ( isElite )
+					tier = 1;
+				else
+					tier = 0;
+
+				if ( isLateModel || isRemodeled )
+					tier += 3;
+
+				return ShipNameColors[tier];
+			}
+		}
 
 
 		public ShipDataMaster() {

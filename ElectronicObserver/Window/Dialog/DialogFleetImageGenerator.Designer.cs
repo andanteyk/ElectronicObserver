@@ -26,19 +26,35 @@
 			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.GroupOutputPath = new System.Windows.Forms.GroupBox();
+			this.SearchOutputPath = new System.Windows.Forms.Button();
+			this.OutputPath = new System.Windows.Forms.TextBox();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.Title = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.Comment = new System.Windows.Forms.TextBox();
+			this.ButtonAlert = new System.Windows.Forms.Button();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.ImageTypeBanner = new System.Windows.Forms.RadioButton();
+			this.ImageTypeCutin = new System.Windows.Forms.RadioButton();
+			this.ImageTypeCard = new System.Windows.Forms.RadioButton();
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.ButtonOK = new System.Windows.Forms.Button();
-			this.Comment = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.Title = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.TargetFleet4 = new System.Windows.Forms.CheckBox();
 			this.TargetFleet3 = new System.Windows.Forms.CheckBox();
 			this.TargetFleet2 = new System.Windows.Forms.CheckBox();
 			this.TargetFleet1 = new System.Windows.Forms.CheckBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.SyncronizeTitleAndFileName = new System.Windows.Forms.CheckBox();
+			this.AutoSetFileNameToDate = new System.Windows.Forms.CheckBox();
+			this.OutputToClipboard = new System.Windows.Forms.CheckBox();
+			this.DisableOverwritePrompt = new System.Windows.Forms.CheckBox();
+			this.OpenImageAfterOutput = new System.Windows.Forms.CheckBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.ClearBackgroundPath = new System.Windows.Forms.Button();
 			this.SearchBackgroundImagePath = new System.Windows.Forms.Button();
 			this.BackgroundImagePath = new System.Windows.Forms.TextBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -50,6 +66,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.ButtonClearFont = new System.Windows.Forms.Button();
 			this.ApplyGeneralFont = new System.Windows.Forms.Button();
 			this.label12 = new System.Windows.Forms.Label();
 			this.SelectSmallDigitFont = new System.Windows.Forms.Button();
@@ -74,31 +91,22 @@
 			this.TextGeneralFont = new System.Windows.Forms.TextBox();
 			this.fontDialog1 = new System.Windows.Forms.FontDialog();
 			this.OpenImageDialog = new System.Windows.Forms.OpenFileDialog();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.ImageTypeBanner = new System.Windows.Forms.RadioButton();
-			this.ImageTypeCutin = new System.Windows.Forms.RadioButton();
-			this.ImageTypeCard = new System.Windows.Forms.RadioButton();
 			this.SaveImageDialog = new System.Windows.Forms.SaveFileDialog();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.OpenImageAfterOutput = new System.Windows.Forms.CheckBox();
-			this.OutputTypeClipboard = new System.Windows.Forms.RadioButton();
-			this.OutputTypeFile = new System.Windows.Forms.RadioButton();
-			this.ClearBackgroundPath = new System.Windows.Forms.Button();
-			this.ButtonAlert = new System.Windows.Forms.Button();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.ButtonClearFont = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
+			this.GroupOutputPath.SuspendLayout();
+			this.groupBox7.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.HorizontalShipCount)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.HorizontalFleetCount)).BeginInit();
 			this.tabPage3.SuspendLayout();
 			this.groupBox6.SuspendLayout();
-			this.groupBox3.SuspendLayout();
-			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -110,33 +118,190 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(464, 321);
+			this.tabControl1.Size = new System.Drawing.Size(464, 401);
 			this.tabControl1.TabIndex = 0;
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.GroupOutputPath);
+			this.tabPage1.Controls.Add(this.groupBox7);
 			this.tabPage1.Controls.Add(this.ButtonAlert);
 			this.tabPage1.Controls.Add(this.groupBox3);
 			this.tabPage1.Controls.Add(this.ButtonCancel);
 			this.tabPage1.Controls.Add(this.ButtonOK);
-			this.tabPage1.Controls.Add(this.Comment);
-			this.tabPage1.Controls.Add(this.label3);
-			this.tabPage1.Controls.Add(this.Title);
-			this.tabPage1.Controls.Add(this.label2);
 			this.tabPage1.Controls.Add(this.groupBox1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 24);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(456, 293);
+			this.tabPage1.Size = new System.Drawing.Size(456, 373);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "基本";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// GroupOutputPath
+			// 
+			this.GroupOutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.GroupOutputPath.Controls.Add(this.SearchOutputPath);
+			this.GroupOutputPath.Controls.Add(this.OutputPath);
+			this.GroupOutputPath.Location = new System.Drawing.Point(8, 279);
+			this.GroupOutputPath.Name = "GroupOutputPath";
+			this.GroupOutputPath.Size = new System.Drawing.Size(440, 57);
+			this.GroupOutputPath.TabIndex = 10;
+			this.GroupOutputPath.TabStop = false;
+			this.GroupOutputPath.Text = "出力先";
+			// 
+			// SearchOutputPath
+			// 
+			this.SearchOutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.SearchOutputPath.Location = new System.Drawing.Point(394, 21);
+			this.SearchOutputPath.Name = "SearchOutputPath";
+			this.SearchOutputPath.Size = new System.Drawing.Size(40, 23);
+			this.SearchOutputPath.TabIndex = 6;
+			this.SearchOutputPath.Text = "...";
+			this.ToolTipInfo.SetToolTip(this.SearchOutputPath, "出力先のファイルを検索・指定するダイアログを開きます。");
+			this.SearchOutputPath.UseVisualStyleBackColor = true;
+			this.SearchOutputPath.Click += new System.EventHandler(this.SearchOutputPath_Click);
+			// 
+			// OutputPath
+			// 
+			this.OutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.OutputPath.Location = new System.Drawing.Point(6, 22);
+			this.OutputPath.Name = "OutputPath";
+			this.OutputPath.Size = new System.Drawing.Size(382, 23);
+			this.OutputPath.TabIndex = 5;
+			this.ToolTipInfo.SetToolTip(this.OutputPath, "出力先のファイル名を指定します。");
+			this.OutputPath.TextChanged += new System.EventHandler(this.OutputPath_TextChanged);
+			// 
+			// groupBox7
+			// 
+			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox7.Controls.Add(this.label2);
+			this.groupBox7.Controls.Add(this.Title);
+			this.groupBox7.Controls.Add(this.label3);
+			this.groupBox7.Controls.Add(this.Comment);
+			this.groupBox7.Location = new System.Drawing.Point(8, 127);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.Size = new System.Drawing.Size(440, 146);
+			this.groupBox7.TabIndex = 9;
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = "自由入力欄";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(6, 25);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(54, 15);
+			this.label2.TabIndex = 3;
+			this.label2.Text = "タイトル：";
+			// 
+			// Title
+			// 
+			this.Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Title.Location = new System.Drawing.Point(66, 22);
+			this.Title.Name = "Title";
+			this.Title.Size = new System.Drawing.Size(368, 23);
+			this.Title.TabIndex = 4;
+			this.Title.TextChanged += new System.EventHandler(this.Title_TextChanged);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(6, 48);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(52, 15);
+			this.label3.TabIndex = 5;
+			this.label3.Text = "コメント：";
+			// 
+			// Comment
+			// 
+			this.Comment.AcceptsReturn = true;
+			this.Comment.AcceptsTab = true;
+			this.Comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Comment.Location = new System.Drawing.Point(6, 66);
+			this.Comment.MaxLength = 0;
+			this.Comment.Multiline = true;
+			this.Comment.Name = "Comment";
+			this.Comment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.Comment.Size = new System.Drawing.Size(428, 74);
+			this.Comment.TabIndex = 6;
+			this.Comment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Comment_KeyDown);
+			// 
+			// ButtonAlert
+			// 
+			this.ButtonAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.ButtonAlert.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+			this.ButtonAlert.ForeColor = System.Drawing.Color.Red;
+			this.ButtonAlert.Location = new System.Drawing.Point(6, 342);
+			this.ButtonAlert.Name = "ButtonAlert";
+			this.ButtonAlert.Size = new System.Drawing.Size(278, 23);
+			this.ButtonAlert.TabIndex = 8;
+			this.ButtonAlert.Text = "Alert";
+			this.ButtonAlert.UseVisualStyleBackColor = true;
+			this.ButtonAlert.Click += new System.EventHandler(this.ButtonAlert_Click);
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox3.Controls.Add(this.ImageTypeBanner);
+			this.groupBox3.Controls.Add(this.ImageTypeCutin);
+			this.groupBox3.Controls.Add(this.ImageTypeCard);
+			this.groupBox3.Location = new System.Drawing.Point(8, 11);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(440, 52);
+			this.groupBox3.TabIndex = 0;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "出力モード";
+			// 
+			// ImageTypeBanner
+			// 
+			this.ImageTypeBanner.AutoSize = true;
+			this.ImageTypeBanner.Location = new System.Drawing.Point(213, 22);
+			this.ImageTypeBanner.Name = "ImageTypeBanner";
+			this.ImageTypeBanner.Size = new System.Drawing.Size(93, 19);
+			this.ImageTypeBanner.TabIndex = 2;
+			this.ImageTypeBanner.TabStop = true;
+			this.ImageTypeBanner.Text = "バナー (小型)";
+			this.ImageTypeBanner.UseVisualStyleBackColor = true;
+			this.ImageTypeBanner.CheckedChanged += new System.EventHandler(this.ImageTypeBanner_CheckedChanged);
+			// 
+			// ImageTypeCutin
+			// 
+			this.ImageTypeCutin.AutoSize = true;
+			this.ImageTypeCutin.Location = new System.Drawing.Point(102, 22);
+			this.ImageTypeCutin.Name = "ImageTypeCutin";
+			this.ImageTypeCutin.Size = new System.Drawing.Size(105, 19);
+			this.ImageTypeCutin.TabIndex = 1;
+			this.ImageTypeCutin.TabStop = true;
+			this.ImageTypeCutin.Text = "カットイン (中型)";
+			this.ImageTypeCutin.UseVisualStyleBackColor = true;
+			this.ImageTypeCutin.CheckedChanged += new System.EventHandler(this.ImageTypeCutin_CheckedChanged);
+			// 
+			// ImageTypeCard
+			// 
+			this.ImageTypeCard.AutoSize = true;
+			this.ImageTypeCard.Location = new System.Drawing.Point(6, 22);
+			this.ImageTypeCard.Name = "ImageTypeCard";
+			this.ImageTypeCard.Size = new System.Drawing.Size(90, 19);
+			this.ImageTypeCard.TabIndex = 0;
+			this.ImageTypeCard.TabStop = true;
+			this.ImageTypeCard.Text = "カード (大型)";
+			this.ImageTypeCard.UseVisualStyleBackColor = true;
+			this.ImageTypeCard.CheckedChanged += new System.EventHandler(this.ImageTypeCard_CheckedChanged);
 			// 
 			// ButtonCancel
 			// 
 			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.ButtonCancel.Location = new System.Drawing.Point(373, 260);
+			this.ButtonCancel.Location = new System.Drawing.Point(373, 342);
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this.ButtonCancel.TabIndex = 0;
@@ -147,54 +312,13 @@
 			// ButtonOK
 			// 
 			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonOK.Location = new System.Drawing.Point(292, 260);
+			this.ButtonOK.Location = new System.Drawing.Point(292, 342);
 			this.ButtonOK.Name = "ButtonOK";
 			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
 			this.ButtonOK.TabIndex = 7;
 			this.ButtonOK.Text = "OK";
 			this.ButtonOK.UseVisualStyleBackColor = true;
 			this.ButtonOK.Click += new System.EventHandler(this.ButtonOK_Click);
-			// 
-			// Comment
-			// 
-			this.Comment.AcceptsReturn = true;
-			this.Comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Comment.Location = new System.Drawing.Point(8, 186);
-			this.Comment.MaxLength = 0;
-			this.Comment.Multiline = true;
-			this.Comment.Name = "Comment";
-			this.Comment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.Comment.Size = new System.Drawing.Size(440, 68);
-			this.Comment.TabIndex = 6;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(8, 168);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(52, 15);
-			this.label3.TabIndex = 5;
-			this.label3.Text = "コメント：";
-			// 
-			// Title
-			// 
-			this.Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Title.Location = new System.Drawing.Point(8, 142);
-			this.Title.Name = "Title";
-			this.Title.Size = new System.Drawing.Size(440, 23);
-			this.Title.TabIndex = 4;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(6, 124);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(54, 15);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "タイトル：";
 			// 
 			// groupBox1
 			// 
@@ -263,10 +387,84 @@
 			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(456, 293);
+			this.tabPage2.Size = new System.Drawing.Size(456, 373);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "詳細";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Controls.Add(this.SyncronizeTitleAndFileName);
+			this.groupBox2.Controls.Add(this.AutoSetFileNameToDate);
+			this.groupBox2.Controls.Add(this.OutputToClipboard);
+			this.groupBox2.Controls.Add(this.DisableOverwritePrompt);
+			this.groupBox2.Controls.Add(this.OpenImageAfterOutput);
+			this.groupBox2.Location = new System.Drawing.Point(8, 164);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(440, 101);
+			this.groupBox2.TabIndex = 11;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "出力先";
+			// 
+			// SyncronizeTitleAndFileName
+			// 
+			this.SyncronizeTitleAndFileName.AutoSize = true;
+			this.SyncronizeTitleAndFileName.Location = new System.Drawing.Point(155, 72);
+			this.SyncronizeTitleAndFileName.Name = "SyncronizeTitleAndFileName";
+			this.SyncronizeTitleAndFileName.Size = new System.Drawing.Size(148, 19);
+			this.SyncronizeTitleAndFileName.TabIndex = 9;
+			this.SyncronizeTitleAndFileName.Text = "タイトルとファイル名を同期";
+			this.ToolTipInfo.SetToolTip(this.SyncronizeTitleAndFileName, "タイトルと出力ファイル名を同じにします。");
+			this.SyncronizeTitleAndFileName.UseVisualStyleBackColor = true;
+			this.SyncronizeTitleAndFileName.CheckedChanged += new System.EventHandler(this.SyncronizeTitleAndFileName_CheckedChanged);
+			// 
+			// AutoSetFileNameToDate
+			// 
+			this.AutoSetFileNameToDate.AutoSize = true;
+			this.AutoSetFileNameToDate.Location = new System.Drawing.Point(155, 47);
+			this.AutoSetFileNameToDate.Name = "AutoSetFileNameToDate";
+			this.AutoSetFileNameToDate.Size = new System.Drawing.Size(181, 19);
+			this.AutoSetFileNameToDate.TabIndex = 8;
+			this.AutoSetFileNameToDate.Text = "出力ファイル名を現在日時にする";
+			this.ToolTipInfo.SetToolTip(this.AutoSetFileNameToDate, "自動的にファイル名を現在の日付にします。");
+			this.AutoSetFileNameToDate.UseVisualStyleBackColor = true;
+			this.AutoSetFileNameToDate.CheckedChanged += new System.EventHandler(this.AutoSetFileNameToDate_CheckedChanged);
+			// 
+			// OutputToClipboard
+			// 
+			this.OutputToClipboard.AutoSize = true;
+			this.OutputToClipboard.Location = new System.Drawing.Point(6, 22);
+			this.OutputToClipboard.Name = "OutputToClipboard";
+			this.OutputToClipboard.Size = new System.Drawing.Size(118, 19);
+			this.OutputToClipboard.TabIndex = 7;
+			this.OutputToClipboard.Text = "クリップボードに出力";
+			this.ToolTipInfo.SetToolTip(this.OutputToClipboard, "画像をクリップボードに出力します。\r\nファイル系の指定は無視されます。\r\n");
+			this.OutputToClipboard.UseVisualStyleBackColor = true;
+			this.OutputToClipboard.CheckedChanged += new System.EventHandler(this.OutputToClipboard_CheckedChanged);
+			// 
+			// DisableOverwritePrompt
+			// 
+			this.DisableOverwritePrompt.AutoSize = true;
+			this.DisableOverwritePrompt.Location = new System.Drawing.Point(6, 72);
+			this.DisableOverwritePrompt.Name = "DisableOverwritePrompt";
+			this.DisableOverwritePrompt.Size = new System.Drawing.Size(113, 19);
+			this.DisableOverwritePrompt.TabIndex = 5;
+			this.DisableOverwritePrompt.Text = "上書きを常に許可";
+			this.ToolTipInfo.SetToolTip(this.DisableOverwritePrompt, "ファイルの上書きチェックを無効にし、常に上書き可能にします。");
+			this.DisableOverwritePrompt.UseVisualStyleBackColor = true;
+			// 
+			// OpenImageAfterOutput
+			// 
+			this.OpenImageAfterOutput.AutoSize = true;
+			this.OpenImageAfterOutput.Location = new System.Drawing.Point(6, 47);
+			this.OpenImageAfterOutput.Name = "OpenImageAfterOutput";
+			this.OpenImageAfterOutput.Size = new System.Drawing.Size(89, 19);
+			this.OpenImageAfterOutput.TabIndex = 2;
+			this.OpenImageAfterOutput.Text = "保存後に開く";
+			this.ToolTipInfo.SetToolTip(this.OpenImageAfterOutput, "出力先が「ファイル」の場合、出力後にその画像をビューアで開くかを指定します。\r\nその画像に紐づけられている既定のビューアが起動します。");
+			this.OpenImageAfterOutput.UseVisualStyleBackColor = true;
 			// 
 			// groupBox5
 			// 
@@ -275,12 +473,24 @@
 			this.groupBox5.Controls.Add(this.ClearBackgroundPath);
 			this.groupBox5.Controls.Add(this.SearchBackgroundImagePath);
 			this.groupBox5.Controls.Add(this.BackgroundImagePath);
-			this.groupBox5.Location = new System.Drawing.Point(8, 150);
+			this.groupBox5.Location = new System.Drawing.Point(8, 100);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(440, 58);
 			this.groupBox5.TabIndex = 1;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "背景画像";
+			// 
+			// ClearBackgroundPath
+			// 
+			this.ClearBackgroundPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ClearBackgroundPath.Location = new System.Drawing.Point(394, 21);
+			this.ClearBackgroundPath.Name = "ClearBackgroundPath";
+			this.ClearBackgroundPath.Size = new System.Drawing.Size(40, 23);
+			this.ClearBackgroundPath.TabIndex = 2;
+			this.ClearBackgroundPath.Text = "なし";
+			this.ToolTipInfo.SetToolTip(this.ClearBackgroundPath, "背景画像をクリアします。");
+			this.ClearBackgroundPath.UseVisualStyleBackColor = true;
+			this.ClearBackgroundPath.Click += new System.EventHandler(this.ClearBackgroundPath_Click);
 			// 
 			// SearchBackgroundImagePath
 			// 
@@ -316,7 +526,7 @@
 			this.groupBox4.Controls.Add(this.label4);
 			this.groupBox4.Location = new System.Drawing.Point(8, 6);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(440, 138);
+			this.groupBox4.Size = new System.Drawing.Size(440, 88);
 			this.groupBox4.TabIndex = 0;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "レイアウト";
@@ -324,7 +534,7 @@
 			// AvoidTwitterDeterioration
 			// 
 			this.AvoidTwitterDeterioration.AutoSize = true;
-			this.AvoidTwitterDeterioration.Location = new System.Drawing.Point(9, 105);
+			this.AvoidTwitterDeterioration.Location = new System.Drawing.Point(155, 52);
 			this.AvoidTwitterDeterioration.Name = "AvoidTwitterDeterioration";
 			this.AvoidTwitterDeterioration.Size = new System.Drawing.Size(182, 19);
 			this.AvoidTwitterDeterioration.TabIndex = 5;
@@ -336,7 +546,7 @@
 			// ReflectDamageGraphic
 			// 
 			this.ReflectDamageGraphic.AutoSize = true;
-			this.ReflectDamageGraphic.Location = new System.Drawing.Point(9, 80);
+			this.ReflectDamageGraphic.Location = new System.Drawing.Point(155, 23);
 			this.ReflectDamageGraphic.Name = "ReflectDamageGraphic";
 			this.ReflectDamageGraphic.Size = new System.Drawing.Size(149, 19);
 			this.ReflectDamageGraphic.TabIndex = 4;
@@ -355,8 +565,7 @@
 			// 
 			// HorizontalShipCount
 			// 
-			this.HorizontalShipCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.HorizontalShipCount.Location = new System.Drawing.Point(374, 51);
+			this.HorizontalShipCount.Location = new System.Drawing.Point(89, 51);
 			this.HorizontalShipCount.Maximum = new decimal(new int[] {
             6,
             0,
@@ -380,8 +589,7 @@
 			// 
 			// HorizontalFleetCount
 			// 
-			this.HorizontalFleetCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.HorizontalFleetCount.Location = new System.Drawing.Point(374, 22);
+			this.HorizontalFleetCount.Location = new System.Drawing.Point(89, 22);
 			this.HorizontalFleetCount.Maximum = new decimal(new int[] {
             4,
             0,
@@ -418,7 +626,7 @@
 			this.tabPage3.Location = new System.Drawing.Point(4, 24);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(456, 293);
+			this.tabPage3.Size = new System.Drawing.Size(456, 373);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "フォント";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -453,10 +661,21 @@
 			this.groupBox6.Controls.Add(this.TextGeneralFont);
 			this.groupBox6.Location = new System.Drawing.Point(6, 6);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(442, 277);
+			this.groupBox6.Size = new System.Drawing.Size(442, 349);
 			this.groupBox6.TabIndex = 0;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "フォント";
+			// 
+			// ButtonClearFont
+			// 
+			this.ButtonClearFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonClearFont.Location = new System.Drawing.Point(361, 225);
+			this.ButtonClearFont.Name = "ButtonClearFont";
+			this.ButtonClearFont.Size = new System.Drawing.Size(75, 23);
+			this.ButtonClearFont.TabIndex = 22;
+			this.ButtonClearFont.Text = "デフォルト";
+			this.ButtonClearFont.UseVisualStyleBackColor = true;
+			this.ButtonClearFont.Click += new System.EventHandler(this.ButtonClearFont_Click);
 			// 
 			// ApplyGeneralFont
 			// 
@@ -692,132 +911,11 @@
     "le|*";
 			this.OpenImageDialog.Title = "背景画像の参照";
 			// 
-			// groupBox3
-			// 
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Controls.Add(this.ImageTypeBanner);
-			this.groupBox3.Controls.Add(this.ImageTypeCutin);
-			this.groupBox3.Controls.Add(this.ImageTypeCard);
-			this.groupBox3.Location = new System.Drawing.Point(8, 11);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(440, 52);
-			this.groupBox3.TabIndex = 0;
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "出力モード";
-			// 
-			// ImageTypeBanner
-			// 
-			this.ImageTypeBanner.AutoSize = true;
-			this.ImageTypeBanner.Location = new System.Drawing.Point(213, 22);
-			this.ImageTypeBanner.Name = "ImageTypeBanner";
-			this.ImageTypeBanner.Size = new System.Drawing.Size(93, 19);
-			this.ImageTypeBanner.TabIndex = 2;
-			this.ImageTypeBanner.TabStop = true;
-			this.ImageTypeBanner.Text = "バナー (小型)";
-			this.ImageTypeBanner.UseVisualStyleBackColor = true;
-			this.ImageTypeBanner.CheckedChanged += new System.EventHandler(this.ImageTypeBanner_CheckedChanged);
-			// 
-			// ImageTypeCutin
-			// 
-			this.ImageTypeCutin.AutoSize = true;
-			this.ImageTypeCutin.Location = new System.Drawing.Point(102, 22);
-			this.ImageTypeCutin.Name = "ImageTypeCutin";
-			this.ImageTypeCutin.Size = new System.Drawing.Size(105, 19);
-			this.ImageTypeCutin.TabIndex = 1;
-			this.ImageTypeCutin.TabStop = true;
-			this.ImageTypeCutin.Text = "カットイン (中型)";
-			this.ImageTypeCutin.UseVisualStyleBackColor = true;
-			this.ImageTypeCutin.CheckedChanged += new System.EventHandler(this.ImageTypeCutin_CheckedChanged);
-			// 
-			// ImageTypeCard
-			// 
-			this.ImageTypeCard.AutoSize = true;
-			this.ImageTypeCard.Location = new System.Drawing.Point(6, 22);
-			this.ImageTypeCard.Name = "ImageTypeCard";
-			this.ImageTypeCard.Size = new System.Drawing.Size(90, 19);
-			this.ImageTypeCard.TabIndex = 0;
-			this.ImageTypeCard.TabStop = true;
-			this.ImageTypeCard.Text = "カード (大型)";
-			this.ImageTypeCard.UseVisualStyleBackColor = true;
-			this.ImageTypeCard.CheckedChanged += new System.EventHandler(this.ImageTypeCard_CheckedChanged);
-			// 
 			// SaveImageDialog
 			// 
 			this.SaveImageDialog.Filter = "PNG|*.png|JPEG|*.jpg|File|*";
+			this.SaveImageDialog.OverwritePrompt = false;
 			this.SaveImageDialog.Title = "編成画像の保存";
-			// 
-			// groupBox2
-			// 
-			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.Controls.Add(this.OpenImageAfterOutput);
-			this.groupBox2.Controls.Add(this.OutputTypeClipboard);
-			this.groupBox2.Controls.Add(this.OutputTypeFile);
-			this.groupBox2.Location = new System.Drawing.Point(8, 214);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(440, 54);
-			this.groupBox2.TabIndex = 2;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "出力先";
-			// 
-			// OpenImageAfterOutput
-			// 
-			this.OpenImageAfterOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.OpenImageAfterOutput.AutoSize = true;
-			this.OpenImageAfterOutput.Location = new System.Drawing.Point(345, 23);
-			this.OpenImageAfterOutput.Name = "OpenImageAfterOutput";
-			this.OpenImageAfterOutput.Size = new System.Drawing.Size(89, 19);
-			this.OpenImageAfterOutput.TabIndex = 2;
-			this.OpenImageAfterOutput.Text = "保存後に開く";
-			this.ToolTipInfo.SetToolTip(this.OpenImageAfterOutput, "出力先が「ファイル」の場合、出力後にその画像をビューアで開くかを指定します。\r\nその画像に紐づけられている既定のビューアが起動します。");
-			this.OpenImageAfterOutput.UseVisualStyleBackColor = true;
-			// 
-			// OutputTypeClipboard
-			// 
-			this.OutputTypeClipboard.AutoSize = true;
-			this.OutputTypeClipboard.Location = new System.Drawing.Point(72, 23);
-			this.OutputTypeClipboard.Name = "OutputTypeClipboard";
-			this.OutputTypeClipboard.Size = new System.Drawing.Size(84, 19);
-			this.OutputTypeClipboard.TabIndex = 1;
-			this.OutputTypeClipboard.TabStop = true;
-			this.OutputTypeClipboard.Text = "クリップボード";
-			this.OutputTypeClipboard.UseVisualStyleBackColor = true;
-			// 
-			// OutputTypeFile
-			// 
-			this.OutputTypeFile.AutoSize = true;
-			this.OutputTypeFile.Location = new System.Drawing.Point(7, 23);
-			this.OutputTypeFile.Name = "OutputTypeFile";
-			this.OutputTypeFile.Size = new System.Drawing.Size(59, 19);
-			this.OutputTypeFile.TabIndex = 0;
-			this.OutputTypeFile.TabStop = true;
-			this.OutputTypeFile.Text = "ファイル";
-			this.OutputTypeFile.UseVisualStyleBackColor = true;
-			// 
-			// ClearBackgroundPath
-			// 
-			this.ClearBackgroundPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ClearBackgroundPath.Location = new System.Drawing.Point(394, 21);
-			this.ClearBackgroundPath.Name = "ClearBackgroundPath";
-			this.ClearBackgroundPath.Size = new System.Drawing.Size(40, 23);
-			this.ClearBackgroundPath.TabIndex = 2;
-			this.ClearBackgroundPath.Text = "なし";
-			this.ToolTipInfo.SetToolTip(this.ClearBackgroundPath, "背景画像をクリアします。");
-			this.ClearBackgroundPath.UseVisualStyleBackColor = true;
-			this.ClearBackgroundPath.Click += new System.EventHandler(this.ClearBackgroundPath_Click);
-			// 
-			// ButtonAlert
-			// 
-			this.ButtonAlert.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-			this.ButtonAlert.ForeColor = System.Drawing.Color.Red;
-			this.ButtonAlert.Location = new System.Drawing.Point(8, 260);
-			this.ButtonAlert.Name = "ButtonAlert";
-			this.ButtonAlert.Size = new System.Drawing.Size(278, 23);
-			this.ButtonAlert.TabIndex = 8;
-			this.ButtonAlert.Text = "Alert";
-			this.ButtonAlert.UseVisualStyleBackColor = true;
-			this.ButtonAlert.Click += new System.EventHandler(this.ButtonAlert_Click);
 			// 
 			// ToolTipInfo
 			// 
@@ -826,27 +924,17 @@
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
 			// 
-			// ButtonClearFont
-			// 
-			this.ButtonClearFont.Location = new System.Drawing.Point(361, 225);
-			this.ButtonClearFont.Name = "ButtonClearFont";
-			this.ButtonClearFont.Size = new System.Drawing.Size(75, 23);
-			this.ButtonClearFont.TabIndex = 22;
-			this.ButtonClearFont.Text = "デフォルト";
-			this.ButtonClearFont.UseVisualStyleBackColor = true;
-			this.ButtonClearFont.Click += new System.EventHandler(this.ButtonClearFont_Click);
-			// 
 			// DialogFleetImageGenerator
 			// 
 			this.AcceptButton = this.ButtonOK;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CancelButton = this.ButtonCancel;
-			this.ClientSize = new System.Drawing.Size(464, 321);
+			this.ClientSize = new System.Drawing.Size(464, 401);
 			this.Controls.Add(this.tabControl1);
 			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(480, 360);
+			this.MinimumSize = new System.Drawing.Size(480, 440);
 			this.Name = "DialogFleetImageGenerator";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
@@ -856,10 +944,17 @@
 			this.Load += new System.EventHandler(this.DialogFleetImageGenerator_Load);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
+			this.GroupOutputPath.ResumeLayout(false);
+			this.GroupOutputPath.PerformLayout();
+			this.groupBox7.ResumeLayout(false);
+			this.groupBox7.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox5.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
@@ -869,10 +964,6 @@
 			this.tabPage3.ResumeLayout(false);
 			this.groupBox6.ResumeLayout(false);
 			this.groupBox6.PerformLayout();
-			this.groupBox3.ResumeLayout(false);
-			this.groupBox3.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -933,14 +1024,20 @@
 		private System.Windows.Forms.RadioButton ImageTypeBanner;
 		private System.Windows.Forms.RadioButton ImageTypeCutin;
 		private System.Windows.Forms.RadioButton ImageTypeCard;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.CheckBox OpenImageAfterOutput;
-		private System.Windows.Forms.RadioButton OutputTypeClipboard;
-		private System.Windows.Forms.RadioButton OutputTypeFile;
 		private System.Windows.Forms.SaveFileDialog SaveImageDialog;
 		private System.Windows.Forms.Button ClearBackgroundPath;
 		private System.Windows.Forms.Button ButtonAlert;
 		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private System.Windows.Forms.Button ButtonClearFont;
+		private System.Windows.Forms.GroupBox groupBox7;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.CheckBox DisableOverwritePrompt;
+		private System.Windows.Forms.CheckBox OpenImageAfterOutput;
+		private System.Windows.Forms.GroupBox GroupOutputPath;
+		private System.Windows.Forms.Button SearchOutputPath;
+		private System.Windows.Forms.TextBox OutputPath;
+		private System.Windows.Forms.CheckBox SyncronizeTitleAndFileName;
+		private System.Windows.Forms.CheckBox AutoSetFileNameToDate;
+		private System.Windows.Forms.CheckBox OutputToClipboard;
 	}
 }

@@ -116,7 +116,7 @@ namespace ElectronicObserver.Window {
 
 
 					ShipName.Text = ship.Name;
-					ShipName.ForeColor = GetShipNameColor( ship );
+					ShipName.ForeColor = ship.GetShipNameColor();
 					ToolTipInfo.SetToolTip( ShipName, GetShipString( shipID, slot ) );
 
 					Equipments.SetSlotList( shipID, slot );
@@ -270,7 +270,7 @@ namespace ElectronicObserver.Window {
 					} else {
 
 						ShipNames[i].Text = ship.Name;
-						ShipNames[i].ForeColor = GetShipNameColor( ship );
+						ShipNames[i].ForeColor = ship.GetShipNameColor();
 						ShipNames[i].Tag = ship.ShipID;
 						ShipNames[i].Cursor = Cursors.Help;
 						ToolTipInfo.SetToolTip( ShipNames[i], GetShipString( ship.ShipID, ship.DefaultSlot != null ? ship.DefaultSlot.ToArray() : null ) );
@@ -309,26 +309,6 @@ namespace ElectronicObserver.Window {
 
 
 		#region ***Control method
-
-		private static Color GetShipNameColor( ShipDataMaster ship ) {
-			switch ( ship.AbyssalShipClass ) {
-				case 0:
-				case 1:		//normal
-				default:
-					return Color.FromArgb( 0x00, 0x00, 0x00 );
-				case 2:		//elite
-					return Color.FromArgb( 0xFF, 0x00, 0x00 );
-				case 3:		//flagship
-					return Color.FromArgb( 0xFF, 0x88, 0x00 );
-				case 4:		//latemodel / flagship kai
-					return Color.FromArgb( 0x00, 0x88, 0xFF );
-				case 5:		//latemodel elite
-					return Color.FromArgb( 0x88, 0x00, 0x00 );
-				case 6:		//latemodel flagship
-					return Color.FromArgb( 0x88, 0x44, 0x00 );
-			}
-		}
-
 
 		private static string GetShipString( int shipID, int[] slot ) {
 
@@ -709,7 +689,7 @@ namespace ElectronicObserver.Window {
 					} else if ( mapinfo.MapHPMax > 0 ) {
 						int current = compass.MapHPCurrent > 0 ? compass.MapHPCurrent : mapinfo.MapHPCurrent;
 						int max = compass.MapHPMax > 0 ? compass.MapHPMax : mapinfo.MapHPMax;
-						
+
 						ToolTipInfo.SetToolTip( TextMapArea, string.Format( "{0}: {1} / {2}", mapinfo.GaugeType == 3 ? "TP" : "HP", current, max ) );
 
 					} else {
@@ -829,6 +809,14 @@ namespace ElectronicObserver.Window {
 									break;
 								case 3:		//穏やかな海
 									eventkind = "穏やかな海";
+									TextEventDetail.Text = "";
+									break;
+								case 4:
+									eventkind = "穏やかな海峡";
+									TextEventDetail.Text = "";
+									break;
+								case 5:
+									eventkind = "警戒が必要";
 									TextEventDetail.Text = "";
 									break;
 							}

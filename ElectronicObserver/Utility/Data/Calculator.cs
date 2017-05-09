@@ -748,6 +748,7 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+
 		/// <summary>
 		/// ハードスキン型陸上基地の名前リスト
 		/// IDではなく名前なのは本家の処理に倣ったため
@@ -759,14 +760,16 @@ namespace ElectronicObserver.Utility.Data {
 			"集積地棲姫-壊",
 		};
 
+
+
 		/// <summary>
 		/// 昼戦における攻撃種別を取得します。
 		/// </summary>
 		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
 		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
-		/// <param name="defenerShipID">防御艦の艦船ID。なければ-1</param>
+		/// <param name="defenderShipID">防御艦の艦船ID。なければ-1</param>
 		/// <param name="includeSpecialAttack">弾着観測砲撃を含むか。falseなら除外して計算</param>
-		public static int GetDayAttackKind( int[] slot, int attackerShipID, int defenerShipID, bool includeSpecialAttack = true ) {
+		public static DayAttackKind GetDayAttackKind( int[] slot, int attackerShipID, int defenderShipID, bool includeSpecialAttack = true ) {
 
 			int reconcnt = 0;
 			int mainguncnt = 0;
@@ -774,11 +777,8 @@ namespace ElectronicObserver.Utility.Data {
 			int apshellcnt = 0;
 			int radarcnt = 0;
 			int rocketcnt = 0;
-			int landingcnt = 0;
-			int tokudaihatsucnt = 0;
-			int uchibicnt = 0;
 
-			if ( slot == null ) return -1;
+			if ( slot == null ) return DayAttackKind.Unknown;
 
 			for ( int i = 0; i < slot.Length; i++ ) {
 
@@ -807,88 +807,78 @@ namespace ElectronicObserver.Utility.Data {
 					case 19:	// 対艦強化弾
 						apshellcnt++;
 						break;
-					case 24:	// 上陸用舟艇
-						if ( eq.EquipmentID == 166 )		// 陸戦隊
-							landingcnt++;
-						if ( eq.EquipmentID == 193 )		// 特大発
-							tokudaihatsucnt++;
-						break;
 					case 37:	// 対地装備
 						rocketcnt++;
 						break;
-					case 46:	// 特型内火艇
-						uchibicnt++;
-						break;
+
 				}
 			}
 
 			if ( reconcnt > 0 && includeSpecialAttack ) {
 				if ( mainguncnt == 2 && apshellcnt == 1 )
-					return 6;		//カットイン(主砲/主砲)
+					return DayAttackKind.CutinMainMain;
 				else if ( mainguncnt == 1 && subguncnt == 1 && apshellcnt == 1 )
-					return 5;		//カットイン(主砲/徹甲弾)
+					return DayAttackKind.CutinMainAP;
 				else if ( mainguncnt == 1 && subguncnt == 1 && radarcnt == 1 )
-					return 4;		//カットイン(主砲/電探)
+					return DayAttackKind.CutinMainLadar;
 				else if ( mainguncnt >= 1 && subguncnt >= 1 )
-					return 3;		//カットイン(主砲/副砲)
+					return DayAttackKind.CutinMainSub;
 				else if ( mainguncnt >= 2 )
-					return 2;		//連撃
+					return DayAttackKind.DoubleShelling;
 			}
 
 
 			ShipDataMaster atkship = KCDatabase.Instance.MasterShips[attackerShipID];
-			ShipDataMaster defship = KCDatabase.Instance.MasterShips[defenerShipID];
+			ShipDataMaster defship = KCDatabase.Instance.MasterShips[defenderShipID];
 
 			if ( atkship != null ) {
 
 				if ( defship != null ) {
 
-					if ( uchibicnt > 0 && ( ( ( atkship.ShipType == 13 || atkship.ShipType == 14 ) && defship.IsLandBase ) || HardInstallationNames.Contains( defship.Name ) ) )
-						return 12;		// 揚陸攻撃(内火艇)
-
-					if ( landingcnt > 0 && HardInstallationNames.Contains( defship.Name ) )
-						return 11;		// 揚陸攻撃(大発戦車)
-
-					if ( tokudaihatsucnt > 0 && HardInstallationNames.Contains( defship.Name ) )
-						return 13;		// 揚陸攻撃(特大発)
+					int landingID = GetLandingAttackKind( slot, attackerShipID, defenderShipID );
+					if ( landingID > 0 ) {
+						return (DayAttackKind)( (int)DayAttackKind.LandingDaihatsu + landingID - 1 );
+					}
 
 					if ( rocketcnt > 0 && defship.IsLandBase )
-						return 10;		//ロケット砲撃
+						return DayAttackKind.Rocket;
 				}
 
 
 				if ( attackerShipID == 352 ) {	//速吸改
 
-					if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) ) {
+					if ( defship != null && ( defship.IsSubmarine ) ) {
 						if ( slot.Select( id => KCDatabase.Instance.MasterEquipments[id] )
 							.Count( eq => eq != null && ( ( eq.CategoryType == 8 && eq.ASW > 0 ) || eq.CategoryType == 11 || eq.CategoryType == 25 ) ) > 0 )
-							return 7;		//空撃
+							return DayAttackKind.AirAttack;		// 対潜攻撃において、( 対潜>0の艦上攻撃機 or 水上爆撃機 or オートジャイロ ) を装備している場合
 						else
-							return 8;	//爆雷攻撃
+							return DayAttackKind.DepthCharge;
 
 					} else if ( slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).Count( eq => eq != null && eq.CategoryType == 8 ) > 0 )
-						return 7;		//空撃
+						return DayAttackKind.AirAttack;
 					else
-						return 0;		//砲撃
+						return DayAttackKind.Shelling;
 
 				} else if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 )		//軽空母/正規空母/装甲空母
-					return 7;		//空撃
+					return DayAttackKind.AirAttack;
 
-				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
+				else if ( defship != null && defship.IsSubmarine )
 					if ( atkship.ShipType == 6 || atkship.ShipType == 10 ||
 						 atkship.ShipType == 16 || atkship.ShipType == 17 )			//航空巡洋艦/航空戦艦/水上機母艦/揚陸艦
-						return 7;		//空撃
+						return DayAttackKind.AirAttack;
 					else
-						return 8;		//爆雷攻撃
+						return DayAttackKind.DepthCharge;
 
 				//本来の雷撃は発生しない
-				else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )		//潜水艦/潜水空母
-					return 9;			//雷撃(特例措置, 本来のコード中には存在しない)
+				else if ( atkship.IsSubmarine )
+					return DayAttackKind.Torpedo;			//(特例措置, 本来のコード中には存在しない)
 
 			}
 
-			return 0;		//砲撃
+			return DayAttackKind.Shelling;		//砲撃
 		}
+
+
 
 
 		/// <summary>
@@ -896,21 +886,18 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
 		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
-		/// <param name="defenerShipID">防御艦の艦船ID。なければ-1</param>
+		/// <param name="defenderShipID">防御艦の艦船ID。なければ-1</param>
 		/// <param name="includeSpecialAttack">カットイン/連撃の判定を含むか。falseなら除外して計算</param>
-		public static int GetNightAttackKind( int[] slot, int attackerShipID, int defenerShipID, bool includeSpecialAttack = true ) {
+		public static NightAttackKind GetNightAttackKind( int[] slot, int attackerShipID, int defenderShipID, bool includeSpecialAttack = true ) {
 
 			int mainguncnt = 0;
 			int subguncnt = 0;
 			int torpcnt = 0;
 			int rocketcnt = 0;
-			int landingcnt = 0;
-			int uchibicnt = 0;
-			int tokudaihatsucnt = 0;
 			int latetorpcnt = 0;
 			int subeqcnt = 0;
 
-			if ( slot == null ) return -1;
+			if ( slot == null ) return NightAttackKind.Unknown;
 
 			for ( int i = 0; i < slot.Length; i++ ) {
 				EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[i]];
@@ -933,17 +920,8 @@ namespace ElectronicObserver.Utility.Data {
 						if ( LateModelTorpedoIDs.Contains( eq.EquipmentID ) )	// 後期魚雷
 							latetorpcnt++;
 						break;
-					case 24:	// 上陸用舟艇
-						if ( eq.EquipmentID == 166 )		// 陸戦隊
-							landingcnt++;
-						if ( eq.EquipmentID == 193 )		// 特大発
-							tokudaihatsucnt++;
-						break;
 					case 37:	// 対地装備
 						rocketcnt++;
-						break;
-					case 46:	// 特型内火艇
-						uchibicnt++;
 						break;
 					case 51:	// 潜水艦装備
 						subeqcnt++;
@@ -956,72 +934,70 @@ namespace ElectronicObserver.Utility.Data {
 			if ( includeSpecialAttack ) {
 
 				if ( torpcnt >= 2 || ( latetorpcnt >= 1 && subeqcnt >= 1 ) )
-					return 3;			//カットイン(魚雷/魚雷)
+					return NightAttackKind.CutinTorpedoTorpedo;
 				else if ( mainguncnt >= 3 )
-					return 5;			//カットイン(主砲x3)
+					return NightAttackKind.CutinMainMain;
 				else if ( mainguncnt == 2 && subguncnt > 0 )
-					return 4;			//カットイン(主砲x2/副砲)
+					return NightAttackKind.CutinMainSub;
 				else if ( ( mainguncnt == 2 && subguncnt == 0 && torpcnt == 1 ) || ( mainguncnt == 1 && torpcnt == 1 ) )
-					return 2;			//カットイン(主砲/魚雷)
+					return NightAttackKind.CutinMainTorpedo;
 				else if ( ( mainguncnt == 2 && subguncnt == 0 & torpcnt == 0 ) ||
 					( mainguncnt == 1 && subguncnt > 0 ) ||
 					( subguncnt >= 2 && torpcnt <= 1 ) ) {
-					return 1;			//連撃
+					return NightAttackKind.DoubleShelling;
 				}
 
 			}
 
 
 			ShipDataMaster atkship = KCDatabase.Instance.MasterShips[attackerShipID];
-			ShipDataMaster defship = KCDatabase.Instance.MasterShips[defenerShipID];
+			ShipDataMaster defship = KCDatabase.Instance.MasterShips[defenderShipID];
 
 			if ( atkship != null ) {
 
 				if ( defship != null ) {
 
-					if ( uchibicnt > 0 && ( ( ( atkship.ShipType == 13 || atkship.ShipType == 14 ) && defship.IsLandBase ) || HardInstallationNames.Contains( defship.Name ) ) )
-						return 12;		// 揚陸攻撃(内火艇)
-
-					if ( landingcnt > 0 && HardInstallationNames.Contains( defship.Name ) )
-						return 11;		// 揚陸攻撃(大発戦車)
-
-					if ( tokudaihatsucnt > 0 && HardInstallationNames.Contains( defship.Name ) )
-						return 13;		// 揚陸攻撃(特大発)
+					int landingID = GetLandingAttackKind( slot, attackerShipID, defenderShipID );
+					if ( landingID > 0 ) {
+						return (NightAttackKind)( (int)NightAttackKind.LandingDaihatsu + landingID - 1 );
+					}
 
 					if ( rocketcnt > 0 && defship.IsLandBase )
-						return 10;		//ロケット砲撃
+						return NightAttackKind.Rocket;
 				}
 
+				if ( atkship.ShipType == 7 && defship != null && defship.IsSubmarine )
+					return NightAttackKind.DepthCharge;
 
 				if ( atkship.ShipType == 7 || atkship.ShipType == 11 || atkship.ShipType == 18 ) {		//軽空母/正規空母/装甲空母
 
 					if ( attackerShipID == 432 || attackerShipID == 353 || attackerShipID == 433 )		//Graf Zeppelin(改), Saratoga
-						return 0;		//砲撃
+						return NightAttackKind.Shelling;
 					else if ( atkship.Name == "リコリス棲姫" || atkship.Name == "深海海月姫" )
-						return 0;		//砲撃
+						return NightAttackKind.Shelling;
 					else
-						return 7;		//空撃
+						return NightAttackKind.AirAttack;
 
-				} else if ( atkship.ShipType == 13 || atkship.ShipType == 14 )	//潜水艦/潜水空母
-					return 9;			//雷撃
+				} else if ( atkship.IsSubmarine )
+					return NightAttackKind.Torpedo;
 
-				else if ( defship != null && ( defship.ShipType == 13 || defship.ShipType == 14 ) )			//潜水艦/潜水空母
+				else if ( defship != null && ( defship.IsSubmarine ) )			//潜水艦/潜水空母
 					if ( atkship.ShipType == 6 || atkship.ShipType == 10 ||
 						 atkship.ShipType == 16 || atkship.ShipType == 17 )			//航空巡洋艦/航空戦艦/水上機母艦/揚陸艦
-						return 7;		//空撃
+						return NightAttackKind.AirAttack;
 					else
-						return 8;		//爆雷攻撃
+						return NightAttackKind.DepthCharge;
 
 				else if ( slot.Length > 0 ) {
 					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[0]];
 					if ( eq != null && ( eq.CategoryType == 5 || eq.CategoryType == 32 ) ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
-						return 9;		//雷撃
+						return NightAttackKind.Torpedo;
 					}
 				}
 
 			}
 
-			return 0;		//砲撃
+			return NightAttackKind.Shelling;
 
 		}
 
@@ -1055,6 +1031,44 @@ namespace ElectronicObserver.Utility.Data {
 
 			return 0;
 		}
+
+
+		/// <summary>
+		/// 揚陸攻撃における攻撃種別を取得します。
+		/// </summary>
+		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
+		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
+		/// <param name="defenerShipID">防御艦の艦船ID。なければ-1</param>
+		public static int GetLandingAttackKind( int[] slot, int attackerShipID, int defenderShipID ) {
+			var attacker = KCDatabase.Instance.MasterShips[attackerShipID];
+			var defender = KCDatabase.Instance.MasterShips[defenderShipID];
+
+			if ( slot.Contains( 230 ) && defender.IsLandBase )		// 特大発動艇+戦車第11連隊
+				return 5;
+
+			if ( slot.Contains( 167 ) ) {		// 特二式内火艇
+				if ( attacker.IsSubmarine ) {		// 潜水系
+					if ( defender.IsLandBase )
+						return 4;
+				} else if ( HardInstallationNames.Contains( defender.Name ) )
+					return 4;
+			}
+
+			if ( HardInstallationNames.Contains( defender.Name ) ) {
+
+				if ( slot.Contains( 166 ) )		// 大発動艇(八九式中戦車&陸戦隊)
+					return 3;
+
+				if ( slot.Contains( 193 ) )		// 特大発動艇
+					return 2;
+
+				if ( slot.Contains( 68 ) )		// 大発動艇
+					return 1;
+			}
+
+			return 0;
+		}
+
 
 
 		/// <summary>
@@ -1470,6 +1484,7 @@ namespace ElectronicObserver.Utility.Data {
 		public static bool CanAttackSubmarine( ShipData ship ) {
 
 			switch ( ship.MasterShip.ShipType ) {
+				case 1:		//海防
 				case 2:		//駆逐
 				case 3:		//軽巡
 				case 4:		//雷巡
@@ -1497,5 +1512,51 @@ namespace ElectronicObserver.Utility.Data {
 
 	}
 
+
+	public enum DayAttackKind {
+		Unknown = -1,
+
+		Shelling,
+		Laser,
+		DoubleShelling,
+		CutinMainSub,
+		CutinMainLadar,
+		CutinMainAP,
+		CutinMainMain,
+		AirAttack,
+		DepthCharge,
+		Torpedo,
+
+		Rocket,
+
+		LandingDaihatsu,
+		LandingTokuDaihatsu,
+		LandingDaihatsuTank,
+		LandingAmphibious,
+		LandingTokuDaihatsuTank,
+	}
+
+	public enum NightAttackKind {
+		Unknown = -1,
+
+		Shelling,
+		DoubleShelling,
+		CutinMainTorpedo,
+		CutinTorpedoTorpedo,
+		CutinMainSub,
+		CutinMainMain,
+		Reserved,
+		AirAttack,
+		DepthCharge,
+		Torpedo,
+
+		Rocket,
+
+		LandingDaihatsu,
+		LandingTokuDaihatsu,
+		LandingDaihatsuTank,
+		LandingAmphibious,
+		LandingTokuDaihatsuTank,
+	}
 
 }
