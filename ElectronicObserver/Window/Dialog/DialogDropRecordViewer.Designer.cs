@@ -261,6 +261,7 @@
 			this.RecordView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.RecordView_CellFormatting);
 			this.RecordView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.RecordView_SortCompare);
 			this.RecordView.Sorted += new System.EventHandler(this.RecordView_Sorted);
+			this.RecordView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.RecordView_CellDoubleClick);
 			// 
 			// IsBossOnly
 			// 
