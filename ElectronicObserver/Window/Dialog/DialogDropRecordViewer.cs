@@ -6,11 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ElectronicObserver.Window.Dialog {
@@ -808,25 +806,42 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-		private string GetBattleLogFile(string timestamp)
-		{
-			string BattleLogDir = "BattleLog";
-			if ( Directory.Exists( BattleLogDir ) ) {
-				StatusInfo.Text = "正在查找战斗日志 ...";
-				return Directory.EnumerateFiles( BattleLogDir, timestamp + "*.txt", SearchOption.TopDirectoryOnly).FirstOrDefault();
-			}
-			return null;
-		}
 
 		private void RecordView_CellDoubleClick( object sender, DataGridViewCellEventArgs e ) {
-			DateTime time = Convert.ToDateTime( RecordView.Rows[e.RowIndex].Cells[2].Value );
-			string battleLogFile = GetBattleLogFile( time.ToString( "yyyyMMdd_HHmmss", System.Globalization.CultureInfo.InvariantCulture ) );
-			if ( battleLogFile != null ) {
-				StatusInfo.Text = "打开战斗日志文件。";
+
+			SearchArgument args = (SearchArgument)RecordView.Tag;
+			if ( args == null || args.MergeRows )
+				return;
+
+			try {
+
+				DateTime time = Convert.ToDateTime( RecordView[RecordView_Date.Index, e.RowIndex].Value );
+
+
+				if ( !Directory.Exists( Data.Battle.BattleManager.BattleLogPath ) ) {
+					StatusInfo.Text = "戦闘ログが見つかりませんでした。";
+					return;
+				}
+
+				StatusInfo.Text = "戦闘ログを検索しています…";
+				string battleLogFile = Directory.EnumerateFiles( Data.Battle.BattleManager.BattleLogPath,
+					time.ToString( "yyyyMMdd_HHmmss", System.Globalization.CultureInfo.InvariantCulture ) + "*.txt",
+					SearchOption.TopDirectoryOnly )
+					.FirstOrDefault();
+
+				if ( battleLogFile == null ) {
+					StatusInfo.Text = "戦闘ログが見つかりませんでした。";
+					return;
+				}
+
+				StatusInfo.Text = string.Format( "戦闘ログ {0} を開きます。", Path.GetFileName( battleLogFile ) );
 				System.Diagnostics.Process.Start( battleLogFile );
-			} else {
-				StatusInfo.Text = "找不到对应的战斗日志。";
+
+
+			} catch ( Exception ) {
+				StatusInfo.Text = "戦闘ログを開けませんでした。";
 			}
+
 		}
 
 	}

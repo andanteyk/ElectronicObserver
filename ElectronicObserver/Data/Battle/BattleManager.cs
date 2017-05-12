@@ -15,7 +15,7 @@ namespace ElectronicObserver.Data.Battle {
 	/// </summary>
 	public class BattleManager : ResponseWrapper {
 
-		private const string BattleLogPath = "BattleLog";
+		public static readonly string BattleLogPath = "BattleLog";
 
 
 		/// <summary>
