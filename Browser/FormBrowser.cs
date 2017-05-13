@@ -541,7 +541,8 @@ namespace Browser {
 				if ( viewobj != null ) {
 					var rect = new RECT { left = 0, top = 0, width = KanColleSize.Width, height = KanColleSize.Height };
 
-					using ( var image = new Bitmap( rect.width, rect.height, System.Drawing.Imaging.PixelFormat.Format24bppRgb ) ) {
+					// アルファチャンネルを扱えるよう32ビットの色深度で作業する
+					using ( var image = new Bitmap( rect.width, rect.height, System.Drawing.Imaging.PixelFormat.Format32bppArgb) ) {
 
 						var device = new DVTARGETDEVICE { tdSize = 0 };
 
@@ -549,6 +550,16 @@ namespace Browser {
 							var hdc = g.GetHdc();
 							viewobj.Draw( 1, 0, IntPtr.Zero, device, IntPtr.Zero, hdc, rect, null, IntPtr.Zero, IntPtr.Zero );
 							g.ReleaseHdc( hdc );
+						}
+
+						// 画像形式を PNG で保存するとき透過処理を施す
+						if ( Configuration.ScreenShotFormat == 2 ) {
+
+							if ( Configuration.AvoidTwitterDeterioration ) {
+								// 不透明ピクセルのみだと jpeg 化されてしまうため、1px だけわずかに透明にする
+								Color temp = image.GetPixel( image.Width - 1, image.Height - 1 );
+								image.SetPixel( image.Width - 1, image.Height - 1, Color.FromArgb( 252, temp.R, temp.G, temp.B ) );
+							}
 						}
 
 						image.Save( path, format );

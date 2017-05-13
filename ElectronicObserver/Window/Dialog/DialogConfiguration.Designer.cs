@@ -163,6 +163,7 @@
 			this.FormBrowser_AppliesStyleSheet = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_ConfirmAtRefresh = new System.Windows.Forms.CheckBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration = new System.Windows.Forms.CheckBox();
 			this.label18 = new System.Windows.Forms.Label();
 			this.FormBrowser_ScreenShotFormat_PNG = new System.Windows.Forms.RadioButton();
 			this.FormBrowser_ScreenShotPathSearch = new System.Windows.Forms.Button();
@@ -1931,6 +1932,7 @@
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration);
 			this.groupBox2.Controls.Add(this.label18);
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_PNG);
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotPathSearch);
@@ -1942,6 +1944,19 @@
 			this.groupBox2.TabIndex = 0;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "スクリーンショット";
+			// 
+			// FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration
+			// 
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.AutoSize = true;
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Enabled = false;
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Location = new System.Drawing.Point(123, 22);
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Name = "FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration";
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Size = new System.Drawing.Size(182, 19);
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.TabIndex = 13;
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Text = "Twitter の画像圧縮を回避する";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration, "Twitter に PNG 形式の画像をアップロードすると、自動的に JPEG 形式に変換され画質が劣化します。\\r\\nそれを回避するための情報を埋め込むかを指定" +
+		"します。");
+			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.UseVisualStyleBackColor = true;
 			// 
 			// label18
 			// 
@@ -1962,6 +1977,7 @@
 			this.FormBrowser_ScreenShotFormat_PNG.TabStop = true;
 			this.FormBrowser_ScreenShotFormat_PNG.Text = "PNG";
 			this.FormBrowser_ScreenShotFormat_PNG.UseVisualStyleBackColor = true;
+			this.FormBrowser_ScreenShotFormat_PNG.CheckedChanged += new System.EventHandler(this.FormBrowser_ScreenShotFormat_PNG_CheckedChanged);
 			// 
 			// FormBrowser_ScreenShotPathSearch
 			// 
@@ -1993,6 +2009,7 @@
 			this.FormBrowser_ScreenShotFormat_JPEG.TabStop = true;
 			this.FormBrowser_ScreenShotFormat_JPEG.Text = "JPEG";
 			this.FormBrowser_ScreenShotFormat_JPEG.UseVisualStyleBackColor = true;
+			this.FormBrowser_ScreenShotFormat_JPEG.CheckedChanged += new System.EventHandler(this.FormBrowser_ScreenShotFormat_JPEG_CheckedChanged);
 			// 
 			// label17
 			// 
@@ -2985,5 +3002,6 @@
 		private System.Windows.Forms.Label label38;
 		private System.Windows.Forms.Label label39;
 		private System.Windows.Forms.CheckBox FormFleet_ShowAirSuperiorityRange;
+		private System.Windows.Forms.CheckBox FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration;
 	}
 }
