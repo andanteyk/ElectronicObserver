@@ -491,7 +491,7 @@ namespace Browser {
 		/// </summary>
 		/// <param name="path">保存先。</param>
 		/// <param name="format">画像のフォーマット。</param>
-		private void SaveScreenShot( string path, System.Drawing.Imaging.ImageFormat format ) {
+		private void SaveScreenShot( string path, ImageFormat format ) {
 
 			var wb = Browser;
 
@@ -541,8 +541,10 @@ namespace Browser {
 				if ( viewobj != null ) {
 					var rect = new RECT { left = 0, top = 0, width = KanColleSize.Width, height = KanColleSize.Height };
 
-					// アルファチャンネルを扱えるよう32ビットの色深度で作業する
-					using ( var image = new Bitmap( rect.width, rect.height, System.Drawing.Imaging.PixelFormat.Format32bppArgb) ) {
+					bool is32bpp = format == ImageFormat.Png && Configuration.AvoidTwitterDeterioration;
+
+					// twitter の劣化回避を行う場合は32ビットの色深度で作業する
+					using ( var image = new Bitmap( rect.width, rect.height, is32bpp ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb ) ) {
 
 						var device = new DVTARGETDEVICE { tdSize = 0 };
 
@@ -552,15 +554,12 @@ namespace Browser {
 							g.ReleaseHdc( hdc );
 						}
 
-						// 画像形式を PNG で保存するとき透過処理を施す
-						if ( Configuration.ScreenShotFormat == 2 ) {
-
-							if ( Configuration.AvoidTwitterDeterioration ) {
-								// 不透明ピクセルのみだと jpeg 化されてしまうため、1px だけわずかに透明にする
-								Color temp = image.GetPixel( image.Width - 1, image.Height - 1 );
-								image.SetPixel( image.Width - 1, image.Height - 1, Color.FromArgb( 252, temp.R, temp.G, temp.B ) );
-							}
+						if ( is32bpp ) {
+							// 不透明ピクセルのみだと jpeg 化されてしまうため、1px だけわずかに透明にする
+							Color temp = image.GetPixel( image.Width - 1, image.Height - 1 );
+							image.SetPixel( image.Width - 1, image.Height - 1, Color.FromArgb( 252, temp.R, temp.G, temp.B ) );
 						}
+
 
 						image.Save( path, format );
 					}
