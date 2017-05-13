@@ -408,6 +408,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_ConfirmAtRefresh.Checked = config.FormBrowser.ConfirmAtRefresh;
 			FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
 			FormBrowser_IsDMMreloadDialogDestroyable.Checked = config.FormBrowser.IsDMMreloadDialogDestroyable;
+			FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Checked = config.FormBrowser.AvoidTwitterDeterioration;
 			{
 				Microsoft.Win32.RegistryKey reg = null;
 				try {
@@ -637,6 +638,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBrowser.ConfirmAtRefresh = FormBrowser_ConfirmAtRefresh.Checked;
 			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 			config.FormBrowser.IsDMMreloadDialogDestroyable = FormBrowser_IsDMMreloadDialogDestroyable.Checked;
+			config.FormBrowser.AvoidTwitterDeterioration = FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Checked;
 			config.FormBrowser.FlashQuality = FormBrowser_FlashQuality.Text;
 			config.FormBrowser.FlashWMode = FormBrowser_FlashWMode.Text;
 			if ( FormBrowser_ToolMenuDockStyle.SelectedIndex == 4 ) {
@@ -826,7 +828,12 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_FixedShipNameWidth.Enabled = FormFleet_FixShipNameWidth.Checked;
 		}
 
+		private void FormBrowser_ScreenShotFormat_PNG_CheckedChanged( object sender, EventArgs e ) {
+			FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Enabled = true;
+		}
 
-
+		private void FormBrowser_ScreenShotFormat_JPEG_CheckedChanged( object sender, EventArgs e ) {
+			FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Enabled = false;
+		}
 	}
 }

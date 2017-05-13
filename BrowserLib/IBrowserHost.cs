@@ -129,6 +129,12 @@ namespace BrowserLib {
 		public bool IsDMMreloadDialogDestroyable { get; set; }
 
 		/// <summary>
+		/// Twitter の画像圧縮を回避するか
+		/// </summary>
+		[DataMember]
+		public bool AvoidTwitterDeterioration { get; set; }
+
+		/// <summary>
 		/// ツールメニューの配置
 		/// </summary>
 		[DataMember]

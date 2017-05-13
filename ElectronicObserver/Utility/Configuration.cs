@@ -843,6 +843,11 @@ namespace ElectronicObserver.Utility {
 				public bool IsDMMreloadDialogDestroyable { get; set; }
 
 				/// <summary>
+				/// Twitter の画像圧縮を回避するか
+				/// </summary>
+				public bool AvoidTwitterDeterioration { get; set; }
+
+				/// <summary>
 				/// ツールメニューの配置
 				/// </summary>
 				public DockStyle ToolMenuDockStyle { get; set; }
@@ -879,6 +884,7 @@ namespace ElectronicObserver.Utility {
 					IsScrollable = false;
 					AppliesStyleSheet = true;
 					IsDMMreloadDialogDestroyable = false;
+					AvoidTwitterDeterioration = true;
 					ToolMenuDockStyle = DockStyle.Top;
 					IsToolMenuVisible = true;
 					ConfirmAtRefresh = true;
