@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Resource {
-	
-	
+
+
 	public static class SwfHelper {
 
 		// 各種画像リソースのサイズ
@@ -39,8 +39,9 @@ namespace ElectronicObserver.Resource {
 		/// 現在使用可能な画像リソースファイルへのパスを取得します。
 		/// </summary>
 		public static string GetResourcePath( string relativePath, string resourceName ) {
-			return Directory.GetFiles( Utility.Configuration.Config.Connection.SaveDataPath + @"\" + relativePath, "*.swf", System.IO.SearchOption.TopDirectoryOnly )
-				.Where( path => path.Contains( resourceName ) ).LastOrDefault();
+			return Directory.EnumerateFiles( Utility.Configuration.Config.Connection.SaveDataPath + @"\" + relativePath, "*" + resourceName + "*.swf", System.IO.SearchOption.TopDirectoryOnly )
+				.OrderBy( path => File.GetCreationTime( path ) )
+				.LastOrDefault();
 		}
 
 		/// <summary>
@@ -95,7 +96,7 @@ namespace ElectronicObserver.Resource {
 			return GetShipSwfImage( resourceName, (int)characterID );
 		}
 
-	
+
 	}
 
 }

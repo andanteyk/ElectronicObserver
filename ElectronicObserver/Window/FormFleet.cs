@@ -244,9 +244,8 @@ namespace ElectronicObserver.Window {
 				StateMain.Font = parent.MainFont;
 				StateMain.BackColor = Color.Transparent;
 				AirSuperiority.Font = parent.MainFont;
-				AirSuperiority.Font = parent.MainFont;
 				SearchingAbility.Font = parent.MainFont;
-
+				AntiAirPower.Font = parent.MainFont;		
 			}
 
 		}

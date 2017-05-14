@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data;
+using ElectronicObserver.Resource;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Storage;
 using System;
@@ -56,6 +57,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 		private void DialogFleetImageGenerator_Load( object sender, EventArgs e ) {
+
+			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleetImageGenerator] );
 
 			ApplyToUI( CurrentArgument );
 
@@ -323,6 +326,9 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( var image = GenerateFleetImage( args, mode ) ) {
 
+						if ( !Directory.Exists( Path.GetDirectoryName( OutputPath.Text ) ) ) {
+							Directory.CreateDirectory( Path.GetDirectoryName( OutputPath.Text ) );
+						}
 
 						switch ( Path.GetExtension( OutputPath.Text ).ToLower() ) {
 							case ".png":
@@ -623,6 +629,12 @@ namespace ElectronicObserver.Window.Dialog {
 				e.SuppressKeyPress = true;
 				e.Handled = true;
 			}
+		}
+
+
+
+		private void DialogFleetImageGenerator_FormClosed( object sender, FormClosedEventArgs e ) {
+			ResourceManager.DestroyIcon( Icon );
 		}
 
 

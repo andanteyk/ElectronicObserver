@@ -93,6 +93,7 @@ api_start2	：艦娘・装備固有データその他
 		api_houg		：火力
 		api_raig		：雷装
 		api_tyku		：対空
+		api_tais		：対潜 [1] [0]=初期値 護衛空母にのみ存在
 		api_luck		：運
 		api_soku		：速力　0=陸上基地, 5=低速, 10=高速
 		api_leng		：射程 0=無, 1=短, 2=中, 3=長, 4=超長

@@ -1057,5 +1057,50 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+
+
+		private void TextSearch_TextChanged( object sender, EventArgs e ) {
+
+			if ( string.IsNullOrWhiteSpace( TextSearch.Text ) )
+				return;
+
+			string searchWord = ToHiragana( TextSearch.Text.ToLower() );
+			var target =
+				ShipView.Rows.OfType<DataGridViewRow>()
+				.Select( r => KCDatabase.Instance.MasterShips[(int)r.Cells[ShipView_ShipID.Index].Value] )
+				.FirstOrDefault(
+				ship =>
+					ToHiragana( ship.NameWithClass.ToLower() ).StartsWith( searchWord ) ||
+					ToHiragana( ship.NameReading.ToLower() ).StartsWith( searchWord ) );
+
+			if ( target != null ) {
+				ShipView.FirstDisplayedScrollingRowIndex = ShipView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[ShipView_ShipID.Index].Value == target.ShipID ).Index;
+			}
+		}
+
+		public static string ToHiragana( string str ) {
+			// あまり深いことは考えずにやる
+			char hiraganaHead = '\x3041';
+			char katakanaHead = '\x30a1';
+			char katakanaTail = '\x30ff';
+
+			char[] chars = str.ToCharArray();
+			for ( int i = 0; i < chars.Length; i++ ) {
+				if ( katakanaHead <= chars[i] && chars[i] <= katakanaTail ) {		// is katakana
+					chars[i] = (char)( (int)chars[i] - (int)katakanaHead + (int)hiraganaHead );
+				}
+			}
+
+			return new string( chars );
+		}
+
+		private void TextSearch_KeyDown( object sender, KeyEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				TextSearch_TextChanged( sender, e );
+				e.SuppressKeyPress = true;
+				e.Handled = true;
+			}
+		}
+
 	}
 }

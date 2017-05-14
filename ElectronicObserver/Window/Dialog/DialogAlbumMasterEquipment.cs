@@ -505,13 +505,38 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		private void TextSearch_TextChanged( object sender, EventArgs e ) {
+			if ( string.IsNullOrWhiteSpace( TextSearch.Text ) )
+				return;
+
+			string searchWord = DialogAlbumMasterShip.ToHiragana( TextSearch.Text.ToLower() );
+			var target =
+				EquipmentView.Rows.OfType<DataGridViewRow>()
+				.Select( r => KCDatabase.Instance.MasterEquipments[(int)r.Cells[EquipmentView_ID.Index].Value] )
+				.FirstOrDefault(
+					eq => DialogAlbumMasterShip.ToHiragana( eq.Name.ToLower() ).Contains( searchWord ) );
+
+			if ( target != null ) {
+				EquipmentView.FirstDisplayedScrollingRowIndex = EquipmentView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[EquipmentView_ID.Index].Value == target.EquipmentID ).Index;
+			}
+		}
+
+		private void TextSearch_KeyDown( object sender, KeyEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				TextSearch_TextChanged( sender, e );
+				e.SuppressKeyPress = true;
+				e.Handled = true;
+			}
+		}
+
+
+
 
 		private void DialogAlbumMasterEquipment_FormClosed( object sender, FormClosedEventArgs e ) {
 
 			ResourceManager.DestroyIcon( Icon );
 
 		}
-
 
 
 	}

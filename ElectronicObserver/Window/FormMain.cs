@@ -132,6 +132,7 @@ namespace ElectronicObserver.Window {
 			StripMenu_Tool_AlbumMasterShip.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumShip];
 			StripMenu_Tool_AlbumMasterEquipment.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumEquipment];
 			StripMenu_Tool_AntiAirDefense.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAntiAirDefense];
+			StripMenu_Tool_FleetImageGenerator.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleetImageGenerator];
 
 			StripMenu_Help_Version.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.AppIcon];
 			#endregion
@@ -852,7 +853,7 @@ namespace ElectronicObserver.Window {
 			} else {
 				var dialogAlbumMasterShip = new DialogAlbumMasterShip();
 				FormMain_RefreshTopMost();
-				dialogAlbumMasterShip.Show(this);
+				dialogAlbumMasterShip.Show( this );
 			}
 
 		}
@@ -865,7 +866,7 @@ namespace ElectronicObserver.Window {
 			} else {
 				var dialogAlbumMasterEquipment = new DialogAlbumMasterEquipment();
 				FormMain_RefreshTopMost();
-				dialogAlbumMasterEquipment.Show(this);
+				dialogAlbumMasterEquipment.Show( this );
 			}
 
 		}
@@ -933,7 +934,7 @@ namespace ElectronicObserver.Window {
 
 			var dialogEquipmentList = new DialogEquipmentList();
 			FormMain_RefreshTopMost();
-			dialogEquipmentList.Show(this);
+			dialogEquipmentList.Show( this );
 
 		}
 
@@ -996,7 +997,7 @@ namespace ElectronicObserver.Window {
 
 					if ( name.Contains( ship.ResourceName ) ) {
 
-						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
+						name = name.Replace( ship.ResourceName, string.Format( "{0}({1})", ship.NameWithClass, ship.ShipID ) ).Replace( ' ', '_' );
 
 						try {
 
@@ -1022,7 +1023,7 @@ namespace ElectronicObserver.Window {
 
 					if ( name.Contains( ship.ResourceName ) ) {
 
-						name = name.Replace( ship.ResourceName, ship.NameWithClass ).Replace( ' ', '_' );
+						name = name.Replace( ship.ResourceName, string.Format( "{0}({1})", ship.NameWithClass, ship.ShipID ) ).Replace( ' ', '_' );
 
 						try {
 
@@ -1120,7 +1121,7 @@ namespace ElectronicObserver.Window {
 
 			var dialogResourceChart = new DialogResourceChart();
 			FormMain_RefreshTopMost();
-			dialogResourceChart.Show(this);
+			dialogResourceChart.Show( this );
 
 		}
 
@@ -1179,6 +1180,10 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Tool_FleetImageGenerator_Click( object sender, EventArgs e ) {
+
+			new Dialog.DialogFleetImageGenerator( 1 ).Show( this );
+		}
 
 
 
@@ -1319,7 +1324,6 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		
 
 
 

@@ -98,6 +98,7 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
+			this.FormFleet_ShowAirSuperiorityRange = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ShowAircraftLevelByNumber = new System.Windows.Forms.CheckBox();
 			this.label35 = new System.Windows.Forms.Label();
 			this.FormFleet_FixedShipNameWidth = new System.Windows.Forms.NumericUpDown();
@@ -231,7 +232,6 @@
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.Log_PlayTime = new System.Windows.Forms.Label();
 			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
-			this.FormFleet_ShowAirSuperiorityRange = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -918,7 +918,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 235);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 233);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1160,6 +1160,17 @@
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
 			// 
+			// FormFleet_ShowAirSuperiorityRange
+			// 
+			this.FormFleet_ShowAirSuperiorityRange.AutoSize = true;
+			this.FormFleet_ShowAirSuperiorityRange.Location = new System.Drawing.Point(6, 213);
+			this.FormFleet_ShowAirSuperiorityRange.Name = "FormFleet_ShowAirSuperiorityRange";
+			this.FormFleet_ShowAirSuperiorityRange.Size = new System.Drawing.Size(150, 19);
+			this.FormFleet_ShowAirSuperiorityRange.TabIndex = 17;
+			this.FormFleet_ShowAirSuperiorityRange.Text = "制空戦力を範囲表示する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowAirSuperiorityRange, "制空戦力の範囲を「内部熟練度最小～最大」として範囲表示するかを指定します。\r\n通常、制空戦力は最低の内部熟練度を持つとして計算されます。");
+			this.FormFleet_ShowAirSuperiorityRange.UseVisualStyleBackColor = true;
+			// 
 			// FormFleet_ShowAircraftLevelByNumber
 			// 
 			this.FormFleet_ShowAircraftLevelByNumber.AutoSize = true;
@@ -1269,7 +1280,7 @@
 			this.FormFleet_AirSuperiorityMethod.FormattingEnabled = true;
 			this.FormFleet_AirSuperiorityMethod.Items.AddRange(new object[] {
             "熟練度を無視",
-            "熟練度あり(仮)"});
+            "熟練度を含む"});
 			this.FormFleet_AirSuperiorityMethod.Location = new System.Drawing.Point(115, 59);
 			this.FormFleet_AirSuperiorityMethod.Name = "FormFleet_AirSuperiorityMethod";
 			this.FormFleet_AirSuperiorityMethod.Size = new System.Drawing.Size(121, 23);
@@ -1955,7 +1966,7 @@
 			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.TabIndex = 13;
 			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Text = "Twitter の画像圧縮を回避する";
 			this.ToolTipInfo.SetToolTip(this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration, "Twitter に PNG 形式の画像をアップロードすると、自動的に JPEG 形式に変換され画質が劣化します。\\r\\nそれを回避するための情報を埋め込むかを指定" +
-		"します。");
+        "します。");
 			this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.UseVisualStyleBackColor = true;
 			// 
 			// label18
@@ -2593,7 +2604,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 253);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 251);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2689,17 +2700,6 @@
 			this.PlayTimeTimer.Enabled = true;
 			this.PlayTimeTimer.Interval = 1000;
 			this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
-			// 
-			// FormFleet_ShowAirSuperiorityRange
-			// 
-			this.FormFleet_ShowAirSuperiorityRange.AutoSize = true;
-			this.FormFleet_ShowAirSuperiorityRange.Location = new System.Drawing.Point(6, 213);
-			this.FormFleet_ShowAirSuperiorityRange.Name = "FormFleet_ShowAirSuperiorityRange";
-			this.FormFleet_ShowAirSuperiorityRange.Size = new System.Drawing.Size(150, 19);
-			this.FormFleet_ShowAirSuperiorityRange.TabIndex = 17;
-			this.FormFleet_ShowAirSuperiorityRange.Text = "制空戦力を範囲表示する";
-			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowAirSuperiorityRange, "制空戦力の範囲を「内部熟練度最小～最大」として範囲表示するかを指定します。\r\n通常、制空戦力は最低の内部熟練度を持つとして計算されます。");
-			this.FormFleet_ShowAirSuperiorityRange.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
