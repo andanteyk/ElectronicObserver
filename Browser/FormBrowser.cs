@@ -357,6 +357,7 @@ namespace Browser {
 		public void Navigate( string url ) {
 			if ( url != Configuration.LogInPageURL || !Configuration.AppliesStyleSheet )
 				StyleSheetApplied = false;
+			if (!isProxySet) return;
 			Browser.Navigate( url );
 		}
 
@@ -581,6 +582,8 @@ namespace Browser {
 		}
 
 
+		private bool isProxySet = false;
+
 		public void SetProxy( string proxy ) {
 			ushort port;
 			if ( ushort.TryParse( proxy, out port ) ) {
@@ -588,6 +591,9 @@ namespace Browser {
 			} else {
 				WinInetUtil.SetProxyInProcess( proxy, "local" );
 			}
+			isProxySet = true;
+			if (Browser.Document == null && Configuration.IsEnabled)
+				Navigate(Configuration.LogInPageURL);
 
 			//AddLog( 1, "setproxy:" + proxy );
 			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.SetProxyCompleted() );
