@@ -378,7 +378,7 @@ namespace ElectronicObserver.Window.Dialog {
 			row.CreateCells( RecordView );
 
 			var args = new SearchArgument();
-			args.ShipName = (string)ShipName.SelectedItem;
+			args.ShipName = ShipName.Text;
 			args.ItemName = (string)ItemName.SelectedItem;
 			args.EquipmentName = (string)EquipmentName.SelectedItem;
 			args.DateBegin = DateBegin.Value;

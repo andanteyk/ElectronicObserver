@@ -85,7 +85,8 @@
 			// 
 			// ShipName
 			// 
-			this.ShipName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.ShipName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.ShipName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
 			this.ShipName.FormattingEnabled = true;
 			this.ShipName.Location = new System.Drawing.Point(75, 10);
 			this.ShipName.Name = "ShipName";
