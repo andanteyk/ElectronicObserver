@@ -245,7 +245,7 @@ namespace ElectronicObserver.Window {
 				StateMain.BackColor = Color.Transparent;
 				AirSuperiority.Font = parent.MainFont;
 				SearchingAbility.Font = parent.MainFont;
-				AntiAirPower.Font = parent.MainFont;		
+				AntiAirPower.Font = parent.MainFont;
 			}
 
 		}
@@ -443,8 +443,12 @@ namespace ElectronicObserver.Window {
 					}
 
 
-					HP.Value = ship.HPCurrent;
+					HP.Value = HP.PrevValue = ship.HPCurrent;
 					HP.MaximumValue = ship.HPMax;
+					if ( HP.UsePrevValue ) {
+						HP.UsePrevValue = false;
+						HP.ShowDifference = false;
+					}
 					{
 						int dockID = ship.RepairingDockID;
 
@@ -819,9 +823,10 @@ namespace ElectronicObserver.Window {
 
 		void UpdateTimerTick() {
 
+			FleetData fleet = KCDatabase.Instance.Fleet.Fleets[FleetID];
+
 			TableFleet.SuspendLayout();
 			{
-				FleetData fleet = KCDatabase.Instance.Fleet.Fleets[FleetID];
 				if ( fleet != null )
 					ControlFleet.Refresh();
 
@@ -834,6 +839,38 @@ namespace ElectronicObserver.Window {
 			}
 			TableMember.ResumeLayout();
 
+			
+			// anchorage repairing
+			if ( Utility.Configuration.Config.FormFleet.ReflectAnchorageRepairHealing ) {
+				TimeSpan elapsed = DateTime.Now - KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
+
+				if ( elapsed.TotalMinutes >= 20 && fleet.CanAnchorageRepair ) {
+
+					// ここで更新してもいいのか…
+
+					var flagship = fleet.MembersInstance[0];
+					int range = 2 + flagship.SlotInstance.Count( eq => eq != null && eq.MasterEquipment.CategoryType == 31 );
+					for ( int i = 0; i < range; i++ ) {
+						var ship = fleet.MembersInstance[i];
+						if ( ship == null || ship.HPRate <= 0.5 || ship.HPRate == 1.0 || ship.RepairingDockID != -1 )
+							continue;
+
+						// (repairTime - 30s)/damage
+						var unitHealTime = new TimeSpan( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).Add( TimeSpan.FromSeconds( -30 ) ).Ticks / ( ship.HPMax - ship.HPCurrent ) );
+
+						// "通常入渠より30-40秒程度伸びる"; 上で引いた30秒を加えて70
+						int estimatedHealPoint = (int)Math.Max( Math.Floor( ( elapsed.TotalSeconds - 70.0 ) / unitHealTime.TotalSeconds ), 1 );
+
+						var hpgauge = ControlMember[i].HP;
+						if ( !hpgauge.UsePrevValue ) {
+							hpgauge.UsePrevValue = true;
+							hpgauge.ShowDifference = true;
+						}
+						hpgauge.Value = Math.Min( ship.HPCurrent + estimatedHealPoint, ship.HPMax );
+
+					}
+				}
+			}
 		}
 
 

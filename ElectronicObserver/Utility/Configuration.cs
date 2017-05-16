@@ -652,6 +652,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowAirSuperiorityRange { get; set; }
 
+				/// <summary>
+				/// 泊地修理によるHP回復を表示に反映するか
+				/// </summary>
+				public bool ReflectAnchorageRepairHealing { get; set; }
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 4;
@@ -667,6 +672,7 @@ namespace ElectronicObserver.Utility {
 					ShowConditionIcon = true;
 					FixedShipNameWidth = 40;
 					ShowAirSuperiorityRange = false;
+					ReflectAnchorageRepairHealing = true;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
