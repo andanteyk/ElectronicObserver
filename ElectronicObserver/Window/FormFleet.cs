@@ -841,7 +841,7 @@ namespace ElectronicObserver.Window {
 
 			
 			// anchorage repairing
-			if ( Utility.Configuration.Config.FormFleet.ReflectAnchorageRepairHealing ) {
+			if ( fleet != null && Utility.Configuration.Config.FormFleet.ReflectAnchorageRepairHealing ) {
 				TimeSpan elapsed = DateTime.Now - KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
 
 				if ( elapsed.TotalMinutes >= 20 && fleet.CanAnchorageRepair ) {
