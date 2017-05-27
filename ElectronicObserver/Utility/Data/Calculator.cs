@@ -1506,9 +1506,81 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
+		/// <summary>
+		/// HP を 1 回復するために必要な入渠時間を求めます。
+		/// </summary>
 		public static TimeSpan CalculateDockingUnitTime( ShipData ship ) {
-			return new TimeSpan( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).Add( TimeSpan.FromSeconds( -30 ) ).Ticks / ( ship.HPMax - ship.HPCurrent ) );
+			int damage = ship.HPMax - ship.HPCurrent;
+			if ( damage == 0 )
+				return TimeSpan.Zero;
+
+			return new TimeSpan( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).Add( TimeSpan.FromSeconds( -30 ) ).Ticks / damage );
 		}
+
+
+		
+		/// <summary>
+		/// 泊地修理において、指定時間修理したときの回復量を求めます。
+		/// </summary>
+		/// <param name="ship">対象の艦船。</param>
+		/// <param name="repairTime">泊地修理を実施した時間。</param>
+		/// <returns></returns>
+		public static int CalculateAnchorageRepairHealAmount( ShipData ship, TimeSpan repairTime ) {
+			return CalculateAnchorageRepairHealAmount( ship.HPMax - ship.HPCurrent, DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).TotalSeconds, repairTime );
+		}
+
+		/// <summary>
+		/// 泊地修理において、指定時間修理したときの回復量を求めます。
+		/// </summary>
+		/// <param name="damage">被ダメージ。</param>
+		/// <param name="dockingSeconds">入渠時間。</param>
+		/// <param name="repairTime">泊地修理を実施した時間。</param>
+		public static int CalculateAnchorageRepairHealAmount( int damage, double dockingSeconds, TimeSpan repairTime ) {
+			if ( damage <= 0 )
+				return 0;
+
+			int heal = (int)Math.Floor( Math.Floor( repairTime.TotalMinutes ) * 60 / ( dockingSeconds / damage ) );
+			return Math.Min( Math.Max( heal, 1 ), damage );
+		}
+
+
+		/// <summary>
+		/// 泊地修理において、指定した量の HP を回復するために必要な時間を求めます。
+		/// </summary>
+		/// <param name="ship">対象の艦船。</param>
+		/// <param name="healAmount">回復したい HP 量。</param>
+		public static TimeSpan CalculateAnchorageRepairTime( ShipData ship, int healAmount ) {
+			return CalculateAnchorageRepairTime( ship.HPMax - ship.HPCurrent, DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).TotalSeconds, healAmount );
+		}
+
+		/// <summary>
+		/// 泊地修理において、指定した量の HP を回復するために必要な時間を求めます。
+		/// </summary>
+		/// <param name="damage">被ダメージ。</param>
+		/// <param name="dockingSeconds">入渠時間。</param>
+		/// <param name="healAmount">回復したい HP 量。</param>
+		public static TimeSpan CalculateAnchorageRepairTime( int damage, double dockingSeconds, int healAmount ) {
+
+			if ( healAmount <= 0 )
+				throw new ArgumentOutOfRangeException( "healAmount must be greater than 0." );
+
+			if ( damage <= 0 )
+				return TimeSpan.Zero;
+
+			healAmount = Math.Min( healAmount, damage );
+
+			if ( healAmount == 1 ) {
+				return TimeSpan.FromMinutes( 20 );
+			} else {
+				var time = TimeSpan.FromMinutes( Math.Ceiling( healAmount * dockingSeconds / damage / 60 ) );
+
+				if ( time.TotalMinutes < 20 )
+					return TimeSpan.FromMinutes( 20 );
+				else
+					return time;
+			}
+		}
+
 
 	}
 

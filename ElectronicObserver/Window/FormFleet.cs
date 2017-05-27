@@ -310,6 +310,7 @@ namespace ElectronicObserver.Window {
 				HP.Padding = new Padding( 0, 0, 0, 0 );
 				HP.Margin = new Padding( 2, 1, 2, 2 );
 				HP.AutoSize = true;
+				HP.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 				HP.Visible = false;
 				HP.ResumeLayout();
 
@@ -443,20 +444,22 @@ namespace ElectronicObserver.Window {
 					}
 
 
+					HP.SuspendUpdate();
 					HP.Value = HP.PrevValue = ship.HPCurrent;
 					HP.MaximumValue = ship.HPMax;
-					if ( HP.UsePrevValue ) {
-						HP.UsePrevValue = false;
-						HP.ShowDifference = false;
-					}
+					HP.UsePrevValue = false;
+					HP.ShowDifference = false;
 					{
 						int dockID = ship.RepairingDockID;
 
-						HP.RepairTime = null;
 						if ( dockID != -1 ) {
 							HP.RepairTime = db.Docks[dockID].CompletionTime;
+							HP.RepairTimeShowMode = ShipStatusHPRepairTimeShowMode.Visible;
+						} else {
+							HP.RepairTimeShowMode = ShipStatusHPRepairTimeShowMode.Invisible;
 						}
 					}
+					HP.Tag = ( ship.RepairingDockID == -1 && 0.5 < ship.HPRate && ship.HPRate < 1.0 ) ? DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).TotalSeconds : 0.0;
 					if ( isEscaped ) {
 						HP.BackColor = Color.Silver;
 					} else {
@@ -481,12 +484,12 @@ namespace ElectronicObserver.Window {
 							var span = DateTimeHelper.FromAPITimeSpan( ship.RepairTime );
 							sb.AppendFormat( "入渠時間: {0} @ {1}",
 								DateTimeHelper.ToTimeRemainString( span ),
-								DateTimeHelper.ToTimeRemainString( new TimeSpan( span.Add( new TimeSpan( 0, 0, -30 ) ).Ticks / ( ship.HPMax - ship.HPCurrent ) ) ) );
+								DateTimeHelper.ToTimeRemainString( Calculator.CalculateDockingUnitTime( ship ) ) );
 						}
 
 						ToolTipInfo.SetToolTip( HP, sb.ToString() );
 					}
-
+					HP.ResumeUpdate();
 
 
 					Condition.Text = ship.Condition.ToString();
@@ -687,6 +690,7 @@ namespace ElectronicObserver.Window {
 		private TableFleetControl ControlFleet;
 		private TableMemberControl[] ControlMember;
 
+		private int AnchorageRepairBound;
 
 
 		public FormFleet( FormMain parent, int fleetID ) {
@@ -700,6 +704,7 @@ namespace ElectronicObserver.Window {
 			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
 			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
 
+			AnchorageRepairBound = 0;
 
 			//ui init
 
@@ -801,6 +806,8 @@ namespace ElectronicObserver.Window {
 			TableFleet.Visible = true;
 			TableFleet.ResumeLayout();
 
+			AnchorageRepairBound = fleet.CanAnchorageRepair ? 2 + fleet.MembersInstance[0].SlotInstance.Count( eq => eq != null && eq.MasterEquipment.CategoryType == 31 ) : 0;
+
 			TableMember.SuspendLayout();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i].Update( fleet.Members[i] );
@@ -839,35 +846,36 @@ namespace ElectronicObserver.Window {
 			}
 			TableMember.ResumeLayout();
 
-			
+
 			// anchorage repairing
 			if ( fleet != null && Utility.Configuration.Config.FormFleet.ReflectAnchorageRepairHealing ) {
 				TimeSpan elapsed = DateTime.Now - KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
 
-				if ( elapsed.TotalMinutes >= 20 && fleet.CanAnchorageRepair ) {
+				if ( elapsed.TotalMinutes >= 20 && AnchorageRepairBound > 0 ) {
 
-					// ここで更新してもいいのか…
+					for ( int i = 0; i < AnchorageRepairBound; i++ ) {
+						var hpbar = ControlMember[i].HP;
 
-					var flagship = fleet.MembersInstance[0];
-					int range = 2 + flagship.SlotInstance.Count( eq => eq != null && eq.MasterEquipment.CategoryType == 31 );
-					for ( int i = 0; i < range; i++ ) {
-						var ship = fleet.MembersInstance[i];
-						if ( ship == null || ship.HPRate <= 0.5 || ship.HPRate == 1.0 || ship.RepairingDockID != -1 )
+						double dockingSeconds = hpbar.Tag as double? ?? 0.0;
+
+						if ( dockingSeconds <= 0.0 )
 							continue;
 
-						// (repairTime - 30s)/damage
-						var unitHealTime = new TimeSpan( DateTimeHelper.FromAPITimeSpan( ship.RepairTime ).Add( TimeSpan.FromSeconds( -30 ) ).Ticks / ( ship.HPMax - ship.HPCurrent ) );
+						hpbar.SuspendUpdate();
 
-						// "通常入渠より30-40秒程度伸びる"; 上で引いた30秒を加えて70
-						int estimatedHealPoint = (int)Math.Max( Math.Floor( ( elapsed.TotalSeconds - 70.0 ) / unitHealTime.TotalSeconds ), 1 );
-
-						var hpgauge = ControlMember[i].HP;
-						if ( !hpgauge.UsePrevValue ) {
-							hpgauge.UsePrevValue = true;
-							hpgauge.ShowDifference = true;
+						if ( !hpbar.UsePrevValue ) {
+							hpbar.UsePrevValue = true;
+							hpbar.ShowDifference = true;
 						}
-						hpgauge.Value = Math.Min( ship.HPCurrent + estimatedHealPoint, ship.HPMax );
 
+						int damage = hpbar.MaximumValue - hpbar.PrevValue;
+						int healAmount = Math.Min( Calculator.CalculateAnchorageRepairHealAmount( damage, dockingSeconds, elapsed ), damage );
+
+						hpbar.RepairTimeShowMode = ShipStatusHPRepairTimeShowMode.MouseOver;
+						hpbar.RepairTime = KCDatabase.Instance.Fleet.AnchorageRepairingTimer + Calculator.CalculateAnchorageRepairTime( damage, dockingSeconds, Math.Min( healAmount + 1, damage ) );
+						hpbar.Value = hpbar.PrevValue + healAmount;
+
+						hpbar.ResumeUpdate();
 					}
 				}
 			}
@@ -1085,10 +1093,11 @@ namespace ElectronicObserver.Window {
 
 			AutoScroll = c.FormFleet.IsScrollable;
 
+			var fleet = KCDatabase.Instance.Fleet[FleetID];
 
-			if ( ControlFleet != null && KCDatabase.Instance.Fleet[FleetID] != null ) {
+			if ( ControlFleet != null && fleet != null ) {
 				ControlFleet.ConfigurationChanged( this );
-				ControlFleet.Update( KCDatabase.Instance.Fleet[FleetID] );
+				ControlFleet.Update( fleet );
 			}
 
 			if ( ControlMember != null ) {
@@ -1104,27 +1113,33 @@ namespace ElectronicObserver.Window {
 				int fixedShipNameWidth = c.FormFleet.FixedShipNameWidth;
 
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
-					ControlMember[i].Equipments.ShowAircraft = showAircraft;
+					var member = ControlMember[i];
+
+					member.Equipments.ShowAircraft = showAircraft;
 					if ( fixShipNameWidth ) {
-						ControlMember[i].Name.AutoSize = false;
-						ControlMember[i].Name.Size = new Size( fixedShipNameWidth, 20 );
+						member.Name.AutoSize = false;
+						member.Name.Size = new Size( fixedShipNameWidth, 20 );
 					} else {
-						ControlMember[i].Name.AutoSize = true;
+						member.Name.AutoSize = true;
 					}
 
-					ControlMember[i].HP.Text = shortHPBar ? "" : "HP:";
-					ControlMember[i].HP.HPBar.ColorMorphing = colorMorphing;
-					ControlMember[i].HP.HPBar.SetBarColorScheme( colorScheme );
-					ControlMember[i].Level.TextNext = showNext ? "next:" : null;
-					ControlMember[i].Condition.ImageAlign = showConditionIcon ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter;
-					ControlMember[i].Equipments.LevelVisibility = levelVisibility;
-					ControlMember[i].Equipments.ShowAircraftLevelByNumber = showAircraftLevelByNumber;
-					ControlMember[i].ShipResource.BarFuel.ColorMorphing =
-					ControlMember[i].ShipResource.BarAmmo.ColorMorphing = colorMorphing;
-					ControlMember[i].ShipResource.BarFuel.SetBarColorScheme( colorScheme );
-					ControlMember[i].ShipResource.BarAmmo.SetBarColorScheme( colorScheme );
+					member.HP.SuspendUpdate();
+					member.HP.Text = shortHPBar ? "" : "HP:";
+					member.HP.HPBar.ColorMorphing = colorMorphing;
+					member.HP.HPBar.SetBarColorScheme( colorScheme );
+					member.HP.ResumeUpdate();
+					member.Level.TextNext = showNext ? "next:" : null;
+					member.Condition.ImageAlign = showConditionIcon ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter;
+					member.Equipments.LevelVisibility = levelVisibility;
+					member.Equipments.ShowAircraftLevelByNumber = showAircraftLevelByNumber;
+					member.ShipResource.BarFuel.ColorMorphing =
+					member.ShipResource.BarAmmo.ColorMorphing = colorMorphing;
+					member.ShipResource.BarFuel.SetBarColorScheme( colorScheme );
+					member.ShipResource.BarAmmo.SetBarColorScheme( colorScheme );
 
-					ControlMember[i].ConfigurationChanged( this );
+					member.ConfigurationChanged( this );
+					if ( fleet != null )
+						member.Update( fleet.Members[i] );
 				}
 			}
 			TableMember.PerformLayout();		//fixme:サイズ変更に親パネルが追随しない
