@@ -65,14 +65,11 @@ namespace ElectronicObserver.Notifier {
 							break;
 
 						case 1:		//明石旗艦の時
-							clear = fleets.Fleets.Values.Any( f => f.CanAnchorageRepairing );
+							clear = fleets.Fleets.Values.Any( f => f.IsFlagshipRepairShip );
 							break;
 
 						case 2:		//修理艦もいる時
-							clear = fleets.Fleets.Values.Any( f =>
-								f.CanAnchorageRepairing &&
-								f.MembersInstance.Take( 2 + KCDatabase.Instance.Ships[f[0]].SlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 31 ) )
-								.Any( s => s != null && s.HPRate < 1.0 && s.HPRate > 0.5 && s.RepairingDockID == -1 ) );
+							clear = fleets.Fleets.Values.Any( f => f.CanAnchorageRepair );
 							break;
 					}
 

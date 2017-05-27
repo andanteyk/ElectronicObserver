@@ -235,7 +235,7 @@ namespace ElectronicObserver.Data {
 
 
 							SetConditionTimer();
-							if ( index != -1 && CanAnchorageRepairing )		//随伴艦一括解除を除く
+							if ( index != -1 && IsFlagshipRepairShip )		//随伴艦一括解除を除く
 								KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
 						} else {
@@ -250,7 +250,7 @@ namespace ElectronicObserver.Data {
 										else
 											RemoveShip( i );
 
-										if ( CanAnchorageRepairing )
+										if ( IsFlagshipRepairShip )
 											KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
 										break;
@@ -667,9 +667,7 @@ namespace ElectronicObserver.Data {
 
 			//泊地修理中
 			{
-				if ( fleet.CanAnchorageRepairing &&
-					fleet.MembersInstance.Take( 2 + KCDatabase.Instance.Ships[fleet[0]].SlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 31 ) )
-					.Any( s => s != null && s.HPRate < 1.0 && s.HPRate > 0.5 && s.RepairingDockID == -1 ) ) {
+				if ( fleet.CanAnchorageRepair ) {
 
 					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
@@ -815,16 +813,31 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 泊地修理可能か
+		/// 旗艦が工作艦か
 		/// </summary>
-		public bool CanAnchorageRepairing {
+		public bool IsFlagshipRepairShip {
 			get {
 				ShipData flagship = KCDatabase.Instance.Ships[_members[0]];
-				return flagship != null && flagship.MasterShip.ShipType == 19;		//旗艦工作艦
+				return flagship != null && flagship.MasterShip.ShipType == 19;
 			}
 		}
 
+		/// <summary>
+		/// 泊地修理が発動可能か
+		/// </summary>
+		public bool CanAnchorageRepair {
+			get {
+				// 流石に資源チェックまではしない
+				var flagship = KCDatabase.Instance.Ships[_members[0]];
 
+				return IsFlagshipRepairShip &&
+					flagship.HPRate > 0.5 &&
+					flagship.RepairingDockID == -1 &&
+					ExpeditionState == 0 &&
+					MembersInstance.Take( 2 + flagship.SlotInstance.Count( eq => eq != null && eq.MasterEquipment.CategoryType == 31 ) )
+					.Any( ship => ship != null && 0.5 < ship.HPRate && ship.HPRate < 1.0 && ship.RepairingDockID == -1 );
+			}
+		}
 
 	}
 
