@@ -919,7 +919,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 229);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 231);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1249,7 +1249,8 @@
             "艦載機熟練度のみ",
             "改修レベル優先",
             "艦載機熟練度優先",
-            "両方表示"});
+            "両方表示",
+            "熟練度オーバーレイ"});
 			this.FormFleet_EquipmentLevelVisibility.Location = new System.Drawing.Point(253, 86);
 			this.FormFleet_EquipmentLevelVisibility.Name = "FormFleet_EquipmentLevelVisibility";
 			this.FormFleet_EquipmentLevelVisibility.Size = new System.Drawing.Size(160, 23);
@@ -2618,7 +2619,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 247);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 249);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);

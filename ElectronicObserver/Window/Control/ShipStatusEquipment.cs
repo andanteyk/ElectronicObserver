@@ -266,6 +266,9 @@ namespace ElectronicObserver.Window.Control {
 
 			/// <summary> 両方表示 </summary>
 			Both,
+
+			/// <summary> 両方表示(艦載機熟練度はアイコンにオーバーレイする) </summary>
+			AircraftLevelOverlay,
 		}
 
 		private LevelVisibilityFlag _levelVisibility;
@@ -302,7 +305,7 @@ namespace ElectronicObserver.Window.Control {
 		/// スロット間の空きスペース
 		/// </summary>
 		[Browsable( true ), Category( "Appearance" ), DefaultValue( 3 )]
-		[Description( "装備改修レベル・艦載機熟練度の表示方法を指定します。" )]
+		[Description( "スロット間の空きスペースを指定します。" )]
 		public int SlotMargin {
 			get { return _slotMargin; }
 			set {
@@ -590,8 +593,8 @@ namespace ElectronicObserver.Window.Control {
 				}
 
 
+				Rectangle imagearea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
 				if ( image != null ) {
-					Rectangle imagearea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
 
 					e.Graphics.DrawImage( image, imagearea );
 					//e.Graphics.DrawRectangle( Pens.Magenta, basearea.X + sz_unit.Width * slotindex, basearea.Y, eqimages.ImageSize.Width, eqimages.ImageSize.Height );
@@ -675,35 +678,41 @@ namespace ElectronicObserver.Window.Control {
 					Rectangle textarea = new Rectangle( basearea.X + sz_unit.Width * slotindex, basearea.Y - AircraftMargin - 1, sz_unit.Width - SlotMargin, sz_unit.Height + AircraftMargin * 2 );
 					//e.Graphics.DrawRectangle( Pens.Cyan, textarea );
 
+					if ( slot.AircraftLevel > 0 ) {
 
-					if ( slot.AircraftLevel > 0 &&
-						!( slot.Level > 0 && ( LevelVisibility == LevelVisibilityFlag.LevelPriority ^ _onMouse ) ) &&
-						LevelVisibility != LevelVisibilityFlag.LevelOnly ) {
+						if ( LevelVisibility == LevelVisibilityFlag.AircraftLevelOverlay ) {
+							e.Graphics.FillRectangle( _overlayBrush, new Rectangle( imagearea.X, imagearea.Y, imagearea.Width, imagearea.Height / 2 ) );
+							e.Graphics.DrawImage( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.AircraftLevelTop0 + slot.AircraftLevel], imagearea );
 
-						string leveltext;
-						Color levelcol;
+						} else if ( !( slot.Level > 0 && ( LevelVisibility == LevelVisibilityFlag.LevelPriority ^ _onMouse ) ) &&
+						   LevelVisibility != LevelVisibilityFlag.LevelOnly ) {
 
-						if ( slot.AircraftLevel <= 3 )
-							levelcol = AircraftLevelColorLow;
-						else
-							levelcol = AircraftLevelColorHigh;
+							string leveltext;
+							Color levelcol;
 
-						if ( ShowAircraftLevelByNumber ) {
-							leveltext = slot.AircraftLevel.ToString();
-						} else {
-							switch ( slot.AircraftLevel ) {
-								case 1: leveltext = "|"; break;
-								case 2: leveltext = "||"; break;
-								case 3: leveltext = "|||"; break;
-								case 4: leveltext = "/"; break;
-								case 5: leveltext = "//"; break;
-								case 6: leveltext = "///"; break;
-								case 7: leveltext = ">>"; break;
-								default: leveltext = "x"; break;
+							if ( slot.AircraftLevel <= 3 )
+								levelcol = AircraftLevelColorLow;
+							else
+								levelcol = AircraftLevelColorHigh;
+
+							if ( ShowAircraftLevelByNumber ) {
+								leveltext = slot.AircraftLevel.ToString();
+							} else {
+								switch ( slot.AircraftLevel ) {
+									case 1: leveltext = "|"; break;
+									case 2: leveltext = "||"; break;
+									case 3: leveltext = "|||"; break;
+									case 4: leveltext = "/"; break;
+									case 5: leveltext = "//"; break;
+									case 6: leveltext = "///"; break;
+									case 7: leveltext = ">>"; break;
+									default: leveltext = "x"; break;
+								}
 							}
+
+							TextRenderer.DrawText( e.Graphics, leveltext, Font, textarea, levelcol, textformatLevel );
 						}
 
-						TextRenderer.DrawText( e.Graphics, leveltext, Font, textarea, levelcol, textformatLevel );
 					}
 
 
