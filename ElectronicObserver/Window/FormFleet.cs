@@ -346,7 +346,7 @@ namespace ElectronicObserver.Window {
 				Equipments = new ShipStatusEquipment();
 				Equipments.SuspendLayout();
 				Equipments.Anchor = AnchorStyles.Left;
-				Equipments.Padding = new Padding( 0, 2, 0, 1 );
+				Equipments.Padding = new Padding( 0, 1, 0, 2 );
 				Equipments.Margin = new Padding( 2, 0, 2, 0 );
 				Equipments.Size = new Size( 40, 20 );
 				Equipments.AutoSize = true;
@@ -380,7 +380,7 @@ namespace ElectronicObserver.Window {
 				table.ResumeLayout();
 
 				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
+				RowStyle rs = new RowStyle( SizeType.AutoSize, 21 );
 
 				if ( table.RowStyles.Count > row )
 					table.RowStyles[row] = rs;
@@ -642,12 +642,12 @@ namespace ElectronicObserver.Window {
 					else if ( cond < 40 )
 						Condition.BackColor = Color.Moccasin;
 					else if ( cond < 50 )
-						Condition.BackColor = SystemColors.Control;
+						Condition.BackColor = Color.Transparent;
 					else
 						Condition.BackColor = Color.LightGreen;
 
 				} else {
-					Condition.BackColor = SystemColors.Control;
+					Condition.BackColor = Color.Transparent;
 
 					if ( cond < 20 )
 						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
