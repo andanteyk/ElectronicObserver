@@ -469,11 +469,11 @@ namespace ElectronicObserver.Data {
 		public string MessageGet {
 			get {
 				if ( RawData.api_getmes() ) {
-					return ( (string)RawData.api_getmes ).Replace( "<br>", "\n" );
+					return ( (string)RawData.api_getmes ).Replace( "<br>", "\r\n" );
 				} else {
 					var p = GetParameterElement();
 					if ( p != null && p.MessageGet != null )
-						return p.MessageGet.Replace( "<br>", "\n" );
+						return p.MessageGet.Replace( "<br>", "\r\n" );
 					else
 						return "";
 				}
@@ -487,7 +487,7 @@ namespace ElectronicObserver.Data {
 			get {
 				var p = GetParameterElement();
 				if ( p != null && p.MessageAlbum != null )
-					return p.MessageAlbum.Replace( "<br>", "\n" );
+					return p.MessageAlbum.Replace( "<br>", "\r\n" );
 				else
 					return "";
 			}

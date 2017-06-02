@@ -719,12 +719,14 @@ namespace ElectronicObserver.Resource.Record {
 							e2 = new ShipParameterElement();
 							e2.ShipID = ship.RemodelAfterShipID;
 						}
-						if ( e2.MessageAlbum == null ) {
-							e2.MessageAlbum = e.MessageAlbum;
-							Update( e2 );
-						}
 
 						ship = KCDatabase.Instance.MasterShips[ship.RemodelAfterShipID];
+						if ( ship != null && ship.IsListedInAlbum )
+							break;
+
+						e2.MessageAlbum = e.MessageAlbum;
+						Update( e2 );
+
 					}
 				}
 

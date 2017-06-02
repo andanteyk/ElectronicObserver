@@ -1021,7 +1021,7 @@ namespace ElectronicObserver.Utility.Data {
 		public static int GetNightTorpedoCutinKind( int[] slot, int attackerShipID, int defenderShipID ) {
 
 			// note: 発動優先度については要検証
-			int latetorp = slot.Intersect( LateModelTorpedoIDs ).Count();
+			int latetorp = slot.Count( s => LateModelTorpedoIDs.Contains( s ) );
 			int subeq = slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).Count( eq => eq != null && eq.CategoryType == 51 );
 
 			if ( latetorp >= 1 && subeq >= 1 )
