@@ -36,6 +36,8 @@
 			this.MenuProgress = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuProgress_Increment = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuProgress_Decrement = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuProgress_Reset = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -54,8 +56,6 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuProgress_Reset = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
 			this.MenuProgress.SuspendLayout();
 			this.MenuMain.SuspendLayout();
@@ -92,10 +92,12 @@
 			this.QuestView.RowHeadersVisible = false;
 			this.QuestView.RowTemplate.Height = 21;
 			this.QuestView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.QuestView.ShowCellToolTips = false;
 			this.QuestView.Size = new System.Drawing.Size(300, 200);
 			this.QuestView.TabIndex = 0;
 			this.QuestView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.QuestView_CellFormatting);
 			this.QuestView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.QuestView_CellMouseDown);
+			this.QuestView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.QuestView_CellMouseEnter);
 			this.QuestView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.QuestView_CellPainting);
 			this.QuestView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.QuestView_ColumnWidthChanged);
 			this.QuestView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.QuestView_SortCompare);
@@ -156,21 +158,33 @@
             this.toolStripSeparator3,
             this.MenuProgress_Reset});
 			this.MenuProgress.Name = "MenuProgress";
-			this.MenuProgress.Size = new System.Drawing.Size(153, 98);
+			this.MenuProgress.Size = new System.Drawing.Size(149, 76);
 			// 
 			// MenuProgress_Increment
 			// 
 			this.MenuProgress_Increment.Name = "MenuProgress_Increment";
-			this.MenuProgress_Increment.Size = new System.Drawing.Size(152, 22);
+			this.MenuProgress_Increment.Size = new System.Drawing.Size(148, 22);
 			this.MenuProgress_Increment.Text = "進捗 +1(&I)";
 			this.MenuProgress_Increment.Click += new System.EventHandler(this.MenuProgress_Increment_Click);
 			// 
 			// MenuProgress_Decrement
 			// 
 			this.MenuProgress_Decrement.Name = "MenuProgress_Decrement";
-			this.MenuProgress_Decrement.Size = new System.Drawing.Size(152, 22);
+			this.MenuProgress_Decrement.Size = new System.Drawing.Size(148, 22);
 			this.MenuProgress_Decrement.Text = "進捗 -1(&D)";
 			this.MenuProgress_Decrement.Click += new System.EventHandler(this.MenuProgress_Decrement_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(145, 6);
+			// 
+			// MenuProgress_Reset
+			// 
+			this.MenuProgress_Reset.Name = "MenuProgress_Reset";
+			this.MenuProgress_Reset.Size = new System.Drawing.Size(148, 22);
+			this.MenuProgress_Reset.Text = "進捗リセット(&R)";
+			this.MenuProgress_Reset.Click += new System.EventHandler(this.MenuProgress_Reset_Click);
 			// 
 			// MenuMain
 			// 
@@ -317,18 +331,6 @@
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
-			// 
-			// MenuProgress_Reset
-			// 
-			this.MenuProgress_Reset.Name = "MenuProgress_Reset";
-			this.MenuProgress_Reset.Size = new System.Drawing.Size(152, 22);
-			this.MenuProgress_Reset.Text = "進捗リセット(&R)";
-			this.MenuProgress_Reset.Click += new System.EventHandler(this.MenuProgress_Reset_Click);
 			// 
 			// FormQuest
 			// 

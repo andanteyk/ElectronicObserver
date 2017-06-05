@@ -195,12 +195,18 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		public List<ShipDropElement> Record { get; private set; }
+		private int LastSavedCount;
 
 
 		public ShipDropRecord()
 			: base() {
 			Record = new List<ShipDropElement>();
 		}
+
+		public override void RegisterEvents() {
+			// nop
+		}
+
 
 		public ShipDropElement this[int i] {
 			get { return Record[i]; }
@@ -217,41 +223,39 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Add( new ShipDropElement( line ) );
 		}
 
-		protected override string SaveLines() {
-
-			StringBuilder sb = new StringBuilder();
-
-			var list = new List<ShipDropElement>( Record );
-			list.Sort( ( e1, e2 ) => e1.Date.CompareTo( e2.Date ) );
-
-			foreach ( var elem in list ) {
+		protected override string SaveLinesAll() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.OrderBy( r => r.Date ) ) {
 				sb.AppendLine( elem.SaveLine() );
 			}
-
 			return sb.ToString();
+		}
+
+		protected override string SaveLinesPartial() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.Skip( LastSavedCount ).OrderBy( r => r.Date ) ) {
+				sb.AppendLine( elem.SaveLine() );
+			}
+			return sb.ToString();
+		}
+
+		protected override void UpdateLastSavedIndex() {
+			LastSavedCount = Record.Count;
+		}
+
+		public override bool NeedToSave {
+			get { return LastSavedCount < Record.Count; }
+		}
+
+		public override bool SupportsPartialSave {
+			get { return true; }
 		}
 
 
 		protected override void ClearRecord() {
 			Record.Clear();
+			LastSavedCount = 0;
 		}
-
-
-		/*/
-		protected override bool IsAppend { get { return true; } }
-
-
-		public override bool Load( string path ) {
-			return true;
-		}
-
-		public override bool Save( string path ) {
-			bool ret = base.Save( path );
-
-			Record.Clear();
-			return ret;
-		}
-		//*/
 
 
 		public override string RecordHeader {

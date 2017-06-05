@@ -40,7 +40,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// <param name="path">ファイルが存在するフォルダのパス。</param>
 		public virtual bool Load( string path ) {
 
-			path = path.Trim( @" \\""".ToCharArray() ) + "\\" + FileName;
+			path = GetFilePath( path );
 
 			try {
 
@@ -49,45 +49,22 @@ namespace ElectronicObserver.Resource.Record {
 					ClearRecord();
 
 					string line;
-					int linecount = 1;
 					sr.ReadLine();			//ヘッダを読み飛ばす
 
 					while ( ( line = sr.ReadLine() ) != null ) {
-						if ( line.Trim().StartsWith( "#" ) )
-							continue;
-
-						/*/
-						// こちらのほうがよさげだが、エラーが多すぎた場合プログラムが起動できなくなるので自粛
-						
-						try {
-							LoadLine( line );
-
-						} catch ( Exception ex ) {
-							Utility.Logger.Add( 3, string.Format( "{0}: エラーが発生したため行 {1} をスキップしました。 {2}", path, linecount, ex.Message ) );
-						}
-						
-						/*/
-
 						LoadLine( line );
-
-						//*/
-
-						linecount++;
 					}
 
 				}
 
+				UpdateLastSavedIndex();
 				return true;
 
 			} catch ( FileNotFoundException ) {
-
 				Utility.Logger.Add( 1, "レコード " + path + " は存在しません。" );
 
-
 			} catch ( Exception ex ) {
-
 				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の読み込みに失敗しました。" );
-
 			}
 
 			return false;
@@ -95,36 +72,70 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		/// <summary>
-		/// ファイルにレコードを書き込みます。
+		/// ファイルに全てのレコードを書き込みます。
 		/// </summary>
 		/// <param name="path">ファイルが存在するフォルダのパス。</param>
-		public virtual bool Save( string path ) {
+		public virtual bool SaveAll( string path ) {
 
-			path = path.Trim( @" \\""".ToCharArray() ) + "\\" + FileName;
+			path = GetFilePath( path );
 
 			try {
 
-				bool exist = File.Exists( path );
+				using ( StreamWriter sw = new StreamWriter( path, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-				using ( StreamWriter sw = new StreamWriter( path, IsAppend, Utility.Configuration.Config.Log.FileEncoding ) ) {
+					sw.WriteLine( RecordHeader );
+					sw.Write( SaveLinesAll() );
 
-					if ( !IsAppend || !exist )
-						sw.WriteLine( RecordHeader );
-
-					sw.Write( SaveLines() );
 				}
 
+				UpdateLastSavedIndex();
 				return true;
 
 			} catch ( Exception ex ) {
-
 				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の書き込みに失敗しました。" );
-
 			}
 
 			return false;
 		}
 
+
+		/// <summary>
+		/// ファイルに前回からの差分を追記します。
+		/// </summary>
+		/// <param name="path">ファイルが存在するフォルダのパス。</param>
+		public virtual bool SavePartial( string path ) {
+
+			if ( !SupportsPartialSave )
+				return false;
+
+
+			path = GetFilePath( path );
+			bool exists = File.Exists( path );
+
+			try {
+
+				using ( StreamWriter sw = new StreamWriter( path, true, Utility.Configuration.Config.Log.FileEncoding ) ) {
+
+					if ( !exists )
+						sw.WriteLine( RecordHeader );
+
+					sw.Write( SaveLinesPartial() );
+				}
+
+				UpdateLastSavedIndex();
+				return true;
+
+			} catch ( Exception ex ) {
+				Utility.ErrorReporter.SendErrorReport( ex, "レコード " + path + " の書き込みに失敗しました。" );
+			}
+
+			return false;
+		}
+
+
+		protected string GetFilePath( string path ) {
+			return path.Trim( @" \\""".ToCharArray() ) + "\\" + FileName;
+		}
 
 
 		/// <summary>
@@ -136,21 +147,28 @@ namespace ElectronicObserver.Resource.Record {
 		/// <summary>
 		/// レコードのデータをファイルに書き込める文字列に変換します。
 		/// </summary>
-		/// <returns>ファイルに書き込む文字列。</returns>
-		protected abstract string SaveLines();
+		protected abstract string SaveLinesAll();
+
+		/// <summary>
+		/// レコードの差分データをファイルに書き込める文字列に変換します。
+		/// </summary>
+		protected abstract string SaveLinesPartial();
+
+		public abstract bool SupportsPartialSave { get; }
 
 
 		/// <summary>
 		/// レコードをクリアします。ロード直前に呼ばれます。
 		/// </summary>
-		protected virtual void ClearRecord() { }
+		protected abstract void ClearRecord();
+
+		protected abstract void UpdateLastSavedIndex();
+
+		public abstract bool NeedToSave { get; }
 
 
+		public abstract void RegisterEvents();
 
-		/// <summary>
-		/// ファイルに追記するかを指定します。
-		/// </summary>
-		protected virtual bool IsAppend { get { return false; } }
 
 		/// <summary>
 		/// レコードのヘッダを取得します。

@@ -143,7 +143,7 @@ namespace ElectronicObserver.Window {
 					if ( !bm.Compass.HasAirRaid )
 						goto case "api_port/port";
 
-					SetFormation( bm.BattleDay );
+					SetFormation( bm );
 					ClearSearchingResult();
 					ClearBaseAirAttack();
 					SetAerialWarfare( ( (BattleBaseAirRaid)bm.BattleDay ).BaseAirRaid );
@@ -158,7 +158,7 @@ namespace ElectronicObserver.Window {
 				case "api_req_practice/battle":
 				case "api_req_sortie/ld_airbattle": {
 
-						SetFormation( bm.BattleDay );
+						SetFormation( bm );
 						SetSearchingResult( bm.BattleDay );
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfare( bm.BattleDay.AirBattle );
@@ -180,7 +180,7 @@ namespace ElectronicObserver.Window {
 
 				case "api_req_battle_midnight/sp_midnight": {
 
-						SetFormation( bm.BattleNight );
+						SetFormation( bm );
 						ClearBaseAirAttack();
 						ClearAerialWarfare();
 						ClearSearchingResult();
@@ -193,7 +193,7 @@ namespace ElectronicObserver.Window {
 
 				case "api_req_sortie/airbattle": {
 
-						SetFormation( bm.BattleDay );
+						SetFormation( bm );
 						SetSearchingResult( bm.BattleDay );
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleAirBattle)bm.BattleDay ).AirBattle2 );
@@ -210,7 +210,7 @@ namespace ElectronicObserver.Window {
 				case "api_req_combined_battle/each_battle":
 				case "api_req_combined_battle/each_battle_water": {
 
-						SetFormation( bm.BattleDay );
+						SetFormation( bm );
 						SetSearchingResult( bm.BattleDay );
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfare( bm.BattleDay.AirBattle );
@@ -222,7 +222,7 @@ namespace ElectronicObserver.Window {
 
 				case "api_req_combined_battle/airbattle": {
 
-						SetFormation( bm.BattleDay );
+						SetFormation( bm );
 						SetSearchingResult( bm.BattleDay );
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
 						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleCombinedAirBattle)bm.BattleDay ).AirBattle2 );
@@ -244,7 +244,7 @@ namespace ElectronicObserver.Window {
 
 				case "api_req_combined_battle/sp_midnight": {
 
-						SetFormation( bm.BattleNight );
+						SetFormation( bm );
 						ClearAerialWarfare();
 						ClearSearchingResult();
 						ClearBaseAirAttack();
@@ -276,12 +276,17 @@ namespace ElectronicObserver.Window {
 		/// <summary>
 		/// 陣形・交戦形態を設定します。
 		/// </summary>
-		private void SetFormation( BattleData bd ) {
+		private void SetFormation( BattleManager bm ) {
 
-			FormationFriend.Text = Constants.GetFormationShort( bd.Searching.FormationFriend );
-			FormationEnemy.Text = Constants.GetFormationShort( bd.Searching.FormationEnemy );
-			Formation.Text = Constants.GetEngagementForm( bd.Searching.EngagementForm );
+			FormationFriend.Text = Constants.GetFormationShort( bm.FirstBattle.Searching.FormationFriend );
+			FormationEnemy.Text = Constants.GetFormationShort( bm.FirstBattle.Searching.FormationEnemy );
+			Formation.Text = Constants.GetEngagementForm( bm.FirstBattle.Searching.EngagementForm );
 
+			if ( bm.Compass != null && bm.Compass.EventID == 5 ) {
+				FleetEnemy.ForeColor = Color.Red;
+			} else {
+				FleetEnemy.ForeColor = SystemColors.ControlText;
+			}
 		}
 
 		/// <summary>

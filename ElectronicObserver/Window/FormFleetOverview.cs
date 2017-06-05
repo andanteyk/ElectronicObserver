@@ -106,6 +106,7 @@ namespace ElectronicObserver.Window {
 				Number.Font = parent.Font;
 				State.Font = parent.Font;
 				State.BackColor = Color.Transparent;
+				Update();
 			}
 		}
 

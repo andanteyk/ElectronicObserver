@@ -575,10 +575,32 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		// デフォルトのツールチップは消える時間が速すぎるので、自分で制御する
+		private void QuestView_CellMouseEnter( object sender, DataGridViewCellEventArgs e ) {
+
+			if ( e.RowIndex < 0 || e.ColumnIndex < 0 || e.RowIndex >= QuestView.RowCount || e.ColumnIndex >= QuestView.ColumnCount ) {
+				ToolTipInfo.SetToolTip( QuestView, null );
+				return;
+			}
+
+			if ( !string.IsNullOrWhiteSpace( QuestView[e.ColumnIndex, e.RowIndex].ToolTipText ) ) {
+				ToolTipInfo.SetToolTip( QuestView, QuestView[e.ColumnIndex, e.RowIndex].ToolTipText );
+
+			} else if ( e.ColumnIndex == QuestView_Progress.Index && QuestView[e.ColumnIndex, e.RowIndex].Value != null ) {
+				ToolTipInfo.SetToolTip( QuestView, QuestView[e.ColumnIndex, e.RowIndex].Value.ToString() );
+
+			} else {
+				ToolTipInfo.SetToolTip( QuestView, null );
+			}
+
+		}
+
+
 
 		protected override string GetPersistString() {
 			return "Quest";
 		}
+
 
 	}
 }

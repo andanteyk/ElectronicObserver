@@ -364,7 +364,7 @@
             this.toolStripSeparator1,
             this.RightClickMenu_ShowBattleResult});
 			this.RightClickMenu.Name = "RightClickMenu";
-			this.RightClickMenu.Size = new System.Drawing.Size(219, 76);
+			this.RightClickMenu.Size = new System.Drawing.Size(219, 54);
 			this.RightClickMenu.Opening += new System.ComponentModel.CancelEventHandler(this.RightClickMenu_Opening);
 			// 
 			// RightClickMenu_ShowBattleDetail

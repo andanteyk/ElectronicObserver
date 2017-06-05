@@ -135,6 +135,8 @@ namespace ElectronicObserver.Resource.Record {
 		public List<ResourceElement> Record { get; private set; }
 		private DateTime _prevTime;
 		private bool _initialFlag;
+		private int LastSavedCount;
+
 
 		public ResourceRecord()
 			: base() {
@@ -142,9 +144,13 @@ namespace ElectronicObserver.Resource.Record {
 			Record = new List<ResourceElement>();
 			_prevTime = DateTime.Now;
 			_initialFlag = false;
+		}
 
-			APIObserver.Instance.APIList["api_start2"].ResponseReceived += ResourceRecord_Started;
-			APIObserver.Instance.APIList["api_port/port"].ResponseReceived += ResourceRecord_Updated;
+		public override void RegisterEvents() {
+			var ao = APIObserver.Instance;
+
+			ao["api_start2"].ResponseReceived += ResourceRecord_Started;
+			ao["api_port/port"].ResponseReceived += ResourceRecord_Updated;
 		}
 
 
@@ -255,36 +261,39 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Add( new ResourceElement( line ) );
 		}
 
-		protected override string SaveLines() {
-
-			StringBuilder sb = new StringBuilder();
-
-			var list = new List<ResourceElement>( Record );
-			list.Sort( ( e1, e2 ) => e1.Date.CompareTo( e2.Date ) );
-
-			foreach ( var elem in list ) {
+		protected override string SaveLinesAll() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.OrderBy( r => r.Date ) ) {
 				sb.AppendLine( elem.SaveLine() );
 			}
-
 			return sb.ToString();
 		}
 
+		protected override string SaveLinesPartial() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.Skip( LastSavedCount ).OrderBy( r => r.Date ) ) {
+				sb.AppendLine( elem.SaveLine() );
+			}
+			return sb.ToString();
+		}
+
+		protected override void UpdateLastSavedIndex() {
+			LastSavedCount = Record.Count;
+		}
+
+		public override bool NeedToSave {
+			get { return LastSavedCount < Record.Count; }
+		}
+
+		public override bool SupportsPartialSave {
+			get { return true; }
+		}
 
 		protected override void ClearRecord() {
 			Record.Clear();
+			LastSavedCount = 0;
 		}
 
-		//protected override bool IsAppend { get { return true; } }
-
-
-		/*/
-		public override bool Save( string path ) {
-			bool ret = base.Save( path );
-
-			Record.Clear();
-			return ret;
-		}
-		//*/
 
 
 		public override string RecordHeader {
@@ -294,5 +303,7 @@ namespace ElectronicObserver.Resource.Record {
 		public override string FileName {
 			get { return "ResourceRecord.csv"; }
 		}
+
+
 	}
 }

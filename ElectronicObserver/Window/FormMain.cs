@@ -406,7 +406,7 @@ namespace ElectronicObserver.Window {
 
 			NotifierManager.Instance.ApplyToConfiguration();
 			Utility.Configuration.Instance.Save();
-			RecordManager.Instance.Save();
+			RecordManager.Instance.SavePartial();
 			KCDatabase.Instance.Save();
 			APIObserver.Instance.Stop();
 
@@ -414,7 +414,7 @@ namespace ElectronicObserver.Window {
 			Utility.Logger.Add( 2, "終了処理が完了しました。" );
 
 			if ( Utility.Configuration.Config.Log.SaveLogFlag )
-				Utility.Logger.Save( @"eolog.log" );
+				Utility.Logger.Save();
 
 		}
 
@@ -647,7 +647,8 @@ namespace ElectronicObserver.Window {
 
 		private void StripMenu_File_SaveData_Save_Click( object sender, EventArgs e ) {
 
-			RecordManager.Instance.Save();
+			RecordManager.Instance.SaveAll();
+
 		}
 
 		private void StripMenu_File_SaveData_Load_Click( object sender, EventArgs e ) {

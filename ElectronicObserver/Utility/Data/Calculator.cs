@@ -1038,10 +1038,13 @@ namespace ElectronicObserver.Utility.Data {
 		/// </summary>
 		/// <param name="slot">攻撃艦のスロット(マスターID)。</param>
 		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
-		/// <param name="defenerShipID">防御艦の艦船ID。なければ-1</param>
+		/// <param name="defenerShipID">防御艦の艦船ID。</param>
 		public static int GetLandingAttackKind( int[] slot, int attackerShipID, int defenderShipID ) {
 			var attacker = KCDatabase.Instance.MasterShips[attackerShipID];
 			var defender = KCDatabase.Instance.MasterShips[defenderShipID];
+
+			if ( defender == null )
+				return 0;
 
 			if ( slot.Contains( 230 ) && defender.IsLandBase )		// 特大発動艇+戦車第11連隊
 				return 5;
@@ -1497,7 +1500,7 @@ namespace ElectronicObserver.Utility.Data {
 				case 10:	//航戦
 				case 16:	//水母
 				case 17:	//揚陸
-					return ship.SlotInstanceMaster.Count( eq => eq != null && IsAircraft( eq.EquipmentID, false, true ) && eq.ASW > 0 ) > 0;
+					return ship.SlotInstanceMaster.Any( eq => eq != null && IsAircraft( eq.EquipmentID, false, true ) && eq.ASW > 0 );
 
 				default:
 					return false;
