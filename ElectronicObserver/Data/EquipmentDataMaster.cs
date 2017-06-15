@@ -145,7 +145,7 @@ namespace ElectronicObserver.Data {
 		/// 図鑑説明
 		/// </summary>
 		public string Message {
-			get { return ( (string)RawData.api_info ).Replace( "<br>", "\n" ); }
+			get { return ( (string)RawData.api_info ).Replace( "<br>", "\r\n" ); }
 		}
 
 

@@ -624,6 +624,7 @@ namespace ElectronicObserver.Data {
 
 					label.Text = "！！大破進撃中！！";
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetSortieDamaged;
+					label.BackColor = Color.LightCoral;
 
 					return FleetStates.SortieDamaged;
 
@@ -660,7 +661,7 @@ namespace ElectronicObserver.Data {
 
 				label.Text = "大破艦あり！";
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetDamaged;
-				//label.BackColor = Color.LightCoral;
+				label.BackColor = Color.LightCoral;
 
 				return FleetStates.Damaged;
 			}
@@ -769,6 +770,8 @@ namespace ElectronicObserver.Data {
 			{
 				label.Text = "出撃可能！";
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetReady;
+				if ( Utility.Configuration.Config.FormFleet.EmphasizeAtReady )
+					label.BackColor = Color.LightGreen;
 
 				return FleetStates.Ready;
 			}
@@ -786,6 +789,9 @@ namespace ElectronicObserver.Data {
 
 			switch ( state ) {
 				case FleetStates.Damaged:
+					if ( Utility.Configuration.Config.FormFleet.BlinkAtDamaged )
+						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
+					break;
 				case FleetStates.SortieDamaged:
 					label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
 					break;

@@ -118,7 +118,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			public override string SaveLine() {
 
-				return string.Format( "{" + string.Join( "},{", Enumerable.Range( 0, 11 ) ) + "}",
+				return string.Join( ",",
 					EquipmentID,
 					EquipmentName,
 					DateTimeHelper.TimeToCSVString( Date ),
@@ -139,7 +139,8 @@ namespace ElectronicObserver.Resource.Record {
 				var eq = KCDatabase.Instance.MasterEquipments[EquipmentID];
 				var flagship = KCDatabase.Instance.MasterShips[FlagshipID];
 
-				EquipmentName = EquipmentID == -1 ? "(失敗)" : eq != null ? eq.Name : "???";
+				EquipmentName = EquipmentID == -1 ? "(失敗)" :
+					eq != null ? eq.Name : "???";
 				FlagshipName = flagship != null ? flagship.NameWithClass : "???";
 				FlagshipType = flagship != null ? flagship.ShipType : -1;
 			}
@@ -149,17 +150,20 @@ namespace ElectronicObserver.Resource.Record {
 
 		public List<DevelopmentElement> Record { get; private set; }
 		private DevelopmentElement tempElement;
+		private int LastSavedCount;
 
 
 		public DevelopmentRecord() {
 			Record = new List<DevelopmentElement>();
 			tempElement = null;
 
+		}
+
+		public override void RegisterEvents() {
 			APIObserver ao = APIObserver.Instance;
 
 			ao.APIList["api_req_kousyou/createitem"].RequestReceived += DevelopmentStart;
 			ao.APIList["api_req_kousyou/createitem"].ResponseReceived += DevelopmentEnd;
-
 		}
 
 
@@ -189,7 +193,7 @@ namespace ElectronicObserver.Resource.Record {
 				tempElement.EquipmentID = (int)data.api_slot_item.api_slotitem_id;
 			}
 
-			ShipData flagship =KCDatabase.Instance.Fleet[1].MembersInstance[0];
+			ShipData flagship = KCDatabase.Instance.Fleet[1].MembersInstance[0];
 			tempElement.FlagshipID = flagship.ShipID;
 			tempElement.HQLevel = KCDatabase.Instance.Admiral.Level;
 
@@ -206,36 +210,38 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Add( new DevelopmentElement( line ) );
 		}
 
-		protected override string SaveLines() {
-
-			StringBuilder sb = new StringBuilder();
-
-			var list = new List<DevelopmentElement>( Record );
-			list.Sort( ( e1, e2 ) => e1.Date.CompareTo( e2.Date ) );
-
-			foreach ( var elem in list ) {
+		protected override string SaveLinesAll() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.OrderBy( r => r.Date ) ) {
 				sb.AppendLine( elem.SaveLine() );
 			}
-
 			return sb.ToString();
 		}
 
-
-		/*/
-		protected override bool IsAppend { get { return true; } }
-
-
-		public override bool Load( string path ) {
-			return true;
+		protected override string SaveLinesPartial() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.Skip( LastSavedCount ).OrderBy( r => r.Date ) ) {
+				sb.AppendLine( elem.SaveLine() );
+			}
+			return sb.ToString();
 		}
 
-		public override bool Save( string path ) {
-			bool ret = base.Save( path );
+		protected override void UpdateLastSavedIndex() {
+			LastSavedCount = Record.Count;
+		}
 
+		public override bool NeedToSave {
+			get { return LastSavedCount < Record.Count; }
+		}
+
+		public override bool SupportsPartialSave {
+			get { return true; }
+		}
+
+		protected override void ClearRecord() {
 			Record.Clear();
-			return ret;
+			LastSavedCount = 0;
 		}
-		//*/
 
 
 		public override string RecordHeader {
@@ -245,7 +251,7 @@ namespace ElectronicObserver.Resource.Record {
 		public override string FileName {
 			get { return "DevelopmentRecord.csv"; }
 		}
-	}
 
+	}
 
 }

@@ -314,6 +314,7 @@ namespace ElectronicObserver.Window.Dialog {
 			_playTimeCache = config.Log.PlayTime;
 			UpdatePlayTime();
 			Log_SaveBattleLog.Checked = config.Log.SaveBattleLog;
+			Log_SaveLogImmediately.Checked = config.Log.SaveLogImmediately;
 
 			//[動作]
 			Control_ConditionBorder.Value = config.Control.ConditionBorder;
@@ -360,6 +361,8 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_FixedShipNameWidth.Value = config.FormFleet.FixedShipNameWidth;
 			FormFleet_ShowAirSuperiorityRange.Checked = config.FormFleet.ShowAirSuperiorityRange;
 			FormFleet_ReflectAnchorageRepairHealing.Checked = config.FormFleet.ReflectAnchorageRepairHealing;
+			FormFleet_BlinkAtDamaged.Checked = config.FormFleet.BlinkAtDamaged;
+			FormFleet_EmphasizeAtReady.Checked = config.FormFleet.EmphasizeAtReady;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 			FormHeadquarters_Visibility.Items.Clear();
@@ -537,6 +540,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Log.FileEncodingID = Log_FileEncodingID.SelectedIndex;
 			config.Log.ShowSpoiler = Log_ShowSpoiler.Checked;
 			config.Log.SaveBattleLog = Log_SaveBattleLog.Checked;
+			config.Log.SaveLogImmediately = Log_SaveLogImmediately.Checked;
 
 			//[動作]
 			config.Control.ConditionBorder = (int)Control_ConditionBorder.Value;
@@ -583,6 +587,8 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.FixedShipNameWidth = (int)FormFleet_FixedShipNameWidth.Value;
 			config.FormFleet.ShowAirSuperiorityRange = FormFleet_ShowAirSuperiorityRange.Checked;
 			config.FormFleet.ReflectAnchorageRepairHealing = FormFleet_ReflectAnchorageRepairHealing.Checked;
+			config.FormFleet.BlinkAtDamaged = FormFleet_BlinkAtDamaged.Checked;
+			config.FormFleet.EmphasizeAtReady = FormFleet_EmphasizeAtReady.Checked;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 			{

@@ -30,6 +30,17 @@ namespace ElectronicObserver.Resource.Record {
 		public DevelopmentRecord Development { get; private set; }
 		public ResourceRecord Resource { get; private set; }
 
+		private IEnumerable<RecordBase> Records {
+			get {
+				yield return EnemyFleet;
+				yield return ShipParameter;
+				yield return Construction;
+				yield return ShipDrop;
+				yield return Development;
+				yield return Resource;
+			}
+		}
+
 
 		private DateTime _prevTime;
 
@@ -42,6 +53,10 @@ namespace ElectronicObserver.Resource.Record {
 			ShipDrop = new ShipDropRecord();
 			Development = new DevelopmentRecord();
 			Resource = new ResourceRecord();
+
+			foreach ( var r in Records )
+				r.RegisterEvents();
+
 
 			if ( !Directory.Exists( MasterPath ) ) {
 				Directory.CreateDirectory( MasterPath );
@@ -57,12 +72,8 @@ namespace ElectronicObserver.Resource.Record {
 
 			ResourceManager.CopyDocumentFromArchive( "Record/" + ShipParameter.FileName, MasterPath + "\\" + ShipParameter.FileName );
 
-			succeeded &= EnemyFleet.Load( MasterPath );
-			succeeded &= ShipParameter.Load( MasterPath );
-			succeeded &= Construction.Load( MasterPath );
-			succeeded &= ShipDrop.Load( MasterPath );
-			succeeded &= Development.Load( MasterPath );
-			succeeded &= Resource.Load( MasterPath );
+			foreach ( var r in Records )
+				succeeded &= r.Load( MasterPath );
 
 			if ( logging ) {
 				if ( succeeded )
@@ -75,7 +86,27 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 
-		public bool Save( bool logging = true ) {
+		public bool SaveAll( bool logging = true ) {
+
+			//api_start2がロード済みのときのみ
+			if ( KCDatabase.Instance.MasterShips.Count == 0 ) return false;
+
+			bool succeeded = true;
+
+			foreach ( var r in Records )
+				succeeded &= r.SaveAll( MasterPath );
+
+			if ( logging ) {
+				if ( succeeded )
+					Utility.Logger.Add( 2, "レコードをセーブしました。" );
+				else
+					Utility.Logger.Add( 2, "レコードのセーブに失敗しました。" );
+			}
+
+			return succeeded;
+		}
+
+		public bool SavePartial( bool logging = true ) {
 
 			//api_start2がロード済みのときのみ
 			if ( KCDatabase.Instance.MasterShips.Count == 0 ) return false;
@@ -83,12 +114,17 @@ namespace ElectronicObserver.Resource.Record {
 			bool succeeded = true;
 
 
-			succeeded &= EnemyFleet.Save( MasterPath );
-			succeeded &= ShipParameter.Save( MasterPath );
-			succeeded &= Construction.Save( MasterPath );
-			succeeded &= ShipDrop.Save( MasterPath );
-			succeeded &= Development.Save( MasterPath );
-			succeeded &= Resource.Save( MasterPath );
+			foreach ( var r in Records ) {
+				if ( !r.NeedToSave ) {
+					continue;
+				}
+
+				if ( r.SupportsPartialSave )
+					succeeded &= r.SavePartial( MasterPath );
+				else
+					succeeded &= r.SaveAll( MasterPath );
+
+			}
 
 			if ( logging ) {
 				if ( succeeded )
@@ -114,7 +150,10 @@ namespace ElectronicObserver.Resource.Record {
 					iscleared = DateTimeHelper.IsCrossedHour( _prevTime );
 					break;
 				case 2:
-					iscleared = DateTimeHelper.IsCrossedDay( _prevTime, 0, 0, 0  );
+					iscleared = DateTimeHelper.IsCrossedDay( _prevTime, 0, 0, 0 );
+					break;
+				case 3:
+					iscleared = true;
 					break;
 			}
 
@@ -122,10 +161,13 @@ namespace ElectronicObserver.Resource.Record {
 			if ( iscleared ) {
 				_prevTime = DateTime.Now;
 
-				if ( Save( false ) ) {
-					Utility.Logger.Add( 1, "レコードのオートセーブを行いました。" );
-				} else {
-					Utility.Logger.Add( 3, "レコードのオートセーブに失敗しました。" );
+				if ( Records.Any( r => r.NeedToSave ) ) {
+
+					if ( SavePartial( false ) ) {
+						Utility.Logger.Add( 1, "レコードのオートセーブを行いました。" );
+					} else {
+						Utility.Logger.Add( 3, "レコードのオートセーブに失敗しました。" );
+					}
 				}
 			}
 		}
