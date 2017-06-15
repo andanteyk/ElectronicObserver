@@ -112,17 +112,8 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( AntiAirPower, 4, 0 );
 				table.ResumeLayout();
 
-				int row = 0;
-				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
-
-				if ( table.RowStyles.Count > row )
-					table.RowStyles[row] = rs;
-				else
-					while ( table.RowStyles.Count <= row )
-						table.RowStyles.Add( rs );
-				#endregion
 			}
+
 
 			public void Update( FleetData fleet ) {
 
@@ -246,6 +237,8 @@ namespace ElectronicObserver.Window {
 				AirSuperiority.Font = parent.MainFont;
 				SearchingAbility.Font = parent.MainFont;
 				AntiAirPower.Font = parent.MainFont;
+				
+				ControlHelper.SetTableRowStyles( parent.TableFleet,ControlHelper.GetDefaultRowStyle() );
 			}
 
 		}
@@ -274,7 +267,7 @@ namespace ElectronicObserver.Window {
 				Name.TextAlign = ContentAlignment.MiddleLeft;
 				Name.ImageAlign = ContentAlignment.MiddleCenter;
 				Name.ForeColor = parent.MainFontColor;
-				Name.Padding = new Padding( 0, 1, 0, 1 );
+				Name.Padding = new Padding( 2, 2, 2, 2 );
 				Name.Margin = new Padding( 2, 0, 2, 0 );
 				Name.AutoSize = true;
 				//Name.AutoEllipsis = true;
@@ -371,23 +364,16 @@ namespace ElectronicObserver.Window {
 			public void AddToTable( TableLayoutPanel table, int row ) {
 
 				table.SuspendLayout();
+				
 				table.Controls.Add( Name, 0, row );
 				table.Controls.Add( Level, 1, row );
 				table.Controls.Add( HP, 2, row );
 				table.Controls.Add( Condition, 3, row );
 				table.Controls.Add( ShipResource, 4, row );
 				table.Controls.Add( Equipments, 5, row );
+
 				table.ResumeLayout();
 
-				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.AutoSize, 21 );
-
-				if ( table.RowStyles.Count > row )
-					table.RowStyles[row] = rs;
-				else
-					while ( table.RowStyles.Count <= row )
-						table.RowStyles.Add( rs );
-				#endregion
 			}
 
 			public void Update( int shipMasterID ) {
@@ -809,6 +795,7 @@ namespace ElectronicObserver.Window {
 			AnchorageRepairBound = fleet.CanAnchorageRepair ? 2 + fleet.MembersInstance[0].SlotInstance.Count( eq => eq != null && eq.MasterEquipment.CategoryType == 31 ) : 0;
 
 			TableMember.SuspendLayout();
+			TableMember.RowCount = fleet.Members.Count( id => id > 0 );
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i].Update( fleet.Members[i] );
 			}
@@ -1142,6 +1129,10 @@ namespace ElectronicObserver.Window {
 						member.Update( fleet.Members[i] );
 				}
 			}
+
+			ControlHelper.SetTableRowStyles( TableMember, ControlHelper.GetDefaultRowStyle() );
+			TableMember.Location = new Point( TableMember.Location.X, TableFleet.Bottom /*+ Math.Max( TableFleet.Margin.Bottom, TableMember.Margin.Top )*/ );
+
 			TableMember.PerformLayout();		//fixme:サイズ変更に親パネルが追随しない
 
 		}

@@ -81,6 +81,7 @@
 			this.StripMenu_Tool_AlbumMasterEquipment = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AntiAirDefense = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_FleetImageGenerator = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +100,8 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.StripMenu_Tool_FleetImageGenerator = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+			this.toggleFixrowheightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -544,6 +546,13 @@
 			this.StripMenu_Tool_AntiAirDefense.Text = "対空砲火詳細(&A)";
 			this.StripMenu_Tool_AntiAirDefense.Click += new System.EventHandler(this.StripMenu_Tool_AntiAirDefense_Click);
 			// 
+			// StripMenu_Tool_FleetImageGenerator
+			// 
+			this.StripMenu_Tool_FleetImageGenerator.Name = "StripMenu_Tool_FleetImageGenerator";
+			this.StripMenu_Tool_FleetImageGenerator.Size = new System.Drawing.Size(164, 22);
+			this.StripMenu_Tool_FleetImageGenerator.Text = "編成画像出力(&F)";
+			this.StripMenu_Tool_FleetImageGenerator.Click += new System.EventHandler(this.StripMenu_Tool_FleetImageGenerator_Click);
+			// 
 			// StripMenu_Debug
 			// 
 			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -553,7 +562,9 @@
             this.StripMenu_Debug_LoadRecordFromOld,
             this.StripMenu_Debug_DeleteOldAPI,
             this.StripMenu_Debug_RenameShipResource,
-            this.StripMenu_Debug_LoadDataFromOld});
+            this.StripMenu_Debug_LoadDataFromOld,
+            this.toolStripSeparator12,
+            this.toggleFixrowheightToolStripMenuItem});
 			this.StripMenu_Debug.Name = "StripMenu_Debug";
 			this.StripMenu_Debug.Size = new System.Drawing.Size(74, 20);
 			this.StripMenu_Debug.Text = "デバッグ(&D)";
@@ -686,12 +697,17 @@
 			this.MainDockPanel.Size = new System.Drawing.Size(640, 434);
 			this.MainDockPanel.TabIndex = 0;
 			// 
-			// StripMenu_Tool_FleetImageGenerator
+			// toolStripSeparator12
 			// 
-			this.StripMenu_Tool_FleetImageGenerator.Name = "StripMenu_Tool_FleetImageGenerator";
-			this.StripMenu_Tool_FleetImageGenerator.Size = new System.Drawing.Size(164, 22);
-			this.StripMenu_Tool_FleetImageGenerator.Text = "編成画像出力(&F)";
-			this.StripMenu_Tool_FleetImageGenerator.Click += new System.EventHandler(this.StripMenu_Tool_FleetImageGenerator_Click);
+			this.toolStripSeparator12.Name = "toolStripSeparator12";
+			this.toolStripSeparator12.Size = new System.Drawing.Size(275, 6);
+			// 
+			// toggleFixrowheightToolStripMenuItem
+			// 
+			this.toggleFixrowheightToolStripMenuItem.Name = "toggleFixrowheightToolStripMenuItem";
+			this.toggleFixrowheightToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+			this.toggleFixrowheightToolStripMenuItem.Text = "toggle fixrowheight";
+			this.toggleFixrowheightToolStripMenuItem.Click += new System.EventHandler(this.toggleFixrowheightToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -796,5 +812,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AntiAirDefense;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_FleetImageGenerator;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+		private System.Windows.Forms.ToolStripMenuItem toggleFixrowheightToolStripMenuItem;
 	}
 }

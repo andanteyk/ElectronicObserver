@@ -35,8 +35,8 @@ namespace ElectronicObserver.Window {
 				ShipName.ForeColor = parent.ForeColor;
 				ShipName.TextAlign = ContentAlignment.MiddleLeft;
 				ShipName.Padding = new Padding( 0, 1, 0, 1 );
-				ShipName.Margin = new Padding( 2, 0, 2, 0 );
-				ShipName.MaximumSize = new Size( 60, 20 );
+				ShipName.Margin = new Padding( 2, 1, 2, 1 );
+				ShipName.MaximumSize = new Size( 60, int.MaxValue );
 				//ShipName.AutoEllipsis = true;
 				ShipName.ImageAlign = ContentAlignment.MiddleCenter;
 				ShipName.AutoSize = true;
@@ -49,7 +49,7 @@ namespace ElectronicObserver.Window {
 				CompletionTime.Tag = null;
 				CompletionTime.TextAlign = ContentAlignment.MiddleLeft;
 				CompletionTime.Padding = new Padding( 0, 1, 0, 1 );
-				CompletionTime.Margin = new Padding( 2, 0, 2, 0 );
+				CompletionTime.Margin = new Padding( 2, 1, 2, 1 );
 				CompletionTime.MinimumSize = new Size( 60, 10 );
 				CompletionTime.AutoSize = true;
 				CompletionTime.Visible = true;
@@ -73,16 +73,6 @@ namespace ElectronicObserver.Window {
 
 				table.Controls.Add( ShipName, 0, row );
 				table.Controls.Add( CompletionTime, 1, row );
-
-				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
-
-				if ( table.RowStyles.Count > row )
-					table.RowStyles[row] = rs;
-				else
-					while ( table.RowStyles.Count <= row )
-						table.RowStyles.Add( rs );
-				#endregion
 
 			}
 
@@ -248,6 +238,7 @@ namespace ElectronicObserver.Window {
 			if ( ControlArsenal == null ) return;
 
 			TableArsenal.SuspendLayout();
+			TableArsenal.RowCount = KCDatabase.Instance.Arsenals.Values.Count( a => a.State != -1 );
 			for ( int i = 0; i < ControlArsenal.Length; i++ )
 				ControlArsenal[i].Update( i + 1 );
 			TableArsenal.ResumeLayout();
@@ -270,8 +261,14 @@ namespace ElectronicObserver.Window {
 			MenuMain_ShowShipName.Checked = Utility.Configuration.Config.FormArsenal.ShowShipName;
 
 			if ( ControlArsenal != null ) {
+				TableArsenal.SuspendLayout();
+
 				foreach ( var c in ControlArsenal )
 					c.ConfigurationChanged( this );
+
+				ControlHelper.SetTableRowStyles( TableArsenal, ControlHelper.GetDefaultRowStyle() );
+
+				TableArsenal.ResumeLayout();
 			}
 		}
 

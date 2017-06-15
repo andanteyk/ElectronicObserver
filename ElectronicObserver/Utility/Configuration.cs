@@ -243,10 +243,17 @@ namespace ElectronicObserver.Utility {
 					//*/
 				};
 
+				/// <summary>
+				/// 固定レイアウト(フォントに依存しないレイアウト)を利用するか
+				/// </summary>
+				public bool IsLayoutFixed;
+
+
 				public ConfigUI() {
 					MainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 					SubFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
 					BarColorMorphing = false;
+					IsLayoutFixed = true;
 				}
 			}
 			/// <summary>UI</summary>
@@ -918,9 +925,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool IsScrollable { get; set; }
 
+				/// <summary>
+				/// 艦名表示の最大幅
+				/// </summary>
+				public int MaxShipNameWidth { get; set; }
+
+
 				public ConfigFormCompass() {
 					CandidateDisplayCount = 4;
 					IsScrollable = false;
+					MaxShipNameWidth = 60;
 				}
 			}
 			/// <summary>[羅針盤]ウィンドウ</summary>

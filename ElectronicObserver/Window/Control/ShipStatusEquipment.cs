@@ -81,7 +81,14 @@ namespace ElectronicObserver.Window.Control {
 
 
 		private SlotItem[] SlotList;
-		private int SlotSize { get; set; }
+		private int _slotSize;
+		private int SlotSize {
+			get { return _slotSize; }
+			set {
+				_slotSize = value;
+				PropertyChanged();
+			}
+		}
 
 		private bool _onMouse;
 
@@ -785,8 +792,6 @@ namespace ElectronicObserver.Window.Control {
 			_overlayBrush.Dispose();
 			_invalidSlotBrush.Dispose();
 		}
-
-
 
 	}
 }

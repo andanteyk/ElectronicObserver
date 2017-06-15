@@ -35,8 +35,8 @@ namespace ElectronicObserver.Window {
 				ShipName.ForeColor = parent.ForeColor;
 				ShipName.TextAlign = ContentAlignment.MiddleLeft;
 				ShipName.Padding = new Padding( 0, 1, 0, 1 );
-				ShipName.Margin = new Padding( 2, 0, 2, 0 );
-				ShipName.MaximumSize = new Size( 60, 20 );
+				ShipName.Margin = new Padding( 2, 1, 2, 1 );
+				ShipName.MaximumSize = new Size( 60, int.MaxValue );
 				//ShipName.AutoEllipsis = true;
 				ShipName.ImageAlign = ContentAlignment.MiddleCenter;
 				ShipName.AutoSize = true;
@@ -49,7 +49,7 @@ namespace ElectronicObserver.Window {
 				RepairTime.Tag = null;
 				RepairTime.TextAlign = ContentAlignment.MiddleLeft;
 				RepairTime.Padding = new Padding( 0, 1, 0, 1 );
-				RepairTime.Margin = new Padding( 2, 0, 2, 0 );
+				RepairTime.Margin = new Padding( 2, 1, 2, 1 );
 				RepairTime.MinimumSize = new Size( 60, 10 );
 				RepairTime.AutoSize = true;
 				RepairTime.Visible = true;
@@ -73,16 +73,6 @@ namespace ElectronicObserver.Window {
 
 				table.Controls.Add( ShipName, 0, row );
 				table.Controls.Add( RepairTime, 1, row );
-
-				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
-
-				if ( table.RowStyles.Count > row )
-					table.RowStyles[row] = rs;
-				else
-					while ( table.RowStyles.Count <= row )
-						table.RowStyles.Add( rs );
-				#endregion
 
 			}
 
@@ -128,7 +118,7 @@ namespace ElectronicObserver.Window {
 				if ( RepairTime.Tag != null ) {
 
 					var time = (DateTime)RepairTime.Tag;
-					
+
 					RepairTime.Text = DateTimeHelper.ToTimeRemainString( time );
 
 					if ( Utility.Configuration.Config.FormDock.BlinkAtCompletion && ( time - DateTime.Now ).TotalMilliseconds <= Utility.Configuration.Config.NotifierRepair.AccelInterval ) {
@@ -199,6 +189,7 @@ namespace ElectronicObserver.Window {
 		void Updated( string apiname, dynamic data ) {
 
 			TableDock.SuspendLayout();
+			TableDock.RowCount = KCDatabase.Instance.Docks.Values.Count( d => d.State != -1 );
 			for ( int i = 0; i < ControlDock.Length; i++ )
 				ControlDock[i].Update( i + 1 );
 			TableDock.ResumeLayout();
@@ -227,8 +218,14 @@ namespace ElectronicObserver.Window {
 			Font = Utility.Configuration.Config.UI.MainFont;
 
 			if ( ControlDock != null ) {
+				TableDock.SuspendLayout();
+
 				foreach ( var c in ControlDock )
 					c.ConfigurationChanged( this );
+
+				ControlHelper.SetTableRowStyles( TableDock, ControlHelper.GetDefaultRowStyle() );
+
+				TableDock.ResumeLayout();
 			}
 		}
 

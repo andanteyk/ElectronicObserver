@@ -916,6 +916,11 @@ api_get_member/questlist	：任務
 		api_title			：タイトル
 		api_detail			：説明 "<br>"で改行
 		api_lost_badges		：消費勲章数　消費するときのみ存在
+		api_select_rewards	：報酬選択が可能な任務に存在 []
+			api_no			：ID (1から始まる連番)
+			api_kind		：種別?
+			api_mst_id		：ID?
+			api_count		：個数
 		api_get_material	：獲得資材
 		api_bonus_flag		：1=通常, 2=艦娘
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成

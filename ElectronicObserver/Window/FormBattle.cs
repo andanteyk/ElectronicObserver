@@ -24,6 +24,8 @@ namespace ElectronicObserver.Window {
 		private readonly Color WinRankColor_Win = SystemColors.ControlText;
 		private readonly Color WinRankColor_Lose = Color.Red;
 
+		private readonly Size DefaultBarSize = new Size( 80, 20 );
+		private readonly Size SmallBarSize = new Size( 60, 20 );
 
 		private List<ShipStatusHP> HPBars;
 
@@ -45,7 +47,9 @@ namespace ElectronicObserver.Window {
 			TableBottom.SuspendLayout();
 			for ( int i = 0; i < 24; i++ ) {
 				HPBars.Add( new ShipStatusHP() );
-				HPBars[i].Size = new Size( 80, 20 );
+				HPBars[i].Size = DefaultBarSize;
+				HPBars[i].AutoSize = false;
+				HPBars[i].AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 				HPBars[i].Margin = new Padding( 2, 0, 2, 0 );
 				HPBars[i].Anchor = AnchorStyles.None;
 				HPBars[i].MainFont = MainFont;
@@ -266,10 +270,19 @@ namespace ElectronicObserver.Window {
 					} break;
 
 			}
+
 			TableTop.ResumeLayout();
 			TableBottom.ResumeLayout();
+
 			BaseLayoutPanel.ResumeLayout();
 
+
+			if ( Utility.Configuration.Config.UI.IsLayoutFixed )
+				TableTop.Width = TableTop.GetPreferredSize( BaseLayoutPanel.Size ).Width;
+			else
+				TableTop.Width = TableBottom.ClientSize.Width;
+			TableTop.Height = TableTop.GetPreferredSize( BaseLayoutPanel.Size ).Height;
+			
 		}
 
 
@@ -773,7 +786,11 @@ namespace ElectronicObserver.Window {
 			var attackDamages = bd.AttackDamages;
 
 
+			foreach ( var bar in HPBars )
+				bar.SuspendUpdate();
+
 			for ( int i = 0; i < 24; i++ ) {
+				
 				if ( initialHPs[i] != -1 ) {
 					HPBars[i].Value = resultHPs[i];
 					HPBars[i].PrevValue = initialHPs[i];
@@ -908,12 +925,12 @@ namespace ElectronicObserver.Window {
 			//*/
 			if ( isCombined && isEnemyCombined ) {
 				foreach ( var bar in HPBars ) {
-					bar.Size = new Size( 60, bar.Size.Height );
+					bar.Size = SmallBarSize;
 					bar.Text = null;
 				}
 			} else {
 				foreach ( var bar in HPBars ) {
-					bar.Size = new Size( 80, bar.Size.Height );
+					bar.Size = DefaultBarSize;
 					bar.Text = "HP:";
 				}
 			}
@@ -929,6 +946,9 @@ namespace ElectronicObserver.Window {
 				foreach ( int i in bd.MVPShipCombinedIndexes )
 					HPBars[12 + i].BackColor = Color.Moccasin;
 			}
+
+			foreach ( var bar in HPBars )
+				bar.ResumeUpdate();
 		}
 
 
@@ -952,6 +972,8 @@ namespace ElectronicObserver.Window {
 				WinRank.Text = Constants.GetWinRank( rank );
 				WinRank.ForeColor = rank >= 4 ? WinRankColor_Win : WinRankColor_Lose;
 			}
+
+			WinRank.MinimumSize = Utility.Configuration.Config.UI.IsLayoutFixed ? new Size( DefaultBarSize.Width, 0 ) : new Size( HPBars[0].Width, 0 );
 		}
 
 
@@ -1149,14 +1171,55 @@ namespace ElectronicObserver.Window {
 
 			BaseLayoutPanel.AutoScroll = config.FormBattle.IsScrollable;
 
+
+			bool fixSize = Utility.Configuration.Config.UI.IsLayoutFixed;
+
+			TableBottom.SuspendLayout();
+			if ( fixSize ) {
+				ControlHelper.SetTableColumnStyles( TableBottom, new ColumnStyle( SizeType.AutoSize ) );
+				ControlHelper.SetTableRowStyles( TableBottom, new RowStyle( SizeType.Absolute, 21 ) );
+			} else {
+				ControlHelper.SetTableColumnStyles( TableBottom, new ColumnStyle( SizeType.AutoSize ) );
+				ControlHelper.SetTableRowStyles( TableBottom, new RowStyle( SizeType.AutoSize ) );
+			}
 			if ( HPBars != null ) {
 				foreach ( var b in HPBars ) {
 					b.MainFont = MainFont;
 					b.SubFont = SubFont;
+					b.AutoSize = !fixSize;
+					if ( !b.AutoSize ) {
+						b.Size = ( HPBars[12].Visible && HPBars[18].Visible ) ? SmallBarSize : DefaultBarSize;
+					}
 					b.HPBar.ColorMorphing = config.UI.BarColorMorphing;
 					b.HPBar.SetBarColorScheme( config.UI.BarColorScheme.Select( col => col.ColorData ).ToArray() );
 				}
 			}
+			FleetFriend.MaximumSize =
+			FleetFriendEscort.MaximumSize =
+			FleetEnemy.MaximumSize =
+			FleetEnemyEscort.MaximumSize =
+			DamageFriend.MaximumSize =
+			DamageEnemy.MaximumSize =
+			WinRank.MaximumSize =
+				fixSize ? DefaultBarSize : Size.Empty;
+
+			WinRank.MinimumSize = fixSize ? new Size( 80, 0 ) : new Size( HPBars[0].Width, 0 );
+
+			TableBottom.ResumeLayout();
+
+			TableTop.SuspendLayout();
+			if ( fixSize ) {
+				ControlHelper.SetTableColumnStyles( TableTop, new ColumnStyle( SizeType.Absolute, 21 * 4 ) );
+				ControlHelper.SetTableRowStyles( TableTop, new RowStyle( SizeType.Absolute, 21 ) );
+				TableTop.Width = TableTop.GetPreferredSize( BaseLayoutPanel.Size ).Width;
+			} else {
+				ControlHelper.SetTableColumnStyles( TableTop, new ColumnStyle( SizeType.Percent, 100 ) );
+				ControlHelper.SetTableRowStyles( TableTop, new RowStyle( SizeType.AutoSize ) );
+				TableTop.Width = TableBottom.ClientSize.Width;
+			}
+			TableTop.Height = TableTop.GetPreferredSize( BaseLayoutPanel.Size ).Height;
+			TableTop.ResumeLayout();
+
 		}
 
 

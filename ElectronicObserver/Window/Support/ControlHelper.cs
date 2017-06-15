@@ -187,6 +187,99 @@ namespace ElectronicObserver.Window.Support {
 
 			return ret;
 		}
+
+
+
+		/// <summary>
+		/// TableLayoutPanel における、現在の設定を反映した汎用的な RowStyle を取得します。
+		/// </summary>
+		public static RowStyle GetDefaultRowStyle() {
+			return Utility.Configuration.Config.UI.IsLayoutFixed ?
+				new RowStyle( SizeType.Absolute, 21 ) :
+				new RowStyle( SizeType.AutoSize );
+		}
+
+		/// <summary>
+		/// TableLayoutPanel において、実際に利用されている行数を取得します。
+		/// デフォルトの RowCount 及び RowStyles.Count は実際と異なる値を返すことがあるためです。
+		/// </summary>
+		public static int GetActualRowCount( TableLayoutPanel panel ) {
+			int count = panel.RowCount;
+			foreach ( System.Windows.Forms.Control c in panel.Controls ) {
+				count = Math.Max( panel.GetRow( c ) + 1, count );
+			}
+			return count;
+		}
+
+		/// <summary>
+		/// 指定した行に対して、RowStyle を適用します。
+		/// </summary>
+		public static void SetTableRowStyle( TableLayoutPanel panel, int row, RowStyle style ) {
+			if ( panel.RowStyles.Count > row )
+				panel.RowStyles[row] = new RowStyle( style.SizeType, style.Height );
+			else
+				while ( panel.RowStyles.Count <= row )
+					panel.RowStyles.Add( new RowStyle( style.SizeType, style.Height ) );
+		}
+
+		/// <summary>
+		/// 全ての行に対して、RowStyle を適用します。
+		/// </summary>
+		public static void SetTableRowStyles( TableLayoutPanel panel, RowStyle style ) {
+			int rowCount = GetActualRowCount( panel );
+			for ( int i = 0; i < rowCount; i++ ) {
+				if ( panel.RowStyles.Count > i )
+					panel.RowStyles[i] = new RowStyle( style.SizeType, style.Height );
+				else
+					panel.RowStyles.Add( new RowStyle( style.SizeType, style.Height ) );
+			}
+		}
+
+
+		/// <summary>
+		/// TableLayoutPanel における、現在の設定を反映した汎用的な ColumnStyle を取得します。
+		/// </summary>
+		public static ColumnStyle GetDefaultColumnStyle() {
+			return new ColumnStyle( SizeType.AutoSize );
+		}
+
+		/// <summary>
+		/// TableLayoutPanel において、実際に利用されている列数を取得します。
+		/// デフォルトの ColumnCount 及び ColumnStyles.Count は実際と異なる値を返すことがあるためです。
+		/// </summary>
+		public static int GetActualColumnCount( TableLayoutPanel panel ) {
+			int count = panel.ColumnCount;
+			foreach ( System.Windows.Forms.Control c in panel.Controls ) {
+				count = Math.Max( panel.GetColumn( c ) + 1, count );
+			}
+			return count;
+		}
+
+		/// <summary>
+		/// 指定した列に対して、ColumnStyle を適用します。
+		/// </summary>
+		public static void SetTableColumnStyle( TableLayoutPanel panel, int column, ColumnStyle style ) {
+			if ( panel.ColumnStyles.Count > column )
+				panel.ColumnStyles[column] = new ColumnStyle( style.SizeType, style.Width );
+			else
+				while ( panel.ColumnStyles.Count <= column )
+					panel.ColumnStyles.Add( new ColumnStyle( style.SizeType, style.Width ) );
+		}
+
+		/// <summary>
+		/// 全ての列に対して、ColumnStyle を適用します。
+		/// </summary>
+		public static void SetTableColumnStyles( TableLayoutPanel panel, ColumnStyle style ) {
+			int columnCount = GetActualColumnCount( panel );
+			for ( int i = 0; i < columnCount; i++ ) {
+				if ( panel.ColumnStyles.Count > i )
+					panel.ColumnStyles[i] = new ColumnStyle( style.SizeType, style.Width );
+				else
+					panel.ColumnStyles.Add( new ColumnStyle( style.SizeType, style.Width ) );
+			}
+		}
+
+
 	}
 
 }
