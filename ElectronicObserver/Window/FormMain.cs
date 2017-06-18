@@ -1325,13 +1325,6 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-		private void toggleFixrowheightToolStripMenuItem_Click( object sender, EventArgs e ) {
-			Utility.Configuration.Config.UI.IsLayoutFixed = !Utility.Configuration.Config.UI.IsLayoutFixed;
-			toggleFixrowheightToolStripMenuItem.Checked = Utility.Configuration.Config.UI.IsLayoutFixed;
-			Utility.Configuration.Instance.OnConfigurationChanged();
-		}
-
-
 
 
 

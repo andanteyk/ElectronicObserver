@@ -25,6 +25,7 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			ElectronicObserver.Window.Control.StatusBarModule statusBarModule1 = new ElectronicObserver.Window.Control.StatusBarModule();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
@@ -50,8 +51,6 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.UI_BarColorMorphing = new System.Windows.Forms.CheckBox();
-			this.UI_SubFontApply = new System.Windows.Forms.Button();
-			this.UI_MainFontApply = new System.Windows.Forms.Button();
 			this.UI_SubFontSelect = new System.Windows.Forms.Button();
 			this.UI_SubFont = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
@@ -59,6 +58,7 @@
 			this.UI_MainFont = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.Log_SaveLogImmediately = new System.Windows.Forms.CheckBox();
 			this.Log_SaveBattleLog = new System.Windows.Forms.CheckBox();
 			this.Log_ShowSpoiler = new System.Windows.Forms.CheckBox();
 			this.label12 = new System.Windows.Forms.Label();
@@ -235,7 +235,13 @@
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.Log_PlayTime = new System.Windows.Forms.Label();
 			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
-			this.Log_SaveLogImmediately = new System.Windows.Forms.CheckBox();
+			this.UI_IsLayoutFixed = new System.Windows.Forms.CheckBox();
+			this.UI_RenderingTestChanger = new System.Windows.Forms.TrackBar();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.UI_RenderingTest = new ElectronicObserver.Window.Control.ShipStatusHP();
+			this.label40 = new System.Windows.Forms.Label();
+			this.label41 = new System.Windows.Forms.Label();
+			this.FormCompass_MaxShipNameWidth = new System.Windows.Forms.NumericUpDown();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -278,6 +284,9 @@
 			this.tabPage17.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.UI_RenderingTestChanger)).BeginInit();
+			this.tableLayoutPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.FormCompass_MaxShipNameWidth)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -358,6 +367,7 @@
 			// Connection_UseSystemProxy
 			// 
 			this.Connection_UseSystemProxy.AutoSize = true;
+			this.Connection_UseSystemProxy.Enabled = false;
 			this.Connection_UseSystemProxy.Location = new System.Drawing.Point(147, 7);
 			this.Connection_UseSystemProxy.Name = "Connection_UseSystemProxy";
 			this.Connection_UseSystemProxy.Size = new System.Drawing.Size(135, 19);
@@ -365,6 +375,7 @@
 			this.Connection_UseSystemProxy.Text = "システムプロキシを利用";
 			this.ToolTipInfo.SetToolTip(this.Connection_UseSystemProxy, "システムのプロキシ設定を利用します。");
 			this.Connection_UseSystemProxy.UseVisualStyleBackColor = true;
+			this.Connection_UseSystemProxy.Visible = false;
 			// 
 			// Connection_UpstreamProxyPort
 			// 
@@ -394,6 +405,7 @@
 			// Connection_RegisterAsSystemProxy
 			// 
 			this.Connection_RegisterAsSystemProxy.AutoSize = true;
+			this.Connection_RegisterAsSystemProxy.Enabled = false;
 			this.Connection_RegisterAsSystemProxy.Location = new System.Drawing.Point(288, 7);
 			this.Connection_RegisterAsSystemProxy.Name = "Connection_RegisterAsSystemProxy";
 			this.Connection_RegisterAsSystemProxy.Size = new System.Drawing.Size(152, 19);
@@ -562,19 +574,19 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.tableLayoutPanel1);
+			this.tabPage2.Controls.Add(this.UI_IsLayoutFixed);
 			this.tabPage2.Controls.Add(this.UI_BarColorMorphing);
-			this.tabPage2.Controls.Add(this.UI_SubFontApply);
-			this.tabPage2.Controls.Add(this.UI_MainFontApply);
 			this.tabPage2.Controls.Add(this.UI_SubFontSelect);
 			this.tabPage2.Controls.Add(this.UI_SubFont);
 			this.tabPage2.Controls.Add(this.label8);
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 24);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(576, 292);
+			this.tabPage2.Size = new System.Drawing.Size(576, 294);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -589,30 +601,7 @@
 			this.UI_BarColorMorphing.Text = "バーの色を滑らかに変化させる";
 			this.ToolTipInfo.SetToolTip(this.UI_BarColorMorphing, "HP・資源等のバーの色を、艦これUIと同様に滑らかに変化させるか指定します。");
 			this.UI_BarColorMorphing.UseVisualStyleBackColor = true;
-			// 
-			// UI_SubFontApply
-			// 
-			this.UI_SubFontApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.UI_SubFontApply.Location = new System.Drawing.Point(498, 35);
-			this.UI_SubFontApply.Name = "UI_SubFontApply";
-			this.UI_SubFontApply.Size = new System.Drawing.Size(32, 23);
-			this.UI_SubFontApply.TabIndex = 6;
-			this.UI_SubFontApply.Text = "⇒";
-			this.ToolTipInfo.SetToolTip(this.UI_SubFontApply, "現在のテキストボックスの内容を適用します。");
-			this.UI_SubFontApply.UseVisualStyleBackColor = true;
-			this.UI_SubFontApply.Click += new System.EventHandler(this.UI_SubFontApply_Click);
-			// 
-			// UI_MainFontApply
-			// 
-			this.UI_MainFontApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.UI_MainFontApply.Location = new System.Drawing.Point(498, 6);
-			this.UI_MainFontApply.Name = "UI_MainFontApply";
-			this.UI_MainFontApply.Size = new System.Drawing.Size(32, 23);
-			this.UI_MainFontApply.TabIndex = 2;
-			this.UI_MainFontApply.Text = "⇒";
-			this.ToolTipInfo.SetToolTip(this.UI_MainFontApply, "現在のテキストボックスの内容を適用します。");
-			this.UI_MainFontApply.UseVisualStyleBackColor = true;
-			this.UI_MainFontApply.Click += new System.EventHandler(this.UI_MainFontApply_Click);
+			this.UI_BarColorMorphing.CheckedChanged += new System.EventHandler(this.UI_BarColorMorphing_CheckedChanged);
 			// 
 			// UI_SubFontSelect
 			// 
@@ -631,8 +620,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.UI_SubFont.Location = new System.Drawing.Point(92, 35);
 			this.UI_SubFont.Name = "UI_SubFont";
-			this.UI_SubFont.Size = new System.Drawing.Size(400, 23);
+			this.UI_SubFont.Size = new System.Drawing.Size(438, 23);
 			this.UI_SubFont.TabIndex = 5;
+			this.UI_SubFont.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UI_SubFont_KeyDown);
+			this.UI_SubFont.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.UI_SubFont_PreviewKeyDown);
+			this.UI_SubFont.Validating += new System.ComponentModel.CancelEventHandler(this.UI_SubFont_Validating);
 			// 
 			// label8
 			// 
@@ -660,8 +652,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.UI_MainFont.Location = new System.Drawing.Point(92, 6);
 			this.UI_MainFont.Name = "UI_MainFont";
-			this.UI_MainFont.Size = new System.Drawing.Size(400, 23);
+			this.UI_MainFont.Size = new System.Drawing.Size(438, 23);
 			this.UI_MainFont.TabIndex = 1;
+			this.UI_MainFont.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UI_MainFont_KeyDown);
+			this.UI_MainFont.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.UI_MainFont_PreviewKeyDown);
+			this.UI_MainFont.Validating += new System.ComponentModel.CancelEventHandler(this.UI_MainFont_Validating);
 			// 
 			// label5
 			// 
@@ -684,13 +679,25 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 24);
+			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(576, 292);
+			this.tabPage3.Size = new System.Drawing.Size(576, 294);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// Log_SaveLogImmediately
+			// 
+			this.Log_SaveLogImmediately.AutoSize = true;
+			this.Log_SaveLogImmediately.Location = new System.Drawing.Point(153, 6);
+			this.Log_SaveLogImmediately.Name = "Log_SaveLogImmediately";
+			this.Log_SaveLogImmediately.Size = new System.Drawing.Size(140, 19);
+			this.Log_SaveLogImmediately.TabIndex = 9;
+			this.Log_SaveLogImmediately.Text = "ログを即時書き込みする";
+			this.ToolTipInfo.SetToolTip(this.Log_SaveLogImmediately, "ログ追加と同時にログファイルに書き込むかを指定します。\r\n無効の場合はプログラム終了時にまとめて書き込みます。\r\n有効な場合、強制終了等の問題が発生してもログを残" +
+        "せますが、多少処理が重くなる可能性があります。\r\nなお、「ログをファイルに保存する」無効時には本指定は無効になります。");
+			this.Log_SaveLogImmediately.UseVisualStyleBackColor = true;
 			// 
 			// Log_SaveBattleLog
 			// 
@@ -802,10 +809,10 @@
 			this.tabPage4.Controls.Add(this.label9);
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 24);
+			this.tabPage4.Location = new System.Drawing.Point(4, 22);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(576, 292);
+			this.tabPage4.Size = new System.Drawing.Size(576, 294);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -896,10 +903,10 @@
 			this.tabPage5.Controls.Add(this.Debug_AlertOnError);
 			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 24);
+			this.tabPage5.Location = new System.Drawing.Point(4, 22);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(576, 292);
+			this.tabPage5.Size = new System.Drawing.Size(576, 294);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -924,7 +931,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 225);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 221);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -985,10 +992,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 22);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(576, 292);
+			this.tabPage6.Size = new System.Drawing.Size(576, 294);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -1501,10 +1508,10 @@
 			this.tabPage19.Controls.Add(this.label36);
 			this.tabPage19.Controls.Add(this.FormDock_MaxShipNameWidth);
 			this.tabPage19.Controls.Add(this.FormDock_BlinkAtCompletion);
-			this.tabPage19.Location = new System.Drawing.Point(4, 22);
+			this.tabPage19.Location = new System.Drawing.Point(4, 24);
 			this.tabPage19.Name = "tabPage19";
 			this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage19.Size = new System.Drawing.Size(562, 260);
+			this.tabPage19.Size = new System.Drawing.Size(562, 258);
 			this.tabPage19.TabIndex = 8;
 			this.tabPage19.Text = "入渠";
 			this.tabPage19.UseVisualStyleBackColor = true;
@@ -1568,10 +1575,10 @@
 			this.tabPage16.Controls.Add(this.label26);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_Visibility);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
-			this.tabPage16.Location = new System.Drawing.Point(4, 22);
+			this.tabPage16.Location = new System.Drawing.Point(4, 24);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(562, 260);
+			this.tabPage16.Size = new System.Drawing.Size(562, 258);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1611,7 +1618,7 @@
 			this.FormHeadquarters_Visibility.IntegralHeight = false;
 			this.FormHeadquarters_Visibility.Location = new System.Drawing.Point(6, 46);
 			this.FormHeadquarters_Visibility.Name = "FormHeadquarters_Visibility";
-			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 208);
+			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 206);
 			this.FormHeadquarters_Visibility.TabIndex = 1;
 			// 
 			// FormHeadquarters_BlinkAtMaximum
@@ -1626,13 +1633,16 @@
 			// 
 			// tabPage18
 			// 
+			this.tabPage18.Controls.Add(this.label40);
+			this.tabPage18.Controls.Add(this.label41);
+			this.tabPage18.Controls.Add(this.FormCompass_MaxShipNameWidth);
 			this.tabPage18.Controls.Add(this.FormCompass_IsScrollable);
 			this.tabPage18.Controls.Add(this.FormCompass_CandidateDisplayCount);
 			this.tabPage18.Controls.Add(this.label2);
-			this.tabPage18.Location = new System.Drawing.Point(4, 22);
+			this.tabPage18.Location = new System.Drawing.Point(4, 24);
 			this.tabPage18.Name = "tabPage18";
 			this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage18.Size = new System.Drawing.Size(562, 260);
+			this.tabPage18.Size = new System.Drawing.Size(562, 258);
 			this.tabPage18.TabIndex = 7;
 			this.tabPage18.Text = "羅針盤";
 			this.tabPage18.UseVisualStyleBackColor = true;
@@ -2384,10 +2394,10 @@
 			this.tabPage11.Controls.Add(this.Notification_Repair);
 			this.tabPage11.Controls.Add(this.Notification_Construction);
 			this.tabPage11.Controls.Add(this.Notification_Expedition);
-			this.tabPage11.Location = new System.Drawing.Point(4, 24);
+			this.tabPage11.Location = new System.Drawing.Point(4, 22);
 			this.tabPage11.Name = "tabPage11";
 			this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage11.Size = new System.Drawing.Size(576, 292);
+			this.tabPage11.Size = new System.Drawing.Size(576, 294);
 			this.tabPage11.TabIndex = 7;
 			this.tabPage11.Text = "通知";
 			this.tabPage11.UseVisualStyleBackColor = true;
@@ -2487,10 +2497,10 @@
 			// tabPage15
 			// 
 			this.tabPage15.Controls.Add(this.groupBox5);
-			this.tabPage15.Location = new System.Drawing.Point(4, 24);
+			this.tabPage15.Location = new System.Drawing.Point(4, 22);
 			this.tabPage15.Name = "tabPage15";
 			this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage15.Size = new System.Drawing.Size(576, 292);
+			this.tabPage15.Size = new System.Drawing.Size(576, 294);
 			this.tabPage15.TabIndex = 8;
 			this.tabPage15.Text = "データベース";
 			this.tabPage15.UseVisualStyleBackColor = true;
@@ -2566,10 +2576,10 @@
 			this.tabPage17.Controls.Add(this.BGMPlayer_VolumeAll);
 			this.tabPage17.Controls.Add(this.BGMPlayer_Enabled);
 			this.tabPage17.Controls.Add(this.BGMPlayer_ControlGrid);
-			this.tabPage17.Location = new System.Drawing.Point(4, 24);
+			this.tabPage17.Location = new System.Drawing.Point(4, 22);
 			this.tabPage17.Name = "tabPage17";
 			this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage17.Size = new System.Drawing.Size(576, 292);
+			this.tabPage17.Size = new System.Drawing.Size(576, 294);
 			this.tabPage17.TabIndex = 9;
 			this.tabPage17.Text = "BGM";
 			this.tabPage17.UseVisualStyleBackColor = true;
@@ -2648,7 +2658,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 243);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 241);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2745,17 +2755,113 @@
 			this.PlayTimeTimer.Interval = 1000;
 			this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
 			// 
-			// Log_SaveLogImmediately
+			// UI_IsLayoutFixed
 			// 
-			this.Log_SaveLogImmediately.AutoSize = true;
-			this.Log_SaveLogImmediately.Location = new System.Drawing.Point(153, 6);
-			this.Log_SaveLogImmediately.Name = "Log_SaveLogImmediately";
-			this.Log_SaveLogImmediately.Size = new System.Drawing.Size(140, 19);
-			this.Log_SaveLogImmediately.TabIndex = 9;
-			this.Log_SaveLogImmediately.Text = "ログを即時書き込みする";
-			this.ToolTipInfo.SetToolTip(this.Log_SaveLogImmediately, "ログ追加と同時にログファイルに書き込むかを指定します。\r\n無効の場合はプログラム終了時にまとめて書き込みます。\r\n有効な場合、強制終了等の問題が発生してもログを残" +
-        "せますが、多少処理が重くなる可能性があります。\r\nなお、「ログをファイルに保存する」無効時には本指定は無効になります。");
-			this.Log_SaveLogImmediately.UseVisualStyleBackColor = true;
+			this.UI_IsLayoutFixed.AutoSize = true;
+			this.UI_IsLayoutFixed.Location = new System.Drawing.Point(8, 89);
+			this.UI_IsLayoutFixed.Name = "UI_IsLayoutFixed";
+			this.UI_IsLayoutFixed.Size = new System.Drawing.Size(112, 19);
+			this.UI_IsLayoutFixed.TabIndex = 13;
+			this.UI_IsLayoutFixed.Text = "列の幅を固定する";
+			this.ToolTipInfo.SetToolTip(this.UI_IsLayoutFixed, "有効な時、どんなフォントでも概ね各UIの列の高さが同じになります(ver. 2.6.2 以前と同様)。\r\n無効な時、フォントによって列の高さが変わります(有効な時" +
+        "より大きくなる場合があります)。");
+			this.UI_IsLayoutFixed.UseVisualStyleBackColor = true;
+			// 
+			// UI_RenderingTestChanger
+			// 
+			this.UI_RenderingTestChanger.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.UI_RenderingTestChanger.AutoSize = false;
+			this.UI_RenderingTestChanger.BackColor = System.Drawing.SystemColors.Window;
+			this.UI_RenderingTestChanger.Location = new System.Drawing.Point(3, 29);
+			this.UI_RenderingTestChanger.Name = "UI_RenderingTestChanger";
+			this.UI_RenderingTestChanger.Size = new System.Drawing.Size(162, 25);
+			this.UI_RenderingTestChanger.TabIndex = 14;
+			this.UI_RenderingTestChanger.TickStyle = System.Windows.Forms.TickStyle.None;
+			this.UI_RenderingTestChanger.Scroll += new System.EventHandler(this.UI_RenderingTestChanger_Scroll);
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.AutoSize = true;
+			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel1.ColumnCount = 1;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel1.Controls.Add(this.UI_RenderingTestChanger, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.UI_RenderingTest, 0, 0);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(250, 64);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 2;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(168, 57);
+			this.tableLayoutPanel1.TabIndex = 15;
+			// 
+			// UI_RenderingTest
+			// 
+			this.UI_RenderingTest.AutoSize = true;
+			this.UI_RenderingTest.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			statusBarModule1.BarColor0Begin = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			statusBarModule1.BarColor0End = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			statusBarModule1.MaximumValue = 500;
+			statusBarModule1.PrevValue = 401;
+			statusBarModule1.Value = 401;
+			this.UI_RenderingTest.HPBar = statusBarModule1;
+			this.UI_RenderingTest.Location = new System.Drawing.Point(16, 3);
+			this.UI_RenderingTest.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.UI_RenderingTest.Margin = new System.Windows.Forms.Padding(16, 3, 16, 3);
+			this.UI_RenderingTest.MaximumValue = 500;
+			this.UI_RenderingTest.Name = "UI_RenderingTest";
+			this.UI_RenderingTest.PrevValue = 401;
+			this.UI_RenderingTest.RepairTime = new System.DateTime(2017, 6, 18, 0, 0, 59, 159);
+			this.UI_RenderingTest.RepairTimeShowMode = ElectronicObserver.Window.Control.ShipStatusHPRepairTimeShowMode.Invisible;
+			this.UI_RenderingTest.Size = new System.Drawing.Size(136, 20);
+			this.UI_RenderingTest.TabIndex = 12;
+			this.UI_RenderingTest.Text = "Rendering Test: ";
+			this.ToolTipInfo.SetToolTip(this.UI_RenderingTest, "描画プレビューです。\r\n下のバーから値を調整できます。");
+			this.UI_RenderingTest.Value = 401;
+			// 
+			// label40
+			// 
+			this.label40.AutoSize = true;
+			this.label40.Location = new System.Drawing.Point(6, 62);
+			this.label40.Name = "label40";
+			this.label40.Size = new System.Drawing.Size(101, 15);
+			this.label40.TabIndex = 15;
+			this.label40.Text = "艦名の最大横幅：";
+			// 
+			// label41
+			// 
+			this.label41.AutoSize = true;
+			this.label41.Location = new System.Drawing.Point(179, 62);
+			this.label41.Name = "label41";
+			this.label41.Size = new System.Drawing.Size(21, 15);
+			this.label41.TabIndex = 14;
+			this.label41.Text = "px";
+			// 
+			// FormCompass_MaxShipNameWidth
+			// 
+			this.FormCompass_MaxShipNameWidth.Location = new System.Drawing.Point(113, 60);
+			this.FormCompass_MaxShipNameWidth.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+			this.FormCompass_MaxShipNameWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.FormCompass_MaxShipNameWidth.Name = "FormCompass_MaxShipNameWidth";
+			this.FormCompass_MaxShipNameWidth.Size = new System.Drawing.Size(60, 23);
+			this.FormCompass_MaxShipNameWidth.TabIndex = 13;
+			this.FormCompass_MaxShipNameWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.FormCompass_MaxShipNameWidth, "艦名の表示幅の最大値を指定します。");
+			this.FormCompass_MaxShipNameWidth.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			// 
 			// DialogConfiguration
 			// 
@@ -2845,6 +2951,10 @@
 			this.tabPage17.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.UI_RenderingTestChanger)).EndInit();
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.FormCompass_MaxShipNameWidth)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2875,8 +2985,6 @@
 		private System.Windows.Forms.Button UI_MainFontSelect;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.FontDialog FontSelector;
-		private System.Windows.Forms.Button UI_SubFontApply;
-		private System.Windows.Forms.Button UI_MainFontApply;
 		private System.Windows.Forms.Button Connection_OutputConnectionScript;
 		private System.Windows.Forms.TabPage tabPage7;
 		private System.Windows.Forms.TabControl tabControl2;
@@ -3063,5 +3171,12 @@
 		private System.Windows.Forms.CheckBox FormFleet_EmphasizeAtReady;
 		private System.Windows.Forms.CheckBox FormFleet_BlinkAtDamaged;
 		private System.Windows.Forms.CheckBox Log_SaveLogImmediately;
+		private System.Windows.Forms.CheckBox UI_IsLayoutFixed;
+		private Control.ShipStatusHP UI_RenderingTest;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TrackBar UI_RenderingTestChanger;
+		private System.Windows.Forms.Label label40;
+		private System.Windows.Forms.Label label41;
+		private System.Windows.Forms.NumericUpDown FormCompass_MaxShipNameWidth;
 	}
 }

@@ -551,7 +551,7 @@ namespace ElectronicObserver.Utility {
 
 				public ConfigFormDock() {
 					BlinkAtCompletion = true;
-					MaxShipNameWidth = 60;
+					MaxShipNameWidth = 64;
 				}
 			}
 			/// <summary>[入渠]ウィンドウ</summary>

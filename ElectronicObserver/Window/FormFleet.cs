@@ -237,8 +237,8 @@ namespace ElectronicObserver.Window {
 				AirSuperiority.Font = parent.MainFont;
 				SearchingAbility.Font = parent.MainFont;
 				AntiAirPower.Font = parent.MainFont;
-				
-				ControlHelper.SetTableRowStyles( parent.TableFleet,ControlHelper.GetDefaultRowStyle() );
+
+				ControlHelper.SetTableRowStyles( parent.TableFleet, ControlHelper.GetDefaultRowStyle() );
 			}
 
 		}
@@ -267,8 +267,8 @@ namespace ElectronicObserver.Window {
 				Name.TextAlign = ContentAlignment.MiddleLeft;
 				Name.ImageAlign = ContentAlignment.MiddleCenter;
 				Name.ForeColor = parent.MainFontColor;
-				Name.Padding = new Padding( 2, 2, 2, 2 );
-				Name.Margin = new Padding( 2, 0, 2, 0 );
+				Name.Padding = new Padding( 2, 1, 2, 1 );
+				Name.Margin = new Padding( 2, 1, 2, 1 );
 				Name.AutoSize = true;
 				//Name.AutoEllipsis = true;
 				Name.Visible = false;
@@ -292,7 +292,7 @@ namespace ElectronicObserver.Window {
 				Level.ResumeLayout();
 
 				HP = new ShipStatusHP();
-				HP.SuspendLayout();
+				HP.SuspendUpdate();
 				HP.Anchor = AnchorStyles.Left;
 				HP.Value = 0;
 				HP.MaximumValue = 0;
@@ -305,7 +305,7 @@ namespace ElectronicObserver.Window {
 				HP.AutoSize = true;
 				HP.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 				HP.Visible = false;
-				HP.ResumeLayout();
+				HP.ResumeUpdate();
 
 				Condition = new ImageLabel();
 				Condition.SuspendLayout();
@@ -315,8 +315,8 @@ namespace ElectronicObserver.Window {
 				Condition.TextAlign = ContentAlignment.BottomRight;
 				Condition.ImageAlign = ContentAlignment.MiddleLeft;
 				Condition.ImageList = ResourceManager.Instance.Icons;
-				Condition.Padding = new Padding( 2, 2, 2, 2 );
-				Condition.Margin = new Padding( 2, 0, 2, 0 );
+				Condition.Padding = new Padding( 2, 1, 2, 1 );
+				Condition.Margin = new Padding( 2, 1, 2, 1 );
 				Condition.Size = new Size( 40, 20 );
 				Condition.AutoSize = true;
 				Condition.Visible = false;
@@ -329,22 +329,23 @@ namespace ElectronicObserver.Window {
 				ShipResource.AmmoCurrent = 0;
 				ShipResource.AmmoMax = 0;
 				ShipResource.Anchor = AnchorStyles.Left;
-				ShipResource.Padding = new Padding( 0, 2, 0, 1 );
-				ShipResource.Margin = new Padding( 2, 0, 2, 0 );
+				ShipResource.Padding = new Padding( 0, 2, 0, 0 );
+				ShipResource.Margin = new Padding( 2, 0, 2, 1 );
 				ShipResource.Size = new Size( 30, 20 );
 				ShipResource.AutoSize = false;
 				ShipResource.Visible = false;
 				ShipResource.ResumeLayout();
 
 				Equipments = new ShipStatusEquipment();
-				Equipments.SuspendLayout();
+				Equipments.SuspendUpdate();
 				Equipments.Anchor = AnchorStyles.Left;
-				Equipments.Padding = new Padding( 0, 1, 0, 2 );
-				Equipments.Margin = new Padding( 2, 0, 2, 0 );
+				Equipments.Padding = new Padding( 0, 1, 0, 1 );
+				Equipments.Margin = new Padding( 2, 0, 2, 1 );
 				Equipments.Size = new Size( 40, 20 );
 				Equipments.AutoSize = true;
+				Equipments.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 				Equipments.Visible = false;
-				Equipments.ResumeLayout();
+				Equipments.ResumeUpdate();
 
 				ConfigurationChanged( parent );
 
@@ -358,13 +359,15 @@ namespace ElectronicObserver.Window {
 			public TableMemberControl( FormFleet parent, TableLayoutPanel table, int row )
 				: this( parent ) {
 				AddToTable( table, row );
+
+				Equipments.Name = string.Format( "{0}_{1}", parent.FleetID, row + 1 );
 			}
 
 
 			public void AddToTable( TableLayoutPanel table, int row ) {
 
 				table.SuspendLayout();
-				
+
 				table.Controls.Add( Name, 0, row );
 				table.Controls.Add( Level, 1, row );
 				table.Controls.Add( HP, 2, row );
@@ -1082,11 +1085,14 @@ namespace ElectronicObserver.Window {
 
 			var fleet = KCDatabase.Instance.Fleet[FleetID];
 
+			TableFleet.SuspendLayout();
 			if ( ControlFleet != null && fleet != null ) {
 				ControlFleet.ConfigurationChanged( this );
 				ControlFleet.Update( fleet );
 			}
+			TableFleet.ResumeLayout();
 
+			TableMember.SuspendLayout();
 			if ( ControlMember != null ) {
 				bool showAircraft = c.FormFleet.ShowAircraft;
 				bool fixShipNameWidth = c.FormFleet.FixShipNameWidth;
@@ -1098,6 +1104,7 @@ namespace ElectronicObserver.Window {
 				var levelVisibility = c.FormFleet.EquipmentLevelVisibility;
 				bool showAircraftLevelByNumber = c.FormFleet.ShowAircraftLevelByNumber;
 				int fixedShipNameWidth = c.FormFleet.FixedShipNameWidth;
+				bool isLayoutFixed = c.UI.IsLayoutFixed;
 
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
 					var member = ControlMember[i];
@@ -1114,11 +1121,13 @@ namespace ElectronicObserver.Window {
 					member.HP.Text = shortHPBar ? "" : "HP:";
 					member.HP.HPBar.ColorMorphing = colorMorphing;
 					member.HP.HPBar.SetBarColorScheme( colorScheme );
+					member.HP.MaximumSize = isLayoutFixed ? new Size( int.MaxValue, (int)ControlHelper.GetDefaultRowStyle().Height - member.HP.Margin.Vertical ) : Size.Empty;
 					member.HP.ResumeUpdate();
 					member.Level.TextNext = showNext ? "next:" : null;
 					member.Condition.ImageAlign = showConditionIcon ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter;
 					member.Equipments.LevelVisibility = levelVisibility;
 					member.Equipments.ShowAircraftLevelByNumber = showAircraftLevelByNumber;
+					member.Equipments.MaximumSize = isLayoutFixed ? new Size( int.MaxValue, (int)ControlHelper.GetDefaultRowStyle().Height - member.Equipments.Margin.Vertical ) : Size.Empty;
 					member.ShipResource.BarFuel.ColorMorphing =
 					member.ShipResource.BarAmmo.ColorMorphing = colorMorphing;
 					member.ShipResource.BarFuel.SetBarColorScheme( colorScheme );
@@ -1131,6 +1140,8 @@ namespace ElectronicObserver.Window {
 			}
 
 			ControlHelper.SetTableRowStyles( TableMember, ControlHelper.GetDefaultRowStyle() );
+			TableMember.ResumeLayout();
+	
 			TableMember.Location = new Point( TableMember.Location.X, TableFleet.Bottom /*+ Math.Max( TableFleet.Margin.Bottom, TableMember.Margin.Top )*/ );
 
 			TableMember.PerformLayout();		//fixme:サイズ変更に親パネルが追随しない

@@ -314,6 +314,7 @@ namespace ElectronicObserver.Window.Control {
 		private Brush _overlayBrush = new SolidBrush( Color.FromArgb( 0xC0, 0xF0, 0xF0, 0xF0 ) );
 
 
+		[System.Diagnostics.DebuggerDisplay( "[{PreferredSize.Width}, {PreferredSize.Height}]" )]
 		private class LayoutParameter {
 			private ShipStatusEquipment Parent;
 
@@ -333,13 +334,7 @@ namespace ElectronicObserver.Window.Control {
 			public Size PreferredSize { get; private set; }
 
 
-			// Graphics を参照できる場合、よりサイズ測定の精度を向上させることができる
-			public enum SizeStates {
-				NotSet,
-				NoGraphicsInformation,
-				Available,
-			}
-			public SizeStates State { get; private set; }
+			public bool IsAvailable { get; private set; }
 
 
 			public LayoutParameter( ShipStatusEquipment parent ) {
@@ -354,21 +349,23 @@ namespace ElectronicObserver.Window.Control {
 				InfoAreaSize = Size.Empty;
 				SlotUnitSize = Size.Empty;
 				PreferredSize = Size.Empty;
-				State = SizeStates.NotSet;
+				IsAvailable = false;
 			}
 
 			public void UpdateParameters( Graphics g, Size proposedSize, Font font ) {
 
-				if ( g != null && State < SizeStates.Available )
-					Digit2Size = TextRenderer.MeasureText( g, "88", font, new Size( int.MaxValue, int.MaxValue ), GetBaseTextFormat() | TextFormatFlags.Top | TextFormatFlags.Right );
-				else if ( g == null && State < SizeStates.NoGraphicsInformation )
-					Digit2Size = TextRenderer.MeasureText( "88", font, new Size( int.MaxValue, int.MaxValue ), GetBaseTextFormat() | TextFormatFlags.Top | TextFormatFlags.Right );
+				bool isGraphicsSpecified = g != null;
 
+				if ( !IsAvailable ) {
+					if ( !isGraphicsSpecified )
+						g = Parent.CreateGraphics();
+					Digit2Size = TextRenderer.MeasureText( g, "88", font, new Size( int.MaxValue, int.MaxValue ), GetBaseTextFormat() | TextFormatFlags.Top | TextFormatFlags.Right );
+				}
 
 				ImageList eqimages = ResourceManager.Instance.Equipments;
 
 
-				int imageZoomRate = (int)Math.Max( Math.Ceiling( Math.Min( Digit2Size.Height * 2.0, proposedSize.Height ) / eqimages.ImageSize.Height - 1 ), 1 );
+				int imageZoomRate = (int)Math.Max( Math.Ceiling( Math.Min( Digit2Size.Height * 2.0, ( proposedSize.Height > 0 ? proposedSize.Height : int.MaxValue ) ) / eqimages.ImageSize.Height - 1 ), 1 );
 				ImageSize = new Size( eqimages.ImageSize.Width * imageZoomRate, eqimages.ImageSize.Height * imageZoomRate );
 
 				// 情報エリア (機数とか熟練度とか) のサイズ
@@ -385,7 +382,11 @@ namespace ElectronicObserver.Window.Control {
 
 				PreferredSize = new Size( SlotUnitSize.Width * Parent.SlotSize, SlotUnitSize.Height );
 
-				State = g == null ? SizeStates.NoGraphicsInformation : SizeStates.Available;
+
+				if ( !IsAvailable && !isGraphicsSpecified )
+					g.Dispose();
+
+				IsAvailable = true;
 			}
 		}
 		private LayoutParameter LayoutParam;
@@ -393,15 +394,31 @@ namespace ElectronicObserver.Window.Control {
 		#endregion
 
 
+		private bool IsRefreshSuspended { get; set; }
+
+		public void SuspendUpdate() {
+			IsRefreshSuspended = true;
+			SuspendLayout();
+		}
+		public void ResumeUpdate() {
+			ResumeLayout();
+			if ( IsRefreshSuspended ) {
+				IsRefreshSuspended = false;
+				PropertyChanged();
+			}
+		}
+
+
 
 		public ShipStatusEquipment() {
+			IsRefreshSuspended = true;
 			InitializeComponent();
 
 			SlotList = new SlotItem[6];
 			for ( int i = 0; i < SlotList.Length; i++ ) {
 				SlotList[i] = new SlotItem();
 			}
-			SlotSize = 0;
+			_slotSize = 0;
 
 			_onMouse = false;
 
@@ -429,6 +446,8 @@ namespace ElectronicObserver.Window.Control {
 			LayoutParam = new LayoutParameter( this );
 
 			Disposed += ShipStatusEquipment_Disposed;
+
+			IsRefreshSuspended = false;
 		}
 
 		/// <summary>
@@ -466,7 +485,7 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 
-			SlotSize = ship.SlotSize + ( ship.IsExpansionSlotAvailable ? 1 : 0 );
+			_slotSize = ship.SlotSize + ( ship.IsExpansionSlotAvailable ? 1 : 0 );
 
 			PropertyChanged();
 		}
@@ -493,7 +512,7 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[i].AircraftLevel = 0;
 			}
 
-			SlotSize = ship.SlotSize;
+			_slotSize = ship.SlotSize;
 
 			PropertyChanged();
 		}
@@ -524,7 +543,7 @@ namespace ElectronicObserver.Window.Control {
 				SlotList[i].AircraftLevel = 0;
 			}
 
-			SlotSize = ship != null ? ship.SlotSize : 0;
+			_slotSize = ship != null ? ship.SlotSize : 0;
 
 			PropertyChanged();
 		}
@@ -567,7 +586,7 @@ namespace ElectronicObserver.Window.Control {
 
 			}
 
-			SlotSize = slotLength;
+			_slotSize = slotLength;
 
 			PropertyChanged();
 		}
@@ -575,10 +594,11 @@ namespace ElectronicObserver.Window.Control {
 
 		private void PropertyChanged() {
 
-			if ( AutoSize ) {
-				if ( ( (int)Anchor & ( (int)Anchor - 1 ) ) != 0 && Dock == DockStyle.None )
-					Size = GetPreferredSize( Size );
-			}
+			if ( IsRefreshSuspended )
+				return;
+
+			LayoutParam.ResetLayout();
+			PerformLayout();
 
 			Refresh();
 		}

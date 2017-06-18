@@ -98,8 +98,8 @@ namespace ElectronicObserver.Window.Dialog {
 				SerializableFont font = new SerializableFont( FontSelector.Font );
 
 				UI_MainFont.Text = font.SerializeFontAttribute;
-				UI_MainFont.Font = font.FontData;
-
+				UI_MainFont.BackColor = SystemColors.Window;
+				UI_RenderingTest.MainFont = font.FontData;
 			}
 
 		}
@@ -114,8 +114,8 @@ namespace ElectronicObserver.Window.Dialog {
 				SerializableFont font = new SerializableFont( FontSelector.Font );
 
 				UI_SubFont.Text = font.SerializeFontAttribute;
-				UI_SubFont.Font = font.FontData;
-
+				UI_SubFont.BackColor = SystemColors.Window;
+				UI_RenderingTest.SubFont = font.FontData;
 			}
 
 		}
@@ -299,11 +299,18 @@ namespace ElectronicObserver.Window.Dialog {
 			Connection_DownstreamProxy.Text = config.Connection.DownstreamProxy;
 
 			//[UI]
-			UI_MainFont.Font = config.UI.MainFont.FontData;
 			UI_MainFont.Text = config.UI.MainFont.SerializeFontAttribute;
-			UI_SubFont.Font = config.UI.SubFont.FontData;
 			UI_SubFont.Text = config.UI.SubFont.SerializeFontAttribute;
 			UI_BarColorMorphing.Checked = config.UI.BarColorMorphing;
+			UI_IsLayoutFixed.Checked = config.UI.IsLayoutFixed;
+			{
+				UI_RenderingTest.MainFont = config.UI.MainFont.FontData;
+				UI_RenderingTest.SubFont = config.UI.SubFont.FontData;
+				UI_RenderingTest.HPBar.ColorMorphing = config.UI.BarColorMorphing;
+				UI_RenderingTest.HPBar.SetBarColorScheme( config.UI.BarColorScheme.Select( c => c.ColorData ).ToArray() );
+				UI_RenderingTestChanger.Maximum = UI_RenderingTest.MaximumValue;
+				UI_RenderingTestChanger.Value = UI_RenderingTest.Value;
+			}
 
 			//[ログ]
 			Log_LogLevel.Value = config.Log.LogLevel;
@@ -458,6 +465,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FormCompass_CandidateDisplayCount.Value = config.FormCompass.CandidateDisplayCount;
 			FormCompass_IsScrollable.Checked = config.FormCompass.IsScrollable;
+			FormCompass_MaxShipNameWidth.Value = config.FormCompass.MaxShipNameWidth;
 
 			FormJson_AutoUpdate.Checked = config.FormJson.AutoUpdate;
 			FormJson_UpdatesTree.Checked = config.FormJson.UpdatesTree;
@@ -529,9 +537,18 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 
 			//[UI]
-			config.UI.MainFont = UI_MainFont.Font;
-			config.UI.SubFont = UI_SubFont.Font;
+			{
+				var newfont = SerializableFont.StringToFont( UI_MainFont.Text, true );
+				if ( newfont != null )
+					config.UI.MainFont = newfont;
+			}
+			{
+				var newfont = SerializableFont.StringToFont( UI_SubFont.Text, true );
+				if ( newfont != null )
+					config.UI.SubFont = newfont;
+			}
 			config.UI.BarColorMorphing = UI_BarColorMorphing.Checked;
+			config.UI.IsLayoutFixed = UI_IsLayoutFixed.Checked;
 
 			//[ログ]
 			config.Log.LogLevel = (int)Log_LogLevel.Value;
@@ -658,6 +675,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			config.FormCompass.CandidateDisplayCount = (int)FormCompass_CandidateDisplayCount.Value;
 			config.FormCompass.IsScrollable = FormCompass_IsScrollable.Checked;
+			config.FormCompass.MaxShipNameWidth = (int)FormCompass_MaxShipNameWidth.Value;
 
 			config.FormJson.AutoUpdate = FormJson_AutoUpdate.Checked;
 			config.FormJson.UpdatesTree = FormJson_UpdatesTree.Checked;
@@ -843,5 +861,71 @@ namespace ElectronicObserver.Window.Dialog {
 		private void FormBrowser_ScreenShotFormat_JPEG_CheckedChanged( object sender, EventArgs e ) {
 			FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Enabled = false;
 		}
+
+
+		private void UI_MainFont_Validating( object sender, CancelEventArgs e ) {
+
+			var newfont = SerializableFont.StringToFont( UI_MainFont.Text, true );
+
+			if ( newfont != null ) {
+				UI_RenderingTest.MainFont = newfont;
+				UI_MainFont.BackColor = SystemColors.Window;
+			} else {
+				UI_MainFont.BackColor = Color.MistyRose;
+			}
+
+		}
+
+		private void UI_SubFont_Validating( object sender, CancelEventArgs e ) {
+
+			var newfont = SerializableFont.StringToFont( UI_SubFont.Text, true );
+
+			if ( newfont != null ) {
+				UI_RenderingTest.SubFont = newfont;
+				UI_SubFont.BackColor = SystemColors.Window;
+			} else {
+				UI_SubFont.BackColor = Color.MistyRose;
+			}
+		}
+
+		private void UI_BarColorMorphing_CheckedChanged( object sender, EventArgs e ) {
+			UI_RenderingTest.HPBar.ColorMorphing = UI_BarColorMorphing.Checked;
+			UI_RenderingTest.Refresh();
+		}
+
+		private void UI_MainFont_KeyDown( object sender, KeyEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				e.SuppressKeyPress = true;
+				e.Handled = true;
+				UI_MainFont_Validating( sender, new CancelEventArgs() );
+			}
+		}
+
+		private void UI_MainFont_PreviewKeyDown( object sender, PreviewKeyDownEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				e.IsInputKey = true;		// AcceptButton の影響を回避する
+			}
+		}
+
+		private void UI_SubFont_KeyDown( object sender, KeyEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				e.SuppressKeyPress = true;
+				e.Handled = true;
+				UI_SubFont_Validating( sender, new CancelEventArgs() );
+			}
+		}
+
+
+		private void UI_SubFont_PreviewKeyDown( object sender, PreviewKeyDownEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				e.IsInputKey = true;		// AcceptButton の影響を回避する
+			}
+		}
+
+		private void UI_RenderingTestChanger_Scroll( object sender, EventArgs e ) {
+			UI_RenderingTest.Value = UI_RenderingTestChanger.Value;
+		}
+
+		
 	}
 }
