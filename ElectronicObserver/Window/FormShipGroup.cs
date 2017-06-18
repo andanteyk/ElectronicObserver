@@ -212,6 +212,24 @@ namespace ElectronicObserver.Window {
 			MenuGroup_ShowStatusBar.Checked = config.FormShipGroup.ShowStatusBar;
 			_shipNameSortMethod = config.FormShipGroup.ShipNameSortMethod;
 
+
+			int rowHeight;
+			if ( config.UI.IsLayoutFixed ) {
+				ShipView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+				rowHeight = 21;
+			} else {
+				ShipView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
+				if ( ShipView.Rows.Count > 0 )
+					rowHeight = ShipView.Rows[0].GetPreferredHeight( 0, DataGridViewAutoSizeRowMode.AllCellsExceptHeader, false );
+				else
+					rowHeight = 21;
+			}
+
+			foreach ( DataGridViewRow row in ShipView.Rows ) {
+				row.Height = rowHeight;
+			}
+
 		}
 
 
@@ -292,6 +310,7 @@ namespace ElectronicObserver.Window {
 
 			DataGridViewRow row = new DataGridViewRow();
 			row.CreateCells( ShipView );
+			row.Height = 21;
 
 			row.SetValues(
 				ship.MasterID,
@@ -448,13 +467,11 @@ namespace ElectronicObserver.Window {
 			var ships = group.MembersInstance;
 			var rows = new List<DataGridViewRow>( ships.Count() );
 
-			foreach ( ShipData ship in ships ) {
-
+			foreach ( var ship in ships ) {
 				if ( ship == null ) continue;
 
 				DataGridViewRow row = CreateShipViewRow( ship );
 				rows.Add( row );
-
 			}
 
 			for ( int i = 0; i < rows.Count; i++ )
@@ -483,6 +500,18 @@ namespace ElectronicObserver.Window {
 
 			ApplyViewData( group );
 			ApplyAutoSort( group );
+
+
+			// 高さ設定(追加直後に実行すると高さが0になることがあるのでここで実行)
+			int rowHeight = 21;
+			if ( !Utility.Configuration.Config.UI.IsLayoutFixed ) {
+				if ( ShipView.Rows.Count > 0 )
+					rowHeight = ShipView.Rows[0].GetPreferredHeight( 0, DataGridViewAutoSizeRowMode.AllCellsExceptHeader, false );
+			}
+
+			foreach ( DataGridViewRow row in ShipView.Rows )
+				row.Height = rowHeight;
+
 
 			ShipView.ResumeLayout();
 			IsRowsUpdating = false;

@@ -179,6 +179,27 @@ namespace ElectronicObserver.Utility.Mathematics {
 
 
 		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。3ヵ月単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の日時。</param>
+		/// <param name="monthes">指定した日時の月部分のオフセット[0-2]。0なら3,6,9,12月を示します。</param>
+		/// <param name="days">指定した日時の日付。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		public static bool IsCrossedQuarter( DateTime prev, int monthes, int days, int hours, int minutes, int seconds ) {
+			DateTime now = DateTime.Now;
+			int targetMonth = now.Month / 3 * 3 + monthes;
+			DateTime border = new DateTime( now.Year - ( targetMonth < 1 ? 1 : 0 ), targetMonth < 1 ? targetMonth + 12 : targetMonth, days, hours, minutes, seconds ) + GetTimeDifference();
+			if ( now < border )
+				border = border.AddMonths( -3 );
+
+			return IsCrossed( prev, border );
+		}
+
+
+
+		/// <summary>
 		/// ファイル名の一部として利用できるフォーマットの現在日時文字列を取得します。
 		/// </summary>
 		/// <returns>変換結果の文字列。</returns>

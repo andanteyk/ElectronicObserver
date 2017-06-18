@@ -147,6 +147,7 @@ namespace ElectronicObserver.Window.Control {
 			set {
 				_mainFont = value;
 				_valueSizeCache =
+				_repairTimeSizeCache =
 				_preferredSizeCache = null;
 				PropertyChanged();
 			}
@@ -287,6 +288,16 @@ namespace ElectronicObserver.Window.Control {
 			}
 		}
 
+		private Size? _repairTimeSizeCache;
+		private Size RepairTimeSizeCache {
+			get {
+				if ( _repairTimeSizeCache == null ) {
+					_repairTimeSizeCache = TextRenderer.MeasureText( DateTimeHelper.ToTimeRemainString( TimeSpan.Zero ), MainFont, MaxSize, TextFormatTime ) - new Size( (int)( MainFont.Size / 2.0 ), 0 );
+				}
+				return _repairTimeSizeCache.Value;
+			}
+		}
+
 		private Size? _preferredSizeCache;
 
 		#endregion
@@ -338,12 +349,14 @@ namespace ElectronicObserver.Window.Control {
 				( RepairTimeShowMode == ShipStatusHPRepairTimeShowMode.MouseOver && _onMouse ) ) {
 				string timestr = DateTimeHelper.ToTimeRemainString( (DateTime)RepairTime );
 
-				TextRenderer.DrawText( g, timestr, MainFont, new Rectangle( basearea.X, basearea.Y, basearea.Width, basearea.Height - barSize.Height ), RepairFontColor, TextFormatTime );
+				var rect = new Rectangle( basearea.X, basearea.Y, basearea.Width, basearea.Height - barSize.Height );
+				Font font;
+				if ( rect.Width >= RepairTimeSizeCache.Width )
+					font = MainFont;
+				else
+					font = SubFont;
 
-				/*/
-				g.DrawRectangle( Pens.Magenta, new Rectangle( basearea.X, basearea.Y, basearea.Width - 1, basearea.Height - BarThickness - BarBackgroundOffset - 1 ) );
-				//*/
-
+				TextRenderer.DrawText( g, timestr, font, rect, RepairFontColor, TextFormatTime );
 
 			} else {
 

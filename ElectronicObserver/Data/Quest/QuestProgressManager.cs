@@ -19,6 +19,7 @@ namespace ElectronicObserver.Data.Quest {
 	[KnownType( typeof( ProgressData ) )]
 	[KnownType( typeof( ProgressAGo ) )]
 	[KnownType( typeof( ProgressBattle ) )]
+	[KnownType( typeof( ProgressMultiBattle ) )]
 	[KnownType( typeof( ProgressConstruction ) )]
 	[KnownType( typeof( ProgressDestruction ) )]
 	[KnownType( typeof( ProgressDevelopment ) )]
@@ -267,6 +268,18 @@ namespace ElectronicObserver.Data.Quest {
 							Progresses.Add( new ProgressBattle( q, 10, "A", new int[] { 15 }, true ) );
 							break;
 
+						case 822:	//|822|季|沖ノ島海域迎撃戦|2-4ボスS勝利2
+							Progresses.Add( new ProgressBattle( q, 2, "S", new int[] { 24 }, true ) );
+							break;
+						case 854:	//|854|季|戦果拡張任務！「Z作戦」前段作戦|2-4・6-1・6-3ボスA勝利各1/6-4ボスS勝利1
+							Progresses.Add( new ProgressMultiBattle( q, new[] { 
+								new ProgressBattle( q, 1, "A", new int[]{ 24 }, true ),
+								new ProgressBattle( q, 1, "A", new int[]{ 61 }, true ),
+								new ProgressBattle( q, 1, "A", new int[]{ 63 }, true ),
+								new ProgressBattle( q, 1, "S", new int[]{ 64 }, true ),
+							} ) );
+							break;
+
 						case 303:	//|303|「演習」で練度向上！|演習3
 							Progresses.Add( new ProgressPractice( q, 3, false ) );
 							break;
@@ -295,6 +308,9 @@ namespace ElectronicObserver.Data.Quest {
 						case 411:	//|411|南方への鼠輸送を継続実施せよ！|「東京急行」「東京急行(弐)」成功6
 							Progresses.Add( new ProgressExpedition( q, 6, new int[] { 37, 38 } ) );
 							Progresses[q.QuestID].SharedCounterShift = 1;
+							break;
+						case 424:	//|424|月|輸送船団護衛を強化せよ！|「海上護衛任務」成功4
+							Progresses.Add( new ProgressExpedition( q, 4, new int[] { 5 } ) );
 							break;
 
 						case 503:	//|503|艦隊大整備！|入渠5
@@ -377,7 +393,7 @@ namespace ElectronicObserver.Data.Quest {
 
 			if ( hps == null ) return;
 
-			var slaughterList = Progresses.Values.Where( p => p is ProgressSlaughter ).Cast<ProgressSlaughter>();
+			var slaughterList = Progresses.Values.OfType<ProgressSlaughter>();
 
 			for ( int i = 0; i < 6; i++ ) {
 
@@ -406,18 +422,18 @@ namespace ElectronicObserver.Data.Quest {
 
 			#region Battle
 
-
-			IEnumerable<ProgressBattle> battleList = Progresses.Values.Where( p => p is ProgressBattle ).Cast<ProgressBattle>();
-
-			foreach ( var p in battleList ) {
+			foreach ( var p in Progresses.Values.OfType<ProgressBattle>() ) {
 				p.Increment( bm.Result.Rank, bm.Compass.MapAreaID * 10 + bm.Compass.MapInfoID, bm.Compass.EventID == 5 );
 			}
 
+			foreach ( var p in Progresses.Values.OfType<ProgressMultiBattle>() ) {
+				p.Increment( bm.Result.Rank, bm.Compass.MapAreaID * 10 + bm.Compass.MapInfoID, bm.Compass.EventID == 5 );
+			}
 
 			#endregion
 
 
-			ProgressAGo pago = (ProgressAGo)Progresses.Values.FirstOrDefault( p => p is ProgressAGo );
+			var pago = Progresses.Values.OfType<ProgressAGo>().FirstOrDefault();
 			if ( pago != null )
 				pago.IncrementBattle( bm.Result.Rank, bm.Compass.EventID == 5 );
 
@@ -427,9 +443,8 @@ namespace ElectronicObserver.Data.Quest {
 
 		void PracticeFinished( string apiname, dynamic data ) {
 
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressPractice;
-				if ( pi != null ) pi.Increment( data.api_win_rank );
+			foreach ( var p in Progresses.Values.OfType<ProgressPractice>() ) {
+				p.Increment( data.api_win_rank );
 			}
 
 			OnProgressChanged();
@@ -441,14 +456,11 @@ namespace ElectronicObserver.Data.Quest {
 				return;		//遠征失敗
 
 			FleetData fleet = KCDatabase.Instance.Fleet.Fleets.Values.FirstOrDefault( f => f.Members.Contains( (int)data.api_ship_id[1] ) );
-			if ( fleet == null )
-				return;		//本来ありえないのでブレーク処理を入れておくこと
 
 			int areaID = fleet.ExpeditionDestination;
 
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressExpedition;
-				if ( pi != null ) pi.Increment( areaID );
+			foreach ( var p in Progresses.Values.OfType<ProgressExpedition>() ) {
+				p.Increment( areaID );
 			}
 
 			OnProgressChanged();
@@ -457,9 +469,8 @@ namespace ElectronicObserver.Data.Quest {
 
 		void StartRepair( string apiname, dynamic data ) {
 
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressDocking;
-				if ( pi != null ) pi.Increment();
+			foreach ( var p in Progresses.Values.OfType<ProgressDocking>() ) {
+				p.Increment();
 			}
 
 			OnProgressChanged();
@@ -467,9 +478,8 @@ namespace ElectronicObserver.Data.Quest {
 
 		void Supplied( string apiname, dynamic data ) {
 
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressSupply;
-				if ( pi != null ) pi.Increment();
+			foreach ( var p in Progresses.Values.OfType<ProgressSupply>() ) {
+				p.Increment();
 			}
 
 			OnProgressChanged();
@@ -477,9 +487,8 @@ namespace ElectronicObserver.Data.Quest {
 
 		void EquipmentRemodeled( string apiname, dynamic data ) {
 
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressImprovement;
-				if ( pi != null ) pi.Increment();
+			foreach ( var p in Progresses.Values.OfType<ProgressImprovement>() ) {
+				p.Increment();
 			}
 
 			OnProgressChanged();
@@ -491,9 +500,8 @@ namespace ElectronicObserver.Data.Quest {
 
 			if ( (int)data.api_powerup_flag == 0 ) return;	//近代化改修失敗
 
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressModernization;
-				if ( pi != null ) pi.Increment();
+			foreach ( var p in Progresses.Values.OfType<ProgressModernization>() ) {
+				p.Increment();
 			}
 
 			OnProgressChanged();
@@ -503,47 +511,40 @@ namespace ElectronicObserver.Data.Quest {
 
 			var ids = data["api_slotitem_ids"].Split( ",".ToCharArray() ).Select( s => int.Parse( s ) );
 
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressDiscard;
-				if ( pi != null ) {
-					pi.Increment( ids );
-				}
+			foreach ( var p in Progresses.Values.OfType<ProgressDiscard>() ) {
+				p.Increment( ids );
 			}
 
 			OnProgressChanged();
 		}
 
 		void ShipDestructed( string apiname, dynamic data ) {
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressDestruction;
-				if ( pi != null ) pi.Increment();
+			foreach ( var p in Progresses.Values.OfType<ProgressDestruction>() ) {
+				p.Increment();
 			}
 
 			OnProgressChanged();
 		}
 
 		void ShipConstructed( string apiname, dynamic data ) {
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressConstruction;
-				if ( pi != null ) pi.Increment();
+			foreach ( var p in Progresses.Values.OfType<ProgressConstruction>() ) {
+				p.Increment();
 			}
 
 			OnProgressChanged();
 		}
 
 		void EquipmentDeveloped( string apiname, dynamic data ) {
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressDevelopment;
-				if ( pi != null ) pi.Increment();
+			foreach ( var p in Progresses.Values.OfType<ProgressDevelopment>() ) {
+				p.Increment();
 			}
 
 			OnProgressChanged();
 		}
 
 		void StartSortie( string apiname, dynamic data ) {
-			foreach ( var p in Progresses.Values ) {
-				var pi = p as ProgressAGo;
-				if ( pi != null ) pi.IncrementSortie();
+			foreach ( var p in Progresses.Values.OfType<ProgressAGo>() ) {
+				p.IncrementSortie();
 			}
 
 			OnProgressChanged();

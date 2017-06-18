@@ -81,6 +81,7 @@
 			this.StripMenu_Tool_AlbumMasterEquipment = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AntiAirDefense = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_FleetImageGenerator = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +100,6 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.StripMenu_Tool_FleetImageGenerator = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -544,6 +544,13 @@
 			this.StripMenu_Tool_AntiAirDefense.Text = "対空砲火詳細(&A)";
 			this.StripMenu_Tool_AntiAirDefense.Click += new System.EventHandler(this.StripMenu_Tool_AntiAirDefense_Click);
 			// 
+			// StripMenu_Tool_FleetImageGenerator
+			// 
+			this.StripMenu_Tool_FleetImageGenerator.Name = "StripMenu_Tool_FleetImageGenerator";
+			this.StripMenu_Tool_FleetImageGenerator.Size = new System.Drawing.Size(164, 22);
+			this.StripMenu_Tool_FleetImageGenerator.Text = "編成画像出力(&F)";
+			this.StripMenu_Tool_FleetImageGenerator.Click += new System.EventHandler(this.StripMenu_Tool_FleetImageGenerator_Click);
+			// 
 			// StripMenu_Debug
 			// 
 			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -685,13 +692,6 @@
 			this.MainDockPanel.ShowDocumentIcon = true;
 			this.MainDockPanel.Size = new System.Drawing.Size(640, 434);
 			this.MainDockPanel.TabIndex = 0;
-			// 
-			// StripMenu_Tool_FleetImageGenerator
-			// 
-			this.StripMenu_Tool_FleetImageGenerator.Name = "StripMenu_Tool_FleetImageGenerator";
-			this.StripMenu_Tool_FleetImageGenerator.Size = new System.Drawing.Size(164, 22);
-			this.StripMenu_Tool_FleetImageGenerator.Text = "編成画像出力(&F)";
-			this.StripMenu_Tool_FleetImageGenerator.Click += new System.EventHandler(this.StripMenu_Tool_FleetImageGenerator_Click);
 			// 
 			// FormMain
 			// 

@@ -1044,6 +1044,20 @@ namespace Browser {
 				System.Diagnostics.Process.Start( Configuration.ScreenShotPath );
 		}
 
+		private void ToolMenu_Other_LastScreenShot_CopyToClipboard_Click( object sender, EventArgs e ) {
+
+			if ( _lastScreenShotPath != null && System.IO.File.Exists( _lastScreenShotPath ) ) {
+				try {
+					using ( var img = new Bitmap( _lastScreenShotPath ) ) {
+						Clipboard.SetImage( img );
+					}
+				} catch ( Exception ex ) {
+					BrowserHost.AsyncRemoteRun( () =>
+						BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スクリーンショットのクリップボードへのコピーに失敗しました。" ) );
+				}
+			}
+		}
+
 
 
 		protected override void WndProc( ref Message m ) {
@@ -1176,6 +1190,7 @@ namespace Browser {
 			IntPtr lpszUrlName );
 
 		#endregion
+
 
 	}
 
