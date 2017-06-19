@@ -369,7 +369,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ShowAirSuperiorityRange.Checked = config.FormFleet.ShowAirSuperiorityRange;
 			FormFleet_ReflectAnchorageRepairHealing.Checked = config.FormFleet.ReflectAnchorageRepairHealing;
 			FormFleet_BlinkAtDamaged.Checked = config.FormFleet.BlinkAtDamaged;
-			FormFleet_EmphasizeAtReady.Checked = config.FormFleet.EmphasizeAtReady;
+			FormFleet_EmphasizesSubFleetInPort.Checked = config.FormFleet.EmphasizesSubFleetInPort;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 			FormHeadquarters_Visibility.Items.Clear();
@@ -605,7 +605,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ShowAirSuperiorityRange = FormFleet_ShowAirSuperiorityRange.Checked;
 			config.FormFleet.ReflectAnchorageRepairHealing = FormFleet_ReflectAnchorageRepairHealing.Checked;
 			config.FormFleet.BlinkAtDamaged = FormFleet_BlinkAtDamaged.Checked;
-			config.FormFleet.EmphasizeAtReady = FormFleet_EmphasizeAtReady.Checked;
+			config.FormFleet.EmphasizesSubFleetInPort = FormFleet_EmphasizesSubFleetInPort.Checked;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 			{

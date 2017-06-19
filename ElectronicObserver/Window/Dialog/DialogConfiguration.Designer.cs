@@ -24,8 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			ElectronicObserver.Window.Control.StatusBarModule statusBarModule1 = new ElectronicObserver.Window.Control.StatusBarModule();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
@@ -50,6 +50,10 @@
 			this.Connection_Port = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.UI_RenderingTestChanger = new System.Windows.Forms.TrackBar();
+			this.UI_RenderingTest = new ElectronicObserver.Window.Control.ShipStatusHP();
+			this.UI_IsLayoutFixed = new System.Windows.Forms.CheckBox();
 			this.UI_BarColorMorphing = new System.Windows.Forms.CheckBox();
 			this.UI_SubFontSelect = new System.Windows.Forms.Button();
 			this.UI_SubFont = new System.Windows.Forms.TextBox();
@@ -98,7 +102,7 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.tabControl2 = new System.Windows.Forms.TabControl();
 			this.tabPage8 = new System.Windows.Forms.TabPage();
-			this.FormFleet_EmphasizeAtReady = new System.Windows.Forms.CheckBox();
+			this.FormFleet_EmphasizesSubFleetInPort = new System.Windows.Forms.CheckBox();
 			this.FormFleet_BlinkAtDamaged = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ReflectAnchorageRepairHealing = new System.Windows.Forms.CheckBox();
 			this.FormFleet_ShowAirSuperiorityRange = new System.Windows.Forms.CheckBox();
@@ -137,6 +141,9 @@
 			this.FormHeadquarters_Visibility = new System.Windows.Forms.CheckedListBox();
 			this.FormHeadquarters_BlinkAtMaximum = new System.Windows.Forms.CheckBox();
 			this.tabPage18 = new System.Windows.Forms.TabPage();
+			this.label40 = new System.Windows.Forms.Label();
+			this.label41 = new System.Windows.Forms.Label();
+			this.FormCompass_MaxShipNameWidth = new System.Windows.Forms.NumericUpDown();
 			this.FormCompass_IsScrollable = new System.Windows.Forms.CheckBox();
 			this.FormCompass_CandidateDisplayCount = new System.Windows.Forms.NumericUpDown();
 			this.label2 = new System.Windows.Forms.Label();
@@ -235,19 +242,14 @@
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.Log_PlayTime = new System.Windows.Forms.Label();
 			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
-			this.UI_IsLayoutFixed = new System.Windows.Forms.CheckBox();
-			this.UI_RenderingTestChanger = new System.Windows.Forms.TrackBar();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.UI_RenderingTest = new ElectronicObserver.Window.Control.ShipStatusHP();
-			this.label40 = new System.Windows.Forms.Label();
-			this.label41 = new System.Windows.Forms.Label();
-			this.FormCompass_MaxShipNameWidth = new System.Windows.Forms.NumericUpDown();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
 			this.Connection_PanelSaveData.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_Port)).BeginInit();
 			this.tabPage2.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.UI_RenderingTestChanger)).BeginInit();
 			this.tabPage3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).BeginInit();
 			this.tabPage4.SuspendLayout();
@@ -265,6 +267,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.FormDock_MaxShipNameWidth)).BeginInit();
 			this.tabPage16.SuspendLayout();
 			this.tabPage18.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.FormCompass_MaxShipNameWidth)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.FormCompass_CandidateDisplayCount)).BeginInit();
 			this.tabPage10.SuspendLayout();
 			this.groupBox1.SuspendLayout();
@@ -284,9 +287,6 @@
 			this.tabPage17.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.UI_RenderingTestChanger)).BeginInit();
-			this.tableLayoutPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.FormCompass_MaxShipNameWidth)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -583,13 +583,79 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(576, 294);
+			this.tabPage2.Size = new System.Drawing.Size(576, 292);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.AutoSize = true;
+			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel1.ColumnCount = 1;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel1.Controls.Add(this.UI_RenderingTestChanger, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.UI_RenderingTest, 0, 0);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(250, 64);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 2;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(168, 57);
+			this.tableLayoutPanel1.TabIndex = 15;
+			// 
+			// UI_RenderingTestChanger
+			// 
+			this.UI_RenderingTestChanger.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.UI_RenderingTestChanger.AutoSize = false;
+			this.UI_RenderingTestChanger.BackColor = System.Drawing.SystemColors.Window;
+			this.UI_RenderingTestChanger.Location = new System.Drawing.Point(3, 29);
+			this.UI_RenderingTestChanger.Name = "UI_RenderingTestChanger";
+			this.UI_RenderingTestChanger.Size = new System.Drawing.Size(162, 25);
+			this.UI_RenderingTestChanger.TabIndex = 14;
+			this.UI_RenderingTestChanger.TickStyle = System.Windows.Forms.TickStyle.None;
+			this.UI_RenderingTestChanger.Scroll += new System.EventHandler(this.UI_RenderingTestChanger_Scroll);
+			// 
+			// UI_RenderingTest
+			// 
+			this.UI_RenderingTest.AutoSize = true;
+			this.UI_RenderingTest.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			statusBarModule1.BarColor0Begin = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			statusBarModule1.BarColor0End = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			statusBarModule1.MaximumValue = 500;
+			statusBarModule1.PrevValue = 401;
+			statusBarModule1.Value = 401;
+			this.UI_RenderingTest.HPBar = statusBarModule1;
+			this.UI_RenderingTest.Location = new System.Drawing.Point(16, 3);
+			this.UI_RenderingTest.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.UI_RenderingTest.Margin = new System.Windows.Forms.Padding(16, 3, 16, 3);
+			this.UI_RenderingTest.MaximumValue = 500;
+			this.UI_RenderingTest.Name = "UI_RenderingTest";
+			this.UI_RenderingTest.PrevValue = 401;
+			this.UI_RenderingTest.RepairTime = new System.DateTime(2017, 6, 18, 0, 0, 59, 159);
+			this.UI_RenderingTest.RepairTimeShowMode = ElectronicObserver.Window.Control.ShipStatusHPRepairTimeShowMode.Invisible;
+			this.UI_RenderingTest.Size = new System.Drawing.Size(136, 20);
+			this.UI_RenderingTest.TabIndex = 12;
+			this.UI_RenderingTest.Text = "Rendering Test: ";
+			this.ToolTipInfo.SetToolTip(this.UI_RenderingTest, "描画プレビューです。\r\n下のバーから値を調整できます。");
+			this.UI_RenderingTest.Value = 401;
+			// 
+			// UI_IsLayoutFixed
+			// 
+			this.UI_IsLayoutFixed.AutoSize = true;
+			this.UI_IsLayoutFixed.Location = new System.Drawing.Point(8, 89);
+			this.UI_IsLayoutFixed.Name = "UI_IsLayoutFixed";
+			this.UI_IsLayoutFixed.Size = new System.Drawing.Size(112, 19);
+			this.UI_IsLayoutFixed.TabIndex = 13;
+			this.UI_IsLayoutFixed.Text = "列の幅を固定する";
+			this.ToolTipInfo.SetToolTip(this.UI_IsLayoutFixed, "有効な時、どんなフォントでも概ね各UIの列の高さが同じになります(ver. 2.6.2 以前と同様)。\r\n無効な時、フォントによって列の高さが変わります(有効な時" +
+        "より大きくなる場合があります)。");
+			this.UI_IsLayoutFixed.UseVisualStyleBackColor = true;
 			// 
 			// UI_BarColorMorphing
 			// 
@@ -679,10 +745,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 22);
+			this.tabPage3.Location = new System.Drawing.Point(4, 24);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(576, 294);
+			this.tabPage3.Size = new System.Drawing.Size(576, 292);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -809,10 +875,10 @@
 			this.tabPage4.Controls.Add(this.label9);
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 22);
+			this.tabPage4.Location = new System.Drawing.Point(4, 24);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(576, 294);
+			this.tabPage4.Size = new System.Drawing.Size(576, 292);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -903,10 +969,10 @@
 			this.tabPage5.Controls.Add(this.Debug_AlertOnError);
 			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 22);
+			this.tabPage5.Location = new System.Drawing.Point(4, 24);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(576, 294);
+			this.tabPage5.Size = new System.Drawing.Size(576, 292);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -931,7 +997,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 221);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 219);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -992,10 +1058,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 22);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(576, 294);
+			this.tabPage6.Size = new System.Drawing.Size(576, 292);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -1147,7 +1213,7 @@
 			// 
 			// tabPage8
 			// 
-			this.tabPage8.Controls.Add(this.FormFleet_EmphasizeAtReady);
+			this.tabPage8.Controls.Add(this.FormFleet_EmphasizesSubFleetInPort);
 			this.tabPage8.Controls.Add(this.FormFleet_BlinkAtDamaged);
 			this.tabPage8.Controls.Add(this.FormFleet_ReflectAnchorageRepairHealing);
 			this.tabPage8.Controls.Add(this.FormFleet_ShowAirSuperiorityRange);
@@ -1176,16 +1242,16 @@
 			this.tabPage8.Text = "艦隊";
 			this.tabPage8.UseVisualStyleBackColor = true;
 			// 
-			// FormFleet_EmphasizeAtReady
+			// FormFleet_EmphasizesSubFleetInPort
 			// 
-			this.FormFleet_EmphasizeAtReady.AutoSize = true;
-			this.FormFleet_EmphasizeAtReady.Location = new System.Drawing.Point(358, 163);
-			this.FormFleet_EmphasizeAtReady.Name = "FormFleet_EmphasizeAtReady";
-			this.FormFleet_EmphasizeAtReady.Size = new System.Drawing.Size(162, 19);
-			this.FormFleet_EmphasizeAtReady.TabIndex = 20;
-			this.FormFleet_EmphasizeAtReady.Text = "出撃可能時に強調表示する";
-			this.ToolTipInfo.SetToolTip(this.FormFleet_EmphasizeAtReady, "艦隊が母港に存在し出撃可能であるとき、色付きで表示するようにします。");
-			this.FormFleet_EmphasizeAtReady.UseVisualStyleBackColor = true;
+			this.FormFleet_EmphasizesSubFleetInPort.AutoSize = true;
+			this.FormFleet_EmphasizesSubFleetInPort.Location = new System.Drawing.Point(358, 163);
+			this.FormFleet_EmphasizesSubFleetInPort.Name = "FormFleet_EmphasizesSubFleetInPort";
+			this.FormFleet_EmphasizesSubFleetInPort.Size = new System.Drawing.Size(179, 19);
+			this.FormFleet_EmphasizesSubFleetInPort.TabIndex = 20;
+			this.FormFleet_EmphasizesSubFleetInPort.Text = "遠征艦隊未出撃時に強調表示";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_EmphasizesSubFleetInPort, "第2~4艦隊が母港に存在するとき、色付きで表示するようにします。");
+			this.FormFleet_EmphasizesSubFleetInPort.UseVisualStyleBackColor = true;
 			// 
 			// FormFleet_BlinkAtDamaged
 			// 
@@ -1508,10 +1574,10 @@
 			this.tabPage19.Controls.Add(this.label36);
 			this.tabPage19.Controls.Add(this.FormDock_MaxShipNameWidth);
 			this.tabPage19.Controls.Add(this.FormDock_BlinkAtCompletion);
-			this.tabPage19.Location = new System.Drawing.Point(4, 24);
+			this.tabPage19.Location = new System.Drawing.Point(4, 22);
 			this.tabPage19.Name = "tabPage19";
 			this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage19.Size = new System.Drawing.Size(562, 258);
+			this.tabPage19.Size = new System.Drawing.Size(562, 260);
 			this.tabPage19.TabIndex = 8;
 			this.tabPage19.Text = "入渠";
 			this.tabPage19.UseVisualStyleBackColor = true;
@@ -1575,10 +1641,10 @@
 			this.tabPage16.Controls.Add(this.label26);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_Visibility);
 			this.tabPage16.Controls.Add(this.FormHeadquarters_BlinkAtMaximum);
-			this.tabPage16.Location = new System.Drawing.Point(4, 24);
+			this.tabPage16.Location = new System.Drawing.Point(4, 22);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(562, 258);
+			this.tabPage16.Size = new System.Drawing.Size(562, 260);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1618,7 +1684,7 @@
 			this.FormHeadquarters_Visibility.IntegralHeight = false;
 			this.FormHeadquarters_Visibility.Location = new System.Drawing.Point(6, 46);
 			this.FormHeadquarters_Visibility.Name = "FormHeadquarters_Visibility";
-			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 206);
+			this.FormHeadquarters_Visibility.Size = new System.Drawing.Size(150, 208);
 			this.FormHeadquarters_Visibility.TabIndex = 1;
 			// 
 			// FormHeadquarters_BlinkAtMaximum
@@ -1639,13 +1705,55 @@
 			this.tabPage18.Controls.Add(this.FormCompass_IsScrollable);
 			this.tabPage18.Controls.Add(this.FormCompass_CandidateDisplayCount);
 			this.tabPage18.Controls.Add(this.label2);
-			this.tabPage18.Location = new System.Drawing.Point(4, 24);
+			this.tabPage18.Location = new System.Drawing.Point(4, 22);
 			this.tabPage18.Name = "tabPage18";
 			this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage18.Size = new System.Drawing.Size(562, 258);
+			this.tabPage18.Size = new System.Drawing.Size(562, 260);
 			this.tabPage18.TabIndex = 7;
 			this.tabPage18.Text = "羅針盤";
 			this.tabPage18.UseVisualStyleBackColor = true;
+			// 
+			// label40
+			// 
+			this.label40.AutoSize = true;
+			this.label40.Location = new System.Drawing.Point(6, 62);
+			this.label40.Name = "label40";
+			this.label40.Size = new System.Drawing.Size(101, 15);
+			this.label40.TabIndex = 15;
+			this.label40.Text = "艦名の最大横幅：";
+			// 
+			// label41
+			// 
+			this.label41.AutoSize = true;
+			this.label41.Location = new System.Drawing.Point(179, 62);
+			this.label41.Name = "label41";
+			this.label41.Size = new System.Drawing.Size(21, 15);
+			this.label41.TabIndex = 14;
+			this.label41.Text = "px";
+			// 
+			// FormCompass_MaxShipNameWidth
+			// 
+			this.FormCompass_MaxShipNameWidth.Location = new System.Drawing.Point(113, 60);
+			this.FormCompass_MaxShipNameWidth.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+			this.FormCompass_MaxShipNameWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.FormCompass_MaxShipNameWidth.Name = "FormCompass_MaxShipNameWidth";
+			this.FormCompass_MaxShipNameWidth.Size = new System.Drawing.Size(60, 23);
+			this.FormCompass_MaxShipNameWidth.TabIndex = 13;
+			this.FormCompass_MaxShipNameWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.FormCompass_MaxShipNameWidth, "艦名の表示幅の最大値を指定します。");
+			this.FormCompass_MaxShipNameWidth.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			// 
 			// FormCompass_IsScrollable
 			// 
@@ -2394,10 +2502,10 @@
 			this.tabPage11.Controls.Add(this.Notification_Repair);
 			this.tabPage11.Controls.Add(this.Notification_Construction);
 			this.tabPage11.Controls.Add(this.Notification_Expedition);
-			this.tabPage11.Location = new System.Drawing.Point(4, 22);
+			this.tabPage11.Location = new System.Drawing.Point(4, 24);
 			this.tabPage11.Name = "tabPage11";
 			this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage11.Size = new System.Drawing.Size(576, 294);
+			this.tabPage11.Size = new System.Drawing.Size(576, 292);
 			this.tabPage11.TabIndex = 7;
 			this.tabPage11.Text = "通知";
 			this.tabPage11.UseVisualStyleBackColor = true;
@@ -2497,10 +2605,10 @@
 			// tabPage15
 			// 
 			this.tabPage15.Controls.Add(this.groupBox5);
-			this.tabPage15.Location = new System.Drawing.Point(4, 22);
+			this.tabPage15.Location = new System.Drawing.Point(4, 24);
 			this.tabPage15.Name = "tabPage15";
 			this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage15.Size = new System.Drawing.Size(576, 294);
+			this.tabPage15.Size = new System.Drawing.Size(576, 292);
 			this.tabPage15.TabIndex = 8;
 			this.tabPage15.Text = "データベース";
 			this.tabPage15.UseVisualStyleBackColor = true;
@@ -2576,10 +2684,10 @@
 			this.tabPage17.Controls.Add(this.BGMPlayer_VolumeAll);
 			this.tabPage17.Controls.Add(this.BGMPlayer_Enabled);
 			this.tabPage17.Controls.Add(this.BGMPlayer_ControlGrid);
-			this.tabPage17.Location = new System.Drawing.Point(4, 22);
+			this.tabPage17.Location = new System.Drawing.Point(4, 24);
 			this.tabPage17.Name = "tabPage17";
 			this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage17.Size = new System.Drawing.Size(576, 294);
+			this.tabPage17.Size = new System.Drawing.Size(576, 292);
 			this.tabPage17.TabIndex = 9;
 			this.tabPage17.Text = "BGM";
 			this.tabPage17.UseVisualStyleBackColor = true;
@@ -2658,7 +2766,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 241);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 239);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2755,114 +2863,6 @@
 			this.PlayTimeTimer.Interval = 1000;
 			this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
 			// 
-			// UI_IsLayoutFixed
-			// 
-			this.UI_IsLayoutFixed.AutoSize = true;
-			this.UI_IsLayoutFixed.Location = new System.Drawing.Point(8, 89);
-			this.UI_IsLayoutFixed.Name = "UI_IsLayoutFixed";
-			this.UI_IsLayoutFixed.Size = new System.Drawing.Size(112, 19);
-			this.UI_IsLayoutFixed.TabIndex = 13;
-			this.UI_IsLayoutFixed.Text = "列の幅を固定する";
-			this.ToolTipInfo.SetToolTip(this.UI_IsLayoutFixed, "有効な時、どんなフォントでも概ね各UIの列の高さが同じになります(ver. 2.6.2 以前と同様)。\r\n無効な時、フォントによって列の高さが変わります(有効な時" +
-        "より大きくなる場合があります)。");
-			this.UI_IsLayoutFixed.UseVisualStyleBackColor = true;
-			// 
-			// UI_RenderingTestChanger
-			// 
-			this.UI_RenderingTestChanger.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.UI_RenderingTestChanger.AutoSize = false;
-			this.UI_RenderingTestChanger.BackColor = System.Drawing.SystemColors.Window;
-			this.UI_RenderingTestChanger.Location = new System.Drawing.Point(3, 29);
-			this.UI_RenderingTestChanger.Name = "UI_RenderingTestChanger";
-			this.UI_RenderingTestChanger.Size = new System.Drawing.Size(162, 25);
-			this.UI_RenderingTestChanger.TabIndex = 14;
-			this.UI_RenderingTestChanger.TickStyle = System.Windows.Forms.TickStyle.None;
-			this.UI_RenderingTestChanger.Scroll += new System.EventHandler(this.UI_RenderingTestChanger_Scroll);
-			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.AutoSize = true;
-			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Controls.Add(this.UI_RenderingTestChanger, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.UI_RenderingTest, 0, 0);
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(250, 64);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 2;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(168, 57);
-			this.tableLayoutPanel1.TabIndex = 15;
-			// 
-			// UI_RenderingTest
-			// 
-			this.UI_RenderingTest.AutoSize = true;
-			this.UI_RenderingTest.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			statusBarModule1.BarColor0Begin = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			statusBarModule1.BarColor0End = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			statusBarModule1.MaximumValue = 500;
-			statusBarModule1.PrevValue = 401;
-			statusBarModule1.Value = 401;
-			this.UI_RenderingTest.HPBar = statusBarModule1;
-			this.UI_RenderingTest.Location = new System.Drawing.Point(16, 3);
-			this.UI_RenderingTest.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.UI_RenderingTest.Margin = new System.Windows.Forms.Padding(16, 3, 16, 3);
-			this.UI_RenderingTest.MaximumValue = 500;
-			this.UI_RenderingTest.Name = "UI_RenderingTest";
-			this.UI_RenderingTest.PrevValue = 401;
-			this.UI_RenderingTest.RepairTime = new System.DateTime(2017, 6, 18, 0, 0, 59, 159);
-			this.UI_RenderingTest.RepairTimeShowMode = ElectronicObserver.Window.Control.ShipStatusHPRepairTimeShowMode.Invisible;
-			this.UI_RenderingTest.Size = new System.Drawing.Size(136, 20);
-			this.UI_RenderingTest.TabIndex = 12;
-			this.UI_RenderingTest.Text = "Rendering Test: ";
-			this.ToolTipInfo.SetToolTip(this.UI_RenderingTest, "描画プレビューです。\r\n下のバーから値を調整できます。");
-			this.UI_RenderingTest.Value = 401;
-			// 
-			// label40
-			// 
-			this.label40.AutoSize = true;
-			this.label40.Location = new System.Drawing.Point(6, 62);
-			this.label40.Name = "label40";
-			this.label40.Size = new System.Drawing.Size(101, 15);
-			this.label40.TabIndex = 15;
-			this.label40.Text = "艦名の最大横幅：";
-			// 
-			// label41
-			// 
-			this.label41.AutoSize = true;
-			this.label41.Location = new System.Drawing.Point(179, 62);
-			this.label41.Name = "label41";
-			this.label41.Size = new System.Drawing.Size(21, 15);
-			this.label41.TabIndex = 14;
-			this.label41.Text = "px";
-			// 
-			// FormCompass_MaxShipNameWidth
-			// 
-			this.FormCompass_MaxShipNameWidth.Location = new System.Drawing.Point(113, 60);
-			this.FormCompass_MaxShipNameWidth.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-			this.FormCompass_MaxShipNameWidth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.FormCompass_MaxShipNameWidth.Name = "FormCompass_MaxShipNameWidth";
-			this.FormCompass_MaxShipNameWidth.Size = new System.Drawing.Size(60, 23);
-			this.FormCompass_MaxShipNameWidth.TabIndex = 13;
-			this.FormCompass_MaxShipNameWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.ToolTipInfo.SetToolTip(this.FormCompass_MaxShipNameWidth, "艦名の表示幅の最大値を指定します。");
-			this.FormCompass_MaxShipNameWidth.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -2892,6 +2892,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.Connection_Port)).EndInit();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.UI_RenderingTestChanger)).EndInit();
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Log_LogLevel)).EndInit();
@@ -2919,6 +2922,7 @@
 			this.tabPage16.PerformLayout();
 			this.tabPage18.ResumeLayout(false);
 			this.tabPage18.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.FormCompass_MaxShipNameWidth)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.FormCompass_CandidateDisplayCount)).EndInit();
 			this.tabPage10.ResumeLayout(false);
 			this.tabPage10.PerformLayout();
@@ -2951,10 +2955,6 @@
 			this.tabPage17.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.UI_RenderingTestChanger)).EndInit();
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.FormCompass_MaxShipNameWidth)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -3168,7 +3168,7 @@
 		private System.Windows.Forms.CheckBox FormFleet_ShowAirSuperiorityRange;
 		private System.Windows.Forms.CheckBox FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration;
 		private System.Windows.Forms.CheckBox FormFleet_ReflectAnchorageRepairHealing;
-		private System.Windows.Forms.CheckBox FormFleet_EmphasizeAtReady;
+		private System.Windows.Forms.CheckBox FormFleet_EmphasizesSubFleetInPort;
 		private System.Windows.Forms.CheckBox FormFleet_BlinkAtDamaged;
 		private System.Windows.Forms.CheckBox Log_SaveLogImmediately;
 		private System.Windows.Forms.CheckBox UI_IsLayoutFixed;

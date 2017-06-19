@@ -672,9 +672,9 @@ namespace ElectronicObserver.Utility {
 				public bool ReflectAnchorageRepairHealing { get; set; }
 
 				/// <summary>
-				/// 出撃可能時に強調表示する
+				/// 遠征艦隊が母港にいるとき強調表示
 				/// </summary>
-				public bool EmphasizeAtReady { get; set; }
+				public bool EmphasizesSubFleetInPort { get; set; }
 
 				/// <summary>
 				/// 大破時に点滅させる
@@ -698,7 +698,7 @@ namespace ElectronicObserver.Utility {
 					FixedShipNameWidth = 40;
 					ShowAirSuperiorityRange = false;
 					ReflectAnchorageRepairHealing = true;
-					EmphasizeAtReady = true;
+					EmphasizesSubFleetInPort = false;
 					BlinkAtDamaged = true;
 				}
 			}

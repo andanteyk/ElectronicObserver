@@ -266,7 +266,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			// aircraft
-			if ( Calculator.IsAircraft( equipmentID, true, true ) ) {
+			if ( Calculator.IsAircraft( equipmentID, true ) ) {
 				TableAircraft.SuspendLayout();
 				AircraftCost.Text = eq.AircraftCost.ToString();
 				ToolTipInfo.SetToolTip( AircraftCost, "配備時のボーキ消費：" + ( ( Calculator.IsAircraft( equipmentID, false ) ? 18 : 4 ) * eq.AircraftCost ) );

@@ -273,7 +273,7 @@ namespace ElectronicObserver.Utility {
 
 							if ( aircraftMax > 0 ) {
 								Brush aircraftBrush;
-								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true, true ) ) {
+								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true ) ) {
 									aircraftBrush = mainTextBrush;
 								} else {
 									aircraftBrush = disabledBrush;
@@ -706,7 +706,7 @@ namespace ElectronicObserver.Utility {
 
 							if ( aircraftMax > 0 ) {
 								Brush aircraftBrush;
-								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true, true ) ) {
+								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true ) ) {
 									aircraftBrush = mainTextBrush;
 								} else {
 									aircraftBrush = disabledBrush;

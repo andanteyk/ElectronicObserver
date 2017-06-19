@@ -142,6 +142,8 @@ namespace ElectronicObserver.Window {
 			// 空(≒初期状態)の時、おなじみ全所属艦を追加
 			if ( groups.ShipGroups.Count == 0 ) {
 
+				Utility.Logger.Add( 3, "ShipGroup: グループが見つかりませんでした。デフォルトに戻すには、一旦終了後 " + ShipGroupManager.DefaultFilePath + " を削除してください。" );
+
 				var group = KCDatabase.Instance.ShipGroup.Add();
 				group.Name = "全所属艦";
 

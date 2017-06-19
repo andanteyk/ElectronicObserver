@@ -607,12 +607,15 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void QuestView_CellMouseLeave( object sender, DataGridViewCellEventArgs e ) {
+			ToolTipInfo.SetToolTip( QuestView, null );
+		}
+
 
 
 		protected override string GetPersistString() {
 			return "Quest";
 		}
-
 
 	}
 }

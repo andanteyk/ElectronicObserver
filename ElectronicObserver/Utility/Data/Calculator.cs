@@ -1439,12 +1439,11 @@ namespace ElectronicObserver.Utility.Data {
 
 
 		/// <summary>
-		/// 装備が艦載機であるかを取得します。
+		/// 装備が航空機であるかを取得します。
 		/// </summary>
 		/// <param name="equipmentID">装備ID。</param>
 		/// <param name="containsRecon">偵察機(非攻撃機)を含めるか。</param>
-		/// <param name="containsASWAircraft">対潜可能機を含めるか。</param>
-		public static bool IsAircraft( int equipmentID, bool containsRecon, bool containsASWAircraft = false ) {
+		public static bool IsAircraft( int equipmentID, bool containsRecon ) {
 
 			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
 
@@ -1467,17 +1466,42 @@ namespace ElectronicObserver.Utility.Data {
 
 				case 9:		// 艦上偵察機
 				case 10:	// 水上偵察機
+				case 41:	// 大型飛行艇
 				case 59:	// 噴式偵察機
 					return containsRecon;
 
-				case 41:	//大型飛行艇
-					return containsRecon || containsASWAircraft;
 				default:
 					return false;
 			}
 
 		}
 
+		/// <summary>
+		/// 装備が対潜攻撃可能な航空機であるかを取得します。
+		/// </summary>
+		/// <param name="equipmentID">装備ID。</param>
+		public static bool IsAntiSubmarineAircraft( int equipmentID ) {
+
+			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
+
+			if ( eq == null ) return false;
+
+			switch ( eq.CategoryType ) {
+				case 7:		// 艦上爆撃機
+				case 8:		// 艦上攻撃機
+				case 11:	// 水上爆撃機
+				case 25:	// オートジャイロ
+				case 26:	// 対潜哨戒機
+				case 41:	// 大型飛行艇
+				case 47:	// 陸上攻撃機
+				case 57:	// 噴式戦闘爆撃機
+				case 58:	// 噴式攻撃機
+					return eq.ASW > 0;
+
+				default:
+					return false;
+			}
+		}
 
 
 		/// <summary>
@@ -1500,7 +1524,7 @@ namespace ElectronicObserver.Utility.Data {
 				case 10:	//航戦
 				case 16:	//水母
 				case 17:	//揚陸
-					return ship.SlotInstanceMaster.Any( eq => eq != null && IsAircraft( eq.EquipmentID, false, true ) && eq.ASW > 0 );
+					return ship.SlotInstanceMaster.Any( eq => eq != null && IsAntiSubmarineAircraft( eq.EquipmentID ) );
 
 				default:
 					return false;
@@ -1521,7 +1545,7 @@ namespace ElectronicObserver.Utility.Data {
 		}
 
 
-		
+
 		/// <summary>
 		/// 泊地修理において、指定時間修理したときの回復量を求めます。
 		/// </summary>
@@ -1584,6 +1608,48 @@ namespace ElectronicObserver.Utility.Data {
 			}
 		}
 
+
+		/// <summary>
+		/// 先制対潜攻撃が可能かを取得します。
+		/// </summary>
+		/// <param name="ship">対象の艦船。</param>
+		public static bool CanOpeningASW( ShipData ship ) {
+			if ( ship == null )
+				return false;
+
+			if ( !CanAttackSubmarine( ship ) )
+				return false;
+
+			if ( ship.ShipID == 141 )	// 五十鈴改二
+				return true;
+
+			var eqs = ship.AllSlotInstance.Where( eq => eq != null );
+
+			if ( ship.ShipID == 380 || ship.ShipID == 529 ) {		// 大鷹改(二)
+				if ( ship.ASWTotal >= 65 )
+					return true;			// false の場合後続の処理を行うため
+			}
+
+			if ( ship.ShipID == 526 ) {	// 大鷹
+				bool has931Torp = eqs.Any( eq => eq.EquipmentID == 82 || eq.EquipmentID == 83 );		// 九七式艦攻(九三一空) or 天山(九三一空)
+				if ( has931Torp && ship.ASWTotal >= 65 )
+					return true;
+			}
+
+			bool hasSonar = eqs.Any( eq => eq.MasterEquipment.CategoryType == 14 || eq.MasterEquipment.CategoryType == 40 );
+			bool needSonar = !(
+				ship.MasterShip.ShipType == 1 &&		// 海防艦
+				ship.ASWTotal >= 75 &&
+				( ship.ASWTotal - ship.ASWBase ) >= 4 );
+
+			if ( needSonar && !hasSonar )
+				return false;
+
+			if ( ship.MasterShip.ShipType == 1 )	// 海防艦
+				return ship.ASWTotal >= 60;
+			else
+				return ship.ASWTotal >= 100;
+		}
 
 	}
 

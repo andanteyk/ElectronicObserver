@@ -47,7 +47,7 @@ namespace ElectronicObserver.Window {
 				State.ImageList = ResourceManager.Instance.Icons;
 				State.Text = "-";
 				State.AutoSize = true;
-				State.Tag = FleetData.FleetStates.NoShip;
+				State.Tag = FormFleet.FleetStates.NoShip;
 
 				ConfigurationChanged( parent );
 
@@ -78,19 +78,19 @@ namespace ElectronicObserver.Window {
 				if ( fleet == null ) return;
 
 				DateTime dt = (DateTime?)Number.Tag ?? DateTime.Now;
-				State.Tag = FleetData.UpdateFleetState( fleet, State, ToolTipInfo, (FleetData.FleetStates)State.Tag, ref dt );
+				State.Tag = FormFleet.UpdateFleetState( fleet, State, ToolTipInfo, (FormFleet.FleetStates)State.Tag, ref dt );
 				Number.Tag = dt;
 
 				ToolTipInfo.SetToolTip( Number, fleet.Name );
 			}
 
 			public void ResetState() {
-				State.Tag = FleetData.FleetStates.NoShip;
+				State.Tag = FormFleet.FleetStates.NoShip;
 			}
 
 			public void Refresh() {
 
-				FleetData.RefreshFleetState( State, (FleetData.FleetStates)State.Tag, (DateTime?)Number.Tag ?? DateTime.Now );
+				FormFleet.RefreshFleetState( State, (FormFleet.FleetStates)State.Tag, (DateTime?)Number.Tag ?? DateTime.Now );
 			}
 
 

@@ -107,6 +107,7 @@
 			this.QuestView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.QuestView_CellFormatting);
 			this.QuestView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.QuestView_CellMouseDown);
 			this.QuestView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.QuestView_CellMouseEnter);
+			this.QuestView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.QuestView_CellMouseLeave);
 			this.QuestView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.QuestView_CellPainting);
 			this.QuestView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.QuestView_ColumnWidthChanged);
 			this.QuestView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.QuestView_SortCompare);

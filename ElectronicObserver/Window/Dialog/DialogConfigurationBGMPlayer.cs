@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,11 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( OpenMusicDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
 				FilePath.Text = OpenMusicDialog.FileName;
 			}
+		}
+
+		private void FilePathToDirectory_Click( object sender, EventArgs e ) {
+			if ( !string.IsNullOrWhiteSpace( FilePath.Text ) )
+				FilePath.Text = Path.GetDirectoryName( FilePath.Text );
 		}
 	}
 }
