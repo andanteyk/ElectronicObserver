@@ -824,8 +824,8 @@ api_req_kousyou/remodel_slotlist_detail		：改修工廠　実行確認
 	api_certain_remodelkit	：確実化時の消費改修資材
 	api_req_slot_id			：消費する装備のID　なければ0
 	api_req_slot_num		：消費する装備の個数
-	api_req_useitem_id		：消費するアイテムのみ存在　アイテムのID　71=ネ式エンジン　75=新型砲熕兵装資材
-	api_req_useitem_num		：アイテムの個数
+	api_req_useitem_id		：消費するアイテムのID　なければ存在しない　71=ネ式エンジン　75=新型砲熕兵装資材
+	api_req_useitem_num		：消費するアイテムの個数　なければ存在しない
 	api_change_flag			：装備更新(アップグレード)フラグ
 
 Request.api_req_kousyou/remodel_slot	：改修工廠　改修実行
