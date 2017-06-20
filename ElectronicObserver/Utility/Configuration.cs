@@ -1009,9 +1009,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool HideDuringBattle { get; set; }
 
+				/// <summary>
+				/// HP バーを表示するか
+				/// </summary>
+				public bool ShowHPBar { get; set; }
+
 				public ConfigFormBattle() {
 					IsScrollable = false;
 					HideDuringBattle = false;
+					ShowHPBar = true;
 				}
 			}
 
@@ -1696,7 +1702,7 @@ namespace ElectronicObserver.Utility {
 					Directory.CreateDirectory( backupPath );
 					File.Copy( path, backupPath + "\\" + dev.FileName );
 
-					
+
 					if ( File.Exists( path ) ) {
 
 						var lines = new List<string>();
@@ -1706,14 +1712,18 @@ namespace ElectronicObserver.Utility {
 								lines.Add( sr.ReadLine() );
 						}
 
+						int beforeCount = lines.Count;
+						lines = lines.Distinct().ToList();
+						int afterCount = lines.Count;
+
 						using ( StreamWriter sw = new StreamWriter( path, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 							sw.WriteLine( dev.RecordHeader );
-							foreach ( var line in lines.Distinct() ) {
+							foreach ( var line in lines ) {
 								sw.WriteLine( line );
 							}
 						}
 
-						Utility.Logger.Add( 2, "<= ver. 2.6.2 開発レコード重複不具合対応: 正常に完了しました。" );
+						Utility.Logger.Add( 2, "<= ver. 2.6.2 開発レコード重複不具合対応: 正常に完了しました。 " + ( beforeCount - afterCount ) + " 件の重複を削除しました。" );
 
 					}
 

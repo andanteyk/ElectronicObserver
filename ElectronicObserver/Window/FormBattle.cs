@@ -282,7 +282,7 @@ namespace ElectronicObserver.Window {
 			else
 				TableTop.Width = TableBottom.ClientSize.Width;
 			TableTop.Height = TableTop.GetPreferredSize( BaseLayoutPanel.Size ).Height;
-			
+
 		}
 
 
@@ -795,7 +795,7 @@ namespace ElectronicObserver.Window {
 				bar.SuspendUpdate();
 
 			for ( int i = 0; i < 24; i++ ) {
-				
+
 				if ( initialHPs[i] != -1 ) {
 					HPBars[i].Value = resultHPs[i];
 					HPBars[i].PrevValue = initialHPs[i];
@@ -1177,12 +1177,16 @@ namespace ElectronicObserver.Window {
 			BaseLayoutPanel.AutoScroll = config.FormBattle.IsScrollable;
 
 
-			bool fixSize = Utility.Configuration.Config.UI.IsLayoutFixed;
+			bool fixSize = config.UI.IsLayoutFixed;
+			bool showHPBar = config.FormBattle.ShowHPBar;
 
 			TableBottom.SuspendLayout();
 			if ( fixSize ) {
 				ControlHelper.SetTableColumnStyles( TableBottom, new ColumnStyle( SizeType.AutoSize ) );
-				ControlHelper.SetTableRowStyles( TableBottom, new RowStyle( SizeType.Absolute, 21 ) );
+				ControlHelper.SetTableRowStyle( TableBottom, 0, new RowStyle( SizeType.Absolute, 21 ) );
+				for ( int i = 1; i <= 6; i++ )
+					ControlHelper.SetTableRowStyle( TableBottom, i, new RowStyle( SizeType.Absolute, showHPBar ? 21 : 16 ) );
+				ControlHelper.SetTableRowStyle( TableBottom, 7, new RowStyle( SizeType.Absolute, 21 ) );
 			} else {
 				ControlHelper.SetTableColumnStyles( TableBottom, new ColumnStyle( SizeType.AutoSize ) );
 				ControlHelper.SetTableRowStyles( TableBottom, new RowStyle( SizeType.AutoSize ) );
@@ -1197,6 +1201,7 @@ namespace ElectronicObserver.Window {
 					}
 					b.HPBar.ColorMorphing = config.UI.BarColorMorphing;
 					b.HPBar.SetBarColorScheme( config.UI.BarColorScheme.Select( col => col.ColorData ).ToArray() );
+					b.ShowHPBar = showHPBar;
 				}
 			}
 			FleetFriend.MaximumSize =

@@ -408,6 +408,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FormBattle_IsScrollable.Checked = config.FormBattle.IsScrollable;
 			FormBattle_HideDuringBattle.Checked = config.FormBattle.HideDuringBattle;
+			FormBattle_ShowHPBar.Checked = config.FormBattle.ShowHPBar;
 
 			FormBrowser_IsEnabled.Checked = config.FormBrowser.IsEnabled;
 			FormBrowser_ZoomRate.Value = config.FormBrowser.ZoomRate;
@@ -650,6 +651,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			config.FormBattle.IsScrollable = FormBattle_IsScrollable.Checked;
 			config.FormBattle.HideDuringBattle = FormBattle_HideDuringBattle.Checked;
+			config.FormBattle.ShowHPBar = FormBattle_ShowHPBar.Checked;
 
 			config.FormBrowser.IsEnabled = FormBrowser_IsEnabled.Checked;
 			config.FormBrowser.ZoomRate = (int)FormBrowser_ZoomRate.Value;
