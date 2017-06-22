@@ -605,7 +605,6 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		//*/
 		/// <summary>
 		/// 出撃海域
 		/// </summary>
@@ -614,8 +613,7 @@ namespace ElectronicObserver.Data {
 				return RawData.api_sally_area() ? (int)RawData.api_sally_area : -1;
 			}
 		}
-		//*/
-
+		
 
 		/// <summary>
 		/// 艦船のマスターデータへの参照

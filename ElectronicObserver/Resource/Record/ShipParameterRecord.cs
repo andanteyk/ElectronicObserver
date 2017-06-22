@@ -283,6 +283,31 @@ namespace ElectronicObserver.Resource.Record {
 			public string MessageAlbum { get; internal set; }
 
 
+			/// <summary>
+			/// リソースのファイル/フォルダ名
+			/// </summary>
+			public string ResourceName { get; internal set; }
+
+			/// <summary>
+			/// 画像リソースのバージョン
+			/// </summary>
+			public string ResourceGraphicVersion { get; internal set; }
+
+			/// <summary>
+			/// ボイスリソースのバージョン
+			/// </summary>
+			public string ResourceVoiceVersion { get; internal set; }
+
+			/// <summary>
+			/// 母港ボイスリソースのバージョン
+			/// </summary>
+			public string ResourcePortVoiceVersion { get; internal set; }
+
+			/// <summary>
+			/// 衣替え艦：ベースとなる艦船ID (なければ -1)
+			/// </summary>
+			public int OriginalCostumeShipID { get; internal set; }
+
 
 			public ShipParameterElement()
 				: base() {
@@ -296,6 +321,8 @@ namespace ElectronicObserver.Resource.Record {
 
 				MessageGet = null;
 				MessageAlbum = null;
+
+				OriginalCostumeShipID = -1;
 			}
 
 			public ShipParameterElement( string line )
@@ -376,6 +403,15 @@ namespace ElectronicObserver.Resource.Record {
 				MessageGet = elem[34].ToLower() == "null" ? null : elem[34];
 				MessageAlbum = elem[35].ToLower() == "null" ? null : elem[35];
 
+
+				if ( elem.Length >= 41 ) {
+					ResourceName = elem[36].ToLower() == "null" ? null : elem[36];
+					ResourceGraphicVersion = elem[37].ToLower() == "null" ? null : elem[36];
+					ResourceVoiceVersion = elem[38].ToLower() == "null" ? null : elem[37];
+					ResourcePortVoiceVersion = elem[39].ToLower() == "null" ? null : elem[38];
+					OriginalCostumeShipID = int.Parse( elem[40] );
+				}
+
 			}
 
 
@@ -421,8 +457,15 @@ namespace ElectronicObserver.Resource.Record {
 
 				}
 
-
-				sb.Append( "," ).Append( string.Join( ",", MessageGet, MessageAlbum ) );
+				sb.Append( "," ).Append( string.Join( ",", 
+					MessageGet ?? "null", 
+					MessageAlbum ?? "null",
+					ResourceName ?? "null",
+					ResourceGraphicVersion ?? "null",
+					ResourceVoiceVersion ?? "null",
+					ResourcePortVoiceVersion ?? "null",
+					OriginalCostumeShipID
+					) );
 
 				return sb.ToString();
 			}
@@ -636,6 +679,25 @@ namespace ElectronicObserver.Resource.Record {
 				Update( param );
 			}
 
+			foreach ( var elem in data.api_mst_shipgraph ) {
+				var param = this[(int)elem.api_id];
+				if ( param == null ) {
+					param = new ShipParameterElement();
+					param.ShipID = (int)elem.api_id;
+				}
+
+				if ( elem.api_filename() ) {
+					param.ResourceName = elem.api_filename;
+				}
+				if ( elem.api_version() ) {
+					var values = (string[])elem.api_version;
+					param.ResourceGraphicVersion = values[0];
+					param.ResourceVoiceVersion = values[1];
+					param.ResourcePortVoiceVersion = values[2];
+				}
+
+				Update( param );
+			}
 
 			// validation
 			foreach ( var record in Record.Values ) {
@@ -729,6 +791,23 @@ namespace ElectronicObserver.Resource.Record {
 						e2.MessageAlbum = e.MessageAlbum;
 						Update( e2 );
 
+					}
+				}
+
+				{
+					var costumeIDs = (int[])elem.api_table_id;
+					foreach ( var id in costumeIDs ) {
+						if ( id == shipID )
+							continue;
+
+						var e2 = this[id];
+						if ( e2 == null ) {
+							e2 = new ShipParameterElement();
+							e2.ShipID = id;
+						}
+
+						e2.OriginalCostumeShipID = shipID;
+						Update( e2 );
 					}
 				}
 
@@ -884,7 +963,7 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		public override string RecordHeader {
-			get { return "艦船ID,艦船名,耐久初期,耐久最大,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期下限,対潜初期上限,対潜最大,回避初期下限,回避初期上限,回避最大,索敵初期下限,索敵初期上限,索敵最大,運初期,運最大,射程,装備1,装備2,装備3,装備4,装備5,機数1,機数2,機数3,機数4,機数5,ドロップ説明,図鑑説明"; }
+			get { return "艦船ID,艦船名,耐久初期,耐久最大,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期下限,対潜初期上限,対潜最大,回避初期下限,回避初期上限,回避最大,索敵初期下限,索敵初期上限,索敵最大,運初期,運最大,射程,装備1,装備2,装備3,装備4,装備5,機数1,機数2,機数3,機数4,機数5,ドロップ説明,図鑑説明,リソース名,画像ver,ボイスver,母港ボイスver,元衣装ID"; }
 		}
 
 		public override string FileName {

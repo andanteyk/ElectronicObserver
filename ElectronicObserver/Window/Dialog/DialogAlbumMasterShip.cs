@@ -1330,5 +1330,33 @@ namespace ElectronicObserver.Window.Dialog {
 			MessageBox.Show( result, "出現海域検索", MessageBoxButtons.OK, MessageBoxIcon.Information );
 		}
 
+
+
+		private void ShipBanner_MouseClick( object sender, MouseEventArgs e ) {
+			if ( e.Button == System.Windows.Forms.MouseButtons.Right ) {
+
+				StripMenu_View_ShowShipGraphicViewer.PerformClick();
+			}
+		}
+
+		private void StripMenu_View_ShowShipGraphicViewer_Click( object sender, EventArgs e ) {
+			var ship = KCDatabase.Instance.MasterShips[_shipID];
+			if ( ship != null ) {
+
+				var pathlist = new LinkedList<string>();
+				pathlist.AddLast( SwfHelper.GetShipResourcePath( ship.ResourceName ) );
+
+				foreach ( var rec in RecordManager.Instance.ShipParameter.Record.Values.Where( r => r.OriginalCostumeShipID == _shipID ) ) {
+					string path = SwfHelper.GetShipResourcePath( rec.ResourceName );
+					if ( path != null )
+						pathlist.AddLast( path );
+				}
+
+				var arg = pathlist.Where( p => p != null ).ToArray();
+				if ( arg.Length > 0 )
+					new DialogShipGraphicViewer( arg ).Show( this );
+			}
+		}
+
 	}
 }

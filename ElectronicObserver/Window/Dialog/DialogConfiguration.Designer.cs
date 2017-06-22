@@ -2781,7 +2781,7 @@
 			// 
 			// ToolTipInfo
 			// 
-			this.ToolTipInfo.AutoPopDelay = 60000;
+			this.ToolTipInfo.AutoPopDelay = 30000;
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;

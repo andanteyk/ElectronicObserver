@@ -520,22 +520,67 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// リソースのファイル/フォルダ名
 		/// </summary>
-		public string ResourceName { get; internal set; }
+		public string ResourceName {
+			get {
+				var p = GetParameterElement();
+				if ( p != null && p.ResourceName != null )
+					return p.ResourceName;
+				else
+					return "";
+			}
+		}
 
 		/// <summary>
 		/// 画像リソースのバージョン
 		/// </summary>
-		public string ResourceGraphicVersion { get; internal set; }
+		public string ResourceGraphicVersion {
+			get {
+				var p = GetParameterElement();
+				if ( p != null && p.ResourceGraphicVersion != null )
+					return p.ResourceGraphicVersion;
+				else
+					return "";
+			}
+		}
 
 		/// <summary>
 		/// ボイスリソースのバージョン
 		/// </summary>
-		public string ResourceVoiceVersion { get; internal set; }
+		public string ResourceVoiceVersion {
+			get {
+				var p = GetParameterElement();
+				if ( p != null && p.ResourceVoiceVersion != null )
+					return p.ResourceVoiceVersion;
+				else
+					return "";
+			}
+		}
 
 		/// <summary>
 		/// 母港ボイスリソースのバージョン
 		/// </summary>
-		public string ResourcePortVoiceVersion { get; internal set; }
+		public string ResourcePortVoiceVersion {
+			get {
+				var p = GetParameterElement();
+				if ( p != null && p.ResourcePortVoiceVersion != null )
+					return p.ResourcePortVoiceVersion;
+				else
+					return "";
+			}
+		}
+
+		/// <summary>
+		/// 衣替え艦：ベースとなる艦船ID
+		/// </summary>
+		public int OriginalCostumeShipID {
+			get {
+				var p = GetParameterElement();
+				if ( p != null )
+					return p.OriginalCostumeShipID;
+				else
+					return -1;
+			}
+		}
 
 
 
