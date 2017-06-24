@@ -406,9 +406,9 @@ namespace ElectronicObserver.Resource.Record {
 
 				if ( elem.Length >= 41 ) {
 					ResourceName = elem[36].ToLower() == "null" ? null : elem[36];
-					ResourceGraphicVersion = elem[37].ToLower() == "null" ? null : elem[36];
-					ResourceVoiceVersion = elem[38].ToLower() == "null" ? null : elem[37];
-					ResourcePortVoiceVersion = elem[39].ToLower() == "null" ? null : elem[38];
+					ResourceGraphicVersion = elem[37].ToLower() == "null" ? null : elem[37];
+					ResourceVoiceVersion = elem[38].ToLower() == "null" ? null : elem[38];
+					ResourcePortVoiceVersion = elem[39].ToLower() == "null" ? null : elem[39];
 					OriginalCostumeShipID = int.Parse( elem[40] );
 				}
 
