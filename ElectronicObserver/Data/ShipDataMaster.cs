@@ -468,15 +468,11 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public string MessageGet {
 			get {
-				if ( RawData.api_getmes() ) {
-					return ( (string)RawData.api_getmes ).Replace( "<br>", "\r\n" );
-				} else {
-					var p = GetParameterElement();
-					if ( p != null && p.MessageGet != null )
-						return p.MessageGet.Replace( "<br>", "\r\n" );
-					else
-						return "";
-				}
+				var p = GetParameterElement();
+				if ( p != null && p.MessageGet != null )
+					return p.MessageGet.Replace( "<br>", "\r\n" );
+				else
+					return "";
 			}
 		}
 
@@ -693,7 +689,7 @@ namespace ElectronicObserver.Data {
 			bool isElite = NameReading == "elite";
 			bool isFlagship = NameReading == "flagship";
 
-		
+
 			if ( isDestroyed )
 				return Color.FromArgb( 0xFF, 0x00, 0xFF );
 

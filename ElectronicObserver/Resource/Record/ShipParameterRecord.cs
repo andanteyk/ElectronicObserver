@@ -457,8 +457,8 @@ namespace ElectronicObserver.Resource.Record {
 
 				}
 
-				sb.Append( "," ).Append( string.Join( ",", 
-					MessageGet ?? "null", 
+				sb.Append( "," ).Append( string.Join( ",",
+					MessageGet ?? "null",
 					MessageAlbum ?? "null",
 					ResourceName ?? "null",
 					ResourceGraphicVersion ?? "null",
@@ -673,7 +673,9 @@ namespace ElectronicObserver.Resource.Record {
 					param.Aircraft = (int[])elem.api_maxeq;
 				}
 				if ( elem.api_getmes() ) {
-					param.MessageGet = elem.api_getmes;
+					string mes = elem.api_getmes;
+					if ( !string.IsNullOrWhiteSpace( mes.Replace( "<br>", "\r\n" ) ) )
+						param.MessageGet = mes;
 				}
 
 				Update( param );

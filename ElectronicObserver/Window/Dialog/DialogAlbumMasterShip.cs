@@ -1353,8 +1353,16 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 
 				var arg = pathlist.Where( p => p != null ).ToArray();
-				if ( arg.Length > 0 )
+				if ( arg.Length > 0 ) {
 					new DialogShipGraphicViewer( arg ).Show( this );
+			
+				} else {
+
+					MessageBox.Show( "画像リソースが存在しません。以下の手順を踏んでください。\r\n1. 設定→通信→通信内容を保存する 及び SWF を有効にする。\r\n2. キャッシュをクリアし、再読み込みする。\r\n3. 艦これ本体で当該艦を表示させる（図鑑画面を開くなど）。", "ビューア：画像リソース不足", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+
+				}
+			} else {
+				MessageBox.Show( "対象艦船を指定してください。", "ビューア：対象未指定", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
 			}
 		}
 

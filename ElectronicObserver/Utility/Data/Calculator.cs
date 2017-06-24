@@ -1186,6 +1186,11 @@ namespace ElectronicObserver.Utility.Data {
 						return 20;
 					}
 					break;
+
+				case 488:	//由良改二
+					if ( highangle >= 1 && aaradar >= 1 )
+						return 21;
+					break;
 			}
 
 
@@ -1394,6 +1399,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 18, 2 },
 			{ 19, 5 },
 			{ 20, 3 },
+			{ 21, 5 },
 		} );
 
 
@@ -1421,6 +1427,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 18, 1.2 },
 			{ 19, 1.45 },
 			{ 20, 1.25 },
+			{ 21, 1.45 },
 		} );
 
 

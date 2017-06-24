@@ -85,34 +85,48 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		#region Mouse Controls
+		#region Input Controls
 
 		private void DialogShipGraphicViewer_KeyDown( object sender, KeyEventArgs e ) {
 
 			if ( ImageTags.Count == 0 )
 				return;
 
-			if ( e.KeyCode == Keys.Left )
+			bool fileChanged = false;
+
+			if ( e.KeyCode == Keys.Left ) {
 				CurrentIndex--;
-			else if ( e.KeyCode == Keys.Right )
+				fileChanged = true;
+			} else if ( e.KeyCode == Keys.Right ) {
 				CurrentIndex++;
-			else if ( e.KeyCode == Keys.Oemtilde ) {	// "@"
+				fileChanged = true;
+
+			} else if ( e.KeyCode == Keys.Up ) {
+				ZoomRate += 0.1;
+			} else if ( e.KeyCode == Keys.Down ) {
+				ZoomRate -= 0.1;
+
+			} else if ( e.KeyCode == Keys.Oemtilde ) {	// "@"
 				AdvMode = !AdvMode;
 				RestrictedPatch = AdvMode && e.Shift;
-			} else
-				return;
 
-			CurrentIndex %= ImageTags.Count;
-			if ( CurrentIndex < 0 )
-				CurrentIndex += ImageTags.Count;
+			} else return;
 
-			if ( CurrentImage != null )
-				CurrentImage.Dispose();
-			CurrentImage = ImageTags[CurrentIndex].ExtractImage();
 
-			ImageOffset = new Point();
-			ZoomRate = 1;
+			if ( fileChanged ) {
+				CurrentIndex %= ImageTags.Count;
+				if ( CurrentIndex < 0 )
+					CurrentIndex += ImageTags.Count;
 
+				if ( CurrentImage != null )
+					CurrentImage.Dispose();
+				CurrentImage = ImageTags[CurrentIndex].ExtractImage();
+
+				ImageOffset = new Point();
+				ZoomRate = 1;
+			}
+
+			ValidateParameters();
 			RefreshImage();
 		}
 
@@ -344,7 +358,7 @@ namespace ElectronicObserver.Window.Dialog {
 				var ship = GetShipFromPath( parentParser.Key );
 
 				e.Graphics.DrawString(
-					string.Format( "{0} / {1}\r\n{2} ({3}) CID: {4}\r\nZoom {5:p1}", CurrentIndex + 1, ImageTags.Count, Path.GetFileName( parentParser.Key ), ship != null ? ship.NameWithClass : "???", ImageTags[CurrentIndex].CharacterID, zoomRate ),
+					string.Format( "{0} / {1}\r\n{2} ({3}) CID: {4}\r\nZoom {5:p1}\r\n(←/→キーでページめくり)", CurrentIndex + 1, ImageTags.Count, Path.GetFileName( parentParser.Key ), ship != null ? ship.NameWithClass : "???", ImageTags[CurrentIndex].CharacterID, zoomRate ),
 					Font, Brushes.DimGray, new PointF( 0, 0 ) );
 			}
 
@@ -444,17 +458,40 @@ namespace ElectronicObserver.Window.Dialog {
 			// don't think (about env that font is not installed), feel
 			using ( var font = new Font( "にゃしぃフォント改二", 32, FontStyle.Regular, GraphicsUnit.Pixel ) ) {
 				var rec = Resource.Record.RecordManager.Instance.ShipParameter[ship.ShipID];
-				string mes;
+				string mes = null;
 
-				if ( rec == null )
-					mes = "……";
-				else if ( !string.IsNullOrWhiteSpace( rec.MessageGet.Replace( "<br>", "\r\n" ) ) )
-					mes = rec.MessageGet.Replace( "<br>", "\r\n" );
-				else if ( !string.IsNullOrWhiteSpace( rec.MessageAlbum.Replace( "<br>", "\r\n" ) ) )
-					mes = rec.MessageAlbum.Replace( "<br>", "\r\n" );
-				else
+				if ( rec == null ) {
 					mes = "……";
 
+				} else {
+					var processedShips = new LinkedList<ShipDataMaster>();
+					processedShips.AddLast( ship );
+
+					while ( processedShips.Last.Value.RemodelBeforeShip != null && !processedShips.Any( s2 => processedShips.Last.Value.RemodelBeforeShipID == s2.ShipID ) ) {
+						processedShips.AddLast( processedShips.Last.Value.RemodelBeforeShip );
+					}
+
+					foreach ( var s in processedShips ) {
+						string mescan = s.MessageGet.Replace( "<br>", "\r\n" );
+						if ( !string.IsNullOrWhiteSpace( mescan ) ) {
+							mes = mescan;
+							break;
+						}
+					}
+
+					if ( mes == null ) {
+						foreach ( var s in processedShips ) {
+							string mescan = s.MessageAlbum.Replace( "<br>", "\r\n" );
+							if ( !string.IsNullOrWhiteSpace( mescan ) ) {
+								mes = mescan;
+								break;
+							}
+						}
+					}
+
+					if ( mes == null )
+						mes = "……";
+				}
 
 				if ( RestrictedPatch ) {
 					mes = mes
@@ -496,7 +533,7 @@ namespace ElectronicObserver.Window.Dialog {
 			if ( verindex != -1 )
 				path = path.Substring( 0, verindex );
 
-			var rec = Resource.Record.RecordManager.Instance.ShipParameter.Record.Values.FirstOrDefault( r => r.ResourceName.Contains( path ) );
+			var rec = Resource.Record.RecordManager.Instance.ShipParameter.Record.Values.FirstOrDefault( r => r.ResourceName != null && r.ResourceName.Contains( path ) );
 
 			if ( rec != null ) {
 				var ship = KCDatabase.Instance.MasterShips[rec.ShipID];
