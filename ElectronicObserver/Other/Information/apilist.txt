@@ -1224,6 +1224,11 @@ api_req_practice/change_matching_kind			：演習マッチングモード切替
 	api_update_flag				：1=切り替え成功 0=失敗?
 
 
+Request.api_req_practice/battle	：演習
+	api_formation_id	：陣形
+	api_deck_id			：出撃艦隊ID
+	api_enemy_id		：敵提督ID
+
 api_req_practice/battle	：演習
 	(api_req_sortie/battleとほぼ同じ)
 	api_support_flag	：(存在せず)

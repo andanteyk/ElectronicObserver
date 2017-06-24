@@ -1195,7 +1195,7 @@ namespace ElectronicObserver.Window {
 			tooltip.SetToolTip( label, null );
 			label.BackColor = Color.Transparent;
 
-			bool emphasizesSubFleetInPort = Utility.Configuration.Config.FormFleet.EmphasizesSubFleetInPort && 
+			bool emphasizesSubFleetInPort = Utility.Configuration.Config.FormFleet.EmphasizesSubFleetInPort &&
 				( db.Fleet.CombinedFlag > 0 ? fleet.FleetID >= 3 : fleet.FleetID >= 2 );
 
 
@@ -1368,7 +1368,8 @@ namespace ElectronicObserver.Window {
 						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
 
 
-					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}", DateTimeHelper.TimeToCSVString( timer ) ) );
+					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}\r\n(予測誤差: {1})", 
+						DateTimeHelper.TimeToCSVString( timer ), DateTimeHelper.ToTimeRemainString( TimeSpan.FromSeconds( db.Fleet.ConditionBorderAccuracy ) ) ) );
 
 					if ( emphasizesSubFleetInPort )
 						label.BackColor = Color.LightGreen;

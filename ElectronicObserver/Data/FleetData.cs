@@ -114,17 +114,6 @@ namespace ElectronicObserver.Data {
 
 
 
-		/// <summary>
-		/// 疲労度回復処理用タイマ
-		/// </summary>
-		public DateTime? ConditionTime { get; internal set; }
-
-		/// <summary>
-		/// 疲労回復タイマがロック中かどうか
-		/// </summary>
-		public bool IsConditionTimeLocked { get; internal set; }
-
-
 		public int ID {
 			get { return FleetID; }
 		}
@@ -134,8 +123,6 @@ namespace ElectronicObserver.Data {
 		public FleetData()
 			: base() {
 
-			ConditionTime = null;
-			IsConditionTimeLocked = true;
 		}
 
 
@@ -158,15 +145,12 @@ namespace ElectronicObserver.Data {
 					}
 					IsInSortie = false;
 
-					UnlockConditionTimer();
-					ShortenConditionTimer();
 					break;
 
 				case "api_get_member/ndock":
 				case "api_req_kousyou/destroyship":
 				case "api_get_member/ship3":
 				case "api_req_kaisou/powerup":
-					ShortenConditionTimer();
 					break;
 
 				default:	//checkme
@@ -234,7 +218,6 @@ namespace ElectronicObserver.Data {
 							}
 
 
-							SetConditionTimer();
 							if ( index != -1 && IsFlagshipRepairShip )		//随伴艦一括解除を除く
 								KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
@@ -271,8 +254,6 @@ namespace ElectronicObserver.Data {
 						for ( int i = 0; i < _members.Length; i++ ) {
 							if ( _members[i] == shipID ) {
 								RemoveShip( i );
-
-								ShortenConditionTimer();
 								break;
 							}
 						}
@@ -284,24 +265,11 @@ namespace ElectronicObserver.Data {
 							for ( int i = 0; i < _members.Length; i++ ) {
 								if ( _members[i] == id ) {
 									RemoveShip( i );
-
-									ShortenConditionTimer();
 									break;
 								}
 							}
 						}
 					} break;
-
-				case "api_req_kaisou/remodeling":	//fixme: ここでリセットしてもまだデータが送られてきてないので無意味
-					if ( Members.Contains( int.Parse( data["api_id"] ) ) ) {
-						SetConditionTimer();
-					}
-					break;
-
-				case "api_req_nyukyo/start":
-				case "api_req_nyukyo/speedchange":
-					ShortenConditionTimer();
-					break;
 
 				case "api_req_mission/start":
 					ExpeditionState = 1;
@@ -310,10 +278,6 @@ namespace ElectronicObserver.Data {
 
 					break;
 
-				case "api_req_map/start":
-					if ( int.Parse( data["api_deck_id"] ) == FleetID )
-						LockConditionTimer();
-					break;
 
 				case "api_req_member/updatedeckname":
 					Name = data["api_name"];
@@ -337,102 +301,6 @@ namespace ElectronicObserver.Data {
 
 		}
 
-
-		/// <summary>
-		/// 疲労回復にかかる時間を取得します。
-		/// </summary>
-		/// <param name="cond">コンディション。</param>
-		private int GetConditionRecoveryMinute( int cond ) {
-			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
-		}
-
-		//*/
-		/// <summary>
-		/// 疲労回復タイマを設定します。
-		/// 現在のタイマにかかわらず設定します。
-		/// </summary>
-		private void SetConditionTimer() {
-
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
-
-			if ( minute > 0 )
-				ConditionTime = DateTime.Now.AddMinutes( minute );
-			else
-				ConditionTime = null;
-
-			//Utility.Logger.Add( 1, string.Format( "Fleet #{0}: 疲労 再設定 {1:D2}:00", FleetID, minute ) );
-		}
-		/*/
-
-		private void SetConditionTimer() {
-
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
-
-			if ( minute <= 0 ) {
-				ConditionTime = null;
-
-			} else if ( ConditionTime != null && (DateTime)ConditionTime > DateTime.Now ) {
-				TimeSpan ts = (DateTime)ConditionTime - DateTime.Now;
-
-				ConditionTime = DateTime.Now + ts.Add( TimeSpan.FromMinutes( minute - 3 - (int)( ts.TotalMinutes / 3 ) * 3 ) );
-
-			} else {
-				ConditionTime = DateTime.Now.AddMinutes( minute );
-			}
-
-		}
-		//*/
-
-		/// <summary>
-		/// 疲労回復タイマを更新します。
-		/// 現在時間より短くなるように設定します。
-		/// </summary>
-		private void ShortenConditionTimer() {
-
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
-
-			if ( minute == 0 ) {
-				ConditionTime = null;
-
-			} else {
-				DateTime target = DateTime.Now.AddMinutes( minute );
-
-				if ( ConditionTime != null && ConditionTime < DateTime.Now ) {
-					ConditionTime = null;
-				}
-
-				if ( ConditionTime == null || target < ConditionTime ) {
-					ConditionTime = target;
-				}
-
-			}
-
-			/*/
-			{
-				TimeSpan ts = ( ConditionTime ?? DateTime.Now ) - DateTime.Now;
-				Utility.Logger.Add( 1, string.Format( "Fleet #{0}: 疲労 短縮 {1:D2}:00 => {2:D2}:{3:D2}", FleetID, minute, (int)ts.TotalMinutes, (int)ts.Seconds ) );
-			}
-			//*/
-		}
-
-
-		/// <summary>
-		/// 疲労回復タイマをロックします。
-		/// </summary>
-		private void LockConditionTimer() {
-			IsConditionTimeLocked = true;
-		}
-
-		/// <summary>
-		/// 疲労回復タイマのロックを解除します。
-		/// </summary>
-		private void UnlockConditionTimer() {
-			if ( IsConditionTimeLocked ) {
-				IsConditionTimeLocked = false;
-				ConditionTime = null;		//reset
-				SetConditionTimer();
-			}
-		}
 
 
 		/// <summary>
@@ -570,6 +438,19 @@ namespace ElectronicObserver.Data {
 					ExpeditionState == 0 &&
 					MembersInstance.Take( 2 + flagship.SlotInstance.Count( eq => eq != null && eq.MasterEquipment.CategoryType == 31 ) )
 					.Any( ship => ship != null && 0.5 < ship.HPRate && ship.HPRate < 1.0 && ship.RepairingDockID == -1 );
+			}
+		}
+
+
+		public DateTime? ConditionTime { get; private set; }
+
+		public void UpdateConditionTime() {
+			var ships = MembersInstance.Where( ship => ship != null && ship.Condition < Utility.Configuration.Config.Control.ConditionBorder );
+			if ( !ships.Any() ) {
+				ConditionTime = null;
+
+			} else {
+				ConditionTime = KCDatabase.Instance.Fleet.CalculateConditionHealingEstimation( Utility.Configuration.Config.Control.ConditionBorder - ships.Min( ship => ship.Condition ) );
 			}
 		}
 
