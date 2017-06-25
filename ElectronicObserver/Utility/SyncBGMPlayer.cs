@@ -2,6 +2,7 @@
 using ElectronicObserver.Observer;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -97,6 +98,7 @@ namespace ElectronicObserver.Utility {
 		}
 
 		private MediaPlayer _mp;
+		private SoundHandleID _currentSoundHandleID;
 		private bool _isBoss;
 
 
@@ -108,7 +110,9 @@ namespace ElectronicObserver.Utility {
 				Utility.Logger.Add( 3, "Windows Media Player のロードに失敗しました。音声の再生はできません。" );
 
 			_mp.AutoPlay = false;
+			_mp.IsShuffle = true;
 
+			_currentSoundHandleID = (SoundHandleID)( -1 );
 			_isBoss = false;
 
 
@@ -183,6 +187,7 @@ namespace ElectronicObserver.Utility {
 
 			// 設定変更を適用するためいったん閉じる
 			_mp.Close();
+			_currentSoundHandleID = (SoundHandleID)( -1 );
 		}
 
 		void SystemEvents_SystemShuttingDown() {
@@ -282,10 +287,24 @@ namespace ElectronicObserver.Utility {
 				sh != null &&
 				sh.Enabled &&
 				!string.IsNullOrWhiteSpace( sh.Path ) &&
-				_mp.SourcePath != sh.Path ) {
+				sh.HandleID != _currentSoundHandleID ) {
 
-				_mp.Close();
-				_mp.SourcePath = sh.Path;
+				
+				if ( File.Exists( sh.Path ) ) {
+					_mp.Close();
+					_mp.SetPlaylist( null );
+					_mp.SourcePath = sh.Path;
+
+				} else if ( Directory.Exists( sh.Path ) ) {
+					_mp.Close();
+					_mp.SetPlaylistFromDirectory( sh.Path );
+
+				} else {
+					return false;
+				}
+
+				_currentSoundHandleID = sh.HandleID;
+
 				_mp.IsLoop = sh.IsLoop;
 				_mp.LoopHeadPosition = sh.LoopHeadPosition;
 				if ( !Utility.Configuration.Config.Control.UseSystemVolume )

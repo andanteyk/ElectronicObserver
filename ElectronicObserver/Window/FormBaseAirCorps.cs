@@ -3,6 +3,7 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
+using ElectronicObserver.Window.Support;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -35,8 +36,8 @@ namespace ElectronicObserver.Window {
 				Name.TextAlign = ContentAlignment.MiddleLeft;
 				Name.ImageAlign = ContentAlignment.MiddleRight;
 				Name.ImageList = ResourceManager.Instance.Icons;
-				Name.Padding = new Padding( 0, 1, 0, 1 );
-				Name.Margin = new Padding( 2, 0, 2, 0 );
+				Name.Padding = new Padding( 2, 2, 2, 2 );
+				Name.Margin = new Padding( 2, 1, 2, 1 );		// ここを 2,0,2,0 にすると境界線の描画に問題が出るので
 				Name.AutoSize = true;
 				Name.ContextMenuStrip = parent.ContextMenuBaseAirCorps;
 				Name.Visible = false;
@@ -48,7 +49,7 @@ namespace ElectronicObserver.Window {
 				ActionKind.TextAlign = ContentAlignment.MiddleLeft;
 				ActionKind.ImageAlign = ContentAlignment.MiddleCenter;
 				//ActionKind.ImageList =
-				ActionKind.Padding = new Padding( 0, 1, 0, 1 );
+				ActionKind.Padding = new Padding( 2, 2, 2, 2 );
 				ActionKind.Margin = new Padding( 2, 0, 2, 0 );
 				ActionKind.AutoSize = true;
 				ActionKind.Visible = false;
@@ -60,7 +61,7 @@ namespace ElectronicObserver.Window {
 				AirSuperiority.ImageAlign = ContentAlignment.MiddleLeft;
 				AirSuperiority.ImageList = ResourceManager.Instance.Equipments;
 				AirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
-				AirSuperiority.Padding = new Padding( 0, 1, 0, 1 );
+				AirSuperiority.Padding = new Padding( 2, 2, 2, 2 );
 				AirSuperiority.Margin = new Padding( 2, 0, 2, 0 );
 				AirSuperiority.AutoSize = true;
 				AirSuperiority.Visible = false;
@@ -72,14 +73,14 @@ namespace ElectronicObserver.Window {
 				Distance.ImageAlign = ContentAlignment.MiddleLeft;
 				Distance.ImageList = ResourceManager.Instance.Icons;
 				Distance.ImageIndex = (int)ResourceManager.IconContent.ParameterAircraftDistance;
-				Distance.Padding = new Padding( 0, 1, 0, 1 );
+				Distance.Padding = new Padding( 2, 2, 2, 2 );
 				Distance.Margin = new Padding( 2, 0, 2, 0 );
 				Distance.AutoSize = true;
 				Distance.Visible = false;
 
 				Squadrons = new ShipStatusEquipment();
 				Squadrons.Anchor = AnchorStyles.Left;
-				Squadrons.Padding = new Padding( 0, 2, 0, 1 );
+				Squadrons.Padding = new Padding( 0, 1, 0, 2 );
 				Squadrons.Margin = new Padding( 2, 0, 2, 0 );
 				Squadrons.Size = new Size( 40, 20 );
 				Squadrons.AutoSize = true;
@@ -103,6 +104,7 @@ namespace ElectronicObserver.Window {
 			public void AddToTable( TableLayoutPanel table, int row ) {
 
 				table.SuspendLayout();
+				
 				table.Controls.Add( Name, 0, row );
 				table.Controls.Add( ActionKind, 1, row );
 				table.Controls.Add( AirSuperiority, 2, row );
@@ -110,18 +112,10 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( Squadrons, 4, row );
 				table.ResumeLayout();
 
-				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
-
-				if ( table.RowStyles.Count > row )
-					table.RowStyles[row] = rs;
-				else
-					while ( table.RowStyles.Count <= row )
-						table.RowStyles.Add( rs );
-				#endregion
+				ControlHelper.SetTableRowStyle( table, row, ControlHelper.GetDefaultRowStyle() );
 			}
 
-
+			
 			public void Update( int baseAirCorpsID ) {
 
 				KCDatabase db = KCDatabase.Instance;
@@ -227,6 +221,7 @@ namespace ElectronicObserver.Window {
 				Squadrons.ShowAircraft = config.FormFleet.ShowAircraft;
 				Squadrons.ShowAircraftLevelByNumber = config.FormFleet.ShowAircraftLevelByNumber;
 				Squadrons.LevelVisibility = config.FormFleet.EquipmentLevelVisibility;
+
 			}
 
 
@@ -323,11 +318,16 @@ namespace ElectronicObserver.Window {
 
 			var c = Utility.Configuration.Config;
 
+			TableMember.SuspendLayout();
+
 			Font = c.UI.MainFont;
 
 			foreach ( var control in ControlMember )
 				control.ConfigurationChanged( this );
 
+			ControlHelper.SetTableRowStyles( TableMember, ControlHelper.GetDefaultRowStyle() );
+
+			TableMember.ResumeLayout();
 		}
 
 
@@ -336,6 +336,7 @@ namespace ElectronicObserver.Window {
 			var keys = KCDatabase.Instance.BaseAirCorps.Keys;
 
 			TableMember.SuspendLayout();
+			TableMember.RowCount = keys.Count();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i].Update( i < keys.Count() ? keys.ElementAt( i ) : -1 );
 			}

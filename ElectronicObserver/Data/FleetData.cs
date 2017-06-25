@@ -114,17 +114,6 @@ namespace ElectronicObserver.Data {
 
 
 
-		/// <summary>
-		/// 疲労度回復処理用タイマ
-		/// </summary>
-		public DateTime? ConditionTime { get; internal set; }
-
-		/// <summary>
-		/// 疲労回復タイマがロック中かどうか
-		/// </summary>
-		public bool IsConditionTimeLocked { get; internal set; }
-
-
 		public int ID {
 			get { return FleetID; }
 		}
@@ -134,8 +123,6 @@ namespace ElectronicObserver.Data {
 		public FleetData()
 			: base() {
 
-			ConditionTime = null;
-			IsConditionTimeLocked = true;
 		}
 
 
@@ -158,15 +145,12 @@ namespace ElectronicObserver.Data {
 					}
 					IsInSortie = false;
 
-					UnlockConditionTimer();
-					ShortenConditionTimer();
 					break;
 
 				case "api_get_member/ndock":
 				case "api_req_kousyou/destroyship":
 				case "api_get_member/ship3":
 				case "api_req_kaisou/powerup":
-					ShortenConditionTimer();
 					break;
 
 				default:	//checkme
@@ -234,8 +218,7 @@ namespace ElectronicObserver.Data {
 							}
 
 
-							SetConditionTimer();
-							if ( index != -1 && CanAnchorageRepairing )		//随伴艦一括解除を除く
+							if ( index != -1 && IsFlagshipRepairShip )		//随伴艦一括解除を除く
 								KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
 						} else {
@@ -250,7 +233,7 @@ namespace ElectronicObserver.Data {
 										else
 											RemoveShip( i );
 
-										if ( CanAnchorageRepairing )
+										if ( IsFlagshipRepairShip )
 											KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
 										break;
@@ -271,8 +254,6 @@ namespace ElectronicObserver.Data {
 						for ( int i = 0; i < _members.Length; i++ ) {
 							if ( _members[i] == shipID ) {
 								RemoveShip( i );
-
-								ShortenConditionTimer();
 								break;
 							}
 						}
@@ -284,24 +265,11 @@ namespace ElectronicObserver.Data {
 							for ( int i = 0; i < _members.Length; i++ ) {
 								if ( _members[i] == id ) {
 									RemoveShip( i );
-
-									ShortenConditionTimer();
 									break;
 								}
 							}
 						}
 					} break;
-
-				case "api_req_kaisou/remodeling":	//fixme: ここでリセットしてもまだデータが送られてきてないので無意味
-					if ( Members.Contains( int.Parse( data["api_id"] ) ) ) {
-						SetConditionTimer();
-					}
-					break;
-
-				case "api_req_nyukyo/start":
-				case "api_req_nyukyo/speedchange":
-					ShortenConditionTimer();
-					break;
 
 				case "api_req_mission/start":
 					ExpeditionState = 1;
@@ -310,10 +278,6 @@ namespace ElectronicObserver.Data {
 
 					break;
 
-				case "api_req_map/start":
-					if ( int.Parse( data["api_deck_id"] ) == FleetID )
-						LockConditionTimer();
-					break;
 
 				case "api_req_member/updatedeckname":
 					Name = data["api_name"];
@@ -337,102 +301,6 @@ namespace ElectronicObserver.Data {
 
 		}
 
-
-		/// <summary>
-		/// 疲労回復にかかる時間を取得します。
-		/// </summary>
-		/// <param name="cond">コンディション。</param>
-		private int GetConditionRecoveryMinute( int cond ) {
-			return Math.Max( (int)Math.Ceiling( ( Utility.Configuration.Config.Control.ConditionBorder - cond ) / 3.0 ) * 3, 0 );
-		}
-
-		//*/
-		/// <summary>
-		/// 疲労回復タイマを設定します。
-		/// 現在のタイマにかかわらず設定します。
-		/// </summary>
-		private void SetConditionTimer() {
-
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
-
-			if ( minute > 0 )
-				ConditionTime = DateTime.Now.AddMinutes( minute );
-			else
-				ConditionTime = null;
-
-			//Utility.Logger.Add( 1, string.Format( "Fleet #{0}: 疲労 再設定 {1:D2}:00", FleetID, minute ) );
-		}
-		/*/
-
-		private void SetConditionTimer() {
-
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
-
-			if ( minute <= 0 ) {
-				ConditionTime = null;
-
-			} else if ( ConditionTime != null && (DateTime)ConditionTime > DateTime.Now ) {
-				TimeSpan ts = (DateTime)ConditionTime - DateTime.Now;
-
-				ConditionTime = DateTime.Now + ts.Add( TimeSpan.FromMinutes( minute - 3 - (int)( ts.TotalMinutes / 3 ) * 3 ) );
-
-			} else {
-				ConditionTime = DateTime.Now.AddMinutes( minute );
-			}
-
-		}
-		//*/
-
-		/// <summary>
-		/// 疲労回復タイマを更新します。
-		/// 現在時間より短くなるように設定します。
-		/// </summary>
-		private void ShortenConditionTimer() {
-
-			int minute = GetConditionRecoveryMinute( MembersInstance.Min( s => s != null ? s.Condition : 100 ) );
-
-			if ( minute == 0 ) {
-				ConditionTime = null;
-
-			} else {
-				DateTime target = DateTime.Now.AddMinutes( minute );
-
-				if ( ConditionTime != null && ConditionTime < DateTime.Now ) {
-					ConditionTime = null;
-				}
-
-				if ( ConditionTime == null || target < ConditionTime ) {
-					ConditionTime = target;
-				}
-
-			}
-
-			/*/
-			{
-				TimeSpan ts = ( ConditionTime ?? DateTime.Now ) - DateTime.Now;
-				Utility.Logger.Add( 1, string.Format( "Fleet #{0}: 疲労 短縮 {1:D2}:00 => {2:D2}:{3:D2}", FleetID, minute, (int)ts.TotalMinutes, (int)ts.Seconds ) );
-			}
-			//*/
-		}
-
-
-		/// <summary>
-		/// 疲労回復タイマをロックします。
-		/// </summary>
-		private void LockConditionTimer() {
-			IsConditionTimeLocked = true;
-		}
-
-		/// <summary>
-		/// 疲労回復タイマのロックを解除します。
-		/// </summary>
-		private void UnlockConditionTimer() {
-			if ( IsConditionTimeLocked ) {
-				IsConditionTimeLocked = false;
-				ConditionTime = null;		//reset
-				SetConditionTimer();
-			}
-		}
 
 
 		/// <summary>
@@ -547,284 +415,44 @@ namespace ElectronicObserver.Data {
 
 
 		/// <summary>
-		/// 艦隊の状態を表します。
+		/// 旗艦が工作艦か
 		/// </summary>
-		public enum FleetStates {
-			NoShip,
-			Docking,
-			SortieDamaged,
-			Sortie,
-			Expedition,
-			Damaged,
-			NotReplenished,
-			Tired,
-			Sparkled,
-			AnchorageRepairing,
-			Ready,
-		}
-
-
-		/// <summary>
-		/// 艦隊の状態の情報をラベルに適用します。
-		/// </summary>
-		/// <param name="fleet">艦隊データ。</param>
-		/// <param name="label">適用するラベル。</param>
-		/// <param name="tooltip">適用するツールチップ。</param>
-		/// <param name="prevstate">前回の状態。</param>
-		/// <param name="timer">日時。</param>
-		/// <returns>艦隊の状態を表す定数。</returns>
-		public static FleetStates UpdateFleetState( FleetData fleet, ImageLabel label, ToolTip tooltip, FleetStates prevstate, ref DateTime timer ) {
-
-			KCDatabase db = KCDatabase.Instance;
-
-
-			//初期化
-			tooltip.SetToolTip( label, null );
-			label.BackColor = Color.Transparent;
-
-
-
-			//所属艦なし
-			if ( fleet == null || fleet.Members.Count( id => id != -1 ) == 0 ) {
-				label.Text = "所属艦なし";
-				label.ImageIndex = (int)ResourceManager.IconContent.FleetNoShip;
-
-				return FleetStates.NoShip;
-			}
-
-			{	//入渠中
-				long ntime = db.Docks.Values.Max(
-						dock => {
-							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
-								return dock.CompletionTime.Ticks;
-							else return 0;
-						}
-						);
-
-				if ( ntime > 0 ) {	//入渠中
-
-					timer = new DateTime( ntime );
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
-
-					tooltip.SetToolTip( label, "完了日時 : " + DateTimeHelper.TimeToCSVString( timer ) );
-
-					return FleetStates.Docking;
-				}
-
-			}
-
-
-			if ( fleet.IsInSortie ) {
-
-				//大破出撃中
-				if ( fleet.MembersInstance.Count( s =>
-						( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) && (double)s.HPCurrent / s.HPMax <= 0.25 )
-					 ) > 0 ) {
-
-					label.Text = "！！大破進撃中！！";
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetSortieDamaged;
-
-					return FleetStates.SortieDamaged;
-
-				} else {	//出撃中
-
-					label.Text = "出撃中";
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetSortie;
-
-					return FleetStates.Sortie;
-				}
-
-			}
-
-
-			//遠征中
-			if ( fleet.ExpeditionState != 0 ) {
-
-				timer = fleet.ExpeditionTime;
-				label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
-				label.ImageIndex = (int)ResourceManager.IconContent.FleetExpedition;
-
-				tooltip.SetToolTip( label, string.Format( "{0} : {1}\r\n完了日時 : {2}",
-					KCDatabase.Instance.Mission[fleet.ExpeditionDestination].ID,
-					KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name,
-					DateTimeHelper.TimeToCSVString( timer ) ) );
-
-				return FleetStates.Expedition;
-			}
-
-			//大破艦あり
-			if ( fleet.MembersInstance.Count( s =>
-				( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) && (double)s.HPCurrent / s.HPMax <= 0.25 )
-			 ) > 0 ) {
-
-				label.Text = "大破艦あり！";
-				label.ImageIndex = (int)ResourceManager.IconContent.FleetDamaged;
-				//label.BackColor = Color.LightCoral;
-
-				return FleetStates.Damaged;
-			}
-
-			//泊地修理中
-			{
-				if ( fleet.CanAnchorageRepairing &&
-					fleet.MembersInstance.Take( 2 + KCDatabase.Instance.Ships[fleet[0]].SlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 31 ) )
-					.Any( s => s != null && s.HPRate < 1.0 && s.HPRate > 0.5 && s.RepairingDockID == -1 ) ) {
-
-					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
-
-					StringBuilder sb = new StringBuilder();
-					sb.AppendFormat( "開始日時 : {0}\r\n修理時間 :\r\n",
-						DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) );
-
-					for ( int i = 0; i < fleet.Members.Count; i++ ) {
-						var ship = fleet.MembersInstance[i];
-						if ( ship != null && ship.HPRate < 1.0 ) {
-							var totaltime = DateTimeHelper.FromAPITimeSpan( ship.RepairTime );
-							var unittime = Calculator.CalculateDockingUnitTime( ship );
-							sb.AppendFormat( "#{0} : {1:00}:{2:00}:{3:00} @ {4:00}:{5:00}:{6:00} x -{7} HP\r\n",
-								i + 1,
-								(int)totaltime.TotalHours,
-								totaltime.Minutes,
-								totaltime.Seconds,
-								(int)unittime.TotalHours,
-								unittime.Minutes,
-								unittime.Seconds,
-								ship.HPMax - ship.HPCurrent
-								);
-						} else {
-							sb.Append( "#" ).Append( i + 1 ).Append( " : ----\r\n" );
-						}
-					}
-
-					tooltip.SetToolTip( label, sb.ToString() );
-
-					return FleetStates.AnchorageRepairing;
-				}
-			}
-
-			//未補給
-			{
-				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.FuelMax - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
-				int ammo = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.AmmoMax - ship.Ammo ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
-				int aircraft = fleet.MembersInstance.Sum(
-					ship => {
-						if ( ship == null ) return 0;
-						else {
-							int c = 0;
-							for ( int i = 0; i < ship.Slot.Count; i++ ) {
-								c += ship.MasterShip.Aircraft[i] - ship.Aircraft[i];
-							}
-							return c;
-						}
-					} );
-				int bauxite = aircraft * 5;
-
-				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
-
-					label.Text = "未補給";
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
-
-					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ({3}機)", fuel, ammo, bauxite, aircraft ) );
-
-					return FleetStates.NotReplenished;
-				}
-			}
-
-			//疲労
-			{
-				int cond = fleet.MembersInstance.Min( s => s == null ? 100 : s.Condition );
-
-				if ( cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null ) {
-
-					timer = (DateTime)fleet.ConditionTime;
-
-
-					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
-
-					if ( cond < 20 )
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-					else if ( cond < 30 )
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
-					else
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
-
-
-					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}", DateTimeHelper.TimeToCSVString( timer ) ) );
-
-					return FleetStates.Tired;
-
-
-				} else if ( cond >= 50 ) {		//戦意高揚
-
-					label.Text = "戦意高揚！";
-					label.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
-					tooltip.SetToolTip( label, string.Format( "最低cond: {0}\r\nあと {1} 回遠征可能", cond, Math.Ceiling( ( cond - 49 ) / 3.0 ) ) );
-					return FleetStates.Sparkled;
-
-				}
-
-			}
-
-			//出撃可能！
-			{
-				label.Text = "出撃可能！";
-				label.ImageIndex = (int)ResourceManager.IconContent.FleetReady;
-
-				return FleetStates.Ready;
-			}
-
-		}
-
-
-		/// <summary>
-		/// 艦隊の状態の情報をもとにラベルを更新します。
-		/// </summary>
-		/// <param name="label">更新するラベル。</param>
-		/// <param name="state">艦隊の状態。</param>
-		/// <param name="timer">日時。</param>
-		public static void RefreshFleetState( ImageLabel label, FleetStates state, DateTime timer ) {
-
-			switch ( state ) {
-				case FleetStates.Damaged:
-				case FleetStates.SortieDamaged:
-					label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
-					break;
-				case FleetStates.Docking:
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
-					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= Utility.Configuration.Config.NotifierRepair.AccelInterval )
-						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
-					break;
-				case FleetStates.Expedition:
-					label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
-					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= Utility.Configuration.Config.NotifierExpedition.AccelInterval )
-						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
-					break;
-				case FleetStates.Tired:
-					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
-					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= 0 )
-						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
-					break;
-				case FleetStates.AnchorageRepairing:
-					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
-					break;
-			}
-
-		}
-
-
-		/// <summary>
-		/// 泊地修理可能か
-		/// </summary>
-		public bool CanAnchorageRepairing {
+		public bool IsFlagshipRepairShip {
 			get {
 				ShipData flagship = KCDatabase.Instance.Ships[_members[0]];
-				return flagship != null && flagship.MasterShip.ShipType == 19;		//旗艦工作艦
+				return flagship != null && flagship.MasterShip.ShipType == 19;
+			}
+		}
+
+		/// <summary>
+		/// 泊地修理が発動可能か
+		/// </summary>
+		public bool CanAnchorageRepair {
+			get {
+				// 流石に資源チェックまではしない
+				var flagship = KCDatabase.Instance.Ships[_members[0]];
+
+				return IsFlagshipRepairShip &&
+					flagship.HPRate > 0.5 &&
+					flagship.RepairingDockID == -1 &&
+					ExpeditionState == 0 &&
+					MembersInstance.Take( 2 + flagship.SlotInstance.Count( eq => eq != null && eq.MasterEquipment.CategoryType == 31 ) )
+					.Any( ship => ship != null && 0.5 < ship.HPRate && ship.HPRate < 1.0 && ship.RepairingDockID == -1 );
 			}
 		}
 
 
+		public DateTime? ConditionTime { get; private set; }
+
+		public void UpdateConditionTime() {
+			var ships = MembersInstance.Where( ship => ship != null && ship.Condition < Utility.Configuration.Config.Control.ConditionBorder );
+			if ( !ships.Any() ) {
+				ConditionTime = null;
+
+			} else {
+				ConditionTime = KCDatabase.Instance.Fleet.CalculateConditionHealingEstimation( Utility.Configuration.Config.Control.ConditionBorder - ships.Min( ship => ship.Condition ) );
+			}
+		}
 
 	}
 

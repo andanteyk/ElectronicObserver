@@ -605,7 +605,6 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		//*/
 		/// <summary>
 		/// 出撃海域
 		/// </summary>
@@ -614,8 +613,7 @@ namespace ElectronicObserver.Data {
 				return RawData.api_sally_area() ? (int)RawData.api_sally_area : -1;
 			}
 		}
-		//*/
-
+		
 
 		/// <summary>
 		/// 艦船のマスターデータへの参照
@@ -1067,6 +1065,24 @@ namespace ElectronicObserver.Data {
 			return 0;
 		}
 
+		/// <summary>
+		/// イタリア重巡砲補正
+		/// </summary>
+		/// <returns></returns>
+		private double GetItalianDamageBonus() {
+			switch ( ShipID ) {
+				case 448:		// Zara
+				case 358:		// 改
+				case 496:		// due
+				case 449:		// Pola
+				case 361:		// 改
+					return Math.Sqrt( AllSlotMaster.Count( id => id == 162 ) );		// √( 203mm/53 連装砲 装備数 )
+			
+				default:
+					return 0;
+			}
+		}
+
 		private double CapDamage( double damage, int max ) {
 			if ( damage < max )
 				return damage;
@@ -1119,7 +1135,7 @@ namespace ElectronicObserver.Data {
 
 			basepower *= GetHPDamageBonus() * GetEngagementFormDamageRate( engagementForm );
 
-			basepower += GetLightCruiserDamageBonus();
+			basepower += GetLightCruiserDamageBonus() + GetItalianDamageBonus();
 
 			//キャップ
 			basepower = Math.Floor( CapDamage( basepower, 180 ) );
@@ -1265,7 +1281,7 @@ namespace ElectronicObserver.Data {
 					break;
 			}
 
-			basepower += GetLightCruiserDamageBonus();
+			basepower += GetLightCruiserDamageBonus() + GetItalianDamageBonus();
 
 			//キャップ
 			basepower = Math.Floor( CapDamage( basepower, 300 ) );

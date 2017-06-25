@@ -283,6 +283,31 @@ namespace ElectronicObserver.Resource.Record {
 			public string MessageAlbum { get; internal set; }
 
 
+			/// <summary>
+			/// リソースのファイル/フォルダ名
+			/// </summary>
+			public string ResourceName { get; internal set; }
+
+			/// <summary>
+			/// 画像リソースのバージョン
+			/// </summary>
+			public string ResourceGraphicVersion { get; internal set; }
+
+			/// <summary>
+			/// ボイスリソースのバージョン
+			/// </summary>
+			public string ResourceVoiceVersion { get; internal set; }
+
+			/// <summary>
+			/// 母港ボイスリソースのバージョン
+			/// </summary>
+			public string ResourcePortVoiceVersion { get; internal set; }
+
+			/// <summary>
+			/// 衣替え艦：ベースとなる艦船ID (なければ -1)
+			/// </summary>
+			public int OriginalCostumeShipID { get; internal set; }
+
 
 			public ShipParameterElement()
 				: base() {
@@ -296,6 +321,8 @@ namespace ElectronicObserver.Resource.Record {
 
 				MessageGet = null;
 				MessageAlbum = null;
+
+				OriginalCostumeShipID = -1;
 			}
 
 			public ShipParameterElement( string line )
@@ -376,13 +403,22 @@ namespace ElectronicObserver.Resource.Record {
 				MessageGet = elem[34].ToLower() == "null" ? null : elem[34];
 				MessageAlbum = elem[35].ToLower() == "null" ? null : elem[35];
 
+
+				if ( elem.Length >= 41 ) {
+					ResourceName = elem[36].ToLower() == "null" ? null : elem[36];
+					ResourceGraphicVersion = elem[37].ToLower() == "null" ? null : elem[37];
+					ResourceVoiceVersion = elem[38].ToLower() == "null" ? null : elem[38];
+					ResourcePortVoiceVersion = elem[39].ToLower() == "null" ? null : elem[39];
+					OriginalCostumeShipID = int.Parse( elem[40] );
+				}
+
 			}
 
 
 			public override string SaveLine() {
 				StringBuilder sb = new StringBuilder();
 
-				sb.AppendFormat( "{" + string.Join( "},{", Enumerable.Range( 0, 24 ) ) + "}",
+				sb.Append( string.Join( ",",
 					ShipID,
 					ShipName,
 					HPMin,
@@ -406,26 +442,30 @@ namespace ElectronicObserver.Resource.Record {
 					LOS.Maximum,
 					LuckMin,
 					LuckMax,
-					Range );
+					Range ) );
 
 				if ( DefaultSlot == null ) {
 					sb.Append( ",null,null,null,null,null" );
 				} else {
-					foreach ( int i in DefaultSlot ) {
-						sb.AppendFormat( ",{0}", i );
-					}
+					sb.Append( "," ).Append( string.Join( ",", DefaultSlot ) );
 				}
 
 				if ( Aircraft == null ) {
 					sb.Append( ",null,null,null,null,null" );
 				} else {
-					foreach ( int i in Aircraft ) {
-						sb.AppendFormat( ",{0}", i );
-					}
+					sb.Append( "," ).Append( string.Join( ",", Aircraft ) );
+
 				}
 
-
-				sb.AppendFormat( ",{0},{1}", MessageGet, MessageAlbum );
+				sb.Append( "," ).Append( string.Join( ",",
+					MessageGet ?? "null",
+					MessageAlbum ?? "null",
+					ResourceName ?? "null",
+					ResourceGraphicVersion ?? "null",
+					ResourceVoiceVersion ?? "null",
+					ResourcePortVoiceVersion ?? "null",
+					OriginalCostumeShipID
+					) );
 
 				return sb.ToString();
 			}
@@ -436,6 +476,7 @@ namespace ElectronicObserver.Resource.Record {
 		public Dictionary<int, ShipParameterElement> Record { get; private set; }
 		private int newShipIDBorder;
 		private int remodelingShipID;
+		private bool changed;
 		public bool ParameterLoadFlag { get; set; }
 
 
@@ -445,10 +486,13 @@ namespace ElectronicObserver.Resource.Record {
 			Record = new Dictionary<int, ShipParameterElement>();
 			newShipIDBorder = -1;
 			remodelingShipID = -1;
+			changed = false;
 			ParameterLoadFlag = true;
 
-			APIObserver ao = APIObserver.Instance;
+		}
 
+		public override void RegisterEvents() {
+			APIObserver ao = APIObserver.Instance;
 
 			ao.APIList["api_start2"].ResponseReceived += GameStart;
 
@@ -458,12 +502,10 @@ namespace ElectronicObserver.Resource.Record {
 
 			//戦闘系：最初のフェーズのみ要るから夜戦(≠開幕)は不要
 			ao.APIList["api_req_sortie/battle"].ResponseReceived += BattleStart;
-			//ao.APIList["api_req_battle_midnight/battle"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_sortie/airbattle"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStart;
-			//ao.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
 			ao.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStart;
@@ -480,9 +522,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			ao.APIList["api_req_kaisou/remodeling"].RequestReceived += RemodelingStart;
 			ao.APIList["api_get_member/slot_item"].ResponseReceived += RemodelingEnd;
-
 		}
-
 
 
 		public ShipParameterElement this[int i] {
@@ -495,6 +535,7 @@ namespace ElectronicObserver.Resource.Record {
 				} else {
 					Record[i] = value;
 				}
+				changed = true;
 			}
 		}
 
@@ -616,6 +657,10 @@ namespace ElectronicObserver.Resource.Record {
 					param.ArmorMin = (int)elem.api_souk[0];
 					param.ArmorMax = (int)elem.api_souk[1];
 				}
+				if ( elem.api_tais() ) {
+					int [] api_tais = elem.api_tais;		// Length = 1 の場合がある
+					param.ASW.SetEstParameter( 1, api_tais[0], api_tais.Length >= 2 ? api_tais[1] : Parameter.MaximumDefault );
+				}
 				if ( elem.api_luck() ) {
 					param.LuckMin = (int)elem.api_luck[0];
 					param.LuckMax = (int)elem.api_luck[1];
@@ -628,12 +673,33 @@ namespace ElectronicObserver.Resource.Record {
 					param.Aircraft = (int[])elem.api_maxeq;
 				}
 				if ( elem.api_getmes() ) {
-					param.MessageGet = elem.api_getmes;
+					string mes = elem.api_getmes;
+					if ( !string.IsNullOrWhiteSpace( mes.Replace( "<br>", "\r\n" ) ) )
+						param.MessageGet = mes;
 				}
 
 				Update( param );
 			}
 
+			foreach ( var elem in data.api_mst_shipgraph ) {
+				var param = this[(int)elem.api_id];
+				if ( param == null ) {
+					param = new ShipParameterElement();
+					param.ShipID = (int)elem.api_id;
+				}
+
+				if ( elem.api_filename() ) {
+					param.ResourceName = elem.api_filename;
+				}
+				if ( elem.api_version() ) {
+					var values = (string[])elem.api_version;
+					param.ResourceGraphicVersion = values[0];
+					param.ResourceVoiceVersion = values[1];
+					param.ResourcePortVoiceVersion = values[2];
+				}
+
+				Update( param );
+			}
 
 			// validation
 			foreach ( var record in Record.Values ) {
@@ -719,12 +785,31 @@ namespace ElectronicObserver.Resource.Record {
 							e2 = new ShipParameterElement();
 							e2.ShipID = ship.RemodelAfterShipID;
 						}
-						if ( e2.MessageAlbum == null ) {
-							e2.MessageAlbum = e.MessageAlbum;
-							Update( e2 );
-						}
 
 						ship = KCDatabase.Instance.MasterShips[ship.RemodelAfterShipID];
+						if ( ship != null && ship.IsListedInAlbum )
+							break;
+
+						e2.MessageAlbum = e.MessageAlbum;
+						Update( e2 );
+
+					}
+				}
+
+				{
+					var costumeIDs = (int[])elem.api_table_id;
+					foreach ( var id in costumeIDs ) {
+						if ( id == shipID )
+							continue;
+
+						var e2 = this[id];
+						if ( e2 == null ) {
+							e2 = new ShipParameterElement();
+							e2.ShipID = id;
+						}
+
+						e2.OriginalCostumeShipID = shipID;
+						Update( e2 );
 					}
 				}
 
@@ -849,26 +934,38 @@ namespace ElectronicObserver.Resource.Record {
 			Update( new ShipParameterElement( line ) );
 		}
 
-		protected override string SaveLines() {
-
-			StringBuilder sb = new StringBuilder();
-
-			var list = Record.Values.ToList();
-			list.Sort( ( e1, e2 ) => e1.ShipID - e2.ShipID );
-
-			foreach ( var elem in list ) {
+		protected override string SaveLinesAll() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.Values.OrderBy( r => r.ShipID ) ) {
 				sb.AppendLine( elem.SaveLine() );
 			}
-
 			return sb.ToString();
 		}
+
+		protected override string SaveLinesPartial() {
+			throw new NotSupportedException();
+		}
+
+		protected override void UpdateLastSavedIndex() {
+			changed = false;
+		}
+
+		public override bool NeedToSave {
+			get { return changed; }
+		}
+
+		public override bool SupportsPartialSave {
+			get { return false; }
+		}
+
 
 		protected override void ClearRecord() {
 			Record.Clear();
 		}
 
+
 		public override string RecordHeader {
-			get { return "艦船ID,艦船名,耐久初期,耐久最大,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期下限,対潜初期上限,対潜最大,回避初期下限,回避初期上限,回避最大,索敵初期下限,索敵初期上限,索敵最大,運初期,運最大,射程,装備1,装備2,装備3,装備4,装備5,機数1,機数2,機数3,機数4,機数5,ドロップ説明,図鑑説明"; }
+			get { return "艦船ID,艦船名,耐久初期,耐久最大,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期下限,対潜初期上限,対潜最大,回避初期下限,回避初期上限,回避最大,索敵初期下限,索敵初期上限,索敵最大,運初期,運最大,射程,装備1,装備2,装備3,装備4,装備5,機数1,機数2,機数3,機数4,機数5,ドロップ説明,図鑑説明,リソース名,画像ver,ボイスver,母港ボイスver,元衣装ID"; }
 		}
 
 		public override string FileName {

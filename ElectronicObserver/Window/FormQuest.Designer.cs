@@ -24,9 +24,10 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.QuestView = new System.Windows.Forms.DataGridView();
 			this.QuestView_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.QuestView_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -36,6 +37,8 @@
 			this.MenuProgress = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuProgress_Increment = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuProgress_Decrement = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuProgress_Reset = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -54,8 +57,6 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MenuMain_Initialize = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.MenuProgress_Reset = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.QuestView)).BeginInit();
 			this.MenuProgress.SuspendLayout();
 			this.MenuMain.SuspendLayout();
@@ -68,6 +69,14 @@
 			this.QuestView.AllowUserToResizeRows = false;
 			this.QuestView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.QuestView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.QuestView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.QuestView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.QuestView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.QuestView_State,
@@ -76,14 +85,14 @@
             this.QuestView_Name,
             this.QuestView_Progress});
 			this.QuestView.ContextMenuStrip = this.MenuMain;
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.QuestView.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.QuestView.DefaultCellStyle = dataGridViewCellStyle4;
 			this.QuestView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.QuestView.Location = new System.Drawing.Point(0, 0);
 			this.QuestView.MultiSelect = false;
@@ -92,10 +101,13 @@
 			this.QuestView.RowHeadersVisible = false;
 			this.QuestView.RowTemplate.Height = 21;
 			this.QuestView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.QuestView.ShowCellToolTips = false;
 			this.QuestView.Size = new System.Drawing.Size(300, 200);
 			this.QuestView.TabIndex = 0;
 			this.QuestView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.QuestView_CellFormatting);
 			this.QuestView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.QuestView_CellMouseDown);
+			this.QuestView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.QuestView_CellMouseEnter);
+			this.QuestView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.QuestView_CellMouseLeave);
 			this.QuestView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.QuestView_CellPainting);
 			this.QuestView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.QuestView_ColumnWidthChanged);
 			this.QuestView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.QuestView_SortCompare);
@@ -115,8 +127,8 @@
 			// 
 			// QuestView_Type
 			// 
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			this.QuestView_Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			this.QuestView_Type.DefaultCellStyle = dataGridViewCellStyle2;
 			this.QuestView_Type.HeaderText = "種";
 			this.QuestView_Type.Name = "QuestView_Type";
 			this.QuestView_Type.ReadOnly = true;
@@ -124,8 +136,8 @@
 			// 
 			// QuestView_Category
 			// 
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			this.QuestView_Category.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			this.QuestView_Category.DefaultCellStyle = dataGridViewCellStyle3;
 			this.QuestView_Category.HeaderText = "分類";
 			this.QuestView_Category.Name = "QuestView_Category";
 			this.QuestView_Category.ReadOnly = true;
@@ -156,21 +168,33 @@
             this.toolStripSeparator3,
             this.MenuProgress_Reset});
 			this.MenuProgress.Name = "MenuProgress";
-			this.MenuProgress.Size = new System.Drawing.Size(153, 98);
+			this.MenuProgress.Size = new System.Drawing.Size(149, 76);
 			// 
 			// MenuProgress_Increment
 			// 
 			this.MenuProgress_Increment.Name = "MenuProgress_Increment";
-			this.MenuProgress_Increment.Size = new System.Drawing.Size(152, 22);
+			this.MenuProgress_Increment.Size = new System.Drawing.Size(148, 22);
 			this.MenuProgress_Increment.Text = "進捗 +1(&I)";
 			this.MenuProgress_Increment.Click += new System.EventHandler(this.MenuProgress_Increment_Click);
 			// 
 			// MenuProgress_Decrement
 			// 
 			this.MenuProgress_Decrement.Name = "MenuProgress_Decrement";
-			this.MenuProgress_Decrement.Size = new System.Drawing.Size(152, 22);
+			this.MenuProgress_Decrement.Size = new System.Drawing.Size(148, 22);
 			this.MenuProgress_Decrement.Text = "進捗 -1(&D)";
 			this.MenuProgress_Decrement.Click += new System.EventHandler(this.MenuProgress_Decrement_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(145, 6);
+			// 
+			// MenuProgress_Reset
+			// 
+			this.MenuProgress_Reset.Name = "MenuProgress_Reset";
+			this.MenuProgress_Reset.Size = new System.Drawing.Size(148, 22);
+			this.MenuProgress_Reset.Text = "進捗リセット(&R)";
+			this.MenuProgress_Reset.Click += new System.EventHandler(this.MenuProgress_Reset_Click);
 			// 
 			// MenuMain
 			// 
@@ -317,18 +341,6 @@
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
-			// 
-			// MenuProgress_Reset
-			// 
-			this.MenuProgress_Reset.Name = "MenuProgress_Reset";
-			this.MenuProgress_Reset.Size = new System.Drawing.Size(152, 22);
-			this.MenuProgress_Reset.Text = "進捗リセット(&R)";
-			this.MenuProgress_Reset.Click += new System.EventHandler(this.MenuProgress_Reset_Click);
 			// 
 			// FormQuest
 			// 

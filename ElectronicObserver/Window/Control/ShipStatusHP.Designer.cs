@@ -32,6 +32,8 @@
 			this.Name = "ShipStatusHP";
 			this.Size = new System.Drawing.Size(80, 20);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.ShipStatusHP_Paint);
+			this.MouseEnter += new System.EventHandler(this.ShipStatusHP_MouseEnter);
+			this.MouseLeave += new System.EventHandler(this.ShipStatusHP_MouseLeave);
 			this.ResumeLayout(false);
 
 		}

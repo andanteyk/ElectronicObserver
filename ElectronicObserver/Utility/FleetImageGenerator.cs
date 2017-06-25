@@ -273,7 +273,7 @@ namespace ElectronicObserver.Utility {
 
 							if ( aircraftMax > 0 ) {
 								Brush aircraftBrush;
-								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true, true ) ) {
+								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true ) ) {
 									aircraftBrush = mainTextBrush;
 								} else {
 									aircraftBrush = disabledBrush;
@@ -706,7 +706,7 @@ namespace ElectronicObserver.Utility {
 
 							if ( aircraftMax > 0 ) {
 								Brush aircraftBrush;
-								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true, true ) ) {
+								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true ) ) {
 									aircraftBrush = mainTextBrush;
 								} else {
 									aircraftBrush = disabledBrush;
@@ -851,6 +851,7 @@ namespace ElectronicObserver.Utility {
 			Size shipIndexSize = MeasureString( preg, "#4:", args.MediumDigitFont, MaxValueSize, formatMiddleLeft );
 			Size equipmentNameSize = MeasureString( preg, "61cm五連装(酸素)魚雷", args.SmallFont, MaxValueSize, formatMiddleLeft );		// kanji 9 char
 			Size mediumDigit3Size = MeasureString( preg, "888", args.MediumDigitFont, MaxValueSize, formatMiddleRight );
+			Size smallDigit2Size = MeasureString( preg, "88", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
 			Size smallDigit3Size = MeasureString( preg, "888", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
 			Size levelSize = MeasureString( preg, "Lv.", args.SmallDigitFont, MaxValueSize, formatMiddleLeft );
 			Size equipmentLevelSize = MeasureString( preg, "+10", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
@@ -868,7 +869,7 @@ namespace ElectronicObserver.Utility {
 
 			Size shipBannerSize = SwfHelper.ShipBannerSize;
 			Size shipNameAreaSize = SumWidthMaxHeight( SwfHelper.ShipBannerSize, MaxWidthSumHeight( SumWidthMaxHeight( levelSize, smallDigit3Size ), SumWidthMaxHeight( EquipmentIconSize, smallDigit3Size ) ) );
-			Size equipmentAreaUnitSize = SumWidthMaxHeight( EquipmentIconSize, equipmentNameSize, equipmentLevelSize );
+			Size equipmentAreaUnitSize = SumWidthMaxHeight( smallDigit2Size, EquipmentIconSize, equipmentNameSize, equipmentLevelSize );
 			Size equipmentAreaSize = new Size( equipmentAreaUnitSize.Width + equipmentAreaUnitMargin.Horizontal, ( equipmentAreaUnitSize.Height + equipmentAreaUnitMargin.Vertical ) * slotCount );
 
 			Size shipPaneUnitSize = MaxWidthSumHeight( shipNameAreaSize, equipmentAreaSize );
@@ -897,7 +898,7 @@ namespace ElectronicObserver.Utility {
 
 
 			// anchor
-			equipmentNameSize.Width = shipPaneUnitSize.Width - EquipmentIconSize.Width - equipmentLevelSize.Width;
+			equipmentNameSize.Width = shipPaneUnitSize.Width - smallDigit2Size.Width - EquipmentIconSize.Width - equipmentLevelSize.Width;
 			equipmentAreaUnitSize.Width = shipPaneUnitSize.Width - equipmentAreaUnitMargin.Horizontal;
 
 			Size equipmentNameSizeExtended = SumWidthMaxHeight( equipmentNameSize, equipmentLevelSize );
@@ -1052,6 +1053,22 @@ namespace ElectronicObserver.Utility {
 							if ( equipmentIndex == 5 && ship.IsExpansionSlotAvailable ) {
 								g.DrawLine( subLinePen, equipmentPointer.X + lineMargin, equipmentPointer.Y - 1, equipmentPointer.X + equipmentAreaUnitSize.Width - lineMargin, equipmentPointer.Y - 1 );
 							}
+
+
+							int aircraftMax = equipmentIndex < 5 ? ship.MasterShip.Aircraft[equipmentIndex] : 0;
+
+							if ( aircraftMax > 0 ) {
+								Brush aircraftBrush;
+								if ( eq != null && Calculator.IsAircraft( eq.EquipmentID, true ) ) {
+									aircraftBrush = mainTextBrush;
+								} else {
+									aircraftBrush = disabledBrush;
+								}
+
+								g.DrawString( aircraftMax.ToString(), args.SmallDigitFont, aircraftBrush, new Rectangle( equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, smallDigit2Size, equipmentAreaUnitSize ), smallDigit2Size ), formatMiddleRight );
+							}
+							equipmentPointer.X += smallDigit2Size.Width;
+
 
 							bool isOutOfSlot = equipmentIndex >= ship.SlotSize && !( equipmentIndex == 5 && ship.IsExpansionSlotAvailable );
 

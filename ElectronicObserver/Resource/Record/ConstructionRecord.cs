@@ -134,7 +134,7 @@ namespace ElectronicObserver.Resource.Record {
 			}
 
 			public override string SaveLine() {
-				return string.Format( "{" + string.Join( "},{", Enumerable.Range( 0, 13 ) ) + "}",
+				return string.Join( ",",
 					ShipID,
 					ShipName,
 					DateTimeHelper.TimeToCSVString( Date ),
@@ -156,20 +156,21 @@ namespace ElectronicObserver.Resource.Record {
 		public List<ConstructionElement> Record { get; private set; }
 		private int ConstructingDockID;
 
+		private int LastSavedCount;
 
 
 		public ConstructionRecord()
 			: base() {
 			Record = new List<ConstructionElement>();
 			ConstructingDockID = -1;
-
-			APIObserver ao = APIObserver.Instance;
-
-			ao.APIList["api_req_kousyou/createship"].RequestReceived += ConstructionStart;
-			ao.APIList["api_get_member/kdock"].ResponseReceived += ConstructionEnd;
-
 		}
 
+		public override void RegisterEvents() {
+			APIObserver ao = APIObserver.Instance;
+
+			ao["api_req_kousyou/createship"].RequestReceived += ConstructionStart;
+			ao["api_get_member/kdock"].ResponseReceived += ConstructionEnd;
+		}
 
 
 		public ConstructionElement this[int i] {
@@ -205,41 +206,38 @@ namespace ElectronicObserver.Resource.Record {
 			Record.Add( new ConstructionElement( line ) );
 		}
 
-		protected override string SaveLines() {
-
-			StringBuilder sb = new StringBuilder();
-
-			var list = new List<ConstructionElement>( Record );
-			list.Sort( ( e1, e2 ) => e1.Date.CompareTo( e2.Date ) );
-
-			foreach ( var elem in list ) {
+		protected override string SaveLinesAll() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.OrderBy( r => r.Date ) ) {
 				sb.AppendLine( elem.SaveLine() );
 			}
-
 			return sb.ToString();
 		}
 
+		protected override string SaveLinesPartial() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.Skip( LastSavedCount ).OrderBy( r => r.Date ) ) {
+				sb.AppendLine( elem.SaveLine() );
+			}
+			return sb.ToString();
+		}
+
+		protected override void UpdateLastSavedIndex() {
+			LastSavedCount = Record.Count;
+		}
+
+		public override bool NeedToSave {
+			get { return LastSavedCount < Record.Count; }
+		}
+
+		public override bool SupportsPartialSave {
+			get { return true; }
+		}
 
 		protected override void ClearRecord() {
 			Record.Clear();
+			LastSavedCount = 0;
 		}
-
-
-		/*/
-		protected override bool IsAppend { get { return true; } }
-
-
-		public override bool Load( string path ) {
-			return true;
-		}
-
-		public override bool Save( string path ) {
-			bool ret = base.Save( path );
-
-			Record.Clear();
-			return ret;
-		}
-		//*/
 
 
 		public override string RecordHeader {
@@ -249,6 +247,7 @@ namespace ElectronicObserver.Resource.Record {
 		public override string FileName {
 			get { return "ConstructionRecord.csv"; }
 		}
+
 	}
 
 }

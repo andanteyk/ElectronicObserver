@@ -85,7 +85,8 @@
 			// 
 			// ShipName
 			// 
-			this.ShipName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.ShipName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.ShipName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
 			this.ShipName.FormattingEnabled = true;
 			this.ShipName.Location = new System.Drawing.Point(75, 10);
 			this.ShipName.Name = "ShipName";
@@ -261,6 +262,7 @@
 			this.RecordView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.RecordView_CellFormatting);
 			this.RecordView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.RecordView_SortCompare);
 			this.RecordView.Sorted += new System.EventHandler(this.RecordView_Sorted);
+			this.RecordView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.RecordView_CellDoubleClick);
 			// 
 			// IsBossOnly
 			// 

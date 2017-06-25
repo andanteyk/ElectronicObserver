@@ -66,11 +66,13 @@ namespace ElectronicObserver.Utility {
 
 		private List<LogData> log;
 		private bool toDebugConsole;
+		private int lastSavedCount;
 
 
 		private Logger() {
 			log = new List<LogData>();
 			toDebugConsole = true;
+			lastSavedCount = 0;
 		}
 
 
@@ -96,6 +98,8 @@ namespace ElectronicObserver.Utility {
 				Logger.Instance.log.Add( data );
 			}
 
+			if ( Configuration.Config.Log.SaveLogFlag && Configuration.Config.Log.SaveLogImmediately )
+				Save();
 
 			if ( Configuration.Config.Log.LogLevel <= priority ) {
 
@@ -120,10 +124,18 @@ namespace ElectronicObserver.Utility {
 		public static void Clear() {
 			lock ( Logger.Instance ) {
 				Logger.instance.log.Clear();
+				Logger.instance.lastSavedCount = 0;
 			}
 		}
 
 
+
+		public static readonly string DefaultPath = @"eolog.log";
+
+
+		public static void Save() {
+			Save( DefaultPath );
+		}
 
 		/// <summary>
 		/// ログを保存します。
@@ -133,15 +145,18 @@ namespace ElectronicObserver.Utility {
 
 			try {
 				lock ( Logger.Instance ) {
+
+					var log = Logger.instance;
+
 					using ( StreamWriter sw = new StreamWriter( path, true, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
 						int priority = Configuration.Config.Log.LogLevel;
 
-						var list = Logger.instance.log.Where( l => l.Priority >= priority );
-
-						foreach ( var l in list ) {
+						foreach ( var l in log.log.Skip( log.lastSavedCount ).Where( l => l.Priority >= priority ) ) {
 							sw.WriteLine( l.ToString() );
 						}
+
+						log.lastSavedCount = log.log.Count;
 					}
 				}
 			} catch ( Exception ) {

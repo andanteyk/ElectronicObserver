@@ -14,6 +14,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_port {
 
 			KCDatabase db = KCDatabase.Instance;
 
+			db.Fleet.EvacuatePreviousShips();
+
 
 			//api_material
 			db.Material.LoadFromResponse( APIName, data.api_material );

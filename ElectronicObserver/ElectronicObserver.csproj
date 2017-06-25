@@ -163,6 +163,7 @@
     <Compile Include="Data\Quest\ProgressExpedition.cs" />
     <Compile Include="Data\Quest\ProgressImprovement.cs" />
     <Compile Include="Data\Quest\ProgressModernization.cs" />
+    <Compile Include="Data\Quest\ProgressMultiBattle.cs" />
     <Compile Include="Data\Quest\ProgressPractice.cs" />
     <Compile Include="Data\Quest\ProgressSlaughter.cs" />
     <Compile Include="Data\Quest\ProgressSupply.cs" />
@@ -443,6 +444,12 @@
     <Compile Include="Window\Dialog\DialogResourceChart.Designer.cs">
       <DependentUpon>DialogResourceChart.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogShipGraphicViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogShipGraphicViewer.Designer.cs">
+      <DependentUpon>DialogShipGraphicViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogShipGroupColumnFilter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -684,6 +691,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogResourceChart.resx">
       <DependentUpon>DialogResourceChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogShipGraphicViewer.resx">
+      <DependentUpon>DialogShipGraphicViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogShipGroupColumnFilter.resx">
       <DependentUpon>DialogShipGroupColumnFilter.cs</DependentUpon>

@@ -206,6 +206,7 @@ namespace ElectronicObserver.Window {
 				config.IsScrollable = c.IsScrollable;
 				config.AppliesStyleSheet = c.AppliesStyleSheet;
 				config.IsDMMreloadDialogDestroyable = c.IsDMMreloadDialogDestroyable;
+				config.AvoidTwitterDeterioration = c.AvoidTwitterDeterioration;
 				config.ToolMenuDockStyle = (int)c.ToolMenuDockStyle;
 				config.IsToolMenuVisible = c.IsToolMenuVisible;
 				config.ConfirmAtRefresh = c.ConfirmAtRefresh;
@@ -228,6 +229,7 @@ namespace ElectronicObserver.Window {
 			c.IsScrollable = config.IsScrollable;
 			c.AppliesStyleSheet = config.AppliesStyleSheet;
 			c.IsDMMreloadDialogDestroyable = config.IsDMMreloadDialogDestroyable;
+			c.AvoidTwitterDeterioration = config.AvoidTwitterDeterioration;
 			c.ToolMenuDockStyle = (DockStyle)config.ToolMenuDockStyle;
 			c.IsToolMenuVisible = config.IsToolMenuVisible;
 			c.ConfirmAtRefresh = config.ConfirmAtRefresh;

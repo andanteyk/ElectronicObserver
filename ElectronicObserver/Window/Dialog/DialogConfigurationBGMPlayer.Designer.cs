@@ -35,6 +35,7 @@
 			this.ButtonCancel = new System.Windows.Forms.Button();
 			this.ButtonAccept = new System.Windows.Forms.Button();
 			this.OpenMusicDialog = new System.Windows.Forms.OpenFileDialog();
+			this.FilePathToDirectory = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.LoopHeadPosition)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.Volume)).BeginInit();
 			this.SuspendLayout();
@@ -157,12 +158,24 @@
 			// 
 			this.OpenMusicDialog.Title = "音楽ファイルを開く";
 			// 
+			// FilePathToDirectory
+			// 
+			this.FilePathToDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.FilePathToDirectory.Location = new System.Drawing.Point(406, 41);
+			this.FilePathToDirectory.Name = "FilePathToDirectory";
+			this.FilePathToDirectory.Size = new System.Drawing.Size(46, 23);
+			this.FilePathToDirectory.TabIndex = 11;
+			this.FilePathToDirectory.Text = "Dir";
+			this.FilePathToDirectory.UseVisualStyleBackColor = true;
+			this.FilePathToDirectory.Click += new System.EventHandler(this.FilePathToDirectory_Click);
+			// 
 			// DialogConfigurationBGMPlayer
 			// 
 			this.AcceptButton = this.ButtonAccept;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CancelButton = this.ButtonCancel;
 			this.ClientSize = new System.Drawing.Size(464, 121);
+			this.Controls.Add(this.FilePathToDirectory);
 			this.Controls.Add(this.ButtonAccept);
 			this.Controls.Add(this.ButtonCancel);
 			this.Controls.Add(this.label4);
@@ -201,5 +214,6 @@
 		private System.Windows.Forms.Button ButtonCancel;
 		private System.Windows.Forms.Button ButtonAccept;
 		private System.Windows.Forms.OpenFileDialog OpenMusicDialog;
+		private System.Windows.Forms.Button FilePathToDirectory;
 	}
 }

@@ -243,10 +243,17 @@ namespace ElectronicObserver.Utility {
 					//*/
 				};
 
+				/// <summary>
+				/// 固定レイアウト(フォントに依存しないレイアウト)を利用するか
+				/// </summary>
+				public bool IsLayoutFixed;
+
+
 				public ConfigUI() {
 					MainFont = new Font( "Meiryo UI", 12, FontStyle.Regular, GraphicsUnit.Pixel );
 					SubFont = new Font( "Meiryo UI", 10, FontStyle.Regular, GraphicsUnit.Pixel );
 					BarColorMorphing = false;
+					IsLayoutFixed = true;
 				}
 			}
 			/// <summary>UI</summary>
@@ -323,6 +330,12 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool SaveBattleLog { get; set; }
 
+				/// <summary>
+				/// ログを即時保存するか
+				/// </summary>
+				public bool SaveLogImmediately { get; set; }
+
+
 				public ConfigLog() {
 					LogLevel = 2;
 					SaveLogFlag = true;
@@ -332,6 +345,7 @@ namespace ElectronicObserver.Utility {
 					PlayTime = 0;
 					PlayTimeIgnoreInterval = 10 * 60;
 					SaveBattleLog = false;
+					SaveLogImmediately = false;
 				}
 
 			}
@@ -352,7 +366,7 @@ namespace ElectronicObserver.Utility {
 
 				/// <summary>
 				/// レコードを自動保存するか
-				/// 0=しない、1=1時間ごと、2=1日ごと
+				/// 0=しない、1=1時間ごと、2=1日ごと, 3=即時
 				/// </summary>
 				public int RecordAutoSaving { get; set; }
 
@@ -537,7 +551,7 @@ namespace ElectronicObserver.Utility {
 
 				public ConfigFormDock() {
 					BlinkAtCompletion = true;
-					MaxShipNameWidth = 60;
+					MaxShipNameWidth = 64;
 				}
 			}
 			/// <summary>[入渠]ウィンドウ</summary>
@@ -652,6 +666,22 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowAirSuperiorityRange { get; set; }
 
+				/// <summary>
+				/// 泊地修理によるHP回復を表示に反映するか
+				/// </summary>
+				public bool ReflectAnchorageRepairHealing { get; set; }
+
+				/// <summary>
+				/// 遠征艦隊が母港にいるとき強調表示
+				/// </summary>
+				public bool EmphasizesSubFleetInPort { get; set; }
+
+				/// <summary>
+				/// 大破時に点滅させる
+				/// </summary>
+				public bool BlinkAtDamaged { get; set; }
+
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 4;
@@ -667,6 +697,9 @@ namespace ElectronicObserver.Utility {
 					ShowConditionIcon = true;
 					FixedShipNameWidth = 40;
 					ShowAirSuperiorityRange = false;
+					ReflectAnchorageRepairHealing = true;
+					EmphasizesSubFleetInPort = false;
+					BlinkAtDamaged = true;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -843,6 +876,11 @@ namespace ElectronicObserver.Utility {
 				public bool IsDMMreloadDialogDestroyable { get; set; }
 
 				/// <summary>
+				/// Twitter の画像圧縮を回避するか
+				/// </summary>
+				public bool AvoidTwitterDeterioration { get; set; }
+
+				/// <summary>
 				/// ツールメニューの配置
 				/// </summary>
 				public DockStyle ToolMenuDockStyle { get; set; }
@@ -879,6 +917,7 @@ namespace ElectronicObserver.Utility {
 					IsScrollable = false;
 					AppliesStyleSheet = true;
 					IsDMMreloadDialogDestroyable = false;
+					AvoidTwitterDeterioration = true;
 					ToolMenuDockStyle = DockStyle.Top;
 					IsToolMenuVisible = true;
 					ConfirmAtRefresh = true;
@@ -906,9 +945,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool IsScrollable { get; set; }
 
+				/// <summary>
+				/// 艦名表示の最大幅
+				/// </summary>
+				public int MaxShipNameWidth { get; set; }
+
+
 				public ConfigFormCompass() {
 					CandidateDisplayCount = 4;
 					IsScrollable = false;
+					MaxShipNameWidth = 60;
 				}
 			}
 			/// <summary>[羅針盤]ウィンドウ</summary>
@@ -963,9 +1009,15 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool HideDuringBattle { get; set; }
 
+				/// <summary>
+				/// HP バーを表示するか
+				/// </summary>
+				public bool ShowHPBar { get; set; }
+
 				public ConfigFormBattle() {
 					IsScrollable = false;
 					HideDuringBattle = false;
+					ShowHPBar = true;
 				}
 			}
 
@@ -1568,7 +1620,7 @@ namespace ElectronicObserver.Utility {
 							convertPair.Add( key, record.FleetID );
 						}
 
-						enemyFleetRecord.Save( RecordManager.Instance.MasterPath );
+						enemyFleetRecord.SaveAll( RecordManager.Instance.MasterPath );
 
 						var shipDropRecord = new ShipDropRecord();
 						shipDropRecord.Load( RecordManager.Instance.MasterPath );
@@ -1578,7 +1630,7 @@ namespace ElectronicObserver.Utility {
 								record.EnemyFleetID = convertPair[record.EnemyFleetID];
 						}
 
-						shipDropRecord.Save( RecordManager.Instance.MasterPath );
+						shipDropRecord.SaveAll( RecordManager.Instance.MasterPath );
 
 					} catch ( Exception ex ) {
 						ErrorReporter.SendErrorReport( ex, "CheckUpdate: ドロップレコードのID振りなおしに失敗しました。" );
@@ -1612,15 +1664,15 @@ namespace ElectronicObserver.Utility {
 						foreach ( var pair in defaultRecord.Record.Keys.GroupJoin( currentRecord.Record.Keys, i => i, i => i, ( id, list ) => new { id, list } ) ) {
 							if ( defaultRecord[pair.id].HPMin > 0 && ( pair.list == null || defaultRecord[pair.id].SaveLine() != currentRecord[pair.id].SaveLine() ) )
 								changed.Add( pair.id );
-					}
+						}
 
 						foreach ( var id in changed ) {
 							if ( currentRecord[id] == null )
 								currentRecord.Update( new ShipParameterRecord.ShipParameterElement() );
 							currentRecord[id].LoadLine( defaultRecord.Record[id].SaveLine() );
-				}
+						}
 
-						currentRecord.Save( RecordManager.Instance.MasterPath );
+						currentRecord.SaveAll( RecordManager.Instance.MasterPath );
 
 						Directory.Delete( defaultRecordPath, true );
 
@@ -1635,6 +1687,50 @@ namespace ElectronicObserver.Utility {
 			}
 
 
+			// version 2.6.2 or earlier
+			if ( dt <= DateTimeHelper.CSVStringToTime( "2017/05/07 23:00:00" ) ) {
+
+				// 開発レコードを重複記録してしまう不具合があったため、重複行の削除を行う
+
+				try {
+
+					var dev = new DevelopmentRecord();
+					string path = RecordManager.Instance.MasterPath + "\\" + dev.FileName;
+
+
+					string backupPath = RecordManager.Instance.MasterPath + "\\Backup_" + DateTimeHelper.GetTimeStamp();
+					Directory.CreateDirectory( backupPath );
+					File.Copy( path, backupPath + "\\" + dev.FileName );
+
+
+					if ( File.Exists( path ) ) {
+
+						var lines = new List<string>();
+						using ( StreamReader sr = new StreamReader( path, Utility.Configuration.Config.Log.FileEncoding ) ) {
+							sr.ReadLine();		// skip header row
+							while ( !sr.EndOfStream )
+								lines.Add( sr.ReadLine() );
+						}
+
+						int beforeCount = lines.Count;
+						lines = lines.Distinct().ToList();
+						int afterCount = lines.Count;
+
+						using ( StreamWriter sw = new StreamWriter( path, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
+							sw.WriteLine( dev.RecordHeader );
+							foreach ( var line in lines ) {
+								sw.WriteLine( line );
+							}
+						}
+
+						Utility.Logger.Add( 2, "<= ver. 2.6.2 開発レコード重複不具合対応: 正常に完了しました。 " + ( beforeCount - afterCount ) + " 件の重複を削除しました。" );
+
+					}
+
+				} catch ( Exception ex ) {
+					ErrorReporter.SendErrorReport( ex, "<= ver. 2.6.2 開発レコード重複不具合対応: 失敗しました。" );
+				}
+			}
 
 
 			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString( SoftwareInformation.UpdateTime );

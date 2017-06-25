@@ -6,10 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ElectronicObserver.Window.Dialog {
@@ -379,7 +378,7 @@ namespace ElectronicObserver.Window.Dialog {
 			row.CreateCells( RecordView );
 
 			var args = new SearchArgument();
-			args.ShipName = (string)ShipName.SelectedItem;
+			args.ShipName = ShipName.Text;
 			args.ItemName = (string)ItemName.SelectedItem;
 			args.EquipmentName = (string)EquipmentName.SelectedItem;
 			args.DateBegin = DateBegin.Value;
@@ -803,6 +802,44 @@ namespace ElectronicObserver.Window.Dialog {
 					e.Value = Constants.GetWinRank( (int)e.Value );
 					e.FormattingApplied = true;
 				}
+			}
+
+		}
+
+
+		private void RecordView_CellDoubleClick( object sender, DataGridViewCellEventArgs e ) {
+
+			SearchArgument args = (SearchArgument)RecordView.Tag;
+			if ( args == null || args.MergeRows )
+				return;
+
+			try {
+
+				DateTime time = Convert.ToDateTime( RecordView[RecordView_Date.Index, e.RowIndex].Value );
+
+
+				if ( !Directory.Exists( Data.Battle.BattleManager.BattleLogPath ) ) {
+					StatusInfo.Text = "戦闘ログが見つかりませんでした。";
+					return;
+				}
+
+				StatusInfo.Text = "戦闘ログを検索しています…";
+				string battleLogFile = Directory.EnumerateFiles( Data.Battle.BattleManager.BattleLogPath,
+					time.ToString( "yyyyMMdd_HHmmss", System.Globalization.CultureInfo.InvariantCulture ) + "*.txt",
+					SearchOption.TopDirectoryOnly )
+					.FirstOrDefault();
+
+				if ( battleLogFile == null ) {
+					StatusInfo.Text = "戦闘ログが見つかりませんでした。";
+					return;
+				}
+
+				StatusInfo.Text = string.Format( "戦闘ログ {0} を開きます。", Path.GetFileName( battleLogFile ) );
+				System.Diagnostics.Process.Start( battleLogFile );
+
+
+			} catch ( Exception ) {
+				StatusInfo.Text = "戦闘ログを開けませんでした。";
 			}
 
 		}

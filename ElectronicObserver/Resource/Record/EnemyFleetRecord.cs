@@ -57,7 +57,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// 敵艦船リスト
 			/// </summary>
 			public int[] FleetMember { get; set; }
-			
+
 			/// <summary>
 			/// 敵艦船名リスト
 			/// </summary>
@@ -119,7 +119,7 @@ namespace ElectronicObserver.Resource.Record {
 
 			public override string SaveLine() {
 
-				return string.Format( "{0},{1},{2},{3},{4}", FleetID, FleetName, SaveLinePart(), string.Join( ",", FleetMemberName ), ExpShip );
+				return string.Join( ",", FleetID, FleetName, SaveLinePart(), string.Join( ",", FleetMemberName ), ExpShip );
 			}
 
 
@@ -129,7 +129,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// </summary>
 			private string SaveLinePart() {
 
-				return string.Format( "{0},{1},{2},{3},{4},{5}", MapAreaID, MapInfoID, CellID, Constants.GetDifficulty( Difficulty ), Constants.GetFormation( Formation ),
+				return string.Join( ",", MapAreaID, MapInfoID, CellID, Constants.GetDifficulty( Difficulty ), Constants.GetFormation( Formation ),
 					string.Join( ",", FleetMember ) );
 
 			}
@@ -156,37 +156,20 @@ namespace ElectronicObserver.Resource.Record {
 				string fleetName = battle.Result != null ? battle.Result.EnemyFleetName : "";
 				int baseExp = battle.Result != null ? battle.Result.BaseExp : 0;
 
-				switch ( battle.BattleMode & BattleManager.BattleModes.BattlePhaseMask ) {
-					case BattleManager.BattleModes.Normal:
-					case BattleManager.BattleModes.AirBattle:
-					case BattleManager.BattleModes.AirRaid:
-					default:
-						return new EnemyFleetElement(
-							fleetName,
-							battle.Compass.MapAreaID,
-							battle.Compass.MapInfoID,
-							battle.Compass.Destination,
-							battle.Compass.MapInfo.EventDifficulty,
-							battle.BattleDay.Searching.FormationEnemy,
-							battle.BattleDay.Initial.EnemyMembers,
-							baseExp );
+				if ( battle.IsPractice )
+					return null;
 
-					case BattleManager.BattleModes.NightOnly:
-					case BattleManager.BattleModes.NightDay:
-						return new EnemyFleetElement(
-							fleetName,
-							battle.Compass.MapAreaID,
-							battle.Compass.MapInfoID,
-							battle.Compass.Destination,
-							battle.Compass.MapInfo.EventDifficulty,
-							battle.BattleNight.Searching.FormationEnemy,
-							battle.BattleNight.Initial.EnemyMembers,
-							baseExp );
 
-					case BattleManager.BattleModes.Practice:
-						return null;
+				return new EnemyFleetElement(
+					fleetName,
+					battle.Compass.MapAreaID,
+					battle.Compass.MapInfoID,
+					battle.Compass.Destination,
+					battle.Compass.MapInfo.EventDifficulty,
+					battle.FirstBattle.Searching.FormationEnemy,
+					battle.FirstBattle.Initial.EnemyMembers,
+					baseExp );
 
-				}
 			}
 
 
@@ -195,14 +178,18 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		public Dictionary<uint, EnemyFleetElement> Record { get; private set; }
-
+		private bool _changed;
 
 
 		public EnemyFleetRecord()
 			: base() {
 			Record = new Dictionary<uint, EnemyFleetElement>();
+			_changed = false;
 		}
 
+		public override void RegisterEvents() {
+			// nop
+		}
 
 
 		public EnemyFleetElement this[uint i] {
@@ -215,6 +202,7 @@ namespace ElectronicObserver.Resource.Record {
 				} else {
 					Record[i] = value;
 				}
+				_changed = true;
 			}
 		}
 
@@ -228,54 +216,46 @@ namespace ElectronicObserver.Resource.Record {
 			Update( new EnemyFleetElement( line ) );
 		}
 
-		protected override string SaveLines() {
-
-			StringBuilder sb = new StringBuilder();
-
-			var list = Record.Values.ToList();
-			list.Sort(
-				( e1, e2 ) => {
-
-					int areadiff = e1.MapAreaID - e2.MapAreaID;
-					if ( areadiff != 0 )
-						return areadiff;
-
-					int infodiff = e1.MapInfoID - e2.MapInfoID;
-					if ( infodiff != 0 )
-						return infodiff;
-
-					int celldiff = e1.CellID - e2.CellID;
-					if ( celldiff != 0 )
-						return celldiff;
-
-					int diffdiff = e1.Difficulty - e2.Difficulty;
-					if ( diffdiff != 0 )
-						return diffdiff;
-
-					for ( int i = 0; i < 6; i++ ) {
-						int shipdiff = e1.FleetMember[i] - e2.FleetMember[i];
-						if ( shipdiff != 0 )
-							return shipdiff;
-					}
-
-					int formdiff = e1.Formation - e2.Formation;
-					if ( formdiff != -1 )
-						return formdiff;
-					
-					return e1.FleetID.CompareTo( e2.FleetID );
-
-				} );
-
-			foreach ( var elem in list ) {
+		protected override string SaveLinesAll() {
+			var sb = new StringBuilder();
+			foreach ( var elem in Record.Values
+				.OrderBy( r => r.MapAreaID )
+				.ThenBy( r => r.MapInfoID )
+				.ThenBy( r => r.CellID )
+				.ThenBy( r => r.Difficulty )
+				.ThenBy( r => r.FleetMember[0] )
+				.ThenBy( r => r.FleetMember[1] )
+				.ThenBy( r => r.FleetMember[2] )
+				.ThenBy( r => r.FleetMember[3] )
+				.ThenBy( r => r.FleetMember[4] )
+				.ThenBy( r => r.FleetMember[5] )
+				.ThenBy( r => r.Formation )
+				) {
 				sb.AppendLine( elem.SaveLine() );
 			}
-
 			return sb.ToString();
+		}
+
+		protected override string SaveLinesPartial() {
+			throw new NotSupportedException();
+		}
+
+		protected override void UpdateLastSavedIndex() {
+			_changed = false;
+		}
+
+		public override bool NeedToSave {
+			get { return _changed; }
+		}
+
+		public override bool SupportsPartialSave {
+			get { return false; }
 		}
 
 		protected override void ClearRecord() {
 			Record.Clear();
 		}
+
 
 		public override string RecordHeader {
 			get { return "敵編成ID,敵艦隊名,海域,海域,セル,難易度,陣形,敵1番艦,敵2番艦,敵3番艦,敵4番艦,敵5番艦,敵6番艦,敵1番艦名,敵2番艦名,敵3番艦名,敵4番艦名,敵5番艦名,敵6番艦名,経験値"; }
@@ -284,5 +264,7 @@ namespace ElectronicObserver.Resource.Record {
 		public override string FileName {
 			get { return "EnemyFleetRecord.csv"; }
 		}
+
 	}
+
 }

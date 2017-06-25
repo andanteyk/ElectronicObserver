@@ -56,7 +56,7 @@ api_start2	：艦娘・装備固有データその他
 			39=巡潜乙型
 			40=巡潜3型
 			41=阿賀野型
-			42=(欠番)
+			42=(霧の艦隊?)
 			43=大鳳型
 			44=潜特型(伊400型潜水艦)
 			45=特種船丙型
@@ -86,6 +86,12 @@ api_start2	：艦娘・装備固有データその他
 			69=Lexington級
 			70=C.Teste級
 			71=巡潜甲型改二
+			72=神威型
+			73=Гангут級
+			74=占守型
+			75=春日丸級
+			76=大鷹型
+			77=択捉型
 		api_afterlv		：改装Lv
 		api_aftershipid	：改装後ID 文字列 "0"=なし
 		api_taik		：耐久 [0]=初期値, [1]=最大値
@@ -93,6 +99,7 @@ api_start2	：艦娘・装備固有データその他
 		api_houg		：火力
 		api_raig		：雷装
 		api_tyku		：対空
+		api_tais		：対潜 [1] [0]=初期値 護衛空母にのみ存在
 		api_luck		：運
 		api_soku		：速力　0=陸上基地, 5=低速, 10=高速
 		api_leng		：射程 0=無, 1=短, 2=中, 3=長, 4=超長
@@ -122,7 +129,7 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：艦船ID
 		api_sortno		：図鑑番号
 		api_filename	：ファイル名
-		api_version		：ファイルのバージョン [グラフィック, ボイス, 母港ボイス]
+		api_version		：ファイルのバージョン 文字列 [グラフィック, ボイス, 母港ボイス]
 		api_boko_n		：母港での表示座標(無傷)
 		api_boko_d		：〃(中破)
 		api_kaisyu_n	：近代化改修
@@ -443,13 +450,14 @@ api_start2	：艦娘・装備固有データその他
 		api_sakb		：索敵妨害(0)
 		api_luck		：運(0)
 		api_leng		：射程
+		api_cost		：航空機のコスト　航空機でない装備には存在しない
+		api_distance	：航空機の航続距離　航空機でない装備には存在しない
 		api_rare		：レアリティ
 		api_broken		：廃棄資材
 		api_info		：図鑑情報
 		api_usebull		：
-		api_cost		：航空機のコスト　航空機でない装備には存在しない
-		api_distance	：航空機の航続距離　航空機でない装備には存在しない
-		
+		api_version		：グラフィックバージョン? 2以上のもののみ存在
+
 	api_mst_furniture	：家具データ
 		api_id			：家具ID
 		api_type		：カテゴリ 0=床, 1=壁紙, 2=窓, 3=壁掛け, 4=家具, 5=机
@@ -550,7 +558,7 @@ api_start2	：艦娘・装備固有データその他
 		api_upgrade_level		：改装回数
 		api_drawing_count		：要改装設計図
 		api_catapult_count		：要試製甲板カタパルト
-		api_sortno				：図鑑ID
+		api_sortno				：? (概ね図鑑IDだが、霞(改/二/乙), 利根(改/二), 筑摩(改/二)などで異なる)
 
 	api_mst_bgm			：母港BGMデータ？
 		api_id			：音楽ID？
@@ -816,6 +824,8 @@ api_req_kousyou/remodel_slotlist_detail		：改修工廠　実行確認
 	api_certain_remodelkit	：確実化時の消費改修資材
 	api_req_slot_id			：消費する装備のID　なければ0
 	api_req_slot_num		：消費する装備の個数
+	api_req_useitem_id		：消費するアイテムのID　なければ存在しない　71=ネ式エンジン　75=新型砲熕兵装資材
+	api_req_useitem_num		：消費するアイテムの個数　なければ存在しない
 	api_change_flag			：装備更新(アップグレード)フラグ
 
 Request.api_req_kousyou/remodel_slot	：改修工廠　改修実行
@@ -915,6 +925,11 @@ api_get_member/questlist	：任務
 		api_title			：タイトル
 		api_detail			：説明 "<br>"で改行
 		api_lost_badges		：消費勲章数　消費するときのみ存在
+		api_select_rewards	：報酬選択が可能な任務に存在 []
+			api_no			：ID (1から始まる連番)
+			api_kind		：種別?
+			api_mst_id		：ID?
+			api_count		：個数
 		api_get_material	：獲得資材
 		api_bonus_flag		：1=通常, 2=艦娘
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成
@@ -1208,6 +1223,11 @@ Request.api_req_practice/change_matching_kind	：演習マッチングモード�
 api_req_practice/change_matching_kind			：演習マッチングモード切替
 	api_update_flag				：1=切り替え成功 0=失敗?
 
+
+Request.api_req_practice/battle	：演習
+	api_formation_id	：陣形
+	api_deck_id			：出撃艦隊ID
+	api_enemy_id		：敵提督ID
 
 api_req_practice/battle	：演習
 	(api_req_sortie/battleとほぼ同じ)

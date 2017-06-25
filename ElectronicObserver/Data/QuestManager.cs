@@ -71,6 +71,11 @@ namespace ElectronicObserver.Data {
 				progress.Progresses.RemoveAll( p => p.QuestType == 3 );
 				Quests.RemoveAll( q => q.Type == 3 );
 			}
+			if ( DateTimeHelper.IsCrossedQuarter( progress.LastUpdateTime, 0, 1, 5, 0, 0 ) ) {
+				// "沖ノ島海域迎撃戦", "戦果拡張任務！「Z作戦」前段作戦" に限る
+				progress.Progresses.RemoveAll( p => p.QuestID == 822 || p.QuestID == 854 );
+				Quests.RemoveAll( q => q.QuestID == 822 || q.QuestID == 854 );
+			}
 
 
 			Count = (int)RawData.api_count;

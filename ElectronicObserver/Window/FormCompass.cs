@@ -44,9 +44,8 @@ namespace ElectronicObserver.Window {
 				ShipName.Anchor = AnchorStyles.Left;
 				ShipName.ForeColor = parent.MainFontColor;
 				ShipName.ImageAlign = ContentAlignment.MiddleCenter;
-				ShipName.Padding = new Padding( 0, 1, 0, 1 );
-				ShipName.Margin = new Padding( 2, 0, 2, 0 );
-				ShipName.MaximumSize = new Size( 60, 20 );
+				ShipName.Padding = new Padding( 2, 2, 2, 2 );
+				ShipName.Margin = new Padding( 2, 0, 2, 1 );
 				ShipName.AutoEllipsis = true;
 				ShipName.AutoSize = true;
 				ShipName.Cursor = Cursors.Help;
@@ -55,9 +54,8 @@ namespace ElectronicObserver.Window {
 				Equipments = new ShipStatusEquipment();
 				Equipments.SuspendLayout();
 				Equipments.Anchor = AnchorStyles.Left;
-				Equipments.Padding = new Padding( 0, 2, 0, 1 );
+				Equipments.Padding = new Padding( 0, 1, 0, 2 );
 				Equipments.Margin = new Padding( 2, 0, 2, 0 );
-				Equipments.Size = new Size( 40, 20 );	//checkme: 要る？
 				Equipments.AutoSize = true;
 				Equipments.ResumeLayout();
 
@@ -79,17 +77,7 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( ShipName, 0, row );
 				table.Controls.Add( Equipments, 1, row );
 
-				#region set RowStyle
-				RowStyle rs = new RowStyle( SizeType.Absolute, 21 );
-
-				if ( table.RowStyles.Count > row )
-					table.RowStyles[row] = rs;
-				else
-					while ( table.RowStyles.Count <= row )
-						table.RowStyles.Add( rs );
-				#endregion
 			}
-
 
 
 			public void Update( int shipID ) {
@@ -148,6 +136,7 @@ namespace ElectronicObserver.Window {
 				ShipName.Font = Parent.MainFont;
 				Equipments.Font = Parent.SubFont;
 
+				ShipName.MaximumSize = new Size( Utility.Configuration.Config.FormCompass.MaxShipNameWidth, int.MaxValue );
 			}
 
 		}
@@ -206,7 +195,6 @@ namespace ElectronicObserver.Window {
 				label.ImageAlign = ContentAlignment.MiddleCenter;
 				label.Padding = new Padding( 0, 1, 0, 1 );
 				label.Margin = new Padding( 4, 0, 4, 1 );
-				label.MaximumSize = new Size( 60, 20 );
 				label.AutoEllipsis = true;
 				label.AutoSize = true;
 
@@ -231,7 +219,6 @@ namespace ElectronicObserver.Window {
 				table.Controls.Add( Formation, column, 6 );
 				table.Controls.Add( AirSuperiority, column, 7 );
 
-
 			}
 
 
@@ -239,6 +226,12 @@ namespace ElectronicObserver.Window {
 				for ( int i = 0; i < ShipNames.Length; i++ )
 					ShipNames[i].Font = Parent.MainFont;
 				Formation.Font = AirSuperiority.Font = Parent.MainFont;
+
+				var maxSize = new Size( Utility.Configuration.Config.FormCompass.MaxShipNameWidth, int.MaxValue );
+				foreach ( var label in ShipNames )
+					label.MaximumSize = maxSize;
+				Formation.MaximumSize = maxSize;
+				AirSuperiority.MaximumSize = maxSize;
 			}
 
 			public void Update( EnemyFleetRecord.EnemyFleetElement fleet ) {
@@ -549,21 +542,6 @@ namespace ElectronicObserver.Window {
 			ControlCandidates = new TableEnemyCandidateControl[6];
 			for ( int i  = 0; i < ControlCandidates.Length; i++ ) {
 				ControlCandidates[i] = new TableEnemyCandidateControl( this, TableEnemyCandidate, i );
-			}
-			//row/column style init
-			for ( int y = 0; y < TableEnemyCandidate.RowCount; y++ ) {
-				var rs = new RowStyle( SizeType.AutoSize );
-				if ( TableEnemyCandidate.RowStyles.Count <= y )
-					TableEnemyCandidate.RowStyles.Add( rs );
-				else
-					TableEnemyCandidate.RowStyles[y] = rs;
-			}
-			for ( int x = 0; x < TableEnemyCandidate.ColumnCount; x++ ) {
-				var cs = new ColumnStyle( SizeType.AutoSize );
-				if ( TableEnemyCandidate.ColumnStyles.Count <= x )
-					TableEnemyCandidate.ColumnStyles.Add( cs );
-				else
-					TableEnemyCandidate.ColumnStyles[x] = cs;
 			}
 			TableEnemyCandidate.ResumeLayout();
 
@@ -1108,7 +1086,7 @@ namespace ElectronicObserver.Window {
 			TextEventKind.Font =
 			TextEventDetail.Font = Font;
 
-			AutoScroll = Utility.Configuration.Config.FormCompass.IsScrollable;
+			BasePanel.AutoScroll = Utility.Configuration.Config.FormCompass.IsScrollable;
 
 			_candidatesDisplayCount = Utility.Configuration.Config.FormCompass.CandidateDisplayCount;
 			_enemyFleetCandidateIndex = 0;
@@ -1116,17 +1094,30 @@ namespace ElectronicObserver.Window {
 				NextEnemyFleetCandidate( 0 );
 
 			if ( ControlMembers != null ) {
+				TableEnemyMember.SuspendLayout();
+
+				TableEnemyMember.Location = new Point( TableEnemyMember.Location.X, TableEnemyFleet.Bottom + 6 );
+
 				bool flag = Utility.Configuration.Config.FormFleet.ShowAircraft;
 				for ( int i = 0; i < ControlMembers.Length; i++ ) {
 					ControlMembers[i].Equipments.ShowAircraft = flag;
 					ControlMembers[i].ConfigurationChanged();
 				}
+
+				ControlHelper.SetTableRowStyles( TableEnemyMember, ControlHelper.GetDefaultRowStyle() );
+				TableEnemyMember.ResumeLayout();
 			}
 
 
 			if ( ControlCandidates != null ) {
+				TableEnemyCandidate.SuspendLayout();
+
 				for ( int i = 0; i < ControlCandidates.Length; i++ )
 					ControlCandidates[i].ConfigurationChanged();
+
+				ControlHelper.SetTableRowStyles( TableEnemyCandidate, new RowStyle( SizeType.AutoSize ) );
+				ControlHelper.SetTableColumnStyles( TableEnemyCandidate, ControlHelper.GetDefaultColumnStyle() );
+				TableEnemyCandidate.ResumeLayout();
 			}
 		}
 
@@ -1152,10 +1143,6 @@ namespace ElectronicObserver.Window {
 				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 			}
 		}
-
-
-
-
 
 	}
 

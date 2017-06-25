@@ -208,10 +208,10 @@ namespace ElectronicObserver.Window.Dialog {
 
 			TableEquipmentName.SuspendLayout();
 
-			EquipmentType.Text = db.EquipmentTypes[eq.EquipmentType[2]].Name;
+			EquipmentType.Text = eq.CategoryTypeInstance.Name;
 
 			{
-				int eqicon = eq.EquipmentType[3];
+				int eqicon = eq.IconType;
 				if ( eqicon >= (int)ResourceManager.EquipmentContent.Locked )
 					eqicon = (int)ResourceManager.EquipmentContent.Unknown;
 				EquipmentType.ImageIndex = eqicon;
@@ -219,12 +219,13 @@ namespace ElectronicObserver.Window.Dialog {
 				StringBuilder sb = new StringBuilder();
 				sb.AppendLine( "装備可能艦種:" );
 				foreach ( var stype in KCDatabase.Instance.ShipTypes.Values ) {
-					if ( stype.EquipmentType.Contains( eq.EquipmentType[2] ) )
+					if ( stype.EquipmentType.Contains( eq.CategoryType ) )
 						sb.AppendLine( stype.Name );
 				}
 				ToolTipInfo.SetToolTip( EquipmentType, sb.ToString() );
 			}
 			EquipmentName.Text = eq.Name;
+			ToolTipInfo.SetToolTip( EquipmentName, "(右クリックでコピー)" );
 
 			TableEquipmentName.ResumeLayout();
 
@@ -265,7 +266,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 			// aircraft
-			if ( Calculator.IsAircraft( equipmentID, true, true ) ) {
+			if ( Calculator.IsAircraft( equipmentID, true ) ) {
 				TableAircraft.SuspendLayout();
 				AircraftCost.Text = eq.AircraftCost.ToString();
 				ToolTipInfo.SetToolTip( AircraftCost, "配備時のボーキ消費：" + ( ( Calculator.IsAircraft( equipmentID, false ) ? 18 : 4 ) * eq.AircraftCost ) );
@@ -395,12 +396,11 @@ namespace ElectronicObserver.Window.Dialog {
 
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
-						sw.WriteLine( "装備ID,図鑑番号,装備種,装備名,装備種1,装備種2,装備種3,装備種4,装備種5,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
-						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 28 ) ) );
+						sw.WriteLine( "装備ID,図鑑番号,装備種,装備名,大分類,図鑑カテゴリID,カテゴリID,アイコンID,航空機グラフィックID,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
 
 						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
 
-							sw.WriteLine( arg,
+							sw.WriteLine( string.Join( ",",
 								eq.EquipmentID,
 								eq.AlbumNo,
 								KCDatabase.Instance.EquipmentTypes[eq.EquipmentType[2]].Name,
@@ -426,10 +426,10 @@ namespace ElectronicObserver.Window.Dialog {
 								eq.Material[1],
 								eq.Material[2],
 								eq.Material[3],
-								eq.Message.Replace( "\n", "<br>" ),
+								eq.Message.Replace( "\r\n", "<br>" ),
 								eq.AircraftDistance,
 								eq.AircraftCost
-								);
+								) );
 
 						}
 
@@ -456,11 +456,10 @@ namespace ElectronicObserver.Window.Dialog {
 					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
 
 						sw.WriteLine( "装備ID,図鑑番号,装備名,装備種1,装備種2,装備種3,装備種4,装備種5,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
-						string arg = string.Format( "{{{0}}}", string.Join( "},{", Enumerable.Range( 0, 27 ) ) );
 
 						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
 
-							sw.WriteLine( arg,
+							sw.WriteLine( string.Join( ",",
 								eq.EquipmentID,
 								eq.AlbumNo,
 								eq.Name,
@@ -485,10 +484,10 @@ namespace ElectronicObserver.Window.Dialog {
 								eq.Material[1],
 								eq.Material[2],
 								eq.Material[3],
-								eq.Message.Replace( "\n", "<br>" ),
+								eq.Message.Replace( "\r\n", "<br>" ),
 								eq.AircraftDistance,
 								eq.AircraftCost
-								);
+								) );
 
 						}
 
@@ -505,6 +504,32 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		private void TextSearch_TextChanged( object sender, EventArgs e ) {
+			if ( string.IsNullOrWhiteSpace( TextSearch.Text ) )
+				return;
+
+			string searchWord = DialogAlbumMasterShip.ToHiragana( TextSearch.Text.ToLower() );
+			var target =
+				EquipmentView.Rows.OfType<DataGridViewRow>()
+				.Select( r => KCDatabase.Instance.MasterEquipments[(int)r.Cells[EquipmentView_ID.Index].Value] )
+				.FirstOrDefault(
+					eq => DialogAlbumMasterShip.ToHiragana( eq.Name.ToLower() ).Contains( searchWord ) );
+
+			if ( target != null ) {
+				EquipmentView.FirstDisplayedScrollingRowIndex = EquipmentView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[EquipmentView_ID.Index].Value == target.EquipmentID ).Index;
+			}
+		}
+
+		private void TextSearch_KeyDown( object sender, KeyEventArgs e ) {
+			if ( e.KeyCode == Keys.Enter ) {
+				TextSearch_TextChanged( sender, e );
+				e.SuppressKeyPress = true;
+				e.Handled = true;
+			}
+		}
+
+
+
 
 		private void DialogAlbumMasterEquipment_FormClosed( object sender, FormClosedEventArgs e ) {
 
@@ -512,6 +537,134 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
+		private void StripMenu_Edit_CopyEquipmentName_Click( object sender, EventArgs e ) {
+			var eq = KCDatabase.Instance.MasterEquipments[EquipmentID.Tag as int? ?? -1];
+			if ( eq != null )
+				Clipboard.SetText( eq.Name );
+			else
+				System.Media.SystemSounds.Exclamation.Play();
+		}
+
+		private void EquipmentName_MouseClick( object sender, MouseEventArgs e ) {
+			if ( e.Button == System.Windows.Forms.MouseButtons.Right ) {
+				var eq = KCDatabase.Instance.MasterEquipments[EquipmentID.Tag as int? ?? -1];
+				if ( eq != null )
+					Clipboard.SetText( eq.Name );
+				else
+					System.Media.SystemSounds.Exclamation.Play();
+			}
+		}
+
+		private void StripMenu_Edit_CopyEquipmentData_Click( object sender, EventArgs e ) {
+			var eq = KCDatabase.Instance.MasterEquipments[EquipmentID.Tag as int? ?? -1];
+			if ( eq == null ) {
+				System.Media.SystemSounds.Exclamation.Play();
+				return;
+			}
+
+			var sb = new StringBuilder();
+
+			sb.AppendFormat( "{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name );
+			sb.AppendFormat( "ID: {0} / 図鑑番号: {1} / カテゴリID: [{2}]\r\n", eq.EquipmentID, eq.AlbumNo, string.Join( ", ", eq.EquipmentType ) );
+
+			sb.AppendLine();
+
+			if ( eq.Firepower != 0 )
+				sb.AppendFormat( "火力: {0:+0;-0;0}\r\n", eq.Firepower );
+			if ( eq.Torpedo != 0 )
+				sb.AppendFormat( "雷装: {0:+0;-0;0}\r\n", eq.Torpedo );
+			if ( eq.AA != 0 )
+				sb.AppendFormat( "対空: {0:+0;-0;0}\r\n", eq.AA );
+			if ( eq.Armor != 0 )
+				sb.AppendFormat( "装甲: {0:+0;-0;0}\r\n", eq.Armor );
+			if ( eq.ASW != 0 )
+				sb.AppendFormat( "対潜: {0:+0;-0;0}\r\n", eq.ASW );
+			if ( eq.Evasion != 0 )
+				sb.AppendFormat( "{0}: {1:+0;-0;0}\r\n", eq.CategoryType == 48 ? "迎撃" : "回避", eq.Evasion );
+			if ( eq.LOS != 0 )
+				sb.AppendFormat( "索敵: {0:+0;-0;0}\r\n", eq.LOS );
+			if ( eq.Accuracy != 0 )
+				sb.AppendFormat( "{0}: {1:+0;-0;0}\r\n", eq.CategoryType == 48 ? "対爆" : "命中", eq.Accuracy );
+			if ( eq.Bomber != 0 )
+				sb.AppendFormat( "爆装: {0:+0;-0;0}\r\n", eq.Bomber );
+			if ( eq.Luck != 0 )
+				sb.AppendFormat( "運: {0:+0;-0;0}\r\n", eq.Luck );
+
+			if ( eq.Range > 0 )
+				sb.Append( "射程: " ).AppendLine( Constants.GetRange( eq.Range ) );
+
+			if ( eq.AircraftCost > 0 )
+				sb.AppendFormat( "配備コスト: {0}\r\n", eq.AircraftCost );
+			if ( eq.AircraftDistance > 0 )
+				sb.AppendFormat( "戦闘行動半径: {0}\r\n", eq.AircraftDistance );
+
+			sb.AppendLine();
+
+			sb.AppendFormat( "レアリティ: {0}\r\n", Constants.GetEquipmentRarity( eq.Rarity ) );
+			sb.AppendFormat( "廃棄資材: {0}\r\n", string.Join( " / ", eq.Material ) );
+
+			sb.AppendLine();
+
+			sb.AppendFormat( "図鑑説明: \r\n{0}\r\n",
+				!string.IsNullOrWhiteSpace( eq.Message ) ? eq.Message : "(不明)" );
+
+			sb.AppendLine();
+
+			sb.AppendLine( "初期装備/開発:" );
+			string result = GetAppearingArea( eq.EquipmentID );
+			if ( string.IsNullOrWhiteSpace( result ) )
+				result = "(不明)\r\n";
+			sb.AppendLine( result );
+
+
+			Clipboard.SetText( sb.ToString() );
+		}
+
+
+		private string GetAppearingArea( int equipmentID ) {
+			var sb = new StringBuilder();
+
+			foreach ( var ship in KCDatabase.Instance.MasterShips.Values
+				.Where( s => s.DefaultSlot != null && s.DefaultSlot.Contains( equipmentID ) ) ) {
+				sb.AppendLine( ship.NameWithClass );
+			}
+
+			foreach ( var record in RecordManager.Instance.Development.Record
+				.Where( r => r.EquipmentID == equipmentID )
+				.Select( r => new {
+					r.Fuel, r.Ammo, r.Steel, r.Bauxite
+				} )
+				.Distinct()
+				.OrderBy( r => r.Fuel )
+				.ThenBy( r => r.Ammo )
+				.ThenBy( r => r.Steel )
+				.ThenBy( r => r.Bauxite )
+				) {
+				sb.AppendFormat( "開発 {0} / {1} / {2} / {3}\r\n",
+					record.Fuel, record.Ammo, record.Steel, record.Bauxite );
+			}
+
+			return sb.ToString();
+		}
+
+		private void StripMenu_View_ShowAppearingArea_Click( object sender, EventArgs e ) {
+
+			int eqID = EquipmentID.Tag as int? ?? -1;
+			var eq = KCDatabase.Instance.MasterEquipments[eqID];
+
+			if ( eq == null ) {
+				System.Media.SystemSounds.Exclamation.Play();
+				return;
+			}
+
+			string result = GetAppearingArea( eqID );
+
+			if ( string.IsNullOrWhiteSpace( result ) ) {
+				result = eq.Name + " の初期装備艦・開発レシピは不明です。";
+			}
+
+			MessageBox.Show( result, "入手手段表示", MessageBoxButtons.OK, MessageBoxIcon.Information );
+		}
 
 
 	}

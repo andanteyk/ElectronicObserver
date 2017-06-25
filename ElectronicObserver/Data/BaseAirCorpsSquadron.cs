@@ -102,7 +102,18 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 配置転換を開始した時刻
 		/// </summary>
-		public DateTime RelocatedTime { get; private set; }
+		public DateTime RelocatedTime {
+			get {
+				if ( State != 2 )
+					return DateTime.MinValue;
+
+				var relocated = KCDatabase.Instance.RelocatedEquipments[EquipmentMasterID];
+				if ( relocated == null )
+					return DateTime.MinValue;
+
+				return relocated.RelocatedTime;
+			}
+		}
 
 
 		public override void LoadFromResponse( string apiname, dynamic data ) {
@@ -111,14 +122,6 @@ namespace ElectronicObserver.Data {
 
 			base.LoadFromResponse( apiname, (object)data );
 
-			// 配置転換中になったとき
-			if ( prevState == 1 && State == 2 ) {
-				RelocatedTime = DateTime.Now;
-			}
-
-			if ( State != 2 ) {
-				RelocatedTime = DateTime.MinValue;
-			}
 		}
 
 

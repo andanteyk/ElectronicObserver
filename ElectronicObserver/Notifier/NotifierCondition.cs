@@ -60,7 +60,7 @@ namespace ElectronicObserver.Notifier {
 					continue;
 				
 				
-				if ( fleet.ConditionTime != null && !fleet.IsConditionTimeLocked ) {
+				if ( fleet.ConditionTime != null && !fleet.IsInSortie ) {
 
 					if ( ( (DateTime)fleet.ConditionTime - DateTime.Now ).TotalMilliseconds <= AccelInterval ) {
 

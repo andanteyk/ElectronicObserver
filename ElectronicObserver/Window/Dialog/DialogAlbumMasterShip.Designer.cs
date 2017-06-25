@@ -32,7 +32,14 @@
 			this.StripMenu_File_OutputCSVData = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Edit = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Edit_EditParameter = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_Edit_CopyShipName = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Edit_CopyShipData = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_View = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_View_ShowAppearingArea = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_View_ShowShipGraphicViewer = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.TextSearch = new System.Windows.Forms.TextBox();
 			this.ShipView = new System.Windows.Forms.DataGridView();
 			this.ShipView_ShipID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -177,7 +184,8 @@
 			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_File,
-            this.StripMenu_Edit});
+            this.StripMenu_Edit,
+            this.StripMenu_View});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -210,7 +218,10 @@
 			// StripMenu_Edit
 			// 
 			this.StripMenu_Edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Edit_EditParameter});
+            this.StripMenu_Edit_EditParameter,
+            this.toolStripSeparator1,
+            this.StripMenu_Edit_CopyShipName,
+            this.StripMenu_Edit_CopyShipData});
 			this.StripMenu_Edit.Name = "StripMenu_Edit";
 			this.StripMenu_Edit.Size = new System.Drawing.Size(60, 20);
 			this.StripMenu_Edit.Text = "編集(&E)";
@@ -218,9 +229,55 @@
 			// StripMenu_Edit_EditParameter
 			// 
 			this.StripMenu_Edit_EditParameter.Name = "StripMenu_Edit_EditParameter";
-			this.StripMenu_Edit_EditParameter.Size = new System.Drawing.Size(181, 22);
+			this.StripMenu_Edit_EditParameter.Size = new System.Drawing.Size(236, 22);
 			this.StripMenu_Edit_EditParameter.Text = "パラメータの編集(&E)...";
 			this.StripMenu_Edit_EditParameter.Click += new System.EventHandler(this.StripMenu_Edit_EditParameter_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(233, 6);
+			// 
+			// StripMenu_Edit_CopyShipName
+			// 
+			this.StripMenu_Edit_CopyShipName.Name = "StripMenu_Edit_CopyShipName";
+			this.StripMenu_Edit_CopyShipName.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+			this.StripMenu_Edit_CopyShipName.Size = new System.Drawing.Size(236, 22);
+			this.StripMenu_Edit_CopyShipName.Text = "艦名をコピー(&N)";
+			this.StripMenu_Edit_CopyShipName.Click += new System.EventHandler(this.StripMenu_Edit_CopyShipName_Click);
+			// 
+			// StripMenu_Edit_CopyShipData
+			// 
+			this.StripMenu_Edit_CopyShipData.Name = "StripMenu_Edit_CopyShipData";
+			this.StripMenu_Edit_CopyShipData.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+			this.StripMenu_Edit_CopyShipData.Size = new System.Drawing.Size(236, 22);
+			this.StripMenu_Edit_CopyShipData.Text = "艦船データのコピー(&D)";
+			this.StripMenu_Edit_CopyShipData.Click += new System.EventHandler(this.StripMenu_Edit_CopyShipData_Click);
+			// 
+			// StripMenu_View
+			// 
+			this.StripMenu_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripMenu_View_ShowAppearingArea,
+            this.StripMenu_View_ShowShipGraphicViewer});
+			this.StripMenu_View.Name = "StripMenu_View";
+			this.StripMenu_View.Size = new System.Drawing.Size(61, 20);
+			this.StripMenu_View.Text = "表示(&V)";
+			// 
+			// StripMenu_View_ShowAppearingArea
+			// 
+			this.StripMenu_View_ShowAppearingArea.Name = "StripMenu_View_ShowAppearingArea";
+			this.StripMenu_View_ShowAppearingArea.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+			this.StripMenu_View_ShowAppearingArea.Size = new System.Drawing.Size(217, 22);
+			this.StripMenu_View_ShowAppearingArea.Text = "出現海域を検索(&P)";
+			this.StripMenu_View_ShowAppearingArea.Click += new System.EventHandler(this.StripMenu_View_ShowAppearingArea_Click);
+			// 
+			// StripMenu_View_ShowShipGraphicViewer
+			// 
+			this.StripMenu_View_ShowShipGraphicViewer.Name = "StripMenu_View_ShowShipGraphicViewer";
+			this.StripMenu_View_ShowShipGraphicViewer.Size = new System.Drawing.Size(217, 22);
+			this.StripMenu_View_ShowShipGraphicViewer.Text = "画像ビューア(&V)";
+			this.StripMenu_View_ShowShipGraphicViewer.Click += new System.EventHandler(this.StripMenu_View_ShowShipGraphicViewer_Click);
 			// 
 			// splitContainer1
 			// 
@@ -231,6 +288,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.TextSearch);
 			this.splitContainer1.Panel1.Controls.Add(this.ShipView);
 			// 
 			// splitContainer1.Panel2
@@ -240,11 +298,25 @@
 			this.splitContainer1.SplitterDistance = 250;
 			this.splitContainer1.TabIndex = 1;
 			// 
+			// TextSearch
+			// 
+			this.TextSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TextSearch.Location = new System.Drawing.Point(3, 3);
+			this.TextSearch.Name = "TextSearch";
+			this.TextSearch.Size = new System.Drawing.Size(244, 23);
+			this.TextSearch.TabIndex = 0;
+			this.TextSearch.TextChanged += new System.EventHandler(this.TextSearch_TextChanged);
+			this.TextSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextSearch_KeyDown);
+			// 
 			// ShipView
 			// 
 			this.ShipView.AllowUserToAddRows = false;
 			this.ShipView.AllowUserToDeleteRows = false;
 			this.ShipView.AllowUserToResizeRows = false;
+			this.ShipView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.ShipView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.ShipView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.ShipView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -260,16 +332,16 @@
 			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
 			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.ShipView.DefaultCellStyle = dataGridViewCellStyle4;
-			this.ShipView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ShipView.Location = new System.Drawing.Point(0, 0);
+			this.ShipView.Location = new System.Drawing.Point(0, 29);
+			this.ShipView.Margin = new System.Windows.Forms.Padding(0);
 			this.ShipView.MultiSelect = false;
 			this.ShipView.Name = "ShipView";
 			this.ShipView.ReadOnly = true;
 			this.ShipView.RowHeadersVisible = false;
 			this.ShipView.RowTemplate.Height = 21;
 			this.ShipView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.ShipView.Size = new System.Drawing.Size(250, 456);
-			this.ShipView.TabIndex = 0;
+			this.ShipView.Size = new System.Drawing.Size(250, 427);
+			this.ShipView.TabIndex = 1;
 			this.ShipView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ShipView_CellMouseClick);
 			this.ShipView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.ShipView_SortCompare);
 			this.ShipView.Sorted += new System.EventHandler(this.ShipView_Sorted);
@@ -327,7 +399,7 @@
 			// ResourceName
 			// 
 			this.ResourceName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.ResourceName.Location = new System.Drawing.Point(210, 6);
+			this.ResourceName.Location = new System.Drawing.Point(200, 6);
 			this.ResourceName.Name = "ResourceName";
 			this.ResourceName.Size = new System.Drawing.Size(113, 16);
 			this.ResourceName.TabIndex = 24;
@@ -419,16 +491,16 @@
 			// AlbumNo
 			// 
 			this.AlbumNo.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.AlbumNo.Location = new System.Drawing.Point(165, 6);
+			this.AlbumNo.Location = new System.Drawing.Point(160, 6);
 			this.AlbumNo.Name = "AlbumNo";
-			this.AlbumNo.Size = new System.Drawing.Size(22, 16);
+			this.AlbumNo.Size = new System.Drawing.Size(29, 16);
 			this.AlbumNo.TabIndex = 23;
-			this.AlbumNo.Text = "123";
+			this.AlbumNo.Text = "1234";
 			// 
 			// imageLabel2
 			// 
 			this.imageLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.imageLabel2.Location = new System.Drawing.Point(105, 6);
+			this.imageLabel2.Location = new System.Drawing.Point(100, 6);
 			this.imageLabel2.Name = "imageLabel2";
 			this.imageLabel2.Size = new System.Drawing.Size(54, 16);
 			this.imageLabel2.TabIndex = 22;
@@ -471,21 +543,23 @@
 			// 
 			// ShipName
 			// 
+			this.ShipName.Cursor = System.Windows.Forms.Cursors.Help;
 			this.ShipName.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.ShipName.Location = new System.Drawing.Point(101, 3);
 			this.ShipName.Name = "ShipName";
 			this.ShipName.Size = new System.Drawing.Size(85, 16);
 			this.ShipName.TabIndex = 8;
 			this.ShipName.Text = "Bismarck zwei";
+			this.ShipName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ShipName_MouseClick);
 			// 
 			// ShipID
 			// 
 			this.ShipID.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.ShipID.Location = new System.Drawing.Point(59, 6);
 			this.ShipID.Name = "ShipID";
-			this.ShipID.Size = new System.Drawing.Size(22, 16);
+			this.ShipID.Size = new System.Drawing.Size(29, 16);
 			this.ShipID.TabIndex = 18;
-			this.ShipID.Text = "123";
+			this.ShipID.Text = "1234";
 			// 
 			// TableRemodel
 			// 
@@ -1667,11 +1741,14 @@
 			// ShipBanner
 			// 
 			this.ShipBanner.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ShipBanner.Cursor = System.Windows.Forms.Cursors.Help;
 			this.ShipBanner.Location = new System.Drawing.Point(383, 3);
 			this.ShipBanner.Name = "ShipBanner";
 			this.ShipBanner.Size = new System.Drawing.Size(160, 40);
 			this.ShipBanner.TabIndex = 4;
 			this.ShipBanner.TabStop = false;
+			this.ToolTipInfo.SetToolTip(this.ShipBanner, "(右クリックで画像ビューアを開く)");
+			this.ShipBanner.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ShipBanner_MouseClick);
 			// 
 			// ToolTipInfo
 			// 
@@ -1713,6 +1790,7 @@
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel1.PerformLayout();
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
@@ -1871,5 +1949,12 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Edit;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Edit_EditParameter;
 		private System.ComponentModel.BackgroundWorker ImageLoader;
+		private System.Windows.Forms.TextBox TextSearch;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Edit_CopyShipName;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Edit_CopyShipData;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_ShowAppearingArea;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_ShowShipGraphicViewer;
 	}
 }

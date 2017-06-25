@@ -87,6 +87,7 @@ namespace ElectronicObserver.Resource {
 			FormBaseAirCorps,
 			FormJson,
 			FormAntiAirDefense,
+			FormFleetImageGenerator,
 			FleetNoShip,
 			FleetDocking,
 			FleetSortieDamaged,
@@ -147,6 +148,14 @@ namespace ElectronicObserver.Resource {
 			AircraftLevel5,
 			AircraftLevel6,
 			AircraftLevel7,
+			AircraftLevelTop0,
+			AircraftLevelTop1,
+			AircraftLevelTop2,
+			AircraftLevelTop3,
+			AircraftLevelTop4,
+			AircraftLevelTop5,
+			AircraftLevelTop6,
+			AircraftLevelTop7,
 		}
 
 		public enum EquipmentContent {
@@ -296,6 +305,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/BaseAirCorps.png", "Form_BaseAirCorps" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/Json.png", "Form_Json" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Form/AntiAirDefense.png", "Form_AntiAirDefense" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Form/FleetImageGenerator.png", "Form_FleetImageGenerator" );
 
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/NoShip.png", "Fleet_NoShip" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Fleet/Docking.png", "Fleet_Docking" );
@@ -363,6 +373,14 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel5.png", "Level_AircraftLevel_5" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel6.png", "Level_AircraftLevel_6" );
 					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevel7.png", "Level_AircraftLevel_7" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevelTop0.png", "Level_AircraftLevelTop_0" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevelTop1.png", "Level_AircraftLevelTop_1" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevelTop2.png", "Level_AircraftLevelTop_2" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevelTop3.png", "Level_AircraftLevelTop_3" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevelTop4.png", "Level_AircraftLevelTop_4" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevelTop5.png", "Level_AircraftLevelTop_5" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevelTop6.png", "Level_AircraftLevelTop_6" );
+					LoadImageFromArchive( Icons, archive, mstpath + @"Level/AircraftLevelTop7.png", "Level_AircraftLevelTop_7" );
 
 
 					// ------------------------ equipments ------------------------

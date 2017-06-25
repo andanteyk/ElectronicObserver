@@ -40,20 +40,6 @@ namespace ElectronicObserver.Observer.kcsapi {
 				}
 			}
 
-			//api_mst_shipgraph
-			foreach ( var elem in data.api_mst_shipgraph ) {
-
-				int id = (int)elem.api_id;
-				ShipDataMaster ship = db.MasterShips[id];
-				if ( ship != null ) {
-					ship.ResourceName = elem.api_filename;
-					string[] versions = elem.api_version;
-					ship.ResourceGraphicVersion = versions[0];
-					ship.ResourceVoiceVersion = versions[1];
-					ship.ResourcePortVoiceVersion = versions[2];
-				}
-			}
-
 
 			//api_mst_slotitem_equiptype
 			foreach ( var elem in data.api_mst_slotitem_equiptype ) {
