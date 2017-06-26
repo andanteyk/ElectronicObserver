@@ -1200,42 +1200,17 @@ namespace ElectronicObserver.Window {
 
 
 			//所属艦なし
-			if ( fleet == null || fleet.Members.Count( id => id != -1 ) == 0 ) {
+			if ( fleet == null || fleet.Members.All( id => id == -1 ) ) {
 				label.Text = "所属艦なし";
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetNoShip;
 
 				return FleetStates.NoShip;
 			}
 
-			{	//入渠中
-				long ntime = db.Docks.Values.Max(
-						dock => {
-							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
-								return dock.CompletionTime.Ticks;
-							else return 0;
-						}
-						);
-
-				if ( ntime > 0 ) {	//入渠中
-
-					timer = new DateTime( ntime );
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
-
-					tooltip.SetToolTip( label, "完了日時 : " + DateTimeHelper.TimeToCSVString( timer ) );
-
-					return FleetStates.Docking;
-				}
-
-			}
-
-
 			if ( fleet.IsInSortie ) {
 
 				//大破出撃中
-				if ( fleet.MembersInstance.Count( s =>
-						( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) && (double)s.HPCurrent / s.HPMax <= 0.25 )
-					 ) > 0 ) {
+				if ( fleet.MembersWithoutEscaped.Any( s => s != null && s.HPRate <= 0.25 ) ) {
 
 					label.Text = "！！大破進撃中！！";
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetSortieDamaged;
@@ -1253,7 +1228,6 @@ namespace ElectronicObserver.Window {
 
 			}
 
-
 			//遠征中
 			if ( fleet.ExpeditionState != 0 ) {
 
@@ -1270,9 +1244,7 @@ namespace ElectronicObserver.Window {
 			}
 
 			//大破艦あり
-			if ( fleet.MembersInstance.Count( s =>
-				( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) && (double)s.HPCurrent / s.HPMax <= 0.25 )
-			 ) > 0 ) {
+			if ( fleet.MembersWithoutEscaped.Any( s => s != null && s.HPRate <= 0.25 && s.RepairingDockID == -1 ) ) {
 
 				label.Text = "大破艦あり！";
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetDamaged;
@@ -1282,57 +1254,62 @@ namespace ElectronicObserver.Window {
 			}
 
 			//泊地修理中
-			{
-				if ( fleet.CanAnchorageRepair ) {
+			if ( fleet.CanAnchorageRepair ) {
 
-					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( db.Fleet.AnchorageRepairingTimer );
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
+				label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( db.Fleet.AnchorageRepairingTimer );
+				label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
 
-					StringBuilder sb = new StringBuilder();
-					sb.AppendFormat( "開始日時 : {0}\r\n修理時間 :\r\n",
-						DateTimeHelper.TimeToCSVString( db.Fleet.AnchorageRepairingTimer ) );
+				StringBuilder sb = new StringBuilder();
+				sb.AppendFormat( "開始日時 : {0}\r\n修理時間 :\r\n",
+					DateTimeHelper.TimeToCSVString( db.Fleet.AnchorageRepairingTimer ) );
 
-					for ( int i = 0; i < fleet.Members.Count; i++ ) {
-						var ship = fleet.MembersInstance[i];
-						if ( ship != null && ship.HPRate < 1.0 ) {
-							var totaltime = DateTimeHelper.FromAPITimeSpan( ship.RepairTime );
-							var unittime = Calculator.CalculateDockingUnitTime( ship );
-							sb.AppendFormat( "#{0} : {1:00}:{2:00}:{3:00} @ {4:00}:{5:00}:{6:00} x -{7} HP\r\n",
-								i + 1,
-								(int)totaltime.TotalHours,
-								totaltime.Minutes,
-								totaltime.Seconds,
-								(int)unittime.TotalHours,
-								unittime.Minutes,
-								unittime.Seconds,
-								ship.HPMax - ship.HPCurrent
-								);
-						} else {
-							sb.Append( "#" ).Append( i + 1 ).Append( " : ----\r\n" );
-						}
+				for ( int i = 0; i < fleet.Members.Count; i++ ) {
+					var ship = fleet.MembersInstance[i];
+					if ( ship != null && ship.HPRate < 1.0 ) {
+						var totaltime = DateTimeHelper.FromAPITimeSpan( ship.RepairTime );
+						var unittime = Calculator.CalculateDockingUnitTime( ship );
+						sb.AppendFormat( "#{0} : {1:00}:{2:00}:{3:00} @ {4:00}:{5:00}:{6:00} x -{7} HP\r\n",
+							i + 1,
+							(int)totaltime.TotalHours,
+							totaltime.Minutes,
+							totaltime.Seconds,
+							(int)unittime.TotalHours,
+							unittime.Minutes,
+							unittime.Seconds,
+							ship.HPMax - ship.HPCurrent
+							);
+					} else {
+						sb.Append( "#" ).Append( i + 1 ).Append( " : ----\r\n" );
 					}
-
-					tooltip.SetToolTip( label, sb.ToString() );
-
-					return FleetStates.AnchorageRepairing;
 				}
+
+				tooltip.SetToolTip( label, sb.ToString() );
+
+				return FleetStates.AnchorageRepairing;
+			}
+
+			//入渠中
+			{	
+				long ntime = db.Docks.Values.Where( d => d.State == 1 && fleet.Members.Contains( d.ShipID ) ).Select( d => d.CompletionTime.Ticks ).DefaultIfEmpty().Max();
+
+				if ( ntime > 0 ) {	//入渠中
+
+					timer = new DateTime( ntime );
+					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
+
+					tooltip.SetToolTip( label, "完了日時 : " + DateTimeHelper.TimeToCSVString( timer ) );
+
+					return FleetStates.Docking;
+				}
+
 			}
 
 			//未補給
 			{
 				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.FuelMax - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
 				int ammo = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.AmmoMax - ship.Ammo ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
-				int aircraft = fleet.MembersInstance.Sum(
-					ship => {
-						if ( ship == null ) return 0;
-						else {
-							int c = 0;
-							for ( int i = 0; i < ship.Slot.Count; i++ ) {
-								c += ship.MasterShip.Aircraft[i] - ship.Aircraft[i];
-							}
-							return c;
-						}
-					} );
+				int aircraft = fleet.MembersInstance.Where( s => s != null ).SelectMany( s => s.MasterShip.Aircraft.Zip( s.Aircraft, ( max, now ) => max - now ) ).Sum();
 				int bauxite = aircraft * 5;
 
 				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
@@ -1368,7 +1345,7 @@ namespace ElectronicObserver.Window {
 						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
 
 
-					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}\r\n(予測誤差: {1})", 
+					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}\r\n(予測誤差: {1})",
 						DateTimeHelper.TimeToCSVString( timer ), DateTimeHelper.ToTimeRemainString( TimeSpan.FromSeconds( db.Fleet.ConditionBorderAccuracy ) ) ) );
 
 					if ( emphasizesSubFleetInPort )
