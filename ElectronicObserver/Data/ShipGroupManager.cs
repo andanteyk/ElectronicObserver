@@ -67,7 +67,7 @@ namespace ElectronicObserver.Data {
 
 		public ShipGroupManager Load() {
 
-			ResourceManager.CopyDocumentFromArchive( DefaultFilePath.Replace( "\\", "/" ), DefaultFilePath );
+			ResourceManager.CopyFromArchive( DefaultFilePath.Replace( "\\", "/" ), DefaultFilePath, true, false );
 
 			return (ShipGroupManager)Load( DefaultFilePath );
 		}
