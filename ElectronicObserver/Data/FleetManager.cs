@@ -227,7 +227,7 @@ namespace ElectronicObserver.Data {
 
 			var now = DateTime.Now;
 
-			//Utility.Logger.Add( 1, "Cond-Update: Now: " + DateTimeHelper.TimeToCSVString( now ) );
+			AddConditionDebugLog( "Cond-Update: Now: " + DateTimeHelper.TimeToCSVString( now ) );
 
 			var conditionDiff = PreviousShips.Where( s => s.Value.Condition < 49 )
 				.Join( KCDatabase.Instance.Ships.Values, pair => pair.Key, ship => ship.ID, ( pair, ship ) => ship.Condition - pair.Value.Condition );
@@ -238,8 +238,8 @@ namespace ElectronicObserver.Data {
 			int healed = (int)Math.Ceiling( conditionDiff.Max() / 3.0 );
 			int predictedHealLow = (int)Math.Floor( ( now - LastConditionUpdated ).TotalSeconds / ConditionHealingSpan.TotalSeconds );
 
-			//Utility.Logger.Add( 1, "Cond-Update: Healed: " + conditionDiff.Max() + " / " + healed );
-			//Utility.Logger.Add( 1, "Cond-Update: PredictHealLow: " + predictedHealLow );
+			AddConditionDebugLog( "Cond-Update: Healed: " + conditionDiff.Max() + " / " + healed );
+			AddConditionDebugLog( "Cond-Update: PredictHealLow: " + predictedHealLow );
 
 
 			if ( healed < predictedHealLow ) {
@@ -297,8 +297,10 @@ namespace ElectronicObserver.Data {
 					ConditionPredictMin = amin;
 				else if ( startsWithBmin )
 					ConditionPredictMin = bmin;
-				else
+				else {
 					ConditionPredictMin = newPredictMin;     // 空集合; 新しいほうを設定
+					AddConditionDebugLog( "Cond-Update: empty-start: " + newPredictMin );
+				}
 
 				if ( endsWithBpre )
 					ConditionPredictMax = bpre;
@@ -306,14 +308,16 @@ namespace ElectronicObserver.Data {
 					ConditionPredictMax = amax;
 				else if ( endsWidthBmax )
 					ConditionPredictMax = bmax;
-				else
+				else {
 					ConditionPredictMax = newPredictMax;     // 空集合; 新しいほうを設定
+					AddConditionDebugLog( "Cond-Update: empty-end: " + newPredictMax );
+				}
 			}
 
 
 
 LabelFinally:
-			//Utility.Logger.Add( 1, "Cond-Update: Accuracy: " + ConditionBorderAccuracy );
+			AddConditionDebugLog( "Cond-Update: Accuracy: " + ConditionBorderAccuracy );
 			LastConditionUpdated = now;
 
 			foreach ( var f in Fleets.Values )
@@ -335,17 +339,30 @@ LabelFinally:
 
 			double last = TimeSpan.FromTicks( LastConditionUpdated.Ticks % ConditionHealingSpan.Ticks ).TotalSeconds;
 
-			var offset = TimeSpan.FromSeconds( ConditionBorderSeconds - last ) + TimeSpan.FromSeconds( ConditionHealingSpan.TotalSeconds * ( healAmount - 1 ) );
+			var firstHeal = TimeSpan.FromSeconds( ConditionBorderSeconds - last );
+			var afterHeal = TimeSpan.FromSeconds( ConditionHealingSpan.TotalSeconds * ( healAmount - 1 ) );
 
-			if ( last >= ConditionBorderSeconds )
-				offset += ConditionHealingSpan;
+			if ( ConditionPredictMin <= last && last <= ConditionPredictMax )
+				firstHeal = ConditionHealingSpan;
+			if ( firstHeal.Ticks <= 0 )
+				firstHeal += ConditionHealingSpan;
 
-			//Utility.Logger.Add( 1, "Cond-Heal: offset: " + DateTimeHelper.ToTimeElapsedString( offset ) );
+			var offset = firstHeal + afterHeal;
+
+			
+			AddConditionDebugLog( "Cond-Heal: offset: " + DateTimeHelper.ToTimeElapsedString( offset ) );
 
 			return LastConditionUpdated + offset;
 
 		}
 
+
+		private void AddConditionDebugLog( string str ) {
+			if ( Utility.Configuration.Config.Debug.EnableDebugMenu ) {
+				Utility.Logger.Add( 1, str );
+			}
+		}
+	
 	}
 
 }
