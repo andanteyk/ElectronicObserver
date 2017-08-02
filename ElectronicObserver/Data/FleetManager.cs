@@ -298,8 +298,9 @@ namespace ElectronicObserver.Data {
 				else if ( startsWithBmin )
 					ConditionPredictMin = bmin;
 				else {
+					AddConditionDebugLog( "Cond-Update: empty-start: " + ConditionPredictMin + " -> " + newPredictMin );
+					System.Media.SystemSounds.Exclamation.Play();
 					ConditionPredictMin = newPredictMin;     // 空集合; 新しいほうを設定
-					AddConditionDebugLog( "Cond-Update: empty-start: " + newPredictMin );
 				}
 
 				if ( endsWithBpre )
@@ -309,14 +310,16 @@ namespace ElectronicObserver.Data {
 				else if ( endsWidthBmax )
 					ConditionPredictMax = bmax;
 				else {
+					AddConditionDebugLog( "Cond-Update: empty-end: " + ConditionPredictMax + " -> " + newPredictMax );
+					System.Media.SystemSounds.Exclamation.Play();
 					ConditionPredictMax = newPredictMax;     // 空集合; 新しいほうを設定
-					AddConditionDebugLog( "Cond-Update: empty-end: " + newPredictMax );
 				}
 			}
 
 
 
 LabelFinally:
+			AddConditionDebugLog( "Cond-Update: Bound: " + ConditionPredictMin + " ~ " + ConditionPredictMax );
 			AddConditionDebugLog( "Cond-Update: Accuracy: " + ConditionBorderAccuracy );
 			LastConditionUpdated = now;
 
