@@ -27,10 +27,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			LaunchedShipIndexFriend = GetLaunchedShipIndex( 0 );
 			LaunchedShipIndexEnemy = GetLaunchedShipIndex( 1 );
 
-			TorpedoFlags = ConcatStage3Array( "api_frai_flag", "api_erai_flag" );
-			BomberFlags = ConcatStage3Array( "api_fbak_flag", "api_ebak_flag" );
-			Criticals = ConcatStage3Array( "api_fcl_flag", "api_ecl_flag" );
-			Damages = ConcatStage3Array( "api_fdam", "api_edam" );
+			TorpedoFlags = ConcatStage3Array<int>( "api_frai_flag", "api_erai_flag" );
+			BomberFlags = ConcatStage3Array<int>( "api_fbak_flag", "api_ebak_flag" );
+			Criticals = ConcatStage3Array<int>( "api_fcl_flag", "api_ecl_flag" );
+			Damages = ConcatStage3Array<double>( "api_fdam", "api_edam" );
 		}
 
 		public override void EmulateBattle( int[] hps, int[] damages ) {
@@ -85,7 +85,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			}
 
 			int totalFirepower = firepower.Sum();
-			int totalDamage = Damages.Skip( 6 ).Take( 6 ).Sum() + damages.Skip( 18 ).Take( 6 ).Sum();
+			int totalDamage = Damages.Select( dmg => (int)dmg ).Skip( 6 ).Take( 6 ).Sum() + damages.Skip( 18 ).Take( 6 ).Sum();
 
 			for ( int i = 0; i < firepower.Length; i++ ) {
 				damages[( i < 6 ? i : ( i + 6 ) )] += (int)Math.Round( (double)totalDamage * firepower[i] / Math.Max( totalFirepower, 1 ) );

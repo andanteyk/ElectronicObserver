@@ -24,6 +24,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			public int Attacker;
 			public int AttackType;
 			public List<PhaseShellingDefender> Defenders;
+			public int[] EquipmentIDs;
 
 			public PhaseShellingAttack() { }
 
@@ -34,10 +35,14 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public class PhaseShellingDefender {
 			public int Defender;
 			public int CriticalFlag;
-			public int Damage;
+			public double RawDamage;
+			public bool GuardsFlagship { get { return RawDamage != Math.Floor( RawDamage ); } }
+			public int Damage { get { return (int)RawDamage; } }
 
 			public override string ToString() {
-				return string.Format( "{0};{1}-{2}", Defender, Damage, CriticalFlag == 0 ? "miss" : CriticalFlag == 1 ? "dmg" : CriticalFlag == 2 ? "crit" : "INVALID" );
+				return string.Format( "{0};{1}-{2}{3}", Defender, Damage,
+					CriticalFlag == 0 ? "miss" : CriticalFlag == 1 ? "dmg" : CriticalFlag == 2 ? "crit" : "INVALID",
+					GuardsFlagship ? " (guard)" : "" );
 			}
 		}
 
@@ -60,10 +65,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			int[] attackers = ( (int[])ShellingData.api_at_list ).Skip( 1 ).ToArray();
 			int[] attackTypes = ( (int[])ShellingData.api_at_type ).Skip( 1 ).ToArray();
 			int[][] defenders = ( (dynamic[])ShellingData.api_df_list ).Skip( 1 ).Select( elem => (int[])elem ).ToArray();
+			int[][] attackEquipments = ( (dynamic[])ShellingData.api_si_list ).Skip( 1 ).Select( elem => ((dynamic[])elem).Select<dynamic, int>( ch => ch is string ? int.Parse( ch ) : (int)ch ).ToArray() ).ToArray();
 			int[][] criticalFlags = ( (dynamic[])ShellingData.api_cl_list ).Skip( 1 ).Select( elem => (int[])elem ).ToArray();
-			int[][] damages = ( (dynamic[])ShellingData.api_damage ).Skip( 1 ).Select( elem => ( (int[])elem ).Select( p => Math.Max( p, 0 ) ).ToArray() ).ToArray();
-
-
+			double[][] rawDamages = ( (dynamic[])ShellingData.api_damage ).Skip( 1 ).Select( elem => ( (double[])elem ).Select( p => Math.Max( p, 0 ) ).ToArray() ).ToArray();
+			
 			Attacks = new List<PhaseShellingAttack>();
 
 			for ( int i = 0; i < attackers.Length; i++ ) {
@@ -95,8 +100,8 @@ namespace ElectronicObserver.Data.Battle.Phase {
 							defender.Defender += 6;
 
 						defender.CriticalFlag = criticalFlags[i][k];
-						defender.Damage = damages[i][k];
-
+						defender.RawDamage = rawDamages[i][k];
+						
 						attack.Defenders.Add( defender );
 					}
 
@@ -114,7 +119,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 							defender.Defender += 12;
 
 						defender.CriticalFlag = criticalFlags[i][k];
-						defender.Damage = damages[i][k];
+						defender.RawDamage = rawDamages[i][k];
 
 						attack.Defenders.Add( defender );
 					}
@@ -127,14 +132,15 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 						defender.Defender = defenders[i][k] - 1;
 						defender.CriticalFlag = criticalFlags[i][k];
-						defender.Damage = damages[i][k];
-
+						defender.RawDamage = rawDamages[i][k];
+						
 						attack.Defenders.Add( defender );
 					}
 
 				}
 
 				attack.AttackType = attackTypes[i];
+				attack.EquipmentIDs = attackEquipments[i];
 
 				Attacks.Add( attack );
 			}
@@ -160,7 +166,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			foreach ( var attack in Attacks ) {
 
 				foreach ( var defs in attack.Defenders.GroupBy( d => d.Defender ) ) {
-					BattleDetails.Add( new BattleDayDetail( _battleData, attack.Attacker, defs.Key, defs.Select( d => d.Damage ).ToArray(), defs.Select( d => d.CriticalFlag ).ToArray(), attack.AttackType, hps[defs.Key] ) );
+					BattleDetails.Add( new BattleDayDetail( _battleData, attack.Attacker, defs.Key, defs.Select( d => d.RawDamage ).ToArray(), defs.Select( d => d.CriticalFlag ).ToArray(), attack.AttackType, attack.EquipmentIDs, hps[defs.Key] ) );
 					AddDamage( hps, defs.Key, defs.Sum( d => d.Damage ) );
 				}
 
