@@ -265,7 +265,7 @@ namespace ElectronicObserver.Window.Dialog {
 			_shipID = shipID;
 			ShipID.Text = ship.ShipID.ToString();
 			AlbumNo.Text = ship.AlbumNo.ToString();
-			ResourceName.Text = string.Format( "{0} ver. {1}/{2}/{3}",
+			ResourceName.Text = string.Format( "{0} {1}/{2}/{3}",
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion );
 			ToolTipInfo.SetToolTip( ResourceName, string.Format( "リソース名: {0}\r\nグラフィック ver. {1}\r\nボイス ver. {2}\r\n母港ボイス ver. {3}\r\n({4})",
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion, Constants.GetVoiceFlag( ship.VoiceFlag ) ) );

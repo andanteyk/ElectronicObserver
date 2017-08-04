@@ -1130,12 +1130,12 @@ namespace ElectronicObserver.Utility.Data {
 			// 固有カットイン
 			switch ( shipID ) {
 
-				case 421:	//秋月
-				case 330:	//秋月改
-				case 422:	//照月
-				case 346:	//照月改
-				case 423:	//初月
-				case 357:	//初月改
+				case 421:	// 秋月
+				case 330:	// 秋月改
+				case 422:	// 照月
+				case 346:	// 照月改
+				case 423:	// 初月
+				case 357:	// 初月改
 					if ( highangle >= 2 && radar >= 1 ) {
 						return 1;
 					}
@@ -1147,7 +1147,7 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 428:	//摩耶改二
+				case 428:	// 摩耶改二
 					if ( highangle >= 1 && aagun_concentrated >= 1 ) {
 						if ( aaradar >= 1 )
 							return 10;
@@ -1156,7 +1156,7 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 141:	//五十鈴改二
+				case 141:	// 五十鈴改二
 					if ( highangle >= 1 && aagun >= 1 ) {
 						if ( aaradar >= 1 )
 							return 14;
@@ -1165,7 +1165,7 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 470:	//霞改二乙
+				case 470:	// 霞改二乙
 					if ( highangle >= 1 && aagun >= 1 ) {
 						if ( aaradar >= 1 )
 							return 16;
@@ -1174,12 +1174,12 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 418:	//皐月改二
+				case 418:	// 皐月改二
 					if ( aagun_concentrated >= 1 )
 						return 18;
 					break;
 
-				case 487:	//鬼怒改二
+				case 487:	// 鬼怒改二
 					if ( aagun_concentrated >= 1 ) {
 						if ( highangle - highangle_director >= 1 )
 							return 19;
@@ -1187,9 +1187,14 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 488:	//由良改二
+				case 488:	// 由良改二
 					if ( highangle >= 1 && aaradar >= 1 )
 						return 21;
+					break;
+
+				case 548:	// 文月改二
+					if ( aagun_concentrated >= 1 )
+						return 22;
 					break;
 			}
 
@@ -1400,6 +1405,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 19, 5 },
 			{ 20, 3 },
 			{ 21, 5 },
+			{ 22, 2 },
 		} );
 
 
@@ -1428,6 +1434,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 19, 1.45 },
 			{ 20, 1.25 },
 			{ 21, 1.45 },
+			{ 22, 1.2 },
 		} );
 
 

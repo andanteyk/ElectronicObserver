@@ -613,7 +613,7 @@ namespace ElectronicObserver.Window {
 
 		void Logger_LogAdded( Utility.Logger.LogData data ) {
 
-			StripStatus_Information.Text = data.Message;
+			StripStatus_Information.Text = data.Message.Replace( "\r", " " ).Replace( "\n", " " );
 
 		}
 
