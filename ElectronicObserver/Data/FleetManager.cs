@@ -33,6 +33,9 @@ namespace ElectronicObserver.Data {
 		/// <summary> 更新直前に泊地修理が可能だったか </summary>
 		private Dictionary<int, bool> IsAnchorageRepaired;
 
+		/// <summary> 更新直前の入渠艦IDリスト </summary>
+		private HashSet<int> PreviousDockingID;
+
 		// conditions
 		public static readonly TimeSpan ConditionHealingSpan = TimeSpan.FromSeconds( 180 );
 		private double ConditionPredictMin;
@@ -185,7 +188,7 @@ namespace ElectronicObserver.Data {
 				if ( IsAnchorageRepaired.ContainsKey( f.FleetID ) && !IsAnchorageRepaired[f.FleetID] )
 					continue;
 
-				var prev = f.Members.Select( id => PreviousShips[id] ).ToArray();
+				var prev = f.Members.Select( id => PreviousDockingID.Contains( id ) ? null : PreviousShips[id] ).ToArray();
 				var now = f.MembersInstance.ToArray();
 
 				for ( int i = 0; i < prev.Length; i++ ) {
@@ -217,6 +220,7 @@ namespace ElectronicObserver.Data {
 
 			PreviousShips = new IDDictionary<ShipData>( KCDatabase.Instance.Ships.Values );
 			IsAnchorageRepaired = Fleets.ToDictionary( f => f.Key, f => f.Value.CanAnchorageRepair );
+			PreviousDockingID = new HashSet<int>( KCDatabase.Instance.Docks.Values.Select( d => d.ShipID ) );
 		}
 
 
@@ -349,7 +353,7 @@ LabelFinally:
 
 			var offset = firstHeal + afterHeal;
 
-			
+
 			AddConditionDebugLog( "Cond-Heal: offset: " + DateTimeHelper.ToTimeElapsedString( offset ) );
 
 			return LastConditionUpdated + offset;
@@ -362,7 +366,7 @@ LabelFinally:
 				Utility.Logger.Add( 1, str );
 			}
 		}
-	
+
 	}
 
 }

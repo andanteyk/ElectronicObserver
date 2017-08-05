@@ -520,26 +520,44 @@ namespace ElectronicObserver.Utility.Data {
 					int category = eq.MasterEquipment.CategoryType;
 
 					double equipmentRate;
-					if ( category == 8 || category == 58 )		// 艦上攻撃機・噴式攻撃機
-						equipmentRate = 0.8;
-					else if ( category == 9 || category == 59 )	// 艦上偵察機・噴式偵察機
-						equipmentRate = 1.0;
-					else if ( category == 10 )	// 水上偵察機
-						equipmentRate = 1.2;
-					else if ( category == 11 )	// 水上爆撃機
-						equipmentRate = 1.1;
-					else
-						equipmentRate = 0.6;
+					switch ( category ) {
+						case 8:		// 艦上攻撃機
+						case 58:	// 噴式攻撃機
+							equipmentRate = 0.8;
+							break;
+						case 9:		// 艦上偵察機
+						case 59:	// 噴式偵察機
+							equipmentRate = 1.0;
+							break;
+						case 10:	// 水上偵察機
+							equipmentRate = 1.2;
+							break;
+						case 11:	// 水上爆撃機
+							equipmentRate = 1.1;
+							break;
+						default:
+							equipmentRate = 0.6;
+							break;
+					}
 
 					double levelRate;
-					if ( category == 10 )		// 水上偵察機
-						levelRate = 1.2;
-					else if ( category == 12 )	// 小型電探
-						levelRate = 1.25;
-					else if ( category == 13 )	// 大型電探
-						levelRate = 1.4;
-					else
-						levelRate = 0.0;
+					switch ( category ) {
+						case 10:		// 水上偵察機
+							levelRate = 1.2;
+							break;
+						case 11:		// 水上爆撃機
+							levelRate = 1.15;
+							break;
+						case 12:	// 小型電探
+							levelRate = 1.25;
+							break;
+						case 13:	// 大型電探
+							levelRate = 1.4;
+							break;
+						default:
+							levelRate = 0;
+							break;
+					}
 
 					equipmentBonus += equipmentRate * ( eq.MasterEquipment.LOS + levelRate * Math.Sqrt( eq.Level ) );
 				}

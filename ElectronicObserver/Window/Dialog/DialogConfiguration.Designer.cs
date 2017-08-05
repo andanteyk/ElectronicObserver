@@ -649,11 +649,11 @@
 			this.UI_IsLayoutFixed.AutoSize = true;
 			this.UI_IsLayoutFixed.Location = new System.Drawing.Point(8, 89);
 			this.UI_IsLayoutFixed.Name = "UI_IsLayoutFixed";
-			this.UI_IsLayoutFixed.Size = new System.Drawing.Size(112, 19);
+			this.UI_IsLayoutFixed.Size = new System.Drawing.Size(141, 19);
 			this.UI_IsLayoutFixed.TabIndex = 13;
-			this.UI_IsLayoutFixed.Text = "列の幅を固定する";
+			this.UI_IsLayoutFixed.Text = "フォントの高さを固定する";
 			this.ToolTipInfo.SetToolTip(this.UI_IsLayoutFixed, "有効な時、どんなフォントでも概ね各UIの列の高さが同じになります(ver. 2.6.2 以前と同様)。\r\n無効な時、フォントによって列の高さが変わります(有効な時" +
-        "より大きくなる場合があります)。");
+        "より大きくなる場合があります)。\r\n無効にした場合、動作が若干重くなる可能性があります。");
 			this.UI_IsLayoutFixed.UseVisualStyleBackColor = true;
 			// 
 			// UI_BarColorMorphing
@@ -996,7 +996,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 215);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 213);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -2777,7 +2777,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 235);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 233);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
