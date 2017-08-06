@@ -283,8 +283,14 @@ namespace ElectronicObserver.Data {
 			bool endsWidthBmax = bmax < amax;
 
 			if ( ( startsWithAmin && startsWithBmin ) || ( endsWithBpre && endsWithAmax ) ) {
-				ConditionPredictMin = newPredictMin;
-				ConditionPredictMax = newPredictMax;
+				// 二重領域; どちらか小さいほう
+				if ( amax - amin < bmax - bmin ) {
+					ConditionPredictMin = amin;
+					ConditionPredictMax = amax;
+				} else {
+					ConditionPredictMin = bmin;
+					ConditionPredictMax = bmax;
+				}
 			} else {
 				if ( startsWithAmin )
 					ConditionPredictMin = amin;

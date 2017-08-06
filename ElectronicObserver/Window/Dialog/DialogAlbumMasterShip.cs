@@ -1354,7 +1354,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				var arg = pathlist.Where( p => p != null ).ToArray();
 				if ( arg.Length > 0 ) {
-					new DialogShipGraphicViewer( arg ).Show( this );
+					new DialogShipGraphicViewer( arg ).Show( Owner );
 			
 				} else {
 
