@@ -28,10 +28,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			IsShortFormat = ( (int[])TorpedoData.api_fdam ).Length <= 7;
 
-			Damages = GetConcatArray( "api_fdam", "api_edam" );
-			AttackDamages = GetConcatArray( "api_fydam", "api_eydam" );
-			Targets = GetConcatArray( "api_frai", "api_erai" );
-			CriticalFlags = GetConcatArray( "api_fcl", "api_ecl" );
+			Damages = GetConcatArray<double>( "api_fdam", "api_edam" );
+			AttackDamages = GetConcatArray<int>( "api_fydam", "api_eydam" );
+			Targets = GetConcatArray<int>( "api_frai", "api_erai" );
+			CriticalFlags = GetConcatArray<int>( "api_fcl", "api_ecl" );
 
 		}
 
@@ -67,13 +67,14 @@ namespace ElectronicObserver.Data.Battle.Phase {
 					if ( PhaseBase.IsIndexEnemy( i ) && IsShortFormat && IsCombined )
 						target += 12;
 
-					BattleDetails.Add( new BattleDayDetail( _battleData, i, target, new int[] { AttackDamages[i] }, new int[] { CriticalFlags[i] }, -1, currentHP[target] ) );
+					BattleDetails.Add( new BattleDayDetail( _battleData, i, target, new double[] { AttackDamages[i] + Damages[target] - Math.Floor( Damages[target] ) },	//propagates "guards flagship" flag
+						new int[] { CriticalFlags[i] }, -1, null, currentHP[target] ) );
 					currentHP[target] -= Math.Max( AttackDamages[i], 0 );
 				}
 			}
 
 			for ( int i = 0; i < hps.Length; i++ ) {
-				AddDamage( hps, i, Damages[i] );
+				AddDamage( hps, i, (int)Damages[i] );
 				damages[i] += AttackDamages[i];
 			}
 
@@ -88,7 +89,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// 各艦の被ダメージ
 		/// </summary>
-		public int[] Damages { get; private set; }
+		public double[] Damages { get; private set; }
 
 		/// <summary>
 		/// 各艦の与ダメージ
@@ -109,9 +110,9 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		private bool IsShortFormat { get; set; }
 
 
-		private int[] GetConcatArray( string friendName, string enemyName ) {
-			var friend = ( (int[])TorpedoData[friendName] ).Skip( 1 );
-			var enemy = ( (int[])TorpedoData[enemyName] ).Skip( 1 );
+		private T[] GetConcatArray<T>( string friendName, string enemyName ) {
+			var friend = ( (T[])TorpedoData[friendName] ).Skip( 1 );
+			var enemy = ( (T[])TorpedoData[enemyName] ).Skip( 1 );
 
 			// 敵連合艦隊
 			if ( friend.Count() == 12 && enemy.Count() == 12 ) {
@@ -122,16 +123,16 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 			} else {
 				if ( IsCombined ) {
-					return Enumerable.Repeat( 0, 6 )
+					return Enumerable.Repeat( default( T ), 6 )
 						.Concat( enemy )
 						.Concat( friend )
-						.Concat( Enumerable.Repeat( 0, 6 ) )
+						.Concat( Enumerable.Repeat( default( T ), 6 ) )
 						.ToArray();
 
 				} else {
 					return friend
 						.Concat( enemy )
-						.Concat( Enumerable.Repeat( 0, 12 ) )
+						.Concat( Enumerable.Repeat( default( T ), 12 ) )
 						.ToArray();
 				}
 			}

@@ -917,16 +917,17 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( slot == null ) return NightAttackKind.Unknown;
 
-			for ( int i = 0; i < slot.Length; i++ ) {
-				EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[i]];
-				if ( eq == null ) continue;
+			var eqs = slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).ToArray();
 
+			foreach ( var eq in eqs.Where( e => e != null ) ) {
+				
 				int eqtype = eq.EquipmentType[2];
 
 				switch ( eqtype ) {
 					case 1:
 					case 2:
-					case 3:		//主砲
+					case 3:
+					case 38:	//主砲
 						mainguncnt++;
 						break;
 					case 4:		//副砲
@@ -1007,10 +1008,21 @@ namespace ElectronicObserver.Utility.Data {
 						return NightAttackKind.DepthCharge;
 
 				else if ( slot.Length > 0 ) {
-					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[0]];
-					if ( eq != null && ( eq.CategoryType == 5 || eq.CategoryType == 32 ) ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
-						return NightAttackKind.Torpedo;
+
+					foreach ( var eq in eqs.Where( e => e != null ) ) {
+						switch ( eq.CategoryType ) {
+							case 1:
+							case 2:
+							case 3:
+							case 4:
+							case 38:
+								return NightAttackKind.Shelling;
+							case 5:
+							case 32:
+								return NightAttackKind.Torpedo;
+						}
 					}
+
 				}
 
 			}
