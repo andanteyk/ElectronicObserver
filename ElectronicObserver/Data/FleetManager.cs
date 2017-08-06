@@ -227,8 +227,6 @@ namespace ElectronicObserver.Data {
 
 			var now = DateTime.Now;
 
-			AddConditionDebugLog( "Cond-Update: Now: " + DateTimeHelper.TimeToCSVString( now ) );
-
 			var conditionDiff = PreviousShips.Where( s => s.Value.Condition < 49 )
 				.Join( KCDatabase.Instance.Ships.Values, pair => pair.Key, ship => ship.ID, ( pair, ship ) => ship.Condition - pair.Value.Condition );
 			if ( !conditionDiff.Any() ) {
@@ -237,9 +235,6 @@ namespace ElectronicObserver.Data {
 
 			int healed = (int)Math.Ceiling( conditionDiff.Max() / 3.0 );
 			int predictedHealLow = (int)Math.Floor( ( now - LastConditionUpdated ).TotalSeconds / ConditionHealingSpan.TotalSeconds );
-
-			AddConditionDebugLog( "Cond-Update: Healed: " + conditionDiff.Max() + " / " + healed );
-			AddConditionDebugLog( "Cond-Update: PredictHealLow: " + predictedHealLow );
 
 
 			if ( healed < predictedHealLow ) {
@@ -284,22 +279,14 @@ namespace ElectronicObserver.Data {
 			bool endsWidthBmax = bmax < amax;
 
 			if ( ( startsWithAmin && startsWithBmin ) || ( endsWithBpre && endsWithAmax ) ) {
-				// 二重領域; どちらか小さいほう
-				if ( amax - amin < bmax - bmin ) {
-					ConditionPredictMin = amin;
-					ConditionPredictMax = amax;
-				} else {
-					ConditionPredictMin = bmin;
-					ConditionPredictMax = bmax;
-				}
+				ConditionPredictMin = newPredictMin;
+				ConditionPredictMax = newPredictMax;
 			} else {
 				if ( startsWithAmin )
 					ConditionPredictMin = amin;
 				else if ( startsWithBmin )
 					ConditionPredictMin = bmin;
 				else {
-					AddConditionDebugLog( "Cond-Update: empty-start: " + ConditionPredictMin + " -> " + newPredictMin );
-					System.Media.SystemSounds.Exclamation.Play();
 					ConditionPredictMin = newPredictMin;     // 空集合; 新しいほうを設定
 				}
 
@@ -310,17 +297,12 @@ namespace ElectronicObserver.Data {
 				else if ( endsWidthBmax )
 					ConditionPredictMax = bmax;
 				else {
-					AddConditionDebugLog( "Cond-Update: empty-end: " + ConditionPredictMax + " -> " + newPredictMax );
-					System.Media.SystemSounds.Exclamation.Play();
 					ConditionPredictMax = newPredictMax;     // 空集合; 新しいほうを設定
 				}
 			}
 
 
-
 LabelFinally:
-			AddConditionDebugLog( "Cond-Update: Bound: " + ConditionPredictMin + " ~ " + ConditionPredictMax );
-			AddConditionDebugLog( "Cond-Update: Accuracy: " + ConditionBorderAccuracy );
 			LastConditionUpdated = now;
 
 			foreach ( var f in Fleets.Values )
@@ -352,20 +334,11 @@ LabelFinally:
 
 			var offset = firstHeal + afterHeal;
 
-			
-			AddConditionDebugLog( "Cond-Heal: offset: " + DateTimeHelper.ToTimeElapsedString( offset ) );
 
 			return LastConditionUpdated + offset;
 
 		}
 
-
-		private void AddConditionDebugLog( string str ) {
-			if ( Utility.Configuration.Config.Debug.EnableDebugMenu ) {
-				Utility.Logger.Add( 1, str );
-			}
-		}
-	
 	}
 
 }
