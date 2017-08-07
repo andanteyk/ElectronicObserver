@@ -96,7 +96,6 @@
 			this.StripMenu_Help_Version = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripStatus = new System.Windows.Forms.StatusStrip();
 			this.StripStatus_Information = new System.Windows.Forms.ToolStripStatusLabel();
-			this.StripStatus_Padding = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
@@ -647,7 +646,6 @@
 			this.StripStatus.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.StripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripStatus_Information,
-            this.StripStatus_Padding,
             this.StripStatus_Clock});
 			this.StripStatus.Location = new System.Drawing.Point(0, 458);
 			this.StripStatus.Name = "StripStatus";
@@ -658,14 +656,10 @@
 			// StripStatus_Information
 			// 
 			this.StripStatus_Information.Name = "StripStatus_Information";
-			this.StripStatus_Information.Size = new System.Drawing.Size(104, 17);
+			this.StripStatus_Information.Size = new System.Drawing.Size(556, 17);
+			this.StripStatus_Information.Spring = true;
 			this.StripStatus_Information.Text = "Now Preparing...";
-			// 
-			// StripStatus_Padding
-			// 
-			this.StripStatus_Padding.Name = "StripStatus_Padding";
-			this.StripStatus_Padding.Size = new System.Drawing.Size(483, 17);
-			this.StripStatus_Padding.Spring = true;
+			this.StripStatus_Information.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// StripStatus_Clock
 			// 
@@ -727,7 +721,6 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Debug_LoadAPIFromFile;
 		private System.Windows.Forms.Timer UIUpdateTimer;
 		private System.Windows.Forms.ToolStripStatusLabel StripStatus_Information;
-		private System.Windows.Forms.ToolStripStatusLabel StripStatus_Padding;
 		private System.Windows.Forms.ToolStripStatusLabel StripStatus_Clock;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_Fleet;

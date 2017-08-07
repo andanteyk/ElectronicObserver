@@ -442,6 +442,9 @@ namespace ElectronicObserver.Data {
 		}
 
 
+		/// <summary>
+		/// 疲労が回復すると予測される日時 (疲労していない場合は null)
+		/// </summary>
 		public DateTime? ConditionTime { get; private set; }
 
 		public void UpdateConditionTime() {

@@ -23,7 +23,7 @@ namespace ElectronicObserver.Window {
 		private class TableFleetControl {
 
 			public ImageLabel Number;
-			public ImageLabel State;
+			public FleetState State;
 			public ToolTip ToolTipInfo;
 			private int fleetID;
 
@@ -38,16 +38,12 @@ namespace ElectronicObserver.Window {
 				Number.Margin = new Padding( 2, 1, 2, 1 );
 				Number.Text = string.Format( "#{0}:", fleetID );
 				Number.AutoSize = true;
-				Number.Tag = null;
 
-				State = new ImageLabel();
+				State = new FleetState();
 				State.Anchor = AnchorStyles.Left;
-				State.Padding = new Padding( 0, 1, 0, 1 );
-				State.Margin = new Padding( 2, 1, 2, 1 );
-				State.ImageList = ResourceManager.Instance.Icons;
-				State.Text = "-";
+				State.Padding = new Padding();
+				State.Margin = new Padding();
 				State.AutoSize = true;
-				State.Tag = FormFleet.FleetStates.NoShip;
 
 				ConfigurationChanged( parent );
 
@@ -77,20 +73,15 @@ namespace ElectronicObserver.Window {
 				FleetData fleet =  KCDatabase.Instance.Fleet[fleetID];
 				if ( fleet == null ) return;
 
-				DateTime dt = (DateTime?)Number.Tag ?? DateTime.Now;
-				State.Tag = FormFleet.UpdateFleetState( fleet, State, ToolTipInfo, (FormFleet.FleetStates)State.Tag, ref dt );
-				Number.Tag = dt;
+				State.UpdateFleetState( fleet, ToolTipInfo );
 
 				ToolTipInfo.SetToolTip( Number, fleet.Name );
 			}
 
-			public void ResetState() {
-				State.Tag = FormFleet.FleetStates.NoShip;
-			}
 
 			public void Refresh() {
 
-				FormFleet.RefreshFleetState( State, (FormFleet.FleetStates)State.Tag, (DateTime?)Number.Tag ?? DateTime.Now );
+				State.RefreshFleetState();
 			}
 
 
@@ -164,16 +155,8 @@ namespace ElectronicObserver.Window {
 
 		private void FormFleetOverview_Load( object sender, EventArgs e ) {
 
-
-
 			//api register
 			APIObserver o = APIObserver.Instance;
-
-			o.APIList["api_req_hensei/change"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kousyou/destroyship"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
-			o.APIList["api_req_hensei/preset_select"].ResponseReceived += ChangeOrganization;
 
 			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
@@ -271,12 +254,6 @@ namespace ElectronicObserver.Window {
 			TableFleet.ResumeLayout();
 		}
 
-		void ChangeOrganization( string apiname, dynamic data ) {
-
-			for ( int i = 0; i < ControlFleet.Count; i++ )
-				ControlFleet[i].ResetState();
-
-		}
 
 
 		void UpdateTimerTick() {

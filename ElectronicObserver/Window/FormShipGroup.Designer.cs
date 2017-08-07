@@ -134,14 +134,6 @@
 			this.ShipView.AllowUserToOrderColumns = true;
 			this.ShipView.AllowUserToResizeRows = false;
 			this.ShipView.BackgroundColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ShipView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.ShipView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.ShipView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ShipView_ID,

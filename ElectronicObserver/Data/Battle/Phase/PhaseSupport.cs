@@ -16,8 +16,6 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		public PhaseSupport( BattleData data, string title )
 			: base( data, title ) {
 
-			var empty = Enumerable.Repeat( 0, 6 );
-
 			switch ( SupportFlag ) {
 				case 1:		// 空撃
 					{
@@ -25,7 +23,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 							// 敵連合でも api_stage3_combined は存在せず、[13] になる
 
-							Damages = ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_edam ).Skip( 1 ).ToArray();
+							Damages = ( (double[])RawData.api_support_info.api_support_airatack.api_stage3.api_edam ).Skip( 1 ).ToArray();
 							Criticals = ( (int[])RawData.api_support_info.api_support_airatack.api_stage3.api_ecl_flag ).Skip( 1 ).ToArray();
 
 							// 航空戦なので crit フラグが違う
@@ -39,23 +37,23 @@ namespace ElectronicObserver.Data.Battle.Phase {
 				case 2:		// 砲撃
 				case 3:		// 雷撃
 					{
-						var dmg = ( (int[])RawData.api_support_info.api_support_hourai.api_damage ).Skip( 1 );
+						var dmg = ( (double[])RawData.api_support_info.api_support_hourai.api_damage ).Skip( 1 );
 						var cl = ( (int[])RawData.api_support_info.api_support_hourai.api_cl_list ).Skip( 1 );
 
 						if ( dmg.Count() == 12 )
 							Damages = dmg.ToArray();
 						else if ( dmg.Count() == 6 )
-							Damages = dmg.Concat( empty ).ToArray();
+							Damages = dmg.Concat( Enumerable.Repeat( 0.0, 6 ) ).ToArray();
 
 
 						if ( cl.Count() == 12 )
 							Criticals = cl.ToArray();
 						else if ( cl.Count() == 6 )
-							Criticals = cl.Concat( empty ).ToArray();
+							Criticals = cl.Concat( Enumerable.Repeat( 0, 6 ) ).ToArray();
 
 					} break;
 				default:
-					Damages = new int[12];
+					Damages = new double[12];
 					Criticals = new int[12];
 					break;
 			}
@@ -73,14 +71,14 @@ namespace ElectronicObserver.Data.Battle.Phase {
 			for ( int i = 0; i < 6; i++ ) {
 				if ( _battleData.Initial.EnemyMembers[i] > 0 ) {
 					BattleDetails.Add( new BattleSupportDetail( _battleData, i + 6, Damages[i], Criticals[i], SupportFlag, hps[i + 6] ) );
-					AddDamage( hps, i + 6, Damages[i] );
+					AddDamage( hps, i + 6, (int)Damages[i] );
 				}
 			}
 			if ( ( _battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined ) != 0 ) {
 				for ( int i = 0; i < 6; i++ ) {
 					if ( _battleData.Initial.EnemyMembersEscort[i] > 0 ) {
 						BattleDetails.Add( new BattleSupportDetail( _battleData, i + 18, Damages[i + 6], Criticals[i + 6], SupportFlag, hps[i + 18] ) );
-						AddDamage( hps, i + 18, Damages[i + 6] );
+						AddDamage( hps, i + 18, (int)Damages[i + 6] );
 					}
 				}
 			}
@@ -127,7 +125,7 @@ namespace ElectronicObserver.Data.Battle.Phase {
 		/// <summary>
 		/// 与ダメージ [12]
 		/// </summary>
-		public int[] Damages { get; private set; }
+		public double[] Damages { get; private set; }
 
 		/// <summary>
 		/// クリティカルフラグ [12]

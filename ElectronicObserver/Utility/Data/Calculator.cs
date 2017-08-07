@@ -520,26 +520,44 @@ namespace ElectronicObserver.Utility.Data {
 					int category = eq.MasterEquipment.CategoryType;
 
 					double equipmentRate;
-					if ( category == 8 || category == 58 )		// 艦上攻撃機・噴式攻撃機
-						equipmentRate = 0.8;
-					else if ( category == 9 || category == 59 )	// 艦上偵察機・噴式偵察機
-						equipmentRate = 1.0;
-					else if ( category == 10 )	// 水上偵察機
-						equipmentRate = 1.2;
-					else if ( category == 11 )	// 水上爆撃機
-						equipmentRate = 1.1;
-					else
-						equipmentRate = 0.6;
+					switch ( category ) {
+						case 8:		// 艦上攻撃機
+						case 58:	// 噴式攻撃機
+							equipmentRate = 0.8;
+							break;
+						case 9:		// 艦上偵察機
+						case 59:	// 噴式偵察機
+							equipmentRate = 1.0;
+							break;
+						case 10:	// 水上偵察機
+							equipmentRate = 1.2;
+							break;
+						case 11:	// 水上爆撃機
+							equipmentRate = 1.1;
+							break;
+						default:
+							equipmentRate = 0.6;
+							break;
+					}
 
 					double levelRate;
-					if ( category == 10 )		// 水上偵察機
-						levelRate = 1.2;
-					else if ( category == 12 )	// 小型電探
-						levelRate = 1.25;
-					else if ( category == 13 )	// 大型電探
-						levelRate = 1.4;
-					else
-						levelRate = 0.0;
+					switch ( category ) {
+						case 10:		// 水上偵察機
+							levelRate = 1.2;
+							break;
+						case 11:		// 水上爆撃機
+							levelRate = 1.15;
+							break;
+						case 12:	// 小型電探
+							levelRate = 1.25;
+							break;
+						case 13:	// 大型電探
+							levelRate = 1.4;
+							break;
+						default:
+							levelRate = 0;
+							break;
+					}
 
 					equipmentBonus += equipmentRate * ( eq.MasterEquipment.LOS + levelRate * Math.Sqrt( eq.Level ) );
 				}
@@ -899,16 +917,17 @@ namespace ElectronicObserver.Utility.Data {
 
 			if ( slot == null ) return NightAttackKind.Unknown;
 
-			for ( int i = 0; i < slot.Length; i++ ) {
-				EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[i]];
-				if ( eq == null ) continue;
+			var eqs = slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).ToArray();
 
+			foreach ( var eq in eqs.Where( e => e != null ) ) {
+				
 				int eqtype = eq.EquipmentType[2];
 
 				switch ( eqtype ) {
 					case 1:
 					case 2:
-					case 3:		//主砲
+					case 3:
+					case 38:	//主砲
 						mainguncnt++;
 						break;
 					case 4:		//副砲
@@ -989,10 +1008,21 @@ namespace ElectronicObserver.Utility.Data {
 						return NightAttackKind.DepthCharge;
 
 				else if ( slot.Length > 0 ) {
-					EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[slot[0]];
-					if ( eq != null && ( eq.CategoryType == 5 || eq.CategoryType == 32 ) ) {		//最初のスロット==魚雷		(本来の判定とは微妙に異なるが無問題)
-						return NightAttackKind.Torpedo;
+
+					foreach ( var eq in eqs.Where( e => e != null ) ) {
+						switch ( eq.CategoryType ) {
+							case 1:
+							case 2:
+							case 3:
+							case 4:
+							case 38:
+								return NightAttackKind.Shelling;
+							case 5:
+							case 32:
+								return NightAttackKind.Torpedo;
+						}
 					}
+
 				}
 
 			}
@@ -1130,12 +1160,12 @@ namespace ElectronicObserver.Utility.Data {
 			// 固有カットイン
 			switch ( shipID ) {
 
-				case 421:	//秋月
-				case 330:	//秋月改
-				case 422:	//照月
-				case 346:	//照月改
-				case 423:	//初月
-				case 357:	//初月改
+				case 421:	// 秋月
+				case 330:	// 秋月改
+				case 422:	// 照月
+				case 346:	// 照月改
+				case 423:	// 初月
+				case 357:	// 初月改
 					if ( highangle >= 2 && radar >= 1 ) {
 						return 1;
 					}
@@ -1147,7 +1177,7 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 428:	//摩耶改二
+				case 428:	// 摩耶改二
 					if ( highangle >= 1 && aagun_concentrated >= 1 ) {
 						if ( aaradar >= 1 )
 							return 10;
@@ -1156,7 +1186,7 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 141:	//五十鈴改二
+				case 141:	// 五十鈴改二
 					if ( highangle >= 1 && aagun >= 1 ) {
 						if ( aaradar >= 1 )
 							return 14;
@@ -1165,7 +1195,7 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 470:	//霞改二乙
+				case 470:	// 霞改二乙
 					if ( highangle >= 1 && aagun >= 1 ) {
 						if ( aaradar >= 1 )
 							return 16;
@@ -1174,12 +1204,12 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 418:	//皐月改二
+				case 418:	// 皐月改二
 					if ( aagun_concentrated >= 1 )
 						return 18;
 					break;
 
-				case 487:	//鬼怒改二
+				case 487:	// 鬼怒改二
 					if ( aagun_concentrated >= 1 ) {
 						if ( highangle - highangle_director >= 1 )
 							return 19;
@@ -1187,9 +1217,14 @@ namespace ElectronicObserver.Utility.Data {
 					}
 					break;
 
-				case 488:	//由良改二
+				case 488:	// 由良改二
 					if ( highangle >= 1 && aaradar >= 1 )
 						return 21;
+					break;
+
+				case 548:	// 文月改二
+					if ( aagun_concentrated >= 1 )
+						return 22;
 					break;
 			}
 
@@ -1400,6 +1435,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 19, 5 },
 			{ 20, 3 },
 			{ 21, 5 },
+			{ 22, 2 },
 		} );
 
 
@@ -1428,6 +1464,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 19, 1.45 },
 			{ 20, 1.25 },
 			{ 21, 1.45 },
+			{ 22, 1.2 },
 		} );
 
 

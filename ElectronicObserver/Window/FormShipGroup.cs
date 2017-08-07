@@ -218,10 +218,12 @@ namespace ElectronicObserver.Window {
 			int rowHeight;
 			if ( config.UI.IsLayoutFixed ) {
 				ShipView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+				ShipView.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
 				rowHeight = 21;
 			} else {
 				ShipView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-
+				ShipView.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
+				
 				if ( ShipView.Rows.Count > 0 )
 					rowHeight = ShipView.Rows[0].GetPreferredHeight( 0, DataGridViewAutoSizeRowMode.AllCellsExceptHeader, false );
 				else

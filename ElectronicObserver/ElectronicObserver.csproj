@@ -294,6 +294,12 @@
     <Compile Include="Utility\Storage\SerializableList.cs" />
     <Compile Include="Utility\SystemEvents.cs" />
     <Compile Include="Utility\WinAPI.cs" />
+    <Compile Include="Window\Control\FleetState.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Control\FleetState.Designer.cs">
+      <DependentUpon>FleetState.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Control\ImageLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -620,6 +626,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
+    <EmbeddedResource Include="Window\Control\FleetState.resx">
+      <DependentUpon>FleetState.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\ImageLabel.resx">
       <DependentUpon>ImageLabel.cs</DependentUpon>
     </EmbeddedResource>

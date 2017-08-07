@@ -11,20 +11,27 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 
 
 		public override void OnRequestReceived( Dictionary<string, string> data ) {
-			
+
 			KCDatabase db = KCDatabase.Instance;
 
 			// 削除処理が終わってからだと装備データが取れないため
 			db.QuestProgress.EquipmentDiscarded( APIName, data );
 
+			Dictionary<string, int> itemsDestroyed = new Dictionary<string, int>();
 
-			foreach ( string sid in data["api_slotitem_ids"].Split( ",".ToCharArray() ) ) {
+			foreach ( int id in data["api_slotitem_ids"].Split( ",".ToCharArray() ).Select( str => int.Parse( str ) ) ) {
+				string name = KCDatabase.Instance.Equipments[id].NameWithLevel;
+				int amount;
+				itemsDestroyed.TryGetValue( name, out amount );
+				itemsDestroyed[name] = amount + 1;
 
-				int id = int.Parse( sid );
-				Utility.Logger.Add( 2, KCDatabase.Instance.Equipments[id].NameWithLevel + " を廃棄しました。" );
 				db.Equipments.Remove( id );
 			}
-			
+
+			foreach ( var item in itemsDestroyed ) {
+				Utility.Logger.Add( 2, String.Format( "{0}{1} を廃棄しました。", item.Key, item.Value > 1 ? " x " + item.Value : "" ) );
+			}
+
 			base.OnRequestReceived( data );
 		}
 

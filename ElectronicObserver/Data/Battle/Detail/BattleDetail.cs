@@ -11,9 +11,12 @@ namespace ElectronicObserver.Data.Battle.Detail {
 	/// </summary>
 	public abstract class BattleDetail {
 
+		public double[] RawDamages { get; protected set; }
 		public int[] Damages { get; protected set; }
+		public bool[] GuardsFlagship { get; protected set; }
 		public CriticalType[] CriticalTypes { get; protected set; }
 		public int AttackType { get; protected set; }
+		public int[] EquipmentIDs { get; protected set; }
 		public int DefenderHP { get; protected set; }
 
 		public ShipDataMaster Attacker { get; protected set; }
@@ -42,13 +45,16 @@ namespace ElectronicObserver.Data.Battle.Detail {
 		/// <param name="criticalTypes">命中判定の配列。</param>
 		/// <param name="attackType">攻撃種別。</param>
 		/// <param name="defenderHP">防御側の攻撃を受ける直前のHP。</param>
-		public BattleDetail( BattleData bd, int attackerIndex, int defenderIndex, int[] damages, int[] criticalTypes, int attackType, int defenderHP ) {
+		public BattleDetail( BattleData bd, int attackerIndex, int defenderIndex, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP ) {
 
 			AttackerIndex = attackerIndex;
 			DefenderIndex = defenderIndex;
-			Damages = damages;
+			RawDamages = damages;
+			Damages = damages.Select( dmg => (int)dmg ).ToArray();
+			GuardsFlagship = damages.Select( dmg => dmg != Math.Floor( dmg ) ).ToArray();
 			CriticalTypes = criticalTypes.Select( i => (CriticalType)i ).ToArray();
 			AttackType = attackType;
+			EquipmentIDs = equipmentIDs;
 			DefenderHP = defenderHP;
 
 			int[] slots;
@@ -107,12 +113,23 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			if ( AttackType >= 0 )
 				builder.Append( "[" ).Append( GetAttackKind() ).Append( "] " );
 
+			/*// it may be useless
+			if ( EquipmentIDs != null ) {
+				var eqs = EquipmentIDs.Select( id => KCDatabase.Instance.MasterEquipments[id] ).Where( eq => eq != null ).Select( eq => eq.Name );
+				if ( eqs.Any() )
+					builder.Append( "(" ).Append( string.Join( ", ", eqs ) ).Append( ") " );
+			}
+			//*/
+
 			for ( int i = 0; i < Damages.Length; i++ ) {
 				if ( CriticalTypes[i] == CriticalType.Invalid )	// カットイン(主砲/主砲)、カットイン(主砲/副砲)時に発生する
 					continue;
 
 				if ( i > 0 )
 					builder.Append( " , " );
+
+				if ( GuardsFlagship[i] )
+					builder.Append( "<かばう> " );
 
 				switch ( CriticalTypes[i] ) {
 					case CriticalType.Miss:
@@ -125,6 +142,7 @@ namespace ElectronicObserver.Data.Battle.Detail {
 						builder.Append( Damages[i] ).Append( " Critical!" );
 						break;
 				}
+
 			}
 
 			{
@@ -175,8 +193,8 @@ namespace ElectronicObserver.Data.Battle.Detail {
 	/// </summary>
 	public class BattleDayDetail : BattleDetail {
 
-		public BattleDayDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType, int defenderHP )
-			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType, defenderHP ) {
+		public BattleDayDetail( BattleData bd, int attackerId, int defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP )
+			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType, equipmentIDs, defenderHP ) {
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
@@ -193,8 +211,8 @@ namespace ElectronicObserver.Data.Battle.Detail {
 	/// </summary>
 	public class BattleSupportDetail : BattleDetail {
 
-		public BattleSupportDetail( BattleData bd, int defenderId, int damage, int criticalType, int attackType, int defenderHP )
-			: base( bd, -1, defenderId, new int[] { damage }, new int[] { criticalType }, attackType, defenderHP ) {
+		public BattleSupportDetail( BattleData bd, int defenderId, double damage, int criticalType, int attackType, int defenderHP )
+			: base( bd, -1, defenderId, new double[] { damage }, new int[] { criticalType }, attackType, null, defenderHP ) {
 		}
 
 		protected override string GetAttackerName() {
@@ -225,8 +243,8 @@ namespace ElectronicObserver.Data.Battle.Detail {
 	/// </summary>
 	public class BattleNightDetail : BattleDetail {
 
-		public BattleNightDetail( BattleData bd, int attackerId, int defenderId, int[] damages, int[] criticalTypes, int attackType, int defenderHP )
-			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType, defenderHP ) {
+		public BattleNightDetail( BattleData bd, int attackerId, int defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP )
+			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType, equipmentIDs, defenderHP ) {
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
@@ -245,8 +263,8 @@ namespace ElectronicObserver.Data.Battle.Detail {
 
 		public int WaveIndex { get; protected set; }
 
-		public BattleAirDetail( BattleData bd, int waveIndex, int defenderId, int damage, int criticalType, int attackType, int defenderHP )
-			: base( bd, -1, defenderId, new int[] { damage }, new int[] { criticalType }, attackType, defenderHP ) {
+		public BattleAirDetail( BattleData bd, int waveIndex, int defenderId, double damage, int criticalType, int attackType, int defenderHP )
+			: base( bd, -1, defenderId, new double[] { damage }, new int[] { criticalType }, attackType, null, defenderHP ) {
 			WaveIndex = waveIndex;
 		}
 

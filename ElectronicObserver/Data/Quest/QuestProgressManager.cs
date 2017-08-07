@@ -311,6 +311,7 @@ namespace ElectronicObserver.Data.Quest {
 							break;
 						case 424:	//|424|月|輸送船団護衛を強化せよ！|「海上護衛任務」成功4
 							Progresses.Add( new ProgressExpedition( q, 4, new int[] { 5 } ) );
+							Progresses[q.QuestID].SharedCounterShift = 1;
 							break;
 
 						case 503:	//|503|艦隊大整備！|入渠5

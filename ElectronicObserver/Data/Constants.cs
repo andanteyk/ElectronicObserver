@@ -614,11 +614,11 @@ namespace ElectronicObserver.Data {
 				case 0:
 					return "なし";
 				case 1:
-					return "高角砲x2/電探";
+					return "高角砲x2/電探(秋月)";
 				case 2:
-					return "高角砲/電探";
+					return "高角砲/電探(秋月)";
 				case 3:
-					return "高角砲x2";
+					return "高角砲x2(秋月)";
 				case 4:
 					return "大口径主砲/三式弾/高射装置/電探";
 				case 5:
@@ -632,27 +632,29 @@ namespace ElectronicObserver.Data {
 				case 9:
 					return "高角砲/高射装置";
 				case 10:
-					return "高角砲/集中機銃/電探";
+					return "高角砲/集中機銃/電探(摩耶)";
 				case 11:
-					return "高角砲/集中機銃";
+					return "高角砲/集中機銃(摩耶)";
 				case 12:
 					return "集中機銃/機銃/電探";
 				case 14:
-					return "高角砲/機銃/電探";
+					return "高角砲/機銃/電探(五十鈴)";
 				case 15:
-					return "高角砲/機銃";
+					return "高角砲/機銃(五十鈴)";
 				case 16:
-					return "高角砲/機銃/電探";
+					return "高角砲/機銃/電探(霞)";
 				case 17:
-					return "高角砲/機銃";
+					return "高角砲/機銃(霞)";
 				case 18:
-					return "集中機銃";
+					return "集中機銃(皐月)";
 				case 19:
-					return "高角砲/集中機銃";
+					return "高角砲/集中機銃(鬼怒)";
 				case 20:
-					return "集中機銃";
+					return "集中機銃(鬼怒)";
 				case 21:
-					return "高角砲/電探";
+					return "高角砲/電探(由良)";
+				case 22:
+					return "集中機銃(文月)";
 				default:
 					return "不明";
 			}

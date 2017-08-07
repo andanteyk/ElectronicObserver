@@ -39,10 +39,10 @@ namespace ElectronicObserver.Data.Battle.Phase {
 
 				_squadrons = GetSquadrons().ToArray();
 
-				TorpedoFlags = ConcatStage3Array( "api_frai_flag", "api_erai_flag" );
-				BomberFlags = ConcatStage3Array( "api_fbak_flag", "api_ebak_flag" );
-				Criticals = ConcatStage3Array( "api_fcl_flag", "api_ecl_flag" );
-				Damages = ConcatStage3Array( "api_fdam", "api_edam" );
+				TorpedoFlags = ConcatStage3Array<int>( "api_frai_flag", "api_erai_flag" );
+				BomberFlags = ConcatStage3Array<int>( "api_fbak_flag", "api_ebak_flag" );
+				Criticals = ConcatStage3Array<int>( "api_fcl_flag", "api_ecl_flag" );
+				Damages = ConcatStage3Array<double>( "api_fdam", "api_edam" );
 			}
 
 

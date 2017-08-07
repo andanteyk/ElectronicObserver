@@ -52,7 +52,7 @@ namespace ElectronicObserver.Utility.Storage {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の書き込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の書き込みに失敗しました。" );
 			}
 
 		}
@@ -64,7 +64,7 @@ namespace ElectronicObserver.Utility.Storage {
 					serializer.WriteObject( xw, this );
 				}
 			} catch ( Exception ex ) {
-				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の書き込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の書き込みに失敗しました。" );
 			}
 		}
 
@@ -81,15 +81,15 @@ namespace ElectronicObserver.Utility.Storage {
 
 			} catch ( FileNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "DataStorage {0} は存在しません。", path ) );
+				Utility.Logger.Add( 3, string.Format( "{0}: {1} は存在しません。", GetType().Name, path ) );
 
 			} catch ( DirectoryNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "DataStorage {0} は存在しません。", path ) );
+				Utility.Logger.Add( 3, string.Format( "{0}: {1} は存在しません。", GetType().Name, path ) );
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の読み込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の読み込みに失敗しました。" );
 
 			}
 
@@ -119,7 +119,7 @@ namespace ElectronicObserver.Utility.Storage {
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の書き込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の書き込みに失敗しました。" );
 			}
 
 		}
@@ -137,15 +137,15 @@ namespace ElectronicObserver.Utility.Storage {
 
 			} catch ( FileNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "DataStorage ファイルは存在しません。" ) );
+				Utility.Logger.Add( 3, GetType().Name + ": ファイルは存在しません。" );
 
 			} catch ( DirectoryNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "DataStorage ファイルは存在しません。" ) );
+				Utility.Logger.Add( 3, GetType().Name + ": ファイルは存在しません。" );
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の読み込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の読み込みに失敗しました。" );
 
 			}
 
@@ -161,11 +161,11 @@ namespace ElectronicObserver.Utility.Storage {
 				}
 			} catch ( DirectoryNotFoundException ) {
 
-				Utility.Logger.Add( 3, string.Format( "DataStorage ファイルは存在しません。" ) );
+				Utility.Logger.Add( 3, GetType().Name + ": ファイルは存在しません。" );
 
 			} catch ( Exception ex ) {
 
-				Utility.ErrorReporter.SendErrorReport( ex, "DataStorage の読み込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の読み込みに失敗しました。" );
 
 			}
 

@@ -29,13 +29,11 @@ namespace ElectronicObserver.Window {
 
 		private class TableFleetControl {
 			public Label Name;
-			public ImageLabel StateMain;
+			public FleetState State;
 			public ImageLabel AirSuperiority;
 			public ImageLabel SearchingAbility;
 			public ImageLabel AntiAirPower;
 			public ToolTip ToolTipInfo;
-			public FleetStates State;
-			public DateTime Timer;
 
 			public TableFleetControl( FormFleet parent ) {
 
@@ -51,13 +49,12 @@ namespace ElectronicObserver.Window {
 				//Name.Visible = false;
 				Name.Cursor = Cursors.Help;
 
-				StateMain = new ImageLabel();
-				StateMain.Anchor = AnchorStyles.Left;
-				StateMain.ForeColor = parent.MainFontColor;
-				StateMain.ImageList = ResourceManager.Instance.Icons;
-				StateMain.Padding = new Padding( 2, 2, 2, 2 );
-				StateMain.Margin = new Padding( 2, 0, 2, 0 );
-				StateMain.AutoSize = true;
+				State = new FleetState();
+				State.Anchor = AnchorStyles.Left;
+				State.ForeColor = parent.MainFontColor;
+				State.Padding = new Padding();
+				State.Margin = new Padding();
+				State.AutoSize = true;
 
 				AirSuperiority = new ImageLabel();
 				AirSuperiority.Anchor = AnchorStyles.Left;
@@ -90,8 +87,6 @@ namespace ElectronicObserver.Window {
 				ConfigurationChanged( parent );
 
 				ToolTipInfo = parent.ToolTipInfo;
-				State = FleetStates.NoShip;
-				Timer = DateTime.Now;
 
 				#endregion
 
@@ -106,7 +101,7 @@ namespace ElectronicObserver.Window {
 
 				table.SuspendLayout();
 				table.Controls.Add( Name, 0, 0 );
-				table.Controls.Add( StateMain, 1, 0 );
+				table.Controls.Add( State, 1, 0 );
 				table.Controls.Add( AirSuperiority, 2, 0 );
 				table.Controls.Add( SearchingAbility, 3, 0 );
 				table.Controls.Add( AntiAirPower, 4, 0 );
@@ -159,7 +154,7 @@ namespace ElectronicObserver.Window {
 				}
 
 
-				State = UpdateFleetState( fleet, StateMain, ToolTipInfo, State, ref Timer );
+				State.UpdateFleetState( fleet, ToolTipInfo );
 
 
 				//制空戦力計算	
@@ -220,20 +215,16 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			public void ResetState() {
-				State = FleetStates.NoShip;
-			}
-
 			public void Refresh() {
 
-				RefreshFleetState( StateMain, State, Timer );
+				State.RefreshFleetState();
 
 			}
 
 			public void ConfigurationChanged( FormFleet parent ) {
 				Name.Font = parent.MainFont;
-				StateMain.Font = parent.MainFont;
-				StateMain.BackColor = Color.Transparent;
+				State.Font = parent.MainFont;
+				State.RefreshFleetState();
 				AirSuperiority.Font = parent.MainFont;
 				SearchingAbility.Font = parent.MainFont;
 				AntiAirPower.Font = parent.MainFont;
@@ -738,12 +729,6 @@ namespace ElectronicObserver.Window {
 
 			APIObserver o = APIObserver.Instance;
 
-			o.APIList["api_req_hensei/change"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kousyou/destroyship"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kaisou/remodeling"].RequestReceived += ChangeOrganization;
-			o.APIList["api_req_kaisou/powerup"].ResponseReceived += ChangeOrganization;
-			o.APIList["api_req_hensei/preset_select"].ResponseReceived += ChangeOrganization;
-
 			o.APIList["api_req_nyukyo/start"].RequestReceived += Updated;
 			o.APIList["api_req_nyukyo/speedchange"].RequestReceived += Updated;
 			o.APIList["api_req_hensei/change"].RequestReceived += Updated;
@@ -814,18 +799,12 @@ namespace ElectronicObserver.Window {
 
 
 			if ( Icon != null ) ResourceManager.DestroyIcon( Icon );
-			Icon = ResourceManager.ImageToIcon( ControlFleet.StateMain.Image );
+			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[ControlFleet.State.GetIconIndex()] );
 			if ( Parent != null ) Parent.Refresh();		//アイコンを更新するため
 
 		}
 
-		void ChangeOrganization( string apiname, dynamic data ) {
-
-			ControlFleet.ResetState();
-
-		}
-
-
+		
 		void UpdateTimerTick() {
 
 			FleetData fleet = KCDatabase.Instance.Fleet.Fleets[FleetID];
@@ -1153,293 +1132,6 @@ namespace ElectronicObserver.Window {
 			TableMember.Location = new Point( TableMember.Location.X, TableFleet.Bottom /*+ Math.Max( TableFleet.Margin.Bottom, TableMember.Margin.Top )*/ );
 
 			TableMember.PerformLayout();		//fixme:サイズ変更に親パネルが追随しない
-
-		}
-
-
-
-
-		/// <summary>
-		/// 艦隊の状態を表します。
-		/// </summary>
-		public enum FleetStates {
-			NoShip,
-			Docking,
-			SortieDamaged,
-			Sortie,
-			Expedition,
-			Damaged,
-			NotReplenished,
-			Tired,
-			Sparkled,
-			AnchorageRepairing,
-			Ready,
-		}
-
-
-		/// <summary>
-		/// 艦隊の状態の情報をラベルに適用します。
-		/// </summary>
-		/// <param name="fleet">艦隊データ。</param>
-		/// <param name="label">適用するラベル。</param>
-		/// <param name="tooltip">適用するツールチップ。</param>
-		/// <param name="prevstate">前回の状態。</param>
-		/// <param name="timer">日時。</param>
-		/// <returns>艦隊の状態を表す定数。</returns>
-		public static FleetStates UpdateFleetState( FleetData fleet, ImageLabel label, ToolTip tooltip, FleetStates prevstate, ref DateTime timer ) {
-
-			KCDatabase db = KCDatabase.Instance;
-
-
-			//初期化
-			tooltip.SetToolTip( label, null );
-			label.BackColor = Color.Transparent;
-
-			bool emphasizesSubFleetInPort = Utility.Configuration.Config.FormFleet.EmphasizesSubFleetInPort &&
-				( db.Fleet.CombinedFlag > 0 ? fleet.FleetID >= 3 : fleet.FleetID >= 2 );
-
-
-			//所属艦なし
-			if ( fleet == null || fleet.Members.Count( id => id != -1 ) == 0 ) {
-				label.Text = "所属艦なし";
-				label.ImageIndex = (int)ResourceManager.IconContent.FleetNoShip;
-
-				return FleetStates.NoShip;
-			}
-
-			{	//入渠中
-				long ntime = db.Docks.Values.Max(
-						dock => {
-							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
-								return dock.CompletionTime.Ticks;
-							else return 0;
-						}
-						);
-
-				if ( ntime > 0 ) {	//入渠中
-
-					timer = new DateTime( ntime );
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
-
-					tooltip.SetToolTip( label, "完了日時 : " + DateTimeHelper.TimeToCSVString( timer ) );
-
-					return FleetStates.Docking;
-				}
-
-			}
-
-
-			if ( fleet.IsInSortie ) {
-
-				//大破出撃中
-				if ( fleet.MembersInstance.Count( s =>
-						( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) && (double)s.HPCurrent / s.HPMax <= 0.25 )
-					 ) > 0 ) {
-
-					label.Text = "！！大破進撃中！！";
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetSortieDamaged;
-					label.BackColor = Color.LightCoral;
-
-					return FleetStates.SortieDamaged;
-
-				} else {	//出撃中
-
-					label.Text = "出撃中";
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetSortie;
-
-					return FleetStates.Sortie;
-				}
-
-			}
-
-
-			//遠征中
-			if ( fleet.ExpeditionState != 0 ) {
-
-				timer = fleet.ExpeditionTime;
-				label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
-				label.ImageIndex = (int)ResourceManager.IconContent.FleetExpedition;
-
-				tooltip.SetToolTip( label, string.Format( "{0} : {1}\r\n完了日時 : {2}",
-					db.Mission[fleet.ExpeditionDestination].ID,
-					db.Mission[fleet.ExpeditionDestination].Name,
-					DateTimeHelper.TimeToCSVString( timer ) ) );
-
-				return FleetStates.Expedition;
-			}
-
-			//大破艦あり
-			if ( fleet.MembersInstance.Count( s =>
-				( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) && (double)s.HPCurrent / s.HPMax <= 0.25 )
-			 ) > 0 ) {
-
-				label.Text = "大破艦あり！";
-				label.ImageIndex = (int)ResourceManager.IconContent.FleetDamaged;
-				label.BackColor = Color.LightCoral;
-
-				return FleetStates.Damaged;
-			}
-
-			//泊地修理中
-			{
-				if ( fleet.CanAnchorageRepair ) {
-
-					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( db.Fleet.AnchorageRepairingTimer );
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
-
-					StringBuilder sb = new StringBuilder();
-					sb.AppendFormat( "開始日時 : {0}\r\n修理時間 :\r\n",
-						DateTimeHelper.TimeToCSVString( db.Fleet.AnchorageRepairingTimer ) );
-
-					for ( int i = 0; i < fleet.Members.Count; i++ ) {
-						var ship = fleet.MembersInstance[i];
-						if ( ship != null && ship.HPRate < 1.0 ) {
-							var totaltime = DateTimeHelper.FromAPITimeSpan( ship.RepairTime );
-							var unittime = Calculator.CalculateDockingUnitTime( ship );
-							sb.AppendFormat( "#{0} : {1:00}:{2:00}:{3:00} @ {4:00}:{5:00}:{6:00} x -{7} HP\r\n",
-								i + 1,
-								(int)totaltime.TotalHours,
-								totaltime.Minutes,
-								totaltime.Seconds,
-								(int)unittime.TotalHours,
-								unittime.Minutes,
-								unittime.Seconds,
-								ship.HPMax - ship.HPCurrent
-								);
-						} else {
-							sb.Append( "#" ).Append( i + 1 ).Append( " : ----\r\n" );
-						}
-					}
-
-					tooltip.SetToolTip( label, sb.ToString() );
-
-					return FleetStates.AnchorageRepairing;
-				}
-			}
-
-			//未補給
-			{
-				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.FuelMax - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
-				int ammo = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.AmmoMax - ship.Ammo ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
-				int aircraft = fleet.MembersInstance.Sum(
-					ship => {
-						if ( ship == null ) return 0;
-						else {
-							int c = 0;
-							for ( int i = 0; i < ship.Slot.Count; i++ ) {
-								c += ship.MasterShip.Aircraft[i] - ship.Aircraft[i];
-							}
-							return c;
-						}
-					} );
-				int bauxite = aircraft * 5;
-
-				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
-
-					label.Text = "未補給";
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
-
-					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ({3}機)", fuel, ammo, bauxite, aircraft ) );
-
-					if ( emphasizesSubFleetInPort )
-						label.BackColor = Color.LightGreen;
-
-					return FleetStates.NotReplenished;
-				}
-			}
-
-			//疲労
-			{
-				int cond = fleet.MembersInstance.Min( s => s == null ? 100 : s.Condition );
-
-				if ( cond < Utility.Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null ) {
-
-					timer = (DateTime)fleet.ConditionTime;
-
-
-					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
-
-					if ( cond < 20 )
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-					else if ( cond < 30 )
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
-					else
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
-
-
-					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}\r\n(予測誤差: {1})", 
-						DateTimeHelper.TimeToCSVString( timer ), DateTimeHelper.ToTimeRemainString( TimeSpan.FromSeconds( db.Fleet.ConditionBorderAccuracy ) ) ) );
-
-					if ( emphasizesSubFleetInPort )
-						label.BackColor = Color.LightGreen;
-
-					return FleetStates.Tired;
-
-
-				} else if ( cond >= 50 ) {		//戦意高揚
-
-					label.Text = "戦意高揚！";
-					label.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
-					tooltip.SetToolTip( label, string.Format( "最低cond: {0}\r\nあと {1} 回遠征可能", cond, Math.Ceiling( ( cond - 49 ) / 3.0 ) ) );
-
-					if ( emphasizesSubFleetInPort )
-						label.BackColor = Color.LightGreen;
-
-					return FleetStates.Sparkled;
-
-				}
-
-			}
-
-			//出撃可能！
-			{
-				label.Text = "出撃可能！";
-				label.ImageIndex = (int)ResourceManager.IconContent.FleetReady;
-				if ( emphasizesSubFleetInPort )
-					label.BackColor = Color.LightGreen;
-
-				return FleetStates.Ready;
-			}
-
-		}
-
-
-		/// <summary>
-		/// 艦隊の状態の情報をもとにラベルを更新します。
-		/// </summary>
-		/// <param name="label">更新するラベル。</param>
-		/// <param name="state">艦隊の状態。</param>
-		/// <param name="timer">日時。</param>
-		public static void RefreshFleetState( ImageLabel label, FleetStates state, DateTime timer ) {
-
-			switch ( state ) {
-				case FleetStates.Damaged:
-					if ( Utility.Configuration.Config.FormFleet.BlinkAtDamaged )
-						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
-					break;
-				case FleetStates.SortieDamaged:
-					label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightCoral : Color.Transparent;
-					break;
-				case FleetStates.Docking:
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
-					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= Utility.Configuration.Config.NotifierRepair.AccelInterval )
-						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
-					break;
-				case FleetStates.Expedition:
-					label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
-					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= Utility.Configuration.Config.NotifierExpedition.AccelInterval )
-						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
-					break;
-				case FleetStates.Tired:
-					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
-					if ( Utility.Configuration.Config.FormFleet.BlinkAtCompletion && ( timer - DateTime.Now ).TotalMilliseconds <= 0 )
-						label.BackColor = DateTime.Now.Second % 2 == 0 ? Color.LightGreen : Color.Transparent;
-					break;
-				case FleetStates.AnchorageRepairing:
-					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
-					break;
-			}
 
 		}
 

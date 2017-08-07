@@ -1,11 +1,10 @@
 
-## 七四式電子観測儀
----
+# 七四式電子観測儀
 
 現在鋭意開発中の艦これ補助ブラウザです。  
 
-### 実装されている機能
----
+
+## 実装されている機能
 
 ![](https://github.com/andanteyk/ElectronicObserver/wiki/media/mainimage2.png)
 
@@ -32,32 +31,27 @@
 
 なお、全ての機能において艦これ本体の送受信する情報に干渉する操作は行っていません。
 
-### ダウンロード
----
+
+## ダウンロード
 
 *このリンクの更新は遅れる可能性があります。最新版は[こちら](http://electronicobserver.blog.fc2.com/)で確認してください。*  
 
-[ver. 2.7.0 (2017/06/25)](http://bit.ly/2t5hxgr)  
+[ver. 2.7.1 (2017/08/07)](http://bit.ly/2hCIp3e)  
 
 [更新内容・履歴はこちらで確認できます。](https://github.com/andanteyk/ElectronicObserver/wiki/ChangeLog)  
 
-### 開発者の皆様へ
----
+
+## 開発者の皆様へ
+
+[開発のための情報はこちらに掲載しています。](https://github.com/andanteyk/ElectronicObserver/wiki/ForDev)  
 
 [Other/Information/](https://github.com/andanteyk/ElectronicObserver/tree/develop/ElectronicObserver/Other/Information) に艦これのAPIや仕様についての情報を掲載しています。  
 ご自由にお持ちください。但し内容は保証しません。  
 
 [ライセンスは MIT License です。](https://github.com/andanteyk/ElectronicObserver/blob/master/LICENSE)  
 
-#### ビルド・実行方法
 
-1. `git clone` (もしくはその他の方法でソースコードを入手)
-2. `git submodule init`
-3. `git submodule update`
-4. 「全てリビルド」して実行
-
-### 使用しているライブラリ
----
+## 使用しているライブラリ
 
 * [DynamicJson](http://dynamicjson.codeplex.com/) (JSON データの読み書き) - [Ms-PL](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/Ms-PL.txt)
 * [DockPanel Suite](http://dockpanelsuite.com/) (ウィンドウレイアウト) - [MIT License](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/DockPanelSuite.txt)
@@ -67,8 +61,9 @@
 * [SwfExtractor](https://github.com/andanteyk/SwfExtractor) (swf からファイル抽出) - [MIT License](https://github.com/andanteyk/ElectronicObserver/blob/master/Licenses/SwfExtractor.txt)
 	* [LZMA SDK (Software Development Kit)](http://www.7-zip.org/sdk.html) - Public Domain
 
-### 連絡先など
----
+
+## 連絡先など
 
 * 配布サイト:[ブルネイ工廠電気実験部](http://electronicobserver.blog.fc2.com/) (バグ報告・要望等はこちらにお願いします)
 * 開発:[Andante](https://twitter.com/andanteyk)
+
