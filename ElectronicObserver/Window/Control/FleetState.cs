@@ -156,7 +156,7 @@ namespace ElectronicObserver.Window.Control {
 				( db.Fleet.CombinedFlag > 0 ? fleet.FleetID >= 3 : fleet.FleetID >= 2 );
 
 			Color colorDanger = Color.LightCoral;
-			Color colorInPort = emphasizesSubFleetInPort ? Color.LightGreen : Color.Transparent;
+			Color colorInPort = Color.Transparent;
 
 
 			//所属艦なし
@@ -166,6 +166,7 @@ namespace ElectronicObserver.Window.Control {
 				state.SetInformation( FleetStates.NoShip, "所属艦なし", "", (int)ResourceManager.IconContent.FleetNoShip );
 				tooltip.SetToolTip( state.Label, null );
 
+				emphasizesSubFleetInPort = false;
 				index++;
 
 			} else {
@@ -190,6 +191,7 @@ namespace ElectronicObserver.Window.Control {
 						index++;
 					}
 
+					emphasizesSubFleetInPort = false;
 				}
 
 				//遠征中
@@ -207,6 +209,7 @@ namespace ElectronicObserver.Window.Control {
 						string.Format( "{0} : {1}\r\n完了日時 : {2}",
 						dest.ID, dest.Name, DateTimeHelper.TimeToCSVString( state.Timer ) ) );
 
+					emphasizesSubFleetInPort = false;
 					index++;
 				}
 
@@ -217,6 +220,7 @@ namespace ElectronicObserver.Window.Control {
 					state.SetInformation( FleetStates.Damaged, "大破艦あり！", "大破艦あり！", (int)ResourceManager.IconContent.FleetDamaged, colorDanger );
 					tooltip.SetToolTip( state.Label, null );
 
+					emphasizesSubFleetInPort = false;
 					index++;
 				}
 
@@ -253,6 +257,7 @@ namespace ElectronicObserver.Window.Control {
 
 					tooltip.SetToolTip( state.Label, sb.ToString() );
 
+					emphasizesSubFleetInPort = false;
 					index++;
 				}
 
@@ -271,6 +276,7 @@ namespace ElectronicObserver.Window.Control {
 
 						tooltip.SetToolTip( state.Label, "完了日時 : " + DateTimeHelper.TimeToCSVString( state.Timer ) );
 
+						emphasizesSubFleetInPort = false;
 						index++;
 					}
 
@@ -343,6 +349,15 @@ namespace ElectronicObserver.Window.Control {
 
 			}
 
+
+			if ( emphasizesSubFleetInPort ) {
+				for ( int i = 0; i < index; i++ ) {
+					if ( StateLabels[i].Label.BackColor == Color.Transparent )
+						StateLabels[i].Label.BackColor = Color.LightGreen;
+				}
+			}
+
+
 			for ( int i = index; i < StateLabels.Count; i++ )
 				StateLabels[i].Enabled = false;
 
@@ -354,6 +369,7 @@ namespace ElectronicObserver.Window.Control {
 				for ( int i = 0; i < index; i++ )
 					StateLabels[i].AutoShorten = true;
 			}
+
 		}
 
 
