@@ -51,9 +51,13 @@ namespace ElectronicObserver.Window.Control {
 				}
 			}
 
+			private bool _enabled;
 			public bool Enabled {
-				get { return Label.Visible; }
-				set { Label.Visible = value; }
+				get { return _enabled; }
+				set {
+					_enabled = value;
+					Label.Visible = value;
+				}
 			}
 
 
@@ -428,7 +432,8 @@ namespace ElectronicObserver.Window.Control {
 		}
 
 		public int GetIconIndex() {
-			return StateLabels.OrderBy( s => s.State ).First().Label.ImageIndex;
+			var first = StateLabels.Where( s => s.Enabled ).OrderBy( s => s.State ).FirstOrDefault();
+			return first == null ? (int)ResourceManager.IconContent.FormFleet : first.Label.ImageIndex;
 		}
 
 	}
