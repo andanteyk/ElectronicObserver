@@ -1050,6 +1050,7 @@ namespace Browser {
 				try {
 					using ( var img = new Bitmap( _lastScreenShotPath ) ) {
 						Clipboard.SetImage( img );
+						AddLog( 2, string.Format( "スクリーンショット {0} をクリップボードにコピーしました。", _lastScreenShotPath ) );
 					}
 				} catch ( Exception ex ) {
 					BrowserHost.AsyncRemoteRun( () =>
