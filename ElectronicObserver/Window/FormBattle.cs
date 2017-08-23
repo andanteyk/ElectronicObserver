@@ -51,7 +51,7 @@ namespace ElectronicObserver.Window {
 				HPBars[i].AutoSize = false;
 				HPBars[i].AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 				HPBars[i].Margin = new Padding( 2, 0, 2, 0 );
-				HPBars[i].Anchor = AnchorStyles.None;
+				HPBars[i].Anchor = AnchorStyles.Left | AnchorStyles.Right;
 				HPBars[i].MainFont = MainFont;
 				HPBars[i].SubFont = SubFont;
 				HPBars[i].UsePrevValue = true;
@@ -815,31 +815,36 @@ namespace ElectronicObserver.Window {
 					bool isEscaped;
 					bool isLandBase;
 
+					var bar = HPBars[i];
+
 					if ( isBaseAirRaid ) {
 						name = string.Format( "第{0}基地", i + 1 );
 						isEscaped = false;
 						isLandBase = true;
+						bar.Text = "LB";		//note: Land Base (Landing Boat もあるらしいが考えつかなかったので)
+
 					} else {
 						ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
 						name = string.Format( "{0} Lv. {1}", ship.MasterShip.NameWithClass, ship.Level );
 						isEscaped = bd.Initial.FriendFleet.EscapedShipList.Contains( ship.MasterID );
 						isLandBase = ship.MasterShip.IsLandBase;
+						bar.Text = Constants.GetShipClassClassification( ship.MasterShip.ShipType );
 					}
 
-					ToolTipInfo.SetToolTip( HPBars[i], string.Format
+					ToolTipInfo.SetToolTip( bar, string.Format
 						( "{0}\r\nHP: ({1} → {2})/{3} ({4}) [{5}]\r\n与ダメージ: {6}\r\n\r\n{7}",
 						name,
-						Math.Max( HPBars[i].PrevValue, 0 ),
-						Math.Max( HPBars[i].Value, 0 ),
-						HPBars[i].MaximumValue,
-						HPBars[i].Value - HPBars[i].PrevValue,
-						Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, isLandBase, isEscaped ),
+						Math.Max( bar.PrevValue, 0 ),
+						Math.Max( bar.Value, 0 ),
+						bar.MaximumValue,
+						bar.Value - bar.PrevValue,
+						Constants.GetDamageState( (double)bar.Value / bar.MaximumValue, isPractice, isLandBase, isEscaped ),
 						attackDamages[i],
 						bd.GetBattleDetail( i )
 						) );
 
-					if ( isEscaped ) HPBars[i].BackColor = Color.Silver;
-					else HPBars[i].BackColor = SystemColors.Control;
+					if ( isEscaped ) bar.BackColor = Color.Silver;
+					else bar.BackColor = SystemColors.Control;
 				}
 			}
 
@@ -849,15 +854,18 @@ namespace ElectronicObserver.Window {
 				if ( initialHPs[i + 6] != -1 ) {
 					ShipDataMaster ship = bd.Initial.EnemyMembersInstance[i];
 
-					ToolTipInfo.SetToolTip( HPBars[i + 6],
+					var bar = HPBars[i + 6];
+					bar.Text = Constants.GetShipClassClassification( ship.ShipType );
+
+					ToolTipInfo.SetToolTip( bar,
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n{7}",
 							ship.NameWithClass,
 							bd.Initial.EnemyLevels[i],
-							Math.Max( HPBars[i + 6].PrevValue, 0 ),
-							Math.Max( HPBars[i + 6].Value, 0 ),
-							HPBars[i + 6].MaximumValue,
-							HPBars[i + 6].Value - HPBars[i + 6].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i + 6].Value / HPBars[i + 6].MaximumValue, isPractice, ship.IsLandBase ),
+							Math.Max( bar.PrevValue, 0 ),
+							Math.Max( bar.Value, 0 ),
+							bar.MaximumValue,
+							bar.Value - bar.PrevValue,
+							Constants.GetDamageState( (double)bar.Value / bar.MaximumValue, isPractice, ship.IsLandBase ),
 							bd.GetBattleDetail( i + 6 )
 							)
 						);
@@ -874,21 +882,24 @@ namespace ElectronicObserver.Window {
 						ShipData ship = bd.Initial.FriendFleetEscort.MembersInstance[i];
 						bool isEscaped = bd.Initial.FriendFleetEscort.EscapedShipList.Contains( ship.MasterID );
 
-						ToolTipInfo.SetToolTip( HPBars[i + 12], string.Format(
+						var bar = HPBars[i + 12];
+						bar.Text = Constants.GetShipClassClassification( ship.MasterShip.ShipType );
+
+						ToolTipInfo.SetToolTip( bar, string.Format(
 							"{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}\r\n\r\n{8}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
-							Math.Max( HPBars[i + 12].PrevValue, 0 ),
-							Math.Max( HPBars[i + 12].Value, 0 ),
-							HPBars[i + 12].MaximumValue,
-							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
+							Math.Max( bar.PrevValue, 0 ),
+							Math.Max( bar.Value, 0 ),
+							bar.MaximumValue,
+							bar.Value - bar.PrevValue,
+							Constants.GetDamageState( (double)bar.Value / bar.MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
 							attackDamages[i + 12],
 							bd.GetBattleDetail( i + 12 )
 							) );
 
-						if ( isEscaped ) HPBars[i + 12].BackColor = Color.Silver;
-						else HPBars[i + 12].BackColor = SystemColors.Control;
+						if ( isEscaped ) bar.BackColor = Color.Silver;
+						else bar.BackColor = SystemColors.Control;
 					}
 				}
 
@@ -906,6 +917,7 @@ namespace ElectronicObserver.Window {
 						ShipDataMaster ship = bd.Initial.EnemyMembersEscortInstance[i];
 
 						var bar = HPBars[i + 18];
+						bar.Text = Constants.GetShipClassClassification( ship.ShipType );
 
 						ToolTipInfo.SetToolTip( bar,
 							string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n{7}",
@@ -927,19 +939,21 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			//*/
 			if ( isCombined && isEnemyCombined ) {
 				foreach ( var bar in HPBars ) {
 					bar.Size = SmallBarSize;
 					bar.Text = null;
 				}
 			} else {
+				bool showShipType = Utility.Configuration.Config.FormBattle.ShowShipTypeInHPBar;
+
 				foreach ( var bar in HPBars ) {
 					bar.Size = DefaultBarSize;
-					bar.Text = "HP:";
+
+					if ( !showShipType )
+						bar.Text = "HP:";
 				}
 			}
-			//*/
 
 
 			if ( bd.Initial.IsBossDamaged )

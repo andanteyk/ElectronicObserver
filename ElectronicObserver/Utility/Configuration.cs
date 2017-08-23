@@ -680,7 +680,11 @@ namespace ElectronicObserver.Utility {
 				/// 大破時に点滅させる
 				/// </summary>
 				public bool BlinkAtDamaged { get; set; }
-
+				
+				/// <summary>
+				/// 艦隊状態の表示方法
+				/// </summary>
+				public int FleetStateDisplayMode { get; set; }
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
@@ -700,6 +704,7 @@ namespace ElectronicObserver.Utility {
 					ReflectAnchorageRepairHealing = true;
 					EmphasizesSubFleetInPort = false;
 					BlinkAtDamaged = true;
+					FleetStateDisplayMode = 2;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -1021,10 +1026,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowHPBar { get; set; }
 
+				/// <summary>
+				/// HP バーに艦種を表示するか
+				/// </summary>
+				public bool ShowShipTypeInHPBar { get; set; }
+			
 				public ConfigFormBattle() {
 					IsScrollable = false;
 					HideDuringBattle = false;
 					ShowHPBar = true;
+					ShowShipTypeInHPBar = false;
 				}
 			}
 

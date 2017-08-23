@@ -370,6 +370,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormFleet_ReflectAnchorageRepairHealing.Checked = config.FormFleet.ReflectAnchorageRepairHealing;
 			FormFleet_BlinkAtDamaged.Checked = config.FormFleet.BlinkAtDamaged;
 			FormFleet_EmphasizesSubFleetInPort.Checked = config.FormFleet.EmphasizesSubFleetInPort;
+			FormFleet_FleetStateDisplayMode.SelectedIndex = config.FormFleet.FleetStateDisplayMode;
 
 			FormHeadquarters_BlinkAtMaximum.Checked = config.FormHeadquarters.BlinkAtMaximum;
 			FormHeadquarters_Visibility.Items.Clear();
@@ -409,6 +410,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBattle_IsScrollable.Checked = config.FormBattle.IsScrollable;
 			FormBattle_HideDuringBattle.Checked = config.FormBattle.HideDuringBattle;
 			FormBattle_ShowHPBar.Checked = config.FormBattle.ShowHPBar;
+			FormBattle_ShowShipTypeInHPBar.Checked = config.FormBattle.ShowShipTypeInHPBar;
 
 			FormBrowser_IsEnabled.Checked = config.FormBrowser.IsEnabled;
 			FormBrowser_ZoomRate.Value = config.FormBrowser.ZoomRate;
@@ -608,6 +610,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormFleet.ReflectAnchorageRepairHealing = FormFleet_ReflectAnchorageRepairHealing.Checked;
 			config.FormFleet.BlinkAtDamaged = FormFleet_BlinkAtDamaged.Checked;
 			config.FormFleet.EmphasizesSubFleetInPort = FormFleet_EmphasizesSubFleetInPort.Checked;
+			config.FormFleet.FleetStateDisplayMode = FormFleet_FleetStateDisplayMode.SelectedIndex;
 
 			config.FormHeadquarters.BlinkAtMaximum = FormHeadquarters_BlinkAtMaximum.Checked;
 			{
@@ -653,6 +656,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormBattle.IsScrollable = FormBattle_IsScrollable.Checked;
 			config.FormBattle.HideDuringBattle = FormBattle_HideDuringBattle.Checked;
 			config.FormBattle.ShowHPBar = FormBattle_ShowHPBar.Checked;
+			config.FormBattle.ShowShipTypeInHPBar = FormBattle_ShowShipTypeInHPBar.Checked;
 
 			config.FormBrowser.IsEnabled = FormBrowser_IsEnabled.Checked;
 			config.FormBrowser.ZoomRate = (int)FormBrowser_ZoomRate.Value;
