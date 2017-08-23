@@ -421,6 +421,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
 			FormBrowser_IsDMMreloadDialogDestroyable.Checked = config.FormBrowser.IsDMMreloadDialogDestroyable;
 			FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Checked = config.FormBrowser.AvoidTwitterDeterioration;
+			FormBrowser_ScreenShotSaveMode.SelectedIndex = config.FormBrowser.ScreenShotSaveMode - 1;
 			{
 				Microsoft.Win32.RegistryKey reg = null;
 				try {
@@ -674,6 +675,7 @@ namespace ElectronicObserver.Window.Dialog {
 				config.FormBrowser.IsToolMenuVisible = true;
 				config.FormBrowser.ToolMenuDockStyle = (DockStyle)( FormBrowser_ToolMenuDockStyle.SelectedIndex + 1 );
 			}
+			config.FormBrowser.ScreenShotSaveMode = FormBrowser_ScreenShotSaveMode.SelectedIndex + 1;
 
 			config.FormCompass.CandidateDisplayCount = (int)FormCompass_CandidateDisplayCount.Value;
 			config.FormCompass.IsScrollable = FormCompass_IsScrollable.Checked;
@@ -928,6 +930,6 @@ namespace ElectronicObserver.Window.Dialog {
 			UI_RenderingTest.Value = UI_RenderingTestChanger.Value;
 		}
 
-		
+
 	}
 }

@@ -243,6 +243,8 @@
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.Log_PlayTime = new System.Windows.Forms.Label();
 			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
+			this.FormBrowser_ScreenShotSaveMode = new System.Windows.Forms.ComboBox();
+			this.label42 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -996,7 +998,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 213);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 211);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -2036,10 +2038,10 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 22);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(562, 260);
+			this.tabPage12.Size = new System.Drawing.Size(562, 258);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -2116,6 +2118,8 @@
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Controls.Add(this.label42);
+			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotSaveMode);
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration);
 			this.groupBox2.Controls.Add(this.label18);
 			this.groupBox2.Controls.Add(this.FormBrowser_ScreenShotFormat_PNG);
@@ -2777,7 +2781,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 233);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 231);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2873,6 +2877,28 @@
 			this.PlayTimeTimer.Enabled = true;
 			this.PlayTimeTimer.Interval = 1000;
 			this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
+			// 
+			// FormBrowser_ScreenShotSaveMode
+			// 
+			this.FormBrowser_ScreenShotSaveMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.FormBrowser_ScreenShotSaveMode.FormattingEnabled = true;
+			this.FormBrowser_ScreenShotSaveMode.Items.AddRange(new object[] {
+            "ファイルに保存",
+            "クリップボードにコピー",
+            "両方保存"});
+			this.FormBrowser_ScreenShotSaveMode.Location = new System.Drawing.Point(423, 18);
+			this.FormBrowser_ScreenShotSaveMode.Name = "FormBrowser_ScreenShotSaveMode";
+			this.FormBrowser_ScreenShotSaveMode.Size = new System.Drawing.Size(121, 23);
+			this.FormBrowser_ScreenShotSaveMode.TabIndex = 14;
+			// 
+			// label42
+			// 
+			this.label42.AutoSize = true;
+			this.label42.Location = new System.Drawing.Point(351, 24);
+			this.label42.Name = "label42";
+			this.label42.Size = new System.Drawing.Size(67, 15);
+			this.label42.TabIndex = 15;
+			this.label42.Text = "保存方法：";
 			// 
 			// DialogConfiguration
 			// 
@@ -3190,5 +3216,7 @@
 		private System.Windows.Forms.Label label41;
 		private System.Windows.Forms.NumericUpDown FormCompass_MaxShipNameWidth;
 		private System.Windows.Forms.CheckBox FormBattle_ShowHPBar;
+		private System.Windows.Forms.Label label42;
+		private System.Windows.Forms.ComboBox FormBrowser_ScreenShotSaveMode;
 	}
 }

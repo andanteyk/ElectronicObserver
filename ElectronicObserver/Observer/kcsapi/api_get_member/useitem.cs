@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ElectronicObserver.Observer.kcsapi.api_get_member {
-	
+
 	public class useitem : APIBase {
 
 		public override void OnResponseReceived( dynamic data ) {
@@ -14,12 +14,15 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 			KCDatabase db = KCDatabase.Instance;
 
 			db.UseItems.Clear();
-			foreach ( var elem in data ) {
 
-				var item = new UseItem();
-				item.LoadFromResponse( APIName, elem );
-				db.UseItems.Add( item );
+			if ( data != null ) {
+				foreach ( var elem in data ) {
 
+					var item = new UseItem();
+					item.LoadFromResponse( APIName, elem );
+					db.UseItems.Add( item );
+
+				}
 			}
 
 			base.OnResponseReceived( (object)data );

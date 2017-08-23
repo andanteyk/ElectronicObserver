@@ -46,14 +46,15 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			// UseItem
 			db.UseItems.Clear();
-			foreach ( var elem in data.api_useitem ) {
+			if ( data.api_useitem() ) {
+				foreach ( var elem in data.api_useitem ) {
 
-				var item = new UseItem();
-				item.LoadFromResponse( APIName, elem );
-				db.UseItems.Add( item );
+					var item = new UseItem();
+					item.LoadFromResponse( APIName, elem );
+					db.UseItems.Add( item );
 
+				}
 			}
-
 
 			base.OnResponseReceived( (object)data );
 		}

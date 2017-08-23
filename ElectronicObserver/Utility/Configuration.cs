@@ -856,6 +856,12 @@ namespace ElectronicObserver.Utility {
 				public int ScreenShotFormat { get; set; }
 
 				/// <summary>
+				/// スクリーンショットの保存モード
+				/// 1=ファイル, 2=クリップボード, 3=両方
+				/// </summary>
+				public int ScreenShotSaveMode { get; set; }
+
+				/// <summary>
 				/// 適用するスタイルシート
 				/// </summary>
 				public string StyleSheet { get; set; }
@@ -913,6 +919,7 @@ namespace ElectronicObserver.Utility {
 					IsEnabled = true;
 					ScreenShotPath = "ScreenShot";
 					ScreenShotFormat = 2;
+					ScreenShotSaveMode = 1;
 					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
 					IsScrollable = false;
 					AppliesStyleSheet = true;
