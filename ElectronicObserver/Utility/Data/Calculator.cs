@@ -920,7 +920,7 @@ namespace ElectronicObserver.Utility.Data {
 			var eqs = slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).ToArray();
 
 			foreach ( var eq in eqs.Where( e => e != null ) ) {
-				
+
 				int eqtype = eq.EquipmentType[2];
 
 				switch ( eqtype ) {
@@ -1694,6 +1694,16 @@ namespace ElectronicObserver.Utility.Data {
 			else
 				return ship.ASWTotal >= 100;
 		}
+
+
+		/// <summary>
+		/// 爆雷(≠爆雷投射機)のリスト
+		/// </summary>
+		public static readonly int[] DepthChargeList = { 
+			226,		// 九五式爆雷
+			227,		// 二式爆雷
+		};
+
 
 	}
 

@@ -613,7 +613,7 @@ namespace ElectronicObserver.Data {
 				return RawData.api_sally_area() ? (int)RawData.api_sally_area : -1;
 			}
 		}
-		
+
 
 		/// <summary>
 		/// 艦船のマスターデータへの参照
@@ -1077,7 +1077,7 @@ namespace ElectronicObserver.Data {
 				case 449:		// Pola
 				case 361:		// 改
 					return Math.Sqrt( AllSlotMaster.Count( id => id == 162 ) );		// √( 203mm/53 連装砲 装備数 )
-			
+
 				default:
 					return 0;
 			}
@@ -1215,10 +1215,41 @@ namespace ElectronicObserver.Data {
 
 			basepower *= GetHPDamageBonus() * GetEngagementFormDamageRate( engagementForm );
 
+
 			//対潜シナジー
-			if ( AllSlotInstanceMaster.Where( s => s != null && ( s.CategoryType == 14 || s.CategoryType == 40 ) ).Any() &&		//ソナー or 大型ソナー
-				 AllSlotInstanceMaster.Where( s => s != null && s.CategoryType == 15 ).Any() )			//爆雷
-				basepower *= 1.15;
+
+			int depthChargeCount = 0;
+			int depthChargeThrowerCount = 0;
+			int sonarCount = 0;			// ソナーと大型ソナーの合算
+			int largeSonarCount = 0;
+
+			foreach ( var slot in AllSlotInstanceMaster ) {
+				if ( slot == null )
+					continue;
+
+				switch ( slot.CategoryType ) {
+					case 14:	// ソナー
+						sonarCount++;
+						break;
+					case 15:	// 爆雷/投射機
+						if ( Calculator.DepthChargeList.Contains( slot.EquipmentID ) )
+							depthChargeCount++;
+						else
+							depthChargeThrowerCount++;
+						break;
+					case 40:	// 大型ソナー
+						largeSonarCount++;
+						sonarCount++;
+						break;
+				}
+			}
+
+			double thrower_sonar = depthChargeThrowerCount > 0 && sonarCount > 0 ? 1.15 : 1;
+			double charge_thrower = depthChargeCount > 0 && depthChargeThrowerCount > 0 ? 1.1 : 1;
+			double charge_sonar = ( !( thrower_sonar > 1 && charge_thrower > 1 && largeSonarCount > 0 ) && depthChargeCount > 0 && sonarCount > 0 ) ? 0.15 : 0;
+
+			basepower *= thrower_sonar * ( charge_thrower + charge_sonar );
+
 
 			//キャップ
 			basepower = Math.Floor( CapDamage( basepower, 100 ) );

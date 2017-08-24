@@ -452,7 +452,7 @@ namespace ElectronicObserver.Utility {
 			Size smallDigit3Size = MeasureString( preg, "888", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
 			Size levelSize = MeasureString( preg, "Lv.", args.SmallDigitFont, MaxValueSize, formatMiddleLeft );
 			Size equipmentLevelSize = MeasureString( preg, "+10", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
-			Rectangle shipNameImageAvailableArea = new Rectangle( 100, 0, SwfHelper.ShipNameSize.Width - 124, SwfHelper.ShipNameSize.Height - 16 );
+			Rectangle shipNameImageAvailableArea = new Rectangle( 92, 0, SwfHelper.ShipNameSize.Width - 120, SwfHelper.ShipNameSize.Height - 16 );
 
 			Size fleetParameterAreaInnerMargin = new Size( 16, 0 );
 			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
