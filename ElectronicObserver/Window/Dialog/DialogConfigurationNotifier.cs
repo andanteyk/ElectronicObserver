@@ -290,9 +290,21 @@ namespace ElectronicObserver.Window.Dialog {
 		private void ButtonTest_Click( object sender, EventArgs e ) {
 
 			if ( !SetConfiguration() ) return;
-			_notifier.DialogData.Message = "テスト 通知です。";
-			_notifier.Notify();
 
+			if (_notifier.DialogData.Alignment == NotifierDialogAlignment.Custom ) {
+				_notifier.DialogData.Message = "テスト 通知です。\n移動して閉じるとその位置に表示するよう設定が更新されます。";
+				_notifier.Notify((_sender, _e) => {
+					var dialog = _sender as DialogNotifier;
+					if ( dialog != null ) {
+						_notifier.DialogData.Location = dialog.Location;
+						LocationX.Value = dialog.Location.X;
+						LocationY.Value = dialog.Location.Y;
+					}
+				});
+			} else {
+				_notifier.DialogData.Message = "テスト 通知です。";
+				_notifier.Notify();
+			}
 		}
 
 		private void SoundPathDirectorize_Click( object sender, EventArgs e ) {
