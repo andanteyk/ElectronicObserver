@@ -328,6 +328,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Control_RecordAutoSaving.SelectedIndex = config.Control.RecordAutoSaving;
 			Control_UseSystemVolume.Checked = config.Control.UseSystemVolume;
 			Control_PowerEngagementForm.SelectedIndex = config.Control.PowerEngagementForm - 1;
+			Control_ShowSallyAreaAlertDialog.Checked = config.Control.ShowSallyAreaAlertDialog;
 
 			//[デバッグ]
 			Debug_EnableDebugMenu.Checked = config.Debug.EnableDebugMenu;
@@ -568,6 +569,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Control.RecordAutoSaving = Control_RecordAutoSaving.SelectedIndex;
 			config.Control.UseSystemVolume = Control_UseSystemVolume.Checked;
 			config.Control.PowerEngagementForm = Control_PowerEngagementForm.SelectedIndex + 1;
+			config.Control.ShowSallyAreaAlertDialog = Control_ShowSallyAreaAlertDialog.Checked;
 
 			//[デバッグ]
 			config.Debug.EnableDebugMenu = Debug_EnableDebugMenu.Checked;

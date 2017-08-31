@@ -390,6 +390,10 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int PowerEngagementForm { get; set; }
 
+				/// <summary>
+				/// 出撃札がない艦娘が出撃したときに警告ダイアログを表示するか
+				/// </summary>
+				public bool ShowSallyAreaAlertDialog { get; set; }
 
 				public ConfigControl() {
 					ConditionBorder = 40;
@@ -398,6 +402,7 @@ namespace ElectronicObserver.Utility {
 					LastVolume = 0.8f;
 					LastIsMute = false;
 					PowerEngagementForm = 1;
+					ShowSallyAreaAlertDialog = true;
 				}
 			}
 			/// <summary>動作</summary>

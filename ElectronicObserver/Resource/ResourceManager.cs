@@ -204,6 +204,7 @@ namespace ElectronicObserver.Resource {
 			SubmarineEquipment,
 			SeaplaneFighter,
 			ArmyInterceptor,
+			NightFighter,
 			Locked,
 			Unknown,
 		}
@@ -430,6 +431,7 @@ namespace ElectronicObserver.Resource {
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/SubmarineEquipment.png", "Equipment_SubmarineEquipment" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/SeaplaneFighter.png", "Equipment_SeaplaneFighter" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/ArmyInterceptor.png", "Equipment_ArmyInterceptor" );
+					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/NightFighter.png", "Equipment_NightFighter" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Locked.png", "Equipment_Locked" );
 					LoadImageFromArchive( Equipments, archive, mstpath + @"Equipment/Unknown.png", "Equipment_Unknown" );
 

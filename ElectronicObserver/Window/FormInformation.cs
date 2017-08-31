@@ -50,6 +50,7 @@ namespace ElectronicObserver.Window {
 			o["api_req_hokyu/charge"].ResponseReceived += Updated;
 			o["api_req_map/start"].ResponseReceived += Updated;
 			o["api_req_practice/battle"].ResponseReceived += Updated;
+			o["api_get_member/sortie_conditions"].ResponseReceived += Updated;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
@@ -81,7 +82,7 @@ namespace ElectronicObserver.Window {
 
 					// '16 summer event
 					if ( data.api_event_object() && data.api_event_object.api_m_flag2() && (int)data.api_event_object.api_m_flag2 > 0 ) {
-						TextInformation.Text += "＊ギミック解除＊\r\n";
+						TextInformation.Text += "\r\n＊ギミック解除＊\r\n";
 						Utility.Logger.Add( 2, "敵勢力の弱体化を確認しました！" );
 					}
 					break;
@@ -118,6 +119,10 @@ namespace ElectronicObserver.Window {
 					TextInformation.Text = GetSupplyInformation( data );
 					break;
 
+				case "api_get_member/sortie_conditions":
+					CheckSallyArea();
+					break;
+
 				case "api_req_map/start":
 					_inSortie = KCDatabase.Instance.Fleet.Fleets.Values.Where( f => f.IsInSortie || f.ExpeditionState == 1 ).Select( f => f.FleetID ).ToList();
 
@@ -127,6 +132,7 @@ namespace ElectronicObserver.Window {
 				case "api_req_practice/battle":
 					_inSortie = new List<int>() { KCDatabase.Instance.Battle.BattleDay.Initial.FriendFleetID };
 					break;
+
 			}
 
 		}
@@ -363,6 +369,11 @@ namespace ElectronicObserver.Window {
 			sb.AppendFormat( "勝敗判定: {0}\r\n", data.api_win_rank );
 			sb.AppendFormat( "提督経験値: +{0}\r\n", (int)data.api_get_exp );
 
+			if ( data.api_m1() && data.api_m1 == 1 ) {
+				Utility.Logger.Add( 2, "海域に変化を確認しました！" );
+				sb.AppendLine( "\r\n＊ギミック解除＊" );
+			}
+
 			return sb.ToString();
 		}
 
@@ -414,6 +425,30 @@ namespace ElectronicObserver.Window {
 				bauxite_diff - bauxite, bauxite_diff, bauxite, bauxite / 5 );
 
 			return sb.ToString();
+		}
+
+
+		private void CheckSallyArea() {
+			if ( KCDatabase.Instance.Ships.Values.First().SallyArea == -1 )	// そもそも札情報がなければやる必要はない
+				return;
+
+			int[] targetFleet = KCDatabase.Instance.Fleet.CombinedFlag != 0 ? new int[] { 1, 2 } : new int[] { 1 };
+
+			var targetShips = targetFleet
+				.Select( f => KCDatabase.Instance.Fleet[f] )
+				.SelectMany( f => f.MembersInstance )
+				.Where( s => s != null );
+
+			var freeships = targetShips.Where( s => s.SallyArea == 0 );
+			bool isAreaMixed = targetShips.Select( s => s.SallyArea ).Where( area => area > 0 ).Distinct().Count() > 1;		// 札が複数ある場合、おそらく自由出撃海域なので警告しなくてもいいはず
+
+			if ( freeships.Any() && !isAreaMixed ) {
+				TextInformation.Text = "[誤出撃警告]\r\n札なし艦娘：\r\n" + string.Join( "\r\n", freeships.Select( s => s.NameWithLevel ) );
+
+				if ( Utility.Configuration.Config.Control.ShowSallyAreaAlertDialog )
+					MessageBox.Show( "出撃札がついていない艦娘が編成されています。\r\n注意して出撃してください。\r\n\r\n（この警告は 設定→動作 から無効化できます。）", "誤出撃警告",
+						MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			}
 		}
 
 

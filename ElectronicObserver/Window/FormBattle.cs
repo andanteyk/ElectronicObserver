@@ -1224,7 +1224,6 @@ namespace ElectronicObserver.Window {
 			FleetEnemyEscort.MaximumSize =
 			DamageFriend.MaximumSize =
 			DamageEnemy.MaximumSize =
-			WinRank.MaximumSize =
 				fixSize ? DefaultBarSize : Size.Empty;
 
 			WinRank.MinimumSize = fixSize ? new Size( 80, 0 ) : new Size( HPBars[0].Width, 0 );
