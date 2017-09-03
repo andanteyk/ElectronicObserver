@@ -291,16 +291,16 @@ namespace ElectronicObserver.Window.Dialog {
 
 			if ( !SetConfiguration() ) return;
 
-			if (_notifier.DialogData.Alignment == NotifierDialogAlignment.Custom ) {
-				_notifier.DialogData.Message = "テスト 通知です。\n移動して閉じるとその位置に表示するよう設定が更新されます。";
-				_notifier.Notify((_sender, _e) => {
+			if ( _notifier.DialogData.Alignment == NotifierDialogAlignment.Custom ) {
+				_notifier.DialogData.Message = "テスト 通知です。\r\n移動して閉じると表示位置が更新されます。";
+				_notifier.Notify( ( _sender, _e ) => {
 					var dialog = _sender as DialogNotifier;
 					if ( dialog != null ) {
 						_notifier.DialogData.Location = dialog.Location;
 						LocationX.Value = dialog.Location.X;
 						LocationY.Value = dialog.Location.Y;
 					}
-				});
+				} );
 			} else {
 				_notifier.DialogData.Message = "テスト 通知です。";
 				_notifier.Notify();

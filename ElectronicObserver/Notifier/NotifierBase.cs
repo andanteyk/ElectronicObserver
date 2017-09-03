@@ -226,15 +226,15 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知ダイアログを表示します。
 		/// </summary>
-		public void ShowDialog(System.Windows.Forms.FormClosingEventHandler customClosingHandler = null) {
+		public void ShowDialog( System.Windows.Forms.FormClosingEventHandler customClosingHandler = null ) {
 
 			if ( ShowsDialog ) {
 				var dialog = new DialogNotifier( DialogData );
 				dialog.FormClosing += dialog_FormClosing;
-                if (customClosingHandler != null) {
-                    dialog.FormClosing += customClosingHandler;
-                }
-                NotifierManager.Instance.ShowNotifier( dialog );
+				if ( customClosingHandler != null ) {
+					dialog.FormClosing += customClosingHandler;
+				}
+				NotifierManager.Instance.ShowNotifier( dialog );
 			}
 		}
 
@@ -248,19 +248,18 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知を行います。
 		/// </summary>
-		public virtual void Notify()
-		{
-			Notify(null);
+		public virtual void Notify() {
+			Notify( null );
 		}
 
 		/// <summary>
 		/// 終了時のイベントハンドラを指定して通知を行います。
 		/// </summary>
-		public virtual void Notify(System.Windows.Forms.FormClosingEventHandler customClosingHandler) {
+		public virtual void Notify( System.Windows.Forms.FormClosingEventHandler customClosingHandler ) {
 
 			if ( !IsEnabled || IsSilenced ) return;
 
-			ShowDialog(customClosingHandler);
+			ShowDialog( customClosingHandler );
 			PlaySound();
 
 		}
