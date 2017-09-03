@@ -685,7 +685,7 @@ namespace ElectronicObserver.Utility {
 				/// 大破時に点滅させる
 				/// </summary>
 				public bool BlinkAtDamaged { get; set; }
-				
+
 				/// <summary>
 				/// 艦隊状態の表示方法
 				/// </summary>
@@ -1035,7 +1035,7 @@ namespace ElectronicObserver.Utility {
 				/// HP バーに艦種を表示するか
 				/// </summary>
 				public bool ShowShipTypeInHPBar { get; set; }
-			
+
 				public ConfigFormBattle() {
 					IsScrollable = false;
 					HideDuringBattle = false;
@@ -1049,6 +1049,29 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			[DataMember]
 			public ConfigFormBattle FormBattle { get; private set; }
+
+
+			/// <summary>
+			/// [基地航空隊]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormBaseAirCorps : ConfigPartBase {
+
+				/// <summary>
+				/// イベント海域のもののみ表示するか
+				/// </summary>
+				public bool ShowEventMapOnly { get; set; }
+
+				public ConfigFormBaseAirCorps() {
+					ShowEventMapOnly = false;
+				}
+			}
+
+			/// <summary>
+			/// [基地航空隊]ウィンドウ
+			/// </summary>
+			[DataMember]
+			public ConfigFormBaseAirCorps FormBaseAirCorps { get; private set; }
+
 
 
 			/// <summary>
@@ -1307,6 +1330,7 @@ namespace ElectronicObserver.Utility {
 				FormBrowser = new ConfigFormBrowser();
 				FormCompass = new ConfigFormCompass();
 				FormJson = new ConfigFormJson();
+				FormBaseAirCorps = new ConfigFormBaseAirCorps();
 
 				NotifierExpedition = new ConfigNotifierBase();
 				NotifierConstruction = new ConfigNotifierBase();

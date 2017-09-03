@@ -308,7 +308,7 @@ namespace ElectronicObserver.Window.Control {
 				{
 					int cond = fleet.MembersInstance.Min( s => s == null ? 100 : s.Condition );
 
-					if ( cond < Utility.Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null ) {
+					if ( cond < Utility.Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null && fleet.ExpeditionState != 0 ) {
 						var state = GetStateLabel( index );
 
 						int iconIndex;

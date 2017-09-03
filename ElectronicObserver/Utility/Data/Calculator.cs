@@ -1226,6 +1226,12 @@ namespace ElectronicObserver.Utility.Data {
 					if ( aagun_concentrated >= 1 )
 						return 22;
 					break;
+
+				case 539:	// UIT-25
+				case 530:	// 伊504
+					if ( aagun - aagun_concentrated >= 1 )
+						return 23;
+					break;
 			}
 
 
@@ -1436,6 +1442,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 20, 3 },
 			{ 21, 5 },
 			{ 22, 2 },
+			{ 23, 1 },
 		} );
 
 
@@ -1465,6 +1472,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 20, 1.25 },
 			{ 21, 1.45 },
 			{ 22, 1.2 },
+			{ 23, 1.05 },
 		} );
 
 

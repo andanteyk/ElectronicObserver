@@ -328,12 +328,26 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetTableRowStyles( TableMember, ControlHelper.GetDefaultRowStyle() );
 
 			TableMember.ResumeLayout();
+
+			if ( KCDatabase.Instance.BaseAirCorps.Any() )
+				Updated( null, null );
 		}
 
 
 		void Updated( string apiname, dynamic data ) {
 
 			var keys = KCDatabase.Instance.BaseAirCorps.Keys;
+
+			if ( Utility.Configuration.Config.FormBaseAirCorps.ShowEventMapOnly ) {
+				var eventAreaCorps = KCDatabase.Instance.BaseAirCorps.Values.Where( b => {
+					var maparea = KCDatabase.Instance.MapArea[b.MapAreaID];
+					return maparea != null && maparea.MapType == 1;
+				} ).Select( b => b.ID );
+
+				if ( eventAreaCorps.Any() )
+					keys = eventAreaCorps;
+			}
+
 
 			TableMember.SuspendLayout();
 			TableMember.RowCount = keys.Count();

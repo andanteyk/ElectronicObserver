@@ -476,6 +476,9 @@ namespace ElectronicObserver.Window.Dialog {
 			FormJson_UpdatesTree.Checked = config.FormJson.UpdatesTree;
 			FormJson_AutoUpdateFilter.Text = config.FormJson.AutoUpdateFilter;
 
+			FormBaseAirCorps_ShowEventMapOnly.Checked = config.FormBaseAirCorps.ShowEventMapOnly;
+
+
 			//[通知]
 			{
 				bool issilenced = NotifierManager.Instance.GetNotifiers().All( no => no.IsSilenced );
@@ -690,6 +693,9 @@ namespace ElectronicObserver.Window.Dialog {
 			config.FormJson.AutoUpdate = FormJson_AutoUpdate.Checked;
 			config.FormJson.UpdatesTree = FormJson_UpdatesTree.Checked;
 			config.FormJson.AutoUpdateFilter = FormJson_AutoUpdateFilter.Text;
+
+			config.FormBaseAirCorps.ShowEventMapOnly = FormBaseAirCorps_ShowEventMapOnly.Checked;
+
 
 			//[通知]
 			setSilencioConfig( Notification_Silencio.Checked );

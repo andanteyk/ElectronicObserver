@@ -703,13 +703,15 @@ namespace ElectronicObserver.Data {
 				case 18:
 					return "集中機銃(皐月)";
 				case 19:
-					return "高角砲/集中機銃(鬼怒)";
+					return "高角砲(非高射装置)/集中機銃(鬼怒)";
 				case 20:
 					return "集中機銃(鬼怒)";
 				case 21:
 					return "高角砲/電探(由良)";
 				case 22:
 					return "集中機銃(文月)";
+				case 23:
+					return "機銃(非集中)(UIT-25)";
 				default:
 					return "不明";
 			}
