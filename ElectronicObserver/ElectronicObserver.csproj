@@ -362,6 +362,12 @@
     <Compile Include="Window\Dialog\DialogAntiAirDefense.Designer.cs">
       <DependentUpon>DialogAntiAirDefense.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogBaseAirCorpsSimulation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogBaseAirCorpsSimulation.Designer.cs">
+      <DependentUpon>DialogBaseAirCorpsSimulation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogBattleDetail.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -659,6 +665,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAntiAirDefense.resx">
       <DependentUpon>DialogAntiAirDefense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogBaseAirCorpsSimulation.resx">
+      <DependentUpon>DialogBaseAirCorpsSimulation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogBattleDetail.resx">
       <DependentUpon>DialogBattleDetail.cs</DependentUpon>

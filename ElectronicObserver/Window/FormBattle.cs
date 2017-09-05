@@ -79,6 +79,7 @@ namespace ElectronicObserver.Window {
 			AirStage1Enemy.ImageList =
 			AirStage2Friend.ImageList =
 			AirStage2Enemy.ImageList =
+			FleetFriend.ImageList =
 				ResourceManager.Instance.Equipments;
 
 
@@ -721,7 +722,7 @@ namespace ElectronicObserver.Window {
 				} else {
 					AirStage2Enemy.Text = string.Format( "-{0}/{1}", phase1LostEnemy, phase1TotalEnemy );
 				}
-				
+
 				if ( needAppendInfo ) {
 
 					var sb = new StringBuilder();
@@ -1064,6 +1065,44 @@ namespace ElectronicObserver.Window {
 
 					if ( !showShipType )
 						bar.Text = "HP:";
+				}
+			}
+
+
+			{	// support
+				var battleday = bd as BattleDay;
+				if ( battleday != null && battleday.Support != null && battleday.Support.IsAvailable ) {
+
+					switch ( battleday.Support.SupportFlag ) {
+						case 1:
+							FleetFriend.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedTorpedo;
+							break;
+						case 2:
+							FleetFriend.ImageIndex = (int)ResourceManager.EquipmentContent.MainGunL;
+							break;
+						case 3:
+							FleetFriend.ImageIndex = (int)ResourceManager.EquipmentContent.Torpedo;
+							break;
+						default:
+							FleetFriend.ImageIndex = (int)ResourceManager.EquipmentContent.Unknown;
+							break;
+					}
+
+					FleetFriend.ImageAlign = ContentAlignment.MiddleLeft;
+					ToolTipInfo.SetToolTip( FleetFriend, "支援攻撃\r\n" + battleday.Support.GetBattleDetail() );
+
+					if ( isCombined && isEnemyCombined )
+						FleetFriend.Text = "自軍";
+					else
+						FleetFriend.Text = "自軍艦隊";
+
+				} else {
+
+					FleetFriend.ImageIndex = -1;
+					FleetFriend.ImageAlign = ContentAlignment.MiddleCenter;
+					FleetFriend.Text = "自軍艦隊";
+					ToolTipInfo.SetToolTip( FleetFriend, null );
+
 				}
 			}
 

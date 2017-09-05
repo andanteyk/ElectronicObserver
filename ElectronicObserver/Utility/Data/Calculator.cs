@@ -1683,8 +1683,8 @@ namespace ElectronicObserver.Utility.Data {
 			}
 
 			if ( ship.ShipID == 526 ) {	// 大鷹
-				bool has931Torp = eqs.Any( eq => eq.EquipmentID == 82 || eq.EquipmentID == 83 );		// 九七式艦攻(九三一空) or 天山(九三一空)
-				if ( has931Torp && ship.ASWTotal >= 65 )
+				bool hasASWTorp = eqs.Any( eq => eq.MasterEquipment.CategoryType == 8 && eq.MasterEquipment.ASW >= 7 );
+				if ( hasASWTorp && ship.ASWTotal >= 65 )
 					return true;
 			}
 
