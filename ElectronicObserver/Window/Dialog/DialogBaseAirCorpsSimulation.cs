@@ -15,6 +15,46 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogBaseAirCorpsSimulation : Form {
 
+		private static readonly int[] SquadronAircraftCategories = { 
+			6,		// 艦上戦闘機
+			7,		// 艦上爆撃機
+			8,		// 艦上攻撃機
+			9,		// 艦上偵察機
+			10,		// 水上偵察機
+			11,		// 水上爆撃機
+			41,		// 大型飛行艇
+  			45,		// 水上戦闘機
+			47,		// 陸上攻撃機
+			48,		// 局地戦闘機
+			56,		// 噴式戦闘機
+			57,		// 噴式戦闘爆撃機	
+			58,		// 噴式攻撃機
+			59,		// 噴式偵察機
+		};
+
+		private static readonly int[] SquadronAttackerCategories = { 
+			7,		// 艦上爆撃機
+			8,		// 艦上攻撃機
+			11,		// 水上爆撃機
+			47,		// 陸上攻撃機
+			57,		// 噴式戦闘爆撃機	
+			58,		// 噴式攻撃機
+		};
+
+		private static readonly int[] SquadronFighterCategories = {
+			6,		// 艦上戦闘機
+			45,		// 水上戦闘機
+			48,		// 局地戦闘機
+			56,		// 噴式戦闘機
+		};
+
+		private static readonly int[] SquadronReconCategories = { 
+			9,		// 艦上偵察機
+			10,		// 水上偵察機
+			41,		// 大型飛行艇
+  			59,		// 噴式偵察機
+		};
+
 
 		private class SquadronUI {
 
@@ -209,12 +249,21 @@ namespace ElectronicObserver.Window.Dialog {
 			public Label TotalDistance;
 			public Label TotalOrganizationCost;
 
+			public Label TitleAutoAirSuperiority;
+			public Label TitleAutoDistance;
+			public ComboBox AutoAirSuperiorityMode;
+			public NumericUpDown AutoAirSuperiority;
+			public NumericUpDown AutoDistance;
+			public Button AutoOrganizeSortie;
+			public Button AutoOrganizeAirDefense;
+
+			public DialogBaseAirCorpsSimulation Parent;
 			public ToolTip ToolTipInternal;
 
 			public event EventHandler Updated = delegate { };
 
 
-			public BaseAirCorpsUI( int baseAirCorpsID, ToolTip tooltip ) {
+			public BaseAirCorpsUI( int baseAirCorpsID, DialogBaseAirCorpsSimulation parent ) {
 
 				BaseAirCorpsID = baseAirCorpsID;
 
@@ -227,6 +276,8 @@ namespace ElectronicObserver.Window.Dialog {
 				TitleBomber = NewTitleLabel();
 				TitleTorpedo = NewTitleLabel();
 				TitleOrganizationCost = NewTitleLabel();
+				TitleAutoAirSuperiority = NewTitleLabel();
+				TitleAutoDistance = NewTitleLabel();
 
 				TitleAircraftCategory.Text = "カテゴリ";
 				TitleAircraft.Text = "配備機";
@@ -237,6 +288,51 @@ namespace ElectronicObserver.Window.Dialog {
 				TitleBomber.Text = "爆装";
 				TitleTorpedo.Text = "雷装";
 				TitleOrganizationCost.Text = "配備コスト";
+				TitleAutoAirSuperiority.Text = "目標制空";
+				TitleAutoDistance.Text = "目標半径";
+
+				AutoAirSuperiority = new NumericUpDown();
+				AutoAirSuperiority.Size = new Size( 60, AutoAirSuperiority.Height );
+				AutoAirSuperiority.Anchor = AnchorStyles.None;
+				AutoAirSuperiority.Maximum = 9999;
+				AutoAirSuperiority.TextAlign = HorizontalAlignment.Right;
+				AutoAirSuperiority.Margin = new Padding( 2, 0, 2, 0 );
+
+				AutoDistance = new NumericUpDown();
+				AutoDistance.Size = new Size( 60, AutoDistance.Height );
+				AutoDistance.Anchor = AnchorStyles.None;
+				AutoDistance.Maximum = 20;
+				AutoDistance.TextAlign = HorizontalAlignment.Right;
+				AutoDistance.Margin = new Padding( 2, 0, 2, 0 );
+
+				AutoAirSuperiorityMode = new ComboBox();
+				AutoAirSuperiorityMode.Size = new Size( 160, AutoAirSuperiorityMode.Height );
+				AutoAirSuperiorityMode.Anchor = AnchorStyles.None;
+				AutoAirSuperiorityMode.Margin = new Padding( 2, 0, 2, 0 );
+				AutoAirSuperiorityMode.DropDownStyle = ComboBoxStyle.DropDownList;
+				AutoAirSuperiorityMode.Items.Add( -1 );
+				AutoAirSuperiorityMode.Items.Add( 1 );
+				AutoAirSuperiorityMode.Items.Add( 2 );
+				AutoAirSuperiorityMode.Items.Add( 0 );
+				AutoAirSuperiorityMode.Items.Add( 3 );
+				AutoAirSuperiorityMode.Items.Add( 4 );
+				AutoAirSuperiorityMode.FormattingEnabled = true;
+				AutoAirSuperiorityMode.Format += AutoAirSuperiorityMode_Format;
+				AutoAirSuperiorityMode.SelectedIndex = 0;
+
+				AutoOrganizeSortie = new Button();
+				AutoOrganizeSortie.Size = new Size( 60, AutoOrganizeSortie.Height );
+				AutoOrganizeSortie.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+				AutoOrganizeSortie.Margin = new Padding( 2, 0, 2, 0 );
+				AutoOrganizeSortie.Text = "出撃編成";
+				AutoOrganizeSortie.Click += AutoOrganize_Click;
+
+				AutoOrganizeAirDefense = new Button();
+				AutoOrganizeAirDefense.Size = new Size( 60, AutoOrganizeSortie.Height );
+				AutoOrganizeAirDefense.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+				AutoOrganizeAirDefense.Margin = new Padding( 2, 0, 2, 0 );
+				AutoOrganizeAirDefense.Text = "防空編成";
+				AutoOrganizeAirDefense.Click += AutoOrganize_Click;
 
 				Squadrons = new SquadronUI[4];
 				for ( int i = 0; i < Squadrons.Length; i++ ) {
@@ -255,7 +351,8 @@ namespace ElectronicObserver.Window.Dialog {
 				DuplicateCheck.TextAlign = ContentAlignment.MiddleLeft;
 				DuplicateCheck.ForeColor = Color.Red;
 
-				ToolTipInternal = tooltip;
+				Parent = parent;
+				ToolTipInternal = parent.ToolTipInfo;
 
 				BaseAirCorpsUI_Updated( null, new EventArgs() );
 			}
@@ -303,6 +400,16 @@ namespace ElectronicObserver.Window.Dialog {
 				table.Controls.Add( TotalDistance, 5, Squadrons.Length + 1 );
 				table.Controls.Add( TotalOrganizationCost, 8, Squadrons.Length + 1 );
 
+				int autocolumn = 9;
+				table.Controls.Add( TitleAutoAirSuperiority, autocolumn + 0, 0 );
+				table.Controls.Add( TitleAutoDistance, autocolumn + 1, 0 );
+				table.Controls.Add( AutoAirSuperiority, autocolumn + 0, 1 );
+				table.Controls.Add( AutoDistance, autocolumn + 1, 1 );
+				table.Controls.Add( AutoAirSuperiorityMode, autocolumn + 0, 2 );
+				table.Controls.Add( AutoOrganizeSortie, autocolumn + 0, 5 );
+				table.Controls.Add( AutoOrganizeAirDefense, autocolumn + 1, 5 );
+
+				table.SetColumnSpan( AutoAirSuperiorityMode, 2 );
 			}
 
 
@@ -386,6 +493,64 @@ namespace ElectronicObserver.Window.Dialog {
 
 				Updated( this, new EventArgs() );
 			}
+
+
+			void AutoAirSuperiorityMode_Format( object sender, ListControlConvertEventArgs e ) {
+				if ( e.DesiredType == typeof( string ) ) {
+					int val = (int)e.Value;
+
+					if ( val == -1 )
+						e.Value = "ちょうど";
+					else
+						e.Value = Constants.GetAirSuperiority( val );
+				}
+			}
+
+			void AutoOrganize_Click( object sender, EventArgs e ) {
+
+				bool isAirDefense = sender == AutoOrganizeAirDefense;
+				int airSuperiority = (int)AutoAirSuperiority.Value;
+				switch ( AutoAirSuperiorityMode.SelectedItem as int? ?? 0 ) {
+					case -1:
+					default:
+						break;
+					case 1:
+						airSuperiority = airSuperiority * 3;
+						break;
+					case 2:
+						airSuperiority = (int)Math.Ceiling( airSuperiority * 1.5 );
+						break;
+					case 0:
+						airSuperiority = (int)Math.Ceiling( airSuperiority / 1.5 );
+						break;
+					case 3:
+						airSuperiority = (int)Math.Ceiling( airSuperiority / 3.0 );
+						break;
+					case 4:
+						airSuperiority = 0;
+						break;
+				}
+				int distance = (int)AutoDistance.Value;
+
+
+				var orgs = AutoOrganize( isAirDefense, airSuperiority, distance, Parent.GetUsingEquipments( new int[] { BaseAirCorpsID - 1 } ) );
+
+				if ( orgs == null || orgs.All( o => o == null ) ) {
+					MessageBox.Show( "自動編成に失敗しました。\r\n条件が厳しすぎるか、航空機が不足しています。\r\n",
+						"自動編成失敗", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					return;
+				}
+
+				for ( int i = 0; i < Squadrons.Length; i++ ) {
+					var squi = Squadrons[i];
+
+					squi.AircraftCategory.SelectedItem = squi.AircraftCategory.Items.OfType<ComboBoxCategory>().FirstOrDefault( c => c == ( orgs[i] == null ? -1 : orgs[i].MasterEquipment.CategoryType ) );
+					squi.Aircraft.SelectedItem = squi.Aircraft.Items.OfType<ComboBoxEquipment>().FirstOrDefault( q => q.UniqueID == ( orgs[i] == null ? -1 : orgs[i].MasterID ) );
+				}
+
+				System.Media.SystemSounds.Asterisk.Play();
+			}
+
 		}
 
 
@@ -513,7 +678,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			BaseAirCorpsUIList = new BaseAirCorpsUI[TableBaseAirCorpsList.Length];
 			for ( int i = 0; i < BaseAirCorpsUIList.Length; i++ ) {
-				BaseAirCorpsUIList[i] = new BaseAirCorpsUI( i + 1, ToolTipInfo );
+				BaseAirCorpsUIList[i] = new BaseAirCorpsUI( i + 1, this );
 
 				TableBaseAirCorpsList[i].SuspendLayout();
 
@@ -671,6 +836,172 @@ namespace ElectronicObserver.Window.Dialog {
 
 		private void DialogBaseAirCorpsSimulation_FormClosed( object sender, FormClosedEventArgs e ) {
 			ResourceManager.DestroyIcon( Icon );
+		}
+
+
+
+		public static List<EquipmentData> AutoOrganize( bool isAirDefense, int minimumFigherPower, int minimumDistance, IEnumerable<int> excludeEquipments ) {
+
+			var ret = new List<EquipmentData>( 4 );
+
+			var available = KCDatabase.Instance.Equipments.Values
+				.Where( eq => !excludeEquipments.Contains( eq.MasterID ) )
+				.Select( eq => new { eq, master = eq.MasterEquipment } )
+				.Where( eqp => SquadronAircraftCategories.Contains( eqp.master.CategoryType ) );
+
+			var fighter = available
+					.Where( eqp => SquadronFighterCategories.Contains( eqp.master.CategoryType ) );
+
+
+			if ( !isAirDefense ) {
+
+				// 戦闘機に割くスロット数
+				int fighterSlot = -1;
+
+				// 射程拡張が必要か、必要ならいくつ伸ばすか
+				int extendedDistance;
+
+
+				// 攻撃力(仮想的に 雷装+爆装)の高いのを詰め込む
+				var attackerfp = available
+					.Where( eq => SquadronAttackerCategories.Contains( eq.master.CategoryType ) && eq.master.AircraftDistance >= minimumDistance - 3 )
+					.Select( eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority( eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, false ) } )
+					.OrderByDescending( eq => eq.master.Torpedo + eq.master.Bomber )
+					.AsEnumerable();
+
+
+				var fighterfp = fighter.Select( eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority( eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, false ) } )
+					.OrderByDescending( f => f.fp )
+					.ThenBy( f => f.master.AircraftCost );
+
+				// 最強の戦闘機を編成すると仮定して、最低何スロット必要かを調べる
+				for ( extendedDistance = 0; extendedDistance <= 3; extendedDistance++ ) {
+
+					var availfighterfp = fighterfp
+						.Where( f => f.master.AircraftDistance + extendedDistance >= minimumDistance );
+
+					for ( int i = 0; i <= ( extendedDistance > 0 ? 3 : 4 ); i++ ) {
+						if ( availfighterfp.Take( i ).Sum( f => f.fp ) + attackerfp.Take( 4 - i - ( extendedDistance > 0 ? 1 : 0 ) ).Sum( f => f.fp ) >= minimumFigherPower ) {
+							fighterSlot = i;
+							break;
+						}
+					}
+
+					if ( fighterSlot != -1 )
+						break;
+				}
+
+				if ( fighterSlot == -1 )
+					return null;		// 編成不可能
+
+
+				// 攻撃隊の射程調整
+				while ( attackerfp.Count( f => f.master.AircraftDistance + extendedDistance >= minimumDistance ) < 4 - ( extendedDistance > 0 ? 1 : 0 ) - fighterSlot &&
+					extendedDistance < 3 )
+					extendedDistance++;
+
+
+				// 射程拡張が必要なら適切な偵察機を載せる
+				if ( extendedDistance > 0 ) {
+					// 延長距離 = sqrt( ( 偵察機距離 - その他距離 ) )
+					// 偵察機距離 = 延長距離^2 + その他距離
+
+					int reconDistance = extendedDistance * extendedDistance + ( minimumDistance - extendedDistance );
+
+					var recon = available.Where( eqp => SquadronReconCategories.Contains( eqp.master.CategoryType ) &&
+						eqp.master.AircraftDistance >= reconDistance )
+						.OrderBy( eqp => eqp.master.AircraftCost )
+						.FirstOrDefault();
+
+					if ( recon == null )
+						return null;	// 編成不可能
+
+					ret.Add( recon.eq );
+				}
+
+
+				attackerfp = attackerfp
+					.Where( f => f.master.AircraftDistance + extendedDistance >= minimumDistance )
+					.Take( 4 - ret.Count - fighterSlot );
+				minimumFigherPower -= attackerfp.Sum( f => f.fp );
+
+
+				if ( fighterSlot > 0 ) {
+					// 射程が足りている戦闘機
+					var fighterfpdist = fighterfp.Where( f => f.master.AircraftDistance + extendedDistance >= minimumDistance );
+					int estimatedIndex = fighterfpdist.TakeWhile( f => f.fp >= minimumFigherPower / fighterSlot ).Count();
+
+					// fighterfpdist は 制空値が高い順 に並んでいるので、
+					// 下から窓をずらしていけばいい感じのが出る（はず）
+					// 少なくとも先頭(制空値最高)が 目標 / スロット 以下だと絶対に満たせないので、そこから始める
+					for ( int i = Math.Min( estimatedIndex, fighterfpdist.Count() - fighterSlot ); i >= 0; i-- ) {
+
+						var org = fighterfpdist.Skip( i ).Take( fighterSlot );
+						if ( org.Sum( f => f.fp ) >= minimumFigherPower ) {
+							ret.AddRange( org.Select( f => f.eq ) );
+							break;
+						}
+					}
+				}
+
+				ret.AddRange( attackerfp.Select( f => f.eq ) );
+
+
+			} else {
+				// 防空
+
+				// とりあえず最大補正の偵察機を突っ込む
+				var recons = available
+					.Where( eq => SquadronReconCategories.Contains( eq.master.CategoryType ) )
+					.Select( eq => new { eq.eq, eq.master, bonus = Calculator.GetAirSuperiorityAirDefenseReconBonus( eq.master.EquipmentID ) } )
+					.OrderByDescending( f => f.bonus )
+					.ThenBy( eq => eq.master.AircraftCost );
+
+				if ( recons.Any() ) {
+					ret.Add( recons.First().eq );
+					minimumFigherPower = (int)Math.Ceiling( minimumFigherPower / recons.First().bonus );
+				}
+
+				var fighterfp = fighter
+					.Select( eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority( eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, true ) } )
+					.OrderByDescending( f => f.fp )
+					.ThenBy( f => f.master.AircraftCost );
+
+				int estimatedIndex = fighterfp.TakeWhile( f => f.fp >= minimumFigherPower / ( 4 - ret.Count ) ).Count();
+
+				// fighterfp は 制空値が高い順 に並んでいるので、
+				// 下から窓をずらしていけばいい感じのが出る（はず）
+				for ( int i = Math.Min( estimatedIndex, fighterfp.Count() - ( 4 - ret.Count ) ); i >= 0; i-- ) {
+
+					var org = fighterfp.Skip( i ).Take( 4 - ret.Count );
+					if ( org.Sum( f => f.fp ) >= minimumFigherPower ) {
+						ret.AddRange( org.Select( f => f.eq ) );
+						break;
+					}
+				}
+
+				if ( ret.Count < 4 )
+					return null;
+			}
+
+			while ( ret.Count < 4 )
+				ret.Add( null );
+			return ret;
+		}
+
+
+		private IEnumerable<int> GetUsingEquipments( IEnumerable<int> except ) {
+
+			foreach ( var corpsui in BaseAirCorpsUIList.Where( ( b, i ) => !except.Contains( i ) ) ) {
+				foreach ( var squi in corpsui.Squadrons ) {
+
+					var eq =  squi.Aircraft.SelectedItem as ComboBoxEquipment;
+
+					if ( eq != null && eq.UniqueID != -1 ) {
+						yield return eq.UniqueID;
+					}
+				}
+			}
 		}
 
 

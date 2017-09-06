@@ -210,22 +210,34 @@ namespace ElectronicObserver.Utility.Data {
 					continue;
 
 				// 偵察機補正計算
-				int category = sq.EquipmentInstanceMaster.CategoryType;
-				int losrate = Math.Min( Math.Max( sq.EquipmentInstanceMaster.LOS - 7, 0 ), 2 );		// ~7, 8, 9~
-
-				switch ( category ) {
-					case 10:	// 水上偵察機
-					case 41:	// 大型飛行艇
-						rate = Math.Max( rate, 1.1 + losrate * 0.03 );
-						break;
-					case 9:		// 艦上偵察機
-					case 59:	// 噴式偵察機
-						rate = Math.Max( rate, 1.2 + losrate * 0.05 );
-						break;
-				}
+				rate = Math.Max( rate, GetAirSuperiorityAirDefenseReconBonus( sq.EquipmentID ) );
 			}
 
 			return (int)( air * rate );
+		}
+
+		/// <summary>
+		/// 基地航空隊での防空戦における、偵察機による制空値ボーナス係数を求めます。
+		/// </summary>
+		public static double GetAirSuperiorityAirDefenseReconBonus( int equipmentID ) {
+			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
+			if ( eq == null ) return 1;
+			
+			int category = eq.CategoryType;
+			int losrate = Math.Min( Math.Max( eq.LOS - 7, 0 ), 2 );		// ~7, 8, 9~
+
+			switch ( category ) {
+				case 10:	// 水上偵察機
+				case 41:	// 大型飛行艇
+					return  1.1 + losrate * 0.03 ;
+		
+				case 9:		// 艦上偵察機
+				case 59:	// 噴式偵察機
+					return 1.2 + losrate * 0.05 ;
+		
+				default:
+					return 1;
+			}
 		}
 
 		/// <summary>
@@ -1678,11 +1690,12 @@ namespace ElectronicObserver.Utility.Data {
 			var eqs = ship.AllSlotInstance.Where( eq => eq != null );
 
 			if ( ship.ShipID == 380 || ship.ShipID == 529 ) {		// 大鷹改(二)
-				if ( ship.ASWTotal >= 65 )
-					return true;			// false の場合後続の処理を行うため
+				if ( ship.ASWTotal >= 65 )	// 注: Lv. 1時点で対潜が 65 以上であるため、現時点では無条件に達成可能
+					return true;
 			}
 
 			if ( ship.ShipID == 526 ) {	// 大鷹
+				// 対潜 7 以上の艦上攻撃機
 				bool hasASWTorp = eqs.Any( eq => eq.MasterEquipment.CategoryType == 8 && eq.MasterEquipment.ASW >= 7 );
 				if ( hasASWTorp && ship.ASWTotal >= 65 )
 					return true;

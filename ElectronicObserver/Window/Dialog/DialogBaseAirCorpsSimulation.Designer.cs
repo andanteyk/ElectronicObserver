@@ -55,7 +55,7 @@
 			this.groupBox1.Controls.Add(this.TableBaseAirCorps1);
 			this.groupBox1.Location = new System.Drawing.Point(3, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(552, 194);
+			this.groupBox1.Size = new System.Drawing.Size(672, 194);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "第一基地航空隊";
@@ -64,7 +64,7 @@
 			// 
 			this.TableBaseAirCorps1.AutoSize = true;
 			this.TableBaseAirCorps1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableBaseAirCorps1.ColumnCount = 9;
+			this.TableBaseAirCorps1.ColumnCount = 11;
 			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -74,7 +74,8 @@
 			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableBaseAirCorps1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps1.Location = new System.Drawing.Point(6, 22);
 			this.TableBaseAirCorps1.Name = "TableBaseAirCorps1";
 			this.TableBaseAirCorps1.RowCount = 6;
@@ -84,7 +85,7 @@
 			this.TableBaseAirCorps1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.TableBaseAirCorps1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.TableBaseAirCorps1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.TableBaseAirCorps1.Size = new System.Drawing.Size(540, 150);
+			this.TableBaseAirCorps1.Size = new System.Drawing.Size(660, 150);
 			this.TableBaseAirCorps1.TabIndex = 0;
 			// 
 			// tableLayoutPanel2
@@ -102,7 +103,7 @@
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(616, 602);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(725, 602);
 			this.tableLayoutPanel2.TabIndex = 1;
 			// 
 			// groupBox3
@@ -112,7 +113,7 @@
 			this.groupBox3.Controls.Add(this.TableBaseAirCorps3);
 			this.groupBox3.Location = new System.Drawing.Point(3, 403);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(552, 194);
+			this.groupBox3.Size = new System.Drawing.Size(672, 194);
 			this.groupBox3.TabIndex = 2;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "第三基地航空隊";
@@ -121,7 +122,9 @@
 			// 
 			this.TableBaseAirCorps3.AutoSize = true;
 			this.TableBaseAirCorps3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableBaseAirCorps3.ColumnCount = 9;
+			this.TableBaseAirCorps3.ColumnCount = 11;
+			this.TableBaseAirCorps3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableBaseAirCorps3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -140,7 +143,7 @@
 			this.TableBaseAirCorps3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.TableBaseAirCorps3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.TableBaseAirCorps3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.TableBaseAirCorps3.Size = new System.Drawing.Size(540, 150);
+			this.TableBaseAirCorps3.Size = new System.Drawing.Size(660, 150);
 			this.TableBaseAirCorps3.TabIndex = 0;
 			// 
 			// groupBox2
@@ -150,7 +153,7 @@
 			this.groupBox2.Controls.Add(this.TableBaseAirCorps2);
 			this.groupBox2.Location = new System.Drawing.Point(3, 203);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(552, 194);
+			this.groupBox2.Size = new System.Drawing.Size(672, 194);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "第二基地航空隊";
@@ -159,7 +162,9 @@
 			// 
 			this.TableBaseAirCorps2.AutoSize = true;
 			this.TableBaseAirCorps2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TableBaseAirCorps2.ColumnCount = 9;
+			this.TableBaseAirCorps2.ColumnCount = 11;
+			this.TableBaseAirCorps2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TableBaseAirCorps2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.TableBaseAirCorps2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -178,7 +183,7 @@
 			this.TableBaseAirCorps2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.TableBaseAirCorps2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.TableBaseAirCorps2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.TableBaseAirCorps2.Size = new System.Drawing.Size(540, 150);
+			this.TableBaseAirCorps2.Size = new System.Drawing.Size(660, 150);
 			this.TableBaseAirCorps2.TabIndex = 0;
 			// 
 			// menuStrip1
@@ -187,7 +192,7 @@
             this.TopMenu_Edit});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(616, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(725, 24);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -223,7 +228,7 @@
 			// DialogBaseAirCorpsSimulation
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(616, 626);
+			this.ClientSize = new System.Drawing.Size(725, 626);
 			this.Controls.Add(this.tableLayoutPanel2);
 			this.Controls.Add(this.menuStrip1);
 			this.DoubleBuffered = true;
