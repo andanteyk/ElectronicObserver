@@ -194,6 +194,7 @@
     <Compile Include="Observer\kcsapi\api_get_member\record.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\require_info.cs" />
     <Compile Include="Observer\kcsapi\api_get_member\ship_deck.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\sortie_conditions.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\change_name.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\expand_base.cs" />
     <Compile Include="Observer\kcsapi\api_req_air_corps\set_action.cs" />
@@ -360,6 +361,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogAntiAirDefense.Designer.cs">
       <DependentUpon>DialogAntiAirDefense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogBaseAirCorpsSimulation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogBaseAirCorpsSimulation.Designer.cs">
+      <DependentUpon>DialogBaseAirCorpsSimulation.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogBattleDetail.cs">
       <SubType>Form</SubType>
@@ -658,6 +665,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogAntiAirDefense.resx">
       <DependentUpon>DialogAntiAirDefense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogBaseAirCorpsSimulation.resx">
+      <DependentUpon>DialogBaseAirCorpsSimulation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogBattleDetail.resx">
       <DependentUpon>DialogBattleDetail.cs</DependentUpon>

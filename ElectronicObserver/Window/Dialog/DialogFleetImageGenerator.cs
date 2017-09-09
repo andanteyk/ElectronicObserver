@@ -317,7 +317,7 @@ namespace ElectronicObserver.Window.Dialog {
 			else if ( ImageTypeBanner.Checked )
 				mode = 2;
 			else
-				mode = 0;
+				mode = 3;
 
 
 			try {
@@ -411,6 +411,8 @@ namespace ElectronicObserver.Window.Dialog {
 					return FleetImageGenerator.GenerateCutinBitmap( args );
 				case 2:
 					return FleetImageGenerator.GenerateBannerBitmap( args );
+				case 3:
+					return FleetImageGenerator.GenerateBaseAirCorpsImage( args );
 			}
 		}
 

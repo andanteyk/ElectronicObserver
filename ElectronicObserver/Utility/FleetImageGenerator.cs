@@ -452,7 +452,7 @@ namespace ElectronicObserver.Utility {
 			Size smallDigit3Size = MeasureString( preg, "888", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
 			Size levelSize = MeasureString( preg, "Lv.", args.SmallDigitFont, MaxValueSize, formatMiddleLeft );
 			Size equipmentLevelSize = MeasureString( preg, "+10", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
-			Rectangle shipNameImageAvailableArea = new Rectangle( 100, 0, SwfHelper.ShipNameSize.Width - 124, SwfHelper.ShipNameSize.Height - 16 );
+			Rectangle shipNameImageAvailableArea = new Rectangle( 92, 0, SwfHelper.ShipNameSize.Width - 120, SwfHelper.ShipNameSize.Height - 16 );
 
 			Size fleetParameterAreaInnerMargin = new Size( 16, 0 );
 			Padding shipNameAreaMargin = new Padding( 0, 0, 0, 2 );
@@ -1146,7 +1146,255 @@ namespace ElectronicObserver.Utility {
 		}
 
 
+		public static Bitmap GenerateBaseAirCorpsImage( FleetImageArgument args ) {
+			var formatMiddleLeft = GetStringFormat( ContentAlignment.MiddleLeft );
+			var formatMiddleCenter = GetStringFormat( ContentAlignment.MiddleCenter );
+			var formatMiddleRight = GetStringFormat( ContentAlignment.MiddleRight );
 
+			Color backgroundColor = Color.FromArgb( 0xff, 0xff, 0xff );
+			Color mainTextColor = Color.FromArgb( 0x0f, 0x0f, 0x0f );
+			Color subTextColor = Color.FromArgb( 0x00, 0x88, 0x88 );
+			Color shadowColor = Color.FromArgb( 0x88, 0x88, 0x88 );
+			Color disabledColor = Color.FromArgb( 0xaa, 0xaa, 0xaa );
+			Color aircraftLevelLowColor = Color.FromArgb( 0x00, 0xff, 0xff );
+			Color aircraftLevelHighColor = Color.FromArgb( 0xff, 0x88, 0x00 );
+			Color[] actionKindColors = {
+				Color.FromArgb( 0x0f, 0x0f, 0x0f ),
+				Color.FromArgb( 0x88, 0x00, 0x00 ),
+				Color.FromArgb( 0x88, 0x88, 0x00 ),
+				Color.FromArgb( 0x00, 0x00, 0x88 ),
+				Color.FromArgb( 0x00, 0x88, 0x00 ),
+			};
+
+			var mainTextBrush = new SolidBrush( mainTextColor );
+			var subTextBrush = new SolidBrush( subTextColor );
+			var shadowBrush = new SolidBrush( shadowColor );
+			var disabledBrush = new SolidBrush( disabledColor );
+			var aircraftLevelLowBrush = new SolidBrush( aircraftLevelLowColor );
+			var aircraftLevelHighBrush = new SolidBrush( aircraftLevelHighColor );
+			var actionKindBrushes = actionKindColors.Select( c => new SolidBrush( c ) ).ToArray();
+
+			var linePen = new Pen( subTextColor );
+
+
+			string baseAirSuperiorityTitle = "制空戦力";
+			string baseDistanceTitle = "戦闘行動半径";
+
+			// for measure space of strings
+			Bitmap preimage = new Bitmap( 1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+			Graphics preg = Graphics.FromImage( preimage );
+
+			// Size Calculation
+
+			Size baseNameSize = MeasureString( preg, "大正義日独伊三国褐色同盟", args.LargeFont, MaxValueSize, formatMiddleLeft );		// kanji 12 char
+			Size baseAirSuperiorityTitleSize = MeasureString( preg, baseAirSuperiorityTitle, args.SmallFont, MaxValueSize, formatMiddleLeft );
+			Size baseAirSuperiorityValueEstimatedSize = MeasureString( preg, "8888", args.MediumDigitFont, MaxValueSize, formatMiddleRight );
+			Size baseDistanceTitleSize = MeasureString( preg, baseDistanceTitle, args.SmallFont, MaxValueSize, formatMiddleLeft );
+			Size baseDistanceValueEstimatedSize = MeasureString( preg, "88", args.MediumDigitFont, MaxValueSize, formatMiddleRight );
+			Size baseActionKindSize = MeasureString( preg, "【出撃】", args.MediumFont, MaxValueSize, formatMiddleLeft );
+
+			Size equipmentNameSize = MeasureString( preg, "三式戦 飛燕一型丁", args.MediumFont, MaxValueSize, formatMiddleLeft );		// kanji 9 char
+			Size equipmentLevelSize = MeasureString( preg, "+10", args.SmallDigitFont, MaxValueSize, formatMiddleRight );
+
+			Size baseParameterAreaInnerMargin = new Size( 16, 0 );
+			Padding baseParameterAreaMargin = new Padding( 0, 0, 0, 2 );
+			Padding equipmentAreaMargin = new Padding( 4, 0, 4, 0 );
+			Padding basePaneUnitMargin = new Padding();
+			Padding entireMargin = new Padding();
+			int lineMargin = 4;
+
+			Size equipmentAreaUnitSize = SumWidthMaxHeight( EquipmentIconSize, equipmentNameSize, EquipmentIconSize, equipmentLevelSize );
+			Size equipmentAreaSize = new Size( equipmentAreaUnitSize.Width, equipmentAreaUnitSize.Height * 4 );
+
+			Size baseNameAreaSize = baseNameSize;
+			Size baseParameterAreaSize = SumWidthMaxHeight( baseActionKindSize, baseParameterAreaInnerMargin, EquipmentIconSize, baseAirSuperiorityTitleSize, baseAirSuperiorityValueEstimatedSize, baseParameterAreaInnerMargin, EquipmentIconSize, baseDistanceTitleSize, baseDistanceValueEstimatedSize );
+			Size baseTitleAreaSize = MaxWidthSumHeight( baseNameAreaSize, baseParameterAreaSize );
+
+			Size basePaneUnitSize = MaxWidthSumHeight( baseTitleAreaSize, equipmentAreaSize + equipmentAreaMargin.Size );
+			Size basePaneSize = new Size(
+				( basePaneUnitSize.Width + basePaneUnitMargin.Horizontal ) * Math.Min( args.HorizontalShipCount, 3 ),				// note: need to modify
+				( basePaneUnitSize.Height + basePaneUnitMargin.Vertical ) * (int)Math.Ceiling( 3.0 / args.HorizontalShipCount ) );
+
+			Size entireSize = new Size( basePaneSize.Width, basePaneSize.Height );
+
+			// anchor
+			equipmentNameSize.Width = basePaneUnitSize.Width - EquipmentIconSize.Width - EquipmentIconSize.Width - equipmentLevelSize.Width;
+			equipmentAreaUnitSize.Width = basePaneUnitSize.Width;
+			Size equipmentNameSizeExtended = SumWidthMaxHeight( equipmentNameSize, EquipmentIconSize, equipmentLevelSize );
+
+			// note: unknown
+			var equipmentNameBrush = new LinearGradientBrush( new Rectangle( 0, 0, equipmentNameSize.Width * 2 + EquipmentIconSize.Width * 2 + equipmentLevelSize.Width, equipmentAreaUnitSize.Height ), Color.Black, Color.Black, LinearGradientMode.Horizontal );		// color is ignored
+			{
+				var blend = new ColorBlend();
+				blend.Positions = new[] { 0f, (float)( equipmentNameSizeExtended.Width - EquipmentIconSize.Width - EquipmentIconSize.Width / 2 ) / equipmentNameBrush.Rectangle.Width, (float)( equipmentNameSizeExtended.Width - EquipmentIconSize.Width / 2 ) / equipmentNameBrush.Rectangle.Width, 1f };
+				blend.Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb( 0, mainTextColor ), Color.FromArgb( 0, mainTextColor ) };
+				equipmentNameBrush.InterpolationColors = blend;
+			}
+			equipmentNameBrush.GammaCorrection = true;
+
+			preg.Dispose();
+			preimage.Dispose();
+
+
+			var bitmap = new Bitmap( entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+			using ( var g = Graphics.FromImage( bitmap ) ) {
+
+				g.Clear( backgroundColor );
+				if ( !string.IsNullOrEmpty( args.BackgroundImagePath ) && System.IO.File.Exists( args.BackgroundImagePath ) ) {
+					try {
+						using ( var backgroundImage = new Bitmap( args.BackgroundImagePath ) ) {
+							using ( var backgroundBrush = new TextureBrush( backgroundImage, WrapMode.Tile ) ) {
+								g.FillRectangle( backgroundBrush, new Rectangle( 0, 0, bitmap.Width, bitmap.Height ) );
+							}
+						}
+
+					} catch ( Exception ) {
+					}
+				}
+
+
+				Point masterPointer = new Point( entireMargin.Left, entireMargin.Top );
+
+				int[] bases = KCDatabase.Instance.BaseAirCorps.Keys.ToArray();
+				// note: which bases do you out?
+				for ( int baseIndex = 0; baseIndex < bases.Length; baseIndex++ ) {
+					int baseID = bases[baseIndex];		// fixme: must rewrite
+					BaseAirCorpsData baseAirCorps = KCDatabase.Instance.BaseAirCorps[baseID];
+					Point basePointerOrigin = masterPointer + new Size(
+						( basePaneUnitSize.Width + basePaneUnitMargin.Horizontal ) * ( baseIndex % args.HorizontalFleetCount ) + basePaneUnitMargin.Left,
+						( basePaneUnitSize.Height + basePaneUnitMargin.Vertical ) * ( baseIndex / args.HorizontalFleetCount ) + basePaneUnitMargin.Top );
+					Point basePointer = basePointerOrigin;
+
+					if ( baseAirCorps == null )
+						continue;
+
+					// base name
+					g.DrawString( baseAirCorps.Name, args.LargeFont, mainTextBrush, new Rectangle( basePointer, baseNameSize ), formatMiddleLeft );
+
+					basePointer.Y += baseNameAreaSize.Height;
+
+					// base params
+
+					g.DrawString( string.Format( "【{0}】", Constants.GetBaseAirCorpsActionKind( baseAirCorps.ActionKind ) ), args.MediumFont, actionKindBrushes[baseAirCorps.ActionKind],
+						new Rectangle( basePointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, baseActionKindSize, baseParameterAreaSize ), baseActionKindSize ), formatMiddleLeft );
+					basePointer.X += baseActionKindSize.Width + baseParameterAreaInnerMargin.Width;
+
+					{	// fighter power
+						var iconpos = basePointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, EquipmentIconSize, baseParameterAreaSize );
+						g.DrawImage( ResourceManager.Instance.Equipments.Images[(int)ResourceManager.EquipmentContent.CarrierBasedFighter], iconpos.X, iconpos.Y, EquipmentIconSize.Width, EquipmentIconSize.Height );
+						basePointer.X += EquipmentIconSize.Width;
+
+						g.DrawString( baseAirSuperiorityTitle, args.SmallFont, subTextBrush, new Rectangle( basePointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, baseAirSuperiorityTitleSize, baseParameterAreaSize ), baseAirSuperiorityTitleSize ), formatMiddleLeft );
+						basePointer.X += baseAirSuperiorityTitleSize.Width;
+
+						int air = Calculator.GetAirSuperiority( baseAirCorps );
+						Size paramValueSize = MeasureString( g, air.ToString(), args.MediumDigitFont, MaxValueSize, formatMiddleLeft );
+						g.DrawString( air.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle( basePointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, paramValueSize, baseParameterAreaSize ), paramValueSize ), formatMiddleLeft );
+						basePointer.X += paramValueSize.Width + baseParameterAreaInnerMargin.Width;
+					}
+					{	// distance
+						var iconpos = basePointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, EquipmentIconSize, baseParameterAreaSize );
+						g.DrawImage( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.ParameterAircraftDistance], iconpos.X, iconpos.Y, EquipmentIconSize.Width, EquipmentIconSize.Height );
+						basePointer.X += EquipmentIconSize.Width;
+
+						g.DrawString( baseDistanceTitle, args.SmallFont, subTextBrush, new Rectangle( basePointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, baseDistanceTitleSize, baseParameterAreaSize ), baseDistanceTitleSize ), formatMiddleLeft );
+						basePointer.X += baseDistanceTitleSize.Width;
+
+						Size paramValueSize = MeasureString( g, baseAirCorps.Distance.ToString(), args.MediumDigitFont, MaxValueSize, formatMiddleLeft );
+						g.DrawString( baseAirCorps.Distance.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle( basePointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, paramValueSize, baseParameterAreaSize ), paramValueSize ), formatMiddleLeft );
+						basePointer.X += paramValueSize.Width + baseParameterAreaInnerMargin.Width;
+					}
+
+					basePointer.X = basePointerOrigin.X;
+					basePointer.Y += baseParameterAreaSize.Height;
+
+
+					g.DrawLine( linePen, basePointer + new Size( lineMargin, 0 ), basePointer + new Size( basePaneUnitSize.Width - lineMargin, 0 ) );
+					basePointer.Y += baseParameterAreaMargin.Bottom;
+
+
+
+
+					// equipments
+					for ( int squadronIndex = 0; squadronIndex < 4; squadronIndex++ ) {
+
+						var squadron = baseAirCorps.Squadrons[squadronIndex + 1];
+						var eq = squadron.EquipmentInstance;
+						Point equipmentPointer = basePointer + new Size( equipmentAreaMargin.Left, equipmentAreaMargin.Top ) + new Size( 0, equipmentAreaUnitSize.Height * squadronIndex );
+
+
+						Size equipmentIconOffset = GetAlignmentOffset( ContentAlignment.MiddleLeft, EquipmentIconSize, equipmentAreaUnitSize );
+						g.DrawImage( GetEquipmentIcon( eq != null ? eq.EquipmentID : -1, false ),
+							equipmentPointer.X + equipmentIconOffset.Width, equipmentPointer.Y + equipmentIconOffset.Height, EquipmentIconSize.Width, EquipmentIconSize.Height );
+						equipmentPointer.X += EquipmentIconSize.Width;
+
+						string equipmentName;
+						if ( eq != null ) {
+							equipmentName = eq.Name;
+						} else if ( squadron.State == 2 ) {
+							equipmentName = "(配置転換中)";
+						} else {
+							equipmentName = "(なし)";
+						}
+						// fixme: unchecked;
+						equipmentNameBrush.ResetTransform();
+						if ( eq != null && eq.AircraftLevel > 0 ) {
+							equipmentNameBrush.TranslateTransform( equipmentPointer.X - EquipmentIconSize.Width - equipmentLevelSize.Width, 0 );
+						} else if ( eq != null && eq.Level > 0 ) {
+							equipmentNameBrush.TranslateTransform( equipmentPointer.X - EquipmentIconSize.Width, 0 );
+						} else {
+							equipmentNameBrush.TranslateTransform( equipmentPointer.X, 0 );
+						}
+						g.DrawString( equipmentName, args.MediumFont, equipmentNameBrush, new Rectangle( equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, equipmentNameSizeExtended, equipmentAreaUnitSize ), equipmentNameSizeExtended ), formatMiddleLeft );
+						equipmentPointer.X += equipmentNameSize.Width;
+
+						if ( eq != null ) {
+
+							if ( 0 <= eq.AircraftLevel && eq.AircraftLevel <= 7 ) {
+								var point = equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, EquipmentIconSize, equipmentAreaUnitSize );
+								g.DrawImage( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.AircraftLevel0 + eq.AircraftLevel], point.X, point.Y, EquipmentIconSize.Width, EquipmentIconSize.Height );
+							}
+							equipmentPointer.X += EquipmentIconSize.Width;
+
+							if ( eq.Level > 0 ) {
+								g.DrawString( "+" + eq.Level, args.SmallDigitFont, subTextBrush, new Rectangle( equipmentPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, equipmentLevelSize, equipmentAreaUnitSize ), equipmentLevelSize ), formatMiddleRight );
+							}
+
+						}
+
+					}
+					basePointer.Y += equipmentAreaSize.Height;
+					g.DrawLine( linePen, basePointer + new Size( lineMargin, 0 ), basePointer + new Size( basePaneUnitSize.Width - lineMargin, 0 ) );
+
+				}
+
+				masterPointer.Y += basePaneSize.Height;
+				g.DrawLine( linePen, masterPointer + new Size( lineMargin, 0 ), masterPointer + new Size( basePaneSize.Width - lineMargin, 0 ) );
+
+
+			}
+
+
+			if ( args.AvoidTwitterDeterioration ) {
+				// 不透明ピクセルのみだと jpeg 化されてしまうため、1px だけわずかに透明にする
+				Color temp = bitmap.GetPixel( bitmap.Width - 1, bitmap.Height - 1 );
+				bitmap.SetPixel( bitmap.Width - 1, bitmap.Height - 1, Color.FromArgb( 252, temp.R, temp.G, temp.B ) );
+			}
+
+
+			mainTextBrush.Dispose();
+			shadowBrush.Dispose();
+			disabledBrush.Dispose();
+			subTextBrush.Dispose();
+			aircraftLevelLowBrush.Dispose();
+			aircraftLevelHighBrush.Dispose();
+
+			equipmentNameBrush.Dispose();
+
+			linePen.Dispose();
+
+			return bitmap;
+		}
 
 
 		public static bool HasShipSwfImage( int[] fleets ) {
