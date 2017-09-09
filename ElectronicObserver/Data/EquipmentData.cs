@@ -15,6 +15,21 @@ namespace ElectronicObserver.Data {
 	public class EquipmentData : ResponseWrapper, IIdentifiable {
 
 		/// <summary>
+		/// 艦載機熟練度の文字列表現
+		/// </summary>
+		public static readonly string[] AircraftLevelString = { 
+				"",
+				"|",
+				"||",
+				"|||",
+				"/",
+				"//",
+				"///",
+				">>",
+			};
+
+
+		/// <summary>
 		/// 装備を一意に識別するID
 		/// </summary>
 		public int MasterID {
@@ -72,16 +87,14 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public string NameWithLevel {
 			get {
+				var sb = new StringBuilder( Name );
+
 				if ( Level > 0 )
-					if ( AircraftLevel > 0 )
-						return string.Format( "{0}+{1} Lv. {2}", Name, Level, AircraftLevel );		//念のため
-					else
-						return string.Format( "{0}+{1}", Name, Level );
-				else
-					if ( AircraftLevel > 0 )
-						return string.Format( "{0} Lv. {1}", Name, AircraftLevel );
-					else
-						return Name;
+					sb.Append( "+" ).Append( Level );
+				if ( AircraftLevel > 0 )
+					sb.Append( " " ).Append( AircraftLevelString[AircraftLevel] );
+
+				return sb.ToString();
 			}
 		}
 

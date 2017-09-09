@@ -73,10 +73,14 @@ namespace ElectronicObserver.Window.Dialog {
 			public Label Torpedo;
 			public Label OrganizationCost;
 
+			public DialogBaseAirCorpsSimulation Parent;
+			public ToolTip ToolTipInternal;
+
+
 			public event EventHandler Updated = delegate { };
 
 
-			public SquadronUI( int baseAirCorpsID, int squadronID ) {
+			public SquadronUI( int baseAirCorpsID, int squadronID, DialogBaseAirCorpsSimulation parent ) {
 
 				BaseAirCorpsID = baseAirCorpsID;
 				SquadronID = squadronID;
@@ -110,6 +114,9 @@ namespace ElectronicObserver.Window.Dialog {
 				Bomber = NewLabel();
 				Torpedo = NewLabel();
 				OrganizationCost = NewLabel();
+
+				Parent = parent;
+				ToolTipInternal = parent.ToolTipInfo;
 
 				Update();
 			}
@@ -157,6 +164,7 @@ namespace ElectronicObserver.Window.Dialog {
 				Aircraft.Items.Clear();
 				Aircraft.Items.AddRange( list.ToArray() );
 				Aircraft.SelectedIndex = 0;
+
 			}
 
 			void Aircraft_SelectedValueChanged( object sender, EventArgs e ) {
@@ -166,10 +174,12 @@ namespace ElectronicObserver.Window.Dialog {
 				if ( equipment == null || equipment.EquipmentID == -1 ) {
 					AircraftCount.Maximum = 0;
 
+					ToolTipInternal.SetToolTip( Aircraft, null );
 				} else {
 					int aircraftCount = Calculator.IsAircraft( equipment.EquipmentID, false ) ? 18 : 4;
 					AircraftCount.Value = AircraftCount.Maximum = aircraftCount;
 
+					ToolTipInternal.SetToolTip( Aircraft, GetAircraftParameters( equipment.EquipmentInstance ) );
 				}
 
 				Update();
@@ -178,6 +188,40 @@ namespace ElectronicObserver.Window.Dialog {
 
 			void AircraftCount_ValueChanged( object sender, EventArgs e ) {
 				Update();
+			}
+
+			private static string GetAircraftParameters( EquipmentDataMaster eq ) {
+
+				if ( eq == null )
+					return "";
+
+				var sb = new StringBuilder();
+
+				Action<string, int> Add = ( name, value ) => {
+					if ( value != 0 )
+						sb.Append( name ).Append( ": " ).AppendLine( value.ToString( "+0;-0;0" ) );
+				};
+
+				Action<string, int> AddNoSign = ( name, value ) => {
+					if ( value != 0 )
+						sb.Append( name ).Append( ": " ).AppendLine( value.ToString() );
+				};
+
+				bool isLand = eq.CategoryType == 48;
+
+				Add( "火力", eq.Firepower );
+				Add( "雷装", eq.Torpedo );
+				Add( "爆装", eq.Bomber );
+				Add( "対空", eq.AA );
+				Add( "装甲", eq.Armor );
+				Add( "対潜", eq.ASW );
+				Add( isLand ? "迎撃" : "回避", eq.Evasion );
+				Add( "索敵", eq.LOS );
+				Add( isLand ? "対爆" : "命中", eq.Accuracy );
+				AddNoSign( "コスト", eq.AircraftCost );
+				AddNoSign( "半径", eq.AircraftDistance );
+
+				return sb.ToString();
 			}
 
 			private void Update() {
@@ -336,7 +380,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				Squadrons = new SquadronUI[4];
 				for ( int i = 0; i < Squadrons.Length; i++ ) {
-					Squadrons[i] = new SquadronUI( baseAirCorpsID, i + 1 );
+					Squadrons[i] = new SquadronUI( baseAirCorpsID, i + 1, parent );
 					Squadrons[i].Updated += BaseAirCorpsUI_Updated;
 				}
 
@@ -533,7 +577,9 @@ namespace ElectronicObserver.Window.Dialog {
 				int distance = (int)AutoDistance.Value;
 
 
-				var orgs = AutoOrganize( isAirDefense, airSuperiority, distance, Parent.GetUsingEquipments( new int[] { BaseAirCorpsID - 1 } ) );
+				// 装備済み・ほかの航空隊に配備されている機体以外で編成
+				var orgs = AutoOrganize( isAirDefense, airSuperiority, distance,
+					Parent.GetUsingEquipments( new int[] { BaseAirCorpsID - 1 } ).Concat( KCDatabase.Instance.Ships.Values.SelectMany( s => s.AllSlot ) ) );
 
 				if ( orgs == null || orgs.All( o => o == null ) ) {
 					MessageBox.Show( "自動編成に失敗しました。\r\n条件が厳しすぎるか、航空機が不足しています。\r\n",
@@ -634,16 +680,6 @@ namespace ElectronicObserver.Window.Dialog {
 				}
 			}
 
-			private static readonly string[] AircraftLevelString = { 
-				"",
-				" |",
-				" ||",
-				" |||",
-				" /",
-				" //",
-				" ///",
-				" >>",
-			};
 			public override string ToString() {
 				if ( EquipmentInstance != null ) {
 
@@ -652,8 +688,9 @@ namespace ElectronicObserver.Window.Dialog {
 					if ( Level > 0 )
 						sb.Append( "+" ).Append( Level );
 					if ( AircraftLevel > 0 )
-						sb.Append( AircraftLevelString[AircraftLevel] );
+						sb.Append( " " ).Append( EquipmentData.AircraftLevelString[AircraftLevel] );
 
+					sb.Append( " :" ).Append( EquipmentInstance.AircraftDistance );
 					return sb.ToString();
 
 				} else return "(なし)";
@@ -780,7 +817,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 		void TableBaseAirCorps_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
 			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+			if ( !( e.Column == 9 && e.Row == 2 ) )
+				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 		}
 
 		private void TopMenu_Edit_MapArea_Click( int mapAreaID ) {
@@ -840,6 +878,14 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
+		/// <summary>
+		/// 自動編成を行います。
+		/// </summary>
+		/// <param name="isAirDefense">防空かどうか。false なら出撃</param>
+		/// <param name="minimumFigherPower">目標制空値。</param>
+		/// <param name="minimumDistance">目標戦闘行動半径。</param>
+		/// <param name="excludeEquipments">使用しない装備IDのリスト。</param>
+		/// <returns>編成結果のリスト[4]。要素に null を含む可能性があります。編成不可能だった場合は null を返します。</returns>
 		public static List<EquipmentData> AutoOrganize( bool isAirDefense, int minimumFigherPower, int minimumDistance, IEnumerable<int> excludeEquipments ) {
 
 			var ret = new List<EquipmentData>( 4 );
@@ -863,10 +909,12 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 				// 攻撃力(仮想的に 雷装+爆装)の高いのを詰め込む
+				// 射程拡張も考慮して、 min - 3 まで確保しておく
 				var attackerfp = available
 					.Where( eq => SquadronAttackerCategories.Contains( eq.master.CategoryType ) && eq.master.AircraftDistance >= minimumDistance - 3 )
 					.Select( eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority( eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, false ) } )
 					.OrderByDescending( eq => eq.master.Torpedo + eq.master.Bomber )
+					.ThenBy( f => f.master.AircraftCost )
 					.AsEnumerable();
 
 
@@ -896,7 +944,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 				// 攻撃隊の射程調整
-				while ( attackerfp.Count( f => f.master.AircraftDistance + extendedDistance >= minimumDistance ) < 4 - ( extendedDistance > 0 ? 1 : 0 ) - fighterSlot &&
+				while ( attackerfp.Count( f => f.master.AircraftDistance + extendedDistance >= minimumDistance ) < ( 4 - ( extendedDistance > 0 ? 1 : 0 ) - fighterSlot ) &&
 					extendedDistance < 3 )
 					extendedDistance++;
 
@@ -980,7 +1028,7 @@ namespace ElectronicObserver.Window.Dialog {
 					}
 				}
 
-				if ( ret.Count < 4 )
+				if ( ret.Count == ( recons.Any() ? 1 : 0 ) )		// 戦闘機の配備に失敗
 					return null;
 			}
 
@@ -990,6 +1038,10 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
+		/// <summary>
+		/// 現在UI上に配備されている装備ID群を求めます。
+		/// </summary>
+		/// <param name="except">除外する航空隊のインデックス。</param>
 		private IEnumerable<int> GetUsingEquipments( IEnumerable<int> except ) {
 
 			foreach ( var corpsui in BaseAirCorpsUIList.Where( ( b, i ) => !except.Contains( i ) ) ) {
