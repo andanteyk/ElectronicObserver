@@ -87,14 +87,14 @@
             this.ContextMenuFleet_Capture,
             this.ContextMenuFleet_OutputFleetImage});
 			this.ContextMenuFleet.Name = "ContextMenuFleet";
-			this.ContextMenuFleet.Size = new System.Drawing.Size(228, 142);
+			this.ContextMenuFleet.Size = new System.Drawing.Size(228, 164);
 			this.ContextMenuFleet.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuFleet_Opening);
 			// 
 			// ContextMenuFleet_CopyFleet
 			// 
 			this.ContextMenuFleet_CopyFleet.Name = "ContextMenuFleet_CopyFleet";
 			this.ContextMenuFleet_CopyFleet.Size = new System.Drawing.Size(227, 22);
-			this.ContextMenuFleet_CopyFleet.Text = "クリップボードにコピー(&C)";
+			this.ContextMenuFleet_CopyFleet.Text = "編成テキストをコピー(&C)";
 			this.ContextMenuFleet_CopyFleet.Click += new System.EventHandler(this.ContextMenuFleet_CopyFleet_Click);
 			// 
 			// ContextMenuFleet_CopyFleetDeckBuilder

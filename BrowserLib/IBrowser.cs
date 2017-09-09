@@ -19,7 +19,7 @@ namespace BrowserLib {
 		void InitialAPIReceived();
 
 		[OperationContract]
-		void SaveScreenShot( string path, int format );
+		void SaveScreenShot();
 
 		[OperationContract]
 		void RefreshBrowser();

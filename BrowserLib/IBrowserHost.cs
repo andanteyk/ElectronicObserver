@@ -105,6 +105,12 @@ namespace BrowserLib {
 		public int ScreenShotFormat { get; set; }
 
 		/// <summary>
+		/// スクリーンショットの保存モード
+		/// </summary>
+		[DataMember]
+		public int ScreenShotSaveMode { get; set; }
+
+		/// <summary>
 		/// 適用するスタイルシート
 		/// </summary>
 		[DataMember]
@@ -129,7 +135,7 @@ namespace BrowserLib {
 		public bool IsDMMreloadDialogDestroyable { get; set; }
 
 		/// <summary>
-		/// Twitter の画像圧縮を回避するか
+		/// スクリーンショットにおいて、Twitter の画像圧縮を回避するか
 		/// </summary>
 		[DataMember]
 		public bool AvoidTwitterDeterioration { get; set; }

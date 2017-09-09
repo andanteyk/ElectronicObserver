@@ -210,22 +210,34 @@ namespace ElectronicObserver.Utility.Data {
 					continue;
 
 				// 偵察機補正計算
-				int category = sq.EquipmentInstanceMaster.CategoryType;
-				int losrate = Math.Min( Math.Max( sq.EquipmentInstanceMaster.LOS - 7, 0 ), 2 );		// ~7, 8, 9~
-
-				switch ( category ) {
-					case 10:	// 水上偵察機
-					case 41:	// 大型飛行艇
-						rate = Math.Max( rate, 1.1 + losrate * 0.03 );
-						break;
-					case 9:		// 艦上偵察機
-					case 59:	// 噴式偵察機
-						rate = Math.Max( rate, 1.2 + losrate * 0.05 );
-						break;
-				}
+				rate = Math.Max( rate, GetAirSuperiorityAirDefenseReconBonus( sq.EquipmentID ) );
 			}
 
 			return (int)( air * rate );
+		}
+
+		/// <summary>
+		/// 基地航空隊での防空戦における、偵察機による制空値ボーナス係数を求めます。
+		/// </summary>
+		public static double GetAirSuperiorityAirDefenseReconBonus( int equipmentID ) {
+			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
+			if ( eq == null ) return 1;
+			
+			int category = eq.CategoryType;
+			int losrate = Math.Min( Math.Max( eq.LOS - 7, 0 ), 2 );		// ~7, 8, 9~
+
+			switch ( category ) {
+				case 10:	// 水上偵察機
+				case 41:	// 大型飛行艇
+					return  1.1 + losrate * 0.03 ;
+		
+				case 9:		// 艦上偵察機
+				case 59:	// 噴式偵察機
+					return 1.2 + losrate * 0.05 ;
+		
+				default:
+					return 1;
+			}
 		}
 
 		/// <summary>
@@ -920,7 +932,7 @@ namespace ElectronicObserver.Utility.Data {
 			var eqs = slot.Select( id => KCDatabase.Instance.MasterEquipments[id] ).ToArray();
 
 			foreach ( var eq in eqs.Where( e => e != null ) ) {
-				
+
 				int eqtype = eq.EquipmentType[2];
 
 				switch ( eqtype ) {
@@ -1226,6 +1238,12 @@ namespace ElectronicObserver.Utility.Data {
 					if ( aagun_concentrated >= 1 )
 						return 22;
 					break;
+
+				case 539:	// UIT-25
+				case 530:	// 伊504
+					if ( aagun - aagun_concentrated >= 1 )
+						return 23;
+					break;
 			}
 
 
@@ -1436,6 +1454,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 20, 3 },
 			{ 21, 5 },
 			{ 22, 2 },
+			{ 23, 1 },
 		} );
 
 
@@ -1465,6 +1484,7 @@ namespace ElectronicObserver.Utility.Data {
 			{ 20, 1.25 },
 			{ 21, 1.45 },
 			{ 22, 1.2 },
+			{ 23, 1.05 },
 		} );
 
 
@@ -1670,13 +1690,14 @@ namespace ElectronicObserver.Utility.Data {
 			var eqs = ship.AllSlotInstance.Where( eq => eq != null );
 
 			if ( ship.ShipID == 380 || ship.ShipID == 529 ) {		// 大鷹改(二)
-				if ( ship.ASWTotal >= 65 )
-					return true;			// false の場合後続の処理を行うため
+				if ( ship.ASWTotal >= 65 )	// 注: Lv. 1時点で対潜が 65 以上であるため、現時点では無条件に達成可能
+					return true;
 			}
 
 			if ( ship.ShipID == 526 ) {	// 大鷹
-				bool has931Torp = eqs.Any( eq => eq.EquipmentID == 82 || eq.EquipmentID == 83 );		// 九七式艦攻(九三一空) or 天山(九三一空)
-				if ( has931Torp && ship.ASWTotal >= 65 )
+				// 対潜 7 以上の艦上攻撃機
+				bool hasASWTorp = eqs.Any( eq => eq.MasterEquipment.CategoryType == 8 && eq.MasterEquipment.ASW >= 7 );
+				if ( hasASWTorp && ship.ASWTotal >= 65 )
 					return true;
 			}
 
@@ -1694,6 +1715,16 @@ namespace ElectronicObserver.Utility.Data {
 			else
 				return ship.ASWTotal >= 100;
 		}
+
+
+		/// <summary>
+		/// 爆雷(≠爆雷投射機)のリスト
+		/// </summary>
+		public static readonly int[] DepthChargeList = { 
+			226,		// 九五式爆雷
+			227,		// 二式爆雷
+		};
+
 
 	}
 

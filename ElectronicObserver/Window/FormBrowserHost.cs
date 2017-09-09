@@ -164,7 +164,7 @@ namespace ElectronicObserver.Window {
 		public void ApplyStyleSheet() {
 			Browser.AsyncRemoteRun( () => Browser.Proxy.ApplyStyleSheet() );
 		}
-		
+
 		/// <summary>
 		/// DMMによるページ更新ダイアログを非表示にします。
 		/// </summary>
@@ -177,8 +177,7 @@ namespace ElectronicObserver.Window {
 		/// スクリーンショットを保存します。
 		/// </summary>
 		public void SaveScreenShot() {
-			Browser.AsyncRemoteRun( () => Browser.Proxy.SaveScreenShot( Utility.Configuration.Config.FormBrowser.ScreenShotPath,
-				Utility.Configuration.Config.FormBrowser.ScreenShotFormat ) );
+			Browser.AsyncRemoteRun( () => Browser.Proxy.SaveScreenShot() );
 		}
 
 
@@ -202,6 +201,7 @@ namespace ElectronicObserver.Window {
 				config.IsEnabled = c.IsEnabled;
 				config.ScreenShotPath = c.ScreenShotPath;
 				config.ScreenShotFormat = c.ScreenShotFormat;
+				config.ScreenShotSaveMode = c.ScreenShotSaveMode;
 				config.StyleSheet = c.StyleSheet;
 				config.IsScrollable = c.IsScrollable;
 				config.AppliesStyleSheet = c.AppliesStyleSheet;
@@ -225,6 +225,7 @@ namespace ElectronicObserver.Window {
 			c.IsEnabled = config.IsEnabled;
 			c.ScreenShotPath = config.ScreenShotPath;
 			c.ScreenShotFormat = config.ScreenShotFormat;
+			c.ScreenShotSaveMode = config.ScreenShotSaveMode;
 			c.StyleSheet = config.StyleSheet;
 			c.IsScrollable = config.IsScrollable;
 			c.AppliesStyleSheet = config.AppliesStyleSheet;
@@ -319,7 +320,7 @@ namespace ElectronicObserver.Window {
 				};
 
 				InitializationStage |= InitializationStageFlag.BrowserConnected;
-				
+
 			} ) );
 		}
 

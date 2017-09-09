@@ -17,6 +17,7 @@ namespace ElectronicObserver.Window.Control {
 
 	public partial class ShipStatusEquipment : UserControl {
 
+		[System.Diagnostics.DebuggerDisplay("{Equipment}")]
 		private class SlotItem {
 
 			/// <summary>
@@ -380,7 +381,8 @@ namespace ElectronicObserver.Window.Control {
 					SlotUnitSize = new Size( SlotUnitSize.Width + InfoAreaSize.Width, Math.Max( SlotUnitSize.Height, InfoAreaSize.Height ) );
 				}
 
-				PreferredSize = new Size( SlotUnitSize.Width * Parent.SlotSize, SlotUnitSize.Height );
+				int slotSize = Math.Max( Parent.SlotSize, Array.FindLastIndex( Parent.SlotList, sl => sl.EquipmentID > 0 ) + 1 );
+				PreferredSize = new Size( SlotUnitSize.Width * slotSize, SlotUnitSize.Height );
 
 
 				if ( !IsAvailable && !isGraphicsSpecified )

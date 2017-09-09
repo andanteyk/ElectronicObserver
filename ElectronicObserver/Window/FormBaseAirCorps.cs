@@ -104,7 +104,7 @@ namespace ElectronicObserver.Window {
 			public void AddToTable( TableLayoutPanel table, int row ) {
 
 				table.SuspendLayout();
-				
+
 				table.Controls.Add( Name, 0, row );
 				table.Controls.Add( ActionKind, 1, row );
 				table.Controls.Add( AirSuperiority, 2, row );
@@ -115,7 +115,7 @@ namespace ElectronicObserver.Window {
 				ControlHelper.SetTableRowStyle( table, row, ControlHelper.GetDefaultRowStyle() );
 			}
 
-			
+
 			public void Update( int baseAirCorpsID ) {
 
 				KCDatabase db = KCDatabase.Instance;
@@ -328,6 +328,9 @@ namespace ElectronicObserver.Window {
 			ControlHelper.SetTableRowStyles( TableMember, ControlHelper.GetDefaultRowStyle() );
 
 			TableMember.ResumeLayout();
+
+			if ( KCDatabase.Instance.BaseAirCorps.Any() )
+				Updated( null, null );
 		}
 
 
@@ -335,12 +338,48 @@ namespace ElectronicObserver.Window {
 
 			var keys = KCDatabase.Instance.BaseAirCorps.Keys;
 
+			if ( Utility.Configuration.Config.FormBaseAirCorps.ShowEventMapOnly ) {
+				var eventAreaCorps = KCDatabase.Instance.BaseAirCorps.Values.Where( b => {
+					var maparea = KCDatabase.Instance.MapArea[b.MapAreaID];
+					return maparea != null && maparea.MapType == 1;
+				} ).Select( b => b.ID );
+
+				if ( eventAreaCorps.Any() )
+					keys = eventAreaCorps;
+			}
+
+
 			TableMember.SuspendLayout();
 			TableMember.RowCount = keys.Count();
 			for ( int i = 0; i < ControlMember.Length; i++ ) {
 				ControlMember[i].Update( i < keys.Count() ? keys.ElementAt( i ) : -1 );
 			}
 			TableMember.ResumeLayout();
+
+			// set icon
+			{
+				var squadrons = KCDatabase.Instance.BaseAirCorps.Values.Where( b => b != null )
+					.SelectMany( b => b.Squadrons.Values )
+					.Where( s => s != null );
+				bool isNotReplenished = squadrons.Any( s => s.State == 1 && s.AircraftCurrent < s.AircraftMax );
+				bool isTired = squadrons.Any( s => s.State == 1 && s.Condition == 2 );
+				bool isVeryTired = squadrons.Any( s => s.State == 1 && s.Condition == 3 );
+
+				int imageIndex;
+
+				if ( isNotReplenished )
+					imageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
+				else if ( isVeryTired )
+					imageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
+				else if ( isTired )
+					imageIndex = (int)ResourceManager.IconContent.ConditionTired;
+				else
+					imageIndex = (int)ResourceManager.IconContent.FormBaseAirCorps;
+
+				if ( Icon != null ) ResourceManager.DestroyIcon( Icon );
+				Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[imageIndex] );
+				if ( Parent != null ) Parent.Refresh();		//アイコンを更新するため
+			}
 
 		}
 

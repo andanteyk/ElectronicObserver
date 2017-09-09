@@ -216,6 +216,10 @@ namespace Browser {
 			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.AddLog( priority, message ) );
 		}
 
+		private void SendErrorReport( string exceptionName, string message ) {
+			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.SendErrorReport( exceptionName, message ) );
+		}
+
 
 		public void InitialAPIReceived() {
 
@@ -238,11 +242,6 @@ namespace Browser {
 				Browser.Size = SizeAdjuster.Size;
 				return;
 			}
-
-			/*/
-			Utility.Logger.Add( 1, string.Format( "SizeChanged: BR ({0},{1}) {2}x{3}, PA {4}x{5}, CL {6}x{7}",
-				Browser.Location.X, Browser.Location.Y, Browser.Width, Browser.Height, SizeAdjuster.Width, SizeAdjuster.Height, ClientSize.Width, ClientSize.Height ) );
-			//*/
 
 			ApplyZoom();
 		}
@@ -319,8 +318,7 @@ namespace Browser {
 
 			} catch ( Exception ex ) {
 
-				BrowserHost.AsyncRemoteRun( () =>
-					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" ) );
+				SendErrorReport( ex.ToString(), "スタイルシートの適用に失敗しました。" );
 			}
 
 		}
@@ -345,8 +343,7 @@ namespace Browser {
 
 			} catch ( Exception ex ) {
 
-				BrowserHost.AsyncRemoteRun( () =>
-					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "DMMによるページ更新ダイアログの非表示に失敗しました。" ) );
+				SendErrorReport( ex.ToString(), "DMMによるページ更新ダイアログの非表示に失敗しました。" );
 			}
 
 		}
@@ -423,41 +420,6 @@ namespace Browser {
 		}
 
 
-
-		/// <summary>
-		/// スクリーンショットを保存します。
-		/// </summary>
-		/// <param name="folderPath">保存するフォルダへのパス。</param>
-		/// <param name="screenShotFormat">スクリーンショットのフォーマット。1=jpg, 2=png</param>
-		public void SaveScreenShot( string folderPath, int screenShotFormat ) {
-			if ( !System.IO.Directory.Exists( folderPath ) ) {
-				System.IO.Directory.CreateDirectory( folderPath );
-			}
-
-			string ext;
-			System.Drawing.Imaging.ImageFormat format;
-
-			switch ( screenShotFormat ) {
-				case 1:
-					ext = "jpg";
-					format = System.Drawing.Imaging.ImageFormat.Jpeg;
-					break;
-				case 2:
-				default:
-					ext = "png";
-					format = System.Drawing.Imaging.ImageFormat.Png;
-					break;
-			}
-
-
-			SaveScreenShot( string.Format(
-				"{0}\\{1:yyyyMMdd_HHmmssff}.{2}",
-				folderPath,
-				DateTime.Now,
-				ext ), format );
-
-		}
-
 		// ラッパークラスに戻す
 		private static HtmlDocument WrapHTMLDocument( IHTMLDocument2 document ) {
 			ConstructorInfo[] constructor = typeof( HtmlDocument ).GetConstructors(
@@ -486,19 +448,20 @@ namespace Browser {
 		}
 
 
+
 		/// <summary>
-		/// スクリーンショットを保存します。
+		/// スクリーンショットを撮影します。
 		/// </summary>
-		/// <param name="path">保存先。</param>
-		/// <param name="format">画像のフォーマット。</param>
-		private void SaveScreenShot( string path, ImageFormat format ) {
+		/// <param name="is32bpp"></param>
+		/// <returns></returns>
+		private Bitmap TakeScreenShot( bool is32bpp ) {
 
 			var wb = Browser;
 
 			if ( !IsKanColleLoaded ) {
 				AddLog( 3, string.Format( "艦これが読み込まれていないため、スクリーンショットを撮ることはできません。" ) );
 				System.Media.SystemSounds.Beep.Play();
-				return;
+				return null;
 			}
 
 			try {
@@ -541,42 +504,104 @@ namespace Browser {
 				if ( viewobj != null ) {
 					var rect = new RECT { left = 0, top = 0, width = KanColleSize.Width, height = KanColleSize.Height };
 
-					bool is32bpp = format == ImageFormat.Png && Configuration.AvoidTwitterDeterioration;
-
 					// twitter の劣化回避を行う場合は32ビットの色深度で作業する
-					using ( var image = new Bitmap( rect.width, rect.height, is32bpp ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb ) ) {
+					var image = new Bitmap( rect.width, rect.height, is32bpp ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb );
 
-						var device = new DVTARGETDEVICE { tdSize = 0 };
+					var device = new DVTARGETDEVICE { tdSize = 0 };
 
-						using ( var g = Graphics.FromImage( image ) ) {
-							var hdc = g.GetHdc();
-							viewobj.Draw( 1, 0, IntPtr.Zero, device, IntPtr.Zero, hdc, rect, null, IntPtr.Zero, IntPtr.Zero );
-							g.ReleaseHdc( hdc );
-						}
-
-						if ( is32bpp ) {
-							// 不透明ピクセルのみだと jpeg 化されてしまうため、1px だけわずかに透明にする
-							Color temp = image.GetPixel( image.Width - 1, image.Height - 1 );
-							image.SetPixel( image.Width - 1, image.Height - 1, Color.FromArgb( 252, temp.R, temp.G, temp.B ) );
-						}
-
-
-						image.Save( path, format );
+					using ( var g = Graphics.FromImage( image ) ) {
+						var hdc = g.GetHdc();
+						viewobj.Draw( 1, 0, IntPtr.Zero, device, IntPtr.Zero, hdc, rect, null, IntPtr.Zero, IntPtr.Zero );
+						g.ReleaseHdc( hdc );
 					}
 
+					if ( is32bpp ) {
+						// 不透明ピクセルのみだと jpeg 化されてしまうため、1px だけわずかに透明にする
+						Color temp = image.GetPixel( image.Width - 1, image.Height - 1 );
+						image.SetPixel( image.Width - 1, image.Height - 1, Color.FromArgb( 252, temp.R, temp.G, temp.B ) );
+					}
+
+					return image;
 				}
 
-				_lastScreenShotPath = path;
-				AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) );
 
 			} catch ( Exception ex ) {
 
-				BrowserHost.AsyncRemoteRun( () =>
-					BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スクリーンショットの保存時にエラーが発生しました。" ) );
+				SendErrorReport( ex.ToString(), "スクリーンショットの撮影時にエラーが発生しました。" );
 				System.Media.SystemSounds.Beep.Play();
 
 			}
 
+			return null;
+		}
+
+
+		/// <summary>
+		/// スクリーンショットを撮影し、設定で指定された保存先に保存します。
+		/// </summary>
+		public void SaveScreenShot() {
+
+			int savemode = Configuration.ScreenShotSaveMode;
+			int format = Configuration.ScreenShotFormat;
+			string folderPath = Configuration.ScreenShotPath;
+			bool is32bpp = format != 1 && Configuration.AvoidTwitterDeterioration;
+
+			using ( var image = TakeScreenShot( is32bpp ) ) {
+
+				if ( image == null )
+					return;
+
+				// to file
+				if ( ( savemode & 1 ) != 0 ) {
+					try {
+
+						if ( !System.IO.Directory.Exists( folderPath ) ) {
+							System.IO.Directory.CreateDirectory( folderPath );
+						}
+
+						string ext;
+						System.Drawing.Imaging.ImageFormat imgFormat;
+
+						switch ( format ) {
+							case 1:
+								ext = "jpg";
+								imgFormat = System.Drawing.Imaging.ImageFormat.Jpeg;
+								break;
+							case 2:
+							default:
+								ext = "png";
+								imgFormat = System.Drawing.Imaging.ImageFormat.Png;
+								break;
+						}
+
+						string path = string.Format( "{0}\\{1:yyyyMMdd_HHmmssff}.{2}", folderPath, DateTime.Now, ext );
+						image.Save( path, imgFormat );
+						_lastScreenShotPath = path;
+
+						AddLog( 2, string.Format( "スクリーンショットを {0} に保存しました。", path ) );
+
+					} catch ( Exception ex ) {
+
+						SendErrorReport( ex.ToString(), "スクリーンショットの保存に失敗しました。" );
+					}
+				}
+
+
+				// to clipboard
+				if ( ( savemode & 2 ) != 0 ) {
+					try {
+
+						Clipboard.SetImage( image );
+
+						if ( ( savemode & 3 ) != 3 )
+							AddLog( 2, "スクリーンショットをクリップボードにコピーしました。" );
+
+					} catch ( Exception ex ) {
+
+						SendErrorReport( ex.ToString(), "スクリーンショットのクリップボードへのコピーに失敗しました。" );
+					}
+				}
+			}
 
 		}
 
@@ -589,7 +614,6 @@ namespace Browser {
 				WinInetUtil.SetProxyInProcess( proxy, "local" );
 			}
 
-			//AddLog( 1, "setproxy:" + proxy );
 			BrowserHost.AsyncRemoteRun( () => BrowserHost.Proxy.SetProxyCompleted() );
 		}
 
@@ -750,7 +774,7 @@ namespace Browser {
 
 
 		private void ToolMenu_Other_ScreenShot_Click( object sender, EventArgs e ) {
-			SaveScreenShot( Configuration.ScreenShotPath, Configuration.ScreenShotFormat );
+			SaveScreenShot();
 		}
 
 		private void ToolMenu_Other_Zoom_Decrement_Click( object sender, EventArgs e ) {
@@ -1053,8 +1077,7 @@ namespace Browser {
 						AddLog( 2, string.Format( "スクリーンショット {0} をクリップボードにコピーしました。", _lastScreenShotPath ) );
 					}
 				} catch ( Exception ex ) {
-					BrowserHost.AsyncRemoteRun( () =>
-						BrowserHost.Proxy.SendErrorReport( ex.Message, "スクリーンショットのクリップボードへのコピーに失敗しました。" ) );
+					SendErrorReport( ex.Message, "スクリーンショットのクリップボードへのコピーに失敗しました。" );
 				}
 			}
 		}

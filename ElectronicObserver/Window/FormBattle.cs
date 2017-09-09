@@ -51,7 +51,7 @@ namespace ElectronicObserver.Window {
 				HPBars[i].AutoSize = false;
 				HPBars[i].AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 				HPBars[i].Margin = new Padding( 2, 0, 2, 0 );
-				HPBars[i].Anchor = AnchorStyles.None;
+				HPBars[i].Anchor = AnchorStyles.Left | AnchorStyles.Right;
 				HPBars[i].MainFont = MainFont;
 				HPBars[i].SubFont = SubFont;
 				HPBars[i].UsePrevValue = true;
@@ -79,6 +79,7 @@ namespace ElectronicObserver.Window {
 			AirStage1Enemy.ImageList =
 			AirStage2Friend.ImageList =
 			AirStage2Enemy.ImageList =
+			FleetFriend.ImageList =
 				ResourceManager.Instance.Equipments;
 
 
@@ -150,7 +151,7 @@ namespace ElectronicObserver.Window {
 					SetFormation( bm );
 					ClearSearchingResult();
 					ClearBaseAirAttack();
-					SetAerialWarfare( ( (BattleBaseAirRaid)bm.BattleDay ).BaseAirRaid );
+					SetAerialWarfare( null, ( (BattleBaseAirRaid)bm.BattleDay ).BaseAirRaid );
 					SetHPBar( bm.BattleDay );
 					SetDamageRate( bm );
 
@@ -165,7 +166,7 @@ namespace ElectronicObserver.Window {
 						SetFormation( bm );
 						SetSearchingResult( bm.BattleDay );
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
-						SetAerialWarfare( bm.BattleDay.AirBattle );
+						SetAerialWarfare( bm.BattleDay.JetAirBattle, bm.BattleDay.AirBattle );
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
@@ -200,7 +201,7 @@ namespace ElectronicObserver.Window {
 						SetFormation( bm );
 						SetSearchingResult( bm.BattleDay );
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
-						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleAirBattle)bm.BattleDay ).AirBattle2 );
+						SetAerialWarfare( bm.BattleDay.JetAirBattle, bm.BattleDay.AirBattle, ( (BattleAirBattle)bm.BattleDay ).AirBattle2 );
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
@@ -217,7 +218,7 @@ namespace ElectronicObserver.Window {
 						SetFormation( bm );
 						SetSearchingResult( bm.BattleDay );
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
-						SetAerialWarfare( bm.BattleDay.AirBattle );
+						SetAerialWarfare( bm.BattleDay.JetAirBattle, bm.BattleDay.AirBattle );
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
@@ -229,7 +230,7 @@ namespace ElectronicObserver.Window {
 						SetFormation( bm );
 						SetSearchingResult( bm.BattleDay );
 						SetBaseAirAttack( bm.BattleDay.BaseAirAttack );
-						SetAerialWarfareAirBattle( bm.BattleDay.AirBattle, ( (BattleCombinedAirBattle)bm.BattleDay ).AirBattle2 );
+						SetAerialWarfare( bm.BattleDay.JetAirBattle, bm.BattleDay.AirBattle, ( (BattleCombinedAirBattle)bm.BattleDay ).AirBattle2 );
 						SetHPBar( bm.BattleDay );
 						SetDamageRate( bm );
 
@@ -393,234 +394,229 @@ namespace ElectronicObserver.Window {
 		}
 
 
+
 		/// <summary>
 		/// 航空戦情報を設定します。
 		/// </summary>
-		private void SetAerialWarfare( PhaseAirBattleBase pd ) {
-
-			//空対空戦闘
-			if ( pd.IsStage1Available ) {
-
-				AirSuperiority.Text = Constants.GetAirSuperiority( pd.AirSuperiority );
-
-				int[] planeFriend = { pd.AircraftLostStage1Friend, pd.AircraftTotalStage1Friend };
-				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
-
-				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
-					AirStage1Friend.ForeColor = Color.Red;
-				else
-					AirStage1Friend.ForeColor = SystemColors.ControlText;
-
-				int[] planeEnemy = { pd.AircraftLostStage1Enemy, pd.AircraftTotalStage1Enemy };
-				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
-
-				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
-					AirStage1Enemy.ForeColor = Color.Red;
-				else
-					AirStage1Enemy.ForeColor = SystemColors.ControlText;
-
-
-				//触接
-				int touchFriend = pd.TouchAircraftFriend;
-				if ( touchFriend != -1 ) {
-					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
-					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
-					ToolTipInfo.SetToolTip( AirStage1Friend, "触接中: " + KCDatabase.Instance.MasterEquipments[touchFriend].Name );
-				} else {
-					AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
-					AirStage1Friend.ImageIndex = -1;
-					ToolTipInfo.SetToolTip( AirStage1Friend, null );
-				}
-
-				int touchEnemy = pd.TouchAircraftEnemy;
-				if ( touchEnemy != -1 ) {
-					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
-					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
-					ToolTipInfo.SetToolTip( AirStage1Enemy, "触接中: " + KCDatabase.Instance.MasterEquipments[touchEnemy].Name );
-				} else {
-					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
-					AirStage1Enemy.ImageIndex = -1;
-					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
-				}
-
-			} else {		//空対空戦闘発生せず
-
-				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
-
-				AirStage1Friend.Text = "-";
-				AirStage1Friend.ForeColor = SystemColors.ControlText;
-				AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
-				AirStage1Friend.ImageIndex = -1;
-				ToolTipInfo.SetToolTip( AirStage1Friend, null );
-
-				AirStage1Enemy.Text = "-";
-				AirStage1Enemy.ForeColor = SystemColors.ControlText;
-				AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
-				AirStage1Enemy.ImageIndex = -1;
-				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
-			}
-
-			//艦対空戦闘
-			if ( pd.IsStage2Available ) {
-
-				int[] planeFriend = { pd.AircraftLostStage2Friend, pd.AircraftTotalStage2Friend };
-				AirStage2Friend.Text = string.Format( "-{0}/{1}", planeFriend[0], planeFriend[1] );
-
-				if ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] )
-					AirStage2Friend.ForeColor = Color.Red;
-				else
-					AirStage2Friend.ForeColor = SystemColors.ControlText;
-
-				int[] planeEnemy = { pd.AircraftLostStage2Enemy, pd.AircraftTotalStage2Enemy };
-				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0], planeEnemy[1] );
-
-				if ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] )
-					AirStage2Enemy.ForeColor = Color.Red;
-				else
-					AirStage2Enemy.ForeColor = SystemColors.ControlText;
-
-
-				//対空カットイン
-				if ( pd.IsAACutinAvailable ) {
-					int cutinID = pd.AACutInKind;
-					int cutinIndex = pd.AACutInIndex;
-
-					AACutin.Text = "#" + ( cutinIndex + 1 );
-					AACutin.ImageAlign = ContentAlignment.MiddleLeft;
-					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
-					ToolTipInfo.SetToolTip( AACutin, string.Format(
-						"対空カットイン: {0}\r\nカットイン種別: {1} ({2})",
-						pd.AACutInShip.NameWithLevel,
-						cutinID,
-						Constants.GetAACutinKind( cutinID ) ) );
-
-				} else {
-					AACutin.Text = "対空砲火";
-					AACutin.ImageAlign = ContentAlignment.MiddleCenter;
-					AACutin.ImageIndex = -1;
-					ToolTipInfo.SetToolTip( AACutin, null );
-				}
-
-			} else {	//艦対空戦闘発生せず
-				AirStage2Friend.Text = "-";
-				AirStage2Friend.ForeColor = SystemColors.ControlText;
-				AirStage2Enemy.Text = "-";
-				AirStage2Enemy.ForeColor = SystemColors.ControlText;
-				AACutin.Text = "対空砲火";
-				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
-				AACutin.ImageIndex = -1;
-				ToolTipInfo.SetToolTip( AACutin, null );
-			}
-
-
-			AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
-			AirStage2Friend.ImageIndex = -1;
-			ToolTipInfo.SetToolTip( AirStage2Friend, null );
-			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
-			AirStage2Enemy.ImageIndex = -1;
-			ToolTipInfo.SetToolTip( AirStage2Enemy, null );
-
+		/// <param name="phaseJet">噴式航空戦を指定します。存在しない場合は null を指定してください。</param>
+		/// <param name="phase1">通常の航空戦を指定します。</param>
+		private void SetAerialWarfare( PhaseJetAirBattle phaseJet, PhaseAirBattleBase phase1 ) {
+			SetAerialWarfare( phaseJet, phase1, null );
 		}
 
-
 		/// <summary>
-		/// 航空戦情報(航空戦)を設定します。
-		/// 通常艦隊・連合艦隊両用です。
+		/// 航空戦情報を設定します。
 		/// </summary>
-		private void SetAerialWarfareAirBattle( PhaseAirBattle pd1, PhaseAirBattle pd2 ) {
+		/// <param name="phaseJet">噴式航空戦を指定します。存在しない場合は null を指定してください。</param>
+		/// <param name="phase1">第1次航空戦を指定します。</param>
+		/// <param name="phase2">第2次航空戦を指定します。存在しない場合は null を指定してください。</param>
+		private void SetAerialWarfare( PhaseJetAirBattle phaseJet, PhaseAirBattleBase phase1, PhaseAirBattleBase phase2 ) {
 
-			//空対空戦闘
-			if ( pd1.IsStage1Available ) {
+			bool phaseJetEnabled = phaseJet != null && phaseJet.IsAvailable;
+			bool phase1Enabled = phase1 != null && phase1.IsAvailable;
+			bool phase2Enabled = phase2 != null && phase2.IsAvailable;
 
-				//二回目の空戦が存在するか
-				bool isBattle2Enabled = pd2.IsStage1Available;
 
-				AirSuperiority.Text = Constants.GetAirSuperiority( pd1.AirSuperiority );
-				if ( isBattle2Enabled ) {
-					ToolTipInfo.SetToolTip( AirSuperiority, "第2次: " + Constants.GetAirSuperiority( pd2.AirSuperiority ) );
+			// 空対空戦闘
+			if ( phase1Enabled && phase1.IsStage1Available ) {
+
+				bool phaseJetStage1Enabled = phaseJetEnabled && phaseJet.IsStage1Available;
+				bool phase2Stage1Enabled = phase2Enabled && phase2.IsStage1Available;
+				bool needAppendInfo = phaseJetStage1Enabled || phase2Stage1Enabled;
+
+
+				AirSuperiority.Text = Constants.GetAirSuperiority( phase1.AirSuperiority );
+
+				if ( needAppendInfo ) {
+
+					var sb = new StringBuilder();
+
+					if ( phaseJetStage1Enabled )
+						sb.Append( "噴式戦: " ).AppendLine( Constants.GetAirSuperiority( phaseJet.AirSuperiority ) );
+
+					sb.Append( "第1次: " ).AppendLine( Constants.GetAirSuperiority( phase1.AirSuperiority ) );
+
+					if ( phase2Stage1Enabled )
+						sb.Append( "第2次: " ).AppendLine( Constants.GetAirSuperiority( phase2.AirSuperiority ) );
+
+					ToolTipInfo.SetToolTip( AirSuperiority, sb.ToString() );
+
 				} else {
 					ToolTipInfo.SetToolTip( AirSuperiority, null );
 				}
 
 
-				int[] planeFriend = {
-					pd1.AircraftLostStage1Friend,
-					pd1.AircraftTotalStage1Friend,
-					( isBattle2Enabled ? pd2.AircraftLostStage1Friend : 0 ),
-					( isBattle2Enabled ? pd2.AircraftTotalStage1Friend : 0 ),
-				};
-				AirStage1Friend.Text = string.Format( "-{0}/{1}", planeFriend[0] + planeFriend[2], planeFriend[1] );
-				ToolTipInfo.SetToolTip( AirStage1Friend, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
-					planeFriend[0], planeFriend[1], planeFriend[2], planeFriend[3] ) );
+				// friends
+				int jetLostFriend = phaseJetStage1Enabled ? phaseJet.AircraftLostStage1Friend : 0;
+				int phase1LostFriend = phase1.AircraftLostStage1Friend;
+				int phase2LostFriend = phase2Stage1Enabled ? phase2.AircraftLostStage1Friend : 0;
 
-				if ( ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] ) ||
-					 ( planeFriend[3] > 0 && planeFriend[2] == planeFriend[3] ) )
+				int jetTotalFriend = phaseJetStage1Enabled ? phaseJet.AircraftTotalStage1Friend : 0;
+				int phase1TotalFriend = phase1.AircraftTotalStage1Friend;
+				int phase2TotalFriend = phase2Stage1Enabled ? phase2.AircraftTotalStage1Friend : 0;
+
+				int jetTouchFriend = phaseJetStage1Enabled ? phaseJet.TouchAircraftFriend : -1;
+				int phase1TouchFriend = phase1.TouchAircraftFriend;
+				int phase2TouchFriend = phase2Stage1Enabled ? phase2.TouchAircraftFriend : -1;
+
+				if ( needAppendInfo ) {
+					var text = new List<string>();
+
+					if ( phaseJetStage1Enabled )
+						text.Add( "-" + jetLostFriend );
+
+					text.Add( "-" + phase1LostFriend );
+
+					if ( phase2Stage1Enabled )
+						text.Add( "-" + phase2LostFriend );
+
+					AirStage1Friend.Text = string.Join( ",", text );
+
+				} else {
+					AirStage1Friend.Text = string.Format( "-{0}/{1}", phase1LostFriend, phase1TotalFriend );
+				}
+
+				if ( needAppendInfo ) {
+
+					var sb = new StringBuilder();
+
+					if ( phaseJetStage1Enabled )
+						sb.AppendFormat( "噴式戦: -{0}/{1}\r\n", jetLostFriend, jetTotalFriend );
+
+					sb.AppendFormat( "第1次: -{0}/{1}\r\n", phase1LostFriend, phase1TotalFriend );
+
+					if ( phase2Stage1Enabled )
+						sb.AppendFormat( "第2次: -{0}/{1}\r\n", phase2LostFriend, phase2TotalFriend );
+
+					ToolTipInfo.SetToolTip( AirStage1Friend, sb.ToString() );
+				} else {
+					ToolTipInfo.SetToolTip( AirStage1Friend, null );
+				}
+
+				// lost flag
+				if ( ( jetTotalFriend > 0 && jetLostFriend == jetTotalFriend ) ||
+					( phase1TotalFriend > 0 && phase1LostFriend == phase1TotalFriend ) ||
+					( phase2TotalFriend > 0 && phase2LostFriend == phase2TotalFriend ) ) {
 					AirStage1Friend.ForeColor = Color.Red;
-				else
+				} else {
 					AirStage1Friend.ForeColor = SystemColors.ControlText;
+				}
 
-
-				int[] planeEnemy = { 
-					pd1.AircraftLostStage1Enemy,
-					pd1.AircraftTotalStage1Enemy,
-					( isBattle2Enabled ? pd2.AircraftLostStage1Enemy : 0 ),
-					( isBattle2Enabled ? pd2.AircraftTotalStage1Enemy : 0 ),
-				};
-				AirStage1Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0] + planeEnemy[2], planeEnemy[1] );
-				ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
-					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3] ) );
-
-				if ( ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] ) ||
-					 ( planeEnemy[3] > 0 && planeEnemy[2] == planeEnemy[3] ) )
-					AirStage1Enemy.ForeColor = Color.Red;
-				else
-					AirStage1Enemy.ForeColor = SystemColors.ControlText;
-
-
-				//触接
-				int[] touchFriend = { 
-					pd1.TouchAircraftFriend,
-					isBattle2Enabled ? pd2.TouchAircraftFriend : -1
-					};
-				if ( touchFriend[0] != -1 || touchFriend[1] != -1 ) {
+				// touch
+				if ( jetTouchFriend > 0 || phase1TouchFriend > 0 || phase2TouchFriend > 0 ) {
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
 
-					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchFriend[0]], KCDatabase.Instance.MasterEquipments[touchFriend[1]] };
-					ToolTipInfo.SetToolTip( AirStage1Friend, string.Format(
-						"{0}触接中\r\n第1次: {1}\r\n第2次: {2}",
-						ToolTipInfo.GetToolTip( AirStage1Friend ) ?? "",
-						planes[0] != null ? planes[0].Name : "(なし)",
-						planes[1] != null ? planes[1].Name : "(なし)"
-						) );
+					var jetTouchPlane = KCDatabase.Instance.MasterEquipments[jetTouchFriend];
+					var phase1TouchPlane = KCDatabase.Instance.MasterEquipments[phase1TouchFriend];
+					var phase2TouchPlane = KCDatabase.Instance.MasterEquipments[phase2TouchFriend];
+
+					var sb = new StringBuilder( ToolTipInfo.GetToolTip( AirStage1Friend ) );
+					sb.AppendLine( "触接中" );
+
+					if ( phaseJetStage1Enabled )
+						sb.AppendFormat( "噴式戦: {0}\r\n", jetTouchPlane != null ? jetTouchPlane.Name : "(なし)" );
+					if ( needAppendInfo )
+						sb.Append( "第1次: " );
+					sb.AppendFormat( "{0}\r\n", phase1TouchPlane != null ? phase1TouchPlane.Name : "(なし)" );
+					if ( phase2Stage1Enabled )
+						sb.AppendFormat( "第2次: {0}\r\n", phase2TouchPlane != null ? phase2TouchPlane.Name : "(なし)" );
+
+					ToolTipInfo.SetToolTip( AirStage1Friend, sb.ToString() );
+
 				} else {
 					AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
 					AirStage1Friend.ImageIndex = -1;
-					//ToolTipInfo.SetToolTip( AirStage1Friend, null );
 				}
 
-				int[] touchEnemy = {
-					pd1.TouchAircraftEnemy,
-					isBattle2Enabled ? pd2.TouchAircraftEnemy : -1
-					};
-				if ( touchEnemy[0] != -1 || touchEnemy[1] != -1 ) {
+
+
+				// enemies
+				int jetLostEnemy = phaseJetStage1Enabled ? phaseJet.AircraftLostStage1Enemy : 0;
+				int phase1LostEnemy = phase1.AircraftLostStage1Enemy;
+				int phase2LostEnemy = phase2Stage1Enabled ? phase2.AircraftLostStage1Enemy : 0;
+
+				int jetTotalEnemy = phaseJetStage1Enabled ? phaseJet.AircraftTotalStage1Enemy : 0;
+				int phase1TotalEnemy = phase1.AircraftTotalStage1Enemy;
+				int phase2TotalEnemy = phase2Stage1Enabled ? phase2.AircraftTotalStage1Enemy : 0;
+
+				int jetTouchEnemy = phaseJetStage1Enabled ? phaseJet.TouchAircraftEnemy : -1;
+				int phase1TouchEnemy = phase1.TouchAircraftEnemy;
+				int phase2TouchEnemy = phase2Stage1Enabled ? phase2.TouchAircraftEnemy : -1;
+
+				if ( needAppendInfo ) {
+					var text = new List<string>();
+
+					if ( phaseJetStage1Enabled )
+						text.Add( "-" + jetLostEnemy );
+
+					text.Add( "-" + phase1LostEnemy );
+
+					if ( phase2Stage1Enabled )
+						text.Add( "-" + phase2LostEnemy );
+
+					AirStage1Enemy.Text = string.Join( ",", text );
+
+				} else {
+					AirStage1Enemy.Text = string.Format( "-{0}/{1}", phase1LostEnemy, phase1TotalEnemy );
+				}
+
+				if ( needAppendInfo ) {
+
+					var sb = new StringBuilder();
+
+					if ( phaseJetStage1Enabled )
+						sb.AppendFormat( "噴式戦: -{0}/{1}\r\n", jetLostEnemy, jetTotalEnemy );
+
+					sb.AppendFormat( "第1次: -{0}/{1}\r\n", phase1LostEnemy, phase1TotalEnemy );
+
+					if ( phase2Stage1Enabled )
+						sb.AppendFormat( "第2次: -{0}/{1}\r\n", phase2LostEnemy, phase2TotalEnemy );
+
+					ToolTipInfo.SetToolTip( AirStage1Enemy, sb.ToString() );
+				} else {
+					ToolTipInfo.SetToolTip( AirStage1Enemy, null );
+				}
+
+				// lost flag
+				if ( ( jetTotalEnemy > 0 && jetLostEnemy == jetTotalEnemy ) ||
+					( phase1TotalEnemy > 0 && phase1LostEnemy == phase1TotalEnemy ) ||
+					( phase2TotalEnemy > 0 && phase2LostEnemy == phase2TotalEnemy ) ) {
+					AirStage1Enemy.ForeColor = Color.Red;
+				} else {
+					AirStage1Enemy.ForeColor = SystemColors.ControlText;
+				}
+
+				// touch
+				if ( jetTouchEnemy > 0 || phase1TouchEnemy > 0 || phase2TouchEnemy > 0 ) {
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage1Enemy.ImageIndex = (int)ResourceManager.EquipmentContent.Seaplane;
 
-					EquipmentDataMaster[] planes = { KCDatabase.Instance.MasterEquipments[touchEnemy[0]], KCDatabase.Instance.MasterEquipments[touchEnemy[1]] };
-					ToolTipInfo.SetToolTip( AirStage1Enemy, string.Format(
-						"{0}触接中\r\n第1次: {1}\r\n第2次: {2}",
-						ToolTipInfo.GetToolTip( AirStage1Enemy ) ?? "",
-						planes[0] != null ? planes[0].Name : "(なし)",
-						planes[1] != null ? planes[1].Name : "(なし)"
-						) );
+					var jetTouchPlane = KCDatabase.Instance.MasterEquipments[jetTouchEnemy];
+					var phase1TouchPlane = KCDatabase.Instance.MasterEquipments[phase1TouchEnemy];
+					var phase2TouchPlane = KCDatabase.Instance.MasterEquipments[phase2TouchEnemy];
+
+					var sb = new StringBuilder( ToolTipInfo.GetToolTip( AirStage1Enemy ) );
+					sb.AppendLine( "触接中" );
+
+					if ( phaseJetStage1Enabled )
+						sb.AppendFormat( "噴式戦: {0}\r\n", jetTouchPlane != null ? jetTouchPlane.Name : "(なし)" );
+					if ( needAppendInfo )
+						sb.Append( "第1次: " );
+					sb.AppendFormat( "{0}\r\n", phase1TouchPlane != null ? phase1TouchPlane.Name : "(なし)" );
+					if ( phase2Stage1Enabled )
+						sb.AppendFormat( "第2次: {0}\r\n", phase2TouchPlane != null ? phase2TouchPlane.Name : "(なし)" );
+
+					ToolTipInfo.SetToolTip( AirStage1Enemy, sb.ToString() );
+
 				} else {
 					AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
 					AirStage1Enemy.ImageIndex = -1;
-					//ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 				}
 
-			} else {	//空対空戦闘発生せず(!?)
+
+
+			} else {	// 空対空戦闘発生せず
 				AirSuperiority.Text = Constants.GetAirSuperiority( -1 );
 				ToolTipInfo.SetToolTip( AirSuperiority, null );
 				AirStage1Friend.Text = "-";
@@ -631,80 +627,197 @@ namespace ElectronicObserver.Window {
 				ToolTipInfo.SetToolTip( AirStage1Enemy, null );
 			}
 
-			//艦対空戦闘
-			if ( pd1.IsStage2Available ) {
-
-				//二回目の空戦が存在するか
-				bool isBattle2Enabled = pd2.IsStage2Available;
 
 
-				int[] planeFriend = { 
-					pd1.AircraftLostStage2Friend,
-					pd1.AircraftTotalStage2Friend,
-					( isBattle2Enabled ? pd2.AircraftLostStage2Friend : 0 ),
-					( isBattle2Enabled ? pd2.AircraftTotalStage2Friend : 0 ),
-				};
-				AirStage2Friend.Text = string.Format( "-{0}/{1}", planeFriend[0] + planeFriend[2], planeFriend[1] );
-				ToolTipInfo.SetToolTip( AirStage2Friend, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n",
-					planeFriend[0], planeFriend[1], planeFriend[2], planeFriend[3] ) );
+			// 艦対空戦闘
+			if ( phase1Enabled && phase1.IsStage2Available ) {
 
-				if ( ( planeFriend[1] > 0 && planeFriend[0] == planeFriend[1] ) ||
-					 ( planeFriend[3] > 0 && planeFriend[2] == planeFriend[3] ) )
+				bool phaseJetStage2Enabled = phaseJetEnabled && phaseJet.IsStage2Available;
+				bool phase2Stage2Enabled = phase2Enabled && phase2.IsStage2Available;
+				bool needAppendInfo = phaseJetStage2Enabled || phase2Stage2Enabled;
+
+				// friends
+				int jetLostFriend = phaseJetStage2Enabled ? phaseJet.AircraftLostStage2Friend : 0;
+				int phase1LostFriend = phase1.AircraftLostStage2Friend;
+				int phase2LostFriend = phase2Stage2Enabled ? phase2.AircraftLostStage2Friend : 0;
+
+				int jetTotalFriend = phaseJetStage2Enabled ? phaseJet.AircraftTotalStage2Friend : 0;
+				int phase1TotalFriend = phase1.AircraftTotalStage2Friend;
+				int phase2TotalFriend = phase2Stage2Enabled ? phase2.AircraftTotalStage2Friend : 0;
+
+				int jetTouchFriend = phaseJetStage2Enabled ? phaseJet.TouchAircraftFriend : -1;
+				int phase1TouchFriend = phase1.TouchAircraftFriend;
+				int phase2TouchFriend = phase2Stage2Enabled ? phase2.TouchAircraftFriend : -1;
+
+				if ( needAppendInfo ) {
+					var text = new List<string>();
+
+					if ( phaseJetStage2Enabled )
+						text.Add( "-" + jetLostFriend );
+
+					text.Add( "-" + phase1LostFriend );
+
+					if ( phase2Stage2Enabled )
+						text.Add( "-" + phase2LostFriend );
+
+					AirStage2Friend.Text = string.Join( ",", text );
+
+				} else {
+					AirStage2Friend.Text = string.Format( "-{0}/{1}", phase1LostFriend, phase1TotalFriend );
+				}
+
+				if ( needAppendInfo ) {
+
+					var sb = new StringBuilder();
+
+					if ( phaseJetStage2Enabled )
+						sb.AppendFormat( "噴式戦: -{0}/{1}\r\n", jetLostFriend, jetTotalFriend );
+
+					sb.AppendFormat( "第1次: -{0}/{1}\r\n", phase1LostFriend, phase1TotalFriend );
+
+					if ( phase2Stage2Enabled )
+						sb.AppendFormat( "第2次: -{0}/{1}\r\n", phase2LostFriend, phase2TotalFriend );
+
+					ToolTipInfo.SetToolTip( AirStage2Friend, sb.ToString() );
+				} else {
+					ToolTipInfo.SetToolTip( AirStage2Friend, null );
+				}
+
+				// lost flag
+				if ( ( jetTotalFriend > 0 && jetLostFriend == jetTotalFriend ) ||
+					( phase1TotalFriend > 0 && phase1LostFriend == phase1TotalFriend ) ||
+					( phase2TotalFriend > 0 && phase2LostFriend == phase2TotalFriend ) ) {
 					AirStage2Friend.ForeColor = Color.Red;
-				else
+				} else {
 					AirStage2Friend.ForeColor = SystemColors.ControlText;
+				}
 
 
-				int[] planeEnemy = { 
-					pd1.AircraftLostStage2Enemy,
-					pd1.AircraftTotalStage2Enemy,
-					( isBattle2Enabled ? pd2.AircraftLostStage2Enemy : 0 ),
-					( isBattle2Enabled ? pd2.AircraftTotalStage2Enemy : 0 ),
-				};
-				AirStage2Enemy.Text = string.Format( "-{0}/{1}", planeEnemy[0] + planeEnemy[2], planeEnemy[1] );
-				ToolTipInfo.SetToolTip( AirStage2Enemy, string.Format( "第1次: -{0}/{1}\r\n第2次: -{2}/{3}\r\n{4}",
-					planeEnemy[0], planeEnemy[1], planeEnemy[2], planeEnemy[3],
-					isBattle2Enabled ? "" : "(第二次戦発生せず)" ) );			//DEBUG
+				// enemies
+				int jetLostEnemy = phaseJetStage2Enabled ? phaseJet.AircraftLostStage2Enemy : 0;
+				int phase1LostEnemy = phase1.AircraftLostStage2Enemy;
+				int phase2LostEnemy = phase2Stage2Enabled ? phase2.AircraftLostStage2Enemy : 0;
 
-				if ( ( planeEnemy[1] > 0 && planeEnemy[0] == planeEnemy[1] ) ||
-					 ( planeEnemy[3] > 0 && planeEnemy[2] == planeEnemy[3] ) )
+				int jetTotalEnemy = phaseJetStage2Enabled ? phaseJet.AircraftTotalStage2Enemy : 0;
+				int phase1TotalEnemy = phase1.AircraftTotalStage2Enemy;
+				int phase2TotalEnemy = phase2Stage2Enabled ? phase2.AircraftTotalStage2Enemy : 0;
+
+				int jetTouchEnemy = phaseJetStage2Enabled ? phaseJet.TouchAircraftEnemy : -1;
+				int phase1TouchEnemy = phase1.TouchAircraftEnemy;
+				int phase2TouchEnemy = phase2Stage2Enabled ? phase2.TouchAircraftEnemy : -1;
+
+				if ( needAppendInfo ) {
+					var text = new List<string>();
+
+					if ( phaseJetStage2Enabled )
+						text.Add( "-" + jetLostEnemy );
+
+					text.Add( "-" + phase1LostEnemy );
+
+					if ( phase2Stage2Enabled )
+						text.Add( "-" + phase2LostEnemy );
+
+					AirStage2Enemy.Text = string.Join( ",", text );
+
+				} else {
+					AirStage2Enemy.Text = string.Format( "-{0}/{1}", phase1LostEnemy, phase1TotalEnemy );
+				}
+
+				if ( needAppendInfo ) {
+
+					var sb = new StringBuilder();
+
+					if ( phaseJetStage2Enabled )
+						sb.AppendFormat( "噴式戦: -{0}/{1}\r\n", jetLostEnemy, jetTotalEnemy );
+
+					sb.AppendFormat( "第1次: -{0}/{1}\r\n", phase1LostEnemy, phase1TotalEnemy );
+
+					if ( phase2Stage2Enabled )
+						sb.AppendFormat( "第2次: -{0}/{1}\r\n", phase2LostEnemy, phase2TotalEnemy );
+
+					ToolTipInfo.SetToolTip( AirStage2Enemy, sb.ToString() );
+				} else {
+					ToolTipInfo.SetToolTip( AirStage2Enemy, null );
+				}
+
+				// lost flag
+				if ( ( jetTotalEnemy > 0 && jetLostEnemy == jetTotalEnemy ) ||
+					( phase1TotalEnemy > 0 && phase1LostEnemy == phase1TotalEnemy ) ||
+					( phase2TotalEnemy > 0 && phase2LostEnemy == phase2TotalEnemy ) ) {
 					AirStage2Enemy.ForeColor = Color.Red;
-				else
+				} else {
 					AirStage2Enemy.ForeColor = SystemColors.ControlText;
+				}
 
 
-				//対空カットイン
+				// 対空カットイン
 				{
-					bool[] fire = new bool[] { pd1.IsAACutinAvailable, isBattle2Enabled && pd2.IsAACutinAvailable };
-					int[] cutinID = new int[] {
-						fire[0] ? pd1.AACutInKind : -1,
-						fire[1] ? pd2.AACutInKind : -1,
-					};
-					int[] cutinIndex = new int[] {
-						fire[0] ? pd1.AACutInIndex : -1,
-						fire[1] ? pd2.AACutInIndex : -1,
-					};
+					int jetAACutInKind = phaseJetStage2Enabled && phaseJet.IsAACutinAvailable ? phaseJet.AACutInKind : -1;
+					int phase1AACutInKind = phase1.IsAACutinAvailable ? phase1.AACutInKind : -1;
+					int phase2AACutInKind = phase2Stage2Enabled && phase2.IsAACutinAvailable ? phase2.AACutInKind : -1;
 
-					if ( fire[0] || fire[1] ) {
+					int jetAACutInIndex = jetAACutInKind > 0 ? phaseJet.AACutInIndex : -1;
+					int phase1AACutInIndex = phase1AACutInKind > 0 ? phase1.AACutInIndex : -1;
+					int phase2AACutInIndex = phase2AACutInKind > 0 ? phase2.AACutInIndex : -1;
 
-						AACutin.Text = string.Format( "#{0}/{1}", fire[0] ? ( cutinIndex[0] + 1 ).ToString() : "-", fire[1] ? ( cutinIndex[1] + 1 ).ToString() : "-" );
+					if ( jetAACutInKind > 0 || phase1AACutInKind > 0 || phase2AACutInKind > 0 ) {
+
+						var text = new List<string>();
+
+						if ( jetAACutInKind > 0 )
+							text.Add( ( jetAACutInIndex + 1 ).ToString() );
+						else if ( phaseJetStage2Enabled )
+							text.Add( "-" );
+
+						if ( phase1AACutInKind > 0 )
+							text.Add( ( phase1AACutInIndex + 1 ).ToString() );
+						else
+							text.Add( "-" );
+
+						if ( phase2AACutInKind > 0 )
+							text.Add( ( phase2AACutInIndex + 1 ).ToString() );
+						else if ( phase2Stage2Enabled )
+							text.Add( "-" );
+
+						AACutin.Text = "#" + string.Join( "/", text );
 						AACutin.ImageAlign = ContentAlignment.MiddleLeft;
 						AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
 
-						StringBuilder sb = new StringBuilder();
+
+						var sb = new StringBuilder();
 						sb.AppendLine( "対空カットイン" );
-						for ( int i = 0; i < 2; i++ ) {
-							if ( fire[i] ) {
-								sb.AppendFormat( "第{0}次: {1}\r\nカットイン種別: {2} ({3})\r\n",
-									i + 1,
-									( i == 0 ? pd1 : pd2 ).AACutInShip.NameWithLevel,
-									cutinID[i],
-									Constants.GetAACutinKind( cutinID[i] ) );
+
+						if ( phaseJetStage2Enabled ) {
+							sb.Append( "噴式戦: " );
+
+							if ( jetAACutInKind > 0 ) {
+								sb.AppendLine( phaseJet.AACutInShip.NameWithLevel );
+								sb.AppendFormat( "カットイン種別: {0} ({1})\r\n", jetAACutInKind, Constants.GetAACutinKind( jetAACutInKind ) );
 							} else {
-								sb.AppendFormat( "第{0}次: (発動せず)\r\n",
-									i + 1 );
+								sb.AppendLine( "(発動せず)" );
 							}
 						}
+
+						if ( needAppendInfo )
+							sb.Append( "第1次: " );
+						if ( phase1AACutInKind > 0 ) {
+							sb.AppendLine( phase1.AACutInShip.NameWithLevel );
+							sb.AppendFormat( "カットイン種別: {0} ({1})\r\n", phase1AACutInKind, Constants.GetAACutinKind( phase1AACutInKind ) );
+						} else {
+							sb.AppendLine( "(発動せず)" );
+						}
+
+						if ( phase2Stage2Enabled ) {
+							sb.Append( "第2次: " );
+
+							if ( phase2AACutInKind > 0 ) {
+								sb.AppendLine( phase2.AACutInShip.NameWithLevel );
+								sb.AppendFormat( "カットイン種別: {0} ({1})\r\n", phase2AACutInKind, Constants.GetAACutinKind( phase2AACutInKind ) );
+							} else {
+								sb.AppendLine( "(発動せず)" );
+							}
+						}
+
 						ToolTipInfo.SetToolTip( AACutin, sb.ToString() );
 
 					} else {
@@ -715,7 +828,7 @@ namespace ElectronicObserver.Window {
 					}
 				}
 
-			} else {	//艦対空戦闘発生せず
+			} else {	// 艦対空戦闘発生せず
 				AirStage2Friend.Text = "-";
 				AirStage2Friend.ForeColor = SystemColors.ControlText;
 				ToolTipInfo.SetToolTip( AirStage2Friend, null );
@@ -815,31 +928,36 @@ namespace ElectronicObserver.Window {
 					bool isEscaped;
 					bool isLandBase;
 
+					var bar = HPBars[i];
+
 					if ( isBaseAirRaid ) {
 						name = string.Format( "第{0}基地", i + 1 );
 						isEscaped = false;
 						isLandBase = true;
+						bar.Text = "LB";		//note: Land Base (Landing Boat もあるらしいが考えつかなかったので)
+
 					} else {
 						ShipData ship = bd.Initial.FriendFleet.MembersInstance[i];
 						name = string.Format( "{0} Lv. {1}", ship.MasterShip.NameWithClass, ship.Level );
 						isEscaped = bd.Initial.FriendFleet.EscapedShipList.Contains( ship.MasterID );
 						isLandBase = ship.MasterShip.IsLandBase;
+						bar.Text = Constants.GetShipClassClassification( ship.MasterShip.ShipType );
 					}
 
-					ToolTipInfo.SetToolTip( HPBars[i], string.Format
+					ToolTipInfo.SetToolTip( bar, string.Format
 						( "{0}\r\nHP: ({1} → {2})/{3} ({4}) [{5}]\r\n与ダメージ: {6}\r\n\r\n{7}",
 						name,
-						Math.Max( HPBars[i].PrevValue, 0 ),
-						Math.Max( HPBars[i].Value, 0 ),
-						HPBars[i].MaximumValue,
-						HPBars[i].Value - HPBars[i].PrevValue,
-						Constants.GetDamageState( (double)HPBars[i].Value / HPBars[i].MaximumValue, isPractice, isLandBase, isEscaped ),
+						Math.Max( bar.PrevValue, 0 ),
+						Math.Max( bar.Value, 0 ),
+						bar.MaximumValue,
+						bar.Value - bar.PrevValue,
+						Constants.GetDamageState( (double)bar.Value / bar.MaximumValue, isPractice, isLandBase, isEscaped ),
 						attackDamages[i],
 						bd.GetBattleDetail( i )
 						) );
 
-					if ( isEscaped ) HPBars[i].BackColor = Color.Silver;
-					else HPBars[i].BackColor = SystemColors.Control;
+					if ( isEscaped ) bar.BackColor = Color.Silver;
+					else bar.BackColor = SystemColors.Control;
 				}
 			}
 
@@ -849,15 +967,18 @@ namespace ElectronicObserver.Window {
 				if ( initialHPs[i + 6] != -1 ) {
 					ShipDataMaster ship = bd.Initial.EnemyMembersInstance[i];
 
-					ToolTipInfo.SetToolTip( HPBars[i + 6],
+					var bar = HPBars[i + 6];
+					bar.Text = Constants.GetShipClassClassification( ship.ShipType );
+
+					ToolTipInfo.SetToolTip( bar,
 						string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n{7}",
 							ship.NameWithClass,
 							bd.Initial.EnemyLevels[i],
-							Math.Max( HPBars[i + 6].PrevValue, 0 ),
-							Math.Max( HPBars[i + 6].Value, 0 ),
-							HPBars[i + 6].MaximumValue,
-							HPBars[i + 6].Value - HPBars[i + 6].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i + 6].Value / HPBars[i + 6].MaximumValue, isPractice, ship.IsLandBase ),
+							Math.Max( bar.PrevValue, 0 ),
+							Math.Max( bar.Value, 0 ),
+							bar.MaximumValue,
+							bar.Value - bar.PrevValue,
+							Constants.GetDamageState( (double)bar.Value / bar.MaximumValue, isPractice, ship.IsLandBase ),
 							bd.GetBattleDetail( i + 6 )
 							)
 						);
@@ -874,21 +995,24 @@ namespace ElectronicObserver.Window {
 						ShipData ship = bd.Initial.FriendFleetEscort.MembersInstance[i];
 						bool isEscaped = bd.Initial.FriendFleetEscort.EscapedShipList.Contains( ship.MasterID );
 
-						ToolTipInfo.SetToolTip( HPBars[i + 12], string.Format(
+						var bar = HPBars[i + 12];
+						bar.Text = Constants.GetShipClassClassification( ship.MasterShip.ShipType );
+
+						ToolTipInfo.SetToolTip( bar, string.Format(
 							"{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n与ダメージ: {7}\r\n\r\n{8}",
 							ship.MasterShip.NameWithClass,
 							ship.Level,
-							Math.Max( HPBars[i + 12].PrevValue, 0 ),
-							Math.Max( HPBars[i + 12].Value, 0 ),
-							HPBars[i + 12].MaximumValue,
-							HPBars[i + 12].Value - HPBars[i + 12].PrevValue,
-							Constants.GetDamageState( (double)HPBars[i + 12].Value / HPBars[i + 12].MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
+							Math.Max( bar.PrevValue, 0 ),
+							Math.Max( bar.Value, 0 ),
+							bar.MaximumValue,
+							bar.Value - bar.PrevValue,
+							Constants.GetDamageState( (double)bar.Value / bar.MaximumValue, isPractice, ship.MasterShip.IsLandBase, isEscaped ),
 							attackDamages[i + 12],
 							bd.GetBattleDetail( i + 12 )
 							) );
 
-						if ( isEscaped ) HPBars[i + 12].BackColor = Color.Silver;
-						else HPBars[i + 12].BackColor = SystemColors.Control;
+						if ( isEscaped ) bar.BackColor = Color.Silver;
+						else bar.BackColor = SystemColors.Control;
 					}
 				}
 
@@ -906,6 +1030,7 @@ namespace ElectronicObserver.Window {
 						ShipDataMaster ship = bd.Initial.EnemyMembersEscortInstance[i];
 
 						var bar = HPBars[i + 18];
+						bar.Text = Constants.GetShipClassClassification( ship.ShipType );
 
 						ToolTipInfo.SetToolTip( bar,
 							string.Format( "{0} Lv. {1}\r\nHP: ({2} → {3})/{4} ({5}) [{6}]\r\n\r\n{7}",
@@ -927,19 +1052,59 @@ namespace ElectronicObserver.Window {
 			}
 
 
-			//*/
 			if ( isCombined && isEnemyCombined ) {
 				foreach ( var bar in HPBars ) {
 					bar.Size = SmallBarSize;
 					bar.Text = null;
 				}
 			} else {
+				bool showShipType = Utility.Configuration.Config.FormBattle.ShowShipTypeInHPBar;
+
 				foreach ( var bar in HPBars ) {
 					bar.Size = DefaultBarSize;
-					bar.Text = "HP:";
+
+					if ( !showShipType )
+						bar.Text = "HP:";
 				}
 			}
-			//*/
+
+
+			{	// support
+				var battleday = bd as BattleDay;
+				if ( battleday != null && battleday.Support != null && battleday.Support.IsAvailable ) {
+
+					switch ( battleday.Support.SupportFlag ) {
+						case 1:
+							FleetFriend.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedTorpedo;
+							break;
+						case 2:
+							FleetFriend.ImageIndex = (int)ResourceManager.EquipmentContent.MainGunL;
+							break;
+						case 3:
+							FleetFriend.ImageIndex = (int)ResourceManager.EquipmentContent.Torpedo;
+							break;
+						default:
+							FleetFriend.ImageIndex = (int)ResourceManager.EquipmentContent.Unknown;
+							break;
+					}
+
+					FleetFriend.ImageAlign = ContentAlignment.MiddleLeft;
+					ToolTipInfo.SetToolTip( FleetFriend, "支援攻撃\r\n" + battleday.Support.GetBattleDetail() );
+
+					if ( isCombined && isEnemyCombined )
+						FleetFriend.Text = "自軍";
+					else
+						FleetFriend.Text = "自軍艦隊";
+
+				} else {
+
+					FleetFriend.ImageIndex = -1;
+					FleetFriend.ImageAlign = ContentAlignment.MiddleCenter;
+					FleetFriend.Text = "自軍艦隊";
+					ToolTipInfo.SetToolTip( FleetFriend, null );
+
+				}
+			}
 
 
 			if ( bd.Initial.IsBossDamaged )
@@ -1210,7 +1375,6 @@ namespace ElectronicObserver.Window {
 			FleetEnemyEscort.MaximumSize =
 			DamageFriend.MaximumSize =
 			DamageEnemy.MaximumSize =
-			WinRank.MaximumSize =
 				fixSize ? DefaultBarSize : Size.Empty;
 
 			WinRank.MinimumSize = fixSize ? new Size( 80, 0 ) : new Size( HPBars[0].Width, 0 );

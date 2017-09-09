@@ -390,6 +390,10 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int PowerEngagementForm { get; set; }
 
+				/// <summary>
+				/// 出撃札がない艦娘が出撃したときに警告ダイアログを表示するか
+				/// </summary>
+				public bool ShowSallyAreaAlertDialog { get; set; }
 
 				public ConfigControl() {
 					ConditionBorder = 40;
@@ -398,6 +402,7 @@ namespace ElectronicObserver.Utility {
 					LastVolume = 0.8f;
 					LastIsMute = false;
 					PowerEngagementForm = 1;
+					ShowSallyAreaAlertDialog = true;
 				}
 			}
 			/// <summary>動作</summary>
@@ -681,6 +686,10 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool BlinkAtDamaged { get; set; }
 
+				/// <summary>
+				/// 艦隊状態の表示方法
+				/// </summary>
+				public int FleetStateDisplayMode { get; set; }
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
@@ -700,6 +709,7 @@ namespace ElectronicObserver.Utility {
 					ReflectAnchorageRepairHealing = true;
 					EmphasizesSubFleetInPort = false;
 					BlinkAtDamaged = true;
+					FleetStateDisplayMode = 2;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -856,6 +866,12 @@ namespace ElectronicObserver.Utility {
 				public int ScreenShotFormat { get; set; }
 
 				/// <summary>
+				/// スクリーンショットの保存モード
+				/// 1=ファイル, 2=クリップボード, 3=両方
+				/// </summary>
+				public int ScreenShotSaveMode { get; set; }
+
+				/// <summary>
 				/// 適用するスタイルシート
 				/// </summary>
 				public string StyleSheet { get; set; }
@@ -913,6 +929,7 @@ namespace ElectronicObserver.Utility {
 					IsEnabled = true;
 					ScreenShotPath = "ScreenShot";
 					ScreenShotFormat = 2;
+					ScreenShotSaveMode = 1;
 					StyleSheet = "\r\nbody {\r\n	margin:0;\r\n	overflow:hidden\r\n}\r\n\r\n#game_frame {\r\n	position:fixed;\r\n	left:50%;\r\n	top:-16px;\r\n	margin-left:-450px;\r\n	z-index:1\r\n}\r\n";
 					IsScrollable = false;
 					AppliesStyleSheet = true;
@@ -1014,10 +1031,16 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowHPBar { get; set; }
 
+				/// <summary>
+				/// HP バーに艦種を表示するか
+				/// </summary>
+				public bool ShowShipTypeInHPBar { get; set; }
+
 				public ConfigFormBattle() {
 					IsScrollable = false;
 					HideDuringBattle = false;
 					ShowHPBar = true;
+					ShowShipTypeInHPBar = false;
 				}
 			}
 
@@ -1026,6 +1049,29 @@ namespace ElectronicObserver.Utility {
 			/// </summary>
 			[DataMember]
 			public ConfigFormBattle FormBattle { get; private set; }
+
+
+			/// <summary>
+			/// [基地航空隊]ウィンドウの設定を扱います。
+			/// </summary>
+			public class ConfigFormBaseAirCorps : ConfigPartBase {
+
+				/// <summary>
+				/// イベント海域のもののみ表示するか
+				/// </summary>
+				public bool ShowEventMapOnly { get; set; }
+
+				public ConfigFormBaseAirCorps() {
+					ShowEventMapOnly = false;
+				}
+			}
+
+			/// <summary>
+			/// [基地航空隊]ウィンドウ
+			/// </summary>
+			[DataMember]
+			public ConfigFormBaseAirCorps FormBaseAirCorps { get; private set; }
+
 
 
 			/// <summary>
@@ -1284,6 +1330,7 @@ namespace ElectronicObserver.Utility {
 				FormBrowser = new ConfigFormBrowser();
 				FormCompass = new ConfigFormCompass();
 				FormJson = new ConfigFormJson();
+				FormBaseAirCorps = new ConfigFormBaseAirCorps();
 
 				NotifierExpedition = new ConfigNotifierBase();
 				NotifierConstruction = new ConfigNotifierBase();

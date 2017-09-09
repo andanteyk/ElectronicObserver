@@ -36,6 +36,7 @@
 			this.Comment = new System.Windows.Forms.TextBox();
 			this.ButtonAlert = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.ImageTypeBaseAirCorps = new System.Windows.Forms.RadioButton();
 			this.ImageTypeBanner = new System.Windows.Forms.RadioButton();
 			this.ImageTypeCutin = new System.Windows.Forms.RadioButton();
 			this.ImageTypeCard = new System.Windows.Forms.RadioButton();
@@ -144,7 +145,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.GroupOutputPath.Controls.Add(this.SearchOutputPath);
 			this.GroupOutputPath.Controls.Add(this.OutputPath);
-			this.GroupOutputPath.Location = new System.Drawing.Point(8, 277);
+			this.GroupOutputPath.Location = new System.Drawing.Point(8, 273);
 			this.GroupOutputPath.Name = "GroupOutputPath";
 			this.GroupOutputPath.Size = new System.Drawing.Size(440, 57);
 			this.GroupOutputPath.TabIndex = 10;
@@ -185,7 +186,7 @@
 			this.groupBox7.Controls.Add(this.Comment);
 			this.groupBox7.Location = new System.Drawing.Point(8, 127);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(440, 144);
+			this.groupBox7.Size = new System.Drawing.Size(440, 140);
 			this.groupBox7.TabIndex = 9;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "自由入力欄";
@@ -230,7 +231,7 @@
 			this.Comment.Multiline = true;
 			this.Comment.Name = "Comment";
 			this.Comment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.Comment.Size = new System.Drawing.Size(428, 72);
+			this.Comment.Size = new System.Drawing.Size(428, 68);
 			this.Comment.TabIndex = 6;
 			this.Comment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Comment_KeyDown);
 			// 
@@ -239,7 +240,7 @@
 			this.ButtonAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.ButtonAlert.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
 			this.ButtonAlert.ForeColor = System.Drawing.Color.Red;
-			this.ButtonAlert.Location = new System.Drawing.Point(6, 340);
+			this.ButtonAlert.Location = new System.Drawing.Point(6, 336);
 			this.ButtonAlert.Name = "ButtonAlert";
 			this.ButtonAlert.Size = new System.Drawing.Size(278, 23);
 			this.ButtonAlert.TabIndex = 8;
@@ -251,6 +252,7 @@
 			// 
 			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox3.Controls.Add(this.ImageTypeBaseAirCorps);
 			this.groupBox3.Controls.Add(this.ImageTypeBanner);
 			this.groupBox3.Controls.Add(this.ImageTypeCutin);
 			this.groupBox3.Controls.Add(this.ImageTypeCard);
@@ -261,6 +263,18 @@
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "出力モード";
 			// 
+			// ImageTypeBaseAirCorps
+			// 
+			this.ImageTypeBaseAirCorps.AutoSize = true;
+			this.ImageTypeBaseAirCorps.Enabled = false;
+			this.ImageTypeBaseAirCorps.Location = new System.Drawing.Point(312, 22);
+			this.ImageTypeBaseAirCorps.Name = "ImageTypeBaseAirCorps";
+			this.ImageTypeBaseAirCorps.Size = new System.Drawing.Size(85, 19);
+			this.ImageTypeBaseAirCorps.TabIndex = 3;
+			this.ImageTypeBaseAirCorps.Text = "基地航空隊";
+			this.ImageTypeBaseAirCorps.UseVisualStyleBackColor = true;
+			this.ImageTypeBaseAirCorps.Visible = false;
+			// 
 			// ImageTypeBanner
 			// 
 			this.ImageTypeBanner.AutoSize = true;
@@ -268,7 +282,6 @@
 			this.ImageTypeBanner.Name = "ImageTypeBanner";
 			this.ImageTypeBanner.Size = new System.Drawing.Size(93, 19);
 			this.ImageTypeBanner.TabIndex = 2;
-			this.ImageTypeBanner.TabStop = true;
 			this.ImageTypeBanner.Text = "バナー (小型)";
 			this.ImageTypeBanner.UseVisualStyleBackColor = true;
 			this.ImageTypeBanner.CheckedChanged += new System.EventHandler(this.ImageTypeBanner_CheckedChanged);
@@ -280,7 +293,6 @@
 			this.ImageTypeCutin.Name = "ImageTypeCutin";
 			this.ImageTypeCutin.Size = new System.Drawing.Size(105, 19);
 			this.ImageTypeCutin.TabIndex = 1;
-			this.ImageTypeCutin.TabStop = true;
 			this.ImageTypeCutin.Text = "カットイン (中型)";
 			this.ImageTypeCutin.UseVisualStyleBackColor = true;
 			this.ImageTypeCutin.CheckedChanged += new System.EventHandler(this.ImageTypeCutin_CheckedChanged);
@@ -292,7 +304,6 @@
 			this.ImageTypeCard.Name = "ImageTypeCard";
 			this.ImageTypeCard.Size = new System.Drawing.Size(90, 19);
 			this.ImageTypeCard.TabIndex = 0;
-			this.ImageTypeCard.TabStop = true;
 			this.ImageTypeCard.Text = "カード (大型)";
 			this.ImageTypeCard.UseVisualStyleBackColor = true;
 			this.ImageTypeCard.CheckedChanged += new System.EventHandler(this.ImageTypeCard_CheckedChanged);
@@ -301,7 +312,7 @@
 			// 
 			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.ButtonCancel.Location = new System.Drawing.Point(373, 340);
+			this.ButtonCancel.Location = new System.Drawing.Point(373, 336);
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this.ButtonCancel.TabIndex = 0;
@@ -312,7 +323,7 @@
 			// ButtonOK
 			// 
 			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonOK.Location = new System.Drawing.Point(292, 340);
+			this.ButtonOK.Location = new System.Drawing.Point(292, 336);
 			this.ButtonOK.Name = "ButtonOK";
 			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
 			this.ButtonOK.TabIndex = 7;
@@ -661,7 +672,7 @@
 			this.groupBox6.Controls.Add(this.TextGeneralFont);
 			this.groupBox6.Location = new System.Drawing.Point(6, 6);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(442, 347);
+			this.groupBox6.Size = new System.Drawing.Size(442, 343);
 			this.groupBox6.TabIndex = 0;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "フォント";
@@ -1039,5 +1050,6 @@
 		private System.Windows.Forms.CheckBox SyncronizeTitleAndFileName;
 		private System.Windows.Forms.CheckBox AutoSetFileNameToDate;
 		private System.Windows.Forms.CheckBox OutputToClipboard;
+		private System.Windows.Forms.RadioButton ImageTypeBaseAirCorps;
 	}
 }

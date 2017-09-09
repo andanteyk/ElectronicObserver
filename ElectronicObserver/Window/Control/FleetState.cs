@@ -158,6 +158,7 @@ namespace ElectronicObserver.Window.Control {
 
 			bool emphasizesSubFleetInPort = Utility.Configuration.Config.FormFleet.EmphasizesSubFleetInPort &&
 				( db.Fleet.CombinedFlag > 0 ? fleet.FleetID >= 3 : fleet.FleetID >= 2 );
+			var displayMode = (FleetStateDisplayModes)Utility.Configuration.Config.FormFleet.FleetStateDisplayMode;
 
 			Color colorDanger = Color.LightCoral;
 			Color colorInPort = Color.Transparent;
@@ -307,7 +308,7 @@ namespace ElectronicObserver.Window.Control {
 				{
 					int cond = fleet.MembersInstance.Min( s => s == null ? 100 : s.Condition );
 
-					if ( cond < Utility.Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null ) {
+					if ( cond < Utility.Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null && fleet.ExpeditionState == 0 ) {
 						var state = GetStateLabel( index );
 
 						int iconIndex;
@@ -362,16 +363,31 @@ namespace ElectronicObserver.Window.Control {
 			}
 
 
-			for ( int i = index; i < StateLabels.Count; i++ )
+			for ( int i = displayMode == FleetStateDisplayModes.Single ? 1 : index; i < StateLabels.Count; i++ )
 				StateLabels[i].Enabled = false;
 
 
-			if ( index == 1 ) {
-				StateLabels[0].AutoShorten = false;
+			switch ( displayMode ) {
 
-			} else {
-				for ( int i = 0; i < index; i++ )
-					StateLabels[i].AutoShorten = true;
+				case FleetStateDisplayModes.AllCollapsed:
+					for ( int i = 0; i < index; i++ )
+						StateLabels[i].AutoShorten = true;
+					break;
+
+				case FleetStateDisplayModes.MultiCollapsed:
+					if ( index == 1 ) {
+						StateLabels[0].AutoShorten = false;
+					} else {
+						for ( int i = 0; i < index; i++ )
+							StateLabels[i].AutoShorten = true;
+					}
+					break;
+
+				case FleetStateDisplayModes.Single:
+				case FleetStateDisplayModes.AllExpanded:
+					for ( int i = 0; i < index; i++ )
+						StateLabels[i].AutoShorten = false;
+					break;
 			}
 
 		}
@@ -453,5 +469,22 @@ namespace ElectronicObserver.Window.Control {
 		Tired,
 		Sparkled,
 		Ready,
+	}
+
+	/// <summary>
+	/// 状態の表示モードを指定します。
+	/// </summary>
+	public enum FleetStateDisplayModes {
+		/// <summary> 1つだけ表示 </summary>
+		Single,
+
+		/// <summary> 複数表示(すべて短縮表示) </summary>
+		AllCollapsed,
+
+		/// <summary> 複数表示(1つの時は通常表示、複数の時は短縮表示) </summary>
+		MultiCollapsed,
+
+		/// <summary> 複数表示(すべて通常表示) </summary>
+		AllExpanded,
 	}
 }
