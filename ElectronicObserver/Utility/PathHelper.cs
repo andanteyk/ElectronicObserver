@@ -45,9 +45,9 @@ namespace ElectronicObserver.Utility {
 			string path = dialog.FileName;
 
 			// カレントディレクトリ以下にあるなら相対パスとして記録する
-			string currentDir = Directory.GetCurrentDirectory();
+			string currentDir = Directory.GetCurrentDirectory() + @"\";
 			if ( path != null && path.IndexOf( currentDir ) == 0 ) {
-				path = path.Remove( 0, currentDir.Length + 1 );		//+1 は \ の分
+				path = path.Remove( 0, currentDir.Length );
 			}
 
 			return path;
@@ -104,9 +104,9 @@ namespace ElectronicObserver.Utility {
 			string path = dialog.FileName;
 
 			// カレントディレクトリ以下にあるなら相対パスとして記録する
-			string currentDir = Directory.GetCurrentDirectory();
+			string currentDir = Directory.GetCurrentDirectory() + @"\";
 			if ( path != null && path.IndexOf( currentDir ) == 0 ) {
-				path = path.Remove( 0, currentDir.Length + 1 );		//+1 は \ の分
+				path = path.Remove( 0, currentDir.Length );
 			}
 
 			return path;
@@ -155,9 +155,9 @@ namespace ElectronicObserver.Utility {
 			string path = dialog.SelectedPath;
 
 			// カレントディレクトリ以下にあるなら相対パスとして記録する
-			string currentDir = Directory.GetCurrentDirectory();
+			string currentDir = Directory.GetCurrentDirectory() + @"\";
 			if ( path != null && path.IndexOf( currentDir ) == 0 ) {
-				path = path.Remove( 0, currentDir.Length + 1 );		//+1 は \ の分
+				path = path.Remove( 0, currentDir.Length );
 			}
 
 			return path;
