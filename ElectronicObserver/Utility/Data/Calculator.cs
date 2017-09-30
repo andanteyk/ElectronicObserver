@@ -222,19 +222,19 @@ namespace ElectronicObserver.Utility.Data {
 		public static double GetAirSuperiorityAirDefenseReconBonus( int equipmentID ) {
 			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
 			if ( eq == null ) return 1;
-			
+
 			int category = eq.CategoryType;
 			int losrate = Math.Min( Math.Max( eq.LOS - 7, 0 ), 2 );		// ~7, 8, 9~
 
 			switch ( category ) {
 				case 10:	// 水上偵察機
 				case 41:	// 大型飛行艇
-					return  1.1 + losrate * 0.03 ;
-		
+					return 1.1 + losrate * 0.03;
+
 				case 9:		// 艦上偵察機
 				case 59:	// 噴式偵察機
-					return 1.2 + losrate * 0.05 ;
-		
+					return 1.2 + losrate * 0.05;
+
 				default:
 					return 1;
 			}
@@ -801,12 +801,14 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="includeSpecialAttack">弾着観測砲撃を含むか。falseなら除外して計算</param>
 		public static DayAttackKind GetDayAttackKind( int[] slot, int attackerShipID, int defenderShipID, bool includeSpecialAttack = true ) {
 
-			int reconcnt = 0;
-			int mainguncnt = 0;
-			int subguncnt = 0;
-			int apshellcnt = 0;
-			int radarcnt = 0;
-			int rocketcnt = 0;
+			int reconCount = 0;
+			int mainGunCount = 0;
+			int subGunCount = 0;
+			int apShellCount = 0;
+			int radarCount = 0;
+			int rocketCount = 0;
+			int attackerCount = 0;
+			int bomberCount = 0;
 
 			if ( slot == null ) return DayAttackKind.Unknown;
 
@@ -821,42 +823,52 @@ namespace ElectronicObserver.Utility.Data {
 					case 1:		// 小口径主砲
 					case 2:		// 中口径主砲
 					case 3:		// 大口径主砲
-						mainguncnt++;
+						mainGunCount++;
 						break;
 					case 4:		// 副砲
-						subguncnt++;
+						subGunCount++;
+						break;
+					case 7:		// 艦上爆撃機
+						bomberCount++;
+						break;
+					case 8:		// 艦上攻撃機
+						attackerCount++;
 						break;
 					case 10:	// 水上偵察機
 					case 11:	// 水上爆撃機
-						reconcnt++;
+						reconCount++;
 						break;
 					case 12:	// 小型電探
 					case 13:	// 大型電探
-						radarcnt++;
+						radarCount++;
 						break;
 					case 19:	// 対艦強化弾
-						apshellcnt++;
+						apShellCount++;
 						break;
 					case 37:	// 対地装備
-						rocketcnt++;
+						rocketCount++;
 						break;
 
 				}
 			}
 
-			if ( reconcnt > 0 && includeSpecialAttack ) {
-				if ( mainguncnt == 2 && apshellcnt == 1 )
-					return DayAttackKind.CutinMainMain;
-				else if ( mainguncnt == 1 && subguncnt == 1 && apshellcnt == 1 )
-					return DayAttackKind.CutinMainAP;
-				else if ( mainguncnt == 1 && subguncnt == 1 && radarcnt == 1 )
-					return DayAttackKind.CutinMainLadar;
-				else if ( mainguncnt >= 1 && subguncnt >= 1 )
-					return DayAttackKind.CutinMainSub;
-				else if ( mainguncnt >= 2 )
-					return DayAttackKind.DoubleShelling;
-			}
+			if ( includeSpecialAttack ) {
+				if ( reconCount > 0 ) {
+					if ( mainGunCount == 2 && apShellCount == 1 )
+						return DayAttackKind.CutinMainMain;
+					else if ( mainGunCount == 1 && subGunCount == 1 && apShellCount == 1 )
+						return DayAttackKind.CutinMainAP;
+					else if ( mainGunCount == 1 && subGunCount == 1 && radarCount == 1 )
+						return DayAttackKind.CutinMainLadar;
+					else if ( mainGunCount >= 1 && subGunCount >= 1 )
+						return DayAttackKind.CutinMainSub;
+					else if ( mainGunCount >= 2 )
+						return DayAttackKind.DoubleShelling;
+				}
 
+				if ( bomberCount > 0 && attackerCount > 0 )
+					return DayAttackKind.CutinAirAttack;
+			}
 
 			ShipDataMaster atkship = KCDatabase.Instance.MasterShips[attackerShipID];
 			ShipDataMaster defship = KCDatabase.Instance.MasterShips[defenderShipID];
@@ -870,7 +882,7 @@ namespace ElectronicObserver.Utility.Data {
 						return (DayAttackKind)( (int)DayAttackKind.LandingDaihatsu + landingID - 1 );
 					}
 
-					if ( rocketcnt > 0 && defship.IsLandBase )
+					if ( rocketCount > 0 && defship.IsLandBase )
 						return DayAttackKind.Rocket;
 				}
 
@@ -899,10 +911,6 @@ namespace ElectronicObserver.Utility.Data {
 					else
 						return DayAttackKind.DepthCharge;
 
-				//本来の雷撃は発生しない
-				else if ( atkship.IsSubmarine )
-					return DayAttackKind.Torpedo;			//(特例措置, 本来のコード中には存在しない)
-
 			}
 
 			return DayAttackKind.Shelling;		//砲撃
@@ -918,14 +926,20 @@ namespace ElectronicObserver.Utility.Data {
 		/// <param name="attackerShipID">攻撃艦の艦船ID。</param>
 		/// <param name="defenderShipID">防御艦の艦船ID。なければ-1</param>
 		/// <param name="includeSpecialAttack">カットイン/連撃の判定を含むか。falseなら除外して計算</param>
-		public static NightAttackKind GetNightAttackKind( int[] slot, int attackerShipID, int defenderShipID, bool includeSpecialAttack = true ) {
+		/// <param name="nightAirAttackFlag">夜戦空母攻撃フラグ</param>
+		public static NightAttackKind GetNightAttackKind( int[] slot, int attackerShipID, int defenderShipID, bool includeSpecialAttack = true, bool nightAirAttackFlag = false ) {
 
-			int mainguncnt = 0;
-			int subguncnt = 0;
-			int torpcnt = 0;
-			int rocketcnt = 0;
-			int latetorpcnt = 0;
-			int subeqcnt = 0;
+			int mainGunCount = 0;
+			int subGunCount = 0;
+			int torpedoCount = 0;
+			int rocketCount = 0;
+			int lateModelTorpedoCount = 0;
+			int submarineEquipmentCount = 0;
+			int nightFighterCount = 0;
+			int nightAttackerCount = 0;
+			int swordfishCount = 0;
+			int nightBomberCount = 0;
+			int nightPersonnelCount = 0;
 
 			if ( slot == null ) return NightAttackKind.Unknown;
 
@@ -933,51 +947,90 @@ namespace ElectronicObserver.Utility.Data {
 
 			foreach ( var eq in eqs.Where( e => e != null ) ) {
 
-				int eqtype = eq.EquipmentType[2];
+				int category = eq.CategoryType;
 
-				switch ( eqtype ) {
+				switch ( category ) {
 					case 1:
 					case 2:
 					case 3:
 					case 38:	//主砲
-						mainguncnt++;
+						mainGunCount++;
 						break;
 					case 4:		//副砲
-						subguncnt++;
+						subGunCount++;
 						break;
 					case 5:
 					case 32:	//魚雷
-						torpcnt++;
+						torpedoCount++;
 						if ( LateModelTorpedoIDs.Contains( eq.EquipmentID ) )	// 後期魚雷
-							latetorpcnt++;
+							lateModelTorpedoCount++;
+						break;
+					case 6:		// 艦上戦闘機
+						if ( eq.IconType == 45 )
+							nightFighterCount++;
+						break;
+					case 7:		// 艦上爆撃機
+						if ( eq.EquipmentID == 154 )		// 零戦62型(爆戦/岩井隊)
+							nightBomberCount++;
+						break;
+					case 8:		// 艦上攻撃機
+						if ( eq.IconType == 46 )
+							nightAttackerCount++;
+						if ( eq.Name.Contains( "Swordfish" ) )
+							swordfishCount++;
+						break;
+					case 35:	// 航空要員
+						if ( eq.Name.Contains( "夜間作戦航空要員" ) )
+							nightPersonnelCount++;
 						break;
 					case 37:	// 対地装備
-						rocketcnt++;
+						rocketCount++;
 						break;
 					case 51:	// 潜水艦装備
-						subeqcnt++;
+						submarineEquipmentCount++;
 						break;
 				}
 
 			}
 
+			if ( attackerShipID == 545 )		// Saratoga Mk.II
+				nightPersonnelCount++;
+
 
 			if ( includeSpecialAttack ) {
 
-				if ( torpcnt >= 2 || ( latetorpcnt >= 1 && subeqcnt >= 1 ) )
+				if ( torpedoCount >= 2 || ( lateModelTorpedoCount >= 1 && submarineEquipmentCount >= 1 ) )
 					return NightAttackKind.CutinTorpedoTorpedo;
-				else if ( mainguncnt >= 3 )
+
+				else if ( mainGunCount >= 3 )
 					return NightAttackKind.CutinMainMain;
-				else if ( mainguncnt == 2 && subguncnt > 0 )
+
+				else if ( mainGunCount == 2 && subGunCount > 0 )
 					return NightAttackKind.CutinMainSub;
-				else if ( ( mainguncnt == 2 && subguncnt == 0 && torpcnt == 1 ) || ( mainguncnt == 1 && torpcnt == 1 ) )
+
+				else if ( ( mainGunCount == 2 && subGunCount == 0 && torpedoCount == 1 ) || ( mainGunCount == 1 && torpedoCount == 1 ) )
 					return NightAttackKind.CutinMainTorpedo;
-				else if ( ( mainguncnt == 2 && subguncnt == 0 & torpcnt == 0 ) ||
-					( mainguncnt == 1 && subguncnt > 0 ) ||
-					( subguncnt >= 2 && torpcnt <= 1 ) ) {
+
+				else if ( ( mainGunCount == 2 && subGunCount == 0 & torpedoCount == 0 ) ||
+					( mainGunCount == 1 && subGunCount > 0 ) ||
+					( subGunCount >= 2 && torpedoCount <= 1 ) ) {
 					return NightAttackKind.DoubleShelling;
 				}
 
+				if ( nightPersonnelCount > 0 && nightFighterCount > 0 ) {
+					if ( nightAttackerCount > 0 ||
+						( nightFighterCount + swordfishCount + nightBomberCount ) >= 3 )
+						return NightAttackKind.CutinAirAttack;
+				}
+
+				if ( nightPersonnelCount > 0 ) {
+					if ( attackerShipID == 515 || attackerShipID == 393 )		// Ark Royal(改)
+						if ( swordfishCount > 0 )
+							nightAirAttackFlag = true;
+
+					if ( nightFighterCount > 0 || nightAttackerCount > 0 )
+						nightAirAttackFlag = true;
+				}
 			}
 
 
@@ -993,9 +1046,12 @@ namespace ElectronicObserver.Utility.Data {
 						return (NightAttackKind)( (int)NightAttackKind.LandingDaihatsu + landingID - 1 );
 					}
 
-					if ( rocketcnt > 0 && defship.IsLandBase )
+					if ( rocketCount > 0 && defship.IsLandBase )
 						return NightAttackKind.Rocket;
 				}
+
+				if ( nightAirAttackFlag )
+					return NightAttackKind.AirAttack;
 
 				if ( atkship.ShipType == 7 && defship != null && defship.IsSubmarine )
 					return NightAttackKind.DepthCharge;
@@ -1725,27 +1781,29 @@ namespace ElectronicObserver.Utility.Data {
 			227,		// 二式爆雷
 		};
 
-
 	}
 
 
 	public enum DayAttackKind {
 		Unknown = -1,
 
-		Shelling,
+		NormalAttack,
 		Laser,
 		DoubleShelling,
 		CutinMainSub,
 		CutinMainLadar,
 		CutinMainAP,
 		CutinMainMain,
+		CutinAirAttack,
+
+		Shelling = 100,
 		AirAttack,
 		DepthCharge,
 		Torpedo,
 
-		Rocket,
+		Rocket = 200,
 
-		LandingDaihatsu,
+		LandingDaihatsu = 300,
 		LandingTokuDaihatsu,
 		LandingDaihatsuTank,
 		LandingAmphibious,
@@ -1755,20 +1813,22 @@ namespace ElectronicObserver.Utility.Data {
 	public enum NightAttackKind {
 		Unknown = -1,
 
-		Shelling,
+		NormalAttack,
 		DoubleShelling,
 		CutinMainTorpedo,
 		CutinTorpedoTorpedo,
 		CutinMainSub,
 		CutinMainMain,
-		Reserved,
+		CutinAirAttack,
+
+		Shelling = 100,
 		AirAttack,
 		DepthCharge,
 		Torpedo,
 
-		Rocket,
+		Rocket = 200,
 
-		LandingDaihatsu,
+		LandingDaihatsu = 300,
 		LandingTokuDaihatsu,
 		LandingDaihatsuTank,
 		LandingAmphibious,

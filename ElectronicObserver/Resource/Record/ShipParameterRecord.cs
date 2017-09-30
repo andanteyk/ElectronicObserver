@@ -555,7 +555,7 @@ namespace ElectronicObserver.Resource.Record {
 		/// <param name="ship">対象の艦船。</param>
 		public void UpdateParameter( ShipData ship ) {
 
-			UpdateParameter( ship.ShipID, ship.Level, ship.ASWBase, ship.ASWMax, ship.EvasionBase, ship.EvasionMax, ship.LOSBase, ship.LOSMax );
+			UpdateParameter( ship.ShipID, ship.Level, ship.ASWBase - ship.ASWModernized, ship.ASWMax, ship.EvasionBase, ship.EvasionMax, ship.LOSBase, ship.LOSMax );
 		}
 
 
@@ -658,7 +658,7 @@ namespace ElectronicObserver.Resource.Record {
 					param.ArmorMax = (int)elem.api_souk[1];
 				}
 				if ( elem.api_tais() ) {
-					int [] api_tais = elem.api_tais;		// Length = 1 の場合がある
+					int[] api_tais = elem.api_tais;		// Length = 1 の場合がある
 					param.ASW.SetEstParameter( 1, api_tais[0], api_tais.Length >= 2 ? api_tais[1] : Parameter.MaximumDefault );
 				}
 				if ( elem.api_luck() ) {

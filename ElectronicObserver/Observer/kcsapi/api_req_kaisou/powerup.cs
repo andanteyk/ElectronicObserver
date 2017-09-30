@@ -60,21 +60,35 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou {
 
 						var contents = new LinkedList<string>();
 
+
+						int hp = updated_ship.HPMax - ship.HPMax;
+						if ( hp > 0 )
+							contents.AddLast( string.Format( "耐久+{0}→{1}/{2}", hp, updated_ship.HPMax, updated_ship.HPMax + updated_ship.HPMaxRemain ) );
+
 						int firepower = updated_ship.FirepowerBase - ship.FirepowerBase;
 						if ( firepower > 0 )
-							contents.AddLast( string.Format( "火力+{0}→{1}/{2}", firepower, updated_ship.FirepowerBase, ship.MasterShip.FirepowerMax ) );
+							contents.AddLast( string.Format( "火力+{0}→{1}/{2}", firepower, updated_ship.FirepowerBase, updated_ship.MasterShip.FirepowerMax ) );
+
 						int torpedo = updated_ship.TorpedoBase - ship.TorpedoBase;
 						if ( torpedo > 0 )
-							contents.AddLast( string.Format( "雷装+{0}→{1}/{2}", torpedo, updated_ship.TorpedoBase, ship.MasterShip.TorpedoMax ) );
+							contents.AddLast( string.Format( "雷装+{0}→{1}/{2}", torpedo, updated_ship.TorpedoBase, updated_ship.MasterShip.TorpedoMax ) );
+
 						int aa = updated_ship.AABase - ship.AABase;
 						if ( aa > 0 )
-							contents.AddLast( string.Format( "対空+{0}→{1}/{2}", aa, updated_ship.AABase, ship.MasterShip.AAMax ) );
+							contents.AddLast( string.Format( "対空+{0}→{1}/{2}", aa, updated_ship.AABase, updated_ship.MasterShip.AAMax ) );
+
 						int armor = updated_ship.ArmorBase - ship.ArmorBase;
 						if ( armor > 0 )
-							contents.AddLast( string.Format( "装甲+{0}→{1}/{2}", armor, updated_ship.ArmorBase, ship.MasterShip.ArmorMax ) );
+							contents.AddLast( string.Format( "装甲+{0}→{1}/{2}", armor, updated_ship.ArmorBase, updated_ship.MasterShip.ArmorMax ) );
+
+						int asw = updated_ship.ASWBase - ship.ASWBase;
+						if ( asw > 0 )
+							contents.AddLast( string.Format( "対潜+{0}→{1}/{2}", asw, updated_ship.ASWBase, updated_ship.ASWMax + updated_ship.MasterShip.ASWModernizable ) );
+
 						int luck = updated_ship.LuckBase - ship.LuckBase;
 						if ( luck > 0 )
-							contents.AddLast( string.Format( "運+{0}→{1}/{2}", luck, updated_ship.LuckBase, ship.MasterShip.LuckMax ) );
+							contents.AddLast( string.Format( "運+{0}→{1}/{2}", luck, updated_ship.LuckBase, updated_ship.MasterShip.LuckMax ) );
+
 
 						sb.Append( string.Join( ", ", contents ) ).Append( " )" );
 						Utility.Logger.Add( 2, sb.ToString() );

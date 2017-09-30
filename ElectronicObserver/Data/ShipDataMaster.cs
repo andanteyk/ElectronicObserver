@@ -151,6 +151,11 @@ namespace ElectronicObserver.Data {
 		}
 
 		/// <summary>
+		/// 耐久近代化改修可能値
+		/// </summary>
+		public int HPMaxModernizable { get { return 2; } }
+		
+		/// <summary>
 		/// 装甲初期値
 		/// </summary>
 		public int ArmorMin {
@@ -299,6 +304,11 @@ namespace ElectronicObserver.Data {
 					return null;
 			}
 		}
+
+		/// <summary>
+		/// 対潜近代化改修可能値
+		/// </summary>
+		public int ASWModernizable { get { return 9; } }
 
 		/// <summary>
 		/// 回避

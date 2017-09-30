@@ -113,13 +113,11 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			if ( AttackType >= 0 )
 				builder.Append( "[" ).Append( GetAttackKind() ).Append( "] " );
 
-			/*// it may be useless
 			if ( EquipmentIDs != null ) {
 				var eqs = EquipmentIDs.Select( id => KCDatabase.Instance.MasterEquipments[id] ).Where( eq => eq != null ).Select( eq => eq.Name );
 				if ( eqs.Any() )
 					builder.Append( "(" ).Append( string.Join( ", ", eqs ) ).Append( ") " );
 			}
-			//*/
 
 			for ( int i = 0; i < Damages.Length; i++ ) {
 				if ( CriticalTypes[i] == CriticalType.Invalid )	// カットイン(主砲/主砲)、カットイン(主砲/副砲)時に発生する
@@ -243,12 +241,15 @@ namespace ElectronicObserver.Data.Battle.Detail {
 	/// </summary>
 	public class BattleNightDetail : BattleDetail {
 
-		public BattleNightDetail( BattleData bd, int attackerId, int defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP )
+		public bool NightAirAttackFlag { get; protected set; }
+
+		public BattleNightDetail( BattleData bd, int attackerId, int defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, bool nightAirAttackFlag, int defenderHP )
 			: base( bd, attackerId, defenderId, damages, criticalTypes, attackType, equipmentIDs, defenderHP ) {
+			NightAirAttackFlag = nightAirAttackFlag;
 		}
 
 		protected override int CaclulateAttackKind( int[] slots, int attackerShipID, int defenderShipID ) {
-			return (int)Calculator.GetNightAttackKind( slots, attackerShipID, defenderShipID, false );
+			return (int)Calculator.GetNightAttackKind( slots, attackerShipID, defenderShipID, false, NightAirAttackFlag );
 		}
 
 		protected override string GetAttackKind() {
