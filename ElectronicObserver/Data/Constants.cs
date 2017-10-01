@@ -580,8 +580,8 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public static string GetDayAttackKind( DayAttackKind id ) {
 			switch ( id ) {
-				case DayAttackKind.Shelling:
-					return "砲撃";
+				case DayAttackKind.NormalAttack:
+					return "通常攻撃";
 				case DayAttackKind.Laser:
 					return "レーザー攻撃";
 				case DayAttackKind.DoubleShelling:
@@ -594,6 +594,10 @@ namespace ElectronicObserver.Data {
 					return "カットイン(主砲/徹甲)";
 				case DayAttackKind.CutinMainMain:
 					return "カットイン(主砲/主砲)";
+				case DayAttackKind.CutinAirAttack:
+					return "空母カットイン";
+				case DayAttackKind.Shelling:
+					return "砲撃";
 				case DayAttackKind.AirAttack:
 					return "空撃";
 				case DayAttackKind.DepthCharge:
@@ -623,8 +627,8 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public static string GetNightAttackKind( NightAttackKind id ) {
 			switch ( id ) {
-				case NightAttackKind.Shelling:
-					return "砲撃";
+				case NightAttackKind.NormalAttack:
+					return "通常攻撃";
 				case NightAttackKind.DoubleShelling:
 					return "連続射撃";
 				case NightAttackKind.CutinMainTorpedo:
@@ -635,8 +639,10 @@ namespace ElectronicObserver.Data {
 					return "カットイン(主砲x2/副砲)";
 				case NightAttackKind.CutinMainMain:
 					return "カットイン(主砲x3)";
-				case NightAttackKind.Reserved:
-					return "不明";
+				case NightAttackKind.CutinAirAttack:
+					return "空母カットイン";
+				case NightAttackKind.Shelling:
+					return "砲撃";
 				case NightAttackKind.AirAttack:
 					return "空撃";
 				case NightAttackKind.DepthCharge:

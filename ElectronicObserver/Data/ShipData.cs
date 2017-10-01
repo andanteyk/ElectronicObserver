@@ -338,39 +338,54 @@ namespace ElectronicObserver.Data {
 		 * 基本値：装備なしでのパラメータ(初期値+強化値)
 		 ********************************************************/
 
+		private int[] _modernized;
 		/// <summary>
 		/// 火力強化値
 		/// </summary>
 		public int FirepowerModernized {
-			get { return (int)RawData.api_kyouka[0]; }
+			get { return _modernized.Length >= 5 ? _modernized[0] : 0; }
 		}
 
 		/// <summary>
 		/// 雷装強化値
 		/// </summary>
 		public int TorpedoModernized {
-			get { return (int)RawData.api_kyouka[1]; }
+			get { return _modernized.Length >= 5 ? _modernized[1] : 0; }
 		}
 
 		/// <summary>
 		/// 対空強化値
 		/// </summary>
 		public int AAModernized {
-			get { return (int)RawData.api_kyouka[2]; }
+			get { return _modernized.Length >= 5 ? _modernized[2] : 0; }
 		}
 
 		/// <summary>
 		/// 装甲強化値
 		/// </summary>
 		public int ArmorModernized {
-			get { return (int)RawData.api_kyouka[3]; }
+			get { return _modernized.Length >= 5 ? _modernized[3] : 0; }
 		}
 
 		/// <summary>
 		/// 運強化値
 		/// </summary>
 		public int LuckModernized {
-			get { return (int)RawData.api_kyouka[4]; }
+			get { return _modernized.Length >= 5 ? _modernized[4] : 0; }
+		}
+
+		/// <summary>
+		/// 耐久強化値
+		/// </summary>
+		public int HPMaxModernized {
+			get { return _modernized.Length >= 7 ? _modernized[5] : 0; }
+		}
+
+		/// <summary>
+		/// 対潜強化値
+		/// </summary>
+		public int ASWModernized {
+			get { return _modernized.Length >= 7 ? _modernized[6] : 0; }
 		}
 
 
@@ -407,6 +422,20 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public int LuckRemain {
 			get { return ( MasterShip.LuckMax - MasterShip.LuckMin ) - LuckModernized; }
+		}
+
+		/// <summary>
+		/// 耐久改修残り
+		/// </summary>
+		public int HPMaxRemain {
+			get { return ( IsMarried ? MasterShip.HPMaxMarriedModernizable : MasterShip.HPMaxModernizable ) - HPMaxModernized; }
+		}
+
+		/// <summary>
+		/// 対潜改修残り
+		/// </summary>
+		public int ASWRemain {
+			get { return ASWMax <= 0 ? 0 : MasterShip.ASWModernizable - ASWModernized; }
 		}
 
 
@@ -1362,6 +1391,7 @@ namespace ElectronicObserver.Data {
 					_slot = (int[])RawData.api_slot;
 					ExpansionSlot = (int)RawData.api_slot_ex;
 					_aircraft = (int[])RawData.api_onslot;
+					_modernized = (int[])RawData.api_kyouka;
 					break;
 
 				case "api_req_hokyu/charge":

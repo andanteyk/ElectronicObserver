@@ -582,6 +582,10 @@ namespace ElectronicObserver.Data {
 
 		//以下、自作計算プロパティ群
 
+		public static readonly int HPModernizableLimit = 2;
+		public static readonly int ASWModernizableLimit = 9;
+
+
 		/// <summary>
 		/// ケッコンカッコカリ後のHP
 		/// </summary>
@@ -598,6 +602,47 @@ namespace ElectronicObserver.Data {
 				return Math.Min( HPMin + incr, HPMax );
 			}
 		}
+
+		/// <summary>
+		/// HP改修可能値(未婚時)
+		/// </summary>
+		public int HPMaxModernizable {
+			get { return Math.Min( HPMax - HPMin, HPModernizableLimit ); }
+		}
+
+		/// <summary>
+		/// HP改修可能値(既婚時)
+		/// </summary>
+		public int HPMaxMarriedModernizable {
+			get { return Math.Min( HPMax - HPMaxMarried, HPModernizableLimit ); }
+		}
+
+		/// <summary>
+		/// 近代化改修後のHP(未婚時)
+		/// </summary>
+		public int HPMaxModernized {
+			get {
+				return Math.Min( HPMin + HPMaxModernizable, HPMax );
+			}
+		}
+
+		/// <summary>
+		/// 近代化改修後のHP(既婚時)
+		/// </summary>
+		public int HPMaxMarriedModernized {
+			get {
+				return Math.Min( HPMaxMarried + HPMaxModernizable, HPMax );
+			}
+		}
+
+
+		/// <summary>
+		/// 対潜改修可能値
+		/// </summary>
+		public int ASWModernizable {
+			get { return ASW == null || ASW.Maximum == 0 ? 0 : ASWModernizableLimit; }
+		}
+
 
 		/// <summary>
 		/// 深海棲艦かどうか
