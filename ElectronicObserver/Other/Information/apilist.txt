@@ -370,7 +370,7 @@ api_start2	：艦娘・装備固有データその他
 		api_atap		：(0)
 		api_houm		：命中
 		api_raim		：雷撃命中(0)
-		api_houk		：回避
+		api_houk		：回避 または 迎撃(局地戦闘機の場合)
 		api_raik		：雷撃回避(0)
 		api_bakk		：爆撃回避(0)
 		api_saku		：索敵
