@@ -113,11 +113,13 @@ namespace ElectronicObserver.Data.Battle.Detail {
 			if ( AttackType >= 0 )
 				builder.Append( "[" ).Append( GetAttackKind() ).Append( "] " );
 
+			/*// 
 			if ( EquipmentIDs != null ) {
 				var eqs = EquipmentIDs.Select( id => KCDatabase.Instance.MasterEquipments[id] ).Where( eq => eq != null ).Select( eq => eq.Name );
 				if ( eqs.Any() )
 					builder.Append( "(" ).Append( string.Join( ", ", eqs ) ).Append( ") " );
 			}
+			//*/
 
 			for ( int i = 0; i < Damages.Length; i++ ) {
 				if ( CriticalTypes[i] == CriticalType.Invalid )	// カットイン(主砲/主砲)、カットイン(主砲/副砲)時に発生する

@@ -428,7 +428,7 @@ namespace ElectronicObserver.Data {
 		/// 耐久改修残り
 		/// </summary>
 		public int HPMaxRemain {
-			get { return Math.Min( MasterShip.HPMax - ( IsMarried ? MasterShip.HPMaxMarried : MasterShip.HPMin ), MasterShip.HPMaxModernizable ) - HPMaxModernized; }
+			get { return ( IsMarried ? MasterShip.HPMaxMarriedModernizable : MasterShip.HPMaxModernizable ) - HPMaxModernized; }
 		}
 
 		/// <summary>

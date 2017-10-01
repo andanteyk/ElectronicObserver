@@ -287,6 +287,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 				HPMin.Text = ship.HPMin.ToString();
 				HPMax.Text = ship.HPMaxMarried.ToString();
+				ToolTipInfo.SetToolTip( HPMin, string.Format( "改修後: {0} (+{1})", ship.HPMaxModernized, ship.HPMaxModernizable ) );
+				ToolTipInfo.SetToolTip( HPMax, string.Format( "改修後: {0} (+{1})\r\n(内部最大耐久: {2})", ship.HPMaxMarriedModernized, ship.HPMaxMarriedModernizable, ship.HPMax ) );
 
 				FirepowerMin.Text = ship.FirepowerMin.ToString();
 				FirepowerMax.Text = ship.FirepowerMax.ToString();
@@ -346,6 +348,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 				HPMin.Text = ship.HPMin > 0 ? ship.HPMin.ToString() : "???";
 				HPMax.Text = hp > 0 ? hp.ToString() : "???";
+				ToolTipInfo.SetToolTip( HPMin, null );
+				ToolTipInfo.SetToolTip( HPMax, null );
 
 				FirepowerMin.Text = ship.FirepowerMax.ToString();
 				FirepowerMax.Text = firepower.ToString();
