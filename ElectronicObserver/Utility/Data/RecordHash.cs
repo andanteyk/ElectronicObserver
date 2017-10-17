@@ -8,7 +8,7 @@ namespace ElectronicObserver.Utility.Data {
 
 	/// <summary>
 	/// レコードに使用するための MD5 アルゴリズムによるハッシュ計算を行います。
-	/// デフォルトの MD5 クラスを利用した場合、 FIPS が有効な環境下で InvalidOperationException が発生する問題があります。
+	/// デフォルトの MD5 クラスを利用した場合、 FIPS が有効な環境下で InvalidOperationException や TargetInvocationException が発生する問題があります。
 	/// この問題を回避するためのクラスです。
 	/// </summary>
 	/// <remarks>http://support.microsoft.com/kb/811833</remarks>
@@ -27,7 +27,7 @@ namespace ElectronicObserver.Utility.Data {
 				originalHasher = System.Security.Cryptography.MD5.Create();
 
 
-			} catch ( InvalidOperationException ) {
+			} catch ( Exception ) {
 
 				Utility.Logger.Add( 1, "RecordHash: System.Security.Cryptography.MD5 ハッシュが利用できません。独自実装を利用します。" );
 
