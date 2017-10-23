@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogShipGroupFilter {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogShipGroupFilter
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -142,13 +147,13 @@
 			this.ExpressionView.AllowUserToResizeRows = false;
 			this.ExpressionView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ExpressionView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ExpressionView_Enabled,
-            this.ExpressionView_ExternalAndOr,
-            this.ExpressionView_Inverse,
-            this.ExpressionView_InternalAndOr,
-            this.ExpressionView_Expression,
-            this.ExpressionView_Up,
-            this.ExpressionView_Down});
+			this.ExpressionView_Enabled,
+			this.ExpressionView_ExternalAndOr,
+			this.ExpressionView_Inverse,
+			this.ExpressionView_InternalAndOr,
+			this.ExpressionView_Expression,
+			this.ExpressionView_Up,
+			this.ExpressionView_Down});
 			this.ExpressionView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ExpressionView.Location = new System.Drawing.Point(0, 0);
 			this.ExpressionView.MultiSelect = false;
@@ -175,8 +180,8 @@
 			// 
 			this.ExpressionView_ExternalAndOr.HeaderText = "外条件";
 			this.ExpressionView_ExternalAndOr.Items.AddRange(new object[] {
-            "And",
-            "Or"});
+			"And",
+			"Or"});
 			this.ExpressionView_ExternalAndOr.Name = "ExpressionView_ExternalAndOr";
 			this.ExpressionView_ExternalAndOr.Width = 50;
 			// 
@@ -191,8 +196,8 @@
 			// 
 			this.ExpressionView_InternalAndOr.HeaderText = "内条件";
 			this.ExpressionView_InternalAndOr.Items.AddRange(new object[] {
-            "And",
-            "Or"});
+			"And",
+			"Or"});
 			this.ExpressionView_InternalAndOr.Name = "ExpressionView_InternalAndOr";
 			this.ExpressionView_InternalAndOr.Width = 50;
 			// 
@@ -220,9 +225,9 @@
 			// 
 			// LabelResult
 			// 
-			this.LabelResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.LabelResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.LabelResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.LabelResult.Location = new System.Drawing.Point(3, 31);
 			this.LabelResult.Name = "LabelResult";
@@ -286,10 +291,10 @@
 			this.ExpressionDetailView.AllowUserToResizeRows = false;
 			this.ExpressionDetailView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ExpressionDetailView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ExpressionDetailView_Enabled,
-            this.ExpressionDetailView_LeftOperand,
-            this.ExpressionDetailView_RightOperand,
-            this.ExpressionDetailView_Operator});
+			this.ExpressionDetailView_Enabled,
+			this.ExpressionDetailView_LeftOperand,
+			this.ExpressionDetailView_RightOperand,
+			this.ExpressionDetailView_Operator});
 			this.ExpressionDetailView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ExpressionDetailView.Location = new System.Drawing.Point(0, 0);
 			this.ExpressionDetailView.MultiSelect = false;
@@ -339,8 +344,8 @@
 			// 
 			// RightOperand_ComboBox
 			// 
-			this.RightOperand_ComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.RightOperand_ComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.RightOperand_ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.RightOperand_ComboBox.FormattingEnabled = true;
 			this.RightOperand_ComboBox.Location = new System.Drawing.Point(130, 5);
@@ -350,8 +355,8 @@
 			// 
 			// RightOperand_NumericUpDown
 			// 
-			this.RightOperand_NumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.RightOperand_NumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.RightOperand_NumericUpDown.Location = new System.Drawing.Point(130, 5);
 			this.RightOperand_NumericUpDown.Name = "RightOperand_NumericUpDown";
 			this.RightOperand_NumericUpDown.Size = new System.Drawing.Size(112, 23);
@@ -420,8 +425,8 @@
 			// 
 			// RightOperand_TextBox
 			// 
-			this.RightOperand_TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.RightOperand_TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.RightOperand_TextBox.Location = new System.Drawing.Point(130, 5);
 			this.RightOperand_TextBox.Name = "RightOperand_TextBox";
 			this.RightOperand_TextBox.Size = new System.Drawing.Size(112, 23);
@@ -451,9 +456,9 @@
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -542,16 +547,16 @@
 			this.ConstFilterView.AllowUserToDeleteRows = false;
 			this.ConstFilterView.AllowUserToResizeColumns = false;
 			this.ConstFilterView.AllowUserToResizeRows = false;
-			this.ConstFilterView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ConstFilterView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.ConstFilterView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ConstFilterView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ConstFilterView_ID,
-            this.ConstFilterView_Name,
-            this.ConstFilterView_Up,
-            this.ConstFilterView_Down,
-            this.ConstFilterView_Delete});
+			this.ConstFilterView_ID,
+			this.ConstFilterView_Name,
+			this.ConstFilterView_Up,
+			this.ConstFilterView_Down,
+			this.ConstFilterView_Delete});
 			this.ConstFilterView.Location = new System.Drawing.Point(8, 71);
 			this.ConstFilterView.Name = "ConstFilterView";
 			this.ConstFilterView.ReadOnly = true;
@@ -608,13 +613,13 @@
 			// 
 			// ConstFilterSelector
 			// 
-			this.ConstFilterSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ConstFilterSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.ConstFilterSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.ConstFilterSelector.FormattingEnabled = true;
 			this.ConstFilterSelector.Items.AddRange(new object[] {
-            "包含リスト",
-            "除外リスト"});
+			"包含リスト",
+			"除外リスト"});
 			this.ConstFilterSelector.Location = new System.Drawing.Point(8, 42);
 			this.ConstFilterSelector.Name = "ConstFilterSelector";
 			this.ConstFilterSelector.Size = new System.Drawing.Size(357, 23);
@@ -635,8 +640,8 @@
 			// SubMenu
 			// 
 			this.SubMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SubMenu_ImportFilter,
-            this.SubMenu_ExportFilter});
+			this.SubMenu_ImportFilter,
+			this.SubMenu_ExportFilter});
 			this.SubMenu.Name = "Menu";
 			this.SubMenu.Size = new System.Drawing.Size(189, 48);
 			// 

@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Integrate {
-	partial class FormIntegrate {
+﻿namespace ElectronicObserver.Window.Integrate
+{
+	partial class FormIntegrate
+	{
 		/// <summary>
 		/// 必要なデザイナー変数です。
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// 使用中のリソースをすべてクリーンアップします。
 		/// </summary>
 		/// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows フォーム デザイナーで生成されたコード
@@ -22,7 +26,8 @@
 		/// デザイナー サポートに必要なメソッドです。このメソッドの内容を
 		/// コード エディターで変更しないでください。
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			this.labelTitle = new System.Windows.Forms.Label();
 			this.labelClassName = new System.Windows.Forms.Label();
@@ -74,8 +79,8 @@
 			// 
 			// titleTextBox
 			// 
-			this.titleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.titleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.titleTextBox.Location = new System.Drawing.Point(56, 22);
 			this.titleTextBox.Name = "titleTextBox";
 			this.titleTextBox.Size = new System.Drawing.Size(92, 23);
@@ -83,8 +88,8 @@
 			// 
 			// classNameTextBox
 			// 
-			this.classNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.classNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.classNameTextBox.Location = new System.Drawing.Point(56, 51);
 			this.classNameTextBox.Name = "classNameTextBox";
 			this.classNameTextBox.Size = new System.Drawing.Size(92, 23);
@@ -92,8 +97,8 @@
 			// 
 			// fileNameTextBox
 			// 
-			this.fileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.fileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.fileNameTextBox.Location = new System.Drawing.Point(56, 80);
 			this.fileNameTextBox.Name = "fileNameTextBox";
 			this.fileNameTextBox.Size = new System.Drawing.Size(92, 23);
@@ -143,8 +148,8 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.titleComboBox);
 			this.groupBox1.Controls.Add(this.classNameComboBox);
 			this.groupBox1.Controls.Add(this.fileNameComboBox);
@@ -194,7 +199,7 @@
 			// tabContextMenu
 			// 
 			this.tabContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Detach});
+			this.StripMenu_Detach});
 			this.tabContextMenu.Name = "tabContextMenu";
 			this.tabContextMenu.Size = new System.Drawing.Size(161, 26);
 			// 

@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window {
-	partial class FormQuest {
+﻿namespace ElectronicObserver.Window
+{
+	partial class FormQuest
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -81,11 +86,11 @@
 			this.QuestView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.QuestView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.QuestView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.QuestView_State,
-            this.QuestView_Type,
-            this.QuestView_Category,
-            this.QuestView_Name,
-            this.QuestView_Progress});
+			this.QuestView_State,
+			this.QuestView_Type,
+			this.QuestView_Category,
+			this.QuestView_Name,
+			this.QuestView_Progress});
 			this.QuestView.ContextMenuStrip = this.MenuMain;
 			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
@@ -165,10 +170,10 @@
 			// MenuProgress
 			// 
 			this.MenuProgress.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuProgress_Increment,
-            this.MenuProgress_Decrement,
-            this.toolStripSeparator3,
-            this.MenuProgress_Reset});
+			this.MenuProgress_Increment,
+			this.MenuProgress_Decrement,
+			this.toolStripSeparator3,
+			this.MenuProgress_Reset});
 			this.MenuProgress.Name = "MenuProgress";
 			this.MenuProgress.Size = new System.Drawing.Size(149, 76);
 			// 
@@ -201,12 +206,12 @@
 			// MenuMain
 			// 
 			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuMain_QuestFilter,
-            this.MenuMain_ColumnFilter,
-            this.toolStripSeparator1,
-            this.MenuMain_GoogleQuest,
-            this.toolStripSeparator4,
-            this.MenuMain_Initialize});
+			this.MenuMain_QuestFilter,
+			this.MenuMain_ColumnFilter,
+			this.toolStripSeparator1,
+			this.MenuMain_GoogleQuest,
+			this.toolStripSeparator4,
+			this.MenuMain_Initialize});
 			this.MenuMain.Name = "MenuMain";
 			this.MenuMain.Size = new System.Drawing.Size(204, 126);
 			this.MenuMain.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMain_Opening);
@@ -214,11 +219,11 @@
 			// MenuMain_ColumnFilter
 			// 
 			this.MenuMain_ColumnFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuMain_ColumnFilter_State,
-            this.MenuMain_ColumnFilter_Type,
-            this.MenuMain_ColumnFilter_Category,
-            this.MenuMain_ColumnFilter_Name,
-            this.MenuMain_ColumnFilter_Progress});
+			this.MenuMain_ColumnFilter_State,
+			this.MenuMain_ColumnFilter_Type,
+			this.MenuMain_ColumnFilter_Category,
+			this.MenuMain_ColumnFilter_Name,
+			this.MenuMain_ColumnFilter_Progress});
 			this.MenuMain_ColumnFilter.Name = "MenuMain_ColumnFilter";
 			this.MenuMain_ColumnFilter.Size = new System.Drawing.Size(203, 22);
 			this.MenuMain_ColumnFilter.Text = "列フィルタ(&C)";
@@ -285,13 +290,13 @@
 			// MenuMain_QuestFilter
 			// 
 			this.MenuMain_QuestFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuMain_ShowRunningOnly,
-            this.toolStripSeparator2,
-            this.MenuMain_ShowOnce,
-            this.MenuMain_ShowDaily,
-            this.MenuMain_ShowWeekly,
-            this.MenuMain_ShowMonthly,
-            this.MenuMain_ShowOther});
+			this.MenuMain_ShowRunningOnly,
+			this.toolStripSeparator2,
+			this.MenuMain_ShowOnce,
+			this.MenuMain_ShowDaily,
+			this.MenuMain_ShowWeekly,
+			this.MenuMain_ShowMonthly,
+			this.MenuMain_ShowOther});
 			this.MenuMain_QuestFilter.Name = "MenuMain_QuestFilter";
 			this.MenuMain_QuestFilter.Size = new System.Drawing.Size(203, 22);
 			this.MenuMain_QuestFilter.Text = "表示フィルタ(&Q)";

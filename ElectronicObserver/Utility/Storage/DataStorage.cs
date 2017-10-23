@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace ElectronicObserver.Utility.Storage {
+namespace ElectronicObserver.Utility.Storage
+{
 
 	/// <summary>
 	/// 汎用データ保存クラスの基底です。
 	/// 使用時は DataContractAttribute を設定してください。
 	/// </summary>
-	[DataContract( Name = "DataStorage" )]
-	public abstract class DataStorage : IExtensibleDataObject {
+	[DataContract(Name = "DataStorage")]
+	public abstract class DataStorage : IExtensibleDataObject
+	{
 
 		public ExtensionDataObject ExtensionData { get; set; }
 
@@ -23,73 +25,94 @@ namespace ElectronicObserver.Utility.Storage {
 
 
 
-		public DataStorage() {
+		public DataStorage()
+		{
 			Initialize();
 		}
 
 		[OnDeserializing]
-		private void DefaultDeserializing( StreamingContext sc ) {
+		private void DefaultDeserializing(StreamingContext sc)
+		{
 			Initialize();
 		}
 
 
-		public void Save( string path ) {
+		public void Save(string path)
+		{
 
-			try {
+			try
+			{
 
-				var serializer = new DataContractSerializer( this.GetType() );
+				var serializer = new DataContractSerializer(this.GetType());
 				var xmlsetting = new XmlWriterSettings();
 
-				xmlsetting.Encoding = new System.Text.UTF8Encoding( false );
+				xmlsetting.Encoding = new System.Text.UTF8Encoding(false);
 				xmlsetting.Indent = true;
 				xmlsetting.IndentChars = "\t";
 				xmlsetting.NewLineHandling = NewLineHandling.Replace;
 
-				using ( XmlWriter xw = XmlWriter.Create( path, xmlsetting ) ) {
-					serializer.WriteObject( xw, this );
+				using (XmlWriter xw = XmlWriter.Create(path, xmlsetting))
+				{
+					serializer.WriteObject(xw, this);
 				}
 
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の書き込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, GetType().Name + " の書き込みに失敗しました。");
 			}
 
 		}
 
-		public void Save( StringBuilder stringBuilder ) {
-			try {
-				var serializer = new DataContractSerializer( this.GetType() );
-				using ( XmlWriter xw = XmlWriter.Create( stringBuilder ) ) {
-					serializer.WriteObject( xw, this );
+		public void Save(StringBuilder stringBuilder)
+		{
+			try
+			{
+				var serializer = new DataContractSerializer(this.GetType());
+				using (XmlWriter xw = XmlWriter.Create(stringBuilder))
+				{
+					serializer.WriteObject(xw, this);
 				}
-			} catch ( Exception ex ) {
-				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の書き込みに失敗しました。" );
+			}
+			catch (Exception ex)
+			{
+				Utility.ErrorReporter.SendErrorReport(ex, GetType().Name + " の書き込みに失敗しました。");
 			}
 		}
 
-		public DataStorage Load( string path ) {
+		public DataStorage Load(string path)
+		{
 
-			try {
+			try
+			{
 
-				var serializer = new DataContractSerializer( this.GetType() );
+				var serializer = new DataContractSerializer(this.GetType());
 
-				using ( XmlReader xr = XmlReader.Create( path ) ) {
-					return (DataStorage)serializer.ReadObject( xr );
+				using (XmlReader xr = XmlReader.Create(path))
+				{
+					return (DataStorage)serializer.ReadObject(xr);
 				}
 
 
-			} catch ( FileNotFoundException ) {
+			}
+			catch (FileNotFoundException)
+			{
 
-				Utility.Logger.Add( 3, string.Format( "{0}: {1} は存在しません。", GetType().Name, path ) );
+				Utility.Logger.Add(3, string.Format("{0}: {1} は存在しません。", GetType().Name, path));
 
-			} catch ( DirectoryNotFoundException ) {
+			}
+			catch (DirectoryNotFoundException)
+			{
 
-				Utility.Logger.Add( 3, string.Format( "{0}: {1} は存在しません。", GetType().Name, path ) );
+				Utility.Logger.Add(3, string.Format("{0}: {1} は存在しません。", GetType().Name, path));
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の読み込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, GetType().Name + " の読み込みに失敗しました。");
 
 			}
 
@@ -98,74 +121,95 @@ namespace ElectronicObserver.Utility.Storage {
 
 
 
-		public void Save( Stream stream ) {
+		public void Save(Stream stream)
+		{
 
-			try {
+			try
+			{
 
-				var serializer = new DataContractSerializer( this.GetType() );
+				var serializer = new DataContractSerializer(this.GetType());
 				var xmlsetting = new XmlWriterSettings();
 
 
-				xmlsetting.Encoding = new System.Text.UTF8Encoding( false );
+				xmlsetting.Encoding = new System.Text.UTF8Encoding(false);
 				xmlsetting.Indent = true;
 				xmlsetting.IndentChars = "\t";
 				xmlsetting.NewLineHandling = NewLineHandling.Replace;
 
-				using ( XmlWriter xw = XmlWriter.Create( stream, xmlsetting ) ) {
+				using (XmlWriter xw = XmlWriter.Create(stream, xmlsetting))
+				{
 
-					serializer.WriteObject( xw, this );
+					serializer.WriteObject(xw, this);
 				}
 
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の書き込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, GetType().Name + " の書き込みに失敗しました。");
 			}
 
 		}
 
 
-		public DataStorage Load( Stream stream ) {
+		public DataStorage Load(Stream stream)
+		{
 
-			try {
+			try
+			{
 
-				var serializer = new DataContractSerializer( this.GetType() );
+				var serializer = new DataContractSerializer(this.GetType());
 
-				using ( XmlReader xr = XmlReader.Create( stream ) ) {
-					return (DataStorage)serializer.ReadObject( xr );
+				using (XmlReader xr = XmlReader.Create(stream))
+				{
+					return (DataStorage)serializer.ReadObject(xr);
 				}
 
-			} catch ( FileNotFoundException ) {
+			}
+			catch (FileNotFoundException)
+			{
 
-				Utility.Logger.Add( 3, GetType().Name + ": ファイルは存在しません。" );
+				Utility.Logger.Add(3, GetType().Name + ": ファイルは存在しません。");
 
-			} catch ( DirectoryNotFoundException ) {
+			}
+			catch (DirectoryNotFoundException)
+			{
 
-				Utility.Logger.Add( 3, GetType().Name + ": ファイルは存在しません。" );
+				Utility.Logger.Add(3, GetType().Name + ": ファイルは存在しません。");
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の読み込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, GetType().Name + " の読み込みに失敗しました。");
 
 			}
 
 			return null;
 		}
 
-		public DataStorage Load( TextReader reader ) {
-			try {
-				var serializer = new DataContractSerializer( this.GetType() );
+		public DataStorage Load(TextReader reader)
+		{
+			try
+			{
+				var serializer = new DataContractSerializer(this.GetType());
 
-				using ( XmlReader xr = XmlReader.Create( reader ) ) {
-					return (DataStorage)serializer.ReadObject( xr );
+				using (XmlReader xr = XmlReader.Create(reader))
+				{
+					return (DataStorage)serializer.ReadObject(xr);
 				}
-			} catch ( DirectoryNotFoundException ) {
+			}
+			catch (DirectoryNotFoundException)
+			{
 
-				Utility.Logger.Add( 3, GetType().Name + ": ファイルは存在しません。" );
+				Utility.Logger.Add(3, GetType().Name + ": ファイルは存在しません。");
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, GetType().Name + " の読み込みに失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, GetType().Name + " の読み込みに失敗しました。");
 
 			}
 

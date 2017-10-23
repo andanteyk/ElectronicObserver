@@ -9,13 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElectronicObserver.Window.Integrate {
+namespace ElectronicObserver.Window.Integrate
+{
 
 	/// <summary>
 	/// マウスドラッグ中のポインタ表示
 	/// </summary>
-	public partial class FormCapturing : Form {
-		public FormCapturing() {
+	public partial class FormCapturing : Form
+	{
+		public FormCapturing()
+		{
 			InitializeComponent();
 		}
 	}

@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window {
-	partial class FormJson {
+﻿namespace ElectronicObserver.Window
+{
+	partial class FormJson
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -95,12 +100,12 @@
 			// TreeContextMenu
 			// 
 			this.TreeContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TreeContextMenu_Expand,
-            this.TreeContextMenu_Shrink,
-            this.TreeContextMenu_ShrinkParent,
-            this.toolStripSeparator1,
-            this.TreeContextMenu_OutputCSV,
-            this.TreeContextMenu_CopyToClipboard});
+			this.TreeContextMenu_Expand,
+			this.TreeContextMenu_Shrink,
+			this.TreeContextMenu_ShrinkParent,
+			this.toolStripSeparator1,
+			this.TreeContextMenu_OutputCSV,
+			this.TreeContextMenu_CopyToClipboard});
 			this.TreeContextMenu.Name = "TreeContextMenu";
 			this.TreeContextMenu.Size = new System.Drawing.Size(224, 142);
 			this.TreeContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TreeContextMenu_Opening);
@@ -221,8 +226,8 @@
 			// 
 			// AutoUpdateFilter
 			// 
-			this.AutoUpdateFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.AutoUpdateFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.AutoUpdateFilter.Location = new System.Drawing.Point(66, 57);
 			this.AutoUpdateFilter.Name = "AutoUpdateFilter";
 			this.AutoUpdateFilter.Size = new System.Drawing.Size(218, 23);

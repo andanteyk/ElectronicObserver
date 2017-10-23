@@ -10,33 +10,40 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElectronicObserver.Window.Dialog {
-	public partial class DialogVersion : Form {
-		public DialogVersion() {
+namespace ElectronicObserver.Window.Dialog
+{
+	public partial class DialogVersion : Form
+	{
+		public DialogVersion()
+		{
 			InitializeComponent();
 
-			TextVersion.Text = string.Format( "{0} (ver. {1} - {2} Release)", SoftwareInformation.VersionJapanese, SoftwareInformation.VersionEnglish, SoftwareInformation.UpdateTime.ToString( "d" ) ); 
+			TextVersion.Text = string.Format("{0} (ver. {1} - {2} Release)", SoftwareInformation.VersionJapanese, SoftwareInformation.VersionEnglish, SoftwareInformation.UpdateTime.ToString("d"));
 		}
 
-		private void TextAuthor_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+		private void TextAuthor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
 
-			System.Diagnostics.Process.Start( "https://twitter.com/andanteyk" );
+			System.Diagnostics.Process.Start("https://twitter.com/andanteyk");
 
 		}
 
-		private void ButtonClose_Click( object sender, EventArgs e ) {
+		private void ButtonClose_Click(object sender, EventArgs e)
+		{
 
 			this.Close();
 
 		}
 
-		private void TextInformation_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+		private void TextInformation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
 
-			System.Diagnostics.Process.Start( "http://electronicobserver.blog.fc2.com/" );
+			System.Diagnostics.Process.Start("http://electronicobserver.blog.fc2.com/");
 
 		}
 
-		private void DialogVersion_Load( object sender, EventArgs e ) {
+		private void DialogVersion_Load(object sender, EventArgs e)
+		{
 
 			this.Icon = ResourceManager.Instance.AppIcon;
 		}

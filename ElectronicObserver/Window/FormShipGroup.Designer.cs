@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window {
-	partial class FormShipGroup {
+﻿namespace ElectronicObserver.Window
+{
+	partial class FormShipGroup
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -136,65 +141,65 @@
 			this.ShipView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.ShipView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.ShipView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ShipView_ID,
-            this.ShipView_ShipType,
-            this.ShipView_Name,
-            this.ShipView_Level,
-            this.ShipView_Exp,
-            this.ShipView_Next,
-            this.ShipView_NextRemodel,
-            this.ShipView_HP,
-            this.ShipView_Condition,
-            this.ShipView_Fuel,
-            this.ShipView_Ammo,
-            this.ShipView_Slot1,
-            this.ShipView_Slot2,
-            this.ShipView_Slot3,
-            this.ShipView_Slot4,
-            this.ShipView_Slot5,
-            this.ShipView_ExpansionSlot,
-            this.ShipView_Aircraft1,
-            this.ShipView_Aircraft2,
-            this.ShipView_Aircraft3,
-            this.ShipView_Aircraft4,
-            this.ShipView_Aircraft5,
-            this.ShipView_AircraftTotal,
-            this.ShipView_Fleet,
-            this.ShipView_RepairTime,
-            this.ShipView_RepairSteel,
-            this.ShipView_RepairFuel,
-            this.ShipView_Firepower,
-            this.ShipView_FirepowerRemain,
-            this.ShipView_FirepowerTotal,
-            this.ShipView_Torpedo,
-            this.ShipView_TorpedoRemain,
-            this.ShipView_TorpedoTotal,
-            this.ShipView_AA,
-            this.ShipView_AARemain,
-            this.ShipView_AATotal,
-            this.ShipView_Armor,
-            this.ShipView_ArmorRemain,
-            this.ShipView_ArmorTotal,
-            this.ShipView_ASW,
-            this.ShipView_ASWTotal,
-            this.ShipView_Evasion,
-            this.ShipView_EvasionTotal,
-            this.ShipView_LOS,
-            this.ShipView_LOSTotal,
-            this.ShipView_Luck,
-            this.ShipView_LuckRemain,
-            this.ShipView_LuckTotal,
-            this.ShipView_BomberTotal,
-            this.ShipView_Speed,
-            this.ShipView_Range,
-            this.ShipView_AirBattlePower,
-            this.ShipView_ShellingPower,
-            this.ShipView_AircraftPower,
-            this.ShipView_AntiSubmarinePower,
-            this.ShipView_TorpedoPower,
-            this.ShipView_NightBattlePower,
-            this.ShipView_Locked,
-            this.ShipView_SallyArea});
+			this.ShipView_ID,
+			this.ShipView_ShipType,
+			this.ShipView_Name,
+			this.ShipView_Level,
+			this.ShipView_Exp,
+			this.ShipView_Next,
+			this.ShipView_NextRemodel,
+			this.ShipView_HP,
+			this.ShipView_Condition,
+			this.ShipView_Fuel,
+			this.ShipView_Ammo,
+			this.ShipView_Slot1,
+			this.ShipView_Slot2,
+			this.ShipView_Slot3,
+			this.ShipView_Slot4,
+			this.ShipView_Slot5,
+			this.ShipView_ExpansionSlot,
+			this.ShipView_Aircraft1,
+			this.ShipView_Aircraft2,
+			this.ShipView_Aircraft3,
+			this.ShipView_Aircraft4,
+			this.ShipView_Aircraft5,
+			this.ShipView_AircraftTotal,
+			this.ShipView_Fleet,
+			this.ShipView_RepairTime,
+			this.ShipView_RepairSteel,
+			this.ShipView_RepairFuel,
+			this.ShipView_Firepower,
+			this.ShipView_FirepowerRemain,
+			this.ShipView_FirepowerTotal,
+			this.ShipView_Torpedo,
+			this.ShipView_TorpedoRemain,
+			this.ShipView_TorpedoTotal,
+			this.ShipView_AA,
+			this.ShipView_AARemain,
+			this.ShipView_AATotal,
+			this.ShipView_Armor,
+			this.ShipView_ArmorRemain,
+			this.ShipView_ArmorTotal,
+			this.ShipView_ASW,
+			this.ShipView_ASWTotal,
+			this.ShipView_Evasion,
+			this.ShipView_EvasionTotal,
+			this.ShipView_LOS,
+			this.ShipView_LOSTotal,
+			this.ShipView_Luck,
+			this.ShipView_LuckRemain,
+			this.ShipView_LuckTotal,
+			this.ShipView_BomberTotal,
+			this.ShipView_Speed,
+			this.ShipView_Range,
+			this.ShipView_AirBattlePower,
+			this.ShipView_ShellingPower,
+			this.ShipView_AircraftPower,
+			this.ShipView_AntiSubmarinePower,
+			this.ShipView_TorpedoPower,
+			this.ShipView_NightBattlePower,
+			this.ShipView_Locked,
+			this.ShipView_SallyArea});
 			this.ShipView.ContextMenuStrip = this.MenuMember;
 			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
@@ -654,15 +659,15 @@
 			// MenuMember
 			// 
 			this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuMember_AddToGroup,
-            this.MenuMember_CreateGroup,
-            this.MenuMember_Exclude,
-            this.toolStripSeparator2,
-            this.MenuMember_Filter,
-            this.MenuMember_ColumnFilter,
-            this.MenuMember_SortOrder,
-            this.toolStripSeparator3,
-            this.MenuMember_CSVOutput});
+			this.MenuMember_AddToGroup,
+			this.MenuMember_CreateGroup,
+			this.MenuMember_Exclude,
+			this.toolStripSeparator2,
+			this.MenuMember_Filter,
+			this.MenuMember_ColumnFilter,
+			this.MenuMember_SortOrder,
+			this.toolStripSeparator3,
+			this.MenuMember_CSVOutput});
 			this.MenuMember.Name = "MenuMember";
 			this.MenuMember.Size = new System.Drawing.Size(202, 170);
 			this.MenuMember.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMember_Opening);
@@ -729,13 +734,13 @@
 			// MenuGroup
 			// 
 			this.MenuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuGroup_Add,
-            this.MenuGroup_Copy,
-            this.MenuGroup_Rename,
-            this.MenuGroup_Delete,
-            this.toolStripSeparator4,
-            this.MenuGroup_AutoUpdate,
-            this.MenuGroup_ShowStatusBar});
+			this.MenuGroup_Add,
+			this.MenuGroup_Copy,
+			this.MenuGroup_Rename,
+			this.MenuGroup_Delete,
+			this.toolStripSeparator4,
+			this.MenuGroup_AutoUpdate,
+			this.MenuGroup_ShowStatusBar});
 			this.MenuGroup.Name = "MenuGroup";
 			this.MenuGroup.Size = new System.Drawing.Size(192, 142);
 			this.MenuGroup.Opening += new System.ComponentModel.CancelEventHandler(this.MenuGroup_Opening);
@@ -813,9 +818,9 @@
 			// TabPanel
 			// 
 			this.TabPanel.AllowDrop = true;
-			this.TabPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TabPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.TabPanel.AutoScroll = true;
 			this.TabPanel.ContextMenuStrip = this.MenuGroup;
 			this.TabPanel.Location = new System.Drawing.Point(0, 0);
@@ -831,9 +836,9 @@
 			// 
 			this.StatusBar.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Status_ShipCount,
-            this.Status_LevelTotal,
-            this.Status_LevelAverage});
+			this.Status_ShipCount,
+			this.Status_LevelTotal,
+			this.Status_LevelAverage});
 			this.StatusBar.Location = new System.Drawing.Point(0, 134);
 			this.StatusBar.Name = "StatusBar";
 			this.StatusBar.Size = new System.Drawing.Size(300, 22);

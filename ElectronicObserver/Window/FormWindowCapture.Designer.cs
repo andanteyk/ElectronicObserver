@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window {
-	partial class FormWindowCapture {
+﻿namespace ElectronicObserver.Window
+{
+	partial class FormWindowCapture
+	{
 		/// <summary>
 		/// 必要なデザイナー変数です。
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// 使用中のリソースをすべてクリーンアップします。
 		/// </summary>
 		/// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows フォーム デザイナーで生成されたコード
@@ -22,15 +26,16 @@
 		/// デザイナー サポートに必要なメソッドです。このメソッドの内容を
 		/// コード エディターで変更しないでください。
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.label1 = new System.Windows.Forms.Label();
 			this.windowCaptureButton = new ElectronicObserver.Window.Control.WindowCaptureButton();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Location = new System.Drawing.Point(45, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(243, 50);

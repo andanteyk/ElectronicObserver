@@ -8,16 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Resource.Record {
+namespace ElectronicObserver.Resource.Record
+{
 
 	/// <summary>
 	/// 建造のレコードです。
 	/// </summary>
-	[DebuggerDisplay( "{Record.Count} Records" )]
-	public class ConstructionRecord : RecordBase {
+	[DebuggerDisplay("{Record.Count} Records")]
+	public class ConstructionRecord : RecordBase
+	{
 
-		[DebuggerDisplay( "[{ShipID}] : {ShipName}" )]
-		public class ConstructionElement : RecordElementBase {
+		[DebuggerDisplay("[{ShipID}] : {ShipName}")]
+		public class ConstructionElement : RecordElementBase
+		{
 
 			/// <summary>
 			/// 建造した艦のID
@@ -86,16 +89,18 @@ namespace ElectronicObserver.Resource.Record {
 
 
 
-			public ConstructionElement() {
+			public ConstructionElement()
+			{
 				ShipID = -1;
 				Date = DateTime.Now;
 			}
 
-			public ConstructionElement( string line )
-				: base( line ) { }
+			public ConstructionElement(string line)
+				: base(line) { }
 
-			public ConstructionElement( int shipID, int fuel, int ammo, int steel, int bauxite, int developmentMaterial, int emptyDock, int flagshipID, int hqLevel ) {
-				var ship =  KCDatabase.Instance.MasterShips[shipID];
+			public ConstructionElement(int shipID, int fuel, int ammo, int steel, int bauxite, int developmentMaterial, int emptyDock, int flagshipID, int hqLevel)
+			{
+				var ship = KCDatabase.Instance.MasterShips[shipID];
 				var flagship = KCDatabase.Instance.MasterShips[flagshipID];
 				ShipID = shipID;
 				ShipName = ship != null ? ship.NameWithClass : "???";
@@ -112,32 +117,34 @@ namespace ElectronicObserver.Resource.Record {
 			}
 
 
-			public override void LoadLine( string line ) {
+			public override void LoadLine(string line)
+			{
 
-				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 13 ) throw new ArgumentException( "要素数が少なすぎます。" );
+				string[] elem = line.Split(",".ToCharArray());
+				if (elem.Length < 13) throw new ArgumentException("要素数が少なすぎます。");
 
-				ShipID = int.Parse( elem[0] );
+				ShipID = int.Parse(elem[0]);
 				ShipName = elem[1];
-				Date = DateTimeHelper.CSVStringToTime( elem[2] );
-				Fuel = int.Parse( elem[3] );
-				Ammo = int.Parse( elem[4] );
-				Steel = int.Parse( elem[5] );
-				Bauxite = int.Parse( elem[6] );
-				DevelopmentMaterial = int.Parse( elem[7] );
+				Date = DateTimeHelper.CSVStringToTime(elem[2]);
+				Fuel = int.Parse(elem[3]);
+				Ammo = int.Parse(elem[4]);
+				Steel = int.Parse(elem[5]);
+				Bauxite = int.Parse(elem[6]);
+				DevelopmentMaterial = int.Parse(elem[7]);
 				//IsLargeDock=elem[8]は読み飛ばす
-				EmptyDockAmount = int.Parse( elem[9] );
-				FlagshipID = int.Parse( elem[10] );
+				EmptyDockAmount = int.Parse(elem[9]);
+				FlagshipID = int.Parse(elem[10]);
 				FlagshipName = elem[11];
-				HQLevel = int.Parse( elem[12] );
+				HQLevel = int.Parse(elem[12]);
 
 			}
 
-			public override string SaveLine() {
-				return string.Join( ",",
+			public override string SaveLine()
+			{
+				return string.Join(",",
 					ShipID,
 					ShipName,
-					DateTimeHelper.TimeToCSVString( Date ),
+					DateTimeHelper.TimeToCSVString(Date),
 					Fuel,
 					Ammo,
 					Steel,
@@ -147,7 +154,7 @@ namespace ElectronicObserver.Resource.Record {
 					EmptyDockAmount,
 					FlagshipID,
 					FlagshipName,
-					HQLevel );
+					HQLevel);
 			}
 		}
 
@@ -160,12 +167,14 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		public ConstructionRecord()
-			: base() {
+			: base()
+		{
 			Record = new List<ConstructionElement>();
 			ConstructingDockID = -1;
 		}
 
-		public override void RegisterEvents() {
+		public override void RegisterEvents()
+		{
 			APIObserver ao = APIObserver.Instance;
 
 			ao["api_req_kousyou/createship"].RequestReceived += ConstructionStart;
@@ -173,78 +182,92 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 
-		public ConstructionElement this[int i] {
+		public ConstructionElement this[int i]
+		{
 			get { return Record[i]; }
 			set { Record[i] = value; }
 		}
 
 
 
-		void ConstructionStart( string apiname, dynamic data ) {
+		void ConstructionStart(string apiname, dynamic data)
+		{
 
-			ConstructingDockID = int.Parse( data["api_kdock_id"] );
+			ConstructingDockID = int.Parse(data["api_kdock_id"]);
 
 		}
 
-		void ConstructionEnd( string apiname, dynamic data ) {
+		void ConstructionEnd(string apiname, dynamic data)
+		{
 
-			if ( ConstructingDockID == -1 ) return;
+			if (ConstructingDockID == -1) return;
 
 			ArsenalData a = KCDatabase.Instance.Arsenals[ConstructingDockID];
-			int emptyDock = KCDatabase.Instance.Arsenals.Values.Count( c => c.State == 0 );
+			int emptyDock = KCDatabase.Instance.Arsenals.Values.Count(c => c.State == 0);
 			ShipData flagship = KCDatabase.Instance.Fleet[1].MembersInstance[0];
 
-			Record.Add( new ConstructionElement( a.ShipID, a.Fuel, a.Ammo, a.Steel, a.Bauxite, a.DevelopmentMaterial,
-				emptyDock, flagship.ShipID, KCDatabase.Instance.Admiral.Level ) );
+			Record.Add(new ConstructionElement(a.ShipID, a.Fuel, a.Ammo, a.Steel, a.Bauxite, a.DevelopmentMaterial,
+				emptyDock, flagship.ShipID, KCDatabase.Instance.Admiral.Level));
 
 			ConstructingDockID = -1;
 		}
 
 
 
-		protected override void LoadLine( string line ) {
-			Record.Add( new ConstructionElement( line ) );
+		protected override void LoadLine(string line)
+		{
+			Record.Add(new ConstructionElement(line));
 		}
 
-		protected override string SaveLinesAll() {
+		protected override string SaveLinesAll()
+		{
 			var sb = new StringBuilder();
-			foreach ( var elem in Record.OrderBy( r => r.Date ) ) {
-				sb.AppendLine( elem.SaveLine() );
+			foreach (var elem in Record.OrderBy(r => r.Date))
+			{
+				sb.AppendLine(elem.SaveLine());
 			}
 			return sb.ToString();
 		}
 
-		protected override string SaveLinesPartial() {
+		protected override string SaveLinesPartial()
+		{
 			var sb = new StringBuilder();
-			foreach ( var elem in Record.Skip( LastSavedCount ).OrderBy( r => r.Date ) ) {
-				sb.AppendLine( elem.SaveLine() );
+			foreach (var elem in Record.Skip(LastSavedCount).OrderBy(r => r.Date))
+			{
+				sb.AppendLine(elem.SaveLine());
 			}
 			return sb.ToString();
 		}
 
-		protected override void UpdateLastSavedIndex() {
+		protected override void UpdateLastSavedIndex()
+		{
 			LastSavedCount = Record.Count;
 		}
 
-		public override bool NeedToSave {
+		public override bool NeedToSave
+		{
 			get { return LastSavedCount < Record.Count; }
 		}
 
-		public override bool SupportsPartialSave {
+		public override bool SupportsPartialSave
+		{
 			get { return true; }
 		}
 
-		protected override void ClearRecord() {
+		protected override void ClearRecord()
+		{
 			Record.Clear();
 			LastSavedCount = 0;
 		}
 
 
-		public override string RecordHeader {
+		public override string RecordHeader
+		{
 			get { return "艦船ID,艦船名,建造日時,燃料,弾薬,鋼材,ボーキ,開発資材,大型建造,空ドック,旗艦ID,旗艦名,司令部Lv"; }
 		}
 
-		public override string FileName {
+		public override string FileName
+		{
 			get { return "ConstructionRecord.csv"; }
 		}
 

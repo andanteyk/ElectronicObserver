@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogShipGraphicViewer {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogShipGraphicViewer
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.TopMenu = new System.Windows.Forms.MenuStrip();
 			this.TopMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.TopMenu_File_Open = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,8 +56,8 @@
 			// TopMenu
 			// 
 			this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_File,
-            this.TopMenu_View});
+			this.TopMenu_File,
+			this.TopMenu_View});
 			this.TopMenu.Location = new System.Drawing.Point(0, 0);
 			this.TopMenu.Name = "TopMenu";
 			this.TopMenu.Size = new System.Drawing.Size(784, 24);
@@ -62,12 +67,12 @@
 			// TopMenu_File
 			// 
 			this.TopMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_File_Open,
-            this.toolStripSeparator2,
-            this.TopMenu_File_SaveImage,
-            this.TopMenu_File_SaveAllImage,
-            this.toolStripSeparator1,
-            this.TopMenu_File_CopyToClipboard});
+			this.TopMenu_File_Open,
+			this.toolStripSeparator2,
+			this.TopMenu_File_SaveImage,
+			this.TopMenu_File_SaveAllImage,
+			this.toolStripSeparator1,
+			this.TopMenu_File_CopyToClipboard});
 			this.TopMenu_File.Name = "TopMenu_File";
 			this.TopMenu_File.Size = new System.Drawing.Size(70, 20);
 			this.TopMenu_File.Text = "ファイル(&F)";
@@ -96,8 +101,8 @@
 			// TopMenu_File_SaveAllImage
 			// 
 			this.TopMenu_File_SaveAllImage.Name = "TopMenu_File_SaveAllImage";
-			this.TopMenu_File_SaveAllImage.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
+			this.TopMenu_File_SaveAllImage.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+			| System.Windows.Forms.Keys.S)));
 			this.TopMenu_File_SaveAllImage.Size = new System.Drawing.Size(271, 22);
 			this.TopMenu_File_SaveAllImage.Text = "すべての画像を保存(&A)";
 			this.TopMenu_File_SaveAllImage.Click += new System.EventHandler(this.TopMenu_File_SaveAllImage_Click);
@@ -118,8 +123,8 @@
 			// TopMenu_View
 			// 
 			this.TopMenu_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_View_InterpolationMode,
-            this.TopMenu_View_Zoom});
+			this.TopMenu_View_InterpolationMode,
+			this.TopMenu_View_Zoom});
 			this.TopMenu_View.Name = "TopMenu_View";
 			this.TopMenu_View.Size = new System.Drawing.Size(61, 20);
 			this.TopMenu_View.Text = "表示(&V)";
@@ -127,8 +132,8 @@
 			// TopMenu_View_InterpolationMode
 			// 
 			this.TopMenu_View_InterpolationMode.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_View_InterpolationMode_Sharp,
-            this.TopMenu_View_InterpolationMode_Smooth});
+			this.TopMenu_View_InterpolationMode_Sharp,
+			this.TopMenu_View_InterpolationMode_Smooth});
 			this.TopMenu_View_InterpolationMode.Name = "TopMenu_View_InterpolationMode";
 			this.TopMenu_View_InterpolationMode.Size = new System.Drawing.Size(122, 22);
 			this.TopMenu_View_InterpolationMode.Text = "描画(&I)";
@@ -152,11 +157,11 @@
 			// TopMenu_View_Zoom
 			// 
 			this.TopMenu_View_Zoom.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_View_Zoom_In,
-            this.TopMenu_View_Zoom_Out,
-            this.TopMenu_View_Zoom_100,
-            this.toolStripSeparator3,
-            this.TopMenu_View_Zoom_Fit});
+			this.TopMenu_View_Zoom_In,
+			this.TopMenu_View_Zoom_Out,
+			this.TopMenu_View_Zoom_100,
+			this.toolStripSeparator3,
+			this.TopMenu_View_Zoom_Fit});
 			this.TopMenu_View_Zoom.Name = "TopMenu_View_Zoom";
 			this.TopMenu_View_Zoom.Size = new System.Drawing.Size(122, 22);
 			this.TopMenu_View_Zoom.Text = "ズーム(&Z)";

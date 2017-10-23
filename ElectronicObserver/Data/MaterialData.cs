@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
 	/// 各種資源量を保持します。
 	/// </summary>
-	public class MaterialData : APIWrapper {
+	public class MaterialData : APIWrapper
+	{
 
 		/// <summary>
 		/// 燃料
@@ -55,10 +57,12 @@ namespace ElectronicObserver.Data {
 
 
 
-		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );			//何か基幹とするデータ構造があった場合、switch文のなかに移動すること
+		public override void LoadFromResponse(string apiname, dynamic data)
+		{
+			base.LoadFromResponse(apiname, (object)data);           //何か基幹とするデータ構造があった場合、switch文のなかに移動すること
 
-			switch ( apiname ) {
+			switch (apiname)
+			{
 				case "api_port/port":
 				case "api_get_member/material":
 					Fuel = (int)data[0].api_value;
@@ -104,25 +108,27 @@ namespace ElectronicObserver.Data {
 					break;
 
 				case "api_req_air_corps/set_plane":
-					if ( data.api_after_bauxite() )
+					if (data.api_after_bauxite())
 						Bauxite = (int)data.api_after_bauxite;
 					break;
 			}
 		}
 
 
-		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
-			base.LoadFromRequest( apiname, data );
+		public override void LoadFromRequest(string apiname, Dictionary<string, string> data)
+		{
+			base.LoadFromRequest(apiname, data);
 
-			switch ( apiname ) {
+			switch (apiname)
+			{
 				case "api_req_kousyou/createship":
-					Fuel -= int.Parse( data["api_item1"] );
-					Ammo -= int.Parse( data["api_item2"] );
-					Steel -= int.Parse( data["api_item3"] );
-					Bauxite -= int.Parse( data["api_item4"] );
-					DevelopmentMaterial -= int.Parse( data["api_item5"] );
+					Fuel -= int.Parse(data["api_item1"]);
+					Ammo -= int.Parse(data["api_item2"]);
+					Steel -= int.Parse(data["api_item3"]);
+					Bauxite -= int.Parse(data["api_item4"]);
+					DevelopmentMaterial -= int.Parse(data["api_item5"]);
 					break;
-				
+
 			}
 		}
 

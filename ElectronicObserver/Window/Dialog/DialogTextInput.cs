@@ -9,29 +9,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElectronicObserver.Window.Dialog {
+namespace ElectronicObserver.Window.Dialog
+{
 
-	public partial class DialogTextInput : Form {
+	public partial class DialogTextInput : Form
+	{
 
 		/// <summary>
 		/// 入力されたテキスト
 		/// </summary>
-		public string InputtedText {
+		public string InputtedText
+		{
 			get { return TextInput.Text; }
 			set { TextInput.Text = value; }
 		}
 
 
-		public DialogTextInput() {
+		public DialogTextInput()
+		{
 			InitializeComponent();
 
-			ControlHelper.SetDoubleBuffered( tableLayoutPanel1 );
+			ControlHelper.SetDoubleBuffered(tableLayoutPanel1);
 		}
 
-		public DialogTextInput( string title, string description ) 
-			: this() {
+		public DialogTextInput(string title, string description)
+			: this()
+		{
 
-			Initialize( title, description );
+			Initialize(title, description);
 		}
 
 
@@ -40,7 +45,8 @@ namespace ElectronicObserver.Window.Dialog {
 		/// </summary>
 		/// <param name="title">タイトル。</param>
 		/// <param name="description">説明文。</param>
-		public void Initialize( string title, string description ) {
+		public void Initialize(string title, string description)
+		{
 			this.Text = title;
 
 			tableLayoutPanel1.SuspendLayout();
@@ -55,12 +61,16 @@ namespace ElectronicObserver.Window.Dialog {
 		/// テキストボックスを複数行にするかを指定します。
 		/// </summary>
 		/// <param name="flag">複数行にするか。既定値は true です。</param>
-		public void SetMultiline( bool flag = true ) {
+		public void SetMultiline(bool flag = true)
+		{
 
-			if ( flag ) {
+			if (flag)
+			{
 				TextInput.Multiline = true;
 				TextInput.Dock = DockStyle.Fill;
-			} else {
+			}
+			else
+			{
 				TextInput.Multiline = false;
 				TextInput.Dock = DockStyle.None;
 			}
@@ -69,11 +79,13 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void ButtonOK_Click( object sender, EventArgs e ) {
+		private void ButtonOK_Click(object sender, EventArgs e)
+		{
 			DialogResult = System.Windows.Forms.DialogResult.OK;
 		}
 
-		private void ButtonCancel_Click( object sender, EventArgs e ) {
+		private void ButtonCancel_Click(object sender, EventArgs e)
+		{
 			DialogResult = System.Windows.Forms.DialogResult.Cancel;
 		}
 

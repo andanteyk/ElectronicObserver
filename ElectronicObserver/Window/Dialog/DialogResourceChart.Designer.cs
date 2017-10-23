@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogResourceChart {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogResourceChart
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_File_SaveImage = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,10 +59,10 @@
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_File,
-            this.Menu_Graph,
-            this.Menu_Span,
-            this.Menu_Option});
+			this.Menu_File,
+			this.Menu_Graph,
+			this.Menu_Span,
+			this.Menu_Option});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(774, 24);
@@ -67,7 +72,7 @@
 			// Menu_File
 			// 
 			this.Menu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_File_SaveImage});
+			this.Menu_File_SaveImage});
 			this.Menu_File.Name = "Menu_File";
 			this.Menu_File.Size = new System.Drawing.Size(70, 20);
 			this.Menu_File.Text = "ファイル(&F)";
@@ -82,14 +87,14 @@
 			// Menu_Graph
 			// 
 			this.Menu_Graph.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_Graph_Resource,
-            this.Menu_Graph_ResourceDiff,
-            this.toolStripSeparator1,
-            this.Menu_Graph_Material,
-            this.Menu_Graph_MaterialDiff,
-            this.toolStripSeparator2,
-            this.Menu_Graph_Experience,
-            this.Menu_Graph_ExperienceDiff});
+			this.Menu_Graph_Resource,
+			this.Menu_Graph_ResourceDiff,
+			this.toolStripSeparator1,
+			this.Menu_Graph_Material,
+			this.Menu_Graph_MaterialDiff,
+			this.toolStripSeparator2,
+			this.Menu_Graph_Experience,
+			this.Menu_Graph_ExperienceDiff});
 			this.Menu_Graph.Name = "Menu_Graph";
 			this.Menu_Graph.Size = new System.Drawing.Size(97, 20);
 			this.Menu_Graph.Text = "グラフの選択(&G)";
@@ -149,12 +154,12 @@
 			// Menu_Span
 			// 
 			this.Menu_Span.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_Span_Day,
-            this.Menu_Span_Week,
-            this.Menu_Span_Month,
-            this.Menu_Span_Season,
-            this.Menu_Span_Year,
-            this.Menu_Span_All});
+			this.Menu_Span_Day,
+			this.Menu_Span_Week,
+			this.Menu_Span_Month,
+			this.Menu_Span_Season,
+			this.Menu_Span_Year,
+			this.Menu_Span_All});
 			this.Menu_Span.Name = "Menu_Span";
 			this.Menu_Span.Size = new System.Drawing.Size(61, 20);
 			this.Menu_Span.Text = "範囲(&S)";
@@ -204,8 +209,8 @@
 			// Menu_Option
 			// 
 			this.Menu_Option.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_Option_ShowAllData,
-            this.Menu_Option_DivideByDay});
+			this.Menu_Option_ShowAllData,
+			this.Menu_Option_DivideByDay});
 			this.Menu_Option.Name = "Menu_Option";
 			this.Menu_Option.Size = new System.Drawing.Size(81, 20);
 			this.Menu_Option.Text = "オプション(&O)";
