@@ -450,15 +450,18 @@ api_start2	：艦娘・装備固有データその他
 		api_id			：海域ID
 		api_maparea_id	：海域カテゴリID(ex. 2-3 の 2)
 		api_no			：海域カテゴリ内ID(ex. 2-3 の 3)
+		api_moving_bgm	：海域BGMID　0=通常曲
 		api_map_bgm		：通常戦闘BGMID　[0]=昼戦, [1]=夜戦
 		api_boss_bgm	：ボス戦闘BGMID
 
 	api_mst_mission		：遠征データ
 		api_id			：遠征ID
+		api_disp_no		：表示上の遠征ID ("A1"のような)
 		api_maparea_id	：海域カテゴリID
 		api_name		：遠征名
 		api_details		：遠征詳細
 		api_time		：時間　分単位
+		api_deck_num	：必要隻数
 		api_difficulty	：難易度
 		api_use_fuel	：燃料消費割合
 		api_use_bull	：弾薬消費割合
@@ -510,6 +513,7 @@ api_get_member/require_info	：起動時情報群
 	api_kdock			：工廠ドック状態 kdock と同じ
 	api_useitem			：消費アイテムリスト useitem と同じ　アイテムを1つも保有していない場合は存在しない
 	api_furniture		：家具リスト furniture と同じ
+	api_extra_supply	：臨時補給可否？ [2]
 
 api_get_member/basic		：艦隊司令部情報
 	api_member_id			：提督ID string
@@ -555,7 +559,7 @@ api_port/port		：母港情報
 	
 	api_ship				：所属艦船情報
 		api_id				：艦船固有ID
-		api_sortno			：並び替え順？
+		api_sortno			：図鑑番号
 		api_ship_id			：艦船ID
 		api_lv				：Lv
 		api_exp				：経験値　[0]=累積, [1]=次のレベルまで, [2]=経験値バー割合

@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogAlbumShipParameter {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogAlbumShipParameter
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.ParameterView = new System.Windows.Forms.DataGridView();
 			this.ParameterView_Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ParameterView_Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -38,13 +43,13 @@
 			this.ParameterView.AllowUserToDeleteRows = false;
 			this.ParameterView.AllowUserToResizeColumns = false;
 			this.ParameterView.AllowUserToResizeRows = false;
-			this.ParameterView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ParameterView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.ParameterView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ParameterView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ParameterView_Key,
-            this.ParameterView_Value});
+			this.ParameterView_Key,
+			this.ParameterView_Value});
 			this.ParameterView.Location = new System.Drawing.Point(13, 13);
 			this.ParameterView.Name = "ParameterView";
 			this.ParameterView.RowHeadersVisible = false;

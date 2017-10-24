@@ -5,19 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
 	/// 基地航空隊の航空中隊データを扱います。
 	/// </summary>
-	[DebuggerDisplay( "{EquipmentInstance} {AircraftCurrent}/{AircraftMax}" )]
-	public class BaseAirCorpsSquadron : APIWrapper, IIdentifiable {
+	[DebuggerDisplay("{EquipmentInstance} {AircraftCurrent}/{AircraftMax}")]
+	public class BaseAirCorpsSquadron : APIWrapper, IIdentifiable
+	{
 
 		/// <summary>
 		/// 中隊ID
 		/// </summary>
-		public int SquadronID {
-			get {
+		public int SquadronID
+		{
+			get
+			{
 				return (int)RawData.api_squadron_id;
 			}
 		}
@@ -26,8 +30,10 @@ namespace ElectronicObserver.Data {
 		/// 状態
 		/// 0=未配属, 1=配属済み, 2=配置転換中
 		/// </summary>
-		public int State {
-			get {
+		public int State
+		{
+			get
+			{
 				return RawData.api_state() ? (int)RawData.api_state : 0;
 			}
 		}
@@ -35,8 +41,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 装備固有ID
 		/// </summary>
-		public int EquipmentMasterID {
-			get {
+		public int EquipmentMasterID
+		{
+			get
+			{
 				return (int)RawData.api_slotid;
 			}
 		}
@@ -44,8 +52,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 装備データ
 		/// </summary>
-		public EquipmentData EquipmentInstance {
-			get {
+		public EquipmentData EquipmentInstance
+		{
+			get
+			{
 				return KCDatabase.Instance.Equipments[EquipmentMasterID];
 			}
 		}
@@ -53,8 +63,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 装備ID
 		/// </summary>
-		public int EquipmentID {
-			get {
+		public int EquipmentID
+		{
+			get
+			{
 				var eq = EquipmentInstance;
 				return eq != null ? eq.EquipmentID : -1;
 			}
@@ -63,8 +75,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// マスター装備データ
 		/// </summary>
-		public EquipmentDataMaster EquipmentInstanceMaster {
-			get {
+		public EquipmentDataMaster EquipmentInstanceMaster
+		{
+			get
+			{
 				var eq = EquipmentInstance;
 				return eq != null ? eq.MasterEquipment : null;
 			}
@@ -73,8 +87,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 現在の稼働機数
 		/// </summary>
-		public int AircraftCurrent {
-			get {
+		public int AircraftCurrent
+		{
+			get
+			{
 				return RawData.api_count() ? (int)RawData.api_count : 0;
 			}
 		}
@@ -82,8 +98,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 最大機数
 		/// </summary>
-		public int AircraftMax {
-			get {
+		public int AircraftMax
+		{
+			get
+			{
 				return RawData.api_max_count() ? (int)RawData.api_max_count : 0;
 			}
 		}
@@ -92,8 +110,10 @@ namespace ElectronicObserver.Data {
 		/// コンディション
 		/// 1=通常、2=橙疲労、3=赤疲労
 		/// </summary>
-		public int Condition {
-			get {
+		public int Condition
+		{
+			get
+			{
 				return RawData.api_cond() ? (int)RawData.api_cond : 1;
 			}
 		}
@@ -102,13 +122,15 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 配置転換を開始した時刻
 		/// </summary>
-		public DateTime RelocatedTime {
-			get {
-				if ( State != 2 )
+		public DateTime RelocatedTime
+		{
+			get
+			{
+				if (State != 2)
 					return DateTime.MinValue;
 
 				var relocated = KCDatabase.Instance.RelocatedEquipments[EquipmentMasterID];
-				if ( relocated == null )
+				if (relocated == null)
 					return DateTime.MinValue;
 
 				return relocated.RelocatedTime;
@@ -116,16 +138,18 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		public override void LoadFromResponse( string apiname, dynamic data ) {
+		public override void LoadFromResponse(string apiname, dynamic data)
+		{
 
 			int prevState = RawData != null ? State : 0;
 
-			base.LoadFromResponse( apiname, (object)data );
+			base.LoadFromResponse(apiname, (object)data);
 
 		}
 
 
-		public int ID {
+		public int ID
+		{
 			get { return SquadronID; }
 		}
 	}

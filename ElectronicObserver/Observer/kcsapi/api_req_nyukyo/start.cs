@@ -7,18 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
+namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo
+{
 
-	public class start : APIBase {
+	public class start : APIBase
+	{
 
 
-		public override void OnRequestReceived( Dictionary<string, string> data ) {
+		public override void OnRequestReceived(Dictionary<string, string> data)
+		{
 
 			KCDatabase db = KCDatabase.Instance;
 
-			DockData dock = db.Docks[int.Parse( data["api_ndock_id"] )];
+			DockData dock = db.Docks[int.Parse(data["api_ndock_id"])];
 
-			int shipID = int.Parse( data["api_ship_id"] );
+			int shipID = int.Parse(data["api_ship_id"]);
 			ShipData ship = db.Ships[shipID];
 
 
@@ -26,16 +29,21 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 			db.Material.Steel -= ship.RepairSteel;
 
 
-			if ( data["api_highspeed"] == "1" ) {
+			if (data["api_highspeed"] == "1")
+			{
 
 				ship.Repair();
 				db.Material.InstantRepair--;
 
-			} else if ( ship.RepairTime <= 60000 ) {
+			}
+			else if (ship.RepairTime <= 60000)
+			{
 
 				ship.Repair();
 
-			} else {
+			}
+			else
+			{
 
 				//この場合は直後に ndock が呼ばれるので自力で更新しなくてもよい
 				/*
@@ -47,9 +55,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 			}
 
 
-			db.Fleet.LoadFromRequest( APIName, data );
+			db.Fleet.LoadFromRequest(APIName, data);
 
-			base.OnRequestReceived( data );
+			base.OnRequestReceived(data);
 		}
 
 
@@ -57,7 +65,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo {
 		public override bool IsResponseSupported { get { return false; } }
 
 
-		public override string APIName {
+		public override string APIName
+		{
 			get { return "api_req_nyukyo/start"; }
 		}
 	}

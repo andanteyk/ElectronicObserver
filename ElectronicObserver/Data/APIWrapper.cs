@@ -5,25 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
 	/// Responseに加え、Requestも扱うことのできるクラスの基底です。
 	/// </summary>
-	public abstract class APIWrapper : ResponseWrapper {
+	public abstract class APIWrapper : ResponseWrapper
+	{
 
 		public Dictionary<string, string> RequestData { get; private set; }
 
 
-		public APIWrapper() 
-			: base() {
+		public APIWrapper()
+			: base()
+		{
 
 			RequestData = new Dictionary<string, string>();
-		
+
 		}
 
 
-		public virtual void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
+		public virtual void LoadFromRequest(string apiname, Dictionary<string, string> data)
+		{
 
 			/*
 			// data is string:

@@ -10,28 +10,31 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Window.Support {
+namespace ElectronicObserver.Window.Support
+{
 
 
 
-	public static class WindowPlacementManager {
+	public static class WindowPlacementManager
+	{
 
 		#region 各種宣言
 
-		[DllImport( "user32.dll" )]
+		[DllImport("user32.dll")]
 		public static extern bool SetWindowPlacement(
 			IntPtr hWnd,
-			[In] ref WINDOWPLACEMENT lpwndpl );
+			[In] ref WINDOWPLACEMENT lpwndpl);
 
-		[DllImport( "user32.dll" )]
+		[DllImport("user32.dll")]
 		public static extern bool GetWindowPlacement(
 			IntPtr hWnd,
-			out WINDOWPLACEMENT lpwndpl );
+			out WINDOWPLACEMENT lpwndpl);
 
 
 		[Serializable]
-		[StructLayout( LayoutKind.Sequential )]
-		public struct WINDOWPLACEMENT {
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WINDOWPLACEMENT
+		{
 			public int length;
 			public int flags;
 			public SW showCmd;
@@ -41,26 +44,30 @@ namespace ElectronicObserver.Window.Support {
 		}
 
 		[Serializable]
-		[StructLayout( LayoutKind.Sequential )]
-		public struct POINT {
+		[StructLayout(LayoutKind.Sequential)]
+		public struct POINT
+		{
 			public int X;
 			public int Y;
 
-			public POINT( int x, int y ) {
+			public POINT(int x, int y)
+			{
 				this.X = x;
 				this.Y = y;
 			}
 		}
 
 		[Serializable]
-		[StructLayout( LayoutKind.Sequential )]
-		public struct RECT {
+		[StructLayout(LayoutKind.Sequential)]
+		public struct RECT
+		{
 			public int Left;
 			public int Top;
 			public int Right;
 			public int Bottom;
 
-			public RECT( int left, int top, int right, int bottom ) {
+			public RECT(int left, int top, int right, int bottom)
+			{
 				this.Left = left;
 				this.Top = top;
 				this.Right = right;
@@ -68,7 +75,8 @@ namespace ElectronicObserver.Window.Support {
 			}
 		}
 
-		public enum SW {
+		public enum SW
+		{
 			HIDE = 0,
 			SHOWNORMAL = 1,
 			SHOWMINIMIZED = 2,
@@ -84,80 +92,93 @@ namespace ElectronicObserver.Window.Support {
 
 
 
-		[DataContract( Name = "WindowPlacementWrapper" )]
-		public class WindowPlacementWrapper : DataStorage {
+		[DataContract(Name = "WindowPlacementWrapper")]
+		public class WindowPlacementWrapper : DataStorage
+		{
 
 			[IgnoreDataMember]
 			public WINDOWPLACEMENT RawData;
 
 			[DataMember]
-			public int flags {
+			public int flags
+			{
 				get { return RawData.flags; }
 				set { RawData.flags = value; }
 			}
 
 			[DataMember]
-			public int showCmd {
+			public int showCmd
+			{
 				get { return (int)RawData.showCmd; }
 				set { RawData.showCmd = (SW)value; }
 			}
 
 			[DataMember]
-			public int minPositionX {
+			public int minPositionX
+			{
 				get { return RawData.minPosition.X; }
 				set { RawData.minPosition.X = value; }
 			}
 
 			[DataMember]
-			public int minPositionY {
+			public int minPositionY
+			{
 				get { return RawData.minPosition.Y; }
 				set { RawData.minPosition.Y = value; }
 			}
 
 			[DataMember]
-			public int maxPositionX {
+			public int maxPositionX
+			{
 				get { return RawData.maxPosition.X; }
 				set { RawData.maxPosition.X = value; }
 			}
 
 			[DataMember]
-			public int maxPositionY {
+			public int maxPositionY
+			{
 				get { return RawData.maxPosition.Y; }
 				set { RawData.maxPosition.Y = value; }
 			}
 
 			[DataMember]
-			public int normalPositionLeft {
+			public int normalPositionLeft
+			{
 				get { return RawData.normalPosition.Left; }
 				set { RawData.normalPosition.Left = value; }
 			}
 
 			[DataMember]
-			public int normalPositionTop {
+			public int normalPositionTop
+			{
 				get { return RawData.normalPosition.Top; }
 				set { RawData.normalPosition.Top = value; }
 			}
 
 			[DataMember]
-			public int normalPositionRight {
+			public int normalPositionRight
+			{
 				get { return RawData.normalPosition.Right; }
 				set { RawData.normalPosition.Right = value; }
 			}
 
 			[DataMember]
-			public int normalPositionBottom {
+			public int normalPositionBottom
+			{
 				get { return RawData.normalPosition.Bottom; }
 				set { RawData.normalPosition.Bottom = value; }
 			}
 
 
-			public WindowPlacementWrapper() {
+			public WindowPlacementWrapper()
+			{
 				Initialize();
 			}
 
-			public override void Initialize() {
+			public override void Initialize()
+			{
 				RawData = new WINDOWPLACEMENT();
-				RawData.length = Marshal.SizeOf( RawData );
+				RawData.length = Marshal.SizeOf(RawData);
 				RawData.flags = 0;
 			}
 		}
@@ -165,111 +186,132 @@ namespace ElectronicObserver.Window.Support {
 
 
 
-		public static string WindowPlacementConfigPath {
+		public static string WindowPlacementConfigPath
+		{
 			get { return @"Settings\WindowPlacement.json"; }
 		}
 
 
 		[Obsolete]
-		public static void LoadWindowPlacement( FormMain form, string path ) {
+		public static void LoadWindowPlacement(FormMain form, string path)
+		{
 
-			try {
+			try
+			{
 
-				if ( File.Exists( path ) ) {
+				if (File.Exists(path))
+				{
 
 					string settings;
 
-					using ( StreamReader sr = new StreamReader( path ) ) {
+					using (StreamReader sr = new StreamReader(path))
+					{
 						settings = sr.ReadToEnd();
 					}
 
 
-					WindowPlacementWrapper wp = DynamicJson.Parse( settings );
+					WindowPlacementWrapper wp = DynamicJson.Parse(settings);
 
-					if ( wp.RawData.showCmd == SW.SHOWMINIMIZED )
+					if (wp.RawData.showCmd == SW.SHOWMINIMIZED)
 						wp.RawData.showCmd = SW.SHOWNORMAL;
 
-					SetWindowPlacement( form.Handle, ref wp.RawData );
+					SetWindowPlacement(form.Handle, ref wp.RawData);
 
 				}
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の復元に失敗しました。" );
-				
+				Utility.ErrorReporter.SendErrorReport(ex, "ウィンドウ状態の復元に失敗しました。");
+
 			}
 
 		}
 
 
-		public static void LoadWindowPlacement( FormMain form, Stream stream ) {
+		public static void LoadWindowPlacement(FormMain form, Stream stream)
+		{
 
-			try {
+			try
+			{
 				var wp = new WindowPlacementWrapper();
-				wp = (WindowPlacementWrapper)wp.Load( stream );
+				wp = (WindowPlacementWrapper)wp.Load(stream);
 
-				if ( wp.RawData.showCmd == SW.SHOWMINIMIZED )
+				if (wp.RawData.showCmd == SW.SHOWMINIMIZED)
 					wp.RawData.showCmd = SW.SHOWNORMAL;
 
-				SetWindowPlacement( form.Handle, ref wp.RawData );
+				SetWindowPlacement(form.Handle, ref wp.RawData);
 
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の復元に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, "ウィンドウ状態の復元に失敗しました。");
 			}
 
 		}
 
 
 		[Obsolete]
-		public static void SaveWindowPlacement( FormMain form, string path ) {
+		public static void SaveWindowPlacement(FormMain form, string path)
+		{
 
 
-			try {
+			try
+			{
 
-				string parent = Directory.GetParent( path ).FullName;
-				if ( !Directory.Exists( parent ) ) {
-					Directory.CreateDirectory( parent );
+				string parent = Directory.GetParent(path).FullName;
+				if (!Directory.Exists(parent))
+				{
+					Directory.CreateDirectory(parent);
 				}
 
 
 				var wp = new WindowPlacementWrapper();
-				
 
 
-				GetWindowPlacement( form.Handle, out wp.RawData );
+
+				GetWindowPlacement(form.Handle, out wp.RawData);
 
 
-				string settings = DynamicJson.Serialize( wp );
+				string settings = DynamicJson.Serialize(wp);
 
-				using ( StreamWriter sw = new StreamWriter( path ) ) {
+				using (StreamWriter sw = new StreamWriter(path))
+				{
 
-					sw.Write( settings );
-				
+					sw.Write(settings);
+
 				}
 
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, "ウィンドウ状態の保存に失敗しました。");
 			}
 		}
 
 
 
-		public static void SaveWindowPlacement( FormMain form, Stream stream ) {
+		public static void SaveWindowPlacement(FormMain form, Stream stream)
+		{
 
-			try {
+			try
+			{
 				var wp = new WindowPlacementWrapper();
 
-				GetWindowPlacement( form.Handle, out wp.RawData );
+				GetWindowPlacement(form.Handle, out wp.RawData);
 
-				wp.Save( stream );
+				wp.Save(stream);
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, "ウィンドウ状態の保存に失敗しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, "ウィンドウ状態の保存に失敗しました。");
 			}
 		}
 

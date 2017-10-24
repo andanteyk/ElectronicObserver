@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data.Battle {
-	
+namespace ElectronicObserver.Data.Battle
+{
+
 	/// <summary>
 	/// 昼戦の基底クラス
 	/// </summary>
-	public abstract class BattleDay : BattleData {
+	public abstract class BattleDay : BattleData
+	{
 
 		public PhaseJetBaseAirAttack JetBaseAirAttack { get; protected set; }
 		public PhaseJetAirBattle JetAirBattle { get; protected set; }

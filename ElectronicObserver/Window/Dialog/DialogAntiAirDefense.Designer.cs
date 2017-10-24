@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogAntiAirDefense {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogAntiAirDefense
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -173,9 +178,9 @@
 			this.Formation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.Formation.FormattingEnabled = true;
 			this.Formation.Items.AddRange(new object[] {
-            "単縦陣ほか",
-            "複縦陣",
-            "輪形陣"});
+			"単縦陣ほか",
+			"複縦陣",
+			"輪形陣"});
 			this.Formation.Location = new System.Drawing.Point(61, 41);
 			this.Formation.Name = "Formation";
 			this.Formation.Size = new System.Drawing.Size(121, 23);
@@ -195,19 +200,19 @@
 			// 
 			this.EnemySlotCount.Location = new System.Drawing.Point(282, 41);
 			this.EnemySlotCount.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+			999,
+			0,
+			0,
+			0});
 			this.EnemySlotCount.Name = "EnemySlotCount";
 			this.EnemySlotCount.Size = new System.Drawing.Size(80, 23);
 			this.EnemySlotCount.TabIndex = 2;
 			this.EnemySlotCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.EnemySlotCount.Value = new decimal(new int[] {
-            36,
-            0,
-            0,
-            0});
+			36,
+			0,
+			0,
+			0});
 			this.EnemySlotCount.ValueChanged += new System.EventHandler(this.EnemySlotCount_ValueChanged);
 			// 
 			// label1
@@ -224,11 +229,11 @@
 			this.FleetID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.FleetID.FormattingEnabled = true;
 			this.FleetID.Items.AddRange(new object[] {
-            "第1艦隊",
-            "第2艦隊",
-            "第3艦隊",
-            "第4艦隊",
-            "連合艦隊"});
+			"第1艦隊",
+			"第2艦隊",
+			"第3艦隊",
+			"第4艦隊",
+			"連合艦隊"});
 			this.FleetID.Location = new System.Drawing.Point(61, 12);
 			this.FleetID.Name = "FleetID";
 			this.FleetID.Size = new System.Drawing.Size(121, 23);
@@ -243,15 +248,15 @@
 			this.ResultView.AllowUserToResizeRows = false;
 			this.ResultView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ResultView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ResultView_ShipName,
-            this.ResultView_AntiAir,
-            this.ResultView_AdjustedAntiAir,
-            this.ResultView_ProportionalAirDefense,
-            this.ResultView_FixedAirDefense,
-            this.ResultView_ShootDownBoth,
-            this.ResultView_ShootDownProportional,
-            this.ResultView_ShootDownFixed,
-            this.ResultView_ShootDownFailed});
+			this.ResultView_ShipName,
+			this.ResultView_AntiAir,
+			this.ResultView_AdjustedAntiAir,
+			this.ResultView_ProportionalAirDefense,
+			this.ResultView_FixedAirDefense,
+			this.ResultView_ShootDownBoth,
+			this.ResultView_ShootDownProportional,
+			this.ResultView_ShootDownFixed,
+			this.ResultView_ShootDownFailed});
 			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle9.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);

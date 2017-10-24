@@ -6,17 +6,20 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BrowserLib {
+namespace BrowserLib
+{
 	/// <summary>
 	/// FormBrowserHostのインターフェス
 	/// WCFでプロセス間通信用
 	/// </summary>
 	[ServiceContract]
-	public interface IBrowserHost {
+	public interface IBrowserHost
+	{
 		/// <summary>
 		/// ブラウザ側で必要な設定情報
 		/// </summary>
-		BrowserConfiguration Configuration {
+		BrowserConfiguration Configuration
+		{
 			[OperationContract]
 			get;
 		}
@@ -24,7 +27,8 @@ namespace BrowserLib {
 		/// <summary>
 		/// キーメッセージの送り先
 		/// </summary>
-		IntPtr HWND {
+		IntPtr HWND
+		{
 			[OperationContract]
 			get;
 		}
@@ -33,29 +37,29 @@ namespace BrowserLib {
 		/// ブラウザのウィンドウハンドルが作成されたあとホスト側で処理するために呼び出す
 		/// </summary>
 		[OperationContract]
-		void ConnectToBrowser( IntPtr hwnd );
+		void ConnectToBrowser(IntPtr hwnd);
 
 		/// <summary>
 		/// エラー報告
 		/// 例外は送れるのかよく分からなかったら例外の名前だけ送るようにした
 		/// </summary>
 		[OperationContract]
-		void SendErrorReport( string exceptionName, string message );
+		void SendErrorReport(string exceptionName, string message);
 
 		/// <summary>
 		/// ログ追加
 		/// </summary>
 		[OperationContract]
-		void AddLog( int priority, string message );
+		void AddLog(int priority, string message);
 
 		[OperationContract]
-		void ConfigurationUpdated( BrowserConfiguration config );
+		void ConfigurationUpdated(BrowserConfiguration config);
 
 		[OperationContract]
 		void GetIconResource();
 
 		[OperationContract]
-		void RequestNavigation( string baseurl );
+		void RequestNavigation(string baseurl);
 
 		[OperationContract]
 		void SetProxyCompleted();
@@ -66,7 +70,8 @@ namespace BrowserLib {
 	/// 更新があったときにまとめて送る
 	/// </summary>
 	[DataContract]
-	public class BrowserConfiguration {
+	public class BrowserConfiguration
+	{
 		/// <summary>
 		/// ブラウザの拡大率 10-1000(%)
 		/// </summary>
@@ -127,7 +132,7 @@ namespace BrowserLib {
 		/// </summary>
 		[DataMember]
 		public bool AppliesStyleSheet { get; set; }
-		
+
 		/// <summary>
 		/// DMMによるページ更新ダイアログを表示するか
 		/// </summary>

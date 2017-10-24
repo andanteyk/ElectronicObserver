@@ -5,6 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
+.vs/
 
 # Build results
 
@@ -161,3 +162,7 @@ $RECYCLE.BIN/
 ElectronicObserver/Other/Information/todo.txt
 DigitalArsenal/
 packages/
+/ElectronicObserver/zip.bat
+/ElectronicObserver/Settings
+/ElectronicObserver/Record
+/ElectronicObserver/ErrorReport

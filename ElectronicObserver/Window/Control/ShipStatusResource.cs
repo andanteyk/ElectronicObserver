@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElectronicObserver.Window.Control {
-	public partial class ShipStatusResource : UserControl {
+namespace ElectronicObserver.Window.Control
+{
+	public partial class ShipStatusResource : UserControl
+	{
 
 		private ToolTip ResourceTip;
 		public StatusBarModule BarFuel { get; private set; }
@@ -18,33 +20,41 @@ namespace ElectronicObserver.Window.Control {
 
 		#region Properties
 
-		public int FuelCurrent {
+		public int FuelCurrent
+		{
 			get { return BarFuel.Value; }
-			set {
+			set
+			{
 				BarFuel.Value = value;
 				PropertyChanged();
 			}
 		}
 
-		public int FuelMax {
+		public int FuelMax
+		{
 			get { return BarFuel.MaximumValue; }
-			set {
+			set
+			{
 				BarFuel.MaximumValue = value;
 				PropertyChanged();
 			}
 		}
 
-		public int AmmoCurrent {
+		public int AmmoCurrent
+		{
 			get { return BarAmmo.Value; }
-			set {
+			set
+			{
 				BarAmmo.Value = value;
 				PropertyChanged();
 			}
 		}
 
-		public int AmmoMax {
+		public int AmmoMax
+		{
 			get { return BarAmmo.MaximumValue; }
-			set {
+			set
+			{
 				BarAmmo.MaximumValue = value;
 				PropertyChanged();
 			}
@@ -53,7 +63,8 @@ namespace ElectronicObserver.Window.Control {
 		#endregion
 
 
-		public ShipStatusResource( ToolTip resourceTip ) {
+		public ShipStatusResource(ToolTip resourceTip)
+		{
 			InitializeComponent();
 
 			BarFuel = new StatusBarModule();
@@ -66,15 +77,16 @@ namespace ElectronicObserver.Window.Control {
 
 
 
-		private void PropertyChanged() {
+		private void PropertyChanged()
+		{
 
 			//FIXME: サブウィンドウ状態のときToolTipが出現しない不具合を確認。
 
-			string tiptext = string.Format( "燃 : {0}/{1} ({2}%)\r\n弾 : {3}/{4} ({5}%)",
-				FuelCurrent, FuelMax, (int)Math.Ceiling( 100.0 * FuelCurrent / FuelMax ),
-				AmmoCurrent, AmmoMax, (int)Math.Ceiling( 100.0 * AmmoCurrent / AmmoMax ) );
+			string tiptext = string.Format("燃 : {0}/{1} ({2}%)\r\n弾 : {3}/{4} ({5}%)",
+				FuelCurrent, FuelMax, (int)Math.Ceiling(100.0 * FuelCurrent / FuelMax),
+				AmmoCurrent, AmmoMax, (int)Math.Ceiling(100.0 * AmmoCurrent / AmmoMax));
 
-			ResourceTip.SetToolTip( this, tiptext );
+			ResourceTip.SetToolTip(this, tiptext);
 
 			Invalidate();
 		}
@@ -87,7 +99,8 @@ namespace ElectronicObserver.Window.Control {
 		/// <param name="fuelMax">燃料の最大値。</param>
 		/// <param name="ammoCurrent">弾薬の現在値。</param>
 		/// <param name="ammoMax">燃料の最大値。</param>
-		public void SetResources( int fuelCurrent, int fuelMax, int ammoCurrent, int ammoMax ) {
+		public void SetResources(int fuelCurrent, int fuelMax, int ammoCurrent, int ammoMax)
+		{
 
 			BarFuel.Value = fuelCurrent;
 			BarFuel.MaximumValue = fuelMax;
@@ -99,12 +112,13 @@ namespace ElectronicObserver.Window.Control {
 
 
 
-		private void ShipStatusResource_Paint( object sender, PaintEventArgs e ) {
+		private void ShipStatusResource_Paint(object sender, PaintEventArgs e)
+		{
 
 			const int margin = 3;
 
-			BarFuel.Paint( e.Graphics, new Rectangle( 0, margin, this.Width, BarFuel.GetPreferredSize().Height ) );
-			BarAmmo.Paint( e.Graphics, new Rectangle( 0, this.Height - margin - BarFuel.GetPreferredSize().Height, this.Width, BarFuel.GetPreferredSize().Height ) );
+			BarFuel.Paint(e.Graphics, new Rectangle(0, margin, this.Width, BarFuel.GetPreferredSize().Height));
+			BarAmmo.Paint(e.Graphics, new Rectangle(0, this.Height - margin - BarFuel.GetPreferredSize().Height, this.Width, BarFuel.GetPreferredSize().Height));
 
 		}
 

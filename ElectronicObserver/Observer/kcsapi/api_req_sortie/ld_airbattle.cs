@@ -5,19 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_sortie {
-	
-	public class ld_airbattle : APIBase {
+namespace ElectronicObserver.Observer.kcsapi.api_req_sortie
+{
 
-		public override void OnResponseReceived( dynamic data ) {
+	public class ld_airbattle : APIBase
+	{
 
-			KCDatabase.Instance.Battle.LoadFromResponse( APIName, data );
+		public override void OnResponseReceived(dynamic data)
+		{
+
+			KCDatabase.Instance.Battle.LoadFromResponse(APIName, data);
 
 
-			base.OnResponseReceived( (object)data );
+			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName {
+		public override string APIName
+		{
 			get { return "api_req_sortie/ld_airbattle"; }
 		}
 	}

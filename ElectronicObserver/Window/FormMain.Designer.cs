@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window {
-	partial class FormMain {
+﻿namespace ElectronicObserver.Window
+{
+	partial class FormMain
+	{
 		/// <summary>
 		/// 必要なデザイナー変数です。
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// 使用中のリソースをすべてクリーンアップします。
 		/// </summary>
 		/// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows フォーム デザイナーで生成されたコード
@@ -22,7 +26,8 @@
 		/// デザイナー サポートに必要なメソッドです。このメソッドの内容を
 		/// コード エディターで変更しないでください。
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			this.StripMenu = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,11 +112,11 @@
 			// StripMenu
 			// 
 			this.StripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_File,
-            this.StripMenu_View,
-            this.StripMenu_Tool,
-            this.StripMenu_Debug,
-            this.StripMenu_Help});
+			this.StripMenu_File,
+			this.StripMenu_View,
+			this.StripMenu_Tool,
+			this.StripMenu_Debug,
+			this.StripMenu_Help});
 			this.StripMenu.Location = new System.Drawing.Point(0, 0);
 			this.StripMenu.Name = "StripMenu";
 			this.StripMenu.Size = new System.Drawing.Size(640, 24);
@@ -121,12 +126,12 @@
 			// StripMenu_File
 			// 
 			this.StripMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_File_Record,
-            this.StripMenu_File_Layout,
-            this.toolStripSeparator6,
-            this.StripMenu_File_Configuration,
-            this.toolStripSeparator5,
-            this.StripMenu_File_Close});
+			this.StripMenu_File_Record,
+			this.StripMenu_File_Layout,
+			this.toolStripSeparator6,
+			this.StripMenu_File_Configuration,
+			this.toolStripSeparator5,
+			this.StripMenu_File_Close});
 			this.StripMenu_File.Name = "StripMenu_File";
 			this.StripMenu_File.Size = new System.Drawing.Size(70, 20);
 			this.StripMenu_File.Text = "ファイル(&F)";
@@ -134,8 +139,8 @@
 			// StripMenu_File_Record
 			// 
 			this.StripMenu_File_Record.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_File_Record_Save,
-            this.StripMenu_File_Record_Load});
+			this.StripMenu_File_Record_Save,
+			this.StripMenu_File_Record_Load});
 			this.StripMenu_File_Record.Name = "StripMenu_File_Record";
 			this.StripMenu_File_Record.Size = new System.Drawing.Size(135, 22);
 			this.StripMenu_File_Record.Text = "レコード(&R)";
@@ -157,14 +162,14 @@
 			// StripMenu_File_Layout
 			// 
 			this.StripMenu_File_Layout.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_File_Layout_Load,
-            this.StripMenu_File_Layout_Save,
-            this.StripMenu_File_Layout_Open,
-            this.StripMenu_File_Layout_Change,
-            this.toolStripSeparator9,
-            this.StripMenu_File_Layout_LockLayout,
-            this.toolStripSeparator10,
-            this.StripMenu_File_Layout_TopMost});
+			this.StripMenu_File_Layout_Load,
+			this.StripMenu_File_Layout_Save,
+			this.StripMenu_File_Layout_Open,
+			this.StripMenu_File_Layout_Change,
+			this.toolStripSeparator9,
+			this.StripMenu_File_Layout_LockLayout,
+			this.toolStripSeparator10,
+			this.StripMenu_File_Layout_TopMost});
 			this.StripMenu_File_Layout.Name = "StripMenu_File_Layout";
 			this.StripMenu_File_Layout.Size = new System.Drawing.Size(135, 22);
 			this.StripMenu_File_Layout.Text = "レイアウト(&L)";
@@ -250,25 +255,25 @@
 			// StripMenu_View
 			// 
 			this.StripMenu_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_View_Fleet,
-            this.StripMenu_View_FleetOverview,
-            this.StripMenu_View_ShipGroup,
-            this.toolStripSeparator1,
-            this.StripMenu_View_Dock,
-            this.StripMenu_View_Arsenal,
-            this.StripMenu_View_BaseAirCorps,
-            this.toolStripSeparator2,
-            this.StripMenu_View_Headquarters,
-            this.StripMenu_View_Quest,
-            this.StripMenu_View_Information,
-            this.toolStripSeparator3,
-            this.StripMenu_View_Compass,
-            this.StripMenu_View_Battle,
-            this.toolStripSeparator4,
-            this.StripMenu_View_Browser,
-            this.StripMenu_View_Log,
-            this.StripMenu_WindowCapture,
-            this.StripMenu_View_Json});
+			this.StripMenu_View_Fleet,
+			this.StripMenu_View_FleetOverview,
+			this.StripMenu_View_ShipGroup,
+			this.toolStripSeparator1,
+			this.StripMenu_View_Dock,
+			this.StripMenu_View_Arsenal,
+			this.StripMenu_View_BaseAirCorps,
+			this.toolStripSeparator2,
+			this.StripMenu_View_Headquarters,
+			this.StripMenu_View_Quest,
+			this.StripMenu_View_Information,
+			this.toolStripSeparator3,
+			this.StripMenu_View_Compass,
+			this.StripMenu_View_Battle,
+			this.toolStripSeparator4,
+			this.StripMenu_View_Browser,
+			this.StripMenu_View_Log,
+			this.StripMenu_WindowCapture,
+			this.StripMenu_View_Json});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(61, 20);
 			this.StripMenu_View.Text = "表示(&V)";
@@ -276,10 +281,10 @@
 			// StripMenu_View_Fleet
 			// 
 			this.StripMenu_View_Fleet.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_View_Fleet_1,
-            this.StripMenu_View_Fleet_2,
-            this.StripMenu_View_Fleet_3,
-            this.StripMenu_View_Fleet_4});
+			this.StripMenu_View_Fleet_1,
+			this.StripMenu_View_Fleet_2,
+			this.StripMenu_View_Fleet_3,
+			this.StripMenu_View_Fleet_4});
 			this.StripMenu_View_Fleet.Name = "StripMenu_View_Fleet";
 			this.StripMenu_View_Fleet.Size = new System.Drawing.Size(182, 22);
 			this.StripMenu_View_Fleet.Text = "艦隊(&F)";
@@ -419,9 +424,9 @@
 			// StripMenu_WindowCapture
 			// 
 			this.StripMenu_WindowCapture.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_WindowCapture_SubWindow,
-            this.StripMenu_WindowCapture_AttachAll,
-            this.StripMenu_WindowCapture_DetachAll});
+			this.StripMenu_WindowCapture_SubWindow,
+			this.StripMenu_WindowCapture_AttachAll,
+			this.StripMenu_WindowCapture_DetachAll});
 			this.StripMenu_WindowCapture.Name = "StripMenu_WindowCapture";
 			this.StripMenu_WindowCapture.Size = new System.Drawing.Size(182, 22);
 			this.StripMenu_WindowCapture.Text = "ウィンドウキャプチャ(&W)";
@@ -457,19 +462,19 @@
 			// StripMenu_Tool
 			// 
 			this.StripMenu_Tool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Tool_EquipmentList,
-            this.toolStripSeparator7,
-            this.StripMenu_Tool_DropRecord,
-            this.StripMenu_Tool_DevelopmentRecord,
-            this.StripMenu_Tool_ConstructionRecord,
-            this.StripMenu_Tool_ResourceChart,
-            this.toolStripSeparator15,
-            this.StripMenu_Tool_AlbumMasterShip,
-            this.StripMenu_Tool_AlbumMasterEquipment,
-            this.toolStripSeparator11,
-            this.StripMenu_Tool_AntiAirDefense,
-            this.StripMenu_Tool_FleetImageGenerator,
-            this.StripMenu_Tool_BaseAirCorpsSimulation});
+			this.StripMenu_Tool_EquipmentList,
+			this.toolStripSeparator7,
+			this.StripMenu_Tool_DropRecord,
+			this.StripMenu_Tool_DevelopmentRecord,
+			this.StripMenu_Tool_ConstructionRecord,
+			this.StripMenu_Tool_ResourceChart,
+			this.toolStripSeparator15,
+			this.StripMenu_Tool_AlbumMasterShip,
+			this.StripMenu_Tool_AlbumMasterEquipment,
+			this.toolStripSeparator11,
+			this.StripMenu_Tool_AntiAirDefense,
+			this.StripMenu_Tool_FleetImageGenerator,
+			this.StripMenu_Tool_BaseAirCorpsSimulation});
 			this.StripMenu_Tool.Name = "StripMenu_Tool";
 			this.StripMenu_Tool.Size = new System.Drawing.Size(66, 20);
 			this.StripMenu_Tool.Text = "ツール(&T)";
@@ -555,13 +560,13 @@
 			// StripMenu_Debug
 			// 
 			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Debug_LoadAPIFromFile,
-            this.StripMenu_Debug_LoadInitialAPI,
-            this.toolStripSeparator8,
-            this.StripMenu_Debug_LoadRecordFromOld,
-            this.StripMenu_Debug_DeleteOldAPI,
-            this.StripMenu_Debug_RenameShipResource,
-            this.StripMenu_Debug_LoadDataFromOld});
+			this.StripMenu_Debug_LoadAPIFromFile,
+			this.StripMenu_Debug_LoadInitialAPI,
+			this.toolStripSeparator8,
+			this.StripMenu_Debug_LoadRecordFromOld,
+			this.StripMenu_Debug_DeleteOldAPI,
+			this.StripMenu_Debug_RenameShipResource,
+			this.StripMenu_Debug_LoadDataFromOld});
 			this.StripMenu_Debug.Name = "StripMenu_Debug";
 			this.StripMenu_Debug.Size = new System.Drawing.Size(74, 20);
 			this.StripMenu_Debug.Text = "デバッグ(&D)";
@@ -616,9 +621,9 @@
 			// StripMenu_Help
 			// 
 			this.StripMenu_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Help_Help,
-            this.SeparatorWhitecap,
-            this.StripMenu_Help_Version});
+			this.StripMenu_Help_Help,
+			this.SeparatorWhitecap,
+			this.StripMenu_Help_Version});
 			this.StripMenu_Help.Name = "StripMenu_Help";
 			this.StripMenu_Help.Size = new System.Drawing.Size(67, 20);
 			this.StripMenu_Help.Text = "ヘルプ(&H)";
@@ -647,8 +652,8 @@
 			// 
 			this.StripStatus.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.StripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripStatus_Information,
-            this.StripStatus_Clock});
+			this.StripStatus_Information,
+			this.StripStatus_Clock});
 			this.StripStatus.Location = new System.Drawing.Point(0, 458);
 			this.StripStatus.Name = "StripStatus";
 			this.StripStatus.ShowItemToolTips = true;

@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Notifier {
+namespace ElectronicObserver.Notifier
+{
 
 	/// <summary>
 	/// 大破進撃警告通知を扱います。
 	/// </summary>
-	public class NotifierDamage : NotifierBase {
+	public class NotifierDamage : NotifierBase
+	{
 
 		/// <summary>
 		/// 事前通知(出撃前、戦闘結果判明直後)が有効かどうか
@@ -57,12 +59,14 @@ namespace ElectronicObserver.Notifier {
 
 
 		public NotifierDamage()
-			: base() {
+			: base()
+		{
 			Initialize();
 		}
 
-		public NotifierDamage( Utility.Configuration.ConfigurationData.ConfigNotifierDamage config )
-			: base( config ) {
+		public NotifierDamage(Utility.Configuration.ConfigurationData.ConfigNotifierDamage config)
+			: base(config)
+		{
 			Initialize();
 
 			NotifiesBefore = config.NotifiesBefore;
@@ -76,7 +80,8 @@ namespace ElectronicObserver.Notifier {
 		}
 
 
-		private void Initialize() {
+		private void Initialize()
+		{
 			DialogData.Title = "！大破警告！";
 
 			APIObserver o = APIObserver.Instance;
@@ -109,159 +114,199 @@ namespace ElectronicObserver.Notifier {
 
 		}
 
-		void CloseAll( string apiname, dynamic data ) {
+		void CloseAll(string apiname, dynamic data)
+		{
 			DialogData.OnCloseAll();
 		}
 
 
 
 
-		private void BeforeSortie( string apiname, dynamic data ) {
-			if ( NotifiesNow || NotifiesBefore ) {
+		private void BeforeSortie(string apiname, dynamic data)
+		{
+			if (NotifiesNow || NotifiesBefore)
+			{
 
 				string[] array = GetDamagedShips(
 					KCDatabase.Instance.Fleet.Fleets.Values
-					.Where( f => f.ExpeditionState == 0 )
-					.SelectMany( f => f.MembersWithoutEscaped.Skip( !ContainsFlagship ? 1 : 0 ) ) );
+					.Where(f => f.ExpeditionState == 0)
+					.SelectMany(f => f.MembersWithoutEscaped.Skip(!ContainsFlagship ? 1 : 0)));
 
-				if ( array != null && array.Length > 0 ) {
-					Notify( array );
+				if (array != null && array.Length > 0)
+				{
+					Notify(array);
 				}
 			}
 		}
 
 
-		private void InSortie( string apiname, dynamic data ) {
-			if ( NotifiesAfter ) {
+		private void InSortie(string apiname, dynamic data)
+		{
+			if (NotifiesAfter)
+			{
 
-				string[] array = GetDamagedShips( KCDatabase.Instance.Fleet.Fleets.Values
-					.Where( f => f.IsInSortie )
-					.SelectMany( f => f.MembersWithoutEscaped.Skip( !ContainsFlagship ? 1 : 0 ) ) );
+				string[] array = GetDamagedShips(KCDatabase.Instance.Fleet.Fleets.Values
+					.Where(f => f.IsInSortie)
+					.SelectMany(f => f.MembersWithoutEscaped.Skip(!ContainsFlagship ? 1 : 0)));
 
 
-				if ( array != null && array.Length > 0 ) {
-					Notify( array );
+				if (array != null && array.Length > 0)
+				{
+					Notify(array);
 				}
 			}
 		}
 
 
-		private void BattleStarted( string apiname, dynamic data ) {
-			if ( NotifiesBefore ) {
+		private void BattleStarted(string apiname, dynamic data)
+		{
+			if (NotifiesBefore)
+			{
 				CheckBattle();
 			}
 		}
 
 
-		private void BattleFinished( string apiname, dynamic data ) {
-			if ( NotifiesNow ) {
+		private void BattleFinished(string apiname, dynamic data)
+		{
+			if (NotifiesNow)
+			{
 				CheckBattle();
 			}
 		}
 
 
-		private void CheckBattle() {
+		private void CheckBattle()
+		{
 
 			BattleManager bm = KCDatabase.Instance.Battle;
 
-			if ( bm.Compass.IsEndPoint && !NotifiesAtEndpoint )
+			if (bm.Compass.IsEndPoint && !NotifiesAtEndpoint)
 				return;
 
 
 			List<string> list = new List<string>();
 
-			if ( bm.StartsFromDayBattle ) {
-				if ( bm.BattleNight != null ) {
-					list.AddRange( GetDamagedShips( bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray() ) );
-				} else {
-					list.AddRange( GetDamagedShips( bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray() ) );
+			if (bm.StartsFromDayBattle)
+			{
+				if (bm.BattleNight != null)
+				{
+					list.AddRange(GetDamagedShips(bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray()));
+				}
+				else
+				{
+					list.AddRange(GetDamagedShips(bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray()));
 				}
 
-			} else {
-				if ( bm.BattleDay != null ) {
-					list.AddRange( GetDamagedShips( bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray() ) );
-				} else {
-					list.AddRange( GetDamagedShips( bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray() ) );
+			}
+			else
+			{
+				if (bm.BattleDay != null)
+				{
+					list.AddRange(GetDamagedShips(bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray()));
+				}
+				else
+				{
+					list.AddRange(GetDamagedShips(bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray()));
 				}
 
 			}
 
-			if ( bm.IsCombinedBattle ) {
-				if ( bm.StartsFromDayBattle ) {
-					if ( bm.BattleNight != null ) {
-						list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip( 12 ).ToArray() ) );
-					} else {
-						list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip( 12 ).ToArray() ) );
+			if (bm.IsCombinedBattle)
+			{
+				if (bm.StartsFromDayBattle)
+				{
+					if (bm.BattleNight != null)
+					{
+						list.AddRange(GetDamagedShips(KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip(12).ToArray()));
+					}
+					else
+					{
+						list.AddRange(GetDamagedShips(KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip(12).ToArray()));
 					}
 
-				} else {
-					if ( bm.BattleDay != null ) {
-						list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip( 12 ).ToArray() ) );
-					} else {
-						list.AddRange( GetDamagedShips( KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip( 12 ).ToArray() ) );
+				}
+				else
+				{
+					if (bm.BattleDay != null)
+					{
+						list.AddRange(GetDamagedShips(KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip(12).ToArray()));
+					}
+					else
+					{
+						list.AddRange(GetDamagedShips(KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip(12).ToArray()));
 					}
 
 				}
 			}
 
 
-			if ( list.Count > 0 ) {
-				Notify( list.ToArray() );
+			if (list.Count > 0)
+			{
+				Notify(list.ToArray());
 			}
 
 		}
 
 
 		// 注: 退避中かどうかまではチェックしない
-		private bool IsShipDamaged( ShipData ship, int hp ) {
+		private bool IsShipDamaged(ShipData ship, int hp)
+		{
 			return ship != null &&
 				hp > 0 &&
 				(double)hp / ship.HPMax <= 0.25 &&
 				ship.RepairingDockID == -1 &&
 				ship.Level >= LevelBorder &&
-				( ContainsNotLockedShip ? true : ( ship.IsLocked || ship.SlotInstance.Count( q => q != null && q.IsLocked ) > 0 ) ) &&
-				( ContainsSafeShip ? true : !ship.AllSlotInstanceMaster.Select( e => e != null ? e.CategoryType == 23 : false ).Contains( true ) );
+				(ContainsNotLockedShip ? true : (ship.IsLocked || ship.SlotInstance.Count(q => q != null && q.IsLocked) > 0)) &&
+				(ContainsSafeShip ? true : !ship.AllSlotInstanceMaster.Select(e => e != null ? e.CategoryType == 23 : false).Contains(true));
 		}
 
-		private string[] GetDamagedShips( IEnumerable<ShipData> ships ) {
-			return ships.Where( s => IsShipDamaged( s, s != null ? s.HPCurrent : 0 ) ).Select( s => string.Format( "{0} ({1}/{2})", s.NameWithLevel, s.HPCurrent, s.HPMax ) ).ToArray();
+		private string[] GetDamagedShips(IEnumerable<ShipData> ships)
+		{
+			return ships.Where(s => IsShipDamaged(s, s != null ? s.HPCurrent : 0)).Select(s => string.Format("{0} ({1}/{2})", s.NameWithLevel, s.HPCurrent, s.HPMax)).ToArray();
 		}
 
-		private string[] GetDamagedShips( FleetData fleet, int[] hps ) {
+		private string[] GetDamagedShips(FleetData fleet, int[] hps)
+		{
 
 			LinkedList<string> list = new LinkedList<string>();
 
-			for ( int i = 0; i < fleet.Members.Count; i++ ) {
+			for (int i = 0; i < fleet.Members.Count; i++)
+			{
 
-				if ( i == 0 && !ContainsFlagship ) continue;
+				if (i == 0 && !ContainsFlagship) continue;
 
 				ShipData s = fleet.MembersInstance[i];
 
-				if ( s != null && !fleet.EscapedShipList.Contains( s.MasterID ) &&
-					IsShipDamaged( s, hps[i] ) ) {
+				if (s != null && !fleet.EscapedShipList.Contains(s.MasterID) &&
+					IsShipDamaged(s, hps[i]))
+				{
 
-					list.AddLast( string.Format( "{0} ({1}/{2})", s.NameWithLevel, hps[i], s.HPMax ) );
+					list.AddLast(string.Format("{0} ({1}/{2})", s.NameWithLevel, hps[i], s.HPMax));
 				}
 			}
 
 			return list.ToArray();
 		}
 
-		public void Notify( string[] messages ) {
+		public void Notify(string[] messages)
+		{
 
-			DialogData.Message = string.Format( "{0} が大破しています！",
-				string.Join( ", ", messages ) );
+			DialogData.Message = string.Format("{0} が大破しています！",
+				string.Join(", ", messages));
 
 			base.Notify();
 		}
 
 
-		public override void ApplyToConfiguration( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
-			base.ApplyToConfiguration( config );
+		public override void ApplyToConfiguration(Utility.Configuration.ConfigurationData.ConfigNotifierBase config)
+		{
+			base.ApplyToConfiguration(config);
 
 			var c = config as Utility.Configuration.ConfigurationData.ConfigNotifierDamage;
 
-			if ( c != null ) {
+			if (c != null)
+			{
 				c.NotifiesBefore = NotifiesBefore;
 				c.NotifiesNow = NotifiesNow;
 				c.NotifiesAfter = NotifiesAfter;

@@ -5,22 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
-	
-	public class createship_speedchange : APIBase {
+namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou
+{
+
+	public class createship_speedchange : APIBase
+	{
 
 
-		public override void OnRequestReceived( Dictionary<string, string> data ) {
+		public override void OnRequestReceived(Dictionary<string, string> data)
+		{
 
 			KCDatabase db = KCDatabase.Instance;
 
-			ArsenalData arsenal = db.Arsenals[int.Parse( data["api_kdock_id"])];
+			ArsenalData arsenal = db.Arsenals[int.Parse(data["api_kdock_id"])];
 
 			arsenal.State = 3;
 			db.Material.InstantConstruction -= arsenal.Fuel >= 1000 ? 10 : 1;
 
-			
-			base.OnRequestReceived( data );
+
+			base.OnRequestReceived(data);
 		}
 
 
@@ -28,7 +31,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou {
 		public override bool IsResponseSupported { get { return false; } }
 
 
-		public override string APIName {
+		public override string APIName
+		{
 			get { return "api_req_kousyou/createship_speedchange"; }
 		}
 	}

@@ -8,17 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElectronicObserver.Window.Dialog {
-	public partial class DialogShipGroupCSVOutput : Form {
+namespace ElectronicObserver.Window.Dialog
+{
+	public partial class DialogShipGroupCSVOutput : Form
+	{
 
 		/// <summary>
 		/// 出力フィルタを指定します。
 		/// </summary>
-		public enum FilterModeConstants {
+		public enum FilterModeConstants
+		{
 
 			/// <summary>全て出力</summary>
 			All,
-			
+
 			/// <summary>表示されている行のみ出力</summary>
 			VisibleColumnOnly,
 		}
@@ -26,7 +29,8 @@ namespace ElectronicObserver.Window.Dialog {
 		/// <summary>
 		/// 出力フォーマットを指定します。
 		/// </summary>
-		public enum OutputFormatConstants {
+		public enum OutputFormatConstants
+		{
 
 			/// <summary>閲覧用</summary>
 			User,
@@ -39,7 +43,8 @@ namespace ElectronicObserver.Window.Dialog {
 		/// <summary>
 		/// 出力ファイルのパス
 		/// </summary>
-		public string OutputPath {
+		public string OutputPath
+		{
 			get { return TextOutputPath.Text; }
 			set { TextOutputPath.Text = value; }
 		}
@@ -47,18 +52,22 @@ namespace ElectronicObserver.Window.Dialog {
 		/// <summary>
 		/// 出力フィルタ
 		/// </summary>
-		public FilterModeConstants FilterMode {
-			get {
-				if ( RadioOutput_All.Checked )
+		public FilterModeConstants FilterMode
+		{
+			get
+			{
+				if (RadioOutput_All.Checked)
 					return FilterModeConstants.All;
 				else
 					return FilterModeConstants.VisibleColumnOnly;
 			}
-			set {
-				switch ( value ) {
+			set
+			{
+				switch (value)
+				{
 					case FilterModeConstants.All:
 						RadioOutput_All.Checked = true; break;
-					
+
 					case FilterModeConstants.VisibleColumnOnly:
 						RadioOutput_VisibleColumnOnly.Checked = true; break;
 				}
@@ -68,15 +77,19 @@ namespace ElectronicObserver.Window.Dialog {
 		/// <summary>
 		/// 出力フォーマット
 		/// </summary>
-		public OutputFormatConstants OutputFormat {
-			get {
-				if ( RadioFormat_User.Checked )
+		public OutputFormatConstants OutputFormat
+		{
+			get
+			{
+				if (RadioFormat_User.Checked)
 					return OutputFormatConstants.User;
 				else
 					return OutputFormatConstants.Data;
 			}
-			set {
-				switch ( value ) {
+			set
+			{
+				switch (value)
+				{
 					case OutputFormatConstants.User:
 						RadioFormat_User.Checked = true; break;
 
@@ -88,21 +101,25 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		public DialogShipGroupCSVOutput() {
+		public DialogShipGroupCSVOutput()
+		{
 			InitializeComponent();
 
 			DialogSaveCSV.InitialDirectory = Utility.Configuration.Config.Connection.SaveDataPath;
 
 		}
 
-		private void DialogShipGroupCSVOutput_Load( object sender, EventArgs e ) {
+		private void DialogShipGroupCSVOutput_Load(object sender, EventArgs e)
+		{
 
-			
+
 		}
 
-		private void ButtonOutputPathSearch_Click( object sender, EventArgs e ) {
+		private void ButtonOutputPathSearch_Click(object sender, EventArgs e)
+		{
 
-			if ( DialogSaveCSV.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+			if (DialogSaveCSV.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
 
 				TextOutputPath.Text = DialogSaveCSV.FileName;
 
@@ -112,11 +129,13 @@ namespace ElectronicObserver.Window.Dialog {
 
 		}
 
-		private void ButtonOK_Click( object sender, EventArgs e ) {
+		private void ButtonOK_Click(object sender, EventArgs e)
+		{
 			DialogResult = System.Windows.Forms.DialogResult.OK;
 		}
 
-		private void ButtonCancel_Click( object sender, EventArgs e ) {
+		private void ButtonCancel_Click(object sender, EventArgs e)
+		{
 			DialogResult = System.Windows.Forms.DialogResult.Cancel;
 		}
 

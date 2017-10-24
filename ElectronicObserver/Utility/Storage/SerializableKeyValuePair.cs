@@ -5,18 +5,22 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Utility.Storage {
+namespace ElectronicObserver.Utility.Storage
+{
 
-	[DataContract( Name = "SerializableKeyValuePair" )]
-	public struct SerializableKeyValuePair<TKey, TValue> {
+	[DataContract(Name = "SerializableKeyValuePair")]
+	public struct SerializableKeyValuePair<TKey, TValue>
+	{
 
-	
-		public SerializableKeyValuePair( TKey key, TValue value ) {
+
+		public SerializableKeyValuePair(TKey key, TValue value)
+		{
 			Key = key;
 			Value = value;
 		}
 
-		public SerializableKeyValuePair( KeyValuePair<TKey, TValue> value ) {
+		public SerializableKeyValuePair(KeyValuePair<TKey, TValue> value)
+		{
 			Key = value.Key;
 			Value = value.Value;
 		}
@@ -29,12 +33,14 @@ namespace ElectronicObserver.Utility.Storage {
 		public TValue Value;
 
 
-		public static implicit operator KeyValuePair<TKey, TValue>( SerializableKeyValuePair<TKey, TValue> value ) {
-			return new KeyValuePair<TKey, TValue>( value.Key, value.Value );
+		public static implicit operator KeyValuePair<TKey, TValue>(SerializableKeyValuePair<TKey, TValue> value)
+		{
+			return new KeyValuePair<TKey, TValue>(value.Key, value.Value);
 		}
 
-		public static implicit operator SerializableKeyValuePair<TKey, TValue>( KeyValuePair<TKey, TValue> value ) {
-			return new SerializableKeyValuePair<TKey, TValue>( value.Key, value.Value );
+		public static implicit operator SerializableKeyValuePair<TKey, TValue>(KeyValuePair<TKey, TValue> value)
+		{
+			return new SerializableKeyValuePair<TKey, TValue>(value.Key, value.Value);
 		}
 
 	}

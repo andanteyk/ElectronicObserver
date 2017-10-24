@@ -6,13 +6,15 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data.Quest {
+namespace ElectronicObserver.Data.Quest
+{
 
 	/// <summary>
 	/// 任務の進捗を管理する基底クラスです。
 	/// </summary>
-	[DataContract( Name = "ProgressData" )]
-	public abstract class ProgressData : IIdentifiable {
+	[DataContract(Name = "ProgressData")]
+	public abstract class ProgressData : IIdentifiable
+	{
 
 		/// <summary>
 		/// 任務ID
@@ -57,7 +59,8 @@ namespace ElectronicObserver.Data.Quest {
 		/// 進捗率
 		/// </summary>
 		[IgnoreDataMember]
-		public virtual double ProgressPercentage {
+		public virtual double ProgressPercentage
+		{
 			get { return (double)Progress / ProgressMax; }
 		}
 
@@ -65,12 +68,14 @@ namespace ElectronicObserver.Data.Quest {
 		/// クリア済みかどうか
 		/// </summary>
 		[IgnoreDataMember]
-		public bool IsCleared {
+		public bool IsCleared
+		{
 			get { return ProgressPercentage >= 1.0; }
 		}
 
 
-		public ProgressData( QuestData quest, int maxCount ) {
+		public ProgressData(QuestData quest, int maxCount)
+		{
 			QuestID = quest.QuestID;
 			ProgressMax = maxCount;
 			QuestType = quest.Type;
@@ -83,44 +88,48 @@ namespace ElectronicObserver.Data.Quest {
 		/// <summary>
 		/// 進捗を1増やします。
 		/// </summary>
-		public virtual void Increment() {
+		public virtual void Increment()
+		{
 
 			var q = KCDatabase.Instance.Quest[QuestID];
 
-			if ( q == null ) {
+			if (q == null)
+			{
 				TemporaryProgress++;
 				return;
 			}
 
-			if ( q.State != 2 )
+			if (q.State != 2)
 				return;
 
 
 
-			CheckProgress( q );
+			CheckProgress(q);
 
-			Progress = Math.Min( Progress + 1, ProgressMax );
+			Progress = Math.Min(Progress + 1, ProgressMax);
 		}
 
 		/// <summary>
 		/// 進捗を1減らします。
 		/// </summary>
-		public virtual void Decrement() {
+		public virtual void Decrement()
+		{
 
 			var q = KCDatabase.Instance.Quest[QuestID];
 
-			if ( q != null && q.State == 3 )		//達成済なら無視
+			if (q != null && q.State == 3)      //達成済なら無視
 				return;
 
 
-			Progress = Math.Max( Progress - 1, 0 );
+			Progress = Math.Max(Progress - 1, 0);
 
-			CheckProgress( q );
+			CheckProgress(q);
 		}
 
 
-		public override string ToString() {
-			return string.Format( "{0}/{1}", Progress, ProgressMax );
+		public override string ToString()
+		{
+			return string.Format("{0}/{1}", Progress, ProgressMax);
 		}
 
 
@@ -128,23 +137,26 @@ namespace ElectronicObserver.Data.Quest {
 		/// 実際の進捗データから、進捗度を補正します。
 		/// </summary>
 		/// <param name="q">任務データ。</param>
-		public virtual void CheckProgress( QuestData q ) {
+		public virtual void CheckProgress(QuestData q)
+		{
 
-			if ( TemporaryProgress > 0 ) {
-				if ( q.State == 2 )
-					Progress = Math.Min( Progress + TemporaryProgress, ProgressMax );
+			if (TemporaryProgress > 0)
+			{
+				if (q.State == 2)
+					Progress = Math.Min(Progress + TemporaryProgress, ProgressMax);
 				TemporaryProgress = 0;
 			}
 
-			if ( QuestType == 0 )		// ver. 1.6.6 以前のデータとの互換性維持
+			if (QuestType == 0)     // ver. 1.6.6 以前のデータとの互換性維持
 				QuestType = q.Type;
 
-			switch ( q.Progress ) {
-				case 1:		//50%
-					Progress = (int)Math.Max( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.5 ) - SharedCounterShift );
+			switch (q.Progress)
+			{
+				case 1:     //50%
+					Progress = (int)Math.Max(Progress, Math.Ceiling((ProgressMax + SharedCounterShift) * 0.5) - SharedCounterShift);
 					break;
-				case 2:		//80%
-					Progress = (int)Math.Max( Progress, Math.Ceiling( ( ProgressMax + SharedCounterShift ) * 0.8 ) - SharedCounterShift );
+				case 2:     //80%
+					Progress = (int)Math.Max(Progress, Math.Ceiling((ProgressMax + SharedCounterShift) * 0.8) - SharedCounterShift);
 					break;
 			}
 
@@ -158,7 +170,8 @@ namespace ElectronicObserver.Data.Quest {
 		public abstract string GetClearCondition();
 
 		[IgnoreDataMember]
-		public int ID {
+		public int ID
+		{
 			get { return QuestID; }
 		}
 	}
