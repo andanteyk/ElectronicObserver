@@ -24,7 +24,7 @@ namespace ElectronicObserver.Resource.Record
 			/// <summary>
 			/// 艦隊ID
 			/// </summary>
-			public uint FleetID { get { return ComputeHash(); } }
+			public uint FleetID => ComputeHash();
 
 			/// <summary>
 			/// 艦隊名
@@ -64,13 +64,8 @@ namespace ElectronicObserver.Resource.Record
 			/// <summary>
 			/// 敵艦船名リスト
 			/// </summary>
-			public string[] FleetMemberName
-			{
-				get
-				{
-					return FleetMember.Select(id => KCDatabase.Instance.MasterShips[id] != null ? KCDatabase.Instance.MasterShips[id].NameWithClass : "-").ToArray();
-				}
-			}
+			public string[] FleetMemberName => FleetMember.Select(id => KCDatabase.Instance.MasterShips[id] != null ? KCDatabase.Instance.MasterShips[id].NameWithClass : "-").ToArray();
+
 
 			/// <summary>
 			/// 艦娘の獲得経験値
@@ -270,15 +265,9 @@ namespace ElectronicObserver.Resource.Record
 			_changed = false;
 		}
 
-		public override bool NeedToSave
-		{
-			get { return _changed; }
-		}
+		public override bool NeedToSave => _changed;
 
-		public override bool SupportsPartialSave
-		{
-			get { return false; }
-		}
+		public override bool SupportsPartialSave => false;
 
 		protected override void ClearRecord()
 		{
@@ -286,16 +275,9 @@ namespace ElectronicObserver.Resource.Record
 		}
 
 
-		public override string RecordHeader
-		{
-			get { return "敵編成ID,敵艦隊名,海域,海域,セル,難易度,陣形,敵1番艦,敵2番艦,敵3番艦,敵4番艦,敵5番艦,敵6番艦,敵1番艦名,敵2番艦名,敵3番艦名,敵4番艦名,敵5番艦名,敵6番艦名,経験値"; }
-		}
+		public override string RecordHeader => "敵編成ID,敵艦隊名,海域,海域,セル,難易度,陣形,敵1番艦,敵2番艦,敵3番艦,敵4番艦,敵5番艦,敵6番艦,敵1番艦名,敵2番艦名,敵3番艦名,敵4番艦名,敵5番艦名,敵6番艦名,経験値";
 
-		public override string FileName
-		{
-			get { return "EnemyFleetRecord.csv"; }
-		}
+		public override string FileName => "EnemyFleetRecord.csv"; }
 
-	}
 
 }

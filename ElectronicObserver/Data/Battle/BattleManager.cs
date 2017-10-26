@@ -67,7 +67,7 @@ namespace ElectronicObserver.Data.Battle
 		/// <summary>
 		/// 昼戦から開始する戦闘かどうか
 		/// </summary>
-		public bool StartsFromDayBattle { get { return !StartsFromNightBattle; } }
+		public bool StartsFromDayBattle => !StartsFromNightBattle;
 
 		/// <summary>
 		/// 夜戦から開始する戦闘かどうか
@@ -84,22 +84,22 @@ namespace ElectronicObserver.Data.Battle
 		/// <summary>
 		/// 連合艦隊戦かどうか
 		/// </summary>
-		public bool IsCombinedBattle { get { return (BattleMode & BattleModes.CombinedMask) != 0; } }
+		public bool IsCombinedBattle => (BattleMode & BattleModes.CombinedMask) != 0;
 
 		/// <summary>
 		/// 演習かどうか
 		/// </summary>
-		public bool IsPractice { get { return (BattleMode & BattleModes.BattlePhaseMask) == BattleModes.Practice; } }
+		public bool IsPractice => (BattleMode & BattleModes.BattlePhaseMask) == BattleModes.Practice;
 
 		/// <summary>
 		/// 敵が連合艦隊かどうか
 		/// </summary>
-		public bool IsEnemyCombined { get { return (BattleMode & BattleModes.EnemyCombinedFleet) != 0; } }
+		public bool IsEnemyCombined => (BattleMode & BattleModes.EnemyCombinedFleet) != 0;
 
 		/// <summary>
 		/// 基地空襲戦かどうか
 		/// </summary>
-		public bool IsBaseAirRaid { get { return (BattleMode & BattleModes.BattlePhaseMask) == BattleModes.BaseAirRaid; } }
+		public bool IsBaseAirRaid => (BattleMode & BattleModes.BattlePhaseMask) == BattleModes.BaseAirRaid;
 
 
 		/// <summary>

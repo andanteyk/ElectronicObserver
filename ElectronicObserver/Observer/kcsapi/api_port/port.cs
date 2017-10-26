@@ -91,10 +91,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_port
 			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_port/port"; }
-		}
+		public override string APIName => "api_port/port";
 	}
+
 
 }

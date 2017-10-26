@@ -15,10 +15,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 	{
 
 
-		public override bool IsAvailable
-		{
-			get { return RawData != null; }
-		}
+		public override bool IsAvailable => RawData != null;
 
 		public override void EmulateBattle(int[] hps, int[] damages)
 		{
@@ -32,12 +29,12 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 自軍艦隊
 		/// </summary>
-		public FleetData FriendFleet { get { return KCDatabase.Instance.Fleet[FriendFleetID]; } }
+		public FleetData FriendFleet => KCDatabase.Instance.Fleet[FriendFleetID];
 
 		/// <summary>
 		/// 自軍随伴艦隊
 		/// </summary>
-		public FleetData FriendFleetEscort { get { return IsCombined ? KCDatabase.Instance.Fleet[2] : null; } }
+		public FleetData FriendFleetEscort => IsCombined ? KCDatabase.Instance.Fleet[2] : null;
 
 
 		/// <summary>
@@ -133,13 +130,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 装甲破壊されているか
 		/// </summary>
-		public bool IsBossDamaged
-		{
-			get
-			{
-				return RawData.api_xal01() && (int)RawData.api_xal01 > 0;
-			}
-		}
+		public bool IsBossDamaged => RawData.api_xal01() && (int)RawData.api_xal01 > 0;
+
 
 		/// <summary>
 		/// 戦闘糧食を食べた艦娘のインデックス [0-11]

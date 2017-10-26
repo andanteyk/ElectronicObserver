@@ -21,9 +21,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_combined_battle
 		}
 
 
-		public override string APIName
-		{
-			get { return "api_req_combined_battle/sp_midnight"; }
-		}
+		public override string APIName => "api_req_combined_battle/sp_midnight";
 	}
+
 }

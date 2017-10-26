@@ -75,10 +75,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map
 		}
 
 
-		public override string APIName
-		{
-			get { return "api_req_map/next"; }
-		}
-
+		public override string APIName => "api_req_map/next";
 	}
+
 }

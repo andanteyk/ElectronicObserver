@@ -24,9 +24,9 @@ namespace ElectronicObserver.Window.Dialog
 		public NotifierDialogData DialogData { get; set; }
 
 
-		private bool IsLayeredWindow { get { return DialogData != null ? !DialogData.HasFormBorder && DialogData.DrawsImage : false; } }
+		private bool IsLayeredWindow => DialogData != null ? !DialogData.HasFormBorder && DialogData.DrawsImage : false;
 
-		protected override bool ShowWithoutActivation { get { return !DialogData.ShowWithActivation; } }
+		protected override bool ShowWithoutActivation => !DialogData.ShowWithActivation;
 
 
 

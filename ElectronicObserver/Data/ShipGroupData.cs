@@ -234,13 +234,8 @@ namespace ElectronicObserver.Data
 		/// 艦船リスト
 		/// </summary>
 		[IgnoreDataMember]
-		public IEnumerable<ShipData> MembersInstance
-		{
-			get
-			{
-				return Members.Select(id => KCDatabase.Instance.Ships[id]);
-			}
-		}
+		public IEnumerable<ShipData> MembersInstance => Members.Select(id => KCDatabase.Instance.Ships[id]);
+
 
 		[DataMember]
 		private SerializableList<int> MembersSerializer
@@ -326,10 +321,7 @@ namespace ElectronicObserver.Data
 		}
 
 
-		public int ID
-		{
-			get { return GroupID; }
-		}
+		public int ID => GroupID;
 
 
 		public override string ToString()

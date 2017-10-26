@@ -18,24 +18,16 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// アイテムID
 		/// </summary>
-		public int ItemID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int ItemID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 個数
 		/// </summary>
-		public int Count
-		{
-			get { return (int)RawData.api_count; }
-		}
+		public int Count => (int)RawData.api_count;
 
 
 
-		public int ID
-		{
-			get { return ItemID; }
-		}
+		public int ID => ItemID;
 	}
+
 }

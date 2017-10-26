@@ -49,13 +49,8 @@ namespace ElectronicObserver.Data
 
 
 
-		public ShipGroupData this[int index]
-		{
-			get
-			{
-				return ShipGroups[index];
-			}
-		}
+		public ShipGroupData this[int index] => ShipGroups[index];
+
 
 
 		public ShipGroupData Add()

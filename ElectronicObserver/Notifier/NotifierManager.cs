@@ -17,10 +17,7 @@ namespace ElectronicObserver.Notifier
 
 		private static readonly NotifierManager instance = new NotifierManager();
 
-		public static NotifierManager Instance
-		{
-			get { return instance; }
-		}
+		public static NotifierManager Instance => instance;
 
 		#endregion
 

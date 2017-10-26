@@ -20,9 +20,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_sortie
 			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_sortie/ld_airbattle"; }
-		}
+		public override string APIName => "api_req_sortie/ld_airbattle";
 	}
+
 }

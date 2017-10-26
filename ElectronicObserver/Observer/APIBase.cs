@@ -50,12 +50,12 @@ namespace ElectronicObserver.Observer
 		/// <summary>
 		/// Requestの処理をサポートしているかを取得します。
 		/// </summary>
-		public virtual bool IsRequestSupported { get { return false; } }
+		public virtual bool IsRequestSupported => false;
 
 		/// <summary>
 		/// Responseの処理をサポートしているかを取得します。
 		/// </summary>
-		public virtual bool IsResponseSupported { get { return true; } }
+		public virtual bool IsResponseSupported => true;
 
 
 

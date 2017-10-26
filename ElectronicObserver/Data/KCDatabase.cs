@@ -21,10 +21,7 @@ namespace ElectronicObserver.Data
 
 		private static readonly KCDatabase instance = new KCDatabase();
 
-		public static KCDatabase Instance
-		{
-			get { return instance; }
-		}
+		public static KCDatabase Instance => instance;
 
 		#endregion
 

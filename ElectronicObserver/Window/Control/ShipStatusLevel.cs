@@ -216,10 +216,7 @@ namespace ElectronicObserver.Window.Control
 		}
 
 
-		private int InnerHorizontalMargin
-		{
-			get { return 4; }
-		}
+		private int InnerHorizontalMargin => 4;
 		#endregion
 
 

@@ -18,10 +18,7 @@ namespace ElectronicObserver.Utility
 
 		private static readonly SyncBGMPlayer instance = new SyncBGMPlayer();
 
-		public static SyncBGMPlayer Instance
-		{
-			get { return instance; }
-		}
+		public static SyncBGMPlayer Instance => instance;
 
 		#endregion
 
@@ -59,10 +56,7 @@ namespace ElectronicObserver.Utility
 			}
 
 			[IgnoreDataMember]
-			public int ID
-			{
-				get { return (int)HandleID; }
-			}
+			public int ID => (int)HandleID;
 
 			public override string ToString()
 			{

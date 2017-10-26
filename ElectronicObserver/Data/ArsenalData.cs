@@ -18,10 +18,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// ドックID
 		/// </summary>
-		public int ArsenalID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int ArsenalID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 状態
@@ -32,65 +29,41 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦船ID
 		/// </summary>
-		public int ShipID
-		{
-			get { return (int)RawData.api_created_ship_id; }
-		}
+		public int ShipID => (int)RawData.api_created_ship_id;
 
 		/// <summary>
 		/// 完成日時
 		/// </summary>
-		public DateTime CompletionTime
-		{
-			get { return DateTimeHelper.FromAPITime((long)RawData.api_complete_time); }
-		}
+		public DateTime CompletionTime => DateTimeHelper.FromAPITime((long)RawData.api_complete_time);
 
 
 		/// <summary>
 		/// 投入燃料
 		/// </summary>
-		public int Fuel
-		{
-			get { return (int)RawData.api_item1; }
-		}
+		public int Fuel => (int)RawData.api_item1;
 
 		/// <summary>
 		/// 投入弾薬
 		/// </summary>
-		public int Ammo
-		{
-			get { return (int)RawData.api_item2; }
-		}
+		public int Ammo => (int)RawData.api_item2;
 
 		/// <summary>
 		/// 投入鋼材
 		/// </summary>
-		public int Steel
-		{
-			get { return (int)RawData.api_item3; }
-		}
+		public int Steel => (int)RawData.api_item3;
 
 		/// <summary>
 		/// 投入ボーキサイト
 		/// </summary>
-		public int Bauxite
-		{
-			get { return (int)RawData.api_item4; }
-		}
+		public int Bauxite => (int)RawData.api_item4;
 
 		/// <summary>
 		/// 投入開発資材
 		/// </summary>
-		public int DevelopmentMaterial
-		{
-			get { return (int)RawData.api_item5; }
-		}
+		public int DevelopmentMaterial => (int)RawData.api_item5;
 
 
-		public int ID
-		{
-			get { return ArsenalID; }
-		}
+		public int ID => ArsenalID;
 
 
 

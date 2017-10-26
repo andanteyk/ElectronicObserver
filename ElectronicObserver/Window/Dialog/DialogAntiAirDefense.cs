@@ -162,7 +162,7 @@ namespace ElectronicObserver.Window.Dialog
 				return KCDatabase.Instance.Fleet[1].MembersWithoutEscaped.Concat(KCDatabase.Instance.Fleet[2].MembersWithoutEscaped);
 		}
 
-		private bool IsCombined { get { return FleetID.SelectedIndex == 4; } }
+		private bool IsCombined => FleetID.SelectedIndex == 4;
 
 
 		private void UpdateAACutinKind(bool showAll)

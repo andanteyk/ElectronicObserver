@@ -24,7 +24,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 装備のインスタンス
 		/// </summary>
-		public EquipmentData EquipmentInstance { get { return KCDatabase.Instance.Equipments[EquipmentID]; } }
+		public EquipmentData EquipmentInstance => KCDatabase.Instance.Equipments[EquipmentID];
 
 
 		public RelocationData(int equipmentID, DateTime relocatedTime)
@@ -33,9 +33,7 @@ namespace ElectronicObserver.Data
 			RelocatedTime = relocatedTime;
 		}
 
-		public int ID
-		{
-			get { return EquipmentID; }
-		}
+		public int ID => EquipmentID;
 	}
+
 }

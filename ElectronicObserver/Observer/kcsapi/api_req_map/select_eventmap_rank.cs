@@ -22,14 +22,11 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map
 		}
 
 
-		public override bool IsRequestSupported { get { return true; } }
-		public override bool IsResponseSupported { get { return false; } }
+		public override bool IsRequestSupported => true;
+		public override bool IsResponseSupported => false;
 
 
-		public override string APIName
-		{
-			get { return "api_req_map/select_eventmap_rank"; }
-		}
-
+		public override string APIName => "api_req_map/select_eventmap_rank";
 	}
+
 }

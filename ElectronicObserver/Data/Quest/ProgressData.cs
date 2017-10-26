@@ -59,19 +59,13 @@ namespace ElectronicObserver.Data.Quest
 		/// 進捗率
 		/// </summary>
 		[IgnoreDataMember]
-		public virtual double ProgressPercentage
-		{
-			get { return (double)Progress / ProgressMax; }
-		}
+		public virtual double ProgressPercentage => (double)Progress / ProgressMax;
 
 		/// <summary>
 		/// クリア済みかどうか
 		/// </summary>
 		[IgnoreDataMember]
-		public bool IsCleared
-		{
-			get { return ProgressPercentage >= 1.0; }
-		}
+		public bool IsCleared => ProgressPercentage >= 1.0;
 
 
 		public ProgressData(QuestData quest, int maxCount)
@@ -170,9 +164,7 @@ namespace ElectronicObserver.Data.Quest
 		public abstract string GetClearCondition();
 
 		[IgnoreDataMember]
-		public int ID
-		{
-			get { return QuestID; }
-		}
+		public int ID => QuestID;
 	}
+
 }

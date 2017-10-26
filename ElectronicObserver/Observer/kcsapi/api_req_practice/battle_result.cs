@@ -21,9 +21,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_practice
 		}
 
 
-		public override string APIName
-		{
-			get { return "api_req_practice/battle_result"; }
-		}
+		public override string APIName => "api_req_practice/battle_result";
 	}
+
 }

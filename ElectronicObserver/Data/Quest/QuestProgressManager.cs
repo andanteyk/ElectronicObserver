@@ -157,10 +157,7 @@ namespace ElectronicObserver.Data.Quest
 
 		}
 
-		public ProgressData this[int key]
-		{
-			get { return Progresses[key]; }
-		}
+		public ProgressData this[int key] => Progresses[key];
 
 
 

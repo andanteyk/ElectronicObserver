@@ -41,8 +41,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 			public int Defender;
 			public int CriticalFlag;
 			public double RawDamage;
-			public bool GuardsFlagship { get { return RawDamage != Math.Floor(RawDamage); } }
-			public int Damage { get { return (int)RawDamage; } }
+			public bool GuardsFlagship => RawDamage != Math.Floor(RawDamage);
+			public int Damage => (int)RawDamage;
 
 			public override string ToString()
 			{
@@ -167,16 +167,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
-		public override bool IsAvailable
-		{
-			get { return (int)RawData.api_hourai_flag[phaseID - 1] != 0; }
-		}
+		public override bool IsAvailable => (int)RawData.api_hourai_flag[phaseID - 1] != 0;
 
 
-		public virtual dynamic ShellingData
-		{
-			get { return RawData["api_hougeki" + suffix]; }
-		}
+		public virtual dynamic ShellingData => RawData["api_hougeki" + suffix];
 
 
 		public override void EmulateBattle(int[] hps, int[] damages)

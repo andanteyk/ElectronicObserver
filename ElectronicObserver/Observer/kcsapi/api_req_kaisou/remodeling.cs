@@ -11,8 +11,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou
 	public class remodeling : APIBase
 	{
 
-		public override bool IsRequestSupported { get { return true; } }
-		public override bool IsResponseSupported { get { return false; } }
+		public override bool IsRequestSupported => true;
+		public override bool IsResponseSupported => false;
 
 		public override void OnRequestReceived(Dictionary<string, string> data)
 		{
@@ -26,9 +26,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou
 			base.OnRequestReceived(data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_kaisou/remodeling"; }
-		}
+		public override string APIName => "api_req_kaisou/remodeling";
 	}
+
 }

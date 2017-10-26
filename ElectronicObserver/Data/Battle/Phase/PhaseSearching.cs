@@ -18,10 +18,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			: base(data, title) { }
 
 
-		public override bool IsAvailable
-		{
-			get { return RawData.api_search() && RawData.api_formation(); }
-		}
+		public override bool IsAvailable => RawData.api_search() && RawData.api_formation();
 
 		public override void EmulateBattle(int[] hps, int[] damages)
 		{
@@ -31,24 +28,14 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 自軍索敵結果
 		/// </summary>
-		public int SearchingFriend
-		{
-			get
-			{
-				return !RawData.api_search() ? -1 : (int)RawData.api_search[0];
-			}
-		}
+		public int SearchingFriend => !RawData.api_search() ? -1 : (int)RawData.api_search[0];
+
 
 		/// <summary>
 		/// 敵軍索敵結果
 		/// </summary>
-		public int SearchingEnemy
-		{
-			get
-			{
-				return !RawData.api_search() ? -1 : (int)RawData.api_search[1];
-			}
-		}
+		public int SearchingEnemy => !RawData.api_search() ? -1 : (int)RawData.api_search[1];
+
 
 		/// <summary>
 		/// 自軍陣形
@@ -65,12 +52,12 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 敵軍陣形
 		/// </summary>
-		public int FormationEnemy { get { return (int)RawData.api_formation[1]; } }
+		public int FormationEnemy => (int)RawData.api_formation[1];
 
 		/// <summary>
 		/// 交戦形態
 		/// </summary>
-		public int EngagementForm { get { return (int)RawData.api_formation[2]; } }
-
+		public int EngagementForm => (int)RawData.api_formation[2];
 	}
 }
+

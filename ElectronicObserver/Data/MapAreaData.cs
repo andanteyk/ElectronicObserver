@@ -13,32 +13,21 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 海域カテゴリID
 		/// </summary>
-		public int MapAreaID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int MapAreaID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 海域カテゴリ名
 		/// </summary>
-		public string Name
-		{
-			get { return RawData.api_name; }
-		}
+		public string Name => RawData.api_name;
 
 		/// <summary>
 		/// 海域タイプ　0=通常, 1=イベント
 		/// </summary>
-		public int MapType
-		{
-			get { return (int)RawData.api_type; }
-		}
+		public int MapType => (int)RawData.api_type;
 
 
 
-		public int ID
-		{
-			get { return MapAreaID; }
-		}
+		public int ID => MapAreaID;
 	}
+
 }

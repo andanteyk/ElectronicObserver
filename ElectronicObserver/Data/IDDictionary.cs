@@ -65,30 +65,18 @@ namespace ElectronicObserver.Data
 			return dict.ContainsKey(key);
 		}
 
-		public IEnumerable<int> Keys
-		{
-			get { return dict.Keys; }
-		}
+		public IEnumerable<int> Keys => dict.Keys;
 
 		public bool TryGetValue(int key, out TData value)
 		{
 			return dict.TryGetValue(key, out value);
 		}
 
-		public IEnumerable<TData> Values
-		{
-			get { return dict.Values; }
-		}
+		public IEnumerable<TData> Values => dict.Values;
 
-		public TData this[int key]
-		{
-			get { return dict.ContainsKey(key) ? dict[key] : null; }
-		}
+		public TData this[int key] => dict.ContainsKey(key) ? dict[key] : null;
 
-		public int Count
-		{
-			get { return dict.Count; }
-		}
+		public int Count => dict.Count;
 
 		public IEnumerator<KeyValuePair<int, TData>> GetEnumerator()
 		{

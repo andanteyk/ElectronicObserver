@@ -64,10 +64,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_hokyu
 			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_hokyu/charge"; }
-		}
+		public override string APIName => "api_req_hokyu/charge";
 	}
+
 
 }

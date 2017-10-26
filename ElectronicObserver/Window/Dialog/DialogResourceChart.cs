@@ -41,15 +41,9 @@ namespace ElectronicObserver.Window.Dialog
 
 
 
-		private ChartType SelectedChartType
-		{
-			get { return (ChartType)GetSelectedMenuStripIndex(Menu_Graph); }
-		}
+		private ChartType SelectedChartType => (ChartType)GetSelectedMenuStripIndex(Menu_Graph);
 
-		private ChartSpan SelectedChartSpan
-		{
-			get { return (ChartSpan)GetSelectedMenuStripIndex(Menu_Span); }
-		}
+		private ChartSpan SelectedChartSpan => (ChartSpan)GetSelectedMenuStripIndex(Menu_Span);
 
 
 

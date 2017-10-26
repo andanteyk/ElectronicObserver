@@ -591,15 +591,18 @@ namespace ElectronicObserver.Window
 				}
 				sb.AppendLine();
 
-				sb.AppendFormat("夜戦: {0}", Constants.GetNightAttackKind(Calculator.GetNightAttackKind(slotmaster, ship.ShipID, -1)));
+				if (Calculator.CanAttackAtNight(ship))
 				{
-					int night = ship.NightBattlePower;
-					if (night > 0)
+					sb.AppendFormat("夜戦: {0}", Constants.GetNightAttackKind(Calculator.GetNightAttackKind(slotmaster, ship.ShipID, -1)));
 					{
-						sb.AppendFormat(" - 威力: {0}", night);
+						int night = ship.NightBattlePower;
+						if (night > 0)
+						{
+							sb.AppendFormat(" - 威力: {0}", night);
+						}
 					}
+					sb.AppendLine();
 				}
-				sb.AppendLine();
 
 				{
 					int torpedo = ship.TorpedoPower;

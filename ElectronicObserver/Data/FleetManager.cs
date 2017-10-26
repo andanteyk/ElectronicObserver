@@ -45,10 +45,10 @@ namespace ElectronicObserver.Data
 		private DateTime LastConditionUpdated;
 
 		/// <summary> コンディションが回復する秒オフセット </summary>
-		public double ConditionBorderSeconds { get { return ConditionPredictMax % ConditionHealingSpan.TotalSeconds; } }
+		public double ConditionBorderSeconds => ConditionPredictMax % ConditionHealingSpan.TotalSeconds;
 
 		/// <summary> コンディションが回復する秒オフセット の精度[秒] </summary>
-		public double ConditionBorderAccuracy { get { return ConditionPredictMax - ConditionPredictMin; } }
+		public double ConditionBorderAccuracy => ConditionPredictMax - ConditionPredictMin;
 
 
 		public FleetManager()
@@ -64,13 +64,8 @@ namespace ElectronicObserver.Data
 		}
 
 
-		public FleetData this[int fleetID]
-		{
-			get
-			{
-				return Fleets[fleetID];
-			}
-		}
+		public FleetData this[int fleetID] => Fleets[fleetID];
+
 
 
 		public override void LoadFromResponse(string apiname, dynamic data)

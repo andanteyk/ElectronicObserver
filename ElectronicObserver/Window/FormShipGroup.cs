@@ -50,13 +50,8 @@ namespace ElectronicObserver.Window
 		private ImageLabel SelectedTab = null;
 
 		/// <summary>選択中のグループ</summary>
-		private ShipGroupData CurrentGroup
-		{
-			get
-			{
-				return SelectedTab == null ? null : KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
-			}
-		}
+		private ShipGroupData CurrentGroup => SelectedTab == null ? null : KCDatabase.Instance.ShipGroup[(int)SelectedTab.Tag];
+
 
 		private bool IsRowsUpdating;
 		private int _splitterDistance;
@@ -273,10 +268,9 @@ namespace ElectronicObserver.Window
 			}
 		}
 
-		protected override string GetPersistString()
-		{
-			return "ShipGroup?SplitterDistance=" + splitContainer1.SplitterDistance;
-		}
+
+		protected override string GetPersistString() => "ShipGroup?SplitterDistance=" + splitContainer1.SplitterDistance;
+
 
 
 		/// <summary>

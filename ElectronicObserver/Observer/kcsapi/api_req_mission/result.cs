@@ -14,7 +14,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_mission
 		private int _fleetID;
 
 
-		public override bool IsRequestSupported { get { return true; } }
+		public override bool IsRequestSupported => true;
 
 		public override void OnRequestReceived(Dictionary<string, string> data)
 		{
@@ -136,9 +136,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_mission
 			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_mission/result"; }
-		}
+		public override string APIName => "api_req_mission/result";
 	}
+
 }

@@ -17,68 +17,44 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 海域カテゴリID(2-3でいう2)
 		/// </summary>
-		public int MapAreaID
-		{
-			get { return (int)RawData.api_maparea_id; }
-		}
+		public int MapAreaID => (int)RawData.api_maparea_id;
 
 		/// <summary>
 		/// 海域カテゴリ内番号(2-3でいう3)
 		/// </summary>
-		public int MapInfoID
-		{
-			get { return (int)RawData.api_mapinfo_no; }
-		}
+		public int MapInfoID => (int)RawData.api_mapinfo_no;
 
 		/// <summary>
 		/// 次に向かうセルのID
 		/// </summary>
-		public int Destination
-		{
-			get { return (int)RawData.api_no; }
-		}
+		public int Destination => (int)RawData.api_no;
 
 		/// <summary>
 		/// 次のセルのグラフィック
 		/// </summary>
-		public int ColorID
-		{
-			get { return (int)RawData.api_color_no; }
-		}
+		public int ColorID => (int)RawData.api_color_no;
 
 		/// <summary>
 		/// イベントID
 		/// 0=初期位置, 2=資源, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=航空戦, 8=船団護衛成功
 		/// </summary>
-		public int EventID
-		{
-			get { return (int)RawData.api_event_id; }
-		}
+		public int EventID => (int)RawData.api_event_id;
 
 		/// <summary>
 		/// イベント種別
 		/// 0=非戦闘, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦
 		/// </summary>
-		public int EventKind
-		{
-			get { return (int)RawData.api_event_kind; }
-		}
+		public int EventKind => (int)RawData.api_event_kind;
 
 		/// <summary>
 		/// 次のセルでの分岐の本数
 		/// </summary>
-		public int NextBranchCount
-		{
-			get { return (int)RawData.api_next; }
-		}
+		public int NextBranchCount => (int)RawData.api_next;
 
 		/// <summary>
 		/// 行き止まりかどうか
 		/// </summary>
-		public bool IsEndPoint
-		{
-			get { return NextBranchCount == 0; }
-		}
+		public bool IsEndPoint => NextBranchCount == 0;
 
 		/// <summary>
 		/// 吹き出しの内容
@@ -276,72 +252,45 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 空襲が存在したか
 		/// </summary>
-		public bool HasAirRaid
-		{
-			get
-			{
-				return RawData.api_destruction_battle();
-			}
-		}
+		public bool HasAirRaid => RawData.api_destruction_battle();
+
 
 		/// <summary>
 		/// 基地空襲戦データ
 		/// </summary>
-		public dynamic AirRaidData
-		{
-			get
-			{
-				return HasAirRaid ? RawData.api_destruction_battle : null;
-			}
-		}
+		public dynamic AirRaidData => HasAirRaid ? RawData.api_destruction_battle : null;
+
 
 
 		/// <summary>
 		/// 空襲被害の種別
 		/// 1=資源に被害, 2=資源・航空隊に被害, 3=航空隊に被害, 4=損害なし
 		/// </summary>
-		public int AirRaidDamageKind
-		{
-			get
-			{
-				return HasAirRaid && RawData.api_destruction_battle.api_lost_kind() ? (int)RawData.api_destruction_battle.api_lost_kind : 0;
-			}
-		}
+		public int AirRaidDamageKind => HasAirRaid && RawData.api_destruction_battle.api_lost_kind() ? (int)RawData.api_destruction_battle.api_lost_kind : 0;
+
 
 
 		/// <summary>
 		/// 海域HP の現在値
 		/// 取得不能なら 0
 		/// </summary>
-		public int MapHPCurrent
-		{
-			get
-			{
-				return RawData.api_eventmap() ? (int)RawData.api_eventmap.api_now_maphp : 0;
-			}
-		}
+		public int MapHPCurrent => RawData.api_eventmap() ? (int)RawData.api_eventmap.api_now_maphp : 0;
+
 
 		/// <summary>
 		/// 海域HP の最大値
 		/// 取得不能なら 0
 		/// </summary>
-		public int MapHPMax
-		{
-			get
-			{
-				return RawData.api_eventmap() ? (int)RawData.api_eventmap.api_max_maphp : 0;
-			}
-		}
+		public int MapHPMax => RawData.api_eventmap() ? (int)RawData.api_eventmap.api_max_maphp : 0;
+
 
 
 		/// <summary>
 		/// 対応する海域情報
 		/// </summary>
-		public MapInfoData MapInfo
-		{
-			get { return KCDatabase.Instance.MapInfo[MapAreaID * 10 + MapInfoID]; }
-		}
+		public MapInfoData MapInfo => KCDatabase.Instance.MapInfo[MapAreaID * 10 + MapInfoID];
 	}
+
 
 
 }

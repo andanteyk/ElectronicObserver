@@ -25,10 +25,7 @@ namespace ElectronicObserver.Observer
 
 		private static readonly APIObserver instance = new APIObserver();
 
-		public static APIObserver Instance
-		{
-			get { return instance; }
-		}
+		public static APIObserver Instance => instance;
 
 		#endregion
 

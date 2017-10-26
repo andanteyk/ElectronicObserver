@@ -94,7 +94,7 @@ namespace ElectronicObserver.Data.ShipGroup
 			return list.AsQueryable().Where(predicate).AsEnumerable();
 		}
 
-		public bool IsAvailable { get { return predicate != null; } }
+		public bool IsAvailable => predicate != null;
 
 
 

@@ -19,13 +19,13 @@ namespace ElectronicObserver.Data.Battle
 		/// <summary>
 		/// 戦闘終了時の各艦のHP
 		/// </summary>
-		public ReadOnlyCollection<int> ResultHPs { get { return Array.AsReadOnly(_resultHPs); } }
+		public ReadOnlyCollection<int> ResultHPs => Array.AsReadOnly(_resultHPs);
 
 		protected int[] _attackDamages;
 		/// <summary>
 		/// 各艦の与ダメージ
 		/// </summary>
-		public ReadOnlyCollection<int> AttackDamages { get { return Array.AsReadOnly(_attackDamages); } }
+		public ReadOnlyCollection<int> AttackDamages => Array.AsReadOnly(_attackDamages);
 
 
 		public PhaseInitial Initial { get; protected set; }

@@ -20,25 +20,25 @@ namespace ElectronicObserver.Data.Quest
 		/// 達成に必要な出撃回数
 		/// </summary>
 		[IgnoreDataMember]
-		private int sortieMax { get { return 36; } }
+		private int sortieMax => 36;
 
 		/// <summary>
 		/// 達成に必要なS勝利回数
 		/// </summary>
 		[IgnoreDataMember]
-		private int sWinMax { get { return 6; } }
+		private int sWinMax => 6;
 
 		/// <summary>
 		/// 達成に必要なボス戦闘回数
 		/// </summary>
 		[IgnoreDataMember]
-		private int bossMax { get { return 24; } }
+		private int bossMax => 24;
 
 		/// <summary>
 		/// 達成に必要なボス勝利回数
 		/// </summary>
 		[IgnoreDataMember]
-		private int bossWinMax { get { return 12; } }
+		private int bossWinMax => 12;
 
 
 		/// <summary>

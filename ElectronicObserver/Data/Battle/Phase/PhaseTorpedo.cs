@@ -93,10 +93,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
-		public dynamic TorpedoData
-		{
-			get { return phaseID == 0 ? RawData.api_opening_atack : RawData.api_raigeki; }
-		}
+		public dynamic TorpedoData => phaseID == 0 ? RawData.api_opening_atack : RawData.api_raigeki;
 
 
 		/// <summary>

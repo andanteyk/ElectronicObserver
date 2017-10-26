@@ -32,10 +32,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 現在のデータが有効かを取得します。
 		/// </summary>
-		public bool IsAvailable
-		{
-			get { return RawData != null; }
-		}
+		public bool IsAvailable => RawData != null;
 
 		public ResponseWrapper()
 		{

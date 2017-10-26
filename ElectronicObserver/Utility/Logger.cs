@@ -20,10 +20,7 @@ namespace ElectronicObserver.Utility
 
 		private static readonly Logger instance = new Logger();
 
-		public static Logger Instance
-		{
-			get { return instance; }
-		}
+		public static Logger Instance => instance;
 
 		#endregion
 

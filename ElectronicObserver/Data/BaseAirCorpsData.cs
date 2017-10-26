@@ -19,24 +19,14 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 飛行場が存在する海域ID
 		/// </summary>
-		public int MapAreaID
-		{
-			get
-			{
-				return RawData.api_area_id() ? (int)RawData.api_area_id : -1;
-			}
-		}
+		public int MapAreaID => RawData.api_area_id() ? (int)RawData.api_area_id : -1;
+
 
 		/// <summary>
 		/// 航空隊ID
 		/// </summary>
-		public int AirCorpsID
-		{
-			get
-			{
-				return (int)RawData.api_rid;
-			}
-		}
+		public int AirCorpsID => (int)RawData.api_rid;
+
 
 		/// <summary>
 		/// 航空隊名
@@ -90,13 +80,8 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public IDDictionary<BaseAirCorpsSquadron> Squadrons { get; private set; }
 
-		public BaseAirCorpsSquadron this[int i]
-		{
-			get
-			{
-				return Squadrons[i];
-			}
-		}
+		public BaseAirCorpsSquadron this[int i] => Squadrons[i];
+
 
 
 
@@ -201,10 +186,7 @@ namespace ElectronicObserver.Data
 		}
 
 
-		public int ID
-		{
-			get { return GetID(RawData); }
-		}
+		public int ID => GetID(RawData);
 
 
 		public static int GetID(int mapAreaID, int airCorpsID)

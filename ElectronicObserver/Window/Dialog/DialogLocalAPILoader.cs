@@ -15,10 +15,7 @@ namespace ElectronicObserver.Window.Dialog
 	public partial class DialogLocalAPILoader : Form
 	{
 
-		public string FilePath
-		{
-			get { return TextFilePath.Text; }
-		}
+		public string FilePath => TextFilePath.Text;
 
 		public string FileData
 		{
@@ -63,15 +60,9 @@ namespace ElectronicObserver.Window.Dialog
 			}
 		}
 
-		public bool IsRequest
-		{
-			get { return APICategory.SelectedIndex == 0; }
-		}
+		public bool IsRequest => APICategory.SelectedIndex == 0;
 
-		public bool IsResponse
-		{
-			get { return APICategory.SelectedIndex == 1; }
-		}
+		public bool IsResponse => APICategory.SelectedIndex == 1;
 
 
 		public DialogLocalAPILoader()

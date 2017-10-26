@@ -252,15 +252,9 @@ namespace ElectronicObserver.Resource.Record
 			LastSavedCount = Record.Count;
 		}
 
-		public override bool NeedToSave
-		{
-			get { return LastSavedCount < Record.Count; }
-		}
+		public override bool NeedToSave => LastSavedCount < Record.Count;
 
-		public override bool SupportsPartialSave
-		{
-			get { return true; }
-		}
+		public override bool SupportsPartialSave => true;
 
 		protected override void ClearRecord()
 		{
@@ -269,16 +263,9 @@ namespace ElectronicObserver.Resource.Record
 		}
 
 
-		public override string RecordHeader
-		{
-			get { return "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦名,旗艦艦種,司令部Lv"; }
-		}
+		public override string RecordHeader => "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦名,旗艦艦種,司令部Lv";
 
-		public override string FileName
-		{
-			get { return "DevelopmentRecord.csv"; }
-		}
+		public override string FileName => "DevelopmentRecord.csv"; }
 
-	}
 
 }

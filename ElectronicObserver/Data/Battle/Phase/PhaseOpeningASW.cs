@@ -21,15 +21,9 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 		}
 
-		public override bool IsAvailable
-		{
-			get { return (int)RawData.api_opening_taisen_flag != 0; }
-		}
+		public override bool IsAvailable => (int)RawData.api_opening_taisen_flag != 0;
 
-		public override dynamic ShellingData
-		{
-			get { return RawData.api_opening_taisen; }
-		}
-
+		public override dynamic ShellingData => RawData.api_opening_taisen;
 	}
+
 }

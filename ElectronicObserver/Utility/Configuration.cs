@@ -25,10 +25,7 @@ namespace ElectronicObserver.Utility
 
 		private static readonly Configuration instance = new Configuration();
 
-		public static Configuration Instance
-		{
-			get { return instance; }
-		}
+		public static Configuration Instance => instance;
 
 
 		private const string SaveFileName = @"Settings\Configuration.xml";
@@ -1407,10 +1404,7 @@ namespace ElectronicObserver.Utility
 		}
 		private static ConfigurationData _config;
 
-		public static ConfigurationData Config
-		{
-			get { return _config; }
-		}
+		public static ConfigurationData Config => _config;
 
 
 

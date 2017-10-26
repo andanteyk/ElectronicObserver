@@ -322,8 +322,7 @@ namespace ElectronicObserver.Window.Dialog
 				return CalculateID(eq.Level, eq.AircraftLevel);
 			}
 
-			public int ID { get { return CalculateID(level, aircraftLevel); } }
-		}
+			public int ID => CalculateID(level, aircraftLevel); }
 
 
 		/// <summary>

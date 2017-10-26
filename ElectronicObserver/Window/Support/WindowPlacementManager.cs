@@ -186,10 +186,7 @@ namespace ElectronicObserver.Window.Support
 
 
 
-		public static string WindowPlacementConfigPath
-		{
-			get { return @"Settings\WindowPlacement.json"; }
-		}
+		public static string WindowPlacementConfigPath => @"Settings\WindowPlacement.json";
 
 
 		[Obsolete]

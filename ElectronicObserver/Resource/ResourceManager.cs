@@ -20,10 +20,7 @@ namespace ElectronicObserver.Resource
 
 		private static readonly ResourceManager instance = new ResourceManager();
 
-		public static ResourceManager Instance
-		{
-			get { return instance; }
-		}
+		public static ResourceManager Instance => instance;
 
 		#endregion
 
@@ -41,7 +38,7 @@ namespace ElectronicObserver.Resource
 
 		#region Constants
 
-		public static string AssetFilePath { get { return "Assets.zip"; } }
+		public static string AssetFilePath => "Assets.zip";
 
 		#endregion
 
@@ -529,7 +526,7 @@ namespace ElectronicObserver.Resource
 			catch (Exception)
 			{
 
-				Utility.Logger.Add(3, string.Format("画像リソース {0} の読み込みに失敗しました。"));
+				Utility.Logger.Add(3, string.Format("画像リソース {0} の読み込みに失敗しました。", path));
 			}
 
 			return null;

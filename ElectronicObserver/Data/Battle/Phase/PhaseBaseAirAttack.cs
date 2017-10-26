@@ -59,23 +59,15 @@ namespace ElectronicObserver.Data.Battle.Phase
 			/// <summary>
 			/// 航空隊ID
 			/// </summary>
-			public int AirUnitID
-			{
-				get
-				{
-					return (int)AirBattleData.api_base_id;
-				}
-			}
+			public int AirUnitID => (int)AirBattleData.api_base_id;
+
 
 
 			private BattleBaseAirCorpsSquadron[] _squadrons;
 			/// <summary>
 			/// 参加した航空中隊データ
 			/// </summary>
-			public ReadOnlyCollection<BattleBaseAirCorpsSquadron> Squadrons
-			{
-				get { return Array.AsReadOnly(_squadrons); }
-			}
+			public ReadOnlyCollection<BattleBaseAirCorpsSquadron> Squadrons => Array.AsReadOnly(_squadrons);
 
 			private IEnumerable<BattleBaseAirCorpsSquadron> GetSquadrons()
 			{
@@ -114,10 +106,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 
 
-		public override bool IsAvailable
-		{
-			get { return RawData.api_air_base_attack(); }
-		}
+		public override bool IsAvailable => RawData.api_air_base_attack();
 
 
 		public override void EmulateBattle(int[] hps, int[] damages)
@@ -149,7 +138,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 	{
 		public int EquipmentID { get; private set; }
 		public int AircraftCount { get; private set; }
-		public EquipmentDataMaster EquipmentInstance { get { return KCDatabase.Instance.MasterEquipments[EquipmentID]; } }
+		public EquipmentDataMaster EquipmentInstance => KCDatabase.Instance.MasterEquipments[EquipmentID];
 
 		public BattleBaseAirCorpsSquadron(dynamic data)
 		{

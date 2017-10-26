@@ -21,34 +21,22 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦種
 		/// </summary>
-		public int TypeID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int TypeID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 並べ替え順
 		/// </summary>
-		public int SortID
-		{
-			get { return (int)RawData.api_sortno; }
-		}
+		public int SortID => (int)RawData.api_sortno;
 
 		/// <summary>
 		/// 艦種名
 		/// </summary>
-		public string Name
-		{
-			get { return RawData.api_name; }
-		}
+		public string Name => RawData.api_name;
 
 		/// <summary>
 		/// 入渠時間係数
 		/// </summary>
-		public int RepairTime
-		{
-			get { return (int)RawData.api_scnt; }
-		}
+		public int RepairTime => (int)RawData.api_scnt;
 
 
 		//TODO: api_kcnt
@@ -58,16 +46,10 @@ namespace ElectronicObserver.Data
 		/// 装備可否フラグ
 		/// </summary>
 		private HashSet<int> _equipmentType;
-		public HashSet<int> EquipmentType
-		{
-			get { return _equipmentType; }
-		}
+		public HashSet<int> EquipmentType => _equipmentType;
 
 
-		public int ID
-		{
-			get { return TypeID; }
-		}
+		public int ID => TypeID;
 
 
 

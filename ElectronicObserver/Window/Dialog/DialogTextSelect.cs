@@ -14,15 +14,9 @@ namespace ElectronicObserver.Window.Dialog
 	public partial class DialogTextSelect : Form
 	{
 
-		public int SelectedIndex
-		{
-			get { return TextSelect.SelectedIndex; }
-		}
+		public int SelectedIndex => TextSelect.SelectedIndex;
 
-		public object SelectedItem
-		{
-			get { return TextSelect.SelectedItem; }
-		}
+		public object SelectedItem => TextSelect.SelectedItem;
 
 		public DialogTextSelect()
 		{
