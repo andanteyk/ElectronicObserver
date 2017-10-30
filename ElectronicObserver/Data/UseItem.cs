@@ -11,7 +11,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 消費アイテムのデータを保持します。
 	/// </summary>
-	[DebuggerDisplay("{KCDatabase.Instance.MasterUseItems[ItemID].Name} x {Count}")]
 	public class UseItem : ResponseWrapper, IIdentifiable
 	{
 
@@ -26,8 +25,11 @@ namespace ElectronicObserver.Data
 		public int Count => (int)RawData.api_count;
 
 
+		public UseItemMaster MasterUseItem => KCDatabase.Instance.MasterUseItems[ItemID];
+
 
 		public int ID => ItemID;
+		public override string ToString() => $"[{ItemID}] {MasterUseItem.Name} x {Count}";
 	}
 
 }

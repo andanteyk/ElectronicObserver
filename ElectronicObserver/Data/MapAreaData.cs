@@ -28,6 +28,7 @@ namespace ElectronicObserver.Data
 
 
 		public int ID => MapAreaID;
+		public override string ToString() => $"[{MapAreaID}] {Name}";
 	}
 
 }

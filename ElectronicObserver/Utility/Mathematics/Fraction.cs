@@ -26,10 +26,8 @@ namespace ElectronicObserver.Utility.Mathematics
 			Max = max;
 		}
 
-		public override string ToString()
-		{
-			return string.Format("{0}/{1}", Current, Max);
-		}
+		public override string ToString() => $"{Current}/{Max}";
+
 	}
 
 }

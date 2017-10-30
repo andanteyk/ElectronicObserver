@@ -72,8 +72,7 @@ namespace ElectronicObserver.Utility.Storage
 
 		public static Color StringToColor(string value)
 		{
-			uint i;
-			if (value == null || value == string.Empty || !uint.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out i))
+			if (value == null || value == string.Empty || !uint.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out uint i))
 				return UIntToColor(0);
 
 			return UIntToColor(i);

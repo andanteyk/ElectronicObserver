@@ -58,10 +58,8 @@ namespace ElectronicObserver.Utility
 			[IgnoreDataMember]
 			public int ID => (int)HandleID;
 
-			public override string ToString()
-			{
-				return Enum.GetName(typeof(SoundHandleID), HandleID) + " : " + Path;
-			}
+			public override string ToString() => Enum.GetName(typeof(SoundHandleID), HandleID) + " : " + Path;
+
 
 			public SoundHandle Clone()
 			{

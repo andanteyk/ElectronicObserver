@@ -146,10 +146,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 			AircraftCount = (int)data.api_count;
 		}
 
-		public override string ToString()
-		{
-			return string.Format("{0} x {1}", EquipmentInstance != null ? EquipmentInstance.Name : "未確認飛行物体", AircraftCount);
-		}
+		public override string ToString() => $"{EquipmentInstance?.Name ?? "未確認飛行物体"} x {AircraftCount}";
+
 	}
 
 }

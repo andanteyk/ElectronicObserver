@@ -157,7 +157,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			EnemyMembersInstance = EnemyMembers.Select(id => KCDatabase.Instance.MasterShips[id]).ToArray();
 
 			EnemyMembersEscort = !RawData.api_ship_ke_combined() ? null : ArraySkip((int[])RawData.api_ship_ke_combined);
-			EnemyMembersEscortInstance = EnemyMembersEscort == null ? null : EnemyMembersEscort.Select(id => KCDatabase.Instance.MasterShips[id]).ToArray();
+			EnemyMembersEscortInstance = EnemyMembersEscort?.Select(id => KCDatabase.Instance.MasterShips[id]).ToArray();
 
 			AllEnemyMembers = EnemyMembers.Concat(EnemyMembersEscort ?? Enumerable.Repeat(-1, 6)).ToArray();
 			AllEnemyMembersInstance = EnemyMembersInstance.Concat(EnemyMembersEscortInstance ?? Enumerable.Repeat<ShipDataMaster>(null, 6)).ToArray();
@@ -172,7 +172,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			EnemySlotsInstance = EnemySlots.Select(part => part.Select(id => KCDatabase.Instance.MasterEquipments[id]).ToArray()).ToArray();
 
 			EnemySlotsEscort = !RawData.api_eSlot_combined() ? null : ((dynamic[])RawData.api_eSlot_combined).Select(d => (int[])d).ToArray();
-			EnemySlotsEscortInstance = EnemySlotsEscort == null ? null : EnemySlotsEscort.Select(part => part.Select(id => KCDatabase.Instance.MasterEquipments[id]).ToArray()).ToArray();
+			EnemySlotsEscortInstance = EnemySlotsEscort?.Select(part => part.Select(id => KCDatabase.Instance.MasterEquipments[id]).ToArray()).ToArray();
 
 			EnemyParameters = !RawData.api_eParam() ? null : ((dynamic[])RawData.api_eParam).Select(d => (int[])d).ToArray();
 			EnemyParametersEscort = !RawData.api_eParam_combined() ? null : ((dynamic[])RawData.api_eParam_combined).Select(d => (int[])d).ToArray();
@@ -195,7 +195,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		private int[] GetHPArray(int[] mainhp, int[] escorthp)
 		{
 			var main = mainhp.Skip(1);
-			var escort = escorthp == null ? null : escorthp.Skip(1);
+			var escort = escorthp?.Skip(1);
 
 			// 稀に参加艦が6隻以下だと配列長が短くなることがあるので :(
 			if (main.Count() < 12)

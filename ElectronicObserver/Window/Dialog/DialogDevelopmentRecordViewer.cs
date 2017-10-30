@@ -216,16 +216,18 @@ namespace ElectronicObserver.Window.Dialog
 			row.CreateCells(RecordView);
 
 
-			var args = new SearchArgument();
-			args.EquipmentCategory = (int)EquipmentCategory.SelectedValue;
-			args.EquipmentName = (string)EquipmentName.SelectedItem;
-			args.SecretaryCategory = (int)SecretaryCategory.SelectedValue;
-			args.SecretaryName = (string)SecretaryName.SelectedItem;
-			args.DateBegin = DateBegin.Value;
-			args.DateEnd = DateEnd.Value;
-			args.Recipe = (string)Recipe.SelectedItem;
-			args.MergeRows = MergeRows.Checked;
-			args.BaseRow = row;
+			var args = new SearchArgument
+			{
+				EquipmentCategory = (int)EquipmentCategory.SelectedValue,
+				EquipmentName = (string)EquipmentName.SelectedItem,
+				SecretaryCategory = (int)SecretaryCategory.SelectedValue,
+				SecretaryName = (string)SecretaryName.SelectedItem,
+				DateBegin = DateBegin.Value,
+				DateEnd = DateEnd.Value,
+				Recipe = (string)Recipe.SelectedItem,
+				MergeRows = MergeRows.Checked,
+				BaseRow = row
+			};
 
 
 			if (!MergeRows.Checked)

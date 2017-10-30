@@ -51,8 +51,8 @@
 			this.Text = "癒し処「白波」";
 			this.Load += new System.EventHandler(this.DialogWhitecap_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.DialogWhitecap_Paint);
-			this.DoubleClick += new System.EventHandler(this.DialogWhitecap_DoubleClick);
 			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.DialogWhitecap_MouseClick);
+			this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DialogWhitecap_MouseDoubleClick);
 			this.ResumeLayout(false);
 
 		}

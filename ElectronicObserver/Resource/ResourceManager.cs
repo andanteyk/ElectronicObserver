@@ -216,13 +216,17 @@ namespace ElectronicObserver.Resource
 		private ResourceManager()
 		{
 
-			Icons = new ImageList();
-			Icons.ColorDepth = ColorDepth.Depth32Bit;
-			Icons.ImageSize = new Size(16, 16);
+			Icons = new ImageList
+			{
+				ColorDepth = ColorDepth.Depth32Bit,
+				ImageSize = new Size(16, 16)
+			};
 
-			Equipments = new ImageList();
-			Equipments.ColorDepth = ColorDepth.Depth32Bit;
-			Equipments.ImageSize = new Size(16, 16);
+			Equipments = new ImageList
+			{
+				ColorDepth = ColorDepth.Depth32Bit,
+				ImageSize = new Size(16, 16)
+			};
 
 		}
 

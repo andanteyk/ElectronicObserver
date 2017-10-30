@@ -17,7 +17,7 @@ namespace ElectronicObserver.Window
 	{
 
 
-		private class TableBaseAirCorpsControl
+		private class TableBaseAirCorpsControl : IDisposable
 		{
 
 			public ImageLabel Name;
@@ -33,62 +33,72 @@ namespace ElectronicObserver.Window
 
 				#region Initialize
 
-				Name = new ImageLabel();
-				Name.Name = "Name";
-				Name.Text = "*";
-				Name.Anchor = AnchorStyles.Left;
-				Name.TextAlign = ContentAlignment.MiddleLeft;
-				Name.ImageAlign = ContentAlignment.MiddleRight;
-				Name.ImageList = ResourceManager.Instance.Icons;
-				Name.Padding = new Padding(2, 2, 2, 2);
-				Name.Margin = new Padding(2, 1, 2, 1);      // ここを 2,0,2,0 にすると境界線の描画に問題が出るので
-				Name.AutoSize = true;
-				Name.ContextMenuStrip = parent.ContextMenuBaseAirCorps;
-				Name.Visible = false;
-				Name.Cursor = Cursors.Help;
+				Name = new ImageLabel
+				{
+					Name = "Name",
+					Text = "*",
+					Anchor = AnchorStyles.Left,
+					TextAlign = ContentAlignment.MiddleLeft,
+					ImageAlign = ContentAlignment.MiddleRight,
+					ImageList = ResourceManager.Instance.Icons,
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 1, 2, 1),      // ここを 2,0,2,0 にすると境界線の描画に問題が出るので
+					AutoSize = true,
+					ContextMenuStrip = parent.ContextMenuBaseAirCorps,
+					Visible = false,
+					Cursor = Cursors.Help
+				};
 
-				ActionKind = new ImageLabel();
-				ActionKind.Text = "*";
-				ActionKind.Anchor = AnchorStyles.Left;
-				ActionKind.TextAlign = ContentAlignment.MiddleLeft;
-				ActionKind.ImageAlign = ContentAlignment.MiddleCenter;
-				//ActionKind.ImageList =
-				ActionKind.Padding = new Padding(2, 2, 2, 2);
-				ActionKind.Margin = new Padding(2, 0, 2, 0);
-				ActionKind.AutoSize = true;
-				ActionKind.Visible = false;
+				ActionKind = new ImageLabel
+				{
+					Text = "*",
+					Anchor = AnchorStyles.Left,
+					TextAlign = ContentAlignment.MiddleLeft,
+					ImageAlign = ContentAlignment.MiddleCenter,
+					//ActionKind.ImageList =
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 0, 2, 0),
+					AutoSize = true,
+					Visible = false
+				};
 
-				AirSuperiority = new ImageLabel();
-				AirSuperiority.Text = "*";
-				AirSuperiority.Anchor = AnchorStyles.Left;
-				AirSuperiority.TextAlign = ContentAlignment.MiddleLeft;
-				AirSuperiority.ImageAlign = ContentAlignment.MiddleLeft;
-				AirSuperiority.ImageList = ResourceManager.Instance.Equipments;
-				AirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
-				AirSuperiority.Padding = new Padding(2, 2, 2, 2);
-				AirSuperiority.Margin = new Padding(2, 0, 2, 0);
-				AirSuperiority.AutoSize = true;
-				AirSuperiority.Visible = false;
+				AirSuperiority = new ImageLabel
+				{
+					Text = "*",
+					Anchor = AnchorStyles.Left,
+					TextAlign = ContentAlignment.MiddleLeft,
+					ImageAlign = ContentAlignment.MiddleLeft,
+					ImageList = ResourceManager.Instance.Equipments,
+					ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter,
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 0, 2, 0),
+					AutoSize = true,
+					Visible = false
+				};
 
-				Distance = new ImageLabel();
-				Distance.Text = "*";
-				Distance.Anchor = AnchorStyles.Left;
-				Distance.TextAlign = ContentAlignment.MiddleLeft;
-				Distance.ImageAlign = ContentAlignment.MiddleLeft;
-				Distance.ImageList = ResourceManager.Instance.Icons;
-				Distance.ImageIndex = (int)ResourceManager.IconContent.ParameterAircraftDistance;
-				Distance.Padding = new Padding(2, 2, 2, 2);
-				Distance.Margin = new Padding(2, 0, 2, 0);
-				Distance.AutoSize = true;
-				Distance.Visible = false;
+				Distance = new ImageLabel
+				{
+					Text = "*",
+					Anchor = AnchorStyles.Left,
+					TextAlign = ContentAlignment.MiddleLeft,
+					ImageAlign = ContentAlignment.MiddleLeft,
+					ImageList = ResourceManager.Instance.Icons,
+					ImageIndex = (int)ResourceManager.IconContent.ParameterAircraftDistance,
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 0, 2, 0),
+					AutoSize = true,
+					Visible = false
+				};
 
-				Squadrons = new ShipStatusEquipment();
-				Squadrons.Anchor = AnchorStyles.Left;
-				Squadrons.Padding = new Padding(0, 1, 0, 2);
-				Squadrons.Margin = new Padding(2, 0, 2, 0);
-				Squadrons.Size = new Size(40, 20);
-				Squadrons.AutoSize = true;
-				Squadrons.Visible = false;
+				Squadrons = new ShipStatusEquipment
+				{
+					Anchor = AnchorStyles.Left,
+					Padding = new Padding(0, 1, 0, 2),
+					Margin = new Padding(2, 0, 2, 0),
+					Size = new Size(40, 20),
+					AutoSize = true,
+					Visible = false
+				};
 				Squadrons.ResumeLayout();
 
 				ConfigurationChanged(parent);
@@ -301,6 +311,14 @@ namespace ElectronicObserver.Window
 				return sb.ToString();
 			}
 
+			public void Dispose()
+			{
+				Name.Dispose();
+				ActionKind.Dispose();
+				AirSuperiority.Dispose();
+				Distance.Dispose();
+				Squadrons.Dispose();
+			}
 		}
 
 

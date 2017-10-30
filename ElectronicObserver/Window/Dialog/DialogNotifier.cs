@@ -221,6 +221,7 @@ namespace ElectronicObserver.Window.Dialog
 				   ((flag & NotifierDialogClickFlags.LeftDouble) != 0 && e.Clicks > 1))
 				{
 					Close();
+					return;
 				}
 			}
 
@@ -230,6 +231,7 @@ namespace ElectronicObserver.Window.Dialog
 				   ((flag & NotifierDialogClickFlags.RightDouble) != 0 && e.Clicks > 1))
 				{
 					Close();
+					return;
 				}
 			}
 
@@ -239,6 +241,7 @@ namespace ElectronicObserver.Window.Dialog
 				   ((flag & NotifierDialogClickFlags.MiddleDouble) != 0 && e.Clicks > 1))
 				{
 					Close();
+					return;
 				}
 			}
 
@@ -336,11 +339,13 @@ namespace ElectronicObserver.Window.Dialog
 				hBitmap = src.GetHbitmap(Color.FromArgb(0));
 				hOldBitmap = SelectObject(memDc, hBitmap);
 
-				BLENDFUNCTION blend = new BLENDFUNCTION();
-				blend.BlendOp = AC_SRC_OVER;
-				blend.BlendFlags = 0;
-				blend.SourceConstantAlpha = 255;
-				blend.AlphaFormat = AC_SRC_ALPHA;
+				BLENDFUNCTION blend = new BLENDFUNCTION
+				{
+					BlendOp = AC_SRC_OVER,
+					BlendFlags = 0,
+					SourceConstantAlpha = 255,
+					AlphaFormat = AC_SRC_ALPHA
+				};
 
 				//Size = new Size( src.Width, src.Height );
 				Point pptDst = new Point(this.Left, this.Top);

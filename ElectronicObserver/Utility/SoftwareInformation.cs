@@ -58,8 +58,10 @@ namespace ElectronicObserver.Utility
 
 			if (client == null)
 			{
-				client = new System.Net.WebClient();
-				client.Encoding = new System.Text.UTF8Encoding(false);
+				client = new System.Net.WebClient
+				{
+					Encoding = new System.Text.UTF8Encoding(false)
+				};
 				client.DownloadStringCompleted += DownloadStringCompleted;
 			}
 

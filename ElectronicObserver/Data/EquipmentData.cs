@@ -130,10 +130,8 @@ namespace ElectronicObserver.Data
 		}
 
 
-		public override string ToString()
-		{
-			return NameWithLevel;
-		}
+		public override string ToString() => NameWithLevel;
+
 
 	}
 

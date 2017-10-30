@@ -493,6 +493,7 @@ namespace ElectronicObserver.Window.Control
 			Disposed += ShipStatusEquipment_Disposed;
 
 			IsRefreshSuspended = false;
+
 		}
 
 		/// <summary>

@@ -703,8 +703,7 @@ namespace ElectronicObserver.Window.Dialog
 					}
 					else
 					{
-						int val;
-						if (int.TryParse(name, out val))
+						if (int.TryParse(name, out int val))
 							config.FormHeadquarters.DisplayUseItemID = val;
 						else
 							config.FormHeadquarters.DisplayUseItemID = -1;

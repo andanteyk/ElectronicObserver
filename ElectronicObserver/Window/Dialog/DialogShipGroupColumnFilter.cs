@@ -128,8 +128,7 @@ namespace ElectronicObserver.Window.Dialog
 			if (e.ColumnIndex == ColumnView_Width.Index)
 			{
 
-				int value;
-				if (!int.TryParse(e.FormattedValue.ToString(), out value))
+				if (!int.TryParse(e.FormattedValue.ToString(), out int value))
 				{
 					ColumnView.CancelEdit();
 				}
@@ -148,11 +147,13 @@ namespace ElectronicObserver.Window.Dialog
 			{
 
 				var row = ColumnView.Rows[i];
-				var r = new ShipGroupData.ViewColumnData((string)row.Tag);
-				r.DisplayIndex = row.Index - 1;
-				r.Visible = (bool)row.Cells[ColumnView_Visible.Index].Value;
-				r.AutoSize = (bool)row.Cells[ColumnView_AutoSize.Index].Value;
-				r.Width = Convert.ToInt32(row.Cells[ColumnView_Width.Index].Value);
+				var r = new ShipGroupData.ViewColumnData((string)row.Tag)
+				{
+					DisplayIndex = row.Index - 1,
+					Visible = (bool)row.Cells[ColumnView_Visible.Index].Value,
+					AutoSize = (bool)row.Cells[ColumnView_AutoSize.Index].Value,
+					Width = Convert.ToInt32(row.Cells[ColumnView_Width.Index].Value)
+				};
 
 				Result.Add(r);
 			}

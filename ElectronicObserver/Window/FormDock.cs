@@ -21,7 +21,7 @@ namespace ElectronicObserver.Window
 	public partial class FormDock : DockContent
 	{
 
-		private class TableDockControl
+		private class TableDockControl : IDisposable
 		{
 
 			public Label ShipName;
@@ -33,30 +33,34 @@ namespace ElectronicObserver.Window
 
 				#region Initialize
 
-				ShipName = new ImageLabel();
-				ShipName.Text = "???";
-				ShipName.Anchor = AnchorStyles.Left;
-				ShipName.ForeColor = parent.ForeColor;
-				ShipName.TextAlign = ContentAlignment.MiddleLeft;
-				ShipName.Padding = new Padding(0, 1, 0, 1);
-				ShipName.Margin = new Padding(2, 1, 2, 1);
-				ShipName.MaximumSize = new Size(60, int.MaxValue);
-				//ShipName.AutoEllipsis = true;
-				ShipName.ImageAlign = ContentAlignment.MiddleCenter;
-				ShipName.AutoSize = true;
-				ShipName.Visible = true;
+				ShipName = new ImageLabel
+				{
+					Text = "???",
+					Anchor = AnchorStyles.Left,
+					ForeColor = parent.ForeColor,
+					TextAlign = ContentAlignment.MiddleLeft,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					MaximumSize = new Size(60, int.MaxValue),
+					//ShipName.AutoEllipsis = true;
+					ImageAlign = ContentAlignment.MiddleCenter,
+					AutoSize = true,
+					Visible = true
+				};
 
-				RepairTime = new Label();
-				RepairTime.Text = "";
-				RepairTime.Anchor = AnchorStyles.Left;
-				RepairTime.ForeColor = parent.ForeColor;
-				RepairTime.Tag = null;
-				RepairTime.TextAlign = ContentAlignment.MiddleLeft;
-				RepairTime.Padding = new Padding(0, 1, 0, 1);
-				RepairTime.Margin = new Padding(2, 1, 2, 1);
-				RepairTime.MinimumSize = new Size(60, 10);
-				RepairTime.AutoSize = true;
-				RepairTime.Visible = true;
+				RepairTime = new Label
+				{
+					Text = "",
+					Anchor = AnchorStyles.Left,
+					ForeColor = parent.ForeColor,
+					Tag = null,
+					TextAlign = ContentAlignment.MiddleLeft,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					MinimumSize = new Size(60, 10),
+					AutoSize = true,
+					Visible = true
+				};
 
 				ConfigurationChanged(parent);
 
@@ -153,6 +157,12 @@ namespace ElectronicObserver.Window
 				RepairTime.BackColor = Color.Transparent;
 
 				ShipName.MaximumSize = new Size(config.MaxShipNameWidth, ShipName.MaximumSize.Height);
+			}
+
+			public void Dispose()
+			{
+				ShipName.Dispose();
+				RepairTime.Dispose();
 			}
 		}
 

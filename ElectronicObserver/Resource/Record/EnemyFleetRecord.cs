@@ -18,7 +18,7 @@ namespace ElectronicObserver.Resource.Record
 	{
 
 		[DebuggerDisplay("[{ID}] : {FleetName}")]
-		public class EnemyFleetElement : RecordElementBase
+		public sealed class EnemyFleetElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -78,7 +78,10 @@ namespace ElectronicObserver.Resource.Record
 				: base() { }
 
 			public EnemyFleetElement(string line)
-				: base(line) { }
+				: this()
+			{
+				LoadLine(line);
+			}
 
 			public EnemyFleetElement(string fleetName, int mapAreaID, int mapInfoID, int cellID, int difficulty, int formation, int[] fleetMember, int expShip)
 				: base()
@@ -277,7 +280,8 @@ namespace ElectronicObserver.Resource.Record
 
 		public override string RecordHeader => "敵編成ID,敵艦隊名,海域,海域,セル,難易度,陣形,敵1番艦,敵2番艦,敵3番艦,敵4番艦,敵5番艦,敵6番艦,敵1番艦名,敵2番艦名,敵3番艦名,敵4番艦名,敵5番艦名,敵6番艦名,経験値";
 
-		public override string FileName => "EnemyFleetRecord.csv"; }
+		public override string FileName => "EnemyFleetRecord.csv";
+	}
 
 
 }

@@ -168,7 +168,7 @@ namespace ElectronicObserver.Utility
 		/// <summary>
 		/// 現在のメディアの名前
 		/// </summary>
-		public string MediaName => !IsAvailable ? string.Empty : _wmp.currentMedia != null ? _wmp.currentMedia.name : null;
+		public string MediaName => !IsAvailable ? string.Empty : _wmp.currentMedia?.name;
 
 		/// <summary>
 		/// 現在のメディアの長さ(秒単位)

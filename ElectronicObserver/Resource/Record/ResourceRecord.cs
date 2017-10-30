@@ -17,7 +17,7 @@ namespace ElectronicObserver.Resource.Record
 	public class ResourceRecord : RecordBase
 	{
 
-		public class ResourceElement : RecordElementBase
+		public sealed class ResourceElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -83,7 +83,10 @@ namespace ElectronicObserver.Resource.Record
 			}
 
 			public ResourceElement(string line)
-				: base(line) { }
+				: this()
+			{
+				LoadLine(line);
+			}
 
 			public ResourceElement(int fuel, int ammo, int steel, int bauxite, int instantConstruction, int instantRepair, int developmentMaterial, int moddingMaterial, int hqLevel, int hqExp)
 				: this()

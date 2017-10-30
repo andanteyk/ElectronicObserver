@@ -94,8 +94,10 @@ namespace ElectronicObserver.Window
 			JsonTreeView.Nodes.Clear();
 			JsonTreeView.Nodes.Add(apiname);
 
-			TreeNode root = new TreeNode("<Request> : {" + data.Count + "}");
-			root.Name = "<Request>";
+			TreeNode root = new TreeNode("<Request> : {" + data.Count + "}")
+			{
+				Name = "<Request>"
+			};
 			root.Nodes.AddRange(data.Select(e => new TreeNode(e.Key + " : " + e.Value)).ToArray());
 
 			JsonTreeView.Nodes.Add(root);
@@ -227,10 +229,12 @@ namespace ElectronicObserver.Window
 
 		private TreeNode CreateNode(string name, dynamic data)
 		{
-			TreeNode node = new TreeNode();
-			node.Tag = data;
-			node.Name = name;
-			node.Text = string.IsNullOrEmpty(name) ? "" : (name + " : ");
+			TreeNode node = new TreeNode
+			{
+				Tag = data,
+				Name = name,
+				Text = string.IsNullOrEmpty(name) ? "" : (name + " : ")
+			};
 
 			if (data == null)
 			{

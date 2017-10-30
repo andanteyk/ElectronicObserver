@@ -120,7 +120,7 @@ namespace ElectronicObserver.Data.ShipGroup
 		public ExpressionList Clone()
 		{
 			var clone = (ExpressionList)MemberwiseClone();
-			clone.Expressions = Expressions == null ? null : Expressions.Select(e => e.Clone()).ToList();
+			clone.Expressions = Expressions?.Select(e => e.Clone()).ToList();
 			return clone;
 		}
 

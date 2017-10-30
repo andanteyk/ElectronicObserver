@@ -445,6 +445,47 @@ namespace ElectronicObserver.Window.Dialog
 							}
 							break;
 
+						case 26:
+							{
+								if (value != 0)
+								{
+									col = FromRgb(0x334433);
+								}
+								else
+								{
+									if (GetCell(currentDim, x - 1, y) != 0 ||
+										GetCell(currentDim, x + 1, y) != 0 ||
+										GetCell(currentDim, x, y - 1) != 0 ||
+										GetCell(currentDim, x, y + 1) != 0)
+									{
+										col = FromRgb(0xEEFFEE);
+									}
+									else
+									{
+										col = FromRgb(0x889988);
+									}
+								}
+							}
+							break;
+
+						case 27:
+							{
+								int prevcell = GetCell(1 - currentDim, x, y);
+
+								if ( value != 0)
+								{
+									if (prevcell != 0)
+										col = FromRgb(0xFFFF44);
+									else
+										col = FromRgb(0x444422);
+								}
+								else
+								{
+									col = FromRgb(0x000022);
+								}
+							}
+							break;
+
 						default:
 							col = value != 0 ? FromRgb(0xFFFFFF) : FromRgb(0x000000);
 							break;
@@ -540,7 +581,6 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void DialogWhitecap_MouseClick(object sender, MouseEventArgs e)
 		{
-
 			if (e.Button == System.Windows.Forms.MouseButtons.Right)
 			{
 				UpdateTimer.Stop();
@@ -568,16 +608,18 @@ namespace ElectronicObserver.Window.Dialog
 					UpdateTimer.Start();
 				}
 			}
+			
 		}
 
-		private void DialogWhitecap_DoubleClick(object sender, EventArgs e)
+		private void DialogWhitecap_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-
-			UpdateTimer.Stop();
-			colortheme = rand.Next(64);
-			//colortheme = 24;
-			Start();
+			if (e.Button == MouseButtons.Left)
+			{
+				UpdateTimer.Stop();
+				colortheme = rand.Next(64);
+				//colortheme = 27;
+				Start();
+			}
 		}
-
 	}
 }

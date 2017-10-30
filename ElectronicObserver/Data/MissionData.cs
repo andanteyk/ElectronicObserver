@@ -63,6 +63,7 @@ namespace ElectronicObserver.Data
 
 
 		public int ID => MissionID;
+		public override string ToString() => $"[{MissionID}] {Name}";
 	}
 
 }

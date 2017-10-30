@@ -121,10 +121,8 @@ namespace ElectronicObserver.Data.Quest
 		}
 
 
-		public override string ToString()
-		{
-			return string.Format("{0}/{1}", Progress, ProgressMax);
-		}
+		public override string ToString() => $"{Progress}/{ProgressMax}";
+
 
 
 		/// <summary>

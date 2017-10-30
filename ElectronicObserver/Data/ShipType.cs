@@ -14,7 +14,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 艦種
 	/// </summary>
-	[DebuggerDisplay("[{ID}] : {Name}")]
 	public class ShipType : ResponseWrapper, IIdentifiable
 	{
 
@@ -50,7 +49,7 @@ namespace ElectronicObserver.Data
 
 
 		public int ID => TypeID;
-
+		public override string ToString() => $"[{TypeID}] {Name}";
 
 
 

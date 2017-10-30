@@ -40,17 +40,21 @@ namespace ElectronicObserver.Window.Dialog
 
 			#region CellStyle
 
-			CSDefaultLeft = new DataGridViewCellStyle();
-			CSDefaultLeft.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			CSDefaultLeft.BackColor = SystemColors.Control;
-			CSDefaultLeft.Font = Font;
-			CSDefaultLeft.ForeColor = SystemColors.ControlText;
-			CSDefaultLeft.SelectionBackColor = Color.FromArgb(0xFF, 0xFF, 0xCC);
-			CSDefaultLeft.SelectionForeColor = SystemColors.ControlText;
-			CSDefaultLeft.WrapMode = DataGridViewTriState.False;
+			CSDefaultLeft = new DataGridViewCellStyle
+			{
+				Alignment = DataGridViewContentAlignment.MiddleLeft,
+				BackColor = SystemColors.Control,
+				Font = Font,
+				ForeColor = SystemColors.ControlText,
+				SelectionBackColor = Color.FromArgb(0xFF, 0xFF, 0xCC),
+				SelectionForeColor = SystemColors.ControlText,
+				WrapMode = DataGridViewTriState.False
+			};
 
-			CSDefaultRight = new DataGridViewCellStyle(CSDefaultLeft);
-			CSDefaultRight.Alignment = DataGridViewContentAlignment.MiddleRight;
+			CSDefaultRight = new DataGridViewCellStyle(CSDefaultLeft)
+			{
+				Alignment = DataGridViewContentAlignment.MiddleRight
+			};
 
 			CSUnselectableLeft = new DataGridViewCellStyle(CSDefaultLeft);
 			CSUnselectableLeft.SelectionForeColor = CSUnselectableLeft.ForeColor;

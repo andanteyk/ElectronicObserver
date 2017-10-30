@@ -27,7 +27,6 @@ namespace ElectronicObserver.Utility.Storage
 
 		public DataStorage()
 		{
-			Initialize();
 		}
 
 		[OnDeserializing]
@@ -44,12 +43,13 @@ namespace ElectronicObserver.Utility.Storage
 			{
 
 				var serializer = new DataContractSerializer(this.GetType());
-				var xmlsetting = new XmlWriterSettings();
-
-				xmlsetting.Encoding = new System.Text.UTF8Encoding(false);
-				xmlsetting.Indent = true;
-				xmlsetting.IndentChars = "\t";
-				xmlsetting.NewLineHandling = NewLineHandling.Replace;
+				var xmlsetting = new XmlWriterSettings
+				{
+					Encoding = new System.Text.UTF8Encoding(false),
+					Indent = true,
+					IndentChars = "\t",
+					NewLineHandling = NewLineHandling.Replace
+				};
 
 				using (XmlWriter xw = XmlWriter.Create(path, xmlsetting))
 				{
@@ -128,13 +128,13 @@ namespace ElectronicObserver.Utility.Storage
 			{
 
 				var serializer = new DataContractSerializer(this.GetType());
-				var xmlsetting = new XmlWriterSettings();
-
-
-				xmlsetting.Encoding = new System.Text.UTF8Encoding(false);
-				xmlsetting.Indent = true;
-				xmlsetting.IndentChars = "\t";
-				xmlsetting.NewLineHandling = NewLineHandling.Replace;
+				var xmlsetting = new XmlWriterSettings
+				{
+					Encoding = new System.Text.UTF8Encoding(false),
+					Indent = true,
+					IndentChars = "\t",
+					NewLineHandling = NewLineHandling.Replace
+				};
 
 				using (XmlWriter xw = XmlWriter.Create(stream, xmlsetting))
 				{

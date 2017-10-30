@@ -521,7 +521,7 @@ namespace ElectronicObserver.Data.Battle
 
 
 			var friend = activeBattle.Initial.FriendFleet.MembersWithoutEscaped;
-			var friendescort = activeBattle.Initial.FriendFleetEscort == null ? null : activeBattle.Initial.FriendFleetEscort.MembersWithoutEscaped;
+			var friendescort = activeBattle.Initial.FriendFleetEscort?.MembersWithoutEscaped;
 
 			var resultHPs = activeBattle.ResultHPs;
 

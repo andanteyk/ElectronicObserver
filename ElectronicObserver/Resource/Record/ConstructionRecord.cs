@@ -19,7 +19,7 @@ namespace ElectronicObserver.Resource.Record
 	{
 
 		[DebuggerDisplay("[{ShipID}] : {ShipName}")]
-		public class ConstructionElement : RecordElementBase
+		public sealed class ConstructionElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -96,7 +96,10 @@ namespace ElectronicObserver.Resource.Record
 			}
 
 			public ConstructionElement(string line)
-				: base(line) { }
+				: this()
+			{
+				LoadLine(line);
+			}
 
 			public ConstructionElement(int shipID, int fuel, int ammo, int steel, int bauxite, int developmentMaterial, int emptyDock, int flagshipID, int hqLevel)
 			{
@@ -121,7 +124,8 @@ namespace ElectronicObserver.Resource.Record
 			{
 
 				string[] elem = line.Split(",".ToCharArray());
-				if (elem.Length < 13) throw new ArgumentException("要素数が少なすぎます。");
+				if (elem.Length < 13)
+					throw new ArgumentException("要素数が少なすぎます。");
 
 				ShipID = int.Parse(elem[0]);
 				ShipName = elem[1];
@@ -257,7 +261,8 @@ namespace ElectronicObserver.Resource.Record
 
 		public override string RecordHeader => "艦船ID,艦船名,建造日時,燃料,弾薬,鋼材,ボーキ,開発資材,大型建造,空ドック,旗艦ID,旗艦名,司令部Lv";
 
-		public override string FileName => "ConstructionRecord.csv"; }
+		public override string FileName => "ConstructionRecord.csv";
+	}
 
 
 }

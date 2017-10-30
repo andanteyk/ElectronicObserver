@@ -167,10 +167,8 @@ namespace ElectronicObserver.Data
 
 		public int ID => EquipmentID;
 
-		public override string ToString()
-		{
-			return string.Format("[{0}] {1}", EquipmentID, Name);
-		}
+		public override string ToString() => $"[{EquipmentID}] {Name}";
+
 	}
 
 }

@@ -23,7 +23,7 @@ namespace ElectronicObserver.Data
 	/// </summary>
 	[DataContract(Name = "ShipGroupData")]
 	[DebuggerDisplay("[{GroupID}] : {Name} ({Members.Count} ships)")]
-	public class ShipGroupData : DataStorage, IIdentifiable, ICloneable
+	public sealed class ShipGroupData : DataStorage, IIdentifiable, ICloneable
 	{
 
 
@@ -177,8 +177,8 @@ namespace ElectronicObserver.Data
 		[DataMember]
 		private List<SerializableKeyValuePair<string, ListSortDirection>> SortOrderSerializer
 		{
-			get { return SortOrder == null ? null : SortOrder.Select(s => new SerializableKeyValuePair<string, ListSortDirection>(s)).ToList(); }
-			set { SortOrder = value == null ? null : value.Select(s => new KeyValuePair<string, ListSortDirection>(s.Key, s.Value)).ToList(); }
+			get { return SortOrder?.Select(s => new SerializableKeyValuePair<string, ListSortDirection>(s)).ToList(); }
+			set { SortOrder = value?.Select(s => new KeyValuePair<string, ListSortDirection>(s.Key, s.Value)).ToList(); }
 		}
 
 
@@ -249,6 +249,7 @@ namespace ElectronicObserver.Data
 		public ShipGroupData(int groupID)
 			: base()
 		{
+			Initialize();
 			GroupID = groupID;
 		}
 
@@ -324,10 +325,8 @@ namespace ElectronicObserver.Data
 		public int ID => GroupID;
 
 
-		public override string ToString()
-		{
-			return Name;
-		}
+		public override string ToString() => Name;
+
 
 
 

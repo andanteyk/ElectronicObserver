@@ -15,7 +15,7 @@ namespace ElectronicObserver.Resource.Record
 	{
 
 		[DebuggerDisplay("[{Date}] : {ShipName} / {ItemName}")]
-		public class ShipDropElement : RecordElementBase
+		public sealed class ShipDropElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -101,7 +101,10 @@ namespace ElectronicObserver.Resource.Record
 			}
 
 			public ShipDropElement(string line)
-				: base(line) { }
+				: this()
+			{
+				LoadLine(line);
+			}
 
 			public ShipDropElement(int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, uint enemyFleetID, string rank, int hqLevel)
 			{

@@ -180,27 +180,21 @@ namespace ElectronicObserver.Data
 
 
 
-		public override string ToString()
-		{
-			return string.Format("[{0}:{1}] {2}", MapAreaID, AirCorpsID, Name);
-		}
+		public override string ToString() => $"[{MapAreaID}:{AirCorpsID}] {Name}";
+
 
 
 		public int ID => GetID(RawData);
 
 
-		public static int GetID(int mapAreaID, int airCorpsID)
-		{
-			return mapAreaID * 10 + airCorpsID;
-		}
+		public static int GetID(int mapAreaID, int airCorpsID) => mapAreaID * 10 + airCorpsID;
+
 		public static int GetID(Dictionary<string, string> request)
-		{
-			return GetID(int.Parse(request["api_area_id"]), int.Parse(request["api_base_id"]));
-		}
+			=> GetID(int.Parse(request["api_area_id"]), int.Parse(request["api_base_id"]));
+
 		public static int GetID(dynamic response)
-		{
-			return GetID(response.api_area_id() ? (int)response.api_area_id : -1, (int)response.api_rid);
-		}
+			=> GetID(response.api_area_id() ? (int)response.api_area_id : -1, (int)response.api_rid);
+
 
 	}
 }

@@ -11,7 +11,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 基地航空隊の航空中隊データを扱います。
 	/// </summary>
-	[DebuggerDisplay("{EquipmentInstance} {AircraftCurrent}/{AircraftMax}")]
 	public class BaseAirCorpsSquadron : APIWrapper, IIdentifiable
 	{
 
@@ -43,26 +42,12 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 装備ID
 		/// </summary>
-		public int EquipmentID
-		{
-			get
-			{
-				var eq = EquipmentInstance;
-				return eq != null ? eq.EquipmentID : -1;
-			}
-		}
+		public int EquipmentID => EquipmentInstance?.EquipmentID ?? -1;
 
 		/// <summary>
 		/// マスター装備データ
 		/// </summary>
-		public EquipmentDataMaster EquipmentInstanceMaster
-		{
-			get
-			{
-				var eq = EquipmentInstance;
-				return eq != null ? eq.MasterEquipment : null;
-			}
-		}
+		public EquipmentDataMaster EquipmentInstanceMaster => EquipmentInstance?.MasterEquipment;
 
 		/// <summary>
 		/// 現在の稼働機数
@@ -111,6 +96,9 @@ namespace ElectronicObserver.Data
 			base.LoadFromResponse(apiname, (object)data);
 
 		}
+
+
+		public override string ToString() => $"{EquipmentInstance} {AircraftCurrent}/{AircraftMax}";
 
 
 		public int ID => SquadronID;

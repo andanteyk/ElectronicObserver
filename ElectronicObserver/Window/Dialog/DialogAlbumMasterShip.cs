@@ -621,8 +621,8 @@ namespace ElectronicObserver.Window.Dialog
 				TableBattle.SuspendLayout();
 
 				AirSuperiority.Text = Calculator.GetAirSuperiority(ship).ToString();
-				DayAttack.Text = Constants.GetDayAttackKind(Calculator.GetDayAttackKind(ship.DefaultSlot == null ? null : ship.DefaultSlot.ToArray(), ship.ShipID, -1));
-				NightAttack.Text = Constants.GetNightAttackKind(Calculator.GetNightAttackKind(ship.DefaultSlot == null ? null : ship.DefaultSlot.ToArray(), ship.ShipID, -1));
+				DayAttack.Text = Constants.GetDayAttackKind(Calculator.GetDayAttackKind(ship.DefaultSlot?.ToArray(), ship.ShipID, -1));
+				NightAttack.Text = Constants.GetNightAttackKind(Calculator.GetNightAttackKind(ship.DefaultSlot?.ToArray(), ship.ShipID, -1));
 
 				TableBattle.ResumeLayout();
 

@@ -14,11 +14,15 @@ namespace ElectronicObserver
 		/// アプリケーションのメイン エントリ ポイントです。
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
 		{
+
+			bool allowMultiInstance = args.Contains("-m") || args.Contains("--multi-instance");
+
 
 			using (var mutex = new Mutex(false, Application.ExecutablePath.Replace('\\', '/'), out var created))
 			{
+
 				/*
 				bool hasHandle = false;
 
@@ -32,7 +36,7 @@ namespace ElectronicObserver
 				}
 				*/
 
-				if (!created)
+				if (!created && !allowMultiInstance)
 				{
 					// 多重起動禁止
 					MessageBox.Show("既に起動しています。\r\n多重起動はできません。", "七四式電子観測儀", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -26,14 +26,6 @@ namespace ElectronicObserver.Resource.Record
 			public abstract void LoadLine(string line);
 			public abstract string SaveLine();
 
-
-			public RecordElementBase() { }
-
-			public RecordElementBase(string line)
-				: this()
-			{
-				LoadLine(line);
-			}
 		}
 
 

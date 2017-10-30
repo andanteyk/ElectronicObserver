@@ -109,11 +109,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.HPMin;
-					else
-						return 0;
+					return GetParameterElement()?.HPMin ?? 0;
 				}
 			}
 		}
@@ -131,11 +127,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.HPMax;
-					else
-						return 0;
+					return GetParameterElement()?.HPMax ?? 0;
 				}
 			}
 		}
@@ -153,11 +145,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.ArmorMin;
-					else
-						return 0;
+					return GetParameterElement()?.ArmorMin ?? 0;
 				}
 			}
 		}
@@ -175,11 +163,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.ArmorMax;
-					else
-						return 0;
+					return GetParameterElement()?.ArmorMax ?? 0;
 				}
 			}
 		}
@@ -197,11 +181,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.FirepowerMin;
-					else
-						return 0;
+					return GetParameterElement()?.FirepowerMin ?? 0;
 				}
 			}
 		}
@@ -219,11 +199,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.FirepowerMax;
-					else
-						return 0;
+					return GetParameterElement()?.FirepowerMax ?? 0;
 				}
 			}
 		}
@@ -241,11 +217,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.TorpedoMin;
-					else
-						return 0;
+					return GetParameterElement()?.TorpedoMin ?? 0;
 				}
 			}
 		}
@@ -263,11 +235,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.TorpedoMax;
-					else
-						return 0;
+					return GetParameterElement()?.TorpedoMax ?? 0;
 				}
 			}
 		}
@@ -285,11 +253,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.AAMin;
-					else
-						return 0;
+					return GetParameterElement()?.AAMin ?? 0;
 				}
 			}
 		}
@@ -307,11 +271,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.AAMax;
-					else
-						return 0;
+					return GetParameterElement()?.AAMax ?? 0;
 				}
 			}
 		}
@@ -320,47 +280,17 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 対潜
 		/// </summary>
-		public ShipParameterRecord.Parameter ASW
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null)
-					return p.ASW;
-				else
-					return null;
-			}
-		}
+		public ShipParameterRecord.Parameter ASW => GetParameterElement()?.ASW;
 
 		/// <summary>
 		/// 回避
 		/// </summary>
-		public ShipParameterRecord.Parameter Evasion
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null)
-					return p.Evasion;
-				else
-					return null;
-			}
-		}
+		public ShipParameterRecord.Parameter Evasion => GetParameterElement()?.Evasion;
 
 		/// <summary>
 		/// 索敵
 		/// </summary>
-		public ShipParameterRecord.Parameter LOS
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null)
-					return p.LOS;
-				else
-					return null;
-			}
-		}
+		public ShipParameterRecord.Parameter LOS => GetParameterElement()?.LOS;
 
 
 		/// <summary>
@@ -376,11 +306,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.LuckMin;
-					else
-						return 0;
+					return GetParameterElement()?.LuckMin ?? 0;
 				}
 			}
 		}
@@ -398,11 +324,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.LuckMax;
-					else
-						return 0;
+					return GetParameterElement()?.LuckMax ?? 0;
 				}
 			}
 		}
@@ -426,11 +348,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.Range;
-					else
-						return 0;
+					return GetParameterElement()?.Range ?? 0;
 				}
 			}
 		}
@@ -479,7 +397,7 @@ namespace ElectronicObserver.Data
 			{
 				var p = GetParameterElement();
 				if (p != null && p.DefaultSlot != null)
-					return Array.AsReadOnly<int>(p.DefaultSlot);
+					return Array.AsReadOnly(p.DefaultSlot);
 				else
 					return null;
 			}
@@ -510,32 +428,12 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// ドロップ/ログイン時のメッセージ
 		/// </summary>
-		public string MessageGet
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.MessageGet != null)
-					return p.MessageGet.Replace("<br>", "\r\n");
-				else
-					return "";
-			}
-		}
+		public string MessageGet => GetParameterElement()?.MessageGet?.Replace("<br>", "\r\n") ?? "";
 
 		/// <summary>
 		/// 艦船名鑑でのメッセージ
 		/// </summary>
-		public string MessageAlbum
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.MessageAlbum != null)
-					return p.MessageAlbum.Replace("<br>", "\r\n");
-				else
-					return "";
-			}
-		}
+		public string MessageAlbum => GetParameterElement()?.MessageAlbum?.Replace("<br>", "\r\n") ?? "";
 
 
 		/// <summary>
@@ -558,77 +456,28 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// リソースのファイル/フォルダ名
 		/// </summary>
-		public string ResourceName
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.ResourceName != null)
-					return p.ResourceName;
-				else
-					return "";
-			}
-		}
+		public string ResourceName => GetParameterElement()?.ResourceName ?? "";
+
 
 		/// <summary>
 		/// 画像リソースのバージョン
 		/// </summary>
-		public string ResourceGraphicVersion
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.ResourceGraphicVersion != null)
-					return p.ResourceGraphicVersion;
-				else
-					return "";
-			}
-		}
+		public string ResourceGraphicVersion => GetParameterElement()?.ResourceGraphicVersion ?? "";
 
 		/// <summary>
 		/// ボイスリソースのバージョン
 		/// </summary>
-		public string ResourceVoiceVersion
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.ResourceVoiceVersion != null)
-					return p.ResourceVoiceVersion;
-				else
-					return "";
-			}
-		}
+		public string ResourceVoiceVersion => GetParameterElement()?.ResourceVoiceVersion ?? "";
 
 		/// <summary>
 		/// 母港ボイスリソースのバージョン
 		/// </summary>
-		public string ResourcePortVoiceVersion
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.ResourcePortVoiceVersion != null)
-					return p.ResourcePortVoiceVersion;
-				else
-					return "";
-			}
-		}
+		public string ResourcePortVoiceVersion => GetParameterElement()?.ResourcePortVoiceVersion ?? "";
 
 		/// <summary>
 		/// 衣替え艦：ベースとなる艦船ID
 		/// </summary>
-		public int OriginalCostumeShipID
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null)
-					return p.OriginalCostumeShipID;
-				else
-					return -1;
-			}
-		}
+		public int OriginalCostumeShipID => GetParameterElement()?.OriginalCostumeShipID ?? -1;
 
 
 
@@ -702,7 +551,7 @@ namespace ElectronicObserver.Data
 				if (!IsAbyssalShip || NameReading == "" || NameReading == "-")
 					return Name;
 				else
-					return string.Format("{0} {1}", Name, NameReading);
+					return $"{Name} {NameReading}";
 			}
 		}
 
@@ -817,10 +666,8 @@ namespace ElectronicObserver.Data
 		public int ID => ShipID;
 
 
-		public override string ToString()
-		{
-			return string.Format("[{0}] {1}", ShipID, NameWithClass);
-		}
+		public override string ToString() => $"[{ShipID}] {NameWithClass}";
+
 
 	}
 

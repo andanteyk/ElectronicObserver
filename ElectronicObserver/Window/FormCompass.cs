@@ -25,7 +25,7 @@ namespace ElectronicObserver.Window
 	{
 
 
-		private class TableEnemyMemberControl
+		private class TableEnemyMemberControl : IDisposable
 		{
 
 			public ImageLabel ShipName;
@@ -44,15 +44,17 @@ namespace ElectronicObserver.Window
 				ToolTipInfo = parent.ToolTipInfo;
 
 
-				ShipName = new ImageLabel();
-				ShipName.Anchor = AnchorStyles.Left;
-				ShipName.ForeColor = parent.MainFontColor;
-				ShipName.ImageAlign = ContentAlignment.MiddleCenter;
-				ShipName.Padding = new Padding(2, 2, 2, 2);
-				ShipName.Margin = new Padding(2, 0, 2, 1);
-				ShipName.AutoEllipsis = true;
-				ShipName.AutoSize = true;
-				ShipName.Cursor = Cursors.Help;
+				ShipName = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					ForeColor = parent.MainFontColor,
+					ImageAlign = ContentAlignment.MiddleCenter,
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 0, 2, 1),
+					AutoEllipsis = true,
+					AutoSize = true,
+					Cursor = Cursors.Help
+				};
 				ShipName.MouseClick += ShipName_MouseClick;
 
 				Equipments = new ShipStatusEquipment();
@@ -89,7 +91,7 @@ namespace ElectronicObserver.Window
 			public void Update(int shipID)
 			{
 				var slot = shipID != -1 ? KCDatabase.Instance.MasterShips[shipID].DefaultSlot : null;
-				Update(shipID, slot != null ? slot.ToArray() : null);
+				Update(shipID, slot?.ToArray());
 			}
 
 
@@ -154,6 +156,11 @@ namespace ElectronicObserver.Window
 				ShipName.MaximumSize = new Size(Utility.Configuration.Config.FormCompass.MaxShipNameWidth, int.MaxValue);
 			}
 
+			public void Dispose()
+			{
+				ShipName.Dispose();
+				Equipments.Dispose();
+			}
 		}
 
 
@@ -208,14 +215,16 @@ namespace ElectronicObserver.Window
 
 			private ImageLabel InitializeImageLabel()
 			{
-				var label = new ImageLabel();
-				label.Anchor = AnchorStyles.Left;
-				label.ForeColor = Parent.MainFontColor;
-				label.ImageAlign = ContentAlignment.MiddleCenter;
-				label.Padding = new Padding(0, 1, 0, 1);
-				label.Margin = new Padding(4, 0, 4, 1);
-				label.AutoEllipsis = true;
-				label.AutoSize = true;
+				var label = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					ForeColor = Parent.MainFontColor,
+					ImageAlign = ContentAlignment.MiddleCenter,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(4, 0, 4, 1),
+					AutoEllipsis = true,
+					AutoSize = true
+				};
 
 				return label;
 			}
@@ -294,7 +303,7 @@ namespace ElectronicObserver.Window
 						ShipNames[i].ForeColor = ship.GetShipNameColor();
 						ShipNames[i].Tag = ship.ShipID;
 						ShipNames[i].Cursor = Cursors.Help;
-						ToolTipInfo.SetToolTip(ShipNames[i], GetShipString(ship.ShipID, ship.DefaultSlot != null ? ship.DefaultSlot.ToArray() : null));
+						ToolTipInfo.SetToolTip(ShipNames[i], GetShipString(ship.ShipID, ship.DefaultSlot?.ToArray()));
 					}
 
 					ShipNames[i].Visible = true;

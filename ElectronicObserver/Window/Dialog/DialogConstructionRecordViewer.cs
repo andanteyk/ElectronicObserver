@@ -281,19 +281,21 @@ namespace ElectronicObserver.Window.Dialog
 			row.CreateCells(RecordView);
 
 
-			var args = new SearchArgument();
-			args.ShipCategory = (int)ShipCategory.SelectedValue;
-			args.ShipName = (string)ShipName.SelectedItem;
-			args.SecretaryCategory = (int)SecretaryCategory.SelectedValue;
-			args.SecretaryName = (string)SecretaryName.SelectedItem;
-			args.DateBegin = DateBegin.Value;
-			args.DateEnd = DateEnd.Value;
-			args.Recipe = (string)Recipe.Text;
-			args.DevelopmentMaterial = (int)DevelopmentMaterial.SelectedValue;
-			args.EmptyDock = (int)EmptyDock.SelectedValue;
-			args.IsLargeConstruction = IsLargeConstruction.CheckState;
-			args.MergeRows = MergeRows.Checked;
-			args.BaseRow = row;
+			var args = new SearchArgument
+			{
+				ShipCategory = (int)ShipCategory.SelectedValue,
+				ShipName = (string)ShipName.SelectedItem,
+				SecretaryCategory = (int)SecretaryCategory.SelectedValue,
+				SecretaryName = (string)SecretaryName.SelectedItem,
+				DateBegin = DateBegin.Value,
+				DateEnd = DateEnd.Value,
+				Recipe = (string)Recipe.Text,
+				DevelopmentMaterial = (int)DevelopmentMaterial.SelectedValue,
+				EmptyDock = (int)EmptyDock.SelectedValue,
+				IsLargeConstruction = IsLargeConstruction.CheckState,
+				MergeRows = MergeRows.Checked,
+				BaseRow = row
+			};
 
 			RecordView.Tag = args;
 

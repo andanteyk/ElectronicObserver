@@ -15,7 +15,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 個別の艦娘データを保持します。
 	/// </summary>
-	[DebuggerDisplay("[{ID}] {KCDatabase.Instance.MasterShips[ShipID].NameWithClass} Lv. {Level}")]
 	public class ShipData : APIWrapper, IIdentifiable
 	{
 
@@ -78,7 +77,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 装備スロット(ID)
 		/// </summary>
-		public ReadOnlyCollection<int> Slot => Array.AsReadOnly<int>(_slot);
+		public ReadOnlyCollection<int> Slot => Array.AsReadOnly(_slot);
 
 
 		/// <summary>
@@ -101,7 +100,7 @@ namespace ElectronicObserver.Data
 						s[i] = -1;
 				}
 
-				return Array.AsReadOnly<int>(s);
+				return Array.AsReadOnly(s);
 			}
 		}
 
@@ -139,7 +138,7 @@ namespace ElectronicObserver.Data
 				for (int i = 0; i < s.Length; i++)
 				{
 					EquipmentData eq = KCDatabase.Instance.Equipments[_slot[i]];
-					s[i] = eq != null ? eq.MasterEquipment : null;
+					s[i] = eq?.MasterEquipment;
 				}
 
 				return Array.AsReadOnly(s);
@@ -179,14 +178,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 補強装備スロット(装備マスターデータ)
 		/// </summary>
-		public EquipmentDataMaster ExpansionSlotInstanceMaster
-		{
-			get
-			{
-				EquipmentData eq = ExpansionSlotInstance;
-				return eq != null ? eq.MasterEquipment : null;
-			}
-		}
+		public EquipmentDataMaster ExpansionSlotInstanceMaster => ExpansionSlotInstance?.MasterEquipment;
 
 
 		/// <summary>
@@ -263,7 +255,7 @@ namespace ElectronicObserver.Data
 				for (int i = 0; i < s.Length; i++)
 				{
 					EquipmentData eq = KCDatabase.Instance.Equipments[alls[i]];
-					s[i] = eq != null ? eq.MasterEquipment : null;
+					s[i] = eq?.MasterEquipment;
 				}
 
 				return Array.AsReadOnly(s);
@@ -622,7 +614,7 @@ namespace ElectronicObserver.Data
 					int index = f.Members.IndexOf(MasterID);
 					if (index != -1)
 					{
-						return string.Format("{0}-{1}", f.FleetID, index + 1);
+						return $"{f.FleetID}-{index + 1}";
 					}
 				}
 				return "";
@@ -661,7 +653,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦名(レベルを含む)
 		/// </summary>
-		public string NameWithLevel => string.Format("{0} Lv. {1}", MasterShip.Name, Level);
+		public string NameWithLevel => $"{MasterShip.Name} Lv. {Level}";
 
 
 		/// <summary>
@@ -1340,6 +1332,7 @@ namespace ElectronicObserver.Data
 
 
 		public int ID => MasterID;
+		public override string ToString() => $"[{MasterID}] {NameWithLevel}";
 
 
 		public override void LoadFromResponse(string apiname, dynamic data)

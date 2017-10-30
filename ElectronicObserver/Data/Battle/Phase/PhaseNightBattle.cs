@@ -38,20 +38,23 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			for (int i = 0; i < attackers.Length; i++)
 			{
-				var attack = new PhaseNightBattleAttack();
+				var attack = new PhaseNightBattleAttack
+				{
+					Attacker = GetIndex(attackers[i]),
+					NightAirAttackFlag = nightAirAttackFlags[i] == -1,
+					AttackType = attackTypes[i],
+					EquipmentIDs = attackEquipments[i],
 
-				attack.Attacker = GetIndex(attackers[i]);
-				attack.NightAirAttackFlag = nightAirAttackFlags[i] == -1;
-				attack.AttackType = attackTypes[i];
-				attack.EquipmentIDs = attackEquipments[i];
-
-				attack.Defenders = new List<PhaseNightBattleDefender>();
+					Defenders = new List<PhaseNightBattleDefender>()
+				};
 				for (int k = 0; k < defenders[i].Length; k++)
 				{
-					var defender = new PhaseNightBattleDefender();
-					defender.Defender = GetIndex(defenders[i][k]);
-					defender.CriticalFlag = criticals[i][k];
-					defender.RawDamage = rawDamages[i][k];
+					var defender = new PhaseNightBattleDefender
+					{
+						Defender = GetIndex(defenders[i][k]),
+						CriticalFlag = criticals[i][k],
+						RawDamage = rawDamages[i][k]
+					};
 					attack.Defenders.Add(defender);
 				}
 
@@ -97,10 +100,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			public PhaseNightBattleAttack() { }
 
-			public override string ToString()
-			{
-				return string.Format("{0}[{1}] -> [{2}]", Attacker, AttackType, string.Join(", ", Defenders));
-			}
+			public override string ToString() => $"{Attacker}[{AttackType}] -> [{string.Join(", ", Defenders)}]";
+
 		}
 		public class PhaseNightBattleDefender
 		{

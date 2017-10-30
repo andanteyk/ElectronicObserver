@@ -19,7 +19,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 艦隊の情報を保持します。
 	/// </summary>
-	[DebuggerDisplay("[{ID}] : {Name}")]
 	public class FleetData : APIWrapper, IIdentifiable
 	{
 
@@ -54,7 +53,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦隊メンバー(艦船ID)
 		/// </summary>
-		public ReadOnlyCollection<int> Members => Array.AsReadOnly<int>(_members);
+		public ReadOnlyCollection<int> Members => Array.AsReadOnly(_members);
 
 		/// <summary>
 		/// 艦隊メンバー(艦船データ)
@@ -71,7 +70,7 @@ namespace ElectronicObserver.Data
 					ships[i] = KCDatabase.Instance.Ships[_members[i]];
 				}
 
-				return Array.AsReadOnly<ShipData>(ships);
+				return Array.AsReadOnly(ships);
 			}
 		}
 
@@ -90,7 +89,7 @@ namespace ElectronicObserver.Data
 					ships[i] = _escapedShipList.Contains(_members[i]) ? null : KCDatabase.Instance.Ships[_members[i]];
 				}
 
-				return Array.AsReadOnly<ShipData>(ships);
+				return Array.AsReadOnly(ships);
 			}
 		}
 
@@ -507,6 +506,9 @@ namespace ElectronicObserver.Data
 				ConditionTime = KCDatabase.Instance.Fleet.CalculateConditionHealingEstimation(Utility.Configuration.Config.Control.ConditionBorder - ships.Min(ship => ship.Condition));
 			}
 		}
+
+
+		public override string ToString() => $"[{FleetID}] {Name}";
 
 	}
 

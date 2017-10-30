@@ -16,7 +16,7 @@ namespace ElectronicObserver.Data
 	/// 艦船グループのデータを管理します。
 	/// </summary>
 	[DataContract(Name = "ShipGroupManager")]
-	public class ShipGroupManager : DataStorage
+	public sealed class ShipGroupManager : DataStorage
 	{
 
 		public const string DefaultFilePath = @"Settings\ShipGroups.xml";

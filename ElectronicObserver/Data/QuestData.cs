@@ -11,7 +11,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 任務のデータを保持します。
 	/// </summary>
-	[DebuggerDisplay("[{ID}] : {Name}")]
 	public class QuestData : ResponseWrapper, IIdentifiable
 	{
 
@@ -61,6 +60,7 @@ namespace ElectronicObserver.Data
 
 
 		public int ID => QuestID;
+		public override string ToString() => $"[{QuestID}] {Name}";
 	}
 
 

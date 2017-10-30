@@ -75,20 +75,26 @@ namespace ElectronicObserver.Window
 
 			#region set CellStyle
 
-			CSDefaultLeft = new DataGridViewCellStyle();
-			CSDefaultLeft.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			CSDefaultLeft.BackColor = SystemColors.Control;
-			CSDefaultLeft.Font = Font;
-			CSDefaultLeft.ForeColor = SystemColors.ControlText;
-			CSDefaultLeft.SelectionBackColor = Color.FromArgb(0xFF, 0xFF, 0xCC);
-			CSDefaultLeft.SelectionForeColor = SystemColors.ControlText;
-			CSDefaultLeft.WrapMode = DataGridViewTriState.False;
+			CSDefaultLeft = new DataGridViewCellStyle
+			{
+				Alignment = DataGridViewContentAlignment.MiddleLeft,
+				BackColor = SystemColors.Control,
+				Font = Font,
+				ForeColor = SystemColors.ControlText,
+				SelectionBackColor = Color.FromArgb(0xFF, 0xFF, 0xCC),
+				SelectionForeColor = SystemColors.ControlText,
+				WrapMode = DataGridViewTriState.False
+			};
 
-			CSDefaultCenter = new DataGridViewCellStyle(CSDefaultLeft);
-			CSDefaultCenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			CSDefaultCenter = new DataGridViewCellStyle(CSDefaultLeft)
+			{
+				Alignment = DataGridViewContentAlignment.MiddleCenter
+			};
 
-			CSDefaultRight = new DataGridViewCellStyle(CSDefaultLeft);
-			CSDefaultRight.Alignment = DataGridViewContentAlignment.MiddleRight;
+			CSDefaultRight = new DataGridViewCellStyle(CSDefaultLeft)
+			{
+				Alignment = DataGridViewContentAlignment.MiddleRight
+			};
 
 			CSRedRight = new DataGridViewCellStyle(CSDefaultRight);
 			CSRedRight.BackColor =
@@ -279,17 +285,19 @@ namespace ElectronicObserver.Window
 		private ImageLabel CreateTabLabel(int id)
 		{
 
-			ImageLabel label = new ImageLabel();
-			label.Text = KCDatabase.Instance.ShipGroup[id].Name;
-			label.Anchor = AnchorStyles.Left;
-			label.Font = ShipView.Font;
-			label.BackColor = TabInactiveColor;
-			label.BorderStyle = BorderStyle.FixedSingle;
-			label.Padding = new Padding(4, 4, 4, 4);
-			label.Margin = new Padding(0, 0, 0, 0);
-			label.ImageAlign = ContentAlignment.MiddleCenter;
-			label.AutoSize = true;
-			label.Cursor = Cursors.Hand;
+			ImageLabel label = new ImageLabel
+			{
+				Text = KCDatabase.Instance.ShipGroup[id].Name,
+				Anchor = AnchorStyles.Left,
+				Font = ShipView.Font,
+				BackColor = TabInactiveColor,
+				BorderStyle = BorderStyle.FixedSingle,
+				Padding = new Padding(4, 4, 4, 4),
+				Margin = new Padding(0, 0, 0, 0),
+				ImageAlign = ContentAlignment.MiddleCenter,
+				AutoSize = true,
+				Cursor = Cursors.Hand
+			};
 
 			//イベントと固有IDの追加(内部データとの紐付)
 			label.Click += TabLabel_Click;
@@ -517,8 +525,10 @@ namespace ElectronicObserver.Window
 
 					if (!group.ViewColumns.ContainsKey(column.Name))
 					{
-						var newdata = new ShipGroupData.ViewColumnData(column);
-						newdata.Visible = true;     //初期状態でインビジだと不都合なので
+						var newdata = new ShipGroupData.ViewColumnData(column)
+						{
+							Visible = true     //初期状態でインビジだと不都合なので
+						};
 
 						group.ViewColumns.Add(newdata.Name, newdata);
 					}

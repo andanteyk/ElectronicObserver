@@ -11,7 +11,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 装備の種別
 	/// </summary>
-	[DebuggerDisplay("[{ID}] : {Name}")]
 	public class EquipmentType : ResponseWrapper, IIdentifiable
 	{
 
@@ -27,6 +26,8 @@ namespace ElectronicObserver.Data
 
 		//show_flg
 
+
+		public override string ToString() => $"[{TypeID}] {Name}";
 
 		public int ID => TypeID;
 	}

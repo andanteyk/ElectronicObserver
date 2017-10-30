@@ -161,7 +161,7 @@ namespace ElectronicObserver.Resource.Record
 		/// 各艦船のパラメータを保持します。
 		/// </summary>
 		[DebuggerDisplay("[{ShipID}] : {ShipName}")]
-		public class ShipParameterElement : RecordElementBase
+		public sealed class ShipParameterElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -342,7 +342,6 @@ namespace ElectronicObserver.Resource.Record
 			public ShipParameterElement(string line)
 				: this()
 			{
-
 				LoadLine(line);
 			}
 
@@ -610,8 +609,10 @@ namespace ElectronicObserver.Resource.Record
 			ShipParameterElement e = this[shipID];
 			if (e == null)
 			{
-				e = new ShipParameterElement();
-				e.ShipID = shipID;
+				e = new ShipParameterElement
+				{
+					ShipID = shipID
+				};
 				Utility.Logger.Add(2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "のパラメータを記録しました。");
 			}
 
@@ -654,8 +655,10 @@ namespace ElectronicObserver.Resource.Record
 			ShipParameterElement e = this[shipID];
 			if (e == null)
 			{
-				e = new ShipParameterElement();
-				e.ShipID = shipID;
+				e = new ShipParameterElement
+				{
+					ShipID = shipID
+				};
 				Utility.Logger.Add(2, KCDatabase.Instance.MasterShips[shipID].NameWithClass + "の初期装備を記録しました。");
 			}
 
@@ -683,8 +686,10 @@ namespace ElectronicObserver.Resource.Record
 				var param = this[(int)elem.api_id];
 				if (param == null)
 				{
-					param = new ShipParameterElement();
-					param.ShipID = (int)elem.api_id;
+					param = new ShipParameterElement
+					{
+						ShipID = (int)elem.api_id
+					};
 				}
 
 				if (elem.api_taik())
@@ -746,8 +751,10 @@ namespace ElectronicObserver.Resource.Record
 				var param = this[(int)elem.api_id];
 				if (param == null)
 				{
-					param = new ShipParameterElement();
-					param.ShipID = (int)elem.api_id;
+					param = new ShipParameterElement
+					{
+						ShipID = (int)elem.api_id
+					};
 				}
 
 				if (elem.api_filename())
@@ -831,8 +838,10 @@ namespace ElectronicObserver.Resource.Record
 				ShipParameterElement e = this[shipID];
 				if (e == null)
 				{
-					e = new ShipParameterElement();
-					e.ShipID = shipID;
+					e = new ShipParameterElement
+					{
+						ShipID = shipID
+					};
 					Utility.Logger.Add(2, ship.NameWithClass + "のパラメータを記録しました。");
 				}
 
@@ -857,8 +866,10 @@ namespace ElectronicObserver.Resource.Record
 						ShipParameterElement e2 = this[ship.RemodelAfterShipID];
 						if (e2 == null)
 						{
-							e2 = new ShipParameterElement();
-							e2.ShipID = ship.RemodelAfterShipID;
+							e2 = new ShipParameterElement
+							{
+								ShipID = ship.RemodelAfterShipID
+							};
 						}
 
 						ship = KCDatabase.Instance.MasterShips[ship.RemodelAfterShipID];
@@ -881,8 +892,10 @@ namespace ElectronicObserver.Resource.Record
 						var e2 = this[id];
 						if (e2 == null)
 						{
-							e2 = new ShipParameterElement();
-							e2.ShipID = id;
+							e2 = new ShipParameterElement
+							{
+								ShipID = id
+							};
 						}
 
 						e2.OriginalCostumeShipID = shipID;
@@ -913,8 +926,10 @@ namespace ElectronicObserver.Resource.Record
 				var param = this[efleet[i]];
 				if (param == null)
 				{
-					param = new ShipParameterElement();
-					param.ShipID = efleet[i];
+					param = new ShipParameterElement
+					{
+						ShipID = efleet[i]
+					};
 					Utility.Logger.Add(2, KCDatabase.Instance.MasterShips[param.ShipID].NameWithClass + "のパラメータを記録しました。");
 				}
 

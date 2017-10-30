@@ -34,6 +34,7 @@ namespace ElectronicObserver.Data
 		}
 
 		public int ID => EquipmentID;
+		public override string ToString() => $"[{EquipmentID}] {EquipmentInstance.NameWithLevel} @ {RelocatedTime}";
 	}
 
 }

@@ -36,7 +36,7 @@ namespace ElectronicObserver.Utility
 
 
 		[DataContract(Name = "Configuration")]
-		public class ConfigurationData : DataStorage
+		public sealed class ConfigurationData : DataStorage
 		{
 
 			public class ConfigPartBase
@@ -1365,6 +1365,12 @@ namespace ElectronicObserver.Utility
 			public string VersionUpdateTime { get; set; }
 
 
+
+			public ConfigurationData()
+			{
+				Initialize();
+			}
+
 			public override void Initialize()
 			{
 
@@ -1711,8 +1717,7 @@ namespace ElectronicObserver.Utility
 										var elem = line.Split(",".ToCharArray()).ToList();
 
 										// 旧IDの変換
-										int oldID;
-										if (!int.TryParse(elem[0], out oldID))
+										if (!int.TryParse(elem[0], out int oldID))
 											oldID = -1;
 
 										if (oldID > 2000)

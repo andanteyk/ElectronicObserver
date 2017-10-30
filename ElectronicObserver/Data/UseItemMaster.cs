@@ -11,7 +11,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 消費アイテムのマスターデータを保持します。
 	/// </summary>
-	[DebuggerDisplay("[{ID}] : {Name}")]
 	public class UseItemMaster : ResponseWrapper, IIdentifiable
 	{
 
@@ -45,6 +44,7 @@ namespace ElectronicObserver.Data
 
 
 		public int ID => ItemID;
+		public override string ToString() => $"[{ItemID}] {Name}";
 	}
 
 

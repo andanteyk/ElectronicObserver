@@ -87,6 +87,12 @@ namespace ElectronicObserver.Window.Integrate
 			[DataMember]
 			public MatchString ProcessFilePath { get; set; }
 
+
+			public WindowInfo()
+			{
+				Initialize();
+			}
+
 			public override void Initialize()
 			{
 			}
@@ -115,14 +121,16 @@ namespace ElectronicObserver.Window.Integrate
 		{
 			get
 			{
-				WindowInfo info = new WindowInfo();
-				info.CurrentTitle = Text;
-				info.Title = new MatchString(titleTextBox.Text,
-					(MatchControl)titleComboBox.SelectedIndex);
-				info.ClassName = new MatchString(classNameTextBox.Text,
-					(MatchControl)classNameComboBox.SelectedIndex);
-				info.ProcessFilePath = new MatchString(fileNameTextBox.Text,
-					(MatchControl)fileNameComboBox.SelectedIndex);
+				WindowInfo info = new WindowInfo
+				{
+					CurrentTitle = Text,
+					Title = new MatchString(titleTextBox.Text,
+					(MatchControl)titleComboBox.SelectedIndex),
+					ClassName = new MatchString(classNameTextBox.Text,
+					(MatchControl)classNameComboBox.SelectedIndex),
+					ProcessFilePath = new MatchString(fileNameTextBox.Text,
+					(MatchControl)fileNameComboBox.SelectedIndex)
+				};
 
 				return info;
 			}
@@ -179,8 +187,10 @@ namespace ElectronicObserver.Window.Integrate
 		{
 			WindowInfo info = new WindowInfo();
 			info = (WindowInfo)info.Load(new StringReader(str.Substring(PREFIX.Length)));
-			FormIntegrate form = new FormIntegrate(parent);
-			form.WindowData = info;
+			FormIntegrate form = new FormIntegrate(parent)
+			{
+				WindowData = info
+			};
 			return form;
 		}
 
@@ -216,8 +226,7 @@ namespace ElectronicObserver.Window.Integrate
 			{
 				WinAPI.GetClassName(hWnd, className, className.Capacity);
 				WinAPI.GetWindowText(hWnd, windowText, windowText.Capacity);
-				uint processId;
-				WinAPI.GetWindowThreadProcessId(hWnd, out processId);
+				WinAPI.GetWindowThreadProcessId(hWnd, out uint processId);
 				if (info.ClassName.Match(className.ToString()) &&
 					info.Title.Match(windowText.ToString()) &&
 					WinAPI.IsWindowVisible(hWnd) &&
@@ -267,8 +276,7 @@ namespace ElectronicObserver.Window.Integrate
 			WinAPI.GetWindowText(hWnd, sb, sb.Capacity);
 			info.Title = new MatchString(sb.ToString(), MatchControl.Exact);
 
-			uint processId;
-			WinAPI.GetWindowThreadProcessId(hWnd, out processId);
+			WinAPI.GetWindowThreadProcessId(hWnd, out uint processId);
 			String fileName = GetMainModuleFilepath((int)processId);
 			info.ProcessFilePath = new MatchString(fileName, MatchControl.Exact);
 

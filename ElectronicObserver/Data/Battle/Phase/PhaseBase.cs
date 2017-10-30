@@ -110,10 +110,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public virtual string GetBattleDetail() { return GetBattleDetail(-1); }
 
 
-		public override string ToString()
-		{
-			return string.Join(" / \r\n", BattleDetails);
-		}
+		public override string ToString() => string.Join(" / \r\n", BattleDetails);
+
 
 
 		/// <summary>

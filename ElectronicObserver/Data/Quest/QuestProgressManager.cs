@@ -32,7 +32,7 @@ namespace ElectronicObserver.Data.Quest
 	[KnownType(typeof(ProgressPractice))]
 	[KnownType(typeof(ProgressSlaughter))]
 	[KnownType(typeof(ProgressSupply))]
-	public class QuestProgressManager : DataStorage
+	public sealed class QuestProgressManager : DataStorage
 	{
 
 
@@ -72,8 +72,7 @@ namespace ElectronicObserver.Data.Quest
 
 		public QuestProgressManager()
 		{
-
-			//Initialize();		//二重init禁止！！！！
+			Initialize();
 		}
 
 
