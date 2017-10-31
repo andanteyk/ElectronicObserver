@@ -125,14 +125,16 @@ namespace ElectronicObserver.Observer
 						wc.Proxy = Proxy;
 					}
 
-					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection();
-					post.Add("token", oauth);
-					// agent key for 'ElectronicObserver'
-					// https://github.com/about518/kanColleDbPost/issues/3#issuecomment-105534030
-					post.Add("agent", "L57Mi4hJeCYinbbBSH5K");
-					post.Add("url", url);
-					post.Add("requestbody", request);
-					post.Add("responsebody", response);
+					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection
+					{
+						{ "token", oauth },
+						// agent key for 'ElectronicObserver'
+						// https://github.com/about518/kanColleDbPost/issues/3#issuecomment-105534030
+						{ "agent", "L57Mi4hJeCYinbbBSH5K" },
+						{ "url", url },
+						{ "requestbody", request },
+						{ "responsebody", response }
+					};
 
 					wc.UploadValuesCompleted += (sender, e) =>
 					{

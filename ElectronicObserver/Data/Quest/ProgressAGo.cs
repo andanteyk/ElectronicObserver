@@ -238,11 +238,13 @@ namespace ElectronicObserver.Data.Quest
 
 		public override string ToString()
 		{
-			var list = new List<DSPair>();
-			list.Add(new DSPair(Math.Min((double)sortieCount / sortieMax, 1.0), string.Format("出撃 {0}/{1}", sortieCount, sortieMax)));
-			list.Add(new DSPair(Math.Min((double)sWinCount / sWinMax, 1.0), string.Format("S勝利 {0}/{1}", sWinCount, sWinMax)));
-			list.Add(new DSPair(Math.Min((double)bossCount / bossMax, 1.0), string.Format("ボス {0}/{1}", bossCount, bossMax)));
-			list.Add(new DSPair(Math.Min((double)bossWinCount / bossWinMax, 1.0), string.Format("ボス勝利 {0}/{1}", bossWinCount, bossWinMax)));
+			var list = new List<DSPair>
+			{
+				new DSPair(Math.Min((double)sortieCount / sortieMax, 1.0), string.Format("出撃 {0}/{1}", sortieCount, sortieMax)),
+				new DSPair(Math.Min((double)sWinCount / sWinMax, 1.0), string.Format("S勝利 {0}/{1}", sWinCount, sWinMax)),
+				new DSPair(Math.Min((double)bossCount / bossMax, 1.0), string.Format("ボス {0}/{1}", bossCount, bossMax)),
+				new DSPair(Math.Min((double)bossWinCount / bossWinMax, 1.0), string.Format("ボス勝利 {0}/{1}", bossWinCount, bossWinMax))
+			};
 
 			var slist = list.Where(elem => elem.Key < 1.0).OrderBy(elem => elem.Key).Select(elem => elem.Value);
 			return string.Format("{0:p1} ({1})", ProgressPercentage, slist.Count() > 0 ? string.Join(", ", slist) : "達成");
