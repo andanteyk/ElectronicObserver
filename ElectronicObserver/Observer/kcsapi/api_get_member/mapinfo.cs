@@ -55,9 +55,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 		}
 
 
-		public override string APIName
-		{
-			get { return "api_get_member/mapinfo"; }
-		}
+		public override string APIName => "api_get_member/mapinfo";
 	}
+
 }

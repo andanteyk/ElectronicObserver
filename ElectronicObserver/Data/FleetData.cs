@@ -19,17 +19,13 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 艦隊の情報を保持します。
 	/// </summary>
-	[DebuggerDisplay("[{ID}] : {Name}")]
 	public class FleetData : APIWrapper, IIdentifiable
 	{
 
 		/// <summary>
 		/// 艦隊ID
 		/// </summary>
-		public int FleetID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int FleetID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 艦隊名
@@ -57,10 +53,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦隊メンバー(艦船ID)
 		/// </summary>
-		public ReadOnlyCollection<int> Members
-		{
-			get { return Array.AsReadOnly<int>(_members); }
-		}
+		public ReadOnlyCollection<int> Members => Array.AsReadOnly(_members);
 
 		/// <summary>
 		/// 艦隊メンバー(艦船データ)
@@ -77,7 +70,7 @@ namespace ElectronicObserver.Data
 					ships[i] = KCDatabase.Instance.Ships[_members[i]];
 				}
 
-				return Array.AsReadOnly<ShipData>(ships);
+				return Array.AsReadOnly(ships);
 			}
 		}
 
@@ -96,28 +89,20 @@ namespace ElectronicObserver.Data
 					ships[i] = _escapedShipList.Contains(_members[i]) ? null : KCDatabase.Instance.Ships[_members[i]];
 				}
 
-				return Array.AsReadOnly<ShipData>(ships);
+				return Array.AsReadOnly(ships);
 			}
 		}
 
 
-		public int this[int i]
-		{
-			get
-			{
-				return _members[i];
-			}
-		}
+		public int this[int i] => _members[i];
+
 
 
 		private List<int> _escapedShipList = new List<int>();
 		/// <summary>
 		/// 退避艦のIDリスト
 		/// </summary>
-		public ReadOnlyCollection<int> EscapedShipList
-		{
-			get { return _escapedShipList.AsReadOnly(); }
-		}
+		public ReadOnlyCollection<int> EscapedShipList => _escapedShipList.AsReadOnly();
 
 		/// <summary>
 		/// 出撃中かどうか
@@ -127,10 +112,7 @@ namespace ElectronicObserver.Data
 
 
 
-		public int ID
-		{
-			get { return FleetID; }
-		}
+		public int ID => FleetID;
 
 
 
@@ -524,6 +506,9 @@ namespace ElectronicObserver.Data
 				ConditionTime = KCDatabase.Instance.Fleet.CalculateConditionHealingEstimation(Utility.Configuration.Config.Control.ConditionBorder - ships.Min(ship => ship.Condition));
 			}
 		}
+
+
+		public override string ToString() => $"[{FleetID}] {Name}";
 
 	}
 

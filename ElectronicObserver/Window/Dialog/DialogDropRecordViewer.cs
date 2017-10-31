@@ -418,23 +418,25 @@ namespace ElectronicObserver.Window.Dialog
 			var row = new DataGridViewRow();
 			row.CreateCells(RecordView);
 
-			var args = new SearchArgument();
-			args.ShipName = ShipName.Text;
-			args.ItemName = (string)ItemName.SelectedItem;
-			args.EquipmentName = (string)EquipmentName.SelectedItem;
-			args.DateBegin = DateBegin.Value;
-			args.DateEnd = DateEnd.Value;
-			args.MapAreaID = (int)MapAreaID.SelectedValue;
-			args.MapInfoID = (int)MapInfoID.SelectedValue;
-			args.MapCellID = (int)MapCellID.SelectedValue;
-			args.MapDifficulty = (int)MapDifficulty.SelectedValue;
-			args.IsBossOnly = IsBossOnly.CheckState;
-			args.RankS = RankS.Checked;
-			args.RankA = RankA.Checked;
-			args.RankB = RankB.Checked;
-			args.RankX = RankX.Checked;
-			args.MergeRows = MergeRows.Checked;
-			args.BaseRow = row;
+			var args = new SearchArgument
+			{
+				ShipName = ShipName.Text,
+				ItemName = (string)ItemName.SelectedItem,
+				EquipmentName = (string)EquipmentName.SelectedItem,
+				DateBegin = DateBegin.Value,
+				DateEnd = DateEnd.Value,
+				MapAreaID = (int)MapAreaID.SelectedValue,
+				MapInfoID = (int)MapInfoID.SelectedValue,
+				MapCellID = (int)MapCellID.SelectedValue,
+				MapDifficulty = (int)MapDifficulty.SelectedValue,
+				IsBossOnly = IsBossOnly.CheckState,
+				RankS = RankS.Checked,
+				RankA = RankA.Checked,
+				RankB = RankB.Checked,
+				RankX = RankX.Checked,
+				MergeRows = MergeRows.Checked,
+				BaseRow = row
+			};
 
 			RecordView.Tag = args;
 
@@ -709,8 +711,7 @@ namespace ElectronicObserver.Window.Dialog
 
 						string name = c.Key;
 
-						int serialID = 0;
-						if (int.TryParse(name, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out serialID))
+						if (int.TryParse(name, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out int serialID))
 							name = GetMapString(serialID);
 
 						// fixme: name != map だった時にソートキーが入れられない

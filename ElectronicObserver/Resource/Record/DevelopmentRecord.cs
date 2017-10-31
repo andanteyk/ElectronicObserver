@@ -19,7 +19,7 @@ namespace ElectronicObserver.Resource.Record
 	{
 
 		[DebuggerDisplay("[{EquipmentID}] : {EquipmentName}")]
-		public class DevelopmentElement : RecordElementBase
+		public sealed class DevelopmentElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -86,7 +86,10 @@ namespace ElectronicObserver.Resource.Record
 			}
 
 			public DevelopmentElement(string line)
-				: base(line) { }
+				: this()
+			{
+				LoadLine(line);
+			}
 
 			public DevelopmentElement(int equipmentID, int fuel, int ammo, int steel, int bauxite, int flagshipID, int hqLevel)
 			{
@@ -187,11 +190,13 @@ namespace ElectronicObserver.Resource.Record
 		private void DevelopmentStart(string apiname, dynamic data)
 		{
 
-			tempElement = new DevelopmentElement();
-			tempElement.Fuel = int.Parse(data["api_item1"]);
-			tempElement.Ammo = int.Parse(data["api_item2"]);
-			tempElement.Steel = int.Parse(data["api_item3"]);
-			tempElement.Bauxite = int.Parse(data["api_item4"]);
+			tempElement = new DevelopmentElement
+			{
+				Fuel = int.Parse(data["api_item1"]),
+				Ammo = int.Parse(data["api_item2"]),
+				Steel = int.Parse(data["api_item3"]),
+				Bauxite = int.Parse(data["api_item4"])
+			};
 
 		}
 
@@ -252,15 +257,9 @@ namespace ElectronicObserver.Resource.Record
 			LastSavedCount = Record.Count;
 		}
 
-		public override bool NeedToSave
-		{
-			get { return LastSavedCount < Record.Count; }
-		}
+		public override bool NeedToSave => LastSavedCount < Record.Count;
 
-		public override bool SupportsPartialSave
-		{
-			get { return true; }
-		}
+		public override bool SupportsPartialSave => true;
 
 		protected override void ClearRecord()
 		{
@@ -269,16 +268,10 @@ namespace ElectronicObserver.Resource.Record
 		}
 
 
-		public override string RecordHeader
-		{
-			get { return "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦名,旗艦艦種,司令部Lv"; }
-		}
+		public override string RecordHeader => "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦名,旗艦艦種,司令部Lv";
 
-		public override string FileName
-		{
-			get { return "DevelopmentRecord.csv"; }
-		}
-
+		public override string FileName => "DevelopmentRecord.csv";
 	}
+
 
 }

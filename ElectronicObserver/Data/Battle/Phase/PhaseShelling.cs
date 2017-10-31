@@ -31,18 +31,16 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			public PhaseShellingAttack() { }
 
-			public override string ToString()
-			{
-				return string.Format("{0}[{1}] -> [{2}]", Attacker, AttackType, string.Join(", ", Defenders));
-			}
+			public override string ToString() => $"{Attacker}[{AttackType}] -> [{string.Join(", ", Defenders)}]";
+
 		}
 		public class PhaseShellingDefender
 		{
 			public int Defender;
 			public int CriticalFlag;
 			public double RawDamage;
-			public bool GuardsFlagship { get { return RawDamage != Math.Floor(RawDamage); } }
-			public int Damage { get { return (int)RawDamage; } }
+			public bool GuardsFlagship => RawDamage != Math.Floor(RawDamage);
+			public int Damage => (int)RawDamage;
 
 			public override string ToString()
 			{
@@ -80,10 +78,11 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			for (int i = 0; i < attackers.Length; i++)
 			{
-				var attack = new PhaseShellingAttack();
-
-				attack.Attacker = attackers[i] - 1;
-				attack.Defenders = new List<PhaseShellingDefender>();
+				var attack = new PhaseShellingAttack
+				{
+					Attacker = attackers[i] - 1,
+					Defenders = new List<PhaseShellingDefender>()
+				};
 
 
 				if (fleetflag != null)
@@ -104,8 +103,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 					for (int k = 0; k < defenders[i].Length; k++)
 					{
 
-						var defender = new PhaseShellingDefender();
-						defender.Defender = defenders[i][k] - 1;
+						var defender = new PhaseShellingDefender
+						{
+							Defender = defenders[i][k] - 1
+						};
 
 						if (defender.Defender >= 6) // escort
 							defender.Defender += 6;
@@ -128,8 +129,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 					for (int k = 0; k < defenders[i].Length; k++)
 					{
 
-						var defender = new PhaseShellingDefender();
-						defender.Defender = defenders[i][k] - 1;
+						var defender = new PhaseShellingDefender
+						{
+							Defender = defenders[i][k] - 1
+						};
 
 						if (PhaseBase.IsIndexEnemy(attack.Attacker))    // enemy -> *friend escort*
 							defender.Defender += 12;
@@ -147,11 +150,12 @@ namespace ElectronicObserver.Data.Battle.Phase
 					for (int k = 0; k < defenders[i].Length; k++)
 					{
 
-						var defender = new PhaseShellingDefender();
-
-						defender.Defender = defenders[i][k] - 1;
-						defender.CriticalFlag = criticalFlags[i][k];
-						defender.RawDamage = rawDamages[i][k];
+						var defender = new PhaseShellingDefender
+						{
+							Defender = defenders[i][k] - 1,
+							CriticalFlag = criticalFlags[i][k],
+							RawDamage = rawDamages[i][k]
+						};
 
 						attack.Defenders.Add(defender);
 					}
@@ -167,16 +171,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
-		public override bool IsAvailable
-		{
-			get { return (int)RawData.api_hourai_flag[phaseID - 1] != 0; }
-		}
+		public override bool IsAvailable => (int)RawData.api_hourai_flag[phaseID - 1] != 0;
 
 
-		public virtual dynamic ShellingData
-		{
-			get { return RawData["api_hougeki" + suffix]; }
-		}
+		public virtual dynamic ShellingData => RawData["api_hougeki" + suffix];
 
 
 		public override void EmulateBattle(int[] hps, int[] damages)

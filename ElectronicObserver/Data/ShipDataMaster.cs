@@ -21,68 +21,44 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦船ID
 		/// </summary>
-		public int ShipID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int ShipID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 図鑑番号
 		/// </summary>
-		public int AlbumNo
-		{
-			get { return !RawData.api_sortno() ? 0 : (int)RawData.api_sortno; }
-		}
+		public int AlbumNo => !RawData.api_sortno() ? 0 : (int)RawData.api_sortno;
 
 		/// <summary>
 		/// 名前
 		/// </summary>
-		public string Name
-		{
-			get { return RawData.api_name; }
-		}
+		public string Name => RawData.api_name;
 
 		/// <summary>
 		/// 読み
 		/// </summary>
-		public string NameReading
-		{
-			get { return RawData.api_yomi; }
-		}
+		public string NameReading => RawData.api_yomi;
 
 		/// <summary>
 		/// 艦種
 		/// </summary>
-		public int ShipType
-		{
-			get { return (int)RawData.api_stype; }
-		}
+		public int ShipType => (int)RawData.api_stype;
 
 
 		/// <summary>
 		/// 改装Lv.
 		/// </summary>
-		public int RemodelAfterLevel
-		{
-			get { return !RawData.api_afterlv() ? 0 : (int)RawData.api_afterlv; }
-		}
+		public int RemodelAfterLevel => !RawData.api_afterlv() ? 0 : (int)RawData.api_afterlv;
 
 		/// <summary>
 		/// 改装後の艦船ID
 		/// 0=なし
 		/// </summary>
-		public int RemodelAfterShipID
-		{
-			get { return !RawData.api_aftershipid() ? 0 : int.Parse((string)RawData.api_aftershipid); }
-		}
+		public int RemodelAfterShipID => !RawData.api_aftershipid() ? 0 : int.Parse((string)RawData.api_aftershipid);
 
 		/// <summary>
 		/// 改装後の艦船
 		/// </summary>
-		public ShipDataMaster RemodelAfterShip
-		{
-			get { return RemodelAfterShipID > 0 ? KCDatabase.Instance.MasterShips[RemodelAfterShipID] : null; }
-		}
+		public ShipDataMaster RemodelAfterShip => RemodelAfterShipID > 0 ? KCDatabase.Instance.MasterShips[RemodelAfterShipID] : null;
 
 
 		/// <summary>
@@ -94,27 +70,18 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 改装前の艦船
 		/// </summary>
-		public ShipDataMaster RemodelBeforeShip
-		{
-			get { return RemodelBeforeShipID > 0 ? KCDatabase.Instance.MasterShips[RemodelBeforeShipID] : null; }
-		}
+		public ShipDataMaster RemodelBeforeShip => RemodelBeforeShipID > 0 ? KCDatabase.Instance.MasterShips[RemodelBeforeShipID] : null;
 
 
 		/// <summary>
 		/// 改装に必要な弾薬
 		/// </summary>
-		public int RemodelAmmo
-		{
-			get { return !RawData.api_afterbull() ? 0 : (int)RawData.api_afterbull; }
-		}
+		public int RemodelAmmo => !RawData.api_afterbull() ? 0 : (int)RawData.api_afterbull;
 
 		/// <summary>
 		/// 改装に必要な鋼材
 		/// </summary>
-		public int RemodelSteel
-		{
-			get { return !RawData.api_afterfuel() ? 0 : (int)RawData.api_afterfuel; }
-		}
+		public int RemodelSteel => !RawData.api_afterfuel() ? 0 : (int)RawData.api_afterfuel;
 
 		/// <summary>
 		/// 改装に改装設計図が必要かどうか
@@ -142,11 +109,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.HPMin;
-					else
-						return 0;
+					return GetParameterElement()?.HPMin ?? 0;
 				}
 			}
 		}
@@ -164,11 +127,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.HPMax;
-					else
-						return 0;
+					return GetParameterElement()?.HPMax ?? 0;
 				}
 			}
 		}
@@ -186,11 +145,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.ArmorMin;
-					else
-						return 0;
+					return GetParameterElement()?.ArmorMin ?? 0;
 				}
 			}
 		}
@@ -208,11 +163,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.ArmorMax;
-					else
-						return 0;
+					return GetParameterElement()?.ArmorMax ?? 0;
 				}
 			}
 		}
@@ -230,11 +181,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.FirepowerMin;
-					else
-						return 0;
+					return GetParameterElement()?.FirepowerMin ?? 0;
 				}
 			}
 		}
@@ -252,11 +199,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.FirepowerMax;
-					else
-						return 0;
+					return GetParameterElement()?.FirepowerMax ?? 0;
 				}
 			}
 		}
@@ -274,11 +217,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.TorpedoMin;
-					else
-						return 0;
+					return GetParameterElement()?.TorpedoMin ?? 0;
 				}
 			}
 		}
@@ -296,11 +235,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.TorpedoMax;
-					else
-						return 0;
+					return GetParameterElement()?.TorpedoMax ?? 0;
 				}
 			}
 		}
@@ -318,11 +253,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.AAMin;
-					else
-						return 0;
+					return GetParameterElement()?.AAMin ?? 0;
 				}
 			}
 		}
@@ -340,11 +271,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.AAMax;
-					else
-						return 0;
+					return GetParameterElement()?.AAMax ?? 0;
 				}
 			}
 		}
@@ -353,47 +280,17 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 対潜
 		/// </summary>
-		public ShipParameterRecord.Parameter ASW
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null)
-					return p.ASW;
-				else
-					return null;
-			}
-		}
+		public ShipParameterRecord.Parameter ASW => GetParameterElement()?.ASW;
 
 		/// <summary>
 		/// 回避
 		/// </summary>
-		public ShipParameterRecord.Parameter Evasion
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null)
-					return p.Evasion;
-				else
-					return null;
-			}
-		}
+		public ShipParameterRecord.Parameter Evasion => GetParameterElement()?.Evasion;
 
 		/// <summary>
 		/// 索敵
 		/// </summary>
-		public ShipParameterRecord.Parameter LOS
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null)
-					return p.LOS;
-				else
-					return null;
-			}
-		}
+		public ShipParameterRecord.Parameter LOS => GetParameterElement()?.LOS;
 
 
 		/// <summary>
@@ -409,11 +306,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.LuckMin;
-					else
-						return 0;
+					return GetParameterElement()?.LuckMin ?? 0;
 				}
 			}
 		}
@@ -431,11 +324,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.LuckMax;
-					else
-						return 0;
+					return GetParameterElement()?.LuckMax ?? 0;
 				}
 			}
 		}
@@ -444,10 +333,7 @@ namespace ElectronicObserver.Data
 		/// 速力
 		/// 0=陸上基地, 5=低速, 10=高速
 		/// </summary>
-		public int Speed
-		{
-			get { return (int)RawData.api_soku; }
-		}
+		public int Speed => (int)RawData.api_soku;
 
 		/// <summary>
 		/// 射程
@@ -462,11 +348,7 @@ namespace ElectronicObserver.Data
 				}
 				else
 				{
-					var p = GetParameterElement();
-					if (p != null)
-						return p.Range;
-					else
-						return 0;
+					return GetParameterElement()?.Range ?? 0;
 				}
 			}
 		}
@@ -476,10 +358,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 装備スロットの数
 		/// </summary>
-		public int SlotSize
-		{
-			get { return (int)RawData.api_slot_num; }
-		}
+		public int SlotSize => (int)RawData.api_slot_num;
 
 		/// <summary>
 		/// 各スロットの航空機搭載数
@@ -506,10 +385,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 搭載
 		/// </summary>
-		public int AircraftTotal
-		{
-			get { return Aircraft.Sum(a => Math.Max(a, 0)); }
-		}
+		public int AircraftTotal => Aircraft.Sum(a => Math.Max(a, 0));
 
 
 		/// <summary>
@@ -521,7 +397,7 @@ namespace ElectronicObserver.Data
 			{
 				var p = GetParameterElement();
 				if (p != null && p.DefaultSlot != null)
-					return Array.AsReadOnly<int>(p.DefaultSlot);
+					return Array.AsReadOnly(p.DefaultSlot);
 				else
 					return null;
 			}
@@ -531,167 +407,77 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 建造時間(分)
 		/// </summary>
-		public int BuildingTime
-		{
-			get { return !RawData.api_buildtime() ? 0 : (int)RawData.api_buildtime; }
-		}
+		public int BuildingTime => !RawData.api_buildtime() ? 0 : (int)RawData.api_buildtime;
 
 
 		/// <summary>
 		/// 解体資材
 		/// </summary>
-		public ReadOnlyCollection<int> Material
-		{
-			get { return Array.AsReadOnly<int>(!RawData.api_broken() ? new[] { 0, 0, 0, 0 } : (int[])RawData.api_broken); }
-		}
+		public ReadOnlyCollection<int> Material => Array.AsReadOnly(!RawData.api_broken() ? new[] { 0, 0, 0, 0 } : (int[])RawData.api_broken);
 
 		/// <summary>
 		/// 近代化改修の素材にしたとき上昇するパラメータの量
 		/// </summary>
-		public ReadOnlyCollection<int> PowerUp
-		{
-			get { return Array.AsReadOnly<int>(!RawData.api_powup() ? new[] { 0, 0, 0, 0 } : (int[])RawData.api_powup); }
-		}
+		public ReadOnlyCollection<int> PowerUp => Array.AsReadOnly(!RawData.api_powup() ? new[] { 0, 0, 0, 0 } : (int[])RawData.api_powup);
 
 		/// <summary>
 		/// レアリティ
 		/// </summary>
-		public int Rarity
-		{
-			get { return !RawData.api_backs() ? 0 : (int)RawData.api_backs; }
-		}
+		public int Rarity => !RawData.api_backs() ? 0 : (int)RawData.api_backs;
 
 		/// <summary>
 		/// ドロップ/ログイン時のメッセージ
 		/// </summary>
-		public string MessageGet
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.MessageGet != null)
-					return p.MessageGet.Replace("<br>", "\r\n");
-				else
-					return "";
-			}
-		}
+		public string MessageGet => GetParameterElement()?.MessageGet?.Replace("<br>", "\r\n") ?? "";
 
 		/// <summary>
 		/// 艦船名鑑でのメッセージ
 		/// </summary>
-		public string MessageAlbum
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.MessageAlbum != null)
-					return p.MessageAlbum.Replace("<br>", "\r\n");
-				else
-					return "";
-			}
-		}
+		public string MessageAlbum => GetParameterElement()?.MessageAlbum?.Replace("<br>", "\r\n") ?? "";
 
 
 		/// <summary>
 		/// 搭載燃料
 		/// </summary>
-		public int Fuel
-		{
-			get { return !RawData.api_fuel_max() ? 0 : (int)RawData.api_fuel_max; }
-		}
+		public int Fuel => !RawData.api_fuel_max() ? 0 : (int)RawData.api_fuel_max;
 
 		/// <summary>
 		/// 搭載弾薬
 		/// </summary>
-		public int Ammo
-		{
-			get { return !RawData.api_bull_max() ? 0 : (int)RawData.api_bull_max; }
-		}
+		public int Ammo => !RawData.api_bull_max() ? 0 : (int)RawData.api_bull_max;
 
 
 		/// <summary>
 		/// ボイス再生フラグ
 		/// </summary>
-		public int VoiceFlag
-		{
-			get { return !RawData.api_voicef() ? 0 : (int)RawData.api_voicef; }
-		}
+		public int VoiceFlag => !RawData.api_voicef() ? 0 : (int)RawData.api_voicef;
 
 
 		/// <summary>
 		/// リソースのファイル/フォルダ名
 		/// </summary>
-		public string ResourceName
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.ResourceName != null)
-					return p.ResourceName;
-				else
-					return "";
-			}
-		}
+		public string ResourceName => GetParameterElement()?.ResourceName ?? "";
+
 
 		/// <summary>
 		/// 画像リソースのバージョン
 		/// </summary>
-		public string ResourceGraphicVersion
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.ResourceGraphicVersion != null)
-					return p.ResourceGraphicVersion;
-				else
-					return "";
-			}
-		}
+		public string ResourceGraphicVersion => GetParameterElement()?.ResourceGraphicVersion ?? "";
 
 		/// <summary>
 		/// ボイスリソースのバージョン
 		/// </summary>
-		public string ResourceVoiceVersion
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.ResourceVoiceVersion != null)
-					return p.ResourceVoiceVersion;
-				else
-					return "";
-			}
-		}
+		public string ResourceVoiceVersion => GetParameterElement()?.ResourceVoiceVersion ?? "";
 
 		/// <summary>
 		/// 母港ボイスリソースのバージョン
 		/// </summary>
-		public string ResourcePortVoiceVersion
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null && p.ResourcePortVoiceVersion != null)
-					return p.ResourcePortVoiceVersion;
-				else
-					return "";
-			}
-		}
+		public string ResourcePortVoiceVersion => GetParameterElement()?.ResourcePortVoiceVersion ?? "";
 
 		/// <summary>
 		/// 衣替え艦：ベースとなる艦船ID
 		/// </summary>
-		public int OriginalCostumeShipID
-		{
-			get
-			{
-				var p = GetParameterElement();
-				if (p != null)
-					return p.OriginalCostumeShipID;
-				else
-					return -1;
-			}
-		}
+		public int OriginalCostumeShipID => GetParameterElement()?.OriginalCostumeShipID ?? -1;
 
 
 
@@ -723,58 +509,36 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// HP改修可能値(未婚時)
 		/// </summary>
-		public int HPMaxModernizable
-		{
-			get { return Math.Min(HPMax - HPMin, HPModernizableLimit); }
-		}
+		public int HPMaxModernizable => Math.Min(HPMax - HPMin, HPModernizableLimit);
 
 		/// <summary>
 		/// HP改修可能値(既婚時)
 		/// </summary>
-		public int HPMaxMarriedModernizable
-		{
-			get { return Math.Min(HPMax - HPMaxMarried, HPModernizableLimit); }
-		}
+		public int HPMaxMarriedModernizable => Math.Min(HPMax - HPMaxMarried, HPModernizableLimit);
 
 		/// <summary>
 		/// 近代化改修後のHP(未婚時)
 		/// </summary>
-		public int HPMaxModernized
-		{
-			get
-			{
-				return Math.Min(HPMin + HPMaxModernizable, HPMax);
-			}
-		}
+		public int HPMaxModernized => Math.Min(HPMin + HPMaxModernizable, HPMax);
+
 
 		/// <summary>
 		/// 近代化改修後のHP(既婚時)
 		/// </summary>
-		public int HPMaxMarriedModernized
-		{
-			get
-			{
-				return Math.Min(HPMaxMarried + HPMaxModernizable, HPMax);
-			}
-		}
+		public int HPMaxMarriedModernized => Math.Min(HPMaxMarried + HPMaxModernizable, HPMax);
+
 
 
 		/// <summary>
 		/// 対潜改修可能値
 		/// </summary>
-		public int ASWModernizable
-		{
-			get { return ASW == null || ASW.Maximum == 0 ? 0 : ASWModernizableLimit; }
-		}
+		public int ASWModernizable => ASW == null || ASW.Maximum == 0 ? 0 : ASWModernizableLimit;
 
 
 		/// <summary>
 		/// 深海棲艦かどうか
 		/// </summary>
-		public bool IsAbyssalShip
-		{
-			get { return ShipID > 1500; }
-		}
+		public bool IsAbyssalShip => ShipID > 1500;
 
 
 		/// <summary>
@@ -787,47 +551,38 @@ namespace ElectronicObserver.Data
 				if (!IsAbyssalShip || NameReading == "" || NameReading == "-")
 					return Name;
 				else
-					return string.Format("{0} {1}", Name, NameReading);
+					return $"{Name} {NameReading}";
 			}
 		}
 
 		/// <summary>
 		/// 陸上基地かどうか
 		/// </summary>
-		public bool IsLandBase
-		{
-			get
-			{
-				return Speed == 0;
-			}
-		}
+		public bool IsLandBase => Speed == 0;
+
 
 
 		/// <summary>
 		/// 図鑑に載っているか
 		/// </summary>
-		public bool IsListedInAlbum
-		{
-			get { return 0 < AlbumNo && AlbumNo <= 350; }
-		}
+		public bool IsListedInAlbum => 0 < AlbumNo && AlbumNo <= 350;
 
 
 		/// <summary>
 		/// 艦種名
 		/// </summary>
-		public string ShipTypeName
-		{
-			get { return KCDatabase.Instance.ShipTypes[ShipType].Name; }
-		}
+		public string ShipTypeName => KCDatabase.Instance.ShipTypes[ShipType].Name;
 
 
 		/// <summary>
 		/// 潜水艦系か
 		/// </summary>
-		public bool IsSubmarine
-		{
-			get { return ShipType == 13 || ShipType == 14; }
-		}
+		public bool IsSubmarine => ShipType == 13 || ShipType == 14;
+
+		/// <summary>
+		/// 空母系か
+		/// </summary>
+		public bool IsAircraftCarrier => ShipType == 7 || ShipType == 11 || ShipType == 18;
 
 
 		/// <summary>
@@ -908,16 +663,11 @@ namespace ElectronicObserver.Data
 
 
 
-		public int ID
-		{
-			get { return ShipID; }
-		}
+		public int ID => ShipID;
 
 
-		public override string ToString()
-		{
-			return string.Format("[{0}] {1}", ShipID, NameWithClass);
-		}
+		public override string ToString() => $"[{ShipID}] {NameWithClass}";
+
 
 	}
 

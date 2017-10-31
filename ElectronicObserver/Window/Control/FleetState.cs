@@ -82,12 +82,14 @@ namespace ElectronicObserver.Window.Control
 
 			public static ImageLabel GetDefaultLabel()
 			{
-				var label = new ImageLabel();
-				label.Anchor = AnchorStyles.Left;
-				label.ImageList = ResourceManager.Instance.Icons;
-				label.Padding = new Padding(2, 2, 2, 2);
-				label.Margin = new Padding(2, 0, 2, 0);
-				label.AutoSize = true;
+				var label = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					ImageList = ResourceManager.Instance.Icons,
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 0, 2, 0),
+					AutoSize = true
+				};
 				return label;
 			}
 

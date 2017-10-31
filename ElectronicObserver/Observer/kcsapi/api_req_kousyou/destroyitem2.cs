@@ -25,8 +25,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou
 			foreach (int id in data["api_slotitem_ids"].Split(",".ToCharArray()).Select(str => int.Parse(str)))
 			{
 				string name = KCDatabase.Instance.Equipments[id].NameWithLevel;
-				int amount;
-				itemsDestroyed.TryGetValue(name, out amount);
+				itemsDestroyed.TryGetValue(name, out int amount);
 				itemsDestroyed[name] = amount + 1;
 
 				db.Equipments.Remove(id);
@@ -50,12 +49,10 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou
 		}
 
 
-		public override bool IsRequestSupported { get { return true; } }
-		public override bool IsResponseSupported { get { return true; } }
+		public override bool IsRequestSupported => true;
+		public override bool IsResponseSupported => true;
 
-		public override string APIName
-		{
-			get { return "api_req_kousyou/destroyitem2"; }
-		}
+		public override string APIName => "api_req_kousyou/destroyitem2";
 	}
+
 }

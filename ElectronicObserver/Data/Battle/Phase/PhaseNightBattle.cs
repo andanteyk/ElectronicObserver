@@ -38,20 +38,23 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			for (int i = 0; i < attackers.Length; i++)
 			{
-				var attack = new PhaseNightBattleAttack();
+				var attack = new PhaseNightBattleAttack
+				{
+					Attacker = GetIndex(attackers[i]),
+					NightAirAttackFlag = nightAirAttackFlags[i] == -1,
+					AttackType = attackTypes[i],
+					EquipmentIDs = attackEquipments[i],
 
-				attack.Attacker = GetIndex(attackers[i]);
-				attack.NightAirAttackFlag = nightAirAttackFlags[i] == -1;
-				attack.AttackType = attackTypes[i];
-				attack.EquipmentIDs = attackEquipments[i];
-
-				attack.Defenders = new List<PhaseNightBattleDefender>();
+					Defenders = new List<PhaseNightBattleDefender>()
+				};
 				for (int k = 0; k < defenders[i].Length; k++)
 				{
-					var defender = new PhaseNightBattleDefender();
-					defender.Defender = GetIndex(defenders[i][k]);
-					defender.CriticalFlag = criticals[i][k];
-					defender.RawDamage = rawDamages[i][k];
+					var defender = new PhaseNightBattleDefender
+					{
+						Defender = GetIndex(defenders[i][k]),
+						CriticalFlag = criticals[i][k],
+						RawDamage = rawDamages[i][k]
+					};
 					attack.Defenders.Add(defender);
 				}
 
@@ -60,12 +63,9 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 		}
 
-		public override bool IsAvailable
-		{
-			get { return true; }
-		}
+		public override bool IsAvailable => true;
 
-		public dynamic ShellingData { get { return RawData.api_hougeki; } }
+		public dynamic ShellingData => RawData.api_hougeki;
 
 
 		public override void EmulateBattle(int[] hps, int[] damages)
@@ -100,18 +100,16 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			public PhaseNightBattleAttack() { }
 
-			public override string ToString()
-			{
-				return string.Format("{0}[{1}] -> [{2}]", Attacker, AttackType, string.Join(", ", Defenders));
-			}
+			public override string ToString() => $"{Attacker}[{AttackType}] -> [{string.Join(", ", Defenders)}]";
+
 		}
 		public class PhaseNightBattleDefender
 		{
 			public int Defender;
 			public int CriticalFlag;
 			public double RawDamage;
-			public bool GuardsFlagship { get { return RawDamage != Math.Floor(RawDamage); } }
-			public int Damage { get { return (int)RawDamage; } }
+			public bool GuardsFlagship => RawDamage != Math.Floor(RawDamage);
+			public int Damage => (int)RawDamage;
 
 			public override string ToString()
 			{
@@ -127,7 +125,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// 戦闘する自軍艦隊
 		/// 1=主力艦隊, 2=随伴艦隊
 		/// </summary>
-		public int ActiveFriendFleet { get { return !RawData.api_active_deck() ? 1 : (int)RawData.api_active_deck[0]; } }
+		public int ActiveFriendFleet => !RawData.api_active_deck() ? 1 : (int)RawData.api_active_deck[0];
 
 		/// <summary>
 		/// 自軍艦隊ID
@@ -146,56 +144,46 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 自軍艦隊
 		/// </summary>
-		public FleetData FriendFleet { get { return KCDatabase.Instance.Fleet[FriendFleetID]; } }
+		public FleetData FriendFleet => KCDatabase.Instance.Fleet[FriendFleetID];
 
 		/// <summary>
 		/// 自軍が随伴艦隊かどうか
 		/// </summary>
-		public bool IsFriendEscort { get { return isEscort || ActiveFriendFleet != 1; } }
+		public bool IsFriendEscort => isEscort || ActiveFriendFleet != 1;
 
 
 		/// <summary>
 		/// 敵軍艦隊ID
 		/// </summary>
-		public int EnemyFleetID { get { return !RawData.api_active_deck() ? 1 : (int)RawData.api_active_deck[1]; } }
+		public int EnemyFleetID => !RawData.api_active_deck() ? 1 : (int)RawData.api_active_deck[1];
 
 		/// <summary>
 		/// 敵軍艦隊
 		/// </summary>
-		public int[] EnemyMembers { get { return !IsEnemyEscort ? _battleData.Initial.EnemyMembers : _battleData.Initial.EnemyMembersEscort; } }
+		public int[] EnemyMembers => !IsEnemyEscort ? _battleData.Initial.EnemyMembers : _battleData.Initial.EnemyMembersEscort;
 
 		/// <summary>
 		/// 敵軍艦隊
 		/// </summary>
-		public ShipDataMaster[] EnemyMembersInstance { get { return !IsEnemyEscort ? _battleData.Initial.EnemyMembersInstance : _battleData.Initial.EnemyMembersEscortInstance; } }
+		public ShipDataMaster[] EnemyMembersInstance => !IsEnemyEscort ? _battleData.Initial.EnemyMembersInstance : _battleData.Initial.EnemyMembersEscortInstance;
 
 		/// <summary>
 		/// 敵軍が随伴艦隊かどうか
 		/// </summary>
-		public bool IsEnemyEscort { get { return EnemyFleetID != 1; } }
+		public bool IsEnemyEscort => EnemyFleetID != 1;
 
 
 		/// <summary>
 		/// 自軍触接機ID
 		/// </summary>
-		public int TouchAircraftFriend
-		{
-			get
-			{
-				return (RawData.api_touch_plane[0] is string) ? int.Parse(RawData.api_touch_plane[0]) : (int)RawData.api_touch_plane[0];
-			}
-		}
+		public int TouchAircraftFriend => (RawData.api_touch_plane[0] is string) ? int.Parse(RawData.api_touch_plane[0]) : (int)RawData.api_touch_plane[0];
+
 
 		/// <summary>
 		/// 敵軍触接機ID
 		/// </summary>
-		public int TouchAircraftEnemy
-		{
-			get
-			{
-				return (RawData.api_touch_plane[1] is string) ? int.Parse(RawData.api_touch_plane[1]) : (int)RawData.api_touch_plane[1];
-			}
-		}
+		public int TouchAircraftEnemy => (RawData.api_touch_plane[1] is string) ? int.Parse(RawData.api_touch_plane[1]) : (int)RawData.api_touch_plane[1];
+
 
 		/// <summary>
 		/// 自軍照明弾投射艦番号(0-5, -1=発動せず)

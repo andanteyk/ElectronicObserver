@@ -58,7 +58,7 @@ namespace ElectronicObserver.Window.Dialog
 		};
 
 
-		private class SquadronUI
+		private class SquadronUI : IDisposable
 		{
 
 			public readonly int BaseAirCorpsID;
@@ -128,11 +128,13 @@ namespace ElectronicObserver.Window.Dialog
 
 			private Label NewLabel()
 			{
-				var label = new Label();
-				label.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-				label.Padding = new Padding(0, 1, 0, 1);
-				label.Margin = new Padding(2, 1, 2, 1);
-				label.TextAlign = ContentAlignment.MiddleRight;
+				var label = new Label
+				{
+					Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					TextAlign = ContentAlignment.MiddleRight
+				};
 
 				return label;
 			}
@@ -287,10 +289,24 @@ namespace ElectronicObserver.Window.Dialog
 
 			}
 
+			public void Dispose()
+			{
+				AircraftCategory.Dispose();
+				Aircraft.Dispose();
+
+				AircraftCount.Dispose();
+
+				AirSuperioritySortie.Dispose();
+				AirSuperiorityAirDefense.Dispose();
+				Distance.Dispose();
+				Bomber.Dispose();
+				Torpedo.Dispose();
+				OrganizationCost.Dispose();
+			}
 		}
 
 
-		private class BaseAirCorpsUI
+		private class BaseAirCorpsUI : IDisposable
 		{
 
 			public readonly int BaseAirCorpsID;
@@ -393,11 +409,13 @@ namespace ElectronicObserver.Window.Dialog
 				AutoOrganizeSortie.Text = "出撃編成";
 				AutoOrganizeSortie.Click += AutoOrganize_Click;
 
-				AutoOrganizeAirDefense = new Button();
-				AutoOrganizeAirDefense.Size = new Size(60, AutoOrganizeSortie.Height);
-				AutoOrganizeAirDefense.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-				AutoOrganizeAirDefense.Margin = new Padding(2, 0, 2, 0);
-				AutoOrganizeAirDefense.Text = "防空編成";
+				AutoOrganizeAirDefense = new Button
+				{
+					Size = new Size(60, AutoOrganizeSortie.Height),
+					Anchor = AnchorStyles.Left | AnchorStyles.Right,
+					Margin = new Padding(2, 0, 2, 0),
+					Text = "防空編成"
+				};
 				AutoOrganizeAirDefense.Click += AutoOrganize_Click;
 
 				Squadrons = new SquadronUI[4];
@@ -426,22 +444,26 @@ namespace ElectronicObserver.Window.Dialog
 
 			private Label NewTitleLabel()
 			{
-				var label = new Label();
-				label.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-				label.Padding = new Padding(0, 1, 0, 1);
-				label.Margin = new Padding(2, 1, 2, 1);
-				label.TextAlign = ContentAlignment.MiddleCenter;
+				var label = new Label
+				{
+					Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					TextAlign = ContentAlignment.MiddleCenter
+				};
 
 				return label;
 			}
 
 			private Label NewTotalLabel()
 			{
-				var label = new Label();
-				label.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-				label.Padding = new Padding(0, 1, 0, 1);
-				label.Margin = new Padding(2, 1, 2, 1);
-				label.TextAlign = ContentAlignment.MiddleRight;
+				var label = new Label
+				{
+					Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					TextAlign = ContentAlignment.MiddleRight
+				};
 
 				return label;
 			}
@@ -635,6 +657,36 @@ namespace ElectronicObserver.Window.Dialog
 				System.Media.SystemSounds.Asterisk.Play();
 			}
 
+			public void Dispose()
+			{
+				TitleAircraftCategory.Dispose();
+				TitleAircraft.Dispose();
+				TitleAircraftCount.Dispose();
+				TitleAirSuperioritySortie.Dispose();
+				TitleAirSuperiorityAirDefense.Dispose();
+				TitleDistance.Dispose();
+				TitleBomber.Dispose();
+				TitleTorpedo.Dispose();
+				TitleOrganizationCost.Dispose();
+
+				foreach (var sq in Squadrons)
+					sq.Dispose();
+
+				TitleTotal.Dispose();
+				DuplicateCheck.Dispose();
+				TotalAirSuperioritySortie.Dispose();
+				TotalAirSuperiorityAirDefense.Dispose();
+				TotalDistance.Dispose();
+				TotalOrganizationCost.Dispose();
+
+				TitleAutoAirSuperiority.Dispose();
+				TitleAutoDistance.Dispose();
+				AutoAirSuperiorityMode.Dispose();
+				AutoAirSuperiority.Dispose();
+				AutoDistance.Dispose();
+				AutoOrganizeSortie.Dispose();
+				AutoOrganizeAirDefense.Dispose();
+			}
 		}
 
 

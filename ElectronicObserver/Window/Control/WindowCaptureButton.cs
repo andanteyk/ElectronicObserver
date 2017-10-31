@@ -51,8 +51,7 @@ namespace ElectronicObserver.Window.Control
 				else
 				{
 					// ウィンドウ選択が変わったので移動
-					WinAPI.RECT candidateRect;
-					WinAPI.GetWindowRect(newCandidate, out candidateRect);
+					WinAPI.GetWindowRect(newCandidate, out WinAPI.RECT candidateRect);
 					CandidateBoxWindow.Bounds = new Rectangle(candidateRect.left, candidateRect.top,
 						candidateRect.right - candidateRect.left, candidateRect.bottom - candidateRect.top);
 					if (!CandidateBoxWindow.Visible)
@@ -104,16 +103,14 @@ namespace ElectronicObserver.Window.Control
 				{
 					WinAPI.GetClassName(hWnd, className, className.Capacity);
 					WinAPI.GetWindowText(hWnd, windowText, windowText.Capacity);
-					uint processId;
-					WinAPI.GetWindowThreadProcessId(hWnd, out processId);
+					WinAPI.GetWindowThreadProcessId(hWnd, out uint processId);
 					if (className.Length > 0 &&
 						windowText.Length > 0 &&
 						WinAPI.IsWindowVisible(hWnd) &&
 						windowText.ToString() != "Program Manager" &&
 						processId != currentProcessId)
 					{
-						WinAPI.RECT rect;
-						WinAPI.GetWindowRect(hWnd, out rect);
+						WinAPI.GetWindowRect(hWnd, out WinAPI.RECT rect);
 						if (rect.left <= cursor.X && cursor.X <= rect.right && rect.top <= cursor.Y && cursor.Y <= rect.bottom)
 						{
 							result = hWnd;

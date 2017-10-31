@@ -19,10 +19,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_member
 			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_member/get_practice_enemyinfo"; }
-		}
+		public override string APIName => "api_req_member/get_practice_enemyinfo";
 	}
+
 
 }

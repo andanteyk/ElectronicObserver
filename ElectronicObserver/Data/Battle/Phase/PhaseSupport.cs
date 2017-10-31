@@ -69,10 +69,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
-		public override bool IsAvailable
-		{
-			get { return SupportFlag != 0; }
-		}
+		public override bool IsAvailable => SupportFlag != 0;
 
 		public override void EmulateBattle(int[] hps, int[] damages)
 		{
@@ -109,7 +106,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 支援艦隊フラグ
 		/// </summary>
-		public int SupportFlag { get { return RawData.api_support_flag() ? (int)RawData.api_support_flag : 0; } }
+		public int SupportFlag => RawData.api_support_flag() ? (int)RawData.api_support_flag : 0;
 
 		/// <summary>
 		/// 支援艦隊ID

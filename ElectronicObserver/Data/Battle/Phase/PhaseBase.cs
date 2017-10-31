@@ -28,16 +28,16 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
-		protected dynamic RawData { get { return _battleData.RawData; } }
+		protected dynamic RawData => _battleData.RawData;
 
 		protected int[] ArraySkip(int[] array, int skipCount = 1)
 		{
 			return array.Skip(skipCount).ToArray();
 		}
 
-		protected bool IsPractice { get { return (_battleData.BattleType & BattleData.BattleTypeFlag.Practice) != 0; } }
-		protected bool IsCombined { get { return (_battleData.BattleType & BattleData.BattleTypeFlag.Combined) != 0; } }
-		protected bool IsEnemyCombined { get { return (_battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined) != 0; } }
+		protected bool IsPractice => (_battleData.BattleType & BattleData.BattleTypeFlag.Practice) != 0;
+		protected bool IsCombined => (_battleData.BattleType & BattleData.BattleTypeFlag.Combined) != 0;
+		protected bool IsEnemyCombined => (_battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined) != 0;
 
 		protected static bool IsIndexFriend(int index) { return (0 <= index && index < 6) || (12 <= index && index < 18); }
 		protected static bool IsIndexEnemy(int index) { return (6 <= index && index < 12) || (18 <= index && index < 24); }
@@ -110,10 +110,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public virtual string GetBattleDetail() { return GetBattleDetail(-1); }
 
 
-		public override string ToString()
-		{
-			return string.Join(" / \r\n", BattleDetails);
-		}
+		public override string ToString() => string.Join(" / \r\n", BattleDetails);
+
 
 
 		/// <summary>

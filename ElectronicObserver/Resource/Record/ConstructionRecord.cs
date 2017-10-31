@@ -19,7 +19,7 @@ namespace ElectronicObserver.Resource.Record
 	{
 
 		[DebuggerDisplay("[{ShipID}] : {ShipName}")]
-		public class ConstructionElement : RecordElementBase
+		public sealed class ConstructionElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -65,7 +65,7 @@ namespace ElectronicObserver.Resource.Record
 			/// <summary>
 			/// 大型艦建造かのフラグ
 			/// </summary>
-			public bool IsLargeDock { get { return Fuel >= 1000; } }
+			public bool IsLargeDock => Fuel >= 1000;
 
 			/// <summary>
 			/// 空きドック数
@@ -96,7 +96,10 @@ namespace ElectronicObserver.Resource.Record
 			}
 
 			public ConstructionElement(string line)
-				: base(line) { }
+				: this()
+			{
+				LoadLine(line);
+			}
 
 			public ConstructionElement(int shipID, int fuel, int ammo, int steel, int bauxite, int developmentMaterial, int emptyDock, int flagshipID, int hqLevel)
 			{
@@ -121,7 +124,8 @@ namespace ElectronicObserver.Resource.Record
 			{
 
 				string[] elem = line.Split(",".ToCharArray());
-				if (elem.Length < 13) throw new ArgumentException("要素数が少なすぎます。");
+				if (elem.Length < 13)
+					throw new ArgumentException("要素数が少なすぎます。");
 
 				ShipID = int.Parse(elem[0]);
 				ShipName = elem[1];
@@ -244,15 +248,9 @@ namespace ElectronicObserver.Resource.Record
 			LastSavedCount = Record.Count;
 		}
 
-		public override bool NeedToSave
-		{
-			get { return LastSavedCount < Record.Count; }
-		}
+		public override bool NeedToSave => LastSavedCount < Record.Count;
 
-		public override bool SupportsPartialSave
-		{
-			get { return true; }
-		}
+		public override bool SupportsPartialSave => true;
 
 		protected override void ClearRecord()
 		{
@@ -261,16 +259,10 @@ namespace ElectronicObserver.Resource.Record
 		}
 
 
-		public override string RecordHeader
-		{
-			get { return "艦船ID,艦船名,建造日時,燃料,弾薬,鋼材,ボーキ,開発資材,大型建造,空ドック,旗艦ID,旗艦名,司令部Lv"; }
-		}
+		public override string RecordHeader => "艦船ID,艦船名,建造日時,燃料,弾薬,鋼材,ボーキ,開発資材,大型建造,空ドック,旗艦ID,旗艦名,司令部Lv";
 
-		public override string FileName
-		{
-			get { return "ConstructionRecord.csv"; }
-		}
-
+		public override string FileName => "ConstructionRecord.csv";
 	}
+
 
 }

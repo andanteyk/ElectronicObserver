@@ -22,7 +22,7 @@ namespace ElectronicObserver.Window
 	public partial class FormFleetOverview : DockContent
 	{
 
-		private class TableFleetControl
+		private class TableFleetControl : IDisposable
 		{
 
 			public ImageLabel Number;
@@ -35,19 +35,23 @@ namespace ElectronicObserver.Window
 
 				#region Initialize
 
-				Number = new ImageLabel();
-				Number.Anchor = AnchorStyles.Left;
-				Number.ImageAlign = ContentAlignment.MiddleCenter;
-				Number.Padding = new Padding(0, 1, 0, 1);
-				Number.Margin = new Padding(2, 1, 2, 1);
-				Number.Text = string.Format("#{0}:", fleetID);
-				Number.AutoSize = true;
+				Number = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					ImageAlign = ContentAlignment.MiddleCenter,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					Text = string.Format("#{0}:", fleetID),
+					AutoSize = true
+				};
 
-				State = new FleetState();
-				State.Anchor = AnchorStyles.Left;
-				State.Padding = new Padding();
-				State.Margin = new Padding();
-				State.AutoSize = true;
+				State = new FleetState
+				{
+					Anchor = AnchorStyles.Left,
+					Padding = new Padding(),
+					Margin = new Padding(),
+					AutoSize = true
+				};
 
 				ConfigurationChanged(parent);
 
@@ -100,6 +104,12 @@ namespace ElectronicObserver.Window
 				State.BackColor = Color.Transparent;
 				Update();
 			}
+
+			public void Dispose()
+			{
+				Number.Dispose();
+				State.Dispose();
+			}
 		}
 
 
@@ -122,14 +132,16 @@ namespace ElectronicObserver.Window
 			}
 
 			{
-				AnchorageRepairingTimer = new ImageLabel();
-				AnchorageRepairingTimer.Anchor = AnchorStyles.Left;
-				AnchorageRepairingTimer.Padding = new Padding(0, 1, 0, 1);
-				AnchorageRepairingTimer.Margin = new Padding(2, 1, 2, 1);
-				AnchorageRepairingTimer.ImageList = ResourceManager.Instance.Icons;
-				AnchorageRepairingTimer.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
-				AnchorageRepairingTimer.Text = "-";
-				AnchorageRepairingTimer.AutoSize = true;
+				AnchorageRepairingTimer = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					ImageList = ResourceManager.Instance.Icons,
+					ImageIndex = (int)ResourceManager.IconContent.FleetDocking,
+					Text = "-",
+					AutoSize = true
+				};
 				//AnchorageRepairingTimer.Visible = false;
 
 				TableFleet.Controls.Add(AnchorageRepairingTimer, 1, 4);
@@ -138,15 +150,17 @@ namespace ElectronicObserver.Window
 
 			#region CombinedTag
 			{
-				CombinedTag = new ImageLabel();
-				CombinedTag.Anchor = AnchorStyles.Left;
-				CombinedTag.Padding = new Padding(0, 1, 0, 1);
-				CombinedTag.Margin = new Padding(2, 1, 2, 1);
-				CombinedTag.ImageList = ResourceManager.Instance.Icons;
-				CombinedTag.ImageIndex = (int)ResourceManager.IconContent.FleetCombined;
-				CombinedTag.Text = "-";
-				CombinedTag.AutoSize = true;
-				CombinedTag.Visible = false;
+				CombinedTag = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					ImageList = ResourceManager.Instance.Icons,
+					ImageIndex = (int)ResourceManager.IconContent.FleetCombined,
+					Text = "-",
+					AutoSize = true,
+					Visible = false
+				};
 
 				TableFleet.Controls.Add(CombinedTag, 1, 5);
 

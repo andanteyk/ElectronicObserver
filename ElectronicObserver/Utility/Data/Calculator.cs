@@ -1796,6 +1796,48 @@ namespace ElectronicObserver.Utility.Data
 
 
 		/// <summary>
+		/// 夜戦攻撃可能であるかを取得します。
+		/// </summary>
+		/// <param name="ship">対象の艦船データ。</param>
+		/// <returns></returns>
+		public static bool CanAttackAtNight(ShipData ship)
+		{
+			var master = ship.MasterShip;
+
+			if (ship.HPRate <= 0.25)
+				return false;
+
+			if (master.FirepowerMin + master.TorpedoMin > 0)
+				return true;
+
+			// Ark Royal(改)
+			if (master.ShipID == 515 || master.ShipID == 393)
+			{
+				if (ship.AllSlotInstanceMaster.Any(eq => eq != null && eq.Name.Contains("Swordfish")))
+					return true;
+			}
+
+			if (master.IsAircraftCarrier)
+			{
+				// 装甲空母ではなく、中破以上の被ダメージ
+				if (master.ShipType != 18 && ship.HPRate <= 0.5)
+					return false;
+
+				// Saratoga Mk.II は不要
+				bool hasNightPersonnel = master.ShipID == 545 ||
+					ship.AllSlotInstanceMaster.Any(eq => eq != null && eq.Name.Contains("夜間作戦航空要員"));
+
+				bool hasNightAircraft = ship.AllSlotInstanceMaster.Any(eq => eq != null && (eq.IconType == 45 || eq.IconType == 46));
+
+				if (hasNightPersonnel && hasNightAircraft)
+					return true;
+			}
+
+			return false;
+		}
+
+
+		/// <summary>
 		/// HP を 1 回復するために必要な入渠時間を求めます。
 		/// </summary>
 		public static TimeSpan CalculateDockingUnitTime(ShipData ship)

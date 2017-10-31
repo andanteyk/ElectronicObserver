@@ -18,10 +18,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 参加した航空中隊データ
 		/// </summary>
-		public ReadOnlyCollection<BattleBaseAirCorpsSquadron> Squadrons
-		{
-			get { return Array.AsReadOnly(_squadrons); }
-		}
+		public ReadOnlyCollection<BattleBaseAirCorpsSquadron> Squadrons => Array.AsReadOnly(_squadrons);
 
 		private IEnumerable<BattleBaseAirCorpsSquadron> GetSquadrons()
 		{
@@ -58,7 +55,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 		public override void EmulateBattle(int[] hps, int[] damages)
 		{
-
 			if (!IsAvailable) return;
 
 			CalculateAttack(-1, hps);

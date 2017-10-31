@@ -12,10 +12,7 @@ namespace ElectronicObserver.Utility.Mathematics
 		public int Current { get; set; }
 		public int Max { get; set; }
 
-		public double Rate
-		{
-			get { return (double)Current / Math.Max(Max, 1); }
-		}
+		public double Rate => (double)Current / Math.Max(Max, 1);
 
 
 		public Fraction()
@@ -29,10 +26,8 @@ namespace ElectronicObserver.Utility.Mathematics
 			Max = max;
 		}
 
-		public override string ToString()
-		{
-			return string.Format("{0}/{1}", Current, Max);
-		}
+		public override string ToString() => $"{Current}/{Max}";
+
 	}
 
 }

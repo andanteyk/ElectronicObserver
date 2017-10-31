@@ -19,9 +19,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_hensei
 			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_hensei/preset_select"; }
-		}
+		public override string APIName => "api_req_hensei/preset_select";
 	}
+
 }

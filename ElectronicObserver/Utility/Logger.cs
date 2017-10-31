@@ -20,10 +20,7 @@ namespace ElectronicObserver.Utility
 
 		private static readonly Logger instance = new Logger();
 
-		public static Logger Instance
-		{
-			get { return instance; }
-		}
+		public static Logger Instance => instance;
 
 		#endregion
 
@@ -61,10 +58,8 @@ namespace ElectronicObserver.Utility
 			}
 
 
-			public override string ToString()
-			{
-				return string.Format("[{0}][{1}] : {2}", DateTimeHelper.TimeToCSVString(Time), Priority, Message);
-			}
+			public override string ToString() => $"[{DateTimeHelper.TimeToCSVString(Time)}][{Priority}] : {Message}";
+
 
 		}
 

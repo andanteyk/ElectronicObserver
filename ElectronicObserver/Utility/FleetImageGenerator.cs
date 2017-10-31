@@ -148,9 +148,11 @@ namespace ElectronicObserver.Utility
 
 			var equipmentNameBrush = new LinearGradientBrush(new Rectangle(0, 0, equipmentNameSize.Width * 2 + EquipmentIconSize.Width * 2 + equipmentLevelSize.Width, equipmentAreaUnitSize.Height), Color.Black, Color.Black, LinearGradientMode.Horizontal);     // color is ignored
 			{
-				var blend = new ColorBlend();
-				blend.Positions = new[] { 0f, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width - EquipmentIconSize.Width / 2) / equipmentNameBrush.Rectangle.Width, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width / 2) / equipmentNameBrush.Rectangle.Width, 1f };
-				blend.Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb(0, mainTextColor), Color.FromArgb(0, mainTextColor) };
+				var blend = new ColorBlend
+				{
+					Positions = new[] { 0f, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width - EquipmentIconSize.Width / 2) / equipmentNameBrush.Rectangle.Width, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width / 2) / equipmentNameBrush.Rectangle.Width, 1f },
+					Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb(0, mainTextColor), Color.FromArgb(0, mainTextColor) }
+				};
 				equipmentNameBrush.InterpolationColors = blend;
 			}
 			equipmentNameBrush.GammaCorrection = true;
@@ -459,8 +461,10 @@ namespace ElectronicObserver.Utility
 			var aircraftLevelHighBrush = new SolidBrush(aircraftLevelHighColor);
 
 			var linePen = new Pen(subTextColor);
-			var subLinePen = new Pen(subTextColor);
-			subLinePen.DashStyle = DashStyle.Dash;
+			var subLinePen = new Pen(subTextColor)
+			{
+				DashStyle = DashStyle.Dash
+			};
 
 
 			string fleetAirSuperiorityTitle = "制空戦力";
@@ -547,18 +551,22 @@ namespace ElectronicObserver.Utility
 
 			var equipmentNameBrush = new LinearGradientBrush(new Rectangle(0, 0, equipmentNameSize.Width * 2 + equipmentLevelSize.Width, equipmentAreaUnitSize.Height), Color.Black, Color.Black, LinearGradientMode.Horizontal);       // color is ignored
 			{
-				var blend = new ColorBlend();
-				blend.Positions = new[] { 0f, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width) / equipmentNameBrush.Rectangle.Width, (float)(equipmentNameSizeExtended.Width) / equipmentNameBrush.Rectangle.Width, 1f };
-				blend.Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb(0, mainTextColor), Color.FromArgb(0, mainTextColor) };
+				var blend = new ColorBlend
+				{
+					Positions = new[] { 0f, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width) / equipmentNameBrush.Rectangle.Width, (float)(equipmentNameSizeExtended.Width) / equipmentNameBrush.Rectangle.Width, 1f },
+					Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb(0, mainTextColor), Color.FromArgb(0, mainTextColor) }
+				};
 				equipmentNameBrush.InterpolationColors = blend;
 			}
 			equipmentNameBrush.GammaCorrection = true;
 
 			var shipImageMaskBrush = new LinearGradientBrush(new Rectangle(0, 0, SwfHelper.ShipCutinSize.Width, SwfHelper.ShipCutinSize.Height), Color.Black, Color.Black, LinearGradientMode.Horizontal);
 			{
-				var blend = new ColorBlend();
-				blend.Positions = new[] { 0f, Math.Min((float)(shipPaneUnitSize.Width - equipmentAreaSize.Width - 16) / SwfHelper.ShipCutinSize.Width, 1f), Math.Min((float)(shipPaneUnitSize.Width - equipmentAreaSize.Width + 16) / SwfHelper.ShipCutinSize.Width, 1f), 1f };
-				blend.Colors = new[] { Color.White, Color.White, Color.FromArgb(0xff, 0x11, 0x11, 0x11), Color.FromArgb(0xff, 0x11, 0x11, 0x11) };
+				var blend = new ColorBlend
+				{
+					Positions = new[] { 0f, Math.Min((float)(shipPaneUnitSize.Width - equipmentAreaSize.Width - 16) / SwfHelper.ShipCutinSize.Width, 1f), Math.Min((float)(shipPaneUnitSize.Width - equipmentAreaSize.Width + 16) / SwfHelper.ShipCutinSize.Width, 1f), 1f },
+					Colors = new[] { Color.White, Color.White, Color.FromArgb(0xff, 0x11, 0x11, 0x11), Color.FromArgb(0xff, 0x11, 0x11, 0x11) }
+				};
 				shipImageMaskBrush.InterpolationColors = blend;
 			}
 
@@ -908,8 +916,10 @@ namespace ElectronicObserver.Utility
 			var aircraftLevelHighBrush = new SolidBrush(aircraftLevelHighColor);
 
 			var linePen = new Pen(subTextColor);
-			var subLinePen = new Pen(subTextColor);
-			subLinePen.DashStyle = DashStyle.Dash;
+			var subLinePen = new Pen(subTextColor)
+			{
+				DashStyle = DashStyle.Dash
+			};
 
 			string fleetAirSuperiorityTitle = "制空戦力";
 			string fleetSearchingAbilityTitle = "索敵能力";
@@ -995,9 +1005,11 @@ namespace ElectronicObserver.Utility
 
 			var equipmentNameBrush = new LinearGradientBrush(new Rectangle(0, 0, equipmentNameSize.Width * 2 + equipmentLevelSize.Width, equipmentAreaUnitSize.Height), Color.Black, Color.Black, LinearGradientMode.Horizontal);       // color is ignored
 			{
-				var blend = new ColorBlend();
-				blend.Positions = new[] { 0f, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width) / equipmentNameBrush.Rectangle.Width, (float)(equipmentNameSizeExtended.Width) / equipmentNameBrush.Rectangle.Width, 1f };
-				blend.Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb(0, mainTextColor), Color.FromArgb(0, mainTextColor) };
+				var blend = new ColorBlend
+				{
+					Positions = new[] { 0f, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width) / equipmentNameBrush.Rectangle.Width, (float)(equipmentNameSizeExtended.Width) / equipmentNameBrush.Rectangle.Width, 1f },
+					Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb(0, mainTextColor), Color.FromArgb(0, mainTextColor) }
+				};
 				equipmentNameBrush.InterpolationColors = blend;
 			}
 			equipmentNameBrush.GammaCorrection = true;
@@ -1348,9 +1360,11 @@ namespace ElectronicObserver.Utility
 			// note: unknown
 			var equipmentNameBrush = new LinearGradientBrush(new Rectangle(0, 0, equipmentNameSize.Width * 2 + EquipmentIconSize.Width * 2 + equipmentLevelSize.Width, equipmentAreaUnitSize.Height), Color.Black, Color.Black, LinearGradientMode.Horizontal);     // color is ignored
 			{
-				var blend = new ColorBlend();
-				blend.Positions = new[] { 0f, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width - EquipmentIconSize.Width / 2) / equipmentNameBrush.Rectangle.Width, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width / 2) / equipmentNameBrush.Rectangle.Width, 1f };
-				blend.Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb(0, mainTextColor), Color.FromArgb(0, mainTextColor) };
+				var blend = new ColorBlend
+				{
+					Positions = new[] { 0f, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width - EquipmentIconSize.Width / 2) / equipmentNameBrush.Rectangle.Width, (float)(equipmentNameSizeExtended.Width - EquipmentIconSize.Width / 2) / equipmentNameBrush.Rectangle.Width, 1f },
+					Colors = new[] { mainTextColor, mainTextColor, Color.FromArgb(0, mainTextColor), Color.FromArgb(0, mainTextColor) }
+				};
 				equipmentNameBrush.InterpolationColors = blend;
 			}
 			equipmentNameBrush.GammaCorrection = true;
@@ -1753,8 +1767,10 @@ namespace ElectronicObserver.Utility
 		protected static StringFormat GetStringFormat(ContentAlignment alignment)
 		{
 
-			var format = new StringFormat(StringFormat.GenericDefault);
-			format.Trimming = StringTrimming.None;
+			var format = new StringFormat(StringFormat.GenericDefault)
+			{
+				Trimming = StringTrimming.None
+			};
 			format.FormatFlags |= StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoWrap;
 
 			switch (alignment)
@@ -1920,13 +1936,15 @@ namespace ElectronicObserver.Utility
 
 		public static FleetImageArgument GetDefaultInstance()
 		{
-			var ret = new FleetImageArgument();
-			ret.FleetIDs = new int[0];
-			ret.HorizontalFleetCount = 2;
-			ret.HorizontalShipCount = 2;
-			ret.AvoidTwitterDeterioration = true;
+			var ret = new FleetImageArgument
+			{
+				FleetIDs = new int[0],
+				HorizontalFleetCount = 2,
+				HorizontalShipCount = 2,
+				AvoidTwitterDeterioration = true,
 
-			ret.Fonts = GetDefaultFonts();
+				Fonts = GetDefaultFonts()
+			};
 
 			return ret;
 		}

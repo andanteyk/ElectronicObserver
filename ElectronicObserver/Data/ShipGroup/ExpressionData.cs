@@ -210,8 +210,7 @@ namespace ElectronicObserver.Data.ShipGroup
 							memberex = Expression.PropertyOrField(memberex, match.Groups["name"].Value);
 						}
 
-						int index;
-						if (int.TryParse(match.Groups["index"].Value, out index))
+						if (int.TryParse(match.Groups["index"].Value, out int index))
 						{
 							memberex = Expression.Property(memberex, "Item", Expression.Constant(index, typeof(int)));
 						}
@@ -304,8 +303,7 @@ namespace ElectronicObserver.Data.ShipGroup
 					do
 					{
 
-						int index;
-						if (int.TryParse(match.Groups["index"].Value, out index))
+						if (int.TryParse(match.Groups["index"].Value, out int index))
 						{
 							obj = ((dynamic)obj.GetType().InvokeMember(match.Groups["name"].Value, System.Reflection.BindingFlags.GetProperty, null, obj, null))[index];
 						}
@@ -346,10 +344,8 @@ namespace ElectronicObserver.Data.ShipGroup
 
 
 
-		public override string ToString()
-		{
-			return string.Format("{0} は {1} {2}", LeftOperandToString(), RightOperandToString(), OperatorToString());
-		}
+		public override string ToString() => $"{LeftOperandToString()} は {RightOperandToString()} {OperatorToString()}";
+
 
 
 		/// <summary>
@@ -381,18 +377,18 @@ namespace ElectronicObserver.Data.ShipGroup
 			{
 				var ship = KCDatabase.Instance.Ships[(int)RightOperand];
 				if (ship != null)
-					return string.Format("{0} ({1})", ship.MasterID, ship.NameWithLevel);
+					return $"{ship.MasterID} ({ship.NameWithLevel})";
 				else
-					return string.Format("{0} (未在籍)", (int)RightOperand);
+					return $"{(int)RightOperand} (未在籍)";
 
 			}
 			else if (LeftOperand == ".ShipID")
 			{
 				var ship = KCDatabase.Instance.MasterShips[(int)RightOperand];
 				if (ship != null)
-					return string.Format("{0} ({1})", ship.ShipID, ship.NameWithClass);
+					return $"{ship.ShipID} ({ship.NameWithClass})";
 				else
-					return string.Format("{0} (存在せず)", (int)RightOperand);
+					return $"{(int)RightOperand} (存在せず)";
 
 			}
 			else if (LeftOperand == ".MasterShip.ShipType")
@@ -401,7 +397,7 @@ namespace ElectronicObserver.Data.ShipGroup
 				if (shiptype != null)
 					return shiptype.Name;
 				else
-					return string.Format("{0} (未定義)", (int)RightOperand);
+					return $"{(int)RightOperand} (未定義)";
 
 			}
 			else if (LeftOperand.Contains("SlotMaster"))
@@ -416,7 +412,7 @@ namespace ElectronicObserver.Data.ShipGroup
 					if (eq != null)
 						return eq.Name;
 					else
-						return string.Format("{0} (未定義)", (int)RightOperand);
+						return $"{(int)RightOperand} (未定義)";
 				}
 			}
 			else if (LeftOperand.Contains("Rate") && RightOperand is double)
@@ -448,9 +444,9 @@ namespace ElectronicObserver.Data.ShipGroup
 			{
 				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.AlbumNo == (int)RightOperand);
 				if (ship != null)
-					return string.Format("{0} ({1})", (int)RightOperand, ship.NameWithClass);
+					return $"{(int)RightOperand} ({ship.NameWithClass})";
 				else
-					return string.Format("{0} (存在せず)", (int)RightOperand);
+					return $"{(int)RightOperand} (存在せず)";
 
 			}
 			else if (LeftOperand == ".MasterShip.RemodelAfterShipID")
@@ -461,9 +457,9 @@ namespace ElectronicObserver.Data.ShipGroup
 
 				var ship = KCDatabase.Instance.MasterShips[(int)RightOperand];
 				if (ship != null)
-					return string.Format("{0} ({1})", ship.ShipID, ship.NameWithClass);
+					return $"{ship.ShipID} ({ship.NameWithClass})";
 				else
-					return string.Format("{0} (存在せず)", (int)RightOperand);
+					return $"{(int)RightOperand} (存在せず)";
 
 			}
 			else if (LeftOperand == ".MasterShip.RemodelBeforeShipID")
@@ -474,9 +470,9 @@ namespace ElectronicObserver.Data.ShipGroup
 
 				var ship = KCDatabase.Instance.MasterShips[(int)RightOperand];
 				if (ship != null)
-					return string.Format("{0} ({1})", ship.ShipID, ship.NameWithClass);
+					return $"{ship.ShipID} ({ship.NameWithClass})";
 				else
-					return string.Format("{0} (存在せず)", (int)RightOperand);
+					return $"{(int)RightOperand} (存在せず)";
 
 			}
 			else if (RightOperand is bool)

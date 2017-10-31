@@ -15,7 +15,6 @@ namespace ElectronicObserver.Data
 	/// <summary>
 	/// 個別の艦娘データを保持します。
 	/// </summary>
-	[DebuggerDisplay("[{ID}] {KCDatabase.Instance.MasterShips[ShipID].NameWithClass} Lv. {Level}")]
 	public class ShipData : APIWrapper, IIdentifiable
 	{
 
@@ -24,50 +23,32 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦娘を一意に識別するID
 		/// </summary>
-		public int MasterID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int MasterID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 並べ替えの順番
 		/// </summary>
-		public int SortID
-		{
-			get { return (int)RawData.api_sortno; }
-		}
+		public int SortID => (int)RawData.api_sortno;
 
 		/// <summary>
 		/// 艦船ID
 		/// </summary>
-		public int ShipID
-		{
-			get { return (int)RawData.api_ship_id; }
-		}
+		public int ShipID => (int)RawData.api_ship_id;
 
 		/// <summary>
 		/// レベル
 		/// </summary>
-		public int Level
-		{
-			get { return (int)RawData.api_lv; }
-		}
+		public int Level => (int)RawData.api_lv;
 
 		/// <summary>
 		/// 累積経験値
 		/// </summary>
-		public int ExpTotal
-		{
-			get { return (int)RawData.api_exp[0]; }
-		}
+		public int ExpTotal => (int)RawData.api_exp[0];
 
 		/// <summary>
 		/// 次のレベルに達するために必要な経験値
 		/// </summary>
-		public int ExpNext
-		{
-			get { return (int)RawData.api_exp[1]; }
-		}
+		public int ExpNext => (int)RawData.api_exp[1];
 
 
 		/// <summary>
@@ -78,37 +59,25 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 耐久最大値
 		/// </summary>
-		public int HPMax
-		{
-			get { return (int)RawData.api_maxhp; }
-		}
+		public int HPMax => (int)RawData.api_maxhp;
 
 
 		/// <summary>
 		/// 速力
 		/// </summary>
-		public int Speed
-		{
-			get { return RawData.api_soku() ? (int)RawData.api_soku : MasterShip.Speed; }
-		}
+		public int Speed => RawData.api_soku() ? (int)RawData.api_soku : MasterShip.Speed;
 
 		/// <summary>
 		/// 射程
 		/// </summary>
-		public int Range
-		{
-			get { return (int)RawData.api_leng; }
-		}
+		public int Range => (int)RawData.api_leng;
 
 
 		private int[] _slot;
 		/// <summary>
 		/// 装備スロット(ID)
 		/// </summary>
-		public ReadOnlyCollection<int> Slot
-		{
-			get { return Array.AsReadOnly<int>(_slot); }
-		}
+		public ReadOnlyCollection<int> Slot => Array.AsReadOnly(_slot);
 
 
 		/// <summary>
@@ -131,7 +100,7 @@ namespace ElectronicObserver.Data
 						s[i] = -1;
 				}
 
-				return Array.AsReadOnly<int>(s);
+				return Array.AsReadOnly(s);
 			}
 		}
 
@@ -169,7 +138,7 @@ namespace ElectronicObserver.Data
 				for (int i = 0; i < s.Length; i++)
 				{
 					EquipmentData eq = KCDatabase.Instance.Equipments[_slot[i]];
-					s[i] = eq != null ? eq.MasterEquipment : null;
+					s[i] = eq?.MasterEquipment;
 				}
 
 				return Array.AsReadOnly(s);
@@ -204,22 +173,12 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 補強装備スロット(装備データ)
 		/// </summary>
-		public EquipmentData ExpansionSlotInstance
-		{
-			get { return KCDatabase.Instance.Equipments[ExpansionSlot]; }
-		}
+		public EquipmentData ExpansionSlotInstance => KCDatabase.Instance.Equipments[ExpansionSlot];
 
 		/// <summary>
 		/// 補強装備スロット(装備マスターデータ)
 		/// </summary>
-		public EquipmentDataMaster ExpansionSlotInstanceMaster
-		{
-			get
-			{
-				EquipmentData eq = ExpansionSlotInstance;
-				return eq != null ? eq.MasterEquipment : null;
-			}
-		}
+		public EquipmentDataMaster ExpansionSlotInstanceMaster => ExpansionSlotInstance?.MasterEquipment;
 
 
 		/// <summary>
@@ -296,7 +255,7 @@ namespace ElectronicObserver.Data
 				for (int i = 0; i < s.Length; i++)
 				{
 					EquipmentData eq = KCDatabase.Instance.Equipments[alls[i]];
-					s[i] = eq != null ? eq.MasterEquipment : null;
+					s[i] = eq?.MasterEquipment;
 				}
 
 				return Array.AsReadOnly(s);
@@ -309,19 +268,13 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 各スロットの航空機搭載量
 		/// </summary>
-		public ReadOnlyCollection<int> Aircraft
-		{
-			get { return Array.AsReadOnly<int>(_aircraft); }
-		}
+		public ReadOnlyCollection<int> Aircraft => Array.AsReadOnly(_aircraft);
 
 
 		/// <summary>
 		/// 現在の航空機搭載量
 		/// </summary>
-		public int AircraftTotal
-		{
-			get { return _aircraft.Sum(a => Math.Max(a, 0)); }
-		}
+		public int AircraftTotal => _aircraft.Sum(a => Math.Max(a, 0));
 
 
 		/// <summary>
@@ -338,34 +291,22 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// スロットのサイズ
 		/// </summary>
-		public int SlotSize
-		{
-			get { return !RawData.api_slotnum() ? 0 : (int)RawData.api_slotnum; }
-		}
+		public int SlotSize => !RawData.api_slotnum() ? 0 : (int)RawData.api_slotnum;
 
 		/// <summary>
 		/// 入渠にかかる時間(ミリ秒)
 		/// </summary>
-		public int RepairTime
-		{
-			get { return (int)RawData.api_ndock_time; }
-		}
+		public int RepairTime => (int)RawData.api_ndock_time;
 
 		/// <summary>
 		/// 入渠にかかる鋼材
 		/// </summary>
-		public int RepairSteel
-		{
-			get { return (int)RawData.api_ndock_item[1]; }
-		}
+		public int RepairSteel => (int)RawData.api_ndock_item[1];
 
 		/// <summary>
 		/// 入渠にかかる燃料
 		/// </summary>
-		public int RepairFuel
-		{
-			get { return (int)RawData.api_ndock_item[0]; }
-		}
+		public int RepairFuel => (int)RawData.api_ndock_item[0];
 
 		/// <summary>
 		/// コンディション
@@ -385,233 +326,144 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 火力強化値
 		/// </summary>
-		public int FirepowerModernized
-		{
-			get { return _modernized.Length >= 5 ? _modernized[0] : 0; }
-		}
+		public int FirepowerModernized => _modernized.Length >= 5 ? _modernized[0] : 0;
 
 		/// <summary>
 		/// 雷装強化値
 		/// </summary>
-		public int TorpedoModernized
-		{
-			get { return _modernized.Length >= 5 ? _modernized[1] : 0; }
-		}
+		public int TorpedoModernized => _modernized.Length >= 5 ? _modernized[1] : 0;
 
 		/// <summary>
 		/// 対空強化値
 		/// </summary>
-		public int AAModernized
-		{
-			get { return _modernized.Length >= 5 ? _modernized[2] : 0; }
-		}
+		public int AAModernized => _modernized.Length >= 5 ? _modernized[2] : 0;
 
 		/// <summary>
 		/// 装甲強化値
 		/// </summary>
-		public int ArmorModernized
-		{
-			get { return _modernized.Length >= 5 ? _modernized[3] : 0; }
-		}
+		public int ArmorModernized => _modernized.Length >= 5 ? _modernized[3] : 0;
 
 		/// <summary>
 		/// 運強化値
 		/// </summary>
-		public int LuckModernized
-		{
-			get { return _modernized.Length >= 5 ? _modernized[4] : 0; }
-		}
+		public int LuckModernized => _modernized.Length >= 5 ? _modernized[4] : 0;
 
 		/// <summary>
 		/// 耐久強化値
 		/// </summary>
-		public int HPMaxModernized
-		{
-			get { return _modernized.Length >= 7 ? _modernized[5] : 0; }
-		}
+		public int HPMaxModernized => _modernized.Length >= 7 ? _modernized[5] : 0;
 
 		/// <summary>
 		/// 対潜強化値
 		/// </summary>
-		public int ASWModernized
-		{
-			get { return _modernized.Length >= 7 ? _modernized[6] : 0; }
-		}
+		public int ASWModernized => _modernized.Length >= 7 ? _modernized[6] : 0;
 
 
 		/// <summary>
 		/// 火力改修残り
 		/// </summary>
-		public int FirepowerRemain
-		{
-			get { return (MasterShip.FirepowerMax - MasterShip.FirepowerMin) - FirepowerModernized; }
-		}
+		public int FirepowerRemain => (MasterShip.FirepowerMax - MasterShip.FirepowerMin) - FirepowerModernized;
 
 		/// <summary>
 		/// 雷装改修残り
 		/// </summary>
-		public int TorpedoRemain
-		{
-			get { return (MasterShip.TorpedoMax - MasterShip.TorpedoMin) - TorpedoModernized; }
-		}
+		public int TorpedoRemain => (MasterShip.TorpedoMax - MasterShip.TorpedoMin) - TorpedoModernized;
 
 		/// <summary>
 		/// 対空改修残り
 		/// </summary>
-		public int AARemain
-		{
-			get { return (MasterShip.AAMax - MasterShip.AAMin) - AAModernized; }
-		}
+		public int AARemain => (MasterShip.AAMax - MasterShip.AAMin) - AAModernized;
 
 		/// <summary>
 		/// 装甲改修残り
 		/// </summary>
-		public int ArmorRemain
-		{
-			get { return (MasterShip.ArmorMax - MasterShip.ArmorMin) - ArmorModernized; }
-		}
+		public int ArmorRemain => (MasterShip.ArmorMax - MasterShip.ArmorMin) - ArmorModernized;
 
 		/// <summary>
 		/// 運改修残り
 		/// </summary>
-		public int LuckRemain
-		{
-			get { return (MasterShip.LuckMax - MasterShip.LuckMin) - LuckModernized; }
-		}
+		public int LuckRemain => (MasterShip.LuckMax - MasterShip.LuckMin) - LuckModernized;
 
 		/// <summary>
 		/// 耐久改修残り
 		/// </summary>
-		public int HPMaxRemain
-		{
-			get { return (IsMarried ? MasterShip.HPMaxMarriedModernizable : MasterShip.HPMaxModernizable) - HPMaxModernized; }
-		}
+		public int HPMaxRemain => (IsMarried ? MasterShip.HPMaxMarriedModernizable : MasterShip.HPMaxModernizable) - HPMaxModernized;
 
 		/// <summary>
 		/// 対潜改修残り
 		/// </summary>
-		public int ASWRemain
-		{
-			get { return ASWMax <= 0 ? 0 : MasterShip.ASWModernizable - ASWModernized; }
-		}
+		public int ASWRemain => ASWMax <= 0 ? 0 : MasterShip.ASWModernizable - ASWModernized;
 
 
 		/// <summary>
 		/// 火力総合値
 		/// </summary>
-		public int FirepowerTotal
-		{
-			get { return (int)RawData.api_karyoku[0]; }
-		}
+		public int FirepowerTotal => (int)RawData.api_karyoku[0];
 
 		/// <summary>
 		/// 雷装総合値
 		/// </summary>
-		public int TorpedoTotal
-		{
-			get { return (int)RawData.api_raisou[0]; }
-		}
+		public int TorpedoTotal => (int)RawData.api_raisou[0];
 
 		/// <summary>
 		/// 対空総合値
 		/// </summary>
-		public int AATotal
-		{
-			get { return (int)RawData.api_taiku[0]; }
-		}
+		public int AATotal => (int)RawData.api_taiku[0];
 
 		/// <summary>
 		/// 装甲総合値
 		/// </summary>
-		public int ArmorTotal
-		{
-			get { return (int)RawData.api_soukou[0]; }
-		}
+		public int ArmorTotal => (int)RawData.api_soukou[0];
 
 		/// <summary>
 		/// 回避総合値
 		/// </summary>
-		public int EvasionTotal
-		{
-			get { return (int)RawData.api_kaihi[0]; }
-		}
+		public int EvasionTotal => (int)RawData.api_kaihi[0];
 
 		/// <summary>
 		/// 対潜総合値
 		/// </summary>
-		public int ASWTotal
-		{
-			get { return (int)RawData.api_taisen[0]; }
-		}
+		public int ASWTotal => (int)RawData.api_taisen[0];
 
 		/// <summary>
 		/// 索敵総合値
 		/// </summary>
-		public int LOSTotal
-		{
-			get { return (int)RawData.api_sakuteki[0]; }
-		}
+		public int LOSTotal => (int)RawData.api_sakuteki[0];
 
 		/// <summary>
 		/// 運総合値
 		/// </summary>
-		public int LuckTotal
-		{
-			get { return (int)RawData.api_lucky[0]; }
-		}
+		public int LuckTotal => (int)RawData.api_lucky[0];
 
 		/// <summary>
 		/// 爆装総合値
 		/// </summary>
-		public int BomberTotal
-		{
-			get { return AllSlotInstanceMaster.Sum(s => s == null ? 0 : Math.Max(s.Bomber, 0)); }
-		}
+		public int BomberTotal => AllSlotInstanceMaster.Sum(s => s == null ? 0 : Math.Max(s.Bomber, 0));
 
 
 		/// <summary>
 		/// 火力基本値
 		/// </summary>
-		public int FirepowerBase
-		{
-			get
-			{
-				return MasterShip.FirepowerMin + FirepowerModernized;
-			}
-		}
+		public int FirepowerBase => MasterShip.FirepowerMin + FirepowerModernized;
+
 
 		/// <summary>
 		/// 雷装基本値
 		/// </summary>
-		public int TorpedoBase
-		{
-			get
-			{
-				return MasterShip.TorpedoMin + TorpedoModernized;
-			}
-		}
+		public int TorpedoBase => MasterShip.TorpedoMin + TorpedoModernized;
+
 
 		/// <summary>
 		/// 対空基本値
 		/// </summary>
-		public int AABase
-		{
-			get
-			{
-				return MasterShip.AAMin + AAModernized;
-			}
-		}
+		public int AABase => MasterShip.AAMin + AAModernized;
+
 
 		/// <summary>
 		/// 装甲基本値
 		/// </summary>
-		public int ArmorBase
-		{
-			get
-			{
-				return MasterShip.ArmorMin + ArmorModernized;
-			}
-		}
+		public int ArmorBase => MasterShip.ArmorMin + ArmorModernized;
+
 
 		/// <summary>
 		/// 回避基本値
@@ -620,10 +472,6 @@ namespace ElectronicObserver.Data
 		{
 			get
 			{
-				/*
-				ShipDataMaster ship = KCDatabase.Instance.MasterShips[ShipID];
-				return ship.EvasionMin + ( ship.EvasionMax - ship.EvasionMin ) * Level / 99;
-				*/
 				int param = EvasionTotal;
 				foreach (var eq in AllSlotInstance)
 				{
@@ -671,38 +519,24 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 運基本値
 		/// </summary>
-		public int LuckBase
-		{
-			get
-			{
-				return MasterShip.LuckMin + LuckModernized;
-			}
-		}
+		public int LuckBase => MasterShip.LuckMin + LuckModernized;
+
 
 
 		/// <summary>
 		/// 回避最大値
 		/// </summary>
-		public int EvasionMax
-		{
-			get { return (int)RawData.api_kaihi[1]; }
-		}
+		public int EvasionMax => (int)RawData.api_kaihi[1];
 
 		/// <summary>
 		/// 対潜最大値
 		/// </summary>
-		public int ASWMax
-		{
-			get { return (int)RawData.api_taisen[1]; }
-		}
+		public int ASWMax => (int)RawData.api_taisen[1];
 
 		/// <summary>
 		/// 索敵最大値
 		/// </summary>
-		public int LOSMax
-		{
-			get { return (int)RawData.api_sakuteki[1]; }
-		}
+		public int LOSMax => (int)RawData.api_sakuteki[1];
 
 		#endregion
 
@@ -710,42 +544,26 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 保護ロックの有無
 		/// </summary>
-		public bool IsLocked
-		{
-			get { return (int)RawData.api_locked != 0; }
-		}
+		public bool IsLocked => (int)RawData.api_locked != 0;
 
 		/// <summary>
 		/// 装備による保護ロックの有無
 		/// </summary>
-		public bool IsLockedByEquipment
-		{
-			get { return (int)RawData.api_locked_equip != 0; }
-		}
+		public bool IsLockedByEquipment => (int)RawData.api_locked_equip != 0;
 
 
 		/// <summary>
 		/// 出撃海域
 		/// </summary>
-		public int SallyArea
-		{
-			get
-			{
-				return RawData.api_sally_area() ? (int)RawData.api_sally_area : -1;
-			}
-		}
+		public int SallyArea => RawData.api_sally_area() ? (int)RawData.api_sally_area : -1;
+
 
 
 		/// <summary>
 		/// 艦船のマスターデータへの参照
 		/// </summary>
-		public ShipDataMaster MasterShip
-		{
-			get
-			{
-				return KCDatabase.Instance.MasterShips[ShipID];
-			}
-		}
+		public ShipDataMaster MasterShip => KCDatabase.Instance.MasterShips[ShipID];
+
 
 		/// <summary>
 		/// 入渠中のドックID　非入渠時は-1
@@ -796,7 +614,7 @@ namespace ElectronicObserver.Data
 					int index = f.Members.IndexOf(MasterID);
 					if (index != -1)
 					{
-						return string.Format("{0}-{1}", f.FleetID, index + 1);
+						return $"{f.FleetID}-{index + 1}";
 					}
 				}
 				return "";
@@ -808,10 +626,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// ケッコン済みかどうか
 		/// </summary>
-		public bool IsMarried
-		{
-			get { return Level > 99; }
-		}
+		public bool IsMarried => Level > 99;
 
 
 		/// <summary>
@@ -832,66 +647,42 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦名
 		/// </summary>
-		public string Name
-		{
-			get { return MasterShip.Name; }
-		}
+		public string Name => MasterShip.Name;
 
 
 		/// <summary>
 		/// 艦名(レベルを含む)
 		/// </summary>
-		public string NameWithLevel
-		{
-			get { return string.Format("{0} Lv. {1}", MasterShip.Name, Level); }
-		}
+		public string NameWithLevel => $"{MasterShip.Name} Lv. {Level}";
 
 
 		/// <summary>
 		/// HP/HPmax
 		/// </summary>
-		public double HPRate
-		{
-			get
-			{
-				if (HPMax <= 0) return 0.0;
-				return (double)HPCurrent / HPMax;
-			}
-		}
+		public double HPRate => HPMax > 0 ? (double)HPCurrent / HPMax : 0;
+
 
 
 		/// <summary>
 		/// 最大搭載燃料
 		/// </summary>
-		public int FuelMax
-		{
-			get { return MasterShip.Fuel; }
-		}
+		public int FuelMax => MasterShip.Fuel;
 
 		/// <summary>
 		/// 最大搭載弾薬
 		/// </summary>
-		public int AmmoMax
-		{
-			get { return MasterShip.Ammo; }
-		}
+		public int AmmoMax => MasterShip.Ammo;
 
 
 		/// <summary>
 		/// 燃料残量割合
 		/// </summary>
-		public double FuelRate
-		{
-			get { return (double)Fuel / Math.Max(FuelMax, 1); }
-		}
+		public double FuelRate => (double)Fuel / Math.Max(FuelMax, 1);
 
 		/// <summary>
 		/// 弾薬残量割合
 		/// </summary>
-		public double AmmoRate
-		{
-			get { return (double)Ammo / Math.Max(AmmoMax, 1); }
-		}
+		public double AmmoRate => (double)Ammo / Math.Max(AmmoMax, 1);
 
 
 		/// <summary>
@@ -916,10 +707,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 搭載機残量割合
 		/// </summary>
-		public double AircraftTotalRate
-		{
-			get { return (double)AircraftTotal / Math.Max(MasterShip.AircraftTotal, 1); }
-		}
+		public double AircraftTotalRate => (double)AircraftTotal / Math.Max(MasterShip.AircraftTotal, 1);
 
 
 
@@ -928,10 +716,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 補強装備スロットが使用可能か
 		/// </summary>
-		public bool IsExpansionSlotAvailable
-		{
-			get { return ExpansionSlot != 0; }
-		}
+		public bool IsExpansionSlotAvailable => ExpansionSlot != 0;
 
 
 
@@ -941,13 +726,13 @@ namespace ElectronicObserver.Data
 		/// 航空戦威力
 		/// 本来スロットごとのものであるが、ここでは最大火力を採用する
 		/// </summary>
-		public int AirBattlePower { get { return _airbattlePowers.Max(); } }
+		public int AirBattlePower => _airbattlePowers.Max();
 
 		private int[] _airbattlePowers;
 		/// <summary>
 		/// 各スロットの航空戦威力
 		/// </summary>
-		public ReadOnlyCollection<int> AirBattlePowers { get { return Array.AsReadOnly(_airbattlePowers); } }
+		public ReadOnlyCollection<int> AirBattlePowers => Array.AsReadOnly(_airbattlePowers);
 
 		/// <summary>
 		/// 砲撃威力
@@ -1309,8 +1094,10 @@ namespace ElectronicObserver.Data
 		/// <param name="engagementForm">交戦形態。既定値は 1 (同航戦) です。</param>
 		private int CalculateShellingPower(int engagementForm = 1)
 		{
-			if (Calculator.GetDayAttackKind(AllSlotMaster.ToArray(), ShipID, -1, false) != 0)
-				return 0;       //砲撃以外は除外
+			var attackKind = Calculator.GetDayAttackKind(AllSlotMaster.ToArray(), ShipID, -1, false);
+			if (attackKind == DayAttackKind.AirAttack || attackKind == DayAttackKind.CutinAirAttack)
+				return 0;
+
 
 			double basepower = FirepowerTotal + GetDayBattleEquipmentLevelBonus() + GetCombinedFleetShellingDamageBonus() + 5;
 
@@ -1348,8 +1135,10 @@ namespace ElectronicObserver.Data
 		/// <param name="engagementForm">交戦形態。既定値は 1 (同航戦) です。</param>
 		private int CalculateAircraftPower(int engagementForm = 1)
 		{
-			if (Calculator.GetDayAttackKind(AllSlotMaster.ToArray(), ShipID, -1, false) != DayAttackKind.AirAttack)
-				return 0;       //空撃以外は除外
+			var attackKind = Calculator.GetDayAttackKind(AllSlotMaster.ToArray(), ShipID, -1, false);
+			if (attackKind != DayAttackKind.AirAttack && attackKind != DayAttackKind.CutinAirAttack)
+				return 0;
+
 
 			double basepower = Math.Floor((FirepowerTotal + TorpedoTotal + Math.Floor(BomberTotal * 1.3) + GetAircraftEquipmentLevelBonus() + GetCombinedFleetShellingDamageBonus()) * 1.5) + 55;
 
@@ -1542,10 +1331,8 @@ namespace ElectronicObserver.Data
 
 
 
-		public int ID
-		{
-			get { return MasterID; }
-		}
+		public int ID => MasterID;
+		public override string ToString() => $"[{MasterID}] {NameWithLevel}";
 
 
 		public override void LoadFromResponse(string apiname, dynamic data)

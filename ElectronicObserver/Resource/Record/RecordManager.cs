@@ -17,10 +17,7 @@ namespace ElectronicObserver.Resource.Record
 
 		private static readonly RecordManager instance = new RecordManager();
 
-		public static RecordManager Instance
-		{
-			get { return instance; }
-		}
+		public static RecordManager Instance => instance;
 
 		#endregion
 

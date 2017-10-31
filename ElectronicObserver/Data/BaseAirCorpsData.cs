@@ -19,24 +19,14 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 飛行場が存在する海域ID
 		/// </summary>
-		public int MapAreaID
-		{
-			get
-			{
-				return RawData.api_area_id() ? (int)RawData.api_area_id : -1;
-			}
-		}
+		public int MapAreaID => RawData.api_area_id() ? (int)RawData.api_area_id : -1;
+
 
 		/// <summary>
 		/// 航空隊ID
 		/// </summary>
-		public int AirCorpsID
-		{
-			get
-			{
-				return (int)RawData.api_rid;
-			}
-		}
+		public int AirCorpsID => (int)RawData.api_rid;
+
 
 		/// <summary>
 		/// 航空隊名
@@ -90,13 +80,8 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public IDDictionary<BaseAirCorpsSquadron> Squadrons { get; private set; }
 
-		public BaseAirCorpsSquadron this[int i]
-		{
-			get
-			{
-				return Squadrons[i];
-			}
-		}
+		public BaseAirCorpsSquadron this[int i] => Squadrons[i];
+
 
 
 
@@ -195,30 +180,21 @@ namespace ElectronicObserver.Data
 
 
 
-		public override string ToString()
-		{
-			return string.Format("[{0}:{1}] {2}", MapAreaID, AirCorpsID, Name);
-		}
+		public override string ToString() => $"[{MapAreaID}:{AirCorpsID}] {Name}";
 
 
-		public int ID
-		{
-			get { return GetID(RawData); }
-		}
+
+		public int ID => GetID(RawData);
 
 
-		public static int GetID(int mapAreaID, int airCorpsID)
-		{
-			return mapAreaID * 10 + airCorpsID;
-		}
+		public static int GetID(int mapAreaID, int airCorpsID) => mapAreaID * 10 + airCorpsID;
+
 		public static int GetID(Dictionary<string, string> request)
-		{
-			return GetID(int.Parse(request["api_area_id"]), int.Parse(request["api_base_id"]));
-		}
+			=> GetID(int.Parse(request["api_area_id"]), int.Parse(request["api_base_id"]));
+
 		public static int GetID(dynamic response)
-		{
-			return GetID(response.api_area_id() ? (int)response.api_area_id : -1, (int)response.api_rid);
-		}
+			=> GetID(response.api_area_id() ? (int)response.api_area_id : -1, (int)response.api_rid);
+
 
 	}
 }

@@ -36,20 +36,11 @@ namespace ElectronicObserver.Data.Battle
 		}
 
 
-		public override string APIName
-		{
-			get { return "api_req_combined_battle/ec_battle"; }
-		}
+		public override string APIName => "api_req_combined_battle/ec_battle";
 
-		public override string BattleName
-		{
-			get { return "通常艦隊 対連合艦隊 昼戦"; }
-		}
+		public override string BattleName => "通常艦隊 対連合艦隊 昼戦";
 
-		public override BattleTypeFlag BattleType
-		{
-			get { return BattleTypeFlag.Day | BattleTypeFlag.EnemyCombined; }
-		}
+		public override BattleTypeFlag BattleType => BattleTypeFlag.Day | BattleTypeFlag.EnemyCombined;
 
 
 		public override IEnumerable<PhaseBase> GetPhases()

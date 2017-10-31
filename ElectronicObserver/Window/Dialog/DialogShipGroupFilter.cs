@@ -45,8 +45,10 @@ namespace ElectronicObserver.Window.Dialog
 
 			{
 				// 一部の列ヘッダを中央揃えにする
-				var headercenter = new DataGridViewCellStyle(ExpressionView_Enabled.HeaderCell.Style);
-				headercenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
+				var headercenter = new DataGridViewCellStyle(ExpressionView_Enabled.HeaderCell.Style)
+				{
+					Alignment = DataGridViewContentAlignment.MiddleCenter
+				};
 				ExpressionView_Enabled.HeaderCell.Style =
 				ExpressionView_InternalAndOr.HeaderCell.Style =
 				ExpressionView_ExternalAndOr.HeaderCell.Style =
@@ -788,9 +790,11 @@ namespace ElectronicObserver.Window.Dialog
 		private ExpressionData BuildExpressionDataFromUI()
 		{
 
-			var exp = new ExpressionData();
-			exp.LeftOperand = (string)LeftOperand.SelectedValue ?? LeftOperand.Text;
-			exp.Operator = (ExpressionData.ExpressionOperator)Operator.SelectedValue;
+			var exp = new ExpressionData
+			{
+				LeftOperand = (string)LeftOperand.SelectedValue ?? LeftOperand.Text,
+				Operator = (ExpressionData.ExpressionOperator)Operator.SelectedValue
+			};
 
 			Type type = exp.GetLeftOperandType();
 			if (type != null && type != typeof(string) && type.GetInterface("IEnumerable") != null)

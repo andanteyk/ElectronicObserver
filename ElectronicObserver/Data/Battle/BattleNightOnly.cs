@@ -25,20 +25,11 @@ namespace ElectronicObserver.Data.Battle
 		}
 
 
-		public override string APIName
-		{
-			get { return "api_req_battle_midnight/sp_midnight"; }
-		}
+		public override string APIName => "api_req_battle_midnight/sp_midnight";
 
-		public override string BattleName
-		{
-			get { return "通常艦隊 開幕夜戦"; }
-		}
+		public override string BattleName => "通常艦隊 開幕夜戦";
 
-		public override BattleTypeFlag BattleType
-		{
-			get { return BattleTypeFlag.Night; }
-		}
+		public override BattleTypeFlag BattleType => BattleTypeFlag.Night;
 
 
 		public override IEnumerable<PhaseBase> GetPhases()

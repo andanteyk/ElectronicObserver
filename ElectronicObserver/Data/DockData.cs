@@ -17,10 +17,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// ドックID
 		/// </summary>
-		public int DockID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int DockID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 入渠状態
@@ -39,10 +36,7 @@ namespace ElectronicObserver.Data
 		public DateTime CompletionTime { get; internal set; }
 
 
-		public int ID
-		{
-			get { return DockID; }
-		}
+		public int ID => DockID;
 
 
 		public override void LoadFromResponse(string apiname, dynamic data)

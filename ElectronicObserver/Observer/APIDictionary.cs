@@ -67,30 +67,18 @@ namespace ElectronicObserver.Observer
 			return dict.ContainsKey(key);
 		}
 
-		public IEnumerable<string> Keys
-		{
-			get { return dict.Keys; }
-		}
+		public IEnumerable<string> Keys => dict.Keys;
 
 		public bool TryGetValue(string key, out APIBase value)
 		{
 			return dict.TryGetValue(key, out value);
 		}
 
-		public IEnumerable<APIBase> Values
-		{
-			get { return dict.Values; }
-		}
+		public IEnumerable<APIBase> Values => dict.Values;
 
-		public APIBase this[string key]
-		{
-			get { return dict.ContainsKey(key) ? dict[key] : null; }
-		}
+		public APIBase this[string key] => dict.ContainsKey(key) ? dict[key] : null;
 
-		public int Count
-		{
-			get { return dict.Count; }
-		}
+		public int Count => dict.Count;
 
 		public IEnumerator<KeyValuePair<string, APIBase>> GetEnumerator()
 		{

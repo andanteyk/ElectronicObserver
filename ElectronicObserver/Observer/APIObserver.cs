@@ -25,10 +25,7 @@ namespace ElectronicObserver.Observer
 
 		private static readonly APIObserver instance = new APIObserver();
 
-		public static APIObserver Instance
-		{
-			get { return instance; }
-		}
+		public static APIObserver Instance => instance;
 
 		#endregion
 
@@ -52,85 +49,87 @@ namespace ElectronicObserver.Observer
 		private APIObserver()
 		{
 
-			APIList = new APIDictionary();
-			APIList.Add(new kcsapi.api_start2());
-			APIList.Add(new kcsapi.api_get_member.basic());
-			APIList.Add(new kcsapi.api_get_member.slot_item());
-			APIList.Add(new kcsapi.api_get_member.useitem());
-			APIList.Add(new kcsapi.api_get_member.kdock());
-			APIList.Add(new kcsapi.api_port.port());
-			APIList.Add(new kcsapi.api_get_member.ship2());
-			APIList.Add(new kcsapi.api_get_member.questlist());
-			APIList.Add(new kcsapi.api_get_member.ndock());
-			APIList.Add(new kcsapi.api_req_kousyou.getship());
-			APIList.Add(new kcsapi.api_req_hokyu.charge());
-			APIList.Add(new kcsapi.api_req_kousyou.destroyship());
-			APIList.Add(new kcsapi.api_req_kousyou.destroyitem2());
-			APIList.Add(new kcsapi.api_req_member.get_practice_enemyinfo());
-			APIList.Add(new kcsapi.api_get_member.picture_book());
-			APIList.Add(new kcsapi.api_req_mission.start());
-			APIList.Add(new kcsapi.api_get_member.ship3());
-			APIList.Add(new kcsapi.api_req_kaisou.powerup());
-			APIList.Add(new kcsapi.api_req_map.start());
-			APIList.Add(new kcsapi.api_req_map.next());
-			APIList.Add(new kcsapi.api_req_kousyou.createitem());
-			APIList.Add(new kcsapi.api_req_sortie.battle());
-			APIList.Add(new kcsapi.api_req_sortie.battleresult());
-			APIList.Add(new kcsapi.api_req_battle_midnight.battle());
-			APIList.Add(new kcsapi.api_req_battle_midnight.sp_midnight());
-			APIList.Add(new kcsapi.api_req_combined_battle.battle());
-			APIList.Add(new kcsapi.api_req_combined_battle.midnight_battle());
-			APIList.Add(new kcsapi.api_req_combined_battle.sp_midnight());
-			APIList.Add(new kcsapi.api_req_combined_battle.airbattle());
-			APIList.Add(new kcsapi.api_req_combined_battle.battleresult());
-			APIList.Add(new kcsapi.api_req_practice.battle());
-			APIList.Add(new kcsapi.api_req_practice.midnight_battle());
-			APIList.Add(new kcsapi.api_req_practice.battle_result());
-			APIList.Add(new kcsapi.api_get_member.deck());
-			APIList.Add(new kcsapi.api_get_member.mapinfo());
-			APIList.Add(new kcsapi.api_req_combined_battle.battle_water());
-			APIList.Add(new kcsapi.api_req_combined_battle.goback_port());
-			APIList.Add(new kcsapi.api_req_kousyou.remodel_slot());
-			APIList.Add(new kcsapi.api_get_member.material());
-			APIList.Add(new kcsapi.api_req_mission.result());
-			APIList.Add(new kcsapi.api_req_ranking.getlist());
-			APIList.Add(new kcsapi.api_req_sortie.airbattle());
-			APIList.Add(new kcsapi.api_get_member.ship_deck());
-			APIList.Add(new kcsapi.api_req_kaisou.marriage());
-			APIList.Add(new kcsapi.api_req_hensei.preset_select());
-			APIList.Add(new kcsapi.api_req_kaisou.slot_exchange_index());
-			APIList.Add(new kcsapi.api_get_member.record());
-			APIList.Add(new kcsapi.api_get_member.payitem());
-			APIList.Add(new kcsapi.api_req_kousyou.remodel_slotlist());
-			APIList.Add(new kcsapi.api_req_sortie.ld_airbattle());
-			APIList.Add(new kcsapi.api_req_combined_battle.ld_airbattle());
-			APIList.Add(new kcsapi.api_get_member.require_info());
-			APIList.Add(new kcsapi.api_get_member.base_air_corps());
-			APIList.Add(new kcsapi.api_req_air_corps.set_plane());
-			APIList.Add(new kcsapi.api_req_air_corps.set_action());
-			APIList.Add(new kcsapi.api_req_air_corps.supply());
-			APIList.Add(new kcsapi.api_req_kaisou.slot_deprive());
-			APIList.Add(new kcsapi.api_req_air_corps.expand_base());
-			APIList.Add(new kcsapi.api_req_combined_battle.ec_battle());
-			APIList.Add(new kcsapi.api_req_combined_battle.ec_midnight_battle());
-			APIList.Add(new kcsapi.api_req_combined_battle.each_battle());
-			APIList.Add(new kcsapi.api_req_combined_battle.each_battle_water());
-			APIList.Add(new kcsapi.api_get_member.sortie_conditions());
+			APIList = new APIDictionary
+			{
+				new kcsapi.api_start2(),
+				new kcsapi.api_get_member.basic(),
+				new kcsapi.api_get_member.slot_item(),
+				new kcsapi.api_get_member.useitem(),
+				new kcsapi.api_get_member.kdock(),
+				new kcsapi.api_port.port(),
+				new kcsapi.api_get_member.ship2(),
+				new kcsapi.api_get_member.questlist(),
+				new kcsapi.api_get_member.ndock(),
+				new kcsapi.api_req_kousyou.getship(),
+				new kcsapi.api_req_hokyu.charge(),
+				new kcsapi.api_req_kousyou.destroyship(),
+				new kcsapi.api_req_kousyou.destroyitem2(),
+				new kcsapi.api_req_member.get_practice_enemyinfo(),
+				new kcsapi.api_get_member.picture_book(),
+				new kcsapi.api_req_mission.start(),
+				new kcsapi.api_get_member.ship3(),
+				new kcsapi.api_req_kaisou.powerup(),
+				new kcsapi.api_req_map.start(),
+				new kcsapi.api_req_map.next(),
+				new kcsapi.api_req_kousyou.createitem(),
+				new kcsapi.api_req_sortie.battle(),
+				new kcsapi.api_req_sortie.battleresult(),
+				new kcsapi.api_req_battle_midnight.battle(),
+				new kcsapi.api_req_battle_midnight.sp_midnight(),
+				new kcsapi.api_req_combined_battle.battle(),
+				new kcsapi.api_req_combined_battle.midnight_battle(),
+				new kcsapi.api_req_combined_battle.sp_midnight(),
+				new kcsapi.api_req_combined_battle.airbattle(),
+				new kcsapi.api_req_combined_battle.battleresult(),
+				new kcsapi.api_req_practice.battle(),
+				new kcsapi.api_req_practice.midnight_battle(),
+				new kcsapi.api_req_practice.battle_result(),
+				new kcsapi.api_get_member.deck(),
+				new kcsapi.api_get_member.mapinfo(),
+				new kcsapi.api_req_combined_battle.battle_water(),
+				new kcsapi.api_req_combined_battle.goback_port(),
+				new kcsapi.api_req_kousyou.remodel_slot(),
+				new kcsapi.api_get_member.material(),
+				new kcsapi.api_req_mission.result(),
+				new kcsapi.api_req_ranking.getlist(),
+				new kcsapi.api_req_sortie.airbattle(),
+				new kcsapi.api_get_member.ship_deck(),
+				new kcsapi.api_req_kaisou.marriage(),
+				new kcsapi.api_req_hensei.preset_select(),
+				new kcsapi.api_req_kaisou.slot_exchange_index(),
+				new kcsapi.api_get_member.record(),
+				new kcsapi.api_get_member.payitem(),
+				new kcsapi.api_req_kousyou.remodel_slotlist(),
+				new kcsapi.api_req_sortie.ld_airbattle(),
+				new kcsapi.api_req_combined_battle.ld_airbattle(),
+				new kcsapi.api_get_member.require_info(),
+				new kcsapi.api_get_member.base_air_corps(),
+				new kcsapi.api_req_air_corps.set_plane(),
+				new kcsapi.api_req_air_corps.set_action(),
+				new kcsapi.api_req_air_corps.supply(),
+				new kcsapi.api_req_kaisou.slot_deprive(),
+				new kcsapi.api_req_air_corps.expand_base(),
+				new kcsapi.api_req_combined_battle.ec_battle(),
+				new kcsapi.api_req_combined_battle.ec_midnight_battle(),
+				new kcsapi.api_req_combined_battle.each_battle(),
+				new kcsapi.api_req_combined_battle.each_battle_water(),
+				new kcsapi.api_get_member.sortie_conditions(),
 
-			APIList.Add(new kcsapi.api_req_quest.clearitemget());
-			APIList.Add(new kcsapi.api_req_nyukyo.start());
-			APIList.Add(new kcsapi.api_req_nyukyo.speedchange());
-			APIList.Add(new kcsapi.api_req_kousyou.createship());
-			APIList.Add(new kcsapi.api_req_kousyou.createship_speedchange());
-			APIList.Add(new kcsapi.api_req_hensei.change());
-			APIList.Add(new kcsapi.api_req_member.updatedeckname());
-			APIList.Add(new kcsapi.api_req_kaisou.remodeling());
-			APIList.Add(new kcsapi.api_req_kaisou.open_exslot());
-			APIList.Add(new kcsapi.api_req_map.select_eventmap_rank());
-			APIList.Add(new kcsapi.api_req_hensei.combined());
-			APIList.Add(new kcsapi.api_req_member.updatecomment());
-			APIList.Add(new kcsapi.api_req_air_corps.change_name());
-			APIList.Add(new kcsapi.api_req_quest.stop());
+				new kcsapi.api_req_quest.clearitemget(),
+				new kcsapi.api_req_nyukyo.start(),
+				new kcsapi.api_req_nyukyo.speedchange(),
+				new kcsapi.api_req_kousyou.createship(),
+				new kcsapi.api_req_kousyou.createship_speedchange(),
+				new kcsapi.api_req_hensei.change(),
+				new kcsapi.api_req_member.updatedeckname(),
+				new kcsapi.api_req_kaisou.remodeling(),
+				new kcsapi.api_req_kaisou.open_exslot(),
+				new kcsapi.api_req_map.select_eventmap_rank(),
+				new kcsapi.api_req_hensei.combined(),
+				new kcsapi.api_req_member.updatecomment(),
+				new kcsapi.api_req_air_corps.change_name(),
+				new kcsapi.api_req_quest.stop()
+			};
 
 
 			ServerAddress = null;

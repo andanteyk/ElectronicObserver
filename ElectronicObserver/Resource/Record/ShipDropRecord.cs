@@ -15,7 +15,7 @@ namespace ElectronicObserver.Resource.Record
 	{
 
 		[DebuggerDisplay("[{Date}] : {ShipName} / {ItemName}")]
-		public class ShipDropElement : RecordElementBase
+		public sealed class ShipDropElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -101,7 +101,10 @@ namespace ElectronicObserver.Resource.Record
 			}
 
 			public ShipDropElement(string line)
-				: base(line) { }
+				: this()
+			{
+				LoadLine(line);
+			}
 
 			public ShipDropElement(int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, uint enemyFleetID, string rank, int hqLevel)
 			{
@@ -263,15 +266,9 @@ namespace ElectronicObserver.Resource.Record
 			LastSavedCount = Record.Count;
 		}
 
-		public override bool NeedToSave
-		{
-			get { return LastSavedCount < Record.Count; }
-		}
+		public override bool NeedToSave => LastSavedCount < Record.Count;
 
-		public override bool SupportsPartialSave
-		{
-			get { return true; }
-		}
+		public override bool SupportsPartialSave => true;
 
 
 		protected override void ClearRecord()
@@ -281,14 +278,9 @@ namespace ElectronicObserver.Resource.Record
 		}
 
 
-		public override string RecordHeader
-		{
-			get { return "艦船ID,艦名,アイテムID,アイテム名,装備ID,装備名,入手日時,海域,海域,セル,難易度,ボス,敵編成,ランク,司令部Lv"; }
-		}
+		public override string RecordHeader => "艦船ID,艦名,アイテムID,アイテム名,装備ID,装備名,入手日時,海域,海域,セル,難易度,ボス,敵編成,ランク,司令部Lv";
 
-		public override string FileName
-		{
-			get { return "ShipDropRecord.csv"; }
-		}
+		public override string FileName => "ShipDropRecord.csv";
 	}
+
 }

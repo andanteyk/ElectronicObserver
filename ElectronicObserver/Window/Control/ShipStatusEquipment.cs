@@ -31,13 +31,8 @@ namespace ElectronicObserver.Window.Control
 			/// <summary>
 			/// 装備インスタンス
 			/// </summary>
-			public EquipmentDataMaster Equipment
-			{
-				get
-				{
-					return KCDatabase.Instance.MasterEquipments[EquipmentID];
-				}
-			}
+			public EquipmentDataMaster Equipment => KCDatabase.Instance.MasterEquipments[EquipmentID];
+
 
 			/// <summary>
 			/// 装備アイコンID
@@ -498,6 +493,7 @@ namespace ElectronicObserver.Window.Control
 			Disposed += ShipStatusEquipment_Disposed;
 
 			IsRefreshSuspended = false;
+
 		}
 
 		/// <summary>

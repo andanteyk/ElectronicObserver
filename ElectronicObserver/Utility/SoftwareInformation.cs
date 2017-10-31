@@ -17,58 +17,33 @@ namespace ElectronicObserver.Utility
 		/// <summary>
 		/// ソフトウェア名(日本語)
 		/// </summary>
-		public static string SoftwareNameJapanese
-		{
-			get
-			{
-				return "七四式電子観測儀";
-			}
-		}
+		public static string SoftwareNameJapanese => "七四式電子観測儀";
+
 
 		/// <summary>
 		/// ソフトウェア名(英語)
 		/// </summary>
-		public static string SoftwareNameEnglish
-		{
-			get
-			{
-				return "ElectronicObserver";
-			}
-		}
+		public static string SoftwareNameEnglish => "ElectronicObserver";
+
 
 		/// <summary>
 		/// バージョン(日本語, ソフトウェア名を含みます)
 		/// </summary>
-		public static string VersionJapanese
-		{
-			get
-			{
-				return SoftwareNameJapanese + "二八型改二";
-			}
-		}
+		public static string VersionJapanese => SoftwareNameJapanese + "二八型改二";
+
 
 		/// <summary>
 		/// バージョン(英語)
 		/// </summary>
-		public static string VersionEnglish
-		{
-			get
-			{
-				return "2.8.2";
-			}
-		}
+		public static string VersionEnglish => "2.8.2";
+
 
 
 		/// <summary>
 		/// 更新日時
 		/// </summary>
-		public static DateTime UpdateTime
-		{
-			get
-			{
-				return DateTimeHelper.CSVStringToTime("2017/10/17 20:30:00");
-			}
-		}
+		public static DateTime UpdateTime => DateTimeHelper.CSVStringToTime("2017/10/17 20:30:00");
+
 
 
 
@@ -83,8 +58,10 @@ namespace ElectronicObserver.Utility
 
 			if (client == null)
 			{
-				client = new System.Net.WebClient();
-				client.Encoding = new System.Text.UTF8Encoding(false);
+				client = new System.Net.WebClient
+				{
+					Encoding = new System.Text.UTF8Encoding(false)
+				};
 				client.DownloadStringCompleted += DownloadStringCompleted;
 			}
 

@@ -16,58 +16,37 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 海域ID
 		/// </summary>
-		public int MapID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int MapID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 海域カテゴリID
 		/// </summary>
-		public int MapAreaID
-		{
-			get { return (int)RawData.api_maparea_id; }
-		}
+		public int MapAreaID => (int)RawData.api_maparea_id;
 
 		/// <summary>
 		/// 海域カテゴリ内番号
 		/// </summary>
-		public int MapInfoID
-		{
-			get { return (int)RawData.api_no; }
-		}
+		public int MapInfoID => (int)RawData.api_no;
 
 		/// <summary>
 		/// 海域名
 		/// </summary>
-		public string Name
-		{
-			get { return RawData.api_name; }
-		}
+		public string Name => RawData.api_name;
 
 		/// <summary>
 		/// 難易度
 		/// </summary>
-		public int Difficulty
-		{
-			get { return (int)RawData.api_level; }
-		}
+		public int Difficulty => (int)RawData.api_level;
 
 		/// <summary>
 		/// 作戦名
 		/// </summary>
-		public string OperationName
-		{
-			get { return RawData.api_opetext; }
-		}
+		public string OperationName => RawData.api_opetext;
 
 		/// <summary>
 		/// 作戦情報
 		/// </summary>
-		public string Information
-		{
-			get { return ((string)RawData.api_infotext).Replace("<br>", ""); }
-		}
+		public string Information => ((string)RawData.api_infotext).Replace("<br>", "");
 
 		/// <summary>
 		/// クリアに必要な撃破回数(主にEO海域)
@@ -172,10 +151,10 @@ namespace ElectronicObserver.Data
 
 
 
-		public int ID
-		{
-			get { return MapID; }
-		}
+		public int ID => MapID;
+
+		public override string ToString() => $"[{MapID}] {Name}";
 	}
+
 
 }

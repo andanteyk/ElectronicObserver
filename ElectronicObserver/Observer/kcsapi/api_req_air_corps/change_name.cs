@@ -10,7 +10,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps
 	public class change_name : APIBase
 	{
 
-		public override bool IsRequestSupported { get { return true; } }
+		public override bool IsRequestSupported => true;
 
 		public override void OnRequestReceived(Dictionary<string, string> data)
 		{
@@ -26,9 +26,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps
 			base.OnRequestReceived(data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_air_corps/change_name"; }
-		}
+		public override string APIName => "api_req_air_corps/change_name";
 	}
+
 }

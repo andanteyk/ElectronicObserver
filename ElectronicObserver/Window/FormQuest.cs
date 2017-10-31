@@ -35,16 +35,20 @@ namespace ElectronicObserver.Window
 
 			#region set cellstyle
 
-			CSDefaultLeft = new DataGridViewCellStyle();
-			CSDefaultLeft.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			CSDefaultLeft = new DataGridViewCellStyle
+			{
+				Alignment = DataGridViewContentAlignment.MiddleLeft
+			};
 			CSDefaultLeft.BackColor =
 			CSDefaultLeft.SelectionBackColor = SystemColors.Control;
 			CSDefaultLeft.ForeColor = SystemColors.ControlText;
 			CSDefaultLeft.SelectionForeColor = SystemColors.ControlText;
 			CSDefaultLeft.WrapMode = DataGridViewTriState.False;
 
-			CSDefaultCenter = new DataGridViewCellStyle(CSDefaultLeft);
-			CSDefaultCenter.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			CSDefaultCenter = new DataGridViewCellStyle(CSDefaultLeft)
+			{
+				Alignment = DataGridViewContentAlignment.MiddleCenter
+			};
 
 			CSCategories = new DataGridViewCellStyle[9];
 			for (int i = 0; i < CSCategories.Length; i++)

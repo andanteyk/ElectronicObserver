@@ -366,10 +366,12 @@ namespace ElectronicObserver.Window.Control
 
 			SetStyle(ControlStyles.ResizeRedraw, true);
 
-			_HPBar = new StatusBarModule();
-			_HPBar.Value = 66;
-			_HPBar.PrevValue = 88;
-			_HPBar.MaximumValue = 100;
+			_HPBar = new StatusBarModule
+			{
+				Value = 66,
+				PrevValue = 88,
+				MaximumValue = 100
+			};
 			_repairTime = DateTime.Now;
 
 			_maximumDigit = 999;
@@ -387,10 +389,10 @@ namespace ElectronicObserver.Window.Control
 			_showDifference = false;
 			_repairTimeShowMode = ShipStatusHPRepairTimeShowMode.Invisible;
 			_showHPBar = true;
+
+
+			Disposed += ShipStatusHP_Disposed;
 		}
-
-
-
 
 
 		private void ShipStatusHP_Paint(object sender, PaintEventArgs e)
@@ -502,6 +504,14 @@ namespace ElectronicObserver.Window.Control
 			_onMouse = false;
 			if (RepairTimeShowMode == ShipStatusHPRepairTimeShowMode.MouseOver)
 				PropertyChanged();
+		}
+
+
+
+		private void ShipStatusHP_Disposed(object sender, EventArgs e)
+		{
+			_mainFont?.Dispose();
+			_subFont?.Dispose();
 		}
 
 	}

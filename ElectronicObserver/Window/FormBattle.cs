@@ -1274,9 +1274,7 @@ namespace ElectronicObserver.Window
 		/// </summary>
 		private void SetDamageRate(BattleManager bm)
 		{
-
-			double friendrate, enemyrate;
-			int rank = bm.PredictWinRank(out friendrate, out enemyrate);
+			int rank = bm.PredictWinRank(out double friendrate, out double enemyrate);
 
 			DamageFriend.Text = friendrate.ToString("p1");
 			DamageEnemy.Text = enemyrate.ToString("p1");
@@ -1501,10 +1499,11 @@ namespace ElectronicObserver.Window
 			if (bm == null || bm.BattleMode == BattleManager.BattleModes.Undefined)
 				return;
 
-			var dialog = new Dialog.DialogBattleDetail();
-
-			dialog.BattleDetailText = BattleDetailDescriptor.GetBattleDetail(bm);
-			dialog.Location = RightClickMenu.Location;
+			var dialog = new Dialog.DialogBattleDetail
+			{
+				BattleDetailText = BattleDetailDescriptor.GetBattleDetail(bm),
+				Location = RightClickMenu.Location
+			};
 			dialog.Show(this);
 
 		}

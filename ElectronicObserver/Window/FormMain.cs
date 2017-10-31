@@ -28,8 +28,8 @@ namespace ElectronicObserver.Window
 
 		#region Properties
 
-		public DockPanel MainPanel { get { return MainDockPanel; } }
-		public FormWindowCapture WindowCapture { get { return fWindowCapture; } }
+		public DockPanel MainPanel => MainDockPanel;
+		public FormWindowCapture WindowCapture => fWindowCapture;
 
 		private int ClockFormat;
 

@@ -10,7 +10,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_quest
 	public class stop : APIBase
 	{
 
-		public override bool IsRequestSupported { get { return true; } }
+		public override bool IsRequestSupported => true;
 
 		public override void OnRequestReceived(Dictionary<string, string> data)
 		{
@@ -21,9 +21,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_quest
 		}
 
 
-		public override string APIName
-		{
-			get { return "api_req_quest/stop"; }
-		}
+		public override string APIName => "api_req_quest/stop";
 	}
+
 }

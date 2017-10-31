@@ -58,12 +58,12 @@ namespace ElectronicObserver.Utility.Data
 		/// <summary>
 		/// 艦娘レベル最大値
 		/// </summary>
-		public static int ShipMaximumLevel { get { return 165; } }
+		public static int ShipMaximumLevel => 165;
 
 		/// <summary>
 		/// 提督レベル最大値
 		/// </summary>
-		public static int AdmiralMaximumLevel { get { return 120; } }
+		public static int AdmiralMaximumLevel => 120;
 
 
 		/// <summary>

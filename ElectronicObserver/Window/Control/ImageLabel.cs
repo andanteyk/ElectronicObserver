@@ -175,22 +175,12 @@ namespace ElectronicObserver.Window.Control
 
 
 		private Size? _measureTextCache = null;
-		private Size MeasureTextCache
-		{
-			get
-			{
-				return _measureTextCache ?? (Size)(_measureTextCache = TextRenderer.MeasureText(Text, Font, new Size(int.MaxValue, int.MaxValue), GetTextFormat()));
-			}
-		}
+		private Size MeasureTextCache => _measureTextCache ?? (Size)(_measureTextCache = TextRenderer.MeasureText(Text, Font, new Size(int.MaxValue, int.MaxValue), GetTextFormat()));
+
 
 		private Size? _preferredSizeCache = null;
-		private Size PreferredSizeCache
-		{
-			get
-			{
-				return _preferredSizeCache ?? (Size)(_preferredSizeCache = GetPreferredSize(Size));
-			}
-		}
+		private Size PreferredSizeCache => _preferredSizeCache ?? (Size)(_preferredSizeCache = GetPreferredSize(Size));
+
 
 
 		public ImageLabel()

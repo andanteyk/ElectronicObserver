@@ -24,10 +24,8 @@ namespace ElectronicObserver.Window.Dialog
 				Kind = kind;
 			}
 
-			public override string ToString()
-			{
-				return string.Format("{0}: {1}", Kind, Constants.GetAACutinKind(Kind));
-			}
+			public override string ToString() => $"{Kind}: {Constants.GetAACutinKind(Kind)}";
+
 
 			public static implicit operator int(AACutinComboBoxData data)
 			{
@@ -45,10 +43,8 @@ namespace ElectronicObserver.Window.Dialog
 				Formation = formation;
 			}
 
-			public override string ToString()
-			{
-				return Constants.GetFormation(Formation);
-			}
+			public override string ToString() => Constants.GetFormation(Formation);
+
 
 			public static implicit operator int(FormationComboBoxData data)
 			{
@@ -162,7 +158,7 @@ namespace ElectronicObserver.Window.Dialog
 				return KCDatabase.Instance.Fleet[1].MembersWithoutEscaped.Concat(KCDatabase.Instance.Fleet[2].MembersWithoutEscaped);
 		}
 
-		private bool IsCombined { get { return FleetID.SelectedIndex == 4; } }
+		private bool IsCombined => FleetID.SelectedIndex == 4;
 
 
 		private void UpdateAACutinKind(bool showAll)

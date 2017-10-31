@@ -34,62 +34,41 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 装備を一意に識別するID
 		/// </summary>
-		public int MasterID
-		{
-			get { return (int)RawData.api_id; }
-		}
+		public int MasterID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 装備ID
 		/// </summary>
-		public int EquipmentID
-		{
-			get { return (int)RawData.api_slotitem_id; }
-		}
+		public int EquipmentID => (int)RawData.api_slotitem_id;
 
 
 		/// <summary>
 		/// 保護ロック
 		/// </summary>
-		public bool IsLocked
-		{
-			get { return (int)RawData.api_locked != 0; }
-		}
+		public bool IsLocked => (int)RawData.api_locked != 0;
 
 		/// <summary>
 		/// 改修Level
 		/// </summary>
-		public int Level
-		{
-			get { return (int)RawData.api_level; }
-		}
+		public int Level => (int)RawData.api_level;
 
 
 		/// <summary>
 		/// 艦載機熟練度
 		/// </summary>
-		public int AircraftLevel
-		{
-			get { return RawData.api_alv() ? (int)RawData.api_alv : 0; }
-		}
+		public int AircraftLevel => RawData.api_alv() ? (int)RawData.api_alv : 0;
 
 
 
 		/// <summary>
 		/// 装備のマスターデータへの参照
 		/// </summary>
-		public EquipmentDataMaster MasterEquipment
-		{
-			get { return KCDatabase.Instance.MasterEquipments[EquipmentID]; }
-		}
+		public EquipmentDataMaster MasterEquipment => KCDatabase.Instance.MasterEquipments[EquipmentID];
 
 		/// <summary>
 		/// 装備名
 		/// </summary>
-		public string Name
-		{
-			get { return MasterEquipment.Name; }
-		}
+		public string Name => MasterEquipment.Name;
 
 		/// <summary>
 		/// 装備名(レベルを含む)
@@ -113,14 +92,11 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 配置転換中かどうか
 		/// </summary>
-		public bool IsRelocated { get { return KCDatabase.Instance.RelocatedEquipments.Keys.Contains(MasterID); } }
+		public bool IsRelocated => KCDatabase.Instance.RelocatedEquipments.Keys.Contains(MasterID);
 
 
 
-		public int ID
-		{
-			get { return MasterID; }
-		}
+		public int ID => MasterID;
 
 
 		public override void LoadFromResponse(string apiname, dynamic data)
@@ -154,10 +130,8 @@ namespace ElectronicObserver.Data
 		}
 
 
-		public override string ToString()
-		{
-			return NameWithLevel;
-		}
+		public override string ToString() => NameWithLevel;
+
 
 	}
 

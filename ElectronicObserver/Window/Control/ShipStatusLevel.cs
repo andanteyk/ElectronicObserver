@@ -216,10 +216,7 @@ namespace ElectronicObserver.Window.Control
 		}
 
 
-		private int InnerHorizontalMargin
-		{
-			get { return 4; }
-		}
+		private int InnerHorizontalMargin => 4;
 		#endregion
 
 
@@ -243,10 +240,9 @@ namespace ElectronicObserver.Window.Control
 			_valueNext = 0;
 			_maximumValueNext = 0;
 			_textNext = "next:";
+
+			Disposed += ShipStatusLevel_Disposed;
 		}
-
-
-
 
 		private void ShipStatusLevel_Paint(object sender, PaintEventArgs e)
 		{
@@ -303,6 +299,13 @@ namespace ElectronicObserver.Window.Control
 				Size = GetPreferredSize(Size);
 
 			Refresh();
+		}
+
+
+		private void ShipStatusLevel_Disposed(object sender, EventArgs e)
+		{
+			_mainFont?.Dispose();
+			_subFont?.Dispose();
 		}
 
 	}

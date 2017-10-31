@@ -17,7 +17,7 @@ namespace ElectronicObserver.Resource.Record
 	public class ResourceRecord : RecordBase
 	{
 
-		public class ResourceElement : RecordElementBase
+		public sealed class ResourceElement : RecordElementBase
 		{
 
 			/// <summary>
@@ -83,7 +83,10 @@ namespace ElectronicObserver.Resource.Record
 			}
 
 			public ResourceElement(string line)
-				: base(line) { }
+				: this()
+			{
+				LoadLine(line);
+			}
 
 			public ResourceElement(int fuel, int ammo, int steel, int bauxite, int instantConstruction, int instantRepair, int developmentMaterial, int moddingMaterial, int hqLevel, int hqExp)
 				: this()
@@ -317,15 +320,9 @@ namespace ElectronicObserver.Resource.Record
 			LastSavedCount = Record.Count;
 		}
 
-		public override bool NeedToSave
-		{
-			get { return LastSavedCount < Record.Count; }
-		}
+		public override bool NeedToSave => LastSavedCount < Record.Count;
 
-		public override bool SupportsPartialSave
-		{
-			get { return true; }
-		}
+		public override bool SupportsPartialSave => true;
 
 		protected override void ClearRecord()
 		{
@@ -335,16 +332,9 @@ namespace ElectronicObserver.Resource.Record
 
 
 
-		public override string RecordHeader
-		{
-			get { return "日時,燃料,弾薬,鋼材,ボーキ,高速建造材,高速修復材,開発資材,改修資材,司令部Lv,提督Exp"; }
-		}
+		public override string RecordHeader => "日時,燃料,弾薬,鋼材,ボーキ,高速建造材,高速修復材,開発資材,改修資材,司令部Lv,提督Exp";
 
-		public override string FileName
-		{
-			get { return "ResourceRecord.csv"; }
-		}
-
-
+		public override string FileName => "ResourceRecord.csv";
 	}
+
 }

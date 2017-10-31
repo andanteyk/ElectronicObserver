@@ -21,9 +21,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_sortie
 		}
 
 
-		public override string APIName
-		{
-			get { return "api_req_sortie/battleresult"; }
-		}
+		public override string APIName => "api_req_sortie/battleresult";
 	}
+
 }

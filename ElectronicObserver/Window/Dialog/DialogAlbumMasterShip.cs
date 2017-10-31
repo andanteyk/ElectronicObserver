@@ -621,8 +621,8 @@ namespace ElectronicObserver.Window.Dialog
 				TableBattle.SuspendLayout();
 
 				AirSuperiority.Text = Calculator.GetAirSuperiority(ship).ToString();
-				DayAttack.Text = Constants.GetDayAttackKind(Calculator.GetDayAttackKind(ship.DefaultSlot == null ? null : ship.DefaultSlot.ToArray(), ship.ShipID, -1));
-				NightAttack.Text = Constants.GetNightAttackKind(Calculator.GetNightAttackKind(ship.DefaultSlot == null ? null : ship.DefaultSlot.ToArray(), ship.ShipID, -1));
+				DayAttack.Text = Constants.GetDayAttackKind(Calculator.GetDayAttackKind(ship.DefaultSlot?.ToArray(), ship.ShipID, -1));
+				NightAttack.Text = Constants.GetNightAttackKind(Calculator.GetNightAttackKind(ship.DefaultSlot?.ToArray(), ship.ShipID, -1));
 
 				TableBattle.ResumeLayout();
 
@@ -1346,9 +1346,11 @@ namespace ElectronicObserver.Window.Dialog
 				if (ship.RemodelBeforeShipID != 0)
 				{
 					var before = ship.RemodelBeforeShip;
-					var append = new List<string>(4);
-					append.Add("弾薬 " + before.RemodelAmmo);
-					append.Add("鋼材 " + before.RemodelSteel);
+					var append = new List<string>(4)
+					{
+						"弾薬 " + before.RemodelAmmo,
+						"鋼材 " + before.RemodelSteel
+					};
 					if (before.NeedBlueprint > 0)
 						append.Add("要改装設計図");
 					if (before.NeedCatapult > 0)
@@ -1362,9 +1364,11 @@ namespace ElectronicObserver.Window.Dialog
 				}
 				if (ship.RemodelAfterShipID != 0)
 				{
-					var append = new List<string>(4);
-					append.Add("弾薬 " + ship.RemodelAmmo);
-					append.Add("鋼材 " + ship.RemodelSteel);
+					var append = new List<string>(4)
+					{
+						"弾薬 " + ship.RemodelAmmo,
+						"鋼材 " + ship.RemodelSteel
+					};
 					if (ship.NeedBlueprint > 0)
 						append.Add("要改装設計図");
 					if (ship.NeedCatapult > 0)

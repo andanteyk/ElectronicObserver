@@ -24,56 +24,36 @@ namespace ElectronicObserver.Data.Battle
 		/// <summary>
 		/// 演習の結果かどうか
 		/// </summary>
-		private bool IsPractice
-		{
-			get
-			{
-				return _APIName == "api_req_practice/battle_result";
-			}
-		}
+		private bool IsPractice => _APIName == "api_req_practice/battle_result";
+
 
 
 
 		/// <summary>
 		/// 勝利ランク
 		/// </summary>
-		public string Rank
-		{
-			get { return RawData.api_win_rank; }
-		}
+		public string Rank => RawData.api_win_rank;
 
 		/// <summary>
 		/// 獲得提督経験値
 		/// </summary>
-		public int AdmiralExp
-		{
-			get { return (int)RawData.api_get_exp; }
-		}
+		public int AdmiralExp => (int)RawData.api_get_exp;
 
 		/// <summary>
 		/// MVP艦のインデックス (1-6, -1=なし)
 		/// </summary>
-		public int MVPIndex
-		{
-			get { return (int)RawData.api_mvp; }
-		}
+		public int MVPIndex => (int)RawData.api_mvp;
 
 		/// <summary>
 		/// 随伴艦隊 MVP 艦のインデックス (1-6, -1=なし)
 		/// </summary>
-		public int MVPIndexCombined
-		{
-			get { return RawData.api_mvp_combined() && RawData.api_mvp_combined != null ? (int)RawData.api_mvp_combined : -1; }
-		}
+		public int MVPIndexCombined => RawData.api_mvp_combined() && RawData.api_mvp_combined != null ? (int)RawData.api_mvp_combined : -1;
 
 
 		/// <summary>
 		/// 獲得基本経験値
 		/// </summary>
-		public int BaseExp
-		{
-			get { return (int)RawData.api_get_base_exp; }
-		}
+		public int BaseExp => (int)RawData.api_get_base_exp;
 
 
 		/// <summary>
@@ -159,10 +139,7 @@ namespace ElectronicObserver.Data.Battle
 		/// <summary>
 		/// 敵艦隊名
 		/// </summary>
-		public string EnemyFleetName
-		{
-			get { return RawData.api_enemy_info.api_deck_name; }
-		}
+		public string EnemyFleetName => RawData.api_enemy_info.api_deck_name;
 
 		//undone: 複数の battleresult に対応させる
 

@@ -20,14 +20,12 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_quest
 		}
 
 
-		public override bool IsRequestSupported { get { return true; } }
-		public override bool IsResponseSupported { get { return false; } }
+		public override bool IsRequestSupported => true;
+		public override bool IsResponseSupported => false;
 
 
-		public override string APIName
-		{
-			get { return "api_req_quest/clearitemget"; }
-		}
+		public override string APIName => "api_req_quest/clearitemget";
 	}
+
 
 }

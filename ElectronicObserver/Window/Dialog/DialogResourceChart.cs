@@ -41,15 +41,9 @@ namespace ElectronicObserver.Window.Dialog
 
 
 
-		private ChartType SelectedChartType
-		{
-			get { return (ChartType)GetSelectedMenuStripIndex(Menu_Graph); }
-		}
+		private ChartType SelectedChartType => (ChartType)GetSelectedMenuStripIndex(Menu_Graph);
 
-		private ChartSpan SelectedChartSpan
-		{
-			get { return (ChartSpan)GetSelectedMenuStripIndex(Menu_Span); }
-		}
+		private ChartSpan SelectedChartSpan => (ChartSpan)GetSelectedMenuStripIndex(Menu_Span);
 
 
 
@@ -868,11 +862,13 @@ namespace ElectronicObserver.Window.Dialog
 			foreach (var series in ResourceChart.Series)
 			{
 
-				var legendItem = new LegendItem();
-				legendItem.SeriesName = series.Name;
-				legendItem.ImageStyle = LegendImageStyle.Rectangle;
-				legendItem.BorderColor = Color.Empty;
-				legendItem.Name = series.Name + "_legendItem";
+				var legendItem = new LegendItem
+				{
+					SeriesName = series.Name,
+					ImageStyle = LegendImageStyle.Rectangle,
+					BorderColor = Color.Empty,
+					Name = series.Name + "_legendItem"
+				};
 
 				legendItem.Cells.Add(LegendCellType.SeriesSymbol, "", ContentAlignment.MiddleCenter);
 				legendItem.Cells.Add(LegendCellType.Text, series.LegendText, ContentAlignment.MiddleLeft);

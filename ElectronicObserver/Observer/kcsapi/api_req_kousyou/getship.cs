@@ -62,10 +62,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou
 			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_kousyou/getship"; }
-		}
+		public override string APIName => "api_req_kousyou/getship";
 	}
+
 
 }

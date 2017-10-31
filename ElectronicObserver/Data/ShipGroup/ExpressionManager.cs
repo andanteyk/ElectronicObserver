@@ -12,7 +12,7 @@ namespace ElectronicObserver.Data.ShipGroup
 
 
 	[DataContract(Name = "ExpressionManager")]
-	public class ExpressionManager : DataStorage, ICloneable
+	public sealed class ExpressionManager : DataStorage, ICloneable
 	{
 
 		[DataMember]
@@ -25,9 +25,9 @@ namespace ElectronicObserver.Data.ShipGroup
 		private Expression expression;
 
 
-		public ExpressionManager()
-			: base()
+		public ExpressionManager() : base()
 		{
+			Initialize();
 		}
 
 		public override void Initialize()
@@ -94,7 +94,7 @@ namespace ElectronicObserver.Data.ShipGroup
 			return list.AsQueryable().Where(predicate).AsEnumerable();
 		}
 
-		public bool IsAvailable { get { return predicate != null; } }
+		public bool IsAvailable => predicate != null;
 
 
 
@@ -130,7 +130,7 @@ namespace ElectronicObserver.Data.ShipGroup
 		public ExpressionManager Clone()
 		{
 			var clone = (ExpressionManager)MemberwiseClone();
-			clone.Expressions = Expressions == null ? null : Expressions.Select(e => e.Clone()).ToList();
+			clone.Expressions = Expressions?.Select(e => e.Clone()).ToList();
 			clone.predicate = null;
 			clone.expression = null;
 			return clone;

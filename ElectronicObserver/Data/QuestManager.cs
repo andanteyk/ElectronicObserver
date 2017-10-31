@@ -34,10 +34,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// ロードが完了したかどうか
 		/// </summary>
-		public bool IsLoadCompleted
-		{
-			get { return IsLoaded && Quests.Count == Count; }
-		}
+		public bool IsLoadCompleted => IsLoaded && Quests.Count == Count;
 
 
 		public event Action QuestUpdated = delegate { };
@@ -51,10 +48,7 @@ namespace ElectronicObserver.Data
 		}
 
 
-		public QuestData this[int key]
-		{
-			get { return Quests[key]; }
-		}
+		public QuestData this[int key] => Quests[key];
 
 
 		public override void LoadFromResponse(string apiname, dynamic data)

@@ -29,7 +29,7 @@ namespace ElectronicObserver.Window
 		private bool IsRemodeling = false;
 
 
-		private class TableFleetControl
+		private class TableFleetControl : IDisposable
 		{
 			public Label Name;
 			public FleetState State;
@@ -43,49 +43,59 @@ namespace ElectronicObserver.Window
 
 				#region Initialize
 
-				Name = new Label();
-				Name.Text = "[" + parent.FleetID.ToString() + "]";
-				Name.Anchor = AnchorStyles.Left;
-				Name.ForeColor = parent.MainFontColor;
-				Name.Padding = new Padding(0, 1, 0, 1);
-				Name.Margin = new Padding(2, 0, 2, 0);
-				Name.AutoSize = true;
-				//Name.Visible = false;
-				Name.Cursor = Cursors.Help;
+				Name = new Label
+				{
+					Text = "[" + parent.FleetID.ToString() + "]",
+					Anchor = AnchorStyles.Left,
+					ForeColor = parent.MainFontColor,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 0, 2, 0),
+					AutoSize = true,
+					//Name.Visible = false;
+					Cursor = Cursors.Help
+				};
 
-				State = new FleetState();
-				State.Anchor = AnchorStyles.Left;
-				State.ForeColor = parent.MainFontColor;
-				State.Padding = new Padding();
-				State.Margin = new Padding();
-				State.AutoSize = true;
+				State = new FleetState
+				{
+					Anchor = AnchorStyles.Left,
+					ForeColor = parent.MainFontColor,
+					Padding = new Padding(),
+					Margin = new Padding(),
+					AutoSize = true
+				};
 
-				AirSuperiority = new ImageLabel();
-				AirSuperiority.Anchor = AnchorStyles.Left;
-				AirSuperiority.ForeColor = parent.MainFontColor;
-				AirSuperiority.ImageList = ResourceManager.Instance.Equipments;
-				AirSuperiority.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter;
-				AirSuperiority.Padding = new Padding(2, 2, 2, 2);
-				AirSuperiority.Margin = new Padding(2, 0, 2, 0);
-				AirSuperiority.AutoSize = true;
+				AirSuperiority = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					ForeColor = parent.MainFontColor,
+					ImageList = ResourceManager.Instance.Equipments,
+					ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedFighter,
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 0, 2, 0),
+					AutoSize = true
+				};
 
-				SearchingAbility = new ImageLabel();
-				SearchingAbility.Anchor = AnchorStyles.Left;
-				SearchingAbility.ForeColor = parent.MainFontColor;
-				SearchingAbility.ImageList = ResourceManager.Instance.Equipments;
-				SearchingAbility.ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedRecon;
-				SearchingAbility.Padding = new Padding(2, 2, 2, 2);
-				SearchingAbility.Margin = new Padding(2, 0, 2, 0);
-				SearchingAbility.AutoSize = true;
+				SearchingAbility = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					ForeColor = parent.MainFontColor,
+					ImageList = ResourceManager.Instance.Equipments,
+					ImageIndex = (int)ResourceManager.EquipmentContent.CarrierBasedRecon,
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 0, 2, 0),
+					AutoSize = true
+				};
 
-				AntiAirPower = new ImageLabel();
-				AntiAirPower.Anchor = AnchorStyles.Left;
-				AntiAirPower.ForeColor = parent.MainFontColor;
-				AntiAirPower.ImageList = ResourceManager.Instance.Equipments;
-				AntiAirPower.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
-				AntiAirPower.Padding = new Padding(2, 2, 2, 2);
-				AntiAirPower.Margin = new Padding(2, 0, 2, 0);
-				AntiAirPower.AutoSize = true;
+				AntiAirPower = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					ForeColor = parent.MainFontColor,
+					ImageList = ResourceManager.Instance.Equipments,
+					ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun,
+					Padding = new Padding(2, 2, 2, 2),
+					Margin = new Padding(2, 0, 2, 0),
+					AutoSize = true
+				};
 
 
 				ConfigurationChanged(parent);
@@ -243,10 +253,18 @@ namespace ElectronicObserver.Window
 				ControlHelper.SetTableRowStyles(parent.TableFleet, ControlHelper.GetDefaultRowStyle());
 			}
 
+			public void Dispose()
+			{
+				Name.Dispose();
+				State.Dispose();
+				AirSuperiority.Dispose();
+				SearchingAbility.Dispose();
+				AntiAirPower.Dispose();
+			}
 		}
 
 
-		private class TableMemberControl
+		private class TableMemberControl : IDisposable
 		{
 			public ImageLabel Name;
 			public ShipStatusLevel Level;
@@ -591,15 +609,18 @@ namespace ElectronicObserver.Window
 				}
 				sb.AppendLine();
 
-				sb.AppendFormat("夜戦: {0}", Constants.GetNightAttackKind(Calculator.GetNightAttackKind(slotmaster, ship.ShipID, -1)));
+				if (Calculator.CanAttackAtNight(ship))
 				{
-					int night = ship.NightBattlePower;
-					if (night > 0)
+					sb.AppendFormat("夜戦: {0}", Constants.GetNightAttackKind(Calculator.GetNightAttackKind(slotmaster, ship.ShipID, -1)));
 					{
-						sb.AppendFormat(" - 威力: {0}", night);
+						int night = ship.NightBattlePower;
+						if (night > 0)
+						{
+							sb.AppendFormat(" - 威力: {0}", night);
+						}
 					}
+					sb.AppendLine();
 				}
-				sb.AppendLine();
 
 				{
 					int torpedo = ship.TorpedoPower;
@@ -724,6 +745,17 @@ namespace ElectronicObserver.Window
 				Condition.Font = parent.MainFont;
 				SetConditionDesign((Condition.Tag as int?) ?? 49);
 				Equipments.Font = parent.SubFont;
+			}
+
+			public void Dispose()
+			{
+				Name.Dispose();
+				Level.Dispose();
+				HP.Dispose();
+				Condition.Dispose();
+				ShipResource.Dispose();
+				Equipments.Dispose();
+
 			}
 		}
 

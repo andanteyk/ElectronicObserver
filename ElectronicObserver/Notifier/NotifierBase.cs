@@ -138,8 +138,10 @@ namespace ElectronicObserver.Notifier
 		{
 
 			SystemEvents.UpdateTimerTick += UpdateTimerTick;
-			Sound = new MediaPlayer();
-			Sound.IsShuffle = true;
+			Sound = new MediaPlayer
+			{
+				IsShuffle = true
+			};
 			Sound.MediaEnded += Sound_MediaEnded;
 			SoundPath = "";
 

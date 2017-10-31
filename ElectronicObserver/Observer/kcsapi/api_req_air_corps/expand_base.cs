@@ -36,9 +36,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps
 			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName
-		{
-			get { return "api_req_air_corps/expand_base"; }
-		}
+		public override string APIName => "api_req_air_corps/expand_base";
 	}
+
 }

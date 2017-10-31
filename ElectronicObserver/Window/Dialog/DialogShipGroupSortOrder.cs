@@ -16,7 +16,7 @@ namespace ElectronicObserver.Window.Dialog
 	{
 
 		public List<KeyValuePair<string, ListSortDirection>> Result { get; private set; }
-		public bool AutoSortEnabled { get { return AutoSortFlag.Checked; } }
+		public bool AutoSortEnabled => AutoSortFlag.Checked;
 
 
 
