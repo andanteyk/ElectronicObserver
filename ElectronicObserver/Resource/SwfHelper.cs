@@ -43,9 +43,22 @@ namespace ElectronicObserver.Resource
 		/// </summary>
 		public static string GetResourcePath(string relativePath, string resourceName)
 		{
-			return Directory.EnumerateFiles(Utility.Configuration.Config.Connection.SaveDataPath + @"\" + relativePath, "*" + resourceName + "*.swf", System.IO.SearchOption.TopDirectoryOnly)
-				.OrderBy(path => File.GetCreationTime(path))
-				.LastOrDefault();
+			string directory = Utility.Configuration.Config.Connection.SaveDataPath + @"\" + relativePath;
+
+			try
+			{
+				if (!Directory.Exists(directory))
+					return null;
+
+				return Directory.EnumerateFiles(directory, "*" + resourceName + "*.swf", System.IO.SearchOption.TopDirectoryOnly)
+					.OrderBy(path => File.GetCreationTime(path))
+					.LastOrDefault();
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+
 		}
 
 		/// <summary>

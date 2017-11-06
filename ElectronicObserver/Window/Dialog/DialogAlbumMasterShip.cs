@@ -290,8 +290,8 @@ namespace ElectronicObserver.Window.Dialog
 			_shipID = shipID;
 			ShipID.Text = ship.ShipID.ToString();
 			AlbumNo.Text = ship.AlbumNo.ToString();
-			ResourceName.Text = string.Format("{0} {1}/{2}/{3}",
-				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion);
+
+			ResourceName.Text = $"{ship.ResourceName} {ship.ResourceGraphicVersion}/{ship.ResourceVoiceVersion}/{ship.ResourcePortVoiceVersion}";
 			ToolTipInfo.SetToolTip(ResourceName, string.Format("リソース名: {0}\r\nグラフィック ver. {1}\r\nボイス ver. {2}\r\n母港ボイス ver. {3}\r\n({4})",
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion, Constants.GetVoiceFlag(ship.VoiceFlag)));
 
@@ -1535,13 +1535,10 @@ namespace ElectronicObserver.Window.Dialog
 				if (arg.Length > 0)
 				{
 					new DialogShipGraphicViewer(arg).Show(Owner);
-
 				}
 				else
 				{
-
 					MessageBox.Show("画像リソースが存在しません。以下の手順を踏んでください。\r\n1. 設定→通信→通信内容を保存する 及び SWF を有効にする。\r\n2. キャッシュをクリアし、再読み込みする。\r\n3. 艦これ本体で当該艦を表示させる（図鑑画面を開くなど）。", "ビューア：画像リソース不足", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
 				}
 			}
 			else

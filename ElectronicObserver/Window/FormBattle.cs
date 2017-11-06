@@ -697,11 +697,17 @@ namespace ElectronicObserver.Window
 			{   // 空対空戦闘発生せず
 				AirSuperiority.Text = Constants.GetAirSuperiority(-1);
 				ToolTipInfo.SetToolTip(AirSuperiority, null);
+
 				AirStage1Friend.Text = "-";
 				AirStage1Friend.ForeColor = SystemColors.ControlText;
+				AirStage1Friend.ImageAlign = ContentAlignment.MiddleCenter;
+				AirStage1Friend.ImageIndex = -1;
 				ToolTipInfo.SetToolTip(AirStage1Friend, null);
+
 				AirStage1Enemy.Text = "-";
 				AirStage1Enemy.ForeColor = SystemColors.ControlText;
+				AirStage1Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+				AirStage1Enemy.ImageIndex = -1;
 				ToolTipInfo.SetToolTip(AirStage1Enemy, null);
 			}
 
@@ -780,6 +786,9 @@ namespace ElectronicObserver.Window
 					AirStage2Friend.ForeColor = SystemColors.ControlText;
 				}
 
+				AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
+				AirStage2Friend.ImageIndex = -1;
+
 
 				// enemies
 				int jetLostEnemy = phaseJetStage2Enabled ? phaseJet.AircraftLostStage2Enemy : 0;
@@ -845,6 +854,9 @@ namespace ElectronicObserver.Window
 				{
 					AirStage2Enemy.ForeColor = SystemColors.ControlText;
 				}
+
+				AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+				AirStage2Enemy.ImageIndex = -1;
 
 
 				// 対空カットイン
@@ -944,20 +956,21 @@ namespace ElectronicObserver.Window
 			{   // 艦対空戦闘発生せず
 				AirStage2Friend.Text = "-";
 				AirStage2Friend.ForeColor = SystemColors.ControlText;
+				AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
+				AirStage2Friend.ImageIndex = -1;
 				ToolTipInfo.SetToolTip(AirStage2Friend, null);
+
 				AirStage2Enemy.Text = "-";
 				AirStage2Enemy.ForeColor = SystemColors.ControlText;
+				AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
+				AirStage2Enemy.ImageIndex = -1;
 				ToolTipInfo.SetToolTip(AirStage2Enemy, null);
+
 				AACutin.Text = "対空砲火";
 				AACutin.ImageAlign = ContentAlignment.MiddleCenter;
 				AACutin.ImageIndex = -1;
 				ToolTipInfo.SetToolTip(AACutin, null);
 			}
-
-			AirStage2Friend.ImageAlign = ContentAlignment.MiddleCenter;
-			AirStage2Friend.ImageIndex = -1;
-			AirStage2Enemy.ImageAlign = ContentAlignment.MiddleCenter;
-			AirStage2Enemy.ImageIndex = -1;
 
 		}
 
@@ -1211,7 +1224,7 @@ namespace ElectronicObserver.Window
 
 
 			{   // support
-				if (bd is BattleDay battleday && (battleday.Support?.IsAvailable ?? false) )
+				if (bd is BattleDay battleday && (battleday.Support?.IsAvailable ?? false))
 				{
 
 					switch (battleday.Support.SupportFlag)

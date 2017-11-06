@@ -604,31 +604,35 @@ namespace ElectronicObserver.Window.Dialog
 					axis.Interval = 2;
 					axis.IntervalOffsetType = DateTimeIntervalType.Hours;
 					axis.IntervalType = DateTimeIntervalType.Hours;
+					axis.LabelStyle.Format = "MM/dd HH:mm";
 					break;
 				case ChartSpan.Week:
 					axis.Interval = 12;
 					axis.IntervalOffsetType = DateTimeIntervalType.Hours;
 					axis.IntervalType = DateTimeIntervalType.Hours;
+					axis.LabelStyle.Format = "MM/dd HH:mm";
 					break;
 				case ChartSpan.Month:
 					axis.Interval = 3;
 					axis.IntervalOffsetType = DateTimeIntervalType.Days;
 					axis.IntervalType = DateTimeIntervalType.Days;
+					axis.LabelStyle.Format = "yyyy/MM/dd";
 					break;
 				case ChartSpan.Season:
 					axis.Interval = 7;
 					axis.IntervalOffsetType = DateTimeIntervalType.Days;
 					axis.IntervalType = DateTimeIntervalType.Days;
+					axis.LabelStyle.Format = "yyyy/MM/dd";
 					break;
 				case ChartSpan.Year:
 				case ChartSpan.All:
 					axis.Interval = 1;
 					axis.IntervalOffsetType = DateTimeIntervalType.Months;
 					axis.IntervalType = DateTimeIntervalType.Months;
+					axis.LabelStyle.Format = "yyyy/MM/dd";
 					break;
 			}
 
-			axis.LabelStyle.Format = "MM/dd HH:mm";
 			axis.LabelStyle.Font = Font;
 			axis.MajorGrid.LineColor = Color.FromArgb(192, 192, 192);
 
@@ -672,7 +676,7 @@ namespace ElectronicObserver.Window.Dialog
 					case ChartType.Resource:
 					case ChartType.Material:
 					case ChartType.Experience:
-						e.Text = string.Format("{0:MM\\/dd HH\\:mm}\n{1} {2:F0}",
+						e.Text = string.Format("{0:yyyy\\/MM\\/dd HH\\:mm}\n{1} {2:F0}",
 							DateTime.FromOADate(dp.XValue),
 							e.HitTestResult.Series.LegendText,
 							dp.YValues[0]);
@@ -680,7 +684,7 @@ namespace ElectronicObserver.Window.Dialog
 					case ChartType.ResourceDiff:
 					case ChartType.MaterialDiff:
 					case ChartType.ExperienceDiff:
-						e.Text = string.Format("{0:MM\\/dd HH\\:mm}\n{1} {2:+0;-0;±0}{3}",
+						e.Text = string.Format("{0:yyyy\\/MM\\/dd HH\\:mm}\n{1} {2:+0;-0;±0}{3}",
 							DateTime.FromOADate(dp.XValue),
 							e.HitTestResult.Series.LegendText,
 							dp.YValues[0],

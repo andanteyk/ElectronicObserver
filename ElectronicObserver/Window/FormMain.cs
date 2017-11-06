@@ -280,6 +280,8 @@ namespace ElectronicObserver.Window
 
 			StripMenu_File_Layout_TopMost.Checked = c.Life.TopMost;
 
+			StripMenu_File_Notification_MuteAll.Checked = Notifier.NotifierManager.Instance.GetNotifiers().All(n => n.IsSilenced);
+
 			if (!c.Control.UseSystemVolume)
 				_volumeUpdateState = -1;
 		}
@@ -1397,6 +1399,15 @@ namespace ElectronicObserver.Window
 		}
 
 
+		private void StripMenu_File_Notification_MuteAll_Click(object sender, EventArgs e)
+		{
+			bool isSilenced = StripMenu_File_Notification_MuteAll.Checked;
+
+			foreach (var n in NotifierManager.Instance.GetNotifiers())
+				n.IsSilenced = isSilenced;
+		}
+
+
 
 
 
@@ -1542,9 +1553,10 @@ namespace ElectronicObserver.Window
 			ShowForm(fJson);
 		}
 
+
+
+
 		#endregion
-
-
 
 
 	}
