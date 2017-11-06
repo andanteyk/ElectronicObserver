@@ -137,28 +137,35 @@ namespace ElectronicObserver.Window
 
 				Name.Text = fleet.Name;
 				{
-					int levelSum = fleet.MembersInstance.Sum(s => s != null ? s.Level : 0);
+					var members = fleet.MembersInstance.Where(s => s != null);
 
-					int fueltotal = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.FuelMax * (s.IsMarried ? 0.85 : 1.00)));
-					int ammototal = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.AmmoMax * (s.IsMarried ? 0.85 : 1.00)));
+					int levelSum = members.Sum(s => s.Level);
 
-					int fuelunit = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.MasterShip.Fuel * 0.2 * (s.IsMarried ? 0.85 : 1.00)));
-					int ammounit = fleet.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor(s.MasterShip.Ammo * 0.2 * (s.IsMarried ? 0.85 : 1.00)));
+					int fueltotal = members.Sum(s => Math.Max((int)Math.Floor(s.FuelMax * (s.IsMarried ? 0.85 : 1.00)), 1));
+					int ammototal = members.Sum(s => Math.Max((int)Math.Floor(s.AmmoMax * (s.IsMarried ? 0.85 : 1.00)), 1));
 
-					int speed = fleet.MembersWithoutEscaped.Min(s => s == null ? 10 : s.Speed);
+					int fuelunit = members.Sum(s => Math.Max((int)Math.Floor(s.FuelMax * 0.2 * (s.IsMarried ? 0.85 : 1.00)), 1));
+					int ammounit = members.Sum(s => Math.Max((int)Math.Floor(s.AmmoMax * 0.2 * (s.IsMarried ? 0.85 : 1.00)), 1));
+
+					int speed = members.Select(s => s.Speed).DefaultIfEmpty(20).Min();
 
 					double expeditionBonus = Calculator.GetExpeditionBonus(fleet);
 					int tp = Calculator.GetTPDamage(fleet);
+
+					// 各艦ごとの ドラム缶 or 大発系 を搭載している個数
+					var transport = members.Select(s => s.AllSlotInstanceMaster.Count(eq => eq?.CategoryType == EquipmentTypes.TransportContainer));
+					var landing = members.Select(s => s.AllSlotInstanceMaster.Count(eq => eq?.CategoryType == EquipmentTypes.LandingCraft || eq?.CategoryType == EquipmentTypes.SpecialAmphibiousTank));
+
 
 					ToolTipInfo.SetToolTip(Name, string.Format(
 						"Lv合計: {0} / 平均: {1:0.00}\r\n{2}艦隊\r\nドラム缶搭載: {3}個 ({4}艦)\r\n大発動艇搭載: {5}個 ({6}艦, +{7:p1})\r\n輸送量(TP): S {8} / A {9}\r\n総積載: 燃 {10} / 弾 {11}\r\n(1戦当たり 燃 {12} / 弾 {13})",
 						levelSum,
 						(double)levelSum / Math.Max(fleet.Members.Count(id => id != -1), 1),
 						Constants.GetSpeed(speed),
-						fleet.MembersInstance.Sum(s => s == null ? 0 : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 30)),
-						fleet.MembersInstance.Count(s => s == null ? false : s.SlotInstanceMaster.Any(q => q == null ? false : q.CategoryType == 30)),
-						fleet.MembersInstance.Sum(s => s == null ? 0 : s.SlotInstanceMaster.Count(q => q == null ? false : q.CategoryType == 24 || q.CategoryType == 46)),
-						fleet.MembersInstance.Count(s => s == null ? false : s.SlotInstanceMaster.Any(q => q == null ? false : q.CategoryType == 24 || q.CategoryType == 46)),
+						transport.Sum(),
+						transport.Count(i => i > 0),
+						landing.Sum(),
+						landing.Count(i => i > 0),
 						expeditionBonus,
 						tp,
 						(int)(tp * 0.7),
@@ -609,7 +616,7 @@ namespace ElectronicObserver.Window
 				}
 				sb.AppendLine();
 
-				if (Calculator.CanAttackAtNight(ship))
+				if (ship.CanAttackAtNight)
 				{
 					sb.AppendFormat("夜戦: {0}", Constants.GetNightAttackKind(Calculator.GetNightAttackKind(slotmaster, ship.ShipID, -1)));
 					{
@@ -637,7 +644,7 @@ namespace ElectronicObserver.Window
 
 						sb.AppendFormat("対潜: {0}", asw);
 
-						if (Calculator.CanOpeningASW(ship))
+						if (ship.CanOpeningASW)
 							sb.Append(" (先制可能)");
 					}
 					if (torpedo > 0 || asw > 0)
@@ -890,7 +897,7 @@ namespace ElectronicObserver.Window
 			TableFleet.Visible = true;
 			TableFleet.ResumeLayout();
 
-			AnchorageRepairBound = fleet.CanAnchorageRepair ? 2 + fleet.MembersInstance[0].SlotInstance.Count(eq => eq != null && eq.MasterEquipment.CategoryType == 31) : 0;
+			AnchorageRepairBound = fleet.CanAnchorageRepair ? 2 + fleet.MembersInstance[0].SlotInstance.Count(eq => eq != null && eq.MasterEquipment.CategoryType == EquipmentTypes.RepairFacility) : 0;
 
 			TableMember.SuspendLayout();
 			TableMember.RowCount = fleet.Members.Count(id => id > 0);

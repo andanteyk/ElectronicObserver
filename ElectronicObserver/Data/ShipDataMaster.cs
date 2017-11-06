@@ -41,7 +41,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦種
 		/// </summary>
-		public int ShipType => (int)RawData.api_stype;
+		public ShipTypes ShipType => (ShipTypes)(int)RawData.api_stype;
 
 
 		/// <summary>
@@ -569,20 +569,41 @@ namespace ElectronicObserver.Data
 
 
 		/// <summary>
+		/// 改装段階
+		/// 初期 = 0, 改 = 1, 改二 = 2, ...
+		/// </summary>
+		public int RemodelTier
+		{
+			get
+			{
+				int tier = 0;
+				var ship = this;
+				while (ship.RemodelBeforeShip != null)
+				{
+					tier++;
+					ship = ship.RemodelBeforeShip;
+				}
+
+				return tier;
+			}
+		}
+
+
+		/// <summary>
 		/// 艦種名
 		/// </summary>
-		public string ShipTypeName => KCDatabase.Instance.ShipTypes[ShipType].Name;
+		public string ShipTypeName => KCDatabase.Instance.ShipTypes[(int)ShipType].Name;
 
 
 		/// <summary>
-		/// 潜水艦系か
+		/// 潜水艦系か (潜水艦/潜水空母)
 		/// </summary>
-		public bool IsSubmarine => ShipType == 13 || ShipType == 14;
+		public bool IsSubmarine => ShipType == ShipTypes.Submarine || ShipType == ShipTypes.SubmarineAircraftCarrier;
 
 		/// <summary>
-		/// 空母系か
+		/// 空母系か (軽空母/正規空母/装甲空母)
 		/// </summary>
-		public bool IsAircraftCarrier => ShipType == 7 || ShipType == 11 || ShipType == 18;
+		public bool IsAircraftCarrier => ShipType == ShipTypes.LightAircraftCarrier || ShipType == ShipTypes.AircraftCarrier || ShipType == ShipTypes.ArmoredAircraftCarrier;
 
 
 		/// <summary>

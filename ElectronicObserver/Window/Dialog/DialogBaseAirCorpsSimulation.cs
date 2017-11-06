@@ -17,44 +17,52 @@ namespace ElectronicObserver.Window.Dialog
 	public partial class DialogBaseAirCorpsSimulation : Form
 	{
 
-		private static readonly int[] SquadronAircraftCategories = {
-			6,		// 艦上戦闘機
-			7,		// 艦上爆撃機
-			8,		// 艦上攻撃機
-			9,		// 艦上偵察機
-			10,		// 水上偵察機
-			11,		// 水上爆撃機
-			41,		// 大型飛行艇
-  			45,		// 水上戦闘機
-			47,		// 陸上攻撃機
-			48,		// 局地戦闘機
-			56,		// 噴式戦闘機
-			57,		// 噴式戦闘爆撃機	
-			58,		// 噴式攻撃機
-			59,		// 噴式偵察機
+		/// <summary> 基地航空隊に配備可能な航空機リスト </summary>
+		private static readonly HashSet<EquipmentTypes> SquadronAircraftCategories = new HashSet<EquipmentTypes> {
+
+			EquipmentTypes.CarrierBasedFighter,
+			EquipmentTypes.CarrierBasedBomber,
+			EquipmentTypes.CarrierBasedTorpedo,
+			EquipmentTypes.CarrierBasedRecon,
+			EquipmentTypes.SeaplaneRecon,
+			EquipmentTypes.SeaplaneBomber,
+			EquipmentTypes.FlyingBoat,
+			EquipmentTypes.SeaplaneFighter,
+			EquipmentTypes.LandBasedAttacker,
+			EquipmentTypes.Interceptor,
+			EquipmentTypes.JetFighter,
+			EquipmentTypes.JetBomber,
+			EquipmentTypes.JetTorpedo,
+			EquipmentTypes.JetRecon,
 		};
 
-		private static readonly int[] SquadronAttackerCategories = {
-			7,		// 艦上爆撃機
-			8,		// 艦上攻撃機
-			11,		// 水上爆撃機
-			47,		// 陸上攻撃機
-			57,		// 噴式戦闘爆撃機	
-			58,		// 噴式攻撃機
+		/// <summary> 基地航空隊に配備可能な攻撃系航空機リスト </summary>
+		private static readonly HashSet<EquipmentTypes> SquadronAttackerCategories = new HashSet<EquipmentTypes> {
+
+			EquipmentTypes.CarrierBasedBomber,
+			EquipmentTypes.CarrierBasedTorpedo,
+			EquipmentTypes.SeaplaneBomber,
+			EquipmentTypes.LandBasedAttacker,
+			EquipmentTypes.JetBomber,
+			EquipmentTypes.JetTorpedo,
 		};
 
-		private static readonly int[] SquadronFighterCategories = {
-			6,		// 艦上戦闘機
-			45,		// 水上戦闘機
-			48,		// 局地戦闘機
-			56,		// 噴式戦闘機
+		/// <summary> 基地航空隊に配備可能な戦闘機リスト </summary>
+		private static readonly HashSet<EquipmentTypes> SquadronFighterCategories = new HashSet<EquipmentTypes> {
+
+			EquipmentTypes.CarrierBasedFighter,
+			EquipmentTypes.SeaplaneFighter,
+			EquipmentTypes.Interceptor,
+			EquipmentTypes.JetFighter,
 		};
 
-		private static readonly int[] SquadronReconCategories = {
-			9,		// 艦上偵察機
-			10,		// 水上偵察機
-			41,		// 大型飛行艇
-  			59,		// 噴式偵察機
+		/// <summary> 基地航空隊に配備可能な偵察機リスト </summary>
+		private static readonly HashSet<EquipmentTypes> SquadronReconCategories = new HashSet<EquipmentTypes> {
+
+			EquipmentTypes.CarrierBasedRecon,
+			EquipmentTypes.SeaplaneRecon,
+			EquipmentTypes.FlyingBoat,
+			EquipmentTypes.JetRecon,
 		};
 
 
@@ -164,7 +172,7 @@ namespace ElectronicObserver.Window.Dialog
 				if (category != null)
 				{
 					list = list.Concat(KCDatabase.Instance.Equipments.Values
-						.Where(eq => eq != null && eq.MasterEquipment.CategoryType == category.EquipmentType.TypeID)
+						.Where(eq => eq != null && (int)eq.MasterEquipment.CategoryType == category.EquipmentType.TypeID)
 						.OrderBy(eq => eq.EquipmentID)
 						.ThenBy(eq => eq.Level)
 						.ThenBy(eq => eq.AircraftLevel)
@@ -190,7 +198,7 @@ namespace ElectronicObserver.Window.Dialog
 				}
 				else
 				{
-					int aircraftCount = Calculator.IsAircraft(equipment.EquipmentID, false) ? 18 : 4;
+					int aircraftCount = equipment.EquipmentInstance.IsCombatAircraft ? 18 : 4;
 					AircraftCount.Value = AircraftCount.Maximum = aircraftCount;
 
 					ToolTipInternal.SetToolTip(Aircraft, GetAircraftParameters(equipment.EquipmentInstance));
@@ -213,19 +221,19 @@ namespace ElectronicObserver.Window.Dialog
 
 				var sb = new StringBuilder();
 
-				Action<string, int> Add = (name, value) =>
+				void Add(string name, int value)
 				{
 					if (value != 0)
 						sb.Append(name).Append(": ").AppendLine(value.ToString("+0;-0;0"));
-				};
+				}
 
-				Action<string, int> AddNoSign = (name, value) =>
+				void AddNoSign(string name, int value)
 				{
 					if (value != 0)
 						sb.Append(name).Append(": ").AppendLine(value.ToString());
-				};
+				}
 
-				bool isLand = eq.CategoryType == 48;
+				bool isLand = eq.CategoryType == EquipmentTypes.Interceptor;
 
 				Add("火力", eq.Firepower);
 				Add("雷装", eq.Torpedo);
@@ -532,12 +540,14 @@ namespace ElectronicObserver.Window.Dialog
 					int losrate = Math.Min(Math.Max(eq.EquipmentInstance.LOS - 7, 0), 2);
 					switch (eq.EquipmentInstance.CategoryType)
 					{
-						case 10:    // 水上偵察機
-						case 41:    // 大型飛行艇
+						case EquipmentTypes.SeaplaneRecon:
+						case EquipmentTypes.FlyingBoat:
 							return 1.1 + losrate * 0.03;
-						case 9:     // 艦上偵察機
-						case 59:    // 噴式偵察機
+
+						case EquipmentTypes.CarrierBasedRecon:
+						case EquipmentTypes.JetRecon:
 							return 1.2 + losrate * 0.05;
+
 						default:
 							return 1;
 					}
@@ -562,19 +572,7 @@ namespace ElectronicObserver.Window.Dialog
 						.Min();
 
 					int maxReconDistance =
-						squadrons.Where(sq =>
-						{
-							switch (sq.EquipmentInstance.CategoryType)
-							{
-								case 9:     // 艦上偵察機
-								case 10:    // 水上偵察機
-								case 41:    // 大型飛行艇
-								case 59:    // 噴式偵察機
-									return true;
-								default:
-									return false;
-							}
-						})
+						squadrons.Where(sq => sq.EquipmentInstance.IsReconAircraft)
 						.Select(sq => sq.EquipmentInstance.AircraftDistance)
 						.DefaultIfEmpty()
 						.Max();
@@ -650,8 +648,8 @@ namespace ElectronicObserver.Window.Dialog
 				{
 					var squi = Squadrons[i];
 
-					squi.AircraftCategory.SelectedItem = squi.AircraftCategory.Items.OfType<ComboBoxCategory>().FirstOrDefault(c => c == (orgs[i] == null ? -1 : orgs[i].MasterEquipment.CategoryType));
-					squi.Aircraft.SelectedItem = squi.Aircraft.Items.OfType<ComboBoxEquipment>().FirstOrDefault(q => q.UniqueID == (orgs[i] == null ? -1 : orgs[i].MasterID));
+					squi.AircraftCategory.SelectedItem = squi.AircraftCategory.Items.OfType<ComboBoxCategory>().FirstOrDefault(c => c == (orgs[i]?.MasterEquipment?.CategoryType ?? (EquipmentTypes)(-1)));
+					squi.Aircraft.SelectedItem = squi.Aircraft.Items.OfType<ComboBoxEquipment>().FirstOrDefault(q => q.UniqueID == (orgs[i]?.MasterID ?? -1));
 				}
 
 				System.Media.SystemSounds.Asterisk.Play();
@@ -693,13 +691,13 @@ namespace ElectronicObserver.Window.Dialog
 		private class ComboBoxCategory
 		{
 
-			public readonly int ID;
+			public readonly EquipmentTypes ID;
 			public readonly EquipmentType EquipmentType;
 
-			public ComboBoxCategory(int id)
+			public ComboBoxCategory(EquipmentTypes id)
 			{
 				ID = id;
-				EquipmentType = KCDatabase.Instance.EquipmentTypes[id];
+				EquipmentType = KCDatabase.Instance.EquipmentTypes[(int)id];
 			}
 
 			public override string ToString()
@@ -711,7 +709,7 @@ namespace ElectronicObserver.Window.Dialog
 			}
 
 
-			public static implicit operator int(ComboBoxCategory from)
+			public static implicit operator EquipmentTypes(ComboBoxCategory from)
 			{
 				return from.ID;
 			}
@@ -728,14 +726,14 @@ namespace ElectronicObserver.Window.Dialog
 				{
 
 					// オートジャイロ / 対潜哨戒機 は除外
-					if (category.TypeID == 25 || category.TypeID == 26)
+					if (category.TypeID == (int)EquipmentTypes.Autogyro || category.TypeID == (int)EquipmentTypes.ASPatrol)
 						continue;
 
 					var first = KCDatabase.Instance.MasterEquipments.Values
 						.Where(eq => !eq.IsAbyssalEquipment)
-						.FirstOrDefault(eq => eq.CategoryType == category.TypeID);
+						.FirstOrDefault(eq => (int)eq.CategoryType == category.TypeID);
 
-					if (first != null && Calculator.IsAircraft(first.EquipmentID, true))
+					if (first != null && first.IsAircraft)
 						yield return new ComboBoxCategory(first.CategoryType);
 				}
 			}
@@ -915,9 +913,8 @@ namespace ElectronicObserver.Window.Dialog
 				for (int x = 0; x < ui.Squadrons.Length; x++)
 				{
 					var squi = ui.Squadrons[x];
-					var selected = squi.Aircraft.SelectedItem as ComboBoxEquipment;
 
-					if (selected != null && dupes.Contains(selected.UniqueID))
+					if (squi.Aircraft.SelectedItem is ComboBoxEquipment selected && dupes.Contains(selected.UniqueID))
 						dupelist.Add(x);
 				}
 
@@ -1197,9 +1194,8 @@ namespace ElectronicObserver.Window.Dialog
 				foreach (var squi in corpsui.Squadrons)
 				{
 
-					var eq = squi.Aircraft.SelectedItem as ComboBoxEquipment;
 
-					if (eq != null && eq.UniqueID != -1)
+					if (squi.Aircraft.SelectedItem is ComboBoxEquipment eq && eq.UniqueID != -1)
 					{
 						yield return eq.UniqueID;
 					}

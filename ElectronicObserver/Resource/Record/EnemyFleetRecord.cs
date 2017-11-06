@@ -64,7 +64,7 @@ namespace ElectronicObserver.Resource.Record
 			/// <summary>
 			/// 敵艦船名リスト
 			/// </summary>
-			public string[] FleetMemberName => FleetMember.Select(id => KCDatabase.Instance.MasterShips[id] != null ? KCDatabase.Instance.MasterShips[id].NameWithClass : "-").ToArray();
+			public string[] FleetMemberName => FleetMember.Select(id => KCDatabase.Instance.MasterShips[id]?.NameWithClass ?? "-").ToArray();
 
 
 			/// <summary>
@@ -163,8 +163,8 @@ namespace ElectronicObserver.Resource.Record
 			{
 
 				var battle = KCDatabase.Instance.Battle;
-				string fleetName = battle.Result != null ? battle.Result.EnemyFleetName : "";
-				int baseExp = battle.Result != null ? battle.Result.BaseExp : 0;
+				string fleetName = battle.Result?.EnemyFleetName ?? "";
+				int baseExp = battle.Result?.BaseExp ?? 0;
 
 				if (battle.IsPractice)
 					return null;

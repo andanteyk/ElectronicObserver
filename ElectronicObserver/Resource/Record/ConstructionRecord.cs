@@ -106,7 +106,7 @@ namespace ElectronicObserver.Resource.Record
 				var ship = KCDatabase.Instance.MasterShips[shipID];
 				var flagship = KCDatabase.Instance.MasterShips[flagshipID];
 				ShipID = shipID;
-				ShipName = ship != null ? ship.NameWithClass : "???";
+				ShipName = ship?.NameWithClass ?? "???";
 				Date = DateTime.Now;
 				Fuel = fuel;
 				Ammo = ammo;
@@ -115,7 +115,7 @@ namespace ElectronicObserver.Resource.Record
 				DevelopmentMaterial = developmentMaterial;
 				EmptyDockAmount = emptyDock;
 				FlagshipID = flagshipID;
-				FlagshipName = flagship != null ? flagship.NameWithClass : "???";
+				FlagshipName = flagship?.NameWithClass ?? "???";
 				HQLevel = hqLevel;
 			}
 

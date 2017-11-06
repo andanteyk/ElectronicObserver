@@ -258,12 +258,12 @@ namespace ElectronicObserver.Notifier
 				ship.RepairingDockID == -1 &&
 				ship.Level >= LevelBorder &&
 				(ContainsNotLockedShip ? true : (ship.IsLocked || ship.SlotInstance.Count(q => q != null && q.IsLocked) > 0)) &&
-				(ContainsSafeShip ? true : !ship.AllSlotInstanceMaster.Select(e => e != null ? e.CategoryType == 23 : false).Contains(true));
+				(ContainsSafeShip ? true : !ship.AllSlotInstanceMaster.Any(e => e?.CategoryType == EquipmentTypes.DamageControl));
 		}
 
 		private string[] GetDamagedShips(IEnumerable<ShipData> ships)
 		{
-			return ships.Where(s => IsShipDamaged(s, s != null ? s.HPCurrent : 0)).Select(s => string.Format("{0} ({1}/{2})", s.NameWithLevel, s.HPCurrent, s.HPMax)).ToArray();
+			return ships.Where(s => IsShipDamaged(s, s?.HPCurrent ?? 0)).Select(s => $"{s.NameWithLevel} ({s.HPCurrent}/{s.HPMax})").ToArray();
 		}
 
 		private string[] GetDamagedShips(FleetData fleet, int[] hps)
@@ -282,7 +282,7 @@ namespace ElectronicObserver.Notifier
 					IsShipDamaged(s, hps[i]))
 				{
 
-					list.AddLast(string.Format("{0} ({1}/{2})", s.NameWithLevel, hps[i], s.HPMax));
+					list.AddLast($"{s.NameWithLevel} ({hps[i]}/{s.HPMax})");
 				}
 			}
 
@@ -303,9 +303,8 @@ namespace ElectronicObserver.Notifier
 		{
 			base.ApplyToConfiguration(config);
 
-			var c = config as Utility.Configuration.ConfigurationData.ConfigNotifierDamage;
 
-			if (c != null)
+			if (config is Utility.Configuration.ConfigurationData.ConfigNotifierDamage c)
 			{
 				c.NotifiesBefore = NotifiesBefore;
 				c.NotifiesNow = NotifiesNow;

@@ -107,7 +107,7 @@ namespace ElectronicObserver.Window.Dialog
 			if (IsLayeredWindow)
 			{
 
-				Size size = DialogData.Image != null ? DialogData.Image.Size : new Size(300, 100);
+				Size size = DialogData.Image?.Size ?? new Size(300, 100);
 
 				// メッセージを書き込んだうえでレイヤードウィンドウ化する
 				using (var bmp = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))

@@ -387,24 +387,7 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public double GetSearchingAbility()
 		{
-			switch (Utility.Configuration.Config.FormFleet.SearchingAbilityMethod)
-			{
-				default:
-				case 0:
-					return Calculator.GetSearchingAbility_Old(this);
-
-				case 1:
-					return Calculator.GetSearchingAbility_Autumn(this);
-
-				case 2:
-					return Calculator.GetSearchingAbility_TinyAutumn(this);
-
-				case 3:
-					return Calculator.GetSearchingAbility_33(this);
-
-				case 4:
-					return Calculator.GetSearchingAbility_New33(this, 1);
-			}
+			return Calculator.GetSearchingAbility_New33(this, 1);
 		}
 
 		/// <summary>
@@ -412,7 +395,7 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public string GetSearchingAbilityString()
 		{
-			return this.GetSearchingAbilityString(Utility.Configuration.Config.FormFleet.SearchingAbilityMethod);
+			return GetSearchingAbilityString(Utility.Configuration.Config.FormFleet.SearchingAbilityMethod);
 		}
 
 		/// <summary>
@@ -421,24 +404,7 @@ namespace ElectronicObserver.Data
 		/// <param name="index">計算式。0-3</param>
 		public string GetSearchingAbilityString(int index)
 		{
-			switch (index)
-			{
-				default:
-				case 0:
-					return Calculator.GetSearchingAbility_Old(this).ToString();
-
-				case 1:
-					return Calculator.GetSearchingAbility_Autumn(this).ToString("F1");
-
-				case 2:
-					return Calculator.GetSearchingAbility_TinyAutumn(this).ToString();
-
-				case 3:
-					return (Math.Floor(Calculator.GetSearchingAbility_33(this) * 100) / 100).ToString("F2");
-
-				case 4:
-					return (Math.Floor(Calculator.GetSearchingAbility_New33(this, 1) * 100) / 100).ToString("F2");
-			}
+			return (Math.Floor(Calculator.GetSearchingAbility_New33(this, 1) * 100) / 100).ToString("F2");
 		}
 
 		/// <summary>
@@ -464,7 +430,7 @@ namespace ElectronicObserver.Data
 			get
 			{
 				ShipData flagship = KCDatabase.Instance.Ships[_members[0]];
-				return flagship != null && flagship.MasterShip.ShipType == 19;
+				return flagship != null && flagship.MasterShip.ShipType == ShipTypes.RepairShip;
 			}
 		}
 
@@ -482,7 +448,7 @@ namespace ElectronicObserver.Data
 					flagship.HPRate > 0.5 &&
 					flagship.RepairingDockID == -1 &&
 					ExpeditionState == 0 &&
-					MembersInstance.Take(2 + flagship.SlotInstance.Count(eq => eq != null && eq.MasterEquipment.CategoryType == 31))
+					MembersInstance.Take(2 + flagship.SlotInstance.Count(eq => eq != null && eq.MasterEquipment.CategoryType == EquipmentTypes.RepairFacility))
 					.Any(ship => ship != null && 0.5 < ship.HPRate && ship.HPRate < 1.0 && ship.RepairingDockID == -1);
 			}
 		}

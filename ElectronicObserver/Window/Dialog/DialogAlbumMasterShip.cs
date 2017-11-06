@@ -146,7 +146,7 @@ namespace ElectronicObserver.Window.Dialog
 
 				DataGridViewRow row = new DataGridViewRow();
 				row.CreateCells(ShipView);
-				row.SetValues(ship.ShipID, KCDatabase.Instance.ShipTypes[ship.ShipType].Name, ship.NameWithClass);
+				row.SetValues(ship.ShipID, ship.ShipTypeName, ship.NameWithClass);
 				row.Cells[ShipView_ShipType.Index].Tag = ship.ShipType;
 				row.Cells[ShipView_Name.Index].Tag = ship.IsAbyssalShip ? null : ship.NameReading;
 				rows.Add(row);
@@ -295,7 +295,7 @@ namespace ElectronicObserver.Window.Dialog
 			ToolTipInfo.SetToolTip(ResourceName, string.Format("リソース名: {0}\r\nグラフィック ver. {1}\r\nボイス ver. {2}\r\n母港ボイス ver. {3}\r\n({4})",
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion, Constants.GetVoiceFlag(ship.VoiceFlag)));
 
-			ShipType.Text = ship.IsLandBase ? "陸上施設" : db.ShipTypes[ship.ShipType].Name;
+			ShipType.Text = ship.IsLandBase ? "陸上施設" : ship.ShipTypeName;
 			ShipName.Text = ship.NameWithClass;
 			ShipName.ForeColor = ship.GetShipNameColor();
 			ToolTipInfo.SetToolTip(ShipName, (!ship.IsAbyssalShip ? ship.NameReading + "\r\n" : "") + "(右クリックでコピー)");
@@ -871,7 +871,7 @@ namespace ElectronicObserver.Window.Dialog
 					using (StreamWriter sw = new StreamWriter(SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding))
 					{
 
-						sw.WriteLine("艦船ID,図鑑番号,艦種,艦名,読み,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,耐久初期,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期,対潜最大,回避初期,回避最大,索敵初期,索敵最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン");
+						sw.WriteLine("艦船ID,図鑑番号,艦種,艦名,読み,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,改装段階,耐久初期,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期,対潜最大,回避初期,回避最大,索敵初期,索敵最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン");
 
 						foreach (ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values)
 						{
@@ -881,7 +881,7 @@ namespace ElectronicObserver.Window.Dialog
 							sw.WriteLine(string.Join(",",
 								ship.ShipID,
 								ship.AlbumNo,
-								KCDatabase.Instance.ShipTypes[ship.ShipType].Name,
+								ship.ShipTypeName,
 								ship.Name,
 								ship.NameReading,
 								ship.RemodelBeforeShipID > 0 ? ship.RemodelBeforeShip.Name : "-",
@@ -891,6 +891,7 @@ namespace ElectronicObserver.Window.Dialog
 								ship.RemodelSteel,
 								ship.NeedBlueprint > 0 ? ship.NeedBlueprint + "枚" : "-",
 								ship.NeedCatapult > 0 ? ship.NeedCatapult + "個" : "-",
+								ship.RemodelTier,
 								ship.HPMin,
 								ship.HPMaxMarried,
 								ship.FirepowerMin,
@@ -972,7 +973,7 @@ namespace ElectronicObserver.Window.Dialog
 					using (StreamWriter sw = new StreamWriter(SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding))
 					{
 
-						sw.WriteLine(string.Format("艦船ID,図鑑番号,艦名,読み,艦種,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,耐久初期,耐久最大,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期最小,対潜初期最大,対潜最大,対潜{0}最小,対潜{0}最大,回避初期最小,回避初期最大,回避最大,回避{0}最小,回避{0}最大,索敵初期最小,索敵初期最大,索敵最大,索敵{0}最小,索敵{0}最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン", ExpTable.ShipMaximumLevel));
+						sw.WriteLine(string.Format("艦船ID,図鑑番号,艦名,読み,艦種,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,改装段階,耐久初期,耐久最大,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期最小,対潜初期最大,対潜最大,対潜{0}最小,対潜{0}最大,回避初期最小,回避初期最大,回避最大,回避{0}最小,回避{0}最大,索敵初期最小,索敵初期最大,索敵最大,索敵{0}最小,索敵{0}最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン", ExpTable.ShipMaximumLevel));
 
 						foreach (ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values)
 						{
@@ -982,7 +983,7 @@ namespace ElectronicObserver.Window.Dialog
 								ship.AlbumNo,
 								ship.Name,
 								ship.NameReading,
-								ship.ShipType,
+								(int)ship.ShipType,
 								ship.RemodelBeforeShipID,
 								ship.RemodelAfterShipID,
 								ship.RemodelAfterLevel,
@@ -990,6 +991,7 @@ namespace ElectronicObserver.Window.Dialog
 								ship.RemodelSteel,
 								ship.NeedBlueprint,
 								ship.NeedCatapult,
+								ship.RemodelTier,
 								ship.HPMin,
 								ship.HPMax,
 								ship.HPMaxMarried,
@@ -1001,21 +1003,21 @@ namespace ElectronicObserver.Window.Dialog
 								ship.AAMax,
 								ship.ArmorMin,
 								ship.ArmorMax,
-								ship.ASW != null ? ship.ASW.MinimumEstMin : ShipParameterRecord.Parameter.MinimumDefault,
-								ship.ASW != null ? ship.ASW.MinimumEstMax : ShipParameterRecord.Parameter.MaximumDefault,
-								ship.ASW != null ? ship.ASW.Maximum : ShipParameterRecord.Parameter.MaximumDefault,
-								ship.ASW != null ? ship.ASW.GetEstParameterMin(ExpTable.ShipMaximumLevel) : ShipParameterRecord.Parameter.MinimumDefault,
-								ship.ASW != null ? ship.ASW.GetEstParameterMax(ExpTable.ShipMaximumLevel) : ShipParameterRecord.Parameter.MaximumDefault,
-								ship.Evasion != null ? ship.Evasion.MinimumEstMin : ShipParameterRecord.Parameter.MinimumDefault,
-								ship.Evasion != null ? ship.Evasion.MinimumEstMax : ShipParameterRecord.Parameter.MaximumDefault,
-								ship.Evasion != null ? ship.Evasion.Maximum : ShipParameterRecord.Parameter.MaximumDefault,
-								ship.Evasion != null ? ship.Evasion.GetEstParameterMin(ExpTable.ShipMaximumLevel) : ShipParameterRecord.Parameter.MinimumDefault,
-								ship.Evasion != null ? ship.Evasion.GetEstParameterMax(ExpTable.ShipMaximumLevel) : ShipParameterRecord.Parameter.MaximumDefault,
-								ship.LOS != null ? ship.LOS.MinimumEstMin : ShipParameterRecord.Parameter.MinimumDefault,
-								ship.LOS != null ? ship.LOS.MinimumEstMax : ShipParameterRecord.Parameter.MaximumDefault,
-								ship.LOS != null ? ship.LOS.Maximum : ShipParameterRecord.Parameter.MaximumDefault,
-								ship.LOS != null ? ship.LOS.GetEstParameterMin(ExpTable.ShipMaximumLevel) : ShipParameterRecord.Parameter.MinimumDefault,
-								ship.LOS != null ? ship.LOS.GetEstParameterMax(ExpTable.ShipMaximumLevel) : ShipParameterRecord.Parameter.MaximumDefault,
+								ship.ASW?.MinimumEstMin ?? ShipParameterRecord.Parameter.MinimumDefault,
+								ship.ASW?.MinimumEstMax ?? ShipParameterRecord.Parameter.MaximumDefault,
+								ship.ASW?.Maximum ?? ShipParameterRecord.Parameter.MaximumDefault,
+								ship.ASW?.GetEstParameterMin(ExpTable.ShipMaximumLevel) ?? ShipParameterRecord.Parameter.MinimumDefault,
+								ship.ASW?.GetEstParameterMax(ExpTable.ShipMaximumLevel) ?? ShipParameterRecord.Parameter.MaximumDefault,
+								ship.Evasion?.MinimumEstMin ?? ShipParameterRecord.Parameter.MinimumDefault,
+								ship.Evasion?.MinimumEstMax ?? ShipParameterRecord.Parameter.MaximumDefault,
+								ship.Evasion?.Maximum ?? ShipParameterRecord.Parameter.MaximumDefault,
+								ship.Evasion?.GetEstParameterMin(ExpTable.ShipMaximumLevel) ?? ShipParameterRecord.Parameter.MinimumDefault,
+								ship.Evasion?.GetEstParameterMax(ExpTable.ShipMaximumLevel) ?? ShipParameterRecord.Parameter.MaximumDefault,
+								ship.LOS?.MinimumEstMin ?? ShipParameterRecord.Parameter.MinimumDefault,
+								ship.LOS?.MinimumEstMax ?? ShipParameterRecord.Parameter.MaximumDefault,
+								ship.LOS?.Maximum ?? ShipParameterRecord.Parameter.MaximumDefault,
+								ship.LOS?.GetEstParameterMin(ExpTable.ShipMaximumLevel) ?? ShipParameterRecord.Parameter.MinimumDefault,
+								ship.LOS?.GetEstParameterMax(ExpTable.ShipMaximumLevel) ?? ShipParameterRecord.Parameter.MaximumDefault,
 								ship.LuckMin,
 								ship.LuckMax,
 								ship.Speed,
@@ -1027,11 +1029,11 @@ namespace ElectronicObserver.Window.Dialog
 								ship.Aircraft[2],
 								ship.Aircraft[3],
 								ship.Aircraft[4],
-								ship.DefaultSlot != null ? ship.DefaultSlot[0] : -1,
-								ship.DefaultSlot != null ? ship.DefaultSlot[1] : -1,
-								ship.DefaultSlot != null ? ship.DefaultSlot[2] : -1,
-								ship.DefaultSlot != null ? ship.DefaultSlot[3] : -1,
-								ship.DefaultSlot != null ? ship.DefaultSlot[4] : -1,
+								ship.DefaultSlot?[0] ?? -1,
+								ship.DefaultSlot?[1] ?? -1,
+								ship.DefaultSlot?[2] ?? -1,
+								ship.DefaultSlot?[3] ?? -1,
+								ship.DefaultSlot?[4] ?? -1,
 								ship.BuildingTime,
 								ship.Material[0],
 								ship.Material[1],

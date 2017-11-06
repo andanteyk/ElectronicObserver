@@ -255,11 +255,16 @@ namespace ElectronicObserver.Window
 
 				int tp = Calculator.GetTPDamage(fleet1) + Calculator.GetTPDamage(fleet2);
 
+				var members = fleet1.MembersWithoutEscaped.Concat(fleet2.MembersWithoutEscaped).Where(s => s != null);
+
+				// 各艦ごとの ドラム缶 or 大発系 を搭載している個数
+				var transport = members.Select(s => s.AllSlotInstanceMaster.Count(eq => eq?.CategoryType == EquipmentTypes.TransportContainer));
+				var landing = members.Select(s => s.AllSlotInstanceMaster.Count(eq => eq?.CategoryType == EquipmentTypes.LandingCraft || eq?.CategoryType == EquipmentTypes.SpecialAmphibiousTank));
+
+
 				ToolTipInfo.SetToolTip(CombinedTag, string.Format("ドラム缶搭載: {0}個\r\n大発動艇搭載: {1}個\r\n輸送量(TP): S {2} / A {3}\r\n\r\n制空戦力合計: {4}\r\n索敵能力合計: {5:f2}\r\n新判定式(33):\r\n　分岐点係数1: {6:f2}\r\n　分岐点係数3: {7:f2}\r\n　分岐点係数4: {8:f2}",
-					fleet1.MembersWithoutEscaped.Sum(s => s == null ? 0 : s.AllSlotInstanceMaster.Count(eq => eq != null && eq.CategoryType == 30)) +
-					fleet2.MembersWithoutEscaped.Sum(s => s == null ? 0 : s.AllSlotInstanceMaster.Count(eq => eq != null && eq.CategoryType == 30)),
-					fleet1.MembersWithoutEscaped.Sum(s => s == null ? 0 : s.AllSlotInstanceMaster.Count(eq => eq != null && eq.CategoryType == 24)) +
-					fleet2.MembersWithoutEscaped.Sum(s => s == null ? 0 : s.AllSlotInstanceMaster.Count(eq => eq != null && eq.CategoryType == 24)),
+					transport.Sum(),
+					landing.Sum(),
 					tp,
 					(int)Math.Floor(tp * 0.7),
 					Calculator.GetAirSuperiority(fleet1) + Calculator.GetAirSuperiority(fleet2),

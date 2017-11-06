@@ -105,30 +105,12 @@ namespace ElectronicObserver.Data.Battle
 		/// <summary>
 		/// 1回目の戦闘
 		/// </summary>
-		public BattleData FirstBattle
-		{
-			get
-			{
-				if (StartsFromDayBattle)
-					return BattleDay;
-				else
-					return BattleNight;
-			}
-		}
+		public BattleData FirstBattle => StartsFromDayBattle ? (BattleData)BattleDay : BattleNight;
 
 		/// <summary>
 		/// 2回目の戦闘
 		/// </summary>
-		public BattleData SecondBattle
-		{
-			get
-			{
-				if (StartsFromDayBattle)
-					return BattleNight;
-				else
-					return BattleDay;
-			}
-		}
+		public BattleData SecondBattle => StartsFromDayBattle ? (BattleData)BattleNight : BattleDay;
 
 
 		/// <summary>
@@ -425,7 +407,7 @@ namespace ElectronicObserver.Data.Battle
 					{
 						var item = KCDatabase.Instance.UseItems[itemID];
 						var itemmaster = KCDatabase.Instance.MasterUseItems[itemID];
-						Utility.Logger.Add(2, string.Format("アイテム「{0}」を入手しました。( 合計: {1}個 )", itemmaster != null ? itemmaster.Name : ("不明なアイテム - ID:" + itemID), (item != null ? item.Count : 0) + DroppedItemCount[itemID]));
+						Utility.Logger.Add(2, string.Format("アイテム「{0}」を入手しました。( 合計: {1}個 )", itemmaster?.Name ?? ("不明なアイテム - ID:" + itemID), (item?.Count ?? 0) + DroppedItemCount[itemID]));
 					}
 				}
 
@@ -693,9 +675,9 @@ namespace ElectronicObserver.Data.Battle
 				if (IsPractice)
 					info = "practice";
 				else
-					info = string.Format("{0}-{1}-{2}", Compass.MapAreaID, Compass.MapInfoID, Compass.Destination);
+					info = $"{Compass.MapAreaID}-{Compass.MapInfoID}-{Compass.Destination}";
 
-				string path = string.Format("{0}\\{1}@{2}.txt", parent, DateTimeHelper.GetTimeStamp(), info);
+				string path = $"{parent}\\{DateTimeHelper.GetTimeStamp()}@{info}.txt";
 
 				using (var sw = new StreamWriter(path, false, Utility.Configuration.Config.Log.FileEncoding))
 				{

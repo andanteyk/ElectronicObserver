@@ -174,15 +174,15 @@ namespace ElectronicObserver.Window
 
 				// 練巡ボーナス計算 - きたない
 				var fleet = KCDatabase.Instance.Fleet[1];
-				if (fleet.MembersInstance.Any(s => s != null && s.MasterShip.ShipType == 21))
+				if (fleet.MembersInstance.Any(s => s != null && s.MasterShip.ShipType == ShipTypes.TrainingCruiser))
 				{
 					var members = fleet.MembersInstance;
-					var subCT = members.Skip(1).Where(s => s != null && s.MasterShip.ShipType == 21);
+					var subCT = members.Skip(1).Where(s => s != null && s.MasterShip.ShipType == ShipTypes.TrainingCruiser);
 
 					double bonus;
 
 					// 旗艦が練巡
-					if (members[0] != null && members[0].MasterShip.ShipType == 21)
+					if (members[0] != null && members[0].MasterShip.ShipType == ShipTypes.TrainingCruiser)
 					{
 
 						int level = members[0].Level;
@@ -444,31 +444,27 @@ namespace ElectronicObserver.Window
 			StringBuilder sb = new StringBuilder();
 			var material = KCDatabase.Instance.Material;
 
-			int fuel_supply = 0,
-				fuel_repair = 0,
-				ammo = 0,
-				steel = 0,
-				bauxite = 0;
 
 			int fuel_diff = material.Fuel - _prevResource[0],
 				ammo_diff = material.Ammo - _prevResource[1],
 				steel_diff = material.Steel - _prevResource[2],
 				bauxite_diff = material.Bauxite - _prevResource[3];
 
+
+			var ships = KCDatabase.Instance.Fleet.Fleets.Values
+				.Where(f => _inSortie.Contains(f.FleetID))
+				.SelectMany(f => f.MembersInstance)
+				.Where(s => s != null);
+
+			int fuel_supply = ships.Sum(s => s.SupplyFuel);
+			int ammo = ships.Sum(s => s.SupplyAmmo);
+			int bauxite = ships.Sum(s => s.Aircraft.Zip(s.MasterShip.Aircraft, (current, max) => new { Current = current, Max = max }).Sum(a => (a.Max - a.Current) * 5));
+
+			int fuel_repair = ships.Sum(s => s.RepairFuel);
+			int steel = ships.Sum(s => s.RepairSteel);
+
+
 			sb.AppendLine("[艦隊帰投]");
-
-			foreach (var f in KCDatabase.Instance.Fleet.Fleets.Values.Where(f => _inSortie.Contains(f.FleetID)))
-			{
-
-				fuel_supply += f.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor((s.FuelMax - s.Fuel) * (s.IsMarried ? 0.85 : 1.0)));
-				ammo += f.MembersInstance.Sum(s => s == null ? 0 : (int)Math.Floor((s.AmmoMax - s.Ammo) * (s.IsMarried ? 0.85 : 1.0)));
-				bauxite += f.MembersInstance.Sum(s => s == null ? 0 : s.Aircraft.Zip(s.MasterShip.Aircraft, (current, max) => new { Current = current, Max = max }).Sum(a => (a.Max - a.Current) * 5));
-
-				fuel_repair += f.MembersInstance.Sum(s => s == null ? 0 : s.RepairFuel);
-				steel += f.MembersInstance.Sum(s => s == null ? 0 : s.RepairSteel);
-
-			}
-
 			sb.AppendFormat("燃料: {0:+0;-0} ( 自然 {1:+0;-0} - 補給 {2} - 入渠 {3} )\r\n弾薬: {4:+0;-0} ( 自然 {5:+0;-0} - 補給 {6} )\r\n鋼材: {7:+0;-0} ( 自然 {8:+0;-0} - 入渠 {9} )\r\nボーキ: {10:+0;-0} ( 自然 {11:+0;-0} - 補給 {12} ( {13} 機 ) )",
 				fuel_diff - fuel_supply - fuel_repair, fuel_diff, fuel_supply, fuel_repair,
 				ammo_diff - ammo, ammo_diff, ammo,

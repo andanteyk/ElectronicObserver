@@ -516,8 +516,8 @@ namespace ElectronicObserver.Window.Dialog
 								eq.Level,
 								eq.AircraftLevel,
 								eq.IsLocked ? 1 : 0,
-								equippedShip != null ? equippedShip.MasterID : -1,
-								equippedShip != null ? equippedShip.NameWithLevel : ""
+								equippedShip?.MasterID ?? -1,
+								equippedShip?.NameWithLevel ?? ""
 								);
 
 						}

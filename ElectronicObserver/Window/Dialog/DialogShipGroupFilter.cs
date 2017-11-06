@@ -178,7 +178,7 @@ namespace ElectronicObserver.Window.Dialog
 					new DataColumn( "Display", typeof( string ) ) });
 				foreach (var st in KCDatabase.Instance.MasterShips.Values
 					.Where(s => !s.IsAbyssalShip)
-					.Select(s => s.ShipType)
+					.Select(s => (int)s.ShipType)
 					.Distinct()
 					.OrderBy(i => i)
 					.Select(i => KCDatabase.Instance.ShipTypes[i]))
@@ -351,7 +351,7 @@ namespace ElectronicObserver.Window.Dialog
 				rows[i].CreateCells(ConstFilterView);
 
 				var ship = KCDatabase.Instance.Ships[values[i]];
-				rows[i].SetValues(values[i], ship == null ? "(未在籍)" : ship.NameWithLevel);
+				rows[i].SetValues(values[i], ship?.NameWithLevel ?? "(未在籍)");
 			}
 
 			ConstFilterView.Rows.AddRange(rows);
@@ -413,7 +413,7 @@ namespace ElectronicObserver.Window.Dialog
 				Operator.DataSource = _dtOperator_bool;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_shiptype;
-				RightOperand_ComboBox.SelectedValue = right == null ? 2 : right;
+				RightOperand_ComboBox.SelectedValue = right ?? 2;
 
 			}
 			else if (left.Contains("SlotMaster"))
@@ -429,7 +429,7 @@ namespace ElectronicObserver.Window.Dialog
 				Operator.DataSource = _dtOperator_bool;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_equipment;
-				RightOperand_ComboBox.SelectedValue = right == null ? 1 : right;
+				RightOperand_ComboBox.SelectedValue = right ?? 1;
 
 			}
 			else if (left == ".Range")
@@ -445,7 +445,7 @@ namespace ElectronicObserver.Window.Dialog
 				Operator.DataSource = _dtOperator_number;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_range;
-				RightOperand_ComboBox.SelectedValue = right == null ? 1 : right;
+				RightOperand_ComboBox.SelectedValue = right ?? 1;
 
 			}
 			else if (left == ".Speed" || left == ".MasterShip.Speed")
@@ -461,7 +461,7 @@ namespace ElectronicObserver.Window.Dialog
 				Operator.DataSource = _dtOperator_number;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_speed;
-				RightOperand_ComboBox.SelectedValue = right == null ? 10 : right;
+				RightOperand_ComboBox.SelectedValue = right ?? 10;
 
 			}
 			else if (left == ".MasterShip.Rarity")
@@ -477,7 +477,7 @@ namespace ElectronicObserver.Window.Dialog
 				Operator.DataSource = _dtOperator_number;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_rarity;
-				RightOperand_ComboBox.SelectedValue = right == null ? 1 : right;
+				RightOperand_ComboBox.SelectedValue = right ?? 1;
 
 
 				// 以下、汎用判定
@@ -615,7 +615,7 @@ namespace ElectronicObserver.Window.Dialog
 				Operator.DataSource = _dtOperator_bool;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_bool;
-				RightOperand_ComboBox.SelectedValue = right == null ? true : right;
+				RightOperand_ComboBox.SelectedValue = right ?? true;
 
 			}
 			else if (lefttype.IsEnum)

@@ -9,13 +9,13 @@ namespace ElectronicObserver.Data
 {
 
 	/// <summary>
-	/// 装備の種別
+	/// 装備種別
 	/// </summary>
 	public class EquipmentType : ResponseWrapper, IIdentifiable
 	{
 
 		/// <summary>
-		/// 装備の種別
+		/// 装備種別ID
 		/// </summary>
 		public int TypeID => (int)RawData.api_id;
 
@@ -27,11 +27,16 @@ namespace ElectronicObserver.Data
 		//show_flg
 
 
+		/// <summary>
+		/// 装備種別ID
+		/// </summary>
+		public EquipmentTypes Type => (EquipmentTypes)TypeID;
+
+
 		public override string ToString() => $"[{TypeID}] {Name}";
 
 		public int ID => TypeID;
+
 	}
-
-
 
 }

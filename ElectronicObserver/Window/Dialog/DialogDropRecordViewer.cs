@@ -284,19 +284,19 @@ namespace ElectronicObserver.Window.Dialog
 
 			if (elem.ShipID > 0 && !ignoreShip)
 			{
-				sb.AppendFormat("0{0:D4}{1}/{2}", ship != null ? ship.ShipType : 0, ship != null ? ship.NameReading : elem.ShipName, elem.ShipName);
+				sb.AppendFormat("0{0:D4}{1}/{2}", (int?)ship?.ShipType ?? 0, ship?.NameReading ?? elem.ShipName, elem.ShipName);
 			}
 
 			if (elem.ItemID > 0 && !ignoreItem)
 			{
 				if (sb.Length > 0) sb.Append(",");
-				sb.AppendFormat("1{0:D4}{1}", item != null ? item.ItemID : 0, elem.ItemName);
+				sb.AppendFormat("1{0:D4}{1}", item?.ItemID ?? 0, elem.ItemName);
 			}
 
 			if (elem.EquipmentID > 0 && !ignoreEquipment)
 			{
 				if (sb.Length > 0) sb.Append(",");
-				sb.AppendFormat("2{0:D4}{1}", eq != null ? eq.EquipmentID : 0, elem.EquipmentName);
+				sb.AppendFormat("2{0:D4}{1}", eq?.EquipmentID ?? 0, elem.EquipmentName);
 			}
 
 			return sb.ToString();

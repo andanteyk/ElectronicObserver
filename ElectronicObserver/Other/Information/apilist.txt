@@ -856,11 +856,12 @@ api_get_member/questlist	：任務
 		api_title			：タイトル
 		api_detail			：説明 "<br>"で改行
 		api_lost_badges		：消費勲章数　消費するときのみ存在
-		api_select_rewards	：報酬選択が可能な任務に存在 []
+		api_select_rewards	：報酬選択が可能な任務に存在 [1][]
 			api_no			：ID (1から始まる連番)
 			api_kind		：種別?
 			api_mst_id		：ID?
 			api_count		：個数
+		api_voice_id		：達成時に再生されるボイスのID　再生されるもののみ存在　URLは sound/kc9999/<api_voice_id>.mp3　任務ID + 1000?
 		api_get_material	：獲得資材
 		api_bonus_flag		：1=通常, 2=艦娘
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成
@@ -891,10 +892,10 @@ api_req_quest/clearitemget		：任務達成
 	api_material		：獲得資源量(基本4種)
 	api_bounus_count	：api_bounus の数 *スペルミス注意*
 	api_bounus			：アイテム *スペルミス注意*
-		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換, 16=装備消費, 99=イベント海域解放
+		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 5=基地航空隊開放?, 6=遠征臨時補給開放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換, 16=装備消費, 18=???, 99=イベント海域解放
 		api_count		：取得個数
 		api_item		：アイテム追加情報 一般アイテムはnull イベント海域解放時は api_count = 1 にもかかわらず null
-			(アイテムの場合)
+			(アイテム/装備の場合)
 			api_id		：装備アイテム=ID、家具箱=0
 			api_name	：アイテム名 家具箱系/装備のみ
 			(機種転換の場合)

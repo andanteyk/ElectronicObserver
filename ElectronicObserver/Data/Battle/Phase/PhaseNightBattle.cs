@@ -238,9 +238,9 @@ namespace ElectronicObserver.Data.Battle.Phase
 					if (ship != null && _battleData.Initial.InitialHPs[(isEscort ? 12 : 0) + i] > 1)
 					{
 
-						if (ship.SlotInstanceMaster.Count(e => e != null && e.CategoryType == 42) > 0)      //大型探照灯
+						if (ship.SlotInstanceMaster.Any(e => e?.CategoryType == EquipmentTypes.SearchlightLarge))
 							return i;
-						else if (ship.SlotInstanceMaster.Count(e => e != null && e.CategoryType == 29) > 0 && index == -1)      //探照灯
+						else if (ship.SlotInstanceMaster.Any(e => e?.CategoryType == EquipmentTypes.Searchlight) && index == -1)
 							index = i;
 					}
 				}
@@ -266,9 +266,9 @@ namespace ElectronicObserver.Data.Battle.Phase
 					if (ships[i] != null && _battleData.Initial.InitialHPs[6 + i] > 1)
 					{
 
-						if (eqs[i].Count(e => e != null && e.CategoryType == 42) > 0)       //大型探照灯
+						if (eqs[i].Any(e => e?.CategoryType == EquipmentTypes.SearchlightLarge))
 							return i;
-						else if (eqs[i].Count(e => e != null && e.CategoryType == 29) > 0 && index == -1)       //探照灯
+						else if (eqs[i].Any(e => e?.CategoryType == EquipmentTypes.Searchlight) && index == -1)
 							index = i;
 
 					}

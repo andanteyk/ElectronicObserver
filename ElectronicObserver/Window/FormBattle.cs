@@ -577,12 +577,12 @@ namespace ElectronicObserver.Window
 					sb.AppendLine("触接中");
 
 					if (phaseJetStage1Enabled)
-						sb.AppendFormat("噴式戦: {0}\r\n", jetTouchPlane != null ? jetTouchPlane.Name : "(なし)");
+						sb.AppendFormat("噴式戦: {0}\r\n", jetTouchPlane?.Name ?? "(なし)");
 					if (needAppendInfo)
 						sb.Append("第1次: ");
-					sb.AppendFormat("{0}\r\n", phase1TouchPlane != null ? phase1TouchPlane.Name : "(なし)");
+					sb.AppendFormat("{0}\r\n", phase1TouchPlane?.Name ?? "(なし)");
 					if (phase2Stage1Enabled)
-						sb.AppendFormat("第2次: {0}\r\n", phase2TouchPlane != null ? phase2TouchPlane.Name : "(なし)");
+						sb.AppendFormat("第2次: {0}\r\n", phase2TouchPlane?.Name ?? "(なし)");
 
 					ToolTipInfo.SetToolTip(AirStage1Friend, sb.ToString());
 
@@ -674,12 +674,12 @@ namespace ElectronicObserver.Window
 					sb.AppendLine("触接中");
 
 					if (phaseJetStage1Enabled)
-						sb.AppendFormat("噴式戦: {0}\r\n", jetTouchPlane != null ? jetTouchPlane.Name : "(なし)");
+						sb.AppendFormat("噴式戦: {0}\r\n", jetTouchPlane?.Name ?? "(なし)");
 					if (needAppendInfo)
 						sb.Append("第1次: ");
-					sb.AppendFormat("{0}\r\n", phase1TouchPlane != null ? phase1TouchPlane.Name : "(なし)");
+					sb.AppendFormat("{0}\r\n", phase1TouchPlane?.Name ?? "(なし)");
 					if (phase2Stage1Enabled)
-						sb.AppendFormat("第2次: {0}\r\n", phase2TouchPlane != null ? phase2TouchPlane.Name : "(なし)");
+						sb.AppendFormat("第2次: {0}\r\n", phase2TouchPlane?.Name ?? "(なし)");
 
 					ToolTipInfo.SetToolTip(AirStage1Enemy, sb.ToString());
 
@@ -1211,8 +1211,7 @@ namespace ElectronicObserver.Window
 
 
 			{   // support
-				var battleday = bd as BattleDay;
-				if (battleday != null && battleday.Support != null && battleday.Support.IsAvailable)
+				if (bd is BattleDay battleday && (battleday.Support?.IsAvailable ?? false) )
 				{
 
 					switch (battleday.Support.SupportFlag)

@@ -518,21 +518,21 @@ namespace ElectronicObserver.Window.Control
 			for (int i = 0; i < Math.Min(slotCount, 5); i++)
 			{
 				var eq = ship.SlotInstance[i];
-				SlotList[i].EquipmentID = eq != null ? eq.EquipmentID : -1;
+				SlotList[i].EquipmentID = eq?.EquipmentID ?? -1;
 				SlotList[i].AircraftCurrent = ship.Aircraft[i];
 				SlotList[i].AircraftMax = ship.MasterShip.Aircraft[i];
-				SlotList[i].Level = eq != null ? eq.Level : 0;
-				SlotList[i].AircraftLevel = eq != null ? eq.AircraftLevel : 0;
+				SlotList[i].Level = eq?.Level ?? 0;
+				SlotList[i].AircraftLevel = eq?.AircraftLevel ?? 0;
 			}
 
 			if (ship.IsExpansionSlotAvailable)
 			{
 				var eq = ship.ExpansionSlotInstance;
-				SlotList[ship.SlotSize].EquipmentID = eq != null ? eq.EquipmentID : -1;
+				SlotList[ship.SlotSize].EquipmentID = eq?.EquipmentID ?? -1;
 				SlotList[ship.SlotSize].AircraftCurrent =
 				SlotList[ship.SlotSize].AircraftMax = 0;
-				SlotList[ship.SlotSize].Level = eq != null ? eq.Level : 0;
-				SlotList[ship.SlotSize].AircraftLevel = eq != null ? eq.AircraftLevel : 0;
+				SlotList[ship.SlotSize].Level = eq?.Level ?? 0;
+				SlotList[ship.SlotSize].AircraftLevel = eq?.AircraftLevel ?? 0;
 			}
 
 
@@ -582,7 +582,7 @@ namespace ElectronicObserver.Window.Control
 
 			ShipDataMaster ship = KCDatabase.Instance.MasterShips[shipID];
 
-			int slotLength = slot != null ? slot.Length : 0;
+			int slotLength = slot?.Length ?? 0;
 
 			if (SlotList.Length != slotLength)
 			{
@@ -602,7 +602,7 @@ namespace ElectronicObserver.Window.Control
 				SlotList[i].AircraftLevel = 0;
 			}
 
-			_slotSize = ship != null ? ship.SlotSize : 0;
+			_slotSize = ship?.SlotSize ?? 0;
 
 			PropertyChanged();
 		}
@@ -610,7 +610,7 @@ namespace ElectronicObserver.Window.Control
 		public void SetSlotList(BaseAirCorpsData corps)
 		{
 
-			int slotLength = corps != null ? corps.Squadrons.Count() : 0;
+			int slotLength = corps?.Squadrons?.Count() ?? 0;
 
 			if (SlotList.Length != slotLength)
 			{
@@ -743,7 +743,7 @@ namespace ElectronicObserver.Window.Control
 
 				if (slot.AircraftMax == 0)
 				{
-					if (Calculator.IsAircraft(slot.EquipmentID, true))
+					if (slot.Equipment?.IsAircraft ?? false)
 					{
 						aircraftColor = AircraftColorDisabled;
 					}
@@ -763,7 +763,7 @@ namespace ElectronicObserver.Window.Control
 					aircraftColor = AircraftColorDamaged;
 
 				}
-				else if (!Calculator.IsAircraft(slot.EquipmentID, true))
+				else if (!(slot.Equipment?.IsAircraft ?? false))
 				{
 					aircraftColor = AircraftColorDisabled;
 

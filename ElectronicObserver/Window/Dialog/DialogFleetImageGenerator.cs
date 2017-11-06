@@ -172,7 +172,7 @@ namespace ElectronicObserver.Window.Dialog
 		private FleetImageArgument ApplyToArgument(FleetImageArgument defaultValue = null)
 		{
 
-			var ret = defaultValue == null ? new FleetImageArgument() : defaultValue.Clone();
+			var ret = defaultValue?.Clone() ?? new FleetImageArgument();
 
 			ret.FleetIDs = new[]{
 				TargetFleet1.Checked ? 1 : 0,

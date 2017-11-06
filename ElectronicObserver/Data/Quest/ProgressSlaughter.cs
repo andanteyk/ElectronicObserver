@@ -17,6 +17,7 @@ namespace ElectronicObserver.Data.Quest
 
 		/// <summary>
 		/// 対象となる艦種リスト
+		/// 互換性維持のため enum ではなく int で管理する
 		/// </summary>
 		[DataMember]
 		private HashSet<int> TargetShipType { get; set; }
@@ -30,9 +31,9 @@ namespace ElectronicObserver.Data.Quest
 		}
 
 
-		public void Increment(int shipTypeID)
+		public void Increment(ShipTypes shipType)
 		{
-			if (TargetShipType.Contains(shipTypeID))
+			if (TargetShipType.Contains((int)shipType))
 				Increment();
 		}
 

@@ -167,7 +167,7 @@ namespace ElectronicObserver.Window
 					else if (corps.Squadrons.Values.Any(sq => sq != null && sq.Condition > 1))
 					{
 						// 疲労
-						int tired = corps.Squadrons.Values.Max(sq => sq != null ? sq.Condition : 0);
+						int tired = corps.Squadrons.Values.Max(sq => sq?.Condition ?? 0);
 
 						if (tired == 2)
 						{
@@ -493,7 +493,7 @@ namespace ElectronicObserver.Window
 							{
 								var eq = sq[i].EquipmentInstance;
 
-								sb.Append(eq == null ? "(なし)" : eq.NameWithLevel);
+								sb.Append(eq?.NameWithLevel ?? "(なし)");
 
 								if (sq[i].AircraftCurrent < sq[i].AircraftMax)
 									sb.AppendFormat("[{0}/{1}]", sq[i].AircraftCurrent, sq[i].AircraftMax);

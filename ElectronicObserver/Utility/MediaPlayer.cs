@@ -174,7 +174,7 @@ namespace ElectronicObserver.Utility
 		/// 現在のメディアの長さ(秒単位)
 		/// なければ 0
 		/// </summary>
-		public double Duration => !IsAvailable ? 0.0 : _wmp.currentMedia != null ? _wmp.currentMedia.duration : 0;
+		public double Duration => !IsAvailable ? 0.0 : _wmp.currentMedia?.duration ?? 0;
 
 
 

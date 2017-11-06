@@ -427,7 +427,8 @@ namespace ElectronicObserver.Window.Dialog
 				var ship = GetShipFromPath(parentParser.Key);
 
 				e.Graphics.DrawString(
-					string.Format("{0} / {1}\r\n{2} ({3}) CID: {4}\r\nZoom {5:p1}\r\n(←/→キーでページめくり)", CurrentIndex + 1, ImageTags.Count, Path.GetFileName(parentParser.Key), ship != null ? ship.NameWithClass : "???", ImageTags[CurrentIndex].CharacterID, zoomRate),
+					string.Format("{0} / {1}\r\n{2} ({3}) CID: {4}\r\nZoom {5:p1}\r\n(←/→キーでページめくり)",
+						CurrentIndex + 1, ImageTags.Count, Path.GetFileName(parentParser.Key), ship?.NameWithClass ?? "???", ImageTags[CurrentIndex].CharacterID, zoomRate),
 					Font, Brushes.DimGray, new PointF(0, 0));
 			}
 

@@ -227,53 +227,53 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 艦種略号を取得します。
 		/// </summary>
-		public static string GetShipClassClassification(int shiptype)
+		public static string GetShipClassClassification(ShipTypes shiptype)
 		{
 			switch (shiptype)
 			{
-				case 1:
+				case ShipTypes.Escort:
 					return "DE";
-				case 2:
+				case ShipTypes.Destroyer:
 					return "DD";
-				case 3:
+				case ShipTypes.LightCruiser:
 					return "CL";
-				case 4:
+				case ShipTypes.TorpedoCruiser:
 					return "CLT";
-				case 5:
+				case ShipTypes.HeavyCruiser:
 					return "CA";
-				case 6:
+				case ShipTypes.AviationCruiser:
 					return "CAV";
-				case 7:
+				case ShipTypes.LightAircraftCarrier:
 					return "CVL";
-				case 8:
+				case ShipTypes.Battlecruiser:
 					return "BC";    // ? FBB, CC?
-				case 9:
+				case ShipTypes.Battleship:
 					return "BB";
-				case 10:
+				case ShipTypes.AviationBattleship:
 					return "BBV";
-				case 11:
+				case ShipTypes.AircraftCarrier:
 					return "CV";
-				case 12:
+				case ShipTypes.SuperDreadnoughts:
 					return "BB";
-				case 13:
+				case ShipTypes.Submarine:
 					return "SS";
-				case 14:
+				case ShipTypes.SubmarineAircraftCarrier:
 					return "SSV";
-				case 15:
+				case ShipTypes.Transport:
 					return "AP";    // ? AO?
-				case 16:
+				case ShipTypes.SeaplaneTender:
 					return "AV";
-				case 17:
+				case ShipTypes.AmphibiousAssaultShip:
 					return "LHA";
-				case 18:
+				case ShipTypes.ArmoredAircraftCarrier:
 					return "CVB";
-				case 19:
+				case ShipTypes.RepairShip:
 					return "AR";
-				case 20:
+				case ShipTypes.SubmarineTender:
 					return "AS";
-				case 21:
+				case ShipTypes.TrainingCruiser:
 					return "CT";
-				case 22:
+				case ShipTypes.FleetOiler:
 					return "AO";
 				default:
 					return "IX";
@@ -635,7 +635,7 @@ namespace ElectronicObserver.Data
 					return "連続射撃";
 				case DayAttackKind.CutinMainSub:
 					return "カットイン(主砲/副砲)";
-				case DayAttackKind.CutinMainLadar:
+				case DayAttackKind.CutinMainRadar:
 					return "カットイン(主砲/電探)";
 				case DayAttackKind.CutinMainAP:
 					return "カットイン(主砲/徹甲)";
@@ -690,6 +690,10 @@ namespace ElectronicObserver.Data
 					return "カットイン(主砲x3)";
 				case NightAttackKind.CutinAirAttack:
 					return "空母カットイン";
+				case NightAttackKind.CutinTorpedoRadar:
+					return "駆逐カットイン(主砲/魚雷/電探)";
+				case NightAttackKind.CutinTorpedoPicket:
+					return "駆逐カットイン(魚雷/見張員/電探)";
 				case NightAttackKind.Shelling:
 					return "砲撃";
 				case NightAttackKind.AirAttack:

@@ -273,9 +273,9 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			string name = (string)EquipmentName.SelectedItem;
-			int category = (int)EquipmentCategory.SelectedValue;
+			var category = (EquipmentTypes)EquipmentCategory.SelectedValue;
 
-			if (category != -1 && name != NameAny && name != NameExist)
+			if ((int)category != -1 && name != NameAny && name != NameExist)
 			{
 				var eq = KCDatabase.Instance.MasterEquipments.Values.FirstOrDefault(eqm => eqm.Name == name);
 
@@ -289,9 +289,9 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			string name = (string)EquipmentName.SelectedItem;
-			int category = (int)EquipmentCategory.SelectedValue;
+			var category = (EquipmentTypes)EquipmentCategory.SelectedValue;
 
-			if (category != -1 && name != NameAny && name != NameExist)
+			if ((int)category != -1 && name != NameAny && name != NameExist)
 			{
 				var eq = KCDatabase.Instance.MasterEquipments.Values.FirstOrDefault(eqm => eqm.Name == name);
 
@@ -305,9 +305,9 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			string name = (string)SecretaryName.SelectedItem;
-			int category = (int)SecretaryCategory.SelectedValue;
+			var category = (ShipTypes)SecretaryCategory.SelectedValue;
 
-			if (name != NameAny && category != -1)
+			if (name != NameAny && (int)category != -1)
 			{
 				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.NameWithClass == name);
 
@@ -320,9 +320,9 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			string name = (string)SecretaryName.SelectedItem;
-			int category = (int)SecretaryCategory.SelectedValue;
+			var category = (ShipTypes)SecretaryCategory.SelectedValue;
 
-			if (name != NameAny && category != -1)
+			if (name != NameAny && (int)category != -1)
 			{
 				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.NameWithClass == name);
 
@@ -403,7 +403,7 @@ namespace ElectronicObserver.Window.Dialog
 
 
 
-				if (args.EquipmentCategory != -1 && (eq == null || args.EquipmentCategory != eq.CategoryType))
+				if (args.EquipmentCategory != -1 && (eq == null || args.EquipmentCategory != (int)eq.CategoryType))
 					continue;
 
 				switch (args.EquipmentName)
@@ -439,15 +439,15 @@ namespace ElectronicObserver.Window.Dialog
 						r.EquipmentName,
 						r.Date,
 						GetRecipeString(r),
-						shiptype != null ? shiptype.Name : "(不明)",
+						shiptype?.Name ?? "(不明)",
 						r.FlagshipName,
 						null
 						);
 
-					row.Cells[1].Tag = (eq != null ? eq.EquipmentID : 0) + 1000 * (eq != null ? eq.CategoryType : 0);
+					row.Cells[1].Tag = (eq?.EquipmentID ?? 0) + 1000 * ((int?)eq?.CategoryType ?? 0);
 					row.Cells[3].Tag = GetRecipeStringForSorting(r);
-					row.Cells[4].Tag = shiptype != null ? shiptype.TypeID : 0;
-					row.Cells[5].Tag = (secretary != null ? secretary.ShipType : 0).ToString("D4") + (secretary != null ? secretary.NameReading : r.FlagshipName);
+					row.Cells[4].Tag = shiptype?.TypeID ?? 0;
+					row.Cells[5].Tag = ((int?)secretary?.ShipType ?? 0).ToString("D4") + (secretary?.NameReading ?? r.FlagshipName);
 
 					rows.AddLast(row);
 
@@ -482,7 +482,7 @@ namespace ElectronicObserver.Window.Dialog
 					if (prioritySecretary > 0)
 						key2 = currentRecipe;
 					else
-						key2 = shiptype != null ? shiptype.Name : "(不明)";
+						key2 = shiptype?.Name ?? "(不明)";
 
 					if (!countsdetail.ContainsKey(key))
 					{
@@ -547,7 +547,7 @@ namespace ElectronicObserver.Window.Dialog
 
 						var eq = KCDatabase.Instance.MasterEquipments.Values.FirstOrDefault(eqm => eqm.Name == c.Key);
 						row.Cells[0].Tag = (double)c.Value / sum;
-						row.Cells[1].Tag = (eq != null ? eq.EquipmentID : 0) + 1000 * (eq != null ? eq.CategoryType : 0);
+						row.Cells[1].Tag = (eq?.EquipmentID ?? 0) + 1000 * ((int?)eq?.CategoryType ?? 0);
 					}
 
 					rows.AddLast(row);

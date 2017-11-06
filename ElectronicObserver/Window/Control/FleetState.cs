@@ -332,9 +332,11 @@ namespace ElectronicObserver.Window.Control
 
 				//未補給
 				{
-					int fuel = fleet.MembersInstance.Sum(ship => ship == null ? 0 : (int)((ship.FuelMax - ship.Fuel) * (ship.IsMarried ? 0.85 : 1.00)));
-					int ammo = fleet.MembersInstance.Sum(ship => ship == null ? 0 : (int)((ship.AmmoMax - ship.Ammo) * (ship.IsMarried ? 0.85 : 1.00)));
-					int aircraft = fleet.MembersInstance.Where(s => s != null).SelectMany(s => s.MasterShip.Aircraft.Zip(s.Aircraft, (max, now) => max - now)).Sum();
+					var members = fleet.MembersInstance.Where(s => s != null);
+
+					int fuel = members.Sum(ship => ship.SupplyFuel);
+					int ammo = members.Sum(ship => ship.SupplyAmmo);
+					int aircraft = members.SelectMany(s => s.MasterShip.Aircraft.Zip(s.Aircraft, (max, now) => max - now)).Sum();
 					int bauxite = aircraft * 5;
 
 					if (fuel > 0 || ammo > 0 || bauxite > 0)

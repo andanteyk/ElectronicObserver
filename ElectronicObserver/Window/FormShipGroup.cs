@@ -649,12 +649,12 @@ namespace ElectronicObserver.Window
 			if (index < 5)
 			{
 				return (index >= ship.SlotSize && ship.Slot[index] == -1) ? "" :
-					ship.SlotInstance[index] == null ? "(なし)" : ship.SlotInstance[index].NameWithLevel;
+					ship.SlotInstance[index]?.NameWithLevel ?? "(なし)";
 			}
 			else
 			{
 				return ship.ExpansionSlot == 0 ? "" :
-					ship.ExpansionSlotInstance == null ? "(なし)" : ship.ExpansionSlotInstance.NameWithLevel;
+					ship.ExpansionSlotInstance?.NameWithLevel ?? "(なし)";
 			}
 
 		}
@@ -1396,128 +1396,10 @@ namespace ElectronicObserver.Window
 
 
 
-		#region ColumnHeader
-		private static readonly string[] ShipCSVHeaderUser = {
-			"固有ID",
-			"艦種",
-			"艦名",
-			"Lv",
-			"Exp",
-			"next",
-			"改装まで",
-			"耐久現在",
-			"耐久最大",
-			"Cond",
-			"燃料",
-			"弾薬",
-			"装備1",
-			"装備2",
-			"装備3",
-			"装備4",
-			"装備5",
-			"補強装備",
-			"入渠",
-			"火力",
-			"火力改修",
-			"火力合計",
-			"雷装",
-			"雷装改修",
-			"雷装合計",
-			"対空",
-			"対空改修",
-			"対空合計",
-			"装甲",
-			"装甲改修",
-			"装甲合計",
-			"対潜",
-			"対潜合計",
-			"回避",
-			"回避合計",
-			"索敵",
-			"索敵合計",
-			"運",
-			"運改修",
-			"運合計",
-			"射程",
-			"速力",
-			"ロック",
-			"出撃先",
-			"航空威力",
-			"砲撃威力",
-			"空撃威力",
-			"対潜威力",
-			"雷撃威力",
-			"夜戦威力",
-			};
+		private static readonly string ShipCSVHeaderUser = "固有ID,艦種,艦名,Lv,Exp,next,改装まで,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,入渠,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
 
-		private static readonly string[] ShipCSVHeaderData = {
-			"固有ID",
-			"艦種",
-			"艦名",
-			"艦船ID",
-			"Lv",
-			"Exp",
-			"next",
-			"改装まで",
-			"耐久現在",
-			"耐久最大",
-			"Cond",
-			"燃料",
-			"弾薬",
-			"装備1",
-			"装備2",
-			"装備3",
-			"装備4",
-			"装備5",
-			"補強装備",
-			"装備ID1",
-			"装備ID2",
-			"装備ID3",
-			"装備ID4",
-			"装備ID5",
-			"補強装備ID",
-			"艦載機1",
-			"艦載機2",
-			"艦載機3",
-			"艦載機4",
-			"艦載機5",
-			"入渠",
-			"入渠燃料",
-			"入渠鋼材",
-			"火力",
-			"火力改修",
-			"火力合計",
-			"雷装",
-			"雷装改修",
-			"雷装合計",
-			"対空",
-			"対空改修",
-			"対空合計",
-			"装甲",
-			"装甲改修",
-			"装甲合計",
-			"対潜",
-			"対潜合計",
-			"回避",
-			"回避合計",
-			"索敵",
-			"索敵合計",
-			"運",
-			"運改修",
-			"運合計",
-			"射程",
-			"速力",
-			"ロック",
-			"出撃先",
-			"航空威力",
-			"砲撃威力",
-			"空撃威力",
-			"対潜威力",
-			"雷撃威力",
-			"夜戦威力",
-			};
+		private static readonly string ShipCSVHeaderData = "固有ID,艦種,艦名,艦船ID,Lv,Exp,next,改装まで,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,装備ID1,装備ID2,装備ID3,装備ID4,装備ID5,補強装備ID,艦載機1,艦載機2,艦載機3,艦載機4,艦載機5,入渠,入渠燃料,入渠鋼材,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
 
-		#endregion
 
 		private void MenuMember_CSVOutput_Click(object sender, EventArgs e)
 		{
@@ -1527,7 +1409,6 @@ namespace ElectronicObserver.Window
 			if (SelectedTab == null)
 			{
 				ships = KCDatabase.Instance.Ships.Values;
-
 			}
 			else
 			{
@@ -1555,22 +1436,17 @@ namespace ElectronicObserver.Window
 						using (StreamWriter sw = new StreamWriter(dialog.OutputPath, false, Utility.Configuration.Config.Log.FileEncoding))
 						{
 
-							string[] header = dialog.OutputFormat == DialogShipGroupCSVOutput.OutputFormatConstants.User ? ShipCSVHeaderUser : ShipCSVHeaderData;
+							string header = dialog.OutputFormat == DialogShipGroupCSVOutput.OutputFormatConstants.User ? ShipCSVHeaderUser : ShipCSVHeaderData;
+							sw.WriteLine(header);
 
-							sw.WriteLine(string.Join(",", header));
 
-							string arg = string.Format("{{{0}}}", string.Join("},{", Enumerable.Range(0, header.Length)));
-
-							foreach (ShipData ship in ships)
+							foreach (ShipData ship in ships.Where(s => s != null))
 							{
-
-								if (ship == null) continue;
-
 
 								if (dialog.OutputFormat == DialogShipGroupCSVOutput.OutputFormatConstants.User)
 								{
 
-									sw.WriteLine(arg,
+									sw.WriteLine(string.Join(",",
 										ship.MasterID,
 										ship.MasterShip.ShipTypeName,
 										ship.MasterShip.NameWithClass,
@@ -1620,15 +1496,16 @@ namespace ElectronicObserver.Window
 										ship.AircraftPower,
 										ship.AntiSubmarinePower,
 										ship.TorpedoPower,
-										ship.NightBattlePower);
+										ship.NightBattlePower
+										));
 
 								}
 								else
 								{       //data
 
-									sw.WriteLine(arg,
+									sw.WriteLine(string.Join(",",
 										ship.MasterID,
-										ship.MasterShip.ShipType,
+										(int)ship.MasterShip.ShipType,
 										ship.MasterShip.NameWithClass,
 										ship.ShipID,
 										ship.Level,
@@ -1690,12 +1567,12 @@ namespace ElectronicObserver.Window
 										ship.AircraftPower,
 										ship.AntiSubmarinePower,
 										ship.TorpedoPower,
-										ship.NightBattlePower);
+										ship.NightBattlePower
+										));
 
 								}
 
 							}
-
 
 						}
 
@@ -1704,13 +1581,9 @@ namespace ElectronicObserver.Window
 					}
 					catch (Exception ex)
 					{
-
-						Utility.ErrorReporter.SendErrorReport(ex, "艦船グループ CSVの出力に失敗しました。");
+						Utility.ErrorReporter.SendErrorReport(ex, "艦船グループ CSV の出力に失敗しました。");
 						MessageBox.Show("艦船グループ CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
 					}
-
-
 
 				}
 			}

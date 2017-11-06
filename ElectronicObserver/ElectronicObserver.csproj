@@ -140,6 +140,7 @@
     <Compile Include="Data\EquipmentData.cs" />
     <Compile Include="Data\EquipmentDataMaster.cs" />
     <Compile Include="Data\EquipmentType.cs" />
+    <Compile Include="Data\EquipmentTypes.cs" />
     <Compile Include="Data\FleetManager.cs" />
     <Compile Include="Data\IDDictionary.cs" />
     <Compile Include="Data\IIdentifiable.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Data\ShipGroup\ExpressionData.cs" />
     <Compile Include="Data\ShipGroup\ExpressionList.cs" />
     <Compile Include="Data\ShipGroup\ExpressionManager.cs" />
+    <Compile Include="Data\ShipTypes.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
     <Compile Include="Notifier\NotifierAnchorageRepair.cs" />

@@ -148,12 +148,12 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 装備種別：カテゴリ
 		/// </summary>
-		public int CategoryType => (int)RawData.api_type[2];
+		public EquipmentTypes CategoryType => (EquipmentTypes)(int)RawData.api_type[2];
 
 		/// <summary>
 		/// 装備種別：カテゴリ
 		/// </summary>
-		public EquipmentType CategoryTypeInstance => KCDatabase.Instance.EquipmentTypes[CategoryType];
+		public EquipmentType CategoryTypeInstance => KCDatabase.Instance.EquipmentTypes[(int)CategoryType];
 
 		/// <summary>
 		/// 装備種別：アイコン
@@ -161,8 +161,193 @@ namespace ElectronicObserver.Data
 		public int IconType => (int)RawData.api_type[3];
 
 
-		//[Obsolete]
-		//public string ResourceVersion { get; internal set; }
+
+		// 以降自作判定
+		// note: icontype の扱いについては再考の余地あり
+
+		/// <summary> 砲系かどうか </summary>
+		public bool IsGun =>
+			CategoryType == EquipmentTypes.MainGunSmall ||
+			CategoryType == EquipmentTypes.MainGunMedium ||
+			CategoryType == EquipmentTypes.MainGunLarge ||
+			CategoryType == EquipmentTypes.MainGunLarge2 ||
+			CategoryType == EquipmentTypes.SecondaryGun;
+
+		/// <summary> 主砲系かどうか </summary>
+		public bool IsMainGun =>
+			CategoryType == EquipmentTypes.MainGunSmall ||
+			CategoryType == EquipmentTypes.MainGunMedium ||
+			CategoryType == EquipmentTypes.MainGunLarge ||
+			CategoryType == EquipmentTypes.MainGunLarge2;
+
+		/// <summary> 副砲系かどうか </summary>
+		public bool IsSecondaryGun => CategoryType == EquipmentTypes.SecondaryGun;
+
+		/// <summary> 魚雷系かどうか </summary>
+		public bool IsTorpedo => CategoryType == EquipmentTypes.Torpedo || CategoryType == EquipmentTypes.SubmarineTorpedo;
+
+		/// <summary> 後期型魚雷かどうか </summary>
+		public bool IsLateModelTorpedo =>
+			EquipmentID == 213 ||   // 後期型艦首魚雷(6門)
+			EquipmentID == 214;     // 熟練聴音員+後期型艦首魚雷(6門)
+
+
+		/// <summary> 高角砲かどうか </summary>
+		public bool IsHighAngleGun => IconType == 16;
+
+		/// <summary> 高角砲+高射装置かどうか </summary>
+		public bool IsHighAngleGunWithAADirector => IsHighAngleGun && AA >= 8;
+
+		/// <summary> 集中配備機銃かどうか </summary>
+		public bool IsConcentratedAAGun => CategoryType == EquipmentTypes.AAGun && AA >= 9;
+
+
+		/// <summary> 航空機かどうか </summary>
+		public bool IsAircraft
+		{
+			get
+			{
+				switch (CategoryType)
+				{
+					case EquipmentTypes.CarrierBasedFighter:
+					case EquipmentTypes.CarrierBasedBomber:
+					case EquipmentTypes.CarrierBasedTorpedo:
+					case EquipmentTypes.SeaplaneBomber:
+					case EquipmentTypes.Autogyro:
+					case EquipmentTypes.ASPatrol:
+					case EquipmentTypes.SeaplaneFighter:
+					case EquipmentTypes.LandBasedAttacker:
+					case EquipmentTypes.Interceptor:
+					case EquipmentTypes.JetFighter:
+					case EquipmentTypes.JetBomber:
+					case EquipmentTypes.JetTorpedo:
+
+					case EquipmentTypes.CarrierBasedRecon:
+					case EquipmentTypes.SeaplaneRecon:
+					case EquipmentTypes.FlyingBoat:
+					case EquipmentTypes.JetRecon:
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		}
+
+		/// <summary> 戦闘に参加する航空機かどうか </summary>
+		public bool IsCombatAircraft
+		{
+			get
+			{
+				switch (CategoryType)
+				{
+					case EquipmentTypes.CarrierBasedFighter:
+					case EquipmentTypes.CarrierBasedBomber:
+					case EquipmentTypes.CarrierBasedTorpedo:
+					case EquipmentTypes.SeaplaneBomber:
+					case EquipmentTypes.Autogyro:
+					case EquipmentTypes.ASPatrol:
+					case EquipmentTypes.SeaplaneFighter:
+					case EquipmentTypes.LandBasedAttacker:
+					case EquipmentTypes.Interceptor:
+					case EquipmentTypes.JetFighter:
+					case EquipmentTypes.JetBomber:
+					case EquipmentTypes.JetTorpedo:
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		}
+
+		/// <summary> 偵察機かどうか </summary>
+		public bool IsReconAircraft
+		{
+			get
+			{
+				switch (CategoryType)
+				{
+					case EquipmentTypes.CarrierBasedRecon:
+					case EquipmentTypes.SeaplaneRecon:
+					case EquipmentTypes.FlyingBoat:
+					case EquipmentTypes.JetRecon:
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		}
+
+		/// <summary> 対潜攻撃可能な航空機かどうか </summary>
+		public bool IsAntiSubmarineAircraft
+		{
+			get
+			{
+				switch (CategoryType)
+				{
+					case EquipmentTypes.CarrierBasedBomber:
+					case EquipmentTypes.CarrierBasedTorpedo:
+					case EquipmentTypes.SeaplaneBomber:
+					case EquipmentTypes.Autogyro:
+					case EquipmentTypes.ASPatrol:
+					case EquipmentTypes.FlyingBoat:
+					case EquipmentTypes.LandBasedAttacker:
+					case EquipmentTypes.JetBomber:
+					case EquipmentTypes.JetTorpedo:
+						return ASW > 0;
+
+					default:
+						return false;
+				}
+			}
+		}
+
+		/// <summary> 夜間行動可能な航空機かどうか </summary>
+		public bool IsNightAircraft => IsNightFighter || IsNightAttacker;
+
+		/// <summary> 夜間戦闘機かどうか </summary>
+		public bool IsNightFighter => IconType == 45;
+
+		/// <summary> 夜間攻撃機かどうか </summary>
+		public bool IsNightAttacker => IconType == 46;
+
+		/// <summary> Swordfish 系艦上攻撃機かどうか </summary>
+		public bool IsSwordfish => CategoryType == EquipmentTypes.CarrierBasedTorpedo && Name.Contains("Swordfish");
+
+
+		/// <summary> 電探かどうか </summary>
+		public bool IsRadar => CategoryType == EquipmentTypes.RadarSmall || CategoryType == EquipmentTypes.RadarLarge || CategoryType == EquipmentTypes.RadarLarge2;
+
+		/// <summary> 対空電探かどうか </summary>
+		public bool IsAirRadar => IsRadar && AA >= 2;
+
+		/// <summary> 水上電探かどうか </summary>
+		public bool IsSurfaceRadar => IsRadar && Accuracy >= 3;
+
+
+		/// <summary> ソナーかどうか </summary>
+		public bool IsSonar => CategoryType == EquipmentTypes.Sonar || CategoryType == EquipmentTypes.SonarLarge;
+
+		/// <summary> 爆雷かどうか(投射機は含まない) </summary>
+		public bool IsDepthCharge =>
+			EquipmentID == 226 ||       // 九五式爆雷 
+			EquipmentID == 227;         // 二式爆雷
+
+		/// <summary> 爆雷投射機かどうか(爆雷は含まない) </summary>
+		public bool IsDepthChargeProjector => CategoryType == EquipmentTypes.DepthCharge && !IsDepthCharge;
+
+
+		/// <summary> 夜間作戦航空要員かどうか </summary>
+		public bool IsNightAviationPersonnel =>
+			EquipmentID == 258 ||       // 夜間作戦航空要員
+			EquipmentID == 259;         // 夜間作戦航空要員+熟練甲板員
+
+
+
+
+
 
 
 		public int ID => EquipmentID;

@@ -224,6 +224,9 @@ namespace ElectronicObserver.Data.ShipGroup
 				}
 			}
 
+			if (memberex.Type.IsEnum)
+				memberex = Expression.Convert(memberex, typeof(int));
+
 			Expression condex;
 			switch (Operator)
 			{

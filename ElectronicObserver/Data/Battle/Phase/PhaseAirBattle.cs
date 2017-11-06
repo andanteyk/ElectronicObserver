@@ -77,15 +77,25 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 					switch (slots[s].CategoryType)
 					{
-						case 7:     // 艦上爆撃機
-						case 11:    // 水上爆撃機
-						case 57:    // 噴式戦闘爆撃機
+						// 通常の爆撃機系
+						case EquipmentTypes.CarrierBasedBomber:
+						case EquipmentTypes.SeaplaneBomber:
 							firepower[i] += (int)(1.0 * (slots[s].Bomber * Math.Sqrt(aircrafts[s]) + 25));
 							break;
+						
+						// 噴式爆撃機
+						case EquipmentTypes.JetBomber:
+							firepower[i] += (int)(1.0 / Math.Sqrt(2) * (slots[s].Bomber * Math.Sqrt(aircrafts[s]) + 25));
+							break;
 
-						case 8:     // 艦上攻撃機 (80%と150%はランダムのため係数は平均値)
-						case 58:    // 噴式攻撃機
+						// 通常の攻撃機系 (80%と150%はランダムのため係数は平均値)
+						case EquipmentTypes.CarrierBasedTorpedo:
 							firepower[i] += (int)(1.15 * (slots[s].Torpedo * Math.Sqrt(aircrafts[s]) + 25));
+							break;
+
+						// 噴式攻撃機(いる？)
+						case EquipmentTypes.JetTorpedo:
+							firepower[i] += (int)(1.15 / Math.Sqrt(2) * (slots[s].Torpedo * Math.Sqrt(aircrafts[s]) + 25));
 							break;
 					}
 				}

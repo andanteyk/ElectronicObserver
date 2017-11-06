@@ -82,11 +82,12 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 					switch (slots[s].CategoryType)
 					{
-						case 57:    // 噴式戦闘爆撃機
+						case EquipmentTypes.JetBomber:
 							firepower[i] += (int)(1.0 * (slots[s].Bomber * Math.Sqrt(aircrafts[s]) + 25));
 							break;
 
-						case 58:    // 噴式攻撃機 (80%と150%はランダムのため係数は平均値)
+						// 噴式攻撃機 (80%と150%はランダムのため係数は平均値)
+						case EquipmentTypes.JetTorpedo:
 							firepower[i] += (int)(1.15 * (slots[s].Torpedo * Math.Sqrt(aircrafts[s]) + 25));
 							break;
 					}

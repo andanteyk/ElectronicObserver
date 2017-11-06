@@ -289,7 +289,7 @@ namespace ElectronicObserver.Window.Dialog
 				SecretaryName = (string)SecretaryName.SelectedItem,
 				DateBegin = DateBegin.Value,
 				DateEnd = DateEnd.Value,
-				Recipe = (string)Recipe.Text,
+				Recipe = Recipe.Text,
 				DevelopmentMaterial = (int)DevelopmentMaterial.SelectedValue,
 				EmptyDock = (int)EmptyDock.SelectedValue,
 				IsLargeConstruction = IsLargeConstruction.CheckState,
@@ -389,9 +389,9 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			string name = (string)ShipName.SelectedItem;
-			int category = (int)ShipCategory.SelectedValue;
+			var category = (ShipTypes)ShipCategory.SelectedValue;
 
-			if (name != NameAny && category != -1)
+			if (name != NameAny && (int)category != -1)
 			{
 				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.NameWithClass == name);
 
@@ -404,9 +404,9 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			string name = (string)ShipName.SelectedItem;
-			int category = (int)ShipCategory.SelectedValue;
+			var category = (ShipTypes)ShipCategory.SelectedValue;
 
-			if (name != NameAny && category != -1)
+			if (name != NameAny && (int)category != -1)
 			{
 				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.NameWithClass == name);
 
@@ -419,9 +419,9 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			string name = (string)SecretaryName.SelectedItem;
-			int category = (int)SecretaryCategory.SelectedValue;
+			var category = (ShipTypes)SecretaryCategory.SelectedValue;
 
-			if (name != NameAny && category != -1)
+			if (name != NameAny && (int)category != -1)
 			{
 				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.NameWithClass == name);
 
@@ -434,9 +434,9 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			string name = (string)SecretaryName.SelectedItem;
-			int category = (int)SecretaryCategory.SelectedValue;
+			var category = (ShipTypes)SecretaryCategory.SelectedValue;
 
-			if (name != NameAny && category != -1)
+			if (name != NameAny && (int)category != -1)
 			{
 				var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.NameWithClass == name);
 
@@ -475,7 +475,7 @@ namespace ElectronicObserver.Window.Dialog
 				if (secretary != null && secretary.Name != r.FlagshipName) secretary = null;
 
 
-				if (args.SecretaryCategory != -1 && (secretary == null || args.SecretaryCategory != secretary.ShipType))
+				if (args.SecretaryCategory != -1 && (secretary == null || args.SecretaryCategory != (int)secretary.ShipType))
 					continue;
 
 				if (args.SecretaryName != NameAny && (secretary == null || args.SecretaryName != secretary.NameWithClass))
@@ -523,7 +523,7 @@ namespace ElectronicObserver.Window.Dialog
 
 
 
-				if (args.ShipCategory != -1 && (ship == null || args.ShipCategory != ship.ShipType))
+				if (args.ShipCategory != -1 && (ship == null || args.ShipCategory != (int)ship.ShipType))
 					continue;
 
 				if (args.ShipName != NameAny && args.ShipName != r.ShipName)
@@ -552,9 +552,9 @@ namespace ElectronicObserver.Window.Dialog
 						null
 						);
 
-					row.Cells[1].Tag = (ship != null ? ship.ShipType : 0).ToString("D4") + (ship != null ? ship.NameReading : r.ShipName);
+					row.Cells[1].Tag = ((int?)ship?.ShipType ?? 0).ToString("D4") + (ship?.NameReading ?? r.ShipName);
 					row.Cells[3].Tag = GetRecipeStringForSorting(r, true);
-					row.Cells[4].Tag = (secretary != null ? secretary.ShipType : 0).ToString("D4") + (secretary != null ? secretary.NameReading : r.FlagshipName);
+					row.Cells[4].Tag = ((int?)secretary?.ShipType ?? 0).ToString("D4") + (secretary?.NameReading ?? r.FlagshipName);
 
 					rows.AddLast(row);
 
@@ -640,7 +640,7 @@ namespace ElectronicObserver.Window.Dialog
 							);
 
 						var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.Name == c.Key);
-						row.Cells[1].Tag = (ship != null ? ship.ShipType : 0).ToString("D4") + (ship != null ? ship.NameReading : c.Key);
+						row.Cells[1].Tag = (ship?.ShipType ?? 0).ToString("D4") + (ship?.NameReading ?? c.Key);
 
 						if (args.Recipe != NameAny)
 						{

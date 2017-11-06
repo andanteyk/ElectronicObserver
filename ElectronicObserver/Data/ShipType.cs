@@ -18,7 +18,7 @@ namespace ElectronicObserver.Data
 	{
 
 		/// <summary>
-		/// 艦種
+		/// 艦種ID
 		/// </summary>
 		public int TypeID => (int)RawData.api_id;
 
@@ -46,6 +46,12 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		private HashSet<int> _equipmentType;
 		public HashSet<int> EquipmentType => _equipmentType;
+
+
+		/// <summary>
+		/// 艦種ID
+		/// </summary>
+		public ShipTypes Type => (ShipTypes)TypeID;
 
 
 		public int ID => TypeID;

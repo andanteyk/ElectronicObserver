@@ -59,7 +59,7 @@ namespace ElectronicObserver.Data.Quest
 			{
 				var eq = KCDatabase.Instance.Equipments[i];
 
-				if (Categories.Contains(eq.MasterEquipment.CategoryType))
+				if (Categories.Contains((int)eq.MasterEquipment.CategoryType))
 					Increment();
 			}
 		}

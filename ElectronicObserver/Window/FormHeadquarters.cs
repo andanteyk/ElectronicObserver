@@ -340,9 +340,9 @@ namespace ElectronicObserver.Window
 			FurnitureCoin.Text = db.Admiral.FurnitureCoin.ToString();
 			FurnitureCoin.BackColor = db.Admiral.FurnitureCoin >= 200000 ? overcolor : Color.Transparent;
 			{
-				int small = db.UseItems[10] != null ? db.UseItems[10].Count : 0;
-				int medium = db.UseItems[11] != null ? db.UseItems[11].Count : 0;
-				int large = db.UseItems[12] != null ? db.UseItems[12].Count : 0;
+				int small = db.UseItems[10]?.Count ?? 0;
+				int medium = db.UseItems[11]?.Count ?? 0;
+				int large = db.UseItems[12]?.Count ?? 0;
 
 				ToolTipInfo.SetToolTip(FurnitureCoin,
 						string.Format("(小) x {0} ( +{1} )\r\n(中) x {2} ( +{3} )\r\n(大) x {4} ( +{5} )\r\n",

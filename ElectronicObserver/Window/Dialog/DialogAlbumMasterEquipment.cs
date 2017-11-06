@@ -242,7 +242,7 @@ namespace ElectronicObserver.Window.Dialog
 				sb.AppendLine("装備可能艦種:");
 				foreach (var stype in KCDatabase.Instance.ShipTypes.Values)
 				{
-					if (stype.EquipmentType.Contains(eq.CategoryType))
+					if (stype.EquipmentType.Contains((int)eq.CategoryType))
 						sb.AppendLine(stype.Name);
 				}
 				ToolTipInfo.SetToolTip(EquipmentType, sb.ToString());
@@ -266,7 +266,7 @@ namespace ElectronicObserver.Window.Dialog
 			SetParameterText(Accuracy, eq.Accuracy);
 			SetParameterText(Bomber, eq.Bomber);
 
-			if (eq.CategoryType == 48)
+			if (eq.CategoryType == EquipmentTypes.Interceptor)
 			{
 				TitleAccuracy.Text = "対爆";
 				TitleEvasion.Text = "迎撃";
@@ -292,11 +292,11 @@ namespace ElectronicObserver.Window.Dialog
 
 
 			// aircraft
-			if (Calculator.IsAircraft(equipmentID, true))
+			if (eq.IsAircraft)
 			{
 				TableAircraft.SuspendLayout();
 				AircraftCost.Text = eq.AircraftCost.ToString();
-				ToolTipInfo.SetToolTip(AircraftCost, "配備時のボーキ消費：" + ((Calculator.IsAircraft(equipmentID, false) ? 18 : 4) * eq.AircraftCost));
+				ToolTipInfo.SetToolTip(AircraftCost, "配備時のボーキ消費：" + ((eq.IsCombatAircraft ? 18 : 4) * eq.AircraftCost));
 				AircraftDistance.Text = eq.AircraftDistance.ToString();
 				TableAircraft.ResumeLayout();
 				TableAircraft.Visible = true;
@@ -654,11 +654,11 @@ namespace ElectronicObserver.Window.Dialog
 			if (eq.ASW != 0)
 				sb.AppendFormat("対潜: {0:+0;-0;0}\r\n", eq.ASW);
 			if (eq.Evasion != 0)
-				sb.AppendFormat("{0}: {1:+0;-0;0}\r\n", eq.CategoryType == 48 ? "迎撃" : "回避", eq.Evasion);
+				sb.AppendFormat("{0}: {1:+0;-0;0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "迎撃" : "回避", eq.Evasion);
 			if (eq.LOS != 0)
 				sb.AppendFormat("索敵: {0:+0;-0;0}\r\n", eq.LOS);
 			if (eq.Accuracy != 0)
-				sb.AppendFormat("{0}: {1:+0;-0;0}\r\n", eq.CategoryType == 48 ? "対爆" : "命中", eq.Accuracy);
+				sb.AppendFormat("{0}: {1:+0;-0;0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "対爆" : "命中", eq.Accuracy);
 			if (eq.Bomber != 0)
 				sb.AppendFormat("爆装: {0:+0;-0;0}\r\n", eq.Bomber);
 			if (eq.Luck != 0)

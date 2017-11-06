@@ -296,7 +296,7 @@ namespace ElectronicObserver.Utility
 							if (aircraftMax > 0)
 							{
 								Brush aircraftBrush;
-								if (eq != null && Calculator.IsAircraft(eq.EquipmentID, true))
+								if (eq != null && eq.MasterEquipment.IsAircraft)
 								{
 									aircraftBrush = mainTextBrush;
 								}
@@ -312,7 +312,7 @@ namespace ElectronicObserver.Utility
 							bool isOutOfSlot = equipmentIndex >= ship.SlotSize && !(equipmentIndex == 5 && ship.IsExpansionSlotAvailable);
 
 							Size equipmentIconOffset = GetAlignmentOffset(ContentAlignment.MiddleLeft, EquipmentIconSize, equipmentAreaUnitSize);
-							g.DrawImage(GetEquipmentIcon(eq != null ? eq.EquipmentID : -1, isOutOfSlot),
+							g.DrawImage(GetEquipmentIcon(eq?.EquipmentID ?? -1, isOutOfSlot),
 								equipmentPointer.X + equipmentIconOffset.Width, equipmentPointer.Y + equipmentIconOffset.Height, EquipmentIconSize.Width, EquipmentIconSize.Height);
 							equipmentPointer.X += EquipmentIconSize.Width;
 
@@ -785,7 +785,7 @@ namespace ElectronicObserver.Utility
 							if (aircraftMax > 0)
 							{
 								Brush aircraftBrush;
-								if (eq != null && Calculator.IsAircraft(eq.EquipmentID, true))
+								if (eq != null && eq.MasterEquipment.IsAircraft)
 								{
 									aircraftBrush = mainTextBrush;
 								}
@@ -801,7 +801,7 @@ namespace ElectronicObserver.Utility
 							bool isOutOfSlot = equipmentIndex >= ship.SlotSize && !(equipmentIndex == 5 && ship.IsExpansionSlotAvailable);
 
 							Size equipmentIconOffset = GetAlignmentOffset(ContentAlignment.MiddleLeft, EquipmentIconSize, equipmentAreaUnitSize);
-							g.DrawImage(GetEquipmentIcon(eq != null ? eq.EquipmentID : -1, isOutOfSlot),
+							g.DrawImage(GetEquipmentIcon(eq?.EquipmentID ?? -1, isOutOfSlot),
 								equipmentPointer.X + equipmentIconOffset.Width, equipmentPointer.Y + equipmentIconOffset.Height, EquipmentIconSize.Width, EquipmentIconSize.Height);
 							equipmentPointer.X += EquipmentIconSize.Width;
 
@@ -1178,7 +1178,7 @@ namespace ElectronicObserver.Utility
 							if (aircraftMax > 0)
 							{
 								Brush aircraftBrush;
-								if (eq != null && Calculator.IsAircraft(eq.EquipmentID, true))
+								if (eq != null && eq.MasterEquipment.IsAircraft)
 								{
 									aircraftBrush = mainTextBrush;
 								}
@@ -1195,7 +1195,7 @@ namespace ElectronicObserver.Utility
 							bool isOutOfSlot = equipmentIndex >= ship.SlotSize && !(equipmentIndex == 5 && ship.IsExpansionSlotAvailable);
 
 							Size equipmentIconOffset = GetAlignmentOffset(ContentAlignment.MiddleLeft, EquipmentIconSize, equipmentAreaUnitSize);
-							g.DrawImage(GetEquipmentIcon(eq != null ? eq.EquipmentID : -1, isOutOfSlot),
+							g.DrawImage(GetEquipmentIcon(eq?.EquipmentID ?? -1, isOutOfSlot),
 								equipmentPointer.X + equipmentIconOffset.Width, equipmentPointer.Y + equipmentIconOffset.Height, EquipmentIconSize.Width, EquipmentIconSize.Height);
 							equipmentPointer.X += EquipmentIconSize.Width;
 
@@ -1470,7 +1470,7 @@ namespace ElectronicObserver.Utility
 
 
 						Size equipmentIconOffset = GetAlignmentOffset(ContentAlignment.MiddleLeft, EquipmentIconSize, equipmentAreaUnitSize);
-						g.DrawImage(GetEquipmentIcon(eq != null ? eq.EquipmentID : -1, false),
+						g.DrawImage(GetEquipmentIcon(eq?.EquipmentID ?? -1, false),
 							equipmentPointer.X + equipmentIconOffset.Width, equipmentPointer.Y + equipmentIconOffset.Height, EquipmentIconSize.Width, EquipmentIconSize.Height);
 						equipmentPointer.X += EquipmentIconSize.Width;
 
@@ -1969,7 +1969,7 @@ namespace ElectronicObserver.Utility
 
 			clone.FleetIDs = FleetIDs.ToArray();
 
-			clone.Fonts = Fonts.Select(f => f != null ? (Font)f.Clone() : null).ToArray();
+			clone.Fonts = Fonts.Select(f => (Font)f?.Clone()).ToArray();
 
 			return clone;
 		}
