@@ -422,10 +422,24 @@ namespace ElectronicObserver.Window
 
 		private void Resource_MouseClick(object sender, MouseEventArgs e)
 		{
-
 			if (e.Button == System.Windows.Forms.MouseButtons.Right)
 				new Dialog.DialogResourceChart().Show(_parentForm);
+		}
 
+		private void Resource_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				try
+				{
+					var mat = KCDatabase.Instance.Material;
+					Clipboard.SetText($"{mat.Fuel}/{mat.Ammo}/{mat.Steel}/{mat.Bauxite}/修復{mat.InstantRepair}/開発{mat.DevelopmentMaterial}/建造{mat.InstantConstruction}/改修{mat.ModdingMaterial}");
+				}
+				catch (Exception ex)
+				{
+					Utility.Logger.Add(3, "資源のクリップボードへのコピーに失敗しました。" + ex.Message);
+				}
+			}
 		}
 
 
@@ -482,6 +496,7 @@ namespace ElectronicObserver.Window
 		{
 			return "HeadQuarters";
 		}
+
 
 	}
 

@@ -274,11 +274,11 @@ namespace ElectronicObserver.Window.Dialog
 
 					int aircraftCount = (int)AircraftCount.Value;
 
-					int airSuperioritySortie = Calculator.GetAirSuperiority(equipment.EquipmentID, aircraftCount, equipment.AircraftLevel, equipment.Level, false);
+					int airSuperioritySortie = Calculator.GetAirSuperiority(equipment.EquipmentID, aircraftCount, equipment.AircraftLevel, equipment.Level, 1);
 					AirSuperioritySortie.Text = airSuperioritySortie.ToString();
 					AirSuperioritySortie.Tag = airSuperioritySortie;
 
-					int airSuperiorityAirDefense = Calculator.GetAirSuperiority(equipment.EquipmentID, aircraftCount, equipment.AircraftLevel, equipment.Level, true);
+					int airSuperiorityAirDefense = Calculator.GetAirSuperiority(equipment.EquipmentID, aircraftCount, equipment.AircraftLevel, equipment.Level, 2);
 					AirSuperiorityAirDefense.Text = airSuperiorityAirDefense.ToString();
 					AirSuperiorityAirDefense.Tag = airSuperiorityAirDefense;
 
@@ -1044,13 +1044,13 @@ namespace ElectronicObserver.Window.Dialog
 				// 射程拡張も考慮して、 min - 3 まで確保しておく
 				var attackerfp = available
 					.Where(eq => SquadronAttackerCategories.Contains(eq.master.CategoryType) && eq.master.AircraftDistance >= minimumDistance - 3)
-					.Select(eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority(eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, false) })
+					.Select(eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority(eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, 1) })
 					.OrderByDescending(eq => eq.master.Torpedo + eq.master.Bomber)
 					.ThenBy(f => f.master.AircraftCost)
 					.AsEnumerable();
 
 
-				var fighterfp = fighter.Select(eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority(eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, false) })
+				var fighterfp = fighter.Select(eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority(eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, 1) })
 					.OrderByDescending(f => f.fp)
 					.ThenBy(f => f.master.AircraftCost);
 
@@ -1153,7 +1153,7 @@ namespace ElectronicObserver.Window.Dialog
 				}
 
 				var fighterfp = fighter
-					.Select(eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority(eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, true) })
+					.Select(eqp => new { eqp.eq, eqp.master, fp = Calculator.GetAirSuperiority(eqp.master.EquipmentID, 18, eqp.eq.AircraftLevel, eqp.eq.Level, 2) })
 					.OrderByDescending(f => f.fp)
 					.ThenBy(f => f.master.AircraftCost);
 
