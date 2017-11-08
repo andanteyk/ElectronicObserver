@@ -33,7 +33,7 @@
 			this.Browser = new Browser.ExtraWebBrowser();
 			this.ContextMenuTool = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ContextMenuTool_ShowToolMenu = new System.Windows.Forms.ToolStripMenuItem();
-			this.ToolMenu = new System.Windows.Forms.ToolStrip();
+			this.ToolMenu = new Browser.ExtraToolStrip();
 			this.ToolMenu_ScreenShot = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.ToolMenu_Zoom = new System.Windows.Forms.ToolStripDropDownButton();
@@ -573,7 +573,7 @@
 
 		private System.Windows.Forms.Panel SizeAdjuster;
 		private ExtraWebBrowser Browser;
-		private System.Windows.Forms.ToolStrip ToolMenu;
+		private Browser.ExtraToolStrip ToolMenu;
 		private System.Windows.Forms.ToolStripButton ToolMenu_ScreenShot;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripDropDownButton ToolMenu_Zoom;

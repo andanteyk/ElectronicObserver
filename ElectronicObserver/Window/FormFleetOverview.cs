@@ -41,7 +41,7 @@ namespace ElectronicObserver.Window
 					ImageAlign = ContentAlignment.MiddleCenter,
 					Padding = new Padding(0, 1, 0, 1),
 					Margin = new Padding(2, 1, 2, 1),
-					Text = string.Format("#{0}:", fleetID),
+					Text = $"#{fleetID}:",
 					AutoSize = true
 				};
 
@@ -138,7 +138,7 @@ namespace ElectronicObserver.Window
 					Padding = new Padding(0, 1, 0, 1),
 					Margin = new Padding(2, 1, 2, 1),
 					ImageList = ResourceManager.Instance.Icons,
-					ImageIndex = (int)ResourceManager.IconContent.FleetDocking,
+					ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing,
 					Text = "-",
 					AutoSize = true
 				};

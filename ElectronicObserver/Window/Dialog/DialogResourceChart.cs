@@ -26,7 +26,7 @@ namespace ElectronicObserver.Window.Dialog
 			Material,
 			MaterialDiff,
 			Experience,
-			ExperienceDiff
+			ExperienceDiff,
 		}
 
 		private enum ChartSpan
@@ -36,7 +36,11 @@ namespace ElectronicObserver.Window.Dialog
 			Month,
 			Season,
 			Year,
-			All
+			All,
+			WeekFirst,
+			MonthFirst,
+			SeasonFirst,
+			YearFirst,
 		}
 
 
@@ -63,6 +67,16 @@ namespace ElectronicObserver.Window.Dialog
 				MessageBox.Show("レコード データが存在しません。\n一度母港に移動してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Close();
 				return;
+			}
+
+
+			{
+				int i = 0;
+				foreach (var span in Menu_Span.DropDownItems.OfType<ToolStripMenuItem>())
+				{
+					span.Tag = i;
+					i++;
+				}
 			}
 
 
@@ -607,24 +621,28 @@ namespace ElectronicObserver.Window.Dialog
 					axis.LabelStyle.Format = "MM/dd HH:mm";
 					break;
 				case ChartSpan.Week:
+				case ChartSpan.WeekFirst:
 					axis.Interval = 12;
 					axis.IntervalOffsetType = DateTimeIntervalType.Hours;
 					axis.IntervalType = DateTimeIntervalType.Hours;
 					axis.LabelStyle.Format = "MM/dd HH:mm";
 					break;
 				case ChartSpan.Month:
+				case ChartSpan.MonthFirst:
 					axis.Interval = 3;
 					axis.IntervalOffsetType = DateTimeIntervalType.Days;
 					axis.IntervalType = DateTimeIntervalType.Days;
 					axis.LabelStyle.Format = "yyyy/MM/dd";
 					break;
 				case ChartSpan.Season:
+				case ChartSpan.SeasonFirst:
 					axis.Interval = 7;
 					axis.IntervalOffsetType = DateTimeIntervalType.Days;
 					axis.IntervalType = DateTimeIntervalType.Days;
 					axis.LabelStyle.Format = "yyyy/MM/dd";
 					break;
 				case ChartSpan.Year:
+				case ChartSpan.YearFirst:
 				case ChartSpan.All:
 					axis.Interval = 1;
 					axis.IntervalOffsetType = DateTimeIntervalType.Months;
@@ -700,7 +718,7 @@ namespace ElectronicObserver.Window.Dialog
 		{
 
 			//すべての子アイテムに対して
-			var items = parent.DropDownItems.Cast<ToolStripItem>().Where(i => i is ToolStripMenuItem).Select(i => i as ToolStripMenuItem);
+			var items = parent.DropDownItems.OfType<ToolStripMenuItem>();
 			int c = 0;
 
 			foreach (var item in items)
@@ -726,7 +744,6 @@ namespace ElectronicObserver.Window.Dialog
 
 		private int GetSelectedMenuStripIndex(ToolStripMenuItem parent)
 		{
-
 			return parent.Tag as int? ?? -1;
 		}
 
@@ -761,24 +778,43 @@ namespace ElectronicObserver.Window.Dialog
 		private IEnumerable<ResourceRecord.ResourceElement> GetRecords()
 		{
 
-			DateTime border = DateTime.MinValue;
+			var border = DateTime.MinValue;
+			var now = DateTime.Now;
 
 			switch (SelectedChartSpan)
 			{
 				case ChartSpan.Day:
-					border = DateTime.Now.AddDays(-1);
+					border = now.AddDays(-1);
 					break;
 				case ChartSpan.Week:
-					border = DateTime.Now.AddDays(-7);
+					border = now.AddDays(-7);
 					break;
 				case ChartSpan.Month:
-					border = DateTime.Now.AddMonths(-1);
+					border = now.AddMonths(-1);
 					break;
 				case ChartSpan.Season:
-					border = DateTime.Now.AddMonths(-3);
+					border = now.AddMonths(-3);
 					break;
 				case ChartSpan.Year:
-					border = DateTime.Now.AddYears(-1);
+					border = now.AddYears(-1);
+					break;
+
+				case ChartSpan.WeekFirst:
+					border = now.AddDays(now.DayOfWeek == DayOfWeek.Sunday ? -6 : (1 - (int)now.DayOfWeek));
+					break;
+				case ChartSpan.MonthFirst:
+					border = new DateTime(now.Year, now.Month, 1);
+					break;
+				case ChartSpan.SeasonFirst:
+					{
+						int m = now.Month / 3 * 3;
+						if (m == 0)
+							m = 12;
+						border = new DateTime(now.Year - (now.Month < 3 ? 1 : 0), m, 1);
+					}
+					break;
+				case ChartSpan.YearFirst:
+					border = new DateTime(now.Year, 1, 1);
 					break;
 			}
 
@@ -814,14 +850,18 @@ namespace ElectronicObserver.Window.Dialog
 			{
 				case ChartSpan.Day:
 				case ChartSpan.Week:
+				case ChartSpan.WeekFirst:
 				default:
 					return false;
 
 				case ChartSpan.Month:
+				case ChartSpan.MonthFirst:
 					return span.TotalHours < 12.0;
 
 				case ChartSpan.Season:
+				case ChartSpan.SeasonFirst:
 				case ChartSpan.Year:
+				case ChartSpan.YearFirst:
 				case ChartSpan.All:
 					return span.TotalDays < 1.0;
 			}
@@ -954,42 +994,11 @@ namespace ElectronicObserver.Window.Dialog
 		}
 
 
-		private void Menu_Span_Day_Click(object sender, EventArgs e)
+		private void Menu_Span_Menu_Click(object sender, EventArgs e)
 		{
-			SwitchMenuStrip(Menu_Span, 0);
+			SwitchMenuStrip(Menu_Span, (int)((ToolStripMenuItem)sender).Tag);
 			UpdateChart();
 		}
-
-		private void Menu_Span_Week_Click(object sender, EventArgs e)
-		{
-			SwitchMenuStrip(Menu_Span, 1);
-			UpdateChart();
-		}
-
-		private void Menu_Span_Month_Click(object sender, EventArgs e)
-		{
-			SwitchMenuStrip(Menu_Span, 2);
-			UpdateChart();
-		}
-
-		private void Menu_Span_Season_Click(object sender, EventArgs e)
-		{
-			SwitchMenuStrip(Menu_Span, 3);
-			UpdateChart();
-		}
-
-		private void Menu_Span_Year_Click(object sender, EventArgs e)
-		{
-			SwitchMenuStrip(Menu_Span, 4);
-			UpdateChart();
-		}
-
-		private void Menu_Span_All_Click(object sender, EventArgs e)
-		{
-			SwitchMenuStrip(Menu_Span, 5);
-			UpdateChart();
-		}
-
 
 
 		private void Menu_Option_ShowAllData_Click(object sender, EventArgs e)

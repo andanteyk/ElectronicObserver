@@ -195,6 +195,7 @@ namespace ElectronicObserver.Window
 
 					await Task.Factory.StartNew(() => LoadAPIList(Configuration.Config.Debug.APIListPath));
 
+					Activate();		// 上記ロードに時間がかかるとウィンドウが表示されなくなることがあるので
 				}
 				catch (Exception ex)
 				{

@@ -699,7 +699,7 @@ namespace ElectronicObserver.Window.Dialog
 			if (min == max)
 				return min.ToString();
 			else
-				return string.Format("{0}～{1}", Math.Min(min, max), Math.Max(min, max));
+				return $"{Math.Min(min, max)}～{Math.Max(min, max)}";
 		}
 
 
@@ -713,7 +713,7 @@ namespace ElectronicObserver.Window.Dialog
 			else if (param.MinimumEstMin == ShipParameterRecord.Parameter.MinimumDefault && param.MinimumEstMax == param.Maximum)
 				return "???";
 			else
-				return string.Format("{0}～{1}", param.MinimumEstMin, param.MinimumEstMax);
+				return $"{param.MinimumEstMin}～{param.MinimumEstMax}";
 
 		}
 
@@ -1149,8 +1149,17 @@ namespace ElectronicObserver.Window.Dialog
 			try
 			{
 
-				e.Result = SwfHelper.GetShipSwfImage(resourceName, SwfHelper.ShipResourceCharacterID.BannerNormal);
+				var img = SwfHelper.GetShipSwfImage(resourceName, SwfHelper.ShipResourceCharacterID.BannerNormal);
 
+				if (img.Size == SwfHelper.ShipBannerSize)
+				{
+					e.Result = img;
+				}
+				else
+				{
+					img.Dispose();
+					e.Result = null;
+				}
 			}
 			catch (Exception)
 			{
