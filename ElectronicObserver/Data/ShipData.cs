@@ -1281,7 +1281,7 @@ namespace ElectronicObserver.Data
 
 
 			//キャップ
-			basepower = Math.Floor(CapDamage(basepower, 100));
+			basepower = Math.Floor(CapDamage(basepower, 150));
 
 			return (int)(basepower * GetAmmoDamageRate());
 		}
@@ -1311,11 +1311,36 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		private int CalculateNightBattlePower()
 		{
-			double basepower = FirepowerTotal + TorpedoTotal + GetNightBattleEquipmentLevelBonus();
+			var kind = Calculator.GetNightAttackKind(AllSlotMaster.ToArray(), ShipID, -1);
+			double basepower = 0;
+
+			if (kind == NightAttackKind.CutinAirAttack)
+			{
+				var airs = SlotInstance.Zip(Aircraft, (eq, count) => new { eq, master = eq?.MasterEquipment, count }).Where(a => a.eq != null);
+
+				basepower = FirepowerBase +
+					airs.Where(p => p.master.IsNightAircraft)
+						.Sum(p => p.master.Firepower + p.master.Torpedo +
+							3 * p.count +
+							0.45 * (p.master.Firepower + p.master.Torpedo + p.master.Bomber + p.master.ASW) * Math.Sqrt(p.count) + Math.Sqrt(p.eq.Level)) +
+					airs.Where(p => p.master.IsSwordfish || p.master.EquipmentID == 154)   // 零戦62型(爆戦/岩井隊)
+						.Sum(p => p.master.Firepower + p.master.Torpedo +
+							0.3 * (p.master.Firepower + p.master.Torpedo + p.master.Bomber + p.master.ASW) * Math.Sqrt(p.count) + Math.Sqrt(p.eq.Level));
+
+			}
+			else if (ShipID == 515 || ShipID == 393)
+			{       // Ark Royal (改)
+				basepower = FirepowerBase + SlotInstanceMaster.Where(eq => eq?.IsSwordfish ?? false).Sum(eq => eq.Firepower + eq.Torpedo);
+			}
+			else
+			{
+				basepower = FirepowerTotal + TorpedoTotal + GetNightBattleEquipmentLevelBonus();
+			}
+
 
 			basepower *= GetHPDamageBonus();
 
-			switch (Calculator.GetNightAttackKind(AllSlotMaster.ToArray(), ShipID, -1))
+			switch (kind)
 			{
 				case NightAttackKind.DoubleShelling:
 					basepower *= 1.2;
@@ -1348,6 +1373,20 @@ namespace ElectronicObserver.Data
 
 				case NightAttackKind.CutinMainMain:
 					basepower *= 2.0;
+					break;
+
+				case NightAttackKind.CutinAirAttack:
+					{
+						int nightFighter = SlotInstanceMaster.Count(eq => eq?.IsNightFighter ?? false);
+						int nightAttacker = SlotInstanceMaster.Count(eq => eq?.IsNightAttacker ?? false);
+
+						if (nightFighter >= 2 && nightAttacker >= 1)
+							basepower *= 1.25;
+						else if (nightFighter >= 1 && nightAttacker >= 1)
+							basepower *= 1.2;
+						else
+							basepower *= 1.18;
+					}
 					break;
 
 				case NightAttackKind.CutinTorpedoRadar:

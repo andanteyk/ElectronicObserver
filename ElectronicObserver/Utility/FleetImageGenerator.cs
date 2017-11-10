@@ -513,13 +513,13 @@ namespace ElectronicObserver.Utility
 			int lineMargin = 4;
 
 			Size shipNameSize = shipNameImageAvailableArea.Size;
-			Size shipParameterSize = new Size(Max(levelSize.Width, EquipmentIconSize.Width) + mediumDigit3Size.Width, Max(levelSize.Height, EquipmentIconSize.Height, mediumDigit3Size.Height) * 2);
-			Size shipNameAreaSize = SumWidthMaxHeight(shipIndexSize, shipNameSize, shipParameterSize);
+			Size shipParameterSize = new Size(levelSize.Width + EquipmentIconSize.Width * 6 + mediumDigit3Size.Width * 4, Max(levelSize.Height, EquipmentIconSize.Height, mediumDigit3Size.Height));
+			Size shipNameAreaSize = SumWidthMaxHeight(shipIndexSize, shipNameSize);
 			Size equipmentAreaUnitSize = SumWidthMaxHeight(smallDigit3Size, EquipmentIconSize, equipmentNameSize, equipmentLevelSize);
 			Size equipmentAreaSize = new Size((equipmentAreaUnitSize.Width + equipmentAreaUnitMargin.Horizontal), (equipmentAreaUnitSize.Height + equipmentAreaUnitMargin.Vertical) * slotCount);
 
-			Size shipPaneUnitSize = new Size(Max(shipNameAreaSize.Width + equipmentAreaSize.Width, SwfHelper.ShipCutinSize.Width),
-				Max(shipNameAreaSize.Height + SwfHelper.ShipCutinSize.Height, equipmentAreaSize.Height)); // SumWidthMaxHeight( MaxWidthSumHeight( shipNameAreaSize, ShipCutinSize ), equipmentAreaSize + equipmentAreaMargin.Size );
+			Size shipPaneUnitSize = new Size(Max(shipNameAreaSize.Width + Max(shipParameterSize.Width, equipmentAreaSize.Width), SwfHelper.ShipCutinSize.Width),
+				Max(shipNameAreaSize.Height + SwfHelper.ShipCutinSize.Height, shipParameterSize.Height + equipmentAreaSize.Height));
 			Size shipPaneSize = new Size(
 				(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * Math.Min(args.HorizontalShipCount, 6),
 				(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (int)Math.Ceiling(6.0 / args.HorizontalShipCount));
@@ -682,7 +682,7 @@ namespace ElectronicObserver.Utility
 						if (ship == null)
 							continue;
 
-						g.DrawString(string.Format("#{0}:", shipIndex + 1), args.MediumDigitFont, subTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize), shipIndexSize), formatMiddleLeft);
+						g.DrawString($"#{shipIndex + 1}:", args.MediumDigitFont, subTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize), shipIndexSize), formatMiddleLeft);
 						shipPointer.X += shipIndexSize.Width;
 
 						using (var shipNameImage = SwfHelper.GetShipSwfImage(ship.MasterShip.ResourceName, SwfHelper.ShipResourceCharacterID.Name))
@@ -702,16 +702,32 @@ namespace ElectronicObserver.Utility
 
 
 						{
+							int offset = equipmentAreaSize.Height < SwfHelper.ShipCutinSize.Height ? 
+								GetAlignmentOffset(ContentAlignment.BottomLeft, shipParameterSize, shipNameAreaSize).Height : 
+								0;
+							shipPointer.Y += offset;
+
 							Size paramNameSize = new Size(Max(levelSize.Width, EquipmentIconSize.Width), Max(levelSize.Height, EquipmentIconSize.Height, mediumDigit3Size.Height));
 
 							g.DrawString("Lv.", args.SmallDigitFont, subTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.BottomLeft, levelSize, paramNameSize), levelSize), formatMiddleLeft);
-							g.DrawString(ship.Level.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle(shipPointer + new Size(paramNameSize.Width, 0), mediumDigit3Size), formatMiddleRight);
+							shipPointer.X += levelSize.Width;
+							g.DrawString(ship.Level.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle(shipPointer, mediumDigit3Size), formatMiddleRight);
+							shipPointer.X += mediumDigit3Size.Width + EquipmentIconSize.Width;
 
-							var luckRect = new Rectangle(shipPointer + new Size(0, paramNameSize.Height) + GetAlignmentOffset(ContentAlignment.MiddleCenter, EquipmentIconSize, paramNameSize), EquipmentIconSize);
-							g.DrawImage(ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.ParameterLuck],
-								luckRect);
-							g.DrawString(ship.LuckTotal.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle(shipPointer + new Size(paramNameSize.Width, paramNameSize.Height), mediumDigit3Size), formatMiddleRight);
+							var rectoffset = GetAlignmentOffset(ContentAlignment.MiddleLeft, EquipmentIconSize, paramNameSize);
 
+							void DrawParam( ResourceManager.IconContent icon, int value)
+							{
+								g.DrawImage(ResourceManager.Instance.Icons.Images[(int)icon], new Rectangle(shipPointer + rectoffset, EquipmentIconSize));
+								shipPointer.X += EquipmentIconSize.Width;
+								g.DrawString(value.ToString(), args.MediumDigitFont, mainTextBrush, new Rectangle(shipPointer, mediumDigit3Size), formatMiddleRight);
+								shipPointer.X += mediumDigit3Size.Width + EquipmentIconSize.Width;
+							}
+							DrawParam(ResourceManager.IconContent.ParameterHP, ship.HPMax);
+							DrawParam(ResourceManager.IconContent.ParameterASW, ship.ASWTotal);
+							DrawParam(ResourceManager.IconContent.ParameterLuck, ship.LuckTotal);
+
+							shipPointer.Y -= offset;
 						}
 						shipPointer.X = shipPointerOrigin.X;
 
