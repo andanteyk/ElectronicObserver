@@ -195,7 +195,7 @@ namespace ElectronicObserver.Window
 
 					await Task.Factory.StartNew(() => LoadAPIList(Configuration.Config.Debug.APIListPath));
 
-					Activate();		// 上記ロードに時間がかかるとウィンドウが表示されなくなることがあるので
+					Activate();     // 上記ロードに時間がかかるとウィンドウが表示されなくなることがあるので
 				}
 				catch (Exception ex)
 				{
@@ -589,20 +589,13 @@ namespace ElectronicObserver.Window
 
 			try
 			{
-
-				using (var stream = File.OpenRead(path))
+				using (var archive = new ZipArchive(File.OpenRead(path), ZipArchiveMode.Read))
 				{
+					MainDockPanel.SuspendLayout(true);
 
-					using (var archive = new ZipArchive(stream, ZipArchiveMode.Read))
-					{
-
-						MainDockPanel.SuspendLayout(true);
-
-						WindowPlacementManager.LoadWindowPlacement(this, archive.GetEntry("WindowPlacement.xml").Open());
-						LoadSubWindowsLayout(archive.GetEntry("SubWindowLayout.xml").Open());
-					}
+					WindowPlacementManager.LoadWindowPlacement(this, archive.GetEntry("WindowPlacement.xml").Open());
+					LoadSubWindowsLayout(archive.GetEntry("SubWindowLayout.xml").Open());
 				}
-
 
 				Utility.Logger.Add(2, path + " からウィンドウ レイアウトを復元しました。");
 
@@ -649,8 +642,7 @@ namespace ElectronicObserver.Window
 
 				CreateParentDirectories(path);
 
-				using (var stream = File.Open(path, FileMode.Create))
-				using (var archive = new ZipArchive(stream, ZipArchiveMode.Create))
+				using (var archive = new ZipArchive(File.Open(path, FileMode.Create), ZipArchiveMode.Create))
 				{
 
 					using (var layoutstream = archive.CreateEntry("SubWindowLayout.xml").Open())

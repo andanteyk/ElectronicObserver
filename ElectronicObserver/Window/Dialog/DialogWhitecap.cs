@@ -65,10 +65,7 @@ namespace ElectronicObserver.Window.Dialog
 			InitBoard();
 
 			ClientSize = new Size(boardSize.Width * zoomrate, boardSize.Height * zoomrate);
-			if (imagebuf != null)
-			{
-				imagebuf.Dispose();
-			}
+			imagebuf?.Dispose();
 			imagebuf = new Bitmap(boardSize.Width, boardSize.Height, PixelFormat.Format24bppRgb);
 
 			clock = 0;
@@ -472,7 +469,7 @@ namespace ElectronicObserver.Window.Dialog
 							{
 								int prevcell = GetCell(1 - currentDim, x, y);
 
-								if ( value != 0)
+								if (value != 0)
 								{
 									if (prevcell != 0)
 										col = FromRgb(0xFFFF44);
@@ -608,7 +605,7 @@ namespace ElectronicObserver.Window.Dialog
 					UpdateTimer.Start();
 				}
 			}
-			
+
 		}
 
 		private void DialogWhitecap_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -620,6 +617,26 @@ namespace ElectronicObserver.Window.Dialog
 				//colortheme = 27;
 				Start();
 			}
+		}
+
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			// imagebuf?.Dispose() とするとコード分析に引っかかるので :(
+			if (imagebuf != null)
+				imagebuf.Dispose();
+
+
+			// --- auto generated ---
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
 		}
 	}
 }

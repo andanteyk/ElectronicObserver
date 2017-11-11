@@ -33,7 +33,7 @@ namespace ElectronicObserver.Data.Quest
 		/// 進捗最大値
 		/// </summary>
 		[DataMember]
-		public virtual int ProgressMax { get; protected set; }
+		public int ProgressMax { get; protected set; }
 
 		/// <summary>
 		/// 任務出現タイプ

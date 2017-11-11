@@ -490,7 +490,6 @@ namespace ElectronicObserver.Window.Control
 
 			LayoutParam = new LayoutParameter(this);
 
-			Disposed += ShipStatusEquipment_Disposed;
 
 			IsRefreshSuspended = false;
 
@@ -916,11 +915,23 @@ namespace ElectronicObserver.Window.Control
 		}
 
 
-		void ShipStatusEquipment_Disposed(object sender, EventArgs e)
+
+		/// <summary> 
+		/// 使用中のリソースをすべてクリーンアップします。
+		/// </summary>
+		/// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
+		protected override void Dispose(bool disposing)
 		{
 			_overlayBrush.Dispose();
 			_invalidSlotBrush.Dispose();
-		}
 
+
+			// --- auto generated
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 	}
 }

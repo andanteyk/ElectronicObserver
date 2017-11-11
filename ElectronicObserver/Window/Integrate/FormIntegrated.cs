@@ -72,7 +72,7 @@ namespace ElectronicObserver.Window.Integrate
 		}
 
 		[DataContract(Name = "WindowInfo")]
-		public class WindowInfo : DataStorage
+		public sealed class WindowInfo : DataStorage
 		{
 
 			[DataMember]

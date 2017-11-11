@@ -1302,6 +1302,24 @@ namespace ElectronicObserver.Window
 		}
 
 
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			ControlFleet.Dispose();
+			for (int i = 0; i < ControlMember.Length; i++)
+				ControlMember[i].Dispose();
+
+
+			// --- auto generated ---
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 	}
 
 }

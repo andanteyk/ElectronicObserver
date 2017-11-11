@@ -473,53 +473,34 @@ namespace ElectronicObserver.Window.Dialog
 			FormBrowser_IsDMMreloadDialogDestroyable.Checked = config.FormBrowser.IsDMMreloadDialogDestroyable;
 			FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Checked = config.FormBrowser.AvoidTwitterDeterioration;
 			FormBrowser_ScreenShotSaveMode.SelectedIndex = config.FormBrowser.ScreenShotSaveMode - 1;
+
+			try
 			{
-				Microsoft.Win32.RegistryKey reg = null;
-				try
+				using (var reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathBrowserVersion))
 				{
-
-					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathBrowserVersion);
-					if (reg == null)
-					{
-						FormBrowser_BrowserVersion.Text = DefaultBrowserVersion.ToString();
-
-					}
-					else
-					{
-						FormBrowser_BrowserVersion.Text = (reg.GetValue(FormBrowserHost.BrowserExeName) ?? DefaultBrowserVersion).ToString();
-					}
-					if (reg != null)
-						reg.Close();
-
-					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathGPURendering);
-					if (reg == null)
-					{
-						FormBrowser_GPURendering.Checked = DefaultGPURendering;
-
-					}
-					else
-					{
-						int? gpu = reg.GetValue(FormBrowserHost.BrowserExeName) as int?;
-						FormBrowser_GPURendering.Checked = gpu != null ? gpu != 0 : DefaultGPURendering;
-					}
-
-				}
-				catch (Exception ex)
-				{
-
-					FormBrowser_BrowserVersion.Text = DefaultBrowserVersion.ToString();
-					FormBrowser_GPURendering.Checked = DefaultGPURendering;
-
-					Utility.Logger.Add(3, "レジストリからの読み込みに失敗しました。" + ex.Message);
-
-				}
-				finally
-				{
-					if (reg != null)
-						reg.Close();
-
+					FormBrowser_BrowserVersion.Text = (reg?.GetValue(FormBrowserHost.BrowserExeName) ?? DefaultBrowserVersion).ToString();
 				}
 			}
+			catch (Exception ex)
+			{
+				FormBrowser_BrowserVersion.Text = DefaultBrowserVersion.ToString();
+				Utility.Logger.Add(3, "設定：レジストリからの読み込みに失敗しました。: BrowserVersion, " + ex.Message);
+			}
+
+			try
+			{
+				using (var reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathGPURendering))
+				{
+					var gpu = reg?.GetValue(FormBrowserHost.BrowserExeName) as int?;
+					FormBrowser_GPURendering.Checked = gpu != null ? gpu != 0 : DefaultGPURendering;
+				}
+			}
+			catch (Exception ex)
+			{
+				FormBrowser_GPURendering.Checked = DefaultGPURendering;
+				Utility.Logger.Add(3, "設定：レジストリからの読み込みに失敗しました。: GPURendering, " + ex.Message);
+			}
+
 			FormBrowser_FlashQuality.Text = config.FormBrowser.FlashQuality;
 			FormBrowser_FlashWMode.Text = config.FormBrowser.FlashWMode;
 			if (!config.FormBrowser.IsToolMenuVisible)
@@ -814,31 +795,21 @@ namespace ElectronicObserver.Window.Dialog
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
 				== System.Windows.Forms.DialogResult.Yes)
 			{
-
-				Microsoft.Win32.RegistryKey reg = null;
-
 				try
 				{
-					reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(RegistryPathMaster + RegistryPathBrowserVersion);
-					reg.SetValue(FormBrowserHost.BrowserExeName, int.Parse(FormBrowser_BrowserVersion.Text), Microsoft.Win32.RegistryValueKind.DWord);
-					reg.Close();
+					using (var reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(RegistryPathMaster + RegistryPathBrowserVersion))
+						reg.SetValue(FormBrowserHost.BrowserExeName, int.Parse(FormBrowser_BrowserVersion.Text), Microsoft.Win32.RegistryValueKind.DWord);
 
-					reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(RegistryPathMaster + RegistryPathGPURendering);
-					reg.SetValue(FormBrowserHost.BrowserExeName, FormBrowser_GPURendering.Checked ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord);
+					using (var reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(RegistryPathMaster + RegistryPathGPURendering))
+						reg.SetValue(FormBrowserHost.BrowserExeName, FormBrowser_GPURendering.Checked ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord);
 
 				}
 				catch (Exception ex)
 				{
-
-					Utility.ErrorReporter.SendErrorReport(ex, "レジストリへの書き込みに失敗しました。");
+					Utility.ErrorReporter.SendErrorReport(ex, "設定：レジストリへの書き込みに失敗しました。");
 					MessageBox.Show("レジストリへの書き込みに失敗しました。\r\n" + ex.Message, "エラー",
 						MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-				}
-				finally
-				{
-					if (reg != null)
-						reg.Close();
 				}
 			}
 
@@ -851,31 +822,20 @@ namespace ElectronicObserver.Window.Dialog
 				MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
 				== System.Windows.Forms.DialogResult.Yes)
 			{
-
-				Microsoft.Win32.RegistryKey reg = null;
-
 				try
 				{
-					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathBrowserVersion, true);
-					reg.DeleteValue(FormBrowserHost.BrowserExeName);
-					reg.Close();
+					using (var reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathBrowserVersion, true))
+						reg.DeleteValue(FormBrowserHost.BrowserExeName);
 
-					reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathGPURendering, true);
-					reg.DeleteValue(FormBrowserHost.BrowserExeName);
+					using (var reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathGPURendering, true))
+						reg.DeleteValue(FormBrowserHost.BrowserExeName);
 
 				}
 				catch (Exception ex)
 				{
-
-					Utility.ErrorReporter.SendErrorReport(ex, "レジストリの削除に失敗しました。");
+					Utility.ErrorReporter.SendErrorReport(ex, "設定：レジストリの削除に失敗しました。");
 					MessageBox.Show("レジストリの削除に失敗しました。\r\n" + ex.Message, "エラー",
 						MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-				}
-				finally
-				{
-					if (reg != null)
-						reg.Close();
 				}
 			}
 		}

@@ -1444,32 +1444,21 @@ namespace ElectronicObserver.Utility
 
 
 				// そのままだと正常に動作しなくなった(らしい)ので、ブラウザバージョンの書き込み
-				Microsoft.Win32.RegistryKey reg = null;
 				try
 				{
+					using (var reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(DialogConfiguration.RegistryPathMaster + DialogConfiguration.RegistryPathBrowserVersion))
+						reg.SetValue(Window.FormBrowserHost.BrowserExeName, DialogConfiguration.DefaultBrowserVersion, Microsoft.Win32.RegistryValueKind.DWord);
 
-					reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(DialogConfiguration.RegistryPathMaster + DialogConfiguration.RegistryPathBrowserVersion);
-					reg.SetValue(Window.FormBrowserHost.BrowserExeName, DialogConfiguration.DefaultBrowserVersion, Microsoft.Win32.RegistryValueKind.DWord);
-					reg.Close();
-
-					reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(DialogConfiguration.RegistryPathMaster + DialogConfiguration.RegistryPathGPURendering);
-					reg.SetValue(Window.FormBrowserHost.BrowserExeName, DialogConfiguration.DefaultGPURendering ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord);
+					using (var reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(DialogConfiguration.RegistryPathMaster + DialogConfiguration.RegistryPathGPURendering))
+						reg.SetValue(Window.FormBrowserHost.BrowserExeName, DialogConfiguration.DefaultGPURendering ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord);
 
 					Utility.Logger.Add(2, "ブラウザバージョンをレジストリに書き込みました。削除したい場合は「設定→サブウィンドウ→ブラウザ2→削除」を押してください。");
-
 
 				}
 				catch (Exception ex)
 				{
 					Utility.ErrorReporter.SendErrorReport(ex, "ブラウザバージョンをレジストリに書き込めませんでした。");
-
 				}
-				finally
-				{
-					if (reg != null)
-						reg.Close();
-				}
-
 			}
 		}
 
