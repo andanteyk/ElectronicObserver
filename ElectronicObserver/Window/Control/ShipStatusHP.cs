@@ -390,8 +390,6 @@ namespace ElectronicObserver.Window.Control
 			_repairTimeShowMode = ShipStatusHPRepairTimeShowMode.Invisible;
 			_showHPBar = true;
 
-
-			Disposed += ShipStatusHP_Disposed;
 		}
 
 
@@ -504,14 +502,6 @@ namespace ElectronicObserver.Window.Control
 			_onMouse = false;
 			if (RepairTimeShowMode == ShipStatusHPRepairTimeShowMode.MouseOver)
 				PropertyChanged();
-		}
-
-
-
-		private void ShipStatusHP_Disposed(object sender, EventArgs e)
-		{
-			_mainFont?.Dispose();
-			_subFont?.Dispose();
 		}
 
 	}
