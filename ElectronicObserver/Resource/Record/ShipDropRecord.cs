@@ -81,7 +81,7 @@ namespace ElectronicObserver.Resource.Record
 			/// <summary>
 			/// 敵編成ID
 			/// </summary>
-			public uint EnemyFleetID { get; set; }
+			public ulong EnemyFleetID { get; set; }
 
 			/// <summary>
 			/// 勝利ランク
@@ -106,7 +106,7 @@ namespace ElectronicObserver.Resource.Record
 				LoadLine(line);
 			}
 
-			public ShipDropElement(int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, uint enemyFleetID, string rank, int hqLevel)
+			public ShipDropElement(int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, ulong enemyFleetID, string rank, int hqLevel)
 			{
 				ShipID = shipID;
 				if (shipID == -1)
@@ -176,7 +176,7 @@ namespace ElectronicObserver.Resource.Record
 				CellID = int.Parse(elem[9]);
 				Difficulty = Constants.GetDifficulty(elem[10]);
 				IsBossNode = string.Compare(elem[11], "ボス") == 0;
-				EnemyFleetID = uint.Parse(elem[12]);
+				EnemyFleetID = Convert.ToUInt64(elem[12], 16);
 				Rank = elem[13];
 				HQLevel = int.Parse(elem[14]);
 
@@ -198,7 +198,7 @@ namespace ElectronicObserver.Resource.Record
 					CellID,
 					Constants.GetDifficulty(Difficulty),
 					IsBossNode ? "ボス" : "-",
-					EnemyFleetID,
+					EnemyFleetID.ToString("x16"),
 					Rank,
 					HQLevel);
 
@@ -229,7 +229,7 @@ namespace ElectronicObserver.Resource.Record
 			set { Record[i] = value; }
 		}
 
-		public void Add(int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, uint enemyFleetID, string rank, int hqLevel)
+		public void Add(int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, ulong enemyFleetID, string rank, int hqLevel)
 		{
 
 			Record.Add(new ShipDropElement(shipID, itemID, equipmentID, mapAreaID, mapInfoID, cellID, difficulty, isBossNode, enemyFleetID, rank, hqLevel));
@@ -278,7 +278,7 @@ namespace ElectronicObserver.Resource.Record
 		}
 
 
-		public override string RecordHeader => "艦船ID,艦名,アイテムID,アイテム名,装備ID,装備名,入手日時,海域,海域,セル,難易度,ボス,敵編成,ランク,司令部Lv";
+		public override string RecordHeader => "艦船ID,艦名,アイテムID,アイテム名,装備ID,装備名,入手日時,海域,海域,セル,難易度,ボス,敵編成ID,ランク,司令部Lv";
 
 		public override string FileName => "ShipDropRecord.csv";
 	}
