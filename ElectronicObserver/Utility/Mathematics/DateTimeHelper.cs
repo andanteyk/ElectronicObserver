@@ -66,8 +66,10 @@ namespace ElectronicObserver.Utility.Mathematics
 		/// </summary>
 		/// <param name="span">残り時間。</param>
 		/// <returns>書式に則った時間を表す文字列。</returns>
-		public static string ToTimeRemainString(TimeSpan span)
+		public static string ToTimeRemainString(TimeSpan span, bool roundup = true)
 		{
+			if (roundup)
+				span = TimeSpan.FromSeconds(Math.Ceiling(span.TotalSeconds));
 			if (span.Ticks < 0)
 				return "00:00:00";
 			else
@@ -92,7 +94,7 @@ namespace ElectronicObserver.Utility.Mathematics
 		/// <returns>書式に則った時間を表す文字列。</returns>
 		public static string ToTimeElapsedString(TimeSpan span)
 		{
-			return ToTimeRemainString(span);
+			return ToTimeRemainString(span, false);
 		}
 
 
