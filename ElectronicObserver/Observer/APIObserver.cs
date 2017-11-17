@@ -388,12 +388,11 @@ namespace ElectronicObserver.Observer
 
 
 				var parsedData = new Dictionary<string, string>();
-				data = HttpUtility.UrlDecode(data);
 
 				foreach (string unit in data.Split("&".ToCharArray()))
 				{
 					string[] pair = unit.Split("=".ToCharArray());
-					parsedData.Add(pair[0], pair[1]);
+					parsedData.Add(HttpUtility.UrlDecode(pair[0]), HttpUtility.UrlDecode(pair[1]));
 				}
 
 
