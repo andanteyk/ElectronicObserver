@@ -132,7 +132,7 @@ namespace ElectronicObserver.Resource.Record
 				FleetMemberLevel = new int[12];
 				for (int i = 0; i < FleetMember.Length; i++)
 					FleetMemberLevel[i] = int.Parse(elem[32 + i]);
-				
+
 
 				FleetID = ComputeHash();
 
@@ -191,7 +191,7 @@ namespace ElectronicObserver.Resource.Record
 					battle.Compass.Destination,
 					battle.Compass.MapInfo.EventDifficulty,
 					battle.FirstBattle.Searching.FormationEnemy,
-					battle.IsEnemyCombined ? initial.AllEnemyMembers : initial.EnemyMembers,
+					battle.IsEnemyCombined ? initial.EnemyMembers.Concat(initial.EnemyMembersEscort).ToArray() : initial.EnemyMembers,
 					battle.IsEnemyCombined ? initial.EnemyLevels.Concat(initial.EnemyLevelsEscort).ToArray() : initial.EnemyLevels,
 					baseExp);
 

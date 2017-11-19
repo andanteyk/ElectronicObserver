@@ -13,9 +13,20 @@ namespace ElectronicObserver.Data.Battle
 	public class BattleEnemyCombinedDayFromNight : BattleDay
 	{
 
+		public PhaseSupport NightSupport { get; protected set; }
+		public PhaseNightBattle NightBattle1 { get; protected set; }
+		public PhaseNightBattle NightBattle2 { get; protected set; }
+
+		public bool NextToDay => (int)RawData.api_day_flag != 0;
+
+
 		public override void LoadFromResponse(string apiname, dynamic data)
 		{
 			base.LoadFromResponse(apiname, (object)data);
+
+			NightSupport = new PhaseSupport(this, "夜間支援", true);
+			NightBattle1 = new PhaseNightBattle(this, "第一次夜戦", 1, false);
+			NightBattle2 = new PhaseNightBattle(this, "第二次夜戦", 2, false);
 
 			JetBaseAirAttack = new PhaseJetBaseAirAttack(this, "噴式基地航空隊攻撃");
 			JetAirBattle = new PhaseJetAirBattle(this, "噴式航空戦");
@@ -42,6 +53,9 @@ namespace ElectronicObserver.Data.Battle
 		public override IEnumerable<PhaseBase> GetPhases()
 		{
 			yield return Initial;
+			yield return NightSupport;
+			yield return NightBattle1;
+			yield return NightBattle2;
 			yield return JetBaseAirAttack;
 			yield return JetAirBattle;
 			yield return BaseAirAttack;

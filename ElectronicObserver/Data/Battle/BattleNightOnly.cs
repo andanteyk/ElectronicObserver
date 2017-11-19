@@ -20,7 +20,7 @@ namespace ElectronicObserver.Data.Battle
 
 			Support = new PhaseSupport(this, "支援攻撃", false);
 			NightBattle = new PhaseNightBattle(this, "夜戦", 0, false);
-
+			
 
 			foreach (var phase in GetPhases())
 				phase.EmulateBattle(_resultHPs, _attackDamages);

@@ -1512,13 +1512,15 @@ api_req_map/next		：進撃
 		api_m1		：('16秋イベ) 1=スタート地点解放ギミック発動　それ以外の場合は存在しない
 	api_m1		：('17夏イベ) 1=ルート解放など　通常は存在しない
 
-Request.api_req_sortie/battle	：戦闘(昼戦)
+
+
+Request.api_req_sortie/battle	：通常艦隊　昼戦
 	api_formation		：陣形
 	api_recovery_type	：応急修理要員/女神進撃フラグ 0=なし, 1=要員, 2=女神
 	api_supply_flag		：洋上補給フラグ 使用すれば1?, 使用しなければ存在しない
 	api_ration_flag		：戦闘糧食フラグ 使用すれば1?, 使用しなければ存在しない
 
-api_req_sortie/battle	：戦闘(昼戦)
+api_req_sortie/battle	：通常艦隊　昼戦
 	api_deck_id			：味方出撃艦隊ID　数値型
 	api_formation		：陣形/交戦形態　[0]=味方, [1]=敵, [2]=交戦形態
 							[0,1]：1=単縦陣, 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣, 6=警戒陣
@@ -1680,7 +1682,7 @@ api_req_sortie/battle	：戦闘(昼戦)
 		api_eydam		：敵与ダメージ　[7]
 
 
-api_req_battle_midnight/battle		：戦闘(夜戦)
+api_req_battle_midnight/battle		：通常艦隊　夜戦
 	api_deck_id			：こちらの出撃艦隊ID　数値型
 	api_formation		：陣形/交戦形態　[0]=味方, [1]=敵, [2]=交戦形態
 							[0,1]：1=単縦陣, 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣, 6=警戒陣
@@ -1741,6 +1743,8 @@ api_req_battle_midnight/sp_midnight		：通常艦隊　開幕夜戦　基本的�
 	api_flare_pos
 	api_hougeki
 
+
+['17 秋イベでフォーマット変更　要再確認]
 api_req_sortie/airbattle	：航空戦
 	(全メンバが api_req_sortie/battle を継承)
 	api_support_flag	：(存在せず)
@@ -1774,6 +1778,7 @@ api_req_sortie/ld_airbattle		：通常艦隊　長距離空襲戦　存在する
 	api_kouku			：こちらからは攻撃できない模様(ダメージの項目は通常通り存在する)
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/ec_battle	：通常艦隊 vs 敵連合艦隊 昼戦
 	api_deck_id				：出撃艦隊ID 数値型
 	api_ship_ke				：敵主力艦隊艦船ID [7] (-1から始まる)
@@ -1898,6 +1903,7 @@ api_req_combined_battle/ec_battle	：通常艦隊 vs 敵連合艦隊 昼戦
 	api_hougeki3			：第三次砲撃戦 api_hougeki1 と同じ なければ存在しない
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combiend_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（敵連合艦隊）
 	api_active_deck			：戦闘参加艦隊フラグ [2] [0]=味方側, [1]=敵側 1=主力艦隊, 2=随伴艦隊 
 	api_deck_id				：出撃艦隊ID 味方連合なら1
@@ -2080,6 +2086,7 @@ api_req_air_corps/expand_base		：基地航空隊 - 飛行場拡張
 	(拡張した航空隊のデータ[1?]。 api_get_member/base_air_corps に同じ)
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/airbattle	：連合艦隊-機動部隊 航空戦
 	api_deck_id			：こちらの出撃艦隊ID
 	api_ship_ke			：敵艦船ID -1から始まる
@@ -2135,6 +2142,7 @@ api_req_combined_battle/airbattle	：連合艦隊-機動部隊 航空戦
 	api_kouku2			：第二次航空戦情報　api_koukuと同じ
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/battle	：連合艦隊-機動部隊or輸送部隊 戦闘
 	api_deck_id			：こちらの出撃艦隊ID
 	api_ship_ke			：敵艦船ID -1から始まる
@@ -2220,6 +2228,7 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊or輸送部隊 戦闘
 	api_hougeki3	：砲撃戦3巡目(機動部隊本隊2巡目)　上に同じ
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/midnight_battle		：連合艦隊 夜戦
 	api_deck_id			：こちらの出撃艦隊ID 文字列
 	api_ship_ke			：敵艦船ID -1から始まる
@@ -2246,11 +2255,13 @@ api_req_combined_battle/midnight_battle		：連合艦隊 夜戦
 		api_damage		：ダメージ(実ダメージ)
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/sp_midnight		：連合艦隊 開幕夜戦
 	(全メンバを api_req_combined_battle/midnight_battle から継承)
 	api_formation		：陣形　昼戦のそれと同じ(但し味方陣形は文字列型)
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/battle_water	：連合艦隊-水上部隊 戦闘
 	(全メンバを api_req_combined_battle/battle から継承)
 	api_eSlot			：存在する艦の分のみ存在
@@ -2260,6 +2271,7 @@ api_req_combined_battle/battle_water	：連合艦隊-水上部隊 戦闘
 	api_raigeki			：雷撃戦
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/ld_airbattle		：連合艦隊 長距離空襲戦　存在するメンバを記載、各値の構成と意味は api_req_combined_battle/battle と同じ
 	api_deck_id			：文字列
 	api_ship_ke
@@ -2282,6 +2294,7 @@ api_req_combined_battle/ld_airbattle		：連合艦隊 長距離空襲戦　存�
 	api_kouku
 
 
+['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合艦隊　昼戦　構成的には ec_battle と combined_battle/battle の合併版のようなもの
 	api_deck_id				：数値型
 	api_ship_ke
@@ -2338,23 +2351,27 @@ api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合�
 
 api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵連合艦隊　昼戦
 	api_deck_id					：数値型
-	api_ship_ke
-	api_ship_ke_combined
-	api_ship_lv
-	api_ship_lv_combined
-	api_nowhps
-	api_maxhps
-	api_nowhps_combined
-	api_maxhps_combined
-	api_eSlot
-	api_eSlot_combined
+	api_formation
+	api_f_nowhps
+	api_f_maxhps
+	api_f_nowhps_combined
+	api_f_maxhps_combined
 	api_fParam
 	api_fParam_combined
+	api_ship_ke
+	api_ship_lv
+	api_ship_ke_combined
+	api_ship_lv_combined
+	api_e_nowhps
+	api_e_maxhps
+	api_e_nowhps_combined
+	api_e_maxhps_combined
+	api_eSlot
+	api_eSlot_combined
 	api_eParam
 	api_eParam_combined
 	api_midnight_flag
 	api_search
-	api_formation				：味方陣形のみ文字列型、ほかは数値型
 	api_air_base_attack
 		api_base_id
 		api_stage_flag
@@ -2415,19 +2432,13 @@ api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵�
 		api_stage3_combined
 	api_support_flag
 	api_support_info
+		api_support_airatack
+		api_support_hourai
 	api_opening_taisen_flag
 	api_opening_taisen
 	api_opening_flag
 	api_opening_atack			：スペルミスに注意
-		api_frai
-		api_erai
-		api_fdam
-		api_edam
-		api_fydam
-		api_eydam
-		api_fcl
-		api_ecl
-	api_hourai_flag
+	api_hourai_flag				：0 のメンバは存在しなくなる
 	api_hougeki1				：第一次砲撃戦（主力艦隊vs主力艦隊）
 		api_at_eflag
 		api_at_list
@@ -2438,7 +2449,65 @@ api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵�
 		api_damage
 	api_hougeki2				：第二次砲撃戦（随伴艦隊vs随伴艦隊）
 	api_hougeki3				：第三次砲撃戦（主力艦隊vs主力艦隊, 対全体）
-	api_raigeki					：雷撃戦
+	api_raigeki					：雷撃戦　全部 [12] ?
+		api_frai
+		api_erai
+		api_fdam
+		api_edam
+		api_fydam
+		api_eydam
+		api_fcl
+		api_ecl
+
+
+api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
+	api_deck_id			：int
+	api_formation		：[3]
+	api_f_nowhps
+	api_f_maxhps
+						：api_f_(now|max)hps_combined, api_fParam_combined は、連合艦隊でなければ存在しない？
+	api_fParam
+	api_ship_ke
+	api_ship_lv
+	api_ship_ke_combined
+	api_ship_lv_combined
+	api_e_nowhps
+	api_e_maxhps
+	api_e_nowhps_combined
+	api_e_maxhps_combined
+	api_eSlot
+	api_sSlot_combined
+	api_eParam
+	api_eParam_combined
+	api_touch_plane		：[2]
+	api_flare_pos		：[2]
+	api_n_support_flag
+	api_n_support_info
+		api_support_airatack
+		api_support_hourai
+	api_n_hougeki1				：夜間砲雷撃戦　1巡目　味方(随伴)?->敵全体 vs 敵随伴->味方?
+		api_at_eflag
+		api_at_list
+		api_n_mother_list
+		api_df_list
+		api_si_list
+		api_cl_list
+		api_sp_list
+		api_damage
+	api_n_hougeki2				：夜間砲雷撃戦　2巡目　味方(本体)?->敵全体 vs 敵本体->味方?
+	api_day_flag		：1なら昼戦データが続く?
+	api_search			：[2]
+	api_air_base_attack	：[]
+	api_support_flag
+	api_support_info
+	api_stage_flag
+	api_kouku
+	api_opening_taisen_flag
+	api_opening_taisen
+	api_opening_flag
+	api_opening_atack
+	api_hourai_flag		：[3]　0のメンバは存在しなくなる
+		（以降メンバ不明）
 
 
 api_req_combined_battle/battleresult	：連合艦隊 戦闘結果 (味方通常艦隊-敵連合艦隊を含む)
