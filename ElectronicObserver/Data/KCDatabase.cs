@@ -6,22 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 
 	/// <summary>
 	/// 艦これのデータを扱う中核です。
 	/// </summary>
-	public sealed class KCDatabase {
+	public sealed class KCDatabase
+	{
 
 
 		#region Singleton
 
 		private static readonly KCDatabase instance = new KCDatabase();
 
-		public static KCDatabase Instance {
-			get { return instance; }
-		}
+		public static KCDatabase Instance => instance;
 
 		#endregion
 
@@ -149,7 +149,8 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		public IDDictionary<RelocationData> RelocatedEquipments { get; private set; }
 
-		private KCDatabase() {
+		private KCDatabase()
+		{
 
 			MasterShips = new IDDictionary<ShipDataMaster>();
 			ShipTypes = new IDDictionary<ShipType>();
@@ -176,17 +177,19 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		public void Load() {
+		public void Load()
+		{
 
 			{
 				var temp = (ShipGroupManager)ShipGroup.Load();
-				if ( temp != null )
+				if (temp != null)
 					ShipGroup = temp;
 			}
 			{
 				var temp = QuestProgress.Load();
-				if ( temp != null ) {
-					if ( QuestProgress != null )
+				if (temp != null)
+				{
+					if (QuestProgress != null)
 						QuestProgress.RemoveEvents();
 					QuestProgress = temp;
 				}
@@ -194,7 +197,8 @@ namespace ElectronicObserver.Data {
 
 		}
 
-		public void Save() {
+		public void Save()
+		{
 			ShipGroup.Save();
 			QuestProgress.Save();
 		}

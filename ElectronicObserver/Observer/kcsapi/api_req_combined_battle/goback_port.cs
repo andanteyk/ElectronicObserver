@@ -5,21 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_combined_battle {
-	
-	public class goback_port : APIBase {
+namespace ElectronicObserver.Observer.kcsapi.api_req_combined_battle
+{
 
-		public override void OnResponseReceived( dynamic data ) {
+	public class goback_port : APIBase
+	{
 
-			KCDatabase.Instance.Fleet.LoadFromResponse( APIName, data );
+		public override void OnResponseReceived(dynamic data)
+		{
 
-			base.OnResponseReceived( (object)data );
+			KCDatabase.Instance.Fleet.LoadFromResponse(APIName, data);
+
+			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName {
-			get { return "api_req_combined_battle/goback_port"; }
-		}
-
+		public override string APIName => "api_req_combined_battle/goback_port";
 	}
+
 
 }

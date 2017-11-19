@@ -8,41 +8,34 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
 	/// 艦種
 	/// </summary>
-	[DebuggerDisplay( "[{ID}] : {Name}" )]
-	public class ShipType : ResponseWrapper, IIdentifiable {
+	public class ShipType : ResponseWrapper, IIdentifiable
+	{
 
 		/// <summary>
-		/// 艦種
+		/// 艦種ID
 		/// </summary>
-		public int TypeID {
-			get { return (int)RawData.api_id; }
-		}
+		public int TypeID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 並べ替え順
 		/// </summary>
-		public int SortID {
-			get { return (int)RawData.api_sortno; }
-		}
+		public int SortID => (int)RawData.api_sortno;
 
 		/// <summary>
 		/// 艦種名
 		/// </summary>
-		public string Name {
-			get { return RawData.api_name; }
-		}
+		public string Name => RawData.api_name;
 
 		/// <summary>
 		/// 入渠時間係数
 		/// </summary>
-		public int RepairTime {
-			get { return (int)RawData.api_scnt; }
-		}
+		public int RepairTime => (int)RawData.api_scnt;
 
 
 		//TODO: api_kcnt
@@ -52,39 +45,45 @@ namespace ElectronicObserver.Data {
 		/// 装備可否フラグ
 		/// </summary>
 		private HashSet<int> _equipmentType;
-		public HashSet<int> EquipmentType {
-			get { return _equipmentType; }
-		}
+		public HashSet<int> EquipmentType => _equipmentType;
 
 
-		public int ID {
-			get { return TypeID; }
-		}
+		/// <summary>
+		/// 艦種ID
+		/// </summary>
+		public ShipTypes Type => (ShipTypes)TypeID;
 
+
+		public int ID => TypeID;
+		public override string ToString() => $"[{TypeID}] {Name}";
 
 
 
 		public ShipType()
-			: base() {
+			: base()
+		{
 
 			_equipmentType = new HashSet<int>();
 		}
 
-		public override void LoadFromResponse( string apiname, dynamic data ) {
+		public override void LoadFromResponse(string apiname, dynamic data)
+		{
 
 			// api_equip_type の置換処理
 			// checkme: 無駄が多い気がするのでもっといい案があったら是非
-			data = DynamicJson.Parse( Regex.Replace( data.ToString(), @"""(?<id>\d+?)""", @"""api_id_${id}""" ) );
+			data = DynamicJson.Parse(Regex.Replace(data.ToString(), @"""(?<id>\d+?)""", @"""api_id_${id}"""));
 
-			base.LoadFromResponse( apiname, (object)data );
+			base.LoadFromResponse(apiname, (object)data);
 
-			
-			if ( IsAvailable ) {
+
+			if (IsAvailable)
+			{
 				_equipmentType = new HashSet<int>();
-				foreach ( KeyValuePair<string, object> type in RawData.api_equip_type ) {
+				foreach (KeyValuePair<string, object> type in RawData.api_equip_type)
+				{
 
-					if ( (double)type.Value != 0 )
-						_equipmentType.Add( Convert.ToInt32( type.Key.Substring( 7 ) ) );		//skip api_id_
+					if ((double)type.Value != 0)
+						_equipmentType.Add(Convert.ToInt32(type.Key.Substring(7)));     //skip api_id_
 				}
 			}
 		}

@@ -5,16 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_get_member {
+namespace ElectronicObserver.Observer.kcsapi.api_get_member
+{
 
-	public class sortie_conditions : APIBase {
+	public class sortie_conditions : APIBase
+	{
 
-		public override void OnResponseReceived( dynamic data ) {
-			base.OnResponseReceived( (object)data );
+		public override void OnResponseReceived(dynamic data)
+		{
+			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName {
-			get { return "api_get_member/sortie_conditions"; }
-		}
+		public override string APIName => "api_get_member/sortie_conditions";
 	}
+
 }

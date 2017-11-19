@@ -5,25 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_member {
-	
-	public class updatedeckname : APIBase {
+namespace ElectronicObserver.Observer.kcsapi.api_req_member
+{
+
+	public class updatedeckname : APIBase
+	{
 
 
-		public override void OnRequestReceived( Dictionary<string, string> data ) {
+		public override void OnRequestReceived(Dictionary<string, string> data)
+		{
 
-			KCDatabase.Instance.Fleet.Fleets[int.Parse( data["api_deck_id"] )].LoadFromRequest( APIName, data );
-			
-			base.OnRequestReceived( data );
+			KCDatabase.Instance.Fleet.Fleets[int.Parse(data["api_deck_id"])].LoadFromRequest(APIName, data);
+
+			base.OnRequestReceived(data);
 		}
 
 
-		public override bool IsRequestSupported { get { return true; } }
-		public override bool IsResponseSupported { get { return false; } }
+		public override bool IsRequestSupported => true;
+		public override bool IsResponseSupported => false;
 
-		public override string APIName {
-			get { return "api_req_member/updatedeckname"; }
-		}
+		public override string APIName => "api_req_member/updatedeckname";
 	}
+
 
 }

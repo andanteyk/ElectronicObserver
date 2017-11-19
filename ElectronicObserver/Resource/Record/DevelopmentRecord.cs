@@ -8,16 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Resource.Record {
+namespace ElectronicObserver.Resource.Record
+{
 
 	/// <summary>
 	/// 建造のレコードです。
 	/// </summary>
-	[DebuggerDisplay( "{Record.Count} Records" )]
-	public class DevelopmentRecord : RecordBase {
+	[DebuggerDisplay("{Record.Count} Records")]
+	public class DevelopmentRecord : RecordBase
+	{
 
-		[DebuggerDisplay( "[{EquipmentID}] : {EquipmentName}" )]
-		public class DevelopmentElement : RecordElementBase {
+		[DebuggerDisplay("[{EquipmentID}] : {EquipmentName}")]
+		public sealed class DevelopmentElement : RecordElementBase
+		{
 
 			/// <summary>
 			/// 開発した装備のID
@@ -76,15 +79,20 @@ namespace ElectronicObserver.Resource.Record {
 
 
 
-			public DevelopmentElement() {
+			public DevelopmentElement()
+			{
 				EquipmentID = -1;
 				Date = DateTime.Now;
 			}
 
-			public DevelopmentElement( string line )
-				: base( line ) { }
+			public DevelopmentElement(string line)
+				: this()
+			{
+				LoadLine(line);
+			}
 
-			public DevelopmentElement( int equipmentID, int fuel, int ammo, int steel, int bauxite, int flagshipID, int hqLevel ) {
+			public DevelopmentElement(int equipmentID, int fuel, int ammo, int steel, int bauxite, int flagshipID, int hqLevel)
+			{
 				EquipmentID = equipmentID;
 				Fuel = fuel;
 				Ammo = ammo;
@@ -97,31 +105,33 @@ namespace ElectronicObserver.Resource.Record {
 			}
 
 
-			public override void LoadLine( string line ) {
+			public override void LoadLine(string line)
+			{
 
-				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 11 ) throw new ArgumentException( "要素数が少なすぎます。" );
+				string[] elem = line.Split(",".ToCharArray());
+				if (elem.Length < 11) throw new ArgumentException("要素数が少なすぎます。");
 
-				EquipmentID = int.Parse( elem[0] );
+				EquipmentID = int.Parse(elem[0]);
 				EquipmentName = elem[1];
-				Date = DateTimeHelper.CSVStringToTime( elem[2] );
-				Fuel = int.Parse( elem[3] );
-				Ammo = int.Parse( elem[4] );
-				Steel = int.Parse( elem[5] );
-				Bauxite = int.Parse( elem[6] );
-				FlagshipID = int.Parse( elem[7] );
+				Date = DateTimeHelper.CSVStringToTime(elem[2]);
+				Fuel = int.Parse(elem[3]);
+				Ammo = int.Parse(elem[4]);
+				Steel = int.Parse(elem[5]);
+				Bauxite = int.Parse(elem[6]);
+				FlagshipID = int.Parse(elem[7]);
 				FlagshipName = elem[8];
-				FlagshipType = int.Parse( elem[9] );
-				HQLevel = int.Parse( elem[10] );
+				FlagshipType = int.Parse(elem[9]);
+				HQLevel = int.Parse(elem[10]);
 
 			}
 
-			public override string SaveLine() {
+			public override string SaveLine()
+			{
 
-				return string.Join( ",",
+				return string.Join(",",
 					EquipmentID,
 					EquipmentName,
-					DateTimeHelper.TimeToCSVString( Date ),
+					DateTimeHelper.TimeToCSVString(Date),
 					Fuel,
 					Ammo,
 					Steel,
@@ -129,20 +139,21 @@ namespace ElectronicObserver.Resource.Record {
 					FlagshipID,
 					FlagshipName,
 					FlagshipType,
-					HQLevel );
+					HQLevel);
 			}
 
 			/// <summary>
 			/// 艦名などのパラメータを現在のIDをもとに設定します。
 			/// </summary>
-			public void SetSubParameters() {
+			public void SetSubParameters()
+			{
 				var eq = KCDatabase.Instance.MasterEquipments[EquipmentID];
 				var flagship = KCDatabase.Instance.MasterShips[FlagshipID];
 
 				EquipmentName = EquipmentID == -1 ? "(失敗)" :
-					eq != null ? eq.Name : "???";
-				FlagshipName = flagship != null ? flagship.NameWithClass : "???";
-				FlagshipType = flagship != null ? flagship.ShipType : -1;
+					eq?.Name ?? "???";
+				FlagshipName = flagship?.NameWithClass ?? "???";
+				FlagshipType = (int?)flagship?.ShipType ?? -1;
 			}
 		}
 
@@ -153,13 +164,15 @@ namespace ElectronicObserver.Resource.Record {
 		private int LastSavedCount;
 
 
-		public DevelopmentRecord() {
+		public DevelopmentRecord()
+		{
 			Record = new List<DevelopmentElement>();
 			tempElement = null;
 
 		}
 
-		public override void RegisterEvents() {
+		public override void RegisterEvents()
+		{
 			APIObserver ao = APIObserver.Instance;
 
 			ao.APIList["api_req_kousyou/createitem"].RequestReceived += DevelopmentStart;
@@ -167,29 +180,37 @@ namespace ElectronicObserver.Resource.Record {
 		}
 
 
-		public DevelopmentElement this[int i] {
+		public DevelopmentElement this[int i]
+		{
 			get { return Record[i]; }
 			set { Record[i] = value; }
 		}
 
 
-		private void DevelopmentStart( string apiname, dynamic data ) {
+		private void DevelopmentStart(string apiname, dynamic data)
+		{
 
-			tempElement = new DevelopmentElement();
-			tempElement.Fuel = int.Parse( data["api_item1"] );
-			tempElement.Ammo = int.Parse( data["api_item2"] );
-			tempElement.Steel = int.Parse( data["api_item3"] );
-			tempElement.Bauxite = int.Parse( data["api_item4"] );
+			tempElement = new DevelopmentElement
+			{
+				Fuel = int.Parse(data["api_item1"]),
+				Ammo = int.Parse(data["api_item2"]),
+				Steel = int.Parse(data["api_item3"]),
+				Bauxite = int.Parse(data["api_item4"])
+			};
 
 		}
 
-		private void DevelopmentEnd( string apiname, dynamic data ) {
+		private void DevelopmentEnd(string apiname, dynamic data)
+		{
 
-			if ( tempElement == null ) return;
+			if (tempElement == null) return;
 
-			if ( (int)data.api_create_flag == 0 ) {
+			if ((int)data.api_create_flag == 0)
+			{
 				tempElement.EquipmentID = -1;
-			} else {
+			}
+			else
+			{
 				tempElement.EquipmentID = (int)data.api_slot_item.api_slotitem_id;
 			}
 
@@ -199,59 +220,58 @@ namespace ElectronicObserver.Resource.Record {
 
 			tempElement.SetSubParameters();
 
-			Record.Add( tempElement );
+			Record.Add(tempElement);
 
 			tempElement = null;
 		}
 
 
 
-		protected override void LoadLine( string line ) {
-			Record.Add( new DevelopmentElement( line ) );
+		protected override void LoadLine(string line)
+		{
+			Record.Add(new DevelopmentElement(line));
 		}
 
-		protected override string SaveLinesAll() {
+		protected override string SaveLinesAll()
+		{
 			var sb = new StringBuilder();
-			foreach ( var elem in Record.OrderBy( r => r.Date ) ) {
-				sb.AppendLine( elem.SaveLine() );
+			foreach (var elem in Record.OrderBy(r => r.Date))
+			{
+				sb.AppendLine(elem.SaveLine());
 			}
 			return sb.ToString();
 		}
 
-		protected override string SaveLinesPartial() {
+		protected override string SaveLinesPartial()
+		{
 			var sb = new StringBuilder();
-			foreach ( var elem in Record.Skip( LastSavedCount ).OrderBy( r => r.Date ) ) {
-				sb.AppendLine( elem.SaveLine() );
+			foreach (var elem in Record.Skip(LastSavedCount).OrderBy(r => r.Date))
+			{
+				sb.AppendLine(elem.SaveLine());
 			}
 			return sb.ToString();
 		}
 
-		protected override void UpdateLastSavedIndex() {
+		protected override void UpdateLastSavedIndex()
+		{
 			LastSavedCount = Record.Count;
 		}
 
-		public override bool NeedToSave {
-			get { return LastSavedCount < Record.Count; }
-		}
+		public override bool NeedToSave => LastSavedCount < Record.Count;
 
-		public override bool SupportsPartialSave {
-			get { return true; }
-		}
+		public override bool SupportsPartialSave => true;
 
-		protected override void ClearRecord() {
+		protected override void ClearRecord()
+		{
 			Record.Clear();
 			LastSavedCount = 0;
 		}
 
 
-		public override string RecordHeader {
-			get { return "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦名,旗艦艦種,司令部Lv"; }
-		}
+		public override string RecordHeader => "装備ID,装備名,開発日時,燃料,弾薬,鋼材,ボーキ,旗艦ID,旗艦名,旗艦艦種,司令部Lv";
 
-		public override string FileName {
-			get { return "DevelopmentRecord.csv"; }
-		}
-
+		public override string FileName => "DevelopmentRecord.csv";
 	}
+
 
 }

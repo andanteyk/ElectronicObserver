@@ -5,37 +5,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
-	/// 装備の種別
+	/// 装備種別
 	/// </summary>
-	[DebuggerDisplay( "[{ID}] : {Name}" )]
-	public class EquipmentType : ResponseWrapper, IIdentifiable {
+	public class EquipmentType : ResponseWrapper, IIdentifiable
+	{
 
 		/// <summary>
-		/// 装備の種別
+		/// 装備種別ID
 		/// </summary>
-		public int TypeID {
-			get { return (int)RawData.api_id; }
-		}
+		public int TypeID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 名前
 		/// </summary>
-		public string Name {
-			get { return RawData.api_name; }
-		}
+		public string Name => RawData.api_name;
 
 		//show_flg
 
 
-		public int ID {
-			get { return TypeID; }
-		}
+		/// <summary>
+		/// 装備種別ID
+		/// </summary>
+		public EquipmentTypes Type => (EquipmentTypes)TypeID;
 
+
+		public override string ToString() => $"[{TypeID}] {Name}";
+
+		public int ID => TypeID;
 
 	}
-
 
 }

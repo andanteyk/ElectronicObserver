@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogAlbumMasterShip {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogAlbumMasterShip
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -185,9 +190,9 @@
 			// 
 			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_File,
-            this.StripMenu_Edit,
-            this.StripMenu_View});
+			this.StripMenu_File,
+			this.StripMenu_Edit,
+			this.StripMenu_View});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -197,8 +202,8 @@
 			// StripMenu_File
 			// 
 			this.StripMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_File_OutputCSVUser,
-            this.StripMenu_File_OutputCSVData});
+			this.StripMenu_File_OutputCSVUser,
+			this.StripMenu_File_OutputCSVData});
 			this.StripMenu_File.Name = "StripMenu_File";
 			this.StripMenu_File.Size = new System.Drawing.Size(70, 20);
 			this.StripMenu_File.Text = "ファイル(&F)";
@@ -220,12 +225,12 @@
 			// StripMenu_Edit
 			// 
 			this.StripMenu_Edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_Edit_EditParameter,
-            this.toolStripSeparator1,
-            this.StripMenu_Edit_CopyShipName,
-            this.StripMenu_Edit_CopyShipData,
-            this.toolStripSeparator2,
-            this.StripMenu_Edit_GoogleShipName});
+			this.StripMenu_Edit_EditParameter,
+			this.toolStripSeparator1,
+			this.StripMenu_Edit_CopyShipName,
+			this.StripMenu_Edit_CopyShipData,
+			this.toolStripSeparator2,
+			this.StripMenu_Edit_GoogleShipName});
 			this.StripMenu_Edit.Name = "StripMenu_Edit";
 			this.StripMenu_Edit.Size = new System.Drawing.Size(60, 20);
 			this.StripMenu_Edit.Text = "編集(&E)";
@@ -245,8 +250,8 @@
 			// StripMenu_Edit_CopyShipName
 			// 
 			this.StripMenu_Edit_CopyShipName.Name = "StripMenu_Edit_CopyShipName";
-			this.StripMenu_Edit_CopyShipName.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
+			this.StripMenu_Edit_CopyShipName.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+			| System.Windows.Forms.Keys.C)));
 			this.StripMenu_Edit_CopyShipName.Size = new System.Drawing.Size(250, 22);
 			this.StripMenu_Edit_CopyShipName.Text = "艦名をコピー(&N)";
 			this.StripMenu_Edit_CopyShipName.Click += new System.EventHandler(this.StripMenu_Edit_CopyShipName_Click);
@@ -262,8 +267,8 @@
 			// StripMenu_View
 			// 
 			this.StripMenu_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StripMenu_View_ShowAppearingArea,
-            this.StripMenu_View_ShowShipGraphicViewer});
+			this.StripMenu_View_ShowAppearingArea,
+			this.StripMenu_View_ShowShipGraphicViewer});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(61, 20);
 			this.StripMenu_View.Text = "表示(&V)";
@@ -304,8 +309,8 @@
 			// 
 			// TextSearch
 			// 
-			this.TextSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TextSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.TextSearch.Location = new System.Drawing.Point(3, 3);
 			this.TextSearch.Name = "TextSearch";
 			this.TextSearch.Size = new System.Drawing.Size(244, 23);
@@ -318,16 +323,16 @@
 			this.ShipView.AllowUserToAddRows = false;
 			this.ShipView.AllowUserToDeleteRows = false;
 			this.ShipView.AllowUserToResizeRows = false;
-			this.ShipView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ShipView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.ShipView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.ShipView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.ShipView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ShipView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ShipView_ShipID,
-            this.ShipView_ShipType,
-            this.ShipView_Name});
+			this.ShipView_ShipID,
+			this.ShipView_ShipType,
+			this.ShipView_Name});
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -535,8 +540,8 @@
 			// 
 			// TableEquipment
 			// 
-			this.TableEquipment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TableEquipment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.TableEquipment.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.TableEquipment.ColumnCount = 2;
 			this.TableEquipment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -640,20 +645,20 @@
 			this.ParameterLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.ParameterLevel.Location = new System.Drawing.Point(197, 3);
 			this.ParameterLevel.Maximum = new decimal(new int[] {
-            150,
-            0,
-            0,
-            0});
+			150,
+			0,
+			0,
+			0});
 			this.ParameterLevel.Name = "ParameterLevel";
 			this.ParameterLevel.Size = new System.Drawing.Size(54, 23);
 			this.ParameterLevel.TabIndex = 6;
 			this.ParameterLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.ToolTipInfo.SetToolTip(this.ParameterLevel, "レベルを指定すると予測値が表示されます。");
 			this.ParameterLevel.Value = new decimal(new int[] {
-            150,
-            0,
-            0,
-            0});
+			150,
+			0,
+			0,
+			0});
 			this.ParameterLevel.ValueChanged += new System.EventHandler(this.ParameterLevel_ValueChanged);
 			// 
 			// ShipBanner
@@ -793,9 +798,9 @@
 			// 
 			// Description
 			// 
-			this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.Description.AutoSize = false;
 			this.Description.AutoWrap = true;
 			this.Description.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1518,8 +1523,8 @@
 			// 
 			// TitleParameterMax
 			// 
-			this.TitleParameterMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TitleParameterMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.TitleParameterMax.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.TitleParameterMax.Location = new System.Drawing.Point(128, 10);
 			this.TitleParameterMax.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
@@ -1564,8 +1569,8 @@
 			// 
 			// TitleParameterMin
 			// 
-			this.TitleParameterMin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TitleParameterMin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.TitleParameterMin.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.TitleParameterMin.Location = new System.Drawing.Point(56, 10);
 			this.TitleParameterMin.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);

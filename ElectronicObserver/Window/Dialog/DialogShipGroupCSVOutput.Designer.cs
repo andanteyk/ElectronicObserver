@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogShipGroupCSVOutput {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogShipGroupCSVOutput
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.RadioFormat_Data = new System.Windows.Forms.RadioButton();
@@ -44,8 +49,8 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.panel2);
 			this.groupBox1.Controls.Add(this.panel1);
 			this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -171,8 +176,8 @@
 			// 
 			// TextOutputPath
 			// 
-			this.TextOutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TextOutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.TextOutputPath.Location = new System.Drawing.Point(6, 22);
 			this.TextOutputPath.Name = "TextOutputPath";
 			this.TextOutputPath.Size = new System.Drawing.Size(210, 23);

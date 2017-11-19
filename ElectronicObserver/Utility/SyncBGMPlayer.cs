@@ -8,23 +8,24 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Utility {
+namespace ElectronicObserver.Utility
+{
 
-	public sealed class SyncBGMPlayer {
+	public sealed class SyncBGMPlayer
+	{
 
 		#region Singleton
 
 		private static readonly SyncBGMPlayer instance = new SyncBGMPlayer();
 
-		public static SyncBGMPlayer Instance {
-			get { return instance; }
-		}
+		public static SyncBGMPlayer Instance => instance;
 
 		#endregion
 
 
-		[DataContract( Name = "SoundHandle" )]
-		public class SoundHandle : IIdentifiable, ICloneable {
+		[DataContract(Name = "SoundHandle")]
+		public class SoundHandle : IIdentifiable, ICloneable
+		{
 
 			[DataMember]
 			public SoundHandleID HandleID { get; set; }
@@ -44,7 +45,8 @@ namespace ElectronicObserver.Utility {
 			[DataMember]
 			public int Volume { get; set; }
 
-			public SoundHandle( SoundHandleID id ) {
+			public SoundHandle(SoundHandleID id)
+			{
 				HandleID = id;
 				Enabled = true;
 				Path = "";
@@ -54,24 +56,24 @@ namespace ElectronicObserver.Utility {
 			}
 
 			[IgnoreDataMember]
-			public int ID {
-				get { return (int)HandleID; }
-			}
+			public int ID => (int)HandleID;
 
-			public override string ToString() {
-				return Enum.GetName( typeof( SoundHandleID ), HandleID ) + " : " + Path;
-			}
+			public override string ToString() => Enum.GetName(typeof(SoundHandleID), HandleID) + " : " + Path;
 
-			public SoundHandle Clone() {
+
+			public SoundHandle Clone()
+			{
 				return (SoundHandle)MemberwiseClone();
 			}
 
-			object ICloneable.Clone() {
+			object ICloneable.Clone()
+			{
 				return Clone();
 			}
 		}
 
-		public enum SoundHandleID {
+		public enum SoundHandleID
+		{
 			Port = 1,
 			Sortie = 101,
 			BattleDay = 201,
@@ -92,7 +94,8 @@ namespace ElectronicObserver.Utility {
 
 		public IDDictionary<SoundHandle> Handles { get; internal set; }
 		public bool Enabled;
-		public bool IsMute {
+		public bool IsMute
+		{
 			get { return _mp.IsMute; }
 			set { _mp.IsMute = value; }
 		}
@@ -102,25 +105,26 @@ namespace ElectronicObserver.Utility {
 		private bool _isBoss;
 
 
-		public SyncBGMPlayer() {
+		public SyncBGMPlayer()
+		{
 
 			_mp = new MediaPlayer();
 
-			if ( !_mp.IsAvailable )
-				Utility.Logger.Add( 3, "Windows Media Player のロードに失敗しました。音声の再生はできません。" );
+			if (!_mp.IsAvailable)
+				Utility.Logger.Add(3, "Windows Media Player のロードに失敗しました。音声の再生はできません。");
 
 			_mp.AutoPlay = false;
 			_mp.IsShuffle = true;
 
-			_currentSoundHandleID = (SoundHandleID)( -1 );
+			_currentSoundHandleID = (SoundHandleID)(-1);
 			_isBoss = false;
 
 
 			Enabled = false;
 			Handles = new IDDictionary<SoundHandle>();
 
-			foreach ( SoundHandleID id in Enum.GetValues( typeof( SoundHandleID ) ) )
-				Handles.Add( new SoundHandle( id ) );
+			foreach (SoundHandleID id in Enum.GetValues(typeof(SoundHandleID)))
+				Handles.Add(new SoundHandle(id));
 
 
 
@@ -174,23 +178,25 @@ namespace ElectronicObserver.Utility {
 			SystemEvents.SystemShuttingDown += SystemEvents_SystemShuttingDown;
 		}
 
-		public void ConfigurationChanged() {
+		public void ConfigurationChanged()
+		{
 			var c = Utility.Configuration.Config.BGMPlayer;
 
 			Enabled = c.Enabled;
 
-			if ( c.Handles != null )
-				Handles = new IDDictionary<SoundHandle>( c.Handles );
+			if (c.Handles != null)
+				Handles = new IDDictionary<SoundHandle>(c.Handles);
 
-			if ( !c.SyncBrowserMute )
+			if (!c.SyncBrowserMute)
 				IsMute = false;
 
 			// 設定変更を適用するためいったん閉じる
 			_mp.Close();
-			_currentSoundHandleID = (SoundHandleID)( -1 );
+			_currentSoundHandleID = (SoundHandleID)(-1);
 		}
 
-		void SystemEvents_SystemShuttingDown() {
+		void SystemEvents_SystemShuttingDown()
+		{
 			var c = Utility.Configuration.Config.BGMPlayer;
 
 			c.Enabled = Enabled;
@@ -198,108 +204,130 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-		public void SetInitialVolume( int volume ) {
+		public void SetInitialVolume(int volume)
+		{
 			_mp.Volume = volume;
 		}
 
 
 
-		void PlayPort( string apiname, dynamic data ) {
+		void PlayPort(string apiname, dynamic data)
+		{
 			_isBoss = false;
-			Play( Handles[(int)SoundHandleID.Port] );
+			Play(Handles[(int)SoundHandleID.Port]);
 		}
 
-		void PlaySortie( string apiname, dynamic data ) {
-			Play( Handles[(int)SoundHandleID.Sortie] );
+		void PlaySortie(string apiname, dynamic data)
+		{
+			Play(Handles[(int)SoundHandleID.Sortie]);
 			_isBoss = (int)data.api_event_id == 5;
 		}
 
-		void PlayBattleDay( string apiname, dynamic data ) {
-			if ( _isBoss )
-				Play( Handles[(int)SoundHandleID.BattleBoss] );
+		void PlayBattleDay(string apiname, dynamic data)
+		{
+			if (_isBoss)
+				Play(Handles[(int)SoundHandleID.BattleBoss]);
 			else
-				Play( Handles[(int)SoundHandleID.BattleDay] );
+				Play(Handles[(int)SoundHandleID.BattleDay]);
 		}
 
-		void PlayBattleNight( string apiname, dynamic data ) {
-			if ( _isBoss )
-				Play( Handles[(int)SoundHandleID.BattleBoss] );
+		void PlayBattleNight(string apiname, dynamic data)
+		{
+			if (_isBoss)
+				Play(Handles[(int)SoundHandleID.BattleBoss]);
 			else
-				Play( Handles[(int)SoundHandleID.BattleNight] );
+				Play(Handles[(int)SoundHandleID.BattleNight]);
 		}
 
-		void PlayBattleAir( string apiname, dynamic data ) {
-			if ( _isBoss )
-				Play( Handles[(int)SoundHandleID.BattleBoss] );
+		void PlayBattleAir(string apiname, dynamic data)
+		{
+			if (_isBoss)
+				Play(Handles[(int)SoundHandleID.BattleBoss]);
 			else
-				Play( Handles[(int)SoundHandleID.BattleAir] );
+				Play(Handles[(int)SoundHandleID.BattleAir]);
 		}
 
-		void PlayPracticeDay( string apiname, dynamic data ) {
-			Play( Handles[(int)SoundHandleID.BattlePracticeDay] );
+		void PlayPracticeDay(string apiname, dynamic data)
+		{
+			Play(Handles[(int)SoundHandleID.BattlePracticeDay]);
 		}
 
-		void PlayPracticeNight( string apiname, dynamic data ) {
-			Play( Handles[(int)SoundHandleID.BattlePracticeNight] );
+		void PlayPracticeNight(string apiname, dynamic data)
+		{
+			Play(Handles[(int)SoundHandleID.BattlePracticeNight]);
 
 		}
 
-		void PlayBattleResult( string apiname, dynamic data ) {
-			switch ( (string)data.api_win_rank ) {
+		void PlayBattleResult(string apiname, dynamic data)
+		{
+			switch ((string)data.api_win_rank)
+			{
 				case "S":
 				case "A":
 				case "B":
-					if ( _isBoss )
-						Play( Handles[(int)SoundHandleID.ResultBossWin] );
+					if (_isBoss)
+						Play(Handles[(int)SoundHandleID.ResultBossWin]);
 					else
-						Play( Handles[(int)SoundHandleID.ResultWin] );
+						Play(Handles[(int)SoundHandleID.ResultWin]);
 					break;
 				default:
-					Play( Handles[(int)SoundHandleID.ResultLose] );
+					Play(Handles[(int)SoundHandleID.ResultLose]);
 					break;
 			}
 		}
 
 
-		void PlayRecord( string apiname, dynamic data ) {
-			Play( Handles[(int)SoundHandleID.Record] );
+		void PlayRecord(string apiname, dynamic data)
+		{
+			Play(Handles[(int)SoundHandleID.Record]);
 		}
 
-		void PlayItem( string apiname, dynamic data ) {
-			Play( Handles[(int)SoundHandleID.Item] );
+		void PlayItem(string apiname, dynamic data)
+		{
+			Play(Handles[(int)SoundHandleID.Item]);
 		}
 
-		void PlayQuest( string apiname, dynamic data ) {
-			Play( Handles[(int)SoundHandleID.Quest] );
+		void PlayQuest(string apiname, dynamic data)
+		{
+			Play(Handles[(int)SoundHandleID.Quest]);
 		}
 
-		void PlayAlbum( string apiname, dynamic data ) {
-			Play( Handles[(int)SoundHandleID.Album] );
+		void PlayAlbum(string apiname, dynamic data)
+		{
+			Play(Handles[(int)SoundHandleID.Album]);
 		}
 
-		void PlayImprovementArsenal( string apiname, dynamic data ) {
-			Play( Handles[(int)SoundHandleID.ImprovementArsenal] );
+		void PlayImprovementArsenal(string apiname, dynamic data)
+		{
+			Play(Handles[(int)SoundHandleID.ImprovementArsenal]);
 		}
 
 
-		private bool Play( SoundHandle sh ) {
-			if ( Enabled &&
+		private bool Play(SoundHandle sh)
+		{
+			if (Enabled &&
 				sh != null &&
 				sh.Enabled &&
-				!string.IsNullOrWhiteSpace( sh.Path ) &&
-				sh.HandleID != _currentSoundHandleID ) {
+				!string.IsNullOrWhiteSpace(sh.Path) &&
+				sh.HandleID != _currentSoundHandleID)
+			{
 
-				
-				if ( File.Exists( sh.Path ) ) {
+
+				if (File.Exists(sh.Path))
+				{
 					_mp.Close();
-					_mp.SetPlaylist( null );
+					_mp.SetPlaylist(null);
 					_mp.SourcePath = sh.Path;
 
-				} else if ( Directory.Exists( sh.Path ) ) {
+				}
+				else if (Directory.Exists(sh.Path))
+				{
 					_mp.Close();
-					_mp.SetPlaylistFromDirectory( sh.Path );
+					_mp.SetPlaylistFromDirectory(sh.Path);
 
-				} else {
+				}
+				else
+				{
 					return false;
 				}
 
@@ -307,7 +335,7 @@ namespace ElectronicObserver.Utility {
 
 				_mp.IsLoop = sh.IsLoop;
 				_mp.LoopHeadPosition = sh.LoopHeadPosition;
-				if ( !Utility.Configuration.Config.Control.UseSystemVolume )
+				if (!Utility.Configuration.Config.Control.UseSystemVolume)
 					_mp.Volume = sh.Volume;
 				_mp.Play();
 
@@ -319,8 +347,10 @@ namespace ElectronicObserver.Utility {
 
 
 
-		public static string SoundHandleIDToString( SoundHandleID id ) {
-			switch ( id ) {
+		public static string SoundHandleIDToString(SoundHandleID id)
+		{
+			switch (id)
+			{
 				case SoundHandleID.Port:
 					return "母港";
 				case SoundHandleID.Sortie:

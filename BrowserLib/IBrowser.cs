@@ -5,15 +5,17 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BrowserLib {
+namespace BrowserLib
+{
 	/// <summary>
 	/// FormBrowserのインターフェス
 	/// WCFでプロセス間通信用
 	/// </summary>
 	[ServiceContract]
-	public interface IBrowser {
+	public interface IBrowser
+	{
 		[OperationContract]
-		void ConfigurationChanged( BrowserConfiguration conf );
+		void ConfigurationChanged(BrowserConfiguration conf);
 
 		[OperationContract]
 		void InitialAPIReceived();
@@ -28,17 +30,17 @@ namespace BrowserLib {
 		void ApplyZoom();
 
 		[OperationContract]
-		void Navigate( string url );
+		void Navigate(string url);
 
 		/// <summary>
 		/// プロキシをセット
 		/// </summary>
 		[OperationContract]
-		void SetProxy( string proxy );
+		void SetProxy(string proxy);
 
 		[OperationContract]
 		void ApplyStyleSheet();
-		
+
 		[OperationContract]
 		void DestroyDMMreloadDialog();
 
@@ -46,7 +48,7 @@ namespace BrowserLib {
 		void CloseBrowser();
 
 		[OperationContract]
-		void SetIconResource( byte[] canvas );
+		void SetIconResource(byte[] canvas);
 
 	}
 }

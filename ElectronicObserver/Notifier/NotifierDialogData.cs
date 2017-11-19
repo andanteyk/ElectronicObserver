@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Notifier {
+namespace ElectronicObserver.Notifier
+{
 
-	public class NotifierDialogData {
+	public class NotifierDialogData
+	{
 
 		/// <summary>
 		/// 通知用の画像
@@ -103,18 +105,20 @@ namespace ElectronicObserver.Notifier {
 
 
 
-		public NotifierDialogData() {
+		public NotifierDialogData()
+		{
 
 			Image = null;
 
 		}
 
-		public NotifierDialogData( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
+		public NotifierDialogData(Utility.Configuration.ConfigurationData.ConfigNotifierBase config)
+		{
 
 			Image = null;
 			ImagePath = "";
-			if ( config.DrawsImage && config.ImagePath != null && config.ImagePath != "" )
-				LoadImage( config.ImagePath );
+			if (config.DrawsImage && config.ImagePath != null && config.ImagePath != "")
+				LoadImage(config.ImagePath);
 			DrawsImage = config.DrawsImage;
 			DrawsMessage = config.DrawsMessage;
 			ClosingInterval = config.ClosingInterval;
@@ -130,7 +134,8 @@ namespace ElectronicObserver.Notifier {
 		}
 
 
-		public NotifierDialogData Clone() {
+		public NotifierDialogData Clone()
+		{
 			return (NotifierDialogData)MemberwiseClone();
 		}
 
@@ -142,21 +147,26 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		/// <param name="path">画像ファイルへのパス。</param>
 		/// <returns>成功すれば true 、失敗すれば false を返します。</returns>
-		public bool LoadImage( string path ) {
+		public bool LoadImage(string path)
+		{
 
-			try {
+			try
+			{
 
 				DisposeImage();
-				using ( System.IO.FileStream stream = new System.IO.FileStream( path, System.IO.FileMode.Open, System.IO.FileAccess.Read ) ) {
-					Image = new Bitmap( stream );
+				using (System.IO.FileStream stream = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+				{
+					Image = new Bitmap(stream);
 					ImagePath = path;
 				}
 
 				return true;
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "通知システム: 通知画像 {0} の読み込みに失敗しました。", path ) );
+				Utility.ErrorReporter.SendErrorReport(ex, string.Format("通知システム: 通知画像 {0} の読み込みに失敗しました。", path));
 				DisposeImage();
 
 			}
@@ -167,8 +177,10 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知画像を破棄します。
 		/// </summary>
-		public void DisposeImage() {
-			if ( Image != null ) {
+		public void DisposeImage()
+		{
+			if (Image != null)
+			{
 				Image.Dispose();
 				Image = null;
 			}
@@ -178,7 +190,8 @@ namespace ElectronicObserver.Notifier {
 		#endregion
 
 
-		public void ApplyToConfiguration( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
+		public void ApplyToConfiguration(Utility.Configuration.ConfigurationData.ConfigNotifierBase config)
+		{
 
 			config.ImagePath = ImagePath;
 			config.DrawsImage = DrawsImage;
@@ -197,8 +210,9 @@ namespace ElectronicObserver.Notifier {
 		}
 
 
-		public void OnCloseAll() {
-			CloseAll( this, new EventArgs() );
+		public void OnCloseAll()
+		{
+			CloseAll(this, new EventArgs());
 		}
 
 	}
@@ -207,7 +221,8 @@ namespace ElectronicObserver.Notifier {
 	/// <summary>
 	/// 通知ダイアログの出現位置を表します。
 	/// </summary>
-	public enum NotifierDialogAlignment {
+	public enum NotifierDialogAlignment
+	{
 
 		/// <summary>未設定です。</summary>
 		NotSet,
@@ -251,7 +266,8 @@ namespace ElectronicObserver.Notifier {
 	/// 通知ダイアログのクリック種別を示します。
 	/// </summary>
 	[Flags]
-	public enum NotifierDialogClickFlags {
+	public enum NotifierDialogClickFlags
+	{
 
 		None = 0x0,
 		Left = 0x1,

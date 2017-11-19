@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window {
-	partial class FormLog {
+﻿namespace ElectronicObserver.Window
+{
+	partial class FormLog
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			this.LogList = new System.Windows.Forms.ListBox();
 			this.ContextMenuLog = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -32,9 +37,9 @@
 			// 
 			// LogList
 			// 
-			this.LogList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.LogList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.LogList.BackColor = System.Drawing.SystemColors.Control;
 			this.LogList.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.LogList.ContextMenuStrip = this.ContextMenuLog;
@@ -51,7 +56,7 @@
 			// ContextMenuLog
 			// 
 			this.ContextMenuLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ContextMenuLog_Clear});
+			this.ContextMenuLog_Clear});
 			this.ContextMenuLog.Name = "ContextMenuLog";
 			this.ContextMenuLog.Size = new System.Drawing.Size(131, 26);
 			// 

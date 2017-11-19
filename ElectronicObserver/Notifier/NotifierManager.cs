@@ -7,17 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElectronicObserver.Notifier {
+namespace ElectronicObserver.Notifier
+{
 
-	public sealed class NotifierManager {
+	public sealed class NotifierManager
+	{
 
 		#region Singleton
 
 		private static readonly NotifierManager instance = new NotifierManager();
 
-		public static NotifierManager Instance {
-			get { return instance; }
-		}
+		public static NotifierManager Instance => instance;
 
 		#endregion
 
@@ -31,43 +31,48 @@ namespace ElectronicObserver.Notifier {
 		public NotifierDamage Damage { get; private set; }
 		public NotifierAnchorageRepair AnchorageRepair { get; private set; }
 
-		private NotifierManager() {
+		private NotifierManager()
+		{
 		}
 
 
-		public void Initialize( FormMain parent ) {
+		public void Initialize(FormMain parent)
+		{
 
 			_parentForm = parent;
 
 			var c = Utility.Configuration.Config;
 
-			Expedition = new NotifierExpedition( c.NotifierExpedition );
-			Construction = new NotifierConstruction( c.NotifierConstruction );
-			Repair = new NotifierRepair( c.NotifierRepair );
-			Condition = new NotifierCondition( c.NotifierCondition );
-			Damage = new NotifierDamage( c.NotifierDamage );
-			AnchorageRepair = new NotifierAnchorageRepair( c.NotifierAnchorageRepair );
+			Expedition = new NotifierExpedition(c.NotifierExpedition);
+			Construction = new NotifierConstruction(c.NotifierConstruction);
+			Repair = new NotifierRepair(c.NotifierRepair);
+			Condition = new NotifierCondition(c.NotifierCondition);
+			Damage = new NotifierDamage(c.NotifierDamage);
+			AnchorageRepair = new NotifierAnchorageRepair(c.NotifierAnchorageRepair);
 
 		}
 
-		public void ApplyToConfiguration() {
+		public void ApplyToConfiguration()
+		{
 
 			var c = Utility.Configuration.Config;
 
-			Expedition.ApplyToConfiguration( c.NotifierExpedition );
-			Construction.ApplyToConfiguration( c.NotifierConstruction );
-			Repair.ApplyToConfiguration( c.NotifierRepair );
-			Condition.ApplyToConfiguration( c.NotifierCondition );
-			Damage.ApplyToConfiguration( c.NotifierDamage );
-			AnchorageRepair.ApplyToConfiguration( c.NotifierAnchorageRepair );
+			Expedition.ApplyToConfiguration(c.NotifierExpedition);
+			Construction.ApplyToConfiguration(c.NotifierConstruction);
+			Repair.ApplyToConfiguration(c.NotifierRepair);
+			Condition.ApplyToConfiguration(c.NotifierCondition);
+			Damage.ApplyToConfiguration(c.NotifierDamage);
+			AnchorageRepair.ApplyToConfiguration(c.NotifierAnchorageRepair);
 		}
 
-		public void ShowNotifier( ElectronicObserver.Window.Dialog.DialogNotifier form ) {
+		public void ShowNotifier(ElectronicObserver.Window.Dialog.DialogNotifier form)
+		{
 
-			if ( form.DialogData.Alignment == NotifierDialogAlignment.CustomRelative ) {		//cloneしているから書き換えても問題ないはず
-				Point p = _parentForm.fBrowser.PointToScreen( new Point( _parentForm.fBrowser.ClientSize.Width / 2, _parentForm.fBrowser.ClientSize.Height / 2 ) );
-				p.Offset( new Point( -form.Width / 2, -form.Height / 2 ) );
-				p.Offset( form.DialogData.Location );
+			if (form.DialogData.Alignment == NotifierDialogAlignment.CustomRelative)
+			{       //cloneしているから書き換えても問題ないはず
+				Point p = _parentForm.fBrowser.PointToScreen(new Point(_parentForm.fBrowser.ClientSize.Width / 2, _parentForm.fBrowser.ClientSize.Height / 2));
+				p.Offset(new Point(-form.Width / 2, -form.Height / 2));
+				p.Offset(form.DialogData.Location);
 
 				form.DialogData.Location = p;
 			}
@@ -75,7 +80,8 @@ namespace ElectronicObserver.Notifier {
 			form.Show();
 		}
 
-		public IEnumerable<NotifierBase> GetNotifiers() {
+		public IEnumerable<NotifierBase> GetNotifiers()
+		{
 			yield return Expedition;
 			yield return Construction;
 			yield return Repair;

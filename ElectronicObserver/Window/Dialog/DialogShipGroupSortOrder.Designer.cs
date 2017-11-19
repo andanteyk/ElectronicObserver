@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogShipGroupSortOrder {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogShipGroupSortOrder
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.AutoSortFlag = new System.Windows.Forms.CheckBox();
 			this.EnabledView = new System.Windows.Forms.DataGridView();
 			this.EnabledView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,15 +72,15 @@
 			this.EnabledView.AllowUserToDeleteRows = false;
 			this.EnabledView.AllowUserToResizeColumns = false;
 			this.EnabledView.AllowUserToResizeRows = false;
-			this.EnabledView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.EnabledView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.EnabledView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.EnabledView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EnabledView_Name,
-            this.EnabledView_SortDirection,
-            this.EnabledView_Up,
-            this.EnabledView_Down});
+			this.EnabledView_Name,
+			this.EnabledView_SortDirection,
+			this.EnabledView_Up,
+			this.EnabledView_Down});
 			this.EnabledView.Location = new System.Drawing.Point(3, 3);
 			this.EnabledView.Name = "EnabledView";
 			this.EnabledView.RowHeadersVisible = false;
@@ -116,9 +121,9 @@
 			// 
 			// tableLayoutPanel1
 			// 
-			this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
@@ -141,8 +146,8 @@
 			// 
 			// panel3
 			// 
-			this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.panel3.Controls.Add(this.ButtonDown);
 			this.panel3.Controls.Add(this.ButtonUp);
 			this.panel3.Location = new System.Drawing.Point(260, 0);
@@ -173,9 +178,9 @@
 			// 
 			// panel1
 			// 
-			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.Controls.Add(this.ButtonRight);
 			this.panel1.Controls.Add(this.ButtonLeft);
 			this.panel1.Location = new System.Drawing.Point(260, 151);
@@ -208,8 +213,8 @@
 			// 
 			// panel2
 			// 
-			this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.panel2.Controls.Add(this.ButtonRightAll);
 			this.panel2.Controls.Add(this.ButtonLeftAll);
 			this.panel2.Location = new System.Drawing.Point(260, 263);
@@ -246,12 +251,12 @@
 			this.DisabledView.AllowUserToDeleteRows = false;
 			this.DisabledView.AllowUserToResizeColumns = false;
 			this.DisabledView.AllowUserToResizeRows = false;
-			this.DisabledView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.DisabledView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.DisabledView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.DisabledView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DisabledView_Name});
+			this.DisabledView_Name});
 			this.DisabledView.Location = new System.Drawing.Point(343, 3);
 			this.DisabledView.Name = "DisabledView";
 			this.DisabledView.RowHeadersVisible = false;

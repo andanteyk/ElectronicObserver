@@ -5,32 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
-	
+namespace ElectronicObserver.Data
+{
+
 	/// <summary>
 	/// 消費アイテムのデータを保持します。
 	/// </summary>
-	[DebuggerDisplay( "{KCDatabase.Instance.MasterUseItems[ItemID].Name} x {Count}" )]
-	public class UseItem : ResponseWrapper, IIdentifiable {
+	public class UseItem : ResponseWrapper, IIdentifiable
+	{
 
 		/// <summary>
 		/// アイテムID
 		/// </summary>
-		public int ItemID {
-			get { return (int)RawData.api_id; }
-		}
-		
+		public int ItemID => (int)RawData.api_id;
+
 		/// <summary>
 		/// 個数
 		/// </summary>
-		public int Count {
-			get { return (int)RawData.api_count; }
-		}
+		public int Count => (int)RawData.api_count;
 
 
+		public UseItemMaster MasterUseItem => KCDatabase.Instance.MasterUseItems[ItemID];
 
-		public int ID {
-			get { return ItemID; }
-		}
+
+		public int ID => ItemID;
+		public override string ToString() => $"[{ItemID}] {MasterUseItem.Name} x {Count}";
 	}
+
 }

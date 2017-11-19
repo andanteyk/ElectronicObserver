@@ -9,13 +9,15 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
 	/// 艦船グループのデータを管理します。
 	/// </summary>
-	[DataContract( Name = "ShipGroupManager" )]
-	public class ShipGroupManager : DataStorage {
+	[DataContract(Name = "ShipGroupManager")]
+	public sealed class ShipGroupManager : DataStorage
+	{
 
 		public const string DefaultFilePath = @"Settings\ShipGroups.xml";
 
@@ -28,52 +30,56 @@ namespace ElectronicObserver.Data {
 
 
 		[DataMember]
-		private IEnumerable<ShipGroupData> ShipGroupsSerializer {
-			get { return ShipGroups.Values.OrderBy( g => g.ID ); }
-			set { ShipGroups = new IDDictionary<ShipGroupData>( value ); }
+		private IEnumerable<ShipGroupData> ShipGroupsSerializer
+		{
+			get { return ShipGroups.Values.OrderBy(g => g.ID); }
+			set { ShipGroups = new IDDictionary<ShipGroupData>(value); }
 		}
 
-		public ShipGroupManager() {
+		public ShipGroupManager()
+		{
 			Initialize();
 		}
 
 
-		public override void Initialize() {
+		public override void Initialize()
+		{
 			ShipGroups = new IDDictionary<ShipGroupData>();
 		}
 
 
 
-		public ShipGroupData this[int index] {
-			get {
-				return ShipGroups[index];
-			}
-		}
+		public ShipGroupData this[int index] => ShipGroups[index];
 
 
-		public ShipGroupData Add() {
+
+		public ShipGroupData Add()
+		{
 
 			int key = GetUniqueID();
-			var group = new ShipGroupData( key );
-			ShipGroups.Add( group );
+			var group = new ShipGroupData(key);
+			ShipGroups.Add(group);
 			return group;
 
 		}
 
-		public int GetUniqueID() {
+		public int GetUniqueID()
+		{
 			return ShipGroups.Count > 0 ? ShipGroups.Keys.Max() + 1 : 1;
 		}
 
 
-		public ShipGroupManager Load() {
+		public ShipGroupManager Load()
+		{
 
-			ResourceManager.CopyFromArchive( DefaultFilePath.Replace( "\\", "/" ), DefaultFilePath, true, false );
+			ResourceManager.CopyFromArchive(DefaultFilePath.Replace("\\", "/"), DefaultFilePath, true, false);
 
-			return (ShipGroupManager)Load( DefaultFilePath );
+			return (ShipGroupManager)Load(DefaultFilePath);
 		}
 
-		public void Save() {
-			Save( DefaultFilePath );
+		public void Save()
+		{
+			Save(DefaultFilePath);
 		}
 
 	}

@@ -9,30 +9,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElectronicObserver.Window.Dialog {
-	public partial class DialogTextSelect : Form {
+namespace ElectronicObserver.Window.Dialog
+{
+	public partial class DialogTextSelect : Form
+	{
 
-		public int SelectedIndex {
-			get { return TextSelect.SelectedIndex; }
-		}
+		public int SelectedIndex => TextSelect.SelectedIndex;
 
-		public object SelectedItem {
-			get { return TextSelect.SelectedItem; }
-		}
+		public object SelectedItem => TextSelect.SelectedItem;
 
-		public DialogTextSelect() {
+		public DialogTextSelect()
+		{
 			InitializeComponent();
 
-			ControlHelper.SetDoubleBuffered( tableLayoutPanel1 );
+			ControlHelper.SetDoubleBuffered(tableLayoutPanel1);
 		}
 
-		public DialogTextSelect( string title, string description, object[] items )
-			: this() {
+		public DialogTextSelect(string title, string description, object[] items)
+			: this()
+		{
 
-			Initialize( title, description, items );
+			Initialize(title, description, items);
 		}
 
-		public void Initialize( string title, string description, object[] items ) {
+		public void Initialize(string title, string description, object[] items)
+		{
 			this.Text = title;
 
 			tableLayoutPanel1.SuspendLayout();
@@ -41,8 +42,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			TextSelect.BeginUpdate();
 			TextSelect.Items.Clear();
-			TextSelect.Items.AddRange( items );
-			if ( TextSelect.Items.Count > 0 )
+			TextSelect.Items.AddRange(items);
+			if (TextSelect.Items.Count > 0)
 				TextSelect.SelectedIndex = 0;
 			TextSelect.EndUpdate();
 
@@ -51,11 +52,13 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		private void ButtonOK_Click( object sender, EventArgs e ) {
+		private void ButtonOK_Click(object sender, EventArgs e)
+		{
 			DialogResult = System.Windows.Forms.DialogResult.OK;
 		}
 
-		private void ButtonCancel_Click( object sender, EventArgs e ) {
+		private void ButtonCancel_Click(object sender, EventArgs e)
+		{
 			DialogResult = System.Windows.Forms.DialogResult.Cancel;
 		}
 

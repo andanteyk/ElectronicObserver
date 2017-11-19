@@ -5,78 +5,66 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
 	/// 出撃時のマップ・進撃先を保持します。
 	/// </summary>
-	public class CompassData : ResponseWrapper {
+	public class CompassData : ResponseWrapper
+	{
 
 		/// <summary>
 		/// 海域カテゴリID(2-3でいう2)
 		/// </summary>
-		public int MapAreaID {
-			get { return (int)RawData.api_maparea_id; }
-		}
+		public int MapAreaID => (int)RawData.api_maparea_id;
 
 		/// <summary>
 		/// 海域カテゴリ内番号(2-3でいう3)
 		/// </summary>
-		public int MapInfoID {
-			get { return (int)RawData.api_mapinfo_no; }
-		}
+		public int MapInfoID => (int)RawData.api_mapinfo_no;
 
 		/// <summary>
 		/// 次に向かうセルのID
 		/// </summary>
-		public int Destination {
-			get { return (int)RawData.api_no; }
-		}
+		public int Destination => (int)RawData.api_no;
 
 		/// <summary>
 		/// 次のセルのグラフィック
 		/// </summary>
-		public int ColorID {
-			get { return (int)RawData.api_color_no; }
-		}
+		public int ColorID => (int)RawData.api_color_no;
 
 		/// <summary>
 		/// イベントID
 		/// 0=初期位置, 2=資源, 3=渦潮, 4=通常戦闘, 5=ボス戦闘, 6=気のせいだった, 7=航空戦, 8=船団護衛成功
 		/// </summary>
-		public int EventID {
-			get { return (int)RawData.api_event_id; }
-		}
+		public int EventID => (int)RawData.api_event_id;
 
 		/// <summary>
 		/// イベント種別
 		/// 0=非戦闘, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦
 		/// </summary>
-		public int EventKind {
-			get { return (int)RawData.api_event_kind; }
-		}
+		public int EventKind => (int)RawData.api_event_kind;
 
 		/// <summary>
 		/// 次のセルでの分岐の本数
 		/// </summary>
-		public int NextBranchCount {
-			get { return (int)RawData.api_next; }
-		}
+		public int NextBranchCount => (int)RawData.api_next;
 
 		/// <summary>
 		/// 行き止まりかどうか
 		/// </summary>
-		public bool IsEndPoint {
-			get { return NextBranchCount == 0; }
-		}
+		public bool IsEndPoint => NextBranchCount == 0;
 
 		/// <summary>
 		/// 吹き出しの内容
 		/// 0=なし, 1="敵艦隊発見!", 2="攻撃目標発見!"
 		/// </summary>
-		public int CommentID {
-			get {
-				if ( RawData.api_comment_kind() )	//startには存在しないため
+		public int CommentID
+		{
+			get
+			{
+				if (RawData.api_comment_kind()) //startには存在しないため
 					return (int)RawData.api_comment_kind;
 				else
 					return 0;
@@ -86,9 +74,11 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 索敵に成功したか 0=失敗, 1=成功(索敵機発艦)
 		/// </summary>
-		public int LaunchedRecon {
-			get {
-				if ( RawData.api_production_kind() )
+		public int LaunchedRecon
+		{
+			get
+			{
+				if (RawData.api_production_kind())
 					return (int)RawData.api_production_kind;
 				else
 					return 0;
@@ -99,12 +89,14 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 資源セルで入手できる資源のデータです。
 		/// </summary>
-		public class GetItemData {
+		public class GetItemData
+		{
 			public int ItemID { get; set; }
 			public int Metadata { get; set; }
 			public int Amount { get; set; }
 
-			public GetItemData( int itemID, int metadata, int amount ) {
+			public GetItemData(int itemID, int metadata, int amount)
+			{
 				ItemID = itemID;
 				Metadata = metadata;
 				Amount = amount;
@@ -114,23 +106,29 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 入手するアイテムリスト
 		/// </summary>
-		public IEnumerable<GetItemData> GetItems {
-			get {
+		public IEnumerable<GetItemData> GetItems
+		{
+			get
+			{
 				dynamic item;
-				if ( RawData.api_itemget() )
+				if (RawData.api_itemget())
 					item = RawData.api_itemget;
-				else if ( RawData.api_itemget_eo_comment() )
+				else if (RawData.api_itemget_eo_comment())
 					item = RawData.api_itemget_eo_comment;
 				else
 					yield break;
 
 				// item.IsArray だと参照できないため
-				if ( !( ( (dynamic)item ).IsArray ) ) {
-					yield return new GetItemData( (int)item.api_usemst, (int)item.api_id, (int)item.api_getcount );
+				if (!(((dynamic)item).IsArray))
+				{
+					yield return new GetItemData((int)item.api_usemst, (int)item.api_id, (int)item.api_getcount);
 
-				} else {
-					foreach ( dynamic i in item ) {
-						yield return new GetItemData( (int)i.api_usemst, (int)i.api_id, (int)i.api_getcount );
+				}
+				else
+				{
+					foreach (dynamic i in item)
+					{
+						yield return new GetItemData((int)i.api_usemst, (int)i.api_id, (int)i.api_getcount);
 					}
 				}
 			}
@@ -141,11 +139,16 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 渦潮で失うアイテムのID
 		/// </summary>
-		public int WhirlpoolItemID {
-			get {
-				if ( RawData.api_happening() ) {
+		public int WhirlpoolItemID
+		{
+			get
+			{
+				if (RawData.api_happening())
+				{
 					return (int)RawData.api_happening.api_mst_id;
-				} else {
+				}
+				else
+				{
 					return -1;
 				}
 			}
@@ -154,11 +157,16 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 渦潮で失うアイテムの量
 		/// </summary>
-		public int WhirlpoolItemAmount {
-			get {
-				if ( RawData.api_happening() ) {
+		public int WhirlpoolItemAmount
+		{
+			get
+			{
+				if (RawData.api_happening())
+				{
 					return (int)RawData.api_happening.api_count;
-				} else {
+				}
+				else
+				{
 					return 0;
 				}
 			}
@@ -167,11 +175,16 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 渦潮の被害を電探で軽減するか
 		/// </summary>
-		public bool WhirlpoolRadarFlag {
-			get {
-				if ( RawData.api_happening() ) {
+		public bool WhirlpoolRadarFlag
+		{
+			get
+			{
+				if (RawData.api_happening())
+				{
 					return (int)RawData.api_happening.api_dentan != 0;
-				} else {
+				}
+				else
+				{
 					return false;
 				}
 			}
@@ -180,11 +193,16 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 能動分岐の選択肢
 		/// </summary>
-		public ReadOnlyCollection<int> RouteChoices {
-			get {
-				if ( RawData.api_select_route() ) {
-					return Array.AsReadOnly( (int[])RawData.api_select_route.api_select_cells );
-				} else {
+		public ReadOnlyCollection<int> RouteChoices
+		{
+			get
+			{
+				if (RawData.api_select_route())
+				{
+					return Array.AsReadOnly((int[])RawData.api_select_route.api_select_cells);
+				}
+				else
+				{
 					return null;
 				}
 			}
@@ -195,11 +213,16 @@ namespace ElectronicObserver.Data {
 		/// 航空偵察の航空機
 		/// 0=なし, 1=大型飛行艇, 2=水上偵察機
 		/// </summary>
-		public int AirReconnaissancePlane {
-			get {
-				if ( RawData.api_airsearch() ) {
+		public int AirReconnaissancePlane
+		{
+			get
+			{
+				if (RawData.api_airsearch())
+				{
 					return (int)RawData.api_airsearch.api_plane_type;
-				} else {
+				}
+				else
+				{
 					return 0;
 				}
 			}
@@ -210,11 +233,16 @@ namespace ElectronicObserver.Data {
 		/// 航空偵察結果
 		/// 0=失敗, 1=成功, 2=大成功
 		/// </summary>
-		public int AirReconnaissanceResult {
-			get {
-				if ( RawData.api_airsearch() ) {
+		public int AirReconnaissanceResult
+		{
+			get
+			{
+				if (RawData.api_airsearch())
+				{
 					return (int)RawData.api_airsearch.api_result;
-				} else {
+				}
+				else
+				{
 					return 0;
 				}
 			}
@@ -224,61 +252,45 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 空襲が存在したか
 		/// </summary>
-		public bool HasAirRaid {
-			get {
-				return RawData.api_destruction_battle();
-			}
-		}
+		public bool HasAirRaid => RawData.api_destruction_battle();
+
 
 		/// <summary>
 		/// 基地空襲戦データ
 		/// </summary>
-		public dynamic AirRaidData {
-			get {
-				return HasAirRaid ? RawData.api_destruction_battle : null;
-			}
-		}
+		public dynamic AirRaidData => HasAirRaid ? RawData.api_destruction_battle : null;
+
 
 
 		/// <summary>
 		/// 空襲被害の種別
 		/// 1=資源に被害, 2=資源・航空隊に被害, 3=航空隊に被害, 4=損害なし
 		/// </summary>
-		public int AirRaidDamageKind {
-			get {
-				return HasAirRaid && RawData.api_destruction_battle.api_lost_kind() ? (int)RawData.api_destruction_battle.api_lost_kind : 0;
-			}
-		}
+		public int AirRaidDamageKind => HasAirRaid && RawData.api_destruction_battle.api_lost_kind() ? (int)RawData.api_destruction_battle.api_lost_kind : 0;
+
 
 
 		/// <summary>
 		/// 海域HP の現在値
 		/// 取得不能なら 0
 		/// </summary>
-		public int MapHPCurrent {
-			get {
-				return RawData.api_eventmap() ? (int)RawData.api_eventmap.api_now_maphp : 0;
-			}
-		}
+		public int MapHPCurrent => RawData.api_eventmap() ? (int)RawData.api_eventmap.api_now_maphp : 0;
+
 
 		/// <summary>
 		/// 海域HP の最大値
 		/// 取得不能なら 0
 		/// </summary>
-		public int MapHPMax {
-			get {
-				return RawData.api_eventmap() ? (int)RawData.api_eventmap.api_max_maphp : 0;
-			}
-		}
+		public int MapHPMax => RawData.api_eventmap() ? (int)RawData.api_eventmap.api_max_maphp : 0;
+
 
 
 		/// <summary>
 		/// 対応する海域情報
 		/// </summary>
-		public MapInfoData MapInfo {
-			get { return KCDatabase.Instance.MapInfo[MapAreaID * 10 + MapInfoID]; }
-		}
+		public MapInfoData MapInfo => KCDatabase.Instance.MapInfo[MapAreaID * 10 + MapInfoID];
 	}
+
 
 
 }

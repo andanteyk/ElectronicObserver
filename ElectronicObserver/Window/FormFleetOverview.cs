@@ -16,36 +16,44 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace ElectronicObserver.Window {
+namespace ElectronicObserver.Window
+{
 
-	public partial class FormFleetOverview : DockContent {
+	public partial class FormFleetOverview : DockContent
+	{
 
-		private class TableFleetControl {
+		private class TableFleetControl : IDisposable
+		{
 
 			public ImageLabel Number;
 			public FleetState State;
 			public ToolTip ToolTipInfo;
 			private int fleetID;
 
-			public TableFleetControl( FormFleetOverview parent, int fleetID ) {
+			public TableFleetControl(FormFleetOverview parent, int fleetID)
+			{
 
 				#region Initialize
 
-				Number = new ImageLabel();
-				Number.Anchor = AnchorStyles.Left;
-				Number.ImageAlign = ContentAlignment.MiddleCenter;
-				Number.Padding = new Padding( 0, 1, 0, 1 );
-				Number.Margin = new Padding( 2, 1, 2, 1 );
-				Number.Text = string.Format( "#{0}:", fleetID );
-				Number.AutoSize = true;
+				Number = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					ImageAlign = ContentAlignment.MiddleCenter,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					Text = $"#{fleetID}:",
+					AutoSize = true
+				};
 
-				State = new FleetState();
-				State.Anchor = AnchorStyles.Left;
-				State.Padding = new Padding();
-				State.Margin = new Padding();
-				State.AutoSize = true;
+				State = new FleetState
+				{
+					Anchor = AnchorStyles.Left,
+					Padding = new Padding(),
+					Margin = new Padding(),
+					AutoSize = true
+				};
 
-				ConfigurationChanged( parent );
+				ConfigurationChanged(parent);
 
 				this.fleetID = fleetID;
 				ToolTipInfo = parent.ToolTipInfo;
@@ -54,42 +62,53 @@ namespace ElectronicObserver.Window {
 
 			}
 
-			public TableFleetControl( FormFleetOverview parent, int fleetID, TableLayoutPanel table )
-				: this( parent, fleetID ) {
+			public TableFleetControl(FormFleetOverview parent, int fleetID, TableLayoutPanel table)
+				: this(parent, fleetID)
+			{
 
-				AddToTable( table, fleetID - 1 );
+				AddToTable(table, fleetID - 1);
 			}
 
-			public void AddToTable( TableLayoutPanel table, int row ) {
+			public void AddToTable(TableLayoutPanel table, int row)
+			{
 
-				table.Controls.Add( Number, 0, row );
-				table.Controls.Add( State, 1, row );
+				table.Controls.Add(Number, 0, row);
+				table.Controls.Add(State, 1, row);
 
-			}
-
-
-			public void Update() {
-
-				FleetData fleet =  KCDatabase.Instance.Fleet[fleetID];
-				if ( fleet == null ) return;
-
-				State.UpdateFleetState( fleet, ToolTipInfo );
-
-				ToolTipInfo.SetToolTip( Number, fleet.Name );
 			}
 
 
-			public void Refresh() {
+			public void Update()
+			{
+
+				FleetData fleet = KCDatabase.Instance.Fleet[fleetID];
+				if (fleet == null) return;
+
+				State.UpdateFleetState(fleet, ToolTipInfo);
+
+				ToolTipInfo.SetToolTip(Number, fleet.Name);
+			}
+
+
+			public void Refresh()
+			{
 
 				State.RefreshFleetState();
 			}
 
 
-			public void ConfigurationChanged( FormFleetOverview parent ) {
+			public void ConfigurationChanged(FormFleetOverview parent)
+			{
 				Number.Font = parent.Font;
 				State.Font = parent.Font;
 				State.BackColor = Color.Transparent;
 				Update();
+			}
+
+			public void Dispose()
+			{
+				Number.Dispose();
+				State.Dispose();
 			}
 		}
 
@@ -99,45 +118,51 @@ namespace ElectronicObserver.Window {
 		private ImageLabel AnchorageRepairingTimer;
 
 
-		public FormFleetOverview( FormMain parent ) {
+		public FormFleetOverview(FormMain parent)
+		{
 			InitializeComponent();
 
-			ControlHelper.SetDoubleBuffered( TableFleet );
+			ControlHelper.SetDoubleBuffered(TableFleet);
 
 
-			ControlFleet = new List<TableFleetControl>( 4 );
-			for ( int i = 0; i < 4; i++ ) {
-				ControlFleet.Add( new TableFleetControl( this, i + 1, TableFleet ) );
+			ControlFleet = new List<TableFleetControl>(4);
+			for (int i = 0; i < 4; i++)
+			{
+				ControlFleet.Add(new TableFleetControl(this, i + 1, TableFleet));
 			}
 
 			{
-				AnchorageRepairingTimer = new ImageLabel();
-				AnchorageRepairingTimer.Anchor = AnchorStyles.Left;
-				AnchorageRepairingTimer.Padding = new Padding( 0, 1, 0, 1 );
-				AnchorageRepairingTimer.Margin = new Padding( 2, 1, 2, 1 );
-				AnchorageRepairingTimer.ImageList = ResourceManager.Instance.Icons;
-				AnchorageRepairingTimer.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
-				AnchorageRepairingTimer.Text = "-";
-				AnchorageRepairingTimer.AutoSize = true;
+				AnchorageRepairingTimer = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					ImageList = ResourceManager.Instance.Icons,
+					ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing,
+					Text = "-",
+					AutoSize = true
+				};
 				//AnchorageRepairingTimer.Visible = false;
 
-				TableFleet.Controls.Add( AnchorageRepairingTimer, 1, 4 );
+				TableFleet.Controls.Add(AnchorageRepairingTimer, 1, 4);
 
 			}
 
 			#region CombinedTag
 			{
-				CombinedTag = new ImageLabel();
-				CombinedTag.Anchor = AnchorStyles.Left;
-				CombinedTag.Padding = new Padding( 0, 1, 0, 1 );
-				CombinedTag.Margin = new Padding( 2, 1, 2, 1 );
-				CombinedTag.ImageList = ResourceManager.Instance.Icons;
-				CombinedTag.ImageIndex = (int)ResourceManager.IconContent.FleetCombined;
-				CombinedTag.Text = "-";
-				CombinedTag.AutoSize = true;
-				CombinedTag.Visible = false;
+				CombinedTag = new ImageLabel
+				{
+					Anchor = AnchorStyles.Left,
+					Padding = new Padding(0, 1, 0, 1),
+					Margin = new Padding(2, 1, 2, 1),
+					ImageList = ResourceManager.Instance.Icons,
+					ImageIndex = (int)ResourceManager.IconContent.FleetCombined,
+					Text = "-",
+					AutoSize = true,
+					Visible = false
+				};
 
-				TableFleet.Controls.Add( CombinedTag, 1, 5 );
+				TableFleet.Controls.Add(CombinedTag, 1, 5);
 
 			}
 			#endregion
@@ -146,14 +171,15 @@ namespace ElectronicObserver.Window {
 
 			ConfigurationChanged();
 
-			Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet] );
+			Icon = ResourceManager.ImageToIcon(ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormFleet]);
 
 			Utility.SystemEvents.UpdateTimerTick += UpdateTimerTick;
 		}
 
 
 
-		private void FormFleetOverview_Load( object sender, EventArgs e ) {
+		private void FormFleetOverview_Load(object sender, EventArgs e)
+		{
 
 			//api register
 			APIObserver o = APIObserver.Instance;
@@ -173,7 +199,7 @@ namespace ElectronicObserver.Window {
 			o.APIList["api_req_hokyu/charge"].ResponseReceived += Updated;
 			o.APIList["api_req_kousyou/destroyship"].ResponseReceived += Updated;
 			o.APIList["api_get_member/ship3"].ResponseReceived += Updated;
-			o.APIList["api_req_kaisou/powerup"].ResponseReceived += Updated;		//requestのほうは面倒なのでこちらでまとめてやる
+			o.APIList["api_req_kaisou/powerup"].ResponseReceived += Updated;        //requestのほうは面倒なのでこちらでまとめてやる
 			o.APIList["api_get_member/deck"].ResponseReceived += Updated;
 			o.APIList["api_req_map/start"].ResponseReceived += Updated;
 			o.APIList["api_req_map/next"].ResponseReceived += Updated;
@@ -187,7 +213,8 @@ namespace ElectronicObserver.Window {
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
-		void ConfigurationChanged() {
+		void ConfigurationChanged()
+		{
 
 			TableFleet.SuspendLayout();
 
@@ -195,60 +222,71 @@ namespace ElectronicObserver.Window {
 
 			AutoScroll = Utility.Configuration.Config.FormFleet.IsScrollable;
 
-			foreach ( var c in ControlFleet )
-				c.ConfigurationChanged( this );
+			foreach (var c in ControlFleet)
+				c.ConfigurationChanged(this);
 
 			CombinedTag.Font = Font;
 			AnchorageRepairingTimer.Font = Font;
 			AnchorageRepairingTimer.Visible = Utility.Configuration.Config.FormFleet.ShowAnchorageRepairingTimer;
 
-			ControlHelper.SetTableRowStyles( TableFleet, ControlHelper.GetDefaultRowStyle() );
+			ControlHelper.SetTableRowStyles(TableFleet, ControlHelper.GetDefaultRowStyle());
 
 			TableFleet.ResumeLayout();
 		}
 
 
-		private void Updated( string apiname, dynamic data ) {
+		private void Updated(string apiname, dynamic data)
+		{
 
 			TableFleet.SuspendLayout();
 
-			TableFleet.RowCount = KCDatabase.Instance.Fleet.Fleets.Values.Count( f => f.IsAvailable );
-			for ( int i = 0; i < ControlFleet.Count; i++ ) {
+			TableFleet.RowCount = KCDatabase.Instance.Fleet.Fleets.Values.Count(f => f.IsAvailable);
+			for (int i = 0; i < ControlFleet.Count; i++)
+			{
 				ControlFleet[i].Update();
 			}
 
-			if ( KCDatabase.Instance.Fleet.CombinedFlag > 0 ) {
-				CombinedTag.Text = Constants.GetCombinedFleet( KCDatabase.Instance.Fleet.CombinedFlag );
+			if (KCDatabase.Instance.Fleet.CombinedFlag > 0)
+			{
+				CombinedTag.Text = Constants.GetCombinedFleet(KCDatabase.Instance.Fleet.CombinedFlag);
 
 				var fleet1 = KCDatabase.Instance.Fleet[1];
 				var fleet2 = KCDatabase.Instance.Fleet[2];
 
-				int tp = Calculator.GetTPDamage( fleet1 ) + Calculator.GetTPDamage( fleet2 );
+				int tp = Calculator.GetTPDamage(fleet1) + Calculator.GetTPDamage(fleet2);
 
-				ToolTipInfo.SetToolTip( CombinedTag, string.Format( "ドラム缶搭載: {0}個\r\n大発動艇搭載: {1}個\r\n輸送量(TP): S {2} / A {3}\r\n\r\n制空戦力合計: {4}\r\n索敵能力合計: {5:f2}\r\n新判定式(33):\r\n　分岐点係数1: {6:f2}\r\n　分岐点係数3: {7:f2}\r\n　分岐点係数4: {8:f2}",
-					fleet1.MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 30 ) ) +
-					fleet2.MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 30 ) ),
-					fleet1.MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 24 ) ) +
-					fleet2.MembersWithoutEscaped.Sum( s => s == null ? 0 : s.AllSlotInstanceMaster.Count( eq => eq != null && eq.CategoryType == 24 ) ),
+				var members = fleet1.MembersWithoutEscaped.Concat(fleet2.MembersWithoutEscaped).Where(s => s != null);
+
+				// 各艦ごとの ドラム缶 or 大発系 を搭載している個数
+				var transport = members.Select(s => s.AllSlotInstanceMaster.Count(eq => eq?.CategoryType == EquipmentTypes.TransportContainer));
+				var landing = members.Select(s => s.AllSlotInstanceMaster.Count(eq => eq?.CategoryType == EquipmentTypes.LandingCraft || eq?.CategoryType == EquipmentTypes.SpecialAmphibiousTank));
+
+
+				ToolTipInfo.SetToolTip(CombinedTag, string.Format("ドラム缶搭載: {0}個\r\n大発動艇搭載: {1}個\r\n輸送量(TP): S {2} / A {3}\r\n\r\n制空戦力合計: {4}\r\n索敵能力合計: {5:f2}\r\n新判定式(33):\r\n　分岐点係数1: {6:f2}\r\n　分岐点係数3: {7:f2}\r\n　分岐点係数4: {8:f2}",
+					transport.Sum(),
+					landing.Sum(),
 					tp,
-					(int)Math.Floor( tp * 0.7 ),
-					Calculator.GetAirSuperiority( fleet1 ) + Calculator.GetAirSuperiority( fleet2 ),
-					Math.Floor( fleet1.GetSearchingAbility() * 100 ) / 100 + Math.Floor( fleet2.GetSearchingAbility() * 100 ) / 100,
-					Math.Floor( Calculator.GetSearchingAbility_New33( fleet1, 1 ) * 100 ) / 100 + Math.Floor( Calculator.GetSearchingAbility_New33( fleet2, 1 ) * 100 ) / 100,
-					Math.Floor( Calculator.GetSearchingAbility_New33( fleet1, 3 ) * 100 ) / 100 + Math.Floor( Calculator.GetSearchingAbility_New33( fleet2, 3 ) * 100 ) / 100,
-					Math.Floor( Calculator.GetSearchingAbility_New33( fleet1, 4 ) * 100 ) / 100 + Math.Floor( Calculator.GetSearchingAbility_New33( fleet2, 4 ) * 100 ) / 100
-					) );
+					(int)Math.Floor(tp * 0.7),
+					Calculator.GetAirSuperiority(fleet1) + Calculator.GetAirSuperiority(fleet2),
+					Math.Floor(fleet1.GetSearchingAbility() * 100) / 100 + Math.Floor(fleet2.GetSearchingAbility() * 100) / 100,
+					Math.Floor(Calculator.GetSearchingAbility_New33(fleet1, 1) * 100) / 100 + Math.Floor(Calculator.GetSearchingAbility_New33(fleet2, 1) * 100) / 100,
+					Math.Floor(Calculator.GetSearchingAbility_New33(fleet1, 3) * 100) / 100 + Math.Floor(Calculator.GetSearchingAbility_New33(fleet2, 3) * 100) / 100,
+					Math.Floor(Calculator.GetSearchingAbility_New33(fleet1, 4) * 100) / 100 + Math.Floor(Calculator.GetSearchingAbility_New33(fleet2, 4) * 100) / 100
+					));
 
 
 				CombinedTag.Visible = true;
-			} else {
+			}
+			else
+			{
 				CombinedTag.Visible = false;
 			}
 
-			if ( KCDatabase.Instance.Fleet.AnchorageRepairingTimer > DateTime.MinValue ) {
-				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
+			if (KCDatabase.Instance.Fleet.AnchorageRepairingTimer > DateTime.MinValue)
+			{
+				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString(KCDatabase.Instance.Fleet.AnchorageRepairingTimer);
 				AnchorageRepairingTimer.Tag = KCDatabase.Instance.Fleet.AnchorageRepairingTimer;
-				ToolTipInfo.SetToolTip( AnchorageRepairingTimer, "泊地修理タイマ\r\n開始: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) + "\r\n回復: " + DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer.AddMinutes( 20 ) ) );
+				ToolTipInfo.SetToolTip(AnchorageRepairingTimer, "泊地修理タイマ\r\n開始: " + DateTimeHelper.TimeToCSVString(KCDatabase.Instance.Fleet.AnchorageRepairingTimer) + "\r\n回復: " + DateTimeHelper.TimeToCSVString(KCDatabase.Instance.Fleet.AnchorageRepairingTimer.AddMinutes(20)));
 			}
 
 			TableFleet.ResumeLayout();
@@ -256,25 +294,29 @@ namespace ElectronicObserver.Window {
 
 
 
-		void UpdateTimerTick() {
-			for ( int i = 0; i < ControlFleet.Count; i++ ) {
+		void UpdateTimerTick()
+		{
+			for (int i = 0; i < ControlFleet.Count; i++)
+			{
 				ControlFleet[i].Refresh();
 			}
 
-			if ( AnchorageRepairingTimer.Visible && AnchorageRepairingTimer.Tag != null )
-				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString( (DateTime)AnchorageRepairingTimer.Tag );
+			if (AnchorageRepairingTimer.Visible && AnchorageRepairingTimer.Tag != null)
+				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString((DateTime)AnchorageRepairingTimer.Tag);
 		}
 
 
 
-		private void TableFleet_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		private void TableFleet_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+		{
+			e.Graphics.DrawLine(Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
 
 		}
 
 
 
-		protected override string GetPersistString() {
+		protected override string GetPersistString()
+		{
 			return "FleetOverview";
 		}
 

@@ -5,44 +5,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_map {
-	
-	public class start : APIBase {
+namespace ElectronicObserver.Observer.kcsapi.api_req_map
+{
 
-		public override void OnResponseReceived( dynamic data ) {
+	public class start : APIBase
+	{
 
-			KCDatabase.Instance.Battle.LoadFromResponse( APIName, data );
+		public override void OnResponseReceived(dynamic data)
+		{
 
-			base.OnResponseReceived( (object)data );
+			KCDatabase.Instance.Battle.LoadFromResponse(APIName, data);
+
+			base.OnResponseReceived((object)data);
 
 
 			// 表示順の関係上、UIの更新をしてからデータを更新する
-			if ( KCDatabase.Instance.Battle.Compass.EventID == 3 ) {
+			if (KCDatabase.Instance.Battle.Compass.EventID == 3)
+			{
 				next.EmulateWhirlpool();
 			}
-			
+
 		}
 
 
-		public override bool IsRequestSupported { get { return true; } }
-		
-		public override void OnRequestReceived( Dictionary<string, string> data ) {
+		public override bool IsRequestSupported => true;
 
-			KCDatabase.Instance.Fleet.LoadFromRequest( APIName, data );
+		public override void OnRequestReceived(Dictionary<string, string> data)
+		{
 
-			int deckID = int.Parse( data["api_deck_id"] );
-			int maparea = int.Parse( data["api_maparea_id"] );
-			int mapinfo = int.Parse( data["api_mapinfo_no"] );
+			KCDatabase.Instance.Fleet.LoadFromRequest(APIName, data);
 
-			Utility.Logger.Add( 2, string.Format( "#{0}「{1}」が「{2}-{3} {4}」へ出撃しました。", deckID, KCDatabase.Instance.Fleet[deckID].Name, maparea, mapinfo, KCDatabase.Instance.MapInfo[maparea * 10 + mapinfo].Name ) );
+			int deckID = int.Parse(data["api_deck_id"]);
+			int maparea = int.Parse(data["api_maparea_id"]);
+			int mapinfo = int.Parse(data["api_mapinfo_no"]);
 
-			base.OnRequestReceived( data );
+			Utility.Logger.Add(2, string.Format("#{0}「{1}」が「{2}-{3} {4}」へ出撃しました。", deckID, KCDatabase.Instance.Fleet[deckID].Name, maparea, mapinfo, KCDatabase.Instance.MapInfo[maparea * 10 + mapinfo].Name));
+
+			base.OnRequestReceived(data);
 		}
 
 
-		public override string APIName {
-			get { return "api_req_map/start"; }
-		}
-
+		public override string APIName => "api_req_map/start";
 	}
+
 }

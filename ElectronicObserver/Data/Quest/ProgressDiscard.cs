@@ -5,13 +5,15 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data.Quest {
+namespace ElectronicObserver.Data.Quest
+{
 
 	/// <summary>
 	/// 装備廃棄任務の進捗を管理します。
 	/// </summary>
-	[DataContract( Name = "ProgressDiscard" )]
-	public class ProgressDiscard : ProgressData {
+	[DataContract(Name = "ProgressDiscard")]
+	public class ProgressDiscard : ProgressData
+	{
 
 		/// <summary>
 		/// 廃棄した個数をベースにカウントするか
@@ -29,38 +31,44 @@ namespace ElectronicObserver.Data.Quest {
 
 
 
-		public ProgressDiscard( QuestData quest, int maxCount, bool countsAmount, int[] categories )
-			: base( quest, maxCount ) {
+		public ProgressDiscard(QuestData quest, int maxCount, bool countsAmount, int[] categories)
+			: base(quest, maxCount)
+		{
 
 			CountsAmount = countsAmount;
-			Categories = categories == null ? null : new HashSet<int>( categories );
+			Categories = categories == null ? null : new HashSet<int>(categories);
 		}
 
 
-		public void Increment( IEnumerable<int> equipments ) {
-			if ( !CountsAmount ) {
+		public void Increment(IEnumerable<int> equipments)
+		{
+			if (!CountsAmount)
+			{
 				Increment();
 				return;
 			}
 
-			if ( Categories == null ) {
-				foreach ( var i in equipments )
+			if (Categories == null)
+			{
+				foreach (var i in equipments)
 					Increment();
 				return;
 			}
 
-			foreach ( var i in equipments ) {
+			foreach (var i in equipments)
+			{
 				var eq = KCDatabase.Instance.Equipments[i];
 
-				if ( Categories.Contains( eq.MasterEquipment.CategoryType ) )
+				if (Categories.Contains((int)eq.MasterEquipment.CategoryType))
 					Increment();
 			}
 		}
 
 
 
-		public override string GetClearCondition() {
-			return ( Categories == null ? "" : string.Join( "・", Categories.OrderBy( s => s ).Select( s => KCDatabase.Instance.EquipmentTypes[s].Name ) ) ) + "廃棄" + ProgressMax + ( CountsAmount ? "個" : "回" );
+		public override string GetClearCondition()
+		{
+			return (Categories == null ? "" : string.Join("・", Categories.OrderBy(s => s).Select(s => KCDatabase.Instance.EquipmentTypes[s].Name))) + "廃棄" + ProgressMax + (CountsAmount ? "個" : "回");
 		}
 
 	}

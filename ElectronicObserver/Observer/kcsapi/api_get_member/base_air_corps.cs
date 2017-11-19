@@ -5,33 +5,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_get_member {
-	public class base_air_corps : APIBase {
+namespace ElectronicObserver.Observer.kcsapi.api_get_member
+{
+	public class base_air_corps : APIBase
+	{
 
-		public override void OnResponseReceived( dynamic data ) {
+		public override void OnResponseReceived(dynamic data)
+		{
 
 			var db = KCDatabase.Instance;
 
 			db.BaseAirCorps.Clear();
-			foreach ( var elem in data ) {
+			foreach (var elem in data)
+			{
 
-				int id = BaseAirCorpsData.GetID( elem );
+				int id = BaseAirCorpsData.GetID(elem);
 
-				if ( !db.BaseAirCorps.ContainsKey( id ) ) {
+				if (!db.BaseAirCorps.ContainsKey(id))
+				{
 					var a = new BaseAirCorpsData();
-					a.LoadFromResponse( APIName, elem );
-					db.BaseAirCorps.Add( a );
+					a.LoadFromResponse(APIName, elem);
+					db.BaseAirCorps.Add(a);
 
-				} else {
-					db.BaseAirCorps[id].LoadFromResponse( APIName, elem );
+				}
+				else
+				{
+					db.BaseAirCorps[id].LoadFromResponse(APIName, elem);
 				}
 			}
-			
-			base.OnResponseReceived( (object)data );
+
+			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName {
-			get { return "api_get_member/base_air_corps"; }
-		}
+		public override string APIName => "api_get_member/base_air_corps";
 	}
+
 }

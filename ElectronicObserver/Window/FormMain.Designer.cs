@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window {
-	partial class FormMain {
+﻿namespace ElectronicObserver.Window
+{
+	partial class FormMain
+	{
 		/// <summary>
 		/// 必要なデザイナー変数です。
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// 使用中のリソースをすべてクリーンアップします。
 		/// </summary>
 		/// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows フォーム デザイナーで生成されたコード
@@ -22,7 +26,8 @@
 		/// デザイナー サポートに必要なメソッドです。このメソッドの内容を
 		/// コード エディターで変更しないでください。
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			this.StripMenu = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,6 +87,7 @@
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
 			this.StripMenu_Tool_AntiAirDefense = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Tool_FleetImageGenerator = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_Tool_BaseAirCorpsSimulation = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadAPIFromFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Debug_LoadInitialAPI = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +105,8 @@
 			this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
 			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
 			this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.StripMenu_Tool_BaseAirCorpsSimulation = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_File_Notification = new System.Windows.Forms.ToolStripMenuItem();
+			this.StripMenu_File_Notification_MuteAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu.SuspendLayout();
 			this.StripStatus.SuspendLayout();
 			this.SuspendLayout();
@@ -123,6 +130,7 @@
 			this.StripMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripMenu_File_Record,
             this.StripMenu_File_Layout,
+            this.StripMenu_File_Notification,
             this.toolStripSeparator6,
             this.StripMenu_File_Configuration,
             this.toolStripSeparator5,
@@ -137,20 +145,20 @@
             this.StripMenu_File_Record_Save,
             this.StripMenu_File_Record_Load});
 			this.StripMenu_File_Record.Name = "StripMenu_File_Record";
-			this.StripMenu_File_Record.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Record.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Record.Text = "レコード(&R)";
 			// 
 			// StripMenu_File_Record_Save
 			// 
 			this.StripMenu_File_Record_Save.Name = "StripMenu_File_Record_Save";
-			this.StripMenu_File_Record_Save.Size = new System.Drawing.Size(121, 22);
+			this.StripMenu_File_Record_Save.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Record_Save.Text = "セーブ(&S)";
 			this.StripMenu_File_Record_Save.Click += new System.EventHandler(this.StripMenu_File_SaveData_Save_Click);
 			// 
 			// StripMenu_File_Record_Load
 			// 
 			this.StripMenu_File_Record_Load.Name = "StripMenu_File_Record_Load";
-			this.StripMenu_File_Record_Load.Size = new System.Drawing.Size(121, 22);
+			this.StripMenu_File_Record_Load.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Record_Load.Text = "ロード(&L)";
 			this.StripMenu_File_Record_Load.Click += new System.EventHandler(this.StripMenu_File_SaveData_Load_Click);
 			// 
@@ -166,7 +174,7 @@
             this.toolStripSeparator10,
             this.StripMenu_File_Layout_TopMost});
 			this.StripMenu_File_Layout.Name = "StripMenu_File_Layout";
-			this.StripMenu_File_Layout.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Layout.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Layout.Text = "レイアウト(&L)";
 			// 
 			// StripMenu_File_Layout_Load
@@ -226,24 +234,24 @@
 			// toolStripSeparator6
 			// 
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(132, 6);
+			this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_File_Configuration
 			// 
 			this.StripMenu_File_Configuration.Name = "StripMenu_File_Configuration";
-			this.StripMenu_File_Configuration.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Configuration.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Configuration.Text = "設定(&C)...";
 			this.StripMenu_File_Configuration.Click += new System.EventHandler(this.StripMenu_File_Configuration_Click);
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(132, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
 			// 
 			// StripMenu_File_Close
 			// 
 			this.StripMenu_File_Close.Name = "StripMenu_File_Close";
-			this.StripMenu_File_Close.Size = new System.Drawing.Size(135, 22);
+			this.StripMenu_File_Close.Size = new System.Drawing.Size(152, 22);
 			this.StripMenu_File_Close.Text = "終了(&X)";
 			this.StripMenu_File_Close.Click += new System.EventHandler(this.StripMenu_File_Close_Click);
 			// 
@@ -552,6 +560,13 @@
 			this.StripMenu_Tool_FleetImageGenerator.Text = "編成画像出力(&F)";
 			this.StripMenu_Tool_FleetImageGenerator.Click += new System.EventHandler(this.StripMenu_Tool_FleetImageGenerator_Click);
 			// 
+			// StripMenu_Tool_BaseAirCorpsSimulation
+			// 
+			this.StripMenu_Tool_BaseAirCorpsSimulation.Name = "StripMenu_Tool_BaseAirCorpsSimulation";
+			this.StripMenu_Tool_BaseAirCorpsSimulation.Size = new System.Drawing.Size(176, 22);
+			this.StripMenu_Tool_BaseAirCorpsSimulation.Text = "基地航空隊編成(&B)";
+			this.StripMenu_Tool_BaseAirCorpsSimulation.Click += new System.EventHandler(this.StripMenu_Tool_BaseAirCorpsSimulation_Click);
+			// 
 			// StripMenu_Debug
 			// 
 			this.StripMenu_Debug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -689,12 +704,21 @@
 			this.MainDockPanel.Size = new System.Drawing.Size(640, 434);
 			this.MainDockPanel.TabIndex = 0;
 			// 
-			// StripMenu_Tool_BaseAirCorpsSimulation
+			// StripMenu_File_Notification
 			// 
-			this.StripMenu_Tool_BaseAirCorpsSimulation.Name = "StripMenu_Tool_BaseAirCorpsSimulation";
-			this.StripMenu_Tool_BaseAirCorpsSimulation.Size = new System.Drawing.Size(176, 22);
-			this.StripMenu_Tool_BaseAirCorpsSimulation.Text = "基地航空隊編成(&B)";
-			this.StripMenu_Tool_BaseAirCorpsSimulation.Click += new System.EventHandler(this.StripMenu_Tool_BaseAirCorpsSimulation_Click);
+			this.StripMenu_File_Notification.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripMenu_File_Notification_MuteAll});
+			this.StripMenu_File_Notification.Name = "StripMenu_File_Notification";
+			this.StripMenu_File_Notification.Size = new System.Drawing.Size(152, 22);
+			this.StripMenu_File_Notification.Text = "通知(&N)";
+			// 
+			// StripMenu_File_Notification_MuteAll
+			// 
+			this.StripMenu_File_Notification_MuteAll.CheckOnClick = true;
+			this.StripMenu_File_Notification_MuteAll.Name = "StripMenu_File_Notification_MuteAll";
+			this.StripMenu_File_Notification_MuteAll.Size = new System.Drawing.Size(199, 22);
+			this.StripMenu_File_Notification_MuteAll.Text = "すべての通知をミュート(&M)";
+			this.StripMenu_File_Notification_MuteAll.Click += new System.EventHandler(this.StripMenu_File_Notification_MuteAll_Click);
 			// 
 			// FormMain
 			// 
@@ -799,5 +823,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_AntiAirDefense;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_FleetImageGenerator;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_BaseAirCorpsSimulation;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Notification;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Notification_MuteAll;
 	}
 }

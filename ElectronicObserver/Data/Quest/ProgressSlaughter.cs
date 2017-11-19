@@ -5,42 +5,49 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data.Quest {
+namespace ElectronicObserver.Data.Quest
+{
 
 	/// <summary>
 	/// 特定艦種撃沈任務の進捗を管理します。
 	/// </summary>
-	[DataContract( Name = "ProgressSlaughter" )]
-	public class ProgressSlaughter : ProgressData {
+	[DataContract(Name = "ProgressSlaughter")]
+	public class ProgressSlaughter : ProgressData
+	{
 
 		/// <summary>
 		/// 対象となる艦種リスト
+		/// 互換性維持のため enum ではなく int で管理する
 		/// </summary>
 		[DataMember]
 		private HashSet<int> TargetShipType { get; set; }
 
-		public ProgressSlaughter( QuestData quest, int maxCount, int[] targetShipType )
-			: base( quest, maxCount ) {
+		public ProgressSlaughter(QuestData quest, int maxCount, int[] targetShipType)
+			: base(quest, maxCount)
+		{
 
-			TargetShipType = targetShipType == null ? null : new HashSet<int>( targetShipType );
+			TargetShipType = targetShipType == null ? null : new HashSet<int>(targetShipType);
 
 		}
 
 
-		public void Increment( int shipTypeID ) {
-			if ( TargetShipType.Contains( shipTypeID ) )
+		public void Increment(ShipTypes shipType)
+		{
+			if (TargetShipType.Contains((int)shipType))
 				Increment();
 		}
 
 
-		public override string GetClearCondition() {
+		public override string GetClearCondition()
+		{
 			StringBuilder sb = new StringBuilder();
-			if ( TargetShipType != null ) {
-				sb.Append( string.Join( "・", TargetShipType.OrderBy( s => s ).Select( s => KCDatabase.Instance.ShipTypes[s].Name ) ) );
+			if (TargetShipType != null)
+			{
+				sb.Append(string.Join("・", TargetShipType.OrderBy(s => s).Select(s => KCDatabase.Instance.ShipTypes[s].Name)));
 			}
 
-			sb.Append( "撃沈" );
-			sb.Append( ProgressMax );
+			sb.Append("撃沈");
+			sb.Append(ProgressMax);
 
 			return sb.ToString();
 		}

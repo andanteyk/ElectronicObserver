@@ -10,12 +10,14 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Notifier {
+namespace ElectronicObserver.Notifier
+{
 
 	/// <summary>
 	/// 通知を扱います。
 	/// </summary>
-	public abstract class NotifierBase {
+	public abstract class NotifierBase
+	{
 
 		/// <summary>
 		/// 通知ダイアログに渡す設定データ
@@ -53,9 +55,11 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知音をループさせるか
 		/// </summary>
-		public bool LoopsSound {
+		public bool LoopsSound
+		{
 			get { return _loopsSound; }
-			set {
+			set
+			{
 				_loopsSound = value;
 				SetIsLoop();
 			}
@@ -65,11 +69,13 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知音の音量 (0-100)
 		/// </summary>
-		public int SoundVolume {
+		public int SoundVolume
+		{
 			get { return _soundVolume; }
-			set {
+			set
+			{
 				_soundVolume = value;
-				if ( !Utility.Configuration.Config.Control.UseSystemVolume )
+				if (!Utility.Configuration.Config.Control.UseSystemVolume)
 					Sound.Volume = _soundVolume;
 			}
 		}
@@ -78,15 +84,18 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知ダイアログを表示するか
 		/// </summary>
-		public bool ShowsDialog {
+		public bool ShowsDialog
+		{
 			get { return _showsDialog; }
-			set {
+			set
+			{
 				_showsDialog = value;
 				SetIsLoop();
 			}
 		}
 
-		private void SetIsLoop() {
+		private void SetIsLoop()
+		{
 			Sound.IsLoop = LoopsSound && ShowsDialog;
 		}
 
@@ -99,19 +108,21 @@ namespace ElectronicObserver.Notifier {
 
 
 
-		public NotifierBase() {
+		public NotifierBase()
+		{
 
 			Initialize();
 			DialogData = new NotifierDialogData();
 
 		}
 
-		public NotifierBase( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
+		public NotifierBase(Utility.Configuration.ConfigurationData.ConfigNotifierBase config)
+		{
 
 			Initialize();
-			DialogData = new NotifierDialogData( config );
-			if ( config.PlaysSound && config.SoundPath != null && config.SoundPath != "" )
-				LoadSound( config.SoundPath );
+			DialogData = new NotifierDialogData(config);
+			if (config.PlaysSound && config.SoundPath != null && config.SoundPath != "")
+				LoadSound(config.SoundPath);
 
 			IsEnabled = config.IsEnabled;
 			IsSilenced = config.IsSilenced;
@@ -123,18 +134,22 @@ namespace ElectronicObserver.Notifier {
 
 		}
 
-		private void Initialize() {
+		private void Initialize()
+		{
 
 			SystemEvents.UpdateTimerTick += UpdateTimerTick;
-			Sound = new MediaPlayer();
-			Sound.IsShuffle = true;
+			Sound = new MediaPlayer
+			{
+				IsShuffle = true
+			};
 			Sound.MediaEnded += Sound_MediaEnded;
 			SoundPath = "";
 
 		}
 
 
-		public void SetInitialVolume( int volume ) {
+		public void SetInitialVolume(int volume)
+		{
 			Sound.Volume = volume;
 		}
 
@@ -149,29 +164,38 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		/// <param name="path">音声ファイルへのパス。</param>
 		/// <returns>成功すれば true 、失敗すれば false を返します。</returns>
-		public bool LoadSound( string path ) {
-			try {
+		public bool LoadSound(string path)
+		{
+			try
+			{
 
 				DisposeSound();
 
-				if ( File.Exists( path ) ) {
-					Sound.SetPlaylist( null );
+				if (File.Exists(path))
+				{
+					Sound.SetPlaylist(null);
 					Sound.SourcePath = path;
 
-				} else if ( Directory.Exists( path ) ) {
-					Sound.SetPlaylistFromDirectory( path );
+				}
+				else if (Directory.Exists(path))
+				{
+					Sound.SetPlaylistFromDirectory(path);
 
-				} else {
-					throw new FileNotFoundException( "指定されたファイルまたはディレクトリが見つかりませんでした。" );
+				}
+				else
+				{
+					throw new FileNotFoundException("指定されたファイルまたはディレクトリが見つかりませんでした。");
 				}
 
 				SoundPath = path;
 
 				return true;
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, string.Format( "通知システム: 通知音 {0} のロードに失敗しました。", path ) );
+				Utility.ErrorReporter.SendErrorReport(ex, string.Format("通知システム: 通知音 {0} のロードに失敗しました。", path));
 				DisposeSound();
 
 			}
@@ -182,12 +206,16 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知音を再生します。
 		/// </summary>
-		public void PlaySound() {
-			try {
+		public void PlaySound()
+		{
+			try
+			{
 
-				if ( Sound != null && PlaysSound ) {
-					if ( Sound.PlayState == 3 ) {		//playing
-						if ( Sound.GetPlaylist().Any() )
+				if (Sound != null && PlaysSound)
+				{
+					if (Sound.PlayState == 3)
+					{       //playing
+						if (Sound.GetPlaylist().Any())
 							Sound.Next();
 
 						Sound.Stop();
@@ -198,23 +226,27 @@ namespace ElectronicObserver.Notifier {
 					Sound.Play();
 				}
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.Logger.Add( 3, "通知システム: 通知音の再生に失敗しました。" + ex.Message );
+				Utility.Logger.Add(3, "通知システム: 通知音の再生に失敗しました。" + ex.Message);
 			}
 		}
 
 		/// <summary>
 		/// 通知音を破棄します。
 		/// </summary>
-		public void DisposeSound() {
+		public void DisposeSound()
+		{
 			Sound.Close();
 			Sound.SourcePath = SoundPath = "";
 		}
 
 
-		void Sound_MediaEnded() {
-			if ( Sound.GetPlaylist().Any() && !LoopsSound )
+		void Sound_MediaEnded()
+		{
+			if (Sound.GetPlaylist().Any() && !LoopsSound)
 				Sound.Next();
 		}
 
@@ -226,20 +258,25 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知ダイアログを表示します。
 		/// </summary>
-		public void ShowDialog( System.Windows.Forms.FormClosingEventHandler customClosingHandler = null ) {
+		public void ShowDialog(System.Windows.Forms.FormClosingEventHandler customClosingHandler = null)
+		{
 
-			if ( ShowsDialog ) {
-				var dialog = new DialogNotifier( DialogData );
+			if (ShowsDialog)
+			{
+				var dialog = new DialogNotifier(DialogData);
 				dialog.FormClosing += dialog_FormClosing;
-				if ( customClosingHandler != null ) {
+				if (customClosingHandler != null)
+				{
 					dialog.FormClosing += customClosingHandler;
 				}
-				NotifierManager.Instance.ShowNotifier( dialog );
+				NotifierManager.Instance.ShowNotifier(dialog);
 			}
 		}
 
-		void dialog_FormClosing( object sender, System.Windows.Forms.FormClosingEventArgs e ) {
-			if ( LoopsSound ) {
+		void dialog_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
+		{
+			if (LoopsSound)
+			{
 				Sound.Stop();
 				Sound.Next();
 			}
@@ -248,26 +285,29 @@ namespace ElectronicObserver.Notifier {
 		/// <summary>
 		/// 通知を行います。
 		/// </summary>
-		public virtual void Notify() {
-			Notify( null );
+		public virtual void Notify()
+		{
+			Notify(null);
 		}
 
 		/// <summary>
 		/// 終了時のイベントハンドラを指定して通知を行います。
 		/// </summary>
-		public virtual void Notify( System.Windows.Forms.FormClosingEventHandler customClosingHandler ) {
+		public virtual void Notify(System.Windows.Forms.FormClosingEventHandler customClosingHandler)
+		{
 
-			if ( !IsEnabled || IsSilenced ) return;
+			if (!IsEnabled || IsSilenced) return;
 
-			ShowDialog( customClosingHandler );
+			ShowDialog(customClosingHandler);
 			PlaySound();
 
 		}
 
 
-		public virtual void ApplyToConfiguration( Utility.Configuration.ConfigurationData.ConfigNotifierBase config ) {
+		public virtual void ApplyToConfiguration(Utility.Configuration.ConfigurationData.ConfigNotifierBase config)
+		{
 
-			DialogData.ApplyToConfiguration( config );
+			DialogData.ApplyToConfiguration(config);
 			config.PlaysSound = PlaysSound;
 			config.SoundPath = SoundPath;
 			config.SoundVolume = SoundVolume;

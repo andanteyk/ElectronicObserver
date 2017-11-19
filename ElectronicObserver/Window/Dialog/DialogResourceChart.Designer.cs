@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogResourceChart {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogResourceChart
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_File_SaveImage = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,6 +47,11 @@
 			this.Menu_Span_Season = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Span_Year = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Span_All = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.Menu_Span_WeekFirst = new System.Windows.Forms.ToolStripMenuItem();
+			this.Menu_Span_MonthFirst = new System.Windows.Forms.ToolStripMenuItem();
+			this.Menu_Span_SeasonFirst = new System.Windows.Forms.ToolStripMenuItem();
+			this.Menu_Span_YearFirst = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Option = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Option_ShowAllData = new System.Windows.Forms.ToolStripMenuItem();
 			this.Menu_Option_DivideByDay = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,7 +164,12 @@
             this.Menu_Span_Month,
             this.Menu_Span_Season,
             this.Menu_Span_Year,
-            this.Menu_Span_All});
+            this.Menu_Span_All,
+            this.toolStripSeparator3,
+            this.Menu_Span_WeekFirst,
+            this.Menu_Span_MonthFirst,
+            this.Menu_Span_SeasonFirst,
+            this.Menu_Span_YearFirst});
 			this.Menu_Span.Name = "Menu_Span";
 			this.Menu_Span.Size = new System.Drawing.Size(61, 20);
 			this.Menu_Span.Text = "範囲(&S)";
@@ -162,44 +177,77 @@
 			// Menu_Span_Day
 			// 
 			this.Menu_Span_Day.Name = "Menu_Span_Day";
-			this.Menu_Span_Day.Size = new System.Drawing.Size(121, 22);
+			this.Menu_Span_Day.Size = new System.Drawing.Size(173, 22);
 			this.Menu_Span_Day.Text = "日(&D)";
-			this.Menu_Span_Day.Click += new System.EventHandler(this.Menu_Span_Day_Click);
+			this.Menu_Span_Day.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
 			// 
 			// Menu_Span_Week
 			// 
 			this.Menu_Span_Week.Name = "Menu_Span_Week";
-			this.Menu_Span_Week.Size = new System.Drawing.Size(121, 22);
+			this.Menu_Span_Week.Size = new System.Drawing.Size(173, 22);
 			this.Menu_Span_Week.Text = "週(&W)";
-			this.Menu_Span_Week.Click += new System.EventHandler(this.Menu_Span_Week_Click);
+			this.Menu_Span_Week.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
 			// 
 			// Menu_Span_Month
 			// 
 			this.Menu_Span_Month.Name = "Menu_Span_Month";
-			this.Menu_Span_Month.Size = new System.Drawing.Size(121, 22);
+			this.Menu_Span_Month.Size = new System.Drawing.Size(173, 22);
 			this.Menu_Span_Month.Text = "月(&M)";
-			this.Menu_Span_Month.Click += new System.EventHandler(this.Menu_Span_Month_Click);
+			this.Menu_Span_Month.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
 			// 
 			// Menu_Span_Season
 			// 
 			this.Menu_Span_Season.Name = "Menu_Span_Season";
-			this.Menu_Span_Season.Size = new System.Drawing.Size(121, 22);
+			this.Menu_Span_Season.Size = new System.Drawing.Size(173, 22);
 			this.Menu_Span_Season.Text = "3ヵ月(&S)";
-			this.Menu_Span_Season.Click += new System.EventHandler(this.Menu_Span_Season_Click);
+			this.Menu_Span_Season.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
 			// 
 			// Menu_Span_Year
 			// 
 			this.Menu_Span_Year.Name = "Menu_Span_Year";
-			this.Menu_Span_Year.Size = new System.Drawing.Size(121, 22);
+			this.Menu_Span_Year.Size = new System.Drawing.Size(173, 22);
 			this.Menu_Span_Year.Text = "年(&Y)";
-			this.Menu_Span_Year.Click += new System.EventHandler(this.Menu_Span_Year_Click);
+			this.Menu_Span_Year.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
 			// 
 			// Menu_Span_All
 			// 
 			this.Menu_Span_All.Name = "Menu_Span_All";
-			this.Menu_Span_All.Size = new System.Drawing.Size(121, 22);
+			this.Menu_Span_All.Size = new System.Drawing.Size(173, 22);
 			this.Menu_Span_All.Text = "すべて(&A)";
-			this.Menu_Span_All.Click += new System.EventHandler(this.Menu_Span_All_Click);
+			this.Menu_Span_All.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(170, 6);
+			// 
+			// Menu_Span_WeekFirst
+			// 
+			this.Menu_Span_WeekFirst.Name = "Menu_Span_WeekFirst";
+			this.Menu_Span_WeekFirst.Size = new System.Drawing.Size(173, 22);
+			this.Menu_Span_WeekFirst.Text = "月曜から (&E)";
+			this.Menu_Span_WeekFirst.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
+			// 
+			// Menu_Span_MonthFirst
+			// 
+			this.Menu_Span_MonthFirst.Name = "Menu_Span_MonthFirst";
+			this.Menu_Span_MonthFirst.Size = new System.Drawing.Size(173, 22);
+			this.Menu_Span_MonthFirst.Text = "月初から (&O)";
+			this.Menu_Span_MonthFirst.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
+			// 
+			// Menu_Span_SeasonFirst
+			// 
+			this.Menu_Span_SeasonFirst.Name = "Menu_Span_SeasonFirst";
+			this.Menu_Span_SeasonFirst.Size = new System.Drawing.Size(173, 22);
+			this.Menu_Span_SeasonFirst.Text = "3ヵ月の初めから (&N)";
+			this.Menu_Span_SeasonFirst.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
+			// 
+			// Menu_Span_YearFirst
+			// 
+			this.Menu_Span_YearFirst.Name = "Menu_Span_YearFirst";
+			this.Menu_Span_YearFirst.Size = new System.Drawing.Size(173, 22);
+			this.Menu_Span_YearFirst.Text = "年初から (&R)";
+			this.Menu_Span_YearFirst.Click += new System.EventHandler(this.Menu_Span_Menu_Click);
 			// 
 			// Menu_Option
 			// 
@@ -289,5 +337,10 @@
 		private System.Windows.Forms.ToolStripMenuItem Menu_File;
 		private System.Windows.Forms.ToolStripMenuItem Menu_File_SaveImage;
 		private System.Windows.Forms.SaveFileDialog SaveImageDialog;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem Menu_Span_WeekFirst;
+		private System.Windows.Forms.ToolStripMenuItem Menu_Span_MonthFirst;
+		private System.Windows.Forms.ToolStripMenuItem Menu_Span_SeasonFirst;
+		private System.Windows.Forms.ToolStripMenuItem Menu_Span_YearFirst;
 	}
 }

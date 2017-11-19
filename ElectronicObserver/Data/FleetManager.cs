@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
 	/// 艦隊情報を統括して扱います。
 	/// </summary>
-	public class FleetManager : APIWrapper {
+	public class FleetManager : APIWrapper
+	{
 
 		public IDDictionary<FleetData> Fleets { get; private set; }
 
@@ -37,19 +39,20 @@ namespace ElectronicObserver.Data {
 		private HashSet<int> PreviousDockingID;
 
 		// conditions
-		public static readonly TimeSpan ConditionHealingSpan = TimeSpan.FromSeconds( 180 );
+		public static readonly TimeSpan ConditionHealingSpan = TimeSpan.FromSeconds(180);
 		private double ConditionPredictMin;
 		private double ConditionPredictMax;
 		private DateTime LastConditionUpdated;
 
 		/// <summary> コンディションが回復する秒オフセット </summary>
-		public double ConditionBorderSeconds { get { return ConditionPredictMax % ConditionHealingSpan.TotalSeconds; } }
+		public double ConditionBorderSeconds => ConditionPredictMax % ConditionHealingSpan.TotalSeconds;
 
 		/// <summary> コンディションが回復する秒オフセット の精度[秒] </summary>
-		public double ConditionBorderAccuracy { get { return ConditionPredictMax - ConditionPredictMin; } }
+		public double ConditionBorderAccuracy => ConditionPredictMax - ConditionPredictMin;
 
 
-		public FleetManager() {
+		public FleetManager()
+		{
 			Fleets = new IDDictionary<FleetData>();
 			AnchorageRepairingTimer = DateTime.MinValue;
 
@@ -61,57 +64,67 @@ namespace ElectronicObserver.Data {
 		}
 
 
-		public FleetData this[int fleetID] {
-			get {
-				return Fleets[fleetID];
-			}
-		}
+		public FleetData this[int fleetID] => Fleets[fleetID];
 
 
-		public override void LoadFromResponse( string apiname, dynamic data ) {
 
-			switch ( apiname ) {
+		public override void LoadFromResponse(string apiname, dynamic data)
+		{
+
+			switch (apiname)
+			{
 				case "api_req_combined_battle/goback_port":
-					foreach ( int index in KCDatabase.Instance.Battle.Result.EscapingShipIndex ) {
-						Fleets[( index - 1 ) < 6 ? 1 : 2].Escape( ( index - 1 ) % 6 );
+					foreach (int index in KCDatabase.Instance.Battle.Result.EscapingShipIndex)
+					{
+						Fleets[(index - 1) < 6 ? 1 : 2].Escape((index - 1) % 6);
 					}
 					break;
 
 				case "api_get_member/ndock":
-					foreach ( var fleet in Fleets.Values ) {
-						fleet.LoadFromResponse( apiname, data );
+					foreach (var fleet in Fleets.Values)
+					{
+						fleet.LoadFromResponse(apiname, data);
 					}
 					break;
 
-				case "api_req_hensei/preset_select": {
+				case "api_req_hensei/preset_select":
+					{
 						int id = (int)data.api_id;
 
-						if ( !Fleets.ContainsKey( id ) ) {
+						if (!Fleets.ContainsKey(id))
+						{
 							var a = new FleetData();
-							a.LoadFromResponse( apiname, data );
-							Fleets.Add( a );
+							a.LoadFromResponse(apiname, data);
+							Fleets.Add(a);
 
-						} else {
-							Fleets[id].LoadFromResponse( apiname, data );
+						}
+						else
+						{
+							Fleets[id].LoadFromResponse(apiname, data);
 						}
 
-					} break;
+					}
+					break;
 
 				default:
-					base.LoadFromResponse( apiname, (object)data );
+					base.LoadFromResponse(apiname, (object)data);
 
 					//api_port/port, api_get_member/deck
-					foreach ( var elem in data ) {
+					foreach (var elem in data)
+					{
 
 						int id = (int)elem.api_id;
 
-						if ( !Fleets.ContainsKey( id ) ) {
+						if (!Fleets.ContainsKey(id))
+						{
 							var a = new FleetData();
-							a.LoadFromResponse( apiname, elem );
-							Fleets.Add( a );
+							a.LoadFromResponse(apiname, elem);
+							Fleets.Add(a);
 
-						} else {
-							Fleets[id].LoadFromResponse( apiname, elem );
+						}
+						else
+						{
+							Fleets[id].LoadFromResponse(apiname, elem);
 						}
 					}
 					break;
@@ -119,9 +132,10 @@ namespace ElectronicObserver.Data {
 
 
 			// 泊地修理・コンディションの処理
-			if ( apiname == "api_port/port" ) {
+			if (apiname == "api_port/port")
+			{
 
-				if ( ( DateTime.Now - AnchorageRepairingTimer ).TotalMinutes >= 20 )
+				if ((DateTime.Now - AnchorageRepairingTimer).TotalMinutes >= 20)
 					StartAnchorageRepairingTimer();
 				else
 					CheckAnchorageRepairingHealing();
@@ -132,40 +146,49 @@ namespace ElectronicObserver.Data {
 
 
 
-		public override void LoadFromRequest( string apiname, Dictionary<string, string> data ) {
-			base.LoadFromRequest( apiname, data );
+		public override void LoadFromRequest(string apiname, Dictionary<string, string> data)
+		{
+			base.LoadFromRequest(apiname, data);
 
-			switch ( apiname ) {
-				case "api_req_hensei/change": {
-						int memberID = int.Parse( data["api_ship_idx"] );		//変更スロット
-						if ( memberID != -1 )
-							data.Add( "replaced_id", Fleets[int.Parse( data["api_id"] )].Members[memberID].ToString() );
+			switch (apiname)
+			{
+				case "api_req_hensei/change":
+					{
+						int memberID = int.Parse(data["api_ship_idx"]);     //変更スロット
+						if (memberID != -1)
+							data.Add("replaced_id", Fleets[int.Parse(data["api_id"])].Members[memberID].ToString());
 
-						foreach ( int i in Fleets.Keys )
-							Fleets[i].LoadFromRequest( apiname, data );
+						foreach (int i in Fleets.Keys)
+							Fleets[i].LoadFromRequest(apiname, data);
 
-					} break;
+					}
+					break;
 
-				case "api_req_map/start": {
-						int fleetID = int.Parse( data["api_deck_id"] );
-						if ( CombinedFlag != 0 && fleetID == 1 ) {
+				case "api_req_map/start":
+					{
+						int fleetID = int.Parse(data["api_deck_id"]);
+						if (CombinedFlag != 0 && fleetID == 1)
+						{
 							Fleets[2].IsInSortie = true;
 						}
 						Fleets[fleetID].IsInSortie = true;
-					} goto default;
+					}
+					goto default;
 
 				case "api_req_hensei/combined":
-					CombinedFlag = int.Parse( data["api_combined_type"] );
+					CombinedFlag = int.Parse(data["api_combined_type"]);
 					break;
 
-				case "api_req_practice/battle": {
-						int fleetID = int.Parse( data["api_deck_id"] );
+				case "api_req_practice/battle":
+					{
+						int fleetID = int.Parse(data["api_deck_id"]);
 						Fleets[fleetID].IsInSortie = true;
-					} break;
+					}
+					break;
 
 				default:
-					foreach ( int i in Fleets.Keys )
-						Fleets[i].LoadFromRequest( apiname, data );
+					foreach (int i in Fleets.Keys)
+						Fleets[i].LoadFromRequest(apiname, data);
 					break;
 
 			}
@@ -176,32 +199,37 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 泊地修理タイマを現在時刻にセットします。
 		/// </summary>
-		public void StartAnchorageRepairingTimer() {
+		public void StartAnchorageRepairingTimer()
+		{
 			AnchorageRepairingTimer = DateTime.Now;
 		}
 
 		/// <summary>
 		/// 泊地修理による回復が発生していたかをチェックし、発生していた場合は泊地修理タイマをリセットします。
 		/// </summary>
-		public void CheckAnchorageRepairingHealing() {
-			foreach ( var f in Fleets.Values ) {
-				if ( IsAnchorageRepaired.ContainsKey( f.FleetID ) && !IsAnchorageRepaired[f.FleetID] )
+		public void CheckAnchorageRepairingHealing()
+		{
+			foreach (var f in Fleets.Values)
+			{
+				if (IsAnchorageRepaired.ContainsKey(f.FleetID) && !IsAnchorageRepaired[f.FleetID])
 					continue;
 
-				var prev = f.Members.Select( id => PreviousDockingID.Contains( id ) ? null : PreviousShips[id] ).ToArray();
+				var prev = f.Members.Select(id => PreviousDockingID.Contains(id) ? null : PreviousShips[id]).ToArray();
 				var now = f.MembersInstance.ToArray();
 
-				for ( int i = 0; i < prev.Length; i++ ) {
-					if ( prev[i] == null || now[i] == null )
+				for (int i = 0; i < prev.Length; i++)
+				{
+					if (prev[i] == null || now[i] == null)
 						continue;
 
 					// 回復検知
-					if ( prev[i].RepairingDockID == -1 && prev[i].HPCurrent < now[i].HPCurrent ) {
+					if (prev[i].RepairingDockID == -1 && prev[i].HPCurrent < now[i].HPCurrent)
+					{
 						StartAnchorageRepairingTimer();
 
 						//debug
-						if ( Utility.Configuration.Config.Debug.EnableDebugMenu )
-							Utility.Logger.Add( 1, "泊地修理: 回復を検知したためタイマーをリセットします。" );
+						if (Utility.Configuration.Config.Debug.EnableDebugMenu)
+							Utility.Logger.Add(1, "泊地修理: 回復を検知したためタイマーをリセットします。");
 						return;
 					}
 
@@ -213,60 +241,70 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 更新直前の艦船データをコピーして退避します。
 		/// </summary>
-		public void EvacuatePreviousShips() {
+		public void EvacuatePreviousShips()
+		{
 
-			if ( Fleets.Values.Any( f => f != null && f.IsInSortie ) )
+			if (Fleets.Values.Any(f => f != null && f.IsInSortie))
 				return;
 
-			PreviousShips = new IDDictionary<ShipData>( KCDatabase.Instance.Ships.Values );
-			IsAnchorageRepaired = Fleets.ToDictionary( f => f.Key, f => f.Value.CanAnchorageRepair );
-			PreviousDockingID = new HashSet<int>( KCDatabase.Instance.Docks.Values.Select( d => d.ShipID ) );
+			PreviousShips = new IDDictionary<ShipData>(KCDatabase.Instance.Ships.Values);
+			IsAnchorageRepaired = Fleets.ToDictionary(f => f.Key, f => f.Value.CanAnchorageRepair);
+			PreviousDockingID = new HashSet<int>(KCDatabase.Instance.Docks.Values.Select(d => d.ShipID));
 		}
 
 
 		/// <summary>
 		/// コンディションの更新予測パラメータを更新します。
 		/// </summary>
-		public void UpdateConditionPrediction() {
+		public void UpdateConditionPrediction()
+		{
 
 			var now = DateTime.Now;
 
-			var conditionDiff = PreviousShips.Where( s => s.Value.Condition < 49 )
-				.Join( KCDatabase.Instance.Ships.Values, pair => pair.Key, ship => ship.ID, ( pair, ship ) => ship.Condition - pair.Value.Condition );
-			if ( !conditionDiff.Any() ) {
+			var conditionDiff = PreviousShips.Where(s => s.Value.Condition < 49)
+				.Join(KCDatabase.Instance.Ships.Values, pair => pair.Key, ship => ship.ID, (pair, ship) => ship.Condition - pair.Value.Condition);
+			if (!conditionDiff.Any())
+			{
 				goto LabelFinally;
 			}
 
-			int healed = (int)Math.Ceiling( conditionDiff.Max() / 3.0 );
-			int predictedHealLow = (int)Math.Floor( ( now - LastConditionUpdated ).TotalSeconds / ConditionHealingSpan.TotalSeconds );
+			int healed = (int)Math.Ceiling(conditionDiff.Max() / 3.0);
+			int predictedHealLow = (int)Math.Floor((now - LastConditionUpdated).TotalSeconds / ConditionHealingSpan.TotalSeconds);
 
 
-			if ( healed < predictedHealLow ) {
+			if (healed < predictedHealLow)
+			{
 				goto LabelFinally;
 			}
 
 			double newPredictMin, newPredictMax;
 
-			if ( healed <= predictedHealLow ) {
-				newPredictMin = TimeSpan.FromTicks( now.Ticks % ConditionHealingSpan.Ticks ).TotalSeconds;
-				newPredictMax = TimeSpan.FromTicks( LastConditionUpdated.Ticks % ConditionHealingSpan.Ticks ).TotalSeconds;
-			} else {
-				newPredictMin = TimeSpan.FromTicks( LastConditionUpdated.Ticks % ConditionHealingSpan.Ticks ).TotalSeconds;
-				newPredictMax = TimeSpan.FromTicks( now.Ticks % ConditionHealingSpan.Ticks ).TotalSeconds;
+			if (healed <= predictedHealLow)
+			{
+				newPredictMin = TimeSpan.FromTicks(now.Ticks % ConditionHealingSpan.Ticks).TotalSeconds;
+				newPredictMax = TimeSpan.FromTicks(LastConditionUpdated.Ticks % ConditionHealingSpan.Ticks).TotalSeconds;
+			}
+			else
+			{
+				newPredictMin = TimeSpan.FromTicks(LastConditionUpdated.Ticks % ConditionHealingSpan.Ticks).TotalSeconds;
+				newPredictMax = TimeSpan.FromTicks(now.Ticks % ConditionHealingSpan.Ticks).TotalSeconds;
 			}
 
-			if ( newPredictMax < newPredictMin )
+			if (newPredictMax < newPredictMin)
 				newPredictMax += ConditionHealingSpan.TotalSeconds;
 
 			double amin, amax, apre, bmin, bmax, bpre;
-			if ( ConditionPredictMin < newPredictMin ) {
+			if (ConditionPredictMin < newPredictMin)
+			{
 				amin = ConditionPredictMin;
 				amax = ConditionPredictMax;
 				apre = ConditionPredictMax - ConditionHealingSpan.TotalSeconds;
 				bmin = newPredictMin;
 				bmax = newPredictMax;
 				bpre = newPredictMax - ConditionHealingSpan.TotalSeconds;
-			} else {
+			}
+			else
+			{
 				bmin = ConditionPredictMin;
 				bmax = ConditionPredictMax;
 				bpre = ConditionPredictMax - ConditionHealingSpan.TotalSeconds;
@@ -279,43 +317,51 @@ namespace ElectronicObserver.Data {
 			bool startsWithBmin = bmin < amax;
 
 			bool endsWithBpre = amin < bpre && bpre < amax;
-			bool endsWithAmax = ( bmin < amax || amax <= bpre ) && amax < bmax;
+			bool endsWithAmax = (bmin < amax || amax <= bpre) && amax < bmax;
 			bool endsWidthBmax = bmax < amax;
 
-			if ( ( startsWithAmin && startsWithBmin ) || ( endsWithBpre && endsWithAmax ) ) {
+			if ((startsWithAmin && startsWithBmin) || (endsWithBpre && endsWithAmax))
+			{
 				// 二重領域; どちらか小さいほう
-				if ( amax - amin < bmax - bmin ) {
+				if (amax - amin < bmax - bmin)
+				{
 					ConditionPredictMin = amin;
 					ConditionPredictMax = amax;
-				} else {
+				}
+				else
+				{
 					ConditionPredictMin = bmin;
 					ConditionPredictMax = bmax;
 				}
-			} else {
-				if ( startsWithAmin )
+			}
+			else
+			{
+				if (startsWithAmin)
 					ConditionPredictMin = amin;
-				else if ( startsWithBmin )
+				else if (startsWithBmin)
 					ConditionPredictMin = bmin;
-				else {
+				else
+				{
 					ConditionPredictMin = newPredictMin;     // 空集合; 新しいほうを設定
 				}
 
-				if ( endsWithBpre )
+				if (endsWithBpre)
 					ConditionPredictMax = bpre;
-				else if ( endsWithAmax )
+				else if (endsWithAmax)
 					ConditionPredictMax = amax;
-				else if ( endsWidthBmax )
+				else if (endsWidthBmax)
 					ConditionPredictMax = bmax;
-				else {
+				else
+				{
 					ConditionPredictMax = newPredictMax;     // 空集合; 新しいほうを設定
 				}
 			}
 
 
-LabelFinally:
+			LabelFinally:
 			LastConditionUpdated = now;
 
-			foreach ( var f in Fleets.Values )
+			foreach (var f in Fleets.Values)
 				f.UpdateConditionTime();
 
 		}
@@ -326,20 +372,21 @@ LabelFinally:
 		/// </summary>
 		/// <param name="healAmount">回復する cond 値の量(現在値からの増分)。</param>
 		/// <returns></returns>
-		public DateTime CalculateConditionHealingEstimation( int healAmount ) {
-			healAmount = (int)Math.Ceiling( healAmount / 3.0 );
+		public DateTime CalculateConditionHealingEstimation(int healAmount)
+		{
+			healAmount = (int)Math.Ceiling(healAmount / 3.0);
 
-			if ( healAmount <= 0 )
+			if (healAmount <= 0)
 				return DateTime.Now;
 
-			double last = TimeSpan.FromTicks( LastConditionUpdated.Ticks % ConditionHealingSpan.Ticks ).TotalSeconds;
+			double last = TimeSpan.FromTicks(LastConditionUpdated.Ticks % ConditionHealingSpan.Ticks).TotalSeconds;
 
-			var firstHeal = TimeSpan.FromSeconds( ConditionBorderSeconds - last );
-			var afterHeal = TimeSpan.FromSeconds( ConditionHealingSpan.TotalSeconds * ( healAmount - 1 ) );
+			var firstHeal = TimeSpan.FromSeconds(ConditionBorderSeconds - last);
+			var afterHeal = TimeSpan.FromSeconds(ConditionHealingSpan.TotalSeconds * (healAmount - 1));
 
-			if ( ConditionPredictMin <= last && last <= ConditionPredictMax )
+			if (ConditionPredictMin <= last && last <= ConditionPredictMax)
 				firstHeal = ConditionHealingSpan;
-			if ( firstHeal.Ticks <= 0 )
+			if (firstHeal.Ticks <= 0)
 				firstHeal += ConditionHealingSpan;
 
 			var offset = firstHeal + afterHeal;

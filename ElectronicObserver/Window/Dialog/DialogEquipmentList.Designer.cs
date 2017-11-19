@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogEquipmentList {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogEquipmentList
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.EquipmentView = new System.Windows.Forms.DataGridView();
 			this.EquipmentView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.EquipmentView_Icon = new System.Windows.Forms.DataGridViewImageColumn();
@@ -58,11 +63,11 @@
 			this.EquipmentView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.EquipmentView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.EquipmentView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EquipmentView_ID,
-            this.EquipmentView_Icon,
-            this.EquipmentView_Name,
-            this.EquipmentView_CountAll,
-            this.EquipmentView_CountRemain});
+			this.EquipmentView_ID,
+			this.EquipmentView_Icon,
+			this.EquipmentView_Name,
+			this.EquipmentView_CountAll,
+			this.EquipmentView_CountRemain});
 			this.EquipmentView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.EquipmentView.Location = new System.Drawing.Point(0, 0);
 			this.EquipmentView.Name = "EquipmentView";
@@ -119,7 +124,7 @@
 			// 
 			this.TopMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_File});
+			this.TopMenu_File});
 			this.TopMenu.Location = new System.Drawing.Point(0, 0);
 			this.TopMenu.Name = "TopMenu";
 			this.TopMenu.Size = new System.Drawing.Size(640, 24);
@@ -129,8 +134,8 @@
 			// TopMenu_File
 			// 
 			this.TopMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TopMenu_File_CSVOutput,
-            this.TopMenu_File_Update});
+			this.TopMenu_File_CSVOutput,
+			this.TopMenu_File_Update});
 			this.TopMenu_File.Name = "TopMenu_File";
 			this.TopMenu_File.Size = new System.Drawing.Size(70, 20);
 			this.TopMenu_File.Text = "ファイル(&F)";
@@ -181,11 +186,11 @@
 			this.DetailView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.DetailView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.DetailView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DetailView_Level,
-            this.DetailView_AircraftLevel,
-            this.DetailView_CountAll,
-            this.DetailView_CountRemain,
-            this.DetailView_EquippedShip});
+			this.DetailView_Level,
+			this.DetailView_AircraftLevel,
+			this.DetailView_CountAll,
+			this.DetailView_CountRemain,
+			this.DetailView_EquippedShip});
 			this.DetailView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.DetailView.Location = new System.Drawing.Point(0, 0);
 			this.DetailView.Name = "DetailView";

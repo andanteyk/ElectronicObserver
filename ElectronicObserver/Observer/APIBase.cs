@@ -4,20 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer {
+namespace ElectronicObserver.Observer
+{
 
-	public delegate void APIReceivedEventHandler( string apiname, dynamic data );
+	public delegate void APIReceivedEventHandler(string apiname, dynamic data);
 
 	/// <summary>
 	/// API処理部の基底となるクラスです。
 	/// </summary>
-	public abstract class APIBase {
+	public abstract class APIBase
+	{
 
 		/// <summary>
 		/// Requestの処理が完了した時に発生します。
 		/// </summary>
 		public event APIReceivedEventHandler RequestReceived = delegate { };
-		
+
 		/// <summary>
 		/// Responseの処理が完了した時に発生します。
 		/// </summary>
@@ -29,8 +31,9 @@ namespace ElectronicObserver.Observer {
 		/// 継承時は最後に呼ぶようにして下さい。
 		/// </summary>
 		/// <param name="data">処理するデータ。</param>
-		public virtual void OnRequestReceived( Dictionary<string, string> data ) {
-			RequestReceived( APIName, data );
+		public virtual void OnRequestReceived(Dictionary<string, string> data)
+		{
+			RequestReceived(APIName, data);
 		}
 
 		/// <summary>
@@ -38,20 +41,21 @@ namespace ElectronicObserver.Observer {
 		/// 継承時は最後に呼ぶようにして下さい。
 		/// </summary>
 		/// <param name="data">処理するデータ。</param>
-		public virtual void OnResponseReceived( dynamic data ) {
-			ResponseReceived( APIName, data );
+		public virtual void OnResponseReceived(dynamic data)
+		{
+			ResponseReceived(APIName, data);
 		}
 
 
 		/// <summary>
 		/// Requestの処理をサポートしているかを取得します。
 		/// </summary>
-		public virtual bool IsRequestSupported { get { return false; } }
+		public virtual bool IsRequestSupported => false;
 
 		/// <summary>
 		/// Responseの処理をサポートしているかを取得します。
 		/// </summary>
-		public virtual bool IsResponseSupported { get { return true; } }
+		public virtual bool IsResponseSupported => true;
 
 
 
@@ -59,7 +63,7 @@ namespace ElectronicObserver.Observer {
 		/// API名を取得します。
 		/// </summary>
 		public abstract string APIName { get; }
-	
+
 	}
 
 }

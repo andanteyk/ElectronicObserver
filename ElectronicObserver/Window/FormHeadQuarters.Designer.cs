@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window {
-	partial class FormHeadquarters {
+﻿namespace ElectronicObserver.Window
+{
+	partial class FormHeadquarters
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			this.FlowPanelMaster = new System.Windows.Forms.FlowLayoutPanel();
 			this.FlowPanelAdmiral = new System.Windows.Forms.FlowLayoutPanel();
@@ -38,13 +43,13 @@
 			this.DevelopmentMaterial = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ModdingMaterial = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FurnitureCoin = new ElectronicObserver.Window.Control.ImageLabel();
+			this.DisplayUseItem = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FlowPanelResource = new System.Windows.Forms.FlowLayoutPanel();
 			this.Fuel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Ammo = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Steel = new ElectronicObserver.Window.Control.ImageLabel();
 			this.Bauxite = new ElectronicObserver.Window.Control.ImageLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
-			this.DisplayUseItem = new ElectronicObserver.Window.Control.ImageLabel();
 			this.FlowPanelMaster.SuspendLayout();
 			this.FlowPanelAdmiral.SuspendLayout();
 			this.FlowPanelFleet.SuspendLayout();
@@ -209,6 +214,16 @@
 			this.FurnitureCoin.TabIndex = 4;
 			this.FurnitureCoin.Text = "(家具)";
 			// 
+			// DisplayUseItem
+			// 
+			this.DisplayUseItem.Location = new System.Drawing.Point(3, 20);
+			this.DisplayUseItem.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			this.DisplayUseItem.Name = "DisplayUseItem";
+			this.DisplayUseItem.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+			this.DisplayUseItem.Size = new System.Drawing.Size(54, 20);
+			this.DisplayUseItem.TabIndex = 6;
+			this.DisplayUseItem.Text = "(任意)";
+			// 
 			// FlowPanelResource
 			// 
 			this.FlowPanelResource.AutoSize = true;
@@ -233,6 +248,7 @@
 			this.Fuel.TabIndex = 1;
 			this.Fuel.Text = "(燃料)";
 			this.Fuel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
+			this.Fuel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseDoubleClick);
 			// 
 			// Ammo
 			// 
@@ -244,6 +260,7 @@
 			this.Ammo.TabIndex = 2;
 			this.Ammo.Text = "(弾薬)";
 			this.Ammo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
+			this.Ammo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseDoubleClick);
 			// 
 			// Steel
 			// 
@@ -255,6 +272,7 @@
 			this.Steel.TabIndex = 3;
 			this.Steel.Text = "(鋼材)";
 			this.Steel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
+			this.Steel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseDoubleClick);
 			// 
 			// Bauxite
 			// 
@@ -266,6 +284,7 @@
 			this.Bauxite.TabIndex = 4;
 			this.Bauxite.Text = "(軽銀)";
 			this.Bauxite.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseClick);
+			this.Bauxite.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Resource_MouseDoubleClick);
 			// 
 			// ToolTipInfo
 			// 
@@ -273,16 +292,6 @@
 			this.ToolTipInfo.InitialDelay = 500;
 			this.ToolTipInfo.ReshowDelay = 100;
 			this.ToolTipInfo.ShowAlways = true;
-			// 
-			// DisplayUseItem
-			// 
-			this.DisplayUseItem.Location = new System.Drawing.Point(3, 20);
-			this.DisplayUseItem.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-			this.DisplayUseItem.Name = "DisplayUseItem";
-			this.DisplayUseItem.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-			this.DisplayUseItem.Size = new System.Drawing.Size(54, 20);
-			this.DisplayUseItem.TabIndex = 6;
-			this.DisplayUseItem.Text = "(任意)";
 			// 
 			// FormHeadquarters
 			// 

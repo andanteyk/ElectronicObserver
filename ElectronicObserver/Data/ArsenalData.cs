@@ -6,19 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
 	/// <summary>
 	/// 工廠ドックの情報を保持します。
 	/// </summary>
-	public class ArsenalData : ResponseWrapper, IIdentifiable {
+	public class ArsenalData : ResponseWrapper, IIdentifiable
+	{
 
 		/// <summary>
 		/// ドックID
 		/// </summary>
-		public int ArsenalID {
-			get { return (int)RawData.api_id; }
-		}
+		public int ArsenalID => (int)RawData.api_id;
 
 		/// <summary>
 		/// 状態
@@ -29,80 +29,67 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 艦船ID
 		/// </summary>
-		public int ShipID {
-			get { return (int)RawData.api_created_ship_id; }
-		}
+		public int ShipID => (int)RawData.api_created_ship_id;
 
 		/// <summary>
 		/// 完成日時
 		/// </summary>
-		public DateTime CompletionTime {
-			get { return DateTimeHelper.FromAPITime( (long)RawData.api_complete_time ); }
-		}
+		public DateTime CompletionTime => DateTimeHelper.FromAPITime((long)RawData.api_complete_time);
 
 
 		/// <summary>
 		/// 投入燃料
 		/// </summary>
-		public int Fuel {
-			get { return (int)RawData.api_item1; }
-		}
+		public int Fuel => (int)RawData.api_item1;
 
 		/// <summary>
 		/// 投入弾薬
 		/// </summary>
-		public int Ammo {
-			get { return (int)RawData.api_item2; }
-		}
+		public int Ammo => (int)RawData.api_item2;
 
 		/// <summary>
 		/// 投入鋼材
 		/// </summary>
-		public int Steel {
-			get { return (int)RawData.api_item3; }
-		}
+		public int Steel => (int)RawData.api_item3;
 
 		/// <summary>
 		/// 投入ボーキサイト
 		/// </summary>
-		public int Bauxite {
-			get { return (int)RawData.api_item4; }
-		}
+		public int Bauxite => (int)RawData.api_item4;
 
 		/// <summary>
 		/// 投入開発資材
 		/// </summary>
-		public int DevelopmentMaterial {
-			get { return (int)RawData.api_item5; }
-		}
+		public int DevelopmentMaterial => (int)RawData.api_item5;
 
 
-		public int ID {
-			get { return ArsenalID; }
-		}
+		public int ID => ArsenalID;
 
 
 
-		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );
+		public override void LoadFromResponse(string apiname, dynamic data)
+		{
+			base.LoadFromResponse(apiname, (object)data);
 
 			State = (int)RawData.api_state;
 
 		}
 
 
-		public override string ToString() {
+		public override string ToString()
+		{
 			StringBuilder sb = new StringBuilder();
-			sb.Append( "[" + ID.ToString() + "] : " );
-			switch ( State ) {
+			sb.Append("[" + ID.ToString() + "] : ");
+			switch (State)
+			{
 				case -1:
-					sb.Append( "<Locked>" ); break;
+					sb.Append("<Locked>"); break;
 				case 0:
-					sb.Append( "<Empty>" ); break;
+					sb.Append("<Empty>"); break;
 				case 2:
-					sb.Append( KCDatabase.Instance.MasterShips[ShipID].Name + ", at " + CompletionTime.ToString() ); break;
+					sb.Append(KCDatabase.Instance.MasterShips[ShipID].Name + ", at " + CompletionTime.ToString()); break;
 				case 3:
-					sb.Append( KCDatabase.Instance.MasterShips[ShipID].Name + ", Completed!" ); break;
+					sb.Append(KCDatabase.Instance.MasterShips[ShipID].Name + ", Completed!"); break;
 			}
 
 			return sb.ToString();

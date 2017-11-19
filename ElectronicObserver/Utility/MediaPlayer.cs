@@ -7,12 +7,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
-namespace ElectronicObserver.Utility {
+namespace ElectronicObserver.Utility
+{
 
 	/// <summary>
 	/// Windows Media Player コントロールを利用して、音楽を再生するためのクラスです。
 	/// </summary>
-	public class MediaPlayer {
+	public class MediaPlayer
+	{
 
 		private dynamic _wmp;
 
@@ -29,7 +31,7 @@ namespace ElectronicObserver.Utility {
 		/// 対応している拡張子リスト
 		/// </summary>
 		public static readonly ReadOnlyCollection<string> SupportedExtensions =
-			new ReadOnlyCollection<string>( new List<string>() {
+			new ReadOnlyCollection<string>(new List<string>() {
 			"asf",
 			"wma",
 			"mp2",
@@ -47,23 +49,30 @@ namespace ElectronicObserver.Utility {
 			"aac",
 			"flac",
 			"mka",
-		} );
+		});
 
-		private static readonly Regex SupportedFileName = new Regex( ".*\\.(" + string.Join( "|", SupportedExtensions ) + ")", RegexOptions.Compiled );
+		private static readonly Regex SupportedFileName = new Regex(".*\\.(" + string.Join("|", SupportedExtensions) + ")", RegexOptions.Compiled);
 
 
-		public MediaPlayer() {
-			try {
-				var type = Type.GetTypeFromProgID( "WMPlayer.OCX.7" );
-				if ( type != null ) {
-					_wmp = Activator.CreateInstance( type );
+		public MediaPlayer()
+		{
+			try
+			{
+				var type = Type.GetTypeFromProgID("WMPlayer.OCX.7");
+				if (type != null)
+				{
+					_wmp = Activator.CreateInstance(type);
 					_wmp.uiMode = "none";
 					_wmp.settings.autoStart = false;
-					_wmp.PlayStateChange += new Action<int>( wmp_PlayStateChange );
-				} else {
+					_wmp.PlayStateChange += new Action<int>(wmp_PlayStateChange);
+				}
+				else
+				{
 					_wmp = null;
 				}
-			} catch {
+			}
+			catch
+			{
 				_wmp = null;
 			}
 
@@ -84,18 +93,18 @@ namespace ElectronicObserver.Utility {
 		/// 利用可能かどうか
 		/// false の場合全機能が使用不可能
 		/// </summary>
-		public bool IsAvailable {
-			get { return _wmp != null; }
-		}
+		public bool IsAvailable => _wmp != null;
 
 		/// <summary>
 		/// メディアファイルのパス。
 		/// 再生中に変更された場合停止します。
 		/// </summary>
-		public string SourcePath {
+		public string SourcePath
+		{
 			get { return !IsAvailable ? string.Empty : _wmp.URL; }
-			set {
-				if ( IsAvailable && _wmp.URL != value )
+			set
+			{
+				if (IsAvailable && _wmp.URL != value)
 					_wmp.URL = value;
 			}
 		}
@@ -105,17 +114,19 @@ namespace ElectronicObserver.Utility {
 		/// 0-100
 		/// 注: システムの音量設定と連動しているようなので注意が必要
 		/// </summary>
-		public int Volume {
+		public int Volume
+		{
 			get { return !IsAvailable ? 0 : _wmp.settings.volume; }
-			set { if ( IsAvailable ) _wmp.settings.volume = value; }
+			set { if (IsAvailable) _wmp.settings.volume = value; }
 		}
 
 		/// <summary>
 		/// ミュート
 		/// </summary>
-		public bool IsMute {
+		public bool IsMute
+		{
 			get { return !IsAvailable ? false : _wmp.settings.mute; }
-			set { if ( IsAvailable ) _wmp.settings.mute = value; }
+			set { if (IsAvailable) _wmp.settings.mute = value; }
 		}
 
 
@@ -123,12 +134,14 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// ループするか
 		/// </summary>
-		public bool IsLoop {
+		public bool IsLoop
+		{
 			get { return _isLoop; }
-			set {
+			set
+			{
 				_isLoop = value;
-				if ( IsAvailable )
-					_wmp.settings.setMode( "loop", _isLoop );
+				if (IsAvailable)
+					_wmp.settings.setMode("loop", _isLoop);
 			}
 		}
 
@@ -141,32 +154,27 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// 現在の再生地点 (秒単位)
 		/// </summary>
-		public double CurrentPosition {
+		public double CurrentPosition
+		{
 			get { return !IsAvailable ? 0.0 : _wmp.controls.currentPosition; }
-			set { if ( IsAvailable ) _wmp.controls.currentPosition = value; }
+			set { if (IsAvailable) _wmp.controls.currentPosition = value; }
 		}
 
 		/// <summary>
 		/// 再生状態
 		/// </summary>
-		public int PlayState {
-			get { return !IsAvailable ? 0 : _wmp.playState; }
-		}
+		public int PlayState => !IsAvailable ? 0 : _wmp.playState;
 
 		/// <summary>
 		/// 現在のメディアの名前
 		/// </summary>
-		public string MediaName {
-			get { return !IsAvailable ? string.Empty : _wmp.currentMedia != null ? _wmp.currentMedia.name : null; }
-		}
+		public string MediaName => !IsAvailable ? string.Empty : _wmp.currentMedia?.name;
 
 		/// <summary>
 		/// 現在のメディアの長さ(秒単位)
 		/// なければ 0
 		/// </summary>
-		public double Duration {
-			get { return !IsAvailable ? 0.0 : _wmp.currentMedia != null ? _wmp.currentMedia.duration : 0; }
-		}
+		public double Duration => !IsAvailable ? 0.0 : _wmp.currentMedia?.duration ?? 0;
 
 
 
@@ -174,16 +182,18 @@ namespace ElectronicObserver.Utility {
 		/// プレイリストのコピーを取得します。
 		/// </summary>
 		/// <returns></returns>
-		public List<string> GetPlaylist() {
-			return new List<string>( _playlist );
+		public List<string> GetPlaylist()
+		{
+			return new List<string>(_playlist);
 		}
 
 		/// <summary>
 		/// プレイリストを設定します。
 		/// </summary>
 		/// <param name="list"></param>
-		public void SetPlaylist( IEnumerable<string> list ) {
-			if ( list == null )
+		public void SetPlaylist(IEnumerable<string> list)
+		{
+			if (list == null)
 				_playlist = new List<string>();
 			else
 				_playlist = list.Distinct().ToList();
@@ -192,8 +202,9 @@ namespace ElectronicObserver.Utility {
 		}
 
 
-		public IEnumerable<string> SearchSupportedFiles( string path, System.IO.SearchOption option = System.IO.SearchOption.TopDirectoryOnly ) {
-			return System.IO.Directory.EnumerateFiles( path, "*", option ).Where( s => SupportedFileName.IsMatch( s ) );
+		public IEnumerable<string> SearchSupportedFiles(string path, System.IO.SearchOption option = System.IO.SearchOption.TopDirectoryOnly)
+		{
+			return System.IO.Directory.EnumerateFiles(path, "*", option).Where(s => SupportedFileName.IsMatch(s));
 		}
 
 		/// <summary>
@@ -201,8 +212,9 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		/// <param name="path">フォルダへのパス。</param>
 		/// <param name="option">検索オプション。既定ではサブディレクトリは検索されません。</param>
-		public void SetPlaylistFromDirectory( string path, System.IO.SearchOption option = System.IO.SearchOption.TopDirectoryOnly ) {
-			SetPlaylist( SearchSupportedFiles( path, option ) );
+		public void SetPlaylistFromDirectory(string path, System.IO.SearchOption option = System.IO.SearchOption.TopDirectoryOnly)
+		{
+			SetPlaylist(SearchSupportedFiles(path, option));
 		}
 
 
@@ -211,17 +223,20 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// 現在再生中の曲のプレイリスト中インデックス
 		/// </summary>
-		private int PlayingIndex {
+		private int PlayingIndex
+		{
 			get { return _playingIndex; }
-			set {
-				if ( _playingIndex != value ) {
+			set
+			{
+				if (_playingIndex != value)
+				{
 
-					if ( value < 0 || _realPlaylist.Count <= value )
+					if (value < 0 || _realPlaylist.Count <= value)
 						return;
 
 					_playingIndex = value;
 					SourcePath = _realPlaylist[_playingIndex];
-					if ( AutoPlay )
+					if (AutoPlay)
 						Play();
 				}
 			}
@@ -231,14 +246,17 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// シャッフル再生するか
 		/// </summary>
-		public bool IsShuffle {
+		public bool IsShuffle
+		{
 			get { return _isShuffle; }
-			set {
+			set
+			{
 				bool changed = _isShuffle != value;
 
 				_isShuffle = value;
 
-				if ( changed ) {
+				if (changed)
+				{
 					UpdateRealPlaylist();
 				}
 			}
@@ -256,10 +274,11 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// 再生
 		/// </summary>
-		public void Play() {
-			if ( !IsAvailable ) return;
+		public void Play()
+		{
+			if (!IsAvailable) return;
 
-			if ( _realPlaylist.Count > 0 && SourcePath != _realPlaylist[_playingIndex] )
+			if (_realPlaylist.Count > 0 && SourcePath != _realPlaylist[_playingIndex])
 				SourcePath = _realPlaylist[_playingIndex];
 
 			_wmp.controls.play();
@@ -268,8 +287,9 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// ポーズ
 		/// </summary>
-		public void Pause() {
-			if ( !IsAvailable ) return;
+		public void Pause()
+		{
+			if (!IsAvailable) return;
 
 			_wmp.controls.pause();
 		}
@@ -277,8 +297,9 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// 停止
 		/// </summary>
-		public void Stop() {
-			if ( !IsAvailable ) return;
+		public void Stop()
+		{
+			if (!IsAvailable) return;
 
 			_wmp.controls.stop();
 		}
@@ -286,8 +307,9 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// ファイルを閉じる
 		/// </summary>
-		public void Close() {
-			if ( !IsAvailable ) return;
+		public void Close()
+		{
+			if (!IsAvailable) return;
 
 			_wmp.close();
 		}
@@ -296,77 +318,91 @@ namespace ElectronicObserver.Utility {
 		/// <summary>
 		/// 次の曲へ
 		/// </summary>
-		public void Next() {
-			if ( !IsAvailable ) return;
+		public void Next()
+		{
+			if (!IsAvailable) return;
 
 			int prevState = PlayState;
 
-			if ( PlayingIndex >= _realPlaylist.Count - 1 ) {
-				if ( IsShuffle )
+			if (PlayingIndex >= _realPlaylist.Count - 1)
+			{
+				if (IsShuffle)
 					UpdateRealPlaylist();
 				PlayingIndex = 0;
-			} else {
+			}
+			else
+			{
 				PlayingIndex++;
 			}
 
-			if ( prevState == 3 || AutoPlay )		// Playing
+			if (prevState == 3 || AutoPlay)     // Playing
 				Play();
 		}
 
 		/// <summary>
 		/// 前の曲へ
 		/// </summary>
-		public void Prev() {
-			if ( !IsAvailable ) return;
+		public void Prev()
+		{
+			if (!IsAvailable) return;
 
-			if ( IsShuffle )
+			if (IsShuffle)
 				return;
 
 			int prevState = PlayState;
 
-			if ( PlayingIndex == 0 )
+			if (PlayingIndex == 0)
 				PlayingIndex = _realPlaylist.Count - 1;
 			else
 				PlayingIndex--;
 
-			if ( prevState == 3 || AutoPlay )		// Playing
+			if (prevState == 3 || AutoPlay)     // Playing
 				Play();
 		}
 
-		private void UpdateRealPlaylist() {
-			if ( !IsAvailable ) return;
+		private void UpdateRealPlaylist()
+		{
+			if (!IsAvailable) return;
 
-			if ( !IsShuffle ) {
-				_realPlaylist = new List<string>( _playlist );
+			if (!IsShuffle)
+			{
+				_realPlaylist = new List<string>(_playlist);
 
-			} else {
+			}
+			else
+			{
 				// shuffle
-				_realPlaylist = _playlist.OrderBy( s => Guid.NewGuid() ).ToList();
+				_realPlaylist = _playlist.OrderBy(s => Guid.NewGuid()).ToList();
 
 				// 同じ曲が連続で流れるのを防ぐ
-				if ( _realPlaylist.Count > 1 && SourcePath == _realPlaylist[0] ) {
-					_realPlaylist = _realPlaylist.Skip( 1 ).ToList();
-					_realPlaylist.Insert( _rand.Next( 1, _realPlaylist.Count + 1 ), SourcePath );
+				if (_realPlaylist.Count > 1 && SourcePath == _realPlaylist[0])
+				{
+					_realPlaylist = _realPlaylist.Skip(1).ToList();
+					_realPlaylist.Insert(_rand.Next(1, _realPlaylist.Count + 1), SourcePath);
 				}
 			}
 
-			int index = _realPlaylist.IndexOf( SourcePath );
+			int index = _realPlaylist.IndexOf(SourcePath);
 			PlayingIndex = index != -1 ? index : 0;
 		}
 
 
 		private bool _loopflag = false;
-		void wmp_PlayStateChange( int NewState ) {
+		void wmp_PlayStateChange(int NewState)
+		{
 
 			// ループ用処理
-			if ( IsLoop && LoopHeadPosition > 0.0 ) {
-				switch ( NewState ) {
-					case 8:		//MediaEnded
+			if (IsLoop && LoopHeadPosition > 0.0)
+			{
+				switch (NewState)
+				{
+					case 8:     //MediaEnded
 						_loopflag = true;
 						break;
 
-					case 3:		//playing
-						if ( _loopflag ) {
+					case 3:     //playing
+						if (_loopflag)
+						{
 							CurrentPosition = LoopHeadPosition;
 							_loopflag = false;
 						}
@@ -374,24 +410,26 @@ namespace ElectronicObserver.Utility {
 				}
 			}
 
-			if ( NewState == 8 )	//MediaEnded
+			if (NewState == 8)  //MediaEnded
 				OnMediaEnded();
 
-			PlayStateChange( NewState );
+			PlayStateChange(NewState);
 		}
 
 
 
-		void MediaPlayer_MediaEnded() {
+		void MediaPlayer_MediaEnded()
+		{
 			// プレイリストの処理
-			if ( !IsLoop && AutoPlay )
+			if (!IsLoop && AutoPlay)
 				Next();
 		}
 
 
 		// 即時変化させるとイベント終了直後に書き換えられて next が無視されるので苦肉の策
-		private async void OnMediaEnded() {
-			await Task.Run( () => Task.WaitAll( Task.Delay( 10 ) ) );
+		private async void OnMediaEnded()
+		{
+			await Task.Run(() => Task.WaitAll(Task.Delay(10)));
 			MediaEnded();
 		}
 	}

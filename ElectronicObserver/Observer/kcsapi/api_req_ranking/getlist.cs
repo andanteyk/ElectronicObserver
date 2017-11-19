@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_ranking {
-	
-	public class getlist : APIBase {
+namespace ElectronicObserver.Observer.kcsapi.api_req_ranking
+{
 
-		public override string APIName {
-			get { return "api_req_ranking/getlist"; }
-		}
+	public class getlist : APIBase
+	{
 
+		public override string APIName => "api_req_ranking/getlist";
 	}
+
 }

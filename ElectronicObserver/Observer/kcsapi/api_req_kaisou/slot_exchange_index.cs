@@ -5,33 +5,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou {
+namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou
+{
 
-	public class slot_exchange_index : APIBase {
+	public class slot_exchange_index : APIBase
+	{
 
 		private int shipID = -1;
 
-		public override bool IsRequestSupported { get { return true; } }
-		public override bool IsResponseSupported { get { return true; } }
+		public override bool IsRequestSupported => true;
+		public override bool IsResponseSupported => true;
 
-		public override void OnRequestReceived( Dictionary<string, string> data ) {
+		public override void OnRequestReceived(Dictionary<string, string> data)
+		{
 
-			shipID = int.Parse( data["api_id"] );
+			shipID = int.Parse(data["api_id"]);
 
-			base.OnRequestReceived( data );
+			base.OnRequestReceived(data);
 		}
 
-		public override void OnResponseReceived( dynamic data ) {
+		public override void OnResponseReceived(dynamic data)
+		{
 
 			var ship = KCDatabase.Instance.Ships[shipID];
-			if ( ship != null )
-				ship.LoadFromResponse( APIName, data );
+			if (ship != null)
+				ship.LoadFromResponse(APIName, data);
 
-			base.OnResponseReceived( (object)data );
+			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName {
-			get { return "api_req_kaisou/slot_exchange_index"; }
-		}
+		public override string APIName => "api_req_kaisou/slot_exchange_index";
 	}
+
 }

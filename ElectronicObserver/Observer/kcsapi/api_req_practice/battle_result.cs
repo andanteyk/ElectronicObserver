@@ -5,21 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_practice {
-	
-	public class battle_result : APIBase {
+namespace ElectronicObserver.Observer.kcsapi.api_req_practice
+{
 
-		public override void OnResponseReceived( dynamic data ) {
+	public class battle_result : APIBase
+	{
 
-			KCDatabase.Instance.Battle.LoadFromResponse( APIName, data );
+		public override void OnResponseReceived(dynamic data)
+		{
+
+			KCDatabase.Instance.Battle.LoadFromResponse(APIName, data);
 
 
-			base.OnResponseReceived( (object)data );
+			base.OnResponseReceived((object)data);
 		}
 
 
-		public override string APIName {
-			get { return "api_req_practice/battle_result"; }
-		}
+		public override string APIName => "api_req_practice/battle_result";
 	}
+
 }

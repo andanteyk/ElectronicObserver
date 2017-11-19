@@ -5,19 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_req_map {
+namespace ElectronicObserver.Observer.kcsapi.api_req_map
+{
 
-	public class next : APIBase {
+	public class next : APIBase
+	{
 
-		public override void OnResponseReceived( dynamic data ) {
+		public override void OnResponseReceived(dynamic data)
+		{
 
-			KCDatabase.Instance.Battle.LoadFromResponse( APIName, data );
+			KCDatabase.Instance.Battle.LoadFromResponse(APIName, data);
 
-			base.OnResponseReceived( (object)data );
+			base.OnResponseReceived((object)data);
 
 
 			// 表示順の関係上、UIの更新をしてからデータを更新する
-			if ( KCDatabase.Instance.Battle.Compass.EventID == 3 ) {
+			if (KCDatabase.Instance.Battle.Compass.EventID == 3)
+			{
 				EmulateWhirlpool();
 			}
 
@@ -27,15 +31,18 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map {
 		/// <summary>
 		/// 渦潮による燃料・弾薬の減少をエミュレートします。
 		/// </summary>
-		public static void EmulateWhirlpool() {
-			
+		public static void EmulateWhirlpool()
+		{
+
 			int itemID = KCDatabase.Instance.Battle.Compass.WhirlpoolItemID;
 			int materialmax = KCDatabase.Instance.Fleet.Fleets.Values
-				.Where( f => f != null && f.IsInSortie )
-				.SelectMany( f => f.MembersWithoutEscaped )
-				.Max( s => {
-					if ( s == null ) return 0;
-					switch ( itemID ) {
+				.Where(f => f != null && f.IsInSortie)
+				.SelectMany(f => f.MembersWithoutEscaped)
+				.Max(s =>
+				{
+					if (s == null) return 0;
+					switch (itemID)
+					{
 						case 1:
 							return s.Fuel;
 						case 2:
@@ -43,22 +50,24 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map {
 						default:
 							return 0;
 					}
-				} );
+				});
 
 			double rate = (double)KCDatabase.Instance.Battle.Compass.WhirlpoolItemAmount / materialmax;
 
-			foreach ( var ship in KCDatabase.Instance.Fleet.Fleets.Values
-				.Where( f => f != null && f.IsInSortie )
-				.SelectMany( f => f.MembersWithoutEscaped ) ) {
+			foreach (var ship in KCDatabase.Instance.Fleet.Fleets.Values
+				.Where(f => f != null && f.IsInSortie)
+				.SelectMany(f => f.MembersWithoutEscaped))
+			{
 
-				if ( ship == null ) continue;
+				if (ship == null) continue;
 
-				switch ( itemID ) {
+				switch (itemID)
+				{
 					case 1:
-						ship.Fuel -= (int)( ship.Fuel * rate );
+						ship.Fuel -= (int)(ship.Fuel * rate);
 						break;
 					case 2:
-						ship.Ammo -= (int)( ship.Ammo * rate );
+						ship.Ammo -= (int)(ship.Ammo * rate);
 						break;
 				}
 			}
@@ -66,9 +75,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_map {
 		}
 
 
-		public override string APIName {
-			get { return "api_req_map/next"; }
-		}
-
+		public override string APIName => "api_req_map/next";
 	}
+
 }

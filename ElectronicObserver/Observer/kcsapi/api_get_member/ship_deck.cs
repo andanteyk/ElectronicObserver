@@ -5,28 +5,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Observer.kcsapi.api_get_member {
+namespace ElectronicObserver.Observer.kcsapi.api_get_member
+{
 
-	public class ship_deck : APIBase {
+	public class ship_deck : APIBase
+	{
 
-		public override void OnResponseReceived( dynamic data ) {
+		public override void OnResponseReceived(dynamic data)
+		{
 
 			KCDatabase db = KCDatabase.Instance;
 
 
 			//api_ship_data
-			foreach ( var elem in data.api_ship_data ) {
+			foreach (var elem in data.api_ship_data)
+			{
 
 				int id = (int)elem.api_id;
 				ShipData ship = db.Ships[id];
 
-				if ( ship != null ) {
-					ship.LoadFromResponse( APIName, elem );
+				if (ship != null)
+				{
+					ship.LoadFromResponse(APIName, elem);
 
-				} else {	//ないとは思うけど
+				}
+				else
+				{   //ないとは思うけど
 					var a = new ShipData();
-					a.LoadFromResponse( APIName, elem );
-					db.Ships.Add( a );
+					a.LoadFromResponse(APIName, elem);
+					db.Ships.Add(a);
 
 				}
 
@@ -34,14 +41,12 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 
 			//api_deck_data
-			db.Fleet.LoadFromResponse( APIName, data.api_deck_data );
+			db.Fleet.LoadFromResponse(APIName, data.api_deck_data);
 
-			base.OnResponseReceived( (object)data );
+			base.OnResponseReceived((object)data);
 		}
 
-		public override string APIName {
-			get { return "api_get_member/ship_deck"; }
-		}
-
+		public override string APIName => "api_get_member/ship_deck";
 	}
+
 }

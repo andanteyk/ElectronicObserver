@@ -16,11 +16,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ElectronicObserver.Window.Dialog {
-	public partial class DialogAlbumMasterEquipment : Form {
+namespace ElectronicObserver.Window.Dialog
+{
+	public partial class DialogAlbumMasterEquipment : Form
+	{
 
 
-		public DialogAlbumMasterEquipment() {
+		public DialogAlbumMasterEquipment()
+		{
 			InitializeComponent();
 
 			TitleFirepower.ImageList =
@@ -67,12 +70,12 @@ namespace ElectronicObserver.Window.Dialog {
 			BasePanelEquipment.Visible = false;
 
 
-			ControlHelper.SetDoubleBuffered( TableEquipmentName );
-			ControlHelper.SetDoubleBuffered( TableParameterMain );
-			ControlHelper.SetDoubleBuffered( TableParameterSub );
-			ControlHelper.SetDoubleBuffered( TableArsenal );
+			ControlHelper.SetDoubleBuffered(TableEquipmentName);
+			ControlHelper.SetDoubleBuffered(TableParameterMain);
+			ControlHelper.SetDoubleBuffered(TableParameterSub);
+			ControlHelper.SetDoubleBuffered(TableArsenal);
 
-			ControlHelper.SetDoubleBuffered( EquipmentView );
+			ControlHelper.SetDoubleBuffered(EquipmentView);
 
 
 			//Initialize EquipmentView
@@ -85,82 +88,95 @@ namespace ElectronicObserver.Window.Dialog {
 
 			EquipmentView.Rows.Clear();
 
-			List<DataGridViewRow> rows = new List<DataGridViewRow>( KCDatabase.Instance.MasterEquipments.Values.Count( s => s.Name != "なし" ) );
+			List<DataGridViewRow> rows = new List<DataGridViewRow>(KCDatabase.Instance.MasterEquipments.Values.Count(s => s.Name != "なし"));
 
-			foreach ( var eq in KCDatabase.Instance.MasterEquipments.Values ) {
+			foreach (var eq in KCDatabase.Instance.MasterEquipments.Values)
+			{
 
-				if ( eq.Name == "なし" ) continue;
+				if (eq.Name == "なし") continue;
 
 				DataGridViewRow row = new DataGridViewRow();
-				row.CreateCells( EquipmentView );
-				row.SetValues( eq.EquipmentID, eq.IconType, eq.CategoryTypeInstance.Name, eq.Name );
-				rows.Add( row );
+				row.CreateCells(EquipmentView);
+				row.SetValues(eq.EquipmentID, eq.IconType, eq.CategoryTypeInstance.Name, eq.Name);
+				rows.Add(row);
 
 			}
-			EquipmentView.Rows.AddRange( rows.ToArray() );
+			EquipmentView.Rows.AddRange(rows.ToArray());
 
 			EquipmentView_ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 			EquipmentView_Icon.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 			//EquipmentView_Type.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
 
-			EquipmentView.Sort( EquipmentView_ID, ListSortDirection.Ascending );
+			EquipmentView.Sort(EquipmentView_ID, ListSortDirection.Ascending);
 			EquipmentView.ResumeLayout();
 
 		}
 
-		public DialogAlbumMasterEquipment( int equipmentID )
-			: this() {
+		public DialogAlbumMasterEquipment(int equipmentID)
+			: this()
+		{
 
-			UpdateAlbumPage( equipmentID );
+			UpdateAlbumPage(equipmentID);
 
 
-			if ( KCDatabase.Instance.MasterEquipments.ContainsKey( equipmentID ) ) {
-				var row = EquipmentView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[EquipmentView_ID.Index].Value == equipmentID );
-				if ( row != null )
+			if (KCDatabase.Instance.MasterEquipments.ContainsKey(equipmentID))
+			{
+				var row = EquipmentView.Rows.OfType<DataGridViewRow>().First(r => (int)r.Cells[EquipmentView_ID.Index].Value == equipmentID);
+				if (row != null)
 					EquipmentView.FirstDisplayedScrollingRowIndex = row.Index;
 			}
 		}
 
 
 
-		private void DialogAlbumMasterEquipment_Load( object sender, EventArgs e ) {
+		private void DialogAlbumMasterEquipment_Load(object sender, EventArgs e)
+		{
 
-			this.Icon = ResourceManager.ImageToIcon( ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumEquipment] );
+			this.Icon = ResourceManager.ImageToIcon(ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumEquipment]);
 
 		}
 
 
 
 
-		private void EquipmentView_SortCompare( object sender, DataGridViewSortCompareEventArgs e ) {
+		private void EquipmentView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+		{
 
-			if ( e.Column.Name == EquipmentView_Type.Name ) {
+			if (e.Column.Name == EquipmentView_Type.Name)
+			{
 				e.SortResult =
 					KCDatabase.Instance.MasterEquipments[(int)EquipmentView.Rows[e.RowIndex1].Cells[0].Value].EquipmentType[2] -
 					KCDatabase.Instance.MasterEquipments[(int)EquipmentView.Rows[e.RowIndex2].Cells[0].Value].EquipmentType[2];
-			} else {
-				e.SortResult = ( (IComparable)e.CellValue1 ).CompareTo( e.CellValue2 );
+			}
+			else
+			{
+				e.SortResult = ((IComparable)e.CellValue1).CompareTo(e.CellValue2);
 			}
 
-			if ( e.SortResult == 0 ) {
-				e.SortResult = (int)( EquipmentView.Rows[e.RowIndex1].Tag ?? 0 ) - (int)( EquipmentView.Rows[e.RowIndex2].Tag ?? 0 );
+			if (e.SortResult == 0)
+			{
+				e.SortResult = (int)(EquipmentView.Rows[e.RowIndex1].Tag ?? 0) - (int)(EquipmentView.Rows[e.RowIndex2].Tag ?? 0);
 			}
 
 			e.Handled = true;
 		}
 
-		private void EquipmentView_Sorted( object sender, EventArgs e ) {
+		private void EquipmentView_Sorted(object sender, EventArgs e)
+		{
 
-			for ( int i = 0; i < EquipmentView.Rows.Count; i++ ) {
+			for (int i = 0; i < EquipmentView.Rows.Count; i++)
+			{
 				EquipmentView.Rows[i].Tag = i;
 			}
 		}
 
 
-		private void EquipmentView_CellFormatting( object sender, DataGridViewCellFormattingEventArgs e ) {
+		private void EquipmentView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
 
-			if ( e.ColumnIndex == EquipmentView_Icon.Index ) {
-				e.Value = ResourceManager.GetEquipmentImage( (int)e.Value );
+			if (e.ColumnIndex == EquipmentView_Icon.Index)
+			{
+				e.Value = ResourceManager.GetEquipmentImage((int)e.Value);
 				e.FormattingApplied = true;
 			}
 
@@ -168,18 +184,23 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void EquipmentView_CellMouseClick( object sender, DataGridViewCellMouseEventArgs e ) {
+		private void EquipmentView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
 
-			if ( e.RowIndex >= 0 ) {
+			if (e.RowIndex >= 0)
+			{
 				int equipmentID = (int)EquipmentView.Rows[e.RowIndex].Cells[0].Value;
 
-				if ( ( e.Button & System.Windows.Forms.MouseButtons.Right ) != 0 ) {
+				if ((e.Button & System.Windows.Forms.MouseButtons.Right) != 0)
+				{
 					Cursor = Cursors.AppStarting;
-					new DialogAlbumMasterEquipment( equipmentID ).Show( Owner );
+					new DialogAlbumMasterEquipment(equipmentID).Show(Owner);
 					Cursor = Cursors.Default;
 
-				} else if ( ( e.Button & System.Windows.Forms.MouseButtons.Left ) != 0 ) {
-					UpdateAlbumPage( equipmentID );
+				}
+				else if ((e.Button & System.Windows.Forms.MouseButtons.Left) != 0)
+				{
+					UpdateAlbumPage(equipmentID);
 				}
 			}
 
@@ -188,12 +209,13 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void UpdateAlbumPage( int equipmentID ) {
+		private void UpdateAlbumPage(int equipmentID)
+		{
 
 			KCDatabase db = KCDatabase.Instance;
 			EquipmentDataMaster eq = db.MasterEquipments[equipmentID];
 
-			if ( eq == null ) return;
+			if (eq == null) return;
 
 
 			BasePanelEquipment.SuspendLayout();
@@ -202,7 +224,7 @@ namespace ElectronicObserver.Window.Dialog {
 			//header
 			EquipmentID.Tag = equipmentID;
 			EquipmentID.Text = eq.EquipmentID.ToString();
-			ToolTipInfo.SetToolTip( EquipmentID, string.Format( "Type: [ {0} ]", string.Join( ", ", eq.EquipmentType ) ) );
+			ToolTipInfo.SetToolTip(EquipmentID, string.Format("Type: [ {0} ]", string.Join(", ", eq.EquipmentType)));
 			AlbumNo.Text = eq.AlbumNo.ToString();
 
 
@@ -212,20 +234,21 @@ namespace ElectronicObserver.Window.Dialog {
 
 			{
 				int eqicon = eq.IconType;
-				if ( eqicon >= (int)ResourceManager.EquipmentContent.Locked )
+				if (eqicon >= (int)ResourceManager.EquipmentContent.Locked)
 					eqicon = (int)ResourceManager.EquipmentContent.Unknown;
 				EquipmentType.ImageIndex = eqicon;
 
 				StringBuilder sb = new StringBuilder();
-				sb.AppendLine( "装備可能艦種:" );
-				foreach ( var stype in KCDatabase.Instance.ShipTypes.Values ) {
-					if ( stype.EquipmentType.Contains( eq.CategoryType ) )
-						sb.AppendLine( stype.Name );
+				sb.AppendLine("装備可能艦種:");
+				foreach (var stype in KCDatabase.Instance.ShipTypes.Values)
+				{
+					if (stype.EquipmentType.Contains((int)eq.CategoryType))
+						sb.AppendLine(stype.Name);
 				}
-				ToolTipInfo.SetToolTip( EquipmentType, sb.ToString() );
+				ToolTipInfo.SetToolTip(EquipmentType, sb.ToString());
 			}
 			EquipmentName.Text = eq.Name;
-			ToolTipInfo.SetToolTip( EquipmentName, "(右クリックでコピー)" );
+			ToolTipInfo.SetToolTip(EquipmentName, "(右クリックでコピー)");
 
 			TableEquipmentName.ResumeLayout();
 
@@ -233,20 +256,23 @@ namespace ElectronicObserver.Window.Dialog {
 			//main parameter
 			TableParameterMain.SuspendLayout();
 
-			SetParameterText( Firepower, eq.Firepower );
-			SetParameterText( Torpedo, eq.Torpedo );
-			SetParameterText( AA, eq.AA );
-			SetParameterText( Armor, eq.Armor );
-			SetParameterText( ASW, eq.ASW );
-			SetParameterText( Evasion, eq.Evasion );
-			SetParameterText( LOS, eq.LOS );
-			SetParameterText( Accuracy, eq.Accuracy );
-			SetParameterText( Bomber, eq.Bomber );
+			SetParameterText(Firepower, eq.Firepower);
+			SetParameterText(Torpedo, eq.Torpedo);
+			SetParameterText(AA, eq.AA);
+			SetParameterText(Armor, eq.Armor);
+			SetParameterText(ASW, eq.ASW);
+			SetParameterText(Evasion, eq.Evasion);
+			SetParameterText(LOS, eq.LOS);
+			SetParameterText(Accuracy, eq.Accuracy);
+			SetParameterText(Bomber, eq.Bomber);
 
-			if ( eq.CategoryType == 48 ) {
+			if (eq.CategoryType == EquipmentTypes.Interceptor)
+			{
 				TitleAccuracy.Text = "対爆";
 				TitleEvasion.Text = "迎撃";
-			} else {
+			}
+			else
+			{
 				TitleAccuracy.Text = "命中";
 				TitleEvasion.Text = "回避";
 			}
@@ -258,22 +284,25 @@ namespace ElectronicObserver.Window.Dialog {
 			TableParameterSub.SuspendLayout();
 
 			Speed.Text = "なし"; //Constants.GetSpeed( eq.Speed );
-			Range.Text = Constants.GetRange( eq.Range );
-			Rarity.Text = Constants.GetEquipmentRarity( eq.Rarity );
-			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + Constants.GetEquipmentRarityID( eq.Rarity );		//checkme
+			Range.Text = Constants.GetRange(eq.Range);
+			Rarity.Text = Constants.GetEquipmentRarity(eq.Rarity);
+			Rarity.ImageIndex = (int)ResourceManager.IconContent.RarityRed + Constants.GetEquipmentRarityID(eq.Rarity);     //checkme
 
 			TableParameterSub.ResumeLayout();
 
 
 			// aircraft
-			if ( Calculator.IsAircraft( equipmentID, true ) ) {
+			if (eq.IsAircraft)
+			{
 				TableAircraft.SuspendLayout();
 				AircraftCost.Text = eq.AircraftCost.ToString();
-				ToolTipInfo.SetToolTip( AircraftCost, "配備時のボーキ消費：" + ( ( Calculator.IsAircraft( equipmentID, false ) ? 18 : 4 ) * eq.AircraftCost ) );
+				ToolTipInfo.SetToolTip(AircraftCost, "配備時のボーキ消費：" + ((eq.IsCombatAircraft ? 18 : 4) * eq.AircraftCost));
 				AircraftDistance.Text = eq.AircraftDistance.ToString();
 				TableAircraft.ResumeLayout();
 				TableAircraft.Visible = true;
-			} else {
+			}
+			else
+			{
 				TableAircraft.Visible = false;
 			}
 
@@ -281,9 +310,11 @@ namespace ElectronicObserver.Window.Dialog {
 			//default equipment
 			DefaultSlots.BeginUpdate();
 			DefaultSlots.Items.Clear();
-			foreach ( var ship in KCDatabase.Instance.MasterShips.Values ) {
-				if ( ship.DefaultSlot != null && ship.DefaultSlot.Contains( equipmentID ) ) {
-					DefaultSlots.Items.Add( ship );
+			foreach (var ship in KCDatabase.Instance.MasterShips.Values)
+			{
+				if (ship.DefaultSlot != null && ship.DefaultSlot.Contains(equipmentID))
+				{
+					DefaultSlots.Items.Add(ship);
 				}
 			}
 			DefaultSlots.EndUpdate();
@@ -306,19 +337,25 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//装備画像を読み込んでみる
 			{
-				string path = string.Format( @"{0}\\resources\\image\\slotitem\\card\\{1:D3}.png", Utility.Configuration.Config.Connection.SaveDataPath, equipmentID );
-				if ( File.Exists( path ) ) {
-					try {
+				string path = string.Format(@"{0}\\resources\\image\\slotitem\\card\\{1:D3}.png", Utility.Configuration.Config.Connection.SaveDataPath, equipmentID);
+				if (File.Exists(path))
+				{
+					try
+					{
 
-						EquipmentImage.Image = new Bitmap( path );
+						EquipmentImage.Image = new Bitmap(path);
 
-					} catch ( Exception ) {
-						if ( EquipmentImage.Image != null )
+					}
+					catch (Exception)
+					{
+						if (EquipmentImage.Image != null)
 							EquipmentImage.Image.Dispose();
 						EquipmentImage.Image = null;
 					}
-				} else {
-					if ( EquipmentImage.Image != null )
+				}
+				else
+				{
+					if (EquipmentImage.Image != null)
 						EquipmentImage.Image.Dispose();
 					EquipmentImage.Image = null;
 				}
@@ -334,15 +371,21 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		private void SetParameterText( ImageLabel label, int value ) {
+		private void SetParameterText(ImageLabel label, int value)
+		{
 
-			if ( value > 0 ) {
+			if (value > 0)
+			{
 				label.ForeColor = SystemColors.ControlText;
 				label.Text = "+" + value.ToString();
-			} else if ( value == 0 ) {
+			}
+			else if (value == 0)
+			{
 				label.ForeColor = Color.Silver;
 				label.Text = "0";
-			} else {
+			}
+			else
+			{
 				label.ForeColor = Color.Red;
 				label.Text = value.ToString();
 			}
@@ -350,13 +393,16 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		private void DefaultSlots_MouseDown( object sender, MouseEventArgs e ) {
+		private void DefaultSlots_MouseDown(object sender, MouseEventArgs e)
+		{
 
-			if ( e.Button == System.Windows.Forms.MouseButtons.Right ) {
-				int index = DefaultSlots.IndexFromPoint( e.Location );
-				if ( index >= 0 ) {
+			if (e.Button == System.Windows.Forms.MouseButtons.Right)
+			{
+				int index = DefaultSlots.IndexFromPoint(e.Location);
+				if (index >= 0)
+				{
 					Cursor = Cursors.AppStarting;
-					new DialogAlbumMasterShip( ( (ShipDataMaster)DefaultSlots.Items[index] ).ShipID ).Show( Owner );
+					new DialogAlbumMasterShip(((ShipDataMaster)DefaultSlots.Items[index]).ShipID).Show(Owner);
 					Cursor = Cursors.Default;
 				}
 			}
@@ -364,43 +410,52 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void TableParameterMain_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		private void TableParameterMain_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+		{
+			e.Graphics.DrawLine(Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
 			/*/
 			if ( e.Column == 0 )
 				e.Graphics.DrawLine( Pens.Silver, e.CellBounds.Right - 1, e.CellBounds.Y, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
 			//*/
 		}
 
-		private void TableParameterSub_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		private void TableParameterSub_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+		{
+			e.Graphics.DrawLine(Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
 		}
 
 
 
-		private void TableArsenal_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		private void TableArsenal_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+		{
+			e.Graphics.DrawLine(Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
 		}
 
-		private void TableAircraft_CellPaint( object sender, TableLayoutCellPaintEventArgs e ) {
-			e.Graphics.DrawLine( Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1 );
+		private void TableAircraft_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+		{
+			e.Graphics.DrawLine(Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
 		}
 
 
 
-		private void StripMenu_File_OutputCSVUser_Click( object sender, EventArgs e ) {
+		private void StripMenu_File_OutputCSVUser_Click(object sender, EventArgs e)
+		{
 
-			if ( SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+			if (SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
 
-				try {
+				try
+				{
 
-					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
+					using (StreamWriter sw = new StreamWriter(SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding))
+					{
 
-						sw.WriteLine( "装備ID,図鑑番号,装備種,装備名,大分類,図鑑カテゴリID,カテゴリID,アイコンID,航空機グラフィックID,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
+						sw.WriteLine("装備ID,図鑑番号,装備種,装備名,大分類,図鑑カテゴリID,カテゴリID,アイコンID,航空機グラフィックID,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト");
 
-						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
+						foreach (EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values)
+						{
 
-							sw.WriteLine( string.Join( ",",
+							sw.WriteLine(string.Join(",",
 								eq.EquipmentID,
 								eq.AlbumNo,
 								KCDatabase.Instance.EquipmentTypes[eq.EquipmentType[2]].Name,
@@ -420,25 +475,27 @@ namespace ElectronicObserver.Window.Dialog {
 								eq.Luck,
 								eq.Accuracy,
 								eq.Bomber,
-								Constants.GetRange( eq.Range ),
-								Constants.GetEquipmentRarity( eq.Rarity ),
+								Constants.GetRange(eq.Range),
+								Constants.GetEquipmentRarity(eq.Rarity),
 								eq.Material[0],
 								eq.Material[1],
 								eq.Material[2],
 								eq.Material[3],
-								eq.Message.Replace( "\r\n", "<br>" ),
+								eq.Message.Replace("\r\n", "<br>"),
 								eq.AircraftDistance,
 								eq.AircraftCost
-								) );
+								));
 
 						}
 
 					}
 
-				} catch ( Exception ex ) {
+				}
+				catch (Exception ex)
+				{
 
-					Utility.ErrorReporter.SendErrorReport( ex, "装備図鑑 CSVの出力に失敗しました。" );
-					MessageBox.Show( "装備図鑑 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					Utility.ErrorReporter.SendErrorReport(ex, "装備図鑑 CSVの出力に失敗しました。");
+					MessageBox.Show("装備図鑑 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 
 			}
@@ -447,19 +504,24 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		private void StripMenu_File_OutputCSVData_Click( object sender, EventArgs e ) {
+		private void StripMenu_File_OutputCSVData_Click(object sender, EventArgs e)
+		{
 
-			if ( SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ) {
+			if (SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
 
-				try {
+				try
+				{
 
-					using ( StreamWriter sw = new StreamWriter( SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding ) ) {
+					using (StreamWriter sw = new StreamWriter(SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding))
+					{
 
-						sw.WriteLine( "装備ID,図鑑番号,装備名,装備種1,装備種2,装備種3,装備種4,装備種5,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト" );
+						sw.WriteLine("装備ID,図鑑番号,装備名,装備種1,装備種2,装備種3,装備種4,装備種5,火力,雷装,対空,装甲,対潜,回避,索敵,運,命中,爆装,射程,レア,廃棄燃料,廃棄弾薬,廃棄鋼材,廃棄ボーキ,図鑑文章,戦闘行動半径,配置コスト");
 
-						foreach ( EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values ) {
+						foreach (EquipmentDataMaster eq in KCDatabase.Instance.MasterEquipments.Values)
+						{
 
-							sw.WriteLine( string.Join( ",",
+							sw.WriteLine(string.Join(",",
 								eq.EquipmentID,
 								eq.AlbumNo,
 								eq.Name,
@@ -484,19 +546,21 @@ namespace ElectronicObserver.Window.Dialog {
 								eq.Material[1],
 								eq.Material[2],
 								eq.Material[3],
-								eq.Message.Replace( "\r\n", "<br>" ),
+								eq.Message.Replace("\r\n", "<br>"),
 								eq.AircraftDistance,
 								eq.AircraftCost
-								) );
+								));
 
 						}
 
 					}
 
-				} catch ( Exception ex ) {
+				}
+				catch (Exception ex)
+				{
 
-					Utility.ErrorReporter.SendErrorReport( ex, "装備図鑑 CSVの出力に失敗しました。" );
-					MessageBox.Show( "装備図鑑 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+					Utility.ErrorReporter.SendErrorReport(ex, "装備図鑑 CSVの出力に失敗しました。");
+					MessageBox.Show("装備図鑑 CSVの出力に失敗しました。\r\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 
 			}
@@ -504,25 +568,29 @@ namespace ElectronicObserver.Window.Dialog {
 		}
 
 
-		private void TextSearch_TextChanged( object sender, EventArgs e ) {
-			if ( string.IsNullOrWhiteSpace( TextSearch.Text ) )
+		private void TextSearch_TextChanged(object sender, EventArgs e)
+		{
+			if (string.IsNullOrWhiteSpace(TextSearch.Text))
 				return;
 
-			string searchWord = DialogAlbumMasterShip.ToHiragana( TextSearch.Text.ToLower() );
+			string searchWord = DialogAlbumMasterShip.ToHiragana(TextSearch.Text.ToLower());
 			var target =
 				EquipmentView.Rows.OfType<DataGridViewRow>()
-				.Select( r => KCDatabase.Instance.MasterEquipments[(int)r.Cells[EquipmentView_ID.Index].Value] )
+				.Select(r => KCDatabase.Instance.MasterEquipments[(int)r.Cells[EquipmentView_ID.Index].Value])
 				.FirstOrDefault(
-					eq => DialogAlbumMasterShip.ToHiragana( eq.Name.ToLower() ).Contains( searchWord ) );
+					eq => DialogAlbumMasterShip.ToHiragana(eq.Name.ToLower()).Contains(searchWord));
 
-			if ( target != null ) {
-				EquipmentView.FirstDisplayedScrollingRowIndex = EquipmentView.Rows.OfType<DataGridViewRow>().First( r => (int)r.Cells[EquipmentView_ID.Index].Value == target.EquipmentID ).Index;
+			if (target != null)
+			{
+				EquipmentView.FirstDisplayedScrollingRowIndex = EquipmentView.Rows.OfType<DataGridViewRow>().First(r => (int)r.Cells[EquipmentView_ID.Index].Value == target.EquipmentID).Index;
 			}
 		}
 
-		private void TextSearch_KeyDown( object sender, KeyEventArgs e ) {
-			if ( e.KeyCode == Keys.Enter ) {
-				TextSearch_TextChanged( sender, e );
+		private void TextSearch_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				TextSearch_TextChanged(sender, e);
 				e.SuppressKeyPress = true;
 				e.Handled = true;
 			}
@@ -531,156 +599,177 @@ namespace ElectronicObserver.Window.Dialog {
 
 
 
-		private void DialogAlbumMasterEquipment_FormClosed( object sender, FormClosedEventArgs e ) {
+		private void DialogAlbumMasterEquipment_FormClosed(object sender, FormClosedEventArgs e)
+		{
 
-			ResourceManager.DestroyIcon( Icon );
+			ResourceManager.DestroyIcon(Icon);
 
 		}
 
-		private void StripMenu_Edit_CopyEquipmentName_Click( object sender, EventArgs e ) {
+		private void StripMenu_Edit_CopyEquipmentName_Click(object sender, EventArgs e)
+		{
 			var eq = KCDatabase.Instance.MasterEquipments[EquipmentID.Tag as int? ?? -1];
-			if ( eq != null )
-				Clipboard.SetText( eq.Name );
+			if (eq != null)
+				Clipboard.SetText(eq.Name);
 			else
 				System.Media.SystemSounds.Exclamation.Play();
 		}
 
-		private void EquipmentName_MouseClick( object sender, MouseEventArgs e ) {
-			if ( e.Button == System.Windows.Forms.MouseButtons.Right ) {
+		private void EquipmentName_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == System.Windows.Forms.MouseButtons.Right)
+			{
 				var eq = KCDatabase.Instance.MasterEquipments[EquipmentID.Tag as int? ?? -1];
-				if ( eq != null )
-					Clipboard.SetText( eq.Name );
+				if (eq != null)
+					Clipboard.SetText(eq.Name);
 				else
 					System.Media.SystemSounds.Exclamation.Play();
 			}
 		}
 
-		private void StripMenu_Edit_CopyEquipmentData_Click( object sender, EventArgs e ) {
+		private void StripMenu_Edit_CopyEquipmentData_Click(object sender, EventArgs e)
+		{
 			var eq = KCDatabase.Instance.MasterEquipments[EquipmentID.Tag as int? ?? -1];
-			if ( eq == null ) {
+			if (eq == null)
+			{
 				System.Media.SystemSounds.Exclamation.Play();
 				return;
 			}
 
 			var sb = new StringBuilder();
 
-			sb.AppendFormat( "{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name );
-			sb.AppendFormat( "ID: {0} / 図鑑番号: {1} / カテゴリID: [{2}]\r\n", eq.EquipmentID, eq.AlbumNo, string.Join( ", ", eq.EquipmentType ) );
+			sb.AppendFormat("{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name);
+			sb.AppendFormat("ID: {0} / 図鑑番号: {1} / カテゴリID: [{2}]\r\n", eq.EquipmentID, eq.AlbumNo, string.Join(", ", eq.EquipmentType));
 
 			sb.AppendLine();
 
-			if ( eq.Firepower != 0 )
-				sb.AppendFormat( "火力: {0:+0;-0;0}\r\n", eq.Firepower );
-			if ( eq.Torpedo != 0 )
-				sb.AppendFormat( "雷装: {0:+0;-0;0}\r\n", eq.Torpedo );
-			if ( eq.AA != 0 )
-				sb.AppendFormat( "対空: {0:+0;-0;0}\r\n", eq.AA );
-			if ( eq.Armor != 0 )
-				sb.AppendFormat( "装甲: {0:+0;-0;0}\r\n", eq.Armor );
-			if ( eq.ASW != 0 )
-				sb.AppendFormat( "対潜: {0:+0;-0;0}\r\n", eq.ASW );
-			if ( eq.Evasion != 0 )
-				sb.AppendFormat( "{0}: {1:+0;-0;0}\r\n", eq.CategoryType == 48 ? "迎撃" : "回避", eq.Evasion );
-			if ( eq.LOS != 0 )
-				sb.AppendFormat( "索敵: {0:+0;-0;0}\r\n", eq.LOS );
-			if ( eq.Accuracy != 0 )
-				sb.AppendFormat( "{0}: {1:+0;-0;0}\r\n", eq.CategoryType == 48 ? "対爆" : "命中", eq.Accuracy );
-			if ( eq.Bomber != 0 )
-				sb.AppendFormat( "爆装: {0:+0;-0;0}\r\n", eq.Bomber );
-			if ( eq.Luck != 0 )
-				sb.AppendFormat( "運: {0:+0;-0;0}\r\n", eq.Luck );
+			if (eq.Firepower != 0)
+				sb.AppendFormat("火力: {0:+0;-0;0}\r\n", eq.Firepower);
+			if (eq.Torpedo != 0)
+				sb.AppendFormat("雷装: {0:+0;-0;0}\r\n", eq.Torpedo);
+			if (eq.AA != 0)
+				sb.AppendFormat("対空: {0:+0;-0;0}\r\n", eq.AA);
+			if (eq.Armor != 0)
+				sb.AppendFormat("装甲: {0:+0;-0;0}\r\n", eq.Armor);
+			if (eq.ASW != 0)
+				sb.AppendFormat("対潜: {0:+0;-0;0}\r\n", eq.ASW);
+			if (eq.Evasion != 0)
+				sb.AppendFormat("{0}: {1:+0;-0;0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "迎撃" : "回避", eq.Evasion);
+			if (eq.LOS != 0)
+				sb.AppendFormat("索敵: {0:+0;-0;0}\r\n", eq.LOS);
+			if (eq.Accuracy != 0)
+				sb.AppendFormat("{0}: {1:+0;-0;0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "対爆" : "命中", eq.Accuracy);
+			if (eq.Bomber != 0)
+				sb.AppendFormat("爆装: {0:+0;-0;0}\r\n", eq.Bomber);
+			if (eq.Luck != 0)
+				sb.AppendFormat("運: {0:+0;-0;0}\r\n", eq.Luck);
 
-			if ( eq.Range > 0 )
-				sb.Append( "射程: " ).AppendLine( Constants.GetRange( eq.Range ) );
+			if (eq.Range > 0)
+				sb.Append("射程: ").AppendLine(Constants.GetRange(eq.Range));
 
-			if ( eq.AircraftCost > 0 )
-				sb.AppendFormat( "配備コスト: {0}\r\n", eq.AircraftCost );
-			if ( eq.AircraftDistance > 0 )
-				sb.AppendFormat( "戦闘行動半径: {0}\r\n", eq.AircraftDistance );
-
-			sb.AppendLine();
-
-			sb.AppendFormat( "レアリティ: {0}\r\n", Constants.GetEquipmentRarity( eq.Rarity ) );
-			sb.AppendFormat( "廃棄資材: {0}\r\n", string.Join( " / ", eq.Material ) );
+			if (eq.AircraftCost > 0)
+				sb.AppendFormat("配備コスト: {0}\r\n", eq.AircraftCost);
+			if (eq.AircraftDistance > 0)
+				sb.AppendFormat("戦闘行動半径: {0}\r\n", eq.AircraftDistance);
 
 			sb.AppendLine();
 
-			sb.AppendFormat( "図鑑説明: \r\n{0}\r\n",
-				!string.IsNullOrWhiteSpace( eq.Message ) ? eq.Message : "(不明)" );
+			sb.AppendFormat("レアリティ: {0}\r\n", Constants.GetEquipmentRarity(eq.Rarity));
+			sb.AppendFormat("廃棄資材: {0}\r\n", string.Join(" / ", eq.Material));
 
 			sb.AppendLine();
 
-			sb.AppendLine( "初期装備/開発:" );
-			string result = GetAppearingArea( eq.EquipmentID );
-			if ( string.IsNullOrWhiteSpace( result ) )
+			sb.AppendFormat("図鑑説明: \r\n{0}\r\n",
+				!string.IsNullOrWhiteSpace(eq.Message) ? eq.Message : "(不明)");
+
+			sb.AppendLine();
+
+			sb.AppendLine("初期装備/開発:");
+			string result = GetAppearingArea(eq.EquipmentID);
+			if (string.IsNullOrWhiteSpace(result))
 				result = "(不明)\r\n";
-			sb.AppendLine( result );
+			sb.AppendLine(result);
 
 
-			Clipboard.SetText( sb.ToString() );
+			Clipboard.SetText(sb.ToString());
 		}
 
 
-		private string GetAppearingArea( int equipmentID ) {
+		private string GetAppearingArea(int equipmentID)
+		{
 			var sb = new StringBuilder();
 
-			foreach ( var ship in KCDatabase.Instance.MasterShips.Values
-				.Where( s => s.DefaultSlot != null && s.DefaultSlot.Contains( equipmentID ) ) ) {
-				sb.AppendLine( ship.NameWithClass );
+			foreach (var ship in KCDatabase.Instance.MasterShips.Values
+				.Where(s => s.DefaultSlot != null && s.DefaultSlot.Contains(equipmentID)))
+			{
+				sb.AppendLine(ship.NameWithClass);
 			}
 
-			foreach ( var record in RecordManager.Instance.Development.Record
-				.Where( r => r.EquipmentID == equipmentID )
-				.Select( r => new {
-					r.Fuel, r.Ammo, r.Steel, r.Bauxite
-				} )
+			foreach (var record in RecordManager.Instance.Development.Record
+				.Where(r => r.EquipmentID == equipmentID)
+				.Select(r => new
+				{
+					r.Fuel,
+					r.Ammo,
+					r.Steel,
+					r.Bauxite
+				})
 				.Distinct()
-				.OrderBy( r => r.Fuel )
-				.ThenBy( r => r.Ammo )
-				.ThenBy( r => r.Steel )
-				.ThenBy( r => r.Bauxite )
-				) {
-				sb.AppendFormat( "開発 {0} / {1} / {2} / {3}\r\n",
-					record.Fuel, record.Ammo, record.Steel, record.Bauxite );
+				.OrderBy(r => r.Fuel)
+				.ThenBy(r => r.Ammo)
+				.ThenBy(r => r.Steel)
+				.ThenBy(r => r.Bauxite)
+				)
+			{
+				sb.AppendFormat("開発 {0} / {1} / {2} / {3}\r\n",
+					record.Fuel, record.Ammo, record.Steel, record.Bauxite);
 			}
 
 			return sb.ToString();
 		}
 
-		private void StripMenu_View_ShowAppearingArea_Click( object sender, EventArgs e ) {
+		private void StripMenu_View_ShowAppearingArea_Click(object sender, EventArgs e)
+		{
 
 			int eqID = EquipmentID.Tag as int? ?? -1;
 			var eq = KCDatabase.Instance.MasterEquipments[eqID];
 
-			if ( eq == null ) {
+			if (eq == null)
+			{
 				System.Media.SystemSounds.Exclamation.Play();
 				return;
 			}
 
-			string result = GetAppearingArea( eqID );
+			string result = GetAppearingArea(eqID);
 
-			if ( string.IsNullOrWhiteSpace( result ) ) {
+			if (string.IsNullOrWhiteSpace(result))
+			{
 				result = eq.Name + " の初期装備艦・開発レシピは不明です。";
 			}
 
-			MessageBox.Show( result, "入手手段表示", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			MessageBox.Show(result, "入手手段表示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 
-		private void StripMenu_Edit_GoogleEquipmentName_Click( object sender, EventArgs e ) {
+		private void StripMenu_Edit_GoogleEquipmentName_Click(object sender, EventArgs e)
+		{
 			var eq = KCDatabase.Instance.MasterEquipments[EquipmentID.Tag as int? ?? -1];
-			if ( eq == null ) {
+			if (eq == null)
+			{
 				System.Media.SystemSounds.Exclamation.Play();
 				return;
 			}
 
-			try {
+			try
+			{
 
 				// google <装備名> 艦これ
-				System.Diagnostics.Process.Start( @"https://www.google.co.jp/search?q=" + Uri.EscapeDataString( eq.Name ) + "+%E8%89%A6%E3%81%93%E3%82%8C" );
+				System.Diagnostics.Process.Start(@"https://www.google.co.jp/search?q=" + Uri.EscapeDataString(eq.Name) + "+%E8%89%A6%E3%81%93%E3%82%8C");
 
-			} catch ( Exception ex ) {
-				Utility.ErrorReporter.SendErrorReport( ex, "艦船名の Google 検索に失敗しました。" );
+			}
+			catch (Exception ex)
+			{
+				Utility.ErrorReporter.SendErrorReport(ex, "艦船名の Google 検索に失敗しました。");
 			}
 		}
 

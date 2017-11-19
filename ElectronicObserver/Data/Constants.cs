@@ -5,17 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data {
+namespace ElectronicObserver.Data
+{
 
-	public static class Constants {
+	public static class Constants
+	{
 
 		#region 艦船・装備
 
 		/// <summary>
 		/// 艦船の速力を表す文字列を取得します。
 		/// </summary>
-		public static string GetSpeed( int value ) {
-			switch ( value ) {
+		public static string GetSpeed(int value)
+		{
+			switch (value)
+			{
 				case 0:
 					return "陸上";
 				case 5:
@@ -34,8 +38,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 射程を表す文字列を取得します。
 		/// </summary>
-		public static string GetRange( int value ) {
-			switch ( value ) {
+		public static string GetRange(int value)
+		{
+			switch (value)
+			{
 				case 0:
 					return "無";
 				case 1:
@@ -56,8 +62,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 艦船のレアリティを表す文字列を取得します。
 		/// </summary>
-		public static string GetShipRarity( int value ) {
-			switch ( value ) {
+		public static string GetShipRarity(int value)
+		{
+			switch (value)
+			{
 				case 0:
 					return "赤";
 				case 1:
@@ -84,8 +92,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 装備のレアリティを表す文字列を取得します。
 		/// </summary>
-		public static string GetEquipmentRarity( int value ) {
-			switch ( value ) {
+		public static string GetEquipmentRarity(int value)
+		{
+			switch (value)
+			{
 				case 0:
 					return "コモン";
 				case 1:
@@ -108,8 +118,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 装備のレアリティの画像インデックスを取得します。
 		/// </summary>
-		public static int GetEquipmentRarityID( int value ) {
-			switch ( value ) {
+		public static int GetEquipmentRarityID(int value)
+		{
+			switch (value)
+			{
 				case 0:
 					return 1;
 				case 1:
@@ -133,9 +145,11 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 艦船のボイス設定フラグを表す文字列を取得します。
 		/// </summary>
-		public static string GetVoiceFlag( int value ) {
+		public static string GetVoiceFlag(int value)
+		{
 
-			switch ( value ) {
+			switch (value)
+			{
 				case 0:
 					return "-";
 				case 1:
@@ -166,19 +180,20 @@ namespace ElectronicObserver.Data {
 		/// <param name="isLandBase">陸上基地かどうか。</param>
 		/// <param name="isEscaped">退避中かどうか。</param>
 		/// <returns></returns>
-		public static string GetDamageState( double hprate, bool isPractice = false, bool isLandBase = false, bool isEscaped = false ) {
+		public static string GetDamageState(double hprate, bool isPractice = false, bool isLandBase = false, bool isEscaped = false)
+		{
 
-			if ( isEscaped )
+			if (isEscaped)
 				return "退避";
-			else if ( hprate <= 0.0 )
-				return isPractice ? "離脱" : ( !isLandBase ? "撃沈" : "破壊" );
-			else if ( hprate <= 0.25 )
+			else if (hprate <= 0.0)
+				return isPractice ? "離脱" : (!isLandBase ? "撃沈" : "破壊");
+			else if (hprate <= 0.25)
 				return !isLandBase ? "大破" : "損壊";
-			else if ( hprate <= 0.5 )
+			else if (hprate <= 0.5)
 				return !isLandBase ? "中破" : "損害";
-			else if ( hprate <= 0.75 )
+			else if (hprate <= 0.75)
 				return !isLandBase ? "小破" : "混乱";
-			else if ( hprate < 1.0 )
+			else if (hprate < 1.0)
 				return "健在";
 			else
 				return "無傷";
@@ -189,8 +204,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 基地航空隊の行動指示を表す文字列を取得します。
 		/// </summary>
-		public static string GetBaseAirCorpsActionKind( int value ) {
-			switch ( value ) {
+		public static string GetBaseAirCorpsActionKind(int value)
+		{
+			switch (value)
+			{
 				case 0:
 					return "待機";
 				case 1:
@@ -210,51 +227,53 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 艦種略号を取得します。
 		/// </summary>
-		public static string GetShipClassClassification( int shiptype ) {
-			switch ( shiptype ) {
-				case 1:
+		public static string GetShipClassClassification(ShipTypes shiptype)
+		{
+			switch (shiptype)
+			{
+				case ShipTypes.Escort:
 					return "DE";
-				case 2:
+				case ShipTypes.Destroyer:
 					return "DD";
-				case 3:
+				case ShipTypes.LightCruiser:
 					return "CL";
-				case 4:
+				case ShipTypes.TorpedoCruiser:
 					return "CLT";
-				case 5:
+				case ShipTypes.HeavyCruiser:
 					return "CA";
-				case 6:
+				case ShipTypes.AviationCruiser:
 					return "CAV";
-				case 7:
+				case ShipTypes.LightAircraftCarrier:
 					return "CVL";
-				case 8:
-					return "BC";	// ? FBB, CC?
-				case 9:
+				case ShipTypes.Battlecruiser:
+					return "BC";    // ? FBB, CC?
+				case ShipTypes.Battleship:
 					return "BB";
-				case 10:
+				case ShipTypes.AviationBattleship:
 					return "BBV";
-				case 11:
+				case ShipTypes.AircraftCarrier:
 					return "CV";
-				case 12:
+				case ShipTypes.SuperDreadnoughts:
 					return "BB";
-				case 13:
+				case ShipTypes.Submarine:
 					return "SS";
-				case 14:
+				case ShipTypes.SubmarineAircraftCarrier:
 					return "SSV";
-				case 15:
-					return "AP";	// ? AO?
-				case 16:
+				case ShipTypes.Transport:
+					return "AP";    // ? AO?
+				case ShipTypes.SeaplaneTender:
 					return "AV";
-				case 17:
+				case ShipTypes.AmphibiousAssaultShip:
 					return "LHA";
-				case 18:
+				case ShipTypes.ArmoredAircraftCarrier:
 					return "CVB";
-				case 19:
+				case ShipTypes.RepairShip:
 					return "AR";
-				case 20:
+				case ShipTypes.SubmarineTender:
 					return "AS";
-				case 21:
+				case ShipTypes.TrainingCruiser:
 					return "CT";
-				case 22:
+				case ShipTypes.FleetOiler:
 					return "AO";
 				default:
 					return "IX";
@@ -269,9 +288,11 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// マップ上のセルでのイベントを表す文字列を取得します。
 		/// </summary>
-		public static string GetMapEventID( int value ) {
+		public static string GetMapEventID(int value)
+		{
 
-			switch ( value ) {
+			switch (value)
+			{
 
 				case 0:
 					return "初期位置";
@@ -301,9 +322,11 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// マップ上のセルでのイベント種別を表す文字列を取得します。
 		/// </summary>
-		public static string GetMapEventKind( int value ) {
+		public static string GetMapEventKind(int value)
+		{
 
-			switch ( value ) {
+			switch (value)
+			{
 				case 0:
 					return "非戦闘";
 				case 1:
@@ -327,9 +350,11 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 海域難易度を表す文字列を取得します。
 		/// </summary>
-		public static string GetDifficulty( int value ) {
+		public static string GetDifficulty(int value)
+		{
 
-			switch ( value ) {
+			switch (value)
+			{
 				case -1:
 					return "なし";
 				case 0:
@@ -348,9 +373,11 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 海域難易度を表す数値を取得します。
 		/// </summary>
-		public static int GetDifficulty( string value ) {
+		public static int GetDifficulty(string value)
+		{
 
-			switch ( value ) {
+			switch (value)
+			{
 				case "未選択":
 					return 0;
 				case "丙":
@@ -368,8 +395,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 空襲被害の状態を表す文字列を取得します。
 		/// </summary>
-		public static string GetAirRaidDamage( int value ) {
-			switch ( value ) {
+		public static string GetAirRaidDamage(int value)
+		{
+			switch (value)
+			{
 				case 1:
 					return "空襲発生 - 資源に損害";
 				case 2:
@@ -386,8 +415,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 空襲被害の状態を表す文字列を取得します。(短縮版)
 		/// </summary>
-		public static string GetAirRaidDamageShort( int value ) {
-			switch ( value ) {
+		public static string GetAirRaidDamageShort(int value)
+		{
+			switch (value)
+			{
 				case 1:
 					return "資源損害";
 				case 2:
@@ -410,8 +441,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 陣形を表す文字列を取得します。
 		/// </summary>
-		public static string GetFormation( int id ) {
-			switch ( id ) {
+		public static string GetFormation(int id)
+		{
+			switch (id)
+			{
 				case 1:
 					return "単縦陣";
 				case 2:
@@ -422,6 +455,8 @@ namespace ElectronicObserver.Data {
 					return "梯形陣";
 				case 5:
 					return "単横陣";
+				case 6:
+					return "警戒陣";
 				case 11:
 					return "第一警戒航行序列";
 				case 12:
@@ -438,8 +473,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 陣形を表す数値を取得します。
 		/// </summary>
-		public static int GetFormation( string value ) {
-			switch ( value ) {
+		public static int GetFormation(string value)
+		{
+			switch (value)
+			{
 				case "単縦陣":
 					return 1;
 				case "複縦陣":
@@ -450,6 +487,8 @@ namespace ElectronicObserver.Data {
 					return 4;
 				case "単横陣":
 					return 5;
+				case "警戒陣":
+					return 6;
 				case "第一警戒航行序列":
 					return 11;
 				case "第二警戒航行序列":
@@ -466,8 +505,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 陣形を表す文字列(短縮版)を取得します。
 		/// </summary>
-		public static string GetFormationShort( int id ) {
-			switch ( id ) {
+		public static string GetFormationShort(int id)
+		{
+			switch (id)
+			{
 				case 1:
 					return "単縦陣";
 				case 2:
@@ -478,6 +519,8 @@ namespace ElectronicObserver.Data {
 					return "梯形陣";
 				case 5:
 					return "単横陣";
+				case 6:
+					return "警戒陣";
 				case 11:
 					return "第一警戒";
 				case 12:
@@ -494,8 +537,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 交戦形態を表す文字列を取得します。
 		/// </summary>
-		public static string GetEngagementForm( int id ) {
-			switch ( id ) {
+		public static string GetEngagementForm(int id)
+		{
+			switch (id)
+			{
 				case 1:
 					return "同航戦";
 				case 2:
@@ -512,8 +557,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 索敵結果を表す文字列を取得します。
 		/// </summary>
-		public static string GetSearchingResult( int id ) {
-			switch ( id ) {
+		public static string GetSearchingResult(int id)
+		{
+			switch (id)
+			{
 				case 1:
 					return "成功";
 				case 2:
@@ -534,8 +581,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 索敵結果を表す文字列(短縮版)を取得します。
 		/// </summary>
-		public static string GetSearchingResultShort( int id ) {
-			switch ( id ) {
+		public static string GetSearchingResultShort(int id)
+		{
+			switch (id)
+			{
 				case 1:
 					return "成功";
 				case 2:
@@ -556,8 +605,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 制空戦の結果を表す文字列を取得します。
 		/// </summary>
-		public static string GetAirSuperiority( int id ) {
-			switch ( id ) {
+		public static string GetAirSuperiority(int id)
+		{
+			switch (id)
+			{
 				case 0:
 					return "航空均衡";
 				case 1:
@@ -578,8 +629,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 昼戦攻撃種別を表す文字列を取得します。
 		/// </summary>
-		public static string GetDayAttackKind( DayAttackKind id ) {
-			switch ( id ) {
+		public static string GetDayAttackKind(DayAttackKind id)
+		{
+			switch (id)
+			{
 				case DayAttackKind.NormalAttack:
 					return "通常攻撃";
 				case DayAttackKind.Laser:
@@ -588,7 +641,7 @@ namespace ElectronicObserver.Data {
 					return "連続射撃";
 				case DayAttackKind.CutinMainSub:
 					return "カットイン(主砲/副砲)";
-				case DayAttackKind.CutinMainLadar:
+				case DayAttackKind.CutinMainRadar:
 					return "カットイン(主砲/電探)";
 				case DayAttackKind.CutinMainAP:
 					return "カットイン(主砲/徹甲)";
@@ -625,8 +678,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 夜戦攻撃種別を表す文字列を取得します。
 		/// </summary>
-		public static string GetNightAttackKind( NightAttackKind id ) {
-			switch ( id ) {
+		public static string GetNightAttackKind(NightAttackKind id)
+		{
+			switch (id)
+			{
 				case NightAttackKind.NormalAttack:
 					return "通常攻撃";
 				case NightAttackKind.DoubleShelling:
@@ -641,6 +696,10 @@ namespace ElectronicObserver.Data {
 					return "カットイン(主砲x3)";
 				case NightAttackKind.CutinAirAttack:
 					return "空母カットイン";
+				case NightAttackKind.CutinTorpedoRadar:
+					return "駆逐カットイン(主砲/魚雷/電探)";
+				case NightAttackKind.CutinTorpedoPicket:
+					return "駆逐カットイン(魚雷/見張員/電探)";
 				case NightAttackKind.Shelling:
 					return "砲撃";
 				case NightAttackKind.AirAttack:
@@ -670,8 +729,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 対空カットイン種別を表す文字列を取得します。
 		/// </summary>
-		public static string GetAACutinKind( int id ) {
-			switch ( id ) {
+		public static string GetAACutinKind(int id)
+		{
+			switch (id)
+			{
 				case 0:
 					return "なし";
 				case 1:
@@ -727,8 +788,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 勝利ランクを表すIDを取得します。
 		/// </summary>
-		public static int GetWinRank( string rank ) {
-			switch ( rank.ToUpper() ) {
+		public static int GetWinRank(string rank)
+		{
+			switch (rank.ToUpper())
+			{
 				case "E":
 					return 1;
 				case "D":
@@ -751,8 +814,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 勝利ランクを表す文字列を取得します。
 		/// </summary>
-		public static string GetWinRank( int rank ) {
-			switch ( rank ) {
+		public static string GetWinRank(int rank)
+		{
+			switch (rank)
+			{
 				case 1:
 					return "E";
 				case 2:
@@ -782,9 +847,11 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		/// <param name="materialID">資源のID。</param>
 		/// <returns>資源の名前。</returns>
-		public static string GetMaterialName( int materialID ) {
+		public static string GetMaterialName(int materialID)
+		{
 
-			switch ( materialID ) {
+			switch (materialID)
+			{
 				case 1:
 					return "燃料";
 				case 2:
@@ -810,8 +877,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 階級を表す文字列を取得します。
 		/// </summary>
-		public static string GetAdmiralRank( int id ) {
-			switch ( id ) {
+		public static string GetAdmiralRank(int id)
+		{
+			switch (id)
+			{
 				case 1:
 					return "元帥";
 				case 2:
@@ -841,17 +910,19 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 任務の発生タイプを表す文字列を取得します。
 		/// </summary>
-		public static string GetQuestType( int id ) {
-			switch ( id ) {
-				case 1:		//デイリー
+		public static string GetQuestType(int id)
+		{
+			switch (id)
+			{
+				case 1:     //デイリー
 					return "日";
-				case 2:		//ウィークリー
+				case 2:     //ウィークリー
 					return "週";
-				case 3:		//マンスリー
+				case 3:     //マンスリー
 					return "月";
-				case 4:		//単発
+				case 4:     //単発
 					return "単";
-				case 5:		//その他(輸送5/空母3)
+				case 5:     //その他(輸送5/空母3)
 					return "他";
 				default:
 					return "?";
@@ -863,8 +934,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 任務のカテゴリを表す文字列を取得します。
 		/// </summary>
-		public static string GetQuestCategory( int id ) {
-			switch ( id ) {
+		public static string GetQuestCategory(int id)
+		{
+			switch (id)
+			{
 				case 1:
 					return "編成";
 				case 2:
@@ -874,7 +947,7 @@ namespace ElectronicObserver.Data {
 				case 4:
 					return "遠征";
 				case 5:
-					return "補給";		//入渠も含むが、文字数の関係
+					return "補給";        //入渠も含むが、文字数の関係
 				case 6:
 					return "工廠";
 				case 7:
@@ -892,8 +965,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 遠征の結果を表す文字列を取得します。
 		/// </summary>
-		public static string GetExpeditionResult( int value ) {
-			switch ( value ) {
+		public static string GetExpeditionResult(int value)
+		{
+			switch (value)
+			{
 				case 0:
 					return "失敗";
 				case 1:
@@ -909,8 +984,10 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 連合艦隊の編成名を表す文字列を取得します。
 		/// </summary>
-		public static string GetCombinedFleet( int value ) {
-			switch ( value ) {
+		public static string GetCombinedFleet(int value)
+		{
+			switch (value)
+			{
 				case 0:
 					return "通常艦隊";
 				case 1:

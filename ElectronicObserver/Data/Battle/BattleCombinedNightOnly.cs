@@ -6,40 +6,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Data.Battle {
+namespace ElectronicObserver.Data.Battle
+{
 
 	/// <summary>
-	/// 連合艦隊開幕夜戦
+	/// 連合艦隊 vs 通常艦隊 開幕夜戦
 	/// </summary>
-	public class BattleCombinedNightOnly : BattleNight {
+	public class BattleCombinedNightOnly : BattleNight
+	{
 
-		public override void LoadFromResponse( string apiname, dynamic data ) {
-			base.LoadFromResponse( apiname, (object)data );
+		public override void LoadFromResponse(string apiname, dynamic data)
+		{
+			base.LoadFromResponse(apiname, (object)data);
 
-			NightBattle = new PhaseNightBattle( this, "夜戦", true );
+			Support = new PhaseSupport(this, "支援攻撃", true);
+			NightBattle = new PhaseNightBattle(this, "夜戦", 0, true);
 
-			NightBattle.EmulateBattle( _resultHPs, _attackDamages );
 
+			foreach (var phase in GetPhases())
+				phase.EmulateBattle(_resultHPs, _attackDamages);
 		}
 
 
 
-		public override string APIName {
-			get { return "api_req_combined_battle/sp_midnight"; }
-		}
+		public override string APIName => "api_req_combined_battle/sp_midnight";
 
-		public override string BattleName {
-			get { return "連合艦隊 開幕夜戦"; }
-		}
+		public override string BattleName => "連合艦隊 開幕夜戦";
 
-		public override BattleData.BattleTypeFlag BattleType {
-			get { return BattleTypeFlag.Night | BattleTypeFlag.Combined; }
-		}
+		public override BattleData.BattleTypeFlag BattleType => BattleTypeFlag.Night | BattleTypeFlag.Combined;
 
 
-		public override IEnumerable<PhaseBase> GetPhases() {
+		public override IEnumerable<PhaseBase> GetPhases()
+		{
 			yield return Initial;
 			yield return Searching;
+			yield return Support;
 			yield return NightBattle;
 		}
 	}

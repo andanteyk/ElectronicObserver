@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogLocalAPILoader {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogLocalAPILoader
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.PictureWarning = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.APIList = new System.Windows.Forms.ComboBox();
@@ -58,8 +63,8 @@
 			// 
 			// APIList
 			// 
-			this.APIList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.APIList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.APIList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.APIList.FormattingEnabled = true;
 			this.APIList.Location = new System.Drawing.Point(142, 3);
@@ -69,9 +74,9 @@
 			// 
 			// panel1
 			// 
-			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.Controls.Add(this.APICategory);
 			this.panel1.Controls.Add(this.ButtonCancel);
 			this.panel1.Controls.Add(this.label3);
@@ -90,8 +95,8 @@
 			this.APICategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.APICategory.FormattingEnabled = true;
 			this.APICategory.Items.AddRange(new object[] {
-            "Request",
-            "Response"});
+			"Request",
+			"Response"});
 			this.APICategory.Location = new System.Drawing.Point(56, 3);
 			this.APICategory.Name = "APICategory";
 			this.APICategory.Size = new System.Drawing.Size(80, 23);
@@ -133,8 +138,8 @@
 			// 
 			// ButtonSearchFilePath
 			// 
-			this.ButtonSearchFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonSearchFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.ButtonSearchFilePath.Location = new System.Drawing.Point(542, 32);
 			this.ButtonSearchFilePath.Name = "ButtonSearchFilePath";
 			this.ButtonSearchFilePath.Size = new System.Drawing.Size(30, 23);
@@ -146,8 +151,8 @@
 			// TextFilePath
 			// 
 			this.TextFilePath.AllowDrop = true;
-			this.TextFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TextFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.TextFilePath.Location = new System.Drawing.Point(56, 32);
 			this.TextFilePath.Name = "TextFilePath";
 			this.TextFilePath.Size = new System.Drawing.Size(480, 23);

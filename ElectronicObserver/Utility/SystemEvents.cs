@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Utility {
+namespace ElectronicObserver.Utility
+{
 
 	/// <summary>
 	/// システムイベントを扱います。
 	/// </summary>
-	public static class SystemEvents {
+	public static class SystemEvents
+	{
 
 		public static bool UpdateTimerEnabled { get; set; }
 
@@ -17,12 +19,14 @@ namespace ElectronicObserver.Utility {
 		public static event Action SystemShuttingDown = delegate { };
 
 
-		static SystemEvents() {
+		static SystemEvents()
+		{
 			UpdateTimerEnabled = true;
 		}
 
-		internal static void OnUpdateTimerTick() {
-			if ( UpdateTimerEnabled )
+		internal static void OnUpdateTimerTick()
+		{
+			if (UpdateTimerEnabled)
 				UpdateTimerTick();
 		}
 		internal static void OnSystemShuttingDown() { SystemShuttingDown(); }

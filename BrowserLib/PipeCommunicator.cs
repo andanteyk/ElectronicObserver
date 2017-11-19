@@ -5,12 +5,14 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BrowserLib {
+namespace BrowserLib
+{
 
 	/// <summary>
 	/// WCFのNetNamedPipeBindingを使ったサーバ・クライアント
 	/// </summary>
-	public class PipeCommunicator<ClientType> where ClientType : class {
+	public class PipeCommunicator<ClientType> where ClientType : class
+	{
 		private ServiceHost Server;
 		private string ServerUrl;
 		private ChannelFactory<ClientType> PipeFactory;
@@ -25,7 +27,7 @@ namespace BrowserLib {
 		/// <summary>
 		/// エラーハンドラ
 		/// </summary>
-		public delegate void FaultedDelegate( Exception e );
+		public delegate void FaultedDelegate(Exception e);
 		public event FaultedDelegate Faulted = delegate { };
 
 		/// <summary>
@@ -36,21 +38,25 @@ namespace BrowserLib {
 		/// <summary>
 		/// サーバ起動もする
 		/// </summary>
-		public PipeCommunicator( object instance, Type type, string listenUrl, string serviceAddress ) {
-			Server = new ServiceHost( instance, new Uri[] { new Uri( listenUrl ) } );
+		public PipeCommunicator(object instance, Type type, string listenUrl, string serviceAddress)
+		{
+			Server = new ServiceHost(instance, new Uri[] { new Uri(listenUrl) });
 			Binding.ReceiveTimeout = TimeSpan.MaxValue;
-			Server.AddServiceEndpoint( type, Binding, serviceAddress );
+			Server.AddServiceEndpoint(type, Binding, serviceAddress);
 			Server.Open();
 		}
 
 		/// <summary>
 		/// サーバに接続
 		/// </summary>
-		public void Connect( string to ) {
-			if ( Proxy == null ) {
+		public void Connect(string to)
+		{
+			if (Proxy == null)
+			{
 				ServerUrl = to;
-				if ( PipeFactory == null ) {
-					PipeFactory = new ChannelFactory<ClientType>( Binding, new EndpointAddress( ServerUrl ) );
+				if (PipeFactory == null)
+				{
+					PipeFactory = new ChannelFactory<ClientType>(Binding, new EndpointAddress(ServerUrl));
 				}
 				Proxy = PipeFactory.CreateChannel();
 				Closed = false;
@@ -60,10 +66,13 @@ namespace BrowserLib {
 		/// <summary>
 		/// 閉じる
 		/// </summary>
-		public void Close() {
-			if ( !Closed ) {
-				if ( Proxy != null ) {
-					( (IClientChannel)Proxy ).Abort();
+		public void Close()
+		{
+			if (!Closed)
+			{
+				if (Proxy != null)
+				{
+					((IClientChannel)Proxy).Abort();
 					Proxy = null;
 				}
 				Server.Close();
@@ -74,27 +83,36 @@ namespace BrowserLib {
 		/// <summary>
 		/// 非同期でactionを実行。例外が発生したらFaultイベントが発生するので、例外が出ることはない
 		/// </summary>
-		public async void AsyncRemoteRun( Action action ) {
-			try {
+		public async void AsyncRemoteRun(Action action)
+		{
+			try
+			{
 				// リトライループ
-				for ( int i = 0; i < 2; ++i ) {
-					try {
-						if ( Proxy == null ) return;
-						await Task.Run( action );
+				for (int i = 0; i < 2; ++i)
+				{
+					try
+					{
+						if (Proxy == null) return;
+						await Task.Run(action);
 						return;
-					} catch ( CommunicationException cex ) {
-						( (IClientChannel)Proxy ).Abort();
+					}
+					catch (CommunicationException cex)
+					{
+						((IClientChannel)Proxy).Abort();
 						Proxy = null;
-						if ( i >= 1 ) {
+						if (i >= 1)
+						{
 							// これ以上リトライしない
-							Faulted( cex );
+							Faulted(cex);
 							break;
 						}
-						Connect( ServerUrl );
+						Connect(ServerUrl);
 					}
 				}
-			} catch ( Exception ex ) {
-				Faulted( ex );
+			}
+			catch (Exception ex)
+			{
+				Faulted(ex);
 			}
 		}
 	}

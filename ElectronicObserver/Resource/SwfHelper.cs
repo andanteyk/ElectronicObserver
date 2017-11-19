@@ -7,22 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Resource {
+namespace ElectronicObserver.Resource
+{
 
 
-	public static class SwfHelper {
+	public static class SwfHelper
+	{
 
 		// 各種画像リソースのサイズ
-		public static readonly Size ShipBannerSize = new Size( 160, 40 );
-		public static readonly Size ShipCardSize = new Size( 218, 300 );
-		public static readonly Size ShipCutinSize = new Size( 665, 121 );
-		public static readonly Size ShipNameSize = new Size( 436, 63 );
-		public static readonly Size ShipSupplySize = new Size( 474, 47 );
+		public static readonly Size ShipBannerSize = new Size(160, 40);
+		public static readonly Size ShipCardSize = new Size(218, 300);
+		public static readonly Size ShipCutinSize = new Size(665, 121);
+		public static readonly Size ShipNameSize = new Size(436, 63);
+		public static readonly Size ShipSupplySize = new Size(474, 47);
 
 		/// <summary>
 		///  各種画像リソースの CharacterID
 		/// </summary>
-		public enum ShipResourceCharacterID {
+		public enum ShipResourceCharacterID
+		{
 			BannerNormal = 1,
 			BannerDamaged = 3,
 			CardNormal = 5,
@@ -38,25 +41,41 @@ namespace ElectronicObserver.Resource {
 		/// <summary>
 		/// 現在使用可能な画像リソースファイルへのパスを取得します。
 		/// </summary>
-		public static string GetResourcePath( string relativePath, string resourceName ) {
-			return Directory.EnumerateFiles( Utility.Configuration.Config.Connection.SaveDataPath + @"\" + relativePath, "*" + resourceName + "*.swf", System.IO.SearchOption.TopDirectoryOnly )
-				.OrderBy( path => File.GetCreationTime( path ) )
-				.LastOrDefault();
+		public static string GetResourcePath(string relativePath, string resourceName)
+		{
+			string directory = Utility.Configuration.Config.Connection.SaveDataPath + @"\" + relativePath;
+
+			try
+			{
+				if (!Directory.Exists(directory))
+					return null;
+
+				return Directory.EnumerateFiles(directory, "*" + resourceName + "*.swf", System.IO.SearchOption.TopDirectoryOnly)
+					.OrderBy(path => File.GetCreationTime(path))
+					.LastOrDefault();
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+
 		}
 
 		/// <summary>
 		/// 現在使用可能な艦船画像リソースファイルへのパスを取得します。
 		/// </summary>
-		public static string GetShipResourcePath( string resourceName ) {
-			return GetResourcePath( @"resources\swf\ships\", resourceName );
+		public static string GetShipResourcePath(string resourceName)
+		{
+			return GetResourcePath(@"resources\swf\ships\", resourceName);
 		}
 
 
 		/// <summary>
 		/// 艦船画像リソースファイルが存在するかを調べます。
 		/// </summary>
-		public static bool HasShipSwfImage( string resourceName ) {
-			return GetShipResourcePath( resourceName ) != null;
+		public static bool HasShipSwfImage(string resourceName)
+		{
+			return GetShipResourcePath(resourceName) != null;
 		}
 
 
@@ -66,22 +85,27 @@ namespace ElectronicObserver.Resource {
 		/// <param name="resourceName">艦船のリソース名(ファイル名)。</param>
 		/// <param name="characterID">描画する画像の CharacterID 。</param>
 		/// <returns>成功した場合は対象の Bitmap オブジェクト、失敗した場合は null を返します。</returns>
-		public static Bitmap GetShipSwfImage( string resourceName, int characterID ) {
-			try {
+		public static Bitmap GetShipSwfImage(string resourceName, int characterID)
+		{
+			try
+			{
 
-				string shipSwfPath = GetShipResourcePath( resourceName );
+				string shipSwfPath = GetShipResourcePath(resourceName);
 
-				if ( shipSwfPath != null ) {
+				if (shipSwfPath != null)
+				{
 
 					var shipSwf = new SwfParser();
-					shipSwf.Parse( shipSwfPath );
+					shipSwf.Parse(shipSwfPath);
 
-					var imgtag = shipSwf.FindTags<SwfExtractor.Tags.ImageTag>().FirstOrDefault( t => t.CharacterID == characterID );
+					var imgtag = shipSwf.FindTags<SwfExtractor.Tags.ImageTag>().FirstOrDefault(t => t.CharacterID == characterID);
 					return imgtag.ExtractImage();
 				}
 
 				return null;
-			} catch ( Exception ) {
+			}
+			catch (Exception)
+			{
 				return null;
 			}
 		}
@@ -92,8 +116,9 @@ namespace ElectronicObserver.Resource {
 		/// <param name="resourceName">艦船のリソース名(ファイル名)。</param>
 		/// <param name="characterID">描画する画像の CharacterID 。</param>
 		/// <returns>成功した場合は対象の Bitmap オブジェクト、失敗した場合は null を返します。</returns>
-		public static Bitmap GetShipSwfImage( string resourceName, ShipResourceCharacterID characterID ) {
-			return GetShipSwfImage( resourceName, (int)characterID );
+		public static Bitmap GetShipSwfImage(string resourceName, ShipResourceCharacterID characterID)
+		{
+			return GetShipSwfImage(resourceName, (int)characterID);
 		}
 
 

@@ -1,5 +1,7 @@
-﻿namespace ElectronicObserver.Window.Dialog {
-	partial class DialogConfigurationBGMPlayer {
+﻿namespace ElectronicObserver.Window.Dialog
+{
+	partial class DialogConfigurationBGMPlayer
+	{
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -9,11 +11,13 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose( bool disposing ) {
-			if ( disposing && ( components != null ) ) {
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
 				components.Dispose();
 			}
-			base.Dispose( disposing );
+			base.Dispose(disposing);
 		}
 
 		#region Windows Form Designer generated code
@@ -22,7 +26,8 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent() {
+		private void InitializeComponent()
+		{
 			this.label1 = new System.Windows.Forms.Label();
 			this.FilePath = new System.Windows.Forms.TextBox();
 			this.FilePathSearch = new System.Windows.Forms.Button();
@@ -52,8 +57,8 @@
 			// FilePath
 			// 
 			this.FilePath.AllowDrop = true;
-			this.FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.FilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.FilePath.Location = new System.Drawing.Point(56, 12);
 			this.FilePath.Name = "FilePath";
 			this.FilePath.Size = new System.Drawing.Size(344, 23);
@@ -87,10 +92,10 @@
 			this.LoopHeadPosition.DecimalPlaces = 3;
 			this.LoopHeadPosition.Location = new System.Drawing.Point(122, 41);
 			this.LoopHeadPosition.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            196608});
+			99999999,
+			0,
+			0,
+			196608});
 			this.LoopHeadPosition.Name = "LoopHeadPosition";
 			this.LoopHeadPosition.Size = new System.Drawing.Size(100, 23);
 			this.LoopHeadPosition.TabIndex = 4;

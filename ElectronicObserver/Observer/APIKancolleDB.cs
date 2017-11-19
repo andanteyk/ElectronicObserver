@@ -10,13 +10,15 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace ElectronicObserver.Observer {
+namespace ElectronicObserver.Observer
+{
 
 	/// <summary>
 	/// 艦これ統計データベースへのデータ送信処理を行います。
 	/// </summary>
 	/// <remarks>http://kancolle-db.net/</remarks>
-	public class APIKancolleDB {
+	public class APIKancolleDB
+	{
 
 
 		private static readonly HashSet<string> apis = new HashSet<string>() {
@@ -48,7 +50,8 @@ namespace ElectronicObserver.Observer {
 		};
 
 
-		public APIKancolleDB() {
+		public APIKancolleDB()
+		{
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 			ConfigurationChanged();
@@ -58,12 +61,16 @@ namespace ElectronicObserver.Observer {
 
 		}
 
-		private void ConfigurationChanged() {
+		private void ConfigurationChanged()
+		{
 			OAuth = Utility.Configuration.Config.Connection.SendKancolleOAuth;
 
-			if ( Utility.Configuration.Config.Connection.UseUpstreamProxy ) {
-				Proxy = new WebProxy( "127.0.0.1", Utility.Configuration.Config.Connection.Port );
-			} else {
+			if (Utility.Configuration.Config.Connection.UseUpstreamProxy)
+			{
+				Proxy = new WebProxy("127.0.0.1", Utility.Configuration.Config.Connection.Port);
+			}
+			else
+			{
 				Proxy = null;
 			}
 		}
@@ -75,71 +82,86 @@ namespace ElectronicObserver.Observer {
 		/// <summary>
 		/// read the after-session, determinate whether it will send to kancolle-db.net
 		/// </summary>
-		public void ExecuteSession( Session session ) {
+		public void ExecuteSession(Session session)
+		{
 
-			if ( string.IsNullOrEmpty( OAuth ) ) {
+			if (string.IsNullOrEmpty(OAuth))
+			{
 				return;
 			}
 
 			// find the url in dict.
 			string url = session.Request.PathAndQuery;
 
-			if ( apis.Contains( url ) ) {
-				PostToServer( session );
+			if (apis.Contains(url))
+			{
+				PostToServer(session);
 			}
 
 		}
 
-		private static Regex RequestRegex = new Regex( @"&api(_|%5F)token=[0-9a-f]+|api(_|%5F)token=[0-9a-f]+&?", RegexOptions.Compiled );
+		private static Regex RequestRegex = new Regex(@"&api(_|%5F)token=[0-9a-f]+|api(_|%5F)token=[0-9a-f]+&?", RegexOptions.Compiled);
 
-		private void PostToServer( Session session ) {
+		private void PostToServer(Session session)
+		{
 
 			string oauth = OAuth;
 			string url = session.Request.PathAndQuery;
 			string request = session.Request.BodyAsString;
 			string response = session.Response.BodyAsString;
 
-			request = RequestRegex.Replace( request, "" );
+			request = RequestRegex.Replace(request, "");
 
-			try {
+			try
+			{
 
 				//*
-				using ( System.Net.WebClient wc = new System.Net.WebClient() ) {
+				using (System.Net.WebClient wc = new System.Net.WebClient())
+				{
 					wc.Headers["User-Agent"] = "ElectronicObserver/v" + SoftwareInformation.VersionEnglish;
 
-					if ( Proxy != null ) {
+					if (Proxy != null)
+					{
 						wc.Proxy = Proxy;
 					}
 
-					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection();
-					post.Add( "token", oauth );
-					// agent key for 'ElectronicObserver'
-					// https://github.com/about518/kanColleDbPost/issues/3#issuecomment-105534030
-					post.Add( "agent", "L57Mi4hJeCYinbbBSH5K" );
-					post.Add( "url", url );
-					post.Add( "requestbody", request );
-					post.Add( "responsebody", response );
+					System.Collections.Specialized.NameValueCollection post = new System.Collections.Specialized.NameValueCollection
+					{
+						{ "token", oauth },
+						// agent key for 'ElectronicObserver'
+						// https://github.com/about518/kanColleDbPost/issues/3#issuecomment-105534030
+						{ "agent", "L57Mi4hJeCYinbbBSH5K" },
+						{ "url", url },
+						{ "requestbody", request },
+						{ "responsebody", response }
+					};
 
-					wc.UploadValuesCompleted += ( sender, e ) => {
-						if ( e.Error != null ) {
+					wc.UploadValuesCompleted += (sender, e) =>
+					{
+						if (e.Error != null)
+						{
 
 							// 結構頻繁に出るのでレポートは残さない方針で　申し訳ないです
 							//Utility.ErrorReporter.SendErrorReport( e.Error, string.Format( "艦これ統計データベースへの {0} の送信に失敗しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
 
-							Utility.Logger.Add( 1, string.Format( "艦これ統計データベースへの {0} の送信に失敗しました。{1}", url.Substring( url.IndexOf( "/api" ) + 1 ), e.Error.Message ) );
+							Utility.Logger.Add(1, string.Format("艦これ統計データベースへの {0} の送信に失敗しました。{1}", url.Substring(url.IndexOf("/api") + 1), e.Error.Message));
 
-						} else {
-							Utility.Logger.Add( 0, string.Format( "艦これ統計データベースへ {0} を送信しました。", url.Substring( url.IndexOf( "/api" ) + 1 ) ) );
+						}
+						else
+						{
+							Utility.Logger.Add(0, string.Format("艦これ統計データベースへ {0} を送信しました。", url.Substring(url.IndexOf("/api") + 1)));
 						}
 					};
 
-					wc.UploadValuesAsync( new Uri( "http://api.kancolle-db.net/2/" ), post );
+					wc.UploadValuesAsync(new Uri("http://api.kancolle-db.net/2/"), post);
 				}
 				//*/
 
-			} catch ( Exception ex ) {
+			}
+			catch (Exception ex)
+			{
 
-				Utility.ErrorReporter.SendErrorReport( ex, "艦これ統計データベースへの送信中にエラーが発生しました。" );
+				Utility.ErrorReporter.SendErrorReport(ex, "艦これ統計データベースへの送信中にエラーが発生しました。");
 			}
 
 		}

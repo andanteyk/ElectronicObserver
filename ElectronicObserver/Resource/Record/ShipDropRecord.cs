@@ -7,13 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicObserver.Resource.Record {
+namespace ElectronicObserver.Resource.Record
+{
 
-	[DebuggerDisplay( "{Record.Count} Records" )]
-	public class ShipDropRecord : RecordBase {
+	[DebuggerDisplay("{Record.Count} Records")]
+	public class ShipDropRecord : RecordBase
+	{
 
-		[DebuggerDisplay( "[{Date}] : {ShipName} / {ItemName}" )]
-		public class ShipDropElement : RecordElementBase {
+		[DebuggerDisplay("[{Date}] : {ShipName} / {ItemName}")]
+		public sealed class ShipDropElement : RecordElementBase
+		{
 
 			/// <summary>
 			/// ドロップした艦のID　-1=なし
@@ -78,7 +81,7 @@ namespace ElectronicObserver.Resource.Record {
 			/// <summary>
 			/// 敵編成ID
 			/// </summary>
-			public uint EnemyFleetID { get; set; }
+			public ulong EnemyFleetID { get; set; }
 
 			/// <summary>
 			/// 勝利ランク
@@ -91,45 +94,53 @@ namespace ElectronicObserver.Resource.Record {
 			public int HQLevel { get; set; }
 
 
-			public ShipDropElement() {
+			public ShipDropElement()
+			{
 				ShipID = -1;
 				Date = DateTime.Now;
 			}
 
-			public ShipDropElement( string line )
-				: base( line ) { }
+			public ShipDropElement(string line)
+				: this()
+			{
+				LoadLine(line);
+			}
 
-			public ShipDropElement( int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, uint enemyFleetID, string rank, int hqLevel ) {
+			public ShipDropElement(int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, ulong enemyFleetID, string rank, int hqLevel)
+			{
 				ShipID = shipID;
-				if ( shipID == -1 )
+				if (shipID == -1)
 					ShipName = "(なし)";
-				else if ( shipID == -2 )
+				else if (shipID == -2)
 					ShipName = "(満員)";
-				else {
+				else
+				{
 					var ship = KCDatabase.Instance.MasterShips[shipID];
-					if ( ship != null )
+					if (ship != null)
 						ShipName = ship.NameWithClass;
 					else
 						ShipName = "???";
 				}
 
 				ItemID = itemID;
-				if ( itemID == -1 )
+				if (itemID == -1)
 					ItemName = "(なし)";
-				else {
+				else
+				{
 					var item = KCDatabase.Instance.MasterUseItems[itemID];
-					if ( item != null )
+					if (item != null)
 						ItemName = item.Name;
 					else
 						ItemName = "???";
 				}
 
 				EquipmentID = equipmentID;
-				if ( equipmentID == -1 )
+				if (equipmentID == -1)
 					EquipmentName = "(なし)";
-				else {
+				else
+				{
 					var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
-					if ( eq != null )
+					if (eq != null)
 						EquipmentName = eq.Name;
 					else
 						EquipmentName = "???";
@@ -147,47 +158,49 @@ namespace ElectronicObserver.Resource.Record {
 			}
 
 
-			public override void LoadLine( string line ) {
+			public override void LoadLine(string line)
+			{
 
-				string[] elem = line.Split( ",".ToCharArray() );
-				if ( elem.Length < 15 ) throw new ArgumentException( "要素数が少なすぎます。" );
+				string[] elem = line.Split(",".ToCharArray());
+				if (elem.Length < 15) throw new ArgumentException("要素数が少なすぎます。");
 
-				ShipID = int.Parse( elem[0] );
+				ShipID = int.Parse(elem[0]);
 				ShipName = elem[1];
-				ItemID = int.Parse( elem[2] );
+				ItemID = int.Parse(elem[2]);
 				ItemName = elem[3];
-				EquipmentID = int.Parse( elem[4] );
+				EquipmentID = int.Parse(elem[4]);
 				EquipmentName = elem[5];
-				Date = DateTimeHelper.CSVStringToTime( elem[6] );
-				MapAreaID = int.Parse( elem[7] );
-				MapInfoID = int.Parse( elem[8] );
-				CellID = int.Parse( elem[9] );
-				Difficulty = Constants.GetDifficulty( elem[10] );
-				IsBossNode = string.Compare( elem[11], "ボス" ) == 0;
-				EnemyFleetID = uint.Parse( elem[12] );
+				Date = DateTimeHelper.CSVStringToTime(elem[6]);
+				MapAreaID = int.Parse(elem[7]);
+				MapInfoID = int.Parse(elem[8]);
+				CellID = int.Parse(elem[9]);
+				Difficulty = Constants.GetDifficulty(elem[10]);
+				IsBossNode = string.Compare(elem[11], "ボス") == 0;
+				EnemyFleetID = Convert.ToUInt64(elem[12], 16);
 				Rank = elem[13];
-				HQLevel = int.Parse( elem[14] );
+				HQLevel = int.Parse(elem[14]);
 
 			}
 
-			public override string SaveLine() {
+			public override string SaveLine()
+			{
 
-				return string.Format( string.Join( ",", Enumerable.Range( 0, 15 ).Select( i => "{" + i + "}" ) ),
+				return string.Format(string.Join(",", Enumerable.Range(0, 15).Select(i => "{" + i + "}")),
 					ShipID,
 					ShipName,
 					ItemID,
 					ItemName,
 					EquipmentID,
 					EquipmentName,
-					DateTimeHelper.TimeToCSVString( Date ),
+					DateTimeHelper.TimeToCSVString(Date),
 					MapAreaID,
 					MapInfoID,
 					CellID,
-					Constants.GetDifficulty( Difficulty ),
+					Constants.GetDifficulty(Difficulty),
 					IsBossNode ? "ボス" : "-",
-					EnemyFleetID,
+					EnemyFleetID.ToString("x16"),
 					Rank,
-					HQLevel );
+					HQLevel);
 
 			}
 		}
@@ -199,71 +212,75 @@ namespace ElectronicObserver.Resource.Record {
 
 
 		public ShipDropRecord()
-			: base() {
+			: base()
+		{
 			Record = new List<ShipDropElement>();
 		}
 
-		public override void RegisterEvents() {
+		public override void RegisterEvents()
+		{
 			// nop
 		}
 
 
-		public ShipDropElement this[int i] {
+		public ShipDropElement this[int i]
+		{
 			get { return Record[i]; }
 			set { Record[i] = value; }
 		}
 
-		public void Add( int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, uint enemyFleetID, string rank, int hqLevel ) {
+		public void Add(int shipID, int itemID, int equipmentID, int mapAreaID, int mapInfoID, int cellID, int difficulty, bool isBossNode, ulong enemyFleetID, string rank, int hqLevel)
+		{
 
-			Record.Add( new ShipDropElement( shipID, itemID, equipmentID, mapAreaID, mapInfoID, cellID, difficulty, isBossNode, enemyFleetID, rank, hqLevel ) );
+			Record.Add(new ShipDropElement(shipID, itemID, equipmentID, mapAreaID, mapInfoID, cellID, difficulty, isBossNode, enemyFleetID, rank, hqLevel));
 		}
 
 
-		protected override void LoadLine( string line ) {
-			Record.Add( new ShipDropElement( line ) );
+		protected override void LoadLine(string line)
+		{
+			Record.Add(new ShipDropElement(line));
 		}
 
-		protected override string SaveLinesAll() {
+		protected override string SaveLinesAll()
+		{
 			var sb = new StringBuilder();
-			foreach ( var elem in Record.OrderBy( r => r.Date ) ) {
-				sb.AppendLine( elem.SaveLine() );
+			foreach (var elem in Record.OrderBy(r => r.Date))
+			{
+				sb.AppendLine(elem.SaveLine());
 			}
 			return sb.ToString();
 		}
 
-		protected override string SaveLinesPartial() {
+		protected override string SaveLinesPartial()
+		{
 			var sb = new StringBuilder();
-			foreach ( var elem in Record.Skip( LastSavedCount ).OrderBy( r => r.Date ) ) {
-				sb.AppendLine( elem.SaveLine() );
+			foreach (var elem in Record.Skip(LastSavedCount).OrderBy(r => r.Date))
+			{
+				sb.AppendLine(elem.SaveLine());
 			}
 			return sb.ToString();
 		}
 
-		protected override void UpdateLastSavedIndex() {
+		protected override void UpdateLastSavedIndex()
+		{
 			LastSavedCount = Record.Count;
 		}
 
-		public override bool NeedToSave {
-			get { return LastSavedCount < Record.Count; }
-		}
+		public override bool NeedToSave => LastSavedCount < Record.Count;
 
-		public override bool SupportsPartialSave {
-			get { return true; }
-		}
+		public override bool SupportsPartialSave => true;
 
 
-		protected override void ClearRecord() {
+		protected override void ClearRecord()
+		{
 			Record.Clear();
 			LastSavedCount = 0;
 		}
 
 
-		public override string RecordHeader {
-			get { return "艦船ID,艦名,アイテムID,アイテム名,装備ID,装備名,入手日時,海域,海域,セル,難易度,ボス,敵編成,ランク,司令部Lv"; }
-		}
+		public override string RecordHeader => "艦船ID,艦名,アイテムID,アイテム名,装備ID,装備名,入手日時,海域,海域,セル,難易度,ボス,敵編成ID,ランク,司令部Lv";
 
-		public override string FileName {
-			get { return "ShipDropRecord.csv"; }
-		}
+		public override string FileName => "ShipDropRecord.csv";
 	}
+
 }
