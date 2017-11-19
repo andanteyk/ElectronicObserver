@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle
 {
-
 	/// <summary>
-	/// 通常艦隊vs敵連合艦隊昼戦
+	/// 通常艦隊 vs 連合艦隊 昼戦
 	/// </summary>
 	public class BattleEnemyCombinedDay : BattleDay
 	{

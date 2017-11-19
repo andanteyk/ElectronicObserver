@@ -30,6 +30,7 @@ namespace ElectronicObserver.Data.Battle
 
 		public PhaseInitial Initial { get; protected set; }
 		public PhaseSearching Searching { get; protected set; }
+		public PhaseSupport Support { get; protected set; }
 
 
 		public override void LoadFromResponse(string apiname, dynamic data)
@@ -39,10 +40,18 @@ namespace ElectronicObserver.Data.Battle
 			Initial = new PhaseInitial(this, "戦力");
 			Searching = new PhaseSearching(this, "索敵");
 
-			_resultHPs = Initial.InitialHPs.ToArray();
+			_resultHPs = new int[24];
+			Array.Copy(Initial.FriendInitialHPs, 0, _resultHPs, 0, Initial.FriendInitialHPs.Length);
+			Array.Copy(Initial.EnemyInitialHPs, 0, _resultHPs, 12, Initial.EnemyInitialHPs.Length);
+			if (Initial.FriendInitialHPsEscort != null)
+				Array.Copy(Initial.FriendInitialHPsEscort, 0, _resultHPs, 6, 6);
+			if (Initial.EnemyInitialHPsEscort != null)
+				Array.Copy(Initial.EnemyInitialHPsEscort, 0, _resultHPs, 18, 6);
+
+
+
 			if (_attackDamages == null)
 				_attackDamages = new int[_resultHPs.Length];
-
 		}
 
 

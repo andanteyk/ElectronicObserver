@@ -1072,13 +1072,13 @@ namespace ElectronicObserver.Window
 		{
 
 			BattleManager bm = KCDatabase.Instance.Battle;
-			BattleData bd = bm.StartsFromDayBattle ? (BattleData)bm.BattleDay : (BattleData)bm.BattleNight;
+			BattleData bd = bm.FirstBattle;
 
 			int[] enemies = bd.Initial.EnemyMembers;
 			int[][] slots = bd.Initial.EnemySlots;
 			int[] levels = bd.Initial.EnemyLevels;
 			int[][] parameters = bd.Initial.EnemyParameters;
-			int[] hps = bd.Initial.MaxHPs;
+			int[] hps = bd.Initial.EnemyMaxHPs;
 
 
 			_enemyFleetCandidate = null;
@@ -1093,9 +1093,9 @@ namespace ElectronicObserver.Window
 				if (efrecord != null)
 				{
 					TextEnemyFleetName.Text = efrecord.FleetName;
+					TextEventDetail.Text = "Exp: " + efrecord.ExpShip;
 				}
-				TextEventDetail.Text = "敵艦隊ID: " + efcurrent.FleetID.ToString("x8");
-				ToolTipInfo.SetToolTip(TextEventDetail, null);
+				ToolTipInfo.SetToolTip(TextEventDetail, "敵艦隊ID: " + efcurrent.FleetID.ToString("x16"));
 			}
 
 			TextFormation.Text = Constants.GetFormationShort((int)bd.Searching.FormationEnemy);
@@ -1117,7 +1117,7 @@ namespace ElectronicObserver.Window
 				ControlMembers[i].Update(shipID, shipID != -1 ? slots[i] : null);
 
 				if (shipID != -1)
-					ControlMembers[i].UpdateEquipmentToolTip(shipID, slots[i], levels[i], hps[i + 6], parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3]);
+					ControlMembers[i].UpdateEquipmentToolTip(shipID, slots[i], levels[i], hps[i], parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3]);
 			}
 			TableEnemyMember.ResumeLayout();
 			TableEnemyMember.Visible = true;

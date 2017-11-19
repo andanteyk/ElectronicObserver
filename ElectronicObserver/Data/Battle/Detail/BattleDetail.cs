@@ -25,11 +25,11 @@ namespace ElectronicObserver.Data.Battle.Detail
 		public ShipDataMaster Defender { get; protected set; }
 
 
-		/// <summary> 攻撃側インデックス [0-23] </summary>
-		public int AttackerIndex { get; protected set; }
+		/// <summary> 攻撃側インデックス </summary>
+		public BattleIndex AttackerIndex { get; protected set; }
 
-		/// <summary> 防御側インデックス [0-23] </summary>
-		public int DefenderIndex { get; protected set; }
+		/// <summary> 防御側インデックス </summary>
+		public BattleIndex DefenderIndex { get; protected set; }
 
 
 		public enum CriticalType
@@ -42,13 +42,13 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 
 		/// <param name="bd">戦闘情報。</param>
-		/// <param name="attackerIndex">攻撃側のインデックス。 [0-23]</param>
-		/// <param name="defenderIndex">防御側のインデックス。 [0-23]</param>
+		/// <param name="attackerIndex">攻撃側のインデックス。</param>
+		/// <param name="defenderIndex">防御側のインデックス。</param>
 		/// <param name="damages">ダメージの配列。</param>
 		/// <param name="criticalTypes">命中判定の配列。</param>
 		/// <param name="attackType">攻撃種別。</param>
 		/// <param name="defenderHP">防御側の攻撃を受ける直前のHP。</param>
-		public BattleDetail(BattleData bd, int attackerIndex, int defenderIndex, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP)
+		public BattleDetail(BattleData bd, BattleIndex attackerIndex, BattleIndex defenderIndex, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP)
 		{
 
 			AttackerIndex = attackerIndex;
@@ -61,50 +61,66 @@ namespace ElectronicObserver.Data.Battle.Detail
 			EquipmentIDs = equipmentIDs;
 			DefenderHP = defenderHP;
 
-			int[] slots;
+			int[] slots = null;
+
 
 			if (AttackerIndex < 0)
 			{
 				Attacker = null;
 				slots = null;
-
-			}
-			else if (AttackerIndex < 6)
-			{
-				var atk = bd.Initial.FriendFleet.MembersInstance[AttackerIndex];
-				Attacker = atk.MasterShip;
-				slots = atk.AllSlotMaster.ToArray();
-
-			}
-			else if (AttackerIndex < 12)
-			{
-				Attacker = bd.Initial.EnemyMembersInstance[AttackerIndex - 6];
-				slots = bd.Initial.EnemySlots[AttackerIndex - 6];
-
-			}
-			else if (attackerIndex < 18)
-			{
-				var atk = bd.Initial.FriendFleetEscort.MembersInstance[AttackerIndex - 12];
-				Attacker = atk.MasterShip;
-				slots = atk.AllSlotMaster.ToArray();
-
 			}
 			else
 			{
-				Attacker = bd.Initial.EnemyMembersEscortInstance[AttackerIndex - 18];
-				slots = bd.Initial.EnemySlotsEscort[AttackerIndex - 18];
+				switch (AttackerIndex.Side)
+				{
+					case BattleSides.FriendMain:
+						{
+							var atk = bd.Initial.FriendFleet.MembersInstance[AttackerIndex.Index];
+							Attacker = atk.MasterShip;
+							slots = atk.AllSlotMaster.ToArray();
+						}
+						break;
 
+					case BattleSides.FriendEscort:
+						{
+							var atk = bd.Initial.FriendFleetEscort.MembersInstance[AttackerIndex.Index];
+							Attacker = atk.MasterShip;
+							slots = atk.AllSlotMaster.ToArray();
+						}
+						break;
+
+					case BattleSides.EnemyMain:
+						Attacker = bd.Initial.EnemyMembersInstance[AttackerIndex.Index];
+						slots = bd.Initial.EnemySlots[AttackerIndex.Index];
+						break;
+
+					case BattleSides.EnemyEscort:
+						Attacker = bd.Initial.EnemyMembersEscortInstance[AttackerIndex.Index];
+						slots = bd.Initial.EnemySlotsEscort[AttackerIndex.Index];
+						break;
+				}
 			}
 
 
-			if (DefenderIndex < 6)
-				Defender = bd.Initial.FriendFleet.MembersInstance[DefenderIndex].MasterShip;
-			else if (DefenderIndex < 12)
-				Defender = bd.Initial.EnemyMembersInstance[DefenderIndex - 6];
-			else if (DefenderIndex < 18)
-				Defender = bd.Initial.FriendFleetEscort.MembersInstance[DefenderIndex - 12].MasterShip;
-			else
-				Defender = bd.Initial.EnemyMembersEscortInstance[DefenderIndex - 18];
+			switch (DefenderIndex.Side)
+			{
+				case BattleSides.FriendMain:
+					Defender = bd.Initial.FriendFleet.MembersInstance[DefenderIndex.Index].MasterShip;
+					break;
+
+				case BattleSides.FriendEscort:
+					Defender = bd.Initial.FriendFleetEscort.MembersInstance[DefenderIndex.Index].MasterShip;
+					break;
+
+				case BattleSides.EnemyMain:
+					Defender = bd.Initial.EnemyMembersInstance[DefenderIndex.Index];
+					break;
+
+				case BattleSides.EnemyEscort:
+					Defender = bd.Initial.EnemyMembersEscortInstance[DefenderIndex.Index];
+					break;
+			}
+
 
 			if (AttackType == 0 && Attacker != null)
 			{
@@ -174,34 +190,19 @@ namespace ElectronicObserver.Data.Battle.Detail
 			return builder.ToString();
 		}
 
-		protected static bool IsFriendIndex(int i)
-		{
-			return (0 <= i && i < 6) || (12 <= i && i < 18);
-		}
-
-		protected static bool IsEnemyIndex(int i)
-		{
-			return (6 <= i && i < 12) || (18 <= i && i < 24);
-		}
-
-		protected static int GetDisplayIndex(int i)
-		{
-			return i % 6 + (i / 12) * 6 + 1;
-		}
-
 
 		protected virtual string GetAttackerName()
 		{
 			if (Attacker == null)
-				return "#" + GetDisplayIndex(AttackerIndex);
-			return Attacker.NameWithClass + " #" + GetDisplayIndex(AttackerIndex);
+				return "#" + (AttackerIndex.Index + 1);
+			return Attacker.NameWithClass + " #" + (AttackerIndex.Index + 1);
 		}
 
 		protected virtual string GetDefenderName()
 		{
 			if (Defender == null)
-				return "#" + GetDisplayIndex(DefenderIndex);
-			return Defender.NameWithClass + " #" + GetDisplayIndex(DefenderIndex);
+				return "#" + (DefenderIndex.Index + 1);
+			return Defender.NameWithClass + " #" + (DefenderIndex.Index + 1);
 		}
 
 		protected abstract int CaclulateAttackKind(int[] slots, int attackerShipID, int defenderShipID);
@@ -216,7 +217,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 	public class BattleDayDetail : BattleDetail
 	{
 
-		public BattleDayDetail(BattleData bd, int attackerId, int defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP)
+		public BattleDayDetail(BattleData bd, BattleIndex attackerId, BattleIndex defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP)
 			: base(bd, attackerId, defenderId, damages, criticalTypes, attackType, equipmentIDs, defenderHP)
 		{
 		}
@@ -238,8 +239,8 @@ namespace ElectronicObserver.Data.Battle.Detail
 	public class BattleSupportDetail : BattleDetail
 	{
 
-		public BattleSupportDetail(BattleData bd, int defenderId, double damage, int criticalType, int attackType, int defenderHP)
-			: base(bd, -1, defenderId, new double[] { damage }, new int[] { criticalType }, attackType, null, defenderHP)
+		public BattleSupportDetail(BattleData bd, BattleIndex defenderId, double damage, int criticalType, int attackType, int defenderHP)
+			: base(bd, BattleIndex.Invalid, defenderId, new double[] { damage }, new int[] { criticalType }, attackType, null, defenderHP)
 		{
 		}
 
@@ -263,6 +264,8 @@ namespace ElectronicObserver.Data.Battle.Detail
 					return "砲撃";
 				case 3:
 					return "雷撃";
+				case 4:
+					return "爆撃";
 				default:
 					return "不明";
 			}
@@ -278,7 +281,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 		public bool NightAirAttackFlag { get; protected set; }
 
-		public BattleNightDetail(BattleData bd, int attackerId, int defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, bool nightAirAttackFlag, int defenderHP)
+		public BattleNightDetail(BattleData bd, BattleIndex attackerId, BattleIndex defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, bool nightAirAttackFlag, int defenderHP)
 			: base(bd, attackerId, defenderId, damages, criticalTypes, attackType, equipmentIDs, defenderHP)
 		{
 			NightAirAttackFlag = nightAirAttackFlag;
@@ -303,8 +306,8 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 		public int WaveIndex { get; protected set; }
 
-		public BattleAirDetail(BattleData bd, int waveIndex, int defenderId, double damage, int criticalType, int attackType, int defenderHP)
-			: base(bd, -1, defenderId, new double[] { damage }, new int[] { criticalType }, attackType, null, defenderHP)
+		public BattleAirDetail(BattleData bd, int waveIndex, BattleIndex defenderId, double damage, int criticalType, int attackType, int defenderHP)
+			: base(bd, BattleIndex.Invalid, defenderId, new double[] { damage }, new int[] { criticalType }, attackType, null, defenderHP)
 		{
 			WaveIndex = waveIndex;
 		}
@@ -313,7 +316,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 		{
 			if (WaveIndex <= 0)
 			{
-				if (IsFriendIndex(DefenderIndex))
+				if (DefenderIndex.Side == BattleSides.FriendMain || DefenderIndex.Side == BattleSides.FriendEscort)
 					return "敵軍航空隊";
 				else
 					return "自軍航空隊";
@@ -328,8 +331,8 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 		protected override string GetDefenderName()
 		{
-			if (WaveIndex < 0 && IsFriendIndex(DefenderIndex))
-				return string.Format("第{0}基地", DefenderIndex + 1);
+			if (WaveIndex < 0 && DefenderIndex.Side == BattleSides.FriendMain)
+				return string.Format("第{0}基地", DefenderIndex.Index + 1);
 
 			return base.GetDefenderName();
 		}

@@ -150,16 +150,16 @@ namespace ElectronicObserver.Data.Battle.Detail
 						sb.AppendLine("〈味方艦隊〉");
 
 					if (isBaseAirRaid)
-						OutputFriendBase(sb, p.InitialHPs.Take(6).ToArray(), p.MaxHPs.Take(6).ToArray());
+						OutputFriendBase(sb, p.FriendInitialHPs, p.FriendMaxHPs);
 					else
-						OutputFriendData(sb, p.FriendFleet, p.InitialHPs.Take(6).ToArray(), p.MaxHPs.Take(6).ToArray());
+						OutputFriendData(sb, p.FriendFleet, p.FriendInitialHPs, p.FriendMaxHPs);
 
 					if (p.FriendFleetEscort != null)
 					{
 						sb.AppendLine();
 						sb.AppendLine("〈味方随伴艦隊〉");
 
-						OutputFriendData(sb, p.FriendFleetEscort, p.InitialHPs.Skip(12).Take(6).ToArray(), p.MaxHPs.Skip(12).Take(6).ToArray());
+						OutputFriendData(sb, p.FriendFleetEscort, p.FriendInitialHPsEscort, p.FriendMaxHPsEscort);
 					}
 
 					sb.AppendLine();
@@ -173,7 +173,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 						sb.Append(" : 装甲破壊");
 					sb.AppendLine();
 
-					OutputEnemyData(sb, p.EnemyMembersInstance, p.EnemyLevels, p.InitialHPs.Skip(6).Take(6).ToArray(), p.MaxHPs.Skip(6).Take(6).ToArray(), p.EnemySlotsInstance, p.EnemyParameters);
+					OutputEnemyData(sb, p.EnemyMembersInstance, p.EnemyLevels, p.EnemyInitialHPs, p.EnemyMaxHPs, p.EnemySlotsInstance, p.EnemyParameters);
 
 
 					if (p.EnemyMembersEscort != null)
@@ -181,7 +181,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 						sb.AppendLine();
 						sb.AppendLine("〈敵随伴艦隊〉");
 
-						OutputEnemyData(sb, p.EnemyMembersEscortInstance, p.EnemyLevelsEscort, p.InitialHPs.Skip(18).Take(6).ToArray(), p.MaxHPs.Skip(18).Take(6).ToArray(), p.EnemySlotsEscortInstance, p.EnemyParametersEscort);
+						OutputEnemyData(sb, p.EnemyMembersEscortInstance, p.EnemyLevelsEscort, p.EnemyInitialHPsEscort, p.EnemyMaxHPsEscort, p.EnemySlotsEscortInstance, p.EnemyParametersEscort);
 					}
 
 					sb.AppendLine();
@@ -315,11 +315,11 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 					for (int i = 0; i < 6; i++)
 					{
-						if (battle.Initial.MaxHPs[i] <= 0)
+						if (battle.Initial.FriendMaxHPs[i] <= 0)
 							continue;
 
 						OutputResultData(sbmaster, i, string.Format("第{0}基地", i + 1),
-							battle.Initial.InitialHPs[i], battle.ResultHPs[i], battle.Initial.MaxHPs[i]);
+							battle.Initial.FriendInitialHPs[i], battle.ResultHPs[i], battle.Initial.FriendMaxHPs[i]);
 					}
 
 				}
@@ -332,7 +332,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 							continue;
 
 						OutputResultData(sbmaster, i, ship.Name,
-							battle.Initial.InitialHPs[i], battle.ResultHPs[i], battle.Initial.MaxHPs[i]);
+							battle.Initial.FriendInitialHPs[i], battle.ResultHPs[i], battle.Initial.FriendMaxHPs[i]);
 					}
 				}
 
@@ -347,7 +347,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 							continue;
 
 						OutputResultData(sbmaster, i + 6, ship.Name,
-							battle.Initial.InitialHPs[i + 12], battle.ResultHPs[i + 12], battle.Initial.MaxHPs[i + 12]);
+							battle.Initial.FriendInitialHPsEscort[i], battle.ResultHPs[i + 6], battle.Initial.FriendMaxHPsEscort[i]);
 					}
 
 				}
@@ -367,7 +367,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 					OutputResultData(sbmaster, i,
 						ship.NameWithClass,
-						battle.Initial.InitialHPs[i + 6], battle.ResultHPs[i + 6], battle.Initial.MaxHPs[i + 6]);
+						battle.Initial.EnemyInitialHPs[i], battle.ResultHPs[i + 12], battle.Initial.EnemyMaxHPs[i]);
 				}
 
 				if (enemyescort != null)
@@ -381,7 +381,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 							continue;
 
 						OutputResultData(sbmaster, i + 6, ship.NameWithClass,
-							battle.Initial.InitialHPs[i + 18], battle.ResultHPs[i + 18], battle.Initial.MaxHPs[i + 18]);
+							battle.Initial.EnemyInitialHPsEscort[i], battle.ResultHPs[i + 18], battle.Initial.EnemyMaxHPsEscort[i]);
 					}
 				}
 

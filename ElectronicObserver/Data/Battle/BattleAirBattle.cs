@@ -9,7 +9,7 @@ namespace ElectronicObserver.Data.Battle
 {
 
 	/// <summary>
-	/// 通常艦隊航空戦
+	/// 通常艦隊 vs 通常艦隊 航空戦
 	/// </summary>
 	public class BattleAirBattle : BattleDay
 	{

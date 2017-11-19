@@ -14,44 +14,50 @@ namespace ElectronicObserver.Data.Battle.Phase
 	public class PhaseNightBattle : PhaseBase
 	{
 
-		private readonly bool isEscort;
+		private readonly int PhaseID;
+		private readonly bool IsEscort;
 
-		public PhaseNightBattle(BattleData data, string title, bool isEscort)
+		public PhaseNightBattle(BattleData data, string title, int phaseID, bool isEscort)
 			: base(data, title)
 		{
 
-			this.isEscort = isEscort;
+			PhaseID = phaseID;
+			IsEscort = isEscort;
 
 			if (!IsAvailable)
 				return;
 
 
-			int[] attackers = ((int[])ShellingData.api_at_list).Skip(1).ToArray();
-			int[] nightAirAttackFlags = ((int[])ShellingData.api_n_mother_list).Skip(1).ToArray();
-			int[] attackTypes = ((int[])ShellingData.api_sp_list).Skip(1).ToArray();
-			int[][] defenders = ((dynamic[])ShellingData.api_df_list).Skip(1).Select(elem => ((int[])elem).Where(e => e != -1).ToArray()).ToArray();
-			int[][] attackEquipments = ((dynamic[])ShellingData.api_si_list).Skip(1).Select(elem => ((dynamic[])elem).Select<dynamic, int>(ch => ch is string ? int.Parse(ch) : (int)ch).ToArray()).ToArray();
-			int[][] criticals = ((dynamic[])ShellingData.api_cl_list).Skip(1).Select(elem => ((int[])elem).Where(e => e != -1).ToArray()).ToArray();
-			double[][] rawDamages = ((dynamic[])ShellingData.api_damage).Skip(1).Select(elem => ((double[])elem).Where(e => e != -1).ToArray()).ToArray();
+			int[] fleetflag = (int[])ShellingData.api_at_eflag;
+			int[] attackers = (int[])ShellingData.api_at_list;
+			int[] nightAirAttackFlags = (int[])ShellingData.api_n_mother_list;
+			int[] attackTypes = (int[])ShellingData.api_sp_list;
+			int[][] defenders = ((dynamic[])ShellingData.api_df_list).Select(elem => ((int[])elem).Where(e => e != -1).ToArray()).ToArray();
+			int[][] attackEquipments = ((dynamic[])ShellingData.api_si_list).Select(elem => ((dynamic[])elem).Select<dynamic, int>(ch => ch is string ? int.Parse(ch) : (int)ch).ToArray()).ToArray();
+			int[][] criticals = ((dynamic[])ShellingData.api_cl_list).Select(elem => ((int[])elem).Where(e => e != -1).ToArray()).ToArray();
+			double[][] rawDamages = ((dynamic[])ShellingData.api_damage).Select(elem => ((double[])elem).Where(e => e != -1).ToArray()).ToArray();
 
 			Attacks = new List<PhaseNightBattleAttack>();
+
+
+			// 連合艦隊戦での処理に不安が残る
+			var friendSide = IsFriendEscort ? BattleSides.FriendEscort : BattleSides.FriendMain;
+			var enemySide = IsEnemyEscort ? BattleSides.EnemyEscort : BattleSides.EnemyMain;
 
 			for (int i = 0; i < attackers.Length; i++)
 			{
 				var attack = new PhaseNightBattleAttack
 				{
-					Attacker = GetIndex(attackers[i]),
+					Attacker = new BattleIndex(fleetflag[i] == 0 ? friendSide : enemySide, attackers[i]),
 					NightAirAttackFlag = nightAirAttackFlags[i] == -1,
 					AttackType = attackTypes[i],
 					EquipmentIDs = attackEquipments[i],
-
-					Defenders = new List<PhaseNightBattleDefender>()
 				};
 				for (int k = 0; k < defenders[i].Length; k++)
 				{
 					var defender = new PhaseNightBattleDefender
 					{
-						Defender = GetIndex(defenders[i][k]),
+						Defender = new BattleIndex(fleetflag[i] == 0 ? enemySide : friendSide, defenders[i][k]),
 						CriticalFlag = criticals[i][k],
 						RawDamage = rawDamages[i][k]
 					};
@@ -63,9 +69,15 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 		}
 
-		public override bool IsAvailable => true;
+		public override bool IsAvailable =>
+			RawData.IsDefined(ShellingDataName) &&
+			RawData[ShellingDataName].api_at_list() &&
+			RawData[ShellingDataName].api_at_list != null;
 
-		public dynamic ShellingData => RawData.api_hougeki;
+
+		public dynamic ShellingData => RawData[ShellingDataName];
+
+		private string ShellingDataName => PhaseID == 0 ? "api_hougeki" : ("api_n_hougeki" + PhaseID);
 
 
 		public override void EmulateBattle(int[] hps, int[] damages)
@@ -79,7 +91,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 				foreach (var defs in attack.Defenders.GroupBy(d => d.Defender))
 				{
-					BattleDetails.Add(new BattleNightDetail(_battleData, attack.Attacker, defs.Key, defs.Select(d => d.RawDamage).ToArray(), defs.Select(d => d.CriticalFlag).ToArray(), attack.AttackType, attack.EquipmentIDs, attack.NightAirAttackFlag, hps[defs.Key]));
+					BattleDetails.Add(new BattleNightDetail(Battle, attack.Attacker, defs.Key, defs.Select(d => d.RawDamage).ToArray(), defs.Select(d => d.CriticalFlag).ToArray(), attack.AttackType, attack.EquipmentIDs, attack.NightAirAttackFlag, hps[defs.Key]));
 					AddDamage(hps, defs.Key, defs.Sum(d => d.Damage));
 				}
 
@@ -92,20 +104,23 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public List<PhaseNightBattleAttack> Attacks { get; private set; }
 		public class PhaseNightBattleAttack
 		{
-			public int Attacker;
+			public BattleIndex Attacker;
 			public int AttackType;
 			public bool NightAirAttackFlag;
 			public List<PhaseNightBattleDefender> Defenders;
 			public int[] EquipmentIDs;
 
-			public PhaseNightBattleAttack() { }
+			public PhaseNightBattleAttack()
+			{
+				Defenders = new List<PhaseNightBattleDefender>();
+			}
 
 			public override string ToString() => $"{Attacker}[{AttackType}] -> [{string.Join(", ", Defenders)}]";
 
 		}
 		public class PhaseNightBattleDefender
 		{
-			public int Defender;
+			public BattleIndex Defender;
 			public int CriticalFlag;
 			public double RawDamage;
 			public bool GuardsFlagship => RawDamage != Math.Floor(RawDamage);
@@ -137,7 +152,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 				if (IsFriendEscort)
 					return 2;
 				else
-					return _battleData.Initial.FriendFleetID;
+					return Battle.Initial.FriendFleetID;
 			}
 		}
 
@@ -149,7 +164,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 自軍が随伴艦隊かどうか
 		/// </summary>
-		public bool IsFriendEscort => isEscort || ActiveFriendFleet != 1;
+		public bool IsFriendEscort => IsEscort || ActiveFriendFleet != 1;
 
 
 		/// <summary>
@@ -160,12 +175,12 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 敵軍艦隊
 		/// </summary>
-		public int[] EnemyMembers => !IsEnemyEscort ? _battleData.Initial.EnemyMembers : _battleData.Initial.EnemyMembersEscort;
+		public int[] EnemyMembers => !IsEnemyEscort ? Battle.Initial.EnemyMembers : Battle.Initial.EnemyMembersEscort;
 
 		/// <summary>
 		/// 敵軍艦隊
 		/// </summary>
-		public ShipDataMaster[] EnemyMembersInstance => !IsEnemyEscort ? _battleData.Initial.EnemyMembersInstance : _battleData.Initial.EnemyMembersEscortInstance;
+		public ShipDataMaster[] EnemyMembersInstance => !IsEnemyEscort ? Battle.Initial.EnemyMembersInstance : Battle.Initial.EnemyMembersEscortInstance;
 
 		/// <summary>
 		/// 敵軍が随伴艦隊かどうか
@@ -229,13 +244,13 @@ namespace ElectronicObserver.Data.Battle.Phase
 			get
 			{
 				var ships = FriendFleet.MembersWithoutEscaped;
+				var hps = IsEscort ? Battle.Initial.FriendInitialHPsEscort : Battle.Initial.FriendInitialHPs;
 				int index = -1;
 
 				for (int i = 0; i < ships.Count; i++)
 				{
-
 					var ship = ships[i];
-					if (ship != null && _battleData.Initial.InitialHPs[(isEscort ? 12 : 0) + i] > 1)
+					if (ship != null && hps[i] > 1)
 					{
 
 						if (ship.SlotInstanceMaster.Any(e => e?.CategoryType == EquipmentTypes.SearchlightLarge))
@@ -256,14 +271,14 @@ namespace ElectronicObserver.Data.Battle.Phase
 		{
 			get
 			{
-				var ships = _battleData.Initial.EnemyMembersInstance;
-				var eqs = _battleData.Initial.EnemySlotsInstance;
+				var ships = EnemyMembersInstance;
+				var eqs = Battle.Initial.EnemySlotsInstance;
+				var hps = IsEnemyEscort ? Battle.Initial.EnemyInitialHPsEscort : Battle.Initial.EnemyInitialHPs;
 				int index = -1;
 
 				for (int i = 0; i < ships.Length; i++)
 				{
-
-					if (ships[i] != null && _battleData.Initial.InitialHPs[6 + i] > 1)
+					if (ships[i] != null && hps[i] > 1)
 					{
 
 						if (eqs[i].Any(e => e?.CategoryType == EquipmentTypes.SearchlightLarge))
@@ -285,23 +300,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 				int index = SearchlightIndexEnemy;
 				return index == -1 ? null : EnemyMembersInstance[index];
 			}
-		}
-
-
-		private int GetIndex(int index)
-		{
-			index--;
-			if (index < 6)
-			{
-				if (IsFriendEscort)
-					index += 12;
-			}
-			else
-			{
-				if (IsEnemyEscort)
-					index += 12;
-			}
-			return index;
 		}
 
 	}

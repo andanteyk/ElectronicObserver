@@ -14,33 +14,30 @@ namespace ElectronicObserver.Data.Battle.Phase
 	/// </summary>
 	public abstract class PhaseBase
 	{
+		protected static readonly int MemberCount = 7;
 
-		protected BattleData _battleData;
+
+		protected BattleData Battle;
 		public List<BattleDetail> BattleDetails { get; protected set; }
 		public readonly string Title;
 
-		public PhaseBase(BattleData data, string title)
-		{
 
-			_battleData = data;
+		protected PhaseBase(BattleData battle, string title)
+		{
+			Battle = battle;
 			BattleDetails = new List<BattleDetail>();
 			Title = title;
 		}
 
 
-		protected dynamic RawData => _battleData.RawData;
+		protected dynamic RawData => Battle.RawData;
 
-		protected int[] ArraySkip(int[] array, int skipCount = 1)
-		{
-			return array.Skip(skipCount).ToArray();
-		}
+		protected bool IsPractice => (Battle.BattleType & BattleData.BattleTypeFlag.Practice) != 0;
+		protected bool IsFriendCombined => (Battle.BattleType & BattleData.BattleTypeFlag.Combined) != 0;
+		protected bool IsEnemyCombined => (Battle.BattleType & BattleData.BattleTypeFlag.EnemyCombined) != 0;
 
-		protected bool IsPractice => (_battleData.BattleType & BattleData.BattleTypeFlag.Practice) != 0;
-		protected bool IsCombined => (_battleData.BattleType & BattleData.BattleTypeFlag.Combined) != 0;
-		protected bool IsEnemyCombined => (_battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined) != 0;
-
-		protected static bool IsIndexFriend(int index) { return (0 <= index && index < 6) || (12 <= index && index < 18); }
-		protected static bool IsIndexEnemy(int index) { return (6 <= index && index < 12) || (18 <= index && index < 24); }
+		protected static bool IsIndexFriend(int index) => 0 <= index && index < 12;
+		protected static bool IsIndexEnemy(int index) => 12 <= index && index < 24;
 
 
 		/// <summary>
@@ -54,20 +51,23 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			hps[index] -= Math.Max(damage, 0);
 
-			//自軍艦の撃沈が発生した場合(ダメコン処理)
+			// 自軍艦の撃沈が発生した場合(ダメコン処理)
 			if (hps[index] <= 0 && IsIndexFriend(index) && !IsPractice)
 			{
-				ShipData ship = KCDatabase.Instance.Fleet[index < 6 ? _battleData.Initial.FriendFleetID : 2].MembersInstance[index % 6];
-				if (ship == null) return;
+				ShipData ship = KCDatabase.Instance.Fleet[index < 6 ? Battle.Initial.FriendFleetID : 2].MembersInstance[index % 6];
+				if (ship == null)
+					return;
 
 				//補強スロットが最優先
 				if (ship.ExpansionSlotMaster == 42)
-				{           //応急修理要員
+				{
+					//応急修理要員
 					hps[index] = (int)(ship.HPMax * 0.2);
 					return;
 				}
 				else if (ship.ExpansionSlotMaster == 43)
-				{   //応急修理女神
+				{
+					//応急修理女神
 					hps[index] = ship.HPMax;
 					return;
 				}
@@ -75,17 +75,34 @@ namespace ElectronicObserver.Data.Battle.Phase
 				foreach (var eid in ship.SlotMaster)
 				{
 					if (eid == 42)
-					{           //応急修理要員
+					{
+						//応急修理要員
 						hps[index] = (int)(ship.HPMax * 0.2);
 						break;
 					}
 					else if (eid == 43)
-					{   //応急修理女神
+					{
+						//応急修理女神
 						hps[index] = ship.HPMax;
 						break;
 					}
 				}
 			}
+		}
+
+
+		protected static int[] FixedArray(int[] array, int length, int defaultValue = -1)
+		{
+			var ret = new int[length];
+			int l = Math.Min(length, array.Length);
+			Array.Copy(array, ret, l);
+			if (l < length)
+			{
+				for (int i = l; i < length; i++)
+					ret[i] = defaultValue;
+			}
+
+			return ret;
 		}
 
 

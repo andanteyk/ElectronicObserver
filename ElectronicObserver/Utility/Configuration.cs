@@ -1473,285 +1473,6 @@ namespace ElectronicObserver.Utility
 		{
 			DateTime dt = Config.VersionUpdateTime == null ? new DateTime(0) : DateTimeHelper.CSVStringToTime(Config.VersionUpdateTime);
 
-			// version 1.4.6 or earlier
-			if (dt <= DateTimeHelper.CSVStringToTime("2015/08/27 21:00:00"))
-			{
-
-				if (MessageBox.Show(
-					"バージョンアップが検出されました。\r\n古いレコードファイルを新しいフォーマットにコンバートします。\r\n(元のファイルは Record_Backup フォルダに残されます。)\r\nよろしいですか？\r\n(コンバートせずに続行した場合、読み込めなくなる可能性があります。)\r\n",
-					"バージョンアップに伴う確認(～1.4.6)",
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
-					 == DialogResult.Yes)
-				{
-
-					try
-					{
-
-						Directory.CreateDirectory("Record_Backup");
-
-						if (File.Exists(RecordManager.Instance.MasterPath + "\\EnemyFleetRecord.csv"))
-						{
-							File.Copy(RecordManager.Instance.MasterPath + "\\EnemyFleetRecord.csv", "Record_Backup\\EnemyFleetRecord.csv", false);
-
-							//ヒャッハー！！
-							using (var writer = new StreamWriter(RecordManager.Instance.MasterPath + "\\EnemyFleetRecord.csv", false, Config.Log.FileEncoding))
-							{
-								writer.WriteLine();
-							}
-						}
-
-
-						if (File.Exists(RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv"))
-						{
-							File.Copy(RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", "Record_Backup\\ShipDropRecord.csv", false);
-
-							using (var reader = new StreamReader("Record_Backup\\ShipDropRecord.csv", Config.Log.FileEncoding))
-							{
-								using (var writer = new StreamWriter(RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", false, Config.Log.FileEncoding))
-								{
-
-									while (!reader.EndOfStream)
-									{
-										string line = reader.ReadLine();
-										var elem = line.Split(",".ToCharArray()).ToList();
-
-										elem.Insert(6, Constants.GetDifficulty(-1));    //difficulty
-										elem[8] = "0";      //EnemyFleetID
-
-
-										writer.WriteLine(string.Join(",", elem));
-									}
-								}
-							}
-						}
-
-
-						if (File.Exists(RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv"))
-						{
-							File.Copy(RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv", "Record_Backup\\ShipParameterRecord.csv", false);
-
-							using (var reader = new StreamReader("Record_Backup\\ShipParameterRecord.csv", Config.Log.FileEncoding))
-							{
-								using (var writer = new StreamWriter(RecordManager.Instance.MasterPath + "\\ShipParameterRecord.csv", false, Config.Log.FileEncoding))
-								{
-
-									while (!reader.EndOfStream)
-									{
-										string line = reader.ReadLine();
-										var elem = line.Split(",".ToCharArray()).ToList();
-
-										elem.InsertRange(2, Enumerable.Repeat("0", 10));
-										elem.InsertRange(21, Enumerable.Repeat("0", 3));
-										elem.InsertRange(29, Enumerable.Repeat("null", 5));
-										elem.Insert(34, "null");
-
-										writer.WriteLine(string.Join(",", elem));
-									}
-								}
-							}
-						}
-
-
-
-						if (File.Exists(RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv"))
-						{
-							File.Copy(RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv", "Record_Backup\\ConstructionRecord.csv", false);
-
-							using (var reader = new StreamReader("Record_Backup\\ConstructionRecord.csv", Config.Log.FileEncoding))
-							{
-								using (var writer = new StreamWriter(RecordManager.Instance.MasterPath + "\\ConstructionRecord.csv", false, Config.Log.FileEncoding))
-								{
-
-									string[] prev = null;
-
-									while (!reader.EndOfStream)
-									{
-										string line = reader.ReadLine();
-										var elem = line.Split(",".ToCharArray());
-
-										// 以前のバージョンのバグによる無効行・重複行の削除
-										if (prev != null)
-										{
-											if (elem[0] == "0" || ( //invalid id
-												elem[0] == prev[0] &&   //id
-												elem[1] == prev[1] &&   //name
-												elem[3] == prev[3] &&   //fuel
-												elem[4] == prev[4] &&   //ammo
-												elem[5] == prev[5] &&   //steel
-												elem[6] == prev[6] &&   //bauxite
-												elem[7] == prev[7] &&   //dev.mat
-												elem[8] == prev[8] &&   //islarge
-												elem[9] == prev[9]      //emptydock
-												))
-											{
-
-												prev = elem;
-												continue;
-											}
-										}
-
-										writer.WriteLine(string.Join(",", elem));
-										prev = elem;
-									}
-								}
-							}
-						}
-
-
-						// 読み書き方式が変わったので念のため
-						if (File.Exists(RecordManager.Instance.MasterPath + "\\DevelopmentRecord.csv"))
-						{
-							File.Copy(RecordManager.Instance.MasterPath + "\\DevelopmentRecord.csv", "Record_Backup\\DevelopmentRecord.csv", false);
-						}
-
-
-					}
-					catch (Exception ex)
-					{
-
-						Utility.ErrorReporter.SendErrorReport(ex, "バージョンアップに伴うレコードのコンバートに失敗しました。");
-
-						if (MessageBox.Show("コンバートに失敗しました。\r\n" + ex.Message + "\r\n起動処理を続行しますか？\r\n(データが破壊される可能性があります)\r\n",
-							"エラー", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2)
-							== DialogResult.No)
-							Environment.Exit(-1);
-
-					}
-				}
-
-
-			}
-
-			// version 1.5.0 or earlier
-			if (dt <= DateTimeHelper.CSVStringToTime("2015/09/04 21:00:00"))
-			{
-
-				if (MessageBox.Show(
-					"バージョンアップが検出されました。\r\n艦船グループデータの互換性がなくなったため、当該データを初期化します。\r\n(古いファイルは Settings_Backup フォルダに退避されます。)\r\nよろしいですか？\r\n(初期化せずに続行した場合、エラーが発生します。)\r\n",
-					"バージョンアップに伴う確認(～1.5.0)",
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
-					 == DialogResult.Yes)
-				{
-
-					try
-					{
-
-						Directory.CreateDirectory("Settings_Backup");
-						File.Move("Settings\\ShipGroups.xml", "Settings_Backup\\ShipGroups.xml");
-
-					}
-					catch (Exception ex)
-					{
-
-						Utility.ErrorReporter.SendErrorReport(ex, "バージョンアップに伴うグループデータの削除に失敗しました。");
-
-						// エラーが出るだけなのでシャットダウンは不要
-						MessageBox.Show("削除に失敗しました。\r\n" + ex.Message,
-							"エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-					}
-				}
-			}
-
-
-			// version 1.6.3 or earlier
-			if (dt <= DateTimeHelper.CSVStringToTime("2015/10/03 22:00:00"))
-			{
-
-				if (MessageBox.Show(
-					"バージョンアップが検出されました。\r\nアイテムドロップ仕様の変更に伴い、艦船ドロップレコードのフォーマットを変更します。\r\n(古いファイルは Record_Backup フォルダに退避されます。)\r\nよろしいですか？\r\n(初期化せずに続行した場合、エラーが発生します。)\r\n",
-					"バージョンアップに伴う確認(～1.6.3)",
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
-					 == DialogResult.Yes)
-				{
-
-					try
-					{
-
-						if (File.Exists(RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv"))
-						{
-
-							Directory.CreateDirectory("Record_Backup");
-
-							if (File.Exists("Record_Backup\\ShipDropRecord.csv"))
-							{
-								var result = MessageBox.Show("バックアップ先に既にファイルが存在します。\r\n上書きしますか？\r\n(キャンセルした場合、コンバート処理を中止します。)",
-									"バックアップの上書き確認", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-								switch (result)
-								{
-									case DialogResult.Yes:
-										File.Copy(RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", "Record_Backup\\ShipDropRecord.csv", true);
-										break;
-									case DialogResult.No:
-										break;
-									case DialogResult.Cancel:
-										throw new InvalidOperationException("バックアップ処理がキャンセルされました。");
-								}
-							}
-							else
-							{
-								File.Copy(RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", "Record_Backup\\ShipDropRecord.csv", false);
-							}
-
-
-							using (var reader = new StreamReader("Record_Backup\\ShipDropRecord.csv", Config.Log.FileEncoding))
-							{
-								using (var writer = new StreamWriter(RecordManager.Instance.MasterPath + "\\ShipDropRecord.csv", false, Config.Log.FileEncoding))
-								{
-
-									while (!reader.EndOfStream)
-									{
-										string line = reader.ReadLine();
-										var elem = line.Split(",".ToCharArray()).ToList();
-
-										// 旧IDの変換
-										if (!int.TryParse(elem[0], out int oldID))
-											oldID = -1;
-
-										if (oldID > 2000)
-										{
-											elem[0] = "-1";
-											elem[1] = "(なし)";
-											elem.InsertRange(2, new string[] { "-1", "(なし)", (oldID - 2000).ToString(), "???" });
-
-										}
-										else if (oldID > 1000)
-										{
-											elem[0] = "-1";
-											elem[1] = "(なし)";
-											elem.InsertRange(2, new string[] { (oldID - 1000).ToString(), "???", "-1", "(なし)" });
-
-										}
-										else
-										{
-											elem.InsertRange(2, new string[] { "-1", "(なし)", "-1", "(なし)" });
-
-										}
-
-
-										writer.WriteLine(string.Join(",", elem));
-									}
-								}
-							}
-						}
-
-
-					}
-					catch (Exception ex)
-					{
-
-						Utility.ErrorReporter.SendErrorReport(ex, "バージョンアップに伴うレコードのコンバートに失敗しました。");
-
-						if (MessageBox.Show("コンバートに失敗しました。\r\n" + ex.Message + "\r\n起動処理を続行しますか？\r\n(データが破壊される可能性があります)\r\n",
-							"エラー", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2)
-							== DialogResult.No)
-							Environment.Exit(-1);
-
-					}
-				}
-			}
-
 
 			// version 2.5.5.1 or earlier
 			if (dt <= DateTimeHelper.CSVStringToTime("2017/03/30 00:00:00"))
@@ -1762,17 +1483,22 @@ namespace ElectronicObserver.Utility
 				{
 
 					// 敵編成レコードの敵編成ID再計算とドロップレコードの敵編成ID振りなおし
+					// ~ver. 2.8.2 更新で内部処理が変わったので要確認
 					try
 					{
 						var enemyFleetRecord = new EnemyFleetRecord();
-						var convertPair = new Dictionary<uint, uint>();
+						var convertPair = new Dictionary<ulong, ulong>();
 
 						enemyFleetRecord.Load(RecordManager.Instance.MasterPath);
 
 						foreach (var record in enemyFleetRecord.Record.Values)
 						{
-							uint key = record.FleetID;
-							record.FleetMember = record.FleetMember.Select(id => 500 < id && id < 1000 ? id + 1000 : id).ToArray();
+							ulong key = record.FleetID;
+							for (int i = 0; i < record.FleetMember.Length; i++)
+							{
+								int id = record.FleetMember[i];
+								record.FleetMember[i] = 500 < id && id < 1000 ? id + 1000 : id;
+							}
 							convertPair.Add(key, record.FleetID);
 						}
 
@@ -1817,7 +1543,7 @@ namespace ElectronicObserver.Utility
 
 						Directory.CreateDirectory(defaultRecordPath);
 
-						ElectronicObserver.Resource.ResourceManager.CopyDocumentFromArchive("Record/" + currentRecord.FileName, Path.Combine(defaultRecordPath, currentRecord.FileName));
+						Resource.ResourceManager.CopyDocumentFromArchive("Record/" + currentRecord.FileName, Path.Combine(defaultRecordPath, currentRecord.FileName));
 
 						var defaultRecord = new ShipParameterRecord();
 						defaultRecord.Load(defaultRecordPath);
@@ -1907,7 +1633,129 @@ namespace ElectronicObserver.Utility
 			}
 
 
+			// version 2.8.2 or earlier
+			if (dt <= DateTimeHelper.CSVStringToTime("2017/10/17 20:30:00"))
+				Update282_ConvertRecord();
+
+
+
 			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString(SoftwareInformation.UpdateTime);
+		}
+
+
+		private void Update282_ConvertRecord()
+		{
+			// 敵編成レコード：ハッシュ計算が変わり、項目が増えたため引き継ぎ不能、バックアップを取っておく
+			// ドロップ記録レコード：〃　編成IDを 0x0 で初期化する
+
+
+			// for retry
+			do
+			{
+				try
+				{
+					var fleet = new EnemyFleetRecord();
+					string fleetPath = RecordManager.Instance.MasterPath + "\\" + fleet.FileName;
+
+					var drop = new ShipDropRecord();
+					string dropPath = RecordManager.Instance.MasterPath + "\\" + drop.FileName;
+
+
+					string backupDirectoryPath = RecordManager.Instance.MasterPath + "\\Backup_" + DateTimeHelper.GetTimeStamp();
+
+
+					Directory.CreateDirectory(backupDirectoryPath);
+
+
+					// enemy fleet record
+					if (File.Exists(fleetPath))
+					{
+						bool isNewVersion;
+						try
+						{
+							using (var reader = new StreamReader(fleetPath, Utility.Configuration.Config.Log.FileEncoding))
+								isNewVersion = reader.ReadLine() == fleet.RecordHeader;
+						}
+						catch (Exception)
+						{
+							isNewVersion = false;
+						}
+
+
+						if (!isNewVersion)
+						{
+							File.Move(fleetPath, backupDirectoryPath + "\\" + fleet.FileName);
+						}
+						else
+						{
+							Utility.Logger.Add(1, "~2.8.2 レコード変換処理：敵艦隊レコードは既に新しいフォーマットです。処理をスキップします。");
+						}
+					}
+
+
+					// copy default record
+					if (!File.Exists(fleetPath))
+						Resource.ResourceManager.CopyDocumentFromArchive("Record/" + fleet.FileName, fleetPath);
+
+
+					// drop record
+					if (File.Exists(dropPath))
+					{
+						bool isNewVersion;
+						try
+						{
+							using (var reader = new StreamReader(dropPath, Utility.Configuration.Config.Log.FileEncoding))
+							{
+								reader.ReadLine();
+								isNewVersion = reader.ReadLine().Split(",".ToCharArray())[12].Length == 16;
+							}
+						}
+						catch (Exception)
+						{
+							isNewVersion = false;
+						}
+
+
+						if (!isNewVersion)
+						{
+							File.Copy(dropPath, backupDirectoryPath + "\\" + drop.FileName);
+
+
+							drop.Load(RecordManager.Instance.MasterPath);
+							foreach (var r in drop.Record)
+								r.EnemyFleetID = 0;
+
+							drop.SaveAll(RecordManager.Instance.MasterPath);
+						}
+						else
+						{
+							Utility.Logger.Add(1, "~2.8.2 レコード変換処理：ドロップレコードは既に新しいフォーマットです。処理をスキップします。");
+						}
+					}
+
+
+					// 何もバックアップしなくてよかった時
+					if (!Directory.EnumerateFiles(backupDirectoryPath).Any())
+						Directory.Delete(backupDirectoryPath);
+
+
+					Utility.Logger.Add(2, "~2.8.2 レコード変換処理：正常に完了しました。");
+
+				}
+				catch (Exception ex)
+				{
+					Utility.ErrorReporter.SendErrorReport(ex, "~2.8.2 レコード変換処理：失敗しました。");
+
+					if (MessageBox.Show($"互換性維持のためのレコード変換処理中にエラーが発生しました。\r\n\r\n{ex.Message}\r\n\r\n再試行しますか？\r\n（「いいえ」を選択した場合、一部の記録データが消失する可能性があります。）",
+						"~2.8.2 レコード変換処理：" + ex.GetType().Name, MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+						== DialogResult.Yes)
+						continue;
+					else
+						break;
+				}
+			} while (false);
+
+
 		}
 
 	}

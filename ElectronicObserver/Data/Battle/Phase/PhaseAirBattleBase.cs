@@ -39,7 +39,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 				{
 
 					// 航空戦は miss/hit=0, critical=1 のため +1 する(通常は miss=0, hit=1, critical=2) 
-					BattleDetails.Add(new BattleAirDetail(_battleData, waveIndex, i, Damages[i], Criticals[i] + 1, attackType, hps[i]));
+					BattleDetails.Add(new BattleAirDetail(Battle, waveIndex, new BattleIndex(i, IsFriendCombined, IsEnemyCombined), Damages[i], Criticals[i] + 1, attackType, hps[i]));
 					AddDamage(hps, i, (int)Damages[i]);
 				}
 			}
@@ -87,9 +87,14 @@ namespace ElectronicObserver.Data.Battle.Phase
 				return new int[0];
 
 			var planes = (dynamic[])data;
-			if (planes.Length > index)
+			if (index < planes.Length)
 			{
-				return ((int[])planes[index]).Where(i => i > 0).Select(i => i - 1).ToArray();
+				var plane = (int[])planes[index];
+
+				if (plane == null)
+					return new int[0];
+
+				return plane.Where(i => i > 0).Select(i => i - 1).ToArray();
 			}
 
 			return new int[0];
@@ -186,8 +191,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 			{
 				int index = AACutInIndex;
 				return index < 6 ?
-					_battleData.Initial.FriendFleet.MembersInstance[index] :
-					_battleData.Initial.FriendFleetEscort.MembersInstance[index - 6];
+					Battle.Initial.FriendFleet.MembersInstance[index] :
+					Battle.Initial.FriendFleetEscort.MembersInstance[index - 6];
 			}
 		}
 
@@ -214,39 +219,30 @@ namespace ElectronicObserver.Data.Battle.Phase
 		{
 
 			T[] ret = new T[24];
-			Func<T, T> toPositive = (a) => a.CompareTo(default(T)) >= 0 ? a : default(T);       // => Math.Max( a, 0 );
 
+			if (IsStage3Available)
+			{
+				T[] friend = AirBattleData.api_stage3.IsDefined(friendName) ? (T[])AirBattleData.api_stage3[friendName] ?? new T[0] : new T[0];
+				T[] enemy = AirBattleData.api_stage3.IsDefined(enemyName) ? (T[])AirBattleData.api_stage3[enemyName] ?? new T[0] : new T[0];
+
+				Array.Copy(friend, 0, ret, 0, friend.Length);
+				Array.Copy(enemy, 0, ret, 12, enemy.Length);
+			}
 			if (IsStage3CombinedAvailable)
 			{
+				T[] friend = AirBattleData.api_stage3_combined.IsDefined(friendName) ? (T[])AirBattleData.api_stage3_combined[friendName] ?? new T[0] : new T[0];
+				T[] enemy = AirBattleData.api_stage3_combined.IsDefined(enemyName) ? (T[])AirBattleData.api_stage3_combined[enemyName] ?? new T[0] : new T[0];
 
-				T[] friend = AirBattleData.api_stage3.IsDefined(friendName) ? (T[])AirBattleData.api_stage3[friendName] : new T[7];
-				T[] enemy = AirBattleData.api_stage3.IsDefined(enemyName) ? (T[])AirBattleData.api_stage3[enemyName] : new T[7];
-				T[] friendescort = AirBattleData.api_stage3_combined.IsDefined(friendName) ? (T[])AirBattleData.api_stage3_combined[friendName] : new T[7];
-				T[] enemyescort = AirBattleData.api_stage3_combined.IsDefined(enemyName) ? (T[])AirBattleData.api_stage3_combined[enemyName] : new T[7];
-
-				for (int i = 0; i < 6; i++)
-				{
-					ret[i] = toPositive(friend[i + 1]);
-					ret[i + 6] = toPositive(enemy[i + 1]);
-					ret[i + 12] = toPositive(friendescort[i + 1]);
-					ret[i + 18] = toPositive(enemyescort[i + 1]);
-				}
-
+				Array.Copy(friend, 0, ret, 6, friend.Length);
+				Array.Copy(enemy, 0, ret, 18, enemy.Length);
 			}
-			else if (IsStage3Available)
+
+			for (int i = 0; i < ret.Length; i++)
 			{
-				T[] friend = AirBattleData.api_stage3.IsDefined(friendName) ? (T[])AirBattleData.api_stage3[friendName] : new T[7];
-				T[] enemy = AirBattleData.api_stage3.IsDefined(enemyName) ? (T[])AirBattleData.api_stage3[enemyName] : new T[7];
-
-				for (int i = 0; i < 6; i++)
-				{
-					ret[i] = toPositive(friend[i + 1]);
-					ret[i + 6] = toPositive(enemy[i + 1]);
-					ret[i + 12] = ret[i + 18] = default(T);
-				}
-
+				// Max( ret[i], 0 )
+				if (ret[i].CompareTo(default(T)) < 0)
+					ret[i] = default(T);
 			}
-
 			return ret;
 		}
 

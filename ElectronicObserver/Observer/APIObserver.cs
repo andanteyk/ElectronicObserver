@@ -114,6 +114,9 @@ namespace ElectronicObserver.Observer
 				new kcsapi.api_req_combined_battle.each_battle(),
 				new kcsapi.api_req_combined_battle.each_battle_water(),
 				new kcsapi.api_get_member.sortie_conditions(),
+				new kcsapi.api_req_sortie.night_to_day(),
+				new kcsapi.api_req_combined_battle.ec_night_to_day(),
+				new kcsapi.api_req_sortie.goback_port(),
 
 				new kcsapi.api_req_quest.clearitemget(),
 				new kcsapi.api_req_nyukyo.start(),

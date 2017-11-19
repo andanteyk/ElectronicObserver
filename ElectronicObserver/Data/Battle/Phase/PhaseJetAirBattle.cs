@@ -58,16 +58,16 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			var firepower = new int[12];
 			var launchedIndex = LaunchedShipIndexFriend;
-			var members = _battleData.Initial.FriendFleet.MembersWithoutEscaped;
+			var members = Battle.Initial.FriendFleet.MembersWithoutEscaped;
 
 			foreach (int i in launchedIndex)
 			{
 
 				ShipData ship;
 				if (i < 6)
-					ship = _battleData.Initial.FriendFleet.MembersWithoutEscaped[i];
+					ship = Battle.Initial.FriendFleet.MembersWithoutEscaped[i];
 				else
-					ship = _battleData.Initial.FriendFleetEscort.MembersWithoutEscaped[i - 6];
+					ship = Battle.Initial.FriendFleetEscort.MembersWithoutEscaped[i - 6];
 
 				if (ship == null)
 					continue;
@@ -95,11 +95,11 @@ namespace ElectronicObserver.Data.Battle.Phase
 			}
 
 			int totalFirepower = firepower.Sum();
-			int totalDamage = Damages.Select(dmg => (int)dmg).Skip(6).Take(6).Sum() + damages.Skip(18).Take(6).Sum();
+			int totalDamage = Damages.Select(dmg => (int)dmg).Skip(12).Take(12).Sum();
 
 			for (int i = 0; i < firepower.Length; i++)
 			{
-				damages[(i < 6 ? i : (i + 6))] += (int)Math.Round((double)totalDamage * firepower[i] / Math.Max(totalFirepower, 1));
+				damages[i] += (int)Math.Round((double)totalDamage * firepower[i] / Math.Max(totalFirepower, 1));
 			}
 		}
 

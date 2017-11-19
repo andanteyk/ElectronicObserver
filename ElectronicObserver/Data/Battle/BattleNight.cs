@@ -15,6 +15,6 @@ namespace ElectronicObserver.Data.Battle
 	{
 
 		public PhaseNightBattle NightBattle { get; protected set; }
-
+		
 	}
 }

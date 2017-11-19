@@ -9,7 +9,7 @@ namespace ElectronicObserver.Data.Battle
 {
 
 	/// <summary>
-	/// 通常艦隊昼戦
+	/// 通常艦隊 vs 通常艦隊 昼戦
 	/// </summary>
 	public class BattleNormalDay : BattleDay
 	{
@@ -41,7 +41,7 @@ namespace ElectronicObserver.Data.Battle
 
 		public override string BattleName => "通常艦隊 昼戦";
 
-		public override BattleData.BattleTypeFlag BattleType => BattleTypeFlag.Day;
+		public override BattleTypeFlag BattleType => BattleTypeFlag.Day;
 
 
 		public override IEnumerable<PhaseBase> GetPhases()

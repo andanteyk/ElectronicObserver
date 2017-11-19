@@ -14,51 +14,47 @@ namespace ElectronicObserver.Data.Battle.Phase
 	public class PhaseSupport : PhaseBase
 	{
 
+		public readonly bool IsNight;
 
-		public PhaseSupport(BattleData data, string title)
+		public PhaseSupport(BattleData data, string title, bool isNight = false)
 			: base(data, title)
 		{
+			IsNight = isNight;
 
 			switch (SupportFlag)
 			{
 				case 1:     // 空撃
+				case 4:     // 対潜
 					{
-						if ((int)RawData.api_support_info.api_support_airatack.api_stage_flag[2] != 0)
+						if ((int)SupportData.api_support_airatack.api_stage_flag[2] != 0)
 						{
+							// 敵連合でも api_stage3_combined は存在しない？
 
-							// 敵連合でも api_stage3_combined は存在せず、[13] になる
-
-							Damages = ((double[])RawData.api_support_info.api_support_airatack.api_stage3.api_edam).Skip(1).ToArray();
-							Criticals = ((int[])RawData.api_support_info.api_support_airatack.api_stage3.api_ecl_flag).Skip(1).ToArray();
+							Damages = ((double[])SupportData.api_support_airatack.api_stage3.api_edam).ToArray();
+							Criticals = ((int[])SupportData.api_support_airatack.api_stage3.api_ecl_flag).ToArray();
 
 							// 航空戦なので crit フラグが違う
 							for (int i = 0; i < Criticals.Length; i++)
 								Criticals[i]++;
-
 						}
 						else
 						{
-							goto default;
+							Damages = new double[12];
+							Criticals = new int[12];
 						}
 					}
 					break;
 				case 2:     // 砲撃
 				case 3:     // 雷撃
 					{
-						var dmg = ((double[])RawData.api_support_info.api_support_hourai.api_damage).Skip(1);
-						var cl = ((int[])RawData.api_support_info.api_support_hourai.api_cl_list).Skip(1);
+						var dmg = (double[])SupportData.api_support_hourai.api_damage;
+						var cl = (int[])SupportData.api_support_hourai.api_cl_list;
 
-						if (dmg.Count() == 12)
-							Damages = dmg.ToArray();
-						else if (dmg.Count() == 6)
-							Damages = dmg.Concat(Enumerable.Repeat(0.0, 6)).ToArray();
+						Damages = new double[12];
+						Array.Copy(dmg, Damages, dmg.Length);
 
-
-						if (cl.Count() == 12)
-							Criticals = cl.ToArray();
-						else if (cl.Count() == 6)
-							Criticals = cl.Concat(Enumerable.Repeat(0, 6)).ToArray();
-
+						Criticals = new int[12];
+						Array.Copy(cl, Criticals, cl.Length);
 					}
 					break;
 				default:
@@ -76,22 +72,24 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			if (!IsAvailable) return;
 
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < Battle.Initial.EnemyMembers.Length; i++)
 			{
-				if (_battleData.Initial.EnemyMembers[i] > 0)
+				if (Battle.Initial.EnemyMembers[i] > 0)
 				{
-					BattleDetails.Add(new BattleSupportDetail(_battleData, i + 6, Damages[i], Criticals[i], SupportFlag, hps[i + 6]));
-					AddDamage(hps, i + 6, (int)Damages[i]);
+					var index = new BattleIndex(BattleSides.EnemyMain, i);
+					BattleDetails.Add(new BattleSupportDetail(Battle, index, Damages[i], Criticals[i], SupportFlag, hps[index]));
+					AddDamage(hps, index, (int)Damages[i]);
 				}
 			}
-			if ((_battleData.BattleType & BattleData.BattleTypeFlag.EnemyCombined) != 0)
+			if (IsEnemyCombined)
 			{
-				for (int i = 0; i < 6; i++)
+				for (int i = 0; i < Battle.Initial.EnemyMembersEscort[i]; i++)
 				{
-					if (_battleData.Initial.EnemyMembersEscort[i] > 0)
+					if (Battle.Initial.EnemyMembersEscort[i] > 0)
 					{
-						BattleDetails.Add(new BattleSupportDetail(_battleData, i + 18, Damages[i + 6], Criticals[i + 6], SupportFlag, hps[i + 18]));
-						AddDamage(hps, i + 18, (int)Damages[i + 6]);
+						var index = new BattleIndex(BattleSides.EnemyEscort, i);
+						BattleDetails.Add(new BattleSupportDetail(Battle, index, Damages[i + 6], Criticals[i + 6], SupportFlag, hps[index]));
+						AddDamage(hps, index, (int)Damages[i + 6]);
 					}
 				}
 			}
@@ -106,7 +104,18 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 支援艦隊フラグ
 		/// </summary>
-		public int SupportFlag => RawData.api_support_flag() ? (int)RawData.api_support_flag : 0;
+		public int SupportFlag
+		{
+			get
+			{
+				if (IsNight)
+					return RawData.api_n_support_flag() ? (int)RawData.api_n_support_flag : 0;
+				else
+					return RawData.api_support_flag() ? (int)RawData.api_support_flag : 0;
+			}
+		}
+
+		public dynamic SupportData => IsNight ? RawData.api_n_support_info : RawData.api_support_info;
 
 		/// <summary>
 		/// 支援艦隊ID
@@ -115,12 +124,20 @@ namespace ElectronicObserver.Data.Battle.Phase
 		{
 			get
 			{
-				if (SupportFlag == 1)
-					return (int)RawData.api_support_info.api_support_airatack.api_deck_id;
-				else if (SupportFlag == 2 || SupportFlag == 3)
-					return (int)RawData.api_support_info.api_support_hourai.api_deck_id;
-				else
-					return -1;
+				switch (SupportFlag)
+				{
+					case 1:
+					case 4:
+						return (int)SupportData.api_support_airatack.api_deck_id;
+
+					case 2:
+					case 3:
+						return (int)SupportData.api_support_hourai.api_deck_id;
+
+					default:
+						return -1;
+
+				}
 			}
 		}
 

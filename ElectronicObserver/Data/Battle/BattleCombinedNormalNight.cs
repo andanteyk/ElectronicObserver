@@ -10,7 +10,7 @@ namespace ElectronicObserver.Data.Battle
 {
 
 	/// <summary>
-	/// 連合艦隊夜戦
+	/// 連合艦隊 vs 通常艦隊 夜戦
 	/// </summary>
 	public class BattleCombinedNormalNight : BattleNight
 	{
@@ -19,10 +19,12 @@ namespace ElectronicObserver.Data.Battle
 		{
 			base.LoadFromResponse(apiname, (object)data);
 
-			NightBattle = new PhaseNightBattle(this, "夜戦", true);
+			// 支援なし?
+			NightBattle = new PhaseNightBattle(this, "夜戦", 0, true);
 
-			NightBattle.EmulateBattle(_resultHPs, _attackDamages);
 
+			foreach (var phase in GetPhases())
+				phase.EmulateBattle(_resultHPs, _attackDamages);
 		}
 
 

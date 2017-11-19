@@ -109,6 +109,8 @@
     <Compile Include="Data\Battle\BattleData.cs" />
     <Compile Include="Data\Battle\BattleDay.cs" />
     <Compile Include="Data\Battle\BattleAirRaid.cs" />
+    <Compile Include="Data\Battle\BattleDayFromNight.cs" />
+    <Compile Include="Data\Battle\BattleEnemyCombinedDayFromNight.cs" />
     <Compile Include="Data\Battle\Detail\BattleDetail.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedDay.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedNight.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Data\Battle\Phase\PhaseShelling.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSupport.cs" />
     <Compile Include="Data\Battle\Phase\PhaseTorpedo.cs" />
+    <Compile Include="Data\Battle\BattleIndex.cs" />
     <Compile Include="Data\Constants.cs" />
     <Compile Include="Data\DockData.cs" />
     <Compile Include="Data\EquipmentData.cs" />
@@ -206,6 +209,7 @@
     <Compile Include="Observer\kcsapi\api_req_combined_battle\each_battle_water.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_midnight_battle.cs" />
+    <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_night_to_day.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ld_airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\preset_select.cs" />
@@ -220,7 +224,9 @@
     <Compile Include="Observer\kcsapi\api_req_quest\stop.cs" />
     <Compile Include="Observer\kcsapi\api_req_ranking\getlist.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
+    <Compile Include="Observer\kcsapi\api_req_sortie\goback_port.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\ld_airbattle.cs" />
+    <Compile Include="Observer\kcsapi\api_req_sortie\night_to_day.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Resource\SwfHelper.cs" />
     <Compile Include="Utility\Data\RecordHash.cs" />
