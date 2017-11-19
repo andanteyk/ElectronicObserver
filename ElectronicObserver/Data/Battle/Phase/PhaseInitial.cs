@@ -14,13 +14,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 	public class PhaseInitial : PhaseBase
 	{
 
-
-		public override bool IsAvailable => RawData != null;
-
-		public override void EmulateBattle(int[] hps, int[] damages)
-		{
-		}
-
 		/// <summary>
 		/// 自軍艦隊ID
 		/// </summary>
@@ -34,7 +27,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 自軍随伴艦隊
 		/// </summary>
-		public FleetData FriendFleetEscort => IsCombined ? KCDatabase.Instance.Fleet[2] : null;
+		public FleetData FriendFleetEscort => IsFriendCombined ? KCDatabase.Instance.Fleet[2] : null;
 
 
 		/// <summary>
@@ -60,17 +53,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 
 		/// <summary>
-		/// 敵艦隊メンバ [0-5]=主力艦隊 [6-11]=随伴艦隊
-		/// </summary>
-		public int[] AllEnemyMembers { get; private set; }
-
-		/// <summary>
-		/// 敵艦隊メンバ [0-5]=主力艦隊 [6-11]=随伴艦隊
-		/// </summary>
-		public ShipDataMaster[] AllEnemyMembersInstance { get; private set; }
-
-
-		/// <summary>
 		/// 敵艦のレベル
 		/// </summary>
 		public int[] EnemyLevels { get; private set; }
@@ -81,17 +63,16 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public int[] EnemyLevelsEscort { get; private set; }
 
 
-		/// <summary>
-		/// 戦闘開始時のHPリスト
-		/// [0-5]=自軍, [6-11]=敵軍, [12-17]=(連合艦隊時)自軍随伴, [18-23]=(敵連合艦隊時)敵軍随伴
-		/// </summary>
-		public int[] InitialHPs { get; private set; }
+		public int[] FriendInitialHPs { get; private set; }	
+		public int[] FriendInitialHPsEscort { get; private set; }
+		public int[] EnemyInitialHPs { get; private set; }
+		public int[] EnemyInitialHPsEscort { get; private set; }
 
-		/// <summary>
-		/// 最大HPリスト
-		/// [0-5]=自軍, [6-11]=敵軍, [12-17]=(連合艦隊時)随伴, [18-23]=(敵連合艦隊時)敵軍随伴
-		/// </summary>
-		public int[] MaxHPs { get; private set; }
+		public int[] FriendMaxHPs { get; private set; }
+		public int[] FriendMaxHPsEscort { get; private set; }
+		public int[] EnemyMaxHPs { get; private set; }
+		public int[] EnemyMaxHPsEscort { get; private set; }
+
 
 
 		/// <summary>
@@ -140,11 +121,11 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 
 
+		protected static int[] FixedArray(int[] array) => FixedArray(array, MemberCount);
 
 		public PhaseInitial(BattleData data, string title)
 			: base(data, title)
 		{
-
 			{
 				dynamic id = RawData.api_dock_id() ? RawData.api_dock_id :
 					RawData.api_deck_id() ? RawData.api_deck_id : 1;
@@ -153,29 +134,53 @@ namespace ElectronicObserver.Data.Battle.Phase
 			if (FriendFleetID <= 0)
 				FriendFleetID = 1;
 
-			EnemyMembers = ArraySkip((int[])RawData.api_ship_ke);
+
+			int[] GetArrayOrDefault(string objectName) => !RawData.IsDefined(objectName) ? null : FixedArray((int[])RawData[objectName]);
+			int[][] GetArraysOrDefault(string objectName, int bottomLength)
+			{
+				if (!RawData.IsDefined(objectName))
+					return null;
+
+				int[][] ret = new int[MemberCount][];
+				dynamic[] raw = (dynamic[])RawData[objectName];
+				for (int i = 0; i < ret.Length; i++)
+				{
+					if (i < raw.Length)
+						ret[i] = FixedArray((int[])raw[i], bottomLength);
+					else
+						ret[i] = Enumerable.Repeat(-1, bottomLength).ToArray();
+				}
+				return ret;
+			}
+
+			EnemyMembers = GetArrayOrDefault("api_ship_ke");
 			EnemyMembersInstance = EnemyMembers.Select(id => KCDatabase.Instance.MasterShips[id]).ToArray();
 
-			EnemyMembersEscort = !RawData.api_ship_ke_combined() ? null : ArraySkip((int[])RawData.api_ship_ke_combined);
+			EnemyMembersEscort = GetArrayOrDefault("api_ship_ke_combined");
 			EnemyMembersEscortInstance = EnemyMembersEscort?.Select(id => KCDatabase.Instance.MasterShips[id]).ToArray();
 
-			AllEnemyMembers = EnemyMembers.Concat(EnemyMembersEscort ?? Enumerable.Repeat(-1, 6)).ToArray();
-			AllEnemyMembersInstance = EnemyMembersInstance.Concat(EnemyMembersEscortInstance ?? Enumerable.Repeat<ShipDataMaster>(null, 6)).ToArray();
+			EnemyLevels = GetArrayOrDefault("api_ship_lv");
+			EnemyLevelsEscort = GetArrayOrDefault("api_ship_lv_combined");
 
-			EnemyLevels = ArraySkip((int[])RawData.api_ship_lv);
-			EnemyLevelsEscort = !RawData.api_ship_lv_combined() ? null : ArraySkip((int[])RawData.api_ship_lv_combined);
+			FriendInitialHPs = GetArrayOrDefault("api_f_nowhps");
+			FriendInitialHPsEscort = GetArrayOrDefault("api_f_nowhps_combined");
+			EnemyInitialHPs = GetArrayOrDefault("api_e_nowhps");
+			EnemyInitialHPsEscort = GetArrayOrDefault("api_e_nowhps_combined");
 
-			InitialHPs = GetHPArray((int[])RawData.api_nowhps, !RawData.api_nowhps_combined() ? null : (int[])RawData.api_nowhps_combined);
-			MaxHPs = GetHPArray((int[])RawData.api_maxhps, !RawData.api_maxhps_combined() ? null : (int[])RawData.api_maxhps_combined);
+			FriendMaxHPs = GetArrayOrDefault("api_f_maxhps");
+			FriendMaxHPsEscort = GetArrayOrDefault("api_f_maxhps_combined");
+			EnemyMaxHPs = GetArrayOrDefault("api_e_maxhps");
+			EnemyMaxHPsEscort = GetArrayOrDefault("api_e_maxhps_combined");
 
-			EnemySlots = ((dynamic[])RawData.api_eSlot).Select(d => (int[])d).ToArray();
+
+			EnemySlots = GetArraysOrDefault("api_eSlot", 5);
 			EnemySlotsInstance = EnemySlots.Select(part => part.Select(id => KCDatabase.Instance.MasterEquipments[id]).ToArray()).ToArray();
 
-			EnemySlotsEscort = !RawData.api_eSlot_combined() ? null : ((dynamic[])RawData.api_eSlot_combined).Select(d => (int[])d).ToArray();
+			EnemySlotsEscort = GetArraysOrDefault("api_eSlot_combined", 5);
 			EnemySlotsEscortInstance = EnemySlotsEscort?.Select(part => part.Select(id => KCDatabase.Instance.MasterEquipments[id]).ToArray()).ToArray();
 
-			EnemyParameters = !RawData.api_eParam() ? null : ((dynamic[])RawData.api_eParam).Select(d => (int[])d).ToArray();
-			EnemyParametersEscort = !RawData.api_eParam_combined() ? null : ((dynamic[])RawData.api_eParam_combined).Select(d => (int[])d).ToArray();
+			EnemyParameters = GetArraysOrDefault("api_eParam", 4);
+			EnemyParametersEscort = GetArraysOrDefault("api_eParam_combined", 4);
 
 			{
 				var rations = new List<int>();
@@ -192,23 +197,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
-		private int[] GetHPArray(int[] mainhp, int[] escorthp)
-		{
-			var main = mainhp.Skip(1);
-			var escort = escorthp?.Skip(1);
-
-			// 稀に参加艦が6隻以下だと配列長が短くなることがあるので :(
-			if (main.Count() < 12)
-				main = main.Concat(Enumerable.Repeat(-1, 12 - main.Count()));
-			if (escort != null && escort.Count() < 12)
-				escort = escort.Concat(Enumerable.Repeat(-1, 12 - escort.Count()));
-
-			if (escort != null)
-				return main.Concat(escort).ToArray();
-			else
-				return main.Concat(Enumerable.Repeat(-1, 12)).ToArray();
-		}
-
 
 		/// <summary>
 		/// 2016/11/19 現在、連合艦隊夜戦において味方随伴艦隊が 最大HP = 現在HP となる不具合が存在するため、
@@ -216,7 +204,15 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// </summary>
 		public void TakeOverMaxHPs(BattleData bd)
 		{
-			Array.Copy(bd.Initial.MaxHPs, 12, MaxHPs, 12, 6);
+			Array.Copy(bd.Initial.FriendMaxHPsEscort, FriendMaxHPsEscort, MemberCount);
+		}
+
+
+
+		public override bool IsAvailable => RawData != null;
+
+		public override void EmulateBattle(int[] hps, int[] damages)
+		{
 		}
 
 	}

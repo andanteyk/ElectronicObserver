@@ -9,7 +9,7 @@ namespace ElectronicObserver.Data.Battle
 {
 
 	/// <summary>
-	/// 演習昼戦
+	/// 演習 昼戦
 	/// </summary>
 	public class BattlePracticeDay : BattleDay
 	{

@@ -14,29 +14,32 @@ namespace ElectronicObserver.Data.Battle.Phase
 	public class PhaseShelling : PhaseBase
 	{
 
-		protected readonly int phaseID;
-		protected readonly string suffix;
-		protected readonly bool isEscort;
-		protected readonly bool isEnemyEscort;
+		protected readonly int PhaseID;
+		protected readonly string Suffix;
+		protected readonly bool IsEscort;
+		protected readonly bool IsEnemyEscort;
 
 		public List<PhaseShellingAttack> Attacks { get; private set; }
 
 
 		public class PhaseShellingAttack
 		{
-			public int Attacker;
+			public BattleIndex Attacker;
 			public int AttackType;
 			public List<PhaseShellingDefender> Defenders;
 			public int[] EquipmentIDs;
 
-			public PhaseShellingAttack() { }
+			public PhaseShellingAttack()
+			{
+				Defenders = new List<PhaseShellingDefender>();
+			}
 
 			public override string ToString() => $"{Attacker}[{AttackType}] -> [{string.Join(", ", Defenders)}]";
 
 		}
 		public class PhaseShellingDefender
 		{
-			public int Defender;
+			public BattleIndex Defender;
 			public int CriticalFlag;
 			public double RawDamage;
 			public bool GuardsFlagship => RawDamage != Math.Floor(RawDamage);
@@ -56,23 +59,23 @@ namespace ElectronicObserver.Data.Battle.Phase
 			: base(data, title)
 		{
 
-			this.phaseID = phaseID;
-			this.suffix = suffix;
-			this.isEscort = isEscort;
-			this.isEnemyEscort = isEnemyEscort;
+			PhaseID = phaseID;
+			Suffix = suffix;
+			IsEscort = isEscort;
+			IsEnemyEscort = isEnemyEscort;
 
 			if (!IsAvailable)
 				return;
 
 			// "translate"
 
-			int[] fleetflag = !ShellingData.api_at_eflag() ? null : ((int[])ShellingData.api_at_eflag).Skip(1).ToArray();
-			int[] attackers = ((int[])ShellingData.api_at_list).Skip(1).ToArray();
-			int[] attackTypes = ((int[])ShellingData.api_at_type).Skip(1).ToArray();
-			int[][] defenders = ((dynamic[])ShellingData.api_df_list).Skip(1).Select(elem => (int[])elem).ToArray();
-			int[][] attackEquipments = ((dynamic[])ShellingData.api_si_list).Skip(1).Select(elem => ((dynamic[])elem).Select<dynamic, int>(ch => ch is string ? int.Parse(ch) : (int)ch).ToArray()).ToArray();
-			int[][] criticalFlags = ((dynamic[])ShellingData.api_cl_list).Skip(1).Select(elem => (int[])elem).ToArray();
-			double[][] rawDamages = ((dynamic[])ShellingData.api_damage).Skip(1).Select(elem => ((double[])elem).Select(p => Math.Max(p, 0)).ToArray()).ToArray();
+			int[] fleetflag = (int[])ShellingData.api_at_eflag;
+			int[] attackers = (int[])ShellingData.api_at_list;
+			int[] attackTypes = (int[])ShellingData.api_at_type;
+			int[][] defenders = ((dynamic[])ShellingData.api_df_list).Select(elem => (int[])elem).ToArray();
+			int[][] attackEquipments = ((dynamic[])ShellingData.api_si_list).Select(elem => ((dynamic[])elem).Select<dynamic, int>(ch => ch is string ? int.Parse(ch) : (int)ch).ToArray()).ToArray();
+			int[][] criticalFlags = ((dynamic[])ShellingData.api_cl_list).Select(elem => (int[])elem).ToArray();
+			double[][] rawDamages = ((dynamic[])ShellingData.api_damage).Select(elem => ((double[])elem).Select(p => Math.Max(p, 0)).ToArray()).ToArray();
 
 			Attacks = new List<PhaseShellingAttack>();
 
@@ -80,86 +83,20 @@ namespace ElectronicObserver.Data.Battle.Phase
 			{
 				var attack = new PhaseShellingAttack
 				{
-					Attacker = attackers[i] - 1,
-					Defenders = new List<PhaseShellingDefender>()
+					Attacker = new BattleIndex(fleetflag[i] == 0 ? BattleSides.FriendMain : BattleSides.EnemyMain, attackers[i]),
 				};
 
 
-				if (fleetflag != null)
+				for (int k = 0; k < defenders[i].Length; k++)
 				{
-
-					if (fleetflag[i] == 1)
-					{   // enemy
-						attack.Attacker += 6;
-						if (isEnemyEscort)
-							attack.Attacker += 6;
-
-					}
-					else if (isEscort)
-					{   // friend escort
-						attack.Attacker += 6;
-					}
-
-					for (int k = 0; k < defenders[i].Length; k++)
+					var defender = new PhaseShellingDefender
 					{
+						Defender = new BattleIndex(fleetflag[i] == 0 ? BattleSides.EnemyMain : BattleSides.FriendMain, defenders[i][k]),
+						CriticalFlag = criticalFlags[i][k],
+						RawDamage = rawDamages[i][k],
+					};
 
-						var defender = new PhaseShellingDefender
-						{
-							Defender = defenders[i][k] - 1
-						};
-
-						if (defender.Defender >= 6) // escort
-							defender.Defender += 6;
-						if (fleetflag[i] == 0) // friend -> *enemy*
-							defender.Defender += 6;
-
-						defender.CriticalFlag = criticalFlags[i][k];
-						defender.RawDamage = rawDamages[i][k];
-
-						attack.Defenders.Add(defender);
-					}
-
-				}
-				else if (isEscort)
-				{
-
-					if (attack.Attacker < 6)    // friend
-						attack.Attacker += 12;
-
-					for (int k = 0; k < defenders[i].Length; k++)
-					{
-
-						var defender = new PhaseShellingDefender
-						{
-							Defender = defenders[i][k] - 1
-						};
-
-						if (PhaseBase.IsIndexEnemy(attack.Attacker))    // enemy -> *friend escort*
-							defender.Defender += 12;
-
-						defender.CriticalFlag = criticalFlags[i][k];
-						defender.RawDamage = rawDamages[i][k];
-
-						attack.Defenders.Add(defender);
-					}
-
-				}
-				else
-				{
-
-					for (int k = 0; k < defenders[i].Length; k++)
-					{
-
-						var defender = new PhaseShellingDefender
-						{
-							Defender = defenders[i][k] - 1,
-							CriticalFlag = criticalFlags[i][k],
-							RawDamage = rawDamages[i][k]
-						};
-
-						attack.Defenders.Add(defender);
-					}
-
+					attack.Defenders.Add(defender);
 				}
 
 				attack.AttackType = attackTypes[i];
@@ -171,10 +108,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
-		public override bool IsAvailable => (int)RawData.api_hourai_flag[phaseID - 1] != 0;
+		public override bool IsAvailable => (int)RawData.api_hourai_flag[PhaseID - 1] != 0;
 
 
-		public virtual dynamic ShellingData => RawData["api_hougeki" + suffix];
+		public virtual dynamic ShellingData => RawData["api_hougeki" + Suffix];
 
 
 		public override void EmulateBattle(int[] hps, int[] damages)
@@ -188,7 +125,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 				foreach (var defs in attack.Defenders.GroupBy(d => d.Defender))
 				{
-					BattleDetails.Add(new BattleDayDetail(_battleData, attack.Attacker, defs.Key, defs.Select(d => d.RawDamage).ToArray(), defs.Select(d => d.CriticalFlag).ToArray(), attack.AttackType, attack.EquipmentIDs, hps[defs.Key]));
+					BattleDetails.Add(new BattleDayDetail(Battle, attack.Attacker, defs.Key, defs.Select(d => d.RawDamage).ToArray(), defs.Select(d => d.CriticalFlag).ToArray(), attack.AttackType, attack.EquipmentIDs, hps[defs.Key]));
 					AddDamage(hps, defs.Key, defs.Sum(d => d.Damage));
 				}
 

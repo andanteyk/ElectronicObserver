@@ -10,7 +10,7 @@ namespace ElectronicObserver.Data.Battle
 {
 
 	/// <summary>
-	/// 連合艦隊(機動部隊)昼戦
+	/// 機動部隊 vs 通常艦隊 昼戦
 	/// </summary>
 	public class BattleCombinedNormalDay : BattleDay
 	{

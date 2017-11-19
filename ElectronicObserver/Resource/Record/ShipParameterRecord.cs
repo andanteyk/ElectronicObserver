@@ -527,34 +527,33 @@ namespace ElectronicObserver.Resource.Record
 		{
 			APIObserver ao = APIObserver.Instance;
 
-			ao.APIList["api_start2"].ResponseReceived += GameStart;
+			ao["api_start2"].ResponseReceived += GameStart;
 
-			ao.APIList["api_port/port"].ResponseReceived += ParameterLoaded;
+			ao["api_port/port"].ResponseReceived += ParameterLoaded;
 
-			ao.APIList["api_get_member/picture_book"].ResponseReceived += AlbumOpened;
+			ao["api_get_member/picture_book"].ResponseReceived += AlbumOpened;
 
 			//戦闘系：最初のフェーズのみ要るから夜戦(≠開幕)は不要
-			ao.APIList["api_req_sortie/battle"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_sortie/airbattle"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_combined_battle/each_battle"].ResponseReceived += BattleStart;
-			ao.APIList["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStart;
+			ao["api_req_sortie/battle"].ResponseReceived += BattleStart;
+			ao["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStart;
+			ao["api_req_sortie/airbattle"].ResponseReceived += BattleStart;
+			ao["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/battle"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/battle_water"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/each_battle"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStart;
 
-			ao.APIList["api_req_map/start"].ResponseReceived += SortieStart;
-			//ao.APIList["api_port/port"].ResponseReceived += SortieEnd;
-			ao.APIList["api_get_member/slot_item"].ResponseReceived += SortieEnd;
+			ao["api_req_map/start"].ResponseReceived += SortieStart;
+			ao["api_get_member/slot_item"].ResponseReceived += SortieEnd;
 
-			ao.APIList["api_req_kousyou/getship"].ResponseReceived += ConstructionReceived;
+			ao["api_req_kousyou/getship"].ResponseReceived += ConstructionReceived;
 
-			ao.APIList["api_req_kaisou/remodeling"].RequestReceived += RemodelingStart;
-			ao.APIList["api_get_member/slot_item"].ResponseReceived += RemodelingEnd;
+			ao["api_req_kaisou/remodeling"].RequestReceived += RemodelingStart;
+			ao["api_get_member/slot_item"].ResponseReceived += RemodelingEnd;
 		}
 
 
@@ -915,37 +914,49 @@ namespace ElectronicObserver.Resource.Record
 		private void BattleStart(string apiname, dynamic data)
 		{
 
-			int[] efleet = (int[])data.api_ship_ke;
-			int[] hpMax = (int[])data.api_maxhps;
+			var battle = KCDatabase.Instance.Battle.FirstBattle;
 
-			//[0]はダミー(-1)
-			for (int i = 1; i < efleet.Length; i++)
+
+			void UpdateParams(int id, int maxhp, int[] status, int[] slot)
 			{
-				if (efleet[i] == -1) continue;
-
-				var param = this[efleet[i]];
+				var param = this[id];
 				if (param == null)
 				{
-					param = new ShipParameterElement
-					{
-						ShipID = efleet[i]
-					};
-					Utility.Logger.Add(2, KCDatabase.Instance.MasterShips[param.ShipID].NameWithClass + "のパラメータを記録しました。");
+					param = new ShipParameterElement { ShipID = id };
+					Utility.Logger.Add(2, KCDatabase.Instance.MasterShips[id].NameWithClass + "のパラメータを記録しました。");
 				}
 
-				int[] baseparam = (int[])data.api_eParam[i - 1];
+				param.HPMin = param.HPMax = maxhp;
+				param.FirepowerMin = param.FirepowerMax = status[0];
+				param.TorpedoMin = param.TorpedoMax = status[1];
+				param.AAMin = param.AAMax = status[2];
+				param.ArmorMin = param.ArmorMax = status[3];
 
-				param.HPMin = param.HPMax = hpMax[i + 6];
-				param.FirepowerMin = param.FirepowerMax = baseparam[0];
-				param.TorpedoMin = param.TorpedoMax = baseparam[1];
-				param.AAMin = param.AAMax = baseparam[2];
-				param.ArmorMin = param.ArmorMax = baseparam[3];
-
-				param.DefaultSlot = (int[])data.api_eSlot[i - 1];
+				param.DefaultSlot = slot;
 
 				Update(param);
 			}
 
+			for (int i = 0; i < battle.Initial.EnemyMembers.Length; i++)
+			{
+				int id = battle.Initial.EnemyMembers[i];
+				if (id <= 0)
+					continue;
+
+				UpdateParams(id, battle.Initial.EnemyMaxHPs[i], battle.Initial.EnemyParameters[i], battle.Initial.EnemySlots[i]);
+			}
+
+			if ((battle.BattleType & Data.Battle.BattleData.BattleTypeFlag.EnemyCombined) != 0)
+			{
+				for (int i = 0; i < battle.Initial.EnemyMembersEscort.Length; i++)
+				{
+					int id = battle.Initial.EnemyMembersEscort[i];
+					if (id <= 0)
+						continue;
+
+					UpdateParams(id, battle.Initial.EnemyMaxHPsEscort[i], battle.Initial.EnemyParametersEscort[i], battle.Initial.EnemySlotsEscort[i]);
+				}
+			}
 		}
 
 

@@ -1078,7 +1078,7 @@ namespace ElectronicObserver.Window
 			int[][] slots = bd.Initial.EnemySlots;
 			int[] levels = bd.Initial.EnemyLevels;
 			int[][] parameters = bd.Initial.EnemyParameters;
-			int[] hps = bd.Initial.MaxHPs;
+			int[] hps = bd.Initial.EnemyMaxHPs;
 
 
 			_enemyFleetCandidate = null;
@@ -1117,7 +1117,7 @@ namespace ElectronicObserver.Window
 				ControlMembers[i].Update(shipID, shipID != -1 ? slots[i] : null);
 
 				if (shipID != -1)
-					ControlMembers[i].UpdateEquipmentToolTip(shipID, slots[i], levels[i], hps[i + 6], parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3]);
+					ControlMembers[i].UpdateEquipmentToolTip(shipID, slots[i], levels[i], hps[i], parameters[i][0], parameters[i][1], parameters[i][2], parameters[i][3]);
 			}
 			TableEnemyMember.ResumeLayout();
 			TableEnemyMember.Visible = true;

@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle
 {
-
 	/// <summary>
-	/// 水上部隊 vs 通常艦隊 昼戦
+	/// 通常/連合艦隊 vs 連合艦隊　夜昼戦
 	/// </summary>
-	public class BattleCombinedWater : BattleDay
+	public class BattleEnemyCombinedDayFromNight : BattleDay
 	{
 
 		public override void LoadFromResponse(string apiname, dynamic data)
@@ -21,32 +20,28 @@ namespace ElectronicObserver.Data.Battle
 			JetBaseAirAttack = new PhaseJetBaseAirAttack(this, "噴式基地航空隊攻撃");
 			JetAirBattle = new PhaseJetAirBattle(this, "噴式航空戦");
 			BaseAirAttack = new PhaseBaseAirAttack(this, "基地航空隊攻撃");
-			AirBattle = new PhaseAirBattle(this, "航空戦");
 			Support = new PhaseSupport(this, "支援攻撃");
-			OpeningASW = new PhaseOpeningASW(this, "先制対潜", true);
+			AirBattle = new PhaseAirBattle(this, "航空戦");
+			OpeningASW = new PhaseOpeningASW(this, "先制対潜", false);
 			OpeningTorpedo = new PhaseTorpedo(this, "先制雷撃", 0);
-			Shelling1 = new PhaseShelling(this, "第一次砲撃戦", 1, "1", false);
-			Shelling2 = new PhaseShelling(this, "第二次砲撃戦", 2, "2", false);
-			Shelling3 = new PhaseShelling(this, "第三次砲撃戦", 3, "3", true);
-			Torpedo = new PhaseTorpedo(this, "雷撃戦", 4);
+			Shelling1 = new PhaseShelling(this, "砲撃戦", 1, "1", false);
+			Torpedo = new PhaseTorpedo(this, "雷撃戦", 2);
 
 			foreach (var phase in GetPhases())
 				phase.EmulateBattle(_resultHPs, _attackDamages);
-
 		}
 
+		public override string APIName => "api_req_combined_battle/ec_night_to_day";
 
-		public override string APIName => "api_req_combined_battle/battle_water";
+		public override string BattleName => "対連合艦隊　夜昼戦";
 
-		public override string BattleName => "連合艦隊-水上部隊 昼戦";
 
-		public override BattleData.BattleTypeFlag BattleType => BattleTypeFlag.Day | BattleTypeFlag.Combined;
+		public override BattleTypeFlag BattleType => BattleTypeFlag.Day | BattleTypeFlag.EnemyCombined;
 
 
 		public override IEnumerable<PhaseBase> GetPhases()
 		{
 			yield return Initial;
-			yield return Searching;
 			yield return JetBaseAirAttack;
 			yield return JetAirBattle;
 			yield return BaseAirAttack;
@@ -55,10 +50,7 @@ namespace ElectronicObserver.Data.Battle
 			yield return OpeningASW;
 			yield return OpeningTorpedo;
 			yield return Shelling1;
-			yield return Shelling2;
-			yield return Shelling3;
 			yield return Torpedo;
 		}
 	}
-
 }
