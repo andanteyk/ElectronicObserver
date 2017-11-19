@@ -399,8 +399,8 @@ namespace ElectronicObserver.Observer
 				}
 
 
-				APIList.OnRequestReceived(shortpath, parsedData);
 				RequestReceived(shortpath, parsedData);
+				APIList.OnRequestReceived(shortpath, parsedData);
 
 			}
 			catch (Exception ex)
@@ -444,20 +444,18 @@ namespace ElectronicObserver.Observer
 
 				if (shortpath == "api_get_member/ship2")
 				{
-					APIList.OnResponseReceived(shortpath, json);
 					ResponseReceived(shortpath, json);
-
+					APIList.OnResponseReceived(shortpath, json);
 				}
 				else if (json.IsDefined("api_data"))
 				{
-					APIList.OnResponseReceived(shortpath, json.api_data);
 					ResponseReceived(shortpath, json.api_data);
-
+					APIList.OnResponseReceived(shortpath, json.api_data);
 				}
 				else
 				{
-					APIList.OnResponseReceived(shortpath, null);
 					ResponseReceived(shortpath, null);
+					APIList.OnResponseReceived(shortpath, null);
 				}
 
 			}

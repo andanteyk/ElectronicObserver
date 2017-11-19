@@ -407,30 +407,13 @@ namespace ElectronicObserver.Window
 				}
 			}
 
-			/*
-			return string.Format(
-						"{0} {1}{2}\n耐久: {3}\n火力: {4}/{5}\n雷装: {6}/{7}\n対空: {8}/{9}\n装甲: {10}/{11}\n対潜: {12}/{13}\n回避: {14}/{15}\n索敵: {16}/{17}\n運: {18}/{19}\n射程: {20} / 速力: {21}\n(右クリックで図鑑)\n",
-						ship.ShipTypeName, ship.NameWithClass, level < 1 ? "" : string.Format( " Lv. {0}", level ),
-						hp,
-						firepower_c, firepower,
-						torpedo_c, torpedo,
-						aa_c, aa,
-						armor_c, armor,
-						asw_c == -1 ? "???" : asw_c.ToString(), asw,
-						evasion_c == -1 ? "???" : evasion_c.ToString(), evasion,
-						los_c == -1 ? "???" : los_c.ToString(), los,
-						luck_c, luck,
-						Constants.GetRange( range ),
-						Constants.GetSpeed( ship.Speed )
-						);
-			*/
-
+	
 			var sb = new StringBuilder();
 
-			sb.Append(ship.ShipTypeName).Append(" ").Append(ship.NameWithClass);
+			sb.Append(ship.ShipTypeName).Append(" ").AppendLine(ship.NameWithClass);
 			if (level > 0)
-				sb.Append(" Lv. ").Append(level);
-			sb.AppendLine();
+				sb.Append("Lv. ").Append(level.ToString());
+			sb.Append(" (ID: ").Append(shipID).AppendLine(")");
 
 			sb.Append("耐久: ").Append(hp).AppendLine();
 
