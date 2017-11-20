@@ -404,7 +404,7 @@ namespace ElectronicObserver.Data.Quest
 			for (int i = 0; i < 6; i++)
 			{
 
-				if (hps[i + 6] <= 0)
+				if (hps[Battle.BattleIndex.Get(Battle.BattleSides.EnemyMain, i)] <= 0)
 				{
 					var ship = battle.Initial.EnemyMembersInstance[i];
 					if (ship == null)
@@ -414,7 +414,7 @@ namespace ElectronicObserver.Data.Quest
 						p.Increment(ship.ShipType);
 				}
 
-				if (bm.IsEnemyCombined && hps[i + 18] <= 0)
+				if (bm.IsEnemyCombined && hps[Battle.BattleIndex.Get(Battle.BattleSides.EnemyEscort, i)] <= 0)
 				{
 					var ship = battle.Initial.EnemyMembersEscortInstance[i];
 					if (ship == null)
