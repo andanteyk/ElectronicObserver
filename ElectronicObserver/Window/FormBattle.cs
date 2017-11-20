@@ -110,29 +110,31 @@ namespace ElectronicObserver.Window
 
 			APIObserver o = APIObserver.Instance;
 
-			o.APIList["api_port/port"].ResponseReceived += Updated;
-			o.APIList["api_req_map/start"].ResponseReceived += Updated;
-			o.APIList["api_req_map/next"].ResponseReceived += Updated;
-			o.APIList["api_req_sortie/battle"].ResponseReceived += Updated;
-			o.APIList["api_req_sortie/battleresult"].ResponseReceived += Updated;
-			o.APIList["api_req_battle_midnight/battle"].ResponseReceived += Updated;
-			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += Updated;
-			o.APIList["api_req_sortie/airbattle"].ResponseReceived += Updated;
-			o.APIList["api_req_sortie/ld_airbattle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/battle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/midnight_battle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/ec_battle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/ec_midnight_battle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/each_battle"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/each_battle_water"].ResponseReceived += Updated;
-			o.APIList["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
-			o.APIList["api_req_practice/battle"].ResponseReceived += Updated;
-			o.APIList["api_req_practice/midnight_battle"].ResponseReceived += Updated;
-			o.APIList["api_req_practice/battle_result"].ResponseReceived += Updated;
+			o["api_port/port"].ResponseReceived += Updated;
+			o["api_req_map/start"].ResponseReceived += Updated;
+			o["api_req_map/next"].ResponseReceived += Updated;
+			o["api_req_sortie/battle"].ResponseReceived += Updated;
+			o["api_req_sortie/battleresult"].ResponseReceived += Updated;
+			o["api_req_battle_midnight/battle"].ResponseReceived += Updated;
+			o["api_req_battle_midnight/sp_midnight"].ResponseReceived += Updated;
+			o["api_req_sortie/airbattle"].ResponseReceived += Updated;
+			o["api_req_sortie/ld_airbattle"].ResponseReceived += Updated;
+			o["api_req_sortie/night_to_day"].ResponseReceived += Updated;
+			o["api_req_combined_battle/battle"].ResponseReceived += Updated;
+			o["api_req_combined_battle/midnight_battle"].ResponseReceived += Updated;
+			o["api_req_combined_battle/sp_midnight"].ResponseReceived += Updated;
+			o["api_req_combined_battle/airbattle"].ResponseReceived += Updated;
+			o["api_req_combined_battle/battle_water"].ResponseReceived += Updated;
+			o["api_req_combined_battle/ld_airbattle"].ResponseReceived += Updated;
+			o["api_req_combined_battle/ec_battle"].ResponseReceived += Updated;
+			o["api_req_combined_battle/ec_midnight_battle"].ResponseReceived += Updated;
+			o["api_req_combined_battle/ec_night_to_day"].ResponseReceived += Updated;
+			o["api_req_combined_battle/each_battle"].ResponseReceived += Updated;
+			o["api_req_combined_battle/each_battle_water"].ResponseReceived += Updated;
+			o["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
+			o["api_req_practice/battle"].ResponseReceived += Updated;
+			o["api_req_practice/midnight_battle"].ResponseReceived += Updated;
+			o["api_req_practice/battle_result"].ResponseReceived += Updated;
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
@@ -230,6 +232,28 @@ namespace ElectronicObserver.Window
 					}
 					break;
 
+				case "api_req_sortie/night_to_day":
+					{
+						// 暫定
+						var battle = bm.BattleDay as BattleDayFromNight;
+
+						SetFormation(bm);
+						SetNightBattleEvent(battle.NightBattle1);
+
+						if (battle.NextToDay)
+						{
+							SetSearchingResult(bm.BattleDay);
+							SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
+							SetAerialWarfare(bm.BattleDay.JetAirBattle, bm.BattleDay.AirBattle);
+						}
+
+						SetHPBar(bm.BattleDay);
+						SetDamageRate(bm);
+
+						BaseLayoutPanel.Visible = !hideDuringBattle;
+					}
+					break;
+
 				case "api_req_combined_battle/battle":
 				case "api_req_combined_battle/battle_water":
 				case "api_req_combined_battle/ld_airbattle":
@@ -290,6 +314,27 @@ namespace ElectronicObserver.Window
 					}
 					break;
 
+				case "api_req_combined_battle/ec_night_to_day":
+					{
+						// 暫定
+						var battle = bm.BattleDay as BattleEnemyCombinedDayFromNight;
+
+						SetFormation(bm);
+						SetNightBattleEvent(battle.NightBattle1);
+
+						if (battle.NextToDay)
+						{
+							SetSearchingResult(bm.BattleDay);
+							SetBaseAirAttack(bm.BattleDay.BaseAirAttack);
+							SetAerialWarfare(bm.BattleDay.JetAirBattle, bm.BattleDay.AirBattle);
+						}
+
+						SetHPBar(bm.BattleDay);
+						SetDamageRate(bm);
+
+						BaseLayoutPanel.Visible = !hideDuringBattle;
+					}
+					break;
 
 				case "api_req_sortie/battleresult":
 				case "api_req_combined_battle/battleresult":

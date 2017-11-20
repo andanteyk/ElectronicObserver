@@ -101,6 +101,7 @@ namespace ElectronicObserver.Notifier
 			o["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
 			o["api_req_sortie/airbattle"].ResponseReceived += BattleStarted;
 			o["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStarted;
+			o["api_req_sortie/night_to_day"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
@@ -109,6 +110,7 @@ namespace ElectronicObserver.Notifier
 			o["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/ec_midnight_battle"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/ec_night_to_day"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/each_battle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStarted;
 
@@ -185,66 +187,17 @@ namespace ElectronicObserver.Notifier
 				return;
 
 
-			List<string> list = new List<string>();
+			var list = new List<string>();
 
-			if (bm.StartsFromDayBattle)
-			{
-				if (bm.BattleNight != null)
-				{
-					list.AddRange(GetDamagedShips(bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray()));
-				}
-				else
-				{
-					list.AddRange(GetDamagedShips(bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray()));
-				}
-
-			}
-			else
-			{
-				if (bm.BattleDay != null)
-				{
-					list.AddRange(GetDamagedShips(bm.BattleDay.Initial.FriendFleet, bm.BattleDay.ResultHPs.ToArray()));
-				}
-				else
-				{
-					list.AddRange(GetDamagedShips(bm.BattleNight.Initial.FriendFleet, bm.BattleNight.ResultHPs.ToArray()));
-				}
-
-			}
+			var battle = bm.SecondBattle ?? bm.FirstBattle;
+			list.AddRange(GetDamagedShips(battle.Initial.FriendFleet, battle.ResultHPs.ToArray()));
 
 			if (bm.IsCombinedBattle)
-			{
-				if (bm.StartsFromDayBattle)
-				{
-					if (bm.BattleNight != null)
-					{
-						list.AddRange(GetDamagedShips(KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip(12).ToArray()));
-					}
-					else
-					{
-						list.AddRange(GetDamagedShips(KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip(12).ToArray()));
-					}
-
-				}
-				else
-				{
-					if (bm.BattleDay != null)
-					{
-						list.AddRange(GetDamagedShips(KCDatabase.Instance.Fleet[2], bm.BattleDay.ResultHPs.Skip(12).ToArray()));
-					}
-					else
-					{
-						list.AddRange(GetDamagedShips(KCDatabase.Instance.Fleet[2], bm.BattleNight.ResultHPs.Skip(12).ToArray()));
-					}
-
-				}
-			}
+				list.AddRange(GetDamagedShips(battle.Initial.FriendFleetEscort, battle.ResultHPs.Skip(6).ToArray()));
 
 
 			if (list.Count > 0)
-			{
 				Notify(list.ToArray());
-			}
 
 		}
 
@@ -273,15 +226,12 @@ namespace ElectronicObserver.Notifier
 
 			for (int i = 0; i < fleet.Members.Count; i++)
 			{
-
 				if (i == 0 && !ContainsFlagship) continue;
 
 				ShipData s = fleet.MembersInstance[i];
 
-				if (s != null && !fleet.EscapedShipList.Contains(s.MasterID) &&
-					IsShipDamaged(s, hps[i]))
+				if (s != null && !fleet.EscapedShipList.Contains(s.MasterID) && IsShipDamaged(s, hps[i]))
 				{
-
 					list.AddLast($"{s.NameWithLevel} ({hps[i]}/{s.HPMax})");
 				}
 			}

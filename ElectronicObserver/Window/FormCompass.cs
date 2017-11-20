@@ -612,24 +612,26 @@ namespace ElectronicObserver.Window
 
 			APIObserver o = APIObserver.Instance;
 
-			o.APIList["api_port/port"].ResponseReceived += Updated;
-			o.APIList["api_req_map/start"].ResponseReceived += Updated;
-			o.APIList["api_req_map/next"].ResponseReceived += Updated;
-			o.APIList["api_req_member/get_practice_enemyinfo"].ResponseReceived += Updated;
+			o["api_port/port"].ResponseReceived += Updated;
+			o["api_req_map/start"].ResponseReceived += Updated;
+			o["api_req_map/next"].ResponseReceived += Updated;
+			o["api_req_member/get_practice_enemyinfo"].ResponseReceived += Updated;
 
-			o.APIList["api_req_sortie/battle"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_sortie/airbattle"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_combined_battle/each_battle"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStarted;
-			o.APIList["api_req_practice/battle"].ResponseReceived += BattleStarted;
+			o["api_req_sortie/battle"].ResponseReceived += BattleStarted;
+			o["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStarted;
+			o["api_req_sortie/night_to_day"].ResponseReceived += BattleStarted;
+			o["api_req_sortie/airbattle"].ResponseReceived += BattleStarted;
+			o["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/battle_water"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/each_battle"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/ec_night_to_day"].ResponseReceived += BattleStarted;
+			o["api_req_practice/battle"].ResponseReceived += BattleStarted;
 
 
 			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;

@@ -145,9 +145,11 @@ namespace ElectronicObserver.Utility
 
 			o["api_req_battle_midnight/battle"].ResponseReceived += PlayBattleNight;
 			o["api_req_battle_midnight/sp_midnight"].ResponseReceived += PlayBattleNight;
+			o["api_req_sortie/night_to_day"].ResponseReceived += PlayBattleNight;
 			o["api_req_combined_battle/midnight_battle"].ResponseReceived += PlayBattleNight;
 			o["api_req_combined_battle/sp_midnight"].ResponseReceived += PlayBattleNight;
 			o["api_req_combined_battle/ec_midnight_battle"].ResponseReceived += PlayBattleNight;
+			o["api_req_combined_battle/ec_night_to_day"].ResponseReceived += PlayBattleNight;
 
 			o["api_req_sortie/airbattle"].ResponseReceived += PlayBattleAir;
 			o["api_req_combined_battle/airbattle"].ResponseReceived += PlayBattleAir;
