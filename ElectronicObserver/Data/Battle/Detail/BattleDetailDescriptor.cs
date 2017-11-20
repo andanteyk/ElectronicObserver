@@ -522,8 +522,9 @@ namespace ElectronicObserver.Data.Battle.Detail
 				if (members[i] == null)
 					continue;
 
-				sb.AppendFormat("#{0}: {1} {2} Lv. {3} HP: {4} / {5}",
+				sb.AppendFormat("#{0}: ID:{1} {2} {3} Lv. {4} HP: {5} / {6}",
 					i + 1,
+					members[i].ShipID,
 					members[i].ShipTypeName, members[i].NameWithClass,
 					levels[i],
 					initialHPs[i], maxHPs[i]);
