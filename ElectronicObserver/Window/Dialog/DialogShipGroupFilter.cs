@@ -799,7 +799,8 @@ namespace ElectronicObserver.Window.Dialog
 			Type type = exp.GetLeftOperandType();
 			if (type != null && type != typeof(string) && type.GetInterface("IEnumerable") != null)
 				type = type.GetElementType() ?? type.GetGenericArguments().First();
-
+			if (type.IsEnum)
+				type = type.GetEnumUnderlyingType();
 
 			if (RightOperand_ComboBox.Enabled)
 			{

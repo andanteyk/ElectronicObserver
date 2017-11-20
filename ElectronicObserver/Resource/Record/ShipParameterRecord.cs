@@ -538,12 +538,14 @@ namespace ElectronicObserver.Resource.Record
 			ao["api_req_battle_midnight/sp_midnight"].ResponseReceived += BattleStart;
 			ao["api_req_sortie/airbattle"].ResponseReceived += BattleStart;
 			ao["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStart;
+			ao["api_req_sortie/night_to_day"].ResponseReceived += BattleStart;
 			ao["api_req_combined_battle/battle"].ResponseReceived += BattleStart;
 			ao["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStart;
 			ao["api_req_combined_battle/airbattle"].ResponseReceived += BattleStart;
 			ao["api_req_combined_battle/battle_water"].ResponseReceived += BattleStart;
 			ao["api_req_combined_battle/ld_airbattle"].ResponseReceived += BattleStart;
 			ao["api_req_combined_battle/ec_battle"].ResponseReceived += BattleStart;
+			ao["api_req_combined_battle/ec_night_to_day"].ResponseReceived += BattleStart;
 			ao["api_req_combined_battle/each_battle"].ResponseReceived += BattleStart;
 			ao["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStart;
 

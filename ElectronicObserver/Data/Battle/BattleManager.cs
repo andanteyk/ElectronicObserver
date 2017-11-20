@@ -205,7 +205,6 @@ namespace ElectronicObserver.Data.Battle
 				case "api_req_sortie/night_to_day":
 					BattleMode = BattleModes.NightDay;
 					BattleDay = new BattleDayFromNight();
-					BattleDay.TakeOverParameters(BattleNight);
 					BattleDay.LoadFromResponse(apiname, data);
 					break;
 
@@ -261,8 +260,8 @@ namespace ElectronicObserver.Data.Battle
 					break;
 
 				case "api_req_combined_battle/ec_night_to_day":
+					BattleMode = BattleModes.NightDay | BattleModes.EnemyCombinedFleet;
 					BattleDay = new BattleEnemyCombinedDayFromNight();
-					BattleDay.TakeOverParameters(BattleNight);
 					BattleDay.LoadFromResponse(apiname, data);
 					break;
 
@@ -500,7 +499,7 @@ namespace ElectronicObserver.Data.Battle
 			int enemysunk = 0;
 
 			BattleData activeBattle = SecondBattle ?? FirstBattle;
-
+			var firstInitial = FirstBattle.Initial;
 
 			var friend = activeBattle.Initial.FriendFleet.MembersWithoutEscaped;
 			var friendescort = activeBattle.Initial.FriendFleetEscort?.MembersWithoutEscaped;
@@ -509,9 +508,9 @@ namespace ElectronicObserver.Data.Battle
 
 
 
-			for (int i = 0; i < activeBattle.Initial.FriendInitialHPs.Length; i++)
+			for (int i = 0; i < firstInitial.FriendInitialHPs.Length; i++)
 			{
-				int initial = activeBattle.Initial.FriendInitialHPs[i];
+				int initial = firstInitial.FriendInitialHPs[i];
 				if (initial < 0)
 					continue;
 
@@ -521,15 +520,15 @@ namespace ElectronicObserver.Data.Battle
 				friendafter += Math.Max(result, 0);
 				friendcount++;
 
-				if (result < 0)
+				if (result <= 0)
 					friendsunk++;
 			}
 
-			if (IsCombinedBattle)
+			if (firstInitial.FriendInitialHPsEscort != null)
 			{
-				for (int i = 0; i < activeBattle.Initial.FriendInitialHPsEscort.Length; i++)
+				for (int i = 0; i < firstInitial.FriendInitialHPsEscort.Length; i++)
 				{
-					int initial = activeBattle.Initial.FriendInitialHPsEscort[i];
+					int initial = firstInitial.FriendInitialHPsEscort[i];
 					if (initial < 0)
 						continue;
 
@@ -539,14 +538,14 @@ namespace ElectronicObserver.Data.Battle
 					friendafter += Math.Max(result, 0);
 					friendcount++;
 
-					if (result < 0)
+					if (result <= 0)
 						friendsunk++;
 				}
 			}
 
-			for (int i = 0; i < activeBattle.Initial.EnemyInitialHPs.Length; i++)
+			for (int i = 0; i < firstInitial.EnemyInitialHPs.Length; i++)
 			{
-				int initial = activeBattle.Initial.EnemyInitialHPs[i];
+				int initial = firstInitial.EnemyInitialHPs[i];
 				if (initial < 0)
 					continue;
 
@@ -556,15 +555,15 @@ namespace ElectronicObserver.Data.Battle
 				enemyafter += Math.Max(result, 0);
 				enemycount++;
 
-				if (result < 0)
+				if (result <= 0)
 					enemysunk++;
 			}
 
-			if (IsEnemyCombined)
+			if (firstInitial.EnemyInitialHPsEscort != null)
 			{
-				for (int i = 0; i < activeBattle.Initial.EnemyInitialHPsEscort.Length; i++)
+				for (int i = 0; i < firstInitial.EnemyInitialHPsEscort.Length; i++)
 				{
-					int initial = activeBattle.Initial.EnemyInitialHPsEscort[i];
+					int initial = firstInitial.EnemyInitialHPsEscort[i];
 					if (initial < 0)
 						continue;
 
@@ -574,7 +573,7 @@ namespace ElectronicObserver.Data.Battle
 					enemyafter += Math.Max(result, 0);
 					enemycount++;
 
-					if (result < 0)
+					if (result <= 0)
 						enemysunk++;
 				}
 
@@ -588,9 +587,8 @@ namespace ElectronicObserver.Data.Battle
 			if ((BattleMode & BattleModes.BattlePhaseMask) == BattleModes.AirRaid)
 				return GetWinRankAirRaid(friendcount, friendsunk, friendrate);
 			else
-				return GetWinRank(friendcount, enemycount, friendsunk, enemysunk, friendrate, enemyrate, 
-					friend[0].HPRate <= 0.25, resultHPs[BattleIndex.Get(BattleSides.EnemyMain, 0)] <= 0);
-
+				return GetWinRank(friendcount, enemycount, friendsunk, enemysunk, friendrate, enemyrate,
+					friend[0].HPRate <= 0.25, resultHPs[BattleIndex.EnemyMain1] <= 0);
 
 		}
 

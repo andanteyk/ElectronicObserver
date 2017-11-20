@@ -1108,7 +1108,7 @@ api_get_member/deck		：艦隊情報 個数はそのまま保有艦隊数と同�
 	api_name_id			：
 	api_mission			：遠征状況	[0]={0=未出撃, 1=遠征中, 2=遠征帰投, 3=強制帰投中}, [1]=遠征先ID, [2]=帰投時間, [3]=0
 	api_flagship		：
-	api_ship			：所属艦船ID　空きは-1
+	api_ship			：所属艦船ID　基本的には[6] ('17 秋イベントでは第三艦隊のみ[7]) 空きは-1
 
 
 Request.api_req_hensei/change		：艦隊編成変更

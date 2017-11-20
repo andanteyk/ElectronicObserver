@@ -208,6 +208,7 @@ namespace ElectronicObserver.Resource
 			ArmyInterceptor,
 			NightFighter,
 			NightAttacker,
+			LandASPatrol,
 			Locked,
 			Unknown,
 		}
@@ -444,6 +445,7 @@ namespace ElectronicObserver.Resource
 				LoadImageFromArchive(Equipments, archive, mstpath + @"Equipment/ArmyInterceptor.png", "Equipment_ArmyInterceptor");
 				LoadImageFromArchive(Equipments, archive, mstpath + @"Equipment/NightFighter.png", "Equipment_NightFighter");
 				LoadImageFromArchive(Equipments, archive, mstpath + @"Equipment/NightAttacker.png", "Equipment_NightAttacker");
+				LoadImageFromArchive(Equipments, archive, mstpath + @"Equipment/LandASPatrol.png", "Equipment_LandASPatrol");
 				LoadImageFromArchive(Equipments, archive, mstpath + @"Equipment/Locked.png", "Equipment_Locked");
 				LoadImageFromArchive(Equipments, archive, mstpath + @"Equipment/Unknown.png", "Equipment_Unknown");
 

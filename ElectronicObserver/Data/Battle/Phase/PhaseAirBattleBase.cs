@@ -220,29 +220,39 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			T[] ret = new T[24];
 
+			void SetArray(string stage3Name, string sideName, int retIndex)
+			{
+				if (!AirBattleData[stage3Name].IsDefined(sideName))
+					return;
+
+				var ar = (dynamic[])AirBattleData[stage3Name][sideName];
+				if (ar == null)
+					return;
+
+				for (int i = 0; i < ar.Length; i++)
+				{
+					var value = (T?)ar[i] ?? default(T);
+					
+					// Max(value, 0)
+					if (value.CompareTo(default(T)) < 0)
+						value = default(T);
+
+					ret[retIndex + i] = value;
+				}
+			}
+
+
 			if (IsStage3Available)
 			{
-				T[] friend = AirBattleData.api_stage3.IsDefined(friendName) ? (T[])AirBattleData.api_stage3[friendName] ?? new T[0] : new T[0];
-				T[] enemy = AirBattleData.api_stage3.IsDefined(enemyName) ? (T[])AirBattleData.api_stage3[enemyName] ?? new T[0] : new T[0];
-
-				Array.Copy(friend, 0, ret, 0, friend.Length);
-				Array.Copy(enemy, 0, ret, 12, enemy.Length);
+				SetArray("api_stage3", friendName, 0);
+				SetArray("api_stage3", enemyName, 12);
 			}
 			if (IsStage3CombinedAvailable)
 			{
-				T[] friend = AirBattleData.api_stage3_combined.IsDefined(friendName) ? (T[])AirBattleData.api_stage3_combined[friendName] ?? new T[0] : new T[0];
-				T[] enemy = AirBattleData.api_stage3_combined.IsDefined(enemyName) ? (T[])AirBattleData.api_stage3_combined[enemyName] ?? new T[0] : new T[0];
-
-				Array.Copy(friend, 0, ret, 6, friend.Length);
-				Array.Copy(enemy, 0, ret, 18, enemy.Length);
+				SetArray("api_stage3_combined", friendName, 6);
+				SetArray("api_stage3_combined", enemyName, 18);
 			}
 
-			for (int i = 0; i < ret.Length; i++)
-			{
-				// Max( ret[i], 0 )
-				if (ret[i].CompareTo(default(T)) < 0)
-					ret[i] = default(T);
-			}
 			return ret;
 		}
 

@@ -64,12 +64,12 @@ namespace ElectronicObserver.Data.Battle
 		{
 			get
 			{
-				int[] ret = new int[6];
-				if (RawData.api_get_ship_exp())
-				{
-					var src = (int[])RawData.api_get_ship_exp;
-					Array.Copy(src, 1, ret, 0, src.Length - 1);
-				}
+				if (!RawData.api_get_ship_exp())
+					return new int[6];
+
+				var src = (int[])RawData.api_get_ship_exp;
+				var ret = new int[Math.Max(src.Length - 1, 6)];
+				Array.Copy(src, 1, ret, 0, src.Length - 1);
 				return ret;
 			}
 		}
@@ -82,12 +82,12 @@ namespace ElectronicObserver.Data.Battle
 		{
 			get
 			{
-				int[] ret = new int[6];
-				if (RawData.api_get_ship_exp_combined())
-				{
-					var src = (int[])RawData.api_get_ship_exp_combined;
-					Array.Copy(src, 1, ret, 0, src.Length - 1);
-				}
+				if (!RawData.api_get_ship_exp_combined())
+					return new int[6];
+
+				var src = (int[])RawData.api_get_ship_exp_combined;
+				var ret = new int[Math.Max(src.Length - 1, 6)];
+				Array.Copy(src, 1, ret, 0, src.Length - 1);
 				return ret;
 			}
 		}
