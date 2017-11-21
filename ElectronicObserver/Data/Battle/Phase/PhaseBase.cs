@@ -54,9 +54,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 			// 自軍艦の撃沈が発生した場合(ダメコン処理)
 			if (hps[index] <= 0 && IsIndexFriend(index) && !IsPractice)
 			{
-				ShipData ship = KCDatabase.Instance.Fleet[index < 6 ? Battle.Initial.FriendFleetID : 2].MembersInstance[index % 6];
+				var ship = Battle.Initial.GetFriendShip(index);
 				if (ship == null)
 					return;
+
 
 				//補強スロットが最優先
 				if (ship.ExpansionSlotMaster == 42)

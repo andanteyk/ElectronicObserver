@@ -185,16 +185,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// <summary>
 		/// 対空カットイン発動艦
 		/// </summary>
-		public ShipData AACutInShip
-		{
-			get
-			{
-				int index = AACutInIndex;
-				return index < 6 ?
-					Battle.Initial.FriendFleet.MembersInstance[index] :
-					Battle.Initial.FriendFleetEscort.MembersInstance[index - 6];
-			}
-		}
+		public ShipData AACutInShip => Battle.Initial.GetFriendShip(AACutInIndex);
 
 		/// <summary>
 		/// 対空カットイン種別
@@ -232,7 +223,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 				for (int i = 0; i < ar.Length; i++)
 				{
 					var value = (T?)ar[i] ?? default(T);
-					
+
 					// Max(value, 0)
 					if (value.CompareTo(default(T)) < 0)
 						value = default(T);

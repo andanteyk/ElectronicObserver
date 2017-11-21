@@ -63,12 +63,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			foreach (int i in launchedIndex)
 			{
 
-				ShipData ship;
-				if (i < 6)
-					ship = Battle.Initial.FriendFleet.MembersWithoutEscaped[i];
-				else
-					ship = Battle.Initial.FriendFleetEscort.MembersWithoutEscaped[i - 6];
-
+				ShipData ship = Battle.Initial.GetFriendShip(i);
 				if (ship == null)
 					continue;
 

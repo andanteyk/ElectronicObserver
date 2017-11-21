@@ -81,9 +81,9 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			for (int i = 0; i < attackers.Length; i++)
 			{
-				var attack = new PhaseShellingAttack
+				var attack = new PhaseShellingAttack()
 				{
-					Attacker = new BattleIndex(fleetflag[i] == 0 ? BattleSides.FriendMain : BattleSides.EnemyMain, attackers[i]),
+					Attacker = new BattleIndex(attackers[i] + (fleetflag[i] == 0 ? 0 : 12), IsFriendCombined, IsEnemyCombined),
 				};
 
 
@@ -91,7 +91,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 				{
 					var defender = new PhaseShellingDefender
 					{
-						Defender = new BattleIndex(fleetflag[i] == 0 ? BattleSides.EnemyMain : BattleSides.FriendMain, defenders[i][k]),
+						Defender = new BattleIndex(defenders[i][k] + (fleetflag[i] == 0 ? 12 : 0), IsFriendCombined, IsEnemyCombined),
 						CriticalFlag = criticalFlags[i][k],
 						RawDamage = rawDamages[i][k],
 					};

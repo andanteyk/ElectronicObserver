@@ -146,11 +146,11 @@
 			// 
 			// GroupOutputPath
 			// 
-			this.GroupOutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.GroupOutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.GroupOutputPath.Controls.Add(this.SearchOutputPath);
 			this.GroupOutputPath.Controls.Add(this.OutputPath);
-			this.GroupOutputPath.Location = new System.Drawing.Point(8, 273);
+			this.GroupOutputPath.Location = new System.Drawing.Point(8, 271);
 			this.GroupOutputPath.Name = "GroupOutputPath";
 			this.GroupOutputPath.Size = new System.Drawing.Size(440, 57);
 			this.GroupOutputPath.TabIndex = 10;
@@ -171,8 +171,8 @@
 			// 
 			// OutputPath
 			// 
-			this.OutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.OutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.OutputPath.Location = new System.Drawing.Point(6, 22);
 			this.OutputPath.Name = "OutputPath";
 			this.OutputPath.Size = new System.Drawing.Size(382, 23);
@@ -182,16 +182,16 @@
 			// 
 			// groupBox7
 			// 
-			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox7.Controls.Add(this.label2);
 			this.groupBox7.Controls.Add(this.Title);
 			this.groupBox7.Controls.Add(this.label3);
 			this.groupBox7.Controls.Add(this.Comment);
 			this.groupBox7.Location = new System.Drawing.Point(8, 127);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(440, 140);
+			this.groupBox7.Size = new System.Drawing.Size(440, 138);
 			this.groupBox7.TabIndex = 9;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "自由入力欄";
@@ -207,8 +207,8 @@
 			// 
 			// Title
 			// 
-			this.Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.Title.Location = new System.Drawing.Point(66, 22);
 			this.Title.Name = "Title";
 			this.Title.Size = new System.Drawing.Size(368, 23);
@@ -228,15 +228,15 @@
 			// 
 			this.Comment.AcceptsReturn = true;
 			this.Comment.AcceptsTab = true;
-			this.Comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.Comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.Comment.Location = new System.Drawing.Point(6, 66);
 			this.Comment.MaxLength = 0;
 			this.Comment.Multiline = true;
 			this.Comment.Name = "Comment";
 			this.Comment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.Comment.Size = new System.Drawing.Size(428, 68);
+			this.Comment.Size = new System.Drawing.Size(428, 66);
 			this.Comment.TabIndex = 6;
 			this.Comment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Comment_KeyDown);
 			// 
@@ -245,7 +245,7 @@
 			this.ButtonAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.ButtonAlert.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
 			this.ButtonAlert.ForeColor = System.Drawing.Color.Red;
-			this.ButtonAlert.Location = new System.Drawing.Point(6, 336);
+			this.ButtonAlert.Location = new System.Drawing.Point(6, 334);
 			this.ButtonAlert.Name = "ButtonAlert";
 			this.ButtonAlert.Size = new System.Drawing.Size(278, 23);
 			this.ButtonAlert.TabIndex = 8;
@@ -255,8 +255,8 @@
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox3.Controls.Add(this.ImageTypeBaseAirCorps);
 			this.groupBox3.Controls.Add(this.ImageTypeBanner);
 			this.groupBox3.Controls.Add(this.ImageTypeCutin);
@@ -317,7 +317,7 @@
 			// 
 			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.ButtonCancel.Location = new System.Drawing.Point(373, 336);
+			this.ButtonCancel.Location = new System.Drawing.Point(373, 334);
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this.ButtonCancel.TabIndex = 0;
@@ -328,7 +328,7 @@
 			// ButtonOK
 			// 
 			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonOK.Location = new System.Drawing.Point(292, 336);
+			this.ButtonOK.Location = new System.Drawing.Point(292, 334);
 			this.ButtonOK.Name = "ButtonOK";
 			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
 			this.ButtonOK.TabIndex = 7;
@@ -338,8 +338,8 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.TargetFleet4);
 			this.groupBox1.Controls.Add(this.TargetFleet3);
 			this.groupBox1.Controls.Add(this.TargetFleet2);
@@ -410,8 +410,8 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox2.Controls.Add(this.SyncronizeTitleAndFileName);
 			this.groupBox2.Controls.Add(this.AutoSetFileNameToDate);
 			this.groupBox2.Controls.Add(this.OutputToClipboard);
@@ -484,8 +484,8 @@
 			// 
 			// groupBox5
 			// 
-			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox5.Controls.Add(this.ClearBackgroundPath);
 			this.groupBox5.Controls.Add(this.SearchBackgroundImagePath);
 			this.groupBox5.Controls.Add(this.BackgroundImagePath);
@@ -522,8 +522,8 @@
 			// 
 			// BackgroundImagePath
 			// 
-			this.BackgroundImagePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.BackgroundImagePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.BackgroundImagePath.Location = new System.Drawing.Point(6, 22);
 			this.BackgroundImagePath.Name = "BackgroundImagePath";
 			this.BackgroundImagePath.Size = new System.Drawing.Size(336, 23);
@@ -532,8 +532,8 @@
 			// 
 			// groupBox4
 			// 
-			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox4.Controls.Add(this.AvoidTwitterDeterioration);
 			this.groupBox4.Controls.Add(this.ReflectDamageGraphic);
 			this.groupBox4.Controls.Add(this.label5);
@@ -556,7 +556,7 @@
 			this.AvoidTwitterDeterioration.TabIndex = 5;
 			this.AvoidTwitterDeterioration.Text = "Twitter の画像圧縮を回避する";
 			this.ToolTipInfo.SetToolTip(this.AvoidTwitterDeterioration, "Twitter に PNG 形式の画像をアップロードすると、自動的に JPEG 形式に変換され画質が劣化します。\r\nそれを回避するための情報を埋め込むかを指定しま" +
-		"す。");
+        "す。");
 			this.AvoidTwitterDeterioration.UseVisualStyleBackColor = true;
 			// 
 			// ReflectDamageGraphic
@@ -583,49 +583,49 @@
 			// 
 			this.HorizontalShipCount.Location = new System.Drawing.Point(89, 51);
 			this.HorizontalShipCount.Maximum = new decimal(new int[] {
-			6,
-			0,
-			0,
-			0});
+            7,
+            0,
+            0,
+            0});
 			this.HorizontalShipCount.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			this.HorizontalShipCount.Name = "HorizontalShipCount";
 			this.HorizontalShipCount.Size = new System.Drawing.Size(60, 23);
 			this.HorizontalShipCount.TabIndex = 3;
 			this.HorizontalShipCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.ToolTipInfo.SetToolTip(this.HorizontalShipCount, "艦船を横に並べる個数を指定します。\r\nこれ以上の数の艦船を出力したとき、改行されます。\r\n");
 			this.HorizontalShipCount.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			// 
 			// HorizontalFleetCount
 			// 
 			this.HorizontalFleetCount.Location = new System.Drawing.Point(89, 22);
 			this.HorizontalFleetCount.Maximum = new decimal(new int[] {
-			4,
-			0,
-			0,
-			0});
+            4,
+            0,
+            0,
+            0});
 			this.HorizontalFleetCount.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			this.HorizontalFleetCount.Name = "HorizontalFleetCount";
 			this.HorizontalFleetCount.Size = new System.Drawing.Size(60, 23);
 			this.HorizontalFleetCount.TabIndex = 1;
 			this.HorizontalFleetCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.ToolTipInfo.SetToolTip(this.HorizontalFleetCount, "艦隊を横に並べる個数を指定します。\r\nこれ以上の数の艦隊を出力したとき、改行されます。\r\n");
 			this.HorizontalFleetCount.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			// 
 			// label4
 			// 
@@ -649,9 +649,9 @@
 			// 
 			// groupBox6
 			// 
-			this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox6.Controls.Add(this.ButtonClearFont);
 			this.groupBox6.Controls.Add(this.ApplyGeneralFont);
 			this.groupBox6.Controls.Add(this.label12);
@@ -677,7 +677,7 @@
 			this.groupBox6.Controls.Add(this.TextGeneralFont);
 			this.groupBox6.Location = new System.Drawing.Point(6, 6);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(442, 343);
+			this.groupBox6.Size = new System.Drawing.Size(442, 341);
 			this.groupBox6.TabIndex = 0;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "フォント";
@@ -727,8 +727,8 @@
 			// 
 			// TextSmallDigitFont
 			// 
-			this.TextSmallDigitFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextSmallDigitFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextSmallDigitFont.Location = new System.Drawing.Point(100, 196);
 			this.TextSmallDigitFont.Name = "TextSmallDigitFont";
 			this.TextSmallDigitFont.Size = new System.Drawing.Size(290, 23);
@@ -757,8 +757,8 @@
 			// 
 			// TextMediumDigitFont
 			// 
-			this.TextMediumDigitFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextMediumDigitFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextMediumDigitFont.Location = new System.Drawing.Point(100, 167);
 			this.TextMediumDigitFont.Name = "TextMediumDigitFont";
 			this.TextMediumDigitFont.Size = new System.Drawing.Size(290, 23);
@@ -787,8 +787,8 @@
 			// 
 			// TextSmallFont
 			// 
-			this.TextSmallFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextSmallFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextSmallFont.Location = new System.Drawing.Point(100, 138);
 			this.TextSmallFont.Name = "TextSmallFont";
 			this.TextSmallFont.Size = new System.Drawing.Size(290, 23);
@@ -817,8 +817,8 @@
 			// 
 			// TextMediumFont
 			// 
-			this.TextMediumFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextMediumFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextMediumFont.Location = new System.Drawing.Point(100, 109);
 			this.TextMediumFont.Name = "TextMediumFont";
 			this.TextMediumFont.Size = new System.Drawing.Size(290, 23);
@@ -847,8 +847,8 @@
 			// 
 			// TextLargeFont
 			// 
-			this.TextLargeFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextLargeFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextLargeFont.Location = new System.Drawing.Point(100, 80);
 			this.TextLargeFont.Name = "TextLargeFont";
 			this.TextLargeFont.Size = new System.Drawing.Size(290, 23);
@@ -877,8 +877,8 @@
 			// 
 			// TextTitleFont
 			// 
-			this.TextTitleFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextTitleFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextTitleFont.Location = new System.Drawing.Point(100, 51);
 			this.TextTitleFont.Name = "TextTitleFont";
 			this.TextTitleFont.Size = new System.Drawing.Size(290, 23);
@@ -908,8 +908,8 @@
 			// 
 			// TextGeneralFont
 			// 
-			this.TextGeneralFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextGeneralFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextGeneralFont.Location = new System.Drawing.Point(100, 22);
 			this.TextGeneralFont.Name = "TextGeneralFont";
 			this.TextGeneralFont.Size = new System.Drawing.Size(244, 23);
@@ -923,8 +923,8 @@
 			// OpenImageDialog
 			// 
 			this.OpenImageDialog.Filter = "All Images|*.bmp;*.dib;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff|BMP|*.b" +
-	"mp;*.dib|JPEG|*.jpg;*.jpeg;*.jpe;*.jfif|GIF|*.gif|PNG|*.png|TIFF|*.tif;*.tiff|Fi" +
-	"le|*";
+    "mp;*.dib|JPEG|*.jpg;*.jpeg;*.jpe;*.jfif|GIF|*.gif|PNG|*.png|TIFF|*.tif;*.tiff|Fi" +
+    "le|*";
 			this.OpenImageDialog.Title = "背景画像の参照";
 			// 
 			// SaveImageDialog

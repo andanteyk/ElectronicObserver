@@ -40,15 +40,12 @@ namespace ElectronicObserver.Data.Battle.Phase
 			Attacks = new List<PhaseNightBattleAttack>();
 
 
-			// 連合艦隊戦での処理に不安が残る
-			var friendSide = IsFriendEscort ? BattleSides.FriendEscort : BattleSides.FriendMain;
-			var enemySide = IsEnemyEscort ? BattleSides.EnemyEscort : BattleSides.EnemyMain;
 
 			for (int i = 0; i < attackers.Length; i++)
 			{
 				var attack = new PhaseNightBattleAttack
 				{
-					Attacker = new BattleIndex(fleetflag[i] == 0 ? friendSide : enemySide, attackers[i]),
+					Attacker = new BattleIndex(attackers[i] + (fleetflag[i] == 0 ? 0 : 12), IsFriendCombined, IsEnemyCombined),
 					NightAirAttackFlag = nightAirAttackFlags[i] == -1,
 					AttackType = attackTypes[i],
 					EquipmentIDs = attackEquipments[i],
@@ -57,7 +54,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 				{
 					var defender = new PhaseNightBattleDefender
 					{
-						Defender = new BattleIndex(fleetflag[i] == 0 ? enemySide : friendSide, defenders[i][k]),
+						Defender = new BattleIndex(defenders[i][k] + (fleetflag[i] == 0 ? 12 : 0), IsFriendCombined, IsEnemyCombined),
 						CriticalFlag = criticals[i][k],
 						RawDamage = rawDamages[i][k]
 					};

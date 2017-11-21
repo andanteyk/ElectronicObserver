@@ -63,7 +63,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public int[] EnemyLevelsEscort { get; private set; }
 
 
-		public int[] FriendInitialHPs { get; private set; }	
+		public int[] FriendInitialHPs { get; private set; }
 		public int[] FriendInitialHPsEscort { get; private set; }
 		public int[] EnemyInitialHPs { get; private set; }
 		public int[] EnemyInitialHPsEscort { get; private set; }
@@ -208,6 +208,18 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
+		public ShipData GetFriendShip(int index)
+		{
+			if (index < 0 || index >= 12)
+				return null;
+
+			if (index < FriendFleet.Members.Count)
+				return FriendFleet.MembersInstance[index];
+			else if (index >= 6 && FriendFleetEscort != null)
+				return FriendFleetEscort.MembersInstance[index - 6];
+			else
+				return null;
+		}
 
 		public override bool IsAvailable => RawData != null;
 

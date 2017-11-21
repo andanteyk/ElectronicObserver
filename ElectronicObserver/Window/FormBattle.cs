@@ -1229,9 +1229,8 @@ namespace ElectronicObserver.Window
 			{
 				FleetFriendEscort.Visible = false;
 
-				for (int i = 0; i < 6; i++)
-					DisableHPBar(BattleIndex.Get(BattleSides.FriendEscort, i));
-
+				foreach (var i in BattleIndex.FriendEscort.Skip(Math.Max(bd.Initial.FriendFleet.Members.Count - 6, 0)))
+					DisableHPBar(i);
 			}
 
 
@@ -1277,9 +1276,11 @@ namespace ElectronicObserver.Window
 			{
 				FleetEnemyEscort.Visible = false;
 
-				for (int i = 0; i < 6; i++)
-					DisableHPBar(BattleIndex.Get(BattleSides.EnemyEscort, i));
+				foreach (var i in BattleIndex.EnemyEscort)
+					DisableHPBar(i);
 			}
+
+
 
 
 			if (isCombined && isEnemyCombined)
@@ -1348,14 +1349,18 @@ namespace ElectronicObserver.Window
 
 
 			if (bd.Initial.IsBossDamaged)
-				HPBars[BattleIndex.Get(BattleSides.EnemyMain, 0)].BackColor = Color.MistyRose;
+				HPBars[BattleIndex.EnemyMain1].BackColor = Color.MistyRose;
 
 			if (!isBaseAirRaid)
 			{
 				foreach (int i in bd.MVPShipIndexes)
 					HPBars[BattleIndex.Get(BattleSides.FriendMain, i)].BackColor = Color.Moccasin;
-				foreach (int i in bd.MVPShipCombinedIndexes)
-					HPBars[BattleIndex.Get(BattleSides.FriendEscort, i)].BackColor = Color.Moccasin;
+
+				if (isCombined)
+				{
+					foreach (int i in bd.MVPShipCombinedIndexes)
+						HPBars[BattleIndex.Get(BattleSides.FriendEscort, i)].BackColor = Color.Moccasin;
+				}
 			}
 
 			foreach (var bar in HPBars)
@@ -1531,39 +1536,30 @@ namespace ElectronicObserver.Window
 			//*/
 
 
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < friend.Members.Count; i++)
 			{
 				if (friend.EscapedShipList.Contains(friend.Members[i]))
-				{
 					HPBars[i].BackColor = Color.Silver;
 
-				}
 				else if (br.MVPIndex == i + 1)
-				{
 					HPBars[i].BackColor = Color.Moccasin;
 
-				}
 				else
-				{
 					HPBars[i].BackColor = SystemColors.Control;
-				}
+			}
 
-				if (escort != null)
+			if (escort != null)
+			{
+				for (int i = 0; i < escort.Members.Count; i++)
 				{
 					if (escort.EscapedShipList.Contains(escort.Members[i]))
-					{
-						HPBars[i + 12].BackColor = Color.Silver;
+						HPBars[i + 6].BackColor = Color.Silver;
 
-					}
 					else if (br.MVPIndexCombined == i + 1)
-					{
-						HPBars[i + 12].BackColor = Color.Moccasin;
+						HPBars[i + 6].BackColor = Color.Moccasin;
 
-					}
 					else
-					{
-						HPBars[i + 12].BackColor = SystemColors.Control;
-					}
+						HPBars[i + 6].BackColor = SystemColors.Control;
 				}
 			}
 
