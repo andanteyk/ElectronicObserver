@@ -41,6 +41,9 @@ namespace ElectronicObserver.Utility
 		public static Bitmap GenerateCardBitmap(FleetImageArgument args)
 		{
 
+			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count).DefaultIfEmpty(0).Max(), 6);
+
+
 			var formatMiddleLeft = GetStringFormat(ContentAlignment.MiddleLeft);
 			var formatMiddleCenter = GetStringFormat(ContentAlignment.MiddleCenter);
 			var formatMiddleRight = GetStringFormat(ContentAlignment.MiddleRight);
@@ -114,8 +117,8 @@ namespace ElectronicObserver.Utility
 			Size shipImagePaneSize = SwfHelper.ShipCardSize;
 			Size shipPaneUnitSize = SumWidthMaxHeight(shipValuePaneSize, shipImagePaneSize);
 			Size shipPaneSize = new Size(
-				(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * Math.Min(args.HorizontalShipCount, 6),
-				(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (int)Math.Ceiling(6.0 / args.HorizontalShipCount));
+				(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * Math.Min(args.HorizontalShipCount, maxShipCount),
+				(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (int)Math.Ceiling((double)maxShipCount / args.HorizontalShipCount));
 
 			Size fleetParameterAreaSize = SumWidthMaxHeight(
 				EquipmentIconSize, fleetAirSuperiorityTitleSize, fleetAirSuperiorityValueEstimatedSize, fleetParameterAreaInnerMargin,
@@ -255,17 +258,19 @@ namespace ElectronicObserver.Utility
 					fleetPointer.Y += fleetParameterAreaMargin.Bottom;
 
 
-					for (int shipIndex = 0; shipIndex < 6; shipIndex++)
+					for (int shipIndex = 0; shipIndex < maxShipCount; shipIndex++)
 					{
-						ShipData ship = fleet.MembersInstance[shipIndex];
+						ShipData ship = shipIndex < fleet.Members.Count ? fleet.MembersInstance[shipIndex] : null;
+						if (ship == null)
+							continue;
+
+
 						Point shipPointerOrigin = fleetPointer + new Size(
 							(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * (shipIndex % args.HorizontalShipCount) + shipPaneUnitMargin.Left,
 							(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (shipIndex / args.HorizontalShipCount) + shipPaneUnitMargin.Top);
 						Point shipPointer = shipPointerOrigin;
 
 
-						if (ship == null)
-							continue;
 
 						g.DrawString(string.Format("#{0}:", shipIndex + 1), args.MediumDigitFont, subTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize), shipIndexSize), formatMiddleLeft);
 						shipPointer.X += shipIndexSize.Width;
@@ -474,6 +479,9 @@ namespace ElectronicObserver.Utility
 			Bitmap preimage = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			Graphics preg = Graphics.FromImage(preimage);
 
+
+			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count).DefaultIfEmpty(0).Max(), 6);
+
 			bool has5thSlot = args.FleetIDs
 				.Select(id => KCDatabase.Instance.Fleet[id])
 				.Where(f => f != null)
@@ -521,8 +529,8 @@ namespace ElectronicObserver.Utility
 			Size shipPaneUnitSize = new Size(Max(shipNameAreaSize.Width + Max(shipParameterSize.Width, equipmentAreaSize.Width), SwfHelper.ShipCutinSize.Width),
 				Max(shipNameAreaSize.Height + SwfHelper.ShipCutinSize.Height, shipParameterSize.Height + equipmentAreaSize.Height));
 			Size shipPaneSize = new Size(
-				(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * Math.Min(args.HorizontalShipCount, 6),
-				(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (int)Math.Ceiling(6.0 / args.HorizontalShipCount));
+				(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * Math.Min(args.HorizontalShipCount, maxShipCount),
+				(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (int)Math.Ceiling((double)maxShipCount / args.HorizontalShipCount));
 
 			Size fleetParameterAreaSize = SumWidthMaxHeight(
 				EquipmentIconSize, fleetAirSuperiorityTitleSize, fleetAirSuperiorityValueEstimatedSize, fleetParameterAreaInnerMargin,
@@ -669,18 +677,18 @@ namespace ElectronicObserver.Utility
 					fleetPointer.Y += fleetParameterAreaMargin.Bottom;
 
 
-					for (int shipIndex = 0; shipIndex < 6; shipIndex++)
+					for (int shipIndex = 0; shipIndex < maxShipCount; shipIndex++)
 					{
-						ShipData ship = fleet.MembersInstance[shipIndex];
+						ShipData ship = shipIndex < fleet.Members.Count ? fleet.MembersInstance[shipIndex] : null;
+						if (ship == null)
+							continue;
+
 						Point shipPointerOrigin = fleetPointer + new Size(
 							(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * (shipIndex % args.HorizontalShipCount) + shipPaneUnitMargin.Left,
 							(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (shipIndex / args.HorizontalShipCount) + shipPaneUnitMargin.Top);
 						Point shipPointer = shipPointerOrigin;
 
 						//g.DrawRectangle( Pens.Teal, new Rectangle( shipPointer, shipPaneUnitSize ) );
-
-						if (ship == null)
-							continue;
 
 						g.DrawString($"#{shipIndex + 1}:", args.MediumDigitFont, subTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize), shipIndexSize), formatMiddleLeft);
 						shipPointer.X += shipIndexSize.Width;
@@ -702,8 +710,8 @@ namespace ElectronicObserver.Utility
 
 
 						{
-							int offset = equipmentAreaSize.Height < SwfHelper.ShipCutinSize.Height ? 
-								GetAlignmentOffset(ContentAlignment.BottomLeft, shipParameterSize, shipNameAreaSize).Height : 
+							int offset = equipmentAreaSize.Height < SwfHelper.ShipCutinSize.Height ?
+								GetAlignmentOffset(ContentAlignment.BottomLeft, shipParameterSize, shipNameAreaSize).Height :
 								0;
 							shipPointer.Y += offset;
 
@@ -716,7 +724,7 @@ namespace ElectronicObserver.Utility
 
 							var rectoffset = GetAlignmentOffset(ContentAlignment.MiddleLeft, EquipmentIconSize, paramNameSize);
 
-							void DrawParam( ResourceManager.IconContent icon, int value)
+							void DrawParam(ResourceManager.IconContent icon, int value)
 							{
 								g.DrawImage(ResourceManager.Instance.Icons.Images[(int)icon], new Rectangle(shipPointer + rectoffset, EquipmentIconSize));
 								shipPointer.X += EquipmentIconSize.Width;
@@ -910,6 +918,8 @@ namespace ElectronicObserver.Utility
 		/// </summary>
 		public static Bitmap GenerateBannerBitmap(FleetImageArgument args)
 		{
+			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count).DefaultIfEmpty(0).Max(), 6);
+
 
 			var formatTopLeft = GetStringFormat(ContentAlignment.TopLeft);
 			var formatMiddleLeft = GetStringFormat(ContentAlignment.MiddleLeft);
@@ -987,8 +997,8 @@ namespace ElectronicObserver.Utility
 
 			Size shipPaneUnitSize = MaxWidthSumHeight(shipNameAreaSize, equipmentAreaSize);
 			Size shipPaneSize = new Size(
-				(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * Math.Min(args.HorizontalShipCount, 6),
-				(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (int)Math.Ceiling(6.0 / args.HorizontalShipCount));
+				(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * Math.Min(args.HorizontalShipCount, maxShipCount),
+				(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (int)Math.Ceiling((double)maxShipCount / args.HorizontalShipCount));
 
 			Size fleetParameterAreaSize = SumWidthMaxHeight(
 				EquipmentIconSize, fleetAirSuperiorityTitleSize, fleetAirSuperiorityValueEstimatedSize, fleetParameterAreaInnerMargin,
@@ -1129,17 +1139,18 @@ namespace ElectronicObserver.Utility
 					fleetPointer.Y += fleetParameterAreaMargin.Bottom;
 
 
-					for (int shipIndex = 0; shipIndex < 6; shipIndex++)
+					for (int shipIndex = 0; shipIndex < maxShipCount; shipIndex++)
 					{
-						ShipData ship = fleet.MembersInstance[shipIndex];
+						ShipData ship = shipIndex < maxShipCount ? fleet.MembersInstance[shipIndex] : null;
+						if (ship == null)
+							continue;
+
 						Point shipPointerOrigin = fleetPointer + new Size(
 							(shipPaneUnitSize.Width + shipPaneUnitMargin.Horizontal) * (shipIndex % args.HorizontalShipCount) + shipPaneUnitMargin.Left,
 							(shipPaneUnitSize.Height + shipPaneUnitMargin.Vertical) * (shipIndex / args.HorizontalShipCount) + shipPaneUnitMargin.Top);
 						Point shipPointer = shipPointerOrigin;
 
 
-						if (ship == null)
-							continue;
 
 						//g.DrawString( string.Format( "#{0}:", shipIndex + 1 ), args.MediumDigitFont, subTextBrush, new Rectangle( shipPointer + GetAlignmentOffset( ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize ), shipIndexSize ), formatMiddleLeft );
 						//shipPointer.X += shipIndexSize.Width;
