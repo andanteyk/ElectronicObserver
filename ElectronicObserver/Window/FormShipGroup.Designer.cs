@@ -38,6 +38,7 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.ShipView = new System.Windows.Forms.DataGridView();
 			this.ShipView_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_ShipType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,6 +47,7 @@
 			this.ShipView_Exp = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Next = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_NextRemodel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ShipView_RemodelShipName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_HP = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Condition = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Fuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -148,6 +150,7 @@
 			this.ShipView_Exp,
 			this.ShipView_Next,
 			this.ShipView_NextRemodel,
+			this.ShipView_RemodelShipName,
 			this.ShipView_HP,
 			this.ShipView_Condition,
 			this.ShipView_Fuel,
@@ -275,6 +278,15 @@
 			this.ShipView_NextRemodel.Name = "ShipView_NextRemodel";
 			this.ShipView_NextRemodel.ReadOnly = true;
 			this.ShipView_NextRemodel.Width = 60;
+			// 
+			// ShipView_RemodelShipName
+			// 
+			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			this.ShipView_RemodelShipName.DefaultCellStyle = dataGridViewCellStyle10;
+			this.ShipView_RemodelShipName.HeaderText = "改装後艦名";
+			this.ShipView_RemodelShipName.Name = "ShipView_RemodelShipName";
+			this.ShipView_RemodelShipName.ReadOnly = true;
+			this.ShipView_RemodelShipName.Width = 60;
 			// 
 			// ShipView_HP
 			// 
@@ -918,6 +930,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Exp;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Next;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_NextRemodel;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_RemodelShipName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_HP;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Condition;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Fuel;

@@ -350,6 +350,7 @@ namespace ElectronicObserver.Window
 				ship.ExpTotal,
 				ship.ExpNext,
 				ship.ExpNextRemodel,
+				ship.RemodelShipName,
 				new Fraction(ship.HPCurrent, ship.HPMax),
 				ship.Condition,
 				new Fraction(ship.Fuel, ship.FuelMax),
@@ -406,6 +407,7 @@ namespace ElectronicObserver.Window
 
 
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
+			row.Cells[ShipView_RemodelShipName.Index].Tag = ship.RemodelShipId;
 			//row.Cells[ShipView_Level.Index].Tag = ship.ExpTotal;
 
 
@@ -816,6 +818,15 @@ namespace ElectronicObserver.Window
 							e.SortResult = ship1.Name.CompareTo(ship2.Name);
 						break;
 				}
+
+			}
+			else if (e.Column.Index == ShipView_RemodelShipName.Index)
+			{
+				var x1 = (int)ShipView.Rows[e.RowIndex1].Cells[e.Column.Index].Tag;
+				var x2 = x1 != -1 ? KCDatabase.Instance.MasterShips[x1].AlbumNo : -1;
+				var y1 = (int)ShipView.Rows[e.RowIndex2].Cells[e.Column.Index].Tag;
+				var y2 = y1 != -1 ? KCDatabase.Instance.MasterShips[y1].AlbumNo : -1;
+				e.SortResult = x2 - y2;
 
 			}
 			else if (e.Column.Index == ShipView_Exp.Index)
@@ -1396,9 +1407,9 @@ namespace ElectronicObserver.Window
 
 
 
-		private static readonly string ShipCSVHeaderUser = "固有ID,艦種,艦名,Lv,Exp,next,改装まで,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,入渠,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
+		private static readonly string ShipCSVHeaderUser = "固有ID,艦種,艦名,Lv,Exp,next,改装まで,改装後艦名,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,入渠,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
 
-		private static readonly string ShipCSVHeaderData = "固有ID,艦種,艦名,艦船ID,Lv,Exp,next,改装まで,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,装備ID1,装備ID2,装備ID3,装備ID4,装備ID5,補強装備ID,艦載機1,艦載機2,艦載機3,艦載機4,艦載機5,入渠,入渠燃料,入渠鋼材,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
+		private static readonly string ShipCSVHeaderData = "固有ID,艦種,艦名,艦船ID,Lv,Exp,next,改装まで,改装後艦名,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,装備ID1,装備ID2,装備ID3,装備ID4,装備ID5,補強装備ID,艦載機1,艦載機2,艦載機3,艦載機4,艦載機5,入渠,入渠燃料,入渠鋼材,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
 
 
 		private void MenuMember_CSVOutput_Click(object sender, EventArgs e)
@@ -1454,6 +1465,7 @@ namespace ElectronicObserver.Window
 										ship.ExpTotal,
 										ship.ExpNext,
 										ship.ExpNextRemodel,
+										ship.RemodelShipName,
 										ship.HPCurrent,
 										ship.HPMax,
 										ship.Condition,
@@ -1512,6 +1524,7 @@ namespace ElectronicObserver.Window
 										ship.ExpTotal,
 										ship.ExpNext,
 										ship.ExpNextRemodel,
+										ship.RemodelShipName,
 										ship.HPCurrent,
 										ship.HPMax,
 										ship.Condition,
