@@ -198,12 +198,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 						sb.AppendLine("〈戦闘糧食補給〉");
 						foreach (var index in p.RationIndexes)
 						{
-							ShipData ship;
-
-							if (index < 6)
-								ship = p.FriendFleet.MembersInstance[index];
-							else
-								ship = p.FriendFleetEscort.MembersInstance[index - 6];
+							var ship = p.GetFriendShip(index);
 
 							if (ship != null)
 							{

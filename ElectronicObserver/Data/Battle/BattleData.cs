@@ -56,13 +56,14 @@ namespace ElectronicObserver.Data.Battle
 
 
 		/// <summary>
-		/// MVP 取得候補艦のインデックス [0-5]
+		/// MVP 取得候補艦のインデックス [0-6]
 		/// </summary>
 		public IEnumerable<int> MVPShipIndexes
 		{
 			get
 			{
-				int max = _attackDamages.Take(6).Max();
+				int memberCount = Initial.FriendFleet.Members.Count;
+				int max = _attackDamages.Take(memberCount).Max();
 				if (max == 0)
 				{       // 全員ノーダメージなら旗艦MVP
 					yield return 0;
@@ -70,7 +71,7 @@ namespace ElectronicObserver.Data.Battle
 				}
 				else
 				{
-					for (int i = 0; i < 6; i++)
+					for (int i = 0; i < memberCount; i++)
 					{
 						if (_attackDamages[i] == max)
 							yield return i;
@@ -87,7 +88,7 @@ namespace ElectronicObserver.Data.Battle
 		{
 			get
 			{
-				int max = _attackDamages.Skip(12).Take(6).Max();
+				int max = _attackDamages.Skip(6).Take(6).Max();
 				if (max == 0)
 				{       // 全員ノーダメージなら旗艦MVP
 					yield return 0;
@@ -97,7 +98,7 @@ namespace ElectronicObserver.Data.Battle
 				{
 					for (int i = 0; i < 6; i++)
 					{
-						if (_attackDamages[i + 12] == max)
+						if (_attackDamages[i + 6] == max)
 							yield return i;
 					}
 				}

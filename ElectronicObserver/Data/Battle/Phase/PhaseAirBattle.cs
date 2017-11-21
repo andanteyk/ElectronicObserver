@@ -53,16 +53,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			var firepower = new int[12];
 			var launchedIndex = LaunchedShipIndexFriend;
-			var members = Battle.Initial.FriendFleet.MembersWithoutEscaped;
-
+			
 			foreach (int i in launchedIndex)
 			{
-
-				ShipData ship;
-				if (i < 6)
-					ship = Battle.Initial.FriendFleet.MembersWithoutEscaped[i];
-				else
-					ship = Battle.Initial.FriendFleetEscort.MembersWithoutEscaped[i - 6];
+				var ship = Battle.Initial.GetFriendShip(i);
 
 				if (ship == null)
 					continue;
