@@ -1275,7 +1275,7 @@ namespace ElectronicObserver.Window
 
 					member.ConfigurationChanged(this);
 					if (fleet != null)
-						member.Update(fleet.Members[i]);
+						member.Update(i < fleet.Members.Count ? fleet.Members[i] : -1);
 				}
 			}
 
