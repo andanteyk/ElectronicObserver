@@ -178,6 +178,10 @@ namespace ElectronicObserver.Data.Battle
 			}
 		}
 
+		public bool IsMain => Side == BattleSides.FriendMain || Side == BattleSides.EnemyMain;
+		public bool IsEscort => Side == BattleSides.FriendEscort || Side == BattleSides.EnemyEscort;
+
+
 		// note: FriendMain7 is equal to FriendEscort1
 		public static implicit operator int(BattleIndex sidedIndex) => (int)sidedIndex.Side * 6 + sidedIndex.Index;
 

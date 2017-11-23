@@ -193,7 +193,7 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void UpdateFormation()
 		{
-			var items = (IsCombined ? Enumerable.Range(11, 4) : Enumerable.Range(1, 5))
+			var items = (IsCombined ? Enumerable.Range(11, 4) : Enumerable.Range(1, 6))
 				.Select(i => new FormationComboBoxData(i)).ToArray();
 
 			int selected = Formation.SelectedItem as FormationComboBoxData;

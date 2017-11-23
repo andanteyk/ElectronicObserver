@@ -38,6 +38,7 @@
 			this.TreeContextMenu_ShrinkParent = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.TreeContextMenu_OutputCSV = new System.Windows.Forms.ToolStripMenuItem();
+			this.TreeContextMenu_CopyToClipboard = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.JsonRawData = new System.Windows.Forms.TextBox();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -48,7 +49,7 @@
 			this.AutoUpdateFilter = new System.Windows.Forms.TextBox();
 			this.AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.CSVSaver = new System.Windows.Forms.SaveFileDialog();
-			this.TreeContextMenu_CopyToClipboard = new System.Windows.Forms.ToolStripMenuItem();
+			this.TreeContextMenu_CopyAsDocument = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.TreeContextMenu.SuspendLayout();
@@ -100,48 +101,56 @@
 			// TreeContextMenu
 			// 
 			this.TreeContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.TreeContextMenu_Expand,
-			this.TreeContextMenu_Shrink,
-			this.TreeContextMenu_ShrinkParent,
-			this.toolStripSeparator1,
-			this.TreeContextMenu_OutputCSV,
-			this.TreeContextMenu_CopyToClipboard});
+            this.TreeContextMenu_Expand,
+            this.TreeContextMenu_Shrink,
+            this.TreeContextMenu_ShrinkParent,
+            this.toolStripSeparator1,
+            this.TreeContextMenu_OutputCSV,
+            this.TreeContextMenu_CopyToClipboard,
+            this.TreeContextMenu_CopyAsDocument});
 			this.TreeContextMenu.Name = "TreeContextMenu";
-			this.TreeContextMenu.Size = new System.Drawing.Size(224, 142);
+			this.TreeContextMenu.Size = new System.Drawing.Size(236, 164);
 			this.TreeContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TreeContextMenu_Opening);
 			// 
 			// TreeContextMenu_Expand
 			// 
 			this.TreeContextMenu_Expand.Name = "TreeContextMenu_Expand";
-			this.TreeContextMenu_Expand.Size = new System.Drawing.Size(223, 22);
+			this.TreeContextMenu_Expand.Size = new System.Drawing.Size(235, 22);
 			this.TreeContextMenu_Expand.Text = "全て展開";
 			this.TreeContextMenu_Expand.Click += new System.EventHandler(this.TreeContextMenu_Expand_Click);
 			// 
 			// TreeContextMenu_Shrink
 			// 
 			this.TreeContextMenu_Shrink.Name = "TreeContextMenu_Shrink";
-			this.TreeContextMenu_Shrink.Size = new System.Drawing.Size(223, 22);
+			this.TreeContextMenu_Shrink.Size = new System.Drawing.Size(235, 22);
 			this.TreeContextMenu_Shrink.Text = "全て格納";
 			this.TreeContextMenu_Shrink.Click += new System.EventHandler(this.TreeContextMenu_Shrink_Click);
 			// 
 			// TreeContextMenu_ShrinkParent
 			// 
 			this.TreeContextMenu_ShrinkParent.Name = "TreeContextMenu_ShrinkParent";
-			this.TreeContextMenu_ShrinkParent.Size = new System.Drawing.Size(223, 22);
+			this.TreeContextMenu_ShrinkParent.Size = new System.Drawing.Size(235, 22);
 			this.TreeContextMenu_ShrinkParent.Text = "親ノードを格納";
 			this.TreeContextMenu_ShrinkParent.Click += new System.EventHandler(this.TreeContextMenu_ShrinkParent_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(220, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(232, 6);
 			// 
 			// TreeContextMenu_OutputCSV
 			// 
 			this.TreeContextMenu_OutputCSV.Name = "TreeContextMenu_OutputCSV";
-			this.TreeContextMenu_OutputCSV.Size = new System.Drawing.Size(223, 22);
+			this.TreeContextMenu_OutputCSV.Size = new System.Drawing.Size(235, 22);
 			this.TreeContextMenu_OutputCSV.Text = "このノードをCSVに出力...";
 			this.TreeContextMenu_OutputCSV.Click += new System.EventHandler(this.TreeContextMenu_OutputCSV_Click);
+			// 
+			// TreeContextMenu_CopyToClipboard
+			// 
+			this.TreeContextMenu_CopyToClipboard.Name = "TreeContextMenu_CopyToClipboard";
+			this.TreeContextMenu_CopyToClipboard.Size = new System.Drawing.Size(235, 22);
+			this.TreeContextMenu_CopyToClipboard.Text = "このノードをクリップボードへコピー";
+			this.TreeContextMenu_CopyToClipboard.Click += new System.EventHandler(this.TreeContextMenu_CopyToClipboard_Click);
 			// 
 			// tabPage2
 			// 
@@ -226,8 +235,8 @@
 			// 
 			// AutoUpdateFilter
 			// 
-			this.AutoUpdateFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.AutoUpdateFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.AutoUpdateFilter.Location = new System.Drawing.Point(66, 57);
 			this.AutoUpdateFilter.Name = "AutoUpdateFilter";
 			this.AutoUpdateFilter.Size = new System.Drawing.Size(218, 23);
@@ -250,12 +259,12 @@
 			this.CSVSaver.Filter = "CSV|*.csv|File|*";
 			this.CSVSaver.Title = "ノードを CSV に出力";
 			// 
-			// TreeContextMenu_CopyToClipboard
+			// TreeContextMenu_CopyAsDocument
 			// 
-			this.TreeContextMenu_CopyToClipboard.Name = "TreeContextMenu_CopyToClipboard";
-			this.TreeContextMenu_CopyToClipboard.Size = new System.Drawing.Size(223, 22);
-			this.TreeContextMenu_CopyToClipboard.Text = "このノードをクリップボードへコピー";
-			this.TreeContextMenu_CopyToClipboard.Click += new System.EventHandler(this.TreeContextMenu_CopyToClipboard_Click);
+			this.TreeContextMenu_CopyAsDocument.Name = "TreeContextMenu_CopyAsDocument";
+			this.TreeContextMenu_CopyAsDocument.Size = new System.Drawing.Size(235, 22);
+			this.TreeContextMenu_CopyAsDocument.Text = "このノードをドキュメント化してコピー";
+			this.TreeContextMenu_CopyAsDocument.Click += new System.EventHandler(this.TreeContextMenu_CopyAsDocument_Click);
 			// 
 			// FormJson
 			// 
@@ -302,5 +311,6 @@
 		private System.Windows.Forms.ToolStripMenuItem TreeContextMenu_ShrinkParent;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.ToolStripMenuItem TreeContextMenu_CopyToClipboard;
+		private System.Windows.Forms.ToolStripMenuItem TreeContextMenu_CopyAsDocument;
 	}
 }

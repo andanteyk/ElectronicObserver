@@ -45,7 +45,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			{
 				var attack = new PhaseNightBattleAttack
 				{
-					Attacker = new BattleIndex(attackers[i] + (fleetflag[i] == 0 ? 0 : 12), IsFriendCombined, IsEnemyCombined),
+					Attacker = new BattleIndex(attackers[i] + (fleetflag[i] == 0 ? 0 : 12),Battle.IsFriendCombined, Battle.IsEnemyCombined),
 					NightAirAttackFlag = nightAirAttackFlags[i] == -1,
 					AttackType = attackTypes[i],
 					EquipmentIDs = attackEquipments[i],
@@ -54,7 +54,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 				{
 					var defender = new PhaseNightBattleDefender
 					{
-						Defender = new BattleIndex(defenders[i][k] + (fleetflag[i] == 0 ? 12 : 0), IsFriendCombined, IsEnemyCombined),
+						Defender = new BattleIndex(defenders[i][k] + (fleetflag[i] == 0 ? 12 : 0), Battle.IsFriendCombined, Battle.IsEnemyCombined),
 						CriticalFlag = criticals[i][k],
 						RawDamage = rawDamages[i][k]
 					};

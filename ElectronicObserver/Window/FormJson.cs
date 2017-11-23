@@ -541,6 +541,64 @@ namespace ElectronicObserver.Window
 		}
 
 
+		private StringBuilder BuildDocument(dynamic data)
+		{
+			return BuildDocumentContent(new StringBuilder(), data, 0);
+		}
+
+		private StringBuilder BuildDocumentContent(StringBuilder sb, dynamic data, int indentLevel)
+		{
+			if (data is Codeplex.Data.DynamicJson)
+			{
+				if (data.IsObject)
+				{
+					foreach (string p in data.GetDynamicMemberNames())
+					{
+						sb.AppendLine();
+						for (int i = 0; i < indentLevel; i++)
+							sb.Append("\t");
+						sb.Append(p);
+
+						int tab = (int)Math.Ceiling( (24 - (p.Length /*+ indentLevel * 4*/)) / 4.0);
+						for (int i = 0; i < tab; i++)
+							sb.Append("\t");
+						sb.Append("：");
+
+						BuildDocumentContent(sb, data[p], indentLevel + 1);
+					}
+				}
+				else if (data.IsArray)
+				{
+					sb.Append($"[{((dynamic[])data).Length}]");
+
+					foreach (dynamic elem in data)
+					{
+						if (elem is Codeplex.Data.DynamicJson && (elem.IsObject || elem.IsArray))
+						{
+							BuildDocumentContent(sb, elem, indentLevel);
+
+							break;
+						}
+					}
+				}
+			}
+
+			return sb;
+		}
+
+		private void TreeContextMenu_CopyAsDocument_Click(object sender, EventArgs e)
+		{
+			if (JsonTreeView.SelectedNode != null && JsonTreeView.SelectedNode.Tag != null)
+			{
+				Clipboard.SetData(DataFormats.StringFormat, BuildDocument(JsonTreeView.SelectedNode.Tag));
+			}
+			else
+			{
+				System.Media.SystemSounds.Exclamation.Play();
+			}
+		}
+
+
 
 		// 右クリックでも選択するように
 		private void JsonTreeView_MouseClick(object sender, MouseEventArgs e)

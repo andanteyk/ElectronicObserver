@@ -39,7 +39,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 				{
 
 					// 航空戦は miss/hit=0, critical=1 のため +1 する(通常は miss=0, hit=1, critical=2) 
-					BattleDetails.Add(new BattleAirDetail(Battle, waveIndex, new BattleIndex(i, IsFriendCombined, IsEnemyCombined), Damages[i], Criticals[i] + 1, attackType, hps[i]));
+					BattleDetails.Add(new BattleAirDetail(Battle, waveIndex, new BattleIndex(i, Battle.IsFriendCombined, Battle.IsEnemyCombined), Damages[i], Criticals[i] + 1, attackType, hps[i]));
 					AddDamage(hps, i, (int)Damages[i]);
 				}
 			}

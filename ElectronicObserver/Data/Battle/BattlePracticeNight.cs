@@ -29,7 +29,7 @@ namespace ElectronicObserver.Data.Battle
 
 		public override string BattleName => "演習 夜戦";
 
-		public override BattleTypeFlag BattleType => BattleTypeFlag.Night | BattleTypeFlag.Practice;
+		public override bool IsPractice => true;
 
 
 		public override IEnumerable<PhaseBase> GetPhases()

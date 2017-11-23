@@ -40,7 +40,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 		{
 			get
 			{
-
 				if (phaseID == 0)
 				{
 					return RawData.api_opening_flag() ? (int)RawData.api_opening_flag != 0 : false;
@@ -57,7 +56,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public override void EmulateBattle(int[] hps, int[] damages)
 		{
 
-			if (!IsAvailable) return;
+			if (!IsAvailable)
+				return;
 
 			// 表示上は逐次ダメージ反映のほうが都合がいいが、AddDamage を逐次的にやるとダメコン判定を誤るため
 			int[] currentHP = new int[hps.Length];
@@ -67,8 +67,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 			{
 				if (Targets[i] >= 0)
 				{
-					BattleIndex attacker = new BattleIndex(i, IsFriendCombined, IsEnemyCombined);
-					BattleIndex defender = new BattleIndex(Targets[i] + (i < 12 ? 12 : 0), IsFriendCombined, IsEnemyCombined);
+					BattleIndex attacker = new BattleIndex(i, Battle.IsFriendCombined, Battle.IsEnemyCombined);
+					BattleIndex defender = new BattleIndex(Targets[i] + (i < 12 ? 12 : 0), Battle.IsFriendCombined, Battle.IsEnemyCombined);
 
 					BattleDetails.Add(new BattleDayDetail(Battle, attacker, defender, new double[] { AttackDamages[i] + Damages[defender] - Math.Floor(Damages[defender]) },    //propagates "guards flagship" flag
 						new int[] { CriticalFlags[i] }, -1, null, currentHP[defender]));

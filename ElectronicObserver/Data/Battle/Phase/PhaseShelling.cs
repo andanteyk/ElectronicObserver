@@ -16,8 +16,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 		protected readonly int PhaseID;
 		protected readonly string Suffix;
-		protected readonly bool IsEscort;
-		protected readonly bool IsEnemyEscort;
+
 
 		public List<PhaseShellingAttack> Attacks { get; private set; }
 
@@ -55,14 +54,12 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 
 
-		public PhaseShelling(BattleData data, string title, int phaseID, string suffix, bool isEscort, bool isEnemyEscort = false)
+		public PhaseShelling(BattleData data, string title, int phaseID, string suffix)
 			: base(data, title)
 		{
 
 			PhaseID = phaseID;
 			Suffix = suffix;
-			IsEscort = isEscort;
-			IsEnemyEscort = isEnemyEscort;
 
 			if (!IsAvailable)
 				return;
@@ -83,7 +80,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			{
 				var attack = new PhaseShellingAttack()
 				{
-					Attacker = new BattleIndex(attackers[i] + (fleetflag[i] == 0 ? 0 : 12), IsFriendCombined, IsEnemyCombined),
+					Attacker = new BattleIndex(attackers[i] + (fleetflag[i] == 0 ? 0 : 12), Battle.IsFriendCombined, Battle.IsEnemyCombined),
 				};
 
 
@@ -91,7 +88,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 				{
 					var defender = new PhaseShellingDefender
 					{
-						Defender = new BattleIndex(defenders[i][k] + (fleetflag[i] == 0 ? 12 : 0), IsFriendCombined, IsEnemyCombined),
+						Defender = new BattleIndex(defenders[i][k] + (fleetflag[i] == 0 ? 12 : 0), Battle.IsFriendCombined, Battle.IsEnemyCombined),
 						CriticalFlag = criticalFlags[i][k],
 						RawDamage = rawDamages[i][k],
 					};
@@ -117,7 +114,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public override void EmulateBattle(int[] hps, int[] damages)
 		{
 
-			if (!IsAvailable) return;
+			if (!IsAvailable)
+				return;
 
 
 			foreach (var attack in Attacks)

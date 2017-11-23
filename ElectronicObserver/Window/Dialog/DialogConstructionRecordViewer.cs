@@ -640,7 +640,7 @@ namespace ElectronicObserver.Window.Dialog
 							);
 
 						var ship = KCDatabase.Instance.MasterShips.Values.FirstOrDefault(s => s.Name == c.Key);
-						row.Cells[1].Tag = (ship?.ShipType ?? 0).ToString("D4") + (ship?.NameReading ?? c.Key);
+						row.Cells[1].Tag = (ship != null ? (int)ship.ShipType : 0).ToString("D4") + (ship?.NameReading ?? c.Key);
 
 						if (args.Recipe != NameAny)
 						{

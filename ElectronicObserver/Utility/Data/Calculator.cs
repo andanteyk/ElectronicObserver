@@ -1209,6 +1209,7 @@ namespace ElectronicObserver.Utility.Data
 			}
 
 
+
 			// 固有カットイン
 			switch (shipID)
 			{
@@ -1219,6 +1220,8 @@ namespace ElectronicObserver.Utility.Data
 				case 346:   // 照月改
 				case 423:   // 初月
 				case 357:   // 初月改
+				case 532:   // 涼月
+				case 537:	// 涼月改
 					if (highangle >= 2 && radar >= 1)
 					{
 						return 1;
@@ -1392,6 +1395,9 @@ namespace ElectronicObserver.Utility.Data
 					break;
 				case 3:     // 輪形陣
 					formationBonus = 1.6;
+					break;
+				case 6:     // 警戒陣
+					formationBonus = 1.1;
 					break;
 				case 11:    // 第一警戒航行序列
 					formationBonus = 1.1;
