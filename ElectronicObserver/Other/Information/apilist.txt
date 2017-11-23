@@ -2274,37 +2274,164 @@ api_req_combined_battle/sp_midnight		：連合艦隊 開幕夜戦
 	api_formation		：陣形　昼戦のそれと同じ(但し味方陣形は文字列型)
 
 
-['17 秋イベでフォーマット変更　要再確認]
-api_req_combined_battle/battle_water	：連合艦隊-水上部隊 戦闘
-	(全メンバを api_req_combined_battle/battle から継承)
-	api_eSlot			：存在する艦の分のみ存在
-	api_hougeki1		：砲撃戦1巡目(水上部隊本隊)
-	api_hougeki2		：砲撃戦2巡目(水上部隊本隊)
-	api_hougeki3		：砲撃戦3巡目(随伴艦隊)
-	api_raigeki			：雷撃戦
+api_req_combined_battle/battle_water	：連合艦隊-水上部隊　戦闘　記載のないものについては api_req_sortie/battle などと同様　
+	api_deck_id				：出撃艦隊ID　仕様上1固定
+	api_formation			：陣形・交戦形態　[3]
+	api_f_nowhps			：味方主力艦隊の戦闘開始時HP　[艦船数]
+	api_f_maxhps			：味方主力艦隊の最大HP　[艦船数]
+	api_f_nowhps_combined	：味方随伴艦隊の戦闘開始時HP　[艦船数]
+	api_f_maxhps_combined	：味方随伴艦隊の最大HP　[艦船数]
+	api_fParam				：味方主力艦隊のステータス　[艦船数][4]
+	api_fParam_combined		：味方随伴艦隊のステータス　[艦船数][4]
+	api_ship_ke				：敵艦ID　[艦船数]
+	api_ship_lv				：敵Lv　[艦船数]
+	api_e_nowhps			：敵艦隊の戦闘開始時HP　[艦船数]
+	api_e_maxhps			：敵艦隊の最大HP　[艦船数]
+	api_eSlot				：敵装備スロット　[艦船数][5]
+	api_eParam				：敵ステータス　[艦船数][4]
+	api_midnight_flag		：
+	api_combat_ration		：本体の戦闘糧食補給　[発動艦数]　艦船の固有ID　発動しなければ存在しない
+	api_combat_ration_combined：随伴の戦闘糧食補給　〃　　
+	api_search				：[2]
+	api_air_base_attack		：[2]
+		api_base_id				：
+		api_stage_flag			：[3]
+		api_plane_from			：[2][]
+		api_squadron_plane		：[]
+			api_mst_id				：
+			api_count				：
+		api_stage1				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_disp_seiku			：
+			api_touch_plane			：[2]
+		api_stage2				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+		api_stage3				：
+			api_erai_flag			：[敵艦船数]
+			api_ebak_flag			：[敵艦船数]
+			api_ecl_flag			：[敵艦船数]
+			api_edam				：[敵艦船数]
+	api_stage_flag			：[3]
+	api_kouku				：
+		api_plane_from			：[2][]
+		api_stage1				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_disp_seiku			：
+			api_touch_plane			：[2]
+		api_stage2				：
+		api_stage3				：
+		api_stage3_combined		：
+	api_support_flag		：
+	api_support_info		：
+	api_opening_taisen_flag	：
+	api_opening_taisen		：
+	api_opening_flag		：
+	api_opening_atack		：
+		api_frai				：[12]
+		api_fcl					：[12]
+		api_fdam				：[12]
+		api_fydam				：[12]
+		api_erai				：[7]
+		api_ecl					：[7]
+		api_edam				：[7]
+		api_eydam				：[7]
+	api_hourai_flag			：[4]
+	api_hougeki1			：第一次砲撃戦　味方本体 vs 敵艦隊　api_hourai_flag[0] = 0 の時は存在しない
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_hougeki2			：第二次砲撃戦　味方本体 vs 敵艦隊　api_hourai_flag[1] = 0 の時は存在しない
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_hougeki3			：第三次砲撃戦　味方随伴 vs 敵艦隊　api_hourai_flag[2] = 0 の時は存在しない
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_raigeki				：雷撃戦　api_hourai_flag[3] = 0 の時は存在しない
+		api_frai				：[12]
+		api_fcl					：[12]
+		api_fdam				：[12]
+		api_fydam				：[12]
+		api_erai				：[7]
+		api_ecl					：[7]
+		api_edam				：[7]
+		api_eydam				：[7]
 
 
-['17 秋イベでフォーマット変更　要再確認]
-api_req_combined_battle/ld_airbattle		：連合艦隊 長距離空襲戦　存在するメンバを記載、各値の構成と意味は api_req_combined_battle/battle と同じ
-	api_deck_id			：文字列
-	api_ship_ke
-	api_ship_lv
-	api_nowhps
-	api_maxhps
-	api_nowhps_combined
-	api_maxhps_combined
-	api_midnight_flag	：常に 0 ?
-	api_eSlot			：存在する艦の分のみ存在
-	api_eKyouka
-	api_fParam
-	api_eParam
-	api_fParam_combined
-	api_combat_ration
-	api_combat_ration_combined
-	api_search
-	api_formation
-	api_stage_flag
-	api_kouku
+api_req_combined_battle/ld_airbattle		：連合艦隊 長距離空襲戦　存在するメンバを記載、各値の構成と意味は大体 api_req_combined_battle/battle と同じ
+	api_deck_id				：数値
+	api_formation			：[3]
+	api_f_nowhps			：
+	api_f_maxhps			：
+	api_f_nowhps_combined	：
+	api_f_maxhps_combined	：
+	api_fParam				：
+	api_fParam_combined		：
+	api_ship_ke				：
+	api_ship_lv				：
+	api_e_nowhps			：
+	api_e_maxhps			：
+	api_eSlot				：
+	api_eParam				：
+	api_midnight_flag		：常に 0 ?
+	api_combat_ration		：本体の戦闘糧食補給　[発動艦数]　艦船の固有ID　発動しなければ存在しない
+	api_combat_ration_combined：随伴の戦闘糧食補給　〃　　
+	api_search				：[2]
+	api_stage_flag			：[3]
+	api_kouku				：
+		api_plane_from			：[2][]
+		api_stage1				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_disp_seiku			：
+			api_touch_plane			：[2]
+		api_stage2				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_air_fire			：
+				api_idx					：
+				api_kind				：
+				api_use_items			：[]
+		api_stage3				：
+			api_frai_flag			：[艦船数]
+			api_erai_flag			：[艦船数]
+			api_fbak_flag			：[艦船数]
+			api_ebak_flag			：[艦船数]
+			api_fcl_flag			：[艦船数]
+			api_ecl_flag			：[艦船数]
+			api_fdam				：[艦船数]
+			api_edam				：[艦船数]
+		api_stage3_combined		：
+			api_frai_flag			：[艦船数]
+			api_fbak_flag			：[艦船数]
+			api_fcl_flag			：[艦船数]
+			api_fdam				：[艦船数]
 
 
 ['17 秋イベでフォーマット変更　要再確認]
@@ -2362,29 +2489,30 @@ api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合�
 	api_hougeki3
 
 
+
 api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵連合艦隊　昼戦
-	api_deck_id					：数値型
-	api_formation
-	api_f_nowhps
-	api_f_maxhps
-	api_f_nowhps_combined
-	api_f_maxhps_combined
-	api_fParam
-	api_fParam_combined
-	api_ship_ke
-	api_ship_lv
-	api_ship_ke_combined
-	api_ship_lv_combined
-	api_e_nowhps
-	api_e_maxhps
-	api_e_nowhps_combined
-	api_e_maxhps_combined
-	api_eSlot
-	api_eSlot_combined
-	api_eParam
-	api_eParam_combined
-	api_midnight_flag
-	api_search
+	api_deck_id				：数値型
+	api_formation			：[3]
+	api_f_nowhps			：[艦船数]
+	api_f_maxhps			：[艦船数]
+	api_f_nowhps_combined	：[艦船数]
+	api_f_maxhps_combined	：[艦船数]
+	api_fParam				：[艦船数][4]
+	api_fParam_combined		：[艦船数][4]
+	api_ship_ke				：[艦船数]
+	api_ship_lv				：[艦船数]
+	api_ship_ke_combined	：[艦船数]
+	api_ship_lv_combined	：[艦船数]
+	api_e_nowhps			：[艦船数]
+	api_e_maxhps			：[艦船数]
+	api_e_nowhps_combined	：[艦船数]
+	api_e_maxhps_combined	：[艦船数]
+	api_eSlot				：[艦船数][5]
+	api_eSlot_combined		：[艦船数][5]
+	api_eParam				：[艦船数][4]
+	api_eParam_combined		：[艦船数][4]
+	api_midnight_flag		：
+	api_search				：[2]
 	api_air_base_attack
 		api_base_id
 		api_stage_flag
@@ -2414,63 +2542,91 @@ api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵�
 			api_ebak_flag
 			api_ecl_flag
 			api_edam
-	api_stage_flag
-	api_kouku
-		api_plane_from
-		api_stage1
-			api_f_count
-			api_f_lostcount
-			api_e_count
-			api_e_lostcount
-			api_disp_seiku
-			api_touch_plane
-		api_stage2
-			api_f_count
-			api_f_lostcount
-			api_e_count
-			api_e_lostcount
-			api_air_fire
-				api_idx
-				api_kind
-				api_use_items
-		api_stage3
-			api_frai_flag
-			api_erai_flag
-			api_fbak_flag
-			api_ebak_flag
-			api_fcl_flag
-			api_ecl_flag
-			api_fdam
-			api_edam
-		api_stage3_combined
-	api_support_flag
-	api_support_info
-		api_support_airatack
-		api_support_hourai
-	api_opening_taisen_flag
-	api_opening_taisen
-	api_opening_flag
-	api_opening_atack			：スペルミスに注意
-	api_hourai_flag				：0 のメンバは存在しなくなる
-	api_hougeki1				：第一次砲撃戦（主力艦隊vs主力艦隊）
-		api_at_eflag
-		api_at_list
-		api_at_type
-		api_df_list
-		api_si_list
-		api_cl_list
-		api_damage
-	api_hougeki2				：第二次砲撃戦（随伴艦隊vs随伴艦隊）
-	api_hougeki3				：第三次砲撃戦（主力艦隊vs主力艦隊, 対全体）
-	api_raigeki					：雷撃戦　全部 [12] ?
-		api_frai
-		api_erai
-		api_fdam
-		api_edam
-		api_fydam
-		api_eydam
-		api_fcl
-		api_ecl
+	api_stage_flag			：[3]
+	api_kouku				：
+		api_plane_from			：[2][]
+		api_stage1				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_disp_seiku			：
+			api_touch_plane			：[2]
+		api_stage2				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_air_fire			：
+				api_idx					：0基点　ex.随伴3番艦は 8
+				api_kind				：
+				api_use_items			：[3]
+		api_stage3				：
+			api_frai_flag			：[艦船数]
+			api_erai_flag			：[艦船数]
+			api_fbak_flag			：[艦船数]
+			api_ebak_flag			：[艦船数]
+			api_fcl_flag			：[艦船数]
+			api_ecl_flag			：[艦船数]
+			api_fdam				：[艦船数]
+			api_edam				：[艦船数]
+		api_stage3_combined		：
+			api_frai_flag			：[艦船数]
+			api_erai_flag			：[艦船数]
+			api_fbak_flag			：[艦船数]
+			api_ebak_flag			：[艦船数]
+			api_fcl_flag			：[艦船数]
+			api_ecl_flag			：[艦船数]
+			api_fdam				：[艦船数]
+			api_edam				：[艦船数]
+	api_support_flag		：
+	api_support_info		：支援攻撃　api_support_flag = 0 のとき null
+	api_opening_taisen_flag	：
+	api_opening_taisen		：
+	api_opening_flag		：
+	api_opening_atack		：
+		api_frai				：[12]
+		api_fcl					：[12]
+		api_fdam				：[12]
+		api_fydam				：[12]
+		api_erai				：[12]
+		api_ecl					：[12]
+		api_edam				：[12]
+		api_eydam				：[12]
+	api_hourai_flag			：[4]
+	api_hougeki1			：第一次砲撃戦　味方主力 vs 敵主力　api_hourai_flag[0] = 0 のとき存在しない
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_hougeki2			：第二次砲撃戦　味方主力→敵全体 vs 敵主力→味方全体　api_hourai_flag[1] = 0 のとき存在しない
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_hougeki3			：第三次砲撃戦　味方随伴 vs 敵随伴　api_hourai_flag[2] = 0 のとき存在しない
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_raigeki				：雷撃戦　api_hourai_flag[3] = 0 のとき存在しない
+		api_frai				：[12]
+		api_fcl					：[12]
+		api_fdam				：[12]
+		api_fydam				：[12]
+		api_erai				：[12]
+		api_ecl					：[12]
+		api_edam				：[12]
+		api_eydam				：[12]
 
 
 api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
