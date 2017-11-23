@@ -2013,7 +2013,7 @@ api_get_member/mapinfo			：出撃準備　未出現海域は存在しない
 			api_state			：状態？1=未攻略, 2=攻略済み
 			api_selected_rank	：作戦難易度 0=未設定, 1=丙, 2=乙, 3=甲
 			api_gauge_type		：2=HPゲージ 3=揚陸(TP)ゲージ　2は複数ゲージ時のみ存在
-			api_gauge_num		：現在のゲージ段階(ゲージn本目)？
+			api_gauge_num		：現在のゲージ段階(ゲージn本目)　1基点　おそらく複数ゲージ時のみ存在
 			api_airbase_enabled	：基地航空隊が使用可能か?　'17秋イベでは存在せず
 		api_air_base_decks		：基地航空隊出撃可能数 1以上の時のみ存在
 		api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
@@ -2259,30 +2259,34 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊or輸送部隊 戦闘
 
 
 ['17 秋イベでフォーマット変更　要再確認]
-api_req_combined_battle/midnight_battle		：連合艦隊 夜戦
-	api_deck_id			：こちらの出撃艦隊ID 文字列
-	api_ship_ke			：敵艦船ID -1から始まる
-	api_ship_lv			：敵艦船Lv.
-	api_nowhps			：味方/敵艦船の現在HP -1から始まる 敵の空きは省略される(敵が6隻の場合は[13]、5隻の場合[12]になる)
-	api_maxhps			：〃最大HP　api_nowhpsの長さにかかわらず[13]
-	api_nowhps_combined	：味方随伴護衛艦隊の現在HP
-	api_maxhps_combined	：〃最大HP
-	api_eSlot			：敵艦船装備スロット　存在する艦の分のみ存在
-	api_eKyouka			：敵艦船パラメータ強化(近代化改修)
-	api_fParam			：味方艦船基礎ステータス
-	api_eParam			：敵艦船基礎ステータス　存在する艦の分のみ存在
-	api_fParam_combined	：味方随伴護衛艦隊基礎ステータス
-	api_escape_idx		：本隊退避艦座標(1-6)
-	api_escape_idx_combined		：随伴護衛艦隊退避艦座標(1-6)
-	api_touch_plane		：夜間触接装備ID [0]=味方, [1]=敵
-	api_flare_pos		：照明弾発射艦 [0]=味方, [1]=敵
-	api_hougeki			：夜間砲撃戦
-		api_at_list		：行動順?
-		api_df_list		：防御側ID　-1から始まる　連撃は2個
-		api_si_list		：表示装備ID　カットインだと[0]=偵察機, [1]=砲, [2]=砲|電探|その他, 連撃だと[0]=装備1, [1]=装備2, 通常砲撃は[0]=装備1 非表示は-1
-		api_cl_list		：クリティカルヒット表示？
-		api_sp_list		：特殊砲撃フラグ？
-		api_damage		：ダメージ(実ダメージ)
+api_req_combined_battle/midnight_battle		：連合艦隊 vs 通常艦隊 夜戦
+	api_deck_id				：味方出撃艦隊ID　仕様上1
+	api_formation			：[3]
+	api_f_nowhps			：[]
+	api_f_maxhps			：[]
+	api_f_nowhps_combined	：[]
+	api_f_maxhps_combined	：[]
+	api_fParam				：[][4]
+	api_fParam_combined		：[][4]
+	api_ship_ke				：[]
+	api_ship_lv				：[]
+	api_e_nowhps			：[]
+	api_e_maxhps			：[]
+	api_eSlot				：[][5]
+	api_eParam				：[][4]
+	api_touch_plane			：[2]
+	api_flare_pos			：[2]
+	api_escape_idx			：？　本隊退避艦座標(1-6)
+	api_escape_idx_combined	：？　随伴護衛艦隊退避艦座標(1-6)
+	api_hougeki				：夜間砲雷撃戦　味方随伴 vs 敵
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_n_mother_list		：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_sp_list				：[]
+		api_damage				：[][]
 
 
 ['17 秋イベでフォーマット変更　要再確認]
