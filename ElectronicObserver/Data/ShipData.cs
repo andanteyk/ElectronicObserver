@@ -82,17 +82,17 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 装備スロット(マスターID)
 		/// </summary>
-		public ReadOnlyCollection<int> SlotMaster { get; private set; }
+		public ReadOnlyCollection<int> SlotMaster => Array.AsReadOnly(Slot.Select(id => KCDatabase.Instance.Equipments[id]?.EquipmentID ?? -1).ToArray());
 
 		/// <summary>
 		/// 装備スロット(装備データ)
 		/// </summary>
-		public ReadOnlyCollection<EquipmentData> SlotInstance { get; private set; }
+		public ReadOnlyCollection<EquipmentData> SlotInstance => Array.AsReadOnly(Slot.Select(id => KCDatabase.Instance.Equipments[id]).ToArray());
 
 		/// <summary>
 		/// 装備スロット(装備マスターデータ)
 		/// </summary>
-		public ReadOnlyCollection<EquipmentDataMaster> SlotInstanceMaster { get; private set; }
+		public ReadOnlyCollection<EquipmentDataMaster> SlotInstanceMaster => Array.AsReadOnly(Slot.Select(id => KCDatabase.Instance.Equipments[id]?.MasterEquipment).ToArray());
 
 
 		/// <summary>
@@ -104,38 +104,38 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 補強装備スロット(マスターID)
 		/// </summary>
-		public int ExpansionSlotMaster { get; private set; }
+		public int ExpansionSlotMaster => ExpansionSlot == 0 ? 0 : (KCDatabase.Instance.Equipments[ExpansionSlot]?.EquipmentID ?? -1);
 
 		/// <summary>
 		/// 補強装備スロット(装備データ)
 		/// </summary>
-		public EquipmentData ExpansionSlotInstance { get; private set; }
+		public EquipmentData ExpansionSlotInstance => KCDatabase.Instance.Equipments[ExpansionSlot];
 
 		/// <summary>
 		/// 補強装備スロット(装備マスターデータ)
 		/// </summary>
-		public EquipmentDataMaster ExpansionSlotInstanceMaster { get; private set; }
+		public EquipmentDataMaster ExpansionSlotInstanceMaster => KCDatabase.Instance.Equipments[ExpansionSlot]?.MasterEquipment;
 
 
 		/// <summary>
 		/// 全てのスロット(ID)
 		/// </summary>
-		public ReadOnlyCollection<int> AllSlot { get; private set; }
+		public ReadOnlyCollection<int> AllSlot => Array.AsReadOnly(Slot.Concat(new[] { ExpansionSlot }).ToArray());
 
 		/// <summary>
 		/// 全てのスロット(マスターID)
 		/// </summary>
-		public ReadOnlyCollection<int> AllSlotMaster { get; private set; }
+		public ReadOnlyCollection<int> AllSlotMaster => Array.AsReadOnly(AllSlot.Select(id => KCDatabase.Instance.Equipments[id]?.EquipmentID ?? -1).ToArray());
 
 		/// <summary>
 		/// 全てのスロット(装備データ)
 		/// </summary>
-		public ReadOnlyCollection<EquipmentData> AllSlotInstance { get; private set; }
+		public ReadOnlyCollection<EquipmentData> AllSlotInstance => Array.AsReadOnly(AllSlot.Select(id => KCDatabase.Instance.Equipments[id]).ToArray());
 
 		/// <summary>
 		/// 全てのスロット(装備マスターデータ)
 		/// </summary>
-		public ReadOnlyCollection<EquipmentDataMaster> AllSlotInstanceMaster { get; private set; }
+		public ReadOnlyCollection<EquipmentDataMaster> AllSlotInstanceMaster => Array.AsReadOnly(AllSlot.Select(id => KCDatabase.Instance.Equipments[id]?.MasterEquipment).ToArray());
 
 
 
@@ -1422,7 +1422,8 @@ namespace ElectronicObserver.Data
 					Fuel = (int)RawData.api_fuel;
 					Ammo = (int)RawData.api_bull;
 					Condition = (int)RawData.api_cond;
-					SetSlot((int[])RawData.api_slot, (int)RawData.api_slot_ex);
+					Slot = Array.AsReadOnly((int[])RawData.api_slot);
+					ExpansionSlot = (int)RawData.api_slot_ex;
 					_aircraft = (int[])RawData.api_onslot;
 					_modernized = (int[])RawData.api_kyouka;
 					break;
@@ -1434,7 +1435,7 @@ namespace ElectronicObserver.Data
 					break;
 
 				case "api_req_kaisou/slot_exchange_index":
-					SetSlot((int[])data.api_slot, ExpansionSlot);
+					Slot = Array.AsReadOnly((int[])data.api_slot);
 					break;
 			}
 
@@ -1463,7 +1464,7 @@ namespace ElectronicObserver.Data
 					break;
 
 				case "api_req_kaisou/open_exslot":
-					SetSlot(Slot.ToArray(), -1);
+					ExpansionSlot = -1;
 					break;
 			}
 		}
@@ -1484,50 +1485,6 @@ namespace ElectronicObserver.Data
 
 		}
 
-
-		/// <summary>
-		/// スロット情報を設定します。
-		/// このメソッド以外の場所で Slot 系列のプロパティは書き換えないでください。
-		/// </summary>
-		/// <param name="slot">メインスロット。</param>
-		/// <param name="expansion">拡張スロット。</param>
-		private void SetSlot(int[] slot, int expansion)
-		{
-			var slotRaw = new int[slot.Length];
-			var slotMaster = new int[slot.Length];
-			var slotInstance = new EquipmentData[slot.Length];
-			var slotInstanceMaster = new EquipmentDataMaster[slot.Length];
-
-			var allSlotRaw = new int[slot.Length + 1];
-			var allSlotMaster = new int[slot.Length + 1];
-			var allSlotInstance = new EquipmentData[slot.Length + 1];
-			var allSlotInstanceMaster = new EquipmentDataMaster[slot.Length + 1];
-
-			for (int i = 0; i < slot.Length; i++)
-			{
-				slotRaw[i] = allSlotRaw[i] = slot[i];
-				slotInstance[i] = allSlotInstance[i] = KCDatabase.Instance.Equipments[slot[i]];
-				slotMaster[i] = allSlotMaster[i] = slotInstance[i]?.EquipmentID ?? -1;
-				slotInstanceMaster[i] = allSlotInstanceMaster[i] = slotInstance[i]?.MasterEquipment;
-			}
-
-			ExpansionSlot = allSlotRaw[slot.Length] = expansion;
-			ExpansionSlotInstance = allSlotInstance[slot.Length] = KCDatabase.Instance.Equipments[expansion];
-			ExpansionSlotMaster = allSlotMaster[slot.Length] = ExpansionSlotInstance?.EquipmentID ?? -1;
-			ExpansionSlotInstanceMaster = allSlotInstanceMaster[slot.Length] = ExpansionSlotInstance?.MasterEquipment;
-
-
-			Slot = Array.AsReadOnly(slotRaw);
-			SlotMaster = Array.AsReadOnly(slotMaster);
-			SlotInstance = Array.AsReadOnly(slotInstance);
-			SlotInstanceMaster = Array.AsReadOnly(slotInstanceMaster);
-
-			AllSlot = Array.AsReadOnly(allSlotRaw);
-			AllSlotMaster = Array.AsReadOnly(allSlotMaster);
-			AllSlotInstance = Array.AsReadOnly(allSlotInstance);
-			AllSlotInstanceMaster = Array.AsReadOnly(allSlotInstanceMaster);
-
-		}
 
 	}
 

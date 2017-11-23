@@ -41,7 +41,7 @@ namespace ElectronicObserver.Utility
 		public static Bitmap GenerateCardBitmap(FleetImageArgument args)
 		{
 
-			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count).DefaultIfEmpty(0).Max(), 6);
+			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count(i => i > 0)).DefaultIfEmpty(0).Max(), 6);
 
 
 			var formatMiddleLeft = GetStringFormat(ContentAlignment.MiddleLeft);
@@ -446,6 +446,9 @@ namespace ElectronicObserver.Utility
 		public static Bitmap GenerateCutinBitmap(FleetImageArgument args)
 		{
 
+			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count(i => i > 0)).DefaultIfEmpty(0).Max(), 6);
+
+
 			var formatMiddleLeft = GetStringFormat(ContentAlignment.MiddleLeft);
 			var formatMiddleCenter = GetStringFormat(ContentAlignment.MiddleCenter);
 			var formatMiddleRight = GetStringFormat(ContentAlignment.MiddleRight);
@@ -479,8 +482,6 @@ namespace ElectronicObserver.Utility
 			Bitmap preimage = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			Graphics preg = Graphics.FromImage(preimage);
 
-
-			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count).DefaultIfEmpty(0).Max(), 6);
 
 			bool has5thSlot = args.FleetIDs
 				.Select(id => KCDatabase.Instance.Fleet[id])
@@ -918,7 +919,7 @@ namespace ElectronicObserver.Utility
 		/// </summary>
 		public static Bitmap GenerateBannerBitmap(FleetImageArgument args)
 		{
-			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count).DefaultIfEmpty(0).Max(), 6);
+			int maxShipCount = Math.Max(args.FleetIDs.Select(id => KCDatabase.Instance.Fleet[id].Members.Count(i => i > 0)).DefaultIfEmpty(0).Max(), 6);
 
 
 			var formatTopLeft = GetStringFormat(ContentAlignment.TopLeft);
@@ -1141,7 +1142,7 @@ namespace ElectronicObserver.Utility
 
 					for (int shipIndex = 0; shipIndex < maxShipCount; shipIndex++)
 					{
-						ShipData ship = shipIndex < maxShipCount ? fleet.MembersInstance[shipIndex] : null;
+						ShipData ship = shipIndex < fleet.Members.Count ? fleet.MembersInstance[shipIndex] : null;
 						if (ship == null)
 							continue;
 

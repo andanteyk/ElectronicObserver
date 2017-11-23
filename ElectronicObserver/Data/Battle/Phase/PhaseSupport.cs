@@ -83,7 +83,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			}
 			if (Battle.IsEnemyCombined)
 			{
-				for (int i = 0; i < Battle.Initial.EnemyMembersEscort[i]; i++)
+				for (int i = 0; i < Battle.Initial.EnemyMembersEscort.Length; i++)
 				{
 					if (Battle.Initial.EnemyMembersEscort[i] > 0)
 					{

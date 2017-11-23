@@ -25,14 +25,14 @@ namespace ElectronicObserver.Data.Battle.Phase
 			if (AirBattleData.api_map_squadron_plane == null)
 				yield break;
 
-			foreach (dynamic d in AirBattleData.api_map_squadron_plane)
+			foreach (KeyValuePair<string, dynamic> p in AirBattleData.api_map_squadron_plane)
 			{
-				if (!(d is Codeplex.Data.DynamicJson))
+				if (!(p.Value is Codeplex.Data.DynamicJson))
 					continue;
-				if (!d.IsArray)
+				if (!p.Value.IsArray)
 					continue;
 
-				foreach (dynamic e in d)
+				foreach (dynamic e in p.Value)
 					yield return new BattleBaseAirCorpsSquadron(e);
 			}
 		}

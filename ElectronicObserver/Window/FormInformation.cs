@@ -480,19 +480,20 @@ namespace ElectronicObserver.Window
 			if (KCDatabase.Instance.Ships.Values.First().SallyArea == -1)   // そもそも札情報がなければやる必要はない
 				return;
 
-			int[] targetFleet = KCDatabase.Instance.Fleet.CombinedFlag != 0 ? new int[] { 1, 2 } : new int[] { 1 };
+			// 複数札の艦娘がいる艦隊は、自由出撃海域とみなして除外する
+			var targetFleet = KCDatabase.Instance.Fleet.Fleets.Values
+				.Where(f => f.ExpeditionState == 0 && !f.MembersInstance.Any(s => s != null && s.RepairingDockID != -1))
+				.Where(f => f.MembersInstance.Any(s => s?.SallyArea == 0) && f.MembersInstance.Where(s => s?.SallyArea > 0).Distinct().Count() <= 1);
 
-			var targetShips = targetFleet
-				.Select(f => KCDatabase.Instance.Fleet[f])
-				.SelectMany(f => f.MembersInstance)
-				.Where(s => s != null);
+			if (KCDatabase.Instance.Fleet.CombinedFlag != 0)
+				targetFleet = targetFleet.Where(f => f.FleetID == 1 || f.FleetID == 2);
 
-			var freeships = targetShips.Where(s => s.SallyArea == 0);
-			bool isAreaMixed = targetShips.Select(s => s.SallyArea).Where(area => area > 0).Distinct().Count() > 1;     // 札が複数ある場合、おそらく自由出撃海域なので警告しなくてもいいはず
 
-			if (freeships.Any() && !isAreaMixed)
+			if (targetFleet.Any())
 			{
-				TextInformation.Text = "[誤出撃警告]\r\n札なし艦娘：\r\n" + string.Join("\r\n", freeships.Select(s => s.NameWithLevel));
+				var freeShips = targetFleet.SelectMany(f => f.MembersInstance).Where(s => s?.SallyArea == 0);
+
+				TextInformation.Text = "[誤出撃警告]\r\n札なし艦娘：\r\n" + string.Join("\r\n", freeShips.Select(s => s.NameWithLevel));
 
 				if (Utility.Configuration.Config.Control.ShowSallyAreaAlertDialog)
 					MessageBox.Show("出撃札がついていない艦娘が編成されています。\r\n注意して出撃してください。\r\n\r\n（この警告は 設定→動作 から無効化できます。）", "誤出撃警告",
