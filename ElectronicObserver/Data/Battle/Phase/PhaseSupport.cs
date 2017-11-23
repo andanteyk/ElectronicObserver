@@ -81,7 +81,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 					AddDamage(hps, index, (int)Damages[i]);
 				}
 			}
-			if (IsEnemyCombined)
+			if (Battle.IsEnemyCombined)
 			{
 				for (int i = 0; i < Battle.Initial.EnemyMembersEscort[i]; i++)
 				{

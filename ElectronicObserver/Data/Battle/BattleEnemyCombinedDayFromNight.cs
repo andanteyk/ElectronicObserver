@@ -28,15 +28,20 @@ namespace ElectronicObserver.Data.Battle
 			NightBattle1 = new PhaseNightBattle(this, "第一次夜戦", 1, false);
 			NightBattle2 = new PhaseNightBattle(this, "第二次夜戦", 2, false);
 
-			JetBaseAirAttack = new PhaseJetBaseAirAttack(this, "噴式基地航空隊攻撃");
-			JetAirBattle = new PhaseJetAirBattle(this, "噴式航空戦");
-			BaseAirAttack = new PhaseBaseAirAttack(this, "基地航空隊攻撃");
-			Support = new PhaseSupport(this, "支援攻撃");
-			AirBattle = new PhaseAirBattle(this, "航空戦");
-			OpeningASW = new PhaseOpeningASW(this, "先制対潜", false);
-			OpeningTorpedo = new PhaseTorpedo(this, "先制雷撃", 0);
-			Shelling1 = new PhaseShelling(this, "砲撃戦", 1, "1", false);
-			Torpedo = new PhaseTorpedo(this, "雷撃戦", 2);
+
+			if (NextToDay)
+			{
+				JetBaseAirAttack = new PhaseJetBaseAirAttack(this, "噴式基地航空隊攻撃");
+				JetAirBattle = new PhaseJetAirBattle(this, "噴式航空戦");
+				BaseAirAttack = new PhaseBaseAirAttack(this, "基地航空隊攻撃");
+				Support = new PhaseSupport(this, "支援攻撃");
+				AirBattle = new PhaseAirBattle(this, "航空戦");
+				OpeningASW = new PhaseOpeningASW(this, "先制対潜");
+				OpeningTorpedo = new PhaseTorpedo(this, "先制雷撃", 0);
+				Shelling1 = new PhaseShelling(this, "第一次砲撃戦", 1, "1");
+				Shelling2 = new PhaseShelling(this, "第二次砲撃戦", 2, "2");
+				Torpedo = new PhaseTorpedo(this, "雷撃戦", 3);
+			}
 
 			foreach (var phase in GetPhases())
 				phase.EmulateBattle(_resultHPs, _attackDamages);
@@ -47,8 +52,6 @@ namespace ElectronicObserver.Data.Battle
 		public override string BattleName => "対連合艦隊　夜昼戦";
 
 
-		public override BattleTypeFlag BattleType => BattleTypeFlag.Day | BattleTypeFlag.EnemyCombined;
-
 
 		public override IEnumerable<PhaseBase> GetPhases()
 		{
@@ -56,15 +59,19 @@ namespace ElectronicObserver.Data.Battle
 			yield return NightSupport;
 			yield return NightBattle1;
 			yield return NightBattle2;
-			yield return JetBaseAirAttack;
-			yield return JetAirBattle;
-			yield return BaseAirAttack;
-			yield return AirBattle;
-			yield return Support;
-			yield return OpeningASW;
-			yield return OpeningTorpedo;
-			yield return Shelling1;
-			yield return Torpedo;
+
+			if (NextToDay)
+			{
+				yield return JetBaseAirAttack;
+				yield return JetAirBattle;
+				yield return BaseAirAttack;
+				yield return AirBattle;
+				yield return Support;
+				yield return OpeningASW;
+				yield return OpeningTorpedo;
+				yield return Shelling1;
+				yield return Torpedo;
+			}
 		}
 	}
 }

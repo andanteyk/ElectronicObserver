@@ -14,9 +14,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 	/// </summary>
 	public abstract class PhaseBase
 	{
-		protected static readonly int MemberCount = 7;
-
-
 		protected BattleData Battle;
 		public List<BattleDetail> BattleDetails { get; protected set; }
 		public readonly string Title;
@@ -32,9 +29,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 		protected dynamic RawData => Battle.RawData;
 
-		protected bool IsPractice => (Battle.BattleType & BattleData.BattleTypeFlag.Practice) != 0;
-		protected bool IsFriendCombined => (Battle.BattleType & BattleData.BattleTypeFlag.Combined) != 0;
-		protected bool IsEnemyCombined => (Battle.BattleType & BattleData.BattleTypeFlag.EnemyCombined) != 0;
 
 		protected static bool IsIndexFriend(int index) => 0 <= index && index < 12;
 		protected static bool IsIndexEnemy(int index) => 12 <= index && index < 24;
@@ -52,7 +46,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			hps[index] -= Math.Max(damage, 0);
 
 			// 自軍艦の撃沈が発生した場合(ダメコン処理)
-			if (hps[index] <= 0 && IsIndexFriend(index) && !IsPractice)
+			if (hps[index] <= 0 && IsIndexFriend(index) && !Battle.IsPractice)
 			{
 				var ship = Battle.Initial.GetFriendShip(index);
 				if (ship == null)
@@ -89,21 +83,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 					}
 				}
 			}
-		}
-
-
-		protected static int[] FixedArray(int[] array, int length, int defaultValue = -1)
-		{
-			var ret = new int[length];
-			int l = Math.Min(length, array.Length);
-			Array.Copy(array, ret, l);
-			if (l < length)
-			{
-				for (int i = l; i < length; i++)
-					ret[i] = defaultValue;
-			}
-
-			return ret;
 		}
 
 

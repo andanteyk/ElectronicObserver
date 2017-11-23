@@ -24,12 +24,12 @@ namespace ElectronicObserver.Data.Battle
 			BaseAirAttack = new PhaseBaseAirAttack(this, "基地航空隊攻撃");
 			AirBattle = new PhaseAirBattle(this, "航空戦");
 			Support = new PhaseSupport(this, "支援攻撃");
-			OpeningASW = new PhaseOpeningASW(this, "先制対潜", true);
+			OpeningASW = new PhaseOpeningASW(this, "先制対潜");
 			OpeningTorpedo = new PhaseTorpedo(this, "先制雷撃", 0);
-			Shelling1 = new PhaseShelling(this, "第一次砲撃戦", 1, "1", true);
+			Shelling1 = new PhaseShelling(this, "第一次砲撃戦", 1, "1");
 			Torpedo = new PhaseTorpedo(this, "雷撃戦", 2);
-			Shelling2 = new PhaseShelling(this, "第二次砲撃戦", 3, "2", false);
-			Shelling3 = new PhaseShelling(this, "第三次砲撃戦", 4, "3", false);
+			Shelling2 = new PhaseShelling(this, "第二次砲撃戦", 3, "2");
+			Shelling3 = new PhaseShelling(this, "第三次砲撃戦", 4, "3");
 
 			foreach (var phase in GetPhases())
 				phase.EmulateBattle(_resultHPs, _attackDamages);
@@ -41,7 +41,6 @@ namespace ElectronicObserver.Data.Battle
 
 		public override string BattleName => "連合艦隊-機動部隊 昼戦";
 
-		public override BattleData.BattleTypeFlag BattleType => BattleTypeFlag.Day | BattleTypeFlag.Combined;
 
 
 		public override IEnumerable<PhaseBase> GetPhases()

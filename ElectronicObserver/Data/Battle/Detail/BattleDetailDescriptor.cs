@@ -72,7 +72,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 		{
 
 			var sbmaster = new StringBuilder();
-			bool isBaseAirRaid = (battle.BattleType & BattleData.BattleTypeFlag.BaseAirRaid) != 0;
+			bool isBaseAirRaid = battle.IsBaseAirRaid;
 
 
 			foreach (var phase in battle.GetPhases())

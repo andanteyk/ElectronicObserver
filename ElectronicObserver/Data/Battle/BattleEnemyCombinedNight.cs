@@ -31,8 +31,7 @@ namespace ElectronicObserver.Data.Battle
 
 		public override string BattleName => "対連合艦隊 夜戦";
 
-		public override BattleTypeFlag BattleType => BattleTypeFlag.Night | BattleTypeFlag.EnemyCombined | (NightBattle.IsFriendEscort ? BattleTypeFlag.Combined : 0);
-
+	
 
 		public override IEnumerable<PhaseBase> GetPhases()
 		{

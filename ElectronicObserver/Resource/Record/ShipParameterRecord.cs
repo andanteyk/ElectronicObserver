@@ -948,7 +948,7 @@ namespace ElectronicObserver.Resource.Record
 				UpdateParams(id, battle.Initial.EnemyMaxHPs[i], battle.Initial.EnemyParameters[i], battle.Initial.EnemySlots[i]);
 			}
 
-			if ((battle.BattleType & Data.Battle.BattleData.BattleTypeFlag.EnemyCombined) != 0)
+			if (battle.IsEnemyCombined)
 			{
 				for (int i = 0; i < battle.Initial.EnemyMembersEscort.Length; i++)
 				{
