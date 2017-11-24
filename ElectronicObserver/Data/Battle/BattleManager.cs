@@ -353,7 +353,7 @@ namespace ElectronicObserver.Data.Battle
 				var lvup = Result.LevelUpList;
 				for (int i = 0; i < lvup.Length; i++)
 				{
-					if (lvup[i].Length >= 2 && lvup[i][0] + exps[i] >= lvup[i][1])
+					if (lvup[i].Length >= 2 && i < exps.Length && lvup[i][0] + exps[i] >= lvup[i][1])
 					{
 						var ship = FirstBattle.Initial.FriendFleet.MembersInstance[i];
 						int increment = Math.Max(lvup[i].Length - 2, 1);
@@ -368,7 +368,7 @@ namespace ElectronicObserver.Data.Battle
 					lvup = Result.LevelUpListCombined;
 					for (int i = 0; i < lvup.Length; i++)
 					{
-						if (lvup[i].Length >= 2 && lvup[i][0] + exps[i] >= lvup[i][1])
+						if (lvup[i].Length >= 2 && i < exps.Length && lvup[i][0] + exps[i] >= lvup[i][1])
 						{
 							var ship = FirstBattle.Initial.FriendFleetEscort.MembersInstance[i];
 							int increment = Math.Max(lvup[i].Length - 2, 1);

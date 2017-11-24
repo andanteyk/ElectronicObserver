@@ -335,7 +335,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 護衛退避を実行します。
 		/// </summary>
-		/// <param name="index">対象艦の艦隊内でのインデックス。0-5</param>
+		/// <param name="index">対象艦の艦隊内でのインデックス。[0-6]</param>
 		public void Escape(int index)
 		{
 			_escapedShipList.Add(_members[index]);

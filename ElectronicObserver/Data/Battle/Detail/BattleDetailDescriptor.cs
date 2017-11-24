@@ -441,11 +441,12 @@ namespace ElectronicObserver.Data.Battle.Detail
 				if (ship == null)
 					continue;
 
-				sb.AppendFormat("#{0}: {1} {2} HP: {3} / {4} - 火力{5}, 雷装{6}, 対空{7}, 装甲{8}\r\n",
+				sb.AppendFormat("#{0}: {1} {2} HP: {3} / {4} - 火力{5}, 雷装{6}, 対空{7}, 装甲{8}{9}\r\n",
 					i + 1,
 					ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 					initialHPs[i], maxHPs[i],
-					ship.FirepowerBase, ship.TorpedoBase, ship.AABase, ship.ArmorBase);
+					ship.FirepowerBase, ship.TorpedoBase, ship.AABase, ship.ArmorBase,
+					fleet.EscapedShipList.Contains(ship.MasterID) ? " (退避中)" : "");
 
 				sb.Append("　");
 				for (int k = 0; k < ship.SlotInstance.Count; k++)
