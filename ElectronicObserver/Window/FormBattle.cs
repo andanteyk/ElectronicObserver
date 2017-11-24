@@ -1224,6 +1224,8 @@ namespace ElectronicObserver.Window
 					}
 				}
 
+				MoveHPBar(true);
+
 			}
 			else
 			{
@@ -1231,6 +1233,9 @@ namespace ElectronicObserver.Window
 
 				foreach (var i in BattleIndex.FriendEscort.Skip(Math.Max(bd.Initial.FriendFleet.Members.Count - 6, 0)))
 					DisableHPBar(i);
+
+				MoveHPBar(false, bd.Initial.FriendFleet.Members.Count);
+
 			}
 
 
@@ -1367,6 +1372,30 @@ namespace ElectronicObserver.Window
 				bar.ResumeUpdate();
 		}
 
+
+		private bool _hpBarMoved = false;
+		/// <summary>
+		/// 味方遊撃部隊７人目のHPゲージ（通常時は連合艦隊第二艦隊旗艦のHPゲージ）を移動します。
+		/// </summary>
+		private void MoveHPBar(bool isFriendCombind, int friendFleetMembersCount = 0)
+		{
+			if (!isFriendCombind && friendFleetMembersCount == 7) {
+				if (_hpBarMoved)
+					return;
+				TableBottom.SetCellPosition(HPBars[BattleIndex.FriendEscort.First()], new TableLayoutPanelCellPosition(0, 7));
+				bool fixSize = Utility.Configuration.Config.UI.IsLayoutFixed;
+				bool showHPBar = Utility.Configuration.Config.FormBattle.ShowHPBar;
+				ControlHelper.SetTableRowStyle(TableBottom, 7, fixSize ? new RowStyle(SizeType.Absolute, showHPBar ? 21 : 16) : new RowStyle(SizeType.AutoSize));
+				_hpBarMoved = true;
+			} else {
+				if (!_hpBarMoved)
+					return;
+				TableBottom.SetCellPosition(HPBars[BattleIndex.FriendEscort.First()], new TableLayoutPanelCellPosition(1, 1));
+				ControlHelper.SetTableRowStyle(TableBottom, 7, new RowStyle(SizeType.Absolute, 0));
+				_hpBarMoved = false;
+			}
+
+		}
 
 
 		/// <summary>
@@ -1628,7 +1657,7 @@ namespace ElectronicObserver.Window
 				ControlHelper.SetTableRowStyle(TableBottom, 0, new RowStyle(SizeType.Absolute, 21));
 				for (int i = 1; i <= 6; i++)
 					ControlHelper.SetTableRowStyle(TableBottom, i, new RowStyle(SizeType.Absolute, showHPBar ? 21 : 16));
-				ControlHelper.SetTableRowStyle(TableBottom, 7, new RowStyle(SizeType.Absolute, 21));
+				ControlHelper.SetTableRowStyle(TableBottom, 8, new RowStyle(SizeType.Absolute, 21));
 			}
 			else
 			{
@@ -1691,7 +1720,7 @@ namespace ElectronicObserver.Window
 
 		private void TableBottom_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
 		{
-			if (e.Row == 7)
+			if (e.Row == 8)
 				e.Graphics.DrawLine(Pens.Silver, e.CellBounds.X, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
 		}
 
