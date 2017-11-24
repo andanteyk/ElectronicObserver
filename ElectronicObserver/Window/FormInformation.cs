@@ -483,7 +483,7 @@ namespace ElectronicObserver.Window
 			// 複数札の艦娘がいる艦隊は、自由出撃海域とみなして除外する
 			var targetFleet = KCDatabase.Instance.Fleet.Fleets.Values
 				.Where(f => f.ExpeditionState == 0 && !f.MembersInstance.Any(s => s != null && s.RepairingDockID != -1))
-				.Where(f => f.MembersInstance.Any(s => s?.SallyArea == 0) && f.MembersInstance.Where(s => s?.SallyArea > 0).Distinct().Count() <= 1);
+				.Where(f => f.MembersInstance.Any(s => s?.SallyArea == 0) && f.MembersInstance.Where(s => s?.SallyArea > 0).Select(s => s.SallyArea).Distinct().Count() <= 1);
 
 			if (KCDatabase.Instance.Fleet.CombinedFlag != 0)
 				targetFleet = targetFleet.Where(f => f.FleetID == 1 || f.FleetID == 2);
