@@ -102,23 +102,30 @@ namespace ElectronicObserver.Data.Battle.Detail
 			}
 
 
-			switch (DefenderIndex.Side)
+			if (bd.IsBaseAirRaid)
 			{
-				case BattleSides.FriendMain:
-					Defender = bd.Initial.FriendFleet.MembersInstance[DefenderIndex.Index].MasterShip;
-					break;
+				Defender = null;
+			}
+			else
+			{
+				switch (DefenderIndex.Side)
+				{
+					case BattleSides.FriendMain:
+						Defender = bd.Initial.FriendFleet.MembersInstance[DefenderIndex.Index].MasterShip;
+						break;
 
-				case BattleSides.FriendEscort:
-					Defender = bd.Initial.FriendFleetEscort.MembersInstance[DefenderIndex.Index].MasterShip;
-					break;
+					case BattleSides.FriendEscort:
+						Defender = bd.Initial.FriendFleetEscort.MembersInstance[DefenderIndex.Index].MasterShip;
+						break;
 
-				case BattleSides.EnemyMain:
-					Defender = bd.Initial.EnemyMembersInstance[DefenderIndex.Index];
-					break;
+					case BattleSides.EnemyMain:
+						Defender = bd.Initial.EnemyMembersInstance[DefenderIndex.Index];
+						break;
 
-				case BattleSides.EnemyEscort:
-					Defender = bd.Initial.EnemyMembersEscortInstance[DefenderIndex.Index];
-					break;
+					case BattleSides.EnemyEscort:
+						Defender = bd.Initial.EnemyMembersEscortInstance[DefenderIndex.Index];
+						break;
+				}
 			}
 
 
