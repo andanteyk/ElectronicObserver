@@ -657,6 +657,8 @@ namespace ElectronicObserver.Window
 						return Color.DarkGreen;
 					case 5:     // 敵連合
 						return Color.DarkRed;
+					case 7:		// 夜昼戦(対連合艦隊)
+						return Color.Navy;
 				}
 			};
 
@@ -859,7 +861,13 @@ namespace ElectronicObserver.Window
 									eventkind = "静かな海";
 									break;
 								case 7:
-									eventkind = "ドーバー海峡進撃中";
+									eventkind = "遊撃部隊進撃中";
+									break;
+								case 8:
+									eventkind = "対潜警戒進撃中";
+									break;
+								case 9:
+									eventkind = "栗田艦隊突入";
 									break;
 							}
 							if (compass.RouteChoices != null)

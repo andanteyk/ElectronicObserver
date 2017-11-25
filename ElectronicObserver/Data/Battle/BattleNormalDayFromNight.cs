@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace ElectronicObserver.Data.Battle
 {
+
 	/// <summary>
-	/// 通常/連合艦隊 vs 連合艦隊　夜昼戦
+	/// 通常/連合艦隊 vs 通常艦隊　夜昼戦
 	/// </summary>
-	public class BattleEnemyCombinedDayFromNight : BattleDayFromNight
+	public class BattleNormalDayFromNight : BattleDayFromNight
 	{
 
 		public override void LoadFromResponse(string apiname, dynamic data)
@@ -40,9 +41,9 @@ namespace ElectronicObserver.Data.Battle
 				phase.EmulateBattle(_resultHPs, _attackDamages);
 		}
 
-		public override string APIName => "api_req_combined_battle/ec_night_to_day";
+		public override string APIName => "api_req_sortie/night_to_day";
 
-		public override string BattleName => "対連合艦隊　夜昼戦";
+		public override string BattleName => "対通常艦隊　夜昼戦";
 
 
 

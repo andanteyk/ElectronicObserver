@@ -111,6 +111,7 @@
     <Compile Include="Data\Battle\BattleAirRaid.cs" />
     <Compile Include="Data\Battle\BattleDayFromNight.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedDayFromNight.cs" />
+    <Compile Include="Data\Battle\BattleNormalDayFromNight.cs" />
     <Compile Include="Data\Battle\Detail\BattleDetail.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedDay.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedNight.cs" />

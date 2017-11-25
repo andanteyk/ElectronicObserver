@@ -204,8 +204,8 @@ namespace ElectronicObserver.Data.Battle
 
 				case "api_req_sortie/night_to_day":
 					BattleMode = BattleModes.NightDay;
-					BattleDay = new BattleDayFromNight();
-					BattleDay.LoadFromResponse(apiname, data);
+					BattleNight = new BattleNormalDayFromNight();
+					BattleNight.LoadFromResponse(apiname, data);
 					break;
 
 				case "api_req_combined_battle/battle":
@@ -259,8 +259,8 @@ namespace ElectronicObserver.Data.Battle
 
 				case "api_req_combined_battle/ec_night_to_day":
 					BattleMode = BattleModes.NightDay | BattleModes.EnemyCombinedFleet;
-					BattleDay = new BattleEnemyCombinedDayFromNight();
-					BattleDay.LoadFromResponse(apiname, data);
+					BattleNight = new BattleEnemyCombinedDayFromNight();
+					BattleNight.LoadFromResponse(apiname, data);
 					break;
 
 				case "api_req_combined_battle/each_battle":
