@@ -204,8 +204,8 @@ namespace ElectronicObserver.Data.Battle
 
 				case "api_req_sortie/night_to_day":
 					BattleMode = BattleModes.NightDay;
-					BattleDay = new BattleDayFromNight();
-					BattleDay.LoadFromResponse(apiname, data);
+					BattleNight = new BattleNormalDayFromNight();
+					BattleNight.LoadFromResponse(apiname, data);
 					break;
 
 				case "api_req_combined_battle/battle":
@@ -218,7 +218,6 @@ namespace ElectronicObserver.Data.Battle
 					BattleNight = new BattleCombinedNormalNight();
 					//BattleNight.TakeOverParameters( BattleDay );		//checkme: 連合艦隊夜戦では昼戦での与ダメージがMVPに反映されない仕様？
 					BattleNight.LoadFromResponse(apiname, data);
-					BattleNight.Initial.TakeOverMaxHPs(BattleDay);
 					break;
 
 				case "api_req_combined_battle/sp_midnight":
@@ -256,13 +255,12 @@ namespace ElectronicObserver.Data.Battle
 					BattleNight = new BattleEnemyCombinedNight();
 					BattleNight.TakeOverParameters(BattleDay);
 					BattleNight.LoadFromResponse(apiname, data);
-					BattleNight.Initial.TakeOverMaxHPs(BattleDay);
 					break;
 
 				case "api_req_combined_battle/ec_night_to_day":
 					BattleMode = BattleModes.NightDay | BattleModes.EnemyCombinedFleet;
-					BattleDay = new BattleEnemyCombinedDayFromNight();
-					BattleDay.LoadFromResponse(apiname, data);
+					BattleNight = new BattleEnemyCombinedDayFromNight();
+					BattleNight.LoadFromResponse(apiname, data);
 					break;
 
 				case "api_req_combined_battle/each_battle":
@@ -355,7 +353,7 @@ namespace ElectronicObserver.Data.Battle
 				var lvup = Result.LevelUpList;
 				for (int i = 0; i < lvup.Length; i++)
 				{
-					if (lvup[i].Length >= 2 && lvup[i][0] + exps[i] >= lvup[i][1])
+					if (lvup[i].Length >= 2 && i < exps.Length && lvup[i][0] + exps[i] >= lvup[i][1])
 					{
 						var ship = FirstBattle.Initial.FriendFleet.MembersInstance[i];
 						int increment = Math.Max(lvup[i].Length - 2, 1);
@@ -370,7 +368,7 @@ namespace ElectronicObserver.Data.Battle
 					lvup = Result.LevelUpListCombined;
 					for (int i = 0; i < lvup.Length; i++)
 					{
-						if (lvup[i].Length >= 2 && lvup[i][0] + exps[i] >= lvup[i][1])
+						if (lvup[i].Length >= 2 && i < exps.Length && lvup[i][0] + exps[i] >= lvup[i][1])
 						{
 							var ship = FirstBattle.Initial.FriendFleetEscort.MembersInstance[i];
 							int increment = Math.Max(lvup[i].Length - 2, 1);

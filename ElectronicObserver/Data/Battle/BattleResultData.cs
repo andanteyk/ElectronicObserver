@@ -226,9 +226,13 @@ namespace ElectronicObserver.Data.Battle
 				{
 					return null;
 				}
+				else if (!RawData.api_escape.api_tow_idx())
+				{
+					return new int[1] { (int)RawData.api_escape.api_escape_idx[0] };
+				}
 				else
 				{
-					return new int[2] { (int)RawData.api_escape.api_escape_idx[0], (int)RawData.api_escape.api_tow_idx[0] }.AsEnumerable();
+					return new int[2] { (int)RawData.api_escape.api_escape_idx[0], (int)RawData.api_escape.api_tow_idx[0] };
 				}
 
 			}

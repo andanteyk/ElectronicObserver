@@ -1416,7 +1416,7 @@ api_req_map/next		：進撃
 							 9=揚陸地点
 							10=長距離空襲戦
 	api_event_kind		：イベント種別　
-							0=非戦闘セル, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦, 5=敵連合艦隊戦, 6=長距離空襲戦
+							0=非戦闘セル, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦, 5=敵連合艦隊戦, 6=長距離空襲戦, 7=夜昼戦(対連合艦隊)
 							api_event_id=6(気のせいだった)時は　
 								0="気のせいだった。"
 								1="敵影を見ず。"
@@ -1425,7 +1425,9 @@ api_req_map/next		：進撃
 								4="穏やかな海峡です。"
 								5="警戒が必要です。"
 								6="静かな海です。"
-								7="我が「連合艦隊」はドーバー海峡を進撃中です。"
+								7="我が遊撃艦隊は堂々と進撃中。現海域に敵影なし。"
+								8="艦隊は対潜警戒進撃中。引き続き、対潜対空警戒を厳とせよ。"
+								9="栗田艦隊はこれより戦闘海域に突入する。天祐を確信し、全軍突撃せよ。"
 							api_event_id=7(航空戦)時は　0=航空偵察, 4=航空戦
 	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
@@ -1518,8 +1520,8 @@ api_req_map/next		：進撃
 Request.api_req_sortie/battle	：通常艦隊　昼戦
 	api_formation		：陣形
 	api_recovery_type	：応急修理要員/女神進撃フラグ 0=なし, 1=要員, 2=女神
-	api_supply_flag		：洋上補給フラグ 使用すれば1?, 使用しなければ存在しない
-	api_ration_flag		：戦闘糧食フラグ 使用すれば1?, 使用しなければ存在しない
+	api_supply_flag		：洋上補給フラグ 使用すれば1, 使用しなければ存在しない
+	api_ration_flag		：戦闘糧食フラグ 使用すれば1, 使用しなければ存在しない
 
 api_req_sortie/battle	：通常艦隊　昼戦
 	api_deck_id			：味方出撃艦隊ID　数値型
@@ -1535,6 +1537,7 @@ api_req_sortie/battle	：通常艦隊　昼戦
 	api_e_maxhps		：敵の最大HP [艦船数]
 	api_eSlot			：敵装備スロット [艦船数][5] 空きスロットは-1
 	api_eParam			：敵基礎ステータス [艦船数][4] [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
+	api_escape_idx		：退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_midnight_flag	：夜戦突入可否　0=不可(昼戦で敵全滅など), 1=可能
 	api_search			：索敵成否　[0]=味方, [1]=敵　1=成功, 2=成功(未帰還機あり), 3=未帰還, 4=失敗, 5=発見, 6=発見できず
 	api_air_base_injection	：基地航空隊　噴式強襲攻撃
@@ -1697,6 +1700,7 @@ api_req_battle_midnight/battle		：通常艦隊　夜戦
 	api_e_maxhps		：敵の最大HP [艦船数]
 	api_eSlot			：敵装備スロット [艦船数][5] 空きスロットは -1
 	api_eParam			：敵基礎ステータス [艦船数][4] [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
+	api_escape_idx		：退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_touch_plane		：夜間触接機ID　[2]　[0]=味方, [1]=敵　なければ -1
 	api_flare_pos		：照明弾投射艦インデックス　[2]　[0]=味方, [1]=敵　1基点　なければ -1
 	api_hougeki			：夜間砲雷撃戦　メンバはすべて[攻撃フェイズの回数]　攻撃フェイズが1回も発生しなかった場合（敵味方全員潜水艦など）、全メンバが null になる
@@ -1779,6 +1783,7 @@ api_req_sortie/ld_airbattle		：通常艦隊　長距離空襲戦　存在する
 	api_e_maxhps
 	api_eSlot
 	api_eParam
+	api_escape_idx
 	api_midnight_flag	：常に 0 ?
 	api_combat_ration
 	api_search
@@ -1911,16 +1916,16 @@ api_req_combined_battle/ec_battle	：通常艦隊 vs 敵連合艦隊 昼戦
 	api_hougeki3			：第三次砲撃戦 api_hougeki1 と同じ なければ存在しない
 
 
-api_req_combiend_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（敵連合艦隊）
+api_req_combined_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（敵連合艦隊）
 	api_active_deck			：戦闘参加艦隊フラグ　[2]　[0]=味方側, [1]=敵側　1=主力艦隊, 2=随伴艦隊 
 	api_deck_id				：出撃艦隊ID　味方連合なら1
 	api_formation			：陣形 [3]
-	api_f_nowhps
-	api_f_maxhps
-	api_f_nowhps_combined
-	api_f_maxhps_combined
-	api_fParam
-	api_fParam_combined
+	api_f_nowhps			：味方主力現在HP
+	api_f_maxhps			：味方主力最大HP
+	api_f_nowhps_combined	：味方随伴現在HP
+	api_f_maxhps_combined	：味方随伴最大HP
+	api_fParam				：味方主力パラメータ
+	api_fParam_combined		：味方随伴パラメータ
 	api_ship_ke				：敵主力艦船ID　[敵艦船数?]
 	api_ship_lv				：敵主力Lv　[敵艦船数?]
 	api_ship_ke_combined	：敵随伴艦船ID　[敵艦船数?]
@@ -1933,11 +1938,14 @@ api_req_combiend_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（
 	api_eSlot_combined		：敵随伴艦隊装備IDリスト [敵艦船数?][5]
 	api_eParam				：敵主力パラメータ [敵艦船数?][4] (火雷空甲)
 	api_eParam_combined		：敵随伴パラメータ [敵艦船数?][4] (火雷空甲)
+	api_escape_idx			：本隊の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
+	api_escape_idx_combined	：随伴の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_touch_plane			：夜間触接機ID [2]
 	api_flare_pos			：照明弾投射艦インデックス [2]
 	api_hougeki				：夜間砲雷撃戦　すべて[攻撃フェーズの回数]
 		api_at_eflag			：攻撃艦陣営　0=味方, 1=敵
 		api_at_list				：攻撃艦インデックス　0基点
+		api_n_mother_list		：[]
 		api_df_list				：防御艦インデックス [][]　0基点
 		api_si_list				：表示装備IDリスト [][]　味方側は文字列、敵側は数値?
 		api_cl_list				：クリティカルフラグ [][] 
@@ -1945,7 +1953,7 @@ api_req_combiend_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（
 		api_damage				：ダメージ [][] 
 
 
-api_req_sortie/battleresult	：戦闘結果
+api_req_sortie/battleresult	：通常艦隊　戦闘結果
 	api_ship_id				：敵艦船ID [艦船数]
 	api_win_rank			：勝利ランク　文字列
 	api_get_exp				：獲得提督経験値
@@ -1953,7 +1961,7 @@ api_req_sortie/battleresult	：戦闘結果
 	api_member_lv			：艦隊司令部Lv.
 	api_member_exp			：提督経験値
 	api_get_base_exp		：獲得基本経験値
-	api_get_ship_exp		：各艦の獲得経験値 [7 or 8(7隻編成時のみ)]　[1]が旗艦　[0]と空きスロットは -1
+	api_get_ship_exp		：各艦の獲得経験値 [7 or 8 (7番艦が経験値入手可能な状況((空き/撃沈/退避中)ではないとき)のみ)]　[1]が旗艦　[0]と(空き/撃沈/退避)は -1
 	api_get_exp_lvup		：[味方艦船数][] 各艦の[0]獲得前経験値, [1]次のレベルの経験値(レベルキャップ到達時存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ...
 	api_dests				：敵艦撃沈数？
 	api_destsf				：敵旗艦撃沈フラグ？
@@ -1987,9 +1995,14 @@ api_req_sortie/battleresult	：戦闘結果
 		api_now_hp			：現在のTP(減少前)　文字列型
 		api_max_hp			：最大TP　文字列型
 		api_sub_value		：減少したTP　文字列だったり数値だったりする
-	api_escape_flag			：退避フラグ？
-	api_escape				：退避情報？　上の=0の時 null
+	api_escape_flag			：退避可能艦の有無　0=なし, 1=あり
+	api_escape				：退避艦　api_escape_flag=0の時 null
+		api_escape_idx		：退避艦のインデックス　[対象艦数]　1基点　実際は[0]が対象となる
 	api_m1					：('16秋イベ)ギミック解除フラグ?　1=解除　それ以外の場合存在しない
+
+
+api_req_sortie/goback_port		：単艦退避受諾
+	(情報なし)					：退避したときのみ呼ばれる; 退避艦等の情報は battleresult に含まれている
 
 
 api_get_member/ship2		：旧進撃中(現在はケッコンカッコカリ・給糧艦使用(未確認)のみだと思われる)
@@ -2174,8 +2187,8 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊or輸送部隊 戦闘
 	api_eParam				：
 	api_midnight_flag		：
 	api_xal01				：？　1=装甲破壊状態 そうでなければ存在しない
-	api_escape_idx			：？　機動部隊本隊退避艦座標(1-6)
-	api_escape_idx_combined	：？　随伴護衛艦隊退避艦座標(1-6)
+	api_escape_idx			：本隊の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
+	api_escape_idx_combined	：随伴の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_combat_ration		：？　本隊戦闘糧食補給　発動時のみ存在　艦船IDの数値配列
 	api_combat_ration_combined：？　随伴艦隊戦闘糧食補給　発動時のみ存在　艦船IDの数値配列
 	api_search				：[2]
@@ -2258,7 +2271,6 @@ api_req_combined_battle/battle	：連合艦隊-機動部隊or輸送部隊 戦闘
 
 
 
-['17 秋イベでフォーマット変更　要再確認]
 api_req_combined_battle/midnight_battle		：連合艦隊 vs 通常艦隊 夜戦
 	api_deck_id				：味方出撃艦隊ID　仕様上1
 	api_formation			：[3]
@@ -2274,10 +2286,10 @@ api_req_combined_battle/midnight_battle		：連合艦隊 vs 通常艦隊 夜戦
 	api_e_maxhps			：[]
 	api_eSlot				：[][5]
 	api_eParam				：[][4]
+	api_escape_idx			：本隊の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
+	api_escape_idx_combined	：随伴の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_touch_plane			：[2]
 	api_flare_pos			：[2]
-	api_escape_idx			：？　本隊退避艦座標(1-6)
-	api_escape_idx_combined	：？　随伴護衛艦隊退避艦座標(1-6)
 	api_hougeki				：夜間砲雷撃戦　味方随伴 vs 敵
 		api_at_eflag			：[]
 		api_at_list				：[]
@@ -2311,6 +2323,8 @@ api_req_combined_battle/battle_water	：連合艦隊-水上部隊　戦闘　記
 	api_eSlot				：敵装備スロット　[艦船数][5]
 	api_eParam				：敵ステータス　[艦船数][4]
 	api_midnight_flag		：
+	api_escape_idx			：本隊の退避艦インデックス　1基点　いなければ存在しない
+	api_escape_idx_combined	：随伴の退避艦インデックス　1基点　いなければ存在しない
 	api_combat_ration		：本体の戦闘糧食補給　[発動艦数]　艦船の固有ID　発動しなければ存在しない
 	api_combat_ration_combined：随伴の戦闘糧食補給　〃　　
 	api_search				：[2]
@@ -2417,7 +2431,9 @@ api_req_combined_battle/ld_airbattle		：連合艦隊 長距離空襲戦　存�
 	api_eSlot				：
 	api_eParam				：
 	api_midnight_flag		：常に 0 ?
-	api_combat_ration		：本体の戦闘糧食補給　[発動艦数]　艦船の固有ID　発動しなければ存在しない
+	api_escape_idx			：本隊の退避艦インデックス　1基点　いなければ存在しない
+	api_escape_idx_combined	：随伴の退避艦インデックス　1基点　いなければ存在しない
+	api_combat_ration		：本隊の戦闘糧食補給　[発動艦数]　艦船の固有ID　発動しなければ存在しない
 	api_combat_ration_combined：随伴の戦闘糧食補給　〃　　
 	api_search				：[2]
 	api_stage_flag			：[3]
@@ -2479,6 +2495,8 @@ api_req_combined_battle/each_battle		：連合艦隊(機動部隊) vs 敵連合�
 	api_eParam				：
 	api_eParam_combined		：
 	api_midnight_flag		：
+	api_escape_idx			：
+	api_escape_idx_combined	：
 	api_search				：[2]
 	api_stage_flag			：[3]
 	api_kouku				：
@@ -2581,6 +2599,8 @@ api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵�
 	api_eParam				：[艦船数][4]
 	api_eParam_combined		：[艦船数][4]
 	api_midnight_flag		：
+	api_escape_idx			：
+	api_escape_idx_combined	：
 	api_search				：[2]
 	api_air_base_attack
 		api_base_id
@@ -2699,83 +2719,174 @@ api_req_combined_battle/each_battle_water	：連合艦隊(水上部隊) vs 敵�
 
 
 api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
-	api_deck_id			：int
-	api_formation		：[3]
-	api_f_nowhps
-	api_f_maxhps
-						：api_f_(now|max)hps_combined, api_fParam_combined は、連合艦隊でなければ存在しない？
-	api_fParam
-	api_ship_ke
-	api_ship_lv
-	api_ship_ke_combined
-	api_ship_lv_combined
-	api_e_nowhps
-	api_e_maxhps
-	api_e_nowhps_combined
-	api_e_maxhps_combined
-	api_eSlot
-	api_sSlot_combined
-	api_eParam
-	api_eParam_combined
-	api_touch_plane			：夜間触接機のID　[2]　[0]=味方, [1]=敵
-	api_flare_pos			：照明弾投射艦インデックス　[2]　[0]=味方, [1]=敵
-	api_n_support_flag		：夜戦支援フラグ
-	api_n_support_info
-		api_support_airatack
-		api_support_hourai		：夜戦支援フラグが砲撃か雷撃の時に有効　それ以外は null
-			api_deck_id
-			api_ship_id
-			api_undressing_flag
-			api_cl_list
-			api_damage
-	api_n_hougeki1				：夜間砲雷撃戦　1巡目　味方(随伴)?->敵全体 vs 敵随伴->味方?
-		api_at_eflag
-		api_at_list
-		api_n_mother_list
-		api_df_list
-		api_si_list
-		api_cl_list
-		api_sp_list
-		api_damage
-	api_n_hougeki2				：夜間砲雷撃戦　2巡目　味方(本体)?->敵全体 vs 敵本体->味方?　メンバのフォーマットは1巡目と同じ
-	api_day_flag		：1なら昼戦データが続く?
-	api_search			：[2]
-	api_air_base_attack	：基地航空隊攻撃　[攻撃回数]
-		api_base_id
-		api_stage_flag
-		api_plane_from
-		api_squadron_plane
-		api_stage1
-		api_stage2
-		api_stage3
-		api_stage3_combined
-	api_support_flag
-	api_support_info		：api_support_flag = 0 なら null
-	api_stage_flag
-	api_kouku
-	api_opening_taisen_flag
-	api_opening_taisen
-	api_opening_flag
-	api_opening_atack
-	api_hourai_flag		：[3]　0のメンバは存在しなくなる
-	api_hougeki1		：昼間第一次砲撃戦
-		api_at_eflag
-		api_at_list
-		api_at_type
-		api_df_list
-		api_si_list
-		api_cl_list
-		api_damage
-	api_hougeki2		：昼間第二次砲撃戦
-	api_raigeki			：雷撃戦
-		api_frai
-		api_fcl
-		api_fdam
-		api_fydam
-		api_erai
-		api_ecl
-		api_edam
-		api_eydam
+	api_deck_id				：
+	api_formation			：[3]
+	api_f_nowhps			：[]
+	api_f_maxhps			：[]
+	api_fParam				：[][4]
+	api_ship_ke				：[]
+	api_ship_lv				：[]
+	api_ship_ke_combined	：[]
+	api_ship_lv_combined	：[]
+	api_e_nowhps			：[]
+	api_e_maxhps			：[]
+	api_e_nowhps_combined	：[]
+	api_e_maxhps_combined	：[]
+	api_eSlot				：[][5]
+	api_eSlot_combined		：[][5]
+	api_eParam				：[][4]
+	api_eParam_combined		：[][4]
+	api_touch_plane			：[2]
+	api_flare_pos			：[2]
+	api_n_support_flag		：夜間支援フラグ
+	api_n_support_info		：
+		api_support_airatack	：
+		api_support_hourai		：
+			api_deck_id				：
+			api_ship_id				：[6]
+			api_undressing_flag		：[6]
+			api_cl_list				：[12?]
+			api_damage				：[12?]
+	api_n_hougeki1			：夜間砲雷撃戦　1巡目　味方(随伴)?->敵全体 vs 敵随伴->味方?
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_n_mother_list		：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_sp_list				：[]
+		api_damage				：[][]
+	api_n_hougeki2			：夜間砲雷撃戦　2巡目　味方(本体)?->敵全体 vs 敵本体->味方?
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_n_mother_list		：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_sp_list				：[]
+		api_damage				：[][]
+	api_day_flag			：昼戦可否　0=不可, 1=可　以下のメンバは 1 の時のみ存在
+	api_search				：[2]
+	api_air_base_injection	：噴式基地航空隊攻撃
+		api_plane_from			：[2]　[null, null] ?
+		api_air_base_data		：[]
+			api_mst_id				：
+			api_count				：
+		api_stage1				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+		api_stage2				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+		api_stage3				：
+			api_erai_flag			：[艦船数?]
+			api_ebak_flag			：[艦船数?]
+			api_ecl_flag			：[艦船数?]
+			api_edam				：[艦船数?]
+		api_stage3_combined		：
+			api_erai_flag			：[艦船数?]
+			api_ebak_flag			：[艦船数?]
+			api_ecl_flag			：[艦船数?]
+			api_edam				：[艦船数?]
+	api_air_base_attack		：基地航空隊攻撃　[攻撃回数]
+		api_base_id				：
+		api_stage_flag			：[3]
+		api_plane_from			：[2][]
+		api_squadron_plane		：[]
+			api_mst_id				：
+			api_count				：
+		api_stage1				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_disp_seiku			：
+			api_touch_plane			：[2]
+		api_stage2				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+		api_stage3				：
+			api_erai_flag			：[艦船数]
+			api_ebak_flag			：[艦船数]
+			api_ecl_flag			：[艦船数]
+			api_edam				：[艦船数]
+		api_stage3_combined		：
+			api_erai_flag			：[艦船数]
+			api_ebak_flag			：[艦船数]
+			api_ecl_flag			：[艦船数]
+			api_edam				：[艦船数]
+	api_support_flag		：
+	api_support_info		：
+	api_stage_flag			：[3]
+	api_kouku				：
+		api_plane_from			：[2][]
+		api_stage1				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_disp_seiku			：
+			api_touch_plane			：[2]
+		api_stage2				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+		api_stage3				：
+			api_frai_flag			：[]
+			api_erai_flag			：[]
+			api_fbak_flag			：[]
+			api_ebak_flag			：[]
+			api_fcl_flag			：[]
+			api_ecl_flag			：[]
+			api_fdam				：[]
+			api_edam				：[]
+		api_stage3_combined		：随伴艦隊が存在しなければ対応するメンバは null
+			api_frai_flag			：[]
+			api_erai_flag			：[]
+			api_fbak_flag			：[]
+			api_ebak_flag			：[]
+			api_fcl_flag			：[]
+			api_ecl_flag			：[]
+			api_fdam				：[]
+			api_edam				：[]
+	api_opening_taisen_flag	：
+	api_opening_taisen		：
+	api_opening_flag		：
+	api_opening_atack		：
+	api_hourai_flag			：[3]
+	api_hougeki1			：昼砲撃戦　1巡目
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_hougeki2			：昼砲撃戦　2巡目
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_raigeki				：雷撃戦
+		api_frai				：[7]
+		api_fcl					：[7]
+		api_fdam				：[7]
+		api_fydam				：[7]
+		api_erai				：[12]
+		api_ecl					：[12]
+		api_edam				：[12]
+		api_eydam				：[12]
+	api_escape_idx			：[]
 
 
 api_req_combined_battle/battleresult	：連合艦隊 戦闘結果 (味方通常艦隊-敵連合艦隊を含む)
@@ -2819,8 +2930,8 @@ api_req_combined_battle/battleresult	：連合艦隊 戦闘結果 (味方通常�
 		api_sub_value			：減少したTP　文字列だったり数値だったりする
 	api_escape_flag				：退避艦の有無　0=なし, 1=あり
 	api_escape					：退避艦　存在しなければ null
-		api_escape_idx			：退避艦のインデックス　1基点
-		api_tow_idx				：護衛艦のインデックス　1基点
+		api_escape_idx			：退避艦のインデックス　[対象艦数]　1基点　実際は[0]が対象となる
+		api_tow_idx				：護衛艦のインデックス　[対象艦数]　1基点　実際は[0]が対象となる
 
 Request.api_req_combined_battle/goback_port		：護衛退避
 	(情報なし)

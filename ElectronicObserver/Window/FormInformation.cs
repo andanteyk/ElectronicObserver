@@ -480,18 +480,25 @@ namespace ElectronicObserver.Window
 			if (KCDatabase.Instance.Ships.Values.First().SallyArea == -1)   // そもそも札情報がなければやる必要はない
 				return;
 
-			// 複数札の艦娘がいる艦隊は、自由出撃海域とみなして除外する
-			var targetFleet = KCDatabase.Instance.Fleet.Fleets.Values
-				.Where(f => f.ExpeditionState == 0 && !f.MembersInstance.Any(s => s != null && s.RepairingDockID != -1))
-				.Where(f => f.MembersInstance.Any(s => s?.SallyArea == 0) && f.MembersInstance.Where(s => s?.SallyArea > 0).Distinct().Count() <= 1);
+			IEnumerable<IEnumerable<ShipData>> group;
 
 			if (KCDatabase.Instance.Fleet.CombinedFlag != 0)
-				targetFleet = targetFleet.Where(f => f.FleetID == 1 || f.FleetID == 2);
+				group = new[] { KCDatabase.Instance.Fleet[1].MembersInstance.Concat(KCDatabase.Instance.Fleet[2].MembersInstance).Where(s => s != null) };
+			else
+				group = KCDatabase.Instance.Fleet.Fleets.Values
+					.Where(f => f?.ExpeditionState == 0)
+					.Select(f => f.MembersInstance.Where(s => s != null));
 
 
-			if (targetFleet.Any())
+			group = group.Where(ss =>
+				ss.All(s => s.RepairingDockID == -1) &&
+				ss.Any(s => s.SallyArea == 0) &&
+				ss.Select(s => s.SallyArea).Distinct().Count() <= 2);   // 札が(なしも含めて)3種類以上なら、出撃できない or 自由出撃海域なので除外
+
+
+			if (group.Any())
 			{
-				var freeShips = targetFleet.SelectMany(f => f.MembersInstance).Where(s => s?.SallyArea == 0);
+				var freeShips = group.SelectMany(f => f).Where(s => s.SallyArea == 0);
 
 				TextInformation.Text = "[誤出撃警告]\r\n札なし艦娘：\r\n" + string.Join("\r\n", freeShips.Select(s => s.NameWithLevel));
 

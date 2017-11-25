@@ -203,17 +203,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 
 
-		// note: 直ったのでは？
-		/// <summary>
-		/// 2016/11/19 現在、連合艦隊夜戦において味方随伴艦隊が 最大HP = 現在HP となる不具合が存在するため、
-		/// 昼戦データから最大HPを取得する
-		/// </summary>
-		public void TakeOverMaxHPs(BattleData bd)
-		{
-			Array.Copy(bd.Initial.FriendMaxHPsEscort, FriendMaxHPsEscort, bd.Initial.FriendMaxHPsEscort.Length);
-		}
-
-
 		public ShipData GetFriendShip(int index)
 		{
 			if (index < 0 || index >= 12)
