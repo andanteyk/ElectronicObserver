@@ -449,9 +449,9 @@ namespace ElectronicObserver.Data.Battle.Detail
 					fleet.EscapedShipList.Contains(ship.MasterID) ? " (退避中)" : "");
 
 				sb.Append("　");
-				for (int k = 0; k < ship.SlotInstance.Count; k++)
+				for (int k = 0; k <= ship.SlotInstance.Count; k++)
 				{
-					var eq = ship.SlotInstance[k];
+					var eq = k != ship.SlotInstance.Count ? ship.SlotInstance[k] : ship.ExpansionSlotInstance;
 					if (eq != null)
 					{
 						if (k > 0)
@@ -495,9 +495,9 @@ namespace ElectronicObserver.Data.Battle.Detail
 					ship.FirepowerBase, ship.TorpedoBase, ship.AABase, ship.ArmorBase);
 
 				sb.Append("　");
-				for (int k = 0; k < ship.SlotInstance.Count; k++)
+				for (int k = 0; k <= ship.SlotInstance.Count; k++)
 				{
-					var eq = ship.SlotInstance[k];
+					var eq = k != ship.SlotInstance.Count ? ship.SlotInstance[k] : ship.ExpansionSlotInstance;
 					if (eq != null)
 					{
 						if (k > 0)
