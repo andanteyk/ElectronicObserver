@@ -176,7 +176,7 @@ namespace ElectronicObserver.Resource.Record
 			{
 
 				var battle = KCDatabase.Instance.Battle;
-				string fleetName = battle.Result?.EnemyFleetName ?? "";
+				string fleetName = battle.IsBaseAirRaid ? "敵基地空襲" : battle.Result?.EnemyFleetName ?? "";
 				int baseExp = battle.Result?.BaseExp ?? 0;
 				var initial = battle.FirstBattle.Initial;
 
@@ -188,7 +188,7 @@ namespace ElectronicObserver.Resource.Record
 					fleetName,
 					battle.Compass.MapAreaID,
 					battle.Compass.MapInfoID,
-					battle.Compass.Destination,
+					battle.IsBaseAirRaid ? -1 : battle.Compass.Destination,
 					battle.Compass.MapInfo.EventDifficulty,
 					battle.FirstBattle.Searching.FormationEnemy,
 					battle.IsEnemyCombined ? initial.EnemyMembers.Concat(initial.EnemyMembersEscort).ToArray() : initial.EnemyMembers,

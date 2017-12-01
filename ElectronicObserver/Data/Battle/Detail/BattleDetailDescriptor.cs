@@ -449,17 +449,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 					fleet.EscapedShipList.Contains(ship.MasterID) ? " (退避中)" : "");
 
 				sb.Append("　");
-				for (int k = 0; k < ship.SlotInstance.Count; k++)
-				{
-					var eq = ship.SlotInstance[k];
-					if (eq != null)
-					{
-						if (k > 0)
-							sb.Append(", ");
-						sb.Append(eq.ToString());
-					}
-				}
-				sb.AppendLine();
+				sb.AppendLine(string.Join(", ", ship.AllSlotInstance.Where(eq => eq != null)));
 			}
 		}
 
@@ -495,17 +485,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 					ship.FirepowerBase, ship.TorpedoBase, ship.AABase, ship.ArmorBase);
 
 				sb.Append("　");
-				for (int k = 0; k < ship.SlotInstance.Count; k++)
-				{
-					var eq = ship.SlotInstance[k];
-					if (eq != null)
-					{
-						if (k > 0)
-							sb.Append(", ");
-						sb.Append(eq.ToString());
-					}
-				}
-				sb.AppendLine();
+				sb.AppendLine(string.Join(", ", ship.AllSlotInstance.Where(eq => eq != null)));
 			}
 
 		}
@@ -532,17 +512,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 				}
 
 				sb.AppendLine().Append("　");
-				for (int k = 0; k < slots[i].Length; k++)
-				{
-					var eq = slots[i][k];
-					if (eq != null)
-					{
-						if (k > 0)
-							sb.Append(", ");
-						sb.Append(eq.ToString());
-					}
-				}
-				sb.AppendLine();
+				sb.AppendLine(string.Join(", ", slots[i].Where(eq => eq != null)));
 			}
 		}
 

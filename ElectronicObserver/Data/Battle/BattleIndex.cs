@@ -178,6 +178,9 @@ namespace ElectronicObserver.Data.Battle
 			}
 		}
 
+
+		public bool IsFriend => Side == BattleSides.FriendMain || Side == BattleSides.FriendEscort;
+		public bool IsEnemy => Side == BattleSides.EnemyMain || Side == BattleSides.EnemyEscort;
 		public bool IsMain => Side == BattleSides.FriendMain || Side == BattleSides.EnemyMain;
 		public bool IsEscort => Side == BattleSides.FriendEscort || Side == BattleSides.EnemyEscort;
 
