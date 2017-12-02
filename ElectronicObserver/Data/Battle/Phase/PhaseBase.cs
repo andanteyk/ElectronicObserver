@@ -52,36 +52,14 @@ namespace ElectronicObserver.Data.Battle.Phase
 				if (ship == null)
 					return;
 
+				int id = ship.DamageControlID;
 
-				//補強スロットが最優先
-				if (ship.ExpansionSlotMaster == 42)
-				{
-					//応急修理要員
+				if (id == 42)
 					hps[index] = (int)(ship.HPMax * 0.2);
-					return;
-				}
-				else if (ship.ExpansionSlotMaster == 43)
-				{
-					//応急修理女神
-					hps[index] = ship.HPMax;
-					return;
-				}
 
-				foreach (var eid in ship.SlotMaster)
-				{
-					if (eid == 42)
-					{
-						//応急修理要員
-						hps[index] = (int)(ship.HPMax * 0.2);
-						break;
-					}
-					else if (eid == 43)
-					{
-						//応急修理女神
-						hps[index] = ship.HPMax;
-						break;
-					}
-				}
+				else if (id == 43)
+					hps[index] = ship.HPMax;
+
 			}
 		}
 

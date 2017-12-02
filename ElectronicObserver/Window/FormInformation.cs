@@ -380,8 +380,9 @@ namespace ElectronicObserver.Window
 							difficulty = "[" + Constants.GetDifficulty((int)elem.api_eventmap.api_selected_rank) + "] ";
 						}
 
-						sb.AppendFormat("{0}-{1} {2}: {3} {4}/{5}\r\n",
+						sb.AppendFormat("{0}-{1} {2}: {3}{4} {5}/{6}\r\n",
 							map.MapAreaID, map.MapInfoID, difficulty,
+							elem.api_eventmap.api_gauge_num() ? ("#" + (int)elem.api_eventmap.api_gauge_num + " ") : "",
 							elem.api_eventmap.api_gauge_type() && (int)elem.api_eventmap.api_gauge_type == 3 ? "TP" : "HP",
 							(int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp);
 

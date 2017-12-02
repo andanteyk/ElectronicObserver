@@ -238,6 +238,9 @@ namespace ElectronicObserver.Window
 						var battle = bm.BattleNight as BattleDayFromNight;
 
 						SetFormation(bm);
+						ClearAerialWarfare();
+						ClearSearchingResult();
+						ClearBaseAirAttack();
 						SetNightBattleEvent(battle.NightBattle);
 
 						if (battle.NextToDay)
@@ -316,10 +319,12 @@ namespace ElectronicObserver.Window
 
 				case "api_req_combined_battle/ec_night_to_day":
 					{
-						// 暫定
 						var battle = bm.BattleNight as BattleDayFromNight;
 
 						SetFormation(bm);
+						ClearAerialWarfare();
+						ClearSearchingResult();
+						ClearBaseAirAttack();
 						SetNightBattleEvent(battle.NightBattle);
 
 						if (battle.NextToDay)

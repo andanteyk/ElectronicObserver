@@ -348,10 +348,22 @@ namespace ElectronicObserver.Data
 			get
 			{
 				int param = EvasionTotal;
-				foreach (var eq in AllSlotInstance)
+				foreach (var eq in AllSlotInstance.Where(eq => eq != null))
 				{
-					if (eq != null)
-						param -= eq.MasterEquipment.Evasion;
+					param -= eq.MasterEquipment.Evasion;
+
+					// 北方迷彩(+北方装備)
+					if (eq.EquipmentID == 268)
+					{
+						switch (ShipID)
+						{
+							case 146:   // 木曽改二
+							case 216:   // 多摩改
+							case 217:   // 木曽改
+								param -= 7;
+								break;
+						}
+					}
 				}
 				return param;
 			}
@@ -365,10 +377,9 @@ namespace ElectronicObserver.Data
 			get
 			{
 				int param = ASWTotal;
-				foreach (var eq in AllSlotInstance)
+				foreach (var eq in AllSlotInstance.Where(eq => eq != null))
 				{
-					if (eq != null)
-						param -= eq.MasterEquipment.ASW;
+					param -= eq.MasterEquipment.ASW;
 				}
 				return param;
 			}
@@ -382,10 +393,9 @@ namespace ElectronicObserver.Data
 			get
 			{
 				int param = LOSTotal;
-				foreach (var eq in AllSlotInstance)
+				foreach (var eq in AllSlotInstance.Where(eq => eq != null))
 				{
-					if (eq != null)
-						param -= eq.MasterEquipment.LOS;
+					param -= eq.MasterEquipment.LOS;
 				}
 				return param;
 			}
@@ -1403,6 +1413,25 @@ namespace ElectronicObserver.Data
 		}
 
 
+		/// <summary>
+		/// 発動可能なダメコンのID -1=なし, 42=要員, 43=女神
+		/// </summary>
+		public int DamageControlID
+		{
+			get
+			{
+				if (ExpansionSlotMaster == 42 || ExpansionSlotMaster == 43)
+					return ExpansionSlotMaster;
+
+				foreach (var eq in SlotMaster)
+				{
+					if (eq == 42 || eq == 43)
+						return eq;
+				}
+
+				return -1;
+			}
+		}
 
 
 

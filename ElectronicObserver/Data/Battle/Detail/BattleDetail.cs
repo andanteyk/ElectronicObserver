@@ -32,6 +32,9 @@ namespace ElectronicObserver.Data.Battle.Detail
 		public BattleIndex DefenderIndex { get; protected set; }
 
 
+		protected readonly BattleData Battle;
+
+
 		public enum CriticalType
 		{
 			Miss = 0,
@@ -50,6 +53,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 		/// <param name="defenderHP">防御側の攻撃を受ける直前のHP。</param>
 		public BattleDetail(BattleData bd, BattleIndex attackerIndex, BattleIndex defenderIndex, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, int defenderHP)
 		{
+			Battle = bd;
 
 			AttackerIndex = attackerIndex;
 			DefenderIndex = defenderIndex;
@@ -185,15 +189,33 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 			}
 
-			{
-				int before = Math.Max(DefenderHP, 0);
-				int after = Math.Max(DefenderHP - Damages.Sum(), 0);
-				if (before != after)
-					builder.AppendFormat(" ( {0} → {1} )", before, after);
-			}
+
+			int beforeHP = Math.Max(DefenderHP, 0);
+			int afterHP = Math.Max(DefenderHP - Damages.Sum(), 0);
+			if (beforeHP != afterHP)
+				builder.AppendFormat(" ( {0} → {1} )", beforeHP, afterHP);
+
 
 
 			builder.AppendLine();
+
+
+			// damage control
+			if (afterHP <= 0 && DefenderIndex.IsFriend && !Battle.IsPractice && !Battle.IsBaseAirRaid)
+			{
+				var defender = (DefenderIndex.Side == BattleSides.FriendEscort ? Battle.Initial.FriendFleetEscort : Battle.Initial.FriendFleet).MembersInstance[DefenderIndex.Index];
+				if (defender != null)
+				{
+					int id = defender.DamageControlID;
+
+					if (id == 42)
+						builder.AppendFormat("　応急修理要員発動　HP{0}", (int)(defender.HPMax * 0.2)).AppendLine();
+
+					else if (id == 43)
+						builder.AppendFormat("　応急修理女神発動　HP{0}", defender.HPMax).AppendLine();
+
+				}
+			}
 			return builder.ToString();
 		}
 
