@@ -1225,8 +1225,6 @@ namespace ElectronicObserver.Window
 					}
 				}
 
-				MoveHPBar(true);
-
 			}
 			else
 			{
@@ -1234,10 +1232,10 @@ namespace ElectronicObserver.Window
 
 				foreach (var i in BattleIndex.FriendEscort.Skip(Math.Max(bd.Initial.FriendFleet.Members.Count - 6, 0)))
 					DisableHPBar(i);
-
-				MoveHPBar(false, bd.Initial.FriendFleet.Members.Count);
-
 			}
+
+			MoveHPBar(hasFriend7thShip);
+
 
 
 			// enemy escort
@@ -1289,7 +1287,7 @@ namespace ElectronicObserver.Window
 
 
 
-			if ((isFriendCombined || hasFriend7thShip) && isEnemyCombined)
+			if ((isFriendCombined || (hasFriend7thShip && !Utility.Configuration.Config.FormBattle.Display7thAsSingleLine)) && isEnemyCombined)
 			{
 				foreach (var bar in HPBars)
 				{
@@ -1388,20 +1386,23 @@ namespace ElectronicObserver.Window
 		/// <summary>
 		/// 味方遊撃部隊７人目のHPゲージ（通常時は連合艦隊第二艦隊旗艦のHPゲージ）を移動します。
 		/// </summary>
-		private void MoveHPBar(bool isFriendCombind, int friendFleetMembersCount = 0)
+		private void MoveHPBar(bool hasFriend7thShip)
 		{
-			if (!isFriendCombind && friendFleetMembersCount == 7) {
+			if (Utility.Configuration.Config.FormBattle.Display7thAsSingleLine && hasFriend7thShip)
+			{
 				if (_hpBarMoved)
 					return;
-				TableBottom.SetCellPosition(HPBars[BattleIndex.FriendEscort.First()], new TableLayoutPanelCellPosition(0, 7));
+				TableBottom.SetCellPosition(HPBars[BattleIndex.FriendEscort1], new TableLayoutPanelCellPosition(0, 7));
 				bool fixSize = Utility.Configuration.Config.UI.IsLayoutFixed;
 				bool showHPBar = Utility.Configuration.Config.FormBattle.ShowHPBar;
 				ControlHelper.SetTableRowStyle(TableBottom, 7, fixSize ? new RowStyle(SizeType.Absolute, showHPBar ? 21 : 16) : new RowStyle(SizeType.AutoSize));
 				_hpBarMoved = true;
-			} else {
+			}
+			else
+			{
 				if (!_hpBarMoved)
 					return;
-				TableBottom.SetCellPosition(HPBars[BattleIndex.FriendEscort.First()], new TableLayoutPanelCellPosition(1, 1));
+				TableBottom.SetCellPosition(HPBars[BattleIndex.FriendEscort1], new TableLayoutPanelCellPosition(1, 1));
 				ControlHelper.SetTableRowStyle(TableBottom, 7, new RowStyle(SizeType.Absolute, 0));
 				_hpBarMoved = false;
 			}

@@ -460,6 +460,7 @@ namespace ElectronicObserver.Window.Dialog
 			FormBattle_HideDuringBattle.Checked = config.FormBattle.HideDuringBattle;
 			FormBattle_ShowHPBar.Checked = config.FormBattle.ShowHPBar;
 			FormBattle_ShowShipTypeInHPBar.Checked = config.FormBattle.ShowShipTypeInHPBar;
+			FormBattle_Display7thAsSingleLine.Checked = config.FormBattle.Display7thAsSingleLine;
 
 			FormBrowser_IsEnabled.Checked = config.FormBrowser.IsEnabled;
 			FormBrowser_ZoomRate.Value = config.FormBrowser.ZoomRate;
@@ -709,6 +710,7 @@ namespace ElectronicObserver.Window.Dialog
 			config.FormBattle.HideDuringBattle = FormBattle_HideDuringBattle.Checked;
 			config.FormBattle.ShowHPBar = FormBattle_ShowHPBar.Checked;
 			config.FormBattle.ShowShipTypeInHPBar = FormBattle_ShowShipTypeInHPBar.Checked;
+			config.FormBattle.Display7thAsSingleLine = FormBattle_Display7thAsSingleLine.Checked;
 
 			config.FormBrowser.IsEnabled = FormBrowser_IsEnabled.Checked;
 			config.FormBrowser.ZoomRate = (int)FormBrowser_ZoomRate.Value;
