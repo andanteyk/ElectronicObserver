@@ -462,7 +462,7 @@ namespace ElectronicObserver.Data.Battle
 
 
 
-			//DEBUG
+			/*//DEBUG
 			if (!IsBaseAirRaid && Utility.Configuration.Config.Log.LogLevel <= 1)
 			{
 				var battle = SecondBattle ?? FirstBattle;
@@ -472,8 +472,8 @@ namespace ElectronicObserver.Data.Battle
 					if (battle.Initial.EnemyMaxHPs[i] > 0 && battle.ResultHPs[BattleIndex.Get(BattleSides.EnemyMain, i)] == 0)
 						Utility.Logger.Add(1, "justkill #" + (i + 1));
 				}
-
-				int rank = PredictWinRank(out var friend, out var enemy);
+				
+			int rank = PredictWinRank(out var friend, out var enemy);
 
 				// SS -> S
 				if (Constants.GetWinRank(rank).Substring(0, 1) != Result.Rank)
@@ -481,6 +481,7 @@ namespace ElectronicObserver.Data.Battle
 					Utility.Logger.Add(1, $"勝利ランク予測が誤っています。予想 {Constants.GetWinRank(rank)} -> 実際 {Result.Rank}");
 				}
 			}
+			//*/
 
 		}
 
