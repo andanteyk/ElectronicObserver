@@ -391,20 +391,13 @@ namespace ElectronicObserver.Data
 		}
 
 		/// <summary>
-		/// 現在の設定に応じて、索敵能力を表す文字列を取得します。
+		/// 新判定式(33)索敵能力を表す文字列を取得します。
 		/// </summary>
-		public string GetSearchingAbilityString()
+		/// <param name="branchWeight">分岐点係数。1 / 4 / 3</param>
+		public string GetSearchingAbilityString(int branchWeight = 1)
 		{
-			return GetSearchingAbilityString(Utility.Configuration.Config.FormFleet.SearchingAbilityMethod);
-		}
-
-		/// <summary>
-		/// 指定の計算式で、索敵能力を表す文字列を取得します。
-		/// </summary>
-		/// <param name="index">計算式。0-3</param>
-		public string GetSearchingAbilityString(int index)
-		{
-			return (Math.Floor(Calculator.GetSearchingAbility_New33(this, 1) * 100) / 100).ToString("F2");
+			return String.Format(branchWeight > 1 ? "(" + branchWeight + ") {0:f2}" : "{0:f2}",
+				Math.Floor(Calculator.GetSearchingAbility_New33(this, branchWeight) * 100) / 100);
 		}
 
 		/// <summary>
