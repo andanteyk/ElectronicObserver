@@ -128,8 +128,10 @@ namespace ElectronicObserver.Window
 
 			}
 
-			private void SearchingAbility_Click(object sender, EventArgs e, int fleetID) {
-				switch (BranchWeight) {
+			private void SearchingAbility_Click(object sender, EventArgs e, int fleetID)
+			{
+				switch (BranchWeight)
+				{
 					case 1:
 						BranchWeight = 4;
 						break;
