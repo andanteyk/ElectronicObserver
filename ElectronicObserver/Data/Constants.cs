@@ -402,15 +402,15 @@ namespace ElectronicObserver.Data
 			switch (value)
 			{
 				case 1:
-					return "空襲発生 - 資源に損害";
+					return "資源に損害";
 				case 2:
-					return "空襲発生 - 資源・航空隊に損害";
+					return "資源・航空隊に損害";
 				case 3:
-					return "空襲発生 - 航空隊に損害";
+					return "航空隊に損害";
 				case 4:
-					return "空襲発生 - 損害なし";
+					return "損害なし";
 				default:
-					return "空襲発生せず";
+					return "発生せず";
 			}
 		}
 

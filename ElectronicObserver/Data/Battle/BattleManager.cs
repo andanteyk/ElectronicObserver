@@ -167,7 +167,7 @@ namespace ElectronicObserver.Data.Battle
 						BattleMode = BattleModes.BaseAirRaid;
 						BattleDay = new BattleBaseAirRaid();
 						BattleDay.LoadFromResponse(apiname, Compass.AirRaidData);
-						WriteBattleLog();
+						BattleFinished();
 					}
 					break;
 
@@ -340,6 +340,15 @@ namespace ElectronicObserver.Data.Battle
 					string.Format("演習 で「{0}」{1}の「{2}」と交戦しました。( ランク: {3}, 提督Exp+{4}, 艦娘Exp+{5} )",
 						EnemyAdmiralName, EnemyAdmiralRank, Result.EnemyFleetName, Result.Rank, Result.AdmiralExp, Result.BaseExp));
 			}
+			else if (IsBaseAirRaid)
+			{
+				var initialHPs = BattleDay.Initial.FriendInitialHPs.TakeWhile(hp => hp >= 0);
+				var damage = initialHPs.Zip(BattleDay.ResultHPs.Take(initialHPs.Count()), (initial, result) => initial - result).Sum();
+
+				Utility.Logger.Add(2,
+					string.Format("{0}-{1}-{2} で基地に空襲を受けました。( 被ダメージ合計: {3}, {4} )",
+						Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, damage, Constants.GetAirRaidDamage(Compass.AirRaidDamageKind)));
+			}
 			else
 			{
 				Utility.Logger.Add(2,
@@ -347,7 +356,9 @@ namespace ElectronicObserver.Data.Battle
 						Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Result.EnemyFleetName, Result.Rank, Result.AdmiralExp, Result.BaseExp));
 			}
 
+
 			// Level up
+			if (!IsBaseAirRaid)
 			{
 				var exps = Result.ExpList;
 				var lvup = Result.LevelUpList;
@@ -382,7 +393,7 @@ namespace ElectronicObserver.Data.Battle
 
 
 			//ドロップ艦記録
-			if (!IsPractice)
+			if (!IsPractice && !IsBaseAirRaid)
 			{
 
 				//checkme: とてもアレな感じ
@@ -445,31 +456,29 @@ namespace ElectronicObserver.Data.Battle
 				RecordManager.Instance.ShipDrop.Add(shipID, itemID, eqID, Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, Compass.MapInfo.EventDifficulty, Compass.EventID == 5, enemyFleetData.FleetID, Result.Rank, KCDatabase.Instance.Admiral.Level);
 			}
 
+
+
 			WriteBattleLog();
 
 
 
-			//DEBUG
-			/*/
-			if ( Utility.Configuration.Config.Log.LogLevel <= 1 && Utility.Configuration.Config.Connection.SaveReceivedData ) {
-				IEnumerable<int> damages;
-				switch ( BattleMode & BattleModes.BattlePhaseMask ) {
-					case BattleModes.Normal:
-					case BattleModes.AirBattle:
-					case BattleModes.Practice:
-					default:
-						damages = ( (BattleData)BattleNight ?? BattleDay ).AttackDamages;
-						break;
-					case BattleModes.NightOnly:
-					case BattleModes.NightDay:
-						damages = ( (BattleData)BattleDay ?? BattleNight ).AttackDamages;
-						break;
+			/*//DEBUG
+			if (!IsBaseAirRaid && Utility.Configuration.Config.Log.LogLevel <= 1)
+			{
+				var battle = SecondBattle ?? FirstBattle;
+
+				for (int i = 0; i < battle.Initial.EnemyMaxHPs.Length; i++)
+				{
+					if (battle.Initial.EnemyMaxHPs[i] > 0 && battle.ResultHPs[BattleIndex.Get(BattleSides.EnemyMain, i)] == 0)
+						Utility.Logger.Add(1, "justkill #" + (i + 1));
 				}
+				
+			int rank = PredictWinRank(out var friend, out var enemy);
 
-				damages = damages.Take( 6 ).Where( i => i > 0 );
-
-				if ( damages.Count( i => i == damages.Max() ) > 1 ) {
-					Utility.Logger.Add( 1, "MVP候補が複数存在します。ログを確認してください。" );
+				// SS -> S
+				if (Constants.GetWinRank(rank).Substring(0, 1) != Result.Rank)
+				{
+					Utility.Logger.Add(1, $"勝利ランク予測が誤っています。予想 {Constants.GetWinRank(rank)} -> 実際 {Result.Rank}");
 				}
 			}
 			//*/

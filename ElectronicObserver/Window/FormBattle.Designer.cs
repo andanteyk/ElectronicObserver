@@ -72,15 +72,15 @@
 			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TableBottom.Controls.Add(this.FleetFriend, 0, 0);
-			this.TableBottom.Controls.Add(this.DamageFriend, 0, 7);
+			this.TableBottom.Controls.Add(this.DamageFriend, 0, 8);
 			this.TableBottom.Controls.Add(this.FleetEnemyEscort, 2, 0);
-			this.TableBottom.Controls.Add(this.WinRank, 1, 7);
-			this.TableBottom.Controls.Add(this.DamageEnemy, 4, 7);
+			this.TableBottom.Controls.Add(this.WinRank, 1, 8);
+			this.TableBottom.Controls.Add(this.DamageEnemy, 4, 8);
 			this.TableBottom.Controls.Add(this.FleetFriendEscort, 1, 0);
 			this.TableBottom.Controls.Add(this.FleetEnemy, 3, 0);
 			this.TableBottom.Location = new System.Drawing.Point(3, 90);
 			this.TableBottom.Name = "TableBottom";
-			this.TableBottom.RowCount = 8;
+			this.TableBottom.RowCount = 9;
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
@@ -88,6 +88,7 @@
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
+			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
 			this.TableBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
 			this.TableBottom.Size = new System.Drawing.Size(220, 168);
 			this.TableBottom.TabIndex = 1;

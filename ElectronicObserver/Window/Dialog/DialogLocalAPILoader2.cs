@@ -353,5 +353,16 @@ namespace ElectronicObserver.Window.Dialog
 		}
 
 
+		private void APIView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			try
+			{
+				System.Diagnostics.Process.Start(CurrentPath + "\\" + APIView.SelectedCells.OfType<DataGridViewCell>().First().Value.ToString());
+			}
+			catch (Exception ex)
+			{
+				Utility.Logger.Add(1, $"API ファイルの起動に失敗しました。 {ex.GetType().Name}: {ex.Message}");
+			}
+		}
 	}
 }

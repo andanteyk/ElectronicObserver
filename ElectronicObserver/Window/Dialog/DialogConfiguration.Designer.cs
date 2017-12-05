@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			ElectronicObserver.Window.Control.StatusBarModule statusBarModule3 = new ElectronicObserver.Window.Control.StatusBarModule();
+			ElectronicObserver.Window.Control.StatusBarModule statusBarModule1 = new ElectronicObserver.Window.Control.StatusBarModule();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
@@ -57,6 +57,7 @@
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.UI_RenderingTestChanger = new System.Windows.Forms.TrackBar();
+			this.UI_RenderingTest = new ElectronicObserver.Window.Control.ShipStatusHP();
 			this.UI_IsLayoutFixed = new System.Windows.Forms.CheckBox();
 			this.UI_BarColorMorphing = new System.Windows.Forms.CheckBox();
 			this.UI_SubFontSelect = new System.Windows.Forms.Button();
@@ -171,6 +172,7 @@
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
 			this.tabPage20 = new System.Windows.Forms.TabPage();
+			this.FormBattle_Display7thAsSingleLine = new System.Windows.Forms.CheckBox();
 			this.FormBattle_ShowShipTypeInHPBar = new System.Windows.Forms.CheckBox();
 			this.FormBattle_ShowHPBar = new System.Windows.Forms.CheckBox();
 			this.FormBattle_HideDuringBattle = new System.Windows.Forms.CheckBox();
@@ -255,7 +257,6 @@
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.Log_PlayTime = new System.Windows.Forms.Label();
 			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
-			this.UI_RenderingTest = new ElectronicObserver.Window.Control.ShipStatusHP();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -596,10 +597,10 @@
 			this.tabPage2.Controls.Add(this.UI_MainFontSelect);
 			this.tabPage2.Controls.Add(this.UI_MainFont);
 			this.tabPage2.Controls.Add(this.label5);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Location = new System.Drawing.Point(4, 24);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(696, 374);
+			this.tabPage2.Size = new System.Drawing.Size(696, 372);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "UI";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -633,6 +634,30 @@
 			this.UI_RenderingTestChanger.TabIndex = 14;
 			this.UI_RenderingTestChanger.TickStyle = System.Windows.Forms.TickStyle.None;
 			this.UI_RenderingTestChanger.Scroll += new System.EventHandler(this.UI_RenderingTestChanger_Scroll);
+			// 
+			// UI_RenderingTest
+			// 
+			this.UI_RenderingTest.AutoSize = true;
+			this.UI_RenderingTest.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			statusBarModule1.BarColor0Begin = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			statusBarModule1.BarColor0End = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			statusBarModule1.MaximumValue = 500;
+			statusBarModule1.PrevValue = 401;
+			statusBarModule1.Value = 401;
+			this.UI_RenderingTest.HPBar = statusBarModule1;
+			this.UI_RenderingTest.Location = new System.Drawing.Point(16, 3);
+			this.UI_RenderingTest.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.UI_RenderingTest.Margin = new System.Windows.Forms.Padding(16, 3, 16, 3);
+			this.UI_RenderingTest.MaximumValue = 500;
+			this.UI_RenderingTest.Name = "UI_RenderingTest";
+			this.UI_RenderingTest.PrevValue = 401;
+			this.UI_RenderingTest.RepairTime = new System.DateTime(2017, 6, 18, 0, 0, 59, 159);
+			this.UI_RenderingTest.RepairTimeShowMode = ElectronicObserver.Window.Control.ShipStatusHPRepairTimeShowMode.Invisible;
+			this.UI_RenderingTest.Size = new System.Drawing.Size(136, 20);
+			this.UI_RenderingTest.TabIndex = 12;
+			this.UI_RenderingTest.Text = "Rendering Test: ";
+			this.ToolTipInfo.SetToolTip(this.UI_RenderingTest, "描画プレビューです。\r\n下のバーから値を調整できます。");
+			this.UI_RenderingTest.Value = 401;
 			// 
 			// UI_IsLayoutFixed
 			// 
@@ -734,10 +759,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 22);
+			this.tabPage3.Location = new System.Drawing.Point(4, 24);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(696, 374);
+			this.tabPage3.Size = new System.Drawing.Size(696, 372);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -845,6 +870,7 @@
 			this.Log_LogLevel.Size = new System.Drawing.Size(80, 23);
 			this.Log_LogLevel.TabIndex = 2;
 			this.Log_LogLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.Log_LogLevel, "小さい値では詳細なログを、大きな値では重要なログのみを表示します。\r\n1: デバッグレベル\r\n2: 通常(推奨)\r\n3: エラーのみ");
 			// 
 			// label6
 			// 
@@ -865,10 +891,10 @@
 			this.tabPage4.Controls.Add(this.label9);
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 22);
+			this.tabPage4.Location = new System.Drawing.Point(4, 24);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(696, 374);
+			this.tabPage4.Size = new System.Drawing.Size(696, 372);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -971,10 +997,10 @@
 			this.tabPage5.Controls.Add(this.Debug_AlertOnError);
 			this.tabPage5.Controls.Add(this.Debug_SealingPanel);
 			this.tabPage5.Controls.Add(this.Debug_EnableDebugMenu);
-			this.tabPage5.Location = new System.Drawing.Point(4, 22);
+			this.tabPage5.Location = new System.Drawing.Point(4, 24);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(696, 374);
+			this.tabPage5.Size = new System.Drawing.Size(696, 372);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "デバッグ";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -999,7 +1025,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 281);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 275);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1060,10 +1086,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 22);
+			this.tabPage6.Location = new System.Drawing.Point(4, 24);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(696, 374);
+			this.tabPage6.Size = new System.Drawing.Size(696, 372);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -2010,6 +2036,7 @@
 			// 
 			// tabPage20
 			// 
+			this.tabPage20.Controls.Add(this.FormBattle_Display7thAsSingleLine);
 			this.tabPage20.Controls.Add(this.FormBattle_ShowShipTypeInHPBar);
 			this.tabPage20.Controls.Add(this.FormBattle_ShowHPBar);
 			this.tabPage20.Controls.Add(this.FormBattle_HideDuringBattle);
@@ -2021,6 +2048,18 @@
 			this.tabPage20.TabIndex = 10;
 			this.tabPage20.Text = "戦闘";
 			this.tabPage20.UseVisualStyleBackColor = true;
+			// 
+			// FormBattle_Display7thAsSingleLine
+			// 
+			this.FormBattle_Display7thAsSingleLine.AutoSize = true;
+			this.FormBattle_Display7thAsSingleLine.Location = new System.Drawing.Point(6, 106);
+			this.FormBattle_Display7thAsSingleLine.Name = "FormBattle_Display7thAsSingleLine";
+			this.FormBattle_Display7thAsSingleLine.Size = new System.Drawing.Size(151, 19);
+			this.FormBattle_Display7thAsSingleLine.TabIndex = 10;
+			this.FormBattle_Display7thAsSingleLine.Text = "7番艦を同じ行に表示する";
+			this.ToolTipInfo.SetToolTip(this.FormBattle_Display7thAsSingleLine, "遊撃部隊(7隻編成)での出撃時、7隻目の情報をどこに表示するか指定します。\r\n有効時は6隻目の下に、無効時は随伴艦隊1隻目と同じ位置に表示されます。\r\n無効にする" +
+        "と若干スペースを節約できます。");
+			this.FormBattle_Display7thAsSingleLine.UseVisualStyleBackColor = true;
 			// 
 			// FormBattle_ShowShipTypeInHPBar
 			// 
@@ -2604,10 +2643,10 @@
 			this.tabPage11.Controls.Add(this.Notification_Repair);
 			this.tabPage11.Controls.Add(this.Notification_Construction);
 			this.tabPage11.Controls.Add(this.Notification_Expedition);
-			this.tabPage11.Location = new System.Drawing.Point(4, 22);
+			this.tabPage11.Location = new System.Drawing.Point(4, 24);
 			this.tabPage11.Name = "tabPage11";
 			this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage11.Size = new System.Drawing.Size(696, 374);
+			this.tabPage11.Size = new System.Drawing.Size(696, 372);
 			this.tabPage11.TabIndex = 7;
 			this.tabPage11.Text = "通知";
 			this.tabPage11.UseVisualStyleBackColor = true;
@@ -2649,7 +2688,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 352);
+			this.label10.Location = new System.Drawing.Point(3, 346);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2708,10 +2747,10 @@
 			// tabPage15
 			// 
 			this.tabPage15.Controls.Add(this.groupBox5);
-			this.tabPage15.Location = new System.Drawing.Point(4, 22);
+			this.tabPage15.Location = new System.Drawing.Point(4, 24);
 			this.tabPage15.Name = "tabPage15";
 			this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage15.Size = new System.Drawing.Size(696, 374);
+			this.tabPage15.Size = new System.Drawing.Size(696, 372);
 			this.tabPage15.TabIndex = 8;
 			this.tabPage15.Text = "データベース";
 			this.tabPage15.UseVisualStyleBackColor = true;
@@ -2787,10 +2826,10 @@
 			this.tabPage17.Controls.Add(this.BGMPlayer_VolumeAll);
 			this.tabPage17.Controls.Add(this.BGMPlayer_Enabled);
 			this.tabPage17.Controls.Add(this.BGMPlayer_ControlGrid);
-			this.tabPage17.Location = new System.Drawing.Point(4, 22);
+			this.tabPage17.Location = new System.Drawing.Point(4, 24);
 			this.tabPage17.Name = "tabPage17";
 			this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage17.Size = new System.Drawing.Size(696, 374);
+			this.tabPage17.Size = new System.Drawing.Size(696, 372);
 			this.tabPage17.TabIndex = 9;
 			this.tabPage17.Text = "BGM";
 			this.tabPage17.UseVisualStyleBackColor = true;
@@ -2855,21 +2894,21 @@
             this.BGMPlayer_ColumnContent,
             this.BGMPlayer_ColumnPath,
             this.BGMPlayer_ColumnSetting});
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle1;
 			this.BGMPlayer_ControlGrid.Location = new System.Drawing.Point(6, 35);
 			this.BGMPlayer_ControlGrid.MultiSelect = false;
 			this.BGMPlayer_ControlGrid.Name = "BGMPlayer_ControlGrid";
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 301);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 295);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2966,30 +3005,6 @@
 			this.PlayTimeTimer.Enabled = true;
 			this.PlayTimeTimer.Interval = 1000;
 			this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
-			// 
-			// UI_RenderingTest
-			// 
-			this.UI_RenderingTest.AutoSize = true;
-			this.UI_RenderingTest.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			statusBarModule3.BarColor0Begin = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			statusBarModule3.BarColor0End = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			statusBarModule3.MaximumValue = 500;
-			statusBarModule3.PrevValue = 401;
-			statusBarModule3.Value = 401;
-			this.UI_RenderingTest.HPBar = statusBarModule3;
-			this.UI_RenderingTest.Location = new System.Drawing.Point(16, 3);
-			this.UI_RenderingTest.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.UI_RenderingTest.Margin = new System.Windows.Forms.Padding(16, 3, 16, 3);
-			this.UI_RenderingTest.MaximumValue = 500;
-			this.UI_RenderingTest.Name = "UI_RenderingTest";
-			this.UI_RenderingTest.PrevValue = 401;
-			this.UI_RenderingTest.RepairTime = new System.DateTime(2017, 6, 18, 0, 0, 59, 159);
-			this.UI_RenderingTest.RepairTimeShowMode = ElectronicObserver.Window.Control.ShipStatusHPRepairTimeShowMode.Invisible;
-			this.UI_RenderingTest.Size = new System.Drawing.Size(136, 20);
-			this.UI_RenderingTest.TabIndex = 12;
-			this.UI_RenderingTest.Text = "Rendering Test: ";
-			this.ToolTipInfo.SetToolTip(this.UI_RenderingTest, "描画プレビューです。\r\n下のバーから値を調整できます。");
-			this.UI_RenderingTest.Value = 401;
 			// 
 			// DialogConfiguration
 			// 
@@ -3317,5 +3332,6 @@
 		private System.Windows.Forms.CheckBox Control_ShowSallyAreaAlertDialog;
 		private System.Windows.Forms.TabPage tabPage21;
 		private System.Windows.Forms.CheckBox FormBaseAirCorps_ShowEventMapOnly;
+		private System.Windows.Forms.CheckBox FormBattle_Display7thAsSingleLine;
 	}
 }

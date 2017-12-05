@@ -1244,34 +1244,118 @@ Request.api_req_practice/battle	：演習
 	api_deck_id			：出撃艦隊ID
 	api_enemy_id		：敵提督ID
 
-api_req_practice/battle	：演習
-	(api_req_sortie/battleとほぼ同じ)
-	api_support_flag	：(存在せず)
-	api_support_info	：(存在せず)
-	
+api_req_practice/battle	：演習　昼戦　主に api_req_sortie/battle と同じ　一部メンバが存在しない
+	api_deck_id				：
+	api_formation			：[3]
+	api_f_nowhps			：[]
+	api_f_maxhps			：[]
+	api_fParam				：[][4]
+	api_ship_ke				：[]
+	api_ship_lv				：[]
+	api_e_nowhps			：[]
+	api_e_maxhps			：[]
+	api_eSlot				：[][5]
+	api_eParam				：[][4]
+	api_midnight_flag		：
+	api_search				：[2]
+	api_stage_flag			：[3]
+	api_kouku				：
+		api_plane_from			：[2][]
+		api_stage1				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+			api_disp_seiku			：
+			api_touch_plane			：[2]
+		api_stage2				：
+			api_f_count				：
+			api_f_lostcount			：
+			api_e_count				：
+			api_e_lostcount			：
+		api_stage3				：
+			api_frai_flag			：[]
+			api_erai_flag			：[]
+			api_fbak_flag			：[]
+			api_ebak_flag			：[]
+			api_fcl_flag			：[]
+			api_ecl_flag			：[]
+			api_fdam				：[]
+			api_edam				：[]
+	api_opening_taisen_flag	：
+	api_opening_taisen		：
+	api_opening_flag		：
+	api_opening_atack		：
+		api_frai				：[7]
+		api_fcl					：[7]
+		api_fdam				：[7]
+		api_fydam				：[7]
+		api_erai				：[7]
+		api_ecl					：[7]
+		api_edam				：[7]
+		api_eydam				：[7]
+	api_hourai_flag			：[4]
+	api_hougeki1			：
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_at_type				：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_damage				：[][]
+	api_hougeki2			：
+	api_hougeki3			：
+	api_raigeki				：
+		api_frai				：[7]
+		api_fcl					：[7]
+		api_fdam				：[7]
+		api_fydam				：[7]
+		api_erai				：[7]
+		api_ecl					：[7]
+		api_edam				：[7]
+		api_eydam				：[7]
 
-api_req_practice/midnight_battle		：演習夜戦
-	(api_req_battle_midnight/battleとほぼ同じ)
-	api_deck_id			：数値型
+api_req_practice/midnight_battle		：演習　夜戦　主に api_req_battle_midnight/battle と同じ　一部メンバが存在しない
+	api_deck_id				：
+	api_formation			：[3]
+	api_f_nowhps			：[]
+	api_f_maxhps			：[]
+	api_fParam				：[][4]
+	api_ship_ke				：[]
+	api_ship_lv				：[]
+	api_e_nowhps			：[]
+	api_e_maxhps			：[]
+	api_eSlot				：[][5]
+	api_eParam				：[][4]
+	api_touch_plane			：[2]
+	api_flare_pos			：[2]
+	api_hougeki				：
+		api_at_eflag			：[]
+		api_at_list				：[]
+		api_n_mother_list		：[]
+		api_df_list				：[][]
+		api_si_list				：[][]
+		api_cl_list				：[][]
+		api_sp_list				：[]
+		api_damage				：[][]
 
 
-api_req_practice/battle_result			：演習結果
-	(api_req_sortie/battleresultとほぼ同じ)
-	api_lost_flag			：(存在せず)
-	api_quest_name			：(存在せず)
-	api_quest_level			：(存在せず)
+api_req_practice/battle_result			：演習　結果　主に api_req_sortie/battleresult と同じ　一部メンバが存在しない
+	api_ship_id				：[]
+	api_win_rank			：
+	api_get_exp				：
+	api_member_lv			：
+	api_member_exp			：
+	api_get_base_exp		：
+	api_mvp					：
+	api_get_ship_exp		：[7]
+	api_get_exp_lvup		：[][]
 	api_enemy_info			：敵艦隊情報
-		api_user_name		：""
-		api_level			：敵艦隊司令部Lv.
-		api_rank			：敵階級　文字列
-		api_deck_name		：敵艦隊名
-	api_first_clear			：(存在せず)
-	api_mapcell_incentive	：(存在せず)
-	api_get_flag			：(存在せず)
-	api_get_ship			：(存在せず)
-	api_get_eventflag		：(存在せず)
-	api_get_exmap_rate		：(存在せず)
-	api_get_exmap_useitem_id：(存在せず)
+		api_user_name			：
+		api_level				：敵司令部Lv
+		api_rank				：敵階級　"元帥"など
+		api_deck_name			：敵艦隊名
+
 
 
 Request.api_req_kaisou/slotset	：装備換装
@@ -2739,8 +2823,8 @@ api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
 	api_touch_plane			：[2]
 	api_flare_pos			：[2]
 	api_n_support_flag		：夜間支援フラグ
-	api_n_support_info		：
-		api_support_airatack	：
+	api_n_support_info		：夜間支援
+		api_support_airatack	：システム上発生しない？
 		api_support_hourai		：
 			api_deck_id				：
 			api_ship_id				：[6]
@@ -2765,7 +2849,7 @@ api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
 		api_cl_list				：[][]
 		api_sp_list				：[]
 		api_damage				：[][]
-	api_day_flag			：昼戦可否　0=不可, 1=可　以下のメンバは 1 の時のみ存在
+	api_day_flag			：昼戦可否　0=不可, 1=可　以下のメンバ(api_escape_idx を除く)は 1 の時のみ存在
 	api_search				：[2]
 	api_air_base_injection	：噴式基地航空隊攻撃
 		api_plane_from			：[2]　[null, null] ?
@@ -2823,6 +2907,26 @@ api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
 			api_edam				：[艦船数]
 	api_support_flag		：
 	api_support_info		：
+		api_support_airatack	：
+			api_deck_id				：
+			api_ship_id				：[6]
+			api_undressing_flag		：[6]
+			api_stage_flag			：[3]
+			api_plane_from			：[][]
+			api_stage1				：
+				api_f_count				：
+				api_f_lostcount			：
+				api_e_count				：
+				api_e_lostcount			：
+			api_stage2				：
+				api_f_count				：
+				api_f_lostcount			：
+			api_stage3				：
+				api_erai_flag			：[12?]
+				api_ebak_flag			：[12?]
+				api_ecl_flag			：[12?]
+				api_edam				：[12?]
+		api_support_hourai		：
 	api_stage_flag			：[3]
 	api_kouku				：
 		api_plane_from			：[2][]
@@ -2889,19 +2993,19 @@ api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
 	api_escape_idx			：[]
 
 
-api_req_combined_battle/battleresult	：連合艦隊 戦闘結果 (味方通常艦隊-敵連合艦隊を含む)
+api_req_combined_battle/battleresult	：連合艦隊　戦闘結果 (味方通常艦隊-敵連合艦隊を含む)
 	api_ship_id					：敵主力艦隊の艦船ID　[艦船数]
 	api_win_rank				：勝利ランク
 	api_get_exp					：獲得提督経験値
 	api_mvp						：主力艦隊MVPインデックス　1基点
-	api_mvp_combined			：随伴艦隊MVPインデックス　1基点
+	api_mvp_combined			：随伴艦隊MVPインデックス　1基点　通常艦隊時は null
 	api_member_lv				：艦隊司令部Lv.
 	api_member_exp				：提督経験値
 	api_get_base_exp			：獲得基本経験値
-	api_get_ship_exp			：主力艦隊の獲得経験値　[7]　獲得不能(空き/退避/撃沈)は-1　-1(ダミー)から始まる
-	api_get_ship_exp_combined	：随伴護衛艦隊各艦の獲得経験値　味方通常艦隊時は null?
-	api_get_exp_lvup			：主力艦隊の[0]獲得前経験値, (レベルキャップ未到達なら)[1]次のレベルの経験値, (レベルアップしたなら)[2]その次のレベルの経験値, ...
-	api_get_exp_lvup_combined	：随伴艦隊の〃　味方通常艦隊時は null?
+	api_get_ship_exp			：主力艦隊の獲得経験値　[7 or 8(7隻編成時 && 7番艦が撃沈/退避でないとき)]　獲得不能(空き/退避/撃沈)は-1　-1(ダミー)から始まる
+	api_get_ship_exp_combined	：随伴護衛艦隊各艦の獲得経験値　通常艦隊時は null
+	api_get_exp_lvup			：主力艦隊の [0]獲得前経験値, (レベルキャップ未到達なら)[1]次のレベルの経験値, (レベルアップしたなら)[2]その次のレベルの経験値, ...　[艦船数]
+	api_get_exp_lvup_combined	：随伴艦隊の〃　通常艦隊時は null
 	api_dests					：敵撃沈数?
 	api_destsf					：敵旗艦撃破?
 	api_quest_name				：出撃海域名
@@ -2931,7 +3035,7 @@ api_req_combined_battle/battleresult	：連合艦隊 戦闘結果 (味方通常�
 	api_escape_flag				：退避艦の有無　0=なし, 1=あり
 	api_escape					：退避艦　存在しなければ null
 		api_escape_idx			：退避艦のインデックス　[対象艦数]　1基点　実際は[0]が対象となる
-		api_tow_idx				：護衛艦のインデックス　[対象艦数]　1基点　実際は[0]が対象となる
+		api_tow_idx				：護衛艦のインデックス　[対象艦数]　1基点　実際は[0]が対象となる　連合艦隊時のみ存在
 
 Request.api_req_combined_battle/goback_port		：護衛退避
 	(情報なし)

@@ -1074,12 +1074,19 @@ namespace ElectronicObserver.Utility
 				/// </summary>
 				public bool ShowShipTypeInHPBar { get; set; }
 
+				/// <summary>
+				/// 7隻目を主力艦隊と同じ行に表示するか
+				/// </summary>
+				public bool Display7thAsSingleLine { get; set; }
+
+
 				public ConfigFormBattle()
 				{
 					IsScrollable = false;
 					HideDuringBattle = false;
 					ShowHPBar = true;
 					ShowShipTypeInHPBar = false;
+					Display7thAsSingleLine = true;
 				}
 			}
 

@@ -38,6 +38,8 @@ namespace ElectronicObserver.Window
 			public ImageLabel AntiAirPower;
 			public ToolTip ToolTipInfo;
 
+			public int BranchWeight { get; private set; } = 1;
+
 			public TableFleetControl(FormFleet parent)
 			{
 
@@ -85,6 +87,7 @@ namespace ElectronicObserver.Window
 					Margin = new Padding(2, 0, 2, 0),
 					AutoSize = true
 				};
+				SearchingAbility.Click += (sender, e) => SearchingAbility_Click(sender, e, parent.FleetID);
 
 				AntiAirPower = new ImageLabel
 				{
@@ -125,6 +128,22 @@ namespace ElectronicObserver.Window
 
 			}
 
+			private void SearchingAbility_Click(object sender, EventArgs e, int fleetID)
+			{
+				switch (BranchWeight)
+				{
+					case 1:
+						BranchWeight = 4;
+						break;
+					case 4:
+						BranchWeight = 3;
+						break;
+					case 3:
+						BranchWeight = 1;
+						break;
+				}
+				Update(KCDatabase.Instance.Fleet[fleetID]);
+			}
 
 			public void Update(FleetData fleet)
 			{
@@ -208,16 +227,14 @@ namespace ElectronicObserver.Window
 
 
 				//索敵能力計算
-				SearchingAbility.Text = fleet.GetSearchingAbilityString();
+				SearchingAbility.Text = fleet.GetSearchingAbilityString(BranchWeight);
 				{
 					StringBuilder sb = new StringBuilder();
 					double probStart = fleet.GetContactProbability();
 					var probSelect = fleet.GetContactSelectionProbability();
 
-					sb.AppendFormat("新判定式(33):\r\n　分岐点係数1: {0:f2}\r\n　分岐点係数3: {1:f2}\r\n　分岐点係数4: {2:f2}\r\n\r\n触接開始率: \r\n　確保 {3:p1} / 優勢 {4:p1}\r\n",
-						Math.Floor(Calculator.GetSearchingAbility_New33(fleet, 1) * 100) / 100,
-						Math.Floor(Calculator.GetSearchingAbility_New33(fleet, 3) * 100) / 100,
-						Math.Floor(Calculator.GetSearchingAbility_New33(fleet, 4) * 100) / 100,
+					sb.AppendFormat("新判定式(33) 分岐点係数: {0}\r\n　(クリックで切り替え)\r\n\r\n触接開始率: \r\n　確保 {1:p1} / 優勢 {2:p1}\r\n",
+						BranchWeight,
 						probStart,
 						probStart * 0.6);
 
@@ -994,7 +1011,7 @@ namespace ElectronicObserver.Window
 			FleetData fleet = db.Fleet[FleetID];
 			if (fleet == null) return;
 
-			sb.AppendFormat("{0}\t制空戦力{1}/索敵能力{2}/輸送能力{3}\r\n", fleet.Name, fleet.GetAirSuperiority(), fleet.GetSearchingAbilityString(), Calculator.GetTPDamage(fleet));
+			sb.AppendFormat("{0}\t制空戦力{1} / 索敵能力 {2} / 輸送能力 {3}\r\n", fleet.Name, fleet.GetAirSuperiority(), fleet.GetSearchingAbilityString(ControlFleet.BranchWeight), Calculator.GetTPDamage(fleet));
 			for (int i = 0; i < fleet.Members.Count; i++)
 			{
 				if (fleet[i] == -1)

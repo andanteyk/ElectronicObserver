@@ -63,7 +63,7 @@
 			this.APIView.AllowUserToResizeRows = false;
 			this.APIView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.APIView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.APIView_FileName});
+            this.APIView_FileName});
 			this.APIView.ContextMenuStrip = this.ViewMenu;
 			this.APIView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.APIView.Location = new System.Drawing.Point(0, 0);
@@ -74,6 +74,7 @@
 			this.APIView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.APIView.Size = new System.Drawing.Size(624, 331);
 			this.APIView.TabIndex = 0;
+			this.APIView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.APIView_CellMouseDoubleClick);
 			// 
 			// APIView_FileName
 			// 
@@ -87,8 +88,8 @@
 			// 
 			this.ViewMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.ViewMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.ViewMenu_Execute,
-			this.ViewMenu_Delete});
+            this.ViewMenu_Execute,
+            this.ViewMenu_Delete});
 			this.ViewMenu.Name = "ContextMenu";
 			this.ViewMenu.Size = new System.Drawing.Size(144, 48);
 			// 
@@ -111,7 +112,7 @@
 			// 
 			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.Menu_File});
+            this.Menu_File});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(624, 24);
@@ -121,8 +122,8 @@
 			// Menu_File
 			// 
 			this.Menu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.Menu_File_OpenFolder,
-			this.Menu_File_Reload});
+            this.Menu_File_OpenFolder,
+            this.Menu_File_Reload});
 			this.Menu_File.Name = "Menu_File";
 			this.Menu_File.Size = new System.Drawing.Size(70, 20);
 			this.Menu_File.Text = "ファイル(&F)";
@@ -198,8 +199,8 @@
 			// 
 			// TextFilter
 			// 
-			this.TextFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextFilter.Location = new System.Drawing.Point(12, 32);
 			this.TextFilter.Name = "TextFilter";
 			this.TextFilter.Size = new System.Drawing.Size(438, 23);
