@@ -47,7 +47,6 @@
 			this.ShipView_Exp = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Next = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_NextRemodel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ShipView_RemodelShipName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_HP = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Condition = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Fuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -100,7 +99,8 @@
 			this.ShipView_NightBattlePower = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_Locked = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ShipView_SallyArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.MenuMember = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ShipView_RemodelShipName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MenuMember = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuMember_AddToGroup = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMember_CreateGroup = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMember_Exclude = new System.Windows.Forms.ToolStripMenuItem();
@@ -150,7 +150,6 @@
 			this.ShipView_Exp,
 			this.ShipView_Next,
 			this.ShipView_NextRemodel,
-			this.ShipView_RemodelShipName,
 			this.ShipView_HP,
 			this.ShipView_Condition,
 			this.ShipView_Fuel,
@@ -202,7 +201,8 @@
 			this.ShipView_TorpedoPower,
 			this.ShipView_NightBattlePower,
 			this.ShipView_Locked,
-			this.ShipView_SallyArea});
+			this.ShipView_SallyArea,
+            this.ShipView_RemodelShipName});
 			this.ShipView.ContextMenuStrip = this.MenuMember;
 			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
@@ -278,15 +278,6 @@
 			this.ShipView_NextRemodel.Name = "ShipView_NextRemodel";
 			this.ShipView_NextRemodel.ReadOnly = true;
 			this.ShipView_NextRemodel.Width = 60;
-			// 
-			// ShipView_RemodelShipName
-			// 
-			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			this.ShipView_RemodelShipName.DefaultCellStyle = dataGridViewCellStyle10;
-			this.ShipView_RemodelShipName.HeaderText = "改装後艦名";
-			this.ShipView_RemodelShipName.Name = "ShipView_RemodelShipName";
-			this.ShipView_RemodelShipName.ReadOnly = true;
-			this.ShipView_RemodelShipName.Width = 60;
 			// 
 			// ShipView_HP
 			// 
@@ -667,10 +658,19 @@
 			this.ShipView_SallyArea.Name = "ShipView_SallyArea";
 			this.ShipView_SallyArea.ReadOnly = true;
 			this.ShipView_SallyArea.Width = 40;
-			// 
-			// MenuMember
-			// 
-			this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            // 
+            // ShipView_RemodelShipName
+            // 
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ShipView_RemodelShipName.DefaultCellStyle = dataGridViewCellStyle10;
+            this.ShipView_RemodelShipName.HeaderText = "改装後艦名";
+            this.ShipView_RemodelShipName.Name = "ShipView_RemodelShipName";
+            this.ShipView_RemodelShipName.ReadOnly = true;
+            this.ShipView_RemodelShipName.Width = 60;
+            // 
+            // MenuMember
+            // 
+            this.MenuMember.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.MenuMember_AddToGroup,
 			this.MenuMember_CreateGroup,
 			this.MenuMember_Exclude,
@@ -930,7 +930,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Exp;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Next;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_NextRemodel;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_RemodelShipName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_HP;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Condition;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Fuel;
@@ -983,7 +982,8 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_NightBattlePower;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_Locked;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_SallyArea;
-		private System.Windows.Forms.ToolStripMenuItem MenuGroup_Copy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ShipView_RemodelShipName;
+        private System.Windows.Forms.ToolStripMenuItem MenuGroup_Copy;
 		private System.Windows.Forms.ToolStripMenuItem MenuMember_AddToGroup;
 		private System.Windows.Forms.ToolStripMenuItem MenuMember_CreateGroup;
 		private System.Windows.Forms.ToolStripMenuItem MenuMember_Exclude;

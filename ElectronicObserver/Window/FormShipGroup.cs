@@ -350,7 +350,6 @@ namespace ElectronicObserver.Window
 				ship.ExpTotal,
 				ship.ExpNext,
 				ship.ExpNextRemodel,
-				ship.RemodelShipName,
 				new Fraction(ship.HPCurrent, ship.HPMax),
 				ship.Condition,
 				new Fraction(ship.Fuel, ship.FuelMax),
@@ -402,8 +401,9 @@ namespace ElectronicObserver.Window
 				ship.TorpedoPower,
 				ship.NightBattlePower,
 				ship.IsLocked ? 1 : ship.IsLockedByEquipment ? 2 : 0,
-				ship.SallyArea
-				);
+				ship.SallyArea,
+                ship.RemodelShipName
+                );
 
 
 			row.Cells[ShipView_Name.Index].Tag = ship.ShipID;
