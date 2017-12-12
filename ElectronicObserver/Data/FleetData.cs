@@ -269,11 +269,11 @@ namespace ElectronicObserver.Data
 
 				case "api_req_kousyou/destroyship":
 					{
-						int shipID = int.Parse(data["api_ship_id"]);
+						var shipIDs = data["api_ship_id"].Split(",".ToCharArray()).Select(s => int.Parse(s));
 
 						for (int i = 0; i < _members.Length; i++)
 						{
-							if (_members[i] == shipID)
+							if (shipIDs.Contains(_members[i]))
 							{
 								RemoveShip(i);
 								break;
