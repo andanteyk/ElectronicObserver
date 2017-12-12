@@ -105,7 +105,7 @@ namespace ElectronicObserver.Data.Quest
 
 			ao.APIList["api_req_kousyou/createship"].RequestReceived += ShipConstructed;
 
-			ao.APIList["api_req_kousyou/destroyship"].ResponseReceived += ShipDestructed;
+			ao.APIList["api_req_kousyou/destroyship"].RequestReceived += ShipDestructed;
 
 			// 装備廃棄はイベント前に装備データが削除されてしまうので destroyitem2 から直接呼ばれる
 
@@ -359,6 +359,14 @@ namespace ElectronicObserver.Data.Quest
 						case 638:   //|638|対空機銃量産|機銃廃棄6個|回ではない
 							Progresses.Add(new ProgressDiscard(q, 6, true, new int[] { 21 }));
 							break;
+						case 673:   //|673|装備開発力の整備|小口径主砲廃棄4個|進捗は1/5から始まる(3個廃棄時点で80%達成になる)
+							Progresses.Add(new ProgressDiscard(q, 4, true, new int[] { 1 }));
+							Progresses[q.QuestID].SharedCounterShift = 1;
+							break;
+						case 674:   //|674|工廠環境の整備|機銃廃棄3個,鋼材300保有|進捗は2/5から始まる(2個廃棄時点で80%達成になる)
+							Progresses.Add(new ProgressDiscard(q, 3, true, new int[] { 21 }));
+							Progresses[q.QuestID].SharedCounterShift = 2;
+							break;
 
 						case 702:   //|702|艦の「近代化改修」を実施せよ！|改修成功2
 							Progresses.Add(new ProgressModernization(q, 2));
@@ -544,9 +552,11 @@ namespace ElectronicObserver.Data.Quest
 
 		void ShipDestructed(string apiname, dynamic data)
 		{
+			int amount = (data["api_ship_id"] as string).Split(",".ToCharArray()).Count();
+
 			foreach (var p in Progresses.Values.OfType<ProgressDestruction>())
 			{
-				p.Increment();
+				p.Increment(amount);
 			}
 
 			OnProgressChanged();

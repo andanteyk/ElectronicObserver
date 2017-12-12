@@ -20,21 +20,32 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou
 
 			//todo: ここに処理を書くのはみょんな感があるので、可能なら移動する
 
-			int shipID = int.Parse(data["api_ship_id"]);
+			var shipIDs = data["api_ship_id"].Split(",".ToCharArray()).Select(s => int.Parse(s));
+			bool discardEquipment = int.Parse(data["api_slot_dest_flag"]) != 0;
+
+			var ships = shipIDs.Select(id => db.Ships[id]);
+
 
 			db.Fleet.LoadFromRequest(APIName, data);
 
-			ShipData ship = db.Ships[shipID];
 
-			Utility.Logger.Add(2, ship.NameWithLevel + " を解体しました。");
+			foreach (var ship in ships)
+				Utility.Logger.Add(2, ship.NameWithLevel + " を解体しました。");
 
-			for (int i = 0; i < ship.Slot.Count; i++)
+
+			if (discardEquipment)
 			{
-				if (ship.Slot[i] != -1)
-					db.Equipments.Remove(ship.Slot[i]);
+				foreach (var ship in ships)
+				{
+					foreach (var eqid in ship.AllSlot.Where(id => id != -1))
+					{
+						db.Equipments.Remove(eqid);
+					}
+				}
 			}
 
-			db.Ships.Remove(shipID);
+			foreach (int id in shipIDs)
+				db.Ships.Remove(id);
 
 
 			base.OnRequestReceived(data);
@@ -42,7 +53,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou
 
 		public override void OnResponseReceived(dynamic data)
 		{
-
 			KCDatabase.Instance.Material.LoadFromResponse(APIName, data.api_material);
 
 			base.OnResponseReceived((object)data);

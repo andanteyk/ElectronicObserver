@@ -628,6 +628,7 @@ api_port/port		：母港情報
 		api_m_flag			：2
 		api_m_flag2			：ギミック解除時に1
 	api_parallel_quest_count	：最大受領可能任務数
+	api_dest_ship_slot		：解体時の装備廃棄フラグ　0=保管, 1=廃棄
 	api_plane_info				：基地航空隊関連データ　要素があるときのみ存在（メンバも然り）
 		api_unset_slot			：更新された unsetslot? []　基地航空隊が更新されたときに増える？
 			api_type3No			：装備カテゴリID
@@ -722,11 +723,12 @@ api_req_kousyou/createitem	：装備開発(失敗)
 
 
 Request.api_req_kousyou/destroyship	：艦船解体
-	api_ship_id			：解体艦船のID
+	api_ship_id			：解体艦船のID コンマ区切り
+	api_slot_dest_flag	：装備廃棄フラグ　0=保管, 1=廃棄
 
 api_req_kousyou/destroyship			：艦船解体
 	api_material		：各種資源の現在値
-
+	api_unset_list		：未装備の装備IDリスト　unsetslot を参照　装備保管時のみ存在
 
 Request.api_req_kousyou/destroyitem2	：装備廃棄
 	api_slotitem_ids		：廃棄した装備のID
@@ -918,9 +920,13 @@ Request.api_get_member/picture_book	：図鑑
 api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ送られてくるので注意
 	api_list				：リスト　登録艦が0隻の場合は存在しない(api_data=nullになる)
 		api_index_no		：図鑑No.
-		api_state			：取得フラグ？
-								二重配列になっており、未改造・改造後が同じ項目で登録されている艦娘は以下データが2つ(以上)存在する
+		api_state			：取得フラグ　[][5]
+								未改造・改造後が同じ項目で登録されている艦娘は以下データが2つ(以上)存在する
 								[0]=図鑑登録, [1]=中破絵, [2]=ケッコン, [3]=?, [4]=?
+		api_q_voice_info	：特殊ボイス再生ボタン情報　[]　対応艦のみ存在
+			api_no			：
+			api_voice_id	：
+			api_icon_id		：
 		api_table_id		：艦船ID
 		api_name			：艦船名
 		api_yomi			：艦船名読み

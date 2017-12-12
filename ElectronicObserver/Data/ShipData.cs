@@ -348,21 +348,23 @@ namespace ElectronicObserver.Data
 			get
 			{
 				int param = EvasionTotal;
-				foreach (var eq in AllSlotInstance.Where(eq => eq != null))
+				var eqs = AllSlotInstance.Where(eq => eq != null);
+				foreach (var eq in eqs)
 				{
 					param -= eq.MasterEquipment.Evasion;
+				}
 
-					// 北方迷彩(+北方装備)
-					if (eq.EquipmentID == 268)
+				// 北方迷彩(+北方装備)　による特殊補正（重複しない）
+				if (eqs.Any(eq => eq.EquipmentID == 268))
+				{
+					switch (ShipID)
 					{
-						switch (ShipID)
-						{
-							case 146:   // 木曽改二
-							case 216:   // 多摩改
-							case 217:   // 木曽改
-								param -= 7;
-								break;
-						}
+						case 146:   // 木曾改二
+						case 216:   // 多摩改
+						case 217:   // 木曾改
+						case 547:	// 多摩改二
+							param -= 7;
+							break;
 					}
 				}
 				return param;
