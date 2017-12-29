@@ -55,9 +55,12 @@ namespace ElectronicObserver.Window.Dialog
 		}
 
 
+		private int enemySlotCountValue;
+
 		public DialogAntiAirDefense()
 		{
 			InitializeComponent();
+			enemySlotCountValue = (int)EnemySlotCount.Value;
 		}
 
 		private void DialogAntiAirDefense_Load(object sender, EventArgs e)
@@ -96,7 +99,7 @@ namespace ElectronicObserver.Window.Dialog
 			ShipData[] ships = GetShips().ToArray();
 			int formation = Formation.SelectedItem as FormationComboBoxData;
 			int aaCutinKind = AACutinKind.SelectedItem as AACutinComboBoxData;
-			int enemyAircraftCount = (int)EnemySlotCount.Value;
+			int enemyAircraftCount = enemySlotCountValue;
 
 
 			// 加重対空値
@@ -215,7 +218,7 @@ namespace ElectronicObserver.Window.Dialog
 			{
 
 				int value = e.Value as int? ?? 0;
-				int enemySlot = (int)EnemySlotCount.Value;
+				int enemySlot = enemySlotCountValue;
 
 				e.Value = string.Format("{0} ({1:p0})", value, (double)value / enemySlot);
 				e.FormattingApplied = true;
@@ -246,6 +249,7 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void EnemySlotCount_ValueChanged(object sender, EventArgs e)
 		{
+			enemySlotCountValue = (int)EnemySlotCount.Value;
 			Updated();
 		}
 
