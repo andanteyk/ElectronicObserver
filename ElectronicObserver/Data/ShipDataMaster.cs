@@ -43,6 +43,11 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public ShipTypes ShipType => (ShipTypes)(int)RawData.api_stype;
 
+        /// <summary>
+        /// 艦型
+        /// </summary>
+        public int ShipClass => (int)RawData.api_ctype;
+
 
 		/// <summary>
 		/// 改装Lv.
@@ -92,6 +97,11 @@ namespace ElectronicObserver.Data
 		/// 改装に試製甲板カタパルトが必要かどうか
 		/// </summary>
 		public int NeedCatapult { get; internal set; }
+
+        /// <summary>
+        /// 改装に戦闘詳報が必要かどうか
+        /// </summary>
+        public int NeedActionReport { get; internal set; }
 
 
 		#region Parameters

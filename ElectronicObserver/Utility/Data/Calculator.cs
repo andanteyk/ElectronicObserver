@@ -61,7 +61,8 @@ namespace ElectronicObserver.Utility.Data
 			{ EquipmentTypes.CarrierBasedFighter,   0.2 },
 			{ EquipmentTypes.CarrierBasedBomber,    0.25 },
 			{ EquipmentTypes.SeaplaneFighter,       0.2 },
-		};
+            { EquipmentTypes.Interceptor,           0.2 },
+        };
 
 
 

@@ -491,6 +491,7 @@ api_start2	：艦娘・装備固有データその他
 		api_upgrade_level		：改装回数
 		api_drawing_count		：要改装設計図
 		api_catapult_count		：要試製甲板カタパルト
+		api_report_count		：要戦闘詳報
 		api_sortno				：? (概ね図鑑IDだが、霞(改/二/乙), 利根(改/二), 筑摩(改/二)などで異なる)
 
 	api_mst_bgm			：母港BGMデータ？
