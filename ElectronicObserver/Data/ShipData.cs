@@ -533,6 +533,32 @@ namespace ElectronicObserver.Data
 			}
 		}
 
+		/// <summary>
+		/// 改装後艦名
+		/// </summary>
+		public string RemodelShipName {
+			get {
+				ShipDataMaster master = MasterShip;
+				if (master.RemodelAfterShipID <= 0)
+					return string.Empty;
+				return KCDatabase.Instance.MasterShips[master.RemodelAfterShipID].Name;
+			}
+		}
+
+		/// <summary>
+		/// 改装後艦船ID
+		/// </summary>
+		public int RemodelShipId
+		{
+			get
+			{
+				ShipDataMaster master = MasterShip;
+				if (master.RemodelAfterShipID <= 0)
+					return -1;
+				return master.RemodelAfterShipID;
+			}
+		}
+
 
 		/// <summary>
 		/// 艦名
