@@ -98,6 +98,7 @@ namespace ElectronicObserver.Window.Dialog
 			var area = ResourceChart.ChartAreas.Add("ResourceChartArea");
 			area.AxisX = CreateAxisX(SelectedChartSpan);
 			area.AxisY = CreateAxisY(2000);
+			area.AxisY2 = CreateAxisY(200);
 
 			ResourceChart.Legends.Clear();
 			var legend = ResourceChart.Legends.Add("ResourceLegend");
@@ -110,6 +111,7 @@ namespace ElectronicObserver.Window.Dialog
 			var ammo = ResourceChart.Series.Add("ResourceSeries_Ammo");
 			var steel = ResourceChart.Series.Add("ResourceSeries_Steel");
 			var bauxite = ResourceChart.Series.Add("ResourceSeries_Bauxite");
+			var instantRepair = ResourceChart.Series.Add("ResourceSeries_InstantRepair");
 
 			var setSeries = new Action<Series>(s =>
 			{
@@ -134,6 +136,11 @@ namespace ElectronicObserver.Window.Dialog
 			bauxite.Color = Color.FromArgb(255, 0, 0);
 			bauxite.LegendText = "ボーキ";
 
+			setSeries(instantRepair);
+			instantRepair.Color = Color.FromArgb(32, 128, 255);
+			instantRepair.LegendText = "高速修復材";
+			instantRepair.YAxisType = AxisType.Secondary;
+
 
 			//データ設定
 			{
@@ -152,19 +159,10 @@ namespace ElectronicObserver.Window.Dialog
 						ammo.Points.AddXY(r.Date.ToOADate(), r.Ammo);
 						steel.Points.AddXY(r.Date.ToOADate(), r.Steel);
 						bauxite.Points.AddXY(r.Date.ToOADate(), r.Bauxite);
+						instantRepair.Points.AddXY(r.Date.ToOADate(), r.InstantRepair);
 
 						prev = r;
 					}
-				}
-
-
-				if (fuel.Points.Count > 0)
-				{
-					int min = (int)new[] { fuel.Points.Min(p => p.YValues[0]), ammo.Points.Min(p => p.YValues[0]), steel.Points.Min(p => p.YValues[0]), bauxite.Points.Min(p => p.YValues[0]) }.Min();
-					area.AxisY.Minimum = Math.Floor(min / 10000.0) * 10000;
-
-					int max = (int)new[] { fuel.Points.Max(p => p.YValues[0]), ammo.Points.Max(p => p.YValues[0]), steel.Points.Max(p => p.YValues[0]), bauxite.Points.Max(p => p.YValues[0]) }.Max();
-					area.AxisY.Maximum = Math.Ceiling(max / 10000.0) * 10000;
 				}
 			}
 
@@ -180,6 +178,7 @@ namespace ElectronicObserver.Window.Dialog
 			var area = ResourceChart.ChartAreas.Add("ResourceChartArea");
 			area.AxisX = CreateAxisX(SelectedChartSpan);
 			area.AxisY = CreateAxisY(200);
+			area.AxisY2 = CreateAxisY(20);
 
 			ResourceChart.Legends.Clear();
 			var legend = ResourceChart.Legends.Add("ResourceLegend");
@@ -192,6 +191,7 @@ namespace ElectronicObserver.Window.Dialog
 			var ammo = ResourceChart.Series.Add("ResourceSeries_Ammo");
 			var steel = ResourceChart.Series.Add("ResourceSeries_Steel");
 			var bauxite = ResourceChart.Series.Add("ResourceSeries_Bauxite");
+			var instantRepair = ResourceChart.Series.Add("ResourceSeries_InstantRepair");
 
 			var setSeries = new Action<Series>(s =>
 			{
@@ -222,6 +222,12 @@ namespace ElectronicObserver.Window.Dialog
 			bauxite.BorderColor = Color.FromArgb(255, 255, 0, 0);
 			bauxite.LegendText = "ボーキ";
 
+			setSeries(instantRepair);
+			instantRepair.Color = Color.FromArgb(64, 32, 128, 255);
+			instantRepair.BorderColor = Color.FromArgb(255, 32, 128, 255);
+			instantRepair.LegendText = "高速修復材";
+			instantRepair.YAxisType = AxisType.Secondary;
+
 
 			//データ設定
 			{
@@ -238,7 +244,13 @@ namespace ElectronicObserver.Window.Dialog
 						if (ShouldSkipRecord(r.Date - prev.Date))
 							continue;
 
-						double[] ys = new double[] { r.Fuel - prev.Fuel, r.Ammo - prev.Ammo, r.Steel - prev.Steel, r.Bauxite - prev.Bauxite };
+						double[] ys = new double[] {
+							r.Fuel - prev.Fuel,
+							r.Ammo - prev.Ammo,
+							r.Steel - prev.Steel,
+							r.Bauxite - prev.Bauxite,
+							r.InstantRepair - prev.InstantRepair };
+
 						if (Menu_Option_DivideByDay.Checked)
 						{
 							for (int i = 0; i < 4; i++)
@@ -249,25 +261,17 @@ namespace ElectronicObserver.Window.Dialog
 						ammo.Points.AddXY(prev.Date.ToOADate(), ys[1]);
 						steel.Points.AddXY(prev.Date.ToOADate(), ys[2]);
 						bauxite.Points.AddXY(prev.Date.ToOADate(), ys[3]);
+						instantRepair.Points.AddXY(prev.Date.ToOADate(), ys[4]);
 
 						fuel.Points.AddXY(r.Date.ToOADate(), ys[0]);
 						ammo.Points.AddXY(r.Date.ToOADate(), ys[1]);
 						steel.Points.AddXY(r.Date.ToOADate(), ys[2]);
 						bauxite.Points.AddXY(r.Date.ToOADate(), ys[3]);
+						instantRepair.Points.AddXY(r.Date.ToOADate(), ys[4]);
 
 
 						prev = r;
 					}
-				}
-
-
-				if (fuel.Points.Count > 0)
-				{
-					int min = (int)new[] { fuel.Points.Min(p => p.YValues[0]), ammo.Points.Min(p => p.YValues[0]), steel.Points.Min(p => p.YValues[0]), bauxite.Points.Min(p => p.YValues[0]) }.Min();
-					area.AxisY.Minimum = Math.Floor(min / 1000.0) * 1000;
-
-					int max = (int)new[] { fuel.Points.Max(p => p.YValues[0]), ammo.Points.Max(p => p.YValues[0]), steel.Points.Max(p => p.YValues[0]), bauxite.Points.Max(p => p.YValues[0]) }.Max();
-					area.AxisY.Maximum = Math.Ceiling(max / 1000.0) * 1000;
 				}
 			}
 
@@ -887,13 +891,30 @@ namespace ElectronicObserver.Window.Dialog
 			ResourceChart.ChartAreas[0].AxisY.Interval = unit;
 			ResourceChart.ChartAreas[0].AxisY.MinorGrid.Interval = unit / 2;
 
+			if (ResourceChart.Series.Where(s => s.Enabled).Any(s => s.YAxisType == AxisType.Secondary)) {
+				ResourceChart.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True;
+				if (ResourceChart.Series.Count(s => s.Enabled) == 1) {
+					ResourceChart.ChartAreas[0].AxisY2.MajorGrid.Enabled = true;
+					ResourceChart.ChartAreas[0].AxisY2.MinorGrid.Enabled = true;
+				} else {
+					ResourceChart.ChartAreas[0].AxisY2.MajorGrid.Enabled = false;
+					ResourceChart.ChartAreas[0].AxisY2.MinorGrid.Enabled = false;
+				}
+				ResourceChart.ChartAreas[0].AxisY2.Minimum = ResourceChart.ChartAreas[0].AxisY.Minimum / 100;
+				ResourceChart.ChartAreas[0].AxisY2.Maximum = ResourceChart.ChartAreas[0].AxisY.Maximum / 100;
+				ResourceChart.ChartAreas[0].AxisY2.Interval = unit / 100;
+				ResourceChart.ChartAreas[0].AxisY2.MinorGrid.Interval = unit / 200;
+			} else {
+				ResourceChart.ChartAreas[0].AxisY2.Enabled = AxisEnabled.False;
+			}
+
 		}
 
 		private void SetYBounds()
 		{
 			SetYBounds(
-				!ResourceChart.Series.Any(s => s.Enabled) || SelectedChartType == ChartType.ExperienceDiff ? 0 : ResourceChart.Series.Where(s => s.Enabled).Select(s => s.Points.Min(p => p.YValues[0])).Min(),
-				!ResourceChart.Series.Any(s => s.Enabled) ? 0 : ResourceChart.Series.Where(s => s.Enabled).Select(s => s.Points.Max(p => p.YValues[0])).Max()
+				!ResourceChart.Series.Any(s => s.Enabled) || SelectedChartType == ChartType.ExperienceDiff ? 0 : ResourceChart.Series.Where(s => s.Enabled).Select(s => s.YAxisType == AxisType.Secondary ? s.Points.Min(p => p.YValues[0] * 100) : s.Points.Min(p => p.YValues[0])).Min(),
+				!ResourceChart.Series.Any(s => s.Enabled) ? 0 : ResourceChart.Series.Where(s => s.Enabled).Select(s => s.YAxisType == AxisType.Secondary ? s.Points.Max(p => p.YValues[0] * 100) : s.Points.Max(p => p.YValues[0])).Max()
 				);
 		}
 
