@@ -153,19 +153,19 @@ namespace ElectronicObserver.Data
                 case 0:
                     return "-";
                 case 1:
-                    return "時報";
-                case 2:
                     return "放置";
+                case 2:
+                    return "時報";
                 case 3:
-                    return "時報+放置";
+                    return "放置+時報";
                 case 4:
                     return "特殊放置";
                 case 5:
-                    return "時報+特殊放置";
-                case 6:
                     return "放置+特殊放置";
+                case 6:
+                    return "時報+特殊放置";
                 case 7:
-                    return "時報+放置+特殊放置";
+                    return "放置+時報+特殊放置";
                 default:
                     return "不明";
             }
