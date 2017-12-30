@@ -255,20 +255,16 @@ namespace ElectronicObserver.Data.ShipGroup
 					condex = Expression.Not(Expression.Call(memberex, typeof(string).GetMethod("Contains", new Type[] { typeof(string) }), constex));
 					break;
 				case ExpressionOperator.BeginWith:
-					condex = Expression.Equal(Expression.Call(memberex, typeof(string).GetMethod("IndexOf", new Type[] { typeof(string) }), constex), Expression.Constant(0, typeof(int)));
+					condex = Expression.Call(memberex, typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) }), constex);
 					break;
 				case ExpressionOperator.NotBeginWith:
-					condex = Expression.NotEqual(Expression.Call(memberex, typeof(string).GetMethod("IndexOf", new Type[] { typeof(string) }), constex), Expression.Constant(0, typeof(int)));
+					condex = Expression.Not(Expression.Call(memberex, typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) }), constex));
 					break;
-				case ExpressionOperator.EndWith:    // returns memberex.LastIndexOf( constex ) == ( memberex.Length - constex.Length )
-					condex = Expression.Equal(
-						Expression.Call(memberex, typeof(string).GetMethod("LastIndexOf", new Type[] { typeof(string) }), constex),
-						Expression.Subtract(Expression.PropertyOrField(memberex, "Length"), Expression.PropertyOrField(constex, "Length")));
+				case ExpressionOperator.EndWith:
+					condex = Expression.Call(memberex, typeof(string).GetMethod("EndsWith", new Type[] { typeof(string) }), constex);
 					break;
-				case ExpressionOperator.NotEndWith: // returns memberex.LastIndexOf( constex ) != ( memberex.Length - constex.Length )
-					condex = Expression.NotEqual(
-						Expression.Call(memberex, typeof(string).GetMethod("LastIndexOf", new Type[] { typeof(string) }), constex),
-						Expression.Subtract(Expression.PropertyOrField(memberex, "Length"), Expression.PropertyOrField(constex, "Length")));
+				case ExpressionOperator.NotEndWith:
+					condex = Expression.Not(Expression.Call(memberex, typeof(string).GetMethod("EndsWith", new Type[] { typeof(string) }), constex));
 					break;
 				case ExpressionOperator.ArrayContains:  // returns Enumerable.Contains<>( memberex )
 					condex = Expression.Call(typeof(Enumerable), "Contains", new Type[] { memberex.Type.GetElementType() ?? memberex.Type.GetGenericArguments().First() }, memberex, constex);
