@@ -55,7 +55,12 @@ namespace ElectronicObserver.Window.Dialog
 		}
 
 
+		/// <summary>
+		/// NumericUpDown から Value を正しく取得できないことがあるため、一旦これにキャッシュする
+		/// </summary>
+		/// <remarks>https://github.com/andanteyk/ElectronicObserver/pull/197</remarks>
 		private int enemySlotCountValue;
+
 
 		public DialogAntiAirDefense()
 		{
