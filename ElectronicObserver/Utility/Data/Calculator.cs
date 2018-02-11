@@ -61,8 +61,8 @@ namespace ElectronicObserver.Utility.Data
 			{ EquipmentTypes.CarrierBasedFighter,   0.2 },
 			{ EquipmentTypes.CarrierBasedBomber,    0.25 },
 			{ EquipmentTypes.SeaplaneFighter,       0.2 },
-            { EquipmentTypes.Interceptor,           0.2 },
-        };
+			{ EquipmentTypes.Interceptor,           0.2 },
+		};
 
 
 
@@ -1165,8 +1165,10 @@ namespace ElectronicObserver.Utility.Data
 			int aaradar = 0;
 			int maingunl = 0;
 			int aashell = 0;
-			int aagun = 0;
+			int aagun_total = 0;
+			int aagun_medium = 0;
 			int aagun_concentrated = 0;
+			int aarocketmod = 0;
 
 			var slotmaster = slot.Select(id => KCDatabase.Instance.MasterEquipments[id]).Where(eq => eq != null).ToArray();
 
@@ -1201,10 +1203,15 @@ namespace ElectronicObserver.Utility.Data
 				}
 				else if (eq.CategoryType == EquipmentTypes.AAGun)
 				{
-					aagun++;
+					aagun_total++;
+
+					if (eq.EquipmentID == 274)      // 噴進砲改二
+						aarocketmod++;
 
 					if (eq.IsConcentratedAAGun)
 						aagun_concentrated++;
+					else if (eq.AA >= 3)
+						aagun_medium++;
 				}
 
 			}
@@ -1222,7 +1229,7 @@ namespace ElectronicObserver.Utility.Data
 				case 423:   // 初月
 				case 357:   // 初月改
 				case 532:   // 涼月
-				case 537:	// 涼月改
+				case 537:   // 涼月改
 					if (highangle >= 2 && radar >= 1)
 					{
 						return 1;
@@ -1248,7 +1255,7 @@ namespace ElectronicObserver.Utility.Data
 					break;
 
 				case 141:   // 五十鈴改二
-					if (highangle >= 1 && aagun >= 1)
+					if (highangle >= 1 && aagun_total >= 1)
 					{
 						if (aaradar >= 1)
 							return 14;
@@ -1258,7 +1265,7 @@ namespace ElectronicObserver.Utility.Data
 					break;
 
 				case 470:   // 霞改二乙
-					if (highangle >= 1 && aagun >= 1)
+					if (highangle >= 1 && aagun_total >= 1)
 					{
 						if (aaradar >= 1)
 							return 16;
@@ -1293,8 +1300,29 @@ namespace ElectronicObserver.Utility.Data
 
 				case 539:   // UIT-25
 				case 530:   // 伊504
-					if (aagun - aagun_concentrated >= 1)
+					if (aagun_medium >= 1)
 						return 23;
+					break;
+
+				case 478:   // 龍田改二
+					if (highangle >= 1 && aagun_medium >= 1)
+						return 24;
+					break;
+
+				case 82:    // 伊勢改
+				case 88:    // 日向改
+					if (aarocketmod >= 1 && aaradar >= 1)
+					{
+						if (aashell >= 1)
+							return 25;
+
+						return 28;
+					}
+					break;
+
+				case 148:   // 武蔵改
+					if (aarocketmod >= 1 && aaradar >= 1)
+						return 28;
 					break;
 			}
 
@@ -1325,8 +1353,8 @@ namespace ElectronicObserver.Utility.Data
 				return 9;
 			}
 
-			if (aagun_concentrated >= 1 && aagun >= 2 && aaradar >= 1)
-			{   //注: 機銃2なのは集中機銃がダブるため
+			if (aagun_concentrated >= 1 && (aagun_concentrated + aagun_medium) >= 2 && aaradar >= 1)
+			{
 				return 12;
 			}
 
@@ -1546,6 +1574,9 @@ namespace ElectronicObserver.Utility.Data
 			{ 21, 5 },
 			{ 22, 2 },
 			{ 23, 1 },
+			{ 24, 3 },
+			{ 25, 7 },
+			{ 28, 4 },
 		});
 
 
@@ -1576,6 +1607,9 @@ namespace ElectronicObserver.Utility.Data
 			{ 21, 1.45 },
 			{ 22, 1.2 },
 			{ 23, 1.05 },
+			{ 24, 1.25 },
+			{ 25, 1.55 },
+			{ 28, 1.4 },
 		});
 
 

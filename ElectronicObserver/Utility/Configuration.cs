@@ -124,17 +124,7 @@ namespace ElectronicObserver.Utility
 				public string DownstreamProxy { get; set; }
 
 
-				/// <summary>
-				/// kancolle-db.netに送信する
-				/// </summary>
-				public bool SendDataToKancolleDB { get; set; }
-
-				/// <summary>
-				/// kancolle-db.netのOAuth認証
-				/// </summary>
-				public string SendKancolleOAuth { get; set; }
-
-
+				
 				public ConfigConnection()
 				{
 
@@ -152,8 +142,6 @@ namespace ElectronicObserver.Utility
 					UpstreamProxyAddress = "127.0.0.1";
 					UseSystemProxy = false;
 					DownstreamProxy = "";
-					SendDataToKancolleDB = false;
-					SendKancolleOAuth = "";
 				}
 
 			}

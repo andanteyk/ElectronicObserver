@@ -873,6 +873,12 @@ namespace ElectronicObserver.Data
 					return "集中機銃(文月)";
 				case 23:
 					return "機銃(非集中)(UIT-25)";
+				case 24:
+					return "高角砲/機銃(非集中)(龍田)";
+				case 25:
+					return "噴進砲改二/電探/三式弾(伊勢)";
+				case 28:
+					return "噴進砲改二/電探(伊勢)";
 				default:
 					return "不明";
 			}

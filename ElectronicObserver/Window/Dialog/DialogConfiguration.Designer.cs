@@ -231,13 +231,6 @@
 			this.Notification_Repair = new System.Windows.Forms.Button();
 			this.Notification_Construction = new System.Windows.Forms.Button();
 			this.Notification_Expedition = new System.Windows.Forms.Button();
-			this.tabPage15 = new System.Windows.Forms.TabPage();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
-			this.label22 = new System.Windows.Forms.Label();
-			this.Database_SendKancolleOAuth = new System.Windows.Forms.TextBox();
-			this.Database_LinkKCDB = new System.Windows.Forms.LinkLabel();
-			this.labelKdb = new System.Windows.Forms.Label();
-			this.Database_SendDataToKancolleDB = new System.Windows.Forms.CheckBox();
 			this.tabPage17 = new System.Windows.Forms.TabPage();
 			this.BGMPlayer_SyncBrowserMute = new System.Windows.Forms.CheckBox();
 			this.BGMPlayer_SetVolumeAll = new System.Windows.Forms.Button();
@@ -298,8 +291,6 @@
 			this.SubWindow_Json.SuspendLayout();
 			this.SubWindow_Json_SealingPanel.SuspendLayout();
 			this.tabPage11.SuspendLayout();
-			this.tabPage15.SuspendLayout();
-			this.groupBox5.SuspendLayout();
 			this.tabPage17.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_ControlGrid)).BeginInit();
@@ -318,7 +309,6 @@
 			this.tabControl1.Controls.Add(this.tabPage6);
 			this.tabControl1.Controls.Add(this.tabPage7);
 			this.tabControl1.Controls.Add(this.tabPage11);
-			this.tabControl1.Controls.Add(this.tabPage15);
 			this.tabControl1.Controls.Add(this.tabPage17);
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Multiline = true;
@@ -1025,7 +1015,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 275);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 273);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -2688,7 +2678,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 346);
+			this.label10.Location = new System.Drawing.Point(3, 344);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2743,81 +2733,6 @@
 			this.Notification_Expedition.Text = "遠征帰投通知の設定...";
 			this.Notification_Expedition.UseVisualStyleBackColor = true;
 			this.Notification_Expedition.Click += new System.EventHandler(this.Notification_Expedition_Click);
-			// 
-			// tabPage15
-			// 
-			this.tabPage15.Controls.Add(this.groupBox5);
-			this.tabPage15.Location = new System.Drawing.Point(4, 24);
-			this.tabPage15.Name = "tabPage15";
-			this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage15.Size = new System.Drawing.Size(696, 372);
-			this.tabPage15.TabIndex = 8;
-			this.tabPage15.Text = "データベース";
-			this.tabPage15.UseVisualStyleBackColor = true;
-			// 
-			// groupBox5
-			// 
-			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox5.Controls.Add(this.label22);
-			this.groupBox5.Controls.Add(this.Database_SendKancolleOAuth);
-			this.groupBox5.Controls.Add(this.Database_LinkKCDB);
-			this.groupBox5.Controls.Add(this.labelKdb);
-			this.groupBox5.Controls.Add(this.Database_SendDataToKancolleDB);
-			this.groupBox5.Location = new System.Drawing.Point(6, 6);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(684, 117);
-			this.groupBox5.TabIndex = 5;
-			this.groupBox5.TabStop = false;
-			this.groupBox5.Text = "艦これ統計データベース";
-			// 
-			// label22
-			// 
-			this.label22.AutoSize = true;
-			this.label22.Location = new System.Drawing.Point(6, 19);
-			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(414, 30);
-			this.label22.TabIndex = 0;
-			this.label22.Text = "「艦これ統計データベース」へデータを送信できます。\r\n詳細やアクセスキーの取得は以下のサイトを参照してください。(外部ブラウザが開きます)";
-			// 
-			// Database_SendKancolleOAuth
-			// 
-			this.Database_SendKancolleOAuth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.Database_SendKancolleOAuth.Location = new System.Drawing.Point(87, 86);
-			this.Database_SendKancolleOAuth.Name = "Database_SendKancolleOAuth";
-			this.Database_SendKancolleOAuth.Size = new System.Drawing.Size(591, 23);
-			this.Database_SendKancolleOAuth.TabIndex = 4;
-			// 
-			// Database_LinkKCDB
-			// 
-			this.Database_LinkKCDB.AutoSize = true;
-			this.Database_LinkKCDB.Location = new System.Drawing.Point(6, 49);
-			this.Database_LinkKCDB.Name = "Database_LinkKCDB";
-			this.Database_LinkKCDB.Size = new System.Drawing.Size(141, 15);
-			this.Database_LinkKCDB.TabIndex = 1;
-			this.Database_LinkKCDB.TabStop = true;
-			this.Database_LinkKCDB.Text = "http://kancolle-db.net/";
-			this.Database_LinkKCDB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Database_LinkKCDB_LinkClicked);
-			// 
-			// labelKdb
-			// 
-			this.labelKdb.AutoSize = true;
-			this.labelKdb.Location = new System.Drawing.Point(6, 89);
-			this.labelKdb.Name = "labelKdb";
-			this.labelKdb.Size = new System.Drawing.Size(75, 15);
-			this.labelKdb.TabIndex = 3;
-			this.labelKdb.Text = "アクセスキー：";
-			// 
-			// Database_SendDataToKancolleDB
-			// 
-			this.Database_SendDataToKancolleDB.AutoSize = true;
-			this.Database_SendDataToKancolleDB.Location = new System.Drawing.Point(9, 67);
-			this.Database_SendDataToKancolleDB.Name = "Database_SendDataToKancolleDB";
-			this.Database_SendDataToKancolleDB.Size = new System.Drawing.Size(190, 19);
-			this.Database_SendDataToKancolleDB.TabIndex = 2;
-			this.Database_SendDataToKancolleDB.Text = "艦これ統計データベースに送信する";
-			this.Database_SendDataToKancolleDB.UseVisualStyleBackColor = true;
 			// 
 			// tabPage17
 			// 
@@ -2908,7 +2823,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 295);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 293);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -3093,9 +3008,6 @@
 			this.SubWindow_Json_SealingPanel.PerformLayout();
 			this.tabPage11.ResumeLayout(false);
 			this.tabPage11.PerformLayout();
-			this.tabPage15.ResumeLayout(false);
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox5.PerformLayout();
 			this.tabPage17.ResumeLayout(false);
 			this.tabPage17.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BGMPlayer_VolumeAll)).EndInit();
@@ -3223,12 +3135,6 @@
 		private System.Windows.Forms.ComboBox FormBrowser_FlashWMode;
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.ComboBox FormBrowser_FlashQuality;
-		private System.Windows.Forms.TabPage tabPage15;
-		private System.Windows.Forms.LinkLabel Database_LinkKCDB;
-		private System.Windows.Forms.Label label22;
-		private System.Windows.Forms.TextBox Database_SendKancolleOAuth;
-		private System.Windows.Forms.Label labelKdb;
-		private System.Windows.Forms.CheckBox Database_SendDataToKancolleDB;
 		private System.Windows.Forms.TabPage tabPage16;
 		private System.Windows.Forms.CheckBox FormHeadquarters_BlinkAtMaximum;
 		private System.Windows.Forms.ComboBox FormFleet_AirSuperiorityMethod;
@@ -3264,7 +3170,6 @@
 		private System.Windows.Forms.CheckBox FormArsenal_BlinkAtCompletion;
 		private System.Windows.Forms.TabPage tabPage19;
 		private System.Windows.Forms.CheckBox FormDock_BlinkAtCompletion;
-		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.CheckedListBox FormHeadquarters_Visibility;
 		private System.Windows.Forms.Label label26;
 		private System.Windows.Forms.Button Notification_AnchorageRepair;
