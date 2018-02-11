@@ -25,8 +25,9 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_nyukyo
 			ShipData ship = db.Ships[shipID];
 
 
-			Utility.Logger.Add(2, string.Format("入渠ドック #{0}で {1} の修復を開始しました。(燃料x{2}, 鋼材x{3}, {4})",
+			Utility.Logger.Add(2, string.Format("入渠ドック #{0}で {1} ({2}/{3}) の修復を開始しました。(燃料x{4}, 鋼材x{5}, {6})",
 				dock.DockID, ship.NameWithLevel,
+				ship.HPCurrent, ship.HPMax,
 				ship.RepairFuel, ship.RepairSteel,
 				bucketUsed ? "高速修復材x1" : ("修理完了予定: " + DateTimeHelper.TimeToCSVString(DateTime.Now + TimeSpan.FromMilliseconds(ship.RepairTime)))
 				));
