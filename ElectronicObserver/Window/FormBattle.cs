@@ -583,7 +583,10 @@ namespace ElectronicObserver.Window
 					label.ForeColor = Color.Red;
 				else
 					label.ForeColor = SystemColors.ControlText;
-			}
+
+                label.ImageAlign = ContentAlignment.MiddleCenter;
+                label.ImageIndex = -1;
+            }
 
 			void ClearAACutinLabel()
 			{

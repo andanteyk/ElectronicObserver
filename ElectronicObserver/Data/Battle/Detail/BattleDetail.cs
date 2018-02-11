@@ -149,7 +149,9 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 			StringBuilder builder = new StringBuilder();
 
-			builder.AppendFormat("{0} → {1}\r\n", GetAttackerName(), GetDefenderName());
+            // 航空戦・支援攻撃時 AttackerIndex = BattleIndex.Invalid 、それで AttackerIndex.Side = BattleSides.FriendMain になる
+            // DefenderIndex.Side で判断すれば航空戦も正確に識別できるが表示が変になるので、最終的には AttackerIndex.Side で判断した
+            builder.AppendFormat(AttackerIndex.IsFriend ? "{0} → {1}\r\n" : "{1} ← {0}\r\n", GetAttackerName(), GetDefenderName());
 
 
 			if (AttackType >= 0)

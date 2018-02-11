@@ -153,19 +153,19 @@ namespace ElectronicObserver.Data
 				case 0:
 					return "-";
 				case 1:
-					return "時報";
-				case 2:
 					return "放置";
+				case 2:
+					return "時報";
 				case 3:
-					return "時報+放置";
+					return "放置+時報";
 				case 4:
 					return "特殊放置";
 				case 5:
-					return "時報+特殊放置";
-				case 6:
 					return "放置+特殊放置";
+				case 6:
+					return "時報+特殊放置";
 				case 7:
-					return "時報+放置+特殊放置";
+					return "放置+時報+特殊放置";
 				default:
 					return "不明";
 			}
@@ -280,6 +280,98 @@ namespace ElectronicObserver.Data
 			}
 		}
 
+
+		/// <summary>
+		/// 艦型を表す文字列を取得します。
+		/// </summary>
+		public static string GetShipClass(int id)
+		{
+			switch (id)
+			{
+				case 1: return "綾波型";
+				case 2: return "伊勢型";
+				case 3: return "加賀型";
+				case 4: return "球磨型";
+				case 5: return "暁型";
+				case 6: return "金剛型";
+				case 7: return "古鷹型";
+				case 8: return "高雄型";
+				case 9: return "最上型";
+				case 10: return "初春型";
+				case 11: return "祥鳳型";
+				case 12: return "吹雪型";
+				case 13: return "青葉型";
+				case 14: return "赤城型";
+				case 15: return "千歳型";
+				case 16: return "川内型";
+				case 17: return "蒼龍型";
+				case 18: return "朝潮型";
+				case 19: return "長門型";
+				case 20: return "長良型";
+				case 21: return "天龍型";
+				case 22: return "島風型";
+				case 23: return "白露型";
+				case 24: return "飛鷹型";
+				case 25: return "飛龍型";
+				case 26: return "扶桑型";
+				case 27: return "鳳翔型";
+				case 28: return "睦月型";
+				case 29: return "妙高型";
+				case 30: return "陽炎型";
+				case 31: return "利根型";
+				case 32: return "龍驤型";
+				case 33: return "翔鶴型";
+				case 34: return "夕張型";
+				case 35: return "海大VI型";
+				case 36: return "巡潜乙型改二";
+				case 37: return "大和型";
+				case 38: return "夕雲型";
+				case 39: return "巡潜乙型";
+				case 40: return "巡潜3型";
+				case 41: return "阿賀野型";
+				case 42: return "「霧」";
+				case 43: return "大鳳型";
+				case 44: return "潜特型(伊400型潜水艦)";
+				case 45: return "特種船丙型";
+				case 46: return "三式潜航輸送艇";
+				case 47: return "Bismarck級";
+				case 48: return "Z1型";
+				case 49: return "工作艦";
+				case 50: return "大鯨型";
+				case 51: return "龍鳳型";
+				case 52: return "大淀型";
+				case 53: return "雲龍型";
+				case 54: return "秋月型";
+				case 55: return "Admiral Hipper級";
+				case 56: return "香取型";
+				case 57: return "UボートIXC型/呂号潜水艦";
+				case 58: return "V.Veneto級";
+				case 59: return "秋津洲型";
+				case 60: return "改風早型";
+				case 61: return "Maestrale級";
+				case 62: return "瑞穂型";
+				case 63: return "Graf Zeppelin級";
+				case 64: return "Zara級";
+				case 65: return "Iowa級";
+				case 66: return "神風型";
+				case 67: return "Queen Elizabeth級";
+				case 68: return "Aquila級";
+				case 69: return "Lexington級";
+				case 70: return "C.Teste級";
+				case 71: return "巡潜甲型改二";
+				case 72: return "神威型";
+				case 73: return "Гангут級";
+				case 74: return "占守型";
+				case 75: return "春日丸級";
+				case 76: return "大鷹型";
+				case 77: return "択捉型";
+				case 78: return "Ark Royal級";
+				case 79: return "Richelieu級";
+				case 80: return "Guglielmo Marconi級";
+				default: return "不明";
+			}
+		}
+
 		#endregion
 
 
@@ -334,7 +426,7 @@ namespace ElectronicObserver.Data
 				case 2:
 					return "夜戦";
 				case 3:
-					return "夜昼戦";		// 対通常?
+					return "夜昼戦";       // 対通常?
 				case 4:
 					return "航空戦";
 				case 5:
@@ -342,7 +434,7 @@ namespace ElectronicObserver.Data
 				case 6:
 					return "空襲戦";
 				case 7:
-					return "夜昼戦";		// 対連合
+					return "夜昼戦";       // 対連合
 				default:
 					return "不明";
 			}
@@ -781,6 +873,12 @@ namespace ElectronicObserver.Data
 					return "集中機銃(文月)";
 				case 23:
 					return "機銃(非集中)(UIT-25)";
+				case 24:
+					return "高角砲/機銃(非集中)(龍田)";
+				case 25:
+					return "噴進砲改二/電探/三式弾(伊勢)";
+				case 28:
+					return "噴進砲改二/電探(伊勢)";
 				default:
 					return "不明";
 			}

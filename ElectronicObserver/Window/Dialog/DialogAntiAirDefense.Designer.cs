@@ -204,6 +204,11 @@
 			0,
 			0,
 			0});
+			this.EnemySlotCount.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
 			this.EnemySlotCount.Name = "EnemySlotCount";
 			this.EnemySlotCount.Size = new System.Drawing.Size(80, 23);
 			this.EnemySlotCount.TabIndex = 2;

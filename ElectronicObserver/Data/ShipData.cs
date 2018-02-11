@@ -348,10 +348,25 @@ namespace ElectronicObserver.Data
 			get
 			{
 				int param = EvasionTotal;
+				bool hasNaganamiGun = false;
+
 				var eqs = AllSlotInstance.Where(eq => eq != null);
 				foreach (var eq in eqs)
 				{
 					param -= eq.MasterEquipment.Evasion;
+
+					if (eq.EquipmentID == 267)        // 12.7cm連装砲D型改二
+					{
+						hasNaganamiGun = true;
+
+						if (ShipID == 543 ||                // 長波改二
+							MasterShip.ShipClass == 22 ||   // 島風型
+							MasterShip.ShipClass == 38 ||   // 夕雲型
+							MasterShip.ShipClass == 30)     // 陽炎型
+						{
+							param -= 1;
+						}
+					}
 				}
 
 				// 北方迷彩(+北方装備)　による特殊補正（重複しない）
@@ -362,11 +377,20 @@ namespace ElectronicObserver.Data
 						case 146:   // 木曾改二
 						case 216:   // 多摩改
 						case 217:   // 木曾改
-						case 547:	// 多摩改二
+						case 547:   // 多摩改二
 							param -= 7;
 							break;
 					}
 				}
+
+				// 12.7cm連装砲D型改二 + 水上電探 による特殊補正
+				if (hasNaganamiGun &&
+					(ShipID == 229 || ShipID == 543) &&     // 島風改, 長波改二
+					eqs.Any(eq => eq.MasterEquipment.IsSurfaceRadar))
+				{
+					param -= 2;
+				}
+
 				return param;
 			}
 		}
@@ -1256,7 +1280,10 @@ namespace ElectronicObserver.Data
 					break;
 
 				case NightAttackKind.CutinTorpedoRadar:
-					basepower *= 1.3;
+					if (ShipID == 543 && AllSlotInstanceMaster.Any(eq => eq?.EquipmentID == 267))     // 長波改二 + 12.7cm連装砲D型改二
+						basepower *= 1.625;
+					else
+						basepower *= 1.3;
 					break;
 
 				case NightAttackKind.CutinTorpedoPicket:
