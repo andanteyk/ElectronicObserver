@@ -19,14 +19,25 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 
 
 			//api_data
-			db.Ships.Clear();
-			foreach (var elem in data.api_data)
+
+			var ships = (dynamic[])data.api_data;
+
+			if (ships.Length > 1)
+				db.Ships.Clear();
+
+			foreach (var elem in ships)
 			{
+				int id = (int)elem.api_id;
+				var ship = db.Ships[id];
 
-				var a = new ShipData();
-				a.LoadFromResponse(APIName, elem);
-				db.Ships.Add(a);
-
+				if (ship != null)
+					ship.LoadFromResponse(APIName, elem);
+				else
+				{
+					var a = new ShipData();
+					a.LoadFromResponse(APIName, elem);
+					db.Ships.Add(a);
+				}
 			}
 
 

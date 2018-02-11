@@ -25,6 +25,7 @@ namespace ElectronicObserver.Data.Quest
 	[KnownType(typeof(ProgressDestruction))]
 	[KnownType(typeof(ProgressDevelopment))]
 	[KnownType(typeof(ProgressDiscard))]
+	[KnownType(typeof(ProgressMultiDiscard))]
 	[KnownType(typeof(ProgressDocking))]
 	[KnownType(typeof(ProgressExpedition))]
 	[KnownType(typeof(ProgressImprovement))]
@@ -367,6 +368,29 @@ namespace ElectronicObserver.Data.Quest
 							Progresses.Add(new ProgressDiscard(q, 3, true, new int[] { 21 }));
 							Progresses[q.QuestID].SharedCounterShift = 2;
 							break;
+						case 676:   //|676|週|装備開発力の集中整備|(中口径主砲x3, 副砲x3, 簡易輸送部材x1)廃棄, 鋼材2400保有|進捗は n/7 で1つごとに進む
+							Progresses.Add(new ProgressMultiDiscard(q, new[] {
+								new ProgressDiscard(q, 3, true, new[]{ 2 }),
+								new ProgressDiscard(q, 3, true, new[]{ 4 }),
+								new ProgressDiscard(q, 1, true, new[]{ 30 }),
+								}));
+							break;
+						case 663:   //|663|季|新型艤装の継続研究|大口径主砲x10廃棄, 鋼材18000保有
+							Progresses.Add(new ProgressDiscard(q, 10, true, new[] { 3 }));
+							break;
+						case 675:   //|675|季|運用装備の統合整備|(艦上戦闘機x6, 機銃x4)廃棄, ボーキ800保有
+							Progresses.Add(new ProgressMultiDiscard(q, new[] {
+								new ProgressDiscard(q, 6, true, new[]{ 6 }),
+								new ProgressDiscard(q, 4, true, new[]{ 21 }),
+								}));
+							break;
+						case 677:   //|677|週|継戦支援能力の整備|(大口径主砲x4, 水上偵察機x2, 魚雷x3)廃棄, 鋼材3600保有
+							Progresses.Add(new ProgressMultiDiscard(q, new[] {
+								new ProgressDiscard(q, 4, true, new[]{ 3 }),
+								new ProgressDiscard(q, 2, true, new[]{ 10 }),
+								new ProgressDiscard(q, 3, true, new[]{ 5 }),
+								}));
+							break;
 
 						case 702:   //|702|艦の「近代化改修」を実施せよ！|改修成功2
 							Progresses.Add(new ProgressModernization(q, 2));
@@ -543,6 +567,10 @@ namespace ElectronicObserver.Data.Quest
 			var ids = data["api_slotitem_ids"].Split(",".ToCharArray()).Select(s => int.Parse(s));
 
 			foreach (var p in Progresses.Values.OfType<ProgressDiscard>())
+			{
+				p.Increment(ids);
+			}
+			foreach (var p in Progresses.Values.OfType<ProgressMultiDiscard>())
 			{
 				p.Increment(ids);
 			}
