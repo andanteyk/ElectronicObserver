@@ -389,7 +389,7 @@ namespace ElectronicObserver.Data
 				case 0:
 					return "初期位置";
 				case 1:
-					return "なし";
+					return "イベントなし";
 				case 2:
 					return "資源";
 				case 3:

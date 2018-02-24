@@ -19,6 +19,9 @@ namespace ElectronicObserver.Data.Quest
 			: base(quest, 1)
 		{
 			ProgressList = progressList.ToArray();
+			foreach (var p in ProgressList)
+				p.IgnoreCheckProgress = true;
+
 			ProgressMax = ProgressList.Sum(p => p.ProgressMax);
 		}
 
