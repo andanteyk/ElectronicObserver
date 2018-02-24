@@ -1324,6 +1324,11 @@ namespace ElectronicObserver.Utility.Data
 					if (aarocketmod >= 1 && aaradar >= 1)
 						return 28;
 					break;
+
+				case 546:   // 武蔵改二
+					if (highangle_director >= 1 && aaradar >= 1)
+						return 26;
+					break;
 			}
 
 
@@ -1576,6 +1581,7 @@ namespace ElectronicObserver.Utility.Data
 			{ 23, 1 },
 			{ 24, 3 },
 			{ 25, 7 },
+			{ 26, 6 },
 			{ 28, 4 },
 		});
 
@@ -1609,6 +1615,7 @@ namespace ElectronicObserver.Utility.Data
 			{ 23, 1.05 },
 			{ 24, 1.25 },
 			{ 25, 1.55 },
+			{ 26, 1.4 },
 			{ 28, 1.4 },
 		});
 

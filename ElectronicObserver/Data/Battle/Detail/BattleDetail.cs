@@ -395,4 +395,33 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 	}
 
+
+	/// <summary>
+	/// 友軍艦隊攻撃における戦闘詳細データを保持します。
+	/// </summary>
+	public class BattleFriendlySupportDetail : BattleDetail
+	{
+
+		public bool NightAirAttackFlag { get; protected set; }
+
+		public BattleFriendlySupportDetail(BattleNight bd, BattleIndex attackerId, BattleIndex defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, bool nightAirAttackFlag, int defenderHP)
+			: base(bd, attackerId, defenderId, damages, criticalTypes, attackType, equipmentIDs, defenderHP)
+		{
+			NightAirAttackFlag = nightAirAttackFlag;
+
+			if (attackerId.IsFriend)
+				Attacker = bd.FriendlySupport.FriendlyMembersInstance[attackerId.Index];
+		}
+
+		protected override int CaclulateAttackKind(int[] slots, int attackerShipID, int defenderShipID)
+		{
+			return (int)Calculator.GetNightAttackKind(slots, attackerShipID, defenderShipID, false, NightAirAttackFlag);
+		}
+
+		protected override string GetAttackKind()
+		{
+			return Constants.GetNightAttackKind((NightAttackKind)AttackType);
+		}
+	}
+
 }
