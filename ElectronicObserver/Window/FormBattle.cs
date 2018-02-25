@@ -1151,7 +1151,7 @@ namespace ElectronicObserver.Window
 					AirStage2Friend.ForeColor = SystemColors.ControlText;
 					AirStage2Friend.ImageAlign = ContentAlignment.MiddleLeft;
 					AirStage2Friend.ImageIndex = (int)ResourceManager.EquipmentContent.Flare;
-					ToolTipInfo.SetToolTip(AirStage2Friend, "照明弾投射: " + fleet.MembersInstance[index].NameWithLevel);
+					ToolTipInfo.SetToolTip(AirStage2Friend, "照明弾投射: " + pd.FlareFriendInstance.NameWithLevel);
 
 				}
 				else

@@ -231,13 +231,14 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 						if (p.FlareIndexFriend != -1)
 						{
-							sb.AppendFormat("自軍照明弾投射: {0} #{1}\r\n", p.FriendFleet.MembersInstance[p.FlareIndexFriend].Name, p.FlareIndexFriend + 1);
+							sb.AppendFormat("自軍照明弾投射: {0} #{1}\r\n", p.FlareFriendInstance.NameWithLevel, p.FlareIndexFriend + 1);
 						}
 						if (p.FlareIndexEnemy != -1)
 						{
 							sb.AppendFormat("敵軍照明弾投射: {0} #{1}\r\n", p.FlareEnemyInstance.NameWithClass, p.FlareIndexEnemy + 1);
 						}
 
+						sb.AppendLine();
 						break;
 
 

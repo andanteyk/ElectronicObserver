@@ -94,14 +94,29 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 
 		/// <summary>
-		/// 自軍照明弾投射艦番号(0-5, -1=発動せず)
+		/// 自軍照明弾投射艦番号(0-11, -1=発動せず)
 		/// </summary>
 		public int FlareIndexFriend => (int)RawData.api_flare_pos[0];
 
 		/// <summary>
-		/// 敵軍照明弾投射艦番号(0-5, -1=発動せず)
+		/// 敵軍照明弾投射艦番号(0-11, -1=発動せず)
 		/// </summary>
 		public int FlareIndexEnemy => (int)RawData.api_flare_pos[1];
+
+
+		/// <summary>
+		/// 自軍照明弾投射艦
+		/// </summary>
+		public ShipData FlareFriendInstance
+		{
+			get
+			{
+				int index = FlareIndexFriend;
+				if (0 <= index && index < 12)
+					return FriendFleet.MembersInstance[index % 6];
+				return null;
+			}
+		}
 
 		/// <summary>
 		/// 敵軍照明弾投射艦
@@ -111,9 +126,12 @@ namespace ElectronicObserver.Data.Battle.Phase
 			get
 			{
 				int index = FlareIndexEnemy;
-				return index == -1 ? null : EnemyMembersInstance[index];
+				if (0 <= index && index < 12)
+					return EnemyMembersInstance[index % 6];
+				return null;
 			}
 		}
+
 
 		/// <summary>
 		/// 自軍探照灯照射艦番号
