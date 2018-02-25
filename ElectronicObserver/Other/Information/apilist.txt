@@ -2057,7 +2057,7 @@ api_req_combined_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（
 		api_voice_id			：再生されるボイスID? [艦船数]
 		api_voice_p_no			：1=戦闘前口上あり? [艦船数]
 	api_friendly_battle		：友軍艦隊攻撃　発動時のみ存在？
-		api_flare_pos			：照明弾投射艦インデックス　[2]; [味方, 敵]　0起点　発動しなければ-1
+		api_flare_pos			：照明弾投射艦インデックス　[2]; [味方, 敵]　0起点、随伴艦隊は 6-11　発動しなければ-1
 		api_hougeki				：友軍艦隊攻撃　基本的に api_hougeki と同じ　[攻撃フェーズの回数]
 			api_at_eflag			：[]
 			api_at_list				：[]

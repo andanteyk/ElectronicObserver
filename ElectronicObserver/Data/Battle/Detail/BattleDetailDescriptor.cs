@@ -42,7 +42,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 					{
 						int current = bm.Compass.MapHPCurrent > 0 ? bm.Compass.MapHPCurrent : mapinfo.MapHPCurrent;
 						int max = bm.Compass.MapHPMax > 0 ? bm.Compass.MapHPMax : mapinfo.MapHPMax;
-						sb.AppendFormat("{0}: {1} / {2}", mapinfo.GaugeType == 3 ? "TP" : "HP", current, max)
+						sb.AppendFormat("{0}{1}: {2} / {3}", mapinfo.CurrentGaugeIndex > 0 ? "#" + mapinfo.CurrentGaugeIndex + " " : "", mapinfo.GaugeType == 3 ? "TP" : "HP", current, max)
 							.AppendLine();
 					}
 				}
@@ -268,6 +268,34 @@ namespace ElectronicObserver.Data.Battle.Detail
 							sb.AppendLine("〈友軍艦隊〉");
 							OutputFriendlySupportData(sb, p);
 							sb.AppendLine();
+
+							{
+								int searchlightIndex = p.SearchlightIndexFriend;
+								if (searchlightIndex != -1)
+								{
+									sb.AppendFormat("自軍探照灯照射: {0} #{1}\r\n", p.SearchlightFriendInstance.NameWithClass, searchlightIndex + 1);
+								}
+								searchlightIndex = p.SearchlightIndexEnemy;
+								if (searchlightIndex != -1)
+								{
+									sb.AppendFormat("敵軍探照灯照射: {0} #{1}\r\n", p.SearchlightEnemyInstance.NameWithClass, searchlightIndex + 1);
+								}
+							}
+
+							{
+								int flareIndex = p.FlareIndexFriend;
+								if (flareIndex != -1)
+								{
+									sb.AppendFormat("自軍照明弾投射: {0} #{1}\r\n", p.FlareFriendInstance.NameWithClass, flareIndex + 1);
+								}
+								flareIndex = p.FlareIndexEnemy;
+								if (flareIndex != -1)
+								{
+									sb.AppendFormat("敵軍照明弾投射: {0} #{1}\r\n", p.FlareEnemyInstance.NameWithClass, flareIndex + 1);
+								}
+							}
+
+							sb.AppendLine();
 						}
 						break;
 
@@ -492,9 +520,9 @@ namespace ElectronicObserver.Data.Battle.Detail
 				if (ship == null)
 					continue;
 
-				sb.AppendFormat("#{0}: {1} {2} HP: {3} / {4} - 火力{5}, 雷装{6}, 対空{7}, 装甲{8}\r\n",
+				sb.AppendFormat("#{0}: {1} {2} Lv. {3} HP: {4} / {5} - 火力{6}, 雷装{7}, 対空{8}, 装甲{9}\r\n",
 					i + 1,
-					ship.ShipTypeName, p.FriendlyLevels[i],
+					ship.ShipTypeName, p.FriendlyMembersInstance[i].NameWithClass, p.FriendlyLevels[i],
 					p.FriendlyInitialHPs[i], p.FriendlyMaxHPs[i],
 					p.FriendlyParameters[i][0], p.FriendlyParameters[i][1], p.FriendlyParameters[i][2], p.FriendlyParameters[i][3]);
 
