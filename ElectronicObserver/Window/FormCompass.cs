@@ -407,7 +407,7 @@ namespace ElectronicObserver.Window
 				}
 			}
 
-	
+
 			var sb = new StringBuilder();
 
 			sb.Append(ship.ShipTypeName).Append(" ").AppendLine(ship.NameWithClass);
@@ -657,7 +657,7 @@ namespace ElectronicObserver.Window
 						return Color.DarkGreen;
 					case 5:     // 敵連合
 						return Color.DarkRed;
-					case 7:		// 夜昼戦(対連合艦隊)
+					case 7:     // 夜昼戦(対連合艦隊)
 						return Color.Navy;
 				}
 			};
@@ -722,7 +722,9 @@ namespace ElectronicObserver.Window
 						int current = compass.MapHPCurrent > 0 ? compass.MapHPCurrent : mapinfo.MapHPCurrent;
 						int max = compass.MapHPMax > 0 ? compass.MapHPMax : mapinfo.MapHPMax;
 
-						ToolTipInfo.SetToolTip(TextMapArea, string.Format("{0}: {1} / {2}", mapinfo.GaugeType == 3 ? "TP" : "HP", current, max));
+						ToolTipInfo.SetToolTip(TextMapArea, string.Format("{0}{1}: {2} / {3}",
+							mapinfo.CurrentGaugeIndex > 0 ? "#" + mapinfo.CurrentGaugeIndex + " " : "",
+							mapinfo.GaugeType == 3 ? "TP" : "HP", current, max));
 
 					}
 					else
@@ -779,7 +781,6 @@ namespace ElectronicObserver.Window
 					{
 
 						case 0:     //初期位置
-						case 1:     //不明
 							TextEventDetail.Text = "どうしてこうなった";
 							break;
 
@@ -835,6 +836,7 @@ namespace ElectronicObserver.Window
 							UpdateEnemyFleet();
 							break;
 
+						case 1:     //イベントなし
 						case 6:     //気のせいだった
 							switch (compass.EventKind)
 							{
@@ -861,13 +863,61 @@ namespace ElectronicObserver.Window
 									eventkind = "静かな海";
 									break;
 								case 7:
-									eventkind = "遊撃部隊進撃中";
-									break;
-								case 8:
 									eventkind = "対潜警戒進撃中";
 									break;
+								case 8:
+									eventkind = "敵哨戒機発見";
+									break;
 								case 9:
-									eventkind = "栗田艦隊突入";
+									eventkind = "栗田艦隊進撃中";
+									break;
+								case 10:
+									eventkind = "西村艦隊進撃中";
+									break;
+								case 11:
+									eventkind = "スリガオ海峡突入"; // 西村
+									break;
+								case 12:
+									eventkind = "シブヤン海突入";
+									break;
+								case 13:
+									eventkind = "輸送作戦失敗";
+									break;
+								case 14:
+									eventkind = "シブヤン海進撃中"; // 栗田
+									break;
+								case 15:
+									eventkind = "サマール沖進撃中";
+									break;
+								case 16:
+									eventkind = "西村艦隊突入"; // 西村
+									break;
+								case 17:
+									eventkind = "小沢艦隊出撃";
+									break;
+								case 18:
+									eventkind = "パナイ島";
+									break;
+								case 19:
+									eventkind = "ミンダナオ島入港";
+									break;
+								case 20:
+									eventkind = "志摩艦隊出撃";
+									break;
+								case 21:
+									eventkind = "敵哨戒機発見";
+									break;
+								case 22:
+									eventkind = "対空対潜警戒";
+									break;
+								case 23:
+									eventkind = "高速艦艇出撃";
+									break;
+								case 24:
+									eventkind = "機動部隊出撃";
+									break;
+								case 25:
+									eventkind = "艦隊決戦";
 									break;
 							}
 							if (compass.RouteChoices != null)

@@ -129,10 +129,12 @@
     <Compile Include="Data\Battle\Phase\PhaseBase.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirAttack.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirRaid.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseFriendlySupport.cs" />
     <Compile Include="Data\Battle\Phase\PhaseInitial.cs" />
     <Compile Include="Data\Battle\Phase\PhaseJetAirBattle.cs" />
     <Compile Include="Data\Battle\Phase\PhaseJetBaseAirAttack.cs" />
     <Compile Include="Data\Battle\Phase\PhaseNightBattle.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseNightInitial.cs" />
     <Compile Include="Data\Battle\Phase\PhaseOpeningASW.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSearching.cs" />
     <Compile Include="Data\Battle\Phase\PhaseShelling.cs" />
@@ -638,9 +640,7 @@
       <DependentUpon>FormIntegrated.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Support\ControlHelper.cs" />
-    <Compile Include="Window\Support\CustomFloatWindowFactory.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Window\Support\CustomFloatWindowFactory.cs" />
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
     <EmbeddedResource Include="Window\Control\FleetState.resx">
       <DependentUpon>FleetState.cs</DependentUpon>

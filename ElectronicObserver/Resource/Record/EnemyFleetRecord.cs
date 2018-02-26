@@ -191,8 +191,8 @@ namespace ElectronicObserver.Resource.Record
 					battle.IsBaseAirRaid ? -1 : battle.Compass.Destination,
 					battle.Compass.MapInfo.EventDifficulty,
 					battle.FirstBattle.Searching.FormationEnemy,
-					battle.IsEnemyCombined ? initial.EnemyMembers.Concat(initial.EnemyMembersEscort).ToArray() : initial.EnemyMembers,
-					battle.IsEnemyCombined ? initial.EnemyLevels.Concat(initial.EnemyLevelsEscort).ToArray() : initial.EnemyLevels,
+					battle.IsEnemyCombined ? initial.EnemyMembers.Take(6).Concat(initial.EnemyMembersEscort).ToArray() : initial.EnemyMembers,
+					battle.IsEnemyCombined ? initial.EnemyLevels.Take(6).Concat(initial.EnemyLevelsEscort).ToArray() : initial.EnemyLevels,
 					baseExp);
 
 			}

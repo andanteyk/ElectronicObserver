@@ -124,7 +124,7 @@ namespace ElectronicObserver.Utility
 				public string DownstreamProxy { get; set; }
 
 
-				
+
 				public ConfigConnection()
 				{
 
@@ -1632,6 +1632,8 @@ namespace ElectronicObserver.Utility
 			if (dt <= DateTimeHelper.CSVStringToTime("2017/10/17 20:30:00"))
 				Update282_ConvertRecord();
 
+			if (dt <= DateTimeHelper.CSVStringToTime("2018/02/11 23:00:00"))
+				Update307_ConvertRecord();
 
 
 			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString(SoftwareInformation.UpdateTime);
@@ -1753,6 +1755,108 @@ namespace ElectronicObserver.Utility
 
 		}
 
+
+		/// <summary>
+		/// 難易度設定がずれたため、ハッシュ値が変更された
+		/// それに対する対応・移行処理を行う
+		/// </summary>
+		private void Update307_ConvertRecord()
+		{
+			try
+			{
+
+				var fleet = new EnemyFleetRecord();
+				string fleetPath = RecordManager.Instance.MasterPath + "\\" + fleet.FileName;
+
+				var drop = new ShipDropRecord();
+				string dropPath = RecordManager.Instance.MasterPath + "\\" + drop.FileName;
+
+
+				string backupDirectoryPath = RecordManager.Instance.MasterPath + "\\Backup_" + DateTimeHelper.GetTimeStamp();
+
+
+
+				Directory.CreateDirectory(backupDirectoryPath);
+				File.Copy(fleetPath, backupDirectoryPath + "\\" + fleet.FileName);
+				File.Copy(dropPath, backupDirectoryPath + "\\" + drop.FileName);
+
+
+				var hashremap = new Dictionary<ulong, ulong>();
+
+				using (var reader = new StreamReader(RecordManager.Instance.MasterPath + "\\" + fleet.FileName, Config.Log.FileEncoding))
+				{
+					reader.ReadLine();      // skip header
+
+					while (!reader.EndOfStream)
+					{
+						string line = reader.ReadLine();
+
+						var data = new EnemyFleetRecord.EnemyFleetElement(line);
+
+						ulong oldhash = Convert.ToUInt64(line.Substring(0, 16), 16);
+						ulong newhash = data.FleetID;
+
+						if (oldhash != newhash)
+						{
+							hashremap.Add(oldhash, newhash);
+							int diff = data.Difficulty;
+
+							switch (diff)
+							{
+								case 2: diff = 1; break;        // 1(丁)が誤って "丙" と記録されている → ロードすると 2 になるので、1 に再設定
+								case 3: diff = 2; break;
+								case 4: diff = 3; break;
+								case -1: diff = 4; break;       // 4(甲)は "不明" → ロードすると -1 になるので、 4 に
+							}
+
+							data = new EnemyFleetRecord.EnemyFleetElement(data.FleetName, data.MapAreaID, data.MapInfoID, data.CellID, diff, data.Formation, data.FleetMember, data.FleetMemberLevel, data.ExpShip);
+						}
+
+						// 敵連合艦隊データのフォーマットが誤っていた([6] == -1になって、[7]から随伴艦隊が始まる)ので、捨てなければならない :(
+						bool rotten = data.FleetMember[6] == -1 && data.FleetMember[7] != -1;
+
+						if (!rotten)
+							fleet.Record.Add(data.FleetID, data);
+
+					}
+				}
+
+				fleet.SaveAll(RecordManager.Instance.MasterPath);
+
+
+				drop.Load(RecordManager.Instance.MasterPath);
+
+				foreach (var d in drop.Record)
+				{
+					if (hashremap.ContainsKey(d.EnemyFleetID))
+					{
+						d.EnemyFleetID = hashremap[d.EnemyFleetID];
+
+						int diff = d.Difficulty;
+						switch (diff)
+						{
+							case 2: diff = 1; break;  
+							case 3: diff = 2; break;
+							case 4: diff = 3; break;
+							case -1: diff = 4; break; 
+						}
+
+						d.Difficulty = diff;
+					}
+				}
+
+				drop.SaveAll(RecordManager.Instance.MasterPath);
+
+
+				Utility.Logger.Add(2, "<= ver. 3.0.7 難易度変更に伴うレコードファイルの修正: 正常に完了しました。");
+
+			}
+			catch (Exception ex)
+			{
+				ErrorReporter.SendErrorReport(ex, "<= ver. 3.0.7 難易度変更に伴うレコードファイルの修正: 失敗しました。");
+			}
+
+		}
 	}
 
 

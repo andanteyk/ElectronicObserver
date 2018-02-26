@@ -17,9 +17,11 @@ namespace ElectronicObserver.Data.Battle
 		{
 			base.LoadFromResponse(apiname, (object)data);
 
+			NightInitial = new PhaseNightInitial(this, "夜戦開始", false);
+			FriendlySupport = new PhaseFriendlySupport(this, "友軍艦隊援護");
 			NightSupport = new PhaseSupport(this, "夜間支援攻撃", true);
-			NightBattle = new PhaseNightBattle(this, "第一次夜戦", 1, false);
-			NightBattle2 = new PhaseNightBattle(this, "第二次夜戦", 2, false);
+			NightBattle = new PhaseNightBattle(this, "第一次夜戦", 1);
+			NightBattle2 = new PhaseNightBattle(this, "第二次夜戦", 2);
 
 
 			if (NextToDay)
@@ -50,6 +52,8 @@ namespace ElectronicObserver.Data.Battle
 		{
 			yield return Initial;
 			yield return Searching;
+			yield return NightInitial;
+			yield return FriendlySupport;
 			yield return NightSupport;
 			yield return NightBattle;
 			yield return NightBattle2;
