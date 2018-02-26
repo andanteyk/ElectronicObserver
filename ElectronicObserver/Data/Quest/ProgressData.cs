@@ -54,6 +54,12 @@ namespace ElectronicObserver.Data.Quest
 		[DataMember]
 		public int SharedCounterShift { get; set; }
 
+		/// <summary>
+		/// 加算/減算時に進捗カウンタ修正を行うか
+		/// </summary>
+		[DataMember]
+		public bool IgnoreCheckProgress { get; set; }
+
 
 		/// <summary>
 		/// 進捗率
@@ -75,6 +81,7 @@ namespace ElectronicObserver.Data.Quest
 			QuestType = quest.Type;
 			TemporaryProgress = 0;
 			SharedCounterShift = 0;
+			IgnoreCheckProgress = false;
 		}
 
 
@@ -97,8 +104,8 @@ namespace ElectronicObserver.Data.Quest
 				return;
 
 
-
-			CheckProgress(q);
+			if (!IgnoreCheckProgress)
+				CheckProgress(q);
 
 			Progress = Math.Min(Progress + 1, ProgressMax);
 		}
@@ -117,7 +124,8 @@ namespace ElectronicObserver.Data.Quest
 
 			Progress = Math.Max(Progress - 1, 0);
 
-			CheckProgress(q);
+			if (!IgnoreCheckProgress)
+				CheckProgress(q);
 		}
 
 

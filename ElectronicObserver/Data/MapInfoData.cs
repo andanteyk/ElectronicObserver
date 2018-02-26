@@ -87,7 +87,7 @@ namespace ElectronicObserver.Data
 		public int MapHPMax { get; private set; }
 
 		/// <summary>
-		/// 現在選択されている難易度(甲乙丙)
+		/// 現在選択されている難易度(甲乙丙丁)
 		/// </summary>
 		public int EventDifficulty { get; private set; }
 
@@ -96,7 +96,11 @@ namespace ElectronicObserver.Data
 		/// 2=HP制(デフォルト), 3=TP制
 		/// </summary>
 		public int GaugeType { get; private set; }
-
+		
+		/// <summary>
+		/// 現在のゲージ本数　未指定なら 0
+		/// </summary>
+		public int CurrentGaugeIndex { get; private set; }
 
 
 
@@ -130,6 +134,7 @@ namespace ElectronicObserver.Data
 						MapHPMax = data.api_eventmap.api_max_maphp() ? (int)data.api_eventmap.api_max_maphp : 0;
 						EventDifficulty = data.api_eventmap.api_selected_rank() ? (int)data.api_eventmap.api_selected_rank : -1;
 						GaugeType = data.api_eventmap.api_gauge_type() ? (int)data.api_eventmap.api_gauge_type : 2;
+						CurrentGaugeIndex = data.api_eventmap.api_gauge_num() ? (int)data.api_eventmap.api_gauge_num : 0;
 					}
 					break;
 			}

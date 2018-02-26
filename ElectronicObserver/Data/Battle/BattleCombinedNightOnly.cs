@@ -19,8 +19,10 @@ namespace ElectronicObserver.Data.Battle
 		{
 			base.LoadFromResponse(apiname, (object)data);
 
+			NightInitial = new PhaseNightInitial(this, "夜戦開始", true);
+			FriendlySupport = new PhaseFriendlySupport(this, "友軍艦隊援護");
 			Support = new PhaseSupport(this, "夜間支援攻撃", true);
-			NightBattle = new PhaseNightBattle(this, "夜戦", 0, true);
+			NightBattle = new PhaseNightBattle(this, "夜戦", 0);
 
 
 			foreach (var phase in GetPhases())
@@ -38,6 +40,8 @@ namespace ElectronicObserver.Data.Battle
 		{
 			yield return Initial;
 			yield return Searching;
+			yield return NightInitial;
+			yield return FriendlySupport;
 			yield return Support;
 			yield return NightBattle;
 		}

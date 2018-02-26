@@ -53,6 +53,7 @@ namespace ElectronicObserver.Window
 			o["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
 			o["api_req_hokyu/charge"].ResponseReceived += Updated;
 			o["api_req_map/start"].ResponseReceived += Updated;
+			o["api_req_map/next"].ResponseReceived += Updated;
 			o["api_req_practice/battle"].ResponseReceived += Updated;
 			o["api_get_member/sortie_conditions"].ResponseReceived += Updated;
 
@@ -136,6 +137,16 @@ namespace ElectronicObserver.Window
 					_inSortie = KCDatabase.Instance.Fleet.Fleets.Values.Where(f => f.IsInSortie || f.ExpeditionState == 1).Select(f => f.FleetID).ToList();
 
 					RecordMaterials();
+					break;
+
+				case "api_req_map/next":
+					{
+						var str = CheckGimmickUpdated(data);
+						if (!string.IsNullOrWhiteSpace(str))
+						{
+							TextInformation.Text = str;
+						}
+					}
 					break;
 
 				case "api_req_practice/battle":
@@ -417,13 +428,20 @@ namespace ElectronicObserver.Window
 			sb.AppendFormat("勝敗判定: {0}\r\n", data.api_win_rank);
 			sb.AppendFormat("提督経験値: +{0}\r\n", (int)data.api_get_exp);
 
+			sb.Append(CheckGimmickUpdated(data));
+
+			return sb.ToString();
+		}
+
+		private string CheckGimmickUpdated(dynamic data)
+		{
 			if (data.api_m1() && data.api_m1 == 1)
 			{
 				Utility.Logger.Add(2, "海域に変化を確認しました！");
-				sb.AppendLine("\r\n＊ギミック解除＊");
+				return "\r\n＊ギミック解除＊\r\n";
 			}
 
-			return sb.ToString();
+			return "";
 		}
 
 

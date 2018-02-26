@@ -489,9 +489,9 @@ api_start2	：艦娘・装備固有データその他
 		api_original_ship_id	：初期改装の艦船ID
 		api_upgrade_type		：1
 		api_upgrade_level		：改装回数
-		api_drawing_count		：要改装設計図
-		api_catapult_count		：要試製甲板カタパルト
-		api_report_count		：要戦闘詳報
+		api_drawing_count		：改装設計図　所要枚数
+		api_catapult_count		：試製甲板カタパルト　所要個数
+		api_report_count		：戦闘詳報　所要枚数
 		api_sortno				：? (概ね図鑑IDだが、霞(改/二/乙), 利根(改/二), 筑摩(改/二)などで異なる)
 
 	api_mst_bgm			：母港BGMデータ？
@@ -1496,7 +1496,7 @@ api_req_map/next		：進撃
 	api_color_no		：次のセルの色　api_req_map/start.api_cell_data.api_color_no と同じ　
 	api_event_id		：イベント
 							 0=初期位置
-							 1=(存在せず)
+							 1=イベントなし
 							 2=資源獲得
 							 3=渦潮
 							 4=通常戦闘
@@ -1508,17 +1508,33 @@ api_req_map/next		：進撃
 							10=長距離空襲戦
 	api_event_kind		：イベント種別　
 							0=非戦闘セル, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦, 5=敵連合艦隊戦, 6=長距離空襲戦, 7=夜昼戦(対連合艦隊)
-							api_event_id=6(気のせいだった)時は　
-								0="気のせいだった。"
-								1="敵影を見ず。"
-								2=能動分岐
-								3="穏やかな海です。"
-								4="穏やかな海峡です。"
-								5="警戒が必要です。"
-								6="静かな海です。"
-								7="我が遊撃艦隊は堂々と進撃中。現海域に敵影なし。"
-								8="艦隊は対潜警戒進撃中。引き続き、対潜対空警戒を厳とせよ。"
-								9="栗田艦隊はこれより戦闘海域に突入する。天祐を確信し、全軍突撃せよ。"
+							api_event_id=1|6(気のせいだった)時は　
+								 0="気のせいだった。"
+								 1="敵影を見ず。"
+								 2=能動分岐
+								 3="穏やかな海です。"
+								 4="穏やかな海峡です。"
+								 5="警戒が必要です。"
+								 6="静かな海です。"
+								 7="艦隊は対潜警戒進撃中。引き続き、対潜対空警戒を厳とせよ。"
+								 8="敵哨戒機らしき機影認む。空襲の恐れあり。対空警戒を厳とせよ！"
+								 9="1YB第一第二部隊栗田艦隊はパラワン水道を進撃中。現海域に敵影なし。警戒を厳とせよ！"
+								10="1YB第三艦隊、西村艦隊は堂々と進撃中。遊撃部隊主力栗田艦隊を援護せよ！進め！"
+								11="1YB第三部隊西村艦隊はこれよりスリガオ海峡方面に突入。主力栗田艦隊を援護する！進め！"
+								12="艦隊はシブヤン海に突入する。対空見張り、厳とせよ！"
+								13="前線航空基地への航空資材輸送作戦は失敗せり。"
+								14="1YB第一第二部隊栗田艦隊はシブヤン海を進撃中。敵艦載機空襲が予測される。対空警戒を厳とせよ！"
+								15="1YB第一第二部隊栗田艦隊はサマール沖を進撃中。敵機動部隊を発見！全艦突撃せよ！"
+								16="1YB第三部隊西村艦隊はスリガオ海峡に突入せり。栗田艦隊を援護する！天祐を確認し、全艦突撃せよ！" ; 確信の入力ミス?
+								17="KdMB機動部隊本隊小沢艦隊は敵機動部隊主力を北方に誘引、好機を捉えこれを捕捉撃破せよ！"
+								18="艦隊左舷にパナイ島を見ゆ……。対空警戒を厳とせよ！"
+								19="艦隊右舷にミンダナオ島を認む。入港準備…－－始めッ！"
+								20="2YB遊撃第二部隊志摩艦隊、出撃！敵残存艦隊を索敵捕捉、掃射せよ！"
+								21="2YB遊撃第二部隊、敵哨戒機を発見す！敵機空襲が予測される。対空警戒、厳とせよ！"
+								22="2YB遊撃第二部隊、戦場海域に突入す！対空、そして対潜警戒も厳とせよ！"
+								23="1YB遊撃第一部隊より高速艦艇を抽出。敵残存艦隊の捜索撃滅に出撃す！"
+								24="連合艦隊機動部隊本隊、出撃！敵機動部隊を撃滅する！続け！"
+								25="艦隊、増速！これより連合艦隊は艦隊決戦を行う！我に続け！"
 							api_event_id=7(航空戦)時は　0=航空偵察, 4=航空戦
 	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
@@ -1793,7 +1809,7 @@ api_req_battle_midnight/battle		：通常艦隊　夜戦
 	api_eParam			：敵基礎ステータス [艦船数][4] [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
 	api_escape_idx		：退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_touch_plane		：夜間触接機ID　[2]　[0]=味方, [1]=敵　なければ -1
-	api_flare_pos		：照明弾投射艦インデックス　[2]　[0]=味方, [1]=敵　1基点　なければ -1
+	api_flare_pos		：照明弾投射艦インデックス　[2]　[0]=味方, [1]=敵　0基点　なければ -1
 	api_hougeki			：夜間砲雷撃戦　メンバはすべて[攻撃フェイズの回数]　攻撃フェイズが1回も発生しなかった場合（敵味方全員潜水艦など）、全メンバが null になる
 		api_at_eflag		：行動陣営フラグ 0=味方, 1=敵
 		api_at_list			：攻撃艦のインデックス 0基点
@@ -2008,7 +2024,6 @@ api_req_combined_battle/ec_battle	：通常艦隊 vs 敵連合艦隊 昼戦
 
 
 api_req_combined_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（敵連合艦隊）
-	api_active_deck			：戦闘参加艦隊フラグ　[2]　[0]=味方側, [1]=敵側　1=主力艦隊, 2=随伴艦隊 
 	api_deck_id				：出撃艦隊ID　味方連合なら1
 	api_formation			：陣形 [3]
 	api_f_nowhps			：味方主力現在HP
@@ -2031,16 +2046,38 @@ api_req_combined_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（
 	api_eParam_combined		：敵随伴パラメータ [敵艦船数?][4] (火雷空甲)
 	api_escape_idx			：本隊の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_escape_idx_combined	：随伴の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
+	api_friendly_info		：友軍艦隊攻撃情報　発動時のみ存在
+		api_production_type		：？　1=(英仏艦隊), 2=(第19駆逐隊, 挺身部隊), 3=(第四戦隊)
+		api_ship_id				：友軍の艦船ID [艦船数]
+		api_ship_lv				：友軍のLv [艦船数]
+		api_nowhps				：友軍の現在HP [艦船数]
+		api_maxhps				：友軍の最大HP [艦船数]
+		api_Slot				：友軍の装備スロット [艦船数][5] 空きスロットは -1
+		api_Param				：友軍の基礎ステータス [艦船数][4]; [火力, 雷装, 対空, 装甲]
+		api_voice_id			：再生されるボイスID? [艦船数]
+		api_voice_p_no			：1=戦闘前口上あり? [艦船数]
+	api_friendly_battle		：友軍艦隊攻撃　発動時のみ存在？
+		api_flare_pos			：照明弾投射艦インデックス　[2]; [味方, 敵]　0起点、随伴艦隊は 6-11　発動しなければ-1
+		api_hougeki				：友軍艦隊攻撃　基本的に api_hougeki と同じ　[攻撃フェーズの回数]
+			api_at_eflag			：[]
+			api_at_list				：[]
+			api_n_mother_list		：[]
+			api_df_list				：[][]
+			api_si_list				：[][]
+			api_cl_list				：[][]
+			api_sp_list				：[]
+			api_damage				：[][]
+	api_active_deck			：戦闘参加艦隊フラグ　[2]　[0]=味方側, [1]=敵側　1=主力艦隊, 2=随伴艦隊 
 	api_touch_plane			：夜間触接機ID [2]
-	api_flare_pos			：照明弾投射艦インデックス [2]
+	api_flare_pos			：照明弾投射艦インデックス　[2]; [味方, 敵]　0起点　発動しなければ-1
 	api_hougeki				：夜間砲雷撃戦　すべて[攻撃フェーズの回数]
 		api_at_eflag			：攻撃艦陣営　0=味方, 1=敵
 		api_at_list				：攻撃艦インデックス　0基点
-		api_n_mother_list		：[]
+		api_n_mother_list		：夜間空母攻撃フラグ []
 		api_df_list				：防御艦インデックス [][]　0基点
 		api_si_list				：表示装備IDリスト [][]　味方側は文字列、敵側は数値?
 		api_cl_list				：クリティカルフラグ [][] 
-		api_sp_list				：攻撃種別
+		api_sp_list				：攻撃種別 
 		api_damage				：ダメージ [][] 
 
 
@@ -2121,7 +2158,7 @@ api_get_member/mapinfo			：出撃準備　未出現海域は存在しない
 			api_now_maphp		：海域HP現在値
 			api_max_maphp		：海域HP最大値
 			api_state			：状態？1=未攻略, 2=攻略済み
-			api_selected_rank	：作戦難易度 0=未設定, 1=丙, 2=乙, 3=甲
+			api_selected_rank	：作戦難易度 0=未設定, 1=丁, 2=丙, 3=乙, 4=甲
 			api_gauge_type		：2=HPゲージ 3=揚陸(TP)ゲージ　2は複数ゲージ時のみ存在
 			api_gauge_num		：現在のゲージ段階(ゲージn本目)　1基点　おそらく複数ゲージ時のみ存在
 			api_airbase_enabled	：基地航空隊が使用可能か?　'17秋イベでは存在せず
@@ -3139,11 +3176,13 @@ api_req_member/itemuse_cond		：給糧艦使用
 Request.api_req_map/select_eventmap_rank	：イベント海域難易度選択
 	api_maparea_id	：海域番号
 	api_map_no		：〃
-	api_rank		：難易度 1=丙, 2=乙, 3=甲
+	api_rank		：難易度 1=丁, 2=丙, 3=乙, 4=甲
 
-api_req_map/select_eventmap_rank	：イベント海域難易度選択
-	api_data		：HPゲージ時 null 、TPゲージ時 以下のメンバが存在
-		api_max_maphp	：海域ゲージの最大値
+api_req_map/select_eventmap_rank	：イベント海域難易度選択　場合によって内容が変わる可能性あり(メンバが消滅するなど)
+	api_now_maphp	：海域ゲージの現在値
+	api_max_maphp	：海域ゲージの最大値
+	api_gauge_type	：ゲージ種別 2=HP, 3=TP
+	api_gauge_num	：現在のゲージ本数
 
 
 Request.api_req_furniture/buy		：家具購入

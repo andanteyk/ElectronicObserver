@@ -389,7 +389,7 @@ namespace ElectronicObserver.Data
 				case 0:
 					return "初期位置";
 				case 1:
-					return "なし";
+					return "イベントなし";
 				case 2:
 					return "資源";
 				case 3:
@@ -454,10 +454,12 @@ namespace ElectronicObserver.Data
 				case 0:
 					return "未選択";
 				case 1:
-					return "丙";
+					return "丁";
 				case 2:
-					return "乙";
+					return "丙";
 				case 3:
+					return "乙";
+				case 4:
 					return "甲";
 				default:
 					return "不明";
@@ -474,12 +476,14 @@ namespace ElectronicObserver.Data
 			{
 				case "未選択":
 					return 0;
-				case "丙":
+				case "丁":
 					return 1;
-				case "乙":
+				case "丙":
 					return 2;
-				case "甲":
+				case "乙":
 					return 3;
+				case "甲":
+					return 4;
 				default:
 					return -1;
 			}
@@ -830,11 +834,11 @@ namespace ElectronicObserver.Data
 				case 0:
 					return "なし";
 				case 1:
-					return "高角砲x2/電探(秋月)";
+					return "高角砲x2/電探<秋月>";
 				case 2:
-					return "高角砲/電探(秋月)";
+					return "高角砲/電探<秋月>";
 				case 3:
-					return "高角砲x2(秋月)";
+					return "高角砲x2<秋月>";
 				case 4:
 					return "大口径主砲/三式弾/高射装置/電探";
 				case 5:
@@ -848,37 +852,39 @@ namespace ElectronicObserver.Data
 				case 9:
 					return "高角砲/高射装置";
 				case 10:
-					return "高角砲/集中機銃/電探(摩耶)";
+					return "高角砲/集中機銃/電探<摩耶>";
 				case 11:
-					return "高角砲/集中機銃(摩耶)";
+					return "高角砲/集中機銃<摩耶>";
 				case 12:
 					return "集中機銃/機銃/電探";
 				case 14:
-					return "高角砲/機銃/電探(五十鈴)";
+					return "高角砲/機銃/電探<五十鈴>";
 				case 15:
-					return "高角砲/機銃(五十鈴)";
+					return "高角砲/機銃<五十鈴>";
 				case 16:
-					return "高角砲/機銃/電探(霞)";
+					return "高角砲/機銃/電探<霞>";
 				case 17:
-					return "高角砲/機銃(霞)";
+					return "高角砲/機銃<霞>";
 				case 18:
-					return "集中機銃(皐月)";
+					return "集中機銃<皐月>";
 				case 19:
-					return "高角砲(非高射装置)/集中機銃(鬼怒)";
+					return "高角砲(非高射装置)/集中機銃<鬼怒>";
 				case 20:
-					return "集中機銃(鬼怒)";
+					return "集中機銃<鬼怒>";
 				case 21:
-					return "高角砲/電探(由良)";
+					return "高角砲/電探<由良>";
 				case 22:
-					return "集中機銃(文月)";
+					return "集中機銃<文月>";
 				case 23:
-					return "機銃(非集中)(UIT-25)";
+					return "機銃(非集中)<UIT-25>";
 				case 24:
-					return "高角砲/機銃(非集中)(龍田)";
+					return "高角砲/機銃(非集中)<龍田>";
 				case 25:
-					return "噴進砲改二/電探/三式弾(伊勢)";
+					return "噴進砲改二/電探/三式弾<伊勢>";
+				case 26:
+					return "高角砲+高射装置/電探<武蔵>";
 				case 28:
-					return "噴進砲改二/電探(伊勢)";
+					return "噴進砲改二/電探<伊勢>";
 				default:
 					return "不明";
 			}
