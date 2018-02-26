@@ -1817,8 +1817,7 @@ namespace ElectronicObserver.Utility
 
 						if (!rotten)
 							fleet.Record.Add(data.FleetID, data);
-						else
-							Utility.Logger.Add(1, "rotten :(");
+
 					}
 				}
 
