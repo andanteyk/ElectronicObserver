@@ -1831,6 +1831,17 @@ namespace ElectronicObserver.Utility
 					if (hashremap.ContainsKey(d.EnemyFleetID))
 					{
 						d.EnemyFleetID = hashremap[d.EnemyFleetID];
+
+						int diff = d.Difficulty;
+						switch (diff)
+						{
+							case 2: diff = 1; break;  
+							case 3: diff = 2; break;
+							case 4: diff = 3; break;
+							case -1: diff = 4; break; 
+						}
+
+						d.Difficulty = diff;
 					}
 				}
 
