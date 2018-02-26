@@ -201,9 +201,13 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 
 			// damage control
-			if (afterHP <= 0 && DefenderIndex.IsFriend && !Battle.IsPractice && !Battle.IsBaseAirRaid)
+			if (beforeHP > 0 && afterHP <= 0 && DefenderIndex.IsFriend && !Battle.IsPractice && !Battle.IsBaseAirRaid)
 			{
-				var defender = (DefenderIndex.Side == BattleSides.FriendEscort ? Battle.Initial.FriendFleetEscort : Battle.Initial.FriendFleet).MembersInstance[DefenderIndex.Index];
+				// 友軍艦隊時は常に beforeHP == 0 になるので、ここには来ないはず
+				// 暫定対策でしかないのでできればまともにしたい
+
+				var defender = (DefenderIndex.Side == BattleSides.FriendEscort ? Battle.Initial.FriendFleetEscort : Battle.Initial.FriendFleet)
+					?.MembersInstance?.ElementAtOrDefault(DefenderIndex.Index);
 				if (defender != null)
 				{
 					int id = defender.DamageControlID;

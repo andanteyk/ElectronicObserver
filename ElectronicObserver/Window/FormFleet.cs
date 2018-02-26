@@ -1110,7 +1110,7 @@ namespace ElectronicObserver.Window
 					{
 						if (eq == null) break;
 
-						sb.AppendFormat(@"""i{0}"":{{""id"":{1},""rf"":{2},""mas"":{3}}},", eqcount >= 5 ? "x" : eqcount.ToString(), eq.EquipmentID, eq.Level, eq.AircraftLevel);
+						sb.AppendFormat(@"""i{0}"":{{""id"":{1},""rf"":{2},""mas"":{3}}},", eqcount >= 6 ? "x" : eqcount.ToString(), eq.EquipmentID, eq.Level, eq.AircraftLevel);
 
 						eqcount++;
 					}
