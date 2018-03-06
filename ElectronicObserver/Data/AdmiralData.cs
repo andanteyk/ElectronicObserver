@@ -119,6 +119,13 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public int PracticeLose => (int)RawData.api_pt_lose;
 
+		/// <summary>
+		/// 甲種勲章保有数
+		/// </summary>
+		public int Medals
+		{
+			get { return (int)RawData.api_medals; }
+		}
 
 
 		/// <summary>

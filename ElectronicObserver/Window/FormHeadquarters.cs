@@ -222,6 +222,24 @@ namespace ElectronicObserver.Window
 			FlowPanelAdmiral.SuspendLayout();
 			AdmiralName.Text = string.Format("{0} {1}", db.Admiral.AdmiralName, Constants.GetAdmiralRank(db.Admiral.Rank));
 			AdmiralComment.Text = db.Admiral.Comment;
+			{
+				StringBuilder tooltip = new StringBuilder();
+
+				var sortieCount = db.Admiral.SortieWin + db.Admiral.SortieLose;
+				tooltip.AppendFormat( "出撃回数: {0} (exp: {1:n2}) / 出撃勝利回数: {2} ({3:n2}%, exp: {4:n2}) / 出撃敗北回数: {5}\n",
+					sortieCount, (double)db.Admiral.Exp / sortieCount, db.Admiral.SortieWin, 100.0 * db.Admiral.SortieWin / sortieCount, (double)db.Admiral.Exp / db.Admiral.SortieWin, db.Admiral.SortieLose );
+
+				tooltip.AppendFormat( "遠征回数: {0} / 遠征成功回数: {1} ({2:n2}%) / 遠征失敗回数: {3}\n",
+					db.Admiral.MissionCount, db.Admiral.MissionSuccess, 100.0 * db.Admiral.MissionSuccess / db.Admiral.MissionCount, db.Admiral.MissionCount - db.Admiral.MissionSuccess );
+
+				var practiceCount = db.Admiral.PracticeWin + db.Admiral.PracticeLose;
+				tooltip.AppendFormat( "演習回数: {0} / 演習勝利回数: {1} ({2:n2}%) / 演習敗北回数: {3}\n",
+					practiceCount, db.Admiral.PracticeWin, 100.0 * db.Admiral.PracticeWin / practiceCount, db.Admiral.PracticeLose );
+
+				tooltip.AppendFormat( "甲種勲章保有数: {0}", db.Admiral.Medals );
+
+				ToolTipInfo.SetToolTip(AdmiralName, tooltip.ToString());
+			}
 			FlowPanelAdmiral.ResumeLayout();
 
 			//HQ Level
