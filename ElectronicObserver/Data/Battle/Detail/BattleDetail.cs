@@ -147,9 +147,14 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 			StringBuilder builder = new StringBuilder();
 
-			// 航空戦・支援攻撃時 AttackerIndex = BattleIndex.Invalid 、それで AttackerIndex.Side = BattleSides.FriendMain になる
-			// DefenderIndex.Side で判断すれば航空戦も正確に識別できるが表示が変になるので、最終的には AttackerIndex.Side で判断した
-			builder.AppendFormat(AttackerIndex.IsFriend ? "{0} → {1}\r\n" : "{1} ← {0}\r\n", GetAttackerName(), GetDefenderName());
+
+			if (Battle.IsPractice)
+				builder.AppendFormat("{0}{1} → {2}{3}",
+					Attacker == null ? "" : AttackerIndex.IsFriend ? "自軍 " : "敵軍 ", GetAttackerName(),
+					DefenderIndex.IsFriend ? "自軍 " : "敵軍 ", GetDefenderName()
+					).AppendLine();
+			else
+				builder.AppendFormat("{0} → {1}", GetAttackerName(), GetDefenderName()).AppendLine();
 
 
 			if (AttackType >= 0)
