@@ -116,10 +116,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 				if (index < 0)
 					return null;
 
-				if (ActiveFriendFleet == 1)
-					return FriendFleet.MembersInstance[index];
-				else
+				if (IsFriendEscort)
 					return FriendFleet.MembersInstance[index - 6];
+				else
+					return FriendFleet.MembersInstance[index];
 
 			}
 		}
@@ -136,10 +136,10 @@ namespace ElectronicObserver.Data.Battle.Phase
 				if (index < 0)
 					return null;
 
-				if (EnemyFleetID == 1)
-					return EnemyMembersInstance[index];
-				else
+				if (IsEnemyEscort)
 					return EnemyMembersInstance[index - 6];
+				else
+					return EnemyMembersInstance[index];
 			}
 		}
 
@@ -152,7 +152,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			get
 			{
 				var ships = FriendFleet.MembersWithoutEscaped;
-				var hps = IsEscort ? Battle.Initial.FriendInitialHPsEscort : Battle.Initial.FriendInitialHPs;
+				var hps = IsFriendEscort ? Battle.Initial.FriendInitialHPsEscort : Battle.Initial.FriendInitialHPs;
 				int index = -1;
 
 				for (int i = 0; i < ships.Count; i++)

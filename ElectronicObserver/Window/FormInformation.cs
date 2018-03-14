@@ -143,9 +143,15 @@ namespace ElectronicObserver.Window
 					{
 						var str = CheckGimmickUpdated(data);
 						if (!string.IsNullOrWhiteSpace(str))
-						{
 							TextInformation.Text = str;
+
+						if (data.api_destruction_battle())
+						{
+							str = CheckGimmickUpdated(data.api_destruction_battle);
+							if (!string.IsNullOrWhiteSpace(str))
+								TextInformation.Text = str;
 						}
+
 					}
 					break;
 

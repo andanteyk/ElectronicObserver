@@ -344,10 +344,12 @@ namespace ElectronicObserver.Data.Battle
 			{
 				var initialHPs = BattleDay.Initial.FriendInitialHPs.TakeWhile(hp => hp >= 0);
 				var damage = initialHPs.Zip(BattleDay.ResultHPs.Take(initialHPs.Count()), (initial, result) => initial - result).Sum();
+				var airraid = ((BattleBaseAirRaid)BattleDay).BaseAirRaid;
 
 				Utility.Logger.Add(2,
-					string.Format("{0}-{1}-{2} で基地に空襲を受けました。( 被ダメージ合計: {3}, {4} )",
-						Compass.MapAreaID, Compass.MapInfoID, Compass.Destination, damage, Constants.GetAirRaidDamage(Compass.AirRaidDamageKind)));
+					string.Format("{0}-{1}-{2} で基地に空襲を受けました。( {3}, 被ダメージ合計: {4}, {5} )",
+						Compass.MapAreaID, Compass.MapInfoID, Compass.Destination,
+						Constants.GetAirSuperiority(airraid.IsAvailable ? airraid.AirSuperiority : -1), damage, Constants.GetAirRaidDamage(Compass.AirRaidDamageKind)));
 			}
 			else
 			{
