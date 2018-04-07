@@ -1046,11 +1046,11 @@ namespace ElectronicObserver.Window
 
 						if (count == 1)
 						{
-							sb.AppendFormat("{0}{1}", j == 0 ? "" : "/", eq[j].NameWithLevel);
+							sb.AppendFormat("{0}{1}", j == 0 ? "" : ", ", eq[j].NameWithLevel);
 						}
 						else
 						{
-							sb.AppendFormat("{0}{1}x{2}", j == 0 ? "" : "/", eq[j].NameWithLevel, count);
+							sb.AppendFormat("{0}{1}x{2}", j == 0 ? "" : ", ", eq[j].NameWithLevel, count);
 						}
 
 						j += count - 1;
