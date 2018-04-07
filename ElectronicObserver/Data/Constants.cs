@@ -368,13 +368,13 @@ namespace ElectronicObserver.Data
 				case 78: return "Ark Royal級";
 				case 79: return "Richelieu級";
 				case 80: return "Guglielmo Marconi級";
-                case 81: return "Ташкент級";
-                case 82: return "J級";
-                case 83: return "Casablanca級";
-                case 84: return "Essex級";
-                case 85: return "日振型";
-                case 86: return "呂号潜水艦";
-                default: return "不明";
+				case 81: return "Ташкент級";
+				case 82: return "J級";
+				case 83: return "Casablanca級";
+				case 84: return "Essex級";
+				case 85: return "日振型";
+				case 86: return "呂号潜水艦";
+				default: return "不明";
 			}
 		}
 
@@ -891,8 +891,8 @@ namespace ElectronicObserver.Data
 					return "高角砲+増設機銃/電探<武蔵>";
 				case 28:
 					return "噴進砲改二/電探<伊勢>";
-                case 29:
-                    return "高角砲/電探<浜風>";
+				case 29:
+					return "高角砲/電探<浜風>";
 				default:
 					return "不明";
 			}
