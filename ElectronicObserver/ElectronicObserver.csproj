@@ -427,6 +427,12 @@
     <Compile Include="Window\Dialog\DialogEquipmentList.Designer.cs">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Dialog\DialogExpChecker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogExpChecker.Designer.cs">
+      <DependentUpon>DialogExpChecker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialog\DialogFleetImageGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -701,6 +707,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogEquipmentList.resx">
       <DependentUpon>DialogEquipmentList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogExpChecker.resx">
+      <DependentUpon>DialogExpChecker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogFleetImageGenerator.resx">
       <DependentUpon>DialogFleetImageGenerator.cs</DependentUpon>

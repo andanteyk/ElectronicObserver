@@ -1363,7 +1363,7 @@ namespace ElectronicObserver.Data
 				if (!CanAttackSubmarine)
 					return false;
 
-				if (ShipID == 141 || ShipID == 394)  // 五十鈴改二, Jervis改
+				if (ShipID == 141 || ShipID == 394 || ShipID == 478)  // 五十鈴改二, Jervis改, 龍田改二
 					return true;
 
 				var eqs = AllSlotInstance.Where(eq => eq != null);
