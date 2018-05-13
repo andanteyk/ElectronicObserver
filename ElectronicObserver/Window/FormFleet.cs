@@ -453,7 +453,7 @@ namespace ElectronicObserver.Window
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip(Name,
 						string.Format(
-							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
+							"{0} {1}\r\n火力: {2}/{3}\r\n雷装: {4}/{5}\r\n対空: {6}/{7}\r\n装甲: {8}/{9}\r\n対潜: {10}/{11}\r\n回避: {12}/{13}\r\n索敵: {14}/{15}\r\n運: {16}\r\n射程: {17} / 速力: {18}\r\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase, ship.FirepowerTotal,
 							ship.TorpedoBase, ship.TorpedoTotal,
@@ -598,13 +598,13 @@ namespace ElectronicObserver.Window
 
 			void Name_MouseDown(object sender, MouseEventArgs e)
 			{
-				int? id = Name.Tag as int?;
-
-				if (id != null && id != -1 && (e.Button & System.Windows.Forms.MouseButtons.Right) != 0)
+				if (Name.Tag is int id && id != -1)
 				{
-					new DialogAlbumMasterShip((int)id).Show(Parent);
+					if ((e.Button & MouseButtons.Right) != 0)
+						new DialogAlbumMasterShip(id).Show(Parent);
+					else if ((e.Button & MouseButtons.Middle) != 0)
+						new DialogExpChecker(id).Show(Parent);
 				}
-
 			}
 
 
