@@ -15,9 +15,58 @@ namespace ElectronicObserver.Window.Dialog
 {
 	public partial class DialogExpChecker : Form
 	{
+
+		private DataGridViewCellStyle CellStyleModernized;
+		private DataGridViewCellStyle CellStyleLevel5;
+
+		private int DefaultShipID = -1;
+
+
+
+		private class ComboShipData
+		{
+			public ShipData Ship;
+
+			public ComboShipData(ShipData ship)
+			{
+				Ship = ship;
+			}
+
+			public override string ToString() => $"{Ship.MasterShip.ShipTypeName} {Ship.NameWithLevel}";
+		}
+
+		private class ASWEquipmentData
+		{
+			public int ID;
+			public int ASW;
+			public string Name;
+			public bool IsSonar;
+			public int Count;
+
+			public override string ToString() => Name;
+		}
+
+
+
+
+
+
 		public DialogExpChecker()
 		{
 			InitializeComponent();
+
+			CellStyleModernized = new DataGridViewCellStyle(ColumnLevel.DefaultCellStyle);
+			CellStyleModernized.BackColor =
+				CellStyleModernized.SelectionBackColor = Color.LightGreen;
+
+			CellStyleLevel5 = new DataGridViewCellStyle(ColumnLevel.DefaultCellStyle);
+			CellStyleLevel5.BackColor =
+				CellStyleLevel5.SelectionBackColor = Color.LightCyan;
+		}
+
+		public DialogExpChecker(int shipID) : this()
+		{
+			DefaultShipID = shipID;
 		}
 
 		private void DialogExpChecker_Load(object sender, EventArgs e)
@@ -30,11 +79,11 @@ namespace ElectronicObserver.Window.Dialog
 				Close();
 			}
 
-			TextShip.Items.AddRange(ships
-				.OrderBy(s => s.MasterShip.ShipType)
-				.ThenByDescending(s => s.Level)
-				.Select(s => new ComboShipData(s)).ToArray());
+			SearchInFleet_CheckedChanged(this, new EventArgs());
 
+
+			if (DefaultShipID != -1)
+				TextShip.SelectedItem = TextShip.Items.OfType<ComboShipData>().FirstOrDefault(f => f.Ship.ShipID == DefaultShipID);
 
 
 			this.Icon = ResourceManager.ImageToIcon(ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormExpChecker]);
@@ -46,7 +95,8 @@ namespace ElectronicObserver.Window.Dialog
 		}
 
 
-		private void ButtonStart_Click(object sender, EventArgs e)
+
+		private void UpdateLevelView()
 		{
 			var selectedShip = (TextShip.SelectedItem as ComboShipData)?.Ship;
 
@@ -141,6 +191,7 @@ namespace ElectronicObserver.Window.Dialog
 			int currentlv = selectedShip.Level;
 			int minlv = ShowAllLevel.Checked ? 1 : (currentlv + 1);
 			int unitexp = Math.Max((int)numericUpDown1.Value, 1);
+			var remodelLevelTable = GetRemodelLevelTable(selectedShip.MasterShip);
 
 			var rows = new DataGridViewRow[ExpTable.ShipMaximumLevel - (minlv - 1)];
 
@@ -163,11 +214,11 @@ namespace ElectronicObserver.Window.Dialog
 
 				if (lv % 5 == 0)
 				{
-					row.Cells[0].Style.BackColor = Color.Moccasin;
+					row.Cells[ColumnLevel.Index].Style = CellStyleLevel5;
 				}
-				if (selectedShip.MasterShip.RemodelAfterLevel == lv)
+				if (remodelLevelTable.Contains(lv))
 				{
-					row.Cells[0].Style.BackColor = Color.LightGreen;
+					row.Cells[ColumnLevel.Index].Style = CellStyleModernized;
 				}
 
 				rows[lv - minlv] = row;
@@ -176,48 +227,89 @@ namespace ElectronicObserver.Window.Dialog
 			LevelView.Rows.AddRange(rows);
 
 			LevelView.ResumeLayout();
+
+
+			GroupExp.Text = $"{selectedShip.NameWithLevel}: Exp. {selectedShip.ExpTotal}, 対潜 {selectedShip.ASWBase} (現在改修+{selectedShip.ASWModernized})";
 		}
 
 
-		private void TextShip_SelectionChangeCommitted(object sender, EventArgs e)
+
+		private void SearchInFleet_CheckedChanged(object sender, EventArgs e)
+		{
+			var ships = KCDatabase.Instance.Ships.Values;
+
+			TextShip.Items.Clear();
+
+			if (SearchInFleet.Checked)
+			{
+				TextShip.Items.AddRange(ships
+					.Where(s => s.Fleet != -1)
+					.OrderBy(s => s.FleetWithIndex)
+					.Select(s => new ComboShipData(s))
+					.ToArray());
+			}
+			else
+			{
+				TextShip.Items.AddRange(ships
+					.OrderBy(s => s.MasterShip.ShipType)
+					.ThenByDescending(s => s.Level)
+					.Select(s => new ComboShipData(s))
+					.ToArray());
+			}
+
+			TextShip.SelectedIndex = 0;
+		}
+
+		private void TextShip_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			var selectedShip = (TextShip.SelectedItem as ComboShipData)?.Ship;
 
 			if (selectedShip == null)
-			{
-				LabelShip.Text = "-";
 				return;
-			}
-
-			LabelShip.Text = $"Exp. {selectedShip.ExpTotal}, 対潜 {selectedShip.ASWBase} (改修+{selectedShip.ASWModernized})";
 
 			ASWModernization.Value = selectedShip.ASWModernized;
+
+			UpdateLevelView();
 		}
 
-
-
-		private class ComboShipData
+		private void ShowAllLevel_CheckedChanged(object sender, EventArgs e)
 		{
-			public ShipData Ship;
+			UpdateLevelView();
+		}
 
-			public ComboShipData(ShipData ship)
+		private void ShowAllASWEquipments_CheckedChanged(object sender, EventArgs e)
+		{
+			UpdateLevelView();
+		}
+
+		private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+		{
+			UpdateLevelView();
+		}
+
+		private void ASWModernization_ValueChanged(object sender, EventArgs e)
+		{
+			UpdateLevelView();
+		}
+
+		private int[] GetRemodelLevelTable(ShipDataMaster ship)
+		{
+			while (ship.RemodelBeforeShip != null)
+				ship = ship.RemodelBeforeShip;
+
+			var list = new LinkedList<int>();
+
+			while (ship != null)
 			{
-				Ship = ship;
+				list.AddLast(ship.RemodelAfterLevel);
+				ship = ship.RemodelAfterShip;
+				if (list.Last() >= ship.RemodelAfterLevel)
+					break;
 			}
 
-			public override string ToString() => $"{Ship.MasterShip.ShipTypeName} {Ship.NameWithLevel}";
+			return list.ToArray();
 		}
 
-		private class ASWEquipmentData
-		{
-			public int ID;
-			public int ASW;
-			public string Name;
-			public bool IsSonar;
-			public int Count;
-
-			public override string ToString() => Name;
-		}
-
+		
 	}
 }
