@@ -903,6 +903,10 @@ api_req_quest/clearitemget		：任務達成
 		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 5=基地航空隊開放?, 6=遠征臨時補給開放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換, 16=装備消費, 18=???, 99=イベント海域解放
 		api_count		：取得個数
 		api_item		：アイテム追加情報 一般アイテムはnull イベント海域解放時は api_count = 1 にもかかわらず null
+			(艦船の場合)
+			api_ship_id	：艦船ID(固有でないほう)
+			api_name	：艦船名
+			api_getmes	：ドロップ時メッセージ
 			(アイテム/装備の場合)
 			api_id		：装備アイテム=ID、家具箱=0
 			api_name	：アイテム名 家具箱系/装備のみ
@@ -3287,8 +3291,9 @@ api_get_member/material
 《任務報酬受領》
 api_req_quest/clearitemget
 api_get_member/material		(資源獲得時)
+api_get_member/ship2		(艦船獲得時)
 api_get_member/useitem		(アイテム獲得時)
-api_get_member/slot_item	(装備獲得時)
+api_get_member/slot_item	(艦船/装備獲得時)
 api_get_member/unsetslot	(装備獲得時)
 api_get_member/questlist
 
