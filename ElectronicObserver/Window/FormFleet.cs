@@ -50,6 +50,7 @@ namespace ElectronicObserver.Window
 					Text = "[" + parent.FleetID.ToString() + "]",
 					Anchor = AnchorStyles.Left,
 					ForeColor = parent.MainFontColor,
+					UseMnemonic = false,
 					Padding = new Padding(0, 1, 0, 1),
 					Margin = new Padding(2, 0, 2, 0),
 					AutoSize = true,
