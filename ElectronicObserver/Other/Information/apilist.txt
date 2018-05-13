@@ -1025,6 +1025,7 @@ api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ�
 			84=Essex級
 			85=日振型
 			86=呂号潜水艦
+			87=John C.Butler級
 		api_cnum			：艦番
 		api_taik			：耐久
 		api_souk			：装甲
@@ -2152,7 +2153,7 @@ Request.api_get_member/ship2	：艦船情報
 
 api_get_member/ship2		：艦船情報(現在はケッコンカッコカリ・給糧艦使用時等、限られたシーンでのみ使用)
 	(以下のメンバは api_result 等と同じ階層に存在するため注意)
-	api_data		：艦船データ　req.api_shipid が存在する場合は指定された艦1隻のみ、存在しなければ全艦？
+	api_data		：艦船データ　req.api_shipid が存在する場合は指定された艦1隻のみ、存在しなければ全艦
 	api_data_deck	：艦隊データ　指定にかかわらず全艦隊のデータが送られてくる
 
 Request.api_get_member/ship_deck	：進撃中

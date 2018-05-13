@@ -374,6 +374,7 @@ namespace ElectronicObserver.Data
 				case 84: return "Essex級";
 				case 85: return "日振型";
 				case 86: return "呂号潜水艦";
+				case 87: return "John C.Butler級";
 				default: return "不明";
 			}
 		}

@@ -296,7 +296,12 @@ namespace ElectronicObserver.Window.Dialog
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion, Constants.GetVoiceFlag(ship.VoiceFlag)));
 
 			ShipType.Text = ship.IsLandBase ? "陸上施設" : ship.ShipTypeName;
-			ToolTipInfo.SetToolTip(ShipType, Constants.GetShipClass(ship.ShipClass));
+			if (ship.IsAbyssalShip)
+				ToolTipInfo.SetToolTip(ShipType, null);
+			else if (Constants.GetShipClass(ship.ShipClass) == "不明")
+				ToolTipInfo.SetToolTip(ShipType, $"不明({ship.ShipClass})");
+			else
+				ToolTipInfo.SetToolTip(ShipType, Constants.GetShipClass(ship.ShipClass));
 			ShipName.Text = ship.NameWithClass;
 			ShipName.ForeColor = ship.GetShipNameColor();
 			ToolTipInfo.SetToolTip(ShipName, (!ship.IsAbyssalShip ? ship.NameReading + "\r\n" : "") + "(右クリックでコピー)");
