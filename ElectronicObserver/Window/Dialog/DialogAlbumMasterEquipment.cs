@@ -573,17 +573,25 @@ namespace ElectronicObserver.Window.Dialog
 			if (string.IsNullOrWhiteSpace(TextSearch.Text))
 				return;
 
-			string searchWord = DialogAlbumMasterShip.ToHiragana(TextSearch.Text.ToLower());
-			var target =
-				EquipmentView.Rows.OfType<DataGridViewRow>()
-				.Select(r => KCDatabase.Instance.MasterEquipments[(int)r.Cells[EquipmentView_ID.Index].Value])
-				.FirstOrDefault(
-					eq => DialogAlbumMasterShip.ToHiragana(eq.Name.ToLower()).Contains(searchWord));
 
-			if (target != null)
+			bool Search(string searchWord)
 			{
-				EquipmentView.FirstDisplayedScrollingRowIndex = EquipmentView.Rows.OfType<DataGridViewRow>().First(r => (int)r.Cells[EquipmentView_ID.Index].Value == target.EquipmentID).Index;
+				var target =
+					EquipmentView.Rows.OfType<DataGridViewRow>()
+					.Select(r => KCDatabase.Instance.MasterEquipments[(int)r.Cells[EquipmentView_ID.Index].Value])
+					.FirstOrDefault(
+						eq => Calculator.ToHiragana(eq.Name.ToLower()).Contains(searchWord));
+
+				if (target != null)
+				{
+					EquipmentView.FirstDisplayedScrollingRowIndex = EquipmentView.Rows.OfType<DataGridViewRow>().First(r => (int)r.Cells[EquipmentView_ID.Index].Value == target.EquipmentID).Index;
+					return true;
+				}
+				return false;
 			}
+
+			if (!Search(Calculator.ToHiragana(TextSearch.Text.ToLower())))
+				Search(Calculator.RomaToHira(TextSearch.Text));
 		}
 
 		private void TextSearch_KeyDown(object sender, KeyEventArgs e)
