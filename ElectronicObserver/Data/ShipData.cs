@@ -391,6 +391,36 @@ namespace ElectronicObserver.Data
 					param -= 2;
 				}
 
+				// 61cm三連装(酸素)魚雷後期型 による特殊補正
+				if (eqs.Any(eq => eq.EquipmentID == 285))
+				{
+					switch (MasterShip.ShipClass)
+					{
+						case 1:     // 綾波型
+						case 5:     // 暁型
+						case 10:    // 初春型
+						case 12:    // 吹雪型
+							if (Name.Contains("改二"))		// Tier >= 2 だと "乙改" が引っかかるので
+								param -= 1;
+							break;
+					}
+				}
+
+				// 61cm四連装(酸素)魚雷後期型 による特殊補正
+				if (eqs.Any(eq => eq.EquipmentID == 286))
+				{
+					switch (MasterShip.ShipClass)
+					{
+						case 23:    // 白露型
+						case 18:    // 朝潮型
+						case 30:    // 陽炎型
+						case 38:    // 夕雲型
+							if (Name.Contains("改二"))
+								param -= 1;
+							break;
+					}
+				}
+
 				return param;
 			}
 		}
@@ -1363,7 +1393,7 @@ namespace ElectronicObserver.Data
 				if (!CanAttackSubmarine)
 					return false;
 
-				if (ShipID == 141 || ShipID == 394 || ShipID == 478)  // 五十鈴改二, Jervis改, 龍田改二
+				if (ShipID == 141 || ShipID == 394 || ShipID == 478 || ShipID == 681)  // 五十鈴改二, Jervis改, 龍田改二, Samuel B.Roberts改
 					return true;
 
 				var eqs = AllSlotInstance.Where(eq => eq != null);
