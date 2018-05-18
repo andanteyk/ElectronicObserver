@@ -17,7 +17,7 @@ namespace ElectronicObserver.Window.Dialog
 	{
 
 		private DataGridViewCellStyle CellStyleModernized;
-		private DataGridViewCellStyle CellStyleLevel5;
+		
 
 		private int DefaultShipID = -1;
 
@@ -59,9 +59,6 @@ namespace ElectronicObserver.Window.Dialog
 			CellStyleModernized.BackColor =
 				CellStyleModernized.SelectionBackColor = Color.LightGreen;
 
-			CellStyleLevel5 = new DataGridViewCellStyle(ColumnLevel.DefaultCellStyle);
-			CellStyleLevel5.BackColor =
-				CellStyleLevel5.SelectionBackColor = Color.LightCyan;
 		}
 
 		public DialogExpChecker(int shipID) : this()
@@ -212,10 +209,6 @@ namespace ElectronicObserver.Window.Dialog
 					);
 
 
-				if (lv % 5 == 0)
-				{
-					row.Cells[ColumnLevel.Index].Style = CellStyleLevel5;
-				}
 				if (remodelLevelTable.Contains(lv))
 				{
 					row.Cells[ColumnLevel.Index].Style = CellStyleModernized;

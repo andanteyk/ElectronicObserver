@@ -29,12 +29,13 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.SearchInFleet = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.ShowAllASWEquipments = new System.Windows.Forms.CheckBox();
@@ -50,7 +51,6 @@
 			this.ColumnSortieCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnASW = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnEquipment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.SearchInFleet = new System.Windows.Forms.CheckBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ASWModernization)).BeginInit();
@@ -78,6 +78,19 @@
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "表示条件";
+			// 
+			// SearchInFleet
+			// 
+			this.SearchInFleet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.SearchInFleet.AutoSize = true;
+			this.SearchInFleet.Location = new System.Drawing.Point(306, 24);
+			this.SearchInFleet.Name = "SearchInFleet";
+			this.SearchInFleet.Size = new System.Drawing.Size(90, 19);
+			this.SearchInFleet.TabIndex = 10;
+			this.SearchInFleet.Text = "艦隊から探す";
+			this.ToolTipInfo.SetToolTip(this.SearchInFleet, "現在艦隊に所属している艦のみ選択可能にします。");
+			this.SearchInFleet.UseVisualStyleBackColor = true;
+			this.SearchInFleet.CheckedChanged += new System.EventHandler(this.SearchInFleet_CheckedChanged);
 			// 
 			// label1
 			// 
@@ -210,14 +223,14 @@
             this.ColumnSortieCount,
             this.ColumnASW,
             this.ColumnEquipment});
-			dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle30.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.LevelView.DefaultCellStyle = dataGridViewCellStyle30;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle5.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(204)))));
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.LevelView.DefaultCellStyle = dataGridViewCellStyle5;
 			this.LevelView.Location = new System.Drawing.Point(7, 22);
 			this.LevelView.Name = "LevelView";
 			this.LevelView.ReadOnly = true;
@@ -229,8 +242,8 @@
 			// 
 			// ColumnLevel
 			// 
-			dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ColumnLevel.DefaultCellStyle = dataGridViewCellStyle26;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ColumnLevel.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ColumnLevel.HeaderText = "Lv";
 			this.ColumnLevel.Name = "ColumnLevel";
 			this.ColumnLevel.ReadOnly = true;
@@ -238,16 +251,16 @@
 			// 
 			// ColumnExp
 			// 
-			dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ColumnExp.DefaultCellStyle = dataGridViewCellStyle27;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ColumnExp.DefaultCellStyle = dataGridViewCellStyle2;
 			this.ColumnExp.HeaderText = "必要Exp";
 			this.ColumnExp.Name = "ColumnExp";
 			this.ColumnExp.ReadOnly = true;
 			// 
 			// ColumnSortieCount
 			// 
-			dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ColumnSortieCount.DefaultCellStyle = dataGridViewCellStyle28;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ColumnSortieCount.DefaultCellStyle = dataGridViewCellStyle3;
 			this.ColumnSortieCount.HeaderText = "出撃回数";
 			this.ColumnSortieCount.Name = "ColumnSortieCount";
 			this.ColumnSortieCount.ReadOnly = true;
@@ -255,8 +268,8 @@
 			// 
 			// ColumnASW
 			// 
-			dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.ColumnASW.DefaultCellStyle = dataGridViewCellStyle29;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.ColumnASW.DefaultCellStyle = dataGridViewCellStyle4;
 			this.ColumnASW.HeaderText = "対潜";
 			this.ColumnASW.Name = "ColumnASW";
 			this.ColumnASW.ReadOnly = true;
@@ -269,19 +282,6 @@
 			this.ColumnEquipment.Name = "ColumnEquipment";
 			this.ColumnEquipment.ReadOnly = true;
 			this.ColumnEquipment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// SearchInFleet
-			// 
-			this.SearchInFleet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.SearchInFleet.AutoSize = true;
-			this.SearchInFleet.Location = new System.Drawing.Point(306, 24);
-			this.SearchInFleet.Name = "SearchInFleet";
-			this.SearchInFleet.Size = new System.Drawing.Size(90, 19);
-			this.SearchInFleet.TabIndex = 10;
-			this.SearchInFleet.Text = "艦隊から探す";
-			this.ToolTipInfo.SetToolTip(this.SearchInFleet, "現在艦隊に所属している艦のみ選択可能にします。");
-			this.SearchInFleet.UseVisualStyleBackColor = true;
-			this.SearchInFleet.CheckedChanged += new System.EventHandler(this.SearchInFleet_CheckedChanged);
 			// 
 			// ToolTipInfo
 			// 

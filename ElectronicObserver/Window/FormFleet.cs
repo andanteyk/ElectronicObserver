@@ -346,6 +346,8 @@ namespace ElectronicObserver.Window
 				Level.Margin = new Padding(2, 0, 2, 1);
 				Level.AutoSize = true;
 				Level.Visible = false;
+				Level.Cursor = Cursors.Help;
+				Level.MouseDown += Level_MouseDown;
 				Level.ResumeLayout();
 
 				HP = new ShipStatusHP();
@@ -411,7 +413,6 @@ namespace ElectronicObserver.Window
 				#endregion
 
 			}
-
 
 			public TableMemberControl(FormFleet parent, TableLayoutPanel table, int row)
 				: this(parent)
@@ -482,18 +483,17 @@ namespace ElectronicObserver.Window
 						if (ship.MasterShip.RemodelAfterShipID != 0 && ship.Level < ship.MasterShip.RemodelAfterLevel)
 						{
 							tip.AppendFormat("改装まで: Lv. {0} / {1} exp.\r\n", ship.MasterShip.RemodelAfterLevel - ship.Level, ship.ExpNextRemodel);
-
 						}
 						else if (ship.Level <= 99)
 						{
 							tip.AppendFormat("Lv99まで: {0} exp.\r\n", Math.Max(ExpTable.GetExpToLevelShip(ship.ExpTotal, 99), 0));
-
 						}
 						else
 						{
 							tip.AppendFormat("Lv{0}まで: {1} exp.\r\n", ExpTable.ShipMaximumLevel, Math.Max(ExpTable.GetExpToLevelShip(ship.ExpTotal, ExpTable.ShipMaximumLevel), 0));
-
 						}
+
+						tip.AppendLine("(右クリックで必要Exp計算)");
 
 						ToolTipInfo.SetToolTip(Level, tip.ToString());
 					}
@@ -602,9 +602,20 @@ namespace ElectronicObserver.Window
 				if (Name.Tag is int id && id != -1)
 				{
 					if ((e.Button & MouseButtons.Right) != 0)
+					{
 						new DialogAlbumMasterShip(id).Show(Parent);
-					else if ((e.Button & MouseButtons.Middle) != 0)
+					}
+				}
+			}
+
+			private void Level_MouseDown(object sender, MouseEventArgs e)
+			{
+				if (Name.Tag is int id && id != -1)
+				{
+					if ((e.Button & MouseButtons.Right) != 0)
+					{
 						new DialogExpChecker(id).Show(Parent);
+					}
 				}
 			}
 
