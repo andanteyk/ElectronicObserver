@@ -468,27 +468,37 @@ namespace ElectronicObserver.Window
 		private void UpdateDisplayUseItem()
 		{
 			var db = KCDatabase.Instance;
-			var item = db.UseItems[Utility.Configuration.Config.FormHeadquarters.DisplayUseItemID];
-			var itemMaster = db.MasterUseItems[Utility.Configuration.Config.FormHeadquarters.DisplayUseItemID];
+			var itemID = Utility.Configuration.Config.FormHeadquarters.DisplayUseItemID;
+			var item = db.UseItems[itemID];
+			var itemMaster = db.MasterUseItems[itemID];
 			string tail = "\r\n(設定から変更可能)";
 
-			if (item != null)
-			{
-				DisplayUseItem.Text = item.Count.ToString();
-				ToolTipInfo.SetToolTip(DisplayUseItem, itemMaster.Name + tail);
 
-			}
-			else if (itemMaster != null)
-			{
-				DisplayUseItem.Text = "0";
-				ToolTipInfo.SetToolTip(DisplayUseItem, itemMaster.Name + tail);
 
-			}
-			else
+			switch (itemMaster?.Name)
 			{
-				DisplayUseItem.Text = "???";
-				ToolTipInfo.SetToolTip(DisplayUseItem, "不明なアイテム (ID: " + Utility.Configuration.Config.FormHeadquarters.DisplayUseItemID + ")" + tail);
+				case null:
+					DisplayUseItem.Text = "???";
+					ToolTipInfo.SetToolTip(DisplayUseItem, "不明なアイテム (ID: " + Utility.Configuration.Config.FormHeadquarters.DisplayUseItemID + ")" + tail);
+					break;
+
+				// '18 spring event special mode
+				case "お米":
+				case "梅干":
+				case "海苔":
+				case "お茶":
+					DisplayUseItem.Text = (item?.Count ?? 0).ToString();
+					ToolTipInfo.SetToolTip(DisplayUseItem,
+						$"お米: {db.UseItems[85]?.Count ?? 0}\r\n梅干: {db.UseItems[86]?.Count ?? 0}\r\n海苔: {db.UseItems[87]?.Count ?? 0}\r\nお茶: {db.UseItems[88]?.Count ?? 0}\r\n{tail}");
+					break;
+
+				default:
+					DisplayUseItem.Text = (item?.Count ?? 0).ToString();
+					ToolTipInfo.SetToolTip(DisplayUseItem,
+						itemMaster.Name + tail);
+					break;
 			}
+			
 		}
 
 		private int RealShipCount

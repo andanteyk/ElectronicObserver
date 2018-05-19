@@ -74,6 +74,7 @@ namespace ElectronicObserver.Window.Dialog
 			{
 				MessageBox.Show("艦船が存在しません。\r\n母港まで移動してください。", "対象艦船なし", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Close();
+				return;
 			}
 
 			SearchInFleet_CheckedChanged(this, new EventArgs());
