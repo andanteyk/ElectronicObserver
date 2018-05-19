@@ -50,6 +50,7 @@ namespace ElectronicObserver.Window
 					Text = "[" + parent.FleetID.ToString() + "]",
 					Anchor = AnchorStyles.Left,
 					ForeColor = parent.MainFontColor,
+					UseMnemonic = false,
 					Padding = new Padding(0, 1, 0, 1),
 					Margin = new Padding(2, 0, 2, 0),
 					AutoSize = true,
@@ -345,6 +346,8 @@ namespace ElectronicObserver.Window
 				Level.Margin = new Padding(2, 0, 2, 1);
 				Level.AutoSize = true;
 				Level.Visible = false;
+				Level.Cursor = Cursors.Help;
+				Level.MouseDown += Level_MouseDown;
 				Level.ResumeLayout();
 
 				HP = new ShipStatusHP();
@@ -411,7 +414,6 @@ namespace ElectronicObserver.Window
 
 			}
 
-
 			public TableMemberControl(FormFleet parent, TableLayoutPanel table, int row)
 				: this(parent)
 			{
@@ -453,7 +455,7 @@ namespace ElectronicObserver.Window
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip(Name,
 						string.Format(
-							"{0} {1}\n火力: {2}/{3}\n雷装: {4}/{5}\n対空: {6}/{7}\n装甲: {8}/{9}\n対潜: {10}/{11}\n回避: {12}/{13}\n索敵: {14}/{15}\n運: {16}\n射程: {17} / 速力: {18}\n(右クリックで図鑑)\n",
+							"{0} {1}\r\n火力: {2}/{3}\r\n雷装: {4}/{5}\r\n対空: {6}/{7}\r\n装甲: {8}/{9}\r\n対潜: {10}/{11}\r\n回避: {12}/{13}\r\n索敵: {14}/{15}\r\n運: {16}\r\n射程: {17} / 速力: {18}\r\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase, ship.FirepowerTotal,
 							ship.TorpedoBase, ship.TorpedoTotal,
@@ -481,18 +483,17 @@ namespace ElectronicObserver.Window
 						if (ship.MasterShip.RemodelAfterShipID != 0 && ship.Level < ship.MasterShip.RemodelAfterLevel)
 						{
 							tip.AppendFormat("改装まで: Lv. {0} / {1} exp.\r\n", ship.MasterShip.RemodelAfterLevel - ship.Level, ship.ExpNextRemodel);
-
 						}
 						else if (ship.Level <= 99)
 						{
 							tip.AppendFormat("Lv99まで: {0} exp.\r\n", Math.Max(ExpTable.GetExpToLevelShip(ship.ExpTotal, 99), 0));
-
 						}
 						else
 						{
 							tip.AppendFormat("Lv{0}まで: {1} exp.\r\n", ExpTable.ShipMaximumLevel, Math.Max(ExpTable.GetExpToLevelShip(ship.ExpTotal, ExpTable.ShipMaximumLevel), 0));
-
 						}
+
+						tip.AppendLine("(右クリックで必要Exp計算)");
 
 						ToolTipInfo.SetToolTip(Level, tip.ToString());
 					}
@@ -598,13 +599,24 @@ namespace ElectronicObserver.Window
 
 			void Name_MouseDown(object sender, MouseEventArgs e)
 			{
-				int? id = Name.Tag as int?;
-
-				if (id != null && id != -1 && (e.Button & System.Windows.Forms.MouseButtons.Right) != 0)
+				if (Name.Tag is int id && id != -1)
 				{
-					new DialogAlbumMasterShip((int)id).Show(Parent);
+					if ((e.Button & MouseButtons.Right) != 0)
+					{
+						new DialogAlbumMasterShip(id).Show(Parent);
+					}
 				}
+			}
 
+			private void Level_MouseDown(object sender, MouseEventArgs e)
+			{
+				if (Name.Tag is int id && id != -1)
+				{
+					if ((e.Button & MouseButtons.Right) != 0)
+					{
+						new DialogExpChecker(id).Show(Parent);
+					}
+				}
 			}
 
 
@@ -1046,11 +1058,11 @@ namespace ElectronicObserver.Window
 
 						if (count == 1)
 						{
-							sb.AppendFormat("{0}{1}", j == 0 ? "" : "/", eq[j].NameWithLevel);
+							sb.AppendFormat("{0}{1}", j == 0 ? "" : ", ", eq[j].NameWithLevel);
 						}
 						else
 						{
-							sb.AppendFormat("{0}{1}x{2}", j == 0 ? "" : "/", eq[j].NameWithLevel, count);
+							sb.AppendFormat("{0}{1}x{2}", j == 0 ? "" : ", ", eq[j].NameWithLevel, count);
 						}
 
 						j += count - 1;

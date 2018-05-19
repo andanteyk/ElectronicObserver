@@ -507,6 +507,7 @@ namespace ElectronicObserver.Resource.Record
 		public Dictionary<int, ShipParameterElement> Record { get; private set; }
 		private int newShipIDBorder;
 		private int remodelingShipID;
+		private int questRewardShipID;
 		private bool changed;
 		public bool ParameterLoadFlag { get; set; }
 
@@ -518,6 +519,7 @@ namespace ElectronicObserver.Resource.Record
 			Record = new Dictionary<int, ShipParameterElement>();
 			newShipIDBorder = -1;
 			remodelingShipID = -1;
+			questRewardShipID = -1;
 			changed = false;
 			ParameterLoadFlag = true;
 
@@ -556,6 +558,9 @@ namespace ElectronicObserver.Resource.Record
 
 			ao["api_req_kaisou/remodeling"].RequestReceived += RemodelingStart;
 			ao["api_get_member/slot_item"].ResponseReceived += RemodelingEnd;
+
+			ao["api_req_quest/clearitemget"].ResponseReceived += QuestRewardReceived;
+			ao["api_get_member/ship2"].ResponseReceived += QuestRewardReceivedEnd;
 		}
 
 
@@ -1027,7 +1032,8 @@ namespace ElectronicObserver.Resource.Record
 		void RemodelingEnd(string apiname, dynamic data)
 		{
 
-			if (remodelingShipID == -1) return;
+			if (remodelingShipID == -1)
+				return;
 
 			ShipData ship = KCDatabase.Instance.Ships[remodelingShipID];
 
@@ -1040,6 +1046,41 @@ namespace ElectronicObserver.Resource.Record
 			remodelingShipID = -1;
 		}
 
+
+
+		void QuestRewardReceived(string apiname, dynamic data)
+		{
+			questRewardShipID = -1;
+
+			if (data.api_bounus())
+			{
+				foreach (var b in data.api_bounus)
+				{
+					if ((int)b.api_type == 11 && b.api_item() && b.api_item != null)
+					{
+						if (b.api_item.api_ship_id())
+						{
+							questRewardShipID = (int)b.api_item.api_ship_id;
+
+						}
+					}
+				}
+			}
+		}
+
+		void QuestRewardReceivedEnd(string apiname, dynamic data)
+		{
+			if (questRewardShipID == -1)
+				return;
+
+			var ship = KCDatabase.Instance.Ships.OrderBy(p => p.Key).Last().Value;
+
+			if(ship.ShipID == questRewardShipID)
+			{
+				// 装備データがまだ送られてきていないので、remodeling と同様 slot_item が来た時点で処理する
+				remodelingShipID = ship.MasterID;
+			}
+		}
 
 
 		#endregion

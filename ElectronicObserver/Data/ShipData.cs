@@ -391,6 +391,36 @@ namespace ElectronicObserver.Data
 					param -= 2;
 				}
 
+				// 61cm三連装(酸素)魚雷後期型 による特殊補正
+				if (eqs.Any(eq => eq.EquipmentID == 285))
+				{
+					switch (MasterShip.ShipClass)
+					{
+						case 1:     // 綾波型
+						case 5:     // 暁型
+						case 10:    // 初春型
+						case 12:    // 吹雪型
+							if (Name.Contains("改二"))		// Tier >= 2 だと "乙改" が引っかかるので
+								param -= 1;
+							break;
+					}
+				}
+
+				// 61cm四連装(酸素)魚雷後期型 による特殊補正
+				if (eqs.Any(eq => eq.EquipmentID == 286))
+				{
+					switch (MasterShip.ShipClass)
+					{
+						case 23:    // 白露型
+						case 18:    // 朝潮型
+						case 30:    // 陽炎型
+						case 38:    // 夕雲型
+							if (Name.Contains("改二"))
+								param -= 1;
+							break;
+					}
+				}
+
 				return param;
 			}
 		}
@@ -1363,22 +1393,28 @@ namespace ElectronicObserver.Data
 				if (!CanAttackSubmarine)
 					return false;
 
-				if (ShipID == 141)  // 五十鈴改二
+				if (ShipID == 141 || ShipID == 394 || ShipID == 478 || ShipID == 681)  // 五十鈴改二, Jervis改, 龍田改二, Samuel B.Roberts改
 					return true;
 
 				var eqs = AllSlotInstance.Where(eq => eq != null);
 
 				if (ShipID == 380 || ShipID == 529)  // 大鷹改(二)
 				{
-					if (ASWTotal >= 65)    // 注: Lv. 1時点で対潜が 65 以上であるため、現時点では無条件に達成可能
-						return true;
+					// 本当は 対潜 > 0 の艦攻 or オートジャイロ or 対潜哨戒機 が必要らしいが、おそらくそれは CanAttackSubmarine で判定済みなので
+					return true;
 				}
 
-				if (ShipID == 526)      // 大鷹
+				if (MasterShip.ShipType == ShipTypes.LightAircraftCarrier && ASWBase > 0)      // 護衛空母
 				{
-					// 対潜 7 以上の艦上攻撃機
-					bool hasASWTorp = eqs.Any(eq => eq.MasterEquipment.CategoryType == EquipmentTypes.CarrierBasedTorpedo && eq.MasterEquipment.ASW >= 7);
-					if (hasASWTorp && ASWTotal >= 65)
+					bool hasASWAircraft = eqs.Any(eq =>
+						(eq.MasterEquipment.CategoryType == EquipmentTypes.CarrierBasedTorpedo && eq.MasterEquipment.ASW >= 7) ||
+						eq.MasterEquipment.CategoryType == EquipmentTypes.ASPatrol ||
+						eq.MasterEquipment.CategoryType == EquipmentTypes.Autogyro);
+
+					if (hasASWAircraft && ASWTotal >= 65)
+						return true;
+
+					if (hasASWAircraft && ASWTotal >= 50 && eqs.Any(eq => eq.MasterEquipment.CategoryType == EquipmentTypes.SonarLarge))
 						return true;
 				}
 

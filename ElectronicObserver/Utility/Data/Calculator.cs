@@ -1169,6 +1169,7 @@ namespace ElectronicObserver.Utility.Data
 			int aagun_medium = 0;
 			int aagun_concentrated = 0;
 			int aarocketmod = 0;
+			int highangle_musashi = 0;
 
 			var slotmaster = slot.Select(id => KCDatabase.Instance.MasterEquipments[id]).Where(eq => eq != null).ToArray();
 
@@ -1181,6 +1182,9 @@ namespace ElectronicObserver.Utility.Data
 
 					if (eq.IsHighAngleGunWithAADirector)
 						highangle_director++;
+
+					if (eq.EquipmentID == 275)   // 10cm連装高角砲改+増設機銃
+						highangle_musashi++;
 				}
 				else if (eq.CategoryType == EquipmentTypes.AADirector)
 				{
@@ -1326,9 +1330,16 @@ namespace ElectronicObserver.Utility.Data
 					break;
 
 				case 546:   // 武蔵改二
-					if (highangle_director >= 1 && aaradar >= 1)
+					if (highangle_musashi >= 1 && aaradar >= 1)
 						return 26;
 					break;
+
+				case 557:   // 磯風乙改
+				case 558:   // 浜風乙改
+					if (highangle >= 1 && aaradar >= 1)
+						return 29;
+					break;
+
 			}
 
 
@@ -1583,6 +1594,7 @@ namespace ElectronicObserver.Utility.Data
 			{ 25, 7 },
 			{ 26, 6 },
 			{ 28, 4 },
+			{ 29, 5 },
 		});
 
 
@@ -1617,6 +1629,7 @@ namespace ElectronicObserver.Utility.Data
 			{ 25, 1.55 },
 			{ 26, 1.4 },
 			{ 28, 1.4 },
+			{ 29, 1.55 },
 		});
 
 
@@ -1717,6 +1730,445 @@ namespace ElectronicObserver.Utility.Data
 					return time;
 			}
 		}
+
+
+
+
+
+		#region roma-to-hira table
+		static Dictionary<string, string> RomaToHiraTable = new Dictionary<string, string> {
+			{ "a", "あ" },
+			{ "i", "い" },
+			{ "u", "う" },
+			{ "e", "え" },
+			{ "o", "お" },
+
+			{ "ba", "ば" },
+			{ "bi", "び" },
+			{ "bu", "ぶ" },
+			{ "be", "べ" },
+			{ "bo", "ぼ" },
+
+			{ "bya", "びゃ" },
+			{ "byi", "びぃ" },
+			{ "byu", "びゅ" },
+			{ "bye", "びぇ" },
+			{ "byo", "びょ" },
+
+			{ "ca", "か" },
+			{ "ci", "し" },
+			{ "cu", "く" },
+			{ "ce", "せ" },
+			{ "co", "こ" },
+
+			{ "cha", "ちゃ" },
+			{ "chi", "ち" },
+			{ "chu", "ちゅ" },
+			{ "che", "ちぇ" },
+			{ "cho", "ちょ" },
+
+			{ "cya", "ちゃ" },
+			{ "cyi", "ちぃ" },
+			{ "cyu", "ちゅ" },
+			{ "cye", "ちぇ" },
+			{ "cyo", "ちょ" },
+
+			{ "da", "だ" },
+			{ "di", "ぢ" },
+			{ "du", "づ" },
+			{ "de", "で" },
+			{ "do", "ど" },
+
+			{ "dha", "でゃ" },
+			{ "dhi", "でぃ" },
+			{ "dhu", "でゅ" },
+			{ "dhe", "でぇ" },
+			{ "dho", "でょ" },
+
+			{ "dwa", "どぁ" },
+			{ "dwi", "どぃ" },
+			{ "dwu", "どぅ" },
+			{ "dwe", "どぇ" },
+			{ "dwo", "どぉ" },
+
+			{ "dya", "ぢゃ" },
+			{ "dyi", "ぢぃ" },
+			{ "dyu", "ぢゅ" },
+			{ "dye", "ぢぇ" },
+			{ "dyo", "ぢょ" },
+
+			{ "fa", "ふぁ" },
+			{ "fi", "ふぃ" },
+			{ "fu", "ふ" },
+			{ "fe", "ふぇ" },
+			{ "fo", "ふぉ" },
+
+			{ "fwa", "ふぁ" },
+			{ "fwi", "ふぃ" },
+			{ "fwu", "ふぅ" },
+			{ "fwe", "ふぇ" },
+			{ "fwo", "ふぉ" },
+
+			{ "fya", "ふゃ" },
+			{ "fyi", "ふぃ" },
+			{ "fyu", "ふゅ" },
+			{ "fye", "ふぇ" },
+			{ "fyo", "ふょ" },
+
+			{ "ga", "が" },
+			{ "gi", "ぎ" },
+			{ "gu", "ぐ" },
+			{ "ge", "げ" },
+			{ "go", "ご" },
+
+			{ "gwa", "ぐぁ" },
+			{ "gwi", "ぐぃ" },
+			{ "gwu", "ぐぅ" },
+			{ "gwe", "ぐぇ" },
+			{ "gwo", "ぐぉ" },
+
+			{ "gya", "ぎゃ" },
+			{ "gyi", "ぎぃ" },
+			{ "gyu", "ぎゅ" },
+			{ "gye", "ぎぇ" },
+			{ "gyo", "ぎょ" },
+
+			{ "ha", "は" },
+			{ "hi", "ひ" },
+			{ "hu", "ふ" },
+			{ "he", "へ" },
+			{ "ho", "ほ" },
+
+			{ "hya", "ひゃ" },
+			{ "hyi", "ひぃ" },
+			{ "hyu", "ひゅ" },
+			{ "hye", "ひぇ" },
+			{ "hyo", "ひょ" },
+
+			{ "ja", "じゃ" },
+			{ "ji", "じ" },
+			{ "ju", "じゅ" },
+			{ "je", "じぇ" },
+			{ "jo", "じょ" },
+
+			{ "jya", "じゃ" },
+			{ "jyi", "じぃ" },
+			{ "jyu", "じゅ" },
+			{ "jye", "じぇ" },
+			{ "jyo", "じょ" },
+
+			{ "ka", "か" },
+			{ "ki", "き" },
+			{ "ku", "く" },
+			{ "ke", "け" },
+			{ "ko", "こ" },
+
+			{ "kwa", "くぁ" },
+
+			{ "kya", "きゃ" },
+			{ "kyi", "きぃ" },
+			{ "kyu", "きゅ" },
+			{ "kye", "きぇ" },
+			{ "kyo", "きょ" },
+
+			{ "la", "ぁ" },
+			{ "li", "ぃ" },
+			{ "lu", "ぅ" },
+			{ "le", "ぇ" },
+			{ "lo", "ぉ" },
+
+			{ "lka", "ヵ" },
+			{ "lke", "ヶ" },
+			{ "ltu", "っ" },
+			{ "ltsu", "っ" },
+			{ "lwa", "ゎ" },
+
+			{ "lya", "ゃ" },
+			{ "lyi", "ぃ" },
+			{ "lyu", "ゅ" },
+			{ "lye", "ぇ" },
+			{ "lyo", "ょ" },
+
+			{ "ma", "ま" },
+			{ "mi", "み" },
+			{ "mu", "む" },
+			{ "me", "め" },
+			{ "mo", "も" },
+
+			{ "mya", "みゃ" },
+			{ "myi", "みぃ" },
+			{ "myu", "みゅ" },
+			{ "mye", "みぇ" },
+			{ "myo", "みょ" },
+
+			{ "na", "な" },
+			{ "ni", "に" },
+			{ "nu", "ぬ" },
+			{ "ne", "ね" },
+			{ "no", "の" },
+
+			{ "nn", "ん" },
+
+			{ "nya", "にゃ" },
+			{ "nyi", "にぃ" },
+			{ "nyu", "にゅ" },
+			{ "nye", "にぇ" },
+			{ "nyo", "にょ" },
+
+			{ "pa", "ぱ" },
+			{ "pi", "ぴ" },
+			{ "pu", "ぷ" },
+			{ "pe", "ぺ" },
+			{ "po", "ぽ" },
+
+			{ "pya", "ぴゃ" },
+			{ "pyi", "ぴぃ" },
+			{ "pyu", "ぴゅ" },
+			{ "pye", "ぴぇ" },
+			{ "pyo", "ぴょ" },
+
+			{ "qa", "くぁ" },
+			{ "qi", "くぃ" },
+			{ "qu", "く" },
+			{ "qe", "くぇ" },
+			{ "qo", "くぉ" },
+
+			{ "qwa", "くぁ" },
+			{ "qwi", "くぃ" },
+			{ "qwu", "くぅ" },
+			{ "qwe", "くぇ" },
+			{ "qwo", "くぉ" },
+
+			{ "qya", "くゃ" },
+			{ "qyi", "くぃ" },
+			{ "qyu", "くゅ" },
+			{ "qye", "くぇ" },
+			{ "qyo", "くょ" },
+
+			{ "ra", "ら" },
+			{ "ri", "り" },
+			{ "ru", "る" },
+			{ "re", "れ" },
+			{ "ro", "ろ" },
+
+			{ "rya", "りゃ" },
+			{ "ryi", "りぃ" },
+			{ "ryu", "りゅ" },
+			{ "rye", "りぇ" },
+			{ "ryo", "りょ" },
+
+			{ "sa", "さ" },
+			{ "si", "し" },
+			{ "su", "す" },
+			{ "se", "せ" },
+			{ "so", "そ" },
+
+			{ "sha", "しゃ" },
+			{ "shi", "し" },
+			{ "shu", "しゅ" },
+			{ "she", "しぇ" },
+			{ "sho", "しょ" },
+
+			{ "swa", "すぁ" },
+			{ "swi", "すぃ" },
+			{ "swu", "すぅ" },
+			{ "swe", "すぇ" },
+			{ "swo", "すぉ" },
+
+			{ "sya", "しゃ" },
+			{ "syi", "しぃ" },
+			{ "syu", "しゅ" },
+			{ "sye", "しぇ" },
+			{ "syo", "しょ" },
+
+			{ "ta", "た" },
+			{ "ti", "ち" },
+			{ "tu", "つ" },
+			{ "te", "て" },
+			{ "to", "と" },
+
+			{ "tha", "てゃ" },
+			{ "thi", "てぃ" },
+			{ "thu", "てゅ" },
+			{ "the", "てぇ" },
+			{ "tho", "てょ" },
+
+			{ "tsa", "つぁ" },
+			{ "tsi", "つぃ" },
+			{ "tsu", "つ" },
+			{ "tse", "つぇ" },
+			{ "tso", "つぉ" },
+
+			{ "twa", "とぁ" },
+			{ "twi", "とぃ" },
+			{ "twu", "とぅ" },
+			{ "twe", "とぇ" },
+			{ "two", "とぉ" },
+
+			{ "tya", "ちゃ" },
+			{ "tyi", "ちぃ" },
+			{ "tyu", "ちゅ" },
+			{ "tye", "ちぇ" },
+			{ "tyo", "ちょ" },
+
+			{ "va", "ヴぁ" },
+			{ "vi", "ヴぃ" },
+			{ "vu", "ヴ" },
+			{ "ve", "ヴぇ" },
+			{ "vo", "ヴぉ" },
+
+			{ "vya", "ヴゃ" },
+			{ "vyi", "ヴぃ" },
+			{ "vyu", "ヴゅ" },
+			{ "vye", "ヴぇ" },
+			{ "vyo", "ヴょ" },
+
+			{ "wa", "わ" },
+			{ "wi", "うぃ" },
+			{ "wu", "う" },
+			{ "we", "うぇ" },
+			{ "wo", "を" },
+
+			{ "wha", "うぁ" },
+			{ "whi", "うぃ" },
+			{ "whu", "う" },
+			{ "whe", "うぇ" },
+			{ "who", "うぉ" },
+
+			{ "wyi", "ゐ" },
+			{ "wye", "ゑ" },
+
+			{ "xa", "ぁ" },
+			{ "xi", "ぃ" },
+			{ "xu", "ぅ" },
+			{ "xe", "ぇ" },
+			{ "xo", "ぉ" },
+
+			{ "xka", "ヵ" },
+			{ "xke", "ヶ" },
+			{ "xtu", "っ" },
+			{ "xtsu", "っ" },
+			{ "xwa", "ゎ" },
+			{ "xn", "ん" },
+
+			{ "xya", "ゃ" },
+			{ "xyi", "ぃ" },
+			{ "xyu", "ゅ" },
+			{ "xye", "ぇ" },
+			{ "xyo", "ょ" },
+
+			{ "ya", "や" },
+			{ "yi", "い" },
+			{ "yu", "ゆ" },
+			{ "ye", "いぇ" },
+			{ "yo", "よ" },
+
+			{ "za", "ざ" },
+			{ "zi", "じ" },
+			{ "zu", "ず" },
+			{ "ze", "ぜ" },
+			{ "zo", "ぞ" },
+
+			{ "zya", "じゃ" },
+			{ "zyi", "じぃ" },
+			{ "zyu", "じゅ" },
+			{ "zye", "じぇ" },
+			{ "zyo", "じょ" },
+
+		};
+		#endregion
+
+		/// <summary>
+		/// 文中のカタカナをひらがなに変換します。
+		/// </summary>
+		public static string ToHiragana(string str)
+		{
+			// あまり深いことは考えずにやる
+			char hiraganaHead = '\x3041';
+			char katakanaHead = '\x30a1';
+			char katakanaTail = '\x30ff';
+
+			char[] chars = str.ToCharArray();
+			for (int i = 0; i < chars.Length; i++)
+			{
+				if (katakanaHead <= chars[i] && chars[i] <= katakanaTail)
+				{       // is katakana
+					chars[i] = (char)((int)chars[i] - (int)katakanaHead + (int)hiraganaHead);
+				}
+			}
+
+			return new string(chars);
+		}
+
+
+		static bool IsVowel(char c)
+		{
+			return c == 'a' || c == 'i' || c == 'u' || c == 'e' || c == 'o' || c == 'n';
+		}
+
+		/// <summary>
+		/// 文中のローマ字をひらがなに変換します。
+		/// </summary>
+		public static string RomaToHira(string roma)
+		{
+			var chars = roma.ToLower().ToCharArray();
+			var sb = new StringBuilder();
+
+			int prev = 0;
+
+			for (int i = 0; i < roma.Length; i++)
+			{
+				if (IsVowel(chars[i]) || !char.IsLower(chars[i]) || i == roma.Length - 1)
+				{
+
+					// ひらがな以外の文字を除外
+					for (int p = prev; p <= i; p++)
+					{
+						if (!char.IsLower(chars[p]))
+						{
+							sb.Append(chars[p]);
+							prev++;
+						}
+						else
+							break;
+					}
+
+					if (prev > i)
+						continue;
+
+					// n 単体はまだ処理しない
+					if (chars[prev] == 'n' && i - prev == 0 && i < roma.Length - 1)
+						continue;
+
+					// っ
+					for (int p = prev; p < i; p++)
+					{
+						if (chars[p] == chars[p + 1] && chars[p] != 'n')
+						{
+							sb.Append("っ");
+							prev++;
+						}
+						else break;
+					}
+
+					var currentArray = new char[i - prev + 1];
+					Array.Copy(chars, prev, currentArray, 0, currentArray.Length);
+					var current = new string(currentArray);
+
+					if (RomaToHiraTable.ContainsKey(current))
+						sb.Append(RomaToHiraTable[current]);
+					else if (chars[prev] == 'n' && RomaToHiraTable.ContainsKey(current.Substring(1)))
+						sb.Append("ん").Append(RomaToHiraTable[current.Substring(1)]);
+					else
+						sb.Append(current);
+
+					prev = i + 1;
+				}
+			}
+
+			return sb.ToString();
+		}
+
 
 	}
 

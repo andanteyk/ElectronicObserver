@@ -94,6 +94,7 @@
 			this.AdmiralName.TabIndex = 0;
 			this.AdmiralName.Text = "(提督名)";
 			this.AdmiralName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.AdmiralName.UseMnemonic = false;
 			// 
 			// AdmiralComment
 			// 
@@ -105,6 +106,7 @@
 			this.AdmiralComment.TabIndex = 1;
 			this.AdmiralComment.Text = "(提督コメント)";
 			this.AdmiralComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.AdmiralComment.UseMnemonic = false;
 			// 
 			// HQLevel
 			// 

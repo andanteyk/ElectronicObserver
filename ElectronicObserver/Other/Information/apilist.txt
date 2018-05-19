@@ -763,6 +763,8 @@ api_req_kousyou/remodel_slotlist_detail		：改修工廠　実行確認
 	api_req_slot_num		：消費する装備の個数
 	api_req_useitem_id		：消費するアイテムのID　なければ存在しない　71=ネ式エンジン　75=新型砲熕兵装資材
 	api_req_useitem_num		：消費するアイテムの個数　なければ存在しない
+	api_req_useitem_id2		：消費するアイテムのID (2個目) なければ存在しない　12.7cm連装砲C型改二+10 の更新時などに存在
+	api_req_useitem_num2	：消費するアイテムの個数 (2個目)
 	api_change_flag			：装備更新(アップグレード)フラグ
 
 Request.api_req_kousyou/remodel_slot	：改修工廠　改修実行
@@ -901,6 +903,10 @@ api_req_quest/clearitemget		：任務達成
 		api_type		：1=資源(バケツその他4種？), 2=艦隊解放, 3=家具箱, 4=大型艦建造解放, 5=基地航空隊開放?, 6=遠征臨時補給開放, 11=艦船, 12=装備, 13=アイテム, 14=家具, 15=機種転換, 16=装備消費, 18=???, 99=イベント海域解放
 		api_count		：取得個数
 		api_item		：アイテム追加情報 一般アイテムはnull イベント海域解放時は api_count = 1 にもかかわらず null
+			(艦船の場合)
+			api_ship_id	：艦船ID(固有でないほう)
+			api_name	：艦船名
+			api_getmes	：ドロップ時メッセージ
 			(アイテム/装備の場合)
 			api_id		：装備アイテム=ID、家具箱=0
 			api_name	：アイテム名 家具箱系/装備のみ
@@ -989,7 +995,7 @@ api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ�
 			54=秋月型
 			55=Admiral Hipper級
 			56=香取型
-			57=UボートIXC型/呂号潜水艦
+			57=UボートIXC型
 			58=V.Veneto級
 			59=秋津洲型
 			60=改風早型
@@ -1013,6 +1019,13 @@ api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ�
 			78=Ark Royal級
 			79=Richelieu級
 			80=Guglielmo Marconi級
+			81=Ташкент級
+			82=J級
+			83=Casablanca級
+			84=Essex級
+			85=日振型
+			86=呂号潜水艦
+			87=John C.Butler級
 		api_cnum			：艦番
 		api_taik			：耐久
 		api_souk			：装甲
@@ -2140,7 +2153,7 @@ Request.api_get_member/ship2	：艦船情報
 
 api_get_member/ship2		：艦船情報(現在はケッコンカッコカリ・給糧艦使用時等、限られたシーンでのみ使用)
 	(以下のメンバは api_result 等と同じ階層に存在するため注意)
-	api_data		：艦船データ　req.api_shipid が存在する場合は指定された艦1隻のみ、存在しなければ全艦？
+	api_data		：艦船データ　req.api_shipid が存在する場合は指定された艦1隻のみ、存在しなければ全艦
 	api_data_deck	：艦隊データ　指定にかかわらず全艦隊のデータが送られてくる
 
 Request.api_get_member/ship_deck	：進撃中
@@ -3279,8 +3292,9 @@ api_get_member/material
 《任務報酬受領》
 api_req_quest/clearitemget
 api_get_member/material		(資源獲得時)
+api_get_member/ship2		(艦船獲得時)
 api_get_member/useitem		(アイテム獲得時)
-api_get_member/slot_item	(装備獲得時)
+api_get_member/slot_item	(艦船/装備獲得時)
 api_get_member/unsetslot	(装備獲得時)
 api_get_member/questlist
 

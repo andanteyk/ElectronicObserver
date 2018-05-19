@@ -49,6 +49,14 @@
 			this.MapDifficulty = new System.Windows.Forms.ComboBox();
 			this.ButtonRun = new System.Windows.Forms.Button();
 			this.RecordView = new System.Windows.Forms.DataGridView();
+			this.RecordView_Header = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_Map = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_Rank = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_RankS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_RankA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.RecordView_RankB = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.IsBossOnly = new System.Windows.Forms.CheckBox();
 			this.MapAreaID = new System.Windows.Forms.ComboBox();
 			this.MapInfoID = new System.Windows.Forms.ComboBox();
@@ -62,14 +70,6 @@
 			this.StatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.Searcher = new System.ComponentModel.BackgroundWorker();
-			this.RecordView_Header = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.RecordView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.RecordView_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.RecordView_Map = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.RecordView_Rank = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.RecordView_RankS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.RecordView_RankA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.RecordView_RankB = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.RecordView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -239,14 +239,14 @@
 			this.RecordView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.RecordView.ColumnHeadersVisible = false;
 			this.RecordView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.RecordView_Header,
-			this.RecordView_Name,
-			this.RecordView_Date,
-			this.RecordView_Map,
-			this.RecordView_Rank,
-			this.RecordView_RankS,
-			this.RecordView_RankA,
-			this.RecordView_RankB});
+            this.RecordView_Header,
+            this.RecordView_Name,
+            this.RecordView_Date,
+            this.RecordView_Map,
+            this.RecordView_Rank,
+            this.RecordView_RankS,
+            this.RecordView_RankA,
+            this.RecordView_RankB});
 			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle5.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -264,10 +264,72 @@
 			this.RecordView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.RecordView.Size = new System.Drawing.Size(624, 315);
 			this.RecordView.TabIndex = 1;
+			this.RecordView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.RecordView_CellDoubleClick);
 			this.RecordView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.RecordView_CellFormatting);
+			this.RecordView.SelectionChanged += new System.EventHandler(this.RecordView_SelectionChanged);
 			this.RecordView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.RecordView_SortCompare);
 			this.RecordView.Sorted += new System.EventHandler(this.RecordView_Sorted);
-			this.RecordView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.RecordView_CellDoubleClick);
+			// 
+			// RecordView_Header
+			// 
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.RecordView_Header.DefaultCellStyle = dataGridViewCellStyle1;
+			this.RecordView_Header.HeaderText = "";
+			this.RecordView_Header.Name = "RecordView_Header";
+			this.RecordView_Header.ReadOnly = true;
+			this.RecordView_Header.Width = 50;
+			// 
+			// RecordView_Name
+			// 
+			this.RecordView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.RecordView_Name.HeaderText = "名前";
+			this.RecordView_Name.Name = "RecordView_Name";
+			this.RecordView_Name.ReadOnly = true;
+			// 
+			// RecordView_Date
+			// 
+			this.RecordView_Date.HeaderText = "日付";
+			this.RecordView_Date.Name = "RecordView_Date";
+			this.RecordView_Date.ReadOnly = true;
+			this.RecordView_Date.Width = 150;
+			// 
+			// RecordView_Map
+			// 
+			this.RecordView_Map.HeaderText = "海域";
+			this.RecordView_Map.Name = "RecordView_Map";
+			this.RecordView_Map.ReadOnly = true;
+			this.RecordView_Map.Width = 120;
+			// 
+			// RecordView_Rank
+			// 
+			this.RecordView_Rank.HeaderText = "ランク";
+			this.RecordView_Rank.Name = "RecordView_Rank";
+			this.RecordView_Rank.ReadOnly = true;
+			this.RecordView_Rank.Width = 40;
+			// 
+			// RecordView_RankS
+			// 
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.RecordView_RankS.DefaultCellStyle = dataGridViewCellStyle2;
+			this.RecordView_RankS.HeaderText = "S勝利";
+			this.RecordView_RankS.Name = "RecordView_RankS";
+			this.RecordView_RankS.ReadOnly = true;
+			// 
+			// RecordView_RankA
+			// 
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.RecordView_RankA.DefaultCellStyle = dataGridViewCellStyle3;
+			this.RecordView_RankA.HeaderText = "A勝利";
+			this.RecordView_RankA.Name = "RecordView_RankA";
+			this.RecordView_RankA.ReadOnly = true;
+			// 
+			// RecordView_RankB
+			// 
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.RecordView_RankB.DefaultCellStyle = dataGridViewCellStyle4;
+			this.RecordView_RankB.HeaderText = "B勝利";
+			this.RecordView_RankB.Name = "RecordView_RankB";
+			this.RecordView_RankB.ReadOnly = true;
 			// 
 			// IsBossOnly
 			// 
@@ -405,7 +467,7 @@
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.StatusInfo});
+            this.StatusInfo});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 419);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(624, 22);
@@ -430,67 +492,6 @@
 			this.Searcher.WorkerSupportsCancellation = true;
 			this.Searcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Searcher_DoWork);
 			this.Searcher.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Searcher_RunWorkerCompleted);
-			// 
-			// RecordView_Header
-			// 
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.RecordView_Header.DefaultCellStyle = dataGridViewCellStyle1;
-			this.RecordView_Header.HeaderText = "";
-			this.RecordView_Header.Name = "RecordView_Header";
-			this.RecordView_Header.ReadOnly = true;
-			this.RecordView_Header.Width = 50;
-			// 
-			// RecordView_Name
-			// 
-			this.RecordView_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.RecordView_Name.HeaderText = "名前";
-			this.RecordView_Name.Name = "RecordView_Name";
-			this.RecordView_Name.ReadOnly = true;
-			// 
-			// RecordView_Date
-			// 
-			this.RecordView_Date.HeaderText = "日付";
-			this.RecordView_Date.Name = "RecordView_Date";
-			this.RecordView_Date.ReadOnly = true;
-			this.RecordView_Date.Width = 150;
-			// 
-			// RecordView_Map
-			// 
-			this.RecordView_Map.HeaderText = "海域";
-			this.RecordView_Map.Name = "RecordView_Map";
-			this.RecordView_Map.ReadOnly = true;
-			this.RecordView_Map.Width = 120;
-			// 
-			// RecordView_Rank
-			// 
-			this.RecordView_Rank.HeaderText = "ランク";
-			this.RecordView_Rank.Name = "RecordView_Rank";
-			this.RecordView_Rank.ReadOnly = true;
-			this.RecordView_Rank.Width = 40;
-			// 
-			// RecordView_RankS
-			// 
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.RecordView_RankS.DefaultCellStyle = dataGridViewCellStyle2;
-			this.RecordView_RankS.HeaderText = "S勝利";
-			this.RecordView_RankS.Name = "RecordView_RankS";
-			this.RecordView_RankS.ReadOnly = true;
-			// 
-			// RecordView_RankA
-			// 
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.RecordView_RankA.DefaultCellStyle = dataGridViewCellStyle3;
-			this.RecordView_RankA.HeaderText = "A勝利";
-			this.RecordView_RankA.Name = "RecordView_RankA";
-			this.RecordView_RankA.ReadOnly = true;
-			// 
-			// RecordView_RankB
-			// 
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.RecordView_RankB.DefaultCellStyle = dataGridViewCellStyle4;
-			this.RecordView_RankB.HeaderText = "B勝利";
-			this.RecordView_RankB.Name = "RecordView_RankB";
-			this.RecordView_RankB.ReadOnly = true;
 			// 
 			// DialogDropRecordViewer
 			// 

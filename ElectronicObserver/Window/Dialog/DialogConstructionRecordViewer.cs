@@ -783,5 +783,31 @@ namespace ElectronicObserver.Window.Dialog
 		}
 
 
+		private void RecordView_SelectionChanged(object sender, EventArgs e)
+		{
+			var args = RecordView.Tag as SearchArgument;
+			if (args == null)
+				return;
+
+			int selectedCount = RecordView.Rows.GetRowCount(DataGridViewElementStates.Selected);
+
+			if (selectedCount == 0)
+				return;
+
+			if (args.MergeRows)
+			{
+				int count = RecordView.SelectedRows.OfType<DataGridViewRow>().Select(r => (int)r.Cells[RecordView_Header.Index].Value).Sum();
+				int allcount = RecordView.Rows.OfType<DataGridViewRow>().Select(r => (int)r.Cells[RecordView_Header.Index].Value).Sum();
+
+				StatusInfo.Text = string.Format("選択項目の合計: {0} / {1} ({2:p1})",
+					count, allcount, (double)count / allcount);
+			}
+			else
+			{
+				int allcount = RecordView.RowCount;
+				StatusInfo.Text = string.Format("選択項目の合計: {0} / {1} ({2:p1})",
+					selectedCount, allcount, (double)selectedCount / allcount);
+			}
+		}
 	}
 }

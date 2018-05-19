@@ -18,6 +18,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou
 			if (ship != null)
 			{
 				ship.LoadFromRequest(APIName, data);
+
+				Utility.Logger.Add(2, $"{ship.NameWithLevel} の補強装備増設改修が完了しました。");
 			}
 
 			base.OnRequestReceived(data);

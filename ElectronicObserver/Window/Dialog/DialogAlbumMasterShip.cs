@@ -296,7 +296,12 @@ namespace ElectronicObserver.Window.Dialog
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion, Constants.GetVoiceFlag(ship.VoiceFlag)));
 
 			ShipType.Text = ship.IsLandBase ? "陸上施設" : ship.ShipTypeName;
-			ToolTipInfo.SetToolTip(ShipType, Constants.GetShipClass(ship.ShipClass));
+			if (ship.IsAbyssalShip)
+				ToolTipInfo.SetToolTip(ShipType, null);
+			else if (Constants.GetShipClass(ship.ShipClass) == "不明")
+				ToolTipInfo.SetToolTip(ShipType, $"不明({ship.ShipClass})");
+			else
+				ToolTipInfo.SetToolTip(ShipType, Constants.GetShipClass(ship.ShipClass));
 			ShipName.Text = ship.NameWithClass;
 			ShipName.ForeColor = ship.GetShipNameColor();
 			ToolTipInfo.SetToolTip(ShipName, (!ship.IsAbyssalShip ? ship.NameReading + "\r\n" : "") + "(右クリックでコピー)");
@@ -1226,39 +1231,30 @@ namespace ElectronicObserver.Window.Dialog
 			if (string.IsNullOrWhiteSpace(TextSearch.Text))
 				return;
 
-			string searchWord = ToHiragana(TextSearch.Text.ToLower());
-			var target =
-				ShipView.Rows.OfType<DataGridViewRow>()
-				.Select(r => KCDatabase.Instance.MasterShips[(int)r.Cells[ShipView_ShipID.Index].Value])
-				.FirstOrDefault(
-				ship =>
-					ToHiragana(ship.NameWithClass.ToLower()).StartsWith(searchWord) ||
-					ToHiragana(ship.NameReading.ToLower()).StartsWith(searchWord));
 
-			if (target != null)
+			bool Search(string searchWord)
 			{
-				ShipView.FirstDisplayedScrollingRowIndex = ShipView.Rows.OfType<DataGridViewRow>().First(r => (int)r.Cells[ShipView_ShipID.Index].Value == target.ShipID).Index;
-			}
-		}
+				var target =
+					ShipView.Rows.OfType<DataGridViewRow>()
+					.Select(r => KCDatabase.Instance.MasterShips[(int)r.Cells[ShipView_ShipID.Index].Value])
+					.FirstOrDefault(
+					ship =>
+						Calculator.ToHiragana(ship.NameWithClass.ToLower()).StartsWith(searchWord) ||
+						Calculator.ToHiragana(ship.NameReading.ToLower()).StartsWith(searchWord));
 
-		public static string ToHiragana(string str)
-		{
-			// あまり深いことは考えずにやる
-			char hiraganaHead = '\x3041';
-			char katakanaHead = '\x30a1';
-			char katakanaTail = '\x30ff';
-
-			char[] chars = str.ToCharArray();
-			for (int i = 0; i < chars.Length; i++)
-			{
-				if (katakanaHead <= chars[i] && chars[i] <= katakanaTail)
-				{       // is katakana
-					chars[i] = (char)((int)chars[i] - (int)katakanaHead + (int)hiraganaHead);
+				if (target != null)
+				{
+					ShipView.FirstDisplayedScrollingRowIndex = ShipView.Rows.OfType<DataGridViewRow>().First(r => (int)r.Cells[ShipView_ShipID.Index].Value == target.ShipID).Index;
+					return true;
 				}
+				return false;
 			}
 
-			return new string(chars);
+			if (!Search(Calculator.ToHiragana(TextSearch.Text.ToLower())))
+				Search(Calculator.RomaToHira(TextSearch.Text));
+
 		}
+
 
 		private void TextSearch_KeyDown(object sender, KeyEventArgs e)
 		{

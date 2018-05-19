@@ -156,15 +156,8 @@ namespace ElectronicObserver.Window
 					sb.AppendLine("所属海域: " + areaName);
 
 					// state 
-					if (corps.Squadrons.Values.Any(sq => sq != null && sq.AircraftCurrent < sq.AircraftMax))
-					{
-						// 未補給
-						Name.ImageAlign = ContentAlignment.MiddleRight;
-						Name.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
-						sb.AppendLine("未補給");
 
-					}
-					else if (corps.Squadrons.Values.Any(sq => sq != null && sq.Condition > 1))
+					if (corps.Squadrons.Values.Any(sq => sq != null && sq.Condition > 1))
 					{
 						// 疲労
 						int tired = corps.Squadrons.Values.Max(sq => sq?.Condition ?? 0);
@@ -183,6 +176,14 @@ namespace ElectronicObserver.Window
 							sb.AppendLine("過労");
 
 						}
+
+					}
+					else if (corps.Squadrons.Values.Any(sq => sq != null && sq.AircraftCurrent < sq.AircraftMax))
+					{
+						// 未補給
+						Name.ImageAlign = ContentAlignment.MiddleRight;
+						Name.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
+						sb.AppendLine("未補給");
 
 					}
 					else
