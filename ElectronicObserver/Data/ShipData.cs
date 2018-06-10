@@ -349,11 +349,19 @@ namespace ElectronicObserver.Data
 			{
 				int param = EvasionTotal;
 				bool hasNaganamiGun = false;
+				bool hasIseGun = false;
 
 				var eqs = AllSlotInstance.Where(eq => eq != null);
 				foreach (var eq in eqs)
 				{
 					param -= eq.MasterEquipment.Evasion;
+
+
+					if (eq.EquipmentID == 104)      // 35.6cm連装砲(ダズル迷彩)
+					{
+						if (ShipID == 151)  // 榛名改二
+							param -= 2;
+					}
 
 					if (eq.EquipmentID == 267)        // 12.7cm連装砲D型改二
 					{
@@ -364,6 +372,22 @@ namespace ElectronicObserver.Data
 							MasterShip.ShipClass == 38 ||   // 夕雲型
 							MasterShip.ShipClass == 30)     // 陽炎型
 						{
+							param -= 1;
+						}
+					}
+
+					if (eq.EquipmentID == 289)       // 35.6cm三連装砲改(ダズル迷彩仕様)
+					{
+						if (ShipID == 151)  // 榛名改二
+							param -= 2;
+					}
+
+					if (eq.EquipmentID == 290)       // 41cm三連装砲改二
+					{
+						hasIseGun = true;
+
+						if (MasterShip.ShipClass == 2 && MasterShip.RemodelTier >= 1)
+						{       // 伊勢型改
 							param -= 1;
 						}
 					}
@@ -400,7 +424,7 @@ namespace ElectronicObserver.Data
 						case 5:     // 暁型
 						case 10:    // 初春型
 						case 12:    // 吹雪型
-							if (Name.Contains("改二"))		// Tier >= 2 だと "乙改" が引っかかるので
+							if (Name.Contains("改二"))        // Tier >= 2 だと "乙改" が引っかかるので
 								param -= 1;
 							break;
 					}
@@ -420,6 +444,15 @@ namespace ElectronicObserver.Data
 							break;
 					}
 				}
+
+				// 41cm三連装砲改二 + 対空電探による特殊補正
+				if (hasIseGun &&
+					MasterShip.ShipClass == 2 && MasterShip.RemodelTier >= 1 &&     // 伊勢型改
+					eqs.Any(eq => eq.MasterEquipment.IsAirRadar))
+				{
+					param -= 3;
+				}
+
 
 				return param;
 			}

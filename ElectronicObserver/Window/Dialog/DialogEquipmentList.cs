@@ -506,7 +506,7 @@ namespace ElectronicObserver.Window.Dialog
 
 							if (eq.Name == "なし") continue;
 
-							ShipData equippedShip = KCDatabase.Instance.Ships.Values.FirstOrDefault(s => s.Slot.Contains(eq.MasterID));
+							ShipData equippedShip = KCDatabase.Instance.Ships.Values.FirstOrDefault(s => s.AllSlot.Contains(eq.MasterID));
 
 
 							sw.WriteLine(arg,
