@@ -15,7 +15,7 @@ namespace ElectronicObserver.Window.Dialog
 {
 	public partial class DialogExpChecker : Form
 	{
-
+		private static readonly string DefaultTitle = "必要経験値計算";
 		private DataGridViewCellStyle CellStyleModernized;
 
 
@@ -64,6 +64,7 @@ namespace ElectronicObserver.Window.Dialog
 		public DialogExpChecker(int shipID) : this()
 		{
 			DefaultShipID = shipID;
+			Text = DefaultTitle;
 		}
 
 		private void DialogExpChecker_Load(object sender, EventArgs e)
@@ -78,7 +79,7 @@ namespace ElectronicObserver.Window.Dialog
 			}
 
 			SearchInFleet_CheckedChanged(this, new EventArgs());
-
+			ExpUnit.Value = Utility.Configuration.Config.Control.ExpCheckerExpUnit;
 
 			if (DefaultShipID != -1)
 				TextShip.SelectedItem = TextShip.Items.OfType<ComboShipData>().FirstOrDefault(f => f.Ship.MasterID == DefaultShipID);
@@ -89,6 +90,7 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void DialogExpChecker_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			Utility.Configuration.Config.Control.ExpCheckerExpUnit = (int)ExpUnit.Value;
 			ResourceManager.DestroyIcon(Icon);
 		}
 
@@ -207,7 +209,7 @@ namespace ElectronicObserver.Window.Dialog
 			int aswmod = (int)ASWModernization.Value;
 			int currentlv = selectedShip.Level;
 			int minlv = ShowAllLevel.Checked ? 1 : (currentlv + 1);
-			int unitexp = Math.Max((int)numericUpDown1.Value, 1);
+			int unitexp = Math.Max((int)ExpUnit.Value, 1);
 			var remodelLevelTable = GetRemodelLevelTable(selectedShip.MasterShip);
 
 			var rows = new DataGridViewRow[ExpTable.ShipMaximumLevel - (minlv - 1)];
@@ -242,6 +244,7 @@ namespace ElectronicObserver.Window.Dialog
 			LevelView.ResumeLayout();
 
 
+			Text = DefaultTitle + " - " + selectedShip.NameWithLevel;
 			GroupExp.Text = $"{selectedShip.NameWithLevel}: Exp. {selectedShip.ExpTotal}, 対潜 {selectedShip.ASWBase} (現在改修+{selectedShip.ASWModernized})";
 		}
 
@@ -295,7 +298,7 @@ namespace ElectronicObserver.Window.Dialog
 			UpdateLevelView();
 		}
 
-		private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+		private void ExpUnit_ValueChanged(object sender, EventArgs e)
 		{
 			UpdateLevelView();
 		}

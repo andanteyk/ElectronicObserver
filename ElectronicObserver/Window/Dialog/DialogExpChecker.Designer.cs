@@ -42,19 +42,19 @@
 			this.ShowAllLevel = new System.Windows.Forms.CheckBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.ASWModernization = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.ExpUnit = new System.Windows.Forms.NumericUpDown();
 			this.TextShip = new System.Windows.Forms.ComboBox();
 			this.GroupExp = new System.Windows.Forms.GroupBox();
 			this.LevelView = new System.Windows.Forms.DataGridView();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ColumnLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnExp = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnSortieCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnASW = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnEquipment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ASWModernization)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.ExpUnit)).BeginInit();
 			this.GroupExp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.LevelView)).BeginInit();
 			this.SuspendLayout();
@@ -63,15 +63,15 @@
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Controls.Add(this.TextShip);
+			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.SearchInFleet);
 			this.groupBox1.Controls.Add(this.label1);
-			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.ShowAllASWEquipments);
 			this.groupBox1.Controls.Add(this.ShowAllLevel);
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.ASWModernization);
-			this.groupBox1.Controls.Add(this.numericUpDown1);
-			this.groupBox1.Controls.Add(this.TextShip);
+			this.groupBox1.Controls.Add(this.ExpUnit);
 			this.groupBox1.Location = new System.Drawing.Point(13, 13);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(599, 86);
@@ -86,7 +86,7 @@
 			this.SearchInFleet.Location = new System.Drawing.Point(306, 24);
 			this.SearchInFleet.Name = "SearchInFleet";
 			this.SearchInFleet.Size = new System.Drawing.Size(90, 19);
-			this.SearchInFleet.TabIndex = 10;
+			this.SearchInFleet.TabIndex = 2;
 			this.SearchInFleet.Text = "艦隊から探す";
 			this.ToolTipInfo.SetToolTip(this.SearchInFleet, "現在艦隊に所属している艦のみ選択可能にします。");
 			this.SearchInFleet.UseVisualStyleBackColor = true;
@@ -118,7 +118,7 @@
 			this.ShowAllASWEquipments.Location = new System.Drawing.Point(483, 24);
 			this.ShowAllASWEquipments.Name = "ShowAllASWEquipments";
 			this.ShowAllASWEquipments.Size = new System.Drawing.Size(110, 19);
-			this.ShowAllASWEquipments.TabIndex = 3;
+			this.ShowAllASWEquipments.TabIndex = 4;
 			this.ShowAllASWEquipments.Text = "対潜装備全表示";
 			this.ToolTipInfo.SetToolTip(this.ShowAllASWEquipments, "すべてのソナー・爆雷の組み合わせを表示します。");
 			this.ShowAllASWEquipments.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
 			this.ShowAllLevel.Location = new System.Drawing.Point(402, 24);
 			this.ShowAllLevel.Name = "ShowAllLevel";
 			this.ShowAllLevel.Size = new System.Drawing.Size(75, 19);
-			this.ShowAllLevel.TabIndex = 2;
+			this.ShowAllLevel.TabIndex = 3;
 			this.ShowAllLevel.Text = "全Lv表示";
 			this.ToolTipInfo.SetToolTip(this.ShowAllLevel, "有効な時は Lv. 1 から表示します。\r\n無効な時は次のレベルから表示します。");
 			this.ShowAllLevel.UseVisualStyleBackColor = true;
@@ -163,26 +163,26 @@
 			this.ToolTipInfo.SetToolTip(this.ASWModernization, "対潜改修値を現在値から変更します。");
 			this.ASWModernization.ValueChanged += new System.EventHandler(this.ASWModernization_ValueChanged);
 			// 
-			// numericUpDown1
+			// ExpUnit
 			// 
-			this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown1.Location = new System.Drawing.Point(513, 57);
-			this.numericUpDown1.Maximum = new decimal(new int[] {
+			this.ExpUnit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ExpUnit.Location = new System.Drawing.Point(513, 57);
+			this.ExpUnit.Maximum = new decimal(new int[] {
             9999,
             0,
             0,
             0});
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(80, 23);
-			this.numericUpDown1.TabIndex = 8;
-			this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.ToolTipInfo.SetToolTip(this.numericUpDown1, "1回の出撃当たりの獲得Exp. を入力すると、出撃回数が計算できます。");
-			this.numericUpDown1.Value = new decimal(new int[] {
+			this.ExpUnit.Name = "ExpUnit";
+			this.ExpUnit.Size = new System.Drawing.Size(80, 23);
+			this.ExpUnit.TabIndex = 8;
+			this.ExpUnit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ToolTipInfo.SetToolTip(this.ExpUnit, "1回の出撃当たりの獲得Exp. を入力すると、出撃回数が計算できます。");
+			this.ExpUnit.Value = new decimal(new int[] {
             2268,
             0,
             0,
             0});
-			this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+			this.ExpUnit.ValueChanged += new System.EventHandler(this.ExpUnit_ValueChanged);
 			// 
 			// TextShip
 			// 
@@ -191,6 +191,7 @@
 			this.TextShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.TextShip.FormattingEnabled = true;
 			this.TextShip.Location = new System.Drawing.Point(55, 22);
+			this.TextShip.MinimumSize = new System.Drawing.Size(150, 0);
 			this.TextShip.Name = "TextShip";
 			this.TextShip.Size = new System.Drawing.Size(245, 23);
 			this.TextShip.TabIndex = 1;
@@ -217,7 +218,7 @@
 			this.LevelView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.LevelView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.LevelView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.LevelView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnLevel,
             this.ColumnExp,
@@ -241,6 +242,13 @@
 			this.LevelView.Size = new System.Drawing.Size(587, 296);
 			this.LevelView.TabIndex = 0;
 			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
 			// ColumnLevel
 			// 
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
@@ -248,7 +256,7 @@
 			this.ColumnLevel.HeaderText = "Lv";
 			this.ColumnLevel.Name = "ColumnLevel";
 			this.ColumnLevel.ReadOnly = true;
-			this.ColumnLevel.Width = 60;
+			this.ColumnLevel.Width = 40;
 			// 
 			// ColumnExp
 			// 
@@ -257,6 +265,7 @@
 			this.ColumnExp.HeaderText = "必要Exp";
 			this.ColumnExp.Name = "ColumnExp";
 			this.ColumnExp.ReadOnly = true;
+			this.ColumnExp.Width = 72;
 			// 
 			// ColumnSortieCount
 			// 
@@ -265,7 +274,7 @@
 			this.ColumnSortieCount.HeaderText = "出撃回数";
 			this.ColumnSortieCount.Name = "ColumnSortieCount";
 			this.ColumnSortieCount.ReadOnly = true;
-			this.ColumnSortieCount.Width = 80;
+			this.ColumnSortieCount.Width = 72;
 			// 
 			// ColumnASW
 			// 
@@ -274,7 +283,7 @@
 			this.ColumnASW.HeaderText = "対潜";
 			this.ColumnASW.Name = "ColumnASW";
 			this.ColumnASW.ReadOnly = true;
-			this.ColumnASW.Width = 60;
+			this.ColumnASW.Width = 40;
 			// 
 			// ColumnEquipment
 			// 
@@ -283,13 +292,6 @@
 			this.ColumnEquipment.Name = "ColumnEquipment";
 			this.ColumnEquipment.ReadOnly = true;
 			this.ColumnEquipment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
 			// 
 			// DialogExpChecker
 			// 
@@ -307,7 +309,7 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ASWModernization)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ExpUnit)).EndInit();
 			this.GroupExp.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.LevelView)).EndInit();
 			this.ResumeLayout(false);
@@ -320,19 +322,19 @@
 		private System.Windows.Forms.ComboBox TextShip;
 		private System.Windows.Forms.GroupBox GroupExp;
 		private System.Windows.Forms.DataGridView LevelView;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.NumericUpDown ExpUnit;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.NumericUpDown ASWModernization;
 		private System.Windows.Forms.CheckBox ShowAllASWEquipments;
 		private System.Windows.Forms.CheckBox ShowAllLevel;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.CheckBox SearchInFleet;
+		private System.Windows.Forms.ToolTip ToolTipInfo;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLevel;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExp;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSortieCount;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnASW;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnEquipment;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.CheckBox SearchInFleet;
-		private System.Windows.Forms.ToolTip ToolTipInfo;
 	}
 }
