@@ -472,6 +472,7 @@ namespace ElectronicObserver.Window
 
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
+					Level.Tag = ship.MasterID;
 
 					{
 						StringBuilder tip = new StringBuilder();
@@ -610,7 +611,7 @@ namespace ElectronicObserver.Window
 
 			private void Level_MouseDown(object sender, MouseEventArgs e)
 			{
-				if (Name.Tag is int id && id != -1)
+				if (Level.Tag is int id && id != -1)
 				{
 					if ((e.Button & MouseButtons.Right) != 0)
 					{
