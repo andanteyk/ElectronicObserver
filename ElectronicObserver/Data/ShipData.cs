@@ -738,53 +738,60 @@ namespace ElectronicObserver.Data
 
 				switch (slot.MasterEquipment.CategoryType)
 				{
+					case EquipmentTypes.MainGunSmall:
+					case EquipmentTypes.MainGunMedium:
+					case EquipmentTypes.APShell:
+					case EquipmentTypes.AADirector:
+					case EquipmentTypes.Searchlight:
+					case EquipmentTypes.SearchlightLarge:
+					case EquipmentTypes.AAGun:
+					case EquipmentTypes.LandingCraft:
+					case EquipmentTypes.SpecialAmphibiousTank:
+						basepower += Math.Sqrt(slot.Level);
+						break;
+
 					case EquipmentTypes.MainGunLarge:
 					case EquipmentTypes.MainGunLarge2:
 						basepower += Math.Sqrt(slot.Level) * 1.5;
 						break;
 
+					case EquipmentTypes.SecondaryGun:
+						switch (slot.EquipmentID)
+						{
+							case 10:        // 12.7cm連装高角砲
+							case 66:        // 8cm高角砲
+							case 220:       // 8cm高角砲改+増設機銃
+							case 275:       // 10cm連装高角砲改+増設機銃
+								basepower += 0.2 * slot.Level;
+								break;
+
+							case 12:        // 15.5cm三連装副砲
+							case 234:       // 15.5cm三連装副砲改
+								basepower += 0.3 * slot.Level;
+								break;
+
+							default:
+								basepower += Math.Sqrt(slot.Level);
+								break;
+						}
+						break;
+
 					case EquipmentTypes.Sonar:
-					case EquipmentTypes.DepthCharge:
+					case EquipmentTypes.SonarLarge:
 						basepower += Math.Sqrt(slot.Level) * 0.75;
 						break;
 
-					case EquipmentTypes.Torpedo:
-					case EquipmentTypes.SeaplaneRecon:
-					case EquipmentTypes.RadarSmall:
-					case EquipmentTypes.RadarLarge:
-					case EquipmentTypes.SubmarineTorpedo:
-						break;  //  → 無視
-
-					default:
-						basepower += Math.Sqrt(slot.Level);
+					case EquipmentTypes.DepthCharge:
+						if (slot.MasterEquipment.IsDepthChargeProjector)
+							basepower += Math.Sqrt(slot.Level) * 0.75;
 						break;
+
 				}
 			}
 			return basepower;
 		}
 
-		/// <summary>
-		/// 装備改修補正(空撃)
-		/// </summary>
-		/// <returns></returns>
-		private double GetAircraftEquipmentLevelBonus()
-		{
 
-			double basepower = 0;
-			foreach (var slot in AllSlotInstance)
-			{
-				if (slot == null)
-					continue;
-
-				switch (slot.MasterEquipment.CategoryType)
-				{
-					case EquipmentTypes.SecondaryGun:
-						basepower += Math.Sqrt(slot.Level);
-						break;
-				}
-			}
-			return basepower;
-		}
 
 		/// <summary>
 		/// 装備改修補正(雷撃戦)
@@ -824,7 +831,7 @@ namespace ElectronicObserver.Data
 				{
 					case EquipmentTypes.DepthCharge:
 					case EquipmentTypes.Sonar:
-						basepower += Math.Sqrt(slot.Level) * 1.2;
+						basepower += Math.Sqrt(slot.Level);
 						break;
 				}
 			}
@@ -847,7 +854,6 @@ namespace ElectronicObserver.Data
 					case EquipmentTypes.MainGunSmall:
 					case EquipmentTypes.MainGunMedium:
 					case EquipmentTypes.MainGunLarge:
-					case EquipmentTypes.SecondaryGun:
 					case EquipmentTypes.Torpedo:
 					case EquipmentTypes.APShell:
 					case EquipmentTypes.LandingCraft:
@@ -858,6 +864,27 @@ namespace ElectronicObserver.Data
 					case EquipmentTypes.SearchlightLarge:
 					case EquipmentTypes.SpecialAmphibiousTank:
 						basepower += Math.Sqrt(slot.Level);
+						break;
+
+					case EquipmentTypes.SecondaryGun:
+						switch (slot.EquipmentID)
+						{
+							case 10:        // 12.7cm連装高角砲
+							case 66:        // 8cm高角砲
+							case 220:       // 8cm高角砲改+増設機銃
+							case 275:       // 10cm連装高角砲改+増設機銃
+								basepower += 0.2 * slot.Level;
+								break;
+
+							case 12:        // 15.5cm三連装副砲
+							case 234:       // 15.5cm三連装副砲改
+								basepower += 0.3 * slot.Level;
+								break;
+
+							default:
+								basepower += Math.Sqrt(slot.Level);
+								break;
+						}
 						break;
 				}
 			}
@@ -1121,7 +1148,7 @@ namespace ElectronicObserver.Data
 				return 0;
 
 
-			double basepower = Math.Floor((FirepowerTotal + TorpedoTotal + Math.Floor(BomberTotal * 1.3) + GetAircraftEquipmentLevelBonus() + GetCombinedFleetShellingDamageBonus()) * 1.5) + 55;
+			double basepower = Math.Floor((FirepowerTotal + TorpedoTotal + Math.Floor(BomberTotal * 1.3) + GetDayBattleEquipmentLevelBonus() + GetCombinedFleetShellingDamageBonus()) * 1.5) + 55;
 
 			basepower *= GetHPDamageBonus() * GetEngagementFormDamageRate(engagementForm);
 
@@ -1283,6 +1310,10 @@ namespace ElectronicObserver.Data
 			}
 			else if (ShipID == 515 || ShipID == 393)
 			{       // Ark Royal (改)
+				basepower = FirepowerBase + SlotInstanceMaster.Where(eq => eq?.IsSwordfish ?? false).Sum(eq => eq.Firepower + eq.Torpedo);
+			}
+			else if (ShipID == 353 || ShipID == 432 || ShipID == 433)
+			{       // Graf Zeppelin(改), Saratoga
 				basepower = FirepowerBase + SlotInstanceMaster.Where(eq => eq?.IsSwordfish ?? false).Sum(eq => eq.Firepower + eq.Torpedo);
 			}
 			else
