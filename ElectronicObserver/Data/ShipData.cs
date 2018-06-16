@@ -350,12 +350,17 @@ namespace ElectronicObserver.Data
 				int param = EvasionTotal;
 				bool hasNaganamiGun = false;
 				bool hasIseGun = false;
+				bool hasDazzleGunKai = false;
+				bool hasAirRadar = false;
+				bool hasSurfaceRadar = false;
 
 				var eqs = AllSlotInstance.Where(eq => eq != null);
 				foreach (var eq in eqs)
 				{
 					param -= eq.MasterEquipment.Evasion;
 
+
+					// 以下、重複ありの補正について
 
 					if (eq.EquipmentID == 104)      // 35.6cm連装砲(ダズル迷彩)
 					{
@@ -378,6 +383,8 @@ namespace ElectronicObserver.Data
 
 					if (eq.EquipmentID == 289)       // 35.6cm三連装砲改(ダズル迷彩仕様)
 					{
+						hasDazzleGunKai = true;
+
 						if (ShipID == 151)  // 榛名改二
 							param -= 2;
 					}
@@ -391,9 +398,37 @@ namespace ElectronicObserver.Data
 							param -= 1;
 						}
 					}
+
+					if(eq.EquipmentID == 237)       // 瑞雲(六三四空/熟練)
+					{
+						if(MasterShip.ShipClass == 2)		// 伊勢型
+						{
+							// 改は +1, 改二は +2
+							param -= MasterShip.RemodelTier;
+						}
+					}
+
+					if(eq.EquipmentID == 291)       // 彗星二二型(六三四空)
+					{
+						if (MasterShip.ShipClass == 2 && MasterShip.RemodelTier == 2)		// 伊勢型改二
+							param -= 1;
+					}
+
+					if (eq.EquipmentID == 292)       // 彗星二二型(六三四空/熟練)
+					{
+						if (MasterShip.ShipClass == 2 && MasterShip.RemodelTier == 2)       // 伊勢型改二
+							param -= 2;
+					}
+
+
+					hasAirRadar |= eq.MasterEquipment.IsAirRadar;
+					hasSurfaceRadar |= eq.MasterEquipment.IsSurfaceRadar;
 				}
 
-				// 北方迷彩(+北方装備)　による特殊補正（重複しない）
+
+				// 以下、重複なしの補正について
+
+				// 北方迷彩(+北方装備)　による特殊補正
 				if (eqs.Any(eq => eq.EquipmentID == 268))
 				{
 					switch (ShipID)
@@ -410,7 +445,7 @@ namespace ElectronicObserver.Data
 				// 12.7cm連装砲D型改二 + 水上電探 による特殊補正
 				if (hasNaganamiGun &&
 					(ShipID == 229 || ShipID == 543) &&     // 島風改, 長波改二
-					eqs.Any(eq => eq.MasterEquipment.IsSurfaceRadar))
+					hasSurfaceRadar)
 				{
 					param -= 2;
 				}
@@ -448,11 +483,37 @@ namespace ElectronicObserver.Data
 				// 41cm三連装砲改二 + 対空電探による特殊補正
 				if (hasIseGun &&
 					MasterShip.ShipClass == 2 && MasterShip.RemodelTier >= 1 &&     // 伊勢型改
-					eqs.Any(eq => eq.MasterEquipment.IsAirRadar))
+					hasAirRadar)
 				{
 					param -= 3;
 				}
 
+				// 35.6cm三連装砲改(ダズル迷彩仕様) + 水上電探 による特殊補正
+				if(hasDazzleGunKai && hasSurfaceRadar)
+				{
+					if (ShipID == 149 || ShipID == 151)     // 金剛改二 or 榛名改二
+						param -= 2;
+				}
+
+				// 伊勢改二の艦載機補正
+				if (ShipID == 553)
+				{
+					if (eqs.Any(eq => eq.EquipmentID == 61))        // 二式艦上偵察機
+						param -= 2;
+				}
+
+				// 12.7cm単装高角砲(後期型)+10 + 水上電探による特殊補正
+				if (eqs.Any(eq => eq.EquipmentID == 229 && eq.Level == 10) && hasSurfaceRadar)
+				{
+					if (MasterShip.ShipClass == 28 || MasterShip.ShipClass == 66)   // 睦月型 or 神風型
+						param -= 3;
+
+					else if (MasterShip.ShipType == ShipTypes.Escort)
+						param -= 4;
+
+					else if (ShipID == 488)     // 由良改二
+						param -= 2;
+				}
 
 				return param;
 			}
