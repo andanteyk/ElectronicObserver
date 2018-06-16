@@ -1315,6 +1315,7 @@ namespace ElectronicObserver.Utility.Data
 
 				case 82:    // 伊勢改
 				case 88:    // 日向改
+				case 553:	// 伊勢改二
 					if (aarocketmod >= 1 && aaradar >= 1)
 					{
 						if (aashell >= 1)
