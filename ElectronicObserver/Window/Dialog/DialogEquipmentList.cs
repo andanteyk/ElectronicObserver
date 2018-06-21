@@ -79,8 +79,11 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void DialogEquipmentList_Load(object sender, EventArgs e)
 		{
+            Task.Run(() => {
+                UpdateView();
+            });
 
-			UpdateView();
+			
 
 			this.Icon = ResourceManager.ImageToIcon(ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormEquipmentList]);
 
@@ -210,92 +213,146 @@ namespace ElectronicObserver.Window.Dialog
 		}
 
 
-		/// <summary>
-		/// 一覧ビューを更新します。
-		/// </summary>
-		private void UpdateView()
-		{
+        /// <summary>
+        /// 一覧ビューを更新します。
+        /// </summary>
+        private void UpdateView()
+        {
 
-			var ships = KCDatabase.Instance.Ships.Values;
-			var equipments = KCDatabase.Instance.Equipments.Values;
-			var masterEquipments = KCDatabase.Instance.MasterEquipments;
-			int masterCount = masterEquipments.Values.Count(eq => !eq.IsAbyssalEquipment);
+            var ships = KCDatabase.Instance.Ships.Values;
+            var equipments = KCDatabase.Instance.Equipments.Values;
+            var masterEquipments = KCDatabase.Instance.MasterEquipments;
+            int masterCount = masterEquipments.Values.Count(eq => !eq.IsAbyssalEquipment);
 
-			var allCount = equipments.GroupBy(eq => eq.EquipmentID).ToDictionary(group => group.Key, group => group.Count());
+            var allCount = equipments.GroupBy(eq => eq.EquipmentID).ToDictionary(group => group.Key, group => group.Count());
 
-			var remainCount = new Dictionary<int, int>(allCount);
-
-
-			//剰余数計算
-			foreach (var eq in ships
-				.SelectMany(s => s.AllSlotInstanceMaster)
-				.Where(eq => eq != null))
-			{
-
-				remainCount[eq.EquipmentID]--;
-			}
-
-			foreach (var eq in KCDatabase.Instance.BaseAirCorps.Values
-				.SelectMany(corps => corps.Squadrons.Values.Select(sq => sq.EquipmentInstance))
-				.Where(eq => eq != null))
-			{
-
-				remainCount[eq.EquipmentID]--;
-			}
-
-			foreach (var eq in KCDatabase.Instance.RelocatedEquipments.Values
-				.Where(eq => eq.EquipmentInstance != null))
-			{
-
-				remainCount[eq.EquipmentInstance.EquipmentID]--;
-			}
+            var remainCount = new Dictionary<int, int>(allCount);
 
 
+            //剰余数計算
+            foreach (var eq in ships
+                .SelectMany(s => s.AllSlotInstanceMaster)
+                .Where(eq => eq != null))
+            {
 
-			//表示処理
-			EquipmentView.SuspendLayout();
+                remainCount[eq.EquipmentID]--;
+            }
 
-			EquipmentView.Enabled = false;
-			EquipmentView.Rows.Clear();
+            foreach (var eq in KCDatabase.Instance.BaseAirCorps.Values
+                .SelectMany(corps => corps.Squadrons.Values.Select(sq => sq.EquipmentInstance))
+                .Where(eq => eq != null))
+            {
 
+                remainCount[eq.EquipmentID]--;
+            }
 
-			var rows = new List<DataGridViewRow>(allCount.Count);
-			var ids = allCount.Keys;
+            foreach (var eq in KCDatabase.Instance.RelocatedEquipments.Values
+                .Where(eq => eq.EquipmentInstance != null))
+            {
 
-			foreach (int id in ids)
-			{
+                remainCount[eq.EquipmentInstance.EquipmentID]--;
+            }
 
-				var row = new DataGridViewRow();
-				row.CreateCells(EquipmentView);
-				row.SetValues(
-					id,
-					masterEquipments[id].IconType,
-					masterEquipments[id].Name,
-					allCount[id],
-					remainCount[id]
-					);
+            Action clearRows = new Action(() =>
+            {
+                EquipmentView.SuspendLayout();
+                EquipmentView.Enabled = false;
+                EquipmentView.Rows.Clear();
+            });
 
-				rows.Add(row);
-			}
+            //表示処理
+            if (this.InvokeRequired)
+            {
+                this.Invoke(clearRows);
+            }
+            else
+            {
+                clearRows();
+            }
 
-			for (int i = 0; i < rows.Count; i++)
-				rows[i].Tag = i;
-
-			EquipmentView.Rows.AddRange(rows.ToArray());
-
-			EquipmentView.Sort(EquipmentView_Name, ListSortDirection.Ascending);
-
-
-			EquipmentView.Enabled = true;
-			EquipmentView.ResumeLayout();
-
-			if (EquipmentView.Rows.Count > 0)
-				EquipmentView.CurrentCell = EquipmentView[0, 0];
-
-		}
+            var rows = new List<DataGridViewRow>(allCount.Count);
+            var ids = allCount.Keys;
 
 
-		private class DetailCounter : IIdentifiable
+            foreach (int id in ids)
+            {
+                //masterEquipments[id]
+                var eqs = KCDatabase.Instance.Equipments.Values.Where(eq => eq.EquipmentID == masterEquipments[id].EquipmentID);
+                var countlist = new IDDictionary<DetailCounter>();
+
+                foreach (var eq in eqs)
+                {
+                    var c = countlist[DetailCounter.CalculateID(eq)];
+                    if (c == null)
+                    {
+                        countlist.Add(new DetailCounter(eq.Level, eq.AircraftLevel));
+                        c = countlist[DetailCounter.CalculateID(eq)];
+                    }
+                    c.countAll++;
+                    c.countRemain++;
+                    c.countRemainPrev++;
+
+                }
+
+                var dicSort = from objDic in countlist orderby objDic.Value.level descending select objDic;
+
+                string levelText = string.Empty;
+                //create text [+7x1] [+5x1] [+2x1]
+                foreach (var item in dicSort)
+                {
+                    if (item.Value.level == 0) continue;
+                    levelText += $@"[+{item.Value.level}x{item.Value.countAll}] ";
+                }
+
+                var row = new DataGridViewRow();
+                row.CreateCells(EquipmentView);
+                row.SetValues(
+                    id,
+                    masterEquipments[id].IconType,
+                    masterEquipments[id].Name + " " + levelText,
+                    allCount[id],
+                    remainCount[id]
+                    );
+
+                rows.Add(row);
+            }
+
+            for (int i = 0; i < rows.Count; i++)
+                rows[i].Tag = i;
+
+
+            Action setItems = new Action(() =>
+            {
+                EquipmentView.Rows.AddRange(rows.ToArray());
+
+                EquipmentView.Sort(EquipmentView_Name, ListSortDirection.Ascending);
+
+
+                EquipmentView.Enabled = true;
+                EquipmentView.ResumeLayout();
+
+                if (EquipmentView.Rows.Count > 0)
+                    EquipmentView.CurrentCell = EquipmentView[0, 0];
+
+                this.labelLoad.Visible = false;
+            });
+
+            //表示処理
+            if (this.InvokeRequired)
+            {
+                this.Invoke(setItems);
+            }
+            else
+            {
+                setItems();
+            }
+
+
+
+        }
+
+
+        private class DetailCounter : IIdentifiable
 		{
 
 			public int level;
@@ -484,9 +541,7 @@ namespace ElectronicObserver.Window.Dialog
 
 		}
 
-
-
-		private void Menu_File_CSVOutput_Click(object sender, EventArgs e)
+        private void Menu_File_CSVOutput_Click(object sender, EventArgs e)
 		{
 
 			if (SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -506,7 +561,7 @@ namespace ElectronicObserver.Window.Dialog
 
 							if (eq.Name == "なし") continue;
 
-							ShipData equippedShip = KCDatabase.Instance.Ships.Values.FirstOrDefault(s => s.AllSlot.Contains(eq.MasterID));
+							ShipData equippedShip = KCDatabase.Instance.Ships.Values.FirstOrDefault(s => s.Slot.Contains(eq.MasterID));
 
 
 							sw.WriteLine(arg,
@@ -547,8 +602,11 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void TopMenu_File_Update_Click(object sender, EventArgs e)
 		{
-
-			UpdateView();
+            this.labelLoad.Visible = true;
+            Task.Run(() =>
+            {
+                UpdateView();
+            });
 		}
 
 
