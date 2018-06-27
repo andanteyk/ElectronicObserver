@@ -2259,8 +2259,8 @@ if( 対潜改修値 >= 9 ) {
     表示上(内部艦船データ上)は 超長(4) となるが、通常の超長の艦と出撃させた際に伊勢がほぼ確実に先制する。
 
 ソース：
-ダズル砲改+水上電探(榛名)：　[1](https://twitter.com/cheese_tara/status/1001524887981207552)
-12.7cm単装高角砲(後期型) +10：　[1](https://twitter.com/panmodoki10/status/1006924120624324608) [2](https://twitter.com/panmodoki10/status/1006919219567423488) [3](https://twitter.com/panmodoki10/status/1006917854799671296) [4](https://twitter.com/panmodoki10/status/1006898009202831362) [5](https://twitter.com/panmodoki10/status/1006885788196302848)
+ダズル砲改+水上電探(榛名)：　[1](https://twitter.com/cheese_tara/status/1001524887981207552)  
+12.7cm単装高角砲(後期型) +10：　[1](https://twitter.com/panmodoki10/status/1006924120624324608) [2](https://twitter.com/panmodoki10/status/1006919219567423488) [3](https://twitter.com/panmodoki10/status/1006917854799671296) [4](https://twitter.com/panmodoki10/status/1006898009202831362) [5](https://twitter.com/panmodoki10/status/1006885788196302848)  
 
 
 
