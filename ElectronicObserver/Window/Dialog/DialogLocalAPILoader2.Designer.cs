@@ -205,7 +205,7 @@
 			this.TextFilter.Name = "TextFilter";
 			this.TextFilter.Size = new System.Drawing.Size(438, 23);
 			this.TextFilter.TabIndex = 2;
-			this.TextFilter.Text = "S@api_start2";
+			this.TextFilter.Text = "S@api_start2@getData";
 			this.TextFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFilter_KeyDown);
 			// 
 			// ButtonExecuteNext

@@ -529,7 +529,7 @@ namespace ElectronicObserver.Resource.Record
 		{
 			APIObserver ao = APIObserver.Instance;
 
-			ao["api_start2"].ResponseReceived += GameStart;
+			ao["api_start2/getData"].ResponseReceived += GameStart;
 
 			ao["api_port/port"].ResponseReceived += ParameterLoaded;
 

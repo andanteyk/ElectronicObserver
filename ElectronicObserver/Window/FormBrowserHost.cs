@@ -348,7 +348,7 @@ namespace ElectronicObserver.Window
 
 				Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-				APIObserver.Instance.APIList["api_start2"].ResponseReceived +=
+				APIObserver.Instance.APIList["api_start2/getData"].ResponseReceived +=
 					(string apiname, dynamic data) => InitialAPIReceived(apiname, data);
 
 				// プロキシをセット
