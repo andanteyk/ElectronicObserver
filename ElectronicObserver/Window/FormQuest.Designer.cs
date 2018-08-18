@@ -39,6 +39,7 @@
 			this.QuestView_Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.QuestView_Progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.QuestView_PageNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.MenuProgress = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.MenuProgress_Increment = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuProgress_Decrement = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +60,7 @@
 			this.MenuMain_ShowDaily = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowOnce = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.MenuMain_ColumnFilter_Page = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowRunningOnly = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowMonthly = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuMain_ShowOther = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,11 +88,12 @@
 			this.QuestView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.QuestView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.QuestView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.QuestView_State,
-			this.QuestView_Type,
-			this.QuestView_Category,
-			this.QuestView_Name,
-			this.QuestView_Progress});
+            this.QuestView_State,
+            this.QuestView_Type,
+            this.QuestView_Category,
+            this.QuestView_Name,
+            this.QuestView_Progress,
+            this.QuestView_PageNum});
 			this.QuestView.ContextMenuStrip = this.MenuMain;
 			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
@@ -167,13 +170,20 @@
 			this.QuestView_Progress.ReadOnly = true;
 			this.QuestView_Progress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
+			// QuestView_PageNum
+			// 
+			this.QuestView_PageNum.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.QuestView_PageNum.HeaderText = "ページ";
+			this.QuestView_PageNum.Name = "QuestView_PageNum";
+			this.QuestView_PageNum.ReadOnly = true;
+			// 
 			// MenuProgress
 			// 
 			this.MenuProgress.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.MenuProgress_Increment,
-			this.MenuProgress_Decrement,
-			this.toolStripSeparator3,
-			this.MenuProgress_Reset});
+            this.MenuProgress_Increment,
+            this.MenuProgress_Decrement,
+            this.toolStripSeparator3,
+            this.MenuProgress_Reset});
 			this.MenuProgress.Name = "MenuProgress";
 			this.MenuProgress.Size = new System.Drawing.Size(149, 76);
 			// 
@@ -206,12 +216,12 @@
 			// MenuMain
 			// 
 			this.MenuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.MenuMain_QuestFilter,
-			this.MenuMain_ColumnFilter,
-			this.toolStripSeparator1,
-			this.MenuMain_GoogleQuest,
-			this.toolStripSeparator4,
-			this.MenuMain_Initialize});
+            this.MenuMain_QuestFilter,
+            this.MenuMain_ColumnFilter,
+            this.toolStripSeparator1,
+            this.MenuMain_GoogleQuest,
+            this.toolStripSeparator4,
+            this.MenuMain_Initialize});
 			this.MenuMain.Name = "MenuMain";
 			this.MenuMain.Size = new System.Drawing.Size(204, 126);
 			this.MenuMain.Opening += new System.ComponentModel.CancelEventHandler(this.MenuMain_Opening);
@@ -219,11 +229,12 @@
 			// MenuMain_ColumnFilter
 			// 
 			this.MenuMain_ColumnFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.MenuMain_ColumnFilter_State,
-			this.MenuMain_ColumnFilter_Type,
-			this.MenuMain_ColumnFilter_Category,
-			this.MenuMain_ColumnFilter_Name,
-			this.MenuMain_ColumnFilter_Progress});
+            this.MenuMain_ColumnFilter_State,
+            this.MenuMain_ColumnFilter_Type,
+            this.MenuMain_ColumnFilter_Category,
+            this.MenuMain_ColumnFilter_Name,
+            this.MenuMain_ColumnFilter_Progress,
+            this.MenuMain_ColumnFilter_Page});
 			this.MenuMain_ColumnFilter.Name = "MenuMain_ColumnFilter";
 			this.MenuMain_ColumnFilter.Size = new System.Drawing.Size(203, 22);
 			this.MenuMain_ColumnFilter.Text = "列フィルタ(&C)";
@@ -267,6 +278,14 @@
 			this.MenuMain_ColumnFilter_Progress.Size = new System.Drawing.Size(152, 22);
 			this.MenuMain_ColumnFilter_Progress.Text = "進捗(&P)";
 			this.MenuMain_ColumnFilter_Progress.Click += new System.EventHandler(this.MenuMain_ColumnFilter_Click);
+			// 
+			// MenuMain_ColumnFilter_Page
+			// 
+			this.MenuMain_ColumnFilter_Page.CheckOnClick = true;
+			this.MenuMain_ColumnFilter_Page.Name = "MenuMain_ColumnFilter_Page";
+			this.MenuMain_ColumnFilter_Page.Size = new System.Drawing.Size(152, 22);
+			this.MenuMain_ColumnFilter_Page.Text = "ページ";
+			this.MenuMain_ColumnFilter_Page.Click += new System.EventHandler(this.MenuMain_ColumnFilter_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -402,11 +421,13 @@
 		private System.Windows.Forms.ContextMenuStrip MenuProgress;
 		private System.Windows.Forms.ToolStripMenuItem MenuProgress_Increment;
 		private System.Windows.Forms.ToolStripMenuItem MenuProgress_Decrement;
+		private System.Windows.Forms.ToolStripMenuItem MenuMain_ColumnFilter_Page;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn QuestView_State;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Type;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Category;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Name;
 		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_Progress;
+		private System.Windows.Forms.DataGridViewTextBoxColumn QuestView_PageNum;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem MenuProgress_Reset;
 		private System.Windows.Forms.ToolStripMenuItem MenuMain_QuestFilter;

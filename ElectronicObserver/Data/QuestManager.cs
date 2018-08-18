@@ -98,6 +98,7 @@ namespace ElectronicObserver.Data
 						{
 							var q = new QuestData();
 							q.LoadFromResponse(apiname, elem);
+							q.DisplayPage = (int)RawData.api_disp_page;
 							Quests.Add(q);
 
 						}
