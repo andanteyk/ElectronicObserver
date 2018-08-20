@@ -15,9 +15,9 @@ namespace ElectronicObserver.Window.Dialog
 {
 	public partial class DialogExpChecker : Form
 	{
-
+		private static readonly string DefaultTitle = "必要経験値計算";
 		private DataGridViewCellStyle CellStyleModernized;
-		
+
 
 		private int DefaultShipID = -1;
 
@@ -64,6 +64,7 @@ namespace ElectronicObserver.Window.Dialog
 		public DialogExpChecker(int shipID) : this()
 		{
 			DefaultShipID = shipID;
+			Text = DefaultTitle;
 		}
 
 		private void DialogExpChecker_Load(object sender, EventArgs e)
@@ -78,10 +79,10 @@ namespace ElectronicObserver.Window.Dialog
 			}
 
 			SearchInFleet_CheckedChanged(this, new EventArgs());
-
+			ExpUnit.Value = Utility.Configuration.Config.Control.ExpCheckerExpUnit;
 
 			if (DefaultShipID != -1)
-				TextShip.SelectedItem = TextShip.Items.OfType<ComboShipData>().FirstOrDefault(f => f.Ship.ShipID == DefaultShipID);
+				TextShip.SelectedItem = TextShip.Items.OfType<ComboShipData>().FirstOrDefault(f => f.Ship.MasterID == DefaultShipID);
 
 
 			this.Icon = ResourceManager.ImageToIcon(ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormExpChecker]);
@@ -89,6 +90,7 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void DialogExpChecker_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			Utility.Configuration.Config.Control.ExpCheckerExpUnit = (int)ExpUnit.Value;
 			ResourceManager.DestroyIcon(Icon);
 		}
 
@@ -173,10 +175,29 @@ namespace ElectronicObserver.Window.Dialog
 			}
 			else
 			{
-				ASWEquipmentPairs.Add(openingASWborder - 36, "[四式水中聴音機x3]");
-				ASWEquipmentPairs.Add(openingASWborder - 32, "[四式水中聴音機x2, 三式爆雷投射機]");
-				ASWEquipmentPairs.Add(openingASWborder - 28, "[三式水中探信儀x2, 三式爆雷投射機]");
-				ASWEquipmentPairs.Add(openingASWborder - 27, "[四式水中聴音機, 三式爆雷投射機, 二式爆雷]");
+				if (selectedShip.SlotSize >= 4)
+				{
+					ASWEquipmentPairs.Add(openingASWborder - 51, "[四式水中聴音機x3, 試製15cm9連装対潜噴進砲]");
+					ASWEquipmentPairs.Add(openingASWborder - 48, "[四式水中聴音機x4]");
+					ASWEquipmentPairs.Add(openingASWborder - 44, "[四式水中聴音機x3, 三式爆雷投射機]");
+				}
+				if (selectedShip.SlotSize >= 3)
+				{
+					ASWEquipmentPairs.Add(openingASWborder - 39, "[四式水中聴音機x2, 試製15cm9連装対潜噴進砲]");
+					ASWEquipmentPairs.Add(openingASWborder - 36, "[四式水中聴音機x3]");
+					ASWEquipmentPairs.Add(openingASWborder - 32, "[四式水中聴音機x2, 三式爆雷投射機]");
+					ASWEquipmentPairs.Add(openingASWborder - 28, "[三式水中探信儀x2, 三式爆雷投射機]");
+					ASWEquipmentPairs.Add(openingASWborder - 27, "[四式水中聴音機, 三式爆雷投射機, 二式爆雷]");
+				}
+				if (selectedShip.SlotSize >= 2)
+				{
+					if (ASWEquipmentPairs.ContainsKey(openingASWborder - 27))
+						ASWEquipmentPairs[openingASWborder - 27] += ", [四式水中聴音機, 試製15cm9連装対潜噴進砲]";
+					else
+						ASWEquipmentPairs.Add(openingASWborder - 27, "[四式水中聴音機, 試製15cm9連装対潜噴進砲]");
+					ASWEquipmentPairs.Add(openingASWborder - 20, "[四式水中聴音機, 三式爆雷投射機]");
+					ASWEquipmentPairs.Add(openingASWborder - 18, "[三式水中探信儀, 三式爆雷投射機]");
+				}
 				ASWEquipmentPairs.Add(openingASWborder - 12, "[四式水中聴音機]");
 			}
 
@@ -188,7 +209,7 @@ namespace ElectronicObserver.Window.Dialog
 			int aswmod = (int)ASWModernization.Value;
 			int currentlv = selectedShip.Level;
 			int minlv = ShowAllLevel.Checked ? 1 : (currentlv + 1);
-			int unitexp = Math.Max((int)numericUpDown1.Value, 1);
+			int unitexp = Math.Max((int)ExpUnit.Value, 1);
 			var remodelLevelTable = GetRemodelLevelTable(selectedShip.MasterShip);
 
 			var rows = new DataGridViewRow[ExpTable.ShipMaximumLevel - (minlv - 1)];
@@ -223,6 +244,7 @@ namespace ElectronicObserver.Window.Dialog
 			LevelView.ResumeLayout();
 
 
+			Text = DefaultTitle + " - " + selectedShip.NameWithLevel;
 			GroupExp.Text = $"{selectedShip.NameWithLevel}: Exp. {selectedShip.ExpTotal}, 対潜 {selectedShip.ASWBase} (現在改修+{selectedShip.ASWModernized})";
 		}
 
@@ -276,7 +298,7 @@ namespace ElectronicObserver.Window.Dialog
 			UpdateLevelView();
 		}
 
-		private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+		private void ExpUnit_ValueChanged(object sender, EventArgs e)
 		{
 			UpdateLevelView();
 		}
@@ -304,6 +326,6 @@ namespace ElectronicObserver.Window.Dialog
 			return list.ToArray();
 		}
 
-		
+
 	}
 }

@@ -397,6 +397,12 @@ namespace ElectronicObserver.Utility
 				/// </summary>
 				public bool ShowSallyAreaAlertDialog { get; set; }
 
+				/// <summary>
+				/// 必要経験値計算：出撃当たりの経験値
+				/// </summary>
+				public int ExpCheckerExpUnit { get; set; }
+
+
 				public ConfigControl()
 				{
 					ConditionBorder = 40;
@@ -406,6 +412,7 @@ namespace ElectronicObserver.Utility
 					LastIsMute = false;
 					PowerEngagementForm = 1;
 					ShowSallyAreaAlertDialog = true;
+					ExpCheckerExpUnit = 2268;
 				}
 			}
 			/// <summary>動作</summary>
