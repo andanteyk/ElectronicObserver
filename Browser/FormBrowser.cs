@@ -1,5 +1,6 @@
 ﻿using BrowserLib;
-using mshtml;
+using CefSharp;
+using CefSharp.WinForms;
 using Nekoxy;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Browser
 	/// </summary>
 	/// <remarks>thx KanColleViewer!</remarks>
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-	public partial class FormBrowser : Form, IBrowser
+	public partial class FormBrowser : Form, BrowserLib.IBrowser
 	{
 
 		private readonly Size KanColleSize = new Size(800, 480);
@@ -38,7 +39,7 @@ namespace Browser
 		private string ServerUri;
 
 		// FormBrowserの通信サーバ
-		private PipeCommunicator<IBrowserHost> BrowserHost;
+		private PipeCommunicator<BrowserLib.IBrowserHost> BrowserHost;
 
 		private BrowserLib.BrowserConfiguration Configuration;
 
@@ -77,6 +78,8 @@ namespace Browser
 			}
 		}
 
+		private ChromiumWebBrowser Browser;
+
 		/// <summary>
 		/// 艦これが読み込まれているかどうか
 		/// </summary>
@@ -97,7 +100,46 @@ namespace Browser
 			get { return (PictureBox)((ToolStripControlHost)ToolMenu_Other_LastScreenShot.DropDownItems["ToolMenu_Other_LastScreenShot_ImageHost"]).Control; }
 		}
 
+		public void InitializeChromium(string url)
+		{
+			CefSettings settings = new CefSettings
+			{
+				BrowserSubprocessPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+												   Environment.Is64BitProcess ? "x64" : "x86",
+												   "CefSharp.BrowserSubprocess.exe")
+			};
+			Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
 
+			this.Browser = new ChromiumWebBrowser(url);
+
+			// 
+			// SizeAdjuster
+			// 
+			this.SizeAdjuster.Controls.Add(this.Browser);
+
+			// 
+			// Browser
+			// 
+			this.Browser.ContextMenuStrip = this.ContextMenuTool;
+			this.Browser.Location = new System.Drawing.Point(0, 0);
+			this.Browser.MinimumSize = new System.Drawing.Size(20, 20);
+			this.Browser.Name = "Browser";
+			this.Browser.Size = new System.Drawing.Size(284, 236);
+			this.Browser.TabIndex = 0;
+
+			this.Browser.LoadingStateChanged += OnLoadingStateChanged;
+		}
+
+		private void OnLoadingStateChanged(object sender, LoadingStateChangedEventArgs args)
+		{
+			if (!args.IsLoading)
+			{
+				ApplyStyleSheet();
+
+				ApplyZoom();
+				DestroyDMMreloadDialog();
+			}
+		}
 
 		/// <summary>
 		/// </summary>
@@ -105,20 +147,24 @@ namespace Browser
 		public FormBrowser(string serverUri)
 		{
 			InitializeComponent();
+			InitializeChromium(serverUri);
+
 			CoInternetSetFeatureEnabled(21, 0x00000002, true);
 
 			ServerUri = serverUri;
 			StyleSheetApplied = false;
 			_volumeManager = new VolumeManager((uint)System.Diagnostics.Process.GetCurrentProcess().Id);
-			Browser.ReplacedKeyDown += Browser_ReplacedKeyDown;
+			//Browser.ReplacedKeyDown += Browser_ReplacedKeyDown;
 
 			// 音量設定用コントロールの追加
 			{
-				var control = new NumericUpDown();
-				control.Name = "ToolMenu_Other_Volume_VolumeControl";
-				control.Maximum = 100;
-				control.TextAlign = HorizontalAlignment.Right;
-				control.Font = ToolMenu_Other_Volume.Font;
+				var control = new NumericUpDown
+				{
+					Name = "ToolMenu_Other_Volume_VolumeControl",
+					Maximum = 100,
+					TextAlign = HorizontalAlignment.Right,
+					Font = ToolMenu_Other_Volume.Font
+				};
 
 				control.ValueChanged += ToolMenu_Other_Volume_ValueChanged;
 				control.Tag = false;
@@ -135,22 +181,25 @@ namespace Browser
 			// スクリーンショットプレビューコントロールの追加
 			{
 				double zoomrate = 0.5;
-				var control = new PictureBox();
-				control.Name = "ToolMenu_Other_LastScreenShot_Image";
-				control.SizeMode = PictureBoxSizeMode.Zoom;
-				control.Size = new Size((int)(KanColleSize.Width * zoomrate), (int)(KanColleSize.Height * zoomrate));
-				control.Margin = new Padding();
-				control.Image = new Bitmap((int)(KanColleSize.Width * zoomrate), (int)(KanColleSize.Height * zoomrate), PixelFormat.Format24bppRgb);
+				var control = new PictureBox
+				{
+					Name = "ToolMenu_Other_LastScreenShot_Image",
+					SizeMode = PictureBoxSizeMode.Zoom,
+					Size = new Size((int)(KanColleSize.Width * zoomrate), (int)(KanColleSize.Height * zoomrate)),
+					Margin = new Padding(),
+					Image = new Bitmap((int)(KanColleSize.Width * zoomrate), (int)(KanColleSize.Height * zoomrate), PixelFormat.Format24bppRgb)
+				};
 				using (var g = Graphics.FromImage(control.Image))
 				{
 					g.Clear(SystemColors.Control);
 					g.DrawString("スクリーンショットをまだ撮影していません。\r\n", Font, Brushes.Black, new Point(4, 4));
 				}
 
-				var host = new ToolStripControlHost(control, "ToolMenu_Other_LastScreenShot_ImageHost");
-
-				host.Size = new Size(control.Width + control.Margin.Horizontal, control.Height + control.Margin.Vertical);
-				host.AutoSize = false;
+				var host = new ToolStripControlHost(control, "ToolMenu_Other_LastScreenShot_ImageHost")
+				{
+					Size = new Size(control.Width + control.Margin.Horizontal, control.Height + control.Margin.Vertical),
+					AutoSize = false
+				};
 				control.Location = new Point(control.Margin.Left, control.Margin.Top);
 
 				host.Click += ToolMenu_Other_LastScreenShot_ImageHost_Click;
@@ -166,8 +215,8 @@ namespace Browser
 			SetWindowLong(this.Handle, GWL_STYLE, WS_CHILD);
 
 			// ホストプロセスに接続
-			BrowserHost = new PipeCommunicator<IBrowserHost>(
-				this, typeof(IBrowser), ServerUri + "Browser", "Browser");
+			BrowserHost = new PipeCommunicator<BrowserLib.IBrowserHost>(
+				this, typeof(BrowserLib.IBrowser), ServerUri + "Browser", "Browser");
 			BrowserHost.Connect(ServerUri + "/BrowserHost");
 			BrowserHost.Faulted += BrowserHostChannel_Faulted;
 
@@ -285,30 +334,10 @@ namespace Browser
 				y = (SizeAdjuster.Height - Browser.Height) / 2;
 			}
 
-			//if ( x != Browser.Location.X || y != Browser.Location.Y )
-			Browser.Location = new Point(x, y);
+			if (x != Browser.Location.X || y != Browser.Location.Y)
+				Browser.Location = new Point(x, y);
 		}
 
-
-		private void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-		{
-
-			// note: ここを有効にすると別ページに切り替えた際にきちんとセーフティが働くが、代わりにまれに誤検知して撮影できなくなる時がある
-			// 無効にするとセーフティは働かなくなるが誤検知がなくなる
-			// セーフティを切ってでも誤検知しなくしたほうがいいので無効化
-
-			//IsKanColleLoaded = false;
-
-		}
-
-		private void Browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-		{
-
-			ApplyStyleSheet();
-
-			ApplyZoom();
-			DestroyDMMreloadDialog();
-		}
 
 		/// <summary>
 		/// スタイルシートを適用します。
@@ -319,7 +348,8 @@ namespace Browser
 			if (!Configuration.AppliesStyleSheet && !RestoreStyleSheet)
 				return;
 
-			try
+			//var doc = await Browser.GetBrowser().MainFrame.GetSourceAsync();
+			/*try
 			{
 
 				var document = Browser.Document;
@@ -356,7 +386,7 @@ namespace Browser
 			{
 
 				SendErrorReport(ex.ToString(), "スタイルシートの適用に失敗しました。");
-			}
+			}*/
 
 		}
 
@@ -369,7 +399,7 @@ namespace Browser
 			if (!Configuration.IsDMMreloadDialogDestroyable)
 				return;
 
-			try
+			/*try
 			{
 
 				var document = Browser.Document;
@@ -385,7 +415,7 @@ namespace Browser
 			{
 
 				SendErrorReport(ex.ToString(), "DMMによるページ更新ダイアログの非表示に失敗しました。");
-			}
+			}*/
 
 		}
 
@@ -396,7 +426,7 @@ namespace Browser
 		{
 			if (url != Configuration.LogInPageURL || !Configuration.AppliesStyleSheet)
 				StyleSheetApplied = false;
-			Browser.Navigate(url);
+			Browser.Load(url);
 		}
 
 		/// <summary>
@@ -406,7 +436,7 @@ namespace Browser
 		{
 			if (!Configuration.AppliesStyleSheet)
 				StyleSheetApplied = false;
-			Browser.Refresh(WebBrowserRefreshOption.Completely);
+			Browser.Refresh();
 		}
 
 		/// <summary>
@@ -414,7 +444,7 @@ namespace Browser
 		/// </summary>
 		public void ApplyZoom()
 		{
-			int zoomRate = Configuration.ZoomRate;
+			/*int zoomRate = Configuration.ZoomRate;
 			bool fit = Configuration.ZoomFit && StyleSheetApplied;
 
 			try
@@ -470,20 +500,20 @@ namespace Browser
 			{
 				AddLog(3, "ズームの適用に失敗しました。" + ex.Message);
 			}
-
+			*/
 		}
 
 
 		// ラッパークラスに戻す
-		private static HtmlDocument WrapHTMLDocument(IHTMLDocument2 document)
+		/*private static HtmlDocument WrapHTMLDocument(IHTMLDocument2 document)
 		{
 			ConstructorInfo[] constructor = typeof(HtmlDocument).GetConstructors(
 				BindingFlags.NonPublic | BindingFlags.Instance);
 			return (HtmlDocument)constructor[0].Invoke(new object[] { null, document });
-		}
+		}*/
 
 		// 中のフレームからidにマッチする要素を返す
-		private static HtmlElement getFrameElementById(HtmlDocument document, String id)
+		/*private static HtmlElement getFrameElementById(HtmlDocument document, String id)
 		{
 			foreach (HtmlWindow frame in document.Window.Frames)
 			{
@@ -503,7 +533,7 @@ namespace Browser
 
 			return null;
 		}
-
+		*/
 
 
 		/// <summary>
@@ -528,7 +558,7 @@ namespace Browser
 				IViewObject viewobj = null;
 				//int width = 0, height = 0;
 
-				if (wb.Document.Url.ToString().Contains(".swf?"))
+				/*if (wb.Document.Url.ToString().Contains(".swf?"))
 				{
 
 					viewobj = wb.Document.GetElementsByTagName("embed")[0].DomElement as IViewObject;
@@ -565,7 +595,7 @@ namespace Browser
 					{
 						throw new InvalidOperationException("対象の swf が見つかりませんでした。");
 					}
-				}
+				}*/
 
 
 				if (viewobj != null)
@@ -692,8 +722,7 @@ namespace Browser
 
 		public void SetProxy(string proxy)
 		{
-			ushort port;
-			if (ushort.TryParse(proxy, out port))
+			if (ushort.TryParse(proxy, out ushort port))
 			{
 				WinInetUtil.SetProxyInProcessForNekoxy(port);
 			}
@@ -709,82 +738,66 @@ namespace Browser
 		/// <summary>
 		/// キャッシュを削除します。
 		/// </summary>
-		private bool ClearCache(long timeoutMilliseconds = 5000)
+		private async Task<bool> ClearCacheAsync(long timeoutMilliseconds = 5000)
 		{
+			var tokenSource = new System.Threading.CancellationTokenSource();
+			var token = tokenSource.Token;
+			tokenSource.CancelAfter(TimeSpan.FromMilliseconds(timeoutMilliseconds));
+			bool success = false;
 
-			const int CACHEGROUP_SEARCH_ALL = 0x0;
-			const int ERROR_NO_MORE_ITEMS = 259;
-			const uint CACHEENTRYTYPE_COOKIE = 1048577;
-			const uint CACHEENTRYTYPE_HISTORY = 2097153;
-
-			long groupId = 0;
-
-			int cacheEntryInfoBufferSizeInitial = 0;
-			int cacheEntryInfoBufferSize = 0;
-			IntPtr cacheEntryInfoBuffer = IntPtr.Zero;
-			IntPtr enumHandle = IntPtr.Zero;
-
-
-			enumHandle = FindFirstUrlCacheGroup(0, CACHEGROUP_SEARCH_ALL, IntPtr.Zero, 0, ref groupId, IntPtr.Zero);
-
-			if (enumHandle != IntPtr.Zero && ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error())
-				return true;
-
-			/*/
-			while ( true ) {
-				bool returnValue = DeleteUrlCacheGroup( groupId, CACHEGROUP_FLAG_FLUSHURL_ONDELETE, IntPtr.Zero );
-				if ( !returnValue && ERROR_FILE_NOT_FOUND == Marshal.GetLastWin32Error() ) {
-					returnValue = FindNextUrlCacheGroup( enumHandle, ref groupId, IntPtr.Zero );
-				}
-
-				if ( !returnValue && ( ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error() || ERROR_FILE_NOT_FOUND == Marshal.GetLastWin32Error() ) )
-					break;
-			}
-			//*/
-
-			enumHandle = FindFirstUrlCacheEntry(null, IntPtr.Zero, ref cacheEntryInfoBufferSizeInitial);
-			if (enumHandle != IntPtr.Zero && ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error())
-				return true;
-
-			cacheEntryInfoBufferSize = cacheEntryInfoBufferSizeInitial;
-			cacheEntryInfoBuffer = Marshal.AllocHGlobal(cacheEntryInfoBufferSize);
-			enumHandle = FindFirstUrlCacheEntry(null, cacheEntryInfoBuffer, ref cacheEntryInfoBufferSizeInitial);
-
-
-			Stopwatch sw = Stopwatch.StartNew();
-			while (sw.ElapsedMilliseconds < timeoutMilliseconds)
+			try
 			{
-				var internetCacheEntry = (INTERNET_CACHE_ENTRY_INFOA)Marshal.PtrToStructure(cacheEntryInfoBuffer, typeof(INTERNET_CACHE_ENTRY_INFOA));
+				await ClearCacheAsync(token);
 
-				cacheEntryInfoBufferSizeInitial = cacheEntryInfoBufferSize;
-
-
-				var type = internetCacheEntry.CacheEntryType;
-				bool returnValue = false;
-
-				if (type != CACHEENTRYTYPE_COOKIE && type != CACHEENTRYTYPE_HISTORY)
-					returnValue = DeleteUrlCacheEntry(internetCacheEntry.lpszSourceUrlName);
-
-				if (!returnValue)
-				{
-					returnValue = FindNextUrlCacheEntry(enumHandle, cacheEntryInfoBuffer, ref cacheEntryInfoBufferSizeInitial);
-				}
-				if (!returnValue && ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error())
-				{
-					break;
-				}
-				if (!returnValue && cacheEntryInfoBufferSizeInitial > cacheEntryInfoBufferSize)
-				{
-					cacheEntryInfoBufferSize = cacheEntryInfoBufferSizeInitial;
-					cacheEntryInfoBuffer = Marshal.ReAllocHGlobal(cacheEntryInfoBuffer, (IntPtr)cacheEntryInfoBufferSize);
-					returnValue = FindNextUrlCacheEntry(enumHandle, cacheEntryInfoBuffer, ref cacheEntryInfoBufferSizeInitial);
-				}
 			}
-			sw.Stop();
-			Marshal.FreeHGlobal(cacheEntryInfoBuffer);
+			catch (TaskCanceledException)
+			{
 
+			}
+			catch (OperationCanceledException)
+			{
+				;
+			}
+			catch (Exception)
+			{
+				;
+			}
+			finally
+			{
+				success = !tokenSource.IsCancellationRequested;
+				tokenSource.Dispose();
+			}
 
-			return sw.ElapsedMilliseconds < timeoutMilliseconds;
+			return success;
+		}
+
+		private async Task ClearCacheAsync(System.Threading.CancellationToken token)
+		{
+			var cefSettings = new CefSettings();
+			var cache = cefSettings.CachePath;
+
+			var t = Task.Run(() =>
+			{
+				string dir = cache;
+				object obj = new Object();
+
+				if (Directory.Exists(dir))
+				{
+					Parallel.ForEach(Directory.GetFiles(dir),
+					f =>
+					{
+						if (token.IsCancellationRequested)
+							token.ThrowIfCancellationRequested();
+						var fi = new FileInfo(f);
+						lock (obj)
+						{
+							fi.Delete();
+						}
+					});
+				}
+			}, token);
+
+			await t;
 		}
 
 
@@ -1013,7 +1026,7 @@ namespace Browser
 
 		private void ToolMenu_Other_Navigate_Click(object sender, EventArgs e)
 		{
-			BrowserHost.AsyncRemoteRun(() => BrowserHost.Proxy.RequestNavigation(Browser.Url == null ? null : Browser.Url.ToString()));
+			BrowserHost.AsyncRemoteRun(() => BrowserHost.Proxy.RequestNavigation(Browser.Address));
 		}
 
 		private void ToolMenu_Other_AppliesStyleSheet_Click(object sender, EventArgs e)
@@ -1051,22 +1064,17 @@ namespace Browser
 		}
 
 
-		private void ToolMenu_Other_ClearCache_Click(object sender, EventArgs e)
+		private async void ToolMenu_Other_ClearCache_Click(object sender, EventArgs e)
 		{
 
 			if (MessageBox.Show("ブラウザのキャッシュを削除します。\nよろしいですか？", "キャッシュの削除", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
 				== System.Windows.Forms.DialogResult.OK)
 			{
-
-				BeginInvoke((MethodInvoker)(() =>
-				{
-					bool succeeded = ClearCache();
-					if (succeeded)
-						MessageBox.Show("キャッシュの削除が完了しました。", "削除完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					else
-						MessageBox.Show("時間がかかりすぎたため、キャッシュの削除を中断しました。\r\n削除しきれていない可能性があります。", "削除中断", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				}));
-
+				bool succeeded = await ClearCacheAsync();
+				if (succeeded)
+					MessageBox.Show("キャッシュの削除が完了しました。", "削除完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				else
+					MessageBox.Show("時間がかかりすぎたため、キャッシュの削除を中断しました。\r\n削除しきれていない可能性があります。", "削除中断", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 
@@ -1125,9 +1133,8 @@ namespace Browser
 			foreach (var item in ToolMenu_Other.DropDownItems)
 			{
 
-				ToolStripMenuItem menu = item as ToolStripMenuItem;
 
-				if (menu != null)
+				if (item is ToolStripMenuItem menu)
 				{
 					if (e.KeyData == menu.ShortcutKeys)
 					{
@@ -1156,8 +1163,7 @@ namespace Browser
 
 			foreach (var item in ToolMenu_Other_Alignment.DropDownItems)
 			{
-				var menu = item as ToolStripMenuItem;
-				if (menu != null)
+				if (item is ToolStripMenuItem menu)
 				{
 					menu.Checked = false;
 				}
@@ -1382,7 +1388,7 @@ namespace Browser
 	/// WebBrowserShortCutEnabled = false だとメニューのショートカットキーが無効化されるため、
 	/// わざわざ手動で実装しています。
 	/// </summary>
-	internal class ExtraWebBrowser : WebBrowser
+	internal class ExtraWebBrowser : ChromiumWebBrowser
 	{
 
 		public event KeyEventHandler ReplacedKeyDown = delegate { };
