@@ -58,10 +58,13 @@ namespace ElectronicObserver.Data
 		public int Progress => (int)RawData.api_progress_flag;
 
 		/// <summary>
-		/// 任務一覧にいるページ
+		/// The position of the quest in quest list
+		/// Start by 1 to prevent display issue
 		/// Set by QuestManager when load response
 		/// </summary>
-		public int DisplayPage;
+		public int DisplayPos;
+
+		public string DisplayPage => DisplayPos > 0 ? ((DisplayPos - 1) / 5 + 1).ToString() : "";
 
 		public int ID => QuestID;
 		public override string ToString() => $"[{QuestID}] {Name}";

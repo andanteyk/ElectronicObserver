@@ -87,26 +87,28 @@ namespace ElectronicObserver.Data
 			if (RawData.api_list != null)
 			{   //任務完遂時orページ遷移時 null になる
 
+				//Starting index of this page
+				int index = (int)RawData.api_disp_page * 5 - 4;
 				foreach (dynamic elem in RawData.api_list)
 				{
 
 					if (!(elem is double))
 					{       //空欄は -1 になるため。
-
 						int id = (int)elem.api_no;
 						if (!Quests.ContainsKey(id))
 						{
 							var q = new QuestData();
 							q.LoadFromResponse(apiname, elem);
-							q.DisplayPage = (int)RawData.api_disp_page;
-							Quests.Add(q);
+							AddQuest(q, index);
 
 						}
 						else
 						{
 							Quests[id].LoadFromResponse(apiname, elem);
+							Quests[id].DisplayPos = index;
 						}
 
+						index++;
 					}
 				}
 
@@ -131,7 +133,7 @@ namespace ElectronicObserver.Data
 
 						Utility.Logger.Add(2, string.Format("任務『{0}』を達成しました。", quest.Name));
 
-						Quests.Remove(id);
+						RemoveQuest(quest);
 						Count--;
 					}
 					break;
@@ -141,6 +143,23 @@ namespace ElectronicObserver.Data
 			}
 
 			QuestUpdated();
+		}
+
+		private void RemoveQuest(QuestData quest)
+		{
+			int pos = quest.DisplayPos;
+			Quests.Remove(quest.ID);
+			Quests.Where(q => q.Value.DisplayPos > pos).ToList().ForEach(q => q.Value.DisplayPos -= 1);
+		}
+
+		private void AddQuest(QuestData quest, int pos)
+		{
+			quest.DisplayPos = pos;
+			if (Quests.Any(q => q.Value.DisplayPos == pos))
+			{
+				Quests.Where(q => q.Value.DisplayPos >= pos).ToList().ForEach(q => q.Value.DisplayPos += 1);
+			}
+			Quests.Add(quest);
 		}
 
 

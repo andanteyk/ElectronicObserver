@@ -267,7 +267,6 @@ namespace ElectronicObserver.Window
 						break;
 				}
 
-
 				DataGridViewRow row = new DataGridViewRow();
 				row.CreateCells(QuestView);
 				row.Height = 21;
@@ -277,7 +276,7 @@ namespace ElectronicObserver.Window
 				row.Cells[QuestView_Category.Index].Value = q.Category;
 				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min(q.Category - 1, 8 - 1)];
 				row.Cells[QuestView_Name.Index].Value = q.QuestID;
-				row.Cells[QuestView_PageNum.Index].Value = q.DisplayPage > 0 ? q.DisplayPage.ToString() : "";
+				row.Cells[QuestView_PageNum.Index].Value = q.DisplayPage;
 				{
 					var progress = KCDatabase.Instance.QuestProgress[q.QuestID];
 					row.Cells[QuestView_Name.Index].ToolTipText = $"{q.QuestID} : {q.Name}\r\n{q.Description}\r\n{progress?.GetClearCondition() ?? ""}\r\n任務ページ : {q.DisplayPage}";
