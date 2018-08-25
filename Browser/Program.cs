@@ -23,7 +23,19 @@ namespace Browser
 			}
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+			AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 			Application.Run(new FormBrowser(args[0]));
+		}
+
+		private static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+		{
+			if (args.Name.StartsWith("CefSharp"))
+			{
+				string asmname = args.Name.Split(",".ToCharArray(), 2)[0] + ".dll";
+				string arch = System.IO.Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, Environment.Is64BitProcess ? "x64" : "x86", asmname);
+				return System.IO.File.Exists(arch) ? System.Reflection.Assembly.LoadFile(arch) : null;
+			}
+			return null;
 		}
 	}
 }

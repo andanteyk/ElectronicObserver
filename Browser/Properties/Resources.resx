@@ -123,9 +123,9 @@ try {{
 var node = document.getElementById('{0}');
 if (node) document.getElementsByTagName('head')[0].removeChild(node);
 node = document.createElement('div');
-node.innerHTML = 'F&lt;style id=\'{0}\'>body {{ visibility: hidden; }} \
+node.innerHTML = 'F&lt;style id=\'{0}\'&gt;body {{ visibility: hidden; }} \
 #flashWrap {{ position: fixed; left: 0; top: 0; width: 100% !important; height: 100% !important; }} \
-#externalswf {{ visibility: visible; width: 100% !important; height: 100% !important; }}&lt;/style>';
+#htmlWrap {{ visibility: visible; width: 100% !important; height: 100% !important; }}&lt;/style&gt;';
 document.getElementsByTagName('head')[0].appendChild(node.lastChild);
 }}
 catch(e) {{
@@ -138,12 +138,12 @@ try {{
 var node = document.getElementById('{0}');
 if (node) document.getElementsByTagName('head')[0].removeChild(node);
 node = document.createElement('div');
-node.innerHTML = 'P&lt;style id=\'{0}\'>body {{ visibility: hidden; overflow: hidden; }} \
+node.innerHTML = 'P&lt;style id=\'{0}\'&gt;body {{ visibility: hidden; overflow: hidden; }} \
 div #block_background {{ visibility: visible; }} \
 div #alert {{ visibility: visible; overflow: scroll; overflow-x: hidden; top: 3% !important; left: 3% !important; width: 94% !important; height: 94%; padding: 2%; box-sizing: border-box;}} \
 div.dmm-ntgnavi {{ display: none; }} \
 #area-game {{ position: fixed; left: 0; top: 0; width: 100%; height: 100%; }} \
-#game_frame {{ visibility: visible; width: 100% !important; height: 100% !important; }}&lt;/style>';
+#game_frame {{ visibility: visible; width: 100% !important; height: 100% !important; }}&lt;/style&gt;';
 document.getElementsByTagName('head')[0].appendChild(node.lastChild);
 }}
 catch(e) {{
@@ -158,5 +158,9 @@ try {
 catch(e) {
 	alert("DMMによるページ更新ダイアログの非表示に失敗しました: "+e);
 }</value>
+  </data>
+  <data name="RestoreScript" xml:space="preserve">
+    <value>var node = document.getElementById('{0}');
+if (node) document.getElementsByTagName('head')[0].removeChild(node);</value>
   </data>
 </root>

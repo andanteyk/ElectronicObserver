@@ -33,6 +33,7 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.label19 = new System.Windows.Forms.Label();
 			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
 			this.Connection_DownstreamProxyLabel = new System.Windows.Forms.Label();
 			this.Connection_DownstreamProxy = new System.Windows.Forms.TextBox();
@@ -178,6 +179,8 @@
 			this.FormBattle_HideDuringBattle = new System.Windows.Forms.CheckBox();
 			this.FormBattle_IsScrollable = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.label20 = new System.Windows.Forms.Label();
+			this.FormBrowser_HardwareAccelerationEnabled = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_IsDMMreloadDialogDestroyable = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_ToolMenuDockStyle = new System.Windows.Forms.ComboBox();
 			this.label30 = new System.Windows.Forms.Label();
@@ -199,18 +202,6 @@
 			this.FormBrowser_LogInPageURL = new System.Windows.Forms.TextBox();
 			this.FormBrowser_ZoomRate = new System.Windows.Forms.NumericUpDown();
 			this.label15 = new System.Windows.Forms.Label();
-			this.tabPage14 = new System.Windows.Forms.TabPage();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.label21 = new System.Windows.Forms.Label();
-			this.FormBrowser_FlashWMode = new System.Windows.Forms.ComboBox();
-			this.label20 = new System.Windows.Forms.Label();
-			this.FormBrowser_FlashQuality = new System.Windows.Forms.ComboBox();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.FormBrowser_BrowserVersion = new System.Windows.Forms.ComboBox();
-			this.FormBrowser_DeleteRegistry = new System.Windows.Forms.Button();
-			this.FormBrowser_GPURendering = new System.Windows.Forms.CheckBox();
-			this.FormBrowser_ApplyRegistry = new System.Windows.Forms.Button();
-			this.label19 = new System.Windows.Forms.Label();
 			this.tabPage21 = new System.Windows.Forms.TabPage();
 			this.FormBaseAirCorps_ShowEventMapOnly = new System.Windows.Forms.CheckBox();
 			this.SubWindow_Json = new System.Windows.Forms.TabPage();
@@ -284,9 +275,6 @@
 			this.tabPage12.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).BeginInit();
-			this.tabPage14.SuspendLayout();
-			this.groupBox4.SuspendLayout();
-			this.groupBox3.SuspendLayout();
 			this.tabPage21.SuspendLayout();
 			this.SubWindow_Json.SuspendLayout();
 			this.SubWindow_Json_SealingPanel.SuspendLayout();
@@ -319,6 +307,7 @@
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.label19);
 			this.tabPage1.Controls.Add(this.Connection_UpstreamProxyAddress);
 			this.tabPage1.Controls.Add(this.Connection_DownstreamProxyLabel);
 			this.tabPage1.Controls.Add(this.Connection_DownstreamProxy);
@@ -339,6 +328,16 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "通信";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.ForeColor = System.Drawing.Color.Red;
+			this.label19.Location = new System.Drawing.Point(32, 278);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(285, 15);
+			this.label19.TabIndex = 13;
+			this.label19.Text = "* ブラウザに対する通信設定は、再起動すると反映されます";
 			// 
 			// Connection_UpstreamProxyAddress
 			// 
@@ -1015,7 +1014,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 273);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 267);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1220,7 +1219,6 @@
 			this.tabControl2.Controls.Add(this.tabPage13);
 			this.tabControl2.Controls.Add(this.tabPage20);
 			this.tabControl2.Controls.Add(this.tabPage12);
-			this.tabControl2.Controls.Add(this.tabPage14);
 			this.tabControl2.Controls.Add(this.tabPage21);
 			this.tabControl2.Controls.Add(this.SubWindow_Json);
 			this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2097,6 +2095,8 @@
 			// 
 			// tabPage12
 			// 
+			this.tabPage12.Controls.Add(this.label20);
+			this.tabPage12.Controls.Add(this.FormBrowser_HardwareAccelerationEnabled);
 			this.tabPage12.Controls.Add(this.FormBrowser_IsDMMreloadDialogDestroyable);
 			this.tabPage12.Controls.Add(this.FormBrowser_ToolMenuDockStyle);
 			this.tabPage12.Controls.Add(this.label30);
@@ -2110,13 +2110,34 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 22);
+			this.tabPage12.Location = new System.Drawing.Point(4, 24);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(682, 340);
+			this.tabPage12.Size = new System.Drawing.Size(682, 338);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.ForeColor = System.Drawing.Color.Red;
+			this.label20.Location = new System.Drawing.Point(32, 259);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(241, 15);
+			this.label20.TabIndex = 14;
+			this.label20.Text = "* マークのある設定は、再起動すると反映されます";
+			// 
+			// FormBrowser_HardwareAccelerationEnabled
+			// 
+			this.FormBrowser_HardwareAccelerationEnabled.AutoSize = true;
+			this.FormBrowser_HardwareAccelerationEnabled.Location = new System.Drawing.Point(436, 6);
+			this.FormBrowser_HardwareAccelerationEnabled.Name = "FormBrowser_HardwareAccelerationEnabled";
+			this.FormBrowser_HardwareAccelerationEnabled.Size = new System.Drawing.Size(230, 19);
+			this.FormBrowser_HardwareAccelerationEnabled.TabIndex = 13;
+			this.FormBrowser_HardwareAccelerationEnabled.Text = "ハードウェアアクセラレーションを有効にする *";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_HardwareAccelerationEnabled, "描画に GPU を使用するかを指定します。\r\n* この変更は再起動後に適用されます。");
+			this.FormBrowser_HardwareAccelerationEnabled.UseVisualStyleBackColor = true;
 			// 
 			// FormBrowser_IsDMMreloadDialogDestroyable
 			// 
@@ -2362,157 +2383,6 @@
 			this.label15.TabIndex = 1;
 			this.label15.Text = "ズーム倍率：";
 			// 
-			// tabPage14
-			// 
-			this.tabPage14.Controls.Add(this.groupBox4);
-			this.tabPage14.Controls.Add(this.groupBox3);
-			this.tabPage14.Location = new System.Drawing.Point(4, 22);
-			this.tabPage14.Name = "tabPage14";
-			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(682, 340);
-			this.tabPage14.TabIndex = 5;
-			this.tabPage14.Text = "ブラウザ2";
-			this.tabPage14.UseVisualStyleBackColor = true;
-			// 
-			// groupBox4
-			// 
-			this.groupBox4.Controls.Add(this.label21);
-			this.groupBox4.Controls.Add(this.FormBrowser_FlashWMode);
-			this.groupBox4.Controls.Add(this.label20);
-			this.groupBox4.Controls.Add(this.FormBrowser_FlashQuality);
-			this.groupBox4.Location = new System.Drawing.Point(6, 58);
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(200, 80);
-			this.groupBox4.TabIndex = 1;
-			this.groupBox4.TabStop = false;
-			this.groupBox4.Text = "Flash品質設定";
-			this.groupBox4.Visible = false;
-			// 
-			// label21
-			// 
-			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(6, 54);
-			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(46, 15);
-			this.label21.TabIndex = 2;
-			this.label21.Text = "モード：";
-			// 
-			// FormBrowser_FlashWMode
-			// 
-			this.FormBrowser_FlashWMode.FormattingEnabled = true;
-			this.FormBrowser_FlashWMode.Items.AddRange(new object[] {
-            "direct",
-            "opaque"});
-			this.FormBrowser_FlashWMode.Location = new System.Drawing.Point(73, 51);
-			this.FormBrowser_FlashWMode.Name = "FormBrowser_FlashWMode";
-			this.FormBrowser_FlashWMode.Size = new System.Drawing.Size(121, 23);
-			this.FormBrowser_FlashWMode.TabIndex = 3;
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_FlashWMode, "Flashのモードを指定します。\r\n既定値は opaque です。\r\ndirect にするとパフォーマンスが向上する可能性があります。");
-			// 
-			// label20
-			// 
-			this.label20.AutoSize = true;
-			this.label20.Location = new System.Drawing.Point(6, 25);
-			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(43, 15);
-			this.label20.TabIndex = 0;
-			this.label20.Text = "品質：";
-			// 
-			// FormBrowser_FlashQuality
-			// 
-			this.FormBrowser_FlashQuality.FormattingEnabled = true;
-			this.FormBrowser_FlashQuality.Items.AddRange(new object[] {
-            "low",
-            "medium",
-            "high",
-            "best"});
-			this.FormBrowser_FlashQuality.Location = new System.Drawing.Point(73, 22);
-			this.FormBrowser_FlashQuality.Name = "FormBrowser_FlashQuality";
-			this.FormBrowser_FlashQuality.Size = new System.Drawing.Size(121, 23);
-			this.FormBrowser_FlashQuality.TabIndex = 1;
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_FlashQuality, "Flashの品質を設定します。\r\n既定値は high です。");
-			// 
-			// groupBox3
-			// 
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Controls.Add(this.FormBrowser_BrowserVersion);
-			this.groupBox3.Controls.Add(this.FormBrowser_DeleteRegistry);
-			this.groupBox3.Controls.Add(this.FormBrowser_GPURendering);
-			this.groupBox3.Controls.Add(this.FormBrowser_ApplyRegistry);
-			this.groupBox3.Controls.Add(this.label19);
-			this.groupBox3.Location = new System.Drawing.Point(6, 6);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(670, 46);
-			this.groupBox3.TabIndex = 0;
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "レジストリ";
-			// 
-			// FormBrowser_BrowserVersion
-			// 
-			this.FormBrowser_BrowserVersion.FormattingEnabled = true;
-			this.FormBrowser_BrowserVersion.Items.AddRange(new object[] {
-            "7000",
-            "8000",
-            "8888",
-            "9000",
-            "9999",
-            "10000",
-            "10001",
-            "11000",
-            "11001"});
-			this.FormBrowser_BrowserVersion.Location = new System.Drawing.Point(112, 16);
-			this.FormBrowser_BrowserVersion.Name = "FormBrowser_BrowserVersion";
-			this.FormBrowser_BrowserVersion.Size = new System.Drawing.Size(60, 23);
-			this.FormBrowser_BrowserVersion.TabIndex = 1;
-			this.FormBrowser_BrowserVersion.Text = "7000";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_BrowserVersion, "内蔵ブラウザのバージョンを指定します。\r\n7000がIE7相当、8000がIE8相当、11000がIE11相当です。\r\nバージョンによって動作が変わる可能性があり" +
-        "ます。");
-			// 
-			// FormBrowser_DeleteRegistry
-			// 
-			this.FormBrowser_DeleteRegistry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.FormBrowser_DeleteRegistry.Location = new System.Drawing.Point(614, 15);
-			this.FormBrowser_DeleteRegistry.Name = "FormBrowser_DeleteRegistry";
-			this.FormBrowser_DeleteRegistry.Size = new System.Drawing.Size(50, 23);
-			this.FormBrowser_DeleteRegistry.TabIndex = 4;
-			this.FormBrowser_DeleteRegistry.Text = "削除";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_DeleteRegistry, "レジストリを削除します。");
-			this.FormBrowser_DeleteRegistry.UseVisualStyleBackColor = true;
-			this.FormBrowser_DeleteRegistry.Click += new System.EventHandler(this.FormBrowser_DeleteRegistry_Click);
-			// 
-			// FormBrowser_GPURendering
-			// 
-			this.FormBrowser_GPURendering.AutoSize = true;
-			this.FormBrowser_GPURendering.Location = new System.Drawing.Point(180, 18);
-			this.FormBrowser_GPURendering.Name = "FormBrowser_GPURendering";
-			this.FormBrowser_GPURendering.Size = new System.Drawing.Size(103, 19);
-			this.FormBrowser_GPURendering.TabIndex = 2;
-			this.FormBrowser_GPURendering.Text = "GPUレンダリング";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_GPURendering, "内蔵ブラウザでGPUレンダリングを使用するかを指定します。\r\n環境によっては処理が高速化します。");
-			this.FormBrowser_GPURendering.UseVisualStyleBackColor = true;
-			// 
-			// FormBrowser_ApplyRegistry
-			// 
-			this.FormBrowser_ApplyRegistry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.FormBrowser_ApplyRegistry.Location = new System.Drawing.Point(558, 15);
-			this.FormBrowser_ApplyRegistry.Name = "FormBrowser_ApplyRegistry";
-			this.FormBrowser_ApplyRegistry.Size = new System.Drawing.Size(50, 23);
-			this.FormBrowser_ApplyRegistry.TabIndex = 3;
-			this.FormBrowser_ApplyRegistry.Text = "適用";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_ApplyRegistry, "レジストリに対して設定を適用します。\r\n下の[OK]ボタンでは反映されないのでご注意ください。");
-			this.FormBrowser_ApplyRegistry.UseVisualStyleBackColor = true;
-			this.FormBrowser_ApplyRegistry.Click += new System.EventHandler(this.FormBrowser_ApplyRegistry_Click);
-			// 
-			// label19
-			// 
-			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(6, 19);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(100, 15);
-			this.label19.TabIndex = 0;
-			this.label19.Text = "ブラウザバージョン：";
-			// 
 			// tabPage21
 			// 
 			this.tabPage21.Controls.Add(this.FormBaseAirCorps_ShowEventMapOnly);
@@ -2678,7 +2548,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 344);
+			this.label10.Location = new System.Drawing.Point(3, 338);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2823,7 +2693,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 293);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 287);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2995,11 +2865,6 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).EndInit();
-			this.tabPage14.ResumeLayout(false);
-			this.groupBox4.ResumeLayout(false);
-			this.groupBox4.PerformLayout();
-			this.groupBox3.ResumeLayout(false);
-			this.groupBox3.PerformLayout();
 			this.tabPage21.ResumeLayout(false);
 			this.tabPage21.PerformLayout();
 			this.SubWindow_Json.ResumeLayout(false);
@@ -3121,20 +2986,8 @@
 		private System.Windows.Forms.CheckBox FormFleet_ShowNextExp;
 		private System.Windows.Forms.CheckBox FormFleet_ShortenHPBar;
 		private System.Windows.Forms.CheckBox Log_ShowSpoiler;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.ComboBox FormBrowser_BrowserVersion;
-		private System.Windows.Forms.Button FormBrowser_DeleteRegistry;
-		private System.Windows.Forms.CheckBox FormBrowser_GPURendering;
-		private System.Windows.Forms.Button FormBrowser_ApplyRegistry;
-		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.CheckBox Life_ShowStatusBar;
 		private System.Windows.Forms.CheckBox FormBrowser_ZoomFit;
-		private System.Windows.Forms.TabPage tabPage14;
-		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.Label label21;
-		private System.Windows.Forms.ComboBox FormBrowser_FlashWMode;
-		private System.Windows.Forms.Label label20;
-		private System.Windows.Forms.ComboBox FormBrowser_FlashQuality;
 		private System.Windows.Forms.TabPage tabPage16;
 		private System.Windows.Forms.CheckBox FormHeadquarters_BlinkAtMaximum;
 		private System.Windows.Forms.ComboBox FormFleet_AirSuperiorityMethod;
@@ -3238,5 +3091,8 @@
 		private System.Windows.Forms.TabPage tabPage21;
 		private System.Windows.Forms.CheckBox FormBaseAirCorps_ShowEventMapOnly;
 		private System.Windows.Forms.CheckBox FormBattle_Display7thAsSingleLine;
+		private System.Windows.Forms.CheckBox FormBrowser_HardwareAccelerationEnabled;
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.Label label20;
 	}
 }
