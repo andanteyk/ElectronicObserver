@@ -185,7 +185,7 @@ namespace ElectronicObserver.Data
 
 						if (FleetID == fleetID)
 						{
-							if (index == -1)
+							if (shipID == -2)
 							{
 								//旗艦以外全解除
 								for (int i = 1; i < _members.Length; i++)
@@ -231,7 +231,7 @@ namespace ElectronicObserver.Data
 							}
 
 
-							if (index != -1 && IsFlagshipRepairShip)        //随伴艦一括解除を除く
+							if (shipID != -2 && IsFlagshipRepairShip)        //随伴艦一括解除を除く
 								KCDatabase.Instance.Fleet.StartAnchorageRepairingTimer();
 
 						}

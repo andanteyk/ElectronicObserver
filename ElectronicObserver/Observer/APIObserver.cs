@@ -278,8 +278,7 @@ namespace ElectronicObserver.Observer
 						}));
 
 					}
-					else if (baseurl.Contains("/kcs") &&
-					  ((c.SaveSWF && session.Response.MimeType == "application/x-shockwave-flash") || c.SaveOtherFile))
+					else if (baseurl.Contains("/kcs") && c.SaveOtherFile)
 					{
 
 						string saveDataPath = c.SaveDataPath; // スレッド間の競合を避けるため取っておく

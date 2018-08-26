@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Resource
 {
 
-
+	[Obsolete("obsolete", true)]
 	public static class SwfHelper
 	{
 

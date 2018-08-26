@@ -58,7 +58,7 @@ namespace ElectronicObserver.Utility.Data
 		/// <summary>
 		/// 艦娘レベル最大値
 		/// </summary>
-		public static int ShipMaximumLevel => 165;
+		public static int ShipMaximumLevel => 175;
 
 		/// <summary>
 		/// 提督レベル最大値
@@ -309,7 +309,17 @@ namespace ElectronicObserver.Utility.Data
 				new Experience( 162, 6580000, 330000 ),
 				new Experience( 163, 6910000, 410000 ),
 				new Experience( 164, 7320000, 500000 ),
-				new Experience( 165, 7820000, 0 ),
+				new Experience( 165, 7820000, 100000 ),
+				new Experience( 166, 7920000, 113000 ),
+				new Experience( 167, 8033000, 139000 ),
+				new Experience( 168, 8172000, 178000 ),
+				new Experience( 169, 8350000, 230000 ),
+				new Experience( 170, 8580000, 295000 ),
+				new Experience( 171, 8875000, 373000 ),
+				new Experience( 172, 9248000, 457000 ),
+				new Experience( 173, 9705000, 561000 ),
+				new Experience( 174, 10266000, 684000 ),
+				new Experience( 175, 10950000, 0 ),
 			};
 
 
