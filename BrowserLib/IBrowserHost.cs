@@ -76,7 +76,7 @@ namespace BrowserLib
 		/// ブラウザの拡大率 10-1000(%)
 		/// </summary>
 		[DataMember]
-		public int ZoomRate { get; set; }
+		public double ZoomRate { get; set; }
 
 		/// <summary>
 		/// ブラウザをウィンドウサイズに合わせる
@@ -174,6 +174,12 @@ namespace BrowserLib
 		/// </summary>
 		[DataMember]
 		public bool IsMute { get; set; }
+
+		/// <summary>
+		/// ハードウェアアクセラレーションを有効にするか
+		/// </summary>
+		[DataMember]
+		public bool HardwareAccelerationEnabled { get; set; }
 
 	}
 }
