@@ -1848,6 +1848,10 @@ namespace ElectronicObserver.Utility
 
 		private void Update312_RemoveObsoleteRegistry()
 		{
+			// ;)
+			Config.FormBrowser.ZoomRate = 1;
+
+
 			string RegistryPathMaster = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\";
 			string RegistryPathBrowserVersion = @"FEATURE_BROWSER_EMULATION\";
 			string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";

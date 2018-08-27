@@ -237,7 +237,8 @@ namespace Browser
 			Browser = new ChromiumWebBrowser(@"about:blank")
 			{
 				Dock = DockStyle.None,
-				RequestHandler = new RequestHandler(),
+				// ハードウェアアクセラレーションが有効な時だけ上書きが必要
+				RequestHandler = new RequestHandler(pixiSettingEnabled: Configuration.HardwareAccelerationEnabled),
 				MenuHandler = new MenuHandler(),
 				KeyboardHandler = new KeyboardHandler(),
 				DragHandler = new DragHandler(),
@@ -877,7 +878,7 @@ namespace Browser
 			else if (sender == ToolMenu_Other_Zoom_50)
 				zoom = 0.50;
 			else if (sender == ToolMenu_Other_Zoom_Classic)
-				zoom = 2.0 / 3;
+				zoom = 0.667;       // 2/3 ジャストだと 799x479 になる
 			else if (sender == ToolMenu_Other_Zoom_75)
 				zoom = 0.75;
 			else if (sender == ToolMenu_Other_Zoom_100)
