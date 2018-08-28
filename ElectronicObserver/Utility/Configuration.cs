@@ -863,7 +863,7 @@ namespace ElectronicObserver.Utility
 				/// <summary>
 				/// ブラウザの拡大率 10-1000(%)
 				/// </summary>
-				public int ZoomRate { get; set; }
+				public double ZoomRate { get; set; }
 
 				/// <summary>
 				/// ブラウザをウィンドウサイズに合わせる
@@ -939,19 +939,18 @@ namespace ElectronicObserver.Utility
 				public bool ConfirmAtRefresh { get; set; }
 
 				/// <summary>
-				/// flashのパラメータ指定 'wmode'
+				/// ハードウェアアクセラレーションを有効にするか
 				/// </summary>
-				public string FlashWMode { get; set; }
+				public bool HardwareAccelerationEnabled { get; set; }
 
 				/// <summary>
-				/// flashのパラメータ指定 'quality'
+				/// 描画バッファを保持するか
 				/// </summary>
-				public string FlashQuality { get; set; }
-
+				public bool PreserveDrawingBuffer { get; set; }
 
 				public ConfigFormBrowser()
 				{
-					ZoomRate = 100;
+					ZoomRate = 1;
 					ZoomFit = false;
 					LogInPageURL = @"http://www.dmm.com/netgame_s/kancolle/";
 					IsEnabled = true;
@@ -966,8 +965,8 @@ namespace ElectronicObserver.Utility
 					ToolMenuDockStyle = DockStyle.Top;
 					IsToolMenuVisible = true;
 					ConfirmAtRefresh = true;
-					FlashWMode = "opaque";
-					FlashQuality = "high";
+					HardwareAccelerationEnabled = true;
+					PreserveDrawingBuffer = true;
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>
@@ -1444,23 +1443,6 @@ namespace ElectronicObserver.Utility
 				MessageBox.Show(SoftwareInformation.SoftwareNameJapanese + " をご利用いただきありがとうございます。\r\n設定や使用方法については「ヘルプ」→「オンラインヘルプ」を参照してください。\r\nご使用の前に必ずご一読ください。",
 					"初回起動メッセージ", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
-				// そのままだと正常に動作しなくなった(らしい)ので、ブラウザバージョンの書き込み
-				try
-				{
-					using (var reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(DialogConfiguration.RegistryPathMaster + DialogConfiguration.RegistryPathBrowserVersion))
-						reg.SetValue(Window.FormBrowserHost.BrowserExeName, DialogConfiguration.DefaultBrowserVersion, Microsoft.Win32.RegistryValueKind.DWord);
-
-					using (var reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(DialogConfiguration.RegistryPathMaster + DialogConfiguration.RegistryPathGPURendering))
-						reg.SetValue(Window.FormBrowserHost.BrowserExeName, DialogConfiguration.DefaultGPURendering ? 1 : 0, Microsoft.Win32.RegistryValueKind.DWord);
-
-					Utility.Logger.Add(2, "ブラウザバージョンをレジストリに書き込みました。削除したい場合は「設定→サブウィンドウ→ブラウザ2→削除」を押してください。");
-
-				}
-				catch (Exception ex)
-				{
-					Utility.ErrorReporter.SendErrorReport(ex, "ブラウザバージョンをレジストリに書き込めませんでした。");
-				}
 			}
 		}
 
@@ -1641,6 +1623,9 @@ namespace ElectronicObserver.Utility
 
 			if (dt <= DateTimeHelper.CSVStringToTime("2018/02/11 23:00:00"))
 				Update307_ConvertRecord();
+
+			if (dt <= DateTimeHelper.CSVStringToTime("2018/08/17 23:00:00"))
+				Update312_RemoveObsoleteRegistry();
 
 
 			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString(SoftwareInformation.UpdateTime);
@@ -1842,10 +1827,10 @@ namespace ElectronicObserver.Utility
 						int diff = d.Difficulty;
 						switch (diff)
 						{
-							case 2: diff = 1; break;  
+							case 2: diff = 1; break;
 							case 3: diff = 2; break;
 							case 4: diff = 3; break;
-							case -1: diff = 4; break; 
+							case -1: diff = 4; break;
 						}
 
 						d.Difficulty = diff;
@@ -1863,6 +1848,33 @@ namespace ElectronicObserver.Utility
 				ErrorReporter.SendErrorReport(ex, "<= ver. 3.0.7 難易度変更に伴うレコードファイルの修正: 失敗しました。");
 			}
 
+		}
+
+
+		private void Update312_RemoveObsoleteRegistry()
+		{
+			// ;)
+			Config.FormBrowser.ZoomRate = 1;
+
+
+			string RegistryPathMaster = @"Software\Microsoft\Internet Explorer\Main\FeatureControl\";
+			string RegistryPathBrowserVersion = @"FEATURE_BROWSER_EMULATION\";
+			string RegistryPathGPURendering = @"FEATURE_GPU_RENDERING\";
+
+
+			try
+			{
+				using (var reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathBrowserVersion, true))
+					reg.DeleteValue(Window.FormBrowserHost.BrowserExeName);
+
+				using (var reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RegistryPathMaster + RegistryPathGPURendering, true))
+					reg.DeleteValue(Window.FormBrowserHost.BrowserExeName);
+
+			}
+			catch (Exception ex)
+			{
+				Utility.ErrorReporter.SendErrorReport(ex, "<= ver. 3.1.2 移行処理: 古いレジストリ値の削除に失敗しました。");
+			}
 		}
 	}
 

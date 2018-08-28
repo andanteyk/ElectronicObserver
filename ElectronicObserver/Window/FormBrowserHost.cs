@@ -237,6 +237,8 @@ namespace ElectronicObserver.Window
 				config.ToolMenuDockStyle = (int)c.ToolMenuDockStyle;
 				config.IsToolMenuVisible = c.IsToolMenuVisible;
 				config.ConfirmAtRefresh = c.ConfirmAtRefresh;
+				config.HardwareAccelerationEnabled = c.HardwareAccelerationEnabled;
+				config.PreserveDrawingBuffer = c.PreserveDrawingBuffer;
 
 				return config;
 			}
@@ -262,6 +264,8 @@ namespace ElectronicObserver.Window
 			c.ToolMenuDockStyle = (DockStyle)config.ToolMenuDockStyle;
 			c.IsToolMenuVisible = config.IsToolMenuVisible;
 			c.ConfirmAtRefresh = config.ConfirmAtRefresh;
+			c.HardwareAccelerationEnabled = config.HardwareAccelerationEnabled;
+			c.PreserveDrawingBuffer = config.PreserveDrawingBuffer;
 
 			// volume
 			if (Utility.Configuration.Config.BGMPlayer.SyncBrowserMute)
@@ -348,7 +352,7 @@ namespace ElectronicObserver.Window
 
 				Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 
-				APIObserver.Instance.APIList["api_start2"].ResponseReceived +=
+				APIObserver.Instance.APIList["api_start2/getData"].ResponseReceived +=
 					(string apiname, dynamic data) => InitialAPIReceived(apiname, data);
 
 				// プロキシをセット

@@ -167,3 +167,5 @@ packages/
 /ElectronicObserver/Record
 /ElectronicObserver/ErrorReport
 /ElectronicObserver/BattleLog
+/ElectronicObserver/BrowserCache
+/ElectronicObserver/ScreenShot

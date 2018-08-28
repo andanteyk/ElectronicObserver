@@ -337,26 +337,18 @@ namespace ElectronicObserver.Window.Dialog
 
 			//装備画像を読み込んでみる
 			{
-				string path = string.Format(@"{0}\\resources\\image\\slotitem\\card\\{1:D3}.png", Utility.Configuration.Config.Connection.SaveDataPath, equipmentID);
-				if (File.Exists(path))
+				var img =
+					KCResourceHelper.LoadEquipmentImage(equipmentID, KCResourceHelper.ResourceTypeEquipmentCard) ??
+					KCResourceHelper.LoadEquipmentImage(equipmentID, KCResourceHelper.ResourceTypeEquipmentCardSmall);
+
+				if (img != null)
 				{
-					try
-					{
-
-						EquipmentImage.Image = new Bitmap(path);
-
-					}
-					catch (Exception)
-					{
-						if (EquipmentImage.Image != null)
-							EquipmentImage.Image.Dispose();
-						EquipmentImage.Image = null;
-					}
+					EquipmentImage.Image?.Dispose();
+					EquipmentImage.Image = img;
 				}
 				else
 				{
-					if (EquipmentImage.Image != null)
-						EquipmentImage.Image.Dispose();
+					EquipmentImage.Image?.Dispose();
 					EquipmentImage.Image = null;
 				}
 			}

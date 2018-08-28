@@ -121,7 +121,7 @@ namespace ElectronicObserver.Data
 
 			switch (apiname)
 			{
-				case "api_start2":
+				case "api_start2/getData":
 					base.LoadFromResponse(apiname, (object)data);
 					break;
 

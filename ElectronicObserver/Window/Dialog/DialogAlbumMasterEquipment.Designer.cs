@@ -29,9 +29,9 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.StripMenu_File = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_File_OutputCSVUser = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,6 +39,8 @@
 			this.StripMenu_Edit = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Edit_CopyEquipmentName = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_Edit_CopyEquipmentData = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_Edit_GoogleEquipmentName = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View = new System.Windows.Forms.ToolStripMenuItem();
 			this.StripMenu_View_ShowAppearingArea = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -102,8 +104,6 @@
 			this.EquipmentImage = new System.Windows.Forms.PictureBox();
 			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.StripMenu_Edit_GoogleEquipmentName = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -122,9 +122,9 @@
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.StripMenu_File,
-			this.StripMenu_Edit,
-			this.StripMenu_View});
+            this.StripMenu_File,
+            this.StripMenu_Edit,
+            this.StripMenu_View});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -134,8 +134,8 @@
 			// StripMenu_File
 			// 
 			this.StripMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.StripMenu_File_OutputCSVUser,
-			this.StripMenu_File_OutputCSVData});
+            this.StripMenu_File_OutputCSVUser,
+            this.StripMenu_File_OutputCSVData});
 			this.StripMenu_File.Name = "StripMenu_File";
 			this.StripMenu_File.Size = new System.Drawing.Size(70, 20);
 			this.StripMenu_File.Text = "ファイル(&F)";
@@ -157,10 +157,10 @@
 			// StripMenu_Edit
 			// 
 			this.StripMenu_Edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.StripMenu_Edit_CopyEquipmentName,
-			this.StripMenu_Edit_CopyEquipmentData,
-			this.toolStripSeparator1,
-			this.StripMenu_Edit_GoogleEquipmentName});
+            this.StripMenu_Edit_CopyEquipmentName,
+            this.StripMenu_Edit_CopyEquipmentData,
+            this.toolStripSeparator1,
+            this.StripMenu_Edit_GoogleEquipmentName});
 			this.StripMenu_Edit.Name = "StripMenu_Edit";
 			this.StripMenu_Edit.Size = new System.Drawing.Size(60, 20);
 			this.StripMenu_Edit.Text = "編集(&E)";
@@ -168,9 +168,9 @@
 			// StripMenu_Edit_CopyEquipmentName
 			// 
 			this.StripMenu_Edit_CopyEquipmentName.Name = "StripMenu_Edit_CopyEquipmentName";
-			this.StripMenu_Edit_CopyEquipmentName.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-			| System.Windows.Forms.Keys.C)));
-			this.StripMenu_Edit_CopyEquipmentName.Size = new System.Drawing.Size(248, 22);
+			this.StripMenu_Edit_CopyEquipmentName.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+			this.StripMenu_Edit_CopyEquipmentName.Size = new System.Drawing.Size(250, 22);
 			this.StripMenu_Edit_CopyEquipmentName.Text = "装備名をコピー(&N)";
 			this.StripMenu_Edit_CopyEquipmentName.Click += new System.EventHandler(this.StripMenu_Edit_CopyEquipmentName_Click);
 			// 
@@ -178,14 +178,27 @@
 			// 
 			this.StripMenu_Edit_CopyEquipmentData.Name = "StripMenu_Edit_CopyEquipmentData";
 			this.StripMenu_Edit_CopyEquipmentData.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-			this.StripMenu_Edit_CopyEquipmentData.Size = new System.Drawing.Size(248, 22);
+			this.StripMenu_Edit_CopyEquipmentData.Size = new System.Drawing.Size(250, 22);
 			this.StripMenu_Edit_CopyEquipmentData.Text = "装備データをコピー(&D)";
 			this.StripMenu_Edit_CopyEquipmentData.Click += new System.EventHandler(this.StripMenu_Edit_CopyEquipmentData_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(247, 6);
+			// 
+			// StripMenu_Edit_GoogleEquipmentName
+			// 
+			this.StripMenu_Edit_GoogleEquipmentName.Name = "StripMenu_Edit_GoogleEquipmentName";
+			this.StripMenu_Edit_GoogleEquipmentName.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+			this.StripMenu_Edit_GoogleEquipmentName.Size = new System.Drawing.Size(250, 22);
+			this.StripMenu_Edit_GoogleEquipmentName.Text = "装備名でGoogle検索(&G)";
+			this.StripMenu_Edit_GoogleEquipmentName.Click += new System.EventHandler(this.StripMenu_Edit_GoogleEquipmentName_Click);
 			// 
 			// StripMenu_View
 			// 
 			this.StripMenu_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.StripMenu_View_ShowAppearingArea});
+            this.StripMenu_View_ShowAppearingArea});
 			this.StripMenu_View.Name = "StripMenu_View";
 			this.StripMenu_View.Size = new System.Drawing.Size(61, 20);
 			this.StripMenu_View.Text = "表示(&V)";
@@ -219,8 +232,8 @@
 			// 
 			// TextSearch
 			// 
-			this.TextSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.TextSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextSearch.Location = new System.Drawing.Point(3, 3);
 			this.TextSearch.Name = "TextSearch";
 			this.TextSearch.Size = new System.Drawing.Size(244, 23);
@@ -233,33 +246,33 @@
 			this.EquipmentView.AllowUserToAddRows = false;
 			this.EquipmentView.AllowUserToDeleteRows = false;
 			this.EquipmentView.AllowUserToResizeRows = false;
-			this.EquipmentView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.EquipmentView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.EquipmentView.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.EquipmentView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle7.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.EquipmentView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.EquipmentView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.EquipmentView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.EquipmentView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.EquipmentView_ID,
-			this.EquipmentView_Icon,
-			this.EquipmentView_Type,
-			this.EquipmentView_Name});
-			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle9.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.EquipmentView.DefaultCellStyle = dataGridViewCellStyle9;
+            this.EquipmentView_ID,
+            this.EquipmentView_Icon,
+            this.EquipmentView_Type,
+            this.EquipmentView_Name});
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.EquipmentView.DefaultCellStyle = dataGridViewCellStyle3;
 			this.EquipmentView.Location = new System.Drawing.Point(0, 29);
 			this.EquipmentView.Margin = new System.Windows.Forms.Padding(0);
 			this.EquipmentView.MultiSelect = false;
@@ -278,8 +291,8 @@
 			// EquipmentView_ID
 			// 
 			this.EquipmentView_ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.EquipmentView_ID.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.EquipmentView_ID.DefaultCellStyle = dataGridViewCellStyle2;
 			this.EquipmentView_ID.HeaderText = "ID";
 			this.EquipmentView_ID.Name = "EquipmentView_ID";
 			this.EquipmentView_ID.ReadOnly = true;
@@ -424,8 +437,8 @@
 			// 
 			// DefaultSlots
 			// 
-			this.DefaultSlots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.DefaultSlots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.DefaultSlots.BackColor = System.Drawing.SystemColors.Control;
 			this.DefaultSlots.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.DefaultSlots.FormattingEnabled = true;
@@ -440,9 +453,9 @@
 			// 
 			// Description
 			// 
-			this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.Description.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.Description.AutoSize = false;
 			this.Description.AutoWrap = true;
 			this.Description.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -451,7 +464,7 @@
 			this.Description.Size = new System.Drawing.Size(525, 83);
 			this.Description.TabIndex = 20;
 			this.Description.Text = "[5inch連装砲]\r\nかの国において最も広く使われた駆逐艦主砲、その連装砲版です。\r\n大型艦の対空砲としても搭載されました。\r\n現在では深海駆逐艦の主力兵装とし" +
-	"て普及しています。\r\n";
+    "て普及しています。\r\n";
 			this.Description.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// TableEquipmentName
@@ -777,8 +790,8 @@
 			// 
 			// imageLabel14
 			// 
-			this.imageLabel14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.imageLabel14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.imageLabel14.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.imageLabel14.Location = new System.Drawing.Point(56, 3);
 			this.imageLabel14.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
@@ -940,6 +953,7 @@
 			this.EquipmentImage.Location = new System.Drawing.Point(283, 3);
 			this.EquipmentImage.Name = "EquipmentImage";
 			this.EquipmentImage.Size = new System.Drawing.Size(260, 260);
+			this.EquipmentImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.EquipmentImage.TabIndex = 4;
 			this.EquipmentImage.TabStop = false;
 			// 
@@ -954,19 +968,6 @@
 			// 
 			this.SaveCSVDialog.Filter = "CSV|*.csv|File|*";
 			this.SaveCSVDialog.Title = "CSVに出力";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(245, 6);
-			// 
-			// StripMenu_Edit_GoogleEquipmentName
-			// 
-			this.StripMenu_Edit_GoogleEquipmentName.Name = "StripMenu_Edit_GoogleEquipmentName";
-			this.StripMenu_Edit_GoogleEquipmentName.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-			this.StripMenu_Edit_GoogleEquipmentName.Size = new System.Drawing.Size(250, 22);
-			this.StripMenu_Edit_GoogleEquipmentName.Text = "装備名でGoogle検索(&G)";
-			this.StripMenu_Edit_GoogleEquipmentName.Click += new System.EventHandler(this.StripMenu_Edit_GoogleEquipmentName_Click);
 			// 
 			// DialogAlbumMasterEquipment
 			// 

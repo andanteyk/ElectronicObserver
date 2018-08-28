@@ -8,117 +8,117 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Browser.Properties
-{
-	using System;
-
-
-	/// <summary>
-	///   ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
-	/// </summary>
-	// このクラスは StronglyTypedResourceBuilder クラスが ResGen
-	// または Visual Studio のようなツールを使用して自動生成されました。
-	// メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
-	// ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
-	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-	internal class Resources
-	{
-
-		private static global::System.Resources.ResourceManager resourceMan;
-
-		private static global::System.Globalization.CultureInfo resourceCulture;
-
-		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-		internal Resources()
-		{
-		}
-
-		/// <summary>
-		///   このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
-		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-		internal static global::System.Resources.ResourceManager ResourceManager
-		{
-			get
-			{
-				if (object.ReferenceEquals(resourceMan, null))
-				{
-					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Browser.Properties.Resources", typeof(Resources).Assembly);
-					resourceMan = temp;
-				}
-				return resourceMan;
-			}
-		}
-
-		/// <summary>
-		///   厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
-		///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
-		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-		internal static global::System.Globalization.CultureInfo Culture
-		{
-			get
-			{
-				return resourceCulture;
-			}
-			set
-			{
-				resourceCulture = value;
-			}
-		}
-
-		/// <summary>
-		///   // KCRDBと競合しないように同じように処理
-		///try {
-		///	var hideStyle = {width:&quot;0px&quot;,height:&quot;0px&quot;,visibility:&quot;hidden&quot;,display:&quot;none&quot;};
-		///	var fillStyle = {margin:&quot;0px&quot;,padding:&quot;0px&quot;,position:&quot;fixed&quot;,left:&quot;0px&quot;,top:&quot;0px&quot;,width:&quot;100%&quot;,height:&quot;100%&quot;,overflow:&quot;hidden&quot;};
-		///	var jqBody=document.body;
-		///	$(jqBody).css(&quot;zoom&quot;,&quot;normal&quot;);
-		///	$(jqBody).css({margin:&quot;0px&quot;,padding:&quot;0px&quot;,overflow:&quot;hidden&quot;});
-		///	$(&quot;#spacing_top&quot;).css(hideStyle);
-		///	$(&quot;#adFlashWrap&quot;).css(fillStyle);
-		///	$(&quot;#wsFlashWrap&quot;).css(fillStyle);
-		///	$(&quot;#flashWrap&quot;).css(fillStyle); [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
-		/// </summary>
-		internal static string FrameScript
-		{
-			get
-			{
-				return ResourceManager.GetString("FrameScript", resourceCulture);
-			}
-		}
-
-		/// <summary>
-		///   // KCRDBと競合しないように同じように処理
-		///try {
-		///	var hideStyle = {width:&quot;0px&quot;,height:&quot;0px&quot;,visibility:&quot;hidden&quot;,display:&quot;none&quot;};
-		///	var fillStyle = {margin:&quot;0px&quot;,padding:&quot;0px&quot;,position:&quot;fixed&quot;,left:&quot;0px&quot;,top:&quot;0px&quot;,width:&quot;100%&quot;,height:&quot;100%&quot;,overflow:&quot;hidden&quot;};
-		///	$(document.body).css({margin:&quot;0px&quot;,padding:&quot;0px&quot;,overflow:&quot;hidden&quot;});
-		///	$(&quot;img&quot;).css(hideStyle);
-		///	//$(&quot;#dmm_ntgnavi&quot;).css(hideStyle);
-		///	$(&quot;#dmm-ntgnavi-renew&quot;).css(hideStyle);
-		///	$(&quot;#w&quot;).css(fillStyle);
-		///	$(&quot;#main-ntg&quot;).css(fillStyle);
-		///	$(&quot;#page&quot;).css(fillStyle);
-		/// [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
-		/// </summary>
-		internal static string PageScript
-		{
-			get
-			{
-				return ResourceManager.GetString("PageScript", resourceCulture);
-			}
-		}
-
-		internal static string DMMScript
-		{
-			get
-			{
-				return ResourceManager.GetString("DMMScript", resourceCulture);
-			}
-		}
-
-	}
+namespace Browser.Properties {
+    using System;
+    
+    
+    /// <summary>
+    ///   ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
+    /// </summary>
+    // このクラスは StronglyTypedResourceBuilder クラスが ResGen
+    // または Visual Studio のようなツールを使用して自動生成されました。
+    // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
+    // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Browser.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
+        ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   
+        ///try {
+        ///	if ( DMM.netgame.reloadDialog ) DMM.netgame.reloadDialog = function (){};
+        ///}
+        ///catch(e) {
+        ///	alert(&quot;DMMによるページ更新ダイアログの非表示に失敗しました: &quot;+e);
+        ///} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DMMScript {
+            get {
+                return ResourceManager.GetString("DMMScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   
+        ///try {{
+        ///var node = document.getElementById(&apos;{0}&apos;);
+        ///if (node) document.getElementsByTagName(&apos;head&apos;)[0].removeChild(node);
+        ///node = document.createElement(&apos;div&apos;);
+        ///node.innerHTML = &apos;F&lt;style id=\&apos;{0}\&apos;&gt;body {{ visibility: hidden; }} \
+        ///#flashWrap {{ position: fixed; left: 0; top: 0; width: 100% !important; height: 100% !important; }} \
+        ///#htmlWrap {{ visibility: visible; width: 100% !important; height: 100% !important; }}&lt;/style&gt;&apos;;
+        ///document.getElementsByTagName(&apos;head&apos;)[0].appendChild(node.lastChild);
+        ///}}
+        ///ca [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FrameScript {
+            get {
+                return ResourceManager.GetString("FrameScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   
+        ///try {{
+        ///var node = document.getElementById(&apos;{0}&apos;);
+        ///if (node) document.getElementsByTagName(&apos;head&apos;)[0].removeChild(node);
+        ///node = document.createElement(&apos;div&apos;);
+        ///node.innerHTML = &apos;P&lt;style id=\&apos;{0}\&apos;&gt;body {{ visibility: hidden; overflow: hidden; }} \
+        ///div #block_background {{ visibility: visible; }} \
+        ///div #alert {{ visibility: visible; overflow: scroll; overflow-x: hidden; top: 3% !important; left: 3% !important; width: 94% !important; height: 94%; padding: 2%; box-sizing: border-box;}} \
+        ///div.dmm-ntgnavi [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PageScript {
+            get {
+                return ResourceManager.GetString("PageScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   var node = document.getElementById(&apos;{0}&apos;);
+        ///if (node) document.getElementsByTagName(&apos;head&apos;)[0].removeChild(node); に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string RestoreScript {
+            get {
+                return ResourceManager.GetString("RestoreScript", resourceCulture);
+            }
+        }
+    }
 }

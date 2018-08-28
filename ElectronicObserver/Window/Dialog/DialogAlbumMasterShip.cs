@@ -295,7 +295,7 @@ namespace ElectronicObserver.Window.Dialog
 			ToolTipInfo.SetToolTip(ResourceName, string.Format("リソース名: {0}\r\nグラフィック ver. {1}\r\nボイス ver. {2}\r\n母港ボイス ver. {3}\r\n({4})",
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion, Constants.GetVoiceFlag(ship.VoiceFlag)));
 
-			
+
 			ShipType.Text = ship.IsLandBase ? "陸上施設" : ship.ShipTypeName;
 			if (ship.IsAbyssalShip)
 				ToolTipInfo.SetToolTip(ShipType, $"艦型ID: {ship.ShipClass}");
@@ -649,7 +649,7 @@ namespace ElectronicObserver.Window.Dialog
 			if (!ImageLoader.IsBusy)
 			{
 				loadingResourceShipID = ship.ShipID;
-				ImageLoader.RunWorkerAsync(ship.ResourceName);
+				ImageLoader.RunWorkerAsync(ship.ShipID);
 			}
 
 
@@ -1164,25 +1164,11 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void ImageLoader_DoWork(object sender, DoWorkEventArgs e)
 		{
-
-			string resourceName = e.Argument as string;
-
 			//System.Threading.Thread.Sleep( 2000 );		// for test
 
 			try
 			{
-
-				var img = SwfHelper.GetShipSwfImage(resourceName, SwfHelper.ShipResourceCharacterID.BannerNormal);
-
-				if (img.Size == SwfHelper.ShipBannerSize)
-				{
-					e.Result = img;
-				}
-				else
-				{
-					img.Dispose();
-					e.Result = null;
-				}
+				e.Result = KCResourceHelper.LoadShipImage(e.Argument as int? ?? 0, false, KCResourceHelper.ResourceTypeShipBanner);
 			}
 			catch (Exception)
 			{
@@ -1211,7 +1197,7 @@ namespace ElectronicObserver.Window.Dialog
 					loadingResourceShipID = _shipID;
 					var ship = KCDatabase.Instance.MasterShips[_shipID];
 					if (ship != null)
-						ImageLoader.RunWorkerAsync(ship.ResourceName);
+						ImageLoader.RunWorkerAsync(_shipID);
 				}
 
 				return;
@@ -1549,26 +1535,7 @@ namespace ElectronicObserver.Window.Dialog
 			var ship = KCDatabase.Instance.MasterShips[_shipID];
 			if (ship != null)
 			{
-
-				var pathlist = new LinkedList<string>();
-				pathlist.AddLast(SwfHelper.GetShipResourcePath(ship.ResourceName));
-
-				foreach (var rec in RecordManager.Instance.ShipParameter.Record.Values.Where(r => r.OriginalCostumeShipID == _shipID))
-				{
-					string path = SwfHelper.GetShipResourcePath(rec.ResourceName);
-					if (path != null)
-						pathlist.AddLast(path);
-				}
-
-				var arg = pathlist.Where(p => p != null).ToArray();
-				if (arg.Length > 0)
-				{
-					new DialogShipGraphicViewer(arg).Show(Owner);
-				}
-				else
-				{
-					MessageBox.Show("画像リソースが存在しません。以下の手順を踏んでください。\r\n1. 設定→通信→通信内容を保存する 及び SWF を有効にする。\r\n2. キャッシュをクリアし、再読み込みする。\r\n3. 艦これ本体で当該艦を表示させる（図鑑画面を開くなど）。", "ビューア：画像リソース不足", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				}
+				new DialogShipGraphicViewer(ship.ShipID).Show(Owner);
 			}
 			else
 			{
