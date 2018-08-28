@@ -29,20 +29,20 @@ namespace ElectronicObserver.Utility
 		/// <summary>
 		/// バージョン(日本語, ソフトウェア名を含みます)
 		/// </summary>
-		public static string VersionJapanese => "試製" + SoftwareNameJapanese + "四〇型";
+		public static string VersionJapanese => SoftwareNameJapanese + "四〇型";
 
 
 		/// <summary>
 		/// バージョン(英語)
 		/// </summary>
-		public static string VersionEnglish => "4.0.0 beta";
+		public static string VersionEnglish => "4.0.0";
 
 
 
 		/// <summary>
 		/// 更新日時
 		/// </summary>
-		public static DateTime UpdateTime => DateTimeHelper.CSVStringToTime("2018/08/25 19:00:00");
+		public static DateTime UpdateTime => DateTimeHelper.CSVStringToTime("2018/08/28 23:00:00");
 
 
 

@@ -699,19 +699,21 @@ namespace ElectronicObserver.Utility
 						g.DrawString($"#{shipIndex + 1}:", args.MediumDigitFont, subTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipIndexSize, shipNameAreaSize), shipIndexSize), formatMiddleLeft);
 						shipPointer.X += shipIndexSize.Width;
 
-						using (var shipNameImage = KCResourceHelper.LoadShipImage(ship.ShipID, false, KCResourceHelper.ResourceTypeShipName))
-						{
-							if (shipNameImage != null)
-							{
-								g.DrawImage(shipNameImage, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize), shipNameSize),
-									shipNameImageAvailableArea, GraphicsUnit.Pixel);
-							}
-							else
+
+						// note: 現在のフォーマットに対応していない
+						//using (var shipNameImage = KCResourceHelper.LoadShipImage(ship.ShipID, false, KCResourceHelper.ResourceTypeShipName))
+						//{
+						//	if (shipNameImage != null)
+						//	{
+						//		g.DrawImage(shipNameImage, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize), shipNameSize),
+						//			shipNameImageAvailableArea, GraphicsUnit.Pixel);
+						//	}
+						//	else
 							{
 								// 画像がなければ文字列で艦名を描画する
 								g.DrawString(ship.Name, args.LargeFont, mainTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize), shipNameSize), formatMiddleLeft);
 							}
-						}
+						//}
 						shipPointer.X += shipNameSize.Width;
 
 

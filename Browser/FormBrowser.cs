@@ -237,6 +237,7 @@ namespace Browser
 			Browser = new ChromiumWebBrowser(@"about:blank")
 			{
 				Dock = DockStyle.None,
+				Size = SizeAdjuster.Size,
 				RequestHandler = new RequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer),
 				MenuHandler = new MenuHandler(),
 				KeyboardHandler = new KeyboardHandler(),
@@ -244,7 +245,6 @@ namespace Browser
 			};
 			Browser.LoadingStateChanged += Browser_LoadingStateChanged;
 			SizeAdjuster.Controls.Add(Browser);
-
 		}
 
 
