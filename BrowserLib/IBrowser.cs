@@ -21,7 +21,7 @@ namespace BrowserLib
 		void InitialAPIReceived();
 
 		[OperationContract]
-		void SaveScreenShot();
+		Task SaveScreenShot();
 
 		[OperationContract]
 		void RefreshBrowser();

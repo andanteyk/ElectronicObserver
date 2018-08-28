@@ -150,7 +150,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.GroupOutputPath.Controls.Add(this.SearchOutputPath);
 			this.GroupOutputPath.Controls.Add(this.OutputPath);
-			this.GroupOutputPath.Location = new System.Drawing.Point(8, 271);
+			this.GroupOutputPath.Location = new System.Drawing.Point(8, 269);
 			this.GroupOutputPath.Name = "GroupOutputPath";
 			this.GroupOutputPath.Size = new System.Drawing.Size(440, 57);
 			this.GroupOutputPath.TabIndex = 10;
@@ -191,7 +191,7 @@
 			this.groupBox7.Controls.Add(this.Comment);
 			this.groupBox7.Location = new System.Drawing.Point(8, 127);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(440, 138);
+			this.groupBox7.Size = new System.Drawing.Size(440, 136);
 			this.groupBox7.TabIndex = 9;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "自由入力欄";
@@ -236,7 +236,7 @@
 			this.Comment.Multiline = true;
 			this.Comment.Name = "Comment";
 			this.Comment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.Comment.Size = new System.Drawing.Size(428, 66);
+			this.Comment.Size = new System.Drawing.Size(428, 64);
 			this.Comment.TabIndex = 6;
 			this.Comment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Comment_KeyDown);
 			// 
@@ -245,7 +245,7 @@
 			this.ButtonAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.ButtonAlert.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
 			this.ButtonAlert.ForeColor = System.Drawing.Color.Red;
-			this.ButtonAlert.Location = new System.Drawing.Point(6, 334);
+			this.ButtonAlert.Location = new System.Drawing.Point(6, 332);
 			this.ButtonAlert.Name = "ButtonAlert";
 			this.ButtonAlert.Size = new System.Drawing.Size(278, 23);
 			this.ButtonAlert.TabIndex = 8;
@@ -317,7 +317,7 @@
 			// 
 			this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.ButtonCancel.Location = new System.Drawing.Point(373, 334);
+			this.ButtonCancel.Location = new System.Drawing.Point(373, 332);
 			this.ButtonCancel.Name = "ButtonCancel";
 			this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this.ButtonCancel.TabIndex = 0;
@@ -328,7 +328,7 @@
 			// ButtonOK
 			// 
 			this.ButtonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonOK.Location = new System.Drawing.Point(292, 334);
+			this.ButtonOK.Location = new System.Drawing.Point(292, 332);
 			this.ButtonOK.Name = "ButtonOK";
 			this.ButtonOK.Size = new System.Drawing.Size(75, 23);
 			this.ButtonOK.TabIndex = 7;
@@ -677,7 +677,7 @@
 			this.groupBox6.Controls.Add(this.TextGeneralFont);
 			this.groupBox6.Location = new System.Drawing.Point(6, 6);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(442, 341);
+			this.groupBox6.Size = new System.Drawing.Size(442, 339);
 			this.groupBox6.TabIndex = 0;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "フォント";

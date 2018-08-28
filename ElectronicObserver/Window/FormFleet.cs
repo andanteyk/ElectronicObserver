@@ -7,7 +7,6 @@ using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Support;
-using SwfExtractor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -169,6 +168,20 @@ namespace ElectronicObserver.Window
 
 					int speed = members.Select(s => s.Speed).DefaultIfEmpty(20).Min();
 
+					string supporttype;
+					switch (fleet.SupportType)
+					{
+						case 0:
+						default:
+							supporttype = "発動不能"; break;
+						case 1:
+							supporttype = "航空支援";break;
+						case 2:
+							supporttype = "支援射撃"; break;
+						case 3:
+							supporttype = "支援長距離雷撃"; break;
+					}
+
 					double expeditionBonus = Calculator.GetExpeditionBonus(fleet);
 					int tp = Calculator.GetTPDamage(fleet);
 
@@ -180,15 +193,17 @@ namespace ElectronicObserver.Window
 					ToolTipInfo.SetToolTip(Name, string.Format(
 						"Lv合計: {0} / 平均: {1:0.00}\r\n" +
 						"{2}艦隊\r\n" +
-						"合計対空 {3} / 対潜 {4} / 索敵 {5}\r\n" +
-						"ドラム缶搭載: {6}個 ({7}艦)\r\n" +
-						"大発動艇搭載: {8}個 ({9}艦, +{10:p1})\r\n" +
-						"輸送量(TP): S {11} / A {12}\r\n" +
-						"総積載: 燃 {13} / 弾 {14}\r\n" +
-						"(1戦当たり 燃 {15} / 弾 {16})",
+						"支援攻撃: {3}\r\n" +
+						"合計対空 {4} / 対潜 {5} / 索敵 {6}\r\n" +
+						"ドラム缶搭載: {7}個 ({8}艦)\r\n" +
+						"大発動艇搭載: {9}個 ({10}艦, +{11:p1})\r\n" +
+						"輸送量(TP): S {12} / A {13}\r\n" +
+						"総積載: 燃 {14} / 弾 {15}\r\n" +
+						"(1戦当たり 燃 {16} / 弾 {17})",
 						levelSum,
 						(double)levelSum / Math.Max(fleet.Members.Count(id => id != -1), 1),
 						Constants.GetSpeed(speed),
+						supporttype,
 						members.Sum(s => s.AATotal),
 						members.Sum(s => s.ASWTotal),
 						members.Sum(s => s.LOSTotal),
@@ -472,6 +487,7 @@ namespace ElectronicObserver.Window
 
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;
+					Level.Tag = ship.MasterID;
 
 					{
 						StringBuilder tip = new StringBuilder();
@@ -610,7 +626,7 @@ namespace ElectronicObserver.Window
 
 			private void Level_MouseDown(object sender, MouseEventArgs e)
 			{
-				if (Name.Tag is int id && id != -1)
+				if (Level.Tag is int id && id != -1)
 				{
 					if ((e.Button & MouseButtons.Right) != 0)
 					{
