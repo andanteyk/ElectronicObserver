@@ -7,7 +7,6 @@ using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Support;
-using SwfExtractor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

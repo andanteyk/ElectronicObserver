@@ -943,6 +943,10 @@ namespace ElectronicObserver.Utility
 				/// </summary>
 				public bool HardwareAccelerationEnabled { get; set; }
 
+				/// <summary>
+				/// 描画バッファを保持するか
+				/// </summary>
+				public bool PreserveDrawingBuffer { get; set; }
 
 				public ConfigFormBrowser()
 				{
@@ -962,6 +966,7 @@ namespace ElectronicObserver.Utility
 					IsToolMenuVisible = true;
 					ConfirmAtRefresh = true;
 					HardwareAccelerationEnabled = true;
+					PreserveDrawingBuffer = true;
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>
@@ -1621,7 +1626,7 @@ namespace ElectronicObserver.Utility
 
 			if (dt <= DateTimeHelper.CSVStringToTime("2018/08/17 23:00:00"))
 				Update312_RemoveObsoleteRegistry();
-			
+
 
 			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString(SoftwareInformation.UpdateTime);
 		}
@@ -1822,10 +1827,10 @@ namespace ElectronicObserver.Utility
 						int diff = d.Difficulty;
 						switch (diff)
 						{
-							case 2: diff = 1; break;  
+							case 2: diff = 1; break;
 							case 3: diff = 2; break;
 							case 4: diff = 3; break;
-							case -1: diff = 4; break; 
+							case -1: diff = 4; break;
 						}
 
 						d.Difficulty = diff;

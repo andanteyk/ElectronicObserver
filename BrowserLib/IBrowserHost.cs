@@ -181,5 +181,11 @@ namespace BrowserLib
 		[DataMember]
 		public bool HardwareAccelerationEnabled { get; set; }
 
+		/// <summary>
+		/// 描画バッファを保持するか
+		/// </summary>
+		[DataMember]
+		public bool PreserveDrawingBuffer { get; set; }
+
 	}
 }
