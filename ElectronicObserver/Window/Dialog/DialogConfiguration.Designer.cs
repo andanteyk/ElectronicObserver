@@ -46,7 +46,6 @@
 			this.Connection_PanelSaveData = new System.Windows.Forms.Panel();
 			this.Connection_ApplyVersion = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveOtherFile = new System.Windows.Forms.CheckBox();
-			this.Connection_SaveSWF = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveResponse = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveRequest = new System.Windows.Forms.CheckBox();
 			this.Connection_SaveDataPathSearch = new System.Windows.Forms.Button();
@@ -179,6 +178,7 @@
 			this.FormBattle_HideDuringBattle = new System.Windows.Forms.CheckBox();
 			this.FormBattle_IsScrollable = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
+			this.FormBrowser_PreserveDrawingBuffer = new System.Windows.Forms.CheckBox();
 			this.label20 = new System.Windows.Forms.Label();
 			this.FormBrowser_HardwareAccelerationEnabled = new System.Windows.Forms.CheckBox();
 			this.FormBrowser_IsDMMreloadDialogDestroyable = new System.Windows.Forms.CheckBox();
@@ -241,7 +241,6 @@
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.Log_PlayTime = new System.Windows.Forms.Label();
 			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
-			this.FormBrowser_PreserveDrawingBuffer = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -445,7 +444,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_ApplyVersion);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveOtherFile);
-			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveSWF);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveResponse);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveRequest);
 			this.Connection_PanelSaveData.Controls.Add(this.Connection_SaveDataPathSearch);
@@ -459,7 +457,7 @@
 			// Connection_ApplyVersion
 			// 
 			this.Connection_ApplyVersion.AutoSize = true;
-			this.Connection_ApplyVersion.Location = new System.Drawing.Point(296, 32);
+			this.Connection_ApplyVersion.Location = new System.Drawing.Point(237, 32);
 			this.Connection_ApplyVersion.Name = "Connection_ApplyVersion";
 			this.Connection_ApplyVersion.Size = new System.Drawing.Size(68, 19);
 			this.Connection_ApplyVersion.TabIndex = 9;
@@ -470,24 +468,13 @@
 			// Connection_SaveOtherFile
 			// 
 			this.Connection_SaveOtherFile.AutoSize = true;
-			this.Connection_SaveOtherFile.Location = new System.Drawing.Point(231, 32);
+			this.Connection_SaveOtherFile.Location = new System.Drawing.Point(172, 32);
 			this.Connection_SaveOtherFile.Name = "Connection_SaveOtherFile";
 			this.Connection_SaveOtherFile.Size = new System.Drawing.Size(59, 19);
 			this.Connection_SaveOtherFile.TabIndex = 8;
 			this.Connection_SaveOtherFile.Text = "Other";
 			this.ToolTipInfo.SetToolTip(this.Connection_SaveOtherFile, "すべての通信ファイルを保存します。");
 			this.Connection_SaveOtherFile.UseVisualStyleBackColor = true;
-			// 
-			// Connection_SaveSWF
-			// 
-			this.Connection_SaveSWF.AutoSize = true;
-			this.Connection_SaveSWF.Location = new System.Drawing.Point(172, 32);
-			this.Connection_SaveSWF.Name = "Connection_SaveSWF";
-			this.Connection_SaveSWF.Size = new System.Drawing.Size(53, 19);
-			this.Connection_SaveSWF.TabIndex = 7;
-			this.Connection_SaveSWF.Text = "SWF";
-			this.ToolTipInfo.SetToolTip(this.Connection_SaveSWF, "SWFファイルを保存します。");
-			this.Connection_SaveSWF.UseVisualStyleBackColor = true;
 			// 
 			// Connection_SaveResponse
 			// 
@@ -1015,7 +1002,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 265);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 263);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -2112,13 +2099,25 @@
 			this.tabPage12.Controls.Add(this.FormBrowser_LogInPageURL);
 			this.tabPage12.Controls.Add(this.FormBrowser_ZoomRate);
 			this.tabPage12.Controls.Add(this.label15);
-			this.tabPage12.Location = new System.Drawing.Point(4, 24);
+			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(682, 338);
+			this.tabPage12.Size = new System.Drawing.Size(682, 340);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
+			// 
+			// FormBrowser_PreserveDrawingBuffer
+			// 
+			this.FormBrowser_PreserveDrawingBuffer.AutoSize = true;
+			this.FormBrowser_PreserveDrawingBuffer.Location = new System.Drawing.Point(436, 31);
+			this.FormBrowser_PreserveDrawingBuffer.Name = "FormBrowser_PreserveDrawingBuffer";
+			this.FormBrowser_PreserveDrawingBuffer.Size = new System.Drawing.Size(145, 19);
+			this.FormBrowser_PreserveDrawingBuffer.TabIndex = 15;
+			this.FormBrowser_PreserveDrawingBuffer.Text = "描画バッファを保持する *";
+			this.ToolTipInfo.SetToolTip(this.FormBrowser_PreserveDrawingBuffer, "無効化するとパフォーマンスが向上する可能性があります。\r\n注意：「ハードウェアアクセラレーション」が有効な時、これが有効でないと原寸でスクリーンショットが撮影でき" +
+        "なくなります。\r\n* この変更は再起動後に適用されます。");
+			this.FormBrowser_PreserveDrawingBuffer.UseVisualStyleBackColor = true;
 			// 
 			// label20
 			// 
@@ -2551,7 +2550,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 336);
+			this.label10.Location = new System.Drawing.Point(3, 334);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2696,7 +2695,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 285);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 283);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2793,18 +2792,6 @@
 			this.PlayTimeTimer.Enabled = true;
 			this.PlayTimeTimer.Interval = 1000;
 			this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
-			// 
-			// FormBrowser_PreserveDrawingBuffer
-			// 
-			this.FormBrowser_PreserveDrawingBuffer.AutoSize = true;
-			this.FormBrowser_PreserveDrawingBuffer.Location = new System.Drawing.Point(436, 31);
-			this.FormBrowser_PreserveDrawingBuffer.Name = "FormBrowser_PreserveDrawingBuffer";
-			this.FormBrowser_PreserveDrawingBuffer.Size = new System.Drawing.Size(145, 19);
-			this.FormBrowser_PreserveDrawingBuffer.TabIndex = 15;
-			this.FormBrowser_PreserveDrawingBuffer.Text = "描画バッファを保持する *";
-			this.ToolTipInfo.SetToolTip(this.FormBrowser_PreserveDrawingBuffer, "無効化するとパフォーマンスが向上する可能性があります。\r\n注意：「ハードウェアアクセラレーション」が有効な時、これが有効でないと原寸でスクリーンショットが撮影でき" +
-        "なくなります。\r\n* この変更は再起動後に適用されます。");
-			this.FormBrowser_PreserveDrawingBuffer.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -2939,7 +2926,6 @@
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.CheckBox Connection_SaveOtherFile;
-		private System.Windows.Forms.CheckBox Connection_SaveSWF;
 		private System.Windows.Forms.CheckBox Connection_SaveResponse;
 		private System.Windows.Forms.CheckBox Connection_SaveRequest;
 		private System.Windows.Forms.TextBox Connection_SaveDataPath;

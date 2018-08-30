@@ -15,7 +15,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_member
 			{
 				foreach (var elem in data.api_getitem)
 				{
-					if (elem.api_slotitem())
+					if (elem != null && elem.api_slotitem())
 					{
 						var eq = new EquipmentData();
 						eq.LoadFromResponse(APIName, elem.api_slotitem);

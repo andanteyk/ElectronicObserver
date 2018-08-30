@@ -58,6 +58,10 @@ namespace ElectronicObserver.Resource.Record
 			/// </summary>
 			public bool IsAvailable => !IsMinimumDefault && !IsMaximumDefault;
 
+			/// <summary>
+			/// 値が特定されているか
+			/// </summary>
+			public bool IsDetermined => IsAvailable && MinimumEstMin == MinimumEstMax;
 
 			/// <summary>
 			/// 最小値の初期値

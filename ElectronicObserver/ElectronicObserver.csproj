@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -180,6 +181,7 @@
     <Compile Include="Data\RelocationData.cs" />
     <Compile Include="Data\ResponseWrapper.cs" />
     <Compile Include="Data\CompassData.cs" />
+    <Compile Include="Data\ShipGraphicData.cs" />
     <Compile Include="Data\ShipGroupData.cs" />
     <Compile Include="Data\ShipGroupManager.cs" />
     <Compile Include="Data\ShipGroup\ExpressionData.cs" />
@@ -455,7 +457,6 @@
       <DependentUpon>DialogLocalAPILoader.cs</DependentUpon>
     </Compile>
     <Compile Include="Observer\APIObserver.cs" />
-    <Compile Include="Observer\kcsapi\api_start2.cs" />
     <Compile Include="Data\ShipData.cs" />
     <Compile Include="Data\ShipDataMaster.cs" />
     <Compile Include="Data\ShipType.cs" />

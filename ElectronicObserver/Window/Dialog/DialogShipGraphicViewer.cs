@@ -404,8 +404,24 @@ namespace ElectronicObserver.Window.Dialog
 					Font, Brushes.DimGray, new PointF(0, 0));
 			}
 
-			e.Graphics.DrawImage(CurrentImage, new RectangleF((panelSize.Width - imgSize.Width) / 2 + ImageOffset.X, (panelSize.Height - imgSize.Height) / 2 + ImageOffset.Y, imgSize.Width, imgSize.Height));
+			var location = new PointF((panelSize.Width - imgSize.Width) / 2 + ImageOffset.X, (panelSize.Height - imgSize.Height) / 2 + ImageOffset.Y);
+			e.Graphics.DrawImage(CurrentImage, new RectangleF(location.X, location.Y, imgSize.Width, imgSize.Height));
 
+
+			/*// face recognition test
+			{
+				var ship = GetShipFromPath(ImagePathList[CurrentIndex]);
+				if (ship != null)
+				{
+					var rect = ship.GraphicData.WeddingArea;
+					e.Graphics.DrawRectangle(Pens.Magenta,
+						(float)(panelSize.Width / 2.0 + ((double)rect.X / CurrentImage.Width - 0.5) * CurrentImage.Width * zoomRate + ImageOffset.X),
+						(float)(panelSize.Height / 2.0 + ((double)rect.Y / CurrentImage.Height - 0.5) * CurrentImage.Height * zoomRate + ImageOffset.Y),
+						(float)(rect.Width * zoomRate),
+						(float)(rect.Height * zoomRate));
+				}
+			}
+			//*/
 
 			if (AdvMode)
 			{
