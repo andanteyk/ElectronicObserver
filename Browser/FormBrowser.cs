@@ -571,45 +571,54 @@ namespace Browser
 		/// <summary>
 		/// スクリーンショットを撮影します。
 		/// </summary>
-		private Task<Bitmap> TakeScreenShot()
+		private async Task<Bitmap> TakeScreenShot()
 		{
-			var source = new TaskCompletionSource<Bitmap>();
-
-			if (Browser == null || !Browser.IsBrowserInitialized)
-				return source.Task;
-
-
-			var browser = Browser.GetBrowser();
-
-			var KanColleFrame = GetKanColleFrame();
-
-			if (KanColleFrame == null)
+			Task<ScreenShotPacket> InternalTakeScreenShot()
 			{
-				AddLog(3, string.Format("艦これが読み込まれていないため、スクリーンショットを撮ることはできません。"));
-				System.Media.SystemSounds.Beep.Play();
-				return source.Task;
-			}
+				var request = new ScreenShotPacket();
 
 
-			var request = new ScreenShotPacket(source);
-			string script = $@"
+				if (Browser == null || !Browser.IsBrowserInitialized)
+					return request.TaskSource.Task;
+
+
+				var browser = Browser.GetBrowser();
+
+				var KanColleFrame = GetKanColleFrame();
+
+				if (KanColleFrame == null)
+				{
+					AddLog(3, string.Format("艦これが読み込まれていないため、スクリーンショットを撮ることはできません。"));
+					System.Media.SystemSounds.Beep.Play();
+					return request.TaskSource.Task;
+				}
+
+
+				string script = $@"
 (async function() 
 {{
 	await CefSharp.BindObjectAsync('{request.ID}');
 
-	var canvas = document.querySelector('canvas');
+	let canvas = document.querySelector('canvas');
 	requestAnimationFrame(() =>
 	{{
-		var dataurl = canvas.toDataURL('image/png');
+		let dataurl = canvas.toDataURL('image/png');
 		{request.ID}.complete(dataurl);
 	}});
 }})();
 ";
 
-			Browser.JavascriptObjectRepository.Register(request.ID, request, true);
-			KanColleFrame.ExecuteJavaScriptAsync(script);
+				Browser.JavascriptObjectRepository.Register(request.ID, request, true);
+				KanColleFrame.ExecuteJavaScriptAsync(script);
 
-			return source.Task;
+				return request.TaskSource.Task;
+			}
+
+			var result = await InternalTakeScreenShot();
+			Browser.JavascriptObjectRepository.UnRegister(result.ID);
+
+			return result.GetImage();
+
 		}
 
 

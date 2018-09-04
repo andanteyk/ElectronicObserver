@@ -12,20 +12,23 @@ namespace Browser.CefOp
 	{
 		public string ID { get; }
 		public string DataUrl;
-		private TaskCompletionSource<Bitmap> taskSource;
+		public TaskCompletionSource<ScreenShotPacket> TaskSource { get; }
 
-		public ScreenShotPacket(TaskCompletionSource<Bitmap> source) : this("ss_" + Guid.NewGuid().ToString("N"), source) { }
-		public ScreenShotPacket(string id, TaskCompletionSource<Bitmap> source)
+		public ScreenShotPacket() : this("ss_" + Guid.NewGuid().ToString("N")) { }
+		public ScreenShotPacket(string id)
 		{
 			ID = id;
-			taskSource = source;
+			TaskSource = new TaskCompletionSource<ScreenShotPacket>();
 		}
 
 		public void Complete(string dataurl)
 		{
 			DataUrl = dataurl;
-			taskSource.SetResult(ConvertToImage(dataurl));
+			TaskSource.SetResult(this);
 		}
+
+		public Bitmap GetImage() => ConvertToImage(DataUrl);
+
 
 		public static Bitmap ConvertToImage(string dataurl)
 		{
