@@ -942,6 +942,12 @@ namespace ElectronicObserver.Utility
 				/// </summary>
 				public bool PreserveDrawingBuffer { get; set; }
 
+				/// <summary>
+				/// カラープロファイルを sRGB に固定するか
+				/// </summary>
+				public bool ForceColorProfile { get; set; }
+
+
 				public ConfigFormBrowser()
 				{
 					ZoomRate = 1;
@@ -961,6 +967,7 @@ namespace ElectronicObserver.Utility
 					ConfirmAtRefresh = true;
 					HardwareAccelerationEnabled = true;
 					PreserveDrawingBuffer = true;
+					ForceColorProfile = false;	
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>

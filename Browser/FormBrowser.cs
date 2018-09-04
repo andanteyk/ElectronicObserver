@@ -231,7 +231,8 @@ namespace Browser
 				settings.DisableGpuAcceleration();
 
 			settings.CefCommandLineArgs.Add("proxy-server", ProxySettings);
-			settings.CefCommandLineArgs.Add("force-color-profile", "srgb");
+			if (Configuration.ForceColorProfile)
+				settings.CefCommandLineArgs.Add("force-color-profile", "srgb");
 			CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 			Cef.Initialize(settings, false, null);
 
