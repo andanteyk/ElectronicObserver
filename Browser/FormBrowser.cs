@@ -223,13 +223,15 @@ namespace Browser
 				CachePath = BrowserCachePath,
 				Locale = "ja",
 				AcceptLanguageList = "ja,en-US,en",        // todo: いる？
-				LogSeverity = LogSeverity.Disable,
+				LogSeverity = LogSeverity.Error,
+				LogFile = "BrowserLog.log",
 			};
 
 			if (!Configuration.HardwareAccelerationEnabled)
 				settings.DisableGpuAcceleration();
 
 			settings.CefCommandLineArgs.Add("proxy-server", ProxySettings);
+			settings.CefCommandLineArgs.Add("force-color-profile", "srgb");
 			CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 			Cef.Initialize(settings, false, null);
 
@@ -643,10 +645,11 @@ namespace Browser
 			Bitmap image = null;
 			try
 			{
-				if (Configuration.HardwareAccelerationEnabled && !Configuration.PreserveDrawingBuffer)
-					image = await TakeHardScreenShot();
-				else
-					image = await TakeScreenShot();
+				// なくても動くようになったので（？）
+				//if (Configuration.HardwareAccelerationEnabled && !Configuration.PreserveDrawingBuffer)
+				//	image = await TakeHardScreenShot();
+				//else
+				image = await TakeScreenShot();
 
 
 				if (image == null)

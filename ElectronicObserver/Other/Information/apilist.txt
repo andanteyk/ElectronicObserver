@@ -69,8 +69,8 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_ensyue_n	：演習(敵軍側)
 		api_battle_n	：戦闘
 		api_battle_d	：
-		api_weda		：ケッコンカッコカリの顔枠の左上?
-		api_wedb		：〃右下?
+		api_weda		：ケッコンカッコカリの顔枠の左上座標
+		api_wedb		：〃幅[0]と高さ[1]
 	
 	api_mst_slotitem_equiptype		：装備カテゴリ
 		api_id			：カテゴリID(装備のtype[2]に対応)
