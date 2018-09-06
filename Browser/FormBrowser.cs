@@ -573,26 +573,22 @@ namespace Browser
 		/// </summary>
 		private async Task<Bitmap> TakeScreenShot()
 		{
+			var kancolleFrame = GetKanColleFrame();
+			if(kancolleFrame == null)
+			{
+				AddLog(3, string.Format("艦これが読み込まれていないため、スクリーンショットを撮ることはできません。"));
+				System.Media.SystemSounds.Beep.Play();
+				return null;
+			}
+
+
 			Task<ScreenShotPacket> InternalTakeScreenShot()
 			{
 				var request = new ScreenShotPacket();
 
-
 				if (Browser == null || !Browser.IsBrowserInitialized)
 					return request.TaskSource.Task;
-
-
-				var browser = Browser.GetBrowser();
-
-				var KanColleFrame = GetKanColleFrame();
-
-				if (KanColleFrame == null)
-				{
-					AddLog(3, string.Format("艦これが読み込まれていないため、スクリーンショットを撮ることはできません。"));
-					System.Media.SystemSounds.Beep.Play();
-					return request.TaskSource.Task;
-				}
-
+			
 
 				string script = $@"
 (async function() 
@@ -609,16 +605,18 @@ namespace Browser
 ";
 
 				Browser.JavascriptObjectRepository.Register(request.ID, request, true);
-				KanColleFrame.ExecuteJavaScriptAsync(script);
+				kancolleFrame.ExecuteJavaScriptAsync(script);
 
 				return request.TaskSource.Task;
 			}
 
 			var result = await InternalTakeScreenShot();
-			Browser.JavascriptObjectRepository.UnRegister(result.ID);
+
+			// ごみ掃除
+			Browser.JavascriptObjectRepository.UnRegister(result.ID).ToString();
+			kancolleFrame.ExecuteJavaScriptAsync($@"delete {result.ID}");
 
 			return result.GetImage();
-
 		}
 
 
