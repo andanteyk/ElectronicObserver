@@ -574,7 +574,7 @@ namespace Browser
 		private async Task<Bitmap> TakeScreenShot()
 		{
 			var kancolleFrame = GetKanColleFrame();
-			if(kancolleFrame == null)
+			if (kancolleFrame == null)
 			{
 				AddLog(3, string.Format("艦これが読み込まれていないため、スクリーンショットを撮ることはできません。"));
 				System.Media.SystemSounds.Beep.Play();
@@ -588,7 +588,7 @@ namespace Browser
 
 				if (Browser == null || !Browser.IsBrowserInitialized)
 					return request.TaskSource.Task;
-			
+
 
 				string script = $@"
 (async function() 
@@ -613,30 +613,12 @@ namespace Browser
 			var result = await InternalTakeScreenShot();
 
 			// ごみ掃除
-			Browser.JavascriptObjectRepository.UnRegister(result.ID).ToString();
+			Browser.JavascriptObjectRepository.UnRegister(result.ID);
 			kancolleFrame.ExecuteJavaScriptAsync($@"delete {result.ID}");
 
 			return result.GetImage();
 		}
 
-
-		/// <summary>
-		/// ブラウザ画面のハードコピーを取得します。
-		/// TakeScreenShot で SS が撮れない環境 (WebGL && preserveDrawingBuffer=false) で使用します。
-		/// </summary>
-		private Task<Bitmap> TakeHardScreenShot()
-		{
-			// スタイルシートが適用されていると仮定する
-
-			var bmp = new Bitmap(Browser.Width, Browser.Height, PixelFormat.Format24bppRgb);
-			using (var g = Graphics.FromImage(bmp))
-			{
-				g.CopyFromScreen(Browser.PointToScreen(Browser.Location), new Point(0, 0), Browser.Size);
-			}
-
-			// 同期処理でもいいが、TakeScreenShot とシグネチャを合わせるため
-			return Task.FromResult(bmp);
-		}
 
 
 		/// <summary>
@@ -653,10 +635,6 @@ namespace Browser
 			Bitmap image = null;
 			try
 			{
-				// なくても動くようになったので（？）
-				//if (Configuration.HardwareAccelerationEnabled && !Configuration.PreserveDrawingBuffer)
-				//	image = await TakeHardScreenShot();
-				//else
 				image = await TakeScreenShot();
 
 
