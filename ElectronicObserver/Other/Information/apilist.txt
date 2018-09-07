@@ -11,6 +11,7 @@ api_start2/getData	：艦娘・装備固有データその他
 	api_mst_ship		：艦船データ(艦娘)　衣替え艦娘のデータはshipgraphにしか存在しない
 		api_id			：艦娘固有ID
 		api_sortno		：図鑑番号
+		api_sort_id		：母港ソート順?
 		api_name		：艦娘名
 		api_yomi		：艦娘名読み
 		api_stype		：艦種ID
@@ -24,27 +25,29 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_tyku		：対空
 		api_tais		：対潜 [1] [0]=初期値 護衛空母にのみ存在
 		api_luck		：運
-		api_soku		：速力　0=陸上基地, 5=低速, 10=高速
+		api_soku		：速力　0=陸上基地, 5=低速, 10=高速(, 15=高速+, 20=最速)
 		api_leng		：射程 0=無, 1=短, 2=中, 3=長, 4=超長
 		api_slot_num	：スロット数
 		api_maxeq		：艦載機搭載数
-		api_buildtime	：建造時間 分単位
+		api_buildtime	：建造時間　分単位
 		api_broken		：解体資材
 		api_powup		：近代化改修強化値
-		api_backs		：レアリティ
-		api_getmes		：取得時台詞
-		api_afterfuel	：改装鋼材
-		api_afterbull	：改装弾薬
-		api_fuel_max	：消費燃料
-		api_bull_max	：消費弾薬
+		api_backs		：レアリティ　1=藍, 2=青, 3=水, 4=銀, 5=金, 6=虹, 7=輝虹, 8=桜虹
+		api_getmes		：取得時台詞　改行は"<br>"
+		api_afterfuel	：改装時に必要な鋼材
+		api_afterbull	：改装時に必要な弾薬
+		api_fuel_max	：搭載燃料
+		api_bull_max	：搭載弾薬
 		api_voicef		：ボイス設定フラグ ビットフラグ; 1=放置ボイス, 2=時報, 4=特殊放置ボイス
 							放置ボイスは5分おきに発声する(cond>=50でかつ特殊放置ボイス利用可能ならそれを発声)
 
 	api_mst_ship		：艦船データ(深海棲艦)
 		api_id			：艦船固有ID
+		api_sort_id		：0
 		api_name		：艦船名
-		api_yomi		：敵クラス
+		api_yomi		：敵クラス　"" or "-", "elite", "flagship"
 		api_stype		：艦種
+		api_ctype		：艦型? 1
 		api_soku		：速力
 		api_slot_num	：スロット数
 
@@ -66,8 +69,8 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_ensyue_n	：演習(敵軍側)
 		api_battle_n	：戦闘
 		api_battle_d	：
-		api_weda		：ケッコンカッコカリの顔枠の左上?
-		api_wedb		：〃右下?
+		api_weda		：ケッコンカッコカリの顔枠の左上座標
+		api_wedb		：〃幅[0]と高さ[1]
 	
 	api_mst_slotitem_equiptype		：装備カテゴリ
 		api_id			：カテゴリID(装備のtype[2]に対応)
@@ -76,7 +79,7 @@ api_start2/getData	：艦娘・装備固有データその他
 	
 	api_mst_equip_exslot：補強スロットに装備可能なカテゴリ
 
-	api_mst_equip_exslot_ship		：拡張スロットへの特殊装備
+	api_mst_equip_exslot_ship		：補強スロットへの特殊装備
 		api_slotitem_id		：装備ID
 		api_ship_ids		：対象となる艦娘ID []
 
@@ -397,6 +400,9 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_price		：価格
 		api_saleflg		：販売中?
 		api_season		：
+		api_version		：画像バージョン？
+		api_outside_id	：
+		api_active_flag	：
 
 	api_mst_furnituregraph	：可動家具プロパティ
 		api_id			：家具ID
@@ -498,6 +504,10 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_id			：音楽ID？
 		api_name		：曲名
 
+	api_mst_equip_ship	：特殊装備
+		api_ship_id			：艦船ID
+		api_equip_type		：装備可能なカテゴリのリスト[]　当該艦の装備可否はこれで上書きされ、艦種の装備可否は無視される
+
 
 api_req_member/get_incentive	：褒賞関連
 	api_count			：情報の個数
@@ -517,7 +527,11 @@ api_get_member/require_info	：起動時情報群
 	api_kdock			：工廠ドック状態 kdock と同じ
 	api_useitem			：消費アイテムリスト useitem と同じ　アイテムを1つも保有していない場合は存在しない
 	api_furniture		：家具リスト furniture と同じ
-	api_extra_supply	：臨時補給可否？ [2]
+	api_extra_supply	：臨時補給可否[2]　[0]=遠征時, [1]=出撃時
+	api_oss_setting		：編成フィルタ設定
+		api_language_type	：0=日本語
+		api_oss_items		：各艦種の表示フラグ[8]
+	api_skin_id			：母港スキンID
 
 api_get_member/basic		：艦隊司令部情報
 	api_member_id			：提督ID string
@@ -570,7 +584,7 @@ api_port/port		：母港情報
 		api_nowhp			：現在HP
 		api_maxhp			：最大HP
 		api_soku			：速力　0=基地, 5=低速, 10=高速, 15=高速+, 20=最速
-		api_leng			：射程
+		api_leng			：射程　0=無, 1=短, 2=中, 3=長, 4=超長(, 5=超長+)
 		api_slot			：装備　-1=空き
 		api_onslot			：艦載機搭載数
 		api_slot_ex			：補強スロット 0=未解放, -1=未装備
@@ -3151,13 +3165,13 @@ Request.api_req_member/itemuse		：アイテム使用
 
 api_req_member/itemuse				：アイテム使用
 	api_caution_flag	：確認ダイアログ(資源上限により無駄が出ますが本当に使いますか？)表示フラグ？　0=非表示 1=表示?
-	api_flag			：1=アイテム 2=資源
-	api_getitem			：入手アイテム[]　アイテム入手時のみ存在
-		api_usemst		：? 6=設計図 2=装備 5・6=アイテム
+	api_flag			：1=アイテム 2=資源 3=両方
+	api_getitem			：入手アイテム[]　アイテムがない場合は [null] になる
+		api_usemst		：? 2=装備 5=アイテム 6=アイテム(設計図)
 		api_mst_id		：入手アイテムID
 		api_getcount	：入手アイテム個数
+		api_slotitem	：入手装備アイテム　装備入手時のみ存在　slot_item に準じる
 	api_material		：入手資源　資源入手時のみ存在　[燃料, 弾薬, 鋼材, ボーキ, 高速建造材, 高速修復材, 開発資材, 改修資材]
-	api_slotitem		：入手装備アイテム　装備入手時のみ存在？　slot_item に準じる
 
 
 api_req_furniture/music_list	：ジュークボックスメニュー
@@ -3216,13 +3230,18 @@ api_req_furniture/radio_play	：母港ラジオ再生
 	(情報なし)
 
 
-Request.api_req_member/set_oss_condition		：???
-	api_language_type	：0
-	api_oss_items[0]	：1
-	...
-	api_oss_items[7]	：1
+Request.api_req_member/set_oss_condition		：艦船フィルタ変更　母港に戻った時に port より先に呼ばれる
+	api_language_type	：0=日本語 1=英語
+	api_oss_items[0]	：戦艦級　0=無効, 1=有効
+	api_oss_items[1]	：航空母艦
+	api_oss_items[2]	：重巡級
+	api_oss_items[3]	：軽巡級
+	api_oss_items[4]	：駆逐艦
+	api_oss_items[5]	：海防艦
+	api_oss_items[6]	：潜水艦
+	api_oss_items[7]	：補助艦艇
 
-api_req_member/set_oss_condition		：???
+api_req_member/set_oss_condition		：艦船フィルタ変更
 	(情報なし)
 
 

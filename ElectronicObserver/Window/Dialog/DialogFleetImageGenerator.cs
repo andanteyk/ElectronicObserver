@@ -101,8 +101,8 @@ namespace ElectronicObserver.Window.Dialog
 			OutputPath.Text = config.LastOutputPath;
 			try
 			{
-				SaveImageDialog.FileName = System.IO.Path.GetFileName(config.LastOutputPath);
-				SaveImageDialog.InitialDirectory = string.IsNullOrWhiteSpace(config.LastOutputPath) ? "" : System.IO.Path.GetDirectoryName(config.LastOutputPath);
+				SaveImageDialog.FileName = Path.GetFileName(config.LastOutputPath);
+				SaveImageDialog.InitialDirectory = string.IsNullOrWhiteSpace(config.LastOutputPath) ? "" : Path.GetDirectoryName(config.LastOutputPath);
 			}
 			catch (Exception)
 			{
@@ -219,19 +219,7 @@ namespace ElectronicObserver.Window.Dialog
 				return 0;
 			}
 		}
-		private string GetResourceType(int imageType)
-		{
-			switch (imageType)
-			{
-				case 0:
-				default:
-					return KCResourceHelper.ResourceTypeShipCard;
-				case 1:
-					return KCResourceHelper.ResourceTypeShipCutin;
-				case 2:
-					return KCResourceHelper.ResourceTypeShipBanner;
-			}
-		}
+
 		private int[] ToFleetIDs()
 		{
 			return new[]{
@@ -286,7 +274,7 @@ namespace ElectronicObserver.Window.Dialog
 		private void SelectGeneralFont_Click(object sender, EventArgs e)
 		{
 			fontDialog1.Font = GeneralFont;
-			if (fontDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			if (fontDialog1.ShowDialog() == DialogResult.OK)
 			{
 				GeneralFont = fontDialog1.Font;
 				TextGeneralFont.Text = SerializableFont.FontToString(GeneralFont, true);
@@ -296,7 +284,7 @@ namespace ElectronicObserver.Window.Dialog
 		private void SelectFont_Click(object sender, EventArgs e, int index)
 		{
 			fontDialog1.Font = SerializableFont.StringToFont(TextFontList[index].Text, true);
-			if (fontDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			if (fontDialog1.ShowDialog() == DialogResult.OK)
 			{
 				TextFontList[index].Text = SerializableFont.FontToString(fontDialog1.Font, true);
 			}
@@ -306,7 +294,7 @@ namespace ElectronicObserver.Window.Dialog
 		private void SearchBackgroundImagePath_Click(object sender, EventArgs e)
 		{
 			OpenImageDialog.FileName = BackgroundImagePath.Text;
-			if (OpenImageDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			if (OpenImageDialog.ShowDialog() == DialogResult.OK)
 			{
 				BackgroundImagePath.Text = OpenImageDialog.FileName;
 			}
@@ -438,10 +426,8 @@ namespace ElectronicObserver.Window.Dialog
 				}
 				else
 				{
-
 					using (var image = GenerateFleetImage(args, mode))
 					{
-
 						Clipboard.SetImage(image);
 					}
 				}
@@ -500,21 +486,42 @@ namespace ElectronicObserver.Window.Dialog
 		{
 			if (ImageTypeCard.Checked)
 				HorizontalShipCount.Value = 2;
+
+			UpdateButtonAlert();
 		}
 
 		private void ImageTypeCutin_CheckedChanged(object sender, EventArgs e)
 		{
 			if (ImageTypeCutin.Checked)
 				HorizontalShipCount.Value = 1;
+
+			UpdateButtonAlert();
 		}
 
 		private void ImageTypeBanner_CheckedChanged(object sender, EventArgs e)
 		{
 			if (ImageTypeBanner.Checked)
 				HorizontalShipCount.Value = 2;
+
+			UpdateButtonAlert();
 		}
 
 
+
+		private bool HasShipImage()
+		{
+			switch (ImageType)
+			{
+				case 0:
+					return FleetImageGenerator.HasShipImageCard(ToFleetIDs(), ReflectDamageGraphic.Checked);
+				case 1:
+					return FleetImageGenerator.HasShipImageCutin(ToFleetIDs(), ReflectDamageGraphic.Checked);
+				case 2:
+					return FleetImageGenerator.HasShipImageBanner(ToFleetIDs(), ReflectDamageGraphic.Checked);
+				default:
+					return true;
+			}
+		}
 
 		private void UpdateButtonAlert()
 		{
@@ -523,18 +530,15 @@ namespace ElectronicObserver.Window.Dialog
 
 			if (!Utility.Configuration.Config.Connection.SaveReceivedData || !Utility.Configuration.Config.Connection.SaveOtherFile)
 			{
-
 				visibility = true;
 				ButtonAlert.Text = "艦船画像保存設定が無効です(詳細表示...)";
-
 			}
 
-			if (!FleetImageGenerator.HasShipImage(ToFleetIDs(), ReflectDamageGraphic.Checked, GetResourceType(ImageType)))
-			{
 
+			if (!HasShipImage())
+			{
 				visibility = true;
 				ButtonAlert.Text = "艦船画像が足りません(詳細表示...)";
-
 			}
 
 			ButtonAlert.Visible = visibility;
@@ -544,8 +548,9 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void ButtonAlert_Click(object sender, EventArgs e)
 		{
+			var config = Utility.Configuration.Config.Connection;
 
-			if (!Utility.Configuration.Config.Connection.SaveReceivedData || !Utility.Configuration.Config.Connection.SaveOtherFile)
+			if (!config.SaveReceivedData || !config.SaveOtherFile)
 			{
 
 				if (MessageBox.Show("編成画像を出力するためには、艦船画像を保存する設定を有効にする必要があります。\r\n有効にしますか？",
@@ -553,22 +558,38 @@ namespace ElectronicObserver.Window.Dialog
 					== System.Windows.Forms.DialogResult.Yes)
 				{
 
-					if (!Utility.Configuration.Config.Connection.SaveReceivedData)
+					if (!config.SaveReceivedData)
 					{
-						Utility.Configuration.Config.Connection.SaveReceivedData = true;
-						Utility.Configuration.Config.Connection.SaveResponse = false;       // もともと不要にしていたユーザーには res は邪魔なだけだと思うので
+						config.SaveReceivedData = true;
+						config.SaveResponse = false;       // もともと不要にしていたユーザーには res は邪魔なだけだと思うので
 					}
-					Utility.Configuration.Config.Connection.SaveOtherFile = true;
+					config.SaveOtherFile = true;
 
 					UpdateButtonAlert();
 				}
 
 			}
 
-			if (!FleetImageGenerator.HasShipImage(ToFleetIDs(), ReflectDamageGraphic.Checked, GetResourceType(ImageType)))
+			if (!HasShipImage())
 			{
+				string needs;
+				switch (ImageType)
+				{
+					case 0:
+						needs = "艦これ本体の「編成」画面から、各艦の詳細を開くと";
+						break;
+					case 1:
+						needs = "この編成で戦闘を開始すると";
+						break;
+					case 2:
+						needs = "艦これ本体の「編成」画面を開くと";
+						break;
+					default:
+						needs = "艦これ本体で必要な画像を表示させると";
+						break;
+				}
 
-				MessageBox.Show("現在の艦隊を出力するための艦船画像データが不足しています。\r\n\r\nキャッシュを削除したのち再読み込みを行い、\r\n艦これ本体側で出力したい艦隊の編成ページを開くと\r\n艦船画像データが保存されます。",
+				MessageBox.Show("現在の艦隊を出力するための艦船画像データが不足しています。\r\n\r\nキャッシュを削除したのち再読み込みを行い、\r\n" + needs + "\r\n艦船画像データが保存されます。",
 					"艦船画像データ不足", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				UpdateButtonAlert();
@@ -615,12 +636,10 @@ namespace ElectronicObserver.Window.Dialog
 			{
 				try
 				{
-
 					string replaceTo = Path.GetDirectoryName(OutputPath.Text) + "\\" + Title.Text + Path.GetExtension(OutputPath.Text);
 
 					if (OutputPath.Text != replaceTo)
 						OutputPath.Text = replaceTo;
-
 				}
 				catch (Exception)
 				{
@@ -669,9 +688,7 @@ namespace ElectronicObserver.Window.Dialog
 			{
 				try
 				{
-
 					OutputPath.Text = Path.GetDirectoryName(OutputPath.Text) + "\\" + Utility.Mathematics.DateTimeHelper.GetTimeStamp() + Path.GetExtension(OutputPath.Text);
-
 				}
 				catch (Exception)
 				{
@@ -690,7 +707,6 @@ namespace ElectronicObserver.Window.Dialog
 				if (string.IsNullOrWhiteSpace(OutputPath.Text))
 				{
 					Title_TextChanged(sender, e);
-
 				}
 				else
 				{
@@ -706,13 +722,13 @@ namespace ElectronicObserver.Window.Dialog
 
 			try
 			{
-				SaveImageDialog.FileName = System.IO.Path.GetFileName(OutputPath.Text);
-				SaveImageDialog.InitialDirectory = string.IsNullOrWhiteSpace(OutputPath.Text) ? "" : System.IO.Path.GetDirectoryName(OutputPath.Text);
+				SaveImageDialog.FileName = Path.GetFileName(OutputPath.Text);
+				SaveImageDialog.InitialDirectory = string.IsNullOrWhiteSpace(OutputPath.Text) ? "" : Path.GetDirectoryName(OutputPath.Text);
 			}
 			catch (Exception)
 			{
 			}
-			if (SaveImageDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			if (SaveImageDialog.ShowDialog() == DialogResult.OK)
 			{
 				OutputPath.Text = SaveImageDialog.FileName;
 			}

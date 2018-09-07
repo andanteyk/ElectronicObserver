@@ -161,6 +161,13 @@ namespace ElectronicObserver.Data
 		public int IconType => (int)RawData.api_type[3];
 
 
+		internal int[] equippableShipsAtExpansion = new int[0];
+		/// <summary>
+		/// 拡張スロットに装備可能な艦船IDのリスト
+		/// </summary>
+		public IEnumerable<int> EquippableShipsAtExpansion => equippableShipsAtExpansion;
+
+
 
 		// 以降自作判定
 		// note: icontype の扱いについては再考の余地あり

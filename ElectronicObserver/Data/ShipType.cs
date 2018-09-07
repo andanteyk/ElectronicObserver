@@ -42,10 +42,10 @@ namespace ElectronicObserver.Data
 
 
 		/// <summary>
-		/// 装備可否フラグ
+		/// 装備可能なカテゴリ一覧
 		/// </summary>
-		private HashSet<int> _equipmentType;
-		public HashSet<int> EquipmentType => _equipmentType;
+		private int[] _equippableCategories;
+		public ReadOnlyCollection<int> EquippableCategories => Array.AsReadOnly(_equippableCategories);
 
 
 		/// <summary>
@@ -62,8 +62,7 @@ namespace ElectronicObserver.Data
 		public ShipType()
 			: base()
 		{
-
-			_equipmentType = new HashSet<int>();
+			_equippableCategories = new int[0];
 		}
 
 		public override void LoadFromResponse(string apiname, dynamic data)
@@ -78,13 +77,16 @@ namespace ElectronicObserver.Data
 
 			if (IsAvailable)
 			{
-				_equipmentType = new HashSet<int>();
-				foreach (KeyValuePair<string, object> type in RawData.api_equip_type)
+				IEnumerable<int> getType()
 				{
-
-					if ((double)type.Value != 0)
-						_equipmentType.Add(Convert.ToInt32(type.Key.Substring(7)));     //skip api_id_
+					foreach (KeyValuePair<string, object> type in RawData.api_equip_type)
+					{
+						if ((double)type.Value != 0)
+							yield return Convert.ToInt32(type.Key.Substring(7));     //skip api_id_
+					}
 				}
+
+				_equippableCategories = getType().ToArray();
 			}
 		}
 
