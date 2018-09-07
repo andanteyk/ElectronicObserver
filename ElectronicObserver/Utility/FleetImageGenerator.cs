@@ -75,7 +75,7 @@ namespace ElectronicObserver.Utility
 			string fleetSearchingAbilityTitle = "索敵能力";
 
 			// for measure space of strings
-			Bitmap preimage = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			Bitmap preimage = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
 			Graphics preg = Graphics.FromImage(preimage);
 
 			// Size Calculation
@@ -169,10 +169,10 @@ namespace ElectronicObserver.Utility
 			preimage.Dispose();
 
 
-			var bitmap = new Bitmap(entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			var bitmap = new Bitmap(entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, PixelFormat.Format32bppArgb);
 			using (var g = Graphics.FromImage(bitmap))
 			{
-	
+
 				g.Clear(backgroundColor);
 				if (!string.IsNullOrEmpty(args.BackgroundImagePath) && System.IO.File.Exists(args.BackgroundImagePath))
 				{
@@ -484,7 +484,7 @@ namespace ElectronicObserver.Utility
 			string fleetSearchingAbilityTitle = "索敵能力";
 
 			// for measure space of strings
-			Bitmap preimage = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			Bitmap preimage = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
 			Graphics preg = Graphics.FromImage(preimage);
 
 
@@ -589,7 +589,7 @@ namespace ElectronicObserver.Utility
 			preimage.Dispose();
 
 
-			var bitmap = new Bitmap(entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			var bitmap = new Bitmap(entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, PixelFormat.Format32bppArgb);
 			using (var g = Graphics.FromImage(bitmap))
 			{
 
@@ -700,20 +700,9 @@ namespace ElectronicObserver.Utility
 						shipPointer.X += shipIndexSize.Width;
 
 
-						// note: 現在のフォーマットに対応していない
-						//using (var shipNameImage = KCResourceHelper.LoadShipImage(ship.ShipID, false, KCResourceHelper.ResourceTypeShipName))
-						//{
-						//	if (shipNameImage != null)
-						//	{
-						//		g.DrawImage(shipNameImage, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize), shipNameSize),
-						//			shipNameImageAvailableArea, GraphicsUnit.Pixel);
-						//	}
-						//	else
-							{
-								// 画像がなければ文字列で艦名を描画する
-								g.DrawString(ship.Name, args.LargeFont, mainTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize), shipNameSize), formatMiddleLeft);
-							}
-						//}
+						g.DrawString(ship.Name, args.LargeFont, mainTextBrush, new Rectangle(shipPointer + GetAlignmentOffset(ContentAlignment.MiddleLeft, shipNameSize, shipNameAreaSize), shipNameSize), formatMiddleLeft);
+
+
 						shipPointer.X += shipNameSize.Width;
 
 
@@ -748,13 +737,34 @@ namespace ElectronicObserver.Utility
 						shipPointer.X = shipPointerOrigin.X;
 
 
-						using (var shipImageOriginal = KCResourceHelper.LoadShipImage(ship.ShipID, args.ReflectDamageGraphic && ship.HPRate <= 0.5, KCResourceHelper.ResourceTypeShipCutin))
+
+						// 顔座標は通常時のみ存在するため、中破グラフィックは適用できない
+						using (var shipImageOriginal = KCResourceHelper.LoadShipImage(ship.ShipID, false, KCResourceHelper.ResourceTypeShipFull))
 						{
 							if (shipImageOriginal != null)
 							{
-								using (var shipImage = shipImageOriginal.Clone(new Rectangle(0, 0, shipImageOriginal.Width, shipImageOriginal.Height), PixelFormat.Format32bppArgb))
+								using (var shipImage = new Bitmap(ShipCutinSize.Width, ShipCutinSize.Height, PixelFormat.Format32bppArgb))
 								{
-									using (var maskImage = new Bitmap(ShipCutinSize.Width, ShipCutinSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+									using (var shipg = Graphics.FromImage(shipImage))
+									{
+										shipg.InterpolationMode = InterpolationMode.HighQualityBicubic;
+										shipg.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+										var face = ship.MasterShip.GraphicData.FaceArea;
+										var faceCenter = new PointF(face.X + face.Width / 2f, face.Y + face.Height / 2f);
+
+										var zone = new PointF(ShipCutinSize.Width * 0.2f, ShipCutinSize.Height * 0.2f);
+										float rate = face.Height == 0 ? 1 : (ShipCutinSize.Height * 4f / 3f / face.Height);
+
+										shipg.DrawImage(shipImageOriginal, new RectangleF(
+											-faceCenter.X * rate + zone.X,
+											-faceCenter.Y * rate + zone.Y,
+											shipImageOriginal.Width * rate,
+											shipImageOriginal.Height * rate
+											));
+									}
+
+									using (var maskImage = new Bitmap(ShipCutinSize.Width, ShipCutinSize.Height, PixelFormat.Format32bppArgb))
 									{                       // move to top
 										using (var maskg = Graphics.FromImage(maskImage))
 										{
@@ -959,7 +969,7 @@ namespace ElectronicObserver.Utility
 			string fleetSearchingAbilityTitle = "索敵能力";
 
 			// for measure space of strings
-			Bitmap preimage = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			Bitmap preimage = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
 			Graphics preg = Graphics.FromImage(preimage);
 
 			bool has5thSlot = args.FleetIDs
@@ -1053,7 +1063,7 @@ namespace ElectronicObserver.Utility
 			preimage.Dispose();
 
 
-			var bitmap = new Bitmap(entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			var bitmap = new Bitmap(entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, PixelFormat.Format32bppArgb);
 			using (var g = Graphics.FromImage(bitmap))
 			{
 
@@ -1351,7 +1361,7 @@ namespace ElectronicObserver.Utility
 			string baseDistanceTitle = "戦闘行動半径";
 
 			// for measure space of strings
-			Bitmap preimage = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			Bitmap preimage = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
 			Graphics preg = Graphics.FromImage(preimage);
 
 			// Size Calculation
@@ -1408,7 +1418,7 @@ namespace ElectronicObserver.Utility
 			preimage.Dispose();
 
 
-			var bitmap = new Bitmap(entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			var bitmap = new Bitmap(entireSize.Width + entireMargin.Horizontal, entireSize.Height + entireMargin.Vertical, PixelFormat.Format32bppArgb);
 			using (var g = Graphics.FromImage(bitmap))
 			{
 
@@ -1592,7 +1602,24 @@ namespace ElectronicObserver.Utility
 		}
 
 
-		public static bool HasShipImage(int[] fleets, bool reflectDamageGraphic, string resourceType)
+
+		public static bool HasShipImageBanner(int[] fleets, bool reflectDamageGraphic)
+		{
+			return HasShipImage(fleets, reflectDamageGraphic, KCResourceHelper.ResourceTypeShipBanner);
+		}
+
+		public static bool HasShipImageCutin(int[] fleets, bool reflectDamageGraphic)
+		{
+			return HasShipImage(fleets, false, KCResourceHelper.ResourceTypeShipFull);
+		}
+
+		public static bool HasShipImageCard(int[] fleets, bool reflectDamageGraphic)
+		{
+			return HasShipImage(fleets, reflectDamageGraphic, KCResourceHelper.ResourceTypeShipCard);
+		}
+
+
+		private static bool HasShipImage(int[] fleets, bool reflectDamageGraphic, string resourceType)
 		{
 			try
 			{
@@ -1708,7 +1735,7 @@ namespace ElectronicObserver.Utility
 			new ShipParameterData( ResourceManager.IconContent.ParameterTorpedo, "雷装", ship => ship.TorpedoTotal.ToString() ),
 			new ShipParameterData( ResourceManager.IconContent.ParameterEvasion, "回避", ship => ship.EvasionTotal.ToString() ),
 			new ShipParameterData( ResourceManager.IconContent.ParameterAA, "対空", ship => ship.AATotal.ToString() ),
-			new ShipParameterData( ResourceManager.IconContent.ParameterAircraft, "搭載", ship => ship.MasterShip.AircraftTotal.ToString() ),
+			new ShipParameterData( ResourceManager.IconContent.ParameterAircraft, "制空", ship => Calculator.GetAirSuperiority(ship).ToString() ),
 			new ShipParameterData( ResourceManager.IconContent.ParameterASW, "対潜", ship => ship.ASWTotal.ToString() ),
 			new ShipParameterData( ResourceManager.IconContent.ParameterSpeed, "速力", ship => Constants.GetSpeed( ship.Speed ), true ),
 			new ShipParameterData( ResourceManager.IconContent.ParameterLOS, "索敵", ship => ship.LOSTotal.ToString() ),

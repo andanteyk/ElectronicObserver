@@ -187,5 +187,11 @@ namespace BrowserLib
 		[DataMember]
 		public bool PreserveDrawingBuffer { get; set; }
 
+		/// <summary>
+		/// カラープロファイルを sRGB 固定にするか
+		/// </summary>
+		[DataMember]
+		public bool ForceColorProfile { get; set; }
+
 	}
 }

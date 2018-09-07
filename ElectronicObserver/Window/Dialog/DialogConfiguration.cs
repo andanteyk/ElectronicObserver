@@ -325,7 +325,6 @@ namespace ElectronicObserver.Window.Dialog
 			Connection_SaveDataPath.Text = config.Connection.SaveDataPath;
 			Connection_SaveRequest.Checked = config.Connection.SaveRequest;
 			Connection_SaveResponse.Checked = config.Connection.SaveResponse;
-			Connection_SaveSWF.Checked = config.Connection.SaveSWF;
 			Connection_SaveOtherFile.Checked = config.Connection.SaveOtherFile;
 			Connection_ApplyVersion.Checked = config.Connection.ApplyVersion;
 			Connection_RegisterAsSystemProxy.Checked = config.Connection.RegisterAsSystemProxy;
@@ -469,6 +468,7 @@ namespace ElectronicObserver.Window.Dialog
 			FormBrowser_ScreenShotSaveMode.SelectedIndex = config.FormBrowser.ScreenShotSaveMode - 1;
 			FormBrowser_HardwareAccelerationEnabled.Checked = config.FormBrowser.HardwareAccelerationEnabled;
 			FormBrowser_PreserveDrawingBuffer.Checked = config.FormBrowser.PreserveDrawingBuffer;
+			FormBrowser_ForceColorProfile.Checked = config.FormBrowser.ForceColorProfile;
 
 			if (!config.FormBrowser.IsToolMenuVisible)
 				FormBrowser_ToolMenuDockStyle.SelectedIndex = 4;
@@ -522,7 +522,6 @@ namespace ElectronicObserver.Window.Dialog
 				config.Connection.SaveDataPath = Connection_SaveDataPath.Text.Trim(@"\ """.ToCharArray());
 				config.Connection.SaveRequest = Connection_SaveRequest.Checked;
 				config.Connection.SaveResponse = Connection_SaveResponse.Checked;
-				config.Connection.SaveSWF = Connection_SaveSWF.Checked;
 				config.Connection.SaveOtherFile = Connection_SaveOtherFile.Checked;
 				config.Connection.ApplyVersion = Connection_ApplyVersion.Checked;
 
@@ -689,6 +688,7 @@ namespace ElectronicObserver.Window.Dialog
 			config.FormBrowser.AvoidTwitterDeterioration = FormBrowser_ScreenShotFormat_AvoidTwitterDeterioration.Checked;
 			config.FormBrowser.HardwareAccelerationEnabled = FormBrowser_HardwareAccelerationEnabled.Checked;
 			config.FormBrowser.PreserveDrawingBuffer = FormBrowser_PreserveDrawingBuffer.Checked;
+			config.FormBrowser.ForceColorProfile = FormBrowser_ForceColorProfile.Checked;
 			if (FormBrowser_ToolMenuDockStyle.SelectedIndex == 4)
 			{
 				config.FormBrowser.IsToolMenuVisible = false;

@@ -38,6 +38,11 @@ namespace ElectronicObserver.Data
 		public IDDictionary<ShipType> ShipTypes { get; private set; }
 
 		/// <summary>
+		/// 艦船グラフィックデータ
+		/// </summary>
+		public IDDictionary<ShipGraphicData> ShipGraphics { get; private set; }
+
+		/// <summary>
 		/// 装備のマスターデータ
 		/// </summary>
 		public IDDictionary<EquipmentDataMaster> MasterEquipments { get; private set; }
@@ -154,6 +159,7 @@ namespace ElectronicObserver.Data
 
 			MasterShips = new IDDictionary<ShipDataMaster>();
 			ShipTypes = new IDDictionary<ShipType>();
+			ShipGraphics = new IDDictionary<ShipGraphicData>();
 			MasterEquipments = new IDDictionary<EquipmentDataMaster>();
 			EquipmentTypes = new IDDictionary<EquipmentType>();
 			Ships = new IDDictionary<ShipData>();

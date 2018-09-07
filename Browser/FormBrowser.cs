@@ -223,22 +223,28 @@ namespace Browser
 				CachePath = BrowserCachePath,
 				Locale = "ja",
 				AcceptLanguageList = "ja,en-US,en",        // todo: いる？
-				LogSeverity = LogSeverity.Disable,
+				LogSeverity = LogSeverity.Error,
+				LogFile = "BrowserLog.log",
 			};
 
 			if (!Configuration.HardwareAccelerationEnabled)
 				settings.DisableGpuAcceleration();
 
 			settings.CefCommandLineArgs.Add("proxy-server", ProxySettings);
+			if (Configuration.ForceColorProfile)
+				settings.CefCommandLineArgs.Add("force-color-profile", "srgb");
 			CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 			Cef.Initialize(settings, false, null);
 
+
+			var requestHandler = new RequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer);
+			requestHandler.RenderProcessTerminated += (mes) => AddLog(3, mes);
 
 			Browser = new ChromiumWebBrowser(@"about:blank")
 			{
 				Dock = DockStyle.None,
 				Size = SizeAdjuster.Size,
-				RequestHandler = new RequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer),
+				RequestHandler = requestHandler,
 				MenuHandler = new MenuHandler(),
 				KeyboardHandler = new KeyboardHandler(),
 				DragHandler = new DragHandler(),
@@ -568,65 +574,54 @@ namespace Browser
 		/// <summary>
 		/// スクリーンショットを撮影します。
 		/// </summary>
-		private Task<Bitmap> TakeScreenShot()
+		private async Task<Bitmap> TakeScreenShot()
 		{
-			var source = new TaskCompletionSource<Bitmap>();
-
-			if (Browser == null || !Browser.IsBrowserInitialized)
-				return source.Task;
-
-
-			var browser = Browser.GetBrowser();
-
-			var KanColleFrame = GetKanColleFrame();
-
-			if (KanColleFrame == null)
+			var kancolleFrame = GetKanColleFrame();
+			if (kancolleFrame == null)
 			{
 				AddLog(3, string.Format("艦これが読み込まれていないため、スクリーンショットを撮ることはできません。"));
 				System.Media.SystemSounds.Beep.Play();
-				return source.Task;
+				return null;
 			}
 
 
-			var request = new ScreenShotPacket(source);
-			string script = $@"
+			Task<ScreenShotPacket> InternalTakeScreenShot()
+			{
+				var request = new ScreenShotPacket();
+
+				if (Browser == null || !Browser.IsBrowserInitialized)
+					return request.TaskSource.Task;
+
+
+				string script = $@"
 (async function() 
 {{
 	await CefSharp.BindObjectAsync('{request.ID}');
 
-	var canvas = document.querySelector('canvas');
+	let canvas = document.querySelector('canvas');
 	requestAnimationFrame(() =>
 	{{
-		var dataurl = canvas.toDataURL('image/png');
+		let dataurl = canvas.toDataURL('image/png');
 		{request.ID}.complete(dataurl);
 	}});
 }})();
 ";
 
-			Browser.JavascriptObjectRepository.Register(request.ID, request, true);
-			KanColleFrame.ExecuteJavaScriptAsync(script);
+				Browser.JavascriptObjectRepository.Register(request.ID, request, true);
+				kancolleFrame.ExecuteJavaScriptAsync(script);
 
-			return source.Task;
-		}
-
-
-		/// <summary>
-		/// ブラウザ画面のハードコピーを取得します。
-		/// TakeScreenShot で SS が撮れない環境 (WebGL && preserveDrawingBuffer=false) で使用します。
-		/// </summary>
-		private Task<Bitmap> TakeHardScreenShot()
-		{
-			// スタイルシートが適用されていると仮定する
-
-			var bmp = new Bitmap(Browser.Width, Browser.Height, PixelFormat.Format24bppRgb);
-			using (var g = Graphics.FromImage(bmp))
-			{
-				g.CopyFromScreen(Browser.PointToScreen(Browser.Location), new Point(0, 0), Browser.Size);
+				return request.TaskSource.Task;
 			}
 
-			// 同期処理でもいいが、TakeScreenShot とシグネチャを合わせるため
-			return Task.FromResult(bmp);
+			var result = await InternalTakeScreenShot();
+
+			// ごみ掃除
+			Browser.JavascriptObjectRepository.UnRegister(result.ID);
+			kancolleFrame.ExecuteJavaScriptAsync($@"delete {result.ID}");
+
+			return result.GetImage();
 		}
+
 
 
 		/// <summary>
@@ -643,10 +638,7 @@ namespace Browser
 			Bitmap image = null;
 			try
 			{
-				if (Configuration.HardwareAccelerationEnabled && !Configuration.PreserveDrawingBuffer)
-					image = await TakeHardScreenShot();
-				else
-					image = await TakeScreenShot();
+				image = await TakeScreenShot();
 
 
 				if (image == null)

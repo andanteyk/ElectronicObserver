@@ -242,7 +242,7 @@ namespace ElectronicObserver.Window.Dialog
 				sb.AppendLine("装備可能艦種:");
 				foreach (var stype in KCDatabase.Instance.ShipTypes.Values)
 				{
-					if (stype.EquipmentType.Contains((int)eq.CategoryType))
+					if (stype.EquippableCategories.Contains((int)eq.CategoryType))
 						sb.AppendLine(stype.Name);
 				}
 				ToolTipInfo.SetToolTip(EquipmentType, sb.ToString());

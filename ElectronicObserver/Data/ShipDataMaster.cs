@@ -43,10 +43,10 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public ShipTypes ShipType => (ShipTypes)(int)RawData.api_stype;
 
-        /// <summary>
-        /// 艦型
-        /// </summary>
-        public int ShipClass => (int)RawData.api_ctype;
+		/// <summary>
+		/// 艦型
+		/// </summary>
+		public int ShipClass => (int)RawData.api_ctype;
 
 
 		/// <summary>
@@ -98,10 +98,10 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public int NeedCatapult { get; internal set; }
 
-        /// <summary>
-        /// 改装に戦闘詳報が必要かどうか
-        /// </summary>
-        public int NeedActionReport { get; internal set; }
+		/// <summary>
+		/// 改装に戦闘詳報が必要かどうか
+		/// </summary>
+		public int NeedActionReport { get; internal set; }
 
 
 		#region Parameters
@@ -414,6 +414,27 @@ namespace ElectronicObserver.Data
 		}
 
 
+		internal int[] specialEquippableCategory = null;
+		/// <summary>
+		/// 特殊装備カテゴリ　指定がない場合は null
+		/// </summary>
+		public IEnumerable<int> SpecialEquippableCategories => specialEquippableCategory;
+
+		/// <summary>
+		/// 装備可能なカテゴリ
+		/// </summary>
+		public IEnumerable<int> EquippableCategories
+		{
+			get
+			{
+				if (specialEquippableCategory != null)
+					return SpecialEquippableCategories;
+				else
+					return KCDatabase.Instance.ShipTypes[(int)ShipType].EquippableCategories;
+			}
+		}
+
+
 		/// <summary>
 		/// 建造時間(分)
 		/// </summary>
@@ -464,25 +485,31 @@ namespace ElectronicObserver.Data
 
 
 		/// <summary>
+		/// グラフィック設定データへの参照
+		/// </summary>
+		public ShipGraphicData GraphicData => KCDatabase.Instance.ShipGraphics[ShipID];
+
+		/// <summary>
 		/// リソースのファイル/フォルダ名
 		/// </summary>
-		public string ResourceName => GetParameterElement()?.ResourceName ?? "";
-
+		public string ResourceName => GraphicData?.ResourceName ?? "";
 
 		/// <summary>
 		/// 画像リソースのバージョン
 		/// </summary>
-		public string ResourceGraphicVersion => GetParameterElement()?.ResourceGraphicVersion ?? "";
+		public string ResourceGraphicVersion => GraphicData?.GraphicVersion ?? "";
 
 		/// <summary>
 		/// ボイスリソースのバージョン
 		/// </summary>
-		public string ResourceVoiceVersion => GetParameterElement()?.ResourceVoiceVersion ?? "";
+		public string ResourceVoiceVersion => GraphicData?.VoiceVersion ?? "";
 
 		/// <summary>
 		/// 母港ボイスリソースのバージョン
 		/// </summary>
-		public string ResourcePortVoiceVersion => GetParameterElement()?.ResourcePortVoiceVersion ?? "";
+		public string ResourcePortVoiceVersion => GraphicData?.PortVoiceVersion ?? "";
+
+		
 
 		/// <summary>
 		/// 衣替え艦：ベースとなる艦船ID

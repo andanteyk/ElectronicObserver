@@ -297,13 +297,21 @@ namespace ElectronicObserver.Window.Dialog
 
 
 			ShipType.Text = ship.IsLandBase ? "陸上施設" : ship.ShipTypeName;
-			if (ship.IsAbyssalShip)
-				ToolTipInfo.SetToolTip(ShipType, $"艦型ID: {ship.ShipClass}");
-			else if (Constants.GetShipClass(ship.ShipClass) == "不明")
-				ToolTipInfo.SetToolTip(ShipType, $"艦型不明: {ship.ShipClass}");
-			else
-				ToolTipInfo.SetToolTip(ShipType, $"{Constants.GetShipClass(ship.ShipClass)}: {ship.ShipClass}");
+			{
+				var tip = new StringBuilder();
+				if (ship.IsAbyssalShip)
+					tip.AppendLine($"艦型ID: {ship.ShipClass}");
+				else if (Constants.GetShipClass(ship.ShipClass) == "不明")
+					tip.AppendLine($"艦型不明: {ship.ShipClass}");
+				else
+					tip.AppendLine($"{Constants.GetShipClass(ship.ShipClass)}: {ship.ShipClass}");
 
+				tip.AppendLine();
+				tip.AppendLine("装備可能：");
+				tip.AppendLine(GetEquippableString(shipID));
+
+				ToolTipInfo.SetToolTip(ShipType, tip.ToString());
+			}
 			ShipName.Text = ship.NameWithClass;
 			ShipName.ForeColor = ship.GetShipNameColor();
 			ToolTipInfo.SetToolTip(ShipName, (!ship.IsAbyssalShip ? ship.NameReading + "\r\n" : "") + "(右クリックでコピー)");
@@ -733,6 +741,17 @@ namespace ElectronicObserver.Window.Dialog
 			else
 				return param.Maximum.ToString();
 
+		}
+
+		private string GetEquippableString(int shipID)
+		{
+			var db = KCDatabase.Instance;
+			var ship = db.MasterShips[shipID];
+			if (ship == null)
+				return "";
+
+			return string.Join("\r\n", ship.EquippableCategories.Select(id => db.EquipmentTypes[id].Name)
+				.Concat(db.MasterEquipments.Values.Where(eq => eq.EquippableShipsAtExpansion.Contains(shipID)).Select(eq => eq.Name + " (補強スロット)")));
 		}
 
 
