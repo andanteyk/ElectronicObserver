@@ -527,7 +527,11 @@ api_get_member/require_info	：起動時情報群
 	api_kdock			：工廠ドック状態 kdock と同じ
 	api_useitem			：消費アイテムリスト useitem と同じ　アイテムを1つも保有していない場合は存在しない
 	api_furniture		：家具リスト furniture と同じ
-	api_extra_supply	：臨時補給可否？ [2]
+	api_extra_supply	：臨時補給可否[2]　[0]=遠征時, [1]=出撃時
+	api_oss_setting		：編成フィルタ設定
+		api_language_type	：0=日本語
+		api_oss_items		：各艦種の表示フラグ[8]
+	api_skin_id			：母港スキンID
 
 api_get_member/basic		：艦隊司令部情報
 	api_member_id			：提督ID string

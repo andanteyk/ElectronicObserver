@@ -237,11 +237,14 @@ namespace Browser
 			Cef.Initialize(settings, false, null);
 
 
+			var requestHandler = new RequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer);
+			requestHandler.RenderProcessTerminated += (mes) => AddLog(3, mes);
+
 			Browser = new ChromiumWebBrowser(@"about:blank")
 			{
 				Dock = DockStyle.None,
 				Size = SizeAdjuster.Size,
-				RequestHandler = new RequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer),
+				RequestHandler = requestHandler,
 				MenuHandler = new MenuHandler(),
 				KeyboardHandler = new KeyboardHandler(),
 				DragHandler = new DragHandler(),
