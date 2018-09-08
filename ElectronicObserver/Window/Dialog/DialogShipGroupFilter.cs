@@ -910,31 +910,17 @@ namespace ElectronicObserver.Window.Dialog
 
 
 
-		// チェックボックスの更新を即時反映する
-		// コンボボックスも可能だけど今回は省略
+		// チェックボックス、コンボボックスの更新を即時反映する
 		private void ExpressionView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
-
-			if (ExpressionView.Columns[ExpressionView.CurrentCellAddress.X] is DataGridViewCheckBoxColumn)
-			{
-				if (ExpressionView.IsCurrentCellDirty)
-				{
-					ExpressionView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-				}
-			}
-
+			if (ExpressionView.IsCurrentCellDirty)
+				ExpressionView.CommitEdit(DataGridViewDataErrorContexts.Commit);
 		}
 
 		private void ExpressionDetailView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
-
-			if (ExpressionDetailView.Columns[ExpressionDetailView.CurrentCellAddress.X] is DataGridViewCheckBoxColumn)
-			{
-				if (ExpressionDetailView.IsCurrentCellDirty)
-				{
-					ExpressionDetailView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-				}
-			}
+			if (ExpressionDetailView.IsCurrentCellDirty)
+				ExpressionDetailView.CommitEdit(DataGridViewDataErrorContexts.Commit);
 		}
 
 
