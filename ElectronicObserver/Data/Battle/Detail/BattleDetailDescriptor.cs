@@ -1,4 +1,5 @@
 ﻿using ElectronicObserver.Data.Battle.Phase;
+using ElectronicObserver.Utility.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,19 +137,41 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 
 						if (p.FriendFleetEscort != null)
-							sb.AppendLine("〈味方主力艦隊〉");
+							sb.Append("〈味方主力艦隊〉");
 						else
-							sb.AppendLine("〈味方艦隊〉");
+							sb.Append("〈味方艦隊〉");
+
+
+						void appendFleetInfo(FleetData fleet)
+						{
+							sb.Append(" 制空戦力 ");
+							sb.Append(GetRangeString(Calculator.GetAirSuperiority(fleet, false), Calculator.GetAirSuperiority(fleet, true)));
+
+							sb.AppendFormat(" / 索敵能力 [1] {0:f2}, [2] {1:f2}, [3] {2:f2}, [4] {3:f2}",
+								Calculator.GetSearchingAbility_New33(fleet, 1),
+								Calculator.GetSearchingAbility_New33(fleet, 2),
+								Calculator.GetSearchingAbility_New33(fleet, 3),
+								Calculator.GetSearchingAbility_New33(fleet, 4));
+						}
 
 						if (isBaseAirRaid)
+						{
+							sb.AppendLine();
 							OutputFriendBase(sb, p.FriendInitialHPs, p.FriendMaxHPs);
+						}
 						else
+						{
+							appendFleetInfo(p.FriendFleet);
+							sb.AppendLine();
 							OutputFriendData(sb, p.FriendFleet, p.FriendInitialHPs, p.FriendMaxHPs);
+						}
 
 						if (p.FriendFleetEscort != null)
 						{
 							sb.AppendLine();
-							sb.AppendLine("〈味方随伴艦隊〉");
+							sb.Append("〈味方随伴艦隊〉");
+							appendFleetInfo(p.FriendFleetEscort);
+							sb.AppendLine();
 
 							OutputFriendData(sb, p.FriendFleetEscort, p.FriendInitialHPsEscort, p.FriendMaxHPsEscort);
 						}
@@ -407,12 +430,16 @@ namespace ElectronicObserver.Data.Battle.Detail
 		}
 
 
+		private static string GetRangeString(int min, int max) => min != max ? $"{min} ～ {max}" : min.ToString();
+
+
 		private static void GetBattleDetailBaseAirCorps(StringBuilder sb, int mapAreaID)
 		{
 			foreach (var corps in KCDatabase.Instance.BaseAirCorps.Values.Where(corps => corps.MapAreaID == mapAreaID))
 			{
-				sb.AppendFormat("{0} [{1}]\r\n　{2}\r\n",
+				sb.AppendFormat("{0} [{1}] 制空戦力 {2}\r\n　{3}\r\n",
 					corps.Name, Constants.GetBaseAirCorpsActionKind(corps.ActionKind),
+					GetRangeString(Calculator.GetAirSuperiority(corps, false), Calculator.GetAirSuperiority(corps, true)),
 					string.Join(", ", corps.Squadrons.Values
 						.Where(sq => sq.State == 1 && sq.EquipmentInstance != null)
 						.Select(sq => sq.EquipmentInstance.NameWithLevel)));

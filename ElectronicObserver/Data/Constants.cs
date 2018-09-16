@@ -754,6 +754,8 @@ namespace ElectronicObserver.Data
 					return "カットイン(主砲/主砲)";
 				case DayAttackKind.CutinAirAttack:
 					return "空母カットイン";
+				case DayAttackKind.SpecialNelson:
+					return "Nelson Touch";
 				case DayAttackKind.Shelling:
 					return "砲撃";
 				case DayAttackKind.AirAttack:
@@ -805,6 +807,8 @@ namespace ElectronicObserver.Data
 					return "駆逐カットイン(主砲/魚雷/電探)";
 				case NightAttackKind.CutinTorpedoPicket:
 					return "駆逐カットイン(魚雷/見張員/電探)";
+				case NightAttackKind.SpecialNelson:
+					return "Nelson Touch";
 				case NightAttackKind.Shelling:
 					return "砲撃";
 				case NightAttackKind.AirAttack:

@@ -1568,6 +1568,9 @@ api_req_map/next		：進撃
 	api_bosscomp		：ボス到達済みフラグ？コード中にスペルミスがあり未使用
 	api_comment_kind	：0=なし 1=<敵艦隊発見!> 2=<攻撃目標発見!>? 3=<針路哨戒!>?　startにはないので注意
 	api_production_kind	：0=なし 1=索敵機発艦　startにはないので注意
+	api_cell_flavor		：「気のせいだった」メッセージ　必要な時のみ存在
+		api_type		：0
+		api_message		：メッセージ
 	api_eventmap		：イベント海域ゲージ情報
 		api_max_maphp	：ゲージ最大値
 		api_now_maphp	：ゲージ現在値
@@ -2074,7 +2077,7 @@ api_req_combined_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（
 	api_escape_idx			：本隊の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_escape_idx_combined	：随伴の退避艦インデックス　[退避艦数]　1基点　いなければ存在しない
 	api_friendly_info		：友軍艦隊攻撃情報　発動時のみ存在
-		api_production_type		：？　1=(英仏艦隊), 2=(第19駆逐隊, 挺身部隊), 3=(第四戦隊)
+		api_production_type		：艦隊ID？　1=(英仏艦隊), 2=(第19駆逐隊, 挺身部隊), 3=(第四戦隊)
 		api_ship_id				：友軍の艦船ID [艦船数]
 		api_ship_lv				：友軍のLv [艦船数]
 		api_nowhps				：友軍の現在HP [艦船数]
@@ -2082,7 +2085,7 @@ api_req_combined_battle/ec_midnight_battle	：通常艦隊/連合艦隊夜戦（
 		api_Slot				：友軍の装備スロット [艦船数][5] 空きスロットは -1
 		api_Param				：友軍の基礎ステータス [艦船数][4]; [火力, 雷装, 対空, 装甲]
 		api_voice_id			：再生されるボイスID? [艦船数]
-		api_voice_p_no			：1=戦闘前口上あり? [艦船数]
+		api_voice_p_no			：1以上=戦闘前口上あり（口上の順番？）, 0=なし [艦船数]
 	api_friendly_battle		：友軍艦隊攻撃　発動時のみ存在？
 		api_flare_pos			：照明弾投射艦インデックス　[2]; [味方, 敵]　0起点、随伴艦隊は 6-11　発動しなければ-1
 		api_hougeki				：友軍艦隊攻撃　基本的に api_hougeki と同じ　[攻撃フェーズの回数]
@@ -2144,6 +2147,8 @@ api_req_sortie/battleresult	：通常艦隊　戦闘結果
 		api_id				：ID
 		api_value			：個数？
 	api_get_eventflag		：？ api_get_eventitem存在時に消滅
+	api_m_suffix			：'18初秋イベ　海域攻略完了メッセージ画像のパス(の一部)　zshjdpzahswjbytw, jexxexrraiahjydb, kfwtcxpasnhtbrfp など
+	api_ope_suffix			：'18初秋イベ　作戦完了メッセージ画像のパス(の一部)　jhnhdjyijyhjgpxy など
 	api_get_exmap_rate		：EO海域攻略時：獲得戦果(文字列) それ以外は0(数値)
 	api_get_exmap_useitem_id：EO海域攻略時：取得アイテムID(文字列) "57"=勲章　それ以外は0(数値)
 	api_landing_hp			：イベントの輸送作戦時のみ存在
@@ -2153,6 +2158,7 @@ api_req_sortie/battleresult	：通常艦隊　戦闘結果
 	api_escape_flag			：退避可能艦の有無　0=なし, 1=あり
 	api_escape				：退避艦　api_escape_flag=0の時 null
 		api_escape_idx		：退避艦のインデックス　[対象艦数]　1基点　実際は[0]が対象となる
+	api_next_map_ids		：次に出撃可能になった海域ID[]　海域解放時のみ存在　通常海域は数値、イベント海域は文字列なので注意
 	api_m1					：('16秋イベ)ギミック解除フラグ?　1=解除　それ以外の場合存在しない
 
 
