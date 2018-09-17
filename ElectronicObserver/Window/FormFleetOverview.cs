@@ -229,6 +229,8 @@ namespace ElectronicObserver.Window
 			AnchorageRepairingTimer.Font = Font;
 			AnchorageRepairingTimer.Visible = Utility.Configuration.Config.FormFleet.ShowAnchorageRepairingTimer;
 
+			LayoutSubInformation();
+
 			ControlHelper.SetTableRowStyles(TableFleet, ControlHelper.GetDefaultRowStyle());
 
 			TableFleet.ResumeLayout();
@@ -289,6 +291,10 @@ namespace ElectronicObserver.Window
 				ToolTipInfo.SetToolTip(AnchorageRepairingTimer, "泊地修理タイマ\r\n開始: " + DateTimeHelper.TimeToCSVString(KCDatabase.Instance.Fleet.AnchorageRepairingTimer) + "\r\n回復: " + DateTimeHelper.TimeToCSVString(KCDatabase.Instance.Fleet.AnchorageRepairingTimer.AddMinutes(20)));
 			}
 
+
+			LayoutSubInformation();
+
+
 			TableFleet.ResumeLayout();
 		}
 
@@ -305,6 +311,31 @@ namespace ElectronicObserver.Window
 				AnchorageRepairingTimer.Text = DateTimeHelper.ToTimeElapsedString((DateTime)AnchorageRepairingTimer.Tag);
 		}
 
+
+		// 空欄があれば詰める
+		void LayoutSubInformation()
+		{
+			if (CombinedTag.Visible && !AnchorageRepairingTimer.Visible)
+			{
+				if (TableFleet.GetPositionFromControl(AnchorageRepairingTimer).Row != 5)
+				{
+					TableFleet.Controls.Remove(CombinedTag);
+					TableFleet.Controls.Remove(AnchorageRepairingTimer);
+					TableFleet.Controls.Add(CombinedTag, 1, 4);
+					TableFleet.Controls.Add(AnchorageRepairingTimer, 1, 5);
+				}
+			}
+			else
+			{
+				if (TableFleet.GetPositionFromControl(AnchorageRepairingTimer).Row != 4)
+				{
+					TableFleet.Controls.Remove(CombinedTag);
+					TableFleet.Controls.Remove(AnchorageRepairingTimer);
+					TableFleet.Controls.Add(AnchorageRepairingTimer, 1, 4);
+					TableFleet.Controls.Add(CombinedTag, 1, 5);
+				}
+			}
+		}
 
 
 		private void TableFleet_CellPaint(object sender, TableLayoutCellPaintEventArgs e)

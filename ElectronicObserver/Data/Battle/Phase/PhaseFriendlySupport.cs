@@ -95,13 +95,27 @@ namespace ElectronicObserver.Data.Battle.Phase
 			if (!IsAvailable)
 				return;
 
-			// note: HP計算が正しくできない - 送られてくるHPにはすでに友軍支援のダメージが適用済みであるため、昼戦終了時のHPを参照しなければならない
+			int[] friendhps = FriendlyInitialHPs;
 
 			foreach (var attack in Attacks)
 			{
 				foreach (var defs in attack.Defenders.GroupBy(d => d.Defender))
 				{
-					BattleDetails.Add(new BattleFriendlySupportDetail((BattleNight)Battle, attack.Attacker, defs.Key, defs.Select(d => d.RawDamage).ToArray(), defs.Select(d => d.CriticalFlag).ToArray(), attack.AttackType, attack.EquipmentIDs, attack.NightAirAttackFlag, 0));
+					BattleDetails.Add(new BattleFriendlySupportDetail(
+						(BattleNight)Battle,
+						attack.Attacker,
+						defs.Key,
+						defs.Select(d => d.RawDamage).ToArray(),
+						defs.Select(d => d.CriticalFlag).ToArray(),
+						attack.AttackType,
+						attack.EquipmentIDs,
+						attack.NightAirAttackFlag,
+						defs.Key.IsFriend ? friendhps[defs.Key] : hps[defs.Key]));
+
+					if (defs.Key.IsFriend)
+						friendhps[defs.Key] -= Math.Max(defs.Sum(d => d.Damage), 0);
+					else
+						AddDamage(hps, defs.Key, defs.Sum(d => d.Damage));
 				}
 			}
 
@@ -224,9 +238,9 @@ namespace ElectronicObserver.Data.Battle.Phase
 				int index = -1;
 				var eqmaster = KCDatabase.Instance.MasterEquipments;
 
-				for ( int i = 0; i < FriendlyMembersInstance.Length; i++)
+				for (int i = 0; i < FriendlyMembersInstance.Length; i++)
 				{
-					if(FriendlyMembers[i] != -1 && FriendlyInitialHPs[i] > 1)
+					if (FriendlyMembers[i] != -1 && FriendlyInitialHPs[i] > 1)
 					{
 						if (FriendlySlots[i].Any(id => eqmaster[id]?.CategoryType == EquipmentTypes.SearchlightLarge))
 							return i;

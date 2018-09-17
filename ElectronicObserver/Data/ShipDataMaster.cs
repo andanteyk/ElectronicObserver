@@ -593,6 +593,11 @@ namespace ElectronicObserver.Data
 		}
 
 		/// <summary>
+		/// 艦種インスタンス
+		/// </summary>
+		public ShipType ShipTypeInstance => KCDatabase.Instance.ShipTypes[(int)ShipType];
+
+		/// <summary>
 		/// 陸上基地かどうか
 		/// </summary>
 		public bool IsLandBase => Speed == 0;
@@ -602,7 +607,7 @@ namespace ElectronicObserver.Data
 		/// <summary>
 		/// 図鑑に載っているか
 		/// </summary>
-		public bool IsListedInAlbum => 0 < AlbumNo && AlbumNo <= 350;
+		public bool IsListedInAlbum => 0 < AlbumNo && AlbumNo <= 420;
 
 
 		/// <summary>
@@ -674,11 +679,11 @@ namespace ElectronicObserver.Data
 
 			bool isLateModel = Name.Contains("後期型");
 			bool isRemodeled = Name.Contains("改");
-			bool isDestroyed = Name.EndsWith("-壊");
-			bool isDemon = Name.EndsWith("鬼");
-			bool isPrincess = Name.EndsWith("姫");
-			bool isWaterDemon = Name.EndsWith("水鬼");
-			bool isWaterPrincess = Name.EndsWith("水姫");
+			bool isDestroyed = Name.Contains("-壊");
+			bool isDemon = Name.Contains("鬼");
+			bool isPrincess = Name.Contains("姫");
+			bool isWaterDemon = Name.Contains("水鬼");
+			bool isWaterPrincess = Name.Contains("水姫");
 			bool isElite = NameReading == "elite";
 			bool isFlagship = NameReading == "flagship";
 

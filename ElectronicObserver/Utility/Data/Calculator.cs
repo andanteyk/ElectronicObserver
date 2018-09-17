@@ -1315,7 +1315,7 @@ namespace ElectronicObserver.Utility.Data
 
 				case 82:    // 伊勢改
 				case 88:    // 日向改
-				case 553:	// 伊勢改二
+				case 553:   // 伊勢改二
 					if (aarocketmod >= 1 && aaradar >= 1)
 					{
 						if (aashell >= 1)
@@ -2207,9 +2207,12 @@ namespace ElectronicObserver.Utility.Data
 		/// <summary> 空母カットイン </summary>
 		CutinAirAttack,
 
+		/// <summary> Nelson Touch </summary>
+		SpecialNelson,
+
 
 		/// <summary> 砲撃 </summary>
-		Shelling = 100,
+		Shelling = 1000,
 
 		/// <summary> 空撃 </summary>
 		AirAttack,
@@ -2222,11 +2225,11 @@ namespace ElectronicObserver.Utility.Data
 
 
 		/// <summary> ロケット攻撃 </summary>
-		Rocket = 200,
+		Rocket = 2000,
 
 
 		/// <summary> 揚陸攻撃(大発動艇) </summary>
-		LandingDaihatsu = 300,
+		LandingDaihatsu = 3000,
 
 		/// <summary> 揚陸攻撃(特大発動艇) </summary>
 		LandingTokuDaihatsu,
@@ -2279,9 +2282,12 @@ namespace ElectronicObserver.Utility.Data
 		/// <summary> 駆逐カットイン(魚雷/見張員/電探) </summary>
 		CutinTorpedoPicket,
 
+		/// <summary> Nelson Touch </summary>
+		SpecialNelson,
+
 
 		/// <summary> 砲撃 </summary>
-		Shelling = 100,
+		Shelling = 1000,
 
 		/// <summary> 空撃 </summary>
 		AirAttack,
@@ -2294,11 +2300,11 @@ namespace ElectronicObserver.Utility.Data
 
 
 		/// <summary> ロケット攻撃 </summary>
-		Rocket = 200,
+		Rocket = 2000,
 
 
 		/// <summary> 揚陸攻撃(大発動艇) </summary>
-		LandingDaihatsu = 300,
+		LandingDaihatsu = 3000,
 
 		/// <summary> 揚陸攻撃(特大発動艇) </summary>
 		LandingTokuDaihatsu,

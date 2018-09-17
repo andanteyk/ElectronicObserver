@@ -238,14 +238,7 @@ namespace ElectronicObserver.Window.Dialog
 					eqicon = (int)ResourceManager.EquipmentContent.Unknown;
 				EquipmentType.ImageIndex = eqicon;
 
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine("装備可能艦種:");
-				foreach (var stype in KCDatabase.Instance.ShipTypes.Values)
-				{
-					if (stype.EquippableCategories.Contains((int)eq.CategoryType))
-						sb.AppendLine(stype.Name);
-				}
-				ToolTipInfo.SetToolTip(EquipmentType, sb.ToString());
+				ToolTipInfo.SetToolTip(EquipmentType, GetEquippableShips(equipmentID));
 			}
 			EquipmentName.Text = eq.Name;
 			ToolTipInfo.SetToolTip(EquipmentName, "(右クリックでコピー)");
@@ -382,6 +375,63 @@ namespace ElectronicObserver.Window.Dialog
 				label.Text = value.ToString();
 			}
 
+		}
+
+		private string GetEquippableShips(int equipmentID)
+		{
+			var db = KCDatabase.Instance;
+
+			var sb = new StringBuilder();
+			sb.AppendLine("装備可能:");
+
+			var eq = db.MasterEquipments[equipmentID];
+			if (eq == null)
+				return sb.ToString();
+
+			int eqCategory = (int)eq.CategoryType;
+
+			var specialShips = new Dictionary<ShipTypes, List<string>>();
+
+			foreach (var ship in db.MasterShips.Values.Where(s => s.SpecialEquippableCategories != null))
+			{
+				bool usual = ship.ShipTypeInstance.EquippableCategories.Contains(eqCategory);
+				bool special = ship.SpecialEquippableCategories.Contains(eqCategory);
+
+				if (usual != special)
+				{
+					if (specialShips.ContainsKey(ship.ShipType))
+						specialShips[ship.ShipType].Add(ship.NameWithClass);
+					else
+						specialShips.Add(ship.ShipType, new List<string>(new[] { ship.NameWithClass }));
+				}
+			}
+
+			foreach (var shiptype in db.ShipTypes.Values)
+			{
+				if (shiptype.EquippableCategories.Contains(eqCategory))
+				{
+					sb.Append(shiptype.Name);
+
+					if (specialShips.ContainsKey(shiptype.Type))
+					{
+						sb.Append(" (").Append(string.Join(", ", specialShips[shiptype.Type])).Append("を除く)");
+					}
+
+					sb.AppendLine();
+				}
+				else
+				{
+					if (specialShips.ContainsKey(shiptype.Type))
+					{
+						sb.Append("○ ").AppendLine(string.Join(", ", specialShips[shiptype.Type]));
+					}
+				}
+			}
+
+			if (eq.EquippableShipsAtExpansion.Any())
+				sb.Append("[拡張スロット] ").AppendLine(string.Join(", ", eq.EquippableShipsAtExpansion.Select(id => db.MasterShips[id].NameWithClass)));
+
+			return sb.ToString();
 		}
 
 
