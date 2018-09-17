@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -41,7 +42,7 @@ namespace Browser
 				{
 					return System.Reflection.Assembly.LoadFile(arch);
 				}
-				catch (System.IO.FileNotFoundException)
+				catch (IOException ex) when (ex is FileNotFoundException || ex is FileLoadException)
 				{
 					if (MessageBox.Show(
 $@"ブラウザコンポーネントがロードできませんでした。動作に必要な

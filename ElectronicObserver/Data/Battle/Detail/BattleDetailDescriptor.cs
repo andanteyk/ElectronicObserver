@@ -147,11 +147,12 @@ namespace ElectronicObserver.Data.Battle.Detail
 							sb.Append(" 制空戦力 ");
 							sb.Append(GetRangeString(Calculator.GetAirSuperiority(fleet, false), Calculator.GetAirSuperiority(fleet, true)));
 
-							sb.AppendFormat(" / 索敵能力 [1] {0:f2}, [2] {1:f2}, [3] {2:f2}, [4] {3:f2}",
-								Calculator.GetSearchingAbility_New33(fleet, 1),
-								Calculator.GetSearchingAbility_New33(fleet, 2),
-								Calculator.GetSearchingAbility_New33(fleet, 3),
-								Calculator.GetSearchingAbility_New33(fleet, 4));
+							double truncate2(double value) => Math.Floor(value * 100) / 100;
+							sb.AppendFormat(" / 索敵能力 [1] {0}, [2] {1}, [3] {2}, [4] {3}",
+								truncate2(Calculator.GetSearchingAbility_New33(fleet, 1)),
+								truncate2(Calculator.GetSearchingAbility_New33(fleet, 2)),
+								truncate2(Calculator.GetSearchingAbility_New33(fleet, 3)),
+								truncate2(Calculator.GetSearchingAbility_New33(fleet, 4)));
 						}
 
 						if (isBaseAirRaid)
