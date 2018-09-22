@@ -1253,15 +1253,10 @@ namespace ElectronicObserver.Window
 					_enemyFleetCandidateIndex = 0;
 
 
-				var candidate = Utility.Configuration.Config.FormCompass.DoMergeByFormation
-					? _mergedEnemyFleetCandidate[_enemyFleetCandidateIndex]
-					: new EnemyFleetElement(
-						_enemyFleetCandidate[_enemyFleetCandidateIndex].FleetName,
-						new int[] { _enemyFleetCandidate[_enemyFleetCandidateIndex].Formation },
-						_enemyFleetCandidate[_enemyFleetCandidateIndex].FleetMember);
-
-
-				TextEventDetail.Text = TextEnemyFleetName.Text = candidate.FleetName;
+				TextEventDetail.Text = TextEnemyFleetName.Text =
+					Utility.Configuration.Config.FormCompass.DoMergeByFormation
+					? _mergedEnemyFleetCandidate[_enemyFleetCandidateIndex].FleetName
+					: _enemyFleetCandidate[_enemyFleetCandidateIndex].FleetName;
 
 				if (count > _candidatesDisplayCount)
 				{
@@ -1276,12 +1271,18 @@ namespace ElectronicObserver.Window
 				TableEnemyCandidate.SuspendLayout();
 				for (int i = 0; i < ControlCandidates.Length; i++)
 				{
-					if ( i + _enemyFleetCandidateIndex >= count || i >= _candidatesDisplayCount)
+					if (i + _enemyFleetCandidateIndex >= count || i >= _candidatesDisplayCount)
 					{
 						ControlCandidates[i].Update(null);
 						continue;
 					}
 
+					var candidate = Utility.Configuration.Config.FormCompass.DoMergeByFormation
+						? _mergedEnemyFleetCandidate[i + _enemyFleetCandidateIndex]
+						: new EnemyFleetElement(
+							_enemyFleetCandidate[i + _enemyFleetCandidateIndex].FleetName,
+							new int[] { _enemyFleetCandidate[i + _enemyFleetCandidateIndex].Formation },
+							_enemyFleetCandidate[i + _enemyFleetCandidateIndex].FleetMember);
 					ControlCandidates[i].Update(candidate);
 				}
 				TableEnemyCandidate.ResumeLayout();
