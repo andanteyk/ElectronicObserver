@@ -154,6 +154,7 @@
 			this.FormCompass_MaxShipNameWidth = new System.Windows.Forms.NumericUpDown();
 			this.FormCompass_IsScrollable = new System.Windows.Forms.CheckBox();
 			this.FormCompass_CandidateDisplayCount = new System.Windows.Forms.NumericUpDown();
+			this.FormCompass_DoMergeByFormation = new System.Windows.Forms.CheckBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.tabPage10 = new System.Windows.Forms.TabPage();
 			this.FormQuest_AllowUserToSortRows = new System.Windows.Forms.CheckBox();
@@ -1739,6 +1740,7 @@
 			this.tabPage18.Controls.Add(this.FormCompass_MaxShipNameWidth);
 			this.tabPage18.Controls.Add(this.FormCompass_IsScrollable);
 			this.tabPage18.Controls.Add(this.FormCompass_CandidateDisplayCount);
+			this.tabPage18.Controls.Add(this.FormCompass_DoMergeByFormation);
 			this.tabPage18.Controls.Add(this.label2);
 			this.tabPage18.Location = new System.Drawing.Point(4, 22);
 			this.tabPage18.Name = "tabPage18";
@@ -1823,6 +1825,17 @@
             0,
             0,
             0});
+			// 
+			// FormCompass_DoMergeByFormation
+			// 
+			this.FormCompass_DoMergeByFormation.AutoSize = true;
+			this.FormCompass_DoMergeByFormation.Location = new System.Drawing.Point(6, 85);
+			this.FormCompass_DoMergeByFormation.Name = "FormCompass_DoMergeByFormation";
+			this.FormCompass_DoMergeByFormation.Size = new System.Drawing.Size(144, 19);
+			this.FormCompass_DoMergeByFormation.TabIndex = 14;
+			this.FormCompass_DoMergeByFormation.Text = "陣形のみ違う同一艦隊の編成をまとめる";
+			this.ToolTipInfo.SetToolTip(this.FormCompass_DoMergeByFormation, "陣形のみ違う同一艦隊の編成をまとめて表示するかを指定します。");
+			this.FormCompass_DoMergeByFormation.UseVisualStyleBackColor = true;
 			// 
 			// label2
 			// 
@@ -3110,5 +3123,6 @@
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.CheckBox FormBrowser_PreserveDrawingBuffer;
 		private System.Windows.Forms.CheckBox FormBrowser_ForceColorProfile;
+		private System.Windows.Forms.CheckBox FormCompass_DoMergeByFormation;
 	}
 }
