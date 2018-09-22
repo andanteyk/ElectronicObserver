@@ -265,7 +265,7 @@ namespace ElectronicObserver.Window
 				AirSuperiority.MaximumSize = maxSize;
 			}
 
-			public void Update(EnemyFleetRecord.EnemyFleetElement fleet)
+			public void Update(EnemyFleetElement fleet)
 			{
 
 				if (fleet == null)
@@ -310,7 +310,7 @@ namespace ElectronicObserver.Window
 
 				}
 
-				Formation.Text = Constants.GetFormationShort(fleet.Formation);
+				Formation.Text = string.Join("/", fleet.Formations.Select(f => Constants.GetFormationShort(f)));
 				//Formation.ImageIndex = (int)ResourceManager.IconContent.BattleFormationEnemyLineAhead + fleet.Formation - 1;
 				Formation.Visible = true;
 
@@ -543,6 +543,42 @@ namespace ElectronicObserver.Window
 		private List<EnemyFleetRecord.EnemyFleetElement> _enemyFleetCandidate = null;
 
 		/// <summary>
+		/// 次に遭遇する敵艦隊候補（陣形マージ済み）
+		/// </summary>
+		private List<EnemyFleetElement> _mergedEnemyFleetCandidate = null;
+
+		/// <summary>
+		/// 敵艦隊編成のレコード（表示に必要な分だけの簡易版）
+		/// </summary>
+		private sealed class EnemyFleetElement
+		{
+
+			/// <summary>
+			/// 艦隊名
+			/// </summary>
+			public string FleetName { get; private set; }
+
+			/// <summary>
+			/// 陣形リスト
+			/// </summary>
+			public int[] Formations { get; private set; }
+
+			/// <summary>
+			/// 敵艦船リスト [12]
+			/// </summary>
+			public int[] FleetMember { get; private set; }
+
+			public EnemyFleetElement() { }
+
+			public EnemyFleetElement(string fleetName, int[] formations, int[] fleetMember)
+			{
+				FleetName = fleetName;
+				Formations = formations;
+				FleetMember = fleetMember;
+			}
+		}
+
+		/// <summary>
 		/// 表示中の敵艦隊候補のインデックス
 		/// </summary>
 		private int _enemyFleetCandidateIndex = 0;
@@ -700,6 +736,7 @@ namespace ElectronicObserver.Window
 
 				_enemyFleetCandidate = null;
 				_enemyFleetCandidateIndex = -1;
+				_mergedEnemyFleetCandidate = null;
 
 
 				TextMapArea.Text = string.Format("出撃海域 : {0}-{1}{2}", compass.MapAreaID, compass.MapInfoID,
@@ -1102,6 +1139,14 @@ namespace ElectronicObserver.Window
 					return a.Formation - b.Formation;
 				});
 
+				_mergedEnemyFleetCandidate = _enemyFleetCandidate
+					.GroupBy(efc => string.Join("", efc.FleetMember))
+					.Select(g => new EnemyFleetElement(
+						g.Select(efc => efc.FleetName).First(),
+						g.Select(efc => efc.Formation).ToArray(),
+						g.Select(efc => efc.FleetMember).First()))
+					.ToList();
+
 				NextEnemyFleetCandidate(0);
 			}
 
@@ -1126,6 +1171,7 @@ namespace ElectronicObserver.Window
 
 			_enemyFleetCandidate = null;
 			_enemyFleetCandidateIndex = -1;
+			_mergedEnemyFleetCandidate = null;
 
 
 
@@ -1196,38 +1242,47 @@ namespace ElectronicObserver.Window
 			if (_enemyFleetCandidate != null && _enemyFleetCandidate.Count != 0)
 			{
 
+				int count = Utility.Configuration.Config.FormCompass.DoMergeByFormation
+					? _mergedEnemyFleetCandidate.Count
+					: _enemyFleetCandidate.Count;
+
 				_enemyFleetCandidateIndex += offset;
 				if (_enemyFleetCandidateIndex < 0)
-					_enemyFleetCandidateIndex = (_enemyFleetCandidate.Count - 1) - (_enemyFleetCandidate.Count - 1) % _candidatesDisplayCount;
-				else if (_enemyFleetCandidateIndex >= _enemyFleetCandidate.Count)
+					_enemyFleetCandidateIndex = (count - 1) - (count - 1) % _candidatesDisplayCount;
+				else if (_enemyFleetCandidateIndex >= count)
 					_enemyFleetCandidateIndex = 0;
 
 
-				var candidate = _enemyFleetCandidate[_enemyFleetCandidateIndex];
+				var candidate = Utility.Configuration.Config.FormCompass.DoMergeByFormation
+					? _mergedEnemyFleetCandidate[_enemyFleetCandidateIndex]
+					: new EnemyFleetElement(
+						_enemyFleetCandidate[_enemyFleetCandidateIndex].FleetName,
+						new int[] { _enemyFleetCandidate[_enemyFleetCandidateIndex].Formation },
+						_enemyFleetCandidate[_enemyFleetCandidateIndex].FleetMember);
 
 
 				TextEventDetail.Text = TextEnemyFleetName.Text = candidate.FleetName;
 
-				if (_enemyFleetCandidate.Count > _candidatesDisplayCount)
+				if (count > _candidatesDisplayCount)
 				{
 					TextEventDetail.Text += " ▼";
-					ToolTipInfo.SetToolTip(TextEventDetail, string.Format("候補: {0} / {1}\r\n(左右クリックでページめくり)\r\n", _enemyFleetCandidateIndex + 1, _enemyFleetCandidate.Count));
+					ToolTipInfo.SetToolTip(TextEventDetail, string.Format("候補: {0} / {1}\r\n(左右クリックでページめくり)\r\n", _enemyFleetCandidateIndex + 1, count));
 				}
 				else
 				{
-					ToolTipInfo.SetToolTip(TextEventDetail, string.Format("候補: {0}\r\n", _enemyFleetCandidate.Count));
+					ToolTipInfo.SetToolTip(TextEventDetail, string.Format("候補: {0}\r\n", count));
 				}
 
 				TableEnemyCandidate.SuspendLayout();
 				for (int i = 0; i < ControlCandidates.Length; i++)
 				{
-					if (i + _enemyFleetCandidateIndex >= _enemyFleetCandidate.Count || i >= _candidatesDisplayCount)
+					if ( i + _enemyFleetCandidateIndex >= count || i >= _candidatesDisplayCount)
 					{
 						ControlCandidates[i].Update(null);
 						continue;
 					}
 
-					ControlCandidates[i].Update(_enemyFleetCandidate[i + _enemyFleetCandidateIndex]);
+					ControlCandidates[i].Update(candidate);
 				}
 				TableEnemyCandidate.ResumeLayout();
 				TableEnemyCandidate.Visible = true;

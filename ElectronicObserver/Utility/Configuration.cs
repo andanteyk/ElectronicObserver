@@ -996,12 +996,18 @@ namespace ElectronicObserver.Utility
 				/// </summary>
 				public int MaxShipNameWidth { get; set; }
 
+				/// <summary>
+				/// 陣形のみ異なる同一編成をマージするか
+				/// </summary>
+				public bool DoMergeByFormation { get; set; }
+
 
 				public ConfigFormCompass()
 				{
 					CandidateDisplayCount = 4;
 					IsScrollable = false;
 					MaxShipNameWidth = 60;
+					DoMergeByFormation = false;
 				}
 			}
 			/// <summary>[羅針盤]ウィンドウ</summary>
