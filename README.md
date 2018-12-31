@@ -6,7 +6,7 @@
 
 ## 実装されている機能
 
-![](https://github.com/andanteyk/ElectronicObserver/wiki/media/mainimage2.png)
+![](https://github.com/andanteyk/ElectronicObserver/wiki/media/mainimage3.png)
 
 各機能はそれぞれウィンドウとして独立しており、自由にドッキング・タブ化するなどしてレイアウト可能です。  
 以下では概略を紹介します。**詳しくは[Wikiを参照](https://github.com/andanteyk/ElectronicObserver/wiki)してください。**  

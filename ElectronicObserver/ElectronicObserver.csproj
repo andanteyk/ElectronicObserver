@@ -108,6 +108,7 @@
     <Compile Include="Data\Battle\BattleCombinedNightOnly.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalDay.cs" />
     <Compile Include="Data\Battle\BattleCombinedNormalNight.cs" />
+    <Compile Include="Data\Battle\BattleCombinedRadar.cs" />
     <Compile Include="Data\Battle\BattleCombinedWater.cs" />
     <Compile Include="Data\Battle\BattleData.cs" />
     <Compile Include="Data\Battle\BattleDay.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Data\Battle\BattleDayFromNight.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedDayFromNight.cs" />
     <Compile Include="Data\Battle\BattleNormalDayFromNight.cs" />
+    <Compile Include="Data\Battle\BattleNormalRadar.cs" />
     <Compile Include="Data\Battle\Detail\BattleDetail.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedDay.cs" />
     <Compile Include="Data\Battle\BattleEnemyCombinedNight.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Data\Battle\Phase\PhaseNightBattle.cs" />
     <Compile Include="Data\Battle\Phase\PhaseNightInitial.cs" />
     <Compile Include="Data\Battle\Phase\PhaseOpeningASW.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseRadar.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSearching.cs" />
     <Compile Include="Data\Battle\Phase\PhaseShelling.cs" />
     <Compile Include="Data\Battle\Phase\PhaseSupport.cs" />
@@ -218,6 +221,7 @@
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_midnight_battle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ec_night_to_day.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ld_airbattle.cs" />
+    <Compile Include="Observer\kcsapi\api_req_combined_battle\ld_shooting.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\preset_select.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
@@ -234,6 +238,7 @@
     <Compile Include="Observer\kcsapi\api_req_sortie\airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\goback_port.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\ld_airbattle.cs" />
+    <Compile Include="Observer\kcsapi\api_req_sortie\ld_shooting.cs" />
     <Compile Include="Observer\kcsapi\api_req_sortie\night_to_day.cs" />
     <Compile Include="Observer\kcsapi\api_start2\getData.cs" />
     <Compile Include="Resource\KCResourceHelper.cs" />

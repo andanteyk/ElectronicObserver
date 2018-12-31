@@ -242,6 +242,7 @@
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.Log_PlayTime = new System.Windows.Forms.Label();
 			this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
+			this.FormFleet_AppliesSallyAreaColor = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -1003,7 +1004,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 257);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 255);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1219,6 +1220,7 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_AppliesSallyAreaColor);
 			this.tabPage8.Controls.Add(this.label43);
 			this.tabPage8.Controls.Add(this.FormFleet_FleetStateDisplayMode);
 			this.tabPage8.Controls.Add(this.FormFleet_EmphasizesSubFleetInPort);
@@ -2563,7 +2565,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 328);
+			this.label10.Location = new System.Drawing.Point(3, 326);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2708,7 +2710,7 @@
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 277);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 275);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2805,6 +2807,17 @@
 			this.PlayTimeTimer.Enabled = true;
 			this.PlayTimeTimer.Interval = 1000;
 			this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
+			// 
+			// FormFleet_AppliesSallyAreaColor
+			// 
+			this.FormFleet_AppliesSallyAreaColor.AutoSize = true;
+			this.FormFleet_AppliesSallyAreaColor.Location = new System.Drawing.Point(358, 188);
+			this.FormFleet_AppliesSallyAreaColor.Name = "FormFleet_AppliesSallyAreaColor";
+			this.FormFleet_AppliesSallyAreaColor.Size = new System.Drawing.Size(170, 19);
+			this.FormFleet_AppliesSallyAreaColor.TabIndex = 23;
+			this.FormFleet_AppliesSallyAreaColor.Text = "出撃海域で艦名を色分けする";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_AppliesSallyAreaColor, "出撃海域によって艦名の背景色を設定します。");
+			this.FormFleet_AppliesSallyAreaColor.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfiguration
 			// 
@@ -3110,5 +3123,6 @@
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.CheckBox FormBrowser_PreserveDrawingBuffer;
 		private System.Windows.Forms.CheckBox FormBrowser_ForceColorProfile;
+		private System.Windows.Forms.CheckBox FormFleet_AppliesSallyAreaColor;
 	}
 }

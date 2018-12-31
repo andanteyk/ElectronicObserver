@@ -372,40 +372,38 @@ namespace ElectronicObserver.Window
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine("[海域ゲージ]");
 
-			var list = data.api_map_info() ? data.api_map_info : data;
 
-			foreach (dynamic elem in list)
+			foreach (var map in KCDatabase.Instance.MapInfo.Values)
 			{
+				int gaugeType = -1;
+				int current = 0;
+				int max = 0;
 
-				int mapID = (int)elem.api_id;
-				MapInfoData map = KCDatabase.Instance.MapInfo[mapID];
-
-				if (map != null)
+				if (map.RequiredDefeatedCount != -1 && map.CurrentDefeatedCount < map.RequiredDefeatedCount)
 				{
-					if (map.RequiredDefeatedCount != -1 && elem.api_defeat_count())
-					{
+					gaugeType = 1;
+					current = map.CurrentDefeatedCount;
+					max = map.RequiredDefeatedCount;
+				}
+				else if (map.MapHPMax > 0)
+				{
+					gaugeType = map.GaugeType;
+					current = map.MapHPCurrent;
+					max = map.MapHPMax;
+				}
 
-						sb.AppendFormat("{0}-{1} : 撃破 {2}/{3} 回\r\n", map.MapAreaID, map.MapInfoID, (int)elem.api_defeat_count, map.RequiredDefeatedCount);
-
-					}
-					else if (elem.api_eventmap())
-					{
-
-						string difficulty = "";
-						if (elem.api_eventmap.api_selected_rank())
-						{
-							difficulty = "[" + Constants.GetDifficulty((int)elem.api_eventmap.api_selected_rank) + "] ";
-						}
-
-						sb.AppendFormat("{0}-{1} {2}: {3}{4} {5}/{6}\r\n",
-							map.MapAreaID, map.MapInfoID, difficulty,
-							elem.api_eventmap.api_gauge_num() ? ("#" + (int)elem.api_eventmap.api_gauge_num + " ") : "",
-							elem.api_eventmap.api_gauge_type() && (int)elem.api_eventmap.api_gauge_type == 3 ? "TP" : "HP",
-							(int)elem.api_eventmap.api_now_maphp, (int)elem.api_eventmap.api_max_maphp);
-
-					}
+				if (gaugeType > 0)
+				{
+					sb.AppendLine(string.Format("{0}-{1}{2}: {3}{4} {5} / {6}{7}",
+						map.MapAreaID, map.MapInfoID,
+						map.EventDifficulty > 0 ? $" [{Constants.GetDifficulty(map.EventDifficulty)}]" : "",
+						map.CurrentGaugeIndex > 0 ? $"#{map.CurrentGaugeIndex} " : "",
+						gaugeType == 1 ? "撃破" : gaugeType == 2 ? "HP" : "TP",
+						current, max,
+						gaugeType == 1 ? " 回" : ""));
 				}
 			}
+
 
 			return sb.ToString();
 		}

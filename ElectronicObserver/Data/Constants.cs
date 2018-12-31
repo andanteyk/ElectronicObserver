@@ -375,6 +375,10 @@ namespace ElectronicObserver.Data
 				case 85: return "日振型";
 				case 86: return "呂号潜水艦";
 				case 87: return "John C.Butler級";
+				case 88: return "Nelson級";
+				case 89: return "Gotland級";
+				case 90: return "日進型";
+				case 91: return "Fletcher級";
 				default: return "不明";
 			}
 		}
@@ -442,6 +446,8 @@ namespace ElectronicObserver.Data
 					return "空襲戦";
 				case 7:
 					return "夜昼戦";       // 対連合
+				case 8:
+					return "レーダー";
 				default:
 					return "不明";
 			}
@@ -756,6 +762,8 @@ namespace ElectronicObserver.Data
 					return "空母カットイン";
 				case DayAttackKind.SpecialNelson:
 					return "Nelson Touch";
+				case DayAttackKind.SpecialNagato:
+					return "一斉射かッ…胸が熱いな！";
 				case DayAttackKind.Shelling:
 					return "砲撃";
 				case DayAttackKind.AirAttack:
@@ -809,6 +817,8 @@ namespace ElectronicObserver.Data
 					return "駆逐カットイン(魚雷/見張員/電探)";
 				case NightAttackKind.SpecialNelson:
 					return "Nelson Touch";
+				case NightAttackKind.SpecialNagato:
+					return "一斉射かッ…胸が熱いな！";
 				case NightAttackKind.Shelling:
 					return "砲撃";
 				case NightAttackKind.AirAttack:
@@ -898,6 +908,14 @@ namespace ElectronicObserver.Data
 					return "噴進砲改二/電探<伊勢>";
 				case 29:
 					return "高角砲/電探<浜風>";
+				case 30:
+					return "高角砲x3<天龍>";
+				case 31:
+					return "高角砲x2<天龍>";
+				case 32:
+					return "ロケランx2 or FCR/ポンポン砲 or ロケラン/ポンポン砲<英国>";
+				case 33:
+					return "高角砲/機銃(非集中)<Gotland>";
 				default:
 					return "不明";
 			}

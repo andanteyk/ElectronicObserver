@@ -11,7 +11,7 @@ api_start2/getData	：艦娘・装備固有データその他
 	api_mst_ship		：艦船データ(艦娘)　衣替え艦娘のデータはshipgraphにしか存在しない
 		api_id			：艦娘固有ID
 		api_sortno		：図鑑番号
-		api_sort_id		：母港ソート順?
+		api_sort_id		：母港ソート順
 		api_name		：艦娘名
 		api_yomi		：艦娘名読み
 		api_stype		：艦種ID
@@ -26,7 +26,7 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_tais		：対潜 [1] [0]=初期値 護衛空母にのみ存在
 		api_luck		：運
 		api_soku		：速力　0=陸上基地, 5=低速, 10=高速(, 15=高速+, 20=最速)
-		api_leng		：射程 0=無, 1=短, 2=中, 3=長, 4=超長
+		api_leng		：射程　0=無, 1=短, 2=中, 3=長, 4=超長
 		api_slot_num	：スロット数
 		api_maxeq		：艦載機搭載数
 		api_buildtime	：建造時間　分単位
@@ -145,6 +145,7 @@ api_start2/getData	：艦娘・装備固有データその他
 				22=局地戦闘機
 				23=輸送機材
 				24=潜水艦装備
+				25=陸上偵察機
 
 			[1]：図鑑表示
 				 1=Primary Armament
@@ -279,6 +280,7 @@ api_start2/getData	：艦娘・装備固有データその他
 				46=特型内火艇
 				47=陸上攻撃機
 				48=局地戦闘機
+				49=陸上偵察機
 				50=輸送機材
 				51=潜水艦装備
 				56=噴式戦闘機
@@ -363,6 +365,7 @@ api_start2/getData	：艦娘・装備固有データその他
 				28=英攻撃機
 				29=英戦闘機
 				30=陸上対潜哨戒機
+				31=陸上偵察機
 
 		api_taik		：耐久(0)
 		api_souk		：装甲
@@ -446,7 +449,7 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_infotext	：作戦情報
 		api_item		：獲得アイテム
 		api_max_maphp	：海域HPゲージ最大値？夏イベ海域は全て300, 他はnull ここに載っているHPはダミー？
-		api_required_defeat_count	：攻略に必要な撃破数 nullあり
+		api_required_defeat_count	：攻略に必要な撃破数　nullあり　※HP/撃破回数等は進捗によって(ダブルゲージ等)変更されるため、これらをあてにせず mapinfo を参照すること
 		api_sally_flag	：出撃艦隊編成フラグ
 			(夏イベ時)通常海域, MI海域は[ 0, 1 ], AL海域, 本土防衛は[ 1, 0 ]
 			(2014/09現在)すべて[ 1, 0 ]
@@ -1040,6 +1043,10 @@ api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ�
 			85=日振型
 			86=呂号潜水艦
 			87=John C.Butler級
+			88=Nelson級
+			89=Gotland級
+			90=日進型
+			91=Fletcher級
 		api_cnum			：艦番
 		api_taik			：耐久
 		api_souk			：装甲
@@ -1487,6 +1494,7 @@ api_req_map/start		：出撃　同じメンバはnextのほうが情報が新し
 							 8=船団護衛成功
 							 9=航空偵察
 							10=長距離空襲戦
+							13=レーダー射撃
 		api_passed		：1=通行済み　初期地点は常に0
 	api_rashin_flg		：
 	api_rashin_id		：
@@ -1534,7 +1542,7 @@ api_req_map/next		：進撃
 							 9=揚陸地点
 							10=長距離空襲戦
 	api_event_kind		：イベント種別　
-							0=非戦闘セル, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦, 5=敵連合艦隊戦, 6=長距離空襲戦, 7=夜昼戦(対連合艦隊)
+							0=非戦闘セル, 1=通常戦闘, 2=夜戦, 3=夜昼戦, 4=航空戦, 5=敵連合艦隊戦, 6=長距離空襲戦, 7=夜昼戦(対連合艦隊), 8=レーダー射撃
 							api_event_id=1|6(気のせいだった)時は　
 								 0="気のせいだった。"
 								 1="敵影を見ず。"
@@ -1617,7 +1625,7 @@ api_req_map/next		：進撃
 		api_ship_lv
 		api_e_nowhps
 		api_e_maxhps
-		api_eSlot
+		api_eSlot					：eParam は存在しないことに注意
 		api_f_nowhps				：味方基地の戦闘開始時のHP　[基地数]
 		api_f_maxhps				：味方基地の最大HP　[基地数]
 		api_air_base_attack			：基地航空隊攻撃
@@ -1805,7 +1813,17 @@ api_req_sortie/battle	：通常艦隊　昼戦
 	api_hougeki1	：砲撃戦1巡目　api_hourai_flag[0] = 0 の時 null　メンバの配列はすべて [攻撃フェイズの回数]
 		api_at_eflag	：行動陣営フラグ 0=味方, 1=敵
 		api_at_list		：攻撃艦のインデックス 0基点
-		api_at_type		：攻撃種別　0=通常攻撃, 1=レーザー攻撃, 2=連続射撃, 3=カットイン(主砲/副砲), 4=カットイン(主砲/電探), 5=カットイン(主砲/徹甲), 6=カットイン(主砲/主砲), 7=空母カットイン
+		api_at_type		：攻撃種別
+							0=通常攻撃
+							1=レーザー攻撃
+							2=連続射撃
+							3=カットイン(主砲/副砲)
+							4=カットイン(主砲/電探)
+							5=カットイン(主砲/徹甲)
+							6=カットイン(主砲/主砲)
+							7=空母カットイン
+							100=Nelson Touch
+							101=一斉射かッ…胸が熱いな！
 		api_df_list		：防御艦のインデックス　[][攻撃回数]　0基点
 		api_si_list		：表示装備ID [][装備数]　数値と文字列が混在しているため注意
 		api_cl_list		：クリティカルフラグ　[][攻撃回数]　0=ミス, 1=命中, 2=クリティカル
@@ -1857,6 +1875,8 @@ api_req_battle_midnight/battle		：通常艦隊　夜戦
 								6=空母カットイン
 								7=駆逐カットイン(主砲/魚雷/電探)
 								8=駆逐カットイン(魚雷/見張員/電探)
+								100=Nelson Touch
+								101=一斉射かッ…胸が熱いな！
 		api_damage			：与ダメージ　[][攻撃回数]　単発カットイン攻撃では [ダメージ, -1, -1] になる
 
 
@@ -1926,6 +1946,29 @@ api_req_sortie/ld_airbattle		：通常艦隊　長距離空襲戦　存在する
 	api_search
 	api_stage_flag
 	api_kouku			：こちらからは攻撃できない模様(ダメージの項目は通常通り存在する)
+
+
+api_req_sortie/ld_shooting		：通常艦隊　敵レーダー射撃　昼戦扱い？　各値の構成と意味は api_req_sortie/battle と同じ
+api_deck_id				：数値型
+api_formation			：[3]　味方は単縦陣(1)扱い？
+api_f_nowhps			：[]
+api_f_maxhps			：[]
+api_fParam				：[][4]
+api_ship_ke				：[]
+api_ship_lv				：[]
+api_e_nowhps			：[]
+api_e_maxhps			：[]
+api_eSlot				：[][5]
+api_eParam				：[][4]　索敵系フラグ(api_search)は存在しないので注意
+api_midnight_flag		：0 ?
+api_hougeki1			：砲撃戦
+	api_at_eflag			：[]　必ず敵(1)のはず
+	api_at_list				：[]
+	api_at_type				：[]　昼戦に準じる？
+	api_df_list				：[][]
+	api_si_list				：[][]
+	api_cl_list				：[][]
+	api_damage				：[][]
 
 
 ['17 秋イベでフォーマット変更　要再確認]
@@ -2183,21 +2226,21 @@ api_get_member/ship_deck	：進撃中 2015/05/18以降 更新された艦船/艦
 	api_ship_data		：艦船データ portと同じ
 	api_deck_data		：艦隊データ deckと同じ
 
-api_get_member/mapinfo			：出撃準備　未出現海域は存在しない
-	api_map_info				：海域データ
-		api_id					：海域ID
-		api_cleared				：攻略フラグ
-		api_eventmap			：イベント海域のみ存在
-			api_now_maphp		：海域HP現在値
-			api_max_maphp		：海域HP最大値
-			api_state			：状態？1=未攻略, 2=攻略済み
-			api_selected_rank	：作戦難易度 0=未設定, 1=丁, 2=丙, 3=乙, 4=甲
-			api_gauge_type		：2=HPゲージ 3=揚陸(TP)ゲージ　2は複数ゲージ時のみ存在
-			api_gauge_num		：現在のゲージ段階(ゲージn本目)　1基点　おそらく複数ゲージ時のみ存在
-			api_airbase_enabled	：基地航空隊が使用可能か?　'17秋イベでは存在せず
-		api_air_base_decks		：基地航空隊出撃可能数 1以上の時のみ存在
-		api_exboss_flag			：未攻略海域フラグ(イベント海域を除く)
-		api_defeat_count		：撃破回数(未攻略海域に限り存在, イベント海域には存在せず)
+api_get_member/mapinfo				：出撃準備　未出現海域は存在しない
+	api_map_info					：海域データ
+		api_id						：海域ID
+		api_cleared					：攻略フラグ
+		api_eventmap				：イベント海域のみ存在
+			api_now_maphp				：海域HP現在値	未設定時は9999
+			api_max_maphp				：海域HP最大値　未設定時は9999
+			api_state					：状態？　1=未攻略, 2=攻略済み
+			api_selected_rank			：作戦難易度　0=未設定, 1=丁, 2=丙, 3=乙, 4=甲
+		api_sally_flag				：出撃可能フラグ　[通常艦隊可否(0|1), 連合艦隊可否ビットフラグ(1=機動部隊, 2=水上部隊, 4=輸送部隊 のOR), 7隻編成可否(0|1)]　イベント海域のみ存在
+		api_defeat_count			：撃破回数　(未攻略海域に限り存在, イベント海域には存在せず)
+		api_required_defeat_count	：攻略に必要な撃破回数　(未攻略海域に限り存在)
+		api_gauge_type				：1=撃破ゲージ 2=HPゲージ 3=揚陸(TP)ゲージ　(ゲージが存在する海域に限り存在)
+		api_gauge_num				：現在のゲージ段階(ゲージn本目)　1基点　(ゲージが存在する海域に限り存在)
+		api_air_base_decks			：基地航空隊出撃可能数 1以上の時のみ存在
 	api_air_base				：基地航空隊データ なければ存在しない
 		api_area_id				：出撃可能海域
 		(以降のメンバは api_get_member/base_air_corps と同じ)
@@ -2217,10 +2260,12 @@ api_get_member/sortie_conditions	：イベント海域への出撃条件　出�
 		api_rate		：勝率
 
 
-api_get_member/base_air_corps	：基地航空隊情報
+api_get_member/base_air_corps	：基地航空隊情報　現在は直接使用されていない？（データ構造自体は別のAPIで出現する）
 	api_rid					：航空隊ID
 	api_name				：航空隊名
-	api_distance			：戦闘行動半径　航空隊中で最短のもの　配置転換中のものを含む
+	api_distance			：戦闘行動半径　実際の半径は api_base と api_bonus の和
+		api_base			：基礎半径　≒半径が最小の中隊
+		api_bonus			：偵察機等による半径ボーナス
 	api_action_kind			：行動指示　0=待機, 1=出撃, 2=防空, 3=退避, 4=休息
 	api_plane_info			：中隊情報
 		api_squadron_id		：中隊ID
@@ -2238,6 +2283,8 @@ Request.api_req_air_corps/set_plane		：基地航空隊 - 中隊設定
 
 api_req_air_corps/set_plane		：基地航空隊 - 中隊設定
 	api_distance		：戦闘行動半径
+		api_base			：基礎半径　≒半径が最小の中隊
+		api_bonus			：偵察機等による半径ボーナス
 	api_plane_info		：中隊情報　base_air_corps と同じ、更新したスロットのみ(配備時は[1]、交換時は[2])
 	api_after_bauxite	：消費後のボーキサイト　配備時(消費時)のみ存在
 
@@ -3076,6 +3123,32 @@ api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
 	api_escape_idx			：[]
 
 
+api_req_combined_battle/ld_shooting		：連合艦隊　敵レーダー射撃　昼戦扱い？
+api_deck_id				：1 ?
+api_formation			：[3]　味方は第四警戒航行序列(14)扱い？
+api_f_nowhps			：[]
+api_f_maxhps			：[]
+api_f_nowhps_combined	：[]
+api_f_maxhps_combined	：[]
+api_fParam				：[][4]
+api_fParam_combined		：[][4]
+api_ship_ke				：[]
+api_ship_lv				：[]
+api_e_nowhps			：[]
+api_e_maxhps			：[]
+api_eSlot				：[][5]
+api_eParam				：[][4]　索敵系フラグ(api_search)は存在しないので注意
+api_midnight_flag		：0 ?
+api_hougeki1			：砲撃戦
+	api_at_eflag			：[]　必ず敵(1)のはず
+	api_at_list				：[]　上から順
+	api_at_type				：[]　昼戦に準じる? (0=通常攻撃, 2=連続射撃)
+	api_df_list				：[][]
+	api_si_list				：[][]
+	api_cl_list				：[][]
+	api_damage				：[][]
+
+
 api_req_combined_battle/battleresult	：連合艦隊　戦闘結果 (味方通常艦隊-敵連合艦隊を含む)
 	api_ship_id					：敵主力艦隊の艦船ID　[艦船数]
 	api_win_rank				：勝利ランク
@@ -3142,8 +3215,11 @@ api_req_mission.return_instruction				：遠征中止/帰還命令
 							[0]={0=未出撃, 1=遠征中, 2=遠征帰投, 3=強制帰還中}, [1]=遠征先ID, [2]=帰投時間, [3]=0
 
 
-api_req_kaisou/marriage		：ケッコンカッコカリ
-	api_data				：port.api_shipと同じ　該当艦のみ
+Request.api_req_kaisou/marriage	：ケッコンカッコカリ
+	api_id 			：対象の艦船ID
+
+api_req_kaisou/marriage			：ケッコンカッコカリ
+	api_data					：port.api_shipと同じ　該当艦のみ
 
 
 api_get_member/payitem		：保有課金アイテム(取り出す前のアイテム)　未保有時はnull

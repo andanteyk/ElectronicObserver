@@ -145,7 +145,6 @@ namespace ElectronicObserver.Utility.Data
 		/// <param name="fleet">艦船IDの配列。</param>
 		public static int GetAirSuperiority(int[] fleet)
 		{
-
 			return fleet.Select(id => KCDatabase.Instance.MasterShips[id]).Sum(ship => GetAirSuperiority(ship));
 		}
 
@@ -376,6 +375,7 @@ namespace ElectronicObserver.Utility.Data
 					switch (category)
 					{
 						case EquipmentTypes.SeaplaneRecon:
+						case EquipmentTypes.CarrierBasedRecon:
 							levelRate = 1.2;
 							break;
 
@@ -1164,10 +1164,13 @@ namespace ElectronicObserver.Utility.Data
 			int radar = 0;
 			int aaradar = 0;
 			int maingunl = 0;
+			int maingunl_fcr = 0;
 			int aashell = 0;
 			int aagun_total = 0;
 			int aagun_medium = 0;
 			int aagun_concentrated = 0;
+			int aagun_pompom = 0;
+			int aarocketenglish = 0;
 			int aarocketmod = 0;
 			int highangle_musashi = 0;
 
@@ -1200,6 +1203,9 @@ namespace ElectronicObserver.Utility.Data
 				else if (eq.CategoryType == EquipmentTypes.MainGunLarge || eq.CategoryType == EquipmentTypes.MainGunLarge2)
 				{
 					maingunl++;
+
+					if (eq.EquipmentID == 300)       // 16inch Mk.I三連装砲改+FCR type284
+						maingunl_fcr++;
 				}
 				else if (eq.CategoryType == EquipmentTypes.AAShell)
 				{
@@ -1209,8 +1215,12 @@ namespace ElectronicObserver.Utility.Data
 				{
 					aagun_total++;
 
-					if (eq.EquipmentID == 274)      // 噴進砲改二
+					if (eq.EquipmentID == 274)      // 12cm30連装噴進砲改二
 						aarocketmod++;
+					if (eq.EquipmentID == 191)      // QF 2ポンド8連装ポンポン砲
+						aagun_pompom++;
+					if (eq.EquipmentID == 301)      // 20連装7inch UP Rocket Launchers
+						aarocketenglish++;
 
 					if (eq.IsConcentratedAAGun)
 						aagun_concentrated++;
@@ -1223,30 +1233,27 @@ namespace ElectronicObserver.Utility.Data
 
 
 			// 固有カットイン
+
+			if (KCDatabase.Instance.MasterShips[shipID]?.ShipClass == 54)
+			{
+				// 秋月型
+				if (highangle >= 2 && radar >= 1)
+				{
+					return 1;
+				}
+				if (highangle >= 1 && radar >= 1)
+				{
+					return 2;
+				}
+				if (highangle >= 2)
+				{
+					return 3;
+				}
+			}
+
+
 			switch (shipID)
 			{
-
-				case 421:   // 秋月
-				case 330:   // 秋月改
-				case 422:   // 照月
-				case 346:   // 照月改
-				case 423:   // 初月
-				case 357:   // 初月改
-				case 532:   // 涼月
-				case 537:   // 涼月改
-					if (highangle >= 2 && radar >= 1)
-					{
-						return 1;
-					}
-					if (highangle >= 1 && radar >= 1)
-					{
-						return 2;
-					}
-					if (highangle >= 2)
-					{
-						return 3;
-					}
-					break;
 
 				case 428:   // 摩耶改二
 					if (highangle >= 1 && aagun_concentrated >= 1)
@@ -1308,6 +1315,13 @@ namespace ElectronicObserver.Utility.Data
 						return 23;
 					break;
 
+				case 477:   // 天龍改二
+					if (highangle >= 3)
+						return 30;
+					if (highangle >= 2)
+						return 31;
+					break;
+
 				case 478:   // 龍田改二
 					if (highangle >= 1 && aagun_medium >= 1)
 						return 24;
@@ -1341,6 +1355,26 @@ namespace ElectronicObserver.Utility.Data
 						return 29;
 					break;
 
+				case 149:   // 金剛改二
+				case 150:   // 比叡改二
+				case 151:   // 榛名改二
+				case 152:   // 霧島改二
+				case 519:   // Jervis
+				case 394:   // Jervis改
+				case 571:   // Nelson
+				case 576:   // Nelson改
+					if (aarocketenglish >= 2)
+						return 32;
+					if (aagun_pompom >= 1 && (maingunl_fcr >= 1 || aarocketenglish >= 1))
+						return 32;
+					break;
+
+				case 579:   // Gotland改
+					if (highangle >= 3)
+						return 30;
+					if (highangle >= 1 && aagun_medium >= 1)
+						return 33;
+					break;
 			}
 
 
@@ -1596,6 +1630,10 @@ namespace ElectronicObserver.Utility.Data
 			{ 26, 6 },
 			{ 28, 4 },
 			{ 29, 5 },
+			{ 30, 3 },
+			{ 31, 2 },
+			{ 32, 3 },
+			{ 33, 3 },
 		});
 
 
@@ -1631,6 +1669,10 @@ namespace ElectronicObserver.Utility.Data
 			{ 26, 1.4 },
 			{ 28, 1.4 },
 			{ 29, 1.55 },
+			{ 30, 1.3 },
+			{ 31, 1.25 },
+			{ 32, 1.2 },
+			{ 33, 1.35 },
 		});
 
 
@@ -2208,7 +2250,10 @@ namespace ElectronicObserver.Utility.Data
 		CutinAirAttack,
 
 		/// <summary> Nelson Touch </summary>
-		SpecialNelson,
+		SpecialNelson = 100,
+
+		/// <summary> 一斉射かッ…胸が熱いな！ </summary>
+		SpecialNagato = 101,
 
 
 		/// <summary> 砲撃 </summary>
@@ -2283,7 +2328,10 @@ namespace ElectronicObserver.Utility.Data
 		CutinTorpedoPicket,
 
 		/// <summary> Nelson Touch </summary>
-		SpecialNelson,
+		SpecialNelson = 100,
+
+		/// <summary> 一斉射かッ…胸が熱いな！ </summary>
+		SpecialNagato = 101,
 
 
 		/// <summary> 砲撃 </summary>

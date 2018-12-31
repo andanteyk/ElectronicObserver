@@ -118,6 +118,8 @@ namespace ElectronicObserver.Observer
 				new kcsapi.api_req_combined_battle.ec_night_to_day(),
 				new kcsapi.api_req_sortie.goback_port(),
 				new kcsapi.api_req_member.itemuse(),
+				new kcsapi.api_req_sortie.ld_shooting(),
+				new kcsapi.api_req_combined_battle.ld_shooting(),
 
 				new kcsapi.api_req_quest.clearitemget(),
 				new kcsapi.api_req_nyukyo.start(),
