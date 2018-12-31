@@ -130,18 +130,10 @@ namespace ElectronicObserver.Window
 
 			private void SearchingAbility_Click(object sender, EventArgs e, int fleetID)
 			{
-				switch (BranchWeight)
-				{
-					case 1:
-						BranchWeight = 4;
-						break;
-					case 4:
-						BranchWeight = 3;
-						break;
-					case 3:
-						BranchWeight = 1;
-						break;
-				}
+				BranchWeight--;
+				if (BranchWeight <= 0)
+					BranchWeight = 4;
+				
 				Update(KCDatabase.Instance.Fleet[fleetID]);
 			}
 
@@ -175,7 +167,7 @@ namespace ElectronicObserver.Window
 						default:
 							supporttype = "発動不能"; break;
 						case 1:
-							supporttype = "航空支援";break;
+							supporttype = "航空支援"; break;
 						case 2:
 							supporttype = "支援射撃"; break;
 						case 3:
@@ -194,16 +186,17 @@ namespace ElectronicObserver.Window
 						"Lv合計: {0} / 平均: {1:0.00}\r\n" +
 						"{2}艦隊\r\n" +
 						"支援攻撃: {3}\r\n" +
-						"合計対空 {4} / 対潜 {5} / 索敵 {6}\r\n" +
-						"ドラム缶搭載: {7}個 ({8}艦)\r\n" +
-						"大発動艇搭載: {9}個 ({10}艦, +{11:p1})\r\n" +
-						"輸送量(TP): S {12} / A {13}\r\n" +
-						"総積載: 燃 {14} / 弾 {15}\r\n" +
-						"(1戦当たり 燃 {16} / 弾 {17})",
+						"合計火力 {4} / 対空 {5} / 対潜 {6} / 索敵 {7}\r\n" +
+						"ドラム缶搭載: {8}個 ({9}艦)\r\n" +
+						"大発動艇搭載: {10}個 ({11}艦, +{12:p1})\r\n" +
+						"輸送量(TP): S {13} / A {14}\r\n" +
+						"総積載: 燃 {15} / 弾 {16}\r\n" +
+						"(1戦当たり 燃 {17} / 弾 {18})",
 						levelSum,
 						(double)levelSum / Math.Max(fleet.Members.Count(id => id != -1), 1),
 						Constants.GetSpeed(speed),
 						supporttype,
+						members.Sum(s => s.FirepowerTotal),
 						members.Sum(s => s.AATotal),
 						members.Sum(s => s.ASWTotal),
 						members.Sum(s => s.LOSTotal),
@@ -483,7 +476,20 @@ namespace ElectronicObserver.Window
 							Constants.GetRange(ship.Range),
 							Constants.GetSpeed(ship.Speed)
 							));
+					{
+						var colorscheme = Utility.Configuration.Config.FormFleet.SallyAreaColorScheme;
 
+						if (Utility.Configuration.Config.FormFleet.AppliesSallyAreaColor &&
+							(colorscheme?.Count ?? 0) > 0 &&
+							ship.SallyArea >= 0)
+						{
+							Name.BackColor = colorscheme[Math.Min(ship.SallyArea, colorscheme.Count - 1)];
+						}
+						else
+						{
+							Name.BackColor = SystemColors.Control;
+						}
+					}
 
 					Level.Value = ship.Level;
 					Level.ValueNext = ship.ExpNext;

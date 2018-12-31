@@ -145,7 +145,6 @@ namespace ElectronicObserver.Utility.Data
 		/// <param name="fleet">艦船IDの配列。</param>
 		public static int GetAirSuperiority(int[] fleet)
 		{
-
 			return fleet.Select(id => KCDatabase.Instance.MasterShips[id]).Sum(ship => GetAirSuperiority(ship));
 		}
 
@@ -376,6 +375,7 @@ namespace ElectronicObserver.Utility.Data
 					switch (category)
 					{
 						case EquipmentTypes.SeaplaneRecon:
+						case EquipmentTypes.CarrierBasedRecon:
 							levelRate = 1.2;
 							break;
 
@@ -2208,7 +2208,10 @@ namespace ElectronicObserver.Utility.Data
 		CutinAirAttack,
 
 		/// <summary> Nelson Touch </summary>
-		SpecialNelson,
+		SpecialNelson = 100,
+
+		/// <summary> 一斉射かッ…胸が熱いな！ </summary>
+		SpecialNagato = 101,
 
 
 		/// <summary> 砲撃 </summary>
@@ -2283,7 +2286,10 @@ namespace ElectronicObserver.Utility.Data
 		CutinTorpedoPicket,
 
 		/// <summary> Nelson Touch </summary>
-		SpecialNelson,
+		SpecialNelson = 100,
+
+		/// <summary> 一斉射かッ…胸が熱いな！ </summary>
+		SpecialNagato = 101,
 
 
 		/// <summary> 砲撃 </summary>

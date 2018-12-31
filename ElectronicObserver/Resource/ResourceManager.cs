@@ -136,6 +136,8 @@ namespace ElectronicObserver.Resource
 			ParameterAircraft,
 			ParameterSpeed,
 			ParameterRange,
+			ParameterInterception,
+			ParameterAntiBomber,
 			ParameterAircraftCost,
 			ParameterAircraftDistance,
 			BattleFormationEnemyLineAhead,
@@ -373,6 +375,8 @@ namespace ElectronicObserver.Resource
 				LoadImageFromArchive(Icons, archive, mstpath + @"Parameter/Aircraft.png", "Parameter_Aircraft");
 				LoadImageFromArchive(Icons, archive, mstpath + @"Parameter/Speed.png", "Parameter_Speed");
 				LoadImageFromArchive(Icons, archive, mstpath + @"Parameter/Range.png", "Parameter_Range");
+				LoadImageFromArchive(Icons, archive, mstpath + @"Parameter/Interception.png", "Parameter_Interception");
+				LoadImageFromArchive(Icons, archive, mstpath + @"Parameter/AntiBomber.png", "Parameter_AntiBomber");
 				LoadImageFromArchive(Icons, archive, mstpath + @"Parameter/AircraftCost.png", "Parameter_AircraftCost");
 				LoadImageFromArchive(Icons, archive, mstpath + @"Parameter/AircraftDistance.png", "Parameter_AircraftDistance");
 

@@ -262,12 +262,16 @@ namespace ElectronicObserver.Window.Dialog
 			if (eq.CategoryType == EquipmentTypes.Interceptor)
 			{
 				TitleAccuracy.Text = "対爆";
+				TitleAccuracy.ImageIndex = (int)ResourceManager.IconContent.ParameterAntiBomber;
 				TitleEvasion.Text = "迎撃";
+				TitleEvasion.ImageIndex = (int)ResourceManager.IconContent.ParameterInterception;
 			}
 			else
 			{
 				TitleAccuracy.Text = "命中";
+				TitleAccuracy.ImageIndex = (int)ResourceManager.IconContent.ParameterAccuracy;
 				TitleEvasion.Text = "回避";
+				TitleEvasion.ImageIndex = (int)ResourceManager.IconContent.ParameterEvasion;
 			}
 
 			TableParameterMain.ResumeLayout();

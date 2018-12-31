@@ -52,17 +52,7 @@ namespace ElectronicObserver.Data
 		/// クリアに必要な撃破回数(主にEO海域)
 		/// 存在しなければ -1
 		/// </summary>
-		public int RequiredDefeatedCount
-		{
-			get
-			{
-				if (RawData.api_required_defeat_count == null)
-					return -1;
-				else
-					return (int)RawData.api_required_defeat_count;
-			}
-		}
-
+		public int RequiredDefeatedCount { get; private set; }
 
 
 
@@ -107,7 +97,7 @@ namespace ElectronicObserver.Data
 		public MapInfoData()
 			: base()
 		{
-
+			RequiredDefeatedCount = -1;
 			IsCleared = false;
 			CurrentDefeatedCount = 0;
 			MapHPCurrent = MapHPMax = 0;
@@ -127,15 +117,16 @@ namespace ElectronicObserver.Data
 
 				case "api_get_member/mapinfo":
 					IsCleared = (int)data.api_cleared != 0;
+					RequiredDefeatedCount = data.api_required_defeat_count() ? (int)data.api_required_defeat_count : -1;
 					CurrentDefeatedCount = data.api_defeat_count() ? (int)data.api_defeat_count : 0;
 					if (data.api_eventmap())
 					{
 						MapHPCurrent = data.api_eventmap.api_now_maphp() ? (int)data.api_eventmap.api_now_maphp : 0;
 						MapHPMax = data.api_eventmap.api_max_maphp() ? (int)data.api_eventmap.api_max_maphp : 0;
 						EventDifficulty = data.api_eventmap.api_selected_rank() ? (int)data.api_eventmap.api_selected_rank : -1;
-						GaugeType = data.api_eventmap.api_gauge_type() ? (int)data.api_eventmap.api_gauge_type : 2;
-						CurrentGaugeIndex = data.api_eventmap.api_gauge_num() ? (int)data.api_eventmap.api_gauge_num : 0;
 					}
+					GaugeType = data.api_gauge_type() ? (int)data.api_gauge_type : 2;
+					CurrentGaugeIndex = data.api_gauge_num() ? (int)data.api_gauge_num : 0;
 					break;
 			}
 

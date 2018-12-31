@@ -622,6 +622,7 @@ namespace ElectronicObserver.Window
 			o["api_req_sortie/night_to_day"].ResponseReceived += BattleStarted;
 			o["api_req_sortie/airbattle"].ResponseReceived += BattleStarted;
 			o["api_req_sortie/ld_airbattle"].ResponseReceived += BattleStarted;
+			o["api_req_sortie/ld_shooting"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/battle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/sp_midnight"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/airbattle"].ResponseReceived += BattleStarted;
@@ -631,6 +632,7 @@ namespace ElectronicObserver.Window
 			o["api_req_combined_battle/each_battle"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/each_battle_water"].ResponseReceived += BattleStarted;
 			o["api_req_combined_battle/ec_night_to_day"].ResponseReceived += BattleStarted;
+			o["api_req_combined_battle/ld_shooting"].ResponseReceived += BattleStarted;
 			o["api_req_practice/battle"].ResponseReceived += BattleStarted;
 
 
@@ -658,6 +660,8 @@ namespace ElectronicObserver.Window
 					case 5:     // 敵連合
 						return Color.DarkRed;
 					case 7:     // 夜昼戦(対連合艦隊)
+						return Color.Navy;
+					case 8:		// レーダー射撃
 						return Color.Navy;
 				}
 			};
@@ -707,14 +711,11 @@ namespace ElectronicObserver.Window
 				{
 					var mapinfo = compass.MapInfo;
 
-					if (mapinfo.IsCleared)
+					if (mapinfo.RequiredDefeatedCount != -1 && mapinfo.CurrentDefeatedCount < mapinfo.RequiredDefeatedCount)
 					{
-						ToolTipInfo.SetToolTip(TextMapArea, null);
-
-					}
-					else if (mapinfo.RequiredDefeatedCount != -1)
-					{
-						ToolTipInfo.SetToolTip(TextMapArea, string.Format("撃破: {0} / {1} 回", mapinfo.CurrentDefeatedCount, mapinfo.RequiredDefeatedCount));
+						ToolTipInfo.SetToolTip(TextMapArea, string.Format("{0}撃破: {1} / {2} 回",
+							mapinfo.CurrentGaugeIndex > 0 ? $"#{mapinfo.CurrentGaugeIndex} " : "",
+							mapinfo.CurrentDefeatedCount, mapinfo.RequiredDefeatedCount));
 
 					}
 					else if (mapinfo.MapHPMax > 0)
@@ -723,7 +724,7 @@ namespace ElectronicObserver.Window
 						int max = compass.MapHPMax > 0 ? compass.MapHPMax : mapinfo.MapHPMax;
 
 						ToolTipInfo.SetToolTip(TextMapArea, string.Format("{0}{1}: {2} / {3}",
-							mapinfo.CurrentGaugeIndex > 0 ? "#" + mapinfo.CurrentGaugeIndex + " " : "",
+							mapinfo.CurrentGaugeIndex > 0 ? $"#{mapinfo.CurrentGaugeIndex} " : "",
 							mapinfo.GaugeType == 3 ? "TP" : "HP", current, max));
 
 					}

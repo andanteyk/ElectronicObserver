@@ -83,16 +83,41 @@ namespace ElectronicObserver.Data.Battle.Phase
 			if (!IsAvailable) return;
 
 
-			foreach (var attack in Attacks)
+			foreach (var atk in Attacks)
 			{
-
-				foreach (var defs in attack.Defenders.GroupBy(d => d.Defender))
+				switch (atk.AttackType)
 				{
-					BattleDetails.Add(new BattleNightDetail(Battle, attack.Attacker, defs.Key, defs.Select(d => d.RawDamage).ToArray(), defs.Select(d => d.CriticalFlag).ToArray(), attack.AttackType, attack.EquipmentIDs, attack.NightAirAttackFlag, hps[defs.Key]));
-					AddDamage(hps, defs.Key, defs.Sum(d => d.Damage));
-				}
+					case 100:
+						// nelson touch
+						for (int i = 0; i < atk.Defenders.Count; i++)
+						{
+							var comboatk = new BattleIndex(atk.Attacker.Side, i * 2);       // #1, #3, #5
+							BattleDetails.Add(new BattleNightDetail(Battle, comboatk, atk.Defenders[i].Defender, new[] { atk.Defenders[i].RawDamage }, new[] { atk.Defenders[i].CriticalFlag }, atk.AttackType, atk.EquipmentIDs, atk.NightAirAttackFlag, hps[atk.Defenders[i].Defender]));
+							AddDamage(hps, atk.Defenders[i].Defender, atk.Defenders[i].Damage);
+							damages[comboatk] += atk.Defenders[i].Damage;
+						}
+						break;
 
-				damages[attack.Attacker] += attack.Defenders.Sum(d => d.Damage);
+					case 101:
+						// nagato touch
+						for (int i = 0; i < atk.Defenders.Count; i++)
+						{
+							var comboatk = new BattleIndex(atk.Attacker.Side, i / 2);       // #1, #1, #2
+							BattleDetails.Add(new BattleNightDetail(Battle, comboatk, atk.Defenders[i].Defender, new[] { atk.Defenders[i].RawDamage }, new[] { atk.Defenders[i].CriticalFlag }, atk.AttackType, atk.EquipmentIDs, atk.NightAirAttackFlag, hps[atk.Defenders[i].Defender]));
+							AddDamage(hps, atk.Defenders[i].Defender, atk.Defenders[i].Damage);
+							damages[comboatk] += atk.Defenders[i].Damage;
+						}
+						break;
+
+					default:
+						foreach (var defs in atk.Defenders.GroupBy(d => d.Defender))
+						{
+							BattleDetails.Add(new BattleNightDetail(Battle, atk.Attacker, defs.Key, defs.Select(d => d.RawDamage).ToArray(), defs.Select(d => d.CriticalFlag).ToArray(), atk.AttackType, atk.EquipmentIDs, atk.NightAirAttackFlag, hps[defs.Key]));
+							AddDamage(hps, defs.Key, defs.Sum(d => d.Damage));
+						}
+						damages[atk.Attacker] += atk.Defenders.Sum(d => d.Damage);
+						break;
+				}
 			}
 
 		}

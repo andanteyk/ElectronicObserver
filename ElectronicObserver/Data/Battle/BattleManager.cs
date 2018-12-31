@@ -49,6 +49,7 @@ namespace ElectronicObserver.Data.Battle
 			NightDay,                       // 夜昼戦
 			AirBattle,                      // 航空戦
 			AirRaid,                        // 長距離空襲戦
+			Radar,							// レーダー射撃
 			Practice,                       // 演習
 			BaseAirRaid,                    // 基地空襲戦
 			BattlePhaseMask = 0xFF,         // 戦闘形態マスク
@@ -208,6 +209,12 @@ namespace ElectronicObserver.Data.Battle
 					BattleNight.LoadFromResponse(apiname, data);
 					break;
 
+				case "api_req_sortie/ld_shooting":
+					BattleMode = BattleModes.Radar;
+					BattleDay = new BattleNormalRadar();
+					BattleDay.LoadFromResponse(apiname, data);
+					break;
+
 				case "api_req_combined_battle/battle":
 					BattleMode = BattleModes.Normal | BattleModes.CombinedTaskForce;
 					BattleDay = new BattleCombinedNormalDay();
@@ -275,6 +282,11 @@ namespace ElectronicObserver.Data.Battle
 					BattleDay.LoadFromResponse(apiname, data);
 					break;
 
+				case "api_req_combined_battle/ld_shooting":
+					BattleMode = BattleModes.Radar | BattleModes.CombinedTaskForce;
+					BattleDay = new BattleCombinedRadar();
+					BattleDay.LoadFromResponse(apiname, data);
+					break;
 
 				case "api_req_member/get_practice_enemyinfo":
 					EnemyAdmiralName = data.api_nickname;
@@ -593,7 +605,8 @@ namespace ElectronicObserver.Data.Battle
 			enemyrate = (double)(enemybefore - enemyafter) / enemybefore;
 
 
-			if ((BattleMode & BattleModes.BattlePhaseMask) == BattleModes.AirRaid)
+			if ((BattleMode & BattleModes.BattlePhaseMask) == BattleModes.AirRaid ||
+				(BattleMode & BattleModes.BattlePhaseMask) == BattleModes.Radar)
 				return GetWinRankAirRaid(friendcount, friendsunk, friendrate);
 			else
 				return GetWinRank(friendcount, enemycount, friendsunk, enemysunk, friendrate, enemyrate,

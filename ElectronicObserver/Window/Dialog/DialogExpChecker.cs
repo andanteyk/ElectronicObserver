@@ -203,7 +203,6 @@ namespace ElectronicObserver.Window.Dialog
 
 
 
-
 			int aswmin = selectedShip.MasterShip.ASW.Minimum;
 			int aswmax = selectedShip.MasterShip.ASW.Maximum;
 			int aswmod = (int)ASWModernization.Value;

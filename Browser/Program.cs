@@ -59,6 +59,21 @@ $@"ブラウザコンポーネントがロードできませんでした。動�
 					// なんにせよ今回は起動できないのであきらめる
 					throw;
 				}
+				catch (NotSupportedException)
+				{
+					// 概ね ZoneID を外し忘れているのが原因
+
+					if (MessageBox.Show(
+@"ブラウザの起動に失敗しました。
+インストールに必要な操作が行われていないことが原因の可能性があります。
+インストールガイドを開きますか？（外部ブラウザが開きます）",
+							"ブラウザロード失敗", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+						== DialogResult.Yes)
+						System.Diagnostics.Process.Start(@"https://github.com/andanteyk/ElectronicObserver/wiki/Install");
+
+					// なんにせよ今回は起動できないのであきらめる
+					throw;
+				}
 			}
 			return null;
 		}

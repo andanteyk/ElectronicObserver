@@ -78,10 +78,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 						range != 0)
 					{
 						var sb = new StringBuilder();
-						sb.AppendFormat("装備シナジーを検出しました：{0} [{1}]; ",
-							ship.NameWithLevel,
-							string.Join(", ", ship.AllSlotInstance.Where(eq => eq != null).Select(eq => eq.NameWithLevel)));
-
+						sb.Append("装備シナジーを検出しました：");
+							
 						var a = new List<string>();
 						if (firepower != 0)
 							a.Add($"火力{firepower:+#;-#;0}");
@@ -103,6 +101,10 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 							a.Add($"射程{range:+#;-#;0}");
 
 						sb.Append(string.Join(", ", a));
+
+						sb.AppendFormat(" ; {0} [{1}]", 
+							ship.NameWithLevel,
+							string.Join(", ", ship.AllSlotInstance.Where(eq => eq != null).Select(eq => eq.NameWithLevel)));
 
 						Utility.Logger.Add(1, sb.ToString());
 					}

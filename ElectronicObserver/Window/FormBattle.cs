@@ -120,6 +120,7 @@ namespace ElectronicObserver.Window
 			o["api_req_sortie/airbattle"].ResponseReceived += Updated;
 			o["api_req_sortie/ld_airbattle"].ResponseReceived += Updated;
 			o["api_req_sortie/night_to_day"].ResponseReceived += Updated;
+			o["api_req_sortie/ld_shooting"].ResponseReceived += Updated;
 			o["api_req_combined_battle/battle"].ResponseReceived += Updated;
 			o["api_req_combined_battle/midnight_battle"].ResponseReceived += Updated;
 			o["api_req_combined_battle/sp_midnight"].ResponseReceived += Updated;
@@ -131,6 +132,7 @@ namespace ElectronicObserver.Window
 			o["api_req_combined_battle/ec_night_to_day"].ResponseReceived += Updated;
 			o["api_req_combined_battle/each_battle"].ResponseReceived += Updated;
 			o["api_req_combined_battle/each_battle_water"].ResponseReceived += Updated;
+			o["api_req_combined_battle/ld_shooting"].ResponseReceived += Updated;
 			o["api_req_combined_battle/battleresult"].ResponseReceived += Updated;
 			o["api_req_practice/battle"].ResponseReceived += Updated;
 			o["api_req_practice/midnight_battle"].ResponseReceived += Updated;
@@ -178,6 +180,7 @@ namespace ElectronicObserver.Window
 				case "api_req_sortie/battle":
 				case "api_req_practice/battle":
 				case "api_req_sortie/ld_airbattle":
+				case "api_req_sortie/ld_shooting":
 					{
 
 						SetFormation(bm);
@@ -263,6 +266,7 @@ namespace ElectronicObserver.Window
 				case "api_req_combined_battle/ec_battle":
 				case "api_req_combined_battle/each_battle":
 				case "api_req_combined_battle/each_battle_water":
+				case "api_req_combined_battle/ld_shooting":
 					{
 
 						SetFormation(bm);
