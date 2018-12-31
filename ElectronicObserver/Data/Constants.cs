@@ -908,6 +908,14 @@ namespace ElectronicObserver.Data
 					return "噴進砲改二/電探<伊勢>";
 				case 29:
 					return "高角砲/電探<浜風>";
+				case 30:
+					return "高角砲x3<天龍>";
+				case 31:
+					return "高角砲x2<天龍>";
+				case 32:
+					return "ロケランx2 or FCR/ポンポン砲 or ロケラン/ポンポン砲<英国>";
+				case 33:
+					return "高角砲/機銃(非集中)<Gotland>";
 				default:
 					return "不明";
 			}
