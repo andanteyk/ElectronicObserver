@@ -30,6 +30,7 @@ namespace ElectronicObserver.Window.Dialog
 			EquipmentTypes.SeaplaneFighter,
 			EquipmentTypes.LandBasedAttacker,
 			EquipmentTypes.Interceptor,
+			EquipmentTypes.LandBasedRecon,
 			EquipmentTypes.JetFighter,
 			EquipmentTypes.JetBomber,
 			EquipmentTypes.JetTorpedo,
@@ -62,9 +63,12 @@ namespace ElectronicObserver.Window.Dialog
 			EquipmentTypes.CarrierBasedRecon,
 			EquipmentTypes.SeaplaneRecon,
 			EquipmentTypes.FlyingBoat,
+			EquipmentTypes.LandBasedRecon,
 			EquipmentTypes.JetRecon,
 		};
 
+
+		public static string RangeString(int min, int max) => min == max ? $"{min}" : $"{min} ～ {max}";
 
 		private class SquadronUI : IDisposable
 		{
@@ -271,15 +275,18 @@ namespace ElectronicObserver.Window.Dialog
 				{
 
 					var eq = equipment.EquipmentInstance;
-
 					int aircraftCount = (int)AircraftCount.Value;
 
+					var isranged = Utility.Configuration.Config.FormFleet.ShowAirSuperiorityRange;
+
 					int airSuperioritySortie = Calculator.GetAirSuperiority(equipment.EquipmentID, aircraftCount, equipment.AircraftLevel, equipment.Level, 1);
-					AirSuperioritySortie.Text = airSuperioritySortie.ToString();
+					int airSuperioritySortieMax = Calculator.GetAirSuperiority(equipment.EquipmentID, aircraftCount, equipment.AircraftLevel, equipment.Level, 1, true);
+					AirSuperioritySortie.Text = isranged ? RangeString(airSuperioritySortie, airSuperioritySortieMax) : airSuperioritySortie.ToString();
 					AirSuperioritySortie.Tag = airSuperioritySortie;
 
 					int airSuperiorityAirDefense = Calculator.GetAirSuperiority(equipment.EquipmentID, aircraftCount, equipment.AircraftLevel, equipment.Level, 2);
-					AirSuperiorityAirDefense.Text = airSuperiorityAirDefense.ToString();
+					int airSuperiorityAirDefenseMax = Calculator.GetAirSuperiority(equipment.EquipmentID, aircraftCount, equipment.AircraftLevel, equipment.Level, 2, true);
+					AirSuperiorityAirDefense.Text = isranged ? RangeString(airSuperiorityAirDefense, airSuperiorityAirDefenseMax) : airSuperiorityAirDefense.ToString();
 					AirSuperiorityAirDefense.Tag = airSuperiorityAirDefense;
 
 					Distance.Text = eq.AircraftDistance.ToString();
@@ -522,6 +529,7 @@ namespace ElectronicObserver.Window.Dialog
 
 
 				int airSortie = Squadrons.Select(sq => sq.AirSuperioritySortie.Tag as int? ?? 0).Sum();
+				airSortie = (int)(airSortie * squadrons.Select(eq => Calculator.GetAirSuperioritySortieReconBonus(eq.EquipmentID)).DefaultIfEmpty(1).Max());
 
 				TotalAirSuperioritySortie.Text = airSortie.ToString();
 				ToolTipInternal.SetToolTip(TotalAirSuperioritySortie,
@@ -533,27 +541,7 @@ namespace ElectronicObserver.Window.Dialog
 
 
 				int airDefense = Squadrons.Select(sq => sq.AirSuperiorityAirDefense.Tag as int? ?? 0).Sum();
-
-				// 偵察機補正計算
-				double reconRate = squadrons.Select(eq =>
-				{
-					int losrate = Math.Min(Math.Max(eq.EquipmentInstance.LOS - 7, 0), 2);
-					switch (eq.EquipmentInstance.CategoryType)
-					{
-						case EquipmentTypes.SeaplaneRecon:
-						case EquipmentTypes.FlyingBoat:
-							return 1.1 + losrate * 0.03;
-
-						case EquipmentTypes.CarrierBasedRecon:
-						case EquipmentTypes.JetRecon:
-							return 1.2 + losrate * 0.05;
-
-						default:
-							return 1;
-					}
-				}).DefaultIfEmpty().Max();
-
-				airDefense = (int)(airDefense * reconRate);
+				airDefense = (int)(airDefense * squadrons.Select(eq => Calculator.GetAirSuperiorityAirDefenseReconBonus(eq.EquipmentID)).DefaultIfEmpty(1).Max());
 
 				TotalAirSuperiorityAirDefense.Text = airDefense.ToString();
 				ToolTipInternal.SetToolTip(TotalAirSuperiorityAirDefense,

@@ -1950,7 +1950,7 @@ api_req_sortie/ld_airbattle		：通常艦隊　長距離空襲戦　存在する
 
 api_req_sortie/ld_shooting		：通常艦隊　敵レーダー射撃　昼戦扱い？　各値の構成と意味は api_req_sortie/battle と同じ
 api_deck_id				：数値型
-api_formation			：[3]　味方は単縦陣(1)扱い？
+api_formation			：[3]　味方は単縦陣(1)固定
 api_f_nowhps			：[]
 api_f_maxhps			：[]
 api_fParam				：[][4]
@@ -1961,7 +1961,51 @@ api_e_maxhps			：[]
 api_eSlot				：[][5]
 api_eParam				：[][4]　索敵系フラグ(api_search)は存在しないので注意
 api_midnight_flag		：0 ?
-api_hougeki1			：砲撃戦
+api_air_base_injection	：基地航空隊　噴式強襲攻撃　発生時のみ存在
+	api_plane_from			：[2]
+	api_air_base_data		：[]
+		api_mst_id				：
+		api_count				：
+	api_stage1				：
+		api_f_count				：
+		api_f_lostcount			：
+		api_e_count				：
+		api_e_lostcount			：
+	api_stage2				：
+		api_f_count				：
+		api_f_lostcount			：
+		api_e_count				：
+		api_e_lostcount			：
+	api_stage3				：
+		api_erai_flag			：[]
+		api_ebak_flag			：[]
+		api_ecl_flag			：[]
+		api_edam				：[]
+api_air_base_attack		：基地航空隊攻撃　[攻撃回数]　発生時のみ存在
+	api_base_id				：
+	api_stage_flag			：[3]
+	api_plane_from			：[2][]
+	api_squadron_plane		：[4]
+		api_mst_id				：
+		api_count				：
+	api_stage1				：
+		api_f_count				：
+		api_f_lostcount			：
+		api_e_count				：
+		api_e_lostcount			：
+		api_disp_seiku			：
+		api_touch_plane			：[2]
+	api_stage2				：
+		api_f_count				：
+		api_f_lostcount			：
+		api_e_count				：
+		api_e_lostcount			：
+	api_stage3				：
+		api_erai_flag			：[]
+		api_ebak_flag			：[]
+		api_ecl_flag			：[]
+		api_edam				：[]
+api_hougeki1			：砲撃戦　発生しなければ null
 	api_at_eflag			：[]　必ず敵(1)のはず
 	api_at_list				：[]
 	api_at_type				：[]　昼戦に準じる？
@@ -3125,7 +3169,7 @@ api_req_combined_battle/ec_night_to_day		：対敵連合艦隊　夜昼戦
 
 api_req_combined_battle/ld_shooting		：連合艦隊　敵レーダー射撃　昼戦扱い？
 api_deck_id				：1 ?
-api_formation			：[3]　味方は第四警戒航行序列(14)扱い？
+api_formation			：[3]　味方は第四警戒航行序列(14)固定
 api_f_nowhps			：[]
 api_f_maxhps			：[]
 api_f_nowhps_combined	：[]
@@ -3139,7 +3183,9 @@ api_e_maxhps			：[]
 api_eSlot				：[][5]
 api_eParam				：[][4]　索敵系フラグ(api_search)は存在しないので注意
 api_midnight_flag		：0 ?
-api_hougeki1			：砲撃戦
+api_air_base_injection	：基地航空隊　噴式強襲攻撃　発生時のみ存在
+api_air_base_attack		：基地航空隊攻撃　[攻撃回数]　発生時のみ存在
+api_hougeki1			：砲撃戦　発生しなければ null
 	api_at_eflag			：[]　必ず敵(1)のはず
 	api_at_list				：[]　上から順
 	api_at_type				：[]　昼戦に準じる? (0=通常攻撃, 2=連続射撃)

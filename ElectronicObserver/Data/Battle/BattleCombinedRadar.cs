@@ -16,6 +16,8 @@ namespace ElectronicObserver.Data.Battle
 		{
 			base.LoadFromResponse(apiname, (object)data);
 
+			JetBaseAirAttack = new PhaseJetBaseAirAttack(this, "噴式基地航空隊攻撃");
+			BaseAirAttack = new PhaseBaseAirAttack(this, "基地航空隊攻撃");
 			Shelling1 = new PhaseRadar(this, "レーダー射撃");
 
 			foreach (var phase in GetPhases())
@@ -30,6 +32,8 @@ namespace ElectronicObserver.Data.Battle
 		{
 			yield return Initial;
 			yield return Searching;     // ?
+			yield return JetBaseAirAttack;
+			yield return BaseAirAttack;
 			yield return Shelling1;
 		}
 	}

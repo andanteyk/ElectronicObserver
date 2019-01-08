@@ -78,6 +78,7 @@ namespace ElectronicObserver.Window.Dialog
 				return;
 			}
 
+			LabelAlert.Text = "";
 			SearchInFleet_CheckedChanged(this, new EventArgs());
 			ExpUnit.Value = Utility.Configuration.Config.Control.ExpCheckerExpUnit;
 
@@ -202,14 +203,23 @@ namespace ElectronicObserver.Window.Dialog
 			}
 
 
-
-			int aswmin = selectedShip.MasterShip.ASW.Minimum;
-			int aswmax = selectedShip.MasterShip.ASW.Maximum;
+			var aswdata = selectedShip.MasterShip.ASW;
+			int aswmin = aswdata.Minimum;
+			int aswmax = aswdata.Maximum;
 			int aswmod = (int)ASWModernization.Value;
 			int currentlv = selectedShip.Level;
 			int minlv = ShowAllLevel.Checked ? 1 : (currentlv + 1);
 			int unitexp = Math.Max((int)ExpUnit.Value, 1);
 			var remodelLevelTable = GetRemodelLevelTable(selectedShip.MasterShip);
+
+
+			if (!aswdata.IsAvailable)
+				LabelAlert.Text = "＊対潜値が不明なため、成長予測ができません。";
+			else if (!aswdata.IsDetermined)
+				LabelAlert.Text = "＊対潜値が未確定なため、成長予測は不正確です。";
+			else
+				LabelAlert.Text = "";
+
 
 			var rows = new DataGridViewRow[ExpTable.ShipMaximumLevel - (minlv - 1)];
 
@@ -225,8 +235,8 @@ namespace ElectronicObserver.Window.Dialog
 					lv,
 					Math.Max(needexp, 0),
 					Math.Max((int)Math.Ceiling((double)needexp / unitexp), 0),
-					asw,
-					ASWEquipmentPairs.Where(k => asw >= k.Key).OrderByDescending(p => p.Key).FirstOrDefault().Value ?? "-"
+					!aswdata.IsAvailable ? -1 : asw,
+					!aswdata.IsAvailable ? "-" : (ASWEquipmentPairs.Where(k => asw >= k.Key).OrderByDescending(p => p.Key).FirstOrDefault().Value ?? "-")
 					);
 
 
@@ -326,5 +336,13 @@ namespace ElectronicObserver.Window.Dialog
 		}
 
 
+		private void LevelView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			if (e.ColumnIndex == ColumnASW.Index)
+			{
+				e.Value = (int)e.Value == -1 ? "???" : e.Value.ToString();
+				e.FormattingApplied = true;
+			}
+		}
 	}
 }
