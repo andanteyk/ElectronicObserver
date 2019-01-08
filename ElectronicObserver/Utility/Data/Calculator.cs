@@ -228,14 +228,42 @@ namespace ElectronicObserver.Utility.Data
 
 				air += GetAirSuperiority(sq, aircorps.ActionKind, isAircraftLevelMaximum);
 
-				if (aircorps.ActionKind != 2)
-					continue;
 
 				// 偵察機補正計算
-				rate = Math.Max(rate, GetAirSuperiorityAirDefenseReconBonus(sq.EquipmentID));
+				switch (aircorps.ActionKind)
+				{
+					case 1:     // 出撃
+						rate = Math.Max(rate, GetAirSuperioritySortieReconBonus(sq.EquipmentID));
+						break;
+					case 2:     // 防空
+						rate = Math.Max(rate, GetAirSuperiorityAirDefenseReconBonus(sq.EquipmentID));
+						break;
+				}
 			}
 
 			return (int)(air * rate);
+		}
+
+
+		/// <summary>
+		/// 基地航空隊での出撃時における、偵察機による制空値ボーナス係数を求めます。
+		/// </summary>
+		public static double GetAirSuperioritySortieReconBonus(int equipmentID)
+		{
+			var eq = KCDatabase.Instance.MasterEquipments[equipmentID];
+			if (eq == null) return 1;
+
+			var category = eq.CategoryType;
+			int losrate = Math.Min(Math.Max(eq.LOS - 7, 0), 2);     // ~7, 8, 9~
+
+			switch (category)
+			{
+				case EquipmentTypes.LandBasedRecon:
+					return 1.12 + losrate * 0.03;         // los=8 => 1.15, los=9 => 1.18
+
+				default:
+					return 1;
+			}
 		}
 
 		/// <summary>
@@ -254,6 +282,9 @@ namespace ElectronicObserver.Utility.Data
 				case EquipmentTypes.SeaplaneRecon:
 				case EquipmentTypes.FlyingBoat:
 					return 1.1 + losrate * 0.03;
+
+				case EquipmentTypes.LandBasedRecon:
+					return 1.12 + losrate * 0.06;           // los=8 => 1.18, los=9 => 1.24
 
 				case EquipmentTypes.CarrierBasedRecon:
 				case EquipmentTypes.JetRecon:
@@ -1170,9 +1201,12 @@ namespace ElectronicObserver.Utility.Data
 			int aagun_medium = 0;
 			int aagun_concentrated = 0;
 			int aagun_pompom = 0;
-			int aarocketenglish = 0;
-			int aarocketmod = 0;
+			int aarocket_english = 0;
+			int aarocket_mod = 0;
 			int highangle_musashi = 0;
+			int highangle_america = 0;
+			int highangle_america_gfcs = 0;
+			int radar_gfcs = 0;
 
 			var slotmaster = slot.Select(id => KCDatabase.Instance.MasterEquipments[id]).Where(eq => eq != null).ToArray();
 
@@ -1188,6 +1222,13 @@ namespace ElectronicObserver.Utility.Data
 
 					if (eq.EquipmentID == 275)   // 10cm連装高角砲改+増設機銃
 						highangle_musashi++;
+
+					if (eq.EquipmentID == 313)       // 5inch単装砲 Mk.30改
+						highangle_america++;
+
+					if (eq.EquipmentID == 308)       // 5inch単装砲 Mk.30改+GFCS Mk.37
+						highangle_america_gfcs++;
+
 				}
 				else if (eq.CategoryType == EquipmentTypes.AADirector)
 				{
@@ -1199,6 +1240,9 @@ namespace ElectronicObserver.Utility.Data
 
 					if (eq.IsAirRadar)
 						aaradar++;
+
+					if (eq.EquipmentID == 307)   // GFCS Mk.37
+						radar_gfcs++;
 				}
 				else if (eq.CategoryType == EquipmentTypes.MainGunLarge || eq.CategoryType == EquipmentTypes.MainGunLarge2)
 				{
@@ -1216,11 +1260,11 @@ namespace ElectronicObserver.Utility.Data
 					aagun_total++;
 
 					if (eq.EquipmentID == 274)      // 12cm30連装噴進砲改二
-						aarocketmod++;
+						aarocket_mod++;
 					if (eq.EquipmentID == 191)      // QF 2ポンド8連装ポンポン砲
 						aagun_pompom++;
 					if (eq.EquipmentID == 301)      // 20連装7inch UP Rocket Launchers
-						aarocketenglish++;
+						aarocket_english++;
 
 					if (eq.IsConcentratedAAGun)
 						aagun_concentrated++;
@@ -1330,7 +1374,7 @@ namespace ElectronicObserver.Utility.Data
 				case 82:    // 伊勢改
 				case 88:    // 日向改
 				case 553:   // 伊勢改二
-					if (aarocketmod >= 1 && aaradar >= 1)
+					if (aarocket_mod >= 1 && aaradar >= 1)
 					{
 						if (aashell >= 1)
 							return 25;
@@ -1340,13 +1384,15 @@ namespace ElectronicObserver.Utility.Data
 					break;
 
 				case 148:   // 武蔵改
-					if (aarocketmod >= 1 && aaradar >= 1)
+					if (aarocket_mod >= 1 && aaradar >= 1)
 						return 28;
 					break;
 
 				case 546:   // 武蔵改二
 					if (highangle_musashi >= 1 && aaradar >= 1)
 						return 26;
+					if (aarocket_mod >= 1 && aaradar >= 1)
+						return 28;
 					break;
 
 				case 557:   // 磯風乙改
@@ -1363,9 +1409,9 @@ namespace ElectronicObserver.Utility.Data
 				case 394:   // Jervis改
 				case 571:   // Nelson
 				case 576:   // Nelson改
-					if (aarocketenglish >= 2)
+					if (aarocket_english >= 2)
 						return 32;
-					if (aagun_pompom >= 1 && (maingunl_fcr >= 1 || aarocketenglish >= 1))
+					if (aagun_pompom >= 1 && (maingunl_fcr >= 1 || aarocket_english >= 1))
 						return 32;
 					break;
 
@@ -1375,6 +1421,21 @@ namespace ElectronicObserver.Utility.Data
 					if (highangle >= 1 && aagun_medium >= 1)
 						return 33;
 					break;
+
+				case 562:   // Johnston
+				case 689:   // Johnston改
+					if (highangle_america_gfcs >= 2)
+						return 34;
+					if (highangle_america_gfcs >= 1 && highangle_america >= 1)
+						return 35;
+					if (highangle_america >= 2)
+					{
+						if (radar_gfcs >= 1)
+							return 36;
+						return 37;
+					}
+					break;
+
 			}
 
 
@@ -1634,6 +1695,10 @@ namespace ElectronicObserver.Utility.Data
 			{ 31, 2 },
 			{ 32, 3 },
 			{ 33, 3 },
+			{ 34, 7 },
+			{ 35, 6 },
+			{ 36, 6 },
+			{ 37, 4 },
 		});
 
 
@@ -1673,6 +1738,10 @@ namespace ElectronicObserver.Utility.Data
 			{ 31, 1.25 },
 			{ 32, 1.2 },
 			{ 33, 1.35 },
+			{ 34, 1.6 },
+			{ 35, 1.55 },
+			{ 36, 1.55 },
+			{ 37, 1.45 },
 		});
 
 

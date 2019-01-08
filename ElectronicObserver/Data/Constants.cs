@@ -916,6 +916,14 @@ namespace ElectronicObserver.Data
 					return "ロケランx2 or FCR/ポンポン砲 or ロケラン/ポンポン砲<英国>";
 				case 33:
 					return "高角砲/機銃(非集中)<Gotland>";
+				case 34:
+					return "Fletcher砲改+GFCSx2<Johnston>";
+				case 35:
+					return "Fletcher砲改+GFCS/Fletcher砲改<Johnston>";
+				case 36:
+					return "Fletcher砲改x2/GFCS<Johnston>";
+				case 37:
+					return "Fletcher砲改x2<Johnston>";
 				default:
 					return "不明";
 			}

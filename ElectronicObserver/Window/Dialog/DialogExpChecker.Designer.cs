@@ -35,23 +35,24 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.TextShip = new System.Windows.Forms.ComboBox();
+			this.label3 = new System.Windows.Forms.Label();
 			this.SearchInFleet = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
 			this.ShowAllASWEquipments = new System.Windows.Forms.CheckBox();
 			this.ShowAllLevel = new System.Windows.Forms.CheckBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.ASWModernization = new System.Windows.Forms.NumericUpDown();
 			this.ExpUnit = new System.Windows.Forms.NumericUpDown();
-			this.TextShip = new System.Windows.Forms.ComboBox();
 			this.GroupExp = new System.Windows.Forms.GroupBox();
 			this.LevelView = new System.Windows.Forms.DataGridView();
-			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
 			this.ColumnLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnExp = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnSortieCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnASW = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnEquipment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ToolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+			this.LabelAlert = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ASWModernization)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ExpUnit)).BeginInit();
@@ -63,6 +64,7 @@
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Controls.Add(this.LabelAlert);
 			this.groupBox1.Controls.Add(this.TextShip);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.SearchInFleet);
@@ -78,6 +80,28 @@
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "表示条件";
+			// 
+			// TextShip
+			// 
+			this.TextShip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TextShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.TextShip.FormattingEnabled = true;
+			this.TextShip.Location = new System.Drawing.Point(55, 22);
+			this.TextShip.MinimumSize = new System.Drawing.Size(150, 0);
+			this.TextShip.Name = "TextShip";
+			this.TextShip.Size = new System.Drawing.Size(245, 23);
+			this.TextShip.TabIndex = 1;
+			this.TextShip.SelectedIndexChanged += new System.EventHandler(this.TextShip_SelectedIndexChanged);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(6, 25);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(43, 15);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "対象艦";
 			// 
 			// SearchInFleet
 			// 
@@ -101,15 +125,6 @@
 			this.label1.Size = new System.Drawing.Size(118, 15);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "出撃あたりの獲得Exp:";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(6, 25);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(43, 15);
-			this.label3.TabIndex = 0;
-			this.label3.Text = "対象艦";
 			// 
 			// ShowAllASWEquipments
 			// 
@@ -184,19 +199,6 @@
             0});
 			this.ExpUnit.ValueChanged += new System.EventHandler(this.ExpUnit_ValueChanged);
 			// 
-			// TextShip
-			// 
-			this.TextShip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.TextShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.TextShip.FormattingEnabled = true;
-			this.TextShip.Location = new System.Drawing.Point(55, 22);
-			this.TextShip.MinimumSize = new System.Drawing.Size(150, 0);
-			this.TextShip.Name = "TextShip";
-			this.TextShip.Size = new System.Drawing.Size(245, 23);
-			this.TextShip.TabIndex = 1;
-			this.TextShip.SelectedIndexChanged += new System.EventHandler(this.TextShip_SelectedIndexChanged);
-			// 
 			// GroupExp
 			// 
 			this.GroupExp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -241,13 +243,7 @@
 			this.LevelView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.LevelView.Size = new System.Drawing.Size(587, 296);
 			this.LevelView.TabIndex = 0;
-			// 
-			// ToolTipInfo
-			// 
-			this.ToolTipInfo.AutoPopDelay = 30000;
-			this.ToolTipInfo.InitialDelay = 500;
-			this.ToolTipInfo.ReshowDelay = 100;
-			this.ToolTipInfo.ShowAlways = true;
+			this.LevelView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.LevelView_CellFormatting);
 			// 
 			// ColumnLevel
 			// 
@@ -293,6 +289,23 @@
 			this.ColumnEquipment.ReadOnly = true;
 			this.ColumnEquipment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
+			// ToolTipInfo
+			// 
+			this.ToolTipInfo.AutoPopDelay = 30000;
+			this.ToolTipInfo.InitialDelay = 500;
+			this.ToolTipInfo.ReshowDelay = 100;
+			this.ToolTipInfo.ShowAlways = true;
+			// 
+			// LabelAlert
+			// 
+			this.LabelAlert.AutoSize = true;
+			this.LabelAlert.ForeColor = System.Drawing.Color.Red;
+			this.LabelAlert.Location = new System.Drawing.Point(8, 61);
+			this.LabelAlert.Name = "LabelAlert";
+			this.LabelAlert.Size = new System.Drawing.Size(19, 15);
+			this.LabelAlert.TabIndex = 9;
+			this.LabelAlert.Text = "！";
+			// 
 			// DialogExpChecker
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -336,5 +349,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSortieCount;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnASW;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnEquipment;
+		private System.Windows.Forms.Label LabelAlert;
 	}
 }
