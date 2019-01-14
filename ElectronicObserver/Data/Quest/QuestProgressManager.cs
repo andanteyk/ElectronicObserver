@@ -21,6 +21,7 @@ namespace ElectronicObserver.Data.Quest
 	[KnownType(typeof(ProgressAGo))]
 	[KnownType(typeof(ProgressBattle))]
 	[KnownType(typeof(ProgressMultiBattle))]
+	[KnownType(typeof(ProgressSpecialBattle))]
 	[KnownType(typeof(ProgressConstruction))]
 	[KnownType(typeof(ProgressDestruction))]
 	[KnownType(typeof(ProgressDevelopment))]
@@ -91,6 +92,8 @@ namespace ElectronicObserver.Data.Quest
 
 			ao.APIList["api_req_map/start"].ResponseReceived += StartSortie;
 
+			ao.APIList["api_req_map/next"].ResponseReceived += NextSortie;
+
 			ao.APIList["api_req_sortie/battleresult"].ResponseReceived += BattleFinished;
 			ao.APIList["api_req_combined_battle/battleresult"].ResponseReceived += BattleFinished;
 
@@ -120,7 +123,6 @@ namespace ElectronicObserver.Data.Quest
 			_prevTime = DateTime.Now;
 		}
 
-
 		public void RemoveEvents()
 		{
 
@@ -129,6 +131,8 @@ namespace ElectronicObserver.Data.Quest
 			ao.APIList["api_get_member/questlist"].ResponseReceived -= QuestUpdated;
 
 			ao.APIList["api_req_map/start"].ResponseReceived -= StartSortie;
+
+			ao.APIList["api_req_map/next"].ResponseReceived -= NextSortie;
 
 			ao.APIList["api_req_sortie/battleresult"].ResponseReceived -= BattleFinished;
 			ao.APIList["api_req_combined_battle/battleresult"].ResponseReceived -= BattleFinished;
@@ -274,9 +278,25 @@ namespace ElectronicObserver.Data.Quest
 							Progresses.Add(new ProgressBattle(q, 5, "B", new int[] { 33, 34, 35 }, true));
 							break;
 
+						case 249:   //|249|月|「第五戦隊」出撃せよ！|2-5ボスS勝利1|要「那智」「妙高」「羽黒」
+							Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new int[] { 25 }, true));
+							break;
 						case 256:   //|256|「潜水艦隊」出撃せよ！|6-1ボスS勝利3
 							Progresses.Add(new ProgressBattle(q, 3, "S", new int[] { 61 }, true));
 							break;
+						case 257:   //|257|月|「水雷戦隊」南西へ！|1-4ボスS勝利1|要軽巡旗艦、軽巡3隻まで、他駆逐艦　他艦種禁止
+							Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new int[] { 14 }, true));
+							break;
+						case 259:   //|259|月|「水上打撃部隊」南方へ！|5-1ボスS勝利1|要(大和型or長門型or伊勢型or扶桑型)3/軽巡1　巡戦禁止、戦艦追加禁止
+							Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new int[] { 51 }, true));
+							break;
+						case 264:   //|264|月|「空母機動部隊」西へ！|4-2ボスS勝利1|要(空母or軽母or装母)2/駆逐2
+							Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new int[] { 42 }, true));
+							break;
+						case 266:   //|266|月|「水上反撃部隊」突入せよ！|2-5ボスS勝利1|要駆逐旗艦、重巡1軽巡1駆逐4
+							Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new int[] { 25 }, true));
+							break;
+
 						case 265:   //|265|海上護衛強化月間|1-5ボスA勝利10
 							Progresses.Add(new ProgressBattle(q, 10, "A", new int[] { 15 }, true));
 							break;
@@ -290,6 +310,45 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressBattle( q, 1, "A", new int[]{ 61 }, true ),
 								new ProgressBattle( q, 1, "A", new int[]{ 63 }, true ),
 								new ProgressBattle( q, 1, "S", new int[]{ 64 }, true ),
+							}));
+							break;
+						case 861:   //|861|季|強行輸送艦隊、抜錨！|1-6終点到達2|要(航空戦艦or補給艦)2
+							Progresses.Add(new ProgressSpecialBattle(q, 2, "x", new[] { 16 }, true));
+							break;
+						case 862:   //|862|季|前線の航空偵察を実施せよ！|6-3ボスA勝利2|要水母1軽巡2
+							Progresses.Add(new ProgressSpecialBattle(q, 2, "A", new[] { 63 }, true));
+							break;
+						case 873:   //|873|季|北方海域警備を実施せよ！|3-1・3-2・3-3ボスA勝利各1|要軽巡1, 1エリア達成で50%,2エリアで80%
+							Progresses.Add(new ProgressMultiBattle(q, new[] {
+								new ProgressSpecialBattle(q, 1, "A", new []{ 31 }, true),
+								new ProgressSpecialBattle(q, 1, "A", new []{ 32 }, true),
+								new ProgressSpecialBattle(q, 1, "A", new []{ 33 }, true),
+							}));
+							break;
+						case 875:   //|875|季|精鋭「三一駆」、鉄底海域に突入せよ！|5-4ボスS勝利2|要長波改二/(高波改or沖波改or朝霜改)
+							Progresses.Add(new ProgressSpecialBattle(q, 2, "S", new[] { 54 }, true));
+							break;
+						case 888:   //|888|季|新編成「三川艦隊」、鉄底海峡に突入せよ！|5-1・5-3・5-4ボスS勝利各1|要(鳥海or青葉or衣笠or加古or古鷹or天龍or夕張)4
+							Progresses.Add(new ProgressMultiBattle(q, new[] {
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 51 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 53 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 54 }, true),
+							}));
+							break;
+						case 893:   //|893|季|泊地周辺海域の安全確保を徹底せよ！|1-5・7-1・7-2(第一＆第二)ボスS勝利各3|3エリア達成時点で80%
+							Progresses.Add(new ProgressMultiBattle(q, new[] {
+								new ProgressBattle(q, 3, "S", new[]{ 15 }, true),
+								new ProgressBattle(q, 3, "S", new[]{ 71 }, true),
+								new ProgressSpecialBattle(q, 3, "S", new[]{ 72 }, true, 1),
+								new ProgressSpecialBattle(q, 3, "S", new[]{ 72 }, true, 2),
+							})); break;
+						case 894:   //|894|季|空母戦力の投入による兵站線戦闘哨戒|1-3・1-4・2-1・2-2・2-3ボスS勝利各1?|要空母系
+							Progresses.Add(new ProgressMultiBattle(q, new[] {
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 13 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 14 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 21 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 22 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 23 }, true),
 							}));
 							break;
 
@@ -354,12 +413,6 @@ namespace ElectronicObserver.Data.Quest
 						case 619:   //|619|装備の改修強化|装備改修1(失敗可)
 							Progresses.Add(new ProgressImprovement(q, 1));
 							break;
-						case 613:   //|613|資源の再利用|廃棄24回
-							Progresses.Add(new ProgressDiscard(q, 24, false, null));
-							break;
-						case 638:   //|638|対空機銃量産|機銃廃棄6個|回ではない
-							Progresses.Add(new ProgressDiscard(q, 6, true, new int[] { 21 }));
-							break;
 						case 673:   //|673|装備開発力の整備|小口径主砲廃棄4個|進捗は1/5から始まる(3個廃棄時点で80%達成になる)
 							Progresses.Add(new ProgressDiscard(q, 4, true, new int[] { 1 }));
 							Progresses[q.QuestID].SharedCounterShift = 1;
@@ -368,12 +421,40 @@ namespace ElectronicObserver.Data.Quest
 							Progresses.Add(new ProgressDiscard(q, 3, true, new int[] { 21 }));
 							Progresses[q.QuestID].SharedCounterShift = 2;
 							break;
+						case 613:   //|613|資源の再利用|廃棄24回
+							Progresses.Add(new ProgressDiscard(q, 24, false, null));
+							break;
+						case 638:   //|638|対空機銃量産|機銃廃棄6個|回ではない
+							Progresses.Add(new ProgressDiscard(q, 6, true, new int[] { 21 }));
+							break;
 						case 676:   //|676|週|装備開発力の集中整備|(中口径主砲x3, 副砲x3, 簡易輸送部材x1)廃棄, 鋼材2400保有|進捗は n/7 で1つごとに進む
 							Progresses.Add(new ProgressMultiDiscard(q, new[] {
 								new ProgressDiscard(q, 3, true, new[]{ 2 }),
 								new ProgressDiscard(q, 3, true, new[]{ 4 }),
 								new ProgressDiscard(q, 1, true, new[]{ 30 }),
 								}));
+							break;
+						case 677:   //|677|週|継戦支援能力の整備|(大口径主砲x4, 水上偵察機x2, 魚雷x3)廃棄, 鋼材3600保有
+							Progresses.Add(new ProgressMultiDiscard(q, new[] {
+								new ProgressDiscard(q, 4, true, new[]{ 3 }),
+								new ProgressDiscard(q, 2, true, new[]{ 10 }),
+								new ProgressDiscard(q, 3, true, new[]{ 5 }),
+								}));
+							break;
+						case 626:   //|626|月|精鋭「艦戦」隊の新編成|熟練搭乗員, 零式艦戦21型>>装備の鳳翔旗艦, (零式艦戦21型x2,九六式艦戦x1)廃棄
+							Progresses.Add(new ProgressMultiDiscard(q, new[] {
+								new ProgressDiscard(q, 2, true, new[]{ 20 }, -1),
+								new ProgressDiscard(q, 1, true, new[]{ 19 }, -1),
+							}));
+							break;
+						case 628:   //|628|月|機種転換|零式艦戦21型(熟練)>>装備の空母旗艦, 零式艦戦52型x2廃棄
+							Progresses.Add(new ProgressDiscard(q, 2, true, new[] { 21 }, -1));
+							break;
+						case 645:   //|645|月|「洋上補給」物資の調達|三式弾廃棄, (燃料750, 弾薬750, ドラム缶(輸送用)x2, 九一式徹甲弾)保有
+							Progresses.Add(new ProgressDiscard(q, 1, true, new[] { 18 }));
+							break;
+						case 643:   //|643|季|主力「陸攻」の調達|零式艦戦21型x2廃棄, (九六式陸攻x1, 九七式艦攻x2)保有
+							Progresses.Add(new ProgressDiscard(q, 2, true, new[] { 20 }, -1));
 							break;
 						case 663:   //|663|季|新型艤装の継続研究|大口径主砲x10廃棄, 鋼材18000保有
 							Progresses.Add(new ProgressDiscard(q, 10, true, new[] { 3 }));
@@ -384,12 +465,31 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressDiscard(q, 4, true, new[]{ 21 }),
 								}));
 							break;
-						case 677:   //|677|週|継戦支援能力の整備|(大口径主砲x4, 水上偵察機x2, 魚雷x3)廃棄, 鋼材3600保有
+						case 678:   //|678|季|主力艦上戦闘機の更新|(九六式艦戦x3, 零式艦戦21型x5)廃棄, 秘書艦の第1・第2スロットに零式艦戦52型装備, ボーキ4000保有
 							Progresses.Add(new ProgressMultiDiscard(q, new[] {
-								new ProgressDiscard(q, 4, true, new[]{ 3 }),
-								new ProgressDiscard(q, 2, true, new[]{ 10 }),
-								new ProgressDiscard(q, 3, true, new[]{ 5 }),
-								}));
+								new ProgressDiscard(q, 3, true, new[]{ 19 }, -1),
+								new ProgressDiscard(q, 5, true, new[]{ 20 }, -1),
+							}));
+							break;
+						case 680:   //|680|季|対空兵装の整備拡充|(対空機銃x4, (小型電探or大型電探)x4)廃棄, ボーキ1500保有
+							Progresses.Add(new ProgressMultiDiscard(q, new[] {
+								new ProgressDiscard(q, 4, true, new[]{ 21 }),
+								new ProgressDiscard(q, 4, true, new[]{ 12, 13 }),
+							}));
+							break;
+						case 686:   //|686|季|戦時改修A型高角砲の量産|12.7cm連装砲A型改二★10を第一スロ装備の特型駆逐艦旗艦, (10cm連装高角砲x4, 94式高射装置x1)廃棄, (開発資材30, 鋼材900, 新型砲熕兵装資材1)保有
+							Progresses.Add(new ProgressMultiDiscard(q, new[] {
+								new ProgressDiscard(q, 4, true, new[]{ 3 }, -1),
+								new ProgressDiscard(q, 1, true, new[]{ 121 }, -1),
+							}));
+							break;
+						case 688:   //|688|季|航空戦力の強化|(艦上戦闘機x3, 艦上爆撃機x3, 艦上攻撃機x3, 水上偵察機x3)廃棄, (熟練搭乗員x1, ボーキサイトx1800)保有
+							Progresses.Add(new ProgressMultiDiscard(q, new[] {
+								new ProgressDiscard(q, 3, true, new[]{ 6 }),
+								new ProgressDiscard(q, 3, true, new[]{ 7 }),
+								new ProgressDiscard(q, 3, true, new[]{ 8 }),
+								new ProgressDiscard(q, 3, true, new[]{ 10 }),
+							}));
 							break;
 
 						case 702:   //|702|艦の「近代化改修」を実施せよ！|改修成功2
@@ -435,7 +535,6 @@ namespace ElectronicObserver.Data.Quest
 
 			for (int i = 0; i < 6; i++)
 			{
-
 				if (hps[Battle.BattleIndex.Get(Battle.BattleSides.EnemyMain, i)] <= 0)
 				{
 					var ship = battle.Initial.EnemyMembersInstance[i];
@@ -620,6 +719,26 @@ namespace ElectronicObserver.Data.Quest
 			OnProgressChanged();
 		}
 
+		private void NextSortie(string apiname, dynamic data)
+		{
+			var compass = KCDatabase.Instance.Battle.Compass;
+
+			// 船団護衛成功イベント
+			if (compass?.EventID == 8)
+			{
+				foreach (var p in Progresses.Values.OfType<ProgressBattle>())
+				{
+					p.Increment("x", compass.MapAreaID * 10 + compass.MapInfoID, compass.IsEndPoint);
+				}
+
+				foreach (var p in Progresses.Values.OfType<ProgressMultiBattle>())
+				{
+					p.Increment("x", compass.MapAreaID * 10 + compass.MapInfoID, compass.IsEndPoint);
+				}
+
+				OnProgressChanged();
+			}
+		}
 
 
 		public void Clear()

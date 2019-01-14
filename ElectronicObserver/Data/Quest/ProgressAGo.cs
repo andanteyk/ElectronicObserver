@@ -247,7 +247,7 @@ namespace ElectronicObserver.Data.Quest
 			};
 
 			var slist = list.Where(elem => elem.Key < 1.0).OrderBy(elem => elem.Key).Select(elem => elem.Value);
-			return string.Format("{0:p1} ({1})", ProgressPercentage, slist.Count() > 0 ? string.Join(", ", slist) : "達成");
+			return string.Format("{0} ({1:p1})", slist.Count() > 0 ? string.Join(", ", slist) : "達成", ProgressPercentage);
 		}
 
 		public override string GetClearCondition()
