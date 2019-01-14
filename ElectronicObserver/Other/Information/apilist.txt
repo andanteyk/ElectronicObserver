@@ -3357,6 +3357,18 @@ Request.api_req_member/registration_sp		：艦これAndroid版 事前登録
 api_req_furniture/radio_play	：母港ラジオ再生
 	(情報なし)
 
+Request.api_req_furniture/change	：家具変更
+	api_floor			：=api_id　文字列　床
+	api_wallpaper			：=api_id　文字列　壁紙
+	api_window			：=api_id　文字列　窓
+	api_wallhanging			：=api_id　文字列　壁掛け
+	api_shelf			：=api_id　文字列　家具
+	api_desk			：=api_id　文字列　机
+	api_verno			："1"
+	api_season			：
+
+api_req_furniture/change			：家具変更
+	(情報なし)
 
 Request.api_req_member/set_oss_condition		：艦船フィルタ変更　母港に戻った時に port より先に呼ばれる
 	api_language_type	：0=日本語 1=英語
