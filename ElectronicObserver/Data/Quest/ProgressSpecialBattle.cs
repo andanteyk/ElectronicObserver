@@ -144,8 +144,8 @@ namespace ElectronicObserver.Data.Quest
 				// |862|季|前線の航空偵察を実施せよ！|6-3ボスA勝利2|要水母1軽巡2
 				case 862:
 					isAccepted =
-						memberstype.Count(t => t == ShipTypes.SeaplaneTender) == 1 &&
-						memberstype.Count(t => t == ShipTypes.LightCruiser) == 2;
+						memberstype.Count(t => t == ShipTypes.SeaplaneTender) >= 1 &&
+						memberstype.Count(t => t == ShipTypes.LightCruiser) >= 2;
 					break;
 
 				// |873|季|北方海域警備を実施せよ！|3-1・3-2・3-3ボスA勝利各1|要軽巡1, 1エリア達成で50%,2エリアで80%
@@ -184,7 +184,11 @@ namespace ElectronicObserver.Data.Quest
 
 				// |893|季|泊地周辺海域の安全確保を徹底せよ！|1-5・7-1・7-2(第一＆第二)ボスS勝利各3|3エリア達成時点で80%
 				case 893:
-					isAccepted = true;		// ゲージ処理だけ必要
+					if (GaugeIndex == 1)
+						isAccepted = bm.Compass.Destination == 7;
+					else if (GaugeIndex == 2)
+						isAccepted = bm.Compass.Destination == 15;
+
 					break;
 
 				// |894|季|空母戦力の投入による兵站線戦闘哨戒|1-3・1-4・2-1・2-2・2-3ボスS勝利各1?|要空母系
@@ -194,8 +198,9 @@ namespace ElectronicObserver.Data.Quest
 					break;
 			}
 
-			if (GaugeIndex != -1)
-				isAccepted &= bm.Compass.MapInfo.CurrentGaugeIndex == GaugeIndex;
+			// 第二ゲージでも第一ボスに行ける場合があるので、個別対応が必要
+			//if (GaugeIndex != -1)
+			//	isAccepted &= bm.Compass.MapInfo.CurrentGaugeIndex == GaugeIndex;
 
 			if (isAccepted)
 				base.Increment(rank, areaID, isBoss);

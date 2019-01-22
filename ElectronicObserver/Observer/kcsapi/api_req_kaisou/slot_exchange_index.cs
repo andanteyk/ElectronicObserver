@@ -10,26 +10,16 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou
 
 	public class slot_exchange_index : APIBase
 	{
-
-		private int shipID = -1;
-
-		public override bool IsRequestSupported => true;
 		public override bool IsResponseSupported => true;
 
-		public override void OnRequestReceived(Dictionary<string, string> data)
-		{
-
-			shipID = int.Parse(data["api_id"]);
-
-			base.OnRequestReceived(data);
-		}
-
+		
 		public override void OnResponseReceived(dynamic data)
 		{
+			int shipID = (int)data.api_ship_data.api_id;
 
 			var ship = KCDatabase.Instance.Ships[shipID];
 			if (ship != null)
-				ship.LoadFromResponse(APIName, data);
+				ship.LoadFromResponse(APIName, data.api_ship_data);
 
 			base.OnResponseReceived((object)data);
 		}

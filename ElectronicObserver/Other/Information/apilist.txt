@@ -1427,13 +1427,13 @@ Request.api_req_kaisou/slotset_ex		：補強スロット装備
 api_req_kaisou/slotset_ex				：補強スロット装備
 	(情報なし)
 
-Request.api_req_kaisou/slot_exchange_index		：装備スロット交換
+Request.api_req_kaisou/slot_exchange_index		：装備スロット交換（同一艦船内でのドラッグ＆ドロップ）
 	api_id			：対象の艦船ID
 	api_src_idx		：交換元のスロットインデックス　0から始まる
 	api_dst_idx		：交換先のスロットインデックス
 
 api_req_kaisou/slot_exchange_index		：装備スロット交換
-	api_slot		：交換後のスロット配置
+	api_ship_data		：艦船データ　port に準じる
 
 Request.api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
 	api_unset_ship		：送信元の艦船固有ID
@@ -1447,9 +1447,9 @@ api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
 	api_ship_data		：更新した艦船データ
 		api_set_ship	：送信先の艦船データ　port に準じる
 		api_unset_ship	：送信元の艦船データ　〃
-	api_unset_list		：未装備の装備リスト
+	api_unset_list		：未装備の装備リスト　送信先スロットに装備があった時のみ存在
 		api_type3No		：受け渡した装備のカテゴリ
-		api_slot_list	：未装備の装備固有IDリスト
+		api_slot_list	：api_type3No のカテゴリに属する未装備の装備固有IDリスト
 
 
 Request.api_req_kaisou/remodeling	：改装
