@@ -1405,7 +1405,7 @@ Request.api_req_kaisou/slotset	：装備換装
 	api_slot_idx		：装備スロット
 	
 api_req_kaisou/slotset			：装備換装
-	(情報なし)
+	api_bauxite			：現在のボーキサイト保有量　更新があった場合（日進改に大型飛行艇を装備させて搭載機数が減少した場合等）のみ存在
 
 Request.api_req_kaisou/unsetslot_all	：装備全解除
 	api_id				：艦船ID
@@ -1433,7 +1433,8 @@ Request.api_req_kaisou/slot_exchange_index		：装備スロット交換（同一
 	api_dst_idx		：交換先のスロットインデックス
 
 api_req_kaisou/slot_exchange_index		：装備スロット交換
-	api_ship_data		：艦船データ　port に準じる
+	api_ship_data		：対象の艦船データ　port に準じる
+	api_bauxite			：現在のボーキサイト保有量　更新があった場合のみ存在
 
 Request.api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
 	api_unset_ship		：送信元の艦船固有ID
@@ -1450,7 +1451,7 @@ api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
 	api_unset_list		：未装備の装備リスト　送信先スロットに装備があった時のみ存在
 		api_type3No		：受け渡した装備のカテゴリ
 		api_slot_list	：api_type3No のカテゴリに属する未装備の装備固有IDリスト
-
+	api_bauxite			：現在のボーキサイト保有量　更新があった場合のみ存在
 
 Request.api_req_kaisou/remodeling	：改装
 	api_id				：艦船ID
@@ -1458,10 +1459,15 @@ Request.api_req_kaisou/remodeling	：改装
 api_req_kaisou/remodeling			：改装
 	(情報なし)
 
-api_get_member/ship3	：装備換装時に呼ばれる
-	api_ship_data		：対象艦のデータ　portと同等
-	api_deck_data		：deckと同等
-	api_slot_data		：unsetslotと同等
+Request.api_get_member/ship3		：艦船データ更新　装備換装時に呼ばれる
+	api_shipid			：対象艦のID
+	api_sort_key		：
+	api_sort_order		：
+
+api_get_member/ship3	：艦船データ更新　装備換装時に呼ばれる
+	api_ship_data		：対象艦のデータ[]　port と同等　指定した艦のみ存在
+	api_deck_data		：艦隊データ　deck と同等
+	api_slot_data		：未装備データ　unsetslot と同等
 
 
 Request.api_req_kaisou/lock		：装備ロック

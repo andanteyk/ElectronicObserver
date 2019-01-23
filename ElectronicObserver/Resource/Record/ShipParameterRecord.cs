@@ -511,6 +511,8 @@ namespace ElectronicObserver.Resource.Record
 
 			ao["api_port/port"].ResponseReceived += ParameterLoaded;
 
+			ao["api_get_member/ship3"].ResponseReceived += EquipmentChanged;
+
 			ao["api_get_member/picture_book"].ResponseReceived += AlbumOpened;
 
 			//戦闘系：最初のフェーズのみ要るから夜戦(≠開幕)は不要
@@ -800,6 +802,21 @@ namespace ElectronicObserver.Resource.Record
 
 			//ParameterLoadFlag = false;      //一回限り(基本的に起動直後の1回)
 
+		}
+
+
+		private void EquipmentChanged(string apiname, dynamic data)
+		{
+			foreach (var rawship in data.api_ship_data)
+			{
+				var ship = KCDatabase.Instance.Ships[(int)rawship.api_id];
+
+				// 非武装時のみ詳細にステータスを更新
+				if (ship.AllSlot.All(id => id <= 0))
+					UpdateParameter(ship);
+				else
+					UpdateMaxParameter(ship);
+			}
 		}
 
 
