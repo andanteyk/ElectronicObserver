@@ -532,9 +532,10 @@ namespace ElectronicObserver.Data.Battle.Detail
 					fleet.EscapedShipList.Contains(ship.MasterID) ? " (退避中)" : "");
 
 				sb.Append("　");
-				sb.AppendLine(string.Join(", ", ship.AllSlotInstance.Zip(ship.Aircraft, (eq, aircraft) =>
-					eq == null ? null : ((eq.MasterEquipment.IsAircraft ? $"[{aircraft}] " : "") + eq.NameWithLevel))
-					.Where(str => str != null)));
+				sb.AppendLine(string.Join(", ", ship.AllSlotInstance.Zip(
+					ship.ExpansionSlot > 0 ? ship.Aircraft.Concat(new[] { 0 }) : ship.Aircraft,
+					(eq, aircraft) => eq == null ? null : ((eq.MasterEquipment.IsAircraft ? $"[{aircraft}] " : "") + eq.NameWithLevel)
+				).Where(str => str != null)));
 			}
 		}
 
