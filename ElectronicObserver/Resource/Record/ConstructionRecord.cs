@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Utility.Mathematics;
+using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -123,7 +124,7 @@ namespace ElectronicObserver.Resource.Record
 			public override void LoadLine(string line)
 			{
 
-				string[] elem = line.Split(",".ToCharArray());
+				string[] elem = CsvHelper.ParseCsvLine(line).ToArray();
 				if (elem.Length < 13)
 					throw new ArgumentException("要素数が少なすぎます。");
 
@@ -147,7 +148,7 @@ namespace ElectronicObserver.Resource.Record
 			{
 				return string.Join(",",
 					ShipID,
-					ShipName,
+					CsvHelper.EscapeCsvCell(ShipName),
 					DateTimeHelper.TimeToCSVString(Date),
 					Fuel,
 					Ammo,
@@ -157,7 +158,7 @@ namespace ElectronicObserver.Resource.Record
 					IsLargeDock ? 1 : 0,
 					EmptyDockAmount,
 					FlagshipID,
-					FlagshipName,
+					CsvHelper.EscapeCsvCell(FlagshipName),
 					HQLevel);
 			}
 		}

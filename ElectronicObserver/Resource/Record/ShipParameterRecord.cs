@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.Battle;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -332,7 +333,7 @@ namespace ElectronicObserver.Resource.Record
 
 			public override void LoadLine(string line)
 			{
-				string[] elem = line.Split(",".ToCharArray());
+				string[] elem = CsvHelper.ParseCsvLine(line).ToArray();
 				if (elem.Length < 36) throw new ArgumentException("要素数が少なすぎます。");
 
 				ShipID = int.Parse(elem[0]);
@@ -426,7 +427,7 @@ namespace ElectronicObserver.Resource.Record
 
 				sb.Append(string.Join(",",
 					ShipID,
-					ShipName,
+					CsvHelper.EscapeCsvCell(ShipName),
 					HPMin,
 					HPMax,
 					FirepowerMin,
@@ -470,9 +471,9 @@ namespace ElectronicObserver.Resource.Record
 				}
 
 				sb.Append(",").Append(string.Join(",",
-					MessageGet ?? "null",
-					MessageAlbum ?? "null",
-					ResourceName ?? "null",
+					CsvHelper.EscapeCsvCell(MessageGet),
+					CsvHelper.EscapeCsvCell(MessageAlbum),
+					CsvHelper.EscapeCsvCell(ResourceName),
 					ResourceGraphicVersion ?? "null",
 					ResourceVoiceVersion ?? "null",
 					ResourcePortVoiceVersion ?? "null",

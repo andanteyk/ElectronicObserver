@@ -167,6 +167,8 @@
 			this.LevelTimer = new System.Windows.Forms.Timer(this.components);
 			this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
 			this.ImageLoader = new System.ComponentModel.BackgroundWorker();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.StripMenu_Edit_CopySpecialEquipmentTable = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -230,7 +232,9 @@
             this.StripMenu_Edit_CopyShipName,
             this.StripMenu_Edit_CopyShipData,
             this.toolStripSeparator2,
-            this.StripMenu_Edit_GoogleShipName});
+            this.StripMenu_Edit_GoogleShipName,
+            this.toolStripSeparator3,
+            this.StripMenu_Edit_CopySpecialEquipmentTable});
 			this.StripMenu_Edit.Name = "StripMenu_Edit";
 			this.StripMenu_Edit.Size = new System.Drawing.Size(60, 20);
 			this.StripMenu_Edit.Text = "編集(&E)";
@@ -1795,6 +1799,18 @@
 			this.ImageLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ImageLoader_DoWork);
 			this.ImageLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.ImageLoader_RunWorkerCompleted);
 			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(247, 6);
+			// 
+			// StripMenu_Edit_CopySpecialEquipmentTable
+			// 
+			this.StripMenu_Edit_CopySpecialEquipmentTable.Name = "StripMenu_Edit_CopySpecialEquipmentTable";
+			this.StripMenu_Edit_CopySpecialEquipmentTable.Size = new System.Drawing.Size(250, 22);
+			this.StripMenu_Edit_CopySpecialEquipmentTable.Text = "特殊装備テーブルをコピー(&S)";
+			this.StripMenu_Edit_CopySpecialEquipmentTable.Click += new System.EventHandler(this.StripMenu_Edit_CopySpecialEquipmentTable_Click);
+			// 
 			// DialogAlbumMasterShip
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1981,5 +1997,7 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_ShowShipGraphicViewer;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Edit_GoogleShipName;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem StripMenu_Edit_CopySpecialEquipmentTable;
 	}
 }

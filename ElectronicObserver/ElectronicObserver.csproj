@@ -246,6 +246,7 @@
     <Compile Include="Resource\Record\ResourceRecord.cs" />
     <Compile Include="Utility\Data\RecordHash.cs" />
     <Compile Include="Utility\FleetImageGenerator.cs" />
+    <Compile Include="Utility\Storage\CsvHelper.cs" />
     <Compile Include="Utility\SyncBGMPlayer.cs" />
     <Compile Include="Utility\MediaPlayer.cs" />
     <Compile Include="Utility\PathHelper.cs" />

@@ -3,6 +3,7 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
+using ElectronicObserver.Utility.Storage;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Support;
 using System;
@@ -909,7 +910,7 @@ namespace ElectronicObserver.Window.Dialog
 					using (StreamWriter sw = new StreamWriter(SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding))
 					{
 
-						sw.WriteLine("艦船ID,図鑑番号,艦型,艦種,艦名,読み,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,戦闘詳報,改装段階,耐久初期,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期,対潜最大,回避初期,回避最大,索敵初期,索敵最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン");
+						sw.WriteLine("艦船ID,図鑑番号,艦型,艦種,艦名,読み,ソート順,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,戦闘詳報,改装段階,耐久初期,耐久結婚,耐久最大,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期,対潜最大,回避初期,回避最大,索敵初期,索敵最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン");
 
 						foreach (ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values)
 						{
@@ -920,11 +921,12 @@ namespace ElectronicObserver.Window.Dialog
 								ship.ShipID,
 								ship.AlbumNo,
 								ship.IsAbyssalShip ? "深海棲艦" : Constants.GetShipClass(ship.ShipClass),
-								ship.ShipTypeName,
-								ship.Name,
-								ship.NameReading,
-								ship.RemodelBeforeShipID > 0 ? ship.RemodelBeforeShip.Name : "-",
-								ship.RemodelAfterShipID > 0 ? ship.RemodelAfterShip.Name : "-",
+								CsvHelper.EscapeCsvCell(ship.ShipTypeName),
+								CsvHelper.EscapeCsvCell(ship.Name),
+								CsvHelper.EscapeCsvCell(ship.NameReading),
+								ship.SortID,
+								CsvHelper.EscapeCsvCell(ship.RemodelBeforeShipID > 0 ? ship.RemodelBeforeShip.Name : "-"),
+								CsvHelper.EscapeCsvCell(ship.RemodelAfterShipID > 0 ? ship.RemodelAfterShip.Name : "-"),
 								ship.RemodelAfterLevel,
 								ship.RemodelAmmo,
 								ship.RemodelSteel,
@@ -934,6 +936,7 @@ namespace ElectronicObserver.Window.Dialog
 								ship.RemodelTier,
 								ship.HPMin,
 								ship.HPMaxMarried,
+								ship.HPMaxMarriedModernized,
 								ship.FirepowerMin,
 								ship.FirepowerMax,
 								ship.TorpedoMin,
@@ -964,7 +967,7 @@ namespace ElectronicObserver.Window.Dialog
 								ship.DefaultSlot != null ? (ship.DefaultSlot[2] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[2]].Name : (ship.SlotSize > 2 ? "(なし)" : "")) : "???",
 								ship.DefaultSlot != null ? (ship.DefaultSlot[3] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[3]].Name : (ship.SlotSize > 3 ? "(なし)" : "")) : "???",
 								ship.DefaultSlot != null ? (ship.DefaultSlot[4] != -1 ? KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[4]].Name : (ship.SlotSize > 4 ? "(なし)" : "")) : "???",
-								DateTimeHelper.ToTimeRemainString(new TimeSpan(0, ship.BuildingTime, 0)),
+								DateTimeHelper.ToTimeRemainString(TimeSpan.FromMinutes(ship.BuildingTime)),
 								ship.Material[0],
 								ship.Material[1],
 								ship.Material[2],
@@ -973,12 +976,12 @@ namespace ElectronicObserver.Window.Dialog
 								ship.PowerUp[1],
 								ship.PowerUp[2],
 								ship.PowerUp[3],
-								ship.MessageGet.Replace("\r\n", "<br>"),
-								ship.MessageAlbum.Replace("\r\n", "<br>"),
+								CsvHelper.EscapeCsvCell(ship.MessageGet),
+								CsvHelper.EscapeCsvCell(ship.MessageAlbum),
 								ship.Fuel,
 								ship.Ammo,
 								Constants.GetVoiceFlag(ship.VoiceFlag),
-								ship.ResourceName,
+								CsvHelper.EscapeCsvCell(ship.ResourceName),
 								ship.ResourceGraphicVersion,
 								ship.ResourceVoiceVersion,
 								ship.ResourcePortVoiceVersion
@@ -1013,7 +1016,7 @@ namespace ElectronicObserver.Window.Dialog
 					using (StreamWriter sw = new StreamWriter(SaveCSVDialog.FileName, false, Utility.Configuration.Config.Log.FileEncoding))
 					{
 
-						sw.WriteLine(string.Format("艦船ID,図鑑番号,艦名,読み,艦種,艦型,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,戦闘詳報,改装段階,耐久初期,耐久最大,耐久結婚,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期最小,対潜初期最大,対潜最大,対潜{0}最小,対潜{0}最大,回避初期最小,回避初期最大,回避最大,回避{0}最小,回避{0}最大,索敵初期最小,索敵初期最大,索敵最大,索敵{0}最小,索敵{0}最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン", ExpTable.ShipMaximumLevel));
+						sw.WriteLine(string.Format("艦船ID,図鑑番号,艦名,読み,艦種,艦型,ソート順,改装前,改装後,改装Lv,改装弾薬,改装鋼材,改装設計図,カタパルト,戦闘詳報,改装段階,耐久初期,耐久最大,耐久結婚,耐久改修,火力初期,火力最大,雷装初期,雷装最大,対空初期,対空最大,装甲初期,装甲最大,対潜初期最小,対潜初期最大,対潜最大,対潜{0}最小,対潜{0}最大,回避初期最小,回避初期最大,回避最大,回避{0}最小,回避{0}最大,索敵初期最小,索敵初期最大,索敵最大,索敵{0}最小,索敵{0}最大,運初期,運最大,速力,射程,レア,スロット数,搭載機数1,搭載機数2,搭載機数3,搭載機数4,搭載機数5,初期装備1,初期装備2,初期装備3,初期装備4,初期装備5,建造時間,解体燃料,解体弾薬,解体鋼材,解体ボーキ,改修火力,改修雷装,改修対空,改修装甲,ドロップ文章,図鑑文章,搭載燃料,搭載弾薬,ボイス,リソース名,画像バージョン,ボイスバージョン,母港ボイスバージョン", ExpTable.ShipMaximumLevel));
 
 						foreach (ShipDataMaster ship in KCDatabase.Instance.MasterShips.Values)
 						{
@@ -1021,10 +1024,11 @@ namespace ElectronicObserver.Window.Dialog
 							sw.WriteLine(string.Join(",",
 								ship.ShipID,
 								ship.AlbumNo,
-								ship.Name,
-								ship.NameReading,
+								CsvHelper.EscapeCsvCell(ship.Name),
+								CsvHelper.EscapeCsvCell(ship.NameReading),
 								(int)ship.ShipType,
 								ship.ShipClass,
+								ship.SortID,
 								ship.RemodelBeforeShipID,
 								ship.RemodelAfterShipID,
 								ship.RemodelAfterLevel,
@@ -1037,6 +1041,7 @@ namespace ElectronicObserver.Window.Dialog
 								ship.HPMin,
 								ship.HPMax,
 								ship.HPMaxMarried,
+								ship.HPMaxMarriedModernized,
 								ship.FirepowerMin,
 								ship.FirepowerMax,
 								ship.TorpedoMin,
@@ -1085,12 +1090,12 @@ namespace ElectronicObserver.Window.Dialog
 								ship.PowerUp[1],
 								ship.PowerUp[2],
 								ship.PowerUp[3],
-								ship.MessageGet.Replace("\r\n", "<br>"),
-								ship.MessageAlbum.Replace("\r\n", "<br>"),
+								CsvHelper.EscapeCsvCell(ship.MessageGet),
+								CsvHelper.EscapeCsvCell(ship.MessageAlbum),
 								ship.Fuel,
 								ship.Ammo,
 								ship.VoiceFlag,
-								ship.ResourceName,
+								CsvHelper.EscapeCsvCell(ship.ResourceName),
 								ship.ResourceGraphicVersion,
 								ship.ResourceVoiceVersion,
 								ship.ResourcePortVoiceVersion
@@ -1585,5 +1590,52 @@ namespace ElectronicObserver.Window.Dialog
 			}
 		}
 
+		private void StripMenu_Edit_CopySpecialEquipmentTable_Click(object sender, EventArgs e)
+		{
+			var sb = new StringBuilder();
+			sb.AppendLine("|対象艦ID|対象艦|装備可能|装備不可能|");
+			sb.AppendLine("|--:|:--|:--|:--|");
+
+			foreach (var ship in KCDatabase.Instance.MasterShips.Values)
+			{
+				if (ship.SpecialEquippableCategories == null)
+					continue;
+
+				var add = ship.SpecialEquippableCategories.Except(ship.ShipTypeInstance.EquippableCategories);
+				var sub = ship.ShipTypeInstance.EquippableCategories.Except(ship.SpecialEquippableCategories);
+
+				sb.AppendLine($"|{ship.ShipID}|{ship.NameWithClass}|{string.Join(", ", add.Select(id => KCDatabase.Instance.EquipmentTypes[id].Name))}|{string.Join(", ", sub.Select(id => KCDatabase.Instance.EquipmentTypes[id].Name))}|");
+			}
+
+			sb.AppendLine();
+
+			{
+				var nyan = new Dictionary<int, List<int>>();
+
+				foreach (var eq in KCDatabase.Instance.MasterEquipments.Values)
+				{
+					if (!(eq.EquippableShipsAtExpansion?.Any() ?? false))
+						continue;
+
+					foreach (var shipid in eq.EquippableShipsAtExpansion)
+					{
+						if (nyan.ContainsKey(shipid))
+							nyan[shipid].Add(eq.EquipmentID);
+						else
+							nyan.Add(shipid, new List<int>() { eq.EquipmentID });
+					}
+				}
+
+				sb.AppendLine("|対象艦ID|対象艦|装備可能ID|装備可能|");
+				sb.AppendLine("|--:|:--|:--|:--|");
+
+				foreach (var pair in nyan.OrderBy(p => p.Key))
+				{
+					sb.AppendLine($"|{pair.Key}|{KCDatabase.Instance.MasterShips[pair.Key].NameWithClass}|{string.Join(", ", pair.Value)}|{string.Join(", ", pair.Value.Select(id => KCDatabase.Instance.MasterEquipments[id].Name))}|");
+				}
+
+			}
+			Clipboard.SetText(sb.ToString());
+		}
 	}
 }
