@@ -79,11 +79,11 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void DialogEquipmentList_Load(object sender, EventArgs e)
 		{
-
-			UpdateView();
-
-			this.Icon = ResourceManager.ImageToIcon(ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormEquipmentList]);
-
+            Task.Run(() =>
+            {
+                UpdateView();
+            });
+            this.Icon = ResourceManager.ImageToIcon(ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormEquipmentList]);
 		}
 
 
@@ -252,25 +252,62 @@ namespace ElectronicObserver.Window.Dialog
 
 
 
-			//表示処理
-			EquipmentView.SuspendLayout();
+            //表示処理
+            Action clearRows = new Action(() =>
+            {
+                EquipmentView.SuspendLayout();
+                EquipmentView.Enabled = false;
+                EquipmentView.Rows.Clear();
+            });
 
-			EquipmentView.Enabled = false;
-			EquipmentView.Rows.Clear();
+            if (this.InvokeRequired)
+            {
+                this.Invoke(clearRows);
+            }
+            else
+            {
+                clearRows();
+            }
 
 
-			var rows = new List<DataGridViewRow>(allCount.Count);
+            var rows = new List<DataGridViewRow>(allCount.Count);
 			var ids = allCount.Keys;
 
 			foreach (int id in ids)
 			{
+                var eqs = KCDatabase.Instance.Equipments.Values.Where(eq => eq.EquipmentID == masterEquipments[id].EquipmentID);
+                var countlist = new IDDictionary<DetailCounter>();
 
-				var row = new DataGridViewRow();
+                foreach (var eq in eqs)
+                {
+                    var c = countlist[DetailCounter.CalculateID(eq)];
+                    if (c == null)
+                    {
+                        countlist.Add(new DetailCounter(eq.Level, eq.AircraftLevel));
+                        c = countlist[DetailCounter.CalculateID(eq)];
+                    }
+                    c.countAll++;
+                    c.countRemain++;
+                    c.countRemainPrev++;
+
+                }
+
+                var dicSort = from objDic in countlist orderby objDic.Value.level descending select objDic;
+
+                string levelText = string.Empty;
+                //create text [+7x1] [+5x1] [+2x1]
+                foreach (var item in dicSort)
+                {
+                    if (item.Value.level == 0) continue;
+                    levelText += $@"[+{item.Value.level}x{item.Value.countAll}] ";
+                }
+
+                var row = new DataGridViewRow();
 				row.CreateCells(EquipmentView);
 				row.SetValues(
 					id,
 					masterEquipments[id].IconType,
-					masterEquipments[id].Name,
+					masterEquipments[id].Name + " " + levelText,
 					allCount[id],
 					remainCount[id]
 					);
@@ -281,18 +318,32 @@ namespace ElectronicObserver.Window.Dialog
 			for (int i = 0; i < rows.Count; i++)
 				rows[i].Tag = i;
 
-			EquipmentView.Rows.AddRange(rows.ToArray());
+            Action setItems = new Action(() =>
+            {
+                EquipmentView.Rows.AddRange(rows.ToArray());
 
-			EquipmentView.Sort(EquipmentView_Name, ListSortDirection.Ascending);
+                EquipmentView.Sort(EquipmentView_Name, ListSortDirection.Ascending);
 
 
-			EquipmentView.Enabled = true;
-			EquipmentView.ResumeLayout();
+                EquipmentView.Enabled = true;
+                EquipmentView.ResumeLayout();
 
-			if (EquipmentView.Rows.Count > 0)
-				EquipmentView.CurrentCell = EquipmentView[0, 0];
+                if (EquipmentView.Rows.Count > 0)
+                    EquipmentView.CurrentCell = EquipmentView[0, 0];
 
-		}
+                this.labelLoading.Visible = false;
+            });
+
+            //表示処理
+            if (this.InvokeRequired)
+            {
+                this.Invoke(setItems);
+            }
+            else
+            {
+                setItems();
+            }
+        }
 
 
 		private class DetailCounter : IIdentifiable
@@ -547,9 +598,12 @@ namespace ElectronicObserver.Window.Dialog
 
 		private void TopMenu_File_Update_Click(object sender, EventArgs e)
 		{
-
-			UpdateView();
-		}
+            this.labelLoading.Visible = true;
+            Task.Run(() =>
+            {
+                UpdateView();
+            });
+        }
 
 
 	}
