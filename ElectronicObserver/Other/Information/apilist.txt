@@ -1405,7 +1405,7 @@ Request.api_req_kaisou/slotset	：装備換装
 	api_slot_idx		：装備スロット
 	
 api_req_kaisou/slotset			：装備換装
-	(情報なし)
+	api_bauxite			：現在のボーキサイト保有量　更新があった場合（日進改に大型飛行艇を装備させて搭載機数が減少した場合等）のみ存在
 
 Request.api_req_kaisou/unsetslot_all	：装備全解除
 	api_id				：艦船ID
@@ -1427,13 +1427,14 @@ Request.api_req_kaisou/slotset_ex		：補強スロット装備
 api_req_kaisou/slotset_ex				：補強スロット装備
 	(情報なし)
 
-Request.api_req_kaisou/slot_exchange_index		：装備スロット交換
+Request.api_req_kaisou/slot_exchange_index		：装備スロット交換（同一艦船内でのドラッグ＆ドロップ）
 	api_id			：対象の艦船ID
 	api_src_idx		：交換元のスロットインデックス　0から始まる
 	api_dst_idx		：交換先のスロットインデックス
 
 api_req_kaisou/slot_exchange_index		：装備スロット交換
-	api_slot		：交換後のスロット配置
+	api_ship_data		：対象の艦船データ　port に準じる
+	api_bauxite			：現在のボーキサイト保有量　更新があった場合のみ存在
 
 Request.api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
 	api_unset_ship		：送信元の艦船固有ID
@@ -1441,16 +1442,16 @@ Request.api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
 	api_unset_slot_kind	：送信元のスロット種別　0=通常スロット, 1=拡張スロット
 	api_set_slot_kind	：送信先のスロット種別　0=通常スロット, 1=拡張スロット
 	api_unset_idx		：送信元のスロットインデックス　0から始まる　拡張スロットの時は0
-	api_set_idx			：送信先のスロットインデックス　〃
+	api_set_idx			：送信先のスロットインデックス　0から始まる　拡張スロットの時は-1
 
 api_req_kaisou/slot_deprive		：艦娘間装備受け渡し
 	api_ship_data		：更新した艦船データ
 		api_set_ship	：送信先の艦船データ　port に準じる
 		api_unset_ship	：送信元の艦船データ　〃
-	api_unset_list		：未装備の装備リスト
+	api_unset_list		：未装備の装備リスト　送信先スロットに装備があった時のみ存在
 		api_type3No		：受け渡した装備のカテゴリ
-		api_slot_list	：未装備の装備固有IDリスト
-
+		api_slot_list	：api_type3No のカテゴリに属する未装備の装備固有IDリスト
+	api_bauxite			：現在のボーキサイト保有量　更新があった場合のみ存在
 
 Request.api_req_kaisou/remodeling	：改装
 	api_id				：艦船ID
@@ -1458,10 +1459,15 @@ Request.api_req_kaisou/remodeling	：改装
 api_req_kaisou/remodeling			：改装
 	(情報なし)
 
-api_get_member/ship3	：装備換装時に呼ばれる
-	api_ship_data		：対象艦のデータ　portと同等
-	api_deck_data		：deckと同等
-	api_slot_data		：unsetslotと同等
+Request.api_get_member/ship3		：艦船データ更新　装備換装時に呼ばれる
+	api_shipid			：対象艦のID
+	api_sort_key		：
+	api_sort_order		：
+
+api_get_member/ship3	：艦船データ更新　装備換装時に呼ばれる
+	api_ship_data		：対象艦のデータ[]　port と同等　指定した艦のみ存在
+	api_deck_data		：艦隊データ　deck と同等
+	api_slot_data		：未装備データ　unsetslot と同等
 
 
 Request.api_req_kaisou/lock		：装備ロック
@@ -1551,33 +1557,14 @@ api_req_map/next		：進撃
 								 4="穏やかな海峡です。"
 								 5="警戒が必要です。"
 								 6="静かな海です。"
-								 7="艦隊は対潜警戒進撃中。引き続き、対潜対空警戒を厳とせよ。"
-								 8="敵哨戒機らしき機影認む。空襲の恐れあり。対空警戒を厳とせよ！"
-								 9="1YB第一第二部隊栗田艦隊はパラワン水道を進撃中。現海域に敵影なし。警戒を厳とせよ！"
-								10="1YB第三艦隊、西村艦隊は堂々と進撃中。遊撃部隊主力栗田艦隊を援護せよ！進め！"
-								11="1YB第三部隊西村艦隊はこれよりスリガオ海峡方面に突入。主力栗田艦隊を援護する！進め！"
-								12="艦隊はシブヤン海に突入する。対空見張り、厳とせよ！"
-								13="前線航空基地への航空資材輸送作戦は失敗せり。"
-								14="1YB第一第二部隊栗田艦隊はシブヤン海を進撃中。敵艦載機空襲が予測される。対空警戒を厳とせよ！"
-								15="1YB第一第二部隊栗田艦隊はサマール沖を進撃中。敵機動部隊を発見！全艦突撃せよ！"
-								16="1YB第三部隊西村艦隊はスリガオ海峡に突入せり。栗田艦隊を援護する！天祐を確認し、全艦突撃せよ！" ; 確信の入力ミス?
-								17="KdMB機動部隊本隊小沢艦隊は敵機動部隊主力を北方に誘引、好機を捉えこれを捕捉撃破せよ！"
-								18="艦隊左舷にパナイ島を見ゆ……。対空警戒を厳とせよ！"
-								19="艦隊右舷にミンダナオ島を認む。入港準備…－－始めッ！"
-								20="2YB遊撃第二部隊志摩艦隊、出撃！敵残存艦隊を索敵捕捉、掃射せよ！"
-								21="2YB遊撃第二部隊、敵哨戒機を発見す！敵機空襲が予測される。対空警戒、厳とせよ！"
-								22="2YB遊撃第二部隊、戦場海域に突入す！対空、そして対潜警戒も厳とせよ！"
-								23="1YB遊撃第一部隊より高速艦艇を抽出。敵残存艦隊の捜索撃滅に出撃す！"
-								24="連合艦隊機動部隊本隊、出撃！敵機動部隊を撃滅する！続け！"
-								25="艦隊、増速！これより連合艦隊は艦隊決戦を行う！我に続け！"
 							api_event_id=7(航空戦)時は　0=航空偵察, 4=航空戦
 	api_next			：次のマスでのルート分岐の本数 0=行き止まり
 	api_bosscell_no		：ボスセルID
 	api_bosscomp		：ボス到達済みフラグ？コード中にスペルミスがあり未使用
 	api_comment_kind	：0=なし 1=<敵艦隊発見!> 2=<攻撃目標発見!>? 3=<針路哨戒!>?　startにはないので注意
 	api_production_kind	：0=なし 1=索敵機発艦　startにはないので注意
-	api_cell_flavor		：「気のせいだった」メッセージ　必要な時のみ存在
-		api_type		：0
+	api_cell_flavor		：「気のせいだった」特殊メッセージ　必要な時のみ存在
+		api_type		：0=「気のせいだった」系演出, 1?=「穏やかな海です」系演出
 		api_message		：メッセージ
 	api_eventmap		：イベント海域ゲージ情報
 		api_max_maphp	：ゲージ最大値
@@ -3357,6 +3344,17 @@ Request.api_req_member/registration_sp		：艦これAndroid版 事前登録
 api_req_furniture/radio_play	：母港ラジオ再生
 	(情報なし)
 
+Request.api_req_furniture/change	：家具変更
+	api_floor			：=api_id　文字列　床
+	api_wallpaper		：=api_id　文字列　壁紙
+	api_window			：=api_id　文字列　窓
+	api_wallhanging		：=api_id　文字列　壁掛け
+	api_shelf			：=api_id　文字列　家具
+	api_desk			：=api_id　文字列　机
+	api_season			：
+
+api_req_furniture/change			：家具変更
+	(情報なし)
 
 Request.api_req_member/set_oss_condition		：艦船フィルタ変更　母港に戻った時に port より先に呼ばれる
 	api_language_type	：0=日本語 1=英語

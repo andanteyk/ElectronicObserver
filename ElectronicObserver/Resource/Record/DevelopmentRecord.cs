@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Utility.Mathematics;
+using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -108,7 +109,7 @@ namespace ElectronicObserver.Resource.Record
 			public override void LoadLine(string line)
 			{
 
-				string[] elem = line.Split(",".ToCharArray());
+				string[] elem = CsvHelper.ParseCsvLine(line).ToArray();
 				if (elem.Length < 11) throw new ArgumentException("要素数が少なすぎます。");
 
 				EquipmentID = int.Parse(elem[0]);
@@ -130,14 +131,14 @@ namespace ElectronicObserver.Resource.Record
 
 				return string.Join(",",
 					EquipmentID,
-					EquipmentName,
+					CsvHelper.EscapeCsvCell(EquipmentName),
 					DateTimeHelper.TimeToCSVString(Date),
 					Fuel,
 					Ammo,
 					Steel,
 					Bauxite,
 					FlagshipID,
-					FlagshipName,
+					CsvHelper.EscapeCsvCell(FlagshipName),
 					FlagshipType,
 					HQLevel);
 			}

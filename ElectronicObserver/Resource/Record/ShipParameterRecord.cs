@@ -1,6 +1,7 @@
 ﻿using ElectronicObserver.Data;
 using ElectronicObserver.Data.Battle;
 using ElectronicObserver.Observer;
+using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -332,7 +333,7 @@ namespace ElectronicObserver.Resource.Record
 
 			public override void LoadLine(string line)
 			{
-				string[] elem = line.Split(",".ToCharArray());
+				string[] elem = CsvHelper.ParseCsvLine(line).ToArray();
 				if (elem.Length < 36) throw new ArgumentException("要素数が少なすぎます。");
 
 				ShipID = int.Parse(elem[0]);
@@ -426,7 +427,7 @@ namespace ElectronicObserver.Resource.Record
 
 				sb.Append(string.Join(",",
 					ShipID,
-					ShipName,
+					CsvHelper.EscapeCsvCell(ShipName),
 					HPMin,
 					HPMax,
 					FirepowerMin,
@@ -470,9 +471,9 @@ namespace ElectronicObserver.Resource.Record
 				}
 
 				sb.Append(",").Append(string.Join(",",
-					MessageGet ?? "null",
-					MessageAlbum ?? "null",
-					ResourceName ?? "null",
+					CsvHelper.EscapeCsvCell(MessageGet),
+					CsvHelper.EscapeCsvCell(MessageAlbum),
+					CsvHelper.EscapeCsvCell(ResourceName),
 					ResourceGraphicVersion ?? "null",
 					ResourceVoiceVersion ?? "null",
 					ResourcePortVoiceVersion ?? "null",
@@ -510,6 +511,8 @@ namespace ElectronicObserver.Resource.Record
 			ao["api_start2/getData"].ResponseReceived += GameStart;
 
 			ao["api_port/port"].ResponseReceived += ParameterLoaded;
+
+			ao["api_get_member/ship3"].ResponseReceived += EquipmentChanged;
 
 			ao["api_get_member/picture_book"].ResponseReceived += AlbumOpened;
 
@@ -800,6 +803,21 @@ namespace ElectronicObserver.Resource.Record
 
 			//ParameterLoadFlag = false;      //一回限り(基本的に起動直後の1回)
 
+		}
+
+
+		private void EquipmentChanged(string apiname, dynamic data)
+		{
+			foreach (var rawship in data.api_ship_data)
+			{
+				var ship = KCDatabase.Instance.Ships[(int)rawship.api_id];
+
+				// 非武装時のみ詳細にステータスを更新
+				if (ship.AllSlot.All(id => id <= 0))
+					UpdateParameter(ship);
+				else
+					UpdateMaxParameter(ship);
+			}
 		}
 
 

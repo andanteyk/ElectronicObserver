@@ -87,6 +87,35 @@ namespace ElectronicObserver.Data
 
 
 		/// <summary>
+		/// 「気のせいだった」セルにおける特殊メッセージ表示時の演出種別　なければ -1
+		/// </summary>
+		public int FlavorTextType
+		{
+			get
+			{
+				if (RawData.api_cell_flavor())
+					return (int)RawData.api_cell_flavor.api_type;
+				else
+					return -1;
+			}
+		}
+
+		/// <summary>
+		/// 「気のせいだった」セルにおける特殊メッセージ　なければ null
+		/// </summary>
+		public string FlavorText
+		{
+			get
+			{
+				if (RawData.api_cell_flavor())
+					return ((string)RawData.api_cell_flavor.api_message).Replace("<br>", "\r\n");
+				else
+					return null;
+			}
+		}
+
+
+		/// <summary>
 		/// 資源セルで入手できる資源のデータです。
 		/// </summary>
 		public class GetItemData

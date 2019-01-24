@@ -45,7 +45,7 @@ namespace ElectronicObserver.Data.Quest
 
 
 
-		public void Increment(string rank, int areaID, bool isBoss)
+		public virtual void Increment(string rank, int areaID, bool isBoss)
 		{
 
 			if (TargetArea != null && !TargetArea.Contains(areaID))
@@ -74,6 +74,9 @@ namespace ElectronicObserver.Data.Quest
 				sb.Append("ボス");
 			switch (LowestRank)
 			{
+				case 0:
+					sb.Append("到達");
+					break;
 				case 1:
 				default:
 					sb.Append("戦闘");

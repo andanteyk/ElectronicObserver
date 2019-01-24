@@ -3,6 +3,7 @@ using ElectronicObserver.Resource;
 using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility.Data;
 using ElectronicObserver.Utility.Mathematics;
+using ElectronicObserver.Utility.Storage;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Support;
 using System;
@@ -504,8 +505,8 @@ namespace ElectronicObserver.Window.Dialog
 							sw.WriteLine(string.Join(",",
 								eq.EquipmentID,
 								eq.AlbumNo,
-								KCDatabase.Instance.EquipmentTypes[eq.EquipmentType[2]].Name,
-								eq.Name,
+								CsvHelper.EscapeCsvCell(eq.CategoryTypeInstance.Name),
+								CsvHelper.EscapeCsvCell(eq.Name),
 								eq.EquipmentType[0],
 								eq.EquipmentType[1],
 								eq.EquipmentType[2],
@@ -527,7 +528,7 @@ namespace ElectronicObserver.Window.Dialog
 								eq.Material[1],
 								eq.Material[2],
 								eq.Material[3],
-								eq.Message.Replace("\r\n", "<br>"),
+								CsvHelper.EscapeCsvCell(eq.Message),
 								eq.AircraftDistance,
 								eq.AircraftCost
 								));
@@ -570,7 +571,7 @@ namespace ElectronicObserver.Window.Dialog
 							sw.WriteLine(string.Join(",",
 								eq.EquipmentID,
 								eq.AlbumNo,
-								eq.Name,
+								CsvHelper.EscapeCsvCell(eq.Name),
 								eq.EquipmentType[0],
 								eq.EquipmentType[1],
 								eq.EquipmentType[2],
@@ -592,7 +593,7 @@ namespace ElectronicObserver.Window.Dialog
 								eq.Material[1],
 								eq.Material[2],
 								eq.Material[3],
-								eq.Message.Replace("\r\n", "<br>"),
+								CsvHelper.EscapeCsvCell(eq.Message),
 								eq.AircraftDistance,
 								eq.AircraftCost
 								));
@@ -826,7 +827,6 @@ namespace ElectronicObserver.Window.Dialog
 				Utility.ErrorReporter.SendErrorReport(ex, "艦船名の Google 検索に失敗しました。");
 			}
 		}
-
 
 	}
 }

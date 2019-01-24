@@ -2,6 +2,7 @@
 using ElectronicObserver.Observer;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Mathematics;
+using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -106,7 +107,7 @@ namespace ElectronicObserver.Resource.Record
 			public override void LoadLine(string line)
 			{
 
-				string[] elem = line.Split(",".ToCharArray());
+				string[] elem = CsvHelper.ParseCsvLine(line).ToArray();
 				if (elem.Length < 11) throw new ArgumentException("要素数が少なすぎます。");
 
 				Date = DateTimeHelper.CSVStringToTime(elem[0]);
@@ -125,7 +126,7 @@ namespace ElectronicObserver.Resource.Record
 
 			public override string SaveLine()
 			{
-				return string.Format("{" + string.Join("},{", Enumerable.Range(0, 11)) + "}",
+				return string.Join(",", 
 					DateTimeHelper.TimeToCSVString(Date),
 					Fuel,
 					Ammo,
