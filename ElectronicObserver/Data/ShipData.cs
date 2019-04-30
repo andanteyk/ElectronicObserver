@@ -957,9 +957,9 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		private double GetHPDamageBonus()
 		{
-			if (HPRate < 0.25)
+			if (HPRate <= 0.25)
 				return 0.4;
-			else if (HPRate < 0.5)
+			else if (HPRate <= 0.5)
 				return 0.7;
 			else
 				return 1.0;
@@ -971,9 +971,9 @@ namespace ElectronicObserver.Data
 		/// <returns></returns>
 		private double GetTorpedoHPDamageBonus()
 		{
-			if (HPRate < 0.25)
+			if (HPRate <= 0.25)
 				return 0.0;
-			else if (HPRate < 0.5)
+			else if (HPRate <= 0.5)
 				return 0.8;
 			else
 				return 1.0;
