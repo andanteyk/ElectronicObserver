@@ -29,6 +29,7 @@ namespace ElectronicObserver.Data.Quest
     [KnownType(typeof(ProgressMultiDiscard))]
     [KnownType(typeof(ProgressDocking))]
     [KnownType(typeof(ProgressExpedition))]
+    [KnownType(typeof(ProgressMultiExpedition))]
     [KnownType(typeof(ProgressImprovement))]
     [KnownType(typeof(ProgressModernization))]
     [KnownType(typeof(ProgressPractice))]
@@ -384,6 +385,21 @@ namespace ElectronicObserver.Data.Quest
                         case 424:   //|424|月|輸送船団護衛を強化せよ！|「海上護衛任務」成功4
                             Progresses.Add(new ProgressExpedition(q, 4, new int[] { 5 }));
                             Progresses[q.QuestID].SharedCounterShift = 1;
+                            break;
+                        case 426:   //|426|季|海上通商航路の警戒を厳とせよ！|「警備任務」「対潜警戒任務」「海上護衛任務」「強行偵察任務」成功各1|3エリア達成時点で80%                 
+                            Progresses.Add(new ProgressMultiExpedition(q, new[] {
+                                new ProgressExpedition(q, 1, new[] { 3 }),
+                                new ProgressExpedition(q, 1, new[] { 4 }),
+                                new ProgressExpedition(q, 1, new[] { 5 }),
+                                new ProgressExpedition(q, 1, new[] { 10 }),
+                            }));
+                            break;
+                        case 428:   //|428|季|近海に侵入する敵潜を制圧せよ！|「対潜警戒任務」「海峡警備行動」「長時間対潜警戒」成功各2|1エリア達成ごとに進捗が進む
+                            Progresses.Add(new ProgressMultiExpedition(q, new[] {
+                                new ProgressExpedition(q, 2, new[] { 4 }),
+                                new ProgressExpedition(q, 2, new[] { 101 }),
+                                new ProgressExpedition(q, 2, new[] { 102 }),
+                            }));
                             break;
 
                         case 503:   //|503|艦隊大整備！|入渠5

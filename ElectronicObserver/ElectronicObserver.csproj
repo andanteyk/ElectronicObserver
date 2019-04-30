@@ -178,6 +178,7 @@
     <Compile Include="Data\Quest\ProgressModernization.cs" />
     <Compile Include="Data\Quest\ProgressMultiBattle.cs" />
     <Compile Include="Data\Quest\ProgressMultiDiscard.cs" />
+    <Compile Include="Data\Quest\ProgressMultiExpedition.cs" />
     <Compile Include="Data\Quest\ProgressPractice.cs" />
     <Compile Include="Data\Quest\ProgressSlaughter.cs" />
     <Compile Include="Data\Quest\ProgressSpecialBattle.cs" />
