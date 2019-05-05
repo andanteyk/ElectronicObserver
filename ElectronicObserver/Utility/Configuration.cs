@@ -396,6 +396,10 @@ namespace ElectronicObserver.Utility
 				/// </summary>
 				public int ExpCheckerExpUnit { get; set; }
 
+                /// <summary>
+                /// 遠征に失敗する可能性があるとき警告ダイアログを表示するか
+                /// </summary>
+                public bool ShowExpeditionAlertDialog { get; set; }
 
 				public ConfigControl()
 				{
@@ -407,6 +411,7 @@ namespace ElectronicObserver.Utility
 					PowerEngagementForm = 1;
 					ShowSallyAreaAlertDialog = true;
 					ExpCheckerExpUnit = 2268;
+                    ShowExpeditionAlertDialog = true;
 				}
 			}
 			/// <summary>動作</summary>
