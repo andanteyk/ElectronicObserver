@@ -14,9 +14,14 @@ namespace ElectronicObserver.Data
 	{
 
 		/// <summary>
-		/// 任務ID
+		/// 遠征ID
 		/// </summary>
 		public int MissionID => (int)RawData.api_id;
+
+        /// <summary>
+        /// 表示される遠征ID
+        /// </summary>
+        public string DisplayID => RawData.api_disp_no;
 
 		/// <summary>
 		/// 海域カテゴリID
