@@ -538,6 +538,10 @@ namespace ElectronicObserver.Window.Dialog
 
 		}
 
+        /// <summary>
+        /// 「艦隊分析」装備情報反映用
+        /// https://kancolle-fleetanalysis.firebaseapp.com/
+        /// </summary>
         private void TopMenu_File_CopyToFleetAnalysis_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(
