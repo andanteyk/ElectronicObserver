@@ -106,7 +106,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 							ship.NameWithLevel,
 							string.Join(", ", ship.AllSlotInstance.Where(eq => eq != null).Select(eq => eq.NameWithLevel)));
 
-						Utility.Logger.Add(1, sb.ToString());
+						Utility.Logger.Add(2, sb.ToString());
 					}
 				}
 			}

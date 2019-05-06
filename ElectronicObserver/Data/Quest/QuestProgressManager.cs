@@ -631,6 +631,10 @@ namespace ElectronicObserver.Data.Quest
             {
                 p.Increment(areaID);
             }
+            foreach (var p in Progresses.Values.OfType<ProgressMultiExpedition>())
+            {
+                p.Increment(areaID);
+            }
 
             OnProgressChanged();
         }

@@ -34,14 +34,15 @@ namespace ElectronicObserver.Data.Quest
             // 邪悪
             var bm = KCDatabase.Instance.Battle;
 
-            if (bm.FirstBattle == null)
+            var fleet = KCDatabase.Instance.Fleet.Fleets.Values.FirstOrDefault(f => f.IsInSortie);
+
+            if (fleet == null)
             {
-                // 戦闘中ではない - たぶん UI 操作経由のコール?
+                // 出撃中ではない - たぶん UI 操作経由のコール?
                 base.Increment(rank, areaID, isBoss);
                 return;
             }
 
-            var fleet = bm.FirstBattle.Initial.FriendFleet;
             var members = fleet.MembersWithoutEscaped;
             var memberstype = members.Select(s => s?.MasterShip?.ShipType ?? Empty).ToArray();
 

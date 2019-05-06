@@ -234,7 +234,7 @@ namespace Browser
 			if (Configuration.ForceColorProfile)
 				settings.CefCommandLineArgs.Add("force-color-profile", "srgb");
 			CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
-			Cef.Initialize(settings, false, null);
+			Cef.Initialize(settings, false, (IBrowserProcessHandler)null);
 
 
 			var requestHandler = new RequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer);

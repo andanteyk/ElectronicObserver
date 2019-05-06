@@ -88,7 +88,6 @@ namespace ElectronicObserver.Window.Dialog
 		// ボタン処理
 		private void ColumnView_CellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
-
 			if (e.RowIndex < 1) return;
 
 			if (e.ColumnIndex == ColumnView_Up.Index && e.RowIndex > 1)
@@ -96,14 +95,33 @@ namespace ElectronicObserver.Window.Dialog
 				ControlHelper.RowMoveUp(ColumnView, e.RowIndex);
 
 			}
-			else if (e.ColumnIndex == ColumnView_Down.Index && e.RowIndex < ColumnView.Rows.Count - 1)
+			else if (e.ColumnIndex == ColumnView_Down.Index && e.RowIndex < ColumnView.RowCount - 1)
 			{
 				ControlHelper.RowMoveDown(ColumnView, e.RowIndex);
 			}
 		}
 
-		// チェックボックスを即時反映
-		private void ColumnView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void ButtonSelectedUp_Click(object sender, EventArgs e)
+        {
+            var selectedCell = ColumnView.SelectedCells.OfType<DataGridViewCell>().FirstOrDefault();
+            if (selectedCell != null && selectedCell.RowIndex > 1)
+            {
+                ControlHelper.RowMoveUp(ColumnView, selectedCell.RowIndex);
+            }
+        }
+
+
+        private void ButtonSelectedDown_Click(object sender, EventArgs e)
+        {
+            var selectedCell = ColumnView.SelectedCells.OfType<DataGridViewCell>().FirstOrDefault();
+            if (selectedCell != null && selectedCell.RowIndex < ColumnView.RowCount - 1)
+            {
+                ControlHelper.RowMoveDown(ColumnView, selectedCell.RowIndex);
+            }
+        }
+
+        // チェックボックスを即時反映
+        private void ColumnView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
 
 			if (ColumnView.Columns[ColumnView.CurrentCellAddress.X] is DataGridViewCheckBoxColumn)
@@ -221,6 +239,5 @@ namespace ElectronicObserver.Window.Dialog
 
 		}
 
-
-	}
+    }
 }

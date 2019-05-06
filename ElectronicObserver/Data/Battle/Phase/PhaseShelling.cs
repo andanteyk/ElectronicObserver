@@ -134,7 +134,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 						break;
 
 					case 101:
-						// nagato touch
+                    case 102:
+						// nagato/mutsu touch
 						for (int i = 0; i < atk.Defenders.Count; i++)
 						{
 							var comboatk = new BattleIndex(atk.Attacker.Side, i / 2);       // #1, #1, #2
