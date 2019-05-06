@@ -484,9 +484,9 @@ namespace ElectronicObserver.Window.Dialog
 
 		}
 
-
-
-		private void Menu_File_CSVOutput_Click(object sender, EventArgs e)
+  
+        
+        private void Menu_File_CSVOutput_Click(object sender, EventArgs e)
 		{
 
 			if (SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -538,7 +538,19 @@ namespace ElectronicObserver.Window.Dialog
 
 		}
 
-		private void DialogEquipmentList_FormClosed(object sender, FormClosedEventArgs e)
+        /// <summary>
+        /// 「艦隊分析」装備情報反映用
+        /// https://kancolle-fleetanalysis.firebaseapp.com/
+        /// </summary>
+        private void TopMenu_File_CopyToFleetAnalysis_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(
+                "[" + string.Join(",", KCDatabase.Instance.Equipments.Values.Where(eq => eq?.IsLocked ?? false)
+                .Select(eq => $"{{\"api_slotitem_id\":{eq.EquipmentID},\"api_level\":{eq.Level}}}")) + "]");
+        }
+
+
+        private void DialogEquipmentList_FormClosed(object sender, FormClosedEventArgs e)
 		{
 
 			ResourceManager.DestroyIcon(Icon);

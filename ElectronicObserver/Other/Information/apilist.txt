@@ -366,6 +366,7 @@ api_start2/getData	：艦娘・装備固有データその他
 				29=英戦闘機
 				30=陸上対潜哨戒機
 				31=陸上偵察機
+				32=瑞雲
 
 		api_taik		：耐久(0)
 		api_souk		：装甲
@@ -1811,6 +1812,9 @@ api_req_sortie/battle	：通常艦隊　昼戦
 							7=空母カットイン
 							100=Nelson Touch
 							101=一斉射かッ…胸が熱いな！
+							102=長門、いい？ いくわよ！ 主砲一斉射ッ！
+							200=瑞雲立体攻撃
+							201=海空立体攻撃
 		api_df_list		：防御艦のインデックス　[][攻撃回数]　0基点
 		api_si_list		：表示装備ID [][装備数]　数値と文字列が混在しているため注意
 		api_cl_list		：クリティカルフラグ　[][攻撃回数]　0=ミス, 1=命中, 2=クリティカル
@@ -1864,6 +1868,7 @@ api_req_battle_midnight/battle		：通常艦隊　夜戦
 								8=駆逐カットイン(魚雷/見張員/電探)
 								100=Nelson Touch
 								101=一斉射かッ…胸が熱いな！
+								102=長門、いい？ いくわよ！ 主砲一斉射ッ！
 		api_damage			：与ダメージ　[][攻撃回数]　単発カットイン攻撃では [ダメージ, -1, -1] になる
 
 
@@ -3278,7 +3283,7 @@ Request.api_req_member/itemuse		：アイテム使用
 	api_force_flag			：0=資源上限確認ダイアログを表示 1=非表示
 								上限突破する場合、これが 0 なら response で api_caution_flag が 1 になる(まだ使われない)。それで確認ダイアログを出し、yes ならば api_force_flag=1 で再送する(ここで実際に消費される)
 
-api_req_member/itemuse				：アイテム使用
+api_req_member/itemuse				：アイテム使用　api_data:null になることもある（司令部要員）ので注意
 	api_caution_flag	：確認ダイアログ(資源上限により無駄が出ますが本当に使いますか？)表示フラグ？　0=非表示 1=表示?
 	api_flag			：1=アイテム 2=資源 3=両方
 	api_getitem			：入手アイテム[]　アイテムがない場合は [null] になる

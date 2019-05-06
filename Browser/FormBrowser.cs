@@ -234,7 +234,7 @@ namespace Browser
 			if (Configuration.ForceColorProfile)
 				settings.CefCommandLineArgs.Add("force-color-profile", "srgb");
 			CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
-			Cef.Initialize(settings, false, null);
+			Cef.Initialize(settings, false, (IBrowserProcessHandler)null);
 
 
 			var requestHandler = new RequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer);
@@ -250,11 +250,12 @@ namespace Browser
 				DragHandler = new DragHandler(),
 			};
 			Browser.LoadingStateChanged += Browser_LoadingStateChanged;
+            Browser.IsBrowserInitializedChanged += Browser_IsBrowserInitializedChanged;
 			SizeAdjuster.Controls.Add(Browser);
-		}
+        }
 
-
-		void Exit()
+      
+        void Exit()
 		{
 			if (!BrowserHost.Closed)
 			{
@@ -486,20 +487,43 @@ namespace Browser
 
 		}
 
-		/// <summary>
-		/// 指定した URL のページを開きます。
-		/// </summary>
-		public void Navigate(string url)
+
+
+        // タイミングによっては(特に起動時)、ブラウザの初期化が完了する前に Navigate() が呼ばれることがある
+        // その場合ロードに失敗してブラウザが白画面でスタートしてしまう（手動でログインページを開けば続行は可能だが）
+        // 応急処置として失敗したとき後で再試行するようにしてみる
+        private string navigateCache = null;
+        private void Browser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+        {
+            if (IsBrowserInitialized && navigateCache != null)
+            {
+                // ロードが完了したので再試行
+                string url = navigateCache;            // 非同期コールするのでコピーを取っておく必要がある
+                BeginInvoke((Action)(() => Navigate(url)));
+                navigateCache = null;
+            }
+        }
+
+        /// <summary>
+        /// 指定した URL のページを開きます。
+        /// </summary>
+        public void Navigate(string url)
 		{
 			if (url != Configuration.LogInPageURL || !Configuration.AppliesStyleSheet)
 				StyleSheetApplied = false;
 			Browser.Load(url);
-		}
 
-		/// <summary>
-		/// ブラウザを再読み込みします。
-		/// </summary>
-		public void RefreshBrowser() => RefreshBrowser(false);
+            if (!IsBrowserInitialized)
+            {
+                // 大方ロードできないのであとで再試行する
+                navigateCache = url;
+            }
+        }
+
+        /// <summary>
+        /// ブラウザを再読み込みします。
+        /// </summary>
+        public void RefreshBrowser() => RefreshBrowser(false);
 
 		/// <summary>
 		/// ブラウザを再読み込みします。

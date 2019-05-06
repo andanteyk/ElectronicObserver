@@ -161,6 +161,7 @@
     <Compile Include="Data\MapAreaData.cs" />
     <Compile Include="Data\MapInfoData.cs" />
     <Compile Include="Data\MaterialData.cs" />
+    <Compile Include="Data\MissionClearCondition.cs" />
     <Compile Include="Data\MissionData.cs" />
     <Compile Include="Data\QuestData.cs" />
     <Compile Include="Data\QuestManager.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Data\Quest\ProgressModernization.cs" />
     <Compile Include="Data\Quest\ProgressMultiBattle.cs" />
     <Compile Include="Data\Quest\ProgressMultiDiscard.cs" />
+    <Compile Include="Data\Quest\ProgressMultiExpedition.cs" />
     <Compile Include="Data\Quest\ProgressPractice.cs" />
     <Compile Include="Data\Quest\ProgressSlaughter.cs" />
     <Compile Include="Data\Quest\ProgressSpecialBattle.cs" />
@@ -445,6 +447,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogExpChecker.Designer.cs">
       <DependentUpon>DialogExpChecker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogExpeditionCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogExpeditionCheck.Designer.cs">
+      <DependentUpon>DialogExpeditionCheck.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogFleetImageGenerator.cs">
       <SubType>Form</SubType>
@@ -722,6 +730,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogExpChecker.resx">
       <DependentUpon>DialogExpChecker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogExpeditionCheck.resx">
+      <DependentUpon>DialogExpeditionCheck.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogFleetImageGenerator.resx">
       <DependentUpon>DialogFleetImageGenerator.cs</DependentUpon>

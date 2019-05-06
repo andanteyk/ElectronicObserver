@@ -11,7 +11,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_member
 	{
 		public override void OnResponseReceived(dynamic data)
 		{
-			if (data.api_getitem())
+			if (data != null && data.api_getitem())
 			{
 				foreach (var elem in data.api_getitem)
 				{

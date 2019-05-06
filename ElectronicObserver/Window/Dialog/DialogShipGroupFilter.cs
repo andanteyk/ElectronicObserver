@@ -37,6 +37,7 @@ namespace ElectronicObserver.Window.Dialog
 		private DataTable _dtRightOperand_speed;
 		private DataTable _dtRightOperand_rarity;
 		private DataTable _dtRightOperand_equipment;
+		private DataTable _dtRightOperand_equipmentCategory;
 		#endregion
 
 		public DialogShipGroupFilter(ShipGroupData group)
@@ -225,6 +226,18 @@ namespace ElectronicObserver.Window.Dialog
 					_dtRightOperand_equipment.Rows.Add(eq.EquipmentID, eq.Name);
 				_dtRightOperand_equipment.Rows.Add(0, "(未開放)");
 				_dtRightOperand_equipment.AcceptChanges();
+			}
+			{
+				_dtRightOperand_equipmentCategory = new DataTable();
+				_dtRightOperand_equipmentCategory.Columns.AddRange(new DataColumn[]{
+					new DataColumn( "Value", typeof( int ) ),
+					new DataColumn( "Display", typeof( string ) ) });
+				foreach (var category in KCDatabase.Instance.MasterEquipments.Values.Select(eq => eq.CategoryType).Distinct().OrderBy(i => i))
+				{
+					var cat = KCDatabase.Instance.EquipmentTypes[(int)category];
+					_dtRightOperand_equipmentCategory.Rows.Add(cat.TypeID, cat.Name);
+				}
+				_dtRightOperand_equipmentCategory.AcceptChanges();
 			}
 
 			RightOperand_ComboBox.ValueMember = "Value";
@@ -429,6 +442,22 @@ namespace ElectronicObserver.Window.Dialog
 				Operator.DataSource = _dtOperator_bool;
 
 				RightOperand_ComboBox.DataSource = _dtRightOperand_equipment;
+				RightOperand_ComboBox.SelectedValue = right ?? 1;
+
+			}
+			else if (left == ".MasterShip.EquippableCategories")
+			{
+				RightOperand_ComboBox.Visible = true;
+				RightOperand_ComboBox.Enabled = true;
+				RightOperand_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+				RightOperand_NumericUpDown.Visible = false;
+				RightOperand_NumericUpDown.Enabled = false;
+				RightOperand_TextBox.Visible = false;
+				RightOperand_TextBox.Enabled = false;
+				Operator.Enabled = true;
+				Operator.DataSource = _dtOperator_array;
+
+				RightOperand_ComboBox.DataSource = _dtRightOperand_equipmentCategory;
 				RightOperand_ComboBox.SelectedValue = right ?? 1;
 
 			}
@@ -910,31 +939,17 @@ namespace ElectronicObserver.Window.Dialog
 
 
 
-		// チェックボックスの更新を即時反映する
-		// コンボボックスも可能だけど今回は省略
+		// チェックボックス、コンボボックスの更新を即時反映する
 		private void ExpressionView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
-
-			if (ExpressionView.Columns[ExpressionView.CurrentCellAddress.X] is DataGridViewCheckBoxColumn)
-			{
-				if (ExpressionView.IsCurrentCellDirty)
-				{
-					ExpressionView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-				}
-			}
-
+			if (ExpressionView.IsCurrentCellDirty)
+				ExpressionView.CommitEdit(DataGridViewDataErrorContexts.Commit);
 		}
 
 		private void ExpressionDetailView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
-
-			if (ExpressionDetailView.Columns[ExpressionDetailView.CurrentCellAddress.X] is DataGridViewCheckBoxColumn)
-			{
-				if (ExpressionDetailView.IsCurrentCellDirty)
-				{
-					ExpressionDetailView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-				}
-			}
+			if (ExpressionDetailView.IsCurrentCellDirty)
+				ExpressionDetailView.CommitEdit(DataGridViewDataErrorContexts.Commit);
 		}
 
 

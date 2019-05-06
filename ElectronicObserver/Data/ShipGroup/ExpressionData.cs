@@ -147,6 +147,7 @@ namespace ElectronicObserver.Data.ShipGroup
 			{ ".MasterShip.RemodelBeforeShipID", "改装前艦船ID" },
 			{ ".MasterShip.RemodelAfterShipID", "改装後艦船ID" },
 			//マスターのパラメータ系もおそらく意味がないので省略		
+			{ ".MasterShip.EquippableCategories", "装備可能リスト" },
 		};
 
 		private static Dictionary<string, Type> ExpressionTypeTable = new Dictionary<string, Type>();
@@ -413,6 +414,15 @@ namespace ElectronicObserver.Data.ShipGroup
 					else
 						return $"{(int)RightOperand} (未定義)";
 				}
+			}
+			else if (LeftOperand == ".MasterShip.EquippableCategories")
+			{
+				var cat = KCDatabase.Instance.EquipmentTypes[(int)RightOperand];
+				if (cat != null)
+					return cat.Name;
+				else
+					return $"{(int)RightOperand} (未定義)";
+
 			}
 			else if (LeftOperand.Contains("Rate") && RightOperand is double)
 			{
