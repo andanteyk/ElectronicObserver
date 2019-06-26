@@ -114,7 +114,7 @@ namespace ElectronicObserver.Window.Dialog
         private void ButtonSelectedDown_Click(object sender, EventArgs e)
         {
             var selectedCell = ColumnView.SelectedCells.OfType<DataGridViewCell>().FirstOrDefault();
-            if (selectedCell != null && selectedCell.RowIndex < ColumnView.RowCount - 1)
+            if (selectedCell != null && selectedCell.RowIndex > 0 && selectedCell.RowIndex < ColumnView.RowCount - 1)
             {
                 ControlHelper.RowMoveDown(ColumnView, selectedCell.RowIndex);
             }

@@ -230,6 +230,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 							sb.AppendLine("〈敵随伴艦隊〉");
 
 							appendEnemyFleetInfo(p.EnemyMembersEscort);
+                            sb.AppendLine();
 
 							OutputEnemyData(sb, p.EnemyMembersEscortInstance, p.EnemyLevelsEscort, p.EnemyInitialHPsEscort, p.EnemyMaxHPsEscort, p.EnemySlotsEscortInstance, p.EnemyParametersEscort);
 						}
