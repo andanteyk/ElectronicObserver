@@ -240,6 +240,7 @@ namespace ElectronicObserver.Window
 				config.HardwareAccelerationEnabled = c.HardwareAccelerationEnabled;
 				config.PreserveDrawingBuffer = c.PreserveDrawingBuffer;
 				config.ForceColorProfile = c.ForceColorProfile;
+                config.SavesBrowserLog = c.SavesBrowserLog;
 
 				return config;
 			}
@@ -268,6 +269,7 @@ namespace ElectronicObserver.Window
 			c.HardwareAccelerationEnabled = config.HardwareAccelerationEnabled;
 			c.PreserveDrawingBuffer = config.PreserveDrawingBuffer;
 			c.ForceColorProfile = config.ForceColorProfile;
+            c.SavesBrowserLog = config.SavesBrowserLog;
 
 			// volume
 			if (Utility.Configuration.Config.BGMPlayer.SyncBrowserMute)

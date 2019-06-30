@@ -471,6 +471,7 @@ namespace ElectronicObserver.Window.Dialog
 			FormBrowser_HardwareAccelerationEnabled.Checked = config.FormBrowser.HardwareAccelerationEnabled;
 			FormBrowser_PreserveDrawingBuffer.Checked = config.FormBrowser.PreserveDrawingBuffer;
 			FormBrowser_ForceColorProfile.Checked = config.FormBrowser.ForceColorProfile;
+            FormBrowser_SavesBrowserLog.Checked = config.FormBrowser.SavesBrowserLog;
 
 			if (!config.FormBrowser.IsToolMenuVisible)
 				FormBrowser_ToolMenuDockStyle.SelectedIndex = 4;
@@ -693,6 +694,7 @@ namespace ElectronicObserver.Window.Dialog
 			config.FormBrowser.HardwareAccelerationEnabled = FormBrowser_HardwareAccelerationEnabled.Checked;
 			config.FormBrowser.PreserveDrawingBuffer = FormBrowser_PreserveDrawingBuffer.Checked;
 			config.FormBrowser.ForceColorProfile = FormBrowser_ForceColorProfile.Checked;
+            config.FormBrowser.SavesBrowserLog = FormBrowser_SavesBrowserLog.Checked;
 			if (FormBrowser_ToolMenuDockStyle.SelectedIndex == 4)
 			{
 				config.FormBrowser.IsToolMenuVisible = false;
