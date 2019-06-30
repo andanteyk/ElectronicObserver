@@ -75,7 +75,7 @@ namespace ElectronicObserver.Data
                         .CheckFlagshipLevel(35)
                         .CheckLevelSum(185)
                         .CheckShipCount(5)
-                        .CheckEscortFleet()
+                        .CheckEscortFleetDD3()
                         .CheckAA(162)
                         .CheckASW(280)
                         .CheckLOS(60);
@@ -94,12 +94,12 @@ namespace ElectronicObserver.Data
                     return result
                         .CheckFlagshipLevel(6)
                         .CheckShipCount(4)
-                        .CheckShipCountByType(ShipTypes.Destroyer, 2);
+                        .CheckSmallShipCount(2);
                 case 12:    // 資源輸送任務
                     return result
                         .CheckFlagshipLevel(4)
                         .CheckShipCount(4)
-                        .CheckShipCountByType(ShipTypes.Destroyer, 2);
+                        .CheckSmallShipCount(2);
                 case 13:    // 鼠輸送作戦
                     return result
                         .CheckFlagshipLevel(5)
@@ -131,7 +131,7 @@ namespace ElectronicObserver.Data
                         .CheckShipCount(6)
                         .CheckShipCountByType(ShipTypes.SeaplaneTender, 1)
                         .CheckShipCountByType(ShipTypes.LightCruiser, 1)
-                        .CheckShipCountByType(ShipTypes.Destroyer, 2)
+                        .CheckSmallShipCount(2)
                         .CheckAA(200)
                         .CheckASW(200)
                         .CheckLOS(140);
@@ -195,7 +195,7 @@ namespace ElectronicObserver.Data
                         .CheckLevelSum(200)
                         .CheckShipCount(6)
                         .CheckFlagshipType(ShipTypes.LightCruiser)
-                        .CheckShipCountByType(ShipTypes.Destroyer, 4);
+                        .CheckSmallShipCount(4);
 
                 case 25:    // 通商破壊作戦
                     return result
@@ -382,7 +382,7 @@ namespace ElectronicObserver.Data
                 return this;
             }
 
-            
+
             public MissionClearConditionResult CheckShipCount(Func<ShipData, bool> predicate, int leastCount, string whatis)
             {
                 int actualCount = members.Count(predicate);
@@ -413,11 +413,32 @@ namespace ElectronicObserver.Data
                 int escortAircraftCarrier = members.Count(s => s.MasterShip.ShipType == ShipTypes.LightAircraftCarrier && s.ASWBase > 0);
 
                 Assert(
-                    ((lightCruiser >= 1 || escortAircraftCarrier >= 1) && (destroyer >= 2 || escort >= 2)) ||
+                    (lightCruiser >= 1 && (destroyer + escort) >= 2) ||
+                    (escortAircraftCarrier >= 1 && (destroyer >= 2 || escort >= 2)) ||
                     (destroyer >= 1 && escort >= 3) ||
                     (trainingCruiser >= 1 && escort >= 2),
-                    //() => "[(軽巡 or 護衛空母)+(駆逐2 or 海防2) or 駆逐+海防3 or 練巡+海防2]"       // 厳密だけど長いので
+                    //() => "[軽巡+(駆逐+海防)2 or 護衛空母+(駆逐2 or 海防2) or 駆逐+海防3 or 練巡+海防2]"       // 厳密だけど長いので
                     () => "護衛隊(軽巡1駆逐2他)"
+                    );
+                return this;
+            }
+            
+            public MissionClearConditionResult CheckEscortFleetDD3()
+            {
+                int lightCruiser = members.Count(s => s.MasterShip.ShipType == ShipTypes.LightCruiser);
+                int destroyer = members.Count(s => s.MasterShip.ShipType == ShipTypes.Destroyer);
+                int trainingCruiser = members.Count(s => s.MasterShip.ShipType == ShipTypes.TrainingCruiser);
+                int escort = members.Count(s => s.MasterShip.ShipType == ShipTypes.Escort);
+                int escortAircraftCarrier = members.Count(s => s.MasterShip.ShipType == ShipTypes.LightAircraftCarrier && s.ASWBase > 0);
+
+                Assert(
+                    (lightCruiser >= 1 && (destroyer + escort) >= 3) ||
+                    (lightCruiser >= 1 && escort >= 2) ||
+                    (escortAircraftCarrier >= 1 && (destroyer >= 2 || escort >= 2)) ||
+                    (destroyer >= 1 && escort >= 3) ||
+                    (trainingCruiser >= 1 && escort >= 2),
+                    //() => "[軽巡+(駆逐+海防)3 or 軽巡+海防2 or 護衛空母+(駆逐2 or 海防2) or 駆逐+海防3 or 練巡+海防2]"       // 厳密だけど長いので
+                    () => "護衛隊(軽巡1駆逐3他)"
                     );
                 return this;
             }

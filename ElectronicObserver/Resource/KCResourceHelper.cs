@@ -60,7 +60,7 @@ namespace ElectronicObserver.Resource
 			if (isDamaged)
 				resourceType += "_dmg";
 
-			return $@"kcs2\resources\ship\{resourceType}\{shipID:d4}";
+			return $@"kcs2\resources\ship\{resourceType}\{shipID:d4}_";
 		}
 
 		/// <summary>
@@ -71,7 +71,7 @@ namespace ElectronicObserver.Resource
 		/// <returns></returns>
 		private static string GetEquipmentResourcePath(int equipmentID, string resourceType)
 		{
-			return $@"kcs2\resources\slot\{resourceType}\{equipmentID:d3}";
+			return $@"kcs2\resources\slot\{resourceType}\{equipmentID:d3}_";
 		}
 
 

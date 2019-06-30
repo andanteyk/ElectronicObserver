@@ -193,5 +193,11 @@ namespace BrowserLib
 		[DataMember]
 		public bool ForceColorProfile { get; set; }
 
+        /// <summary>
+        /// ブラウザのログを保存するか
+        /// </summary>
+        [DataMember]
+        public bool SavesBrowserLog { get; set; }
+
 	}
 }

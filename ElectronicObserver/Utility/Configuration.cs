@@ -977,6 +977,10 @@ namespace ElectronicObserver.Utility
 				/// </summary>
 				public bool ForceColorProfile { get; set; }
 
+                /// <summary>
+                /// ブラウザのログを保存するか
+                /// </summary>
+                public bool SavesBrowserLog { get; set; }
 
 				public ConfigFormBrowser()
 				{
@@ -997,7 +1001,8 @@ namespace ElectronicObserver.Utility
 					ConfirmAtRefresh = true;
 					HardwareAccelerationEnabled = true;
 					PreserveDrawingBuffer = true;
-					ForceColorProfile = false;	
+					ForceColorProfile = false;
+                    SavesBrowserLog = false;
 				}
 			}
 			/// <summary>[ブラウザ]ウィンドウ</summary>
