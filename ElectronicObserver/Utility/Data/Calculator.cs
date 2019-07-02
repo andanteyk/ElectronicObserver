@@ -1374,6 +1374,7 @@ namespace ElectronicObserver.Utility.Data
                 case 82:    // 伊勢改
                 case 88:    // 日向改
                 case 553:   // 伊勢改二
+                case 554:   // 日向改二
                     if (aarocket_mod >= 1 && aaradar >= 1)
                     {
                         if (aashell >= 1)
@@ -1402,6 +1403,7 @@ namespace ElectronicObserver.Utility.Data
                     break;
 
                 case 149:   // 金剛改二
+                case 591:   // 金剛改二丙
                 case 150:   // 比叡改二
                 case 151:   // 榛名改二
                 case 152:   // 霧島改二
@@ -1409,6 +1411,10 @@ namespace ElectronicObserver.Utility.Data
                 case 394:   // Jervis改
                 case 571:   // Nelson
                 case 576:   // Nelson改
+                case 439:   // Warspite
+                case 364:   // Warspite改
+                case 515:   // Ark Royal
+                case 393:   // Ark Royal改
                     if (aarocket_english >= 2)
                         return 32;
                     if (aagun_pompom >= 1 && (maingunl_fcr >= 1 || aarocket_english >= 1))
@@ -1424,6 +1430,8 @@ namespace ElectronicObserver.Utility.Data
 
                 case 562:   // Johnston
                 case 689:   // Johnston改
+                case 596:   // Fletcher
+                case 692:   // Fletcher改
                     if (highangle_america_gfcs >= 2)
                         return 34;
                     if (highangle_america_gfcs >= 1 && highangle_america >= 1)
