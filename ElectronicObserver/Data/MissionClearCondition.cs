@@ -47,7 +47,7 @@ namespace ElectronicObserver.Data
                         .CheckEscortFleet();
                 case 6:     // 防空射撃演習
                     return result
-                        .CheckFlagshipLevel(5)
+                        .CheckFlagshipLevel(4)
                         .CheckShipCount(4);
                 case 7:     // 観艦式予行
                     return result
