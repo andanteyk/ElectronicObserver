@@ -988,7 +988,7 @@ namespace ElectronicObserver.Utility.Data
 
             }
 
-            if (attackerShipID == 545)      // Saratoga Mk.II
+            if (attackerShipID == 545 || attackerShipID == 599)      // Saratoga Mk.II/赤城改二戊
                 nightPersonnelCount++;
 
 
