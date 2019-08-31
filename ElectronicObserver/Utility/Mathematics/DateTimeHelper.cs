@@ -123,15 +123,15 @@ namespace ElectronicObserver.Utility.Mathematics
 		}
 
 
-        /// <summary>
-        /// 指定した日時をまたいでいるかを取得します。日単位で処理されます。
-        /// </summary>
-        /// <param name="prev">前回処理した時の（現地）日時。</param>
-        /// <param name="hours">指定した日時の時間。</param>
-        /// <param name="minutes">指定した日時の分。</param>
-        /// <param name="seconds">指定した日時の秒。</param>
-        /// <returns></returns>
-        public static bool IsCrossedDay(DateTime prev, int hours, int minutes, int seconds)
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。日単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の（現地）日時。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		/// <returns></returns>
+		public static bool IsCrossedDay(DateTime prev, int hours, int minutes, int seconds)
 		{
 
 			DateTime now = GetJapanStandardTimeNow();
@@ -143,16 +143,16 @@ namespace ElectronicObserver.Utility.Mathematics
 		}
 
 
-        /// <summary>
-        /// 指定した日時をまたいでいるかを取得します。週単位で処理されます。
-        /// </summary>
-        /// <param name="prev">前回処理した時の（現地）日時。</param>
-        /// <param name="dayOfWeek">指定した日時の曜日。</param>
-        /// <param name="hours">指定した日時の時間。</param>
-        /// <param name="minutes">指定した日時の分。</param>
-        /// <param name="seconds">指定した日時の秒。</param>
-        /// <returns></returns>
-        public static bool IsCrossedWeek(DateTime prev, DayOfWeek dayOfWeek, int hours, int minutes, int seconds)
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。週単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の（現地）日時。</param>
+		/// <param name="dayOfWeek">指定した日時の曜日。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		/// <returns></returns>
+		public static bool IsCrossedWeek(DateTime prev, DayOfWeek dayOfWeek, int hours, int minutes, int seconds)
 		{
 
 			DateTime now = GetJapanStandardTimeNow();
@@ -172,19 +172,19 @@ namespace ElectronicObserver.Utility.Mathematics
 		}
 
 
-        /// <summary>
-        /// 指定した日時をまたいでいるかを取得します。月単位で処理されます。
-        /// </summary>
-        /// <param name="prev">前回処理した時の（現地）日時。</param>
-        /// <param name="days">指定した日時の日付。</param>
-        /// <param name="hours">指定した日時の時間。</param>
-        /// <param name="minutes">指定した日時の分。</param>
-        /// <param name="seconds">指定した日時の秒。</param>
-        /// <returns></returns>
-        public static bool IsCrossedMonth(DateTime prev, int days, int hours, int minutes, int seconds)
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。月単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の（現地）日時。</param>
+		/// <param name="days">指定した日時の日付。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		/// <returns></returns>
+		public static bool IsCrossedMonth(DateTime prev, int days, int hours, int minutes, int seconds)
 		{
 
-            DateTime now = GetJapanStandardTimeNow();
+			DateTime now = GetJapanStandardTimeNow();
 
 			DateTime border = now.Subtract(new TimeSpan(now.Day, now.Hour, now.Minute, now.Second)).Add(new TimeSpan(days, hours, minutes, seconds));
 			if (now < border)
@@ -194,16 +194,16 @@ namespace ElectronicObserver.Utility.Mathematics
 		}
 
 
-        /// <summary>
-        /// 指定した日時をまたいでいるかを取得します。3ヵ月単位で処理されます。
-        /// </summary>
-        /// <param name="prev">前回処理した時の（現地）日時。</param>
-        /// <param name="monthes">指定した日時の月部分のオフセット[0-2]。0なら3,6,9,12月を示します。</param>
-        /// <param name="days">指定した日時の日付。</param>
-        /// <param name="hours">指定した日時の時間。</param>
-        /// <param name="minutes">指定した日時の分。</param>
-        /// <param name="seconds">指定した日時の秒。</param>
-        public static bool IsCrossedQuarter(DateTime prev, int monthes, int days, int hours, int minutes, int seconds)
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。3ヵ月単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の（現地）日時。</param>
+		/// <param name="monthes">指定した日時の月部分のオフセット[0-2]。0なら3,6,9,12月を示します。</param>
+		/// <param name="days">指定した日時の日付。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		public static bool IsCrossedQuarter(DateTime prev, int monthes, int days, int hours, int minutes, int seconds)
 		{
 			DateTime now = GetJapanStandardTimeNow();
 			int targetMonth = now.Month / 3 * 3 + monthes;
@@ -255,20 +255,20 @@ namespace ElectronicObserver.Utility.Mathematics
 				elem.Length > 3 ? int.Parse(elem[3]) : 0,
 				elem.Length > 4 ? int.Parse(elem[4]) : 0,
 				elem.Length > 5 ? int.Parse(elem[5]) : 0);
-        }
+		}
 
-        /// <summary>
-        /// 現在の東京標準時を取得します。
-        /// </summary>
-        public static DateTime GetJapanStandardTimeNow()
-        {
-            return DateTime.UtcNow + new TimeSpan(9, 0, 0);
-        }
+		/// <summary>
+		/// 現在の東京標準時を取得します。
+		/// </summary>
+		public static DateTime GetJapanStandardTimeNow()
+		{
+			return DateTime.UtcNow + new TimeSpan(9, 0, 0);
+		}
 
-        /// <summary>
-        /// 指定した日時の東京標準時を取得します。
-        /// </summary>
-        public static DateTime GetJapanStandardTime(DateTime time)
+		/// <summary>
+		/// 指定した日時の東京標準時を取得します。
+		/// </summary>
+		public static DateTime GetJapanStandardTime(DateTime time)
 		{
 			return time - TimeZoneInfo.Local.BaseUtcOffset + new TimeSpan(9, 0, 0);
 		}
