@@ -326,7 +326,7 @@ namespace ElectronicObserver.Window
             SystemEvents.OnUpdateTimerTick();
 
             // 東京標準時
-            DateTime now = DateTime.UtcNow + new TimeSpan(9, 0, 0);
+            DateTime now = Utility.Mathematics.DateTimeHelper.GetJapanStandardTimeNow();
 
             switch (ClockFormat)
             {
