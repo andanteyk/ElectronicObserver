@@ -445,7 +445,7 @@ namespace ElectronicObserver.Window
 
         private string CheckGimmickUpdated(dynamic data)
         {
-            if (data.api_m1() && data.api_m1 != 0)
+            if ((data.api_m1() && data.api_m1 != 0) || (data.api_m2() && data.api_m2 != 0))
             {
                 Utility.Logger.Add(2, "海域に変化を確認しました！");
                 return "\r\n＊ギミック解除＊\r\n";

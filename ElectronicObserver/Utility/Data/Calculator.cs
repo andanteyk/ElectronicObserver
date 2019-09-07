@@ -895,6 +895,7 @@ namespace ElectronicObserver.Utility.Data
             int nightFighterCount = 0;
             int nightAttackerCount = 0;
             int swordfishCount = 0;
+            int nightCapableBomberCount = 0;
             int nightBomberCount = 0;
             int nightPersonnelCount = 0;
             int surfaceRadarCount = 0;
@@ -945,6 +946,8 @@ namespace ElectronicObserver.Utility.Data
                     // (夜間)爆撃機
                     case EquipmentTypes.CarrierBasedBomber:
                         if (eq.EquipmentID == 154)      // 零戦62型(爆戦/岩井隊)
+                            nightCapableBomberCount++;
+                        else if (eq.EquipmentID == 320) // 彗星一二型(三一号光電管爆弾搭載機)
                             nightBomberCount++;
                         break;
 
@@ -988,7 +991,7 @@ namespace ElectronicObserver.Utility.Data
 
             }
 
-            if (attackerShipID == 545)      // Saratoga Mk.II
+            if (attackerShipID == 545 || attackerShipID == 599)      // Saratoga Mk.II/赤城改二戊
                 nightPersonnelCount++;
 
 
@@ -1023,12 +1026,13 @@ namespace ElectronicObserver.Utility.Data
                     (subGunCount >= 2 && torpedoCount <= 1))
                     return NightAttackKind.DoubleShelling;
 
-
                 // 空母カットイン
-                if (nightPersonnelCount > 0 && nightFighterCount > 0)
+                if (nightPersonnelCount > 0)
                 {
-                    if (nightAttackerCount > 0 ||
-                        (nightFighterCount + swordfishCount + nightBomberCount) >= 3)
+                    if (nightFighterCount > 0 &&
+                        (nightAttackerCount > 0 || (nightFighterCount + swordfishCount + nightCapableBomberCount) >= 3))
+                        return NightAttackKind.CutinAirAttack;
+                    else if (nightBomberCount > 0 && (nightFighterCount + nightAttackerCount > 0))
                         return NightAttackKind.CutinAirAttack;
                 }
 
@@ -1374,6 +1378,7 @@ namespace ElectronicObserver.Utility.Data
                 case 82:    // 伊勢改
                 case 88:    // 日向改
                 case 553:   // 伊勢改二
+                case 554:   // 日向改二
                     if (aarocket_mod >= 1 && aaradar >= 1)
                     {
                         if (aashell >= 1)
@@ -1402,6 +1407,7 @@ namespace ElectronicObserver.Utility.Data
                     break;
 
                 case 149:   // 金剛改二
+                case 591:   // 金剛改二丙
                 case 150:   // 比叡改二
                 case 151:   // 榛名改二
                 case 152:   // 霧島改二
@@ -1409,6 +1415,10 @@ namespace ElectronicObserver.Utility.Data
                 case 394:   // Jervis改
                 case 571:   // Nelson
                 case 576:   // Nelson改
+                case 439:   // Warspite
+                case 364:   // Warspite改
+                case 515:   // Ark Royal
+                case 393:   // Ark Royal改
                     if (aarocket_english >= 2)
                         return 32;
                     if (aagun_pompom >= 1 && (maingunl_fcr >= 1 || aarocket_english >= 1))
@@ -1424,6 +1434,8 @@ namespace ElectronicObserver.Utility.Data
 
                 case 562:   // Johnston
                 case 689:   // Johnston改
+                case 596:   // Fletcher
+                case 692:   // Fletcher改
                     if (highangle_america_gfcs >= 2)
                         return 34;
                     if (highangle_america_gfcs >= 1 && highangle_america >= 1)
