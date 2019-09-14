@@ -725,7 +725,7 @@ namespace ElectronicObserver.Window
 				{
 
 					// google <任務名> 艦これ
-					System.Diagnostics.Process.Start(@"https://www.google.co.jp/search?q=%22" + Uri.EscapeDataString(quest.Name) + "%22+%E8%89%A6%E3%81%93%E3%82%8C");
+					System.Diagnostics.Process.Start(@"https://www.google.co.jp/search?q=%22" + Uri.EscapeDataString(quest.Name.Replace("+", "＋")) + "%22+%E8%89%A6%E3%81%93%E3%82%8C");
 
 				}
 				catch (Exception ex)

@@ -942,6 +942,10 @@ namespace ElectronicObserver.Window
                             TextEventDetail.Text = "";
                             break;
 
+                        case 10:    // 泊地
+                            TextEventDetail.Text = compass.CanEmergencyAnchorageRepair ? "修理可能" : "";
+                            break;
+
                         default:
                             TextEventDetail.Text = "";
                             break;

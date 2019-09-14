@@ -421,6 +421,8 @@ namespace ElectronicObserver.Data
 					return "船団護衛成功";
 				case 9:
 					return "揚陸地点";
+                case 10:
+                    return "泊地";
 				default:
 					return "不明";
 			}

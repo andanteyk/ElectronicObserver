@@ -233,69 +233,69 @@ namespace ElectronicObserver.Data.Quest
                             Progresses.Add(new ProgressBattle(q, 10, "E", null, false));
                             break;
                         case 211:   //|211|敵空母を3隻撃沈せよ！|空母3
-                            Progresses.Add(new ProgressSlaughter(q, 3, new[]{ 7, 11 }));
+                            Progresses.Add(new ProgressSlaughter(q, 3, new[] { 7, 11 }));
                             break;
                         case 212:   //|212|敵輸送船団を叩け！|輸送5
-                            Progresses.Add(new ProgressSlaughter(q, 5, new[]{ 15 }));
+                            Progresses.Add(new ProgressSlaughter(q, 5, new[] { 15 }));
                             break;
                         case 218:   //|218|敵補給艦を3隻撃沈せよ！|輸送3
-                            Progresses.Add(new ProgressSlaughter(q, 3, new[]{ 15 }));
+                            Progresses.Add(new ProgressSlaughter(q, 3, new[] { 15 }));
                             break;
                         case 226:   //|226|南西諸島海域の制海権を握れ！|2-(1~5)ボス勝利5
-                            Progresses.Add(new ProgressBattle(q, 5, "B", new[]{ 21, 22, 23, 24, 25 }, true));
+                            Progresses.Add(new ProgressBattle(q, 5, "B", new[] { 21, 22, 23, 24, 25 }, true));
                             break;
                         case 230:   //|230|敵潜水艦を制圧せよ！|潜水6
-                            Progresses.Add(new ProgressSlaughter(q, 6, new[]{ 13 }));
+                            Progresses.Add(new ProgressSlaughter(q, 6, new[] { 13 }));
                             break;
 
                         case 213:   //|213|海上通商破壊作戦|輸送20
-                            Progresses.Add(new ProgressSlaughter(q, 20, new[]{ 15 }));
+                            Progresses.Add(new ProgressSlaughter(q, 20, new[] { 15 }));
                             break;
                         case 214:   //|214|あ号作戦|出撃36/S勝利6/ボス24/ボス勝利12
                             Progresses.Add(new ProgressAGo(q));
                             break;
                         case 220:   //|220|い号作戦|空母20
-                            Progresses.Add(new ProgressSlaughter(q, 20, new[]{ 7, 11 }));
+                            Progresses.Add(new ProgressSlaughter(q, 20, new[] { 7, 11 }));
                             break;
                         case 221:   //|221|ろ号作戦|輸送50
-                            Progresses.Add(new ProgressSlaughter(q, 50, new[]{ 15 }));
+                            Progresses.Add(new ProgressSlaughter(q, 50, new[] { 15 }));
                             break;
                         case 228:   //|228|海上護衛戦|潜水15
-                            Progresses.Add(new ProgressSlaughter(q, 15, new[]{ 13 }));
+                            Progresses.Add(new ProgressSlaughter(q, 15, new[] { 13 }));
                             break;
                         case 229:   //|229|敵東方艦隊を撃滅せよ！|4-(1~5)ボス勝利12
-                            Progresses.Add(new ProgressBattle(q, 12, "B", new[]{ 41, 42, 43, 44, 45 }, true));
+                            Progresses.Add(new ProgressBattle(q, 12, "B", new[] { 41, 42, 43, 44, 45 }, true));
                             break;
                         case 242:   //|242|敵東方中枢艦隊を撃破せよ！|4-4ボス勝利1
-                            Progresses.Add(new ProgressBattle(q, 1, "B", new[]{ 44 }, true));
+                            Progresses.Add(new ProgressBattle(q, 1, "B", new[] { 44 }, true));
                             break;
                         case 243:   //|243|南方海域珊瑚諸島沖の制空権を握れ！|5-2ボスS勝利2
-                            Progresses.Add(new ProgressBattle(q, 2, "S", new[]{ 52 }, true));
+                            Progresses.Add(new ProgressBattle(q, 2, "S", new[] { 52 }, true));
                             break;
                         case 261:   //|261|海上輸送路の安全確保に努めよ！|1-5ボスA勝利3
-                            Progresses.Add(new ProgressBattle(q, 3, "A", new[]{ 15 }, true));
+                            Progresses.Add(new ProgressBattle(q, 3, "A", new[] { 15 }, true));
                             break;
                         case 241:   //|241|敵北方艦隊主力を撃滅せよ！|3-(3~5)ボス勝利5
-                            Progresses.Add(new ProgressBattle(q, 5, "B", new[]{ 33, 34, 35 }, true));
+                            Progresses.Add(new ProgressBattle(q, 5, "B", new[] { 33, 34, 35 }, true));
                             break;
 
                         case 249:   //|249|月|「第五戦隊」出撃せよ！|2-5ボスS勝利1|要「那智」「妙高」「羽黒」
-                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[]{ 25 }, true));
+                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[] { 25 }, true));
                             break;
                         case 256:   //|256|「潜水艦隊」出撃せよ！|6-1ボスS勝利3
-                            Progresses.Add(new ProgressBattle(q, 3, "S", new[]{ 61 }, true));
+                            Progresses.Add(new ProgressBattle(q, 3, "S", new[] { 61 }, true));
                             break;
                         case 257:   //|257|月|「水雷戦隊」南西へ！|1-4ボスS勝利1|要軽巡旗艦、軽巡3隻まで、他駆逐艦　他艦種禁止
-                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[]{ 14 }, true));
+                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[] { 14 }, true));
                             break;
                         case 259:   //|259|月|「水上打撃部隊」南方へ！|5-1ボスS勝利1|要(大和型or長門型or伊勢型or扶桑型)3/軽巡1　巡戦禁止、戦艦追加禁止
-                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[]{ 51 }, true));
+                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[] { 51 }, true));
                             break;
                         case 264:   //|264|月|「空母機動部隊」西へ！|4-2ボスS勝利1|要(空母or軽母or装母)2/駆逐2
-                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[]{ 42 }, true));
+                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[] { 42 }, true));
                             break;
                         case 266:   //|266|月|「水上反撃部隊」突入せよ！|2-5ボスS勝利1|要駆逐旗艦、重巡1軽巡1駆逐4
-                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[]{ 25 }, true));
+                            Progresses.Add(new ProgressSpecialBattle(q, 1, "S", new[] { 25 }, true));
                             break;
                         case 280:   //|280|月|兵站線確保！海上警備を強化実施せよ！|1-2・1-3・1-4・2-1ボスS勝利各1|要(軽母or軽巡or雷巡or練巡)1/(駆逐or海防)3
                             Progresses.Add(new ProgressMultiBattle(q, new[]{
@@ -307,25 +307,33 @@ namespace ElectronicObserver.Data.Quest
                             break;
 
                         case 265:   //|265|海上護衛強化月間|1-5ボスA勝利10
-                            Progresses.Add(new ProgressBattle(q, 10, "A", new[]{ 15 }, true));
+                            Progresses.Add(new ProgressBattle(q, 10, "A", new[] { 15 }, true));
                             break;
 
                         case 822:   //|822|季|沖ノ島海域迎撃戦|2-4ボスS勝利2
-                            Progresses.Add(new ProgressBattle(q, 2, "S", new[]{ 24 }, true));
+                            Progresses.Add(new ProgressBattle(q, 2, "S", new[] { 24 }, true));
                             break;
                         case 854:   //|854|季|戦果拡張任務！「Z作戦」前段作戦|2-4・6-1・6-3ボスA勝利各1/6-4ボスS勝利1
                             Progresses.Add(new ProgressMultiBattle(q, new[]{
-                                new ProgressBattle( q, 1, "A", new[]{ 24 }, true ),
-                                new ProgressBattle( q, 1, "A", new[]{ 61 }, true ),
-                                new ProgressBattle( q, 1, "A", new[]{ 63 }, true ),
-                                new ProgressBattle( q, 1, "S", new[]{ 64 }, true ),
+                                new ProgressBattle(q, 1, "A", new[]{ 24 }, true),
+                                new ProgressBattle(q, 1, "A", new[]{ 61 }, true),
+                                new ProgressBattle(q, 1, "A", new[]{ 63 }, true),
+                                new ProgressBattle(q, 1, "S", new[]{ 64 }, true),
                             }));
                             break;
                         case 861:   //|861|季|強行輸送艦隊、抜錨！|1-6終点到達2|要(航空戦艦or補給艦)2
-                            Progresses.Add(new ProgressSpecialBattle(q, 2, "x", new[]{ 16 }, true));
+                            Progresses.Add(new ProgressSpecialBattle(q, 2, "x", new[] { 16 }, true));
                             break;
                         case 862:   //|862|季|前線の航空偵察を実施せよ！|6-3ボスA勝利2|要水母1軽巡2
-                            Progresses.Add(new ProgressSpecialBattle(q, 2, "A", new[]{ 63 }, true));
+                            Progresses.Add(new ProgressSpecialBattle(q, 2, "A", new[] { 63 }, true));
+                            break;
+                        case 872:   //|872|季|戦果拡張任務！「Z作戦」後段作戦|5-5・6-2・6-5・7-2(第二)ボスS勝利各1|要第一艦隊？
+                            Progresses.Add(new ProgressMultiBattle(q, new[]{
+                                new ProgressBattle(q, 1, "S", new[]{ 55 }, true),
+                                new ProgressBattle(q, 1, "S", new[]{ 62 }, true),
+                                new ProgressBattle(q, 1, "S", new[]{ 65 }, true),
+                                new ProgressSpecialBattle(q, 1, "S", new[]{ 72 }, true, 2),
+                            }));
                             break;
                         case 873:   //|873|季|北方海域警備を実施せよ！|3-1・3-2・3-3ボスA勝利各1|要軽巡1, 1エリア達成で50%,2エリアで80%
                             Progresses.Add(new ProgressMultiBattle(q, new[]{
@@ -335,7 +343,7 @@ namespace ElectronicObserver.Data.Quest
                             }));
                             break;
                         case 875:   //|875|季|精鋭「三一駆」、鉄底海域に突入せよ！|5-4ボスS勝利2|要長波改二/(高波改or沖波改or朝霜改)
-                            Progresses.Add(new ProgressSpecialBattle(q, 2, "S", new[]{ 54 }, true));
+                            Progresses.Add(new ProgressSpecialBattle(q, 2, "S", new[] { 54 }, true));
                             break;
                         case 888:   //|888|季|新編成「三川艦隊」、鉄底海峡に突入せよ！|5-1・5-3・5-4ボスS勝利各1|要(鳥海or青葉or衣笠or加古or古鷹or天龍or夕張)4
                             Progresses.Add(new ProgressMultiBattle(q, new[]{
@@ -384,14 +392,14 @@ namespace ElectronicObserver.Data.Quest
                             Progresses.Add(new ProgressExpedition(q, 30, null));
                             break;
                         case 410:   //|410|南方への輸送作戦を成功させよ！|「東京急行」「東京急行(弐)」成功1
-                            Progresses.Add(new ProgressExpedition(q, 1, new[]{ 37, 38 }));
+                            Progresses.Add(new ProgressExpedition(q, 1, new[] { 37, 38 }));
                             break;
                         case 411:   //|411|南方への鼠輸送を継続実施せよ！|「東京急行」「東京急行(弐)」成功6
-                            Progresses.Add(new ProgressExpedition(q, 6, new[]{ 37, 38 }));
+                            Progresses.Add(new ProgressExpedition(q, 6, new[] { 37, 38 }));
                             Progresses[q.QuestID].SharedCounterShift = 1;
                             break;
                         case 424:   //|424|月|輸送船団護衛を強化せよ！|「海上護衛任務」成功4
-                            Progresses.Add(new ProgressExpedition(q, 4, new[]{ 5 }));
+                            Progresses.Add(new ProgressExpedition(q, 4, new[] { 5 }));
                             Progresses[q.QuestID].SharedCounterShift = 1;
                             break;
                         case 426:   //|426|季|海上通商航路の警戒を厳とせよ！|「警備任務」「対潜警戒任務」「海上護衛任務」「強行偵察任務」成功各1|3エリア達成時点で80%                 
@@ -438,18 +446,18 @@ namespace ElectronicObserver.Data.Quest
                             Progresses.Add(new ProgressImprovement(q, 1));
                             break;
                         case 673:   //|673|装備開発力の整備|小口径主砲廃棄4個|進捗は1/5から始まる(3個廃棄時点で80%達成になる)
-                            Progresses.Add(new ProgressDiscard(q, 4, true, new[]{ 1 }));
+                            Progresses.Add(new ProgressDiscard(q, 4, true, new[] { 1 }));
                             Progresses[q.QuestID].SharedCounterShift = 1;
                             break;
                         case 674:   //|674|工廠環境の整備|機銃廃棄3個,鋼材300保有|進捗は2/5から始まる(2個廃棄時点で80%達成になる)
-                            Progresses.Add(new ProgressDiscard(q, 3, true, new[]{ 21 }));
+                            Progresses.Add(new ProgressDiscard(q, 3, true, new[] { 21 }));
                             Progresses[q.QuestID].SharedCounterShift = 2;
                             break;
                         case 613:   //|613|資源の再利用|廃棄24回
                             Progresses.Add(new ProgressDiscard(q, 24, false, null));
                             break;
                         case 638:   //|638|対空機銃量産|機銃廃棄6個|回ではない
-                            Progresses.Add(new ProgressDiscard(q, 6, true, new[]{ 21 }));
+                            Progresses.Add(new ProgressDiscard(q, 6, true, new[] { 21 }));
                             break;
                         case 676:   //|676|週|装備開発力の集中整備|(中口径主砲x3, 副砲x3, 簡易輸送部材x1)廃棄, 鋼材2400保有|進捗は n/7 で1つごとに進む
                             Progresses.Add(new ProgressMultiDiscard(q, new[]{
@@ -472,16 +480,16 @@ namespace ElectronicObserver.Data.Quest
                             }));
                             break;
                         case 628:   //|628|月|機種転換|零式艦戦21型(熟練)>>装備の空母旗艦, 零式艦戦52型x2廃棄
-                            Progresses.Add(new ProgressDiscard(q, 2, true, new[]{ 21 }, -1));
+                            Progresses.Add(new ProgressDiscard(q, 2, true, new[] { 21 }, -1));
                             break;
                         case 645:   //|645|月|「洋上補給」物資の調達|三式弾廃棄, (燃料750, 弾薬750, ドラム缶(輸送用)x2, 九一式徹甲弾)保有
-                            Progresses.Add(new ProgressDiscard(q, 1, true, new[]{ 18 }));
+                            Progresses.Add(new ProgressDiscard(q, 1, true, new[] { 18 }));
                             break;
                         case 643:   //|643|季|主力「陸攻」の調達|零式艦戦21型x2廃棄, (九六式陸攻x1, 九七式艦攻x2)保有
-                            Progresses.Add(new ProgressDiscard(q, 2, true, new[]{ 20 }, -1));
+                            Progresses.Add(new ProgressDiscard(q, 2, true, new[] { 20 }, -1));
                             break;
                         case 663:   //|663|季|新型艤装の継続研究|大口径主砲x10廃棄, 鋼材18000保有
-                            Progresses.Add(new ProgressDiscard(q, 10, true, new[]{ 3 }));
+                            Progresses.Add(new ProgressDiscard(q, 10, true, new[] { 3 }));
                             break;
                         case 675:   //|675|季|運用装備の統合整備|(艦上戦闘機x6, 機銃x4)廃棄, ボーキ800保有
                             Progresses.Add(new ProgressMultiDiscard(q, new[]{

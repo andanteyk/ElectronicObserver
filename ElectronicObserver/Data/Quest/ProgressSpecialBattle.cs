@@ -190,8 +190,8 @@ namespace ElectronicObserver.Data.Quest
                         }) >= 4;
                     break;
 
-                // |893|季|泊地周辺海域の安全確保を徹底せよ！|1-5・7-1・7-2(第一＆第二)ボスS勝利各3|3エリア達成時点で80%
-                case 893:
+                case 872:   //|872|季|戦果拡張任務！「Z作戦」後段作戦|5-5・6-2・6-5・7-2(第二)ボスS勝利各1|要第一艦隊？
+                case 893:   //|893|季|泊地周辺海域の安全確保を徹底せよ！|1-5・7-1・7-2(第一＆第二)ボスS勝利各3|3エリア達成時点で80%
                     if (GaugeIndex == 1)
                         isAccepted = bm.Compass.Destination == 7;
                     else if (GaugeIndex == 2)

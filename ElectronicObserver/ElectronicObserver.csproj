@@ -232,6 +232,7 @@
     <Compile Include="Observer\kcsapi\api_req_kaisou\slot_deprive.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\slot_exchange_index.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\remodel_slotlist.cs" />
+    <Compile Include="Observer\kcsapi\api_req_map\anchorage_repair.cs" />
     <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\itemuse.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\updatecomment.cs" />
