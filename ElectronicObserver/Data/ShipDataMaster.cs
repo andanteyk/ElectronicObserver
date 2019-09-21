@@ -82,6 +82,76 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public ShipDataMaster RemodelBeforeShip => RemodelBeforeShipID > 0 ? KCDatabase.Instance.MasterShips[RemodelBeforeShipID] : null;
 
+		/// <summary>
+		/// Backing field for FinalRemodelShip since it's not likely changing during runtime
+		/// </summary>
+		private ShipDataMaster finalRemodelShip = null;
+
+		/// <summary>
+		/// 最終改装の艦船
+		/// May be *this*, means already been the final remodel ship
+		/// </summary>
+		public ShipDataMaster FinalRemodelShip
+		{
+			get
+			{
+				if (finalRemodelShip != null) return finalRemodelShip;
+				if (RemodelAfterShipID <= 0)
+				{
+					// Currently being the final remodel ship
+					finalRemodelShip = this;
+				}
+
+				ShipDataMaster lastRemodel = this;
+				int lastRemodelLv = RemodelBeforeShip == null ? 0 : RemodelBeforeShip.RemodelAfterLevel;
+
+				while (lastRemodel != null && lastRemodel.RemodelAfterLevel > lastRemodelLv && lastRemodel.RemodelAfterShipID != this.ShipID)
+				{
+					//find the final remodel ship which has the largest remodeling level
+					lastRemodelLv = lastRemodel.RemodelAfterLevel;
+					lastRemodel = lastRemodel.RemodelAfterShip;
+				}
+				finalRemodelShip = lastRemodel;
+				return finalRemodelShip;
+			}
+		}
+
+		/// <summary>
+		/// 最終改装Lv
+		/// </summary>
+		public int FinalRemodelLevel => FinalRemodelShip == null ? 0 : FinalRemodelShip.RemodelBeforeShip.RemodelAfterLevel;
+
+		/// <summary>
+		/// 最終改装の艦船ID
+		/// 0=なし
+		/// </summary>
+		public int FinalRemodelShipID => FinalRemodelShip == null ? 0 : FinalRemodelShip.ShipID;
+
+		public bool CanConvertRemodel
+		{
+			get
+			{
+				if (FinalRemodelShip == null || FinalRemodelShip.RemodelAfterShip == null)
+				{
+					// If it cannot remodel after final-remodel, it cannot convert-remodel
+					return false;
+				}
+				if (ShipID == FinalRemodelShipID && RemodelAfterShipID != 0)
+				{
+					return true;
+				}
+
+				ShipDataMaster tmpShip = FinalRemodelShip.RemodelAfterShip;
+				bool result = false;
+				while(!result && tmpShip.ShipID != FinalRemodelShipID)
+				{
+					// if current ship can be remodeled from final-remodel, it can convert-remodel
+					result = tmpShip.RemodelAfterShipID == ShipID;
+					tmpShip = tmpShip.RemodelAfterShip;
+				}
+				return result;
+			}
+		}
 
 		/// <summary>
 		/// 改装に必要な弾薬

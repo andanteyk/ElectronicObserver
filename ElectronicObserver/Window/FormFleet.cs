@@ -504,17 +504,36 @@ namespace ElectronicObserver.Window
 						if (!Utility.Configuration.Config.FormFleet.ShowNextExp)
 							tip.AppendFormat("次のレベルまで: {0} exp.\r\n", ship.ExpNext);
 
-						if (ship.MasterShip.RemodelAfterShipID != 0 && ship.Level < ship.MasterShip.RemodelAfterLevel)
+						if (ship.MasterShip.RemodelAfterShipID != 0 && ship.MasterShip.RemodelAfterShipID != ship.MasterShip.FinalRemodelShipID && ship.Level < ship.MasterShip.RemodelAfterLevel)
 						{
 							tip.AppendFormat("改装まで: Lv. {0} / {1} exp.\r\n", ship.MasterShip.RemodelAfterLevel - ship.Level, ship.ExpNextRemodel);
 						}
-						else if (ship.Level <= 99)
+						else if (ship.MasterShip != ship.MasterShip.FinalRemodelShip && ship.Level < ship.MasterShip.FinalRemodelLevel)
 						{
-							tip.AppendFormat("Lv99まで: {0} exp.\r\n", Math.Max(ExpTable.GetExpToLevelShip(ship.ExpTotal, 99), 0));
+							if (ship.MasterShip.RemodelAfterShipID != ship.MasterShip.FinalRemodelShipID)
+							{
+								tip.Append("今改装可能.\r\n");
+							}
+							tip.AppendFormat("最終改装まで: Lv. {0} / {1} exp.\r\n", ship.MasterShip.FinalRemodelLevel - ship.Level, ship.ExpFinalRemodel);
 						}
 						else
 						{
-							tip.AppendFormat("Lv{0}まで: {1} exp.\r\n", ExpTable.ShipMaximumLevel, Math.Max(ExpTable.GetExpToLevelShip(ship.ExpTotal, ExpTable.ShipMaximumLevel), 0));
+							if (ship.ShipID != ship.MasterShip.FinalRemodelShipID)
+							{
+								tip.Append("今最終改装可能.\r\n");
+							}
+							else if  (ship.MasterShip.CanConvertRemodel)
+							{
+								tip.Append("今コンバート改装可能.\r\n");
+							}
+							if (ship.Level <= 99)
+							{
+								tip.AppendFormat("Lv99まで: {0} exp.\r\n", Math.Max(ExpTable.GetExpToLevelShip(ship.ExpTotal, 99), 0));
+							}
+							else
+							{
+								tip.AppendFormat("Lv{0}まで: {1} exp.\r\n", ExpTable.ShipMaximumLevel, Math.Max(ExpTable.GetExpToLevelShip(ship.ExpTotal, ExpTable.ShipMaximumLevel), 0));
+							}
 						}
 
 						tip.AppendLine("(右クリックで必要Exp計算)");
