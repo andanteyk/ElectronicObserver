@@ -410,7 +410,7 @@ namespace ElectronicObserver.Data.Quest
 							Progresses.Add(new ProgressExpedition(q, 4, new[] { 5 }));
 							Progresses[q.QuestID].SharedCounterShift = 1;
 							break;
-						case 426:   //|426|季|海上通商航路の警戒を厳とせよ！|「警備任務」「対潜警戒任務」「海上護衛任務」「強行偵察任務」成功各1|3エリア達成時点で80%                 
+						case 426:   //|426|季|海上通商航路の警戒を厳とせよ！|「警備任務」「対潜警戒任務」「海上護衛任務」「強行偵察任務」成功各1|3エリア達成時点で80%				 
 							Progresses.Add(new ProgressMultiExpedition(q, new[]{
 								new ProgressExpedition(q, 1, new[]{ 3 }),
 								new ProgressExpedition(q, 1, new[]{ 4 }),
@@ -639,7 +639,7 @@ namespace ElectronicObserver.Data.Quest
 			if ((int)data.api_clear_result == 0)
 				return;     //遠征失敗
 
-			FleetData fleet = KCDatabase.Instance.Fleet.Fleets.Values.FirstOrDefault(f => f.Members.Contains((int)data.api_ship_id[1]));
+            FleetData fleet = KCDatabase.Instance.Fleet.Fleets.Values.FirstOrDefault(f => f.Members.Contains((int)data.api_ship_id[1]));
 
 			int areaID = fleet.ExpeditionDestination;
 
@@ -745,9 +745,12 @@ namespace ElectronicObserver.Data.Quest
 
 		void EquipmentDeveloped(string apiname, dynamic data)
 		{
+			int trials = KCDatabase.Instance.Development.DevelopmentTrials;
+
 			foreach (var p in Progresses.Values.OfType<ProgressDevelopment>())
 			{
-				p.Increment();
+				for (int i = 0; i < trials; i++)
+					p.Increment();
 			}
 
 			OnProgressChanged();

@@ -723,22 +723,17 @@ Request.api_req_kousyou/createitem	：装備開発
 	api_item2			：投入弾薬
 	api_item3			：投入鋼材
 	api_item4			：投入ボーキサイト
+	api_multiple_flag	：0=通常開発 1=三連開発
 
-api_req_kousyou/createitem	：装備開発(成功)
-	api_create_flag		：開発成功(1)
-	api_shizai_flag		：開発資材消費フラグ
-	api_slot_item		：開発装備データ
-		api_id			：装備固有ID
-		api_slotitem_id	：装備ID
-	api_material		：各種資源量
-	api_type3			：装備カテゴリ(api_mst_slotitem.api_type[2] 参照)
-	api_unsetslot		：同カテゴリのアイテムリスト？
-
-api_req_kousyou/createitem	：装備開発(失敗)
-	api_create_flag		：開発失敗(0)
-	api_shizai_flag		：開発資材消費フラグ
-	api_fdata			：成功するはずだったアイテムID？文字列型, コンマ区切りで複数の値を持つ
-	api_material		：各種資源量
+api_req_kousyou/createitem	：装備開発
+	api_create_flag		：開発成否　0=失敗 1=成功　1つでも成功すれば 1
+	api_material		：各種資源量　[8]
+	api_get_items		：開発装備データ　[試行回数]
+		api_id			：装備固有ID　-1=失敗
+		api_slotitem_id	：装備ID　-1=失敗
+	api_unset_items		：更新されたカテゴリのアイテムリスト　[更新されたカテゴリ数]　失敗した場合は null
+		api_type3		：装備カテゴリID
+		api_slot_list	：装備固有IDリスト
 
 
 Request.api_req_kousyou/destroyship	：艦船解体

@@ -148,6 +148,7 @@
     <Compile Include="Data\Battle\Phase\PhaseTorpedo.cs" />
     <Compile Include="Data\Battle\BattleIndex.cs" />
     <Compile Include="Data\Constants.cs" />
+    <Compile Include="Data\DevelopmentData.cs" />
     <Compile Include="Data\DockData.cs" />
     <Compile Include="Data\EquipmentData.cs" />
     <Compile Include="Data\EquipmentDataMaster.cs" />
