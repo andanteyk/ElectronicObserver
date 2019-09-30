@@ -137,7 +137,9 @@ namespace ElectronicObserver.Data.Quest
 					break;
 
 				// |280|月|兵站線確保！海上警備を強化実施せよ！|1-2・1-3・1-4・2-1ボスS勝利各1|要(軽母or軽巡or雷巡or練巡)1/(駆逐or海防)3
+				// |284|季|南西諸島方面「海上警備行動」発令！|1-4・2-1・2-2・2-3ボスS勝利各1|要(軽母or軽巡or雷巡or練巡)1/(駆逐or海防)3
 				case 280:
+				case 284:
 					isAccepted =
 						memberstype.Any(t => t == ShipTypes.LightAircraftCarrier || t == ShipTypes.LightCruiser || t == ShipTypes.TorpedoCruiser || t == ShipTypes.TrainingCruiser) &&
 						memberstype.Count(t => t == ShipTypes.Destroyer || t == ShipTypes.Escort) >= 3;
@@ -190,13 +192,15 @@ namespace ElectronicObserver.Data.Quest
 						}) >= 4;
 					break;
 
-				case 872:   //|872|季|戦果拡張任務！「Z作戦」後段作戦|5-5・6-2・6-5・7-2(第二)ボスS勝利各1|要第一艦隊？
-				case 893:   //|893|季|泊地周辺海域の安全確保を徹底せよ！|1-5・7-1・7-2(第一＆第二)ボスS勝利各3|3エリア達成時点で80%
-					if (GaugeIndex == 1)
-						isAccepted = bm.Compass.Destination == 7;
-					else if (GaugeIndex == 2)
-						isAccepted = bm.Compass.Destination == 15;
-
+				case 872:   // |872|季|戦果拡張任務！「Z作戦」後段作戦|5-5・6-2・6-5・7-2(第二)ボスS勝利各1|要第一艦隊？
+				case 893:   // |893|季|泊地周辺海域の安全確保を徹底せよ！|1-5・7-1・7-2(第一＆第二)ボスS勝利各3|3エリア達成時点で80%
+					if (bm.Compass.MapAreaID == 7 && bm.Compass.MapInfoID == 2)
+					{
+						if (GaugeIndex == 1)
+							isAccepted = bm.Compass.Destination == 7;
+						else if (GaugeIndex == 2)
+							isAccepted = bm.Compass.Destination == 15;
+					}
 					break;
 
 				// |894|季|空母戦力の投入による兵站線戦闘哨戒|1-3・1-4・2-1・2-2・2-3ボスS勝利各1?|要空母系

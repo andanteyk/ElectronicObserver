@@ -368,6 +368,14 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressSpecialBattle(q, 1, "S", new[]{ 23 }, true),
 							}));
 							break;
+						case 284:   //|284|季|南西諸島方面「海上警備行動」発令！|1-4・2-1・2-2・2-3ボスS勝利各1|要(軽母or軽巡or雷巡or練巡)1/(駆逐or海防)3
+							Progresses.Add(new ProgressMultiBattle(q, new[]{
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 14 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 21 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 22 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 23 }, true),
+							}));
+							break;
 
 						case 303:   //|303|「演習」で練度向上！|演習3
 							Progresses.Add(new ProgressPractice(q, 3, false));

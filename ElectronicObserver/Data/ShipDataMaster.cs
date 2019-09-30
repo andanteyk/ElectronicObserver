@@ -514,7 +514,7 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public string ResourcePortVoiceVersion => GraphicData?.PortVoiceVersion ?? "";
 
-		
+
 
 		/// <summary>
 		/// 衣替え艦：ベースとなる艦船ID
@@ -651,6 +651,11 @@ namespace ElectronicObserver.Data
 		/// 空母系か (軽空母/正規空母/装甲空母)
 		/// </summary>
 		public bool IsAircraftCarrier => ShipType == ShipTypes.LightAircraftCarrier || ShipType == ShipTypes.AircraftCarrier || ShipType == ShipTypes.ArmoredAircraftCarrier;
+
+		/// <summary>
+		/// 護衛空母か
+		/// </summary>
+		public bool IsEscortAircraftCarrier => ShipType == ShipTypes.LightAircraftCarrier && ASW.Minimum > 0;
 
 
 		/// <summary>
