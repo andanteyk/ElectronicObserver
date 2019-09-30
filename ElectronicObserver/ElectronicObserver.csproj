@@ -148,6 +148,7 @@
     <Compile Include="Data\Battle\Phase\PhaseTorpedo.cs" />
     <Compile Include="Data\Battle\BattleIndex.cs" />
     <Compile Include="Data\Constants.cs" />
+    <Compile Include="Data\DevelopmentData.cs" />
     <Compile Include="Data\DockData.cs" />
     <Compile Include="Data\EquipmentData.cs" />
     <Compile Include="Data\EquipmentDataMaster.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Observer\kcsapi\api_req_kaisou\slot_deprive.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\slot_exchange_index.cs" />
     <Compile Include="Observer\kcsapi\api_req_kousyou\remodel_slotlist.cs" />
+    <Compile Include="Observer\kcsapi\api_req_map\anchorage_repair.cs" />
     <Compile Include="Observer\kcsapi\api_req_map\select_eventmap_rank.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\itemuse.cs" />
     <Compile Include="Observer\kcsapi\api_req_member\updatecomment.cs" />

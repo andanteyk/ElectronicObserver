@@ -191,6 +191,7 @@ namespace ElectronicObserver.Window
 			o["api_req_member/updatedeckname"].RequestReceived += Updated;
 			o["api_req_map/start"].RequestReceived += Updated;
 			o["api_req_hensei/combined"].RequestReceived += Updated;
+			o["api_req_kaisou/open_exslot"].RequestReceived += Updated;
 
 			o["api_port/port"].ResponseReceived += Updated;
 			o["api_get_member/ship2"].ResponseReceived += Updated;
@@ -208,9 +209,10 @@ namespace ElectronicObserver.Window
 			o["api_req_kaisou/slot_exchange_index"].ResponseReceived += Updated;
 			o["api_get_member/require_info"].ResponseReceived += Updated;
 			o["api_req_kaisou/slot_deprive"].ResponseReceived += Updated;
-            o["api_req_kaisou/marriage"].ResponseReceived += Updated;
+			o["api_req_kaisou/marriage"].ResponseReceived += Updated;
+			o["api_req_map/anchorage_repair"].ResponseReceived += Updated;
 
-            Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
+			Utility.Configuration.Instance.ConfigurationChanged += ConfigurationChanged;
 		}
 
 		void ConfigurationChanged()

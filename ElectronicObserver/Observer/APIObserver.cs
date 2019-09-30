@@ -120,6 +120,7 @@ namespace ElectronicObserver.Observer
 				new kcsapi.api_req_member.itemuse(),
 				new kcsapi.api_req_sortie.ld_shooting(),
 				new kcsapi.api_req_combined_battle.ld_shooting(),
+				new kcsapi.api_req_map.anchorage_repair(),
 
 				new kcsapi.api_req_quest.clearitemget(),
 				new kcsapi.api_req_nyukyo.start(),

@@ -771,12 +771,14 @@ namespace ElectronicObserver.Resource.Record
 			// validation
 			foreach (var record in Record.Values)
 			{
-
-				// 無効な装備を持っていた場合、初期装備データを初期化
+				// 無効な装備を持っていた場合、"なし" に置換する
 				if (record.DefaultSlot != null)
 				{
-					if (record.DefaultSlot.Any(id => id != -1 && !KCDatabase.Instance.MasterEquipments.ContainsKey(id)))
-						record.DefaultSlot = null;
+					for (int i = 0; i < record.DefaultSlot.Length; i++)
+					{
+						if (record.DefaultSlot[i] != -1 && !KCDatabase.Instance.MasterEquipments.ContainsKey(record.DefaultSlot[i]))
+							record.DefaultSlot[i] = -1;
+					}
 				}
 			}
 

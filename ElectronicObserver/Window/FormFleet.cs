@@ -133,7 +133,7 @@ namespace ElectronicObserver.Window
 				BranchWeight--;
 				if (BranchWeight <= 0)
 					BranchWeight = 4;
-				
+
 				Update(KCDatabase.Instance.Fleet[fleetID]);
 			}
 
@@ -457,13 +457,13 @@ namespace ElectronicObserver.Window
 				{
 
 					bool isEscaped = KCDatabase.Instance.Fleet[Parent.FleetID].EscapedShipList.Contains(shipMasterID);
-
+					var equipments = ship.AllSlotInstance.Where(eq => eq != null);
 
 					Name.Text = ship.MasterShip.NameWithClass;
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip(Name,
 						string.Format(
-							"{0} {1}\r\n火力: {2}/{3}\r\n雷装: {4}/{5}\r\n対空: {6}/{7}\r\n装甲: {8}/{9}\r\n対潜: {10}/{11}\r\n回避: {12}/{13}\r\n索敵: {14}/{15}\r\n運: {16}\r\n射程: {17} / 速力: {18}\r\n(右クリックで図鑑)\n",
+							"{0} {1}\r\n火力: {2}/{3}\r\n雷装: {4}/{5}\r\n対空: {6}/{7}\r\n装甲: {8}/{9}\r\n対潜: {10}/{11}\r\n回避: {12}/{13}\r\n索敵: {14}/{15}\r\n運: {16}\r\n命中: {17:+#;-#;+0}\r\n爆装: {18:+#;-#;+0}\r\n射程: {19} / 速力: {20}\r\n(右クリックで図鑑)\n",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase, ship.FirepowerTotal,
 							ship.TorpedoBase, ship.TorpedoTotal,
@@ -473,6 +473,8 @@ namespace ElectronicObserver.Window
 							ship.EvasionBase, ship.EvasionTotal,
 							ship.LOSBase, ship.LOSTotal,
 							ship.LuckTotal,
+							equipments.Any() ? equipments.Sum(eq => eq.MasterEquipment.Accuracy) : 0,
+							equipments.Any() ? equipments.Sum(eq => eq.MasterEquipment.Bomber) : 0,
 							Constants.GetRange(ship.Range),
 							Constants.GetSpeed(ship.Speed)
 							));
@@ -904,6 +906,7 @@ namespace ElectronicObserver.Window
 			o["api_req_kaisou/remodeling"].RequestReceived += Updated;
 			o["api_req_map/start"].RequestReceived += Updated;
 			o["api_req_hensei/combined"].RequestReceived += Updated;
+			o["api_req_kaisou/open_exslot"].RequestReceived += Updated;
 
 			o["api_port/port"].ResponseReceived += Updated;
 			o["api_get_member/ship2"].ResponseReceived += Updated;
@@ -922,8 +925,8 @@ namespace ElectronicObserver.Window
 			o["api_req_kaisou/slot_exchange_index"].ResponseReceived += Updated;
 			o["api_get_member/require_info"].ResponseReceived += Updated;
 			o["api_req_kaisou/slot_deprive"].ResponseReceived += Updated;
-            o["api_req_kaisou/marriage"].ResponseReceived += Updated;
-
+			o["api_req_kaisou/marriage"].ResponseReceived += Updated;
+			o["api_req_map/anchorage_repair"].ResponseReceived += Updated;
 
 			//追加するときは FormFleetOverview にも同様に追加してください
 
