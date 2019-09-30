@@ -30,6 +30,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou
 			//logging
 			if (Utility.Configuration.Config.Log.ShowSpoiler)
 			{
+				//Utility.Logger.Add(2, $"開発結果: {string.Join(", ", dev.Results)} ({dev.Fuel}/{dev.Ammo}/{dev.Steel}/{dev.Bauxite} 秘書艦: {db.Fleet[1].MembersInstance[0].NameWithLevel})");
 
 				foreach (var result in dev.Results)
 				{
@@ -48,7 +49,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kousyou
 							db.Fleet[1].MembersInstance[0].NameWithLevel));
 					}
 				}
-
 			}
 
 			base.OnResponseReceived((object)data);

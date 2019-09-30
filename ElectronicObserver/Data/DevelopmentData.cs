@@ -51,6 +51,11 @@ namespace ElectronicObserver.Data
 				MasterID = (int?)data?.api_id ?? -1;
 				EquipmentID = (int?)data?.api_slotitem_id ?? -1;
 			}
+
+			public override string ToString()
+			{
+				return IsSucceeded ? $"{MasterEquipment.CategoryTypeInstance.Name}「{MasterEquipment.Name}」" : "失敗";
+			}
 		}
 		/// <summary> 開発結果 </summary>
 		public ReadOnlyCollection<DevelopmentResult> Results { get; private set; }
