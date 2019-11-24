@@ -376,6 +376,15 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressSpecialBattle(q, 1, "S", new[]{ 23 }, true),
 							}));
 							break;
+						case 845:   //|845|季|発令！「西方海域作戦」|4-1・4-2・4-3・4-4・4-5ボスS勝利各1
+							Progresses.Add(new ProgressMultiBattle(q, new[] {
+								new ProgressBattle(q, 1, "S", new[] { 41 }, true),
+								new ProgressBattle(q, 1, "S", new[] { 42 }, true),
+								new ProgressBattle(q, 1, "S", new[] { 43 }, true),
+								new ProgressBattle(q, 1, "S", new[] { 44 }, true),
+								new ProgressBattle(q, 1, "S", new[] { 45 }, true),
+							}));
+							break;
 
 						case 303:   //|303|「演習」で練度向上！|演習3
 							Progresses.Add(new ProgressPractice(q, 3, false));
@@ -639,7 +648,7 @@ namespace ElectronicObserver.Data.Quest
 			if ((int)data.api_clear_result == 0)
 				return;     //遠征失敗
 
-            FleetData fleet = KCDatabase.Instance.Fleet.Fleets.Values.FirstOrDefault(f => f.Members.Contains((int)data.api_ship_id[1]));
+			FleetData fleet = KCDatabase.Instance.Fleet.Fleets.Values.FirstOrDefault(f => f.Members.Contains((int)data.api_ship_id[1]));
 
 			int areaID = fleet.ExpeditionDestination;
 

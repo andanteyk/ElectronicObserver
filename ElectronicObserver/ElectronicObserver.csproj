@@ -848,6 +848,7 @@
     <EmbeddedResource Include="Window\Integrate\FormIntegrated.resx">
       <DependentUpon>FormIntegrated.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include=".editorconfig" />
     <None Include="Assets.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

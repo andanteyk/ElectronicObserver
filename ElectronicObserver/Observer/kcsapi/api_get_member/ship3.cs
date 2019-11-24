@@ -19,8 +19,8 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 			//api_ship_data
 			foreach (var elem in data.api_ship_data)
 			{
-
 				int id = (int)elem.api_id;
+				bool isRemodeled = false;
 
 				ShipData ship = db.Ships[id];
 				ship.LoadFromResponse(APIName, elem);
@@ -29,16 +29,19 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 				{
 					if (ship.Slot[i] == -1) continue;
 					if (!db.Equipments.ContainsKey(ship.Slot[i]))
-					{       //改装時に新装備を入手するが、追加される前にIDを与えられてしまうため
+					{
+						//改装時に新装備を入手するが、追加される前にIDを与えられてしまうため
 						EquipmentData eq = new EquipmentData();
 						eq.LoadFromResponse(APIName, ship.Slot[i]);
 						db.Equipments.Add(eq);
+						isRemodeled = true;
 					}
 				}
 
 
 				// 装備シナジー検出カッコカリ
-				if (ship.MasterShip.ASW.IsDetermined &&
+				if (!isRemodeled &&
+					ship.MasterShip.ASW.IsDetermined &&
 					ship.MasterShip.Evasion.IsDetermined &&
 					ship.MasterShip.LOS.IsDetermined)
 				{
@@ -79,7 +82,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 					{
 						var sb = new StringBuilder();
 						sb.Append("装備シナジーを検出しました：");
-							
+
 						var a = new List<string>();
 						if (firepower != 0)
 							a.Add($"火力{firepower:+#;-#;0}");
@@ -102,7 +105,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member
 
 						sb.Append(string.Join(", ", a));
 
-						sb.AppendFormat(" ; {0} [{1}]", 
+						sb.AppendFormat(" ; {0} [{1}]",
 							ship.NameWithLevel,
 							string.Join(", ", ship.AllSlotInstance.Where(eq => eq != null).Select(eq => eq.NameWithLevel)));
 

@@ -78,12 +78,12 @@ namespace ElectronicObserver.Window.Dialog
 		// ボタン操作
 		private void EnabledView_CellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
+			if (e.RowIndex < 0 || EnabledView.RowCount <= e.RowIndex)
+				return;
 
 			if (e.ColumnIndex == EnabledView_SortDirection.Index)
 			{
-
 				EnabledView[e.ColumnIndex, e.RowIndex].Value = ((ListSortDirection)EnabledView[e.ColumnIndex, e.RowIndex].Value) == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
-
 			}
 			else if (e.ColumnIndex == EnabledView_Up.Index)
 			{
