@@ -1237,6 +1237,26 @@ namespace ElectronicObserver.Window
 			Clipboard.SetData(DataFormats.StringFormat, sb.ToString());
 		}
 
+		/// <summary>
+		/// 「艦隊分析 -艦これ-」の艦隊情報反映用フォーマットでコピー
+		/// https://kancolle-fleetanalysis.firebaseapp.com/#/
+		/// </summary>
+		private void ContextMenuFleet_CopyToFleetAnalysis_Click(object sender, EventArgs e)
+		{
+			var sb = new StringBuilder();
+
+			sb.Append("[");
+			foreach (var ship in KCDatabase.Instance.Ships.Values.Where(s => s.IsLocked))
+			{
+				sb.AppendFormat(@"{{""api_ship_id"":{0},""api_lv"":{1},""api_kyouka"":[{2}]}},",
+					ship.ShipID, ship.Level, string.Join(",", (int[])ship.RawData.api_kyouka));
+			}
+			sb.Remove(sb.Length - 1, 1);        // remove ","
+			sb.Append("]");
+
+			Clipboard.SetData(DataFormats.StringFormat, sb.ToString());
+		}
+
 
 		private void ContextMenuFleet_AntiAirDetails_Click(object sender, EventArgs e)
 		{
@@ -1385,6 +1405,8 @@ namespace ElectronicObserver.Window
 			}
 			base.Dispose(disposing);
 		}
+
+
 	}
 
 }

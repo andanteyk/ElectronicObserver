@@ -14,6 +14,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -470,7 +471,7 @@ namespace ElectronicObserver.Window.Dialog
 
 			TableConsumption.ResumeLayout();
 
-			Description.Text = ship.MessageAlbum != "" ? ship.MessageAlbum : ship.MessageGet;
+			Description.Text = ship.MessageAlbum != "" ? FormatDescription(ship.MessageAlbum) : FormatDescription(ship.MessageGet);
 			Description.Tag = ship.MessageAlbum != "" ? 1 : 0;
 
 
@@ -1138,15 +1139,21 @@ namespace ElectronicObserver.Window.Dialog
 
 			if (tag == 0 && ship.MessageAlbum.Length > 0)
 			{
-				Description.Text = ship.MessageAlbum;
+				Description.Text = FormatDescription(ship.MessageAlbum);
 				Description.Tag = 1;
-
 			}
 			else
 			{
-				Description.Text = ship.MessageGet;
+				Description.Text = FormatDescription(ship.MessageGet);
 				Description.Tag = 0;
 			}
+		}
+
+		private string FormatDescription(string description)
+		{
+			// 本家の改行がアレなので、区切り文字+改行 以外の改行を削除する
+			var regex = new Regex(@"([^、。,\.！？!\?])\r\n");
+			return regex.Replace(description, "$1");
 		}
 
 
