@@ -168,7 +168,17 @@ namespace ElectronicObserver.Data.Quest
 				case 875:
 					isAccepted =
 						members.Any(s => s?.ShipID == 543) &&
-						members.Any(s => s?.ShipID == 345 || s?.ShipID == 359 || s?.ShipID == 344);
+						members.Any(s => {
+							switch(s?.MasterShip?.NameReading)
+							{
+								case "たかなみ":
+								case "おきなみ":
+								case "あさしも":
+									return s.MasterShip.RemodelTier >= 1;
+								default:
+									return false;
+							}
+						});
 					break;
 
 				// |888|季|新編成「三川艦隊」、鉄底海峡に突入せよ！|5-1・5-3・5-4ボスS勝利各1|要(鳥海or青葉or衣笠or加古or古鷹or天龍or夕張)4

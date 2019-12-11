@@ -505,6 +505,9 @@ namespace ElectronicObserver.Data.Quest
 						case 643:   //|643|季|主力「陸攻」の調達|零式艦戦21型x2廃棄, (九六式陸攻x1, 九七式艦攻x2)保有
 							Progresses.Add(new ProgressDiscard(q, 2, true, new[] { 20 }, -1));
 							break;
+						case 653:   //|653|季|工廠稼働！次期作戦準備！|14cm単装砲x6廃棄, (家具コイン6000, 35.6cm連装砲x3, 九六式艦戦x3)保有
+							Progresses.Add(new ProgressDiscard(q, 3, true, new[] { 4 }, -1));
+							break;
 						case 663:   //|663|季|新型艤装の継続研究|大口径主砲x10廃棄, 鋼材18000保有
 							Progresses.Add(new ProgressDiscard(q, 10, true, new[] { 3 }));
 							break;
