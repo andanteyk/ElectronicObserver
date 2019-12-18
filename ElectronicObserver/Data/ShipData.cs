@@ -1031,6 +1031,13 @@ namespace ElectronicObserver.Data
                 case DayAttackKind.CutinMainMain:
                     basepower *= 1.5;
                     break;
+				case DayAttackKind.ZuiunMultiAngle:
+					basepower *= 1.35;
+					break;
+				case DayAttackKind.SeaAirMultiAngle:
+					basepower *= 1.3;
+					break;
+				
             }
 
             return (int)(basepower * GetAmmoDamageRate());

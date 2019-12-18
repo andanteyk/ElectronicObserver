@@ -386,6 +386,18 @@ namespace ElectronicObserver.Window
 				FleetEnemy.ForeColor = Color.Red;
 			else
 				FleetEnemy.ForeColor = SystemColors.ControlText;
+
+			if (bm.IsEnemyCombined && bm.StartsFromDayBattle)
+			{
+				bool willMain = bm.WillNightBattleWithMainFleet();
+				FleetEnemy.BackColor = willMain ? Color.LightSteelBlue : SystemColors.Control;
+				FleetEnemyEscort.BackColor = willMain ? SystemColors.Control : Color.LightSteelBlue;
+			}
+			else
+			{
+				FleetEnemy.BackColor =
+				FleetEnemyEscort.BackColor = SystemColors.Control;
+			}
 		}
 
 		/// <summary>

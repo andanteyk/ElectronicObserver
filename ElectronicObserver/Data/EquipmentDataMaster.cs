@@ -353,7 +353,11 @@ namespace ElectronicObserver.Data
 			EquipmentID == 258 ||       // 夜間作戦航空要員
 			EquipmentID == 259;         // 夜間作戦航空要員+熟練甲板員
 
-
+		/// <summary> 高高度局戦かどうか </summary>
+		public bool IsHightAltitudeFighter =>
+			EquipmentID == 350 ||	// Me163B
+			EquipmentID == 351 ||	// 試製 秋水
+			EquipmentID == 352;		// 秋水
 
 
 
