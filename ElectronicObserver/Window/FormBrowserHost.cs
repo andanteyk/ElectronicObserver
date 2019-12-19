@@ -10,6 +10,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.ServiceModel;
@@ -240,7 +241,7 @@ namespace ElectronicObserver.Window
 				config.HardwareAccelerationEnabled = c.HardwareAccelerationEnabled;
 				config.PreserveDrawingBuffer = c.PreserveDrawingBuffer;
 				config.ForceColorProfile = c.ForceColorProfile;
-                config.SavesBrowserLog = c.SavesBrowserLog;
+				config.SavesBrowserLog = c.SavesBrowserLog;
 
 				return config;
 			}
@@ -269,7 +270,7 @@ namespace ElectronicObserver.Window
 			c.HardwareAccelerationEnabled = config.HardwareAccelerationEnabled;
 			c.PreserveDrawingBuffer = config.PreserveDrawingBuffer;
 			c.ForceColorProfile = config.ForceColorProfile;
-            c.SavesBrowserLog = config.SavesBrowserLog;
+			c.SavesBrowserLog = config.SavesBrowserLog;
 
 			// volume
 			if (Utility.Configuration.Config.BGMPlayer.SyncBrowserMute)
@@ -331,6 +332,87 @@ namespace ElectronicObserver.Window
 				}
 			}
 
+		}
+
+
+		public async void ClearCache()
+		{
+			Utility.Logger.Add(2, "キャッシュの削除を開始するため、ブラウザを終了しています…");
+
+			try
+			{
+				if (!Browser?.Closed ?? false)
+				{
+					Browser.Proxy?.CloseBrowser();
+
+					await Browser.CloseAsync(this);
+
+					TerminateBrowserProcess();
+				}
+			}
+			catch (Exception) { }
+
+
+			await ClearCacheAsync().ContinueWith(task =>
+			{
+				Utility.Logger.Add(2, "キャッシュの削除処理が終了しました。ブラウザを再起動しています…");
+
+				_initializationStage = InitializationStageFlag.InitialAPILoaded;
+				try
+				{
+					LaunchBrowserProcess();
+				}
+				catch (Exception ex)
+				{
+					Utility.ErrorReporter.SendErrorReport(ex, "ブラウザの再起動に失敗しました。");
+					MessageBox.Show("ブラウザプロセスの再起動に失敗しました。\r\n申し訳ありませんが本ツールを一旦終了してください。", ":(", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				
+
+			}, TaskScheduler.FromCurrentSynchronizationContext());
+		}
+
+		private async Task ClearCacheAsync()
+		{
+			int trial;
+			Exception lastException = null;
+			var dir = new DirectoryInfo("BrowserCache");
+
+			for (trial = 0; trial < 4; trial++)
+			{
+				try
+				{
+					dir.Refresh();
+
+					if (dir.Exists)
+						dir.Delete(true);
+					else
+						break;
+
+					for (int i = 0; i < 10; i++)
+					{
+						dir.Refresh();
+						if (dir.Exists)
+						{
+							await Task.Delay(50);
+						}
+						else break;
+					}
+					if (!dir.Exists)
+					{
+						break;
+					}
+				}
+				catch (Exception ex)
+				{
+					lastException = ex;
+					await Task.Delay(500);
+				}
+			}
+			if (trial == 4)
+			{
+				Utility.ErrorReporter.SendErrorReport(lastException, "キャッシュの削除に失敗しました。");
+			}
 		}
 
 
@@ -474,6 +556,36 @@ namespace ElectronicObserver.Window
 				MoveWindow(BrowserWnd, 0, 0, this.Width, this.Height, true);
 			}
 		}
+
+		private void FormBrowserHost_Paint(object sender, PaintEventArgs e)
+		{
+			if (BrowserProcess?.HasExited ?? false)
+			{
+				var image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.ConditionVeryTired];
+				e.Graphics.DrawImage(image, new Rectangle(16, 16, 16, 16));
+
+				e.Graphics.DrawString("ブラウザが起動していません。\r\nクリックすると起動します。", Utility.Configuration.Config.UI.MainFont, Brushes.Black, new PointF(48, 16));
+			}
+		}
+
+
+		private void FormBrowserHost_Click(object sender, EventArgs e)
+		{
+			Refresh();
+
+			if (InitializationStage == InitializationStageFlag.Completed && (BrowserProcess?.HasExited ?? false))
+			{
+				if (!Browser?.Closed ?? false)
+				{
+					Browser.Close();
+				}
+
+				InitializationStage = InitializationStageFlag.InitialAPILoaded;
+				LaunchBrowserProcess();
+			}
+		}
+
+
 
 		/// <summary>
 		/// ハートビート用

@@ -222,8 +222,12 @@ namespace ElectronicObserver.Window
 						if (corps.ActionKind == 2)
 						{
 							int airSuperiorityHighAltitude = Calculator.GetAirSuperiority(corps, isHighAltitude: true);
+							int airSuperiorityHighAltitudeMax = Calculator.GetAirSuperiority(corps, isAircraftLevelMaximum: true, isHighAltitude: true);
+
 							tip.AppendFormat("\r\n対高高度爆撃：制空 {0}\r\n確保: {1}\r\n優勢: {2}\r\n均衡: {3}\r\n劣勢: {4}\r\n",
-								airSuperiorityHighAltitude,
+								Utility.Configuration.Config.FormFleet.ShowAirSuperiorityRange && airSuperiorityHighAltitude != airSuperiorityHighAltitudeMax ? 
+									$"{airSuperiorityHighAltitude} ～ {airSuperiorityHighAltitudeMax}" : 
+									airSuperiorityHighAltitude.ToString(),
 								(int)(airSuperiorityHighAltitude / 3.0),
 								(int)(airSuperiorityHighAltitude / 1.5),
 								Math.Max((int)(airSuperiorityHighAltitude * 1.5 - 1), 0),

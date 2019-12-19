@@ -482,6 +482,111 @@ namespace ElectronicObserver.Resource.Record
 
 				return sb.ToString();
 			}
+
+
+
+
+			/// <summary>
+			/// このデータに不足している情報があった場合、other のデータで補完します。
+			/// </summary>
+			public bool Merge(ShipParameterElement other)
+			{
+				if (ShipID != other.ShipID)
+					throw new ArgumentException("ShipID が異なるデータはマージできません");
+
+				bool isChanged = false;
+
+				void TryToUpdate(Func<ShipParameterElement, int> getter, Action<ShipParameterElement, int> setter)
+				{
+					if (getter(this) == 0 && getter(other) != 0)
+					{
+						setter(this, getter(other));
+						isChanged = true;
+					}
+				}
+
+				TryToUpdate(e => e.HPMin, (e, i) => e.HPMin = i);
+				TryToUpdate(e => e.HPMax, (e, i) => e.HPMax = i);
+				TryToUpdate(e => e.FirepowerMin, (e, i) => e.FirepowerMin = i);
+				TryToUpdate(e => e.FirepowerMax, (e, i) => e.FirepowerMax = i);
+				TryToUpdate(e => e.TorpedoMin, (e, i) => e.TorpedoMin = i);
+				TryToUpdate(e => e.TorpedoMax, (e, i) => e.TorpedoMax = i);
+				TryToUpdate(e => e.AAMin, (e, i) => e.AAMin = i);
+				TryToUpdate(e => e.AAMax, (e, i) => e.AAMax = i);
+				TryToUpdate(e => e.ArmorMin, (e, i) => e.ArmorMin = i);
+				TryToUpdate(e => e.ArmorMax, (e, i) => e.ArmorMax = i);
+
+				void TryToUpdateParameter(Func<ShipParameterElement, Parameter> getter)
+				{
+					var from = getter(other);
+					var to = getter(this);
+
+					if (!from.IsMinimumDefault)
+					{
+						if (to.MinimumEstMin < from.MinimumEstMin)
+						{
+							to.MinimumEstMin = from.MinimumEstMin;
+							isChanged = true;
+						}
+						if (to.MinimumEstMax > from.MinimumEstMax)
+						{
+							to.MinimumEstMax = from.MinimumEstMax;
+							isChanged = true;
+						}
+					}
+					if (!from.IsMaximumDefault && from.Maximum != to.Maximum)
+					{
+						to.Maximum = from.Maximum;
+						isChanged = true;
+					}
+				}
+
+				TryToUpdateParameter(e => e.ASW);
+				TryToUpdateParameter(e => e.Evasion);
+				TryToUpdateParameter(e => e.LOS);
+
+
+				TryToUpdate(e => e.LuckMin, (e, i) => e.LuckMin = i);
+				TryToUpdate(e => e.LuckMax, (e, i) => e.LuckMax = i);
+				TryToUpdate(e => e.Range, (e, i) => e.Range = i);
+
+
+				if (DefaultSlot == null && other.DefaultSlot != null)
+				{
+					DefaultSlot = other.DefaultSlot.ToArray();
+					isChanged = true;
+				}
+				if (Aircraft == null && other.Aircraft != null)
+				{
+					Aircraft = other.Aircraft.ToArray();
+					isChanged = true;
+				}
+
+				void TryToUpdateString(Func<ShipParameterElement, string> getter, Action<ShipParameterElement, string> setter)
+				{
+					if (string.IsNullOrEmpty(getter(this)) && !string.IsNullOrEmpty(getter(other)))
+					{
+						setter(this, getter(other));
+						isChanged = true;
+					}
+				}
+
+				TryToUpdateString(e => e.MessageAlbum, (e, s) => e.MessageAlbum = s);
+				TryToUpdateString(e => e.MessageGet, (e, s) => e.MessageGet = s);
+				TryToUpdateString(e => e.ResourceName, (e, s) => e.ResourceName = s);
+				TryToUpdateString(e => e.ResourceGraphicVersion, (e, s) => e.ResourceGraphicVersion = s);
+				TryToUpdateString(e => e.ResourceVoiceVersion, (e, s) => e.ResourceVoiceVersion = s);
+				TryToUpdateString(e => e.ResourcePortVoiceVersion, (e, s) => e.ResourcePortVoiceVersion = s);
+
+
+				if (OriginalCostumeShipID == -1 && other.OriginalCostumeShipID != -1)
+				{
+					OriginalCostumeShipID = other.OriginalCostumeShipID;
+					isChanged = true;
+				}
+
+				return isChanged;
+			}
 		}
 
 
@@ -1217,6 +1322,29 @@ namespace ElectronicObserver.Resource.Record
 
 
 		#endregion
+
+
+		public bool Merge(string line)
+		{
+			try
+			{
+				var elem = new ShipParameterElement(line);
+
+				if (!Record.ContainsKey(elem.ShipID))
+				{
+					Record.Add(elem.ShipID, elem);
+					return true;
+				}
+				else
+				{
+					return Record[elem.ShipID].Merge(elem);
+				}
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
 
 
 

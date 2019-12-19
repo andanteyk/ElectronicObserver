@@ -1086,9 +1086,6 @@ namespace ElectronicObserver.Window
 		/// <summary>
 		/// 夜戦における各種表示を設定します。
 		/// </summary>
-		/// <param name="hp">戦闘開始前のHP。</param>
-		/// <param name="isCombined">連合艦隊かどうか。</param>
-		/// <param name="bd">戦闘データ。</param>
 		private void SetNightBattleEvent(PhaseNightInitial pd)
 		{
 

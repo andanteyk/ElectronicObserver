@@ -28,22 +28,24 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.SuspendLayout();
-			// 
-			// FormBrowserHost
-			// 
-			this.AutoHidePortion = 150D;
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(300, 200);
-			this.DoubleBuffered = true;
-			this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.HideOnClose = true;
-			this.Name = "FormBrowserHost";
-			this.Text = "ブラウザ";
-			this.Load += new System.EventHandler(this.FormBrowser_Load);
-			this.Resize += new System.EventHandler(this.FormBrowserHost_Resize);
-			this.ResumeLayout(false);
+            this.SuspendLayout();
+            // 
+            // FormBrowserHost
+            // 
+            this.AutoHidePortion = 150D;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(300, 200);
+            this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.HideOnClose = true;
+            this.Name = "FormBrowserHost";
+            this.Text = "ブラウザ";
+            this.Load += new System.EventHandler(this.FormBrowser_Load);
+            this.Click += new System.EventHandler(this.FormBrowserHost_Click);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormBrowserHost_Paint);
+            this.Resize += new System.EventHandler(this.FormBrowserHost_Resize);
+            this.ResumeLayout(false);
 
 		}
 

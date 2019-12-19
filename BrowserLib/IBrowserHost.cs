@@ -63,6 +63,9 @@ namespace BrowserLib
 
 		[OperationContract]
 		void SetProxyCompleted();
+
+		[OperationContract]
+		void ClearCache();
 	}
 
 	/// <summary>
