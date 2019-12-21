@@ -1339,9 +1339,9 @@ namespace ElectronicObserver.Utility
 					NotifiesTired = false;
 					NotifiesNotOrganized = false;
 
-					NotifiesStandby = true;
-					NotifiesRetreat = false;
-					NotifiesRest = false;
+					NotifiesStandby = false;
+					NotifiesRetreat = true;
+					NotifiesRest = true;
 
 					NotifiesNormalMap = false;
 					NotifiesEventMap = true;

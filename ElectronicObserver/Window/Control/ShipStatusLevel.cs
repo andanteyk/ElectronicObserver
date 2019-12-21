@@ -300,6 +300,10 @@ namespace ElectronicObserver.Window.Control
 			Refresh();
 		}
 
+		private void ShipStatusLevel_DoubleClick(object sender, EventArgs e)
+		{
+			Clipboard.SetText($"{_text} {_value} {_textNext} {_valueNext}");
+		}
 	}
 
 }

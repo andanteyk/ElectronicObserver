@@ -72,6 +72,7 @@ namespace ElectronicObserver.Notifier
 		// supress when sortieing
 
 		private bool _isAlreadyNotified = false;
+		private bool _isInSortie = false;
 		private HashSet<int> _notifiedEquipments = new HashSet<int>();
 
 
@@ -111,11 +112,14 @@ namespace ElectronicObserver.Notifier
 			o["api_port/port"].ResponseReceived += Port;
 			o["api_get_member/mapinfo"].ResponseReceived += BeforeSortie;
 			o["api_get_member/sortie_conditions"].ResponseReceived += BeforeSortieEventMap;
+			o["api_req_map/start"].RequestReceived += Sally;
 		}
+
 
 		private void Port(string apiname, dynamic data)
 		{
 			_isAlreadyNotified = false;
+			_isInSortie = false;
 			_notifiedEquipments.Clear();
 		}
 
@@ -144,30 +148,24 @@ namespace ElectronicObserver.Notifier
 		}
 
 
-		private bool CheckBaseAirCorps (IEnumerable<BaseAirCorpsData> corpslist) 
+		private bool CheckBaseAirCorps(IEnumerable<BaseAirCorpsData> corpslist)
 		{
 			var db = KCDatabase.Instance;
 			var sb = new StringBuilder();
 			var messages = new LinkedList<string>();
 
-			foreach (var corps in corpslist )
+			foreach (var corps in corpslist)
 			{
-				foreach (var sq in corps.Squadrons.Values)
+				if (NotifiesNotSupplied && corps.Squadrons.Values.Any(sq => sq.State == 1 && sq.AircraftCurrent < sq.AircraftMax))
+					messages.AddLast("未補給");
+				if (NotifiesTired && corps.Squadrons.Values.Any(sq => sq.State == 1 && sq.Condition > 1))
+					messages.AddLast("疲労");
+				if (NotifiesNotOrganized)
 				{
-					if (sq.State == 1)
-					{
-						if (NotifiesNotSupplied && sq.AircraftCurrent < sq.AircraftMax)
-							messages.AddLast("未補給 #" + sq.SquadronID);
-						if (NotifiesTired && sq.Condition > 1)
-							messages.AddLast("疲労 #" + sq.SquadronID);
-					}
-					else if (NotifiesNotOrganized)
-					{
-						if (sq.State == 0)
-							messages.AddLast("未編成 #" + sq.SquadronID);
-						else if (sq.State == 2)
-							messages.AddLast("配置転換中 #" + sq.SquadronID);
-					}
+					if (corps.Squadrons.Values.Any(sq => sq.State == 0))
+						messages.AddLast("未編成");
+					if (corps.Squadrons.Values.Any(sq => sq.State == 2))
+						messages.AddLast("配置転換中");
 				}
 
 				if (NotifiesStandby && corps.ActionKind == 0)
@@ -195,6 +193,10 @@ namespace ElectronicObserver.Notifier
 			return false;
 		}
 
+		private void Sally(string apiname, dynamic data)
+		{
+			_isInSortie = true;
+		}
 
 
 		protected override void UpdateTimerTick()
@@ -202,6 +204,9 @@ namespace ElectronicObserver.Notifier
 			var db = KCDatabase.Instance;
 
 			if (!db.RelocatedEquipments.Any())
+				return;
+
+			if (_isInSortie)
 				return;
 
 			if (NotifiesSquadronRelocation)
@@ -217,7 +222,7 @@ namespace ElectronicObserver.Notifier
 					if (targetSquadrons.Any())
 					{
 						sb = sb?.Append(", ") ?? new StringBuilder();
-						
+
 						sb.Append(string.Join(", ", targetSquadrons.Select(sq =>
 							$"#{corps.MapAreaID} {corps.Name} 第{sq.SquadronID}中隊 ({sq.EquipmentInstance.NameWithLevel})")));
 
@@ -249,8 +254,9 @@ namespace ElectronicObserver.Notifier
 
 		}
 
-		public void Notify(string message)
+		private void Notify(string message)
 		{
+			DialogData.Title = "基地航空隊報告";
 			DialogData.Message = message;
 
 			base.Notify();
@@ -271,10 +277,10 @@ namespace ElectronicObserver.Notifier
 				c.NotifiesStandby = NotifiesStandby;
 				c.NotifiesRetreat = NotifiesRetreat;
 				c.NotifiesRest = NotifiesRest;
-				
+
 				c.NotifiesNormalMap = NotifiesNormalMap;
 				c.NotifiesEventMap = NotifiesEventMap;
-				
+
 				c.NotifiesSquadronRelocation = NotifiesSquadronRelocation;
 				c.NotifiesEquipmentRelocation = NotifiesEquipmentRelocation;
 			}
