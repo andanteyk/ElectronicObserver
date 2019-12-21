@@ -772,6 +772,8 @@ namespace ElectronicObserver.Data
 					return "一斉射かッ…胸が熱いな！";
 				case DayAttackKind.SpecialMutsu:
 					return "長門、いい？ いくわよ！ 主砲一斉射ッ！";
+				case DayAttackKind.SpecialColorado:
+					return "Colorado Touch";
 				case DayAttackKind.ZuiunMultiAngle:
 					return "瑞雲立体攻撃";
 				case DayAttackKind.SeaAirMultiAngle:
@@ -833,6 +835,8 @@ namespace ElectronicObserver.Data
 					return "一斉射かッ…胸が熱いな！";
 				case NightAttackKind.SpecialMutsu:
 					return "長門、いい？ いくわよ！ 主砲一斉射ッ！";
+				case NightAttackKind.SpecialColorado:
+					return "Colorado Touch";
 				case NightAttackKind.Shelling:
 					return "砲撃";
 				case NightAttackKind.AirAttack:
@@ -938,6 +942,12 @@ namespace ElectronicObserver.Data
 					return "Fletcher砲改x2/GFCS<Johnston>";
 				case 37:
 					return "Fletcher砲改x2<Johnston>";
+				case 39:
+					return "Atlanta砲+GFCS/Atlanta砲<Atlanta>";
+				case 40:
+					return "Atlanta砲x2/GFCS<Atlanta>";
+				case 41:
+					return "Atlanta砲x2<Atlanta>";
 				default:
 					return "不明(" + id + ")";
 			}

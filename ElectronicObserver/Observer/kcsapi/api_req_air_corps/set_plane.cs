@@ -32,6 +32,12 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_air_corps
 			if (corps.ContainsKey(_aircorpsID))
 				corps[_aircorpsID].LoadFromResponse(APIName, data);
 
+			if (data.api_after_bauxite())
+			{
+				var db = KCDatabase.Instance;
+				int consumed = db.Material.Bauxite - (int)data.api_after_bauxite;
+				Utility.Logger.Add(1, $"基地航空隊の編成により、ボーキ {consumed} が消費されました。");
+			}
 
 			KCDatabase.Instance.Material.LoadFromResponse(APIName, data);
 

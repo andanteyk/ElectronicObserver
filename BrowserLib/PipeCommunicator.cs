@@ -81,6 +81,24 @@ namespace BrowserLib
 		}
 
 		/// <summary>
+		/// 閉じる(非同期)
+		/// </summary>
+		public async Task CloseAsync(object instance)
+		{
+			if (!Closed)
+			{
+				if (Proxy != null)
+				{
+					((IClientChannel)Proxy).Abort();
+					Proxy = null;
+				}
+				await Task.Factory.FromAsync(Server.BeginClose(_ => { }, instance), _ => { });
+				
+				Closed = true;
+			}
+		}
+
+		/// <summary>
 		/// 非同期でactionを実行。例外が発生したらFaultイベントが発生するので、例外が出ることはない
 		/// </summary>
 		public async void AsyncRemoteRun(Action action)

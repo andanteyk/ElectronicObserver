@@ -386,6 +386,18 @@ namespace ElectronicObserver.Window
 				FleetEnemy.ForeColor = Color.Red;
 			else
 				FleetEnemy.ForeColor = SystemColors.ControlText;
+
+			if (bm.IsEnemyCombined && bm.StartsFromDayBattle)
+			{
+				bool willMain = bm.WillNightBattleWithMainFleet();
+				FleetEnemy.BackColor = willMain ? Color.LightSteelBlue : SystemColors.Control;
+				FleetEnemyEscort.BackColor = willMain ? SystemColors.Control : Color.LightSteelBlue;
+			}
+			else
+			{
+				FleetEnemy.BackColor =
+				FleetEnemyEscort.BackColor = SystemColors.Control;
+			}
 		}
 
 		/// <summary>
@@ -1074,9 +1086,6 @@ namespace ElectronicObserver.Window
 		/// <summary>
 		/// 夜戦における各種表示を設定します。
 		/// </summary>
-		/// <param name="hp">戦闘開始前のHP。</param>
-		/// <param name="isCombined">連合艦隊かどうか。</param>
-		/// <param name="bd">戦闘データ。</param>
 		private void SetNightBattleEvent(PhaseNightInitial pd)
 		{
 

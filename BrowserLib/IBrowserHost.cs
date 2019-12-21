@@ -63,6 +63,9 @@ namespace BrowserLib
 
 		[OperationContract]
 		void SetProxyCompleted();
+
+		[OperationContract]
+		void ClearCache();
 	}
 
 	/// <summary>
@@ -199,5 +202,10 @@ namespace BrowserLib
         [DataMember]
         public bool SavesBrowserLog { get; set; }
 
+		/// <summary>
+		/// デバッグメニューを有効にするか
+		/// </summary>
+		[DataMember]
+		public bool EnableDebugMenu { get; set; }
 	}
 }

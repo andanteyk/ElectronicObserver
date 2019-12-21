@@ -1273,6 +1273,84 @@ namespace ElectronicObserver.Utility
 				}
 			}
 
+			/// <summary>
+			/// [基地航空隊通知]の設定を扱います。
+			/// </summary>
+			public class ConfigNotifierBaseAirCorps : ConfigNotifierBase
+			{
+				/// <summary>
+				/// 未補給時に通知する
+				/// </summary>
+				public bool NotifiesNotSupplied { get; set; }
+
+				/// <summary>
+				/// 疲労時に通知する
+				/// </summary>
+				public bool NotifiesTired { get; set; }
+
+				/// <summary>
+				/// 編成されていないときに通知する
+				/// </summary>
+				public bool NotifiesNotOrganized { get; set; }
+
+
+				/// <summary>
+				/// 待機のとき通知する
+				/// </summary>
+				public bool NotifiesStandby { get; set; }
+
+				/// <summary>
+				/// 退避の時通知する
+				/// </summary>
+				public bool NotifiesRetreat { get; set; }
+
+				/// <summary>
+				/// 休息の時通知する
+				/// </summary>
+				public bool NotifiesRest { get; set; }
+
+
+				/// <summary>
+				/// 通常海域で通知する
+				/// </summary>
+				public bool NotifiesNormalMap { get; set; }
+
+				/// <summary>
+				/// イベント海域で通知する
+				/// </summary>
+				public bool NotifiesEventMap { get; set; }
+
+
+				/// <summary>
+				/// 基地枠の配置転換完了時に通知する
+				/// </summary>
+				public bool NotifiesSquadronRelocation { get; set; }
+
+				/// <summary>
+				/// 装備の配置転換完了時に通知する
+				/// </summary>
+				public bool NotifiesEquipmentRelocation { get; set; }
+
+
+				public ConfigNotifierBaseAirCorps ()
+					: base()
+				{
+					NotifiesNotSupplied = true;
+					NotifiesTired = false;
+					NotifiesNotOrganized = false;
+
+					NotifiesStandby = false;
+					NotifiesRetreat = true;
+					NotifiesRest = true;
+
+					NotifiesNormalMap = false;
+					NotifiesEventMap = true;
+
+					NotifiesSquadronRelocation = true;
+					NotifiesEquipmentRelocation = false;
+				}
+			}
+
 
 			/// <summary>[遠征帰投通知]</summary>
 			[DataMember]
@@ -1298,6 +1376,9 @@ namespace ElectronicObserver.Utility
 			[DataMember]
 			public ConfigNotifierAnchorageRepair NotifierAnchorageRepair { get; private set; }
 
+			/// <summary>[基地航空隊通知]</summary>
+			[DataMember]
+			public ConfigNotifierBaseAirCorps NotifierBaseAirCorps { get; private set; }
 
 
 			/// <summary>
@@ -1436,6 +1517,7 @@ namespace ElectronicObserver.Utility
 				NotifierCondition = new ConfigNotifierBase();
 				NotifierDamage = new ConfigNotifierDamage();
 				NotifierAnchorageRepair = new ConfigNotifierAnchorageRepair();
+				NotifierBaseAirCorps = new ConfigNotifierBaseAirCorps();
 
 				BGMPlayer = new ConfigBGMPlayer();
 				FleetImageGenerator = new ConfigFleetImageGenerator();

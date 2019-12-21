@@ -145,6 +145,17 @@ namespace ElectronicObserver.Data.Battle.Phase
 						}
 						break;
 
+					case 103:
+						// colorado touch
+						for (int i = 0; i < atk.Defenders.Count; i++)
+						{
+							var comboatk = new BattleIndex(atk.Attacker.Side, i);       // #1, #2, #3
+							BattleDetails.Add(new BattleDayDetail(Battle, comboatk, atk.Defenders[i].Defender, new[] { atk.Defenders[i].RawDamage }, new[] { atk.Defenders[i].CriticalFlag }, atk.AttackType, atk.EquipmentIDs, hps[atk.Defenders[i].Defender]));
+							AddDamage(hps, atk.Defenders[i].Defender, atk.Defenders[i].Damage);
+							damages[comboatk] += atk.Defenders[i].Damage;
+						}
+						break;
+
 					default:
 						foreach (var defs in atk.Defenders.GroupBy(d => d.Defender))
 						{

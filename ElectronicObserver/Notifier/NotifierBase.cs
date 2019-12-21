@@ -121,7 +121,7 @@ namespace ElectronicObserver.Notifier
 
 			Initialize();
 			DialogData = new NotifierDialogData(config);
-			if (config.PlaysSound && config.SoundPath != null && config.SoundPath != "")
+			if (config.PlaysSound && !string.IsNullOrEmpty(config.SoundPath))
 				LoadSound(config.SoundPath);
 
 			IsEnabled = config.IsEnabled;

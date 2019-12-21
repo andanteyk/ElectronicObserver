@@ -98,6 +98,29 @@ namespace ElectronicObserver.Window.Dialog
 				GroupAnchorageRepair.Enabled = false;
 			}
 
+			var nbac = notifier as NotifierBaseAirCorps;
+			if(nbac != null)
+			{
+				BaseAirCorps_NotSupplied.Checked = nbac.NotifiesNotSupplied;
+				BaseAirCorps_Tired.Checked = nbac.NotifiesTired;
+				BaseAirCorps_NotOrganized.Checked = nbac.NotifiesNotOrganized;
+
+				BaseAirCorps_Standby.Checked = nbac.NotifiesStandby;
+				BaseAirCorps_Retreat.Checked = nbac.NotifiesRetreat;
+				BaseAirCorps_Rest.Checked = nbac.NotifiesRest;
+
+				BaseAirCorps_NormalMap.Checked = nbac.NotifiesNormalMap;
+				BaseAirCorps_EventMap.Checked = nbac.NotifiesEventMap;
+
+				BaseAirCorps_SquadronRelocation.Checked = nbac.NotifiesSquadronRelocation;
+				BaseAirCorps_EquipmentRelocation.Checked = nbac.NotifiesEquipmentRelocation;
+			}
+			else
+			{
+				GroupBaseAirCorps.Visible = false;
+				GroupBaseAirCorps.Enabled = false;
+			}
+
 
 			DialogOpenSound.Filter = "音楽ファイル|" + string.Join(";", Utility.MediaPlayer.SupportedExtensions.Select(s => "*." + s)) + "|File|*";
 
@@ -334,6 +357,21 @@ namespace ElectronicObserver.Window.Dialog
 			if (nanc != null)
 			{
 				nanc.NotificationLevel = AnchorageRepairNotificationLevel.SelectedIndex;
+			}
+
+			var nbac = _notifier as NotifierBaseAirCorps;
+			if(nbac != null)
+			{
+				nbac.NotifiesNotSupplied = BaseAirCorps_NotSupplied.Checked;
+				nbac.NotifiesTired = BaseAirCorps_Tired.Checked;
+				nbac.NotifiesNotOrganized = BaseAirCorps_NotOrganized.Checked;
+				nbac.NotifiesStandby = BaseAirCorps_Standby.Checked;
+				nbac.NotifiesRetreat = BaseAirCorps_Retreat.Checked;
+				nbac.NotifiesRest = BaseAirCorps_Rest.Checked;
+				nbac.NotifiesNormalMap = BaseAirCorps_NormalMap.Checked;
+				nbac.NotifiesEventMap = BaseAirCorps_EventMap.Checked;
+				nbac.NotifiesSquadronRelocation = BaseAirCorps_SquadronRelocation.Checked;
+				nbac.NotifiesEquipmentRelocation = BaseAirCorps_EquipmentRelocation.Checked;
 			}
 
 			return true;
