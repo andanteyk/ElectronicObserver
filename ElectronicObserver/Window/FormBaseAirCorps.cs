@@ -192,6 +192,12 @@ namespace ElectronicObserver.Window
 						Name.ImageIndex = -1;
 
 					}
+					
+					sb.AppendLine(string.Format("合計制空: 防空 {0} / 対高高度 {1}",
+						db.BaseAirCorps.Values.Where(c => c.MapAreaID == corps.MapAreaID && c.ActionKind == 2).Select(c => Calculator.GetAirSuperiority(c)).DefaultIfEmpty(0).Sum(),
+						db.BaseAirCorps.Values.Where(c => c.MapAreaID == corps.MapAreaID && c.ActionKind == 2).Select(c => Calculator.GetAirSuperiority(c, isHighAltitude: true)).DefaultIfEmpty(0).Sum()
+						));
+
 					ToolTipInfo.SetToolTip(Name, sb.ToString());
 
 

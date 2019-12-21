@@ -202,5 +202,10 @@ namespace BrowserLib
         [DataMember]
         public bool SavesBrowserLog { get; set; }
 
+		/// <summary>
+		/// デバッグメニューを有効にするか
+		/// </summary>
+		[DataMember]
+		public bool EnableDebugMenu { get; set; }
 	}
 }

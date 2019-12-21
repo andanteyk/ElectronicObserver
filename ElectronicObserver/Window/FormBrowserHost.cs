@@ -242,7 +242,7 @@ namespace ElectronicObserver.Window
 				config.PreserveDrawingBuffer = c.PreserveDrawingBuffer;
 				config.ForceColorProfile = c.ForceColorProfile;
 				config.SavesBrowserLog = c.SavesBrowserLog;
-
+				config.EnableDebugMenu = Utility.Configuration.Config.Debug.EnableDebugMenu;
 				return config;
 			}
 		}
@@ -271,6 +271,7 @@ namespace ElectronicObserver.Window
 			c.PreserveDrawingBuffer = config.PreserveDrawingBuffer;
 			c.ForceColorProfile = config.ForceColorProfile;
 			c.SavesBrowserLog = config.SavesBrowserLog;
+			//Utility.Configuration.Config.Debug.EnableDebugMenu = config.EnableDebugMenu;
 
 			// volume
 			if (Utility.Configuration.Config.BGMPlayer.SyncBrowserMute)
@@ -367,7 +368,7 @@ namespace ElectronicObserver.Window
 					Utility.ErrorReporter.SendErrorReport(ex, "ブラウザの再起動に失敗しました。");
 					MessageBox.Show("ブラウザプロセスの再起動に失敗しました。\r\n申し訳ありませんが本ツールを一旦終了してください。", ":(", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
-				
+
 
 			}, TaskScheduler.FromCurrentSynchronizationContext());
 		}

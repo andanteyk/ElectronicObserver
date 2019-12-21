@@ -289,7 +289,7 @@ namespace Browser
 			ToolMenu_Other_AppliesStyleSheet.Checked = Configuration.AppliesStyleSheet;
 			ToolMenu.Dock = (DockStyle)Configuration.ToolMenuDockStyle;
 			ToolMenu.Visible = Configuration.IsToolMenuVisible;
-
+			ToolMenu_Other_ClearCache.Visible = conf.EnableDebugMenu;
 		}
 
 		private void ConfigurationUpdated()

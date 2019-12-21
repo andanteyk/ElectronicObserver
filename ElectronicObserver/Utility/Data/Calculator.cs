@@ -1238,6 +1238,8 @@ namespace ElectronicObserver.Utility.Data
 			int highangle_america = 0;
 			int highangle_america_gfcs = 0;
 			int radar_gfcs = 0;
+			int highangle_atlanta = 0;
+			int highangle_atlanta_gfcs = 0;
 
 			var slotmaster = slot.Select(id => KCDatabase.Instance.MasterEquipments[id]).Where(eq => eq != null).ToArray();
 
@@ -1251,15 +1253,25 @@ namespace ElectronicObserver.Utility.Data
 					if (eq.IsHighAngleGunWithAADirector)
 						highangle_director++;
 
-					if (eq.EquipmentID == 275)   // 10cm連装高角砲改+増設機銃
-						highangle_musashi++;
-
-					if (eq.EquipmentID == 313)       // 5inch単装砲 Mk.30改
-						highangle_america++;
-
-					if (eq.EquipmentID == 308)       // 5inch単装砲 Mk.30改+GFCS Mk.37
-						highangle_america_gfcs++;
-
+					switch(eq.EquipmentID)
+					{
+						case 275:   // 10cm連装高角砲改+増設機銃
+							highangle_musashi++;
+							break;
+						case 313:   // 5inch単装砲 Mk.30改
+							highangle_america++;
+							break;
+						case 308:   // 5inch単装砲 Mk.30改+GFCS Mk.37
+							highangle_america_gfcs++;
+							break;
+						case 362:   // 5inch連装両用砲(集中配備)
+							highangle_atlanta++;
+							break;
+						case 363:   // GFCS Mk.37+5inch連装両用砲(集中配備)
+							highangle_atlanta_gfcs++;
+							break;
+					}
+					
 				}
 				else if (eq.CategoryType == EquipmentTypes.AADirector)
 				{
@@ -1475,6 +1487,17 @@ namespace ElectronicObserver.Utility.Data
 					}
 					break;
 
+				case 597:   // Atlanta
+				case 696:   // Atlanta改
+					if (highangle_atlanta_gfcs >= 1 && highangle_atlanta >= 1)
+						return 39;
+					if (highangle_atlanta_gfcs + highangle_atlanta >= 2)
+					{
+						if (radar_gfcs >= 1)
+							return 40;
+						return 41;
+					}
+					break;
 			}
 
 
@@ -1738,6 +1761,9 @@ namespace ElectronicObserver.Utility.Data
 			{ 35, 6 },
 			{ 36, 6 },
 			{ 37, 4 },
+			{ 39, 10 },
+			{ 40, 10 },
+			{ 41, 9 },
 		});
 
 
@@ -1781,6 +1807,9 @@ namespace ElectronicObserver.Utility.Data
 			{ 35, 1.55 },
 			{ 36, 1.55 },
 			{ 37, 1.45 },
+			{ 39, 1.7 },
+			{ 40, 1.7 },
+			{ 41, 1.65 },
 		});
 
 
@@ -2366,6 +2395,10 @@ namespace ElectronicObserver.Utility.Data
 		/// <summary> 長門、いい？ いくわよ！ 主砲一斉射ッ！ </summary>
 		SpecialMutsu = 102,
 
+		/// <summary> Colorado Touch </summary>
+		SpecialColorado = 103,
+
+
 		/// <summary> 瑞雲立体攻撃 </summary>
 		ZuiunMultiAngle = 200,
 
@@ -2452,6 +2485,9 @@ namespace ElectronicObserver.Utility.Data
 
 		/// <summary> 長門、いい？ いくわよ！ 主砲一斉射ッ！ </summary>
 		SpecialMutsu = 102,
+
+		/// <summary> Colorado Touch </summary>
+		SpecialColorado = 103,
 
 
 		/// <summary> 砲撃 </summary>

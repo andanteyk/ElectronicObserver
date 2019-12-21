@@ -932,10 +932,14 @@ phase/combat に API ごとの戦闘の流れが書いてある
 |31|高角砲x2|天龍改二|
 |32|20連装7inch UP Rocket Launchersx2 or (16inch Mk.I三連装砲改+FCR type284 or 20連装7inch UP Rocket Launchers)/QF 2ポンド8連装ポンポン砲|英国艦, 金剛型改二|
 |33|高角砲/機銃(非集中)|Gotland改|
-|34|5inch単装砲 Mk.30改+GFCS Mk.37x2|Johnston|
-|35|5inch単装砲 Mk.30改+GFCS Mk.37/5inch単装砲 Mk.30改|Johnston|
-|36|5inch単装砲 Mk.30改x2/GFCS Mk.37|Johnston|
-|37|5inch単装砲 Mk.30改x2|Johnston|
+|34|5inch単装砲 Mk.30改+GFCS Mk.37x2|Fletcher級|
+|35|5inch単装砲 Mk.30改+GFCS Mk.37/5inch単装砲 Mk.30改|Fletcher級|
+|36|5inch単装砲 Mk.30改x2/GFCS Mk.37|Fletcher級|
+|37|5inch単装砲 Mk.30改x2|Fletcher級|
+|38|???||
+|39|GFCS Mk.37+5inch連装両用砲(集中配備)/5inch連装両用砲(集中配備)|Atlanta|
+|40|(GFCS Mk.37+)5inch連装両用砲(集中配備)/5inch連装両用砲(集中配備)/GFCS Mk.37|Atlanta|
+|41|(GFCS Mk.37+)5inch連装両用砲(集中配備)/5inch連装両用砲(集中配備)|Atlanta|
 
 
 秋月型のみ対空電探でなくても可。  
