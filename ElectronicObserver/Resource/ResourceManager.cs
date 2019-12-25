@@ -620,7 +620,7 @@ namespace ElectronicObserver.Resource
 		/// <returns>コピーに成功すれば true 。それ以外は false 。</returns>
 		public static bool CopyFromArchive(string source, string destination, bool checkexist = true, bool convertEncoding = false)
 		{
-			return CopyFromArchive(AssetFilePath, source, destination, checkexist);
+			return CopyFromArchive(AssetFilePath, source, destination, checkexist, convertEncoding);
 		}
 
 

@@ -771,10 +771,11 @@ namespace ElectronicObserver.Data.Battle
 						{
 							score += 10;
 						}
-						else if (rate > 0)
+						else if (rate > 0.25)
 						{
 							score += 7;
 						}
+
 						if (i == 0 && rate > 0)
 						{
 							score += 10;
