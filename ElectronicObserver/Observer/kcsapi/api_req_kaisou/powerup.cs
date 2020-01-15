@@ -11,7 +11,6 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou
 	public class powerup : APIBase
 	{
 
-
 		public override void OnRequestReceived(Dictionary<string, string> data)
 		{
 
@@ -20,18 +19,20 @@ namespace ElectronicObserver.Observer.kcsapi.api_req_kaisou
 
 			db.Fleet.LoadFromRequest(APIName, data);
 
+			bool destroysEquipments = data.ContainsKey("api_slot_dest_flag") ? (data["api_slot_dest_flag"] != "0") : true;
 
 			foreach (string id in data["api_id_items"].Split(",".ToCharArray()))
 			{
-
 				int shipID = int.Parse(id);
 
-
 				ShipData ship = db.Ships[shipID];
-				for (int i = 0; i < ship.Slot.Count; i++)
+				if (destroysEquipments)
 				{
-					if (ship.Slot[i] != -1)
-						db.Equipments.Remove(ship.Slot[i]);
+					for (int i = 0; i < ship.Slot.Count; i++)
+					{
+						if (ship.Slot[i] != -1)
+							db.Equipments.Remove(ship.Slot[i]);
+					}
 				}
 
 				Utility.Logger.Add(2, ship.NameWithLevel + " を除籍しました。");

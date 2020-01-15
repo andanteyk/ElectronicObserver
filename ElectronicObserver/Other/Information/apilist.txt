@@ -1079,14 +1079,17 @@ api_get_member/picture_book	：装備図鑑　図鑑登録済みのもののみ�
 
 
 Request.api_req_kaisou/powerup	：近代化改修
-	api_id_items		：素材の艦船ID？
+	api_id_items		：素材の艦船IDリスト　,区切り
 	api_id				：対象艦船ID
+	api_slot_dest_flag	：装備を廃棄するか　0=しない　1=する
 
 api_req_kaisou/powerup			：近代化改修
-	api_powerup_flag	：改修成功/失敗
+	api_powerup_flag	：改修成功フラグ　0=失敗　1=成功
 	api_ship			：改修艦のデータ　port.api_shipに準じる
-	api_deck			：艦隊のデータ　port.api_deck_portに準じる
-
+	api_deck			：艦隊のデータ[保有艦隊数?]　port.api_deck_portに準じる
+	api_unset_list		：未装備の装備リスト[]　外した装備があるときのみ存在　更新されたカテゴリのみ
+		api_type3No			：装備カテゴリID
+		api_slot_list		：未装備の装備IDリスト[]
 
 Request.api_req_mission/result		：遠征帰投
 	api_deck_id				：対象の艦隊ID
@@ -3382,6 +3385,7 @@ Request.api_req_member/set_friendly_request		：友軍艦隊要請
 
 api_req_map/anchorage_repair	：緊急泊地修理
 	api_used_ship			：発動させた艦娘のID (固有IDではない; 450=秋津洲改 など)
+	api_repair_ships		：修理される艦娘の固有ID []
 	api_ship_data			：艦船データ　[出撃艦隊の艦船数]　api_port/port.api_ship に準じる　
 
 
