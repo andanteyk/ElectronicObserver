@@ -109,6 +109,8 @@ namespace ElectronicObserver.Data
 		/// </summary>
 		public bool IsInSortie { get; internal set; }
 
+		public bool IsInPractice { get; internal set; }
+
 
 
 
@@ -144,6 +146,7 @@ namespace ElectronicObserver.Data
 						Utility.Logger.Add(2, string.Format("#{0}「{1}」が帰投しました。", FleetID, Name));
 					}
 					IsInSortie = false;
+					IsInPractice = false;
 
 					break;
 

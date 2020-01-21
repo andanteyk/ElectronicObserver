@@ -193,6 +193,7 @@ namespace ElectronicObserver.Data
 					{
 						int fleetID = int.Parse(data["api_deck_id"]);
 						Fleets[fleetID].IsInSortie = true;
+						Fleets[fleetID].IsInPractice = true;
 					}
 					break;
 

@@ -61,7 +61,7 @@ namespace ElectronicObserver.Data
 			//周期任務削除
 			if (DateTimeHelper.IsCrossedDay(progress.LastUpdateTime, 5, 0, 0))
 			{
-				progress.Progresses.RemoveAll(p => (p.QuestType == 1 || p.QuestID == 211 /* 空母3 */ || p.QuestID == 212 /* 輸送5 */ || p.QuestID == 311 /* 演習勝利7 */ ));
+				progress.Progresses.RemoveAll(p => (p.QuestType == 1 || p.QuestID == 211 /* 空母3 */ || p.QuestID == 212 /* 輸送5 */ || p.QuestID == 311 /* 演習勝利7 */ || p.QuestID == 330 ||p.QuestID == 337));
 				Quests.RemoveAll(q => q.Type == 1 || q.QuestID == 211 /* 空母3 */ || q.QuestID == 212 /* 輸送5 */ || q.QuestID == 311 /* 演習勝利7 */  );
 			}
 			if (DateTimeHelper.IsCrossedWeek(progress.LastUpdateTime, DayOfWeek.Monday, 5, 0, 0))

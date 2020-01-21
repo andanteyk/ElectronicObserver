@@ -734,7 +734,17 @@ namespace ElectronicObserver.Data
 			RemodelBeforeShipID = 0;
 		}
 
+		public ShipDataMaster BaseShip()
+		{
+			ShipDataMaster ship = this;
 
+			while (ship.RemodelBeforeShip != null)
+			{
+				ship = ship.RemodelBeforeShip;
+			}
+
+			return ship;
+		}
 
 		public int ID => ShipID;
 

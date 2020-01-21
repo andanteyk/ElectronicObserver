@@ -386,6 +386,31 @@ namespace ElectronicObserver.Data.Quest
 							}));
 							break;
 
+						case 840:   //|840|【節分任務】令和二年節分作戦|1-4・2-1・2-2ボスA勝利各1|旗艦(軽母or軽巡)1/(駆逐or海防)3
+							Progresses.Add(new ProgressMultiBattle(q, new[]
+							{
+								new ProgressSpecialBattle(q, 1, "A", new[]{ 14 }, true),
+								new ProgressSpecialBattle(q, 1, "A", new[]{ 21 }, true),
+								new ProgressSpecialBattle(q, 1, "A", new[]{ 22 }, true),
+							}));
+							break;
+						case 841:   //|841|【節分任務】令和二年西方海域節分作戦|4-1・4-2・4-3ボスS勝利各1|旗艦(水母or重巡)1/駆逐2
+							Progresses.Add(new ProgressMultiBattle(q, new[]
+							{
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 41 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 42 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 43 }, true),
+							}));
+							break;
+						case 843:   //|843|【節分拡張任務】令和二年節分作戦、全力出撃！|5-4・5-5・6-4ボスS勝利各1|旗艦(戦艦or航空母)1/駆逐2
+							Progresses.Add(new ProgressMultiBattle(q, new[]
+							{
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 54 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 55 }, true),
+								new ProgressSpecialBattle(q, 1, "S", new[]{ 64 }, true),
+							}));
+							break;
+
 						case 303:   //|303|「演習」で練度向上！|演習3
 							Progresses.Add(new ProgressPractice(q, 3, false));
 							break;
@@ -397,6 +422,15 @@ namespace ElectronicObserver.Data.Quest
 							break;
 						case 311:   //|311|精鋭艦隊演習|演習勝利7|マンスリーだが1日で進捗リセット
 							Progresses.Add(new ProgressPractice(q, 7, true));
+							break;
+						case 329:   //|329|【節分任務】節分演習！|演習S勝利3|(駆逐or海防)2
+							Progresses.Add(new ProgressPractice(q, 3, "S"));
+							break;
+						case 330:   //|330|空母機動部隊、演習始め！|演習B勝利4|旗艦空母/空母1/駆逐2|クォータリーだが1日で進捗リセット
+							Progresses.Add(new ProgressPractice(q, 4, "B"));
+							break;
+						case 337:   //|337|「十八駆」演習！|演習S勝利3|霞/霰/陽炎/不知火|クォータリーだが1日で進捗リセット
+							Progresses.Add(new ProgressPractice(q, 3, "S"));
 							break;
 
 						case 402:   //|402|「遠征」を3回成功させよう！|遠征成功3
