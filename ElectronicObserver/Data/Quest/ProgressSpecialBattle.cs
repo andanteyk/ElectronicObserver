@@ -218,6 +218,31 @@ namespace ElectronicObserver.Data.Quest
 					isAccepted =
 						memberstype.Any(t => t == ShipTypes.LightAircraftCarrier || t == ShipTypes.AircraftCarrier || t == ShipTypes.ArmoredAircraftCarrier);
 					break;
+
+				//|840|【節分任務】令和二年節分作戦|1-4・2-1・2-2ボスA勝利各1|旗艦(軽母or軽巡)1/(駆逐or海防)3
+				case 840:
+					isAccepted = (memberstype[0] == ShipTypes.LightAircraftCarrier ||
+					              memberstype[0] == ShipTypes.LightCruiser) &&
+					             memberstype.Count(t => t == ShipTypes.Escort || t == ShipTypes.Destroyer) >= 3;
+					break;
+
+				//|841|【節分任務】令和二年西方海域節分作戦|4-1・4-2・4-3ボスS勝利各1|旗艦(水母or重巡級)1/駆逐2
+				case 841:
+					isAccepted = (memberstype[0] == ShipTypes.SeaplaneTender ||
+					              memberstype[0] == ShipTypes.HeavyCruiser ||
+					              memberstype[0] == ShipTypes.AviationCruiser) &&
+					             memberstype.Count(t => t == ShipTypes.Destroyer) >= 2;
+					break;
+
+				//|843|【節分拡張任務】令和二年節分作戦、全力出撃！|5-4・5-5・6-4ボスS勝利各1|旗艦(戦艦or航空母)1/駆逐2
+				case 843:
+					isAccepted = (memberstype[0] == ShipTypes.Battleship ||
+					              memberstype[0] == ShipTypes.AviationBattleship ||
+					              memberstype[0] == ShipTypes.Battlecruiser ||
+					              memberstype[0] == ShipTypes.AircraftCarrier ||
+					              memberstype[0] == ShipTypes.ArmoredAircraftCarrier) &&
+					             memberstype.Count(t => t == ShipTypes.Destroyer) >= 2;
+					break;
 			}
 
 			// 第二ゲージでも第一ボスに行ける場合があるので、個別対応が必要

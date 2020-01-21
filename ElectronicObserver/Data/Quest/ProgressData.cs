@@ -153,11 +153,34 @@ namespace ElectronicObserver.Data.Quest
 			switch (q.Progress)
 			{
 				case 1:     //50%
-					Progress = (int)Math.Max(Progress, Math.Ceiling((ProgressMax + SharedCounterShift) * 0.5) - SharedCounterShift);
+					switch (q.QuestID)
+					{
+						case 337: // rounds to 2/3
+							Progress = 1;
+							break;
+
+						default:
+							Progress = (int)Math.Max(Progress, Math.Ceiling((ProgressMax + SharedCounterShift) * 0.5) - SharedCounterShift);
+							break;
+					}
 					break;
 				case 2:     //80%
-					Progress = (int)Math.Max(Progress, Math.Ceiling((ProgressMax + SharedCounterShift) * 0.8) - SharedCounterShift);
+					switch (q.QuestID)
+					{
+						case 330: // rounds to 4/4
+							Progress = 3;
+							break;
+
+						case 337: // rounds to 3/3
+							Progress = 2;
+							break;
+
+						default:
+							Progress = (int)Math.Max(Progress, Math.Ceiling((ProgressMax + SharedCounterShift) * 0.8) - SharedCounterShift);
+							break;
+					}
 					break;
+
 			}
 
 		}
