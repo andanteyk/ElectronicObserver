@@ -214,6 +214,25 @@ namespace ElectronicObserver.Utility.Mathematics
 			return IsCrossed(GetJapanStandardTime(prev), border);
 		}
 
+		/// <summary>
+		/// 指定した日時をまたいでいるかを取得します。年単位で処理されます。
+		/// </summary>
+		/// <param name="prev">前回処理した時の（現地）日時。</param>
+		/// <param name="monthes">指定した日時の月。</param>
+		/// <param name="days">指定した日時の日。</param>
+		/// <param name="hours">指定した日時の時間。</param>
+		/// <param name="minutes">指定した日時の分。</param>
+		/// <param name="seconds">指定した日時の秒。</param>
+		public static bool IsCrossedYear(DateTime prev, int monthes, int days, int hours, int minutes, int seconds)
+		{
+			DateTime now = GetJapanStandardTimeNow();
+			DateTime border = new DateTime(now.Year, monthes, days, hours, minutes, seconds);
+			if (now < border)
+				border = border.AddYears(-1);
+
+			return IsCrossed(GetJapanStandardTime(prev), border);
+		}
+
 
 
 		/// <summary>

@@ -862,17 +862,15 @@ api_get_member/record	：戦績表示
 
 Request.api_get_member/questlist	：任務
 	api_tab_id		：開いたタブの種別　0=全て, 1=デイリー, 2=ウィークリー, 3=マンスリー, 4=単発, 5=他, 9=遂行中
-	api_page_no		：開いたページ　1から始まる
 
 api_get_member/questlist	：任務
 	api_count				：任務数
 	api_completed_kind		：大淀のボイスフラグ 0=通常, 1=任務達成時
-	api_page_count			：ページ数
-	api_disp_page			：現在表示しているページ
-	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂時, ページ遷移時はnull
+	api_list				：任務一覧　存在しないエリアはオブジェクトではなく-1になる; 任務完遂等、0件の時は null
 		api_no				：任務ID
-		api_category		：任務カテゴリ　1=編成, 2=出撃, 3=演習, 4=遠征, 5=補給/入渠, 6=工廠, 7=改装, 8=出撃(2), 9=その他?
-		api_type			：任務出現タイプ　1=デイリー, 2=ウィークリー, 3=マンスリー, 4=単発, 5=他(輸送5と空母3,クォータリー)
+		api_category		：任務カテゴリ　1=編成, 2=出撃, 3=演習, 4=遠征, 5=補給/入渠, 6=工廠, 7=改装, 8=出撃(2), 9=出撃(3)
+		api_type			：任務出現タイプ　1=デイリー, 2=ウィークリー, 3=マンスリー, 4=単発, 5=他(輸送5と空母3,クォータリー/イヤーリー)
+		api_label_type		：周期アイコン種別　1=単発, 2=デイリー, 3=ウィークリー, 6=マンスリー, 7=他(輸送5と空母3,クォータリー), 102=イヤーリー(2月), 103=イヤーリー(3月)
 		api_state			：状態　1=未受領, 2=遂行中, 3=達成
 		api_title			：タイトル
 		api_detail			：説明 "<br>"で改行
@@ -883,7 +881,7 @@ api_get_member/questlist	：任務
 			api_mst_id		：ID?
 			api_count		：個数
 		api_voice_id		：達成時に再生されるボイスのID　再生されるもののみ存在　URLは sound/kc9999/<api_voice_id>.mp3　任務ID + 1000?
-		api_get_material	：獲得資材
+		api_get_material	：達成時の獲得資源 [4]
 		api_bonus_flag		：1=通常, 2=艦娘
 		api_progress_flag	：進捗　0=空白(達成含む), 1=50%以上達成, 2=80%以上達成
 		api_invalid_flag	：機種転換不能フラグ　0=可能, 1=不可能(装備がロックされている)
@@ -1043,6 +1041,14 @@ api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ�
 			89=Gotland級
 			90=日進型
 			91=Fletcher級
+			92=L.d.S.D.d.Abruzzi級
+			93=Colorado級
+			94=御蔵型
+			95=Northampton級
+			96=Perth級
+			97=陸軍特種船(R1)
+			98=De Ruyter級
+			99=Atlanta級
 		api_cnum			：艦番
 		api_taik			：耐久
 		api_souk			：装甲
