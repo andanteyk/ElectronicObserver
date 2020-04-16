@@ -276,7 +276,7 @@ namespace ElectronicObserver.Window
 				row.Height = 21;
 
 				row.Cells[QuestView_State.Index].Value = (q.State == 3) ? ((bool?)null) : (q.State == 2);
-				row.Cells[QuestView_Type.Index].Value = q.Type;
+				row.Cells[QuestView_Type.Index].Value = q.LabelType >= 100 ? q.LabelType : q.Type;
 				row.Cells[QuestView_Category.Index].Value = q.Category;
 				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min(q.Category - 1, CSCategories.Length - 1)];
 				row.Cells[QuestView_Name.Index].Value = q.QuestID;
