@@ -90,7 +90,7 @@ namespace Browser
 		/// </summary>
 		private bool IsKanColleLoaded { get; set; }
 
-		private VolumeManager _volumeManager;
+		private VolumeManager _volumeManager = null;
 
 		private string _lastScreenShotPath;
 
@@ -116,7 +116,6 @@ namespace Browser
 
 			ServerUri = serverUri;
 			StyleSheetApplied = false;
-			_volumeManager = new VolumeManager((uint)Process.GetCurrentProcess().Id);
 
 
 			// 音量設定用コントロールの追加
@@ -237,7 +236,7 @@ namespace Browser
 			Cef.Initialize(settings, false, (IBrowserProcessHandler)null);
 
 
-			var requestHandler = new RequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer);
+			var requestHandler = new CustomRequestHandler(pixiSettingEnabled: Configuration.PreserveDrawingBuffer);
 			requestHandler.RenderProcessTerminated += (mes) => AddLog(3, mes);
 
 			Browser = new ChromiumWebBrowser(@"about:blank")
@@ -493,7 +492,7 @@ namespace Browser
 		// その場合ロードに失敗してブラウザが白画面でスタートしてしまう（手動でログインページを開けば続行は可能だが）
 		// 応急処置として失敗したとき後で再試行するようにしてみる
 		private string navigateCache = null;
-		private void Browser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+		private void Browser_IsBrowserInitializedChanged(object sender, EventArgs e)
 		{
 			if (IsBrowserInitialized && navigateCache != null)
 			{
@@ -839,6 +838,11 @@ namespace Browser
 		}
 
 
+		private void TryGetVolumeManager()
+		{
+			_volumeManager = VolumeManager.CreateInstanceByProcessName("CefSharp.BrowserSubprocess");
+		}
+
 		private void SetVolumeState()
 		{
 
@@ -847,6 +851,11 @@ namespace Browser
 
 			try
 			{
+				if (_volumeManager == null)
+				{
+					TryGetVolumeManager();
+				}
+
 				mute = _volumeManager.IsMute;
 				volume = _volumeManager.Volume * 100;
 
@@ -854,6 +863,7 @@ namespace Browser
 			catch (Exception)
 			{
 				// 音量データ取得不能時
+				_volumeManager = null;
 				mute = false;
 				volume = 100;
 			}
@@ -954,6 +964,11 @@ namespace Browser
 
 		private void ToolMenu_Other_Mute_Click(object sender, EventArgs e)
 		{
+			if (_volumeManager == null)
+			{
+				TryGetVolumeManager();
+			}
+
 			try
 			{
 				_volumeManager.ToggleMute();
@@ -971,6 +986,11 @@ namespace Browser
 		{
 
 			var control = ToolMenu_Other_Volume_VolumeControl;
+
+			if (_volumeManager == null)
+			{
+				TryGetVolumeManager();
+			}
 
 			try
 			{

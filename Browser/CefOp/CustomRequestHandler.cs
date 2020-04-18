@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Browser.CefOp
 {
-	public class RequestHandler : DefaultRequestHandler
+	public class CustomRequestHandler : RequestHandler
 	{
 		public delegate void RenderProcessTerminatedEventHandler(string message);
 		public event RenderProcessTerminatedEventHandler RenderProcessTerminated;
@@ -16,40 +16,22 @@ namespace Browser.CefOp
 		bool pixiSettingEnabled;
 
 
-		public RequestHandler(bool pixiSettingEnabled) : base()
+
+		public CustomRequestHandler(bool pixiSettingEnabled) : base()
 		{
 			this.pixiSettingEnabled = pixiSettingEnabled;
 		}
 
-		/// <summary>
-		/// レスポンスの置換制御を行います。
-		/// </summary>
-		public override IResponseFilter GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+		protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
 		{
-			if (pixiSettingEnabled && request.Url.Contains(@"/kcs2/index.php"))
-				return new ResponseFilterPixiSetting();
-
-			return base.GetResourceResponseFilter(browserControl, browser, frame, request, response);
+			return new CustomResourceRequestHandler(pixiSettingEnabled);
 		}
 
-		/// <summary>
-		/// 特定の通信をブロックします。
-		/// </summary>
-		public override CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
-		{
-			// ログイン直後に勝手に遷移させられ、ブラウザがホワイトアウトすることがあるためブロックする
-			if (request.Url.Contains(@"/rt.gsspat.jp/"))
-			{
-				return CefReturnValue.Cancel;
-			}
-
-			return base.OnBeforeResourceLoad(browserControl, browser, frame, request, callback);
-		}
 
 		/// <summary>
 		/// 戻る/進む操作をブロックします。
 		/// </summary>
-		public override bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
+		protected override bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
 		{
 			if ((request.TransitionType & TransitionType.ForwardBack) != 0)
 			{
@@ -61,7 +43,7 @@ namespace Browser.CefOp
 		/// <summary>
 		/// 描画プロセスが何らかの理由で落ちた際の処理を行います。
 		/// </summary>
-		public override void OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)
+		protected override void OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)
 		{
 			// note: out of memory (例外コード: 0xe0000008) でクラッシュした場合、このイベントは呼ばれない
 
