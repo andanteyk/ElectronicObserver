@@ -108,7 +108,8 @@ namespace BrowserLib
 		/// <returns>データ。取得に失敗した場合は null。</returns>
 		private static ISimpleAudioVolume GetVolumeObject(string processName, out uint processID)
 		{
-			var processes = Process.GetProcessesByName(processName);
+			var currentProcess = Process.GetCurrentProcess();
+			var processes = Process.GetProcessesByName(processName).Where(p => GetParentProcess(p)?.Id == currentProcess.Id).ToArray();
 			uint succeededId = 0;
 			var volume = GetVolumeObject(pid =>
 			{
@@ -135,6 +136,24 @@ namespace BrowserLib
 			else
 			{
 				return null;
+			}
+		}
+
+
+		private static Process GetParentProcess(Process process)
+		{
+			var pbi = new PROCESS_BASIC_INFORMATION();
+			int status = NtQueryInformationProcess(process.Handle, 0, out pbi, Marshal.SizeOf(pbi), out int returnLength);
+			if (status != 0)
+				throw new System.ComponentModel.Win32Exception(status);
+
+			try
+			{
+				return Process.GetProcessById((int)pbi.InheritedFromUniqueProcessId.ToUInt32());
+			}
+			catch (ArgumentException)
+			{
+				return null;        // process not found
 			}
 		}
 
@@ -415,8 +434,24 @@ namespace BrowserLib
 			int SetDuckingPreference(bool optOut);
 		}
 
-		#endregion
+
+		private struct PROCESS_BASIC_INFORMATION
+		{
+			public IntPtr ExitStatus;       // originally NtStatus
+			public IntPtr PebBaseAddress;
+			public UIntPtr AffinityMask;
+			public int BasePriority;
+			public UIntPtr UniqueProcessId;
+			public UIntPtr InheritedFromUniqueProcessId;
+		}
+
+		[DllImport("NTDLL.DLL", SetLastError = true)]
+		static extern int NtQueryInformationProcess(IntPtr hProcess, /*PROCESSINFOCLASS*/ int pic, out PROCESS_BASIC_INFORMATION pbi, int cb, out int pSize);
 
 	}
+
+
+
+	#endregion
 
 }
