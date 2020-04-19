@@ -78,7 +78,7 @@ namespace ElectronicObserver.Data.Quest
 		{
 			QuestID = quest.QuestID;
 			ProgressMax = maxCount;
-			QuestType = quest.Type;
+			QuestType = quest.LabelType >= 100 ? quest.LabelType : quest.Type;
 			TemporaryProgress = 0;
 			SharedCounterShift = 0;
 			IgnoreCheckProgress = false;

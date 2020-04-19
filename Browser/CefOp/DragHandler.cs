@@ -18,9 +18,9 @@ namespace Browser.CefOp
 			return true;
 		}
 
-		public void OnDraggableRegionsChanged(IWebBrowser browserControl, IBrowser browser, IList<DraggableRegion> regions)
+		public void OnDraggableRegionsChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IList<DraggableRegion> regions)
 		{
-			// nop?
+			// nop
 		}
 	}
 }

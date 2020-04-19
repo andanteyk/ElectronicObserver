@@ -50,7 +50,7 @@ namespace ElectronicObserver.Window
 				Alignment = DataGridViewContentAlignment.MiddleCenter
 			};
 
-			CSCategories = new DataGridViewCellStyle[9];
+			CSCategories = new DataGridViewCellStyle[10];
 			for (int i = 0; i < CSCategories.Length; i++)
 			{
 				CSCategories[i] = new DataGridViewCellStyle(CSDefaultCenter);
@@ -82,7 +82,10 @@ namespace ElectronicObserver.Window
 					case 8:     //出撃(2)
 						c = Color.FromArgb(0xFF, 0xCC, 0xCC);
 						break;
-					case 9:     //その他
+					case 9:     //出撃(3)
+						c = Color.FromArgb(0xFF, 0xCC, 0xCC);
+						break;
+					case 10:     //その他
 					default:
 						c = CSDefaultCenter.BackColor;
 						break;
@@ -273,9 +276,9 @@ namespace ElectronicObserver.Window
 				row.Height = 21;
 
 				row.Cells[QuestView_State.Index].Value = (q.State == 3) ? ((bool?)null) : (q.State == 2);
-				row.Cells[QuestView_Type.Index].Value = q.Type;
+				row.Cells[QuestView_Type.Index].Value = q.LabelType >= 100 ? q.LabelType : q.Type;
 				row.Cells[QuestView_Category.Index].Value = q.Category;
-				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min(q.Category - 1, 8 - 1)];
+				row.Cells[QuestView_Category.Index].Style = CSCategories[Math.Min(q.Category - 1, CSCategories.Length - 1)];
 				row.Cells[QuestView_Name.Index].Value = q.QuestID;
 				{
 					var progress = KCDatabase.Instance.QuestProgress[q.QuestID];

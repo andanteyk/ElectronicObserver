@@ -59,17 +59,17 @@ namespace ElectronicObserver.Data
 						.CheckShipCount(6);
 				case 100:   // 兵站強化任務
 					return result
-						.CheckFlagshipLevel(15)
+						.CheckFlagshipLevel(5)
+						.CheckLevelSum(10)
 						.CheckShipCount(4)
 						.CheckSmallShipCount(3);
 				case 101:   // 海峡警備行動
 					return result
 						.CheckFlagshipLevel(20)
-						.CheckLevelSum(144)
 						.CheckSmallShipCount(4)
+						.CheckFirepower(50)
 						.CheckAA(70)
-						.CheckASW(180)
-						.CheckLOS(73);
+						.CheckASW(180);
 				case 102:   // 長時間対潜警戒
 					return result
 						.CheckFlagshipLevel(35)

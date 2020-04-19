@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,9 +26,9 @@ namespace BrowserLib
 		/// <summary>
 		/// 音量操作のためのデータを取得します。
 		/// </summary>
-		/// <param name="processID">対象のプロセスID。</param>
+		/// <param name="checkProcessID">プロセス ID を引数にとり、目的のものであれば true を、そうでなければ false を返すデリゲート。</param>
 		/// <returns>データ。取得に失敗した場合は null。</returns>
-		private static ISimpleAudioVolume GetVolumeObject(uint processID)
+		private static ISimpleAudioVolume GetVolumeObject(Predicate<uint> checkProcessID)
 		{
 
 			ISimpleAudioVolume ret = null;
@@ -65,7 +66,7 @@ namespace BrowserLib
 					ctl2.GetProcessId(out pid);
 				}
 
-				if (pid == processID)
+				if (checkProcessID(pid))
 				{
 					ret = ctl2 as ISimpleAudioVolume;
 					break;
@@ -87,6 +88,75 @@ namespace BrowserLib
 
 			return ret;
 		}
+
+
+
+
+
+		/// <summary>
+		/// 音量操作のためのデータを取得します。
+		/// </summary>
+		/// <param name="processID">対象のプロセスID。</param>
+		/// <returns>データ。取得に失敗した場合は null。</returns>
+		private static ISimpleAudioVolume GetVolumeObject(uint processID) => GetVolumeObject(pid => processID == pid);
+
+
+		/// <summary>
+		/// 音量操作のためのデータを取得します。
+		/// </summary>
+		/// <param name="processName">対象のプロセス名。</param>
+		/// <returns>データ。取得に失敗した場合は null。</returns>
+		private static ISimpleAudioVolume GetVolumeObject(string processName, out uint processID)
+		{
+			var currentProcess = Process.GetCurrentProcess();
+			var processes = Process.GetProcessesByName(processName).Where(p => GetParentProcess(p)?.Id == currentProcess.Id).ToArray();
+			uint succeededId = 0;
+			var volume = GetVolumeObject(pid =>
+			{
+				if (processes.Any(p => p.Id == pid))
+				{
+					succeededId = pid;
+					return true;
+				}
+				return false;
+			});
+			processID = succeededId;
+			return volume;
+		}
+
+
+		public static VolumeManager CreateInstanceByProcessName(string processName)
+		{
+			var volume = GetVolumeObject(processName, out uint processID);
+			if (volume != null)
+			{
+				Marshal.ReleaseComObject(volume);
+				return new VolumeManager(processID);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+
+		private static Process GetParentProcess(Process process)
+		{
+			var pbi = new PROCESS_BASIC_INFORMATION();
+			int status = NtQueryInformationProcess(process.Handle, 0, out pbi, Marshal.SizeOf(pbi), out int returnLength);
+			if (status != 0)
+				throw new System.ComponentModel.Win32Exception(status);
+
+			try
+			{
+				return Process.GetProcessById((int)pbi.InheritedFromUniqueProcessId.ToUInt32());
+			}
+			catch (ArgumentException)
+			{
+				return null;        // process not found
+			}
+		}
+
 
 
 		private const string ErrorMessageNotFound = "指定したプロセスIDの音量オブジェクトは存在しません。";
@@ -364,8 +434,24 @@ namespace BrowserLib
 			int SetDuckingPreference(bool optOut);
 		}
 
-		#endregion
+
+		private struct PROCESS_BASIC_INFORMATION
+		{
+			public IntPtr ExitStatus;       // originally NtStatus
+			public IntPtr PebBaseAddress;
+			public UIntPtr AffinityMask;
+			public int BasePriority;
+			public UIntPtr UniqueProcessId;
+			public UIntPtr InheritedFromUniqueProcessId;
+		}
+
+		[DllImport("NTDLL.DLL", SetLastError = true)]
+		static extern int NtQueryInformationProcess(IntPtr hProcess, /*PROCESSINFOCLASS*/ int pic, out PROCESS_BASIC_INFORMATION pbi, int cb, out int pSize);
 
 	}
+
+
+
+	#endregion
 
 }
