@@ -471,13 +471,21 @@ namespace ElectronicObserver.Data.Quest
 							break;
 						case 434:   //|434|年(2月)|特設護衛船団司令部、活動開始！|「警備任務」「海上護衛任務」「兵站強化任務」「海峡警備行動」「タンカー護衛任務」成功各1|
 							Progresses.Add(new ProgressMultiExpedition(q, new[]{
-								new ProgressExpedition(q, 2, new[]{ 3 }),
-								new ProgressExpedition(q, 2, new[]{ 5 }),
-								new ProgressExpedition(q, 2, new[]{ 100 }),
-								new ProgressExpedition(q, 2, new[]{ 101 }),
-								new ProgressExpedition(q, 2, new[]{ 9 }),
+								new ProgressExpedition(q, 1, new[]{ 3 }),
+								new ProgressExpedition(q, 1, new[]{ 5 }),
+								new ProgressExpedition(q, 1, new[]{ 100 }),
+								new ProgressExpedition(q, 1, new[]{ 101 }),
+								new ProgressExpedition(q, 1, new[]{ 9 }),
 							}));
 							break;
+						case 436:   //|436|年(3月)|練習航海及び警備任務を実施せよ！|「練習航海」「長距離練習航海」「警備任務」「対潜警戒任務」「強行偵察任務」成功各1|
+							Progresses.Add(new ProgressMultiExpedition(q, new[]{
+								new ProgressExpedition(q, 1, new[]{ 1 }),
+								new ProgressExpedition(q, 1, new[]{ 2 }),
+								new ProgressExpedition(q, 1, new[]{ 3 }),
+								new ProgressExpedition(q, 1, new[]{ 4 }),
+								new ProgressExpedition(q, 1, new[]{ 10 }),
+							})); break;
 
 						case 503:   //|503|艦隊大整備！|入渠5
 							Progresses.Add(new ProgressDocking(q, 5));
