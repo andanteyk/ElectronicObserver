@@ -782,6 +782,8 @@ namespace ElectronicObserver.Data
 					return "長門、いい？ いくわよ！ 主砲一斉射ッ！";
 				case DayAttackKind.SpecialColorado:
 					return "Colorado Touch";
+				case DayAttackKind.SpecialKongo:
+					return "僚艦夜戦突撃";
 				case DayAttackKind.ZuiunMultiAngle:
 					return "瑞雲立体攻撃";
 				case DayAttackKind.SeaAirMultiAngle:
@@ -845,6 +847,8 @@ namespace ElectronicObserver.Data
 					return "長門、いい？ いくわよ！ 主砲一斉射ッ！";
 				case NightAttackKind.SpecialColorado:
 					return "Colorado Touch";
+				case NightAttackKind.SpecialKongo:
+					return "僚艦夜戦突撃";
 				case NightAttackKind.Shelling:
 					return "砲撃";
 				case NightAttackKind.AirAttack:

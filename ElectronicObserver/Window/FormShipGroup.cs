@@ -819,6 +819,10 @@ namespace ElectronicObserver.Window
                         if (e.SortResult == 0)
                             e.SortResult = ship1.Name.CompareTo(ship2.Name);
                         break;
+
+					case 2:     // ソートキー順
+						e.SortResult = ship1.SortID - ship2.SortID;
+						break;
                 }
 
             }
