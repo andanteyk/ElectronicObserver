@@ -217,6 +217,7 @@
             this.label31 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.Notification_BaseAirCorps = new System.Windows.Forms.Button();
             this.silenceFullscreen = new System.Windows.Forms.CheckBox();
             this.Notification_Silencio = new System.Windows.Forms.CheckBox();
             this.Notification_AnchorageRepair = new System.Windows.Forms.Button();
@@ -245,7 +246,6 @@
             this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
             this.Log_PlayTime = new System.Windows.Forms.Label();
             this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
-            this.Notification_BaseAirCorps = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -1019,7 +1019,7 @@
             this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
             this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
             this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-            this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 247);
+            this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 245);
             this.Debug_SealingPanel.TabIndex = 1;
             // 
             // Debug_APIListPath
@@ -1988,10 +1988,10 @@
             this.tabPage13.Controls.Add(this.label25);
             this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
             this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-            this.tabPage13.Location = new System.Drawing.Point(4, 22);
+            this.tabPage13.Location = new System.Drawing.Point(4, 24);
             this.tabPage13.Name = "tabPage13";
             this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(682, 340);
+            this.tabPage13.Size = new System.Drawing.Size(682, 338);
             this.tabPage13.TabIndex = 4;
             this.tabPage13.Text = "グループ";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -2002,7 +2002,8 @@
             this.FormShipGroup_ShipNameSortMethod.FormattingEnabled = true;
             this.FormShipGroup_ShipNameSortMethod.Items.AddRange(new object[] {
             "図鑑番号順",
-            "あいうえお順"});
+            "あいうえお順",
+            "母港ソート順"});
             this.FormShipGroup_ShipNameSortMethod.Location = new System.Drawing.Point(116, 56);
             this.FormShipGroup_ShipNameSortMethod.Name = "FormShipGroup_ShipNameSortMethod";
             this.FormShipGroup_ShipNameSortMethod.Size = new System.Drawing.Size(121, 23);
@@ -2568,6 +2569,16 @@
             this.tabPage11.Text = "通知";
             this.tabPage11.UseVisualStyleBackColor = true;
             // 
+            // Notification_BaseAirCorps
+            // 
+            this.Notification_BaseAirCorps.Location = new System.Drawing.Point(8, 181);
+            this.Notification_BaseAirCorps.Name = "Notification_BaseAirCorps";
+            this.Notification_BaseAirCorps.Size = new System.Drawing.Size(150, 23);
+            this.Notification_BaseAirCorps.TabIndex = 9;
+            this.Notification_BaseAirCorps.Text = "基地航空隊通知の設定...";
+            this.Notification_BaseAirCorps.UseVisualStyleBackColor = true;
+            this.Notification_BaseAirCorps.Click += new System.EventHandler(this.Notification_BaseAirCorps_Click);
+            // 
             // silenceFullscreen
             // 
             this.silenceFullscreen.AutoSize = true;
@@ -2605,7 +2616,7 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 318);
+            this.label10.Location = new System.Drawing.Point(3, 316);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(238, 15);
             this.label10.TabIndex = 5;
@@ -2750,7 +2761,7 @@
             this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
             this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
             this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 267);
+            this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 265);
             this.BGMPlayer_ControlGrid.TabIndex = 0;
             this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
             this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2847,16 +2858,6 @@
             this.PlayTimeTimer.Enabled = true;
             this.PlayTimeTimer.Interval = 1000;
             this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
-            // 
-            // Notification_BaseAirCorps
-            // 
-            this.Notification_BaseAirCorps.Location = new System.Drawing.Point(8, 181);
-            this.Notification_BaseAirCorps.Name = "Notification_BaseAirCorps";
-            this.Notification_BaseAirCorps.Size = new System.Drawing.Size(150, 23);
-            this.Notification_BaseAirCorps.TabIndex = 9;
-            this.Notification_BaseAirCorps.Text = "基地航空隊通知の設定...";
-            this.Notification_BaseAirCorps.UseVisualStyleBackColor = true;
-            this.Notification_BaseAirCorps.Click += new System.EventHandler(this.Notification_BaseAirCorps_Click);
             // 
             // DialogConfiguration
             // 
