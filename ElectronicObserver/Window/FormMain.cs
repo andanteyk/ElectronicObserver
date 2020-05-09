@@ -1,4 +1,4 @@
-﻿using Codeplex.Data;
+﻿using DynaJson;
 using ElectronicObserver.Data;
 using ElectronicObserver.Notifier;
 using ElectronicObserver.Observer;
@@ -886,7 +886,7 @@ namespace ElectronicObserver.Window
 						using (StreamReader sr = new StreamReader(ofd.FileName))
 						{
 
-							dynamic json = DynamicJson.Parse(sr.ReadToEnd().Remove(0, 7));
+							dynamic json = JsonObject.Parse(sr.ReadToEnd().Remove(0, 7));
 
 							foreach (dynamic elem in json.api_data.api_mst_ship)
 							{
@@ -939,7 +939,7 @@ namespace ElectronicObserver.Window
 						using (StreamReader sr = new StreamReader(ofd.FileName))
 						{
 
-							dynamic json = DynamicJson.Parse(sr.ReadToEnd().Remove(0, 7));
+							dynamic json = JsonObject.Parse(sr.ReadToEnd().Remove(0, 7));
 
 							foreach (dynamic elem in json.api_data.api_mst_ship)
 							{

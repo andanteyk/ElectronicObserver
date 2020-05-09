@@ -1,4 +1,4 @@
-﻿using Codeplex.Data;
+﻿using DynaJson;
 using ElectronicObserver.Observer.kcsapi;
 using ElectronicObserver.Utility;
 using ElectronicObserver.Utility.Mathematics;
@@ -430,7 +430,7 @@ namespace ElectronicObserver.Observer
 				SystemEvents.UpdateTimerEnabled = false;
 
 
-				var json = DynamicJson.Parse(data.Substring(7));        //remove "svdata="
+				var json = JsonObject.Parse(data.Substring(7));        //remove "svdata="
 
 				int result = (int)json.api_result;
 				if (result != 1)

@@ -1,10 +1,6 @@
-﻿using Codeplex.Data;
-using ElectronicObserver.Data;
-using ElectronicObserver.Observer;
-using ElectronicObserver.Resource.Record;
+﻿using ElectronicObserver.Resource.Record;
 using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Utility.Storage;
-using ElectronicObserver.Window.Dialog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ElectronicObserver.Utility

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynaJson;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 			foreach (KeyValuePair<string, dynamic> p in AirBattleData.api_map_squadron_plane)
 			{
-				if (!(p.Value is Codeplex.Data.DynamicJson))
+				if (!(p.Value is JsonObject))
 					continue;
 				if (!p.Value.IsArray)
 					continue;

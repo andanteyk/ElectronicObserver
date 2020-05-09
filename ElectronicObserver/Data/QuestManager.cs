@@ -1,5 +1,4 @@
-﻿using Codeplex.Data;
-using ElectronicObserver.Utility.Mathematics;
+﻿using ElectronicObserver.Utility.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
