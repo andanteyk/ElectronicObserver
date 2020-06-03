@@ -121,6 +121,7 @@ namespace ElectronicObserver.Observer
 				new kcsapi.api_req_sortie.ld_shooting(),
 				new kcsapi.api_req_combined_battle.ld_shooting(),
 				new kcsapi.api_req_map.anchorage_repair(),
+				new kcsapi.api_get_member.preset_deck(),
 
 				new kcsapi.api_req_quest.clearitemget(),
 				new kcsapi.api_req_nyukyo.start(),
@@ -135,7 +136,9 @@ namespace ElectronicObserver.Observer
 				new kcsapi.api_req_hensei.combined(),
 				new kcsapi.api_req_member.updatecomment(),
 				new kcsapi.api_req_air_corps.change_name(),
-				new kcsapi.api_req_quest.stop()
+				new kcsapi.api_req_quest.stop(),
+				new kcsapi.api_req_hensei.preset_register(),
+				new kcsapi.api_req_hensei.preset_delete(),
 			};
 
 

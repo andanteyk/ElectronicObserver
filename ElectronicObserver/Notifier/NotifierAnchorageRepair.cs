@@ -14,7 +14,7 @@ namespace ElectronicObserver.Notifier
 
 		/// <summary>
 		/// 通知レベル
-		/// 0 = いつでも、1 = 明石旗艦の時、2 = 修理艦もいる時
+		/// 0 = いつでも、1 = 明石旗艦の時、2 = 修理艦もいる時、3 = 2 + プリセット編成時
 		/// </summary>
 		public int NotificationLevel { get; set; }
 
@@ -80,6 +80,11 @@ namespace ElectronicObserver.Notifier
 
 						case 2:     //修理艦もいる時
 							clear = fleets.Fleets.Values.Any(f => f.CanAnchorageRepair);
+							break;
+
+						case 3:     // プリセット込み
+							clear = fleets.Fleets.Values.Any(f => f.CanAnchorageRepair) ||
+								KCDatabase.Instance.FleetPreset.Presets.Values.Any(p => FleetData.CanAnchorageRepairWithMember(p.MembersInstance));
 							break;
 					}
 

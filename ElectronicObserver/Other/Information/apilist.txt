@@ -1182,7 +1182,7 @@ Request.api_req_hensei/preset_register		：編成登録
 	api_preset_no	：登録先
 
 api_req_hensei/preset_register		：編成登録
-	api_data			：編成データ　preset_deck 参照
+	api_data			：編成データ　更新したもの単体(preset_deck での 1 にあたる)
 
 Request.api_req_hensei/preset_select		：編成展開
 	api_deck_id		：展開する艦隊ID

@@ -155,6 +155,8 @@
     <Compile Include="Data\EquipmentType.cs" />
     <Compile Include="Data\EquipmentTypes.cs" />
     <Compile Include="Data\FleetManager.cs" />
+    <Compile Include="Data\FleetPresetData.cs" />
+    <Compile Include="Data\FleetPresetManager.cs" />
     <Compile Include="Data\IDDictionary.cs" />
     <Compile Include="Data\IIdentifiable.cs" />
     <Compile Include="Data\KCDatabase.cs" />
@@ -228,6 +230,9 @@
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ld_airbattle.cs" />
     <Compile Include="Observer\kcsapi\api_req_combined_battle\ld_shooting.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\combined.cs" />
+    <Compile Include="Observer\kcsapi\api_get_member\preset_deck.cs" />
+    <Compile Include="Observer\kcsapi\api_req_hensei\preset_delete.cs" />
+    <Compile Include="Observer\kcsapi\api_req_hensei\preset_register.cs" />
     <Compile Include="Observer\kcsapi\api_req_hensei\preset_select.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\marriage.cs" />
     <Compile Include="Observer\kcsapi\api_req_kaisou\open_exslot.cs" />
@@ -581,6 +586,12 @@
     <Compile Include="Window\FormCompass.Designer.cs">
       <DependentUpon>FormCompass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\FormFleetPreset.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\FormFleetPreset.Designer.cs">
+      <DependentUpon>FormFleetPreset.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\FormJson.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -796,6 +807,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormCompass.resx">
       <DependentUpon>FormCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\FormFleetPreset.resx">
+      <DependentUpon>FormFleetPreset.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\FormJson.resx">
       <DependentUpon>FormJson.cs</DependentUpon>
