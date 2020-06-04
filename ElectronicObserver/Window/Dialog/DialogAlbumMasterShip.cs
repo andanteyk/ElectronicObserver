@@ -533,9 +533,9 @@ namespace ElectronicObserver.Window.Dialog
 							if (eq.AA != 0) sb.AppendFormat("対空 {0:+0;-0}\r\n", eq.AA);
 							if (eq.Armor != 0) sb.AppendFormat("装甲 {0:+0;-0}\r\n", eq.Armor);
 							if (eq.ASW != 0) sb.AppendFormat("対潜 {0:+0;-0}\r\n", eq.ASW);
-							if (eq.Evasion != 0) sb.AppendFormat("回避 {0:+0;-0}\r\n", eq.Evasion);
+							if (eq.Evasion != 0) sb.AppendFormat("{0} {1:+0;-0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "迎撃" : "回避", eq.Evasion);
 							if (eq.LOS != 0) sb.AppendFormat("索敵 {0:+0;-0}\r\n", eq.LOS);
-							if (eq.Accuracy != 0) sb.AppendFormat("命中 {0:+0;-0}\r\n", eq.Accuracy);
+							if (eq.Accuracy != 0) sb.AppendFormat("{0} {1:+0;-0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "対爆" : "命中", eq.Accuracy);
 							if (eq.Bomber != 0) sb.AppendFormat("爆装 {0:+0;-0}\r\n", eq.Bomber);
 							sb.AppendLine("(右クリックで図鑑)");
 

@@ -378,13 +378,32 @@ namespace ElectronicObserver.Utility.Data
 					continue;
 				}
 
-				ret += Math.Sqrt(ship.LOSBase);
-
+				// 装備シナジーがあるので合計値から引いていく
+				int losBase = ship.LOSTotal;
+				
 				double equipmentBonus = 0;
 				foreach (var eq in ship.AllSlotInstance.Where(eq => eq != null))
 				{
-
 					var category = eq.MasterEquipment.CategoryType;
+
+					losBase -= eq.MasterEquipment.LOS;
+					if (eq.EquipmentID == 315)                      // SG レーダー(初期型) だけ装備シナジー補正が乗らないので :(
+					{
+						switch (ship.MasterShip.ShipClass)
+						{
+							case 65:        // Iowa級
+							case 69:        // Lexington級
+							case 83:        // Casablanca級
+							case 84:        // Essex級
+							case 87:		// John C.Butler級
+							case 91:        // Fletcher級
+							case 93:        // Colorado級
+							case 95:        // Northampton級
+							case 99:        // Atlanta級
+								losBase -= 4;
+								break;
+						}
+					}
 
 					double equipmentRate;
 					switch (category)
@@ -440,7 +459,7 @@ namespace ElectronicObserver.Utility.Data
 					equipmentBonus += equipmentRate * (eq.MasterEquipment.LOS + levelRate * Math.Sqrt(eq.Level));
 				}
 
-				ret += equipmentBonus * branchWeight;
+				ret += Math.Sqrt(losBase) + equipmentBonus * branchWeight;
 			}
 
 			// 司令部Lv補正

@@ -33,6 +33,12 @@
             this.TablePresets = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
+            // ToolTipInfo
+            // 
+            this.ToolTipInfo.AutoPopDelay = 30000;
+            this.ToolTipInfo.InitialDelay = 500;
+            this.ToolTipInfo.ReshowDelay = 100;
+            // 
             // TablePresets
             // 
             this.TablePresets.AutoSize = true;

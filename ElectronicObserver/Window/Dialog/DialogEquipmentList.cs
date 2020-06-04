@@ -275,6 +275,24 @@ namespace ElectronicObserver.Window.Dialog
 					remainCount[id]
 					);
 
+				{
+					StringBuilder sb = new StringBuilder();
+					var eq = masterEquipments[id];
+
+					sb.AppendFormat("{0} {1}\r\n", eq.CategoryTypeInstance.Name, eq.Name, eq.EquipmentID);
+					if (eq.Firepower != 0) sb.AppendFormat("火力 {0:+0;-0}\r\n", eq.Firepower);
+					if (eq.Torpedo != 0) sb.AppendFormat("雷装 {0:+0;-0}\r\n", eq.Torpedo);
+					if (eq.AA != 0) sb.AppendFormat("対空 {0:+0;-0}\r\n", eq.AA);
+					if (eq.Armor != 0) sb.AppendFormat("装甲 {0:+0;-0}\r\n", eq.Armor);
+					if (eq.ASW != 0) sb.AppendFormat("対潜 {0:+0;-0}\r\n", eq.ASW);
+					if (eq.Evasion != 0) sb.AppendFormat("{0} {1:+0;-0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "迎撃" : "回避", eq.Evasion);
+					if (eq.LOS != 0) sb.AppendFormat("索敵 {0:+0;-0}\r\n", eq.LOS);
+					if (eq.Accuracy != 0) sb.AppendFormat("{0} {1:+0;-0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "対爆" : "命中", eq.Accuracy);
+					if (eq.Bomber != 0) sb.AppendFormat("爆装 {0:+0;-0}\r\n", eq.Bomber);
+					sb.AppendLine("(右クリックで図鑑)");
+
+					row.Cells[2].ToolTipText = sb.ToString();
+				}
 				rows.Add(row);
 			}
 
@@ -292,6 +310,21 @@ namespace ElectronicObserver.Window.Dialog
 			if (EquipmentView.Rows.Count > 0)
 				EquipmentView.CurrentCell = EquipmentView[0, 0];
 
+		}
+
+		private void EquipmentView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (0 <= e.RowIndex && e.RowIndex < EquipmentView.RowCount)
+			{
+				int equipmentID = (int)EquipmentView.Rows[e.RowIndex].Cells[0].Value;
+
+				if ((e.Button & System.Windows.Forms.MouseButtons.Right) != 0)
+				{
+					Cursor = Cursors.AppStarting;
+					new DialogAlbumMasterEquipment(equipmentID).Show(Owner);
+					Cursor = Cursors.Default;
+				}
+			}
 		}
 
 
@@ -326,7 +359,8 @@ namespace ElectronicObserver.Window.Dialog
 				return CalculateID(eq.Level, eq.AircraftLevel);
 			}
 
-			public int ID => CalculateID(level, aircraftLevel); }
+			public int ID => CalculateID(level, aircraftLevel);
+		}
 
 
 		/// <summary>
@@ -484,9 +518,9 @@ namespace ElectronicObserver.Window.Dialog
 
 		}
 
-  
-        
-        private void Menu_File_CSVOutput_Click(object sender, EventArgs e)
+
+
+		private void Menu_File_CSVOutput_Click(object sender, EventArgs e)
 		{
 
 			if (SaveCSVDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -538,19 +572,20 @@ namespace ElectronicObserver.Window.Dialog
 
 		}
 
-        /// <summary>
-        /// 「艦隊分析」装備情報反映用
-        /// https://kancolle-fleetanalysis.firebaseapp.com/
-        /// </summary>
-        private void TopMenu_File_CopyToFleetAnalysis_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(
-                "[" + string.Join(",", KCDatabase.Instance.Equipments.Values.Where(eq => eq?.IsLocked ?? false)
-                .Select(eq => $"{{\"api_slotitem_id\":{eq.EquipmentID},\"api_level\":{eq.Level}}}")) + "]");
-        }
+
+		/// <summary>
+		/// 「艦隊分析」装備情報反映用
+		/// https://kancolle-fleetanalysis.firebaseapp.com/
+		/// </summary>
+		private void TopMenu_File_CopyToFleetAnalysis_Click(object sender, EventArgs e)
+		{
+			Clipboard.SetText(
+				"[" + string.Join(",", KCDatabase.Instance.Equipments.Values.Where(eq => eq?.IsLocked ?? false)
+				.Select(eq => $"{{\"api_slotitem_id\":{eq.EquipmentID},\"api_level\":{eq.Level}}}")) + "]");
+		}
 
 
-        private void DialogEquipmentList_FormClosed(object sender, FormClosedEventArgs e)
+		private void DialogEquipmentList_FormClosed(object sender, FormClosedEventArgs e)
 		{
 
 			ResourceManager.DestroyIcon(Icon);

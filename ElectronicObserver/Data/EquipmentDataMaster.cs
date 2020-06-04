@@ -344,8 +344,10 @@ namespace ElectronicObserver.Data
 			EquipmentID == 226 ||       // 九五式爆雷 
 			EquipmentID == 227;         // 二式爆雷
 
-		/// <summary> 爆雷投射機かどうか(爆雷は含まない) </summary>
-		public bool IsDepthChargeProjector => CategoryType == EquipmentTypes.DepthCharge && !IsDepthCharge;
+		/// <summary> 爆雷投射機かどうか(爆雷/対潜迫撃砲は含まない) </summary>
+		public bool IsDepthChargeProjector => 
+			EquipmentID == 44 ||        // 九四式爆雷投射機
+			EquipmentID == 45;          // 三式爆雷投射機
 
 
 		/// <summary> 夜間作戦航空要員かどうか </summary>
