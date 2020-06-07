@@ -297,16 +297,19 @@ namespace ElectronicObserver.Window.Dialog
 			ToolTipInfo.SetToolTip(ResourceName, string.Format("リソース名: {0}\r\nグラフィック ver. {1}\r\nボイス ver. {2}\r\n母港ボイス ver. {3}\r\n({4})",
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion, Constants.GetVoiceFlag(ship.VoiceFlag)));
 
-
-			ShipType.Text = ship.IsLandBase ? "陸上施設" : ship.ShipTypeName;
 			{
+				string shipClassName = Constants.GetShipClass(ship.ShipClass);
+				bool isShipClassUnknown = shipClassName == "不明";
+
+				ShipType.Text = (ship.IsAbyssalShip ? "深海" : isShipClassUnknown ? "" : shipClassName) + (ship.IsLandBase ? "陸上施設" : ship.ShipTypeName);
+
 				var tip = new StringBuilder();
 				if (ship.IsAbyssalShip)
 					tip.AppendLine($"艦型ID: {ship.ShipClass}");
-				else if (Constants.GetShipClass(ship.ShipClass) == "不明")
+				else if (isShipClassUnknown)
 					tip.AppendLine($"艦型不明: {ship.ShipClass}");
 				else
-					tip.AppendLine($"{Constants.GetShipClass(ship.ShipClass)}: {ship.ShipClass}");
+					tip.AppendLine($"{shipClassName}: {ship.ShipClass}");
 
 				tip.AppendLine();
 				tip.AppendLine("装備可能：");
