@@ -530,15 +530,19 @@ namespace ElectronicObserver.Data
 			get
 			{
 				// 流石に資源チェックまではしない
-				var flagship = KCDatabase.Instance.Ships[_members[0]];
-
-				return IsFlagshipRepairShip &&
-					flagship.HPRate > 0.5 &&
-					flagship.RepairingDockID == -1 &&
-					ExpeditionState == 0 &&
-					MembersInstance.Take(2 + flagship.SlotInstance.Count(eq => eq != null && eq.MasterEquipment.CategoryType == EquipmentTypes.RepairFacility))
-					.Any(ship => ship != null && 0.5 < ship.HPRate && ship.HPRate < 1.0 && ship.RepairingDockID == -1);
+				return CanAnchorageRepairWithMember(MembersInstance);
 			}
+		}
+
+		public static bool CanAnchorageRepairWithMember(IEnumerable<ShipData> membersInstance) 
+		{
+			var flagship = membersInstance.FirstOrDefault();
+			return flagship?.MasterShip?.ShipType == ShipTypes.RepairShip &&
+				flagship.HPRate > 0.5 &&
+				flagship.RepairingDockID == -1 &&
+				membersInstance.All(s => s == null || (KCDatabase.Instance.Fleet[s.Fleet]?.ExpeditionState ?? 0) == 0) &&
+				membersInstance.Take(2 + flagship.SlotInstance.Count(eq => eq?.MasterEquipment?.CategoryType == EquipmentTypes.RepairFacility))
+					.Any(ship => ship?.RepairingDockID == -1 && 0.5 < ship.HPRate && ship.HPRate < 1.0);
 		}
 
 

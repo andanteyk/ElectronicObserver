@@ -297,16 +297,19 @@ namespace ElectronicObserver.Window.Dialog
 			ToolTipInfo.SetToolTip(ResourceName, string.Format("リソース名: {0}\r\nグラフィック ver. {1}\r\nボイス ver. {2}\r\n母港ボイス ver. {3}\r\n({4})",
 				ship.ResourceName, ship.ResourceGraphicVersion, ship.ResourceVoiceVersion, ship.ResourcePortVoiceVersion, Constants.GetVoiceFlag(ship.VoiceFlag)));
 
-
-			ShipType.Text = ship.IsLandBase ? "陸上施設" : ship.ShipTypeName;
 			{
+				string shipClassName = Constants.GetShipClass(ship.ShipClass);
+				bool isShipClassUnknown = shipClassName == "不明";
+
+				ShipType.Text = (ship.IsAbyssalShip ? "深海" : isShipClassUnknown ? "" : shipClassName) + (ship.IsLandBase ? "陸上施設" : ship.ShipTypeName);
+
 				var tip = new StringBuilder();
 				if (ship.IsAbyssalShip)
 					tip.AppendLine($"艦型ID: {ship.ShipClass}");
-				else if (Constants.GetShipClass(ship.ShipClass) == "不明")
+				else if (isShipClassUnknown)
 					tip.AppendLine($"艦型不明: {ship.ShipClass}");
 				else
-					tip.AppendLine($"{Constants.GetShipClass(ship.ShipClass)}: {ship.ShipClass}");
+					tip.AppendLine($"{shipClassName}: {ship.ShipClass}");
 
 				tip.AppendLine();
 				tip.AppendLine("装備可能：");
@@ -533,9 +536,9 @@ namespace ElectronicObserver.Window.Dialog
 							if (eq.AA != 0) sb.AppendFormat("対空 {0:+0;-0}\r\n", eq.AA);
 							if (eq.Armor != 0) sb.AppendFormat("装甲 {0:+0;-0}\r\n", eq.Armor);
 							if (eq.ASW != 0) sb.AppendFormat("対潜 {0:+0;-0}\r\n", eq.ASW);
-							if (eq.Evasion != 0) sb.AppendFormat("回避 {0:+0;-0}\r\n", eq.Evasion);
+							if (eq.Evasion != 0) sb.AppendFormat("{0} {1:+0;-0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "迎撃" : "回避", eq.Evasion);
 							if (eq.LOS != 0) sb.AppendFormat("索敵 {0:+0;-0}\r\n", eq.LOS);
-							if (eq.Accuracy != 0) sb.AppendFormat("命中 {0:+0;-0}\r\n", eq.Accuracy);
+							if (eq.Accuracy != 0) sb.AppendFormat("{0} {1:+0;-0}\r\n", eq.CategoryType == EquipmentTypes.Interceptor ? "対爆" : "命中", eq.Accuracy);
 							if (eq.Bomber != 0) sb.AppendFormat("爆装 {0:+0;-0}\r\n", eq.Bomber);
 							sb.AppendLine("(右クリックで図鑑)");
 

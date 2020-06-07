@@ -83,10 +83,6 @@
             this.DialogOpenImage = new System.Windows.Forms.OpenFileDialog();
             this.ToolTipText = new System.Windows.Forms.ToolTip(this.components);
             this.AnchorageRepairNotificationLevel = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.GroupAnchorageRepair = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.GroupBaseAirCorps = new System.Windows.Forms.GroupBox();
             this.BaseAirCorps_NotSupplied = new System.Windows.Forms.CheckBox();
             this.BaseAirCorps_Tired = new System.Windows.Forms.CheckBox();
             this.BaseAirCorps_NotOrganized = new System.Windows.Forms.CheckBox();
@@ -97,6 +93,10 @@
             this.BaseAirCorps_EventMap = new System.Windows.Forms.CheckBox();
             this.BaseAirCorps_EquipmentRelocation = new System.Windows.Forms.CheckBox();
             this.BaseAirCorps_SquadronRelocation = new System.Windows.Forms.CheckBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.GroupAnchorageRepair = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.GroupBaseAirCorps = new System.Windows.Forms.GroupBox();
             this.GroupSound.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SoundVolume)).BeginInit();
             this.GroupImage.SuspendLayout();
@@ -755,61 +755,14 @@
             this.AnchorageRepairNotificationLevel.Items.AddRange(new object[] {
             "いつでも",
             "明石旗艦の時",
-            "修理艦もいる時"});
+            "修理艦もいる時",
+            "プリセット編成時"});
             this.AnchorageRepairNotificationLevel.Location = new System.Drawing.Point(80, 20);
             this.AnchorageRepairNotificationLevel.Name = "AnchorageRepairNotificationLevel";
             this.AnchorageRepairNotificationLevel.Size = new System.Drawing.Size(160, 23);
             this.AnchorageRepairNotificationLevel.TabIndex = 1;
-            this.ToolTipText.SetToolTip(this.AnchorageRepairNotificationLevel, "いつでも：20分経過したら通知します。\r\n明石旗艦の時：上記に加え、明石旗艦の時のみ通知します。\r\n修理艦もいるとき：上記に加え、実際に修理可能な条件の時のみ通知" +
-        "します。");
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(93, 411);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(213, 15);
-            this.label10.TabIndex = 8;
-            this.label10.Text = "＊テストを行った時点で設定が適用されます";
-            // 
-            // GroupAnchorageRepair
-            // 
-            this.GroupAnchorageRepair.Controls.Add(this.AnchorageRepairNotificationLevel);
-            this.GroupAnchorageRepair.Controls.Add(this.label11);
-            this.GroupAnchorageRepair.Location = new System.Drawing.Point(12, 298);
-            this.GroupAnchorageRepair.Name = "GroupAnchorageRepair";
-            this.GroupAnchorageRepair.Size = new System.Drawing.Size(602, 103);
-            this.GroupAnchorageRepair.TabIndex = 9;
-            this.GroupAnchorageRepair.TabStop = false;
-            this.GroupAnchorageRepair.Text = "泊地修理設定";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 22);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(67, 15);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "発動条件：";
-            // 
-            // GroupBaseAirCorps
-            // 
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_SquadronRelocation);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_EquipmentRelocation);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_EventMap);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_NormalMap);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_Standby);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_Retreat);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_Rest);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_NotOrganized);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_Tired);
-            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_NotSupplied);
-            this.GroupBaseAirCorps.Location = new System.Drawing.Point(12, 298);
-            this.GroupBaseAirCorps.Name = "GroupBaseAirCorps";
-            this.GroupBaseAirCorps.Size = new System.Drawing.Size(602, 103);
-            this.GroupBaseAirCorps.TabIndex = 10;
-            this.GroupBaseAirCorps.TabStop = false;
-            this.GroupBaseAirCorps.Text = "基地航空隊設定";
+            this.ToolTipText.SetToolTip(this.AnchorageRepairNotificationLevel, "いつでも：20分経過したら通知します。\r\n明石旗艦の時：上記に加え、明石旗艦の時のみ通知します。\r\n修理艦もいる時：上記に加え、実際に修理可能な条件の時のみ通知し" +
+        "ます。\r\nプリセット編成時：上記に加え、修理条件を満たしたプリセット編成を含むときにも通知します。");
             // 
             // BaseAirCorps_NotSupplied
             // 
@@ -920,6 +873,54 @@
             this.BaseAirCorps_SquadronRelocation.Text = "基地の配置転換完了";
             this.ToolTipText.SetToolTip(this.BaseAirCorps_SquadronRelocation, "基地のスロットの配置転換が完了したときに通知します。\r\n「装備の配置転換完了」とは異なり、装備欄に戻った機体は通知しません。\r\n");
             this.BaseAirCorps_SquadronRelocation.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(93, 411);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(213, 15);
+            this.label10.TabIndex = 8;
+            this.label10.Text = "＊テストを行った時点で設定が適用されます";
+            // 
+            // GroupAnchorageRepair
+            // 
+            this.GroupAnchorageRepair.Controls.Add(this.AnchorageRepairNotificationLevel);
+            this.GroupAnchorageRepair.Controls.Add(this.label11);
+            this.GroupAnchorageRepair.Location = new System.Drawing.Point(12, 298);
+            this.GroupAnchorageRepair.Name = "GroupAnchorageRepair";
+            this.GroupAnchorageRepair.Size = new System.Drawing.Size(602, 103);
+            this.GroupAnchorageRepair.TabIndex = 9;
+            this.GroupAnchorageRepair.TabStop = false;
+            this.GroupAnchorageRepair.Text = "泊地修理設定";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(67, 15);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "発動条件：";
+            // 
+            // GroupBaseAirCorps
+            // 
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_SquadronRelocation);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_EquipmentRelocation);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_EventMap);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_NormalMap);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_Standby);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_Retreat);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_Rest);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_NotOrganized);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_Tired);
+            this.GroupBaseAirCorps.Controls.Add(this.BaseAirCorps_NotSupplied);
+            this.GroupBaseAirCorps.Location = new System.Drawing.Point(12, 298);
+            this.GroupBaseAirCorps.Name = "GroupBaseAirCorps";
+            this.GroupBaseAirCorps.Size = new System.Drawing.Size(602, 103);
+            this.GroupBaseAirCorps.TabIndex = 10;
+            this.GroupBaseAirCorps.TabStop = false;
+            this.GroupBaseAirCorps.Text = "基地航空隊設定";
             // 
             // DialogConfigurationNotifier
             // 

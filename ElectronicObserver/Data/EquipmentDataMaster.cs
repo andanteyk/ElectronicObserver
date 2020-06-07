@@ -344,8 +344,10 @@ namespace ElectronicObserver.Data
 			EquipmentID == 226 ||       // 九五式爆雷 
 			EquipmentID == 227;         // 二式爆雷
 
-		/// <summary> 爆雷投射機かどうか(爆雷は含まない) </summary>
-		public bool IsDepthChargeProjector => CategoryType == EquipmentTypes.DepthCharge && !IsDepthCharge;
+		/// <summary> 爆雷投射機かどうか(爆雷/対潜迫撃砲は含まない) </summary>
+		public bool IsDepthChargeProjector => 
+			EquipmentID == 44 ||        // 九四式爆雷投射機
+			EquipmentID == 45;          // 三式爆雷投射機
 
 
 		/// <summary> 夜間作戦航空要員かどうか </summary>
@@ -357,9 +359,11 @@ namespace ElectronicObserver.Data
 		public bool IsHightAltitudeFighter =>
 			EquipmentID == 350 ||	// Me163B
 			EquipmentID == 351 ||	// 試製 秋水
-			EquipmentID == 352;		// 秋水
+			EquipmentID == 352;     // 秋水
 
-
+		/// <summary> 対空噴進弾幕が発動可能なロケットランチャーかどうか </summary>
+		public bool IsAARocketLauncher =>
+			EquipmentID == 274;
 
 
 

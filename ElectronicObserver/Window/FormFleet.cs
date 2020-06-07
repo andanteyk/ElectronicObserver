@@ -1,5 +1,4 @@
-﻿using Codeplex.Data;
-using ElectronicObserver.Data;
+﻿using ElectronicObserver.Data;
 using ElectronicObserver.Observer;
 using ElectronicObserver.Resource;
 using ElectronicObserver.Utility.Data;
@@ -587,7 +586,7 @@ namespace ElectronicObserver.Window
 
 					Condition.Text = ship.Condition.ToString();
 					Condition.Tag = ship.Condition;
-					SetConditionDesign(ship.Condition);
+					SetConditionDesign(Condition, ship.Condition);
 
 					if (ship.Condition < 49)
 					{
@@ -726,6 +725,9 @@ namespace ElectronicObserver.Window
 						Calculator.GetProportionalAirDefense(adjustedaa)
 						);
 
+					double rocket = Calculator.GetAARocketBarrageProbability(ship);
+					if (rocket > 0)
+						sb.AppendLine($"対空噴進弾幕: {rocket:p1}");
 				}
 
 				{
@@ -767,43 +769,6 @@ namespace ElectronicObserver.Window
 				return sb.ToString();
 			}
 
-			private void SetConditionDesign(int cond)
-			{
-
-				if (Condition.ImageAlign == ContentAlignment.MiddleCenter)
-				{
-					// icon invisible
-					Condition.ImageIndex = -1;
-
-					if (cond < 20)
-						Condition.BackColor = Color.LightCoral;
-					else if (cond < 30)
-						Condition.BackColor = Color.LightSalmon;
-					else if (cond < 40)
-						Condition.BackColor = Color.Moccasin;
-					else if (cond < 50)
-						Condition.BackColor = Color.Transparent;
-					else
-						Condition.BackColor = Color.LightGreen;
-
-				}
-				else
-				{
-					Condition.BackColor = Color.Transparent;
-
-					if (cond < 20)
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-					else if (cond < 30)
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
-					else if (cond < 40)
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
-					else if (cond < 50)
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionNormal;
-					else
-						Condition.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
-
-				}
-			}
 
 			public void ConfigurationChanged(FormFleet parent)
 			{
@@ -813,7 +778,7 @@ namespace ElectronicObserver.Window
 				HP.MainFont = parent.MainFont;
 				HP.SubFont = parent.SubFont;
 				Condition.Font = parent.MainFont;
-				SetConditionDesign((Condition.Tag as int?) ?? 49);
+				SetConditionDesign(Condition, (Condition.Tag as int?) ?? 49);
 				Equipments.Font = parent.SubFont;
 			}
 
@@ -828,6 +793,36 @@ namespace ElectronicObserver.Window
 
 			}
 		}
+
+		public static void SetConditionDesign(ImageLabel label, int cond)
+		{
+
+			if (label.ImageAlign == ContentAlignment.MiddleCenter)
+			{
+				// icon invisible
+				label.ImageIndex = -1;
+
+				label.BackColor =
+					cond < 20 ? Color.LightCoral :
+					cond < 30 ? Color.LightSalmon :
+					cond < 40 ? Color.Moccasin :
+					cond < 50 ? Color.Transparent :
+					Color.LightGreen;
+			}
+			else
+			{
+				label.BackColor = Color.Transparent;
+
+				label.ImageIndex =
+					cond < 20 ? (int)ResourceManager.IconContent.ConditionVeryTired :
+					cond < 30 ? (int)ResourceManager.IconContent.ConditionTired :
+					cond < 40 ? (int)ResourceManager.IconContent.ConditionLittleTired :
+					cond < 50 ? (int)ResourceManager.IconContent.ConditionNormal :
+					(int)ResourceManager.IconContent.ConditionSparkle;
+
+			}
+		}
+
 
 
 
@@ -1248,8 +1243,8 @@ namespace ElectronicObserver.Window
 			sb.Append("[");
 			foreach (var ship in KCDatabase.Instance.Ships.Values.Where(s => s.IsLocked))
 			{
-				sb.AppendFormat(@"{{""api_ship_id"":{0},""api_lv"":{1},""api_kyouka"":[{2}]}},",
-					ship.ShipID, ship.Level, string.Join(",", (int[])ship.RawData.api_kyouka));
+				sb.AppendFormat(@"{{""api_ship_id"":{0},""api_lv"":{1},""api_kyouka"":[{2}],""api_exp"":[{3}]}},",
+					ship.ShipID, ship.Level, string.Join(",", (int[])ship.RawData.api_kyouka), string.Join(",", (int[])ship.RawData.api_exp));
 			}
 			sb.Remove(sb.Length - 1, 1);        // remove ","
 			sb.Append("]");
@@ -1263,9 +1258,12 @@ namespace ElectronicObserver.Window
 
 			var dialog = new DialogAntiAirDefense();
 
-			dialog.SetFleetID(FleetID);
-			dialog.Show(this);
+			if (KCDatabase.Instance.Fleet.CombinedFlag != 0 && (FleetID == 1 || FleetID == 2))
+				dialog.SetFleetID(5);
+			else
+				dialog.SetFleetID(FleetID);
 
+			dialog.Show(this);
 		}
 
 

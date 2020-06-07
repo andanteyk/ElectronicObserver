@@ -1,4 +1,4 @@
-﻿using Codeplex.Data;
+﻿using DynaJson;
 using ElectronicObserver.Utility.Storage;
 using System;
 using System.Collections.Generic;
@@ -207,7 +207,7 @@ namespace ElectronicObserver.Window.Support
 					}
 
 
-					WindowPlacementWrapper wp = DynamicJson.Parse(settings);
+					WindowPlacementWrapper wp = JsonObject.Parse(settings);
 
 					if (wp.RawData.showCmd == SW.SHOWMINIMIZED)
 						wp.RawData.showCmd = SW.SHOWNORMAL;
@@ -273,7 +273,7 @@ namespace ElectronicObserver.Window.Support
 				GetWindowPlacement(form.Handle, out wp.RawData);
 
 
-				string settings = DynamicJson.Serialize(wp);
+				string settings = JsonObject.Serialize(wp);
 
 				using (StreamWriter sw = new StreamWriter(path))
 				{

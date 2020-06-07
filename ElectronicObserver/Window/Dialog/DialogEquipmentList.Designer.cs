@@ -38,6 +38,7 @@
             this.TopMenu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.TopMenu_File_CSVOutput = new System.Windows.Forms.ToolStripMenuItem();
             this.TopMenu_File_Update = new System.Windows.Forms.ToolStripMenuItem();
+            this.TopMenu_File_CopyToFleetAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveCSVDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.DetailView = new System.Windows.Forms.DataGridView();
@@ -46,7 +47,6 @@
             this.DetailView_CountAll = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailView_CountRemain = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DetailView_EquippedShip = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TopMenu_File_CopyToFleetAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.EquipmentView)).BeginInit();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -79,6 +79,7 @@
             this.EquipmentView.Size = new System.Drawing.Size(320, 456);
             this.EquipmentView.TabIndex = 0;
             this.EquipmentView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.EquipmentView_CellFormatting);
+            this.EquipmentView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.EquipmentView_CellMouseClick);
             this.EquipmentView.SelectionChanged += new System.EventHandler(this.EquipmentView_SelectionChanged);
             this.EquipmentView.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.EquipmentView_SortCompare);
             this.EquipmentView.Sorted += new System.EventHandler(this.EquipmentView_Sorted);
@@ -157,6 +158,13 @@
             this.TopMenu_File_Update.Size = new System.Drawing.Size(207, 22);
             this.TopMenu_File_Update.Text = "更新(&U)";
             this.TopMenu_File_Update.Click += new System.EventHandler(this.TopMenu_File_Update_Click);
+            // 
+            // TopMenu_File_CopyToFleetAnalysis
+            // 
+            this.TopMenu_File_CopyToFleetAnalysis.Name = "TopMenu_File_CopyToFleetAnalysis";
+            this.TopMenu_File_CopyToFleetAnalysis.Size = new System.Drawing.Size(207, 22);
+            this.TopMenu_File_CopyToFleetAnalysis.Text = "艦隊分析ページへコピー(&A)";
+            this.TopMenu_File_CopyToFleetAnalysis.Click += new System.EventHandler(this.TopMenu_File_CopyToFleetAnalysis_Click);
             // 
             // SaveCSVDialog
             // 
@@ -242,13 +250,6 @@
             this.DetailView_EquippedShip.Name = "DetailView_EquippedShip";
             this.DetailView_EquippedShip.ReadOnly = true;
             this.DetailView_EquippedShip.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // TopMenu_File_CopyToFleetAnalysis
-            // 
-            this.TopMenu_File_CopyToFleetAnalysis.Name = "TopMenu_File_CopyToFleetAnalysis";
-            this.TopMenu_File_CopyToFleetAnalysis.Size = new System.Drawing.Size(207, 22);
-            this.TopMenu_File_CopyToFleetAnalysis.Text = "艦隊分析ページへコピー(&A)";
-            this.TopMenu_File_CopyToFleetAnalysis.Click += new System.EventHandler(this.TopMenu_File_CopyToFleetAnalysis_Click);
             // 
             // DialogEquipmentList
             // 

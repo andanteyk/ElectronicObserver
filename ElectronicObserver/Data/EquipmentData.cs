@@ -1,4 +1,4 @@
-﻿using Codeplex.Data;
+﻿using DynaJson;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -113,7 +113,7 @@ namespace ElectronicObserver.Data
 				case "api_get_member/ship3":            //存在しないアイテムを追加…すると処理に不都合があるので、ID:1で我慢　一瞬だし無問題（？）
 					{
 						int id = data;
-						data = new DynamicJson();
+						data = new JsonObject();
 						data.api_id = id;
 						data.api_slotitem_id = 1;
 						data.api_locked = 0;
