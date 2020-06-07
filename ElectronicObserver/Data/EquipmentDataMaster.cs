@@ -359,9 +359,11 @@ namespace ElectronicObserver.Data
 		public bool IsHightAltitudeFighter =>
 			EquipmentID == 350 ||	// Me163B
 			EquipmentID == 351 ||	// 試製 秋水
-			EquipmentID == 352;		// 秋水
+			EquipmentID == 352;     // 秋水
 
-
+		/// <summary> 対空噴進弾幕が発動可能なロケットランチャーかどうか </summary>
+		public bool IsAARocketLauncher =>
+			EquipmentID == 274;
 
 
 

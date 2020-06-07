@@ -725,6 +725,9 @@ namespace ElectronicObserver.Window
 						Calculator.GetProportionalAirDefense(adjustedaa)
 						);
 
+					double rocket = Calculator.GetAARocketBarrageProbability(ship);
+					if (rocket > 0)
+						sb.AppendLine($"対空噴進弾幕: {rocket:p1}");
 				}
 
 				{
@@ -1240,8 +1243,8 @@ namespace ElectronicObserver.Window
 			sb.Append("[");
 			foreach (var ship in KCDatabase.Instance.Ships.Values.Where(s => s.IsLocked))
 			{
-				sb.AppendFormat(@"{{""api_ship_id"":{0},""api_lv"":{1},""api_kyouka"":[{2}]}},",
-					ship.ShipID, ship.Level, string.Join(",", (int[])ship.RawData.api_kyouka));
+				sb.AppendFormat(@"{{""api_ship_id"":{0},""api_lv"":{1},""api_kyouka"":[{2}],""api_exp"":[{3}]}},",
+					ship.ShipID, ship.Level, string.Join(",", (int[])ship.RawData.api_kyouka), string.Join(",", (int[])ship.RawData.api_exp));
 			}
 			sb.Remove(sb.Length - 1, 1);        // remove ","
 			sb.Append("]");
@@ -1255,9 +1258,12 @@ namespace ElectronicObserver.Window
 
 			var dialog = new DialogAntiAirDefense();
 
-			dialog.SetFleetID(FleetID);
-			dialog.Show(this);
+			if (KCDatabase.Instance.Fleet.CombinedFlag != 0 && (FleetID == 1 || FleetID == 2))
+				dialog.SetFleetID(5);
+			else
+				dialog.SetFleetID(FleetID);
 
+			dialog.Show(this);
 		}
 
 

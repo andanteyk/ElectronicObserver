@@ -78,7 +78,8 @@ namespace ElectronicObserver.Window.Dialog
 				return;
 			}
 
-			FleetID.SelectedIndex = 0;
+			if (FleetID.SelectedIndex == -1)
+				FleetID.SelectedIndex = 0;
 			Formation.SelectedIndex = 0;
 
 			UpdateAACutinKind(ShowAll.Checked);
@@ -133,6 +134,7 @@ namespace ElectronicObserver.Window.Dialog
 			int[] shootDownFailed = adjustedAAs.Select((val, i) => ships[i] == null ? 0 :
 			   Calculator.GetShootDownCount(enemyAircraftCount, 0, 0, aaCutinKind)).ToArray();
 
+			double[] aaRocketBarrageProbability = ships.Select(ship => Calculator.GetAARocketBarrageProbability(ship)).ToArray();
 
 
 			ResultView.Rows.Clear();
@@ -145,7 +147,17 @@ namespace ElectronicObserver.Window.Dialog
 				rows[i] = new DataGridViewRow();
 				rows[i].CreateCells(ResultView);
 
-				rows[i].SetValues(ships[i].Name, ships[i].AABase, adjustedAAs[i], proportionalAAs[i], fixedAAs[i], shootDownBoth[i], shootDownProportional[i], shootDownFixed[i], shootDownFailed[i]);
+				rows[i].SetValues(
+					ships[i].Name,
+					ships[i].AABase,
+					adjustedAAs[i],
+					proportionalAAs[i],
+					fixedAAs[i],
+					shootDownBoth[i],
+					shootDownProportional[i],
+					shootDownFixed[i],
+					shootDownFailed[i],
+					aaRocketBarrageProbability[i]);
 
 			}
 			ResultView.Rows.AddRange(rows.Where(r => r != null).ToArray());
