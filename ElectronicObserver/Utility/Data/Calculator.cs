@@ -1466,6 +1466,7 @@ namespace ElectronicObserver.Utility.Data
 				case 149:   // 金剛改二
 				case 591:   // 金剛改二丙
 				case 150:   // 比叡改二
+				case 592:   // 比叡改二丙
 				case 151:   // 榛名改二
 				case 152:   // 霧島改二
 				case 519:   // Jervis
