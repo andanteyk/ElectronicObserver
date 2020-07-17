@@ -462,7 +462,8 @@ namespace ElectronicObserver.Window
 					Name.Tag = ship.ShipID;
 					ToolTipInfo.SetToolTip(Name,
 						string.Format(
-							"{0} {1}\r\n火力: {2}/{3}\r\n雷装: {4}/{5}\r\n対空: {6}/{7}\r\n装甲: {8}/{9}\r\n対潜: {10}/{11}\r\n回避: {12}/{13}\r\n索敵: {14}/{15}\r\n運: {16}\r\n命中: {17:+#;-#;+0}\r\n爆装: {18:+#;-#;+0}\r\n射程: {19} / 速力: {20}\r\n(右クリックで図鑑)\n",
+							"{0}{1} {2}\r\n火力: {3}/{4}\r\n雷装: {5}/{6}\r\n対空: {7}/{8}\r\n装甲: {9}/{10}\r\n対潜: {11}/{12}\r\n回避: {13}/{14}\r\n索敵: {15}/{16}\r\n運: {17}\r\n命中: {18:+#;-#;+0}\r\n爆装: {19:+#;-#;+0}\r\n射程: {20} / 速力: {21}\r\n(右クリックで図鑑)\n",
+							ship.SallyArea >= 0 ? $"[{ship.SallyArea}] " : "",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase, ship.FirepowerTotal,
 							ship.TorpedoBase, ship.TorpedoTotal,
