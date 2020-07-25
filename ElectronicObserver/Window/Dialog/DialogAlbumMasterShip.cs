@@ -49,6 +49,7 @@ namespace ElectronicObserver.Window.Dialog
 			TitleEvasion.ImageList =
 			TitleLOS.ImageList =
 			TitleLuck.ImageList =
+			Accuracy.ImageList =
 			TitleSpeed.ImageList =
 			TitleRange.ImageList =
 			Rarity.ImageList =
@@ -90,6 +91,7 @@ namespace ElectronicObserver.Window.Dialog
 			TitleEvasion.ImageIndex = (int)ResourceManager.IconContent.ParameterEvasion;
 			TitleLOS.ImageIndex = (int)ResourceManager.IconContent.ParameterLOS;
 			TitleLuck.ImageIndex = (int)ResourceManager.IconContent.ParameterLuck;
+			Accuracy.ImageIndex = (int)ResourceManager.IconContent.ParameterAccuracy;
 			TitleSpeed.ImageIndex = (int)ResourceManager.IconContent.ParameterSpeed;
 			TitleRange.ImageIndex = (int)ResourceManager.IconContent.ParameterRange;
 			Fuel.ImageIndex = (int)ResourceManager.IconContent.ResourceFuel;
@@ -361,6 +363,7 @@ namespace ElectronicObserver.Window.Dialog
 				LuckMin.Text = ship.LuckMin.ToString();
 				LuckMax.Text = ship.LuckMax.ToString();
 
+				Accuracy.Visible = false;
 			}
 			else
 			{
@@ -370,18 +373,20 @@ namespace ElectronicObserver.Window.Dialog
 				int torpedo = ship.TorpedoMax;
 				int aa = ship.AAMax;
 				int armor = ship.ArmorMax;
-				int asw = ship.ASW != null && ship.ASW.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.ASW.Maximum : 0;
-				int evasion = ship.Evasion != null && ship.Evasion.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.Evasion.Maximum : 0;
-				int los = ship.LOS != null && ship.LOS.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.LOS.Maximum : 0;
+				int asw = ship.ASW?.IsDetermined ?? false ? ship.ASW.Maximum : 0;
+				int evasion = ship.Evasion?.IsDetermined ?? false ? ship.Evasion.Maximum : 0;
+				int los = ship.LOS?.IsDetermined ?? false ? ship.LOS.Maximum : 0;
 				int luck = ship.LuckMax;
+				int accuracy = 0;
 
 				if (ship.DefaultSlot != null)
 				{
 					int count = ship.DefaultSlot.Count;
 					for (int i = 0; i < count; i++)
 					{
-						EquipmentDataMaster eq = KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[i]];
-						if (eq == null) continue;
+						var eq = KCDatabase.Instance.MasterEquipments[ship.DefaultSlot[i]];
+						if (eq == null)
+							continue;
 
 						firepower += eq.Firepower;
 						torpedo += eq.Torpedo;
@@ -391,6 +396,7 @@ namespace ElectronicObserver.Window.Dialog
 						evasion += eq.Evasion;
 						los += eq.LOS;
 						luck += eq.Luck;
+						accuracy += eq.Accuracy;
 					}
 				}
 
@@ -414,17 +420,44 @@ namespace ElectronicObserver.Window.Dialog
 				ArmorMin.Text = ship.ArmorMax.ToString();
 				ArmorMax.Text = armor.ToString();
 
-				ASWMin.Text = ship.ASW != null && ship.ASW.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.ASW.Maximum.ToString() : "???";
-				ASWMax.Text = asw.ToString("+#;-#;0");
+				if (ship.ASW?.IsDetermined ?? false)
+				{
+					ASWMin.Text = ship.ASW.Maximum.ToString();
+					ASWMax.Text = asw.ToString();
+				}
+				else
+				{
+					ASWMin.Text = "???";
+					ASWMax.Text = asw.ToString("+0;-0");
+				}
 
-				EvasionMin.Text = ship.Evasion != null && ship.Evasion.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.Evasion.Maximum.ToString() : "???";
-				EvasionMax.Text = evasion.ToString("+#;-#;0");
+				if (ship.Evasion?.IsDetermined ?? false)
+				{
+					EvasionMin.Text = ship.Evasion.Maximum.ToString();
+					EvasionMax.Text = evasion.ToString();
+				}
+				else
+				{
+					EvasionMin.Text = "???";
+					EvasionMax.Text = evasion.ToString("+0;-0");
+				}
 
-				LOSMin.Text = ship.LOS != null && ship.LOS.Maximum != ShipParameterRecord.Parameter.MaximumDefault ? ship.LOS.Maximum.ToString() : "???";
-				LOSMax.Text = los.ToString("+#;-#;0");
+				if (ship.LOS?.IsDetermined ?? false)
+				{
+					LOSMin.Text = ship.LOS.Maximum.ToString();
+					LOSMax.Text = los.ToString();
+				}
+				else
+				{
+					LOSMin.Text = "???";
+					LOSMax.Text = los.ToString("+0;-0");
+				}
 
 				LuckMin.Text = ship.LuckMax > 0 ? ship.LuckMax.ToString() : "???";
 				LuckMax.Text = luck > 0 ? luck.ToString() : "???";
+
+				Accuracy.Text = accuracy.ToString("+0;-0");
+				Accuracy.Visible = true;
 
 			}
 			UpdateLevelParameter(ship.ShipID);
