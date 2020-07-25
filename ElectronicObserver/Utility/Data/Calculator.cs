@@ -1339,21 +1339,35 @@ namespace ElectronicObserver.Utility.Data
 
 			// 固有カットイン
 
-			if (KCDatabase.Instance.MasterShips[shipID]?.ShipClass == 54)
+			switch (KCDatabase.Instance.MasterShips[shipID]?.ShipClass)
 			{
-				// 秋月型
-				if (highangle >= 2 && radar >= 1)
-				{
-					return 1;
-				}
-				if (highangle >= 1 && radar >= 1)
-				{
-					return 2;
-				}
-				if (highangle >= 2)
-				{
-					return 3;
-				}
+				case 54:    // 秋月型
+					if (highangle >= 2 && radar >= 1)
+					{
+						return 1;
+					}
+					if (highangle >= 1 && radar >= 1)
+					{
+						return 2;
+					}
+					if (highangle >= 2)
+					{
+						return 3;
+					}
+					break;
+
+				case 91:    // Fletcher級
+					if (highangle_america_gfcs >= 2)
+						return 34;
+					if (highangle_america_gfcs >= 1 && highangle_america >= 1)
+						return 35;
+					if (highangle_america >= 2)
+					{
+						if (radar_gfcs >= 1)
+							return 36;
+						return 37;
+					}
+					break;
 			}
 
 
@@ -1381,6 +1395,7 @@ namespace ElectronicObserver.Utility.Data
 					break;
 
 				case 470:   // 霞改二乙
+				case 622:   // 夕張改二
 					if (highangle >= 1 && aagun_total >= 1)
 					{
 						if (aaradar >= 1)
@@ -1477,6 +1492,8 @@ namespace ElectronicObserver.Utility.Data
 				case 364:   // Warspite改
 				case 515:   // Ark Royal
 				case 393:   // Ark Royal改
+				case 520:   // Janus
+				case 893:   // Janus改
 					if (aarocket_english >= 2)
 						return 32;
 					if (aagun_pompom >= 1 && (maingunl_fcr >= 1 || aarocket_english >= 1))
@@ -1484,26 +1501,11 @@ namespace ElectronicObserver.Utility.Data
 					break;
 
 				case 579:   // Gotland改
+				case 630:   // Gotland andra
 					if (highangle >= 3)
 						return 30;
 					if (highangle >= 1 && aagun_medium >= 1)
 						return 33;
-					break;
-
-				case 562:   // Johnston
-				case 689:   // Johnston改
-				case 596:   // Fletcher
-				case 692:   // Fletcher改
-					if (highangle_america_gfcs >= 2)
-						return 34;
-					if (highangle_america_gfcs >= 1 && highangle_america >= 1)
-						return 35;
-					if (highangle_america >= 2)
-					{
-						if (radar_gfcs >= 1)
-							return 36;
-						return 37;
-					}
 					break;
 
 				case 597:   // Atlanta

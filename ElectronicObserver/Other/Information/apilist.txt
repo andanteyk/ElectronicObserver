@@ -71,7 +71,8 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_battle_d	：
 		api_weda		：ケッコンカッコカリの顔枠の左上座標
 		api_wedb		：〃幅[0]と高さ[1]
-		api_pa			：Colorado カットインのエフェクト座標
+		api_pa			：Colorado カットインのエフェクト座標　非対応なら [0, 0]
+		api_pab			：僚艦夜戦突撃演出用の座標　非対応なら [0, 0]
 	
 	api_mst_slotitem_equiptype		：装備カテゴリ
 		api_id			：カテゴリID(装備のtype[2]に対応)
