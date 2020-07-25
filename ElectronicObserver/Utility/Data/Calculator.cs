@@ -62,6 +62,7 @@ namespace ElectronicObserver.Utility.Data
 			{ EquipmentTypes.CarrierBasedBomber,    0.25 },
 			{ EquipmentTypes.SeaplaneFighter,       0.2 },
 			{ EquipmentTypes.Interceptor,           0.2 },
+			{ EquipmentTypes.LandBasedAttacker,     0.5 },
 		};
 
 
@@ -98,6 +99,13 @@ namespace ElectronicObserver.Utility.Data
 
 
 			double levelBonus = LevelBonus.ContainsKey(category) ? LevelBonus[category] : 0;    // 改修レベル補正
+
+			if (category == EquipmentTypes.LandBasedAttacker)
+				levelBonus *= Math.Sqrt(level);
+			else
+				levelBonus *= level;
+
+
 			double interceptorBonus = 0;    // 局地戦闘機の迎撃補正
 			if (category == EquipmentTypes.Interceptor)
 			{
@@ -120,7 +128,7 @@ namespace ElectronicObserver.Utility.Data
 				aircraftExp = AircraftExpTable[aircraftLevel];
 			}
 
-			return (int)((eq.AA + levelBonus * level + interceptorBonus) * Math.Sqrt(count)
+			return (int)((eq.AA + levelBonus + interceptorBonus) * Math.Sqrt(count)
 				+ Math.Sqrt(aircraftExp / 10.0)
 				+ (AircraftLevelBonus.ContainsKey(category) ? AircraftLevelBonus[category][aircraftLevel] : 0));
 		}
