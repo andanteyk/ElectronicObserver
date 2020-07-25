@@ -78,6 +78,7 @@
             this.ToolMenu_Other_RefreshIgnoreCache = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolMenu_Other_NavigateToLogInPage = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolMenu_Other_Navigate = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolMenu_Other_ClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolMenu_Other_AppliesStyleSheet = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -87,7 +88,6 @@
             this.ToolMenu_Other_Alignment_Left = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolMenu_Other_Alignment_Right = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolMenu_Other_Alignment_Invisible = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolMenu_Other_ClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolMenu_Other_OpenDevTool = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMenuTool.SuspendLayout();
             this.ToolMenu.SuspendLayout();
@@ -479,6 +479,13 @@
             this.ToolMenu_Other_Navigate.Text = "移動(&N)...";
             this.ToolMenu_Other_Navigate.Click += new System.EventHandler(this.ToolMenu_Other_Navigate_Click);
             // 
+            // ToolMenu_Other_ClearCache
+            // 
+            this.ToolMenu_Other_ClearCache.Name = "ToolMenu_Other_ClearCache";
+            this.ToolMenu_Other_ClearCache.Size = new System.Drawing.Size(262, 22);
+            this.ToolMenu_Other_ClearCache.Text = "キャッシュを削除(&H)";
+            this.ToolMenu_Other_ClearCache.Click += new System.EventHandler(this.ToolMenu_Other_ClearCache_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -545,13 +552,6 @@
             this.ToolMenu_Other_Alignment_Invisible.Text = "非表示(&I)";
             this.ToolMenu_Other_Alignment_Invisible.Click += new System.EventHandler(this.ToolMenu_Other_Alignment_Invisible_Click);
             // 
-            // ToolMenu_Other_ClearCache
-            // 
-            this.ToolMenu_Other_ClearCache.Name = "ToolMenu_Other_ClearCache";
-            this.ToolMenu_Other_ClearCache.Size = new System.Drawing.Size(262, 22);
-            this.ToolMenu_Other_ClearCache.Text = "キャッシュを削除(&H)";
-            this.ToolMenu_Other_ClearCache.Click += new System.EventHandler(this.ToolMenu_Other_ClearCache_Click);
-            // 
             // ToolMenu_Other_OpenDevTool
             // 
             this.ToolMenu_Other_OpenDevTool.Name = "ToolMenu_Other_OpenDevTool";
@@ -568,6 +568,7 @@
             this.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.KeyPreview = true;
             this.Name = "FormBrowser";
+            this.ShowInTaskbar = false;
             this.Text = "七四式電子観測儀 ブラウザ";
             this.Activated += new System.EventHandler(this.FormBrowser_Activated);
             this.Load += new System.EventHandler(this.FormBrowser_Load);

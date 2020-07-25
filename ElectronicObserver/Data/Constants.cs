@@ -377,7 +377,7 @@ namespace ElectronicObserver.Data
 				case 83: return "Casablanca級";
 				case 84: return "Essex級";
 				case 85: return "日振型";
-				case 86: return "呂号潜水艦";
+				case 86: return "呂号潜水艦";			// "潜水艦" が艦種と被るので省くべき?
 				case 87: return "John C.Butler級";
 				case 88: return "Nelson級";
 				case 89: return "Gotland級";
@@ -391,6 +391,13 @@ namespace ElectronicObserver.Data
 				case 97: return "陸軍特種船(R1)";
 				case 98: return "De Ruyter級";
 				case 99: return "Atlanta級";
+				case 100: return "迅鯨型";
+				case 101: return "松型";
+				case 102: return "South Dakota級";
+				case 103: return "巡潜丙型";
+				case 104: return "丁型海防艦";		// 86 に同じ
+				case 105: return "Yorktown級";
+				case 106: return "St. Louis級";
 				default: return "不明";
 			}
 		}

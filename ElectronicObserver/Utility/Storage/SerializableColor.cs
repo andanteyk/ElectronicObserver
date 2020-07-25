@@ -15,7 +15,7 @@ namespace ElectronicObserver.Utility.Storage
 	/// </summary>
 	[DataContract(Name = "SerializableColor")]
 	[DebuggerDisplay("{ColorData}")]
-	public class SerializableColor
+	public class SerializableColor : IEquatable<SerializableColor>
 	{
 
 		[IgnoreDataMember]
@@ -101,5 +101,9 @@ namespace ElectronicObserver.Utility.Storage
 				((uint)(color.B) << 0);
 
 		}
+
+		public bool Equals(SerializableColor other) => SerializedColor == other?.SerializedColor;
+
 	}
+
 }

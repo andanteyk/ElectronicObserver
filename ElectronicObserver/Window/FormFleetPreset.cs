@@ -92,7 +92,7 @@ namespace ElectronicObserver.Window
 
 				Name.Text = preset.Name;
 
-				int lowestCondition = preset.MembersInstance.Select(s => s?.Condition ?? 49).DefaultIfEmpty(49).Min();
+				int lowestCondition = preset.MembersInstance.Where(s => s != null).Select(s => s.Condition).DefaultIfEmpty(49).Min();
 				FormFleet.SetConditionDesign(Name, lowestCondition);
 
 				_tooltip.SetToolTip(Name, $"最低cond: {lowestCondition}");

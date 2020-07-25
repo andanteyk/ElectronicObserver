@@ -196,7 +196,8 @@ namespace ElectronicObserver.Data
 		/// <summary> 後期型魚雷かどうか </summary>
 		public bool IsLateModelTorpedo =>
 			EquipmentID == 213 ||   // 後期型艦首魚雷(6門)
-			EquipmentID == 214;     // 熟練聴音員+後期型艦首魚雷(6門)
+			EquipmentID == 214 ||   // 熟練聴音員+後期型艦首魚雷(6門)
+			EquipmentID == 383;     // 後期型53cm艦首魚雷(8門)
 
 
 		/// <summary> 高角砲かどうか </summary>
@@ -345,7 +346,7 @@ namespace ElectronicObserver.Data
 			EquipmentID == 227;         // 二式爆雷
 
 		/// <summary> 爆雷投射機かどうか(爆雷/対潜迫撃砲は含まない) </summary>
-		public bool IsDepthChargeProjector => 
+		public bool IsDepthChargeProjector =>
 			EquipmentID == 44 ||        // 九四式爆雷投射機
 			EquipmentID == 45;          // 三式爆雷投射機
 
@@ -357,8 +358,8 @@ namespace ElectronicObserver.Data
 
 		/// <summary> 高高度局戦かどうか </summary>
 		public bool IsHightAltitudeFighter =>
-			EquipmentID == 350 ||	// Me163B
-			EquipmentID == 351 ||	// 試製 秋水
+			EquipmentID == 350 ||   // Me163B
+			EquipmentID == 351 ||   // 試製 秋水
 			EquipmentID == 352;     // 秋水
 
 		/// <summary> 対空噴進弾幕が発動可能なロケットランチャーかどうか </summary>

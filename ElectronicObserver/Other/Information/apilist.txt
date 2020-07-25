@@ -71,7 +71,8 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_battle_d	：
 		api_weda		：ケッコンカッコカリの顔枠の左上座標
 		api_wedb		：〃幅[0]と高さ[1]
-		api_pa			：Colorado カットインのエフェクト座標
+		api_pa			：Colorado カットインのエフェクト座標　非対応なら [0, 0]
+		api_pab			：僚艦夜戦突撃演出用の座標　非対応なら [0, 0]
 	
 	api_mst_slotitem_equiptype		：装備カテゴリ
 		api_id			：カテゴリID(装備のtype[2]に対応)
@@ -502,6 +503,7 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_drawing_count		：改装設計図　所要枚数
 		api_catapult_count		：試製甲板カタパルト　所要個数
 		api_report_count		：戦闘詳報　所要枚数
+		api_aviation_mat_count	：新型航空兵装資材　所要個数
 		api_sortno				：? (概ね図鑑IDだが、霞(改/二/乙), 利根(改/二), 筑摩(改/二)などで異なる)
 
 	api_mst_bgm			：母港BGMデータ？
@@ -1049,6 +1051,13 @@ api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ�
 			97=陸軍特種船(R1)
 			98=De Ruyter級
 			99=Atlanta級
+			100=迅鯨型
+			101=松型
+			102=South Dakota級？
+			103=巡潜丙型
+			104=丁型海防艦？
+			105=Yorktown級？
+			106=St. Louis級？
 		api_cnum			：艦番
 		api_taik			：耐久
 		api_souk			：装甲
