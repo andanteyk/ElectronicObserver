@@ -1747,6 +1747,9 @@ namespace ElectronicObserver.Utility
 			if (dt <= DateTimeHelper.CSVStringToTime("2018/08/17 23:00:00"))
 				Update312_RemoveObsoleteRegistry();
 
+			if (dt <= DateTimeHelper.CSVStringToTime("2020/06/07 23:00:00"))
+				Update460_AddSallyAreaColorScheme();
+
 
 			Config.VersionUpdateTime = DateTimeHelper.TimeToCSVString(SoftwareInformation.UpdateTime);
 		}
@@ -1997,11 +2000,12 @@ namespace ElectronicObserver.Utility
 			}
 		}
 
-		private void Update461_AddSallyAreaColorScheme()
+		private void Update460_AddSallyAreaColorScheme()
 		{
 			if (Config.FormFleet.SallyAreaColorScheme.SequenceEqual(Config.FormFleet.DefaultSallyAreaColorScheme.Take(8)))
 			{
 				Config.FormFleet.SallyAreaColorScheme = Config.FormFleet.DefaultSallyAreaColorScheme.ToList();
+				Utility.Logger.Add(1, "<= ver. 4.6.0 移行処理: カラースキームの追加が完了しました。");
 			}
 		}
 	}
