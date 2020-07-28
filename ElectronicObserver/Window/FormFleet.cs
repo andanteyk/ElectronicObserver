@@ -463,7 +463,7 @@ namespace ElectronicObserver.Window
 					ToolTipInfo.SetToolTip(Name,
 						string.Format(
 							"{0}{1} {2}\r\n火力: {3}/{4}\r\n雷装: {5}/{6}\r\n対空: {7}/{8}\r\n装甲: {9}/{10}\r\n対潜: {11}/{12}\r\n回避: {13}/{14}\r\n索敵: {15}/{16}\r\n運: {17}\r\n命中: {18:+#;-#;+0}\r\n爆装: {19:+#;-#;+0}\r\n射程: {20} / 速力: {21}\r\n(右クリックで図鑑)\n",
-							ship.SallyArea >= 0 ? $"[{ship.SallyArea}] " : "",
+							ship.SallyArea > 0 ? $"[{ship.SallyArea}] " : "",
 							ship.MasterShip.ShipTypeName, ship.NameWithLevel,
 							ship.FirepowerBase, ship.FirepowerTotal,
 							ship.TorpedoBase, ship.TorpedoTotal,
