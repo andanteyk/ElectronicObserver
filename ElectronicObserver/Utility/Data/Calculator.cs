@@ -408,6 +408,8 @@ namespace ElectronicObserver.Utility.Data
 							case 93:        // Colorado級
 							case 95:        // Northampton級
 							case 99:        // Atlanta級
+							case 102:       // South Dakota級
+							case 105:       // Yorktown級
 								losBase -= 4;
 								break;
 						}

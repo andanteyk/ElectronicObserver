@@ -486,6 +486,13 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressExpedition(q, 1, new[]{ 4 }),
 								new ProgressExpedition(q, 1, new[]{ 10 }),
 							})); break;
+						case 437:   //|437|年(5月)|小笠原沖哨戒線の強化を実施せよ！|「対潜警戒任務」「小笠原沖哨戒線遠征」「小笠原沖戦闘哨戒」「南西方面航空偵察作戦」成功各1?|
+							Progresses.Add(new ProgressMultiExpedition(q, new[]{
+								new ProgressExpedition(q, 1, new[]{ 4 }),
+								new ProgressExpedition(q, 1, new[]{ 104 }),
+								new ProgressExpedition(q, 1, new[]{ 105 }),
+								new ProgressExpedition(q, 1, new[]{ 110 }),
+							})); break;
 
 						case 503:   //|503|艦隊大整備！|入渠5
 							Progresses.Add(new ProgressDocking(q, 5));
