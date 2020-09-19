@@ -70,6 +70,8 @@ namespace ElectronicObserver.Window.Dialog
                     results[2],
                     results[3]);
 
+				row.Cells[1].ToolTipText = $"ID: {mission.MissionID}";
+
                 for (int i = 0; i < 4; i++)
                 {
                     var result = results[i];

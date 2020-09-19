@@ -474,9 +474,9 @@ namespace ElectronicObserver.Window
 
 				if (data.IsObject)
 				{
-					foreach (string p in data.GetDynamicMemberNames())
+					foreach (KeyValuePair<string, dynamic> p in data)
 					{
-						BuildCSVHeader(sb, currentPath + "." + p, data[p]);
+						BuildCSVHeader(sb, currentPath + "." + p.Key, p.Value);
 					}
 					return sb;
 
@@ -506,9 +506,9 @@ namespace ElectronicObserver.Window
 
 				if (data.IsObject)
 				{
-					foreach (string p in data.GetDynamicMemberNames())
+					foreach (KeyValuePair<string, dynamic> p in data)
 					{
-						BuildCSVContent(sb, data[p]);
+						BuildCSVContent(sb, p.Value);
 					}
 					return sb;
 

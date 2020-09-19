@@ -493,6 +493,20 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressExpedition(q, 1, new[]{ 105 }),
 								new ProgressExpedition(q, 1, new[]{ 110 }),
 							})); break;
+						case 438:   //|438|年(8月)|南西諸島方面の海上護衛を強化せよ！|「対潜警戒任務」「兵站強化任務」「タンカー護衛任務」「南西諸島捜索撃滅戦」成功各1|
+							Progresses.Add(new ProgressMultiExpedition(q, new[]{
+								new ProgressExpedition(q, 1, new[]{ 4 }),
+								new ProgressExpedition(q, 1, new[]{ 100 }),
+								new ProgressExpedition(q, 1, new[]{ 9 }),
+								new ProgressExpedition(q, 1, new[]{ 114 }),
+							})); break;
+						case 439:   //|439|年(9月)|兵站強化遠征任務【基本作戦】|「海上護衛任務」「兵站強化任務」「ボーキサイト輸送任務」「南西方面航空偵察作戦」成功各1
+							Progresses.Add(new ProgressMultiExpedition(q, new[]{
+								new ProgressExpedition(q, 1, new[]{ 5 }),
+								new ProgressExpedition(q, 1, new[]{ 100 }),
+								new ProgressExpedition(q, 1, new[]{ 11 }),
+								new ProgressExpedition(q, 1, new[]{ 110 }),
+							})); break;
 
 						case 503:   //|503|艦隊大整備！|入渠5
 							Progresses.Add(new ProgressDocking(q, 5));
@@ -600,6 +614,13 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressDiscard(q, 3, true, new[]{ 7 }),
 								new ProgressDiscard(q, 3, true, new[]{ 8 }),
 								new ProgressDiscard(q, 3, true, new[]{ 10 }),
+							}));
+							break;
+						case 657:   //|657|年(9月)|新型兵装開発整備の強化|(小口径主砲x6, 中口径主砲x5, 魚雷x4)廃棄, 鋼材4000保有|
+							Progresses.Add(new ProgressMultiDiscard(q, new[]{
+								new ProgressDiscard(q, 6, true, new[]{ 1 }),
+								new ProgressDiscard(q, 5, true, new[]{ 2 }),
+								new ProgressDiscard(q, 4, true, new[]{ 5 }),
 							}));
 							break;
 
