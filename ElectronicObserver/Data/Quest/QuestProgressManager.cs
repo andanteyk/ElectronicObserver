@@ -420,6 +420,14 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressSpecialBattle(q, 1, "x", new[] { 16 }, true),
 							}));
 							break;
+						case 914:   //|914|３|重巡戦隊、西へ！|4-1・4-2・4-3・4-4ボスA勝利各1|要重巡3/駆逐1
+							Progresses.Add(new ProgressMultiBattle(q, new[] {
+								new ProgressSpecialBattle(q, 1, "A", new[] { 41 }, true),
+								new ProgressSpecialBattle(q, 1, "A", new[] { 42 }, true),
+								new ProgressSpecialBattle(q, 1, "A", new[] { 43 }, true),
+								new ProgressSpecialBattle(q, 1, "A", new[] { 44 }, true),
+							}));
+							break;
 
 						case 303:   //|303|「演習」で練度向上！|演習3
 							Progresses.Add(new ProgressPractice(q, 3, false));
