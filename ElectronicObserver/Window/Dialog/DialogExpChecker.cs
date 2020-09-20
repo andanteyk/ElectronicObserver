@@ -178,12 +178,16 @@ namespace ElectronicObserver.Window.Dialog
 			{
 				if (selectedShip.SlotSize >= 4)
 				{
+					ASWEquipmentPairs.Add(openingASWborder - 67, "[HF/DF + Type144/147 ASDIC, 対潜短魚雷(試作初期型), RUR-4A Weapon Alpha改, 試製15cm9連装対潜噴進砲]");
 					ASWEquipmentPairs.Add(openingASWborder - 51, "[四式水中聴音機x3, 試製15cm9連装対潜噴進砲]");
 					ASWEquipmentPairs.Add(openingASWborder - 48, "[四式水中聴音機x4]");
 					ASWEquipmentPairs.Add(openingASWborder - 44, "[四式水中聴音機x3, 三式爆雷投射機]");
 				}
 				if (selectedShip.SlotSize >= 3)
 				{
+					ASWEquipmentPairs.Add(openingASWborder - 52, "[HF/DF + Type144/147 ASDIC, 対潜短魚雷(試作初期型), RUR-4A Weapon Alpha改]");
+					ASWEquipmentPairs.Add(openingASWborder - 47, "[HF/DF + Type144/147 ASDIC, RUR-4A Weapon Alpha改, 試製15cm9連装対潜噴進砲]");
+
 					ASWEquipmentPairs.Add(openingASWborder - 39, "[四式水中聴音機x2, 試製15cm9連装対潜噴進砲]");
 					ASWEquipmentPairs.Add(openingASWborder - 36, "[四式水中聴音機x3]");
 					ASWEquipmentPairs.Add(openingASWborder - 32, "[四式水中聴音機x2, 三式爆雷投射機]");
@@ -192,6 +196,11 @@ namespace ElectronicObserver.Window.Dialog
 				}
 				if (selectedShip.SlotSize >= 2)
 				{
+					ASWEquipmentPairs.Add(openingASWborder - 35, "[HF/DF + Type144/147 ASDIC, 対潜短魚雷(試作初期型)]");
+					if (ASWEquipmentPairs.ContainsKey(openingASWborder - 32))
+						ASWEquipmentPairs[openingASWborder - 32] += ", [HF/DF + Type144/147 ASDIC, RUR-4A Weapon Alpha改]";
+					else
+						ASWEquipmentPairs.Add(openingASWborder - 32, "[HF/DF + Type144/147 ASDIC, RUR-4A Weapon Alpha改]");
 					if (ASWEquipmentPairs.ContainsKey(openingASWborder - 27))
 						ASWEquipmentPairs[openingASWborder - 27] += ", [四式水中聴音機, 試製15cm9連装対潜噴進砲]";
 					else
@@ -199,6 +208,7 @@ namespace ElectronicObserver.Window.Dialog
 					ASWEquipmentPairs.Add(openingASWborder - 20, "[四式水中聴音機, 三式爆雷投射機]");
 					ASWEquipmentPairs.Add(openingASWborder - 18, "[三式水中探信儀, 三式爆雷投射機]");
 				}
+				ASWEquipmentPairs.Add(openingASWborder - 15, "[HF/DF + Type144/147 ASDIC]");
 				ASWEquipmentPairs.Add(openingASWborder - 12, "[四式水中聴音機]");
 			}
 

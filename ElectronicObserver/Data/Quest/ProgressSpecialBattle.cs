@@ -265,6 +265,11 @@ namespace ElectronicObserver.Data.Quest
 					isAccepted = members.FirstOrDefault()?.MasterShip?.NameReading == "あかし" && 
 						memberstype.Count(t => t == ShipTypes.Destroyer) >= 3;
 					break;
+
+				case 914:   // |914|３|重巡戦隊、西へ！|4-1・4-2・4-3・4-4ボスA勝利各1|要重巡3/駆逐1
+					isAccepted = memberstype.Count(t => t == ShipTypes.HeavyCruiser) >= 3 &&
+						memberstype.Count(t => t == ShipTypes.Destroyer) >= 1;
+					break;
 			}
 
 			// 第二ゲージでも第一ボスに行ける場合があるので、個別対応が必要

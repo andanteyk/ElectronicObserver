@@ -491,10 +491,15 @@
             // 
             this.AccelInterval.Location = new System.Drawing.Point(358, 18);
             this.AccelInterval.Maximum = new decimal(new int[] {
-            999,
+            9999,
             0,
             0,
             0});
+            this.AccelInterval.Minimum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            -2147483648});
             this.AccelInterval.Name = "AccelInterval";
             this.AccelInterval.Size = new System.Drawing.Size(80, 23);
             this.AccelInterval.TabIndex = 10;
