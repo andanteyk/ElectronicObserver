@@ -507,6 +507,14 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressExpedition(q, 1, new[]{ 11 }),
 								new ProgressExpedition(q, 1, new[]{ 110 }),
 							})); break;
+						case 440:   //|440|９|兵站強化遠征任務【拡張作戦】|「ブルネイ泊地沖哨戒」「海上護衛任務」「水上機前線輸送」「強行鼠輸送作戦」「南西海域戦闘哨戒」成功各1
+							Progresses.Add(new ProgressMultiExpedition(q, new[]{
+								new ProgressExpedition(q, 1, new[]{ 41 }),
+								new ProgressExpedition(q, 1, new[]{ 5 }),
+								new ProgressExpedition(q, 1, new[]{ 40 }),
+								new ProgressExpedition(q, 1, new[]{ 142 }),
+								new ProgressExpedition(q, 1, new[]{ 46 }),
+							})); break;
 
 						case 503:   //|503|艦隊大整備！|入渠5
 							Progresses.Add(new ProgressDocking(q, 5));

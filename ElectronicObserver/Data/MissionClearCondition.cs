@@ -89,28 +89,26 @@ namespace ElectronicObserver.Data
 						.CheckAA(200)
 						.CheckASW(200)
 						.CheckLOS(120);
-				case 104:   // 小笠原沖哨戒線(unchecked)
+				case 104:   // 小笠原沖哨戒線
 					return result
-						.CheckFlagshipLevel(50)
-						.CheckLevelSum(260)
+						.CheckFlagshipLevel(45)
+						.CheckLevelSum(230)
 						.CheckShipCount(5)
-						.CheckEscortFleet()     // 適当
+						.CheckEscortFleetDD3()
 						.CheckFirepower(280)
-						.CheckAA(274)
+						.CheckAA(220)
 						.CheckASW(240)
-						.CheckLOS(150)
-						.SuppressWarnings();
-				case 105:   // 小笠原沖戦闘哨戒(unchecked)
+						.CheckLOS(150);
+				case 105:   // 小笠原沖戦闘哨戒
 					return result
 						.CheckFlagshipLevel(55)
-						.CheckLevelSum(357)
+						.CheckLevelSum(290)
 						.CheckShipCount(6)
-						.CheckEscortFleetDD3()  // 適当
+						.CheckEscortFleetDD3()
 						.CheckFirepower(330)
-						.CheckAA(314)
+						.CheckAA(300)
 						.CheckASW(270)
-						.CheckLOS(180)
-						.SuppressWarnings();
+						.CheckLOS(180);
 
 				case 9:     // タンカー護衛任務
 					return result
@@ -199,11 +197,13 @@ namespace ElectronicObserver.Data
 						.CheckShipCountByType(ShipTypes.Destroyer, 2)
 						.CheckSubmarineCount(1)
 						.CheckFirepower(500)
-						.CheckASW(280);
-				case 114:   // 南西諸島捜索撃滅戦(unchecked)
+						.CheckAA(280)
+						.CheckASW(280)
+						.CheckLOS(170);
+				case 114:   // 南西諸島捜索撃滅戦
 					return result
 						.CheckFlagshipLevel(60)
-						.CheckLevelSum(346)
+						.CheckLevelSum(330)
 						.CheckShipCount(6)
 						.CheckShipCountByType(ShipTypes.SeaplaneTender, 1)
 						.CheckShipCountByType(ShipTypes.LightCruiser, 1)
@@ -211,8 +211,7 @@ namespace ElectronicObserver.Data
 						.CheckFirepower(510)
 						.CheckAA(400)
 						.CheckASW(285)
-						.CheckLOS(385)
-						.SuppressWarnings();
+						.CheckLOS(385);
 
 				case 17:    // 敵地偵察作戦
 					return result
@@ -375,10 +374,10 @@ namespace ElectronicObserver.Data
 						.CheckFlagshipType(ShipTypes.LightCruiser)
 						.CheckShipCountByType(ShipTypes.SeaplaneTender, 2)
 						.CheckShipCountByType(ShipTypes.Destroyer, 2);
-				case 141:    // ラバウル方面艦隊進出(unchecked)
+				case 141:    // ラバウル方面艦隊進出
 					return result
 						.CheckFlagshipLevel(55)
-						.CheckLevelSum(299)
+						.CheckLevelSum(290)
 						.CheckShipCount(6)
 						.CheckFlagshipType(ShipTypes.HeavyCruiser)
 						.CheckShipCountByType(ShipTypes.LightCruiser, 1)
@@ -386,7 +385,19 @@ namespace ElectronicObserver.Data
 						.CheckFirepower(450)
 						.CheckAA(350)
 						.CheckASW(330)
-						.CheckLOS(250)
+						.CheckLOS(250);
+
+				case 142:   // 強行鼠輸送作戦 (unchecked)
+					return result
+						.CheckFlagshipLevel(70)
+						.CheckLevelSum(353)
+						.CheckShipCountByType(ShipTypes.Destroyer, 5)
+						.CheckEquippedShipCount(EquipmentTypes.TransportContainer, 3)
+						.CheckEquipmentCount(EquipmentTypes.TransportContainer, 5)
+						.CheckFirepower(280)
+						.CheckAA(289)
+						.CheckASW(278)
+						.CheckLOS(164)
 						.SuppressWarnings();
 
 				case 41:    // ブルネイ泊地沖哨戒
@@ -408,19 +419,12 @@ namespace ElectronicObserver.Data
 						.CheckFlagshipLevel(55)
 						.CheckLevelSum(300)
 						.CheckShipCount(6)
-						.OrCondition(
-							r => r
-								.CheckFlagshipEscortAircraftCarrier()
-								.CheckSmallShipCount(2),
-							r => r
-								.CheckFlagshipType(ShipTypes.LightAircraftCarrier)
-								.CheckShipCountByType(ShipTypes.LightCruiser, 1)
-								.CheckShipCountByType(ShipTypes.Destroyer, 4)
-						)
+						.CheckFlagshipType(ShipTypes.LightAircraftCarrier)
+						.CheckEscortFleet()
 						.CheckFirepower(500)
 						.CheckAA(280)
 						.CheckASW(280)
-						.CheckLOS(179);
+						.CheckLOS(170);
 				case 44:    // 航空装備輸送任務
 					return result
 						.CheckFlagshipLevel(35)
@@ -444,6 +448,19 @@ namespace ElectronicObserver.Data
 						.CheckAA(240)
 						.CheckASW(300)
 						.CheckLOS(180);
+				case 46:    // 南西海域戦闘哨戒 (unchecked)
+					return result
+						.CheckFlagshipLevel(65)
+						.CheckLevelSum(300)
+						.CheckShipCount(5)
+						.CheckShipCountByType(ShipTypes.HeavyCruiser, 2)
+						.CheckShipCountByType(ShipTypes.LightCruiser, 1)
+						.CheckShipCountByType(ShipTypes.Destroyer, 2)
+						.CheckFirepower(350)
+						.CheckAA(324)
+						.CheckASW(220)
+						.CheckLOS(220)
+						.SuppressWarnings();
 
 				default:
 					{
