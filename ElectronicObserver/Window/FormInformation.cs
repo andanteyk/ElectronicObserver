@@ -493,8 +493,7 @@ namespace ElectronicObserver.Window
 
 			group = group.Where(ss =>
 				ss.All(s => s.RepairingDockID == -1) &&
-				ss.Any(s => s.SallyArea == 0) &&
-				ss.Select(s => s.SallyArea).Distinct().Count() <= 2);   // 札が(なしも含めて)3種類以上なら、出撃できない or 自由出撃海域なので除外
+				ss.Any(s => s.SallyArea == 0));
 
 
 			if (group.Any())
