@@ -219,7 +219,7 @@ namespace Browser
 						AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
 						Environment.Is64BitProcess ? "x64" : "x86",
 						"CefSharp.BrowserSubprocess.exe"),
-				CachePath = Path.Combine(Application.ExecutablePath, BrowserCachePath),
+				CachePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), BrowserCachePath),
 				Locale = "ja",
 				AcceptLanguageList = "ja,en-US,en",        // todo: いる？
 				LogSeverity = Configuration.SavesBrowserLog ? LogSeverity.Error : LogSeverity.Disable,
