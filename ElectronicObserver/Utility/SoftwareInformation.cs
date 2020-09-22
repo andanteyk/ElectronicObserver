@@ -42,7 +42,7 @@ namespace ElectronicObserver.Utility
 		/// <summary>
 		/// 更新日時
 		/// </summary>
-		public static DateTime UpdateTime => DateTimeHelper.CSVStringToTime("2020/09/21 02:30:00");
+		public static DateTime UpdateTime => DateTimeHelper.CSVStringToTime("2020/07/21 02:30:00");
 
 
 
@@ -114,7 +114,11 @@ namespace ElectronicObserver.Utility
 						if (result == System.Windows.Forms.DialogResult.Yes)
 						{
 
-							System.Diagnostics.Process.Start("http://electronicobserver.blog.fc2.com/");
+							//System.Diagnostics.Process.Start("http://electronicobserver.blog.fc2.com/");
+							var p = new System.Diagnostics.Process();
+							p.StartInfo.FileName = "ElectronicObserverUpdater.exe";
+							p.StartInfo.Arguments = version;
+							p.Start();
 
 						}
 						else if (result == System.Windows.Forms.DialogResult.Cancel)
