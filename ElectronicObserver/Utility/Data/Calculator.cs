@@ -1600,14 +1600,27 @@ namespace ElectronicObserver.Utility.Data
 
 				double levelBonus;
 				if (eqmaster.IsHighAngleGun)
-					levelBonus = 3;
-
+				{
+					if (eqmaster.IsHighAngleGunWithAADirector)
+						levelBonus = 3;
+					else
+						levelBonus = 2;
+				}
 				else if (eqmaster.CategoryType == EquipmentTypes.AAGun)
-					levelBonus = 4;
-
+				{
+					if (eqmaster.AA >= 8)
+						levelBonus = 6;
+					else
+						levelBonus = 4;
+				}
+				else if (eqmaster.CategoryType == EquipmentTypes.AADirector)
+				{
+					levelBonus = 2;
+				}
 				else
+				{
 					levelBonus = 0;
-
+				}
 
 				x += eqmaster.AA * equipmentBonus + Math.Sqrt(eq.Level) * levelBonus;
 			}
@@ -1670,16 +1683,19 @@ namespace ElectronicObserver.Utility.Data
 					else if (eqmaster.CategoryType == EquipmentTypes.AAShell)
 						equipmentBonus = 0.6;
 
+					else if (eqmaster.EquipmentID == 9) // 46cm三連装砲
+						equipmentBonus = 0.25;
+
 					else
 						equipmentBonus = 0.2;
 
 
 					double levelBonus;
 
-					if (eqmaster.IsHighAngleGun)
+					if (eqmaster.IsHighAngleGunWithAADirector)
 						levelBonus = 3.0;
 
-					else if (eqmaster.CategoryType == EquipmentTypes.AADirector)
+					else if (eqmaster.IsHighAngleGun || eqmaster.CategoryType == EquipmentTypes.AADirector)
 						levelBonus = 2.0;
 
 					else if (eqmaster.IsRadar)
