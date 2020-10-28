@@ -468,20 +468,24 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_map_bgm		：通常戦闘BGMID　[0]=昼戦, [1]=夜戦
 		api_boss_bgm	：ボス戦闘BGMID
 
-	api_mst_mission		：遠征データ
-		api_id			：遠征ID
-		api_disp_no		：表示上の遠征ID ("A1"のような)
-		api_maparea_id	：海域カテゴリID
-		api_name		：遠征名
-		api_details		：遠征詳細
-		api_time		：時間　分単位
-		api_deck_num	：必要隻数
-		api_difficulty	：難易度
-		api_use_fuel	：燃料消費割合
-		api_use_bull	：弾薬消費割合
-		api_win_item1	：獲得アイテム1　[0]=アイテムID, [1]=入手個数
-		api_win_item2	：獲得アイテム2
-		api_return_flag	：遠征中止可否
+	api_mst_mission			：遠征データ
+		api_id				：遠征ID
+		api_disp_no			：表示上の遠征ID ("A1"のような)
+		api_maparea_id		：海域カテゴリID
+		api_name			：遠征名
+		api_details			：遠征詳細
+		api_reset_type		：進捗リセットタイミング　0=通常　1=マンスリー
+		api_damage_type		：交戦種別　0=通常　1=交戦　2=交戦II型
+		api_time			：時間　分単位
+		api_deck_num		：必要隻数
+		api_difficulty		：難易度
+		api_use_fuel		：燃料消費割合
+		api_use_bull		：弾薬消費割合
+		api_win_item1		：獲得アイテム1　[0]=アイテムID, [1]=入手個数
+		api_win_item2		：獲得アイテム2
+		api_win_mat_level	：獲得資源量目安　0~4　[燃料,弾薬,鋼材,ボーキサイト]
+		api_return_flag		：遠征中止可否
+		api_sample_fleet	：編成アイコン　[6]　0=空欄, それ以外は艦種ID
 	
 	api_mst_const		：
 		api_parallel_quest_max	：
@@ -825,9 +829,10 @@ api_req_nyukyo/speedchange			：バケツ使用
 
 
 api_get_member/mission	：遠征達成状況
-	api_mission_id		：遠征ID
-	api_state			：達成状況　0=未出撃, 1=未達成, 2=達成済み
-
+	api_list_items			：遠征達成状況
+		api_mission_id		：遠征ID
+		api_state			：達成状況　0=未出撃, 1=未達成, 2=達成済み
+	api_limit_time			：マンスリー遠征更新日時 unixtime
 
 api_get_member/record	：戦績表示
 	api_member_id		：提督ID
