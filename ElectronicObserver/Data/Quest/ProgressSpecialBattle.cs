@@ -209,24 +209,11 @@ namespace ElectronicObserver.Data.Quest
 					break;
 
 				case 872:   // |872|季|戦果拡張任務！「Z作戦」後段作戦|5-5・6-2・6-5・7-2(第二)ボスS勝利各1|要第一艦隊
-					isAccepted = fleet.FleetID == 1;
-					if (bm.Compass.MapAreaID == 7 && bm.Compass.MapInfoID == 2)
-					{
-						if (GaugeIndex == 1)
-							isAccepted &= bm.Compass.Destination == 7;
-						else if (GaugeIndex == 2)
-							isAccepted &= bm.Compass.Destination == 15;
-					}
+					isAccepted = fleet.FleetID == 1 && CheckGaugeIndex72(bm.Compass);
 					break;
 
 				case 893:   // |893|季|泊地周辺海域の安全確保を徹底せよ！|1-5・7-1・7-2(第一＆第二)ボスS勝利各3|3エリア達成時点で80%
-					if (bm.Compass.MapAreaID == 7 && bm.Compass.MapInfoID == 2)
-					{
-						if (GaugeIndex == 1)
-							isAccepted = bm.Compass.Destination == 7;
-						else if (GaugeIndex == 2)
-							isAccepted = bm.Compass.Destination == 15;
-					}
+					isAccepted = CheckGaugeIndex72(bm.Compass);
 					break;
 
 				// |894|季|空母戦力の投入による兵站線戦闘哨戒|1-3・1-4・2-1・2-2・2-3ボスS勝利各1?|要空母系
@@ -270,6 +257,23 @@ namespace ElectronicObserver.Data.Quest
 					isAccepted = memberstype.Count(t => t == ShipTypes.HeavyCruiser) >= 3 &&
 						memberstype.Count(t => t == ShipTypes.Destroyer) >= 1;
 					break;
+
+				case 928:   //|928|９|歴戦「第十方面艦隊」、全力出撃！|4-2・7-2(第二)・7-3(第二)ボスS勝利各2|要(羽黒/足柄/妙高/高雄/神風)2
+					isAccepted = members.Count(s =>
+						{
+							switch (s?.MasterShip?.NameReading)
+							{
+								case "はぐろ":
+								case "あしがら":
+								case "みょうこう":
+								case "たかお":
+								case "かみかぜ":
+									return true;
+								default:
+									return false;
+							}
+						}) >= 2 && CheckGaugeIndex72(bm.Compass) && CheckGaugeIndex73(bm.Compass);
+					break;
 			}
 
 			// 第二ゲージでも第一ボスに行ける場合があるので、個別対応が必要
@@ -280,6 +284,45 @@ namespace ElectronicObserver.Data.Quest
 				base.Increment(rank, areaID, isBoss);
 		}
 
+
+
+		private bool CheckGaugeIndex72(CompassData compass)
+		{
+			if (compass.MapAreaID == 7 && compass.MapInfoID == 2)
+			{
+				switch (compass.Destination)
+				{
+					case 7:
+						return GaugeIndex == 1;
+					case 15:
+						return GaugeIndex == 2;
+					default:
+						return false;
+				}
+			}
+			return true;
+		}
+
+		private bool CheckGaugeIndex73(CompassData compass)
+		{
+			if (compass.MapAreaID == 7 && compass.MapInfoID == 3)
+			{
+				switch (compass.Destination)
+				{
+					case 5:
+					case 8:
+						return GaugeIndex == 1;
+					case 18:
+					case 23:
+					case 24:
+					case 25:
+						return GaugeIndex == 2;
+					default:
+						return false;
+				}
+			}
+			return true;
+		}
 
 
 		public override string GetClearCondition()

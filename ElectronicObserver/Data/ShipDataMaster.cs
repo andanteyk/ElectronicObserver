@@ -94,24 +94,30 @@ namespace ElectronicObserver.Data
 		public int RemodelSteel => !RawData.api_afterfuel() ? 0 : (int)RawData.api_afterfuel;
 
 		/// <summary>
-		/// 改装に改装設計図が必要かどうか
+		/// 改装に必要な 改装設計図 の枚数
 		/// </summary>
 		public int NeedBlueprint { get; internal set; }
 
 		/// <summary>
-		/// 改装に試製甲板カタパルトが必要かどうか
+		/// 改装に必要な 試製甲板カタパルト の個数
 		/// </summary>
 		public int NeedCatapult { get; internal set; }
 
 		/// <summary>
-		/// 改装に戦闘詳報が必要かどうか
+		/// 改装に必要な 戦闘詳報 の枚数
 		/// </summary>
 		public int NeedActionReport { get; internal set; }
 
 		/// <summary>
-		/// 改装に新型航空兵装資材が必要かどうか
+		/// 改装に必要な 新型航空兵装資材 の個数
 		/// </summary>
 		public int NeedAviationMaterial { get; internal set; }
+
+		/// <summary>
+		/// 改装に必要な 新型兵装資材 の個数
+		/// </summary>
+		public int NeedArmamentMaterial { get; internal set; }
+
 
 
 		#region Parameters
