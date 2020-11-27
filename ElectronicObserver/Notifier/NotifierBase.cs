@@ -309,11 +309,14 @@ namespace ElectronicObserver.Notifier
 			/// Push by Join if flagged
 			//Utility.Logger.Add(3, "IsSilenced=" + IsSilenced.ToString());
 			//Utility.Logger.Add(3, "JoinAPI=" + JoinApi);
-			string url = "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?text=" + Uri.EscapeDataString(DialogData.Message)
-				+ "&title=" + Uri.EscapeDataString(DialogData.Title) + "&notificationId=74eo&deviceId=b284390249214aebadd32a241653a49c&apikey=" + JoinApi;
-			using (var wb = new WebClient())
+			if (JoinApi != "")
 			{
-				var response = wb.DownloadString(url);
+				string url = "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?text=" + Uri.EscapeDataString(DialogData.Message)
+				+ "&title=" + Uri.EscapeDataString(DialogData.Title) + "&notificationId=74eo&deviceId=b284390249214aebadd32a241653a49c&apikey=" + JoinApi;
+				using (var wb = new WebClient())
+				{
+					var response = wb.DownloadString(url);
+				}
 			}
 
 			ShowDialog(customClosingHandler);
