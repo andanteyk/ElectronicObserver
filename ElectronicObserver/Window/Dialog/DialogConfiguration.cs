@@ -341,6 +341,7 @@ namespace ElectronicObserver.Window.Dialog
 			Connection_UpstreamProxyAddress.Text = config.Connection.UpstreamProxyAddress;
 			Connection_UseSystemProxy.Checked = config.Connection.UseSystemProxy;
 			Connection_DownstreamProxy.Text = config.Connection.DownstreamProxy;
+			Connection_JoinApi.Text = config.Connection.JoinApi;
 
 			//[UI]
 			UI_MainFont.Text = config.UI.MainFont.SerializeFontAttribute;
@@ -552,6 +553,8 @@ namespace ElectronicObserver.Window.Dialog
 				changed |= config.Connection.DownstreamProxy != Connection_DownstreamProxy.Text;
 				config.Connection.DownstreamProxy = Connection_DownstreamProxy.Text;
 
+				config.Connection.JoinApi = Connection_JoinApi.Text;
+
 				if (changed)
 				{
 					APIObserver.Instance.Start(config.Connection.Port, _UIControl);
@@ -727,6 +730,7 @@ namespace ElectronicObserver.Window.Dialog
 
 			//[通知]
 			setSilencioConfig(Notification_Silencio.Checked);
+			setJoinApiConfig(Connection_JoinApi.Text);
 
 			//[BGM]
 			config.BGMPlayer.Enabled = BGMPlayer_Enabled.Checked;
@@ -822,12 +826,19 @@ namespace ElectronicObserver.Window.Dialog
 
 		}
 
-
 		private void setSilencioConfig(bool silenced)
 		{
 			foreach (NotifierBase no in NotifierManager.Instance.GetNotifiers())
 			{
 				no.IsSilenced = silenced;
+			}
+		}
+
+		private void setJoinApiConfig(string api)
+		{
+			foreach (NotifierBase no in NotifierManager.Instance.GetNotifiers())
+			{
+				no.JoinApi = api;
 			}
 		}
 
@@ -940,6 +951,14 @@ namespace ElectronicObserver.Window.Dialog
 			UI_RenderingTest.Value = UI_RenderingTestChanger.Value;
 		}
 
-	
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void label19_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

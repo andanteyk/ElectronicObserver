@@ -9,6 +9,9 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net;
+using System.Web;
 
 namespace ElectronicObserver.Notifier
 {
@@ -34,6 +37,7 @@ namespace ElectronicObserver.Notifier
 		/// </summary>
 		public bool IsSilenced { get; set; }
 
+		public string JoinApi { get; set; }
 
 		/// <summary>
 		/// 通知音
@@ -126,6 +130,7 @@ namespace ElectronicObserver.Notifier
 
 			IsEnabled = config.IsEnabled;
 			IsSilenced = config.IsSilenced;
+			JoinApi = config.JoinApi;
 			PlaysSound = config.PlaysSound;
 			SoundVolume = config.SoundVolume;
 			LoopsSound = config.LoopsSound;
@@ -290,6 +295,9 @@ namespace ElectronicObserver.Notifier
 			Notify(null);
 		}
 
+		/// test
+		///private static readonly HttpClient client = new HttpClient();
+
 		/// <summary>
 		/// 終了時のイベントハンドラを指定して通知を行います。
 		/// </summary>
@@ -298,9 +306,18 @@ namespace ElectronicObserver.Notifier
 
 			if (!IsEnabled || IsSilenced) return;
 
+			/// Push by Join if flagged
+			//Utility.Logger.Add(3, "IsSilenced=" + IsSilenced.ToString());
+			//Utility.Logger.Add(3, "JoinAPI=" + JoinApi);
+			string url = "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?text=" + Uri.EscapeDataString(DialogData.Message)
+				+ "&title=" + Uri.EscapeDataString(DialogData.Title) + "&notificationId=74eo&deviceId=b284390249214aebadd32a241653a49c&apikey=" + JoinApi;
+			using (var wb = new WebClient())
+			{
+				var response = wb.DownloadString(url);
+			}
+
 			ShowDialog(customClosingHandler);
 			PlaySound();
-
 		}
 
 

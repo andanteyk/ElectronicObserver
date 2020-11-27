@@ -113,6 +113,7 @@ namespace ElectronicObserver.Utility
 				/// </summary>
 				public string DownstreamProxy { get; set; }
 
+				public string JoinApi { get; set; }
 
 
 				public ConfigConnection()
@@ -131,6 +132,7 @@ namespace ElectronicObserver.Utility
 					UpstreamProxyAddress = "127.0.0.1";
 					UseSystemProxy = false;
 					DownstreamProxy = "";
+					JoinApi = "";
 				}
 
 			}
@@ -1163,6 +1165,8 @@ namespace ElectronicObserver.Utility
 				public bool IsEnabled { get; set; }
 
 				public bool IsSilenced { get; set; }
+
+				public string JoinApi { get; set; }
 
 				public bool ShowsDialog { get; set; }
 

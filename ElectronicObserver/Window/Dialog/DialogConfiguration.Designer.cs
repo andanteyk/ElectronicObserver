@@ -29,13 +29,12 @@
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            ElectronicObserver.Window.Control.StatusBarModule statusBarModule1 = new ElectronicObserver.Window.Control.StatusBarModule();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            ElectronicObserver.Window.Control.StatusBarModule statusBarModule2 = new ElectronicObserver.Window.Control.StatusBarModule();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label19 = new System.Windows.Forms.Label();
             this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
-            this.Connection_DownstreamProxyLabel = new System.Windows.Forms.Label();
             this.Connection_DownstreamProxy = new System.Windows.Forms.TextBox();
             this.Connection_UseSystemProxy = new System.Windows.Forms.CheckBox();
             this.Connection_UpstreamProxyPort = new System.Windows.Forms.NumericUpDown();
@@ -246,6 +245,9 @@
             this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
             this.Log_PlayTime = new System.Windows.Forms.Label();
             this.PlayTimeTimer = new System.Windows.Forms.Timer(this.components);
+            this.Connection_JoinApi = new System.Windows.Forms.TextBox();
+            this.Connection_DownstreamProxyLabel = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -312,6 +314,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label21);
+            this.tabPage1.Controls.Add(this.Connection_JoinApi);
             this.tabPage1.Controls.Add(this.label19);
             this.tabPage1.Controls.Add(this.Connection_UpstreamProxyAddress);
             this.tabPage1.Controls.Add(this.Connection_DownstreamProxyLabel);
@@ -338,11 +342,12 @@
             // 
             this.label19.AutoSize = true;
             this.label19.ForeColor = System.Drawing.Color.Red;
-            this.label19.Location = new System.Drawing.Point(32, 278);
+            this.label19.Location = new System.Drawing.Point(28, 301);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(285, 15);
             this.label19.TabIndex = 13;
             this.label19.Text = "* ブラウザに対する通信設定は、再起動すると反映されます";
+            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
             // Connection_UpstreamProxyAddress
             // 
@@ -350,18 +355,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Connection_UpstreamProxyAddress.Location = new System.Drawing.Point(250, 35);
             this.Connection_UpstreamProxyAddress.Name = "Connection_UpstreamProxyAddress";
-            this.Connection_UpstreamProxyAddress.Size = new System.Drawing.Size(432, 23);
+            this.Connection_UpstreamProxyAddress.Size = new System.Drawing.Size(438, 23);
             this.Connection_UpstreamProxyAddress.TabIndex = 12;
             this.ToolTipInfo.SetToolTip(this.Connection_UpstreamProxyAddress, "上流プロキシのアドレスを指定します。\r\n既定値は 127.0.0.1 です。");
-            // 
-            // Connection_DownstreamProxyLabel
-            // 
-            this.Connection_DownstreamProxyLabel.AutoSize = true;
-            this.Connection_DownstreamProxyLabel.Location = new System.Drawing.Point(6, 67);
-            this.Connection_DownstreamProxyLabel.Name = "Connection_DownstreamProxyLabel";
-            this.Connection_DownstreamProxyLabel.Size = new System.Drawing.Size(149, 15);
-            this.Connection_DownstreamProxyLabel.TabIndex = 11;
-            this.Connection_DownstreamProxyLabel.Text = "下流プロキシ(上級者向け)：";
             // 
             // Connection_DownstreamProxy
             // 
@@ -621,12 +617,12 @@
             // 
             this.UI_RenderingTest.AutoSize = true;
             this.UI_RenderingTest.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            statusBarModule1.BarColor0Begin = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            statusBarModule1.BarColor0End = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            statusBarModule1.MaximumValue = 500;
-            statusBarModule1.PrevValue = 401;
-            statusBarModule1.Value = 401;
-            this.UI_RenderingTest.HPBar = statusBarModule1;
+            statusBarModule2.BarColor0Begin = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            statusBarModule2.BarColor0End = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            statusBarModule2.MaximumValue = 500;
+            statusBarModule2.PrevValue = 401;
+            statusBarModule2.Value = 401;
+            this.UI_RenderingTest.HPBar = statusBarModule2;
             this.UI_RenderingTest.Location = new System.Drawing.Point(16, 3);
             this.UI_RenderingTest.MainFontColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.UI_RenderingTest.Margin = new System.Windows.Forms.Padding(16, 3, 16, 3);
@@ -1019,7 +1015,7 @@
             this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
             this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
             this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-            this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 245);
+            this.Debug_SealingPanel.Size = new System.Drawing.Size(696, 243);
             this.Debug_SealingPanel.TabIndex = 1;
             // 
             // Debug_APIListPath
@@ -1988,10 +1984,10 @@
             this.tabPage13.Controls.Add(this.label25);
             this.tabPage13.Controls.Add(this.FormShipGroup_ShowStatusBar);
             this.tabPage13.Controls.Add(this.FormShipGroup_AutoUpdate);
-            this.tabPage13.Location = new System.Drawing.Point(4, 24);
+            this.tabPage13.Location = new System.Drawing.Point(4, 22);
             this.tabPage13.Name = "tabPage13";
             this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(682, 338);
+            this.tabPage13.Size = new System.Drawing.Size(682, 340);
             this.tabPage13.TabIndex = 4;
             this.tabPage13.Text = "グループ";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -2616,7 +2612,7 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 316);
+            this.label10.Location = new System.Drawing.Point(3, 314);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(238, 15);
             this.label10.TabIndex = 5;
@@ -2747,21 +2743,21 @@
             this.BGMPlayer_ColumnContent,
             this.BGMPlayer_ColumnPath,
             this.BGMPlayer_ColumnSetting});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.BGMPlayer_ControlGrid.Location = new System.Drawing.Point(6, 35);
             this.BGMPlayer_ControlGrid.MultiSelect = false;
             this.BGMPlayer_ControlGrid.Name = "BGMPlayer_ControlGrid";
             this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
             this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
             this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 265);
+            this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(684, 263);
             this.BGMPlayer_ControlGrid.TabIndex = 0;
             this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
             this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2858,6 +2854,34 @@
             this.PlayTimeTimer.Enabled = true;
             this.PlayTimeTimer.Interval = 1000;
             this.PlayTimeTimer.Tick += new System.EventHandler(this.PlayTimeTimer_Tick);
+            // 
+            // Connection_JoinApi
+            // 
+            this.Connection_JoinApi.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Connection_JoinApi.Location = new System.Drawing.Point(79, 225);
+            this.Connection_JoinApi.Name = "Connection_JoinApi";
+            this.Connection_JoinApi.Size = new System.Drawing.Size(611, 23);
+            this.Connection_JoinApi.TabIndex = 19;
+            this.ToolTipInfo.SetToolTip(this.Connection_JoinApi, "API key of Join by joaoapps. Do not expose!");
+            // 
+            // Connection_DownstreamProxyLabel
+            // 
+            this.Connection_DownstreamProxyLabel.AutoSize = true;
+            this.Connection_DownstreamProxyLabel.Location = new System.Drawing.Point(6, 67);
+            this.Connection_DownstreamProxyLabel.Name = "Connection_DownstreamProxyLabel";
+            this.Connection_DownstreamProxyLabel.Size = new System.Drawing.Size(149, 15);
+            this.Connection_DownstreamProxyLabel.TabIndex = 11;
+            this.Connection_DownstreamProxyLabel.Text = "下流プロキシ(上級者向け)：";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(8, 228);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(65, 15);
+            this.label21.TabIndex = 20;
+            this.label21.Text = "Join API：";
             // 
             // DialogConfiguration
             // 
@@ -3065,7 +3089,6 @@
 		private System.Windows.Forms.Label label24;
 		private System.Windows.Forms.ComboBox Life_ClockFormat;
 		private System.Windows.Forms.CheckBox Connection_UseSystemProxy;
-		private System.Windows.Forms.Label Connection_DownstreamProxyLabel;
 		private System.Windows.Forms.TextBox Connection_DownstreamProxy;
 		private System.Windows.Forms.TextBox Connection_UpstreamProxyAddress;
 		private System.Windows.Forms.CheckBox Life_LockLayout;
@@ -3167,5 +3190,8 @@
         private System.Windows.Forms.CheckBox Control_ShowExpeditionAlertDialog;
         private System.Windows.Forms.CheckBox FormBrowser_SavesBrowserLog;
 		private System.Windows.Forms.Button Notification_BaseAirCorps;
+		private System.Windows.Forms.TextBox Connection_JoinApi;
+		private System.Windows.Forms.Label label21;
+		private System.Windows.Forms.Label Connection_DownstreamProxyLabel;
 	}
 }

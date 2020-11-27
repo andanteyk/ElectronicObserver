@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicObserver", "ElectronicObserver\ElectronicObserver.csproj", "{A9ABEC50-1BFC-4C69-87AE-C68DB6004F68}"
+	ProjectSection(ProjectDependencies) = postProject
+		{87A2B596-57D0-48BB-B522-895782D7A6FC} = {87A2B596-57D0-48BB-B522-895782D7A6FC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser", "Browser\Browser.csproj", "{87A2B596-57D0-48BB-B522-895782D7A6FC}"
 EndProject
