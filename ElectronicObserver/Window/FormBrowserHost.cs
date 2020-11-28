@@ -493,7 +493,7 @@ namespace ElectronicObserver.Window
 		{
 			if (Browser.Proxy == null)
 			{
-				Utility.Logger.Add(3, "ブラウザプロセスが予期せず終了しました。");
+				Utility.ErrorReporter.SendErrorReport(e, "ブラウザプロセスが予期せず終了しました。");
 			}
 			else
 			{
