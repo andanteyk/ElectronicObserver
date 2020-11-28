@@ -203,6 +203,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_start2
 					shipbefore.NeedCatapult = (int)elem.api_catapult_count;
 					shipbefore.NeedActionReport = (int)elem.api_report_count;
 					shipbefore.NeedAviationMaterial = (int)elem.api_aviation_mat_count;
+					shipbefore.NeedArmamentMaterial = elem.api_arms_mat_count() ? (int)elem.api_arms_mat_count : 0;
 				}
 			}
 

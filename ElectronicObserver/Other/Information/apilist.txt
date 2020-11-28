@@ -148,6 +148,7 @@ api_start2/getData	：艦娘・装備固有データその他
 				23=輸送機材
 				24=潜水艦装備
 				25=陸上偵察機
+				26=大型陸上機
 
 			[1]：図鑑表示
 				 1=Primary Armament
@@ -190,6 +191,9 @@ api_start2/getData	：艦娘・装備固有データその他
 				41=Transport Materials
 				42=Submarine Equipment
 				43=Multi-purpose Seaplane
+				44=Helicopter
+				45=DD Tank
+				46=Heavy Bomber
 
 				 1=主砲
 				 2=副砲
@@ -231,6 +235,9 @@ api_start2/getData	：艦娘・装備固有データその他
 				41=輸送機材
 				42=潜水艦装備
 				43=多用途水上機/水上爆撃機
+				44=ヘリコプター
+				45=DD戦車
+				46=大型陸上機
 
 			[2]：カテゴリ
 				(api_mst_slotitem_equiptype を参照)
@@ -285,6 +292,8 @@ api_start2/getData	：艦娘・装備固有データその他
 				49=陸上偵察機
 				50=輸送機材
 				51=潜水艦装備
+				52=
+				53=大型陸上機
 				56=噴式戦闘機
 				57=噴式戦闘爆撃機
 				58=噴式攻撃機
@@ -340,6 +349,8 @@ api_start2/getData	：艦娘・装備固有データその他
 				45=夜間戦闘機
 				46=夜間攻撃機
 				47=陸上対潜哨戒機
+				48=
+				49=大型陸上機
 
 			[4]: 航空機カテゴリ
 				 0=非航空機
@@ -369,6 +380,15 @@ api_start2/getData	：艦娘・装備固有データその他
 				30=陸上対潜哨戒機
 				31=陸上偵察機
 				32=瑞雲
+				33=流星
+				34=烈風改良型
+				35=試製秋水
+				36=高高度局地戦闘機
+				37=Fw190
+				38=XF5U
+				39=TBM-3W+3S
+				40=九九式艦爆改良型
+				41=大型陸上機
 
 		api_taik		：耐久(0)
 		api_souk		：装甲
@@ -508,6 +528,7 @@ api_start2/getData	：艦娘・装備固有データその他
 		api_catapult_count		：試製甲板カタパルト　所要個数
 		api_report_count		：戦闘詳報　所要枚数
 		api_aviation_mat_count	：新型航空兵装資材　所要個数
+		api_arms_mat_count		：新型兵装資材　所要個数
 		api_sortno				：? (概ね図鑑IDだが、霞(改/二/乙), 利根(改/二), 筑摩(改/二)などで異なる)
 
 	api_mst_bgm			：母港BGMデータ？
@@ -520,12 +541,13 @@ api_start2/getData	：艦娘・装備固有データその他
 
 
 api_req_member/get_incentive	：褒賞関連
-	api_count			：情報の個数
-	api_item			：もらえるアイテム　api_count=0だと存在しない
-		api_mode		：1=事前登録?, 2=招待?, 3=月次褒賞/プレゼント
-		api_type		：1=艦船?, 2=装備, 3=アイテム, 4=資源?, 5=家具
-		api_mst_id		：ID
-		api_getmes		：獲得時メッセージ
+	api_count				：情報の個数
+	api_item				：もらえるアイテム　api_count=0だと存在しない
+		api_mode			：1=事前登録?, 2=招待?, 3=月次褒賞/プレゼント
+		api_type			：1=艦船?, 2=装備, 3=アイテム, 4=資源?, 5=家具
+		api_mst_id			：ID
+		api_getmes			：獲得時メッセージ
+		api_slotitem_level	：装備改修レベル　装備かつ +1 以上のときのみ存在
 
 
 api_get_member/require_info	：起動時情報群
