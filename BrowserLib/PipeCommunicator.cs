@@ -116,7 +116,7 @@ namespace BrowserLib
 					}
 					catch (CommunicationException cex)
 					{
-						((IClientChannel)Proxy).Abort();
+						((IClientChannel)Proxy)?.Abort();
 						Proxy = null;
 						if (i >= 1)
 						{
