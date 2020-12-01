@@ -20,7 +20,7 @@ namespace ElectronicObserverUpdater
 		/// Base Url of update file.
 		/// Two parameters should be replaced when download file.
 		/// </summary>
-		private static string BASE_URL = "https://github.com/Tsukumoyarei/ElectronicObserver/releases/tag/v{0}-mk{1}/74eo-joint.zip";
+		private static string BASE_URL = "https://github.com/Tsukumoyarei/ElectronicObserver/releases/download/{0}/74eo-joint.zip";
 		public string Version { get; set; } = "";
 		public bool IsSetBaseSize { get; private set; }
 
@@ -45,19 +45,19 @@ namespace ElectronicObserverUpdater
 				labelDescription.Text = text;
 		}
 
-		void CrossSafeSetValueMethod(int value)
+		void CrossSafeSetValueMethod(long value)
 		{
 			if (progressBar.InvokeRequired)
 				progressBar.Invoke(cssm, value);
 			else
-				progressBar.Value = value;
+				progressBar.Value = (int)value;
 		}
-		void CrossSafeSetMaximumMethod(int value)
+		void CrossSafeSetMaximumMethod(long value)
 		{
 			if (progressBar.InvokeRequired)
 				progressBar.Invoke(cssm, value);
 			else
-				progressBar.Maximum = value;
+				progressBar.Maximum = (int)value;
 		}
 		#endregion
 
@@ -85,13 +85,13 @@ namespace ElectronicObserverUpdater
 			ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 			ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-			FileName = Version.Replace(".", string.Empty);
+			//FileName = Version.Replace(".", string.Empty);
 			//If minor version exists
 			if(FileName.Length > 3)
 			{
 				FileName = FileName.Insert(3, "_");
 			}
-			string url = string.Format(BASE_URL, Version, FileName);
+			string url = string.Format(BASE_URL, Version);
 			FileName = string.Format(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\{0}", System.IO.Path.GetFileName(url));
 			try
 			{
@@ -148,11 +148,11 @@ namespace ElectronicObserverUpdater
 		{
 			if (!IsSetBaseSize)
 			{
-				CrossSafeSetMaximumMethod((int)e.TotalBytesToReceive);
+				CrossSafeSetMaximumMethod(e.TotalBytesToReceive);
 				IsSetBaseSize = true;
 			}
 
-			CrossSafeSetValueMethod((int)e.BytesReceived);
+			CrossSafeSetValueMethod(e.BytesReceived);
 
 			CrossSafeSetTextMethod(String.Format("{0:N0} Bytes / {1:N0} Bytes ({2:P})", e.BytesReceived, e.TotalBytesToReceive, (Double)e.BytesReceived / (Double)e.TotalBytesToReceive));
 		}
