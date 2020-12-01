@@ -132,7 +132,7 @@ namespace ElectronicObserver.Utility
 					else
 					{
 
-						Utility.Logger.Add(1, "お使いのバージョンは最新です。");
+						Utility.Logger.Add(2, "お使いのバージョンは最新です。");
 
 					}
 
