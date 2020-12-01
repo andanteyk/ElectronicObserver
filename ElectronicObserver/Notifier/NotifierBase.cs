@@ -312,7 +312,8 @@ namespace ElectronicObserver.Notifier
 			if (JoinApi != "")
 			{
 				string url = "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?text=" + Uri.EscapeDataString(DialogData.Message)
-				+ "&title=" + Uri.EscapeDataString(DialogData.Title) + "&notificationId=74eo&deviceId=b284390249214aebadd32a241653a49c&apikey=" + JoinApi;
+				+ "&title=" + Uri.EscapeDataString(DialogData.Title) + "&smallicon=https%3A%2F%2Fraw.githubusercontent.com%2FTsukumoyarei%2FElectronicObserver%2Fmaster%2FElectronicObserver%2FAssets%2FFleet%2FCombined.png"
+				+ "&notificationId=74eo&deviceId=b284390249214aebadd32a241653a49c&apikey=" + JoinApi;
 				using (var wb = new WebClient())
 				{
 					var response = wb.DownloadString(url);
