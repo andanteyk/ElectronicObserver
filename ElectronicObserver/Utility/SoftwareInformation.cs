@@ -29,7 +29,7 @@ namespace ElectronicObserver.Utility
 		/// <summary>
 		/// バージョン(日本語, ソフトウェア名を含みます)
 		/// </summary>
-		public static string VersionJapanese => SoftwareNameJapanese + "四六型改四 Joint Operation Mk.II";
+		public static string VersionJapanese => SoftwareNameJapanese + "四六型改四 Joint Operation Mk.III";
 
 
 		/// <summary>
@@ -42,13 +42,13 @@ namespace ElectronicObserver.Utility
 		/// <summary>
 		/// 更新日時
 		/// </summary>
-		public static DateTime UpdateTime => DateTimeHelper.CSVStringToTime("2020/12/01 20:00:00");
+		public static DateTime UpdateTime => DateTimeHelper.CSVStringToTime("2020/12/01 21:00:00");
 
 
 
 
 		private static System.Net.WebClient client;
-		private static readonly Uri uri = new Uri("https://www.dropbox.com/s/vk073iw1wvktq4d/version.txt?dl=1");
+		private static readonly Uri uri = new Uri("https://www.dropbox.com/s/0l58k2srnjjao5b/version.txt?dl=1");
 
 		public static void CheckUpdate()
 		{
@@ -114,7 +114,11 @@ namespace ElectronicObserver.Utility
 						if (result == System.Windows.Forms.DialogResult.Yes)
 						{
 
-							System.Diagnostics.Process.Start("http://electronicobserver.blog.fc2.com/");
+							//System.Diagnostics.Process.Start("http://electronicobserver.blog.fc2.com/");
+							var p = new System.Diagnostics.Process();
+							p.StartInfo.FileName = "ElectronicObserverUpdater.exe";
+							p.StartInfo.Arguments = version;
+							p.Start();
 
 						}
 						else if (result == System.Windows.Forms.DialogResult.Cancel)
