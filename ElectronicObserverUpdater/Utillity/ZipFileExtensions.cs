@@ -37,7 +37,7 @@ namespace ElectronicObserverUpdater.Utillity
 			{
 				count++;
 				//Remove zip file Root directory from path.
-				var newName = entry.FullName.Substring(root.Length);
+				var newName = entry.FullName;//.Substring(root.Length); // Man What The Fuck?
 				string fileDestinationPath = Path.Combine(destinationDirectoryFullPath, newName);
 
 				if (!fileDestinationPath.StartsWith(destinationDirectoryFullPath, StringComparison.OrdinalIgnoreCase))

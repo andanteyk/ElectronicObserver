@@ -1567,5 +1567,9 @@ namespace ElectronicObserver.Window
 
 		#endregion
 
+		private void checkUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SoftwareInformation.CheckUpdate();
+		}
 	}
 }
