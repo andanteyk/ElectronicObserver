@@ -41,22 +41,12 @@ build_script:
     - xcopy /E output-cef-full output-cef\
     - rmdir /S /Q output-cef\x86
     - rmdir /S /Q output-cef\x64
-    - REM ================ Package Gecko flavors ================
-    - xcopy /E /Y output-template output-gecko-full\
-    - xcopy /E /Y output\ElectronicObserver output-gecko-full\
-    - xcopy /E /Y output\GeckoBrowser output-gecko-full\
-    - xcopy /E output-gecko-full output-gecko\
-    - rmdir /S /Q output-gecko\Firefox
 
 artifacts:
     - path: output-cef-full
       name: 74eoe-cef-full-$(APPVEYOR_BUILD_VERSION)
     - path: output-cef
       name: 74eoe-cef-$(APPVEYOR_BUILD_VERSION)
-    - path: output-gecko-full
-      name: 74eoe-gecko-full-$(APPVEYOR_BUILD_VERSION)
-    - path: output-gecko
-      name: 74eoe-gecko-$(APPVEYOR_BUILD_VERSION)
 
 deploy:
   provider: GitHub
