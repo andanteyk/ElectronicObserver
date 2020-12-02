@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 .vs/
+.idea/
 
 # Build results
 
@@ -170,3 +171,7 @@ packages/
 /ElectronicObserver/BrowserCache
 /ElectronicObserver/ScreenShot
 /ElectronicObserver/GPUCache
+
+output/
+output-net40/
+

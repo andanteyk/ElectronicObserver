@@ -1,0 +1,67 @@
+version: 4.6.4-mk{build}
+
+branches:
+    only:
+        - dev-test
+
+skip_tags: true
+
+skip_commits:
+    message: /\[chore\]/
+
+assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "4.6.4-mk{build}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+
+image: Visual Studio 2017
+
+before_build:
+    - ps: (Get-Content ElectronicObserver\Utility\SoftwareInformation.cs -Encoding UTF8).replace("<BUILD_VERSION>", "$env:APPVEYOR_BUILD_VERSION").replace("<BUILD_TIME>", (Get-Date -Format g)) | Set-Content ElectronicObserver\Utility\SoftwareInformation.cs -Encoding UTF8
+    - mkdir output-template
+    - mkdir output-template\Licenses
+    - copy Licenses\*.* output-template\Licenses\
+    - copy LICENSE output-template\LICENSE
+    - mkdir output-template\Plugins
+    - copy NUL output-template\Plugins\plugin_dir
+
+build:
+  project: ElectronicObserver.sln
+
+build_script:
+    - git submodule update --init --recursive
+    - nuget restore
+    - msbuild ElectronicObserver.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /p:Configuration=Release /m
+    - REM ================ Package CEF flavors ================
+    - xcopy /E /Y output-template output-cef-full\
+    - xcopy /E /Y output\ElectronicObserver output-cef-full\
+    - xcopy /E /Y output\Browser output-cef-full\
+    - xcopy /E output-cef-full output-cef\
+    - rmdir /S /Q output-cef\x86
+    - rmdir /S /Q output-cef\x64
+    - REM ================ Package Gecko flavors ================
+    - xcopy /E /Y output-template output-gecko-full\
+    - xcopy /E /Y output\ElectronicObserver output-gecko-full\
+    - xcopy /E /Y output\GeckoBrowser output-gecko-full\
+    - xcopy /E output-gecko-full output-gecko\
+    - rmdir /S /Q output-gecko\Firefox
+
+artifacts:
+    - path: output-cef-full
+      name: 74eoe-cef-full-$(APPVEYOR_BUILD_VERSION)
+    - path: output-cef
+      name: 74eoe-cef-$(APPVEYOR_BUILD_VERSION)
+    - path: output-gecko-full
+      name: 74eoe-gecko-full-$(APPVEYOR_BUILD_VERSION)
+    - path: output-gecko
+      name: 74eoe-gecko-$(APPVEYOR_BUILD_VERSION)
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: d5c186bcefd7960d6932c5feafe9b6e76e31a640
+  artifact: /.*/
+  on:
+    branch: dev-test

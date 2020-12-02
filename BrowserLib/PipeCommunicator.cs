@@ -42,6 +42,8 @@ namespace BrowserLib
 		{
 			Server = new ServiceHost(instance, new Uri[] { new Uri(listenUrl) });
 			Binding.ReceiveTimeout = TimeSpan.MaxValue;
+			Binding.MaxBufferSize = int.MaxValue;
+			Binding.MaxReceivedMessageSize = int.MaxValue;
 			Server.AddServiceEndpoint(type, Binding, serviceAddress);
 			Server.Open();
 		}
@@ -132,6 +134,23 @@ namespace BrowserLib
 			{
 				Faulted(ex);
 			}
+		}
+
+		public T RemoteRun<T>(Func<T> func, T defaultValue)
+		{
+			try
+			{
+				if (Proxy == null) return defaultValue;
+				return func();
+			}
+			catch (CommunicationException cex)
+			{
+				((IClientChannel)Proxy).Abort();
+				Proxy = null;
+				Connect(ServerUrl);
+			}
+
+			return defaultValue;
 		}
 	}
 

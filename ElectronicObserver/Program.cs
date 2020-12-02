@@ -2,9 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using ElectronicObserver.Utility;
 
 namespace ElectronicObserver
 {
@@ -16,6 +19,10 @@ namespace ElectronicObserver
 		[STAThread]
 		static void Main(string[] args)
 		{
+
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+			Application.ThreadException += Application_ThreadException;
 
 			bool allowMultiInstance = args.Contains("-m") || args.Contains("--multi-instance");
 
@@ -49,5 +56,13 @@ namespace ElectronicObserver
 
 			}
 		}
+
+		private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+		{
+			MessageBox.Show(e.Exception.ToString(), "ElectronicObserverExtended", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			ErrorReporter.SendErrorReport(e.Exception, "Error in thread: " + e.Exception.Message);
+		}
+
+		public static System.Drawing.Font Window_Font;
 	}
 }

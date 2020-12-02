@@ -9,6 +9,7 @@ using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Integrate;
 using ElectronicObserver.Window.Support;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,9 +17,11 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ElectronicObserver.Window.Plugins;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace ElectronicObserver.Window
@@ -68,6 +71,7 @@ namespace ElectronicObserver.Window
 		#endregion
 
 
+		public ConcurrentBag<IPluginHost> Plugins { get; private set; }
 
 
 		public FormMain()
@@ -85,6 +89,9 @@ namespace ElectronicObserver.Window
 
 
 			Utility.Configuration.Instance.Load(this);
+
+			Program.Window_Font = Utility.Configuration.Config.UI.MainFont;
+			MainDockPanel.Theme = new VS2012LightTheme();
 
 
 			Utility.Logger.Instance.LogAdded += new Utility.LogAddedEventHandler((Utility.Logger.LogData data) =>
@@ -146,6 +153,7 @@ namespace ElectronicObserver.Window
 			StripMenu_Tool_BaseAirCorpsSimulation.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormBaseAirCorps];
 			StripMenu_Tool_ExpChecker.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormExpChecker];
 			StripMenu_Tool_ExpeditionCheck.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormExpeditionCheck];
+			StripMenu_Tool_PluginManager.Image = ResourceManager.Instance.Icons.Images[(int) ResourceManager.IconContent.FormConfiguration];
 
 			StripMenu_Help_Version.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.AppIcon];
 			#endregion
@@ -182,6 +190,8 @@ namespace ElectronicObserver.Window
 			SubForms.Add(fBaseAirCorps = new FormBaseAirCorps(this));
 			SubForms.Add(fJson = new FormJson(this));
 			SubForms.Add(fFleetPreset = new FormFleetPreset(this));
+
+			await LoadPlugins();
 
 			ConfigurationChanged();     //設定から初期化
 
@@ -518,7 +528,8 @@ namespace ElectronicObserver.Window
 					{
 						return FormIntegrate.FromPersistString(this, persistString);
 					}
-					return null;
+
+					return SubForms.FirstOrDefault(f => GetPersistString(f) == persistString);
 			}
 
 		}
@@ -1564,6 +1575,215 @@ namespace ElectronicObserver.Window
 			ShowForm(fFleetPreset);
 		}
 
+
+		#endregion
+
+
+		#region Plugins
+
+		private async Task LoadPlugins()
+		{
+			Plugins = new ConcurrentBag<IPluginHost>();
+
+			var path = GetType().Assembly.Location;
+			path = path.Substring(0, path.LastIndexOf('\\') + 1) + "Plugins";
+			if (!Directory.Exists(path))
+			{
+				return;
+			}
+
+			var dockContentMenus = new List<ToolStripItem>();
+			var toolMenus = new List<ToolStripItem>();
+
+			// Load dlls
+			// We need to move this to another thread so that when error happens, UI thread is able
+			// to process log from ErrorReporter.
+			await Task.Factory.StartNew(() =>
+			{
+				Parallel.ForEach(Directory.GetFiles(path, "*.dll", SearchOption.TopDirectoryOnly), file =>
+				{
+					var name = file.Substring(file.LastIndexOf('\\') + 1);
+					try
+					{
+						var assembly = Assembly.LoadFile(file);
+						var pluginTypes = assembly.GetExportedTypes()
+							.Where(t => t.GetInterface(typeof(IPluginHost).FullName) != null);
+						foreach (var pluginType in pluginTypes)
+						{
+							var plugin = (IPluginHost) Activator.CreateInstance(pluginType);
+							Plugins.Add(plugin);
+						}
+					}
+					catch (ReflectionTypeLoadException refEx)
+					{
+						ErrorReporter.SendLoadErrorReport(refEx, "载入插件时出错：" + name);
+					}
+					catch (TargetInvocationException ex)
+					{
+						ErrorReporter.SendErrorReport(ex.InnerException, "Reflection failed loading plugin: " + name);
+					}
+					catch (Exception ex)
+					{
+						ErrorReporter.SendErrorReport(ex, "载入插件时出错：" + name);
+					}
+				});
+			});
+
+			// Instantiate them
+			// Don't attempt to parallelize this. We need to run everything in UI thread because
+			// 1) DockContents need to be instantiated in UI thread or we cannot control them.
+			// 2) If a plugin decides to call anything here it needs to be in the same thread with us.
+			// So just running this synchronized seems to be the best solution.
+			foreach (var plugin in Plugins)
+			{
+				try
+				{
+					// dock content
+					if (plugin.PluginType == PluginType.DockContent ||
+						(plugin.PluginType & PluginType.DockContentPlugin) == PluginType.DockContentPlugin)
+					{
+						var pluginDockContents = plugin.GetType()
+							.Assembly.GetExportedTypes()
+							.Where(t => t.BaseType == typeof(DockContent))
+							.Select(type => (DockContent) type.GetConstructor(new[] {typeof(FormMain)})
+								.Invoke(new object[] {this}))
+							.ToList();
+
+						if (pluginDockContents.Count == 1)
+						{
+							var p = pluginDockContents[0];
+							var item = new ToolStripMenuItem
+							{
+								Text = plugin.MenuTitle ?? p.Text,
+								Tag = p
+							};
+							if (plugin.MenuIcon != null)
+								item.Image = plugin.MenuIcon;
+							item.Click += DockContentPluginMenuItemClick;
+							dockContentMenus.Add(item);
+						}
+						else if (pluginDockContents.Count > 1)
+						{
+							var item = new ToolStripMenuItem
+							{
+								Text = plugin.MenuTitle ?? pluginDockContents.First().Text
+							};
+							foreach (var p in pluginDockContents)
+							{
+								var subItem = new ToolStripMenuItem
+								{
+									Text = p.Text,
+									Tag = p
+								};
+								if (p.ShowIcon && p.Icon != null)
+									subItem.Image = p.Icon.ToBitmap();
+								subItem.Click += DockContentPluginMenuItemClick;
+								item.DropDownItems.Add(subItem);
+							}
+
+							dockContentMenus.Add(item);
+						}
+
+						SubForms.AddRange(pluginDockContents);
+					}
+
+					// service
+					if (plugin.PluginType == PluginType.Service ||
+						(plugin.PluginType & PluginType.ServicePlugin) == PluginType.ServicePlugin)
+					{
+						if (plugin.RunService(this))
+						{
+							Logger.Add(2, $"服务 {plugin.MenuTitle} ({plugin.Version}) 已加载。");
+						}
+						else
+						{
+							Logger.Add(3,
+								$"服务 {plugin.MenuTitle} ({plugin.Version}, {plugin.GetType().Name}) 加载时返回异常结果。");
+						}
+					}
+
+					// dialog
+					if (plugin.PluginType == PluginType.Dialog ||
+						(plugin.PluginType & PluginType.DialogPlugin) == PluginType.DialogPlugin)
+					{
+						var item = new ToolStripMenuItem
+						{
+							Text = plugin.MenuTitle,
+							Tag = plugin
+						};
+						if (plugin.MenuIcon != null)
+							item.Image = plugin.MenuIcon;
+						item.Click += DialogPluginMenuItemClick;
+						toolMenus.Add(item);
+					}
+
+					// observer
+					if (plugin.PluginType == PluginType.Observer ||
+						(plugin.PluginType & PluginType.ObserverPlugin) == PluginType.ObserverPlugin)
+					{
+						if (plugin is ObserverPlugin)
+							Configuration.Instance.ObserverPlugins.Add((ObserverPlugin) plugin);
+						else
+							Logger.Add(3, $"观察器 {plugin.MenuTitle} ({plugin.Version}) 类型无效。");
+					}
+				}
+				catch (TargetInvocationException ex)
+				{
+					ErrorReporter.SendErrorReport(ex.InnerException, "Reflection failed loading plugin: " + plugin);
+				}
+				catch (Exception ex)
+				{
+					ErrorReporter.SendErrorReport(ex, "载入插件时出错：" + plugin);
+				}
+			}
+
+			if (dockContentMenus.Count > 0)
+			{
+				var sep = new ToolStripSeparator();
+				StripMenu_View.DropDownItems.Add(sep);
+				StripMenu_View.DropDownItems.AddRange(dockContentMenus.OrderBy(i => i.Text).ToArray());
+			}
+
+			StripMenu_Tool.DropDownItems.AddRange(toolMenus.OrderBy(i => i.Text).ToArray());
+		}
+
+		private void DialogPluginMenuItemClick(object sender, EventArgs e)
+		{
+			var plugin = (IPluginHost) ((ToolStripMenuItem) sender).Tag;
+			if (plugin == null) return;
+			try
+			{
+				plugin.GetToolWindow().Show(this);
+			}
+			catch (ObjectDisposedException)
+			{
+			}
+			catch (Exception ex)
+			{
+				ErrorReporter.SendErrorReport(ex, $"插件显示出错：{plugin.MenuTitle} ({plugin.Version})");
+			}
+		}
+
+		private void DockContentPluginMenuItemClick(object sender, EventArgs e)
+		{
+			var f = ((ToolStripMenuItem) sender).Tag as DockContent;
+			f?.Show(MainDockPanel);
+		}
+
+		private void pluginsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			new DialogPlugins(this).Show(this);
+		}
+
+
+		private static string GetPersistString(DockContent form)
+		{
+			var type = form.GetType();
+			var getPersistStringMethod = type.GetMethod("GetPersistString");
+			return getPersistStringMethod == null
+				? type.ToString()
+				: (string) getPersistStringMethod.Invoke(form, new object[] { });
+		}
 
 		#endregion
 

@@ -110,6 +110,8 @@
             this.StripStatus_Clock = new System.Windows.Forms.ToolStripStatusLabel();
             this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.toolStripSeparatorPlugins = new System.Windows.Forms.ToolStripSeparator();
+            this.StripMenu_Tool_PluginManager = new System.Windows.Forms.ToolStripMenuItem();
             this.checkUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StripMenu.SuspendLayout();
             this.StripStatus.SuspendLayout();
@@ -507,7 +509,9 @@
             this.StripMenu_Tool_FleetImageGenerator,
             this.StripMenu_Tool_BaseAirCorpsSimulation,
             this.StripMenu_Tool_ExpChecker,
-            this.StripMenu_Tool_ExpeditionCheck});
+            this.StripMenu_Tool_ExpeditionCheck,
+            this.toolStripSeparatorPlugins,
+            this.StripMenu_Tool_PluginManager});
             this.StripMenu_Tool.Name = "StripMenu_Tool";
             this.StripMenu_Tool.Size = new System.Drawing.Size(71, 21);
             this.StripMenu_Tool.Text = "ツール(&T)";
@@ -755,6 +759,19 @@
             this.checkUpdateToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.checkUpdateToolStripMenuItem.Text = "Check Update";
             this.checkUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkUpdateToolStripMenuItem_Click);
+
+            // 
+            // toolStripSeparatorPlugins
+            // 
+            this.toolStripSeparatorPlugins.Name = "toolStripSeparatorPlugins";
+            this.toolStripSeparatorPlugins.Size = new System.Drawing.Size(197, 6);
+            // 
+            // StripMenu_Tool_PluginManager
+            // 
+            this.StripMenu_Tool_PluginManager.Name = "StripMenu_Tool_PluginManager";
+            this.StripMenu_Tool_PluginManager.Size = new System.Drawing.Size(200, 26);
+            this.StripMenu_Tool_PluginManager.Text = "&Plugins";
+            this.StripMenu_Tool_PluginManager.Click += new System.EventHandler(this.pluginsToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -863,7 +880,10 @@
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_File_Notification_MuteAll;
 		private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ExpChecker;
         private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_ExpeditionCheck;
-		private System.Windows.Forms.ToolStripMenuItem StripMenu_View_FleetPreset;
 		private System.Windows.Forms.ToolStripMenuItem checkUpdateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StripMenu_View_FleetPreset;
+
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorPlugins;
+        private System.Windows.Forms.ToolStripMenuItem StripMenu_Tool_PluginManager;
 	}
 }

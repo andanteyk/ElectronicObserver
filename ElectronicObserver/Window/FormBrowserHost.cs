@@ -461,15 +461,10 @@ namespace ElectronicObserver.Window
 			if (!string.IsNullOrEmpty(config.DownstreamProxy))
 			{
 				return config.DownstreamProxy;
-
+                
 			}
-			else if (config.UseSystemProxy)
-			{
-				return APIObserver.Instance.ProxyPort.ToString();
-
-			}
-			else if (config.UseUpstreamProxy)
-			{
+            else if (config.UseUpstreamProxy)
+            {
 				return string.Format(
 					"http=127.0.0.1:{0};https={1}:{2}",
 					APIObserver.Instance.ProxyPort,
@@ -598,6 +593,17 @@ namespace ElectronicObserver.Window
 			return "Browser";
 		}
 
+
+		public void SendMouseEvent(string type, double x, double y)
+		{
+			Browser.AsyncRemoteRun(() => Browser.Proxy.SendMouseEvent(type, x, y));
+		}
+
+		public byte[] TakeScreenShotAsPngBytes()
+		{
+			return Browser.RemoteRun(() => Browser.Proxy.TakeScreenShotAsPngBytes(), new byte[] { });
+		}
+		
 
 		#region 呪文
 

@@ -317,6 +317,13 @@ namespace ElectronicObserver.Window.Support
 		}
 
 
+		public static int GetDpiHeight(this Form form, int height)
+		{
+			return height;
+		}
+		public static void SuspendLayoutForDpiScale(this ContainerControl container) {}
+		public static void ResumeLayoutForDpiScale(this ContainerControl container) {}
+
 	}
 
 }

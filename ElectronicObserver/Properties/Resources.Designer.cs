@@ -59,5 +59,15 @@ namespace ElectronicObserver.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MapCell {
+            get {
+                object obj = ResourceManager.GetObject("MapCell", resourceCulture);
+                return ((byte[])(obj));
+            }
+	}
     }
 }

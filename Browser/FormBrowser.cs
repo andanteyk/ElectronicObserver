@@ -1246,7 +1246,47 @@ namespace Browser
 
 			base.WndProc(ref m);
 		}
+		
+		
+		public void SendMouseEvent(string type, double x, double y)
+		{
+			var mouseEvent = new MouseEvent((int) (Browser.Width * x), (int) (Browser.Height * y), CefEventFlags.None);
 
+			switch (type)
+			{
+				case "down":
+					Browser.GetBrowserHost().SendMouseClickEvent(mouseEvent, MouseButtonType.Left, false, 1);
+					return;
+				case "up":
+					Browser.GetBrowserHost().SendMouseClickEvent(mouseEvent, MouseButtonType.Left, true, 1);
+					break;
+				case "move":
+					Browser.GetBrowserHost().SendMouseMoveEvent(mouseEvent, false);
+					break;
+			}
+		}
+
+		public byte[] TakeScreenShotAsPngBytes()
+		{
+			try
+			{
+				var screenShot = Task.Run(TakeScreenShot).Result; // Blocks here
+				if (screenShot != null)
+				{
+					using (var stream = new MemoryStream())
+					{
+						screenShot.Save(stream, ImageFormat.Png);
+						return stream.ToArray();
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				SendErrorReport(ex.ToString(), "Failed to TakeScreenShotAsPngBytes.");
+			}
+
+			return new byte[0];
+		}
 
 		#region 呪文
 

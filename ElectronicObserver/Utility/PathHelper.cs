@@ -208,6 +208,18 @@ namespace ElectronicObserver.Utility
 			return path;
 		}
 
+		public static string GetRelativePath(string path)
+		{
+			// カレントディレクトリ以下にあるなら相対パスとして記録する
+			string currentDir = Directory.GetCurrentDirectory();
+			if (path != null && path.IndexOf(currentDir) == 0)
+			{
+				path = path.Remove(0, currentDir.Length + 1);       //+1 は \ の分
+			}
+
+			return path;
+		}
+
 	}
 
 }

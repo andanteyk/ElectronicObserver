@@ -59,6 +59,10 @@
     <Reference Include="DynaJson, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynaJson.2.0.0\lib\net45\DynaJson.dll</HintPath>
     </Reference>
+    <Reference Include="FiddlerCore4, Version=4.4.8.4, Culture=neutral, PublicKeyToken=67cb91587178ac5a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -80,6 +84,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -200,6 +205,7 @@
     <Compile Include="Data\ShipTypes.cs" />
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemMaster.cs" />
+    <Compile Include="DynamicJson.cs" />
     <Compile Include="Notifier\NotifierAnchorageRepair.cs" />
     <Compile Include="Notifier\NotifierBase.cs" />
     <Compile Include="Notifier\NotifierBaseAirCorps.cs" />
@@ -254,6 +260,7 @@
     <Compile Include="Observer\kcsapi\api_start2\getData.cs" />
     <Compile Include="Resource\KCResourceHelper.cs" />
     <Compile Include="Resource\Record\ResourceRecord.cs" />
+    <Compile Include="Utility\Data\MapCell2WikiPoint.cs" />
     <Compile Include="Utility\Data\RecordHash.cs" />
     <Compile Include="Utility\FleetImageGenerator.cs" />
     <Compile Include="Utility\Storage\CsvHelper.cs" />
@@ -329,6 +336,12 @@
     <Compile Include="Utility\Storage\SerializableList.cs" />
     <Compile Include="Utility\SystemEvents.cs" />
     <Compile Include="Utility\WinAPI.cs" />
+    <Compile Include="Window\Control\ColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Control\ColorPicker.designer.cs">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\Control\FleetState.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -495,6 +508,12 @@
     </Compile>
     <Compile Include="Window\Dialog\DialogNotifier.Designer.cs">
       <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogPlugins.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Dialog\DialogPlugins.Designer.cs">
+      <DependentUpon>DialogPlugins.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\Dialog\DialogResourceChart.cs">
       <SubType>Form</SubType>
@@ -679,9 +698,21 @@
     <Compile Include="Window\Integrate\FormIntegrated.Designer.cs">
       <DependentUpon>FormIntegrated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\Plugins\DialogPlugin.cs" />
+    <Compile Include="Window\Plugins\DockPlugin.cs" />
+    <Compile Include="Window\Plugins\ElectronicPlugin.cs" />
+    <Compile Include="Window\Plugins\IPluginHost.cs" />
+    <Compile Include="Window\Plugins\ObserverPlugin.cs" />
+    <Compile Include="Window\Plugins\PluginSettingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Window\Plugins\ServerPlugin.cs" />
     <Compile Include="Window\Support\ControlHelper.cs" />
     <Compile Include="Window\Support\CustomFloatWindowFactory.cs" />
     <Compile Include="Window\Support\WindowPlacementManager.cs" />
+    <EmbeddedResource Include="Window\Control\ColorPicker.resx">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\Control\FleetState.resx">
       <DependentUpon>FleetState.cs</DependentUpon>
     </EmbeddedResource>
@@ -762,6 +793,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogNotifier.resx">
       <DependentUpon>DialogNotifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Dialog\DialogPlugins.resx">
+      <DependentUpon>DialogPlugins.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window\Dialog\DialogResourceChart.resx">
       <DependentUpon>DialogResourceChart.cs</DependentUpon>
@@ -877,6 +911,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\MapCell.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -891,7 +926,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -913,6 +948,10 @@
       <Project>{8bb3e37d-09fb-40b9-958a-8cdcd18ef1f5}</Project>
       <Name>BrowserLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DockPanelSuite\WinFormsUI\ThemeVS2012Light.csproj">
+      <Project>{4ED4FDB5-9FD0-49E6-876D-1635F727C755}</Project>
+      <Name>ThemeVS2012Light</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DockPanelSuite\WinFormsUI\WinFormsUI.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>WinFormsUI</Name>
@@ -920,6 +959,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /E /Y "$(TargetDir)." "$(ProjectDir)..\output\ElectronicObserver\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -4,3 +4,7 @@
 [submodule "SwfExtractor"]
 	path = SwfExtractor
 	url = https://github.com/andanteyk/SwfExtractor.git
+[submodule "GeckoBrowser"]
+	path = GeckoBrowser
+	url = https://github.com/CAWAS/GeckoBrowser.git
+	branch = master

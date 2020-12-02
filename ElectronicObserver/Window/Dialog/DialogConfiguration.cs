@@ -514,6 +514,9 @@ namespace ElectronicObserver.Window.Dialog
 
 			//finalize
 			UpdateParameter();
+
+			Connection_UseSystemProxy.Checked = true;
+			Connection_UseSystemProxy.Enabled = false;
 		}
 
 
