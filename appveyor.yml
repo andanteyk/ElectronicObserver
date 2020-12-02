@@ -51,7 +51,7 @@ artifacts:
 deploy:
   provider: GitHub
   auth_token:
-    secure: d5c186bcefd7960d6932c5feafe9b6e76e31a640
+    secure: Qgng6uKlHnkMXC0StI5QnW013EtPjEmRGOuu2tydfqoJOtFmEkgevjW0jVaZH9Ue
   artifact: /.*/
   on:
     branch: dev-test
