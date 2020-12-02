@@ -2,7 +2,7 @@ version: 4.6.4-mk{build}
 
 branches:
     only:
-        - dev-test
+        - develop
 
 skip_tags: true
 
@@ -44,9 +44,9 @@ build_script:
 
 artifacts:
     - path: output-cef-full
-      name: 74eoe-cef-full-$(APPVEYOR_BUILD_VERSION)
+      name: 74eo-joint-$(APPVEYOR_BUILD_VERSION)
     - path: output-cef
-      name: 74eoe-cef-$(APPVEYOR_BUILD_VERSION)
+      name: 74eo-joint-updatepack-$(APPVEYOR_BUILD_VERSION)
 
 deploy:
   provider: GitHub
@@ -54,4 +54,4 @@ deploy:
     secure: Qgng6uKlHnkMXC0StI5QnW013EtPjEmRGOuu2tydfqoJOtFmEkgevjW0jVaZH9Ue
   artifact: /.*/
   on:
-    branch: dev-test
+    branch: develop

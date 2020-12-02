@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeVS2012Light", "DockPanelSuite\WinFormsUI\ThemeVS2012Light.csproj", "{4ED4FDB5-9FD0-49E6-876D-1635F727C755}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeckoBrowser", "GeckoBrowser\GeckoBrowser.csproj", "{F9033E14-5633-4975-BB3C-1B395AD69E68}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicObserverUpdater", "ElectronicObserverUpdater\ElectronicObserverUpdater.csproj", "{83DF5838-CF4B-430F-A1A7-0FE38C28CF00}"
 EndProject
 Global
@@ -47,6 +45,14 @@ Global
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED4FDB5-9FD0-49E6-876D-1635F727C755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED4FDB5-9FD0-49E6-876D-1635F727C755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED4FDB5-9FD0-49E6-876D-1635F727C755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED4FDB5-9FD0-49E6-876D-1635F727C755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9033E14-5633-4975-BB3C-1B395AD69E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9033E14-5633-4975-BB3C-1B395AD69E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9033E14-5633-4975-BB3C-1B395AD69E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9033E14-5633-4975-BB3C-1B395AD69E68}.Release|Any CPU.Build.0 = Release|Any CPU
 		{83DF5838-CF4B-430F-A1A7-0FE38C28CF00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{83DF5838-CF4B-430F-A1A7-0FE38C28CF00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83DF5838-CF4B-430F-A1A7-0FE38C28CF00}.Release|Any CPU.ActiveCfg = Release|Any CPU
