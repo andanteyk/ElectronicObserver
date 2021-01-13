@@ -655,6 +655,18 @@ namespace ElectronicObserver.Data.Quest
 								new ProgressDiscard(q, 5, true, new[]{ 10 }),
 							}));
 							break;
+						case 654:   //|654|10|精鋭複葉機飛行隊の編成|(Swordfishx1, Fulmarx2)廃棄, 秘書艦Ark Royalの第一スロットにSwordfish★10装備, (熟練搭乗員x1, 弾薬x1500, ボーキx1500)保有
+							Progresses.Add(new ProgressMultiDiscard(q, new[]{
+								new ProgressDiscard(q, 1, true, new[]{ 242 }, -1),
+								new ProgressDiscard(q, 2, true, new[]{ 249 }, -1),
+							}));
+							break;
+						case 681:   //|681|１|航空戦力の再編増強準備|(艦上爆撃機x4, 艦上攻撃機x4)廃棄, (開発資材20, ボーキ1600)保有
+							Progresses.Add(new ProgressMultiDiscard(q, new[]{
+								new ProgressDiscard(q, 4, true, new[]{ 7 }),
+								new ProgressDiscard(q, 4, true, new[]{ 8 }),
+							}));
+							break;
 
 						case 702:   //|702|艦の「近代化改修」を実施せよ！|改修成功2
 							Progresses.Add(new ProgressModernization(q, 2));
