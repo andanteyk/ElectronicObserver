@@ -174,8 +174,9 @@ namespace ElectronicObserver.Data.Quest
 				case 875:
 					isAccepted =
 						members.Any(s => s?.ShipID == 543) &&
-						members.Any(s => {
-							switch(s?.MasterShip?.NameReading)
+						members.Any(s =>
+						{
+							switch (s?.MasterShip?.NameReading)
 							{
 								case "たかなみ":
 								case "おきなみ":
@@ -224,8 +225,9 @@ namespace ElectronicObserver.Data.Quest
 
 				case 903:   // |903|季|拡張「六水戦」、最前線へ！|5-1・5-4・6-4・6-5ボスS勝利各1|要旗艦夕張改二(|特|丁), 由良改二or(睦月/如月/弥生/卯月/菊月/望月2)|進捗3/4で80%
 					isAccepted = members[0]?.MasterShip?.NameReading == "ゆうばり" && members[0]?.MasterShip?.RemodelTier >= 2 &&
-						(members.Any(s => s?.ShipID == 488) || members.Count(s => {
-							switch(s?.MasterShip?.NameReading)
+						(members.Any(s => s?.ShipID == 488) || members.Count(s =>
+						{
+							switch (s?.MasterShip?.NameReading)
 							{
 								case "むつき":
 								case "きさらぎ":
@@ -249,7 +251,7 @@ namespace ElectronicObserver.Data.Quest
 					break;
 
 				case 912:   // |912|年(3月)|工作艦「明石」護衛任務|1-3・2-1・2-2・2-3ボスA勝利各1/1-6終点到達1|要明石旗艦, 駆逐艦3
-					isAccepted = members.FirstOrDefault()?.MasterShip?.NameReading == "あかし" && 
+					isAccepted = members.FirstOrDefault()?.MasterShip?.NameReading == "あかし" &&
 						memberstype.Count(t => t == ShipTypes.Destroyer) >= 3;
 					break;
 
@@ -273,6 +275,40 @@ namespace ElectronicObserver.Data.Quest
 									return false;
 							}
 						}) >= 2 && CheckGaugeIndex72(bm.Compass) && CheckGaugeIndex73(bm.Compass);
+					break;
+
+
+				case 840:   //|840|週|【節分任務】令和三年節分作戦|2-(1~3)ボスA勝利各1|要(軽母or軽巡or雷巡or練巡)旗艦/(駆逐or海防)3, 期間限定(2021/01/13～????/??/??)
+					isAccepted =
+						new[] {
+							ShipTypes.LightAircraftCarrier,
+							ShipTypes.LightCruiser,
+							ShipTypes.TorpedoCruiser,
+							ShipTypes.TrainingCruiser }
+						.Contains(memberstype.FirstOrDefault()) &&
+						memberstype.Count(t => t == ShipTypes.Destroyer || t == ShipTypes.Escort) >= 3;
+					break;
+
+				case 841:   //|841|週|【節分任務】令和三年西方海域節分作戦|4-(1~3)ボスS勝利各1|要(水母2or航巡2or重巡2)旗艦, 期間限定(2021/01/13～????/??/??)
+					isAccepted =
+						new[] {
+							ShipTypes.SeaplaneTender,
+							ShipTypes.HeavyCruiser,
+							ShipTypes.AviationCruiser
+						}.Contains(memberstype.FirstOrDefault()) &&
+						memberstype.Count(t => t == memberstype.FirstOrDefault()) >= 2;
+					break;
+				case 843:   //|843|週|【節分拡張任務】令和三年節分作戦、全力出撃！|5-2・5-5・6-4ボスS勝利各1|要(戦艦系or空母系)旗艦/駆逐2, 期間限定(2021/01/13～????/??/??)
+					isAccepted =
+						new[] {
+							ShipTypes.Battlecruiser,
+							ShipTypes.Battleship,
+							ShipTypes.AviationBattleship,
+							ShipTypes.LightAircraftCarrier,
+							ShipTypes.AircraftCarrier,
+							ShipTypes.ArmoredAircraftCarrier,
+						}.Contains(memberstype.FirstOrDefault()) &&
+						memberstype.Count(t => t == ShipTypes.Destroyer) >= 2;
 					break;
 			}
 
