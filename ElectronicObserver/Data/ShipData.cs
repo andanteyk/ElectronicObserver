@@ -1475,8 +1475,8 @@ namespace ElectronicObserver.Data
                     if (master.ShipType != ShipTypes.ArmoredAircraftCarrier && HPRate <= 0.5)
                         return false;
 
-                    // Saratoga Mk.II/赤城改二戊 は不要
-                    bool hasNightPersonnel = master.ShipID == 545 || master.ShipID == 599 ||
+                    // Saratoga Mk.II/赤城改二戊/加賀改二戊 は不要
+                    bool hasNightPersonnel = master.ShipID == 545 || master.ShipID == 599 || master.ShipID == 610 ||
                         AllSlotInstanceMaster.Any(eq => eq != null && eq.IsNightAviationPersonnel);
 
                     bool hasNightAircraft = AllSlotInstanceMaster.Any(eq => eq != null && eq.IsNightAircraft);
