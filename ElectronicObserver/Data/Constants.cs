@@ -398,6 +398,8 @@ namespace ElectronicObserver.Data
 				case 104: return "丁型海防艦";		// 86 に同じ
 				case 105: return "Yorktown級";
 				case 106: return "St. Louis級";
+				case 107: return "North Carolina級";
+				case 108: return "Town級";
 				default: return "不明";
 			}
 		}
