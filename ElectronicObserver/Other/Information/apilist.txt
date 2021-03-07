@@ -1080,11 +1080,13 @@ api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ�
 			99=Atlanta級
 			100=迅鯨型
 			101=松型
-			102=South Dakota級？
+			102=South Dakota級
 			103=巡潜丙型
-			104=丁型海防艦？
-			105=Yorktown級？
-			106=St. Louis級？
+			104=丁型海防艦
+			105=Yorktown級
+			106=St. Louis級
+			107=North Carolina級
+			108=Town級
 		api_cnum			：艦番
 		api_taik			：耐久
 		api_souk			：装甲
