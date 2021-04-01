@@ -212,6 +212,16 @@ namespace ElectronicObserver.Data
 						.CheckAA(400)
 						.CheckASW(285)
 						.CheckLOS(385);
+				case 115:   // 精鋭水雷戦隊夜襲
+					return result
+						.CheckFlagshipLevel(75)
+						.CheckLevelSum(400)
+						.CheckFlagshipType(ShipTypes.LightCruiser)
+						.CheckShipCountByType(ShipTypes.Destroyer, 5)
+						.CheckFirepower(410)
+						.CheckAA(390)
+						.CheckASW(410)
+						.CheckLOS(340);
 
 				case 17:    // 敵地偵察作戦
 					return result
@@ -323,6 +333,17 @@ namespace ElectronicObserver.Data
 						.CheckFirepower(60)
 						.CheckAA(80)
 						.CheckASW(50);
+				case 133:   // 欧州方面友軍との接触
+					return result
+						.CheckFlagshipLevel(65)
+						.CheckLevelSum(350)
+						.CheckFlagshipType(ShipTypes.SubmarineTender)
+						.CheckSubmarineCount(3)
+						.CheckShipCount(5)
+						.CheckFirepower(115)
+						.CheckAA(90)
+						.CheckASW(70)
+						.CheckLOS(95);
 
 				case 33:    // 前衛支援任務
 					return result
