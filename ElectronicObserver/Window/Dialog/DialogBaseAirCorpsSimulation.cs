@@ -31,6 +31,7 @@ namespace ElectronicObserver.Window.Dialog
 			EquipmentTypes.LandBasedAttacker,
 			EquipmentTypes.Interceptor,
 			EquipmentTypes.LandBasedRecon,
+			EquipmentTypes.HeavyBomber,
 			EquipmentTypes.JetFighter,
 			EquipmentTypes.JetBomber,
 			EquipmentTypes.JetTorpedo,
@@ -44,6 +45,7 @@ namespace ElectronicObserver.Window.Dialog
 			EquipmentTypes.CarrierBasedTorpedo,
 			EquipmentTypes.SeaplaneBomber,
 			EquipmentTypes.LandBasedAttacker,
+			EquipmentTypes.HeavyBomber,
 			EquipmentTypes.JetBomber,
 			EquipmentTypes.JetTorpedo,
 		};
@@ -202,7 +204,9 @@ namespace ElectronicObserver.Window.Dialog
 				}
 				else
 				{
-					int aircraftCount = equipment.EquipmentInstance.IsCombatAircraft ? 18 : 4;
+					int aircraftCount = 
+						equipment.EquipmentInstance.CategoryType == EquipmentTypes.HeavyBomber ? 9 :
+						equipment.EquipmentInstance.IsCombatAircraft ? 18 : 4;
 					AircraftCount.Value = AircraftCount.Maximum = aircraftCount;
 
 					ToolTipInternal.SetToolTip(Aircraft, GetAircraftParameters(equipment.EquipmentInstance));

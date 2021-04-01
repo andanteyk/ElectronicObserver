@@ -990,7 +990,7 @@ namespace ElectronicObserver.Data
             }
 
             //キャップ
-            basepower = Math.Floor(CapDamage(basepower, 150));
+            basepower = Math.Floor(CapDamage(basepower, 170));
 
             return (int)(basepower * GetAmmoDamageRate());
         }
@@ -1013,7 +1013,7 @@ namespace ElectronicObserver.Data
             basepower += GetLightCruiserDamageBonus() + GetItalianDamageBonus();
 
             // キャップ
-            basepower = Math.Floor(CapDamage(basepower, 180));
+            basepower = Math.Floor(CapDamage(basepower, 220));
 
             // 弾着観測射撃
             switch (attackKind)
@@ -1058,7 +1058,7 @@ namespace ElectronicObserver.Data
             basepower *= GetHPDamageBonus() * GetEngagementFormDamageRate(engagementForm);
 
             // キャップ
-            basepower = Math.Floor(CapDamage(basepower, 180));
+            basepower = Math.Floor(CapDamage(basepower, 220));
 
 
             // 空母カットイン
@@ -1166,7 +1166,7 @@ namespace ElectronicObserver.Data
 
 
             //キャップ
-            basepower = Math.Floor(CapDamage(basepower, 150));
+            basepower = Math.Floor(CapDamage(basepower, 170));
 
             return (int)(basepower * GetAmmoDamageRate());
         }
@@ -1185,7 +1185,7 @@ namespace ElectronicObserver.Data
             basepower *= GetTorpedoHPDamageBonus() * GetEngagementFormDamageRate(engagementForm);
 
             //キャップ
-            basepower = Math.Floor(CapDamage(basepower, 150));
+            basepower = Math.Floor(CapDamage(basepower, 180));
 
 
             return (int)(basepower * GetAmmoDamageRate());
@@ -1312,7 +1312,7 @@ namespace ElectronicObserver.Data
             basepower += GetLightCruiserDamageBonus() + GetItalianDamageBonus();
 
             //キャップ
-            basepower = Math.Floor(CapDamage(basepower, 300));
+            basepower = Math.Floor(CapDamage(basepower, 360));
 
 
             return (int)(basepower * GetAmmoDamageRate());
@@ -1391,7 +1391,10 @@ namespace ElectronicObserver.Data
                     case 689:       // Johnston改
                     case 596:       // Fletcher
                     case 692:       // Fletcher改
+                    case 628:       // Fletcher改 Mod.2
+                    case 629:       // Fletcher Mk.II
                     case 893:       // Janus改
+                    case 624:       // 夕張改二丁
                         return true;
                 }
 

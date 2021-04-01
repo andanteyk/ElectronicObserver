@@ -139,13 +139,8 @@ namespace ElectronicObserver.Data.Quest
 		/// <param name="q">任務データ。</param>
 		public virtual void CheckProgress(QuestData q)
 		{
+			ApplyTemporaryProgress(q);
 
-			if (TemporaryProgress > 0)
-			{
-				if (q.State == 2)
-					Progress = Math.Min(Progress + TemporaryProgress, ProgressMax);
-				TemporaryProgress = 0;
-			}
 
 			if (QuestType == 0)     // ver. 1.6.6 以前のデータとの互換性維持
 				QuestType = q.Type;
@@ -160,6 +155,16 @@ namespace ElectronicObserver.Data.Quest
 					break;
 			}
 
+		}
+
+		public virtual void ApplyTemporaryProgress(QuestData q)
+		{
+			if (TemporaryProgress > 0)
+			{
+				if (q.State == 2)
+					Progress = Math.Min(Progress + TemporaryProgress, ProgressMax);
+				TemporaryProgress = 0;
+			}
 		}
 
 

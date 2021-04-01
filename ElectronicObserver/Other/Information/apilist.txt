@@ -1080,11 +1080,13 @@ api_get_member/picture_book	：艦船図鑑　図鑑登録済みのもののみ�
 			99=Atlanta級
 			100=迅鯨型
 			101=松型
-			102=South Dakota級？
+			102=South Dakota級
 			103=巡潜丙型
-			104=丁型海防艦？
-			105=Yorktown級？
-			106=St. Louis級？
+			104=丁型海防艦
+			105=Yorktown級
+			106=St. Louis級
+			107=North Carolina級
+			108=Town級
 		api_cnum			：艦番
 		api_taik			：耐久
 		api_souk			：装甲
@@ -1516,6 +1518,62 @@ Request.api_req_kaisou/lock		：装備ロック
 
 api_req_kaisou/lock				：装備ロック
 	api_locked			：ロック状態(1=ロック)
+
+
+api_req_kaisou/can_preset_slot_select		：装備プリセット展開可否
+	api_flag			：展開可能なプリセットが存在するか
+
+api_get_member/preset_slot			：装備プリセット情報
+	api_max_num			：プリセット最大数
+	api_preset_items	：プリセット　空なら存在しない
+		api_preset_no		：プリセットID　1基点
+		api_name			：プリセット名
+		api_selected_mode	：展開モード　1=A展開 2=B展開
+		api_lock_flag		：ロックされているか
+		api_slot_item		：通常スロット装備リスト
+			api_id				：装備ID (固有ではない)
+			api_level			：装備改修レベル
+		api_slot_item_ex	：拡張スロット装備　ないなら存在しない
+			api_id				：装備ID (固有ではない)
+			api_level			：装備改修レベル
+
+Request.api_req_kaisou/preset_slot_register		：装備プリセット記録
+	api_preset_id		：記録するプリセットのID　1基点
+	api_ship_id			：艦船固有ID
+
+api_req_kaisou/preset_slot_register				：装備プリセット記録
+	(情報なし)
+
+Request.api_req_kaisou/preset_slot_select		：装備プリセット展開
+	api_preset_id		：プリセットID
+	api_ship_id			：艦船固有ID
+	api_equip_mode		：展開モード　1=A展開, 2=B展開
+
+api_req_kaisou/preset_slot_select				：装備プリセット展開　実行直後に api_get_member/ship3 が呼ばれる
+	api_bauxite			：ボーキサイト保有量　変動があった時のみ存在（日進に大型飛行艇を装備させた場合など）
+
+Request.api_req_kaisou/preset_slot_update_lock	：装備プリセットロック切り替え
+	api_preset_id		：プリセットID
+
+api_req_kaisou/preset_slot_update_lock			：装備プリセットロック切り替え
+	(情報なし)
+
+Request.api_req_kaisou/preset_slot_delete		：装備プリセット削除
+	api_preset_id		：プリセットID
+
+api_req_kaisou/preset_slot_delete				：装備プリセット削除
+	(情報なし)
+
+Request.api_req_kaisou/preset_slot_update_name	：装備プリセット名変更
+	api_preset_id		：プリセットID
+	api_name			：プリセット名　末尾の「装備」は含まない
+
+api_req_kaisou/preset_slot_update_name			：装備プリセット名変更
+	(情報なし)
+
+api_req_kaisou/preset_slot_expand				：装備プリセット枠拡張
+	(？)
+
 
 
 Request.api_req_map/start	：出撃
