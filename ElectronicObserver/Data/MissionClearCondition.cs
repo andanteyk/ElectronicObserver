@@ -387,18 +387,17 @@ namespace ElectronicObserver.Data
 						.CheckASW(330)
 						.CheckLOS(250);
 
-				case 142:   // 強行鼠輸送作戦 (unchecked)
+				case 142:   // 強行鼠輸送作戦
 					return result
 						.CheckFlagshipLevel(70)
-						.CheckLevelSum(353)
+						.CheckLevelSum(320)
 						.CheckShipCountByType(ShipTypes.Destroyer, 5)
 						.CheckEquippedShipCount(EquipmentTypes.TransportContainer, 3)
-						.CheckEquipmentCount(EquipmentTypes.TransportContainer, 5)
+						.CheckEquipmentCount(EquipmentTypes.TransportContainer, 4)
 						.CheckFirepower(280)
-						.CheckAA(289)
-						.CheckASW(278)
-						.CheckLOS(164)
-						.SuppressWarnings();
+						.CheckAA(240)
+						.CheckASW(200)
+						.CheckLOS(160);
 
 				case 41:    // ブルネイ泊地沖哨戒
 					return result
@@ -453,19 +452,18 @@ namespace ElectronicObserver.Data
 						.CheckAA(240)
 						.CheckASW(300)
 						.CheckLOS(180);
-				case 46:    // 南西海域戦闘哨戒 (unchecked)
+				case 46:    // 南西海域戦闘哨戒
 					return result
-						.CheckFlagshipLevel(65)
+						.CheckFlagshipLevel(60)
 						.CheckLevelSum(300)
 						.CheckShipCount(5)
 						.CheckShipCountByType(ShipTypes.HeavyCruiser, 2)
 						.CheckShipCountByType(ShipTypes.LightCruiser, 1)
 						.CheckShipCountByType(ShipTypes.Destroyer, 2)
 						.CheckFirepower(350)
-						.CheckAA(324)
+						.CheckAA(250)
 						.CheckASW(220)
-						.CheckLOS(220)
-						.SuppressWarnings();
+						.CheckLOS(190);
 
 				default:
 					{
