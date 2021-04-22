@@ -1929,7 +1929,7 @@ api_req_sortie/battle	：通常艦隊　昼戦
 		api_ecl			：敵クリティカルフラグ　[7]
 		api_edam		：敵被ダメージ　[7]
 		api_eydam		：敵与ダメージ　[7]
-
+	api_air_base_rescue_type	：基地航空隊カタリナ救助活動フラグ 1～3 (吹き出しの数)　発生しなかった場合は存在しない
 
 api_req_battle_midnight/battle		：通常艦隊　夜戦
 	api_deck_id			：こちらの出撃艦隊ID　数値型
@@ -2150,6 +2150,7 @@ api_req_combined_battle/ec_battle	：通常艦隊 vs 敵連合艦隊 昼戦
 			api_ecl_flag		：クリティカルフラグ [7] (-1から始まる)
 			api_edam			：ダメージ [7] (-1から始まる)
 		api_stage3_combined	：航空攻撃(対随伴艦隊) api_stage3 と同じ
+	api_air_base_rescue_type	：基地航空隊カタリナ救助活動フラグ　1～3 (吹き出しの数)　発生しなかった場合は存在しない
 	api_stage_flag			：航空戦フラグ [3]
 	api_kouku				：航空戦
 		api_plane_from		：航空隊発艦インデックス [2][] 1-6=主力艦隊, 7-12=随伴艦隊
