@@ -1404,9 +1404,9 @@ namespace ElectronicObserver.Window
 
 
 
-        private static readonly string ShipCSVHeaderUser = "固有ID,艦種,艦名,Lv,Exp,next,改装まで,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,入渠,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
+        private static readonly string ShipCSVHeaderUser = "固有ID,艦種,艦名,Lv,Exp,next,改装まで,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,入渠,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,母港ソートID,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
 
-        private static readonly string ShipCSVHeaderData = "固有ID,艦種,艦名,艦船ID,Lv,Exp,next,改装まで,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,装備ID1,装備ID2,装備ID3,装備ID4,装備ID5,補強装備ID,艦載機1,艦載機2,艦載機3,艦載機4,艦載機5,入渠,入渠燃料,入渠鋼材,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
+        private static readonly string ShipCSVHeaderData = "固有ID,艦種,艦名,艦船ID,Lv,Exp,next,改装まで,耐久現在,耐久最大,Cond,燃料,弾薬,装備1,装備2,装備3,装備4,装備5,補強装備,装備ID1,装備ID2,装備ID3,装備ID4,装備ID5,補強装備ID,艦載機1,艦載機2,艦載機3,艦載機4,艦載機5,入渠,入渠燃料,入渠鋼材,火力,火力改修,火力合計,雷装,雷装改修,雷装合計,対空,対空改修,対空合計,装甲,装甲改修,装甲合計,対潜,対潜合計,回避,回避合計,索敵,索敵合計,運,運改修,運合計,射程,速力,ロック,出撃先,母港ソートID,航空威力,砲撃威力,空撃威力,対潜威力,雷撃威力,夜戦威力";
 
 
         private void MenuMember_CSVOutput_Click(object sender, EventArgs e)
@@ -1499,6 +1499,7 @@ namespace ElectronicObserver.Window
                                         Constants.GetSpeed(ship.Speed),
                                         ship.IsLocked ? "●" : ship.IsLockedByEquipment ? "■" : "-",
                                         ship.SallyArea,
+										ship.MasterShip.SortID,
                                         ship.AirBattlePower,
                                         ship.ShellingPower,
                                         ship.AircraftPower,
@@ -1570,7 +1571,8 @@ namespace ElectronicObserver.Window
                                         ship.Speed,
                                         ship.IsLocked ? 1 : ship.IsLockedByEquipment ? 2 : 0,
                                         ship.SallyArea,
-                                        ship.AirBattlePower,
+										ship.MasterShip.SortID,
+										ship.AirBattlePower,
                                         ship.ShellingPower,
                                         ship.AircraftPower,
                                         ship.AntiSubmarinePower,
