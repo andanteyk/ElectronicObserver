@@ -512,12 +512,18 @@ namespace ElectronicObserver.Window
 		{
 			var fleet = KCDatabase.Instance.Fleet[fleetID];
 			var result = MissionClearCondition.Check(missionID, fleet);
+			var mission = KCDatabase.Instance.Mission[missionID];
 
 			if (!result.IsSuceeded)
 			{
-				var mission = KCDatabase.Instance.Mission[missionID];
 				MessageBox.Show(
 					$"#{fleet.FleetID} {fleet.Name} の遠征 {mission.DisplayID}:{mission.Name} は、失敗する可能性があります。\r\n\r\n{string.Join("\r\n", result.FailureReason)}\r\n\r\n（この警告は 設定→動作 から無効化できます。）",
+					"遠征失敗警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			if (fleet.MembersInstance.Any(s => s?.FuelRate < 1 || s?.AmmoRate < 1))
+			{
+				MessageBox.Show(
+					$"#{fleet.FleetID} {fleet.Name} の遠征 {mission.DisplayID}:{mission.Name} は、失敗する可能性があります。\r\n\r\n未補給\r\n\r\n（この警告は 設定→動作 から無効化できます。）",
 					"遠征失敗警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
