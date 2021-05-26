@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Resource.Record
 {
@@ -47,12 +48,40 @@ namespace ElectronicObserver.Resource.Record
 
 					ClearRecord();
 
+					bool ignoreError = false;
+
 					string line;
 					sr.ReadLine();          //ヘッダを読み飛ばす
 
 					while ((line = sr.ReadLine()) != null)
 					{
-						LoadLine(line);
+						try
+						{
+							LoadLine(line);
+
+						}
+						catch (Exception ex)
+						{
+							if (ignoreError)
+								continue;
+
+							Utility.ErrorReporter.SendErrorReport(ex, $"レコード {Path.GetFileName(path)} の破損を検出しました。");
+
+							switch (MessageBox.Show($"レコード {Path.GetFileName(path)} で破損データを検出しました。\r\n\r\n[中止]: 読み込みを中止します。\r\n[再試行]: 読み込みを続行します。(再び破損がみられた場合は再確認します)\r\n[無視]: 読み込みを続行します。(再確認しません。重くなる場合があります)",
+								"レコード破損検出", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1))
+							{
+								case DialogResult.Abort:
+									throw;
+
+								case DialogResult.Retry:
+									// do nothing
+									break;
+
+								case DialogResult.Ignore:
+									ignoreError = true;
+									break;
+							}
+						}
 					}
 
 				}
