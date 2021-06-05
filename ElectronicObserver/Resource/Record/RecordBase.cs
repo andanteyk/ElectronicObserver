@@ -42,6 +42,7 @@ namespace ElectronicObserver.Resource.Record
 
 			try
 			{
+				bool hasError = false;
 
 				using (StreamReader sr = new StreamReader(path, Utility.Configuration.Config.Log.FileEncoding))
 				{
@@ -65,10 +66,11 @@ namespace ElectronicObserver.Resource.Record
 							if (ignoreError)
 								continue;
 
+							hasError = true;
 							Utility.ErrorReporter.SendErrorReport(ex, $"レコード {Path.GetFileName(path)} の破損を検出しました。");
 
-							switch (MessageBox.Show($"レコード {Path.GetFileName(path)} で破損データを検出しました。\r\n\r\n[中止]: 読み込みを中止します。\r\n[再試行]: 読み込みを続行します。(再び破損がみられた場合は再確認します)\r\n[無視]: 読み込みを続行します。(再確認しません。重くなる場合があります)",
-								"レコード破損検出", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1))
+							switch (MessageBox.Show($"レコード {Path.GetFileName(path)} で破損データを検出しました。\r\n\r\n[中止]: 読み込みを中止します。データを失う可能性があります。\r\n[再試行]: <推奨>読み込みを続行します。\r\n[無視]: 読み込みを続行します。(以降再確認しません。)",
+								"レコード破損検出", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2))
 							{
 								case DialogResult.Abort:
 									throw;
@@ -84,6 +86,15 @@ namespace ElectronicObserver.Resource.Record
 						}
 					}
 
+				}
+
+				if (hasError)
+				{
+					string backupDestination = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + "_backup_" + DateTimeHelper.GetTimeStamp() + Path.GetExtension(path));
+					File.Copy(path, backupDestination);
+					Utility.Logger.Add(3, $"修復前のレコードを {backupDestination} に退避しました。復旧に失敗した場合はこのファイルから復元を試みてください。");
+
+					SaveAll(RecordManager.Instance.MasterPath);
 				}
 
 				UpdateLastSavedIndex();
