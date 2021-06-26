@@ -845,9 +845,17 @@ namespace ElectronicObserver.Data
 				case NightAttackKind.CutinAirAttack:
 					return "空母カットイン";
 				case NightAttackKind.CutinTorpedoRadar:
+				case NightAttackKind.CutinTorpedoRadar2:
 					return "駆逐カットイン(主砲/魚雷/電探)";
 				case NightAttackKind.CutinTorpedoPicket:
+				case NightAttackKind.CutinTorpedoPicket2:
 					return "駆逐カットイン(魚雷/見張員/電探)";
+				case NightAttackKind.CutinTorpedoDestroyerPicket:
+				case NightAttackKind.CutinTorpedoDestroyerPicket2:
+					return "駆逐カットイン(魚雷/魚雷/水雷見張員)";
+				case NightAttackKind.CutinTorpedoDrum:
+				case NightAttackKind.CutinTorpedoDrum2:
+					return "駆逐カットイン(魚雷/ドラム/水雷見張員)";
 				case NightAttackKind.SpecialNelson:
 					return "Nelson Touch";
 				case NightAttackKind.SpecialNagato:
