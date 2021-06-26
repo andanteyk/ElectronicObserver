@@ -2560,11 +2560,29 @@ namespace ElectronicObserver.Utility.Data
 		/// <summary> 空母カットイン </summary>
 		CutinAirAttack,
 
-		/// <summary> 駆逐カットイン(主砲/魚雷/電探) </summary>
+		/// <summary> 駆逐カットイン(主砲/魚雷/電探) 1Hit</summary>
 		CutinTorpedoRadar,
 
-		/// <summary> 駆逐カットイン(魚雷/見張員/電探) </summary>
+		/// <summary> 駆逐カットイン(魚雷/見張員/電探) 1Hit</summary>
 		CutinTorpedoPicket,
+
+		/// <summary> 駆逐カットイン(魚雷/魚雷/水雷見張員) 1Hit</summary>
+		CutinTorpedoDestroyerPicket,
+
+		/// <summary> 駆逐カットイン(魚雷/ドラム/水雷見張員) 1Hit</summary>
+		CutinTorpedoDrum,
+
+		/// <summary> 駆逐カットイン(主砲/魚雷/電探) 2Hit</summary>
+		CutinTorpedoRadar2,
+
+		/// <summary> 駆逐カットイン(魚雷/見張員/電探) 2Hit</summary>
+		CutinTorpedoPicket2,
+
+		/// <summary> 駆逐カットイン(魚雷/魚雷/水雷見張員) 2Hit</summary>
+		CutinTorpedoDestroyerPicket2,
+
+		/// <summary> 駆逐カットイン(魚雷/ドラム/水雷見張員) 2Hit</summary>
+		CutinTorpedoDrum2,
 
 		/// <summary> Nelson Touch </summary>
 		SpecialNelson = 100,
