@@ -71,6 +71,29 @@ namespace ElectronicObserver.Window
 		}
 
 
+		private void CopyToClipboard()
+		{
+			if (LogList.SelectedItems.Count > 0)
+			{
+				Clipboard.SetText(string.Join("\n", LogList.SelectedItems.Cast<string>()));
+			}
+		}
+
+
+		private void LogList_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control && e.KeyCode == Keys.C)
+			{
+				CopyToClipboard();
+			}
+		}
+
+
+		private void ContextMenuLog_Copy_Click(object sender, EventArgs e)
+		{
+			CopyToClipboard();
+		}
+
 
 		private void ContextMenuLog_Clear_Click(object sender, EventArgs e)
 		{
