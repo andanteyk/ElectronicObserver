@@ -114,7 +114,11 @@ namespace ElectronicObserver.Utility
 						if (result == System.Windows.Forms.DialogResult.Yes)
 						{
 
-							System.Diagnostics.Process.Start("http://electronicobserver.blog.fc2.com/");
+							//System.Diagnostics.Process.Start("http://electronicobserver.blog.fc2.com/");
+							var p = new System.Diagnostics.Process();
+							p.StartInfo.FileName = "ElectronicObserverUpdater.exe";
+							p.StartInfo.Arguments = version;
+							p.Start();
 
 						}
 						else if (result == System.Windows.Forms.DialogResult.Cancel)
