@@ -15,6 +15,9 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public PhaseFriendlyShelling(BattleData battle, string title)
 			: base(battle, title)
 		{
+			if (!IsAvailable)
+				return;
+
 			// battle translation
 
 			int[] fleetflag = (int[])ShellingData.api_at_eflag;
