@@ -33,7 +33,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 
 		public override void EmulateBattle(int[] hps, int[] damages)
 		{
-
 			if (!IsAvailable) return;
 
 			CalculateAttack(0, hps);

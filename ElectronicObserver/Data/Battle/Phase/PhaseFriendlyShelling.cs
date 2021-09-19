@@ -8,45 +8,15 @@ using System.Threading.Tasks;
 namespace ElectronicObserver.Data.Battle.Phase
 {
 	/// <summary>
-	/// 夜戦における友軍艦隊攻撃フェーズの処理を行います。
+	/// 夜戦における友軍艦隊砲撃フェーズの処理を行います。
 	/// </summary>
-	public class PhaseFriendlySupport : PhaseBase
+	public class PhaseFriendlyShelling : PhaseBase
 	{
-		public PhaseFriendlySupport(BattleData battle, string title)
+		public PhaseFriendlyShelling(BattleData battle, string title)
 			: base(battle, title)
 		{
 			if (!IsAvailable)
 				return;
-
-			// info translation
-
-			int[] GetArrayOrDefault(string objectName, int length) => !InfoData.IsDefined(objectName) ? null : FixedArray((int[])InfoData[objectName], length);
-			int[][] GetArraysOrDefault(string objectName, int topLength, int bottomLength)
-			{
-				if (!InfoData.IsDefined(objectName))
-					return null;
-
-				int[][] ret = new int[topLength][];
-				dynamic[] raw = (dynamic[])InfoData[objectName];
-				for (int i = 0; i < ret.Length; i++)
-				{
-					if (i < raw.Length)
-						ret[i] = FixedArray((int[])raw[i], bottomLength);
-					else
-						ret[i] = Enumerable.Repeat(-1, bottomLength).ToArray();
-				}
-				return ret;
-			}
-
-			FriendlyMembers = GetArrayOrDefault("api_ship_id", 7);
-			FriendlyMembersInstance = FriendlyMembers.Select(id => KCDatabase.Instance.MasterShips[id]).ToArray();
-			FriendlyLevels = GetArrayOrDefault("api_ship_lv", 7);
-			FriendlyInitialHPs = GetArrayOrDefault("api_nowhps", 7);
-			FriendlyMaxHPs = GetArrayOrDefault("api_maxhps", 7);
-
-			FriendlySlots = GetArraysOrDefault("api_Slot", 7, 5);
-			FriendlyParameters = GetArraysOrDefault("api_Param", 7, 4);
-
 
 			// battle translation
 
@@ -87,7 +57,7 @@ namespace ElectronicObserver.Data.Battle.Phase
 			}
 		}
 
-		public override bool IsAvailable => RawData.api_friendly_info();
+		public override bool IsAvailable => RawData.api_friendly_battle();
 
 
 		public override void EmulateBattle(int[] hps, int[] damages)
@@ -95,13 +65,13 @@ namespace ElectronicObserver.Data.Battle.Phase
 			if (!IsAvailable)
 				return;
 
-			int[] friendhps = FriendlyInitialHPs;
+			int[] friendhps = Battle.FriendlySupportInfo.FriendlyInitialHPs;
 
 			foreach (var attack in Attacks)
 			{
 				foreach (var defs in attack.Defenders.GroupBy(d => d.Defender))
 				{
-					BattleDetails.Add(new BattleFriendlySupportDetail(
+					BattleDetails.Add(new BattleFriendlyShellingDetail(
 						(BattleNight)Battle,
 						attack.Attacker,
 						defs.Key,
@@ -122,10 +92,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 		}
 
 
-		/// <summary>
-		/// 戦闘情報データ
-		/// </summary>
-		public dynamic InfoData => RawData.api_friendly_info;
 
 		/// <summary>
 		/// 戦闘データ
@@ -137,52 +103,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 		/// </summary>
 		public dynamic ShellingData => RawData.api_friendly_battle.api_hougeki;
 
-
-		/// <summary>
-		/// 種別？
-		/// </summary>
-		public int Type => (int)InfoData.api_production_type;
-
-
-		/// <summary>
-		/// 友軍艦隊ID
-		/// </summary>
-		public int[] FriendlyMembers { get; private set; }
-
-		/// <summary>
-		/// 友軍艦隊
-		/// </summary>
-		public ShipDataMaster[] FriendlyMembersInstance { get; private set; }
-
-
-		/// <summary>
-		/// 友軍艦隊レベル
-		/// </summary>
-		public int[] FriendlyLevels { get; private set; }
-
-		/// <summary>
-		/// 友軍艦隊初期HP
-		/// </summary>
-		public int[] FriendlyInitialHPs { get; private set; }
-
-		/// <summary>
-		/// 友軍艦隊最大HP
-		/// </summary>
-		public int[] FriendlyMaxHPs { get; private set; }
-
-
-		/// <summary>
-		/// 友軍艦隊装備
-		/// </summary>
-		public int[][] FriendlySlots { get; private set; }
-
-		/// <summary>
-		/// 友軍艦隊パラメータ
-		/// </summary>
-		public int[][] FriendlyParameters { get; private set; }
-
-		// api_voice_id
-		// api_voice_p_no
 
 
 		/// <summary>
@@ -204,8 +124,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 			get
 			{
 				int index = FlareIndexFriend;
-				if (0 <= index && index < FriendlyMembersInstance.Length)
-					return FriendlyMembersInstance[index];
+				if (0 <= index && index < Battle.FriendlySupportInfo.FriendlyMembersInstance.Length)
+					return Battle.FriendlySupportInfo.FriendlyMembersInstance[index];
 				return null;
 			}
 		}
@@ -238,13 +158,13 @@ namespace ElectronicObserver.Data.Battle.Phase
 				int index = -1;
 				var eqmaster = KCDatabase.Instance.MasterEquipments;
 
-				for (int i = 0; i < FriendlyMembersInstance.Length; i++)
+				for (int i = 0; i < Battle.FriendlySupportInfo.FriendlyMembersInstance.Length; i++)
 				{
-					if (FriendlyMembers[i] != -1 && FriendlyInitialHPs[i] > 1)
+					if (Battle.FriendlySupportInfo.FriendlyMembers[i] != -1 && Battle.FriendlySupportInfo.FriendlyInitialHPs[i] > 1)
 					{
-						if (FriendlySlots[i].Any(id => eqmaster[id]?.CategoryType == EquipmentTypes.SearchlightLarge))
+						if (Battle.FriendlySupportInfo.FriendlySlots[i].Any(id => eqmaster[id]?.CategoryType == EquipmentTypes.SearchlightLarge))
 							return i;
-						else if (FriendlySlots[i].Any(id => eqmaster[id]?.CategoryType == EquipmentTypes.Searchlight) && index == -1)
+						else if (Battle.FriendlySupportInfo.FriendlySlots[i].Any(id => eqmaster[id]?.CategoryType == EquipmentTypes.Searchlight) && index == -1)
 							index = i;
 					}
 				}
@@ -269,8 +189,8 @@ namespace ElectronicObserver.Data.Battle.Phase
 			get
 			{
 				int index = SearchlightIndexFriend;
-				if (0 <= index && index < FriendlyMembersInstance.Length)
-					return FriendlyMembersInstance[index];
+				if (0 <= index && index < Battle.FriendlySupportInfo.FriendlyMembersInstance.Length)
+					return Battle.FriendlySupportInfo.FriendlyMembersInstance[index];
 				return null;
 			}
 		}
@@ -318,23 +238,6 @@ namespace ElectronicObserver.Data.Battle.Phase
 			public double RawDamage;
 			public bool GuardsFlagship => RawDamage != Math.Floor(RawDamage);
 			public int Damage => (int)RawDamage;
-		}
-
-
-
-
-		protected static int[] FixedArray(int[] array, int length, int defaultValue = -1)
-		{
-			var ret = new int[length];
-			int l = Math.Min(length, array.Length);
-			Array.Copy(array, ret, l);
-			if (l < length)
-			{
-				for (int i = l; i < length; i++)
-					ret[i] = defaultValue;
-			}
-
-			return ret;
 		}
 
 	}

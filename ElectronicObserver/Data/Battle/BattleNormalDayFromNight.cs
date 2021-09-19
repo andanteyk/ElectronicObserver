@@ -19,7 +19,8 @@ namespace ElectronicObserver.Data.Battle
 			base.LoadFromResponse(apiname, (object)data);
 
 			NightInitial = new PhaseNightInitial(this, "夜戦開始", false);
-			FriendlySupport = new PhaseFriendlySupport(this, "友軍艦隊援護");
+			FriendlySupportInfo = new PhaseFriendlySupportInfo(this, "友軍艦隊");
+			FriendlyShelling = new PhaseFriendlyShelling(this, "友軍艦隊援護");
 			NightSupport = new PhaseSupport(this, "夜間支援攻撃", true);
 			NightBattle = new PhaseNightBattle(this, "第一次夜戦", 1);
 			NightBattle2 = new PhaseNightBattle(this, "第二次夜戦", 2);
@@ -31,6 +32,7 @@ namespace ElectronicObserver.Data.Battle
 				JetAirBattle = new PhaseJetAirBattle(this, "噴式航空戦");
 				BaseAirAttack = new PhaseBaseAirAttack(this, "基地航空隊攻撃");
 				Support = new PhaseSupport(this, "支援攻撃");
+				// ここに友軍艦隊航空攻撃が来るかわからない
 				AirBattle = new PhaseAirBattle(this, "航空戦");
 				OpeningASW = new PhaseOpeningASW(this, "先制対潜");
 				OpeningTorpedo = new PhaseTorpedo(this, "先制雷撃", 0);
@@ -54,7 +56,8 @@ namespace ElectronicObserver.Data.Battle
 			yield return Initial;
 			yield return Searching;
 			yield return NightInitial;
-			yield return FriendlySupport;
+			yield return FriendlySupportInfo;
+			yield return FriendlyShelling;
 			yield return NightSupport;
 			yield return NightBattle;
 			yield return NightBattle2;

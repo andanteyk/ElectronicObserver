@@ -30,6 +30,7 @@ namespace ElectronicObserver.Data.Battle
 
 		public PhaseInitial Initial { get; protected set; }
 		public PhaseSearching Searching { get; protected set; }
+		public PhaseFriendlySupportInfo FriendlySupportInfo { get; protected set; }
 		public PhaseSupport Support { get; protected set; }
 
 

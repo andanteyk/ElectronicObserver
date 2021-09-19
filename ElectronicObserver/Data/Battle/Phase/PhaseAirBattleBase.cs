@@ -188,6 +188,11 @@ namespace ElectronicObserver.Data.Battle.Phase
 		public ShipData AACutInShip => Battle.Initial.GetFriendShip(AACutInIndex);
 
 		/// <summary>
+		/// 対空カットイン発動艦の名前
+		/// </summary>
+		public virtual string AACutInShipName => AACutInShip.NameWithLevel; 
+
+		/// <summary>
 		/// 対空カットイン種別
 		/// </summary>
 		public int AACutInKind => (int)AirBattleData.api_stage2.api_air_fire.api_kind;
