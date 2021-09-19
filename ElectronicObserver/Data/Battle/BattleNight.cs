@@ -14,7 +14,7 @@ namespace ElectronicObserver.Data.Battle
 	public abstract class BattleNight : BattleData
 	{
 		public PhaseNightInitial NightInitial { get; protected set; }
-		public PhaseFriendlySupport FriendlySupport { get; protected set; }
+		public PhaseFriendlyShelling FriendlyShelling { get; protected set; }
 		public PhaseNightBattle NightBattle { get; protected set; }
 		
 	}

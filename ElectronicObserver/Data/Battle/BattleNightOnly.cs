@@ -19,7 +19,8 @@ namespace ElectronicObserver.Data.Battle
 			base.LoadFromResponse(apiname, (object)data);
 
 			NightInitial = new PhaseNightInitial(this, "夜戦開始", false);
-			FriendlySupport = new PhaseFriendlySupport(this, "友軍艦隊援護");
+			FriendlySupportInfo = new PhaseFriendlySupportInfo(this, "友軍艦隊");
+			FriendlyShelling = new PhaseFriendlyShelling(this, "友軍艦隊援護");
 			Support = new PhaseSupport(this, "夜間支援攻撃", true);
 			NightBattle = new PhaseNightBattle(this, "夜戦", 0);
 			
@@ -40,7 +41,8 @@ namespace ElectronicObserver.Data.Battle
 			yield return Initial;
 			yield return Searching;
 			yield return NightInitial;
-			yield return FriendlySupport;
+			yield return FriendlySupportInfo;
+			yield return FriendlyShelling;
 			yield return Support;
 			yield return NightBattle;
 		}

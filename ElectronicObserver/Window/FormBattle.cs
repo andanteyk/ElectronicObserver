@@ -673,7 +673,7 @@ namespace ElectronicObserver.Window
 					AACutin.ImageIndex = (int)ResourceManager.EquipmentContent.HighAngleGun;
 
 					ToolTipInfo.SetToolTip(AACutin, "対空カットイン\r\n" +
-						string.Join("\r\n", phases2.Select(p => p.PhaseName + (p.Air.IsAACutinAvailable ? $"{p.Air.AACutInShip.NameWithLevel}\r\nカットイン種別: {p.Air.AACutInKind} ({Constants.GetAACutinKind(p.Air.AACutInKind)})" : "(発動せず)"))));
+						string.Join("\r\n", phases2.Select(p => p.PhaseName + (p.Air.IsAACutinAvailable ? $"{p.Air.AACutInShipName}\r\nカットイン種別: {p.Air.AACutInKind} ({Constants.GetAACutinKind(p.Air.AACutInKind)})" : "(発動せず)"))));
 				}
 				else
 				{

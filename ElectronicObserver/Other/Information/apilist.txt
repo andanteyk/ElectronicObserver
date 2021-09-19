@@ -1837,6 +1837,39 @@ api_req_sortie/battle	：通常艦隊　昼戦
 			api_ebak_flag	：敵被爆撃フラグ
 			api_ecl_flag	：敵被クリティカルフラグ
 			api_edam		：敵被ダメージ
+	api_friendly_info		：友軍艦隊攻撃情報　発動時のみ存在
+		api_production_type		：艦隊ID？　1=(英仏艦隊), 2=(第19駆逐隊, 挺身部隊), 3=(第四戦隊)
+		api_ship_id				：友軍の艦船ID [艦船数]
+		api_ship_lv				：友軍のLv [艦船数]
+		api_nowhps				：友軍の現在HP [艦船数]
+		api_maxhps				：友軍の最大HP [艦船数]
+		api_Slot				：友軍の装備スロット [艦船数][5] 空きスロットは -1
+		api_slot_ex				：友軍の装備(拡張スロット) [艦船数]
+		api_Param				：友軍の基礎ステータス [艦船数][4]; [火力, 雷装, 対空, 装甲]
+		api_voice_id			：再生されるボイスID? [艦船数]
+		api_voice_p_no			：1以上=戦闘前口上あり（口上の順番？）, 0=なし [艦船数]
+	api_friendly_battle		：友軍艦隊砲撃　発動時のみ存在
+		api_flare_pos			：照明弾投射艦インデックス　[2]; [味方, 敵]　0起点、随伴艦隊は 6-11　発動しなければ-1
+		api_hougeki				：友軍艦隊攻撃　基本的に api_hougeki と同じ　[攻撃フェーズの回数]
+			api_at_eflag			：[]
+			api_at_list				：[]
+			api_n_mother_list		：[]
+			api_df_list				：[][]
+			api_si_list				：[][]
+			api_cl_list				：[][]
+			api_sp_list				：[]
+			api_damage				：[][]
+	api_friendly_kouku		：友軍艦隊航空攻撃　発動時のみ存在　概ね api_kouku に準じる
+		api_stage_flag
+		api_plane_from
+		api_stage1
+		api_state2
+		api_stage3
+		api_stage3_combined		：敵味方(友軍)ともに通常艦隊の場合はこれの子メンバは null になる？
+			api_frai_flag
+			api_fbak_flag
+			api_fcl_flag
+			api_fdam
 	api_stage_flag		：航空戦フラグ　[n]=0 のとき api_stage<n+1>=null になる(航空戦力なし, 艦戦のみなど)
 	api_kouku			：航空戦情報
 		api_plane_from	：艦載機発艦可能艦のインデックス [2][] [0]=味方, [1]=敵　1基点　いなければ null

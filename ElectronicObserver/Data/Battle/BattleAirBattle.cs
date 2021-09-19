@@ -23,6 +23,8 @@ namespace ElectronicObserver.Data.Battle
 			JetBaseAirAttack = new PhaseJetBaseAirAttack(this, "噴式基地航空隊攻撃");
 			JetAirBattle = new PhaseJetAirBattle(this, "噴式航空戦");
 			BaseAirAttack = new PhaseBaseAirAttack(this, "基地航空隊攻撃");
+			FriendlySupportInfo = new PhaseFriendlySupportInfo(this, "友軍艦隊");
+			FriendlyAirBattle = new PhaseFriendlyAirBattle(this, "友軍支援航空攻撃");
 			AirBattle = new PhaseAirBattle(this, "第一次航空戦");
 			Support = new PhaseSupport(this, "支援攻撃");
 			AirBattle2 = new PhaseAirBattle(this, "第二次航空戦", "2");
@@ -46,6 +48,8 @@ namespace ElectronicObserver.Data.Battle
 			yield return JetBaseAirAttack;
 			yield return JetAirBattle;
 			yield return BaseAirAttack;
+			yield return FriendlySupportInfo;
+			yield return FriendlyAirBattle;
 			yield return AirBattle;
 			yield return Support;
 			yield return AirBattle2;

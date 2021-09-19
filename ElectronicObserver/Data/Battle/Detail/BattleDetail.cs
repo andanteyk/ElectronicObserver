@@ -360,7 +360,6 @@ namespace ElectronicObserver.Data.Battle.Detail
 	/// </summary>
 	public class BattleAirDetail : BattleDayDetail
 	{
-
 		public int WaveIndex { get; protected set; }
 
 		public BattleAirDetail(BattleData bd, int waveIndex, BattleIndex defenderId, double damage, int criticalType, int attackType, int defenderHP)
@@ -382,7 +381,6 @@ namespace ElectronicObserver.Data.Battle.Detail
 			else
 			{
 				return string.Format("基地航空隊 第{0}波", WaveIndex);
-
 			}
 		}
 
@@ -418,14 +416,14 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 
 	/// <summary>
-	/// 友軍艦隊攻撃における戦闘詳細データを保持します。
+	/// 友軍艦隊砲撃における戦闘詳細データを保持します。
 	/// </summary>
-	public class BattleFriendlySupportDetail : BattleDetail
+	public class BattleFriendlyShellingDetail : BattleDetail
 	{
 
 		public bool NightAirAttackFlag { get; protected set; }
 
-		public BattleFriendlySupportDetail(BattleNight bd, BattleIndex attackerId, BattleIndex defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, bool nightAirAttackFlag, int defenderHP)
+		public BattleFriendlyShellingDetail(BattleNight bd, BattleIndex attackerId, BattleIndex defenderId, double[] damages, int[] criticalTypes, int attackType, int[] equipmentIDs, bool nightAirAttackFlag, int defenderHP)
 			: base(bd, attackerId, defenderId, damages, criticalTypes, attackType, equipmentIDs, defenderHP)
 		{
 			NightAirAttackFlag = nightAirAttackFlag;
@@ -434,8 +432,8 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 			if (attackerId.IsFriend)
 			{
-				Attacker = bd.FriendlySupport.FriendlyMembersInstance[attackerId.Index];
-				attackerSlots = bd.FriendlySupport.FriendlySlots[attackerId.Index];
+				Attacker = bd.FriendlySupportInfo.FriendlyMembersInstance[attackerId.Index];
+				attackerSlots = bd.FriendlySupportInfo.FriendlySlots[attackerId.Index];
 			}
 			else
 			{
@@ -443,7 +441,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 			}
 
 			if (defenderId.IsFriend)
-				Defender = bd.FriendlySupport.FriendlyMembersInstance[defenderId.Index];
+				Defender = bd.FriendlySupportInfo.FriendlyMembersInstance[defenderId.Index];
 			else
 				SetDefender();
 
@@ -460,6 +458,31 @@ namespace ElectronicObserver.Data.Battle.Detail
 		protected override string GetAttackKind()
 		{
 			return Constants.GetNightAttackKind((NightAttackKind)AttackType);
+		}
+	}
+
+	/// <summary>
+	/// 友軍艦隊航空攻撃における戦闘詳細データを保持します。
+	/// </summary>
+	public class BattleFriendlyAirDetail : BattleAirDetail
+	{
+		public BattleFriendlyAirDetail(BattleData bd, BattleIndex defenderId, double damage, int criticalType, int attackType, int defenderHP)
+			: base(bd, 0, defenderId, damage, criticalType, attackType, defenderHP)
+		{
+			if (defenderId.IsFriend)
+				Defender = bd.FriendlySupportInfo.FriendlyMembersInstance[defenderId.Index];
+			else
+				SetDefender();
+		}
+
+		protected override string GetDefenderName()
+		{
+			if (DefenderIndex.IsFriend)
+			{
+				return Battle.FriendlySupportInfo.FriendlyMembersInstance[DefenderIndex.Index].NameWithClass + " #" + (DefenderIndex.Index + 1);
+			}
+
+			return base.GetDefenderName();
 		}
 	}
 

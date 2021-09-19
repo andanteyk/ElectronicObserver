@@ -17,6 +17,7 @@ namespace ElectronicObserver.Data.Battle
 		public PhaseJetBaseAirAttack JetBaseAirAttack { get; protected set; }
 		public PhaseJetAirBattle JetAirBattle { get; protected set; }
 		public PhaseBaseAirAttack BaseAirAttack { get; protected set; }
+		public PhaseFriendlyAirBattle FriendlyAirBattle { get; protected set; }
 		public PhaseAirBattle AirBattle { get; protected set; }
 		public PhaseOpeningASW OpeningASW { get; protected set; }
 		public PhaseTorpedo OpeningTorpedo { get; protected set; }

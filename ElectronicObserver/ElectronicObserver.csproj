@@ -134,7 +134,9 @@
     <Compile Include="Data\Battle\Phase\PhaseBase.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirAttack.cs" />
     <Compile Include="Data\Battle\Phase\PhaseBaseAirRaid.cs" />
-    <Compile Include="Data\Battle\Phase\PhaseFriendlySupport.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseFriendlyAirBattle.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseFriendlyShelling.cs" />
+    <Compile Include="Data\Battle\Phase\PhaseFriendlySupportInfo.cs" />
     <Compile Include="Data\Battle\Phase\PhaseInitial.cs" />
     <Compile Include="Data\Battle\Phase\PhaseJetAirBattle.cs" />
     <Compile Include="Data\Battle\Phase\PhaseJetBaseAirAttack.cs" />

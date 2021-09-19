@@ -322,13 +322,17 @@ namespace ElectronicObserver.Data.Battle.Detail
 						}
 						break;
 
-					case PhaseFriendlySupport p:
+					case PhaseFriendlySupportInfo p:
 						if (p.IsAvailable)
 						{
-							sb.AppendLine("〈友軍艦隊〉");
 							OutputFriendlySupportData(sb, p);
 							sb.AppendLine();
+						}
+						break;
 
+					case PhaseFriendlyShelling p:
+						if (p.IsAvailable)
+						{
 							{
 								int searchlightIndex = p.SearchlightIndexFriend;
 								if (searchlightIndex != -1)
@@ -359,6 +363,11 @@ namespace ElectronicObserver.Data.Battle.Detail
 						}
 						break;
 
+					case PhaseFriendlyAirBattle p:
+
+						GetBattleDetailPhaseAirBattle(sb, p);
+
+						break;
 				}
 
 
@@ -502,7 +511,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 				sb.Append("Stage2: ");
 				if (p.IsAACutinAvailable)
 				{
-					sb.AppendFormat("対空カットイン( {0}, {1}({2}) )", p.AACutInShip.NameWithLevel, Constants.GetAACutinKind(p.AACutInKind), p.AACutInKind);
+					sb.AppendFormat("対空カットイン( {0}, {1}({2}) )", p.AACutInShipName, Constants.GetAACutinKind(p.AACutInKind), p.AACutInKind);
 				}
 				sb.AppendLine();
 				sb.AppendFormat("　自軍: -{0}/{1}\r\n　敵軍: -{2}/{3}\r\n",
@@ -577,7 +586,7 @@ namespace ElectronicObserver.Data.Battle.Detail
 
 		}
 
-		private static void OutputFriendlySupportData(StringBuilder sb, PhaseFriendlySupport p)
+		private static void OutputFriendlySupportData(StringBuilder sb, PhaseFriendlySupportInfo p)
 		{
 
 			for (int i = 0; i < p.FriendlyMembersInstance.Length; i++)
@@ -594,7 +603,11 @@ namespace ElectronicObserver.Data.Battle.Detail
 					p.FriendlyParameters[i][0], p.FriendlyParameters[i][1], p.FriendlyParameters[i][2], p.FriendlyParameters[i][3]);
 
 				sb.Append("　");
-				sb.AppendLine(string.Join(", ", p.FriendlySlots[i].Select(id => KCDatabase.Instance.MasterEquipments[id]).Where(eq => eq != null).Select(eq => eq.Name)));
+				sb.AppendLine(string.Join(", ", p.FriendlySlots[i]
+					.Concat(new[] { p.FriendlyExpansionSlots?[i] ?? -1 })
+					.Select(id => KCDatabase.Instance.MasterEquipments[id])
+					.Where(eq => eq != null)
+					.Select(eq => eq.Name)));
 			}
 		}
 
