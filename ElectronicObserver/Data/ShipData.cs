@@ -496,6 +496,21 @@ namespace ElectronicObserver.Data
         }
 
 
+		/// <summary>
+		/// 最終改装まで必要な経験値
+		/// </summary>
+		public int ExpFinalRemodel
+		{
+			get
+			{
+				ShipDataMaster master = MasterShip;
+				if (master.FinalRemodelShipID <= 0)
+					return 0;
+				return Math.Max(ExpTable.ShipExp[master.FinalRemodelLevel].Total - ExpTotal, 0);
+			}
+		}
+
+
         /// <summary>
         /// 艦名
         /// </summary>
